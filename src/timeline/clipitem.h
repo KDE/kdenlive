@@ -163,7 +163,7 @@ public:
     QPixmap startThumb() const;
     QPixmap endThumb() const;
     void setState(PlaylistState::ClipState state);
-    void updateState(const QString &id, int aIndex, int vIndex);
+    void updateState(const QString &id, int aIndex, int vIndex, PlaylistState::ClipState originalState);
 
     bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
 
@@ -191,6 +191,7 @@ public:
 
     /** @brief Returns some info useful for recreating this clip. */
     PlaylistState::ClipState clipState() const;
+    PlaylistState::ClipState originalState() const;
 
 protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
@@ -209,6 +210,7 @@ private:
     int m_startFade;
     int m_endFade;
     PlaylistState::ClipState m_clipState;
+    PlaylistState::ClipState m_originalClipState;
     QColor m_baseColor;
     QColor m_paintColor;
 

@@ -1016,10 +1016,12 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         id = id.section('_', 0, 0);
 	int length = out - in + 1;
         ProjectClip *binclip = m_doc->getBinClip(id);
+        PlaylistState::ClipState originalState = PlaylistState::Original;
         if (binclip == NULL) {
             // Is this a disabled clip
             id = info->producer->get("kdenlive:binid");
             binclip = m_doc->getBinClip(id);
+            originalState = (PlaylistState::ClipState) info->producer->get_int("kdenlive:clipstate");
         }
         if (binclip == NULL) {
 	    // Warning, unknown clip found, timeline corruption!!
@@ -1040,7 +1042,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         connect(item, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
         item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - clipinfo.track) + 1 + item->itemOffset());
         //qDebug()<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
-        item->updateState(idString, info->producer->get_int("audio_index"), info->producer->get_int("video_index"));
+        item->updateState(idString, info->producer->get_int("audio_index"), info->producer->get_int("video_index"), originalState);
         m_scene->addItem(item);
         if (locked) item->setItemLocked(true);
         if (hasSpeedEffect) {

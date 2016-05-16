@@ -178,6 +178,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     connect(m_document->renderer(), SIGNAL(rendererPosition(int)), this, SLOT(setCursorPos(int)));
     scale(1, 1);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    m_disableClipAction = new QAction(QIcon::fromTheme(QStringLiteral("visibility")), i18n("Disable Clip"), this);
+    connect(m_disableClipAction, &QAction::triggered, this, &CustomTrackView::disableClip);
+    m_disableClipAction->setCheckable(true);
+    m_document->doAddAction(QStringLiteral("clip_disabled"), m_disableClipAction);
 }
 
 CustomTrackView::~CustomTrackView()
@@ -210,6 +214,7 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
     m_timelineContextMenu = timeline;
     m_timelineContextClipMenu = clip;
     m_timelineContextTransitionMenu = transition;
+    m_timelineContextClipMenu->addAction(m_disableClipAction);
     connect(m_timelineContextTransitionMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
     connect(m_timelineContextMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
     connect(m_timelineContextClipMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
@@ -228,7 +233,6 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
         else if (list.at(i)->data().toString() == QLatin1String("A")) m_audioActions.append(list.at(i));
         else if (list.at(i)->data().toString() == QLatin1String("A+V")) m_avActions.append(list.at(i));
     }
-    
     list = m_timelineContextTransitionMenu->actions();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->data().toString() == QLatin1String("auto")) {
@@ -1680,12 +1684,19 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip)
     } else if (isGroup) {
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         m_ungroupAction->setEnabled(true);
+        if (clip->type() == AVWidget) {
+            ClipItem *item = static_cast <ClipItem*>(clip);
+            m_disableClipAction->setChecked(item->clipState() == PlaylistState::Disabled);
+        } else {
+            m_disableClipAction->setChecked(false);
+        }
         updateClipTypeActions(NULL);
         m_timelineContextClipMenu->popup(pos);
     } else {
         m_ungroupAction->setEnabled(false);
         if (clip->type() == AVWidget) {
             ClipItem *item = static_cast <ClipItem*>(clip);
+            m_disableClipAction->setChecked(item->clipState() == PlaylistState::Disabled);
             //build go to marker menu
             ClipController *controller = m_document->getClipController(item->getBinId());
             if (controller) {
@@ -7548,6 +7559,37 @@ void CustomTrackView::setClipType(PlaylistState::ClipState state)
     m_commandStack->push(videoCommand);
 }
 
+void CustomTrackView::disableClip()
+{
+    resetSelectionGroup();
+    QList<QGraphicsItem *> selection = scene()->selectedItems();
+    if (selection.isEmpty()) {
+        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+        return;
+    }
+    QUndoCommand *videoCommand = new QUndoCommand();
+    videoCommand->setText(i18n("Disable clip"));
+    for (int i = 0; i < selection.count(); ++i) {
+        if (selection.at(i)->type() == GroupWidget) {
+            selection << selection.at(i)->childItems();
+        }
+        if (selection.at(i)->type() == AVWidget) {
+            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+            if (clip->clipType() == AV || clip->clipType() == Playlist || clip->clipType() == Audio) {
+                PlaylistState::ClipState currentStatus = clip->clipState();
+                PlaylistState::ClipState newStatus;
+                if (currentStatus == PlaylistState::Disabled) {
+                    newStatus = clip->originalState();
+                } else {
+                    newStatus = PlaylistState::Disabled;
+                }
+                new ChangeClipTypeCommand(this, clip->info(), newStatus, currentStatus, videoCommand);
+            }
+        }
+    }
+    m_commandStack->push(videoCommand);
+}
+
 void CustomTrackView::monitorRefresh(ItemInfo range)
 {
     if (range.contains(GenTime(m_cursorPos, m_document->fps())))
@@ -7598,8 +7640,7 @@ void CustomTrackView::doChangeClipType(ItemInfo info, PlaylistState::ClipState s
         }
         prod = copy;
     }
-
-    if (prod && prod->is_valid() && m_timeline->track(info.track)->replace(info.startPos.seconds(), prod, state)) {
+    if (prod && prod->is_valid() && m_timeline->track(info.track)->replace(info.startPos.seconds(), prod, state, clip->clipState())) {
         clip->setState(state);
     } else {
         // Changing clip type failed

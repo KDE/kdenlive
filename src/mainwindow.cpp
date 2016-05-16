@@ -1205,16 +1205,10 @@ void MainWindow::setupActions()
     audioAndVideo->setData(PlaylistState::Original);
     audioAndVideo->setCheckable(true);
 
-    QAction * disabledClip = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Disabled"), this);
-    addAction(QStringLiteral("clip_disabled"), disabledClip);
-    disabledClip->setData(PlaylistState::Disabled);
-    disabledClip->setCheckable(true);
-
     m_clipTypeGroup = new QActionGroup(this);
     m_clipTypeGroup->addAction(audioOnly);
     m_clipTypeGroup->addAction(videoOnly);
     m_clipTypeGroup->addAction(audioAndVideo);
-    m_clipTypeGroup->addAction(disabledClip);
     connect(m_clipTypeGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateClipType(QAction*)));
     m_clipTypeGroup->setEnabled(false);
 

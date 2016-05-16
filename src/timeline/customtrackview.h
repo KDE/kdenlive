@@ -433,6 +433,7 @@ private:
     QAction *m_autoTransition;
     QAction *m_pasteEffectsAction;
     QAction *m_ungroupAction;
+    QAction *m_disableClipAction;
     QAction *m_editGuide;
     QAction *m_deleteGuide;
     QList <QAction*> m_audioActions;
@@ -561,6 +562,7 @@ private slots:
     void slotRefreshCutLine();
     void slotEditKeyframeType(QAction *action);
     void slotAttachKeyframeToEnd(bool attach);
+    void disableClip();
 
 signals:
     void cursorMoved(int, int);

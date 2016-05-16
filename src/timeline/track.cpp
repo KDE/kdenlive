@@ -432,7 +432,7 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
 }
 
 //TODO: cut: checkSlowMotionProducer
-bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state) {
+bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state, PlaylistState::ClipState originalState) {
     m_playlist.lock();
     int index = m_playlist.get_clip_index_at(frame(t));
     Mlt::Producer *cut;
@@ -443,6 +443,7 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
         prodCopy->set("video_index", -1);
         prodCopy->set("audio_index", -1);
         prodCopy->set("kdenlive:binid", prod->get("id"));
+        prodCopy->set("kdenlive:clipstate", (int) originalState);
         cut = prodCopy->cut(orig->get_in(), orig->get_out());
     } else if (state != PlaylistState::VideoOnly && service != QLatin1String("timewarp")) {
         // Get track duplicate

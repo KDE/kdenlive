@@ -145,7 +145,7 @@ public:
      * @param t is the clip time in playlist
      * @param prod is the replacement clip
      * @return true if success */
-    bool replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state = PlaylistState::Original);
+    bool replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state = PlaylistState::Original, PlaylistState::ClipState originalState = PlaylistState::Original);
     /** @brief look for a clip having a given property value
      * @param name is the property name
      * @param value is the searched value

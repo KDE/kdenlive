@@ -48,6 +48,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     m_startFade(0),
     m_endFade(0),
     m_clipState(PlaylistState::Original),
+    m_originalClipState(PlaylistState::Original),
     m_startPix(QPixmap()),
     m_endPix(QPixmap()),
     m_hasThumbs(false),
@@ -1659,6 +1660,8 @@ void ClipItem::addTransition(Transition* t)
 void ClipItem::setState(PlaylistState::ClipState state)
 {
     if (state == m_clipState) return;
+    if (state == PlaylistState::Disabled)
+        m_originalClipState = m_clipState;
     m_clipState = state;
     if (m_clipState == PlaylistState::AudioOnly) m_baseColor = QColor(141, 215, 166);
     else {
@@ -1870,12 +1873,17 @@ PlaylistState::ClipState ClipItem::clipState() const
     return m_clipState;
 }
 
+PlaylistState::ClipState ClipItem::originalState() const
+{
+    return m_originalClipState;
+}
+
 bool ClipItem::isSplittable() const
 {
     return (m_clipState != PlaylistState::VideoOnly && m_binClip->isSplittable());
 }
 
-void ClipItem::updateState(const QString &id, int aIndex, int vIndex)
+void ClipItem::updateState(const QString &id, int aIndex, int vIndex, PlaylistState::ClipState originalState)
 {
     bool disabled = false;
     if (m_clipType == AV || m_clipType == Playlist) {
@@ -1885,9 +1893,11 @@ void ClipItem::updateState(const QString &id, int aIndex, int vIndex)
     } else if (m_clipType == Audio) {
         disabled = (aIndex == -1);
     }
-    if (disabled)
+    if (disabled) {
+        // We need to find original state from id
+        m_originalClipState = originalState;
         m_clipState = PlaylistState::Disabled;
-    else {
+    } else {
         m_clipState = PlaylistState::Original;
 
         if (id.startsWith(QLatin1String("slowmotion"))) {
@@ -1896,8 +1906,7 @@ void ClipItem::updateState(const QString &id, int aIndex, int vIndex)
         }
         if (id.endsWith(QLatin1String("_audio"))) {
             m_clipState = PlaylistState::AudioOnly;
-        }
-        else if (id.endsWith(QLatin1String("_video"))) {
+        } else if (id.endsWith(QLatin1String("_video"))) {
             m_clipState = PlaylistState::VideoOnly;
         }
     }
