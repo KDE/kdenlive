@@ -689,7 +689,7 @@ void Render::stop(const GenTime & startTime)
     m_isRefreshing = false;
 }
 
-void Render::pause()
+/*void Render::pause()
 {
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer || !m_isActive)
@@ -697,7 +697,7 @@ void Render::pause()
     m_mltProducer->set_speed(0.0);
     //if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     //m_mltProducer->seek(m_mltConsumer->position());
-}
+}*/
 
 void Render::setActiveMonitor()
 {
@@ -744,12 +744,11 @@ void Render::play(double speed)
     double current_speed = m_mltProducer->get_speed();
     if (current_speed == speed) return;
     if (m_isZoneMode) resetZoneMode();
-    // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
-    if (m_mltConsumer->is_stopped() && speed != 0) {
+    if (m_mltConsumer->is_stopped() && speed != 0.0) {
         m_mltConsumer->start();
     }
-    if (current_speed == 0 && speed != 0) {
+    if (current_speed == 0.0 && speed != 0.0) {
         m_isRefreshing = true;
         m_mltConsumer->set("refresh", 1);
     }

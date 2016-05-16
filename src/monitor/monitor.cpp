@@ -1191,7 +1191,7 @@ void Monitor::pause()
 {
     if (render == NULL) return;
     slotActivateMonitor();
-    render->pause();
+    render->switchPlay(false);
     m_playAction->setActive(false);
 }
 

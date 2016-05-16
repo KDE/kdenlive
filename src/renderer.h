@@ -139,7 +139,6 @@ class Render: public AbstractRender
      * is paused, -1.0 means play backwards. It does not specify start/stop */
     void play(double speed);
     void switchPlay(bool play);
-    void pause();
 
     /** @brief Stops playing.
      * @param startTime time to seek to */

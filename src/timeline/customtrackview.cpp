@@ -587,7 +587,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                     m_scrollTimer.stop();
                 }
             } else if (m_moveOpMode == ResizeStart) {
-                m_document->renderer()->pause();
+                m_document->renderer()->switchPlay(false);
                 if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
                     if (parent)
@@ -600,7 +600,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropStart() - m_dragItemInfo.cropStart, KdenliveSettings::frametimecode());
                 emit displayMessage(i18n("Crop from start:") + ' ' + crop + ' ' + i18n("Duration:") + ' ' + duration + ' ' + i18n("Offset:") + ' ' + offset, InformationMessage);
             } else if (m_moveOpMode == ResizeEnd) {
-                m_document->renderer()->pause();
+                m_document->renderer()->switchPlay(false);
                 if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
                     if (parent) {
@@ -873,7 +873,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         if (m_tool != RazorTool) activateMonitor();
         else if (m_document->renderer()->isPlaying()) {
-            m_document->renderer()->pause();
+            m_document->renderer()->switchPlay(false);
             return;
         }
     }
@@ -1061,7 +1061,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             if (m_dragItem->type() == TransitionWidget) {
                 emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
             } else {
-                m_document->renderer()->pause();
+                m_document->renderer()->switchPlay(false);
                 if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
                     razorGroup(static_cast<AbstractGroupItem*>(m_dragItem->parentItem()), cutPos);
                 } else {
