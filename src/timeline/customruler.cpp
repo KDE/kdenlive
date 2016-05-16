@@ -475,7 +475,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     }
 
     // draw Rendering preview zones
-    QColor preview(Qt::yellow);
+    QColor preview(Qt::green);
     foreach(int frame, m_renderingPreviews) {
         QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 2, 199 * m_factor, 2);
         p.fillRect(rec, preview);
