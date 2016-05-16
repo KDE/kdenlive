@@ -29,6 +29,7 @@
 #include "bin/projectclip.h"
 #include "mltcontroller/effectscontroller.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
+#include "utils/KoIconUtils.h"
 
 #include <QDebug>
 #include <QIcon>
@@ -68,10 +69,6 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     m_speedIndependantInfo = m_info;
     m_speedIndependantInfo.cropStart = GenTime((int)(m_info.cropStart.frames(m_fps) * qAbs(m_speed)), m_fps);
     m_speedIndependantInfo.cropDuration = GenTime((int)(m_info.cropDuration.frames(m_fps) * qAbs(m_speed)), m_fps);
-
-    m_videoPix = QIcon::fromTheme(QStringLiteral("kdenlive-show-video")).pixmap(QSize(16, 16));
-    m_audioPix = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")).pixmap(QSize(16, 16));
-    m_disabledPix = QIcon::fromTheme(QStringLiteral("remove")).pixmap(QSize(16, 16));
 
     m_clipType = m_binClip->clipType();
     //m_cropStart = info.cropStart;
@@ -593,6 +590,8 @@ void ClipItem::paint(QPainter *painter,
     // draw thumbnails
     if (KdenliveSettings::videothumbnails() && m_clipState != PlaylistState::AudioOnly) {
         QRectF thumbRect;
+        if (m_clipState == PlaylistState::Disabled)
+            painter->setOpacity(0.3);
         if ((m_clipType == Image || m_clipType == Text || m_clipType == QText) && !m_startPix.isNull()) {
             if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
             thumbRect.moveTopRight(mapped.topRight());
@@ -639,9 +638,11 @@ void ClipItem::paint(QPainter *painter,
                 }
             }
         }
+        if (m_clipState == PlaylistState::Disabled)
+            painter->setOpacity(1);
     }
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && (((m_clipType == AV || m_clipType == Playlist) && (exposed.bottom() > (rect().height() / 2) || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady && !m_binClip->audioFrameCache.isEmpty()) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && m_clipState != PlaylistState::Disabled && (((m_clipType == AV || m_clipType == Playlist) && (exposed.bottom() > (rect().height() / 2) || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady && !m_binClip->audioFrameCache.isEmpty()) {
         int startpixel = qMax(0, (int) exposed.left());
         int endpixel = qMax(0, (int) (exposed.right() + 0.5) + 1);
         QRectF mappedRect = mapped;
@@ -747,13 +748,11 @@ void ClipItem::paint(QPainter *painter,
     }
     if (m_isMainSelectedClip) {
         framePen.setColor(Qt::red);
-        textBgColor = Qt::red;
     }
 
     // only paint details if clip is big enough
-    int fontUnit = QFontInfo(painter->font()).pixelSize();
+    int fontUnit = QFontMetrics(painter->font()).lineSpacing();
     if (mapped.width() > (2 * fontUnit)) {
-
         // Draw effects names
         if (!m_effectNames.isEmpty() && mapped.width() > (5 * fontUnit)) {
             QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
@@ -775,26 +774,39 @@ void ClipItem::paint(QPainter *painter,
 
         // Draw clip name
         QString name = clipName();
-        const QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignRight | Qt::AlignTop, name);
+        QRectF txtBounding2 = painter->boundingRect(mapped, Qt::AlignRight | Qt::AlignTop, name);
         painter->setPen(Qt::NoPen);
-        painter->fillRect(txtBounding2.adjusted(-3, 0, 0, 0), textBgColor);
+        if (m_clipState != PlaylistState::Original) {
+            txtBounding2.adjust(-fontUnit, 0, fontUnit, 0);
+        } else {
+            fontUnit = 0;
+        }
+        if (txtBounding2.left() < mapped.left())
+            txtBounding2.setLeft(mapped.left());
+        painter->fillRect(txtBounding2.adjusted(-3, 0, 0, 0), m_isMainSelectedClip ? Qt::red : textBgColor);
+        txtBounding2.adjust(-2, 0, 0, 0);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->setPen(textColor);
-        switch (m_clipState) {
-          case PlaylistState::VideoOnly:
-            painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_videoPix);
-            break;
-          case PlaylistState::AudioOnly:
-            painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_audioPix);
-            break;
-          case PlaylistState::Disabled:
-            painter->drawPixmap(txtBounding2.topLeft() - QPointF(17, -1), m_disabledPix);
-            break;
-          default:
-            break;
-        }
-        painter->drawText(txtBounding2, Qt::AlignLeft, name);
+        painter->drawText(txtBounding2.adjusted(fontUnit, 0, 0, 0), Qt::AlignLeft, name);
 
+        // Draw clip state
+        if (m_clipState != PlaylistState::Original) {
+            if (m_isMainSelectedClip)
+                painter->fillRect(txtBounding2.left(), txtBounding2.top(), fontUnit, fontUnit, palette.window().color());
+            switch (m_clipState) {
+                case PlaylistState::VideoOnly:
+                    painter->drawPixmap(txtBounding2.topLeft(), KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")).pixmap(QSize(fontUnit, fontUnit)));
+                    break;
+                case PlaylistState::AudioOnly:
+                    painter->drawPixmap(txtBounding2.topLeft(), KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audio")).pixmap(QSize(fontUnit, fontUnit)));
+                    break;
+                case PlaylistState::Disabled:
+                    painter->drawPixmap(txtBounding2.topLeft(), KoIconUtils::themedIcon(QStringLiteral("remove")).pixmap(QSize(fontUnit, fontUnit)));
+                    break;
+                default:
+                    break;
+            }
+        }
 
         // draw markers
 	//TODO:

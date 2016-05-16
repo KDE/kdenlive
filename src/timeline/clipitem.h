@@ -231,9 +231,6 @@ private:
     QMap<int, QPixmap> m_audioThumbCachePic;
     bool m_audioThumbReady;
     double m_framePixelWidth;
-    QPixmap m_videoPix;
-    QPixmap m_audioPix;
-    QPixmap m_disabledPix;
 
 private slots:
     void slotGetStartThumb();
