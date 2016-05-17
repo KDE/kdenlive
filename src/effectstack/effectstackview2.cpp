@@ -840,7 +840,7 @@ void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
     if (m_status == TIMELINE_TRACK) emit changeEffectPosition(NULL, m_trackindex, indexes, endPos);
     else if (m_status == TIMELINE_CLIP) emit changeEffectPosition(m_clipref, -1, indexes, endPos);
     else if (m_status == MASTER_CLIP) {
-        //TODO
+        emit changeEffectPosition(m_masterclipref->clipId(), indexes, endPos);
     }
 }
 
@@ -1086,7 +1086,7 @@ void EffectStackView2::slotMoveEffect(QList <int> currentIndexes, int newIndex, 
             } else if (m_status == TIMELINE_CLIP) {
                 emit updateEffect(m_clipref, -1, oldeffect, neweffect, effectToMove->effectIndex(),false);
             } else if (m_status == MASTER_CLIP) {
-                //TODO
+                //emit updateEffect(m_masterclipref, oldeffect, neweffect, effectToMove->effectIndex(),false);
             }
         }
     }

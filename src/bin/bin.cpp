@@ -2216,6 +2216,36 @@ void Bin::slotDeleteEffect(const QString &id, QDomElement effect)
     m_doc->commandStack()->push(command);
 }
 
+void Bin::slotMoveEffect(const QString &id, QList <int> currentPos, int newPos)
+{
+    MoveBinEffectCommand *command = new MoveBinEffectCommand(this, id, currentPos, newPos);
+    m_doc->commandStack()->push(command);
+}
+
+void Bin::moveEffect(const QString &id, const QList <int> &oldPos, const QList <int> &newPos)
+{
+    ProjectClip *clip = m_rootFolder->clip(id);
+    if (!clip) return;
+    int new_position = newPos.at(0);
+    ClipController *ctrl = clip->controller();
+    int effectsCount = ctrl->effectsCount();
+    if (new_position > effectsCount) {
+        new_position = effectsCount;
+    }
+    int old_position = oldPos.at(0);
+    for (int i = 0; i < newPos.count(); ++i) {
+        if (old_position > new_position) {
+            // Moving up, we need to adjust index
+            old_position = oldPos.at(i);
+            new_position = newPos.at(i);
+        }
+        ctrl->moveEffect(old_position, new_position);
+    }
+    emit masterClipUpdated(ctrl, m_monitor);
+    m_monitor->refreshMonitorIfActive();
+    ctrl->reloadTrackProducers();
+}
+
 void Bin::removeEffect(const QString &id, const QDomElement &effect)
 {
     if (effect.isNull()) {

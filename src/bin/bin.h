@@ -486,6 +486,7 @@ public:
     void deleteAllClipMarkers(const QString &id);
     /** @brief Remove an effect from a bin clip. */
     void removeEffect(const QString &id, const QDomElement &effect);
+    void moveEffect(const QString &id, const QList <int> &oldPos, const QList <int> &newPos);
     /** @brief Add an effect to a bin clip. */
     void addEffect(const QString &id, QDomElement &effect);
     /** @brief Edit an effect settings to a bin clip. */
@@ -611,6 +612,7 @@ public slots:
     void slotSaveClipMarkers(const QString &id);
     void slotDuplicateClip();
     void slotDeleteEffect(const QString &id, QDomElement effect);
+    void slotMoveEffect(const QString &id, QList <int> currentPos, int newPos);
     /** @brief Request audio thumbnail for clip with id */
     void slotCreateAudioThumb(const QString &id);
     /** @brief Abort audio thumbnail for clip with id */

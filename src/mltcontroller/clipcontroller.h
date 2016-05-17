@@ -187,6 +187,12 @@ public:
     void disableEffects(bool disable);
     /** @brief Create a Kdenlive EffectList xml data from an MLT service */
     static EffectsList xmlEffectList(Mlt::Profile *profile, Mlt::Service &service);
+    /** @brief Returns the number of Kdenlive added effects for this bin clip */
+    int effectsCount();
+    /** @brief Move an effect in stack for this bin clip */
+    void moveEffect(int oldPos, int newPos);
+    /** @brief Request an update of all track producers */
+    void reloadTrackProducers();
 
 private:
     Mlt::Producer *m_masterProducer;

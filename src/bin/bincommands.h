@@ -106,6 +106,19 @@ private:
     QDomElement m_effect;
 };
 
+class MoveBinEffectCommand : public QUndoCommand
+{
+public:
+    explicit MoveBinEffectCommand(Bin *bin, const QString &clipId, QList <int> oldPos, int newPos, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QString m_clipId;
+    QList <int> m_oldindex;
+    QList <int> m_newindex;
+};
+
 class RenameBinSubClipCommand : public QUndoCommand
 {
 public:

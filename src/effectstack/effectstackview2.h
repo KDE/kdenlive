@@ -269,6 +269,8 @@ signals:
     void changeEffectState(ClipItem*, int, const QList <int>&, bool);
     /** An effect in stack was moved */
     void changeEffectPosition(ClipItem*, int, const QList <int>&, int);
+    /** An effect in stack was moved for a Bin clip */
+    void changeEffectPosition(const QString &, const QList <int>&, int);
     /** an effect was saved, reload list */
     void reloadEffects();
     /** An effect with position parameter was changed, seek */

@@ -150,6 +150,29 @@ void RemoveBinEffectCommand::redo()
     m_bin->removeEffect(m_clipId, m_effect);
 }
 
+MoveBinEffectCommand::MoveBinEffectCommand(Bin *bin, const QString &clipId, QList <int> oldPos, int newPos, QUndoCommand *parent) :
+        QUndoCommand(parent),
+        m_bin(bin),
+        m_clipId(clipId),
+        m_oldindex(oldPos)
+{
+    for (int i = 0; i < m_oldindex.count(); ++i) {
+        m_newindex << newPos + i;
+    }
+    setText(i18n("Move Bin Effect"));
+}
+
+// virtual
+void MoveBinEffectCommand::undo()
+{
+    m_bin->moveEffect(m_clipId, m_newindex, m_oldindex);
+}
+// virtual
+void MoveBinEffectCommand::redo()
+{
+    m_bin->moveEffect(m_clipId, m_oldindex, m_newindex);
+}
+
 RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_bin(bin),

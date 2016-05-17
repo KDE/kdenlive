@@ -656,6 +656,33 @@ EffectsList ClipController::effectList()
     return xmlEffectList(m_masterProducer->profile(), m_masterProducer->parent());
 }
 
+void ClipController::moveEffect(int oldPos, int newPos)
+{
+    QMutexLocker lock(&m_effectMutex);
+    Mlt::Service service(m_masterProducer->parent());
+    EffectManager effect(service);
+    effect.moveEffect(oldPos, newPos);
+}
+
+void ClipController::reloadTrackProducers()
+{
+    m_binController->updateTrackProducer(clipId());
+}
+
+int ClipController::effectsCount()
+{
+    int count = 0;
+    Mlt::Service service(m_masterProducer->parent());
+    for (int ix = 0; ix < service.filter_count(); ++ix) {
+        Mlt::Filter *effect = service.filter(ix);
+        QString id = effect->get("kdenlive_id");
+        if (!id.isEmpty()) {
+            count++;
+        }
+    }
+    return count;
+}
+
 // static
 EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &service)
 {
