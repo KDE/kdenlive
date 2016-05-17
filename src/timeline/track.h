@@ -25,7 +25,7 @@
 #define TRACK_H
 
 #include "definitions.h"
-
+#include "mltcontroller/effectscontroller.h"
 #include <QObject>
 
 #include <mlt++/MltPlaylist.h>
@@ -195,6 +195,12 @@ public:
     void disableEffects(bool disable);
     /** @brief Returns true if position is on last clip or beyond track length. */
     bool isLastClip(qreal t);
+    bool addEffect(double start, EffectsParameterList params);
+    bool addTrackEffect(EffectsParameterList params);
+    bool editEffect(double start, EffectsParameterList params, bool replace);
+    bool editTrackEffect(EffectsParameterList params, bool replace);
+    bool removeEffect(double start, int effectIndex, bool updateIndex);
+    bool removeTrackEffect(int effectIndex, bool updateIndex);
 
 signals:
     /** @brief notify track length change to update background

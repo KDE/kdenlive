@@ -3,6 +3,7 @@ set(kdenlive_SRCS
   timeline/abstractclipitem.cpp
   timeline/abstractgroupitem.cpp
   timeline/clip.cpp
+  timeline/effectmanager.cpp
   timeline/clipdurationdialog.cpp
   timeline/clipitem.cpp
   timeline/customruler.cpp

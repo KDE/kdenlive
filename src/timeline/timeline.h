@@ -113,7 +113,7 @@ public:
     QList <TrackInfo> getTracksInfo();
     QStringList getTrackNames();
     void addTrackEffect(int trackIndex, QDomElement effect);
-    void removeTrackEffect(int trackIndex, const QDomElement &effect);
+    bool removeTrackEffect(int trackIndex, int effectIndex, const QDomElement &effect);
     void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
     void enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable);
     const EffectsList getTrackEffects(int trackIndex);

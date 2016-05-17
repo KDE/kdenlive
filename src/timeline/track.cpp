@@ -24,8 +24,9 @@
 #include "track.h"
 #include "headertrack.h"
 #include "kdenlivesettings.h"
-
 #include "clip.h"
+#include "effectmanager.h"
+
 #include <QtGlobal>
 #include <QDebug>
 #include <math.h>
@@ -115,7 +116,8 @@ bool Track::doAdd(qreal t, Mlt::Producer *cut, TimelineMode::EditMode mode)
     if (m_playlist.insert_at(pos, cut, 1) == m_playlist.count() - 1) {
         emit newTrackDuration(m_playlist.get_playtime());
     }
-    emit invalidatePreview(pos, len);
+    if (type != AudioTrack)
+        emit invalidatePreview(pos, len);
     return true;
 }
 
@@ -144,7 +146,8 @@ bool Track::move(qreal start, qreal end, TimelineMode::EditMode mode)
     if (durationChanged) {
 	emit newTrackDuration(m_playlist.get_playtime());
     }
-    emit invalidatePreview(pos, clipProducer->get_playtime());
+    if (type != AudioTrack)
+        emit invalidatePreview(pos, clipProducer->get_playtime());
     return result;
 }
 
@@ -182,7 +185,8 @@ bool Track::del(qreal t)
     if (durationChanged) {
         emit newTrackDuration(m_playlist.get_playtime());
     }
-    emit invalidatePreview(pos, length);
+    if (type != AudioTrack) 
+        emit invalidatePreview(pos, length);
     return true;
 }
 
@@ -192,7 +196,8 @@ bool Track::del(qreal t, qreal dt)
     m_playlist.insert_blank(m_playlist.remove_region(frame(t), frame(dt) + 1), frame(dt));
     m_playlist.consolidate_blanks();
     m_playlist.unlock();
-    emit invalidatePreview(frame(t), frame(dt));
+    if (type != AudioTrack) 
+        emit invalidatePreview(frame(t), frame(dt));
     return true;
 }
 
@@ -241,10 +246,12 @@ bool Track::resize(qreal t, qreal dt, bool end)
             m_playlist.unlock();
             // this is the last clip in track, check tracks length to adjust black track and project duration
             emit newTrackDuration(m_playlist.get_playtime());
-            if (updateLength > 0)
-                emit invalidatePreview(startFrame, updateLength);
-            else
-                emit invalidatePreview(startFrame + updateLength, -updateLength);
+            if (type != AudioTrack)  {
+                if (updateLength > 0)
+                    emit invalidatePreview(startFrame, updateLength);
+                else
+                    emit invalidatePreview(startFrame + updateLength, -updateLength);
+            }
             return true;
         }
         length = -length;
@@ -270,10 +277,12 @@ bool Track::resize(qreal t, qreal dt, bool end)
 
     m_playlist.consolidate_blanks();
     m_playlist.unlock();
-    if (updateLength > 0)
-        emit invalidatePreview(startFrame, updateLength);
-    else
-        emit invalidatePreview(startFrame + updateLength, -updateLength);
+    if (type != AudioTrack) {
+        if (updateLength > 0)
+            emit invalidatePreview(startFrame, updateLength);
+        else
+            emit invalidatePreview(startFrame + updateLength, -updateLength);
+    }
     return true;
 }
 
@@ -376,7 +385,9 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
 	}
 	current.remove(0, 1);
         Mlt::Producer *cut = NULL;
-        updateList << QPoint(m_playlist.clip_start(i), m_playlist.clip_length(i));
+        if (type != AudioTrack) {
+            updateList << QPoint(m_playlist.clip_start(i), m_playlist.clip_length(i));
+        }
 	if (current.startsWith("slowmotion:" + id + ":")) {
 	      // Slowmotion producer, just update resource
 	      Mlt::Producer *slowProd = newSlowMos.value(current.section(QStringLiteral(":"), 2));
@@ -457,7 +468,8 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     bool ok = m_playlist.insert_at(frame(t), cut, 1) >= 0;
     delete cut;
     m_playlist.unlock();
-    emit invalidatePreview(frame(t), orig->get_playtime());
+    if (type != AudioTrack)
+        emit invalidatePreview(frame(t), orig->get_playtime());
     return ok;
 }
 
@@ -496,8 +508,10 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
             Clip(origin).replaceEffects(*original);
 	}
     }
-    foreach(const QPoint &pt, updateList) {
-        emit invalidatePreview(pt.x(), pt.y());
+    if (type != AudioTrack) {
+        foreach(const QPoint &pt, updateList) {
+            emit invalidatePreview(pt.x(), pt.y());
+        }
     }
 }
 
@@ -871,3 +885,64 @@ void Track::disableEffects(bool disable)
         Clip(*original).disableEffects(disable);
     }
 }
+
+bool Track::addEffect(double start, EffectsParameterList params)
+{
+    int pos = frame(start);
+    int clipIndex = m_playlist.get_clip_index_at(pos);
+    int duration = m_playlist.clip_length(clipIndex);
+    QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(clipIndex));
+    if (!clip) {
+        return false;
+    }
+    Mlt::Service clipService(clip->get_service());
+    EffectManager effect(clipService);
+    return effect.addEffect(params, duration);
+}
+
+bool Track::addTrackEffect(EffectsParameterList params)
+{
+    Mlt::Service trackService(m_playlist.get_service());
+    EffectManager effect(trackService);
+    return effect.addEffect(params, m_playlist.get_playtime() - 1);
+}
+
+bool Track::editEffect(double start, EffectsParameterList params, bool replace)
+{
+    int pos = frame(start);
+    int clipIndex = m_playlist.get_clip_index_at(pos);
+    int duration = m_playlist.clip_length(clipIndex);
+    QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(clipIndex));
+    if (!clip) {
+        return false;
+    }
+    Mlt::Service clipService(clip->get_service());
+    EffectManager effect(clipService);
+    return effect.editEffect(params, duration, replace);
+}
+
+bool Track::editTrackEffect(EffectsParameterList params, bool replace)
+{
+    EffectManager effect(m_playlist);
+    return effect.editEffect(params, m_playlist.get_playtime() - 1, replace);
+}
+
+bool Track::removeEffect(double start, int effectIndex, bool updateIndex)
+{
+    int pos = frame(start);
+    int clipIndex = m_playlist.get_clip_index_at(pos);
+    QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(clipIndex));
+    if (!clip) {
+        return false;
+    }
+    Mlt::Service clipService(clip->get_service());
+    EffectManager effect(clipService);
+    return effect.removeEffect(effectIndex, updateIndex);
+}
+
+bool Track::removeTrackEffect(int effectIndex, bool updateIndex)
+{
+    EffectManager effect(m_playlist);
+    return effect.removeEffect(effectIndex, updateIndex);
+}
+

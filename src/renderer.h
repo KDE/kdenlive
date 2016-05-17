@@ -193,17 +193,6 @@ class Render: public AbstractRender
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
 
-    /** @brief Deletes an effect from a clip in MLT's playlist. */
-    bool mltRemoveEffect(int track, GenTime position, int index, bool updateIndex, bool doRefresh = true);
-    static bool removeFilterFromService(Mlt::Service service, int effectIndex, bool updateIndex);
-    bool mltRemoveTrackEffect(int track, int index, bool updateIndex);
-
-    /** @brief Adds an effect to a clip in MLT's playlist. */
-    bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
-    static bool addFilterToService(Mlt::Service service, EffectsParameterList params, int duration);
-    bool mltAddEffect(Mlt::Service service, EffectsParameterList params, int duration, bool doRefresh);
-    bool mltAddTrackEffect(int track, EffectsParameterList params);
-    
     /** @brief Enable / disable clip effects.
      * @param track The track where the clip is
      * @param position The start position of the clip
@@ -215,10 +204,6 @@ class Render: public AbstractRender
      * @param effectIndexes The list of effect indexes to enable / disable
      * @param disable True if effects should be disabled, false otherwise */
     bool mltEnableTrackEffects(int track, const QList<int> &effectIndexes, bool disable);
-
-    /** @brief Edits an effect parameters in MLT's playlist. */
-    bool mltEditEffect(int track, const GenTime &position, EffectsParameterList params, bool replaceEffect);
-    bool mltEditTrackEffect(int track, EffectsParameterList params);
 
     /** @brief Updates the "kdenlive_ix" (index) value of an effect. */
     void mltUpdateEffectPosition(int track, const GenTime &position, int oldPos, int newPos);

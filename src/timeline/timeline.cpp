@@ -1398,24 +1398,29 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect)
         }
     }
     sourceTrack->effectsList.append(effect);
+    sourceTrack->addTrackEffect(EffectsController::getEffectArgs(m_doc->getProfileInfo(), effect));
 }
 
-void Timeline::removeTrackEffect(int trackIndex, const QDomElement &effect)
+bool Timeline::removeTrackEffect(int trackIndex, int effectIndex, const QDomElement &effect)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
-        return;
+        return false;
     }
     int toRemove = effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
     Track *sourceTrack = track(trackIndex);
-    int max = sourceTrack->effectsList.count();
-    for (int i = 0; i < max; ++i) {
-        int index = sourceTrack->effectsList.at(i).attribute(QStringLiteral("kdenlive_ix")).toInt();
-        if (toRemove == index) {
-            sourceTrack->effectsList.removeAt(toRemove);
-            break;
+    bool success = sourceTrack->removeTrackEffect(effectIndex, true);
+    if (success) {
+        int max = sourceTrack->effectsList.count();
+        for (int i = 0; i < max; ++i) {
+            int index = sourceTrack->effectsList.at(i).attribute(QStringLiteral("kdenlive_ix")).toInt();
+            if (toRemove == index) {
+                sourceTrack->effectsList.removeAt(toRemove);
+                break;
+            }
         }
     }
+    return success;
 }
 
 void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect)

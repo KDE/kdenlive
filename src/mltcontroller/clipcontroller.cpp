@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mltcontroller/effectscontroller.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "timeline/timeline.h"
-#include "renderer.h"
+#include "timeline/effectmanager.h"
 
 #include <QUrl>
 #include <QDebug>
@@ -636,7 +636,8 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
     kdenlive_ix++;
     xml.setAttribute(QStringLiteral("kdenlive_ix"), kdenlive_ix);
     EffectsParameterList params = EffectsController::getEffectArgs(pInfo, xml);
-    Render::addFilterToService(service, params, getPlaytime().frames(m_binController->fps()));
+    EffectManager effect(service);
+    effect.addEffect(params, getPlaytime().frames(m_binController->fps()));
     m_binController->updateTrackProducer(clipId());
 }
 
@@ -644,7 +645,8 @@ void ClipController::removeEffect(int effectIndex, bool delayRefresh)
 {
     QMutexLocker lock(&m_effectMutex);
     Mlt::Service service(m_masterProducer->parent());
-    Render::removeFilterFromService(service, effectIndex, true);
+    EffectManager effect(service);
+    effect.removeEffect(effectIndex, true);
     if (!delayRefresh)
         m_binController->updateTrackProducer(clipId());
 }
