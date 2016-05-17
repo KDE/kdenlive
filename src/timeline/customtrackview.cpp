@@ -7582,10 +7582,23 @@ void CustomTrackView::disableClip()
     }
     QUndoCommand *videoCommand = new QUndoCommand();
     videoCommand->setText(i18n("Disable clip"));
+    // Expand groups
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == GroupWidget) {
-            selection << selection.at(i)->childItems();
+            QList <QGraphicsItem *>children = selection.at(i)->childItems();
+            foreach(QGraphicsItem *item, children) {
+                if (!selection.contains(item))
+                    selection << item;
+            }
+        } else if (selection.at(i)->parentItem() && !selection.contains(selection.at(i)->parentItem())) {
+            QList <QGraphicsItem *>children = selection.at(i)->parentItem()->childItems();
+            foreach(QGraphicsItem *item, children) {
+                if (!selection.contains(item))
+                    selection << item;
+            }
         }
+    }
+    for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
             if (clip->clipType() == AV || clip->clipType() == Playlist || clip->clipType() == Audio) {

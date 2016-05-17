@@ -588,11 +588,11 @@ void ClipItem::paint(QPainter *painter,
     painter->setPen(Qt::NoPen);
     painter->fillRect(mappedExposed, paintColor);
     painter->setPen(m_paintColor.darker());
+    if (m_clipState == PlaylistState::Disabled)
+        painter->setOpacity(0.3);
     // draw thumbnails
-    if (KdenliveSettings::videothumbnails() && m_clipState != PlaylistState::AudioOnly) {
+    if (KdenliveSettings::videothumbnails() && m_clipState != PlaylistState::AudioOnly && m_originalClipState != PlaylistState::AudioOnly) {
         QRectF thumbRect;
-        if (m_clipState == PlaylistState::Disabled)
-            painter->setOpacity(0.3);
         if ((m_clipType == Image || m_clipType == Text || m_clipType == QText) && !m_startPix.isNull()) {
             if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
             thumbRect.moveTopRight(mapped.topRight());
@@ -639,15 +639,13 @@ void ClipItem::paint(QPainter *painter,
                 }
             }
         }
-        if (m_clipState == PlaylistState::Disabled)
-            painter->setOpacity(1);
     }
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && m_clipState != PlaylistState::Disabled && (((m_clipType == AV || m_clipType == Playlist) && (exposed.bottom() > (rect().height() / 2) || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady && !m_binClip->audioFrameCache.isEmpty()) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && m_clipState != PlaylistState::VideoOnly && m_originalClipState != PlaylistState::VideoOnly && (((m_clipType == AV || m_clipType == Playlist) && (exposed.bottom() > (rect().height() / 2) || m_originalClipState == PlaylistState::AudioOnly || m_clipState == PlaylistState::AudioOnly)) || m_clipType == Audio) && m_audioThumbReady && !m_binClip->audioFrameCache.isEmpty()) {
         int startpixel = qMax(0, (int) exposed.left());
         int endpixel = qMax(0, (int) (exposed.right() + 0.5) + 1);
         QRectF mappedRect = mapped;
-        if (m_clipType != Audio && m_clipState != PlaylistState::AudioOnly && KdenliveSettings::videothumbnails()) {
+        if (m_clipType != Audio && m_clipState != PlaylistState::AudioOnly && m_originalClipState != PlaylistState::AudioOnly && KdenliveSettings::videothumbnails()) {
             mappedRect.setTop(mappedRect.bottom() - mapped.height() / 2);
         }
 
@@ -747,6 +745,8 @@ void ClipItem::paint(QPainter *painter,
         }
         painter->setPen(QPen());
     }
+    if (m_clipState == PlaylistState::Disabled)
+        painter->setOpacity(1);
     if (m_isMainSelectedClip) {
         framePen.setColor(Qt::red);
     }
