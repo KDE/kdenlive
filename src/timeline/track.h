@@ -216,6 +216,7 @@ private:
     Mlt::Playlist m_playlist;
     /** @brief Returns true is this MLT service needs duplication to work on multiple tracks */
     bool needsDuplicate(const QString &service) const;
+    void checkEffect(const QString effectName, int pos, int duration);
 };
 
 #endif // TRACK_H

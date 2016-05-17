@@ -26,6 +26,7 @@
 #include "kdenlivesettings.h"
 #include "clip.h"
 #include "effectmanager.h"
+#include "core.h"
 
 #include <QtGlobal>
 #include <QDebug>
@@ -897,14 +898,36 @@ bool Track::addEffect(double start, EffectsParameterList params)
     }
     Mlt::Service clipService(clip->get_service());
     EffectManager effect(clipService);
-    return effect.addEffect(params, duration);
+    bool success = effect.addEffect(params, duration);
+    if (success) {
+        checkEffect(params.paramValue(QStringLiteral("tag")), pos, duration);
+    }
+    return success;
+}
+
+void Track::checkEffect(const QString effectName, int pos, int duration)
+{
+    Mlt::Repository *rep = pCore->mltRepository();
+    Mlt::Properties *metadata = rep->metadata(filter_type, effectName.toLatin1().data());
+    Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
+    if (QString(tags.get(0)) != QLatin1String("Audio")) {
+        emit invalidatePreview(pos, duration);
+    } else {
+        // This is an audio effect, don't touch
+    }
+    delete metadata;
 }
 
 bool Track::addTrackEffect(EffectsParameterList params)
 {
     Mlt::Service trackService(m_playlist.get_service());
     EffectManager effect(trackService);
-    return effect.addEffect(params, m_playlist.get_playtime() - 1);
+    int duration = m_playlist.get_playtime() - 1;
+    bool success = effect.addEffect(params, duration);
+    if (success) {
+        checkEffect(params.paramValue(QStringLiteral("tag")), 0, duration);
+    }
+    return success;
 }
 
 bool Track::editEffect(double start, EffectsParameterList params, bool replace)
@@ -918,31 +941,49 @@ bool Track::editEffect(double start, EffectsParameterList params, bool replace)
     }
     Mlt::Service clipService(clip->get_service());
     EffectManager effect(clipService);
-    return effect.editEffect(params, duration, replace);
+    bool success = effect.editEffect(params, duration, replace);
+    if (success) {
+        checkEffect(params.paramValue(QStringLiteral("tag")), pos, duration);
+    }
+    return success;
 }
 
 bool Track::editTrackEffect(EffectsParameterList params, bool replace)
 {
     EffectManager effect(m_playlist);
-    return effect.editEffect(params, m_playlist.get_playtime() - 1, replace);
+    int duration = m_playlist.get_playtime() - 1;
+    bool success = effect.editEffect(params, duration, replace);
+    if (success) {
+        checkEffect(params.paramValue(QStringLiteral("tag")), 0, duration);
+    }
+    return success;
 }
 
 bool Track::removeEffect(double start, int effectIndex, bool updateIndex)
 {
     int pos = frame(start);
     int clipIndex = m_playlist.get_clip_index_at(pos);
+    int duration = m_playlist.clip_length(clipIndex);
     QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(clipIndex));
     if (!clip) {
         return false;
     }
     Mlt::Service clipService(clip->get_service());
     EffectManager effect(clipService);
-    return effect.removeEffect(effectIndex, updateIndex);
+    const QString effectTag = effect.removeEffect(effectIndex, updateIndex);
+    if (!effectTag.isEmpty()) {
+        checkEffect(effectTag, pos, duration);
+    }
+    return (!effectTag.isEmpty());
 }
 
 bool Track::removeTrackEffect(int effectIndex, bool updateIndex)
 {
     EffectManager effect(m_playlist);
-    return effect.removeEffect(effectIndex, updateIndex);
+    const QString effectTag = effect.removeEffect(effectIndex, updateIndex);
+    if (!effectTag.isEmpty()) {
+        checkEffect(effectTag, 0, m_playlist.get_playtime() - 1);
+    }
+    return (!effectTag.isEmpty());
 }
 

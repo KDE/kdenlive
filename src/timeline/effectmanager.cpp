@@ -258,7 +258,7 @@ bool EffectManager::editEffect(EffectsParameterList params, int duration, bool r
 
     if (!params.paramValue(QStringLiteral("keyframes")).isEmpty() || replaceEffect || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox") || tag == QLatin1String("autotrack_rectangle")) {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
-        if (removeEffect(index, false)) {
+        if (!removeEffect(index, false).isEmpty()) {
             return addEffect(params, duration);
         }
     }
@@ -332,17 +332,17 @@ bool EffectManager::editEffect(EffectsParameterList params, int duration, bool r
     return true;
 }
 
-bool EffectManager::removeEffect(int effectIndex, bool updateIndex)
+const QString &EffectManager::removeEffect(int effectIndex, bool updateIndex)
 {
     m_producer.lock();
-    bool success = false;
     int ct = 0;
+    QString filterTag;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
         if ((effectIndex == -1 && strcmp(filter->get("kdenlive_id"), "")) || filter->get_int("kdenlive_ix") == effectIndex) {
             if (m_producer.detach(*filter) == 0) {
+                filterTag = filter->get("tag");
                 delete filter;
-                success = true;
             }
         } else if (updateIndex) {
             // Adjust the other effects index
@@ -352,7 +352,7 @@ bool EffectManager::removeEffect(int effectIndex, bool updateIndex)
         filter = m_producer.filter(ct);
     }
     m_producer.unlock();
-    return success;
+    return filterTag;
 }
 
 

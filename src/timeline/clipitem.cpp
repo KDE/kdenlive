@@ -1361,7 +1361,6 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
         needInOutSync = true;
     }
 
-
     // check if it is a fade effect
     if (effectId == QLatin1String("fadein")) {
         needRepaint = true;

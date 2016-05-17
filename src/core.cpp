@@ -121,6 +121,11 @@ ProducerQueue *Core::producerQueue()
     return m_producerQueue;
 }
 
+Mlt::Repository *Core::mltRepository()
+{
+      return m_binController->mltRepository();
+}
+
 LibraryWidget *Core::library()
 {
     return m_library;

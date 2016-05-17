@@ -22,6 +22,10 @@ class Bin;
 class LibraryWidget;
 class ProducerQueue;
 
+namespace Mlt {
+    class Repository;
+};
+
 #define pCore Core::self()
 
 
@@ -48,7 +52,7 @@ public:
 
     /** @brief Returns a pointer to the singleton object. */
     static Core *self();
-    
+
     /** @brief Builds all necessary parts. */
     void initialize();
 
@@ -61,6 +65,7 @@ public:
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the project bin controller. */
     BinController *binController();
+    Mlt::Repository *mltRepository();
     /** @brief Returns a pointer to the project bin. */
     Bin *bin();
     /** @brief Returns a pointer to the producer queue. */

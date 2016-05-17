@@ -1755,21 +1755,21 @@ void Timeline::invalidatePreview(int startFrame, int length)
 {
     if (!m_hasOverlayTrack)
         return;
-    int start = startFrame / 200;
-    int end = lrintf((startFrame + length) / 200);
+    int start = startFrame / 100;
+    int end = lrintf((startFrame + length) / 100);
     Mlt::Producer *overlayTrack = m_tractor->track(tracksCount());
     m_tractor->lock();
     Mlt::Playlist trackPlaylist((mlt_playlist) overlayTrack->get_service());
     delete overlayTrack;
     QList <int> list;
     for (int i = start; i <=end; i++) {
-        int ix = trackPlaylist.get_clip_index_at(200 * i);
-        if (trackPlaylist.is_blank(i))
+        int ix = trackPlaylist.get_clip_index_at(100 * i);
+        if (trackPlaylist.is_blank(ix))
             continue;
         list << i;
         Mlt::Producer *prod = trackPlaylist.replace_with_blank(ix);
         delete prod;
-        m_ruler->updatePreview(i * 200, false);
+        m_ruler->updatePreview(i * 100, false);
     }
     trackPlaylist.consolidate_blanks();
     m_tractor->unlock();

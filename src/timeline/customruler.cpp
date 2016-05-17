@@ -477,7 +477,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw Rendering preview zones
     QColor preview(Qt::green);
     foreach(int frame, m_renderingPreviews) {
-        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 2, 199 * m_factor, 2);
+        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 2, 99 * m_factor, 2);
         p.fillRect(rec, preview);
     }
 
@@ -509,5 +509,5 @@ void CustomRuler::updatePreview(int frame, bool rendered)
         m_renderingPreviews << frame;
     else
         m_renderingPreviews.removeAll(frame);
-    update(frame * m_factor - offset(), MAX_HEIGHT - 2, (199) * m_factor, 2);
+    update(frame * m_factor - offset(), MAX_HEIGHT - 2, (99) * m_factor, 2);
 }
