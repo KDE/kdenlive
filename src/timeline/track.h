@@ -201,6 +201,10 @@ public:
     bool editTrackEffect(EffectsParameterList params, bool replace);
     bool removeEffect(double start, int effectIndex, bool updateIndex);
     bool removeTrackEffect(int effectIndex, bool updateIndex);
+    bool enableEffects(double start, const QList <int> &effectIndexes, bool disable);
+    bool enableTrackEffects(const QList <int> &effectIndexes, bool disable);
+    bool moveEffect(double start, int oldPos, int newPos);
+    bool moveTrackEffect(int oldPos, int newPos);
 
 signals:
     /** @brief notify track length change to update background
@@ -217,6 +221,7 @@ private:
     /** @brief Returns true is this MLT service needs duplication to work on multiple tracks */
     bool needsDuplicate(const QString &service) const;
     void checkEffect(const QString effectName, int pos, int duration);
+    void checkEffects(const QStringList effectNames, int pos, int duration);
 };
 
 #endif // TRACK_H

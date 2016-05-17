@@ -918,6 +918,22 @@ void Track::checkEffect(const QString effectName, int pos, int duration)
     delete metadata;
 }
 
+void Track::checkEffects(const QStringList effectNames, int pos, int duration)
+{
+    Mlt::Repository *rep = pCore->mltRepository();
+    foreach (const QString name, effectNames) {
+        Mlt::Properties *metadata = rep->metadata(filter_type, name.toLatin1().data());
+        Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
+        if (QString(tags.get(0)) != QLatin1String("Audio")) {
+            emit invalidatePreview(pos, duration);
+            break;
+        } else {
+            // This is an audio effect, don't touch
+        }
+        delete metadata;
+    }
+}
+
 bool Track::addTrackEffect(EffectsParameterList params)
 {
     Mlt::Service trackService(m_playlist.get_service());
@@ -987,3 +1003,50 @@ bool Track::removeTrackEffect(int effectIndex, bool updateIndex)
     return (!effectTag.isEmpty());
 }
 
+bool Track::enableEffects(double start, const QList <int> &effectIndexes, bool disable)
+{
+    int pos = frame(start);
+    int clipIndex = m_playlist.get_clip_index_at(pos);
+    int duration = m_playlist.clip_length(clipIndex);
+    QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(clipIndex));
+    if (!clip) {
+        return false;
+    }
+    Mlt::Service clipService(clip->get_service());
+    EffectManager effect(clipService);
+    const QStringList effectTags = effect.enableEffects(effectIndexes, disable);
+    checkEffects(effectTags, pos, duration);
+    return (!effectTags.isEmpty());
+}
+
+bool Track::enableTrackEffects(const QList <int> &effectIndexes, bool disable)
+{
+    EffectManager effect(m_playlist);
+    const QStringList effectTags = effect.enableEffects(effectIndexes, disable);
+    checkEffects(effectTags, 0, m_playlist.get_playtime() - 1);
+    return (!effectTags.isEmpty());
+}
+
+bool Track::moveEffect(double start, int oldPos, int newPos)
+{
+    int pos = frame(start);
+    int clipIndex = m_playlist.get_clip_index_at(pos);
+    int duration = m_playlist.clip_length(clipIndex);
+    QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(clipIndex));
+    if (!clip) {
+        return false;
+    }
+    Mlt::Service clipService(clip->get_service());
+    EffectManager effect(clipService);
+    const QStringList effectTags = effect.moveEffect(oldPos, newPos);
+    checkEffects(effectTags, pos, duration);
+    return (!effectTags.isEmpty());
+}
+
+bool Track::moveTrackEffect(int oldPos, int newPos)
+{
+    EffectManager effect(m_playlist);
+    const QStringList effectTags = effect.moveEffect(oldPos, newPos);
+    checkEffects(effectTags, 0, m_playlist.get_playtime() - 1);
+    return (!effectTags.isEmpty());
+}

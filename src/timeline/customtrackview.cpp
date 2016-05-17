@@ -2481,7 +2481,7 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
 {
     if (pos < GenTime()) {
         // editing a track effect
-        if (!m_document->renderer()->mltEnableEffects(track, pos, effectIndexes, disable)) {
+        if (!m_timeline->track(track)->enableTrackEffects(effectIndexes, disable)) {
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             return;
         }
@@ -2493,7 +2493,7 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
     // editing a clip effect
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip) {
-        bool success = m_document->renderer()->mltEnableEffects(clip->track(), clip->startPos(), effectIndexes, disable);
+        bool success = m_timeline->track(clip->track())->enableEffects(clip->startPos().seconds(), effectIndexes, disable);
         if (success) {
             clip->enableEffects(effectIndexes, disable);
             if (updateEffectStack && clip->isSelected()) {
@@ -2530,7 +2530,7 @@ void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int
             QDomElement before = m_timeline->getTrackEffect(documentTrack, old_position);
             if (!act.isNull() && !before.isNull()) {
                 m_timeline->setTrackEffect(documentTrack, new_position, before);
-                m_document->renderer()->mltMoveEffect(track, pos, old_position, new_position);
+                m_timeline->track(track)->moveTrackEffect(old_position, new_position);
             } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
         }
         emit showTrackEffects(track, m_timeline->getTrackInfo(documentTrack));
@@ -2556,12 +2556,13 @@ void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int
                 return;
             }
             clip->moveEffect(before, new_position);
+            if (clip->hasEffect(QStringLiteral("timewarp"), QStringLiteral("speed")) != -1) {
+                // special case, speed effect is not in MLT's filter list, so decrease indexes
+                old_position--;
+                new_position--;
+            }
             // special case: speed effect, which is a pseudo-effect, not appearing in MLT's effects
-            if (act.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
-                m_document->renderer()->mltUpdateEffectPosition(track, pos, old_position, new_position);
-            } else if (before.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
-                m_document->renderer()->mltUpdateEffectPosition(track, pos, new_position, old_position);
-            } else m_document->renderer()->mltMoveEffect(track, pos, old_position, new_position);
+            m_timeline->track(track)->moveEffect(pos.seconds(), old_position, new_position);
         }
         clip->setSelectedEffect(newPos.at(0));
         emit clipItemSelected(clip);

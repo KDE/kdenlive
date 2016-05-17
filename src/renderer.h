@@ -193,28 +193,6 @@ class Render: public AbstractRender
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
 
-    /** @brief Enable / disable clip effects.
-     * @param track The track where the clip is
-     * @param position The start position of the clip
-     * @param effectIndexes The list of effect indexes to enable / disable
-     * @param disable True if effects should be disabled, false otherwise */
-    bool mltEnableEffects(int track, const GenTime &position, const QList<int> &effectIndexes, bool disable);
-    /** @brief Enable / disable track effects.
-     * @param track The track where the effect is
-     * @param effectIndexes The list of effect indexes to enable / disable
-     * @param disable True if effects should be disabled, false otherwise */
-    bool mltEnableTrackEffects(int track, const QList<int> &effectIndexes, bool disable);
-
-    /** @brief Updates the "kdenlive_ix" (index) value of an effect. */
-    void mltUpdateEffectPosition(int track, const GenTime &position, int oldPos, int newPos);
-
-    /** @brief Changes the order of effects in MLT's playlist.
-     *
-     * It switches effects from oldPos and newPos, updating the "kdenlive_ix"
-     * (index) value. */
-    void mltMoveEffect(int track, const GenTime &position, int oldPos, int newPos);
-    void mltMoveTrackEffect(int track, int oldPos, int newPos);
-
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack, int lowestVideoTrack);
 
     //const QList <Mlt::Producer *> producersList();
@@ -223,7 +201,7 @@ class Render: public AbstractRender
     void setConsumerProperty(const QString &name, const QString &value);
 
     void showAudio(Mlt::Frame&);
-    
+
     QList <int> checkTrackSequence(int);
     void sendFrameUpdate();
 

@@ -332,7 +332,7 @@ bool EffectManager::editEffect(EffectsParameterList params, int duration, bool r
     return true;
 }
 
-const QString &EffectManager::removeEffect(int effectIndex, bool updateIndex)
+const QString EffectManager::removeEffect(int effectIndex, bool updateIndex)
 {
     m_producer.lock();
     int ct = 0;
@@ -355,63 +355,79 @@ const QString &EffectManager::removeEffect(int effectIndex, bool updateIndex)
     return filterTag;
 }
 
-
-
-/*
-void Clip::replaceEffects(Mlt::Service& service)
-{
-    // remove effects first
-    int ct = 0;
-    Mlt::Filter *filter = m_producer.filter(ct);
-    while (filter) {
-	QString ix = filter->get("kdenlive_ix");
-	if (!ix.isEmpty()) {
-            if (m_producer.detach(*filter) == 0) {
-                delete filter;
-            }
-            else ct++;
-	}
-	else ct++;
-	filter = m_producer.filter(ct);
-    }
-    addEffects(service);
-}
-
-void Clip::deleteEffects()
-{
-    // remove effects
-    int ct = 0;
-    Mlt::Filter *filter = m_producer.filter(ct);
-    while (filter) {
-	QString ix = filter->get("kdenlive_ix");
-	if (!ix.isEmpty()) {
-            if (m_producer.detach(*filter) == 0) {
-                delete filter;
-            }
-            else ct++;
-	}
-	else ct++;
-	filter = m_producer.filter(ct);
-    }
-}
-
-void Clip::disableEffects(bool disable)
+const QStringList EffectManager::enableEffects(const QList <int> &effectIndexes, bool disable)
 {
     int ct = 0;
+    QStringList effectNames;
     Mlt::Filter *filter = m_producer.filter(ct);
+    m_producer.lock();
     while (filter) {
-        QString ix = filter->get("kdenlive_ix");
-        if (!ix.isEmpty()) {
-            if (disable && filter->get_int("disable") == 0) {
-                filter->set("disable", 1);
-                filter->set("auto_disable", 1);
-            }
-            else if (!disable && filter->get_int("auto_disable") == 1) {
-                filter->set("disable", (char*) NULL);
-                filter->set("auto_disable", (char*) NULL);
-            }
+        if (effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
+            filter->set("disable", (int) disable);
+            effectNames << filter->get("tag");
         }
         ct++;
         filter = m_producer.filter(ct);
     }
-}*/
+    m_producer.unlock();
+    return effectNames;
+}
+
+const QStringList EffectManager::moveEffect(int oldPos, int newPos)
+{
+    int ct = 0;
+    QStringList effectNames;
+    QList <Mlt::Filter *> filtersList;
+    Mlt::Filter *filter = m_producer.filter(ct);
+    if (newPos > oldPos) {
+        bool found = false;
+        while (filter) {
+            if (!found && filter->get_int("kdenlive_ix") == oldPos) {
+                filter->set("kdenlive_ix", newPos);
+                effectNames << filter->get("tag");
+                filtersList.append(filter);
+                m_producer.detach(*filter);
+                filter = m_producer.filter(ct);
+                while (filter && filter->get_int("kdenlive_ix") <= newPos) {
+                    filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
+                    ct++;
+                    filter = m_producer.filter(ct);
+                }
+                found = true;
+            }
+            if (filter && filter->get_int("kdenlive_ix") > newPos) {
+                filtersList.append(filter);
+                m_producer.detach(*filter);
+            } else ct++;
+            filter = m_producer.filter(ct);
+        }
+    } else {
+        while (filter) {
+            if (filter->get_int("kdenlive_ix") == oldPos) {
+                filter->set("kdenlive_ix", newPos);
+                effectNames << filter->get("tag");
+                filtersList.append(filter);
+                m_producer.detach(*filter);
+            } else ct++;
+            filter = m_producer.filter(ct);
+        }
+
+        ct = 0;
+        filter = m_producer.filter(ct);
+        while (filter) {
+            int pos = filter->get_int("kdenlive_ix");
+            if (pos >= newPos) {
+                if (pos < oldPos) filter->set("kdenlive_ix", pos + 1);
+                filtersList.append(filter);
+                m_producer.detach(*filter);
+            } else ct++;
+            filter = m_producer.filter(ct);
+        }
+    }
+
+    for (int i = 0; i < filtersList.count(); ++i) {
+        m_producer.attach(*(filtersList.at(i)));
+    }
+    qDeleteAll(filtersList);
+    return effectNames;
+}
