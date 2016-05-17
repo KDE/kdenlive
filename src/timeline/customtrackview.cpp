@@ -2035,7 +2035,7 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip)
         if (!m_timeline->track(track)->addEffect(pos.seconds(), EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)))) success = false;
     }
     if (!success) emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
-    m_document->renderer()->doRefresh();
+    monitorRefresh(clip->info());
 }
 
 void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
@@ -2048,6 +2048,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
         }
         clearSelection();
         m_timeline->addTrackEffect(track, effect);
+        monitorRefresh();
         emit updateTrackEffectState(track);
         emit showTrackEffects(track, m_timeline->getTrackInfo(track));
         return;
@@ -2076,7 +2077,10 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
             clip->deleteEffect(params.paramValue(QStringLiteral("kdenlive_ix")).toInt());
         }
-        else clip->setSelectedEffect(params.paramValue(QStringLiteral("kdenlive_ix")).toInt());
+        else {
+            clip->setSelectedEffect(params.paramValue(QStringLiteral("kdenlive_ix")).toInt());
+            monitorRefresh(clip->info());
+        }
         if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
     } else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
 }
@@ -2090,6 +2094,7 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
             emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         }
         emit updateTrackEffectState(track);
+        monitorRefresh();
         emit showTrackEffects(track, m_timeline->getTrackInfo(track));
         return;
     }
@@ -2099,6 +2104,7 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
         if (clip) {
             doChangeClipSpeed(clip->info(), clip->speedIndependantInfo(), clip->clipState(), 1.0, 1, clip->getBinId(), true);
             clip->deleteEffect(index);
+            monitorRefresh(clip->info());
             emit clipItemSelected(clip);
             return;
         }
@@ -2111,6 +2117,7 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip) {
         clip->deleteEffect(index);
+        monitorRefresh(clip->info());
         if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
     }
 }
@@ -2418,6 +2425,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
         m_timeline->setTrackEffect(track, ix, effect);
+        monitorRefresh();
         emit updateTrackEffectState(track);
         return;
 
@@ -2461,9 +2469,9 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         }
 
         bool success = m_timeline->track(clip->track())->editEffect(clip->startPos().seconds(), effectParams, replaceEffect);
-
         if (success) {
             clip->updateEffect(effect);
+            monitorRefresh(clip->info());
             if (updateEffectStack && clip->isSelected()) {
                 emit clipItemSelected(clip);
             }
@@ -2486,6 +2494,7 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
             return;
         }
         m_timeline->enableTrackEffects(track, effectIndexes, disable);
+        monitorRefresh();
         emit updateTrackEffectState(track);
         emit showTrackEffects(track, m_timeline->getTrackInfo(track));
         return;
@@ -2503,6 +2512,7 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
                 // make sure to update display of clip keyframes
                 clip->setSelectedEffect(clip->selectedEffectIndex());
             }
+            monitorRefresh(clip->info());
         }
         else emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
     }
@@ -2513,27 +2523,27 @@ void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int
 {
     if (pos < GenTime()) {
         // Moving track effect
-        int documentTrack = track - 1;
-        int max = m_timeline->getTrackEffects(documentTrack).count();
+        int max = m_timeline->getTrackEffects(track).count();
         int new_position = newPos.at(0);
         if (new_position > max) {
             new_position = max;
         }
         int old_position = oldPos.at(0);
         for (int i = 0; i < newPos.count(); ++i) {
-            QDomElement act = m_timeline->getTrackEffect(documentTrack, new_position);
+            QDomElement act = m_timeline->getTrackEffect(track, new_position);
             if (old_position > new_position) {
                 // Moving up, we need to adjust index
                 old_position = oldPos.at(i);
                 new_position = newPos.at(i);
             }
-            QDomElement before = m_timeline->getTrackEffect(documentTrack, old_position);
+            QDomElement before = m_timeline->getTrackEffect(track, old_position);
             if (!act.isNull() && !before.isNull()) {
-                m_timeline->setTrackEffect(documentTrack, new_position, before);
+                m_timeline->setTrackEffect(track, new_position, before);
                 m_timeline->track(track)->moveTrackEffect(old_position, new_position);
+                monitorRefresh();
             } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
         }
-        emit showTrackEffects(track, m_timeline->getTrackInfo(documentTrack));
+        emit showTrackEffects(track, m_timeline->getTrackInfo(track));
         return;
     }
     ClipItem *clip = getClipItemAtStart(pos, track);
@@ -2563,6 +2573,7 @@ void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int
             }
             // special case: speed effect, which is a pseudo-effect, not appearing in MLT's effects
             m_timeline->track(track)->moveEffect(pos.seconds(), old_position, new_position);
+            monitorRefresh(clip->info());
         }
         clip->setSelectedEffect(newPos.at(0));
         emit clipItemSelected(clip);
@@ -5227,7 +5238,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
         m_timeline->track(info.track)->addEffect(info.startPos.seconds(), EffectsController::getEffectArgs(m_document->getProfileInfo(), item->effect(i)));
     }
     if (refresh) {
-        m_document->renderer()->doRefresh();
+        monitorRefresh(info);
     }
 }
 
@@ -5958,6 +5969,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
         if (!m_timeline->track(item->track())->editEffect(item->startPos().seconds(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false)) {
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
+        monitorRefresh(item->info());
         // if fade effect is displayed, update the effect edit widget with new clip duration
         if (standalone && item->isSelected() && effectPos == item->selectedEffectIndex()) {
             emit clipItemSelected(item);
@@ -6003,6 +6015,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
         if (!m_timeline->track(item->track())->editEffect(item->startPos().seconds(), EffectsController::getEffectArgs(m_document->getProfileInfo(), effect), false)) {
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
+        monitorRefresh(item->info());
         // if fade effect is displayed, update the effect edit widget with new clip duration
         if (standalone && item->isSelected() && effectPos == item->selectedEffectIndex()) {
             emit clipItemSelected(item);
