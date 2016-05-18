@@ -210,6 +210,7 @@ public:
     int seekPosition() const;
 
     /** @brief Trigger a monitor refresh. */
+    void monitorRefresh(QList <ItemInfo> range, bool invalidateRange = false);
     void monitorRefresh(bool invalidateRange = false);
     /** @brief Trigger a monitor refresh if timeline cursor is inside range. */
     void monitorRefresh(ItemInfo range, bool invalidateRange = false);

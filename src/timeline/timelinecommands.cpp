@@ -62,7 +62,7 @@ void AddEffectCommand::redo()
         m_view->deleteEffect(m_track, m_pos, m_effect);
 }
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool doIt, bool doRemove, QUndoCommand * parent) :
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool doIt, bool doRemove, bool refreshMonitor, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_clipId(clipId),
@@ -70,7 +70,8 @@ AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QStr
         m_effects(effects),
         m_state(state),
         m_doIt(doIt),
-        m_remove(doRemove)
+        m_remove(doRemove),
+        m_refresh(refreshMonitor)
 {
     if (!m_remove) setText(i18n("Add timeline clip"));
     else setText(i18n("Delete timeline clip"));
@@ -720,7 +721,7 @@ void RebuildGroupCommand::redo()
     m_view->rebuildGroup(m_childTrack, m_childPos);
 }
 
-RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, ItemInfo info, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
+RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, QList <ItemInfo> info, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_info(info),
@@ -728,18 +729,34 @@ RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, ItemInfo inf
     m_execOnUndo(refreshOnUndo)
 {
 }
+
+RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, ItemInfo info, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
+    QUndoCommand(parent),
+    m_view(view),
+    m_info(QList <ItemInfo>() << info),
+    m_exec(execute),
+    m_execOnUndo(refreshOnUndo)
+{
+}
+
 // virtual
 void RefreshMonitorCommand::undo()
 {
     if (m_execOnUndo)
-        m_view->monitorRefresh(m_info);
+        m_view->monitorRefresh(m_info, true);
 }
 // virtual
 void RefreshMonitorCommand::redo()
 {
     if (m_exec && !m_execOnUndo)
-        m_view->monitorRefresh(m_info);
+        m_view->monitorRefresh(m_info, true);
     m_exec = true;
+}
+
+void RefreshMonitorCommand::updateRange(QList <ItemInfo> info)
+{
+    m_info.clear();
+    m_info = info;
 }
 
 ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool dontWorry, QUndoCommand * parent) :

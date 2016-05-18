@@ -1777,9 +1777,8 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     // Add refresh command for undo
     QUndoCommand *addCommand = new QUndoCommand();
     addCommand->setText(i18n("Add timeline clip"));
-    new RefreshMonitorCommand(this, pasteInfo, false, true, addCommand);
-    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), state, true, false, addCommand);
-    new RefreshMonitorCommand(this, pasteInfo, true, false, addCommand);
+    new AddTimelineClipCommand(this, id, pasteInfo, EffectsList(), state, true, false, true, addCommand);
+
     // Automatic audio split
     if (KdenliveSettings::splitaudio() && m_timeline->audioTarget > -1 && m_timeline->videoTarget > -1) {
         if (!m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked && m_document->getBinClip(id)->isSplittable())
@@ -2036,7 +2035,8 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip)
         if (!m_timeline->track(track)->addEffect(pos.seconds(), EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)))) success = false;
     }
     if (!success) emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
-    monitorRefresh(clip->info());
+    if (clip->hasVisibleVideo())
+        monitorRefresh(clip->info());
 }
 
 void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
@@ -2081,7 +2081,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
         }
         else {
             clip->setSelectedEffect(params.paramValue(QStringLiteral("kdenlive_ix")).toInt());
-            if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
+            if (clip->hasVisibleVideo() && effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
                 monitorRefresh(clip->info(), true);
         }
         if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
@@ -2120,8 +2120,9 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
     }
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip) {
-        if (clip->deleteEffect(index))
+        if (clip->deleteEffect(index) && clip->hasVisibleVideo()) {
             monitorRefresh(clip->info(), true);
+        }
         if (clip->isMainSelectedClip()) emit clipItemSelected(clip);
     }
 }
@@ -2476,7 +2477,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         bool success = m_timeline->track(clip->track())->editEffect(clip->startPos().seconds(), effectParams, replaceEffect);
         if (success) {
             clip->updateEffect(effect);
-            if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
+            if (clip->hasVisibleVideo() && effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
                 monitorRefresh(clip->info(), true);
             if (updateEffectStack && clip->isSelected()) {
                 emit clipItemSelected(clip);
@@ -2510,7 +2511,7 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
     if (clip) {
         bool success = m_timeline->track(clip->track())->enableEffects(clip->startPos().seconds(), effectIndexes, disable);
         if (success) {
-            if (clip->enableEffects(effectIndexes, disable))
+            if (clip->enableEffects(effectIndexes, disable) && clip->hasVisibleVideo())
                 monitorRefresh(clip->info());
             if (updateEffectStack && clip->isSelected()) {
                 emit clipItemSelected(clip);
@@ -2580,7 +2581,7 @@ void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int
             }
             // special case: speed effect, which is a pseudo-effect, not appearing in MLT's effects
             m_timeline->track(track)->moveEffect(pos.seconds(), old_position, new_position);
-            if (before.attribute(QStringLiteral("type")) != QLatin1String("audio"))
+            if (clip->hasVisibleVideo() && before.attribute(QStringLiteral("type")) != QLatin1String("audio"))
                 monitorRefresh(clip->info(), true);
         }
         clip->setSelectedEffect(newPos.at(0));
@@ -3093,20 +3094,16 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         resetSelectionGroup();
         m_dragItem = NULL;
         m_scene->clearSelection();
-        bool hasVideoClip = false;
         QUndoCommand *addCommand = new QUndoCommand();
         addCommand->setText(i18n("Add timeline clip"));
         QList <ClipItem *> brokenClips;
 
         // Add refresh command for undo
-        ItemInfo undoRange;
-        undoRange.startPos = startPos;
-        undoRange.endPos = startPos + duration;
-        new RefreshMonitorCommand(this, undoRange, false, true, addCommand);
+        RefreshMonitorCommand *firstRefresh = new RefreshMonitorCommand(this, ItemInfo(), false, true, addCommand);
         for (int i = 0; i < items.count(); ++i) {
             m_scene->removeItem(items.at(i));
         }
-
+        QList <ItemInfo> range;
         if (m_scene->editMode() == TimelineMode::InsertEdit) {
             cutTimeline(startPos.frames(m_document->fps()), QList <ItemInfo>(), QList <ItemInfo>(), addCommand);
             ItemInfo info;
@@ -3119,7 +3116,6 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         for (int i = 0; i < items.count(); ++i) {
             ClipItem *item = static_cast <ClipItem *>(items.at(i));
 	    ClipType cType = item->clipType();
-            if (!hasVideoClip && (cType == AV || cType == Video)) hasVideoClip = true;
             if (items.count() == 1) {
                 updateClipTypeActions(item);
             } else {
@@ -3128,6 +3124,9 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             ItemInfo info = item->info();
             QString clipBinId = item->getBinId();
 	    PlaylistState::ClipState pState = item->clipState();
+            if (item->hasVisibleVideo()) {
+                range << info;
+            }
 	    if (KdenliveSettings::splitaudio()) {
 		if (m_timeline->getTrackInfo(info.track).type == AudioTrack) {
 		    if (cType != Audio)
@@ -3136,7 +3135,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
 		    pState = PlaylistState::VideoOnly;
 		}
 	    }
-            new AddTimelineClipCommand(this, clipBinId, info, item->effectList(), pState, true, false, addCommand);
+            new AddTimelineClipCommand(this, clipBinId, info, item->effectList(), pState, true, false, false, addCommand);
             // Automatic audio split
             if (KdenliveSettings::splitaudio() && item->isSplittable() && pState != PlaylistState::AudioOnly)
                 splitAudio(false, info, m_timeline->audioTarget, addCommand);
@@ -3153,7 +3152,8 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         }
         qDeleteAll(items);
         // Add refresh command for redo
-        new RefreshMonitorCommand(this, undoRange, true, false, addCommand);
+        firstRefresh->updateRange(range);
+        new RefreshMonitorCommand(this, range, true, false, addCommand);
         if (addCommand->childCount() > 0) m_commandStack->push(addCommand);
         else delete addCommand;
 
@@ -3318,7 +3318,8 @@ void CustomTrackView::extractZone(QPoint z, bool closeGap, QList <ItemInfo> excl
             breakLockedGroups(clipsToMove, transitionsToMove, masterCommand);
         }
     }
-
+    QList <ItemInfo> range;
+    RefreshMonitorCommand *firstRefresh = new RefreshMonitorCommand(this, ItemInfo(), false, true, masterCommand);
     for (int i = 0; i < selection.count(); ++i) {
         if (!selection.at(i)->isEnabled()) continue;
         if (selection.at(i)->type() == AVWidget) {
@@ -3329,6 +3330,7 @@ void CustomTrackView::extractZone(QPoint z, bool closeGap, QList <ItemInfo> excl
             ItemInfo baseInfo = clip->info();
             if (excludedClips.contains(baseInfo))
                 continue;
+            bool refresh = clip->hasVisibleVideo();
             if (clip->startPos() < inPoint) {
                 ItemInfo info = baseInfo;
                 info.startPos = inPoint;
@@ -3341,16 +3343,25 @@ void CustomTrackView::extractZone(QPoint z, bool closeGap, QList <ItemInfo> excl
                     baseInfo.cropDuration = outPoint - baseInfo.startPos;
                 }
                 new RazorClipCommand(this, baseInfo, clip->effectList(), inPoint, true, masterCommand);
-                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, masterCommand);
+                if (refresh) {
+                    range << info;
+                }
+                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, false, masterCommand);
             } else if (clip->endPos() > outPoint) {
                 new RazorClipCommand(this, baseInfo, clip->effectList(), outPoint, true, masterCommand);
                 ItemInfo newInfo = baseInfo;
                 newInfo.endPos = outPoint;
                 newInfo.cropDuration = newInfo.endPos - newInfo.startPos;
-                new AddTimelineClipCommand(this, clip->getBinId(), newInfo, clip->effectList(), clip->clipState(), true, true, masterCommand);
+                if (refresh) {
+                    range << newInfo;
+                }
+                new AddTimelineClipCommand(this, clip->getBinId(), newInfo, clip->effectList(), clip->clipState(), true, true, false, masterCommand);
             } else {
                 // Clip is entirely inside zone, delete it
-                new AddTimelineClipCommand(this, clip->getBinId(), baseInfo, clip->effectList(), clip->clipState(), true, true, masterCommand);
+                if (refresh) {
+                    range << baseInfo;
+                }
+                new AddTimelineClipCommand(this, clip->getBinId(), baseInfo, clip->effectList(), clip->clipState(), true, true, false, masterCommand);
             }
         } else if (selection.at(i)->type() == TransitionWidget) {
             Transition *trans = static_cast<Transition *>(selection.at(i));
@@ -3427,8 +3438,12 @@ void CustomTrackView::extractZone(QPoint z, bool closeGap, QList <ItemInfo> excl
             updateTrackDuration(-1, masterCommand);
         }
     }
-    if (!hasMasterCommand)
+    // Add refresh command for redo
+    firstRefresh->updateRange(range);
+    new RefreshMonitorCommand(this, range, true, false, masterCommand);
+    if (!hasMasterCommand) {
         m_commandStack->push(masterCommand);
+    }
 }
 
 void CustomTrackView::adjustTimelineTransitions(TimelineMode::EditMode mode, Transition *item, QUndoCommand *command)
@@ -3665,7 +3680,6 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
 void CustomTrackView::slotSwitchTrackAudio(int ix, bool enable)
 {
     m_timeline->switchTrackAudio(ix, enable);
-    m_document->renderer()->doRefresh();
 }
 
 void CustomTrackView::slotSwitchTrackLock(int ix, bool enable, bool applyToAll)
@@ -3763,6 +3777,7 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
 void CustomTrackView::slotSwitchTrackVideo(int ix, bool enable)
 {
     m_timeline->switchTrackVideo(ix, enable);
+    //TODO: invalidate preview range, refresh only if cli pat cursor time
     m_document->renderer()->doRefresh();
     //TODO: create undo/redo command for this
     setDocumentModified();
@@ -4083,18 +4098,21 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> itemList = items();
-    new RefreshMonitorCommand(this, ItemInfo(), false, true, deleteCommand);
     int count = 0;
+    QList <ItemInfo> range;
+    RefreshMonitorCommand *firstRefresh = new RefreshMonitorCommand(this, ItemInfo(), false, true, deleteCommand);
     for (int i = 0; i < itemList.count(); ++i) {
         if (itemList.at(i)->type() == AVWidget) {
             ClipItem *item = static_cast<ClipItem*>(itemList.at(i));
             if (item->getBinId() == clipId) {
                 count++;
+                if (item->hasVisibleVideo())
+                    range << item->info();
                 if (item->parentItem()) {
                     // Clip is in a group, destroy the group
                     new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, true, deleteCommand);
                 }
-                new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), true, true, deleteCommand);
+                new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), true, true, false, deleteCommand);
                 // Check if it is a title clip with automatic transition, than remove it
                 if (item->clipType() == Text) {
                     Transition *tr = getTransitionItemAtStart(item->startPos(), item->track());
@@ -4106,7 +4124,8 @@ void CustomTrackView::deleteClip(const QString &clipId, QUndoCommand *deleteComm
         }
     }
     if (count > 0) {
-        new RefreshMonitorCommand(this, ItemInfo(), true, false, deleteCommand);
+        firstRefresh->updateRange(range);
+        new RefreshMonitorCommand(this, range, true, false, deleteCommand);
         updateTrackDuration(-1, deleteCommand);
     }
 }
@@ -4345,7 +4364,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move clip"));
-                    new RefreshMonitorCommand(this, ItemInfo(), false, true, moveCommand);
+                    new RefreshMonitorCommand(this, QList <ItemInfo>() << info << m_dragItemInfo, false, true, moveCommand);
                     QList <ItemInfo> excluded;
                     excluded << info;
                     item->setItemLocked(true);
@@ -4502,7 +4521,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     updateTrackDuration(info.track, moveCommand);
                     if (m_dragItemInfo.track != info.track)
                         updateTrackDuration(m_dragItemInfo.track, moveCommand);
-                    new RefreshMonitorCommand(this, ItemInfo(), false, false, moveCommand);
+                    new RefreshMonitorCommand(this, QList <ItemInfo>() << info << m_dragItemInfo, false, false, moveCommand);
                     m_commandStack->push(moveCommand);
                     item->setItemLocked(isLocked);
                     //checkTrackSequence(m_dragItem->track());
@@ -4596,7 +4615,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 	    m_commandStack->push(moveGroup);
 	}
         m_moveOpMode = None;
-        m_document->renderer()->doRefresh();
     } else if (m_moveOpMode == ResizeStart && m_dragItem && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
         if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
@@ -4605,6 +4623,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 QUndoCommand *resizeCommand = new QUndoCommand();
                 resizeCommand->setText(i18n("Resize group"));
                 QList <QGraphicsItem *> items = parent->childItems();
+                GenTime min = parent->startPos();
+                GenTime max = min;
                 QList <ItemInfo> infos = parent->resizeInfos();
                 parent->clearResizeInfos();
                 int itemcount = 0;
@@ -4613,14 +4633,39 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     if (item && item->type() == AVWidget) {
                         ItemInfo info = infos.at(itemcount);
                         prepareResizeClipStart(item, info, item->startPos().frames(m_document->fps()), false, resizeCommand);
+                        ClipItem *cp = qobject_cast<ClipItem *>(item);
+                        if (cp && cp->hasVisibleVideo()) {
+                            min = qMin(min, item->startPos());
+                            max = qMax(max, item->startPos());
+                        }
                         ++itemcount;
                     }
                 }
                 m_commandStack->push(resizeCommand);
+                if (min < max) {
+                    ItemInfo nfo;
+                    nfo.startPos = min;
+                    nfo.endPos = max;
+                    monitorRefresh(nfo, true);
+                }
             }
         } else {
             prepareResizeClipStart(m_dragItem, m_dragItemInfo, m_dragItem->startPos().frames(m_document->fps()));
-            if (m_dragItem->type() == AVWidget) static_cast <ClipItem*>(m_dragItem)->slotUpdateRange();
+            ItemInfo range;
+            if (m_dragItem->startPos() < m_dragItemInfo.startPos) {
+                range.startPos = m_dragItem->startPos();
+                range.endPos = m_dragItemInfo.startPos;
+            } else {
+                range.endPos = m_dragItem->startPos();
+                range.startPos = m_dragItemInfo.startPos;
+            }
+            if (m_dragItem->type() == AVWidget) {
+                ClipItem *cp = qobject_cast<ClipItem*>(m_dragItem);
+                cp->slotUpdateRange();
+                if (cp->hasVisibleVideo()) {
+                    monitorRefresh(range, true);
+                }
+            } else monitorRefresh(range, true);
         }
     } else if (m_moveOpMode == ResizeEnd && m_dragItem) {
         // resize end
@@ -4632,6 +4677,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     QUndoCommand *resizeCommand = new QUndoCommand();
                     resizeCommand->setText(i18n("Resize group"));
                     QList <QGraphicsItem *> items = parent->childItems();
+                    GenTime min = parent->startPos() + parent->duration();
+                    GenTime max = min;
                     QList <ItemInfo> infos = parent->resizeInfos();
                     parent->clearResizeInfos();
                     int itemcount = 0;
@@ -4640,15 +4687,40 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                         if (item && item->type() == AVWidget) {
                             ItemInfo info = infos.at(itemcount);
                             prepareResizeClipEnd(item, info, item->endPos().frames(m_document->fps()), false, resizeCommand);
+                            ClipItem *cp = qobject_cast<ClipItem *>(item);
+                            if (cp && cp->hasVisibleVideo()) {
+                                min = qMin(min, item->endPos());
+                                max = qMax(max, item->endPos());
+                            }
                             ++itemcount;
                         }
                     }
                     updateTrackDuration(-1, resizeCommand);
                     m_commandStack->push(resizeCommand);
+                    if (min < max) {
+                        ItemInfo nfo;
+                        nfo.startPos = min;
+                        nfo.endPos = max;
+                        monitorRefresh(nfo, true);
+                    }
                 }
             } else {
                 prepareResizeClipEnd(m_dragItem, m_dragItemInfo, m_dragItem->endPos().frames(m_document->fps()));
-                if (m_dragItem->type() == AVWidget) static_cast <ClipItem*>(m_dragItem)->slotUpdateRange();
+                ItemInfo range;
+                if (m_dragItem->endPos() < m_dragItemInfo.endPos) {
+                    range.startPos = m_dragItem->endPos();
+                    range.endPos = m_dragItemInfo.endPos;
+                } else {
+                    range.endPos = m_dragItem->endPos();
+                    range.startPos = m_dragItemInfo.endPos;
+                }
+                if (m_dragItem->type() == AVWidget) {
+                    ClipItem *cp = qobject_cast<ClipItem*>(m_dragItem);
+                    cp->slotUpdateRange();
+                    if (cp->hasVisibleVideo()) {
+                        monitorRefresh(range, true);
+                    }
+                } else monitorRefresh(range, true);
             }
         }
     } else if (m_moveOpMode == FadeIn && m_dragItem) {
@@ -4787,38 +4859,17 @@ void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
     item->stopThumbs();
     item->binClip()->removeRef();
     if (item->isSelected()) emit clipItemSelected(NULL);
-    //TODO: notify bin of clip deletion?
-    //item->baseClip()->removeReference();
-    //m_document->updateClip(item->baseClip()->getId());
-
-    /*if (item->baseClip()->isTransparent()) {
-        // also remove automatic transition
-        Transition *tr = getTransitionItemAt(info.startPos, info.track);
-        if (tr && tr->isAutomatic()) {
-            m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_timeline->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
-            scene()->removeItem(tr);
-            delete tr;
-        }
-    }*/
-
     if (m_dragItem == item) {
         m_dragItem->setMainSelectedClip(false);
         m_dragItem = NULL;
     }
+    if (refresh && !item->hasVisibleVideo()) {
+        refresh = false;
+    }
     delete item;
     item = NULL;
-    // animate item deletion
-    //item->closeAnimation();
-
-    /*if (refresh) item->closeAnimation();
-    else {
-        // no refresh, means we have several operations chained, we need to delete clip immediately
-        // so that it does not get in the way of the other
-        delete item;
-        item = NULL;
-    }*/
-
-    if (refresh) m_document->renderer()->doRefresh();
+    if (refresh) 
+        monitorRefresh(info, true);
 }
 
 void CustomTrackView::deleteSelectedClips()
@@ -4831,12 +4882,13 @@ void CustomTrackView::deleteSelectedClips()
     }
     scene()->clearSelection();
     QUndoCommand *deleteSelected = new QUndoCommand();
-    new RefreshMonitorCommand(this, ItemInfo(), false, true, deleteSelected);
+    RefreshMonitorCommand *firstRefresh = new RefreshMonitorCommand(this, ItemInfo(), false, true, deleteSelected);
 
     int groupCount = 0;
     int clipCount = 0;
     int transitionCount = 0;
     // expand & destroy groups
+    QList <ItemInfo> range;
     for (int i = 0; i < itemList.count(); ++i) {
         if (itemList.at(i)->type() == GroupWidget) {
             groupCount++;
@@ -4869,7 +4921,7 @@ void CustomTrackView::deleteSelectedClips()
         if (itemList.at(i)->type() == AVWidget) {
             clipCount++;
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), true, true, deleteSelected);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), true, true, false, deleteSelected);
             // Check if it is a title clip with automatic transition, than remove it
             if (item->clipType() == Text) {
                 Transition *tr = getTransitionItemAtStart(item->startPos(), item->track());
@@ -4891,7 +4943,8 @@ void CustomTrackView::deleteSelectedClips()
         deleteSelected->setText(i18np("Delete selected transition", "Delete selected transitions", transitionCount));
     else deleteSelected->setText(i18n("Delete selected items"));
     updateTrackDuration(-1, deleteSelected);
-    new RefreshMonitorCommand(this, ItemInfo(), true, false, deleteSelected);
+    firstRefresh->updateRange(range);
+    new RefreshMonitorCommand(this, range, true, false, deleteSelected);
     m_commandStack->push(deleteSelected);
 }
 
@@ -5245,7 +5298,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     for (int i = 0; i < item->effectsCount(); ++i) {
         m_timeline->track(info.track)->addEffect(info.startPos.seconds(), EffectsController::getEffectArgs(m_document->getProfileInfo(), item->effect(i)));
     }
-    if (refresh && item->clipType() != Audio && state != PlaylistState::AudioOnly) {
+    if (refresh && item->hasVisibleVideo()) {
         monitorRefresh(info, true);
     }
 }
@@ -5429,7 +5482,12 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
     qDebug() << end;
 #endif
     bool success = m_timeline->moveClip(start.track, start.startPos.seconds(), end.track, end.startPos.seconds(), item->clipState(), m_scene->editMode(), item->needsDuplicate());
-
+    QList <ItemInfo> range;
+    if (item->hasVisibleVideo()) {
+        range << start << end;
+    } else {
+        refresh = false;
+    }
     if (!success) {
         // undo last move and emit error message
         emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(end.startPos.frames(m_document->fps()))), ErrorMessage);
@@ -5458,7 +5516,8 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
         }*/
         KdenliveSettings::setSnaptopoints(snap);
     }
-    if (refresh) m_document->renderer()->doRefresh();
+    if (refresh) 
+        monitorRefresh(range, true);
     if (out_actualEnd != NULL) {
         *out_actualEnd = item->info();
 #ifdef DEBUG
@@ -5479,7 +5538,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
     m_selectionMutex.lock();
     m_selectionGroup = new AbstractGroupItem(m_document->fps());
     scene()->addItem(m_selectionGroup);
-
+    QList <ItemInfo> range;
     m_document->renderer()->blockSignals(true);
     for (int i = 0; i < startClip.count(); ++i) {
         if (reverseMove) {
@@ -5492,8 +5551,14 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
 	} else {
 	    clip = getClipItemAtStart(startClip.at(i).startPos, startClip.at(i).track);
 	}
-
         if (clip) {
+            if (clip->hasVisibleVideo()) {
+                ItemInfo updateInfo = startClip.at(i);
+                range << updateInfo;
+                updateInfo.startPos += offset;
+                updateInfo.endPos += offset;
+                range << updateInfo;
+            }
             if (clip->parentItem()) {
                 m_selectionGroup->addItem(clip->parentItem());
                 // If timeline clip is already at destination, make sure it is not moved twice
@@ -5518,6 +5583,11 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
 	else 
 	    tr = getTransitionItemAt(startTransition.at(i).startPos, startTransition.at(i).track);
         if (tr) {
+            ItemInfo updateInfo = startTransition.at(i);
+            range << updateInfo;
+            updateInfo.startPos += offset;
+            updateInfo.endPos += offset;
+            range << updateInfo;
             if (tr->parentItem()) {
                 m_selectionGroup->addItem(tr->parentItem());
                 if (alreadyMoved)
@@ -5611,7 +5681,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         clearSelection();
         KdenliveSettings::setSnaptopoints(snap);
         //TODO: calculate affected ranges and invalidate previews
-        m_document->renderer()->doRefresh();
+        monitorRefresh(range, true);
     } else qDebug() << "///////// WARNING; NO GROUP TO MOVE";
 }
 
@@ -5660,7 +5730,9 @@ void CustomTrackView::moveTransition(const ItemInfo &start, const ItemInfo &end,
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(item->track()), p);
     }
-    if (refresh) m_document->renderer()->doRefresh();
+    if (refresh) {
+        monitorRefresh(QList <ItemInfo>() << start << end, true);
+    }
 }
 
 void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry)
@@ -5699,7 +5771,27 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
             item->resetThumbs(true);
         }
     }
-    m_document->renderer()->doRefresh();
+    if (item->hasVisibleVideo()) {
+        ItemInfo range;
+        if (resizeClipStart) {
+            if (start.startPos < end.startPos) {
+                range.startPos = start.startPos;
+                range.endPos = end.startPos;
+            } else {
+                range.startPos = end.startPos;
+                range.endPos = start.startPos;
+            }
+        } else {
+            if (start.endPos < end.endPos) {
+                range.startPos = start.endPos;
+                range.endPos = end.endPos;
+            } else {
+                range.startPos = end.endPos;
+                range.endPos = start.endPos;
+            }
+        }
+        monitorRefresh(range, true);
+    }
     if (item == m_dragItem) {
         // clip is selected, update effect stack
         emit clipItemSelected(item);
@@ -6903,19 +6995,48 @@ void CustomTrackView::setInPoint()
         QUndoCommand *resizeCommand = new QUndoCommand();
         resizeCommand->setText(i18n("Resize group"));
         QList <QGraphicsItem *> items = parent->childItems();
+        GenTime min = parent->startPos();
+        GenTime max = min;
         for (int i = 0; i < items.count(); ++i) {
             AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
             if (item && item->type() == AVWidget) {
-                prepareResizeClipStart(item, item->info(), seekPosition(), true, resizeCommand);
+                ItemInfo info = item->info();
+                prepareResizeClipStart(item, info, seekPosition(), true, resizeCommand);
+                ClipItem *cp = qobject_cast<ClipItem *> (clip);
+                if (cp && cp->hasVisibleVideo()) {
+                    min = qMin(min, item->startPos());
+                    max = qMax(max, item->startPos());
+                }
             }
         }
-        if (resizeCommand->childCount() > 0) m_commandStack->push(resizeCommand);
-        else {
+        if (resizeCommand->childCount() > 0) {
+            m_commandStack->push(resizeCommand);
+            if (min < max) {
+                ItemInfo nfo;
+                nfo.startPos = min;
+                nfo.endPos = max;
+                monitorRefresh(nfo, true);
+            }
+        } else {
             //TODO warn user of failed resize
             delete resizeCommand;
         }
     }
-    else prepareResizeClipStart(clip, clip->info(), seekPosition(), true);
+    else {
+        ItemInfo info = clip->info();
+        prepareResizeClipStart(clip, info, seekPosition(), true);
+        ClipItem *cp = qobject_cast<ClipItem *> (clip);
+        if (cp && cp->hasVisibleVideo()) {
+            ItemInfo updated = cp->info();
+            if (updated.startPos > info.startPos) {
+                updated.endPos = updated.startPos;
+                updated.startPos = info.startPos;
+            } else {
+                updated.endPos = info.startPos;
+            }
+            monitorRefresh(updated, true);
+        }
+    }
 }
 
 void CustomTrackView::setOutPoint()
@@ -6935,19 +7056,48 @@ void CustomTrackView::setOutPoint()
         QUndoCommand *resizeCommand = new QUndoCommand();
         resizeCommand->setText(i18n("Resize group"));
         QList <QGraphicsItem *> items = parent->childItems();
+        GenTime min = parent->startPos() + parent->duration();
+        GenTime max = min;
         for (int i = 0; i < items.count(); ++i) {
             AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
             if (item && item->type() == AVWidget) {
-                prepareResizeClipEnd(item, item->info(), seekPosition(), true, resizeCommand);
+                ItemInfo info = item->info();
+                prepareResizeClipEnd(item, info, seekPosition(), true, resizeCommand);
+                ClipItem *cp = qobject_cast<ClipItem *> (item);
+                if (cp && cp->hasVisibleVideo()) {
+                    min = qMin(min, item->endPos());
+                    max = qMax(max, item->endPos());
+                }
             }
         }
-        if (resizeCommand->childCount() > 0) m_commandStack->push(resizeCommand);
-        else {
+        if (resizeCommand->childCount() > 0) {
+            m_commandStack->push(resizeCommand);
+            if (min < max) {
+                ItemInfo nfo;
+                nfo.startPos = min;
+                nfo.endPos = max;
+                monitorRefresh(nfo, true);
+            }
+        } else {
             //TODO warn user of failed resize
             delete resizeCommand;
         }
     }
-    else prepareResizeClipEnd(clip, clip->info(), seekPosition(), true);
+    else {
+        ItemInfo info = clip->info();
+        prepareResizeClipEnd(clip, info, seekPosition(), true);
+        ClipItem *cp = qobject_cast<ClipItem *> (clip);
+        if (cp && cp->hasVisibleVideo()) {
+            ItemInfo updated = cp->info();
+            if (updated.endPos > info.endPos) {
+                updated.startPos = info.endPos;
+            } else {
+                updated.startPos = updated.endPos;
+                updated.endPos = info.endPos;
+            }
+            monitorRefresh(updated, true);
+        }
+    }
 }
 
 void CustomTrackView::slotUpdateAllThumbs()
@@ -7118,7 +7268,6 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     QList<QGraphicsItem *> selection = m_scene->items(r);
     QUndoCommand *deleteTrack = new QUndoCommand();
     deleteTrack->setText(QStringLiteral("Delete track"));
-    new RefreshMonitorCommand(this, ItemInfo(), false, true, deleteTrack);
 
     // Remove clips on that track from groups
     QList<QGraphicsItem *> groupsToProceed;
@@ -7162,24 +7311,27 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
     }
 
     // Delete all clips in selected track
+    QList <ItemInfo> ranges;
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
+            ranges << item->info();
             new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, true, deleteTrack);
             m_scene->removeItem(item);
             delete item;
             item = NULL;
         } else if (selection.at(i)->type() == TransitionWidget) {
             Transition *item =  static_cast <Transition *>(selection.at(i));
+            ranges << item->info();
             new AddTransitionCommand(this, item->info(), item->transitionEndTrack(), item->toXML(), true, false, deleteTrack);
             m_scene->removeItem(item);
             delete item;
             item = NULL;
         }
     }
-
+    new RefreshMonitorCommand(this, ranges, false, true, deleteTrack);
     new AddTrackCommand(this, ix, trackinfo, false, deleteTrack);
-    new RefreshMonitorCommand(this, ItemInfo(), true, false, deleteTrack);
+    new RefreshMonitorCommand(this, ranges, true, false, deleteTrack);
     m_commandStack->push(deleteTrack);
 }
 
@@ -7619,6 +7771,19 @@ void CustomTrackView::disableClip()
         }
     }
     m_commandStack->push(videoCommand);
+}
+
+void CustomTrackView::monitorRefresh(QList <ItemInfo> range, bool invalidateRange)
+{
+    bool refreshMonitor = false;
+    for (int i = 0; i < range.count(); i++) {
+        if (range.at(i).contains(GenTime(m_cursorPos, m_document->fps())))
+            refreshMonitor = true;
+        if (invalidateRange)
+            m_timeline->invalidateRange(range.at(i));
+    }
+    if (refreshMonitor)
+        m_document->renderer()->doRefresh();
 }
 
 void CustomTrackView::monitorRefresh(ItemInfo range, bool invalidateRange)

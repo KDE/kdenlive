@@ -1935,3 +1935,8 @@ void ClipItem::updateKeyframes(QDomElement effect)
     }
     m_keyframeView.loadKeyframes(locale, e, cropStart().frames(m_fps), cropDuration().frames(m_fps));
 }
+
+bool ClipItem::hasVisibleVideo() const
+{
+    return (m_clipType != Audio && m_clipState != PlaylistState::AudioOnly && m_clipState != PlaylistState::Disabled);
+}

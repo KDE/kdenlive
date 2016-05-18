@@ -222,7 +222,7 @@ public:
     bool contains(GenTime pos) const {
         if (startPos == endPos)
             return true;
-        return (pos < endPos && pos > startPos);
+        return (pos <= endPos && pos >= startPos);
     }
     bool operator==(const ItemInfo &a)
     {

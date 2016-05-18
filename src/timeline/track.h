@@ -211,7 +211,6 @@ signals:
      * @param duration is the new length */
     void newTrackDuration(int duration);
     void storeSlowMotion(const QString &url, Mlt::Producer *prod);
-    void invalidatePreview(int position, int length);
 
 private:
     /** Position in MLT's tractor */

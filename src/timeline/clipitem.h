@@ -188,12 +188,14 @@ public:
     /** @brief Returns true of this clip needs a duplicate (MLT requires duplicate for clips with audio or we get clicks. */
     bool needsDuplicate() const;
 
-    /** @brief Returns true of this has audio. */
+    /** @brief Returns true if this has audio. */
     bool isSplittable() const;
 
     /** @brief Returns some info useful for recreating this clip. */
     PlaylistState::ClipState clipState() const;
     PlaylistState::ClipState originalState() const;
+    /** @brief Returns true if this clip is currently displaying video. */
+    bool hasVisibleVideo() const;
 
 protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);

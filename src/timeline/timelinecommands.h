@@ -49,7 +49,19 @@ private:
 class AddTimelineClipCommand : public QUndoCommand
 {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool doIt, bool doRemove, QUndoCommand * parent = 0);
+    /** @brief Add clip in timeline.
+     * @param view The parent view
+     * @param clipId The Bin clip id
+     * @param info The position where to add clip
+     * @param effects the clip's effectStack
+     * @param state the clip's playlist state
+     * @param doIt whether to execute command on first run
+     * @param doRemove Should the clip be deleted or added on execute
+     * @param refreshMonitor Should the monitor be refreshed on execute (false if this command is in a group and
+     * refresh is executed separately
+     * @param parent The parent command
+     * */
+    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool doIt, bool doRemove, bool refreshMonitor, QUndoCommand * parent = 0);
     void undo();
     void redo();
 private:
@@ -60,6 +72,7 @@ private:
     PlaylistState::ClipState m_state;
     bool m_doIt;
     bool m_remove;
+    bool m_refresh;
 };
 
 class AddTrackCommand : public QUndoCommand
@@ -385,12 +398,14 @@ private:
 class RefreshMonitorCommand : public QUndoCommand
 {
 public:
+    RefreshMonitorCommand(CustomTrackView *view, QList <ItemInfo> info, bool execute, bool refreshOnUndo, QUndoCommand * parent = 0);
     RefreshMonitorCommand(CustomTrackView *view, ItemInfo info, bool execute, bool refreshOnUndo, QUndoCommand * parent = 0);
     void undo();
     void redo();
+    void updateRange(QList <ItemInfo> info);
 private:
     CustomTrackView *m_view;
-    ItemInfo m_info;
+    QList <ItemInfo> m_info;
     bool m_exec;
     bool m_execOnUndo;
 };

@@ -116,8 +116,6 @@ bool Track::doAdd(qreal t, Mlt::Producer *cut, TimelineMode::EditMode mode)
     if (m_playlist.insert_at(pos, cut, 1) == m_playlist.count() - 1) {
         emit newTrackDuration(m_playlist.get_playtime());
     }
-    if (type != AudioTrack)
-        emit invalidatePreview(pos, len);
     return true;
 }
 
@@ -146,8 +144,6 @@ bool Track::move(qreal start, qreal end, TimelineMode::EditMode mode)
     if (durationChanged) {
 	emit newTrackDuration(m_playlist.get_playtime());
     }
-    if (type != AudioTrack)
-        emit invalidatePreview(pos, clipProducer->get_playtime());
     return result;
 }
 
@@ -169,10 +165,8 @@ bool Track::del(qreal t)
     if (ix == m_playlist.count() - 1) {
 	durationChanged = true;
     }
-    int length = 0;
     Mlt::Producer *clip = m_playlist.replace_with_blank(ix);
     if (clip) {
-        length = clip->get_playtime();
         delete clip;
     }
     else {
@@ -185,8 +179,6 @@ bool Track::del(qreal t)
     if (durationChanged) {
         emit newTrackDuration(m_playlist.get_playtime());
     }
-    if (type != AudioTrack) 
-        emit invalidatePreview(pos, length);
     return true;
 }
 
@@ -196,8 +188,6 @@ bool Track::del(qreal t, qreal dt)
     m_playlist.insert_blank(m_playlist.remove_region(frame(t), frame(dt) + 1), frame(dt));
     m_playlist.consolidate_blanks();
     m_playlist.unlock();
-    if (type != AudioTrack) 
-        emit invalidatePreview(frame(t), frame(dt));
     return true;
 }
 
@@ -207,7 +197,6 @@ bool Track::resize(qreal t, qreal dt, bool end)
     int startFrame = frame(t);
     int index = m_playlist.get_clip_index_at(startFrame);
     int length = frame(dt);
-    int updateLength = length;
     QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(index));
     if (clip == NULL || clip->is_blank()) {
         qWarning("Can't resize clip at %f", t);
@@ -246,12 +235,6 @@ bool Track::resize(qreal t, qreal dt, bool end)
             m_playlist.unlock();
             // this is the last clip in track, check tracks length to adjust black track and project duration
             emit newTrackDuration(m_playlist.get_playtime());
-            if (type != AudioTrack)  {
-                if (updateLength > 0)
-                    emit invalidatePreview(startFrame, updateLength);
-                else
-                    emit invalidatePreview(startFrame + updateLength, -updateLength);
-            }
             return true;
         }
         length = -length;
@@ -277,12 +260,6 @@ bool Track::resize(qreal t, qreal dt, bool end)
 
     m_playlist.consolidate_blanks();
     m_playlist.unlock();
-    if (type != AudioTrack) {
-        if (updateLength > 0)
-            emit invalidatePreview(startFrame, updateLength);
-        else
-            emit invalidatePreview(startFrame + updateLength, -updateLength);
-    }
     return true;
 }
 
@@ -366,7 +343,6 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
     QString service = original->parent().get("mlt_service");
     QString idForTrack = original->parent().get("id");
     QLocale locale;
-    QList <QPoint> updateList;
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
         idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
@@ -385,9 +361,6 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
 	}
 	current.remove(0, 1);
         Mlt::Producer *cut = NULL;
-        if (type != AudioTrack) {
-            updateList << QPoint(m_playlist.clip_start(i), m_playlist.clip_length(i));
-        }
 	if (current.startsWith("slowmotion:" + id + ":")) {
 	      // Slowmotion producer, just update resource
 	      Mlt::Producer *slowProd = newSlowMos.value(current.section(QStringLiteral(":"), 2));
@@ -436,9 +409,6 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
             delete cut;
         }
     }
-    foreach(const QPoint &pt, updateList) {
-        emit invalidatePreview(pt.x(), pt.y());
-    }
     return found;
 }
 
@@ -468,8 +438,6 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     bool ok = m_playlist.insert_at(frame(t), cut, 1) >= 0;
     delete cut;
     m_playlist.unlock();
-    if (type != AudioTrack)
-        emit invalidatePreview(frame(t), orig->get_playtime());
     return ok;
 }
 
@@ -479,7 +447,6 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
     QString idForVideoTrack;
     QString service = original->parent().get("mlt_service");
     QString idForTrack = original->parent().get("id");
-    QList <QPoint> updateList;
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
         idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
@@ -495,23 +462,15 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
 	if (current.startsWith(QLatin1String("slowmotion:"))) {
             if (current.section(QStringLiteral(":"), 1, 1) == id) {
 		Clip(origin).replaceEffects(*original);
-                updateList << QPoint(m_playlist.clip_start(i), m_playlist.clip_length(i));
             }
 	}
 	else if (current == id) {
             // we are directly using original producer, no need to update effects
-            updateList << QPoint(m_playlist.clip_start(i), m_playlist.clip_length(i));
             continue;
 	}
 	else if (current.section(QStringLiteral("_"), 0, 0) == id) {
-            updateList << QPoint(m_playlist.clip_start(i), m_playlist.clip_length(i));
             Clip(origin).replaceEffects(*original);
 	}
-    }
-    if (type != AudioTrack) {
-        foreach(const QPoint &pt, updateList) {
-            emit invalidatePreview(pt.x(), pt.y());
-        }
     }
 }
 

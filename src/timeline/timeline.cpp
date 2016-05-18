@@ -319,7 +319,6 @@ int Timeline::getTracks() {
             }
             connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration, Qt::DirectConnection);
             connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
-            connect(tk, &Track::invalidatePreview, this, &Timeline::invalidatePreview);
         }
     }
     headers_container->setFixedWidth(headerWidth);
