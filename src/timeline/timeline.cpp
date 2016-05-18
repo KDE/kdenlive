@@ -1440,19 +1440,25 @@ void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effec
     sourceTrack->effectsList.insert(effect);
 }
 
-void Timeline::enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable)
+bool Timeline::enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
-        return;
+        return false;
     }
     Track *sourceTrack = track(trackIndex);
     EffectsList list = sourceTrack->effectsList;
     QDomElement effect;
+    bool hasVideoEffect = false;
     for (int i = 0; i < effectIndexes.count(); ++i) {
         effect = list.itemFromIndex(effectIndexes.at(i));
-        if (!effect.isNull()) effect.setAttribute(QStringLiteral("disable"), (int) disable);
+        if (!effect.isNull()) {
+            effect.setAttribute(QStringLiteral("disable"), (int) disable);
+            if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
+                hasVideoEffect = true;
+        }
     }
+    return hasVideoEffect;
 }
 
 const EffectsList Timeline::getTrackEffects(int trackIndex)
@@ -1749,6 +1755,14 @@ void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
     m_tractor->unlock();
     m_doc->progressInfo(i18n("Rendering preview"), progress);
     //m_doc->updatePreview(progress);
+}
+
+void Timeline::invalidateRange(ItemInfo info)
+{
+    if (info.isValid())
+        invalidatePreview(info.startPos.frames(m_doc->fps()), (info.endPos - info.startPos).frames(m_doc->fps()));
+    else
+        invalidatePreview(0, m_trackview->duration());
 }
 
 void Timeline::invalidatePreview(int startFrame, int length)

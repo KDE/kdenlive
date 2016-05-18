@@ -22,10 +22,6 @@ class Bin;
 class LibraryWidget;
 class ProducerQueue;
 
-namespace Mlt {
-    class Repository;
-};
-
 #define pCore Core::self()
 
 
@@ -65,7 +61,6 @@ public:
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the project bin controller. */
     BinController *binController();
-    Mlt::Repository *mltRepository();
     /** @brief Returns a pointer to the project bin. */
     Bin *bin();
     /** @brief Returns a pointer to the producer queue. */

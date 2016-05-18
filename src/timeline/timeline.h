@@ -115,7 +115,7 @@ public:
     void addTrackEffect(int trackIndex, QDomElement effect);
     bool removeTrackEffect(int trackIndex, int effectIndex, const QDomElement &effect);
     void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
-    void enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable);
+    bool enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable);
     const EffectsList getTrackEffects(int trackIndex);
     QDomElement getTrackEffect(int trackIndex, int effectIndex);
     int hasTrackEffect(int trackIndex, const QString &tag, const QString &id);
@@ -162,6 +162,8 @@ public:
     /** @brief Returns the document properties with some added values from timeline. */
     QMap <QString, QString> documentProperties();
     void reloadTrack(int ix, int start = 0, int end = -1);
+    /** @brief Invalidate a preview rendering range. */
+    void invalidateRange(ItemInfo info = ItemInfo());
 
 protected:
     void keyPressEvent(QKeyEvent * event);

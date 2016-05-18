@@ -258,7 +258,7 @@ bool EffectManager::editEffect(EffectsParameterList params, int duration, bool r
 
     if (!params.paramValue(QStringLiteral("keyframes")).isEmpty() || replaceEffect || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox") || tag == QLatin1String("autotrack_rectangle")) {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
-        if (!removeEffect(index, false).isEmpty()) {
+        if (removeEffect(index, false)) {
             return addEffect(params, duration);
         }
     }
@@ -332,16 +332,16 @@ bool EffectManager::editEffect(EffectsParameterList params, int duration, bool r
     return true;
 }
 
-const QString EffectManager::removeEffect(int effectIndex, bool updateIndex)
+bool EffectManager::removeEffect(int effectIndex, bool updateIndex)
 {
     m_producer.lock();
     int ct = 0;
-    QString filterTag;
+    bool success = false;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
         if ((effectIndex == -1 && strcmp(filter->get("kdenlive_id"), "")) || filter->get_int("kdenlive_ix") == effectIndex) {
             if (m_producer.detach(*filter) == 0) {
-                filterTag = filter->get("tag");
+                success = true;
                 delete filter;
             }
         } else if (updateIndex) {
@@ -352,31 +352,30 @@ const QString EffectManager::removeEffect(int effectIndex, bool updateIndex)
         filter = m_producer.filter(ct);
     }
     m_producer.unlock();
-    return filterTag;
+    return success;
 }
 
-const QStringList EffectManager::enableEffects(const QList <int> &effectIndexes, bool disable)
+bool EffectManager::enableEffects(const QList <int> &effectIndexes, bool disable)
 {
     int ct = 0;
-    QStringList effectNames;
+    bool success = false;
     Mlt::Filter *filter = m_producer.filter(ct);
     m_producer.lock();
     while (filter) {
         if (effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
             filter->set("disable", (int) disable);
-            effectNames << filter->get("tag");
+            success = true;
         }
         ct++;
         filter = m_producer.filter(ct);
     }
     m_producer.unlock();
-    return effectNames;
+    return success;
 }
 
-const QStringList EffectManager::moveEffect(int oldPos, int newPos)
+bool EffectManager::moveEffect(int oldPos, int newPos)
 {
     int ct = 0;
-    QStringList effectNames;
     QList <Mlt::Filter *> filtersList;
     Mlt::Filter *filter = m_producer.filter(ct);
     if (newPos > oldPos) {
@@ -384,7 +383,6 @@ const QStringList EffectManager::moveEffect(int oldPos, int newPos)
         while (filter) {
             if (!found && filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);
-                effectNames << filter->get("tag");
                 filtersList.append(filter);
                 m_producer.detach(*filter);
                 filter = m_producer.filter(ct);
@@ -405,7 +403,6 @@ const QStringList EffectManager::moveEffect(int oldPos, int newPos)
         while (filter) {
             if (filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);
-                effectNames << filter->get("tag");
                 filtersList.append(filter);
                 m_producer.detach(*filter);
             } else ct++;
@@ -429,5 +426,6 @@ const QStringList EffectManager::moveEffect(int oldPos, int newPos)
         m_producer.attach(*(filtersList.at(i)));
     }
     qDeleteAll(filtersList);
-    return effectNames;
+    //TODO: check for success
+    return true;
 }

@@ -45,9 +45,9 @@ public:
     bool addEffect(EffectsParameterList params, int duration);
     bool doAddFilter(EffectsParameterList params, int duration);
     bool editEffect(EffectsParameterList params, int duration, bool replaceEffect);
-    const QString removeEffect(int effectIndex, bool updateIndex);
-    const QStringList enableEffects(const QList <int> &effectIndexes, bool disable);
-    const QStringList moveEffect(int oldPos, int newPos);
+    bool removeEffect(int effectIndex, bool updateIndex);
+    bool enableEffects(const QList <int> &effectIndexes, bool disable);
+    bool moveEffect(int oldPos, int newPos);
 
 public Q_SLOTS:
 

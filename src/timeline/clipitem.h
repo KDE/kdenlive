@@ -79,8 +79,9 @@ public:
     * @return The parameters that will be passed to Mlt */
     EffectsParameterList addEffect(ProfileInfo info, QDomElement effect, bool animate = true);
 
-    /** @brief Deletes the effect with id @param ix. */
-    void deleteEffect(int ix);
+    /** @brief Deletes the effect with id @param ix. 
+     * @return true if deleted effect was video and requires monitor refresh */
+    bool deleteEffect(int ix);
 
     /** @brief Gets the number of effects in this clip. */
     int effectsCount();
@@ -107,8 +108,9 @@ public:
     * @param ix The effect's index in effectlist
     * @param effect The new effect */
     void updateEffect(QDomElement effect);
-    /** @brief Enable / disable a list of effect from their indexes. */
-    void enableEffects(QList <int> indexes, bool disable);
+    /** @brief Enable / disable a list of effect from their indexes.
+     * @returns true if some the effects are video effects, requiring a monitor refresh */
+    bool enableEffects(QList <int> indexes, bool disable);
     bool moveEffect(QDomElement effect, int ix);
     void flashClip();
     void addTransition(Transition*);

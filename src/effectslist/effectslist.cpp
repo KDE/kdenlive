@@ -399,14 +399,18 @@ void EffectsList::updateIndexes(QDomNodeList effects, int startIndex)
     }
 }
 
-void EffectsList::enableEffects(const QList <int>& indexes, bool disable)
+bool EffectsList::enableEffects(const QList <int>& indexes, bool disable)
 {
+    bool monitorRefresh = false;
     QDomNodeList effects = m_baseElement.childNodes();
     QDomElement effect;
     for (int i = 0; i < indexes.count(); ++i) {
         effect =  effectFromIndex(effects, indexes.at(i));
         effect.setAttribute(QStringLiteral("disable"), (int) disable);
+        if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
+            monitorRefresh = true;
     }
+    return monitorRefresh;
 }
 
 QDomElement EffectsList::effectFromIndex(const QDomNodeList &effects, int ix)

@@ -1,11 +1,10 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="120" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="124" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
         <Action name="favorite_effects" />
   </ToolBar>
-
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />

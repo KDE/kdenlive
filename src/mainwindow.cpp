@@ -240,7 +240,14 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     /// Add Widgets
     setDockNestingEnabled(true);
-    setCentralWidget(m_timelineArea);
+    KToolBar *timelineTb = pCore->window()->toolBar("timelineToolBar");
+    QWidget *ctn = new QWidget(this);
+    QVBoxLayout *ctnLay = new QVBoxLayout;
+    ctn->setLayout(ctnLay);
+    ctnLay->addWidget(timelineTb);
+    ctnLay->addWidget(m_timelineArea);
+    setCentralWidget(ctn);
+
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     QDockWidget * libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
 
@@ -489,6 +496,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
     slotConnectMonitors();
+
+    timelineTb->addAction(actionCollection()->action(QStringLiteral("group_clip")));
+    timelineTb->setContextMenuPolicy(Qt::DefaultContextMenu);
 
     // Populate encoding profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);

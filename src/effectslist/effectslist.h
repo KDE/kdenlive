@@ -89,7 +89,7 @@ public:
     /** @brief Update all effects indexes to make sure they are 1, 2, 3, ... */
     void updateIndexes(QDomNodeList effects, int startIndex);
     /** @brief Enable / disable a list of effects */
-    void enableEffects(const QList<int> &indexes, bool disable);
+    bool enableEffects(const QList<int> &indexes, bool disable);
 
 private:
     QDomElement m_baseElement;

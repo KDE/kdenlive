@@ -210,9 +210,9 @@ public:
     int seekPosition() const;
 
     /** @brief Trigger a monitor refresh. */
-    void monitorRefresh();
+    void monitorRefresh(bool invalidateRange = false);
     /** @brief Trigger a monitor refresh if timeline cursor is inside range. */
-    void monitorRefresh(ItemInfo range);
+    void monitorRefresh(ItemInfo range, bool invalidateRange = false);
 
     /** @brief Returns frame number of current mouse position. */
     int getMousePos() const;

@@ -26,7 +26,6 @@
 #include "kdenlivesettings.h"
 #include "clip.h"
 #include "effectmanager.h"
-#include "core.h"
 
 #include <QtGlobal>
 #include <QDebug>
@@ -898,40 +897,7 @@ bool Track::addEffect(double start, EffectsParameterList params)
     }
     Mlt::Service clipService(clip->get_service());
     EffectManager effect(clipService);
-    bool success = effect.addEffect(params, duration);
-    if (success) {
-        checkEffect(params.paramValue(QStringLiteral("tag")), pos, duration);
-    }
-    return success;
-}
-
-void Track::checkEffect(const QString effectName, int pos, int duration)
-{
-    Mlt::Repository *rep = pCore->mltRepository();
-    Mlt::Properties *metadata = rep->metadata(filter_type, effectName.toLatin1().data());
-    Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
-    if (QString(tags.get(0)) != QLatin1String("Audio")) {
-        emit invalidatePreview(pos, duration);
-    } else {
-        // This is an audio effect, don't touch
-    }
-    delete metadata;
-}
-
-void Track::checkEffects(const QStringList effectNames, int pos, int duration)
-{
-    Mlt::Repository *rep = pCore->mltRepository();
-    foreach (const QString name, effectNames) {
-        Mlt::Properties *metadata = rep->metadata(filter_type, name.toLatin1().data());
-        Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
-        if (QString(tags.get(0)) != QLatin1String("Audio")) {
-            emit invalidatePreview(pos, duration);
-            break;
-        } else {
-            // This is an audio effect, don't touch
-        }
-        delete metadata;
-    }
+    return effect.addEffect(params, duration);
 }
 
 bool Track::addTrackEffect(EffectsParameterList params)
@@ -939,11 +905,7 @@ bool Track::addTrackEffect(EffectsParameterList params)
     Mlt::Service trackService(m_playlist.get_service());
     EffectManager effect(trackService);
     int duration = m_playlist.get_playtime() - 1;
-    bool success = effect.addEffect(params, duration);
-    if (success) {
-        checkEffect(params.paramValue(QStringLiteral("tag")), 0, duration);
-    }
-    return success;
+    return effect.addEffect(params, duration);
 }
 
 bool Track::editEffect(double start, EffectsParameterList params, bool replace)
@@ -957,96 +919,69 @@ bool Track::editEffect(double start, EffectsParameterList params, bool replace)
     }
     Mlt::Service clipService(clip->get_service());
     EffectManager effect(clipService);
-    bool success = effect.editEffect(params, duration, replace);
-    if (success) {
-        checkEffect(params.paramValue(QStringLiteral("tag")), pos, duration);
-    }
-    return success;
+    return effect.editEffect(params, duration, replace);
 }
 
 bool Track::editTrackEffect(EffectsParameterList params, bool replace)
 {
     EffectManager effect(m_playlist);
     int duration = m_playlist.get_playtime() - 1;
-    bool success = effect.editEffect(params, duration, replace);
-    if (success) {
-        checkEffect(params.paramValue(QStringLiteral("tag")), 0, duration);
-    }
-    return success;
+    return effect.editEffect(params, duration, replace);
 }
 
 bool Track::removeEffect(double start, int effectIndex, bool updateIndex)
 {
     int pos = frame(start);
     int clipIndex = m_playlist.get_clip_index_at(pos);
-    int duration = m_playlist.clip_length(clipIndex);
     QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(clipIndex));
     if (!clip) {
         return false;
     }
     Mlt::Service clipService(clip->get_service());
     EffectManager effect(clipService);
-    const QString effectTag = effect.removeEffect(effectIndex, updateIndex);
-    if (!effectTag.isEmpty()) {
-        checkEffect(effectTag, pos, duration);
-    }
-    return (!effectTag.isEmpty());
+    return effect.removeEffect(effectIndex, updateIndex);
 }
 
 bool Track::removeTrackEffect(int effectIndex, bool updateIndex)
 {
     EffectManager effect(m_playlist);
-    const QString effectTag = effect.removeEffect(effectIndex, updateIndex);
-    if (!effectTag.isEmpty()) {
-        checkEffect(effectTag, 0, m_playlist.get_playtime() - 1);
-    }
-    return (!effectTag.isEmpty());
+    return effect.removeEffect(effectIndex, updateIndex);
 }
 
 bool Track::enableEffects(double start, const QList <int> &effectIndexes, bool disable)
 {
     int pos = frame(start);
     int clipIndex = m_playlist.get_clip_index_at(pos);
-    int duration = m_playlist.clip_length(clipIndex);
     QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(clipIndex));
     if (!clip) {
         return false;
     }
     Mlt::Service clipService(clip->get_service());
     EffectManager effect(clipService);
-    const QStringList effectTags = effect.enableEffects(effectIndexes, disable);
-    checkEffects(effectTags, pos, duration);
-    return (!effectTags.isEmpty());
+    return effect.enableEffects(effectIndexes, disable);
 }
 
 bool Track::enableTrackEffects(const QList <int> &effectIndexes, bool disable)
 {
     EffectManager effect(m_playlist);
-    const QStringList effectTags = effect.enableEffects(effectIndexes, disable);
-    checkEffects(effectTags, 0, m_playlist.get_playtime() - 1);
-    return (!effectTags.isEmpty());
+    return effect.enableEffects(effectIndexes, disable);
 }
 
 bool Track::moveEffect(double start, int oldPos, int newPos)
 {
     int pos = frame(start);
     int clipIndex = m_playlist.get_clip_index_at(pos);
-    int duration = m_playlist.clip_length(clipIndex);
     QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(clipIndex));
     if (!clip) {
         return false;
     }
     Mlt::Service clipService(clip->get_service());
     EffectManager effect(clipService);
-    const QStringList effectTags = effect.moveEffect(oldPos, newPos);
-    checkEffects(effectTags, pos, duration);
-    return (!effectTags.isEmpty());
+    return effect.moveEffect(oldPos, newPos);
 }
 
 bool Track::moveTrackEffect(int oldPos, int newPos)
 {
     EffectManager effect(m_playlist);
-    const QStringList effectTags = effect.moveEffect(oldPos, newPos);
-    checkEffects(effectTags, 0, m_playlist.get_playtime() - 1);
-    return (!effectTags.isEmpty());
+    return effect.moveEffect(oldPos, newPos);
 }

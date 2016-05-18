@@ -1280,9 +1280,9 @@ void ClipItem::updateEffect(QDomElement effect)
     }
 }
 
-void ClipItem::enableEffects(QList <int> indexes, bool disable)
+bool ClipItem::enableEffects(QList <int> indexes, bool disable)
 {
-    m_effectList.enableEffects(indexes, disable);
+    return m_effectList.enableEffects(indexes, disable);
 }
 
 bool ClipItem::moveEffect(QDomElement effect, int ix)
@@ -1482,10 +1482,13 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
     return parameters;
 }
 
-void ClipItem::deleteEffect(int ix)
+bool ClipItem::deleteEffect(int ix)
 {
     bool needRepaint = false;
+    bool isVideoEffect = false;
     QDomElement effect = m_effectList.itemFromIndex(ix);
+    if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
+        isVideoEffect = true;
     QString effectId = effect.attribute(QStringLiteral("id"));
     if ((effectId == QLatin1String("fadein") && hasEffect(QString(), QStringLiteral("fade_from_black")) == -1) ||
             (effectId == QLatin1String("fade_from_black") && hasEffect(QString(), QStringLiteral("fadein")) == -1)) {
@@ -1513,6 +1516,7 @@ void ClipItem::deleteEffect(int ix)
         update(r);
     }
     if (!m_effectList.isEmpty()) flashClip();
+    return isVideoEffect;
 }
 
 double ClipItem::speed() const
