@@ -2180,7 +2180,7 @@ void MainWindow::slotLiftZone()
 void MainWindow::slotPreviewRender()
 {
     if (pCore->projectManager()->current()) {
-        pCore->projectManager()->current()->previewRender();
+        pCore->projectManager()->current()->doPreviewRender();
     }
 }
 

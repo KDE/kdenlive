@@ -477,7 +477,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw Rendering preview zones
     QColor preview(Qt::green);
     foreach(int frame, m_renderingPreviews) {
-        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 2, 99 * m_factor, 2);
+        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 2, KdenliveSettings::timelinechunks() * m_factor, 2);
         p.fillRect(rec, preview);
     }
 
@@ -494,7 +494,6 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     if (m_headPosition != SEEK_INACTIVE) {
 	p.fillRect(m_headPosition * m_factor - m_offset - 1, BIG_MARK_X + 1, 3, MAX_HEIGHT - BIG_MARK_X - 1, palette().linkVisited());
     }
-
 }
 
 void CustomRuler::activateZone()
@@ -509,5 +508,15 @@ void CustomRuler::updatePreview(int frame, bool rendered)
         m_renderingPreviews << frame;
     else
         m_renderingPreviews.removeAll(frame);
-    update(frame * m_factor - offset(), MAX_HEIGHT - 2, (99) * m_factor, 2);
+    update(frame * m_factor - offset(), MAX_HEIGHT - 2, KdenliveSettings::timelinechunks() * m_factor, 2);
 }
+
+const QString CustomRuler::previewChunks() const
+{
+    QStringList result;
+    foreach(int frame, m_renderingPreviews) {
+        result << QString::number(frame);
+    }
+    return result.join(QStringLiteral(","));
+}
+

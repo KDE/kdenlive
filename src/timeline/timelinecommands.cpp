@@ -262,7 +262,7 @@ void ConfigTracksCommand::redo()
     if (m_oldState != m_newState) m_timeline->updateTrackState(m_ix, m_newState);
 }
 
-EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
+EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, bool refreshMonitor, QUndoCommand *parent) :
     QUndoCommand(parent),
     m_view(view),
     m_track(track),
@@ -272,7 +272,8 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, con
     m_stackPos(stackPos),
     m_doIt(doIt),
     m_refreshEffectStack(refreshEffectStack),
-    m_replaceEffect(false)
+    m_replaceEffect(false),
+    m_refreshMonitor(refreshMonitor)
 {
     QString effectName;
     QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
@@ -312,13 +313,13 @@ bool EditEffectCommand::mergeWith(const QUndoCommand * other)
 // virtual
 void EditEffectCommand::undo()
 {
-    m_view->updateEffect(m_track, m_pos, m_oldeffect, true, m_replaceEffect);
+    m_view->updateEffect(m_track, m_pos, m_oldeffect, true, m_replaceEffect, m_refreshMonitor);
 }
 // virtual
 void EditEffectCommand::redo()
 {
     if (m_doIt) {
-        m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack, m_replaceEffect);
+        m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack, m_replaceEffect, m_refreshMonitor);
     }
     m_doIt = true;
     m_refreshEffectStack = true;

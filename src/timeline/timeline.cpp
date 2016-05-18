@@ -143,6 +143,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_doc->renderer(), &Render::previewRender, this, &Timeline::gotPreviewRender);
+    connect(m_doc, &KdenliveDoc::previewRender, this, &Timeline::gotPreviewRender);
 }
 
 Timeline::~Timeline()
@@ -163,6 +164,7 @@ void Timeline::loadTimeline()
     m_trackview->slotSelectTrack(m_trackview->getNextVideoTrack(1));
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone(), false);
+    m_doc->loadPreviewRender();
 }
 
 QMap <QString, QString> Timeline::documentProperties()
@@ -170,6 +172,7 @@ QMap <QString, QString> Timeline::documentProperties()
     QMap <QString, QString> props = m_doc->documentProperties();
     props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
     props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
+    props.insert(QStringLiteral("previewchunks"), m_ruler->previewChunks());
     return props;
 }
 
@@ -1732,7 +1735,6 @@ void Timeline::slotEnableZone(bool enable)
 
 void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
 {
-    m_ruler->updatePreview(frame);
     if (!m_hasOverlayTrack) {
         // Create overlay track
         Mlt::Playlist overlay(*m_tractor->profile());
@@ -1748,8 +1750,11 @@ void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
     delete overlayTrack;
     if (trackPlaylist.is_blank_at(frame)) {
         Mlt::Producer prod(*m_tractor->profile(), 0, file.toUtf8().constData());
-        prod.set("mlt_service", "avformat-novalidate");
-        trackPlaylist.insert_at(frame, &prod, 1);
+        if (prod.is_valid()) {
+            m_ruler->updatePreview(frame);
+            prod.set("mlt_service", "avformat-novalidate");
+            trackPlaylist.insert_at(frame, &prod, 1);
+        }
     }
     m_tractor->unlock();
     m_doc->progressInfo(i18n("Rendering preview"), progress);
@@ -1759,30 +1764,31 @@ void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
 void Timeline::invalidateRange(ItemInfo info)
 {
     if (info.isValid())
-        invalidatePreview(info.startPos.frames(m_doc->fps()), (info.endPos - info.startPos).frames(m_doc->fps()));
+        invalidatePreview(info.startPos.frames(m_doc->fps()), info.endPos.frames(m_doc->fps()));
     else
         invalidatePreview(0, m_trackview->duration());
 }
 
-void Timeline::invalidatePreview(int startFrame, int length)
+void Timeline::invalidatePreview(int startFrame, int endFrame)
 {
     if (!m_hasOverlayTrack)
         return;
-    int start = startFrame / 100;
-    int end = lrintf((startFrame + length) / 100);
+    int chunkSize = KdenliveSettings::timelinechunks();
+    int start = startFrame / chunkSize;
+    int end = lrintf(endFrame / chunkSize);
     Mlt::Producer *overlayTrack = m_tractor->track(tracksCount());
     m_tractor->lock();
     Mlt::Playlist trackPlaylist((mlt_playlist) overlayTrack->get_service());
     delete overlayTrack;
     QList <int> list;
     for (int i = start; i <=end; i++) {
-        int ix = trackPlaylist.get_clip_index_at(100 * i);
+        int ix = trackPlaylist.get_clip_index_at(chunkSize * i);
         if (trackPlaylist.is_blank(ix))
             continue;
         list << i;
         Mlt::Producer *prod = trackPlaylist.replace_with_blank(ix);
         delete prod;
-        m_ruler->updatePreview(i * 100, false);
+        m_ruler->updatePreview(i * chunkSize, false);
     }
     trackPlaylist.consolidate_blanks();
     m_tractor->unlock();

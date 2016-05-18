@@ -159,8 +159,10 @@ public:
     /** @brief Returns true if the profile file has changed. */
     bool profileChanged(const QString &profile) const;
     void doAddAction(const QString &name, QAction *a);
-    void previewRender();
+    void doPreviewRender();
     void invalidatePreviews(QList <int> chunks);
+    /** @brief load existing timeline previews */
+    void loadPreviewRender();
 
 private:
     QUrl m_url;
@@ -244,6 +246,8 @@ signals:
     void reloadEffects();
     /** @brief Fps was changed, update timeline */
     void updateFps(bool changed);
+    /** @brief A timeline preview render is available */
+    void previewRender(int frame, const QString &file, int progress);
 };
 
 #endif

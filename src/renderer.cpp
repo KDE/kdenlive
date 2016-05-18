@@ -1614,9 +1614,9 @@ void Render::previewRendering(QPoint zone, const QString &cacheDir, const QStrin
     }
     QDir dir(cacheDir);
     dir.mkpath(QStringLiteral("."));
-    // Data is rendered in 100 frames chunks
-    int startChunk = zone.x() / 100;
-    int endChunk = rintl(zone.y() / 100);
+    // Data is rendered in x frames chunks
+    int startChunk = zone.x() / KdenliveSettings::timelinechunks();
+    int endChunk = rintl(zone.y() / KdenliveSettings::timelinechunks());
     // Save temporary scenelist
     QString sceneListFile = dir.absoluteFilePath(documentId + ".mlt");
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), "xml", sceneListFile.toUtf8().constData());
@@ -1635,6 +1635,7 @@ void Render::previewRendering(QPoint zone, const QString &cacheDir, const QStrin
 void Render::doPreviewRender(int start, int end, QDir folder, QString id, QString scene)
 {
     int progress;
+    int chunkSize = KdenliveSettings::timelinechunks();
     for (int i = start; i <= end; ++i) {
         if (m_abortPreview)
             break;
@@ -1646,14 +1647,14 @@ void Render::doPreviewRender(int start, int end, QDir folder, QString id, QStrin
         }
         if (folder.exists(fileName)) {
             // This chunk already exists
-            emit previewRender(i * 100, folder.absoluteFilePath(fileName), progress);
+            emit previewRender(i * chunkSize, folder.absoluteFilePath(fileName), progress);
             continue;
         }
         // Build rendering process
         QStringList args;
         args << scene;
-        args << "in=" + QString::number(i * 100);
-        args << "out=" + QString::number(i * 100 + 99);
+        args << "in=" + QString::number(i * chunkSize);
+        args << "out=" + QString::number(i * chunkSize + chunkSize - 1);
         args << "-consumer" << "avformat:" + folder.absoluteFilePath(fileName);
         args << "an=1";
         int result = QProcess::execute(KdenliveSettings::rendererpath(), args);
@@ -1661,7 +1662,7 @@ void Render::doPreviewRender(int start, int end, QDir folder, QString id, QStrin
             // Something is wrong, abort
             break;
         }
-        emit previewRender(i * 100, folder.absoluteFilePath(fileName), progress);
+        emit previewRender(i * chunkSize, folder.absoluteFilePath(fileName), progress);
     }
     QFile::remove(scene);
     m_abortPreview = false;

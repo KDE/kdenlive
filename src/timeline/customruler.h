@@ -51,6 +51,8 @@ public:
     void updateFrameSize();
     void activateZone();
     void updatePreview(int frame, bool rendered = true);
+    /** @brief Returns a list of rendered timeline preview chunks */
+    const QString previewChunks() const;
 
 protected:
     void paintEvent(QPaintEvent * /*e*/);

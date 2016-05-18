@@ -163,6 +163,10 @@
       <label>Default interpolation for keyframes.</label>
       <default>1</default>
     </entry>
+    <entry name="timelinechunks" type="Int">
+      <label>Default size of video chunks for timeline preview.</label>
+      <default>25</default>
+    </entry>
 
     <entry name="videothumbnails" type="Bool">
       <label>Display video thumbnails in timeline.</label>
