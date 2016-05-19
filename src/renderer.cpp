@@ -1635,10 +1635,13 @@ void Render::doPreviewRender(QList <int> frames, QDir folder, QString id, QStrin
     int chunkSize = KdenliveSettings::timelinechunks();
     int ct = 0;
     qSort(frames);
+    QStringList consumerParams;
+    consumerParams << "an=1";
+    consumerParams << KdenliveSettings::tl_parameters().split(" ");
     foreach (int i, frames) {
         if (m_abortPreview)
             break;
-        QString fileName = id + QString("-%1.mp4").arg(i);
+        QString fileName = id + QString("-%1.%2").arg(i).arg(KdenliveSettings::tl_extension());
         if (frames.count() > 1) {
             progress = (double) (ct) / (frames.count() - 1) * 100;
         } else {
@@ -1656,8 +1659,7 @@ void Render::doPreviewRender(QList <int> frames, QDir folder, QString id, QStrin
         args << "in=" + QString::number(i);
         args << "out=" + QString::number(i + chunkSize - 1);
         args << "-consumer" << "avformat:" + folder.absoluteFilePath(fileName);
-        args << "an=1";
-        //args << "vcodec=dnxhd" << "r=25" << "vb=120000k";
+        args << consumerParams;
         int result = QProcess::execute(KdenliveSettings::rendererpath(), args);
         if (result < 0) {
             // Something is wrong, abort

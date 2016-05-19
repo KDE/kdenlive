@@ -1612,7 +1612,7 @@ void KdenliveDoc::invalidatePreviews(QList <int> chunks)
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
     QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
     foreach(int i, chunks) {
-        QFile::remove(dir.absoluteFilePath(documentId + QString("-%1.mp4").arg(i)));
+        QFile::remove(dir.absoluteFilePath(documentId + QString("-%1.%2").arg(i).arg(KdenliveSettings::tl_extension())));
     }
     setModified(true);
 }

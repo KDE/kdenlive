@@ -260,7 +260,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configCapture.v4l_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
     connect(m_configCapture.kcfg_v4l_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateV4lProfile()));
     connect(m_configCapture.v4l_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.v4l_parameters, SLOT(setVisible(bool)));
-    
+
     // screen grab profile
     m_configCapture.grab_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
     m_configCapture.grab_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
@@ -270,6 +270,16 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configCapture.grab_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
     connect(m_configCapture.kcfg_grab_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateGrabProfile()));
     connect(m_configCapture.grab_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.grab_parameters, SLOT(setVisible(bool)));
+
+    // Timeline preview
+    m_configTimeline.tl_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
+    m_configTimeline.tl_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    m_configTimeline.tl_parameters->setVisible(false);
+    m_configTimeline.tl_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
+    m_configTimeline.tl_parameters->setPlainText(KdenliveSettings::tl_parameters());
+    connect(m_configTimeline.tl_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
+    connect(m_configTimeline.kcfg_tl_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateTlProfile()));
+    connect(m_configTimeline.tl_showprofileinfo, SIGNAL(clicked(bool)), m_configTimeline.tl_parameters, SLOT(setVisible(bool)));
 
     // Project profile management
     m_configProject.manage_profiles->setIcon(KoIconUtils::themedIcon("configure"));
@@ -292,9 +302,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     slotUpdateProxyProfile(-1);
     slotUpdateV4lProfile(-1);
+    slotUpdateTlProfile(-1);
     slotUpdateGrabProfile(-1);
     slotUpdateDecklinkProfile(-1);
-    
+
     // enable GPU accel only if Movit is found
     m_configSdl.kcfg_gpu_accel->setEnabled(gpuAllowed);
     m_configSdl.kcfg_gpu_accel->setToolTip(i18n("GPU processing needs MLT compiled with Movit and Rtaudio modules"));
@@ -782,6 +793,12 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setProxyextension(data.section(';', 1, 1));
     }
 
+    // Timeline previews
+    data = m_configTimeline.kcfg_tl_profile->itemData(m_configTimeline.kcfg_tl_profile->currentIndex()).toString();
+    if (!data.isEmpty() && (data.section(';', 0, 0) != KdenliveSettings::tl_parameters() || data.section(';', 1, 1) != KdenliveSettings::tl_extension())) {
+        KdenliveSettings::setTl_parameters(data.section(';', 0, 0));
+        KdenliveSettings::setTl_extension(data.section(';', 1, 1));
+    }
 
     if (updateCapturePath) emit updateCaptureFolder();
     if (updateLibrary) emit updateLibraryFolder();
@@ -1168,7 +1185,21 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     }
     m_configCapture.kcfg_v4l_profile->blockSignals(false);
     if (!currentItem.isEmpty()) m_configCapture.kcfg_v4l_profile->setCurrentIndex(m_configCapture.kcfg_v4l_profile->findText(currentItem));
-    
+
+    // Load Timeline preview profiles
+    m_configTimeline.kcfg_tl_profile->blockSignals(true);
+    currentItem = m_configTimeline.kcfg_tl_profile->currentText();
+    m_configTimeline.kcfg_tl_profile->clear();
+    KConfigGroup group5(&conf, "timelinepreview");
+    values = group5.entryMap();
+    QMapIterator<QString, QString> m(values);
+    while (m.hasNext()) {
+        m.next();
+        if (!m.key().isEmpty()) m_configTimeline.kcfg_tl_profile->addItem(m.key(), m.value());
+    }
+    m_configTimeline.kcfg_tl_profile->blockSignals(false);
+    if (!currentItem.isEmpty()) m_configTimeline.kcfg_tl_profile->setCurrentIndex(m_configTimeline.kcfg_tl_profile->findText(currentItem));
+
     // Load Screen Grab profiles
     m_configCapture.kcfg_grab_profile->blockSignals(true);
     currentItem = m_configCapture.kcfg_grab_profile->currentText();
@@ -1211,7 +1242,6 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     if (!currentItem.isEmpty()) m_configProject.kcfg_proxy_profile->setCurrentIndex(m_configProject.kcfg_proxy_profile->findText(currentItem));
     m_configProject.kcfg_proxy_profile->blockSignals(false);
     slotUpdateProxyProfile();
-    
 }
 
 void KdenliveSettingsDialog::slotUpdateDecklinkProfile(int ix)
@@ -1231,6 +1261,16 @@ void KdenliveSettingsDialog::slotUpdateV4lProfile(int ix)
     QString data = m_configCapture.kcfg_v4l_profile->itemData(ix).toString();
     if (data.isEmpty()) return;
     m_configCapture.v4l_parameters->setPlainText(data.section(';', 0, 0));
+    //
+}
+
+void KdenliveSettingsDialog::slotUpdateTlProfile(int ix)
+{
+    if (ix == -1) ix = KdenliveSettings::tl_profile();
+    else ix = m_configTimeline.kcfg_tl_profile->currentIndex();
+    QString data = m_configTimeline.kcfg_tl_profile->itemData(ix).toString();
+    if (data.isEmpty()) return;
+    m_configTimeline.tl_parameters->setPlainText(data.section(';', 0, 0));
     //
 }
 

@@ -36,10 +36,11 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     setupUi(this);
     setWindowTitle(i18n("Manage Encoding Profiles"));
     profile_type->addItem(i18n("Proxy clips"), 0);
-    profile_type->addItem(i18n("Video4Linux capture"), 1);
-    profile_type->addItem(i18n("Screen capture"), 2);
-    profile_type->addItem(i18n("Decklink capture"), 3);
-    
+    profile_type->addItem(i18n("Timeline preview"), 1);
+    profile_type->addItem(i18n("Video4Linux capture"), 2);
+    profile_type->addItem(i18n("Screen capture"), 3);
+    profile_type->addItem(i18n("Decklink capture"), 4);
+
     button_add->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
     button_edit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
     button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
@@ -71,15 +72,18 @@ void EncodingProfilesDialog::slotLoadProfiles()
     case 0:
         group = QStringLiteral("proxy");
         break;
-    case 1:
+    case 2:
         group = QStringLiteral("video4linux");
         break;
-    case 2:
+    case 3:
         group = QStringLiteral("screengrab");
         break;
-    default:
-    case 3:
+    case 4:
         group = QStringLiteral("decklink");
+        break;
+    case 1:
+    default:
+        group = QStringLiteral("timelinepreview");
         break;
     }
 
@@ -136,7 +140,7 @@ void EncodingProfilesDialog::slotAddProfile()
     connect(box, &QDialogButtonBox::rejected, d.data(), &QDialog::reject);
     l->addWidget(box);
     d->setLayout(l);
-    
+
     QListWidgetItem *item = profile_list->currentItem();
     if (item) {
         QString data = item->data(Qt::UserRole).toString();

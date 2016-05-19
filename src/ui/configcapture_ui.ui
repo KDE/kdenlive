@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>413</width>
-    <height>492</height>
+    <height>722</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_8">
@@ -63,7 +63,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -444,10 +444,10 @@
        <item row="2" column="1">
         <widget class="QDoubleSpinBox" name="kcfg_grab_fps">
          <property name="minimum">
-          <double>1.0</double>
+          <double>1.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>1000.0</double>
+          <double>1000.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -764,11 +764,6 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

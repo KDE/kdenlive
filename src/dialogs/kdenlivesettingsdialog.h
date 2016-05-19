@@ -78,6 +78,7 @@ private slots:
     void slotUpdateDecklinkProfile(int ix = 0);
     void slotUpdateProxyProfile(int ix = 0);
     void slotUpdateV4lProfile(int ix = 0);
+    void slotUpdateTlProfile(int ix = 0);
     void slotUpdateGrabProfile(int ix = 0);
     void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();

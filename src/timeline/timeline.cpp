@@ -1837,7 +1837,7 @@ void Timeline::loadPreviewRender()
         QStringList dirtyChunks = dirty.split(",", QString::SkipEmptyParts);
         foreach(const QString frame, previewChunks) {
             int pos = frame.toInt();
-            const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.mp4").arg(pos));
+            const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.%2").arg(pos).arg(KdenliveSettings::tl_extension()));
             if (QFile::exists(fileName)) {
                 gotPreviewRender(pos, fileName, 100);
             } else dirtyChunks << frame;
