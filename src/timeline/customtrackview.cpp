@@ -6767,8 +6767,8 @@ void CustomTrackView::pasteClip()
     }
     QUndoCommand *pasteClips = new QUndoCommand();
     pasteClips->setText(QStringLiteral("Paste clips"));
-    new RefreshMonitorCommand(this, ItemInfo(), false, true, pasteClips);
-
+    RefreshMonitorCommand *firstRefresh = new RefreshMonitorCommand(this, ItemInfo(), false, true, pasteClips);
+    QList <ItemInfo> range;
     for (int i = 0; i < m_copiedItems.count(); ++i) {
         // parse all clip names
         if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == AVWidget) {
@@ -6778,7 +6778,10 @@ void CustomTrackView::pasteClip()
             info.endPos += offset;
             info.track += trackOffset;
             if (canBePastedTo(info, AVWidget)) {
-                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, false, pasteClips);
+                new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, false, false, pasteClips);
+                if (clip->hasVisibleVideo()) {
+                    range << info;
+                }
             } else emit displayMessage(i18n("Cannot paste clip to selected place"), ErrorMessage);
         } else if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == TransitionWidget) {
             Transition *tr = static_cast <Transition *>(m_copiedItems.at(i));
@@ -6792,12 +6795,16 @@ void CustomTrackView::pasteClip()
             if (canBePastedTo(info, TransitionWidget)) {
                 if (info.startPos >= info.endPos) {
                     emit displayMessage(i18n("Invalid transition"), ErrorMessage);
-                } else new AddTransitionCommand(this, info, transitionEndTrack, tr->toXML(), false, true, pasteClips);
+                } else {
+                    new AddTransitionCommand(this, info, transitionEndTrack, tr->toXML(), false, true, pasteClips);
+                    range << info;
+                }
             } else emit displayMessage(i18n("Cannot paste transition to selected place"), ErrorMessage);
         }
     }
     updateTrackDuration(-1, pasteClips);
-    new RefreshMonitorCommand(this, ItemInfo(), false, false, pasteClips);
+    firstRefresh->updateRange(range);
+    new RefreshMonitorCommand(this, range, true, false, pasteClips);
     m_commandStack->push(pasteClips);
 }
 
@@ -6973,7 +6980,7 @@ void CustomTrackView::expandActiveClip()
     QUndoCommand *expandCommand = new QUndoCommand();
     expandCommand->setText(i18n("Expand Clip"));
     ItemInfo info = clip->info();
-    new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, expandCommand);
+    new AddTimelineClipCommand(this, clip->getBinId(), info, clip->effectList(), clip->clipState(), true, true, true, expandCommand);
     emit importPlaylistClips(info, url, expandCommand);
 }
 
@@ -7309,14 +7316,14 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
             }
         }
     }
-
+    RefreshMonitorCommand *firstRefresh = new RefreshMonitorCommand(this, ItemInfo(), false, true, deleteTrack);
     // Delete all clips in selected track
     QList <ItemInfo> ranges;
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
             ranges << item->info();
-            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, true, deleteTrack);
+            new AddTimelineClipCommand(this, item->getBinId(), item->info(), item->effectList(), item->clipState(), false, true, false, deleteTrack);
             m_scene->removeItem(item);
             delete item;
             item = NULL;
@@ -7329,7 +7336,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
             item = NULL;
         }
     }
-    new RefreshMonitorCommand(this, ranges, false, true, deleteTrack);
+    firstRefresh->updateRange(ranges);
     new AddTrackCommand(this, ix, trackinfo, false, deleteTrack);
     new RefreshMonitorCommand(this, ranges, true, false, deleteTrack);
     m_commandStack->push(deleteTrack);
@@ -8221,7 +8228,7 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
         } else if (extractAudio) {
             // Extract audio only
             info.track = m_timeline->audioTarget;
-            new AddTimelineClipCommand(this, clipId, info, EffectsList(), cType == Audio ? PlaylistState::Original : PlaylistState::AudioOnly, true, false, addCommand);
+            new AddTimelineClipCommand(this, clipId, info, EffectsList(), cType == Audio ? PlaylistState::Original : PlaylistState::AudioOnly, true, false, false, addCommand);
         } else {
             emit displayMessage(i18n("No target track(s) selected"), InformationMessage);
         }
@@ -8636,6 +8643,7 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
             return;
         }
     }
+    new RefreshMonitorCommand(this, info, false, true, command);
     for (int i = 0;  i < playlistTracks; i++) {
         int startPos = info.startPos.frames(m_document->fps());
         Mlt::Producer trackProducer(tractor.track(i));
@@ -8677,7 +8685,7 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
             insertInfo.endPos = insertInfo.startPos + insertInfo.cropDuration;
             insertInfo.track = lowerTrack + i;
             EffectsList effects = ClipController::xmlEffectList(original->profile(), *original);
-            new AddTimelineClipCommand(this, originalId, insertInfo, effects, PlaylistState::Original, true, false, command);
+            new AddTimelineClipCommand(this, originalId, insertInfo, effects, PlaylistState::Original, true, false, false, command);
             startPos += original->get_playtime();
         }
         updateTrackDuration(lowerTrack + i, command);
@@ -8727,6 +8735,7 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
     }
 
     if (command->childCount() > 0) {
+        new RefreshMonitorCommand(this, info, true, false, command);
         m_commandStack->push(command);
     }
     else delete command;
