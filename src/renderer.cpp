@@ -1606,7 +1606,7 @@ void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString
     }
 }
 
-void Render::previewRendering(QPoint zone, const QString &cacheDir, const QString &documentId)
+void Render::previewRendering(QList <int> frames, const QString &cacheDir, const QString &documentId)
 {
     if (m_previewThread.isRunning()) {
         qDebug()<<"/ / /Already processing a preview render, abort";
@@ -1614,9 +1614,6 @@ void Render::previewRendering(QPoint zone, const QString &cacheDir, const QStrin
     }
     QDir dir(cacheDir);
     dir.mkpath(QStringLiteral("."));
-    // Data is rendered in x frames chunks
-    int startChunk = zone.x() / KdenliveSettings::timelinechunks();
-    int endChunk = rintl(zone.y() / KdenliveSettings::timelinechunks());
     // Save temporary scenelist
     QString sceneListFile = dir.absoluteFilePath(documentId + ".mlt");
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), "xml", sceneListFile.toUtf8().constData());
@@ -1629,40 +1626,44 @@ void Render::previewRendering(QPoint zone, const QString &cacheDir, const QStrin
         return;
     xmlConsumer.connect(prod);
     xmlConsumer.run();
-    m_previewThread = QtConcurrent::run(this, &Render::doPreviewRender, startChunk, endChunk, dir, documentId, sceneListFile);
+    m_previewThread = QtConcurrent::run(this, &Render::doPreviewRender, frames, dir, documentId, sceneListFile);
 }
 
-void Render::doPreviewRender(int start, int end, QDir folder, QString id, QString scene)
+void Render::doPreviewRender(QList <int> frames, QDir folder, QString id, QString scene)
 {
     int progress;
     int chunkSize = KdenliveSettings::timelinechunks();
-    for (int i = start; i <= end; ++i) {
+    int ct = 0;
+    qSort(frames);
+    foreach (int i, frames) {
         if (m_abortPreview)
             break;
         QString fileName = id + QString("-%1.mp4").arg(i);
-        if (end > start) {
-            progress = (double) (i - start + 1) / (end +1 - start) * 100;
+        if (frames.count() > 1) {
+            progress = (double) (ct) / (frames.count() - 1) * 100;
         } else {
             progress = 100;
         }
+        ct++;
         if (folder.exists(fileName)) {
             // This chunk already exists
-            emit previewRender(i * chunkSize, folder.absoluteFilePath(fileName), progress);
+            emit previewRender(i, folder.absoluteFilePath(fileName), progress);
             continue;
         }
         // Build rendering process
         QStringList args;
         args << scene;
-        args << "in=" + QString::number(i * chunkSize);
-        args << "out=" + QString::number(i * chunkSize + chunkSize - 1);
+        args << "in=" + QString::number(i);
+        args << "out=" + QString::number(i + chunkSize - 1);
         args << "-consumer" << "avformat:" + folder.absoluteFilePath(fileName);
         args << "an=1";
+        //args << "vcodec=dnxhd" << "r=25" << "vb=120000k";
         int result = QProcess::execute(KdenliveSettings::rendererpath(), args);
         if (result < 0) {
             // Something is wrong, abort
             break;
         }
-        emit previewRender(i * chunkSize, folder.absoluteFilePath(fileName), progress);
+        emit previewRender(i, folder.absoluteFilePath(fileName), progress);
     }
     QFile::remove(scene);
     m_abortPreview = false;

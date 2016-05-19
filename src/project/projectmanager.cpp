@@ -166,7 +166,10 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
-    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), &ok, pCore->window());
+    QList <QAction*> rulerActions;
+    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
+    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
+    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), rulerActions, &ok, pCore->window());
     // Set default target tracks to upper audio / lower video tracks
     m_trackView->audioTarget = projectTracks.y() > 0 ? projectTracks.y() : -1;
     m_trackView->videoTarget = projectTracks.x() > 0 ? projectTracks.y() + 1 : -1;
@@ -504,7 +507,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
     bool ok;
     m_progressDialog->setLabelText(i18n("Loading clips"));
-    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), &ok, pCore->window());
+    QList <QAction*> rulerActions;
+    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
+    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
+    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), rulerActions, &ok, pCore->window());
     connect(m_trackView, &Timeline::startLoadingBin, m_progressDialog, &QProgressDialog::setMaximum, Qt::DirectConnection);
     connect(m_trackView, &Timeline::resetUsageCount, pCore->bin(), &Bin::resetUsageCount, Qt::DirectConnection);
     connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);

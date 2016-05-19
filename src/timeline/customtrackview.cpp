@@ -4364,7 +4364,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 if (success) {
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move clip"));
-                    new RefreshMonitorCommand(this, QList <ItemInfo>() << info << m_dragItemInfo, false, true, moveCommand);
+                    if (item->hasVisibleVideo())
+                        new RefreshMonitorCommand(this, QList <ItemInfo>() << info << m_dragItemInfo, false, true, moveCommand);
                     QList <ItemInfo> excluded;
                     excluded << info;
                     item->setItemLocked(true);
@@ -4521,8 +4522,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     updateTrackDuration(info.track, moveCommand);
                     if (m_dragItemInfo.track != info.track)
                         updateTrackDuration(m_dragItemInfo.track, moveCommand);
-                    new RefreshMonitorCommand(this, QList <ItemInfo>() << info << m_dragItemInfo, false, false, moveCommand);
+                    if (item->hasVisibleVideo())
+                        new RefreshMonitorCommand(this, QList <ItemInfo>() << info << m_dragItemInfo, false, false, moveCommand);
                     m_commandStack->push(moveCommand);
+                    if (item->hasVisibleVideo())
+                        monitorRefresh(QList <ItemInfo>() << info << m_dragItemInfo, true);
                     item->setItemLocked(isLocked);
                     //checkTrackSequence(m_dragItem->track());
                 } else {
@@ -4549,6 +4553,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     if (m_dragItemInfo.track != info.track)
                         updateTrackDuration(m_dragItemInfo.track, moveCommand);
                     m_commandStack->push(moveCommand);
+                    monitorRefresh(QList <ItemInfo>() << info << m_dragItemInfo, true);
                     updateTransitionWidget(transition, info);
                 }
             }

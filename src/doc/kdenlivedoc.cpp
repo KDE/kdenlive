@@ -1607,31 +1607,6 @@ void KdenliveDoc::doAddAction(const QString &name, QAction *a)
     pCore->window()->actionCollection()->addAction(name, a);
 }
 
-void KdenliveDoc::loadPreviewRender()
-{
-    QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
-    QString chunks = m_documentProperties.value(QStringLiteral("previewchunks"));
-    if (!chunks.isEmpty()) {
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-        QStringList previewChunks = chunks.split(",");
-        foreach(const QString frame, previewChunks) {
-            int pos = frame.toInt() / KdenliveSettings::timelinechunks();
-            const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.mp4").arg(pos));
-            if (QFile::exists(fileName)) {
-                emit previewRender(pos * KdenliveSettings::timelinechunks(), fileName, 100);
-            }
-        }
-    }
-}
-
-void KdenliveDoc::doPreviewRender()
-{
-    QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
-    m_render->previewRendering(zone(), cacheDir, documentId);
-    emit progressInfo(i18n("Rendering preview"), 0);
-}
-
 void KdenliveDoc::invalidatePreviews(QList <int> chunks)
 {
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
@@ -1639,4 +1614,5 @@ void KdenliveDoc::invalidatePreviews(QList <int> chunks)
     foreach(int i, chunks) {
         QFile::remove(dir.absoluteFilePath(documentId + QString("-%1.mp4").arg(i)));
     }
+    setModified(true);
 }

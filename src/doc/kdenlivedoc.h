@@ -159,10 +159,7 @@ public:
     /** @brief Returns true if the profile file has changed. */
     bool profileChanged(const QString &profile) const;
     void doAddAction(const QString &name, QAction *a);
-    void doPreviewRender();
     void invalidatePreviews(QList <int> chunks);
-    /** @brief load existing timeline previews */
-    void loadPreviewRender();
 
 private:
     QUrl m_url;

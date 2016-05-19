@@ -251,7 +251,7 @@ class Render: public AbstractRender
     void prepareProfileReset(double fps);
     void finishProfileReset();
     void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
-    void previewRendering(QPoint zone, const QString &cacheDir, const QString &documentId);
+    void previewRendering(QList <int> frames, const QString &cacheDir, const QString &documentId);
 
 private:
 
@@ -310,7 +310,7 @@ private slots:
     /** @brief Refreshes the monitor display. */
     void refresh();
     void slotCheckSeeking();
-    void doPreviewRender(int start, int end, QDir folder, QString id, QString scene);
+    void doPreviewRender(QList <int> zone, QDir folder, QString id, QString scene);
 
 signals:
     /** @brief The renderer stopped, either playing or rendering. */

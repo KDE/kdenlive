@@ -54,7 +54,7 @@ static int bigMarkDistance;
 
 const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
-CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
+CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerActions, CustomTrackView *parent) :
         QWidget(parent),
         m_timecode(tc),
         m_view(parent),
@@ -82,6 +82,7 @@ CustomRuler::CustomRuler(const Timecode &tc, CustomTrackView *parent) :
     m_zoneStart = 0;
     m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
+    m_contextMenu->addActions(rulerActions);
     QAction *addGuide = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add Guide"));
     connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));
     m_editGuide = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18n("Edit Guide"));
@@ -476,8 +477,15 @@ void CustomRuler::paintEvent(QPaintEvent *e)
 
     // draw Rendering preview zones
     QColor preview(Qt::green);
+    preview.setAlpha(120);
     foreach(int frame, m_renderingPreviews) {
-        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 2, KdenliveSettings::timelinechunks() * m_factor, 2);
+        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
+        p.fillRect(rec, preview);
+    }
+    preview = Qt::darkRed;
+    preview.setAlpha(120);
+    foreach(int frame, m_dirtyRenderingPreviews) {
+        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
         p.fillRect(rec, preview);
     }
 
@@ -504,19 +512,56 @@ void CustomRuler::activateZone()
 
 void CustomRuler::updatePreview(int frame, bool rendered)
 {
-    if (rendered)
+    if (rendered) {
         m_renderingPreviews << frame;
-    else
+        m_dirtyRenderingPreviews.removeAll(frame);
+    } else {
         m_renderingPreviews.removeAll(frame);
-    update(frame * m_factor - offset(), MAX_HEIGHT - 2, KdenliveSettings::timelinechunks() * m_factor, 2);
+        m_dirtyRenderingPreviews << frame;
+    }
+    update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
 }
 
-const QString CustomRuler::previewChunks() const
+const QStringList CustomRuler::previewChunks() const
 {
-    QStringList result;
+    QStringList resultChunks;
+    QString clean;
+    QString dirty;
     foreach(int frame, m_renderingPreviews) {
-        result << QString::number(frame);
+        clean += QString::number(frame) + QStringLiteral(",");
     }
-    return result.join(QStringLiteral(","));
+    foreach(int frame, m_dirtyRenderingPreviews) {
+        dirty += QString::number(frame) + QStringLiteral(",");
+    }
+    resultChunks << clean << dirty;
+    return resultChunks;
+}
+
+const QList <int> CustomRuler::getDirtyChunks() const
+{
+    return m_dirtyRenderingPreviews;
+}
+
+void CustomRuler::addChunks(QList <int> chunks, bool add)
+{
+    qSort(chunks);
+    if (add) {
+        foreach(int frame, chunks) {
+            if (m_renderingPreviews.contains(frame)) {
+                // already rendered, ignore
+                continue;
+            }
+            if (m_dirtyRenderingPreviews.contains(frame)) {
+                continue;
+            }
+            m_dirtyRenderingPreviews << frame;
+        }
+    } else {
+        foreach(int frame, chunks) {
+            m_renderingPreviews.removeAll(frame);
+            m_dirtyRenderingPreviews.removeAll(frame);
+        }
+    }
+    update(chunks.first() * m_factor - offset(), MAX_HEIGHT - 3, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor, 3);
 }
 

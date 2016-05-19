@@ -50,7 +50,7 @@ class Timeline : public QWidget, public Ui::TimeLine_UI
     Q_OBJECT
 
 public:
-    explicit Timeline(KdenliveDoc *doc, const QList <QAction *>& actions, bool *ok, QWidget *parent = 0);
+    explicit Timeline(KdenliveDoc *doc, const QList <QAction *>& actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent = 0);
     virtual ~ Timeline();
 
     /** @brief is multitrack view (split screen for tracks) enabled */
@@ -164,6 +164,10 @@ public:
     void reloadTrack(int ix, int start = 0, int end = -1);
     /** @brief Invalidate a preview rendering range. */
     void invalidateRange(ItemInfo info = ItemInfo());
+    /** @brief Start rendering preview rendering range. */
+    void startPreviewRender();
+    /** @brief Add or remove current timeline zone to preview render zone. */
+    void addPreviewRange(bool add);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -212,6 +216,8 @@ private:
     void adjustparameterValue(QDomNodeList clipeffectparams, const QString &paramname, const QString &paramvalue);
     /** @brief Enable/disable track actions depending on number of tracks */
     void refreshTrackActions();
+    /** @brief load existing timeline previews */
+    void loadPreviewRender();
 
 private slots:
     void slotSwitchTrackComposite(int trackIndex, bool enable);

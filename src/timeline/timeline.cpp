@@ -50,7 +50,7 @@
 #include <klocalizedstring.h>
 
 
-Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, QWidget *parent) :
+Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent) :
     QWidget(parent),
     multitrackView(false)
     , videoTarget(-1)
@@ -71,7 +71,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, bool *ok, 
     else *ok = true;
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
     m_tractor = new Mlt::Tractor(s);
-    m_ruler = new CustomRuler(doc->timecode(), m_trackview);
+    m_ruler = new CustomRuler(doc->timecode(), rulerActions, m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int,int)), this, SIGNAL(zoneMoved(int,int)));
     connect(m_ruler, SIGNAL(adjustZoom(int)), this, SIGNAL(setZoom(int)));
     connect(m_ruler, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
@@ -164,7 +164,7 @@ void Timeline::loadTimeline()
     m_trackview->slotSelectTrack(m_trackview->getNextVideoTrack(1));
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
     slotSetZone(m_doc->zone(), false);
-    m_doc->loadPreviewRender();
+    loadPreviewRender();
 }
 
 QMap <QString, QString> Timeline::documentProperties()
@@ -172,7 +172,8 @@ QMap <QString, QString> Timeline::documentProperties()
     QMap <QString, QString> props = m_doc->documentProperties();
     props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
     props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
-    props.insert(QStringLiteral("previewchunks"), m_ruler->previewChunks());
+    props.insert(QStringLiteral("previewchunks"), m_ruler->previewChunks().at(0));
+    props.insert(QStringLiteral("dirtypreviewchunks"), m_ruler->previewChunks().at(1));
     return props;
 }
 
@@ -1758,7 +1759,28 @@ void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
     }
     m_tractor->unlock();
     m_doc->progressInfo(i18n("Rendering preview"), progress);
+    m_doc->setModified(true);
     //m_doc->updatePreview(progress);
+}
+
+void Timeline::addPreviewRange(bool add)
+{
+    QPoint p = m_doc->zone();
+    int chunkSize = KdenliveSettings::timelinechunks();
+    int startChunk = p.x() / chunkSize;
+    int endChunk = rintl(p.y() / chunkSize);
+    QList <int> frames;
+    for (int i = startChunk; i <= endChunk; i++) {
+        frames << i * chunkSize;
+    }
+    m_ruler->addChunks(frames, add);
+}
+
+void Timeline::startPreviewRender()
+{
+    QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
+    m_doc->renderer()->previewRendering(m_ruler->getDirtyChunks(), cacheDir, documentId);
 }
 
 void Timeline::invalidateRange(ItemInfo info)
@@ -1785,7 +1807,7 @@ void Timeline::invalidatePreview(int startFrame, int endFrame)
         int ix = trackPlaylist.get_clip_index_at(chunkSize * i);
         if (trackPlaylist.is_blank(ix))
             continue;
-        list << i;
+        list << i * chunkSize;
         Mlt::Producer *prod = trackPlaylist.replace_with_blank(ix);
         delete prod;
         m_ruler->updatePreview(i * chunkSize, false);
@@ -1794,3 +1816,37 @@ void Timeline::invalidatePreview(int startFrame, int endFrame)
     m_tractor->unlock();
     m_doc->invalidatePreviews(list);
 }
+
+void Timeline::loadPreviewRender()
+{
+    QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
+    QString chunks = m_doc->getDocumentProperty(QStringLiteral("previewchunks"));
+    QString dirty = m_doc->getDocumentProperty(QStringLiteral("dirtypreviewchunks"));
+    if (!chunks.isEmpty() || !dirty.isEmpty()) {
+        if (!m_hasOverlayTrack) {
+            // Create overlay track
+            Mlt::Playlist overlay(*m_tractor->profile());
+            int trackIndex = tracksCount();
+            m_tractor->lock();
+            m_tractor->insert_track(overlay, trackIndex);
+            m_tractor->unlock();
+            m_hasOverlayTrack = true;
+        }
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+        QStringList previewChunks = chunks.split(",", QString::SkipEmptyParts);
+        QStringList dirtyChunks = dirty.split(",", QString::SkipEmptyParts);
+        foreach(const QString frame, previewChunks) {
+            int pos = frame.toInt();
+            const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.mp4").arg(pos));
+            if (QFile::exists(fileName)) {
+                gotPreviewRender(pos, fileName, 100);
+            } else dirtyChunks << frame;
+        }
+        if (!dirtyChunks.isEmpty()) {
+            foreach(const QString i, dirtyChunks) {
+                m_ruler->updatePreview(i.toInt(), false);
+            }
+        }
+    }
+}
+

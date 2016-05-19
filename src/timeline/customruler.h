@@ -39,7 +39,7 @@ class CustomRuler : public QWidget
     Q_OBJECT
 
 public:
-    CustomRuler(const Timecode &tc, CustomTrackView *parent);
+    CustomRuler(const Timecode &tc, const QList<QAction *> &rulerActions, CustomTrackView *parent);
     void setPixelPerMark(int rate, bool force = false);
     static const int comboScale[];
     int outPoint() const;
@@ -52,7 +52,10 @@ public:
     void activateZone();
     void updatePreview(int frame, bool rendered = true);
     /** @brief Returns a list of rendered timeline preview chunks */
-    const QString previewChunks() const;
+    const QStringList previewChunks() const;
+    /** @brief Returns a list of dirty timeline preview chunks (that need to be generated) */
+    const QList <int> getDirtyChunks() const;
+    void addChunks(QList <int> chunks, bool add);
 
 protected:
     void paintEvent(QPaintEvent * /*e*/);
@@ -86,6 +89,7 @@ private:
     MOUSE_MOVE m_mouseMove;
     QMenu *m_goMenu;
     QList <int> m_renderingPreviews;
+    QList <int> m_dirtyRenderingPreviews;
 
 public slots:
     void slotMoveRuler(int newPos);
