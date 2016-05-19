@@ -2512,7 +2512,7 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
         bool success = m_timeline->track(clip->track())->enableEffects(clip->startPos().seconds(), effectIndexes, disable);
         if (success) {
             if (clip->enableEffects(effectIndexes, disable) && clip->hasVisibleVideo())
-                monitorRefresh(clip->info());
+                monitorRefresh(clip->info(), true);
             if (updateEffectStack && clip->isSelected()) {
                 emit clipItemSelected(clip);
             }
@@ -7739,6 +7739,7 @@ void CustomTrackView::disableClip()
     }
     QUndoCommand *videoCommand = new QUndoCommand();
     videoCommand->setText(i18n("Disable clip"));
+    QList <ItemInfo> range;
     // Expand groups
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == GroupWidget) {
@@ -7758,7 +7759,8 @@ void CustomTrackView::disableClip()
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
-            if (clip->clipType() == AV || clip->clipType() == Playlist || clip->clipType() == Audio) {
+            ClipType cType = clip->clipType();
+            if (cType == AV || cType == Playlist || cType == Audio) {
                 PlaylistState::ClipState currentStatus = clip->clipState();
                 PlaylistState::ClipState newStatus;
                 if (currentStatus == PlaylistState::Disabled) {
@@ -7767,10 +7769,13 @@ void CustomTrackView::disableClip()
                     newStatus = PlaylistState::Disabled;
                 }
                 new ChangeClipTypeCommand(this, clip->info(), newStatus, currentStatus, videoCommand);
+                if (newStatus != PlaylistState::AudioOnly && currentStatus != PlaylistState::AudioOnly && cType != Audio)
+                    range << clip->info();
             }
         }
     }
     m_commandStack->push(videoCommand);
+    monitorRefresh(range, true);
 }
 
 void CustomTrackView::monitorRefresh(QList <ItemInfo> range, bool invalidateRange)
@@ -7810,7 +7815,7 @@ void CustomTrackView::doChangeClipType(ItemInfo info, PlaylistState::ClipState s
     }
     Mlt::Producer *prod;
     double speed = clip->speed();
-
+    PlaylistState::ClipState previousState = clip->clipState();
     if (state == PlaylistState::VideoOnly) {
         prod = m_document->renderer()->getBinVideoProducer(clip->getBinId());
     }
@@ -7840,15 +7845,18 @@ void CustomTrackView::doChangeClipType(ItemInfo info, PlaylistState::ClipState s
         }
         prod = copy;
     }
-    if (prod && prod->is_valid() && m_timeline->track(info.track)->replace(info.startPos.seconds(), prod, state, clip->clipState())) {
+    if (prod && prod->is_valid() && m_timeline->track(info.track)->replace(info.startPos.seconds(), prod, state, previousState)) {
         clip->setState(state);
+        clip->update();
+        if (clip->clipType() != Audio && state != PlaylistState::Disabled && previousState != PlaylistState::Disabled && (previousState == PlaylistState::AudioOnly || state == PlaylistState::AudioOnly)) {
+            // Disabled state is handled upstream, so check if we switch to / from an audio state
+            monitorRefresh(info, true);
+        }
     } else {
         // Changing clip type failed
         emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
         return;
     }
-    clip->update();
-    monitorRefresh(info);
 }
 
 void CustomTrackView::updateClipTypeActions(ClipItem *clip)
@@ -8206,9 +8214,9 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
         if (extractVideo) {
             info.track = m_timeline->videoTarget;
             if (extractAudio) {
-                new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, addCommand);
+                new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, true, addCommand);
             } else {
-                new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::VideoOnly, true, false, addCommand);
+                new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::VideoOnly, true, false, true, addCommand);
             }
         } else if (extractAudio) {
             // Extract audio only
@@ -8219,7 +8227,7 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
         }
     }
     else {
-        new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, addCommand);
+        new AddTimelineClipCommand(this, clipId, info, EffectsList(), PlaylistState::Original, true, false, true, addCommand);
     }
     // Automatic audio split
     if (KdenliveSettings::splitaudio() && extractVideo && extractAudio) {
