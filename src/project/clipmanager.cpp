@@ -194,13 +194,6 @@ void ClipManager::slotGetThumbs()
     emit displayMessage(QString(), -1);
 }
 
-
-void ClipManager::setThumbsProgress(const QString &message, int progress)
-{
-    m_doc->setThumbsProgress(message, progress);
-}
-
-
 void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand)
 {
     // Create meta command

@@ -72,7 +72,6 @@ Q_OBJECT public:
 
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
     void slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
-    void setThumbsProgress(const QString &message, int progress);
     int lastClipId() const;
     QString projectFolder() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */

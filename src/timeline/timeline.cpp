@@ -1110,11 +1110,10 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
             currenteffect.setAttribute(QStringLiteral("kdenlive:sync_in_out"), sync);
         }
         if (QString(effect->get("tag")) == QLatin1String("region")) getSubfilters(effect.data(), currenteffect);
-
         if (clip) {
             clip->addEffect(m_doc->getProfileInfo(), currenteffect, false);
         } else {
-            addTrackEffect(track, currenteffect);
+            addTrackEffect(track, currenteffect, false);
         }
     }
 }
@@ -1361,7 +1360,7 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
     return success;
 }
 
-void Timeline::addTrackEffect(int trackIndex, QDomElement effect)
+void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlaylist)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
@@ -1401,7 +1400,8 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect)
         }
     }
     sourceTrack->effectsList.append(effect);
-    sourceTrack->addTrackEffect(EffectsController::getEffectArgs(m_doc->getProfileInfo(), effect));
+    if (addToPlaylist)
+        sourceTrack->addTrackEffect(EffectsController::getEffectArgs(m_doc->getProfileInfo(), effect));
 }
 
 bool Timeline::removeTrackEffect(int trackIndex, int effectIndex, const QDomElement &effect)

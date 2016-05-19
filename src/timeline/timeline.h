@@ -112,7 +112,7 @@ public:
     void setTrackInfo(int trackIndex, TrackInfo info);
     QList <TrackInfo> getTracksInfo();
     QStringList getTrackNames();
-    void addTrackEffect(int trackIndex, QDomElement effect);
+    void addTrackEffect(int trackIndex, QDomElement effect, bool addToPlaylist = true);
     bool removeTrackEffect(int trackIndex, int effectIndex, const QDomElement &effect);
     void setTrackEffect(int trackIndex, int effectIndex, QDomElement effect);
     bool enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable);

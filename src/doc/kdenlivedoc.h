@@ -100,8 +100,6 @@ public:
     QStringList getBinFolderClipIds(const QString &folderId) const;
     ClipController *getClipController(const QString &clipId);
 
-    /** @brief Informs Kdenlive of the audio thumbnails generation progress. */
-    void setThumbsProgress(const QString &message, int progress);
     const QString &profilePath() const;
     /** @brief Returns current project profile. */
     MltVideoProfile mltProfile() const;

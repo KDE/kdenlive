@@ -781,11 +781,6 @@ double KdenliveDoc::dar() const
     return (double) m_profile.display_aspect_num / m_profile.display_aspect_den;
 }
 
-void KdenliveDoc::setThumbsProgress(const QString &message, int progress)
-{
-    emit progressInfo(message, progress);
-}
-
 QUndoStack *KdenliveDoc::commandStack()
 {
     return m_commandStack;
