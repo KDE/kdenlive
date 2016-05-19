@@ -279,6 +279,7 @@ bool Track::cut(qreal t)
     m_playlist.unlock();
     QScopedPointer<Mlt::Producer> clip1(m_playlist.get_clip(index + 1));
     QScopedPointer<Mlt::Producer> clip2(m_playlist.get_clip(index));
+    qDebug()<<"CLIP CUT ID: "<<clip1->get("id")<<" / "<<clip1->parent().get("id");
     Clip (*clip1).addEffects(*clip2, true);
     // adjust filters in/out
     Clip (*clip2).adjustEffectsLength();
@@ -421,6 +422,8 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     QString service = prod->get("mlt_service");
     if (state == PlaylistState::Disabled) {
         QScopedPointer<Mlt::Producer> prodCopy(Clip(*prod).clone());
+        // Reset id to let MLT give a new one
+        prodCopy->set("id", (char*)NULL);
         prodCopy->set("video_index", -1);
         prodCopy->set("audio_index", -1);
         prodCopy->set("kdenlive:binid", prod->get("id"));
