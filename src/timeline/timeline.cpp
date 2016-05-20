@@ -1780,6 +1780,11 @@ void Timeline::startPreviewRender()
 {
     QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
     QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
+    QList <int> chunks = m_ruler->getDirtyChunks();
+    if (chunks.isEmpty()) {
+        addPreviewRange(true);
+        chunks = m_ruler->getDirtyChunks();
+    }
     m_doc->renderer()->previewRendering(m_ruler->getDirtyChunks(), cacheDir, documentId);
 }
 
