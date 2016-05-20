@@ -239,7 +239,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_shortcutRemoveFocus, SIGNAL(activated()), this, SLOT(slotRemoveFocus()));
 
     /// Add Widgets
-    setDockNestingEnabled(true);
+    setDockOptions(QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
+    setTabPosition(Qt::AllDockWidgetAreas, KdenliveSettings::verticaltabs() ? QTabWidget::East : QTabWidget::North);
     QToolBar *timelineTb = new QToolBar(this);//pCore->window()->toolBar("timelineToolBar");
     QWidget *ctn = new QWidget(this);
     QVBoxLayout *ctnLay = new QVBoxLayout;
@@ -325,7 +326,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList);
 
     setupActions();
-
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
     m_projectMonitorDock = addDock(i18n("Project Monitor"), QStringLiteral("project_monitor"), m_projectMonitor);
@@ -1837,6 +1837,7 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(updateConfiguration()));
     connect(dialog, SIGNAL(settingsChanged(QString)), SIGNAL(configurationChanged()));
     connect(dialog, SIGNAL(doResetProfile()), pCore->projectManager(), SLOT(slotResetProfiles()));
+    connect(dialog, SIGNAL(checkTabPosition()), this, SLOT(slotCheckTabPosition()));
     connect(dialog, SIGNAL(restartKdenlive()), this, SLOT(slotRestart()));
     connect(dialog, SIGNAL(updateLibraryFolder()), pCore, SIGNAL(updateLibraryPath()));
 
@@ -1848,6 +1849,19 @@ void MainWindow::slotPreferences(int page, int option)
     if (page != -1) {
         dialog->showPage(page, option);
     }
+}
+
+void MainWindow::slotCheckTabPosition()
+{
+    QTabWidget::TabPosition pos = tabPosition(Qt::LeftDockWidgetArea);
+    bool reload = false;
+    if (KdenliveSettings::verticaltabs() && pos != QTabWidget::East) {
+        reload = true;
+    } else if (!KdenliveSettings::verticaltabs() && pos != QTabWidget::North) {
+        reload = true;
+    }
+    if (reload)
+        setTabPosition(Qt::AllDockWidgetAreas, KdenliveSettings::verticaltabs() ? QTabWidget::East : QTabWidget::North);
 }
 
 void MainWindow::slotRestart()

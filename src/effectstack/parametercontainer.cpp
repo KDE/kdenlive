@@ -372,7 +372,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
         } else if (type == QLatin1String("geometry")) {
             m_acceptDrops = true;
-            if (true /*KdenliveSettings::on_monitor_effects()*/) {
+            if (true) {
                 m_monitorEffectScene = MonitorSceneGeometry;
                 bool useOffset = false;
                 if (effect.tagName() == QLatin1String("effect") && effect.hasAttribute(QStringLiteral("kdenlive:sync_in_out")) && effect.attribute(QStringLiteral("kdenlive:sync_in_out")).toInt() == 0) {
@@ -906,12 +906,7 @@ void ParameterContainer::updateTimecodeFormat()
         QString paramName = na.isNull() ? pa.attributes().namedItem(QStringLiteral("name")).nodeValue() : i18n(na.text().toUtf8().data());
 
         if (type == QLatin1String("geometry")) {
-            if (KdenliveSettings::on_monitor_effects()) {
-                if (m_geometryWidget) m_geometryWidget->updateTimecodeFormat();
-            } else {
-                Geometryval *geom = static_cast<Geometryval*>(m_valueItems[paramName+"geometry"]);
-                geom->updateTimecodeFormat();
-            }
+            if (m_geometryWidget) m_geometryWidget->updateTimecodeFormat();
             break;
         } else if (type == QLatin1String("position")) {
             PositionEdit *posi = static_cast<PositionEdit*>(m_valueItems[paramName+"position"]);
@@ -1009,12 +1004,7 @@ void ParameterContainer::slotCollectAllParameters()
             ComplexParameter *complex = static_cast<ComplexParameter*>(m_valueItems.value(paramName));
             if (complex) namenode.item(i) = complex->getParamDesc();
         } else if (type == QLatin1String("geometry")) {
-            /*if (KdenliveSettings::on_monitor_effects())*/ {
-                if (m_geometryWidget) namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getValue());
-            }/* else {
-                Geometryval *geom = static_cast<Geometryval*>(m_valueItems.value(paramName));
-                namenode.item(i).toElement().setAttribute("value", geom->getValue());
-            }*/
+            if (m_geometryWidget) namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getValue());
         } else if (type == QLatin1String("addedgeometry")) {
             if (m_geometryWidget) namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute(QStringLiteral("name"))));
         } else if (type == QLatin1String("position")) {

@@ -442,6 +442,7 @@ private slots:
     void removeSplitOverlay();
     /** @brief Create a generator's setup dialog */
     void buildGenerator(QAction *action);
+    void slotCheckTabPosition();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

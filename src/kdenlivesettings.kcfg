@@ -24,6 +24,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="verticaltabs" type="Bool">
+      <label>Use vertical tabs for stacked widgets.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="crashrecovery" type="Bool">
       <label>Auto save document in backup file on each change.</label>
       <default>true</default>
@@ -88,12 +93,7 @@
       <label>Default title clip duration.</label>
       <default>00:00:05:00</default>
     </entry>
-    
-    <entry name="on_monitor_effects" type="Bool">
-      <label>Use on-monitor effects.</label>
-      <default>true</default>
-    </entry>
-    
+
     <entry name="disable_effect_parameters" type="Bool">
       <label>Disable parameters when the effect is disabled.</label>
       <default>true</default>

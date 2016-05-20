@@ -830,7 +830,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setAudiodevicename(QString());
         resetProfile = true;
     }
-    
+
     value = m_configSdl.kcfg_audio_backend->itemData(m_configSdl.kcfg_audio_backend->currentIndex()).toString();
     if (value != KdenliveSettings::audiobackend()) {
         KdenliveSettings::setAudiobackend(value);
@@ -866,7 +866,7 @@ void KdenliveSettingsDialog::updateSettings()
     if (KdenliveSettings::shuttlebuttons() != maps)
         KdenliveSettings::setShuttlebuttons(maps);
 #endif
-    
+
     bool restart = false;
     if (m_configSdl.kcfg_gpu_accel->isChecked() != KdenliveSettings::gpu_accel()) {
 	// GPU setting was changed, we need to restart Kdenlive or everything will be corrupted
@@ -882,6 +882,7 @@ void KdenliveSettingsDialog::updateSettings()
     //KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
     if (restart) emit restartKdenlive();
+    emit checkTabPosition();
 }
 
 void KdenliveSettingsDialog::slotUpdateDisplay()

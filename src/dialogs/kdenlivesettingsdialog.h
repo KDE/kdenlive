@@ -126,6 +126,7 @@ signals:
     void updateFullScreenGrab();
     /** @brief A settings changed that requires a Kdenlive restart, trigger it */
     void restartKdenlive();
+    void checkTabPosition();
 };
 
 
