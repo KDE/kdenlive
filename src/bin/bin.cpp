@@ -1734,7 +1734,7 @@ ProjectClip *Bin::getBinClip(const QString &id)
     if (id.contains(QLatin1Char('_'))) {
         clip = m_rootFolder->clip(id.section(QLatin1Char('_'), 0, 0));
     }
-    else {
+    else if (!id.isEmpty()) {
         clip = m_rootFolder->clip(id);
     }
     return clip;
