@@ -229,7 +229,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 cursor.select(QTextCursor::Document);
                 QColor fontcolor = cursor.charFormat().foreground().color();
                 content.setAttribute(QStringLiteral("font-color"), colorToString(fontcolor));
-                if (!t->data(TitleDocument::OutlineWidth).isNull()) content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toInt()));
+                if (!t->data(TitleDocument::OutlineWidth).isNull()) content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toDouble()));
                 if (!t->data(TitleDocument::OutlineColor).isNull()) {
                     QVariant variant = t->data(TitleDocument::OutlineColor);
                     QColor outlineColor = variant.value<QColor>();
