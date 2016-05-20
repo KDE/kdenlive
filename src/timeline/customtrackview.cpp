@@ -8173,6 +8173,10 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     bool extractAudio = true;
     bool extractVideo = true;
     ProjectClip *clp = m_document->getBinClip(clipId);
+    if (!clp) {
+        emit displayMessage(i18n("Select a Bin Clip to perform operation"), ErrorMessage);
+        return;
+    }
     ClipType cType = clp->clipType();
     if (KdenliveSettings::splitaudio()) {
         if (m_timeline->audioTarget == -1 || m_timeline->getTrackInfo(m_timeline->audioTarget).isLocked) 
