@@ -240,12 +240,20 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     /// Add Widgets
     setDockNestingEnabled(true);
-    KToolBar *timelineTb = pCore->window()->toolBar("timelineToolBar");
+    QToolBar *timelineTb = new QToolBar(this);//pCore->window()->toolBar("timelineToolBar");
     QWidget *ctn = new QWidget(this);
     QVBoxLayout *ctnLay = new QVBoxLayout;
+    ctnLay->setSpacing(0);
+    ctnLay->setContentsMargins(0, 0, 0, 0);
     ctn->setLayout(ctnLay);
     ctnLay->addWidget(timelineTb);
+    QFrame *fr = new QFrame(this);
+    fr->setFrameShape(QFrame::HLine);
+    fr->setMaximumHeight(1);
+    fr->setLineWidth(1);
+    ctnLay->addWidget(fr);
     ctnLay->addWidget(m_timelineArea);
+    ctn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     setCentralWidget(ctn);
 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
@@ -408,7 +416,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_effectBasket, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
     QWidgetAction *widgetlist = new QWidgetAction(this);
     widgetlist->setDefaultWidget(m_effectBasket);
-    widgetlist->setText(i18n("Favorite Effects"));
+    //widgetlist->setText(i18n("Favorite Effects"));
     widgetlist->setToolTip(i18n("Favorite Effects"));
     widgetlist->setIcon(KoIconUtils::themedIcon("favorite"));
     QMenu *menu = new QMenu(this);
@@ -419,16 +427,16 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     basketButton->setToolButtonStyle(toolBar()->toolButtonStyle());
     basketButton->setDefaultAction(widgetlist);
     basketButton->setPopupMode(QToolButton::InstantPopup);
-    basketButton->setText(i18n("Favorite Effects"));
+    //basketButton->setText(i18n("Favorite Effects"));
     basketButton->setToolTip(i18n("Favorite Effects"));
     basketButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
 
     QWidgetAction* toolButtonAction = new QWidgetAction(this);
-    toolButtonAction->setText(i18n("Favorite Effects"));
+    //toolButtonAction->setText(i18n("Favorite Effects"));
     toolButtonAction->setIcon(KoIconUtils::themedIcon("favorite"));
     toolButtonAction->setDefaultWidget(basketButton);
 
-    addAction(QStringLiteral("favorite_effects"), toolButtonAction);
+    //addAction(QStringLiteral("favorite_effects"), toolButtonAction);
     connect(toolButtonAction, SIGNAL(triggered(bool)), basketButton, SLOT(showMenu()));
     setupGUI();
 
@@ -497,8 +505,65 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     slotConnectMonitors();
 
-    timelineTb->addAction(actionCollection()->action(QStringLiteral("group_clip")));
-    timelineTb->setContextMenuPolicy(Qt::DefaultContextMenu);
+    timelineTb->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    KSelectAction *sceneMode = new KSelectAction(this);
+    sceneMode->addAction(m_normalEditTool);
+    sceneMode->addAction(m_overwriteEditTool);
+    sceneMode->addAction(m_insertEditTool);
+    sceneMode->setCurrentItem(0);
+    timelineTb->addAction(sceneMode);
+    timelineTb->addSeparator();
+    timelineTb->addAction(m_buttonSelectTool);
+    timelineTb->addAction(m_buttonRazorTool);
+    timelineTb->addAction(m_buttonSpacerTool);
+
+    timelineTb->addSeparator();
+    m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
+    QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    m_timeFormatButton->setFont(fixedFont);
+    m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
+    m_timeFormatButton->addAction(i18n("Frames"));
+    if (KdenliveSettings::frametimecode()) m_timeFormatButton->setCurrentItem(1);
+    else m_timeFormatButton->setCurrentItem(0);
+    connect(m_timeFormatButton, SIGNAL(triggered(int)), this, SLOT(slotUpdateTimecodeFormat(int)));
+    m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
+    m_timeFormatButton->setToolButtonPopupMode(QToolButton::InstantPopup);
+    const QFontMetrics metric(fixedFont);
+    int requiredWidth = metric.boundingRect(QStringLiteral("00:00:00:00 / 00:00:00:00")).width() + 20;
+    timelineTb->addAction(m_timeFormatButton);
+    QWidget *actionWidget = timelineTb->widgetForAction(m_timeFormatButton);
+    actionWidget->setObjectName(QStringLiteral("timecode"));
+    actionWidget->setMinimumWidth(requiredWidth);
+    timelineTb->addSeparator();
+    timelineTb->addAction(actionCollection()->action(QStringLiteral("insert_to_in_point")));
+    timelineTb->addAction(actionCollection()->action(QStringLiteral("overwrite_to_in_point")));
+    timelineTb->addAction(actionCollection()->action(QStringLiteral("remove_extract")));
+    timelineTb->addAction(actionCollection()->action(QStringLiteral("remove_lift")));
+
+    QToolButton *timelinePreview = new QToolButton(this);
+    QMenu *tlMenu = new QMenu(this);
+    timelinePreview->setMenu(tlMenu);
+    QAction *prevRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
+    tlMenu->addAction(prevRender);
+    tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
+    tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
+    timelinePreview->setDefaultAction(prevRender);
+    timelineTb->addWidget(timelinePreview);
+
+    timelineTb->addAction(toolButtonAction);
+    QWidget *sep = new QWidget(this);
+    sep->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    timelineTb->addWidget(sep);
+    timelineTb->addAction(m_buttonAutomaticSplitAudio);
+    timelineTb->addAction(m_buttonVideoThumbs);
+    timelineTb->addAction(m_buttonAudioThumbs);
+    timelineTb->addAction(m_buttonShowMarkers);
+    timelineTb->addAction(m_buttonSnap);
+    timelineTb->addSeparator();
+    timelineTb->addAction(m_buttonFitZoom);
+    timelineTb->addAction(m_zoomOut);
+    timelineTb->addWidget(m_zoomSlider);
+    timelineTb->addAction(m_zoomIn);
 
     // Populate encoding profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
@@ -557,6 +622,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
             KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
         }
     }
+    statusBar()->show();
     emit GUISetupDone();
     pCore->projectManager()->init(Url, clipsToLoad);
     QTimer::singleShot(0, pCore->projectManager(), SLOT(slotLoadOnOpen()));
@@ -593,7 +659,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
     if (m_timelineArea) {
         m_timelineArea->setPalette(plt);
     }
-    if (statusBar()) {
+    /*if (statusBar()) {
         const QObjectList children = statusBar()->children();
         foreach(QObject * child, children) {
             if (child->isWidgetType())
@@ -604,7 +670,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
                     ((QWidget*)subchild)->setPalette(plt);
             }
         }
-    }
+    }*/
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
     // Not required anymore with auto colored icons since KF5 5.23
@@ -847,28 +913,28 @@ void MainWindow::setupActions()
     m_statusProgressBar->setMaximumWidth(150);
     m_statusProgressBar->setVisible(false);
 
-    KToolBar *toolbar = new KToolBar(QStringLiteral("statusToolBar"), this, Qt::BottomToolBarArea);
+    /*KToolBar *toolbar = new KToolBar(QStringLiteral("statusToolBar"), this, Qt::BottomToolBarArea);
     toolbar->setMovable(false);
 
     setStatusBarStyleSheet(palette());
-    QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");
+    QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");*/
 
     //create edit mode buttons
     m_normalEditTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-normal-edit")), i18n("Normal mode"), this);
     m_normalEditTool->setShortcut(i18nc("Normal editing", "n"));
-    toolbar->addAction(m_normalEditTool);
+    //toolbar->addAction(m_normalEditTool);
     m_normalEditTool->setCheckable(true);
     m_normalEditTool->setChecked(true);
 
     m_overwriteEditTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-overwrite-edit")), i18n("Overwrite mode"), this);
     //m_overwriteEditTool->setShortcut(i18nc("Overwrite mode shortcut", "o"));
-    toolbar->addAction(m_overwriteEditTool);
+    //toolbar->addAction(m_overwriteEditTool);
     m_overwriteEditTool->setCheckable(true);
     m_overwriteEditTool->setChecked(false);
 
     m_insertEditTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-edit")), i18n("Insert mode"), this);
     //m_insertEditTool->setShortcut(i18nc("Insert mode shortcut", "i"));
-    toolbar->addAction(m_insertEditTool);
+    //toolbar->addAction(m_insertEditTool);
     m_insertEditTool->setCheckable(true);
     m_insertEditTool->setChecked(false);
 
@@ -878,24 +944,24 @@ void MainWindow::setupActions()
     editGroup->addAction(m_insertEditTool);
     editGroup->setExclusive(true);
     connect(editGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotChangeEdit(QAction*)));
-    toolbar->addSeparator();
+    //toolbar->addSeparator();
 
     // create tools buttons
     m_buttonSelectTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("cursor-arrow")), i18n("Selection tool"), this);
     m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
-    toolbar->addAction(m_buttonSelectTool);
+    //toolbar->addAction(m_buttonSelectTool);
     m_buttonSelectTool->setCheckable(true);
     m_buttonSelectTool->setChecked(true);
 
     m_buttonRazorTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-cut")), i18n("Razor tool"), this);
     m_buttonRazorTool->setShortcut(i18nc("Razor tool shortcut", "x"));
-    toolbar->addAction(m_buttonRazorTool);
+    //toolbar->addAction(m_buttonRazorTool);
     m_buttonRazorTool->setCheckable(true);
     m_buttonRazorTool->setChecked(false);
 
     m_buttonSpacerTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("distribute-horizontal-x")), i18n("Spacer tool"), this);
     m_buttonSpacerTool->setShortcut(i18nc("Spacer tool shortcut", "m"));
-    toolbar->addAction(m_buttonSpacerTool);
+    //toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
     QActionGroup *toolGroup = new QActionGroup(this);
@@ -903,9 +969,9 @@ void MainWindow::setupActions()
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
     toolGroup->setExclusive(true);
-    toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    //toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
-    QWidget * actionWidget;
+    /*QWidget * actionWidget;
     int max = toolbar->iconSizeDefault() + 2;
     actionWidget = toolbar->widgetForAction(m_normalEditTool);
     actionWidget->setMaximumWidth(max);
@@ -929,18 +995,17 @@ void MainWindow::setupActions()
 
     actionWidget = toolbar->widgetForAction(m_buttonSpacerTool);
     actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
+    actionWidget->setMaximumHeight(max - 4);*/
 
     connect(toolGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotChangeTool(QAction*)));
 
-    toolbar->addSeparator();
-    QIcon ic = KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best"));
-    m_buttonFitZoom = new QAction(ic, i18n("Fit zoom to project"), this);
-    toolbar->addAction(m_buttonFitZoom);
+    //toolbar->addSeparator();
+    m_buttonFitZoom = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Fit zoom to project"), this);
+    //toolbar->addAction(m_buttonFitZoom);
     m_buttonFitZoom->setCheckable(false);
 
     m_zoomOut = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-out")), i18n("Zoom Out"), this);
-    toolbar->addAction(m_zoomOut);
+    //toolbar->addAction(m_zoomOut);
     m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
@@ -951,13 +1016,13 @@ void MainWindow::setupActions()
 
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
-    toolbar->addWidget(m_zoomSlider);
+    //toolbar->addWidget(m_zoomSlider);
 
     m_zoomIn = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-in")), i18n("Zoom In"), this);
-    toolbar->addAction(m_zoomIn);
+    //toolbar->addAction(m_zoomIn);
     m_zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
 
-    actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
+    /*actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
     actionWidget->setStyleSheet(styleBorderless);
@@ -970,7 +1035,7 @@ void MainWindow::setupActions()
     actionWidget = toolbar->widgetForAction(m_zoomOut);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
-    actionWidget->setStyleSheet(styleBorderless);
+    actionWidget->setStyleSheet(styleBorderless);*/
 
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetZoom(int)));
     connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(slotShowZoomSliderToolTip(int)));
@@ -978,39 +1043,39 @@ void MainWindow::setupActions()
     connect(m_zoomIn, SIGNAL(triggered(bool)), this, SLOT(slotZoomIn()));
     connect(m_zoomOut, SIGNAL(triggered(bool)), this, SLOT(slotZoomOut()));
 
-    toolbar->addSeparator();
+    //toolbar->addSeparator();
 
     //create automatic audio split button
     m_buttonAutomaticSplitAudio = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-split-audio")), i18n("Split audio and video automatically"), this);
-    toolbar->addAction(m_buttonAutomaticSplitAudio);
+    //toolbar->addAction(m_buttonAutomaticSplitAudio);
     m_buttonAutomaticSplitAudio->setCheckable(true);
     m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
     connect(m_buttonAutomaticSplitAudio, &QAction::toggled, this, &MainWindow::slotSwitchSplitAudio);
 
     m_buttonVideoThumbs = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-videothumb")), i18n("Show video thumbnails"), this);
-    toolbar->addAction(m_buttonVideoThumbs);
+    //toolbar->addAction(m_buttonVideoThumbs);
     m_buttonVideoThumbs->setCheckable(true);
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonVideoThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchVideoThumbs()));
 
     m_buttonAudioThumbs = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audiothumb")), i18n("Show audio thumbnails"), this);
-    toolbar->addAction(m_buttonAudioThumbs);
+    //toolbar->addAction(m_buttonAudioThumbs);
     m_buttonAudioThumbs->setCheckable(true);
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     connect(m_buttonAudioThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchAudioThumbs()));
 
     m_buttonShowMarkers = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-markers")), i18n("Show markers comments"), this);
-    toolbar->addAction(m_buttonShowMarkers);
+    //toolbar->addAction(m_buttonShowMarkers);
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
     m_buttonSnap = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-snap")), i18n("Snap"), this);
-    toolbar->addAction(m_buttonSnap);
+    //toolbar->addAction(m_buttonSnap);
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
 
-    actionWidget = toolbar->widgetForAction(m_buttonAutomaticSplitAudio);
+    /*actionWidget = toolbar->widgetForAction(m_buttonAutomaticSplitAudio);
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);
 
@@ -1028,31 +1093,14 @@ void MainWindow::setupActions()
 
     actionWidget = toolbar->widgetForAction(m_buttonSnap);
     actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
+    actionWidget->setMaximumHeight(max - 4);*/
 
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
 
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addWidget(m_statusProgressBar, 0);
-    statusBar()->addPermanentWidget(toolbar);
-
-    m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
-    QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-    m_timeFormatButton->setFont(fixedFont);
-    m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
-    m_timeFormatButton->addAction(i18n("Frames"));
-    if (KdenliveSettings::frametimecode()) m_timeFormatButton->setCurrentItem(1);
-    else m_timeFormatButton->setCurrentItem(0);
-    connect(m_timeFormatButton, SIGNAL(triggered(int)), this, SLOT(slotUpdateTimecodeFormat(int)));
-    m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
-    toolbar->addAction(m_timeFormatButton);
-
-    const QFontMetrics metric(fixedFont);
-    int requiredWidth = metric.boundingRect(QStringLiteral("00:00:00:00 / 00:00:00:00")).width() + 20;
-    actionWidget = toolbar->widgetForAction(m_timeFormatButton);
-    actionWidget->setObjectName(QStringLiteral("timecode"));
-    actionWidget->setMinimumWidth(requiredWidth);
+    //statusBar()->addPermanentWidget(toolbar);
 
     addAction(QStringLiteral("normal_mode"), m_normalEditTool);
     addAction(QStringLiteral("overwrite_mode"), m_overwriteEditTool);
@@ -1169,13 +1217,13 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()), KoIconUtils::themedIcon(QStringLiteral("measure")));
     addAction(QStringLiteral("clip_in_project_tree"), i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()), KoIconUtils::themedIcon(QStringLiteral("go-jump-definition")));
-    addAction(QStringLiteral("overwrite_to_in_point"), i18n("Insert Clip Zone in Timeline (Overwrite)"), this, SLOT(slotInsertClipOverwrite()), QIcon(), Qt::Key_B);
-    addAction(QStringLiteral("insert_to_in_point"), i18n("Insert Clip Zone in Timeline (Insert)"), this, SLOT(slotInsertClipInsert()), QIcon(), Qt::Key_V);
-    addAction(QStringLiteral("remove_extract"), i18n("Extract Timeline Zone"), this, SLOT(slotExtractZone()), QIcon(), Qt::SHIFT + Qt::Key_X);
-    addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), QIcon(), Qt::Key_Z);
-    addAction(QStringLiteral("set_render_timeline_zone"), i18n("Add Preview Zone"), this, SLOT(slotDefinePreviewRender()), QIcon());
-    addAction(QStringLiteral("unset_render_timeline_zone"), i18n("Unset Preview Zone"), this, SLOT(slotRemovePreviewRender()), QIcon());
-    addAction(QStringLiteral("prerender_timeline_zone"), i18n("Start Preview Render"), this, SLOT(slotPreviewRender()), QIcon(), QKeySequence(Qt::SHIFT + Qt::Key_Return));
+    addAction(QStringLiteral("overwrite_to_in_point"), i18n("Insert Clip Zone in Timeline (Overwrite)"), this, SLOT(slotInsertClipOverwrite()), KoIconUtils::themedIcon(QStringLiteral("insert-horizontal-rule")), Qt::Key_B);
+    addAction(QStringLiteral("insert_to_in_point"), i18n("Insert Clip Zone in Timeline (Insert)"), this, SLOT(slotInsertClipInsert()), KoIconUtils::themedIcon(QStringLiteral("insert-horizontal-rule")), Qt::Key_V);
+    addAction(QStringLiteral("remove_extract"), i18n("Extract Timeline Zone"), this, SLOT(slotExtractZone()), KoIconUtils::themedIcon(QStringLiteral("list-remove")), Qt::SHIFT + Qt::Key_X);
+    addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), KoIconUtils::themedIcon(QStringLiteral("list-remove")), Qt::Key_Z);
+    addAction(QStringLiteral("set_render_timeline_zone"), i18n("Add Preview Zone"), this, SLOT(slotDefinePreviewRender()), KoIconUtils::themedIcon(QStringLiteral("insert-horizontal-rule")));
+    addAction(QStringLiteral("unset_render_timeline_zone"), i18n("Unset Preview Zone"), this, SLOT(slotRemovePreviewRender()), KoIconUtils::themedIcon(QStringLiteral("insert-horizontal-rule")));
+    addAction(QStringLiteral("prerender_timeline_zone"), i18n("Start Preview Render"), this, SLOT(slotPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("player-time")), QKeySequence(Qt::SHIFT + Qt::Key_Return));
 
     addAction(QStringLiteral("select_timeline_clip"), i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_clip"), i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Minus);
@@ -1390,6 +1438,7 @@ void MainWindow::setupActions()
 
 void MainWindow::setStatusBarStyleSheet(const QPalette &p)
 {
+    return;
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor buttonBg = scheme.background(KColorScheme::LinkBackground).color();
     QColor buttonBord = scheme.foreground(KColorScheme::LinkText).color();
@@ -3212,8 +3261,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
 
 void MainWindow::slotRemoveFocus()
 {
-    statusBar()->setFocus();
-    statusBar()->clearFocus();
+    pCore->projectManager()->currentTimeline()->setFocus();
 }
 
 void MainWindow::slotShutdown()
