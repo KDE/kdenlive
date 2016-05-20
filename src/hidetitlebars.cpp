@@ -18,11 +18,11 @@ the Free Software Foundation, either version 3 of the License, or
 HideTitleBars::HideTitleBars(QObject* parent) :
     QObject(parent)
 {
-    QAction *showTitleBar = new QAction(i18n("Show Title Bars"), this);
-    showTitleBar->setCheckable(true);
-    showTitleBar->setChecked(KdenliveSettings::showtitlebars());
-    pCore->window()->addAction(QStringLiteral("show_titlebars"), showTitleBar);
-    connect(showTitleBar, SIGNAL(triggered(bool)), SLOT(slotShowTitleBars(bool)));
+    m_switchAction = new QAction(i18n("Show Title Bars"), this);
+    m_switchAction->setCheckable(true);
+    m_switchAction->setChecked(KdenliveSettings::showtitlebars());
+    pCore->window()->addAction(QStringLiteral("show_titlebars"), m_switchAction);
+    connect(m_switchAction, SIGNAL(triggered(bool)), SLOT(slotShowTitleBars(bool)));
 
     slotShowTitleBars(KdenliveSettings::showtitlebars());
 
@@ -36,6 +36,7 @@ void HideTitleBars::slotInstallRightClick()
         tabs.at(i)->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(tabs.at(i), SIGNAL(customContextMenuRequested(QPoint)), SLOT(slotSwitchTitleBars()));
     }
+    pCore->window()->updateDockTitleBars();
 }
 
 void HideTitleBars::slotShowTitleBars(bool show)
@@ -44,7 +45,19 @@ void HideTitleBars::slotShowTitleBars(bool show)
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget* dock = docks.at(i);
         if (show) {
-            dock->setTitleBarWidget(0);
+            QWidget *bar = dock->titleBarWidget();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+            // Since Qt 5.6 we only display title bar in non tabbed dockwidgets
+            if (bar && pCore->window()->tabifiedDockWidgets(dock).isEmpty()) {
+                dock->setTitleBarWidget(0);
+                delete bar;
+            }
+#else
+            if (bar) {
+                dock->setTitleBarWidget(0);
+                delete bar;
+            }
+#endif
         } else {
             if (!dock->isFloating()) {
                 dock->setTitleBarWidget(new QWidget);
@@ -56,7 +69,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
 
 void HideTitleBars::slotSwitchTitleBars()
 {
-    slotShowTitleBars(!KdenliveSettings::showtitlebars());
+    m_switchAction->trigger();
 }
 
 

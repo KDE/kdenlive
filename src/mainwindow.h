@@ -259,6 +259,7 @@ public slots:
     void slotTimelineClipSelected(ClipItem* item, bool reloadStack = true, bool raise = true);
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
+    void updateDockTitleBars();
 
 private slots:
     /** @brief Shows the shortcut dialog. */

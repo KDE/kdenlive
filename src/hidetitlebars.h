@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define HIDETITLEBARS_H
 
 #include <QObject>
+class QAction;
 
 /**
  * @class HideTitleBars
@@ -25,6 +26,9 @@ class HideTitleBars : public QObject
 
 public:
     explicit HideTitleBars(QObject *parent = 0);
+
+private:
+    QAction *m_switchAction;
 
 private slots:
     void slotInstallRightClick();

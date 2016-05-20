@@ -240,6 +240,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     /// Add Widgets
     setDockOptions(QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+    setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
+#endif
     setTabPosition(Qt::AllDockWidgetAreas, KdenliveSettings::verticaltabs() ? QTabWidget::East : QTabWidget::North);
     QToolBar *timelineTb = new QToolBar(this);//pCore->window()->toolBar("timelineToolBar");
     QWidget *ctn = new QWidget(this);
@@ -3466,6 +3469,7 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
+    connect(dockWidget, SIGNAL(dockLocationChanged(Qt::DockWidgetArea)), this, SLOT(updateDockTitleBars()));
     return dockWidget;
 }
 
@@ -3503,15 +3507,30 @@ void MainWindow::doChangeStyle()
 
 bool MainWindow::isTabbedWith(QDockWidget *widget, const QString & otherWidget)
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
     QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
     for (int i = 0; i < tabbed.count(); i++) {
         if (tabbed.at(i)->objectName() == otherWidget)
             return true;
     }
     return false;
-#else
-    return false;
+}
+
+void MainWindow::updateDockTitleBars()
+{
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+    QList <QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
+    for (int i = 0; i < docks.count(); ++i) {
+        QDockWidget* dock = docks.at(i);
+        if (dock->isFloating() || tabifiedDockWidgets(dock).isEmpty()) {
+            QWidget *bar = dock->titleBarWidget();
+            if (bar) {
+                dock->setTitleBarWidget(0);
+                delete bar;
+            }
+        } else {
+            dock->setTitleBarWidget(new QWidget);
+        }
+    }
 #endif
 }
 
