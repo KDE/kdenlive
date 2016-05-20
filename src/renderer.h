@@ -138,7 +138,7 @@ class Render: public AbstractRender
      * The speed is relative to normal playback, e.g. 1.0 is normal speed, 0.0
      * is paused, -1.0 means play backwards. It does not specify start/stop */
     void play(double speed);
-    void switchPlay(bool play);
+    void switchPlay(bool play, double speed = 1.0);
 
     /** @brief Stops playing.
      * @param startTime time to seek to */

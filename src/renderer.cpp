@@ -704,7 +704,7 @@ void Render::setActiveMonitor()
     if (!m_isActive) emit activateMonitor(m_name);
 }
 
-void Render::switchPlay(bool play)
+void Render::switchPlay(bool play, double speed)
 {
     QMutexLocker locker(&m_mutex);
     requestedSeekPosition = SEEK_INACTIVE;
@@ -712,6 +712,7 @@ void Render::switchPlay(bool play)
         return;
     if (m_isZoneMode) resetZoneMode();
     if (play) {
+        double currentSpeed = m_mltProducer->get_speed();
         if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) m_mltProducer->seek(0);
         if (m_mltConsumer->get_int("real_time") != m_qmlView->realTime()) {
             m_mltConsumer->set("real_time", m_qmlView->realTime());
@@ -722,10 +723,14 @@ void Render::switchPlay(bool play)
                 m_mltConsumer->stop();
             }
         }
-        m_mltConsumer->start();
-        m_isRefreshing = true;
-        m_mltConsumer->set("refresh", 1);
-        m_mltProducer->set_speed(1.0);
+        if (currentSpeed == 0) {
+            m_mltConsumer->start();
+            m_isRefreshing = true;
+            m_mltConsumer->set("refresh", 1);
+        } else {
+            m_mltConsumer->purge();
+        }
+        m_mltProducer->set_speed(speed);
     } else {
         m_mltConsumer->purge();
         m_mltProducer->set_speed(0.0);
@@ -744,14 +749,21 @@ void Render::play(double speed)
     double current_speed = m_mltProducer->get_speed();
     if (current_speed == speed) return;
     if (m_isZoneMode) resetZoneMode();
-    m_mltProducer->set_speed(speed);
-    if (m_mltConsumer->is_stopped() && speed != 0.0) {
-        m_mltConsumer->start();
+    if (speed != 0 && m_mltConsumer->get_int("real_time") != m_qmlView->realTime()) {
+        m_mltConsumer->set("real_time", m_qmlView->realTime());
+        m_mltConsumer->set("buffer", 25);
+        m_mltConsumer->set("prefill", 1);
+        // Changes to real_time require a consumer restart if running.
+        if (!m_mltConsumer->is_stopped()) {
+            m_mltConsumer->stop();
+        }
     }
-    if (current_speed == 0.0 && speed != 0.0) {
+    if (current_speed == 0) {
+        m_mltConsumer->start();
         m_isRefreshing = true;
         m_mltConsumer->set("refresh", 1);
     }
+    m_mltProducer->set_speed(speed);
 }
 
 void Render::play(const GenTime & startTime)
