@@ -67,6 +67,7 @@ class MyToolButton: public QToolButton
     Q_OBJECT
 public:
     explicit MyToolButton(QWidget *parent = 0);
+    ~MyToolButton();
     int progress() const;
     void setProgress(int);
 
@@ -75,6 +76,11 @@ protected:
 
 private:
     int m_progress;
+    QIcon m_icon;
+    QIcon m_blankIcon;
+    QPixmap *m_pix;
+    QElapsedTimer m_timer;
+    QString m_remainingTime;
 };
 
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow

@@ -479,13 +479,13 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     QColor preview(Qt::green);
     preview.setAlpha(120);
     foreach(int frame, m_renderingPreviews) {
-        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
+        QRectF rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
         p.fillRect(rec, preview);
     }
     preview = Qt::darkRed;
     preview.setAlpha(120);
     foreach(int frame, m_dirtyRenderingPreviews) {
-        QRect rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
+        QRectF rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
         p.fillRect(rec, preview);
     }
 
@@ -519,7 +519,7 @@ void CustomRuler::updatePreview(int frame, bool rendered)
         m_renderingPreviews.removeAll(frame);
         m_dirtyRenderingPreviews << frame;
     }
-    update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
+    update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor + 1, 3);
 }
 
 const QStringList CustomRuler::previewChunks() const
@@ -562,6 +562,6 @@ void CustomRuler::addChunks(QList <int> chunks, bool add)
             m_dirtyRenderingPreviews.removeAll(frame);
         }
     }
-    update(chunks.first() * m_factor - offset(), MAX_HEIGHT - 3, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor, 3);
+    update(chunks.first() * m_factor - offset(), MAX_HEIGHT - 3, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
 }
 

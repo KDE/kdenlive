@@ -242,8 +242,6 @@ signals:
     void reloadEffects();
     /** @brief Fps was changed, update timeline */
     void updateFps(bool changed);
-    /** @brief A timeline preview render is available */
-    void previewRender(int frame, const QString &file, int progress);
 };
 
 #endif

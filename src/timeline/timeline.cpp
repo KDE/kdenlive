@@ -143,7 +143,6 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_doc->renderer(), &Render::previewRender, this, &Timeline::gotPreviewRender);
-    connect(m_doc, &KdenliveDoc::previewRender, this, &Timeline::gotPreviewRender);
 }
 
 Timeline::~Timeline()
@@ -1764,7 +1763,6 @@ void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
     m_tractor->unlock();
     m_doc->previewProgress(progress);
     m_doc->setModified(true);
-    //m_doc->updatePreview(progress);
 }
 
 void Timeline::addPreviewRange(bool add)
@@ -1848,7 +1846,7 @@ void Timeline::loadPreviewRender()
             int pos = frame.toInt();
             const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.%2").arg(pos).arg(KdenliveSettings::tl_extension()));
             if (QFile::exists(fileName)) {
-                gotPreviewRender(pos, fileName, 100);
+                gotPreviewRender(pos, fileName, 1000);
             } else dirtyChunks << frame;
         }
         if (!dirtyChunks.isEmpty()) {

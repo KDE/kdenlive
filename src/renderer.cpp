@@ -1656,9 +1656,9 @@ void Render::doPreviewRender(QList <int> frames, QDir folder, QString id, QStrin
             break;
         QString fileName = id + QString("-%1.%2").arg(i).arg(KdenliveSettings::tl_extension());
         if (frames.count() > 1) {
-            progress = (double) (ct) / (frames.count() - 1) * 100;
+            progress = (double) (ct) / (frames.count() - 1) * 1000;
         } else {
-            progress = 100;
+            progress = 1000;
         }
         ct++;
         if (folder.exists(fileName)) {
