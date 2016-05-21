@@ -1485,6 +1485,10 @@ void MainWindow::setupActions()
     disableEffects->setData("disable_timeline_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
+    
+    QAction *locateClip = addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), pCore->bin(), SLOT(slotLocateClip()), KoIconUtils::themedIcon(QStringLiteral("edit-file")));
+    locateClip->setData("locate_clip");
+    locateClip->setEnabled(false);
 
     QAction *duplicateClip = addAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), pCore->bin(), SLOT(slotDuplicateClip()), KoIconUtils::themedIcon(QStringLiteral("edit-copy")));
     duplicateClip->setData("duplicate_clip");
@@ -1503,6 +1507,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(), Qt::SHIFT + Qt::Key_T);
 
     QHash <QString, QAction*> actions;
+    actions.insert(QStringLiteral("locate"), locateClip);
     actions.insert(QStringLiteral("reload"), reloadClip);
     actions.insert(QStringLiteral("duplicate"), duplicateClip);
     actions.insert(QStringLiteral("proxy"), proxyClip);

@@ -233,6 +233,12 @@ ProjectClip* ProjectClip::clipAt(int ix)
     return m_controller->isValid();
 }*/
 
+bool ProjectClip::hasUrl() const
+{
+    if (m_controller && (m_type != Color) && (m_type != Unknown)) return (m_controller->clipUrl().isValid());
+    return false;
+}
+
 QUrl ProjectClip::url() const
 {
     if (m_controller) return m_controller->clipUrl();

@@ -52,6 +52,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageBox>
 #include <KXMLGUIFactory>
 
+#include <QDesktopServices>
+#include <QUrl>
 #include <QDialogButtonBox>
 #include <QDrag>
 #include <QVBoxLayout>
@@ -828,6 +830,31 @@ void Bin::slotReloadClip()
     }
 }
 
+void Bin::slotLocateClip()
+{
+    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    foreach (const QModelIndex &ix, indexes) {
+        if (!ix.isValid() || ix.column() != 0) {
+            continue;
+        }
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
+        ProjectClip *currentItem = qobject_cast<ProjectClip*>(item);
+        if (currentItem) {
+	  QUrl url = currentItem->url().adjusted(QUrl::RemoveFilename);
+	  bool exists = QFile(url.toLocalFile()).exists();
+	  if (currentItem->hasUrl() && exists) {
+	    QDesktopServices::openUrl(url);
+	    qDebug()<<"  / / "+url.toString();
+	  } else {
+	    if(!exists){
+	      emitMessage(i18n("Couldn't locate ") + QString(" ("+url.toString()+")"), ErrorMessage);
+	    }
+	    return;
+	  }
+        }
+    }
+}
+
 void Bin::slotDuplicateClip()
 {
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
@@ -1254,6 +1281,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             currentItem->setCurrent(true);
             if (currentItem->itemType() == AbstractProjectItem::ClipItem) {
                 m_reloadAction->setEnabled(true);
+		m_locateAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
                 ClipType type = static_cast<ProjectClip*>(currentItem)->clipType();
                 m_openAction->setEnabled(type == Image || type == Audio);
@@ -1265,6 +1293,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 // A folder was selected, disable editing clip
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
+		m_locateAction->setEnabled(false);
                 m_duplicateAction->setEnabled(false);
                 m_deleteAction->setText(i18n("Delete Folder"));
                 m_proxyAction->setText(i18n("Proxy Folder"));
@@ -1272,6 +1301,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 showClipProperties(static_cast<ProjectClip*>(currentItem->parent()), false);
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
+		m_locateAction->setEnabled(false);
                 m_duplicateAction->setEnabled(false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
@@ -1280,6 +1310,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         } else {
 	    emit findInTimeline(QString());
             m_reloadAction->setEnabled(false);
+	    m_locateAction->setEnabled(false);
             m_duplicateAction->setEnabled(false);
             m_openAction->setEnabled(false);
 	    m_deleteAction->setEnabled(false);
@@ -1446,6 +1477,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     bool enableClipActions = false;
     ClipType type = Unknown;
     bool isFolder = false;
+    bool isImported = false;
     QString clipService;
     QString audioCodec;
     if (m_itemView) {
@@ -1473,6 +1505,9 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 			audioCodec = clip->codec(true);
 			QString videoCodec = clip->codec(false);
 			type = clip->clipType();
+			if (clip->hasUrl()){
+			  isImported = true;
+			}
 			bool noCodecInfo = false;
 			if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
 			    noCodecInfo = true;
@@ -1506,6 +1541,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_proxyAction->setEnabled(m_doc->getDocumentProperty("enableproxy").toInt() && enableClipActions);
     m_openAction->setEnabled(type == Image || type == Audio);
     m_reloadAction->setEnabled(enableClipActions);
+    m_locateAction->setEnabled(enableClipActions);
     m_duplicateAction->setEnabled(enableClipActions);
     m_clipsActionsMenu->setEnabled(enableClipActions);
     m_extractAudioAction->setEnabled(enableClipActions);
@@ -1521,7 +1557,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     }
     m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
     m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
-
+    m_locateAction->setVisible(!isFolder && (isImported));
 
     // Show menu
     if (enableClipActions) {
@@ -1895,6 +1931,7 @@ void Bin::setupGeneratorMenu()
         m_inTimelineAction->setEnabled(!addMenu->isEmpty());
     }
     
+    if (m_locateAction) m_menu->addAction(m_locateAction);
     if (m_reloadAction) m_menu->addAction(m_reloadAction);
     if (m_duplicateAction) m_menu->addAction(m_duplicateAction);
     if (m_proxyAction) m_menu->addAction(m_proxyAction);
@@ -1927,6 +1964,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_openAction = actions.value(QStringLiteral("open"));
     m_reloadAction = actions.value(QStringLiteral("reload"));
     m_duplicateAction = actions.value(QStringLiteral("duplicate"));
+    m_locateAction = actions.value(QStringLiteral("locate"));
     m_proxyAction = actions.value(QStringLiteral("proxy"));
 
     QMenu *m = new QMenu(this);

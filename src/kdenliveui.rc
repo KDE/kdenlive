@@ -48,6 +48,7 @@
       <Action name="bin_view_mode" />
       <Action name="stopmotion" />
       <Separator />
+      <Action name="locate_clip" />
       <Action name="reload_clip" />
       <Action name="duplicate_clip" />
       <Action name="proxy_clip" />

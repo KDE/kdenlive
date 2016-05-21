@@ -611,6 +611,7 @@ public slots:
     void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
     void slotDuplicateClip();
+    void slotLocateClip();
     void slotDeleteEffect(const QString &id, QDomElement effect);
     void slotMoveEffect(const QString &id, QList <int> currentPos, int newPos);
     /** @brief Request audio thumbnail for clip with id */
@@ -677,6 +678,7 @@ private:
     QAction *m_openAction;
     QAction *m_reloadAction;
     QAction *m_duplicateAction;
+    QAction *m_locateAction;
     QAction *m_proxyAction;
     QAction *m_editAction;
     QAction *m_deleteAction;
