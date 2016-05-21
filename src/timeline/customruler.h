@@ -56,6 +56,8 @@ public:
     /** @brief Returns a list of dirty timeline preview chunks (that need to be generated) */
     const QList <int> getDirtyChunks() const;
     void addChunks(QList <int> chunks, bool add);
+    /** @brief Returns true if a timeline preview zone has already be defined */
+    bool hasPreviewRange() const;
 
 protected:
     void paintEvent(QPaintEvent * /*e*/);

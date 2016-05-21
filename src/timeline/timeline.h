@@ -34,6 +34,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include <QDomElement>
+#include <QTimer>
 
 #include <mlt++/Mlt.h>
 
@@ -164,8 +165,6 @@ public:
     void reloadTrack(int ix, int start = 0, int end = -1);
     /** @brief Invalidate a preview rendering range. */
     void invalidateRange(ItemInfo info = ItemInfo());
-    /** @brief Start rendering preview rendering range. */
-    void startPreviewRender();
     /** @brief Add or remove current timeline zone to preview render zone. */
     void addPreviewRange(bool add);
 
@@ -184,6 +183,8 @@ public slots:
     void updateProfile(bool fpsChanged);
     /** @brief Enable/disable multitrack view (split monitor in 4) */
     void slotMultitrackView(bool enable);
+    /** @brief Start rendering preview rendering range. */
+    void startPreviewRender();
 
 private:
     Mlt::Tractor *m_tractor;
@@ -204,6 +205,7 @@ private:
     int m_verticalZoom;
     QString m_documentErrors;
     QList <QAction *> m_trackActions;
+    QTimer m_previewTimer;
 
     void adjustTrackHeaders();
 

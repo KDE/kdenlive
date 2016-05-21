@@ -467,6 +467,8 @@ private slots:
     /** @brief Create a generator's setup dialog */
     void buildGenerator(QAction *action);
     void slotCheckTabPosition();
+    /** @brief Toggle automatic timeline preview on/off */
+    void slotToggleAutoPreview(bool enable);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

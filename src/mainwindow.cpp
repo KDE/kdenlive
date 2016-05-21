@@ -143,8 +143,9 @@ void MyToolButton::setProgress(int progress)
         m_timer.invalidate();
         m_progress = -1;
     } else {
-        if (!m_timer.isValid()) {
-            m_icon = QIcon(icon());
+        if (!m_timer.isValid() || progress == 0) {
+            if (m_icon.isNull())
+                m_icon = QIcon(icon());
             setIcon(m_blankIcon);
             m_timer.start();
         }
@@ -631,6 +632,15 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     tlMenu->addAction(prevRender);
     tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
+    tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
+
+    // Automatic timeline preview action
+    QAction *autoRender = new QAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Automatic Preview"), this);
+    autoRender->setCheckable(true);
+    autoRender->setChecked(KdenliveSettings::autopreview());
+    connect(autoRender, &QAction::triggered, this, &MainWindow::slotToggleAutoPreview);
+    tlMenu->addAction(autoRender);
+
     timelinePreview->setDefaultAction(prevRender);
     timelinePreview->setAutoRaise(true);
     timelineTb->addWidget(timelinePreview);
@@ -3626,6 +3636,13 @@ void MainWindow::updateDockTitleBars()
         }
     }
 #endif
+}
+
+void MainWindow::slotToggleAutoPreview(bool enable)
+{
+    KdenliveSettings::setAutopreview(enable);
+    if (enable && pCore->projectManager()->currentTimeline())
+        pCore->projectManager()->currentTimeline()->startPreviewRender();
 }
 
 #ifdef DEBUG_MAINW

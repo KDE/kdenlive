@@ -291,6 +291,7 @@ private:
     bool m_abortPreview;
     void closeMlt();
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
+    QList <int> m_previewChunks;
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
@@ -310,7 +311,7 @@ private slots:
     /** @brief Refreshes the monitor display. */
     void refresh();
     void slotCheckSeeking();
-    void doPreviewRender(QList <int> zone, QDir folder, QString id, QString scene);
+    void doPreviewRender(QDir folder, QString id, QString scene);
 
 signals:
     /** @brief The renderer stopped, either playing or rendering. */

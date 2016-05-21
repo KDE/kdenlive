@@ -1621,9 +1621,11 @@ void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString
 void Render::previewRendering(QList <int> frames, const QString &cacheDir, const QString &documentId)
 {
     if (m_previewThread.isRunning()) {
-        qDebug()<<"/ / /Already processing a preview render, abort";
-        return;
+        m_abortPreview = true;
+        m_previewThread.waitForFinished();
     }
+    m_previewChunks << frames;
+    qSort(m_previewChunks);
     QDir dir(cacheDir);
     dir.mkpath(QStringLiteral("."));
     // Save temporary scenelist
@@ -1638,29 +1640,31 @@ void Render::previewRendering(QList <int> frames, const QString &cacheDir, const
         return;
     xmlConsumer.connect(prod);
     xmlConsumer.run();
-    m_previewThread = QtConcurrent::run(this, &Render::doPreviewRender, frames, dir, documentId, sceneListFile);
+    m_previewThread = QtConcurrent::run(this, &Render::doPreviewRender, dir, documentId, sceneListFile);
 }
 
-void Render::doPreviewRender(QList <int> frames, QDir folder, QString id, QString scene)
+void Render::doPreviewRender(QDir folder, QString id, QString scene)
 {
     int progress;
     int chunkSize = KdenliveSettings::timelinechunks();
-    int ct = 0;
-    qSort(frames);
     QStringList consumerParams;
     consumerParams << "an=1";
     consumerParams << KdenliveSettings::tl_parameters().split(" ");
     emit previewRender(0, QString(), 0);
-    foreach (int i, frames) {
-        if (m_abortPreview)
-            break;
-        QString fileName = id + QString("-%1.%2").arg(i).arg(KdenliveSettings::tl_extension());
-        if (frames.count() > 1) {
-            progress = (double) (ct) / (frames.count() - 1) * 1000;
-        } else {
-            progress = 1000;
-        }
+    int ct = 0;
+    while (!m_previewChunks.isEmpty()) {
+        int i = m_previewChunks.takeFirst();
         ct++;
+        if (m_abortPreview) {
+            m_previewChunks.prepend(i);
+            break;
+        }
+        QString fileName = id + QString("-%1.%2").arg(i).arg(KdenliveSettings::tl_extension());
+        if (m_previewChunks.isEmpty()) {
+            progress = 1000;
+        } else {
+            progress = (double) (ct) / (ct + m_previewChunks.count()) * 1000;
+        }
         if (folder.exists(fileName)) {
             // This chunk already exists
             emit previewRender(i, folder.absoluteFilePath(fileName), progress);

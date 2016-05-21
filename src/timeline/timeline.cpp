@@ -143,6 +143,9 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_doc->renderer(), &Render::previewRender, this, &Timeline::gotPreviewRender);
+    m_previewTimer.setSingleShot(true);
+    m_previewTimer.setInterval(3000);
+    connect(&m_previewTimer, &QTimer::timeout, this, &Timeline::startPreviewRender);
 }
 
 Timeline::~Timeline()
@@ -1776,26 +1779,30 @@ void Timeline::addPreviewRange(bool add)
         frames << i * chunkSize;
     }
     m_ruler->addChunks(frames, add);
+    if (KdenliveSettings::autopreview())
+        m_previewTimer.start();
 }
 
 void Timeline::startPreviewRender()
 {
-    QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    QList <int> chunks = m_ruler->getDirtyChunks();
-    if (chunks.isEmpty()) {
+    if (!m_ruler->hasPreviewRange() && !KdenliveSettings::autopreview()) {
         addPreviewRange(true);
-        chunks = m_ruler->getDirtyChunks();
     }
-    m_doc->renderer()->previewRendering(m_ruler->getDirtyChunks(), cacheDir, documentId);
+    QList <int> chunks = m_ruler->getDirtyChunks();
+    if (!chunks.isEmpty()) {
+        QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
+        m_doc->renderer()->previewRendering(chunks, cacheDir, documentId);
+    }
 }
 
 void Timeline::invalidateRange(ItemInfo info)
 {
     if (info.isValid())
         invalidatePreview(info.startPos.frames(m_doc->fps()), info.endPos.frames(m_doc->fps()));
-    else
+    else {
         invalidatePreview(0, m_trackview->duration());
+    }
 }
 
 void Timeline::invalidatePreview(int startFrame, int endFrame)
@@ -1822,6 +1829,8 @@ void Timeline::invalidatePreview(int startFrame, int endFrame)
     trackPlaylist.consolidate_blanks();
     m_tractor->unlock();
     m_doc->invalidatePreviews(list);
+    if (KdenliveSettings::autopreview())
+        m_previewTimer.start();
 }
 
 void Timeline::loadPreviewRender()

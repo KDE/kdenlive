@@ -167,6 +167,10 @@
       <label>Default size of video chunks for timeline preview.</label>
       <default>25</default>
     </entry>
+    <entry name="autopreview" type="Bool">
+      <label>Automatically regenerate dirty zones of timeline preview.</label>
+      <default>false</default>
+    </entry>
 
     <entry name="videothumbnails" type="Bool">
       <label>Display video thumbnails in timeline.</label>

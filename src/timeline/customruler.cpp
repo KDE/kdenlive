@@ -542,6 +542,11 @@ const QList <int> CustomRuler::getDirtyChunks() const
     return m_dirtyRenderingPreviews;
 }
 
+bool CustomRuler::hasPreviewRange() const
+{
+    return (!m_dirtyRenderingPreviews.isEmpty() || !m_renderingPreviews.isEmpty());
+}
+
 void CustomRuler::addChunks(QList <int> chunks, bool add)
 {
     qSort(chunks);
