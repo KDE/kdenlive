@@ -109,17 +109,19 @@
 #include <QtGlobal>
 
 MyToolButton::MyToolButton(QWidget *parent) : QToolButton(parent)
+    , m_defaultAction(NULL)
 {
     setPopupMode(MenuButtonPopup);
     m_progress = width() - 6;
     m_pix = new QPixmap(1,1);
     m_pix->fill(Qt::transparent);
-    m_blankIcon = QIcon(*m_pix);
+    m_dummyAction = new QAction(QIcon(*m_pix), i18n("Rendering preview"), this);
 }
 
 MyToolButton::~MyToolButton()
 {
     delete m_pix;
+    delete m_dummyAction;
 }
 
 void MyToolButton::setProgress(int progress) 
@@ -139,20 +141,24 @@ void MyToolButton::setProgress(int progress)
     if (prog == m_progress)
         return;
     if (progress < 0) {
+        if (m_defaultAction)
+            setDefaultAction(m_defaultAction);
         m_remainingTime.clear();
         m_timer.invalidate();
         m_progress = -1;
     } else {
         if (!m_timer.isValid() || progress == 0) {
-            if (m_icon.isNull())
-                m_icon = QIcon(icon());
-            setIcon(m_blankIcon);
+            if (!m_defaultAction) {
+                m_defaultAction = defaultAction();
+            }
+            setDefaultAction(m_dummyAction);
             m_timer.start();
         }
         if (progress == 1000) {
+            if (m_defaultAction)
+                setDefaultAction(m_defaultAction);
             m_remainingTime.clear();
             m_timer.invalidate();
-            setIcon(m_icon);
         }
         m_progress = prog;
     }
@@ -644,13 +650,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     timelinePreview->setDefaultAction(prevRender);
     timelinePreview->setAutoRaise(true);
     timelineTb->addWidget(timelinePreview);
-
-    /*QPropertyAnimation *animation = new QPropertyAnimation(timelinePreview, "progress");
-    animation->setDuration(1000);
-    animation->setLoopCount(-1);
-    animation->setStartValue(1);
-    animation->setEndValue(100);
-    animation->start();*/
 
     timelineTb->addAction(toolButtonAction);
     QWidget *sep = new QWidget(this);
