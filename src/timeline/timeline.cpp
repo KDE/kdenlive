@@ -1792,7 +1792,16 @@ void Timeline::startPreviewRender()
     if (!chunks.isEmpty()) {
         QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
         QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-        m_doc->renderer()->previewRendering(chunks, cacheDir, documentId);
+        QString docParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters"));
+        if (docParams.isEmpty()) {
+            m_doc->selectPreviewProfile();
+            docParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters"));
+        }
+        if (docParams.isEmpty()) {
+            KMessageBox::sorry(this, i18n("No available preview profile found, please check the Timeline Settings"));
+            return;
+        }
+        m_doc->renderer()->previewRendering(chunks, cacheDir, documentId, docParams.split(" "), m_doc->getDocumentProperty(QStringLiteral("previewextension")));
     }
 }
 
@@ -1871,3 +1880,15 @@ void Timeline::loadPreviewRender()
     }
 }
 
+void Timeline::updatePreviewSettings(const QString &profile)
+{
+    if (profile.isEmpty()) return;
+    QString params = profile.section(";", 0, 0);
+    QString ext = profile.section(";", 1, 1);
+    if (params != m_doc->getDocumentProperty(QStringLiteral("previewparameters")) || ext != m_doc->getDocumentProperty(QStringLiteral("previewextension"))) {
+        // Timeline preview params changed, delete all existing previews.
+        invalidateRange(ItemInfo());
+        m_doc->setDocumentProperty(QStringLiteral("previewparameters"), params);
+        m_doc->setDocumentProperty(QStringLiteral("previewextension"), ext);
+    }
+}

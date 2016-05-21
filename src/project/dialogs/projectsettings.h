@@ -49,6 +49,7 @@ public:
     const QMap <QString, QString> metadata() const;
     static QStringList extractPlaylistUrls(const QString &path);
     static QStringList extractSlideshowUrls(const QUrl &url);
+    const QString selectedPreview() const;
 
 public slots:
     virtual void accept();
@@ -64,6 +65,7 @@ private slots:
     void slotExportToText();
     /** @brief Update the displayed proxy parameters when user changes selection. */
     void slotUpdateProxyParams();
+    void slotUpdatePreviewParams();
     /** @brief Insert a new metadata field. */
     void slotAddMetadataField();
     /** @brief Delete current metadata field. */
@@ -72,6 +74,7 @@ private slots:
     void slotEditProfiles();
     /** @brief Display proxy profiles management dialog. */
     void slotManageEncodingProfile();
+    void slotManagePreviewProfile();
     /** @brief Open editor for metadata item. */
     void slotEditMetadata(QTreeWidgetItem *, int );
 
@@ -88,6 +91,10 @@ private:
     QStringList m_projectThumbs;
     /** @brief Fill the proxy profiles combobox. */
     void loadProxyProfiles();
+    QString m_previewparams;
+    QString m_previewextension;
+    /** @brief Fill the proxy profiles combobox. */
+    void loadPreviewProfiles();
 
 signals:
     /** @brief User deleted proxies, so disable them in project. */

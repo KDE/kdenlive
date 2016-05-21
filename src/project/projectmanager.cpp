@@ -155,6 +155,11 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         documentProperties.insert(QStringLiteral("proxyparams"), w->proxyParams());
         documentProperties.insert(QStringLiteral("proxyextension"), w->proxyExtension());
         documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number((int) w->generateImageProxy()));
+        QString preview = w->selectedPreview();
+        if (!preview.isEmpty()) {
+            documentProperties.insert(QStringLiteral("previewparameters"), preview.section(";", 0, 0));
+            documentProperties.insert(QStringLiteral("previewextension"), preview.section(";", 1, 1));
+        }
         documentProperties.insert(QStringLiteral("proxyimageminsize"), QString::number(w->proxyImageMinSize()));
         documentMetadata = w->metadata();
         delete w;

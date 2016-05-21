@@ -906,7 +906,7 @@
       <label>Name of the chosen deinterlacer.</label>
       <default>onefield</default>
     </entry>
-    
+
     <entry name="mltinterpolation" type="String">
       <label>Name of the chosen interpol method.</label>
       <default>nearest</default>

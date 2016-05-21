@@ -159,6 +159,8 @@ public:
     void doAddAction(const QString &name, QAction *a);
     void invalidatePreviews(QList <int> chunks);
     void previewProgress(int p);
+    /** @brief Select most appropriate rendering profile for timeline preview based on fps / size. */
+    void selectPreviewProfile();
 
 private:
     QUrl m_url;

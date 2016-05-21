@@ -167,6 +167,8 @@ public:
     void invalidateRange(ItemInfo info = ItemInfo());
     /** @brief Add or remove current timeline zone to preview render zone. */
     void addPreviewRange(bool add);
+    /** @brief Check if timeline preview profile changed and remove preview files if necessary. */
+    void updatePreviewSettings(const QString &profile);
 
 protected:
     void keyPressEvent(QKeyEvent * event);

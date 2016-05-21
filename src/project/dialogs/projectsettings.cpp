@@ -77,6 +77,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt());
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
+        m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
+        m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
     }
     else {
         currentProf = KdenliveSettings::default_profile();
@@ -103,6 +105,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
 
 
     loadProxyProfiles();
+    loadPreviewProfiles();
 
     // Proxy GUI stuff
     proxy_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
@@ -117,6 +120,20 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     proxyparams->setVisible(false);
     proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     connect(proxy_showprofileinfo, SIGNAL(clicked(bool)), proxyparams, SLOT(setVisible(bool)));
+
+    // Preview GUI stuff
+    preview_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
+    preview_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
+    preview_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    preview_manageprofile->setToolTip(i18n("Manage timeline preview profiles"));
+
+    connect(preview_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManagePreviewProfile()));
+    preview_profile->setToolTip(i18n("Select default preview profile"));
+
+    connect(preview_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatePreviewParams()));
+    previewparams->setVisible(false);
+    previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
+    connect(preview_showprofileinfo, SIGNAL(clicked(bool)), previewparams, SLOT(setVisible(bool)));
 
     if (readOnlyTracks) {
         video_tracks->setEnabled(false);
@@ -420,8 +437,20 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     delete_unused->setEnabled(unUsed > 0);
 }
 
+const QString ProjectSettings::selectedPreview() const
+{
+    return preview_profile->itemData(preview_profile->currentIndex()).toString();
+}
+
 void ProjectSettings::accept()
 {
+    QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
+    if (!params.isEmpty()) {
+        if (params.section(";", 0, 0) != m_previewparams || params.section(";", 1, 1) != m_previewextension) {
+            // Timeline preview settings changed, warn
+            if (KMessageBox::warningContinueCancel(this, i18n("You changed the timeline preview profile. This will remove all existing timeline previews for this project.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) return;
+        }
+    }
     if (!m_savedProject && selectedProfile() != KdenliveSettings::current_profile())
         if (KMessageBox::warningContinueCancel(this, i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation that might cause some corruption in transitions.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) return;
     QDialog::accept();
@@ -647,6 +676,12 @@ void ProjectSettings::slotUpdateProxyParams()
     proxyparams->setPlainText(params.section(';', 0, 0));
 }
 
+void ProjectSettings::slotUpdatePreviewParams()
+{
+    QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
+    previewparams->setPlainText(params.section(';', 0, 0));
+}
+
 const QMap <QString, QString> ProjectSettings::metadata() const
 {
     QMap <QString, QString> metadata;
@@ -714,6 +749,14 @@ void ProjectSettings::slotManageEncodingProfile()
     loadProxyProfiles();
 }
 
+void ProjectSettings::slotManagePreviewProfile()
+{
+    QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(1);
+    d->exec();
+    delete d;
+    loadPreviewProfiles();
+}
+
 void ProjectSettings::loadProxyProfiles()
 {
    // load proxy profiles
@@ -741,6 +784,41 @@ void ProjectSettings::loadProxyProfiles()
         proxy_profile->addItem(i18n("Current Settings"), QString(m_proxyparameters + ';' + m_proxyextension));
     }
     proxy_profile->setCurrentIndex(ix);
+    slotUpdateProxyParams();
+}
+
+void ProjectSettings::loadPreviewProfiles()
+{
+   // load proxy profiles
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    KConfigGroup group(&conf, "timelinepreview");
+    QMap <QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> k(values);
+    int ix = -1;
+    preview_profile->clear();
+    while (k.hasNext()) {
+        k.next();
+        if (!k.key().isEmpty()) {
+            QString params = k.value().section(';', 0, 0);
+            QString extension = k.value().section(';', 1, 1);
+            if (ix == -1 && (params == m_previewparams && extension == m_previewextension)) {
+                // this is the current profile
+                ix = preview_profile->count();
+            }
+            preview_profile->addItem(k.key(), k.value());
+        }
+    }
+    if (ix == -1) {
+        // Current project proxy settings not found
+        ix = preview_profile->count();
+        if (m_previewparams.isEmpty() && m_previewextension.isEmpty()) {
+            // Leave empty, will be automatically detected
+            preview_profile->addItem(i18n("Auto"));
+        } else {
+            preview_profile->addItem(i18n("Current Settings"), QString(m_previewparams + ';' + m_previewextension));
+        }
+    }
+    preview_profile->setCurrentIndex(ix);
     slotUpdateProxyParams();
 }
 

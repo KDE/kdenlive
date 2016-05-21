@@ -1626,7 +1626,7 @@ void Render::abortPreview()
     }
 }
 
-void Render::previewRendering(QList <int> frames, const QString &cacheDir, const QString &documentId)
+void Render::previewRendering(QList <int> frames, const QString &cacheDir, const QString &documentId, QStringList consumerParams, const QString extension)
 {
     abortPreview();
     m_previewChunks << frames;
@@ -1645,16 +1645,14 @@ void Render::previewRendering(QList <int> frames, const QString &cacheDir, const
         return;
     xmlConsumer.connect(prod);
     xmlConsumer.run();
-    m_previewThread = QtConcurrent::run(this, &Render::doPreviewRender, dir, documentId, sceneListFile);
+    m_previewThread = QtConcurrent::run(this, &Render::doPreviewRender, dir, documentId, sceneListFile, consumerParams, extension);
 }
 
-void Render::doPreviewRender(QDir folder, QString id, QString scene)
+void Render::doPreviewRender(QDir folder, QString id, QString scene, QStringList consumerParams, const QString &extension)
 {
     int progress;
     int chunkSize = KdenliveSettings::timelinechunks();
-    QStringList consumerParams;
     consumerParams << "an=1";
-    consumerParams << KdenliveSettings::tl_parameters().split(" ");
     emit previewRender(0, QString(), 0);
     int ct = 0;
     while (!m_previewChunks.isEmpty()) {
@@ -1665,7 +1663,7 @@ void Render::doPreviewRender(QDir folder, QString id, QString scene)
             emit previewRender(0, QString(), 1000);
             break;
         }
-        QString fileName = id + QString("-%1.%2").arg(i).arg(KdenliveSettings::tl_extension());
+        QString fileName = id + QString("-%1.%2").arg(i).arg(extension);
         if (m_previewChunks.isEmpty()) {
             progress = 1000;
         } else {

@@ -1616,3 +1616,58 @@ void KdenliveDoc::previewProgress(int p)
 {
     pCore->window()->setPreviewProgress(p);
 }
+
+void KdenliveDoc::selectPreviewProfile()
+{
+    // Read preview profiles and find the best match
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    KConfigGroup group(&conf, "timelinepreview");
+    QMap< QString, QString > values = group.entryMap();
+    QMapIterator<QString, QString> i(values);
+    QStringList matchingProfiles;
+    QStringList fallBackProfiles;
+
+    while (i.hasNext()) {
+        i.next();
+        // Check for frame rate
+        QStringList data = i.value().split(" ");
+        bool rateFound = false;
+        foreach(const QString arg, data) {
+            if (arg.startsWith(QStringLiteral("r="))) {
+                rateFound = true;
+                double fps = arg.section(QStringLiteral("="), 1).toDouble();
+                if (fps > 0) {
+                    if (qAbs((int) (m_render->fps() * 100) - (fps * 100)) <= 1) {
+                        matchingProfiles << i.value();
+                        break;
+                    }
+                }
+            }
+        }
+        if (!rateFound) {
+            // Profile without fps, can be used as fallBack
+            fallBackProfiles << i.value();
+        }
+    }
+    QString bestMatch;
+    if (matchingProfiles.count() > 1) {
+        // several profiles with matching fps, try to decide based on resolution
+        QString docSize = QString("s=%1x%2").arg(m_profile.width).arg(m_profile.height);
+        foreach (const QString &param, matchingProfiles) {
+            if (param.contains(docSize)) {
+                bestMatch = param;
+                break;
+            }
+        }
+        if (bestMatch.isEmpty())
+            bestMatch = matchingProfiles.first();
+    } else if (matchingProfiles.count() == 1) {
+        bestMatch = matchingProfiles.first();
+    } else if (!fallBackProfiles.isEmpty()) {
+        bestMatch = fallBackProfiles.first();
+    }
+    if (!bestMatch.isEmpty()) {
+        setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(";", 0, 0));
+        setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(";", 1, 1));
+    }
+}

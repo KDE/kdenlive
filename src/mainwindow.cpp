@@ -320,7 +320,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     /// Add Widgets
     setDockOptions(QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
 #endif
     setTabPosition(Qt::AllDockWidgetAreas, KdenliveSettings::verticaltabs() ? QTabWidget::East : QTabWidget::North);
@@ -1630,6 +1630,7 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         project->setProjectFolder(w->selectedFolder());
+        pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
         bool modified = false;
         if (m_recMonitor) {
             m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());

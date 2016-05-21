@@ -242,44 +242,47 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     }
 
     // decklink profile
+    QAction *act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
+    act->setData(4);
+    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    m_configCapture.decklink_manageprofile->setDefaultAction(act);
     m_configCapture.decklink_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
-    m_configCapture.decklink_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     m_configCapture.decklink_parameters->setVisible(false);
     m_configCapture.decklink_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.decklink_parameters->setPlainText(KdenliveSettings::decklink_parameters());
-    connect(m_configCapture.decklink_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
     connect(m_configCapture.kcfg_decklink_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkProfile()));
     connect(m_configCapture.decklink_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.decklink_parameters, SLOT(setVisible(bool)));
 
     // ffmpeg profile
     m_configCapture.v4l_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
-    m_configCapture.v4l_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     m_configCapture.v4l_parameters->setVisible(false);
     m_configCapture.v4l_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.v4l_parameters->setPlainText(KdenliveSettings::v4l_parameters());
-    connect(m_configCapture.v4l_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
+
+    act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
+    act->setData(2);
+    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    m_configCapture.v4l_manageprofile->setDefaultAction(act);
     connect(m_configCapture.kcfg_v4l_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateV4lProfile()));
     connect(m_configCapture.v4l_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.v4l_parameters, SLOT(setVisible(bool)));
 
     // screen grab profile
     m_configCapture.grab_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
-    m_configCapture.grab_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     m_configCapture.grab_parameters->setVisible(false);
     m_configCapture.grab_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.grab_parameters->setPlainText(KdenliveSettings::grab_parameters());
-    connect(m_configCapture.grab_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
+    act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
+    act->setData(3);
+    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    m_configCapture.grab_manageprofile->setDefaultAction(act);
     connect(m_configCapture.kcfg_grab_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateGrabProfile()));
     connect(m_configCapture.grab_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.grab_parameters, SLOT(setVisible(bool)));
 
     // Timeline preview
-    m_configTimeline.tl_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
-    m_configTimeline.tl_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
-    m_configTimeline.tl_parameters->setVisible(false);
-    m_configTimeline.tl_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
-    m_configTimeline.tl_parameters->setPlainText(KdenliveSettings::tl_parameters());
-    connect(m_configTimeline.tl_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
-    connect(m_configTimeline.kcfg_tl_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateTlProfile()));
-    connect(m_configTimeline.tl_showprofileinfo, SIGNAL(clicked(bool)), m_configTimeline.tl_parameters, SLOT(setVisible(bool)));
+    act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
+    act->setData(1);
+    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    m_configTimeline.tl_manageprofile->setDefaultAction(act);
 
     // Project profile management
     m_configProject.manage_profiles->setIcon(KoIconUtils::themedIcon("configure"));
@@ -295,14 +298,18 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configProject.proxyparams->setVisible(false);
     m_configProject.proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configProject.proxyparams->setPlainText(KdenliveSettings::proxyparams());
-    connect(m_configProject.proxy_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
+
+    act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
+    act->setData(0);
+    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    m_configProject.proxy_manageprofile->setDefaultAction(act);
+
     connect(m_configProject.proxy_showprofileinfo, SIGNAL(clicked(bool)), m_configProject.proxyparams, SLOT(setVisible(bool)));
     connect(m_configProject.kcfg_proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyProfile()));
 
 
     slotUpdateProxyProfile(-1);
     slotUpdateV4lProfile(-1);
-    slotUpdateTlProfile(-1);
     slotUpdateGrabProfile(-1);
     slotUpdateDecklinkProfile(-1);
 
@@ -793,13 +800,6 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setProxyextension(data.section(';', 1, 1));
     }
 
-    // Timeline previews
-    data = m_configTimeline.kcfg_tl_profile->itemData(m_configTimeline.kcfg_tl_profile->currentIndex()).toString();
-    if (!data.isEmpty() && (data.section(';', 0, 0) != KdenliveSettings::tl_parameters() || data.section(';', 1, 1) != KdenliveSettings::tl_extension())) {
-        KdenliveSettings::setTl_parameters(data.section(';', 0, 0));
-        KdenliveSettings::setTl_extension(data.section(';', 1, 1));
-    }
-
     if (updateCapturePath) emit updateCaptureFolder();
     if (updateLibrary) emit updateLibraryFolder();
 
@@ -1159,9 +1159,10 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
 
 void KdenliveSettingsDialog::slotManageEncodingProfile()
 {
+    QAction *act = qobject_cast<QAction *>(sender());
     int type = 0;
-    if (currentPage() == m_page4) {
-        type = m_configCapture.tabWidget->currentIndex();
+    if (act) {
+        type = act->data().toInt();
     }
     QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(type);
     d->exec();
@@ -1186,20 +1187,6 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     }
     m_configCapture.kcfg_v4l_profile->blockSignals(false);
     if (!currentItem.isEmpty()) m_configCapture.kcfg_v4l_profile->setCurrentIndex(m_configCapture.kcfg_v4l_profile->findText(currentItem));
-
-    // Load Timeline preview profiles
-    m_configTimeline.kcfg_tl_profile->blockSignals(true);
-    currentItem = m_configTimeline.kcfg_tl_profile->currentText();
-    m_configTimeline.kcfg_tl_profile->clear();
-    KConfigGroup group5(&conf, "timelinepreview");
-    values = group5.entryMap();
-    QMapIterator<QString, QString> m(values);
-    while (m.hasNext()) {
-        m.next();
-        if (!m.key().isEmpty()) m_configTimeline.kcfg_tl_profile->addItem(m.key(), m.value());
-    }
-    m_configTimeline.kcfg_tl_profile->blockSignals(false);
-    if (!currentItem.isEmpty()) m_configTimeline.kcfg_tl_profile->setCurrentIndex(m_configTimeline.kcfg_tl_profile->findText(currentItem));
 
     // Load Screen Grab profiles
     m_configCapture.kcfg_grab_profile->blockSignals(true);
@@ -1262,16 +1249,6 @@ void KdenliveSettingsDialog::slotUpdateV4lProfile(int ix)
     QString data = m_configCapture.kcfg_v4l_profile->itemData(ix).toString();
     if (data.isEmpty()) return;
     m_configCapture.v4l_parameters->setPlainText(data.section(';', 0, 0));
-    //
-}
-
-void KdenliveSettingsDialog::slotUpdateTlProfile(int ix)
-{
-    if (ix == -1) ix = KdenliveSettings::tl_profile();
-    else ix = m_configTimeline.kcfg_tl_profile->currentIndex();
-    QString data = m_configTimeline.kcfg_tl_profile->itemData(ix).toString();
-    if (data.isEmpty()) return;
-    m_configTimeline.tl_parameters->setPlainText(data.section(';', 0, 0));
     //
 }
 
