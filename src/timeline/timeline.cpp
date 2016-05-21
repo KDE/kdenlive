@@ -1882,6 +1882,7 @@ void Timeline::loadPreviewRender()
     QString chunks = m_doc->getDocumentProperty(QStringLiteral("previewchunks"));
     QString dirty = m_doc->getDocumentProperty(QStringLiteral("dirtypreviewchunks"));
     QString ext = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
+    QDateTime documentDate = QFileInfo(m_doc->url().path()).lastModified();
     if (!chunks.isEmpty() || !dirty.isEmpty()) {
         if (!m_hasOverlayTrack) {
             // Create overlay track
@@ -1898,8 +1899,15 @@ void Timeline::loadPreviewRender()
         foreach(const QString frame, previewChunks) {
             int pos = frame.toInt();
             const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.%2").arg(pos).arg(ext));
-            if (QFile::exists(fileName)) {
-                gotPreviewRender(pos, fileName, 1000);
+            QFile file(fileName);
+            if (file.exists()) {
+                if (QFileInfo(file).lastModified() > documentDate) {
+                    // Timeline preview file was created after document, invalidate
+                    file.remove();
+                    dirtyChunks << frame;
+                } else {
+                    gotPreviewRender(pos, fileName, 1000);
+                }
             } else dirtyChunks << frame;
         }
         if (!dirtyChunks.isEmpty()) {
