@@ -104,13 +104,14 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     sizeLayout->addWidget(butLarge);
 
     QToolButton *enableZone = new QToolButton(this);
-    QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("measure")), i18n("Use Timeline Zone for Insert"), this);
+    KDualAction *ac = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
+    ac->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-on")));
+    ac->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-off")));
     ac->setShortcut(Qt::Key_G);
     enableZone->setAutoRaise(true);
-    ac->setCheckable(true);
-    ac->setChecked(KdenliveSettings::useTimelineZoneToEdit());
+    ac->setActive(KdenliveSettings::useTimelineZoneToEdit());
     enableZone->setDefaultAction(ac);
-    connect(ac, &QAction::toggled, this, &Timeline::slotEnableZone);
+    connect(ac, &KDualAction::activeChangedByUser, this, &Timeline::slotEnableZone);
     sizeLayout->addWidget(enableZone);
     m_doc->doAddAction(QStringLiteral("use_timeline_zone_in_edit"), ac);
 
