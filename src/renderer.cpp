@@ -1650,6 +1650,7 @@ void Render::doPreviewRender(QList <int> frames, QDir folder, QString id, QStrin
     QStringList consumerParams;
     consumerParams << "an=1";
     consumerParams << KdenliveSettings::tl_parameters().split(" ");
+    emit previewRender(0, QString(), 0);
     foreach (int i, frames) {
         if (m_abortPreview)
             break;

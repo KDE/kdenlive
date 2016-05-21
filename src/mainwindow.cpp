@@ -135,8 +135,12 @@ void MyToolButton::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing, true);
     if (m_progress < 0)
         painter.fillRect(3, height() - 5, (width() - 6), 3, Qt::red);
-    else
+    else {
+        QColor w(Qt::white);
+        w.setAlpha(40);
         painter.fillRect(3, height() - 5, m_progress, 3, palette().highlight().color());
+        painter.fillRect(3 + m_progress, height() - 5, width() - 6 - m_progress, 3, w);
+    }
     painter.setPen(palette().shadow().color());
     painter.drawRoundedRect(2, height() - 6, width() - 4, 5, 2, 2);
     }
@@ -588,7 +592,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
     timelinePreview->setDefaultAction(prevRender);
-    timelinePreview->setPopupMode(QToolButton::MenuButtonPopup);
     timelinePreview->setAutoRaise(true);
     timelineTb->addWidget(timelinePreview);
 
