@@ -523,6 +523,11 @@ void CustomRuler::updatePreview(int frame, bool rendered, bool refresh)
         update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor + 1, 3);
 }
 
+void CustomRuler::updatePreviewDisplay(int start, int end)
+{
+    update(start * m_factor - offset(), MAX_HEIGHT - 3, (end - start) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
+}
+
 const QStringList CustomRuler::previewChunks() const
 {
     QStringList resultChunks;

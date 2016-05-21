@@ -2050,7 +2050,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
         clearSelection();
         m_timeline->addTrackEffect(track, effect);
         if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
-            monitorRefresh(true);
+            monitorRefresh();
         emit updateTrackEffectState(track);
         emit showTrackEffects(track, m_timeline->getTrackInfo(track));
         return;
@@ -2098,7 +2098,7 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
         }
         emit updateTrackEffectState(track);
         if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
-            monitorRefresh(true);
+            monitorRefresh();
         emit showTrackEffects(track, m_timeline->getTrackInfo(track));
         return;
     }
@@ -2431,7 +2431,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
         }
         m_timeline->setTrackEffect(track, ix, effect);
         if (refreshMonitor && effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
-            monitorRefresh(true);
+            monitorRefresh();
         emit updateTrackEffectState(track);
         return;
 
@@ -2501,7 +2501,7 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
             return;
         }
         if (m_timeline->enableTrackEffects(track, effectIndexes, disable))
-            monitorRefresh(true);
+            monitorRefresh();
         emit updateTrackEffectState(track);
         emit showTrackEffects(track, m_timeline->getTrackInfo(track));
         return;
@@ -2547,8 +2547,10 @@ void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int
             if (!act.isNull() && !before.isNull()) {
                 m_timeline->setTrackEffect(track, new_position, before);
                 m_timeline->track(track)->moveTrackEffect(old_position, new_position);
-                if (before.attribute(QStringLiteral("type")) != QLatin1String("audio"))
-                    monitorRefresh(true);
+                if (before.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
+                    monitorRefresh();
+                    m_timeline->invalidateTrack(track);
+                }
             } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
         }
         emit showTrackEffects(track, m_timeline->getTrackInfo(track));
@@ -3777,7 +3779,6 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
 void CustomTrackView::slotSwitchTrackVideo(int ix, bool enable)
 {
     m_timeline->switchTrackVideo(ix, enable);
-    //TODO: invalidate preview range, refresh only if cli pat cursor time
     m_document->renderer()->doRefresh();
     //TODO: create undo/redo command for this
     setDocumentModified();

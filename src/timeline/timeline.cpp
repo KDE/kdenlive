@@ -758,6 +758,7 @@ void Timeline::switchTrackVideo(int ix, bool hide)
         }
     }
     tk->setState(newstate);
+    invalidateTrack(ix);
     refreshTractor();
 }
 
@@ -1407,8 +1408,12 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
         }
     }
     sourceTrack->effectsList.append(effect);
-    if (addToPlaylist)
+    if (addToPlaylist) {
         sourceTrack->addTrackEffect(EffectsController::getEffectArgs(m_doc->getProfileInfo(), effect));
+        if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
+            invalidateTrack(trackIndex);
+        }
+    }
 }
 
 bool Timeline::removeTrackEffect(int trackIndex, int effectIndex, const QDomElement &effect)
@@ -1429,6 +1434,9 @@ bool Timeline::removeTrackEffect(int trackIndex, int effectIndex, const QDomElem
                 break;
             }
         }
+        if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
+            invalidateTrack(trackIndex);
+        }
     }
     return success;
 }
@@ -1448,6 +1456,9 @@ void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effec
     sourceTrack->effectsList.removeAt(effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
     effect.setAttribute(QStringLiteral("kdenlive_ix"), effectIndex);
     sourceTrack->effectsList.insert(effect);
+    if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
+        invalidateTrack(trackIndex);
+    }
 }
 
 bool Timeline::enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable)
@@ -1467,6 +1478,9 @@ bool Timeline::enableTrackEffects(int trackIndex, const QList <int> &effectIndex
             if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
                 hasVideoEffect = true;
         }
+    }
+    if (hasVideoEffect) {
+        invalidateTrack(trackIndex);
     }
     return hasVideoEffect;
 }
@@ -1818,6 +1832,8 @@ void Timeline::stopPreviewRender()
 
 void Timeline::invalidateRange(ItemInfo info)
 {
+    if (!m_hasOverlayTrack)
+        return;
     if (info.isValid())
         invalidatePreview(info.startPos.frames(m_doc->fps()), info.endPos.frames(m_doc->fps()));
     else {
@@ -1827,8 +1843,8 @@ void Timeline::invalidateRange(ItemInfo info)
 
 void Timeline::invalidatePreview(int startFrame, int endFrame)
 {
-    if (!m_hasOverlayTrack)
-        return;
+    if (m_previewGatherTimer.isActive())
+        m_previewGatherTimer.stop();
     int chunkSize = KdenliveSettings::timelinechunks();
     int start = startFrame / chunkSize;
     int end = lrintf(endFrame / chunkSize);
@@ -1846,7 +1862,6 @@ void Timeline::invalidatePreview(int startFrame, int endFrame)
         delete prod;
         m_ruler->updatePreview(i * chunkSize, false);
     }
-    m_ruler->update();
     trackPlaylist.consolidate_blanks();
     m_tractor->unlock();
     m_previewGatherTimer.start();
@@ -1854,7 +1869,9 @@ void Timeline::invalidatePreview(int startFrame, int endFrame)
 
 void Timeline::slotProcessDirtyChunks()
 {
-    m_doc->invalidatePreviews(m_ruler->getDirtyChunks());
+    QList <int> chunks = m_ruler->getDirtyChunks();
+    m_doc->invalidatePreviews(chunks);
+    m_ruler->updatePreviewDisplay(chunks.first(), chunks.last());
     if (KdenliveSettings::autopreview())
         m_previewTimer.start();
 }
@@ -1926,14 +1943,26 @@ void Timeline::slotReloadChunks(QList <int> chunks)
             const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.%2").arg(ix).arg(ext));
             Mlt::Producer prod(*m_tractor->profile(), 0, fileName.toUtf8().constData());
             if (prod.is_valid()) {
-                m_ruler->updatePreview(ix, true, true);
+                m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
                 trackPlaylist.insert_at(ix, &prod, 1);
             }
         }
     }
+    m_ruler->updatePreviewDisplay(chunks.first(), chunks.last());
     trackPlaylist.consolidate_blanks();
     m_tractor->unlock();
     if (timer)
         m_previewTimer.start();
+}
+
+void Timeline::invalidateTrack(int ix)
+{
+    if (!m_hasOverlayTrack)
+        return;
+    Track* tk = track(ix);
+    QList <QPoint> visibleRange = tk->visibleClips();
+    foreach(const QPoint p, visibleRange) {
+        invalidatePreview(p.x(), p.y());
+    }
 }

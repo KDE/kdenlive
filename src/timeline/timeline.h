@@ -169,6 +169,8 @@ public:
     void addPreviewRange(bool add);
     /** @brief Check if timeline preview profile changed and remove preview files if necessary. */
     void updatePreviewSettings(const QString &profile);
+    /** @brief invalidate timeline preview for visible clips in a track */
+    void invalidateTrack(int ix);
 
 protected:
     void keyPressEvent(QKeyEvent * event);

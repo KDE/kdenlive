@@ -205,6 +205,7 @@ public:
     bool enableTrackEffects(const QList <int> &effectIndexes, bool disable);
     bool moveEffect(double start, int oldPos, int newPos);
     bool moveTrackEffect(int oldPos, int newPos);
+    QList <QPoint> visibleClips();
 
 signals:
     /** @brief notify track length change to update background

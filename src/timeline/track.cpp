@@ -947,3 +947,41 @@ bool Track::moveTrackEffect(int oldPos, int newPos)
     EffectManager effect(m_playlist);
     return effect.moveEffect(oldPos, newPos);
 }
+
+QList <QPoint> Track::visibleClips()
+{
+    QList <QPoint> clips;
+    QPoint current;
+    Mlt::ClipInfo *info = new Mlt::ClipInfo();
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (m_playlist.is_blank(i)) continue;
+
+        // get producer, check if it has video
+        m_playlist.clip_info(i, info);
+        Mlt::Producer *clip = info->producer;
+        QString service = clip->get("mlt_service");
+        if (service.contains(QStringLiteral("avformat"))) {
+            // Check if it is audio only
+            if (clip->get_int("video_index") == -1) {
+                continue;
+            }
+        }
+        // Found a clip
+        int cStart = info->start;
+        int length = info->length;
+        if (current.isNull()) {
+            current.setX(cStart);
+            current.setY(cStart + length);
+        } else if (cStart - current.y() < 25) {
+            current.setY(cStart + length);
+        } else {
+            clips << current;
+            current.setX(cStart);
+            current.setY(cStart + length);
+        }
+    }
+    if (!current.isNull())
+        clips << current;
+    delete info;
+    return clips;
+}
