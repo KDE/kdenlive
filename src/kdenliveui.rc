@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="125" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="126" translationDomain="kdenlive">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -110,9 +110,12 @@
 	  <Action name="remove_extract" />
           <Action name="remove_lift" />
       </Menu>
-      <Action name="prerender_timeline_zone" />
-      <Action name="set_render_timeline_zone" />
-      <Action name="unset_render_timeline_zone" />
+      <Menu name="timeline_preview" ><text>Timeline Preview</text>
+        <Action name="prerender_timeline_zone" />
+        <Action name="stop_prerender_timeline" />
+        <Action name="set_render_timeline_zone" />
+        <Action name="unset_render_timeline_zone" />
+      </Menu>
       <Action name="resize_timeline_clip_start" />
       <Action name="resize_timeline_clip_end" />
       <Menu name="current_clip" ><text>Current clip</text>

@@ -252,6 +252,7 @@ class Render: public AbstractRender
     void finishProfileReset();
     void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
     void previewRendering(QList <int> frames, const QString &cacheDir, const QString &documentId);
+    void abortPreview();
 
 private:
 

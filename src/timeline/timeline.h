@@ -185,6 +185,8 @@ public slots:
     void slotMultitrackView(bool enable);
     /** @brief Start rendering preview rendering range. */
     void startPreviewRender();
+    /** @brief Stop rendering preview. */
+    void stopPreviewRender();
 
 private:
     Mlt::Tractor *m_tractor;

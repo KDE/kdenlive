@@ -629,7 +629,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(this, &MainWindow::setPreviewProgress, timelinePreview, &MyToolButton::setProgress);
 
     QAction *prevRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
-    tlMenu->addAction(prevRender);
+    tlMenu->addAction(actionCollection()->action(QStringLiteral("stop_prerender_timeline")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
@@ -1326,6 +1326,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("set_render_timeline_zone"), i18n("Add Preview Zone"), this, SLOT(slotDefinePreviewRender()), KoIconUtils::themedIcon(QStringLiteral("insert-horizontal-rule")));
     addAction(QStringLiteral("unset_render_timeline_zone"), i18n("Unset Preview Zone"), this, SLOT(slotRemovePreviewRender()), KoIconUtils::themedIcon(QStringLiteral("insert-horizontal-rule")));
     addAction(QStringLiteral("prerender_timeline_zone"), i18n("Start Preview Render"), this, SLOT(slotPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("player-time")), QKeySequence(Qt::SHIFT + Qt::Key_Return));
+    addAction(QStringLiteral("stop_prerender_timeline"), i18n("Stop Preview Render"), this, SLOT(slotStopPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("process-stop")));
 
     addAction(QStringLiteral("select_timeline_clip"), i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_clip"), i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Minus);
@@ -2361,6 +2362,13 @@ void MainWindow::slotPreviewRender()
 {
     if (pCore->projectManager()->current()) {
         pCore->projectManager()->currentTimeline()->startPreviewRender();
+    }
+}
+
+void MainWindow::slotStopPreviewRender()
+{
+    if (pCore->projectManager()->current()) {
+        pCore->projectManager()->currentTimeline()->stopPreviewRender();
     }
 }
 

@@ -344,6 +344,7 @@ private slots:
     void slotExtractZone();
     void slotLiftZone();
     void slotPreviewRender();
+    void slotStopPreviewRender();
     void slotDefinePreviewRender();
     void slotRemovePreviewRender();
     void slotSelectTimelineClip();

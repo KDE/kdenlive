@@ -1618,12 +1618,17 @@ void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString
     }
 }
 
-void Render::previewRendering(QList <int> frames, const QString &cacheDir, const QString &documentId)
+void Render::abortPreview()
 {
     if (m_previewThread.isRunning()) {
         m_abortPreview = true;
         m_previewThread.waitForFinished();
     }
+}
+
+void Render::previewRendering(QList <int> frames, const QString &cacheDir, const QString &documentId)
+{
+    abortPreview();
     m_previewChunks << frames;
     qSort(m_previewChunks);
     QDir dir(cacheDir);
@@ -1657,6 +1662,7 @@ void Render::doPreviewRender(QDir folder, QString id, QString scene)
         ct++;
         if (m_abortPreview) {
             m_previewChunks.prepend(i);
+            emit previewRender(0, QString(), 1000);
             break;
         }
         QString fileName = id + QString("-%1.%2").arg(i).arg(KdenliveSettings::tl_extension());

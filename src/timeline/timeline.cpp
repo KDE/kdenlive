@@ -1796,6 +1796,11 @@ void Timeline::startPreviewRender()
     }
 }
 
+void Timeline::stopPreviewRender()
+{
+    m_doc->renderer()->abortPreview();
+}
+
 void Timeline::invalidateRange(ItemInfo info)
 {
     if (info.isValid())
