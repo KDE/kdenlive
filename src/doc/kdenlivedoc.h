@@ -158,6 +158,7 @@ public:
     bool profileChanged(const QString &profile) const;
     void doAddAction(const QString &name, QAction *a);
     void invalidatePreviews(QList <int> chunks);
+    void previewProgress(int p);
 
 private:
     QUrl m_url;

@@ -1611,3 +1611,8 @@ void KdenliveDoc::invalidatePreviews(QList <int> chunks)
     }
     setModified(true);
 }
+
+void KdenliveDoc::previewProgress(int p)
+{
+    pCore->window()->setPreviewProgress(p);
+}

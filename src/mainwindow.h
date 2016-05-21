@@ -60,6 +60,23 @@ class KIconLoader;
 
 #define EXIT_RESTART (42)
 
+
+class MyToolButton: public QToolButton
+{
+    Q_PROPERTY(int progress READ progress WRITE setProgress)
+    Q_OBJECT
+public:
+    explicit MyToolButton(QWidget *parent = 0);
+    int progress() const;
+    void setProgress(int);
+
+protected:
+    virtual void paintEvent(QPaintEvent *event);
+
+private:
+    int m_progress;
+};
+
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
@@ -450,6 +467,7 @@ signals:
     void configurationChanged();
     void GUISetupDone();
     void reloadTheme();
+    void setPreviewProgress(int);
 };
 
 

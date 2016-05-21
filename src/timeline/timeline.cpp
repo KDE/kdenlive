@@ -1745,6 +1745,10 @@ void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
         m_tractor->unlock();
         m_hasOverlayTrack = true;
     }
+    if (file.isEmpty()) {
+        m_doc->previewProgress(progress);
+        return;
+    }
     Mlt::Producer *overlayTrack = m_tractor->track(tracksCount());
     m_tractor->lock();
     Mlt::Playlist trackPlaylist((mlt_playlist) overlayTrack->get_service());
@@ -1758,7 +1762,7 @@ void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
         }
     }
     m_tractor->unlock();
-    m_doc->progressInfo(i18n("Rendering preview"), progress);
+    m_doc->previewProgress(progress);
     m_doc->setModified(true);
     //m_doc->updatePreview(progress);
 }

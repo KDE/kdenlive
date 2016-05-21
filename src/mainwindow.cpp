@@ -108,6 +108,41 @@
 #include <QVBoxLayout>
 #include <QtGlobal>
 
+MyToolButton::MyToolButton(QWidget *parent) : QToolButton(parent)
+{
+    m_progress = width() - 6;
+}
+
+void MyToolButton::setProgress(int progress) 
+{
+    int prog = (width() - 6) * (double) progress / 100;
+    if (prog == m_progress)
+        return;
+    m_progress = progress < 0 ? -1 : prog;
+    update();
+}
+
+int MyToolButton::progress() const
+{
+    return m_progress;
+}
+
+void MyToolButton::paintEvent(QPaintEvent *event)
+{
+    QToolButton::paintEvent(event);
+    if (m_progress < width() - 6) {
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    if (m_progress < 0)
+        painter.fillRect(3, height() - 5, (width() - 6), 3, Qt::red);
+    else
+        painter.fillRect(3, height() - 5, m_progress, 3, palette().highlight().color());
+    painter.setPen(palette().shadow().color());
+    painter.drawRoundedRect(2, height() - 6, width() - 4, 5, 2, 2);
+    }
+}
+
+
 static const char version[] = KDENLIVE_VERSION;
 namespace Mlt
 {
@@ -543,15 +578,26 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     timelineTb->addAction(actionCollection()->action(QStringLiteral("remove_extract")));
     timelineTb->addAction(actionCollection()->action(QStringLiteral("remove_lift")));
 
-    QToolButton *timelinePreview = new QToolButton(this);
+    MyToolButton *timelinePreview = new MyToolButton(this);
     QMenu *tlMenu = new QMenu(this);
     timelinePreview->setMenu(tlMenu);
+    connect(this, &MainWindow::setPreviewProgress, timelinePreview, &MyToolButton::setProgress);
+
     QAction *prevRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
     tlMenu->addAction(prevRender);
     tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
     timelinePreview->setDefaultAction(prevRender);
+    timelinePreview->setPopupMode(QToolButton::MenuButtonPopup);
+    timelinePreview->setAutoRaise(true);
     timelineTb->addWidget(timelinePreview);
+
+    /*QPropertyAnimation *animation = new QPropertyAnimation(timelinePreview, "progress");
+    animation->setDuration(1000);
+    animation->setLoopCount(-1);
+    animation->setStartValue(1);
+    animation->setEndValue(100);
+    animation->start();*/
 
     timelineTb->addAction(toolButtonAction);
     QWidget *sep = new QWidget(this);

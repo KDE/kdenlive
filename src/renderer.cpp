@@ -1673,8 +1673,11 @@ void Render::doPreviewRender(QList <int> frames, QDir folder, QString id, QStrin
         args << "-consumer" << "avformat:" + folder.absoluteFilePath(fileName);
         args << consumerParams;
         int result = QProcess::execute(KdenliveSettings::rendererpath(), args);
-        if (result < 0) {
+        if (result != 0) {
             // Something is wrong, abort
+            qDebug()<<"+++++++++\n++ ERROR  ++\n++++++";
+            emit previewRender(i, QString(), -1);
+            QFile::remove(folder.absoluteFilePath(fileName));
             break;
         }
         emit previewRender(i, folder.absoluteFilePath(fileName), progress);
