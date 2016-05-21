@@ -510,7 +510,7 @@ void CustomRuler::activateZone()
     update();
 }
 
-void CustomRuler::updatePreview(int frame, bool rendered)
+void CustomRuler::updatePreview(int frame, bool rendered, bool refresh)
 {
     if (rendered) {
         m_renderingPreviews << frame;
@@ -519,7 +519,8 @@ void CustomRuler::updatePreview(int frame, bool rendered)
         m_renderingPreviews.removeAll(frame);
         m_dirtyRenderingPreviews << frame;
     }
-    update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor + 1, 3);
+    if (refresh)
+        update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor + 1, 3);
 }
 
 const QStringList CustomRuler::previewChunks() const

@@ -690,17 +690,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
             KdenliveSettings::setV4l_extension(data.section(';', 1, 1));
         }
     }
-    if (KdenliveSettings::tl_parameters().isEmpty() || KdenliveSettings::tl_extension().isEmpty()) {
-        KConfigGroup group(&conf, "timelinepreview");
-        QMap< QString, QString > values = group.entryMap();
-        QMapIterator<QString, QString> i(values);
-        if (i.hasNext()) {
-            i.next();
-            QString data = i.value();
-            KdenliveSettings::setTl_parameters(data.section(';', 0, 0));
-            KdenliveSettings::setTl_extension(data.section(';', 1, 1));
-        }
-    }
     if (KdenliveSettings::grab_parameters().isEmpty() || KdenliveSettings::grab_extension().isEmpty()) {
         KConfigGroup group(&conf, "screengrab");
         QMap< QString, QString > values = group.entryMap();

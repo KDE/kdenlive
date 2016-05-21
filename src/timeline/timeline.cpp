@@ -144,9 +144,13 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_doc->renderer(), &Render::previewRender, this, &Timeline::gotPreviewRender);
+    connect(m_doc, &KdenliveDoc::reloadChunks, this, &Timeline::slotReloadChunks);
     m_previewTimer.setSingleShot(true);
     m_previewTimer.setInterval(3000);
     connect(&m_previewTimer, &QTimer::timeout, this, &Timeline::startPreviewRender);
+    m_previewGatherTimer.setSingleShot(true);
+    m_previewGatherTimer.setInterval(200);
+    connect(&m_previewGatherTimer, &QTimer::timeout, this, &Timeline::slotProcessDirtyChunks);
 }
 
 Timeline::~Timeline()
@@ -1759,11 +1763,12 @@ void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
     if (trackPlaylist.is_blank_at(frame)) {
         Mlt::Producer prod(*m_tractor->profile(), 0, file.toUtf8().constData());
         if (prod.is_valid()) {
-            m_ruler->updatePreview(frame);
+            m_ruler->updatePreview(frame, true, true);
             prod.set("mlt_service", "avformat-novalidate");
             trackPlaylist.insert_at(frame, &prod, 1);
         }
     }
+    trackPlaylist.consolidate_blanks();
     m_tractor->unlock();
     m_doc->previewProgress(progress);
     m_doc->setModified(true);
@@ -1780,7 +1785,7 @@ void Timeline::addPreviewRange(bool add)
         frames << i * chunkSize;
     }
     m_ruler->addChunks(frames, add);
-    if (KdenliveSettings::autopreview())
+    if (add && KdenliveSettings::autopreview())
         m_previewTimer.start();
 }
 
@@ -1841,9 +1846,15 @@ void Timeline::invalidatePreview(int startFrame, int endFrame)
         delete prod;
         m_ruler->updatePreview(i * chunkSize, false);
     }
+    m_ruler->update();
     trackPlaylist.consolidate_blanks();
     m_tractor->unlock();
-    m_doc->invalidatePreviews(list);
+    m_previewGatherTimer.start();
+}
+
+void Timeline::slotProcessDirtyChunks()
+{
+    m_doc->invalidatePreviews(m_ruler->getDirtyChunks());
     if (KdenliveSettings::autopreview())
         m_previewTimer.start();
 }
@@ -1853,6 +1864,7 @@ void Timeline::loadPreviewRender()
     QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
     QString chunks = m_doc->getDocumentProperty(QStringLiteral("previewchunks"));
     QString dirty = m_doc->getDocumentProperty(QStringLiteral("dirtypreviewchunks"));
+    QString ext = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
     if (!chunks.isEmpty() || !dirty.isEmpty()) {
         if (!m_hasOverlayTrack) {
             // Create overlay track
@@ -1863,12 +1875,12 @@ void Timeline::loadPreviewRender()
             m_tractor->unlock();
             m_hasOverlayTrack = true;
         }
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) );
         QStringList previewChunks = chunks.split(",", QString::SkipEmptyParts);
         QStringList dirtyChunks = dirty.split(",", QString::SkipEmptyParts);
         foreach(const QString frame, previewChunks) {
             int pos = frame.toInt();
-            const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.%2").arg(pos).arg(KdenliveSettings::tl_extension()));
+            const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.%2").arg(pos).arg(ext));
             if (QFile::exists(fileName)) {
                 gotPreviewRender(pos, fileName, 1000);
             } else dirtyChunks << frame;
@@ -1877,6 +1889,7 @@ void Timeline::loadPreviewRender()
             foreach(const QString i, dirtyChunks) {
                 m_ruler->updatePreview(i.toInt(), false);
             }
+            m_ruler->update();
         }
     }
 }
@@ -1892,4 +1905,35 @@ void Timeline::updatePreviewSettings(const QString &profile)
         m_doc->setDocumentProperty(QStringLiteral("previewparameters"), params);
         m_doc->setDocumentProperty(QStringLiteral("previewextension"), ext);
     }
+}
+
+void Timeline::slotReloadChunks(QList <int> chunks)
+{
+    bool timer = false;
+    if (m_previewTimer.isActive()) {
+        m_previewTimer.stop();
+        timer = true;
+    }
+    QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
+    QString ext = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+    Mlt::Producer *overlayTrack = m_tractor->track(tracksCount());
+    m_tractor->lock();
+    Mlt::Playlist trackPlaylist((mlt_playlist) overlayTrack->get_service());
+    delete overlayTrack;
+    foreach(int ix, chunks) {
+        if (trackPlaylist.is_blank_at(ix)) {
+            const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.%2").arg(ix).arg(ext));
+            Mlt::Producer prod(*m_tractor->profile(), 0, fileName.toUtf8().constData());
+            if (prod.is_valid()) {
+                m_ruler->updatePreview(ix, true, true);
+                prod.set("mlt_service", "avformat-novalidate");
+                trackPlaylist.insert_at(ix, &prod, 1);
+            }
+        }
+    }
+    trackPlaylist.consolidate_blanks();
+    m_tractor->unlock();
+    if (timer)
+        m_previewTimer.start();
 }

@@ -209,6 +209,8 @@ private:
     int m_verticalZoom;
     QString m_documentErrors;
     QList <QAction *> m_trackActions;
+    /** @brief sometimes grouped commands quickly send invalidate commands, so wait a little bit before processing*/
+    QTimer m_previewGatherTimer;
     QTimer m_previewTimer;
 
     void adjustTrackHeaders();
@@ -251,6 +253,8 @@ private slots:
     void slotEnableZone(bool enable);
     void gotPreviewRender(int frame, const QString &file, int progress);
     void invalidatePreview(int startFrame, int endFrame);
+    void slotReloadChunks(QList <int> chunks);
+    void slotProcessDirtyChunks();
 
 signals:
     void mousePosition(int);

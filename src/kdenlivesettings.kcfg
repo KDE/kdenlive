@@ -222,20 +222,6 @@
       <default>false</default>
     </entry>
 
-    <entry name="tl_profile" type="UInt">
-      <label>default timeline preview encoding profile.</label>
-      <default>0</default>
-    </entry>
-    <entry name="tl_parameters" type="String">
-      <label>Default timeline preview format.</label>
-      <default></default>
-    </entry>
-
-    <entry name="tl_extension" type="String">
-      <label>Default timeline preview file extension.</label>
-      <default></default>
-    </entry>
-
     </group>
 
     <group name="sdl">
