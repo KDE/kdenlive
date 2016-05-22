@@ -524,9 +524,19 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     toolButtonAction->setText(i18n("Favorite Effects"));
     toolButtonAction->setIcon(KoIconUtils::themedIcon("favorite"));
     toolButtonAction->setDefaultWidget(basketButton);
-
     addAction(QStringLiteral("favorite_effects"), toolButtonAction);
     connect(toolButtonAction, SIGNAL(triggered(bool)), basketButton, SLOT(showMenu()));
+
+    // Timeline preview button
+    MyToolButton *timelinePreview = new MyToolButton(this);
+    QMenu *tlMenu = new QMenu(this);
+    timelinePreview->setMenu(tlMenu);
+    connect(this, &MainWindow::setPreviewProgress, timelinePreview, &MyToolButton::setProgress);
+    QWidgetAction* previewButtonAction = new QWidgetAction(this);
+    previewButtonAction->setText(i18n("Timeline Preview"));
+    previewButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("player-time")));
+    previewButtonAction->setDefaultWidget(timelinePreview);
+
     setupGUI();
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
@@ -598,11 +608,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_timelineToolBar->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_timelineToolBar, &QWidget::customContextMenuRequested, this, &MainWindow::showTimelineToolbarMenu);
 
-    MyToolButton *timelinePreview = new MyToolButton(this);
-    QMenu *tlMenu = new QMenu(this);
-    timelinePreview->setMenu(tlMenu);
-    connect(this, &MainWindow::setPreviewProgress, timelinePreview, &MyToolButton::setProgress);
-
     QAction *prevRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("stop_prerender_timeline")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
@@ -615,10 +620,12 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     autoRender->setChecked(KdenliveSettings::autopreview());
     connect(autoRender, &QAction::triggered, this, &MainWindow::slotToggleAutoPreview);
     tlMenu->addAction(autoRender);
-
     timelinePreview->setDefaultAction(prevRender);
     timelinePreview->setAutoRaise(true);
-    m_timelineToolBar->addWidget(timelinePreview);
+    //m_timelineToolBar->addWidget(timelinePreview);
+
+    addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
+
     //m_timelineToolBar->addAction(toolButtonAction);
 
     /*QWidget *sep = new QWidget(this);
