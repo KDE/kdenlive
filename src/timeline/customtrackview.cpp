@@ -181,7 +181,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_disableClipAction = new QAction(QIcon::fromTheme(QStringLiteral("visibility")), i18n("Disable Clip"), this);
     connect(m_disableClipAction, &QAction::triggered, this, &CustomTrackView::disableClip);
     m_disableClipAction->setCheckable(true);
-    m_document->doAddAction(QStringLiteral("clip_disabled"), m_disableClipAction);
+    m_document->doAddAction(QStringLiteral("clip_disabled"), m_disableClipAction, QKeySequence());
 }
 
 CustomTrackView::~CustomTrackView()

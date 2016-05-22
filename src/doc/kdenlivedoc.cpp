@@ -1604,9 +1604,10 @@ void KdenliveDoc::getFileProperties(const QDomElement &xml, const QString &clipI
     pCore->producerQueue()->getFileProperties(xml, clipId, imageHeight, replaceProducer);
 }
 
-void KdenliveDoc::doAddAction(const QString &name, QAction *a)
+void KdenliveDoc::doAddAction(const QString &name, QAction *a, QKeySequence shortcut)
 {
     pCore->window()->actionCollection()->addAction(name, a);
+    pCore->window()->actionCollection()->setDefaultShortcut(a, shortcut);
 }
 
 void KdenliveDoc::invalidatePreviews(QList <int> chunks)

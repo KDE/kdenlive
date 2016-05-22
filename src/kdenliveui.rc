@@ -1,22 +1,15 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="126" translationDomain="kdenlive">
-  <ToolBar name="extraToolBar" >
-    <text>Extra Toolbar</text>
-	<Action name="project_render" />
-        <Action name="favorite_effects" />
-  </ToolBar>
+<kpartgui name="kdenlive" version="138" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
       <Action name="transcode_clip" />
     </Menu>
-  
     <Menu name="edit" >
       <Action name="paste_effects" />
       <Action name="project_find" />
       <Action name="project_find_next" />
     </Menu>
-
     <Menu name="project" ><text>Project</text>
       <Action name="add_clip" />
       <Action name="add_color_clip" />
@@ -226,5 +219,26 @@
       <Action name="styles_menu" />
     </Menu>
   </MenuBar>
+  <ToolBar name="timelineToolBar" fullWidth="true" newline="true" noMerge="1" position="bottom">
+    <text>Timeline Toolbar</text>
+    <Action name="timeline_mode" />
+    <Separator />
+    <Action name="select_tool" />
+    <Action name="razor_tool" />
+    <Action name="spacer_tool" />
+    <Separator />
+    <Action name="timeline_timecode" />
+    <Separator />
+    <Action name="insert_to_in_point" />
+    <Action name="overwrite_to_in_point" />
+    <Action name="remove_extract" />
+    <Action name="remove_lift" />
+    <Separator />
+    <Action name="favorite_effects" />
+  </ToolBar>
+  <ToolBar name="extraToolBar" >
+    <text>Extra Toolbar</text>
+	<Action name="project_render" />
+  </ToolBar>
 </kpartgui>
 

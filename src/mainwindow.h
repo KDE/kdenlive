@@ -158,7 +158,7 @@ protected:
 
     /** @brief Saves the file and the window properties when saving the session. */
     virtual void saveProperties(KConfigGroup &config);   
-    
+
     /** @brief Restores the window and the file when a session is loaded. */
     virtual void readProperties(const KConfigGroup &config);
     virtual void saveNewToolbarConfig();
@@ -244,6 +244,8 @@ private:
     QActionGroup *m_clipTypeGroup;
     QString m_theme;
     KIconLoader *m_iconLoader;
+    KToolBar *m_timelineToolBar;
+    QWidget *m_timelineToolBarContainer;
 
     void readOptions();
     void saveOptions();
@@ -284,6 +286,7 @@ public slots:
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
     void updateDockTitleBars();
+    void configureToolbars();
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -471,6 +474,9 @@ private slots:
     void slotCheckTabPosition();
     /** @brief Toggle automatic timeline preview on/off */
     void slotToggleAutoPreview(bool enable);
+    /** @brief Rebuild/reload timeline toolbar. */
+    void rebuildTimlineToolBar();
+    void showTimelineToolbarMenu(const QPoint &pos);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

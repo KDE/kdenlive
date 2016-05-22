@@ -156,7 +156,7 @@ public:
     void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
     /** @brief Returns true if the profile file has changed. */
     bool profileChanged(const QString &profile) const;
-    void doAddAction(const QString &name, QAction *a);
+    void doAddAction(const QString &name, QAction *a, QKeySequence shortcut);
     void invalidatePreviews(QList <int> chunks);
     void previewProgress(int p);
     /** @brief Select most appropriate rendering profile for timeline preview based on fps / size. */
