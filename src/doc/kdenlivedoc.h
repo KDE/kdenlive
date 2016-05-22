@@ -32,9 +32,11 @@
 #include <QObject>
 #include <QTimer>
 #include <QUrl>
+#include <QMutex>
 
 #include <kautosavefile.h>
 #include <KDirWatch>
+#include <QUndoStack>
 
 #include "gentime.h"
 #include "timecode.h"
@@ -53,11 +55,21 @@ class ClipController;
 class QTextEdit;
 class QUndoGroup;
 class QTimer;
-class QUndoStack;
+class QUndoGroup;
 
 namespace Mlt {
     class Profile;
 }
+
+class DocUndoStack: public QUndoStack
+{
+Q_OBJECT
+public:
+    explicit DocUndoStack(QUndoGroup *parent = 0);
+    void push(QUndoCommand *cmd);
+signals:
+    void invalidate();
+};
 
 class KdenliveDoc: public QObject
 {
@@ -74,7 +86,7 @@ public:
     KAutoSaveFile *m_autosave;
     Timecode timecode() const;
     QDomDocument toXml();
-    QUndoStack *commandStack();
+    DocUndoStack *commandStack();
     Render *renderer();
     ClipManager *clipManager();
     QString groupsXml() const;
@@ -161,6 +173,8 @@ public:
     void previewProgress(int p);
     /** @brief Select most appropriate rendering profile for timeline preview based on fps / size. */
     void selectPreviewProfile();
+    /** @brief Get the directory to store timeline previews */
+    QDir getCacheDir();
 
 private:
     QUrl m_url;
@@ -175,17 +189,17 @@ private:
     Timecode m_timecode;
     Render *m_render;
     QTextEdit *m_notesWidget;
-    QUndoStack *m_commandStack;
+    DocUndoStack *m_commandStack;
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
     QString m_searchFolder;
+    QMutex m_previewMutex;
 
     /** @brief Tells whether the current document has been changed after being saved. */
     bool m_modified;
 
     /** @brief The project folder, used to store project files (titles, effects...). */
     QUrl m_projectFolder;
-    int m_undoPreviewIndex;
     QList <int> m_undoChunks;
     QMap <QString, QString> m_documentProperties;
     QMap <QString, QString> m_documentMetadata;
@@ -205,8 +219,6 @@ private:
     void loadDocumentProperties();
     /** @brief update document properties to reflect a change in the current profile */
     void updateProjectProfile(bool reloadProducers = false);
-    /** @brief Undo stack changed, restore timeline preview files if any*/
-    void restoreTimelinePreviews();
 
 public slots:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
@@ -225,10 +237,13 @@ private slots:
     void slotClipModified(const QString &path);
     void slotClipMissing(const QString &path);
     void slotProcessModifiedClips();
-    void slotModified(int ix);
+    void slotModified();
     void slotSetDocumentNotes(const QString &notes);
     void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
     void slotSwitchProfile();
+    void doCleanupOldPreviews(int ix);
+    /** @brief Check if we did a new action invalidating more recent undo items. */
+    void checkPreviewStack();
 
 signals:
     void resetProjectList();
@@ -250,6 +265,8 @@ signals:
     void updateFps(bool changed);
     /** @brief Some timeline preview chunks restored, reload them */
     void reloadChunks(QList <int> chunks);
+    /** @brief Only keep 5 undo levels of timeline previews, ask for cleanup */
+    void cleanupOldPreviews(int ix);
 
 };
 

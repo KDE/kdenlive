@@ -1626,7 +1626,7 @@ void Render::abortPreview()
     }
 }
 
-void Render::previewRendering(QList <int> frames, const QString &cacheDir, const QString &documentId, QStringList consumerParams, const QString extension)
+void Render::previewRendering(QList <int> frames, const QString &cacheDir, QStringList consumerParams, const QString extension)
 {
     abortPreview();
     m_previewChunks << frames;
@@ -1634,7 +1634,7 @@ void Render::previewRendering(QList <int> frames, const QString &cacheDir, const
     QDir dir(cacheDir);
     dir.mkpath(QStringLiteral("."));
     // Save temporary scenelist
-    QString sceneListFile = dir.absoluteFilePath(documentId + ".mlt");
+    QString sceneListFile = dir.absoluteFilePath("preview.mlt");
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), "xml", sceneListFile.toUtf8().constData());
     if (!xmlConsumer.is_valid())
         return;
@@ -1645,10 +1645,10 @@ void Render::previewRendering(QList <int> frames, const QString &cacheDir, const
         return;
     xmlConsumer.connect(prod);
     xmlConsumer.run();
-    m_previewThread = QtConcurrent::run(this, &Render::doPreviewRender, dir, documentId, sceneListFile, consumerParams, extension);
+    m_previewThread = QtConcurrent::run(this, &Render::doPreviewRender, dir, sceneListFile, consumerParams, extension);
 }
 
-void Render::doPreviewRender(QDir folder, QString id, QString scene, QStringList consumerParams, const QString &extension)
+void Render::doPreviewRender(QDir folder, QString scene, QStringList consumerParams, const QString &extension)
 {
     int progress;
     int chunkSize = KdenliveSettings::timelinechunks();
@@ -1663,7 +1663,7 @@ void Render::doPreviewRender(QDir folder, QString id, QString scene, QStringList
             emit previewRender(0, QString(), 1000);
             break;
         }
-        QString fileName = id + QString("-%1.%2").arg(i).arg(extension);
+        QString fileName = QString("%1.%2").arg(i).arg(extension);
         if (m_previewChunks.isEmpty()) {
             progress = 1000;
         } else {

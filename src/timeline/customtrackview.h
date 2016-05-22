@@ -384,7 +384,7 @@ private:
     OperationType m_moveOpMode;
     AbstractClipItem *m_dragItem;
     Guide *m_dragGuide;
-    QUndoStack *m_commandStack;
+    DocUndoStack *m_commandStack;
     QGraphicsItem *m_visualTip;
     QGraphicsItemAnimation *m_keyProperties;
     QTimeLine *m_keyPropertiesTimer;

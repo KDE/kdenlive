@@ -77,6 +77,7 @@ private slots:
     void slotManagePreviewProfile();
     /** @brief Open editor for metadata item. */
     void slotEditMetadata(QTreeWidgetItem *, int );
+    void slotDeletePreviews();
 
 private:
     QPushButton *m_buttonOk;
@@ -89,6 +90,7 @@ private:
     QStringList m_projectProxies;
     /** @brief List of all thumbnails used in this project. */
     QStringList m_projectThumbs;
+    QDir m_previewDir;
     /** @brief Fill the proxy profiles combobox. */
     void loadProxyProfiles();
     QString m_previewparams;
@@ -100,6 +102,7 @@ signals:
     /** @brief User deleted proxies, so disable them in project. */
     void disableProxies();
     void refreshProfiles();
+    void disablePreviews();
 };
 
 

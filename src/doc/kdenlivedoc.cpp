@@ -70,6 +70,18 @@
 #include <xlocale.h>
 #endif
 
+DocUndoStack::DocUndoStack(QUndoGroup *parent) : QUndoStack(parent)
+{
+}
+
+//TODO: custom undostack everywhere do that 
+void DocUndoStack::push(QUndoCommand *cmd)
+{
+    if (index() < count()) 
+        emit invalidate();
+    QUndoStack::push(cmd);
+}
+
 const double DOCUMENTVERSION = 0.94;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
@@ -80,12 +92,12 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_height(0),
     m_render(render),
     m_notesWidget(notes->widget()),
-    m_commandStack(new QUndoStack(undoGroup)),
+//    m_commandStack(new DocUndoStack(undoGroup)),
     m_modified(false),
-    m_projectFolder(projectFolder),
-    m_undoPreviewIndex(-1)
+    m_projectFolder(projectFolder)
 {
     // init m_profile struct
+    m_commandStack = new DocUndoStack(undoGroup);
     m_profile.frame_rate_num = 0;
     m_profile.frame_rate_den = 0;
     m_profile.width = 0;
@@ -99,7 +111,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_clipManager = new ClipManager(this);
     connect(m_clipManager, SIGNAL(displayMessage(QString,int)), parent, SLOT(slotGotProgressInfo(QString,int)));
     bool success = false;
-    connect(m_commandStack, SIGNAL(indexChanged(int)), this, SLOT(slotModified(int)));
+    connect(m_commandStack, SIGNAL(indexChanged(int)), this, SLOT(slotModified()));
+    connect(m_commandStack, SIGNAL(invalidate()), this, SLOT(checkPreviewStack()));
     connect(m_render, SIGNAL(setDocumentNotes(QString)), this, SLOT(slotSetDocumentNotes(QString)));
     connect(pCore->producerQueue(), &ProducerQueue::switchProfile, this, &KdenliveDoc::switchProfile);
     //connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
@@ -277,7 +290,11 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     dir.mkdir(QStringLiteral("proxy"));
     dir.mkdir(QStringLiteral(".backup"));
 
+    QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
+    QDir dir2(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+    dir2.mkdir(documentId);
     updateProjectFolderPlacesEntry();
+    connect(this, &KdenliveDoc::cleanupOldPreviews, this, &KdenliveDoc::doCleanupOldPreviews);
 }
 
 void KdenliveDoc::slotSetDocumentNotes(const QString &notes)
@@ -295,6 +312,17 @@ KdenliveDoc::~KdenliveDoc()
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) m_autosave->remove();
         delete m_autosave;
+    }
+    // Remove all timeline preview undo data
+    QDir dir = getCacheDir();
+    if (m_url.isEmpty()) {
+        // Doc was not saved, double check path and delete folder
+        if (dir.dirName() == m_documentProperties.value(QStringLiteral("documentid")))
+            dir.removeRecursively();
+    } else {
+        if (dir.cd("undo")) {
+            dir.removeRecursively();
+        }
     }
 }
 
@@ -782,7 +810,7 @@ double KdenliveDoc::dar() const
     return (double) m_profile.display_aspect_num / m_profile.display_aspect_den;
 }
 
-QUndoStack *KdenliveDoc::commandStack()
+DocUndoStack *KdenliveDoc::commandStack()
 {
     return m_commandStack;
 }
@@ -845,15 +873,9 @@ void KdenliveDoc::setUrl(const QUrl &url)
     m_url = url;
 }
 
-void KdenliveDoc::slotModified(int ix)
+void KdenliveDoc::slotModified()
 {
     setModified(m_commandStack->isClean() == false);
-    if (m_undoPreviewIndex != -1 && ix == m_undoPreviewIndex - 1) {
-        restoreTimelinePreviews();
-    } else if (ix < m_undoPreviewIndex - 1) {
-        // Restore preview files if any
-        m_undoPreviewIndex  = -1;
-    }
 }
 
 void KdenliveDoc::setModified(bool mod)
@@ -1610,48 +1632,87 @@ void KdenliveDoc::doAddAction(const QString &name, QAction *a, QKeySequence shor
     pCore->window()->actionCollection()->setDefaultShortcut(a, shortcut);
 }
 
-void KdenliveDoc::invalidatePreviews(QList <int> chunks)
+QDir KdenliveDoc::getCacheDir()
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-    bool redo = true;
-    if (m_commandStack->index() > m_undoPreviewIndex) {
-        m_undoPreviewIndex = m_commandStack->index();
-    } else {
-        redo = false;
-    }
-    m_undoChunks = chunks;
-    // Clear all previous undo files
-    if (redo && dir.cd("undo")) {
-        dir.removeRecursively();
-        dir.cdUp();
-    }
-    dir.mkdir("undo");
     QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
-    QString ext = m_documentProperties.value(QStringLiteral("previewextension"));
-    foreach(int i, chunks) {
-        QString current = documentId + QString("-%1.%2").arg(i).arg(ext);
-        if (redo)
-            dir.rename(current, "undo/" + current);
-        else
-            dir.remove(current);
-    }
-    setModified(true);
+    return QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/"+ documentId);
 }
 
-void KdenliveDoc::restoreTimelinePreviews()
+void KdenliveDoc::invalidatePreviews(QList <int> chunks)
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-    QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
+    // We are not at the bottom of undo stack, chunks have already been archived previously
+    QMutexLocker lock(&m_previewMutex);
+    QDir dir = getCacheDir();
     QString ext = m_documentProperties.value(QStringLiteral("previewextension"));
-    foreach(int i, m_undoChunks) {
-        QString current = documentId + QString("-%1.%2").arg(i).arg(ext);
-        dir.remove(current);
-        dir.rename("undo/" + current, current);
+    if (m_commandStack->index() == m_commandStack->count() && !dir.exists(QString("undo/%1").arg(m_commandStack->index() - 1))) {
+        // Archive just created chunks
+        int ix = m_commandStack->index() - 1;
+        if (!dir.exists("undo"))
+            dir.mkdir("undo");
+        if (!dir.exists("undo")) {
+            // Cannot create undo dir, abort
+            return;
+        }
+        dir.mkdir(QString("undo/%1").arg(ix));
+        bool foundPreviews = false;
+        foreach(int i, chunks) {
+            QString current = QString("%1.%2").arg(i).arg(ext);
+            if (dir.rename(current, QString("undo/%1/%2").arg(ix).arg(current))) {
+                foundPreviews = true;
+            }
+        }
+        if (!foundPreviews) {
+            dir.cd(QString("undo/%1").arg(ix));
+            dir.removeRecursively();
+        }
+        else emit cleanupOldPreviews(ix);
+    } else {
+        // Restore existing chunks, delete others
+        QDir srcdir(dir);
+        QStringList filters;
+        filters << QString("*.%1").arg(ext);
+        QList <int> foundChunks;
+        // Check if we just undo the last stack action, then backup, otherwise delete
+        bool lastUndo = false;
+        int max = m_commandStack->count();
+        if (m_commandStack->index() == max - 1) {
+            if (!srcdir.exists(QString("undo/%1").arg(max))) {
+                lastUndo = true;
+                bool foundPreviews = false;
+                dir.mkdir(QString("undo/%1").arg(max));
+                foreach(int i, chunks) {
+                    QString current = QString("%1.%2").arg(i).arg(ext);
+                    if (dir.rename(current, QString("undo/%1/%2").arg(max).arg(current))) {
+                        foundPreviews = true;
+                    }
+                }
+                if (!foundPreviews) {
+                    QDir tmpDir = dir;
+                    tmpDir.cd(QString("undo/%1").arg(max));
+                    tmpDir.removeRecursively();
+                }
+            }
+        }
+        if (!lastUndo) {
+            foreach(int i, chunks) {
+                srcdir.remove(QString("%1.%2").arg(i).arg(ext));
+            }
+        }
+        if (!dir.cd(QString("undo/%1").arg(m_commandStack->index())))
+            return;
+        QStringList filesnames = dir.entryList(filters, QDir::Files);
+        foreach(const QString & fname, filesnames) {
+            int existingChunk = fname.section(".", 0, 0).toInt();
+            if (chunks.contains(existingChunk)) {
+                // Restore chunks
+                foundChunks << existingChunk;
+                QFile::copy(dir.absoluteFilePath(fname), srcdir.absoluteFilePath(fname));
+            }
+        }
+        qSort(foundChunks);
+        emit reloadChunks(foundChunks);
     }
-    dir.rmdir("undo");
-    emit reloadChunks(m_undoChunks);
-    m_undoPreviewIndex = -1;
-    m_undoChunks.clear();
+    setModified(true);
 }
 
 void KdenliveDoc::previewProgress(int p)
@@ -1711,5 +1772,41 @@ void KdenliveDoc::selectPreviewProfile()
     if (!bestMatch.isEmpty()) {
         setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(";", 0, 0));
         setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(";", 1, 1));
+    }
+}
+
+void KdenliveDoc::doCleanupOldPreviews(int ix)
+{
+    QDir dir = getCacheDir();
+    if (!dir.cd("undo"))
+        return;
+    QStringList dirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    bool ok;
+    foreach (const QString &num, dirs) {
+        int nb = num.toInt(&ok);
+        if (ok && nb < ix - 5) {
+            QDir tmp = dir;
+            tmp.cd(num);
+            tmp.removeRecursively();
+        }
+    }
+}
+
+void KdenliveDoc::checkPreviewStack()
+{
+    // A command was pushed in the middle of the stack, remove all cached data from last undos
+    int max = m_commandStack->count();
+    QDir dir = getCacheDir();
+    if (!dir.cd("undo"))
+        return;
+    QStringList dirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    bool ok;
+    foreach (const QString &num, dirs) {
+        int nb = num.toInt(&ok);
+        if (ok && nb >= max) {
+            QDir tmp = dir;
+            tmp.cd(num);
+            tmp.removeRecursively();
+        }
     }
 }

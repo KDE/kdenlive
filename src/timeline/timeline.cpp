@@ -1809,7 +1809,7 @@ void Timeline::startPreviewRender()
     }
     QList <int> chunks = m_ruler->getDirtyChunks();
     if (!chunks.isEmpty()) {
-        QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
         QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
         QString docParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters"));
         if (docParams.isEmpty()) {
@@ -1820,7 +1820,7 @@ void Timeline::startPreviewRender()
             KMessageBox::sorry(this, i18n("No available preview profile found, please check the Timeline Settings"));
             return;
         }
-        m_doc->renderer()->previewRendering(chunks, cacheDir, documentId, docParams.split(" "), m_doc->getDocumentProperty(QStringLiteral("previewextension")));
+        m_doc->renderer()->previewRendering(chunks, dir.absoluteFilePath(documentId), docParams.split(" "), m_doc->getDocumentProperty(QStringLiteral("previewextension")));
     }
 }
 
@@ -1892,12 +1892,13 @@ void Timeline::loadPreviewRender()
             m_tractor->unlock();
             m_hasOverlayTrack = true;
         }
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) );
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+        dir.cd(documentId);
         QStringList previewChunks = chunks.split(",", QString::SkipEmptyParts);
         QStringList dirtyChunks = dirty.split(",", QString::SkipEmptyParts);
         foreach(const QString frame, previewChunks) {
             int pos = frame.toInt();
-            const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.%2").arg(pos).arg(ext));
+            const QString fileName = dir.absoluteFilePath(QString("%1.%2").arg(pos).arg(ext));
             QFile file(fileName);
             if (file.exists()) {
                 if (QFileInfo(file).lastModified() > documentDate) {
@@ -1941,13 +1942,14 @@ void Timeline::slotReloadChunks(QList <int> chunks)
     QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
     QString ext = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+    dir.cd(documentId);
     Mlt::Producer *overlayTrack = m_tractor->track(tracksCount());
     m_tractor->lock();
     Mlt::Playlist trackPlaylist((mlt_playlist) overlayTrack->get_service());
     delete overlayTrack;
     foreach(int ix, chunks) {
         if (trackPlaylist.is_blank_at(ix)) {
-            const QString fileName = dir.absoluteFilePath(documentId + QString("-%1.%2").arg(ix).arg(ext));
+            const QString fileName = dir.absoluteFilePath(QString("%1.%2").arg(ix).arg(ext));
             Mlt::Producer prod(*m_tractor->profile(), 0, fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 m_ruler->updatePreview(ix, true);

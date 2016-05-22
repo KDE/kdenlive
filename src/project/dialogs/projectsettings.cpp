@@ -79,6 +79,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
+        m_previewDir = doc->getCacheDir();
     }
     else {
         currentProf = KdenliveSettings::default_profile();
@@ -204,6 +205,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         connect(clear_cache, SIGNAL(clicked()), this, SLOT(slotClearCache()));
         connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
         connect(delete_proxies, SIGNAL(clicked()), this, SLOT(slotDeleteProxies()));
+        connect(delete_preview, SIGNAL(clicked()), this, SLOT(slotDeletePreviews()));
     } else tabWidget->widget(1)->setEnabled(false);
     connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(project_folder, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButton(QString)));
@@ -284,6 +286,23 @@ void ProjectSettings::slotDeleteProxies()
     slotUpdateFiles(true);
 }
 
+void ProjectSettings::slotDeletePreviews()
+{
+    if (KMessageBox::warningContinueCancel(this, i18n("Deleting these preview files will invalidate all timeline previews for this project.")) != KMessageBox::Continue) return;
+    buttonBox->setEnabled(false);
+    //TODO
+    emit disablePreviews();
+    // Delete proxy files
+    QStringList filters;
+    filters << "*." + m_previewextension;
+    QStringList previews = m_previewDir.entryList(filters, QDir::Files);
+    foreach(const QString &proxy, previews) {
+        m_previewDir.remove(proxy);
+    }
+    buttonBox->setEnabled(true);
+    slotUpdateFiles(true);
+}
+
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 {
     // Get list of current project hashes
@@ -321,9 +340,26 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     proxy_count->setText(QString::number(m_projectProxies.count()));
     proxy_size->setText(KIO::convertSize(totalSize));
     delete_proxies->setEnabled(!m_projectProxies.isEmpty());
+
+    // Check for matches in timeline previews
+    totalSize = 0;
+    if (m_previewDir != QDir() && !m_previewextension.isEmpty()) {
+        QStringList filters;
+        filters << "*." + m_previewextension;
+        QStringList previews = m_previewDir.entryList(filters, QDir::Files);
+        foreach(const QString &proxy, previews) {
+            QFileInfo f(m_previewDir.absoluteFilePath(proxy));
+            totalSize += f.size();
+        }
+        preview_count->setText(QString::number(previews.count()));
+        preview_size->setText(KIO::convertSize(totalSize));
+        delete_preview->setEnabled(!previews.isEmpty());
+    }
     if (cacheOnly) return;
     QList <ClipController*> list = pCore->binController()->getControllerList();
     files_list->clear();
+    
+    
 
     // List all files that are used in the project. That also means:
     // images included in slideshow and titles, files in playlist clips
