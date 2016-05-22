@@ -1833,6 +1833,9 @@ void TitleWidget::loadTitle(QUrl url)
     if (!url.isValid()) url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl(m_projectTitlePath), i18n("Kdenlive title (*.kdenlivetitle)"));
     if (url.isValid()) {
         QList<QGraphicsItem *> items = m_scene->items();
+        items.removeAll(m_frameBorder);
+        items.removeAll(m_frameBackground);
+        items.removeAll(m_frameImage);
         for (int i = 0; i < items.size(); ++i) {
             if (items.at(i)->zValue() > -1000) delete items.at(i);
         }
