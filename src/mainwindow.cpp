@@ -536,6 +536,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     previewButtonAction->setText(i18n("Timeline Preview"));
     previewButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("player-time")));
     previewButtonAction->setDefaultWidget(timelinePreview);
+    addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
     setupGUI();
 
@@ -623,8 +624,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     timelinePreview->setDefaultAction(prevRender);
     timelinePreview->setAutoRaise(true);
     //m_timelineToolBar->addWidget(timelinePreview);
-
-    addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
     //m_timelineToolBar->addAction(toolButtonAction);
 
