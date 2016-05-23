@@ -40,6 +40,7 @@
 #include "project/clipmanager.h"
 #include "effectslist/initeffects.h"
 #include "mltcontroller/effectscontroller.h"
+#include "managers/previewmanager.h"
 
 #include <QScrollBar>
 #include <QLocale>
@@ -60,6 +61,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     , m_scale(1.0)
     , m_doc(doc)
     , m_verticalZoom(1)
+    , m_timelinePreview(NULL)
 {
     m_trackActions << actions;
     setupUi(this);
@@ -142,18 +144,17 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
-    connect(m_doc->renderer(), &Render::previewRender, this, &Timeline::gotPreviewRender);
-    connect(m_doc, &KdenliveDoc::reloadChunks, this, &Timeline::slotReloadChunks);
-    m_previewTimer.setSingleShot(true);
-    m_previewTimer.setInterval(3000);
-    connect(&m_previewTimer, &QTimer::timeout, this, &Timeline::startPreviewRender);
+
+    // Timeline preview stuff
+    initializePreview();
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
-    connect(&m_previewGatherTimer, &QTimer::timeout, this, &Timeline::slotProcessDirtyChunks);
 }
 
 Timeline::~Timeline()
 {
+    if (m_timelinePreview)
+        delete m_timelinePreview;
     delete m_ruler;
     delete m_trackview;
     delete m_scene;
@@ -1787,46 +1788,12 @@ void Timeline::gotPreviewRender(int frame, const QString &file, int progress)
     m_doc->setModified(true);
 }
 
-void Timeline::addPreviewRange(bool add)
-{
-    QPoint p = m_doc->zone();
-    int chunkSize = KdenliveSettings::timelinechunks();
-    int startChunk = p.x() / chunkSize;
-    int endChunk = rintl(p.y() / chunkSize);
-    QList <int> frames;
-    for (int i = startChunk; i <= endChunk; i++) {
-        frames << i * chunkSize;
-    }
-    m_ruler->addChunks(frames, add);
-    if (add && KdenliveSettings::autopreview())
-        m_previewTimer.start();
-}
 
-void Timeline::startPreviewRender()
-{
-    if (!m_ruler->hasPreviewRange() && !KdenliveSettings::autopreview()) {
-        addPreviewRange(true);
-    }
-    QList <int> chunks = m_ruler->getDirtyChunks();
-    if (!chunks.isEmpty()) {
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-        QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-        QString docParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters"));
-        if (docParams.isEmpty()) {
-            m_doc->selectPreviewProfile();
-            docParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters"));
-        }
-        if (docParams.isEmpty()) {
-            KMessageBox::sorry(this, i18n("No available preview profile found, please check the Timeline Settings"));
-            return;
-        }
-        m_doc->renderer()->previewRendering(chunks, dir.absoluteFilePath(documentId), docParams.split(" "), m_doc->getDocumentProperty(QStringLiteral("previewextension")));
-    }
-}
 
 void Timeline::stopPreviewRender()
 {
-    m_doc->renderer()->abortPreview();
+    if (m_timelinePreview)
+        m_timelinePreview->abortRendering();
 }
 
 void Timeline::invalidateRange(ItemInfo info)
@@ -1847,32 +1814,25 @@ void Timeline::invalidatePreview(int startFrame, int endFrame)
     int chunkSize = KdenliveSettings::timelinechunks();
     int start = startFrame / chunkSize;
     int end = lrintf(endFrame / chunkSize);
+    m_timelinePreview->abortPreview();
     Mlt::Producer *overlayTrack = m_tractor->track(tracksCount());
     m_tractor->lock();
     Mlt::Playlist trackPlaylist((mlt_playlist) overlayTrack->get_service());
     delete overlayTrack;
-    QList <int> list;
-    for (int i = start; i <=end; i++) {
-        int ix = trackPlaylist.get_clip_index_at(chunkSize * i);
-        if (trackPlaylist.is_blank(ix))
-            continue;
-        list << i * chunkSize;
-        Mlt::Producer *prod = trackPlaylist.replace_with_blank(ix);
-        delete prod;
-        m_ruler->updatePreview(i * chunkSize, false);
+    start *= chunkSize;
+    end *= chunkSize;
+    for (int i = start; i <=end; i+= chunkSize) {
+        if (m_ruler->updatePreview(i, false)) {
+            int ix = trackPlaylist.get_clip_index_at(i);
+            if (trackPlaylist.is_blank(ix))
+                continue;
+            Mlt::Producer *prod = trackPlaylist.replace_with_blank(ix);
+            delete prod;
+        }
     }
     trackPlaylist.consolidate_blanks();
     m_tractor->unlock();
     m_previewGatherTimer.start();
-}
-
-void Timeline::slotProcessDirtyChunks()
-{
-    QList <int> chunks = m_ruler->getDirtyChunks();
-    m_doc->invalidatePreviews(chunks);
-    m_ruler->updatePreviewDisplay(chunks.first(), chunks.last());
-    if (KdenliveSettings::autopreview())
-        m_previewTimer.start();
 }
 
 void Timeline::loadPreviewRender()
@@ -1929,27 +1889,26 @@ void Timeline::updatePreviewSettings(const QString &profile)
         invalidateRange(ItemInfo());
         m_doc->setDocumentProperty(QStringLiteral("previewparameters"), params);
         m_doc->setDocumentProperty(QStringLiteral("previewextension"), ext);
+        if (m_timelinePreview) {
+            if (!m_timelinePreview->loadParams()) {
+                delete m_timelinePreview;
+                m_timelinePreview = NULL;
+            }
+        } else {
+            initializePreview();
+        }
     }
 }
 
-void Timeline::slotReloadChunks(QList <int> chunks)
+void Timeline::slotReloadChunks(QDir cacheDir, QList <int> chunks, const QString ext)
 {
-    bool timer = false;
-    if (m_previewTimer.isActive()) {
-        m_previewTimer.stop();
-        timer = true;
-    }
-    QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    QString ext = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-    dir.cd(documentId);
     Mlt::Producer *overlayTrack = m_tractor->track(tracksCount());
     m_tractor->lock();
     Mlt::Playlist trackPlaylist((mlt_playlist) overlayTrack->get_service());
     delete overlayTrack;
     foreach(int ix, chunks) {
         if (trackPlaylist.is_blank_at(ix)) {
-            const QString fileName = dir.absoluteFilePath(QString("%1.%2").arg(ix).arg(ext));
+            const QString fileName = cacheDir.absoluteFilePath(QString("%1.%2").arg(ix).arg(ext));
             Mlt::Producer prod(*m_tractor->profile(), 0, fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 m_ruler->updatePreview(ix, true);
@@ -1961,8 +1920,6 @@ void Timeline::slotReloadChunks(QList <int> chunks)
     m_ruler->updatePreviewDisplay(chunks.first(), chunks.last());
     trackPlaylist.consolidate_blanks();
     m_tractor->unlock();
-    if (timer)
-        m_previewTimer.start();
 }
 
 void Timeline::invalidateTrack(int ix)
@@ -1974,4 +1931,32 @@ void Timeline::invalidateTrack(int ix)
     foreach(const QPoint p, visibleRange) {
         invalidatePreview(p.x(), p.y());
     }
+}
+
+void Timeline::initializePreview()
+{
+    m_timelinePreview = new PreviewManager(m_doc, m_ruler);
+    if (!m_timelinePreview->initialize()) {
+        //TODO warn user
+        delete m_timelinePreview;
+        m_timelinePreview = NULL;
+        qDebug()<<" * * * *TL PREVIEW NOT INITIALIZED!!!";
+    } else {
+        connect(&m_previewGatherTimer, &QTimer::timeout, m_timelinePreview, &PreviewManager::slotProcessDirtyChunks);
+        connect(m_timelinePreview, &PreviewManager::previewRender, this, &Timeline::gotPreviewRender);
+        connect(m_timelinePreview, &PreviewManager::reloadChunks, this, &Timeline::slotReloadChunks, Qt::DirectConnection);
+    }
+
+}
+
+void Timeline::startPreviewRender()
+{
+    if (m_timelinePreview)
+        m_timelinePreview->startPreviewRender();
+}
+
+void Timeline::addPreviewRange(bool add)
+{
+    if (m_timelinePreview)
+        m_timelinePreview->addPreviewRange(add);
 }

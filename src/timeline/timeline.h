@@ -35,6 +35,7 @@
 #include <QGraphicsLineItem>
 #include <QDomElement>
 #include <QTimer>
+#include <QDir>
 
 #include <mlt++/Mlt.h>
 
@@ -45,6 +46,7 @@ class KdenliveDoc;
 class TransitionHandler;
 class CustomRuler;
 class QUndoCommand;
+class PreviewManager;
 
 class Timeline : public QWidget, public Ui::TimeLine_UI
 {
@@ -171,6 +173,8 @@ public:
     void updatePreviewSettings(const QString &profile);
     /** @brief invalidate timeline preview for visible clips in a track */
     void invalidateTrack(int ix);
+    /** @brief Start rendering preview rendering range. */
+    void startPreviewRender();
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -187,8 +191,6 @@ public slots:
     void updateProfile(bool fpsChanged);
     /** @brief Enable/disable multitrack view (split monitor in 4) */
     void slotMultitrackView(bool enable);
-    /** @brief Start rendering preview rendering range. */
-    void startPreviewRender();
     /** @brief Stop rendering preview. */
     void stopPreviewRender();
 
@@ -213,7 +215,7 @@ private:
     QList <QAction *> m_trackActions;
     /** @brief sometimes grouped commands quickly send invalidate commands, so wait a little bit before processing*/
     QTimer m_previewGatherTimer;
-    QTimer m_previewTimer;
+    PreviewManager *m_timelinePreview;
 
     void adjustTrackHeaders();
 
@@ -228,6 +230,7 @@ private:
     void refreshTrackActions();
     /** @brief load existing timeline previews */
     void loadPreviewRender();
+    void initializePreview();
 
 private slots:
     void slotSwitchTrackComposite(int trackIndex, bool enable);
@@ -255,8 +258,7 @@ private slots:
     void slotEnableZone(bool enable);
     void gotPreviewRender(int frame, const QString &file, int progress);
     void invalidatePreview(int startFrame, int endFrame);
-    void slotReloadChunks(QList <int> chunks);
-    void slotProcessDirtyChunks();
+    void slotReloadChunks(QDir cacheDir, QList <int> chunks, const QString ext);
 
 signals:
     void mousePosition(int);

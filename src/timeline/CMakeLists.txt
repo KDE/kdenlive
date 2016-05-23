@@ -25,5 +25,6 @@ set(kdenlive_SRCS
   timeline/managers/guidemanager.cpp
   timeline/managers/razormanager.cpp
   timeline/managers/selectmanager.cpp
+  timeline/managers/previewmanager.cpp
   PARENT_SCOPE)
 

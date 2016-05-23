@@ -72,8 +72,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     m_isLoopMode(false),
     m_blackClip(NULL),
     m_isActive(false),
-    m_isRefreshing(false),
-    m_abortPreview(false)
+    m_isRefreshing(false)
 {
     qRegisterMetaType<stringMap> ("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();
@@ -102,7 +101,6 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
 
 Render::~Render()
 {
-    m_abortPreview = true;
     closeMlt();
 }
 
@@ -113,7 +111,6 @@ void Render::closeMlt()
     delete m_mltConsumer;
     delete m_mltProducer;
     delete m_blackClip;
-    m_previewThread.waitForFinished();
 }
 
 void Render::slotSwitchFullscreen()
@@ -1618,23 +1615,9 @@ void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString
     }
 }
 
-void Render::abortPreview()
+void Render::preparePreviewRendering(const QString sceneListFile)
 {
-    if (m_previewThread.isRunning()) {
-        m_abortPreview = true;
-        m_previewThread.waitForFinished();
-    }
-}
-
-void Render::previewRendering(QList <int> frames, const QString &cacheDir, QStringList consumerParams, const QString extension)
-{
-    abortPreview();
-    m_previewChunks << frames;
-    qSort(m_previewChunks);
-    QDir dir(cacheDir);
-    dir.mkpath(QStringLiteral("."));
     // Save temporary scenelist
-    QString sceneListFile = dir.absoluteFilePath("preview.mlt");
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), "xml", sceneListFile.toUtf8().constData());
     if (!xmlConsumer.is_valid())
         return;
@@ -1645,52 +1628,5 @@ void Render::previewRendering(QList <int> frames, const QString &cacheDir, QStri
         return;
     xmlConsumer.connect(prod);
     xmlConsumer.run();
-    m_previewThread = QtConcurrent::run(this, &Render::doPreviewRender, dir, sceneListFile, consumerParams, extension);
 }
 
-void Render::doPreviewRender(QDir folder, QString scene, QStringList consumerParams, const QString &extension)
-{
-    int progress;
-    int chunkSize = KdenliveSettings::timelinechunks();
-    consumerParams << "an=1";
-    emit previewRender(0, QString(), 0);
-    int ct = 0;
-    while (!m_previewChunks.isEmpty()) {
-        int i = m_previewChunks.takeFirst();
-        ct++;
-        if (m_abortPreview) {
-            m_previewChunks.prepend(i);
-            emit previewRender(0, QString(), 1000);
-            break;
-        }
-        QString fileName = QString("%1.%2").arg(i).arg(extension);
-        if (m_previewChunks.isEmpty()) {
-            progress = 1000;
-        } else {
-            progress = (double) (ct) / (ct + m_previewChunks.count()) * 1000;
-        }
-        if (folder.exists(fileName)) {
-            // This chunk already exists
-            emit previewRender(i, folder.absoluteFilePath(fileName), progress);
-            continue;
-        }
-        // Build rendering process
-        QStringList args;
-        args << scene;
-        args << "in=" + QString::number(i);
-        args << "out=" + QString::number(i + chunkSize - 1);
-        args << "-consumer" << "avformat:" + folder.absoluteFilePath(fileName);
-        args << consumerParams;
-        int result = QProcess::execute(KdenliveSettings::rendererpath(), args);
-        if (result != 0) {
-            // Something is wrong, abort
-            qDebug()<<"+++++++++\n++ ERROR  ++\n++++++";
-            emit previewRender(i, QString(), -1);
-            QFile::remove(folder.absoluteFilePath(fileName));
-            break;
-        }
-        emit previewRender(i, folder.absoluteFilePath(fileName), progress);
-    }
-    QFile::remove(scene);
-    m_abortPreview = false;
-}

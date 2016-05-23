@@ -32,7 +32,6 @@
 #include <QObject>
 #include <QTimer>
 #include <QUrl>
-#include <QMutex>
 
 #include <kautosavefile.h>
 #include <KDirWatch>
@@ -132,6 +131,8 @@ public:
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
     bool saveSceneList(const QString &path, const QString &scene);
+    /** @brief Saves only the MLT xml to a file for preview rendering. */
+    void saveMltPlaylist(const QString fileName);
     void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(QUrl url);
     void setZone(int start, int end);
@@ -173,8 +174,6 @@ public:
     void previewProgress(int p);
     /** @brief Select most appropriate rendering profile for timeline preview based on fps / size. */
     void selectPreviewProfile();
-    /** @brief Get the directory to store timeline previews */
-    QDir getCacheDir();
 
 private:
     QUrl m_url;
@@ -193,7 +192,6 @@ private:
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
     QString m_searchFolder;
-    QMutex m_previewMutex;
 
     /** @brief Tells whether the current document has been changed after being saved. */
     bool m_modified;
@@ -241,7 +239,6 @@ private slots:
     void slotSetDocumentNotes(const QString &notes);
     void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
     void slotSwitchProfile();
-    void doCleanupOldPreviews(int ix);
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack();
 
@@ -263,10 +260,8 @@ signals:
     void reloadEffects();
     /** @brief Fps was changed, update timeline */
     void updateFps(bool changed);
-    /** @brief Some timeline preview chunks restored, reload them */
-    void reloadChunks(QList <int> chunks);
-    /** @brief Only keep 5 undo levels of timeline previews, ask for cleanup */
-    void cleanupOldPreviews(int ix);
+    /** @brief If a command is pushed when we are in the middle of undo stack, invalidate further undo history */
+    void removeInvalidUndo(int ix);
 
 };
 

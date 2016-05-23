@@ -79,7 +79,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
-        m_previewDir = doc->getCacheDir();
+        m_previewDir = doc->getDocumentProperty(QStringLiteral("cachedir"));
     }
     else {
         currentProf = KdenliveSettings::default_profile();
@@ -288,7 +288,7 @@ void ProjectSettings::slotDeleteProxies()
 
 void ProjectSettings::slotDeletePreviews()
 {
-    if (KMessageBox::warningContinueCancel(this, i18n("Deleting these preview files will invalidate all timeline previews for this project.")) != KMessageBox::Continue) return;
+    if (KMessageBox::warningContinueCancel(this, i18n("Deleting the project preview files in this folder will invalidate all timeline previews:\n%1", m_previewDir.absolutePath())) != KMessageBox::Continue) return;
     buttonBox->setEnabled(false);
     //TODO
     emit disablePreviews();

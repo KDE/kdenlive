@@ -294,7 +294,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     QDir dir2(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
     dir2.mkdir(documentId);
     updateProjectFolderPlacesEntry();
-    connect(this, &KdenliveDoc::cleanupOldPreviews, this, &KdenliveDoc::doCleanupOldPreviews);
 }
 
 void KdenliveDoc::slotSetDocumentNotes(const QString &notes)
@@ -312,23 +311,6 @@ KdenliveDoc::~KdenliveDoc()
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) m_autosave->remove();
         delete m_autosave;
-    }
-    // Remove all timeline preview undo data
-    QString id = m_documentProperties.value(QStringLiteral("documentid"));
-    if (id.isEmpty() || id.toLong() == 0) {
-        // Something is wrong, make sure we don't trash valuable data
-        // id should be a number (ms since epoch)
-        return;
-    }
-    QDir dir = getCacheDir();
-    if (m_url.isEmpty()) {
-        // Doc was not saved, double check path and delete folder
-        if (dir.dirName() == id)
-            dir.removeRecursively();
-    } else {
-        if (dir.cd("undo") && dir.absolutePath().contains(id)) {
-            dir.removeRecursively();
-        }
     }
 }
 
@@ -1638,91 +1620,6 @@ void KdenliveDoc::doAddAction(const QString &name, QAction *a, QKeySequence shor
     pCore->window()->actionCollection()->setDefaultShortcut(a, shortcut);
 }
 
-QDir KdenliveDoc::getCacheDir()
-{
-    QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
-    return QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/"+ documentId);
-}
-
-void KdenliveDoc::invalidatePreviews(QList <int> chunks)
-{
-    // We are not at the bottom of undo stack, chunks have already been archived previously
-    QMutexLocker lock(&m_previewMutex);
-    QDir dir = getCacheDir();
-    QString ext = m_documentProperties.value(QStringLiteral("previewextension"));
-    if (m_commandStack->index() == m_commandStack->count() && !dir.exists(QString("undo/%1").arg(m_commandStack->index() - 1))) {
-        // Archive just created chunks
-        int ix = m_commandStack->index() - 1;
-        if (!dir.exists("undo"))
-            dir.mkdir("undo");
-        if (!dir.exists("undo")) {
-            // Cannot create undo dir, abort
-            return;
-        }
-        dir.mkdir(QString("undo/%1").arg(ix));
-        bool foundPreviews = false;
-        foreach(int i, chunks) {
-            QString current = QString("%1.%2").arg(i).arg(ext);
-            if (dir.rename(current, QString("undo/%1/%2").arg(ix).arg(current))) {
-                foundPreviews = true;
-            }
-        }
-        if (!foundPreviews) {
-            if (dir.cd(QString("undo/%1").arg(ix)) && dir.absolutePath().contains("/undo/")) {
-                dir.removeRecursively();
-            }
-        }
-        else emit cleanupOldPreviews(ix);
-    } else {
-        // Restore existing chunks, delete others
-        QDir srcdir(dir);
-        QStringList filters;
-        filters << QString("*.%1").arg(ext);
-        QList <int> foundChunks;
-        // Check if we just undo the last stack action, then backup, otherwise delete
-        bool lastUndo = false;
-        int max = m_commandStack->count();
-        if (m_commandStack->index() == max - 1) {
-            if (!srcdir.exists(QString("undo/%1").arg(max))) {
-                lastUndo = true;
-                bool foundPreviews = false;
-                dir.mkdir(QString("undo/%1").arg(max));
-                foreach(int i, chunks) {
-                    QString current = QString("%1.%2").arg(i).arg(ext);
-                    if (dir.rename(current, QString("undo/%1/%2").arg(max).arg(current))) {
-                        foundPreviews = true;
-                    }
-                }
-                if (!foundPreviews) {
-                    QDir tmpDir = dir;
-                    if (tmpDir.cd(QString("undo/%1").arg(max)) && tmpDir.absolutePath().contains("/undo/")) {
-                        tmpDir.removeRecursively();
-                    }
-                }
-            }
-        }
-        if (!lastUndo) {
-            foreach(int i, chunks) {
-                srcdir.remove(QString("%1.%2").arg(i).arg(ext));
-            }
-        }
-        if (!dir.cd(QString("undo/%1").arg(m_commandStack->index())))
-            return;
-        QStringList filesnames = dir.entryList(filters, QDir::Files);
-        foreach(const QString & fname, filesnames) {
-            int existingChunk = fname.section(".", 0, 0).toInt();
-            if (chunks.contains(existingChunk)) {
-                // Restore chunks
-                foundChunks << existingChunk;
-                QFile::copy(dir.absoluteFilePath(fname), srcdir.absoluteFilePath(fname));
-            }
-        }
-        qSort(foundChunks);
-        emit reloadChunks(foundChunks);
-    }
-    setModified(true);
-}
-
 void KdenliveDoc::previewProgress(int p)
 {
     pCore->window()->setPreviewProgress(p);
@@ -1783,40 +1680,13 @@ void KdenliveDoc::selectPreviewProfile()
     }
 }
 
-void KdenliveDoc::doCleanupOldPreviews(int ix)
-{
-    QDir dir = getCacheDir();
-    if (!dir.cd("undo"))
-        return;
-    QStringList dirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    bool ok;
-    foreach (const QString &num, dirs) {
-        int nb = num.toInt(&ok);
-        if (ok && nb < ix - 5) {
-            QDir tmp = dir;
-            if (tmp.cd(num) && tmp.absolutePath().contains("/undo/")) {
-                tmp.removeRecursively();
-            }
-        }
-    }
-}
-
 void KdenliveDoc::checkPreviewStack()
 {
     // A command was pushed in the middle of the stack, remove all cached data from last undos
-    int max = m_commandStack->count();
-    QDir dir = getCacheDir();
-    if (!dir.cd("undo"))
-        return;
-    QStringList dirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    bool ok;
-    foreach (const QString &num, dirs) {
-        int nb = num.toInt(&ok);
-        if (ok && nb >= max) {
-            QDir tmp = dir;
-            if (tmp.cd(num) && tmp.absolutePath().contains("/undo/")) {
-                tmp.removeRecursively();
-            }
-        }
-    }
+    emit removeInvalidUndo(m_commandStack->count());
+}
+
+void KdenliveDoc::saveMltPlaylist(const QString fileName)
+{
+    m_render->preparePreviewRendering(fileName);
 }

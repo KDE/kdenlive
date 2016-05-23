@@ -510,17 +510,21 @@ void CustomRuler::activateZone()
     update();
 }
 
-void CustomRuler::updatePreview(int frame, bool rendered, bool refresh)
+bool CustomRuler::updatePreview(int frame, bool rendered, bool refresh)
 {
+    bool result = false;
     if (rendered) {
         m_renderingPreviews << frame;
         m_dirtyRenderingPreviews.removeAll(frame);
     } else {
-        m_renderingPreviews.removeAll(frame);
-        m_dirtyRenderingPreviews << frame;
+        if (m_renderingPreviews.removeAll(frame) > 0) {
+            m_dirtyRenderingPreviews << frame;
+            result = true;
+        }
     }
     if (refresh)
         update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor + 1, 3);
+    return result;
 }
 
 void CustomRuler::updatePreviewDisplay(int start, int end)
@@ -553,9 +557,10 @@ bool CustomRuler::hasPreviewRange() const
     return (!m_dirtyRenderingPreviews.isEmpty() || !m_renderingPreviews.isEmpty());
 }
 
-void CustomRuler::addChunks(QList <int> chunks, bool add)
+QList <int> CustomRuler::addChunks(QList <int> chunks, bool add)
 {
     qSort(chunks);
+    QList <int> toProcess;
     if (add) {
         foreach(int frame, chunks) {
             if (m_renderingPreviews.contains(frame)) {
@@ -569,10 +574,14 @@ void CustomRuler::addChunks(QList <int> chunks, bool add)
         }
     } else {
         foreach(int frame, chunks) {
-            m_renderingPreviews.removeAll(frame);
+            if (m_renderingPreviews.removeAll(frame) > 0) {
+                // A preview file existed for this chunk, ask deletion
+                toProcess << frame;
+            }
             m_dirtyRenderingPreviews.removeAll(frame);
         }
     }
     update(chunks.first() * m_factor - offset(), MAX_HEIGHT - 3, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
+    return toProcess;
 }
 

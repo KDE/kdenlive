@@ -251,8 +251,7 @@ class Render: public AbstractRender
     void prepareProfileReset(double fps);
     void finishProfileReset();
     void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
-    void previewRendering(QList <int> frames, const QString &cacheDir, QStringList consumerParams, const QString extension);
-    void abortPreview();
+    void preparePreviewRendering(const QString sceneListFile);
 
 private:
 
@@ -265,7 +264,6 @@ private:
     Mlt::Producer * m_mltProducer;
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
-    QFuture <void> m_previewThread;
     BinController *m_binController;
     GLWidget *m_qmlView;
     double m_fps;
@@ -289,10 +287,8 @@ private:
     bool m_isActive;
     /** @brief True if the consumer is currently refreshing itself. */
     bool m_isRefreshing;
-    bool m_abortPreview;
     void closeMlt();
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
-    QList <int> m_previewChunks;
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
@@ -312,7 +308,6 @@ private slots:
     /** @brief Refreshes the monitor display. */
     void refresh();
     void slotCheckSeeking();
-    void doPreviewRender(QDir folder, QString scene, QStringList consumerParams, const QString &extension);
 
 signals:
     /** @brief The renderer stopped, either playing or rendering. */
@@ -349,7 +344,6 @@ signals:
     void mltFrameReceived(Mlt::Frame *);
     /** @brief We want to replace a clip with another, but before we need to change clip producer id so that there is no interference*/
     void prepareTimelineReplacement(const QString &);
-    void previewRender(int frame, const QString &file, int progress);
 
 public slots:
 

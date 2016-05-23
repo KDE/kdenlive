@@ -50,12 +50,12 @@ public:
     void updateProjectFps(const Timecode &t);
     void updateFrameSize();
     void activateZone();
-    void updatePreview(int frame, bool rendered = true, bool refresh = false);
+    bool updatePreview(int frame, bool rendered = true, bool refresh = false);
     /** @brief Returns a list of rendered timeline preview chunks */
     const QStringList previewChunks() const;
     /** @brief Returns a list of dirty timeline preview chunks (that need to be generated) */
     const QList <int> getDirtyChunks() const;
-    void addChunks(QList <int> chunks, bool add);
+    QList <int> addChunks(QList <int> chunks, bool add);
     /** @brief Returns true if a timeline preview zone has already be defined */
     bool hasPreviewRange() const;
     /** @brief Refresh timeline preview range */
