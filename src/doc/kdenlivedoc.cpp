@@ -314,13 +314,19 @@ KdenliveDoc::~KdenliveDoc()
         delete m_autosave;
     }
     // Remove all timeline preview undo data
+    QString id = m_documentProperties.value(QStringLiteral("documentid"));
+    if (id.isEmpty() || id.toLong() == 0) {
+        // Something is wrong, make sure we don't trash valuable data
+        // id should be a number (ms since epoch)
+        return;
+    }
     QDir dir = getCacheDir();
     if (m_url.isEmpty()) {
         // Doc was not saved, double check path and delete folder
-        if (dir.dirName() == m_documentProperties.value(QStringLiteral("documentid")))
+        if (dir.dirName() == id)
             dir.removeRecursively();
     } else {
-        if (dir.cd("undo")) {
+        if (dir.cd("undo") && dir.absolutePath().contains(id)) {
             dir.removeRecursively();
         }
     }
@@ -1662,8 +1668,9 @@ void KdenliveDoc::invalidatePreviews(QList <int> chunks)
             }
         }
         if (!foundPreviews) {
-            dir.cd(QString("undo/%1").arg(ix));
-            dir.removeRecursively();
+            if (dir.cd(QString("undo/%1").arg(ix)) && dir.absolutePath().contains("/undo/")) {
+                dir.removeRecursively();
+            }
         }
         else emit cleanupOldPreviews(ix);
     } else {
@@ -1688,8 +1695,9 @@ void KdenliveDoc::invalidatePreviews(QList <int> chunks)
                 }
                 if (!foundPreviews) {
                     QDir tmpDir = dir;
-                    tmpDir.cd(QString("undo/%1").arg(max));
-                    tmpDir.removeRecursively();
+                    if (tmpDir.cd(QString("undo/%1").arg(max)) && tmpDir.absolutePath().contains("/undo/")) {
+                        tmpDir.removeRecursively();
+                    }
                 }
             }
         }
@@ -1786,8 +1794,9 @@ void KdenliveDoc::doCleanupOldPreviews(int ix)
         int nb = num.toInt(&ok);
         if (ok && nb < ix - 5) {
             QDir tmp = dir;
-            tmp.cd(num);
-            tmp.removeRecursively();
+            if (tmp.cd(num) && tmp.absolutePath().contains("/undo/")) {
+                tmp.removeRecursively();
+            }
         }
     }
 }
@@ -1805,8 +1814,9 @@ void KdenliveDoc::checkPreviewStack()
         int nb = num.toInt(&ok);
         if (ok && nb >= max) {
             QDir tmp = dir;
-            tmp.cd(num);
-            tmp.removeRecursively();
+            if (tmp.cd(num) && tmp.absolutePath().contains("/undo/")) {
+                tmp.removeRecursively();
+            }
         }
     }
 }
