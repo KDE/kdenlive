@@ -1620,6 +1620,11 @@ void KdenliveDoc::doAddAction(const QString &name, QAction *a, QKeySequence shor
     pCore->window()->actionCollection()->setDefaultShortcut(a, shortcut);
 }
 
+QAction *KdenliveDoc::getAction(const QString &name)
+{
+    return pCore->window()->actionCollection()->action(name);
+}
+
 void KdenliveDoc::previewProgress(int p)
 {
     pCore->window()->setPreviewProgress(p);

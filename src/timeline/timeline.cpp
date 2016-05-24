@@ -1889,14 +1889,7 @@ void Timeline::updatePreviewSettings(const QString &profile)
         invalidateRange(ItemInfo());
         m_doc->setDocumentProperty(QStringLiteral("previewparameters"), params);
         m_doc->setDocumentProperty(QStringLiteral("previewextension"), ext);
-        if (m_timelinePreview) {
-            if (!m_timelinePreview->loadParams()) {
-                delete m_timelinePreview;
-                m_timelinePreview = NULL;
-            }
-        } else {
-            initializePreview();
-        }
+        initializePreview();
     }
 }
 
@@ -1935,18 +1928,28 @@ void Timeline::invalidateTrack(int ix)
 
 void Timeline::initializePreview()
 {
-    m_timelinePreview = new PreviewManager(m_doc, m_ruler);
-    if (!m_timelinePreview->initialize()) {
-        //TODO warn user
-        delete m_timelinePreview;
-        m_timelinePreview = NULL;
-        qDebug()<<" * * * *TL PREVIEW NOT INITIALIZED!!!";
+    if (m_timelinePreview) {
+        // Update parameters
+        if (!m_timelinePreview->loadParams()) {
+            delete m_timelinePreview;
+            m_timelinePreview = NULL;
+        }
     } else {
-        connect(&m_previewGatherTimer, &QTimer::timeout, m_timelinePreview, &PreviewManager::slotProcessDirtyChunks);
-        connect(m_timelinePreview, &PreviewManager::previewRender, this, &Timeline::gotPreviewRender);
-        connect(m_timelinePreview, &PreviewManager::reloadChunks, this, &Timeline::slotReloadChunks, Qt::DirectConnection);
+        m_timelinePreview = new PreviewManager(m_doc, m_ruler);
+        if (!m_timelinePreview->initialize()) {
+            //TODO warn user
+            delete m_timelinePreview;
+            m_timelinePreview = NULL;
+            qDebug()<<" * * * *TL PREVIEW NOT INITIALIZED!!!";
+        } else {
+            connect(&m_previewGatherTimer, &QTimer::timeout, m_timelinePreview, &PreviewManager::slotProcessDirtyChunks);
+            connect(m_timelinePreview, &PreviewManager::previewRender, this, &Timeline::gotPreviewRender);
+            connect(m_timelinePreview, &PreviewManager::reloadChunks, this, &Timeline::slotReloadChunks, Qt::DirectConnection);
+        }
     }
-
+    QAction *previewRender = m_doc->getAction(QStringLiteral("prerender_timeline_zone"));
+    if (previewRender)
+        previewRender->setEnabled(m_timelinePreview != NULL);
 }
 
 void Timeline::startPreviewRender()

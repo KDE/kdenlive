@@ -103,7 +103,11 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
 {
     // We are not at the bottom of undo stack, chunks have already been archived previously
     QMutexLocker lock(&m_previewMutex);
-    m_previewTimer.stop();
+    bool timer = false;
+    if (m_previewTimer.isActive()) {
+        m_previewTimer.stop();
+        timer = true;
+    }
     int stackIx = m_doc->commandStack()->index();
     int stackMax = m_doc->commandStack()->count();
     abortRendering();
@@ -166,6 +170,8 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
         emit reloadChunks(m_cacheDir, foundChunks, m_extension);
     }
     m_doc->setModified(true);
+    if (timer)
+        m_previewTimer.start();
 }
 
 void PreviewManager::doCleanupOldPreviews()
@@ -195,6 +201,7 @@ void PreviewManager::addPreviewRange(bool add)
     if (toProcess.isEmpty())
         return;
     if (add) {
+        //TODO: optimize, don't abort rendering process, just add required frames
         if (KdenliveSettings::autopreview())
             m_previewTimer.start();
     } else {
@@ -216,7 +223,7 @@ void PreviewManager::abortRendering()
 
 void PreviewManager::startPreviewRender()
 {
-    if (!m_ruler->hasPreviewRange() && !KdenliveSettings::autopreview()) {
+    if (!m_ruler->hasPreviewRange()) {
         addPreviewRange(true);
     }
     QList <int> chunks = m_ruler->getDirtyChunks();

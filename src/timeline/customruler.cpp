@@ -571,6 +571,8 @@ QList <int> CustomRuler::addChunks(QList <int> chunks, bool add)
                 continue;
             }
             m_dirtyRenderingPreviews << frame;
+            // This is a new dirty chunk
+            toProcess << frame;
         }
     } else {
         foreach(int frame, chunks) {

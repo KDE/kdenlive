@@ -169,6 +169,9 @@ public:
     void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
     /** @brief Returns true if the profile file has changed. */
     bool profileChanged(const QString &profile) const;
+    /** @brief Get an action from main actioncollection. */
+    QAction *getAction(const QString &name);
+    /** @brief Add an action to main actioncollection. */
     void doAddAction(const QString &name, QAction *a, QKeySequence shortcut);
     void invalidatePreviews(QList <int> chunks);
     void previewProgress(int p);
