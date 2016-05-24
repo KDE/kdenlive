@@ -92,7 +92,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_height(0),
     m_render(render),
     m_notesWidget(notes->widget()),
-//    m_commandStack(new DocUndoStack(undoGroup)),
     m_modified(false),
     m_projectFolder(projectFolder)
 {

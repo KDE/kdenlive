@@ -27,12 +27,16 @@
 #include <QStandardPaths>
 #include <QProcess>
 
-PreviewManager::PreviewManager(KdenliveDoc *doc, CustomRuler *ruler) : QObject()
+PreviewManager::PreviewManager(KdenliveDoc *doc, CustomRuler *ruler, Mlt::Tractor *tractor) : QObject()
     , m_doc(doc)
     , m_ruler(ruler)
+    , m_tractor(tractor)
+    , m_previewTrack(NULL)
     , m_initialized(false)
     , m_abortPreview(false)
 {
+    m_previewGatherTimer.setSingleShot(true);
+    m_previewGatherTimer.setInterval(200);
 }
 
 PreviewManager::~PreviewManager()
@@ -44,6 +48,7 @@ PreviewManager::~PreviewManager()
             m_cacheDir.removeRecursively();
         }
     }
+    delete m_previewTrack;
 }
 
 bool PreviewManager::initialize()
@@ -74,12 +79,44 @@ bool PreviewManager::initialize()
     m_doc->setDocumentProperty(QStringLiteral("cachedir"), m_cacheDir.absolutePath());
     m_undoDir = QDir(m_cacheDir.absoluteFilePath("undo"));
     connect(this, &PreviewManager::cleanupOldPreviews, this, &PreviewManager::doCleanupOldPreviews);
-    connect(m_doc, &KdenliveDoc::removeInvalidUndo, this, &PreviewManager::slotRemoveInvalidUndo);
+    connect(m_doc, &KdenliveDoc::removeInvalidUndo, this, &PreviewManager::slotRemoveInvalidUndo, Qt::DirectConnection);
     m_previewTimer.setSingleShot(true);
     m_previewTimer.setInterval(3000);
     connect(&m_previewTimer, &QTimer::timeout, this, &PreviewManager::startPreviewRender);
+    connect(this, &PreviewManager::previewRender, this, &PreviewManager::gotPreviewRender);
+    connect(&m_previewGatherTimer, &QTimer::timeout, this, &PreviewManager::slotProcessDirtyChunks);
     m_initialized = true;
     return true;
+}
+
+bool PreviewManager::buildPreviewTrack()
+{
+    if (m_previewTrack)
+        return false;
+    // Create overlay track
+    m_previewTrack = new Mlt::Playlist(*m_tractor->profile());
+    int trackIndex = m_tractor->count();
+    m_tractor->lock();
+    m_tractor->insert_track(*m_previewTrack, trackIndex);
+    Mlt::Producer *tk = m_tractor->track(trackIndex);
+    tk->set("hide", 2);
+    delete tk;
+    m_tractor->unlock();
+    return true;
+}
+
+void PreviewManager::reconnectTrack()
+{
+    if (m_previewTrack) {
+        m_tractor->insert_track(*m_previewTrack, m_tractor->count());
+    }
+}
+
+void PreviewManager::disconnectTrack()
+{
+    if (m_previewTrack) {
+        m_tractor->remove_track(m_tractor->count() - 1);
+    }
 }
 
 bool PreviewManager::loadParams()
@@ -110,7 +147,6 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
     }
     int stackIx = m_doc->commandStack()->index();
     int stackMax = m_doc->commandStack()->count();
-    abortRendering();
     if (stackIx == stackMax && !m_undoDir.exists(QString::number(stackIx - 1))) {
         // We just added a new command in stack, archive existing chunks
         int ix = stackIx - 1;
@@ -167,7 +203,7 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
             }
         }
         qSort(foundChunks);
-        emit reloadChunks(m_cacheDir, foundChunks, m_extension);
+        slotReloadChunks(m_cacheDir, foundChunks, m_extension);
     }
     m_doc->setModified(true);
     if (timer)
@@ -201,8 +237,10 @@ void PreviewManager::addPreviewRange(bool add)
     if (toProcess.isEmpty())
         return;
     if (add) {
-        //TODO: optimize, don't abort rendering process, just add required frames
-        if (KdenliveSettings::autopreview())
+        if (m_previewThread.isRunning()) {
+            // just add required frames to current rendering job
+            m_waitingThumbs << toProcess;
+        } else if (KdenliveSettings::autopreview())
             m_previewTimer.start();
     } else {
         // Remove processed chunks
@@ -230,28 +268,30 @@ void PreviewManager::startPreviewRender()
     if (!chunks.isEmpty()) {
         // Abort any rendering
         abortRendering();
+        m_waitingThumbs.clear();
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         m_doc->saveMltPlaylist(sceneList);
-        m_previewThread = QtConcurrent::run(this, &PreviewManager::doPreviewRender, sceneList, chunks);
+        m_waitingThumbs = chunks;
+        m_previewThread = QtConcurrent::run(this, &PreviewManager::doPreviewRender, sceneList);
     }
 }
 
-void PreviewManager::doPreviewRender(QString scene, QList <int> chunks)
+void PreviewManager::doPreviewRender(QString scene)
 {
     int progress;
     int chunkSize = KdenliveSettings::timelinechunks();
     // initialize progress bar
     emit previewRender(0, QString(), 0);
     int ct = 0;
-    qSort(chunks);
-    while (!chunks.isEmpty()) {
-        int i = chunks.takeFirst();
+    qSort(m_waitingThumbs);
+    while (!m_waitingThumbs.isEmpty()) {
+        int i = m_waitingThumbs.takeFirst();
         ct++;
         QString fileName = QString("%1.%2").arg(i).arg(m_extension);
-        if (chunks.isEmpty()) {
+        if (m_waitingThumbs.isEmpty()) {
             progress = 1000;
         } else {
-            progress = (double) (ct) / (ct + chunks.count()) * 1000;
+            progress = (double) (ct) / (ct + m_waitingThumbs.count()) * 1000;
         }
         if (m_cacheDir.exists(fileName)) {
             // This chunk already exists
@@ -292,6 +332,8 @@ void PreviewManager::doPreviewRender(QString scene, QList <int> chunks)
 void PreviewManager::slotProcessDirtyChunks()
 {
     QList <int> chunks = m_ruler->getDirtyChunks();
+    if (chunks.isEmpty())
+        return;
     invalidatePreviews(chunks);
     m_ruler->updatePreviewDisplay(chunks.first(), chunks.last());
     if (KdenliveSettings::autopreview())
@@ -300,6 +342,7 @@ void PreviewManager::slotProcessDirtyChunks()
 
 void PreviewManager::slotRemoveInvalidUndo(int ix)
 {
+    QMutexLocker lock(&m_previewMutex);
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     qSort(dirs);
     foreach(const QString dir, dirs) {
@@ -312,3 +355,69 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
     }
 }
 
+void PreviewManager::invalidatePreview(int startFrame, int endFrame)
+{
+    int chunkSize = KdenliveSettings::timelinechunks();
+    int start = startFrame / chunkSize;
+    int end = lrintf(endFrame / chunkSize);
+    start *= chunkSize;
+    end *= chunkSize;
+    if (!m_ruler->isUnderPreview(start, end)) {
+        return;
+    }
+    m_previewGatherTimer.stop();
+    abortPreview();
+    m_tractor->lock();
+    for (int i = start; i <=end; i+= chunkSize) {
+        if (m_ruler->updatePreview(i, false)) {
+            int ix = m_previewTrack->get_clip_index_at(i);
+            if (m_previewTrack->is_blank(ix))
+                continue;
+            Mlt::Producer *prod = m_previewTrack->replace_with_blank(ix);
+            delete prod;
+        }
+    }
+    m_previewTrack->consolidate_blanks();
+    m_tractor->unlock();
+    m_previewGatherTimer.start();
+}
+
+void PreviewManager::slotReloadChunks(QDir cacheDir, QList <int> chunks, const QString ext)
+{
+    m_tractor->lock();
+    foreach(int ix, chunks) {
+        if (m_previewTrack->is_blank_at(ix)) {
+            const QString fileName = cacheDir.absoluteFilePath(QString("%1.%2").arg(ix).arg(ext));
+            Mlt::Producer prod(*m_tractor->profile(), 0, fileName.toUtf8().constData());
+            if (prod.is_valid()) {
+                m_ruler->updatePreview(ix, true);
+                prod.set("mlt_service", "avformat-novalidate");
+                m_previewTrack->insert_at(ix, &prod, 1);
+            }
+        }
+    }
+    m_ruler->updatePreviewDisplay(chunks.first(), chunks.last());
+    m_previewTrack->consolidate_blanks();
+    m_tractor->unlock();
+}
+
+void PreviewManager::gotPreviewRender(int frame, const QString &file, int progress)
+{
+    if (file.isEmpty()) {
+        m_doc->previewProgress(progress);
+        return;
+    }
+    m_tractor->lock();
+    if (m_previewTrack->is_blank_at(frame)) {
+        Mlt::Producer prod(*m_tractor->profile(), 0, file.toUtf8().constData());
+        if (prod.is_valid()) {
+            m_ruler->updatePreview(frame, true, true);
+            prod.set("mlt_service", "avformat-novalidate");
+            m_previewTrack->insert_at(frame, &prod, 1);
+        }
+    }
+    m_previewTrack->consolidate_blanks();
+    m_tractor->unlock();
+    m_doc->previewProgress(progress);
+    m_doc->setModified(true);
+}

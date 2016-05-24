@@ -60,6 +60,7 @@ public:
     bool hasPreviewRange() const;
     /** @brief Refresh timeline preview range */
     void updatePreviewDisplay(int start, int end);
+    bool isUnderPreview(int start, int end);
 
 protected:
     void paintEvent(QPaintEvent * /*e*/);

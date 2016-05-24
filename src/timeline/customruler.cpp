@@ -510,6 +510,19 @@ void CustomRuler::activateZone()
     update();
 }
 
+bool CustomRuler::isUnderPreview(int start, int end)
+{
+    QList <int> allPreviews;
+    allPreviews << m_renderingPreviews << m_dirtyRenderingPreviews;
+    qSort(allPreviews);
+    foreach (int ix, allPreviews) {
+        if (ix >= start && ix <= end) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool CustomRuler::updatePreview(int frame, bool rendered, bool refresh)
 {
     bool result = false;
@@ -522,6 +535,8 @@ bool CustomRuler::updatePreview(int frame, bool rendered, bool refresh)
             result = true;
         }
     }
+    std::sort(m_renderingPreviews.begin(), m_renderingPreviews.end());
+    std::sort(m_dirtyRenderingPreviews.begin(), m_dirtyRenderingPreviews.end());
     if (refresh)
         update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor + 1, 3);
     return result;
@@ -583,6 +598,8 @@ QList <int> CustomRuler::addChunks(QList <int> chunks, bool add)
             m_dirtyRenderingPreviews.removeAll(frame);
         }
     }
+    std::sort(m_renderingPreviews.begin(), m_renderingPreviews.end());
+    std::sort(m_dirtyRenderingPreviews.begin(), m_dirtyRenderingPreviews.end());
     update(chunks.first() * m_factor - offset(), MAX_HEIGHT - 3, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
     return toProcess;
 }

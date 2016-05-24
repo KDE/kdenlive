@@ -34,7 +34,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include <QDomElement>
-#include <QTimer>
 #include <QDir>
 
 #include <mlt++/Mlt.h>
@@ -214,8 +213,8 @@ private:
     QString m_documentErrors;
     QList <QAction *> m_trackActions;
     /** @brief sometimes grouped commands quickly send invalidate commands, so wait a little bit before processing*/
-    QTimer m_previewGatherTimer;
     PreviewManager *m_timelinePreview;
+    bool m_usePreview;
 
     void adjustTrackHeaders();
 
@@ -256,9 +255,6 @@ private slots:
     void slotUpdateTrackEffectState(int);
     /** @brief Toggle use of timeline zone for editing.*/
     void slotEnableZone(bool enable);
-    void gotPreviewRender(int frame, const QString &file, int progress);
-    void invalidatePreview(int startFrame, int endFrame);
-    void slotReloadChunks(QDir cacheDir, QList <int> chunks, const QString ext);
 
 signals:
     void mousePosition(int);
