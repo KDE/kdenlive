@@ -141,6 +141,10 @@ breeze-light/lt_timeline-use-zone-on.svgz
 breeze-light/lt_timeline-extract.svgz
 breeze-light/lt_timeline-lift.svgz
 breeze-light/lt_timeline-insert.svgz
+breeze-light/lt_preview-add-zone.svgz
+breeze-light/lt_preview-remove-zone.svgz
+breeze-light/lt_preview-render-on.svgz
+breeze-light/lt_preview-render-off.svgz
 breeze-light/lt_timeline-overwrite.svgz
 breeze-light/lt_tools-wizard.svgz
 breeze-light/lt_transform-crop.svgz
@@ -310,6 +314,10 @@ breeze-dark/dk_timeline-extract.svgz
 breeze-dark/dk_timeline-lift.svgz
 breeze-dark/dk_timeline-insert.svgz
 breeze-dark/dk_timeline-overwrite.svgz
+breeze-dark/dk_preview-add-zone.svgz
+breeze-dark/dk_preview-remove-zone.svgz
+breeze-dark/dk_preview-render-on.svgz
+breeze-dark/dk_preview-render-off.svgz
 breeze-dark/dk_tools-wizard.svgz
 breeze-dark/dk_transform-crop.svgz
 breeze-dark/dk_transform-move.svgz
