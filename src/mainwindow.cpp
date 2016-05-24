@@ -132,8 +132,10 @@ void MyToolButton::setProgress(int progress)
         // calculate remaining time
         qint64 ms = m_timer.elapsed() * (1000.0 / progress - 1);
         if (ms < 60000)
+            // xgettext:no-c-format
             m_remainingTime = i18nc("s as seconds", "%1s", ms / 1000);
         else if (ms < 3600000)
+            // xgettext:no-c-format
             m_remainingTime = i18nc("m as minutes", "%1m", ms / 60000);
         else {
             m_remainingTime = i18nc("h as hours", "%1h", qMax(99, (int) (ms / 3600000)));
