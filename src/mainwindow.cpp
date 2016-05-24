@@ -876,6 +876,11 @@ void MainWindow::saveNewToolbarConfig()
     loadDockActions();
     loadClipActions();
     pCore->bin()->rebuildMenu();
+    QMenu *monitorOverlay = static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
+    if (monitorOverlay) {
+        m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, NULL, m_loopClip);
+        m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container(QStringLiteral("marker_menu"), this)));
+    }
 }
 
 void MainWindow::slotReloadEffects()
@@ -2919,7 +2924,6 @@ void MainWindow::loadClipActions()
     unplugActionList(QStringLiteral("add_effect"));
     plugActionList(QStringLiteral("add_effect"), m_effectsMenu->actions());
 
-
     QList <QAction *>clipJobActions = getExtraActions("clipjobs");
     unplugActionList("clip_jobs");
     plugActionList("clip_jobs", clipJobActions);
@@ -2947,7 +2951,7 @@ void MainWindow::loadDockActions()
     sortedList.sort(Qt::CaseInsensitive);
     foreach(const QString &text, sortedList) {
         orderedList << sorted.value(text);
-    }    
+    }
     unplugActionList( "dock_actions" );
     plugActionList( "dock_actions", orderedList);
 }
