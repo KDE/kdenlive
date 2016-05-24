@@ -529,3 +529,4 @@ void MonitorManager::slotSetOutPoint()
         m_projectMonitor->slotSetZoneEnd();
     }
 }
+

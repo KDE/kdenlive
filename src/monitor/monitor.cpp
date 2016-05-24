@@ -407,6 +407,8 @@ void Monitor::slotLockMonitor(bool lock)
 
 void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
 {
+    if (m_contextMenu)
+        delete m_contextMenu;
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(m_playMenu);
     if (goMenu)
