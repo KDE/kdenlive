@@ -855,6 +855,6 @@ void ProjectSettings::loadPreviewProfiles()
         }
     }
     preview_profile->setCurrentIndex(ix);
-    slotUpdateProxyParams();
+    slotUpdatePreviewParams();
 }
 
