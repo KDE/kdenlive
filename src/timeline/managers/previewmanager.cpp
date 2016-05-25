@@ -43,9 +43,11 @@ PreviewManager::~PreviewManager()
 {
     if (m_initialized) {
         abortRendering();
-        m_undoDir.removeRecursively();
+        if (m_undoDir.dirName() == QLatin1String("undo"))
+            m_undoDir.removeRecursively();
         if (m_doc->url().isEmpty() || m_cacheDir.entryList(QDir::Files).count() == 0) {
-            m_cacheDir.removeRecursively();
+            if (m_cacheDir.dirName() == m_doc->getDocumentProperty(QStringLiteral("documentid")))
+                m_cacheDir.removeRecursively();
         }
     }
     delete m_previewTrack;
@@ -217,6 +219,8 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
 
 void PreviewManager::doCleanupOldPreviews()
 {
+    if (m_undoDir.dirName() != QLatin1String("undo"))
+        return;
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     qSort(dirs);
     while (dirs.count() > 5) {
@@ -353,6 +357,10 @@ void PreviewManager::slotProcessDirtyChunks()
 void PreviewManager::slotRemoveInvalidUndo(int ix)
 {
     QMutexLocker lock(&m_previewMutex);
+    if (m_undoDir.dirName() != QLatin1String("undo")) {
+        // Make sure we delete correct folder
+        return;
+    }
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     qSort(dirs);
     foreach(const QString dir, dirs) {

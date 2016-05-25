@@ -300,6 +300,8 @@ void LibraryWidget::slotDeleteFromLibrary()
         return;
     }
     QString path = current->data(0, Qt::UserRole).toString();
+    if (path.isEmpty())
+        return;
     if (current->data(0, Qt::UserRole + 2).toInt() == LibraryItem::Folder) {
         // Deleting a folder
         QDir dir(path);
@@ -310,7 +312,7 @@ void LibraryWidget::slotDeleteFromLibrary()
         }
         const QStringList fileList = dir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
         if (!fileList.isEmpty()) {
-            if (KMessageBox::warningContinueCancel(this, i18n("This will delete all playlists in folder: %1.\nThis cannot be undone", path)) != KMessageBox::Continue) {
+            if (KMessageBox::warningContinueCancel(this, i18n("This will delete the folder %1, including all playlists in it.\nThis cannot be undone", path)) != KMessageBox::Continue) {
                 return;
             }
         }
