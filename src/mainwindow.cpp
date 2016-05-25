@@ -128,7 +128,7 @@ MyToolButton::~MyToolButton()
 void MyToolButton::setProgress(int progress) 
 {
     int prog = (width() - 6) * (double) progress / 1000;
-    if (m_timer.isValid()) {
+    if (m_timer.isValid() && progress > 0) {
         // calculate remaining time
         qint64 ms = m_timer.elapsed() * (1000.0 / progress - 1);
         if (ms < 60000)
@@ -138,33 +138,34 @@ void MyToolButton::setProgress(int progress)
             // xgettext:no-c-format
             m_remainingTime = i18nc("m as minutes", "%1m", ms / 60000);
         else {
-            m_remainingTime = i18nc("h as hours", "%1h", qMax(99, (int) (ms / 3600000)));
+            m_remainingTime = i18nc("h as hours", "%1h", qMin(99, (int) (ms / 3600000)));
         }
     }
-    if (prog == m_progress)
-        return;
     if (progress < 0) {
         if (m_defaultAction)
             setDefaultAction(m_defaultAction);
         m_remainingTime.clear();
         m_timer.invalidate();
         m_progress = -1;
-    } else {
-        if (!m_timer.isValid() || progress == 0) {
-            if (!m_defaultAction) {
-                m_defaultAction = defaultAction();
-            }
-            setDefaultAction(m_dummyAction);
-            m_timer.start();
-        }
-        if (progress == 1000) {
-            if (m_defaultAction)
-                setDefaultAction(m_defaultAction);
-            m_remainingTime.clear();
-            m_timer.invalidate();
-        }
-        m_progress = prog;
+        update();
+        return;
     }
+    if (prog == m_progress)
+        return;
+    if (!m_timer.isValid() || progress == 0) {
+        if (!m_defaultAction) {
+            m_defaultAction = defaultAction();
+        }
+        setDefaultAction(m_dummyAction);
+        m_timer.start();
+    }
+    if (progress == 1000) {
+        if (m_defaultAction)
+            setDefaultAction(m_defaultAction);
+        m_remainingTime.clear();
+        m_timer.invalidate();
+    }
+    m_progress = prog;
     update();
 }
 

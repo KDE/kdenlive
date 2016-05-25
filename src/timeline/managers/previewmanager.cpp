@@ -208,7 +208,7 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
             }
         }
         qSort(foundChunks);
-        slotReloadChunks(m_cacheDir, foundChunks, m_extension);
+        reloadChunks(foundChunks);
     }
     m_doc->setModified(true);
     if (timer)
@@ -317,7 +317,7 @@ void PreviewManager::doPreviewRender(QString scene)
         previewProcess.start(KdenliveSettings::rendererpath(), args);
         if (previewProcess.waitForStarted()) {
             previewProcess.waitForFinished(-1);
-            if (previewProcess.exitStatus() != QProcess::NormalExit) {
+            if (previewProcess.exitStatus() != QProcess::NormalExit || previewProcess.exitCode() != 0) {
                 // Something went wrong
                 if (m_abortPreview) {
                     emit previewRender(0, QString(), 1000);
@@ -330,6 +330,9 @@ void PreviewManager::doPreviewRender(QString scene)
             } else {
                 emit previewRender(i, m_cacheDir.absoluteFilePath(fileName), progress);
             }
+        } else {
+            emit previewRender(i, QString(), -1);
+            break;
         }
     }
     QFile::remove(scene);
@@ -389,12 +392,12 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     m_previewGatherTimer.start();
 }
 
-void PreviewManager::slotReloadChunks(QDir cacheDir, QList <int> chunks, const QString ext)
+void PreviewManager::reloadChunks(QList <int> chunks)
 {
     m_tractor->lock();
     foreach(int ix, chunks) {
         if (m_previewTrack->is_blank_at(ix)) {
-            const QString fileName = cacheDir.absoluteFilePath(QString("%1.%2").arg(ix).arg(ext));
+            const QString fileName = m_cacheDir.absoluteFilePath(QString("%1.%2").arg(ix).arg(m_extension));
             Mlt::Producer prod(*m_tractor->profile(), 0, fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 m_ruler->updatePreview(ix, true);
