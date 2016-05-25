@@ -44,7 +44,7 @@ PreviewManager::~PreviewManager()
     if (m_initialized) {
         abortRendering();
         m_undoDir.removeRecursively();
-        if (m_cacheDir.entryList(QDir::NoDotAndDotDot).count() == 0) {
+        if (m_doc->url().isEmpty() || m_cacheDir.entryList(QDir::Files).count() == 0) {
             m_cacheDir.removeRecursively();
         }
     }
@@ -103,6 +103,11 @@ bool PreviewManager::buildPreviewTrack()
     delete tk;
     m_tractor->unlock();
     return true;
+}
+
+const QDir PreviewManager::getCacheDir() const
+{
+    return m_cacheDir;
 }
 
 void PreviewManager::reconnectTrack()
@@ -257,6 +262,8 @@ void PreviewManager::abortRendering()
     m_abortPreview = true;
     emit abortPreview();
     m_previewThread.waitForFinished();
+    // Re-init time estimation
+    emit previewRender(0, QString(), 0);
 }
 
 void PreviewManager::startPreviewRender()

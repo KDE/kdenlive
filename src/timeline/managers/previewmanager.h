@@ -57,6 +57,7 @@ public:
     bool buildPreviewTrack();
     void reconnectTrack();
     void disconnectTrack();
+    const QDir getCacheDir() const;
 
 private:
     KdenliveDoc *m_doc;

@@ -1783,20 +1783,17 @@ void Timeline::loadPreviewRender()
 {
     if (!m_timelinePreview)
         return;
-    QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
     QString chunks = m_doc->getDocumentProperty(QStringLiteral("previewchunks"));
     QString dirty = m_doc->getDocumentProperty(QStringLiteral("dirtypreviewchunks"));
     QString ext = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
     QDateTime documentDate = QFileInfo(m_doc->url().path()).lastModified();
     if (!chunks.isEmpty() || !dirty.isEmpty()) {
         m_timelinePreview->buildPreviewTrack();
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-        dir.cd(documentId);
+        const QDir dir = m_timelinePreview->getCacheDir();
         QStringList previewChunks = chunks.split(",", QString::SkipEmptyParts);
         QStringList dirtyChunks = dirty.split(",", QString::SkipEmptyParts);
         foreach(const QString frame, previewChunks) {
-            int pos = frame.toInt();
-            const QString fileName = dir.absoluteFilePath(QString("%1.%2").arg(pos).arg(ext));
+            const QString fileName = dir.absoluteFilePath(QString("%1.%2").arg(frame).arg(ext));
             QFile file(fileName);
             if (file.exists()) {
                 if (QFileInfo(file).lastModified() > documentDate) {
@@ -1804,9 +1801,11 @@ void Timeline::loadPreviewRender()
                     file.remove();
                     dirtyChunks << frame;
                 } else {
-                    m_timelinePreview->gotPreviewRender(pos, fileName, 1000);
+                    m_timelinePreview->gotPreviewRender(frame.toInt(), fileName, 1000);
                 }
-            } else dirtyChunks << frame;
+            } else {
+                dirtyChunks << frame;
+            }
         }
         if (!dirtyChunks.isEmpty()) {
             foreach(const QString i, dirtyChunks) {
@@ -1823,6 +1822,7 @@ void Timeline::updatePreviewSettings(const QString &profile)
     if (profile.isEmpty()) return;
     QString params = profile.section(";", 0, 0);
     QString ext = profile.section(";", 1, 1);
+    qDebug()<<" / / /NEW TP: "<<params<<"\nEXR: "<<ext;
     if (params != m_doc->getDocumentProperty(QStringLiteral("previewparameters")) || ext != m_doc->getDocumentProperty(QStringLiteral("previewextension"))) {
         // Timeline preview params changed, delete all existing previews.
         invalidateRange(ItemInfo());
