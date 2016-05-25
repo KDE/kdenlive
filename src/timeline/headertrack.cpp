@@ -271,6 +271,22 @@ void HeaderTrack::switchLock(bool enable)
     emit switchTrackLock(m_parentTrack->index(), enable);
 }
 
+void HeaderTrack::setVideoMute(bool mute)
+{
+    m_switchVideo->blockSignals(true);
+    m_switchVideo->setActive(mute);
+    m_switchVideo->blockSignals(false);
+    updateLed();
+}
+
+void HeaderTrack::setAudioMute(bool mute)
+{
+    m_switchVideo->blockSignals(true);
+    m_switchVideo->setActive(mute);
+    m_switchVideo->blockSignals(false);
+    updateLed();
+}
+
 void HeaderTrack::setLock(bool lock)
 {
     m_switchLock->blockSignals(true);

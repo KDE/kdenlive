@@ -804,3 +804,31 @@ void SplitAudioCommand::redo()
     m_view->doSplitAudio(m_pos, m_track, m_destTrack, true);
 }
 
+ChangeTrackStateCommand::ChangeTrackStateCommand(Timeline *timeline, const int track, bool changeAudio, bool changeVideo, bool hideAudio, bool hideVideo, QUndoCommand * parent) :
+    QUndoCommand(parent)
+    , m_timeline(timeline)
+    , m_track(track)
+    , m_audio(changeAudio)
+    , m_video(changeVideo)
+    , m_hideAudio(hideAudio)
+    , m_hideVideo(hideVideo)
+{
+    setText(i18n("Change track state"));
+}
+// virtual
+void ChangeTrackStateCommand::undo()
+{
+    if (m_audio)
+        m_timeline->doSwitchTrackAudio(m_track, !m_hideAudio);
+    if (m_video)
+        m_timeline->doSwitchTrackVideo(m_track, !m_hideVideo);
+}
+// virtual
+void ChangeTrackStateCommand::redo()
+{
+    if (m_audio)
+        m_timeline->doSwitchTrackAudio(m_track, m_hideAudio);
+    if (m_video)
+        m_timeline->doSwitchTrackVideo(m_track, m_hideVideo);
+}
+

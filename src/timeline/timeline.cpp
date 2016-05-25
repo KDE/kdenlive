@@ -316,8 +316,8 @@ int Timeline::getTracks() {
             if (trackduration > duration) duration = trackduration;
             tk->trackHeader->setSelectedIndex(m_trackview->selectedTrack());
             connect(tk->trackHeader, &HeaderTrack::switchTrackComposite, this, &Timeline::slotSwitchTrackComposite);
-            connect(tk->trackHeader, SIGNAL(switchTrackVideo(int,bool)), m_trackview, SLOT(slotSwitchTrackVideo(int,bool)));
-            connect(tk->trackHeader, SIGNAL(switchTrackAudio(int,bool)), m_trackview, SLOT(slotSwitchTrackAudio(int,bool)));
+            connect(tk->trackHeader, SIGNAL(switchTrackVideo(int,bool)), this, SLOT(switchTrackVideo(int,bool)));
+            connect(tk->trackHeader, SIGNAL(switchTrackAudio(int,bool)), this, SLOT(switchTrackAudio(int,bool)));
             connect(tk->trackHeader, SIGNAL(switchTrackLock(int,bool)), m_trackview, SLOT(slotSwitchTrackLock(int,bool)));
             connect(tk->trackHeader, SIGNAL(selectTrack(int,bool)), m_trackview, SLOT(slotSelectTrack(int,bool)));
             connect(tk->trackHeader, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
@@ -698,36 +698,52 @@ void Timeline::updateTrackState(int ix, int state)
     QScopedPointer<Mlt::Producer> track(m_tractor->track(ix));
     currentState = track->get_int("hide");
     if (state == currentState) return;
+    bool processAudio = false;
+    bool hideAudio = false;
+    bool processVideo = false;
+    bool hideVideo = false;
     if (state == 0) {
         // Show all
         if (currentState & 1) {
-            switchTrackVideo(ix, false);
+            doSwitchTrackVideo(ix, false);
         }
         if (currentState & 2) {
-            switchTrackAudio(ix, false);
+            doSwitchTrackAudio(ix, false);
         }
     }
     else if (state == 1) {
         // Mute video
         if (currentState & 2) {
-            switchTrackAudio(ix, false);
+            doSwitchTrackAudio(ix, false);
         }
-        switchTrackVideo(ix, true);
+        doSwitchTrackVideo(ix, true);
     }
     else if (state == 2) {
         // Mute audio
         if (currentState & 1) {
-            switchTrackVideo(ix, false);
+            doSwitchTrackVideo(ix, false);
         }
-        switchTrackAudio(ix, true);
+        doSwitchTrackAudio(ix, true);
     }
     else {
-        switchTrackVideo(ix, true);
-        switchTrackAudio(ix, true);
+        doSwitchTrackVideo(ix, true);
+        doSwitchTrackAudio(ix, true);
     }
 }
 
 void Timeline::switchTrackVideo(int ix, bool hide)
+{
+    QUndoCommand *trackState = new ChangeTrackStateCommand(this, ix, false, true, false, hide);
+    m_doc->commandStack()->push(trackState);
+}
+
+void Timeline::switchTrackAudio(int ix, bool hide)
+{
+    QUndoCommand *trackState = new ChangeTrackStateCommand(this, ix, true, false, hide, false);
+    m_doc->commandStack()->push(trackState);
+}
+
+void Timeline::doSwitchTrackVideo(int ix, bool hide)
 {
     Track* tk = track(ix);
     if (tk == NULL) {
@@ -739,6 +755,7 @@ void Timeline::switchTrackVideo(int ix, bool hide)
         // Video is already muted
         return;
     }
+    tk->trackHeader->setVideoMute(hide);
     int newstate = 0;
     if (hide) {
         if (state & 2) {
@@ -759,6 +776,7 @@ void Timeline::switchTrackVideo(int ix, bool hide)
     tk->setState(newstate);
     invalidateTrack(ix);
     refreshTractor();
+    m_doc->renderer()->doRefresh();
 }
 
 void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
@@ -793,7 +811,7 @@ void Timeline::refreshTractor()
     m_tractor->refresh();
 }
 
-void Timeline::switchTrackAudio(int ix, bool mute)
+void Timeline::doSwitchTrackAudio(int ix, bool mute)
 {
     Track* tk = track(ix);
     if (tk == NULL) {
@@ -805,6 +823,7 @@ void Timeline::switchTrackAudio(int ix, bool mute)
         // audio is already muted
         return;
     }
+    tk->trackHeader->setAudioMute(mute);
     if (mute && state < 2 ) {
         // We mute a track with sound
         /*if (ix == getLowestNonMutedAudioTrack())*/
@@ -1822,7 +1841,6 @@ void Timeline::updatePreviewSettings(const QString &profile)
     if (profile.isEmpty()) return;
     QString params = profile.section(";", 0, 0);
     QString ext = profile.section(";", 1, 1);
-    qDebug()<<" / / /NEW TP: "<<params<<"\nEXR: "<<ext;
     if (params != m_doc->getDocumentProperty(QStringLiteral("previewparameters")) || ext != m_doc->getDocumentProperty(QStringLiteral("previewextension"))) {
         // Timeline preview params changed, delete all existing previews.
         invalidateRange(ItemInfo());

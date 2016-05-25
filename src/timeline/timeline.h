@@ -79,9 +79,9 @@ public:
     void lockTrack(int ix, bool lock);
     bool isTrackLocked(int ix);
     /** @brief Dis / enable video for a track. */
-    void switchTrackVideo(int ix, bool hide);
+    void doSwitchTrackVideo(int ix, bool hide);
     /** @brief Dis / enable audio for a track. */
-    void switchTrackAudio(int ix, bool mute);
+    void doSwitchTrackAudio(int ix, bool mute);
     /** @brief Adjust audio transitions depending on tracks muted state. */
     void fixAudioMixing();
 
@@ -255,6 +255,11 @@ private slots:
     void slotUpdateTrackEffectState(int);
     /** @brief Toggle use of timeline zone for editing.*/
     void slotEnableZone(bool enable);
+    /** @brief Dis / enable video for a track. */
+    void switchTrackVideo(int ix, bool hide);
+    /** @brief Dis / enable audio for a track. */
+    void switchTrackAudio(int ix, bool mute);
+
 
 signals:
     void mousePosition(int);

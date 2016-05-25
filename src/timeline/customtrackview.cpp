@@ -3679,11 +3679,6 @@ void CustomTrackView::configTracks(const QList < TrackInfo > &trackInfos)
     viewport()->update();
 }
 
-void CustomTrackView::slotSwitchTrackAudio(int ix, bool enable)
-{
-    m_timeline->switchTrackAudio(ix, enable);
-}
-
 void CustomTrackView::slotSwitchTrackLock(int ix, bool enable, bool applyToAll)
 {
     QUndoCommand *command = NULL;
@@ -3774,14 +3769,6 @@ void CustomTrackView::lockTrack(int ix, bool lock, bool requestUpdate)
     }
     //qDebug() << "NEXT TRK STATE: " << m_timeline->getTrackInfo(tracknumber).isLocked;
     viewport()->update();
-}
-
-void CustomTrackView::slotSwitchTrackVideo(int ix, bool enable)
-{
-    m_timeline->switchTrackVideo(ix, enable);
-    m_document->renderer()->doRefresh();
-    //TODO: create undo/redo command for this
-    setDocumentModified();
 }
 
 QList<QGraphicsItem *> CustomTrackView::checkForGroups(const QRectF &rect, bool *ok)

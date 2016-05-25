@@ -278,8 +278,6 @@ public slots:
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
     void slotAddTransitionToSelectedClips(QDomElement transition, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>());
     void slotTransitionUpdated(Transition *, QDomElement);
-    void slotSwitchTrackAudio(int ix, bool enable);
-    void slotSwitchTrackVideo(int ix, bool enable);
     void slotSwitchTrackLock(int ix, bool enable, bool applyToAll = false);
     void slotUpdateClip(const QString &clipId, bool reload = true);
 

@@ -53,6 +53,8 @@ public:
     void refreshPalette();
     void switchTarget(bool enable);
     void updateLed();
+    void setVideoMute(bool mute);
+    void setAudioMute(bool mute);
 
 protected:
     void mousePressEvent(QMouseEvent * event);

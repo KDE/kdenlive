@@ -438,5 +438,20 @@ private:
     const int m_destTrack;
 };
 
+class ChangeTrackStateCommand : public QUndoCommand
+{
+public:
+    ChangeTrackStateCommand(Timeline *timeline, const int track, bool changeAudio, bool changeVideo, bool hideAudio, bool hideVideo, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
+private:
+    Timeline *m_timeline;
+    const int m_track;
+    bool m_audio;
+    bool m_video;
+    bool m_hideAudio;
+    bool m_hideVideo;
+};
+
 #endif
 
