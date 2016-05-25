@@ -319,18 +319,7 @@ void MonitorManager::setupActions()
     monitorPause->setShortcut(Qt::Key_K);
     pCore->window()->addAction(QStringLiteral("monitor_pause"), monitorPause);
     connect(monitorPause, &QAction::triggered, this, &MonitorManager::slotPause);
-
-    // TODO: port later when we are able to setup the monitor menus from this class
-//     m_playZone = new QAction(KoIconUtils::themedIcon("media-playback-start"), i18n("Play Zone"), this);
-//     m_playZone->setShortcut(Qt::CTRL + Qt::Key_Space);
-//     pCore->window()->addAction("monitor_play_zone", m_playZone);
-//     connect(m_playZone, SIGNAL(triggered(bool)), SLOT(slotPlayZone()));
-// 
-//     m_loopZone = new QAction(KoIconUtils::themedIcon("media-playback-start"), i18n("Loop Zone"), this);
-//     m_loopZone->setShortcut(Qt::ALT + Qt::Key_Space);
-//     pCore->window()->addAction("monitor_loop_zone", m_loopZone);
-//     connect(m_loopZone, SIGNAL(triggered(bool)), SLOT(slotLoopZone()));
-
+    
     QAction *fullMonitor = new QAction(i18n("Switch monitor fullscreen"), this);
     fullMonitor->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-fullscreen")));
     pCore->window()->addAction(QStringLiteral("monitor_fullscreen"), fullMonitor);

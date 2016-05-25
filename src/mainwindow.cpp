@@ -88,6 +88,7 @@
 #include <KToolBar>
 #include <KColorScheme>
 #include <KEditToolBar>
+#include <KDualAction>
 #include <klocalizedstring.h>
 
 #include <QAction>
@@ -348,6 +349,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     ctnLay->addWidget(fr);
     ctnLay->addWidget(m_timelineArea);
     setCentralWidget(m_timelineToolBarContainer);
+    setupActions();
 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     QDockWidget * libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
@@ -379,7 +381,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_projectMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteClipMarker);
     connect(m_projectMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_projectMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
-    
+    connect(m_loopClip, &QAction::triggered, m_projectMonitor, &Monitor::slotLoopClip);
     connect(m_projectMonitor, SIGNAL(updateGuide(int, QString)), this, SLOT(slotEditGuide(int, QString)));
 
 /*
@@ -417,7 +419,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_transitionList = new EffectsListView(EffectsListView::TransitionMode);
     m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList);
 
-    setupActions();
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
     m_projectMonitorDock = addDock(i18n("Project Monitor"), QStringLiteral("project_monitor"), m_projectMonitor);
@@ -1223,7 +1224,8 @@ void MainWindow::setupActions()
                            KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::Key_Space);
     m_loopZone = addAction(QStringLiteral("monitor_loop_zone"), i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
                            KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), Qt::ALT + Qt::Key_Space);
-    m_loopClip = addAction(QStringLiteral("monitor_loop_clip"), i18n("Loop selected clip"), m_projectMonitor, SLOT(slotLoopClip()), KoIconUtils::themedIcon(QStringLiteral("media-playback-start")));
+    m_loopClip = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), i18n("Loop selected clip"), this);
+    addAction(QStringLiteral("monitor_loop_clip"), m_loopClip);
     m_loopClip->setEnabled(false);
 
     addAction(QStringLiteral("dvd_wizard"), i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), KoIconUtils::themedIcon(QStringLiteral("media-optical")));
