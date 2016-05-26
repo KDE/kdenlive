@@ -43,12 +43,12 @@ PreviewManager::~PreviewManager()
 {
     if (m_initialized) {
         abortRendering();
-        if (m_undoDir.dirName() == QLatin1String("undo"))
+        /*if (m_undoDir.dirName() == QLatin1String("undo"))
             m_undoDir.removeRecursively();
         if (m_doc->url().isEmpty() || m_cacheDir.entryList(QDir::Files).count() == 0) {
             if (m_cacheDir.dirName() == m_doc->getDocumentProperty(QStringLiteral("documentid")))
                 m_cacheDir.removeRecursively();
-        }
+        }*/
     }
     delete m_previewTrack;
 }
@@ -223,13 +223,14 @@ void PreviewManager::doCleanupOldPreviews()
         return;
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     qSort(dirs);
+    /*
     while (dirs.count() > 5) {
         QString dir = dirs.takeFirst();
         QDir tmp = m_undoDir;
         if (tmp.cd(dir)) {
             tmp.removeRecursively();
         }
-    }
+    }*/
 }
 
 void PreviewManager::addPreviewRange(bool add)
@@ -363,6 +364,7 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
     }
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     qSort(dirs);
+    /*
     foreach(const QString dir, dirs) {
         if (dir.toInt() >= ix) {
             QDir tmp = m_undoDir;
@@ -370,7 +372,7 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
                 tmp.removeRecursively();
             }
         }
-    }
+    }*/
 }
 
 void PreviewManager::invalidatePreview(int startFrame, int endFrame)
