@@ -465,44 +465,47 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
         tractor.appendChild(track);
     }
 
+    // Transitions
     for (int i = 0; i < total; i++) {
-        QDomElement transition = doc.createElement(QStringLiteral("transition"));
-        transition.setAttribute(QStringLiteral("always_active"), QStringLiteral("1"));
+        if (i > 0) {
+            QDomElement transition = doc.createElement(QStringLiteral("transition"));
+            transition.setAttribute(QStringLiteral("always_active"), QStringLiteral("1"));
 
-        QDomElement property = doc.createElement(QStringLiteral("property"));
-        property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
-        value = doc.createTextNode(QStringLiteral("mix"));
-        property.appendChild(value);
-        transition.appendChild(property);
+            QDomElement property = doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
+            value = doc.createTextNode(QStringLiteral("mix"));
+            property.appendChild(value);
+            transition.appendChild(property);
 
-        property = doc.createElement(QStringLiteral("property"));
-        property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-        QDomText value = doc.createTextNode(QStringLiteral("0"));
-        property.appendChild(value);
-        transition.appendChild(property);
+            property = doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
+            QDomText value = doc.createTextNode(QStringLiteral("1"));
+            property.appendChild(value);
+            transition.appendChild(property);
 
-        property = doc.createElement(QStringLiteral("property"));
-        property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
-        value = doc.createTextNode(QString::number(i + 1));
-        property.appendChild(value);
-        transition.appendChild(property);
+            property = doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
+            value = doc.createTextNode(QString::number(i + 1));
+            property.appendChild(value);
+            transition.appendChild(property);
 
-        property = doc.createElement(QStringLiteral("property"));
-        property.setAttribute(QStringLiteral("name"), QStringLiteral("combine"));
-        value = doc.createTextNode(QStringLiteral("1"));
-        property.appendChild(value);
-        transition.appendChild(property);
+            property = doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("combine"));
+            value = doc.createTextNode(QStringLiteral("1"));
+            property.appendChild(value);
+            transition.appendChild(property);
 
-        property = doc.createElement(QStringLiteral("property"));
-        property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
-        value = doc.createTextNode(QStringLiteral("237"));
-        property.appendChild(value);
-        transition.appendChild(property);
+            property = doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
+            value = doc.createTextNode(QStringLiteral("237"));
+            property.appendChild(value);
+            transition.appendChild(property);
 
-        tractor.appendChild(transition);
+            tractor.appendChild(transition);
+        }
         if (i >= lowerVideoTrack && tracks.at(i).type == VideoTrack) {
             // Only add composite transition if both tracks are video
-            transition = doc.createElement(QStringLiteral("transition"));
+            QDomElement transition = doc.createElement(QStringLiteral("transition"));
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
             property.appendChild(doc.createTextNode(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend"));

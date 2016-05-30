@@ -874,7 +874,7 @@ void Timeline::fixAudioMixing()
 
     // Re-add correct audio transitions
     // Find lowest track with audio
-    int minTrack = 0;
+    int minTrack = 1;
     for (int i = 1; i < m_tractor->count(); i++) {
         bool muted = track(i)->state() & 2;
         if (!muted) {
