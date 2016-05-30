@@ -281,9 +281,9 @@ void HeaderTrack::setVideoMute(bool mute)
 
 void HeaderTrack::setAudioMute(bool mute)
 {
-    m_switchVideo->blockSignals(true);
-    m_switchVideo->setActive(mute);
-    m_switchVideo->blockSignals(false);
+    m_switchAudio->blockSignals(true);
+    m_switchAudio->setActive(mute);
+    m_switchAudio->blockSignals(false);
     updateLed();
 }
 
