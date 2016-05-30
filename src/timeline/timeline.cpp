@@ -824,14 +824,6 @@ void Timeline::doSwitchTrackAudio(int ix, bool mute)
         return;
     }
     tk->trackHeader->setAudioMute(mute);
-    if (mute && state < 2 ) {
-        // We mute a track with sound
-        /*if (ix == getLowestNonMutedAudioTrack())*/
-    }
-    else if (!mute && state > 1 ) {
-        // We un-mute a previously muted track
-        /*if (ix < getLowestNonMutedAudioTrack())*/
-    }
     int newstate;
     if (mute) {
         if (state & 1) newstate = 3;
@@ -842,7 +834,7 @@ void Timeline::doSwitchTrackAudio(int ix, bool mute)
         newstate = 0;
     }
     tk->setState(newstate);
-    //if (audioMixingBroken) fixAudioMixing();
+    fixAudioMixing();
     m_tractor->multitrack()->refresh();
     m_tractor->refresh();
 }
@@ -881,23 +873,29 @@ void Timeline::fixAudioMixing()
     }
 
     // Re-add correct audio transitions
+    // Find lowest track with audio
+    int minTrack = 0;
     for (int i = 1; i < m_tractor->count(); i++) {
-        //bool muted = getTrackInfo(i).isMute;
-        //if (muted) continue;
-        /*int a_track = qMax(lowestTrack, i - 1);
-        bool a_muted = getTrackInfo(a_track).isMute;
-        while (a_muted && a_track > lowestTrack) {
-            a_track = qMax(lowestTrack, a_track - 1);
-            a_muted = getTrackInfo(a_track).isMute;
+        bool muted = track(i)->state() & 2;
+        if (!muted) {
+            if (i > 1) {
+                minTrack = i;
+            }
+            break;
         }
-        if (a_muted) continue;*/
+    }
+    for (int i = minTrack + 1; i < m_tractor->count(); i++) {
+        bool muted = track(i)->state() & 2;
+        if (muted) {
+            continue;
+        }
         Mlt::Transition *transition = new Mlt::Transition(*m_tractor->profile(), "mix");
         transition->set("always_active", 1);
         transition->set("combine", 1);
-        transition->set("a_track", 0);
+        transition->set("a_track", minTrack);
         transition->set("b_track", i);
         transition->set("internal_added", 237);
-        field->plant_transition(*transition, 0, i);
+        field->plant_transition(*transition, minTrack, i);
     }
     field->unlock();
 }
