@@ -268,6 +268,7 @@ signals:
     void loadPropertiesPanel();
     /** @brief Terminate running audio proxy job. */
     void doAbortAudioThumbs();
+    void updateThumbProgress(long);
 };
 
 #endif

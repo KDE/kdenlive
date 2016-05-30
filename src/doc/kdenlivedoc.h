@@ -247,7 +247,6 @@ private slots:
 
 signals:
     void resetProjectList();
-    void progressInfo(const QString &, int);
 
     /** @brief Informs that the document status has been changed.
      *

@@ -323,6 +323,8 @@ Bin::Bin(QWidget* parent) :
   , m_blankThumb()
   , m_invalidClipDialog(NULL)
   , m_gainedFocus(false)
+  , m_audioDuration(0)
+  , m_processedAudio(0)
 {
     m_layout = new QVBoxLayout(this);
 
@@ -505,21 +507,29 @@ QDockWidget *Bin::clipPropertiesDock()
     return m_propertiesDock;
 }
 
-void Bin::slotAbortAudioThumb(const QString &id)
+void Bin::slotAbortAudioThumb(const QString &id, long duration)
 {
     if (!m_audioThumbsThread.isRunning()) return;
     QMutexLocker aMutex(&m_audioThumbMutex);
-    m_audioThumbsList.removeAll(id);
+    if (m_audioThumbsList.removeAll(id) > 0)
+        m_audioDuration -= duration;
 }
 
-void Bin::requestAudioThumbs(const QString &id)
+void Bin::requestAudioThumbs(const QString &id, long duration)
 {
     if (!m_audioThumbsList.contains(id) && m_processingAudioThumb != id) {
         m_audioThumbMutex.lock();
         m_audioThumbsList.append(id);
+        m_audioDuration += duration;
         m_audioThumbMutex.unlock();
         processAudioThumbs();
     }
+}
+
+void Bin::doUpdateThumbsProgress(long ms)
+{
+    int progress = (m_processedAudio + ms) * 100 / m_audioDuration;
+    emitMessage(i18n("Creating audio thumbnails"), progress, ProcessingJobMessage);
 }
 
 void Bin::processAudioThumbs()
@@ -536,6 +546,10 @@ void Bin::abortAudioThumbs()
         if (clip) clip->abortAudioThumbs();
     }
     m_audioThumbMutex.lock();
+    foreach(const QString &id, m_audioThumbsList) {
+        ProjectClip *clip = m_rootFolder->clip(id);
+        if (clip) clip->setJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
+    }
     m_audioThumbsList.clear();
     m_audioThumbMutex.unlock();
     m_audioThumbsThread.waitForFinished();
@@ -545,20 +559,26 @@ void Bin::slotCreateAudioThumbs()
 {
     int max = m_audioThumbsList.count();
     int count = 0;
+    m_processedAudio = 0;
     while (!m_audioThumbsList.isEmpty()) {
         m_audioThumbMutex.lock();
         max = qMax(max, m_audioThumbsList.count());
         m_processingAudioThumb = m_audioThumbsList.takeFirst();
         count++;
         m_audioThumbMutex.unlock();
-        emitMessage(i18n("Creating audio thumbnails") + QString(" (%1/%2)").arg(count).arg(max), ProcessingJobMessage);
+        //emitMessage(i18n("Creating audio thumbnails"), (count - 1) * 100 / max, ProcessingJobMessage);
         ProjectClip *clip = m_rootFolder->clip(m_processingAudioThumb);
-        if (clip) clip->slotCreateAudioThumbs();
+        if (clip) {
+            clip->slotCreateAudioThumbs();
+            m_processedAudio += clip->duration().ms();
+        }
     }
     m_audioThumbMutex.lock();
     m_processingAudioThumb.clear();
+    m_processedAudio = 0;
+    m_audioDuration = 0;
     m_audioThumbMutex.unlock();
-    emitMessage(i18n("Audio thumbnails done"), OperationCompletedMessage);
+    emitMessage(i18n("Audio thumbnails done"), 100, OperationCompletedMessage);
 }
 
 bool Bin::eventFilter(QObject *obj, QEvent *event)
@@ -847,7 +867,7 @@ void Bin::slotLocateClip()
 	    qDebug()<<"  / / "+url.toString();
 	  } else {
 	    if(!exists){
-	      emitMessage(i18n("Couldn't locate ") + QString(" ("+url.toString()+")"), ErrorMessage);
+	      emitMessage(i18n("Couldn't locate ") + QString(" ("+url.toString()+")"), 100, ErrorMessage);
 	    }
 	    return;
 	  }
@@ -3018,9 +3038,9 @@ void Bin::slotResetInfoMessage()
     }
 }
 
-void Bin::emitMessage(const QString &text, MessageType type)
+void Bin::emitMessage(const QString &text, int progress, MessageType type)
 {
-    emit displayMessage(text, type);
+    emit displayMessage(text, progress, type);
 }
 
 void Bin::slotCreateAudioThumb(const QString &id)

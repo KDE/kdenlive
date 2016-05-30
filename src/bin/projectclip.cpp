@@ -65,6 +65,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     setParent(parent);
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     bin()->loadSubClips(id, m_controller->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
+    connect(this, &ProjectClip::updateThumbProgress, bin(), &Bin::doUpdateThumbsProgress);
     createAudioThumbs();
 }
 
@@ -95,6 +96,7 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
     else m_name = i18n("Untitled");
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     setParent(parent);
+    connect(this, &ProjectClip::updateThumbProgress, bin(), &Bin::doUpdateThumbsProgress);
 }
 
 
@@ -102,7 +104,7 @@ ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
     abortAudioThumbs();
-    bin()->slotAbortAudioThumb(m_id);
+    bin()->slotAbortAudioThumb(m_id, duration().ms());
     QMutexLocker audioLock(&m_audioMutex);
     m_thumbMutex.lock();
     m_requestedThumbs.clear();
@@ -365,7 +367,8 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
 void ProjectClip::createAudioThumbs()
 {
     if (KdenliveSettings::audiothumbnails() && (m_type == AV || m_type == Audio || m_type == Playlist)) {
-        bin()->requestAudioThumbs(m_id);
+        bin()->requestAudioThumbs(m_id, duration().ms());
+        emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
     }
 }
 
@@ -670,7 +673,7 @@ void ProjectClip::setJobStatus(int jobType, int status, int progress, const QStr
         m_jobProgress = status;
         if ((status == JobAborted || status == JobCrashed  || status == JobDone) && !statusMessage.isEmpty()) {
             m_jobMessage = statusMessage;
-            bin()->emitMessage(statusMessage, OperationCompletedMessage);
+            bin()->emitMessage(statusMessage, 100, OperationCompletedMessage);
         }
     }
     bin()->emitItemUpdated(this);
@@ -1002,6 +1005,7 @@ void ProjectClip::slotCreateAudioThumbs()
         }
     }
     if (audioLevels.size() > 0) {
+        emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
         updateAudioThumbnail(audioLevels);
         return;
     }
@@ -1012,7 +1016,7 @@ void ProjectClip::slotCreateAudioThumbs()
         for (int i = 0; i < channels; i++) {
             QTemporaryFile *channelTmpfile = new QTemporaryFile;
             if (!channelTmpfile->open()) {
-                bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), ErrorMessage);
+                bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), 100, ErrorMessage);
                 return;
             }
             channelTmpfile->close();
@@ -1053,7 +1057,6 @@ void ProjectClip::slotCreateAudioThumbs()
                     args << QStringLiteral("-map") << QStringLiteral("[0:%1]").arg(i) << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[i]->fileName();
                 }
         }
-        emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
         QProcess audioThumbsProcess;
         connect(this, SIGNAL(doAbortAudioThumbs()), &audioThumbsProcess, SLOT(kill()), Qt::DirectConnection);
         connect(&audioThumbsProcess, &QProcess::readyReadStandardOutput, this, &ProjectClip::updateFfmpegProgress);
@@ -1084,7 +1087,7 @@ void ProjectClip::slotCreateAudioThumbs()
                 if (res.isEmpty() || res.size() != dataSize) {
                     // Something went wrong, abort
                     emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
-                    bin()->emitMessage(i18n("Error reading audio thumbnail"), ErrorMessage);
+                    bin()->emitMessage(i18n("Error reading audio thumbnail"), 100, ErrorMessage);
                     return;
                 }
                 rawChannels << (const qint16*) res.constData();
@@ -1118,7 +1121,7 @@ void ProjectClip::slotCreateAudioThumbs()
                     if (steps) channelsData[k] /= steps;
                     audioLevels << channelsData[k] * factor;
                 }
-                int p = 50 + (i * 50 / lengthInFrames);
+                int p = 80 + (i * 20 / lengthInFrames);
                 if (p != progress) {
                     emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, p);
                     progress = p;
@@ -1127,7 +1130,7 @@ void ProjectClip::slotCreateAudioThumbs()
             }
             jobFinished = true;
         } else {
-            bin()->emitMessage(i18n("Failed to create FFmpeg audio thumbnails, using MLT"), ErrorMessage);
+            bin()->emitMessage(i18n("Failed to create FFmpeg audio thumbnails, using MLT"), 100, ErrorMessage);
         }
     }
     if (!jobFinished && !m_abortAudioThumb) {
@@ -1219,7 +1222,11 @@ void ProjectClip::updateFfmpegProgress()
     foreach(const QString & data, lines) {
         if (data.startsWith(QStringLiteral("out_time_ms"))) {
             long ms = data.section(QLatin1Char('='), 1).toLong();
-            emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, (int) (ms / duration().ms() / 20));
+            // Update clip progressbar
+            emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, ms / duration().ms() * 0.08);
+            // Update general statusbar progressbar
+            emit updateThumbProgress(ms/1000);
+            break;
         }
     }
 }

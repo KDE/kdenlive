@@ -30,6 +30,9 @@
 #include <QWidget>
 #include <QTimer>
 #include <QSemaphore>
+#include <QLabel>
+#include <QColor>
+#include <QPropertyAnimation>
 
 #include <definitions.h>
 
@@ -37,8 +40,19 @@
 
 class QPaintEvent;
 class QResizeEvent;
-class QPushButton;
+class QProgressBar;
 
+
+class FlashLabel: public QWidget
+{
+    Q_PROPERTY(QColor color READ color WRITE setColor)
+    Q_OBJECT
+public:
+    explicit FlashLabel(QWidget *parent = 0);
+    ~FlashLabel();
+    QColor color() const;
+    void setColor(const QColor &);
+};
 
 /**
   Queue-able message item holding all important information
@@ -73,37 +87,26 @@ struct StatusBarMessageItem {
  * DolphinStatusBar::Error a dynamic color blending is done to get the
  * attention from the user.
  */
-class StatusBarMessageLabel : public QWidget
+class StatusBarMessageLabel : public FlashLabel
 {
     Q_OBJECT
 
 public:
     explicit StatusBarMessageLabel(QWidget* parent);
     virtual ~StatusBarMessageLabel();
+    void updatePalette();
 
 protected:
-    /** @see QWidget::paintEvent() */
-    void paintEvent(QPaintEvent* event);
+    //void paintEvent(QPaintEvent* event);
+    void mousePressEvent(QMouseEvent * );
 
     /** @see QWidget::resizeEvent() */
     void resizeEvent(QResizeEvent* event);
 
 public slots:
-    void setMessage(const QString& text, MessageType type, int timeoutMS = 0);
+    void setMessage(const QString& text, int progress = 100, MessageType type = DefaultMessage, int timeoutMS = 0);
 
 private slots:
-    void timerDone();
-
-    /**
-     * Returns the available width in pixels for the text.
-     */
-    int availableTextWidth() const;
-
-    /**
-     * Moves the close button to the upper right corner
-     * of the message label.
-     */
-    void updateCloseButtonPosition();
 
     /**
      * Closes the currently shown error message and replaces it
@@ -118,28 +121,18 @@ private slots:
     bool slotMessageTimeout();
 
 private:
-    enum State {
-        Default,
-        Illuminate,
-        Illuminated,
-        Desaturate
-    };
-
     enum { GeometryTimeout = 100 };
     enum { BorderGap = 2 };
 
-    State m_state;
-    int m_illumination;
     int m_minTextHeight;
-    QTimer m_timer;
-
+    QLabel *m_pixmap;
+    QLabel *m_label;
+    QProgressBar *m_progress;
     QTimerWithTime m_queueTimer;
     QSemaphore m_queueSemaphore;
+    QPropertyAnimation m_animation;
     QList<StatusBarMessageItem> m_messageQueue;
     StatusBarMessageItem m_currentMessage;
-
-    QPixmap m_pixmap;
-    QPushButton* m_closeButton;
 };
 
 #endif

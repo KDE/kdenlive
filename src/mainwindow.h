@@ -23,7 +23,6 @@
 
 #include <QDockWidget>
 #include <QUndoView>
-#include <QProgressBar>
 #include <QEvent>
 #include <QShortcut>
 #include <QMap>
@@ -133,7 +132,6 @@ public:
     QUndoGroup *m_commandStack;
     EffectStackView2 *m_effectStack;
     QUndoView *m_undoView;
-    StatusBarMessageLabel *m_messageLabel;
     /** @brief holds info about whether movit is available on this system */
     bool m_gpuAllowed;
     int m_exitCode;
@@ -164,7 +162,6 @@ protected:
     virtual void saveNewToolbarConfig();
 
 private:
-    QProgressBar *m_statusProgressBar;
 
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
@@ -219,7 +216,7 @@ private:
     QShortcut* m_shortcutRemoveFocus;
 
     RenderWidget *m_renderWidget;
-
+    StatusBarMessageLabel *m_messageLabel;
     QList <QAction *>m_transitions;
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
@@ -266,8 +263,6 @@ private:
     bool m_themeInitialized;
     bool m_isDarkTheme;
     QListWidget *m_effectBasket;
-    /** @brief Update statusbar stylesheet (in case of color theme change). */
-    void setStatusBarStyleSheet(const QPalette &p);
     /** @brief Update widget style. */
     void doChangeStyle();
 

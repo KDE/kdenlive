@@ -239,6 +239,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_projectMonitor(NULL),
     m_recMonitor(NULL),
     m_renderWidget(NULL),
+    m_messageLabel(NULL),
     m_themeInitialized(false),
     m_isDarkTheme(false)
 {
@@ -367,7 +368,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     //TODO deprecated, replace with Bin methods if necessary
     /*connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
-    connect(m_projectList, SIGNAL(displayMessage(QString,int,MessageType)), this, SLOT(slotGotProgressInfo(QString,int,MessageType)));
     connect(m_projectList, SIGNAL(updateRenderStatus()), this, SLOT(slotCheckRenderStatus()));
     connect(m_projectList, SIGNAL(updateProfile(QString)), this, SLOT(slotUpdateProjectProfile(QString)));
     connect(m_projectList, SIGNAL(refreshClip(QString,bool)), pCore->monitorManager(), SLOT(slotRefreshCurrentMonitor(QString)));
@@ -410,7 +410,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_effectStack, SIGNAL(removeMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotDeleteEffect(QString,QDomElement)));
     connect(m_effectStack, SIGNAL(changeEffectPosition(QString,const QList <int>,int)), pCore->bin(), SLOT(slotMoveEffect(QString,const QList <int>,int)));
     connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
-    connect(m_effectStack, SIGNAL(displayMessage(QString,int)), this, SLOT(slotGotProgressInfo(QString,int)));
+    connect(m_effectStack, SIGNAL(displayMessage(QString,int)), m_messageLabel, SLOT(setMessage(QString,int)));
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);
 
     m_effectList = new EffectsListView();
@@ -701,7 +701,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     new JogManager(this);
 #endif
     scmanager->slotCheckActiveScopes();
-    //KMessageBox::information(this, "Warning, development version for testing only. we are currently working on core functionnalities,\ndo not save any project or your project files might be corrupted.");
+    //TODO: remove for release
+    m_messageLabel->setMessage("This is an untested development version. Always backup your data", 100, MltError);
 }
 
 void MainWindow::slotThemeChanged(const QString &theme)
@@ -721,25 +722,14 @@ void MainWindow::slotThemeChanged(const QString &theme)
     if (m_transitionList) m_transitionList->updatePalette();
     if (m_clipMonitor) m_clipMonitor->setPalette(plt);
     if (m_projectMonitor) m_projectMonitor->setPalette(plt);
-    setStatusBarStyleSheet(plt);
+    if (m_messageLabel)
+        m_messageLabel->updatePalette();
     if (pCore->projectManager() && pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->updatePalette();
     }
     if (m_timelineArea) {
         m_timelineArea->setPalette(plt);
     }
-    /*if (statusBar()) {
-        const QObjectList children = statusBar()->children();
-        foreach(QObject * child, children) {
-            if (child->isWidgetType())
-                ((QWidget*)child)->setPalette(plt);
-            const QObjectList subchildren = child->children();
-            foreach(QObject * subchild, subchildren) {
-                if (subchild->isWidgetType())
-                    ((QWidget*)subchild)->setPalette(plt);
-            }
-        }
-    }*/
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
     // Not required anymore with auto colored icons since KF5 5.23
@@ -981,12 +971,6 @@ QAction *MainWindow::addAction(const QString &name, const QString &text, const Q
 
 void MainWindow::setupActions()
 {
-    m_statusProgressBar = new QProgressBar(this);
-    m_statusProgressBar->setMinimum(0);
-    m_statusProgressBar->setMaximum(100);
-    m_statusProgressBar->setMaximumWidth(150);
-    m_statusProgressBar->setVisible(false);
-
     //create edit mode buttons
     m_normalEditTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-normal-edit")), i18n("Normal mode"), this);
     m_normalEditTool->setShortcut(i18nc("Normal editing", "n"));
@@ -1146,7 +1130,6 @@ void MainWindow::setupActions()
     toolbar->setMovable(false);
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
-    setStatusBarStyleSheet(palette());
     /*QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");*/
     toolbar->addAction(m_buttonAutomaticSplitAudio);
     toolbar->addAction(m_buttonVideoThumbs);
@@ -1179,14 +1162,16 @@ void MainWindow::setupActions()
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);*/
 
+    int small = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    statusBar()->setMaximumHeight(2 * small);
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
 
-    statusBar()->addWidget(m_messageLabel, 10);
-    statusBar()->addWidget(m_statusProgressBar, 0);
+    statusBar()->addWidget(m_messageLabel, 0);
+    QWidget *spacer = new QWidget(this);
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    statusBar()->addWidget(spacer, 1);
     statusBar()->addPermanentWidget(toolbar);
-    int small = style()->pixelMetric(QStyle::PM_SmallIconSize);
-    statusBar()->setMaximumHeight(2 * small);
     toolbar->setIconSize(QSize(small , small));
     toolbar->layout()->setContentsMargins(0, 0, 0, 0);
     statusBar()->setContentsMargins(0, 0, 0, 0);
@@ -1532,18 +1517,6 @@ void MainWindow::setupActions()
     }
 }
 
-void MainWindow::setStatusBarStyleSheet(const QPalette &p)
-{
-    return;
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor buttonBg = scheme.background(KColorScheme::LinkBackground).color();
-    QColor buttonBord = scheme.foreground(KColorScheme::LinkText).color();
-    QColor buttonBord2 = scheme.shade(KColorScheme::LightShade);
-    statusBar()->setStyleSheet(QStringLiteral("QStatusBar QLabel {font-size:%1pt;} QStatusBar::item { border: 0px; font-size:%1pt;padding:0px; }").arg(statusBar()->font().pointSize()));
-    QString style1 = QStringLiteral("QToolBar { border: 0px } QToolButton { border-style: inset; border:1px solid transparent;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton#timecode {padding-right:10px;} QToolButton:hover { background: %3;border-style: inset; border:1px solid %3;border-radius: 3px;} QToolButton:checked { background-color: %1; border-style: inset; border:1px solid %2;border-radius: 3px;}").arg(buttonBg.name(), buttonBord.name(), buttonBord2.name());
-    statusBar()->setStyleSheet(style1);
-}
-
 void MainWindow::saveOptions()
 {
     KdenliveSettings::self()->save();
@@ -1807,8 +1780,8 @@ void MainWindow::connectDocument()
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
     connect(trackView->projectView(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
-    connect(pCore->bin(), SIGNAL(clipNameChanged(QString)), trackView->projectView(), SLOT(clipNameChanged(QString)));    
-    connect(pCore->bin(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
+    connect(pCore->bin(), SIGNAL(clipNameChanged(QString)), trackView->projectView(), SLOT(clipNameChanged(QString)));
+    connect(pCore->bin(), SIGNAL(displayMessage(QString,int,MessageType)), m_messageLabel, SLOT(setMessage(QString,int,MessageType)));
 
     connect(trackView->projectView(), SIGNAL(showClipFrame(const QString&,int)), pCore->bin(), SLOT(selectClipById(const QString&,int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
@@ -2093,7 +2066,7 @@ void MainWindow::slotAddClipMarker()
         pos = m_clipMonitor->position();
     }
     if (!clip) {
-        m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), 100, ErrorMessage);
         return;
     }
     QString id = clip->clipId();
@@ -2125,7 +2098,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         pos = m_clipMonitor->position();
     }
     if (!clip) {
-        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), 100, ErrorMessage);
         return;
     }
 
@@ -2135,7 +2108,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         if (allowGuideDeletion && m_projectMonitor->isActive()) {
             slotDeleteGuide();
         }
-        else m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
+        else m_messageLabel->setMessage(i18n("No marker found at cursor time"), 100, ErrorMessage);
         return;
     }
     pCore->bin()->deleteClipMarker(comment, id, pos);
@@ -2155,7 +2128,7 @@ void MainWindow::slotDeleteAllClipMarkers()
         clip = m_clipMonitor->currentController();
     }
     if (!clip) {
-        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), 100, ErrorMessage);
         return;
     }
     pCore->bin()->deleteAllClipMarkers(clip->clipId());
@@ -2178,14 +2151,14 @@ void MainWindow::slotEditClipMarker()
         pos = m_clipMonitor->position();
     }
     if (!clip) {
-        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), 100, ErrorMessage);
         return;
     }
 
     QString id = clip->clipId();
     CommentedTime oldMarker = clip->markerAt(pos);
     if (oldMarker == CommentedTime()) {
-        m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
+        m_messageLabel->setMessage(i18n("No marker found at cursor time"), 100, ErrorMessage);
         return;
     }
 
@@ -2214,7 +2187,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
         GenTime pos = m_clipMonitor->position();
 
         if (!clip) {
-            m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
+            m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), 100, ErrorMessage);
             return;
         }
         //TODO: allow user to set default marker category
@@ -2474,7 +2447,7 @@ void MainWindow::slotAddVideoEffect(QAction *result)
     if (!effect.isNull()) {
         slotAddEffect(effect);
     } else {
-        m_messageLabel->setMessage(i18n("Cannot find effect %1 / %2", info.at(0), info.at(1)), ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find effect %1 / %2", info.at(0), info.at(1)), 100, ErrorMessage);
     }
 }
 
@@ -2537,23 +2510,13 @@ void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
 
 void MainWindow::slotGotProgressInfo(const QString &message, int progress, MessageType type)
 {
-    if (type == DefaultMessage) {
-        m_statusProgressBar->setValue(progress);
-    }
-    m_messageLabel->setMessage(progress < 100 ? message : QString(), type);
-    if (progress >= 0) {
-        if (type == DefaultMessage) {
-            m_statusProgressBar->setVisible(progress < 100);
-        }
-    } else {
-        m_statusProgressBar->setVisible(false);
-    }
+    m_messageLabel->setMessage(message, progress, type);
 }
 
 void MainWindow::customEvent(QEvent* e)
 {
     if (e->type() == QEvent::User)
-        m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), MltError);
+        m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), 100, MltError);
 }
 
 void MainWindow::slotTimelineClipSelected(ClipItem* item, bool reloadStack, bool raise)
@@ -2658,7 +2621,7 @@ void MainWindow::slotSetTool(ProjectTool tool)
             message = i18n("Shift + click to create a selection rectangle, Ctrl + click to add an item to selection");
             break;
         }
-        m_messageLabel->setMessage(message, InformationMessage);
+        m_messageLabel->setMessage(message, 100, InformationMessage);
         pCore->projectManager()->currentTimeline()->projectView()->setTool(tool);
     }
 }
@@ -3088,7 +3051,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
         return;
     }
     if (urls.isEmpty()) {
-        m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
+        m_messageLabel->setMessage(i18n("No clip to transcode"), 100, ErrorMessage);
         return;
     }
     ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc);
@@ -3345,12 +3308,12 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         // Do save scenelist
         QFile file(plPath);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
+            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), 100, ErrorMessage);
             return;
         }
         file.write(docList.at(i).toString().toUtf8());
         if (file.error() != QFile::NoError) {
-            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
+            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), 100, ErrorMessage);
             file.close();
             return;
         }
@@ -3499,7 +3462,7 @@ void MainWindow::slotArchiveProject()
     QDomDocument doc = pCore->projectManager()->current()->xmlSceneList(m_projectMonitor->sceneList());
     QPointer<ArchiveWidget> d = new ArchiveWidget(pCore->projectManager()->current()->url().fileName(), doc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {
-        m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
+        m_messageLabel->setMessage(i18n("Archiving project"), 100, OperationCompletedMessage);
     }
     delete d;
 }

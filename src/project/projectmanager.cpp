@@ -190,7 +190,6 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         pCore->window()->slotPreferences(6);
         return;
     }
-    connect(m_project, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
     pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
@@ -462,8 +461,7 @@ void ProjectManager::openFile(const QUrl &url)
     if (checkForBackupFile(url)) {
         return;
     }
-    pCore->window()->m_messageLabel->setMessage(i18n("Opening file %1", url.path()), InformationMessage);
-    pCore->window()->m_messageLabel->repaint();
+    pCore->window()->slotGotProgressInfo(i18n("Opening file %1", url.path()), 100, InformationMessage);
     doOpenFile(url, NULL);
 }
 
@@ -506,7 +504,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         stale->setParent(doc);
     }
     m_progressDialog->setLabelText(i18n("Loading clips"));
-    connect(doc, SIGNAL(progressInfo(QString,int)), pCore->window(), SLOT(slotGotProgressInfo(QString,int)));
     pCore->bin()->setDocument(doc);
 
     QList <QAction*> rulerActions;

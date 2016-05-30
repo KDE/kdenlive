@@ -282,23 +282,21 @@ public:
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
                     if (jobProgress > 0 || jobProgress == JobWaiting) {
                         // Draw job progress bar
-                        QColor color = option.palette.alternateBase().color();
+                        int progressWidth = option.fontMetrics.averageCharWidth() * 8;
+                        int progressHeight = option.fontMetrics.ascent() / 4;
+                        QRect progress(r1.x() + 1, opt.rect.bottom() - progressHeight - 2, progressWidth , progressHeight);
                         painter->setPen(Qt::NoPen);
-                        color.setAlpha(180);
-                        painter->setBrush(QBrush(color));
-                        QRect progress(r1.x() + 1, opt.rect.bottom() - 12, r1.width() / 2, 8);
-                        painter->drawRect(progress);
-                        painter->setBrush(option.palette.text());
+                        painter->setBrush(Qt::darkGray);
                         if (jobProgress > 0) {
-                            progress.adjust(1, 1, 0, -1);
-                            progress.setWidth((progress.width() - 4) * jobProgress / 100);
-                            painter->drawRect(progress);
+                            painter->drawRoundedRect(progress, 2, 2);
+                            painter->setBrush(option.state & QStyle::State_Selected ? option.palette.text() : option.palette.highlight());
+                            progress.setWidth((progressWidth - 2) * jobProgress / 100);
+                            painter->drawRoundedRect(progress, 2, 2);
                         } else if (jobProgress == JobWaiting) {
                             // Draw kind of a pause icon
-                            progress.adjust(1, 1, 0, -1);
-                            progress.setWidth(2);
+                            progress.setWidth(3);
                             painter->drawRect(progress);
-                            progress.moveLeft(progress.right() + 2);
+                            progress.moveLeft(progress.right() + 3);
                             painter->drawRect(progress);
                         }
                     } else if (jobProgress == JobCrashed) {
@@ -496,13 +494,13 @@ public:
     /** @brief Returns current project's folder for storing items. */
     QUrl projectFolder() const;
     /** @brief Display a message about an operation in status bar. */
-    void emitMessage(const QString &, MessageType);
+    void emitMessage(const QString &, int, MessageType);
     void rebuildMenu();
     void refreshIcons();
     /** @brief Update status of disable effects action (when loading a document). */
     void setBinEffectsDisabledStatus(bool disabled);
 
-    void requestAudioThumbs(const QString &id);
+    void requestAudioThumbs(const QString &id, long duration);
     /** @brief Proxy status for the project changed, update. */
     void refreshProxySettings();
     /** @brief A clip is ready, update its info panel if displayed. */
@@ -617,7 +615,7 @@ public slots:
     /** @brief Request audio thumbnail for clip with id */
     void slotCreateAudioThumb(const QString &id);
     /** @brief Abort audio thumbnail for clip with id */
-    void slotAbortAudioThumb(const QString &id);
+    void slotAbortAudioThumb(const QString &id, long duration);
     /** @brief Add extra data to a clip. */
     void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
@@ -635,6 +633,7 @@ public slots:
         /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
     void slotAddClipToProject(QUrl url);
+    void doUpdateThumbsProgress(long ms);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -699,6 +698,10 @@ private:
     QStringList m_audioThumbsList;
     QString m_processingAudioThumb;
     QMutex m_audioThumbMutex;
+    /** @brief Total number of milliseconds to process for audio thumbnails */
+    long m_audioDuration;
+    /** @brief Total number of milliseconds already processed for audio thumbnails */
+    long m_processedAudio;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
     void showClipProperties(ProjectClip *clip, bool forceRefresh = false);
@@ -727,7 +730,7 @@ signals:
     /** @brief Request updating of the effect stack if currently displayed. */
     void masterClipUpdated(ClipController *, Monitor *);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);
-    void displayMessage(const QString &, MessageType);
+    void displayMessage(const QString &, int, MessageType);
     void requesteInvalidRemoval(const QString &, QUrl, const QString &);
     /** @brief Markers changed, refresh panel. */
     void refreshPanelMarkers();

@@ -33,38 +33,87 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QPixmap>
+#include <QLabel>
+#include <QProgressBar>
+#include <QMouseEvent>
+#include <QHBoxLayout>
+
+FlashLabel::FlashLabel(QWidget *parent) : QWidget(parent)
+{
+    setAutoFillBackground(true);
+}
+
+FlashLabel::~FlashLabel()
+{
+}
+
+void FlashLabel::setColor(const QColor &col) 
+{
+    QPalette pal = palette();
+    pal.setColor(QPalette::Window, col);
+    setPalette(pal);
+    update();
+}
+
+QColor FlashLabel::color() const
+{
+    return palette().window().color();
+}
+
 
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
-    QWidget(parent),
-    m_state(Default),
-    m_illumination(-64),
+    FlashLabel(parent),
     m_minTextHeight(-1),
-    m_queueSemaphore(1),
-    m_closeButton(0)
+    m_queueSemaphore(1)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
-    /*QPalette palette);
-    palette.setColor(QPalette::Background, Qt::transparent);
-    setPalette(palette);*/
-
-    m_closeButton = new QPushButton(i18nc("@action:button", "Confirm"), this);
-    m_closeButton->hide();
-
+    QHBoxLayout *lay = new QHBoxLayout(this);
+    m_pixmap = new QLabel(this);
+    m_pixmap->setAlignment(Qt::AlignCenter);
+    m_label = new QLabel(this);
+    m_label->setAlignment(Qt::AlignLeft);
+    m_progress = new QProgressBar(this);
+    lay->addWidget(m_pixmap);
+    lay->addWidget(m_label);
+    lay->addWidget(m_progress);
+    setLayout(lay);
+    m_progress->setVisible(false);
+    lay->setContentsMargins(BorderGap, 0, BorderGap, 0);
+    m_animation.setTargetObject(this);
+    m_animation.setPropertyName("color");
     m_queueTimer.setSingleShot(true);
-
     connect(&m_queueTimer, SIGNAL(timeout()), this, SLOT(slotMessageTimeout()));
-    connect(m_closeButton, SIGNAL(clicked()), this, SLOT(confirmErrorMessage()));
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerDone()));
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()
 {
 }
 
-void StatusBarMessageLabel::setMessage(const QString& text,
-                                       MessageType type, int timeoutMS)
+void StatusBarMessageLabel::updatePalette()
 {
+    m_animation.setKeyValueAt(1, parentWidget()->palette().window().color());
+    setColor(parentWidget()->palette().window().color());
+}
+
+void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
+{
+    QWidget::mousePressEvent(event);
+    if (m_currentMessage.type == MltError)
+        confirmErrorMessage();
+}
+
+void StatusBarMessageLabel::setMessage(const QString& text, int progress, MessageType type, int timeoutMS)
+{
+    if (type == ProcessingJobMessage) {
+        m_progress->setValue(progress);
+        m_progress->setVisible(progress < 100);
+    }
+    else if (m_currentMessage.type != ProcessingJobMessage || type == OperationCompletedMessage) {
+        m_progress->setVisible(progress < 100);
+    }
+    if (text == m_currentMessage.text)
+        return;
     StatusBarMessageItem item(text, type, timeoutMS);
 
     if (item.type == ErrorMessage || item.type == MltError) {
@@ -77,10 +126,9 @@ void StatusBarMessageLabel::setMessage(const QString& text,
             qDebug() << item.text;
 
             // Put the new error message at first place and immediately show it
-            if (item.timeoutMillis < 2000) {
-                item.timeoutMillis = 2000;
+            if (item.timeoutMillis < 3000) {
+                item.timeoutMillis = 3000;
             }
-            
             if (item.type == ProcessingJobMessage) {
                 // This is a job progress info, discard previous ones
                 QList <StatusBarMessageItem> cleanList;
@@ -97,8 +145,6 @@ void StatusBarMessageLabel::setMessage(const QString& text,
             // In case we are already displaying an error message, add a little delay
             int delay = 800 * (m_currentMessage.type == ErrorMessage || m_currentMessage.type == MltError);
             m_queueTimer.start(delay);
-
-
         } else {
 
             // Message with normal priority
@@ -128,14 +174,16 @@ bool StatusBarMessageLabel::slotMessageTimeout()
             m_messageQueue.removeFirst();
             if (item.type == OperationCompletedMessage || item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage) {
                 m_currentMessage = item;
+                m_label->setText(m_currentMessage.text);
                 newMessage = true;
                 break;
             }
         }
-    }   
+    }
     else if (!m_messageQueue.isEmpty()) {
         if (!m_currentMessage.needsConfirmation()) {
             m_currentMessage = m_messageQueue.at(0);
+            m_label->setText(m_currentMessage.text);
             m_messageQueue.removeFirst();
             newMessage = true;
 
@@ -158,52 +206,56 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         }
     }
 
-    m_illumination = -64;
-    m_state = Default;
-    m_timer.stop();
-
+    QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     const char* iconName = 0;
+    if (m_animation.state() == QAbstractAnimation::Running) {
+        m_animation.stop();
+    }
+    setColor(parentWidget()->palette().window().color());
     switch (m_currentMessage.type) {
     case ProcessingJobMessage:
         iconName = "chronometer";
-        m_closeButton->hide();
         break;
     case OperationCompletedMessage:
         iconName = "dialog-ok";
-        m_closeButton->hide();
         break;
 
     case InformationMessage:
         iconName = "dialog-information";
-        m_closeButton->hide();
         break;
 
     case ErrorMessage:
         iconName = "dialog-warning";
-        m_timer.start(100);
-        m_state = Illuminate;
-        m_closeButton->hide();
+        m_animation.setKeyValueAt(0, bgColor);
+        m_animation.setKeyValueAt(0.8, bgColor);
+        m_animation.setKeyValueAt(1, parentWidget()->palette().window().color());
+        m_animation.setEasingCurve(QEasingCurve::OutCubic);
+        m_animation.setDuration(4000);
+        m_animation.start();
         break;
 
     case MltError:
         iconName = "dialog-close";
-        m_timer.start(100);
-        m_state = Illuminate;
-        updateCloseButtonPosition();
-        m_closeButton->show();
+        m_animation.setKeyValueAt(0, bgColor);
+        m_animation.setKeyValueAt(1, bgColor);
+        m_animation.setDuration(1000);
+        m_animation.start();
         break;
 
     case DefaultMessage:
     default:
-        m_closeButton->hide();
         break;
     }
 
-    m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
-
+    if (iconName == 0) {
+        m_pixmap->setVisible(false);
+    } else {
+        m_pixmap->setPixmap(SmallIcon(iconName));
+        m_pixmap->setVisible(true);
+    }
+    setCursor(m_currentMessage.type == MltError ? Qt::PointingHandCursor : Qt::ArrowCursor);
     m_queueSemaphore.release();
 
-    update();
     return newMessage;
 }
 
@@ -213,106 +265,8 @@ void StatusBarMessageLabel::confirmErrorMessage()
     m_queueTimer.start(0);
 }
 
-void StatusBarMessageLabel::paintEvent(QPaintEvent*)
-{
-    QPainter painter(this);
-
-    // draw background
-    QColor backgroundColor;
-    if (m_state == Default || m_illumination < 0) backgroundColor = palette().window().color();
-    else {
-        backgroundColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
-    }
-    if (m_state == Desaturate && m_illumination > 0) {
-        backgroundColor.setAlpha(qMin(m_illumination * 2, 255));
-    }
-    painter.fillRect(0, 0, width(), height(), backgroundColor);
-
-    // draw pixmap
-    int x = BorderGap;
-    int y = (height() - m_pixmap.height()) / 2;
-
-    if (!m_pixmap.isNull()) {
-        painter.drawPixmap(x, y, m_pixmap);
-        x += m_pixmap.width() + BorderGap * 2;
-    }
-
-    // draw text
-    painter.setPen(palette().text().color());
-    int flags = Qt::AlignVCenter;
-    if (height() > m_minTextHeight) {
-        flags = flags | Qt::TextWordWrap;
-    }
-    painter.drawText(QRect(x, 0, availableTextWidth(), height()), flags, m_currentMessage.text);
-    painter.end();
-}
-
 void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
-    updateCloseButtonPosition();
 }
-
-void StatusBarMessageLabel::timerDone()
-{
-    switch (m_state) {
-    case Illuminate: {
-        // increase the illumination
-        const int illumination_max = 128;
-        if (m_illumination < illumination_max) {
-            m_illumination += 32;
-            if (m_illumination > illumination_max) {
-                m_illumination = illumination_max;
-            }
-            update();
-        } else {
-            m_state = Illuminated;
-            m_timer.start(1500);
-        }
-        break;
-    }
-
-    case Illuminated: {
-        // start desaturation
-        if (m_currentMessage.type != MltError) {
-            m_state = Desaturate;
-            m_timer.start(80);
-        }
-        break;
-    }
-
-    case Desaturate: {
-        // desaturate
-        if (m_illumination < -128) {
-            m_illumination = 0;
-            m_state = Default;
-            m_timer.stop();
-            setMessage(QString(), DefaultMessage);
-        } else {
-            m_illumination -= 5;
-            update();
-        }
-        break;
-    }
-
-    default:
-        break;
-    }
-}
-
-int StatusBarMessageLabel::availableTextWidth() const
-{
-    const int buttonWidth = 0; /*(m_type == ErrorMessage) ?
-                            m_closeButton->width() + BorderGap : 0;*/
-    return width() - m_pixmap.width() - (BorderGap * 4) - buttonWidth;
-}
-
-void StatusBarMessageLabel::updateCloseButtonPosition()
-{
-    const int x = width() - m_closeButton->width() - BorderGap;
-    const int y = (height() - m_closeButton->height()) / 2;
-    m_closeButton->move(x, y);
-}
-
-
 
