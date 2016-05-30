@@ -566,7 +566,6 @@ void Bin::slotCreateAudioThumbs()
         m_processingAudioThumb = m_audioThumbsList.takeFirst();
         count++;
         m_audioThumbMutex.unlock();
-        //emitMessage(i18n("Creating audio thumbnails"), (count - 1) * 100 / max, ProcessingJobMessage);
         ProjectClip *clip = m_rootFolder->clip(m_processingAudioThumb);
         if (clip) {
             clip->slotCreateAudioThumbs();
