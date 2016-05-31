@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
      : QSortFilterProxyModel(parent)
 {
+    m_collator.setNumericMode(true);
     m_selection = new QItemSelectionModel(this);
     connect(m_selection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(onCurrentRowChanged(QItemSelection,QItemSelection)));
     setDynamicSortFilter(true);
@@ -95,7 +96,7 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex & left, const QModelIndex
         if (leftData.type() == QVariant::DateTime) {
             return leftData.toDateTime() < rightData.toDateTime();
         }
-        return QSortFilterProxyModel::lessThan(right, left);
+        return m_collator.compare(leftData.toString(), rightData.toString()) < 0;
     }
     if (sortOrder() == Qt::AscendingOrder) return leftType < rightType;
     return leftType > rightType;

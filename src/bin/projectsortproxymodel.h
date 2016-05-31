@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PROJECTSORTPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
+#include <QCollator>
 
 class QItemSelectionModel;
 
@@ -61,6 +62,7 @@ protected:
 private:
     QItemSelectionModel*m_selection;
     QString m_searchString;
+    QCollator m_collator;
 
 signals:
     /** @brief Emitted when the row changes, used to prepare action for selected item  */
