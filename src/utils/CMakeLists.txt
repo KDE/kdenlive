@@ -8,6 +8,7 @@ set(kdenlive_SRCS
   utils/flowlayout.cpp
   utils/thememanager.cpp
   utils/KoIconUtils.cpp
+  utils/progressbutton.cpp
   PARENT_SCOPE
 )
 

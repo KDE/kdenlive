@@ -60,29 +60,6 @@ class KIconLoader;
 #define EXIT_RESTART (42)
 
 
-class MyToolButton: public QToolButton
-{
-    Q_PROPERTY(int progress READ progress WRITE setProgress)
-    Q_OBJECT
-public:
-    explicit MyToolButton(QWidget *parent = 0);
-    ~MyToolButton();
-    int progress() const;
-    void setProgress(int);
-
-protected:
-    virtual void paintEvent(QPaintEvent *event);
-
-private:
-    int m_progress;
-    QPixmap *m_pix;
-    QElapsedTimer m_timer;
-    QString m_remainingTime;
-    QAction *m_defaultAction;
-    /** @brief While rendering, replace real action by a fake on so that rendering is not triggered when clicking again. */
-    QAction *m_dummyAction;
-};
-
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT

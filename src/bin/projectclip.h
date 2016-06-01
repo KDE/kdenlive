@@ -49,7 +49,6 @@ namespace Mlt {
  * @class ProjectClip
  * @brief Represents a clip in the project (not timeline).
  * 
-
  */
 
 class ProjectClip : public AbstractProjectItem

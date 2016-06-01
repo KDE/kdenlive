@@ -64,6 +64,7 @@
 #include "timeline/timelinesearch.h"
 #include <config-kdenlive.h>
 #include "utils/thememanager.h"
+#include "utils/progressbutton.h"
 #include "utils/KoIconUtils.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
@@ -109,94 +110,6 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QtGlobal>
-
-MyToolButton::MyToolButton(QWidget *parent) : QToolButton(parent)
-    , m_defaultAction(NULL)
-{
-    setPopupMode(MenuButtonPopup);
-    m_progress = width() - 6;
-    m_pix = new QPixmap(1,1);
-    m_pix->fill(Qt::transparent);
-    m_dummyAction = new QAction(QIcon(*m_pix), i18n("Rendering preview"), this);
-}
-
-MyToolButton::~MyToolButton()
-{
-    delete m_pix;
-    delete m_dummyAction;
-}
-
-void MyToolButton::setProgress(int progress) 
-{
-    int prog = (width() - 6) * (double) progress / 1000;
-    if (m_timer.isValid() && progress > 0) {
-        // calculate remaining time
-        qint64 ms = m_timer.elapsed() * (1000.0 / progress - 1);
-        if (ms < 60000)
-            // xgettext:no-c-format
-            m_remainingTime = i18nc("s as seconds", "%1s", ms / 1000);
-        else if (ms < 3600000)
-            // xgettext:no-c-format
-            m_remainingTime = i18nc("m as minutes", "%1m", ms / 60000);
-        else {
-            m_remainingTime = i18nc("h as hours", "%1h", qMin(99, (int) (ms / 3600000)));
-        }
-    }
-    if (progress < 0) {
-        if (m_defaultAction)
-            setDefaultAction(m_defaultAction);
-        m_remainingTime.clear();
-        m_timer.invalidate();
-        m_progress = -1;
-        update();
-        return;
-    }
-    if (prog == m_progress)
-        return;
-    if (!m_timer.isValid() || progress == 0) {
-        if (!m_defaultAction) {
-            m_defaultAction = defaultAction();
-        }
-        setDefaultAction(m_dummyAction);
-        m_timer.start();
-    }
-    if (progress == 1000) {
-        if (m_defaultAction)
-            setDefaultAction(m_defaultAction);
-        m_remainingTime.clear();
-        m_timer.invalidate();
-    }
-    m_progress = prog;
-    update();
-}
-
-int MyToolButton::progress() const
-{
-    return m_progress;
-}
-
-void MyToolButton::paintEvent(QPaintEvent *event)
-{
-    QToolButton::paintEvent(event);
-    if (m_progress < width() - 6) {
-        QPainter painter(this);
-        painter.setRenderHint(QPainter::Antialiasing, true);
-        if (m_progress < 0)
-            painter.fillRect(3, height() - 5, (width() - 6), 3, Qt::red);
-        else {
-            if (m_progress > 0) {
-                // draw remaining time
-                painter.drawText(rect(), Qt::AlignLeft, m_remainingTime);
-            }
-            QColor w(Qt::white);
-            w.setAlpha(40);
-            painter.fillRect(3, height() - 5, m_progress, 3, palette().highlight().color());
-            painter.fillRect(3 + m_progress, height() - 5, width() - 6 - m_progress, 3, w);
-        }
-        painter.setPen(palette().shadow().color());
-        painter.drawRoundedRect(2, height() - 6, width() - 4, 5, 2, 2);
-    }
-}
 
 
 static const char version[] = KDENLIVE_VERSION;
@@ -532,10 +445,10 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(toolButtonAction, SIGNAL(triggered(bool)), basketButton, SLOT(showMenu()));
 
     // Timeline preview button
-    MyToolButton *timelinePreview = new MyToolButton(this);
+    ProgressButton *timelinePreview = new ProgressButton(i18n("Rendering preview"), this);
     QMenu *tlMenu = new QMenu(this);
     timelinePreview->setMenu(tlMenu);
-    connect(this, &MainWindow::setPreviewProgress, timelinePreview, &MyToolButton::setProgress);
+    connect(this, &MainWindow::setPreviewProgress, timelinePreview, &ProgressButton::setProgress);
     QWidgetAction* previewButtonAction = new QWidgetAction(this);
     previewButtonAction->setText(i18n("Timeline Preview"));
     previewButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("preview-render-on")));
@@ -543,6 +456,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
     setupGUI();
+    timelinePreview->setToolButtonStyle(m_timelineToolBar->toolButtonStyle());
+    connect(m_timelineToolBar, &QToolBar::toolButtonStyleChanged, timelinePreview, &ProgressButton::setToolButtonStyle);
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
@@ -610,6 +525,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     slotConnectMonitors();
 
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    // TODO: let user select timeline toolbar toolbutton style
+    //connect(toolBar(), &QToolBar::toolButtonStyleChanged, m_timelineToolBar, &QToolBar::setToolButtonStyle);
     m_timelineToolBar->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_timelineToolBar, &QWidget::customContextMenuRequested, this, &MainWindow::showTimelineToolbarMenu);
 
@@ -1469,7 +1386,7 @@ void MainWindow::setupActions()
     disableEffects->setData("disable_timeline_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
-    
+
     QAction *locateClip = addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), pCore->bin(), SLOT(slotLocateClip()), KoIconUtils::themedIcon(QStringLiteral("edit-file")));
     locateClip->setData("locate_clip");
     locateClip->setEnabled(false);
