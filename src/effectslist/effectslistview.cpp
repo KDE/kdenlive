@@ -325,6 +325,9 @@ void EffectsListView::filterList()
 void EffectsListView::showInfoPanel()
 {
     bool show = !infopanel->isVisible();
+    if (show) {
+        infopanel->setText(m_effectsList->currentInfo());
+    }
     infopanel->setVisible(show);
     buttonInfo->setDown(show);
     KdenliveSettings::setShoweffectinfo(show);
@@ -344,7 +347,8 @@ void EffectsListView::slotEffectSelected()
 
 void EffectsListView::slotUpdateInfo()
 {
-    infopanel->setText(m_effectsList->currentInfo());
+    if (infopanel->isVisible())
+        infopanel->setText(m_effectsList->currentInfo());
 }
 
 void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions)

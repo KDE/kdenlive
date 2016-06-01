@@ -123,8 +123,13 @@ int EffectsList::hasEffect(const QString & tag, const QString & id) const
 
 QStringList EffectsList::effectIdInfo(const int ix) const
 {
-    QStringList info;
     QDomElement effect = m_baseElement.childNodes().at(ix).toElement();
+    return effectInfo(effect);
+}
+
+QStringList EffectsList::effectInfo(const QDomElement &effect) const
+{
+    QStringList info;
     if (effect.tagName() == QLatin1String("effectgroup")) {
         QString groupName = effect.attribute(QStringLiteral("name"));
         info << groupName << groupName << effect.attribute(QStringLiteral("id")) << QString::number(Kdenlive::groupEffect);

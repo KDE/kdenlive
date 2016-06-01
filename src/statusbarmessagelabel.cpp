@@ -103,7 +103,7 @@ void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
         confirmErrorMessage();
 }
 
-void StatusBarMessageLabel::setMessage(const QString& text, int progress, MessageType type, int timeoutMS)
+void StatusBarMessageLabel::setProgressMessage(const QString& text, int progress, MessageType type, int timeoutMS)
 {
     if (type == ProcessingJobMessage) {
         m_progress->setValue(progress);
@@ -114,8 +114,15 @@ void StatusBarMessageLabel::setMessage(const QString& text, int progress, Messag
     }
     if (text == m_currentMessage.text)
         return;
-    StatusBarMessageItem item(text, type, timeoutMS);
+    setMessage(text, type, timeoutMS);
+}
 
+void StatusBarMessageLabel::setMessage(const QString& text, MessageType type, int timeoutMS)
+{
+    StatusBarMessageItem item(text, type, timeoutMS);
+    if (type == OperationCompletedMessage) {
+        m_progress->setVisible(false);
+    }
     if (item.type == ErrorMessage || item.type == MltError) {
         KNotification::event(QStringLiteral("ErrorMessage"), item.text);
     }
@@ -155,7 +162,6 @@ void StatusBarMessageLabel::setMessage(const QString& text, int progress, Messag
 
         }
     }
-
     m_queueSemaphore.release();
 }
 

@@ -54,6 +54,7 @@ public:
      * @param ix effect index
      * @return list of name, tag and id of an effect */
     QStringList effectIdInfo(const int ix) const;
+    QStringList effectInfo(const QDomElement &effect) const;
 
     /** @brief Lists effects names. */
     QStringList effectNames();

@@ -410,7 +410,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_effectStack, SIGNAL(removeMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotDeleteEffect(QString,QDomElement)));
     connect(m_effectStack, SIGNAL(changeEffectPosition(QString,const QList <int>,int)), pCore->bin(), SLOT(slotMoveEffect(QString,const QList <int>,int)));
     connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
-    connect(m_effectStack, SIGNAL(displayMessage(QString,int)), m_messageLabel, SLOT(setMessage(QString,int)));
+    connect(m_effectStack, SIGNAL(displayMessage(QString,int)), m_messageLabel, SLOT(setProgressMessage(QString,int)));
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);
 
     m_effectList = new EffectsListView();
@@ -702,7 +702,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 #endif
     scmanager->slotCheckActiveScopes();
     //TODO: remove for release
-    m_messageLabel->setMessage("This is an untested development version. Always backup your data", 100, MltError);
+    m_messageLabel->setMessage("This is an untested development version. Always backup your data", MltError);
 }
 
 void MainWindow::slotThemeChanged(const QString &theme)
@@ -1781,7 +1781,7 @@ void MainWindow::connectDocument()
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
     connect(trackView->projectView(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
     connect(pCore->bin(), SIGNAL(clipNameChanged(QString)), trackView->projectView(), SLOT(clipNameChanged(QString)));
-    connect(pCore->bin(), SIGNAL(displayMessage(QString,int,MessageType)), m_messageLabel, SLOT(setMessage(QString,int,MessageType)));
+    connect(pCore->bin(), SIGNAL(displayMessage(QString,int,MessageType)), m_messageLabel, SLOT(setProgressMessage(QString,int,MessageType)));
 
     connect(trackView->projectView(), SIGNAL(showClipFrame(const QString&,int)), pCore->bin(), SLOT(selectClipById(const QString&,int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
@@ -2066,7 +2066,7 @@ void MainWindow::slotAddClipMarker()
         pos = m_clipMonitor->position();
     }
     if (!clip) {
-        m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), 100, ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
         return;
     }
     QString id = clip->clipId();
@@ -2098,7 +2098,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         pos = m_clipMonitor->position();
     }
     if (!clip) {
-        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), 100, ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
         return;
     }
 
@@ -2108,7 +2108,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         if (allowGuideDeletion && m_projectMonitor->isActive()) {
             slotDeleteGuide();
         }
-        else m_messageLabel->setMessage(i18n("No marker found at cursor time"), 100, ErrorMessage);
+        else m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
         return;
     }
     pCore->bin()->deleteClipMarker(comment, id, pos);
@@ -2128,7 +2128,7 @@ void MainWindow::slotDeleteAllClipMarkers()
         clip = m_clipMonitor->currentController();
     }
     if (!clip) {
-        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), 100, ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
         return;
     }
     pCore->bin()->deleteAllClipMarkers(clip->clipId());
@@ -2151,14 +2151,14 @@ void MainWindow::slotEditClipMarker()
         pos = m_clipMonitor->position();
     }
     if (!clip) {
-        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), 100, ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
         return;
     }
 
     QString id = clip->clipId();
     CommentedTime oldMarker = clip->markerAt(pos);
     if (oldMarker == CommentedTime()) {
-        m_messageLabel->setMessage(i18n("No marker found at cursor time"), 100, ErrorMessage);
+        m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
         return;
     }
 
@@ -2187,7 +2187,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
         GenTime pos = m_clipMonitor->position();
 
         if (!clip) {
-            m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), 100, ErrorMessage);
+            m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
             return;
         }
         //TODO: allow user to set default marker category
@@ -2447,7 +2447,7 @@ void MainWindow::slotAddVideoEffect(QAction *result)
     if (!effect.isNull()) {
         slotAddEffect(effect);
     } else {
-        m_messageLabel->setMessage(i18n("Cannot find effect %1 / %2", info.at(0), info.at(1)), 100, ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find effect %1 / %2", info.at(0), info.at(1)), ErrorMessage);
     }
 }
 
@@ -2510,13 +2510,13 @@ void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
 
 void MainWindow::slotGotProgressInfo(const QString &message, int progress, MessageType type)
 {
-    m_messageLabel->setMessage(message, progress, type);
+    m_messageLabel->setProgressMessage(message, progress, type);
 }
 
 void MainWindow::customEvent(QEvent* e)
 {
     if (e->type() == QEvent::User)
-        m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), 100, MltError);
+        m_messageLabel->setMessage(static_cast <MltErrorEvent *>(e)->message(), MltError);
 }
 
 void MainWindow::slotTimelineClipSelected(ClipItem* item, bool reloadStack, bool raise)
@@ -2621,7 +2621,7 @@ void MainWindow::slotSetTool(ProjectTool tool)
             message = i18n("Shift + click to create a selection rectangle, Ctrl + click to add an item to selection");
             break;
         }
-        m_messageLabel->setMessage(message, 100, InformationMessage);
+        m_messageLabel->setMessage(message, InformationMessage);
         pCore->projectManager()->currentTimeline()->projectView()->setTool(tool);
     }
 }
@@ -3051,7 +3051,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
         return;
     }
     if (urls.isEmpty()) {
-        m_messageLabel->setMessage(i18n("No clip to transcode"), 100, ErrorMessage);
+        m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
         return;
     }
     ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc);
@@ -3308,12 +3308,12 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         // Do save scenelist
         QFile file(plPath);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), 100, ErrorMessage);
+            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
             return;
         }
         file.write(docList.at(i).toString().toUtf8());
         if (file.error() != QFile::NoError) {
-            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), 100, ErrorMessage);
+            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
             file.close();
             return;
         }
@@ -3462,7 +3462,7 @@ void MainWindow::slotArchiveProject()
     QDomDocument doc = pCore->projectManager()->current()->xmlSceneList(m_projectMonitor->sceneList());
     QPointer<ArchiveWidget> d = new ArchiveWidget(pCore->projectManager()->current()->url().fileName(), doc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {
-        m_messageLabel->setMessage(i18n("Archiving project"), 100, OperationCompletedMessage);
+        m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }
     delete d;
 }

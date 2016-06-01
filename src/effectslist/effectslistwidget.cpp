@@ -242,7 +242,8 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QTreeWidgetIt
     int fontSize = f.height();
 
     for (int ix = 0; ix < ct; ++ix) {
-        effectInfo = effectlist->effectIdInfo(ix);
+        const QDomElement effect = effectlist->at(ix);
+        effectInfo = effectlist->effectInfo(effect);
         if (effectInfo.isEmpty()) continue;
         QTreeWidgetItem *parentItem = NULL;
 
@@ -258,29 +259,27 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QTreeWidgetIt
         if (parentItem == NULL)
             parentItem = defaultFolder;
 
-        if (!effectInfo.isEmpty()) {
-            QIcon icon2 = generateIcon(fontSize, effectInfo.at(0), effectlist->at(ix));
-            item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
-            QString tag = effectInfo.at(0);
-            if (type != EFFECT_CUSTOM && tag.startsWith(QLatin1String("movit."))) {
-                // GPU effect
-                effectInfo.append(QString::number(EFFECT_GPU));
-                item->setData(0, TypeRole, EFFECT_GPU);
-            } else {
-                effectInfo.append(QString::number(type));
-                item->setData(0, TypeRole, type);
-            }
-            if (effectInfo.count() == 4) item->setIcon(0, QIcon::fromTheme(QStringLiteral("folder")));
-            else item->setIcon(0, icon2);
-            item->setData(0, IdRole, effectInfo);
-            item->setToolTip(0, effectlist->getInfo(tag, effectInfo.at(1)));
-            if (parentItem == NULL) {
-                addTopLevelItem(item);
-            }
-            if (item->text(0) == current) {
-                setCurrentItem(item);
-                *found = true;
-            }
+        QIcon icon2 = generateIcon(fontSize, effectInfo.at(0), effect);
+        item = new QTreeWidgetItem(parentItem, QStringList(effectInfo.takeFirst()));
+        QString tag = effectInfo.at(0);
+        if (type != EFFECT_CUSTOM && tag.startsWith(QLatin1String("movit."))) {
+            // GPU effect
+            effectInfo.append(QString::number(EFFECT_GPU));
+            item->setData(0, TypeRole, EFFECT_GPU);
+        } else {
+            effectInfo.append(QString::number(type));
+            item->setData(0, TypeRole, type);
+        }
+        if (effectInfo.count() == 4) item->setIcon(0, QIcon::fromTheme(QStringLiteral("folder")));
+        else item->setIcon(0, icon2);
+        item->setData(0, IdRole, effectInfo);
+        item->setToolTip(0, effectlist->getEffectInfo(effect));
+        if (parentItem == NULL) {
+            addTopLevelItem(item);
+        }
+        if (item->text(0) == current) {
+            setCurrentItem(item);
+            *found = true;
         }
     }
 }
