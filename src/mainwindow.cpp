@@ -248,7 +248,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
 #endif
-    setTabPosition(Qt::AllDockWidgetAreas, KdenliveSettings::verticaltabs() ? QTabWidget::East : QTabWidget::North);
+    setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition) KdenliveSettings::tabposition());
     m_timelineToolBar = toolBar("timelineToolBar"); //KToolBar("timelineToolBar", this);
     m_timelineToolBarContainer = new QWidget(this);
     QVBoxLayout *ctnLay = new QVBoxLayout;
@@ -1840,15 +1840,10 @@ void MainWindow::slotPreferences(int page, int option)
 
 void MainWindow::slotCheckTabPosition()
 {
-    QTabWidget::TabPosition pos = tabPosition(Qt::LeftDockWidgetArea);
-    bool reload = false;
-    if (KdenliveSettings::verticaltabs() && pos != QTabWidget::East) {
-        reload = true;
-    } else if (!KdenliveSettings::verticaltabs() && pos != QTabWidget::North) {
-        reload = true;
+    int pos = tabPosition(Qt::LeftDockWidgetArea);
+    if (KdenliveSettings::tabposition() != pos) {
+        setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition) KdenliveSettings::tabposition());
     }
-    if (reload)
-        setTabPosition(Qt::AllDockWidgetAreas, KdenliveSettings::verticaltabs() ? QTabWidget::East : QTabWidget::North);
 }
 
 void MainWindow::slotRestart()

@@ -847,6 +847,10 @@ void KdenliveSettingsDialog::updateSettings()
         resetProfile = true;
     }
 
+    if (m_configMisc.kcfg_tabposition->currentIndex() != KdenliveSettings::tabposition()) {
+        KdenliveSettings::setTabposition(m_configMisc.kcfg_tabposition->currentIndex());
+    }
+
     if (m_modified) {
         // The transcoding profiles were modified, save.
         m_modified = false;
