@@ -115,6 +115,12 @@ bool MltVideoProfile::isCompatible(const MltVideoProfile &point) const
     return frame_rate_num * 100 / frame_rate_den == point.frame_rate_num * 100 / point.frame_rate_den;
 }
 
+bool MltVideoProfile::isValid() const
+{
+    return (frame_rate_den > 0 && sample_aspect_den > 0 && display_aspect_den > 0 && width > 0);
+}
+
+
 const QVariantList MltVideoProfile::toList() const
 {
     QVariantList result;
