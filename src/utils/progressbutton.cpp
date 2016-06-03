@@ -106,9 +106,16 @@ void ProgressButton::paintEvent(QPaintEvent *event)
         QPainter painter(this);
         painter.setFont(m_progressFont);
         painter.setRenderHint(QPainter::Antialiasing, true);
-        QRectF rect(3, (height() - m_iconSize) / 2, m_iconSize, m_iconSize);
+        QRect rect(3, (height() - m_iconSize) / 2, m_iconSize, m_iconSize);
         // draw remaining time
-        painter.drawText(rect, Qt::AlignHCenter, m_remainingTime);
+        if (m_remainingTime.isEmpty()) {
+            // We just started task, no time estimation yet, display starting status
+            if (m_defaultAction) {
+                painter.drawPixmap(rect.adjusted(4, 0, -4, -8), m_defaultAction->icon().pixmap(m_iconSize - 8, m_iconSize - 8));
+            }
+        } else {
+            painter.drawText(rect, Qt::AlignHCenter, m_remainingTime);
+        }
         if (m_progress < 0) {
             painter.fillRect(rect.x(), rect.bottom() - 5, rect.width(), 3, Qt::red);
         } else {
