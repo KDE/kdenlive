@@ -156,12 +156,14 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         for (int i = 0; i < max; ++i)
             consumersList << consumers->get_name(i);
         delete consumers;
-        if (consumersList.contains(QStringLiteral("rtaudio"))) {
+        movit = true;
+        // Seems like with latest changes, SDL works fine with movit
+        /*if (consumersList.contains(QStringLiteral("rtaudio"))) {
             // enable movit GPU effects / display. Currently, Movit crashes with sdl_audio,
             // So enable only when rtaudio is available
             movit = true;
         }
-        else KdenliveSettings::setGpu_accel(false);
+        else KdenliveSettings::setGpu_accel(false);*/
     }
     else KdenliveSettings::setGpu_accel(false);
 

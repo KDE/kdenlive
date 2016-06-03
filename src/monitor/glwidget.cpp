@@ -139,16 +139,16 @@ void GLWidget::updateAudioForAnalysis()
 void GLWidget::showEvent(QShowEvent * event)
 {
     QQuickView::showEvent(event);
-    initializeGL();
+    //initializeGL();
 }
 
 void GLWidget::initializeGL()
 {
-    if (m_isInitialized || !isVisible() || !openglContext()) return;
+    //if (m_isInitialized || !isVisible() || !openglContext()) return;
     if (!m_offscreenSurface.isValid()) {
         m_offscreenSurface.setFormat(openglContext()->format());
         m_offscreenSurface.create();
-        openglContext()->makeCurrent(this);
+        //openglContext()->makeCurrent(this);
     }
     initializeOpenGLFunctions();
     qDebug() << "OpenGL vendor: " << QString::fromUtf8((const char*) glGetString(GL_VENDOR));
@@ -919,7 +919,8 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             delete m_consumer;
         }
         // Force rtaudio backend for movit, because with SDL it crashes on stop/start
-        QString audioBackend = m_glslManager == NULL ? KdenliveSettings::audiobackend() : QStringLiteral("rtaudio");
+        //QString audioBackend = m_glslManager == NULL ? KdenliveSettings::audiobackend() : QStringLiteral("rtaudio");
+        QString audioBackend = KdenliveSettings::audiobackend();
         if (serviceName.isEmpty() || serviceName != audioBackend) {
             m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, audioBackend.toUtf8().constData());
             if (m_consumer->is_valid())
@@ -1313,7 +1314,7 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
 
 void FrameRenderer::showGLFrame(Mlt::Frame frame)
 {
-    if (m_context->isValid()) {
+    if (m_context && m_context->isValid()) {
         int width = 0;
         int height = 0;
 
