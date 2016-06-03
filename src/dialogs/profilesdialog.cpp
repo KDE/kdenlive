@@ -325,12 +325,11 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
     QString path;
     bool isCustom = false;
     if (name.contains('/')) isCustom = true;
-
     if (!isCustom) {
         // List the Mlt profiles
         QDir mltDir(KdenliveSettings::mltpath());
-        profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
-        if (profilesFiles.contains(name)) path = mltDir.absoluteFilePath(name);
+        if (mltDir.exists(name))
+            path = mltDir.absoluteFilePath(name);
     }
     if (isCustom || path.isEmpty()) {
         path = name;
@@ -425,6 +424,8 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
     QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         MltVideoProfile test = getProfileFromPath(mltDir.absoluteFilePath(profilesFiles.at(i)), profilesFiles.at(i));
+        if (!test.isValid())
+            continue;
         if (test == profile) {
             return profilesFiles.at(i);
         }
@@ -433,10 +434,13 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
     // Check custom profiles
     QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
-        profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+        QDir customDir(customProfiles.at(i));
+        profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profilesFiles.size(); ++j) {
-            QString path = customProfiles.at(i) + profilesFiles.at(j);
+            QString path = customDir.absoluteFilePath(profilesFiles.at(j));
             MltVideoProfile test = getProfileFromPath(path, path);
+            if (!test.isValid())
+                continue;
             if (test == profile) {
                 return path;
             }

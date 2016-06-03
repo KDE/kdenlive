@@ -1517,9 +1517,15 @@ void KdenliveDoc::loadDocumentProperties()
 	path = dir.absoluteFilePath(path);
     }
     m_projectFolder = QUrl::fromLocalFile(path);
-    list = m_document.elementsByTagName(QStringLiteral("profile"));
-    if (!list.isEmpty()) {
-        m_profile = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
+    QString profile = m_documentProperties.value(QStringLiteral("profile"));
+    if (!profile.isEmpty())
+        m_profile = ProfilesDialog::getVideoProfile(profile);
+    if (!m_profile.isValid()) {
+        // try to find matching profile from MLT profile properties
+        list = m_document.elementsByTagName(QStringLiteral("profile"));
+        if (!list.isEmpty()) {
+            m_profile = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
+        }
     }
     updateProjectProfile(false);
 }
