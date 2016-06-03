@@ -917,7 +917,7 @@ OperationType ClipItem::operationMode(const QPointF &pos)
     const double scale = projectScene()->scale().x();
     double maximumOffset = 8 / scale;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
-        int kf = m_keyframeView.mouseOverKeyFrames(rect(), pos, maximumOffset, scale);
+        int kf = m_keyframeView.mouseOverKeyFrames(rect(), pos, scale);
         if (kf != -1) {
             return KeyFrame;
         }

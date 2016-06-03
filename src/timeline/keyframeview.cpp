@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QPainter>
 #include <QAction>
+#include <QApplication>
 
 #include "klocalizedstring.h"
 
@@ -461,11 +462,11 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
 }
 
 
-int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale)
+int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double scale)
 {
     if (m_keyframeType == NoKeyframe)
         return -1;
-    pos.setX((pos.x() - m_offset)*scale);
+    pos.setX((pos.x() - m_offset) * scale);
     int previousEdit = activeKeyframe;
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
         int key = m_keyAnim.key_get_frame(i);
@@ -474,10 +475,10 @@ int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, d
         }
         double value = m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), key, duration - m_offset);
         QPointF p = keyframeMap(br, key, value);
-        p.setX(p.x()*scale);
+        p.setX(p.x() * scale);
         if (m_keyframeType == GeometryKeyframe)
             p.setY(br.bottom() - br.height() / 2);
-        if ((pos - p).manhattanLength() < maxOffset) {
+        if ((pos - p).manhattanLength() <= m_handleSize / 2) {
 	    //TODO
             /*setToolTip('[' + QString::number((GenTime(key, m_fps) - cropStart()).seconds(), 'f', 2)
                        + i18n("seconds") + ", " + QString::number(value, 'f', 1) + ']');*/
@@ -486,9 +487,10 @@ int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, d
                 updateKeyframes();
             }
             return key;
-        } /*else if (p.x() > pos.x() + maxOffset) {
+        }
+        if (p.x() > pos.x()) {
             break;
-        }*/
+        }
     }
     //setToolTip(QString());
     activeKeyframe = -1;
