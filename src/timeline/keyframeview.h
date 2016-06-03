@@ -89,7 +89,7 @@ public:
     void drawKeyFrames(QRectF br, int length, bool active, QPainter *painter, const QTransform &transformation);
     /** @brief Draw the x, y, w, h channels of an animated geometry */
     void drawKeyFrameChannels(QRectF br, int in, int out, QPainter *painter, QList <QPoint> maximas, int limitKeyframes, QColor textColor);
-    int mouseOverKeyFrames(QRectF br, QPointF pos, double maxOffset, double scale);
+    int mouseOverKeyFrames(QRectF br, QPointF pos, double scale);
     void showMenu(QWidget *parent, QPoint pos);
     QAction *parseKeyframeActions(QList <QAction *>actions);
     static QString cutAnimation(const QString &animation, int start, int duration, int fullduration, bool doCut = true);
