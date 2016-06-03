@@ -144,6 +144,7 @@ public slots:
             const QMap <QString, QString> &metadata,
             const QList<QString> &playlistPaths, const QList<QString> &trackNames,
             const QString &scriptPath, bool exportAudio);
+    void slotAbortCurrentJob();
 
 private slots:
     void slotUpdateButtons(const QUrl &url);
@@ -159,7 +160,6 @@ private slots:
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
     void showInfoPanel();
-    void slotAbortCurrentJob();
     void slotStartScript();
     void slotDeleteScript();
     void slotGenerateScript();

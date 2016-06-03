@@ -39,21 +39,23 @@ class ProgressButton: public QToolButton
     Q_PROPERTY(int progress READ progress WRITE setProgress)
     Q_OBJECT
 public:
-    explicit ProgressButton(const QString text, QWidget *parent = 0);
+    explicit ProgressButton(const QString text, double max = 100, QWidget *parent = 0);
     ~ProgressButton();
     int progress() const;
     void setProgress(int);
+    void defineDefaultAction(QAction *action, bool activateOnProgress = true);
 
 protected:
     virtual void paintEvent(QPaintEvent *event);
 
 private:
+    QAction *m_defaultAction;
+    double m_max;
     int m_progress;
     QElapsedTimer m_timer;
     QString m_remainingTime;
     int m_iconSize;
     QFont m_progressFont;
-    QAction *m_defaultAction;
     QStyleOptionToolButton m_buttonStyle;
     /** @brief While rendering, replace real action by a fake on so that rendering is not triggered when clicking again. */
     QAction *m_dummyAction;

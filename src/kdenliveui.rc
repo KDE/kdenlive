@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="139" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="140" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -240,7 +240,7 @@
   </ToolBar>
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
-	<Action name="project_render" />
+	<Action name="project_render_button" />
   </ToolBar>
 </kpartgui>
 

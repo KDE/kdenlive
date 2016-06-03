@@ -25,8 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QAction>
 #include <QPainter>
 
-ProgressButton::ProgressButton(const QString text, QWidget *parent) : QToolButton(parent)
+ProgressButton::ProgressButton(const QString text, double max, QWidget *parent) : QToolButton(parent)
     , m_defaultAction(NULL)
+    , m_max(max)
 {
     setPopupMode(MenuButtonPopup);
     m_progress = width() - 6;
@@ -44,13 +45,21 @@ ProgressButton::~ProgressButton()
     delete m_dummyAction;
 }
 
+void ProgressButton::defineDefaultAction(QAction *action, bool activateOnProgress)
+{
+    setDefaultAction(action);
+    m_defaultAction = action;
+    if (activateOnProgress)
+        connect(m_dummyAction, &QAction::triggered, m_defaultAction, &QAction::trigger);
+}
+
 void ProgressButton::setProgress(int progress) 
 {
-    int prog = (m_iconSize) * (double) progress / 1000;
+    int prog = m_iconSize * progress / m_max;
     QString remaining;
     if (m_timer.isValid() && progress > 0) {
         // calculate remaining time
-        qint64 ms = m_timer.elapsed() * (1000.0 / progress - 1);
+        qint64 ms = m_timer.elapsed() * (m_max / progress - 1);
         if (ms < 60000)
             // xgettext:no-c-format
             remaining = i18nc("s as seconds", "%1s", ms / 1000);
@@ -62,8 +71,7 @@ void ProgressButton::setProgress(int progress)
         }
     }
     if (progress < 0) {
-        if (m_defaultAction)
-            setDefaultAction(m_defaultAction);
+        setDefaultAction(m_defaultAction);
         m_remainingTime.clear();
         m_timer.invalidate();
         m_progress = -1;
@@ -71,15 +79,11 @@ void ProgressButton::setProgress(int progress)
         return;
     }
     if (!m_timer.isValid() || progress == 0) {
-        if (!m_defaultAction) {
-            m_defaultAction = defaultAction();
-        }
         setDefaultAction(m_dummyAction);
         m_timer.start();
     }
-    if (progress == 1000) {
-        if (m_defaultAction)
-            setDefaultAction(m_defaultAction);
+    if (progress == m_max) {
+        setDefaultAction(m_defaultAction);
         m_remainingTime.clear();
         m_timer.invalidate();
     }

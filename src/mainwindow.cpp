@@ -444,8 +444,19 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     addAction(QStringLiteral("favorite_effects"), toolButtonAction);
     connect(toolButtonAction, SIGNAL(triggered(bool)), basketButton, SLOT(showMenu()));
 
+    // Render button
+    ProgressButton *timelineRender = new ProgressButton(i18n("Render"), 100, this);
+    QMenu *tlrMenu = new QMenu(this);
+    timelineRender->setMenu(tlrMenu);
+    connect(this, &MainWindow::setRenderProgress, timelineRender, &ProgressButton::setProgress);
+    QWidgetAction* renderButtonAction = new QWidgetAction(this);
+    renderButtonAction->setText(i18n("Render Button"));
+    renderButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-record")));
+    renderButtonAction->setDefaultWidget(timelineRender);
+    addAction(QStringLiteral("project_render_button"), renderButtonAction);
+
     // Timeline preview button
-    ProgressButton *timelinePreview = new ProgressButton(i18n("Rendering preview"), this);
+    ProgressButton *timelinePreview = new ProgressButton(i18n("Rendering preview"), 1000, this);
     QMenu *tlMenu = new QMenu(this);
     timelinePreview->setMenu(tlMenu);
     connect(this, &MainWindow::setPreviewProgress, timelinePreview, &ProgressButton::setProgress);
@@ -458,6 +469,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     setupGUI();
     timelinePreview->setToolButtonStyle(m_timelineToolBar->toolButtonStyle());
     connect(m_timelineToolBar, &QToolBar::toolButtonStyleChanged, timelinePreview, &ProgressButton::setToolButtonStyle);
+
+    timelineRender->setToolButtonStyle(toolBar()->toolButtonStyle());
+    /*connect(m_timelineToolBar, &QToolBar::toolButtonStyleChanged, timelinePreview, &ProgressButton::setToolButtonStyle);*/
 
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
@@ -542,9 +556,21 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     autoRender->setChecked(KdenliveSettings::autopreview());
     connect(autoRender, &QAction::triggered, this, &MainWindow::slotToggleAutoPreview);
     tlMenu->addAction(autoRender);
-    timelinePreview->setDefaultAction(prevRender);
+    timelinePreview->defineDefaultAction(prevRender, false);
     timelinePreview->setAutoRaise(true);
-    //m_timelineToolBar->addWidget(timelinePreview);
+
+    /*QAction *render = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-record")), i18n("Render"), this);
+    render->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return));
+    connect(render, &QAction::triggered, this, &MainWindow::slotRenderProject);
+    QAction *stopRender = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-record")), i18n("Stop Render"), this);
+    tlrMenu->addAction(render);
+    tlrMenu->addAction(stopRender);*/
+
+    tlrMenu->addAction(actionCollection()->action(QStringLiteral("project_render")));
+    tlrMenu->addAction(actionCollection()->action(QStringLiteral("stop_project_render")));
+    timelineRender->defineDefaultAction(actionCollection()->action(QStringLiteral("project_render")));
+    timelineRender->setAutoRaise(true);
+
 
     //m_timelineToolBar->addAction(toolButtonAction);
 
@@ -1116,7 +1142,10 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("run_wizard"), i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), KoIconUtils::themedIcon(QStringLiteral("tools-wizard")));
     addAction(QStringLiteral("project_settings"), i18n("Project Settings"), this, SLOT(slotEditProjectSettings()), KoIconUtils::themedIcon(QStringLiteral("configure")));
+
     addAction(QStringLiteral("project_render"), i18n("Render"), this, SLOT(slotRenderProject()), KoIconUtils::themedIcon(QStringLiteral("media-record")), Qt::CTRL + Qt::Key_Return);
+
+    addAction(QStringLiteral("stop_project_render"), i18n("Stop Render"), this, SLOT(slotStopRenderProject()), KoIconUtils::themedIcon(QStringLiteral("media-record")));
 
     addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), KoIconUtils::themedIcon(QStringLiteral("edit-clear")));
     //TODO
@@ -1575,6 +1604,13 @@ void MainWindow::slotDisableProxies()
     slotUpdateProxySettings();
 }
 
+void MainWindow::slotStopRenderProject()
+{
+    if (m_renderWidget) {
+        m_renderWidget->slotAbortCurrentJob();
+    }
+}
+
 void MainWindow::slotRenderProject()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
@@ -1616,12 +1652,14 @@ void MainWindow::slotCheckRenderStatus()
 
 void MainWindow::setRenderingProgress(const QString &url, int progress)
 {
+    emit setRenderProgress(progress);
     if (m_renderWidget)
         m_renderWidget->setRenderJob(url, progress);
 }
 
 void MainWindow::setRenderingFinished(const QString &url, int status, const QString &error)
 {
+    emit setRenderProgress(100);
     if (m_renderWidget)
         m_renderWidget->setRenderStatus(url, status, error);
 }

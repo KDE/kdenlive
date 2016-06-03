@@ -278,6 +278,7 @@ private slots:
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotRenderProject();
+    void slotStopRenderProject();
     void slotFullScreen();
     /** @brief if modified is true adds "modified" to the caption and enables the save button.
     * (triggered by KdenliveDoc::setModified()) */
@@ -456,6 +457,7 @@ signals:
     void GUISetupDone();
     void reloadTheme();
     void setPreviewProgress(int);
+    void setRenderProgress(int);
 };
 
 
