@@ -3243,6 +3243,8 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     m_document->renderer()->unlockService(tractor);
     // Reload timeline and m_tracks structure from MLT's playlist
     reloadTimeline();
+    // Check we have correct audio mix
+    m_timeline->fixAudioMixing();
     loadGroups(groups);
 }
 
@@ -3327,6 +3329,8 @@ void CustomTrackView::removeTrack(int ix)
     m_timeline->updateComposites();
     m_document->renderer()->unlockService(tractor);
     reloadTimeline();
+    // Check we have correct audio mix
+    m_timeline->fixAudioMixing();
     loadGroups(groups);
 }
 
