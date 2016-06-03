@@ -1268,13 +1268,13 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
     mlt_image_format format = mlt_image_yuv420p;
     frame.get_image(format, width, height);
     // Save this frame for future use and to keep a reference to the GL Texture.
-    m_frame = SharedFrame(frame);
+    m_displayFrame = SharedFrame(frame);
 
     if (m_context->isValid()) {
         m_context->makeCurrent(m_surface);
         // Upload each plane of YUV to a texture.
         QOpenGLFunctions* f = m_context->functions();
-        uploadTextures(m_context, m_frame, m_renderTexture);
+        uploadTextures(m_context, m_displayFrame, m_renderTexture);
         f->glBindTexture(GL_TEXTURE_2D, 0);
         check_error(f);
         f->glFinish();
@@ -1286,7 +1286,7 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
 
         // The frame is now done being modified and can be shared with the rest
         // of the application.
-        emit frameDisplayed(m_frame);
+        emit frameDisplayed(m_displayFrame);
 
         if (sendAudioForAnalysis) {
             // TODO: use mlt audiospectrum filter
@@ -1350,7 +1350,8 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 
         // The frame is now done being modified and can be shared with the rest
         // of the application.
-        emit frameDisplayed(m_frame);
+        qSwap(m_frame, m_displayFrame);
+        emit frameDisplayed(m_displayFrame);
 
 	if (sendAudioForAnalysis) {
             // TODO: use mlt audiospectrum filter
@@ -1396,7 +1397,8 @@ void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
 
         // The frame is now done being modified and can be shared with the rest
         // of the application.
-        emit frameDisplayed(m_frame);
+        qSwap(m_frame, m_displayFrame);
+        emit frameDisplayed(m_displayFrame);
     }
     m_semaphore.release();
 }
