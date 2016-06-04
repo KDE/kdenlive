@@ -215,8 +215,6 @@ void TransitionHandler::updateTransition(QString oldTag, QString tag, int a_trac
         deleteTransition(oldTag, a_track, b_track, in, out, xml, false);
         addTransition(tag, a_track, b_track, in, out, xml);
     }
-    double fps = m_tractor->get_fps();
-    int position = mlt_producer_position(m_tractor->get_producer());
 }
 
 void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)

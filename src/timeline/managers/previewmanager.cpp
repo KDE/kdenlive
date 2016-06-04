@@ -48,7 +48,7 @@ PreviewManager::~PreviewManager()
         abortRendering();
         if (m_undoDir.dirName() == QLatin1String("undo"))
             m_undoDir.removeRecursively();
-        if (m_doc->url().isEmpty() || m_cacheDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot).count() == 0) {
+        if ((m_doc->url().isEmpty() && m_cacheDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).count() == 0) || m_cacheDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot).count() == 0) {
             if (m_cacheDir.dirName() == m_doc->getDocumentProperty(QStringLiteral("documentid")))
                 m_cacheDir.removeRecursively();
         }
