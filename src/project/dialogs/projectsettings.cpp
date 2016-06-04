@@ -45,7 +45,10 @@
 #include <QInputDialog>
 
 ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
-    QDialog(parent), m_savedProject(savedProject), m_lumas(lumas)
+    QDialog(parent)
+    ,deletedPreviews(false)
+    ,m_savedProject(savedProject)
+    ,m_lumas(lumas)
 {
     setupUi(this);
 
@@ -79,7 +82,12 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
-        m_previewDir = doc->getDocumentProperty(QStringLiteral("cachedir"));
+        m_previewDir = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+        if (!m_previewDir.cd(doc->getDocumentProperty(QStringLiteral("documentid")))) {
+            preview_count->setEnabled(false);
+            preview_size->setEnabled(false);
+            delete_preview->setEnabled(false);
+        }
     }
     else {
         currentProf = KdenliveSettings::default_profile();
@@ -301,6 +309,7 @@ void ProjectSettings::slotDeletePreviews()
     }
     buttonBox->setEnabled(true);
     slotUpdateFiles(true);
+    deletedPreviews = true;
 }
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
@@ -343,7 +352,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
     // Check for matches in timeline previews
     totalSize = 0;
-    if (m_previewDir != QDir() && !m_previewextension.isEmpty()) {
+    if (m_previewDir != QDir() && !m_previewextension.isEmpty() && preview_count->isEnabled()) {
         QStringList filters;
         filters << "*." + m_previewextension;
         QStringList previews = m_previewDir.entryList(filters, QDir::Files);
@@ -358,8 +367,6 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     if (cacheOnly) return;
     QList <ClipController*> list = pCore->binController()->getControllerList();
     files_list->clear();
-    
-    
 
     // List all files that are used in the project. That also means:
     // images included in slideshow and titles, files in playlist clips

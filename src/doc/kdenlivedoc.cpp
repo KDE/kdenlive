@@ -289,9 +289,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     dir.mkdir(QStringLiteral("proxy"));
     dir.mkdir(QStringLiteral(".backup"));
 
-    QString documentId = m_documentProperties.value(QStringLiteral("documentid"));
-    QDir dir2(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-    dir2.mkdir(documentId);
     updateProjectFolderPlacesEntry();
 }
 
@@ -1638,6 +1635,11 @@ void KdenliveDoc::previewProgress(int p)
     pCore->window()->setPreviewProgress(p);
 }
 
+void KdenliveDoc::displayMessage(const QString text, MessageType type, int timeOut)
+{
+    pCore->window()->displayMessage(text, type, timeOut);
+}
+
 void KdenliveDoc::selectPreviewProfile()
 {
     // Read preview profiles and find the best match
@@ -1703,3 +1705,4 @@ void KdenliveDoc::saveMltPlaylist(const QString fileName)
 {
     m_render->preparePreviewRendering(fileName);
 }
+

@@ -1109,7 +1109,7 @@ void MainWindow::setupActions()
     statusBar()->setMaximumHeight(2 * small);
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
-
+    connect(this, &MainWindow::displayMessage, m_messageLabel, &StatusBarMessageLabel::setMessage);
     statusBar()->addWidget(m_messageLabel, 0);
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -1537,6 +1537,8 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         project->setProjectFolder(w->selectedFolder());
+        if (w->deletedPreviews)
+            pCore->projectManager()->currentTimeline()->invalidateRange(ItemInfo());
         pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
         bool modified = false;
         if (m_recMonitor) {

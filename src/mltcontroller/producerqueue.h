@@ -108,6 +108,8 @@ signals:
     /** @brief A multiple stream clip was found. */
     void multiStreamFound(const QString &,QList<int>,QList<int>,stringMap data);
     void addClip(const QString &, const QMap<QString,QString>&);
+    /** @brief A clip changed whithout need to replace produder (for example clip), just ask refresh. */
+    void refreshTimelineProducer(const QString);
 };
 
 #endif

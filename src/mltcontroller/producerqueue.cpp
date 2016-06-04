@@ -38,6 +38,7 @@ ProducerQueue::ProducerQueue(BinController *controller) : QObject(controller)
   , m_binController(controller)
 {
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
+    connect(this, &ProducerQueue::refreshTimelineProducer, m_binController, &BinController::replaceTimelineProducer);
 }
 
 ProducerQueue::~ProducerQueue()
@@ -166,6 +167,8 @@ void ProducerQueue::processFileProperties()
             }
             delete frame;
             delete prod;
+            // inform timeline about change
+            emit refreshTimelineProducer(info.clipId);
             continue;
         }
         m_processingClipId.append(info.clipId);

@@ -336,14 +336,14 @@ QList <Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
     return list;
 }
 
-bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, QMap <QString, Mlt::Producer *> newSlowMos)
+QList <ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, QMap <QString, Mlt::Producer *> newSlowMos)
 {
-    bool found = false;
     QString idForAudioTrack;
     QString idForVideoTrack;
     QString service = original->parent().get("mlt_service");
     QString idForTrack = original->parent().get("id");
     QLocale locale;
+    int tkState = state();
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
         idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
@@ -352,11 +352,26 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
     }
     Mlt::Producer *trackProducer = NULL;
     Mlt::Producer *audioTrackProducer = NULL;
-
+    QList <ItemInfo> replaced;
+    Mlt::ClipInfo *info = new Mlt::ClipInfo();
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
+        if (current == id) {
+            if (tkState & 1 || (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
+                // Video is hidden, nothing visible
+                continue;
+            }
+            // master clip used, only notify for update
+            m_playlist.clip_info(i, info);
+            ItemInfo cInfo;
+            cInfo.startPos = GenTime(info->start, fps());
+            cInfo.endPos = GenTime(info->start + info->length, fps());
+            cInfo.track = m_index;
+            replaced << cInfo;
+            continue;
+        }
 	if (!current.startsWith(QLatin1String("#"))) {
 	    continue;
 	}
@@ -403,14 +418,24 @@ bool Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer
         }
         if (cut) {
             Clip(*cut).addEffects(*p);
+            m_playlist.clip_info(i, info);
             m_playlist.remove(i);
             m_playlist.insert(*cut, i);
             m_playlist.consolidate_blanks();
-            found = true;
             delete cut;
+            if (tkState & 1 || (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
+                // Video is hidden for this track, nothing visible
+                continue;
+            }
+            ItemInfo cInfo;
+            cInfo.startPos = GenTime(info->start, fps());
+            cInfo.endPos = GenTime(info->start + info->length, fps());
+            cInfo.track = m_index;
+            replaced << cInfo;
         }
     }
-    return found;
+    delete info;
+    return replaced;
 }
 
 //TODO: cut: checkSlowMotionProducer
@@ -951,6 +976,11 @@ bool Track::moveTrackEffect(int oldPos, int newPos)
 QList <QPoint> Track::visibleClips()
 {
     QList <QPoint> clips;
+    int tkState = state();
+    if (tkState & 1) {
+        // Video is hidden for this track, nothing visible
+        return clips;
+    }
     QPoint current;
     Mlt::ClipInfo *info = new Mlt::ClipInfo();
     for (int i = 0; i < m_playlist.count(); i++) {

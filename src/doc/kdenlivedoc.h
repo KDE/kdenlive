@@ -177,6 +177,7 @@ public:
     void previewProgress(int p);
     /** @brief Select most appropriate rendering profile for timeline preview based on fps / size. */
     void selectPreviewProfile();
+    void displayMessage(const QString text, MessageType type = DefaultMessage, int timeOut = 0);
 
 private:
     QUrl m_url;

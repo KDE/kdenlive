@@ -36,7 +36,7 @@ class TransitionHandler : public QObject
 
 public:
     explicit TransitionHandler(Mlt::Tractor *tractor);
-    bool addTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh = true);
+    bool addTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
     QMap<QString, QString> getTransitionParamsFromXml(const QDomElement &xml);
     void plantTransition(Mlt::Transition &tr, int a_track, int b_track);
     void plantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);

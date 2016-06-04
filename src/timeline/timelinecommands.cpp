@@ -603,18 +603,15 @@ void MoveGroupCommand::redo()
     m_alreadyMoved = false;
 }
 
-MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, QUndoCommand * parent) :
+MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool refresh, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_startPos(start),
     m_endPos(end),
-    m_doIt(doIt)
+    m_doIt(doIt),
+    m_refresh(refresh)
 {
     setText(i18n("Move transition"));
-    if (parent) {
-        // command has a parent, so there are several operations ongoing, do not refresh monitor
-        m_refresh = false;
-    } else m_refresh = true;
 }
 // virtual
 void MoveTransitionCommand::undo()

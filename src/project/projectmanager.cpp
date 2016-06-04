@@ -237,12 +237,12 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->bin()->abortAudioThumbs();
             pCore->window()->slotTimelineClipSelected(NULL, false);
             pCore->monitorManager()->clipMonitor()->slotOpenClip(NULL);
-            delete m_project;
-            m_project = NULL;
             pCore->window()->m_effectStack->clear();
             pCore->window()->m_effectStack->transitionConfig()->slotTransitionItemSelected(NULL, 0, QPoint(), false);
             delete m_trackView;
             m_trackView = NULL;
+            delete m_project;
+            m_project = NULL;
         }
 	pCore->monitorManager()->setDocument(m_project);
     }

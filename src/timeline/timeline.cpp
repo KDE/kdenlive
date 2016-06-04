@@ -138,16 +138,12 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_trackview, SIGNAL(showTrackEffects(int,TrackInfo)), this, SIGNAL(showTrackEffects(int,TrackInfo)));
     connect(m_trackview, SIGNAL(updateTrackEffectState(int)), this, SLOT(slotUpdateTrackEffectState(int)));
     transitionHandler = new TransitionHandler(m_tractor);
-    connect(transitionHandler, &TransitionHandler::refresh, m_doc->renderer(), &Render::doRefresh);
     connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
     connect(m_trackview, SIGNAL(updateRuler(int)), m_ruler, SLOT(updateRuler(int)), Qt::DirectConnection);
 
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
-
-    // Timeline preview stuff
-    initializePreview();
 }
 
 Timeline::~Timeline()
@@ -1798,13 +1794,16 @@ void Timeline::invalidateRange(ItemInfo info)
 
 void Timeline::loadPreviewRender()
 {
-    if (!m_timelinePreview)
-        return;
     QString chunks = m_doc->getDocumentProperty(QStringLiteral("previewchunks"));
     QString dirty = m_doc->getDocumentProperty(QStringLiteral("dirtypreviewchunks"));
     QString ext = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
     QDateTime documentDate = QFileInfo(m_doc->url().path()).lastModified();
     if (!chunks.isEmpty() || !dirty.isEmpty()) {
+        if (!m_timelinePreview) {
+            initializePreview();
+        }
+        if (!m_timelinePreview)
+            return;
         m_timelinePreview->buildPreviewTrack();
         const QDir dir = m_timelinePreview->getCacheDir();
         QStringList previewChunks = chunks.split(",", QString::SkipEmptyParts);
@@ -1825,9 +1824,11 @@ void Timeline::loadPreviewRender()
             }
         }
         if (!dirtyChunks.isEmpty()) {
+            QList <int> list;
             foreach(const QString i, dirtyChunks) {
-                m_ruler->updatePreview(i.toInt(), false);
+                list << i.toInt();
             }
+            m_ruler->addChunks(list, true);
             m_ruler->update();
         }
         m_usePreview = true;
@@ -1864,6 +1865,11 @@ void Timeline::initializePreview()
     if (m_timelinePreview) {
         // Update parameters
         if (!m_timelinePreview->loadParams()) {
+            if (m_usePreview) {
+                // Disconnect preview track
+                m_timelinePreview->disconnectTrack();
+                m_usePreview = false;
+            }
             delete m_timelinePreview;
             m_timelinePreview = NULL;
         }
@@ -1880,21 +1886,13 @@ void Timeline::initializePreview()
     if (previewRender) {
         previewRender->setEnabled(m_timelinePreview != NULL);
     }
-    /*if (m_timelinePreview) {
-        if (!m_hasOverlayTrack) {
-            // Create overlay track
-            Mlt::Playlist overlay(*m_tractor->profile());
-            int trackIndex = tracksCount();
-            m_tractor->lock();
-            m_tractor->insert_track(overlay, trackIndex);
-            m_tractor->unlock();
-            m_hasOverlayTrack = true;
-        }
-    }*/
 }
 
 void Timeline::startPreviewRender()
 {
+    // Timeline preview stuff
+    if (!m_timelinePreview)
+        initializePreview();
     if (m_timelinePreview) {
         if (!m_usePreview) {
             m_timelinePreview->buildPreviewTrack();

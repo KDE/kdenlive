@@ -108,7 +108,7 @@ void ProgressButton::paintEvent(QPaintEvent *event)
         painter.setRenderHint(QPainter::Antialiasing, true);
         QRect rect(3, (height() - m_iconSize) / 2, m_iconSize, m_iconSize);
         // draw remaining time
-        if (m_remainingTime.isEmpty()) {
+        if (m_remainingTime.isEmpty() && m_progress >= 0) {
             // We just started task, no time estimation yet, display starting status
             if (m_defaultAction) {
                 painter.drawPixmap(rect.adjusted(4, 0, -4, -8), m_defaultAction->icon().pixmap(m_iconSize - 8, m_iconSize - 8));

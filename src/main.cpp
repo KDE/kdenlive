@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
     app.setApplicationDisplayName(aboutData.displayName());
     app.setOrganizationDomain(aboutData.organizationDomain());
     app.setApplicationVersion(aboutData.version());
-    
+
     // Create command line parser with options
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);

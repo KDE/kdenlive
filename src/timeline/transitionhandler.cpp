@@ -26,7 +26,7 @@ TransitionHandler::TransitionHandler(Mlt::Tractor *tractor) :
 {
 }
 
-bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh)
+bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)
 {
     if (in >= out) return false;
     double fps = m_tractor->get_fps();
@@ -38,9 +38,6 @@ bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, Gen
     if (out != GenTime())
         transition.set_in_and_out((int) in.frames(fps), (int) out.frames(fps) - 1);
 
-    int position = mlt_producer_position(m_tractor->get_producer());
-
-    if (do_refresh && ((position < in.frames(fps)) || (position > out.frames(fps)))) do_refresh = false;
     QMap<QString, QString>::Iterator it;
     QString key;
     if (xml.attribute(QStringLiteral("automatic")) == QLatin1String("1")) transition.set("automatic", 1);
@@ -61,7 +58,6 @@ bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, Gen
     plantTransition(field.data(), transition, a_track, b_track);
     // field->plant_transition(*transition, a_track, b_track);
     m_tractor->unlock();
-    if (do_refresh) emit refresh();
     return true;
 }
 
@@ -217,11 +213,10 @@ void TransitionHandler::updateTransition(QString oldTag, QString tag, int a_trac
     else {
         ////qDebug()<<"// DELETING TRANS: "<<a_track<<"-"<<b_track;
         deleteTransition(oldTag, a_track, b_track, in, out, xml, false);
-        addTransition(tag, a_track, b_track, in, out, xml, false);
+        addTransition(tag, a_track, b_track, in, out, xml);
     }
     double fps = m_tractor->get_fps();
     int position = mlt_producer_position(m_tractor->get_producer());
-    if (position >= in.frames(fps) && position <= out.frames(fps)) emit refresh();
 }
 
 void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)
@@ -355,15 +350,6 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
     int old_in = (int)oldIn.frames(fps);
     int old_out = (int)oldOut.frames(fps) - 1;
 
-    bool doRefresh = true;
-    // Check if clip is visible in monitor
-    int position = mlt_producer_position(m_tractor->get_producer());
-    int diff = old_out - position;
-    if (diff < 0 || diff > old_out - old_in) doRefresh = false;
-    if (doRefresh) {
-        diff = new_out - position;
-        if (diff < 0 || diff > new_out - new_in) doRefresh = false;
-    }
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
@@ -399,7 +385,6 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
         resource = mlt_properties_get(properties, "mlt_service");
     }
     field->unlock();
-    if (doRefresh) refresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
     return found;
 }

@@ -23,9 +23,12 @@
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 
+#include <KLocalizedString>
 #include <QtConcurrent>
 #include <QStandardPaths>
 #include <QProcess>
+
+
 
 PreviewManager::PreviewManager(KdenliveDoc *doc, CustomRuler *ruler, Mlt::Tractor *tractor) : QObject()
     , m_doc(doc)
@@ -43,43 +46,50 @@ PreviewManager::~PreviewManager()
 {
     if (m_initialized) {
         abortRendering();
-        /*if (m_undoDir.dirName() == QLatin1String("undo"))
+        if (m_undoDir.dirName() == QLatin1String("undo"))
             m_undoDir.removeRecursively();
-        if (m_doc->url().isEmpty() || m_cacheDir.entryList(QDir::Files).count() == 0) {
+        if (m_doc->url().isEmpty() || m_cacheDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot).count() == 0) {
             if (m_cacheDir.dirName() == m_doc->getDocumentProperty(QStringLiteral("documentid")))
                 m_cacheDir.removeRecursively();
-        }*/
+        }
     }
     delete m_previewTrack;
 }
 
 bool PreviewManager::initialize()
 {
-    QString documentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    m_initialized = true;
-    if (documentId.isEmpty() || documentId.toLong() == 0) {
+    // Make sure our document id does not contain .. tricks
+    QString documentId = QDir::cleanPath(m_doc->getDocumentProperty(QStringLiteral("documentid")));
+    bool ok;
+    documentId.toLong(&ok);
+    if (!ok || documentId.isEmpty()) {
         // Something is wrong, documentId should be a number (ms since epoch), abort
+        m_doc->displayMessage(i18n("Wrong document ID, cannot create temporary folder"), ErrorMessage);
         return false;
     }
-    QString cacheDir = m_doc->getDocumentProperty(QStringLiteral("cachedir"));
-    if (!cacheDir.isEmpty() && QFile::exists(cacheDir)) {
-        m_cacheDir = QDir(cacheDir);
-    } else {
-        m_cacheDir = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-        m_cacheDir.mkdir(documentId);
-        if (!m_cacheDir.cd(documentId)) {
-            return false;
-        }
+    QString kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    m_cacheDir = QDir(kdenliveCacheDir);
+    m_cacheDir.mkpath(documentId);
+    if (!m_cacheDir.cd(documentId)) {
+        m_doc->displayMessage(i18n("Cannot create folder %1", m_cacheDir.absoluteFilePath(documentId)), ErrorMessage);
+        return false;
     }
-    if (m_cacheDir.dirName() != documentId || (!m_cacheDir.exists("undo") && !m_cacheDir.mkdir("undo"))) {
-        // TODO: cannot create undo folder, abort
+    if (kdenliveCacheDir.isEmpty() || m_cacheDir.dirName() != documentId || m_cacheDir == QDir() || (!m_cacheDir.exists("undo") && !m_cacheDir.mkdir("undo"))) {
+        m_doc->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absoluteFilePath(documentId)), ErrorMessage);
         return false;
     }
     if (!loadParams()) {
+        m_doc->displayMessage(i18n("Invalid timeline preview parameters"), ErrorMessage);
         return false;
     }
-    m_doc->setDocumentProperty(QStringLiteral("cachedir"), m_cacheDir.absolutePath());
     m_undoDir = QDir(m_cacheDir.absoluteFilePath("undo"));
+
+    // Make sure our cache dirs are inside the temporary folder
+    if (!m_cacheDir.makeAbsolute() || !m_undoDir.makeAbsolute() || !m_cacheDir.absolutePath().startsWith(kdenliveCacheDir) || !m_undoDir.absolutePath().startsWith(kdenliveCacheDir)) {
+        m_doc->displayMessage(i18n("Something is wrong with cache folders"), ErrorMessage);
+        return false;
+    }
+
     connect(this, &PreviewManager::cleanupOldPreviews, this, &PreviewManager::doCleanupOldPreviews);
     connect(m_doc, &KdenliveDoc::removeInvalidUndo, this, &PreviewManager::slotRemoveInvalidUndo, Qt::DirectConnection);
     m_previewTimer.setSingleShot(true);
@@ -97,12 +107,8 @@ bool PreviewManager::buildPreviewTrack()
         return false;
     // Create overlay track
     m_previewTrack = new Mlt::Playlist(*m_tractor->profile());
-    int trackIndex = m_tractor->count();
     m_tractor->lock();
-    m_tractor->insert_track(*m_previewTrack, trackIndex);
-    Mlt::Producer *tk = m_tractor->track(trackIndex);
-    tk->set("hide", 2);
-    delete tk;
+    reconnectTrack();
     m_tractor->unlock();
     return true;
 }
@@ -115,14 +121,24 @@ const QDir PreviewManager::getCacheDir() const
 void PreviewManager::reconnectTrack()
 {
     if (m_previewTrack) {
-        m_tractor->insert_track(*m_previewTrack, m_tractor->count());
+        int trackIndex = m_tractor->count();
+        m_tractor->insert_track(*m_previewTrack, trackIndex);
+        Mlt::Producer *tk = m_tractor->track(trackIndex);
+        tk->set("hide", 2);
+        tk->set("id", "timeline_preview");
+        delete tk;
     }
 }
 
 void PreviewManager::disconnectTrack()
 {
     if (m_previewTrack) {
-        m_tractor->remove_track(m_tractor->count() - 1);
+        int ix = m_tractor->count() - 1;
+        Mlt::Producer *prod = m_tractor->track(ix);
+        if (strcmp(prod->get("id"), "timeline_preview") == 0) {
+            m_tractor->remove_track(ix);
+        }
+        delete prod;
     }
 }
 
@@ -140,12 +156,13 @@ bool PreviewManager::loadParams()
         return false;
     }
     m_consumerParams << "an=1";
+    if (KdenliveSettings::gpu_accel())
+        m_consumerParams << "glsl.=1";
     return true;
 }
 
 void PreviewManager::invalidatePreviews(QList <int> chunks)
 {
-    // We are not at the bottom of undo stack, chunks have already been archived previously
     QMutexLocker lock(&m_previewMutex);
     bool timer = false;
     if (m_previewTimer.isActive()) {
@@ -222,15 +239,26 @@ void PreviewManager::doCleanupOldPreviews()
     if (m_undoDir.dirName() != QLatin1String("undo"))
         return;
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    qSort(dirs);
-    /*
+
+    // Use QCollator to do a natural sorting so that 10 is after 2
+    QCollator collator;
+    collator.setNumericMode(true);
+    std::sort(
+    dirs.begin(),
+    dirs.end(),
+    [&collator](const QString &file1, const QString &file2)
+    {
+        return collator.compare(file1, file2) < 0;
+    });
+    bool ok;
     while (dirs.count() > 5) {
-        QString dir = dirs.takeFirst();
         QDir tmp = m_undoDir;
-        if (tmp.cd(dir)) {
+        QString dirName = dirs.takeFirst();
+        dirName.toInt(&ok);
+        if (ok && tmp.cd(dirName)) {
             tmp.removeRecursively();
         }
-    }*/
+    }
 }
 
 void PreviewManager::addPreviewRange(bool add)
@@ -254,9 +282,22 @@ void PreviewManager::addPreviewRange(bool add)
             m_previewTimer.start();
     } else {
         // Remove processed chunks
+        bool isRendering = m_previewThread.isRunning();
+        m_previewGatherTimer.stop();
+        abortPreview();
+        m_tractor->lock();
         foreach(int ix, toProcess) {
+            int trackIx = m_previewTrack->get_clip_index_at(ix);
+            if (!m_previewTrack->is_blank(trackIx)) {
+                Mlt::Producer *prod = m_previewTrack->replace_with_blank(trackIx);
+                delete prod;
+            }
             m_cacheDir.remove(QString("%1.%2").arg(ix).arg(m_extension));
         }
+        m_previewTrack->consolidate_blanks();
+        m_tractor->unlock();
+        if (isRendering || KdenliveSettings::autopreview())
+            m_previewTimer.start();
     }
 }
 
@@ -363,16 +404,15 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
         return;
     }
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    qSort(dirs);
-    /*
+    bool ok;
     foreach(const QString dir, dirs) {
-        if (dir.toInt() >= ix) {
+        if (dir.toInt(&ok) >= ix && ok == true) {
             QDir tmp = m_undoDir;
             if (tmp.cd(dir)) {
                 tmp.removeRecursively();
             }
         }
-    }*/
+    }
 }
 
 void PreviewManager::invalidatePreview(int startFrame, int endFrame)
@@ -425,6 +465,10 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
 {
     if (file.isEmpty()) {
         m_doc->previewProgress(progress);
+        if (progress < 0) {
+            // Error
+            m_doc->displayMessage(i18n("Preview rendering failed, check your parameters"), ErrorMessage);
+        }
         return;
     }
     m_tractor->lock();

@@ -1559,7 +1559,7 @@ void CustomTrackView::editItemDuration()
                 clipInfo.startPos = d->startPos();
                 clipInfo.endPos = clipInfo.startPos + d->duration();
                 clipInfo.track = item->track();
-                MoveTransitionCommand *command = new MoveTransitionCommand(this, startInfo, clipInfo, true);
+                MoveTransitionCommand *command = new MoveTransitionCommand(this, startInfo, clipInfo, true, true);
                 updateTrackDuration(clipInfo.track, command);
                 m_commandStack->push(command);
             } else {
@@ -2762,7 +2762,7 @@ Transition *CustomTrackView::cutTransition(const ItemInfo &info, const GenTime &
         if (execute) {
             success = m_timeline->transitionHandler->moveTransition(item->transitionTag(), info.track, info.track, item->transitionEndTrack(), info.startPos, info.endPos, info.startPos, cutTime);
             if (success) {
-                success = m_timeline->transitionHandler->addTransition(item->transitionTag(), item->transitionEndTrack(), info.track, cutTime, info.endPos, item->toXML(), false);
+                success = m_timeline->transitionHandler->addTransition(item->transitionTag(), item->transitionEndTrack(), info.track, cutTime, info.endPos, item->toXML());
             }
         }
         int cutPos = (int) cutTime.frames(m_document->fps());
@@ -2939,8 +2939,10 @@ void CustomTrackView::addTransition(const ItemInfo &transitionInfo, int endTrack
     connect(tr, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
     tr->setPos(transitionInfo.startPos.frames(m_document->fps()), getPositionFromTrack(transitionInfo.track) + tr->itemOffset() + 1);
     ////qDebug() << "---- ADDING transition " << params.attribute("value");
-    if (m_timeline->transitionHandler->addTransition(tr->transitionTag(), endTrack, transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML(), refresh)) {
+    if (m_timeline->transitionHandler->addTransition(tr->transitionTag(), endTrack, transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML())) {
         scene()->addItem(tr);
+        if (refresh)
+            monitorRefresh(transitionInfo, true);
     } else {
         emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
         delete tr;
@@ -2959,7 +2961,8 @@ void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTr
         m_dragItem->setMainSelectedClip(false);
         m_dragItem = NULL;
     }
-
+    if (refresh)
+        monitorRefresh(transitionInfo, true);
     // animate item deletion
     item->closeAnimation();
     emit transitionItemSelected(NULL);
@@ -3006,6 +3009,7 @@ void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDom
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(info.track), p, true);
     }
+    monitorRefresh(item->info(), true);
 }
 
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
@@ -3467,7 +3471,7 @@ void CustomTrackView::adjustTimelineTransitions(TimelineMode::EditMode mode, Tra
                     ItemInfo newPos = firstPos;
                     firstPos.endPos = item->startPos();
                     newPos.startPos = item->endPos();
-                    new MoveTransitionCommand(this, tr->info(), firstPos, true, command);
+                    new MoveTransitionCommand(this, tr->info(), firstPos, true, false, command);
                     if (tr->endPos() > info.endPos) {
                         // clone transition
                         new AddTransitionCommand(this, newPos, tr->transitionEndTrack(), tr->toXML(), false, true, command);
@@ -3476,7 +3480,7 @@ void CustomTrackView::adjustTimelineTransitions(TimelineMode::EditMode mode, Tra
                     // just resize
                     ItemInfo firstPos = tr->info();
                     firstPos.startPos = item->endPos();
-                    new MoveTransitionCommand(this, tr->info(), firstPos, true, command);
+                    new MoveTransitionCommand(this, tr->info(), firstPos, true, false, command);
                 } else {
                     // remove transition
                     new AddTransitionCommand(this, tr->info(), tr->transitionEndTrack(), tr->toXML(), true, true, command);
@@ -4427,7 +4431,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                     m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                                     new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                                 }
-                                new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
+                                new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, moveCommand);
                                 if (moveStartTrans) {
                                     // re-add transition in correct place
                                     int transTrack = startTransition->transitionEndTrack();
@@ -4454,7 +4458,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                             m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
                             new EditTransitionCommand(this, startTransition->track(), startTransition->startPos(), old, xml, false, moveCommand);
                         }
-                        new MoveTransitionCommand(this, startTrInfo, newStartTrInfo, true, moveCommand);
+                        new MoveTransitionCommand(this, startTrInfo, newStartTrInfo, true, false, moveCommand);
                     }
 
                     // Also move automatic transitions (on upper track)
@@ -4478,7 +4482,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                     m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                                     new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                                 }
-                                new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
+                                new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, moveCommand);
                             }
                         }
                     }
@@ -4506,7 +4510,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                                         m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                                         new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                                     }
-                                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
+                                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, moveCommand);
                                 }
                             }
                         }
@@ -4540,7 +4544,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move transition"));
                     adjustTimelineTransitions(m_scene->editMode(), transition, moveCommand);
-                    new MoveTransitionCommand(this, m_dragItemInfo, info, false, moveCommand);
+                    new MoveTransitionCommand(this, m_dragItemInfo, info, false, true, moveCommand);
                     updateTrackDuration(info.track, moveCommand);
                     if (m_dragItemInfo.track != info.track)
                         updateTrackDuration(m_dragItemInfo.track, moveCommand);
@@ -4662,7 +4666,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 if (cp->hasVisibleVideo()) {
                     monitorRefresh(range, true);
                 }
-            } else monitorRefresh(range, true);
+            } else monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << m_dragItem->info(), true);
         }
     } else if (m_moveOpMode == ResizeEnd && m_dragItem) {
         // resize end
@@ -4717,7 +4721,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     if (cp->hasVisibleVideo()) {
                         monitorRefresh(range, true);
                     }
-                } else monitorRefresh(range, true);
+                } else monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << m_dragItem->info(), true);
             }
         }
     } else if (m_moveOpMode == FadeIn && m_dragItem) {
@@ -5842,7 +5846,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                         m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                         new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
                     }
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, command);
                 }
             }
             // Check if there is an automatic transition on that clip (upper track)
@@ -5861,7 +5865,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                         m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                         new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
                     }
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, command);
                 }
             }
 
@@ -5896,7 +5900,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                 new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
             }
             updateTransitionWidget(transition, info);
-            new MoveTransitionCommand(this, oldInfo, info, false, command);
+            new MoveTransitionCommand(this, oldInfo, info, false, true, command);
         }
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup) {
@@ -5955,7 +5959,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                       m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                       new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, command);
                   }
-                  new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
+                  new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, command);
                 }
             }
 
@@ -5975,7 +5979,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                         m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                         new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, command);
                     }
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, command);
+                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, command);
                 }
 
             }
@@ -6014,7 +6018,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                 new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
             }
             updateTransitionWidget(transition, info);
-            new MoveTransitionCommand(this, oldInfo, info, false, command);
+            new MoveTransitionCommand(this, oldInfo, info, false, true, command);
         }
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup)
@@ -8463,7 +8467,6 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
 {
     Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
     Mlt::Producer *videoProd = m_document->renderer()->getBinVideoProducer(id);
-
     QList <Track::SlowmoInfo> allSlows;
     for (int i = 1; i < m_timeline->tracksCount(); i++) {
 	allSlows << m_timeline->track(i)->getSlowmotionInfos(id);
@@ -8490,8 +8493,9 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
         slowProd->set("id", producerid.toUtf8().constData());
 	newSlowMos.insert(info.toString(locale), slowProd);
     }
+    QList <ItemInfo> toUpdate;
     for (int i = 1; i < m_timeline->tracksCount(); i++) {
-        m_timeline->track(i)->replaceAll(id,  prod, videoProd, newSlowMos);
+        toUpdate << m_timeline->track(i)->replaceAll(id,  prod, videoProd, newSlowMos);
     }
 
     // update slowmotion storage
@@ -8501,6 +8505,8 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
 	Mlt::Producer *sprod = i.value();
 	m_document->renderer()->storeSlowmotionProducer(i.key() + url, sprod, true);
     }
+    if (!toUpdate.isEmpty())
+        monitorRefresh(toUpdate, true);
     m_timeline->refreshTractor();
 }
 

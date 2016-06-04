@@ -138,8 +138,8 @@ public:
      * @param original is the original replacement clip
      * @param videoOnlyProducer is the video only (without sound) replacement clip
      * @param newSlowMos the slowmotion producers required for replacement
-     * @return true if success */
-    bool replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, QMap <QString, Mlt::Producer *> newSlowMos);
+     * @return list of in/out that were replaced */
+    QList <ItemInfo> replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, QMap <QString, Mlt::Producer *> newSlowMos);
     void updateEffects(const QString &id, Mlt::Producer *original);
     /** @brief replace an instance of a clip with another resource
      * @param t is the clip time in playlist
