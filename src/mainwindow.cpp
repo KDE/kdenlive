@@ -1530,13 +1530,12 @@ void MainWindow::slotEditProjectSettings()
 
     QPointer<ProjectSettings> w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectFolder().path(), true, !project->isModified(), this);
     connect(w, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
+    connect(w, SIGNAL(disablePreview()), project, SLOT(invalidateRange()));
     connect(w, SIGNAL(refreshProfiles()), this, SLOT(slotRefreshProfiles()));
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         project->setProjectFolder(w->selectedFolder());
-        if (w->deletedPreviews)
-            pCore->projectManager()->currentTimeline()->invalidateRange(ItemInfo());
         pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
         bool modified = false;
         if (m_recMonitor) {

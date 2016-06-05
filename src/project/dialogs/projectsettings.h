@@ -34,7 +34,6 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
 
 public:
     ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString& projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = 0);
-    bool deletedPreviews;
     QString selectedProfile() const;
     QUrl selectedFolder() const;
     QPoint tracks() const;
@@ -99,6 +98,7 @@ private:
 signals:
     /** @brief User deleted proxies, so disable them in project. */
     void disableProxies();
+    void disablePreview();
     void refreshProfiles();
 };
 
