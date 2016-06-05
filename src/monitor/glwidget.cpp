@@ -1444,7 +1444,6 @@ void GLWidget::setAudioThumb(int channels, QVariantList audioCache)
                 double value;
                 double scale = (double) width() / (audioLevelCount / channels);
                 if (scale < 1) {
-                    // 
                     painter.setPen(QColor(80, 80, 150, 200));
                     for (int i = 0; i < img.width(); i++) {
                         int framePos = i / scale;

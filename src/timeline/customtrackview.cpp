@@ -7111,7 +7111,7 @@ void CustomTrackView::setOutPoint()
 void CustomTrackView::slotUpdateAllThumbs()
 {
     if (!isEnabled()) return;
-    QList<QGraphicsItem *> itemList = items();
+    QList<QGraphicsItem *> itemList = scene()->items();
     //if (itemList.isEmpty()) return;
     ClipItem *item;
     bool ok = false;
@@ -7153,21 +7153,19 @@ void CustomTrackView::slotUpdateAllThumbs()
 
 void CustomTrackView::saveThumbnails()
 {
-    QList<QGraphicsItem *> itemList = items();
+    QList<QGraphicsItem *> itemList = scene()->items();
     ClipItem *item;
     bool ok = false;
     QDir thumbsFolder = m_document->getCacheDir(CacheThumbs, &ok);
-    QString thumbBase = m_document->projectFolder().path() + "/thumbs/";
     for (int i = 0; i < itemList.count(); ++i) {
         if (itemList.at(i)->type() == AVWidget) {
             item = static_cast <ClipItem *>(itemList.at(i));
-            if (item->clipType() != Color) {
+            if (item->clipType() != Color && item->clipType() != Audio) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == Image || item->clipType() == Text || item->clipType() == Audio) {
                     QString thumb = thumbsFolder.absoluteFilePath(item->getBinHash() + "#0.png");
                     if (!QFile::exists(thumb)) {
-                        QPixmap pix(item->startThumb());
-                        pix.save(thumb);
+                        item->startThumb().save(thumb);
                     }
                 } else {
                     QString startThumb = thumbsFolder.absoluteFilePath(item->getBinHash() + '#');
@@ -7175,12 +7173,10 @@ void CustomTrackView::saveThumbnails()
                     startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
                     endThumb.append(QString::number((int) (item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
                     if (!QFile::exists(startThumb)) {
-                        QPixmap pix(item->startThumb());
-                        pix.save(startThumb);
+                        item->startThumb().save(startThumb);
                     }
                     if (!QFile::exists(endThumb)) {
-                        QPixmap pix(item->endThumb());
-                        pix.save(endThumb);
+                        item->endThumb().save(endThumb);
                     }
                 }
             }

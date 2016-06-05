@@ -960,6 +960,7 @@ void ProjectClip::discardAudioThumb()
     if (!audioThumbPath.isEmpty())
         QFile::remove(audioThumbPath);
     audioFrameCache.clear();
+    qDebug()<<"////////////////////  DISCARD AUIIO THUMBNS";
     m_controller->audioThumbCreated = false;
     m_abortAudioThumb = false;
 }

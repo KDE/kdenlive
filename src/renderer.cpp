@@ -549,7 +549,9 @@ const QString Render::sceneList()
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.set("store", "kdenlive");
-    xmlConsumer.set("no_meta", 1);
+    // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
+    // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
+    //xmlConsumer.set("no_meta", 1);
     Mlt::Producer prod(m_mltProducer->get_producer());
     if (!prod.is_valid()) return QString();
     xmlConsumer.connect(prod);

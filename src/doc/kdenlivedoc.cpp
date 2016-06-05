@@ -298,7 +298,6 @@ void KdenliveDoc::slotSetDocumentNotes(const QString &notes)
 
 KdenliveDoc::~KdenliveDoc()
 {
-    qDebug()<<"** * ** *CLOSING DOC: "<<getDocumentProperty(QStringLiteral("documentid"))<<", URL: "<<m_url;
     if (m_url.isEmpty()) {
         // Document was never saved, delete cache folder
         QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
@@ -690,11 +689,11 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
         return false;
     }
-    
+
     // Backup current version
     backupLastSavedVersion(path);
     QFile file(path);
-    
+
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qWarning() << "//////  ERROR writing to file: " << path;
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
