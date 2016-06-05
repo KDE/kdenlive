@@ -549,6 +549,7 @@ const QString Render::sceneList()
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.set("store", "kdenlive");
+    xmlConsumer.set("no_meta", 1);
     Mlt::Producer prod(m_mltProducer->get_producer());
     if (!prod.is_valid()) return QString();
     xmlConsumer.connect(prod);

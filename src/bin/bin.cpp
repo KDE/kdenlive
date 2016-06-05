@@ -3323,7 +3323,7 @@ void Bin::cachePixmap(const QString &path, QImage img)
     }
 }
 
-QDir Bin::getCacheDir(CacheType type, bool *ok)
+QDir Bin::getCacheDir(CacheType type, bool *ok) const
 {
     return m_doc->getCacheDir(type, ok);
 }

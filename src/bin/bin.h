@@ -522,7 +522,7 @@ public:
     QImage findCachedPixmap(const QString &path);
     void cachePixmap(const QString &path, QImage img);
     /** @brief Returns a document's cache dir. ok is set to false if folder does not exist */
-    QDir getCacheDir(CacheType type, bool *ok);
+    QDir getCacheDir(CacheType type, bool *ok) const;
 
 private slots:
     void slotAddClip();
