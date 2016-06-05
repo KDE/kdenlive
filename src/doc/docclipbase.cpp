@@ -792,7 +792,6 @@ void DocClipBase::setProperty(const QString &key, const QString &value)
     m_properties.insert(key, value);
     if (key == "resource") {
         getFileHash(value);
-        if (m_thumbProd) m_thumbProd->updateClipUrl(QUrl::fromLocalFile(value), m_properties.value("kdenlive:file_hash"));
         //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
     } else if (key == "out") {
         setDuration(GenTime(value.toInt() + 1, KdenliveSettings::project_fps()));

@@ -158,7 +158,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
         // locale conversion might need to be redone
         initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, NULL));
     }
-
     *openBackup = false;
     if (url.isValid()) {
         QFile file(url.toLocalFile());
@@ -254,6 +253,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
             }
         }
     }
+    initCacheDirs();
 
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
@@ -285,8 +285,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     // Make sure that the necessary folders exist
     QDir dir(m_projectFolder.path());
     dir.mkdir(QStringLiteral("titles"));
-    dir.mkdir(QStringLiteral("thumbs"));
-    dir.mkdir(QStringLiteral("proxy"));
     dir.mkdir(QStringLiteral(".backup"));
 
     updateProjectFolderPlacesEntry();
@@ -300,6 +298,20 @@ void KdenliveDoc::slotSetDocumentNotes(const QString &notes)
 
 KdenliveDoc::~KdenliveDoc()
 {
+    qDebug()<<"** * ** *CLOSING DOC: "<<getDocumentProperty(QStringLiteral("documentid"))<<", URL: "<<m_url;
+    if (m_url.isEmpty()) {
+        // Document was never saved, delete cache folder
+        QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+        bool ok;
+        documentId.toLong(&ok);
+        if (ok && !documentId.isEmpty()) {
+            QString kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+            QDir cacheDir(kdenliveCacheDir + "/" + documentId);
+            if (cacheDir.exists() && cacheDir.dirName() == documentId) {
+                cacheDir.removeRecursively();
+            }
+        }
+    }
     delete m_commandStack;
     //qDebug() << "// DEL CLP MAN";
     delete m_clipManager;
@@ -320,7 +332,11 @@ int KdenliveDoc::setSceneList()
         return -1;
     }
     pCore->bin()->isLoading = false;
-    pCore->binController()->checkThumbnails(projectFolder().path() + "/thumbs/");
+    
+    bool ok = false;
+    QDir thumbsFolder = getCacheDir(CacheThumbs, &ok);
+    if (ok)
+        pCore->binController()->checkThumbnails(thumbsFolder.absolutePath());
     m_documentProperties.remove(QStringLiteral("position"));
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
     return 0;
@@ -726,8 +742,6 @@ void KdenliveDoc::setProjectFolder(QUrl url)
         dir.mkpath(dir.absolutePath());
     }
     dir.mkdir(QStringLiteral("titles"));
-    dir.mkdir(QStringLiteral("thumbs"));
-    dir.mkdir(QStringLiteral("proxy"));
     dir.mkdir(QStringLiteral(".backup"));
     if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
@@ -748,6 +762,7 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
             KIO::Job *job = KIO::copy(oldUrl, newUrl);
             if (job->exec()) clip->setProperty(QStringLiteral("resource"), newUrl.path());
         }
+        /*
         QString hash = clip->getClipHash();
         QUrl oldVideoThumbUrl = QUrl::fromLocalFile(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".png");
         if (QFile::exists(oldVideoThumbUrl.path())) {
@@ -761,12 +776,13 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
         if (QFile::exists(oldVideoProxyUrl.path())) {
             cacheUrls << oldVideoProxyUrl;
         }
+        */
     }
-    if (!cacheUrls.isEmpty()) {
+    /*if (!cacheUrls.isEmpty()) {
         KIO::Job *job = KIO::copy(cacheUrls, QUrl::fromLocalFile(url.path() + QDir::separator() + "thumbs/"));
         KJobWidgets::setWindow(job, QApplication::activeWindow());
         job->exec();
-    }
+    }*/
 }
 
 const QString &KdenliveDoc::profilePath() const
@@ -1111,7 +1127,10 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
 
 void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
 {
-    img.save(QDir::cleanPath(m_projectFolder.path() +QDir::separator() + "thumbs/" + fileId + ".png"));
+    bool ok = false;
+    QDir dir = getCacheDir(CacheThumbs, &ok);
+    if (ok)
+        img.save(dir.absoluteFilePath(fileId + ".png"));
 }
 
 void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
@@ -1386,9 +1405,11 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
     else command->setText(i18np("Remove proxy clip", "Remove proxy clips", clipList.count()));
 
     // Make sure the proxy folder exists
-    QString proxydir = projectFolder().path() + QDir::separator() + "proxy/";
-    QDir dir(projectFolder().path());
-    dir.mkdir(QStringLiteral("proxy"));
+    bool ok = false;
+    QDir dir = getCacheDir(CacheProxy, &ok);
+    if (!ok) {
+        // Error
+    }
 
     // Prepare updated properties
     QMap <QString, QString> newProps;
@@ -1408,7 +1429,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
 
             if (doProxy) {
                 newProps.clear();
-                QString path = proxydir + item->hash() + '.' + (t == Image ? QStringLiteral("png") : getDocumentProperty(QStringLiteral("proxyextension")));
+                QString path = dir.absoluteFilePath(item->hash() + '.' + (t == Image ? QStringLiteral("png") : getDocumentProperty(QStringLiteral("proxyextension"))));
                 // insert required duration for proxy
                 newProps.insert(QStringLiteral("proxy_out"), item->getProducerProperty(QStringLiteral("out")));
                 newProps.insert(QStringLiteral("kdenlive:proxy"), path);
@@ -1706,3 +1727,53 @@ void KdenliveDoc::saveMltPlaylist(const QString fileName)
     m_render->preparePreviewRendering(fileName);
 }
 
+void KdenliveDoc::initCacheDirs()
+{
+    bool ok = false;
+    QString kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+    documentId.toLong(&ok);
+    if (!ok || documentId.isEmpty() || kdenliveCacheDir.isEmpty()) {
+        return;
+    }
+    QString basePath = kdenliveCacheDir + "/" + documentId;
+    QDir dir(basePath);
+    dir.mkpath(".");
+    dir.mkdir("preview");
+    dir.mkdir("proxy");
+    dir.mkdir("audiothumbs");
+    dir.mkdir("videothumbs");
+}
+
+QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
+{
+    QString kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+    documentId.toLong(ok);
+    if (!*ok || documentId.isEmpty() || kdenliveCacheDir.isEmpty()) {
+        *ok = false;
+        return QDir(kdenliveCacheDir);
+    }
+    QString basePath = kdenliveCacheDir + "/" + documentId;
+    switch (type) {
+        case CachePreview:
+            basePath.append(QStringLiteral("/preview"));
+            break;
+        case CacheProxy:
+            basePath.append(QStringLiteral("/proxy"));
+            break;
+        case CacheAudio:
+            basePath.append(QStringLiteral("/audiothumbs"));
+            break;
+        case CacheThumbs:
+            basePath.append(QStringLiteral("/videothumbs"));
+            break;
+        default:
+            break;
+    }
+    QDir dir(basePath);
+    if (!dir.exists()) {
+        *ok = false;
+    }
+    return dir;
+}

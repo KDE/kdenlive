@@ -464,14 +464,14 @@
        <string>Project Files</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="3" column="3">
-        <widget class="QLabel" name="thumbs_size">
-         <property name="text">
-          <string/>
+       <item row="5" column="0" colspan="5">
+        <widget class="QListWidget" name="fonts_list">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="5">
+       <item row="3" column="0" colspan="5">
         <widget class="QTreeWidget" name="files_list">
          <property name="alternatingRowColors">
           <bool>true</bool>
@@ -544,116 +544,32 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Thumbnails cache:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QLabel" name="thumbs_count">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="4">
-        <widget class="QPushButton" name="clear_cache">
-         <property name="text">
-          <string>Clear cache</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>Proxy clips</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QLabel" name="proxy_count">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="3">
-        <widget class="QLabel" name="proxy_size">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3" colspan="2">
+       <item row="2" column="3" colspan="2">
         <widget class="KTreeWidgetSearchLine" name="list_search"/>
        </item>
-       <item row="4" column="4">
-        <widget class="QPushButton" name="delete_proxies">
-         <property name="text">
-          <string>Delete proxies</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="label_13">
          <property name="text">
           <string>Project files</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="5">
-        <widget class="QListWidget" name="fonts_list">
-         <property name="alternatingRowColors">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="label_fonts">
          <property name="text">
           <string>Fonts</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="2">
+       <item row="6" column="0" colspan="2">
         <widget class="QPushButton" name="button_export">
          <property name="text">
           <string>Plain text export</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
-        <widget class="QLabel" name="files_count">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>Timeline Preview:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3">
-        <widget class="QLabel" name="preview_size">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="4">
-        <widget class="QPushButton" name="delete_preview">
-         <property name="text">
-          <string>Delete Previews</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="2">
-        <widget class="QLabel" name="preview_count">
+        <widget class="QLabel" name="files_count">
          <property name="text">
           <string/>
          </property>

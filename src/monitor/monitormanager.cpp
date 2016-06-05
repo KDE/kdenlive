@@ -522,3 +522,10 @@ void MonitorManager::slotSetOutPoint()
     }
 }
 
+QDir MonitorManager::getCacheFolder(CacheType type)
+{
+    bool ok = false;
+    if (m_document)
+        return m_document->getCacheDir(type, &ok);
+    return QDir();
+}

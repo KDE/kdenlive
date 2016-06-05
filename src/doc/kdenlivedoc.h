@@ -178,6 +178,10 @@ public:
     /** @brief Select most appropriate rendering profile for timeline preview based on fps / size. */
     void selectPreviewProfile();
     void displayMessage(const QString text, MessageType type = DefaultMessage, int timeOut = 0);
+    /** @brief Get a cache directory for this project. */
+    QDir getCacheDir(CacheType type, bool *ok) const;
+    /** @brief Create standard cache dirs for the project */ 
+    void initCacheDirs();
 
 private:
     QUrl m_url;

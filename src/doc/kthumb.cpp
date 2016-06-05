@@ -43,14 +43,12 @@ static QMutex m_intraMutex;
 KThumb::KThumb(ClipManager *clipManager, const QUrl &url, const QString &id, const QString &hash, QObject * parent) :
     QObject(parent),
     m_url(url),
-    m_thumbFile(),
     m_dar(1),
     m_ratio(1),
     m_producer(NULL),
     m_clipManager(clipManager),
     m_id(id)
 {
-    m_thumbFile = clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
 KThumb::~KThumb()
@@ -85,12 +83,6 @@ void KThumb::clearProducer()
 bool KThumb::hasProducer() const
 {
     return m_producer != NULL;
-}
-
-void KThumb::updateClipUrl(const QUrl &url, const QString &hash)
-{
-    m_url = url;
-    m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
 //static

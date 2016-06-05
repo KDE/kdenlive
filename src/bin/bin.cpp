@@ -1764,7 +1764,8 @@ void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile
     if (clip) {
         clip->setThumbnail(img);
         // Save thumbnail for later reuse
-        if (!fromFile) img.save(m_doc->projectFolder().path() + "/thumbs/" + clip->hash() + ".png");
+        bool ok = false;
+        if (!fromFile) img.save(m_doc->getCacheDir(CacheThumbs, &ok).absoluteFilePath(clip->hash() + ".png"));
     }
 }
 
@@ -2584,7 +2585,6 @@ void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
     ProjectClip *clip = getBinClip(id);
     if (!clip) return;
     QMapIterator<QString, QString> i(data);
-    QDir thumbsFolder(projectFolder().path() + "/thumbs/");
     QList <int> missingThumbs;
     while (i.hasNext()) {
         i.next();
@@ -3323,3 +3323,7 @@ void Bin::cachePixmap(const QString &path, QImage img)
     }
 }
 
+QDir Bin::getCacheDir(CacheType type, bool *ok)
+{
+    return m_doc->getCacheDir(type, ok);
+}

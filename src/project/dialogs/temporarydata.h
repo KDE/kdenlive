@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "definitions.h"
 
-#include <QDialog>
+#include <QWidget>
 
 class KdenliveDoc;
 class KJob;
@@ -56,7 +56,7 @@ private:
  *
  */
 
-class TemporaryData : public QDialog
+class TemporaryData : public QWidget
 {
     Q_OBJECT
 
@@ -88,6 +88,11 @@ private slots:
     void deleteAudio();
     void deleteThumbs();
     void deleteAll();
+    void openCacheFolder();
+
+signals:
+    void disableProxies();
+    void disablePreview();
 };
 
 #endif

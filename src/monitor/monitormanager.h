@@ -69,6 +69,7 @@ public:
     void lockMonitor(Kdenlive::MonitorId name, bool);
     void refreshIcons();
     void resetDisplay();
+    QDir getCacheFolder(CacheType type);
 
 public slots:
 

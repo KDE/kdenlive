@@ -59,8 +59,6 @@ private slots:
     void slotUpdateDisplay();
     void slotUpdateButton(const QString &path);
     void slotUpdateFiles(bool cacheOnly = false);
-    void slotClearCache();
-    void slotDeleteProxies();
     void slotDeleteUnused();
     /** @brief Export project data to text file. */
     void slotExportToText();
@@ -78,7 +76,6 @@ private slots:
     void slotManagePreviewProfile();
     /** @brief Open editor for metadata item. */
     void slotEditMetadata(QTreeWidgetItem *, int );
-    void slotDeletePreviews();
 
 private:
     QPushButton *m_buttonOk;
@@ -103,7 +100,6 @@ signals:
     /** @brief User deleted proxies, so disable them in project. */
     void disableProxies();
     void refreshProfiles();
-    void disablePreviews();
 };
 
 

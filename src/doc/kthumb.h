@@ -62,9 +62,6 @@ public:
     void queryIntraThumbs(const QSet <int> &missingFrames);
     void getThumb(int frame);
 
-public slots:
-    void updateClipUrl(const QUrl &url, const QString &hash);
-
 public:
     static QPixmap getImage(const QUrl &url, int width, int height = -1);
     static QPixmap getImage(const QUrl &url, int frame, int width, int height = -1);
@@ -81,7 +78,6 @@ private slots:
 
 private:
     QUrl m_url;
-    QString m_thumbFile;
     double m_dar;
     double m_ratio;
     Mlt::Producer *m_producer;

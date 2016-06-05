@@ -30,6 +30,7 @@
 #include "dialogs/encodingprofilesdialog.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/bincontroller.h"
+#include "project/dialogs/temporarydata.h"
 #include "bin/bin.h"
 
 #include <KMessageBox>
@@ -82,12 +83,10 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
-        m_previewDir = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
-        if (!m_previewDir.cd(doc->getDocumentProperty(QStringLiteral("documentid")))) {
-            preview_count->setEnabled(false);
-            preview_size->setEnabled(false);
-            delete_preview->setEnabled(false);
-        }
+        TemporaryData *cacheWidget = new TemporaryData(doc, true, this);
+        connect(cacheWidget, SIGNAL(disableProxies()), this, SIGNAL(disableProxies()));
+        connect(cacheWidget, SIGNAL(disablePreview()), this, SIGNAL(disablePreview()));
+        tabWidget->addTab(cacheWidget, i18n("Cache Data"));
     }
     else {
         currentProf = KdenliveSettings::default_profile();
@@ -210,10 +209,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     slotUpdateDisplay();
     if (doc != NULL) {
         slotUpdateFiles();
-        connect(clear_cache, SIGNAL(clicked()), this, SLOT(slotClearCache()));
         connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
-        connect(delete_proxies, SIGNAL(clicked()), this, SLOT(slotDeleteProxies()));
-        connect(delete_preview, SIGNAL(clicked()), this, SLOT(slotDeletePreviews()));
     } else tabWidget->widget(1)->setEnabled(false);
     connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(project_folder, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButton(QString)));
@@ -263,54 +259,6 @@ void ProjectSettings::slotDeleteUnused()
     */
 }
 
-void ProjectSettings::slotClearCache()
-{
-    buttonBox->setEnabled(false);
-    enable_proxy->setChecked(false);
-    emit disableProxies();
-    // Delete proxy files
-    QDir folder(project_folder->url().path());
-    folder.cd(QStringLiteral("thumbs"));
-    foreach(const QString path, m_projectThumbs) {
-        folder.remove(path);
-    }
-    buttonBox->setEnabled(true);
-    slotUpdateFiles(true);
-}
-
-void ProjectSettings::slotDeleteProxies()
-{
-    if (KMessageBox::warningContinueCancelList(this, i18n("Deleting these proxy clips will disable proxies for this project."), m_projectProxies) != KMessageBox::Continue) return;
-    buttonBox->setEnabled(false);
-    enable_proxy->setChecked(false);
-    emit disableProxies();
-    // Delete proxy files
-    QDir folder(project_folder->url().path());
-    folder.cd(QStringLiteral("proxy"));
-    foreach(const QString path, m_projectProxies) {
-        folder.remove(path);
-    }
-    buttonBox->setEnabled(true);
-    slotUpdateFiles(true);
-}
-
-void ProjectSettings::slotDeletePreviews()
-{
-    if (KMessageBox::warningContinueCancel(this, i18n("Deleting the project preview files in this folder will invalidate all timeline previews:\n%1", m_previewDir.absolutePath())) != KMessageBox::Continue) return;
-    buttonBox->setEnabled(false);
-    //TODO
-    emit disablePreviews();
-    // Delete proxy files
-    QStringList filters;
-    filters << "*." + m_previewextension;
-    QStringList previews = m_previewDir.entryList(filters, QDir::Files);
-    foreach(const QString &proxy, previews) {
-        m_previewDir.remove(proxy);
-    }
-    buttonBox->setEnabled(true);
-    slotUpdateFiles(true);
-    deletedPreviews = true;
-}
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 {
@@ -318,52 +266,6 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     QStringList hashes = pCore->binController()->getProjectHashes();
     m_projectProxies.clear();
     m_projectThumbs.clear();
-    // Check for matches in thumbs
-    qint64 totalSize = 0;
-    QDir folder(project_folder->url().path());
-    folder.cd(QStringLiteral("thumbs"));
-    QStringList thumbs = folder.entryList(QDir::Files);
-    foreach(const QString &thumb, thumbs) {
-        QString px = thumb.section('.', 0, 0).section('#', 0, 0).section('_', 0, 0);
-        if (hashes.contains(px)) {
-            m_projectThumbs << thumb;
-            QFileInfo f(folder.absoluteFilePath(thumb));
-            totalSize += f.size();
-        }
-    }
-    thumbs_count->setText(QString::number(m_projectThumbs.count()));
-    thumbs_size->setText(KIO::convertSize(totalSize));
-    clear_cache->setEnabled(!m_projectThumbs.isEmpty());
-    // Check for matches in proxies
-    totalSize = 0;
-    folder.cd(QStringLiteral("../proxy"));
-    QStringList proxies = folder.entryList(QDir::Files);
-    foreach(const QString &proxy, proxies) {
-        QString px = proxy.section('.', 0, 0);
-        if (hashes.contains(px)) {
-            m_projectProxies << proxy;
-            QFileInfo f(folder.absoluteFilePath(proxy));
-            totalSize += f.size();
-        }
-    }
-    proxy_count->setText(QString::number(m_projectProxies.count()));
-    proxy_size->setText(KIO::convertSize(totalSize));
-    delete_proxies->setEnabled(!m_projectProxies.isEmpty());
-
-    // Check for matches in timeline previews
-    totalSize = 0;
-    if (m_previewDir != QDir() && !m_previewextension.isEmpty() && preview_count->isEnabled()) {
-        QStringList filters;
-        filters << "*." + m_previewextension;
-        QStringList previews = m_previewDir.entryList(filters, QDir::Files);
-        foreach(const QString &proxy, previews) {
-            QFileInfo f(m_previewDir.absoluteFilePath(proxy));
-            totalSize += f.size();
-        }
-        preview_count->setText(QString::number(previews.count()));
-        preview_size->setText(KIO::convertSize(totalSize));
-        delete_preview->setEnabled(!previews.isEmpty());
-    }
     if (cacheOnly) return;
     QList <ClipController*> list = pCore->binController()->getControllerList();
     files_list->clear();

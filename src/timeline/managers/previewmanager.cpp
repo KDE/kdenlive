@@ -49,7 +49,7 @@ PreviewManager::~PreviewManager()
         if (m_undoDir.dirName() == QLatin1String("undo"))
             m_undoDir.removeRecursively();
         if ((m_doc->url().isEmpty() && m_cacheDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).count() == 0) || m_cacheDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot).count() == 0) {
-            if (m_cacheDir.dirName() == m_doc->getDocumentProperty(QStringLiteral("documentid")))
+            if (m_cacheDir.dirName() == QLatin1String("preview"))
                 m_cacheDir.removeRecursively();
         }
     }
@@ -67,14 +67,15 @@ bool PreviewManager::initialize()
         m_doc->displayMessage(i18n("Wrong document ID, cannot create temporary folder"), ErrorMessage);
         return false;
     }
+    qDebug()<<"* * * INIT PREVIEW CACHE: "<<documentId;
     QString kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    m_cacheDir = QDir(kdenliveCacheDir);
-    m_cacheDir.mkpath(documentId);
-    if (!m_cacheDir.cd(documentId)) {
-        m_doc->displayMessage(i18n("Cannot create folder %1", m_cacheDir.absoluteFilePath(documentId)), ErrorMessage);
+    documentId.append(QStringLiteral("/preview"));
+    m_cacheDir = QDir(kdenliveCacheDir + "/" + documentId);
+    if (!m_cacheDir.exists()) {
+        m_doc->displayMessage(i18n("Cannot create folder %1", m_cacheDir.absolutePath()), ErrorMessage);
         return false;
     }
-    if (kdenliveCacheDir.isEmpty() || m_cacheDir.dirName() != documentId || m_cacheDir == QDir() || (!m_cacheDir.exists("undo") && !m_cacheDir.mkdir("undo"))) {
+    if (kdenliveCacheDir.isEmpty() || m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() || (!m_cacheDir.exists("undo") && !m_cacheDir.mkdir("undo"))) {
         m_doc->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absoluteFilePath(documentId)), ErrorMessage);
         return false;
     }

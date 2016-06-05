@@ -164,8 +164,6 @@ public:
     /** @brief Returns the document properties with some added values from timeline. */
     QMap <QString, QString> documentProperties();
     void reloadTrack(int ix, int start = 0, int end = -1);
-    /** @brief Invalidate a preview rendering range. */
-    void invalidateRange(ItemInfo info = ItemInfo());
     /** @brief Add or remove current timeline zone to preview render zone. */
     void addPreviewRange(bool add);
     /** @brief Check if timeline preview profile changed and remove preview files if necessary. */
@@ -192,6 +190,8 @@ public slots:
     void slotMultitrackView(bool enable);
     /** @brief Stop rendering preview. */
     void stopPreviewRender();
+    /** @brief Invalidate a preview rendering range. */
+    void invalidateRange(ItemInfo info = ItemInfo());
 
 private:
     Mlt::Tractor *m_tractor;

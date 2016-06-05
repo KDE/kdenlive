@@ -160,6 +160,14 @@ enum ClipJobStatus {
     JobAborted = -5
 };
 
+enum CacheType {
+    CacheBase = 0,
+    CachePreview = 1,
+    CacheProxy = 2,
+    CacheAudio = 3,
+    CacheThumbs = 4
+};
+
 class TrackInfo {
 
 public:

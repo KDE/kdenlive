@@ -874,13 +874,14 @@ void ProjectClip::doExtractImage()
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
-    QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
+    bool ok = false;
+    QDir thumbFolder = bin()->getCacheDir(CacheThumbs, &ok);
     int max = prod->get_length();
     while (!m_requestedThumbs.isEmpty()) {
         m_thumbMutex.lock();
         int pos = m_requestedThumbs.takeFirst();
         m_thumbMutex.unlock();
-        if (thumbFolder.exists(hash() + '#' + QString::number(pos) + ".png")) {
+        if (ok && thumbFolder.exists(hash() + '#' + QString::number(pos) + ".png")) {
             emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + ".png")));
             continue;
         }
@@ -907,20 +908,23 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
     int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
-    QDir thumbFolder(bin()->projectFolder().path() + "/thumbs/");
+    bool ok = false;
+    QDir thumbFolder = bin()->getCacheDir(CacheThumbs, &ok);
     int max = prod->get_length();
     for (int i = 0; i < frames.count(); i++) {
         int pos = frames.at(i);
         QString path = thumbFolder.absoluteFilePath(hash() + "#" + QString::number(pos) + ".png");
-        QImage img(path);
-        if (!img.isNull()) {
-            for (int i = 0; i < count(); ++i) {
-                ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i));
-                if (clip && clip->zone().x() == pos) {
-                    clip->setThumbnail(img);
+        if (ok) {
+            QImage img(path);
+            if (!img.isNull()) {
+                for (int i = 0; i < count(); ++i) {
+                    ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i));
+                    if (clip && clip->zone().x() == pos) {
+                        clip->setThumbnail(img);
+                    }
                 }
+                continue;
             }
-            continue;
         }
         pos = qBound(0, pos, max - 1);
         prod->seek(pos);
@@ -967,7 +971,9 @@ const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
     QString clipHash = hash();
     if (clipHash.isEmpty()) 
         return QString();
-    QString audioPath = bin()->projectFolder().path() + "/thumbs/" + clipHash;
+    bool ok = false;
+    QDir thumbFolder = bin()->getCacheDir(CacheAudio, &ok);
+    QString audioPath = thumbFolder.absoluteFilePath(clipHash);
     if (audioStream > 0) {
         audioPath.append("_" + QString::number(audioInfo->audio_index()));
     }

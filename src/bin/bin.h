@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFuture>
 #include <QMutex>
 #include <QLineEdit>
+#include <QDir>
 
 class KdenliveDoc;
 class QVBoxLayout;
@@ -520,6 +521,8 @@ public:
     /** @brief Returns a cached thumbnail. */
     QImage findCachedPixmap(const QString &path);
     void cachePixmap(const QString &path, QImage img);
+    /** @brief Returns a document's cache dir. ok is set to false if folder does not exist */
+    QDir getCacheDir(CacheType type, bool *ok);
 
 private slots:
     void slotAddClip();

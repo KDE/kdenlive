@@ -3398,10 +3398,6 @@ void MainWindow::slotUpdateProxySettings()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
     if (m_renderWidget) m_renderWidget->updateProxyConfig(project->useProxy());
-    if (KdenliveSettings::enableproxy()) {
-        QDir dir(pCore->projectManager()->current()->projectFolder().path());
-        dir.mkdir(QStringLiteral("proxy"));
-    }
     pCore->bin()->refreshProxySettings();
 }
 
@@ -3591,7 +3587,16 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
 
 void MainWindow::slotManageCache()
 {
-    TemporaryData d(pCore->projectManager()->current(), true, this);
+    QDialog d(this);
+    QVBoxLayout *lay = new QVBoxLayout;
+    TemporaryData tmp(pCore->projectManager()->current(), true, this);
+    connect(&tmp, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
+    connect(&tmp, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    lay->addWidget(&tmp);
+    lay->addWidget(buttonBox);
+    d.setLayout(lay);
     d.exec();
 }
 
