@@ -391,13 +391,14 @@ Mlt::Producer *ProjectClip::thumbProducer()
     }
     Mlt::Producer prod = m_controller->originalProducer();
     Clip clip(prod);
-    m_thumbsProducer = clip.softClone(ClipController::getPassPropertiesList());
-    // Check if we are using GPU accel, then we need to use alternate producer
     if (KdenliveSettings::gpu_accel()) {
+        m_thumbsProducer = clip.softClone(ClipController::getPassPropertiesList());
         Mlt::Filter scaler(*prod.profile(), "swscale");
         Mlt::Filter converter(*prod.profile(), "avcolor_space");
         m_thumbsProducer->attach(scaler);
         m_thumbsProducer->attach(converter);
+    } else {
+        m_thumbsProducer = clip.clone();
     }
     return m_thumbsProducer;
 }
