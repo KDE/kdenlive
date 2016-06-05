@@ -5,5 +5,6 @@ set(kdenlive_SRCS
   project/dialogs/noteswidget.cpp
   project/dialogs/projectsettings.cpp
   project/dialogs/slideshowclip.cpp
+  project/dialogs/temporarydata.cpp
   PARENT_SCOPE)
 

@@ -66,6 +66,7 @@
 #include "utils/thememanager.h"
 #include "utils/progressbutton.h"
 #include "utils/KoIconUtils.h"
+#include "project/dialogs/temporarydata.h"
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
@@ -556,15 +557,10 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     autoRender->setChecked(KdenliveSettings::autopreview());
     connect(autoRender, &QAction::triggered, this, &MainWindow::slotToggleAutoPreview);
     tlMenu->addAction(autoRender);
+    tlMenu->addSeparator();
+    tlMenu->addAction(actionCollection()->action(QStringLiteral("manage_cache")));
     timelinePreview->defineDefaultAction(prevRender, false);
     timelinePreview->setAutoRaise(true);
-
-    /*QAction *render = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-record")), i18n("Render"), this);
-    render->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return));
-    connect(render, &QAction::triggered, this, &MainWindow::slotRenderProject);
-    QAction *stopRender = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-record")), i18n("Stop Render"), this);
-    tlrMenu->addAction(render);
-    tlrMenu->addAction(stopRender);*/
 
     tlrMenu->addAction(actionCollection()->action(QStringLiteral("project_render")));
     tlrMenu->addAction(actionCollection()->action(QStringLiteral("stop_project_render")));
@@ -1330,6 +1326,9 @@ void MainWindow::setupActions()
 
     kdenliveCategoryMap.insert(QStringLiteral("timeline"), timelineActions);
 
+    // Cached data management
+    addAction(QStringLiteral("manage_cache"), i18n("Manage Cached Data"), this, SLOT(slotManageCache()), KoIconUtils::themedIcon(QStringLiteral("network-server-database")));
+
     addAction(QStringLiteral("add_guide"), i18n("Add Guide"), this, SLOT(slotAddGuide()), KoIconUtils::themedIcon(QStringLiteral("document-new")));
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), KoIconUtils::themedIcon(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), KoIconUtils::themedIcon(QStringLiteral("document-properties")));
@@ -1344,7 +1343,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("save_selection"), i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()), KoIconUtils::themedIcon(QStringLiteral("document-save")));
 
     QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()), KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
-    
     pCore->library()->setupActions(QList <QAction *>() << sentToLibrary);
 
     QAction *a = KStandardAction::quit(this, SLOT(close()),                  actionCollection());
@@ -3589,6 +3587,12 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
     QMenu menu;
     menu.addAction(actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
     menu.exec(m_timelineToolBar->mapToGlobal(pos));
+}
+
+void MainWindow::slotManageCache()
+{
+    TemporaryData d(pCore->projectManager()->current(), true, this);
+    d.exec();
 }
 
 #ifdef DEBUG_MAINW

@@ -118,7 +118,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     m_logger.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_logger.setFrame(false);
     //m_logger.setInsertPolicy(KComboBox::InsertAtTop);
-    
+
     m_freeSpace = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     m_freeSpace->setMaximumWidth(150);
     QFontMetricsF fontMetrics(font());

@@ -450,6 +450,8 @@ private slots:
     /** @brief Rebuild/reload timeline toolbar. */
     void rebuildTimlineToolBar();
     void showTimelineToolbarMenu(const QPoint &pos);
+    /** @brief Open Cached Data management dialog. */
+    void slotManageCache();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
