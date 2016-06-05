@@ -830,7 +830,6 @@ void Timeline::doSwitchTrackAudio(int ix, bool mute)
         newstate = 0;
     }
     tk->setState(newstate);
-    fixAudioMixing();
     m_tractor->multitrack()->refresh();
     m_tractor->refresh();
 }
@@ -869,29 +868,14 @@ void Timeline::fixAudioMixing()
     }
 
     // Re-add correct audio transitions
-    // Find lowest track with audio
-    int minTrack = 1;
     for (int i = 1; i < m_tractor->count(); i++) {
-        bool muted = track(i)->state() & 2;
-        if (!muted) {
-            if (i > 1) {
-                minTrack = i;
-            }
-            break;
-        }
-    }
-    for (int i = minTrack + 1; i < m_tractor->count(); i++) {
-        bool muted = track(i)->state() & 2;
-        if (muted) {
-            continue;
-        }
         Mlt::Transition *transition = new Mlt::Transition(*m_tractor->profile(), "mix");
         transition->set("always_active", 1);
         transition->set("combine", 1);
-        transition->set("a_track", minTrack);
+        transition->set("a_track", 0);
         transition->set("b_track", i);
         transition->set("internal_added", 237);
-        field->plant_transition(*transition, minTrack, i);
+        field->plant_transition(*transition, 0, i);
     }
     field->unlock();
 }

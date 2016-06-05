@@ -81,6 +81,8 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
         m_blackClip = new Mlt::Producer(*m_qmlView->profile(), "colour:black");
         m_blackClip->set("id", "black");
         m_blackClip->set("mlt_type", "producer");
+        m_blackClip->set("aspect_ratio", 1);
+        m_blackClip->set("set.test_audio", 0);
         m_mltProducer = m_blackClip->cut(0, 1);
         m_qmlView->setProducer(m_mltProducer);
         m_mltConsumer = qmlView->consumer();
@@ -131,6 +133,8 @@ void Render::finishProfileReset()
     m_blackClip = new Mlt::Producer(*m_qmlView->profile(), "colour:black");
     m_blackClip->set("id", "black");
     m_blackClip->set("mlt_type", "producer");
+    m_blackClip->set("aspect_ratio", 1);
+    m_blackClip->set("set.test_audio", 0);
 }
 
 void Render::seek(const GenTime &time)
@@ -499,20 +503,14 @@ int Render::setSceneList(QString playlist, int position)
     // Fill bin
     QStringList ids = m_binController->getClipIds();
     foreach(const QString &id, ids) {
-        if (id == QLatin1String("black")) {
-            //TODO: delegate handling of black clip to bincontroller
-            //delete m_blackClip;
-            //m_blackClip = &original->parent();
-        }
-        else {
-            // pass basic info, the others (folder, etc) will be taken from the producer itself
-            requestClipInfo info;
-            info.imageHeight = 0;
-            info.clipId = id;
-            info.replaceProducer = true;
-            emit gotFileProperties(info, m_binController->getController(id));
-        }
-        //delete original;
+        if (id == QLatin1String("black"))
+            continue;
+        // pass basic info, the others (folder, etc) will be taken from the producer itself
+        requestClipInfo info;
+        info.imageHeight = 0;
+        info.clipId = id;
+        info.replaceProducer = true;
+        emit gotFileProperties(info, m_binController->getController(id));
     }
 
     ////qDebug()<<"// SETSCN LST, POS: "<<position;
@@ -1392,8 +1390,21 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     blockSignals(true);
     service.lock();
     Mlt::Tractor tractor(service);
+    // Find available track name
+    QStringList trackNames;
+    for (int i = 0; i < tractor.count(); i++) {
+        QScopedPointer<Mlt::Producer> track(tractor.track(i));
+        trackNames << track->get("id"); 
+    }
+    QString newName = QStringLiteral("playlist0");
+    int i = 1;
+    while (trackNames.contains(newName)) {
+        newName = QString("playlist%1").arg(i);
+        i++;
+    }
     Mlt::Playlist playlist(*service.profile());
     playlist.set("kdenlive:track_name", name.toUtf8().constData());
+    playlist.set("id", newName.toUtf8().constData());
     int ct = tractor.count();
     if (ix > ct) {
         //qDebug() << "// ERROR, TRYING TO insert TRACK " << ix << ", max: " << ct;

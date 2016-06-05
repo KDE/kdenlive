@@ -1539,6 +1539,20 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
         //qDebug()<<"------------------------\n"<<m_doc.toString();
     }
+    if (version < 0.95) {
+        // convert slowmotion effects/producers
+        QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
+        int max = producers.count();
+        for (int i = 0; i < max; ++i) {
+            QDomElement prod = producers.at(i).toElement();
+            if (prod.isNull()) continue;
+            QString id = prod.attribute(QStringLiteral("id")).section(QStringLiteral("_"), 0, 0);
+            if (id == QLatin1String("black")) {
+                EffectsList::setProperty(prod, "set.test_audio", "0");
+                break;
+            }
+        }
+    }
 
     m_modified = true;
     return true;

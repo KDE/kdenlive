@@ -82,7 +82,7 @@ void DocUndoStack::push(QUndoCommand *cmd)
     QUndoStack::push(cmd);
 }
 
-const double DOCUMENTVERSION = 0.94;
+const double DOCUMENTVERSION = 0.95;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
     QObject(parent),
@@ -385,6 +385,8 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     QDomElement blk = doc.createElement(QStringLiteral("producer"));
     blk.setAttribute(QStringLiteral("in"), 0);
     blk.setAttribute(QStringLiteral("out"), 500);
+    blk.setAttribute(QStringLiteral("aspect_ratio"), 1);
+    blk.setAttribute(QStringLiteral("set.test_audio"), 0);
     blk.setAttribute(QStringLiteral("id"), QStringLiteral("black"));
 
     QDomElement property = doc.createElement(QStringLiteral("property"));
@@ -492,13 +494,13 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-            QDomText value = doc.createTextNode(QStringLiteral("1"));
+            QDomText value = doc.createTextNode(QStringLiteral("0"));
             property.appendChild(value);
             transition.appendChild(property);
 
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
-            value = doc.createTextNode(QString::number(i + 1));
+            value = doc.createTextNode(QString::number(i));
             property.appendChild(value);
             transition.appendChild(property);
 
