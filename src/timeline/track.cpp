@@ -367,7 +367,7 @@ QList <ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, M
             m_playlist.clip_info(i, info);
             ItemInfo cInfo;
             cInfo.startPos = GenTime(info->start, fps());
-            cInfo.endPos = GenTime(info->start + info->length, fps());
+            cInfo.endPos = GenTime(info->start + info->frame_count, fps());
             cInfo.track = m_index;
             replaced << cInfo;
             continue;
@@ -429,7 +429,7 @@ QList <ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, M
             }
             ItemInfo cInfo;
             cInfo.startPos = GenTime(info->start, fps());
-            cInfo.endPos = GenTime(info->start + info->length, fps());
+            cInfo.endPos = GenTime(info->start + info->frame_count, fps());
             cInfo.track = m_index;
             replaced << cInfo;
         }
@@ -998,7 +998,7 @@ QList <QPoint> Track::visibleClips()
         }
         // Found a clip
         int cStart = info->start;
-        int length = info->length;
+        int length = info->frame_count;
         if (current.isNull()) {
             current.setX(cStart);
             current.setY(cStart + length);
