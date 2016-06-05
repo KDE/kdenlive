@@ -144,6 +144,8 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
+    m_disablePreview = m_doc->getAction("disable_preview");
+    connect(m_disablePreview, &QAction::triggered, this, &Timeline::disablePreview);
 }
 
 Timeline::~Timeline()
@@ -174,8 +176,10 @@ QMap <QString, QString> Timeline::documentProperties()
     QMap <QString, QString> props = m_doc->documentProperties();
     props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
     props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
-    props.insert(QStringLiteral("previewchunks"), m_ruler->previewChunks().at(0));
-    props.insert(QStringLiteral("dirtypreviewchunks"), m_ruler->previewChunks().at(1));
+    QPair <QStringList, QStringList> chunks = m_ruler->previewChunks();
+    props.insert(QStringLiteral("previewchunks"), chunks.first.join(","));
+    props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(","));
+    props.insert(QStringLiteral("disablepreview"), QString::number((int) m_disablePreview->isChecked()));
     return props;
 }
 
@@ -1767,7 +1771,7 @@ void Timeline::stopPreviewRender()
 
 void Timeline::invalidateRange(ItemInfo info)
 {
-    if (!m_usePreview)
+    if (!m_timelinePreview)
         return;
     if (info.isValid())
         m_timelinePreview->invalidatePreview(info.startPos.frames(m_doc->fps()), info.endPos.frames(m_doc->fps()));
@@ -1781,40 +1785,18 @@ void Timeline::loadPreviewRender()
     QString chunks = m_doc->getDocumentProperty(QStringLiteral("previewchunks"));
     QString dirty = m_doc->getDocumentProperty(QStringLiteral("dirtypreviewchunks"));
     QString ext = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
+    m_disablePreview->blockSignals(true);
+    m_disablePreview->setChecked(m_doc->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
+    m_disablePreview->blockSignals(false);
     QDateTime documentDate = QFileInfo(m_doc->url().path()).lastModified();
     if (!chunks.isEmpty() || !dirty.isEmpty()) {
         if (!m_timelinePreview) {
             initializePreview();
         }
-        if (!m_timelinePreview)
+        if (!m_timelinePreview || m_disablePreview->isChecked())
             return;
         m_timelinePreview->buildPreviewTrack();
-        const QDir dir = m_timelinePreview->getCacheDir();
-        QStringList previewChunks = chunks.split(",", QString::SkipEmptyParts);
-        QStringList dirtyChunks = dirty.split(",", QString::SkipEmptyParts);
-        foreach(const QString frame, previewChunks) {
-            const QString fileName = dir.absoluteFilePath(QString("%1.%2").arg(frame).arg(ext));
-            QFile file(fileName);
-            if (file.exists()) {
-                if (QFileInfo(file).lastModified() > documentDate) {
-                    // Timeline preview file was created after document, invalidate
-                    file.remove();
-                    dirtyChunks << frame;
-                } else {
-                    m_timelinePreview->gotPreviewRender(frame.toInt(), fileName, 1000);
-                }
-            } else {
-                dirtyChunks << frame;
-            }
-        }
-        if (!dirtyChunks.isEmpty()) {
-            QList <int> list;
-            foreach(const QString i, dirtyChunks) {
-                list << i.toInt();
-            }
-            m_ruler->addChunks(list, true);
-            m_ruler->update();
-        }
+        m_timelinePreview->loadChunks(chunks.split(",", QString::SkipEmptyParts), dirty.split(",", QString::SkipEmptyParts), documentDate);
         m_usePreview = true;
     }
 }
@@ -1835,7 +1817,7 @@ void Timeline::updatePreviewSettings(const QString &profile)
 
 void Timeline::invalidateTrack(int ix)
 {
-    if (!m_usePreview)
+    if (!m_timelinePreview)
         return;
     Track* tk = track(ix);
     QList <QPoint> visibleRange = tk->visibleClips();
@@ -1883,6 +1865,30 @@ void Timeline::startPreviewRender()
             m_usePreview = true;
         }
         m_timelinePreview->startPreviewRender();
+    }
+}
+
+void Timeline::disablePreview(bool disable)
+{
+    if (disable) {
+        m_timelinePreview->deletePreviewTrack();
+        m_ruler->hidePreview = true;
+        m_ruler->update();
+        m_usePreview = false;
+    } else {
+        if (!m_usePreview) {
+            if (!m_timelinePreview->buildPreviewTrack()) {
+                // preview track already exists, reconnect
+                m_tractor->lock();
+                m_timelinePreview->reconnectTrack();
+                m_tractor->unlock();
+            }
+            QPair <QStringList, QStringList> chunks = m_ruler->previewChunks();
+            m_timelinePreview->loadChunks(chunks.first, chunks.second, QDateTime());
+            m_ruler->hidePreview = false;
+            m_ruler->update();
+            m_usePreview = true;
+        }
     }
 }
 

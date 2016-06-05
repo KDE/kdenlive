@@ -56,6 +56,7 @@ const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750,
 
 CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerActions, CustomTrackView *parent) :
         QWidget(parent),
+        hidePreview(false),
         m_timecode(tc),
         m_view(parent),
         m_duration(0),
@@ -476,21 +477,23 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     }
 
     // draw Rendering preview zones
-    QColor preview(Qt::green);
-    preview.setAlpha(120);
-    foreach(int frame, m_renderingPreviews) {
-        QRectF rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
-        p.fillRect(rec, preview);
-    }
-    preview = Qt::darkRed;
-    preview.setAlpha(120);
-    foreach(int frame, m_dirtyRenderingPreviews) {
-        QRectF rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
-        p.fillRect(rec, preview);
+    if (!hidePreview) {
+        QColor preview(Qt::green);
+        preview.setAlpha(120);
+        foreach(int frame, m_renderingPreviews) {
+            QRectF rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
+            p.fillRect(rec, preview);
+        }
+        preview = Qt::darkRed;
+        preview.setAlpha(120);
+        foreach(int frame, m_dirtyRenderingPreviews) {
+            QRectF rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
+            p.fillRect(rec, preview);
+        }
     }
 
     // draw pointer
-    const int value  =  m_view->cursorPos() * m_factor - m_offset;
+    const int value = m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
     pa.setPoints(3, value - FONT_WIDTH, LABEL_SIZE + 3, value + FONT_WIDTH, LABEL_SIZE + 3, value, MAX_HEIGHT);
     p.setBrush(palette().brush(QPalette::Text));
@@ -537,28 +540,30 @@ bool CustomRuler::updatePreview(int frame, bool rendered, bool refresh)
     }
     std::sort(m_renderingPreviews.begin(), m_renderingPreviews.end());
     std::sort(m_dirtyRenderingPreviews.begin(), m_dirtyRenderingPreviews.end());
-    if (refresh)
+    if (refresh && !hidePreview)
         update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor + 1, 3);
     return result;
 }
 
 void CustomRuler::updatePreviewDisplay(int start, int end)
 {
-    update(start * m_factor - offset(), MAX_HEIGHT - 3, (end - start) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
+    if (!hidePreview)
+        update(start * m_factor - offset(), MAX_HEIGHT - 3, (end - start) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
 }
 
-const QStringList CustomRuler::previewChunks() const
+const QPair <QStringList, QStringList> CustomRuler::previewChunks() const
 {
-    QStringList resultChunks;
-    QString clean;
-    QString dirty;
+    QStringList clean;
+    QStringList dirty;
     foreach(int frame, m_renderingPreviews) {
-        clean += QString::number(frame) + QStringLiteral(",");
+        clean << QString::number(frame);
     }
     foreach(int frame, m_dirtyRenderingPreviews) {
-        dirty += QString::number(frame) + QStringLiteral(",");
+        dirty << QString::number(frame);
     }
-    resultChunks << clean << dirty;
+    QPair <QStringList, QStringList> resultChunks;
+    resultChunks.first = clean;
+    resultChunks.second = dirty;
     return resultChunks;
 }
 
@@ -600,7 +605,8 @@ QList <int> CustomRuler::addChunks(QList <int> chunks, bool add)
     }
     std::sort(m_renderingPreviews.begin(), m_renderingPreviews.end());
     std::sort(m_dirtyRenderingPreviews.begin(), m_dirtyRenderingPreviews.end());
-    update(chunks.first() * m_factor - offset(), MAX_HEIGHT - 3, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
+    if (!hidePreview)
+        update(chunks.first() * m_factor - offset(), MAX_HEIGHT - 3, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
     return toProcess;
 }
 

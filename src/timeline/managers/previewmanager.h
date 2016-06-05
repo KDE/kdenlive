@@ -66,12 +66,16 @@ public:
     bool loadParams();
     /** @brief: Create the preview track if not existing. */
     bool buildPreviewTrack();
+    /** @brief: Delete the preview track. */
+    void deletePreviewTrack();
     /** @brief: Whenever we save or render our project, we remove the preview track so it is not saved. */
     void reconnectTrack();
     /** @brief: After project save or render, re-add our preview track. */
     void disconnectTrack();
     /** @brief: Returns directory currently used to store the preview files. */
     const QDir getCacheDir() const;
+    /** @brief: Load existing ruler chunks. */
+    void loadChunks(QStringList previewChunks, QStringList dirtyChunks, QDateTime documentDate);
 
 private:
     KdenliveDoc *m_doc;

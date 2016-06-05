@@ -27,6 +27,7 @@
 #define CUSTOMRULER_H
 
 #include <QWidget>
+#include <QPair>
 
 #include "timeline/customtrackview.h"
 #include "timecode.h"
@@ -40,6 +41,7 @@ class CustomRuler : public QWidget
 
 public:
     CustomRuler(const Timecode &tc, const QList<QAction *> &rulerActions, CustomTrackView *parent);
+    bool hidePreview;
     void setPixelPerMark(int rate, bool force = false);
     static const int comboScale[];
     int outPoint() const;
@@ -52,7 +54,7 @@ public:
     void activateZone();
     bool updatePreview(int frame, bool rendered = true, bool refresh = false);
     /** @brief Returns a list of rendered timeline preview chunks */
-    const QStringList previewChunks() const;
+    const QPair <QStringList, QStringList> previewChunks() const;
     /** @brief Returns a list of dirty timeline preview chunks (that need to be generated) */
     const QList <int> getDirtyChunks() const;
     QList <int> addChunks(QList <int> chunks, bool add);

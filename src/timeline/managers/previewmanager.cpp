@@ -114,6 +114,42 @@ bool PreviewManager::buildPreviewTrack()
     return true;
 }
 
+void PreviewManager::loadChunks(QStringList previewChunks, QStringList dirtyChunks, QDateTime documentDate)
+{
+    foreach (const QString frame, previewChunks) {
+        const QString fileName = m_cacheDir.absoluteFilePath(QString("%1.%2").arg(frame).arg(m_extension));
+        QFile file(fileName);
+        if (file.exists()) {
+            if (!documentDate.isNull() && QFileInfo(file).lastModified() > documentDate) {
+                // Timeline preview file was created after document, invalidate
+                file.remove();
+                dirtyChunks << frame;
+            } else {
+                gotPreviewRender(frame.toInt(), fileName, 1000);
+            }
+        } else {
+            dirtyChunks << frame;
+        }
+    }
+    if (!dirtyChunks.isEmpty()) {
+        QList <int> list;
+        foreach(const QString i, dirtyChunks) {
+            list << i.toInt();
+        }
+        m_ruler->addChunks(list, true);
+        m_ruler->update();
+    }
+}
+
+void PreviewManager::deletePreviewTrack()
+{
+    m_tractor->lock();
+    disconnectTrack();
+    delete m_previewTrack;
+    m_previewTrack = NULL;
+    m_tractor->unlock();
+}
+
 const QDir PreviewManager::getCacheDir() const
 {
     return m_cacheDir;
@@ -287,15 +323,19 @@ void PreviewManager::addPreviewRange(bool add)
         m_previewGatherTimer.stop();
         abortPreview();
         m_tractor->lock();
+        bool hasPreview = m_previewTrack != NULL;
         foreach(int ix, toProcess) {
+            m_cacheDir.remove(QString("%1.%2").arg(ix).arg(m_extension));
+            if (!hasPreview)
+                continue;
             int trackIx = m_previewTrack->get_clip_index_at(ix);
             if (!m_previewTrack->is_blank(trackIx)) {
                 Mlt::Producer *prod = m_previewTrack->replace_with_blank(trackIx);
                 delete prod;
             }
-            m_cacheDir.remove(QString("%1.%2").arg(ix).arg(m_extension));
         }
-        m_previewTrack->consolidate_blanks();
+        if (hasPreview)
+            m_previewTrack->consolidate_blanks();
         m_tractor->unlock();
         if (isRendering || KdenliveSettings::autopreview())
             m_previewTimer.start();
@@ -429,8 +469,9 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     m_previewGatherTimer.stop();
     abortPreview();
     m_tractor->lock();
+    bool hasPreview = m_previewTrack != NULL;
     for (int i = start; i <=end; i+= chunkSize) {
-        if (m_ruler->updatePreview(i, false)) {
+        if (m_ruler->updatePreview(i, false) && hasPreview) {
             int ix = m_previewTrack->get_clip_index_at(i);
             if (m_previewTrack->is_blank(ix))
                 continue;
@@ -438,13 +479,16 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
             delete prod;
         }
     }
-    m_previewTrack->consolidate_blanks();
+    if (hasPreview)
+        m_previewTrack->consolidate_blanks();
     m_tractor->unlock();
     m_previewGatherTimer.start();
 }
 
 void PreviewManager::reloadChunks(QList <int> chunks)
 {
+    if (m_previewTrack == NULL)
+        return;
     m_tractor->lock();
     foreach(int ix, chunks) {
         if (m_previewTrack->is_blank_at(ix)) {
@@ -464,6 +508,8 @@ void PreviewManager::reloadChunks(QList <int> chunks)
 
 void PreviewManager::gotPreviewRender(int frame, const QString &file, int progress)
 {
+    if (m_previewTrack == NULL)
+        return;
     if (file.isEmpty()) {
         m_doc->previewProgress(progress);
         if (progress < 0) {

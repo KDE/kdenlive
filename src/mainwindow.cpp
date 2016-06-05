@@ -558,6 +558,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(autoRender, &QAction::triggered, this, &MainWindow::slotToggleAutoPreview);
     tlMenu->addAction(autoRender);
     tlMenu->addSeparator();
+    tlMenu->addAction(actionCollection()->action(QStringLiteral("disable_preview")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("manage_cache")));
     timelinePreview->defineDefaultAction(prevRender, false);
     timelinePreview->setAutoRaise(true);
@@ -1328,6 +1329,10 @@ void MainWindow::setupActions()
 
     // Cached data management
     addAction(QStringLiteral("manage_cache"), i18n("Manage Cached Data"), this, SLOT(slotManageCache()), KoIconUtils::themedIcon(QStringLiteral("network-server-database")));
+
+    QAction *disablePreview = new QAction(i18n("Disable Timeline Preview"), this);
+    disablePreview->setCheckable(true);
+    addAction(QStringLiteral("disable_preview"), disablePreview);
 
     addAction(QStringLiteral("add_guide"), i18n("Add Guide"), this, SLOT(slotAddGuide()), KoIconUtils::themedIcon(QStringLiteral("document-new")));
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), KoIconUtils::themedIcon(QStringLiteral("edit-delete")));
@@ -2275,6 +2280,7 @@ void MainWindow::slotPreviewRender()
         pCore->projectManager()->currentTimeline()->startPreviewRender();
     }
 }
+
 
 void MainWindow::slotStopPreviewRender()
 {

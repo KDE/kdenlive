@@ -215,6 +215,7 @@ private:
     /** @brief sometimes grouped commands quickly send invalidate commands, so wait a little bit before processing*/
     PreviewManager *m_timelinePreview;
     bool m_usePreview;
+    QAction *m_disablePreview;
 
     void adjustTrackHeaders();
 
@@ -259,6 +260,8 @@ private slots:
     void switchTrackVideo(int ix, bool hide);
     /** @brief Dis / enable audio for a track. */
     void switchTrackAudio(int ix, bool mute);
+    /** @brief Dis / enable timeline preview. */
+    void disablePreview(bool disable);
 
 
 signals:
