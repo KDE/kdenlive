@@ -109,6 +109,7 @@ public slots:
     void slotSwitchAudioOverlay(bool enable);
     void slotZoomScene(double value);
     void initializeGL();
+    void releaseAnalyse();
 
 signals:
     void frameDisplayed(const SharedFrame& frame);
@@ -143,6 +144,7 @@ private:
     Mlt::Consumer* m_consumer;
     Mlt::Producer* m_producer;
     QSemaphore m_initSem;
+    QSemaphore m_analyseSem;
     bool m_isInitialized;
     Mlt::Event* m_threadStartEvent;
     Mlt::Event* m_threadStopEvent;

@@ -64,13 +64,15 @@ Q_OBJECT public:
 
 private:
     Kdenlive::MonitorId m_id;
-    
+
 signals:
     /** @brief The renderer refreshed the current frame. */
     void frameUpdated(const QImage &);
 
     /** @brief This signal contains the audio of the current frame. */
     void audioSamplesSignal(const audioShortVector&,int,int,int);
+    /** @brief Scopes are ready to receive a new frame. */
+    void scopesClear();
 };
 
 class AbstractMonitor : public QWidget

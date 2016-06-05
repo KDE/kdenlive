@@ -361,7 +361,6 @@ public slots:
     void seekToFrame(int pos);
     /** @brief Starts a timer to query for a refresh. */
     void doRefresh();
-    void emitFrameUpdated(QImage img);
 
     /** @brief Save a part of current timeline to an xml file. */
      void saveZone(QPoint zone);

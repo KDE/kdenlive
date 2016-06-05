@@ -55,7 +55,6 @@ typedef GLenum (*ClientWaitSync_fp) (GLsync sync, GLbitfield flags, GLuint64 tim
 static ClientWaitSync_fp ClientWaitSync = 0;
 #endif
 
-
 using namespace Mlt;
 
 GLWidget::GLWidget(int id, QObject *parent)
@@ -67,6 +66,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_consumer(0)
     , m_producer(0)
     , m_initSem(0)
+    , m_analyseSem(1)
     , m_isInitialized(false)
     , m_threadStartEvent(0)
     , m_threadStopEvent(0)
@@ -377,6 +377,11 @@ void GLWidget::clear()
     update();
 }
 
+void GLWidget::releaseAnalyse()
+{
+    m_analyseSem.release();
+}
+
 void GLWidget::paintGL()
 {
     QOpenGLFunctions* f = openglContext()->functions();
@@ -471,7 +476,7 @@ void GLWidget::paintGL()
     f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error(f);
 
-    if (sendFrameForAnalysis) {
+    if (sendFrameForAnalysis && m_analyseSem.tryAcquire(1)) {
         // Render RGB frame for analysis
         int fullWidth = m_monitorProfile->width();
         int fullHeight = m_monitorProfile->height();

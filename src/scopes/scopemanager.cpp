@@ -103,6 +103,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
 
         connect(colorScope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotCheckActiveScopes()));
         connect(colorScope, SIGNAL(signalFrameRequest(QString)), this, SLOT(slotRequestFrame(QString)));
+        connect(colorScope, SIGNAL(signalScopeRenderingFinished(uint, uint)), this, SLOT(slotScopeReady()));
         if (colorScopeWidget != NULL) {
             connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(slotCheckActiveScopes()));
             connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
@@ -155,8 +156,13 @@ void ScopeManager::slotDistributeFrame(const QImage &image)
             }
         }
     }
+    //checkActiveColourScopes();
+}
 
-    checkActiveColourScopes();
+void ScopeManager::slotScopeReady()
+{
+    if (m_lastConnectedRenderer)
+        m_lastConnectedRenderer->scopesClear();
 }
 
 

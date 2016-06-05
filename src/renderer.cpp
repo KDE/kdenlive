@@ -961,11 +961,6 @@ bool Render::checkFrameNumber(int pos)
     return true;
 }
 
-void Render::emitFrameUpdated(QImage img)
-{
-    emit frameUpdated(img);
-}
-
 void Render::slotCheckSeeking()
 {
     if (requestedSeekPosition != SEEK_INACTIVE) {

@@ -129,6 +129,7 @@ private slots:
       Allows a scope to explicitly request a new frame, even if the scope's autoRefresh is disabled.
       */
     void slotRequestFrame(const QString &widgetName);
+    void slotScopeReady();
 };
 
 #endif // SCOPEMANAGER_H
