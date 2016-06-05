@@ -176,7 +176,7 @@ const QString SmallJobLabel::getStyleSheet(const QPalette &p)
     bg = scheme.background(KColorScheme::ActiveBackground).color();
     fg = scheme.foreground(KColorScheme::ActiveText).color();
     style.append(QStringLiteral("\nQPushButton:hover {margin:3px;padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue()));
-    
+
     return style;
 }
 
@@ -1354,6 +1354,7 @@ void Bin::slotInitView(QAction *action)
         m_showDate->setChecked(!view->isColumnHidden(1));
         m_showDesc->setChecked(!view->isColumnHidden(2));
 	connect(view->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(slotSaveHeaders()));
+        connect(view->header(), SIGNAL(sectionClicked(int)), this, SLOT(slotSaveHeaders()));
         connect(view, SIGNAL(focusView()), this, SLOT(slotGotFocus()));
     }
     else if (m_listType == BinIconView) {
