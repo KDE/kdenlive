@@ -67,7 +67,7 @@ public:
     ProjectClip(const QDomElement &description, QIcon thumb, ProjectFolder *parent);
     virtual ~ProjectClip();
 
-    void reloadProducer(bool thumbnailOnly = false);
+    void reloadProducer(bool refreshOnly = false);
 
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
     //virtual void hash() = 0;

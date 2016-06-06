@@ -263,13 +263,13 @@ GenTime ProjectClip::duration() const
     return GenTime();
 }
 
-void ProjectClip::reloadProducer(bool thumbnailOnly)
+void ProjectClip::reloadProducer(bool refreshOnly)
 {
     QDomDocument doc;
     QDomElement xml = toXml(doc);
-    if (thumbnailOnly) {
+    if (refreshOnly) {
         // set a special flag to request thumbnail only
-        xml.setAttribute(QStringLiteral("thumbnailOnly"), QStringLiteral("1"));
+        xml.setAttribute(QStringLiteral("refreshOnly"), QStringLiteral("1"));
     }
     bin()->reloadProducer(m_id, xml);
 }

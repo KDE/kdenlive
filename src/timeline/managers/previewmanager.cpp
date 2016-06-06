@@ -525,7 +525,11 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
             m_ruler->updatePreview(frame, true, true);
             prod.set("mlt_service", "avformat-novalidate");
             m_previewTrack->insert_at(frame, &prod, 1);
+        } else {
+            qDebug()<<"* * * INVALID PROD: "<<file;
         }
+    } else {
+        qDebug()<<"* * * NON EMPTY PROD: "<<frame;
     }
     m_previewTrack->consolidate_blanks();
     m_tractor->unlock();

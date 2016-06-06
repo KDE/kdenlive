@@ -41,7 +41,6 @@ class CustomRuler : public QWidget
 
 public:
     CustomRuler(const Timecode &tc, const QList<QAction *> &rulerActions, CustomTrackView *parent);
-    bool hidePreview;
     void setPixelPerMark(int rate, bool force = false);
     static const int comboScale[];
     int outPoint() const;
@@ -63,6 +62,7 @@ public:
     /** @brief Refresh timeline preview range */
     void updatePreviewDisplay(int start, int end);
     bool isUnderPreview(int start, int end);
+    void hidePreview(bool hide);
 
 protected:
     void paintEvent(QPaintEvent * /*e*/);
@@ -81,6 +81,7 @@ private:
     double m_factor;
     double m_scale;
     int m_offset;
+    bool m_hidePreview;
     /** @brief the position of the seek point */
     int m_headPosition;
     QColor m_zoneBG;

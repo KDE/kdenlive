@@ -516,13 +516,12 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);
 
     // Set default target tracks to upper audio / lower video tracks
+    m_project = doc;
     m_trackView->audioTarget = doc->getDocumentProperty(QStringLiteral("audiotargettrack"), QStringLiteral("-1")).toInt();
     m_trackView->videoTarget = doc->getDocumentProperty(QStringLiteral("videotargettrack"), QStringLiteral("-1")).toInt();
     m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
     connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand*)), Qt::DirectConnection);
-
-    m_project = doc;
     pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));

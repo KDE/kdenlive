@@ -139,7 +139,7 @@ void ProducerQueue::processFileProperties()
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
-        if (info.xml.hasAttribute(QStringLiteral("thumbnailOnly"))) {
+        if (info.xml.hasAttribute(QStringLiteral("thumbnailOnly")) || info.xml.hasAttribute(QStringLiteral("refreshOnly"))) {
             m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer
             Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
@@ -167,8 +167,10 @@ void ProducerQueue::processFileProperties()
             }
             delete frame;
             delete prod;
-            // inform timeline about change
-            emit refreshTimelineProducer(info.clipId);
+            if (info.xml.hasAttribute(QStringLiteral("refreshOnly"))) {
+                // inform timeline about change
+                emit refreshTimelineProducer(info.clipId);
+            }
             continue;
         }
         m_processingClipId.append(info.clipId);

@@ -1790,6 +1790,7 @@ void Timeline::loadPreviewRender()
     m_disablePreview->blockSignals(false);
     QDateTime documentDate = QFileInfo(m_doc->url().path()).lastModified();
     if (!chunks.isEmpty() || !dirty.isEmpty()) {
+        m_ruler->hidePreview(false);
         if (!m_timelinePreview) {
             initializePreview();
         }
@@ -1798,6 +1799,8 @@ void Timeline::loadPreviewRender()
         m_timelinePreview->buildPreviewTrack();
         m_timelinePreview->loadChunks(chunks.split(",", QString::SkipEmptyParts), dirty.split(",", QString::SkipEmptyParts), documentDate);
         m_usePreview = true;
+    } else {
+        m_ruler->hidePreview(true);
     }
 }
 
@@ -1872,8 +1875,7 @@ void Timeline::disablePreview(bool disable)
 {
     if (disable) {
         m_timelinePreview->deletePreviewTrack();
-        m_ruler->hidePreview = true;
-        m_ruler->update();
+        m_ruler->hidePreview(true);
         m_usePreview = false;
     } else {
         if (!m_usePreview) {
@@ -1885,8 +1887,7 @@ void Timeline::disablePreview(bool disable)
             }
             QPair <QStringList, QStringList> chunks = m_ruler->previewChunks();
             m_timelinePreview->loadChunks(chunks.first, chunks.second, QDateTime());
-            m_ruler->hidePreview = false;
-            m_ruler->update();
+            m_ruler->hidePreview(false);
             m_usePreview = true;
         }
     }

@@ -32,7 +32,10 @@
 #include <QMouseEvent>
 #include <QStylePainter>
 
+// Height of the ruler display
 static int MAX_HEIGHT;
+// Height of the ruler display + timeline preview ruler
+static int FULL_HEIGHT;
 // Width of a frame in pixels
 static int FRAME_SIZE;
 // Height of the timecode text
@@ -40,7 +43,6 @@ static int LABEL_SIZE;
 // Width of a letter, used for cursor width
 static int FONT_WIDTH;
 
-static int BIG_MARK_X;
 static int MIDDLE_MARK_X;
 static int LITTLE_MARK_X;
 
@@ -56,11 +58,11 @@ const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750,
 
 CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerActions, CustomTrackView *parent) :
         QWidget(parent),
-        hidePreview(false),
         m_timecode(tc),
         m_view(parent),
         m_duration(0),
         m_offset(0),
+        m_hidePreview(true),
         m_headPosition(SEEK_INACTIVE),
         m_clickedGuide(-1),
         m_rate(-1),
@@ -73,11 +75,11 @@ CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerAction
     FONT_WIDTH = fontMetrics.averageCharWidth();
     setMinimumHeight(LABEL_SIZE * 2);
     setMaximumHeight(LABEL_SIZE * 2);
-    MAX_HEIGHT = height();
-    BIG_MARK_X = LABEL_SIZE + 1;
-    int mark_length = MAX_HEIGHT - BIG_MARK_X;
-    MIDDLE_MARK_X = BIG_MARK_X + mark_length / 2;
-    LITTLE_MARK_X = BIG_MARK_X + mark_length / 3;
+    MAX_HEIGHT = height() - 1;
+    FULL_HEIGHT = MAX_HEIGHT;
+    int mark_length = MAX_HEIGHT - LABEL_SIZE - 1;
+    MIDDLE_MARK_X = LABEL_SIZE + mark_length / 3;
+    LITTLE_MARK_X = LABEL_SIZE + mark_length / 2;
     updateFrameSize();
     m_scale = 3;
     m_zoneStart = 0;
@@ -207,7 +209,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
                     m_headPosition = pos;
                     int min = qMin(x, m_headPosition);
                     int max = qMax(x, m_headPosition);
-                    update(min * m_factor - offset() - 3, BIG_MARK_X, (max - min) * m_factor + 6, MAX_HEIGHT - BIG_MARK_X);
+                    update(min * m_factor - offset() - 3, LABEL_SIZE, (max - min) * m_factor + 6, FULL_HEIGHT - LABEL_SIZE);
                     emit seekCursorPos(pos);
 		    m_view->slotCheckPositionScrolling();
 		}
@@ -226,7 +228,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
         }
         int min = qMin(m_zoneStart, zoneStart);
         int max = qMax(m_zoneEnd, zoneEnd);
-        update(min * m_factor - m_offset - 2, 0, (max - min + 1) * m_factor + 4, height());
+        update(min * m_factor - m_offset - 2, LABEL_SIZE, (max - min + 1) * m_factor + 4, FULL_HEIGHT - LABEL_SIZE);
 
     } else {
         int pos = (int)((event->x() + m_offset));
@@ -293,7 +295,7 @@ void CustomRuler::slotCursorMoved(int oldpos, int newpos)
     int min = qMin(oldpos, newpos);
     int max = qMax(oldpos, newpos);
     m_headPosition = newpos;
-    update(min * m_factor - m_offset - FONT_WIDTH, BIG_MARK_X, (max - min) * m_factor + FONT_WIDTH * 2 + 2, MAX_HEIGHT - BIG_MARK_X);
+    update(min * m_factor - m_offset - FONT_WIDTH, LABEL_SIZE, (max - min) * m_factor + FONT_WIDTH * 2 + 2, FULL_HEIGHT - LABEL_SIZE);
 }
 
 void CustomRuler::updateRuler(int pos)
@@ -303,7 +305,7 @@ void CustomRuler::updateRuler(int pos)
     if (x == SEEK_INACTIVE) x = pos;
     int min = qMin(x, m_headPosition);
     int max = qMax(x, m_headPosition);
-    update(min * m_factor - offset() - 3, BIG_MARK_X, (max - min) * m_factor + 6, MAX_HEIGHT - BIG_MARK_X);
+    update(min * m_factor - offset() - 3, LABEL_SIZE, (max - min) * m_factor + 6, FULL_HEIGHT - LABEL_SIZE);
 }
 
 void CustomRuler::setPixelPerMark(int rate, bool force)
@@ -386,7 +388,7 @@ void CustomRuler::setDuration(int d)
 {
     int oldduration = m_duration;
     m_duration = d;
-    update(qMin(oldduration, m_duration) * m_factor - 1 - offset(), 0, qAbs(oldduration - m_duration) * m_factor + 2, height());
+    update(qMin(oldduration, m_duration) * m_factor - 1 - offset(), 0, qAbs(oldduration - m_duration) * m_factor + 2, FULL_HEIGHT);
 }
 
 // virtual
@@ -400,7 +402,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // Draw zone background
     const int zoneStart = (int)(m_zoneStart * m_factor);
     const int zoneEnd = (int)((m_zoneEnd + 1)* m_factor);
-    p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 2, m_zoneBG);
+    p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 1, m_zoneBG);
 
     double f, fend;
     const int offsetmax = ((paintRect.right() + m_offset) / FRAME_SIZE + 1) * FRAME_SIZE;
@@ -450,61 +452,75 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw big marks
     fend = m_scale * bigMarkDistance;
     if (fend > 5) {
-        QLineF l(offsetmin - m_offset, BIG_MARK_X, offsetmin - m_offset, MAX_HEIGHT);
+        QLineF l(offsetmin - m_offset, LABEL_SIZE, offsetmin - m_offset, MAX_HEIGHT);
         for (f = offsetmin; f < offsetmax; f += fend) {
             l.translate(fend, 0);
             p.drawLine(l);
         }
     }
-
-    // draw zone cursors
+    // draw zone handles
     if (zoneStart > 0) {
         QPolygon pa(4);
-        pa.setPoints(4, zoneStart - m_offset + FONT_WIDTH / 2, LABEL_SIZE + 2, zoneStart - m_offset, LABEL_SIZE + 2, zoneStart - m_offset, MAX_HEIGHT - 1, zoneStart - m_offset + FONT_WIDTH / 2, MAX_HEIGHT - 1);
+        pa.setPoints(4, zoneStart - m_offset + FONT_WIDTH / 2, LABEL_SIZE + 2, zoneStart - m_offset, LABEL_SIZE + 2, zoneStart - m_offset, MAX_HEIGHT, zoneStart - m_offset + FONT_WIDTH / 2, MAX_HEIGHT);
         p.drawPolyline(pa);
     }
 
     if (zoneEnd > 0) {
         QColor center(Qt::white);
         center.setAlpha(150);
-        QRect rec(zoneStart - m_offset + (zoneEnd - zoneStart) / 2 - 4, LABEL_SIZE + 2, 8, MAX_HEIGHT - LABEL_SIZE - 3);
+        QRect rec(zoneStart - m_offset + (zoneEnd - zoneStart) / 2 - 4, LABEL_SIZE + 2, 8, MAX_HEIGHT - LABEL_SIZE - 2);
         p.fillRect(rec, center);
         p.drawRect(rec);
 
         QPolygon pa(4);
-        pa.setPoints(4, zoneEnd - m_offset - FONT_WIDTH / 2, LABEL_SIZE + 2, zoneEnd - m_offset, LABEL_SIZE + 2, zoneEnd - m_offset, MAX_HEIGHT - 1, zoneEnd - m_offset - FONT_WIDTH / 2, MAX_HEIGHT - 1);
+        pa.setPoints(4, zoneEnd - m_offset - FONT_WIDTH / 2, LABEL_SIZE + 2, zoneEnd - m_offset, LABEL_SIZE + 2, zoneEnd - m_offset, MAX_HEIGHT, zoneEnd - m_offset - FONT_WIDTH / 2, MAX_HEIGHT );
         p.drawPolyline(pa);
     }
 
     // draw Rendering preview zones
-    if (!hidePreview) {
+    if (!m_hidePreview) {
+        p.setPen(palette().dark().color());
+        p.drawLine(paintRect.left(), FULL_HEIGHT - 5, paintRect.right(), FULL_HEIGHT - 5);
+        p.fillRect(paintRect.left(), FULL_HEIGHT - 4, paintRect.width(), 4, palette().mid().color());
         QColor preview(Qt::green);
         preview.setAlpha(120);
+        double chunkWidth = KdenliveSettings::timelinechunks() * m_factor;
         foreach(int frame, m_renderingPreviews) {
-            QRectF rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
+            double xPos = frame * m_factor  - m_offset;
+            if (xPos + chunkWidth < paintRect.x() || xPos > paintRect.right())
+                continue;
+            QRectF rec(xPos, FULL_HEIGHT - 4, chunkWidth, 4);
             p.fillRect(rec, preview);
         }
         preview = Qt::darkRed;
         preview.setAlpha(120);
         foreach(int frame, m_dirtyRenderingPreviews) {
-            QRectF rec(frame * m_factor  - m_offset, MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor, 3);
+            double xPos = frame * m_factor  - m_offset;
+            if (xPos + chunkWidth < paintRect.x() || xPos > paintRect.right())
+                continue;
+            QRectF rec(xPos, FULL_HEIGHT - 4, chunkWidth, 4);
             p.fillRect(rec, preview);
         }
+        preview = palette().dark().color();
+        preview.setAlpha(70);
+        p.fillRect(paintRect.left(), FULL_HEIGHT - 4, paintRect.width(), 2, preview);
+        p.drawLine(paintRect.left(), FULL_HEIGHT, paintRect.right(), FULL_HEIGHT);
+    }
+
+    if (m_headPosition == m_view->cursorPos()) {
+        m_headPosition = SEEK_INACTIVE;
+    }
+    if (m_headPosition != SEEK_INACTIVE) {
+	p.fillRect(m_headPosition * m_factor - m_offset - 1, LABEL_SIZE + 1, 3, FULL_HEIGHT - LABEL_SIZE - 1, palette().linkVisited());
     }
 
     // draw pointer
     const int value = m_view->cursorPos() * m_factor - m_offset;
     QPolygon pa(3);
-    pa.setPoints(3, value - FONT_WIDTH, LABEL_SIZE + 3, value + FONT_WIDTH, LABEL_SIZE + 3, value, MAX_HEIGHT);
+    pa.setPoints(3, value - FONT_WIDTH, FULL_HEIGHT - FONT_WIDTH, value + FONT_WIDTH, FULL_HEIGHT - FONT_WIDTH, value, FULL_HEIGHT);
     p.setBrush(palette().brush(QPalette::Text));
     p.setPen(Qt::NoPen);
     p.drawPolygon(pa);
-    if (m_headPosition == m_view->cursorPos()) {
-        m_headPosition = SEEK_INACTIVE;
-    }
-    if (m_headPosition != SEEK_INACTIVE) {
-	p.fillRect(m_headPosition * m_factor - m_offset - 1, BIG_MARK_X + 1, 3, MAX_HEIGHT - BIG_MARK_X - 1, palette().linkVisited());
-    }
 }
 
 void CustomRuler::activateZone()
@@ -540,15 +556,28 @@ bool CustomRuler::updatePreview(int frame, bool rendered, bool refresh)
     }
     std::sort(m_renderingPreviews.begin(), m_renderingPreviews.end());
     std::sort(m_dirtyRenderingPreviews.begin(), m_dirtyRenderingPreviews.end());
-    if (refresh && !hidePreview)
-        update(frame * m_factor - offset(), MAX_HEIGHT - 3, KdenliveSettings::timelinechunks() * m_factor + 1, 3);
+    if (refresh && !m_hidePreview)
+        update(frame * m_factor - offset(), FULL_HEIGHT - 5, KdenliveSettings::timelinechunks() * m_factor + 1, 5);
     return result;
+}
+
+void CustomRuler::hidePreview(bool hide)
+{
+    m_hidePreview = hide;
+    if (hide) {
+        MAX_HEIGHT = height() - 1;
+        FULL_HEIGHT = MAX_HEIGHT;
+    } else {
+        MAX_HEIGHT = height() - 7;
+        FULL_HEIGHT = height() - 1;
+    }
+    update();
 }
 
 void CustomRuler::updatePreviewDisplay(int start, int end)
 {
-    if (!hidePreview)
-        update(start * m_factor - offset(), MAX_HEIGHT - 3, (end - start) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
+    if (!m_hidePreview)
+        update(start * m_factor - offset(), FULL_HEIGHT - 5, (end - start) * KdenliveSettings::timelinechunks() * m_factor + 1, 5);
 }
 
 const QPair <QStringList, QStringList> CustomRuler::previewChunks() const
@@ -605,8 +634,8 @@ QList <int> CustomRuler::addChunks(QList <int> chunks, bool add)
     }
     std::sort(m_renderingPreviews.begin(), m_renderingPreviews.end());
     std::sort(m_dirtyRenderingPreviews.begin(), m_dirtyRenderingPreviews.end());
-    if (!hidePreview)
-        update(chunks.first() * m_factor - offset(), MAX_HEIGHT - 3, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, 3);
+    if (!m_hidePreview)
+        update(chunks.first() * m_factor - offset(), FULL_HEIGHT - 5, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, 5);
     return toProcess;
 }
 
