@@ -208,6 +208,8 @@ private:
     void startRendering(RenderJobItem *item);
     bool saveProfile(QDomElement newprofile);
     void errorMessage(const QString &message);
+    /** @brief Create a rendering profile from MLT preset. */
+    QTreeWidgetItem *loadFromMltPreset(const QString groupName, const QString path, const QString profileName);
 
 signals:
     void abortProcess(const QString &url);
