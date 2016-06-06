@@ -1763,19 +1763,36 @@ void RenderWidget::parseMltPresets()
         }
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         foreach(const QString &prof, profiles) {
-            KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig );
-            KConfigGroup group = config.group(QByteArray());
-            QString extension = group.readEntry("meta.preset.extension");
-            QString note = group.readEntry("meta.preset.note");
-            QTreeWidgetItem *item = new QTreeWidgetItem(QStringList(prof));
-            item->setData(0, GroupRole, groupName);
-            item->setData(0, ExtensionRole, extension);
-            item->setData(0, RenderRole, "avformat");
+            QTreeWidgetItem *item = loadFromMltPreset(groupName, root.absoluteFilePath(prof), prof);
+            if (!item)
+                continue;
             item->setData(0, ParamsRole, QString("properties=stills/" + prof));
-            if (!note.isEmpty()) item->setToolTip(0, note);
+            groupItem->addChild(item);
+        }
+        // Add GIF as image sequence
+        root.cdUp();
+        QTreeWidgetItem *item = loadFromMltPreset(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"));
+        if (item) {
+            item->setData(0, ParamsRole, QString("properties=GIF"));
             groupItem->addChild(item);
         }
     }
+}
+
+QTreeWidgetItem *RenderWidget::loadFromMltPreset(const QString groupName, const QString path, const QString profileName)
+{
+    KConfig config(path, KConfig::SimpleConfig);
+    KConfigGroup group = config.group(QByteArray());
+    QString extension = group.readEntry("meta.preset.extension");
+    QString note = group.readEntry("meta.preset.note");
+    if (extension.isEmpty())
+        return NULL;
+    QTreeWidgetItem *item = new QTreeWidgetItem(QStringList(profileName));
+    item->setData(0, GroupRole, groupName);
+    item->setData(0, ExtensionRole, extension);
+    item->setData(0, RenderRole, "avformat");
+    if (!note.isEmpty()) item->setToolTip(0, note);
+    return item;
 }
 
 void RenderWidget::parseFile(const QString &exportFile, bool editable)
