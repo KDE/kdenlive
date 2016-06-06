@@ -1790,7 +1790,6 @@ void Timeline::loadPreviewRender()
     m_disablePreview->blockSignals(false);
     QDateTime documentDate = QFileInfo(m_doc->url().path()).lastModified();
     if (!chunks.isEmpty() || !dirty.isEmpty()) {
-        m_ruler->hidePreview(false);
         if (!m_timelinePreview) {
             initializePreview();
         }
@@ -1837,6 +1836,7 @@ void Timeline::initializePreview()
             if (m_usePreview) {
                 // Disconnect preview track
                 m_timelinePreview->disconnectTrack();
+                m_ruler->hidePreview(true);
                 m_usePreview = false;
             }
             delete m_timelinePreview;
@@ -1846,15 +1846,22 @@ void Timeline::initializePreview()
         m_timelinePreview = new PreviewManager(m_doc, m_ruler, m_tractor);
         if (!m_timelinePreview->initialize()) {
             //TODO warn user
+            m_ruler->hidePreview(true);
             delete m_timelinePreview;
             m_timelinePreview = NULL;
             qDebug()<<" * * * *TL PREVIEW NOT INITIALIZED!!!";
+        } else {
+            m_ruler->hidePreview(false);
         }
     }
     QAction *previewRender = m_doc->getAction(QStringLiteral("prerender_timeline_zone"));
     if (previewRender) {
         previewRender->setEnabled(m_timelinePreview != NULL);
     }
+    m_disablePreview->setEnabled(m_timelinePreview != NULL);
+    m_disablePreview->blockSignals(true);
+    m_disablePreview->setChecked(false);
+    m_disablePreview->blockSignals(false);
 }
 
 void Timeline::startPreviewRender()
