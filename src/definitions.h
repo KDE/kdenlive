@@ -161,11 +161,12 @@ enum ClipJobStatus {
 };
 
 enum CacheType {
-    CacheBase = 0,
-    CachePreview = 1,
-    CacheProxy = 2,
-    CacheAudio = 3,
-    CacheThumbs = 4
+    CacheRoot = 0,
+    CacheBase = 1,
+    CachePreview = 2,
+    CacheProxy = 3,
+    CacheAudio = 4,
+    CacheThumbs = 5
 };
 
 class TrackInfo {

@@ -1757,6 +1757,9 @@ QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
     }
     QString basePath = kdenliveCacheDir + "/" + documentId;
     switch (type) {
+        case CacheRoot:
+            basePath = kdenliveCacheDir;
+            break;
         case CachePreview:
             basePath.append(QStringLiteral("/preview"));
             break;

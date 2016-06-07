@@ -25,12 +25,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 
 #include <QWidget>
+#include <QDir>
 
 class KdenliveDoc;
 class KJob;
 class QPaintEvent;
 class QLabel;
 class QGridLayout;
+class QTreeWidget;
 
 /**
  * @class ChartWidget
@@ -50,6 +52,30 @@ private:
     QList <int> m_segments;
 };
 
+
+/**
+ * @class TreeWidgetItem
+ * @brief Manage custom sort order for size.
+ *
+ */
+
+class TreeWidgetItem : public QTreeWidgetItem {
+  public:
+  TreeWidgetItem(QTreeWidget* parent):QTreeWidgetItem(parent){}
+  private:
+  bool operator<(const QTreeWidgetItem &other)const {
+     int column = treeWidget()->sortColumn();
+     switch (column) {
+         case 0:
+            return text(column).toLower() < other.text(column).toLower();
+            break;
+         default:
+            return data(column, Qt::UserRole) < other.data(column, Qt::UserRole);
+            break;
+     }
+  }
+};
+
 /**
  * @class TemporaryData
  * @brief Dialog allowing management of project's temporary data.
@@ -66,29 +92,45 @@ public:
 private:
     KdenliveDoc *m_doc;
     ChartWidget *m_currentPie;
+    ChartWidget *m_globalPie;
     QLabel *m_previewSize;
     QLabel *m_proxySize;
     QLabel *m_audioSize;
     QLabel *m_thumbSize;
     QLabel *m_currentSize;
+    QLabel *m_globalSize;
+    QLabel *m_selectedSize;
     QWidget *m_currentPage;
+    QWidget *m_globalPage;
+    QTreeWidget *m_listWidget;
     QGridLayout *m_grid;
     qulonglong m_totalCurrent;
+    qulonglong m_totalGlobal;
     QList <qulonglong> mCurrentSizes;
+    QList <qulonglong> mGlobalSizes;
+    QStringList m_globalDirectories;
+    QString m_processingDirectory;
+    QDir m_globalDir;
     void updateDataInfo();
+    void updateGlobalInfo();
     void updateTotal();
+    void buildGlobalCacheDialog(int minHeight);
+    void processglobalDirectories();
 
 private slots:
     void gotPreviewSize(KJob *job);
     void gotProxySize(KJob *job);
     void gotAudioSize(KJob *job);
     void gotThumbSize(KJob *job);
+    void gotFolderSize(KJob *job);
+    void refreshGlobalPie();
     void deletePreview();
     void deleteProxy();
     void deleteAudio();
     void deleteThumbs();
     void deleteAll();
     void openCacheFolder();
+    void deleteSelected();
 
 signals:
     void disableProxies();

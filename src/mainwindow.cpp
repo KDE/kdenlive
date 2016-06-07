@@ -3593,8 +3593,9 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
 void MainWindow::slotManageCache()
 {
     QDialog d(this);
+    d.setWindowTitle(i18n("Manage Cache Data"));
     QVBoxLayout *lay = new QVBoxLayout;
-    TemporaryData tmp(pCore->projectManager()->current(), true, this);
+    TemporaryData tmp(pCore->projectManager()->current(), false, this);
     connect(&tmp, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
     connect(&tmp, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);

@@ -325,7 +325,13 @@ bool ProjectManager::saveFileAs()
             return saveFileAs();
         }
     }
-
+    bool ok = false;
+    QDir cacheDir = m_project->getCacheDir(CacheBase, &ok);
+    if (ok) {
+        QFile file(cacheDir.absoluteFilePath(QUrl::toPercentEncoding("." + outputFile)));
+        file.open(QIODevice::ReadWrite | QIODevice::Text);
+        file.close();
+    }
     return saveFileAs(outputFile);
 }
 

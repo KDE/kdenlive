@@ -39,8 +39,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QStandardPaths>
 #include <QToolButton>
 #include <QDesktopServices>
+#include <QTreeWidget>
+#include <QPushButton>
 
 static QList <QColor> chartColors;
+
 
 ChartWidget::ChartWidget(QWidget * parent) :
     QWidget(parent)
@@ -185,16 +188,16 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 
     if (currentProjectOnly) {
         lay->addWidget(m_currentPage);
+        QSpacerItem *spacer = new QSpacerItem(1, 1, QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+        lay->addSpacerItem(spacer);
     } else {
         QTabWidget *tab = new QTabWidget(this);
         tab->addTab(m_currentPage, i18n("Current Project"));
-        QWidget *allProjects = new QWidget(this);
-        tab->addTab(allProjects, i18n("All Projects"));
+        m_globalPage = new QWidget(this);
+        buildGlobalCacheDialog(minHeight);
+        tab->addTab(m_globalPage, i18n("All Projects"));
         lay->addWidget(tab);
     }
-
-    QSpacerItem *spacer = new QSpacerItem(1, 1, QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
-    lay->addSpacerItem(spacer);
     setLayout(lay);
     updateDataInfo();
 }
@@ -234,7 +237,7 @@ void TemporaryData::updateDataInfo()
 
 void TemporaryData::gotPreviewSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = (KIO::DirectorySizeJob *) job;
+    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
     qulonglong total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -251,7 +254,7 @@ void TemporaryData::gotPreviewSize(KJob *job)
 
 void TemporaryData::gotProxySize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = (KIO::DirectorySizeJob *) job;
+    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
     qulonglong total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -268,7 +271,7 @@ void TemporaryData::gotProxySize(KJob *job)
 
 void TemporaryData::gotAudioSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = (KIO::DirectorySizeJob *) job;
+    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
     qulonglong total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -285,7 +288,7 @@ void TemporaryData::gotAudioSize(KJob *job)
 
 void TemporaryData::gotThumbSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = (KIO::DirectorySizeJob *) job;
+    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
     qulonglong total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -415,4 +418,149 @@ void TemporaryData::openCacheFolder()
         return;
     }
     QDesktopServices::openUrl(QUrl::fromLocalFile(dir.absolutePath()));
+}
+
+void TemporaryData::buildGlobalCacheDialog(int minHeight)
+{
+    QGridLayout *lay = new QGridLayout;
+    m_globalPie = new ChartWidget(this);
+    lay->addWidget(m_globalPie, 0, 0, 1, 1);
+    m_listWidget = new QTreeWidget(this);
+    m_listWidget->setColumnCount(3);
+    m_listWidget->setHeaderLabels(QStringList() << i18n("Folder") << i18n("Size") << i18n("Date"));
+    m_listWidget->setRootIsDecorated(false);
+    m_listWidget->setAlternatingRowColors(true);
+    m_listWidget->setSortingEnabled(true);
+    m_listWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    lay->addWidget(m_listWidget, 0, 1, 1, 4);
+    m_globalPage->setLayout(lay);
+
+    // Total Cache data
+    QPalette pal = palette();
+    QLabel *color = new QLabel(this);
+    color->setFixedSize(minHeight, minHeight);
+    pal.setColor(QPalette::Window, chartColors.at(0));
+    color->setPalette(pal);
+    color->setAutoFillBackground(true);
+    lay->addWidget(color, 1, 1, Qt::AlignCenter);
+    QLabel *lab = new QLabel(i18n("Total Cached Data"), this);
+    lay->addWidget(lab, 1, 2, 1, 1);
+    m_globalSize = new QLabel(this);
+    lay->addWidget(m_globalSize, 1, 3, 1, 1);
+
+    // Selection
+    color = new QLabel(this);
+    color->setFixedSize(minHeight, minHeight);
+    pal.setColor(QPalette::Window, chartColors.at(1));
+    color->setPalette(pal);
+    color->setAutoFillBackground(true);
+    lay->addWidget(color, 2, 1, Qt::AlignCenter);
+    lab = new QLabel(i18n("Selected Cached Data"), this);
+    lay->addWidget(lab, 2, 2, 1, 1);
+    m_selectedSize = new QLabel(this);
+    lay->addWidget(m_selectedSize, 2, 3, 1, 1);
+    QPushButton *del = new QPushButton(i18n("Delete selected cache"), this);
+    connect(del, &QPushButton::clicked, this, &TemporaryData::deleteSelected);
+    lay->addWidget(del, 2, 4, 1, 1);
+
+    lay->setColumnStretch(4, 10);
+    lay->setRowStretch(0, 10);
+    connect(m_listWidget, &QTreeWidget::itemSelectionChanged, this, &TemporaryData::refreshGlobalPie);
+    updateGlobalInfo();
+}
+
+void TemporaryData::updateGlobalInfo()
+{
+    m_totalGlobal = 0;
+    m_listWidget->clear();
+    bool ok = false;
+    QDir preview = m_doc->getCacheDir(CacheRoot, &ok);
+    if (!ok) {
+        m_globalPage->setEnabled(false);
+        return;
+    }
+    m_globalDir = preview;
+    m_globalDirectories.clear();
+    m_processingDirectory.clear();
+    m_globalDirectories = m_globalDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    processglobalDirectories();
+}
+
+void TemporaryData::processglobalDirectories()
+{
+    if (m_globalDirectories.isEmpty())
+        return;
+    m_processingDirectory = m_globalDirectories.takeFirst();
+    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(m_globalDir.absoluteFilePath(m_processingDirectory)));
+    connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotFolderSize);
+}
+
+void TemporaryData::gotFolderSize(KJob *job)
+{
+    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
+    qulonglong total = sourceJob->totalSize();
+    if (sourceJob->totalFiles() == 0) {
+        total = 0;
+    }
+    m_totalGlobal += total;
+    TreeWidgetItem *item = new TreeWidgetItem(m_listWidget);
+    // Check last save path for this cache folder
+    QDir dir(m_globalDir.absoluteFilePath(m_processingDirectory));
+    QStringList filters;
+    filters << QStringLiteral("*.kdenlive");
+    QStringList str = dir.entryList(filters, QDir::Files | QDir::Hidden, QDir::Time);
+    if (!str.isEmpty()) {
+        QString path = QUrl::fromPercentEncoding(str.at(0).toUtf8());
+        // Remove leading dot
+        path.remove(0, 1);
+        item->setText(0, m_processingDirectory + QString(" (%1)").arg(QUrl::fromLocalFile(path).fileName()));
+        if (QFile::exists(path)) {
+            item->setIcon(0, KoIconUtils::themedIcon("kdenlive"));
+        } else {
+            item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
+        }
+    } else {
+        item->setText(0, m_processingDirectory);
+    }
+    item->setData(0, Qt::UserRole, m_processingDirectory);
+    item->setText(1, KIO::convertSize(total));
+    QDateTime date = QFileInfo(dir.absolutePath()).lastModified();
+    item->setText(2, date.toString(Qt::SystemLocaleShortDate));
+    item->setData(1, Qt::UserRole, total);
+    item->setData(2, Qt::UserRole, date);
+    m_listWidget->addTopLevelItem(item);
+    m_listWidget->resizeColumnToContents(0);
+    m_listWidget->resizeColumnToContents(1);
+    if (m_globalDirectories.isEmpty()) {
+        m_globalSize->setText(KIO::convertSize(m_totalGlobal));
+        m_listWidget->setCurrentItem(m_listWidget->topLevelItem(0));
+    } else {
+        processglobalDirectories();
+    }
+}
+
+void TemporaryData::refreshGlobalPie()
+{
+    QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
+    qulonglong currentSize = 0;
+    foreach(QTreeWidgetItem *current, list) {
+        if (current) {
+            currentSize += current->data(1, Qt::UserRole).toULongLong();
+        }
+    }
+    m_selectedSize->setText(KIO::convertSize(currentSize));
+    int percent = (int) (currentSize * 360 / m_totalGlobal);
+    m_globalPie->setSegments(QList <int>() << 360 << percent);
+}
+
+void TemporaryData::deleteSelected()
+{
+    QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
+    QStringList folders;
+    foreach(QTreeWidgetItem *current, list) {
+        if (current) {
+            folders << current->data(0, Qt::UserRole).toString();
+        }
+    }
+    KMessageBox::warningContinueCancelList(this, i18n("Delete the following cache folders from\n%1", m_globalDir.absolutePath()), folders);
 }
