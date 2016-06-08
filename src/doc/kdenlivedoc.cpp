@@ -356,6 +356,8 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     QDomElement blk = doc.createElement(QStringLiteral("producer"));
     blk.setAttribute(QStringLiteral("in"), 0);
     blk.setAttribute(QStringLiteral("out"), 500);
+    blk.setAttribute(QStringLiteral("aspect_ratio"), 1);
+    blk.setAttribute(QStringLiteral("set.test_audio"), 0);
     blk.setAttribute(QStringLiteral("id"), QStringLiteral("black"));
 
     QDomElement property = doc.createElement(QStringLiteral("property"));
