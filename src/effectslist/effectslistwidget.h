@@ -33,14 +33,6 @@ class EffectsListWidget : public QTreeWidget
     Q_OBJECT
 
     public:
-    static const int EFFECT_VIDEO = 1;
-    static const int EFFECT_AUDIO = 2;
-    static const int EFFECT_GPU = 3;
-    static const int EFFECT_CUSTOM = 4;
-    static const int EFFECT_FAVORITES = 5;
-    static const int EFFECT_FOLDER = 6;
-    static const int TRANSITION_TYPE= 7;
-
     static const int TypeRole = Qt::UserRole;
     static const int IdRole = TypeRole + 1;
 

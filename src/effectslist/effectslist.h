@@ -43,6 +43,14 @@ public:
     QDomElement getEffectByName(const QString & name) const;
     QDomElement getEffectByTag(const QString & tag, const QString & id) const;
 
+    static const int EFFECT_VIDEO = 1;
+    static const int EFFECT_AUDIO = 2;
+    static const int EFFECT_GPU = 3;
+    static const int EFFECT_CUSTOM = 4;
+    static const int EFFECT_FAVORITES = 5;
+    static const int EFFECT_FOLDER = 6;
+    static const int TRANSITION_TYPE= 7;
+
     /** @brief Checks the existence of an effect.
      * @param tag effect tag
      * @param id effect id

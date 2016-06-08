@@ -2383,20 +2383,31 @@ void MainWindow::slotAddVideoEffect(QAction *result)
     if (!result) {
         return;
     }
-    const int VideoEffect = 1;
-    const int AudioEffect = 2;
     QStringList info = result->data().toStringList();
-
+    qDebug()<<"* * *ADD EFFECT: "<<info;
     if (info.isEmpty() || info.size() < 3) {
         return;
     }
     QDomElement effect ;
-    if (info.last() == QString::number((int) VideoEffect)) {
-        effect = videoEffects.getEffectByTag(info.at(0), info.at(1));
-    } else if (info.last() == QString::number((int) AudioEffect)) {
-        effect = audioEffects.getEffectByTag(info.at(0), info.at(1));
-    } else {
-        effect = customEffects.getEffectByTag(info.at(0), info.at(1));
+    int effectType = info.last().toInt();
+    switch (effectType) {
+        case EffectsList::EFFECT_VIDEO:
+        case EffectsList::EFFECT_GPU:
+            effect = videoEffects.getEffectByTag(info.at(0), info.at(1));
+            break;
+        case EffectsList::EFFECT_AUDIO:
+            effect = audioEffects.getEffectByTag(info.at(0), info.at(1));
+            break;
+        case EffectsList::EFFECT_CUSTOM:
+            effect = customEffects.getEffectByTag(info.at(0), info.at(1));
+            break;
+        default:
+            effect = videoEffects.getEffectByTag(info.at(0), info.at(1));
+            if (!effect.isNull()) break;
+            effect = audioEffects.getEffectByTag(info.at(0), info.at(1));
+            if (!effect.isNull()) break;
+            effect = customEffects.getEffectByTag(info.at(0), info.at(1));
+        break;
     }
 
     if (!effect.isNull()) {

@@ -135,19 +135,19 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     }
     connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
     switch (KdenliveSettings::selected_effecttab()) {
-      case EffectsListWidget::EFFECT_VIDEO:
+      case EffectsList::EFFECT_VIDEO:
         effectsVideo->setChecked(true);
         break;
-      case EffectsListWidget::EFFECT_AUDIO:
+      case EffectsList::EFFECT_AUDIO:
         effectsAudio->setChecked(true);
         break;
-      case EffectsListWidget::EFFECT_GPU:
+      case EffectsList::EFFECT_GPU:
         if (KdenliveSettings::gpu_accel()) effectsGPU->setChecked(true);
         break;
-      case EffectsListWidget::EFFECT_CUSTOM:
+      case EffectsList::EFFECT_CUSTOM:
         effectsCustom->setChecked(true);
         break;
-      case EffectsListWidget::EFFECT_FAVORITES:
+      case EffectsList::EFFECT_FAVORITES:
         m_effectsFavorites->setChecked(true);
         break;
     }
@@ -220,14 +220,14 @@ void EffectsListView::creatFavoriteBasket(QListWidget *list)
 void EffectsListView::filterList()
 {
     int pos = 0;
-    if (effectsVideo->isChecked()) pos = EffectsListWidget::EFFECT_VIDEO;
-    else if (effectsAudio->isChecked()) pos = EffectsListWidget::EFFECT_AUDIO;
-    else if (effectsGPU->isChecked()) pos = EffectsListWidget::EFFECT_GPU;
-    else if (m_effectsFavorites->isChecked()) pos = EffectsListWidget::EFFECT_FAVORITES;
-    else if (effectsCustom->isChecked()) pos = EffectsListWidget::EFFECT_CUSTOM;
+    if (effectsVideo->isChecked()) pos = EffectsList::EFFECT_VIDEO;
+    else if (effectsAudio->isChecked()) pos = EffectsList::EFFECT_AUDIO;
+    else if (effectsGPU->isChecked()) pos = EffectsList::EFFECT_GPU;
+    else if (m_effectsFavorites->isChecked()) pos = EffectsList::EFFECT_FAVORITES;
+    else if (effectsCustom->isChecked()) pos = EffectsList::EFFECT_CUSTOM;
     if (m_mode == EffectMode) KdenliveSettings::setSelected_effecttab(pos);
     m_effectsList->resetFavorites();
-    if (pos == EffectsListWidget::EFFECT_CUSTOM) {
+    if (pos == EffectsList::EFFECT_CUSTOM) {
         m_removeAction->setText(i18n("Delete effect"));
         m_effectsList->setIndentation(0);
         m_effectsList->setRootOnCustomFolder();
@@ -238,7 +238,7 @@ void EffectsListView::filterList()
             search_effect->updateSearch(currentSearch);
         }
         return;
-    } else if (pos == EffectsListWidget::EFFECT_FAVORITES) {
+    } else if (pos == EffectsList::EFFECT_FAVORITES) {
         m_removeAction->setText(i18n("Remove from favorites"));
 
         // Find favorites;
@@ -255,7 +255,7 @@ void EffectsListView::filterList()
                 }
             }
         }
-        m_effectsList->createTopLevelItems(favorites, EffectsListWidget::EFFECT_FAVORITES);
+        m_effectsList->createTopLevelItems(favorites, EffectsList::EFFECT_FAVORITES);
         QString currentSearch = search_effect->text();
         if (!currentSearch.isEmpty()) {
             // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
@@ -264,7 +264,7 @@ void EffectsListView::filterList()
         }
         return;
     }
-    if (pos == EffectsListWidget::EFFECT_GPU) {
+    if (pos == EffectsList::EFFECT_GPU) {
         // Find favorites;
         QList <QTreeWidgetItem *> favorites;
         for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
@@ -276,7 +276,7 @@ void EffectsListView::filterList()
                 }
             }
         }
-        m_effectsList->createTopLevelItems(favorites, EffectsListWidget::EFFECT_GPU);
+        m_effectsList->createTopLevelItems(favorites, EffectsList::EFFECT_GPU);
         QString currentSearch = search_effect->text();
         if (!currentSearch.isEmpty()) {
             // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
@@ -365,13 +365,13 @@ void EffectsListView::slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos)
         return;
     }
     int actionRole = item->data(0, Qt::UserRole).toInt();
-    if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES || actionRole == EffectsListWidget::EFFECT_CUSTOM) {
+    if (KdenliveSettings::selected_effecttab() == EffectsList::EFFECT_FAVORITES || actionRole == EffectsList::EFFECT_CUSTOM) {
         m_removeAction->setVisible(true);
     } else {
         m_removeAction->setVisible(false);
     }
-    m_favoriteAction->setVisible(actionRole != EffectsListWidget::EFFECT_FAVORITES);
-    if (actionRole != EffectsListWidget::EFFECT_FOLDER) {
+    m_favoriteAction->setVisible(actionRole != EffectsList::EFFECT_FAVORITES);
+    if (actionRole != EffectsList::EFFECT_FOLDER) {
         m_contextMenu->popup(pos);
     }
 }
@@ -386,7 +386,7 @@ void EffectsListView::slotAddToFavorites()
 
 void EffectsListView::slotRemoveEffect()
 {
-    if (KdenliveSettings::selected_effecttab() == EffectsListWidget::EFFECT_FAVORITES) {
+    if (KdenliveSettings::selected_effecttab() == EffectsList::EFFECT_FAVORITES) {
         QDomElement e = m_effectsList->currentEffect();
         QString id = e.attribute(QStringLiteral("id"));
         if (id.isEmpty()) {
