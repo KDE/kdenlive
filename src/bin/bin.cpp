@@ -2862,9 +2862,13 @@ void Bin::showTitleWidget(ProjectClip *clip)
     QString titlepath = m_doc->projectFolder().path() + QDir::separator() + "titles/";
     TitleWidget dia_ui(QUrl(), m_doc->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
     connect(&dia_ui, SIGNAL(requestBackgroundFrame()), pCore->monitorManager()->projectMonitor(), SLOT(slotGetCurrentImage()));
+    if (!path.isEmpty()) {
+        dia_ui.loadTitle(QUrl::fromLocalFile(path));
+    } else {
         QDomDocument doc;
         doc.setContent(clip->getProducerProperty(QStringLiteral("xmldata")));
         dia_ui.setXml(doc);
+    }
         if (dia_ui.exec() == QDialog::Accepted) {
             QMap <QString, QString> newprops;
             newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
