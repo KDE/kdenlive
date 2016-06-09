@@ -452,6 +452,7 @@ private slots:
     void showTimelineToolbarMenu(const QPoint &pos);
     /** @brief Open Cached Data management dialog. */
     void slotManageCache();
+    void showMenuBar(bool show);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

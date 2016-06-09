@@ -698,10 +698,6 @@ void Timeline::updateTrackState(int ix, int state)
     QScopedPointer<Mlt::Producer> track(m_tractor->track(ix));
     currentState = track->get_int("hide");
     if (state == currentState) return;
-    bool processAudio = false;
-    bool hideAudio = false;
-    bool processVideo = false;
-    bool hideVideo = false;
     if (state == 0) {
         // Show all
         if (currentState & 1) {

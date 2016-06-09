@@ -103,6 +103,7 @@
 #include <QUndoGroup>
 #include <QFileDialog>
 #include <QStyleFactory>
+#include <QMenuBar>
 
 #include <stdlib.h>
 #include <QStandardPaths>
@@ -1350,7 +1351,9 @@ void MainWindow::setupActions()
     QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()), KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
     pCore->library()->setupActions(QList <QAction *>() << sentToLibrary);
 
-    QAction *a = KStandardAction::quit(this, SLOT(close()),                  actionCollection());
+    KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
+    
+    QAction *a = KStandardAction::quit(this, SLOT(close()), actionCollection());
     a->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-exit")));
     // TODO: make the following connection to slotEditKeys work
     //KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           actionCollection());
@@ -3615,6 +3618,13 @@ void MainWindow::slotManageCache()
     lay->addWidget(buttonBox);
     d.setLayout(lay);
     d.exec();
+}
+
+void MainWindow::showMenuBar(bool show)
+{
+    if (!show)
+	KMessageBox::information(this, i18n("This will hide the menu bar completely. You can show it again by typing Ctrl+M."), i18n("Hide menu bar"), QStringLiteral("show-menubar-warning"));
+    menuBar()->setVisible(show);
 }
 
 #ifdef DEBUG_MAINW
