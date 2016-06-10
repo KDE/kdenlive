@@ -1,6 +1,7 @@
 /*
- * Copyright (c) 2011-2014 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
+ * Copyright (c) 2011-2016 Meltytech, LLC
+ * Original author: Dan Dennedy <dan@dennedy.org>
+ * Modified for Kdenlive: Jean-Baptiste Mardelle
  *
  * GL shader based on BSD licensed code from Peter Bengtsson:
  * http://www.fourcc.org/source/YUV420P-OpenGL-GLSLang.c
@@ -153,6 +154,9 @@ void GLWidget::initializeGL()
     initializeOpenGLFunctions();
     qDebug() << "OpenGL vendor: " << QString::fromUtf8((const char*) glGetString(GL_VENDOR));
     qDebug() << "OpenGL renderer: " << QString::fromUtf8((const char*) glGetString(GL_RENDERER));
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    qDebug() << "OpenGL Threaded: "<<openglContext()->supportsThreadedOpenGL();
+#endif
     qDebug() << "OpenGL ARG_SYNC: "<<openglContext()->hasExtension("GL_ARB_sync");
     qDebug() << "OpenGL OpenGLES: "<<openglContext()->isOpenGLES();
 
@@ -174,6 +178,11 @@ void GLWidget::initializeGL()
             ClientWaitSync = (ClientWaitSync_fp) openglContext()->getProcAddress("glClientWaitSync");
             if (ClientWaitSync) {
                 m_openGLSync = true;
+            } else {
+                qDebug()<<"  / / // NO GL SYNC, ERROR";
+                emit gpuNotSupported();
+                delete m_glslManager;
+                m_glslManager = 0;
             }
         }
     }
@@ -195,11 +204,14 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
-    connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
-
-    /*else {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    if (KdenliveSettings::gpu_accel() || openglContext()->supportsThreadedOpenGL())
+        connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
+    else
         connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), SLOT(onFrameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
-    }*/
+#else
+    connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), SLOT(onFrameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
+#endif
 
     connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
     connect(this, &GLWidget::textureUpdated, this, &GLWidget::update, Qt::QueuedConnection);
@@ -398,7 +410,8 @@ void GLWidget::paintGL()
     f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
-    /*if (!openglContext()->supportsThreadedOpenGL()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    if (!(m_glslManager || openglContext()->supportsThreadedOpenGL())) {
         m_mutex.lock();
         if (!m_sharedFrame.is_valid()) {
             m_mutex.unlock();
@@ -406,8 +419,8 @@ void GLWidget::paintGL()
         }
         uploadTextures(openglContext(), m_sharedFrame, m_texture);
         m_mutex.unlock();
-    }*/
-
+    }
+#endif
     if (!m_texture[0]) return;
 
     // Bind textures.
@@ -418,7 +431,6 @@ void GLWidget::paintGL()
             check_error(f);
         }
     }
-
     // Init shader program.
     m_shader->bind();
     if (m_glslManager) {
@@ -1167,6 +1179,7 @@ void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
     m_texture[1] = uName;
     m_texture[2] = vName;
     emit textureUpdated();
+    //update();
 }
 
 // MLT consumer-frame-show event handler
@@ -1242,7 +1255,6 @@ void RenderThread::run()
 FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
      : QThread(0)
      , m_semaphore(3)
-     , m_frame()
      , m_context(0)
      , m_surface(surface)
      , m_gl32(0)
@@ -1251,11 +1263,15 @@ FrameRenderer::FrameRenderer(QOpenGLContext* shareContext, QSurface *surface)
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
     m_displayTexture[0] = m_displayTexture[1] = m_displayTexture[2] = 0;
-    m_context = new QOpenGLContext;
-    m_context->setFormat(shareContext->format());
-    m_context->setShareContext(shareContext);
-    m_context->create();
-    m_context->moveToThread(this);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    if (KdenliveSettings::gpu_accel() || shareContext->supportsThreadedOpenGL()) {
+        m_context = new QOpenGLContext;
+        m_context->setFormat(shareContext->format());
+        m_context->setShareContext(shareContext);
+        m_context->create();
+        m_context->moveToThread(this);
+    }
+#endif
     setObjectName(QStringLiteral("FrameRenderer"));
     moveToThread(this);
     start();
@@ -1276,7 +1292,7 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
     // Save this frame for future use and to keep a reference to the GL Texture.
     m_displayFrame = SharedFrame(frame);
 
-    if (m_context->isValid()) {
+    if (m_context && m_context->isValid()) {
         m_context->makeCurrent(m_surface);
         // Upload each plane of YUV to a texture.
         QOpenGLFunctions* f = m_context->functions();
@@ -1289,31 +1305,10 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
             std::swap(m_renderTexture[i], m_displayTexture[i]);
         emit textureReady(m_displayTexture[0], m_displayTexture[1], m_displayTexture[2]);
         m_context->doneCurrent();
-
-        // The frame is now done being modified and can be shared with the rest
-        // of the application.
-        emit frameDisplayed(m_displayFrame);
-
-        if (sendAudioForAnalysis) {
-            // TODO: use mlt audiospectrum filter
-	    /*int freq = m_frame.get_audio_frequency();
-	    int num_channels = m_frame.get_audio_channels();
-	    int samples = m_frame.get_audio_samples();
-	    const qint16* data = (qint16*)m_frame.get_audio(freq, num_channels, samples);
-
-	    if (data) {
-		// Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
-		// So the vector is of size samples*channels.
-		audioShortVector sampleVector(samples*num_channels);
-		memcpy(sampleVector.data(), data, samples*num_channels*sizeof(qint16));
-
-		if (samples > 0) {
-		    emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
-		}
-	    }*/
-	}
     }
-
+    // The frame is now done being modified and can be shared with the rest
+    // of the application.
+    emit frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
@@ -1353,39 +1348,17 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 
         // Save this frame for future use and to keep a reference to the GL Texture.
         m_frame = SharedFrame(frame);
-
-        // The frame is now done being modified and can be shared with the rest
-        // of the application.
         qSwap(m_frame, m_displayFrame);
-        emit frameDisplayed(m_displayFrame);
-
-	if (sendAudioForAnalysis) {
-            // TODO: use mlt audiospectrum filter
-	    /*mlt_audio_format audio_format = mlt_audio_s16;
-	    //FIXME: should not be hardcoded..
-	    int freq = 48000;
-	    int num_channels = 2;
-	    int samples = 0;
-	    qint16* data = (qint16*)frame.get_audio(audio_format, freq, num_channels, samples);
-
-	    if (data) {
-		// Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
-		// So the vector is of size samples*channels.
-		audioShortVector sampleVector(samples*num_channels);
-		memcpy(sampleVector.data(), data, samples*num_channels*sizeof(qint16));
-
-		if (samples > 0) {
-		    emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
-		}
-	    }*/
-	}
     }
+    // The frame is now done being modified and can be shared with the rest
+    // of the application.
+    emit frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
 void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
 {
-    if (m_context->isValid()) {
+    if (m_context && m_context->isValid()) {
         int width = 0;
         int height = 0;
 
@@ -1400,12 +1373,12 @@ void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
 
         // Save this frame for future use and to keep a reference to the GL Texture.
         m_frame = SharedFrame(frame);
-
-        // The frame is now done being modified and can be shared with the rest
-        // of the application.
         qSwap(m_frame, m_displayFrame);
-        emit frameDisplayed(m_displayFrame);
     }
+
+    // The frame is now done being modified and can be shared with the rest
+    // of the application.
+    emit frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
