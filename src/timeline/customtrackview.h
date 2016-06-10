@@ -563,6 +563,8 @@ private slots:
     void slotEditKeyframeType(QAction *action);
     void slotAttachKeyframeToEnd(bool attach);
     void disableClip();
+    void slotAcceptRipple(bool accept);
+    void doRipple(bool accept);
 
 signals:
     void cursorMoved(int, int);

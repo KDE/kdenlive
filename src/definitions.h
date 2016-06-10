@@ -126,7 +126,7 @@ enum MonitorSceneType {
     MonitorSceneCorners,
     MonitorSceneRoto,
     MonitorSceneSplit,
-    MonitorRipple
+    MonitorSceneRipple
 };
 
 enum TransitionType {

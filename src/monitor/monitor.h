@@ -357,6 +357,7 @@ signals:
     void seekToNextSnap();
     void createSplitOverlay(Mlt::Filter *);
     void removeSplitOverlay();
+    void acceptRipple(bool);
 };
 
 #endif

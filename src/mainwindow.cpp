@@ -1735,6 +1735,7 @@ void MainWindow::connectDocument()
     connect(project, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(trackView->projectView(), SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(trackView->projectView(), SIGNAL(loadMonitorScene(MonitorSceneType,bool)), m_projectMonitor, SLOT(slotShowEffectScene(MonitorSceneType,bool)));
+    connect(m_projectMonitor, SIGNAL(acceptRipple(bool)), trackView->projectView(), SLOT(slotAcceptRipple(bool)));
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
 
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));

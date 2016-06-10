@@ -6,8 +6,7 @@ Item {
 
     // default size, but scalable by user
     height: 300; width: 400
-    signal acceptRipple()
-    signal cancelRipple()
+    signal doAcceptRipple(bool doAccept)
     property int displayFontSize
 
     Rectangle {
@@ -32,12 +31,8 @@ Item {
         }
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onPressed: {
-            if (mouseX > width / 2) {
-                root.acceptRipple()
-            } else {
-                root.cancelRipple()
-            }
+        onClicked: {
+            root.doAcceptRipple(mouseX > width / 2)
         }
     }
 

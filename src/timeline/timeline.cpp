@@ -1964,3 +1964,4 @@ void Timeline::addPreviewRange(bool add)
     if (m_timelinePreview)
         m_timelinePreview->addPreviewRange(add);
 }
+

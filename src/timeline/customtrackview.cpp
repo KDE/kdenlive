@@ -602,7 +602,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 QString crop = m_document->timecode().getDisplayTimecode(m_dragItem->cropStart(), KdenliveSettings::frametimecode());
                 QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
                 QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropStart() - m_dragItemInfo.cropStart, KdenliveSettings::frametimecode());
-                emit displayMessage(i18n("Crop from start:") + ' ' + crop + ' ' + i18n("Duration:") + ' ' + duration + ' ' + i18n("Offset:") + ' ' + offset, InformationMessage);
+                emit displayMessage(i18n("Crop from start: %1 Duration: %2 Offset: %3", crop, duration, offset), InformationMessage);
             } else if (m_moveOpMode == ResizeEnd) {
                 m_document->renderer()->switchPlay(false);
                 if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
@@ -615,7 +615,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 }
                 QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
                 QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration() - m_dragItemInfo.cropDuration, KdenliveSettings::frametimecode());
-                emit displayMessage(i18n("Duration:") + ' ' + duration + ' ' + i18n("Offset:") + ' ' + offset, InformationMessage);
+                emit displayMessage(i18n("Duration: %1 Offset: %2", duration, offset), InformationMessage);
             } else if (m_moveOpMode == FadeIn) {
                 static_cast<ClipItem*>(m_dragItem)->setFadeIn(static_cast<int>(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
             } else if (m_moveOpMode == FadeOut) {
@@ -2253,7 +2253,7 @@ void CustomTrackView::rippleMode(bool enable)
     }
     m_timeline->createRippleWindow(m_dragItem->track(), m_dragItem->startPos().frames(m_document->fps()));
     monitorRefresh();
-    emit loadMonitorScene(MonitorRipple, true);
+    emit loadMonitorScene(MonitorSceneRipple, true);
 }
 
 void CustomTrackView::slotAddEffectToCurrentItem(QDomElement effect)
@@ -8844,3 +8844,40 @@ void CustomTrackView::switchAllTrackLock()
         slotSwitchTrackLock(m_selectedTrack, !m_timeline->getTrackInfo(2).isLocked, true);
 }
 
+void CustomTrackView::slotAcceptRipple(bool accept)
+{
+    m_timeline->removeSplitOverlay();
+    QMetaObject::invokeMethod(this, "doRipple", Qt::QueuedConnection, Q_ARG(bool, accept));
+}
+
+void CustomTrackView::doRipple(bool accept)
+{
+    if (accept) {
+        QUndoCommand *command = new QUndoCommand;
+        command->setText(i18n("Ripple Edit"));
+        ItemInfo info = m_dragItem->info();
+        int resizePos = m_cursorPos;
+        // Ripple clip start
+        ClipItem *second = getClipItemAtEnd(info.startPos, info.track);// - GenTime(1, m_document->fps()), info.track);
+        if (!second) {
+            // Something is wrong
+            qDebug()<<" * * ** CAMNNOT FIND SECONT CLIP";
+            emit displayMessage(i18n("Cannot find clip"), InformationMessage);
+            monitorRefresh();
+            QTimer::singleShot(0, this, SLOT(resetScene()));
+            return;
+        }
+        ItemInfo secondInfo = second->info();
+        if (resizePos > info.startPos.frames(m_document->fps())) {
+            // shortening target clip, resize selected clip first
+            prepareResizeClipStart(m_dragItem, info, resizePos, true, command);
+            prepareResizeClipEnd(second, secondInfo, resizePos, true, command);
+        } else {
+            prepareResizeClipEnd(second, secondInfo, resizePos, true, command);
+            prepareResizeClipStart(m_dragItem, info, resizePos, true, command);
+        }
+        m_commandStack->push(command);
+    }
+    monitorRefresh();
+    emit loadMonitorScene(MonitorSceneDefault, false);
+}
