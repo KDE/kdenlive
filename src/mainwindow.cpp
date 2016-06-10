@@ -2387,7 +2387,6 @@ void MainWindow::slotAddVideoEffect(QAction *result)
         return;
     }
     QStringList info = result->data().toStringList();
-    qDebug()<<"* * *ADD EFFECT: "<<info;
     if (info.isEmpty() || info.size() < 3) {
         return;
     }
