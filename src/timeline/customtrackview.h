@@ -260,6 +260,7 @@ public:
     void switchAllTrackLock();
     /** @brief Insert space in timeline. track = -1 means all tracks */
     void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, QList <ItemInfo> excludeList = QList <ItemInfo>());
+    void rippleMode(bool enable);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -597,6 +598,7 @@ signals:
     void showClipFrame(const QString &id, int frame);
     /** @brief Select active keyframe in effect stack */
     void setActiveKeyframe(int);
+    void loadMonitorScene(MonitorSceneType,bool);
 };
 
 #endif

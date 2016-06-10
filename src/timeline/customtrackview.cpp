@@ -2239,6 +2239,23 @@ bool CustomTrackView::createSplitOverlay(Mlt::Filter *filter)
     return m_timeline->createOverlay(filter, m_dragItem->track(), m_dragItem->startPos().frames(m_document->fps()));
 }
 
+void CustomTrackView::rippleMode(bool enable)
+{
+    if (!enable) {
+        m_timeline->removeSplitOverlay();
+        emit loadMonitorScene(MonitorSceneDefault, false);
+        monitorRefresh();
+        return;
+    }
+    if (!m_dragItem || m_dragItem->type() != AVWidget) {
+        emit displayMessage(i18n("Select a clip to enter ripple mode"), InformationMessage);
+        return;
+    }
+    m_timeline->createRippleWindow(m_dragItem->track(), m_dragItem->startPos().frames(m_document->fps()));
+    monitorRefresh();
+    emit loadMonitorScene(MonitorRipple, true);
+}
+
 void CustomTrackView::slotAddEffectToCurrentItem(QDomElement effect)
 {
     slotAddEffect(effect, GenTime(), -1);

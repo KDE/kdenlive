@@ -1679,7 +1679,13 @@ void Timeline::removeSplitOverlay()
 {
     if (!m_hasOverlayTrack) return;
     m_tractor->lock();
-    m_tractor->remove_track(tracksCount());
+    Mlt::Producer *prod = m_tractor->track(tracksCount());
+    if (strcmp(prod->get("id"), "overlay_track") == 0) {
+        m_tractor->remove_track(tracksCount());
+    } else {
+        qWarning() << "Overlay track not found, something is wrong!!";
+    }
+    delete prod;
     m_hasOverlayTrack = false;
     m_tractor->unlock();
 }
@@ -1713,6 +1719,63 @@ bool Timeline::createOverlay(Mlt::Filter *filter, int tk, int startPos)
     m_tractor->insert_track(overlay, trackIndex);
     Mlt::Producer *overlayTrack = m_tractor->track(trackIndex);
     overlayTrack->set("hide", 2);
+    overlayTrack->set("id", "overlay_track");
+    delete overlayTrack;
+    m_hasOverlayTrack = true;
+    m_tractor->unlock();
+    return true;
+}
+
+bool Timeline::createRippleWindow(int tk, int startPos)
+{
+    Track *sourceTrack = track(tk);
+    if (!sourceTrack) return false;
+    m_tractor->lock();
+    int clipIndex = sourceTrack->playlist().get_clip_index_at(startPos);
+    Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
+    Clip clp(clipProducer->parent());
+    Mlt::Producer *cln = clp.clone();
+    Clip(*cln).addEffects(*clipProducer);
+    Mlt::Producer *clipProducer2 = sourceTrack->playlist().get_clip(clipIndex - 1);
+    //Clip clp2(clipProducer2->parent());
+    Mlt::Producer *cln2 = new Mlt::Producer(clipProducer2->parent()); //clp2.clone();
+    cln2->set_in_and_out(clipProducer2->get_in(), -1);
+    Clip(*cln2).addEffects(*clipProducer2);
+    int secondStart = sourceTrack->playlist().clip_start(clipIndex) - clipProducer->get_in();
+    int rippleStart = sourceTrack->playlist().clip_start(clipIndex - 1);
+
+    Mlt::Filter f1(*m_tractor->profile(), "affine");
+    f1.set("transition.geometry", "50% 0 50% 50%");
+    cln->attach(f1);
+
+    Mlt::Playlist ripple1(*m_tractor->profile());
+    ripple1.insert_blank(0, secondStart);
+    ripple1.insert_at(secondStart, cln, 1);
+    Mlt::Playlist ripple2(*m_tractor->profile());
+    ripple2.insert_blank(0, rippleStart);
+    ripple2.insert_at(rippleStart, cln2, 1);
+
+    Mlt::Playlist overlay(*m_tractor->profile());
+    Mlt::Tractor trac(*m_tractor->profile());
+    // TODO: use GPU effect/trans with movit
+    Mlt::Transition t(*m_tractor->profile(), "affine");
+    t.set("geometry", "0% 0 50% 50%");
+    t.set("always_active", 1);
+
+    trac.set_track(ripple1, 0);
+    trac.set_track(ripple2, 1);
+    trac.plant_transition(t, 0, 1);
+    delete cln;
+    delete cln2;
+    delete clipProducer;
+    delete clipProducer2;
+    Mlt::Producer split(trac.get_producer());
+    overlay.insert_at(0, &split, 1);
+    int trackIndex = tracksCount();
+    m_tractor->insert_track(overlay, trackIndex);
+    Mlt::Producer *overlayTrack = m_tractor->track(trackIndex);
+    overlayTrack->set("hide", 2);
+    overlayTrack->set("id", "overlay_track");
     delete overlayTrack;
     m_hasOverlayTrack = true;
     m_tractor->unlock();

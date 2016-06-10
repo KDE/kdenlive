@@ -468,6 +468,11 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     previewButtonAction->setDefaultWidget(timelinePreview);
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
+    QAction *rippleMode = new QAction(i18n("Ripple Mode"), this);
+    rippleMode->setCheckable(true);
+    connect(rippleMode, &QAction::triggered, pCore->projectManager(), &ProjectManager::rippleMode);
+    addAction(QStringLiteral("ripple_mode"), rippleMode);
+
     setupGUI();
     timelinePreview->setToolButtonStyle(m_timelineToolBar->toolButtonStyle());
     connect(m_timelineToolBar, &QToolBar::toolButtonStyleChanged, timelinePreview, &ProgressButton::setToolButtonStyle);
@@ -1729,6 +1734,7 @@ void MainWindow::connectDocument()
 
     connect(project, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(trackView->projectView(), SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
+    connect(trackView->projectView(), SIGNAL(loadMonitorScene(MonitorSceneType,bool)), m_projectMonitor, SLOT(slotShowEffectScene(MonitorSceneType,bool)));
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
 
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));

@@ -148,6 +148,8 @@ public:
     void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
     /** @brief Creates an overlay track with a filtered clip */
     bool createOverlay(Mlt::Filter *filter, int tk, int startPos);
+    /** @brief Creates an overlay track with a ripple transition*/
+    bool createRippleWindow(int tk, int startPos);
     void removeSplitOverlay();
     /** @brief Temporarily add/remove track before saving */
     void connectOverlayTrack(bool enable);

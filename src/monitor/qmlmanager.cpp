@@ -99,6 +99,9 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         case MonitorSceneSplit:
             m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorsplit.qml")));
             break;
+        case MonitorRipple:
+            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorripple.qml")));
+            break;
         default:
             m_view->setSource(QUrl(id == Kdenlive::ClipMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
             root = m_view->rootObject();
