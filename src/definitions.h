@@ -52,6 +52,8 @@ enum OperationType {
     MoveOperation,
     ResizeStart,
     ResizeEnd,
+    RollingStart,
+    RollingEnd,
     FadeIn,
     FadeOut,
     TransitionStart,

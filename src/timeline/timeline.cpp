@@ -976,7 +976,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
     if (end == -1)
         end = playlist.count();
     bool locked = playlist.get_int("kdenlive:locked_track") == 1;
-    for(int i = start; i < end; ++i) {
+    for(int i = start; i <= end; ++i) {
         emit loadingBin(offset + i + 1);
         if (playlist.is_blank(i)) {
             continue;
@@ -1731,29 +1731,39 @@ bool Timeline::createRippleWindow(int tk, int startPos)
     Track *sourceTrack = track(tk);
     if (!sourceTrack) return false;
     m_tractor->lock();
-    int clipIndex = sourceTrack->playlist().get_clip_index_at(startPos);
-    Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
-    Clip clp(clipProducer->parent());
-    Mlt::Producer *cln = clp.clone();
-    Clip(*cln).addEffects(*clipProducer);
-    Mlt::Producer *clipProducer2 = sourceTrack->playlist().get_clip(clipIndex - 1);
-    //Clip clp2(clipProducer2->parent());
-    Mlt::Producer *cln2 = new Mlt::Producer(clipProducer2->parent()); //clp2.clone();
-    cln2->set_in_and_out(clipProducer2->get_in(), -1);
-    Clip(*cln2).addEffects(*clipProducer2);
-    int secondStart = sourceTrack->playlist().clip_start(clipIndex) - clipProducer->get_in();
-    int rippleStart = sourceTrack->playlist().clip_start(clipIndex - 1);
+    Mlt::Playlist playlist = sourceTrack->playlist();
+    int clipIndex = playlist.get_clip_index_at(startPos);
+    if (playlist.is_blank(clipIndex - 1)) {
+        // No clip to roll
+        m_tractor->unlock();
+        return false;
+    }
+    Mlt::Producer *firstClip = playlist.get_clip(clipIndex - 1);
+    Mlt::Producer *secondClip = playlist.get_clip(clipIndex);
+
+    // Create duplicate of second clip
+    Clip clp2(secondClip->parent());
+    Mlt::Producer *cln2 = clp2.clone();
+    Clip(*cln2).addEffects(*secondClip);
+
+    // Create copy of first clip
+    Mlt::Producer *cln = new Mlt::Producer(firstClip->parent());
+    cln->set_in_and_out(firstClip->get_in(), -1);
+    Clip(*cln).addEffects(*firstClip);
+
+    int secondStart = playlist.clip_start(clipIndex) - secondClip->get_in();
+    int rippleStart = playlist.clip_start(clipIndex - 1);
 
     Mlt::Filter f1(*m_tractor->profile(), "affine");
     f1.set("transition.geometry", "50% 0 50% 50%");
-    cln->attach(f1);
+    cln2->attach(f1);
 
     Mlt::Playlist ripple1(*m_tractor->profile());
     ripple1.insert_blank(0, secondStart);
-    ripple1.insert_at(secondStart, cln, 1);
+    ripple1.insert_at(secondStart, cln2, 1);
     Mlt::Playlist ripple2(*m_tractor->profile());
     ripple2.insert_blank(0, rippleStart);
-    ripple2.insert_at(rippleStart, cln2, 1);
+    ripple2.insert_at(rippleStart, cln, 1);
 
     Mlt::Playlist overlay(*m_tractor->profile());
     Mlt::Tractor trac(*m_tractor->profile());
@@ -1767,8 +1777,8 @@ bool Timeline::createRippleWindow(int tk, int startPos)
     trac.plant_transition(t, 0, 1);
     delete cln;
     delete cln2;
-    delete clipProducer;
-    delete clipProducer2;
+    delete firstClip;
+    delete secondClip;
     Mlt::Producer split(trac.get_producer());
     overlay.insert_at(0, &split, 1);
     int trackIndex = tracksCount();

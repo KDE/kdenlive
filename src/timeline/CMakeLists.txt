@@ -22,9 +22,13 @@ set(kdenlive_SRCS
   timeline/transition.cpp
   timeline/transitionhandler.cpp
   timeline/timelinesearch.cpp
+  timeline/managers/abstracttoolmanager.cpp
   timeline/managers/guidemanager.cpp
   timeline/managers/razormanager.cpp
   timeline/managers/selectmanager.cpp
   timeline/managers/previewmanager.cpp
+  timeline/managers/trimmanager.cpp
+  timeline/managers/spacermanager.cpp
+  timeline/managers/movemanager.cpp
   PARENT_SCOPE)
 

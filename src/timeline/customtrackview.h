@@ -44,6 +44,7 @@ class AbstractGroupItem;
 class Transition;
 class AudioCorrelation;
 class KSelectAction;
+class AbstractToolManager;
 
 class CustomTrackView : public QGraphicsView
 {
@@ -221,11 +222,9 @@ public:
     void completeSpaceOperation(int track, GenTime &timeOffset);
     void spaceToolMoveToSnapPos(double snappedPos);
     void createRectangleSelection(QMouseEvent * event);
-    void spaceToolSelect(QMouseEvent * event);
     int spaceToolSelectTrackOnly(int track, QList<QGraphicsItem *> &selection);
     QList<QGraphicsItem *> selectAllItemsToTheRight(int x);
-    void createGroupForSelectedItems(QList<QGraphicsItem *> &selection);
-    void selectItemsRightOfFrame(int frame);
+    GenTime createGroupForSelectedItems(QList<QGraphicsItem *> &selection);
     void resetSelectionGroup(bool selectItems = true);
     /** @brief Returns all infos necessary to save guides. */
     QMap <double, QString> guidesData() const;
@@ -261,6 +260,53 @@ public:
     /** @brief Insert space in timeline. track = -1 means all tracks */
     void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, QList <ItemInfo> excludeList = QList <ItemInfo>());
     void rippleMode(bool enable);
+        /** @brief Returns a clip from timeline
+     *  @param pos the end time position
+     *  @param track the track where the clip is in MLT coordinates */
+    ClipItem *getClipItemAtEnd(GenTime pos, int track);
+    /** @brief Returns a clip from timeline 
+     *  @param pos the time position
+     *  @param track the track where the clip is in MLT coordinates 
+     *  @param end the end position of the clip in case of overlapping clips (overwrite mode) */
+    ClipItem *getClipItemAtStart(GenTime pos, int track, GenTime end = GenTime());
+    /** @brief Takes care of updating effects and attached transitions during a resize from start.
+    * @param item Item to resize
+    * @param oldInfo The item's info before resizement (set to item->info() is @param check true)
+    * @param pos New startPos
+    * @param check (optional, default = false) Whether to check for collisions
+    * @param command (optional) Will be used as parent command (for undo history) */
+    void prepareResizeClipStart(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false, QUndoCommand *command = NULL);
+
+    /** @brief Takes care of updating effects and attached transitions during a resize from end.
+    * @param item Item to resize
+    * @param oldInfo The item's info before resizement (set to item->info() is @param check true)
+    * @param pos New endPos
+    * @param check (optional, default = false) Whether to check for collisions
+    * @param command (optional) Will be used as parent command (for undo history) */
+    void prepareResizeClipEnd(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false, QUndoCommand *command = NULL);
+    AbstractClipItem *dragItem();
+    /** @brief Cut clips in all non locked tracks. */
+    void cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QList <ItemInfo> excludedTransitions, QUndoCommand *masterCommand, int track = -1);
+    void updateClipTypeActions(ClipItem *clip);
+    void setOperationMode(OperationType mode);
+    TimelineMode::EditMode sceneEditMode();
+    bool isLastClip(ItemInfo info);
+    TrackInfo getTrackInfo(int ix);
+    Transition *getTransitionItemAtStart(GenTime pos, int track);
+    Transition *getTransitionItemAtEnd(GenTime pos, int track);
+    void adjustTimelineTransitions(TimelineMode::EditMode mode, Transition *item, QUndoCommand *command);
+    /** @brief Get the index of the video track that is just below current track */
+    int getPreviousVideoTrack(int track);
+    /** @brief Updates the duration stored in a track's TrackInfo.
+     * @param track Number of track as used in ItemInfo (not the numbering used in KdenliveDoc) (negative for all tracks)
+     * @param command If effects need to be updated the commands to do this will be attached to this undo command
+     * 
+     * In addition to update the duration in TrackInfo it updates effects with keyframes on the track. */
+    void updateTrackDuration(int track, QUndoCommand *command);
+    /** @brief Send updtaed info to transition widget. */
+    void updateTransitionWidget(Transition *tr, ItemInfo info);
+    AbstractGroupItem *selectionGroup();
+    Timecode timecode();
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -365,6 +411,11 @@ protected:
     virtual void contextMenuEvent(QContextMenuEvent * event);
 
 private:
+    enum ToolManagerType {
+        TrimType = 0,
+        SpacerType,
+        MoveType
+    };
     int m_ct;
     int m_tracksHeight;
     int m_projectDuration;
@@ -394,20 +445,12 @@ private:
     QList <Guide *> m_guides;
     QColor m_selectedTrackColor;
     QColor m_lockedTrackColor;
+    QMap <ToolManagerType, AbstractToolManager*> m_toolManagers;
 
     /** @brief Returns a clip from timeline
      *  @param pos a time value that is inside the clip
      *  @param track the track where the clip is in MLT coordinates */
     ClipItem *getClipItemAtMiddlePoint(int pos, int track);
-    /** @brief Returns a clip from timeline
-     *  @param pos the end time position
-     *  @param track the track where the clip is in MLT coordinates */
-    ClipItem *getClipItemAtEnd(GenTime pos, int track);
-    /** @brief Returns a clip from timeline 
-     *  @param pos the time position
-     *  @param track the track where the clip is in MLT coordinates 
-     *  @param end the end position of the clip in case of overlapping clips (overwrite mode) */
-    ClipItem *getClipItemAtStart(GenTime pos, int track, GenTime end = GenTime());
     /** @brief Returns a moved clip from timeline (means that the item was moved but its ItemInfo coordinates have not been updated yet)
      * */
     ClipItem *getMovedClipItem(ItemInfo info, GenTime offset, int trackOffset);
@@ -416,8 +459,6 @@ private:
      *  @param track the track where the clip is in MLT coordinates */
     Transition *getTransitionItemAt(int pos, int track);
     Transition *getTransitionItemAt(GenTime pos, int track);
-    Transition *getTransitionItemAtEnd(GenTime pos, int track);
-    Transition *getTransitionItemAtStart(GenTime pos, int track);
     void checkScrolling();
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
@@ -446,14 +487,12 @@ private:
     int m_findIndex;
     ProjectTool m_tool;
     QCursor m_razorCursor;
-    QCursor m_spacerCursor;
     /** list containing items currently copied in the timeline */
     QList<AbstractClipItem *> m_copiedItems;
     /** Used to get the point in timeline where a context menu was opened */
     QPoint m_menuPosition;
     AbstractGroupItem *m_selectionGroup;
     int m_selectedTrack;
-    int m_spacerOffset;
 
     QMutex m_selectionMutex;
     QMutex m_mutex;
@@ -465,9 +504,6 @@ private:
     /** stores the state of the control modifier during mouse press.
      * Will then be used to identify whether we resize a group or only one item of it. */
     bool m_controlModifier;
-
-    /** @brief Get the index of the video track that is just below current track */
-    int getPreviousVideoTrack(int track);
     void updatePositionEffects(ClipItem * item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
@@ -475,49 +511,25 @@ private:
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
-    void groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
+    GenTime groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     /** Get available space for clip move (min and max free positions) */
     void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     /** Get available space for transition move (min and max free positions) */
     void getTransitionAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
-    void updateClipTypeActions(ClipItem *clip);
     /** Whether an item can be moved to a new position without colliding with similar items */
     bool itemCollision(AbstractClipItem *item, const ItemInfo &newPos);
     /** Selects all items in the scene rect, and sets ok to false if a group going over several tracks is found in it */
     QList<QGraphicsItem *> checkForGroups(const QRectF &rect, bool *ok);
-    void adjustTimelineTransitions(TimelineMode::EditMode mode, Transition *item, QUndoCommand *command);
     /** Adjust keyframes when pasted to another clip */
     void adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml);
 
     /** @brief Removes the tip and stops the animation timer. */
     void removeTipAnimation();
-    /** @brief Takes care of updating effects and attached transitions during a resize from start.
-    * @param item Item to resize
-    * @param oldInfo The item's info before resizement (set to item->info() is @param check true)
-    * @param pos New startPos
-    * @param check (optional, default = false) Whether to check for collisions
-    * @param command (optional) Will be used as parent command (for undo history) */
-    void prepareResizeClipStart(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false, QUndoCommand *command = NULL);
-
-    /** @brief Takes care of updating effects and attached transitions during a resize from end.
-    * @param item Item to resize
-    * @param oldInfo The item's info before resizement (set to item->info() is @param check true)
-    * @param pos New endPos
-    * @param check (optional, default = false) Whether to check for collisions
-    * @param command (optional) Will be used as parent command (for undo history) */
-    void prepareResizeClipEnd(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false, QUndoCommand *command = NULL);
 
     /** @brief Collects information about the group's children to pass it on to RazorGroupCommand.
     * @param group The group to cut
     * @param cutPos The absolute position of the cut */
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
-
-    /** @brief Updates the duration stored in a track's TrackInfo.
-     * @param track Number of track as used in ItemInfo (not the numbering used in KdenliveDoc) (negative for all tracks)
-     * @param command If effects need to be updated the commands to do this will be attached to this undo command
-     * 
-     * In addition to update the duration in TrackInfo it updates effects with keyframes on the track. */
-    void updateTrackDuration(int track, QUndoCommand *command);
 
     /** @brief Adjusts effects after a clip resize.
      * @param item The item that was resized
@@ -532,12 +544,8 @@ private:
     void reloadTimeline();
     /** @brief Timeline selection changed, update effect stack. */
     void updateTimelineSelection();
-    /** @brief Send updtaed info to transition widget. */
-    void updateTransitionWidget(Transition *tr, ItemInfo info);
     /** @brief Break groups containing an item in a locked track. */
     void breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
-    /** @brief Cut clips in all non locked tracks. */
-    void cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QList <ItemInfo> excludedTransitions, QUndoCommand *masterCommand, int track = -1);
 
 private slots:
     void slotRefreshGuides();

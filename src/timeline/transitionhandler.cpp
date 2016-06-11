@@ -21,8 +21,8 @@
 #include "transitionhandler.h"
 #include "mainwindow.h"
 
-TransitionHandler::TransitionHandler(Mlt::Tractor *tractor) :
-    m_tractor(tractor)
+TransitionHandler::TransitionHandler(Mlt::Tractor *tractor) : QObject()
+    , m_tractor(tractor)
 {
 }
 
