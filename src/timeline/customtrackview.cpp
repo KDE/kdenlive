@@ -1020,8 +1020,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             itemSelected = true;
         }
 
-        QGraphicsView::mousePressEvent(event);
-
         if (event->modifiers() & Qt::ControlModifier && m_operationMode != ResizeEnd && m_operationMode != ResizeStart)  {
             // Handle ctrl click events
             resetSelectionGroup();
@@ -1127,14 +1125,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     if (m_selectionGroup == NULL) {
         if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
             updateSnapPoints(NULL);
-            // Start Ripple edit
-            if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier) {
-                // Rolling edit
-                m_toolManagers.value(TrimType)->mousePress(m_dragItemInfo);
-            } else {
-                // Resize
-                m_toolManagers.value(ResizeType)->mousePress(m_dragItemInfo, event->modifiers());
-            }
         } else {
             updateSnapPoints(m_dragItem);
         }
@@ -1163,6 +1153,23 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         m_selectionMutex.unlock();
     }
+    
+    if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
+        // Start Ripple edit
+        if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier) {
+            // Rolling edit
+            if (!m_toolManagers.value(TrimType)->mousePress(m_dragItemInfo)) {
+                event->ignore();
+                return;
+            }
+        } else {
+            // Resize
+            m_toolManagers.value(ResizeType)->mousePress(m_dragItemInfo, event->modifiers());
+        }
+    }
+
+    QGraphicsView::mousePressEvent(event);
+
     if (m_operationMode == KeyFrame) {
         m_dragItem->prepareKeyframeMove();
         return;

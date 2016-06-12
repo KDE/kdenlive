@@ -39,7 +39,7 @@ bool SelectManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, Q
 {
     Q_UNUSED(info);
     m_modifiers = modifiers;
-    if (m_modifiers & Qt::ShiftModifier) {
+    if (m_modifiers == Qt::ShiftModifier) {
         m_view->createRectangleSelection(modifiers);
         return true;
     }

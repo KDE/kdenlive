@@ -47,6 +47,9 @@ bool TrimManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphi
     }
     if (!m_firstClip || !m_secondClip) {
         qDebug()<<"/ / / / WARNING, ERROR WITH TRIM CLIPS";
+        m_view->setOperationMode(None);
+        m_firstInfo = ItemInfo();
+        m_secondInfo = ItemInfo();
         return false;
     }
     m_firstInfo = m_firstClip->info();
@@ -64,6 +67,8 @@ bool TrimManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphi
 
 void TrimManager::mouseMove(int pos)
 {
+    if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
+        return;
     if (pos < m_firstClip->endPos().frames(m_view->fps())) {
         m_firstClip->resizeEnd(pos, false);
         m_secondClip->resizeStart(pos, true, false);
@@ -76,6 +81,8 @@ void TrimManager::mouseMove(int pos)
 
 void TrimManager::mouseRelease(GenTime)
 {
+    if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
+        return;
     m_view->rippleMode(false);
     QUndoCommand *command = new QUndoCommand;
     command->setText(i18n("Rolling Edit"));
@@ -87,6 +94,8 @@ void TrimManager::mouseRelease(GenTime)
         m_view->prepareResizeClipEnd(m_firstClip, m_firstInfo, m_firstClip->startPos().frames(m_view->fps()), false, command);
     }
     m_commandStack->push(command);
+    m_firstInfo = ItemInfo();
+    m_secondInfo = ItemInfo();
 }
 
 
