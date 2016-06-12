@@ -38,7 +38,7 @@ class SelectManager : public AbstractToolManager
 
 public:
     explicit SelectManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
-    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier);
+    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
     void mouseMove(int pos);
     void mouseRelease(GenTime pos = GenTime());
     /** @brief Check if a guide operation is applicable on items under mouse. 

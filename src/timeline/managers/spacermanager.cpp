@@ -31,7 +31,7 @@ SpacerManager::SpacerManager(CustomTrackView *view, DocUndoStack *commandStack) 
 {
 }
 
-bool SpacerManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers)
+bool SpacerManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem *>)
 {
     m_view->clearSelection();
     m_view->updateClipTypeActions(NULL);

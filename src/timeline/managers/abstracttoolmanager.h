@@ -30,6 +30,7 @@
 
 class CustomTrackView;
 class DocUndoStack;
+class QGraphicsItem;
 
 class AbstractToolManager : public QObject
 {
@@ -37,7 +38,7 @@ class AbstractToolManager : public QObject
 
 public:
     explicit AbstractToolManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
-    virtual bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier) = 0;
+    virtual bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>()) = 0;
     virtual void mouseMove(int pos = 0) = 0;
     virtual void mouseRelease(GenTime pos = GenTime()) = 0;
 

@@ -27,18 +27,13 @@
 #include "timeline/transitionhandler.h"
 
 #include <KLocalizedString>
-#include <QtConcurrent>
-#include <QStandardPaths>
-#include <QProcess>
-
-
 
 MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
     , m_transitionHandler(handler)
 {
 }
 
-bool MoveManager::mousePress(ItemInfo info, Qt::KeyboardModifiers)
+bool MoveManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *>)
 {
     m_view->setCursor(Qt::ClosedHandCursor);
     m_dragItemInfo = info;

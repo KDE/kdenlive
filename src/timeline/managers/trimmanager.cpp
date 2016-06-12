@@ -35,17 +35,30 @@ TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : Ab
 {
 }
 
-bool TrimManager::mousePress(ItemInfo info, Qt::KeyboardModifiers)
+bool TrimManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *>)
 {
-    m_firstClip = m_view->getClipItemAtEnd(info.startPos, info.track);
-    m_secondClip = m_view->getClipItemAtStart(info.startPos, info.track);
+    qDebug()<<"OP MODE: "<<m_view->prepareMode();
+    if (m_view->prepareMode() == ResizeStart) {
+        m_firstClip = m_view->getClipItemAtEnd(info.startPos, info.track);
+        m_secondClip = m_view->getClipItemAtStart(info.startPos, info.track);
+    } else {
+        m_firstClip = m_view->getClipItemAtEnd(info.endPos, info.track);
+        m_secondClip = m_view->getClipItemAtStart(info.endPos, info.track);
+    }
     if (!m_firstClip || !m_secondClip) {
+        qDebug()<<"/ / / / WARNING, ERROR WITH TRIM CLIPS";
         return false;
     }
     m_firstInfo = m_firstClip->info();
     m_secondInfo = m_secondClip->info();
+    AbstractClipItem *dragItem = m_view->dragItem();
     m_view->rippleMode(true);
     m_view->loadMonitorScene(MonitorSceneRipple, true);
+    AbstractGroupItem *selectionGroup = m_view->selectionGroup();
+    if (selectionGroup) {
+        m_view->resetSelectionGroup(false);
+        dragItem->setSelected(true);
+    }
     return true;
 }
 

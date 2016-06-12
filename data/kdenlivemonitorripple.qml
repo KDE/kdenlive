@@ -17,7 +17,7 @@ Item {
         height: root.displayFontSize * 2
         color: "darkBlue"
         Text {
-            text: 'Ripple Mode'
+            text: 'Rolling Mode'
             color: "white"
             anchors.centerIn: parent
         }

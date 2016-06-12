@@ -20,26 +20,37 @@
 #ifndef GUIDEMANAGER_H
 #define GUIDEMANAGER_H
 
-#include "definitions.h"
+#include "abstracttoolmanager.h"
 
 class QGraphicsItem;
 class QMouseEvent;
 class CustomTrackView;
-
+class Guide;
 
 /**
  * @namespace GuideManager
  * @brief Provides convenience methods to handle timeline guides.
  */
 
-namespace GuideManager
+class GuideManager : public AbstractToolManager
 {
+    Q_OBJECT
+
+public:
+    explicit GuideManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
+    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
+    void mouseMove(int pos = 0);
+    void mouseRelease(GenTime pos = GenTime());
     /** @brief Check if a guide operation is applicable on items under mouse. 
      * @param items The list of items under mouse
      * @param operationMode Will be set to MoveGuide if applicable
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
      **/
-    void checkOperation(QList<QGraphicsItem *> items, CustomTrackView *parent, QMouseEvent * /*event*/, OperationType &operationMode, bool &abort);
+    static void checkOperation(QList<QGraphicsItem *> items, CustomTrackView *parent, QMouseEvent * /*event*/, OperationType &operationMode, bool &abort);
+
+private:
+    QList<QGraphicsItem *> m_collisionList;
+    Guide *m_dragGuide;
 };
 
 #endif

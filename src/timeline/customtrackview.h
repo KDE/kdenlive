@@ -290,6 +290,7 @@ public:
     void updateClipTypeActions(ClipItem *clip);
     void setOperationMode(OperationType mode);
     OperationType operationMode() const;
+    OperationType prepareMode() const;
     TimelineMode::EditMode sceneEditMode();
     bool isLastClip(ItemInfo info);
     TrackInfo getTrackInfo(int ix);
@@ -423,7 +424,8 @@ private:
         MoveType,
         ResizeType,
         RazorType,
-        SelectType
+        SelectType,
+        GuideType
     };
     int m_ct;
     int m_tracksHeight;

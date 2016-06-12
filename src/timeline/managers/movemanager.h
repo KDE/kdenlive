@@ -35,7 +35,7 @@ class MoveManager : public AbstractToolManager
 
 public:
     explicit MoveManager(TransitionHandler *handler, CustomTrackView *view, DocUndoStack *commandStack = NULL);
-    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier);
+    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
     void mouseMove(int pos = 0);
     void mouseRelease(GenTime pos = GenTime());
 

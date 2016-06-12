@@ -32,7 +32,7 @@ RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : 
 {
 }
 
-bool RazorManager::mousePress(ItemInfo info, Qt::KeyboardModifiers)
+bool RazorManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *>)
 {
     AbstractClipItem *dragItem = m_view->dragItem();
     AbstractGroupItem *selectionGroup = m_view->selectionGroup();

@@ -189,6 +189,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_toolManagers.insert(RazorType, new RazorManager(this, m_commandStack));
     m_toolManagers.insert(MoveType, new MoveManager(m_timeline->transitionHandler, this, m_commandStack));
     m_toolManagers.insert(SelectType, new SelectManager(this, m_commandStack));
+    m_toolManagers.insert(GuideType, new GuideManager(this, m_commandStack));
 }
 
 CustomTrackView::~CustomTrackView()
@@ -590,6 +591,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         return;
     }
     if (m_moveOpMode != None && m_moveOpMode != WaitingForConfirm && event->buttons() != Qt::NoButton) {
+        qDebug()<<"* * *MOVING MOUSE: "<<m_moveOpMode;
         if (m_dragItem && m_operationMode != ZoomTimeline) m_clipDrag = true;
         if (m_dragItem && m_tool == SelectTool) {
             if (m_moveOpMode == MoveOperation && m_clipDrag) {
@@ -605,6 +607,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                     m_scrollTimer.stop();
                 }
             } else if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
+                qDebug()<<" + + +TRIM MOVE";
                 m_toolManagers.value(TrimType)->mouseMove(snappedPos);
             } else if (m_moveOpMode == ResizeStart || m_moveOpMode == ResizeEnd) {
                 m_document->renderer()->switchPlay(false);
@@ -851,23 +854,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         QGraphicsView::mousePressEvent(event);
         return;
     }
-    // if a guide and a clip were pressed, just select the guide
-    for (int i = 0; i < collisionList.count(); ++i) {
-        if (collisionList.at(i)->type() == GUIDEITEM) {
-            // a guide item was pressed
-            m_dragGuide = static_cast<Guide*>(collisionList.at(i));
-            if (event->button() == Qt::LeftButton) { // move it
-                m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, true);
-                m_operationMode = MoveGuide;
-                // deselect all clips so that only the guide will move
-                m_scene->clearSelection();
-                resetSelectionGroup(false);
-                updateSnapPoints(NULL);
-                QGraphicsView::mousePressEvent(event);
-                return;
-            } else // show context menu
-                break;
-        }
+
+    if (m_toolManagers.value(GuideType)->mousePress(ItemInfo(), event->modifiers(), collisionList)) {
+        QGraphicsView::mousePressEvent(event);
+        return;
     }
 
     // Find first clip, transition or group under mouse (when no guides selected)
@@ -1140,15 +1130,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
             updateSnapPoints(NULL);
             // Start Ripple edit
-            ItemInfo info = m_dragItemInfo;
-            if (m_operationMode == ResizeEnd) {
-                info.startPos = info.endPos;
-            }
             if (event->modifiers() & Qt::ControlModifier) {
-                m_toolManagers.value(TrimType)->mousePress(info);
+                // Rolling edit
+                m_toolManagers.value(TrimType)->mousePress(m_dragItemInfo);
             } else {
                 // Resize
-                m_toolManagers.value(ResizeType)->mousePress(info, event->modifiers());
+                m_toolManagers.value(ResizeType)->mousePress(m_dragItemInfo, event->modifiers());
             }
         } else {
             updateSnapPoints(m_dragItem);
@@ -1251,9 +1238,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (transitionAccepted) slotAddTransition(static_cast<ClipItem*>(m_dragItem), info, transitiontrack, transition);
         else emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
 
-    } else if ((m_operationMode == ResizeStart || m_operationMode == ResizeEnd) && m_selectionGroup) {
-        resetSelectionGroup(false);
-        m_dragItem->setSelected(true);
     }
 }
 
@@ -2199,16 +2183,18 @@ void CustomTrackView::rippleMode(bool enable)
         return;
     }
     if (!m_dragItem || m_dragItem->type() != AVWidget) {
+        qDebug()<<"* * * * *RIPPLEMODE ERROR";
         emit displayMessage(i18n("Select a clip to enter ripple mode"), InformationMessage);
         return;
     }
-    if (m_timeline->createRippleWindow(m_dragItem->track(), m_dragItem->startPos().frames(m_document->fps()))) {
-        if (m_operationMode == ResizeEnd)
-            m_operationMode = RollingEnd;
-        else if (m_operationMode == ResizeStart)
-            m_operationMode = RollingStart;
-        monitorRefresh();
+    if (m_operationMode == ResizeEnd)
+        m_moveOpMode = RollingEnd;
+    else if (m_operationMode == ResizeStart)
+        m_moveOpMode = RollingStart;
+    int ripplePos = m_moveOpMode == RollingStart ? m_dragItem->startPos().frames(m_document->fps()) : m_dragItem->endPos().frames(m_document->fps());
+    if (m_timeline->createRippleWindow(m_dragItem->track(), ripplePos)) {
         emit loadMonitorScene(MonitorSceneRipple, true);
+        monitorRefresh();
     }
 }
 
@@ -4299,23 +4285,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         m_dragItem->setGraphicsEffect(NULL);
     }*/
     if (m_scrollTimer.isActive()) m_scrollTimer.stop();
-    if (m_moveOpMode == MoveGuide && m_dragGuide) {
-        setCursor(Qt::ArrowCursor);
-        m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, false);
-        GenTime newPos = GenTime(m_dragGuide->pos().x(), m_document->fps());
-        if (newPos != m_dragGuide->position()) {
-            EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), newPos, m_dragGuide->label(), false);
-            m_commandStack->push(command);
-            m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x(), m_document->fps()));
-            qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
-            emit guidesUpdated();
-        }
-        m_dragGuide = NULL;
-        if (m_dragItem) {
-            m_dragItem->setMainSelectedClip(false);
-        }
-        m_dragItem = NULL;
-	m_moveOpMode = None;
+    if (m_moveOpMode == MoveGuide) {
+        m_toolManagers.value(GuideType)->mouseMove();
+        qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
         return;
     } else if (m_moveOpMode == Spacer) {
         m_toolManagers.value(SpacerType)->mouseRelease();
@@ -8502,6 +8474,11 @@ void CustomTrackView::doRipple(bool accept)
 void CustomTrackView::setOperationMode(OperationType mode)
 {
     m_moveOpMode = mode;
+}
+
+OperationType CustomTrackView::prepareMode() const
+{
+    return m_operationMode;
 }
 
 OperationType CustomTrackView::operationMode() const

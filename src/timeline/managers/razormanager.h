@@ -41,7 +41,7 @@ class RazorManager : public AbstractToolManager
 
 public:
     explicit RazorManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
-    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier);
+    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
     void mouseMove(int pos = 0);
     void mouseRelease(GenTime pos = GenTime());
     /** @brief Check if a guide operation is applicable on items under mouse. 

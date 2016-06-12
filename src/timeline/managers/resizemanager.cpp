@@ -32,10 +32,16 @@ ResizeManager::ResizeManager(CustomTrackView *view, DocUndoStack *commandStack) 
 {
 }
 
-bool ResizeManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers)
+bool ResizeManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem *>)
 {
     m_dragItemInfo = info;
     m_controlModifier = modifiers;
+    AbstractClipItem *dragItem = m_view->dragItem();
+    AbstractGroupItem *selectionGroup = m_view->selectionGroup();
+    if (selectionGroup) {
+        m_view->resetSelectionGroup(false);
+        dragItem->setSelected(true);
+    }
     return true;
 }
 
@@ -173,7 +179,7 @@ void ResizeManager::mouseRelease(GenTime pos)
                             }
                         }
                     } else {
-                        m_view->prepareResizeClipEnd(dragItem, m_dragItemInfo, dragItem->endPos().frames(m_view->fps()));
+                        m_view->prepareResizeClipEnd(dragItem, m_dragItemInfo, dragItem->endPos().frames(m_view->fps()), false);
                         ItemInfo range;
                         if (dragItem->endPos() < m_dragItemInfo.endPos) {
                             range.startPos = dragItem->endPos();

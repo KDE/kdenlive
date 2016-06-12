@@ -18,11 +18,64 @@
  ***************************************************************************/
 
 #include "guidemanager.h"
-#include "../customtrackview.h"
+#include "timeline/customtrackview.h"
+#include "timeline/timelinecommands.h"
+#include "timeline/abstractclipitem.h"
 
 #include <QMouseEvent>
 #include <QGraphicsItem>
 
+GuideManager::GuideManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
+{
+}
+
+bool GuideManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *> list)
+{
+    m_collisionList = list;
+    // if a guide and a clip were pressed, just select the guide
+    for (int i = 0; i < m_collisionList.count(); ++i) {
+        if (m_collisionList.at(i)->type() == GUIDEITEM) {
+            // a guide item was pressed
+            m_dragGuide = static_cast<Guide*>(m_collisionList.at(i));
+            m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, true);
+            m_view->setOperationMode(MoveGuide);
+                // deselect all clips so that only the guide will move
+            m_view->clearSelection();
+            m_view->updateSnapPoints(NULL);
+            return true;
+        }
+    }
+    return false;
+}
+
+void GuideManager::mouseMove(int pos)
+{
+    Q_UNUSED(pos);
+    m_view->setCursor(Qt::ArrowCursor);
+    m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, false);
+    GenTime newPos = GenTime(m_dragGuide->pos().x(), m_view->fps());
+    if (newPos != m_dragGuide->position()) {
+        EditGuideCommand *command = new EditGuideCommand(m_view, m_dragGuide->position(), m_dragGuide->label(), newPos, m_dragGuide->label(), false);
+        m_commandStack->push(command);
+        m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x(), m_view->fps()));
+        m_view->guidesUpdated();
+        m_dragGuide = NULL;
+        AbstractClipItem *dragItem = m_view->dragItem();
+        if (dragItem) {
+            dragItem->setMainSelectedClip(false);
+        }
+        dragItem = NULL;
+        m_view->setOperationMode(None);
+    }
+}
+
+void GuideManager::mouseRelease(GenTime pos)
+{
+    m_collisionList.clear();
+    Q_UNUSED(pos);
+}
+
+//static
 void GuideManager::checkOperation(QList<QGraphicsItem *> items, CustomTrackView *parent, QMouseEvent * /*event*/, OperationType &operationMode, bool &abort)
 {
     if (items.count() == 1 && items.at(0)->type() == GUIDEITEM) {

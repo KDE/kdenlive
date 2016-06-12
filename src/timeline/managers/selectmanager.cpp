@@ -35,7 +35,7 @@ SelectManager::SelectManager(CustomTrackView *view, DocUndoStack *commandStack) 
 {
 }
 
-bool SelectManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers)
+bool SelectManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem *>)
 {
     Q_UNUSED(info);
     if (modifiers & Qt::ShiftModifier) {
