@@ -1756,21 +1756,17 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             emit displayMessage(i18n("Clip not ready"), ErrorMessage);
             return false;
         }
-        ItemInfo info;
-        info.startPos = GenTime();
-        info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
-        info.endPos = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
-        info.cropDuration = info.endPos;// - info.startPos;
-        info.track = 0;
 
         // Check if clip can be inserted at that position
-        ItemInfo pasteInfo = info;
-        pasteInfo.startPos = GenTime((int)(framePos.x() + 0.5), m_document->fps());
-        pasteInfo.endPos = pasteInfo.startPos + info.endPos;
-        pasteInfo.track = track;
+        ItemInfo info;
+        info.startPos = GenTime((int)(framePos.x() + 0.5), m_document->fps());
+        info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
+        info.cropDuration = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
+        info.endPos = info.startPos + info.cropDuration;
+        info.track = track;
         framePos.setX((int)(framePos.x() + 0.5));
         framePos.setY(getPositionFromTrack(track));
-        if (m_scene->editMode() == TimelineMode::NormalEdit && !canBePastedTo(pasteInfo, AVWidget)) {
+        if (m_scene->editMode() == TimelineMode::NormalEdit && !canBePastedTo(info, AVWidget)) {
             return true;
         }
         QList<int> lockedTracks;
@@ -1790,7 +1786,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         if (lockedTracks.contains(track)) {
 	    return false;
 	}
-        
+
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, 1, getFrameWidth());
         connect(item, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
