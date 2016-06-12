@@ -961,12 +961,26 @@ void Timeline::reloadTrack(int ix, int start, int end)
     QList<QGraphicsItem *> selection = m_scene->items(r);
     QList<QGraphicsItem *> toDelete;
     for (int i = 0; i < selection.count(); i++) {
-        if (selection.at(i)->type() == AVWidget)
+        if (selection.at(i)->type() == AVWidget) {
             toDelete << selection.at(i);
+        }
     }
     qDeleteAll(toDelete);
     // Reload items
     loadTrack(ix, 0, pl, startIndex, endIndex, false);
+}
+
+void Timeline::reloadTrack(ItemInfo info)
+{
+    // Get playlist
+    if (!info.isValid())
+        return;
+    Mlt::Playlist pl = m_tracks.at(info.track)->playlist();
+    // Remove current clips
+    int startIndex = pl.get_clip_index_at(info.startPos.frames(m_doc->fps()));
+    int endIndex = pl.get_clip_index_at(info.endPos.frames(m_doc->fps()));
+    // Reload items
+    loadTrack(info.track, 0, pl, startIndex, endIndex, false);
 }
 
 int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, int end, bool updateReferences) {
@@ -984,10 +998,8 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         playlist.clip_info(i, info);
         Mlt::Producer *clip = info->cut;
         // Found a clip
-        int in = info->frame_in;
-        int out = info->frame_out;
         QString idString = info->producer->get("id");
-        if (in > out || m_invalidProducers.contains(idString)) {
+        if (info->frame_in > info->frame_out || m_invalidProducers.contains(idString)) {
             QString trackName = playlist.get("kdenlive:track_name");
             m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", trackName.isEmpty() ? QString::number(ix) : trackName, info->start));
             playlist.remove(i);
@@ -1021,7 +1033,6 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             }
         }
         id = id.section('_', 0, 0);
-	int length = out - in + 1;
         ProjectClip *binclip = m_doc->getBinClip(id);
         PlaylistState::ClipState originalState = PlaylistState::Original;
         if (binclip == NULL) {
@@ -1040,11 +1051,11 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             binclip->addRef();
         ItemInfo clipinfo;
         clipinfo.startPos = GenTime(info->start, fps);
-        clipinfo.endPos = GenTime(info->start + length, fps);
-        clipinfo.cropStart = GenTime(in, fps);
-        clipinfo.cropDuration = GenTime(length, fps);
+        clipinfo.endPos = GenTime(info->start + info->frame_count, fps);
+        clipinfo.cropStart = GenTime(info->frame_in, fps);
+        clipinfo.cropDuration = GenTime(info->frame_count, fps);
         clipinfo.track = ix;
-	//qDebug()<<"// Loading clip: "<<idString<<" / SPEED: "<<speed<<"\n++++++++++++++++++++++++";
+	//qDebug()<<"// Loading clip: "<<clipinfo.startPos.frames(25)<<" / "<<clipinfo.endPos.frames(25)<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, slowInfo.speed, slowInfo.strobe, m_trackview->getFrameWidth(), true);
         connect(item, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
         item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - clipinfo.track) + 1 + item->itemOffset());

@@ -68,7 +68,8 @@ void MoveManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
                     new RefreshMonitorCommand(m_view, QList <ItemInfo>() << info << m_dragItemInfo, false, true, moveCommand);
                 QList <ItemInfo> excluded;
                 excluded << info;
-                //item->setItemLocked(true);
+                item->setItemLocked(true);
+                //item->setEnabled(false);
                 ItemInfo initialClip = m_dragItemInfo;
                 if (m_view->sceneEditMode() == TimelineMode::InsertEdit) {
                     m_view->cutTimeline(info.startPos.frames(m_view->fps()), excluded, QList <ItemInfo>(), moveCommand, info.track);
@@ -221,13 +222,16 @@ void MoveManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
                 m_view->updateTrackDuration(info.track, moveCommand);
                 if (m_dragItemInfo.track != info.track)
                     m_view->updateTrackDuration(m_dragItemInfo.track, moveCommand);
-                if (item->hasVisibleVideo())
+                bool refresh = item->hasVisibleVideo();
+                if (refresh)
                     new RefreshMonitorCommand(m_view, QList <ItemInfo>() << info << m_dragItemInfo, false, false, moveCommand);
                 commandStack->push(moveCommand);
-                if (item->hasVisibleVideo())
+                if (refresh)
                     m_view->monitorRefresh(QList <ItemInfo>() << info << m_dragItemInfo, true);
-                item->setItemLocked(isLocked);
-                //checkTrackSequence(m_dragItem->track());
+                item = m_view->getClipItemAtStart(info.startPos, info.track, info.endPos);
+                if (item) {
+                    item->setItemLocked(isLocked);
+                }
             } else {
                 // undo last move and emit error message
                 bool snap = KdenliveSettings::snaptopoints();

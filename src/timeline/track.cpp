@@ -103,14 +103,8 @@ bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, Playlis
 bool Track::doAdd(qreal t, Mlt::Producer *cut, TimelineMode::EditMode mode)
 {
     int pos = frame(t);
-    int len = cut->get_out() - cut->get_in() + 1;
-    if (pos < m_playlist.get_playtime() && mode > 0) {
-        if (mode == TimelineMode::OverwriteEdit) {
-            m_playlist.remove_region(pos, len);
-        } else if (mode == TimelineMode::InsertEdit) {
-            m_playlist.split_at(pos);
-        }
-        //m_playlist.insert_blank(m_playlist.get_clip_index_at(pos), len);
+    if (pos < m_playlist.get_playtime() && mode == TimelineMode::InsertEdit) {
+        m_playlist.split_at(pos);
     }
     m_playlist.consolidate_blanks();
     if (m_playlist.insert_at(pos, cut, 1) == m_playlist.count() - 1) {

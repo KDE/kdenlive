@@ -2678,63 +2678,76 @@ void CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool
                 qDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
             else
                 qDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
+            qDebug() << "/// ERROR CUTTING CLIP PLAYLIST 1!!";
             return;
         }
 
         if (execute) {
             if (!m_timeline->track(info.track)->cut(cutTime.seconds())) {
                 // Error cuting clip in playlist
+                qDebug() << "/// ERROR CUTTING CLIP PLAYLIST!!";
                 return;
             }
         }
         if (!selectDup && info.track == selectedInfo.track && (selectedInfo.contains(info.startPos) || selectedInfo.contains(info.endPos))) {
             clearSelection();
         }
-        m_timeline->reloadTrack(info.track, info.startPos.frames(m_document->fps()), info.endPos.frames(m_document->fps()));
+        delete item;
+        m_timeline->reloadTrack(info);
 
         // remove unwanted effects
         // fade in from 2nd part of the clip
-        item = getClipItemAtStart(info.startPos, info.track);
-        ClipItem *dup = getClipItemAtStart(cutTime, info.track);
-        dup->binClip()->addRef();
-        int ix = dup->hasEffect(QString(), QStringLiteral("fadein"));
-        if (ix != -1) {
-            QDomElement oldeffect = dup->effectAtIndex(ix);
-            dup->deleteEffect(oldeffect.attribute(QStringLiteral("kdenlive_ix")).toInt());
+        item = getClipItemAtStart(info.startPos, info.track, cutTime);
+        if (!item)
+            qDebug()<<"* * * CANNOT FIND CUT SRC CLIP AT: "<<info.startPos.frames(25);
+        ClipItem *dup = getClipItemAtStart(cutTime, info.track, info.endPos);
+        int ix = -1;
+        if (!dup) {
+            qDebug()<<"* * * CANNOT FIND CUT CLIP AT: "<<cutTime.frames(25);
+        } else {
+            dup->binClip()->addRef();
+            ix = dup->hasEffect(QString(), QStringLiteral("fadein"));
+            if (ix != -1) {
+                QDomElement oldeffect = dup->effectAtIndex(ix);
+                dup->deleteEffect(oldeffect.attribute(QStringLiteral("kdenlive_ix")).toInt());
+            }
+            ix = dup->hasEffect(QString(), QStringLiteral("fade_from_black"));
+            if (ix != -1) {
+                QDomElement oldeffect = dup->effectAtIndex(ix);
+                dup->deleteEffect(oldeffect.attribute(QStringLiteral("kdenlive_ix")).toInt());
+            }
         }
-        ix = dup->hasEffect(QString(), QStringLiteral("fade_from_black"));
-        if (ix != -1) {
-            QDomElement oldeffect = dup->effectAtIndex(ix);
-            dup->deleteEffect(oldeffect.attribute(QStringLiteral("kdenlive_ix")).toInt());
-        }
-        // fade out from 1st part of the clip
-        ix = item->hasEffect(QString(), QStringLiteral("fadeout"));
-        if (ix != -1) {
-            QDomElement oldeffect = item->effectAtIndex(ix);
-            item->deleteEffect(oldeffect.attribute(QStringLiteral("kdenlive_ix")).toInt());
-        }
-        ix = item->hasEffect(QString(), QStringLiteral("fade_to_black"));
-        if (ix != -1) {
-            QDomElement oldeffect = item->effectAtIndex(ix);
-            item->deleteEffect(oldeffect.attribute(QStringLiteral("kdenlive_ix")).toInt());
-        }
+        if (item) {
+            // fade out from 1st part of the clip
+            ix = item->hasEffect(QString(), QStringLiteral("fadeout"));
+            if (ix != -1) {
+                QDomElement oldeffect = item->effectAtIndex(ix);
+                item->deleteEffect(oldeffect.attribute(QStringLiteral("kdenlive_ix")).toInt());
+            }
+            ix = item->hasEffect(QString(), QStringLiteral("fade_to_black"));
+            if (ix != -1) {
+                QDomElement oldeffect = item->effectAtIndex(ix);
+                item->deleteEffect(oldeffect.attribute(QStringLiteral("kdenlive_ix")).toInt());
+            }
 
-        if (item->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps())))
-            slotRefreshEffects(item);
-
-        if (dup->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps()), (cutTime - item->startPos()).frames(m_document->fps())))
-            slotRefreshEffects(dup);
-        if (selectDup) {
-            dup->setSelected(true);
-            dup->setMainSelectedClip(true);
-            m_dragItem = dup;
-            emit clipItemSelected(dup);
-        } else if (selectedInfo.isValid() && m_dragItem == NULL) {
-            m_dragItem = getClipItemAtStart(selectedInfo.startPos, selectedInfo.track);
-            if (m_dragItem) {
-                m_dragItem->setSelected(true);
-                m_dragItem->setMainSelectedClip(true);
-                emit clipItemSelected(static_cast<ClipItem *>(m_dragItem));
+            if (item->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps())))
+                slotRefreshEffects(item);
+        }
+        if (dup) {
+            if (dup->checkKeyFrames(m_document->width(), m_document->height(), (info.cropDuration + info.cropStart).frames(m_document->fps()), (cutTime - info.startPos).frames(m_document->fps())))
+                slotRefreshEffects(dup);
+            if (selectDup) {
+                dup->setSelected(true);
+                dup->setMainSelectedClip(true);
+                m_dragItem = dup;
+                emit clipItemSelected(dup);
+            } else if (selectedInfo.isValid() && m_dragItem == NULL) {
+                m_dragItem = getClipItemAtStart(selectedInfo.startPos, selectedInfo.track);
+                if (m_dragItem) {
+                    m_dragItem->setSelected(true);
+                    m_dragItem->setMainSelectedClip(true);
+                    emit clipItemSelected(static_cast<ClipItem *>(m_dragItem));
+                }
             }
         }
         return;
@@ -3476,6 +3489,7 @@ void CustomTrackView::extractZone(QPoint z, bool closeGap, QList <ItemInfo> excl
     if (!hasMasterCommand) {
         m_commandStack->push(masterCommand);
     }
+    return;
 }
 
 void CustomTrackView::adjustTimelineTransitions(TimelineMode::EditMode mode, Transition *item, QUndoCommand *command)
@@ -4613,11 +4627,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
 void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
 {
-    ClipItem *item = getClipItemAtStart(info.startPos, info.track);
+    ClipItem *item = getClipItemAtStart(info.startPos, info.track, info.endPos);
     m_ct++;
-    if (!item) qDebug()<<"// PROBLEM FINDING CLIP ITEM TO REMOVVE!!!!!!!!!";
+    if (!item) {
+        return;
+    }
     //m_document->renderer()->saveSceneList(QString("/tmp/error%1.mlt").arg(m_ct), QDomElement());
-    if (!item || !m_timeline->track(info.track)->del(info.startPos.seconds())) {
+    if (!m_timeline->track(info.track)->del(info.startPos.seconds())) {
+        qDebug()<<" / / /CANNOT DELETE CLIP AT: "<<info.startPos.frames(25);
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), m_timeline->getTrackInfo(info.track).trackName), ErrorMessage);
         return;
     }
@@ -5122,13 +5139,17 @@ ClipItem *CustomTrackView::getClipItemAtStart(GenTime pos, int track, GenTime en
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
         if (!list.at(i)->isEnabled()) {
+            /*ClipItem *test = static_cast <ClipItem *>(list.at(i));
+            qDebug()<<" * * *DISABLED CLIP: "<<i<<", "<<test->startPos().frames(25);*/
             continue;
         }
         if (list.at(i)->type() == AVWidget) {
             ClipItem *test = static_cast <ClipItem *>(list.at(i));
+            //qDebug()<<" * * *ENABLED CLIP: "<<i<<", "<<test->startPos().frames(25)<<" = "<<pos.frames(25);
             if (test->startPos() == pos) {
               if (end > GenTime()) {
                   if (test->endPos() != end) {
+                      //qDebug()<<" - - - -- - -NO END MATCH: "<<test->endPos().frames(25)<<" = "<< end.frames(25);
                       continue;
                   }
               }
