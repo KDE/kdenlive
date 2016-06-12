@@ -33,7 +33,7 @@
 
 
 
-MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view) : AbstractToolManager(view)
+MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
     , m_transitionHandler(handler)
 {
 }
@@ -50,7 +50,7 @@ void MoveManager::mouseMove(int pos)
     Q_UNUSED(pos);
 }
 
-void MoveManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
+void MoveManager::mouseRelease(GenTime pos)
 {
     Q_UNUSED(pos);
     m_view->setCursor(Qt::OpenHandCursor);
@@ -225,7 +225,7 @@ void MoveManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
                 bool refresh = item->hasVisibleVideo();
                 if (refresh)
                     new RefreshMonitorCommand(m_view, QList <ItemInfo>() << info << m_dragItemInfo, false, false, moveCommand);
-                commandStack->push(moveCommand);
+                m_commandStack->push(moveCommand);
                 if (refresh)
                     m_view->monitorRefresh(QList <ItemInfo>() << info << m_dragItemInfo, true);
                 item = m_view->getClipItemAtStart(info.startPos, info.track, info.endPos);
@@ -255,7 +255,7 @@ void MoveManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
                 m_view->updateTrackDuration(info.track, moveCommand);
                 if (m_dragItemInfo.track != info.track)
                     m_view->updateTrackDuration(m_dragItemInfo.track, moveCommand);
-                commandStack->push(moveCommand);
+                m_commandStack->push(moveCommand);
                 m_view->monitorRefresh(QList <ItemInfo>() << info << m_dragItemInfo, true);
                 m_view->updateTransitionWidget(transition, info);
             }
@@ -313,7 +313,7 @@ void MoveManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
             m_view->extractZone(QPoint(cutInfo.startPos.frames(m_view->fps()), cutInfo.endPos.frames(m_view->fps())), false, updatedClipsToMove, moveGroup, -1);
         }
         new MoveGroupCommand(m_view, clipsToMove, transitionsToMove, timeOffset, trackOffset, true, true, moveGroup);
-        commandStack->push(moveGroup);
+        m_commandStack->push(moveGroup);
     }
     m_view->setOperationMode(None);
 }

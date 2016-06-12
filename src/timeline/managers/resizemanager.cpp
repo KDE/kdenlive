@@ -28,7 +28,7 @@
 #include <KLocalizedString>
 
 
-ResizeManager::ResizeManager(CustomTrackView *view) : AbstractToolManager(view)
+ResizeManager::ResizeManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
 {
 }
 
@@ -65,8 +65,9 @@ void ResizeManager::mouseMove(int pos)
     m_view->displayMessage(i18n("Crop from start: %1 Duration: %2 Offset: %3", crop, duration, offset), InformationMessage);
 }
 
-void ResizeManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
+void ResizeManager::mouseRelease(GenTime pos)
 {
+    Q_UNUSED(pos);
     AbstractClipItem *dragItem = m_view->dragItem();
     AbstractGroupItem *selectionGroup = m_view->selectionGroup();
     if (dragItem) {
@@ -97,7 +98,7 @@ void ResizeManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
                                 ++itemcount;
                             }
                         }
-                        commandStack->push(resizeCommand);
+                        m_commandStack->push(resizeCommand);
                         if (min < max) {
                             ItemInfo nfo;
                             nfo.startPos = min;
@@ -163,7 +164,7 @@ void ResizeManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
                                 }
                             }
                             m_view->updateTrackDuration(-1, resizeCommand);
-                            commandStack->push(resizeCommand);
+                            m_commandStack->push(resizeCommand);
                             if (min < max) {
                                 ItemInfo nfo;
                                 nfo.startPos = min;

@@ -183,11 +183,12 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     connect(m_disableClipAction, &QAction::triggered, this, &CustomTrackView::disableClip);
     m_disableClipAction->setCheckable(true);
     m_document->doAddAction(QStringLiteral("clip_disabled"), m_disableClipAction, QKeySequence());
-    m_toolManagers.insert(TrimType, new TrimManager(this));
-    m_toolManagers.insert(SpacerType, new SpacerManager(this));
-    m_toolManagers.insert(ResizeType, new ResizeManager(this));
-    m_toolManagers.insert(RazorType, new RazorManager(m_commandStack, this));
-    m_toolManagers.insert(MoveType, new MoveManager(m_timeline->transitionHandler, this));
+    m_toolManagers.insert(TrimType, new TrimManager(this, m_commandStack));
+    m_toolManagers.insert(SpacerType, new SpacerManager(this, m_commandStack));
+    m_toolManagers.insert(ResizeType, new ResizeManager(this, m_commandStack));
+    m_toolManagers.insert(RazorType, new RazorManager(this, m_commandStack));
+    m_toolManagers.insert(MoveType, new MoveManager(m_timeline->transitionHandler, this, m_commandStack));
+    m_toolManagers.insert(SelectType, new SelectManager(this, m_commandStack));
 }
 
 CustomTrackView::~CustomTrackView()
@@ -673,11 +674,11 @@ void CustomTrackView::graphicsViewMouseEvent(QMouseEvent * event)
     QGraphicsView::mouseMoveEvent(event);
 }
 
-void CustomTrackView::createRectangleSelection(QMouseEvent * event)
+void CustomTrackView::createRectangleSelection(Qt::KeyboardModifiers modifiers)
 {
     setDragMode(QGraphicsView::RubberBandDrag);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-    if (!(event->modifiers() & Qt::ControlModifier)) {
+    if (!(modifiers & Qt::ControlModifier)) {
         resetSelectionGroup();
         if (m_dragItem) {
             emit clipItemSelected(NULL);
@@ -687,7 +688,6 @@ void CustomTrackView::createRectangleSelection(QMouseEvent * event)
         scene()->clearSelection();
     }
     m_moveOpMode = RubberSelection;
-    QGraphicsView::mousePressEvent(event);
 }
 
 QList<QGraphicsItem *> CustomTrackView::selectAllItemsToTheRight(int x)
@@ -829,15 +829,13 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
 
-    if (event->button() == Qt::LeftButton) {
-        if (event->modifiers() & Qt::ShiftModifier && m_tool == SelectTool) {
-            createRectangleSelection(event);
-            return;
-        }
-        if (m_tool != RazorTool) activateMonitor();
-        else if (m_document->renderer()->isPlaying()) {
-            m_document->renderer()->switchPlay(false);
-            return;
+    if (m_tool == SelectTool) {
+        if (event->button() == Qt::LeftButton) {
+            if (m_toolManagers.value(SelectType)->mousePress(ItemInfo(), event->modifiers())) {
+                QGraphicsView::mousePressEvent(event);
+                return;
+            }
+            QGraphicsView::mousePressEvent(event);
         }
     }
 
@@ -4320,7 +4318,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 	m_moveOpMode = None;
         return;
     } else if (m_moveOpMode == Spacer) {
-        m_toolManagers.value(SpacerType)->mouseRelease(NULL);
+        m_toolManagers.value(SpacerType)->mouseRelease();
     } else if (m_moveOpMode == RubberSelection) {
         //setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
         if (event->modifiers() != Qt::ControlModifier) {
@@ -4345,11 +4343,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         return;
     }
     if (m_moveOpMode == MoveOperation) {
-        m_toolManagers.value(MoveType)->mouseRelease(m_commandStack);
+        m_toolManagers.value(MoveType)->mouseRelease();
     } else if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
-        m_toolManagers.value(TrimType)->mouseRelease(m_commandStack, m_selectionGroup ? m_selectionGroup->startPos() : GenTime());
+        m_toolManagers.value(TrimType)->mouseRelease(m_selectionGroup ? m_selectionGroup->startPos() : GenTime());
     } else if (m_moveOpMode == ResizeStart || m_moveOpMode == ResizeEnd) {
-        m_toolManagers.value(ResizeType)->mouseRelease(m_commandStack);
+        m_toolManagers.value(ResizeType)->mouseRelease();
     } else if (m_moveOpMode == FadeIn && m_dragItem) {
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         // find existing video fade, if none then audio fade

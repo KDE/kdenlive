@@ -221,7 +221,7 @@ public:
 
     void completeSpaceOperation(int track, GenTime &timeOffset);
     void spaceToolMoveToSnapPos(double snappedPos);
-    void createRectangleSelection(QMouseEvent * event);
+    void createRectangleSelection(Qt::KeyboardModifiers modifiers);
     int spaceToolSelectTrackOnly(int track, QList<QGraphicsItem *> &selection);
     QList<QGraphicsItem *> selectAllItemsToTheRight(int x);
     GenTime createGroupForSelectedItems(QList<QGraphicsItem *> &selection);
@@ -422,7 +422,8 @@ private:
         SpacerType,
         MoveType,
         ResizeType,
-        RazorType
+        RazorType,
+        SelectType
     };
     int m_ct;
     int m_tracksHeight;

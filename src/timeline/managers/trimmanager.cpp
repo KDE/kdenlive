@@ -29,7 +29,7 @@
 
 
 
-TrimManager::TrimManager(CustomTrackView *view) : AbstractToolManager(view)
+TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
     , m_firstClip(NULL)
     , m_secondClip(NULL)
 {
@@ -61,7 +61,7 @@ void TrimManager::mouseMove(int pos)
     m_view->seekCursorPos(pos);
 }
 
-void TrimManager::mouseRelease(DocUndoStack *commandStack, GenTime)
+void TrimManager::mouseRelease(GenTime)
 {
     m_view->rippleMode(false);
     QUndoCommand *command = new QUndoCommand;
@@ -73,7 +73,7 @@ void TrimManager::mouseRelease(DocUndoStack *commandStack, GenTime)
         m_view->prepareResizeClipStart(m_secondClip, m_secondInfo, m_secondClip->startPos().frames(m_view->fps()), false, command);
         m_view->prepareResizeClipEnd(m_firstClip, m_firstInfo, m_firstClip->startPos().frames(m_view->fps()), false, command);
     }
-    commandStack->push(command);
+    m_commandStack->push(command);
 }
 
 

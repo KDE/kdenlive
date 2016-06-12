@@ -34,10 +34,10 @@ class TrimManager : public AbstractToolManager
     Q_OBJECT
 
 public:
-    explicit TrimManager(CustomTrackView *view);
+    explicit TrimManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
     bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier);
     void mouseMove(int pos);
-    void mouseRelease(DocUndoStack *commandStack, GenTime pos = GenTime());
+    void mouseRelease(GenTime pos = GenTime());
 
 private:
     ClipItem *m_firstClip;

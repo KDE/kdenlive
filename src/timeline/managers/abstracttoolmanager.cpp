@@ -20,8 +20,9 @@
 #include "abstracttoolmanager.h"
 #include "timeline/customtrackview.h"
 
-AbstractToolManager::AbstractToolManager(CustomTrackView *view) : QObject()
+AbstractToolManager::AbstractToolManager(CustomTrackView *view, DocUndoStack *commandStack) : QObject()
     , m_view(view)
+    , m_commandStack(commandStack)
 {
 }
 

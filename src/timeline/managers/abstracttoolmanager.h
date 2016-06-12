@@ -36,13 +36,14 @@ class AbstractToolManager : public QObject
     Q_OBJECT
 
 public:
-    explicit AbstractToolManager(CustomTrackView *view);
+    explicit AbstractToolManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
     virtual bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier) = 0;
     virtual void mouseMove(int pos = 0) = 0;
-    virtual void mouseRelease(DocUndoStack *commandStack = NULL, GenTime pos = GenTime()) = 0;
+    virtual void mouseRelease(GenTime pos = GenTime()) = 0;
 
 protected:
     CustomTrackView *m_view;
+    DocUndoStack *m_commandStack;
 };
 
 #endif

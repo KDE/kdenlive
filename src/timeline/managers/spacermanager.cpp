@@ -27,7 +27,7 @@
 
 
 
-SpacerManager::SpacerManager(CustomTrackView *view) : AbstractToolManager(view)
+SpacerManager::SpacerManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
 {
 }
 
@@ -60,9 +60,8 @@ void SpacerManager::mouseMove(int pos)
     m_view->spaceToolMoveToSnapPos(snappedPos);
 }
 
-void SpacerManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
+void SpacerManager::mouseRelease(GenTime pos)
 {
-    Q_UNUSED(commandStack);
     GenTime timeOffset = pos - m_startPos;
     m_view->completeSpaceOperation(m_track, timeOffset);
 }

@@ -20,7 +20,7 @@
 #ifndef SELECTMANAGER_H
 #define SELECTMANAGER_H
 
-#include "definitions.h"
+#include "abstracttoolmanager.h"
 
 class QGraphicsItem;
 class QMouseEvent;
@@ -32,14 +32,21 @@ class AbstractGroupItem;
  * @brief Provides convenience methods to handle selection tool.
  */
 
-namespace SelectManager
+class SelectManager : public AbstractToolManager
 {
+    Q_OBJECT
+
+public:
+    explicit SelectManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
+    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier);
+    void mouseMove(int pos);
+    void mouseRelease(GenTime pos = GenTime());
     /** @brief Check if a guide operation is applicable on items under mouse. 
      * @param item The item under mouse
      * @param operationMode Will be set to under mouse operation if applicable
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
      **/
-    void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation);
+    static void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation);
 };
 
 #endif

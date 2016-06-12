@@ -18,18 +18,43 @@
  ***************************************************************************/
 
 #include "selectmanager.h"
-#include "../customtrackview.h"
-#include "../clipitem.h"
-#include "../abstractclipitem.h"
-#include "../abstractgroupitem.h"
-#include "../gentime.h"
-#include "bin/projectclip.h"
-#include "mltcontroller/clipcontroller.h"
+#include "timeline/customtrackview.h"
+#include "timeline/clipitem.h"
+#include "timeline/abstractgroupitem.h"
+
+#include <KLocalizedString>
+#include <QProcess>
+#include <QGraphicsItem>
 
 #include <QMouseEvent>
 #include <QGraphicsItem>
 
 #include "klocalizedstring.h"
+
+SelectManager::SelectManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
+{
+}
+
+bool SelectManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers)
+{
+    Q_UNUSED(info);
+    if (modifiers & Qt::ShiftModifier) {
+        m_view->createRectangleSelection(modifiers);
+        return true;
+    }
+    m_view->activateMonitor();
+    return false;
+}
+
+void SelectManager::mouseMove(int pos)
+{
+    Q_UNUSED(pos);
+}
+
+void SelectManager::mouseRelease(GenTime pos)
+{
+    Q_UNUSED(pos);
+}
 
 void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation)
 {

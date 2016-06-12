@@ -34,10 +34,10 @@ class SpacerManager : public AbstractToolManager
     Q_OBJECT
 
 public:
-    explicit SpacerManager(CustomTrackView *view);
+    explicit SpacerManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
     bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier);
     void mouseMove(int pos = 0);
-    void mouseRelease(DocUndoStack *commandStack = NULL, GenTime pos = GenTime());
+    void mouseRelease(GenTime pos = GenTime());
 
 private:
     int m_track;

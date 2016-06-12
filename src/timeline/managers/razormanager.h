@@ -40,19 +40,16 @@ class RazorManager : public AbstractToolManager
     Q_OBJECT
 
 public:
-    explicit RazorManager(DocUndoStack *commandStack, CustomTrackView *view);
+    explicit RazorManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
     bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier);
     void mouseMove(int pos = 0);
-    void mouseRelease(DocUndoStack *commandStack = NULL, GenTime pos = GenTime());
+    void mouseRelease(GenTime pos = GenTime());
     /** @brief Check if a guide operation is applicable on items under mouse. 
      * @param items The list of items under mouse
      * @param operationMode Will be set to MoveGuide if applicable
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
      **/
     static void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, int eventPos, OperationType &operationMode, bool &abort);
-
-private:
-    DocUndoStack *m_commandStack;
 
 };
 

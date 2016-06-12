@@ -28,8 +28,7 @@
 #include <QGraphicsItem>
 #include <klocalizedstring.h>
 
-RazorManager::RazorManager(DocUndoStack *commandStack, CustomTrackView *view) : AbstractToolManager(view)
-    , m_commandStack(commandStack)
+RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
 {
 }
 
@@ -65,7 +64,7 @@ void RazorManager::mouseMove(int pos)
     Q_UNUSED(pos);
 }
 
-void RazorManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
+void RazorManager::mouseRelease(GenTime pos)
 {
     Q_UNUSED(pos);
     m_view->setCursor(Qt::OpenHandCursor);
