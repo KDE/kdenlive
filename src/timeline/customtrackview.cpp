@@ -51,6 +51,7 @@
 #include "managers/trimmanager.h"
 #include "managers/spacermanager.h"
 #include "managers/movemanager.h"
+#include "managers/resizemanager.h"
 #include "lib/audio/audioEnvelope.h"
 #include "lib/audio/audioCorrelation.h"
 
@@ -184,6 +185,8 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     m_document->doAddAction(QStringLiteral("clip_disabled"), m_disableClipAction, QKeySequence());
     m_toolManagers.insert(TrimType, new TrimManager(this));
     m_toolManagers.insert(SpacerType, new SpacerManager(this));
+    m_toolManagers.insert(ResizeType, new ResizeManager(this));
+    m_toolManagers.insert(RazorType, new RazorManager(m_commandStack, this));
     m_toolManagers.insert(MoveType, new MoveManager(m_timeline->transitionHandler, this));
 }
 
@@ -602,32 +605,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 }
             } else if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
                 m_toolManagers.value(TrimType)->mouseMove(snappedPos);
-            }else if (m_moveOpMode == ResizeStart) {
+            } else if (m_moveOpMode == ResizeStart || m_moveOpMode == ResizeEnd) {
                 m_document->renderer()->switchPlay(false);
-                if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
-                    AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
-                    if (parent)
-                        parent->resizeStart((int)(snappedPos - m_dragItemInfo.startPos.frames(m_document->fps())));
-                } else {
-                    m_dragItem->resizeStart((int)(snappedPos), true, false);
-                }
-                QString crop = m_document->timecode().getDisplayTimecode(m_dragItem->cropStart(), KdenliveSettings::frametimecode());
-                QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
-                QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropStart() - m_dragItemInfo.cropStart, KdenliveSettings::frametimecode());
-                emit displayMessage(i18n("Crop from start: %1 Duration: %2 Offset: %3", crop, duration, offset), InformationMessage);
-            } else if (m_moveOpMode == ResizeEnd) {
-                m_document->renderer()->switchPlay(false);
-                if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
-                    AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
-                    if (parent) {
-                        parent->resizeEnd((int)(snappedPos - m_dragItemInfo.endPos.frames(m_document->fps())));
-                    }
-                } else {
-                    m_dragItem->resizeEnd((int)(snappedPos), false);
-                }
-                QString duration = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration(), KdenliveSettings::frametimecode());
-                QString offset = m_document->timecode().getDisplayTimecode(m_dragItem->cropDuration() - m_dragItemInfo.cropDuration, KdenliveSettings::frametimecode());
-                emit displayMessage(i18n("Duration: %1 Offset: %2", duration, offset), InformationMessage);
+                m_toolManagers.value(ResizeType)->mouseMove(snappedPos);
             } else if (m_moveOpMode == FadeIn) {
                 static_cast<ClipItem*>(m_dragItem)->setFadeIn(static_cast<int>(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
             } else if (m_moveOpMode == FadeOut) {
@@ -1023,41 +1003,21 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 	return;
     }
 
+    QPointF clickPoint = mapToScene(event->pos());
+    ItemInfo clickInfo;
+    clickInfo.startPos = GenTime(clickPoint.x(), m_document->fps());
+    clickInfo.track = getTrackFromPos(clickPoint.y());
+
     if (event->button() == Qt::LeftButton) {
         if (m_tool == SpacerTool) {
-            QPointF clickPoint = mapToScene(event->pos());
-            ItemInfo info;
-            info.startPos = GenTime(clickPoint.x(), m_document->fps());
-            info.track = getTrackFromPos(clickPoint.y());
-            m_toolManagers.value(SpacerType)->mousePress(info, event->modifiers());
+            m_toolManagers.value(SpacerType)->mousePress(clickInfo, event->modifiers());
             QGraphicsView::mousePressEvent(event);
             return;
         }
-
         // Razor tool
         if (m_tool == RazorTool) {
-            if (!m_dragItem) {
-                // clicked in empty area, ignore
-                event->accept();
-                return;
-            }
-            GenTime cutPos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps());
-            if (m_dragItem->type() == TransitionWidget) {
-                emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
-            } else {
-                m_document->renderer()->switchPlay(false);
-                if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
-                    razorGroup(static_cast<AbstractGroupItem*>(m_dragItem->parentItem()), cutPos);
-                } else {
-                    ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
-                    if (cutPos > clip->startPos() && cutPos < clip->endPos()) {
-                        RazorClipCommand* command = new RazorClipCommand(this, clip->info(), clip->effectList(), cutPos);
-                        m_commandStack->push(command);
-                    }
-                }
-            }
-            m_dragItem->setMainSelectedClip(false);
-            m_dragItem = NULL;
+            m_document->renderer()->switchPlay(false);
+            m_toolManagers.value(RazorType)->mousePress(clickInfo);
             event->accept();
             return;
         }
@@ -1181,13 +1141,16 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     if (m_selectionGroup == NULL) {
         if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
             updateSnapPoints(NULL);
+            // Start Ripple edit
+            ItemInfo info = m_dragItemInfo;
+            if (m_operationMode == ResizeEnd) {
+                info.startPos = info.endPos;
+            }
             if (event->modifiers() & Qt::ControlModifier) {
-                // Start Ripple edit
-                ItemInfo info = m_dragItem->info();
-                if (m_operationMode == ResizeEnd) {
-                    info.startPos = info.endPos;
-                }
                 m_toolManagers.value(TrimType)->mousePress(info);
+            } else {
+                // Resize
+                m_toolManagers.value(ResizeType)->mousePress(info, event->modifiers());
             }
         } else {
             updateSnapPoints(m_dragItem);
@@ -4385,123 +4348,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         m_toolManagers.value(MoveType)->mouseRelease(m_commandStack);
     } else if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
         m_toolManagers.value(TrimType)->mouseRelease(m_commandStack, m_selectionGroup ? m_selectionGroup->startPos() : GenTime());
-    } else if (m_moveOpMode == ResizeStart && m_dragItem && m_dragItem->startPos() != m_dragItemInfo.startPos) {
-        // resize start
-        if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
-            AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
-            if (parent) {
-                QUndoCommand *resizeCommand = new QUndoCommand();
-                resizeCommand->setText(i18n("Resize group"));
-                QList <QGraphicsItem *> items = parent->childItems();
-                GenTime min = parent->startPos();
-                GenTime max = min;
-                QList <ItemInfo> infos = parent->resizeInfos();
-                parent->clearResizeInfos();
-                int itemcount = 0;
-                for (int i = 0; i < items.count(); ++i) {
-                    AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
-                    if (item && item->type() == AVWidget) {
-                        ItemInfo info = infos.at(itemcount);
-                        prepareResizeClipStart(item, info, item->startPos().frames(m_document->fps()), false, resizeCommand);
-                        ClipItem *cp = qobject_cast<ClipItem *>(item);
-                        if (cp && cp->hasVisibleVideo()) {
-                            min = qMin(min, item->startPos());
-                            max = qMax(max, item->startPos());
-                        }
-                        ++itemcount;
-                    }
-                }
-                m_commandStack->push(resizeCommand);
-                if (min < max) {
-                    ItemInfo nfo;
-                    nfo.startPos = min;
-                    nfo.endPos = max;
-                    monitorRefresh(nfo, true);
-                }
-            }
-        } else {
-            prepareResizeClipStart(m_dragItem, m_dragItemInfo, m_dragItem->startPos().frames(m_document->fps()));
-            ItemInfo range;
-            if (m_dragItem->startPos() < m_dragItemInfo.startPos) {
-                range.startPos = m_dragItem->startPos();
-                range.endPos = m_dragItemInfo.startPos;
-            } else {
-                range.endPos = m_dragItem->startPos();
-                range.startPos = m_dragItemInfo.startPos;
-            }
-            if (m_dragItem->type() == AVWidget) {
-                ClipItem *cp = qobject_cast<ClipItem*>(m_dragItem);
-                cp->slotUpdateRange();
-                if (cp->hasVisibleVideo()) {
-                    monitorRefresh(range, true);
-                }
-            } else monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << m_dragItem->info(), true);
-            clearSelection();
-            m_timeline->reloadTrack(m_dragItemInfo.track, range.startPos.frames(m_document->fps()) - 1, range.endPos.frames(m_document->fps()));
-            m_dragItem = getClipItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track);
-            if (!m_dragItem) {
-                qDebug()<<" * * ** SOMETHING WRONG HERE: "<<m_dragItemInfo.endPos.frames(m_document->fps());
-            } else {
-                m_dragItem->setSelected(true);
-                m_dragItem->setMainSelectedClip(true);
-            }
-        }
-    } else if (m_moveOpMode == ResizeEnd && m_dragItem) {
-        // resize end
-        m_dragItem->setProperty("resizingEnd",QVariant());
-        if (m_dragItem->endPos() != m_dragItemInfo.endPos) {
-            if (!m_controlModifier && m_dragItem->type() == AVWidget && m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
-                AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
-                if (parent) {
-                    QUndoCommand *resizeCommand = new QUndoCommand();
-                    resizeCommand->setText(i18n("Resize group"));
-                    QList <QGraphicsItem *> items = parent->childItems();
-                    GenTime min = parent->startPos() + parent->duration();
-                    GenTime max = min;
-                    QList <ItemInfo> infos = parent->resizeInfos();
-                    parent->clearResizeInfos();
-                    int itemcount = 0;
-                    for (int i = 0; i < items.count(); ++i) {
-                        AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
-                        if (item && item->type() == AVWidget) {
-                            ItemInfo info = infos.at(itemcount);
-                            prepareResizeClipEnd(item, info, item->endPos().frames(m_document->fps()), false, resizeCommand);
-                            ClipItem *cp = qobject_cast<ClipItem *>(item);
-                            if (cp && cp->hasVisibleVideo()) {
-                                min = qMin(min, item->endPos());
-                                max = qMax(max, item->endPos());
-                            }
-                            ++itemcount;
-                        }
-                    }
-                    updateTrackDuration(-1, resizeCommand);
-                    m_commandStack->push(resizeCommand);
-                    if (min < max) {
-                        ItemInfo nfo;
-                        nfo.startPos = min;
-                        nfo.endPos = max;
-                        monitorRefresh(nfo, true);
-                    }
-                }
-            } else {
-                prepareResizeClipEnd(m_dragItem, m_dragItemInfo, m_dragItem->endPos().frames(m_document->fps()));
-                ItemInfo range;
-                if (m_dragItem->endPos() < m_dragItemInfo.endPos) {
-                    range.startPos = m_dragItem->endPos();
-                    range.endPos = m_dragItemInfo.endPos;
-                } else {
-                    range.endPos = m_dragItem->endPos();
-                    range.startPos = m_dragItemInfo.endPos;
-                }
-                if (m_dragItem->type() == AVWidget) {
-                    ClipItem *cp = qobject_cast<ClipItem*>(m_dragItem);
-                    cp->slotUpdateRange();
-                    if (cp->hasVisibleVideo()) {
-                        monitorRefresh(range, true);
-                    }
-                } else monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << m_dragItem->info(), true);
-            }
-        }
+    } else if (m_moveOpMode == ResizeStart || m_moveOpMode == ResizeEnd) {
+        m_toolManagers.value(ResizeType)->mouseRelease(m_commandStack);
     } else if (m_moveOpMode == FadeIn && m_dragItem) {
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         // find existing video fade, if none then audio fade
@@ -8658,6 +8506,11 @@ void CustomTrackView::setOperationMode(OperationType mode)
     m_moveOpMode = mode;
 }
 
+OperationType CustomTrackView::operationMode() const
+{
+    return m_moveOpMode;
+}
+
 AbstractClipItem *CustomTrackView::dragItem()
 {
     return m_dragItem;
@@ -8695,3 +8548,7 @@ Timecode CustomTrackView::timecode()
     return m_document->timecode();
 }
 
+void CustomTrackView::reloadTrack(ItemInfo info)
+{
+    m_timeline->reloadTrack(info);
+}

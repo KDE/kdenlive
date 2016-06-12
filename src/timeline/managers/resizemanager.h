@@ -17,43 +17,30 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef RAZORMANAGER_H
-#define RAZORMANAGER_H
-
-#include "definitions.h"
-
-class QGraphicsItem;
-class QMouseEvent;
-class CustomTrackView;
-
+#ifndef RESIZEEMANAGER_H
+#define RESIZEEMANAGER_H
 
 #include "abstracttoolmanager.h"
 
 
 /**
- * @namespace RazorManager
+ * @namespace ResizeManager
  * @brief Provides convenience methods to handle selection tool.
  */
 
-class RazorManager : public AbstractToolManager
+class ResizeManager : public AbstractToolManager
 {
     Q_OBJECT
 
 public:
-    explicit RazorManager(DocUndoStack *commandStack, CustomTrackView *view);
+    explicit ResizeManager(CustomTrackView *view);
     bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier);
     void mouseMove(int pos = 0);
     void mouseRelease(DocUndoStack *commandStack = NULL, GenTime pos = GenTime());
-    /** @brief Check if a guide operation is applicable on items under mouse. 
-     * @param items The list of items under mouse
-     * @param operationMode Will be set to MoveGuide if applicable
-     * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
-     **/
-    static void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, int eventPos, OperationType &operationMode, bool &abort);
 
 private:
-    DocUndoStack *m_commandStack;
-
+    ItemInfo m_dragItemInfo;
+    Qt::KeyboardModifiers m_controlModifier;
 };
 
 #endif

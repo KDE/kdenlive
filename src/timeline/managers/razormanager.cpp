@@ -18,15 +18,61 @@
  ***************************************************************************/
 
 #include "razormanager.h"
-#include "../customtrackview.h"
 #include "../clipitem.h"
-#include "../gentime.h"
-#include "bin/projectclip.h"
-#include "mltcontroller/clipcontroller.h"
+#include "timeline/customtrackview.h"
+#include "timeline/clipitem.h"
+#include "timeline/abstractgroupitem.h"
+#include "timeline/timelinecommands.h"
 
 #include <QMouseEvent>
 #include <QGraphicsItem>
+#include <klocalizedstring.h>
 
+RazorManager::RazorManager(DocUndoStack *commandStack, CustomTrackView *view) : AbstractToolManager(view)
+    , m_commandStack(commandStack)
+{
+}
+
+bool RazorManager::mousePress(ItemInfo info, Qt::KeyboardModifiers)
+{
+    AbstractClipItem *dragItem = m_view->dragItem();
+    AbstractGroupItem *selectionGroup = m_view->selectionGroup();
+
+    if (!dragItem) {
+        // clicked in empty area, ignore
+        return false;
+    }
+    if (dragItem->type() == TransitionWidget) {
+        m_view->displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
+    } else {
+        if (dragItem->parentItem() && dragItem->parentItem() != selectionGroup) {
+            m_view->razorGroup(static_cast<AbstractGroupItem*>(dragItem->parentItem()), info.startPos);
+        } else {
+            ClipItem *clip = static_cast <ClipItem *>(dragItem);
+            if (clip->info().contains(info.startPos)) {
+                RazorClipCommand* command = new RazorClipCommand(m_view, clip->info(), clip->effectList(), info.startPos);
+                m_commandStack->push(command);
+            }
+        }
+    }
+    dragItem->setMainSelectedClip(false);
+    dragItem = NULL;
+    return true;
+}
+
+void RazorManager::mouseMove(int pos)
+{
+    Q_UNUSED(pos);
+}
+
+void RazorManager::mouseRelease(DocUndoStack *commandStack, GenTime pos)
+{
+    Q_UNUSED(pos);
+    m_view->setCursor(Qt::OpenHandCursor);
+    m_view->setOperationMode(None);
+}
+
+//static
 void RazorManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, int eventPos, OperationType &operationMode, bool &abort)
 {
     if (item && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {

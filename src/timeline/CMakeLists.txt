@@ -30,5 +30,6 @@ set(kdenlive_SRCS
   timeline/managers/trimmanager.cpp
   timeline/managers/spacermanager.cpp
   timeline/managers/movemanager.cpp
+  timeline/managers/resizemanager.cpp
   PARENT_SCOPE)
 

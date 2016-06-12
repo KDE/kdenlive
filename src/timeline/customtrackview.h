@@ -289,6 +289,7 @@ public:
     void cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QList <ItemInfo> excludedTransitions, QUndoCommand *masterCommand, int track = -1);
     void updateClipTypeActions(ClipItem *clip);
     void setOperationMode(OperationType mode);
+    OperationType operationMode() const;
     TimelineMode::EditMode sceneEditMode();
     bool isLastClip(ItemInfo info);
     TrackInfo getTrackInfo(int ix);
@@ -307,6 +308,11 @@ public:
     void updateTransitionWidget(Transition *tr, ItemInfo info);
     AbstractGroupItem *selectionGroup();
     Timecode timecode();
+    /** @brief Collects information about the group's children to pass it on to RazorGroupCommand.
+    * @param group The group to cut
+    * @param cutPos The absolute position of the cut */
+    void razorGroup(AbstractGroupItem *group, GenTime cutPos);
+    void reloadTrack(ItemInfo info);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -414,7 +420,9 @@ private:
     enum ToolManagerType {
         TrimType = 0,
         SpacerType,
-        MoveType
+        MoveType,
+        ResizeType,
+        RazorType
     };
     int m_ct;
     int m_tracksHeight;
@@ -525,11 +533,6 @@ private:
 
     /** @brief Removes the tip and stops the animation timer. */
     void removeTipAnimation();
-
-    /** @brief Collects information about the group's children to pass it on to RazorGroupCommand.
-    * @param group The group to cut
-    * @param cutPos The absolute position of the cut */
-    void razorGroup(AbstractGroupItem *group, GenTime cutPos);
 
     /** @brief Adjusts effects after a clip resize.
      * @param item The item that was resized
