@@ -910,7 +910,7 @@ ProjectClip *ClipItem::binClip() const
 }
 
 
-OperationType ClipItem::operationMode(const QPointF &pos)
+OperationType ClipItem::operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers)
 {
     if (isItemLocked()) return None;
     // Position is relative to item
@@ -930,6 +930,8 @@ OperationType ClipItem::operationMode(const QPointF &pos)
         return FadeIn;
     } else if ((pos.x() <= rect.width() / 2) && pos.x() < maximumOffset && (rect.height() - pos.y() > addtransitionOffset)) {
         // If we are in a group, allow resize only if all clips start at same position
+        if (modifiers & Qt::ControlModifier)
+            return ResizeStart;
         if (parentItem()) {
             QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());
             QList<QGraphicsItem *> list = dragGroup->childItems();
@@ -944,6 +946,8 @@ OperationType ClipItem::operationMode(const QPointF &pos)
     } else if (qAbs((int)(pos.x() - (rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y())) < 10) {
         return FadeOut;
     } else if ((pos.x() >= rect.width() / 2) && (rect.width() - pos.x() < maximumOffset) && (rect.height() - pos.y() > addtransitionOffset)) {
+        if (modifiers & Qt::ControlModifier)
+            return ResizeEnd;
         // If we are in a group, allow resize only if all clips end at same position
         if (parentItem()) {
             QGraphicsItemGroup *dragGroup = static_cast <QGraphicsItemGroup *>(parentItem());

@@ -591,7 +591,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         return;
     }
     if (m_moveOpMode != None && m_moveOpMode != WaitingForConfirm && event->buttons() != Qt::NoButton) {
-        qDebug()<<"* * *MOVING MOUSE: "<<m_moveOpMode;
         if (m_dragItem && m_operationMode != ZoomTimeline) m_clipDrag = true;
         if (m_dragItem && m_tool == SelectTool) {
             if (m_moveOpMode == MoveOperation && m_clipDrag) {
@@ -607,7 +606,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                     m_scrollTimer.stop();
                 }
             } else if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
-                qDebug()<<" + + +TRIM MOVE";
                 m_toolManagers.value(TrimType)->mouseMove(snappedPos);
             } else if (m_moveOpMode == ResizeStart || m_moveOpMode == ResizeEnd) {
                 m_document->renderer()->switchPlay(false);
@@ -1114,7 +1112,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                     // If the item is very small, only allow move
                     m_operationMode = MoveOperation;
                 }
-                else m_operationMode = m_dragItem->operationMode(m_dragItem->mapFromScene(mapToScene(event->pos())));
+                else m_operationMode = m_dragItem->operationMode(m_dragItem->mapFromScene(mapToScene(event->pos())), event->modifiers());
                 if (m_operationMode == ResizeEnd) {
                     // FIXME: find a better way to avoid move in ClipItem::itemChange?
                     m_dragItem->setProperty("resizingEnd", true);
@@ -1130,7 +1128,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
             updateSnapPoints(NULL);
             // Start Ripple edit
-            if (event->modifiers() & Qt::ControlModifier) {
+            if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier) {
                 // Rolling edit
                 m_toolManagers.value(TrimType)->mousePress(m_dragItemInfo);
             } else {
@@ -4259,8 +4257,6 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 {
     if (event->button() != Qt::LeftButton) {
-        //event->ignore();
-	//m_moveOpMode = None;
 	QGraphicsView::mouseReleaseEvent(event);
         return;
     }
@@ -4272,55 +4268,44 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     QGraphicsView::mouseReleaseEvent(event);
     setDragMode(QGraphicsView::NoDrag);
 
-    if (m_moveOpMode == Seek) m_moveOpMode = None;
-    if (m_moveOpMode == ScrollTimeline || m_moveOpMode == ZoomTimeline) {
+    if (m_moveOpMode == Seek || m_moveOpMode == ScrollTimeline || m_moveOpMode == ZoomTimeline) {
         m_moveOpMode = None;
-        //QGraphicsView::mouseReleaseEvent(event);
-	//setDragMode(QGraphicsView::NoDrag);
         return;
     }
     m_clipDrag = false;
-    //setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
-    /*if (m_dragItem) {
-        m_dragItem->setGraphicsEffect(NULL);
-    }*/
     if (m_scrollTimer.isActive()) m_scrollTimer.stop();
-    if (m_moveOpMode == MoveGuide) {
-        m_toolManagers.value(GuideType)->mouseMove();
-        qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
-        return;
-    } else if (m_moveOpMode == Spacer) {
-        m_toolManagers.value(SpacerType)->mouseRelease();
-    } else if (m_moveOpMode == RubberSelection) {
-        //setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
-        if (event->modifiers() != Qt::ControlModifier) {
-            if (m_dragItem) m_dragItem->setMainSelectedClip(false);
-            m_dragItem = NULL;
-        }
-	//event->accept();
-        resetSelectionGroup();
-        groupSelectedItems();
-        if (m_selectionGroup == NULL && m_dragItem) {
-            // Only 1 item selected
-            if (m_dragItem->type() == AVWidget) {
-                m_dragItem->setMainSelectedClip(true);
-                emit clipItemSelected(static_cast<ClipItem *>(m_dragItem), false);
-            }
-        }
-    }
 
-    if (m_dragItem == NULL && m_selectionGroup == NULL) {
+    /*if (m_dragItem == NULL && m_selectionGroup == NULL) {
         emit transitionItemSelected(NULL);
 	m_moveOpMode = None;
         return;
+    }*/
+
+    switch ((int) m_moveOpMode) {
+        case MoveGuide:
+            m_toolManagers.value(GuideType)->mouseRelease();
+            break;
+        case Spacer:
+            m_toolManagers.value(SpacerType)->mouseRelease();
+            break;
+        case RubberSelection:
+            m_toolManagers.value(SelectType)->mouseRelease();
+            break;
+        case MoveOperation:
+            m_toolManagers.value(MoveType)->mouseRelease();
+            break;
+        case RollingStart:
+        case RollingEnd:
+            m_toolManagers.value(TrimType)->mouseRelease(m_selectionGroup ? m_selectionGroup->startPos() : GenTime());
+            break;
+        case ResizeStart:
+        case ResizeEnd:
+            m_toolManagers.value(ResizeType)->mouseRelease();
+            break;
     }
-    if (m_moveOpMode == MoveOperation) {
-        m_toolManagers.value(MoveType)->mouseRelease();
-    } else if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
-        m_toolManagers.value(TrimType)->mouseRelease(m_selectionGroup ? m_selectionGroup->startPos() : GenTime());
-    } else if (m_moveOpMode == ResizeStart || m_moveOpMode == ResizeEnd) {
-        m_toolManagers.value(ResizeType)->mouseRelease();
-    } else if (m_moveOpMode == FadeIn && m_dragItem) {
+
+
+    if (m_moveOpMode == FadeIn && m_dragItem) {
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         // find existing video fade, if none then audio fade
 
@@ -4440,6 +4425,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     } else if (m_moveOpMode == WaitingForConfirm && m_operationMode == KeyFrame && m_dragItem) {
         emit setActiveKeyframe(m_dragItem->selectedKeyFramePos());
     }
+
     m_moveOpMode = None;
 }
 
@@ -8526,4 +8512,9 @@ Timecode CustomTrackView::timecode()
 void CustomTrackView::reloadTrack(ItemInfo info)
 {
     m_timeline->reloadTrack(info);
+}
+
+void CustomTrackView::sortGuides()
+{
+    qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
 }

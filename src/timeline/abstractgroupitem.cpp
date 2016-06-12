@@ -42,7 +42,6 @@ AbstractGroupItem::AbstractGroupItem(double /* fps */) :
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setAcceptDrops(true);
-    m_resizeInfos = QList <ItemInfo>();
 }
 
 int AbstractGroupItem::type() const
@@ -177,7 +176,7 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
     pen.setStyle(Qt::DashLine);
     pen.setWidthF(0.0);
     p->setPen(pen);
-    p->drawRoundedRect(boundingRect().adjusted(0, 0, -1, 0), 3, 3);
+    p->drawRoundedRect(childrenBoundingRect().adjusted(0, 0, -1, 0), 3, 3);
 }
 
 int AbstractGroupItem::trackForPos(int position)
@@ -492,70 +491,29 @@ void AbstractGroupItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 
 void AbstractGroupItem::resizeStart(int diff)
 {
-    bool info = false;
-    if (m_resizeInfos.isEmpty())
-        info = true;
-    int maximum = diff;
     QList <QGraphicsItem *> children = childItems();
-    QList <AbstractClipItem *> items;
-    int itemcount = 0;
     for (int i = 0; i < children.count(); ++i) {
         AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
         if (item && item->type() == AVWidget) {
-            items << item;
-            if (info)
-                m_resizeInfos << item->info();
-            item->resizeStart((int)(m_resizeInfos.at(itemcount).startPos.frames(item->fps())) + diff);
-            int itemdiff = (int)(item->startPos() - m_resizeInfos.at(itemcount).startPos).frames(item->fps());
-            if (qAbs(itemdiff) < qAbs(maximum))
-                maximum = itemdiff;
-            ++itemcount;
+            item->resizeStart(diff);
         }
     }
-    
-    for (int i = 0; i < items.count(); ++i)
-        items.at(i)->resizeStart((int)(m_resizeInfos.at(i).startPos.frames(items.at(i)->fps())) + maximum);
+    update();
 }
 
 void AbstractGroupItem::resizeEnd(int diff)
 {
-    bool info = false;
-    if (m_resizeInfos.isEmpty())
-        info = true;
-    int maximum = diff;
     QList <QGraphicsItem *> children = childItems();
-    QList <AbstractClipItem *> items;
-    int itemcount = 0;
     for (int i = 0; i < children.count(); ++i) {
         AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
         if (item && item->type() == AVWidget) {
-            items << item;
-            if (info)
-                m_resizeInfos << item->info();
-            item->resizeEnd((int)(m_resizeInfos.at(itemcount).endPos.frames(item->fps())) + diff);
-            int itemdiff = (int)(item->endPos() - m_resizeInfos.at(itemcount).endPos).frames(item->fps());
-            if (qAbs(itemdiff) < qAbs(maximum))
-                maximum = itemdiff;
-            ++itemcount;
+            item->resizeEnd(diff);
         }
     }
-
-    for (int i = 0; i < items.count(); ++i)
-        items.at(i)->resizeEnd((int)(m_resizeInfos.at(i).endPos.frames(items.at(i)->fps())) + maximum);
+    update();
 }
 
-QList< ItemInfo > AbstractGroupItem::resizeInfos()
-{
-    return m_resizeInfos;
-}
-
-void AbstractGroupItem::clearResizeInfos()
-{
-    // m_resizeInfos.clear() will crash in some cases for unknown reasons - ttill
-    m_resizeInfos = QList <ItemInfo>();
-}
-
-GenTime AbstractGroupItem::duration()
+GenTime AbstractGroupItem::duration() const
 {
     QList <QGraphicsItem *> children = childItems();
     GenTime start = GenTime(-1.0);
@@ -576,7 +534,7 @@ GenTime AbstractGroupItem::duration()
     return end - start;
 }
 
-GenTime AbstractGroupItem::startPos()
+GenTime AbstractGroupItem::startPos() const
 {
     QList <QGraphicsItem *> children = childItems();
     GenTime start = GenTime(-1.0);

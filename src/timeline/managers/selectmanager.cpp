@@ -38,7 +38,8 @@ SelectManager::SelectManager(CustomTrackView *view, DocUndoStack *commandStack) 
 bool SelectManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem *>)
 {
     Q_UNUSED(info);
-    if (modifiers & Qt::ShiftModifier) {
+    m_modifiers = modifiers;
+    if (m_modifiers & Qt::ShiftModifier) {
         m_view->createRectangleSelection(modifiers);
         return true;
     }
@@ -54,6 +55,21 @@ void SelectManager::mouseMove(int pos)
 void SelectManager::mouseRelease(GenTime pos)
 {
     Q_UNUSED(pos);
+    AbstractClipItem *dragItem = m_view->dragItem();
+    if (!(m_modifiers & Qt::ControlModifier)) {
+        if (dragItem) dragItem->setMainSelectedClip(false);
+            dragItem = NULL;
+    }
+    m_view->resetSelectionGroup();
+    m_view->groupSelectedItems();
+    AbstractGroupItem *selectionGroup = m_view->selectionGroup();
+    if (selectionGroup == NULL && dragItem) {
+        // Only 1 item selected
+        if (dragItem->type() == AVWidget) {
+            dragItem->setMainSelectedClip(true);
+            m_view->clipItemSelected(static_cast<ClipItem *>(dragItem), false);
+        }
+    }
 }
 
 void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation)
@@ -71,7 +87,7 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
                 // If the item is very small, only allow move
                 operationMode = MoveOperation;
             }
-            else operationMode = clip->operationMode(clip->mapFromScene(view->mapToScene(event->pos())));
+            else operationMode = clip->operationMode(clip->mapFromScene(view->mapToScene(event->pos())), event->modifiers());
         }
 
         if (operationMode == moveOperation) {

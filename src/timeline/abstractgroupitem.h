@@ -53,15 +53,11 @@ public:
     /** @brief Resizes all clips in this group from end.
     * @param diff Difference to endPos stored in m_resizeInfos */
     void resizeEnd(int diff);
-    /** @brief Gets m_resizeInfos */
-    QList <ItemInfo> resizeInfos();
-    /** @brief Clears m_resizeInfos */
-    void clearResizeInfos();
 
     /** @brief Gets the duration (length) of the group. */
-    GenTime duration();
+    GenTime duration() const;
     /** @brief Gets the start frame of the group. */
-    GenTime startPos();
+    GenTime startPos() const;
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
@@ -78,8 +74,6 @@ protected:
 private:
     QPainterPath groupShape(GraphicsRectItem type, const QPointF &offset) const;
     QPainterPath spacerGroupShape(GraphicsRectItem type, const QPointF &offset) const;
-    /** Stores the original info of the items being resized. */
-    QList <ItemInfo> m_resizeInfos;
 };
 
 #endif

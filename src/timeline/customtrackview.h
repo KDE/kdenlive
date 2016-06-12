@@ -314,6 +314,8 @@ public:
     * @param cutPos The absolute position of the cut */
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
     void reloadTrack(ItemInfo info);
+    GenTime groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
+    void sortGuides();
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -522,7 +524,6 @@ private:
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
-    GenTime groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     /** Get available space for clip move (min and max free positions) */
     void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     /** Get available space for transition move (min and max free positions) */

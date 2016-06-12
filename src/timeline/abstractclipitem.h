@@ -55,7 +55,7 @@ public:
     bool isItemLocked() const;
     void closeAnimation();
 
-    virtual OperationType operationMode(const QPointF &pos) = 0;
+    virtual OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers) = 0;
     virtual void updateKeyframes(QDomElement effect) = 0;
     virtual GenTime startPos() const ;
     virtual GenTime endPos() const ;

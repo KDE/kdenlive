@@ -55,7 +55,7 @@ public:
     virtual int type() const;
     void resizeStart(int posx, bool size = true, bool emitChange = true);
     void resizeEnd(int posx, bool emitChange = true);
-    OperationType operationMode(const QPointF &pos);
+    OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers);
     void updateKeyframes(QDomElement effect);
     static int itemHeight();
     ClipType clipType() const;

@@ -316,7 +316,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 }
 
 
-OperationType Transition::operationMode(const QPointF &pos)
+OperationType Transition::operationMode(const QPointF &pos, Qt::KeyboardModifiers)
 {
     if (isItemLocked()) return None;
 

@@ -47,6 +47,8 @@ public:
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
      **/
     static void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation);
+private:
+    Qt::KeyboardModifiers m_modifiers;
 };
 
 #endif

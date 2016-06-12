@@ -31,6 +31,7 @@ GuideManager::GuideManager(CustomTrackView *view, DocUndoStack *commandStack) : 
 
 bool GuideManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *> list)
 {
+    Q_UNUSED(info);
     m_collisionList = list;
     // if a guide and a clip were pressed, just select the guide
     for (int i = 0; i < m_collisionList.count(); ++i) {
@@ -51,6 +52,10 @@ bool GuideManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraph
 void GuideManager::mouseMove(int pos)
 {
     Q_UNUSED(pos);
+}
+
+void GuideManager::mouseRelease(GenTime pos)
+{
     m_view->setCursor(Qt::ArrowCursor);
     m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, false);
     GenTime newPos = GenTime(m_dragGuide->pos().x(), m_view->fps());
@@ -67,10 +72,7 @@ void GuideManager::mouseMove(int pos)
         dragItem = NULL;
         m_view->setOperationMode(None);
     }
-}
-
-void GuideManager::mouseRelease(GenTime pos)
-{
+    m_view->sortGuides();
     m_collisionList.clear();
     Q_UNUSED(pos);
 }

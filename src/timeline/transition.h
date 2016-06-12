@@ -54,7 +54,7 @@ public:
     int transitionEndTrack() const;
     QString transitionTag() const;
     QStringList transitionInfo() const;
-    OperationType operationMode(const QPointF &pos);
+    OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers);
     void updateKeyframes(QDomElement effect);
     static int itemHeight();
     static int itemOffset();
