@@ -92,9 +92,8 @@ void MeltJob::startJob()
     if (producerProfile) {
 	m_profile = new Mlt::Profile;
 	m_profile->set_explicit(false);
-    }
-    else {
-	m_profile = projectProfile;
+    } else {
+        m_profile = projectProfile;
     }
     if (m_extra.contains(QStringLiteral("resize_profile"))) {
         m_profile->set_height(m_extra.value(QStringLiteral("resize_profile")).toInt());
@@ -103,47 +102,28 @@ void MeltJob::startJob()
     double fps = projectProfile->fps();
     int fps_num = projectProfile->frame_rate_num();
     int fps_den = projectProfile->frame_rate_den();
-    if (out == -1) {
-	m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-        if (m_producer && producerProfile) {
-            m_profile->from_producer(*m_producer);
-            m_profile->set_explicit(true);
-        }
-        if (m_profile->fps() != fps || producerProfile) {
-            // Reload producer
-            delete m_producer;
-            // Force same fps as projec profile or the resulting .mlt will not load in our project
-            m_profile->set_frame_rate(fps_num, fps_den);
-            m_producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-        }
+    Mlt::Producer *producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+    if (producer && producerProfile) {
+        m_profile->from_producer(*producer);
+        m_profile->set_explicit(true);
     }
-    else {
-	Mlt::Producer *tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-        if (tmp && producerProfile) {
-            m_profile->from_producer(*tmp);
-            m_profile->set_explicit(true);
-        }
-        if (m_profile->fps() != fps || producerProfile) {
-            // Reload producer
-            delete tmp;
-            // Force same fps as projec profile or the resulting .mlt will not load in our project
-            m_profile->set_frame_rate(fps_num, fps_den);
-            tmp = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-        }
-        if (tmp) m_producer = tmp->cut(in, out);
-	delete tmp;
+    if (m_profile->fps() != fps || producerProfile) {
+        // Reload producer
+        delete producer;
+        // Force same fps as projec profile or the resulting .mlt will not load in our project
+        m_profile->set_frame_rate(fps_num, fps_den);
+        producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
     }
-    if (!producerProfile) {
+    if (producerProfile) {
         delete projectProfile;
     }
 
-    if (!m_producer || !m_producer->is_valid()) {
+    if (!producer || !producer->is_valid()) {
 	// Clip was removed or something went wrong, Notify user?
 	//m_errorMessage.append(i18n("Invalid clip"));
         setStatus(JobCrashed);
 	return;
     }
-    m_length = m_producer->get_length();
 
     // Process producer params
     QMapIterator<QString, QString> i(m_producerParams);
@@ -153,8 +133,15 @@ void MeltJob::startJob()
 	i.next();
 	QString key = i.key();
 	if (!ignoredProps.contains(key)) {
-	    m_producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+	    producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
 	}
+    }
+
+    if (out == -1) {
+        m_producer = producer;
+    } else {
+        m_producer = producer->cut(in, out);
+        delete producer;
     }
 
     // Build consumer
@@ -206,14 +193,17 @@ void MeltJob::startJob()
         }
     }
     Mlt::Tractor tractor(*m_profile);
-    Mlt::Playlist playlist(*m_profile);
+    Mlt::Playlist playlist;
     playlist.append(*m_producer);
     tractor.set_track(playlist, 0);
     m_consumer->connect(tractor);
     m_producer->set_speed(0);
     m_producer->seek(0);
+    m_length = m_producer->get_playtime();
+    if (m_length == 0)
+        m_length = m_producer->get_length();
     if (m_filter) m_producer->attach(*m_filter);
-    m_showFrameEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_render);
+    m_showFrameEvent = m_consumer->listen("consumer-frame-render", this, (mlt_listener) consumer_frame_render);
     m_producer->set_speed(1);
     m_consumer->run();
 
@@ -267,7 +257,7 @@ const QString MeltJob::statusMessage()
 
 void MeltJob::emitFrameNumber(int pos)
 {
-    if (m_length > 0 && m_jobStatus != JobAborted) {
+    if (m_length > 0 && m_jobStatus == JobWorking) {
         emit jobProgress(m_clipId, (int) (100 * pos / m_length), jobType);
     }
 }
