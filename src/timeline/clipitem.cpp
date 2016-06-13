@@ -19,6 +19,7 @@
 
 
 #include "clipitem.h"
+#include "abstractgroupitem.h"
 #include "customtrackscene.h"
 #include "customtrackview.h"
 #include "transition.h"
@@ -31,6 +32,7 @@
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 #include "utils/KoIconUtils.h"
 
+#include <klocalizedstring.h>
 #include <QDebug>
 #include <QIcon>
 #include <QtConcurrent>
@@ -754,6 +756,28 @@ void ClipItem::paint(QPainter *painter,
     // only paint details if clip is big enough
     int fontUnit = QFontMetrics(painter->font()).lineSpacing();
     if (mapped.width() > (2 * fontUnit)) {
+        // Check offset
+        int effectOffset = 0;
+        if (parentItem()) {
+            //TODO: optimize, calculate offset only on resize or move
+            AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(parentItem());
+            QGraphicsItem *other = grp->otherClip(this);
+            if (other && other->type() == AVWidget) {
+                ClipItem *otherClip = static_cast <ClipItem *>(other);
+                if (otherClip->getBinId() == getBinId() && otherClip->startPos() + otherClip->cropStart() != startPos() + cropStart()) {
+                    painter->setPen(Qt::red);
+                    QString txt = i18n("Offset: %1", (startPos() + cropStart() - otherClip->startPos() - otherClip->cropStart()).frames(m_fps));
+                    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, txt);
+                    painter->setBrush(Qt::red);
+                    painter->setPen(Qt::NoPen);
+                    painter->drawRoundedRect(txtBounding.adjusted(-1, -2, 4, -1), 3, 3);
+                    painter->setPen(Qt::white);
+                    painter->drawText(txtBounding.adjusted(2, 0, 1, -1), Qt::AlignCenter, txt);
+                    effectOffset = txtBounding.width();
+                }
+            }
+        }
+
         // Draw effects names
         if (!m_effectNames.isEmpty() && mapped.width() > (5 * fontUnit)) {
             QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
@@ -768,9 +792,9 @@ void ClipItem::paint(QPainter *painter,
 
             painter->setBrush(bColor);
             painter->setPen(Qt::NoPen);
-            painter->drawRoundedRect(txtBounding.adjusted(-1, -2, 4, -1), 3, 3);
+            painter->drawRoundedRect(txtBounding.adjusted(-1 + effectOffset, -2, 4 + effectOffset, -1), 3, 3);
             painter->setPen(tColor);
-            painter->drawText(txtBounding.adjusted(2, 0, 1, -1), Qt::AlignCenter, m_effectNames);
+            painter->drawText(txtBounding.adjusted(2 + effectOffset, 0, 1 + effectOffset, -1), Qt::AlignCenter, m_effectNames);
         }
 
         // Draw clip name

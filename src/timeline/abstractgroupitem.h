@@ -58,6 +58,7 @@ public:
     GenTime duration() const;
     /** @brief Gets the start frame of the group. */
     GenTime startPos() const;
+    QGraphicsItem *otherClip(QGraphicsItem *item);
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);

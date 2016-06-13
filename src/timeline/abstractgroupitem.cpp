@@ -176,7 +176,8 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
     pen.setStyle(Qt::DashLine);
     pen.setWidthF(0.0);
     p->setPen(pen);
-    p->drawRoundedRect(childrenBoundingRect().adjusted(0, 0, -1, 0), 3, 3);
+    QRectF bd = childrenBoundingRect().adjusted(0, 0, -1, 0);
+    p->drawRoundedRect(bd, 3, 3);
 }
 
 int AbstractGroupItem::trackForPos(int position)
@@ -552,4 +553,14 @@ GenTime AbstractGroupItem::startPos() const
     return start;
 }
 
-
+QGraphicsItem *AbstractGroupItem::otherClip(QGraphicsItem *item)
+{
+    QList<QGraphicsItem *> children = childItems();
+    if (children.isEmpty() || children.count() != 2)
+        return NULL;
+    if (children.at(0) == item) {
+        return children.at(1);
+    } else {
+        return children.at(0);
+    }
+}

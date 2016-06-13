@@ -8488,7 +8488,7 @@ AbstractGroupItem *CustomTrackView::selectionGroup()
     if (m_selectionGroup) {
         group = static_cast <AbstractGroupItem *>(m_selectionGroup);
     }
-    else {
+    else if (m_dragItem) {
         group = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
     }
     return group;
