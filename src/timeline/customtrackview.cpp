@@ -4283,13 +4283,15 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 	m_moveOpMode = None;
         return;
     }*/
+    QPointF clickPoint = mapToScene(event->pos());
+    GenTime clickFrame(clickPoint.x(), m_document->fps());
 
     switch ((int) m_moveOpMode) {
         case MoveGuide:
             m_toolManagers.value(GuideType)->mouseRelease();
             break;
         case Spacer:
-            m_toolManagers.value(SpacerType)->mouseRelease();
+            m_toolManagers.value(SpacerType)->mouseRelease(clickFrame);
             break;
         case RubberSelection:
             m_toolManagers.value(SelectType)->mouseRelease();

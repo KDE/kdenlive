@@ -62,7 +62,7 @@ void SpacerManager::mouseMove(int pos)
 
 void SpacerManager::mouseRelease(GenTime pos)
 {
-    GenTime timeOffset = pos - m_startPos;
+    GenTime timeOffset = pos + m_spacerOffset - m_startPos;
     m_view->completeSpaceOperation(m_track, timeOffset);
 }
 
