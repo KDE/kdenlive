@@ -48,14 +48,14 @@ bool RazorManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraph
             m_view->razorGroup(static_cast<AbstractGroupItem*>(dragItem->parentItem()), info.startPos);
         } else {
             ClipItem *clip = static_cast <ClipItem *>(dragItem);
+            dragItem->setMainSelectedClip(false);
+            dragItem = NULL;
             if (clip->info().contains(info.startPos)) {
                 RazorClipCommand* command = new RazorClipCommand(m_view, clip->info(), clip->effectList(), info.startPos);
                 m_commandStack->push(command);
             }
         }
     }
-    dragItem->setMainSelectedClip(false);
-    dragItem = NULL;
     return true;
 }
 
