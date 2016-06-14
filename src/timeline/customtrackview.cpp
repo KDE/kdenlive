@@ -840,7 +840,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 QGraphicsView::mousePressEvent(event);
                 return;
             }
-            QGraphicsView::mousePressEvent(event);
         }
     }
 
@@ -5276,11 +5275,12 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             }
         }
         m_selectionMutex.unlock();
-        resetSelectionGroup(false);
+        resetSelectionGroup(true);
         for (int i = 0; i < groupList.count(); ++i) {
             rebuildGroup(groupList.at(i));
         }
-        clearSelection();
+        groupSelectedItems(children, false);
+        //clearSelection();
         KdenliveSettings::setSnaptopoints(snap);
         //TODO: calculate affected ranges and invalidate previews
         monitorRefresh(range, true);
