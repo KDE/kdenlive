@@ -183,13 +183,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     connect(m_disableClipAction, &QAction::triggered, this, &CustomTrackView::disableClip);
     m_disableClipAction->setCheckable(true);
     m_document->doAddAction(QStringLiteral("clip_disabled"), m_disableClipAction, QKeySequence());
-    m_toolManagers.insert(TrimType, new TrimManager(this, m_commandStack));
-    m_toolManagers.insert(SpacerType, new SpacerManager(this, m_commandStack));
-    m_toolManagers.insert(ResizeType, new ResizeManager(this, m_commandStack));
-    m_toolManagers.insert(RazorType, new RazorManager(this, m_commandStack));
-    m_toolManagers.insert(MoveType, new MoveManager(m_timeline->transitionHandler, this, m_commandStack));
-    m_toolManagers.insert(SelectType, new SelectManager(this, m_commandStack));
-    m_toolManagers.insert(GuideType, new GuideManager(this, m_commandStack));
 }
 
 CustomTrackView::~CustomTrackView()
@@ -198,6 +191,17 @@ CustomTrackView::~CustomTrackView()
     qDeleteAll(m_guides);
     m_guides.clear();
     delete m_keyPropertiesTimer;
+}
+
+void CustomTrackView::initTools()
+{
+    m_toolManagers.insert(TrimType, new TrimManager(this, m_commandStack));
+    m_toolManagers.insert(SpacerType, new SpacerManager(this, m_commandStack));
+    m_toolManagers.insert(ResizeType, new ResizeManager(this, m_commandStack));
+    m_toolManagers.insert(RazorType, new RazorManager(this, m_commandStack));
+    m_toolManagers.insert(MoveType, new MoveManager(m_timeline->transitionHandler, this, m_commandStack));
+    m_toolManagers.insert(SelectType, new SelectManager(this, m_commandStack));
+    m_toolManagers.insert(GuideType, new GuideManager(this, m_commandStack));
 }
 
 //virtual

@@ -316,6 +316,7 @@ public:
     void reloadTrack(ItemInfo info);
     GenTime groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     void sortGuides();
+    void initTools();
 
 public slots:
     /** @brief Send seek request to MLT. */

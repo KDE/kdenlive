@@ -146,6 +146,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     m_disablePreview = m_doc->getAction("disable_preview");
     connect(m_disablePreview, &QAction::triggered, this, &Timeline::disablePreview);
+    m_trackview->initTools();
 }
 
 Timeline::~Timeline()
