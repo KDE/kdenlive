@@ -764,9 +764,9 @@ void ClipItem::paint(QPainter *painter,
             QGraphicsItem *other = grp->otherClip(this);
             if (other && other->type() == AVWidget) {
                 ClipItem *otherClip = static_cast <ClipItem *>(other);
-                if (otherClip->getBinId() == getBinId() && otherClip->startPos() + otherClip->cropStart() != startPos() + cropStart()) {
+                if (otherClip->getBinId() == getBinId() && (startPos() - otherClip->startPos() != cropStart() - otherClip->cropStart())) {
                     painter->setPen(Qt::red);
-                    QString txt = i18n("Offset: %1", (startPos() + cropStart() - otherClip->startPos() - otherClip->cropStart()).frames(m_fps));
+                    QString txt = i18n("Offset: %1", (startPos() - cropStart() - otherClip->startPos() + otherClip->cropStart()).frames(m_fps));
                     QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, txt);
                     painter->setBrush(Qt::red);
                     painter->setPen(Qt::NoPen);
