@@ -73,8 +73,8 @@ CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerAction
     // Define size variables
     LABEL_SIZE = fontMetrics.ascent();
     FONT_WIDTH = fontMetrics.averageCharWidth();
-    setMinimumHeight(LABEL_SIZE * 2);
-    setMaximumHeight(LABEL_SIZE * 2);
+    setMinimumHeight(LABEL_SIZE * 2.3);
+    setMaximumHeight(LABEL_SIZE * 2.3);
     MAX_HEIGHT = height() - 1;
     FULL_HEIGHT = MAX_HEIGHT;
     int mark_length = MAX_HEIGHT - LABEL_SIZE - 1;
@@ -168,7 +168,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
     setFocus(Qt::MouseFocusReason);
     m_view->activateMonitor();
     m_moveCursor = RULER_CURSOR;
-    if (event->y() > 10) {
+    if (event->y() > LABEL_SIZE) {
         if (qAbs(pos - m_zoneStart * m_factor) < 4) m_moveCursor = RULER_START;
         else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2.0) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
         else if (qAbs(pos - (m_zoneEnd + 1)* m_factor) < 4) m_moveCursor = RULER_END;
@@ -232,7 +232,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 
     } else {
         int pos = (int)((event->x() + m_offset));
-        if (event->y() <= 10) {
+        if (event->y() <= LABEL_SIZE) {
             setCursor(Qt::ArrowCursor);
         }
         else if (qAbs(pos - m_zoneStart * m_factor) < 4) {
@@ -402,7 +402,8 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // Draw zone background
     const int zoneStart = (int)(m_zoneStart * m_factor);
     const int zoneEnd = (int)((m_zoneEnd + 1)* m_factor);
-    p.fillRect(zoneStart - m_offset, LABEL_SIZE + 2, zoneEnd - zoneStart, MAX_HEIGHT - LABEL_SIZE - 1, m_zoneBG);
+    int zoneHeight = LABEL_SIZE * 0.8;
+    p.fillRect(zoneStart - m_offset, MAX_HEIGHT - zoneHeight + 1, zoneEnd - zoneStart, zoneHeight - 1, m_zoneBG);
 
     double f, fend;
     const int offsetmax = ((paintRect.right() + m_offset) / FRAME_SIZE + 1) * FRAME_SIZE;
@@ -461,19 +462,19 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw zone handles
     if (zoneStart > 0) {
         QPolygon pa(4);
-        pa.setPoints(4, zoneStart - m_offset + FONT_WIDTH / 2, LABEL_SIZE + 2, zoneStart - m_offset, LABEL_SIZE + 2, zoneStart - m_offset, MAX_HEIGHT, zoneStart - m_offset + FONT_WIDTH / 2, MAX_HEIGHT);
+        pa.setPoints(4, zoneStart - m_offset + FONT_WIDTH / 2, MAX_HEIGHT - zoneHeight, zoneStart - m_offset, MAX_HEIGHT - zoneHeight, zoneStart - m_offset, MAX_HEIGHT, zoneStart - m_offset + FONT_WIDTH / 2, MAX_HEIGHT);
         p.drawPolyline(pa);
     }
 
     if (zoneEnd > 0) {
         QColor center(Qt::white);
         center.setAlpha(150);
-        QRect rec(zoneStart - m_offset + (zoneEnd - zoneStart) / 2 - 4, LABEL_SIZE + 2, 8, MAX_HEIGHT - LABEL_SIZE - 2);
+        QRect rec(zoneStart - m_offset + (zoneEnd - zoneStart - zoneHeight) / 2 + 2, MAX_HEIGHT - zoneHeight + 2, zoneHeight - 4, zoneHeight - 4);
         p.fillRect(rec, center);
         p.drawRect(rec);
 
         QPolygon pa(4);
-        pa.setPoints(4, zoneEnd - m_offset - FONT_WIDTH / 2, LABEL_SIZE + 2, zoneEnd - m_offset, LABEL_SIZE + 2, zoneEnd - m_offset, MAX_HEIGHT, zoneEnd - m_offset - FONT_WIDTH / 2, MAX_HEIGHT );
+        pa.setPoints(4, zoneEnd - m_offset - FONT_WIDTH / 2, MAX_HEIGHT - zoneHeight, zoneEnd - m_offset, MAX_HEIGHT - zoneHeight, zoneEnd - m_offset, MAX_HEIGHT, zoneEnd - m_offset - FONT_WIDTH / 2, MAX_HEIGHT );
         p.drawPolyline(pa);
     }
 
@@ -565,11 +566,9 @@ void CustomRuler::hidePreview(bool hide)
 {
     m_hidePreview = hide;
     if (hide) {
-        MAX_HEIGHT = height() - 1;
-        FULL_HEIGHT = MAX_HEIGHT;
-    } else {
-        MAX_HEIGHT = height() - 7;
-        FULL_HEIGHT = height() - 1;
+        MAX_HEIGHT = FULL_HEIGHT;
+    } else {	
+        MAX_HEIGHT = height() - LABEL_SIZE / 3;
     }
     update();
 }
