@@ -192,6 +192,13 @@ bool PreviewManager::loadParams()
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {
         return false;
     }
+    //remove the r=... parameter (forcing framerate) as it causes rendering failure
+    for (int i = 0; i < m_consumerParams.count(); i++) {
+	if (m_consumerParams.at(i).startsWith(QStringLiteral("r="))) {
+	    m_consumerParams.removeAt(i);
+	    break;
+	}
+    }
     m_consumerParams << "an=1";
     if (KdenliveSettings::gpu_accel())
         m_consumerParams << "glsl.=1";
@@ -422,7 +429,7 @@ void PreviewManager::doPreviewRender(QString scene)
             break;
         }
     }
-    QFile::remove(scene);
+    //QFile::remove(scene);
     m_abortPreview = false;
 }
 
