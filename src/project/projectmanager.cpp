@@ -563,7 +563,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
 void ProjectManager::slotRevert()
 {
-    if (KMessageBox::warningContinueCancel(pCore->window(), i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel){
+    if (m_project->isModified() && KMessageBox::warningContinueCancel(pCore->window(), i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel){
         return;
     }
     QUrl url = m_project->url();
