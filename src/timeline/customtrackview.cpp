@@ -7212,6 +7212,8 @@ bool CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
             for (; destTrack > 0; destTrack--) {
                 TrackInfo info = m_timeline->getTrackInfo(destTrack);
                 if (info.type == AudioTrack && !info.isLocked) {
+		    if (sceneEditMode() != TimelineMode::NormalEdit)
+			break;
                     int blength = m_timeline->getTrackSpaceLength(destTrack, start, false);
                     if (blength == -1 || blength >= clip->cropDuration().frames(m_document->fps())) {
                         break;
@@ -7223,7 +7225,7 @@ bool CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
 	    TrackInfo info = m_timeline->getTrackInfo(destTrack);
 	    if (info.type != AudioTrack || info.isLocked) {
 		destTrack = 0;
-	    } else {
+	    } else if (sceneEditMode() == TimelineMode::NormalEdit) {
 		int blength = m_timeline->getTrackSpaceLength(destTrack, start, false);
 		if (blength < clip->cropDuration().frames(m_document->fps())) {
 		    destTrack = 0;
