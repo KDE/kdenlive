@@ -4,7 +4,6 @@ set(kdenlive_SRCS
   effectstack/abstractcollapsiblewidget.cpp
   effectstack/collapsibleeffect.cpp
   effectstack/collapsiblegroup.cpp
-  effectstack/complexparameter.cpp
   effectstack/dragvalue.cpp
   effectstack/effectstackedit.cpp
   effectstack/effectstackview2.cpp
@@ -14,7 +13,6 @@ set(kdenlive_SRCS
   effectstack/keyframehelper.cpp
   effectstack/animkeyframeruler.cpp
   effectstack/parametercontainer.cpp
-  effectstack/parameterplotter.cpp
   effectstack/positionedit.cpp
   effectstack/widgets/animationwidget.cpp
   effectstack/widgets/choosecolorwidget.cpp

@@ -248,7 +248,6 @@ include_directories(
 
 target_link_libraries(kdenlive
    KF5::WidgetsAddons
-   KF5::Plotting
    KF5::Archive
    KF5::CoreAddons
    KF5::KIOCore 

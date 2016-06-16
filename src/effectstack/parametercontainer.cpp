@@ -19,7 +19,6 @@
 
 #include "parametercontainer.h"
 
-#include "complexparameter.h"
 #include "geometryval.h"
 #include "positionedit.h"
 #include "dragvalue.h"
@@ -364,12 +363,6 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     m_conditionalWidgets << m_animationWidget;
                 }
             }
-        } else if (type == QLatin1String("complex")) {
-            ComplexParameter *pl = new ComplexParameter;
-            pl->setupParam(effect, pa.attribute(QStringLiteral("name")), 0, 100);
-            m_vbox->addWidget(pl);
-            m_valueItems[paramName+"complex"] = pl;
-            connect(pl, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
         } else if (type == QLatin1String("geometry")) {
             m_acceptDrops = true;
             if (true) {
@@ -1000,9 +993,6 @@ void ParameterContainer::slotCollectAllParameters()
             ChooseColorWidget *choosecolor = static_cast<ChooseColorWidget*>(m_valueItems.value(paramName));
             if (choosecolor) setValue = choosecolor->getColor();
 	    if (pa.hasAttribute(QStringLiteral("paramprefix"))) setValue.prepend(pa.attribute(QStringLiteral("paramprefix")));
-        } else if (type == QLatin1String("complex")) {
-            ComplexParameter *complex = static_cast<ComplexParameter*>(m_valueItems.value(paramName));
-            if (complex) namenode.item(i) = complex->getParamDesc();
         } else if (type == QLatin1String("geometry")) {
             if (m_geometryWidget) namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getValue());
         } else if (type == QLatin1String("addedgeometry")) {

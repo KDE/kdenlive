@@ -76,7 +76,7 @@ find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Script Svg Quick )
 find_package(Qt5 OPTIONAL_COMPONENTS WebKitWidgets QUIET)
 
 find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets 
-                            DBusAddons KIO WidgetsAddons Plotting NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes DocTools Crash OPTIONAL_COMPONENTS FileMetaData)
+                            DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes DocTools Crash OPTIONAL_COMPONENTS FileMetaData)
 
 if (KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")
