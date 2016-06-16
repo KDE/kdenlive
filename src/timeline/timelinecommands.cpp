@@ -786,19 +786,21 @@ SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, int
     m_view(view),
     m_pos(pos),
     m_track(track),
-    m_destTrack(destTrack)
+    m_destTrack(destTrack),
+    m_success(false)
 {
     setText(i18n("Split audio"));
 }
 // virtual
 void SplitAudioCommand::undo()
 {
-    m_view->doSplitAudio(m_pos, m_track, m_destTrack, false);
+    if (m_success)
+	m_view->doSplitAudio(m_pos, m_track, m_destTrack, false);
 }
 // virtual
 void SplitAudioCommand::redo()
 {
-    m_view->doSplitAudio(m_pos, m_track, m_destTrack, true);
+    m_success = m_view->doSplitAudio(m_pos, m_track, m_destTrack, true);
 }
 
 ChangeTrackStateCommand::ChangeTrackStateCommand(Timeline *timeline, const int track, bool changeAudio, bool changeVideo, bool hideAudio, bool hideVideo, QUndoCommand * parent) :

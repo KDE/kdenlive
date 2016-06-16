@@ -7197,12 +7197,12 @@ void CustomTrackView::slotAlignClip(int track, int pos, int shift)
 
 }
 
-void CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack, bool split)
+bool CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack, bool split)
 {
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip == NULL) {
         //qDebug() << "// Cannot find clip to split!!!";
-        return;
+        return false;
     }
     EffectsList effects;
     effects.clone(clip->effectList());
@@ -7210,8 +7210,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
         int start = pos.frames(m_document->fps());
         // do not split audio when we are on an audio track
         if (m_timeline->getTrackInfo(track).type == AudioTrack)
-            return;
-
+            return false;
         if (destTrack == -1) {
             destTrack = track - 1;
             for (; destTrack > 0; destTrack--) {
@@ -7228,10 +7227,16 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
 	    TrackInfo info = m_timeline->getTrackInfo(destTrack);
 	    if (info.type != AudioTrack || info.isLocked) {
 		destTrack = 0;
+	    } else {
+		int blength = m_timeline->getTrackSpaceLength(destTrack, start, false);
+		if (blength < clip->cropDuration().frames(m_document->fps())) {
+		    destTrack = 0;
+		}
 	    }
 	}
         if (destTrack == 0) {
             emit displayMessage(i18n("No empty space to put clip audio"), ErrorMessage);
+	    return false;
         } else {
             ItemInfo info = clip->info();
             info.track = destTrack;
@@ -7266,13 +7271,13 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
         // unsplit clip: remove audio part and change video part to normal clip
         if (clip->parentItem() == NULL || clip->parentItem()->type() != GroupWidget) {
             //qDebug() << "//CANNOT FIND CLP GRP";
-            return;
+            return false;
         }
         AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(clip->parentItem());
         QList<QGraphicsItem *> children = grp->childItems();
         if (children.count() != 2) {
             //qDebug() << "//SOMETHING IS WRONG WITH CLP GRP";
-            return;
+            return false;
         }
         for (int i = 0; i < children.count(); ++i) {
             if (children.at(i) != clip) {
@@ -7281,7 +7286,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
                 deleteClip(clp->info());
                 if (!m_timeline->track(info.track)->replace(info.startPos.seconds(), m_document->renderer()->getBinProducer(clip->getBinId()))) {
                     emit displayMessage(i18n("Cannot update clip (time: %1, track: %2)", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
-                    return;
+                    return false;
                 }
                 else {
                     clip->setState(PlaylistState::Original);
@@ -7302,6 +7307,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
         if (grp == m_selectionGroup) m_selectionGroup = NULL;
         scene()->destroyItemGroup(grp);
     }
+    return true;
 }
 
 void CustomTrackView::setClipType(PlaylistState::ClipState state)

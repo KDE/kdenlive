@@ -436,6 +436,8 @@ private:
     const GenTime m_pos;
     const int m_track;
     const int m_destTrack;
+    // true if split command succeeded
+    bool m_success;
 };
 
 class ChangeTrackStateCommand : public QUndoCommand
