@@ -7227,7 +7227,7 @@ bool CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
 		destTrack = 0;
 	    } else if (sceneEditMode() == TimelineMode::NormalEdit) {
 		int blength = m_timeline->getTrackSpaceLength(destTrack, start, false);
-		if (blength < clip->cropDuration().frames(m_document->fps())) {
+		if (blength >= 0 && blength < clip->cropDuration().frames(m_document->fps())) {
 		    destTrack = 0;
 		}
 	    }
