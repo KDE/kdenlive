@@ -1998,10 +1998,6 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
     if (clip) {
         // Special case: speed effect
         if (effect.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
-            if (clip->clipType() != Video && clip->clipType() != AV && clip->clipType() != Playlist) {
-                emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
-                return;
-            }
             QLocale locale;
             locale.setNumberOptions(QLocale::OmitGroupSeparator);
             double speed = locale.toDouble(EffectsList::parameter(effect, QStringLiteral("speed"))) / 100.0;
