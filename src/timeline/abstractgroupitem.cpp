@@ -564,3 +564,19 @@ QGraphicsItem *AbstractGroupItem::otherClip(QGraphicsItem *item)
         return children.at(0);
     }
 }
+
+QList <AbstractClipItem *> AbstractGroupItem::childClips() const
+{
+    QList <AbstractClipItem *> childClips;
+    QList <QGraphicsItem *>children = childItems();
+    for (int i = 0; i < children.count(); ++i) {
+        if (children.at(i)->type() != GroupWidget) {
+            AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
+	    childClips << item;
+	} else {
+            AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(children.at(i));	    
+            childClips << grp->childClips();
+        }
+    }
+    return childClips;
+}

@@ -979,7 +979,7 @@ void Timeline::reloadTrack(ItemInfo info)
     Mlt::Playlist pl = m_tracks.at(info.track)->playlist();
     // Remove current clips
     int startIndex = pl.get_clip_index_at(info.startPos.frames(m_doc->fps()));
-    int endIndex = pl.get_clip_index_at(info.endPos.frames(m_doc->fps()));
+    int endIndex = pl.get_clip_index_at(info.endPos.frames(m_doc->fps())) - 1;
     // Reload items
     loadTrack(info.track, 0, pl, startIndex, endIndex, false);
 }

@@ -263,6 +263,8 @@ bool Track::cut(qreal t)
     m_playlist.lock();
     int index = m_playlist.get_clip_index_at(pos);
     if (m_playlist.is_blank(index)) {
+	qDebug()<<" - - --Warning, clip is blank at: "<<index;
+        m_playlist.unlock();
         return false;
     }
     if (m_playlist.split(index, pos - m_playlist.clip_start(index) - 1)) {

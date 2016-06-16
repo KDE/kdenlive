@@ -2609,7 +2609,7 @@ void CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool
 {
     if (cut) {
         // cut clip
-        ClipItem *item = getClipItemAtStart(info.startPos, info.track);
+        ClipItem *item = getClipItemAtStart(info.startPos, info.track, info.endPos);
         bool selectDup = false;
         ItemInfo selectedInfo;
         if (m_dragItem && m_dragItem->type() == AVWidget)
@@ -2619,16 +2619,10 @@ void CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool
             emit clipItemSelected(NULL);
             selectDup = true;
         }
-        if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
-            emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
-            if (item)
-                qDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << '-' << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << '-' << info.endPos.frames(25) << ')' << ", CUT: " << cutTime.frames(25);
-            else
-                qDebug() << "/// ERROR NO CLIP at: " << info.startPos.frames(m_document->fps()) << ", track: " << info.track;
-            qDebug() << "/// ERROR CUTTING CLIP PLAYLIST 1!!";
-            return;
+        if (!item || !info.contains(cutTime)) {
+             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
+             return;
         }
-
         if (execute) {
             if (!m_timeline->track(info.track)->cut(cutTime.seconds())) {
                 // Error cuting clip in playlist
@@ -3103,9 +3097,18 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             info.cropDuration = duration;
             new AddSpaceCommand(this, info, QList <ItemInfo>(), true, addCommand);
         } else if (m_scene->editMode() == TimelineMode::OverwriteEdit) {
+            // Should we really overwrite all unlocked tracks ? If not we need to calculate the track for audio split first
             extractZone(QPoint(startPos.frames(m_document->fps()), (startPos+duration).frames(m_document->fps())), false, QList <ItemInfo>(), addCommand);
+            /*for (int i = 0; i < items.count(); ++i) {
+                if (items.at(i)->type() != AVWidget)
+                    continue;
+                ItemInfo info = items.at(i)->info();
+                extractZone(QPoint(info.startPos.frames(m_document->fps()), (info.startPos+info.cropDuration).frames(m_document->fps())), false, QList <ItemInfo>(), addCommand, info.track);
+            }*/
         }
         for (int i = 0; i < items.count(); ++i) {
+	    if (items.at(i)->type() != AVWidget)
+	      continue;
             ClipItem *item = static_cast <ClipItem *>(items.at(i));
 	    ClipType cType = item->clipType();
             if (items.count() == 1) {
@@ -3270,7 +3273,7 @@ void CustomTrackView::extractZone(QPoint z, bool closeGap, QList <ItemInfo> excl
         // All tracks
         rect = QRectF(z.x(), 0, z.y() - z.x() - 1, m_timeline->visibleTracksCount() * m_tracksHeight);
     } else {
-        // All tracks
+        // one track only
         rect = QRectF(z.x(), getPositionFromTrack(track) + m_tracksHeight / 2, z.y() - z.x() - 1, 2);
     }
     QList<QGraphicsItem *> selection = m_scene->items(rect);
@@ -7197,7 +7200,7 @@ bool CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
 {
     ClipItem *clip = getClipItemAtStart(pos, track);
     if (clip == NULL) {
-        //qDebug() << "// Cannot find clip to split!!!";
+        qDebug() << "// Cannot find clip to split!!!";
         return false;
     }
     EffectsList effects;
