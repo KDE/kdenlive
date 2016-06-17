@@ -102,7 +102,7 @@ public:
     int duration() const;
     void deleteSelectedClips();
     /** @brief Cuts all clips that are selected at the timeline cursor position. */
-    void cutSelectedClips();
+    void cutSelectedClips(QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), GenTime currentPos = GenTime());
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu);
     bool checkTrackHeight(bool force = false);
     void updateSceneFrameWidth(bool fpsChanged = false);

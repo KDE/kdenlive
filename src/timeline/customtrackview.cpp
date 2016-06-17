@@ -4567,11 +4567,13 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedInde
     }
 }
 
-void CustomTrackView::cutSelectedClips()
+void CustomTrackView::cutSelectedClips(QList<QGraphicsItem *> itemList, GenTime currentPos)
 {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    if (itemList.isEmpty())
+        itemList = scene()->selectedItems();
     QList<AbstractGroupItem *> groups;
-    GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
+    if (currentPos == GenTime())
+        currentPos = GenTime(m_cursorPos, m_document->fps());
     if (itemList.isEmpty()) {
         // Fetch clip on selected track / under cursor
         ClipItem *under = getClipItemAtMiddlePoint(m_cursorPos, m_selectedTrack);

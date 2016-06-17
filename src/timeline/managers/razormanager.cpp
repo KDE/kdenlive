@@ -34,7 +34,17 @@ RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : 
 
 bool RazorManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *>)
 {
+    QList<QGraphicsItem *> items;
     AbstractClipItem *dragItem = m_view->dragItem();
+    if (!dragItem)
+        return false;
+    if (dragItem->parentItem()) {
+        items << dragItem->parentItem()->childItems();
+    } else {
+        items << dragItem;
+    }
+    m_view->cutSelectedClips(items, info.startPos);
+    return true;
     AbstractGroupItem *selectionGroup = m_view->selectionGroup();
 
     if (!dragItem) {
