@@ -2634,7 +2634,7 @@ void CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool
             clearSelection();
         }
         delete item;
-        m_timeline->reloadTrack(info);
+        m_timeline->reloadTrack(info, false);
 
         // remove unwanted effects
         // fade in from 2nd part of the clip
@@ -8525,9 +8525,9 @@ Timecode CustomTrackView::timecode()
     return m_document->timecode();
 }
 
-void CustomTrackView::reloadTrack(ItemInfo info)
+void CustomTrackView::reloadTrack(ItemInfo info, bool includeLastFrame)
 {
-    m_timeline->reloadTrack(info);
+    m_timeline->reloadTrack(info, includeLastFrame);
 }
 
 void CustomTrackView::sortGuides()

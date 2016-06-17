@@ -142,7 +142,7 @@ void ResizeManager::mouseRelease(GenTime pos)
                     } else m_view->monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << dragItem->info(), true);
                     m_view->clearSelection();
                     delete dragItem;
-                    m_view->reloadTrack(range);
+                    m_view->reloadTrack(range, true);
                     dragItem = m_view->getClipItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track);
                     if (!dragItem) {
                         qDebug()<<" * * ** SOMETHING WRONG HERE: "<<m_dragItemInfo.endPos.frames(m_view->fps());

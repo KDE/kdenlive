@@ -314,7 +314,7 @@ public:
     * @param group The group to cut
     * @param cutPos The absolute position of the cut */
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
-    void reloadTrack(ItemInfo info);
+    void reloadTrack(ItemInfo info, bool includeLastFrame);
     GenTime groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     void sortGuides();
     void initTools();

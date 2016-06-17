@@ -166,7 +166,7 @@ public:
     /** @brief Returns the document properties with some added values from timeline. */
     QMap <QString, QString> documentProperties();
     void reloadTrack(int ix, int start = 0, int end = -1);
-    void reloadTrack(ItemInfo info);
+    void reloadTrack(ItemInfo info, bool includeLastFrame);
     /** @brief Add or remove current timeline zone to preview render zone. */
     void addPreviewRange(bool add);
     /** @brief Check if timeline preview profile changed and remove preview files if necessary. */
