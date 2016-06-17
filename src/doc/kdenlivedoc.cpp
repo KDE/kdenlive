@@ -285,7 +285,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     // Make sure that the necessary folders exist
     QDir dir(m_projectFolder.path());
     dir.mkdir(QStringLiteral("titles"));
-    dir.mkdir(QStringLiteral(".backup"));
 
     updateProjectFolderPlacesEntry();
 }
@@ -713,7 +712,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     fileName.append('-' + m_documentProperties.value(QStringLiteral("documentid")));
     fileName.append(info.lastModified().toString(QStringLiteral("-yyyy-MM-dd-hh-mm")));
     fileName.append(".kdenlive.png");
-    QDir backupFolder(m_projectFolder.path() + "/.backup");
+    QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
     emit saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
     return true;
 }
@@ -743,7 +742,6 @@ void KdenliveDoc::setProjectFolder(QUrl url)
         dir.mkpath(dir.absolutePath());
     }
     dir.mkdir(QStringLiteral("titles"));
-    dir.mkdir(QStringLiteral(".backup"));
     if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
     m_projectFolder = url;
 
@@ -1277,8 +1275,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     // Ensure backup folder exists
     if (path.isEmpty()) return;
     QFile file(path);
-    QDir backupFolder(m_projectFolder.path() + "/.backup");
-
+    QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
     QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
     QFileInfo info(file);
     fileName.append('-' + m_documentProperties.value(QStringLiteral("documentid")));
@@ -1296,7 +1293,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
 
 void KdenliveDoc::cleanupBackupFiles()
 {
-    QDir backupFolder(m_projectFolder.path() + "/.backup");
+    QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
     QString projectFile = url().fileName().section('.', 0, -2);
     projectFile.append('-' + m_documentProperties.value(QStringLiteral("documentid")));
     projectFile.append("-??");

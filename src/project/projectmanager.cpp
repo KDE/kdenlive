@@ -66,6 +66,11 @@ ProjectManager::ProjectManager(QObject* parent) :
 
     m_autoSaveTimer.setSingleShot(true);
     connect(&m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+    
+    // Ensure the default data folder exist
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+    dir.mkdir(QStringLiteral(".backup"));
+    dir.mkdir(QStringLiteral("titles"));
 }
 
 ProjectManager::~ProjectManager()

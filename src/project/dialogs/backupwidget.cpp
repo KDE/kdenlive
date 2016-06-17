@@ -22,9 +22,12 @@
 #include "kdenlivesettings.h"
 
 #include <klocalizedstring.h>
+#include <QDir>
+#include <QPushButton>
 
 BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget * parent) :
         QDialog(parent)
+        , m_projectFolder(projectFolder)
 {
     setupUi(this);
     setWindowTitle(i18n("Restore Backup File"));
@@ -42,7 +45,6 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, co
             m_projectWildcard.append('*');
         }
     }
-    project_url->setUrl(projectFolder);
     m_projectWildcard.append("-??");
     m_projectWildcard.append("??");
     m_projectWildcard.append("-??");
@@ -52,9 +54,9 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, co
 
     slotParseBackupFiles();
     connect(backup_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotDisplayBackupPreview()));
-    connect(project_url, SIGNAL(textChanged(QString)), this, SLOT(slotParseBackupFiles()));
     backup_list->setCurrentRow(0);
     backup_list->setMinimumHeight(QFontMetrics(font()).lineSpacing() * 12);
+    slotParseBackupFiles();
 }
 
 BackupWidget::~BackupWidget()
@@ -64,14 +66,13 @@ BackupWidget::~BackupWidget()
 void BackupWidget::slotParseBackupFiles()
 {
     QStringList filter;
-    QDir dir(project_url->url().path());
-    dir.cd(QStringLiteral(".backup"));
-
     filter << m_projectWildcard;
-    dir.setNameFilters(filter);
-    QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);
-    QStringList results;
     backup_list->clear();
+    
+    // Parse new XDG backup folder $HOME/.local/share/kdenlive/.backup
+    QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
+    backupFolder.setNameFilters(filter);
+    QFileInfoList resultList = backupFolder.entryInfoList(QDir::Files, QDir::Time);
     for (int i = 0; i < resultList.count(); ++i) {
         QString label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
         if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
@@ -80,7 +81,26 @@ void BackupWidget::slotParseBackupFiles()
         }
         QListWidgetItem *item = new QListWidgetItem(label, backup_list);
         item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
+        item->setToolTip(resultList.at(i).absoluteFilePath());
     }
+    
+    // Parse old $HOME/kdenlive/.backup folder
+    QDir dir(m_projectFolder.toLocalFile() + QStringLiteral("/.backup"));
+    if (dir.exists()) {
+        dir.setNameFilters(filter);
+        QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);
+        for (int i = 0; i < resultList.count(); ++i) {
+            QString label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
+            if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
+                // Displaying all backup files, so add project name in the entries
+                label.prepend(resultList.at(i).fileName().section('-', 0, -7) + ".kdenlive - ");
+            }
+            QListWidgetItem *item = new QListWidgetItem(label, backup_list);
+            item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
+            item->setToolTip(resultList.at(i).absoluteFilePath());
+        }
+    }
+    
     buttonBox->button(QDialogButtonBox::Open)->setEnabled(backup_list->count() > 0);
 }
 

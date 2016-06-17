@@ -24,7 +24,7 @@
 
 #include "ui_backupdialog_ui.h"
 
-
+#include <QUrl>
 
 /**
  * @class BackupWidget
@@ -51,6 +51,7 @@ private slots:
 
 private:
     QString m_projectWildcard;
+    QUrl m_projectFolder;
 };
 
 
