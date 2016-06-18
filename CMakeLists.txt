@@ -31,6 +31,7 @@ include(KDECMakeSettings)
 include(KDECompilerSettings)
 include(ECMOptionalAddSubdirectory)
 
+add_definitions(-DQT_NO_CAST_TO_ASCII)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 

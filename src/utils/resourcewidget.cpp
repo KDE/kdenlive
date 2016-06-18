@@ -765,7 +765,7 @@ void ResourceWidget::slotAccessTokenReceived(QString sAccessToken)
          QUrl srcUrl(m_currentInfo.itemDownload);
          request.setUrl(srcUrl);//  Download url of a freesound file
          // eg https://www.freesound.org/apiv2/sounds/39206/download/
-         request.setRawHeader(QByteArray("Authorization"),QByteArray( "Bearer ").append( sAccessToken));
+         request.setRawHeader(QByteArray("Authorization"),QByteArray("Bearer").append(sAccessToken.toUtf8()));
 
          m_meta="";
          m_desc="<br><b>" +  i18n("Starting File Download") + "</b><br>";
