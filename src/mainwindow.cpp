@@ -1341,7 +1341,7 @@ void MainWindow::setupActions()
     disablePreview->setCheckable(true);
     addAction(QStringLiteral("disable_preview"), disablePreview);
 
-    addAction(QStringLiteral("add_guide"), i18n("Add Guide"), this, SLOT(slotAddGuide()), KoIconUtils::themedIcon(QStringLiteral("document-new")));
+    addAction(QStringLiteral("add_guide"), i18n("Add Guide"), this, SLOT(slotAddGuide()), KoIconUtils::themedIcon(QStringLiteral("list-add")));
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), KoIconUtils::themedIcon(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), KoIconUtils::themedIcon(QStringLiteral("document-properties")));
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()), KoIconUtils::themedIcon(QStringLiteral("edit-delete")));

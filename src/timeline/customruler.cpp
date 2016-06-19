@@ -86,7 +86,7 @@ CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerAction
     m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
     m_contextMenu->addActions(rulerActions);
-    QAction *addGuide = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add Guide"));
+    QAction *addGuide = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("Add Guide"));
     connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));
     m_editGuide = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18n("Edit Guide"));
     connect(m_editGuide, SIGNAL(triggered()), this, SLOT(slotEditGuide()));
