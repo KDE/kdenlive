@@ -16,8 +16,6 @@
       <file alias="kbreeze/actions/22/preview-render-on.svg">../data/pics/breeze-light/lt_preview-render-on.svg</file>
       <file alias="kbreeze/actions/22/preview-render-off.svg">../data/pics/breeze-light/lt_preview-render-off.svg</file>
       <file alias="kbreeze/actions/22/view-split-effect.svg">../data/pics/breeze-light/lt_view-split-effect.svg</file>
-      <file alias="kbreeze/actions/22/kdenlive-composite.svg">../data/pics/breeze-light/lt_kdenlive-composite.svg</file>
-      <file alias="kbreeze/actions/22/kdenlive-no-composite.svg">../data/pics/breeze-light/lt_kdenlive-no-composite.svg</file>
       
       </qresource>
 </RCC>
