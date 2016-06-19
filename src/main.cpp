@@ -34,6 +34,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QProcess>
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
@@ -76,6 +77,10 @@ int main(int argc, char *argv[])
 
     // Register about data
     KAboutData::setApplicationData(aboutData);
+    
+    QStringList themePath = QIcon::themeSearchPaths();
+    QIcon::setThemeSearchPaths(themePath << QStringLiteral(":/icons"));
+    //QIcon::setThemeName(QStringLiteral("kbreeze"));
 
     // Set app stuff from about data
     app.setApplicationName(aboutData.componentName());

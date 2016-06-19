@@ -95,7 +95,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 	    connect(m_binClip, SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
-            if (generateThumbs && KdenliveSettings::videothumbnails()) QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
+            if (generateThumbs && KdenliveSettings::videothumbnails()) QTimer::singleShot(0, this, SLOT(slotFetchThumbs()));
         }
     } else if (m_clipType == Color) {
         m_baseColor = m_binClip->getProducerColorProperty(QStringLiteral("resource"));

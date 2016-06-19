@@ -5,7 +5,7 @@ add_subdirectory(icons)
 add_subdirectory(lumas)
 add_subdirectory(man)
 add_subdirectory(titles)
-add_subdirectory(pics)
+#add_subdirectory(pics)
 install(FILES
   banner.png
   blacklisted_effects.txt

@@ -112,7 +112,6 @@ public slots:
     void slotSwitchAllTrackLock();
     /** @brief Un/Set current track as target */
     void slotSwitchTrackTarget();
-    void rippleMode(bool enable);
 
 private slots:
     void slotRevert();

@@ -211,12 +211,13 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     ThemeManager::instance()->setThemeMenuAction(themeAction);
     ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
     connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)), Qt::DirectConnection);
-
+    
     if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
         doChangeStyle();
     }
     else ThemeManager::instance()->slotChangePalette();
+    //QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
 
     new RenderingAdaptor(this);
     pCore->initialize();
@@ -467,11 +468,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     previewButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("preview-render-on")));
     previewButtonAction->setDefaultWidget(timelinePreview);
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
-
-    QAction *rippleMode = new QAction(i18n("Ripple Mode"), this);
-    rippleMode->setCheckable(true);
-    connect(rippleMode, &QAction::triggered, pCore->projectManager(), &ProjectManager::rippleMode);
-    addAction(QStringLiteral("ripple_mode"), rippleMode);
 
     setupGUI();
     timelinePreview->setToolButtonStyle(m_timelineToolBar->toolButtonStyle());
@@ -840,19 +836,24 @@ void MainWindow::slotFullScreen()
 void MainWindow::slotAddEffect(const QDomElement &effect)
 {
     if (effect.isNull()) {
-        //qDebug() << "--- ERROR, TRYING TO APPEND NULL EFFECT";
+        qDebug() << "--- ERROR, TRYING TO APPEND NULL EFFECT";
         return;
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
     EFFECTMODE status = m_effectStack->effectStatus();
-    if (status == TIMELINE_TRACK) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
-    }
-    else if (status == TIMELINE_CLIP) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotAddEffectToCurrentItem(effectToAdd);
-    }
-    else if (status == MASTER_CLIP) {
-        pCore->bin()->slotEffectDropped(QString(), effectToAdd);
+    switch (status) {
+        case TIMELINE_TRACK:
+            pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
+            break;
+        case TIMELINE_CLIP:
+            pCore->projectManager()->currentTimeline()->projectView()->slotAddEffectToCurrentItem(effectToAdd);
+            break;
+        case MASTER_CLIP:
+            pCore->bin()->slotEffectDropped(QString(), effectToAdd);
+            break;
+        default:
+            // No clip selected
+            m_messageLabel->setMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
     }
 }
 

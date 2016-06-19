@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+    <defs id="defs3051">
+    <style type="text/css" id="current-color-scheme">
+      .ColorScheme-Text {
+        color:#4d4d4d;
+      }
+      </style>
+  </defs>
+    <path style="color:currentColor;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:currentColor;solid-opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;filter-blend-mode:normal;filter-gaussianBlur-deviation:0" d="M7 11l-3 3 3 3 0-6zM15 11l0 6 3-3-3-3zM6.0234375 4.9941406L6.0234375 8.9941406 5.0234375 8.9941406 5.0234375 6.9941406 4.0234375 6.9941406 4.0234375 8.9941406 3.0234375 8.9941406 3.0234375 9.9941406 19.023438 9.9941406 19.023438 8.9941406 19 8.9941406 19 7 18 7 18 8.9941406 17.023438 8.9941406 17.023438 4.9941406 16.023438 4.9941406 16.023438 8.9941406 15.023438 8.9941406 15.023438 6.9941406 14.023438 6.9941406 14.023438 8.9941406 13.023438 8.9941406 13.023438 6.9941406 12.023438 6.9941406 12.023438 8.9941406 11.023438 8.9941406 11.023438 6.9941406 10.023438 6.9941406 10.023438 8.9941406 9.0234375 8.9941406 9.0234375 6.9941406 8.0234375 6.9941406 8.0234375 8.9941406 7.0234375 8.9941406 7.0234375 4.9941406 6.0234375 4.9941406zM3 11H4V17H3zM18 11H19V17H18z" class="ColorScheme-Text"/>
+</svg>

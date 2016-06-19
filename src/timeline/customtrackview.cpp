@@ -2225,7 +2225,9 @@ void CustomTrackView::slotAddEffect(QDomElement effect, const GenTime &pos, int 
         ClipItem *clip = getClipItemAtStart(pos, track);
         if (clip) itemList.append(clip);
     }
-    if (itemList.isEmpty()) emit displayMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
+    if (itemList.isEmpty()) {
+        emit displayMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
+    }
 
     //expand groups
     for (int i = 0; i < itemList.count(); ++i) {

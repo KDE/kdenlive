@@ -1,0 +1,14 @@
+[Icon Theme]
+Name=kbreeze
+DisplayDepth=32
+Inherits=breeze
+FollowsColorScheme=true
+Directories=actions/22
+KDE-Extensions=.svg
+
+[actions/22]
+Size=22
+Context=Actions
+Type=Scalable
+MinSize=22
+MaxSize=256

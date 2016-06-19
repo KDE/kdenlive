@@ -220,7 +220,7 @@ qt5_add_dbus_adaptor(kdenlive_SRCS
   mainwindow.h
   MainWindow
 )
-qt5_add_resources(kdenlive_SRCS ../data/icons/breeze/icons.qrc ui/resources.qrc uiresources.qrc)
+qt5_add_resources(kdenlive_SRCS icons.qrc ui/resources.qrc uiresources.qrc)
 add_executable(kdenlive
   ${kdenlive_SRCS}
   ${kdenlive_UIS}

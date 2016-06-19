@@ -45,28 +45,6 @@ bool RazorManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraph
     }
     m_view->cutSelectedClips(items, info.startPos);
     return true;
-    AbstractGroupItem *selectionGroup = m_view->selectionGroup();
-
-    if (!dragItem) {
-        // clicked in empty area, ignore
-        return false;
-    }
-    if (dragItem->type() == TransitionWidget) {
-        m_view->displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
-    } else {
-        if (dragItem->parentItem() && dragItem->parentItem() != selectionGroup) {
-            m_view->razorGroup(static_cast<AbstractGroupItem*>(dragItem->parentItem()), info.startPos);
-        } else {
-            ClipItem *clip = static_cast <ClipItem *>(dragItem);
-            dragItem->setMainSelectedClip(false);
-            dragItem = NULL;
-            if (clip->info().contains(info.startPos)) {
-                RazorClipCommand* command = new RazorClipCommand(m_view, clip->info(), clip->effectList(), info.startPos);
-                m_commandStack->push(command);
-            }
-        }
-    }
-    return true;
 }
 
 void RazorManager::mouseMove(int pos)

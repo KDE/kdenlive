@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "project/projectcommands.h"
 #include "mltcontroller/clipcontroller.h"
 #include "lib/audio/audioStreamInfo.h"
+#include "utils/KoIconUtils.h"
 #include "mltcontroller/clippropertiescontroller.h"
 
 #include <QDomElement>
@@ -56,7 +57,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     m_description = m_controller->description();
     m_type = m_controller->clipType();
     if (m_type == Audio) {
-        m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
+        m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
     } else {
         m_thumbnail = thumb;
     }
@@ -82,7 +83,7 @@ ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFol
     if (description.hasAttribute(QStringLiteral("type"))) {
         m_type = (ClipType) description.attribute(QStringLiteral("type")).toInt();
         if (m_type == Audio) {
-            m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
+            m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
         }
     }
     m_temporaryUrl = QUrl::fromLocalFile(getXmlProperty(description, QStringLiteral("resource")));
@@ -349,7 +350,7 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
         if (m_type == Unknown) {
             m_type = m_controller->clipType();
             if (m_type == Audio) {
-                m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
+                m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
             }
         }
     }

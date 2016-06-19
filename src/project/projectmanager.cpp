@@ -740,8 +740,3 @@ void ProjectManager::slotSwitchTrackTarget()
     m_trackView->switchTrackTarget();
 }
 
-void ProjectManager::rippleMode(bool enable)
-{
-    m_trackView->projectView()->rippleMode(enable);
-}
-
