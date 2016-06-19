@@ -228,7 +228,6 @@ int Render::getLength()
 {
 
     if (m_mltProducer) {
-        // //qDebug()<<"//////  LENGTH: "<<mlt_producer_get_playtime(m_mltProducer->get_producer());
         return mlt_producer_get_playtime(m_mltProducer->get_producer());
     }
     return 0;
@@ -818,7 +817,7 @@ void Render::seekToFrame(int pos)
 {
     if (!m_mltProducer || !m_isActive)
         return;
-    pos = qBound(0, pos - m_mltProducer->get_in(), m_mltProducer->get_length());
+    pos = qBound(0, pos - m_mltProducer->get_in(), m_mltProducer->get_length() - 1);
     seek(pos);
 }
 

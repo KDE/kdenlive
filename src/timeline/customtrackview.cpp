@@ -1764,7 +1764,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         ItemInfo info;
         info.startPos = GenTime((int)(framePos.x() + 0.5), m_document->fps());
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
-        info.cropDuration = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
+        info.cropDuration = GenTime(list.at(2).toInt() - list.at(1).toInt() + 1, m_document->fps());
         info.endPos = info.startPos + info.cropDuration;
         info.track = track;
         framePos.setX((int)(framePos.x() + 0.5));
@@ -7807,7 +7807,7 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
         timelineZone.setY(-1);
     }
     ItemInfo info;
-    int binLength = binZone.y() - binZone.x();
+    int binLength = binZone.y() - binZone.x() + 1;
     int timelineLength = timelineZone.y() - timelineZone.x();
     if (KdenliveSettings::useTimelineZoneToEdit()) {
 	if (clp->hasLimitedDuration()) {

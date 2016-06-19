@@ -786,7 +786,7 @@ void Monitor::slotStartDrag()
     list.append(m_controller->clipId());
     QPoint p = m_ruler->zone();
     list.append(QString::number(p.x()));
-    list.append(QString::number(p.y() + 1));
+    list.append(QString::number(p.y()));
     QByteArray data;
     data.append(list.join(QStringLiteral(";")).toUtf8());
     mimeData->setData(QStringLiteral("kdenlive/clip"), data);
@@ -825,22 +825,14 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         QStringList list;
         list.append(m_controller->clipId());
         QPoint p = m_ruler->zone();
+        qDebug()<<" * * *RULER ZONE: "<<p;
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y()));
         QByteArray data;
         data.append(list.join(QStringLiteral(";")).toUtf8());
         mimeData->setData(QStringLiteral("kdenlive/clip"), data);
         drag->setMimeData(mimeData);
-        /*QPixmap pix = m_currentClip->thumbnail();
-        drag->setPixmap(pix);
-        drag->setHotSpot(QPoint(0, 50));*/
         drag->start(Qt::MoveAction);
-	/*Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
-        Qt::DropAction dropAction;
-        dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);*/
-
-        //Qt::DropAction dropAction = drag->exec();
-
     }
     event->accept();
 }
@@ -1028,7 +1020,7 @@ void Monitor::slotEnd()
 {
     slotActivateMonitor();
     render->play(0);
-    render->seekToFrame(render->getLength());
+    render->seekToFrame(render->getLength() - 1);
 }
 
 int Monitor::getZoneStart()
