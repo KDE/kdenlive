@@ -389,6 +389,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
                 connect(this, SIGNAL(initScene(int)), m_geometryWidget, SLOT(slotInitScene(int)));
+                connect(this, &ParameterContainer::updateFrameInfo, m_geometryWidget, &GeometryWidget::setFrameSize);
             } else {
                 Geometryval *geo = new Geometryval(m_metaInfo->monitor->profile(), m_metaInfo->monitor->timecode(), m_metaInfo->frameSize, 0);
                 if (minFrame == maxFrame) {

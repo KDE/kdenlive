@@ -104,7 +104,9 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_ui.horizontalLayout->setColumnStretch(4, 10);
 
     QMenu *menu = new QMenu(this);
-    QAction *adjustSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Adjust to original size"), this);
+    QAction *originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
+    connect(originalSize, SIGNAL(triggered()), this, SLOT(slotAdjustToSource()));
+    QAction *adjustSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
     connect(adjustSize, SIGNAL(triggered()), this, SLOT(slotAdjustToFrameSize()));
     QAction *fitToWidth = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
     connect(fitToWidth, SIGNAL(triggered()), this, SLOT(slotFitToWidth()));
@@ -144,7 +146,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     connect(alignvcenter, SIGNAL(triggered()), this, SLOT(slotCenterV()));
     QAction *alignbottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
     connect(alignbottom, SIGNAL(triggered()), this, SLOT(slotMoveBottom()));
-    
+
     m_ui.buttonOptions->setMenu(menu);
     m_ui.buttonOptions->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     m_ui.buttonOptions->setToolTip(i18n("Options"));
@@ -183,6 +185,11 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     alignLayout->addWidget(alignButton);
 
     alignButton = new QToolButton;
+    alignButton->setDefaultAction(originalSize);
+    alignButton->setAutoRaise(true);
+    alignLayout->addWidget(alignButton);
+
+    alignButton = new QToolButton;
     alignButton->setDefaultAction(adjustSize);
     alignButton->setAutoRaise(true);
     alignLayout->addWidget(alignButton);
@@ -200,10 +207,10 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
 
     m_ui.horizontalLayout->addLayout(alignLayout, 1, 0, 1, 4);
     //m_ui.horizontalLayout->addStretch(10);
-    
+
     m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, this);
     m_ui.horizontalLayout2->addWidget(m_spinSize);
-    
+
     m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
     m_ui.horizontalLayout2->addWidget(m_opacity);
 
@@ -856,7 +863,7 @@ void GeometryWidget::setFrameSize(const QPoint &size)
     m_frameSize = size;
 }
 
-void GeometryWidget::slotAdjustToFrameSize()
+void GeometryWidget::slotAdjustToSource()
 {
     if (m_frameSize == QPoint() || m_frameSize.x() == 0 || m_frameSize.y() == 0) {
         m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
@@ -865,6 +872,39 @@ void GeometryWidget::slotAdjustToFrameSize()
     m_spinHeight->blockSignals(true);
     m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() + 0.5));
     m_spinHeight->setValue(m_frameSize.y());
+    m_spinWidth->blockSignals(false);
+    m_spinHeight->blockSignals(false);
+    updateMonitorGeometry();
+}
+
+void GeometryWidget::slotAdjustToFrameSize()
+{
+    if (m_frameSize == QPoint() || m_frameSize.x() == 0 || m_frameSize.y() == 0) {
+        m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    }
+    double monitorDar = m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
+    double sourceDar = m_frameSize.x() / m_frameSize.y();
+    m_spinWidth->blockSignals(true);
+    m_spinHeight->blockSignals(true);
+    if (sourceDar > monitorDar) {
+        // Fit to width
+        double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
+        m_spinHeight->setValue((int) (m_frameSize.y() * factor + 0.5));
+        m_spinWidth->setValue(m_monitor->render->frameRenderWidth());
+        // Center
+        m_spinY->blockSignals(true);
+        m_spinY->setValue((m_monitor->render->renderHeight() - m_spinHeight->value()) / 2);
+        m_spinY->blockSignals(false);
+    } else {
+        // Fit to height
+        double factor = (double) m_monitor->render->renderHeight() / m_frameSize.y();
+        m_spinHeight->setValue(m_monitor->render->renderHeight());
+        m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
+        // Center
+        m_spinX->blockSignals(true);
+        m_spinX->setValue((m_monitor->render->frameRenderWidth() - m_spinWidth->value()) / 2);
+        m_spinX->blockSignals(false);
+    }
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     updateMonitorGeometry();

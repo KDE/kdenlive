@@ -176,6 +176,9 @@ private slots:
 
     /** @brief Enables/Disables syncing with the timeline according to @param sync. */
     void slotSetSynchronize(bool sync);
+    /** @brief Adjust size to source clip original resolution*/
+    void slotAdjustToSource();
+    /** @brief Adjust size to project's frame size */
     void slotAdjustToFrameSize();
     void slotFitToWidth();
     void slotFitToHeight();
