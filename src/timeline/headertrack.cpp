@@ -88,8 +88,8 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
         m_tb->addAction(m_switchVideo);
 
         m_switchComposite = new KDualAction(i18n("Opaque"), i18n("Composite"), this);
-        m_switchComposite->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-composite")));
-        m_switchComposite->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-no-composite")));
+        m_switchComposite->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("composite-track-on")));
+        m_switchComposite->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("composite-track-off")));
         m_switchComposite->setActive(info.composite);
         connect(m_switchComposite, &KDualAction::activeChangedByUser, this, &HeaderTrack::switchComposite);
         m_tb->addAction(m_switchComposite);

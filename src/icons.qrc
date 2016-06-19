@@ -6,13 +6,15 @@
      <file alias="timeline-overwrite.svg">../data/pics/breeze-light/lt_timeline-overwrite.svg</file>
      <file alias="timeline-use-zone-on.svg">../data/pics/breeze-light/lt_timeline-use-zone-on.svg</file>
      <file alias="timeline-use-zone-off.svg">../data/pics/breeze-light/lt_timeline-use-zone-off.svg</file>
-      <file alias="favorite.svg">../data/pics/breeze-light/lt_favorite.svg</file>
-      <file alias="zone-in.svg">../data/pics/breeze-light/lt_zone-in.svg</file>
-      <file alias="zone-out.svg">../data/pics/breeze-light/lt_zone-out.svg</file>
-      <file alias="preview-add-zone.svg">../data/pics/breeze-light/lt_preview-add-zone.svg</file>
-      <file alias="preview-remove-zone.svg">../data/pics/breeze-light/lt_preview-remove-zone.svg</file>
-      <file alias="preview-render-on.svg">../data/pics/breeze-light/lt_preview-render-on.svg</file>
-      <file alias="preview-render-off.svg">../data/pics/breeze-light/lt_preview-render-off.svg</file>
-      <file alias="view-split-effect.svg">../data/pics/breeze-light/lt_view-split-effect.svg</file>
-      </qresource>
+     <file alias="favorite.svg">../data/pics/breeze-light/lt_favorite.svg</file>
+     <file alias="zone-in.svg">../data/pics/breeze-light/lt_zone-in.svg</file>
+     <file alias="zone-out.svg">../data/pics/breeze-light/lt_zone-out.svg</file>
+     <file alias="preview-add-zone.svg">../data/pics/breeze-light/lt_preview-add-zone.svg</file>
+     <file alias="preview-remove-zone.svg">../data/pics/breeze-light/lt_preview-remove-zone.svg</file>
+     <file alias="preview-render-on.svg">../data/pics/breeze-light/lt_preview-render-on.svg</file>
+     <file alias="preview-render-off.svg">../data/pics/breeze-light/lt_preview-render-off.svg</file>
+     <file alias="view-split-effect.svg">../data/pics/breeze-light/lt_view-split-effect.svg</file>
+     <file alias="composite-track-on.svg">../data/pics/breeze-light/lt_composite-track-on.svg</file>
+     <file alias="composite-track-off.svg">../data/pics/breeze-light/lt_composite-track-off.svg</file>
+     </qresource>
 </RCC>
