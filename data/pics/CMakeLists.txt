@@ -63,7 +63,7 @@ breeze-light/lt_hint.svgz
 breeze-light/lt_insert-horizontal-rule.svgz
 breeze-light/lt_insert-text.svgz
 breeze-light/lt_insert-image.svgz
-breeze-light/lt_jog-dial.svgz
+breeze-light/lt_jog-dial.svg
 breeze-light/lt_kdenlive-add-clip.svgz
 breeze-light/lt_kdenlive-add-color-clip.svgz
 breeze-light/lt_kdenlive-add-slide-clip.svgz
@@ -133,7 +133,7 @@ breeze-light/lt_media-skip-backward.svgz
 breeze-light/lt_media-skip-forward.svgz
 breeze-light/lt_object-group.svgz
 breeze-light/lt_object-ungroup.svgz
-breeze-light/lt_project-defaults.svgz
+breeze-light/lt_project-defaults.svg
 breeze-light/lt_settings-configure.svgz
 breeze-light/lt_system-run.svgz
 breeze-light/lt_timeline-use-zone-off.svg
@@ -235,7 +235,7 @@ breeze-dark/dk_hint.svgz
 breeze-dark/dk_insert-horizontal-rule.svgz
 breeze-dark/dk_insert-text.svgz
 breeze-dark/dk_insert-image.svgz
-breeze-dark/dk_jog-dial.svgz
+breeze-dark/dk_jog-dial.svg
 breeze-dark/dk_kdenlive-add-clip.svgz
 breeze-dark/dk_kdenlive-add-color-clip.svgz
 breeze-dark/dk_kdenlive-add-slide-clip.svgz
@@ -305,7 +305,7 @@ breeze-dark/dk_media-skip-backward.svgz
 breeze-dark/dk_media-skip-forward.svgz
 breeze-dark/dk_object-group.svgz
 breeze-dark/dk_object-ungroup.svgz
-breeze-dark/dk_project-defaults.svgz
+breeze-dark/dk_project-defaults.svg
 breeze-dark/dk_settings-configure.svgz
 breeze-dark/dk_system-run.svgz
 breeze-dark/dk_timeline-use-zone-off.svg

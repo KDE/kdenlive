@@ -67,7 +67,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     // Hide avformat-novalidate trick, causes crash (bug #2205 and #2206)
     m_configMisc.kcfg_projectloading_avformatnovalidate->setVisible(false);
-    
+
     m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
 
     QWidget *p8 = new QWidget;

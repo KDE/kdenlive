@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" id="svg3760">
+    <defs id="defs3762">
+        <style type="text/css" id="current-color-scheme">
+            .ColorScheme-Text{color:#4d4d4d}.ColorScheme-Background{color:#eff0f1}.ColorScheme-Highlight{color:#3daee9}.ColorScheme-ViewText{color:#31363b}.ColorScheme-ViewBackground{color:#fcfcfc}.ColorScheme-ViewHover{color:#93cee9}.ColorScheme-ViewFocus{color:#3daee9}.ColorScheme-ButtonText{color:#31363b}.ColorScheme-ButtonBackground{color:#eff0f1}.ColorScheme-ButtonHover{color:#93cee9}.ColorScheme-ButtonFocus{color:#3daee9}
+        </style>
+    </defs>
+    <g id="layer1" class="ColorScheme-Text">
+        <path d="M19 15l-1.614.574.735 1.547-1.545-.733L16 18l-.574-1.614-1.547.735.733-1.545L13 15l1.614-.574-.735-1.547 1.545.733L16 12l.574 1.614 1.547-.735-.733 1.545z" id="path4160-0" style="isolation:auto;mix-blend-mode:normal" color="#000" overflow="visible" fill="#fdbc4b" stroke-width="1.795"/>
+        <path style="isolation:auto;mix-blend-mode:normal" d="M3 4v3h17V4H3zm1 1h1v1H4V5zm2 0h1v1H6V5zm2 0h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5z" id="rect4146" color="currentColor" overflow="visible" fill="currentColor" stroke-width="2.8" stroke-opacity=".55"/>
+        <path style="isolation:auto;mix-blend-mode:normal" d="M3 15v3h10v-1h-1v-2H3zm1 1h1v1H4v-1zm2 0h1v1H6v-1zm2 0h1v1H8v-1zm2 0h1v1h-1v-1z" id="rect4146-2" color="currentColor" overflow="visible" fill="currentColor" stroke-width="2.8" stroke-opacity=".55"/>
+        <path style="isolation:auto;mix-blend-mode:normal" id="rect4212" color="currentColor" overflow="visible" fill="currentColor" stroke-width="2.8" stroke-opacity=".55" d="M4 6h1v10H4z"/>
+        <path style="isolation:auto;mix-blend-mode:normal" id="rect4214" color="currentColor" overflow="visible" fill="currentColor" stroke-width="2.8" stroke-opacity=".55" d="M11 6h1v10h-1z"/>
+        <path style="isolation:auto;mix-blend-mode:normal" id="rect4214-1" color="currentColor" overflow="visible" fill="currentColor" stroke-width="2.8" stroke-opacity=".55" d="M18 6h1v6h-1z"/>
+    </g>
+</svg>
+
