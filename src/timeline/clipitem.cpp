@@ -629,10 +629,11 @@ void ClipItem::paint(QPainter *painter,
                 QSet <int> missing;
                 for (int i = left; i <= right; ++i) {
                     QPointF xpos = startPos + QPointF(FRAME_SIZE *(i - startOffset), 0);
+                    thumbRect.moveTopLeft(xpos);
                     img = m_binClip->findCachedThumb(i);
                     if (img.isNull()) missing << i;
                     else {
-                        painter->drawImage(xpos, img);
+                        painter->drawImage(thumbRect, img);
                     }
                     painter->drawLine(xpos, xpos + QPointF(0, mapped.height()));
                 }
