@@ -76,6 +76,14 @@ check_include_files(pthread.h HAVE_PTHREAD_H)
 find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Script Svg Quick )
 find_package(Qt5 OPTIONAL_COMPONENTS WebKitWidgets QUIET)
 
+find_package(KF5 5.23.0 OPTIONAL_COMPONENTS XmlGui QUIET)
+if (KF5XmlGui_FOUND)
+  message(STATUS "Found KF5 >= 5.23.0 enabling icon coloring")
+else()
+  message(STATUS "KF5 < 5.23.0 Disable icon coloring")
+  set(KF5_ICON_COMPATIBILITY TRUE)
+endif()
+
 find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets 
                             DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes DocTools Crash OPTIONAL_COMPONENTS FileMetaData)
 
