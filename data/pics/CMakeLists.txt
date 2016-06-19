@@ -96,7 +96,7 @@ breeze-light/lt_kdenlive-select-images.svgz
 breeze-light/lt_kdenlive-select-rects.svgz
 breeze-light/lt_kdenlive-select-texts.svgz
 breeze-light/lt_kdenlive-select-tool.svgz
-breeze-light/lt_kdenlive-show-all-effects.svgz
+breeze-light/lt_show-all-effects.svg
 breeze-light/lt_kdenlive-show-audio.svgz
 breeze-light/lt_kdenlive-show-audiothumb.svgz
 breeze-light/lt_kdenlive-show-gpu.svgz
@@ -268,7 +268,7 @@ breeze-dark/dk_kdenlive-select-images.svgz
 breeze-dark/dk_kdenlive-select-rects.svgz
 breeze-dark/dk_kdenlive-select-texts.svgz
 breeze-dark/dk_kdenlive-select-tool.svgz
-breeze-dark/dk_kdenlive-show-all-effects.svgz
+breeze-dark/dk_show-all-effects.svg
 breeze-dark/dk_kdenlive-show-audio.svgz
 breeze-dark/dk_kdenlive-show-audiothumb.svgz
 breeze-dark/dk_kdenlive-show-gpu.svgz

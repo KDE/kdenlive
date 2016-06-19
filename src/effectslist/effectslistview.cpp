@@ -55,7 +55,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     setupUi(this);
     m_contextMenu = new QMenu(this);
     m_effectsList = new EffectsListWidget();
-    m_effectsList->setStyleSheet(customStyleSheet());
+    //m_effectsList->setStyleSheet(customStyleSheet());
     QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
@@ -87,7 +87,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     m_effectsFavorites = new MyDropButton(this);
     m_effectsFavorites->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     horizontalLayout->addWidget(m_effectsFavorites);
-    effectsAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-all-effects")));
+    effectsAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("show-all-effects")));
     switch (m_mode) {
       case TransitionMode:
           effectsAll->setToolTip(i18n("Show all transitions"));
@@ -482,7 +482,7 @@ void EffectsListView::updatePalette()
     // We need to reset current stylesheet if we want to change the palette!
     m_effectsList->setStyleSheet(QLatin1String(""));
     m_effectsList->updatePalette();
-    m_effectsList->setStyleSheet(customStyleSheet());
+    //m_effectsList->setStyleSheet(customStyleSheet());
 }
 
 

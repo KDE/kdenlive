@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="22" width="22">
+    <defs id="defs3051">
+        <style type="text/css" id="current-color-scheme">
+            .ColorScheme-Text{color:#4d4d4d}
+        </style>
+    </defs>
+    <g transform="translate(-284.053 -142.61)" fill="currentColor" class="ColorScheme-Text">
+        <circle r="1" cy="147.701" cx="289.125"/>
+        <path d="M291.93 146.7h8.124v2h-8.125z"/>
+    </g>
+    <g transform="translate(-284.053 -136.165)" fill="currentColor" class="ColorScheme-Text">
+        <circle r="1" cy="147.701" cx="289.125"/>
+        <path d="M291.93 146.7h8.124v2h-8.125z"/>
+    </g>
+    <g fill="currentColor" transform="translate(-551.286 -607.648)" class="ColorScheme-Text">
+        <circle cx="556.358" cy="625.628" r="1"/>
+        <path d="M559.162 624.628h8.125v2h-8.125z"/>
+    </g>
+</svg>
+

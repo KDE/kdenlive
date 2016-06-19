@@ -1,8 +1,3 @@
-install(FILES
-  visible.png
-  novisible.png
-  DESTINATION ${DATA_INSTALL_DIR}/kdenlive/pics)
-
 ecm_install_icons(ICONS
   128-actions-kdenlive-select-all.png
   128-mimetypes-application-x-kdenlivetitle.png

@@ -18,5 +18,6 @@
      <file alias="composite-track-off.svg">../data/pics/breeze-light/lt_composite-track-off.svg</file>
      <file alias="project-defaults.svg">../data/pics/breeze-light/lt_project-defaults.svg</file>
      <file alias="jog-dial.svg">../data/pics/breeze-light/lt_jog-dial.svg</file>
+     <file alias="show-all-effects.svg">../data/pics/breeze-light/lt_show-all-effects.svg</file>
      </qresource>
 </RCC>
