@@ -516,9 +516,6 @@ private:
     AudioCorrelation *m_audioCorrelator;
     ClipItem *m_audioAlignmentReference;
 
-    /** stores the state of the control modifier during mouse press.
-     * Will then be used to identify whether we resize a group or only one item of it. */
-    bool m_controlModifier;
     void updatePositionEffects(ClipItem * item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;

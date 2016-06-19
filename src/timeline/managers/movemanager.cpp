@@ -33,7 +33,7 @@ MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, DocU
 {
 }
 
-bool MoveManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *>)
+bool MoveManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem *>)
 {
     m_view->setCursor(Qt::ClosedHandCursor);
     m_dragItemInfo = info;
@@ -50,6 +50,11 @@ void MoveManager::mouseRelease(GenTime pos)
     Q_UNUSED(pos);
     m_view->setCursor(Qt::OpenHandCursor);
     AbstractClipItem *dragItem = m_view->dragItem();
+    if (!dragItem || !m_dragItemInfo.isValid() || m_view->operationMode() == WaitingForConfirm) {
+        // No move performed
+        m_view->setOperationMode(None);
+        return;
+    }
     ItemInfo info = dragItem->info();
     if (dragItem->parentItem() == 0) {
         // we are moving one clip, easy
@@ -310,6 +315,7 @@ void MoveManager::mouseRelease(GenTime pos)
         new MoveGroupCommand(m_view, clipsToMove, transitionsToMove, timeOffset, trackOffset, true, true, moveGroup);
         m_commandStack->push(moveGroup);
     }
+    m_dragItemInfo = ItemInfo();
     m_view->setOperationMode(None);
 }
 

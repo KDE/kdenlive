@@ -119,7 +119,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_selectedTrack(1)
   , m_audioCorrelator(NULL)
   , m_audioAlignmentReference(NULL)
-  , m_controlModifier(false)
 {
     if (doc) {
         m_commandStack = doc->commandStack();
@@ -833,16 +832,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         return;
     }
-
-    if (m_tool == SelectTool) {
-        if (event->button() == Qt::LeftButton) {
-            if (m_toolManagers.value(SelectType)->mousePress(ItemInfo(), event->modifiers())) {
-                QGraphicsView::mousePressEvent(event);
-                return;
-            }
+    if (m_tool == SelectTool && event->button() == Qt::LeftButton) {
+        if (m_toolManagers.value(SelectType)->mousePress(ItemInfo(), event->modifiers())) {
+            QGraphicsView::mousePressEvent(event);
+            return;
         }
     }
-
     m_dragGuide = NULL;
     m_clickEvent = event->pos();
 
@@ -929,14 +924,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_dragItem = NULL;
     }
 
-    // Add shadow to dragged item, currently disabled because of painting artifacts
-    /*if (m_dragItem) {
-    QGraphicsDropShadowEffect *eff = new QGraphicsDropShadowEffect();
-    eff->setBlurRadius(5);
-    eff->setOffset(3, 3);
-    m_dragItem->setGraphicsEffect(eff);
-    }*/
-
     // No item under click
     if (m_dragItem == NULL && m_tool != SpacerTool) {
         resetSelectionGroup(false);
@@ -996,7 +983,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     ItemInfo clickInfo;
     clickInfo.startPos = GenTime(clickPoint.x(), m_document->fps());
     clickInfo.track = getTrackFromPos(clickPoint.y());
-
     if (event->button() == Qt::LeftButton) {
         if (m_tool == SpacerTool) {
             m_toolManagers.value(SpacerType)->mousePress(clickInfo, event->modifiers());
@@ -1102,7 +1088,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
         updateTimelineSelection();
     }
-
     if (event->button() == Qt::LeftButton) {
         if (m_dragItem) {
             if (m_selectionGroup && m_dragItem->parentItem() == m_selectionGroup) {
@@ -1122,8 +1107,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         else m_operationMode = None;
     }
-    m_controlModifier = (event->modifiers() == Qt::ControlModifier);
-
     // Update snap points
     if (m_selectionGroup == NULL) {
         if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
@@ -1156,7 +1139,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         m_selectionMutex.unlock();
     }
-    
+
     if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
         // Start Ripple edit
         if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier) {
@@ -1172,7 +1155,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     QGraphicsView::mousePressEvent(event);
-
     if (m_operationMode == KeyFrame) {
         m_dragItem->prepareKeyframeMove();
         return;
@@ -4290,7 +4272,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     QPointF clickPoint = mapToScene(event->pos());
     GenTime clickFrame(clickPoint.x(), m_document->fps());
 
-    switch ((int) m_moveOpMode) {
+    switch ((int) (m_moveOpMode == WaitingForConfirm ? m_operationMode : m_moveOpMode)) {
         case MoveGuide:
             m_toolManagers.value(GuideType)->mouseRelease();
             break;
