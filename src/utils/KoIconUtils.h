@@ -1,5 +1,6 @@
 /*
  *  Copyright (c) 2015 Dmitry Kazakov <dimula73@gmail.com>
+ *  Copyright (c) 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,12 +30,7 @@ namespace KoIconUtils
 #if KXMLGUI_VERSION_MINOR > 22 || KXMLGUI_VERSION_MAJOR > 5
     inline QIcon themedIcon(const QString &name)
     {
-        //return QIcon(new KIconEngine(name, KIconLoader::global()));
         return QIcon::fromTheme(name);
-        QIcon result = QIcon::fromTheme(name);
-        if (result.isNull())
-            return QIcon(":/icons/" + name + ".svgz");
-        return result; 
     };
 #else
     /**

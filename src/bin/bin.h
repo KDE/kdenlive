@@ -523,6 +523,8 @@ public:
     void cachePixmap(const QString &path, QImage img);
     /** @brief Returns a document's cache dir. ok is set to false if folder does not exist */
     QDir getCacheDir(CacheType type, bool *ok) const;
+    /** @brief Command adding a bin clip */
+    bool addClip(QDomElement elem, const QString &clipId);
 
 private slots:
     void slotAddClip();

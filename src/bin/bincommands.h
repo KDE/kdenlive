@@ -167,5 +167,19 @@ private:
     bool m_firstExec;
 };
 
+class AddClipCommand : public QUndoCommand
+{
+public:
+    AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QDomElement m_xml;
+    QString m_id;
+    bool m_doIt;
+};
+
+
 #endif
 

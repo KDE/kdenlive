@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_colorclip_ui.h"
 #include "ui_qtextclip_ui.h"
 #include "timecodedisplay.h"
-#include "doc/doccommands.h"
+#include "bin/bincommands.h"
 #include "titler/titlewidget.h"
 #include "titletemplatedialog.h"
 #include "project/dialogs/slideshowclip.h"
@@ -86,7 +86,7 @@ void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement xml, QS
 
     uint id = bin->getFreeClipId();
     xml.setAttribute(QStringLiteral("id"), QString::number(id));
-    AddClipCommand *command = new AddClipCommand(doc, xml, QString::number(id), true);
+    AddClipCommand *command = new AddClipCommand(bin, xml, QString::number(id), true);
     doc->commandStack()->push(command);
 }
 
@@ -125,7 +125,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
-        AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
+        AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
     }
     delete t;
@@ -217,7 +217,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, QStringList groupInfo
             bin->slotEditClipCommand(clip->clipId(), oldProperties, properties);
         } else {
             addXmlProperties(prod, properties);
-            AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
+            AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
             doc->commandStack()->push(command);
         }
     }
@@ -254,7 +254,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, QStringList group
         }
         addXmlProperties(prod, properties);
         uint id = bin->getFreeClipId();
-        AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
+        AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
     }
     delete dia;
@@ -288,7 +288,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo
         prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("out"), dia_ui->duration() - 1);
-        AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
+        AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
     }
     delete dia_ui;
@@ -338,7 +338,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList g
         prod.setAttribute(QStringLiteral("duration"), duration - 1);
         prod.setAttribute(QStringLiteral("out"), duration - 1);
 
-        AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
+        AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
     }
     delete dia;
@@ -484,7 +484,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             }
         }
         addXmlProperties(prod, properties);
-        new AddClipCommand(doc, xml.documentElement(), QString::number(id), true, addClips);
+        new AddClipCommand(bin, xml.documentElement(), QString::number(id), true, addClips);
     }
     if (addClips->childCount() > 0) {
         addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));
@@ -576,7 +576,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
                         }
                         addXmlProperties(prod, properties);
                         uint id = bin->getFreeClipId();
-                        AddClipCommand *command = new AddClipCommand(doc, xml.documentElement(), QString::number(id), true);
+                        AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
                         doc->commandStack()->push(command);
                         return;
                     }
@@ -596,8 +596,8 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     }
 }
 
-void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QDomElement producer, const QString &id, QUndoCommand *command)
+void ClipCreationDialog::createClipsCommand(Bin *bin, QDomElement producer, const QString &id, QUndoCommand *command)
 {
-    new AddClipCommand(doc, producer, id, true, command);
+    new AddClipCommand(bin, producer, id, true, command);
 }
 

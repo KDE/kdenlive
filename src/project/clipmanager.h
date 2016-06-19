@@ -71,7 +71,7 @@ Q_OBJECT public:
     virtual ~ ClipManager();
 
     void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
-    void slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
+    void doDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
     int lastClipId() const;
     QString projectFolder() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */

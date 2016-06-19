@@ -904,92 +904,6 @@ const QString KdenliveDoc::description() const
         return m_url.fileName() + " [*]/ " + m_profile.description;
 }
 
-bool KdenliveDoc::addClip(QDomElement elem, const QString &clipId)
-{
-    const QString producerId = clipId.section('_', 0, 0);
-    elem.setAttribute(QStringLiteral("id"), producerId);
-    if (KdenliveSettings::checkfirstprojectclip() && pCore->bin()->isEmpty()) {
-        elem.setAttribute("checkProfile", 1);
-    }
-    pCore->bin()->createClip(elem);
-    pCore->producerQueue()->getFileProperties(elem, producerId, 150, true);
-
-    /*QString str;
-    QTextStream stream(&str);
-    elem.save(stream, 4);
-    qDebug()<<"ADDING CLIP COMMAND\n-----------\n"<<str;*/
-    return true;
-    /*DocClipBase *clip = m_clipManager->getClipById(producerId);
-
-    if (clip == NULL) {
-        QString clipFolder = KRecentDirs::dir(":KdenliveClipFolder");
-        elem.setAttribute("id", producerId);
-        QString path = elem.attribute("resource");
-        QString extension;
-        if (elem.attribute("type").toInt() == SlideShow) {
-            QUrl f = QUrl::fromLocalFile(path);
-            extension = f.fileName();
-            path = f.adjusted(QUrl::RemoveFilename).path();
-        }
-        if (elem.hasAttribute("_missingsource")) {
-            // Clip has proxy but missing original source
-        }
-        else if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != Text && !elem.hasAttribute("placeholder")) {
-            //qDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
-            const QString size = elem.attribute("file_size");
-            const QString hash = elem.attribute("file_hash");
-            QString newpath;
-            int action = KMessageBox::No;
-            if (!size.isEmpty() && !hash.isEmpty()) {
-                if (!m_searchFolder.isEmpty())
-                    newpath = searchFileRecursively(m_searchFolder, size, hash);
-                else
-                    action = (KMessageBox::ButtonCode) KMessageBox::questionYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Keep as placeholder")));
-            } else {
-                if (elem.attribute("type").toInt() == SlideShow) {
-                    int res = KMessageBox::questionYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
-                    if (res == KMessageBox::Yes)
-                        newpath = QFileDialog::getExistingDirectory(QApplication::activeWindow(), i18n("Looking for %1", path), clipFolder);
-                    else {
-                        // Abort project loading
-                        action = res;
-                    }
-                } else {
-                    int res = KMessageBox::questionYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
-                    if (res == KMessageBox::Yes)
-                        newpath = QFileDialog::getOpenFileName(QApplication::activeWindow(), i18n("Looking for %1", path), clipFolder);
-                    else {
-                        // Abort project loading
-                        action = res;
-                    }
-                }
-            }
-            if (action == KMessageBox::Yes) {
-                //qDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
-                m_searchFolder = QFileDialog::getExistingDirectory(QApplication::activeWindow(), QString(), clipFolder);
-                if (!m_searchFolder.isEmpty())
-                    newpath = searchFileRecursively(QDir(m_searchFolder), size, hash);
-            } else if (action == KMessageBox::Cancel) {
-                return false;
-            } else if (action == KMessageBox::No) {
-                // Keep clip as placeHolder
-                elem.setAttribute("placeholder", '1');
-            }
-            if (!newpath.isEmpty()) {
-                //qDebug() << "// NEW CLIP PATH FOR CLIP " << clipId << " : " << newpath;
-                if (elem.attribute("type").toInt() == SlideShow)
-                    newpath.append('/' + extension);
-                elem.setAttribute("resource", newpath);
-                setNewClipResource(clipId, newpath);
-                setModified(true);
-            }
-        }
-        clip = new DocClipBase(m_clipManager, elem, producerId);
-        m_clipManager->addClip(clip);
-    }
-    return true; */
-}
-
 QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
 {
     QString foundFileName;
@@ -1029,58 +943,8 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
     return foundFileName;
 }
 
-/*
-bool KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId)
+void KdenliveDoc::deleteClip(const QString &clipId, ClipType type, const QString url)
 {
-    DocClipBase *clip = m_clipManager->getClipById(clipId);
-    if (clip == NULL) {
-        if (!addClip(elem, clipId, false))
-            return false;
-    } else {
-        QMap <QString, QString> properties;
-        QDomNamedNodeMap attributes = elem.attributes();
-        for (int i = 0; i < attributes.count(); ++i) {
-            QString attrname = attributes.item(i).nodeName();
-            if (attrname != "resource")
-                properties.insert(attrname, attributes.item(i).nodeValue());
-            ////qDebug() << attrname << " = " << attributes.item(i).nodeValue();
-        }
-        clip->setProperties(properties);
-        emit addProjectClip(clip, false);
-    }
-    if (!orig.isNull()) {
-        QMap<QString, QString> meta;
-        for (QDomNode m = orig.firstChild(); !m.isNull(); m = m.nextSibling()) {
-            QString name = m.toElement().attribute("name");
-            if (name.startsWith(QLatin1String("meta.attr"))) {
-                if (name.endsWith(QLatin1String(".markup"))) name = name.section('.', 0, -2);
-                meta.insert(name.section('.', 2, -1), m.firstChild().nodeValue());
-            }
-        }
-        if (!meta.isEmpty()) {
-            if (clip == NULL)
-                clip = m_clipManager->getClipById(clipId);
-            if (clip)
-                clip->setMetadata(meta);
-        }
-    }
-    return true;
-}*/
-
-
-void KdenliveDoc::deleteClip(const QString &clipId)
-{
-    ClipController *controller = pCore->binController()->getController(clipId);
-    if (!controller) {
-	// Clip doesn't exist, something is wrong
-	qWarning()<<"// Document error deleting clip: "<<clipId;
-	return;
-    }
-    ClipType type = controller->clipType();
-    QString url = controller->clipUrl().toLocalFile();
-    // Delete clip in bin
-    pCore->bin()->deleteClip(clipId);
-    // Delete controller and Mlt::Producer
     pCore->binController()->removeBinClip(clipId);
     // Remove from file watch
     if (type != Color && type != SlideShow && type != QText && !url.isEmpty()) {

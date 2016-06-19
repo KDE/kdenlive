@@ -22,7 +22,7 @@
 #include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"
-#include "doc/doccommands.h"
+#include "bin/bincommands.h"
 #include "doc/kdenlivedoc.h"
 #include "project/projectmanager.h"
 #include "timeline/abstractclipitem.h"
@@ -219,18 +219,18 @@ void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds,
             }
         }
         // remove clips and folders from bin
-        slotDeleteClips(clipIds, folderIds, subClipIds, deleteCommand, execute);
+        doDeleteClips(clipIds, folderIds, subClipIds, deleteCommand, execute);
     }
 }
 
-void ClipManager::slotDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute)
+void ClipManager::doDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute)
 {
     for (int i = 0; i < clipIds.size(); ++i) {
         QString xml = pCore->binController()->xmlFromId(clipIds.at(i));
         if (!xml.isEmpty()) {
 	    QDomDocument doc;
 	    doc.setContent(xml);
-            new AddClipCommand(m_doc, doc.documentElement(), clipIds.at(i), false, deleteCommand);	    
+            new AddClipCommand(pCore->bin(), doc.documentElement(), clipIds.at(i), false, deleteCommand);	    
         }
     }
     for (int i = 0; i < folderIds.size(); ++i) {
@@ -285,7 +285,7 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, c
     prod.setAttribute(QStringLiteral("duration"), duration - 1);
     prod.setAttribute(QStringLiteral("out"), duration - 1);
 
-    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
+    AddClipCommand *command = new AddClipCommand(pCore->bin(), doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
 }
 

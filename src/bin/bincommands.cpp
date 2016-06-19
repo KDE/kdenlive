@@ -252,3 +252,30 @@ void EditClipCommand::redo()
     m_doIt = true;
     m_firstExec = false;
 }
+
+AddClipCommand::AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_bin(bin),
+        m_xml(xml),
+        m_id(id),
+        m_doIt(doIt)
+{
+    if (doIt) setText(i18n("Add clip"));
+    else setText(i18n("Delete clip"));
+}
+// virtual
+void AddClipCommand::undo()
+{
+    if (m_doIt)
+        m_bin->deleteClip(m_id);
+    else
+        m_bin->addClip(m_xml, m_id);
+}
+// virtual
+void AddClipCommand::redo()
+{
+    if (m_doIt)
+        m_bin->addClip(m_xml, m_id);
+    else
+        m_bin->deleteClip(m_id);
+}

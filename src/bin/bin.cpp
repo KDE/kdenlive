@@ -728,10 +728,13 @@ void Bin::deleteClip(const QString &id)
 	return;
     }
     m_jobManager->discardJobs(id);
+    ClipType type = clip->clipType();
+    QString url = clip->url().toLocalFile();
     clip->setClipStatus(AbstractProjectItem::StatusDeleting);
     AbstractProjectItem *parent = clip->parent();
     parent->removeChild(clip);
     delete clip;
+    m_doc->deleteClip(id, type, url);
 }
 
 ProjectClip *Bin::getFirstSelectedClip()
@@ -2479,7 +2482,7 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         QString id = QString::number(getFreeClipId());
         idMaps.insert(prod.attribute(QStringLiteral("id")), id);
         processedUrl.insert(resource, id);
-        ClipCreationDialog::createClipsCommand(m_doc, clone, id, command);
+        ClipCreationDialog::createClipsCommand(this, clone, id, command);
     }
     pCore->projectManager()->currentTimeline()->importPlaylist(info, processedUrl, idMaps, doc, command);
 }
@@ -3293,7 +3296,7 @@ void Bin::cleanup()
     }
     QUndoCommand *command = new QUndoCommand();
     command->setText(i18n("Clean Project"));
-    m_doc->clipManager()->slotDeleteClips(ids, QStringList(), subIds, command, true);
+    m_doc->clipManager()->doDeleteClips(ids, QStringList(), subIds, command, true);
 }
 
 void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize)
@@ -3327,4 +3330,16 @@ void Bin::cachePixmap(const QString &path, QImage img)
 QDir Bin::getCacheDir(CacheType type, bool *ok) const
 {
     return m_doc->getCacheDir(type, ok);
+}
+
+bool Bin::addClip(QDomElement elem, const QString &clipId)
+{
+    const QString producerId = clipId.section('_', 0, 0);
+    elem.setAttribute(QStringLiteral("id"), producerId);
+    if (KdenliveSettings::checkfirstprojectclip() && isEmpty()) {
+        elem.setAttribute("checkProfile", 1);
+    }
+    createClip(elem);
+    m_doc->getFileProperties(elem, producerId, 150, true);
+    return true;
 }

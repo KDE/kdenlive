@@ -90,20 +90,7 @@ public:
     ClipManager *clipManager();
     QString groupsXml() const;
 
-    /** @brief Adds a clip to the project tree.
-     * @return false if the user aborted the operation, true otherwise */
-    bool addClip(QDomElement elem, const QString &clipId);
-
-    /** @brief Updates information about a clip.
-     * @param elem the <kdenlive_producer />
-     * @param orig the potential <producer />
-     * @param clipId the producer id
-     * @return false if the user aborted the operation (in case the clip wasn't
-     *     there yet), true otherwise
-     *
-     * If the clip wasn't added before, it tries to add it to the project. */
-    //bool addClipInfo(QDomElement elem, QDomElement orig, const QString &clipId);
-    void deleteClip(const QString &clipId);
+    void deleteClip(const QString &clipId, ClipType type, const QString url);
     int getFramePos(const QString &duration);
     /** @brief Get a bin's clip from its id. */
     ProjectClip *getBinClip(const QString &clipId);
