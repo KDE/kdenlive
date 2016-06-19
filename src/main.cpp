@@ -25,6 +25,7 @@
 
 #include <KAboutData>
 #include <KCrash>
+#include <KIconLoader>
 #include <QDebug>
 
 #include <QUrl> //new
@@ -77,10 +78,10 @@ int main(int argc, char *argv[])
 
     // Register about data
     KAboutData::setApplicationData(aboutData);
-    
-    QStringList themePath = QIcon::themeSearchPaths();
-    QIcon::setThemeSearchPaths(themePath << QStringLiteral(":/icons"));
-    //QIcon::setThemeName(QStringLiteral("kbreeze"));
+
+    // Add rcc stored icons to the search path so that we always find our icons
+    KIconLoader *loader = KIconLoader::global();
+    loader->reconfigure("kdenlive", QStringList() << QStringLiteral(":/pics"));
 
     // Set app stuff from about data
     app.setApplicationName(aboutData.componentName());

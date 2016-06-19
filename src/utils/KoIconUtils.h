@@ -29,7 +29,7 @@ namespace KoIconUtils
 #if KXMLGUI_VERSION_MINOR > 22 || KXMLGUI_VERSION_MAJOR > 5
     inline QIcon themedIcon(const QString &name)
     {
-        return QIcon(new KIconEngine(name, KIconLoader::global()));
+        //return QIcon(new KIconEngine(name, KIconLoader::global()));
         return QIcon::fromTheme(name);
         QIcon result = QIcon::fromTheme(name);
         if (result.isNull())

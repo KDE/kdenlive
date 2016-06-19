@@ -1,21 +1,18 @@
 <RCC>
-  <qresource prefix="icons">
-     <file alias="kbreeze/index.theme">../data/pics/index.theme</file> 
+  <qresource prefix="pics">
      <file alias="timeline-insert.svg">../data/pics/breeze-light/lt_timeline-insert.svg</file>
-     <file alias="kbreeze/actions/22/timeline-insert.svg">../data/pics/breeze-light/lt_timeline-insert.svg</file>
-     <file alias="kbreeze/actions/22/timeline-extract.svg">../data/pics/breeze-light/lt_timeline-extract.svg</file>
-     <file alias="kbreeze/actions/22/timeline-lift.svg">../data/pics/breeze-light/lt_timeline-lift.svg</file>
-     <file alias="kbreeze/actions/22/timeline-overwrite.svg">../data/pics/breeze-light/lt_timeline-overwrite.svg</file>
-     <file alias="kbreeze/actions/22/timeline-use-zone-on.svg">../data/pics/breeze-light/lt_timeline-use-zone-on.svg</file>
-     <file alias="kbreeze/actions/22/timeline-use-zone-off.svg">../data/pics/breeze-light/lt_timeline-use-zone-off.svg</file>
-      <file alias="kbreeze/actions/22/favorite.svg">../data/pics/breeze-light/lt_favorite.svg</file>
-      <file alias="kbreeze/actions/22/zone-in.svg">../data/pics/breeze-light/lt_zone-in.svg</file>
-      <file alias="kbreeze/actions/22/zone-out.svg">../data/pics/breeze-light/lt_zone-out.svg</file>
-      <file alias="kbreeze/actions/22/preview-add-zone.svg">../data/pics/breeze-light/lt_preview-add-zone.svg</file>
-      <file alias="kbreeze/actions/22/preview-remove-zone.svg">../data/pics/breeze-light/lt_preview-remove-zone.svg</file>
-      <file alias="kbreeze/actions/22/preview-render-on.svg">../data/pics/breeze-light/lt_preview-render-on.svg</file>
-      <file alias="kbreeze/actions/22/preview-render-off.svg">../data/pics/breeze-light/lt_preview-render-off.svg</file>
-      <file alias="kbreeze/actions/22/view-split-effect.svg">../data/pics/breeze-light/lt_view-split-effect.svg</file>
-      
+     <file alias="timeline-extract.svg">../data/pics/breeze-light/lt_timeline-extract.svg</file>
+     <file alias="timeline-lift.svg">../data/pics/breeze-light/lt_timeline-lift.svg</file>
+     <file alias="timeline-overwrite.svg">../data/pics/breeze-light/lt_timeline-overwrite.svg</file>
+     <file alias="timeline-use-zone-on.svg">../data/pics/breeze-light/lt_timeline-use-zone-on.svg</file>
+     <file alias="timeline-use-zone-off.svg">../data/pics/breeze-light/lt_timeline-use-zone-off.svg</file>
+      <file alias="favorite.svg">../data/pics/breeze-light/lt_favorite.svg</file>
+      <file alias="zone-in.svg">../data/pics/breeze-light/lt_zone-in.svg</file>
+      <file alias="zone-out.svg">../data/pics/breeze-light/lt_zone-out.svg</file>
+      <file alias="preview-add-zone.svg">../data/pics/breeze-light/lt_preview-add-zone.svg</file>
+      <file alias="preview-remove-zone.svg">../data/pics/breeze-light/lt_preview-remove-zone.svg</file>
+      <file alias="preview-render-on.svg">../data/pics/breeze-light/lt_preview-render-on.svg</file>
+      <file alias="preview-render-off.svg">../data/pics/breeze-light/lt_preview-render-off.svg</file>
+      <file alias="view-split-effect.svg">../data/pics/breeze-light/lt_view-split-effect.svg</file>
       </qresource>
 </RCC>
