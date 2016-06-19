@@ -41,7 +41,7 @@ breeze-light/lt_edit-rename.svgz
 breeze-light/lt_edit-select.svgz
 breeze-light/lt_edit-undo.svgz
 breeze-light/lt_favorites.svgz
-breeze-light/lt_favorite.svgz
+breeze-light/lt_favorite.svg
 breeze-light/lt_folder-new.svgz
 breeze-light/lt_folder.svgz
 breeze-light/lt_format-justify-center.svgz
@@ -136,16 +136,16 @@ breeze-light/lt_object-ungroup.svgz
 breeze-light/lt_project-defaults.svgz
 breeze-light/lt_settings-configure.svgz
 breeze-light/lt_system-run.svgz
-breeze-light/lt_timeline-use-zone-off.svgz
-breeze-light/lt_timeline-use-zone-on.svgz
-breeze-light/lt_timeline-extract.svgz
-breeze-light/lt_timeline-lift.svgz
-breeze-light/lt_timeline-insert.svgz
-breeze-light/lt_preview-add-zone.svgz
-breeze-light/lt_preview-remove-zone.svgz
-breeze-light/lt_preview-render-on.svgz
-breeze-light/lt_preview-render-off.svgz
-breeze-light/lt_timeline-overwrite.svgz
+breeze-light/lt_timeline-use-zone-off.svg
+breeze-light/lt_timeline-use-zone-on.svg
+breeze-light/lt_timeline-extract.svg
+breeze-light/lt_timeline-lift.svg
+breeze-light/lt_timeline-insert.svg
+breeze-light/lt_preview-add-zone.svg
+breeze-light/lt_preview-remove-zone.svg
+breeze-light/lt_preview-render-on.svg
+breeze-light/lt_preview-render-off.svg
+breeze-light/lt_timeline-overwrite.svg
 breeze-light/lt_tools-wizard.svgz
 breeze-light/lt_transform-crop.svgz
 breeze-light/lt_transform-move.svgz
@@ -156,7 +156,7 @@ breeze-light/lt_view-grid.svgz
 breeze-light/lt_view-list-icons.svgz
 breeze-light/lt_view-list-tree.svgz
 breeze-light/lt_view-refresh.svgz
-breeze-light/lt_view-split-effect.svgz
+breeze-light/lt_view-split-effect.svg
 breeze-light/lt_view-split-left-right.svgz
 breeze-light/lt_view-unsplit-effect.svgz
 breeze-light/lt_visibility.svgz
@@ -169,8 +169,8 @@ breeze-light/lt_discrete.svgz
 breeze-light/lt_linear.svgz
 breeze-light/lt_smooth.svgz
 breeze-light/lt_keyframes.svgz
-breeze-light/lt_zone-in.svgz
-breeze-light/lt_zone-out.svgz
+breeze-light/lt_zone-in.svg
+breeze-light/lt_zone-out.svg
 
 breeze-dark/dk_application-exit.svgz
 breeze-dark/dk_audio-volume-medium.svgz
@@ -213,7 +213,7 @@ breeze-dark/dk_edit-rename.svgz
 breeze-dark/dk_edit-select.svgz
 breeze-dark/dk_edit-undo.svgz
 breeze-dark/dk_favorites.svgz
-breeze-dark/dk_favorite.svgz
+breeze-dark/dk_favorite.svg
 breeze-dark/dk_folder-new.svgz
 breeze-dark/dk_folder.svgz
 breeze-dark/dk_format-justify-center.svgz
@@ -308,16 +308,16 @@ breeze-dark/dk_object-ungroup.svgz
 breeze-dark/dk_project-defaults.svgz
 breeze-dark/dk_settings-configure.svgz
 breeze-dark/dk_system-run.svgz
-breeze-dark/dk_timeline-use-zone-off.svgz
-breeze-dark/dk_timeline-use-zone-on.svgz
-breeze-dark/dk_timeline-extract.svgz
-breeze-dark/dk_timeline-lift.svgz
-breeze-dark/dk_timeline-insert.svgz
-breeze-dark/dk_timeline-overwrite.svgz
-breeze-dark/dk_preview-add-zone.svgz
-breeze-dark/dk_preview-remove-zone.svgz
-breeze-dark/dk_preview-render-on.svgz
-breeze-dark/dk_preview-render-off.svgz
+breeze-dark/dk_timeline-use-zone-off.svg
+breeze-dark/dk_timeline-use-zone-on.svg
+breeze-dark/dk_timeline-extract.svg
+breeze-dark/dk_timeline-lift.svg
+breeze-dark/dk_timeline-insert.svg
+breeze-dark/dk_timeline-overwrite.svg
+breeze-dark/dk_preview-add-zone.svg
+breeze-dark/dk_preview-remove-zone.svg
+breeze-dark/dk_preview-render-on.svg
+breeze-dark/dk_preview-render-off.svg
 breeze-dark/dk_tools-wizard.svgz
 breeze-dark/dk_transform-crop.svgz
 breeze-dark/dk_transform-move.svgz
@@ -328,7 +328,7 @@ breeze-dark/dk_view-grid.svgz
 breeze-dark/dk_view-list-icons.svgz
 breeze-dark/dk_view-list-tree.svgz
 breeze-dark/dk_view-refresh.svgz
-breeze-dark/dk_view-split-effect.svgz
+breeze-dark/dk_view-split-effect.svg
 breeze-dark/dk_view-split-left-right.svgz
 breeze-dark/dk_view-unsplit-effect.svgz
 breeze-dark/dk_visibility.svgz
@@ -341,7 +341,7 @@ breeze-dark/dk_discrete.svgz
 breeze-dark/dk_linear.svgz
 breeze-dark/dk_smooth.svgz
 breeze-dark/dk_keyframes.svgz
-breeze-dark/dk_zone-in.svgz
-breeze-dark/dk_zone-out.svgz
+breeze-dark/dk_zone-in.svg
+breeze-dark/dk_zone-out.svg
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/pics)
