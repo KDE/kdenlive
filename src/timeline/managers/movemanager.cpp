@@ -33,7 +33,7 @@ MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, DocU
 {
 }
 
-bool MoveManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem *>)
+bool MoveManager::mousePress(ItemInfo info, Qt::KeyboardModifiers , QList<QGraphicsItem *>)
 {
     m_view->setCursor(Qt::ClosedHandCursor);
     m_dragItemInfo = info;

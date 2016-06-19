@@ -114,7 +114,7 @@ public:
     /** @brief delete a clip
      * @param time where clip is present (in seconds);
      * @return true if success */
-    bool del(qreal t);
+    bool del(qreal t, bool checkDuration = true);
     /** delete a region
      * @param t is the start,
      * @param dt is the duration (in seconds)

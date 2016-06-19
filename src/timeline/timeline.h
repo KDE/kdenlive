@@ -186,7 +186,7 @@ public slots:
     void slotSetZone(const QPoint &p, bool updateDocumentProperties = true);
     /** @brief Save a snapshot image of current timeline view */
     void slotSaveTimelinePreview(const QString &path);
-    void checkDuration(int duration);
+    void checkDuration();
     void slotShowTrackEffects(int);
     void updateProfile(bool fpsChanged);
     /** @brief Enable/disable multitrack view (split monitor in 4) */

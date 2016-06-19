@@ -150,7 +150,7 @@ bool Track::isLastClip(qreal t)
     return false;
 }
 
-bool Track::del(qreal t)
+bool Track::del(qreal t, bool checkDuration)
 {
     m_playlist.lock();
     bool durationChanged = false;
@@ -170,7 +170,7 @@ bool Track::del(qreal t)
     }
     m_playlist.consolidate_blanks();
     m_playlist.unlock();
-    if (durationChanged) {
+    if (durationChanged && checkDuration) {
         emit newTrackDuration(m_playlist.get_playtime());
     }
     return true;

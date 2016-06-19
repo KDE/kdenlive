@@ -345,30 +345,8 @@ int Timeline::getTracks() {
     return duration;
 }
 
-void Timeline::checkDuration(int duration) {
-    Q_UNUSED(duration)
+void Timeline::checkDuration() {
     m_doc->renderer()->mltCheckLength(m_tractor);
-    return;
-    /*FIXME
-    for (int i = 1; i < m_tractor->count(); ++i) {
-        QScopedPointer<Mlt::Producer> tk(m_tractor->track(i));
-        int len = tk->get_playtime() - 1;
-        if (len > duration) duration = len;
-    }
-    QScopedPointer<Mlt::Producer> tk1(m_tractor->track(0));
-    Mlt::Service s(tk1->get_service());
-    Mlt::Playlist blackTrack(s);
-    if (blackTrack.get_playtime() - 1 != duration) {
-        QScopedPointer<Mlt::Producer> blackClip(blackTrack.get_clip(0));
-        if (blackClip->parent().get_length() <= duration) {
-            blackClip->parent().set("length", duration + 1);
-            blackClip->parent().set("out", duration);
-            blackClip->set("length", duration + 1);
-        }
-        blackTrack.resize_clip(0, 0, duration);
-    }
-    //TODO: rewind consumer if beyond duration / emit durationChanged
-    */
 }
 
 void Timeline::getTransitions() {

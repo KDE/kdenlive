@@ -5155,7 +5155,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 if (alreadyMoved)
                     clip->setEnabled(false);
             }
-            m_timeline->track(startClip.at(i).track)->del(startClip.at(i).startPos.seconds());
+            m_timeline->track(startClip.at(i).track)->del(startClip.at(i).startPos.seconds(), false);
         } else qDebug() << "//MISSING CLIP AT: " << startClip.at(i).startPos.frames(25)<<" / track: "<<startClip.at(i).track<<" / OFFSET: "<<trackOffset;
     }
     for (int i = 0; i < startTransition.count(); ++i) {
@@ -5265,6 +5265,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             rebuildGroup(groupList.at(i));
         }
         groupSelectedItems(children, false);
+        m_timeline->checkDuration();
         //clearSelection();
         KdenliveSettings::setSnaptopoints(snap);
         //TODO: calculate affected ranges and invalidate previews
