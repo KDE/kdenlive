@@ -7,7 +7,8 @@ Rectangle {
     objectName: "effecttoolbar"
     width: fullscreenButton.width
     height: fullscreenButton.height * 5 + zoomSlider.height + 2
-    color: Qt.rgba(1, 1, 1, 0.6)
+    SystemPalette { id: myPalette; colorGroup: SystemPalette.Active }
+    color: Qt.rgba(myPalette.window.r, myPalette.window.g, myPalette.window.b, 0.7)
     radius: 4
     border.color : Qt.rgba(0, 0, 0, 0.3)
     border.width: 1
