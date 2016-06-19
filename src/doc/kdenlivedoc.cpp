@@ -1412,6 +1412,8 @@ void KdenliveDoc::loadDocumentProperties()
 
 void KdenliveDoc::updateProjectProfile(bool reloadProducers)
 {
+    pCore->bin()->abortAudioThumbs();
+    pCore->producerQueue()->abortOperations();
     KdenliveSettings::setProject_display_ratio((double) m_profile.display_aspect_num / m_profile.display_aspect_den);
     double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     KdenliveSettings::setProject_fps(fps);
@@ -1419,7 +1421,6 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
     m_height = m_profile.height;
     bool fpsChanged = m_timecode.fps() != fps;
     m_timecode.setFormat(fps);
-    pCore->producerQueue()->abortOperations();
     KdenliveSettings::setCurrent_profile(m_profile.path);
     pCore->monitorManager()->resetProfiles(m_profile, m_timecode);
     if (!reloadProducers) return;
