@@ -596,8 +596,9 @@ void ClipController::setZone(const QPoint &zone)
 QPoint ClipController::zone() const
 {
     int in = int_property(QStringLiteral("kdenlive:zone_in"));
-    int out = int_property(QStringLiteral("kdenlive:zone_out"));
-    if (out <= in ) out = getPlaytime().frames(m_binController->fps());
+    int max = getPlaytime().frames(m_binController->fps()) - 1;
+    int out = qMin(int_property(QStringLiteral("kdenlive:zone_out")), max);
+    if (out <= in ) out = max;
     QPoint zone(in, out);
     return zone;
 }

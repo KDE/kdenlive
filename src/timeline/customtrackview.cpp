@@ -1841,7 +1841,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
                 int in = clipData.section('/', 1, 1).toInt();
                 int out = clipData.section('/', 2, 2).toInt();
                 info.cropStart = GenTime(in, m_document->fps());
-                info.cropDuration = GenTime(out - in, m_document->fps());
+                info.cropDuration = GenTime(out - in + 1, m_document->fps());
             }
             else {
                 info.cropDuration = clip->duration();
@@ -1886,7 +1886,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
                 int in = clipData.section('/', 1, 1).toInt();
                 int out = clipData.section('/', 2, 2).toInt();
                 info.cropStart = GenTime(in, m_document->fps());
-                info.cropDuration = GenTime(out - in, m_document->fps());
+                info.cropDuration = GenTime(out - in + 1, m_document->fps());
             }
             else {
                 info.cropDuration = clip->duration();

@@ -2590,6 +2590,7 @@ void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
     if (!clip) return;
     QMapIterator<QString, QString> i(data);
     QList <int> missingThumbs;
+    int maxFrame = clip->duration().frames(m_doc->fps()) - 1;
     while (i.hasNext()) {
         i.next();
         if (!i.value().contains(QStringLiteral(";"))) { 
@@ -2599,6 +2600,8 @@ void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
         QImage img;
         int in = i.value().section(QLatin1Char(';'), 0, 0).toInt();
         int out = i.value().section(QLatin1Char(';'), 1, 1).toInt();
+        if (maxFrame > 0)
+            out = qMin(out, maxFrame);
         missingThumbs << in;
         new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()), i.key());
     }
