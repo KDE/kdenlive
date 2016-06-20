@@ -73,6 +73,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent) :
     document()->setDocumentMargin(0);
     updateGeometry();
     m_shadowEffect = new MyQGraphicsEffect(this);
+    m_shadowEffect->setEnabled(false);
     setGraphicsEffect(m_shadowEffect);
     connect(document(), SIGNAL(contentsChange(int, int, int)),
             this, SLOT(updateGeometry(int, int, int)));
@@ -90,7 +91,9 @@ void MyTextItem::updateShadow(bool enabled, int blur, int xoffset, int yoffset, 
     m_shadowColor = color;
     m_shadowEffect->setEnabled(enabled);
     m_shadowEffect->setOffset(xoffset, yoffset, blur);
-    updateShadow();
+    if (enabled) {
+        updateShadow();
+    }
     update();
 }
 
@@ -550,10 +553,8 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
     int yPos = ((int) e->scenePos().y() / m_gridSize) * m_gridSize;
     m_clickPoint = QPointF(xPos, yPos);
     //m_clickPoint = e->scenePos();
-    QPointF p = e->scenePos();
-    p += QPoint(-2, -2);
     m_resizeMode = m_possibleAction;
-    const QList <QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
+    const QList <QGraphicsItem *> list = items(e->scenePos());
     QGraphicsItem *item = NULL;
     if (e->modifiers() != Qt::ControlModifier) {
         clearSelection();
