@@ -1,0 +1,42 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.acompressor" type="audio">
+	<name>Compressor (avfilter)</name>
+	<description>Audio Compressor</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.level_in" max="64" min="0.016" default="1" decimals="3">
+		<name>Input Gain</name>
+	</parameter>
+        <parameter type="constant" name="av.threshold" max="1" min="0.001" default="0.125" decimals="3">
+		<name>Threshold</name>
+	</parameter>
+        <parameter type="constant" name="av.ratio" max="20" min="1" default="2">
+		<name>Ratio</name>
+	</parameter>
+        <parameter type="constant" name="av.attack" max="2000" min="0.01" default="20" decimals="3">
+		<name>Attack</name>
+	</parameter>
+        <parameter type="constant" name="av.release" max="9000" min="0.01" default="250" decimals="3">
+		<name>Release</name>
+	</parameter>
+        <parameter type="constant" name="av.makeup" max="64" min="1" default="2">
+		<name>Make Up Gain</name>
+	</parameter>
+        <parameter type="constant" name="av.knee" max="8" min="1" default="2.828" decimals="3">
+		<name>Knee</name>
+	</parameter>
+        <parameter type="list" name="av.link" default="0" paramlist="0;1">
+	   <paramlistdisplay>Average,Maximum</paramlistdisplay>
+		<name>Link Type</name>
+	</parameter>
+        <parameter type="list" name="av.detection" default="0" paramlist="0;1">
+	   <paramlistdisplay>Peak,Rms</paramlistdisplay>
+		<name>Detection</name>
+	</parameter>
+        <parameter type="constant" name="av.level_sc" max="64" min="0.016" default="1" decimals="3">
+		<name>Sidechain Gain</name>
+	</parameter>
+        <parameter type="constant" name="av.mix" max="1" min="0" default="1" decimals="3">
+		<name>Mix</name>
+	</parameter>
+</effect>
+

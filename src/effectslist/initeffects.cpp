@@ -592,17 +592,20 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 		    // This parameter has to be given as attribute when using command line, do not show it in Kdenlive
 		    continue;
 		}
+		
+		if (paramdesc.get("readonly") && !strcmp(paramdesc.get("readonly"), "yes")) {
+                    // Do not expose readonly parameters
+                    continue;
+                }
 
                 if (paramdesc.get("maximum")) params.setAttribute(QStringLiteral("max"), paramdesc.get("maximum"));
                 if (paramdesc.get("minimum")) params.setAttribute(QStringLiteral("min"), paramdesc.get("minimum"));
 
                 QString paramType = paramdesc.get("type");
-                
                 if (paramType == QLatin1String("integer")) {
 		    if (params.attribute(QStringLiteral("min")) == QLatin1String("0") && params.attribute(QStringLiteral("max")) == QLatin1String("1"))
 			params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
                     else params.setAttribute(QStringLiteral("type"), QStringLiteral("constant"));
-		    
 		}
                 else if (paramType == QLatin1String("float")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("constant"));

@@ -133,3 +133,4 @@ tracker.xml
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
 
 add_subdirectory(update)
+add_subdirectory(avfilter)

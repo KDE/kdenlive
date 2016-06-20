@@ -968,7 +968,9 @@ void ParameterContainer::slotCollectAllParameters()
         QString setValue;
         if (type == QLatin1String("double") || type == QLatin1String("constant")) {
             DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget*>(m_valueItems.value(paramName));
-            if (doubleparam) setValue = locale.toString(doubleparam->getValue());
+            if (doubleparam) {
+                setValue = locale.toString(doubleparam->getValue());
+            }
         } else if (type == QLatin1String("list")) {
 	    Listval* val = static_cast<Listval*>(m_valueItems.value(paramName));
             if (val) {

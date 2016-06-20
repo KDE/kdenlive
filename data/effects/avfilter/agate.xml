@@ -1,0 +1,39 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.agate" type="audio">
+	<name>Gate (avfilter)</name>
+	<description>Audio Gate</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.level_in" max="64" min="0.016" default="1" decimals="3">
+		<name>Input Gain</name>
+	</parameter>
+        <parameter type="constant" name="av.range" max="1" min="0" default="0.061" decimals="3">
+		<name>Range</name>
+	</parameter>
+        <parameter type="constant" name="av.threshold" max="1" min="0" default="0.125" decimals="3">
+		<name>Threshold</name>
+	</parameter>
+        <parameter type="constant" name="av.ratio" max="9000" min="1" default="1">
+		<name>Ratio</name>
+	</parameter>
+        <parameter type="constant" name="av.attack" max="9000" min="0.01" default="20" decimals="3" suffif="ms">
+		<name>Attack</name>
+	</parameter>
+        <parameter type="constant" name="av.release" max="9000" min="0.01" default="250" decimals="3" suffif="ms">
+		<name>Release</name>
+	</parameter>
+        <parameter type="constant" name="av.makeup" max="64" min="1" default="1">
+		<name>Make Up Gain</name>
+	</parameter>
+        <parameter type="constant" name="av.knee" max="8" min="1" default="2.828" decimals="3">
+		<name>Knee</name>
+	</parameter>
+        <parameter type="list" name="av.detection" default="0" paramlist="0;1">
+	   <paramlistdisplay>Peak,Rms</paramlistdisplay>
+		<name>Detection</name>
+	</parameter>
+        <parameter type="list" name="av.link" default="0" paramlist="0;1">
+	   <paramlistdisplay>Average,Maximum</paramlistdisplay>
+		<name>Link Type</name>
+	</parameter>
+</effect>
+

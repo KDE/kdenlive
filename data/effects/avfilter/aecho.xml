@@ -1,0 +1,19 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.aecho" type="audio">
+	<name>Echo (avfilter)</name>
+	<description>Add Echo</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.in_gain" max="1" min="0" default="0.6" decimals="3">
+		<name>Input Gain</name>
+	</parameter>
+        <parameter type="constant" name="av.out_gain" max="1" min="0" default="0.3" decimals="3">
+		<name>Output Gain</name>
+	</parameter>
+        <parameter type="constant" name="av.delays" max="90000" min="0" default="1000">
+		<name>Delay</name>
+	</parameter>
+        <parameter type="constant" name="av.decays" max="1" min="0" default="0.5" decimals="2">
+		<name>Decay</name>
+	</parameter>
+</effect>
+

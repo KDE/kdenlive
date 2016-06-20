@@ -121,3 +121,22 @@ mono
 # Effects need extra GUI to create the resulting melt.xml with the corrected content
 videostab
 videostab2
+
+# Unimplemented/unusable Avfilter Effects
+avfilter.abench
+avfilter.adelay
+avfilter.aemphasis
+avfilter.aeval
+avfilter.afade
+avfilter.afftfilt
+avfilter.aformat
+avfilter.subtitles
+avfilter.ssim
+avfilter.stereo3d
+avfilter.ass
+
+# Avfilter Effects with XML
+avfilter.acompressor
+avfilter.aecho
+avfilter.agate
+
