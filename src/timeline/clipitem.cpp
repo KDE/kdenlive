@@ -86,7 +86,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     m_audioThumbReady = m_binClip->audioThumbCreated();
     //setAcceptsHoverEvents(true);
     connect(m_binClip, SIGNAL(refreshClipDisplay()), this, SLOT(slotRefreshClip()));
-    if (m_clipType == AV || m_clipType == Video || m_clipType == SlideShow || m_clipType == Playlist ) {
+    if (m_clipType == AV || m_clipType == Video || m_clipType == SlideShow || m_clipType == Playlist) {
         m_baseColor = QColor(141, 166, 215);
         if (m_binClip->isReady()) {
             m_hasThumbs = true;
@@ -99,7 +99,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
         }
     } else if (m_clipType == Color) {
         m_baseColor = m_binClip->getProducerColorProperty(QStringLiteral("resource"));
-    } else if (m_clipType == Image || m_clipType == Text || m_clipType == QText) {
+    } else if (m_clipType == Image || m_clipType == Text || m_clipType == QText || m_clipType == TextTemplate) {
         m_baseColor = QColor(141, 166, 215);
 	m_startPix = m_binClip->thumbnail(frame_width, rect().height());
         connect(m_binClip, SIGNAL(thumbUpdated(QImage)), this, SLOT(slotUpdateThumb(QImage)));
@@ -130,7 +130,7 @@ ClipItem *ClipItem::clone(const ItemInfo &info) const
 {
     ClipItem *duplicate = new ClipItem(m_binClip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
     duplicate->setPos(pos());
-    if (m_clipType == Image || m_clipType == Text) duplicate->slotSetStartThumb(m_startPix);
+    if (m_clipType == Image || m_clipType == Text || m_clipType == TextTemplate) duplicate->slotSetStartThumb(m_startPix);
     else if (m_clipType != Color && m_clipType != QText) {
         if (info.cropStart == m_info.cropStart) duplicate->slotSetStartThumb(m_startPix);
         if (info.cropStart + (info.endPos - info.startPos) == m_info.cropStart + m_info.cropDuration) {
@@ -338,7 +338,7 @@ QDomElement ClipItem::selectedEffect()
 
 void ClipItem::resetThumbs(bool clearExistingThumbs)
 {
-    if (m_clipType == Image || m_clipType == Text || m_clipType == QText || m_clipType == Color || m_clipType == Audio) {
+    if (m_clipType == Image || m_clipType == Text || m_clipType == QText || m_clipType == Color || m_clipType == Audio || m_clipType == TextTemplate) {
         // These clip thumbnails are linked to bin thumbnail, not dynamic, nothing to do
         return;
     }
@@ -355,7 +355,7 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
 {
     if (checkDuration && (m_maxDuration != m_binClip->duration())) {
         m_maxDuration = m_binClip->duration();
-        if (m_clipType != Image && m_clipType != Text && m_clipType != QText && m_clipType != Color) {
+        if (m_clipType != Image && m_clipType != Text && m_clipType != QText && m_clipType != Color && m_clipType != TextTemplate) {
             if (m_maxDuration != GenTime() && m_info.cropStart + m_info.cropDuration > m_maxDuration) {
                 // Clip duration changed, make sure to stay in correct range
                 if (m_info.cropStart > m_maxDuration) {
@@ -380,7 +380,7 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
 void ClipItem::slotFetchThumbs()
 {
     if (scene() == NULL || m_clipType == Audio || m_clipType == Color) return;
-    if (m_clipType == Image || m_clipType == Text || m_clipType == QText) {
+    if (m_clipType == Image || m_clipType == Text || m_clipType == QText || m_clipType == TextTemplate) {
         if (m_startPix.isNull()) slotGetStartThumb();
         return;
     }
@@ -455,7 +455,7 @@ void ClipItem::slotThumbReady(int frame, const QImage &img)
         m_startPix = pix;
         m_startThumbRequested = false;
         update(r.left(), r.top(), width, r.height());
-        if (m_clipType == Image || m_clipType == Text || m_clipType == QText) {
+        if (m_clipType == Image || m_clipType == Text || m_clipType == QText || m_clipType == TextTemplate) {
             update(r.right() - width, r.top(), width, pix.height());
         }
     } else if (m_endThumbRequested && frame == (m_speedIndependantInfo.cropStart + m_speedIndependantInfo.cropDuration).frames(m_fps) - 1) {
@@ -595,7 +595,7 @@ void ClipItem::paint(QPainter *painter,
     // draw thumbnails
     if (KdenliveSettings::videothumbnails() && m_clipState != PlaylistState::AudioOnly && m_originalClipState != PlaylistState::AudioOnly) {
         QRectF thumbRect;
-        if ((m_clipType == Image || m_clipType == Text || m_clipType == QText) && !m_startPix.isNull()) {
+        if ((m_clipType == Image || m_clipType == Text || m_clipType == QText || m_clipType == TextTemplate) && !m_startPix.isNull()) {
             if (thumbRect.isNull()) thumbRect = QRectF(0, 0, mapped.height() / m_startPix.height() * m_startPix.width(), mapped.height());
             thumbRect.moveTopRight(mapped.topRight());
             painter->drawPixmap(thumbRect, m_startPix, m_startPix.rect());
@@ -617,7 +617,7 @@ void ClipItem::paint(QPainter *painter,
             int right = qMin((int)(m_info.cropStart + m_info.cropDuration).frames(m_fps) - 1, (int) mapToScene(exposed.right(), 0).x() - offset);
             QPointF startPos = mapped.topLeft();
             int startOffset = m_info.cropStart.frames(m_fps);
-            if (clipType() == Image || clipType() == Text || clipType() == QText) {
+            if (clipType() == Image || clipType() == Text || clipType() == QText || m_clipType == TextTemplate) {
                 for (int i = left; i <= right; ++i) {
                     painter->drawPixmap(startPos + QPointF(FRAME_SIZE *(i - startOffset), 0), m_startPix);
                 }
@@ -1107,7 +1107,7 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 void ClipItem::resizeStart(int posx, bool /*size*/, bool emitChange)
 {
     bool sizeLimit = false;
-    if (clipType() != Image && clipType() != Color && clipType() != Text && clipType() != QText) {
+    if (clipType() != Image && clipType() != Color && clipType() != Text && clipType() != QText && m_clipType != TextTemplate) {
         const int min = (startPos() - cropStart()).frames(m_fps);
         if (posx < min) posx = min;
         sizeLimit = true;
