@@ -74,6 +74,13 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     else *ok = true;
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
     m_tractor = new Mlt::Tractor(s);
+
+    //TODO: The following lines allow to add an overlay subtitle from an ASS subtitle file
+    /*Mlt::Filter f(*(s.profile()), "avfilter.ass");
+    f.set("av.f", "/path/to/test.ass");
+    f.set("in", 500);
+    m_tractor->attach(f);*/
+
     m_ruler = new CustomRuler(doc->timecode(), rulerActions, m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int,int)), this, SIGNAL(zoneMoved(int,int)));
     connect(m_ruler, SIGNAL(adjustZoom(int)), this, SIGNAL(setZoom(int)));
