@@ -551,8 +551,8 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
     int xPos = ((int) e->scenePos().x() / m_gridSize) * m_gridSize;
     int yPos = ((int) e->scenePos().y() / m_gridSize) * m_gridSize;
-    m_clickPoint = QPointF(xPos, yPos);
-    //m_clickPoint = e->scenePos();
+    m_moveStarted = false;
+    m_clickPoint = e->scenePos();
     m_resizeMode = m_possibleAction;
     const QList <QGraphicsItem *> list = items(e->scenePos());
     QGraphicsItem *item = NULL;
@@ -675,7 +675,7 @@ void GraphicsSceneRectMove::clearTextSelection()
 
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
-    if (e->buttons() != Qt::NoButton && !m_selectedItem) {
+    if (e->buttons() != Qt::NoButton && !m_moveStarted) {
         QList<QGraphicsView*> viewlist = views();
         if (viewlist.isEmpty()) {
             // invalid
@@ -683,9 +683,12 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             return;
         }
         QGraphicsView *view = viewlist.at(0);
-        if (view->mapFromScene((e->scenePos() - m_clickPoint)).manhattanLength() < QApplication::startDragDistance()) {
-            e->accept();
+        if ((view->mapFromScene(e->scenePos()) - view->mapFromScene(m_clickPoint)).manhattanLength() < QApplication::startDragDistance()) {
+            e->ignore();
             return;
+        } else {
+            m_moveStarted = true;
+            e->accept();
         }
     }
     if (m_selectedItem && (e->buttons() & Qt::LeftButton)) {
