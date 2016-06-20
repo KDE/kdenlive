@@ -71,10 +71,10 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent) :
     setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     document()->setDocumentMargin(0);
-    updateGeometry();
     m_shadowEffect = new MyQGraphicsEffect(this);
     m_shadowEffect->setEnabled(false);
     setGraphicsEffect(m_shadowEffect);
+    updateGeometry();
     connect(document(), SIGNAL(contentsChange(int, int, int)),
             this, SLOT(updateGeometry(int, int, int)));
 }
@@ -288,9 +288,9 @@ QRectF MyTextItem::baseBoundingRect() const
 QRectF MyTextItem::boundingRect() const
 {
     QRectF base = baseBoundingRect();
-    if (m_shadowOffset.x() > 0)
+    if (m_shadowEffect->isEnabled() && m_shadowOffset.x() > 0)
         base.setRight(base.right() + m_shadowOffset.x());
-    if (m_shadowOffset.y() > 0)
+    if (m_shadowEffect->isEnabled() && m_shadowOffset.y() > 0)
         base.setBottom(base.bottom() + m_shadowOffset.y());
     return base;
 }
