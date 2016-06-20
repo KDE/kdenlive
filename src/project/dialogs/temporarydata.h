@@ -33,6 +33,7 @@ class QPaintEvent;
 class QLabel;
 class QGridLayout;
 class QTreeWidget;
+class QPushButton;
 
 /**
  * @class ChartWidget
@@ -111,6 +112,7 @@ private:
     QStringList m_globalDirectories;
     QString m_processingDirectory;
     QDir m_globalDir;
+    QPushButton *m_globalDelete;
     void updateDataInfo();
     void updateGlobalInfo();
     void updateTotal();
@@ -128,7 +130,7 @@ private slots:
     void deleteProxy();
     void deleteAudio();
     void deleteThumbs();
-    void deleteAll();
+    void deleteCurrentCacheData();
     void openCacheFolder();
     void deleteSelected();
 

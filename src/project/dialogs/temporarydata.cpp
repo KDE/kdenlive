@@ -86,6 +86,7 @@ void ChartWidget::paintEvent(QPaintEvent *event)
 TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget * parent) :
     QWidget(parent)
     , m_doc(doc)
+    , m_globalDelete(NULL)
 {
     chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue)  << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
     mCurrentSizes << 0 << 0 << 0 << 0;
@@ -180,7 +181,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_grid->addWidget(m_currentSize, 5, 3);
     del = new QToolButton(this);
     del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
-    connect(del, &QToolButton::clicked, this, &TemporaryData::deleteAll);
+    connect(del, &QToolButton::clicked, this, &TemporaryData::deleteCurrentCacheData);
     del->setEnabled(false);
     m_grid->addWidget(del, 5, 4);
 
@@ -391,7 +392,7 @@ void TemporaryData::deleteThumbs()
     }
 }
 
-void TemporaryData::deleteAll()
+void TemporaryData::deleteCurrentCacheData()
 {
     bool ok = false;
     QDir dir = m_doc->getCacheDir(CacheBase, &ok);
@@ -459,9 +460,9 @@ void TemporaryData::buildGlobalCacheDialog(int minHeight)
     lay->addWidget(lab, 2, 2, 1, 1);
     m_selectedSize = new QLabel(this);
     lay->addWidget(m_selectedSize, 2, 3, 1, 1);
-    QPushButton *del = new QPushButton(i18n("Delete selected cache"), this);
-    connect(del, &QPushButton::clicked, this, &TemporaryData::deleteSelected);
-    lay->addWidget(del, 2, 4, 1, 1);
+    m_globalDelete = new QPushButton(i18n("Delete selected cache"), this);
+    connect(m_globalDelete, &QPushButton::clicked, this, &TemporaryData::deleteSelected);
+    lay->addWidget(m_globalDelete, 2, 4, 1, 1);
 
     lay->setColumnStretch(4, 10);
     lay->setRowStretch(0, 10);
@@ -471,6 +472,7 @@ void TemporaryData::buildGlobalCacheDialog(int minHeight)
 
 void TemporaryData::updateGlobalInfo()
 {
+    m_listWidget->blockSignals(true);
     m_totalGlobal = 0;
     m_listWidget->clear();
     bool ok = false;
@@ -484,6 +486,7 @@ void TemporaryData::updateGlobalInfo()
     m_processingDirectory.clear();
     m_globalDirectories = m_globalDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     processglobalDirectories();
+    m_listWidget->blockSignals(false);
 }
 
 void TemporaryData::processglobalDirectories()
@@ -549,8 +552,11 @@ void TemporaryData::refreshGlobalPie()
         }
     }
     m_selectedSize->setText(KIO::convertSize(currentSize));
-    int percent = (int) (currentSize * 360 / m_totalGlobal);
+    int percent = m_totalGlobal <= 0 ? 0 : (int) (currentSize * 360 / m_totalGlobal);
     m_globalPie->setSegments(QList <int>() << 360 << percent);
+    if (list.size() == 1 && list.at(0)->text(0) == m_doc->getDocumentProperty(QStringLiteral("documentid"))) {
+        m_globalDelete->setText(i18n("Clear current cache"));
+    } else m_globalDelete->setText(i18n("Delete selected cache"));
 }
 
 void TemporaryData::deleteSelected()
@@ -562,5 +568,18 @@ void TemporaryData::deleteSelected()
             folders << current->data(0, Qt::UserRole).toString();
         }
     }
-    KMessageBox::warningContinueCancelList(this, i18n("Delete the following cache folders from\n%1", m_globalDir.absolutePath()), folders);
+    if (KMessageBox::warningContinueCancelList(this, i18n("Delete the following cache folders from\n%1", m_globalDir.absolutePath()), folders) != KMessageBox::Continue) {
+        return;
+    }
+    const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
+    foreach(const QString folder, folders) {
+        if (folder == currentId) {
+            // Trying to delete current project's tmp folder. Do not delete, but clear it
+            deleteCurrentCacheData();
+            continue;
+        }
+        QDir toRemove(m_globalDir.absoluteFilePath(folder));
+        toRemove.removeRecursively();
+    }
+    updateGlobalInfo();
 }
