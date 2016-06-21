@@ -154,7 +154,7 @@ void MyTextItem::updateShadow()
     }
     QFontMetrics metrics(font());
     //ADJUST TO CURRENT SETTING
-    int lineSpacing = data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing();
+    double lineSpacing = data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing();
     QPainterPath path;
 
     // Calculate line width
@@ -176,9 +176,7 @@ void MyTextItem::updateShadow()
         path.addPath(linePath);
     }
     // Calculate position of text in parent item
-    QRectF pathRect = QRectF(0, 0, bounding.width(), linePos - lineSpacing + metrics.descent() );
-    QPointF offset = bounding.center() - pathRect.center() + QPointF(2 * m_shadowBlur, 2 * m_shadowBlur);
-    path.translate(offset);
+    path.translate(QPointF(2 * m_shadowBlur, 2 * m_shadowBlur));
     QRectF fullSize = bounding.united(path.boundingRect());
     QImage shadow(fullSize.width() + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, fullSize.height() + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur, QImage::Format_ARGB32_Premultiplied);
     shadow.fill(Qt::transparent);
