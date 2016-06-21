@@ -2307,6 +2307,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
             m_commandStack->push(command);
         return;
     }
+    AddEffectCommand *command = NULL;
     if (affectGroup && clip->parentItem() && clip->parentItem() == m_selectionGroup) {
         //clip is in a group, also remove the effect in other clips of the group
         QList<QGraphicsItem *> items = m_selectionGroup->childItems();
@@ -2344,9 +2345,10 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
                 delete delCommand;
         }
         return;
+    } else {
+        command = new AddEffectCommand(this, clip->track(), clip->startPos(), effect, false, parentCommand);
     }
     if (parentCommand == NULL) {
-        AddEffectCommand *command = new AddEffectCommand(this, clip->track(), clip->startPos(), effect, false, parentCommand);
         m_commandStack->push(command);
     }
 }
