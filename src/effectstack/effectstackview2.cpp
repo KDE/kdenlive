@@ -805,7 +805,7 @@ void EffectStackView2::slotDeleteGroup(QDomDocument doc)
     emit removeEffectGroup(clip, ix, doc);
 }
 
-void EffectStackView2::slotDeleteEffect(const QDomElement &effect)
+void EffectStackView2::slotDeleteEffect(const QDomElement effect)
 {
     if (m_status == TIMELINE_TRACK)
         emit removeEffect(NULL, m_trackindex, effect);

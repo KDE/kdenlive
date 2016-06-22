@@ -204,7 +204,7 @@ private slots:
     void slotMoveEffectUp(const QList <int> &indexes, bool up);
 
     /** @brief Delete an effect in the stack. */
-    void slotDeleteEffect(const QDomElement &effect);
+    void slotDeleteEffect(const QDomElement effect);
 
     /** @brief Delete all effect in a group. */
     void slotDeleteGroup(QDomDocument doc);
@@ -256,9 +256,9 @@ private slots:
     void slotSwitchCompare(bool enable);
 
 signals:
-    void removeEffectGroup(ClipItem*, int, const QDomDocument&);
-    void removeEffect(ClipItem*, int, const QDomElement&);
-    void removeMasterEffect(const QString &id, const QDomElement&);
+    void removeEffectGroup(ClipItem*, int, const QDomDocument);
+    void removeEffect(ClipItem*, int, const QDomElement);
+    void removeMasterEffect(const QString &id, const QDomElement);
     void addMasterEffect(const QString &id, const QDomElement&);
     /**  Parameters for an effect changed, update the filter in timeline */
     void updateEffect(ClipItem*, int, const QDomElement&, const QDomElement &, int,bool);
