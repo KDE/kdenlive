@@ -31,6 +31,7 @@
 #include "widgets/bezier/beziersplinewidget.h"
 #include "effectstack/widgets/lumaliftgain.h"
 #include "effectstack/widgets/animationwidget.h"
+#include "effectstack/widgets/selectivecolor.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -195,6 +196,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         m_vbox->addWidget(gainWidget);
         m_valueItems[effect.attribute(QStringLiteral("id"))] = gainWidget;
         connect(gainWidget, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
+    } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("avfilter.selectivecolor")) {
+        SelectiveColor *cmykAdjust = new SelectiveColor(effect);
+        connect(cmykAdjust, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
+        m_vbox->addWidget(cmykAdjust);
+        m_valueItems[effect.attribute(QStringLiteral("id"))] = cmykAdjust;
     }
     else for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
@@ -924,6 +930,12 @@ void ParameterContainer::slotCollectAllParameters()
     if (m_effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || m_effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain") ) {
         LumaLiftGain *gainWidget = static_cast<LumaLiftGain*>(m_valueItems.value(m_effect.attribute(QStringLiteral("id"))));
         gainWidget->updateEffect(m_effect);
+        emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
+        return;
+    }
+    if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("avfilter.selectivecolor")) {
+        SelectiveColor *cmykAdjust = static_cast<SelectiveColor*>(m_valueItems.value(m_effect.attribute(QStringLiteral("id"))));
+        cmykAdjust->updateEffect(m_effect);
         emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
         return;
     }

@@ -204,6 +204,7 @@ ki18n_wrap_ui(kdenlive_UIS
   ui/cutjobdialog_ui.ui
   ui/scenecutdialog_ui.ui
   ui/gradientedit_ui.ui
+  ui/selectivecolor_ui.ui
 )
 
 if(BUILD_JogShuttle)

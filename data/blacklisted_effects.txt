@@ -139,4 +139,5 @@ avfilter.ass
 avfilter.acompressor
 avfilter.aecho
 avfilter.agate
+avfilter.selectivecolor
 

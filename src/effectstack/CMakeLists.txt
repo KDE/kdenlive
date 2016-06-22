@@ -25,5 +25,6 @@ set(kdenlive_SRCS
   effectstack/widgets/colorwheel.cpp
   effectstack/widgets/lumaliftgain.cpp
   effectstack/widgets/keyframeimport.cpp
+  effectstack/widgets/selectivecolor.cpp
   PARENT_SCOPE)
 

@@ -789,7 +789,6 @@ void EffectStackView2::setActiveKeyframe(int frame)
 
 void EffectStackView2::slotDeleteGroup(QDomDocument doc)
 {
-    
     ClipItem * clip = NULL;
     int ix = -1;
     if (m_status == MASTER_CLIP) {

@@ -88,15 +88,15 @@ void LumaLiftGain::updateEffect(QDomElement &effect)
     values.insert(QStringLiteral("lift_r"), lift.redF());
     values.insert(QStringLiteral("lift_g"), lift.greenF());
     values.insert(QStringLiteral("lift_b"), lift.blueF());
-    
+
     values.insert(QStringLiteral("gamma_r"), gamma.redF() * GAMMA_FACTOR);
     values.insert(QStringLiteral("gamma_g"), gamma.greenF() * GAMMA_FACTOR);
     values.insert(QStringLiteral("gamma_b"), gamma.blueF() * GAMMA_FACTOR);
-    
+
     values.insert(QStringLiteral("gain_r"), gain.redF() * GAIN_FACTOR);
     values.insert(QStringLiteral("gain_g"), gain.greenF() * GAIN_FACTOR);
     values.insert(QStringLiteral("gain_b"), gain.blueF() * GAIN_FACTOR);
-    
+
     QDomNodeList namenode = effect.childNodes();
     for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
@@ -104,6 +104,6 @@ void LumaLiftGain::updateEffect(QDomElement &effect)
         if (values.contains(pa.attribute(QStringLiteral("name")))) {
             pa.setAttribute(QStringLiteral("value"), (int) (values.value(pa.attribute(QStringLiteral("name"))) * m_locale.toDouble(pa.attribute(QStringLiteral("factor"), QStringLiteral("1")))));
         }
-    }    
+    }
 }
 
