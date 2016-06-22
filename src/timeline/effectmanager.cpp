@@ -73,9 +73,11 @@ bool EffectManager::addEffect(EffectsParameterList params, int duration)
     bool updateIndex = false;
     const int filter_ix = params.paramValue(QStringLiteral("kdenlive_ix")).toInt();
     int ct = 0;
+    QList <Mlt::Filter *> filters;
     m_producer.lock();
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
+        filters << filter;
         if (filter->get_int("kdenlive_ix") == filter_ix) {
             // A filter at that position already existed, so we will increase all indexes later
             updateIndex = true;
@@ -90,6 +92,7 @@ bool EffectManager::addEffect(EffectsParameterList params, int duration)
         ct = 0;
         filter = m_producer.filter(ct);
         while (filter) {
+            filters << filter;
             if (filter->get_int("kdenlive_ix") >= filter_ix) {
                 if (updateIndex) filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
             }
@@ -97,6 +100,7 @@ bool EffectManager::addEffect(EffectsParameterList params, int duration)
             filter = m_producer.filter(ct);
         }
         m_producer.unlock();
+        qDeleteAll(filters);
         return true;
     }
 
@@ -121,8 +125,9 @@ bool EffectManager::addEffect(EffectsParameterList params, int duration)
             filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
         m_producer.attach(*filter);
     }
-    qDeleteAll(filtersList);
     m_producer.unlock();
+    qDeleteAll(filters);
+    qDeleteAll(filtersList);
     return success;
 }
 
@@ -298,6 +303,7 @@ bool EffectManager::editEffect(EffectsParameterList params, int duration, bool r
                 m_producer.detach(*filter);
             }
             else ct++;
+            delete filter;
             filter = m_producer.filter(ct);
         }
 
@@ -328,7 +334,7 @@ bool EffectManager::editEffect(EffectsParameterList params, int duration, bool r
     }
     qDeleteAll(filtersList);
     m_producer.unlock();
-
+    delete filter;
     return true;
 }
 
@@ -338,11 +344,12 @@ bool EffectManager::removeEffect(int effectIndex, bool updateIndex)
     int ct = 0;
     bool success = false;
     Mlt::Filter *filter = m_producer.filter(ct);
+    QList <Mlt::Filter *> filters;
     while (filter) {
+        filters << filter;
         if ((effectIndex == -1 && strcmp(filter->get("kdenlive_id"), "")) || filter->get_int("kdenlive_ix") == effectIndex) {
             if (m_producer.detach(*filter) == 0) {
                 success = true;
-                delete filter;
             }
         } else if (updateIndex) {
             // Adjust the other effects index
@@ -352,6 +359,7 @@ bool EffectManager::removeEffect(int effectIndex, bool updateIndex)
         filter = m_producer.filter(ct);
     }
     m_producer.unlock();
+    qDeleteAll(filters);
     return success;
 }
 
@@ -360,16 +368,21 @@ bool EffectManager::enableEffects(const QList <int> &effectIndexes, bool disable
     int ct = 0;
     bool success = false;
     Mlt::Filter *filter = m_producer.filter(ct);
-    m_producer.lock();
     while (filter) {
         if (effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
-            filter->set("disable", (int) disable);
-            success = true;
+            break;
         }
+        delete filter;
         ct++;
         filter = m_producer.filter(ct);
     }
-    m_producer.unlock();
+    if (filter) {
+        m_producer.lock();
+        filter->set("disable", (int) disable);
+        success = true;
+        m_producer.unlock();
+        delete filter;
+    }
     return success;
 }
 
@@ -377,10 +390,12 @@ bool EffectManager::moveEffect(int oldPos, int newPos)
 {
     int ct = 0;
     QList <Mlt::Filter *> filtersList;
+    QList <Mlt::Filter *> toDelete;
     Mlt::Filter *filter = m_producer.filter(ct);
     if (newPos > oldPos) {
         bool found = false;
         while (filter) {
+            toDelete << filter;
             if (!found && filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);
                 filtersList.append(filter);
@@ -401,6 +416,7 @@ bool EffectManager::moveEffect(int oldPos, int newPos)
         }
     } else {
         while (filter) {
+            toDelete << filter;
             if (filter->get_int("kdenlive_ix") == oldPos) {
                 filter->set("kdenlive_ix", newPos);
                 filtersList.append(filter);
@@ -412,6 +428,7 @@ bool EffectManager::moveEffect(int oldPos, int newPos)
         ct = 0;
         filter = m_producer.filter(ct);
         while (filter) {
+            toDelete << filter;
             int pos = filter->get_int("kdenlive_ix");
             if (pos >= newPos) {
                 if (pos < oldPos) filter->set("kdenlive_ix", pos + 1);
@@ -425,7 +442,7 @@ bool EffectManager::moveEffect(int oldPos, int newPos)
     for (int i = 0; i < filtersList.count(); ++i) {
         m_producer.attach(*(filtersList.at(i)));
     }
-    qDeleteAll(filtersList);
+    qDeleteAll(toDelete);
     //TODO: check for success
     return true;
 }

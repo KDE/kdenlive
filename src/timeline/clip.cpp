@@ -64,6 +64,7 @@ void Clip::adjustEffectsLength()
             filter->set_in_and_out(m_producer.get_in(), m_producer.get_out());
         }
         ct++;
+        delete filter;
 	filter = m_producer.filter(ct);
     }
 }
@@ -71,7 +72,7 @@ void Clip::adjustEffectsLength()
 void Clip::addEffects(Mlt::Service& service, bool skipFades)
 {
     for (int ix = 0; ix < service.filter_count(); ++ix) {
-        Mlt::Filter *effect = service.filter(ix);
+        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         // Only duplicate Kdenlive filters, and skip the fade in effects
         if (effect->is_valid()) {
 	    QString effectId = effect->get("kdenlive_id");
@@ -92,6 +93,7 @@ void Clip::addEffects(Mlt::Service& service, bool skipFades)
                 }
                 m_producer.attach(*copy);
             }
+            delete copy;
         }
     }
 }
@@ -105,11 +107,11 @@ void Clip::replaceEffects(Mlt::Service& service)
 	QString ix = filter->get("kdenlive_ix");
 	if (!ix.isEmpty()) {
             if (m_producer.detach(*filter) == 0) {
-                delete filter;
             }
             else ct++;
 	}
 	else ct++;
+        delete filter;
 	filter = m_producer.filter(ct);
     }
     addEffects(service);
@@ -124,11 +126,11 @@ void Clip::deleteEffects()
 	QString ix = filter->get("kdenlive_ix");
 	if (!ix.isEmpty()) {
             if (m_producer.detach(*filter) == 0) {
-                delete filter;
             }
             else ct++;
 	}
 	else ct++;
+        delete filter;
 	filter = m_producer.filter(ct);
     }
 }
@@ -150,6 +152,7 @@ void Clip::disableEffects(bool disable)
             }
         }
         ct++;
+        delete filter;
         filter = m_producer.filter(ct);
     }
 }

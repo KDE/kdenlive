@@ -383,7 +383,7 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
     Mlt::Service clipService(original.get_service());
     Mlt::Service dupService(clone.get_service());
     for (int ix = 0; ix < clipService.filter_count(); ++ix) {
-        Mlt::Filter *filter = clipService.filter(ix);
+        QScopedPointer<Mlt::Filter> filter(clipService.filter(ix));
         // Only duplicate Kdenlive filters
         if (filter->is_valid()) {
             QString effectId = filter->get("kdenlive_id");
@@ -399,6 +399,7 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
                 }
                 dupService.attach(*dup);
             }
+            delete dup;
         }
     }
 }

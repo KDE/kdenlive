@@ -55,6 +55,10 @@ SelectiveColor::SelectiveColor(const QDomElement effect, QWidget* parent) :
     updateValues();
 }
 
+SelectiveColor::~SelectiveColor()
+{
+}
+
 void SelectiveColor::addParam(QDomElement &effect, QString name)
 {
     QString tag = effect.attribute(QStringLiteral("name"));

@@ -630,7 +630,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
     // Add effect to list and setup a kdenlive_ix value
     int kdenlive_ix = 0;
     for (int i = 0; i < service.filter_count(); ++i) {
-        Mlt::Filter *effect = service.filter(i);
+        QScopedPointer<Mlt::Filter> effect(service.filter(i));
         int ix = effect->get_int("kdenlive_ix");
         if (ix > kdenlive_ix) kdenlive_ix = ix;
     }
@@ -675,7 +675,7 @@ int ClipController::effectsCount()
     int count = 0;
     Mlt::Service service(m_masterProducer->parent());
     for (int ix = 0; ix < service.filter_count(); ++ix) {
-        Mlt::Filter *effect = service.filter(ix);
+        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         QString id = effect->get("kdenlive_id");
         if (!id.isEmpty()) {
             count++;
@@ -692,7 +692,7 @@ EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &s
     profileinfo.profileFps = profile->fps();
     EffectsList effList(true);
     for (int ix = 0; ix < service.filter_count(); ++ix) {
-        Mlt::Filter *effect = service.filter(ix);
+        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         QDomElement clipeffect = Timeline::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
         QDomElement currenteffect = clipeffect.cloneNode().toElement();
 	// recover effect parameters
@@ -713,7 +713,7 @@ void ClipController::changeEffectState(const QList <int> indexes, bool disable)
 {
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {
-        Mlt::Filter *effect = service.filter(i);
+        QScopedPointer<Mlt::Filter> effect(service.filter(i));
         if (effect && effect->is_valid() && indexes.contains(effect->get_int("kdenlive_ix"))) {
             effect->set("disable", (int) disable);
         }
@@ -734,8 +734,10 @@ void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e
     EffectsParameterList params = EffectsController::getEffectArgs(pInfo, e);
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {
-        Mlt::Filter *effect = service.filter(i);
-        if (!effect || !effect->is_valid() || effect->get_int("kdenlive_ix") != ix) continue;
+        QScopedPointer<Mlt::Filter> effect(service.filter(i));
+        if (!effect || !effect->is_valid() || effect->get_int("kdenlive_ix") != ix) {
+            continue;
+        }
         service.lock();
         QString prefix;
         QString ser = effect->get("mlt_service");
@@ -754,7 +756,7 @@ bool ClipController::hasEffects() const
 {
     Mlt::Service service = m_masterProducer->parent();
     for (int ix = 0; ix < service.filter_count(); ++ix) {
-        Mlt::Filter *effect = service.filter(ix);
+        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         QString id = effect->get("kdenlive_ix");
         if (!id.isEmpty()) return true;
     }
@@ -766,7 +768,7 @@ void ClipController::disableEffects(bool disable)
     Mlt::Service service = m_masterProducer->parent();
     bool changed = false;
     for (int ix = 0; ix < service.filter_count(); ++ix) {
-        Mlt::Filter *effect = service.filter(ix);
+        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         QString id = effect->get("kdenlive_ix");
         if (id.isEmpty()) continue;
         int disabled = effect->get_int("disable");

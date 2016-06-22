@@ -167,7 +167,7 @@ public:
     QPoint zone() const;
     bool hasLimitedDuration() const;
     Mlt::Properties &properties();
-    void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
+    void addEffect(const ProfileInfo &pInfo, QDomElement &xml);
     void removeEffect(int effectIndex, bool delayRefresh = false);
     EffectsList effectList();
     /** @brief Enable/disable an effect. */
