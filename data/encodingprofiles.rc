@@ -16,8 +16,8 @@ x264=crf=25 ab=192k vcodec=libx264 acodec=libvorbis ab=192k preset=veryfast thre
 MPEG=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads;mpg
 
 [timelinepreview]
-DNxHD 1080p 25fps=r=25 vb=120M threads=0 vcodec=dnxhd;mov
-DNxHD 1080p 24fps=r=24 vb=115M threads=0 vcodec=dnxhd;mov
-DNxHD 1080p 30fps=r=30 vb=145M threads=0 vcodec=dnxhd;mov
-DNxHD 1080p 23.976fps=r=23.976 vb=115M threads=0 vcodec=dnxhd;mov
-MP4=vcodec=libx264 threads=0;mp4
+DNxHD 1080p 25fps=r=25 s=1920x1080 vb=120M threads=0 vcodec=dnxhd;mov
+DNxHD 1080p 24fps=r=24 s=1920x1080 vb=115M threads=0 vcodec=dnxhd;mov
+DNxHD 1080p 30fps=r=30 s=1920x1080 vb=145M threads=0 vcodec=dnxhd;mov
+DNxHD 1080p 23.976fps=r=23.976 s=1920x1080 vb=115M threads=0 vcodec=dnxhd;mov
+MJPEG=f=avi vcodec=mjpeg progressive=1;avi

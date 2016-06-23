@@ -155,6 +155,8 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_disablePreview, &QAction::triggered, this, &Timeline::disablePreview);
     m_disablePreview->setEnabled(false);
     m_trackview->initTools();
+    QAction *previewRender = m_doc->getAction(QStringLiteral("prerender_timeline_zone"));
+    previewRender->setEnabled(true);
 }
 
 Timeline::~Timeline()

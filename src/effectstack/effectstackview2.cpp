@@ -283,12 +283,13 @@ void EffectStackView2::setupListView()
     QWidget *view = m_effect->container->takeWidget();
     if (view) {
         view->setEnabled(false);
-        delete view;
+        view->setHidden(true);
+        view->deleteLater();
     }
     m_effects.clear();
     m_groupIndex = 0;
     blockSignals(false);
-    view = new QWidget(m_effect->container);
+    view = new QWidget(this);
     QPalette p = qApp->palette();
     p.setBrush(QPalette::Window, QBrush(Qt::transparent));
     view->setPalette(p);

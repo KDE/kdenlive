@@ -1533,11 +1533,18 @@ void KdenliveDoc::selectPreviewProfile()
     QMapIterator<QString, QString> i(values);
     QStringList matchingProfiles;
     QStringList fallBackProfiles;
+    QString profileSize = QString("%1x%2").arg(m_render->renderWidth()).arg(m_render->renderHeight());
 
     while (i.hasNext()) {
         i.next();
         // Check for frame rate
+        QString params = i.value();
         QStringList data = i.value().split(" ");
+        if (params.contains(QStringLiteral("s="))) {
+            QString paramSize = params.section(QStringLiteral("s="), 1).section(QStringLiteral(" "), 0, 0);
+            if (paramSize != profileSize)
+                continue;
+        }
         bool rateFound = false;
         foreach(const QString arg, data) {
             if (arg.startsWith(QStringLiteral("r="))) {
@@ -1557,18 +1564,7 @@ void KdenliveDoc::selectPreviewProfile()
         }
     }
     QString bestMatch;
-    if (matchingProfiles.count() > 1) {
-        // several profiles with matching fps, try to decide based on resolution
-        QString docSize = QString("s=%1x%2").arg(m_profile.width).arg(m_profile.height);
-        foreach (const QString &param, matchingProfiles) {
-            if (param.contains(docSize)) {
-                bestMatch = param;
-                break;
-            }
-        }
-        if (bestMatch.isEmpty())
-            bestMatch = matchingProfiles.first();
-    } else if (matchingProfiles.count() == 1) {
+    if (!matchingProfiles.isEmpty()) {
         bestMatch = matchingProfiles.first();
     } else if (!fallBackProfiles.isEmpty()) {
         bestMatch = fallBackProfiles.first();
@@ -1576,6 +1572,9 @@ void KdenliveDoc::selectPreviewProfile()
     if (!bestMatch.isEmpty()) {
         setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(";", 0, 0));
         setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(";", 1, 1));
+    } else {
+        setDocumentProperty(QStringLiteral("previewparameters"), QStringLiteral());
+        setDocumentProperty(QStringLiteral("previewextension"), QStringLiteral());
     }
 }
 
