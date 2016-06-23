@@ -204,6 +204,7 @@ void EffectStackView2::slotRefreshMasterClipEffects(ClipController* c, Monitor *
 
 void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 {
+    QMutexLocker lock (&m_mutex);
     if (m_effect->effectCompare->isChecked()) {
         // disable split effect when changing clip
         m_effect->effectCompare->setChecked(false);
@@ -250,6 +251,7 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
 
 void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Monitor *m)
 {
+    QMutexLocker lock (&m_mutex);
     if (m_effect->effectCompare->isChecked()) {
         // disable split effect when changing clip
         m_effect->effectCompare->setChecked(false);
@@ -280,6 +282,7 @@ void EffectStackView2::setupListView()
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     QWidget *view = m_effect->container->takeWidget();
     if (view) {
+        view->setEnabled(false);
         delete view;
     }
     m_effects.clear();

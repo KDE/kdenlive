@@ -2325,7 +2325,6 @@ void Bin::addEffect(const QString &id, QDomElement &effect)
     ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
     currentItem->addEffect(m_monitor->profileInfo(), effect);
-    emit masterClipUpdated(currentItem->controller(), m_monitor);
     m_monitor->refreshMonitorIfActive();
 }
 
