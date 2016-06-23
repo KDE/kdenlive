@@ -4995,13 +4995,13 @@ ClipItem *CustomTrackView::getClipItemAtMiddlePoint(int pos, int track)
     return clip;
 }
 
-Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
+Transition *CustomTrackView::getTransitionItemAt(int pos, int track, bool alreadyMoved)
 {
     const QPointF p(pos, getPositionFromTrack(track) + Transition::itemOffset() + 1);
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
-        if (!list.at(i)->isEnabled()) continue;
+        if (!alreadyMoved && !list.at(i)->isEnabled()) continue;
         if (list.at(i)->type() == TransitionWidget) {
             clip = static_cast <Transition *>(list.at(i));
             break;
@@ -5010,9 +5010,9 @@ Transition *CustomTrackView::getTransitionItemAt(int pos, int track)
     return clip;
 }
 
-Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track)
+Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track, bool alreadyMoved)
 {
-    return getTransitionItemAt(pos.frames(m_document->fps()), track);
+    return getTransitionItemAt(pos.frames(m_document->fps()), track, alreadyMoved);
 }
 
 Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track)
@@ -5167,7 +5167,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
         }
         Transition *tr = NULL;
 	if (alreadyMoved)
-	    tr = getTransitionItemAt(startTransition.at(i).startPos + offset, startTransition.at(i).track + trackOffset);
+	    tr = getTransitionItemAt(startTransition.at(i).startPos + offset, startTransition.at(i).track + trackOffset, true);
 	else 
 	    tr = getTransitionItemAt(startTransition.at(i).startPos, startTransition.at(i).track);
         if (tr) {

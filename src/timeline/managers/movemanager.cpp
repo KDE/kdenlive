@@ -276,7 +276,7 @@ void MoveManager::mouseRelease(GenTime pos)
         GenTime timeOffset = GenTime(dragItem->scenePos().x(), m_view->fps()) - m_dragItemInfo.startPos;
         const int trackOffset = m_view->getTrackFromPos(dragItem->scenePos().y()) - m_dragItemInfo.track;
 
-        QUndoCommand *moveGroup = new QUndoCommand();		   
+        QUndoCommand *moveGroup = new QUndoCommand();
         moveGroup->setText(i18n("Move group"));
 
         // Expand groups

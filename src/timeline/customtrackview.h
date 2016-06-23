@@ -472,8 +472,8 @@ private:
     /** @brief Returns a transition from timeline
      *  @param pos a time value that is inside the clip
      *  @param track the track where the clip is in MLT coordinates */
-    Transition *getTransitionItemAt(int pos, int track);
-    Transition *getTransitionItemAt(GenTime pos, int track);
+    Transition *getTransitionItemAt(int pos, int track, bool alreadyMoved = false);
+    Transition *getTransitionItemAt(GenTime pos, int track, bool alreadyMoved = false);
     void checkScrolling();
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
