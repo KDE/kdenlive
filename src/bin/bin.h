@@ -696,8 +696,6 @@ private:
     SmallJobLabel *m_infoLabel;
     /** @brief The info widget for failed jobs. */
     BinMessageWidget *m_infoMessage;
-    /** @brief The action that will trigger the log dialog. */
-    QAction *m_logAction;
     QStringList m_errorLog;
     InvalidDialog *m_invalidClipDialog;
     /** @brief Set to true if widget just gained focus (means we have to update effect stack . */

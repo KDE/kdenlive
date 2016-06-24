@@ -465,13 +465,11 @@ Bin::Bin(QWidget* parent) :
     // Info widget for failed jobs, other errors
     m_infoMessage = new BinMessageWidget;
     m_layout->addWidget(m_infoMessage);
-    m_infoMessage->setCloseButtonVisible(true);
+    m_infoMessage->setCloseButtonVisible(false);
+    connect(m_infoMessage, SIGNAL(linkActivated(const QString &)), this, SLOT(slotShowJobLog()));
     connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
-    m_logAction = new QAction(i18n("Show Log"), this);
-    m_logAction->setCheckable(false);
-    connect(m_logAction, SIGNAL(triggered()), this, SLOT(slotShowJobLog()));
     connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl,QString)), this, SLOT(slotQueryRemoval(QString,QUrl,QString)));
     connect(this, &Bin::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
     connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
@@ -2023,7 +2021,11 @@ void Bin::slotUpdateJobStatus(const QString&id, int jobType, int status, const Q
     if (status == JobCrashed) {
         QList<QAction *> actions = m_infoMessage->actions();
         if (m_infoMessage->isHidden()) {
-            m_infoMessage->setText(label);
+            if (!details.isEmpty()) {
+                m_infoMessage->setText(label + QStringLiteral(" <a href=\"#\">") + i18n("Show log") + QStringLiteral("</a>"));
+            } else {
+                m_infoMessage->setText(label);
+            }
             m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
             m_infoMessage->setMessageType(KMessageWidget::Warning);
         }
@@ -2040,8 +2042,8 @@ void Bin::slotUpdateJobStatus(const QString&id, int jobType, int status, const Q
         }
         if (!details.isEmpty()) {
             m_errorLog.append(details);
-            if (!actions.contains(m_logAction)) m_infoMessage->addAction(m_logAction);
         }
+        m_infoMessage->setCloseButtonVisible(true);
         m_infoMessage->animatedShow();
     }
 }
@@ -2061,7 +2063,7 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
         m_infoMessage->addAction(action);
         connect(action, SIGNAL(triggered(bool)), this, SLOT(slotMessageActionTriggered()));
     }
-    //m_infoMessage->setCloseButtonVisible(actions.isEmpty());
+    m_infoMessage->setCloseButtonVisible(actions.isEmpty());
     m_infoMessage->setMessageType(type);
     if (m_infoMessage->isHidden()) {
         m_infoMessage->animatedShow();
