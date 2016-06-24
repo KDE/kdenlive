@@ -531,6 +531,9 @@ void TemporaryData::gotFolderSize(KJob *job)
         }
     } else {
         item->setText(0, m_processingDirectory);
+        if (m_processingDirectory == QLatin1String("proxy")) {
+            item->setIcon(0, KoIconUtils::themedIcon("kdenlive-show-video"));
+        }
     }
     item->setData(0, Qt::UserRole, m_processingDirectory);
     item->setText(1, KIO::convertSize(total));
@@ -587,6 +590,10 @@ void TemporaryData::deleteSelected()
         }
         QDir toRemove(m_globalDir.absoluteFilePath(folder));
         toRemove.removeRecursively();
+        if (folder == QLatin1String("proxy")) {
+            // We deleted proxy folder, recreate it
+            toRemove.mkpath(QStringLiteral("."));
+        }
     }
     updateGlobalInfo();
 }
