@@ -1610,14 +1610,14 @@ void KdenliveDoc::initCacheDirs()
     if (!ok || documentId.isEmpty() || kdenliveCacheDir.isEmpty()) {
         return;
     }
-    QDir cacheDir(kdenliveCacheDir);
-    cacheDir.mkdir("proxy");
     QString basePath = kdenliveCacheDir + "/" + documentId;
     QDir dir(basePath);
     dir.mkpath(".");
     dir.mkdir("preview");
     dir.mkdir("audiothumbs");
     dir.mkdir("videothumbs");
+    QDir cacheDir(kdenliveCacheDir);
+    cacheDir.mkdir("proxy");
 }
 
 QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
