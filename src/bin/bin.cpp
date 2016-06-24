@@ -465,7 +465,7 @@ Bin::Bin(QWidget* parent) :
     // Info widget for failed jobs, other errors
     m_infoMessage = new BinMessageWidget;
     m_layout->addWidget(m_infoMessage);
-    m_infoMessage->setCloseButtonVisible(false);
+    m_infoMessage->setCloseButtonVisible(true);
     connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
@@ -2061,7 +2061,7 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
         m_infoMessage->addAction(action);
         connect(action, SIGNAL(triggered(bool)), this, SLOT(slotMessageActionTriggered()));
     }
-    m_infoMessage->setCloseButtonVisible(actions.isEmpty());
+    //m_infoMessage->setCloseButtonVisible(actions.isEmpty());
     m_infoMessage->setMessageType(type);
     if (m_infoMessage->isHidden()) {
         m_infoMessage->animatedShow();

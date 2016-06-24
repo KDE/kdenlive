@@ -673,6 +673,9 @@ void ProjectClip::setJobStatus(int jobType, int status, int progress, const QStr
     }
     else {
         m_jobProgress = status;
+        if (m_jobType == AbstractClipJob::PROXYJOB && (status == JobAborted || status == JobCrashed)) {
+            setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+        }
         if ((status == JobAborted || status == JobCrashed  || status == JobDone) && !statusMessage.isEmpty()) {
             m_jobMessage = statusMessage;
             bin()->emitMessage(statusMessage, 100, OperationCompletedMessage);
