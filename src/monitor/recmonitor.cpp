@@ -722,10 +722,11 @@ void RecMonitor::slotRecord()
             m_captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
             if (KdenliveSettings::grab_hide_mouse()) captureSize.append("+nomouse");
 	    m_captureArgs << QStringLiteral("-i") << captureSize;
-        if (!KdenliveSettings::grab_parameters().simplified().isEmpty())
-            m_captureArgs << KdenliveSettings::grab_parameters().simplified().split(' ');
+            if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
+                m_captureArgs << KdenliveSettings::grab_parameters().simplified().split(' ');
+            }
 	    m_captureArgs << path;
-	    
+
             m_isCapturing = true;
 	    m_recAction->setEnabled(false);
             /*if (KdenliveSettings::rmd_capture_audio()) {
