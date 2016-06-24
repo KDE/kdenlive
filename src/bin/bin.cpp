@@ -3211,9 +3211,11 @@ void Bin::slotRenameFolder()
 void Bin::refreshProxySettings()
 {
     QList <ProjectClip*> clipList = m_rootFolder->childClips();
+    QUndoCommand *masterCommand = new QUndoCommand();
+    masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     if (!m_doc->useProxy()) {
         // Disable all proxies
-        m_doc->slotProxyCurrentItem(false, clipList);
+        m_doc->slotProxyCurrentItem(false, clipList, false, masterCommand);
     } else {
         QList <ProjectClip*> toProxy;
         foreach (ProjectClip *clp, clipList) {
@@ -3230,8 +3232,11 @@ void Bin::refreshProxySettings()
                 continue;
             }
         }
-        if (!toProxy.isEmpty()) m_doc->slotProxyCurrentItem(true, toProxy);
+        if (!toProxy.isEmpty()) m_doc->slotProxyCurrentItem(true, toProxy, false, masterCommand);
     }
+    if (masterCommand->childCount() > 0) {
+        m_doc->commandStack()->push(masterCommand);
+    } else delete masterCommand;
 }
 
 void Bin::slotSendAudioThumb(QString id)
@@ -3344,4 +3349,23 @@ bool Bin::addClip(QDomElement elem, const QString &clipId)
     createClip(elem);
     m_doc->getFileProperties(elem, producerId, 150, true);
     return true;
+}
+
+void Bin::rebuildProxies()
+{
+    QList <ProjectClip*> clipList = m_rootFolder->childClips();
+    QList <ProjectClip*> toProxy;
+    foreach (ProjectClip *clp, clipList) {
+        if (clp->hasProxy()) {
+            toProxy << clp;
+        }
+    }
+    if (toProxy.isEmpty())
+        return;
+    QUndoCommand *masterCommand = new QUndoCommand();
+    masterCommand->setText(i18n("Rebuild proxies"));
+    m_doc->slotProxyCurrentItem(true, toProxy, true, masterCommand);
+    if (masterCommand->childCount() > 0) {
+        m_doc->commandStack()->push(masterCommand);
+    } else delete masterCommand;
 }

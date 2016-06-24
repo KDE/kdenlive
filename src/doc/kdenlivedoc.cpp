@@ -1259,12 +1259,16 @@ void KdenliveDoc::setMetadata(const QMap<QString, QString> &meta)
     m_documentMetadata = meta;
 }
 
-void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipList)
+void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipList, bool force, QUndoCommand *masterCommand)
 {
     if (clipList.isEmpty()) clipList = pCore->bin()->selectedClips();
-    QUndoCommand *command = new QUndoCommand();
-    if (doProxy) command->setText(i18np("Add proxy clip", "Add proxy clips", clipList.count()));
-    else command->setText(i18np("Remove proxy clip", "Remove proxy clips", clipList.count()));
+    bool hasParent = true;
+    if (masterCommand == NULL) {
+        masterCommand = new QUndoCommand();
+        if (doProxy) masterCommand->setText(i18np("Add proxy clip", "Add proxy clips", clipList.count()));
+        else masterCommand->setText(i18np("Remove proxy clip", "Remove proxy clips", clipList.count()));
+        hasParent = false;
+    }
 
     // Make sure the proxy folder exists
     bool ok = false;
@@ -1272,6 +1276,16 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
     if (!ok) {
         // Error
     }
+    QString extension = getDocumentProperty(QStringLiteral("proxyextension"));
+    QString proxyFolder;
+    QString params = getDocumentProperty(QStringLiteral("proxyparams"));
+    if (params.contains(QStringLiteral("-s "))) {
+        proxyFolder = params.section(QStringLiteral("-s "), 1).section(QStringLiteral("x"), 0, 0);
+    }
+    proxyFolder.append(QStringLiteral("-") + extension);
+    qDebug()<<" PXY FOLDER: "<<proxyFolder;
+    dir.mkdir(proxyFolder);
+    dir.cd(proxyFolder);
 
     // Prepare updated properties
     QMap <QString, QString> newProps;
@@ -1284,15 +1298,16 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
         ClipType t = item->clipType();
         // Only allow proxy on some clip types
         if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->isReady()) {
-	    if ((doProxy && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
+	    if ((doProxy && !force && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
             if (pCore->producerQueue()->isProcessing(item->clipId())) {
                 continue;
             }
 
             if (doProxy) {
                 newProps.clear();
-                QString path = dir.absoluteFilePath(item->hash() + '.' + (t == Image ? QStringLiteral("png") : getDocumentProperty(QStringLiteral("proxyextension"))));
+                QString path = dir.absoluteFilePath(item->hash() + '.' + (t == Image ? QStringLiteral("png") : extension));
                 // insert required duration for proxy
+                qDebug()<<" PXY PATH: "<<path;
                 newProps.insert(QStringLiteral("proxy_out"), item->getProducerProperty(QStringLiteral("out")));
                 newProps.insert(QStringLiteral("kdenlive:proxy"), path);
             }
@@ -1304,13 +1319,15 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
             //TODO: how to handle clip properties
             //oldProps = clip->currentProperties(newProps);
             if (doProxy) oldProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
-            new EditClipCommand(pCore->bin(), item->clipId(), oldProps, newProps, true, command);
+            new EditClipCommand(pCore->bin(), item->clipId(), oldProps, newProps, true, masterCommand);
         }
     }
-    if (command->childCount() > 0) {
-        m_commandStack->push(command);
+    if (!hasParent) {
+        if (masterCommand->childCount() > 0) {
+            m_commandStack->push(masterCommand);
+        }
+        else delete masterCommand;
     }
-    else delete command;
 }
 
 
@@ -1598,11 +1615,12 @@ void KdenliveDoc::initCacheDirs()
     if (!ok || documentId.isEmpty() || kdenliveCacheDir.isEmpty()) {
         return;
     }
+    QDir cacheDir(kdenliveCacheDir);
+    cacheDir.mkdir("proxy");
     QString basePath = kdenliveCacheDir + "/" + documentId;
     QDir dir(basePath);
     dir.mkpath(".");
     dir.mkdir("preview");
-    dir.mkdir("proxy");
     dir.mkdir("audiothumbs");
     dir.mkdir("videothumbs");
 }
@@ -1625,6 +1643,7 @@ QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
             basePath.append(QStringLiteral("/preview"));
             break;
         case CacheProxy:
+            basePath = kdenliveCacheDir;
             basePath.append(QStringLiteral("/proxy"));
             break;
         case CacheAudio:

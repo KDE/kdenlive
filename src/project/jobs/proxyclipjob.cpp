@@ -281,6 +281,7 @@ QHash <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, QList <P
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     QSize renderSize = bin->getRenderSize();
     QString params = bin->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+    qDebug()<<" * * * **SATRTUING PROXY JOB";
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *item = clips.at(i);
         QString id = item->clipId();

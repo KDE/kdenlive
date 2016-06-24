@@ -1569,17 +1569,14 @@ void MainWindow::slotEditProjectSettings()
             pCore->projectManager()->slotResetProfiles();
             slotUpdateDocumentState(true);
         }
-        if (project->getDocumentProperty(QStringLiteral("proxyparams")) != w->proxyParams()) {
+        if (project->getDocumentProperty(QStringLiteral("proxyparams")) != w->proxyParams() || project->getDocumentProperty(QStringLiteral("proxyextension")) != w->proxyExtension()) {
             modified = true;
             project->setDocumentProperty(QStringLiteral("proxyparams"), w->proxyParams());
+            project->setDocumentProperty(QStringLiteral("proxyextension"), w->proxyExtension());
             if (pCore->binController()->clipCount() > 0 && KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) == KMessageBox::Yes) {
                 //TODO: rebuild all proxies
-                //m_projectList->rebuildProxies();
+                pCore->bin()->rebuildProxies();
             }
-        }
-        if (project->getDocumentProperty(QStringLiteral("proxyextension")) != w->proxyExtension()) {
-            modified = true;
-            project->setDocumentProperty(QStringLiteral("proxyextension"), w->proxyExtension());
         }
         if (project->getDocumentProperty(QStringLiteral("generateproxy")) != QString::number((int) w->generateProxy())) {
             modified = true;

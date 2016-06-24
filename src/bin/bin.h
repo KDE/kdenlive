@@ -525,6 +525,7 @@ public:
     QDir getCacheDir(CacheType type, bool *ok) const;
     /** @brief Command adding a bin clip */
     bool addClip(QDomElement elem, const QString &clipId);
+    void rebuildProxies();
 
 private slots:
     void slotAddClip();
