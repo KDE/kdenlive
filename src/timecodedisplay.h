@@ -25,6 +25,14 @@
 
 #include <QAbstractSpinBox>
 
+class MyValidator : public QValidator
+{
+public:
+    explicit MyValidator(QObject *parent = Q_NULLPTR);
+    void fixup(QString &str) const;
+    QValidator::State validate(QString &str, int &pos) const;
+};
+
 /**
  * @class TimecodeDisplay
  * @brief A widget for inserting a timecode value.

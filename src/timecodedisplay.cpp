@@ -28,6 +28,20 @@
 
 #include <KColorScheme>
 
+MyValidator::MyValidator(QObject *parent) : QValidator(parent) {}
+
+void MyValidator::fixup(QString &str) const
+{
+    str.replace(QLatin1Char(' '), QLatin1Char('0'));
+}
+
+QValidator::State MyValidator::validate(QString &str, int &) const
+{
+    if (str.contains(QLatin1Char(' ')))
+        fixup(str);
+    return QValidator::Acceptable;
+}
+
 TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
         : QAbstractSpinBox(parent),
         m_timecode(t),
@@ -81,8 +95,9 @@ void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
         lineEdit()->setValidator(valid);
         lineEdit()->setInputMask(QString());
     } else {
-        lineEdit()->setValidator(0);
         lineEdit()->setInputMask(m_timecode.mask());
+        MyValidator *valid = new MyValidator(lineEdit());
+        lineEdit()->setValidator(valid);
     }
     setValue(m_value);
 }
