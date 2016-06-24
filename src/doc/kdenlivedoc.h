@@ -169,6 +169,8 @@ public:
     QDir getCacheDir(CacheType type, bool *ok) const;
     /** @brief Create standard cache dirs for the project */ 
     void initCacheDirs();
+    /** @brief Get a list of all proxy hash used in this project */ 
+    QStringList getProxyHashList();
 
 private:
     QUrl m_url;

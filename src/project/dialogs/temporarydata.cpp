@@ -186,6 +186,10 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_grid->addWidget(del, 5, 4);
 
     m_currentPage->setLayout(m_grid);
+    m_proxies = m_doc->getProxyHashList();
+    for (int i = 0; i < m_proxies.count(); i++) {
+        m_proxies[i].append(QStringLiteral("*"));
+    }
 
     if (currentProjectOnly) {
         lay->addWidget(m_currentPage);
@@ -220,8 +224,13 @@ void TemporaryData::updateDataInfo()
 
     preview = m_doc->getCacheDir(CacheProxy, &ok);
     if (ok) {
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
-        connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotProxySize);
+        preview.setNameFilters(m_proxies);
+        QFileInfoList fList = preview.entryInfoList();
+        qint64 size = 0;
+        foreach(const QFileInfo &info, fList) {
+            size += info.size();
+        }
+        gotProxySize(size);
     }
 
     preview = m_doc->getCacheDir(CacheAudio, &ok);
@@ -234,6 +243,8 @@ void TemporaryData::updateDataInfo()
         KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
         connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotThumbSize);
     }
+    if (m_globalPage)
+        updateGlobalInfo();
 }
 
 void TemporaryData::gotPreviewSize(KJob *job)
@@ -253,13 +264,8 @@ void TemporaryData::gotPreviewSize(KJob *job)
     updateTotal();
 }
 
-void TemporaryData::gotProxySize(KJob *job)
+void TemporaryData::gotProxySize(qint64 total)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
-    qulonglong total = sourceJob->totalSize();
-    if (sourceJob->totalFiles() == 0) {
-        total = 0;
-    }
     QLayoutItem *button = m_grid->itemAtPosition(1, 4);
     if (button && button->widget()) {
         button->widget()->setEnabled(total > 0);
@@ -344,18 +350,19 @@ void TemporaryData::deleteProxy()
 {
     bool ok = false;
     QDir dir = m_doc->getCacheDir(CacheProxy, &ok);
-    if (!ok) {
+    if (!ok || dir.dirName() != QLatin1String("proxy")) {
         return;
     }
-    if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache proxy folder:\n%1", dir.absolutePath())) != KMessageBox::Continue) {
+    dir.setNameFilters(m_proxies);
+    QStringList files = dir.entryList(QDir::Files);
+    if (KMessageBox::warningContinueCancelList(this, i18n("Delete all project data in the cache proxy folder:\n%1", dir.absolutePath()), files) != KMessageBox::Continue) {
             return;
     }
-    if (dir.dirName() == QLatin1String("proxy")) {
-        dir.removeRecursively();
-        dir.mkpath(".");
-        emit disableProxies();
-        updateDataInfo();
+    foreach(const QString &file, files) {
+        dir.remove(file);
     }
+    emit disableProxies();
+    updateDataInfo();
 }
 
 void TemporaryData::deleteAudio()
@@ -467,7 +474,6 @@ void TemporaryData::buildGlobalCacheDialog(int minHeight)
     lay->setColumnStretch(4, 10);
     lay->setRowStretch(0, 10);
     connect(m_listWidget, &QTreeWidget::itemSelectionChanged, this, &TemporaryData::refreshGlobalPie);
-    updateGlobalInfo();
 }
 
 void TemporaryData::updateGlobalInfo()

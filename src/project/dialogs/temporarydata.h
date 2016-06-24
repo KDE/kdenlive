@@ -112,6 +112,7 @@ private:
     QStringList m_globalDirectories;
     QString m_processingDirectory;
     QDir m_globalDir;
+    QStringList m_proxies;
     QPushButton *m_globalDelete;
     void updateDataInfo();
     void updateGlobalInfo();
@@ -121,7 +122,7 @@ private:
 
 private slots:
     void gotPreviewSize(KJob *job);
-    void gotProxySize(KJob *job);
+    void gotProxySize(qint64 total);
     void gotAudioSize(KJob *job);
     void gotThumbSize(KJob *job);
     void gotFolderSize(KJob *job);

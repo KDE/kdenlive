@@ -526,6 +526,8 @@ public:
     /** @brief Command adding a bin clip */
     bool addClip(QDomElement elem, const QString &clipId);
     void rebuildProxies();
+    /** @brief Return a list of all clips hashes used in this project */
+    QStringList getProxyHashList();
 
 private slots:
     void slotAddClip();

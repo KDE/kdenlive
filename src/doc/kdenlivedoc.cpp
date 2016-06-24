@@ -330,7 +330,7 @@ int KdenliveDoc::setSceneList()
         return -1;
     }
     pCore->bin()->isLoading = false;
-    
+
     bool ok = false;
     QDir thumbsFolder = getCacheDir(CacheThumbs, &ok);
     if (ok)
@@ -1276,16 +1276,12 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
     if (!ok) {
         // Error
     }
-    QString extension = getDocumentProperty(QStringLiteral("proxyextension"));
-    QString proxyFolder;
+    QString extension = QStringLiteral(".") + getDocumentProperty(QStringLiteral("proxyextension"));
     QString params = getDocumentProperty(QStringLiteral("proxyparams"));
     if (params.contains(QStringLiteral("-s "))) {
-        proxyFolder = params.section(QStringLiteral("-s "), 1).section(QStringLiteral("x"), 0, 0);
+        QString proxySize = params.section(QStringLiteral("-s "), 1).section(QStringLiteral("x"), 0, 0);
+        extension.prepend(QStringLiteral("-") + proxySize);
     }
-    proxyFolder.append(QStringLiteral("-") + extension);
-    qDebug()<<" PXY FOLDER: "<<proxyFolder;
-    dir.mkdir(proxyFolder);
-    dir.cd(proxyFolder);
 
     // Prepare updated properties
     QMap <QString, QString> newProps;
@@ -1305,9 +1301,8 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
 
             if (doProxy) {
                 newProps.clear();
-                QString path = dir.absoluteFilePath(item->hash() + '.' + (t == Image ? QStringLiteral("png") : extension));
+                QString path = dir.absoluteFilePath(item->hash() + (t == Image ? QStringLiteral(".png") : extension));
                 // insert required duration for proxy
-                qDebug()<<" PXY PATH: "<<path;
                 newProps.insert(QStringLiteral("proxy_out"), item->getProducerProperty(QStringLiteral("out")));
                 newProps.insert(QStringLiteral("kdenlive:proxy"), path);
             }
@@ -1660,4 +1655,9 @@ QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
         *ok = false;
     }
     return dir;
+}
+
+QStringList KdenliveDoc::getProxyHashList()
+{
+    return pCore->bin()->getProxyHashList();
 }

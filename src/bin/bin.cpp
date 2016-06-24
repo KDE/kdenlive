@@ -3239,6 +3239,17 @@ void Bin::refreshProxySettings()
     } else delete masterCommand;
 }
 
+QStringList Bin::getProxyHashList()
+{
+    QStringList list;
+    QList <ProjectClip*> clipList = m_rootFolder->childClips();
+    foreach (ProjectClip *clp, clipList) {
+        if (clp->clipType() == AV || clp->clipType() == Video || clp->clipType() == Playlist)
+            list << clp->hash();
+    }
+    return list;
+}
+
 void Bin::slotSendAudioThumb(QString id)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
