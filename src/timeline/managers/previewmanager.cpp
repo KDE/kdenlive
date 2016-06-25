@@ -416,8 +416,7 @@ void PreviewManager::doPreviewRender(QString scene)
                 if (m_abortPreview) {
                     emit previewRender(0, QString(), 1000);
                 } else {
-                    qDebug()<<"+++++++++\n++ ERROR  ++\n++++++";
-                    emit previewRender(i, QString(), -1);
+                    emit previewRender(i, previewProcess.readAllStandardError(), -1);
                 }
                 QFile::remove(m_cacheDir.absoluteFilePath(fileName));
                 break;
@@ -517,11 +516,10 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
 {
     if (m_previewTrack == NULL)
         return;
-    if (file.isEmpty()) {
+    if (file.isEmpty() || progress < 0) {
         m_doc->previewProgress(progress);
         if (progress < 0) {
-            // Error
-            m_doc->displayMessage(i18n("Preview rendering failed, check your parameters"), ErrorMessage);
+            m_doc->displayMessage(i18n("Preview rendering failed, check your parameters. %1Show details...%2", QString("<a href=\"" + QUrl::toPercentEncoding(file) + "\">"), QStringLiteral("</a>")), MltError);
         }
         return;
     }

@@ -37,6 +37,9 @@
 #include <QProgressBar>
 #include <QMouseEvent>
 #include <QHBoxLayout>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QTextEdit>
 
 FlashLabel::FlashLabel(QWidget *parent) : QWidget(parent)
 {
@@ -84,6 +87,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     m_animation.setPropertyName("color");
     m_queueTimer.setSingleShot(true);
     connect(&m_queueTimer, SIGNAL(timeout()), this, SLOT(slotMessageTimeout()));
+    connect(m_label, SIGNAL(linkActivated(const QString &)), this, SLOT(slotShowJobLog(const QString &)));
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()
@@ -99,7 +103,7 @@ void StatusBarMessageLabel::updatePalette()
 void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
 {
     QWidget::mousePressEvent(event);
-    if (m_currentMessage.type == MltError)
+    if (m_pixmap->rect().contains(event->localPos().toPoint()) && m_currentMessage.type == MltError)
         confirmErrorMessage();
 }
 
@@ -221,17 +225,21 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     switch (m_currentMessage.type) {
     case ProcessingJobMessage:
         iconName = "chronometer";
+        m_pixmap->setCursor(Qt::ArrowCursor);
         break;
     case OperationCompletedMessage:
         iconName = "dialog-ok";
+        m_pixmap->setCursor(Qt::ArrowCursor);
         break;
 
     case InformationMessage:
         iconName = "dialog-information";
+        m_pixmap->setCursor(Qt::ArrowCursor);
         break;
 
     case ErrorMessage:
         iconName = "dialog-warning";
+        m_pixmap->setCursor(Qt::ArrowCursor);
         m_animation.setKeyValueAt(0, bgColor);
         m_animation.setKeyValueAt(0.8, bgColor);
         m_animation.setKeyValueAt(1, parentWidget()->palette().window().color());
@@ -242,6 +250,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
 
     case MltError:
         iconName = "dialog-close";
+        m_pixmap->setCursor(Qt::PointingHandCursor);
         m_animation.setKeyValueAt(0, bgColor);
         m_animation.setKeyValueAt(1, bgColor);
         m_animation.setDuration(1000);
@@ -249,6 +258,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         break;
 
     case DefaultMessage:
+        m_pixmap->setCursor(Qt::ArrowCursor);
     default:
         break;
     }
@@ -259,7 +269,6 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         m_pixmap->setPixmap(SmallIcon(iconName));
         m_pixmap->setVisible(true);
     }
-    setCursor(m_currentMessage.type == MltError ? Qt::PointingHandCursor : Qt::ArrowCursor);
     m_queueSemaphore.release();
 
     return newMessage;
@@ -276,3 +285,22 @@ void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
     QWidget::resizeEvent(event);
 }
 
+void StatusBarMessageLabel::slotShowJobLog(const QString &text)
+{
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QWidget *mainWidget = new QWidget(this);
+    QVBoxLayout *l = new QVBoxLayout;
+    QTextEdit t(&d);
+    t.insertPlainText(QUrl::fromPercentEncoding(text.toUtf8()));
+    t.setReadOnly(true);
+    l->addWidget(&t);
+    mainWidget->setLayout(l);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    d.setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    mainLayout->addWidget(buttonBox);
+    d.connect(buttonBox, SIGNAL(rejected()), &d, SLOT(accept()));
+    d.exec();
+    confirmErrorMessage();
+}

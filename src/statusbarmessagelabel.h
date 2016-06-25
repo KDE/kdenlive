@@ -120,6 +120,7 @@ private slots:
      * was in the queue, false is returned.
      */
     bool slotMessageTimeout();
+    void slotShowJobLog(const QString &text);
 
 private:
     enum { GeometryTimeout = 100 };
