@@ -145,11 +145,11 @@ void GLWidget::showEvent(QShowEvent * event)
 
 void GLWidget::initializeGL()
 {
-    //if (m_isInitialized || !isVisible() || !openglContext()) return;
+    if (m_isInitialized || !isVisible() || !openglContext()) return;
     if (!m_offscreenSurface.isValid()) {
         m_offscreenSurface.setFormat(openglContext()->format());
         m_offscreenSurface.create();
-        //openglContext()->makeCurrent(this);
+        openglContext()->makeCurrent(this);
     }
     initializeOpenGLFunctions();
     qDebug() << "OpenGL vendor: " << QString::fromUtf8((const char*) glGetString(GL_VENDOR));
