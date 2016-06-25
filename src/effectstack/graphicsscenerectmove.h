@@ -62,12 +62,14 @@ public:
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    virtual void paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w);
 
 private:
     Qt::Alignment m_alignment;
     QPoint m_shadowOffset;
     int m_shadowBlur;
     QColor m_shadowColor;
+    QPainterPath m_path;
     MyQGraphicsEffect *m_shadowEffect;
     void updateShadow();
     void blurShadow(QImage &image, int radius);

@@ -142,10 +142,74 @@ void MyTextItem::updateGeometry(int, int, int)
         cursor.setPosition(position);           // restore cursor position
         setTextCursor(cursor);
     }
+    QString text = toPlainText();
+    m_path = QPainterPath();
+    if (text.isEmpty()) {
+        //
+    } else {
+        QFontMetrics metrics(font());
+        double lineSpacing = data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing();
+
+        // Calculate line width
+        QStringList lines = text.split('\n');
+        double linePos = metrics.ascent();
+        QRectF bounding = boundingRect();
+        /*if (lines.count() > 0) {
+            lineSpacing = bounding.height() / lines.count();
+            if (lineSpacing != data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing()) {
+                linePos = 2 * lineSpacing - metrics.descent() - metrics.height();
+            }
+        }*/
+
+        foreach(const QString &line, lines)
+        {
+            QPainterPath linePath;
+            linePath.addText(0, linePos, font(), line);
+            linePos += lineSpacing;
+            if ( m_alignment == Qt::AlignHCenter ) {
+                double offset = (bounding.width() - metrics.width(line)) / 2;
+                linePath.translate(offset, 0);
+            } else if ( m_alignment == Qt::AlignRight ) {
+                double offset = (bounding.width() - metrics.width(line));
+                linePath.translate(offset, 0);
+            }
+            m_path.addPath(linePath);
+        }
+    }
+
     if (m_shadowEffect->isEnabled()) {
         updateShadow();
     }
     update();
+}
+
+void MyTextItem::paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w)
+{
+    if (textInteractionFlags() & Qt::TextEditable) {
+        QGraphicsTextItem::paint(painter, option, w);
+    }
+    else {
+        painter->setRenderHint(QPainter::Antialiasing);
+        int outline = data(TitleDocument::OutlineWidth).toInt();
+        QTextCursor cursor(document());
+        cursor.select(QTextCursor::Document);
+        QColor fontcolor = cursor.charFormat().foreground().color();
+        painter->fillPath(m_path, QBrush(fontcolor));
+        if ( outline > 0 )
+        {
+            QVariant variant = data(TitleDocument::OutlineColor);
+            QColor outlineColor = variant.value<QColor>();
+            QPen pen(outlineColor);
+            pen.setWidthF(outline);
+            painter->strokePath(m_path, pen);
+        }
+        if (isSelected()) {
+            QPen pen(Qt::red);
+            pen.setStyle(Qt::DashLine);
+            painter->setPen(pen);
+            painter->drawRect(boundingRect());
+        }
+    }
 }
 
 void MyTextItem::updateShadow()
@@ -155,29 +219,8 @@ void MyTextItem::updateShadow()
         m_shadowEffect->setShadow(QImage());
         return;
     }
-    QFontMetrics metrics(font());
-    //ADJUST TO CURRENT SETTING
-    double lineSpacing = data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing();
-    QPainterPath path;
-
-    // Calculate line width
-    QStringList lines = text.split('\n');
-    double linePos = metrics.ascent();
     QRectF bounding = boundingRect();
-    foreach(const QString &line, lines)
-    {
-        QPainterPath linePath;
-        linePath.addText(0, linePos, font(), line);
-        linePos += lineSpacing;
-        if ( m_alignment == Qt::AlignHCenter ) {
-            double offset = (bounding.width() - metrics.width(line)) / 2;
-            linePath.translate(offset, 0);
-        } else if ( m_alignment == Qt::AlignRight ) {
-            double offset = (bounding.width() - metrics.width(line));
-            linePath.translate(offset, 0);
-        }
-        path.addPath(linePath);
-    }
+    QPainterPath path = m_path;
     // Calculate position of text in parent item
     path.translate(QPointF(2 * m_shadowBlur, 2 * m_shadowBlur));
     QRectF fullSize = bounding.united(path.boundingRect());
@@ -274,9 +317,9 @@ QRectF MyTextItem::baseBoundingRect() const
     QTextCursor cur(document());
     cur.select(QTextCursor::Document);
     QTextBlockFormat format = cur.blockFormat();
-    int lines = document()->lineCount();
     int lineHeight = format.lineHeight();
     int lineHeight2 = QFontMetrics(font()).lineSpacing();
+    int lines = document()->lineCount();
     if (lines > 1) {
         base.setHeight(lines * lineHeight2 + lineHeight * (lines - 1));
     }
@@ -637,9 +680,11 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 }
             }
         }
+        QGraphicsScene::mousePressEvent(e);
     } else if (m_tool == TITLE_RECTANGLE) {
         m_sceneClickPoint = QPointF(xPos, yPos);
         m_selectedItem = NULL;
+        e->ignore();
     } else if (m_tool == TITLE_TEXT) {
         MyTextItem *textItem = new MyTextItem(QStringLiteral("Text"), NULL);
         yPos = (((int) e->scenePos().y() - (int)(m_fontSize / 2)) / m_gridSize) * m_gridSize;
@@ -652,7 +697,6 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         m_selectedItem->setSelected(true);
         m_createdText = true;
     }
-    QGraphicsScene::mousePressEvent(e);
     //qDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
 
 }
@@ -683,6 +727,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         QGraphicsView *view = viewlist.at(0);
         if ((view->mapFromScene(e->scenePos()) - view->mapFromScene(m_clickPoint)).manhattanLength() < QApplication::startDragDistance()) {
             e->ignore();
+            QGraphicsScene::mouseMoveEvent(e);
             return;
         } else {
             m_moveStarted = true;
