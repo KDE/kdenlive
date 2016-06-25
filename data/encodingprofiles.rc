@@ -20,4 +20,4 @@ DNxHD 1080p 25fps=r=25 s=1920x1080 vb=120M threads=0 vcodec=dnxhd;mov
 DNxHD 1080p 24fps=r=24 s=1920x1080 vb=115M threads=0 vcodec=dnxhd;mov
 DNxHD 1080p 30fps=r=30 s=1920x1080 vb=145M threads=0 vcodec=dnxhd;mov
 DNxHD 1080p 23.976fps=r=23.976 s=1920x1080 vb=115M threads=0 vcodec=dnxhd;mov
-MJPEG=f=avi vcodec=mjpeg progressive=1;avi
+MJPEG=f=avi vcodec=mjpeg progressive=1 qscale=2;avi
