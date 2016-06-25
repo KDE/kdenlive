@@ -4187,7 +4187,6 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
       trackClipStartList[i] = -1;
       trackTransitionStartList[i] = -1;
     }
-
     for (int i = 0; i < items.count(); ++i) 
     {
       if (items.at(i)->type() == GroupWidget) 
@@ -4279,7 +4278,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             m_toolManagers.value(GuideType)->mouseRelease();
             break;
         case Spacer:
-            m_toolManagers.value(SpacerType)->mouseRelease(clickFrame);
+            m_toolManagers.value(SpacerType)->mouseRelease(GenTime(m_selectionGroup->sceneBoundingRect().left(), m_document->fps()));
             break;
         case RubberSelection:
             m_toolManagers.value(SelectType)->mouseRelease();
