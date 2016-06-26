@@ -271,7 +271,7 @@ breeze-dark/dk_kdenlive-select-tool.svgz
 breeze-dark/dk_show-all-effects.svg
 breeze-dark/dk_kdenlive-show-audio.svgz
 breeze-dark/dk_kdenlive-show-audiothumb.svgz
-breeze-dark/dk_kdenlive-show-gpu.svgz
+breeze-dark/dk_show-gpu-effects.svgz
 breeze-dark/dk_kdenlive-show-markers.svgz
 breeze-dark/dk_kdenlive-show-video.svgz
 breeze-dark/dk_kdenlive-show-videothumb.svgz
