@@ -167,7 +167,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     qRegisterMetaType<QDomElement> ("QDomElement");
     qRegisterMetaType<requestClipInfo> ("requestClipInfo");
     qRegisterMetaType<MltVideoProfile> ("MltVideoProfile");
-
     Core::build(this);
 
     // Widget themes for non KDE users
@@ -352,6 +351,12 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     addAction(QStringLiteral("themes_menu"), themeAction);
     connect(m_commandStack, SIGNAL(cleanChanged(bool)), m_saveAction, SLOT(setDisabled(bool)));
     addAction(QStringLiteral("styles_menu"), stylesAction);
+
+    QAction *iconAction = new QAction(i18n("Force Breeze Icon Theme"), this);
+    iconAction->setCheckable(true);
+    iconAction->setChecked(KdenliveSettings::force_breeze());
+    addAction(QStringLiteral("force_icon_theme"), iconAction);
+    connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
 
     // Close non-general docks for the initial layout
     // only show important ones
@@ -3629,6 +3634,14 @@ void MainWindow::showMenuBar(bool show)
     if (!show)
 	KMessageBox::information(this, i18n("This will hide the menu bar completely. You can show it again by typing Ctrl+M."), i18n("Hide menu bar"), QStringLiteral("show-menubar-warning"));
     menuBar()->setVisible(show);
+}
+
+void MainWindow::forceIconSet(bool force)
+{
+    KdenliveSettings::setForce_breeze(force);
+    if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply icon theme change. Restart now ?")) == KMessageBox::Continue) {
+        slotRestart();
+    }
 }
 
 #ifdef DEBUG_MAINW

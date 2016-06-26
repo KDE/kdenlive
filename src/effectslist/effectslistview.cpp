@@ -103,7 +103,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
           effectsVideo->setToolTip(i18n("Show video effects"));
           effectsAudio->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audio")));
           effectsAudio->setToolTip(i18n("Show audio effects"));
-          effectsGPU->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-gpu")));
+          effectsGPU->setIcon(KoIconUtils::themedIcon(QStringLiteral("show-gpu-effects")));
           effectsGPU->setToolTip(i18n("Show GPU effects"));
           effectsCustom->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-custom-effect")));
           effectsCustom->setToolTip(i18n("Show custom effects"));

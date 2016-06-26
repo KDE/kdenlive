@@ -99,7 +99,7 @@ breeze-light/lt_kdenlive-select-tool.svgz
 breeze-light/lt_show-all-effects.svg
 breeze-light/lt_kdenlive-show-audio.svgz
 breeze-light/lt_kdenlive-show-audiothumb.svgz
-breeze-light/lt_kdenlive-show-gpu.svgz
+breeze-light/lt_show-gpu-effects.svg
 breeze-light/lt_kdenlive-show-markers.svgz
 breeze-light/lt_kdenlive-show-video.svgz
 breeze-light/lt_kdenlive-show-videothumb.svgz

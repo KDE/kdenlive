@@ -453,6 +453,8 @@ private slots:
     /** @brief Open Cached Data management dialog. */
     void slotManageCache();
     void showMenuBar(bool show);
+    /** @brief Change forced icon theme setting (asks for app restart). */
+    void forceIconSet(bool force);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

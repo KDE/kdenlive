@@ -26,8 +26,10 @@
 #include <KAboutData>
 #include <KCrash>
 #include <KIconLoader>
-#include <QDebug>
+#include <KConfig>
+#include <KConfigGroup>
 
+#include <QDebug>
 #include <QUrl> //new
 #include <QApplication>
 #include <klocalizedstring.h>
@@ -51,7 +53,12 @@ int main(int argc, char *argv[])
 
     // Init application
     QApplication app(argc, argv);
-
+    KConfig conf("kdenliverc", KConfig::SimpleConfig);
+    KConfigGroup grp(&conf, "unmanaged");
+    bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
+    if (forceBreeze) {
+        QIcon::setThemeName("breeze");
+    }
     // Create KAboutData
     KAboutData aboutData(QByteArray("kdenlive"), 
                          i18n("Kdenlive"), KDENLIVE_VERSION,
@@ -134,7 +141,7 @@ int main(int argc, char *argv[])
         window->show();
     }
     int result = app.exec();
-    
+
     if (EXIT_RESTART == result) {
         qDebug() << "restarting app";
         QProcess* restart = new QProcess;

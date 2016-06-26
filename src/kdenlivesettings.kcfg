@@ -78,7 +78,7 @@
       <label>Ignore libav / ffmpeg codec checking.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="use_exiftool" type="Bool">
       <label>Get h264 metadata using exiftool.</label>
       <default>false</default>
@@ -905,6 +905,9 @@
       <label>Last opened tab in effects list.</label>
       <default>0</default>
     </entry>
+    <entry name="force_breeze" type="Bool">
+      <label>Force breeze icon theme for consistent look.</label>
+      <default>false</default>
+    </entry>
   </group>
-
 </kcfg>

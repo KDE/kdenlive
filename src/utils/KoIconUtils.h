@@ -20,6 +20,7 @@
 #ifndef __KO_ICON_UTILS_H
 #define __KO_ICON_UTILS_H
 
+#include "kdenlivesettings.h"
 #include "kxmlgui_version.h"
 #include <QIcon>
 #include <KIconEngine>
@@ -30,6 +31,7 @@ namespace KoIconUtils
 #if KXMLGUI_VERSION_MINOR > 22 || KXMLGUI_VERSION_MAJOR > 5
     inline QIcon themedIcon(const QString &name)
     {
+        if (KdenliveSettings::force_breeze()) return QIcon(new KIconEngine(name, KIconLoader::global()));
         return QIcon::fromTheme(name);
     };
 #else
