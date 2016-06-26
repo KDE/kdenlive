@@ -25,7 +25,6 @@
 #include <QThread>
 #include <QStringList>
 
-
 // Can't believe I need to do this to sleep.
 class SleepThread : QThread
 {
@@ -64,14 +63,14 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
     m_args << scenelist;
     if (in != -1) m_args << QStringLiteral("in=") + QString::number(in);
     if (out != -1) m_args << QStringLiteral("out=") + QString::number(out);
+
     m_args << preargs;
     if (scenelist.startsWith(QLatin1String("consumer:"))) {
         // Use MLT's producer_consumer, safer to pass profile in an explicit way
         m_args << QStringLiteral("profile=") + profile;
     }
     m_args << QStringLiteral("-profile") << profile;
-    m_args << QStringLiteral("-consumer") << rendermodule + QLatin1Char(':') + m_dest
-           << QStringLiteral("progress=1") << args;
+    m_args << QStringLiteral("-consumer") << rendermodule + QLatin1Char(':') + m_dest << QStringLiteral("progress=1") << args;
 
     m_dualpass = args.contains(QStringLiteral("pass=1"));
 
@@ -141,9 +140,8 @@ void RenderJob::receivedStderr()
             int seconds = m_startTime.secsTo(QTime::currentTime());
             if (seconds == m_seconds) return;
             if (seconds < 0) seconds += 24*60*60;
-            m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint) 1,
-                                tr("Remaining time"),
-                                QTime().addSecs(seconds * (100 - m_progress) / m_progress).toString(QStringLiteral("hh:mm:ss")));
+            m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint) 0,
+                                QString(), tr("Remaining time: ") + QTime(0, 0, 0).addSecs((int) (seconds * (100 - m_progress) / m_progress)).toString("hh:mm:ss"));
             //m_jobUiserver->call("setSpeed", (frame - m_frame) / (seconds - m_seconds));
             m_frame = frame;
             m_seconds = seconds;
@@ -171,7 +169,7 @@ void RenderJob::start()
 
         if (interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
             QDBusInterface kuiserver(QStringLiteral("org.kde.JobViewServer"), QStringLiteral("/JobViewServer"), QStringLiteral("org.kde.JobViewServer"));
-            QDBusReply<QDBusObjectPath> objectPath = kuiserver.call(QStringLiteral("requestView"),QLatin1String("Kdenlive"), QLatin1String("kdenlive"), 0x0001);
+            QDBusReply<QDBusObjectPath> objectPath = kuiserver.asyncCall(QLatin1String("requestView"),QLatin1String("kdenlive"), QLatin1String("kdenlive"), 0x0001);
             QString reply = ((QDBusObjectPath) objectPath).path();
 
             // Use of the KDE JobViewServer is an ugly hack, it is not reliable
@@ -181,8 +179,8 @@ void RenderJob::start()
                 m_startTime = QTime::currentTime();
                 if (!m_args.contains(QStringLiteral("pass=2")))
                     m_jobUiserver->call(QStringLiteral("setPercent"), (uint) 0);
-                //m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
-                m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint) 0, tr("Rendering"), m_dest);
+
+                m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
                 QDBusConnection::sessionBus().connect(QStringLiteral("org.kde.JobViewServer"), reply, dbusView, QStringLiteral("cancelRequested"), this, SLOT(slotAbort()));
             }
         }
@@ -247,7 +245,11 @@ void RenderJob::slotCheckProcess(QProcess::ProcessState state)
 
 void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
 {
-    if (m_jobUiserver) m_jobUiserver->call(QStringLiteral("terminate"), QString());
+    if (m_jobUiserver) {
+        m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint) 1,
+                                tr("Rendered file"), m_dest);
+        //m_jobUiserver->call(QStringLiteral("terminate"), QString());
+    }
     if (!isWritable) {
         QString error = tr("Cannot write to %1, check permissions.").arg(m_dest);
         if (m_kdenliveinterface) {
