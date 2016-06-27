@@ -175,6 +175,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.buttonFavorite->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
 
+    m_view.out_file->button()->setToolTip(i18n("Select output destination"));
     m_view.advanced_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     m_view.optionsGroup->setVisible(m_view.options->isChecked());
