@@ -1961,10 +1961,11 @@ void Monitor::updateQmlDisplay(int currentOverlay)
 {
     m_glMonitor->rootObject()->setVisible(currentOverlay & 0x01);
     m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & 0x04);
-    bool showTimecode = currentOverlay & 0x02;
-    m_glMonitor->rootObject()->setProperty("showTimecode", showTimecode);
-    m_timePos->sendTimecode(showTimecode);
-    if (showTimecode) {
+    m_glMonitor->rootObject()->setProperty("showFps", currentOverlay & 0x20);
+    m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & 0x02);
+    bool showTimecodeRelatedInfo = currentOverlay & 0x02 || currentOverlay & 0x20;
+    m_timePos->sendTimecode(showTimecodeRelatedInfo);
+    if (showTimecodeRelatedInfo) {
         connect(m_timePos, &TimecodeDisplay::emitTimeCode, this, &Monitor::slotUpdateQmlTimecode, Qt::UniqueConnection);
     } else {
         disconnect(m_timePos, &TimecodeDisplay::emitTimeCode, this, &Monitor::slotUpdateQmlTimecode);

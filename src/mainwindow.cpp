@@ -210,7 +210,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     ThemeManager::instance()->setThemeMenuAction(themeAction);
     ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
     connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)), Qt::DirectConnection);
-    
+
     if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
         doChangeStyle();
@@ -1184,6 +1184,11 @@ void MainWindow::setupActions()
     overlayTCInfo->setCheckable(true);
     overlayTCInfo->setData(0x02);
 
+    QAction *overlayFpsInfo =  new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Playback Fps"), this);
+    addAction(QStringLiteral("monitor_overlay_fps"), overlayFpsInfo);
+    overlayFpsInfo->setCheckable(true);
+    overlayFpsInfo->setData(0x20);
+
     QAction *overlayMarkerInfo =  new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Markers"), this);
     addAction(QStringLiteral("monitor_overlay_markers"), overlayMarkerInfo);
     overlayMarkerInfo->setCheckable(true);
@@ -1193,7 +1198,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("monitor_overlay_safezone"), overlaySafeInfo);
     overlaySafeInfo->setCheckable(true);
     overlaySafeInfo->setData(0x08);
-    
+
     QAction *overlayAudioInfo =  new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Audio Waveform"), this);
     addAction(QStringLiteral("monitor_overlay_audiothumb"), overlayAudioInfo);
     overlayAudioInfo->setCheckable(true);
@@ -1509,7 +1514,6 @@ void MainWindow::readOptions()
     if (KdenliveSettings::trackheight() == 0) {
         KdenliveSettings::setTrackheight(50);
     }
-
     KConfigGroup initialGroup(config, "version");
     if (!initialGroup.exists() || KdenliveSettings::ffmpegpath().isEmpty() || KdenliveSettings::ffplaypath().isEmpty()) {
         // this is our first run, show Wizard

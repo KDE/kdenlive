@@ -19,6 +19,7 @@ Item {
     property string fps
     property bool showMarkers
     property bool showTimecode
+    property bool showFps
     property bool showSafezone
     property bool showAudiothumb
     property bool showToolbar: false
@@ -127,10 +128,10 @@ Item {
         style: Text.Outline;
         styleColor: "black"
         text: root.fps + "fps"
-        visible: root.showTimecode
+        visible: root.showFps
         font.pixelSize: root.displayFontSize
         anchors {
-            right: timecode.left
+            right: timecode.visible ? timecode.left : root.right
             bottom: root.bottom
             rightMargin: 10
         }

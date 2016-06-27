@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="143" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="144" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -16,7 +16,7 @@
       <Action name="add_slide_clip" />
       <Action name="add_text_clip" />
       <Action name="add_text_template_clip" />
-      <Action name="add_folder" /> 
+      <Action name="add_folder" />
       <Action name="download_resource" /> 
       <Menu name="extract_audio" ><text>Extract Audio</text>
 	  <ActionList name="audio_transcoders_list" />
@@ -182,6 +182,7 @@
       <Menu name="monitor_config_overlay" ><text>Current Monitor Overlay</text>
           <Action name="monitor_overlay" />
           <Action name="monitor_overlay_tc" />
+          <Action name="monitor_overlay_fps" />
           <Action name="monitor_overlay_safezone" />
           <Action name="monitor_overlay_markers" />
           <Action name="monitor_overlay_audiothumb" />

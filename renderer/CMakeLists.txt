@@ -21,4 +21,5 @@ target_link_libraries(kdenlive_render
   ${Qt5_LIBRARIES}
 )
 
+
 install(TARGETS kdenlive_render DESTINATION ${BIN_INSTALL_DIR})
