@@ -182,21 +182,22 @@ void PreviewManager::disconnectTrack()
 bool PreviewManager::loadParams()
 {
     m_extension= m_doc->getDocumentProperty(QStringLiteral("previewextension"));
-    m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(" ");
+    m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(" ", QString::SkipEmptyParts);
 
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {
         m_doc->selectPreviewProfile();
-        m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(" ");
+        m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(" ", QString::SkipEmptyParts);
         m_extension= m_doc->getDocumentProperty(QStringLiteral("previewextension"));
     }
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {
         return false;
     }
-    //remove the r=... parameter (forcing framerate) as it causes rendering failure
+    // Remove the r= and s= parameter (forcing framerate / frame size) as it causes rendering failure. 
+    // These parameters should be provided by MLT's profile
     for (int i = 0; i < m_consumerParams.count(); i++) {
-	if (m_consumerParams.at(i).startsWith(QStringLiteral("r="))) {
+	if (m_consumerParams.at(i).startsWith(QStringLiteral("r=")) || m_consumerParams.at(i).startsWith(QStringLiteral("s="))) {
 	    m_consumerParams.removeAt(i);
-	    break;
+	    i--;
 	}
     }
     m_consumerParams << "an=1";

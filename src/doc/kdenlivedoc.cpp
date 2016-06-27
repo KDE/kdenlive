@@ -1552,6 +1552,7 @@ void KdenliveDoc::selectPreviewProfile()
         // Check for frame rate
         QString params = i.value();
         QStringList data = i.value().split(" ");
+        // Check for size mismatch
         if (params.contains(QStringLiteral("s="))) {
             QString paramSize = params.section(QStringLiteral("s="), 1).section(QStringLiteral(" "), 0, 0);
             if (paramSize != profileSize)

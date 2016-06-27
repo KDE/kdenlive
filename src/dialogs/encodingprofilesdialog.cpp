@@ -45,7 +45,7 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     button_edit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
     button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
     button_download->setIcon(KoIconUtils::themedIcon(QStringLiteral("download")));
-    
+
     m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
@@ -172,7 +172,7 @@ void EncodingProfilesDialog::slotEditProfile()
     connect(box, &QDialogButtonBox::rejected, d.data(), &QDialog::reject);
     l->addWidget(box);
     d->setLayout(l);
-    
+
     QListWidgetItem *item = profile_list->currentItem();
     if (item) {
         pname->setText(item->text());
@@ -182,7 +182,7 @@ void EncodingProfilesDialog::slotEditProfile()
         pparams->setFocus();
     }
     if (d->exec() == QDialog::Accepted) {
-        m_configGroup->writeEntry(pname->text(), pparams->toPlainText() + ';' + pext->text());
+        m_configGroup->writeEntry(pname->text(), pparams->toPlainText().simplified() + ';' + pext->text());
         slotLoadProfiles();
     }
     delete d;
