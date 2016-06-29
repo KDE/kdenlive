@@ -4047,12 +4047,16 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
 
     // update items coordinates
     QList<QGraphicsItem *> itemList = m_selectionGroup->childItems();
+    QList<AbstractGroupItem *> groupList;
 
     for (int i = 0; i < itemList.count(); ++i) {
         if (itemList.at(i)->type() == AVWidget || itemList.at(i)->type() == TransitionWidget) {
             int realTrack = getTrackFromPos(itemList.at(i)->scenePos().y());
             static_cast < AbstractClipItem *>(itemList.at(i))->updateItem(realTrack);
         } else if (itemList.at(i)->type() == GroupWidget) {
+            AbstractGroupItem *group = static_cast < AbstractGroupItem *>(itemList.at(i));
+            groupList << group;
+            m_document->clipManager()->removeGroup(group);
             QList<QGraphicsItem *> children = itemList.at(i)->childItems();
             for (int j = 0; j < children.count(); ++j) {
                 AbstractClipItem * clp = static_cast < AbstractClipItem *>(children.at(j));
@@ -4063,6 +4067,10 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
     }
     m_selectionMutex.unlock();
     resetSelectionGroup(false);
+    // Rebuild groups after translate
+    foreach (AbstractGroupItem *grp, groupList) {
+        rebuildGroup(grp);
+    }
     m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, duration, offset);
 }
 
