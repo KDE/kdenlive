@@ -90,6 +90,7 @@ void JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
             m_jobList.at(i)->setStatus(JobAborted);
         }
     }
+    emit updateJobStatus(id, type, JobAborted);
     updateJobCount();
 }
 
@@ -149,18 +150,18 @@ void JobManager::updateJobCount()
 
 void JobManager::slotProcessJobs()
 {
+    bool firstPass = true;
     while (!m_jobList.isEmpty() && !m_abortAllJobs) {
         AbstractClipJob *job = NULL;
         m_jobMutex.lock();
-        int i = 0;
-        for (; i < m_jobList.count(); ++i) {
+        for (int i = 0; i < m_jobList.count(); ++i) {
             if (m_jobList.at(i)->status() == JobWaiting) {
                 job = m_jobList.at(i);
                 job->setStatus(JobWorking);
                 break;
             }
         }
-        if (i > 0) {
+        if (!firstPass) {
             updateJobCount();
         }
         m_jobMutex.unlock();
@@ -168,6 +169,7 @@ void JobManager::slotProcessJobs()
         if (job == NULL) {
             break;
         }
+        firstPass = false;
         QString destination = job->destination();
         // Check if the clip is still here
         ProjectClip *currentClip = m_bin->getBinClip(job->clipId());
@@ -300,6 +302,7 @@ void JobManager::slotCancelPendingJobs()
         if (m_jobList.at(i)->status() == JobWaiting) {
             // discard this job
             m_jobList.at(i)->setStatus(JobAborted);
+            emit updateJobStatus(m_jobList.at(i)->clipId(), m_jobList.at(i)->jobType, JobAborted);
         }
     }
     updateJobCount();
