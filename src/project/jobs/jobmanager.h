@@ -103,6 +103,8 @@ public slots:
     void slotDiscardClipJobs();
     /** @brief Discard all running jobs. */
     void slotCancelJobs();
+    /** @brief Discard all pending jobs. */
+    void slotCancelPendingJobs();
 
 private:
     /** @brief A pointer to the project's bin. */
@@ -117,6 +119,8 @@ private:
     bool m_abortAllJobs;
     /** @brief Create a proxy for a clip. */
     void createProxy(const QString &id);
+    /** @brief Update job count in info widget. */
+    void updateJobCount();
 
 signals:
     void addClip(const QString);

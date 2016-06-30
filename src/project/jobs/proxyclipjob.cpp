@@ -288,10 +288,12 @@ QHash <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, QList <P
             item->setJobStatus(AbstractClipJob::PROXYJOB, JobCrashed, -1, i18n("Failed to create proxy, empty path."));
             continue;
         }
+        // Reset proxy path until it is really created
+        item->setProducerProperty(QStringLiteral("kdenlive:proxy"), QString());
         if (QFileInfo(path).size() > 0) {
             // Proxy already created
             item->setJobStatus(AbstractClipJob::PROXYJOB, JobDone);
-            bin->gotProxy(id);
+            bin->gotProxy(id, path);
             continue;
         }
         QString sourcePath = item->url().toLocalFile();

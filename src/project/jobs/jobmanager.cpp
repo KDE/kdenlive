@@ -90,6 +90,7 @@ void JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
             m_jobList.at(i)->setStatus(JobAborted);
         }
     }
+    updateJobCount();
 }
 
 bool JobManager::hasPendingJob(const QString &clipId, AbstractClipJob::JOBTYPE type)
@@ -121,40 +122,47 @@ void JobManager::slotCheckJobProcess()
     m_jobMutex.lock();
     int count = 0;
     for (int i = 0; i < m_jobList.count(); ++i) {
-        if (m_jobList.at(i)->status() == JobWorking || m_jobList.at(i)->status() == JobWaiting)
+        if (m_jobList.at(i)->status() == JobWorking || m_jobList.at(i)->status() == JobWaiting) {
             count ++;
-        else {
+        } else {
             // remove finished jobs
             AbstractClipJob *job = m_jobList.takeAt(i);
             job->deleteLater();
             --i;
         }
     }
-    emit jobCount(count);
     m_jobMutex.unlock();
+    emit jobCount(count);
     if (m_jobThreads.futures().isEmpty() || m_jobThreads.futures().count() < KdenliveSettings::proxythreads()) m_jobThreads.addFuture(QtConcurrent::run(this, &JobManager::slotProcessJobs));
 }
 
+void JobManager::updateJobCount()
+{
+    int count = 0;
+    for (int i = 0; i < m_jobList.count(); ++i) {
+        if (m_jobList.at(i)->status() == JobWaiting || m_jobList.at(i)->status() == JobWorking)
+            count ++;
+    }
+    // Set jobs count
+    emit jobCount(count);
+}
 
 void JobManager::slotProcessJobs()
 {
     while (!m_jobList.isEmpty() && !m_abortAllJobs) {
         AbstractClipJob *job = NULL;
-        int count = 0;
         m_jobMutex.lock();
-        for (int i = 0; i < m_jobList.count(); ++i) {
+        int i = 0;
+        for (; i < m_jobList.count(); ++i) {
             if (m_jobList.at(i)->status() == JobWaiting) {
-                if (job == NULL) {
-                    m_jobList.at(i)->setStatus(JobWorking);
-                    job = m_jobList.at(i);
-                }
-                count++;
+                job = m_jobList.at(i);
+                job->setStatus(JobWorking);
+                break;
             }
-            else if (m_jobList.at(i)->status() == JobWorking)
-                count ++;
         }
-        // Set jobs count
-        emit jobCount(count);
+        if (i > 0) {
+            updateJobCount();
+        }
         m_jobMutex.unlock();
 
         if (job == NULL) {
@@ -163,7 +171,6 @@ void JobManager::slotProcessJobs()
         QString destination = job->destination();
         // Check if the clip is still here
         ProjectClip *currentClip = m_bin->getBinClip(job->clipId());
-        //ProjectItem *processingItem = getItemById(job->clipId());
         if (currentClip == NULL) {
             job->setStatus(JobDone);
             continue;
@@ -193,7 +200,7 @@ void JobManager::slotProcessJobs()
             emit updateJobStatus(job->clipId(), job->jobType, JobDone);
             //TODO: replace with more generic clip replacement framework
             if (job->jobType == AbstractClipJob::PROXYJOB) {
-                m_bin->gotProxy(job->clipId());
+                m_bin->gotProxy(job->clipId(), destination);
             }
             if (job->addClipToProject()) {
                 emit addClip(destination);
@@ -268,7 +275,9 @@ void JobManager::launchJob(ProjectClip *clip, AbstractClipJob *job, bool runQueu
 
     m_jobList.append(job);
     clip->setJobStatus(job->jobType, JobWaiting, 0, job->statusMessage());
-    if (runQueue) slotCheckJobProcess();
+    if (runQueue) {
+        slotCheckJobProcess();
+    }
 }
 
 void JobManager::slotDiscardClipJobs()
@@ -284,6 +293,18 @@ void JobManager::slotDiscardClipJobs()
     discardJobs(id);
 }
 
+void JobManager::slotCancelPendingJobs()
+{
+    QMutexLocker lock(&m_jobMutex);
+    for (int i = 0; i < m_jobList.count(); ++i) {
+        if (m_jobList.at(i)->status() == JobWaiting) {
+            // discard this job
+            m_jobList.at(i)->setStatus(JobAborted);
+        }
+    }
+    updateJobCount();
+}
+
 void JobManager::slotCancelJobs()
 {
     m_abortAllJobs = true;
@@ -292,7 +313,7 @@ void JobManager::slotCancelJobs()
     }
     m_jobThreads.waitForFinished();
     m_jobThreads.clearFutures();
-    
+
     //TODO: undo job cancelation ? not sure it's necessary
     /*QUndoCommand *command = new QUndoCommand();
     command->setText(i18np("Cancel job", "Cancel jobs", m_jobList.count()));

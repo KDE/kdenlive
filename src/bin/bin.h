@@ -426,7 +426,7 @@ public:
     const QString getDocumentProperty(const QString &key);
 
     /** @brief A proxy clip was just created, pass it to the responsible item  */
-    void gotProxy(const QString &id);
+    void gotProxy(const QString &id, const QString &path);
 
     /** @brief Get the document's renderer frame size  */
     const QSize getRenderSize();
@@ -693,6 +693,7 @@ private:
     QMenu *m_jobsMenu;
     QAction *m_cancelJobs;
     QAction *m_discardCurrentClipJobs;
+    QAction *m_discardPendingJobs;
     SmallJobLabel *m_infoLabel;
     /** @brief The info widget for failed jobs. */
     BinMessageWidget *m_infoMessage;

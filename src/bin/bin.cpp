@@ -444,8 +444,11 @@ Bin::Bin(QWidget* parent) :
     m_cancelJobs->setCheckable(false);
     m_discardCurrentClipJobs = new QAction(i18n("Cancel Current Clip Jobs"), this);
     m_discardCurrentClipJobs->setCheckable(false);
+    m_discardPendingJobs = new QAction(i18n("Cancel Pending Jobs"), this);
+    m_discardPendingJobs->setCheckable(false);
     m_jobsMenu->addAction(m_cancelJobs);
     m_jobsMenu->addAction(m_discardCurrentClipJobs);
+    m_jobsMenu->addAction(m_discardPendingJobs);
     m_infoLabel->setMenu(m_jobsMenu);
     m_infoLabel->setAction(infoAction);
 
@@ -977,6 +980,7 @@ void Bin::setDocument(KdenliveDoc* project)
     connect(m_jobManager, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
     connect(m_discardCurrentClipJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotDiscardClipJobs()));
     connect(m_cancelJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotCancelJobs()));
+    connect(m_discardPendingJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotCancelPendingJobs()));
     connect(m_jobManager, SIGNAL(updateJobStatus(QString,int,int,QString,QString,QString)), this, SLOT(slotUpdateJobStatus(QString,int,int,QString,QString,QString)));
 
     connect(m_jobManager, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
@@ -2092,11 +2096,12 @@ void Bin::slotShowJobLog()
     d.exec();
 }
 
-void Bin::gotProxy(const QString &id)
+void Bin::gotProxy(const QString &id, const QString &path)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
     if (clip) {
         QDomDocument doc;
+        clip->setProducerProperty(QStringLiteral("kdenlive:proxy"), path);
         QDomElement xml = clip->toXml(doc, true);
         if (!xml.isNull()) m_doc->getFileProperties(xml, id, 150, true);
     }
