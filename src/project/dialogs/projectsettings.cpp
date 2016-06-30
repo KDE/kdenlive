@@ -91,7 +91,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt());
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
-        m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
+        m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparams"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
         TemporaryData *cacheWidget = new TemporaryData(doc, true, this);
         connect(cacheWidget, SIGNAL(disableProxies()), this, SIGNAL(disableProxies()));
@@ -107,6 +107,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         generate_imageproxy->setChecked(KdenliveSettings::generateimageproxy());
         proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
         m_proxyextension = KdenliveSettings::proxyextension();
+        m_previewparams = KdenliveSettings::previewparams();
+        m_previewextension = KdenliveSettings::previewextension();
     }
 
     // Select profile

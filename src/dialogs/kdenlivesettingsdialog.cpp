@@ -282,7 +282,17 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
     act->setData(1);
     connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
-    m_configTimeline.tl_manageprofile->setDefaultAction(act);
+    m_configProject.preview_manageprofile->setDefaultAction(act);
+    connect(m_configProject.kcfg_preview_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatePreviewProfile()));
+    connect(m_configProject.preview_showprofileinfo, SIGNAL(clicked(bool)), m_configProject.previewparams, SLOT(setVisible(bool)));
+    m_configProject.previewparams->setVisible(false);
+    m_configProject.previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
+    m_configProject.previewparams->setPlainText(KdenliveSettings::previewparams());
+    m_configProject.preview_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
+    m_configProject.preview_showprofileinfo->setToolTip(i18n("Show default timeline preview parameters"));
+    m_configProject.preview_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    m_configProject.preview_manageprofile->setToolTip(i18n("Manage timeline preview profiles"));
+    m_configProject.kcfg_preview_profile->setToolTip(i18n("Select default timeline preview profile"));
 
     // Project profile management
     m_configProject.manage_profiles->setIcon(KoIconUtils::themedIcon("configure"));
@@ -296,7 +306,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configProject.proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
     m_configProject.kcfg_proxy_profile->setToolTip(i18n("Select default proxy profile"));
     m_configProject.proxyparams->setVisible(false);
-    m_configProject.proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
+    m_configProject.proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
     m_configProject.proxyparams->setPlainText(KdenliveSettings::proxyparams());
 
     act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
@@ -800,6 +810,13 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setProxyextension(data.section(';', 1, 1));
     }
 
+    // timeline preview
+    data = m_configProject.kcfg_preview_profile->itemData(m_configProject.kcfg_preview_profile->currentIndex()).toString();
+    if (!data.isEmpty() && (data.section(';', 0, 0) != KdenliveSettings::previewparams() || data.section(';', 1, 1) != KdenliveSettings::previewextension())) {
+        KdenliveSettings::setPreviewparams(data.section(';', 0, 0));
+        KdenliveSettings::setPreviewextension(data.section(';', 1, 1));
+    }
+
     if (updateCapturePath) emit updateCaptureFolder();
     if (updateLibrary) emit updateLibraryFolder();
 
@@ -1219,6 +1236,27 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     }
     m_configCapture.kcfg_decklink_profile->blockSignals(false);
     if (!currentItem.isEmpty()) m_configCapture.kcfg_decklink_profile->setCurrentIndex(m_configCapture.kcfg_decklink_profile->findText(currentItem));
+    
+    // Load Timeline Preview profiles
+    m_configProject.kcfg_preview_profile->blockSignals(true);
+    currentItem = m_configProject.kcfg_preview_profile->currentText();
+    m_configProject.kcfg_preview_profile->clear();
+    KConfigGroup group5(&conf, "timelinepreview");
+    values = group5.entryMap();
+    m_configProject.kcfg_preview_profile->addItem(i18n("Automatic"));
+    QMapIterator<QString, QString> l(values);
+    while (l.hasNext()) {
+        l.next();
+        if (!l.key().isEmpty()) m_configProject.kcfg_preview_profile->addItem(l.key(), l.value());
+    }
+    if (!currentItem.isEmpty()) m_configProject.kcfg_preview_profile->setCurrentIndex(m_configProject.kcfg_preview_profile->findText(currentItem));
+    m_configProject.kcfg_preview_profile->blockSignals(false);
+    QString data = m_configProject.kcfg_preview_profile->itemData(m_configProject.kcfg_preview_profile->currentIndex()).toString();
+    if (data.isEmpty()) {
+        m_configProject.previewparams->clear();
+    } else {
+        m_configProject.previewparams->setPlainText(data.section(';', 0, 0));
+    }
 
     // Load Proxy profiles
     m_configProject.kcfg_proxy_profile->blockSignals(true);
@@ -1226,14 +1264,19 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     m_configProject.kcfg_proxy_profile->clear();
     KConfigGroup group4(&conf, "proxy");
     values = group4.entryMap();
-    QMapIterator<QString, QString> l(values);
-    while (l.hasNext()) {
-        l.next();
-        if (!l.key().isEmpty()) m_configProject.kcfg_proxy_profile->addItem(l.key(), l.value());
+    QMapIterator<QString, QString> m(values);
+    while (m.hasNext()) {
+        m.next();
+        if (!m.key().isEmpty()) m_configProject.kcfg_proxy_profile->addItem(m.key(), m.value());
     }
     if (!currentItem.isEmpty()) m_configProject.kcfg_proxy_profile->setCurrentIndex(m_configProject.kcfg_proxy_profile->findText(currentItem));
     m_configProject.kcfg_proxy_profile->blockSignals(false);
-    slotUpdateProxyProfile();
+    data = m_configProject.kcfg_proxy_profile->itemData(m_configProject.kcfg_proxy_profile->currentIndex()).toString();
+    if (data.isEmpty()) {
+        m_configProject.proxyparams->clear();
+    } else {
+        m_configProject.proxyparams->setPlainText(data.section(';', 0, 0));
+    }
 }
 
 void KdenliveSettingsDialog::slotUpdateDecklinkProfile(int ix)
@@ -1268,11 +1311,20 @@ void KdenliveSettingsDialog::slotUpdateGrabProfile(int ix)
 
 void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
 {
-    if (ix == -1) ix = KdenliveSettings::v4l_profile();
+    if (ix == -1) ix = KdenliveSettings::proxy_profile();
     else ix = m_configProject.kcfg_proxy_profile->currentIndex();
     QString data = m_configProject.kcfg_proxy_profile->itemData(ix).toString();
     if (data.isEmpty()) return;
     m_configProject.proxyparams->setPlainText(data.section(';', 0, 0));
+}
+
+void KdenliveSettingsDialog::slotUpdatePreviewProfile(int ix)
+{
+    if (ix == -1) ix = KdenliveSettings::preview_profile();
+    else ix = m_configProject.kcfg_preview_profile->currentIndex();
+    QString data = m_configProject.kcfg_preview_profile->itemData(ix).toString();
+    if (data.isEmpty()) return;
+    m_configProject.previewparams->setPlainText(data.section(';', 0, 0));
 }
 
 void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()

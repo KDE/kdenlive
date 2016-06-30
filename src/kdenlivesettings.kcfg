@@ -156,6 +156,20 @@
       <default></default>
     </entry>
 
+    <entry name="previewextension" type="String">
+      <label>File extension for timeline preview.</label>
+      <default></default>
+    </entry>
+    
+    <entry name="preview_profile" type="UInt">
+      <label>default preview encoding profile.</label>
+      <default>0</default>
+    </entry>
+    
+    <entry name="previewparams" type="String">
+      <label>Timeline preview encoding parameters.</label>
+      <default></default>
+    </entry>
   </group>
 
   <group name="timeline">

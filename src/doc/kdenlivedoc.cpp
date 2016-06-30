@@ -130,6 +130,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_documentProperties[QStringLiteral("enableproxy")] = QString::number((int) KdenliveSettings::enableproxy());
     m_documentProperties[QStringLiteral("proxyparams")] = KdenliveSettings::proxyparams();
     m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();
+    m_documentProperties[QStringLiteral("previewparams")] = KdenliveSettings::previewparams();
+    m_documentProperties[QStringLiteral("previewextension")] = KdenliveSettings::previewextension();
     m_documentProperties[QStringLiteral("generateproxy")] = QString::number((int) KdenliveSettings::generateproxy());
     m_documentProperties[QStringLiteral("proxyminsize")] = QString::number(KdenliveSettings::proxyminsize());
     m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number((int) KdenliveSettings::generateimageproxy());
@@ -1539,6 +1541,11 @@ void KdenliveDoc::displayMessage(const QString text, MessageType type, int timeO
 void KdenliveDoc::selectPreviewProfile()
 {
     // Read preview profiles and find the best match
+    if (!KdenliveSettings::previewparams().isEmpty()) {
+        setDocumentProperty(QStringLiteral("previewparameters"), KdenliveSettings::previewparams());
+        setDocumentProperty(QStringLiteral("previewextension"), KdenliveSettings::previewextension());
+        return;
+    }
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
     KConfigGroup group(&conf, "timelinepreview");
     QMap< QString, QString > values = group.entryMap();
