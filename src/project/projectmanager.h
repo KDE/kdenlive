@@ -60,6 +60,8 @@ public:
     bool hasSelection() const;
     /** @brief Returns current project's xml scene */
     QString projectSceneList();
+    /** @brief returns a default hd profile depending on timezone*/
+    static QString getDefaultProjectFormat();
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);

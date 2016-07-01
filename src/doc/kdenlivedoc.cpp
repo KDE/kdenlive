@@ -1459,6 +1459,10 @@ void KdenliveDoc::slotSwitchProfile()
     QString id = data.takeFirst().toString();
     if (!data.isEmpty()) {
         // we want a profile switch
+        if (id.startsWith(QStringLiteral("#"))) {
+                // We want to use as default profile
+                KdenliveSettings::setDefault_profile(id.remove(0,1));
+        }
         m_profile = MltVideoProfile(data);
         updateProjectProfile(true);
         emit docModified(true);
@@ -1492,6 +1496,15 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         params2 << id;
         ac2->setData(params2);
         connect(ac2, SIGNAL(triggered(bool)), this, SLOT(slotSwitchProfile()));
+        if (KdenliveSettings::default_profile().isEmpty()) {
+            // Default project format not yet confirmed, propose
+            QAction *ac3 = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch and use as default"), this);
+            QVariantList params3;
+            params3 << QString("#%1").arg(profile.path) << profile.toList();
+            ac3->setData(params3);
+            connect(ac3, SIGNAL(triggered(bool)), this, SLOT(slotSwitchProfile()));
+            list << ac3;
+        }
         list << ac << ac2;
         pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile.descriptiveString()), KMessageWidget::Information, list);
     } else {

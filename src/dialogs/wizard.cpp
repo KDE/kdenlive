@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -57,7 +57,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     QWizard(parent),
     m_systemCheckIsOk(false),
     m_brokenModule(false)
-{
+{    
     setWindowTitle(i18n("Config Wizard"));
     setPixmap(QWizard::WatermarkPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("banner.png"))));
 

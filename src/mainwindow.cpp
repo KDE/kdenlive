@@ -221,8 +221,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     new RenderingAdaptor(this);
     pCore->initialize();
     MltConnection::locateMeltAndProfilesPath(MltPath);
-
-    KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
+    QString defaultProfile = KdenliveSettings::default_profile();
+    KdenliveSettings::setCurrent_profile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
 
     // If using a custom profile, make sure the file exists or fallback to default
     if (KdenliveSettings::current_profile().startsWith(QStringLiteral("/")) && !QFile::exists(KdenliveSettings::current_profile())) {

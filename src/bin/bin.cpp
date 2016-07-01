@@ -3361,7 +3361,7 @@ bool Bin::addClip(QDomElement elem, const QString &clipId)
 {
     const QString producerId = clipId.section('_', 0, 0);
     elem.setAttribute(QStringLiteral("id"), producerId);
-    if (KdenliveSettings::checkfirstprojectclip() && isEmpty()) {
+    if ((KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && isEmpty()) {
         elem.setAttribute("checkProfile", 1);
     }
     createClip(elem);

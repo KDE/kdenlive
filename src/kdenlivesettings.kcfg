@@ -36,7 +36,7 @@
 
     <entry name="checkfirstprojectclip" type="Bool">
       <label>Check if document profile is same as first imported clip.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
 
     <entry name="usekuiserver" type="Bool">
@@ -651,11 +651,11 @@
     </entry>
     <entry name="default_profile" type="String">
       <label>Default project format.</label>
-      <default>atsc_1080p_25</default>
+      <default></default>
     </entry>
     <entry name="current_profile" type="String">
       <label>active project format.</label>
-      <default>atsc_1080p_25</default>
+      <default></default>
     </entry>
 
     <entry name="showdescriptioncolumn" type="Bool">

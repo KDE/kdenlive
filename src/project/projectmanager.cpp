@@ -38,6 +38,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDebug>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QTimeZone>
+#include <QLocale>
 #include <KConfigGroup>
 
 ProjectManager::ProjectManager(QObject* parent) :
@@ -125,6 +127,9 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     }
     m_fileRevert->setEnabled(false);
     QString profileName = KdenliveSettings::default_profile();
+    if (profileName.isEmpty()) {
+            profileName = KdenliveSettings::current_profile();
+    }
     QUrl projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
     QMap <QString, QString> documentProperties;
     QMap <QString, QString> documentMetadata;
@@ -499,7 +504,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog->show();
     bool openBackup;
     m_notesPlugin->clear();
-    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
+    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -738,5 +743,19 @@ void ProjectManager::slotSwitchAllTrackLock()
 void ProjectManager::slotSwitchTrackTarget()
 {
     m_trackView->switchTrackTarget();
+}
+
+QString ProjectManager::getDefaultProjectFormat()
+{
+    // On first run, lets use an HD1080p profile with fps related to timezone country. Then, when the first video is added to a project, if it does not match our profile, propose a new default.
+    QTimeZone zone = QTimeZone::systemTimeZone();
+    QList <int> ntscCountries;
+    ntscCountries << QLocale::Canada << QLocale::Chile << QLocale::CostaRica << QLocale::Cuba << QLocale::DominicanRepublic << QLocale::Ecuador;
+    ntscCountries  << QLocale::Japan << QLocale::Mexico << QLocale::Nicaragua << QLocale::Panama << QLocale::Peru << QLocale::Philippines;
+    ntscCountries  << QLocale::PuertoRico << QLocale::SouthKorea << QLocale::Taiwan << QLocale::UnitedStates;
+    bool ntscProject = ntscCountries.contains(zone.country());
+    if (!ntscProject)
+            return QStringLiteral("atsc_1080p_25");
+    return QStringLiteral("atsc_1080p_2997");
 }
 

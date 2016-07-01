@@ -311,6 +311,9 @@ void ProducerQueue::processFileProperties()
                         //m_processingClipId.removeAll(info.clipId);
                         info.xml.removeAttribute("checkProfile");
                         emit switchProfile(clipProfile, info.clipId, info.xml);
+                    } else if (KdenliveSettings::default_profile().isEmpty()) {
+                        // Confirm default project format
+                        KdenliveSettings::setDefault_profile(KdenliveSettings::current_profile());
                     }
                 }
             }
