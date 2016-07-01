@@ -1516,6 +1516,17 @@ void MainWindow::readOptions()
     }
     KConfigGroup initialGroup(config, "version");
     if (!initialGroup.exists() || KdenliveSettings::ffmpegpath().isEmpty() || KdenliveSettings::ffplaypath().isEmpty()) {
+        // First run, check if user is on a KDE Desktop
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP"))) {
+                if (env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() != QLatin1String("kde")) {
+                        // We are not on a KDE desktop, force breeze icon theme
+                        KdenliveSettings::setForce_breeze(true);
+                        qDebug()<<"Non KDE Desktop detected, forcing Breeze icon theme";
+                } else {
+                         qDebug()<<"KDE Desktop detected, using system icons";
+                }
+        }
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(false, this);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
