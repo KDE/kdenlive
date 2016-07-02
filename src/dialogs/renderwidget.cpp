@@ -30,6 +30,8 @@
 #include <KRun>
 #include <KColorScheme>
 #include <KNotification>
+#include <KMimeTypeTrader>
+#include <KIO/DesktopExecParser>
 
 #include <qglobal.h>
 #include <qstring.h>
@@ -45,6 +47,7 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include <QStandardPaths>
+#include <QMimeDatabase>
 #include <QDir>
 
 #include <locale>
@@ -934,9 +937,6 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
         KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
         return;
     }
-    if (m_view.play_after->isChecked() && KdenliveSettings::defaultplayerapp().isEmpty()) {
-        KMessageBox::sorry(this, i18n("Cannot play video after rendering because the default video player application is not set.\nPlease define it in Kdenlive settings dialog."));
-    }
     QString chapterFile;
     if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().path() + ".dvdchapter";
 
@@ -1121,10 +1121,14 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             render_process_args << KdenliveSettings::rendererpath();
 
         render_process_args << m_profile.path << item->data(0, RenderRole).toString();
-        if (m_view.play_after->isChecked())
-            render_process_args << KdenliveSettings::KdenliveSettings::defaultplayerapp();
-        else
-            render_process_args << QStringLiteral("-");
+        if (m_view.play_after->isChecked()) {
+            QMimeDatabase db;
+            QMimeType mime = db.mimeTypeForFile(dest);
+            KService::Ptr serv =  KMimeTypeTrader::self()->preferredService(mime.name());
+            KIO::DesktopExecParser parser(*serv, QList <QUrl>() << QUrl::fromLocalFile(dest));
+            render_process_args << parser.resultingArguments().join(QStringLiteral(" "));
+        }
+        else render_process_args << QString();
 
         if (m_view.speed->isEnabled()) {
             renderArgs.append(QChar(' ') + item->data(0, SpeedsRole).toStringList().at(m_view.speed->value()));
@@ -2385,10 +2389,8 @@ QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &
 void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
 {
     RenderJobItem *renderItem = static_cast<RenderJobItem*> (item);
-    if (KdenliveSettings::defaultplayerapp().isEmpty() || renderItem->status() != FINISHEDJOB) return;
-    QList<QUrl> urls;
-    urls.append(QUrl::fromLocalFile(item->text(1)));
-    KRun::run(KdenliveSettings::defaultplayerapp(), urls, this);
+    if (renderItem->status() != FINISHEDJOB) return;
+    new KRun(QUrl::fromLocalFile(item->text(1)), this);
 }
 
 void RenderWidget::errorMessage(const QString &message)

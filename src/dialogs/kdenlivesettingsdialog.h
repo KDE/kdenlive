@@ -55,7 +55,6 @@ private slots:
     void slotUpdateShuttleDevice(int ix = 0);
     void slotEditImageApplication();
     void slotEditAudioApplication();
-    void slotEditVideoApplication();
     void slotReadAudioDevices();
     void slotUpdateGrabRegionStatus();
     void slotCheckAlsaDriver();

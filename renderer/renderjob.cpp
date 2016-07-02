@@ -282,8 +282,11 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);
         }
         m_logstream << "Rendering of " << m_dest << " finished" << endl;
-        if (!m_dualpass && m_player != QLatin1String("-"))
-            QProcess::startDetached(m_player, QStringList(m_dest));
+        if (!m_dualpass && !m_player.isEmpty()) {
+            QStringList args = m_player.split(QLatin1Char(' '));
+            QString exec = args.takeFirst();
+            QProcess::startDetached(exec, args);
+        }
         if (m_dualpass) {
             emit renderingFinished();
             deleteLater();

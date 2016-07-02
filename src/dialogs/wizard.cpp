@@ -578,12 +578,6 @@ void Wizard::slotCheckPrograms()
         if (program.isEmpty()) program = QStandardPaths::findExecutable(QStringLiteral("traverso"));
         if (!program.isEmpty()) KdenliveSettings::setDefaultaudioapp(program);
     }
-    if (KdenliveSettings::defaultplayerapp().isEmpty()) {
-        //TODO: re-add in KF5
-        /*KService::Ptr offer = KMimeTypeTrader::self()->preferredService("video/mpeg");
-        if (offer)
-            KdenliveSettings::setDefaultplayerapp(KRun::binaryName(offer->exec(), true));*/
-    }
     if (allIsOk) {
         removePage(4);
     }

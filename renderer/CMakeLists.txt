@@ -8,12 +8,6 @@ set(kdenlive_render_SRCS
 
 add_executable(kdenlive_render ${kdenlive_render_SRCS})
 
-include_directories(
-  
-)
-
-#include(${QT_USE_FILE})
-
 qt5_use_modules(kdenlive_render Widgets Concurrent DBus)
 
 target_link_libraries(kdenlive_render

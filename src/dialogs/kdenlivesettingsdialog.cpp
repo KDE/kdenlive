@@ -216,7 +216,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     connect(m_configEnv.kp_image, SIGNAL(clicked()), this, SLOT(slotEditImageApplication()));
     connect(m_configEnv.kp_audio, SIGNAL(clicked()), this, SLOT(slotEditAudioApplication()));
-    connect(m_configEnv.kp_player, SIGNAL(clicked()), this, SLOT(slotEditVideoApplication()));
 
     loadEncodingProfiles();
     checkProfile();
@@ -617,18 +616,6 @@ void KdenliveSettingsDialog::showPage(int page, int option)
     default:
         setCurrentPage(m_page1);
     }
-}
-
-void KdenliveSettingsDialog::slotEditVideoApplication()
-{
-    KService::Ptr service;
-    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
-    if (dlg->exec() == QDialog::Accepted) {
-        service = dlg->service();
-        m_configEnv.kcfg_defaultplayerapp->setText(KRun::binaryName(service->exec(), false));
-    }
-
-    delete dlg;
 }
 
 void KdenliveSettingsDialog::slotEditAudioApplication()

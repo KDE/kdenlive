@@ -251,8 +251,8 @@ target_link_libraries(kdenlive
    KF5::WidgetsAddons
    KF5::Archive
    KF5::CoreAddons
-   KF5::KIOCore 
-   KF5::KIOFileWidgets 
+   KF5::KIOCore
+   KF5::KIOFileWidgets
    KF5::KIOWidgets
    KF5::NotifyConfig
    KF5::NewStuff
