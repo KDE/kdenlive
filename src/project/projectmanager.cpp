@@ -748,7 +748,13 @@ void ProjectManager::slotSwitchTrackTarget()
 QString ProjectManager::getDefaultProjectFormat()
 {
     // On first run, lets use an HD1080p profile with fps related to timezone country. Then, when the first video is added to a project, if it does not match our profile, propose a new default.
-    QTimeZone zone = QTimeZone::systemTimeZone();
+    QTimeZone zone;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    zone = QTimeZone::systemTimeZone();
+#else
+    zone = QTimeZone(QTimeZone::systemTimeZoneId());
+#endif
+
     QList <int> ntscCountries;
     ntscCountries << QLocale::Canada << QLocale::Chile << QLocale::CostaRica << QLocale::Cuba << QLocale::DominicanRepublic << QLocale::Ecuador;
     ntscCountries  << QLocale::Japan << QLocale::Mexico << QLocale::Nicaragua << QLocale::Panama << QLocale::Peru << QLocale::Philippines;
