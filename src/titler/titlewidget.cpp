@@ -439,6 +439,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_frameBorder->setZValue(1000);
     m_frameBorder->setBrush(Qt::transparent);
     m_frameBorder->setFlags(0);
+    m_frameBorder->setData(-1, -1);
     graphicsView->scene()->addItem(m_frameBorder);
 
     // semi transparent safe zones
@@ -447,10 +448,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     safe1->setBrush(Qt::transparent);
     safe1->setPen(framepen);
     safe1->setFlags(0);
+    safe1->setData(-1, -1);
     QGraphicsRectItem *safe2 = new QGraphicsRectItem(QRectF(m_frameWidth * 0.1, m_frameHeight * 0.1, m_frameWidth * 0.8, m_frameHeight * 0.8), m_frameBorder);
     safe2->setBrush(Qt::transparent);
     safe2->setPen(framepen);
     safe2->setFlags(0);
+    safe2->setData(-1, -1);
 
     m_frameBackground = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     m_frameBackground->setZValue(-1100);
@@ -2071,6 +2074,8 @@ void TitleWidget::slotAnimStart(bool anim)
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->zValue() > -1000) {
+            if (!list.at(i)->data(-1).isNull())
+                continue;
             list.at(i)->setFlag(QGraphicsItem::ItemIsMovable, !anim);
             list.at(i)->setFlag(QGraphicsItem::ItemIsSelectable, !anim);
         }
@@ -2113,6 +2118,8 @@ void TitleWidget::slotAnimEnd(bool anim)
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->zValue() > -1000) {
+            if (!list.at(i)->data(-1).isNull())
+                continue;
             list.at(i)->setFlag(QGraphicsItem::ItemIsMovable, !anim);
             list.at(i)->setFlag(QGraphicsItem::ItemIsSelectable, !anim);
         }
@@ -2146,8 +2153,8 @@ void TitleWidget::slotAnimEnd(bool anim)
 void TitleWidget::addAnimInfoText()
 {
     // add text to anim viewport
-    MyTextItem *t = new MyTextItem(i18nc("Indicates the start of an animation", "Start"), m_startViewport);
-    MyTextItem *t2 = new MyTextItem(i18nc("Indicates the end of an animation", "End"), m_endViewport);
+    QGraphicsTextItem *t = new QGraphicsTextItem(i18nc("Indicates the start of an animation", "Start"), m_startViewport);
+    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18nc("Indicates the end of an animation", "End"), m_endViewport);
     QFont font = t->font();
     font.setPixelSize(m_startViewport->rect().width() / 10);
     QColor col = m_startViewport->pen().color();
