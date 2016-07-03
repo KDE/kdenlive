@@ -267,7 +267,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     setCentralWidget(m_timelineToolBarContainer);
     setupActions();
 
-    m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     QDockWidget * libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
@@ -317,6 +316,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     libraryDock->close();
     spectrumDock->close();
 
+    m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     m_effectStack = new EffectStackView2(m_projectMonitor, this);
     connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), pCore->bin(), SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
     connect(pCore->bin(), SIGNAL(masterClipSelected(ClipController *, Monitor *)), m_effectStack, SLOT(slotMasterClipItemSelected(ClipController *, Monitor *)));
@@ -364,16 +364,15 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 
 
-    /// Tabify Widgets ///
+    /// Tabify Widgets
     tabifyDockWidget(m_transitionListDock, m_effectListDock);
-    tabifyDockWidget(pCore->bin()->clipPropertiesDock(), m_effectStackDock);
+    tabifyDockWidget(m_effectStackDock, pCore->bin()->clipPropertiesDock());
     //tabifyDockWidget(m_effectListDock, m_effectStackDock);
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
     if (m_recMonitor) {
         tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
     }
-
     readOptions();
 
     QAction *action;

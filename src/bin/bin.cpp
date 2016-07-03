@@ -2003,6 +2003,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_menu = new QMenu();
     m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), "clip_properties", m_propertiesPanel);
     connect(m_propertiesDock->toggleViewAction(), &QAction::toggled, m_editAction, &QAction::setChecked);
+    m_propertiesDock->close();
     //m_menu->addActions(addMenu->actions());
 }
 
