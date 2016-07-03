@@ -74,15 +74,14 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     m_brokenModule(false)
 {    
     setWindowTitle(i18n("Welcome to Kdenlive"));
-    m_itemSize = QSize(20, fontMetrics().height() * 2.5);
-    //setPixmap(QWizard::LogoPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("banner.png"))).scaled(40, 40));
+    int logoHeight = fontMetrics().height() * 2.5;
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnLastPage, true);
     //setOption(QWizard::ExtendedWatermarkPixmap, false);
     m_page = new MyWizardPage(this);
     m_page->setTitle(i18n("Welcome to Kdenlive %1", QString(kdenlive_version)));
     m_page->setSubTitle(i18n("Using MLT %1", mlt_version_get_string()));
-    setPixmap(QWizard::LogoPixmap, KoIconUtils::themedIcon("kdenlive").pixmap(m_itemSize.height(), m_itemSize.height()));
+    setPixmap(QWizard::LogoPixmap, KoIconUtils::themedIcon("kdenlive").pixmap(logoHeight, logoHeight));
     m_startLayout = new QVBoxLayout;
     m_errorWidget = new KMessageWidget(this);
     m_startLayout->addWidget(m_errorWidget);

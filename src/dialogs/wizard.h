@@ -77,7 +77,6 @@ private:
     void slotCheckPrograms();
     void checkMltComponents();
     void checkMissingCodecs();
-    QSize m_itemSize;
 
 private slots:
     void slotCheckStandard();
