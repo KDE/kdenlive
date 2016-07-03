@@ -114,7 +114,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
-
+    m_configCapture.tabWidget->removeTab(0);
+    m_configCapture.tabWidget->removeTab(2);
 #ifdef USE_V4L
 
     // Video 4 Linux device detection

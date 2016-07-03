@@ -24,6 +24,7 @@
 #include <QWizard>
 #include <QVBoxLayout>
 #include <QItemDelegate>
+#include <QWizardPage>
 #include <QPainter>
 
 #include <QIcon>
@@ -35,48 +36,22 @@
 #include "ui_wizardmltcheck_ui.h"
 #include "ui_wizardcapture_ui.h"
 
-class WizardDelegate: public QItemDelegate
+class KMessageWidget;
+
+class MyWizardPage : public QWizardPage
 {
 public:
-    explicit WizardDelegate(QAbstractItemView* parent = 0)
-        : QItemDelegate(parent)
-    {
-    }
-    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
-        if (index.column() == 1) {
-            painter->save();
-            QStyleOptionViewItemV4 opt(option);
-            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
-            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
-
-            QFont font = painter->font();
-            font.setBold(true);
-            painter->setFont(font);
-            QRect r1 = option.rect;
-            r1.adjust(0, textMargin, 0, - textMargin);
-            int mid = (int)((r1.height() / 2));
-            r1.setBottom(r1.y() + mid);
-            QRect r2 = option.rect;
-            r2.setTop(r2.y() + mid);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
-            font.setBold(false);
-            painter->setFont(font);
-            QString subText = index.data(Qt::UserRole).toString();
-            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
-            painter->restore();
-        } else {
-            QItemDelegate::paint(painter, option, index);
-        }
-    }
+    explicit MyWizardPage(QWidget *parent = Q_NULLPTR);
+    void setComplete(bool complete);
+    bool isComplete() const;
+    bool m_isComplete;
 };
-
 
 class Wizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit Wizard(bool upgrade, QWidget * parent = 0);
+    explicit Wizard(bool autoClose, QWidget * parent = 0);
     void installExtraMimes(const QString &baseName, const QStringList &globs);
     void runUpdateMimeDatabase();
     void adjustSettings();
@@ -89,17 +64,20 @@ private:
     Ui::WizardCapture_UI m_capture;
     Ui::WizardCheck_UI m_check;
     QVBoxLayout *m_startLayout;
+    MyWizardPage *m_page;
+    KMessageWidget *m_errorWidget;
     bool m_systemCheckIsOk;
     bool m_brokenModule;
-    QLabel *m_welcomeLabel;
+    QString m_errors;
+    QString m_warnings;
+    QString m_infos;
     QMap <QString, QString> m_dvProfiles;
     QMap <QString, QString> m_hdvProfiles;
     QMap <QString, QString> m_otherProfiles;
     void slotCheckPrograms();
     void checkMltComponents();
     void checkMissingCodecs();
-    QIcon m_okIcon;
-    QIcon m_badIcon;
+    QSize m_itemSize;
 
 private slots:
     void slotCheckStandard();

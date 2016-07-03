@@ -179,7 +179,6 @@ void ThemeManager::populateThemeMenu()
             schemeFiles << directory.absoluteFilePath(fname);
         }
     }
-
     QMap<QString, QAction*> actionMap;
 
     for (int i = 0; i < schemeFiles.size(); ++i)
@@ -187,10 +186,10 @@ void ThemeManager::populateThemeMenu()
         const QString filename  = schemeFiles.at(i);
         const QFileInfo info(filename);
         KSharedConfigPtr config = KSharedConfig::openConfig(filename);
-        QIcon icon              = createSchemePreviewIcon(config);
+        QIcon icon = createSchemePreviewIcon(config);
         KConfigGroup group(config, "General");
-        const QString name      = group.readEntry("Name", info.baseName());
-        QAction* ac       = new QAction(name, d->themeMenuActionGroup);
+        const QString name = group.readEntry("Name", info.baseName());
+        QAction* ac = new QAction(name, d->themeMenuActionGroup);
         d->themeMap.insert(name, filename);
         ac->setIcon(icon);
         ac->setCheckable(true);

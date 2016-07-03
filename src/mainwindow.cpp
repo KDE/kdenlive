@@ -790,7 +790,7 @@ void MainWindow::saveProperties(KConfigGroup &config)
     // save properties here
     KXmlGuiWindow::saveProperties(config);
     //TODO: fix session management
-    if (qApp->isSavingSession()) {
+    if (qApp->isSavingSession() && pCore->projectManager()) {
 	if (pCore->projectManager()->current() && !pCore->projectManager()->current()->url().isEmpty()) {
 	    config.writeEntry("kdenlive_lastUrl", pCore->projectManager()->current()->url().path());
 	}
@@ -1515,7 +1515,7 @@ void MainWindow::readOptions()
         KdenliveSettings::setTrackheight(50);
     }
     KConfigGroup initialGroup(config, "version");
-    if (!initialGroup.exists() || KdenliveSettings::ffmpegpath().isEmpty() || KdenliveSettings::ffplaypath().isEmpty()) {
+    if (!initialGroup.exists()) {
         // First run, check if user is on a KDE Desktop
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP"))) {
@@ -1528,7 +1528,7 @@ void MainWindow::readOptions()
                 }
         }
         // this is our first run, show Wizard
-        QPointer<Wizard> w = new Wizard(false, this);
+        QPointer<Wizard> w = new Wizard(true);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
             delete w;

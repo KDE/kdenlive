@@ -19,7 +19,7 @@
 
 #include "wizard.h"
 #include "profilesdialog.h"
-
+#include "utils/KoIconUtils.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
 #ifdef USE_V4L
@@ -53,47 +53,108 @@ const int mltVersionRevision = MLT_MIN_PATCH_VERSION;
 
 static const char kdenlive_version[] = KDENLIVE_VERSION;
 
-Wizard::Wizard(bool upgrade, QWidget *parent) :
+
+MyWizardPage::MyWizardPage(QWidget *parent) : QWizardPage(parent)
+    , m_isComplete(false)
+{}
+
+void MyWizardPage::setComplete(bool complete)
+{
+    m_isComplete = complete;
+}
+
+bool MyWizardPage::isComplete() const
+{
+    return m_isComplete;
+}
+
+Wizard::Wizard(bool autoClose, QWidget *parent) :
     QWizard(parent),
     m_systemCheckIsOk(false),
     m_brokenModule(false)
 {    
-    setWindowTitle(i18n("Config Wizard"));
-    setPixmap(QWizard::WatermarkPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("banner.png"))));
-
-    QWizardPage *page1 = new QWizardPage;
-    page1->setTitle(i18n("Welcome"));
-    if (upgrade)
-        m_welcomeLabel = new QLabel(i18n("Your Kdenlive version was upgraded to version %1. Please take some time to review the basic settings", QString(kdenlive_version).section(' ', 0, 0)), this);
-    else
-        m_welcomeLabel = new QLabel(i18n("This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."), this);
-    m_welcomeLabel->setWordWrap(true);
+    setWindowTitle(i18n("Welcome to Kdenlive"));
+    m_itemSize = QSize(20, fontMetrics().height() * 2.5);
+    //setPixmap(QWizard::LogoPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("banner.png"))).scaled(40, 40));
+    setWizardStyle(QWizard::ModernStyle);
+    setOption(QWizard::NoBackButtonOnLastPage, true);
+    //setOption(QWizard::ExtendedWatermarkPixmap, false);
+    m_page = new MyWizardPage(this);
+    m_page->setTitle(i18n("Welcome to Kdenlive %1", QString(kdenlive_version)));
+    m_page->setSubTitle(i18n("Using MLT %1", mlt_version_get_string()));
+    setPixmap(QWizard::LogoPixmap, KoIconUtils::themedIcon("kdenlive").pixmap(m_itemSize.height(), m_itemSize.height()));
     m_startLayout = new QVBoxLayout;
-    m_startLayout->addWidget(m_welcomeLabel);
-    QPushButton *but = new QPushButton(QIcon::fromTheme(QStringLiteral("help-about")), i18n("Discover the features of this Kdenlive release"), this);
-    connect(but, &QPushButton::clicked, this, &Wizard::slotShowWebInfos);
-    m_startLayout->addStretch();
-    m_startLayout->addWidget(but);
-    page1->setLayout(m_startLayout);
-    setPage(0, page1);
+    m_errorWidget = new KMessageWidget(this);
+    m_startLayout->addWidget(m_errorWidget);
+    m_errorWidget->setCloseButtonVisible(false);
+    m_errorWidget->hide();
+    m_page->setLayout(m_startLayout);
+    addPage(m_page);
 
-    QWizardPage *page4 = new QWizardPage;
-    page4->setTitle(i18n("Checking MLT engine"));
-    m_mltCheck.setupUi(page4);
-    setPage(1, page4);
-
-    WizardDelegate *listViewDelegate = new WizardDelegate(m_mltCheck.programList);
-    m_mltCheck.programList->setItemDelegate(listViewDelegate);
-
-    QWizardPage *page2 = new QWizardPage;
+    /*QWizardPage *page2 = new QWizardPage;
     page2->setTitle(i18n("Video Standard"));
-    m_standard.setupUi(page2);
+    m_standard.setupUi(page2);*/
+    setButtonText(QWizard::CancelButton, i18n("Abort"));
+    setButtonText(QWizard::FinishButton, i18n("Ok"));
 
-    m_okIcon = QIcon::fromTheme(QStringLiteral("dialog-ok"));
-    m_badIcon = QIcon::fromTheme(QStringLiteral("dialog-close"));
-
+    slotCheckMlt();
+    m_startLayout->addStretch();
+    if (!m_errors.isEmpty() || !m_warnings.isEmpty() || !m_infos.isEmpty()) {
+        QLabel *lab = new QLabel(this);
+        lab->setText(i18n("Startup error or warning, check our <a href='#'>online manual</a>."));
+        connect(lab, &QLabel::linkActivated, this, &Wizard::slotOpenManual);
+        m_startLayout->addWidget(lab);
+    } else {
+        // Everything is ok, auto close the wizard
+        m_page->setComplete(true);
+        if (autoClose) {
+            QTimer::singleShot(0, this, SLOT(accept()));
+            return;
+        } else {
+            KMessageWidget *lab = new KMessageWidget(this);
+            lab->setText(i18n("Codecs have been updated, everything seems fine."));
+            lab->setMessageType(KMessageWidget::Positive);
+            lab->setCloseButtonVisible(false);
+            m_startLayout->addWidget(lab);
+            setOption(QWizard::NoCancelButton, true);
+            return;
+        }
+    }
+    if (!m_errors.isEmpty()) {
+        KMessageWidget *errorLabel = new KMessageWidget(this);
+        errorLabel->setText("<ul>" + m_errors + "</ul>");
+        errorLabel->setMessageType(KMessageWidget::Error);
+        errorLabel->setCloseButtonVisible(false);
+        m_startLayout->addWidget(errorLabel);
+        m_page->setComplete(false);
+        errorLabel->show();
+        if (!autoClose) {
+            setButtonText(QWizard::CancelButton, i18n("Close"));
+        }
+    } else {
+        m_page->setComplete(true);
+        if (!autoClose) {
+            setOption(QWizard::NoCancelButton, true);
+        }
+    }
+    if (!m_warnings.isEmpty()) {
+        KMessageWidget *errorLabel = new KMessageWidget(this);
+        errorLabel->setText("<ul>" + m_warnings + "</ul>");
+        errorLabel->setMessageType(KMessageWidget::Warning);
+        errorLabel->setCloseButtonVisible(false);
+        m_startLayout->addWidget(errorLabel);
+        errorLabel->show();
+    }
+    if (!m_infos.isEmpty()) {
+        KMessageWidget *errorLabel = new KMessageWidget(this);
+        errorLabel->setText("<ul>" + m_infos + "</ul>");
+        errorLabel->setMessageType(KMessageWidget::Information);
+        errorLabel->setCloseButtonVisible(false);
+        m_startLayout->addWidget(errorLabel);
+        errorLabel->show();
+    }
     // build profiles lists
-    QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    /*QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMap<QString, QString>::const_iterator i = profilesInfo.constBegin();
     while (i != profilesInfo.constEnd()) {
         QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.key());
@@ -123,7 +184,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
 
     setPage(2, page2);
 
-    /*QWizardPage *page3 = new QWizardPage;
+    QWizardPage *page3 = new QWizardPage;
     page3->setTitle(i18n("Additional Settings"));
     m_extra.setupUi(page3);
     m_extra.projectfolder->setMode(KFile::Directory);
@@ -137,7 +198,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     addPage(page3);*/
 
 #ifndef Q_WS_MAC
-    QWizardPage *page6 = new QWizardPage;
+    /*QWizardPage *page6 = new QWizardPage;
     page6->setTitle(i18n("Capture device"));
     m_capture.setupUi(page6);
     bool found_decklink = Render::getBlackMagicDeviceList(m_capture.decklink_devices);
@@ -148,20 +209,15 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
     connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
     connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
-    m_capture.button_reload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
+    m_capture.button_reload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));*/
 
-    setPage(3, page6);
 #endif
 
-    QWizardPage *page5 = new QWizardPage;
-    page5->setTitle(i18n("Checking system"));
-    m_check.setupUi(page5);
-    setPage(4, page5);
 
-    listViewDelegate = new WizardDelegate(m_check.programList);
-    m_check.programList->setItemDelegate(listViewDelegate);
-    slotDetectWebcam();
-    QTimer::singleShot(500, this, SLOT(slotCheckMlt()));
+    //listViewDelegate = new WizardDelegate(treeWidget);
+    //m_check.programList->setItemDelegate(listViewDelegate);
+    //slotDetectWebcam();
+    //QTimer::singleShot(500, this, SLOT(slotCheckMlt()));
 }
 
 void Wizard::slotDetectWebcam()
@@ -261,40 +317,17 @@ void Wizard::slotUpdateCaptureParameters()
 
 void Wizard::checkMltComponents()
 {
-    QSize itemSize(20, fontMetrics().height() * 2.5);
-    m_mltCheck.programList->setColumnWidth(0, 30);
-    m_mltCheck.programList->setIconSize(QSize(24, 24));
-
-
-    QTreeWidgetItem *mltitem = new QTreeWidgetItem(m_mltCheck.programList);
     m_brokenModule = false;
-    QTreeWidgetItem *meltitem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Melt") + " (" + KdenliveSettings::rendererpath() + ')');
-    meltitem->setData(1, Qt::UserRole, i18n("Required for rendering (part of MLT package)"));
-    meltitem->setSizeHint(0, itemSize);
-    meltitem->setIcon(0, m_okIcon);
-
     Mlt::Repository *repository = Mlt::Factory::init();
     if (!repository) {
-        mltitem->setData(1, Qt::UserRole, i18n("Cannot start the MLT video backend!"));
-        mltitem->setIcon(0, m_badIcon);
+        m_errors.append(i18n("<li>Cannot start MLT backend, check your installation</li>"));
         m_systemCheckIsOk = false;
-    }
-    else {
+    } else {
         int mltVersion = (mltVersionMajor << 16) + (mltVersionMinor << 8) + mltVersionRevision;
-        mltitem->setText(1, i18n("MLT version: %1", mlt_version_get_string()));
-        mltitem->setSizeHint(0, itemSize);
-        if (mlt_version_get_int() < 1792) {
-            mltitem->setData(1, Qt::UserRole, i18n("Your MLT version is unsupported!!!"));
-            mltitem->setIcon(0, m_badIcon);
+        int runningVersion = mlt_version_get_int();
+        if (runningVersion < mltVersion) {
+            m_errors.append(i18n("<li>Unsupported MLT version, <b>upgrade</b> to %1.%2.%3</li>", mltVersionMajor, mltVersionMinor, mltVersionRevision));
             m_systemCheckIsOk = false;
-        }
-        else if (mlt_version_get_int() < mltVersion) {
-            mltitem->setData(1, Qt::UserRole, i18n("Please upgrade to MLT %1.%2.%3", mltVersionMajor, mltVersionMinor, mltVersionRevision));
-            mltitem->setIcon(0, m_badIcon);
-        }
-        else {
-            mltitem->setData(1, Qt::UserRole, i18n("MLT video backend!"));
-            mltitem->setIcon(0, m_okIcon);
         }
         // Retrieve the list of available transitions.
         Mlt::Properties *producers = repository->producers();
@@ -309,34 +342,21 @@ void Wizard::checkMltComponents()
             consumersItemList << consumers->get_name(i);
         delete consumers;
 
-        // SDL module
-        QTreeWidgetItem *sdlItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("SDL module"));
-        sdlItem->setData(1, Qt::UserRole, i18n("Required for Kdenlive"));
-        sdlItem->setSizeHint(0, itemSize);
-
-        if (!consumersItemList.contains(QStringLiteral("sdl"))) {
-            sdlItem->setIcon(0, m_badIcon);
+        if (!consumersItemList.contains(QStringLiteral("sdl")) && !consumersItemList.contains(QStringLiteral("rtaudio"))) {
+            // SDL module
+            m_errors.append(i18n("<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b> (audio output)</li>"));
             m_systemCheckIsOk = false;
         }
-        else {
-            sdlItem->setIcon(0, m_okIcon);
-        }
-
         // AVformat module
-        QTreeWidgetItem *avformatItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Avformat module (FFmpeg)"));
-        avformatItem->setData(1, Qt::UserRole, i18n("Required to work with various video formats (hdv, mpeg, flash, ...)"));
-        avformatItem->setSizeHint(0, itemSize);
         Mlt::Consumer *consumer = NULL;
         Mlt::Profile p;
         if (consumersItemList.contains(QStringLiteral("avformat")))
             consumer = new Mlt::Consumer(p, "avformat");
         if (consumer == NULL || !consumer->is_valid()) {
-            avformatItem->setIcon(0, m_badIcon);
-            m_mltCheck.tabWidget->setTabEnabled(1, false);
+            m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)</li>"));
             m_brokenModule = true;
         }
         else {
-            avformatItem->setIcon(0, m_okIcon);
             consumer->set("vcodec", "list");
             consumer->set("acodec", "list");
             consumer->set("f", "list");
@@ -345,65 +365,47 @@ void Wizard::checkMltComponents()
             Mlt::Properties vcodecs((mlt_properties) consumer->get_data("vcodec"));
             for (int i = 0; i < vcodecs.count(); ++i)
                 result << QString(vcodecs.get(i));
-            m_mltCheck.vcodecs_list->addItems(result);
             KdenliveSettings::setVideocodecs(result);
             result.clear();
             Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
             for (int i = 0; i < acodecs.count(); ++i)
                 result << QString(acodecs.get(i));
-            m_mltCheck.acodecs_list->addItems(result);
             KdenliveSettings::setAudiocodecs(result);
             result.clear();
             Mlt::Properties formats((mlt_properties) consumer->get_data("f"));
             for (int i = 0; i < formats.count(); ++i)
                 result << QString(formats.get(i));
-            m_mltCheck.formats_list->addItems(result);
             KdenliveSettings::setSupportedformats(result);
             checkMissingCodecs();
             delete consumer;
         }
 
         // Image module
-        QTreeWidgetItem *imageItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("QImage module"));
-        imageItem->setData(1, Qt::UserRole, i18n("Required to work with images"));
-        imageItem->setSizeHint(0, itemSize);
-        if (!producersItemList.contains(QStringLiteral("qimage"))) {
-            imageItem->setIcon(0, m_badIcon);
-            imageItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Pixbuf module"));
-            imageItem->setData(1, Qt::UserRole, i18n("Required to work with images"));
-            imageItem->setSizeHint(0, itemSize);
-            if (!producersItemList.contains(QStringLiteral("pixbuf"))) {
-                imageItem->setIcon(0, m_badIcon);
-                m_brokenModule = true;
-            }
-            else {
-                imageItem->setIcon(0, m_okIcon);
-            }
-        }
-        else {
-            imageItem->setIcon(0, m_okIcon);
+        if (!producersItemList.contains(QStringLiteral("qimage")) && !producersItemList.contains(QStringLiteral("pixbuf"))) {
+            m_warnings.append(i18n("<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b> (image module)</li>"));
+            m_brokenModule = true;
         }
 
         // Titler module
-        QTreeWidgetItem *titleItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Title module"));
-        titleItem->setData(1, Qt::UserRole, i18n("Required to work with titles"));
-        titleItem->setSizeHint(0, itemSize);
         if (!producersItemList.contains(QStringLiteral("kdenlivetitle"))) {
+            m_warnings.append(i18n("<li>Missing MLT module: <b>kdenlivetitle</b> (titler module)</li>"));
             KdenliveSettings::setHastitleproducer(false);
-            titleItem->setIcon(0, m_badIcon);
             m_brokenModule = true;
         } else {
-            titleItem->setIcon(0, m_okIcon);
             KdenliveSettings::setHastitleproducer(true);
         }
     }
+    if (m_systemCheckIsOk && !m_brokenModule) {
+        // everything is ok
+        return;
+    }
     if (!m_systemCheckIsOk || m_brokenModule) {
         // Something is wrong with install
-        next();
-        if (!m_systemCheckIsOk)
-            button(QWizard::NextButton)->setEnabled(false);
+        if (!m_systemCheckIsOk) {
+            //WARN
+        }
     } else {
-        removePage(1);
+        // OK
     }
 }
 
@@ -480,40 +482,35 @@ void Wizard::checkMissingCodecs()
         infoMessage->setText(missing);
         infoMessage->animatedShow();
     }
-    
 }
 
 void Wizard::slotCheckPrograms()
 {
-    QSize itemSize(20, fontMetrics().height() * 2.5);
-    m_check.programList->setColumnWidth(0, 30);
-    m_check.programList->setIconSize(QSize(24, 24));
-
     bool allIsOk = true;
-    QTreeWidgetItem *item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("FFmpeg & ffplay"));
-    item->setData(1, Qt::UserRole, i18n("Required for proxy clips, transcoding and screen capture"));
-    item->setSizeHint(0, itemSize);
     QString exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX));
     QString playpath = QStandardPaths::findExecutable(QStringLiteral("ffplay%1").arg(FFMPEG_SUFFIX));
     QString probepath = QStandardPaths::findExecutable(QStringLiteral("ffprobe%1").arg(FFMPEG_SUFFIX));
-    item->setIcon(0, m_okIcon);
     if (exepath.isEmpty()) {
         // Check for libav version
         exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
         if (exepath.isEmpty()) {
-            item->setIcon(0, m_badIcon);
+            m_warnings.append(i18n("<li>Missing app: <b>ffmpeg</b> - required for proxy clips and transcoding</li>"));
             allIsOk = false;
         }
     }
     if (playpath.isEmpty()) {
         // Check for libav version
         playpath = QStandardPaths::findExecutable(QStringLiteral("avplay"));
-        if (playpath.isEmpty()) item->setIcon(0, m_badIcon);
+        if (playpath.isEmpty()) {
+            m_infos.append(i18n("<li>Missing app: <b>ffplay</b> - recommended for some preview jobs</li>"));
+        }
     }
     if (probepath.isEmpty()) {
         // Check for libav version
         probepath = QStandardPaths::findExecutable(QStringLiteral("avprobe"));
-        if (probepath.isEmpty()) item->setIcon(0, m_badIcon);
+        if (probepath.isEmpty()) {
+            m_infos.append(i18n("<li>Missing app: <b>ffprobe</b> - recommended for extra clip analysis</li>"));
+        }
     }
     if (!exepath.isEmpty()) KdenliveSettings::setFfmpegpath(exepath);
     if (!playpath.isEmpty()) KdenliveSettings::setFfplaypath(playpath);
@@ -522,49 +519,30 @@ void Wizard::slotCheckPrograms()
 // Deprecated
 /*
 #ifndef Q_WS_MAC
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("dvgrab"));
+    item = new QTreeWidgetItem(m_treeWidget, QStringList() << QString() << i18n("dvgrab"));
     item->setData(1, Qt::UserRole, i18n("Required for firewire capture"));
-    item->setSizeHint(0, itemSize);
+    item->setSizeHint(0, m_itemSize);
     if (QStandardPaths::findExecutable(QStringLiteral("dvgrab")).isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);
 #endif
 */
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("dvdauthor"));
-    item->setData(1, Qt::UserRole, i18n("Required for creation of DVD"));
-    item->setSizeHint(0, itemSize);
     if (QStandardPaths::findExecutable(QStringLiteral("dvdauthor")).isEmpty()) {
-        item->setIcon(0, m_badIcon);
+        m_infos.append(i18n("<li>Missing app: <b>dvdauthor</b> - required for creation of DVD</li>"));
         allIsOk = false;
     }
-    else item->setIcon(0, m_okIcon);
 
-
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("genisoimage or mkisofs"));
-    item->setData(1, Qt::UserRole, i18n("Required for creation of DVD ISO images"));
-    item->setSizeHint(0, itemSize);
     if (QStandardPaths::findExecutable(QStringLiteral("genisoimage")).isEmpty()) {
         // no GenIso, check for mkisofs
-        if (!QStandardPaths::findExecutable(QStringLiteral("mkisofs")).isEmpty()) {
-            item->setIcon(0, m_okIcon);
-        } else {
-            item->setIcon(0, m_badIcon);
-            allIsOk = false;
-        }
-    } else item->setIcon(0, m_okIcon);
-
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("xine"));
-    item->setData(1, Qt::UserRole, i18n("Required to preview your DVD"));
-    item->setSizeHint(0, itemSize);
-    if (QStandardPaths::findExecutable(QStringLiteral("xine")).isEmpty()) {
-        if (!QStandardPaths::findExecutable(QStringLiteral("vlc")).isEmpty()) {
-            item->setText(1, i18n("vlc"));
-            item->setIcon(0, m_okIcon);
-        } else {
-            item->setIcon(0, m_badIcon);
+        if (QStandardPaths::findExecutable(QStringLiteral("mkisofs")).isEmpty()) {
+            m_infos.append(i18n("<li>Missing app: <b>genisoimage</b> or <b>mkisofs</b> - required for creation of DVD ISO images</li>"));
             allIsOk = false;
         }
     }
-    else item->setIcon(0, m_okIcon);
+
+    if (QStandardPaths::findExecutable(QStringLiteral("xine")).isEmpty() && QStandardPaths::findExecutable(QStringLiteral("vlc")).isEmpty()) {
+        m_infos.append(i18n("<li>Missing app: <b>vlc</b> or <b>xine</b> - recommended to preview DVD</li>"));
+        allIsOk = false;
+    }
 
     // set up some default applications
     QString program;
@@ -579,7 +557,9 @@ void Wizard::slotCheckPrograms()
         if (!program.isEmpty()) KdenliveSettings::setDefaultaudioapp(program);
     }
     if (allIsOk) {
-        removePage(4);
+        // OK
+    } else {
+         // WRONG
     }
 }
 
@@ -722,11 +702,6 @@ void Wizard::adjustSettings()
         installExtraMimes(QStringLiteral("video/dv"), globs);
         runUpdateMimeDatabase();
     }
-    if (m_standard.profiles_list->currentItem()) {
-        QString selectedProfile = m_standard.profiles_list->currentItem()->data(Qt::UserRole).toString();
-        if (selectedProfile.isEmpty()) selectedProfile = QStringLiteral("dv_pal");
-        KdenliveSettings::setDefault_profile(selectedProfile);
-    }
 }
 
 void Wizard::slotCheckMlt()
@@ -746,7 +721,7 @@ void Wizard::slotCheckMlt()
         m_startLayout->addWidget(pix);
         m_startLayout->addWidget(label);
         m_systemCheckIsOk = false;
-        button(QWizard::NextButton)->setEnabled(false);
+        // Warn
     } else m_systemCheckIsOk = true;
 
     if (m_systemCheckIsOk) checkMltComponents();
@@ -760,7 +735,7 @@ bool Wizard::isOk() const
 
 void Wizard::slotOpenManual()
 {
-    KRun::runUrl(QUrl(QStringLiteral("http://kdenlive.org/troubleshooting")), QStringLiteral("text/html"), this);
+    KRun::runUrl(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"), this);
 }
 
 void Wizard::slotShowWebInfos()
@@ -795,5 +770,4 @@ void Wizard::slotUpdateDecklinkDevice(int captureCard)
 {
     KdenliveSettings::setDecklink_capturedevice(captureCard);
 }
-
 

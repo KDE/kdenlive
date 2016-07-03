@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>413</width>
-    <height>722</height>
+    <width>501</width>
+    <height>817</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_8">
@@ -34,22 +34,12 @@
      </property>
      <item>
       <property name="text">
-       <string>Firewire</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
        <string>FFmpeg</string>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Screen grab</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Blackmagic card</string>
       </property>
      </item>
     </widget>
@@ -61,9 +51,6 @@
        <width>401</width>
        <height>0</height>
       </size>
-     </property>
-     <property name="currentIndex">
-      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">

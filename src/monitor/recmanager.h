@@ -48,9 +48,10 @@ class RecManager : public QObject
     Q_OBJECT
 
 enum CaptureDevice {
-    Firewire = 0,
-    Video4Linux = 1,
-    ScreenGrab = 2,
+    Video4Linux = 0,
+    ScreenGrab = 1,
+    // Not implemented
+    Firewire = 2,
     BlackMagic = 3
 };
 

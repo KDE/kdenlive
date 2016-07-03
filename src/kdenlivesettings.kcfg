@@ -390,11 +390,6 @@
       <default></default>
     </entry>
 
-    <entry name="defaultplayerapp" type="String">
-      <label>Default video player application.</label>
-      <default></default>
-    </entry>
-
   </group>
 
 
