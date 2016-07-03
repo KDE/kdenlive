@@ -137,6 +137,8 @@ protected:
     /** @brief Restores the window and the file when a session is loaded. */
     virtual void readProperties(const KConfigGroup &config);
     virtual void saveNewToolbarConfig();
+    /** @brief Set timeline's maximum height (depending of tracks count). */
+    void updateTimelineHeight();
 
 private:
 
@@ -221,7 +223,8 @@ private:
     KToolBar *m_timelineToolBar;
     QWidget *m_timelineToolBarContainer;
 
-    void readOptions();
+    /** @brief initialize startup values, return true if first run. */
+    bool readOptions();
     void saveOptions();
     virtual bool event(QEvent *e);
 

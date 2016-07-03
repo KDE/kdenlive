@@ -112,7 +112,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QtGlobal>
-
+#include <QScreen>
 
 static const char version[] = KDENLIVE_VERSION;
 namespace Mlt
@@ -373,7 +373,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     if (m_recMonitor) {
         tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
     }
-    readOptions();
+    bool firstRun = readOptions();
 
     QAction *action;
     // Stop motion actions. Beware of the order, we MUST use the same order in stopmotion/stopmotion.cpp
@@ -473,7 +473,17 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     previewButtonAction->setDefaultWidget(timelinePreview);
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
-    setupGUI();
+    setupGUI(QSize(1800,1000));
+    if (firstRun) {
+        QScreen *current = QApplication::primaryScreen();
+        if (current) {
+            if (current->availableSize().height() < 1000) {
+                resize(current->availableSize());
+            } else {
+                resize(current->availableSize() / 1.5);
+            }
+        }
+    }
     timelinePreview->setToolButtonStyle(m_timelineToolBar->toolButtonStyle());
     connect(m_timelineToolBar, &QToolBar::toolButtonStyleChanged, timelinePreview, &ProgressButton::setToolButtonStyle);
 
@@ -637,7 +647,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
             KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
         }
     }
-    statusBar()->show();
     emit GUISetupDone();
     pCore->projectManager()->init(Url, clipsToLoad);
     QTimer::singleShot(0, pCore->projectManager(), SLOT(slotLoadOnOpen()));
@@ -1489,7 +1498,7 @@ void MainWindow::saveOptions()
     KdenliveSettings::self()->save();
 }
 
-void MainWindow::readOptions()
+bool MainWindow::readOptions()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
@@ -1513,9 +1522,11 @@ void MainWindow::readOptions()
     if (KdenliveSettings::trackheight() == 0) {
         KdenliveSettings::setTrackheight(50);
     }
+    bool firstRun = false;
     KConfigGroup initialGroup(config, "version");
     if (!initialGroup.exists()) {
         // First run, check if user is on a KDE Desktop
+        firstRun = true;
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP"))) {
                 if (env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() != QLatin1String("kde")) {
@@ -1537,6 +1548,7 @@ void MainWindow::readOptions()
         }
     }
     initialGroup.writeEntry("version", version);
+    return firstRun;
 }
 
 void MainWindow::slotRunWizard()
@@ -1733,6 +1745,7 @@ void MainWindow::connectDocument()
     Timeline *trackView = pCore->projectManager()->currentTimeline();
     connect(project, SIGNAL(startAutoSave()), pCore->projectManager(), SLOT(slotStartAutoSave()));
     connect(project, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
+    connect(trackView, &Timeline::updateTimelineHeight, this, &MainWindow::updateTimelineHeight);
     KdenliveSettings::setProject_fps(project->fps());
     m_clipMonitorDock->raise();
     m_effectStack->transitionConfig()->updateProjectFormat();
@@ -3656,6 +3669,12 @@ void MainWindow::forceIconSet(bool force)
     if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply icon theme change. Restart now ?")) == KMessageBox::Continue) {
         slotRestart();
     }
+}
+
+void MainWindow::updateTimelineHeight()
+{
+    if (pCore->projectManager()->currentTimeline())
+        m_timelineToolBarContainer->setMaximumHeight(m_timelineToolBar->height() + pCore->projectManager()->currentTimeline()->maximumHeight() + 2);
 }
 
 #ifdef DEBUG_MAINW
