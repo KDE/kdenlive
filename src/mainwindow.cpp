@@ -473,7 +473,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     previewButtonAction->setDefaultWidget(timelinePreview);
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
-    setupGUI(QSize(1800,1000));
+    setupGUI();
     if (firstRun) {
         QScreen *current = QApplication::primaryScreen();
         if (current) {
