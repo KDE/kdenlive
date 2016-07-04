@@ -70,7 +70,7 @@ public:
                const QModelIndex &index) const {
         if (index.column() == 0) {
             painter->save();
-            QStyleOptionViewItemV4 opt(option);
+            QStyleOptionViewItem opt(option);
             QRect r1 = option.rect;
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;

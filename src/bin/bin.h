@@ -47,7 +47,7 @@ class QScrollArea;
 class ClipController;
 class QDockWidget;
 class QTimeLine;
-class KToolBar;
+class QToolBar;
 class QMenu;
 class QToolButton;
 class QUndoCommand;
@@ -163,7 +163,7 @@ public:
         if (index.column() != 0) {
             return QStyledItemDelegate::updateEditorGeometry(editor, option, index);
         }
-        QStyleOptionViewItemV4 opt = option;
+        QStyleOptionViewItem opt = option;
         initStyleOption(&opt, index);
         QRect r1 = option.rect;
         QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
@@ -222,7 +222,7 @@ public:
             QRect r1 = option.rect;
             painter->save();
             painter->setClipRect(r1);
-            QStyleOptionViewItemV4 opt(option);
+            QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
             int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
@@ -656,7 +656,7 @@ private:
     BinItemDelegate *m_binTreeViewDelegate;
     ProjectSortProxyModel *m_proxyModel;
     JobManager *m_jobManager;
-    KToolBar *m_toolbar;
+    QToolBar *m_toolbar;
     KdenliveDoc* m_doc;
     QToolButton *m_addButton;
     QMenu *m_extractAudioAction;

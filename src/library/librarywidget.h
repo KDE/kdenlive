@@ -62,7 +62,7 @@ public:
 
     void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const
     {
-        QStyleOptionViewItemV4 opt = option;
+        QStyleOptionViewItem opt = option;
         initStyleOption(&opt, index);
         QRect r1 = option.rect;
         QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
@@ -97,7 +97,7 @@ public:
             QRect r1 = option.rect;
             painter->save();
             painter->setClipRect(r1);
-            QStyleOptionViewItemV4 opt(option);
+            QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;

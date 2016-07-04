@@ -45,7 +45,7 @@ public:
                const QModelIndex &index) const {
         if (index.column() == 1) {
             painter->save();
-            QStyleOptionViewItemV4 opt(option);
+            QStyleOptionViewItem opt(option);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);

@@ -47,7 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bincommands.h"
 #include "mlt++/Mlt.h"
 
-#include <KToolBar>
+#include <QToolBar>
 #include <KColorScheme>
 #include <KMessageBox>
 #include <KXMLGUIFactory>
@@ -329,7 +329,7 @@ Bin::Bin(QWidget* parent) :
     m_layout = new QVBoxLayout(this);
 
     // Create toolbar for buttons
-    m_toolbar = new KToolBar(this);
+    m_toolbar = new QToolBar(this);
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_layout->addWidget(m_toolbar);
 
