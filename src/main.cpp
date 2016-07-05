@@ -26,7 +26,7 @@
 #include <KAboutData>
 #include <KCrash>
 #include <KIconLoader>
-#include <KConfig>
+#include <KSharedConfig>
 #include <KConfigGroup>
 
 #include <QDebug>
@@ -53,8 +53,22 @@ int main(int argc, char *argv[])
 
     // Init application
     QApplication app(argc, argv);
-    KConfig conf("kdenliverc", KConfig::SimpleConfig);
-    KConfigGroup grp(&conf, "unmanaged");
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenliverc"));
+    KConfigGroup grp(config, "unmanaged");
+    KConfigGroup initialGroup(config, "version");
+    if (!initialGroup.exists()) {
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP"))) {
+            if (env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() != QLatin1String("kde")) {
+                // We are not on a KDE desktop, force breeze icon theme
+                grp.writeEntry("force_breeze", true);
+                qDebug()<<"Non KDE Desktop detected, forcing Breeze icon theme";
+            } else {
+                qDebug()<<"KDE Desktop detected, using system icons";
+            }
+        }
+    }
+
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
         QIcon::setThemeName("breeze");
@@ -150,6 +164,5 @@ int main(int argc, char *argv[])
         restart->waitForFinished(1000);
         result = EXIT_SUCCESS;
     }
-    
     return result;
 }

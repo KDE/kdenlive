@@ -325,7 +325,7 @@ void Wizard::checkMltComponents()
         int mltVersion = (mltVersionMajor << 16) + (mltVersionMinor << 8) + mltVersionRevision;
         int runningVersion = mlt_version_get_int();
         if (runningVersion < mltVersion) {
-            m_errors.append(i18n("<li>Unsupported MLT version, <b>upgrade</b> to %1.%2.%3</li>", mltVersionMajor, mltVersionMinor, mltVersionRevision));
+            m_errors.append(i18n("<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>", mltVersionMajor, mltVersionMinor, mltVersionRevision));
             m_systemCheckIsOk = false;
         }
         // Retrieve the list of available transitions.
@@ -343,7 +343,7 @@ void Wizard::checkMltComponents()
 
         if (!consumersItemList.contains(QStringLiteral("sdl")) && !consumersItemList.contains(QStringLiteral("rtaudio"))) {
             // SDL module
-            m_errors.append(i18n("<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b> (audio output)</li>"));
+            m_errors.append(i18n("<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio output</li>"));
             m_systemCheckIsOk = false;
         }
         // AVformat module
@@ -352,7 +352,7 @@ void Wizard::checkMltComponents()
         if (consumersItemList.contains(QStringLiteral("avformat")))
             consumer = new Mlt::Consumer(p, "avformat");
         if (consumer == NULL || !consumer->is_valid()) {
-            m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)</li>"));
+            m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/video</li>"));
             m_brokenModule = true;
         }
         else {
@@ -381,13 +381,13 @@ void Wizard::checkMltComponents()
 
         // Image module
         if (!producersItemList.contains(QStringLiteral("qimage")) && !producersItemList.contains(QStringLiteral("pixbuf"))) {
-            m_warnings.append(i18n("<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b> (image module)</li>"));
+            m_warnings.append(i18n("<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for images and titles</li>"));
             m_brokenModule = true;
         }
 
         // Titler module
         if (!producersItemList.contains(QStringLiteral("kdenlivetitle"))) {
-            m_warnings.append(i18n("<li>Missing MLT module: <b>kdenlivetitle</b> (titler module)</li>"));
+            m_warnings.append(i18n("<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</li>"));
             KdenliveSettings::setHastitleproducer(false);
             m_brokenModule = true;
         } else {
@@ -493,7 +493,7 @@ void Wizard::slotCheckPrograms()
         // Check for libav version
         exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
         if (exepath.isEmpty()) {
-            m_warnings.append(i18n("<li>Missing app: <b>ffmpeg</b> - required for proxy clips and transcoding</li>"));
+            m_warnings.append(i18n("<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</li>"));
             allIsOk = false;
         }
     }
@@ -501,14 +501,14 @@ void Wizard::slotCheckPrograms()
         // Check for libav version
         playpath = QStandardPaths::findExecutable(QStringLiteral("avplay"));
         if (playpath.isEmpty()) {
-            m_infos.append(i18n("<li>Missing app: <b>ffplay</b> - recommended for some preview jobs</li>"));
+            m_infos.append(i18n("<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"));
         }
     }
     if (probepath.isEmpty()) {
         // Check for libav version
         probepath = QStandardPaths::findExecutable(QStringLiteral("avprobe"));
         if (probepath.isEmpty()) {
-            m_infos.append(i18n("<li>Missing app: <b>ffprobe</b> - recommended for extra clip analysis</li>"));
+            m_infos.append(i18n("<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"));
         }
     }
     if (!exepath.isEmpty()) KdenliveSettings::setFfmpegpath(exepath);
@@ -526,20 +526,20 @@ void Wizard::slotCheckPrograms()
 #endif
 */
     if (QStandardPaths::findExecutable(QStringLiteral("dvdauthor")).isEmpty()) {
-        m_infos.append(i18n("<li>Missing app: <b>dvdauthor</b> - required for creation of DVD</li>"));
+        m_infos.append(i18n("<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"));
         allIsOk = false;
     }
 
     if (QStandardPaths::findExecutable(QStringLiteral("genisoimage")).isEmpty()) {
         // no GenIso, check for mkisofs
         if (QStandardPaths::findExecutable(QStringLiteral("mkisofs")).isEmpty()) {
-            m_infos.append(i18n("<li>Missing app: <b>genisoimage</b> or <b>mkisofs</b> - required for creation of DVD ISO images</li>"));
+            m_infos.append(i18n("<li>Missing app: <b>genisoimage</b> or <b>mkisofs</b><br/>required for creation of DVD ISO images</li>"));
             allIsOk = false;
         }
     }
 
     if (QStandardPaths::findExecutable(QStringLiteral("xine")).isEmpty() && QStandardPaths::findExecutable(QStringLiteral("vlc")).isEmpty()) {
-        m_infos.append(i18n("<li>Missing app: <b>vlc</b> or <b>xine</b> - recommended to preview DVD</li>"));
+        m_infos.append(i18n("<li>Missing app: <b>vlc</b> or <b>xine</b><br/>recommended to preview DVD</li>"));
         allIsOk = false;
     }
 
