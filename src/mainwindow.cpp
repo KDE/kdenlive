@@ -246,7 +246,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_shortcutRemoveFocus, SIGNAL(activated()), this, SLOT(slotRemoveFocus()));
 
     /// Add Widgets
-    setDockOptions(QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
+    setDockOptions(dockOptions() | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
 #endif
