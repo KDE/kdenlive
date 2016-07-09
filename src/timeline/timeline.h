@@ -281,9 +281,6 @@ signals:
     void loadingBin(int);
     /** @brief We are about to reload timeline, reset bin clip usage */
     void resetUsageCount();
-    /** @brief Timeline height changed, inform layout */
-    void updateTimelineHeight();
-
 };
 
 #endif

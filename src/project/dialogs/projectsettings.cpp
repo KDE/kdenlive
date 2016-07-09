@@ -31,6 +31,7 @@
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/bincontroller.h"
 #include "project/dialogs/temporarydata.h"
+#include "project/dialogs/profilewidget.h"
 #include "bin/bin.h"
 
 #include <KMessageBox>
@@ -62,15 +63,14 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     ,m_lumas(lumas)
 {
     setupUi(this);
+    QVBoxLayout *vbox = new QVBoxLayout;
+    m_pw = new ProfileWidget(this);
+    vbox->addWidget(m_pw);
+    profile_box->setLayout(vbox);
 
     list_search->setTreeWidget(files_list);
     project_folder->setMode(KFile::Directory);
     project_folder->setUrl(QUrl(projectPath));
-    loadProfiles();
-
-    manage_profiles->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
-    manage_profiles->setToolTip(i18n("Manage project profiles"));
-    connect(manage_profiles, SIGNAL(clicked(bool)), this, SLOT(slotEditProfiles()));
 
     m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
     //buttonOk->setEnabled(false);
@@ -112,13 +112,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     }
 
     // Select profile
-    int ix = profiles_list->findData(currentProf);
-    if (ix > -1) {
-        profiles_list->setCurrentIndex(ix);
-    } else {
-        // Error, profile not found
-        qWarning()<<"Project profile not found, disable  editing";
-    }
+    m_pw->loadProfile(currentProf);
 
     proxy_minsize->setEnabled(generate_proxy->isChecked());
     proxy_imageminsize->setEnabled(generate_imageproxy->isChecked());
@@ -219,12 +213,10 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     add_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
     delete_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
 
-    slotUpdateDisplay();
     if (doc != NULL) {
         slotUpdateFiles();
         connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
     } else tabWidget->widget(1)->setEnabled(false);
-    connect(profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(project_folder, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButton(QString)));
     connect(button_export, SIGNAL(clicked()), this, SLOT(slotExportToText()));
     // Delete unused files is not implemented
@@ -414,24 +406,6 @@ void ProjectSettings::accept()
     QDialog::accept();
 }
 
-void ProjectSettings::slotUpdateDisplay()
-{
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    QString currentProfile = profiles_list->itemData(profiles_list->currentIndex()).toString();
-    QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
-    p_size->setText(values.value(QStringLiteral("width")) + 'x' + values.value(QStringLiteral("height")));
-    p_fps->setText(values.value(QStringLiteral("frame_rate_num")) + '/' + values.value(QStringLiteral("frame_rate_den")));
-    p_aspect->setText(values.value(QStringLiteral("sample_aspect_num")) + '/' + values.value(QStringLiteral("sample_aspect_den")));
-    p_display->setText(values.value(QStringLiteral("display_aspect_num")) + '/' + values.value(QStringLiteral("display_aspect_den")));
-    if (values.value(QStringLiteral("progressive")).toInt() == 0) {
-        p_progressive->setText(i18n("Interlaced (%1 fields per second)",
-                                    locale.toString((double)2 * values.value("frame_rate_num").toInt() / values.value("frame_rate_den").toInt(), 'f', 2)));
-    } else {
-        p_progressive->setText(i18n("Progressive"));
-    }
-    p_colorspace->setText(ProfilesDialog::getColorspaceDescription(values.value(QStringLiteral("colorspace")).toInt()));
-}
 
 void ProjectSettings::slotUpdateButton(const QString &path)
 {
@@ -444,7 +418,7 @@ void ProjectSettings::slotUpdateButton(const QString &path)
 
 QString ProjectSettings::selectedProfile() const
 {
-    return profiles_list->itemData(profiles_list->currentIndex()).toString();
+    return m_pw->selectedProfile();
 }
 
 QUrl ProjectSettings::selectedFolder() const
@@ -600,7 +574,7 @@ void ProjectSettings::slotExportToText()
     if (savePath.isEmpty()) return;
     QString data;
     data.append(i18n("Project folder: %1",  project_folder->url().path()) + '\n');
-    data.append(i18n("Project profile: %1",  profiles_list->currentText()) + '\n');
+    data.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + '\n');
     data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() > 0) {
@@ -669,34 +643,6 @@ void ProjectSettings::slotDeleteMetadataField()
 {
     QTreeWidgetItem *item = metadata_list->currentItem();
     if (item) delete item;
-}
-
-void ProjectSettings::loadProfiles()
-{
-    profiles_list->clear();
-    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
-    QMapIterator<QString, QString> i(profilesInfo);
-    while (i.hasNext()) {
-        i.next();
-        profiles_list->addItem(i.value(), i.key());
-    }
-}
-
-void ProjectSettings::slotEditProfiles()
-{
-    ProfilesDialog *w = new ProfilesDialog(profiles_list->currentText());
-    w->exec();
-    QString currentProf = profiles_list->currentData().toString();
-    loadProfiles();
-    int ix = profiles_list->findData(currentProf);
-    if (ix > -1) {
-        profiles_list->setCurrentIndex(ix);
-    } else {
-        // Error, profile not found
-        qWarning()<<"Project profile not found, disable  editing";
-    }
-    emit refreshProfiles();
-    delete w;
 }
 
 void ProjectSettings::slotManageEncodingProfile()

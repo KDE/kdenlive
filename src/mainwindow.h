@@ -137,8 +137,6 @@ protected:
     /** @brief Restores the window and the file when a session is loaded. */
     virtual void readProperties(const KConfigGroup &config);
     virtual void saveNewToolbarConfig();
-    /** @brief Set timeline's maximum height (depending of tracks count). */
-    void updateTimelineHeight();
 
 private:
 

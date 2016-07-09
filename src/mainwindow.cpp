@@ -1735,7 +1735,6 @@ void MainWindow::connectDocument()
     Timeline *trackView = pCore->projectManager()->currentTimeline();
     connect(project, SIGNAL(startAutoSave()), pCore->projectManager(), SLOT(slotStartAutoSave()));
     connect(project, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
-    connect(trackView, &Timeline::updateTimelineHeight, this, &MainWindow::updateTimelineHeight);
     KdenliveSettings::setProject_fps(project->fps());
     m_clipMonitorDock->raise();
     m_effectStack->transitionConfig()->updateProjectFormat();
@@ -3574,15 +3573,39 @@ void MainWindow::updateDockTitleBars()
     QList <QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget* dock = docks.at(i);
-        if (dock->isFloating() || tabifiedDockWidgets(dock).isEmpty()) {
-            QWidget *bar = dock->titleBarWidget();
+        QWidget *bar = dock->titleBarWidget();
+        if (dock->isFloating()) {
             if (bar) {
                 dock->setTitleBarWidget(0);
                 delete bar;
             }
-        } else {
-            dock->setTitleBarWidget(new QWidget);
+            continue;
         }
+        QList <QDockWidget*> docked = pCore->window()->tabifiedDockWidgets(dock);
+        if (docked.isEmpty()) {
+            if (bar) {
+                dock->setTitleBarWidget(0);
+                delete bar;
+            }
+            continue;
+        }
+        bool hasVisibleDockSibling = false;
+        foreach(QDockWidget *sub, docked) {
+            if (sub->toggleViewAction()->isChecked()) {
+                // we have another docked widget, so tabs are visible and can be used instead of title bars
+                hasVisibleDockSibling = true;
+                break;
+            }
+        }
+        if (!hasVisibleDockSibling) {
+            if (bar) {
+                dock->setTitleBarWidget(0);
+                delete bar;
+            }
+            continue;
+        }
+        if (!bar)
+            dock->setTitleBarWidget(new QWidget);
     }
 #endif
 }
@@ -3659,12 +3682,6 @@ void MainWindow::forceIconSet(bool force)
     if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply icon theme change. Restart now ?")) == KMessageBox::Continue) {
         slotRestart();
     }
-}
-
-void MainWindow::updateTimelineHeight()
-{
-    if (pCore->projectManager()->currentTimeline())
-        m_timelineToolBarContainer->setMaximumHeight(m_timelineToolBar->height() + pCore->projectManager()->currentTimeline()->maximumHeight() + 2);
 }
 
 #ifdef DEBUG_MAINW

@@ -41,16 +41,47 @@ void HideTitleBars::slotInstallRightClick()
 
 void HideTitleBars::slotShowTitleBars(bool show)
 {
+    return;
     QList <QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget* dock = docks.at(i);
         if (show) {
             QWidget *bar = dock->titleBarWidget();
+            if (dock->isFloating()) {
+                if (bar) {
+                    dock->setTitleBarWidget(0);
+                    delete bar;
+                }
+                continue;
+            }
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
             // Since Qt 5.6 we only display title bar in non tabbed dockwidgets
-            if (bar && pCore->window()->tabifiedDockWidgets(dock).isEmpty()) {
-                dock->setTitleBarWidget(0);
-                delete bar;
+            QList <QDockWidget*> docked = pCore->window()->tabifiedDockWidgets(dock);
+            if (docked.isEmpty()) {
+                if (bar) {
+                    dock->setTitleBarWidget(0);
+                    delete bar;
+                }
+                continue;
+            } else {
+                bool hasVisibleDockSibling = false;
+                foreach(QDockWidget *sub, docked) {
+                    if (sub->toggleViewAction()->isChecked()) {
+                        // we have another docked widget, so tabs are visible and can be used instead of title bars
+                        hasVisibleDockSibling = true;
+                        break;
+                    }
+                }
+                if (!hasVisibleDockSibling) {
+                    if (bar) {
+                        dock->setTitleBarWidget(0);
+                        delete bar;
+                    }
+                    continue;
+                }
+            }
+            if (!bar) {
+                dock->setTitleBarWidget(new QWidget);
             }
 #else
             if (bar) {
@@ -59,7 +90,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
             }
 #endif
         } else {
-            if (!dock->isFloating()) {
+            if (!dock->isFloating() && !dock->titleBarWidget()) {
                 dock->setTitleBarWidget(new QWidget);
             }
         }

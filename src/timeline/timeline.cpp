@@ -934,8 +934,6 @@ void Timeline::adjustTrackHeaders()
     for (int i = 1; i < m_tracks.count(); i++) {
         m_tracks.at(i)->trackHeader->adjustSize(height);
     }
-    setMaximumHeight(ruler_frame->height() + (m_tracks.count() - 1) * height + m_tracks.count());
-    emit updateTimelineHeight();
 }
 
 void Timeline::reloadTrack(int ix, int start, int end)
