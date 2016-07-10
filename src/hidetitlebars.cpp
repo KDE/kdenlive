@@ -23,9 +23,6 @@ HideTitleBars::HideTitleBars(QObject* parent) :
     m_switchAction->setChecked(KdenliveSettings::showtitlebars());
     pCore->window()->addAction(QStringLiteral("show_titlebars"), m_switchAction);
     connect(m_switchAction, SIGNAL(triggered(bool)), SLOT(slotShowTitleBars(bool)));
-
-    slotShowTitleBars(KdenliveSettings::showtitlebars());
-
     connect(pCore->window(), SIGNAL(GUISetupDone()), SLOT(slotInstallRightClick()));
 }
 
@@ -36,17 +33,16 @@ void HideTitleBars::slotInstallRightClick()
         tabs.at(i)->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(tabs.at(i), SIGNAL(customContextMenuRequested(QPoint)), SLOT(slotSwitchTitleBars()));
     }
-    pCore->window()->updateDockTitleBars();
+    slotShowTitleBars(KdenliveSettings::showtitlebars());
 }
 
 void HideTitleBars::slotShowTitleBars(bool show)
 {
-    return;
     QList <QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget* dock = docks.at(i);
+        QWidget *bar = dock->titleBarWidget();
         if (show) {
-            QWidget *bar = dock->titleBarWidget();
             if (dock->isFloating()) {
                 if (bar) {
                     dock->setTitleBarWidget(0);
@@ -90,7 +86,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
             }
 #endif
         } else {
-            if (!dock->isFloating() && !dock->titleBarWidget()) {
+            if (!dock->isFloating() && !bar) {
                 dock->setTitleBarWidget(new QWidget);
             }
         }

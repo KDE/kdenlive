@@ -258,7 +258,7 @@ public slots:
     void slotTimelineClipSelected(ClipItem* item, bool reloadStack = true, bool raise = true);
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
-    void updateDockTitleBars();
+    void updateDockTitleBars(bool isTopLevel = true);
     void configureToolbars();
 
 private slots:

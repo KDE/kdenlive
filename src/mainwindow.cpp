@@ -647,9 +647,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
             KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
         }
     }
-    emit GUISetupDone();
     pCore->projectManager()->init(Url, clipsToLoad);
     QTimer::singleShot(0, pCore->projectManager(), SLOT(slotLoadOnOpen()));
+    QTimer::singleShot(0, this, SIGNAL(GUISetupDone()));
     connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
 
 #ifdef USE_JOGSHUTTLE
@@ -3522,6 +3522,7 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
     connect(dockWidget, SIGNAL(dockLocationChanged(Qt::DockWidgetArea)), this, SLOT(updateDockTitleBars()));
+    connect(dockWidget, SIGNAL(topLevelChanged(bool)), this, SLOT(updateDockTitleBars(bool)));
     return dockWidget;
 }
 
@@ -3567,8 +3568,10 @@ bool MainWindow::isTabbedWith(QDockWidget *widget, const QString & otherWidget)
     return false;
 }
 
-void MainWindow::updateDockTitleBars()
+void MainWindow::updateDockTitleBars(bool isTopLevel)
 {
+    if (!KdenliveSettings::showtitlebars() || !isTopLevel)
+        return;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     QList <QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
