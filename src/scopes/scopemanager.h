@@ -93,7 +93,7 @@ private:
       adds it to the manager.
       @param scopeWidget has to be of type AbstractAudioScopeWidget or AbstractGfxScopeWidget (@see addScope).
      */
-    template <class T> void createScopeDock(T *scopeWidget, const QString &title);
+    template <class T> void createScopeDock(T *scopeWidget, const QString &title, const QString name);
 
 public slots:
     void slotCheckActiveScopes();

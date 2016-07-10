@@ -309,19 +309,19 @@ void ScopeManager::checkActiveColourScopes()
 
 void ScopeManager::createScopes()
 {
-    createScopeDock(new Vectorscope(pCore->window()),   i18n("Vectorscope"));
-    createScopeDock(new Waveform(pCore->window()),      i18n("Waveform"));
-    createScopeDock(new RGBParade(pCore->window()),     i18n("RGB Parade"));
-    createScopeDock(new Histogram(pCore->window()),     i18n("Histogram"));
+    createScopeDock(new Vectorscope(pCore->window()),   i18n("Vectorscope"), QStringLiteral("vectorscope"));
+    createScopeDock(new Waveform(pCore->window()),      i18n("Waveform"), QStringLiteral("waveform"));
+    createScopeDock(new RGBParade(pCore->window()),     i18n("RGB Parade"), QStringLiteral("rgb_parade"));
+    createScopeDock(new Histogram(pCore->window()),     i18n("Histogram"), QStringLiteral("histogram"));
     // Deprecated scopes
     // createScopeDock(new Spectrogram(pCore->window()),   i18n("Spectrogram"));
     // createScopeDock(new AudioSignal(pCore->window()),   i18n("Audio Signal"));
     // createScopeDock(new AudioSpectrum(pCore->window()), i18n("AudioSpectrum"));
 }
 
-template <class T> void ScopeManager::createScopeDock(T* scopeWidget, const QString& title)
+template <class T> void ScopeManager::createScopeDock(T* scopeWidget, const QString& title, const QString name)
 {
-    QDockWidget *dock = pCore->window()->addDock(title, scopeWidget->widgetName(), scopeWidget);
+    QDockWidget *dock = pCore->window()->addDock(title, name, scopeWidget);
     addScope(scopeWidget, dock);
 
     // close for initial layout

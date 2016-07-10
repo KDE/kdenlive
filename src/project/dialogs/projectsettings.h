@@ -27,6 +27,7 @@
 #include "ui_projectsettings_ui.h"
 
 class KdenliveDoc;
+class ProfileWidget;
 
 class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
 {
@@ -55,7 +56,6 @@ public slots:
     virtual void accept();
 
 private slots:
-    void slotUpdateDisplay();
     void slotUpdateButton(const QString &path);
     void slotUpdateFiles(bool cacheOnly = false);
     void slotDeleteUnused();
@@ -68,8 +68,6 @@ private slots:
     void slotAddMetadataField();
     /** @brief Delete current metadata field. */
     void slotDeleteMetadataField();
-    /** @brief Open project profile management dialog. */
-    void slotEditProfiles();
     /** @brief Display proxy profiles management dialog. */
     void slotManageEncodingProfile();
     void slotManagePreviewProfile();
@@ -78,9 +76,9 @@ private slots:
 
 private:
     QPushButton *m_buttonOk;
+    ProfileWidget *m_pw;
     bool m_savedProject;
     QStringList m_lumas;
-    void loadProfiles();
     QString m_proxyparameters;
     QString m_proxyextension;
     /** @brief List of all proxies urls in this project. */

@@ -6,5 +6,6 @@ set(kdenlive_SRCS
   project/dialogs/projectsettings.cpp
   project/dialogs/slideshowclip.cpp
   project/dialogs/temporarydata.cpp
+  project/dialogs/profilewidget.cpp
   PARENT_SCOPE)
 

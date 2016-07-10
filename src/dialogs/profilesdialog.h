@@ -48,6 +48,7 @@ public:
     /** @brief Check if a given profile has a profile file describing it */
     static QString existingProfile(const MltVideoProfile &profile);
     static bool existingProfileDescription(const QString &desc);
+    static QList <MltVideoProfile> profilesList();
 
     /** @brief Check if a given profile matches passed properties:
      *  @param width The profile frame width
