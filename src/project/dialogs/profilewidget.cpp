@@ -25,22 +25,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QLabel>
 #include <QComboBox>
 #include <QDebug>
+#include <QListWidgetItem>
 #include <KLocalizedString>
 
 ProfileWidget::ProfileWidget(QWidget* parent) :
         QWidget(parent)
 {
     setupUi(this);
-    detailsTree->setVisible(false);
     manage_profiles->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     manage_profiles->setToolTip(i18n("Manage project profiles"));
     connect(manage_profiles, SIGNAL(clicked(bool)), this, SLOT(slotEditProfiles()));
-    infoButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
-    connect(infoButton, SIGNAL(toggled(bool)), this, SLOT(slotShowDetails(bool)));
-    connect(standard, SIGNAL(activated(int)), this, SLOT(updateFps()));
-    connect(fps, SIGNAL(activated(int)), this, SLOT(updateStatus()));
-    connect(interlaced, SIGNAL(toggled(bool)), this, SLOT(updateStatus()));
-    connect(resolution, SIGNAL(activated(int)), this, SLOT(updateCustom()));
+    connect(standard, SIGNAL(activated(int)), this, SLOT(updateList()));
+    connect(profile_list, SIGNAL(activated(int)), this, SLOT(updateDisplay()));
 }
 
 ProfileWidget::~ProfileWidget()
@@ -65,7 +61,10 @@ void ProfileWidget::loadProfile(const QString &profile)
                 m_list2K.append(prof);
                 break;
             case 1080:
-                m_listFHD.append(prof);
+                if (prof.width == 1920)
+                    m_listFHD.append(prof);
+                else
+                    m_listCustom.append(prof);
                 break;
             case 720:
                 m_listHD.append(prof);
@@ -105,37 +104,20 @@ void ProfileWidget::loadProfile(const QString &profile)
     if (!m_listCustom.isEmpty()) {
         standard->addItem(i18n("Custom"), StdCustom);
     }
-    for (int i = 0; i < m_listCustom.count(); i++) {
-        MltVideoProfile prof = m_listCustom.at(i);
-        resolution->addItem(prof.description, prof.path);
-    }
     standard->blockSignals(false);
-    updateCombos();
-}
-
-void ProfileWidget::updateCombos()
-{
     VIDEOSTD std = getStandard(m_currentProfile);
-    resolution->setVisible(std == StdCustom);
     standard->setCurrentIndex(standard->findData(std));
-    updateFps();
-    slotUpdateInfoDisplay();
+    updateList();
 }
 
-void ProfileWidget::updateFps()
+void ProfileWidget::updateList()
 {
+    profile_list->blockSignals(true);
+    profile_list->clear();
     VIDEOSTD std = (VIDEOSTD) standard->currentData().toInt();
-    bool isCustom = (std == StdCustom);
-    fps->setVisible(!isCustom);
-    fps_label->setVisible(!isCustom);
-    interlaced->setVisible(!isCustom);
-    resolution->setVisible(isCustom);
-    if (isCustom)
-        return;
-    QLocale locale;
-    QString selectedFps = fps->currentText();
-    if (selectedFps.isEmpty())
-        selectedFps = locale.toString((double)m_currentProfile.frame_rate_num / m_currentProfile.frame_rate_den, 'f', 2);
+    double fps = m_currentProfile.frame_rate_num / m_currentProfile.frame_rate_den;
+    bool progressive = m_currentProfile.progressive;
+    QString similarProfile;
     QList <MltVideoProfile> currentStd;
     switch (std) {
         case Std4K:
@@ -160,96 +142,26 @@ void ProfileWidget::updateFps()
             currentStd = m_listCustom;
             break;
     }
-    QStringList rates;
+    QMap <QString, QString> profiles;
     for (int i = 0; i < currentStd.count(); i++) {
         MltVideoProfile prof = currentStd.at(i);
-        QString frameRate = locale.toString((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
-        if (!rates.contains(frameRate)) {
-            rates << frameRate;
+        profiles.insert(prof.dialogDescriptiveString(), prof.path);
+        if (similarProfile.isEmpty()) {
+            if (fps == prof.frame_rate_num / prof.frame_rate_den && progressive == prof.progressive)
+                similarProfile = prof.path;
         }
     }
-    qSort(rates);
-    fps->blockSignals(true);
-    fps->clear();
-    fps->addItems(rates);
-    fps->setCurrentIndex(fps->findText(selectedFps));
-    fps->blockSignals(false);
-    updateSelectedProfile(currentStd, fps->currentText());
-}
-
-void ProfileWidget::updateCustom()
-{
-    QString path = resolution->currentData().toString();
-    m_currentProfile = ProfilesDialog::getVideoProfile(path);
-    slotUpdateInfoDisplay();
-}
-
-void ProfileWidget::updateStatus()
-{
-    VIDEOSTD std = (VIDEOSTD) standard->currentData().toInt();
-    QList <MltVideoProfile> currentStd;
-    switch (std) {
-        case Std4K:
-            currentStd = m_list4K;
-            break;
-        case Std2K:
-            currentStd = m_list2K;
-            break;
-        case StdFHD:
-            currentStd = m_listFHD;
-            break;
-        case StdHD:
-            currentStd = m_listHD;
-            break;
-        case StdSD:
-            currentStd = m_listSD;
-            break;
-        case StdSDWide:
-            currentStd = m_listSDWide;
-            break;
-        default:
-            currentStd = m_listCustom;
-            break;
+    QMapIterator<QString, QString> i(profiles);
+    while (i.hasNext()) {
+        i.next();
+        profile_list->addItem(i.key(), i.value());
     }
-    updateSelectedProfile(currentStd, fps->currentText());
-}
-
-void ProfileWidget::updateSelectedProfile(QList <MltVideoProfile> list, QString rate)
-{
-    QLocale locale;
-    QList <MltVideoProfile> matching;
-    for (int i = 0; i < list.count(); i++) {
-        MltVideoProfile prof = list.at(i);
-        QString frameRate = locale.toString((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
-        if (frameRate == rate) {
-            matching << prof;
-        }
-    }
-    if (matching.count() == 1) {
-        // Only one match, disable interlaced checkbox
-        m_currentProfile = matching.first();
-        interlaced->setCheckState(m_currentProfile.progressive ? Qt::Unchecked : Qt::Checked);
-        interlaced->setEnabled(false);
-    } else {
-        bool interlaceFound = false;
-        bool progressiveFound = false;
-        for (int i = 0; i < matching.count(); i++) {
-            MltVideoProfile prof = matching.at(i);
-            if (prof.progressive) {
-                progressiveFound = true;
-                if (interlaced->checkState() == Qt::Unchecked) {
-                    m_currentProfile = prof;
-                }
-            } else {
-                interlaceFound = true;
-                if (interlaced->checkState() == Qt::Checked) {
-                    m_currentProfile = prof;
-                }
-            }
-        }
-        interlaced->setEnabled(progressiveFound && interlaceFound);
-    }
-    slotUpdateInfoDisplay();
+    profile_list->blockSignals(false);
+    int ix = profile_list->findData(m_currentProfile.path);
+    if (ix == -1 && !similarProfile.isEmpty())
+        ix = profile_list->findData(similarProfile);
+    profile_list->setCurrentIndex(ix > -1 ? ix : 0);
+    updateDisplay();
 }
 
 ProfileWidget::VIDEOSTD ProfileWidget::getStandard(MltVideoProfile profile)
@@ -287,13 +199,16 @@ const QString ProfileWidget::selectedProfile() const
     return m_currentProfile.path;
 }
 
-void ProfileWidget::slotUpdateInfoDisplay()
+void ProfileWidget::updateDisplay()
 {
-    if (!detailsTree->isVisible())
+    QString profilePath = profile_list->currentData().toString();
+    detailsTree->clear();
+    if (profilePath.isEmpty()) {
         return;
+    }
+    m_currentProfile = ProfilesDialog::getVideoProfile(profilePath);
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    detailsTree->clear();
     detailsTree->addTopLevelItem(new QTreeWidgetItem(QStringList() << i18n("Frame Size") << QString("%1x%2").arg(m_currentProfile.width).arg(m_currentProfile.height)));
     detailsTree->addTopLevelItem(new QTreeWidgetItem(QStringList() << i18n("Frame Rate") << QString("%1/%2").arg(m_currentProfile.frame_rate_num).arg(m_currentProfile.frame_rate_den)));
     detailsTree->addTopLevelItem(new QTreeWidgetItem(QStringList() << i18n("Display Ratio") << QString("%1/%2").arg(m_currentProfile.display_aspect_num).arg(m_currentProfile.display_aspect_den)));
@@ -317,14 +232,4 @@ void ProfileWidget::slotEditProfiles()
     delete w;
 }
 
-void ProfileWidget::slotShowDetails(bool show)
-{
-    detailsTree->setVisible(show);
-    if (show)
-        slotUpdateInfoDisplay();
-}
-
-void ProfileWidget::updateSelection()
-{
-}
 

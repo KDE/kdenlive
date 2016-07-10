@@ -111,16 +111,11 @@
       <default>2</default>
     </entry>
 
-    <entry name="profiles_list" type="UInt">
-      <label>Active project format.</label>
-      <default></default>
-    </entry>
-
     <entry name="enableproxy" type="Bool">
       <label>Enable proxy clips.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="generateproxy" type="Bool">
       <label>Auto generate proxy for new clips.</label>
       <default>false</default>

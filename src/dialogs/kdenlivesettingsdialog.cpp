@@ -20,6 +20,7 @@
 #include "kdenlivesettingsdialog.h"
 #include "profilesdialog.h"
 #include "encodingprofilesdialog.h"
+#include "project/dialogs/profilewidget.h"
 #include "utils/KoIconUtils.h"
 #include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
@@ -73,6 +74,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
     m_page8 = addPage(p8, i18n("Project Defaults"));
+    QVBoxLayout *vbox = new QVBoxLayout;
+    m_pw = new ProfileWidget(this);
+    vbox->addWidget(m_pw);
+    m_configProject.profile_box->setLayout(vbox);
+    // Select profile
+    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile());
     m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("project-defaults")));
     connect(m_configProject.kcfg_generateproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyminsize, SLOT(setEnabled(bool)));
     m_configProject.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
@@ -219,14 +226,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configEnv.kp_audio, SIGNAL(clicked()), this, SLOT(slotEditAudioApplication()));
 
     loadEncodingProfiles();
-    checkProfile();
-
-    slotUpdateDisplay();
 
     connect(m_configSdl.kcfg_audio_driver, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCheckAlsaDriver()));
     connect(m_configSdl.kcfg_audio_backend, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCheckAudioBackend()));
     initDevices();
-    connect(m_configProject.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(m_configCapture.kcfg_grab_capture_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateGrabRegionStatus()));
 
     slotUpdateGrabRegionStatus();
@@ -293,11 +296,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configProject.preview_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     m_configProject.preview_manageprofile->setToolTip(i18n("Manage timeline preview profiles"));
     m_configProject.kcfg_preview_profile->setToolTip(i18n("Select default timeline preview profile"));
-
-    // Project profile management
-    m_configProject.manage_profiles->setIcon(KoIconUtils::themedIcon("configure"));
-    m_configProject.manage_profiles->setToolTip(i18n("Manage Project Profiles"));
-    connect(m_configProject.manage_profiles, SIGNAL(clicked(bool)), this, SLOT(slotEditProfiles()));
 
     // proxy profile stuff
     m_configProject.proxy_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
@@ -467,28 +465,6 @@ void KdenliveSettingsDialog::slotEnableCaptureFolder()
 void KdenliveSettingsDialog::slotEnableLibraryFolder()
 {
     m_configEnv.libraryfolderurl->setEnabled(!m_configEnv.kcfg_librarytodefaultfolder->isChecked());
-}
-
-void KdenliveSettingsDialog::checkProfile()
-{
-    m_configProject.kcfg_profiles_list->clear();
-    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
-    QMapIterator<QString, QString> i(profilesInfo);
-    while (i.hasNext()) {
-        i.next();
-        m_configProject.kcfg_profiles_list->addItem(i.value(), i.key());
-    }
-
-    if (!KdenliveSettings::default_profile().isEmpty()) {
-        int ix = m_configProject.kcfg_profiles_list->findData(KdenliveSettings::default_profile());
-        if (ix > -1) {
-            m_configProject.kcfg_profiles_list->setCurrentIndex(ix);
-            KdenliveSettings::setProfiles_list(ix);
-        } else {
-            // Error, profile not found
-            qWarning()<<"Project profile not found, disable  editing";
-        }
-    }
 }
 
 void KdenliveSettingsDialog::initDevices()
@@ -714,8 +690,7 @@ void KdenliveSettingsDialog::updateSettings()
 {
     // Save changes to settings (for example when user pressed "Apply" or "Ok")
     // //qDebug() << "// // // KCONFIG UPDATE called";
-    m_defaultProfile = m_configProject.kcfg_profiles_list->currentText();
-    KdenliveSettings::setDefault_profile(m_defaultPath);
+    KdenliveSettings::setDefault_profile(m_pw->selectedProfile());
 
     bool resetProfile = false;
     bool updateCapturePath = false;
@@ -892,22 +867,6 @@ void KdenliveSettingsDialog::updateSettings()
     if (resetProfile) emit doResetProfile();
     if (restart) emit restartKdenlive();
     emit checkTabPosition();
-}
-
-void KdenliveSettingsDialog::slotUpdateDisplay()
-{
-    QString currentProfile = m_configProject.kcfg_profiles_list->itemData(m_configProject.kcfg_profiles_list->currentIndex()).toString();
-    QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
-    m_configProject.p_size->setText(values.value(QStringLiteral("width")) + 'x' + values.value(QStringLiteral("height")));
-    m_configProject.p_fps->setText(values.value(QStringLiteral("frame_rate_num")) + '/' + values.value(QStringLiteral("frame_rate_den")));
-    m_configProject.p_aspect->setText(values.value(QStringLiteral("sample_aspect_num")) + '/' + values.value(QStringLiteral("sample_aspect_den")));
-    m_configProject.p_display->setText(values.value(QStringLiteral("display_aspect_num")) + '/' + values.value(QStringLiteral("display_aspect_den")));
-    if (values.value(QStringLiteral("progressive")).toInt() == 0)
-        m_configProject.p_progressive->setText(i18n("Interlaced"));
-    else
-        m_configProject.p_progressive->setText(i18n("Progressive"));
-    m_defaultProfile = m_configProject.kcfg_profiles_list->itemText(m_configProject.kcfg_profiles_list->currentIndex());
-    m_defaultPath = currentProfile;
 }
 
 void KdenliveSettingsDialog::slotCheckAlsaDriver()
@@ -1336,12 +1295,9 @@ void KdenliveSettingsDialog::slotReloadBlackMagic()
     m_configSdl.kcfg_external_display->setEnabled(KdenliveSettings::decklink_device_found());
 }
 
-void KdenliveSettingsDialog::slotEditProfiles()
+void KdenliveSettingsDialog::checkProfile()
 {
-    ProfilesDialog *w = new ProfilesDialog;
-    w->exec();
-    checkProfile();
-    delete w;
+    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile());
 }
 
 void KdenliveSettingsDialog::slotReloadShuttleDevices()

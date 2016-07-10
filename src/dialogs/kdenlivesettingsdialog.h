@@ -34,6 +34,8 @@
 #include "ui_configtranscode_ui.h"
 #include "ui_configproject_ui.h"
 
+class ProfileWidget;
+
 class KdenliveSettingsDialog : public KConfigDialog
 {
     Q_OBJECT
@@ -50,7 +52,6 @@ protected slots:
     virtual bool hasChanged();
 
 private slots:
-    void slotUpdateDisplay();
     void slotCheckShuttle(int state = 0);
     void slotUpdateShuttleDevice(int ix = 0);
     void slotEditImageApplication();
@@ -82,7 +83,6 @@ private slots:
     void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
-    void slotEditProfiles();
 
 private:
     KPageWidgetItem *m_page1;
@@ -101,8 +101,7 @@ private:
     Ui::ConfigSdl_UI m_configSdl;
     Ui::ConfigTranscode_UI m_configTranscode;
     Ui::ConfigProject_UI m_configProject;
-    QString m_defaultProfile;
-    QString m_defaultPath;
+    ProfileWidget *m_pw;
     KProcess m_readProcess;
     bool m_modified;
     bool m_shuttleModified;

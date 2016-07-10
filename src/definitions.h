@@ -285,6 +285,7 @@ public:
     bool isValid() const;
     const QVariantList toList() const;
     const QString descriptiveString();
+    const QString dialogDescriptiveString();
 };
 
 

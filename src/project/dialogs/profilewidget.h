@@ -70,12 +70,8 @@ private:
 private slots:
     /** @brief Open project profile management dialog. */
     void slotEditProfiles();
-    void slotShowDetails(bool show);
-    void updateSelection();
-    void updateFps();
-    void updateStatus();
-    void updateCustom();
-    void updateSelectedProfile(QList <MltVideoProfile> currentStd, QString rate);
+    void updateList();
+    void updateDisplay();
 };
 
 #endif
