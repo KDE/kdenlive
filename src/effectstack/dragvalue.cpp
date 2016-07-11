@@ -94,7 +94,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
     }
-    
     connect(m_label, SIGNAL(valueChanged(double,bool)), this, SLOT(setValueFromProgress(double,bool)));
     connect(m_label, SIGNAL(resetValue()), this, SLOT(slotReset()));
     setLayout(l);
@@ -116,11 +115,11 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     m_directUpdate->setCheckable(true);
     m_directUpdate->setChecked(KdenliveSettings::dragvalue_directupdate());
     m_menu->addAction(m_directUpdate);
-    
+
     QAction *reset = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-undo")), i18n("Reset value"), this);
     connect(reset, SIGNAL(triggered()), this, SLOT(slotReset()));
     m_menu->addAction(reset);
-    
+
     if (m_id > -1) {
         QAction *timeline = new QAction(KoIconUtils::themedIcon(QStringLiteral("go-jump")), i18n("Show %1 in timeline", label), this);
         connect(timeline, SIGNAL(triggered()), this, SLOT(slotSetInTimeline()));

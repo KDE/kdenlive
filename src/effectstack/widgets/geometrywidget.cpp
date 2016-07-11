@@ -765,39 +765,44 @@ QVariantList GeometryWidget::calculateCenters()
 
 void GeometryWidget::slotSetX(double value)
 {
-    m_monitor->setUpEffectGeometry(QRect(value, m_spinY->value(), m_spinWidth->value(), m_spinHeight->value()), calculateCenters());
+    m_monitor->setUpEffectGeometry(QRect(value, m_spinY->value(), m_spinWidth->value(), m_spinHeight->value()));
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
 }
 
 void GeometryWidget::slotSetY(double value)
 {
-    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), value, m_spinWidth->value(), m_spinHeight->value()), calculateCenters());
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), value, m_spinWidth->value(), m_spinHeight->value()));
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
 }
 
 void GeometryWidget::slotSetWidth(double value)
 {
-    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), value, m_spinHeight->value()), calculateCenters());
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), value, m_spinHeight->value()));
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
 }
 
 void GeometryWidget::slotSetHeight(double value)
 {
-    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), value), calculateCenters());
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), value));
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
 }
 
 void GeometryWidget::updateMonitorGeometry()
 {
-    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value()), calculateCenters());
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value()));
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
 }
-
 
 void GeometryWidget::slotResize(double value)
 {
-    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), (int)((m_monitor->render->frameRenderWidth() * value / 100.0) + 0.5), (int)((m_monitor->render->renderHeight() * value / 100.0) + 0.5)), calculateCenters());
+    m_monitor->setUpEffectGeometry(QRect(m_spinX->value(), m_spinY->value(), (int)((m_monitor->render->frameRenderWidth() * value / 100.0) + 0.5), (int)((m_monitor->render->renderHeight() * value / 100.0) + 0.5)));
     slotUpdateGeometry();
+    m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
 }
 
 
