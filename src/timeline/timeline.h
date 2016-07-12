@@ -47,6 +47,17 @@ class CustomRuler;
 class QUndoCommand;
 class PreviewManager;
 
+class ScrollEventEater : public QObject
+{
+    Q_OBJECT
+public:
+    explicit ScrollEventEater(QObject *parent = 0);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+};
+
+
 class Timeline : public QWidget, public Ui::TimeLine_UI
 {
     Q_OBJECT

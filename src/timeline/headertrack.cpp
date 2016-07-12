@@ -47,6 +47,7 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
         m_switchVideo(NULL)
 {
     setupUi(this);
+    setFocusPolicy(Qt::ClickFocus);
     m_name = info.trackName.isEmpty() ? QString::number(m_parentTrack->index()) : info.trackName;
     QFontMetrics metrics(font());
     m_tb = new QToolBar(this);
@@ -173,9 +174,11 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
     if (track_number->hasFocus()) {
         track_number->clearFocus();
     }
+    // Necessary in case another track name has focus
+    setFocus();
     QWidget *underMouse = childAt(event->pos());
     emit selectTrack(m_parentTrack->index(), underMouse == kled);
-    QWidget::mousePressEvent(event);
+    event->setAccepted(true);
 }
 
 void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
@@ -184,6 +187,7 @@ void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
         track_number->clearFocus();
     }
     emit configTrack();
+    event->setAccepted(true);
     QWidget::mouseDoubleClickEvent(event);
 }
 

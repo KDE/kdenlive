@@ -50,6 +50,21 @@
 #include <KIO/FileCopyJob>
 #include <klocalizedstring.h>
 
+ScrollEventEater::ScrollEventEater(QObject *parent) : QObject(parent)
+{
+}
+
+bool ScrollEventEater::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonPress) {
+        QWidget *parent = (QWidget*)obj;
+        if (parent)
+            parent->setFocus();
+        return QObject::eventFilter(obj, event);
+    }
+    return QObject::eventFilter(obj, event);
+}
+
 
 Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent) :
     QWidget(parent),
@@ -131,6 +146,8 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
 
     headers_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     headers_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ScrollEventEater *leventEater = new ScrollEventEater(this);
+    headers_area->installEventFilter(leventEater);
 
     QVBoxLayout *headersLayout = new QVBoxLayout;
     headersLayout->setContentsMargins(0, m_trackview->frameWidth(), 0, 0);
