@@ -152,6 +152,11 @@ DvdWizardVob::~DvdWizardVob()
     delete m_capacityBar;
 }
 
+bool DvdWizardVob::isComplete() const
+{
+    return m_vobList->topLevelItemCount() > 0;
+}
+
 void DvdWizardVob::slotShowTranscodeInfo()
 {
     QString log = QString(m_transcodeProcess.readAll());

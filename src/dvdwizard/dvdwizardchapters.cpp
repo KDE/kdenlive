@@ -64,7 +64,6 @@ void DvdWizardChapters::slotUpdateChaptersList()
     m_monitor->slotOpenDvdFile(m_view.vob_list->currentText());
     m_monitor->adjustRulerSize(m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole).toInt());
     QStringList currentChaps = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
-
     // insert chapters
     QStringList chaptersString;
     for (int i = 0; i < currentChaps.count(); ++i) {
@@ -162,7 +161,6 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     } else {
         m_tc.setFormat(30000.0 / 1001);
     }
-
     createMonitor(format);
     m_monitor->setCustomProfile(profile, m_tc);
     m_view.vob_list->blockSignals(true);
@@ -175,8 +173,7 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     adjustSize();
     updateGeometry();
-    slotUpdateChaptersList();
-    m_monitor->refreshMonitorIfActive();
+    QTimer::singleShot(0, this, SLOT(slotUpdateChaptersList()));
 }
 
 QMap <QString, QString> DvdWizardChapters::chaptersData() const

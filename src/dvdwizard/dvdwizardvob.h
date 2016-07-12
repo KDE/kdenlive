@@ -122,6 +122,7 @@ public:
     void setUseIntroMovie(bool use);
     void updateChapters(const QMap<QString, QString> &chaptersdata);
     static QString getDvdProfile(DVDFORMAT format);
+    bool isComplete() const;
 
 private:
     Ui::DvdWizardVob_UI m_view;
