@@ -23,11 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROFILESELECTWIDGET_H
 #define PROFILESELECTWIDGET_H
 
-#include "ui_profileselect_ui.h"
 #include "dialogs/profilesdialog.h"
 
 #include <QWidget>
 
+class KMessageWidget;
 
 /**
  * @class ProfileWidget
@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @author Jean-Baptiste Mardelle
  */
 
-class ProfileWidget : public QWidget, public Ui::ProfileSelect
+class ProfileWidget : public QWidget
 {
     Q_OBJECT
 public:
@@ -54,6 +54,16 @@ private:
     QList <MltVideoProfile> m_listSD;
     QList <MltVideoProfile> m_listSDWide;
     QList <MltVideoProfile> m_listCustom;
+    QComboBox *m_standard;
+    QComboBox *m_rate_list;
+    QCheckBox *m_interlaced;
+    QLabel *m_customSizeLabel;
+    QComboBox *m_customSize;
+    QComboBox *m_display_list;
+    QComboBox *m_sample_list;
+    QComboBox *m_color_list;
+    QGridLayout *m_detailsLayout;
+    KMessageWidget *m_errorMessage;
 
     enum VIDEOSTD {
         Std4K = 0,
@@ -66,12 +76,21 @@ private:
     };
     VIDEOSTD getStandard(MltVideoProfile profile);
     void updateCombos();
+    QStringList getFrameSizes(QList <MltVideoProfile> currentStd, const QString &rate);
+    void checkInterlace(QList <MltVideoProfile> currentStd, const QString &size, const QString &rate);
+    QList <MltVideoProfile> getList(VIDEOSTD std);
 
 private slots:
     /** @brief Open project profile management dialog. */
     void slotEditProfiles();
     void updateList();
     void updateDisplay();
+    void slotCheckInterlace();
+    void ratesUpdated();
+    void selectProfile();
+
+signals:
+    void showDetails();
 };
 
 #endif

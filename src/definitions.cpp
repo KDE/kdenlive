@@ -149,12 +149,15 @@ const QString MltVideoProfile::descriptiveString()
 
 const QString MltVideoProfile::dialogDescriptiveString()
 {
-    QString text = QString::number((double)frame_rate_num / frame_rate_den, 'f', 2);
+    QString text;
+    if (frame_rate_num % frame_rate_den == 0) {
+        text = QString::number(frame_rate_num / frame_rate_den);
+    } else {
+        text = QString::number((double)frame_rate_num / frame_rate_den, 'f', 2);
+    }
     text.append(i18nc("frames per second","fps"));
     if (!progressive)
         text.append(i18n(" interlaced"));
-    if (!description.isEmpty())
-        text.append(QString(" - %1").arg(description));
     return text;
 }
 
