@@ -40,6 +40,8 @@ static int FULL_HEIGHT;
 static int FRAME_SIZE;
 // Height of the timecode text
 static int LABEL_SIZE;
+// Height of the timeline preview
+static int PREVIEW_SIZE;
 // Width of a letter, used for cursor width
 static int FONT_WIDTH;
 
@@ -73,8 +75,8 @@ CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerAction
     // Define size variables
     LABEL_SIZE = fontMetrics.ascent();
     FONT_WIDTH = fontMetrics.averageCharWidth();
-    setMinimumHeight(LABEL_SIZE * 2.3);
-    setMaximumHeight(LABEL_SIZE * 2.3);
+    PREVIEW_SIZE = LABEL_SIZE / 3;
+    setFixedHeight(LABEL_SIZE * 2);
     MAX_HEIGHT = height() - 1;
     FULL_HEIGHT = MAX_HEIGHT;
     int mark_length = MAX_HEIGHT - LABEL_SIZE - 1;
@@ -481,8 +483,8 @@ void CustomRuler::paintEvent(QPaintEvent *e)
     // draw Rendering preview zones
     if (!m_hidePreview) {
         p.setPen(palette().dark().color());
-        p.drawLine(paintRect.left(), FULL_HEIGHT - 5, paintRect.right(), FULL_HEIGHT - 5);
-        p.fillRect(paintRect.left(), FULL_HEIGHT - 4, paintRect.width(), 4, palette().mid().color());
+        p.drawLine(paintRect.left(), MAX_HEIGHT, paintRect.right(), MAX_HEIGHT);
+        p.fillRect(paintRect.left(), MAX_HEIGHT + 1, paintRect.width(), PREVIEW_SIZE - 1, palette().mid().color());
         QColor preview(Qt::green);
         preview.setAlpha(120);
         double chunkWidth = KdenliveSettings::timelinechunks() * m_factor;
@@ -490,7 +492,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
             double xPos = frame * m_factor  - m_offset;
             if (xPos + chunkWidth < paintRect.x() || xPos > paintRect.right())
                 continue;
-            QRectF rec(xPos, FULL_HEIGHT - 4, chunkWidth, 4);
+            QRectF rec(xPos, MAX_HEIGHT + 1, chunkWidth, PREVIEW_SIZE - 1);
             p.fillRect(rec, preview);
         }
         preview = Qt::darkRed;
@@ -499,13 +501,13 @@ void CustomRuler::paintEvent(QPaintEvent *e)
             double xPos = frame * m_factor  - m_offset;
             if (xPos + chunkWidth < paintRect.x() || xPos > paintRect.right())
                 continue;
-            QRectF rec(xPos, FULL_HEIGHT - 4, chunkWidth, 4);
+            QRectF rec(xPos, MAX_HEIGHT + 1, chunkWidth, PREVIEW_SIZE - 1);
             p.fillRect(rec, preview);
         }
         preview = palette().dark().color();
         preview.setAlpha(70);
-        p.fillRect(paintRect.left(), FULL_HEIGHT - 4, paintRect.width(), 2, preview);
-        p.drawLine(paintRect.left(), FULL_HEIGHT, paintRect.right(), FULL_HEIGHT);
+        p.fillRect(paintRect.left(), MAX_HEIGHT + 1, paintRect.width(), 2, preview);
+        p.drawLine(paintRect.left(), MAX_HEIGHT + PREVIEW_SIZE, paintRect.right(), MAX_HEIGHT + PREVIEW_SIZE);
     }
 
     if (m_headPosition == m_view->cursorPos()) {
@@ -558,7 +560,7 @@ bool CustomRuler::updatePreview(int frame, bool rendered, bool refresh)
     std::sort(m_renderingPreviews.begin(), m_renderingPreviews.end());
     std::sort(m_dirtyRenderingPreviews.begin(), m_dirtyRenderingPreviews.end());
     if (refresh && !m_hidePreview)
-        update(frame * m_factor - offset(), FULL_HEIGHT - 5, KdenliveSettings::timelinechunks() * m_factor + 1, 5);
+        update(frame * m_factor - offset(), MAX_HEIGHT, KdenliveSettings::timelinechunks() * m_factor + 1, PREVIEW_SIZE);
     return result;
 }
 
@@ -566,9 +568,13 @@ void CustomRuler::hidePreview(bool hide)
 {
     m_hidePreview = hide;
     if (hide) {
-        MAX_HEIGHT = FULL_HEIGHT;
-    } else {	
-        MAX_HEIGHT = height() - LABEL_SIZE / 3;
+        emit resizeRuler(MAX_HEIGHT + 1);
+        setFixedHeight(MAX_HEIGHT + 1);
+        //MAX_HEIGHT = height();
+    } else {
+        emit resizeRuler(MAX_HEIGHT + PREVIEW_SIZE + 1);
+        setFixedHeight(MAX_HEIGHT + PREVIEW_SIZE + 1);
+        //MAX_HEIGHT = height() - LABEL_SIZE / 3;
     }
     update();
 }
@@ -576,7 +582,7 @@ void CustomRuler::hidePreview(bool hide)
 void CustomRuler::updatePreviewDisplay(int start, int end)
 {
     if (!m_hidePreview)
-        update(start * m_factor - offset(), FULL_HEIGHT - 5, (end - start) * KdenliveSettings::timelinechunks() * m_factor + 1, 5);
+        update(start * m_factor - offset(), MAX_HEIGHT, (end - start) * KdenliveSettings::timelinechunks() * m_factor + 1, PREVIEW_SIZE);
 }
 
 const QPair <QStringList, QStringList> CustomRuler::previewChunks() const
@@ -634,7 +640,7 @@ QList <int> CustomRuler::addChunks(QList <int> chunks, bool add)
     std::sort(m_renderingPreviews.begin(), m_renderingPreviews.end());
     std::sort(m_dirtyRenderingPreviews.begin(), m_dirtyRenderingPreviews.end());
     if (!m_hidePreview)
-        update(chunks.first() * m_factor - offset(), FULL_HEIGHT - 5, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, 5);
+        update(chunks.first() * m_factor - offset(), MAX_HEIGHT, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, PREVIEW_SIZE);
     return toProcess;
 }
 

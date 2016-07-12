@@ -81,8 +81,6 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
 {
     m_trackActions << actions;
     setupUi(this);
-    //    ruler_frame->setMaximumHeight();
-    //    size_frame->setMaximumHeight();
     m_scene = new CustomTrackScene(this);
     m_trackview = new CustomTrackView(doc, this, m_scene, parent);
     if (m_doc->setSceneList() == -1) *ok = false;
@@ -101,18 +99,19 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_ruler, SIGNAL(adjustZoom(int)), this, SIGNAL(setZoom(int)));
     connect(m_ruler, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_ruler, SIGNAL(seekCursorPos(int)), m_doc->renderer(), SLOT(seek(int)), Qt::QueuedConnection);
+    connect(m_ruler, &CustomRuler::resizeRuler, this, &Timeline::resizeRuler, Qt::DirectConnection);
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(m_trackview->frameWidth(), 0, 0, 0);
     layout->setSpacing(0);
     ruler_frame->setLayout(layout);
-    ruler_frame->setMaximumHeight(m_ruler->height());
+    ruler_frame->setFixedHeight(m_ruler->height());
     layout->addWidget(m_ruler);
 
     QHBoxLayout *sizeLayout = new QHBoxLayout;
     sizeLayout->setContentsMargins(0, 0, 0, 0);
     sizeLayout->setSpacing(0);
     size_frame->setLayout(sizeLayout);
-    size_frame->setMaximumHeight(m_ruler->height());
+    size_frame->setFixedHeight(m_ruler->height());
 
     QToolButton *butSmall = new QToolButton(this);
     butSmall->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zoom-small")));
@@ -187,6 +186,12 @@ Timeline::~Timeline()
     delete m_tractor;
     qDeleteAll<>(m_tracks);
     m_tracks.clear();
+}
+
+void Timeline::resizeRuler(int height)
+{
+    ruler_frame->setFixedHeight(height);
+    size_frame->setFixedHeight(height);
 }
 
 void Timeline::loadTimeline()

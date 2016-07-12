@@ -114,6 +114,7 @@ signals:
     void adjustZoom(int);
     void mousePosition(int);
     void seekCursorPos(int);
+    void resizeRuler(int);
 };
 
 #endif

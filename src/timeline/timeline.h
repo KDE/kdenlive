@@ -276,7 +276,8 @@ private slots:
     void switchTrackAudio(int ix, bool mute);
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);
-
+    /** @brief Resize ruler layout to adjust for timeline preview. */
+    void resizeRuler(int height);
 
 signals:
     void mousePosition(int);
