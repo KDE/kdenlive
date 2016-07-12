@@ -47,6 +47,8 @@ private:
     /** @brief currently selected's profile path */
     MltVideoProfile m_currentProfile;
     void slotUpdateInfoDisplay();
+    QList <MltVideoProfile> m_list4KDCI;
+    QList <MltVideoProfile> m_list4KWide;
     QList <MltVideoProfile> m_list4K;
     QList <MltVideoProfile> m_list2K;
     QList <MltVideoProfile> m_listFHD;
@@ -67,6 +69,8 @@ private:
 
     enum VIDEOSTD {
         Std4K = 0,
+        Std4KWide,
+        Std4KDCI,
         Std2K,
         StdFHD,
         StdHD,

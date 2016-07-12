@@ -5,6 +5,7 @@ add_subdirectory(icons)
 add_subdirectory(lumas)
 add_subdirectory(man)
 add_subdirectory(titles)
+add_subdirectory(profiles)
 
 if (KF5_ICON_COMPATIBILITY)
   add_subdirectory(pics)

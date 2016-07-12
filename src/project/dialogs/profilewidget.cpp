@@ -111,6 +111,8 @@ void ProfileWidget::loadProfile(const QString &profile)
     m_standard->blockSignals(true);
     m_standard->clear();
     m_list4K.clear();
+    m_list4KWide.clear();
+    m_list4KDCI.clear();
     m_list2K.clear();
     m_listFHD.clear();
     m_listHD.clear();
@@ -125,7 +127,15 @@ void ProfileWidget::loadProfile(const QString &profile)
         }
         switch(prof.height) {
             case 2160:
-                m_list4K.append(prof);
+                if (prof.width == 3840) {
+                    m_list4K.append(prof);
+                } else if (prof.width == 5120) {
+                    m_list4KWide.append(prof);
+                } else if (prof.width == 4096) {
+                    m_list4KDCI.append(prof);
+                } else {
+                    m_listCustom.append(prof);
+                }
                 break;
             case 1440:
                 m_list2K.append(prof);
@@ -156,6 +166,12 @@ void ProfileWidget::loadProfile(const QString &profile)
                 m_listCustom.append(prof);
                 break;
         }
+    }
+    if (!m_list4KDCI.isEmpty()) {
+        m_standard->addItem(i18n("4K DCI 2160"), Std4KDCI);
+    }
+    if (!m_list4KWide.isEmpty()) {
+        m_standard->addItem(i18n("4K UHD Wide 2160"), Std4KWide);
     }
     if (!m_list4K.isEmpty()) {
         m_standard->addItem(i18n("4K UHD 2160"), Std4K);
@@ -188,6 +204,12 @@ void ProfileWidget::loadProfile(const QString &profile)
 QList <MltVideoProfile> ProfileWidget::getList(VIDEOSTD std)
 {
     switch (std) {
+        case Std4KDCI:
+            return m_list4KDCI;
+            break;
+        case Std4KWide:
+            return m_list4KWide;
+            break;
         case Std4K:
             return m_list4K;
             break;
