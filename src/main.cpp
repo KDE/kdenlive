@@ -49,10 +49,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
 #endif
 
-    KLocalizedString::setApplicationDomain("kdenlive");
-
     // Init application
     QApplication app(argc, argv);
+    app.setApplicationName(QStringLiteral("kdenlive"));
+    KLocalizedString::setApplicationDomain("kdenlive");
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenliverc"));
     KConfigGroup grp(config, "unmanaged");
     KConfigGroup initialGroup(config, "version");
@@ -105,7 +105,6 @@ int main(int argc, char *argv[])
     loader->reconfigure("kdenlive", QStringList() << QStringLiteral(":/pics"));
 
     // Set app stuff from about data
-    app.setApplicationName(aboutData.componentName());
     app.setApplicationDisplayName(aboutData.displayName());
     app.setOrganizationDomain(aboutData.organizationDomain());
     app.setApplicationVersion(aboutData.version());
