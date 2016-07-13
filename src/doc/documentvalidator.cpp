@@ -1344,14 +1344,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
         frag.appendChild(main_playlist);
         mlt.insertBefore(frag, firstProd);
-
-        // Remove deprecated Kdenlive extra info from xml doc before sending it to MLT
-        QDomElement infoXml = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
-        if (!infoXml.isNull()) mlt.removeChild(infoXml);
     }
 
     if (version < 0.91) {
         // Migrate track properties
+        QDomNode mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
         QDomNodeList old_tracks = m_doc.elementsByTagName(QStringLiteral("trackinfo"));
         QDomNodeList tracks = m_doc.elementsByTagName(QStringLiteral("track"));
         QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
@@ -1410,6 +1407,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
         EffectsList::setProperty(playlist, QStringLiteral("kdenlive:docproperties.version"), QString::number(currentVersion));
         if (!infoXml.isNull()) EffectsList::setProperty(playlist, QStringLiteral("kdenlive:docproperties.projectfolder"), infoXml.attribute(QStringLiteral("projectfolder")));
+
+        // Remove deprecated Kdenlive extra info from xml doc before sending it to MLT
+        QDomElement infoXml = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
+        if (!infoXml.isNull()) mlt.removeChild(infoXml);
     }
 
     if (version < 0.92) {
