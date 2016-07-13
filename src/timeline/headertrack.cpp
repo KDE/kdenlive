@@ -49,15 +49,13 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
     setupUi(this);
     setFocusPolicy(Qt::ClickFocus);
     m_name = info.trackName.isEmpty() ? QString::number(m_parentTrack->index()) : info.trackName;
-    QFontMetrics metrics(font());
     m_tb = new QToolBar(this);
     m_tb->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-    m_tb->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    m_tb->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_tb->setContentsMargins(0, 0, 0, 0);
     int iconSize = m_tb->iconSize().width();
     QSize s(iconSize, iconSize);
-    //setMinimumWidth(qMax(metrics.boundingRect(m_name).width() + iconSize + contentsMargins().right() * 6, 5 * iconSize));
     track_number->setText(m_name);
     track_number->setContextMenuPolicy(Qt::NoContextMenu);
     track_number->installEventFilter(this);
@@ -249,7 +247,23 @@ void HeaderTrack::adjustSize(int height)
     QStyle *style = qApp->style();
     trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize);
     bool smallTracks = height < trackHeight;
-    m_tb->setHidden(smallTracks);
+    if (smallTracks) {
+        int ix = button_layout->indexOf(m_tb);
+        if (ix != -1) {
+            // Move toolbar to the right of track label
+            QLayoutItem *item = button_layout->takeAt(ix);
+            delete item;
+            horizontalLayout->addWidget(m_tb);
+        }
+    } else {
+        int ix = horizontalLayout->indexOf(m_tb);
+        if (ix != -1) {
+            QLayoutItem *item = horizontalLayout->takeAt(ix);
+            delete item;
+            button_layout->addWidget(m_tb);
+        }
+    }
+    //m_tb->setHidden(smallTracks);
     setFixedHeight(height);
 }
 

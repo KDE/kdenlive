@@ -73,6 +73,7 @@ CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerAction
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QFontMetricsF fontMetrics(font());
     // Define size variables
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     LABEL_SIZE = fontMetrics.ascent();
     FONT_WIDTH = fontMetrics.averageCharWidth();
     PREVIEW_SIZE = LABEL_SIZE / 3;

@@ -81,6 +81,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
 {
     m_trackActions << actions;
     setupUi(this);
+    splitter->setStretchFactor(1, 2);
     m_scene = new CustomTrackScene(this);
     m_trackview = new CustomTrackView(doc, this, m_scene, parent);
     if (m_doc->setSceneList() == -1) *ok = false;
@@ -142,7 +143,6 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     tracksLayout->setContentsMargins(0, 0, 0, 0);
     tracksLayout->setSpacing(0);
     tracks_frame->setLayout(tracksLayout);
-
     headers_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     headers_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ScrollEventEater *leventEater = new ScrollEventEater(this);
@@ -364,7 +364,7 @@ int Timeline::getTracks() {
             connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer *)));
         }
     }
-    headers_container->setFixedWidth(headerWidth);
+    headers_area->setMinimumWidth(headerWidth);
     if (audioTarget > -1) {
         m_tracks.at(audioTarget)->trackHeader->switchTarget(true);
     }

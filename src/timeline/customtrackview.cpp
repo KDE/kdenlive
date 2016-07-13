@@ -133,6 +133,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     //setCacheMode(QGraphicsView::CacheBackground);
     setAutoFillBackground(false);
     setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     setContentsMargins(0, 0, 0, 0);
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     m_selectedTrackColor = scheme.background(KColorScheme::ActiveBackground ).color();
