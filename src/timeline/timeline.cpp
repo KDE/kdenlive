@@ -82,6 +82,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     m_trackActions << actions;
     setupUi(this);
     splitter->setStretchFactor(1, 2);
+    connect(splitter, &QSplitter::splitterMoved, this, &Timeline::storeHeaderSize);
     m_scene = new CustomTrackScene(this);
     m_trackview = new CustomTrackView(doc, this, m_scene, parent);
     if (m_doc->setSceneList() == -1) *ok = false;
@@ -171,6 +172,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_disablePreview, &QAction::triggered, this, &Timeline::disablePreview);
     m_disablePreview->setEnabled(false);
     m_trackview->initTools();
+    splitter->restoreState(QByteArray::fromBase64(KdenliveSettings::timelineheaderwidth().toUtf8()));
     QAction *previewRender = m_doc->getAction(QStringLiteral("prerender_timeline_zone"));
     previewRender->setEnabled(true);
 }
@@ -1997,3 +1999,7 @@ void Timeline::addPreviewRange(bool add)
         m_timelinePreview->addPreviewRange(add);
 }
 
+void Timeline::storeHeaderSize(int , int )
+{
+    KdenliveSettings::setTimelineheaderwidth(splitter->saveState().toBase64());
+}

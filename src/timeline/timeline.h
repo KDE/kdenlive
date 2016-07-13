@@ -278,6 +278,8 @@ private slots:
     void disablePreview(bool disable);
     /** @brief Resize ruler layout to adjust for timeline preview. */
     void resizeRuler(int height);
+    /** @brief The timeline track headers were resized, store width. */
+    void storeHeaderSize(int pos, int index);
 
 signals:
     void mousePosition(int);
