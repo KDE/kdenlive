@@ -133,7 +133,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
             m_projectMonitor->displayAudioMonitor(false);
             m_clipMonitor->displayAudioMonitor(true);
         }
-        else {
+        else if (name == Kdenlive::ProjectMonitor) {
             emit updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
             m_clipMonitor->displayAudioMonitor(false);
             m_projectMonitor->displayAudioMonitor(true);

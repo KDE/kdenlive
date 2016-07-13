@@ -69,8 +69,9 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     m_pageChapters = new DvdWizardChapters(manager, m_pageVob->dvdFormat(), this);
     m_pageChapters->setTitle(i18n("DVD Chapters"));
     addPage(m_pageChapters);
-    
+
     if (!url.isEmpty()) m_pageVob->setUrl(url);
+    m_pageVob->setMinimumSize(m_pageChapters->size());
 
     m_pageMenu = new DvdWizardMenu(m_pageVob->dvdFormat(), this);
     m_pageMenu->setTitle(i18n("Create DVD Menu"));
@@ -168,7 +169,6 @@ void DvdWizard::slotPageChanged(int page)
             // For some reason, when comming from page 2, we need to trick the monitor or it disappears
             m_pageChapters->createMonitor(m_pageVob->dvdFormat());
         }
-        setTitleFormat(Qt::PlainText);
         m_previousPage = 1;
     } else if (page == 2) {
         m_pageChapters->stopMonitor();

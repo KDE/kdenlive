@@ -34,6 +34,8 @@ DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, 
     connect(m_view.button_add, SIGNAL(clicked()), this, SLOT(slotAddChapter()));
     connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotRemoveChapter()));
     connect(m_view.chapters_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotGoToChapter()));
+    connect(m_view.chapters_box, &QCheckBox::stateChanged, this, &DvdWizardChapters::slotEnableChapters);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
     // Build monitor for chapters
     QVBoxLayout *vbox = new QVBoxLayout;
@@ -60,7 +62,6 @@ void DvdWizardChapters::stopMonitor()
 
 void DvdWizardChapters::slotUpdateChaptersList()
 {
-    m_manager->activateMonitor(Kdenlive::DvdMonitor, true);
     m_monitor->slotOpenDvdFile(m_view.vob_list->currentText());
     m_monitor->adjustRulerSize(m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole).toInt());
     QStringList currentChaps = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
@@ -145,9 +146,10 @@ void DvdWizardChapters::createMonitor(DVDFORMAT format)
     if (m_monitor == NULL) {
 	//TODO: allow monitor with different profile for DVD
         m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager/*, profile*/, this);
+        m_monitor->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         m_view.video_frame->layout()->addWidget(m_monitor);
-        m_monitor->setSizePolicy(QSizePolicy ( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
         m_manager->appendMonitor(m_monitor);
+        m_manager->activateMonitor(Kdenlive::DvdMonitor, true);
     }
 }
 
@@ -169,10 +171,6 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
         m_view.vob_list->setItemData(i, chapters.at(i).split(';'), Qt::UserRole + 1);
     }
     m_view.vob_list->blockSignals(false);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    adjustSize();
-    updateGeometry();
-    slotUpdateChaptersList();
 }
 
 QMap <QString, QString> DvdWizardChapters::chaptersData() const
@@ -192,6 +190,8 @@ QStringList DvdWizardChapters::selectedTitles() const
     int max = m_view.vob_list->count();
     for (int i = 0; i < max; ++i) {
         result.append(m_view.vob_list->itemText(i));
+        if (!m_view.chapters_box->isChecked())
+            continue;
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
         for (int j = 0; j < chapters.count(); ++j) {
             result.append(Timecode::getStringTimecode(chapters.at(j).toInt(), m_tc.fps(), true));
@@ -217,6 +217,8 @@ QStringList DvdWizardChapters::selectedTargets() const
     for (int i = 0; i < max; ++i) {
         // rightJustified: fill with 0s to make menus with more than 9 buttons work (now up to 99 buttons possible)
         result.append("jump title " + QString::number(i + 1).rightJustified(2, '0'));
+        if (!m_view.chapters_box->isChecked())
+            continue;
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
         for (int j = 0; j < chapters.count(); ++j) {
             result.append("jump title " + QString::number(i + 1).rightJustified(2, '0') + " chapter " + QString::number(j + 1).rightJustified(2, '0'));
@@ -231,6 +233,8 @@ QDomElement DvdWizardChapters::toXml() const
     QDomDocument doc;
     QDomElement xml = doc.createElement(QStringLiteral("xml"));
     doc.appendChild(xml);
+    if (!m_view.chapters_box->isChecked())
+        return doc.documentElement();
     for (int i = 0; i < m_view.vob_list->count(); ++i) {
         QDomElement vob = doc.createElement(QStringLiteral("vob"));
         vob.setAttribute(QStringLiteral("file"), m_view.vob_list->itemText(i));
@@ -240,4 +244,11 @@ QDomElement DvdWizardChapters::toXml() const
     return doc.documentElement();
 }
 
+void DvdWizardChapters::slotEnableChapters(int state)
+{
+    m_view.chapters_frame->setEnabled(state == Qt::Checked);
+    if (state == Qt::Checked) {
+        slotUpdateChaptersList();
+    }
+}
 
