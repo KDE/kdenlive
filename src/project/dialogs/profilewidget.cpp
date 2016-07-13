@@ -106,8 +106,14 @@ ProfileWidget::~ProfileWidget()
 {
 }
 
-void ProfileWidget::loadProfile(const QString &profile)
+void ProfileWidget::loadProfile(QString profile)
 {
+    if (profile.isEmpty()) {
+        profile = KdenliveSettings::current_profile();
+        if (profile.isEmpty()) {
+            profile = QStringLiteral("dv_pal");
+        }
+    }
     m_standard->blockSignals(true);
     m_standard->clear();
     m_list4K.clear();

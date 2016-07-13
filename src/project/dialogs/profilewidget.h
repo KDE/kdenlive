@@ -41,7 +41,7 @@ class ProfileWidget : public QWidget
 public:
     explicit ProfileWidget(QWidget* parent = 0);
     ~ProfileWidget();
-    void loadProfile(const QString &profile);
+    void loadProfile(QString profile);
     const QString selectedProfile() const;
 private:
     /** @brief currently selected's profile path */
