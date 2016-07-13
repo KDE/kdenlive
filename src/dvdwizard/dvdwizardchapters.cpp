@@ -149,7 +149,6 @@ void DvdWizardChapters::createMonitor(DVDFORMAT format)
         m_monitor->setSizePolicy(QSizePolicy ( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
         m_manager->appendMonitor(m_monitor);
     }
-    else m_monitor->reparent();
 }
 
 void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies, const QStringList &durations, const QStringList &chapters)
@@ -173,7 +172,7 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     adjustSize();
     updateGeometry();
-    QTimer::singleShot(0, this, SLOT(slotUpdateChaptersList()));
+    slotUpdateChaptersList();
 }
 
 QMap <QString, QString> DvdWizardChapters::chaptersData() const

@@ -188,8 +188,8 @@ void DvdWizard::generateDvd()
         // We failed creating tmp DVD directory
         KMessageBox::sorry(this, i18n("Cannot create temporary directory %1", m_status.tmp_folder->url().path() + "DVD"));
         return;
-    }    
-    
+    }
+
     m_status.error_box->setHidden(true);
     m_status.error_box->setCurrentIndex(0);
     m_status.menu_file->clear();
@@ -199,7 +199,7 @@ void DvdWizard::generateDvd()
     m_selectedLetterImage.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.png"));
     m_highlightedImage.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.png"));
     m_highlightedLetterImage.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.png"));
-    
+
     m_selectedImage.open();
     m_selectedLetterImage.open();
     m_highlightedImage.open();
@@ -218,7 +218,7 @@ void DvdWizard::generateDvd()
     m_letterboxMovie.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.mpg"));
     m_letterboxMovie.setAutoRemove(false);
     m_letterboxMovie.open();
-    
+
     m_menuFile.close();
     m_menuFile.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.xml"));
     m_menuFile.setAutoRemove(false);
