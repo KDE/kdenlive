@@ -731,7 +731,7 @@ void Render::switchPlay(bool play, double speed)
             m_mltConsumer->purge();
         }
         m_mltProducer->set_speed(speed);
-    } else {
+    } else if (m_mltProducer->get_speed() != 0) {
         m_mltConsumer->purge();
         m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("buffer", 0);
@@ -851,7 +851,6 @@ void Render::refresh()
         m_isRefreshing = true;
         if (m_mltConsumer->is_stopped()) m_mltConsumer->start();
         m_mltConsumer->purge();
-        m_isRefreshing = true;
         m_mltConsumer->set("refresh", 1);
     }
 }
@@ -1441,15 +1440,6 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
 	    field->plant_transition(composite, ix - 1, ix);
 	}
     }
-
-    /*
-    // re-add transitions
-    for (int i = trList.count() - 1; i >= 0; --i) {
-        field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
-    }
-    qDeleteAll(trList);
-    */
-    
     service.unlock();
     blockSignals(false);
     return transitionInfos;

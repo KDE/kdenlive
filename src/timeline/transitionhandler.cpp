@@ -538,8 +538,8 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack)
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition) service->get_service());
             int internal = t.get_int("internal_added");
-            if (internal == 0) {
-                return;
+            if (internal != 237) {
+                continue;
             }
             QString service = t.get("mlt_service");
             if (service == QLatin1String("frei0r.cairoblend") || service == QLatin1String("movit.overlay")) {

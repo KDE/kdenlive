@@ -1842,7 +1842,6 @@ bool DocumentValidator::checkMovit()
         return false;
     }
     // Try to convert Movit filters to their non GPU equivalent
-    
     QStringList convertedFilters;
     QStringList discardedFilters;
     int ix = MainWindow::videoEffects.hasEffect(QStringLiteral("frei0r.colgate"), QStringLiteral("frei0r.colgate"));
@@ -1851,7 +1850,7 @@ bool DocumentValidator::checkMovit()
     bool hasBlur = ix > -1;
     ix = MainWindow::transitions.hasTransition(QStringLiteral("frei0r.cairoblend"));
     bool hasCairo = ix > -1;
-    
+
     // Parse all effects in document
     QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
     int max = filters.count();
