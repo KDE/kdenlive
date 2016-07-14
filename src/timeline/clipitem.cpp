@@ -353,7 +353,7 @@ void ClipItem::resetThumbs(bool clearExistingThumbs)
 
 void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
 {
-    if (checkDuration && (m_maxDuration != m_binClip->duration())) {
+    if (checkDuration && m_binClip->hasLimitedDuration() && (m_maxDuration != m_binClip->duration())) {
         m_maxDuration = m_binClip->duration();
         if (m_clipType != Image && m_clipType != Text && m_clipType != QText && m_clipType != Color && m_clipType != TextTemplate) {
             if (m_maxDuration != GenTime() && m_info.cropStart + m_info.cropDuration > m_maxDuration) {

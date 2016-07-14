@@ -3023,8 +3023,6 @@ void Bin::showTitleWidget(ProjectClip *clip)
                 int currentLength = clip->getProducerIntProperty(QStringLiteral("length"));
                 if (currentLength <= dia_ui.duration()) {
                     newprops.insert(QStringLiteral("length"), QString::number(dia_ui.duration()));
-                } else {
-                    newprops.insert(QStringLiteral("length"), clip->getProducerProperty(QStringLiteral("length")));
                 }
             }
             // trigger producer reload
