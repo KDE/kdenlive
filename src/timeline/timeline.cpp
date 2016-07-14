@@ -323,7 +323,7 @@ int Timeline::getTracks() {
         Track *tk = NULL;
         if (!isBackgroundBlackTrack) {
             audio = playlist.get_int("kdenlive:audio_track");
-            tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, this);
+            tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, height, this);
             m_tracks.append(tk);
             trackduration = loadTrack(i, offset, playlist);
             QFrame *frame = new QFrame(headers_container);
@@ -332,7 +332,7 @@ int Timeline::getTracks() {
             headerLayout->insertWidget(0, frame);
         } else {
             // Black track
-            tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, this);
+            tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, 0, this);
             m_tracks.append(tk);
         }
         offset += track->count();
@@ -344,7 +344,6 @@ int Timeline::getTracks() {
             }
         }
         if (!isBackgroundBlackTrack) {
-            tk->trackHeader->setTrackHeight(height);
             int currentWidth = tk->trackHeader->minimumWidth();
             if (currentWidth > headerWidth) headerWidth = currentWidth;
             headerLayout->insertWidget(0, tk->trackHeader);

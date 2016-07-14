@@ -1903,7 +1903,7 @@ bool DocumentValidator::checkMovit()
             discardedFilters << filterId;
         }
     }
-    
+
     // Parse all transitions in document
     QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
     max = transitions.count();
@@ -1914,7 +1914,7 @@ bool DocumentValidator::checkMovit()
             continue;
         }
         if (transId == QLatin1String("movit.overlay") && hasCairo) {
-            // Convert to frei0r.colgate
+            // Convert to frei0r.cairoblend
             EffectsList::setProperty(t, QStringLiteral("mlt_service"), QStringLiteral("frei0r.cairoblend"));
             convertedFilters << transId;
             continue;

@@ -37,7 +37,7 @@
 #include <QDomDocument>
 #include <QMimeData>
 
-HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track *parent, QWidget *parentWidget) :
+HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track *parent, int height, QWidget *parentWidget) :
         QWidget(parentWidget),
         isTarget(false),
         m_type(info.type),
@@ -64,7 +64,14 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
     effect_label->setPixmap(KoIconUtils::themedIcon(QStringLiteral("kdenlive-track_has_effect")).pixmap(s));
     updateEffectLabel(info.effectsList.effectNames());
     setAcceptDrops(true);
-    button_layout->addWidget(m_tb);
+
+    QFontMetrics metrics(font());
+    int trackHeight = metrics.height() + qApp->style()->pixelMetric(QStyle::PM_ToolBarIconSize);
+    if (height < trackHeight) {
+        horizontalLayout->addWidget(m_tb);
+    } else {
+        button_layout->addWidget(m_tb);
+    }
     m_switchLock = new KDualAction(i18n("Lock track"), i18n("Unlock track"), this);
     m_switchLock->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-lock")));
     m_switchLock->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-unlock")));
@@ -99,7 +106,7 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
     }
 
     updateStatus(info);
-    //TODO: this resizing stuff should'nt be necessary
+    setFixedHeight(height);
     setMinimumWidth(m_tb->widgetForAction(m_switchLock)->width() * 1.5);
     setContextMenuPolicy(Qt::ActionsContextMenu);
     addActions(actions);
@@ -148,11 +155,6 @@ void HeaderTrack::updateBackground(bool isLocked)
     } else {
         setBackgroundRole(QPalette::AlternateBase);
     }
-}
-
-void HeaderTrack::setTrackHeight(int height)
-{
-    setFixedHeight(height);
 }
 
 void HeaderTrack::updateEffectLabel(const QStringList &effects)

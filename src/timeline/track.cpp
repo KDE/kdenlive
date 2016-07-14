@@ -31,7 +31,7 @@
 #include <QDebug>
 #include <math.h>
 
-Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, QWidget *parent) :
+Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, int height, QWidget *parent) :
     effectsList(EffectsList(true)),
     type(type),
     trackHeader(NULL),
@@ -40,7 +40,7 @@ Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist
 {
     QString playlist_name = playlist.get("id");
     if (playlist_name != "black_track") {
-        trackHeader = new HeaderTrack(info(), actions, this, parent);
+        trackHeader = new HeaderTrack(info(), actions, this, height, parent);
     }
 }
 
