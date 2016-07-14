@@ -125,12 +125,10 @@ void ProfileWidget::loadProfile(QString profile)
     m_listSD.clear();
     m_listSDWide.clear();
     m_listCustom.clear();
+    m_currentProfile = ProfilesDialog::getVideoProfile(profile);
     QList <MltVideoProfile> list = ProfilesDialog::profilesList();
     for (int i = 0; i < list.count(); i++) {
         MltVideoProfile prof = list.at(i);
-        if (prof.path == profile) {
-            m_currentProfile = prof;
-        }
         switch(prof.height) {
             case 2160:
                 if (prof.width == 3840) {
@@ -292,6 +290,12 @@ void ProfileWidget::ratesUpdated()
     // insert all frame sizes related to frame rate
     m_customSize->clear();
     m_customSize->addItems(getFrameSizes(currentStd, m_rate_list->currentText()));
+    if (std == StdCustom) {
+        int ix = m_customSize->findText(QString("%1x%2").arg(m_currentProfile.width).arg(m_currentProfile.height));
+        if (ix > 0) {
+            m_customSize->setCurrentIndex(ix);
+        }
+    }
     checkInterlace(currentStd, m_customSize->currentText(), m_rate_list->currentText());
     updateDisplay();
 }
@@ -348,7 +352,7 @@ void ProfileWidget::checkInterlace(QList <MltVideoProfile> currentStd, const QSt
         else
             allowInterlaced = true;
     }
- 
+    m_interlaced->setChecked(!m_currentProfile.progressive);
     if (allowInterlaced && allowProgressive) {
         m_interlaced->setEnabled(true);
         m_interlaced->setChecked(false);
@@ -438,12 +442,18 @@ void ProfileWidget::updateDisplay()
     QStringList displays;
     QStringList samples;
     QStringList colors;
-    m_currentProfile = matching.first();
+    bool foundMatching = false;
     for (int i = 0; i < matching.count(); i++) {
         MltVideoProfile prof = matching.at(i);
+        if (prof == m_currentProfile) {
+            foundMatching = true;
+        }
         displays << QString("%1:%2").arg(prof.display_aspect_num).arg(prof.display_aspect_den);
         samples << QString("%1:%2").arg(prof.sample_aspect_num).arg(prof.sample_aspect_den);
         colors << ProfilesDialog::getColorspaceDescription(prof.colorspace);
+    }
+    if (!foundMatching) {
+        m_currentProfile = matching.first();
     }
     displays.removeDuplicates();
     samples.removeDuplicates();
@@ -454,6 +464,10 @@ void ProfileWidget::updateDisplay()
     m_display_list->addItems(displays);
     m_sample_list->addItems(samples);
     m_color_list->addItems(colors);
+
+    m_display_list->setCurrentText(QString("%1:%2").arg(m_currentProfile.display_aspect_num).arg(m_currentProfile.display_aspect_den));
+    m_sample_list->setCurrentText(QString("%1:%2").arg(m_currentProfile.sample_aspect_num).arg(m_currentProfile.sample_aspect_den));
+    m_color_list->setCurrentText(ProfilesDialog::getColorspaceDescription(m_currentProfile.colorspace));
 }
 
 void ProfileWidget::selectProfile()
