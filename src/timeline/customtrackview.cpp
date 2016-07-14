@@ -5056,7 +5056,9 @@ Transition *CustomTrackView::getTransitionItemAtStart(GenTime pos, int track)
 
 bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, bool alreadyMoved, ItemInfo *out_actualEnd)
 {
-    if (m_selectionGroup) resetSelectionGroup(false);
+    if (m_selectionGroup) {
+        resetSelectionGroup(false);
+    }
     ClipItem *item = NULL;
     if (alreadyMoved) {
         item = getClipItemAtStart(end.startPos, end.track);
@@ -5110,7 +5112,7 @@ bool CustomTrackView::moveClip(const ItemInfo &start, const ItemInfo &end, bool 
         }*/
         KdenliveSettings::setSnaptopoints(snap);
     }
-    if (refresh) 
+    if (refresh)
         monitorRefresh(range, true);
     if (out_actualEnd != NULL) {
         *out_actualEnd = item->info();

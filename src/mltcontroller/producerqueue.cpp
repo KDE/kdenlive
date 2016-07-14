@@ -415,8 +415,12 @@ void ProducerQueue::processFileProperties()
             if (info.xml.hasAttribute(QStringLiteral("length"))) {
                 length = info.xml.attribute(QStringLiteral("length")).toInt();
                 clipOut = length - 1;
+            } else {
+                length = EffectsList::property(info.xml, QStringLiteral("length")).toInt();
+                clipOut = info.xml.attribute(QStringLiteral("out")).toInt() - info.xml.attribute(QStringLiteral("in")).toInt();
+                if (length < clipOut)
+                    length = clipOut + 1;
             }
-            else length = info.xml.attribute(QStringLiteral("out")).toInt() - info.xml.attribute(QStringLiteral("in")).toInt() + 1;
             // Pass duration if it was forced
             if (info.xml.hasAttribute(QStringLiteral("duration"))) {
                 duration = info.xml.attribute(QStringLiteral("duration")).toInt();

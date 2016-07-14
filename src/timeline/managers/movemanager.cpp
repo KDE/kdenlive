@@ -231,6 +231,7 @@ void MoveManager::mouseRelease(GenTime pos)
                 item = m_view->getClipItemAtStart(info.startPos, info.track, info.endPos);
                 if (item) {
                     item->setItemLocked(isLocked);
+                    item->setSelected(true);
                 }
             } else {
                 // undo last move and emit error message
