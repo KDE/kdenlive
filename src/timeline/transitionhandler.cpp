@@ -538,14 +538,13 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack)
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition) service->get_service());
             int internal = t.get_int("internal_added");
-            if (internal != 237) {
-                continue;
-            }
-            QString service = t.get("mlt_service");
-            if (service == QLatin1String("frei0r.cairoblend") || service == QLatin1String("movit.overlay")) {
-                composites << new Mlt::Transition(t);
-                if (t.get_int("disable") == 1) {
-                    disabled << t.get_int("b_track");
+            if (internal == 237) {
+                QString service = t.get("mlt_service");
+                if (service == QLatin1String("frei0r.cairoblend") || service == QLatin1String("movit.overlay")) {
+                    composites << new Mlt::Transition(t);
+                    if (t.get_int("disable") == 1) {
+                        disabled << t.get_int("b_track");
+                    }
                 }
             }
         }

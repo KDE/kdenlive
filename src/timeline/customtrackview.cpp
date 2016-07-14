@@ -3513,7 +3513,6 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     if (ix <= m_timeline->audioTarget)
         m_timeline->audioTarget++;
     int lowestVideoTrack = m_timeline->getLowestVideoTrack();
-
     // Prepare groups for reload
     QDomDocument doc;
     doc.setContent(m_document->groupsXml());
@@ -3537,7 +3536,6 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
             }
         }
     }
-
     // insert track in MLT's playlist
     transitionInfos = m_document->renderer()->mltInsertTrack(ix,  type.trackName, type.type == VideoTrack, lowestVideoTrack);
     Mlt::Tractor *tractor = m_document->renderer()->lockService();

@@ -302,7 +302,7 @@ int Timeline::getTracks() {
     for (int i = 0; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
-        if (playlist_name == QLatin1String("black_track")) continue;
+        if (playlist_name == QLatin1String("black_track") || playlist_name == QLatin1String("timeline_preview") || playlist_name == QLatin1String("overlay_track")) continue;
         clipsCount += track->count();
     }
     emit startLoadingBin(clipsCount);
@@ -314,7 +314,7 @@ int Timeline::getTracks() {
     for (int i = 0; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
-        if (playlist_name == QLatin1String("playlistmain")) continue;
+        if (playlist_name == QLatin1String("playlistmain") || playlist_name == QLatin1String("timeline_preview") || playlist_name == QLatin1String("overlay_track")) continue;
         bool isBackgroundBlackTrack = playlist_name == QLatin1String("black_track");
         // check track effects
         Mlt::Playlist playlist(*track);
