@@ -341,16 +341,19 @@ bool CustomTrackView::checkTrackHeight(bool force)
         }
         KdenliveSettings::setSnaptopoints(snap);
     }
+    setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_timeline->visibleTracksCount());
     double newHeight = m_tracksHeight * m_timeline->visibleTracksCount() * matrix().m22();
-    m_cursorLine->setLine(0, 0, 0, newHeight - 1);
+    if (m_cursorLine->flags() & QGraphicsItem::ItemIgnoresTransformations) {
+        m_cursorLine->setLine(0, 0, 0, newHeight - 1);
+    } else {
+        m_cursorLine->setLine(0, 0, 0, m_tracksHeight * m_timeline->visibleTracksCount() - 1);
+    }
     if (m_cutLine) {
         m_cutLine->setLine(0, 0, 0, m_tracksHeight * m_scene->scale().y());
     }
     for (int i = 0; i < m_guides.count(); ++i) {
         m_guides.at(i)->setLine(0, 0, 0, newHeight - 1);
     }
-
-    setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_timeline->visibleTracksCount());
     viewport()->update();
     return true;
 }
@@ -3574,7 +3577,11 @@ void CustomTrackView::reloadTimeline()
     for (int i = 0; i < m_guides.count(); ++i) {
         m_guides.at(i)->setLine(0, 0, 0, maxHeight - 1);
     }
-    m_cursorLine->setLine(0, 0, 0, maxHeight - 1);
+    if (m_cursorLine->flags() & QGraphicsItem::ItemIgnoresTransformations) {
+        m_cursorLine->setLine(0, 0, 0, maxHeight - 1);
+    } else {
+        m_cursorLine->setLine(0, 0, 0, m_tracksHeight * m_timeline->visibleTracksCount() - 1);
+    }
     viewport()->update();
 }
 
@@ -6076,6 +6083,15 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     m_scene->isZooming = true;
     m_scene->setScale(scaleFactor, verticalScale);
     removeTipAnimation();
+    bool adjust = verticalScale != matrix().m22();
+    setMatrix(newmatrix);
+    double newHeight = m_tracksHeight * m_timeline->visibleTracksCount() * matrix().m22();
+    if (adjust) {
+        setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_timeline->visibleTracksCount());
+        for (int i = 0; i < m_guides.count(); ++i) {
+            m_guides.at(i)->setLine(0, 0, 0, newHeight - 1);
+        }
+    }
     if (scaleFactor < 1.5) {
         m_cursorLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
         QPen p = m_cursorLine->pen();
@@ -6084,6 +6100,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
         p.setColor(c);
         m_cursorLine->setPen(p);
         m_cursorOffset = 0;
+        m_cursorLine->setLine(0, 0, 0, newHeight - 1);
     }
     else {
         m_cursorLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, false);
@@ -6093,17 +6110,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
         p.setColor(c);
         m_cursorLine->setPen(p);
         m_cursorOffset = 0.5;
-    }
-    bool adjust = false;
-    if (verticalScale != matrix().m22()) adjust = true;
-    setMatrix(newmatrix);
-    if (adjust) {
-        double newHeight = m_tracksHeight * m_timeline->visibleTracksCount() * matrix().m22();
-        m_cursorLine->setLine(0, 0, 0, newHeight - 1);
-        for (int i = 0; i < m_guides.count(); ++i) {
-            m_guides.at(i)->setLine(0, 0, 0, newHeight - 1);
-        }
-        setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_timeline->visibleTracksCount());
+        m_cursorLine->setLine(0, 0, 0, m_tracksHeight * m_timeline->visibleTracksCount() - 1);
     }
 
     int diff = sceneRect().width() - m_projectDuration;
