@@ -351,7 +351,7 @@ private slots:
     void slotUpdateShadow();
 
 signals:
-    void requestBackgroundFrame();
+    void requestBackgroundFrame(bool);
 };
 
 #endif

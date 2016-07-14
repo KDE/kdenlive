@@ -315,7 +315,7 @@ public slots:
     /** @brief Display or hide the record toolbar */
     void slotSwitchRec(bool enable);
     /** @brief Request QImage of current frame */
-    void slotGetCurrentImage();
+    void slotGetCurrentImage(bool request);
     /** @brief Enable/disable display of monitor's audio levels widget */
     void slotSwitchAudioMonitor();
 

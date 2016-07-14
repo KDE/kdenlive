@@ -354,13 +354,17 @@ Monitor::~Monitor()
     delete render;
 }
 
-void Monitor::slotGetCurrentImage()
+void Monitor::slotGetCurrentImage(bool request)
 {
-    m_monitorManager->activateMonitor(m_id, true);
-    m_glMonitor->sendFrameForAnalysis = true;
-    refreshMonitorIfActive();
-    // Update analysis state
-    QTimer::singleShot(500, m_monitorManager, SIGNAL(checkScopes()));
+    m_glMonitor->sendFrameForAnalysis = request;
+    if (request) {
+        m_monitorManager->activateMonitor(m_id, true);
+        refreshMonitorIfActive();
+        // Update analysis state
+        QTimer::singleShot(500, m_monitorManager, SIGNAL(checkScopes()));
+    } else {
+        m_glMonitor->releaseAnalyse();
+    }
 }
 
 void Monitor::slotAddEffect(QDomElement effect)

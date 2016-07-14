@@ -632,7 +632,7 @@ public slots:
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
     void slotEffectDropped(QString id, QDomElement);
     /** @brief Request current frame from project monitor. */
-    void slotGetCurrentProjectImage();
+    void slotGetCurrentProjectImage(bool request);
     void slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command);
     void abortAudioThumbs();
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, QList <QAction*> actions = QList <QAction*>());

@@ -843,7 +843,7 @@ void TitleWidget::displayBackgroundFrame()
         p2.end();
         m_frameImage->setPixmap(bg);
     } else {
-        emit requestBackgroundFrame();
+        emit requestBackgroundFrame(true);
     }
 }
 
@@ -851,6 +851,7 @@ void TitleWidget::slotGotBackground(QImage img)
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(r.width() / 2, r.height() / 2)));
+    emit requestBackgroundFrame(false);
 }
 
 void TitleWidget::initAnimation()
@@ -1984,7 +1985,7 @@ void TitleWidget::writeChoices()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
     // Write the entries
-    titleConfig.writeEntry("dialog_geometry", saveGeometry());
+    titleConfig.writeEntry("dialog_geometry", saveGeometry().toBase64());
     titleConfig.writeEntry("font_family", font_family->currentFont());
     //titleConfig.writeEntry("font_size", font_size->value());
     titleConfig.writeEntry("font_pixel_size", font_size->value());
@@ -2020,7 +2021,7 @@ void TitleWidget::readChoices()
     KConfigGroup titleConfig(config, "TitleWidget");
     // read the entries
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
-    restoreGeometry(geometry);
+    restoreGeometry(QByteArray::fromBase64(geometry));
     font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
     font_size->setValue(titleConfig.readEntry("font_pixel_size", font_size->value()));
     m_scene->slotUpdateFontSize(font_size->value());
