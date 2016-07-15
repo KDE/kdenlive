@@ -180,8 +180,8 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 //static
 QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
 {
-    QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
     if (frame == NULL || !frame->is_valid()) {
+        QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
@@ -189,27 +189,25 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
     //frame->set("progressive", "1");
-    if (ow % 2 == 1) ow++;
+    //if (ow % 2 == 1) ow++;
     const uchar* imagedata = frame->get_image(format, ow, oh);
-    if (imagedata == NULL) {
-        p.fill(QColor(Qt::red).rgb());
-        return p;
-    }
-    QImage image(ow, oh, QImage::Format_ARGB32_Premultiplied);
-    memcpy(image.bits(), imagedata, ow * oh * 4);
-    if (!image.isNull()) {
-        if (ow > (2 * width)) {
-            // there was a scaling problem, do it manually
-            image = image.scaled(width, height).rgbSwapped();
-        } else {
-            image = image.scaled(width, height, Qt::IgnoreAspectRatio).rgbSwapped();
+    if (imagedata) {
+        QImage image(ow, oh, QImage::Format_RGBA8888);
+        memcpy(image.bits(), imagedata, ow * oh * 4);
+        if (!image.isNull()) {
+            if (ow > (2 * width)) {
+                // there was a scaling problem, do it manually
+                image = image.scaled(width, height);
+            }
+            return image;
+            /*p.fill(QColor(100, 100, 100, 70));
+            QPainter painter(&p);
+            painter.drawImage(p.rect(), image);
+            painter.end();*/
         }
-	p.fill(QColor(100, 100, 100, 70));
-        QPainter painter(&p);
-        painter.drawImage(p.rect(), image);
-        painter.end();
-    } else
-        p.fill(QColor(Qt::red).rgb());
+    }
+    QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
+    p.fill(QColor(Qt::red).rgb());
     return p;
 }
 

@@ -454,12 +454,10 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     //     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
 
-    QImage image(width, height, QImage::Format_ARGB32_Premultiplied);
+    QImage image(width, height, QImage::Format_RGBA8888);
     const uchar* imagedata = frame->get_image(format, width, height);
     if (imagedata) {
-        QImage temp(width, height, QImage::Format_ARGB32_Premultiplied);
-        memcpy(temp.bits(), imagedata, width * height * 4);
-        image = temp.rgbSwapped();
+        memcpy(image.bits(), imagedata, width * height * 4);
     }
     else image.fill(QColor(Qt::red).rgb());
     delete frame;
