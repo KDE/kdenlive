@@ -209,7 +209,7 @@ void AnimationWidget::finishSetup()
     if (m_doubleWidgets.count() == 1) {
         m_doubleWidgets.first()->hideRadioButton();
     }
-    ((QVBoxLayout*)layout())->addStretch(2);
+
     // Load keyframes
     rebuildKeyframes();
 }

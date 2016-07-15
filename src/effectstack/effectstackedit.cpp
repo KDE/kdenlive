@@ -47,7 +47,6 @@ EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setFrameStyle(QFrame::NoFrame);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
-    
     updatePalette();
     setWidget(m_baseWidget);
     /*m_vbox = new QVBoxLayout(m_baseWidget);

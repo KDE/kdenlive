@@ -702,7 +702,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         connect(cb, &QCheckBox::toggled, this, &ParameterContainer::toggleSync);
     }
     if (stretch)
-        m_vbox->addStretch();
+        m_vbox->addStretch(2);
 
     if (m_keyframeEditor)
         m_keyframeEditor->checkVisibleParam();
