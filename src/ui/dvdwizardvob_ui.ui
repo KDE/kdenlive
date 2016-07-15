@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>562</width>
-    <height>350</height>
+    <width>665</width>
+    <height>469</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -121,7 +121,6 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <zorder>convert_box</zorder>
     </widget>
    </item>
    <item row="3" column="0" colspan="2">
@@ -148,11 +147,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QProgressBar" name="convert_progress">
-        <property name="value">
-         <number>24</number>
-        </property>
-       </widget>
+       <widget class="QProgressBar" name="convert_progress"/>
       </item>
       <item>
        <widget class="QPushButton" name="convert_abort">
