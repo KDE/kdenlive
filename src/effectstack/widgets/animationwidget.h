@@ -94,6 +94,7 @@ private:
     DragValue *m_spinY;
     DragValue *m_spinWidth;
     DragValue *m_spinHeight;
+    DragValue *m_spinOpacity;
     int m_offset;
     void parseKeyframes();
     void rebuildKeyframes();

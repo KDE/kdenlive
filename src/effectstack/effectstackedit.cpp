@@ -170,6 +170,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
         cb->installEventFilter( this );
         cb->setFocusPolicy( Qt::StrongFocus );
     }
+    m_paramWidget->connectMonitor(true);
 }
 
 void EffectStackEdit::slotSyncEffectsPos(int pos)

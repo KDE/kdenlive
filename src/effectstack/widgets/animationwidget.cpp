@@ -70,6 +70,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     , m_spinY(NULL)
     , m_spinWidth(NULL)
     , m_spinHeight(NULL)
+    , m_spinOpacity(NULL)
     , m_offset(effectIn - min)
 {
     setAcceptDrops(true);
@@ -208,6 +209,7 @@ void AnimationWidget::finishSetup()
     if (m_doubleWidgets.count() == 1) {
         m_doubleWidgets.first()->hideRadioButton();
     }
+    ((QVBoxLayout*)layout())->addStretch(2);
     // Load keyframes
     rebuildKeyframes();
 }
@@ -528,6 +530,11 @@ void AnimationWidget::updateRect(int pos)
     m_spinY->setValue(rect.y);
     m_spinWidth->setValue(rect.w);
     m_spinHeight->setValue(rect.h);
+    if (m_spinOpacity) {
+        m_spinOpacity->blockSignals(true);
+        m_spinOpacity->setValue(100.0 * rect.o);
+        m_spinOpacity->blockSignals(false);
+    }
     bool enableEdit = false;
     if (!m_animController.is_key(pos)) {
         // no keyframe
@@ -571,6 +578,9 @@ void AnimationWidget::updateRect(int pos)
     m_spinY->setEnabled(enableEdit);
     m_spinWidth->setEnabled(enableEdit);
     m_spinHeight->setEnabled(enableEdit);
+    if (m_spinOpacity) {
+        m_spinOpacity->setEnabled(enableEdit);
+    }
     m_spinX->blockSignals(false);
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
@@ -695,6 +705,12 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
     connect(m_spinHeight, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
     horLayout->addWidget(m_spinHeight);
+
+    if (e.attribute(QStringLiteral("opacity")) != QLatin1String("false")) {
+        m_spinOpacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, QString(), false, this);
+        connect(m_spinOpacity, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+        horLayout->addWidget(m_spinOpacity);
+    }
     horLayout->addStretch(10);
 
     static_cast<QVBoxLayout *>(layout())->addLayout(horLayout);
@@ -747,7 +763,7 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
     rect.y = m_spinY->value();
     rect.w = m_spinWidth->value();
     rect.h = m_spinHeight->value();
-    rect.o = 1;
+    rect.o = m_spinOpacity ? m_spinOpacity->value() / 100.0 : 1;
     if (m_animController.is_key(pos)) {
         // This is a keyframe
         m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
