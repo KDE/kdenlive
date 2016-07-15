@@ -24,7 +24,7 @@
 
 #include <QString>
 #include <QStringList>
-
+#include <QDir>
 #include "definitions.h"
 
 class ClipController;
@@ -145,7 +145,7 @@ public:
     Mlt::Repository *mltRepository();
 
     /** @brief Load thumbnails for all producers */
-    void checkThumbnails(const QString &thumbFolder);
+    void checkThumbnails(const QDir thumbFolder);
 
     /** @brief Request audio thumbnails for all producers */
     void checkAudioThumbs();

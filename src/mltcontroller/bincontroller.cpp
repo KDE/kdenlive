@@ -477,7 +477,7 @@ void BinController::updateTrackProducer(const QString &id)
     emit updateTimelineProducer(id);
 }
 
-void BinController::checkThumbnails(const QString& thumbFolder)
+void BinController::checkThumbnails(const QDir thumbFolder)
 {
     // Parse all controllers and load thumbnails
     QMapIterator<QString, ClipController *> i(m_clipList);
@@ -490,7 +490,7 @@ void BinController::checkThumbnails(const QString& thumbFolder)
         }
         bool foundFile = false;
         if (!ctrl->getClipHash().isEmpty()) {
-            QImage img(thumbFolder + ctrl->getClipHash() + ".png");
+            QImage img(thumbFolder.absoluteFilePath(ctrl->getClipHash() + ".png"));
             if (!img.isNull()) {
                 emit loadThumb(ctrl->clipId(), img, true);
                 foundFile = true;
