@@ -3096,6 +3096,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
                 extractZone(QPoint(info.startPos.frames(m_document->fps()), (info.startPos+info.cropDuration).frames(m_document->fps())), false, QList <ItemInfo>(), addCommand, info.track);
             }*/
         }
+        ItemInfo info;
         for (int i = 0; i < items.count(); ++i) {
 	    if (items.at(i)->type() != AVWidget)
 	      continue;
@@ -3106,7 +3107,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             } else {
                 updateClipTypeActions(NULL);
             }
-            ItemInfo info = item->info();
+            info = item->info();
             QString clipBinId = item->getBinId();
 	    PlaylistState::ClipState pState = item->clipState();
             if (item->hasVisibleVideo()) {
@@ -3141,36 +3142,14 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         new RefreshMonitorCommand(this, range, true, false, addCommand);
         if (addCommand->childCount() > 0) m_commandStack->push(addCommand);
         else delete addCommand;
-
         /*
-        // debug info
-        QRectF rect(0, 1 * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2);
-        QList<QGraphicsItem *> selection = m_scene->items(rect);
-        QStringList timelineList;
-
-        //qDebug()<<"// ITEMS on TRACK: "<<selection.count();
-        for (int i = 0; i < selection.count(); ++i) {
-               if (selection.at(i)->type() == AVWidget) {
-                   ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
-                   int start = clip->startPos().frames(m_document->fps());
-                   int end = clip->endPos().frames(m_document->fps());
-                   timelineList.append(QString::number(start) + '-' + QString::number(end));
-            }
-        }
-        //qDebug() << "// COMPARE:\n" << timelineList << "\n-------------------";
-        */
-
-        /*
-        m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
-        if (items.count() > 1) {
-            groupSelectedItems(items);
-        } else if (items.count() == 1) {
-            m_dragItem = static_cast <AbstractClipItem *>(items.at(0));
-            m_dragItem->setMainSelectedClip(true);
-            emit clipItemSelected(static_cast<ClipItem*>(m_dragItem), false);
-        }*/
+        m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);*/
         event->setDropAction(Qt::MoveAction);
         event->accept();
+        ClipItem *clp = getClipItemAtStart(info.startPos, info.track);
+        if (clp) {
+            slotSelectItem(clp);
+        }
 
         /// \todo enable when really working
         //        alignAudio();

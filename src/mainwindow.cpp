@@ -2517,9 +2517,9 @@ void MainWindow::slotTimelineClipSelected(ClipItem* item, bool reloadStack, bool
 {
     m_effectStack->slotClipItemSelected(item, m_projectMonitor, reloadStack);
     m_projectMonitor->slotSetSelectedClip(item);
-    if (raise) {
+    /*if (raise) {
         m_effectStack->raiseWindow(m_effectStackDock);
-    }
+    }*/
 }
 
 void MainWindow::slotTrackSelected(int index, const TrackInfo &info, bool raise)

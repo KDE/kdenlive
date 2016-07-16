@@ -336,7 +336,7 @@ int KdenliveDoc::setSceneList()
     bool ok = false;
     QDir thumbsFolder = getCacheDir(CacheThumbs, &ok);
     if (ok)
-        pCore->binController()->checkThumbnails(thumbsFolder.absolutePath());
+        pCore->binController()->checkThumbnails(thumbsFolder);
     m_documentProperties.remove(QStringLiteral("position"));
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
     return 0;
