@@ -47,6 +47,26 @@ bool TreeEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
+MyTreeWidgetSearchLine::MyTreeWidgetSearchLine(QWidget *parent) : KTreeWidgetSearchLine(parent)
+{
+}
+
+bool MyTreeWidgetSearchLine::itemMatches(const QTreeWidgetItem *item, const QString &pattern) const
+{
+    if (pattern.isEmpty()) {
+        return true;
+    }
+    QString itemText = item->text(0);
+    itemText = itemText.normalized(QString::NormalizationForm_D).replace(QRegExp("[^a-zA-Z0-9\\s]"), QStringLiteral(""));
+    QString patt = pattern.normalized(QString::NormalizationForm_D).replace(QRegExp("[^a-zA-Z0-9\\s]"), QStringLiteral(""));
+    for (int i = 0; i < item->treeWidget()->columnCount(); i++) {
+        if (item->treeWidget()->columnWidth(i) > 0 && itemText.indexOf(patt, 0, Qt::CaseInsensitive) >= 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     QWidget(parent)
@@ -55,16 +75,18 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     setupUi(this);
     m_contextMenu = new QMenu(this);
     m_effectsList = new EffectsListWidget();
+    m_search_effect = new MyTreeWidgetSearchLine();
     //m_effectsList->setStyleSheet(customStyleSheet());
     QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
+    lyr->addWidget(m_search_effect);
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
-    search_effect->setTreeWidget(m_effectsList);
-    search_effect->setToolTip(i18n("Search in effects list"));
+    m_search_effect->setTreeWidget(m_effectsList);
+    m_search_effect->setToolTip(i18n("Search in effects list"));
 
     TreeEventEater *leventEater = new TreeEventEater(this);
-    search_effect->installEventFilter(leventEater);
-    connect(leventEater, SIGNAL(clearSearchLine()), search_effect, SLOT(clear()));
+    m_search_effect->installEventFilter(leventEater);
+    connect(leventEater, SIGNAL(clearSearchLine()), m_search_effect, SLOT(clear()));
 
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
@@ -72,8 +94,8 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     buttonInfo->setToolTip(i18n("Show/Hide effect description"));
     buttonInfo->setIconSize(iconSize);
     setFocusPolicy(Qt::StrongFocus);
-    setFocusProxy(search_effect);
-    m_effectsList->setFocusProxy(search_effect);
+    setFocusProxy(m_search_effect);
+    m_effectsList->setFocusProxy(m_search_effect);
 
     if (KdenliveSettings::showeffectinfo())
         buttonInfo->setDown(true);
@@ -127,13 +149,13 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     connect(m_effectsList, &EffectsListWidget::itemDoubleClicked, this, &EffectsListView::slotEffectSelected);
     connect(m_effectsList, SIGNAL(displayMenu(QTreeWidgetItem *, const QPoint &)), this, SLOT(slotDisplayMenu(QTreeWidgetItem *, const QPoint &)));
     connect(m_effectsList, &EffectsListWidget::applyEffect, this, &EffectsListView::addEffect);
-    connect(search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
+    connect(m_search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
 
     // Select preferred effect tab
     if (m_mode == TransitionMode) {
         return;
     }
-    connect(search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
+    connect(m_search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
     switch (KdenliveSettings::selected_effecttab()) {
       case EffectsList::EFFECT_VIDEO:
         effectsVideo->setChecked(true);
@@ -231,11 +253,11 @@ void EffectsListView::filterList()
         m_removeAction->setText(i18n("Delete effect"));
         m_effectsList->setIndentation(0);
         m_effectsList->setRootOnCustomFolder();
-        QString currentSearch = search_effect->text();
+        QString currentSearch = m_search_effect->text();
         if (!currentSearch.isEmpty()) {
             // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
-            search_effect->updateSearch("###");
-            search_effect->updateSearch(currentSearch);
+            m_search_effect->updateSearch("###");
+            m_search_effect->updateSearch(currentSearch);
         }
         return;
     } else if (pos == EffectsList::EFFECT_FAVORITES) {
@@ -256,11 +278,11 @@ void EffectsListView::filterList()
             }
         }
         m_effectsList->createTopLevelItems(favorites, EffectsList::EFFECT_FAVORITES);
-        QString currentSearch = search_effect->text();
+        QString currentSearch = m_search_effect->text();
         if (!currentSearch.isEmpty()) {
             // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
-            search_effect->updateSearch("###");
-            search_effect->updateSearch(currentSearch);
+            m_search_effect->updateSearch("###");
+            m_search_effect->updateSearch(currentSearch);
         }
         return;
     }
@@ -277,11 +299,11 @@ void EffectsListView::filterList()
             }
         }
         m_effectsList->createTopLevelItems(favorites, EffectsList::EFFECT_GPU);
-        QString currentSearch = search_effect->text();
+        QString currentSearch = m_search_effect->text();
         if (!currentSearch.isEmpty()) {
             // There seems to be a problem with KTreeWidgetSearchLine when inserting items, so reset the search
-            search_effect->updateSearch("###");
-            search_effect->updateSearch(currentSearch);
+            m_search_effect->updateSearch("###");
+            m_search_effect->updateSearch(currentSearch);
         }
         return;
     }
@@ -290,7 +312,7 @@ void EffectsListView::filterList()
     if (m_effectsList->indentation() == 0) {
         m_effectsList->setIndentation(10);
     }
-    //search_effect->setVisible(true);
+    //m_search_effect->setVisible(true);
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
         bool hideFolder = true;
@@ -309,7 +331,7 @@ void EffectsListView::filterList()
         folder->setHidden(hideFolder);
     }
     // make sure we don't show anything not matching the search expression
-    search_effect->updateSearch();
+    m_search_effect->updateSearch();
 
 
     /*item = m_effectsList->currentItem();
@@ -445,7 +467,7 @@ void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
 void EffectsListView::slotAutoExpand(const QString &text)
 {
     QTreeWidgetItem *curr = m_effectsList->currentItem();
-    search_effect->updateSearch();
+    m_search_effect->updateSearch();
     bool selected = false;
     if (curr && !curr->isHidden()) {
         selected = true;

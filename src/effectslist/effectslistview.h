@@ -25,6 +25,8 @@
 #include "ui_effectlist_ui.h"
 #include "gentime.h"
 
+#include <KTreeWidgetSearchLine>
+
 #include <QToolButton>
 #include <QDragEnterEvent>
 #include <QMimeData>
@@ -49,6 +51,17 @@ protected:
 signals:
     void clearSearchLine();
 };
+
+class MyTreeWidgetSearchLine : public KTreeWidgetSearchLine
+{
+    Q_OBJECT
+public:
+    explicit MyTreeWidgetSearchLine(QWidget *parent = 0);
+
+protected:
+    bool itemMatches(const QTreeWidgetItem *item, const QString &pattern) const;
+};
+
 
 /**
  * @class MyDropButton
@@ -121,6 +134,7 @@ private:
     */
     LISTMODE m_mode;
     EffectsListWidget *m_effectsList;
+    MyTreeWidgetSearchLine *m_search_effect;
     const QString customStyleSheet() const;
     /** @brief Custom button to display favorite effects, accepts drops to add effect to favorites.
     */
