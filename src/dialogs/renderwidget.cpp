@@ -1121,14 +1121,14 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             render_process_args << KdenliveSettings::rendererpath();
 
         render_process_args << m_profile.path << item->data(0, RenderRole).toString();
-        if (m_view.play_after->isChecked()) {
+        if (!scriptExport && m_view.play_after->isChecked()) {
             QMimeDatabase db;
             QMimeType mime = db.mimeTypeForFile(dest);
             KService::Ptr serv =  KMimeTypeTrader::self()->preferredService(mime.name());
             KIO::DesktopExecParser parser(*serv, QList <QUrl>() << QUrl::fromLocalFile(dest));
             render_process_args << parser.resultingArguments().join(QStringLiteral(" "));
         }
-        else render_process_args << QString();
+        else render_process_args << QStringLiteral("-");
 
         if (m_view.speed->isEnabled()) {
             renderArgs.append(QChar(' ') + item->data(0, SpeedsRole).toStringList().at(m_view.speed->value()));

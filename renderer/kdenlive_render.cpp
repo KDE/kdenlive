@@ -99,7 +99,7 @@ int main(int argc, char **argv)
             args.removeAll(QStringLiteral("pass=1"));
             doerase = erase;
         }
-        
+
         // Decode metadata
         for (int i = 0; i < args.count(); ++i) {
             if (args.at(i).startsWith(QLatin1String("meta.attr"))) {
