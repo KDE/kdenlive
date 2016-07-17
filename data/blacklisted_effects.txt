@@ -103,6 +103,7 @@ volume
 lift_gamma_gain
 audiowaveform
 audiowave
+qtblend
 
 #Effects not usable with a simple GUI
 sox

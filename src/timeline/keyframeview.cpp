@@ -756,7 +756,6 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int c
         if (value.isEmpty()) {
             value = e.attribute(QStringLiteral("default"));
         }
-
         switch (m_keyframeType) {
             case GeometryKeyframe:
                 m_keyProperties.set(paramName.toUtf8().constData(), value.toUtf8().constData());

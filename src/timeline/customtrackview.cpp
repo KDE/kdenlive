@@ -3128,6 +3128,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             else
                 updateTrackDuration(info.track, addCommand);
 
+            // TODO: disabled when qtblend transition is fully implemented
             if (item->binClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition if space is available
                 if (canBePastedTo(info, TransitionWidget)) {
@@ -3523,12 +3524,13 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
     // When adding a track, MLT sometimes incorrectly updates transition's tracks
     if (ix < m_timeline->tracksCount()) {
-        Mlt::Transition *tr = m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix+1, ix - 1, true);
+        Mlt::Transition *tr = m_timeline->transitionHandler->getTrackTransition(QStringList() << QStringLiteral("qtblend") << QStringLiteral("frei0r.cairoblend") << QStringLiteral("movit.overlay"), ix+1, ix - 1);
         if (tr) {
             tr->set_tracks(ix, ix + 1);
             delete tr;
         }
     }
+    // TODO: disable updatecomposite with qtblend
     // Check we have composite transitions where necessary
     m_timeline->updateComposites();
     m_document->renderer()->unlockService(tractor);
@@ -3587,11 +3589,11 @@ void CustomTrackView::removeTrack(int ix)
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
     QScopedPointer<Mlt::Field> field(tractor->field());
     if (m_timeline->getTrackInfo(ix).type == VideoTrack) {
-        QScopedPointer<Mlt::Transition> tr(m_timeline->transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", ix, -1, true));
+        QScopedPointer<Mlt::Transition> tr(m_timeline->transitionHandler->getTrackTransition(QStringList() << QStringLiteral("qtblend") << QStringLiteral("frei0r.cairoblend") << QStringLiteral("movit.overlay"), ix, -1));
         if (tr) {
             field->disconnect_service(*tr.data());
         }
-        QScopedPointer<Mlt::Transition> mixTr(m_timeline->transitionHandler->getTransition(QStringLiteral("mix"), ix, -1, true));
+        QScopedPointer<Mlt::Transition> mixTr(m_timeline->transitionHandler->getTrackTransition(QStringList() << QStringLiteral("mix"), ix, -1));
         if (mixTr) {
             field->disconnect_service(*mixTr.data());
         }
@@ -3630,6 +3632,7 @@ void CustomTrackView::removeTrack(int ix)
 
     // Delete track in MLT playlist
     tractor->remove_track(ix);
+    // TODO: disable updatecomposite with qtblend
     // Make sure lowest video track has no composite
     m_timeline->updateComposites();
     m_document->renderer()->unlockService(tractor);

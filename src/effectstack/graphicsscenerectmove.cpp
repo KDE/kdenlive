@@ -170,7 +170,7 @@ void MyTextItem::updateGeometry(int, int, int)
                 double offset = (bounding.width() - metrics.width(line)) / 2;
                 linePath.translate(offset, 0);
             } else if ( m_alignment == Qt::AlignRight ) {
-                double offset = (bounding.width() - metrics.width(line));
+                double offset = bounding.width() - metrics.width(line);
                 linePath.translate(offset, 0);
             }
             m_path.addPath(linePath);

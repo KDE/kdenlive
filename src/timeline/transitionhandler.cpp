@@ -19,7 +19,9 @@
 
 
 #include "transitionhandler.h"
+#include "mltcontroller/effectscontroller.h"
 #include "mainwindow.h"
+#include "kdenlivesettings.h"
 
 TransitionHandler::TransitionHandler(Mlt::Tractor *tractor) : QObject()
     , m_tractor(tractor)
@@ -99,6 +101,12 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
                     }
                 }
             } else {
+                if (defaultValue.contains(QLatin1Char('%'))) {
+                     ProfileInfo pInfo;
+                     pInfo.profileSize = QSize(m_tractor->profile()->width(), m_tractor->profile()->height());
+                     pInfo.profileFps = m_tractor->profile()->fps();
+                    defaultValue = EffectsController::getStringRectEval(pInfo, defaultValue);
+                }
                 map[name] = defaultValue;
             }
         }
@@ -412,6 +420,25 @@ Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_tra
     return 0;
 }
 
+Mlt::Transition *TransitionHandler::getTrackTransition(const QStringList names, int b_track, int a_track) const
+{
+    QScopedPointer<Mlt::Service> service(m_tractor->field());
+    while (service && service->is_valid()) {
+        if (service->type() == transition_type) {
+            Mlt::Transition t((mlt_transition) service->get_service());
+            int internal = t.get_int("internal_added");
+            if (internal >= 200) {
+                QString service = t.get("mlt_service");
+                if (names.contains(service) && t.get_b_track() == b_track && (a_track == -1 || t.get_a_track() == a_track)) {
+                    return new Mlt::Transition(t);
+                }
+            }
+        }
+        service.reset(service->producer());
+    }
+    return 0;
+}
+
 void TransitionHandler::duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field)
 {
     QMap<QString, QString> args = getTransitionParamsFromXml(xml);
@@ -446,6 +473,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
         // we need at leas 3 tracks (black bg track + 2 tracks to use this)
         return;
     }
+    QStringList compositeService { QStringLiteral("qtblend"), QStringLiteral("frei0r.cairoblend"),  QStringLiteral("movit.overlay") };
     QScopedPointer<Mlt::Service> service(m_tractor->field());
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
@@ -460,7 +488,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
             int added = transition.get_int("internal_added");
             if (added == 237) {
                 QString mlt_service = transition.get("mlt_service");
-                if (mlt_service == QLatin1String("frei0r.cairoblend") && transition.get_int("disable") == 0) {
+                if (compositeService.contains(mlt_service) && transition.get_int("disable") == 0) {
                     transition.set("disable", 1);
                     transition.set("split_disable", 1);
                 }
@@ -514,7 +542,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
             } else if (added == 237) {
                 // re-enable track compositing
                 QString mlt_service = transition.get("mlt_service");
-                if (mlt_service == QLatin1String("frei0r.cairoblend") && transition.get_int("split_disable") == 1) {
+                if (compositeService.contains(mlt_service) && transition.get_int("split_disable") == 1) {
                     transition.set("disable", 0);
                     transition.set("split_disable", (char*) NULL);
                 }
@@ -530,6 +558,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
 void TransitionHandler::rebuildComposites(int lowestVideoTrack)
 {
     QList <Mlt::Transition *>composites;
+    QStringList compositeService { QStringLiteral("qtblend"), QStringLiteral("frei0r.cairoblend"),  QStringLiteral("movit.overlay") };
     QList <int> disabled;
     QScopedPointer<Mlt::Service> service(m_tractor->field());
     Mlt::Field *field = m_tractor->field();
@@ -540,7 +569,7 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack)
             int internal = t.get_int("internal_added");
             if (internal == 237) {
                 QString service = t.get("mlt_service");
-                if (service == QLatin1String("frei0r.cairoblend") || service == QLatin1String("movit.overlay")) {
+                if (compositeService.contains(service)) {
                     composites << new Mlt::Transition(t);
                     if (t.get_int("disable") == 1) {
                         disabled << t.get_int("b_track");
@@ -572,4 +601,15 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack)
     }
     delete field;
     qDeleteAll(composites);
+}
+
+// static 
+const QString TransitionHandler::compositeTransition()
+{
+    if (KdenliveSettings::gpu_accel())
+        return QStringLiteral("movit.overlay");
+    if (MainWindow::transitions.hasTransition(QStringLiteral("qtblend"))) {
+        return QStringLiteral("qtblend");
+    }
+    return QStringLiteral("frei0r.cairoblend");
 }

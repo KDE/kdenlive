@@ -122,6 +122,7 @@ movit_saturation.xml
 movit_unsharp_mask.xml
 movit_vignette.xml
 movit_white_balance.xml
+qtblend.xml
 rotoscoping.xml
 speed.xml
 swapchannels.xml

@@ -627,6 +627,9 @@ void AnimationWidget::addParameter(const QDomElement &e)
         keyframes = e.attribute(QStringLiteral("value"));
     } else {
         keyframes = getDefaultKeyframes(e.attribute(QStringLiteral("default")));
+        if (keyframes.contains('%')) {
+            keyframes = EffectsController::getStringRectEval(m_monitor->profileInfo(), keyframes);
+        }
     }
     QString paramTag = e.attribute(QStringLiteral("name"));
     m_animProperties.set(paramTag.toUtf8().constData(), keyframes.toUtf8().constData());
