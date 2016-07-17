@@ -54,6 +54,10 @@ public:
     void enableMultiTrack(bool enable);
     /** @brief Plug composite transitions depending on the en/disabled states. */
     void rebuildComposites(int lowestVideoTrack);
+    /** @brief Returns internal track transition. */
+    Mlt::Transition *getTrackTransition(const QStringList names, int b_track, int a_track) const;
+    /** @brief Returns the matching composite transition depending on the current settings. */
+    static const QString compositeTransition();
 
 private:
     Mlt::Tractor *m_tractor;

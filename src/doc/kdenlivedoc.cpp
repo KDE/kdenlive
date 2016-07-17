@@ -41,6 +41,7 @@
 #include "utils/KoIconUtils.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/effectscontroller.h"
+#include "timeline/transitionhandler.h"
 
 #include <KMessageBox>
 #include <KRecentDirs>
@@ -445,20 +446,20 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     // create playlists
     int total = tracks.count();
     // The lower video track will recieve composite transitions
-    int lowerVideoTrack = -1;
+    int lowestVideoTrack = -1;
     for (int i = 0; i < total; ++i) {
         QDomElement playlist = doc.createElement(QStringLiteral("playlist"));
         playlist.setAttribute(QStringLiteral("id"), "playlist" + QString::number(i+1));
         playlist.setAttribute(QStringLiteral("kdenlive:track_name"), tracks.at(i).trackName);
         if (tracks.at(i).type == AudioTrack) {
             playlist.setAttribute(QStringLiteral("kdenlive:audio_track"), 1);
-        } else if (lowerVideoTrack == -1) {
+        } else if (lowestVideoTrack == -1) {
             // Register first video track
-            lowerVideoTrack = i + 1;
+            lowestVideoTrack = i + 1;
         }
         mlt.appendChild(playlist);
     }
-
+    QString compositeService = TransitionHandler::compositeTransition();
     QDomElement track0 = doc.createElement(QStringLiteral("track"));
     track0.setAttribute(QStringLiteral("producer"), QStringLiteral("black_track"));
     tractor.appendChild(track0);
@@ -518,17 +519,17 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
             tractor.appendChild(transition);
         }
-        if (i >= lowerVideoTrack && tracks.at(i).type == VideoTrack) {
+        if (i >= lowestVideoTrack && tracks.at(i).type == VideoTrack) {
             // Only add composite transition if both tracks are video
             QDomElement transition = doc.createElement(QStringLiteral("transition"));
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
-            property.appendChild(doc.createTextNode(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend"));
+            property.appendChild(doc.createTextNode(compositeService));
             transition.appendChild(property);
 
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-            property.appendChild(doc.createTextNode(QString::number(lowerVideoTrack)));
+            property.appendChild(doc.createTextNode(QString::number(lowestVideoTrack)));
             transition.appendChild(property);
 
             property = doc.createElement(QStringLiteral("property"));

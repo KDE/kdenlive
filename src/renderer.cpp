@@ -34,6 +34,7 @@
 #include "timeline/clip.h"
 #include "monitor/glwidget.h"
 #include "mltcontroller/clipcontroller.h"
+#include "timeline/transitionhandler.h"
 #include <mlt++/Mlt.h>
 
 #include <QDebug>
@@ -1432,7 +1433,8 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
 	    // Track was inserted as lowest video track, it should not have a composite, but previous lowest should
 	    ix = lowestVideoTrack + 1;
 	}
-	Mlt::Transition composite(*m_qmlView->profile(), KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend");
+	QString comp = TransitionHandler::compositeTransition();
+	Mlt::Transition composite(*m_qmlView->profile(), comp.toUtf8().constData());
 	if (composite.is_valid()) {
 	    composite.set("a_track", ix - 1);
 	    composite.set("b_track", ix);

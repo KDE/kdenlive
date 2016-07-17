@@ -338,7 +338,7 @@ int Timeline::getTracks() {
         offset += track->count();
         if (audio == 0 && !isBackgroundBlackTrack) {
             // Check if we have a composite transition for this track
-            QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", i, -1, true));
+            QScopedPointer<Mlt::Transition> transition(transitionHandler->getTrackTransition(QStringList() << QStringLiteral("qtblend") << QStringLiteral("frei0r.cairoblend") << QStringLiteral("movit.overlay"), i, -1));
             if (!transition) {
                 tk->trackHeader->disableComposite();
             }
@@ -393,7 +393,7 @@ void Timeline::getTransitions() {
         //skip automatic mix
         if (prop.get_int("internal_added") == 237) {
             QString trans = prop.get("mlt_service");
-            if (trans == QLatin1String("movit.overlay") || trans == QLatin1String("frei0r.cairoblend")) {
+            if (trans == QLatin1String("qtblend") || trans == QLatin1String("movit.overlay") || trans == QLatin1String("frei0r.cairoblend")) {
                 int ix = prop.get_int("b_track");
                 if (ix >= 0 && ix < m_tracks.count()) {
                     TrackInfo info = track(ix)->info();
@@ -790,9 +790,10 @@ void Timeline::doSwitchTrackVideo(int ix, bool hide)
 void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
 {
     if (trackIndex < 1 || trackIndex > m_tracks.count()) return;
-    QScopedPointer<Mlt::Transition> transition(transitionHandler->getTransition(KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend", trackIndex, -1, true));
+    QScopedPointer<Mlt::Transition> transition(transitionHandler->getTrackTransition(QStringList() << QStringLiteral("qtblend") << QStringLiteral("frei0r.cairoblend") << QStringLiteral("movit.overlay"), trackIndex, -1));
     if (transition) {
         transition->set("disable", enable);
+        // TODO: disable updatecomposite with qtblend
         // When turning a track composite on/off, we need to re-plug transitions correctly
         updateComposites();
         m_doc->renderer()->doRefresh();
@@ -1729,7 +1730,7 @@ bool Timeline::createOverlay(Mlt::Filter *filter, int tk, int startPos)
     trac.set_track(*clipProducer, 0);
     trac.set_track(*cln, 1);
     cln->attach(*filter);
-    QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
+    QString splitTransition = transitionHandler->compositeTransition();
     Mlt::Transition t(*m_tractor->profile(), splitTransition.toUtf8().constData());
     t.set("always_active", 1);
     trac.plant_transition(t, 0, 1);

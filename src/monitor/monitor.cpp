@@ -33,6 +33,7 @@
 #include "dialogs/profilesdialog.h"
 #include "doc/kthumb.h"
 #include "utils/KoIconUtils.h"
+#include "timeline/transitionhandler.h"
 
 #include "klocalizedstring.h"
 #include <KRecentDirs>
@@ -1707,7 +1708,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original, int pos)
         warningMessage(i18n("The scal0tilt filter is required for that feature, please install frei0r and restart Kdenlive"));
         return;
     }
-    QString splitTransition = KdenliveSettings::gpu_accel() ? "movit.overlay" : "frei0r.cairoblend";
+    QString splitTransition = TransitionHandler::compositeTransition();
     Mlt::Transition t(*profile(), splitTransition.toUtf8().constData());
     if (!t.is_valid()) {
         delete m_splitEffect;

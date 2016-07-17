@@ -782,7 +782,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 paramList.append(quickParameterFill(ret, i18n("Rotate Z"), QStringLiteral("rotate_z"), QStringLiteral("addedgeometry"), QStringLiteral("0"), QStringLiteral("-1800"), QStringLiteral("1800"), QString(), QString(), QStringLiteral("10")));
                 /*paramList.append(quickParameterFill(ret, i18n("Rotate Y"), "rotate_y", "simplekeyframe", "0", "-1800", "1800", QString(), QString(), "10"));
                 paramList.append(quickParameterFill(ret, i18n("Rotate Z"), "rotate_z", "simplekeyframe", "0", "-1800", "1800", QString(), QString(), "10"));*/
-                
+
                 paramList.append(quickParameterFill(ret, i18n("Fix Shear Y"), QStringLiteral("shear_y"), QStringLiteral("double"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("360")));
                 paramList.append(quickParameterFill(ret, i18n("Fix Shear X"), QStringLiteral("shear_x"), QStringLiteral("double"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("360")));
                 paramList.append(quickParameterFill(ret, i18n("Fix Shear Z"), QStringLiteral("shear_z"), QStringLiteral("double"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("360")));
@@ -873,7 +873,7 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
     effects = doc.elementsByTagName(QStringLiteral("transition"));
     int i = effects.count();
     if (i == 0) {
-        qDebug() << "+++++++++++++\nEffect broken: " << name<<"\n+++++++++++";;
+        qDebug() << "+++++++++++++Transition broken: " << name<<"\n+++++++++++";;
         return;
     }
 

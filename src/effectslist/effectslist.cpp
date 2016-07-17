@@ -45,7 +45,7 @@ QDomElement EffectsList::getEffectByName(const QString & name) const
             QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
             for (int i = 0; i < params.count(); ++i) {
                 QDomElement e = params.item(i).toElement();
-                if (!e.hasAttribute(QStringLiteral("value")) && e.attribute(QStringLiteral("paramlist")) != QLatin1String("%lumaPaths")) {
+                if (!e.hasAttribute(QStringLiteral("value")) && e.attribute(QStringLiteral("type")) != QLatin1String("animatedrect") && e.attribute(QStringLiteral("paramlist")) != QLatin1String("%lumaPaths")) {
                     e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
                 }
             }

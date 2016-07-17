@@ -1848,8 +1848,12 @@ bool DocumentValidator::checkMovit()
     bool hasWB = ix > -1;
     ix = MainWindow::videoEffects.hasEffect(QStringLiteral("frei0r.IIRblur"), QStringLiteral("frei0r.IIRblur"));
     bool hasBlur = ix > -1;
-    ix = MainWindow::transitions.hasTransition(QStringLiteral("frei0r.cairoblend"));
-    bool hasCairo = ix > -1;
+    QString compositeTrans;
+    if (MainWindow::transitions.hasTransition(QStringLiteral("qtblend"))) {
+        compositeTrans = QStringLiteral("qtblend");
+    } else if (MainWindow::transitions.hasTransition(QStringLiteral("frei0r.cairoblend"))) {
+        compositeTrans = QStringLiteral("frei0r.cairoblend");
+    }
 
     // Parse all effects in document
     QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
@@ -1913,9 +1917,9 @@ bool DocumentValidator::checkMovit()
         if (!transId.startsWith(QLatin1String("movit."))) {
             continue;
         }
-        if (transId == QLatin1String("movit.overlay") && hasCairo) {
+        if (transId == QLatin1String("movit.overlay") && !compositeTrans.isEmpty()) {
             // Convert to frei0r.cairoblend
-            EffectsList::setProperty(t, QStringLiteral("mlt_service"), QStringLiteral("frei0r.cairoblend"));
+            EffectsList::setProperty(t, QStringLiteral("mlt_service"), compositeTrans);
             convertedFilters << transId;
             continue;
         }
