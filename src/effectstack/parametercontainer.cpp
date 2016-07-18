@@ -972,7 +972,7 @@ void ParameterContainer::slotCollectAllParameters()
             paramName.append("keyframe");
         else if (type == QLatin1String("animated"))
             continue;
-        if (type != QLatin1String("simplekeyframe") && type != QLatin1String("fixed") && type != QLatin1String("addedgeometry") && !m_valueItems.contains(paramName)) {
+        if (type != QLatin1String("animatedrect") && type != QLatin1String("simplekeyframe") && type != QLatin1String("fixed") && type != QLatin1String("addedgeometry") && !m_valueItems.contains(paramName)) {
             qDebug() << "// Param: " << paramName << " NOT FOUND";
             continue;
         }
