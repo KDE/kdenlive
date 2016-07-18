@@ -1401,17 +1401,25 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-
+        const QString type = e.attribute(QStringLiteral("type"));
         // Check if this effect has a variable parameter
         if (e.attribute(QStringLiteral("default")).contains('%')) {
-            double evaluatedValue = EffectsController::getStringEval(m_doc->getProfileInfo(), e.attribute(QStringLiteral("default")));
-            e.setAttribute(QStringLiteral("default"), evaluatedValue);
-            if (e.hasAttribute(QStringLiteral("value")) && e.attribute(QStringLiteral("value")).startsWith('%')) {
-                e.setAttribute(QStringLiteral("value"), evaluatedValue);
+            if (type == QLatin1String("animatedrect")) {
+                QString evaluatedValue = EffectsController::getStringRectEval(m_doc->getProfileInfo(), e.attribute(QStringLiteral("default")));
+                e.setAttribute(QStringLiteral("default"), evaluatedValue);
+                if (!e.hasAttribute(QStringLiteral("value"))) {
+                    e.setAttribute(QStringLiteral("value"), evaluatedValue);
+                }
+            } else {
+                double evaluatedValue = EffectsController::getStringEval(m_doc->getProfileInfo(), e.attribute(QStringLiteral("default")));
+                e.setAttribute(QStringLiteral("default"), evaluatedValue);
+                if (!e.hasAttribute(QStringLiteral("value")) || e.attribute(QStringLiteral("value")).startsWith('%')) {
+                    e.setAttribute(QStringLiteral("value"), evaluatedValue);
+                }
             }
         }
 
-        if (!e.isNull() && (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
+        if (!e.isNull() && (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe"))) {
             QString def = e.attribute(QStringLiteral("default"));
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute(QStringLiteral("keyframes")).isEmpty()) {

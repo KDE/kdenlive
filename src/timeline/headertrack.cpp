@@ -210,11 +210,6 @@ void HeaderTrack::dropEvent(QDropEvent * event)
     }
     emit selectTrack(m_parentTrack->index());
     emit addTrackEffect(e, m_parentTrack->index());
-    /*if (scene() && !scene()->views().isEmpty()) {
-        event->accept();
-        CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
-        if (view) view->slotAddEffect(e, m_info.startPos, track());
-    }*/
 }
 
 //virtual
