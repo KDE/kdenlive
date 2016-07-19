@@ -2030,7 +2030,7 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
         QDateTime startTime = item->data(1, TimeRole).toDateTime();
         int days = startTime.daysTo (QDateTime::currentDateTime()) ;
         double elapsedTime = days * 86400 + startTime.addDays(days).secsTo( QDateTime::currentDateTime() );
-        u_int32_t remaining = elapsedTime * (100.0 - progress) / progress;
+        quint32 remaining = elapsedTime * (100.0 - progress) / progress;
         int remainingSecs = remaining % 86400;
         days = remaining / 86400;
         QTime when = QTime ( 0, 0, 0, 0 ) ;
