@@ -657,7 +657,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 #endif
     scmanager->slotCheckActiveScopes();
     //TODO: remove for release
-    m_messageLabel->setMessage("This is an untested development version. Always backup your data", MltError);
+    m_messageLabel->setMessage("This is a beta version. Always backup your data", MltError);
 }
 
 void MainWindow::slotThemeChanged(const QString &theme)
