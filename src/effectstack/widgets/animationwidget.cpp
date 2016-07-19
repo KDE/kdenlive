@@ -771,11 +771,13 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
         // This is a keyframe
         m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
 	emit parameterChanged();
+        setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
     } else if (m_animController.key_count() <= 1) {
 	  pos = m_animController.key_get_frame(0);
 	  if (pos >= 0) {
 	      m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
 	      emit parameterChanged();
+              setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
 	  }
     }
 }
