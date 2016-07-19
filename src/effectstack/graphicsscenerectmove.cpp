@@ -686,12 +686,13 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         m_selectedItem = NULL;
         e->ignore();
     } else if (m_tool == TITLE_TEXT) {
-        MyTextItem *textItem = new MyTextItem(QStringLiteral("Text"), NULL);
+        MyTextItem *textItem = new MyTextItem(i18n("Text"), NULL);
         yPos = (((int) e->scenePos().y() - (int)(m_fontSize / 2)) / m_gridSize) * m_gridSize;
         textItem->setPos(xPos, yPos);
         addItem(textItem);
         textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+        textItem->setFocus(Qt::MouseFocusReason);
         emit newText(textItem);
         m_selectedItem = textItem;
         m_selectedItem->setSelected(true);
