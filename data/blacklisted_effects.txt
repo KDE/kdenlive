@@ -117,7 +117,7 @@ region
 resize
 resample
 mono
-
+transition
 
 # Effects need extra GUI to create the resulting melt.xml with the corrected content
 videostab
@@ -135,6 +135,8 @@ avfilter.subtitles
 avfilter.ssim
 avfilter.stereo3d
 avfilter.ass
+avfilter.bbox
+avfilter.bench
 
 # Avfilter Effects with XML
 avfilter.acompressor
