@@ -482,7 +482,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
     }
 
     // Transitions
-    for (int i = 0; i < total; i++) {
+    for (int i = 0; i <= total; i++) {
         if (i > 0) {
             QDomElement transition = doc.createElement(QStringLiteral("transition"));
             transition.setAttribute(QStringLiteral("always_active"), QStringLiteral("1"));
@@ -519,7 +519,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
             tractor.appendChild(transition);
         }
-        if (i >= lowestVideoTrack && tracks.at(i).type == VideoTrack) {
+        if (i > lowestVideoTrack && tracks.at(i - 1).type == VideoTrack) {
             // Only add composite transition if both tracks are video
             QDomElement transition = doc.createElement(QStringLiteral("transition"));
             property = doc.createElement(QStringLiteral("property"));
@@ -534,7 +534,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
-            property.appendChild(doc.createTextNode(QString::number(i+1)));
+            property.appendChild(doc.createTextNode(QString::number(i)));
             transition.appendChild(property);
 
             property = doc.createElement(QStringLiteral("property"));
