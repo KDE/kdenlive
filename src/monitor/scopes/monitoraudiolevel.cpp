@@ -45,6 +45,8 @@ MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget 
   , audioChannels(2)
   , m_height(height)
   , m_channelHeight(height/2)
+  , m_channelDistance(2)
+  , m_channelFillHeight(m_channelHeight)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_filter = new Mlt::Filter(*profile, "audiolevel");
@@ -167,9 +169,20 @@ void MonitorAudioLevel::drawBackground(int channels)
     p.setPen(palette().dark().color());
     // Clear space between the 2 channels
     p.setCompositionMode(QPainter::CompositionMode_Source);
-    for (int i = 0; i < channels; i++) {
-        p.drawRect(0, i * m_channelHeight + (2 * i), rect.width() - 1, m_channelHeight - 1);
-        if (i > 0) p.fillRect(0, i * m_channelHeight + (2 * i) - 2, rect.width(), 2, Qt::transparent);
+    if (m_channelHeight < 4) {
+        // too many audio channels, simple line between channels
+        m_channelDistance = 1;
+        m_channelFillHeight = m_channelHeight;
+        for (int i = 0; i < channels; i++) {
+            p.drawLine(0, i * (m_channelHeight + m_channelDistance), rect.width() - 1, i * (m_channelHeight + m_channelDistance));
+        }
+    } else{
+        m_channelDistance = 2;
+        m_channelFillHeight = m_channelHeight - 2;
+        for (int i = 0; i < channels; i++) {
+            p.drawRect(0, i * (m_channelHeight + m_channelDistance), rect.width() - 1, m_channelHeight - 1);
+            if (i > 0) p.fillRect(0, i * (m_channelHeight + m_channelDistance) - 2, rect.width(), 2, Qt::transparent);
+        }
     }
     p.end();
 }
@@ -220,11 +233,12 @@ void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
     p.drawPixmap(rect, m_pixmap);
     p.setPen(palette().dark().color());
     p.setOpacity(0.9);
+    int width = m_channelDistance == 1 ? rect.width() : rect.width() - 1;
     for (int i = 0; i < m_values.count(); i++) {
         if (m_values.at(i) >= 100) continue;
         int val = (50 + m_values.at(i)) / 150.0 * rect.width();
-        p.fillRect(val, i * m_channelHeight + (2 * i) + 1, rect.width() - 1 - val, m_channelHeight - 2, palette().dark());
-        p.fillRect((50 + m_peaks.at(i)) / 150.0 * rect.width(), i * m_channelHeight + 1 + (2 * i), 1, m_channelHeight - 2, palette().text());
+        p.fillRect(val, i * (m_channelHeight + m_channelDistance) + 1, width - val, m_channelFillHeight, palette().dark());
+        p.fillRect((50 + m_peaks.at(i)) / 150.0 * rect.width(), i * (m_channelHeight + m_channelDistance) + 1, 1, m_channelFillHeight, palette().text());
     }
 }
 

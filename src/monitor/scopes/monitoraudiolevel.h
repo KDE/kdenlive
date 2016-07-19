@@ -53,6 +53,8 @@ private:
     QVector <int> m_peaks;
     QVector <int> m_values;
     int m_channelHeight;
+    int m_channelDistance;
+    int m_channelFillHeight;
     void drawBackground(int channels = 2);
     void refreshScope(const QSize& size, bool full) Q_DECL_OVERRIDE;
 
