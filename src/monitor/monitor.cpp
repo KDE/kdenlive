@@ -1190,7 +1190,7 @@ void Monitor::refreshMonitorIfActive()
 
 void Monitor::pause()
 {
-    if (render == NULL) return;
+    if (!m_playAction->isActive() || render == NULL) return;
     slotActivateMonitor();
     render->switchPlay(false);
     m_playAction->setActive(false);

@@ -732,7 +732,7 @@ void Render::switchPlay(bool play, double speed)
             m_mltConsumer->purge();
         }
         m_mltProducer->set_speed(speed);
-    } else if (m_mltProducer->get_speed() != 0) {
+    } else {
         m_mltConsumer->purge();
         m_mltProducer->set_speed(0.0);
         m_mltConsumer->set("buffer", 0);
