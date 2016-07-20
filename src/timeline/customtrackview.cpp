@@ -615,7 +615,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             } else if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
                 m_toolManagers.value(TrimType)->mouseMove(snappedPos);
             } else if (m_moveOpMode == ResizeStart || m_moveOpMode == ResizeEnd) {
-                m_document->renderer()->switchPlay(false);
+                emit pauseMonitor();
                 m_toolManagers.value(ResizeType)->mouseMove(snappedPos);
             } else if (m_moveOpMode == FadeIn) {
                 static_cast<ClipItem*>(m_dragItem)->setFadeIn(static_cast<int>(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));

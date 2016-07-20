@@ -597,6 +597,7 @@ signals:
     void updateClipMarkers(ClipController*);
     void updateTrackHeaders();
     void playMonitor();
+    void pauseMonitor();
     /** @brief Monitor document changes (for example the presence of audio data in timeline for export widget.*/
     void documentModified();
     void showTrackEffects(int, TrackInfo);

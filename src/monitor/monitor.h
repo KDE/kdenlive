@@ -91,7 +91,6 @@ public:
     AbstractRender *abstractRender();
     void resetProfile(MltVideoProfile profile);
     void setCustomProfile(const QString &profile, const Timecode &tc);
-    void pause();
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
     const QString sceneList();
     const QString activeClipId();
@@ -280,6 +279,7 @@ public slots:
     void start();
     void switchPlay(bool play);
     void slotPlay();
+    void pause();
     void slotPlayZone();
     void slotLoopZone();
     /** @brief Loops the selected item (clip or transition). */

@@ -578,10 +578,11 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack, QMap<int, bool> 
     }
     // Re-add correct audio transitions
     int transitionTrack = lowestVideoTrack;
+    QString composite = compositeTransition();
     for (int i = lowestVideoTrack + 1; i < m_tractor->count(); i++) {
         if (!compositeState.contains(i))
             continue;
-        Mlt::Transition transition(*m_tractor->profile(), compositeTransition().toUtf8().constData());
+        Mlt::Transition transition(*m_tractor->profile(), composite.toUtf8().constData());
         transition.set("always_active", 1);
         transition.set("a_track", transitionTrack);
         transition.set("b_track", i);
