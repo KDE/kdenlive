@@ -53,7 +53,7 @@ public:
     /** @brief Enable/disable multitrack split view. */
     void enableMultiTrack(bool enable);
     /** @brief Plug composite transitions depending on the en/disabled states. */
-    void rebuildComposites(int lowestVideoTrack);
+    void rebuildComposites(int lowestVideoTrack, QMap<int, bool> compositeState);
     /** @brief Returns internal track transition. */
     Mlt::Transition *getTrackTransition(const QStringList names, int b_track, int a_track) const;
     /** @brief Returns the matching composite transition depending on the current settings. */

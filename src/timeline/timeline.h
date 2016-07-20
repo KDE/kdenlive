@@ -245,6 +245,8 @@ private:
     /** @brief load existing timeline previews */
     void loadPreviewRender();
     void initializePreview();
+    /** @brief Get current track composite state */
+    QMap<int, bool> getTrackCompositeState() const;
 
 private slots:
     void slotSwitchTrackComposite(int trackIndex, bool enable);

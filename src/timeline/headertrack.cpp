@@ -144,6 +144,13 @@ void HeaderTrack::updateStatus(TrackInfo info)
     renameTrack(info.trackName);
 }
 
+bool HeaderTrack::compositeEnabled() const
+{
+    if (!m_switchComposite)
+        return false;
+    return m_switchComposite->isActive();
+}
+
 void HeaderTrack::updateBackground(bool isLocked)
 {
     if (isLocked) {

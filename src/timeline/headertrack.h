@@ -54,6 +54,7 @@ public:
     void updateLed();
     void setVideoMute(bool mute);
     void setAudioMute(bool mute);
+    bool compositeEnabled() const;
 
 protected:
     void mousePressEvent(QMouseEvent * event);

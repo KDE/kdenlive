@@ -555,13 +555,13 @@ void TransitionHandler::enableMultiTrack(bool enable)
     emit refresh();
 }
 
-void TransitionHandler::rebuildComposites(int lowestVideoTrack)
+void TransitionHandler::rebuildComposites(int lowestVideoTrack, QMap<int, bool> compositeState)
 {
-    QList <Mlt::Transition *>composites;
     QStringList compositeService { QStringLiteral("qtblend"), QStringLiteral("frei0r.cairoblend"),  QStringLiteral("movit.overlay") };
     QList <int> disabled;
     QScopedPointer<Mlt::Service> service(m_tractor->field());
     Mlt::Field *field = m_tractor->field();
+    field->lock();
     // Get the list of composite transitions
     while (service && service->is_valid()) {
         if (service->type() == transition_type) {
@@ -570,37 +570,28 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack)
             if (internal == 237) {
                 QString service = t.get("mlt_service");
                 if (compositeService.contains(service)) {
-                    composites << new Mlt::Transition(t);
-                    if (t.get_int("disable") == 1) {
-                        disabled << t.get_int("b_track");
-                    }
+                    field->disconnect_service(t);
                 }
             }
         }
         service.reset(service->producer());
     }
-    for (int i = 0; i < composites.count(); i++) {
-        Mlt::Transition *tr = composites.at(i);
-        int bTrack = tr->get_int("b_track");
-	if (bTrack == lowestVideoTrack) {
-	    // Disable lowest video track transition
-	    field->disconnect_service(*tr);
-	    continue;
-	}
-        if (disabled.contains(bTrack)) {
-            // transition disabled, pass
+    // Re-add correct audio transitions
+    int transitionTrack = lowestVideoTrack;
+    for (int i = lowestVideoTrack + 1; i < m_tractor->count(); i++) {
+        if (!compositeState.contains(i))
             continue;
-        }
-        int aTrack = lowestVideoTrack;
-        for (int j = 0; j < disabled.count(); j++) {
-            if (disabled.at(j) < bTrack) {
-                aTrack = disabled.at(j);
-            } else break;
-        }
-        tr->set("a_track", aTrack);
+        Mlt::Transition transition(*m_tractor->profile(), compositeTransition().toUtf8().constData());
+        transition.set("always_active", 1);
+        transition.set("a_track", transitionTrack);
+        transition.set("b_track", i);
+        transition.set("internal_added", 237);
+        if (!compositeState.value(i))
+            transition.set("disable", 1);
+        field->plant_transition(transition, transitionTrack, i);
     }
+    field->unlock();
     delete field;
-    qDeleteAll(composites);
 }
 
 // static 
