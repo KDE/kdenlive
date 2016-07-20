@@ -810,8 +810,21 @@ void Timeline::updateComposites()
 {
     int lowest = getLowestVideoTrack();
     if (lowest >= 0) {
-        transitionHandler->rebuildComposites(lowest);
+        transitionHandler->rebuildComposites(lowest, getTrackCompositeState());
     }
+}
+
+QMap<int, bool> Timeline::getTrackCompositeState() const
+{
+    QMap<int, bool> compositeState;
+    if (!m_tracks.isEmpty()) {
+        for (int i = 0; i < m_tracks.count(); i++) {
+            if (m_tracks.at(i)->trackHeader && m_tracks.at(i)->info().type == VideoTrack) {
+                compositeState.insert(i, m_tracks.at(i)->trackHeader->compositeEnabled());
+            }
+        }
+    }
+    return compositeState;
 }
 
 void Timeline::refreshTractor()
@@ -882,13 +895,13 @@ void Timeline::fixAudioMixing()
 
     // Re-add correct audio transitions
     for (int i = 1; i < m_tractor->count(); i++) {
-        Mlt::Transition *transition = new Mlt::Transition(*m_tractor->profile(), "mix");
-        transition->set("always_active", 1);
-        transition->set("combine", 1);
-        transition->set("a_track", 0);
-        transition->set("b_track", i);
-        transition->set("internal_added", 237);
-        field->plant_transition(*transition, 0, i);
+        Mlt::Transition transition(*m_tractor->profile(), "mix");
+        transition.set("always_active", 1);
+        transition.set("combine", 1);
+        transition.set("a_track", 0);
+        transition.set("b_track", i);
+        transition.set("internal_added", 237);
+        field->plant_transition(transition, 0, i);
     }
     field->unlock();
 }
@@ -1970,6 +1983,10 @@ void Timeline::startPreviewRender()
     // Timeline preview stuff
     if (!m_timelinePreview)
         initializePreview();
+    else if (m_disablePreview->isChecked()) {
+        m_disablePreview->setChecked(false);
+        disablePreview(false);
+    }
     if (m_timelinePreview) {
         if (!m_usePreview) {
             m_timelinePreview->buildPreviewTrack();

@@ -3530,12 +3530,11 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
             delete tr;
         }
     }
-    // TODO: disable updatecomposite with qtblend
-    // Check we have composite transitions where necessary
-    m_timeline->updateComposites();
     m_document->renderer()->unlockService(tractor);
     // Reload timeline and m_tracks structure from MLT's playlist
     reloadTimeline();
+    // Check we have composite transitions where necessary
+    m_timeline->updateComposites();
     // Check we have correct audio mix
     m_timeline->fixAudioMixing();
     loadGroups(groups);
@@ -3632,11 +3631,10 @@ void CustomTrackView::removeTrack(int ix)
 
     // Delete track in MLT playlist
     tractor->remove_track(ix);
-    // TODO: disable updatecomposite with qtblend
-    // Make sure lowest video track has no composite
-    m_timeline->updateComposites();
     m_document->renderer()->unlockService(tractor);
     reloadTimeline();
+    // Refresh track compositing
+    m_timeline->updateComposites();
     // Check we have correct audio mix
     m_timeline->fixAudioMixing();
     loadGroups(groups);
