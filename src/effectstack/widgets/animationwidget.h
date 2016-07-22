@@ -66,6 +66,7 @@ public:
 private:
     AnimKeyframeRuler *m_ruler;
     Monitor *m_monitor;
+    QPoint m_frameSize;
     TimecodeDisplay *m_timePos;
     KDualAction* m_addKeyframe;
     QComboBox *m_presetCombo;
@@ -133,6 +134,23 @@ private slots:
     void slotUpdateGeometryRect(const QRect r);
     void slotUpdateCenters(const QVariantList centers);
     void slotSeekToKeyframe(int ix);
+    void slotAdjustToSource();
+    void slotAdjustToFrameSize();
+    void slotFitToWidth();
+    void slotFitToHeight();
+    
+    /** @brief Moves the rect to the left frame border (x position = 0). */
+    void slotMoveLeft();
+    /** @brief Centers the rect horizontally. */
+    void slotCenterH();
+    /** @brief Moves the rect to the right frame border (x position = frame width - rect width). */
+    void slotMoveRight();
+    /** @brief Moves the rect to the top frame border (y position = 0). */
+    void slotMoveTop();
+    /** @brief Centers the rect vertically. */
+    void slotCenterV();
+    /** @brief Moves the rect to the bottom frame border (y position = frame height - rect height). */
+    void slotMoveBottom();
 
 signals:
     void seekToPos(int);
