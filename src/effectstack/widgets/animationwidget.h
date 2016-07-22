@@ -117,13 +117,13 @@ public slots:
 private slots:
     void slotPrevious();
     void slotNext();
-    void slotAddDeleteKeyframe(bool add);
+    void slotAddDeleteKeyframe(bool add, int pos = -1);
     void moveKeyframe(int oldPos, int newPos);
     void slotEditKeyframeType(QAction *action);
     void slotAdjustKeyframeValue(double value);
     void slotAdjustRectKeyframeValue();
     void slotAddKeyframe(int pos = -1, QString paramName = QString(), bool directUpdate = true);
-    void slotDeleteKeyframe(int pos = -1, bool directUpdate = true);
+    void slotDeleteKeyframe(int pos = -1);
     void slotReverseKeyframeType(bool reverse);
     void applyPreset(int ix);
     void savePreset();

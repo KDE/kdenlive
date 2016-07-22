@@ -297,52 +297,42 @@ void AnimationWidget::slotAddKeyframe(int pos, QString paramName, bool directUpd
     }
 }
 
-void AnimationWidget::slotDeleteKeyframe(int pos, bool directUpdate)
+void AnimationWidget::slotDeleteKeyframe(int pos)
+{
+    slotAddDeleteKeyframe(false, pos);
+}
+
+void AnimationWidget::slotAddDeleteKeyframe(bool add, int pos)
 {
     if (pos == -1) {
         pos = m_timePos->getValue();
     }
-    pos -= m_offset;
-    m_animController.remove(pos);
-    m_selectType->setEnabled(false);
-    m_addKeyframe->setActive(false);
-    slotPositionChanged(-1, false);
-    if (directUpdate) {
-        rebuildKeyframes();
-        emit parameterChanged();
-    }
-}
-
-void AnimationWidget::slotAddDeleteKeyframe(bool add)
-{
-    int pos = m_timePos->getValue();
     QStringList paramNames = m_doubleWidgets.keys();
+    if (!m_rectParameter.isEmpty())
+        paramNames << m_rectParameter;
     if (!add) {
-        // Delete keyframe at current pos
-        slotDeleteKeyframe(pos, false);
-        /*
         // Delete keyframe in all animations at current pos
         for (int i = 0; i < paramNames.count(); i++) {
             m_animController = m_animProperties.get_animation(paramNames.at(i).toUtf8().constData());
-            if (m_animController.is_key(pos)) {
-                slotDeleteKeyframe(pos, false);
+            if (m_animController.is_key(pos - m_offset)) {
+                m_animController.remove(pos - m_offset);
             }
-        }*/
+        }
+        m_selectType->setEnabled(false);
+        m_addKeyframe->setActive(false);
+        slotPositionChanged(-1, false);
     } else {
-        // Create keyframe
-        slotAddKeyframe(pos, QString(), false);
-        /*
         // Add keyframe in all animations
         for (int i = 0; i < paramNames.count(); i++) {
             m_animController = m_animProperties.get_animation(paramNames.at(i).toUtf8().constData());
-            if (!m_animController.is_key(pos)) {
-                slotAddKeyframe(pos, paramNames.at(i), false);
+            if (!m_animController.is_key(pos - m_offset)) {
+                slotAddKeyframe(pos - m_offset, paramNames.at(i), false);
             }
-        }*/
+        }
         m_ruler->setActiveKeyframe(pos);
     }
     // Restore default controller
-    //m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
+    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     // Rebuild
     rebuildKeyframes();
     emit parameterChanged();
@@ -361,31 +351,26 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
 {
     bool isKey;
     mlt_keyframe_type type;
-    qDebug()<<" * * *MVD KFR: "<<oldPos<<" to "<<newPos<<", OFF: "<<m_offset;
     if (m_animController.get_item(oldPos - m_offset, isKey, type)) {
         qDebug()<<"////////ERROR NO KFR";
         return;
     }
-    if (m_inTimeline == m_rectParameter) {
-        mlt_rect rect = m_animProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), oldPos - m_offset, m_outPoint);
+    if (!m_rectParameter.isEmpty()) {
+        m_animController = m_animProperties.get_animation(m_rectParameter.toUtf8().constData());
+        mlt_rect rect = m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), oldPos - m_offset, m_outPoint);
         m_animController.remove(oldPos - m_offset);
-        m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), rect, newPos - m_offset, m_outPoint, type);
-    } else {
-        double val = m_animProperties.anim_get_double(m_inTimeline.toUtf8().constData(), oldPos - m_offset, m_outPoint);
-        m_animController.remove(oldPos - m_offset);
-        m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, newPos - m_offset, m_outPoint, type);
+        m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, newPos - m_offset, m_outPoint, type);
     }
-    /* Move keyframe in all geometries
     QStringList paramNames = m_doubleWidgets.keys();
     for (int i = 0; i < paramNames.count(); i++) {
-        double val = m_animProperties.anim_get_double(paramNames.at(i).toUtf8().constData(), oldPos, m_timePos->maximum());
-        m_animController = m_animProperties.get_animation(paramNames.at(i).toUtf8().constData());
-        m_animController.remove(oldPos);
-        m_animProperties.anim_set(paramNames.at(i).toUtf8().constData(), val, newPos, m_timePos->maximum(), type);
+            QString param = paramNames.at(i);
+            m_animController = m_animProperties.get_animation(param.toUtf8().constData());
+            double val = m_animProperties.anim_get_double(param.toUtf8().constData(), oldPos - m_offset, m_outPoint);
+            m_animController.remove(oldPos - m_offset);
+            m_animProperties.anim_set(param.toUtf8().constData(), val, newPos - m_offset, m_outPoint, type);
     }
     // Restore default controller
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
-    */
     m_ruler->setActiveKeyframe(newPos);
     if (m_attachedToEnd == oldPos) {
         m_attachedToEnd = newPos;
@@ -760,6 +745,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
 void AnimationWidget::slotAdjustRectKeyframeValue()
 {
     m_animController = m_animProperties.get_animation(m_rectParameter.toUtf8().constData());
+    m_inTimeline = m_rectParameter;
     int pos = m_ruler->position();
     mlt_rect rect;
     rect.x = m_spinX->value();
