@@ -616,6 +616,17 @@ Mlt::Profile *ClipController::profile()
     return m_binController->profile();
 }
 
+void ClipController::initEffect(const ProfileInfo &pInfo, QDomElement &xml)
+{
+    QMutexLocker lock(&m_effectMutex);
+    Mlt::Service service = m_masterProducer->parent();
+    ItemInfo info;
+    info.cropStart = GenTime();
+    info.cropDuration = getPlaytime();
+    EffectsList eff = effectList();
+    EffectsController::initEffect(info, pInfo, eff, property(QStringLiteral("kdenlive:proxy")), xml);
+}
+
 void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
 {
     QMutexLocker lock(&m_effectMutex);
