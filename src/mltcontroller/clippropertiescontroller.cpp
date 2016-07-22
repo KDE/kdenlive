@@ -238,6 +238,9 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     if (m_type == Color || m_type == Image || m_type == AV || m_type == Video || m_type == TextTemplate) {
         // Edit duration widget
         m_originalProperties.insert(QStringLiteral("out"), m_properties.get("out"));
+        int kdenlive_length = m_properties.get_int("kdenlive:duration");
+        if (kdenlive_length > 0)
+            m_originalProperties.insert(QStringLiteral("kdenlive:duration"), QString::number(kdenlive_length));
         m_originalProperties.insert(QStringLiteral("length"), m_properties.get("length"));
         QHBoxLayout *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Duration"), this);
@@ -245,7 +248,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         hlay->addWidget(box);
         TimecodeDisplay *timePos = new TimecodeDisplay(tc, this);
         timePos->setObjectName(QStringLiteral("force_duration_value"));
-        timePos->setValue(m_properties.get_int("out") + 1);
+        timePos->setValue(kdenlive_length > 0 ? kdenlive_length : m_properties.get_int("length"));
         int original_length = m_properties.get_int("kdenlive:original_length");
         if (original_length > 0) {
             box->setChecked(true);
@@ -577,11 +580,23 @@ void ClipPropertiesController::slotDurationChanged(int duration)
 {
     QMap <QString, QString> properties;
     int original_length = m_properties.get_int("kdenlive:original_length");
+    // kdenlive_length is the default duration for image / title clips
+    int kdenlive_length = m_properties.get_int("kdenlive:duration");
+    int current_length = m_properties.get_int("length");
     if (original_length == 0) {
-        m_properties.set("kdenlive:original_length", m_properties.get_int("length"));
+        m_properties.set("kdenlive:original_length", kdenlive_length > 0 ? kdenlive_length : current_length);
     }
-    properties.insert(QStringLiteral("length"), QString::number(duration));
-    properties.insert(QStringLiteral("out"), QString::number(duration - 1));
+    if (kdenlive_length > 0) {
+        // special case, image/title clips store default duration in kdenlive:duration property
+        properties.insert(QStringLiteral("kdenlive:duration"), QString::number(duration));
+        if (duration > current_length) {
+            properties.insert(QStringLiteral("length"), QString::number(duration));
+            properties.insert(QStringLiteral("out"), QString::number(duration - 1));
+        }
+    } else {
+        properties.insert(QStringLiteral("length"), QString::number(duration));
+        properties.insert(QStringLiteral("out"), QString::number(duration - 1));
+    }
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
 }
@@ -624,7 +639,8 @@ void ClipPropertiesController::slotEnableForce(int state)
         if (param == QLatin1String("force_duration")) {
             int original_length = m_properties.get_int("kdenlive:original_length");
             if (original_length == 0) {
-                m_properties.set("kdenlive:original_length", m_properties.get_int("length"));
+                int kdenlive_duration = m_properties.get_int("kdenlive:duration");
+                m_properties.set("kdenlive:original_length", kdenlive_duration > 0 ? kdenlive_duration : m_properties.get_int("length"));
             }
         }
         else if (param == QLatin1String("force_fps")) {

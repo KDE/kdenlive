@@ -292,12 +292,22 @@ Mlt::Producer *ClipController::getTrackProducer(const QString trackName, Playlis
 
 const QString ClipController::getStringDuration()
 {
-    if (m_masterProducer) return m_masterProducer->get_length_time(mlt_time_smpte);
+    if (m_masterProducer) {
+        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        if (playtime > 0) {
+            return QString(properties().frames_to_time(playtime, mlt_time_smpte));
+        }
+        return m_masterProducer->get_length_time(mlt_time_smpte);
+    }
     return QString(i18n("Unknown"));
 }
 
 GenTime ClipController::getPlaytime() const
 {
+    if (!m_hasLimitedDuration) {
+        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, m_binController->fps());
+    }
     return GenTime(m_masterProducer->get_playtime(), m_binController->fps());
 }
 

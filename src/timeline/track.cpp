@@ -213,6 +213,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
     if (in < 0) {out -= in; in = 0;}
     if (clip->get_length() < out + 1) {
         clip->parent().set("length", out + 2);
+        clip->parent().set("out", out + 1);
         clip->set("length", out + 2);
     }
 
