@@ -66,6 +66,7 @@ public:
 private:
     AnimKeyframeRuler *m_ruler;
     Monitor *m_monitor;
+    QPoint m_frameSize;
     TimecodeDisplay *m_timePos;
     KDualAction* m_addKeyframe;
     QComboBox *m_presetCombo;
@@ -117,13 +118,13 @@ public slots:
 private slots:
     void slotPrevious();
     void slotNext();
-    void slotAddDeleteKeyframe(bool add);
+    void slotAddDeleteKeyframe(bool add, int pos = -1);
     void moveKeyframe(int oldPos, int newPos);
     void slotEditKeyframeType(QAction *action);
     void slotAdjustKeyframeValue(double value);
     void slotAdjustRectKeyframeValue();
     void slotAddKeyframe(int pos = -1, QString paramName = QString(), bool directUpdate = true);
-    void slotDeleteKeyframe(int pos = -1, bool directUpdate = true);
+    void slotDeleteKeyframe(int pos = -1);
     void slotReverseKeyframeType(bool reverse);
     void applyPreset(int ix);
     void savePreset();
@@ -133,6 +134,23 @@ private slots:
     void slotUpdateGeometryRect(const QRect r);
     void slotUpdateCenters(const QVariantList centers);
     void slotSeekToKeyframe(int ix);
+    void slotAdjustToSource();
+    void slotAdjustToFrameSize();
+    void slotFitToWidth();
+    void slotFitToHeight();
+    
+    /** @brief Moves the rect to the left frame border (x position = 0). */
+    void slotMoveLeft();
+    /** @brief Centers the rect horizontally. */
+    void slotCenterH();
+    /** @brief Moves the rect to the right frame border (x position = frame width - rect width). */
+    void slotMoveRight();
+    /** @brief Moves the rect to the top frame border (y position = 0). */
+    void slotMoveTop();
+    /** @brief Centers the rect vertically. */
+    void slotCenterV();
+    /** @brief Moves the rect to the bottom frame border (y position = frame height - rect height). */
+    void slotMoveBottom();
 
 signals:
     void seekToPos(int);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>245</width>
-    <height>48</height>
+    <width>452</width>
+    <height>58</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -65,9 +65,6 @@
          <enum>QFrame::Plain</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="spacing">
-          <number>0</number>
-         </property>
          <property name="leftMargin">
           <number>2</number>
          </property>
