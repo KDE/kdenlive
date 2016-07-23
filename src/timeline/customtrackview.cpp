@@ -8061,7 +8061,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
     for (int i = 0; i < allSlows.count(); i++) {
 	// find out speed and strobe values
         Track::SlowmoInfo info = allSlows.at(i);
-        QString wrapUrl = QStringLiteral("timewrap:") + locale.toString(info.speed) + ':' + url;
+        QString wrapUrl = QStringLiteral("timewarp:") + locale.toString(info.speed) + ':' + url;
 	// build slowmo producer
 	if (processedUrls.contains(wrapUrl)) continue;
         processedUrls << wrapUrl;
@@ -8192,7 +8192,7 @@ int CustomTrackView::getPositionFromTrack(int track) const
 }
 
 
-void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command)
+void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMap, QDomDocument doc, QUndoCommand *command)
 {
     Mlt::Producer *import = new Mlt::Producer(*m_document->renderer()->getProducer()->profile(), "xml-string", doc.toString().toUtf8().constData());
     if (!import || !import->is_valid()) {
@@ -8248,19 +8248,17 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
                 continue;
             }
             // Found a producer, import it
-            QString resource = original->parent().get("resource");
-            QString service = original->parent().get("mlt_service");
-            if (service == QLatin1String("timewarp")) {
-                resource = original->parent().get("warp_resource");
-            }
-            else if (service == QLatin1String("framebuffer")) {
-                resource = resource.section(QStringLiteral("?"), 0, -2);
-            }
-            QString originalId = processedUrl.value(resource);
-	    // Title clips cannot be identified by resource, so use a map of previous / current ids instead of an url / id map
-	    if (originalId.isEmpty()) originalId = idMaps.value(original->parent().get("id"));
-            if (originalId.isEmpty()) {
-                qDebug()<<" / /WARNING, MISSING PRODUCER FOR: "<<resource;
+            QString originalId = original->parent().get("id");
+            // track producer
+            if (originalId.contains(QLatin1Char('_'))) originalId = originalId.section(QLatin1Char('_'), 0, 0);
+            // slowmotion producer
+            if (originalId.contains(QLatin1Char(':'))) originalId = originalId.section(QLatin1Char(':'), 1, 1);
+            // TODO: Handle speed effect!
+
+            QString newId = idMap.value(originalId);
+            qDebug() << "newId: " << newId << ", originalId: " << originalId;
+            if (newId.isEmpty()) {
+                qDebug()<<" / /WARNING, MISSING PRODUCER FOR: " << originalId;
                 startPos += original->get_playtime();
                 continue;
             }
@@ -8274,7 +8272,7 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> proc
             insertInfo.endPos = insertInfo.startPos + insertInfo.cropDuration;
             insertInfo.track = lowerTrack + i;
             EffectsList effects = ClipController::xmlEffectList(original->profile(), *original);
-            new AddTimelineClipCommand(this, originalId, insertInfo, effects, PlaylistState::Original, true, false, false, command);
+            new AddTimelineClipCommand(this, newId, insertInfo, effects, PlaylistState::Original, true, false, false, command);
             startPos += original->get_playtime();
         }
         updateTrackDuration(lowerTrack + i, command);

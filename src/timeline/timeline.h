@@ -156,7 +156,7 @@ public:
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
     static bool isSlide(QString geometry);
     /** @brief Import amultitrack MLT playlist in timeline */
-    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
+    void importPlaylist(ItemInfo info, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
     /** @brief Creates an overlay track with a filtered clip */
     bool createOverlay(Mlt::Filter *filter, int tk, int startPos);
     /** @brief Creates an overlay track with a ripple transition*/
