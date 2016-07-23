@@ -200,8 +200,9 @@ void Timeline::loadTimeline()
 {
     parseDocument(m_doc->toXml());
     m_trackview->slotUpdateAllThumbs();
-    m_trackview->slotSelectTrack(m_trackview->getNextVideoTrack(1));
     slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
+    headers_area->verticalScrollBar()->setRange(0, m_trackview->verticalScrollBar()->maximum());
+    m_trackview->slotSelectTrack(m_trackview->getNextVideoTrack(1));
     slotSetZone(m_doc->zone(), false);
     loadPreviewRender();
 }
