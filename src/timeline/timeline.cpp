@@ -336,20 +336,13 @@ int Timeline::getTracks() {
             m_tracks.append(tk);
         }
         offset += track->count();
-        if (audio == 0 && !isBackgroundBlackTrack) {
-            // Check if we have a composite transition for this track
-            QScopedPointer<Mlt::Transition> transition(transitionHandler->getTrackTransition(QStringList() << QStringLiteral("qtblend") << QStringLiteral("frei0r.cairoblend") << QStringLiteral("movit.overlay"), i, -1));
-            if (!transition) {
-                tk->trackHeader->disableComposite();
-            }
-        }
+
         if (!isBackgroundBlackTrack) {
             int currentWidth = tk->trackHeader->minimumWidth();
             if (currentWidth > headerWidth) headerWidth = currentWidth;
             headerLayout->insertWidget(0, tk->trackHeader);
             if (trackduration > duration) duration = trackduration;
             tk->trackHeader->setSelectedIndex(m_trackview->selectedTrack());
-            connect(tk->trackHeader, &HeaderTrack::switchTrackComposite, this, &Timeline::slotSwitchTrackComposite);
             connect(tk->trackHeader, SIGNAL(switchTrackVideo(int,bool)), this, SLOT(switchTrackVideo(int,bool)));
             connect(tk->trackHeader, SIGNAL(switchTrackAudio(int,bool)), this, SLOT(switchTrackAudio(int,bool)));
             connect(tk->trackHeader, SIGNAL(switchTrackLock(int,bool)), m_trackview, SLOT(slotSwitchTrackLock(int,bool)));
@@ -383,6 +376,7 @@ void Timeline::checkDuration() {
 
 void Timeline::getTransitions() {
     QLocale locale;
+    int compositeMode = 0;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     QScopedPointer<Mlt::Field> field(m_tractor->field());
@@ -394,17 +388,14 @@ void Timeline::getTransitions() {
         if (prop.get_int("internal_added") == 237) {
             QString trans = prop.get("mlt_service");
             if (trans == QLatin1String("qtblend") || trans == QLatin1String("movit.overlay") || trans == QLatin1String("frei0r.cairoblend")) {
-                int ix = prop.get_int("b_track");
-                if (ix >= 0 && ix < m_tracks.count()) {
-                    TrackInfo info = track(ix)->info();
-                    info.composite = !prop.get_int("disable");
-                    track(ix)->setInfo(info);
-                } else qWarning() << "Wrong composite track index: " << ix;
-            } else if(trans == QLatin1String("mix")) {
+                compositeMode = 2;
+            } else if (trans == QLatin1String("composite")) {
+                compositeMode = 1;
             }
             service = mlt_service_producer(service);
             continue;
         }
+        
 
         int a_track = prop.get_int("a_track");
         int b_track = prop.get_int("b_track");
@@ -458,6 +449,7 @@ void Timeline::getTransitions() {
             service = mlt_service_producer(service);
         }
     }
+    m_doc->updateCompositionMode(compositeMode);
 }
 
 // static
@@ -787,44 +779,9 @@ void Timeline::doSwitchTrackVideo(int ix, bool hide)
     m_doc->renderer()->doRefresh();
 }
 
-void Timeline::slotSwitchTrackComposite(int trackIndex, bool enable)
-{
-    if (trackIndex < 1 || trackIndex > m_tracks.count()) return;
-    QScopedPointer<Mlt::Transition> transition(transitionHandler->getTrackTransition(QStringList() << QStringLiteral("qtblend") << QStringLiteral("frei0r.cairoblend") << QStringLiteral("movit.overlay"), trackIndex, -1));
-    if (transition) {
-        transition->set("disable", enable);
-        // TODO: disable updatecomposite with qtblend
-        // When turning a track composite on/off, we need to re-plug transitions correctly
-        updateComposites();
-        m_doc->renderer()->doRefresh();
-        m_doc->setModified();
-        //TODO: create undo/redo command for this
-    } else {
-        Track* tk = track(trackIndex);
-        tk->trackHeader->setComposite(false);
-        qWarning() << "Composite transition not found";
-    }
-}
-
 void Timeline::updateComposites()
 {
-    int lowest = getLowestVideoTrack();
-    if (lowest >= 0) {
-        transitionHandler->rebuildComposites(lowest, getTrackCompositeState());
-    }
-}
-
-QMap<int, bool> Timeline::getTrackCompositeState() const
-{
-    QMap<int, bool> compositeState;
-    if (!m_tracks.isEmpty()) {
-        for (int i = 0; i < m_tracks.count(); i++) {
-            if (m_tracks.at(i)->trackHeader && m_tracks.at(i)->info().type == VideoTrack) {
-                compositeState.insert(i, m_tracks.at(i)->trackHeader->compositeEnabled());
-            }
-        }
-    }
-    return compositeState;
+    switchComposite(-1);
 }
 
 void Timeline::refreshTractor()
@@ -2027,4 +1984,21 @@ void Timeline::addPreviewRange(bool add)
 void Timeline::storeHeaderSize(int , int )
 {
     KdenliveSettings::setTimelineheaderwidth(splitter->saveState().toBase64());
+}
+
+void Timeline::switchComposite(int mode)
+{
+    if (m_tracks.isEmpty())
+        return;
+    int maxTrack = tracksCount();
+    // check video tracks
+    QList <int> videoTracks;
+    for (int i = 1; i < maxTrack; i++) {
+        if (m_tracks.at(i)->trackHeader && m_tracks.at(i)->info().type == VideoTrack) {
+            videoTracks << i;
+        }
+    }
+    transitionHandler->switchCompositing(mode, videoTracks, maxTrack);
+    m_doc->renderer()->doRefresh();
+    m_doc->setModified();
 }

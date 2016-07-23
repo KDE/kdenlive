@@ -258,7 +258,8 @@ signals:
     void updateFps(bool changed);
     /** @brief If a command is pushed when we are in the middle of undo stack, invalidate further undo history */
     void removeInvalidUndo(int ix);
-
+    /** @brief Update compositing info */
+    void updateCompositionMode(int);
 };
 
 #endif

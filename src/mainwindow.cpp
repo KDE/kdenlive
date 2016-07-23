@@ -953,6 +953,16 @@ void MainWindow::setupActions()
     connect(sceneMode, SIGNAL(triggered(QAction*)), this, SLOT(slotChangeEdit(QAction*)));
     addAction(QStringLiteral("timeline_mode"), sceneMode);
 
+    m_compositeAction = new KSelectAction(KoIconUtils::themedIcon("composite-track-off"), QString()/*i18n("Track compositing")*/, this);
+    m_compositeAction->setToolTip(i18n("Track compositing"));
+    m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-off"), i18n("None"));
+    m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-preview"), i18n("Preview"));
+    m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"));
+    //New projects created with Hq by default
+    m_compositeAction->setCurrentItem(2);
+    connect(m_compositeAction, SIGNAL(triggered(int)), this, SLOT(slotUpdateCompositing(int)));
+    addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
+
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
@@ -3671,6 +3681,18 @@ void MainWindow::slotManageCache()
     lay->addWidget(buttonBox);
     d.setLayout(lay);
     d.exec();
+}
+
+void MainWindow::slotUpdateCompositing(int mode)
+{
+    if (pCore->projectManager()->currentTimeline()) {
+        pCore->projectManager()->currentTimeline()->switchComposite(mode);
+    }
+}
+
+void MainWindow::slotUpdateCompositeAction(int mode)
+{
+    m_compositeAction->setCurrentItem(mode);
 }
 
 void MainWindow::showMenuBar(bool show)

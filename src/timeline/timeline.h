@@ -186,6 +186,8 @@ public:
     void invalidateTrack(int ix);
     /** @brief Start rendering preview rendering range. */
     void startPreviewRender();
+    /** @brief Toggle current project's compositing mode. */
+    void switchComposite(int mode);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -245,11 +247,8 @@ private:
     /** @brief load existing timeline previews */
     void loadPreviewRender();
     void initializePreview();
-    /** @brief Get current track composite state */
-    QMap<int, bool> getTrackCompositeState() const;
 
 private slots:
-    void slotSwitchTrackComposite(int trackIndex, bool enable);
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
     /** @brief The tracks count or a track name changed, rebuild and notify */

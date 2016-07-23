@@ -110,6 +110,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_profile.colorspace = 0;
     m_clipManager = new ClipManager(this);
     connect(m_clipManager, SIGNAL(displayMessage(QString,int)), parent, SLOT(slotGotProgressInfo(QString,int)));
+    connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
     connect(m_commandStack, SIGNAL(indexChanged(int)), this, SLOT(slotModified()));
     connect(m_commandStack, SIGNAL(invalidate()), this, SLOT(checkPreviewStack()));
@@ -519,7 +520,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
             tractor.appendChild(transition);
         }
-        if (i > lowestVideoTrack && tracks.at(i - 1).type == VideoTrack) {
+        if (i > 0 && tracks.at(i - 1).type == VideoTrack) {
             // Only add composite transition if both tracks are video
             QDomElement transition = doc.createElement(QStringLiteral("transition"));
             property = doc.createElement(QStringLiteral("property"));
@@ -529,7 +530,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
 
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-            property.appendChild(doc.createTextNode(QString::number(lowestVideoTrack)));
+            property.appendChild(doc.createTextNode(QString::number(0)));
             transition.appendChild(property);
 
             property = doc.createElement(QStringLiteral("property"));

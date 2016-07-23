@@ -582,7 +582,6 @@ TrackInfo Track::info()
     info.isBlind = currentState & 1;
     info.type = type;
     info.effectsList = effectsList;
-    info.composite = m_playlist.get_int("kdenlive:composite");
     return info;
 }
 
@@ -591,7 +590,6 @@ void Track::setInfo(TrackInfo info)
     if (!trackHeader) return;
     m_playlist.set("kdenlive:track_name", info.trackName.toUtf8().constData());
     m_playlist.set("kdenlive:locked_track", info.isLocked ? 1 : 0);
-    m_playlist.set("kdenlive:composite", info.composite ? 1 : 0);
     int state = 0;
     if (info.isMute) {
         if (info.isBlind) state = 3;

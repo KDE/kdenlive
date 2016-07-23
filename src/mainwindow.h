@@ -167,6 +167,7 @@ private:
     QDockWidget *m_undoViewDock;
 
     KSelectAction *m_timeFormatButton;
+    KSelectAction *m_compositeAction;
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList <QDockWidget *> m_gfxScopesList;
@@ -456,6 +457,10 @@ private slots:
     void showMenuBar(bool show);
     /** @brief Change forced icon theme setting (asks for app restart). */
     void forceIconSet(bool force);
+    /** @brief Toggle current project's compositing mode. */
+    void slotUpdateCompositing(int mode);
+    /** @brief Update compositing action to display current project setting. */
+    void slotUpdateCompositeAction(int mode);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

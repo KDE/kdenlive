@@ -1368,7 +1368,7 @@ void Render::fillSlowMotionProducers()
 }
 
 //Updates all transitions
-QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack, int lowestVideoTrack)
+QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack)
 {
     QList <TransitionInfo> transitionInfos;
     // Track add / delete was only added recently in MLT (pre 0.9.8 release).
@@ -1427,21 +1427,6 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     mix.set("internal_added", 237);
     mix.set("combine", 1);
     field->plant_transition(mix, 0, ix);
-
-    if (videoTrack) {
-	if (ix <= lowestVideoTrack) {
-	    // Track was inserted as lowest video track, it should not have a composite, but previous lowest should
-	    ix = lowestVideoTrack + 1;
-	}
-	QString comp = TransitionHandler::compositeTransition();
-	Mlt::Transition composite(*m_qmlView->profile(), comp.toUtf8().constData());
-	if (composite.is_valid()) {
-	    composite.set("a_track", ix - 1);
-	    composite.set("b_track", ix);
-	    composite.set("internal_added", 237);
-	    field->plant_transition(composite, ix - 1, ix);
-	}
-    }
     service.unlock();
     blockSignals(false);
     return transitionInfos;

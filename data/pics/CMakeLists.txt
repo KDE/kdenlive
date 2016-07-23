@@ -76,6 +76,7 @@ breeze-light/lt_kdenlive-align-right.svgz
 breeze-light/lt_kdenlive-align-top.svgz
 breeze-light/lt_kdenlive-align-vert.svgz
 breeze-light/lt_composite-track-on.svg
+breeze-light/lt_composite-track-preview.svg
 breeze-light/lt_composite-track-off.svg
 breeze-light/lt_kdenlive-custom-effect.svgz
 breeze-light/lt_kdenlive-deleffect.svgz
@@ -248,6 +249,7 @@ breeze-dark/dk_kdenlive-align-right.svgz
 breeze-dark/dk_kdenlive-align-top.svgz
 breeze-dark/dk_kdenlive-align-vert.svgz
 breeze-dark/dk_composite-track-on.svg
+breeze-dark/dk_composite-track-preview.svg
 breeze-dark/dk_composite-track-off.svg
 breeze-dark/dk_kdenlive-custom-effect.svgz
 breeze-dark/dk_kdenlive-deleffect.svgz

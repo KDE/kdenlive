@@ -555,9 +555,20 @@ void TransitionHandler::enableMultiTrack(bool enable)
     emit refresh();
 }
 
-void TransitionHandler::rebuildComposites(int lowestVideoTrack, QMap<int, bool> compositeState)
+// static 
+const QString TransitionHandler::compositeTransition()
 {
-    QStringList compositeService { QStringLiteral("qtblend"), QStringLiteral("frei0r.cairoblend"),  QStringLiteral("movit.overlay") };
+    if (KdenliveSettings::gpu_accel())
+        return QStringLiteral("movit.overlay");
+    if (MainWindow::transitions.hasTransition(QStringLiteral("qtblend"))) {
+        return QStringLiteral("qtblend");
+    }
+    return QStringLiteral("frei0r.cairoblend");
+}
+
+void TransitionHandler::switchCompositing(int mode, QList <int> videoTracks, int maxTrack)
+{
+    QStringList compositeService { QStringLiteral("qtblend"), QStringLiteral("composite"), QStringLiteral("frei0r.cairoblend"),  QStringLiteral("movit.overlay") };
     QList <int> disabled;
     QScopedPointer<Mlt::Service> service(m_tractor->field());
     Mlt::Field *field = m_tractor->field();
@@ -570,38 +581,44 @@ void TransitionHandler::rebuildComposites(int lowestVideoTrack, QMap<int, bool> 
             if (internal == 237) {
                 QString service = t.get("mlt_service");
                 if (compositeService.contains(service)) {
+                    if (mode < 0) {
+                        mode = service == QLatin1String("composite") ? 1 : 2;
+                    }
                     field->disconnect_service(t);
                 }
             }
         }
         service.reset(service->producer());
     }
-    // Re-add correct audio transitions
-    int transitionTrack = lowestVideoTrack;
-    QString composite = compositeTransition();
-    for (int i = lowestVideoTrack + 1; i < m_tractor->count(); i++) {
-        if (!compositeState.contains(i))
-            continue;
+    if (mode <= 0) {
+        // no compositing wanted, return
+        field->unlock();
+        delete field;
+        return;
+    }
+    // Re-add correct composite transitions
+    QString composite;
+    QString compositeGeometry;
+    if (mode == 1) {
+        composite = QStringLiteral("composite");
+        compositeGeometry = QString("0=0/0:%1x%2").arg(m_tractor->profile()->width()).arg(m_tractor->profile()->height());
+    } else {
+        composite = compositeTransition();
+    }
+    foreach(int track,  videoTracks) {
         Mlt::Transition transition(*m_tractor->profile(), composite.toUtf8().constData());
         transition.set("always_active", 1);
-        transition.set("a_track", transitionTrack);
-        transition.set("b_track", i);
+        transition.set("a_track", 0);
+        transition.set("b_track", track);
+        if (mode == 1) {
+            transition.set("valign", "middle");
+            transition.set("aligned", 0);
+            transition.set("fill", 1);
+            transition.set("geometry", compositeGeometry.toUtf8().constData());
+        }
         transition.set("internal_added", 237);
-        if (!compositeState.value(i))
-            transition.set("disable", 1);
-        field->plant_transition(transition, transitionTrack, i);
+        field->plant_transition(transition, 0, track);
     }
     field->unlock();
     delete field;
-}
-
-// static 
-const QString TransitionHandler::compositeTransition()
-{
-    if (KdenliveSettings::gpu_accel())
-        return QStringLiteral("movit.overlay");
-    if (MainWindow::transitions.hasTransition(QStringLiteral("qtblend"))) {
-        return QStringLiteral("qtblend");
-    }
-    return QStringLiteral("frei0r.cairoblend");
 }
