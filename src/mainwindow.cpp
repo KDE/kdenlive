@@ -1672,6 +1672,7 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
+        m_renderWidget->errorMessage(m_compositeAction->currentItem() == 1 ? i18n("Rendering using low quality track compositing") : QString());
     }
     slotCheckRenderStatus();
     m_renderWidget->show();
@@ -3687,12 +3688,16 @@ void MainWindow::slotUpdateCompositing(int mode)
 {
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->switchComposite(mode);
+        if (m_renderWidget)
+            m_renderWidget->errorMessage(mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
     }
 }
 
 void MainWindow::slotUpdateCompositeAction(int mode)
 {
     m_compositeAction->setCurrentItem(mode);
+    if (m_renderWidget)
+        m_renderWidget->errorMessage(mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
 }
 
 void MainWindow::showMenuBar(bool show)

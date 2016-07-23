@@ -134,6 +134,8 @@ public:
     bool proxyRendering();
     /** @brief Returns true if the stem audio export checkbox is set. */
     bool isStemAudioExportEnabled() const;
+    /** @brief Display warning message in render widget. */
+    void errorMessage(const QString &message);
 
 protected:
     virtual QSize sizeHint() const;
@@ -207,7 +209,6 @@ private:
     void checkRenderStatus();
     void startRendering(RenderJobItem *item);
     bool saveProfile(QDomElement newprofile);
-    void errorMessage(const QString &message);
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString groupName, const QString path, const QString profileName);
 
