@@ -2443,8 +2443,8 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
     QStringList folderInfo;
     // Create folder to hold imported clips
     QString folderName = url.fileName().section(QLatin1Char('.'), 0, 0);
-    QString newId = QString::number(getFreeFolderId());
-    new AddBinFolderCommand(this, newId, folderName.isEmpty() ? i18n("Folder") : folderName, m_rootFolder->clipId(), false, command);
+    QString folderId = QString::number(getFreeFolderId());
+    new AddBinFolderCommand(this, folderId, folderName.isEmpty() ? i18n("Folder") : folderName, m_rootFolder->clipId(), false, command);
 
     // Parse playlist clips
     QDomDocument doc;
@@ -2467,31 +2467,25 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         delete command;
         return;
     }
-    QMap <QString, QString> processedUrl;
-    QMap <QString, QString> idMaps;
+    QMap <QString, QString> idMap;
     for (int i = 0; i < producers.count(); i++) {
         QDomElement prod = producers.at(i).toElement();
-        QString resource = EffectsList::property(prod, QStringLiteral("resource"));
-        QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
-        if (service == QLatin1String("timewarp")) {
-            resource = EffectsList::property(prod, QStringLiteral("warp_resource"));
-        }
-        else if (service == QLatin1String("framebuffer")) {
-            resource = resource.section(QLatin1Char('?'), 0, -2);
-        }
-        if (!resource.isEmpty() && processedUrl.contains(resource)) {
-            // This is a sub-clip (track producer or slowmotion, ignore
-            continue;
-        }
+        QString originalId = prod.attribute(QStringLiteral("id"));
+        // track producer
+        if (originalId.contains(QLatin1Char('_'))) originalId = originalId.section(QLatin1Char('_'), 0, 0);
+        // slowmotion producer
+        if (originalId.contains(QLatin1Char(':'))) originalId = originalId.section(QLatin1Char(':'), 1, 1);
+
+        if (idMap.contains(originalId)) continue;
+        QString newId = QString::number(getFreeClipId());
+        idMap.insert(originalId, newId);
+        qDebug() << "originalId: " << originalId << ", newId: " << newId;
         // Add clip
         QDomElement clone = prod.cloneNode(true).toElement();
-        EffectsList::setProperty(clone, QStringLiteral("kdenlive:folderid"), newId);
-        QString id = QString::number(getFreeClipId());
-        idMaps.insert(prod.attribute(QStringLiteral("id")), id);
-        processedUrl.insert(resource, id);
-        ClipCreationDialog::createClipsCommand(this, clone, id, command);
+        EffectsList::setProperty(clone, QStringLiteral("kdenlive:folderid"), folderId);
+        ClipCreationDialog::createClipsCommand(this, clone, newId, command);
     }
-    pCore->projectManager()->currentTimeline()->importPlaylist(info, processedUrl, idMaps, doc, command);
+    pCore->projectManager()->currentTimeline()->importPlaylist(info, idMap, doc, command);
 }
 
 void Bin::slotItemEdited(QModelIndex ix,QModelIndex,QVector<int>)
