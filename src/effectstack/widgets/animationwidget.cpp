@@ -1075,7 +1075,7 @@ void AnimationWidget::slotUpdateCenters(const QVariantList centers)
         m_animController.key_get(i, pos, type);
         mlt_rect rect = m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), pos, m_outPoint);
         // Center rect to new pos
-        QPoint offset = centers.at(i).toPoint() - QPoint(rect.x + rect.w / 2, rect.y + rect.h / 2);
+        QPointF offset = centers.at(i).toPointF()- QPointF(rect.x + rect.w / 2, rect.y + rect.h / 2);
         rect.x += offset.x();
         rect.y += offset.y();
         m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, type);
@@ -1097,7 +1097,7 @@ void AnimationWidget::setupMonitor(QRect r)
             types << 0;
         }
         mlt_rect rect = m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), pos, m_outPoint);
-        QRect frameRect(rect.x, rect.y, rect.w, rect.h);
+        QRectF frameRect(rect.x, rect.y, rect.w, rect.h);
         points.append(QVariant(frameRect.center()));
     }
     if (m_active) m_monitor->setUpEffectGeometry(r, points, types);
