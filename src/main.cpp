@@ -93,6 +93,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Ray Lehtiniemi"), i18n("Bug fixing, etc."), QStringLiteral("rayl@mail.com"));
     aboutData.addAuthor(i18n("Steve Guilford"), i18n("Bug fixing, etc."), QStringLiteral("s.guilford@dbplugins.com"));
     aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), QStringLiteral("jasonwood@blueyonder.co.uk"));
+    aboutData.addCredit(i18n("Nara Oliveira and Farid Abdelnour | Estúdio Gunga"), i18n("Kdenlive 16.08 icon"));
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
 
