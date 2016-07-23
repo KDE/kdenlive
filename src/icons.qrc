@@ -15,6 +15,7 @@
      <file alias="preview-render-off.svg">../data/pics/breeze-light/lt_preview-render-off.svg</file>
      <file alias="view-split-effect.svg">../data/pics/breeze-light/lt_view-split-effect.svg</file>
      <file alias="composite-track-on.svg">../data/pics/breeze-light/lt_composite-track-on.svg</file>
+     <file alias="composite-track-preview.svg">../data/pics/breeze-light/lt_composite-track-preview.svg</file>
      <file alias="composite-track-off.svg">../data/pics/breeze-light/lt_composite-track-off.svg</file>
      <file alias="project-defaults.svg">../data/pics/breeze-light/lt_project-defaults.svg</file>
      <file alias="jog-dial.svg">../data/pics/breeze-light/lt_jog-dial.svg</file>

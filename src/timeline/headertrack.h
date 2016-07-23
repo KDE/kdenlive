@@ -38,7 +38,6 @@ public:
     virtual ~HeaderTrack();
     bool isTarget;
     void setLock(bool lock);
-    void setComposite(bool enable);
     void adjustSize(int height);
     void setSelectedIndex(int ix);
     /** @brief Update the track label to show if current track has effects or not.*/
@@ -47,14 +46,11 @@ public:
     QString name() const;
     /** @brief Update status of mute/blind/lock/composite buttons.*/
     void updateStatus(TrackInfo info);
-    /** @brief Track has no composite transition, disable switch button.*/
-    void disableComposite();
     void refreshPalette();
     void switchTarget(bool enable);
     void updateLed();
     void setVideoMute(bool mute);
     void setAudioMute(bool mute);
-    bool compositeEnabled() const;
 
 protected:
     void mousePressEvent(QMouseEvent * event);
@@ -69,7 +65,6 @@ private:
     bool m_isSelected;
     QString m_name;
     QToolBar *m_tb;
-    KDualAction *m_switchComposite;
     KDualAction *m_switchVideo;
     KDualAction *m_switchAudio;
     KDualAction *m_switchLock;
@@ -78,14 +73,12 @@ private:
 private slots:
     void switchAudio(bool);
     void switchVideo(bool);
-    void switchComposite(bool);
     void slotRenameTrack();
     void switchLock(bool);
 
 signals:
     void switchTrackAudio(int index,bool);
     void switchTrackVideo(int index,bool);
-    void switchTrackComposite(int index,bool);
     void switchTrackLock(int index,bool);
     void renameTrack(int index, const QString&name);
     void selectTrack(int index, bool switchTarget = false);

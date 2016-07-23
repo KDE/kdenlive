@@ -70,7 +70,7 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
 {
     setupUi(this);
 
-    table->setColumnCount(6);
+    table->setColumnCount(5);
     table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     table->setHorizontalHeaderLabels(QStringList() << i18n("Name") << i18n("Type") << i18n("Hidden") << i18n("Muted") << i18n("Locked") << i18n("Composite"));
     table->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -124,7 +124,6 @@ const QList <TrackInfo> TracksConfigDialog::tracksList()
         }
         info.isMute = (table->item(i, 3)->checkState() == Qt::Checked);
         info.isLocked = (table->item(i, 4)->checkState() == Qt::Checked);
-        info.composite = (table->item(i, 5)->checkState() == Qt::Checked);
         tracks << info;
     }
     return tracks;
@@ -169,13 +168,6 @@ void TracksConfigDialog::setupOriginal(int selected)
         item4->setFlags(item4->flags() & ~Qt::ItemIsEditable);
         item4->setCheckState(info.isLocked ? Qt::Checked : Qt::Unchecked);
         table->setItem(i, 4, item4);
-
-        QTableWidgetItem *item5 = new QTableWidgetItem(QLatin1String(""));
-        item5->setFlags(item5->flags() & ~Qt::ItemIsEditable);
-        item5->setCheckState(info.composite? Qt::Checked : Qt::Unchecked);
-        if (info.type == AudioTrack)
-            item5->setFlags(item5->flags() & ~Qt::ItemIsEnabled);
-        table->setItem(i, 5, item5);
     }
     table->setVerticalHeaderLabels(numbers);
 
@@ -190,15 +182,12 @@ void TracksConfigDialog::slotUpdateRow(QTableWidgetItem* item)
 {
     if (table->column(item) == 1) {
         QTableWidgetItem *item2 = table->item(table->row(item), 2);
-        QTableWidgetItem *item5 = table->item(table->row(item), 5);
         if (item->text() == i18n("Audio")) {
             item2->setFlags(item2->flags() & ~Qt::ItemIsEnabled);
             item2->setCheckState(Qt::Checked);
-            item5->setFlags(item2->flags() & ~Qt::ItemIsEnabled);
         } else {
             item2->setFlags(item2->flags() | Qt::ItemIsEnabled);
             item2->setCheckState(Qt::Unchecked);
-            item5->setFlags(item2->flags() | Qt::ItemIsEnabled);
         }
     }
 }

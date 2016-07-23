@@ -149,6 +149,9 @@ Item {
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         readonly property bool containsMouse: {
+              if (isMoving) {
+                  return true;
+              }
               for(var i = 0; i < root.centerPoints.length; i++)
               {
                 var p1 = canvas.convertPoint(root.centerPoints[i])
@@ -184,6 +187,10 @@ Item {
         }
         onDoubleClicked: {
             root.addKeyframe()
+        }
+        onReleased: {
+            root.requestedKeyFrame = -1
+            isMoving = false;
         }
     }
     EffectToolBar {

@@ -193,7 +193,7 @@ class Render: public AbstractRender
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
     bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
 
-    QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack, int lowestVideoTrack);
+    QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
 
     //const QList <Mlt::Producer *> producersList();
     void setDropFrames(bool show);

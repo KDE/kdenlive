@@ -156,7 +156,7 @@ public:
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
     static bool isSlide(QString geometry);
     /** @brief Import amultitrack MLT playlist in timeline */
-    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
+    void importPlaylist(ItemInfo info, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
     /** @brief Creates an overlay track with a filtered clip */
     bool createOverlay(Mlt::Filter *filter, int tk, int startPos);
     /** @brief Creates an overlay track with a ripple transition*/
@@ -186,6 +186,8 @@ public:
     void invalidateTrack(int ix);
     /** @brief Start rendering preview rendering range. */
     void startPreviewRender();
+    /** @brief Toggle current project's compositing mode. */
+    void switchComposite(int mode);
 
 protected:
     void keyPressEvent(QKeyEvent * event);
@@ -245,11 +247,8 @@ private:
     /** @brief load existing timeline previews */
     void loadPreviewRender();
     void initializePreview();
-    /** @brief Get current track composite state */
-    QMap<int, bool> getTrackCompositeState() const;
 
 private slots:
-    void slotSwitchTrackComposite(int trackIndex, bool enable);
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
     /** @brief The tracks count or a track name changed, rebuild and notify */

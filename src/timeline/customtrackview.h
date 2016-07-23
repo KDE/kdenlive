@@ -238,7 +238,7 @@ public:
     /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
     void expandActiveClip();
     /** @brief Import amultitrack MLT playlist in timeline */
-    void importPlaylist(ItemInfo info, QMap <QString, QString> processedUrl, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
+    void importPlaylist(ItemInfo info, QMap <QString, QString> idMap, QDomDocument doc, QUndoCommand *command);
     /** @brief Returns true if there is a selected item in timeline */
     bool hasSelection() const;
     /** @brief Get the index of the video track that is just above current track */

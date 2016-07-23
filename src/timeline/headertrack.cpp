@@ -43,7 +43,6 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
         m_type(info.type),
         m_parentTrack(parent),
         m_isSelected(false),
-        m_switchComposite(NULL),
         m_switchVideo(NULL)
 {
     setupUi(this);
@@ -92,17 +91,9 @@ HeaderTrack::HeaderTrack(TrackInfo info, const QList <QAction *> &actions, Track
         m_switchVideo->setActive(info.isBlind);
         connect(m_switchVideo, SIGNAL(activeChanged(bool)), this, SLOT(switchVideo(bool)));
         m_tb->addAction(m_switchVideo);
-
-        m_switchComposite = new KDualAction(i18n("Opaque"), i18n("Composite"), this);
-        m_switchComposite->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("composite-track-on")));
-        m_switchComposite->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("composite-track-off")));
-        m_switchComposite->setActive(info.composite);
-        connect(m_switchComposite, &KDualAction::activeChangedByUser, this, &HeaderTrack::switchComposite);
-        m_tb->addAction(m_switchComposite);
     } else {
         setBackgroundRole(QPalette::AlternateBase);
         m_switchVideo = NULL;
-        m_switchComposite = NULL;
     }
 
     updateStatus(info);
@@ -137,18 +128,10 @@ void HeaderTrack::updateStatus(TrackInfo info)
 {
     m_switchAudio->setActive(info.isMute);
     if (m_switchVideo) m_switchVideo->setActive(info.isBlind);
-    if (m_switchComposite) m_switchComposite->setActive(info.composite);
     m_switchLock->setActive(info.isLocked);
     updateBackground(info.isLocked);
     updateLed();
     renameTrack(info.trackName);
-}
-
-bool HeaderTrack::compositeEnabled() const
-{
-    if (!m_switchComposite)
-        return false;
-    return m_switchComposite->isActive();
 }
 
 void HeaderTrack::updateBackground(bool isLocked)
@@ -271,11 +254,6 @@ void HeaderTrack::adjustSize(int height)
     setFixedHeight(height);
 }
 
-void HeaderTrack::switchComposite(bool enable)
-{
-    emit switchTrackComposite(m_parentTrack->index(), !enable);
-}
-
 void HeaderTrack::switchVideo(bool enable)
 {
     emit switchTrackVideo(m_parentTrack->index(), enable);
@@ -340,21 +318,6 @@ void HeaderTrack::updateLed()
         kled->setToolTip(QString());
         kled->setColor(palette().base().color());
     }
-}
-
-void HeaderTrack::disableComposite()
-{
-    if (m_switchComposite) {
-        m_switchComposite->setVisible(false);
-    }
-}
-
-void HeaderTrack::setComposite(bool enable)
-{
-    if (m_switchComposite) {
-        m_switchComposite->setActive(enable);
-    }
-    else qDebug()<<" / / /ERROR; TRYING TO EDIT COMPOSITE ON AUDIO TRACK: "<<m_parentTrack->index();
 }
 
 void HeaderTrack::slotRenameTrack()
