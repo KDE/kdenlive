@@ -42,12 +42,15 @@ ecm_install_icons(ICONS
   22-actions-kdenlive-select-all.png
   22-actions-kdenlive-spacer-tool.png
   32-actions-kdenlive-select-all.png
-  32-apps-kdenlive.png
   32-mimetypes-application-x-kdenlivetitle.png
   48-actions-kdenlive-select-all.png
-  48-apps-kdenlive.png
   64-actions-kdenlive-select-all.png
+  16-apps-kdenlive.png
+  32-apps-kdenlive.png
+  48-apps-kdenlive.png
   64-apps-kdenlive.png
+  128-apps-kdenlive.png
+  256-apps-kdenlive.png
   64-mimetypes-application-x-kdenlivetitle.png
   sc-actions-kdenlive-align-bottom.svgz
   sc-actions-kdenlive-align-hor.svgz
