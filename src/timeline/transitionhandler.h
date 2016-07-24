@@ -55,7 +55,7 @@ public:
     /** @brief Returns internal track transition. */
     Mlt::Transition *getTrackTransition(const QStringList names, int b_track, int a_track) const;
     /** @brief Switch track compositing mode. */
-    void switchCompositing(int mode, QList <int> videoTracks, int maxTrack);
+    void rebuildTransitions(int mode, QList <int> videoTracks, int maxTrack);
     /** @brief Returns the matching composite transition depending on the current settings. */
     static const QString compositeTransition();
 

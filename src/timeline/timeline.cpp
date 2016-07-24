@@ -780,7 +780,7 @@ void Timeline::doSwitchTrackVideo(int ix, bool hide)
     m_doc->renderer()->doRefresh();
 }
 
-void Timeline::updateComposites()
+void Timeline::refreshTransitions()
 {
     switchComposite(-1);
 }
@@ -829,40 +829,6 @@ int Timeline::getLowestVideoTrack()
     return -1;
 }
 
-void Timeline::fixAudioMixing()
-{
-    QScopedPointer<Mlt::Field> field(m_tractor->field());
-    field->lock();
-    mlt_service nextservice = mlt_service_get_producer(field->get_service());
-    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString mlt_type = mlt_properties_get(properties, "mlt_type");
-    QString resource = mlt_properties_get(properties, "mlt_service");
-    // Delete all audio mixing transitions
-    while (mlt_type == QLatin1String("transition")) {
-        if (resource == QLatin1String("mix")) {
-            Mlt::Transition transition((mlt_transition) nextservice);
-            nextservice = mlt_service_producer(nextservice);
-            field->disconnect_service(transition);
-        }
-        else nextservice = mlt_service_producer(nextservice);
-        if (nextservice == NULL) break;
-        properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_properties_get(properties, "mlt_type");
-        resource = mlt_properties_get(properties, "mlt_service");
-    }
-
-    // Re-add correct audio transitions
-    for (int i = 1; i < m_tractor->count(); i++) {
-        Mlt::Transition transition(*m_tractor->profile(), "mix");
-        transition.set("always_active", 1);
-        transition.set("combine", 1);
-        transition.set("a_track", 0);
-        transition.set("b_track", i);
-        transition.set("internal_added", 237);
-        field->plant_transition(transition, 0, i);
-    }
-    field->unlock();
-}
 
 void Timeline::updatePalette()
 {
@@ -1999,7 +1965,7 @@ void Timeline::switchComposite(int mode)
             videoTracks << i;
         }
     }
-    transitionHandler->switchCompositing(mode, videoTracks, maxTrack);
+    transitionHandler->rebuildTransitions(mode, videoTracks, maxTrack);
     m_doc->renderer()->doRefresh();
     m_doc->setModified();
 }

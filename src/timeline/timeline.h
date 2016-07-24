@@ -93,8 +93,6 @@ public:
     void doSwitchTrackVideo(int ix, bool hide);
     /** @brief Dis / enable audio for a track. */
     void doSwitchTrackAudio(int ix, bool mute);
-    /** @brief Adjust audio transitions depending on tracks muted state. */
-    void fixAudioMixing();
 
     /** @brief Updates (redraws) the ruler.
     *
@@ -164,8 +162,8 @@ public:
     void removeSplitOverlay();
     /** @brief Temporarily add/remove track before saving */
     void connectOverlayTrack(bool enable);
-    /** @brief Update composite transitions's tracks */
-    void updateComposites();
+    /** @brief Update composite and mix transitions's tracks */
+    void refreshTransitions();
     /** @brief Switch current track target state */
     void switchTrackTarget();
     /** @brief Refresh Header Leds */

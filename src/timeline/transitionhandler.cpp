@@ -566,7 +566,7 @@ const QString TransitionHandler::compositeTransition()
     return QStringLiteral("frei0r.cairoblend");
 }
 
-void TransitionHandler::switchCompositing(int mode, QList <int> videoTracks, int maxTrack)
+void TransitionHandler::rebuildTransitions(int mode, QList <int> videoTracks, int maxTrack)
 {
     QStringList compositeService { QStringLiteral("qtblend"), QStringLiteral("composite"), QStringLiteral("frei0r.cairoblend"),  QStringLiteral("movit.overlay") };
     QList <int> disabled;
@@ -580,7 +580,10 @@ void TransitionHandler::switchCompositing(int mode, QList <int> videoTracks, int
             int internal = t.get_int("internal_added");
             if (internal == 237) {
                 QString service = t.get("mlt_service");
-                if (compositeService.contains(service)) {
+                if (service == QLatin1String("mix")) {
+                    field->disconnect_service(t);
+                }
+                else if (compositeService.contains(service)) {
                     if (mode < 0) {
                         mode = service == QLatin1String("composite") ? 1 : 2;
                     }
@@ -590,6 +593,17 @@ void TransitionHandler::switchCompositing(int mode, QList <int> videoTracks, int
         }
         service.reset(service->producer());
     }
+    // Rebuild audio mix
+    for (int i = 1; i < maxTrack; i++) {
+        Mlt::Transition transition(*m_tractor->profile(), "mix");
+        transition.set("always_active", 1);
+        transition.set("combine", 1);
+        transition.set("a_track", 0);
+        transition.set("b_track", i);
+        transition.set("internal_added", 237);
+        field->plant_transition(transition, 0, i);
+    }
+
     if (mode <= 0) {
         // no compositing wanted, return
         field->unlock();
@@ -612,7 +626,8 @@ void TransitionHandler::switchCompositing(int mode, QList <int> videoTracks, int
         transition.set("b_track", track);
         if (mode == 1) {
             transition.set("valign", "middle");
-            transition.set("aligned", 0);
+            transition.set("halign", "centre");
+	    transition.set("aligned", 0);
             transition.set("fill", 1);
             transition.set("geometry", compositeGeometry.toUtf8().constData());
         }
