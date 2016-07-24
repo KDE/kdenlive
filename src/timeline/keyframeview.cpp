@@ -133,9 +133,13 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
     // Make sure edited param is painted last
     paramNames.append(m_inTimeline);
     foreach (const QString &paramName, paramNames) {
+        ParameterInfo info = m_paramInfos.value(paramName);
+        if (info.max == info.min) {
+            // this is probably an animated rect
+            continue;
+        }
         Mlt::Animation drawAnim = m_keyProperties.get_animation(paramName.toUtf8().constData());
         if (!drawAnim.is_valid()) continue;
-        ParameterInfo info = m_paramInfos.value(paramName);
         QPainterPath path;
         int frame = drawAnim.key_get_frame(0);
         double value = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), frame, duration - m_offset);
