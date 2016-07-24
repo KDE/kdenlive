@@ -953,7 +953,7 @@ void MainWindow::setupActions()
     connect(sceneMode, SIGNAL(triggered(QAction*)), this, SLOT(slotChangeEdit(QAction*)));
     addAction(QStringLiteral("timeline_mode"), sceneMode);
 
-    m_compositeAction = new KSelectAction(KoIconUtils::themedIcon("composite-track-off"), QString()/*i18n("Track compositing")*/, this);
+    m_compositeAction = new KSelectAction(KoIconUtils::themedIcon("composite-track-off"), i18n("Track compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
     m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-off"), i18n("None"));
     m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-preview"), i18n("Preview"));

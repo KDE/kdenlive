@@ -54,8 +54,6 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-    connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
-    connect(m_monitor, &Monitor::effectPointsChanged, this, &GeometryWidget::slotUpdateCenters, Qt::UniqueConnection);
     /*
         Setup of timeline and keyframe controls
     */
@@ -278,6 +276,18 @@ GeometryWidget::~GeometryWidget()
         delete g;
     }
 }
+
+void GeometryWidget::connectMonitor(bool activate)
+{
+    if (activate) {
+	connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
+	connect(m_monitor, &Monitor::effectPointsChanged, this, &GeometryWidget::slotUpdateCenters, Qt::UniqueConnection);
+    } else {
+	disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
+	disconnect(m_monitor, &Monitor::effectPointsChanged, this, &GeometryWidget::slotUpdateCenters);
+    }
+}
+
 
 void GeometryWidget::slotShowPreviousKeyFrame(bool show)
 {

@@ -1360,6 +1360,8 @@ void ParameterContainer::connectMonitor(bool activate)
 {
     if (m_animationWidget)
         m_animationWidget->connectMonitor(activate);
+    if (m_geometryWidget)
+        m_geometryWidget->connectMonitor(activate);
 }
 
 bool ParameterContainer::doesAcceptDrops() const
