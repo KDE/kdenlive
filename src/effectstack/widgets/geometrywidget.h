@@ -58,6 +58,8 @@ public:
     QString offsetAnimation(int offset, bool useOffset);
     /** @brief Effect param @tag was changed, reload keyframes */
     void reload(const QString &tag, const QString &data);
+    /** @brief connect with monitor scene */
+    void connectMonitor(bool activate);
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
