@@ -73,7 +73,6 @@ CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerAction
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QFontMetricsF fontMetrics(font());
     // Define size variables
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     LABEL_SIZE = fontMetrics.ascent();
     FONT_WIDTH = fontMetrics.averageCharWidth();
     PREVIEW_SIZE = LABEL_SIZE / 3;
@@ -163,7 +162,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
     event->setAccepted(true);
     int pos = (int)((event->x() + offset()));
     if (event->button() == Qt::RightButton) {
-        m_clickedGuide = m_view->hasGuide((int)(pos / m_factor), (int)(5 / m_factor + 1));
+        m_clickedGuide = m_view->hasGuide(pos, false);
         m_editGuide->setEnabled(m_clickedGuide > 0);
         m_deleteGuide->setEnabled(m_clickedGuide > 0);
         m_view->buildGuidesMenu(m_goMenu);

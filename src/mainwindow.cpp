@@ -3159,7 +3159,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         }
 
         if (chapters.childNodes().count() > 0) {
-            if (pCore->projectManager()->currentTimeline()->projectView()->hasGuide(out, 0) == -1) {
+            if (pCore->projectManager()->currentTimeline()->projectView()->hasGuide(out, true) == -1) {
                 // Always insert a guide in pos 0
                 QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
                 chapters.insertBefore(chapter, QDomNode());

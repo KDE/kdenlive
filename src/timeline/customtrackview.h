@@ -170,7 +170,11 @@ public:
     /** @brief Sets the clip type (av, video only, audio only) of the current selection. */
     void setClipType(PlaylistState::ClipState state);
     void doChangeClipType(ItemInfo info, PlaylistState::ClipState state);
-    int hasGuide(int pos, int offset);
+    /** @brief Check if there is a guide at position.
+     * @param pos Position to check
+     * @param framePos If set to true, pos is an exact frame number, otherwise it's a mouse event pos
+     */
+    int hasGuide(double pos, bool framePos);
     void reloadTransitionLumas();
     void updateProjectFps();
     double fps() const;
