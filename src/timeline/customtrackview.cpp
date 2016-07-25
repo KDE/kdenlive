@@ -183,6 +183,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     connect(m_disableClipAction, &QAction::triggered, this, &CustomTrackView::disableClip);
     m_disableClipAction->setCheckable(true);
     m_document->doAddAction(QStringLiteral("clip_disabled"), m_disableClipAction, QKeySequence());
+    QAction *pasteAction = m_document->getAction(KStandardAction::name(KStandardAction::Paste));
+    if (pasteAction)
+        pasteAction->setEnabled(false);
 }
 
 CustomTrackView::~CustomTrackView()
@@ -855,7 +858,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
 
-    if (m_toolManagers.value(GuideType)->mousePress(ItemInfo(), event->modifiers(), collisionList)) {
+    if (event->button() == Qt::LeftButton && m_toolManagers.value(GuideType)->mousePress(ItemInfo(), event->modifiers(), collisionList)) {
         QGraphicsView::mousePressEvent(event);
         return;
     }
@@ -6225,9 +6228,12 @@ void CustomTrackView::copyClip()
 {
     qDeleteAll(m_copiedItems);
     m_copiedItems.clear();
+    QAction *pasteAction = m_document->getAction(KStandardAction::name(KStandardAction::Paste));
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     if (itemList.count() == 0) {
         emit displayMessage(i18n("Select a clip before copying"), ErrorMessage);
+        if (pasteAction)
+            pasteAction->setEnabled(false);
         return;
     }
     for (int i = 0; i < itemList.count(); ++i) {
@@ -6240,6 +6246,8 @@ void CustomTrackView::copyClip()
             m_copiedItems.append(dup->clone());
         }
     }
+    if (pasteAction)
+        pasteAction->setEnabled(!m_copiedItems.isEmpty());
 }
 
 bool CustomTrackView::canBePastedTo(ItemInfo info, int type) const
