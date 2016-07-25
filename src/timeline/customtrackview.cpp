@@ -133,7 +133,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     //setCacheMode(QGraphicsView::CacheBackground);
     setAutoFillBackground(false);
     setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     setContentsMargins(0, 0, 0, 0);
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     m_selectedTrackColor = scheme.background(KColorScheme::ActiveBackground ).color();
@@ -183,6 +182,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     connect(m_disableClipAction, &QAction::triggered, this, &CustomTrackView::disableClip);
     m_disableClipAction->setCheckable(true);
     m_document->doAddAction(QStringLiteral("clip_disabled"), m_disableClipAction, QKeySequence());
+    QAction *pasteAction = m_document->getAction(KStandardAction::name(KStandardAction::Paste));
+    if (pasteAction)
+        pasteAction->setEnabled(false);
 }
 
 CustomTrackView::~CustomTrackView()
@@ -855,7 +857,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
 
-    if (m_toolManagers.value(GuideType)->mousePress(ItemInfo(), event->modifiers(), collisionList)) {
+    if (event->button() == Qt::LeftButton && m_toolManagers.value(GuideType)->mousePress(ItemInfo(), event->modifiers(), collisionList)) {
         QGraphicsView::mousePressEvent(event);
         return;
     }
@@ -5833,12 +5835,16 @@ void CustomTrackView::clipEnd()
     }
 }
 
-int CustomTrackView::hasGuide(int pos, int offset)
+int CustomTrackView::hasGuide(double pos, bool framePos)
 {
     for (int i = 0; i < m_guides.count(); ++i) {
-        int guidePos = m_guides.at(i)->position().frames(m_document->fps());
-        if (qAbs(guidePos - pos) <= offset) return guidePos;
-        else if (guidePos > pos) return -1;
+        double guidePos = m_guides.at(i)->position().frames(m_document->fps()) * (framePos ? 1 : matrix().m11());
+        if (framePos) {
+            if (guidePos == pos) return guidePos;
+        } else {
+            if (qAbs(guidePos - pos) <= QApplication::startDragDistance()) return guidePos;
+        }
+        if (guidePos > pos) return -1;
     }
     return -1;
 }
@@ -6225,9 +6231,12 @@ void CustomTrackView::copyClip()
 {
     qDeleteAll(m_copiedItems);
     m_copiedItems.clear();
+    QAction *pasteAction = m_document->getAction(KStandardAction::name(KStandardAction::Paste));
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     if (itemList.count() == 0) {
         emit displayMessage(i18n("Select a clip before copying"), ErrorMessage);
+        if (pasteAction)
+            pasteAction->setEnabled(false);
         return;
     }
     for (int i = 0; i < itemList.count(); ++i) {
@@ -6240,6 +6249,8 @@ void CustomTrackView::copyClip()
             m_copiedItems.append(dup->clone());
         }
     }
+    if (pasteAction)
+        pasteAction->setEnabled(!m_copiedItems.isEmpty());
 }
 
 bool CustomTrackView::canBePastedTo(ItemInfo info, int type) const

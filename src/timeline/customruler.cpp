@@ -73,7 +73,6 @@ CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerAction
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QFontMetricsF fontMetrics(font());
     // Define size variables
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     LABEL_SIZE = fontMetrics.ascent();
     FONT_WIDTH = fontMetrics.averageCharWidth();
     PREVIEW_SIZE = LABEL_SIZE / 3;
@@ -146,8 +145,9 @@ void CustomRuler::setZone(const QPoint &p)
     update();
 }
 
-void CustomRuler::mouseReleaseEvent(QMouseEvent * /*event*/)
+void CustomRuler::mouseReleaseEvent(QMouseEvent *event)
 {
+    event->setAccepted(true);
     if (m_moveCursor == RULER_START || m_moveCursor == RULER_END || m_moveCursor == RULER_MIDDLE) {
         emit zoneMoved(m_zoneStart, m_zoneEnd);
         m_view->setDocumentModified();
@@ -159,9 +159,10 @@ void CustomRuler::mouseReleaseEvent(QMouseEvent * /*event*/)
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event)
 {
+    event->setAccepted(true);
     int pos = (int)((event->x() + offset()));
     if (event->button() == Qt::RightButton) {
-        m_clickedGuide = m_view->hasGuide((int)(pos / m_factor), (int)(5 / m_factor + 1));
+        m_clickedGuide = m_view->hasGuide(pos, false);
         m_editGuide->setEnabled(m_clickedGuide > 0);
         m_deleteGuide->setEnabled(m_clickedGuide > 0);
         m_view->buildGuidesMenu(m_goMenu);
@@ -187,6 +188,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
 // virtual
 void CustomRuler::mouseMoveEvent(QMouseEvent * event)
 {
+    event->setAccepted(true);
     int mappedXPos = (int)((event->x() + offset()) / m_factor);
     emit mousePosition(mappedXPos);
     if (event->buttons() == Qt::LeftButton) {
