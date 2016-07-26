@@ -562,7 +562,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_timelineToolBar, &QWidget::customContextMenuRequested, this, &MainWindow::showTimelineToolbarMenu);
 
     QAction *prevRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
-    tlMenu->addAction(actionCollection()->action(QStringLiteral("stop_prerender_timeline")));
+    QAction *stopPrevRender = actionCollection()->action(QStringLiteral("stop_prerender_timeline"));
+    tlMenu->addAction(stopPrevRender);
     tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
@@ -576,12 +577,13 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     tlMenu->addSeparator();
     tlMenu->addAction(actionCollection()->action(QStringLiteral("disable_preview")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("manage_cache")));
-    timelinePreview->defineDefaultAction(prevRender, false);
+    timelinePreview->defineDefaultAction(prevRender, stopPrevRender);
     timelinePreview->setAutoRaise(true);
 
-    tlrMenu->addAction(actionCollection()->action(QStringLiteral("project_render")));
+    QAction *showRender = actionCollection()->action(QStringLiteral("project_render"));
+    tlrMenu->addAction(showRender);
     tlrMenu->addAction(actionCollection()->action(QStringLiteral("stop_project_render")));
-    timelineRender->defineDefaultAction(actionCollection()->action(QStringLiteral("project_render")));
+    timelineRender->defineDefaultAction(showRender, showRender);
     timelineRender->setAutoRaise(true);
 
 

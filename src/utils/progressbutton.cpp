@@ -45,12 +45,12 @@ ProgressButton::~ProgressButton()
     delete m_dummyAction;
 }
 
-void ProgressButton::defineDefaultAction(QAction *action, bool activateOnProgress)
+void ProgressButton::defineDefaultAction(QAction *action, QAction *actionInProgress)
 {
     setDefaultAction(action);
     m_defaultAction = action;
-    if (activateOnProgress)
-        connect(m_dummyAction, &QAction::triggered, m_defaultAction, &QAction::trigger);
+    if (actionInProgress)
+        connect(m_dummyAction, &QAction::triggered, actionInProgress, &QAction::trigger);
 }
 
 void ProgressButton::setProgress(int progress) 
