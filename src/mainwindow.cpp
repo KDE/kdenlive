@@ -1434,9 +1434,8 @@ void MainWindow::setupActions()
 
     QAction *addFolder = addAction(QStringLiteral("add_folder"), i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), KoIconUtils::themedIcon(QStringLiteral("folder-new")));
     addClips->addAction(addAction(QStringLiteral("download_resource"), i18n("Online Resources"), this, SLOT(slotDownloadResources()), KoIconUtils::themedIcon(QStringLiteral("edit-download"))));
-    
-    QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties(bool)), KoIconUtils::themedIcon(QStringLiteral("document-edit")));
-    clipProperties->setCheckable(true);
+
+    QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()), KoIconUtils::themedIcon(QStringLiteral("document-edit")));
     clipProperties->setData("clip_properties");
 
     QAction *openClip = addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), KoIconUtils::themedIcon(QStringLiteral("document-open")));

@@ -597,7 +597,7 @@ public slots:
     void slotDeleteClip();
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
     void slotSwitchClipProperties(const QModelIndex &ix);
-    void slotSwitchClipProperties(bool display = true);
+    void slotSwitchClipProperties();
     /** @brief Creates a new folder with optional name, and returns new folder's id */
     QString slotAddFolder(const QString &folderName = QString());
     void slotCreateProjectClip();
@@ -683,11 +683,11 @@ private:
     QIcon m_blankThumb;
     QMenu *m_menu;
     QAction *m_openAction;
+    QAction *m_editAction;
     QAction *m_reloadAction;
     QAction *m_duplicateAction;
     QAction *m_locateAction;
     QAction *m_proxyAction;
-    QAction *m_editAction;
     QAction *m_deleteAction;
     QAction *m_renameFolderAction;
     QMenu *m_jobsMenu;
