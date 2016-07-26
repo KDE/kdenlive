@@ -562,7 +562,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_timelineToolBar, &QWidget::customContextMenuRequested, this, &MainWindow::showTimelineToolbarMenu);
 
     QAction *prevRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
-    tlMenu->addAction(actionCollection()->action(QStringLiteral("stop_prerender_timeline")));
+    QAction *stopPrevRender = actionCollection()->action(QStringLiteral("stop_prerender_timeline"));
+    tlMenu->addAction(stopPrevRender);
     tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
@@ -576,12 +577,13 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     tlMenu->addSeparator();
     tlMenu->addAction(actionCollection()->action(QStringLiteral("disable_preview")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("manage_cache")));
-    timelinePreview->defineDefaultAction(prevRender, false);
+    timelinePreview->defineDefaultAction(prevRender, stopPrevRender);
     timelinePreview->setAutoRaise(true);
 
-    tlrMenu->addAction(actionCollection()->action(QStringLiteral("project_render")));
+    QAction *showRender = actionCollection()->action(QStringLiteral("project_render"));
+    tlrMenu->addAction(showRender);
     tlrMenu->addAction(actionCollection()->action(QStringLiteral("stop_project_render")));
-    timelineRender->defineDefaultAction(actionCollection()->action(QStringLiteral("project_render")));
+    timelineRender->defineDefaultAction(showRender, showRender);
     timelineRender->setAutoRaise(true);
 
 
@@ -1434,9 +1436,8 @@ void MainWindow::setupActions()
 
     QAction *addFolder = addAction(QStringLiteral("add_folder"), i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), KoIconUtils::themedIcon(QStringLiteral("folder-new")));
     addClips->addAction(addAction(QStringLiteral("download_resource"), i18n("Online Resources"), this, SLOT(slotDownloadResources()), KoIconUtils::themedIcon(QStringLiteral("edit-download"))));
-    
-    QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties(bool)), KoIconUtils::themedIcon(QStringLiteral("document-edit")));
-    clipProperties->setCheckable(true);
+
+    QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()), KoIconUtils::themedIcon(QStringLiteral("document-edit")));
     clipProperties->setData("clip_properties");
 
     QAction *openClip = addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), KoIconUtils::themedIcon(QStringLiteral("document-open")));

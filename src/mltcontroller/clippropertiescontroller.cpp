@@ -341,7 +341,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         connect(box, SIGNAL(toggled(bool)), spin2, SLOT(setEnabled(bool)));
         vbox->addLayout(hlay);
         }
-    
+
     if (m_type == AV || m_type == Video) {
         QLocale locale;
 
@@ -455,7 +455,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
         connect(spinI, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
         hlay->addWidget(spinI);
         vbox->addLayout(hlay);
-        
+
         //Audio index
         QString aix = m_properties.get("audio_index");
         m_originalProperties.insert(QStringLiteral("audio_index"), aix);
@@ -514,16 +514,16 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     m_forcePage->setLayout(vbox);
     vbox->addStretch(10);
     m_tabWidget->addTab(m_propertiesPage, QString());
-    m_tabWidget->addTab(m_markersPage, QString());
     m_tabWidget->addTab(m_forcePage, QString());
+    m_tabWidget->addTab(m_markersPage, QString());
     m_tabWidget->addTab(m_metaPage, QString());
     m_tabWidget->addTab(m_analysisPage, QString());
     m_tabWidget->setTabIcon(0, KoIconUtils::themedIcon(QStringLiteral("edit-find")));
     m_tabWidget->setTabToolTip(0, i18n("Properties"));
-    m_tabWidget->setTabIcon(1, KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
-    m_tabWidget->setTabToolTip(1, i18n("Markers"));
-    m_tabWidget->setTabIcon(2, KoIconUtils::themedIcon(QStringLiteral("document-edit")));
-    m_tabWidget->setTabToolTip(2, i18n("Force properties"));
+    m_tabWidget->setTabIcon(1, KoIconUtils::themedIcon(QStringLiteral("document-edit")));
+    m_tabWidget->setTabToolTip(1, i18n("Force properties"));
+    m_tabWidget->setTabIcon(2, KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
+    m_tabWidget->setTabToolTip(2, i18n("Markers"));
     m_tabWidget->setTabIcon(3, KoIconUtils::themedIcon(QStringLiteral("view-grid")));
     m_tabWidget->setTabToolTip(3, i18n("Metadata"));
     m_tabWidget->setTabIcon(4, KoIconUtils::themedIcon(QStringLiteral("visibility")));

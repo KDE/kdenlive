@@ -43,7 +43,7 @@ public:
     ~ProgressButton();
     int progress() const;
     void setProgress(int);
-    void defineDefaultAction(QAction *action, bool activateOnProgress = true);
+    void defineDefaultAction(QAction *action, QAction *actionInProgress);
 
 protected:
     virtual void paintEvent(QPaintEvent *event);
