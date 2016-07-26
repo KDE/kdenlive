@@ -46,6 +46,7 @@ ecm_install_icons(ICONS
   48-actions-kdenlive-select-all.png
   64-actions-kdenlive-select-all.png
   16-apps-kdenlive.png
+  22-apps-kdenlive.png
   32-apps-kdenlive.png
   48-apps-kdenlive.png
   64-apps-kdenlive.png
