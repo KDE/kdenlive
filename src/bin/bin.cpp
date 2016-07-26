@@ -1692,10 +1692,9 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
         m_propertiesPanel->setEnabled(false);
     }
     // Check if properties panel is not tabbed under Bin
-    if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
-        m_propertiesDock->show();
-        m_propertiesDock->raise();
-    }
+    //if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
+    m_propertiesDock->show();
+    m_propertiesDock->raise();
 }
 
 void Bin::doRefreshPanel(const QString &id)
