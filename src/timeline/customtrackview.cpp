@@ -5726,12 +5726,22 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
             if (!item) continue;
             GenTime start = item->startPos();
             GenTime end = item->endPos();
-            snaps.append(start);
-            snaps.append(end);
+            if (!snaps.contains(start))
+                snaps.append(start);
+            if (!snaps.contains(end))
+                snaps.append(end);
             if (!offsetList.isEmpty()) {
                 for (int j = 0; j < offsetList.size(); ++j) {
-                    if (start > offsetList.at(j)) snaps.append(start - offsetList.at(j));
-                    if (end > offsetList.at(j)) snaps.append(end - offsetList.at(j));
+                    GenTime offset = end - offsetList.at(j);
+                    if (offset > GenTime()) {
+                        if (!snaps.contains(offset)) {
+                            snaps.append(offset);
+                        }
+                        offset = start - offsetList.at(j);
+                        if (offset > GenTime() && !snaps.contains(offset)) {
+                            snaps.append(offset);
+                        }
+                    }
                 }
             }
             // Add clip markers
@@ -5744,10 +5754,13 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
             }
             for (int j = 0; j < markers.size(); ++j) {
                 GenTime t = markers.at(j);
-                snaps.append(t);
+                if (!snaps.contains(t))
+                    snaps.append(t);
                 if (!offsetList.isEmpty()) {
                     for (int k = 0; k < offsetList.size(); ++k) {
-                        if (t > offsetList.at(k)) snaps.append(t - offsetList.at(k));
+                        GenTime offset = t - offsetList.at(k);
+                        if (offset > GenTime() && !snaps.contains(offset))
+                            snaps.append(offset);
                     }
                 }
             }
@@ -5756,12 +5769,22 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
             if (!transition) continue;
             GenTime start = transition->startPos();
             GenTime end = transition->endPos();
-            snaps.append(start);
-            snaps.append(end);
+            if (!snaps.contains(start))
+                snaps.append(start);
+            if (!snaps.contains(end))
+                snaps.append(end);
             if (!offsetList.isEmpty()) {
                 for (int j = 0; j < offsetList.size(); ++j) {
-                    if (start > offsetList.at(j)) snaps.append(start - offsetList.at(j));
-                    if (end > offsetList.at(j)) snaps.append(end - offsetList.at(j));
+                    GenTime offset = end - offsetList.at(j);
+                    if (offset > GenTime()) {
+                        if (!snaps.contains(offset)) {
+                            snaps.append(offset);
+                        }
+                        offset = start - offsetList.at(j);
+                        if (offset > GenTime() && !snaps.contains(offset)) {
+                            snaps.append(offset);
+                        }
+                    }
                 }
             }
         }
@@ -5769,27 +5792,38 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTim
 
     // add cursor position
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
-    snaps.append(pos);
+    if (!snaps.contains(pos))
+        snaps.append(pos);
     if (!offsetList.isEmpty()) {
         for (int j = 0; j < offsetList.size(); ++j) {
-            snaps.append(pos - offsetList.at(j));
+            GenTime offset = pos - offsetList.at(j);
+            if (!snaps.contains(offset))
+                snaps.append(offset);
         }
     }
 
     // add guides
     for (int i = 0; i < m_guides.count(); ++i) {
-        snaps.append(m_guides.at(i)->position());
+        GenTime pos = m_guides.at(i)->position();
+        if (!snaps.contains(pos))
+            snaps.append(pos);
         if (!offsetList.isEmpty()) {
             for (int j = 0; j < offsetList.size(); ++j) {
-                snaps.append(m_guides.at(i)->position() - offsetList.at(j));
+                GenTime offset = pos - offsetList.at(j);
+                if (!snaps.contains(offset))
+                    snaps.append(offset);
             }
         }
     }
 
     // add render zone
     QPoint z = m_document->zone();
-    snaps.append(GenTime(z.x(), m_document->fps()));
-    snaps.append(GenTime(z.y(), m_document->fps()));
+    pos = GenTime(z.x(), m_document->fps());
+    if (!snaps.contains(pos))
+        snaps.append(pos);
+    pos = GenTime(z.y(), m_document->fps());
+    if (!snaps.contains(pos))
+        snaps.append(pos);
 
     qSort(snaps);
     m_scene->setSnapList(snaps);
