@@ -958,25 +958,25 @@ void MainWindow::setupActions()
     m_compositeAction = new KSelectAction(KoIconUtils::themedIcon("composite-track-off"), i18n("Track compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
     QAction *noComposite = new QAction(KoIconUtils::themedIcon("composite-track-off"),
- i18n("None"));
+ i18n("None"), this);
     noComposite->setCheckable(true);
     noComposite->setData(0);
     m_compositeAction->addAction(noComposite);
     int compose = KdenliveDoc::compositingMode();
     if (compose == 2) {
         // Movit, do not show "preview" option since movit is faster
-        QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"));
+        QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"), this);
         hqComposite->setCheckable(true);
         hqComposite->setData(2);
         m_compositeAction->addAction(hqComposite);
         m_compositeAction->setCurrentAction(hqComposite);
     } else {
-        QAction *previewComposite = new QAction(KoIconUtils::themedIcon("composite-track-preview"), i18n("Preview"));
+        QAction *previewComposite = new QAction(KoIconUtils::themedIcon("composite-track-preview"), i18n("Preview"), this);
         previewComposite->setCheckable(true);
         previewComposite->setData(1);
         m_compositeAction->addAction(previewComposite);
         if (compose == 1) {
-            QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"));
+            QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"), this);
             hqComposite->setData(2);
             hqComposite->setCheckable(true);
             m_compositeAction->addAction(hqComposite);
