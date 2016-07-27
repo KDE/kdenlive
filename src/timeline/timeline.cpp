@@ -396,7 +396,6 @@ void Timeline::getTransitions() {
             service = mlt_service_producer(service);
             continue;
         }
-        
 
         int a_track = prop.get_int("a_track");
         int b_track = prop.get_int("b_track");

@@ -89,7 +89,7 @@ public:
                                 const QString &name, QStringList filtersList,
                                 QStringList producersList,
                                 Mlt::Repository *repository, QMap <QString, QString> effectDescriptions);
-    static void parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions);
+    static void parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, QStringList installedTransitions, QMap <QString, QString> effectDescriptions);
     
     /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();

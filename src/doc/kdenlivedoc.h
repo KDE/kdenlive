@@ -171,6 +171,8 @@ public:
     void initCacheDirs();
     /** @brief Get a list of all proxy hash used in this project */ 
     QStringList getProxyHashList();
+    /** @brief Returns true if advanced compositing is available */ 
+    static int compositingMode();
 
 private:
     QUrl m_url;

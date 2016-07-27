@@ -563,7 +563,10 @@ const QString TransitionHandler::compositeTransition()
     if (MainWindow::transitions.hasTransition(QStringLiteral("qtblend"))) {
         return QStringLiteral("qtblend");
     }
-    return QStringLiteral("frei0r.cairoblend");
+    if (MainWindow::transitions.hasTransition(QStringLiteral("frei0r.cairoblend"))) {
+        return QStringLiteral("frei0r.cairoblend");
+    }
+    return QStringLiteral("composite");
 }
 
 void TransitionHandler::rebuildTransitions(int mode, QList <int> videoTracks, int maxTrack)

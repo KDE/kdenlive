@@ -1634,15 +1634,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             ProjectClip *clip = static_cast<ProjectClip*>(item);
             if (clip) {
-                if (clip->clipType() == Text) {
-                    showTitleWidget(clip);
-                } else if (clip->clipType() == SlideShow) {
-                    showSlideshowWidget(clip);
-                } else if (clip->clipType() == QText) {
-                    ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
-                } else {
-                    slotSwitchClipProperties(ix);
-                }
+                slotSwitchClipProperties(ix);
             }
         }
     }
@@ -1685,16 +1677,26 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
         // User clicked in the icon, open clip properties
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
         ProjectClip *clip = qobject_cast<ProjectClip*>(item);
-        m_propertiesPanel->setEnabled(true);
-        showClipProperties(clip);
-    }
-    else {
+        if (clip->clipType() == Text) {
+            m_propertiesPanel->setEnabled(false);
+            showTitleWidget(clip);
+        } else if (clip->clipType() == SlideShow) {
+            m_propertiesPanel->setEnabled(false);
+            showSlideshowWidget(clip);
+        } else if (clip->clipType() == QText) {
+            m_propertiesPanel->setEnabled(false);
+            ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
+        } else {
+            m_propertiesPanel->setEnabled(true);
+            showClipProperties(clip);
+            m_propertiesDock->show();
+            m_propertiesDock->raise();
+        }
+    } else {
         m_propertiesPanel->setEnabled(false);
     }
     // Check if properties panel is not tabbed under Bin
     //if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
-    m_propertiesDock->show();
-    m_propertiesDock->raise();
 }
 
 void Bin::doRefreshPanel(const QString &id)
