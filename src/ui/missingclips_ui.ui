@@ -96,6 +96,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>recursiveSearch</tabstop>
+  <tabstop>usePlaceholders</tabstop>
+  <tabstop>removeSelected</tabstop>
+  <tabstop>treeWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
