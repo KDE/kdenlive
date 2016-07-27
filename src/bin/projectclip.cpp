@@ -387,10 +387,12 @@ Mlt::Producer *ProjectClip::thumbProducer()
     if (m_thumbsProducer) {
         return m_thumbsProducer;
     }
-    if (!m_controller) {
+    if (!m_controller || m_controller->clipType() == Unknown) {
         return NULL;
     }
     Mlt::Producer prod = m_controller->originalProducer();
+    if (!prod.is_valid())
+        return NULL;
     Clip clip(prod);
     if (KdenliveSettings::gpu_accel()) {
         m_thumbsProducer = clip.softClone(ClipController::getPassPropertiesList());

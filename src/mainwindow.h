@@ -458,7 +458,7 @@ private slots:
     /** @brief Change forced icon theme setting (asks for app restart). */
     void forceIconSet(bool force);
     /** @brief Toggle current project's compositing mode. */
-    void slotUpdateCompositing(int mode);
+    void slotUpdateCompositing(QAction *compose);
     /** @brief Update compositing action to display current project setting. */
     void slotUpdateCompositeAction(int mode);
 

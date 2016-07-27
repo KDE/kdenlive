@@ -957,12 +957,35 @@ void MainWindow::setupActions()
 
     m_compositeAction = new KSelectAction(KoIconUtils::themedIcon("composite-track-off"), i18n("Track compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
-    m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-off"), i18n("None"));
-    m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-preview"), i18n("Preview"));
-    m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"));
-    //New projects created with Hq by default
-    m_compositeAction->setCurrentItem(2);
-    connect(m_compositeAction, SIGNAL(triggered(int)), this, SLOT(slotUpdateCompositing(int)));
+    QAction *noComposite = new QAction(KoIconUtils::themedIcon("composite-track-off"),
+ i18n("None"));
+    noComposite->setCheckable(true);
+    noComposite->setData(0);
+    m_compositeAction->addAction(noComposite);
+    int compose = KdenliveDoc::compositingMode();
+    if (compose == 2) {
+        // Movit, do not show "preview" option since movit is faster
+        QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"));
+        hqComposite->setCheckable(true);
+        hqComposite->setData(2);
+        m_compositeAction->addAction(hqComposite);
+        m_compositeAction->setCurrentAction(hqComposite);
+    } else {
+        QAction *previewComposite = new QAction(KoIconUtils::themedIcon("composite-track-preview"), i18n("Preview"));
+        previewComposite->setCheckable(true);
+        previewComposite->setData(1);
+        m_compositeAction->addAction(previewComposite);
+        if (compose == 1) {
+            QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"));
+            hqComposite->setData(2);
+            hqComposite->setCheckable(true);
+            m_compositeAction->addAction(hqComposite);
+            m_compositeAction->setCurrentAction(hqComposite);
+        } else {
+            m_compositeAction->setCurrentAction(previewComposite);
+        }
+    }
+    connect(m_compositeAction, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateCompositing(QAction*)));
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
@@ -1388,7 +1411,7 @@ void MainWindow::setupActions()
     pCore->library()->setupActions(QList <QAction *>() << sentToLibrary);
 
     KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
-    
+
     QAction *a = KStandardAction::quit(this, SLOT(close()), actionCollection());
     a->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-exit")));
     // TODO: make the following connection to slotEditKeys work
@@ -1673,7 +1696,7 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
-        m_renderWidget->errorMessage(m_compositeAction->currentItem() == 1 ? i18n("Rendering using low quality track compositing") : QString());
+        m_renderWidget->errorMessage(m_compositeAction->currentAction()->data().toInt() == 1 ? i18n("Rendering using low quality track compositing") : QString());
     }
     slotCheckRenderStatus();
     m_renderWidget->show();
@@ -3685,9 +3708,10 @@ void MainWindow::slotManageCache()
     d.exec();
 }
 
-void MainWindow::slotUpdateCompositing(int mode)
+void MainWindow::slotUpdateCompositing(QAction *compose)
 {
     if (pCore->projectManager()->currentTimeline()) {
+        int mode = compose->data().toInt();
         pCore->projectManager()->currentTimeline()->switchComposite(mode);
         if (m_renderWidget)
             m_renderWidget->errorMessage(mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
