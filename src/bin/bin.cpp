@@ -1568,13 +1568,13 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_reloadAction->setEnabled(enableClipActions);
     m_locateAction->setEnabled(enableClipActions);
     m_duplicateAction->setEnabled(enableClipActions);
+    m_editAction->setVisible(!isFolder);
     m_clipsActionsMenu->setEnabled(enableClipActions);
     m_extractAudioAction->setEnabled(enableClipActions);
     m_renameFolderAction->setVisible(isFolder);
     m_openAction->setVisible(!isFolder);
     m_reloadAction->setVisible(!isFolder);
     m_duplicateAction->setVisible(!isFolder);
-    m_editAction->setVisible(!isFolder);
     m_inTimelineAction->setVisible(!isFolder);
     if (m_transcodeAction) {
         m_transcodeAction->setEnabled(enableClipActions);
@@ -1634,21 +1634,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             ProjectClip *clip = static_cast<ProjectClip*>(item);
             if (clip) {
-                if (clip->clipType() == Text) {
-                    showTitleWidget(clip);
-                } else if (clip->clipType() == SlideShow) {
-                    showSlideshowWidget(clip);
-                } else if (clip->clipType() == QText) {
-                    ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
-                } else if (!m_editAction->isChecked()) {
-                    m_editAction->trigger();
-                } else {
-                    // Check if properties panel is not tabbed under Bin
-                    if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
-                        m_propertiesDock->show();
-                        m_propertiesDock->raise();
-                    }
-                }
+                slotSwitchClipProperties(ix);
             }
         }
     }
@@ -1679,12 +1665,8 @@ void Bin::slotEditClip()
     }
 }
 
-void Bin::slotSwitchClipProperties(bool display)
+void Bin::slotSwitchClipProperties()
 {
-    m_propertiesDock->toggleViewAction()->trigger();
-    if (display) {
-        m_propertiesDock->raise();
-    }
     QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
     slotSwitchClipProperties(current);
 }
@@ -1695,12 +1677,26 @@ void Bin::slotSwitchClipProperties(const QModelIndex &ix)
         // User clicked in the icon, open clip properties
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
         ProjectClip *clip = qobject_cast<ProjectClip*>(item);
-        m_propertiesPanel->setEnabled(true);
-        showClipProperties(clip);
-    }
-    else {
+        if (clip->clipType() == Text) {
+            m_propertiesPanel->setEnabled(false);
+            showTitleWidget(clip);
+        } else if (clip->clipType() == SlideShow) {
+            m_propertiesPanel->setEnabled(false);
+            showSlideshowWidget(clip);
+        } else if (clip->clipType() == QText) {
+            m_propertiesPanel->setEnabled(false);
+            ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
+        } else {
+            m_propertiesPanel->setEnabled(true);
+            showClipProperties(clip);
+            m_propertiesDock->show();
+            m_propertiesDock->raise();
+        }
+    } else {
         m_propertiesPanel->setEnabled(false);
     }
+    // Check if properties panel is not tabbed under Bin
+    //if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
 }
 
 void Bin::doRefreshPanel(const QString &id)
@@ -1981,12 +1977,10 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_deleteAction = actions.value(QStringLiteral("delete"));
     m_toolbar->insertAction(first, m_deleteAction);
 
-    m_editAction = actions.value(QStringLiteral("properties"));
-    m_toolbar->insertAction(m_deleteAction, m_editAction);
-
     QAction *folder = actions.value(QStringLiteral("folder"));
-    m_toolbar->insertAction(m_editAction, folder);
+    m_toolbar->insertAction(m_deleteAction, folder);
 
+    m_editAction = actions.value(QStringLiteral("properties"));
     m_openAction = actions.value(QStringLiteral("open"));
     m_reloadAction = actions.value(QStringLiteral("reload"));
     m_duplicateAction = actions.value(QStringLiteral("duplicate"));
@@ -2002,7 +1996,6 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_toolbar->insertWidget(folder, m_addButton);
     m_menu = new QMenu();
     m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), "clip_properties", m_propertiesPanel);
-    connect(m_propertiesDock->toggleViewAction(), &QAction::toggled, m_editAction, &QAction::setChecked);
     m_propertiesDock->close();
     //m_menu->addActions(addMenu->actions());
 }

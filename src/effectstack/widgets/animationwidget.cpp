@@ -611,7 +611,8 @@ void AnimationWidget::addParameter(const QDomElement &e)
     QString keyframes;
     if (e.hasAttribute(QStringLiteral("value"))) {
         keyframes = e.attribute(QStringLiteral("value"));
-    } else {
+    }
+    if (keyframes.isEmpty()) {
         keyframes = getDefaultKeyframes(e.attribute(QStringLiteral("default")));
         if (keyframes.contains('%')) {
             keyframes = EffectsController::getStringRectEval(m_monitor->profileInfo(), keyframes);

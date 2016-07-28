@@ -229,7 +229,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         fileList = directory.entryList(filter, QDir::Files);
         for (it = fileList.begin(); it != fileList.end(); ++it) {
             itemName = directory.absoluteFilePath(*it);
-            parseTransitionFile(&MainWindow::transitions, itemName, repository, transDescriptions);
+            parseTransitionFile(&MainWindow::transitions, itemName, repository, transitionsItemList, transDescriptions);
         }
     }
 
@@ -864,7 +864,7 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
 }
 
 // static
-void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions)
+void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, QStringList installedTransitions, QMap <QString, QString> effectDescriptions)
 {
     QDomDocument doc;
     QFile file(name);
@@ -893,6 +893,11 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
         QDomNode n = effects.item(i);
         if (n.isNull()) continue;
         documentElement = n.toElement();
+        QString tag = documentElement.attribute(QStringLiteral("tag"));
+        if (!installedTransitions.contains(tag)) {
+            // This transition is not available
+            return;
+        }
         QString id = documentElement.attribute(QStringLiteral("id"));
         if (addedTags.contains(id)) {
             // We already processed a version of that filter

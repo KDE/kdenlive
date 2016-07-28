@@ -1694,3 +1694,19 @@ QStringList KdenliveDoc::getProxyHashList()
 {
     return pCore->bin()->getProxyHashList();
 }
+
+//static
+int KdenliveDoc::compositingMode()
+{
+    QString composite = TransitionHandler::compositeTransition();
+    if (composite == QLatin1String("composite")) {
+        // only simple preview compositing enabled
+        return 0;
+    }
+    if (composite == QLatin1String("movit.overlay")) {
+        // Movit compositing enabled
+        return 2;
+    }
+    // Cairoblend or qtblend available
+    return 1;
+}

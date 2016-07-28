@@ -1613,6 +1613,7 @@ void RenderWidget::refreshParams()
     }
 
     // video quality control
+    m_view.video->blockSignals(true);
     bool quality = false;
     if ((params.contains(QStringLiteral("%quality")) || params.contains(QStringLiteral("%bitrate")))
             && item->data(0, BitratesRole).canConvert(QVariant::StringList)) {
@@ -1634,9 +1635,11 @@ void RenderWidget::refreshParams()
     }
     m_view.video->setEnabled(quality);
     m_view.quality->setEnabled(quality);
+    m_view.video->blockSignals(false);
 
     // audio quality control
     quality = false;
+    m_view.audio->blockSignals(true);
     if ((params.contains(QStringLiteral("%audioquality")) || params.contains(QStringLiteral("%audiobitrate")))
             && item->data(0, AudioBitratesRole).canConvert(QVariant::StringList)) {
         // bitrates or quantizers list
@@ -1659,6 +1662,8 @@ void RenderWidget::refreshParams()
         }
     }
     m_view.audio->setEnabled(quality);
+    m_view.audio->blockSignals(false);
+    if (m_view.quality->isEnabled()) adjustAVQualities(m_view.quality->value());
 
     if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
         int speed = item->data(0, SpeedsRole).toStringList().count() - 1;

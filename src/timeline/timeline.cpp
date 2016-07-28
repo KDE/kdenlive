@@ -396,7 +396,6 @@ void Timeline::getTransitions() {
             service = mlt_service_producer(service);
             continue;
         }
-        
 
         int a_track = prop.get_int("a_track");
         int b_track = prop.get_int("b_track");
@@ -1031,7 +1030,8 @@ void Timeline::loadGuides(QMap <double, QString> guidesData)
     QMapIterator<double, QString> i(guidesData);
     while (i.hasNext()) {
         i.next();
-        const GenTime pos = GenTime(i.key());
+        // Guide positions are stored in seconds. we need to make sure that the time matches a frame
+        const GenTime pos = GenTime(GenTime(i.key()).frames(m_doc->fps()), m_doc->fps());
         m_trackview->addGuide(pos, i.value(), true);
     }
 }

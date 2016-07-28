@@ -562,7 +562,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_timelineToolBar, &QWidget::customContextMenuRequested, this, &MainWindow::showTimelineToolbarMenu);
 
     QAction *prevRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
-    tlMenu->addAction(actionCollection()->action(QStringLiteral("stop_prerender_timeline")));
+    QAction *stopPrevRender = actionCollection()->action(QStringLiteral("stop_prerender_timeline"));
+    tlMenu->addAction(stopPrevRender);
     tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
@@ -576,12 +577,13 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     tlMenu->addSeparator();
     tlMenu->addAction(actionCollection()->action(QStringLiteral("disable_preview")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("manage_cache")));
-    timelinePreview->defineDefaultAction(prevRender, false);
+    timelinePreview->defineDefaultAction(prevRender, stopPrevRender);
     timelinePreview->setAutoRaise(true);
 
-    tlrMenu->addAction(actionCollection()->action(QStringLiteral("project_render")));
+    QAction *showRender = actionCollection()->action(QStringLiteral("project_render"));
+    tlrMenu->addAction(showRender);
     tlrMenu->addAction(actionCollection()->action(QStringLiteral("stop_project_render")));
-    timelineRender->defineDefaultAction(actionCollection()->action(QStringLiteral("project_render")));
+    timelineRender->defineDefaultAction(showRender, showRender);
     timelineRender->setAutoRaise(true);
 
 
@@ -955,12 +957,35 @@ void MainWindow::setupActions()
 
     m_compositeAction = new KSelectAction(KoIconUtils::themedIcon("composite-track-off"), i18n("Track compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
-    m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-off"), i18n("None"));
-    m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-preview"), i18n("Preview"));
-    m_compositeAction->addAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"));
-    //New projects created with Hq by default
-    m_compositeAction->setCurrentItem(2);
-    connect(m_compositeAction, SIGNAL(triggered(int)), this, SLOT(slotUpdateCompositing(int)));
+    QAction *noComposite = new QAction(KoIconUtils::themedIcon("composite-track-off"),
+ i18n("None"), this);
+    noComposite->setCheckable(true);
+    noComposite->setData(0);
+    m_compositeAction->addAction(noComposite);
+    int compose = KdenliveDoc::compositingMode();
+    if (compose == 2) {
+        // Movit, do not show "preview" option since movit is faster
+        QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"), this);
+        hqComposite->setCheckable(true);
+        hqComposite->setData(2);
+        m_compositeAction->addAction(hqComposite);
+        m_compositeAction->setCurrentAction(hqComposite);
+    } else {
+        QAction *previewComposite = new QAction(KoIconUtils::themedIcon("composite-track-preview"), i18n("Preview"), this);
+        previewComposite->setCheckable(true);
+        previewComposite->setData(1);
+        m_compositeAction->addAction(previewComposite);
+        if (compose == 1) {
+            QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"), this);
+            hqComposite->setData(2);
+            hqComposite->setCheckable(true);
+            m_compositeAction->addAction(hqComposite);
+            m_compositeAction->setCurrentAction(hqComposite);
+        } else {
+            m_compositeAction->setCurrentAction(previewComposite);
+        }
+    }
+    connect(m_compositeAction, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateCompositing(QAction*)));
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
@@ -1386,7 +1411,7 @@ void MainWindow::setupActions()
     pCore->library()->setupActions(QList <QAction *>() << sentToLibrary);
 
     KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
-    
+
     QAction *a = KStandardAction::quit(this, SLOT(close()), actionCollection());
     a->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-exit")));
     // TODO: make the following connection to slotEditKeys work
@@ -1434,9 +1459,8 @@ void MainWindow::setupActions()
 
     QAction *addFolder = addAction(QStringLiteral("add_folder"), i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), KoIconUtils::themedIcon(QStringLiteral("folder-new")));
     addClips->addAction(addAction(QStringLiteral("download_resource"), i18n("Online Resources"), this, SLOT(slotDownloadResources()), KoIconUtils::themedIcon(QStringLiteral("edit-download"))));
-    
-    QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties(bool)), KoIconUtils::themedIcon(QStringLiteral("document-edit")));
-    clipProperties->setCheckable(true);
+
+    QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()), KoIconUtils::themedIcon(QStringLiteral("document-edit")));
     clipProperties->setData("clip_properties");
 
     QAction *openClip = addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), KoIconUtils::themedIcon(QStringLiteral("document-open")));
@@ -1672,7 +1696,7 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
-        m_renderWidget->errorMessage(m_compositeAction->currentItem() == 1 ? i18n("Rendering using low quality track compositing") : QString());
+        m_renderWidget->errorMessage(m_compositeAction->currentAction()->data().toInt() == 1 ? i18n("Rendering using low quality track compositing") : QString());
     }
     slotCheckRenderStatus();
     m_renderWidget->show();
@@ -3684,9 +3708,10 @@ void MainWindow::slotManageCache()
     d.exec();
 }
 
-void MainWindow::slotUpdateCompositing(int mode)
+void MainWindow::slotUpdateCompositing(QAction *compose)
 {
     if (pCore->projectManager()->currentTimeline()) {
+        int mode = compose->data().toInt();
         pCore->projectManager()->currentTimeline()->switchComposite(mode);
         if (m_renderWidget)
             m_renderWidget->errorMessage(mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
