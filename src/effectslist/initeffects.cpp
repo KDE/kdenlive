@@ -616,16 +616,25 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
                 else if (paramType == QLatin1String("geometry")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("geometry"));
-                }
-                else {
+                } else if (paramType == QLatin1String("string")) {
+                    // string parameter are not really supported, so if we have a default value, enforce it
+                    params.setAttribute(QStringLiteral("type"), QStringLiteral("fixed"));
+                    if (paramdesc.get("default")) {
+                        QString stringDefault = paramdesc.get("default");
+                        stringDefault.remove(QLatin1Char('\''));
+                        params.setAttribute(QStringLiteral("value"), stringDefault);
+                    }
+                } else {
                     params.setAttribute(QStringLiteral("type"), paramType);
                     if (!QString(paramdesc.get("format")).isEmpty()) params.setAttribute(QStringLiteral("format"), paramdesc.get("format"));
                 }
-                if (paramdesc.get("default")) params.setAttribute(QStringLiteral("default"), paramdesc.get("default"));
-                if (paramdesc.get("value")) {
-                    params.setAttribute(QStringLiteral("value"), paramdesc.get("value"));
-                } else {
-                    params.setAttribute(QStringLiteral("value"), paramdesc.get("default"));
+                if (!params.hasAttribute(QStringLiteral("value"))) {
+                    if (paramdesc.get("default")) params.setAttribute(QStringLiteral("default"), paramdesc.get("default"));
+                    if (paramdesc.get("value")) {
+                        params.setAttribute(QStringLiteral("value"), paramdesc.get("value"));
+                    } else {
+                        params.setAttribute(QStringLiteral("value"), paramdesc.get("default"));
+                    }
                 }
 
                 QString paramName = paramdesc.get("title");
