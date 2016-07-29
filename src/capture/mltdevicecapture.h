@@ -65,7 +65,7 @@ Q_OBJECT public:
 
     /** @brief Someone needs us to send again a frame. */
     void sendFrameUpdate() {}
-    
+
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber(double position);
     void emitConsumerStopped();

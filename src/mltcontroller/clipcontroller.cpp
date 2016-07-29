@@ -459,21 +459,16 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
             height = m_masterProducer->get_int("height");
         }
     }
-    
     //     int ow = frameWidth;
     //     int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
-
-    QImage image(width, height, QImage::Format_RGBA8888);
+    width += width % 2;
+    height += height % 2;
     const uchar* imagedata = frame->get_image(format, width, height);
-    if (imagedata) {
-        memcpy(image.bits(), imagedata, width * height * 4);
-    }
-    else image.fill(QColor(Qt::red).rgb());
+    QImage image(imagedata, width, height, QImage::Format_RGBA8888);
     delete frame;
 
-
-    QPixmap pixmap;;
+    QPixmap pixmap;
     pixmap.convertFromImage(image);
 
     return pixmap;
