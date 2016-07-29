@@ -370,7 +370,8 @@ bool Transition::hasGeometry()
     QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
-        if (pa.attribute(QStringLiteral("type")) == QLatin1String("geometry")) return true;
+        QString paramType = pa.attribute(QStringLiteral("type"));
+        if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated") || paramType == QLatin1String("animatedrect")) return true;
     }
     return false;
 }
