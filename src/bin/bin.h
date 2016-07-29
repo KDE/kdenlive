@@ -345,6 +345,7 @@ protected:
 
 signals:
     void clearSearchLine();
+    void showClearButton(bool);
 };
 
 
@@ -581,6 +582,10 @@ private slots:
     void slotMessageActionTriggered();
     /** @brief Request editing of title or slideshow clip */
     void slotEditClip();
+    /** @brief Enable / disable clear button on search line
+     *  this is a workaround foq Qt bug 54676
+     */
+    void showClearButton(bool show);
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
@@ -658,6 +663,7 @@ private:
     JobManager *m_jobManager;
     QToolBar *m_toolbar;
     KdenliveDoc* m_doc;
+    QLineEdit *m_searchLine;
     QToolButton *m_addButton;
     QMenu *m_extractAudioAction;
     QMenu *m_transcodeAction;

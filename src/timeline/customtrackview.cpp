@@ -2967,7 +2967,7 @@ void CustomTrackView::updateTransition(int track, const GenTime &pos, const QDom
     m_timeline->transitionHandler->updateTransition(oldTransition.attribute(QStringLiteral("tag")), transition.attribute(QStringLiteral("tag")), transition.attribute(QStringLiteral("transition_btrack")).toInt(), transition.attribute(QStringLiteral("transition_atrack")).toInt(), item->startPos(), item->endPos(), transition, force);
     ////qDebug() << "ORIGINAL TRACK: "<< oldTransition.attribute("transition_btrack") << ", NEW TRACK: "<<transition.attribute("transition_btrack");
     item->setTransitionParameters(transition);
-    if (updateTransitionWidget) {
+    if (updateTransitionWidget && item->isSelected()) {
         ItemInfo info = item->info();
         QPoint p;
         ClipItem *transitionClip = getClipItemAtStart(info.startPos, info.track);
