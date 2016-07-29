@@ -140,6 +140,7 @@ avfilter.bench
 
 # Crashing avfilters (would require an XML file to correctly define parameters
 avfilter.fade
+avfilter.volume
 
 # Avfilter Effects with XML
 avfilter.acompressor
