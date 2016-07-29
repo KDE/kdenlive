@@ -419,11 +419,13 @@ void AnimationWidget::updateToolbar()
         }
         m_selectType->setEnabled(true);
         m_addKeyframe->setActive(true);
+        m_addKeyframe->setEnabled(m_animController.key_count() > 1);
         if (m_doubleWidgets.value(m_inTimeline))
             m_doubleWidgets.value(m_inTimeline)->enableEdit(true);
     } else {
         m_selectType->setEnabled(false);
         m_addKeyframe->setActive(false);
+        m_addKeyframe->setEnabled(true);
         if (m_doubleWidgets.value(m_inTimeline))
             m_doubleWidgets.value(m_inTimeline)->enableEdit(false);
     }
@@ -454,6 +456,7 @@ void AnimationWidget::updateSlider(int pos)
         double val = m_animProperties.anim_get_double(i.key().toUtf8().constData(), pos, m_outPoint);
         if (!m_animController.is_key(pos)) {
             // no keyframe
+            m_addKeyframe->setEnabled(true);
             if (m_animController.key_count() <= 1) {
                 // Special case: only one keyframe, allow adjusting whatever the position is
                 i.value()->enableEdit(true);
@@ -483,6 +486,7 @@ void AnimationWidget::updateSlider(int pos)
             if (i.key() == m_inTimeline) {
                 if (m_active) m_monitor->setEffectKeyframe(true);
                 m_addKeyframe->setActive(true);
+                m_addKeyframe->setEnabled(m_animController.key_count() > 1);
                 m_selectType->setEnabled(true);
                 m_endAttach->setEnabled(true);
                 m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
@@ -524,6 +528,7 @@ void AnimationWidget::updateRect(int pos)
     bool enableEdit = false;
     if (!m_animController.is_key(pos)) {
         // no keyframe
+        m_addKeyframe->setEnabled(true);
         if (m_animController.key_count() <= 1) {
             // Special case: only one keyframe, allow adjusting whatever the position is
             enableEdit = true;
@@ -548,6 +553,7 @@ void AnimationWidget::updateRect(int pos)
             m_monitor->setEffectKeyframe(true);
         }
         m_addKeyframe->setActive(true);
+        m_addKeyframe->setEnabled(m_animController.key_count() > 1);
         m_selectType->setEnabled(true);
         m_endAttach->setEnabled(true);
         m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
