@@ -112,7 +112,9 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
     if (m_clipMonitor == NULL || m_projectMonitor == NULL)
         return false;
     if (m_activeMonitor && m_activeMonitor->id() == name) {
-	if (forceRefresh) m_activeMonitor->start();
+	if (forceRefresh) {
+            m_activeMonitor->start();
+        }
         return false;
     }
     QMutexLocker locker(&m_switchMutex);
