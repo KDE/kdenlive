@@ -294,10 +294,18 @@ LineEventEater::LineEventEater(QObject *parent) : QObject(parent)
 
 bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->type() == QEvent::ShortcutOverride) {
-        if (((QKeyEvent*)event)->key() == Qt::Key_Escape) {
-            emit clearSearchLine();
-        }
+    switch (event->type()) {
+        case QEvent::ShortcutOverride:
+            if (((QKeyEvent*)event)->key() == Qt::Key_Escape) {
+                emit clearSearchLine();
+            }
+            break;
+        case QEvent::Resize:
+            // Workaround Qt BUG 54676
+            emit showClearButton(((QResizeEvent*)event)->size().width() > QFontMetrics(QApplication::font()).averageCharWidth() * 8);
+            break;
+        default:
+            break;
     }
     return QObject::eventFilter(obj, event);
 }
@@ -336,16 +344,17 @@ Bin::Bin(QWidget* parent) :
     // Search line
     m_proxyModel = new ProjectSortProxyModel(this);
     m_proxyModel->setDynamicSortFilter(true);
-    QLineEdit *searchLine = new QLineEdit(this);
-    searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-    searchLine->setClearButtonEnabled(true);
-    searchLine->setPlaceholderText(i18n("Search"));
-    searchLine->setFocusPolicy(Qt::ClickFocus);
-    connect(searchLine, SIGNAL(textChanged(const QString &)), m_proxyModel, SLOT(slotSetSearchString(const QString &)));
+    m_searchLine = new QLineEdit(this);
+    m_searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+    //m_searchLine->setClearButtonEnabled(true);
+    m_searchLine->setPlaceholderText(i18n("Search"));
+    m_searchLine->setFocusPolicy(Qt::ClickFocus);
+    connect(m_searchLine, SIGNAL(textChanged(const QString &)), m_proxyModel, SLOT(slotSetSearchString(const QString &)));
 
     LineEventEater *leventEater = new LineEventEater(this);
-    searchLine->installEventFilter(leventEater);
-    connect(leventEater, SIGNAL(clearSearchLine()), searchLine, SLOT(clear()));
+    m_searchLine->installEventFilter(leventEater);
+    connect(leventEater, SIGNAL(clearSearchLine()), m_searchLine, SLOT(clear()));
+    connect(leventEater, &LineEventEater::showClearButton, this, &Bin::showClearButton);
 
     setFocusPolicy(Qt::ClickFocus);
     // Build item view model
@@ -458,7 +467,7 @@ Bin::Bin(QWidget* parent) :
     m_toolbar->addWidget(spacer);
 
     // Add search line
-    m_toolbar->addWidget(searchLine);
+    m_toolbar->addWidget(m_searchLine);
 
     m_binTreeViewDelegate = new BinItemDelegate(this);
     //connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
@@ -3373,3 +3382,9 @@ void Bin::rebuildProxies()
         m_doc->commandStack()->push(masterCommand);
     } else delete masterCommand;
 }
+
+void Bin::showClearButton(bool show)
+{
+    m_searchLine->setClearButtonEnabled(show);
+}
+
