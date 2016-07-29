@@ -623,6 +623,9 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                         QString stringDefault = paramdesc.get("default");
                         stringDefault.remove(QLatin1Char('\''));
                         params.setAttribute(QStringLiteral("value"), stringDefault);
+                    } else {
+                        // String parameter without default, skip it completely
+                        continue;
                     }
                 } else {
                     params.setAttribute(QStringLiteral("type"), paramType);
