@@ -150,6 +150,12 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
 DvdWizardVob::~DvdWizardVob()
 {
     delete m_capacityBar;
+    // Abort running transcoding
+    if (m_transcodeProcess.state() != QProcess::NotRunning) {
+        disconnect(&m_transcodeProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &DvdWizardVob::slotTranscodeFinished);
+        m_transcodeProcess.close();
+        m_transcodeProcess.waitForFinished();
+    }
 }
 
 bool DvdWizardVob::isComplete() const
@@ -192,6 +198,7 @@ void DvdWizardVob::slotAbortTranscode()
 {
     if (m_transcodeProcess.state() != QProcess::NotRunning) {
         m_transcodeProcess.close();
+        m_transcodeProcess.waitForFinished();
     }
     m_transcodeQueue.clear();
     m_view.convert_box->hide();

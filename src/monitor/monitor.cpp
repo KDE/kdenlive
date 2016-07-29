@@ -1177,6 +1177,7 @@ void Monitor::start()
 void Monitor::slotRefreshMonitor(bool visible)
 {
     if (visible) {
+        parentWidget()->raise();
         slotActivateMonitor(true);
     }
 }
