@@ -143,10 +143,11 @@ protected:
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut,
-            const QMap <QString, QString> &metadata,
-            const QList<QString> &playlistPaths, const QList<QString> &trackNames,
-            const QString &scriptPath, bool exportAudio);
+    const QMap <QString, QString> &metadata,
+    const QList<QString> &playlistPaths, const QList<QString> &trackNames,
+    const QString &scriptPath, bool exportAudio);
     void slotAbortCurrentJob();
+    void slotPrepareExport(bool scriptExport = false, QString scriptPath = QString());
 
 private slots:
     void slotUpdateButtons(const QUrl &url);
@@ -171,7 +172,6 @@ private slots:
     void slotEditItem(QTreeWidgetItem *item);
     void slotCLeanUpJobs();
     void slotHideLog();
-    void slotPrepareExport(bool scriptExport = false);
     void slotPlayRendering(QTreeWidgetItem *item, int);
     void slotStartCurrentJob();
     void slotCopyToFavorites();
@@ -218,7 +218,7 @@ signals:
     /** Send the info about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file */
     void selectedRenderProfile(const QMap <QString, QString> &renderProps);
-    void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile);
+    void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile, const QString scriptPath);
     void shutdown();
 };
 

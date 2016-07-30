@@ -52,7 +52,6 @@
 #include "titler/titlewidget.h"
 #include "timeline/markerdialog.h"
 #include "timeline/clipitem.h"
-#include "interfaces.h"
 #include "project/cliptranscode.h"
 #include "scopes/scopemanager.h"
 #include "project/dialogs/archivewidget.h"
@@ -65,6 +64,8 @@
 #include <config-kdenlive.h>
 #include "utils/thememanager.h"
 #include "utils/progressbutton.h"
+#include "effectslist/effectslistwidget.h"
+
 #include "utils/KoIconUtils.h"
 #include "project/dialogs/temporarydata.h"
 #ifdef USE_JOGSHUTTLE
@@ -1688,7 +1689,7 @@ void MainWindow::slotRenderProject()
             m_renderWidget = new RenderWidget(projectfolder, project->useProxy(), profile, this);
             connect(m_renderWidget, SIGNAL(shutdown()), this, SLOT(slotShutdown()));
             connect(m_renderWidget, SIGNAL(selectedRenderProfile(QMap<QString,QString>)), this, SLOT(slotSetDocumentRenderProfile(QMap<QString,QString>)));
-            connect(m_renderWidget, SIGNAL(prepareRenderingData(bool,bool,QString)), this, SLOT(slotPrepareRendering(bool,bool,QString)));
+            connect(m_renderWidget, SIGNAL(prepareRenderingData(bool,bool,QString,QString)), this, SLOT(slotPrepareRendering(bool,bool,QString,QString)));
             connect(m_renderWidget, SIGNAL(abortProcess(QString)), this, SIGNAL(abortRenderJob(QString)));
             connect(m_renderWidget, SIGNAL(openDvdWizard(QString)), this, SLOT(slotDvdWizard(QString)));
             m_renderWidget->setProfile(project->mltProfile());
@@ -1729,6 +1730,54 @@ void MainWindow::setRenderingFinished(const QString &url, int status, const QStr
     if (m_renderWidget)
         m_renderWidget->setRenderStatus(url, status, error);
 }
+
+void MainWindow::addProjectClip(const QString &url)
+{
+    if (pCore->projectManager()->current()) {
+        QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(url));
+        if (!ids.isEmpty()) {
+            // Clip is already in project bin, abort
+            return;
+        }
+        ClipCreationDialog::createClipsCommand(pCore->projectManager()->current(), QList <QUrl>() << QUrl::fromLocalFile(url), QStringList(), pCore->bin());
+    }
+}
+
+void MainWindow::addTimelineClip(const QString &url)
+{
+    if (pCore->projectManager()->current()) {
+        QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(url));
+        if (!ids.isEmpty()) {
+            pCore->bin()->selectClipById(ids.first());
+            slotInsertClipInsert();
+        }
+    }
+}
+
+void MainWindow::addEffect(const QString &effectName)
+{
+    QStringList effectInfo;
+    effectInfo << effectName << effectName;
+    const QDomElement effect = EffectsListWidget::itemEffect(5, effectInfo);
+    if (!effect.isNull()) {
+        slotAddEffect(effect);
+    } else {
+        qDebug()<<" * * *EFFECT: "<<effectName<<" NOT AVAILABLE";
+        exitApp();
+    }
+}
+
+void MainWindow::scriptRender(const QString &url)
+{
+    slotRenderProject();
+    m_renderWidget->slotPrepareExport(true, url);
+}
+
+void MainWindow::exitApp()
+{
+    QApplication::exit(0);
+}
+
 
 void MainWindow::slotCleanProject()
 {
@@ -3116,12 +3165,11 @@ void MainWindow::slotSetDocumentRenderProfile(const QMap <QString, QString> &pro
 }
 
 
-void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile)
+void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile, QString scriptPath)
 {
     KdenliveDoc *project = pCore->projectManager()->current();
 
     if (m_renderWidget == NULL) return;
-    QString scriptPath;
     QString playlistPath;
     QString mltSuffix(QStringLiteral(".mlt"));
     QList<QString> playlistPaths;
@@ -3131,15 +3179,17 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
     if (scriptExport) {
         //QString scriptsFolder = project->projectFolder().path(QUrl::AddTrailingSlash) + "scripts/";
-        QString path = m_renderWidget->getFreeScriptName(project->url());
-        QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl::fromLocalFile(path), i18n("Create Render Script"), this);
-        getUrl->urlRequester()->setMode(KFile::File);
-        if (getUrl->exec() == QDialog::Rejected) {
+        if (scriptPath.isEmpty()) {
+            QString path = m_renderWidget->getFreeScriptName(project->url());
+            QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl::fromLocalFile(path), i18n("Create Render Script"), this);
+            getUrl->urlRequester()->setMode(KFile::File);
+            if (getUrl->exec() == QDialog::Rejected) {
+                delete getUrl;
+                return;
+            }
+            scriptPath = getUrl->selectedUrl().path();
             delete getUrl;
-            return;
         }
-        scriptPath = getUrl->selectedUrl().path();
-        delete getUrl;
         QFile f(scriptPath);
         if (f.exists()) {
             if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)

@@ -931,7 +931,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile)
     updateButtons();
 }
 
-void RenderWidget::slotPrepareExport(bool scriptExport)
+void RenderWidget::slotPrepareExport(bool scriptExport, const QString scriptPath)
 {
     if (!QFile::exists(KdenliveSettings::rendererpath())) {
         KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
@@ -947,7 +947,7 @@ void RenderWidget::slotPrepareExport(bool scriptExport)
         return;
     }
 
-    emit prepareRenderingData(scriptExport, m_view.render_zone->isChecked(), chapterFile);
+    emit prepareRenderingData(scriptExport, m_view.render_zone->isChecked(), chapterFile, scriptPath);
 }
 
 void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,

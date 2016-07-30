@@ -13,5 +13,11 @@
       <arg name="status" type="i" direction="in"/>
       <arg name="error" type="s" direction="in"/>
     </method>
-  </interface>
+    <method name="addProjectClip">
+      <arg name="url" type="s" direction="in"/>
+    </method>
+    <method name="addTimelineClip">
+      <arg name="url" type="s" direction="in"/>
+    </method>
+    </interface>
 </node>

@@ -28,6 +28,7 @@
 #include <QMap>
 #include <QString>
 #include <QImage>
+#include <QDBusAbstractAdaptor>
 
 #include <KXmlGuiWindow>
 #include <QTabWidget>
@@ -250,6 +251,11 @@ public slots:
     void slotReloadEffects();
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
+    Q_SCRIPTABLE void addProjectClip(const QString &url);
+    Q_SCRIPTABLE void addTimelineClip(const QString &url);
+    Q_SCRIPTABLE void addEffect(const QString &effectName);
+    Q_SCRIPTABLE void scriptRender(const QString &url);
+    Q_NOREPLY void exitApp();
 
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
@@ -393,7 +399,7 @@ private slots:
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();
     void slotSetDocumentRenderProfile(const QMap<QString, QString> &props);
-    void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
+    void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile, QString scriptPath = QString());
 
     /** @brief Switches between displaying frames or timecode.
     * @param ix 0 = display timecode, 1 = display frames. */

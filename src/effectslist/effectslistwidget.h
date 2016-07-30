@@ -72,7 +72,7 @@ private:
 
 private slots:
     void slotExpandItem(const QModelIndex & index);
-    
+
 signals:
     void applyEffect(const QDomElement);
     void displayMenu(QTreeWidgetItem *, const QPoint &);
