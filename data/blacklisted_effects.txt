@@ -131,16 +131,48 @@ avfilter.aeval
 avfilter.afade
 avfilter.afftfilt
 avfilter.aformat
-avfilter.subtitles
 avfilter.ssim
-avfilter.stereo3d
 avfilter.ass
 avfilter.bbox
 avfilter.bench
 
 # Crashing avfilters (would require an XML file to correctly define parameters
+avfilter.acompressor
+avfilter.aecho
+avfilter.agate
+avfilter.ametadata
+avfilter.arealtime
+avfilter.areverse
+avfilter.ashowinfo
+avfilter.channelmap
+avfilter.chorus
+avfilter.curves
+avfilter.drawtext
+avfilter.earwax
 avfilter.fade
+avfilter.field
+avfilter.fieldhint
+avfilter.fieldorder
+avfilter.find_rect
+avfilter.geq
+avfilter.hflip
+avfilter.metadata
+avfilter.negate
+avfilter.nnedi
+avfilter.qp
+avfilter.realtime
+avfilter.removelogo
+avfilter.reverse
+avfilter.showinfo
+avfilter.stereo3d
+avfilter.subtitles
+avfilter.super2xsai
+avfilter.swapuv
+avfilter.vectorscope
+avfilter.vflip
+avfilter.vignette
 avfilter.volume
+avfilter.volumedetect
 
 # Avfilter Effects with XML
 avfilter.acompressor
