@@ -28,6 +28,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "utils/KoIconUtils.h"
 
 #include <KActionCollection>
+#include <KRecentDirs>
 #include <QAction>
 #include <KMessageBox>
 #include <klocalizedstring.h>
@@ -368,11 +369,11 @@ void ProjectManager::openFile()
         m_startUrl.clear();
         return;
     }
-    //TODO KF5 set default location to project folder
-    QUrl url = QFileDialog::getOpenFileUrl(pCore->window(), QString(), QUrl(), getMimeType());
+    QUrl url = QFileDialog::getOpenFileUrl(pCore->window(), QString(), QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveProjectsFolder"))), getMimeType());
     if (!url.isValid()) {
         return;
     }
+    KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), url.adjusted(QUrl::RemoveFilename).path());
     m_recentFilesAction->addUrl(url);
     saveRecentFiles();
     openFile(url);
