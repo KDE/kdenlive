@@ -659,7 +659,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 #endif
     scmanager->slotCheckActiveScopes();
     //TODO: remove for release
-    m_messageLabel->setMessage("This is a beta version. Always backup your data", MltError);
+    //m_messageLabel->setMessage("This is a beta version. Always backup your data", MltError);
 }
 
 void MainWindow::slotThemeChanged(const QString &theme)
@@ -1453,9 +1453,9 @@ void MainWindow::setupActions()
     action = addAction(QStringLiteral("add_text_template_clip"), i18n("Add Template Title"), pCore->bin(), SLOT(slotCreateProjectClip()), KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-text-clip")));
     action->setData((int) TextTemplate);
     addClips->addAction(action);
-    action = addAction(QStringLiteral("add_qtext_clip"), i18n("Add Simple Text Clip"), pCore->bin(), SLOT(slotCreateProjectClip()), KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-text-clip")));
+    /*action = addAction(QStringLiteral("add_qtext_clip"), i18n("Add Simple Text Clip"), pCore->bin(), SLOT(slotCreateProjectClip()), KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-text-clip")));
     action->setData((int) QText);
-    addClips->addAction(action);
+    addClips->addAction(action);*/
 
     QAction *addFolder = addAction(QStringLiteral("add_folder"), i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), KoIconUtils::themedIcon(QStringLiteral("folder-new")));
     addClips->addAction(addAction(QStringLiteral("download_resource"), i18n("Online Resources"), this, SLOT(slotDownloadResources()), KoIconUtils::themedIcon(QStringLiteral("edit-download"))));
