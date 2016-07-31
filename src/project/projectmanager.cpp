@@ -69,10 +69,10 @@ ProjectManager::ProjectManager(QObject* parent) :
 
     m_autoSaveTimer.setSingleShot(true);
     connect(&m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
-    
+
     // Ensure the default data folder exist
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-    dir.mkdir(QStringLiteral(".backup"));
+    dir.mkpath(QStringLiteral(".backup"));
     dir.mkdir(QStringLiteral("titles"));
 }
 
@@ -321,6 +321,7 @@ bool ProjectManager::saveFileAs()
     fd.setMimeTypeFilters(QStringList()<<QStringLiteral("application/x-kdenlive"));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
+    fd.setOption(QFileDialog::DontConfirmOverwrite, false);
     fd.setDefaultSuffix(QStringLiteral("kdenlive"));
     if (fd.exec() != QDialog::Accepted) {
         return false;
@@ -330,12 +331,12 @@ bool ProjectManager::saveFileAs()
     }
     QString outputFile = fd.selectedFiles().at(0);
 
-    if (QFile::exists(outputFile)) {
+    /*if (QFile::exists(outputFile)) {
         // Show the file dialog again if the user does not want to overwrite the file
         if (KMessageBox::questionYesNo(pCore->window(), i18n("File %1 already exists.\nDo you want to overwrite it?", outputFile)) == KMessageBox::No) {
             return saveFileAs();
         }
-    }
+    }*/
     bool ok = false;
     QDir cacheDir = m_project->getCacheDir(CacheBase, &ok);
     if (ok) {
