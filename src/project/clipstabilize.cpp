@@ -21,13 +21,13 @@
 
 #include "clipstabilize.h"
 #include "effectstack/widgets/doubleparameterwidget.h"
+#include "effectstack/effectstackview2.h"
 
 #include <QDebug>
 #include <mlt++/Mlt.h>
 #include "kdenlivesettings.h"
 #include <QFontDatabase>
 #include <KMessageBox>
-#include <KColorScheme>
 #include <klocalizedstring.h>
 
 ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent) :
@@ -42,21 +42,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     auto_add->setText(i18np("Add clip to project", "Add clips to project", urls.count()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
-    QPalette p = palette();
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    QColor dark_bg = scheme.shade(KColorScheme::DarkShade);
-    QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
-    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
-    QColor light_bg = scheme.shade(KColorScheme::LightShade);
-
-    QString stylesheet(QStringLiteral(
-                "QProgressBar:horizontal {border: 1px solid %1;border-radius:0px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-right: 0px;background:%4;padding: 0px;text-align:left center}"
-                "QProgressBar:horizontal#dragOnly {background: %1} QProgressBar:horizontal:hover#dragOnly {background: %3} QProgressBar:horizontal:hover {border: 1px solid %3;border-right: 0px;}"
-                "QProgressBar::chunk:horizontal {background: %1;} QProgressBar::chunk:horizontal:hover {background: %3;}"
-                "QProgressBar:horizontal[inTimeline=\"true\"] { border: 1px solid %2;border-right: 0px;background: %4;padding: 0px;text-align:left center } QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %2;}"
-                "QAbstractSpinBox#dragBox {border: 1px solid %1;border-top-right-radius: 4px;border-bottom-right-radius: 4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;}"
-                "QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { border: 1px solid %2;} QAbstractSpinBox:hover#dragBox {border: 1px solid %3;} "
-                ).arg(dark_bg.name(), selected_bg.name(), hover_bg.name(), light_bg.name()));
+    QString stylesheet = EffectStackView2::getStyleSheet();
     setStyleSheet(stylesheet);
 
     if (m_urls.count() == 1) {
@@ -107,7 +93,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                     0/*id*/,
                     QLatin1String(""),/*suffix*/
                     val[QStringLiteral("decimals")] != QLatin1String("") ? val[QStringLiteral("decimals")].toInt() : 0,
-                    true,/*showRadioBtn*/
+                    false,/*showRadioBtn*/
                     this);
             dbl->setObjectName(hi.key());
             dbl->setToolTip(val[QStringLiteral("tooltip")]);

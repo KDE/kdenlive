@@ -1,6 +1,7 @@
 # crashing effects
 frei0r.transparency
 frei0r.water
+rotoscoping
 
 # duplicate effects
 frei0r.bluescreen0r

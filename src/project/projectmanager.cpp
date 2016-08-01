@@ -69,10 +69,10 @@ ProjectManager::ProjectManager(QObject* parent) :
 
     m_autoSaveTimer.setSingleShot(true);
     connect(&m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
-    
+
     // Ensure the default data folder exist
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-    dir.mkdir(QStringLiteral(".backup"));
+    dir.mkpath(QStringLiteral(".backup"));
     dir.mkdir(QStringLiteral("titles"));
 }
 
@@ -330,12 +330,17 @@ bool ProjectManager::saveFileAs()
     }
     QString outputFile = fd.selectedFiles().at(0);
 
+#if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
+    // Since Plasma 5.7 (release at same time as KF 5.23, 
+    // the file dialog manages the overwrite check
     if (QFile::exists(outputFile)) {
         // Show the file dialog again if the user does not want to overwrite the file
         if (KMessageBox::questionYesNo(pCore->window(), i18n("File %1 already exists.\nDo you want to overwrite it?", outputFile)) == KMessageBox::No) {
             return saveFileAs();
         }
     }
+#endif
+
     bool ok = false;
     QDir cacheDir = m_project->getCacheDir(CacheBase, &ok);
     if (ok) {
