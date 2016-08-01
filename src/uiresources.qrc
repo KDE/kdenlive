@@ -7,6 +7,7 @@
     <file alias="kdenliveclipmonitor.qml">../data/kdenliveclipmonitor.qml</file>
     <file alias="kdenlivemonitoreffectscene.qml">../data/kdenlivemonitoreffectscene.qml</file>
     <file alias="kdenlivemonitorcornerscene.qml">../data/kdenlivemonitorcornerscene.qml</file>
+    <file alias="kdenlivemonitorrotoscene.qml">../data/kdenlivemonitorsplit.qml</file>
     <file alias="kdenlivemonitorsplit.qml">../data/kdenlivemonitorsplit.qml</file>
     <file alias="kdenlivemonitorripple.qml">../data/kdenlivemonitorripple.qml</file>
     <file alias="SceneToolBar.qml">../data/SceneToolBar.qml</file>

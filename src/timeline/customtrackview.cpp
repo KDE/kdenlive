@@ -3130,14 +3130,14 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             else
                 updateTrackDuration(info.track, addCommand);
 
-            // TODO: disabled when qtblend transition is fully implemented
-            if (item->binClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
+            // Disabled since we now have working track compositing
+            /*if (item->binClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition if space is available
                 if (canBePastedTo(info, TransitionWidget)) {
                     QDomElement trans = MainWindow::transitions.getEffectByTag(QStringLiteral("affine"), QString()).cloneNode().toElement();
                     new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), trans, false, true, addCommand);
                 }
-            }
+            }*/
         }
         qDeleteAll(items);
         // Add refresh command for redo

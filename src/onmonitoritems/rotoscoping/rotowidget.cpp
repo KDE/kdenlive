@@ -58,7 +58,8 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
     //m_scene = NULL;//edit->getScene();
     //m_scene->cleanup();
 
-    m_item = NULL;/*new SplineItem(QList <BPoint>(), NULL, m_scene);
+    // TODO: port to qml monitor scene
+    /*m_item = new SplineItem(QList <BPoint>(), NULL, m_scene);
 
     connect(m_item, SIGNAL(changed(bool)), this, SLOT(slotUpdateData(bool)));
     connect(m_keyframeWidget, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
@@ -80,12 +81,7 @@ RotoWidget::~RotoWidget()
 
     delete m_keyframeWidget;
 
-    //if (m_scene) m_scene->removeItem(m_item);
-    delete m_item;
-
     if (m_monitor) {
-        /*MonitorEditWidget *edit = m_monitor->getEffectEdit();
-        edit->removeCustomControls();*/
         m_monitor->slotShowEffectScene(MonitorSceneDefault);
     }
 }
@@ -107,7 +103,8 @@ void RotoWidget::slotUpdateData(int pos, bool editing)
     /*
      * use the position of the on-monitor points to create a storable list
      */
-    QList <BPoint> spline = m_item->getPoints();
+    //TODO: get points from monitor qml scene
+    QList <BPoint> spline; // = m_item->getPoints();
     QList <QVariant> vlist;
     foreach (const BPoint &point, spline) {
         QList <QVariant> pl;
@@ -148,8 +145,9 @@ QByteArray RotoWidget::getSpline()
 void RotoWidget::slotPositionChanged(int pos, bool seek)
 {
     // do not update while the spline is being edited (points are being dragged)
-    if (m_item->editing())
-        return;
+    // TODO: port to qml monitor scene
+    /*if (m_item->editing())
+        return;*/
 
     m_keyframeWidget->slotSetPosition(pos, false);
 
@@ -190,23 +188,27 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
                 p.append(bp);
             }
 
-            m_item->setPoints(p);
-            m_item->setEnabled(false);
+            // TODO: port to qml monitor scene
+            /*m_item->setPoints(p);
+            m_item->setEnabled(false);*/
             //m_scene->setEnabled(false);
         } else {
             p = getPoints(keyframe2);
             // only update if necessary to preserve the current point selection
+            // TODO: port to qml monitor scene
+            /*
             if (p != m_item->getPoints())
                 m_item->setPoints(p);
-            m_item->setEnabled(pos == keyframe2);
+            m_item->setEnabled(pos == keyframe2);*/
             //m_scene->setEnabled(pos == keyframe2);
         }
     } else {
         p = getPoints(-1);
         // only update if necessary to preserve the current point selection
-        if (p != m_item->getPoints())
+        // TODO: port to qml monitor scene
+        /*if (p != m_item->getPoints())
             m_item->setPoints(p);
-        m_item->setEnabled(true);
+        m_item->setEnabled(true);*/
         //m_scene->setEnabled(true);
     }
 
@@ -252,7 +254,8 @@ void RotoWidget::slotAddKeyframe(int pos)
         m_keyframeWidget->addKeyframe();
 
     slotUpdateData(pos);
-    m_item->setEnabled(true);
+    // TODO: port to qml monitor scene
+    //m_item->setEnabled(true);
     //m_scene->setEnabled(true);
 }
 
