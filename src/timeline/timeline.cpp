@@ -424,9 +424,10 @@ void Timeline::getTransitions() {
            ) {
             // invalid transition, remove it
             m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
-            mlt_service disconnect = service;
+            mlt_service broken = service;
             service = mlt_service_producer(service);
-            mlt_field_disconnect_service(field->get_field(), disconnect);
+            mlt_field_disconnect_service(field->get_field(), broken);
+            continue;
         } else {
             // Check there is no other transition at that place
             double startY = m_trackview->getPositionFromTrack(transitionInfo.track) + 1 + KdenliveSettings::trackheight() / 2;
@@ -441,9 +442,10 @@ void Timeline::getTransitions() {
             }
             if (!transitionAccepted) {
                 m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
-                mlt_service disconnect = service;
+                mlt_service broken = service;
                 service = mlt_service_producer(service);
-                mlt_field_disconnect_service(field->get_field(), disconnect);
+                mlt_field_disconnect_service(field->get_field(), broken);
+                continue;
             } else {
                 QDomNodeList params = base.elementsByTagName(QStringLiteral("parameter"));
                 for (int i = 0; i < params.count(); ++i) {
