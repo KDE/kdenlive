@@ -4983,7 +4983,6 @@ Transition *CustomTrackView::getTransitionItemAt(int pos, int track, bool alread
     const QPointF p(pos, getPositionFromTrack(track) + Transition::itemOffset() + 1);
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
-    qDebug()<<" FOUND ITEMS AT: "<<p<<": "<<list.count();
     for (int i = 0; i < list.size(); ++i) {
         if (!alreadyMoved && !list.at(i)->isEnabled()) {
             continue;
