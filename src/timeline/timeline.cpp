@@ -378,6 +378,7 @@ void Timeline::checkDuration() {
 void Timeline::getTransitions() {
     QLocale locale;
     int compositeMode = 0;
+    double fps = m_doc->fps();
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     QScopedPointer<Mlt::Field> field(m_tractor->field());
@@ -400,8 +401,8 @@ void Timeline::getTransitions() {
         int a_track = prop.get_int("a_track");
         int b_track = prop.get_int("b_track");
         ItemInfo transitionInfo;
-        transitionInfo.startPos = GenTime(prop.get_int("in"), m_doc->fps());
-        transitionInfo.endPos = GenTime(prop.get_int("out") + 1, m_doc->fps());
+        transitionInfo.startPos = GenTime(prop.get_int("in"), fps);
+        transitionInfo.endPos = GenTime(prop.get_int("out") + 1, fps);
         transitionInfo.track = b_track;
         // When adding composite transition, check if it is a wipe transition
         if (prop.get("kdenlive_id") == NULL && QString(prop.get("mlt_service")) == QLatin1String("composite") && isSlide(prop.get("geometry")))
@@ -427,25 +428,42 @@ void Timeline::getTransitions() {
             service = mlt_service_producer(service);
             mlt_field_disconnect_service(field->get_field(), disconnect);
         } else {
-            QDomNodeList params = base.elementsByTagName(QStringLiteral("parameter"));
-            for (int i = 0; i < params.count(); ++i) {
-                QDomElement e = params.item(i).toElement();
-                QString paramName = e.hasAttribute(QStringLiteral("tag")) ? e.attribute(QStringLiteral("tag")) : e.attribute(QStringLiteral("name"));
-                QString value = prop.get(paramName.toUtf8().constData());
-                // if transition parameter has an "optional" attribute, it means that it can contain an empty value
-                if (value.isEmpty() && !e.hasAttribute(QStringLiteral("optional"))) continue;
-                if (e.hasAttribute("factor") || e.hasAttribute("offset"))
-                    adjustDouble(e, value);
-                else
-                    e.setAttribute(QStringLiteral("value"), value);
+            // Check there is no other transition at that place
+            double startY = m_trackview->getPositionFromTrack(transitionInfo.track) + 1 + KdenliveSettings::trackheight() / 2;
+            QRectF r(transitionInfo.startPos.frames(fps), startY, (transitionInfo.endPos - transitionInfo.startPos).frames(fps), KdenliveSettings::trackheight() / 2);
+            QList<QGraphicsItem *> selection = m_scene->items(r);
+            bool transitionAccepted = true;
+            for (int i = 0; i < selection.count(); ++i) {
+                if (selection.at(i)->type() == TransitionWidget) {
+                    transitionAccepted = false;
+                    break;
+                }
             }
-            Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base,
- QString(prop.get("automatic")) == QLatin1String("1"));
-            connect(tr, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
-            tr->setPos(transitionInfo.startPos.frames(m_doc->fps()), KdenliveSettings::trackheight() * (visibleTracksCount() - transitionInfo.track) + 1 + tr->itemOffset());
-            if (QString(prop.get("force_track")) == QLatin1String("1")) tr->setForcedTrack(true, a_track);
-            if (isTrackLocked(b_track)) tr->setItemLocked(true);
-            m_scene->addItem(tr);
+            if (!transitionAccepted) {
+                m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
+                mlt_service disconnect = service;
+                service = mlt_service_producer(service);
+                mlt_field_disconnect_service(field->get_field(), disconnect);
+            } else {
+                QDomNodeList params = base.elementsByTagName(QStringLiteral("parameter"));
+                for (int i = 0; i < params.count(); ++i) {
+                    QDomElement e = params.item(i).toElement();
+                    QString paramName = e.hasAttribute(QStringLiteral("tag")) ? e.attribute(QStringLiteral("tag")) : e.attribute(QStringLiteral("name"));
+                    QString value = prop.get(paramName.toUtf8().constData());
+                    // if transition parameter has an "optional" attribute, it means that it can contain an empty value
+                    if (value.isEmpty() && !e.hasAttribute(QStringLiteral("optional"))) continue;
+                    if (e.hasAttribute("factor") || e.hasAttribute("offset"))
+                        adjustDouble(e, value);
+                    else
+                        e.setAttribute(QStringLiteral("value"), value);
+                }
+                Transition *tr = new Transition(transitionInfo, a_track, fps, base, QString(prop.get("automatic")) == QLatin1String("1"));
+                connect(tr, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
+                tr->setPos(transitionInfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - transitionInfo.track) + 1 + tr->itemOffset());
+                if (QString(prop.get("force_track")) == QLatin1String("1")) tr->setForcedTrack(true, a_track);
+                if (isTrackLocked(b_track)) tr->setItemLocked(true);
+                m_scene->addItem(tr);
+            }
             service = mlt_service_producer(service);
         }
     }
