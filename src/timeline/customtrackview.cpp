@@ -2925,6 +2925,7 @@ void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTr
 {
     Transition *item = getTransitionItemAt(transitionInfo.startPos, transitionInfo.track);
     if (!item) {
+        //TODO: rename to "Select transition to delete
         emit displayMessage(i18n("Select clip to delete"), ErrorMessage);
         return;
     }
@@ -4486,7 +4487,7 @@ void CustomTrackView::deleteSelectedClips()
             // Check if it is a title clip with automatic transition, than remove it
             if (item->clipType() == Text) {
                 Transition *tr = getTransitionItemAtStart(item->startPos(), item->track());
-                if (tr && tr->endPos() == item->endPos()) {
+                if (tr && !itemList.contains(tr) && tr->isAutomatic() && tr->endPos() == item->endPos()) {
                     new AddTransitionCommand(this, tr->info(), tr->transitionEndTrack(), tr->toXML(), true, true, deleteSelected);
                 }
             }
@@ -4982,8 +4983,11 @@ Transition *CustomTrackView::getTransitionItemAt(int pos, int track, bool alread
     const QPointF p(pos, getPositionFromTrack(track) + Transition::itemOffset() + 1);
     QList<QGraphicsItem *> list = scene()->items(p);
     Transition *clip = NULL;
+    qDebug()<<" FOUND ITEMS AT: "<<p<<": "<<list.count();
     for (int i = 0; i < list.size(); ++i) {
-        if (!alreadyMoved && !list.at(i)->isEnabled()) continue;
+        if (!alreadyMoved && !list.at(i)->isEnabled()) {
+            continue;
+        }
         if (list.at(i)->type() == TransitionWidget) {
             clip = static_cast <Transition *>(list.at(i));
             break;
@@ -5170,7 +5174,7 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                     tr->setEnabled(false);
             }
             m_timeline->transitionHandler->deleteTransition(tr->transitionTag(), tr->transitionEndTrack(), startTransition.at(i).track, startTransition.at(i).startPos, startTransition.at(i).endPos, tr->toXML());
-        } else qDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25);
+        } else qDebug() << "//MISSING TRANSITION AT: " << startTransition.at(i).startPos.frames(25)<<", track: "<<startTransition.at(i).track;
     }
     m_document->renderer()->blockSignals(false);
 
