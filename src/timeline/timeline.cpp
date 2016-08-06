@@ -256,9 +256,10 @@ bool Timeline::checkProjectAudio()
 {
     bool hasAudio = false;
     int max = m_tracks.count();
-    for (int i = 0; i < max; i++) {
+    // Ignore black background track, start at one
+    for (int i = 1; i < max; i++) {
         Track *sourceTrack = track(i);
-        QScopedPointer<Mlt::Producer> track(m_tractor->track(i + 1));
+        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         int state = track->get_int("hide");
         if (sourceTrack && sourceTrack->hasAudio() && !(state & 2)) {
             hasAudio = true;
@@ -689,7 +690,7 @@ QList <TrackInfo> Timeline::getTracksInfo()
 QStringList Timeline::getTrackNames()
 {
     QStringList trackNames;
-    for (int i = 0; i < tracksCount(); i++) {
+    for (int i = 1; i < tracksCount(); i++) {
         trackNames << track(i)->info().trackName;
     }
     return trackNames;
@@ -1519,7 +1520,8 @@ QPoint Timeline::getTracksCount()
     int audioTracks = 0;
     int videoTracks = 0;
     int max = m_tracks.count();
-    for (int i = 0; i < max; i++) {
+    // Ignore black background track, start at one
+    for (int i = 1; i < max; i++) {
         Track *tk = track(i);
         if (tk->type == AudioTrack) audioTracks++;
         else videoTracks++;
@@ -1538,7 +1540,7 @@ int Timeline::getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart)
 
 void Timeline::updateClipProperties(const QString &id, QMap <QString, QString> properties)
 {
-    for (int i = 0; i< m_tracks.count(); i++) {
+    for (int i = 1; i< m_tracks.count(); i++) {
         track(i)->updateClipProperties(id, properties);
     }
 }
@@ -1611,7 +1613,7 @@ int Timeline::getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart)
 
 void Timeline::disableTimelineEffects(bool disable)
 {
-    for (int i = 0; i< tracksCount(); i++) {
+    for (int i = 1; i< tracksCount(); i++) {
         track(i)->disableEffects(disable);
     }
 }
