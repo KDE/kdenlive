@@ -50,7 +50,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     button_delete->setToolTip(i18n("Delete keyframe"));
     buttonResetKeyframe->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-undo")));
     buttonSeek->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
-    connect(keyframe_list, &QTableWidget::cellActivated, this, &KeyframeEdit::rowClicked);
+    connect(keyframe_list, &QTableWidget::currentCellChanged, this, &KeyframeEdit::rowClicked);
     connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotGenerateParams(int,int)));
 
     m_position = new PositionEdit(i18n("Position"), 0, 0, 1, tc, widgetTable);
@@ -551,7 +551,8 @@ void KeyframeEdit::slotUpdateRange(int inPoint, int outPoint)
     m_max = outPoint;
 }
 
-void KeyframeEdit::rowClicked(int, int)
+void KeyframeEdit::rowClicked(int newRow, int, int oldRow, int)
 {
-    slotAdjustKeyframeInfo(true);
+    if (oldRow != newRow)
+        slotAdjustKeyframeInfo(true);
 }

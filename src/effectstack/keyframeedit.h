@@ -143,7 +143,7 @@ private slots:
     /** @brief Makes the parameter at column @param id the visible (in timeline) one. */
     void slotUpdateVisibleParameter(int id, bool update = true);
     /** @brief A row was clicked, adjust parameters. */
-    void rowClicked(int row, int);
+    void rowClicked(int newRow, int, int oldRow, int);
 
 signals:
     void parameterChanged();

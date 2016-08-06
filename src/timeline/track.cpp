@@ -804,22 +804,23 @@ int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, Playlis
           duration = speedIndependantInfo.cropDuration.frames(fps());
           originalStart = speedIndependantInfo.cropStart.frames(fps());
         } else {
-          duration = (int) (speedIndependantInfo.cropDuration.frames(fps()) / speed + 0.5);
+          duration = qMax(2, qAbs((int) (speedIndependantInfo.cropDuration.frames(fps()) / speed + 0.5)));
           originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()) / speed + 0.5);
         }
         //qDebug()<<"/ / /UPDATE SPEED: "<<speed<<", "<<speedIndependantInfo.cropStart.frames(fps())<<":"<<originalStart;
         // Check that the blank space is long enough for our new duration
         clipIndex = m_playlist.get_clip_index_at(startPos);
-        int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
 
         Mlt::Producer *cut;
-        if (clipIndex + 1 < m_playlist.count() && (startPos + duration > blankEnd)) {
-            GenTime maxLength = GenTime(blankEnd, fps()) - info.startPos;
-            cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(fps()) - 1));
-        } else {
-	      cut = prod->cut(originalStart, originalStart + duration - 1);
-	}
-
+        int outPos = originalStart + duration - 1;
+        if (clipIndex + 1 < m_playlist.count()) {
+            int blankEnd = m_playlist.clip_start(clipIndex + 1) - 1;
+            if (duration + startPos > blankEnd) {
+                outPos = originalStart + (blankEnd - startPos);
+            }
+        }
+        // Last clip in playlist, no duration limit
+	cut = prod->cut(originalStart, outPos);
         // move all effects to the correct producer
         Clip(*cut).addEffects(*clip);
         m_playlist.insert_at(startPos, cut, 1);
