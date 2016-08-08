@@ -54,6 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDesktopServices>
 #include <QUrl>
+#include <QFile>
 #include <QDialogButtonBox>
 #include <QDrag>
 #include <QVBoxLayout>
@@ -1317,7 +1318,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
 		m_locateAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
                 ClipType type = static_cast<ProjectClip*>(currentItem)->clipType();
-                m_openAction->setEnabled(type == Image || type == Audio);
+                m_openAction->setEnabled(type == Image || type == Audio || type == Text || type == TextTemplate);
                 showClipProperties(static_cast<ProjectClip*>(currentItem), false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
@@ -1573,7 +1574,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     }
     // Enable / disable clip actions
     m_proxyAction->setEnabled(m_doc->getDocumentProperty("enableproxy").toInt() && enableClipActions);
-    m_openAction->setEnabled(type == Image || type == Audio);
+    m_openAction->setEnabled(type == Image || type == Audio || type == TextTemplate || type == Text);
     m_reloadAction->setEnabled(enableClipActions);
     m_locateAction->setEnabled(enableClipActions);
     m_duplicateAction->setEnabled(enableClipActions);
@@ -1643,7 +1644,12 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             ProjectClip *clip = static_cast<ProjectClip*>(item);
             if (clip) {
-                slotSwitchClipProperties(ix);
+                if (clip->clipType() == Text || clip->clipType() == TextTemplate) {
+                    //m_propertiesPanel->setEnabled(false);
+                    showTitleWidget(clip);
+                } else {
+                    slotSwitchClipProperties(clip);
+                }
             }
         }
     }
@@ -1661,6 +1667,7 @@ void Bin::slotEditClip()
     ProjectClip *clip = qobject_cast<ProjectClip*>(item);
     switch (clip->clipType()) {
         case Text:
+        case TextTemplate:
             showTitleWidget(clip);
             break;
         case SlideShow:
@@ -1677,32 +1684,35 @@ void Bin::slotEditClip()
 void Bin::slotSwitchClipProperties()
 {
     QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
-    slotSwitchClipProperties(current);
+    if (current.isValid()) {
+        // User clicked in the icon, open clip properties
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(current).internalPointer());
+        ProjectClip *clip = qobject_cast<ProjectClip*>(item);
+        if (clip) {
+            slotSwitchClipProperties(clip);
+            return;
+        }
+    }
+    slotSwitchClipProperties(NULL);
 }
 
-void Bin::slotSwitchClipProperties(const QModelIndex &ix)
+void Bin::slotSwitchClipProperties(ProjectClip *clip)
 {
-    if (ix.isValid()) {
-        // User clicked in the icon, open clip properties
-        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
-        ProjectClip *clip = qobject_cast<ProjectClip*>(item);
-        if (clip->clipType() == Text) {
-            m_propertiesPanel->setEnabled(false);
-            showTitleWidget(clip);
-        } else if (clip->clipType() == SlideShow) {
-            m_propertiesPanel->setEnabled(false);
-            showSlideshowWidget(clip);
-        } else if (clip->clipType() == QText) {
-            m_propertiesPanel->setEnabled(false);
-            ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
-        } else {
-            m_propertiesPanel->setEnabled(true);
-            showClipProperties(clip);
-            m_propertiesDock->show();
-            m_propertiesDock->raise();
-        }
-    } else {
+    if (clip == NULL) {
         m_propertiesPanel->setEnabled(false);
+        return;
+    }
+    if (clip->clipType() == SlideShow) {
+        m_propertiesPanel->setEnabled(false);
+        showSlideshowWidget(clip);
+    } else if (clip->clipType() == QText) {
+        m_propertiesPanel->setEnabled(false);
+        ClipCreationDialog::createQTextClip(m_doc, getFolderInfo(), this, clip);
+    } else {
+        m_propertiesPanel->setEnabled(true);
+        showClipProperties(clip);
+        m_propertiesDock->show();
+        m_propertiesDock->raise();
     }
     // Check if properties panel is not tabbed under Bin
     //if (!pCore->window()->isTabbedWith(m_propertiesDock, QStringLiteral("project_bin"))) {
@@ -1722,7 +1732,6 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
         m_propertiesPanel->setEnabled(false);
         return;
     }
-    // Special case: text clips open title widget
     m_propertiesPanel->setEnabled(true);
     QString panelId = m_propertiesPanel->property("clipId").toString();
     if (!forceRefresh && panelId == clip->clipId()) {
@@ -2677,17 +2686,25 @@ void Bin::slotOpenClip()
 {
     ProjectClip *clip = getFirstSelectedClip();
     if (!clip) return;
-    if (clip->clipType() == Image) {
-      if (KdenliveSettings::defaultimageapp().isEmpty())
-          KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
-      else
-          QProcess::startDetached(KdenliveSettings::defaultimageapp(), QStringList() << clip->url().path());
-   }
-   if (clip->clipType() == Audio) {
-      if (KdenliveSettings::defaultaudioapp().isEmpty())
-          KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
-      else
-          QProcess::startDetached(KdenliveSettings::defaultaudioapp(), QStringList() << clip->url().path());
+    switch (clip->clipType()) {
+        case Text:
+        case TextTemplate:
+            showTitleWidget(clip);
+            break;
+        case Image:
+            if (KdenliveSettings::defaultimageapp().isEmpty())
+                KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
+            else
+                QProcess::startDetached(KdenliveSettings::defaultimageapp(), QStringList() << clip->url().path());
+            break;
+        case Audio:
+            if (KdenliveSettings::defaultaudioapp().isEmpty())
+                KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
+            else
+                QProcess::startDetached(KdenliveSettings::defaultaudioapp(), QStringList() << clip->url().path());
+            break;
+        default:
+            break;
     }
 }
 
@@ -3007,33 +3024,40 @@ void Bin::showTitleWidget(ProjectClip *clip)
     QString titlepath = m_doc->projectFolder().path() + QDir::separator() + "titles/";
     TitleWidget dia_ui(QUrl(), m_doc->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
     connect(&dia_ui, SIGNAL(requestBackgroundFrame(bool)), pCore->monitorManager()->projectMonitor(), SLOT(slotGetCurrentImage(bool)));
-        QDomDocument doc;
-        doc.setContent(clip->getProducerProperty(QStringLiteral("xmldata")));
-        dia_ui.setXml(doc);
-        if (dia_ui.exec() == QDialog::Accepted) {
-            QMap <QString, QString> newprops;
-            newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
-            if (dia_ui.duration() != clip->duration().frames(m_doc->fps())) {
-                // duration changed, we need to update duration
-                newprops.insert(QStringLiteral("out"), QString::number(dia_ui.duration() - 1));
-                int currentLength = clip->getProducerIntProperty(QStringLiteral("length"));
-                if (currentLength <= dia_ui.duration()) {
-                    newprops.insert(QStringLiteral("length"), QString::number(dia_ui.duration()));
-                }
+    QDomDocument doc;
+    QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
+    if (xmldata.isEmpty() && QFile::exists(path)) {
+        QFile file(path);
+        doc.setContent(&file, false);
+        file.close();
+    } else {
+        doc.setContent(xmldata);
+    }
+    dia_ui.setXml(doc);
+    if (dia_ui.exec() == QDialog::Accepted) {
+        QMap <QString, QString> newprops;
+        newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
+        if (dia_ui.duration() != clip->duration().frames(m_doc->fps())) {
+            // duration changed, we need to update duration
+            newprops.insert(QStringLiteral("out"), QString::number(dia_ui.duration() - 1));
+            int currentLength = clip->getProducerIntProperty(QStringLiteral("length"));
+            if (currentLength <= dia_ui.duration()) {
+                newprops.insert(QStringLiteral("length"), QString::number(dia_ui.duration()));
             }
-            // trigger producer reload
-            newprops.insert(QStringLiteral("force_reload"), QStringLiteral("2"));
-            if (!path.isEmpty()) {
-                // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
-                if (KMessageBox::questionYesNo(pCore->window(), i18n("You are editing an external title clip (%1). Do you want to save your changes to the title file or save the changes for this project only?", path), i18n("Save Title"), KGuiItem(i18n("Save to title file")), KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
-                    // save to external file
-                    dia_ui.saveTitle(QUrl::fromLocalFile(path));
-                } else {
-                    newprops.insert(QStringLiteral("resource"), QString());
-                }
-            }
-            slotEditClipCommand(clip->clipId(), clip->currentProperties(newprops), newprops);
         }
+        // trigger producer reload
+        newprops.insert(QStringLiteral("force_reload"), QStringLiteral("2"));
+        if (!path.isEmpty()) {
+            // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
+            if (KMessageBox::questionYesNo(pCore->window(), i18n("You are editing an external title clip (%1). Do you want to save your changes to the title file or save the changes for this project only?", path), i18n("Save Title"), KGuiItem(i18n("Save to title file")), KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
+                // save to external file
+                dia_ui.saveTitle(QUrl::fromLocalFile(path));
+            } else {
+                newprops.insert(QStringLiteral("resource"), QString());
+            }
+        }
+        slotEditClipCommand(clip->clipId(), clip->currentProperties(newprops), newprops);
+    }
 }
 
 void Bin::slotResetInfoMessage()
