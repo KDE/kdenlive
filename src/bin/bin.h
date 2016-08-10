@@ -601,7 +601,7 @@ public slots:
     void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
-    void slotSwitchClipProperties(const QModelIndex &ix);
+    void slotSwitchClipProperties(ProjectClip *clip);
     void slotSwitchClipProperties();
     /** @brief Creates a new folder with optional name, and returns new folder's id */
     QString slotAddFolder(const QString &folderName = QString());

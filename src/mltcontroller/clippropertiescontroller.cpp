@@ -230,7 +230,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
 
     // Force properties
     QVBoxLayout *vbox = new QVBoxLayout;
-    if (m_type == Text || m_type == SlideShow || m_type == QText) {
+    if (m_type == Text || m_type == SlideShow || m_type == TextTemplate) {
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
         connect(editButton, SIGNAL(clicked()), this, SIGNAL(editClip()));
         vbox->addWidget(editButton);
