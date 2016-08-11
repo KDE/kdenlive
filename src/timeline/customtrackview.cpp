@@ -2607,8 +2607,7 @@ void CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool
         if (m_dragItem && m_dragItem->type() == AVWidget)
             selectedInfo = m_dragItem->info();
         if (item == m_dragItem) {
-            m_dragItem = NULL;
-            emit clipItemSelected(NULL);
+            clearSelection();
             selectDup = true;
         }
         if (!item || !info.contains(cutTime)) {
