@@ -20,8 +20,8 @@ IF(GETTEXT_MSGFMT_EXECUTABLE)
   ENDFOREACH(_po ${PO_FILES})
   ADD_CUSTOM_TARGET(translations ALL DEPENDS ${GMO_FILES})
 ENDIF(GETTEXT_MSGFMT_EXECUTABLE)' > CMakeLists.txt
-locales=$(wget -O - http://websvn.kde.org/*checkout*/trunk/l10n-kde4/subdirs | grep -v x-test)
+locales=$(wget -O - -U Mozilla/5.0 https://websvn.kde.org/*checkout*/trunk/l10n-kf5/subdirs | grep -v x-test)
 for locale in $locales; do
-	wget -O $locale.po "http://websvn.kde.org/*checkout*/trunk/l10n-kf5/$locale/messages/kdemultimedia/kdenlive.po" || rm $locale.po
+	wget -O $locale.po -U Mozilla/5.0 "https://websvn.kde.org/*checkout*/trunk/l10n-kf5/$locale/messages/kdemultimedia/kdenlive.po" || rm $locale.po
 done
 
