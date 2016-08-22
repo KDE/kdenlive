@@ -105,6 +105,8 @@ namespace EffectsController
     double getStringEval(const ProfileInfo &info, QString eval, const QPoint& frameSize = QPoint());
     QString getStringRectEval(const ProfileInfo &info, QString eval);
 
+    /** @brief Initialize some track effects parameters */
+    void initTrackEffect(ProfileInfo pInfo, QDomElement effect);
      /** @brief Initialize some effects parameters: keyframes, fades, in / out points  */
     void initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString &proxy, QDomElement effect, int diff = 0, int offset = 0);
 

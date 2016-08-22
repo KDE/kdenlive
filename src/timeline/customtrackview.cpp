@@ -7931,8 +7931,9 @@ bool CustomTrackView::hasAudio(int track) const
     return false;
 }
 
-void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
+void CustomTrackView::slotAddTrackEffect(QDomElement effect, int ix)
 {
+    EffectsController::initTrackEffect(m_document->getProfileInfo(), effect);
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
     if (effect.tagName() == QLatin1String("effectgroup")) {
