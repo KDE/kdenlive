@@ -582,6 +582,7 @@ TrackInfo Track::info()
     info.isBlind = currentState & 1;
     info.type = type;
     info.effectsList = effectsList;
+    info.duration = m_playlist.get_length();
     return info;
 }
 

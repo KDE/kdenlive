@@ -33,7 +33,6 @@
 #include <QUrl> //new
 #include <QApplication>
 #include <klocalizedstring.h>
-#include <KDBusService>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QProcess>
@@ -126,8 +125,6 @@ int main(int argc, char *argv[])
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
-    // Register DBus service
-    KDBusService programDBusService;
 #if KXMLGUI_VERSION_MINOR > 14 || KXMLGUI_VERSION_MAJOR > 5
     KCrash::initialize();
 #else

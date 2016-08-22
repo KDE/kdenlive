@@ -83,7 +83,7 @@ signals:
     void renameTrack(int index, const QString&name);
     void selectTrack(int index, bool switchTarget = false);
     void configTrack();
-    void addTrackEffect(const QDomElement &, int index);
+    void addTrackEffect(QDomElement, int index);
 };
 
 #endif

@@ -216,6 +216,43 @@ QString EffectsController::getStringRectEval(const ProfileInfo &info, QString ev
     return eval;
 }
 
+void EffectsController::initTrackEffect(ProfileInfo pInfo, QDomElement effect)
+{
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        const QString type = e.attribute(QStringLiteral("type"));
+
+        if (e.isNull())
+            continue;
+
+        bool hasValue = e.hasAttribute(QStringLiteral("value"));
+        // Check if this effect has a variable parameter, init effects default value
+        if ((type == QLatin1String("animatedrect") || type == QLatin1String("geometry")) && !hasValue) {
+            QString kfr = AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
+            if (kfr.contains("%")) {
+                kfr = EffectsController::getStringRectEval(pInfo, kfr);
+            }
+            e.setAttribute(QStringLiteral("value"), kfr);
+        } else if (e.attribute(QStringLiteral("default")).contains('%')) {
+            double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
+            e.setAttribute(QStringLiteral("default"), evaluatedValue);
+            if (e.hasAttribute(QStringLiteral("value"))) {
+                if (e.attribute(QStringLiteral("value")).startsWith('%')) {
+                    e.setAttribute(QStringLiteral("value"), evaluatedValue);
+                }
+            } else e.setAttribute(QStringLiteral("value"), evaluatedValue);
+        } else {
+            if (type == QLatin1String("animated") && !hasValue) {
+                e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default"))));
+            }
+            else if (!hasValue) {
+                e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
+            }
+        }
+    }
+}
+
 void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString& proxy, QDomElement effect, int diff, int offset)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should

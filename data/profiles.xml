@@ -3,7 +3,7 @@
   <profile name="WebM - the widespread free format (VP8/Vorbis)" extension="webm"
    qualities="15,45" defaultquality="30"
    audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm vcodec=libvpx acodec=vorbis crf=%quality vb=0 quality=good aq=%audioquality"
+   args="f=webm vcodec=libvpx acodec=vorbis crf=%quality vb=0 quality=good aq=%audioquality max-intra-rate=1000"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="MP4 - the dominating format (H264/AAC)" extension="mp4"
    qualities="15,20,45" defaultquality="30"

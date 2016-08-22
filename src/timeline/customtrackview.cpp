@@ -2607,8 +2607,7 @@ void CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool
         if (m_dragItem && m_dragItem->type() == AVWidget)
             selectedInfo = m_dragItem->info();
         if (item == m_dragItem) {
-            m_dragItem = NULL;
-            emit clipItemSelected(NULL);
+            clearSelection();
             selectDup = true;
         }
         if (!item || !info.contains(cutTime)) {
@@ -7932,8 +7931,9 @@ bool CustomTrackView::hasAudio(int track) const
     return false;
 }
 
-void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
+void CustomTrackView::slotAddTrackEffect(QDomElement effect, int ix)
 {
+    EffectsController::initTrackEffect(m_document->getProfileInfo(), effect);
     QUndoCommand *effectCommand = new QUndoCommand();
     QString effectName;
     if (effect.tagName() == QLatin1String("effectgroup")) {

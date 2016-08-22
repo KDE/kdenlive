@@ -382,7 +382,7 @@ public slots:
     /** @brief Add en effect to a track.
     * @param effect The new effect xml
     * @param ix The track index */
-    void slotAddTrackEffect(const QDomElement &effect, int ix);
+    void slotAddTrackEffect(QDomElement effect, int ix);
     /** @brief Select all clips in selected track. */
     void slotSelectClipsInTrack();
     /** @brief Select all clips in timeline. */
