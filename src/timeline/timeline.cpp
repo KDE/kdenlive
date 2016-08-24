@@ -794,8 +794,15 @@ void Timeline::doSwitchTrackVideo(int ix, bool hide)
             newstate = 0;
         }
     }
+    if (newstate > 0) {
+        // hide
+        invalidateTrack(ix);
+    }
     tk->setState(newstate);
-    invalidateTrack(ix);
+    if (newstate == 0) {
+        // unhide
+        invalidateTrack(ix);
+    }
     refreshTractor();
     m_doc->renderer()->doRefresh();
 }
