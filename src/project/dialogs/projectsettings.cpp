@@ -91,7 +91,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt());
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
-        m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparams"));
+        m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
         TemporaryData *cacheWidget = new TemporaryData(doc, true, this);
         connect(cacheWidget, SIGNAL(disableProxies()), this, SIGNAL(disableProxies()));
