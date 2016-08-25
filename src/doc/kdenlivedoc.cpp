@@ -132,7 +132,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup 
     m_documentProperties[QStringLiteral("enableproxy")] = QString::number((int) KdenliveSettings::enableproxy());
     m_documentProperties[QStringLiteral("proxyparams")] = KdenliveSettings::proxyparams();
     m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();
-    m_documentProperties[QStringLiteral("previewparams")] = KdenliveSettings::previewparams();
+    m_documentProperties[QStringLiteral("previewparameters")] = KdenliveSettings::previewparams();
     m_documentProperties[QStringLiteral("previewextension")] = KdenliveSettings::previewextension();
     m_documentProperties[QStringLiteral("generateproxy")] = QString::number((int) KdenliveSettings::generateproxy());
     m_documentProperties[QStringLiteral("proxyminsize")] = QString::number(KdenliveSettings::proxyminsize());
