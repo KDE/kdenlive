@@ -35,6 +35,7 @@
 #include <klocalizedstring.h>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <KDBusService>
 #include <QProcess>
 #include <QIcon>
 
@@ -124,6 +125,7 @@ int main(int argc, char *argv[])
     // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
+    KDBusService programDBusService;
 
 #if KXMLGUI_VERSION_MINOR > 14 || KXMLGUI_VERSION_MAJOR > 5
     KCrash::initialize();
