@@ -94,6 +94,11 @@
       <default>00:00:05:00</default>
     </entry>
 
+    <entry name="transition_duration" type="String">
+      <label>Default transition duration.</label>
+      <default>00:00:01:00</default>
+    </entry>
+
     <entry name="disable_effect_parameters" type="Bool">
       <label>Disable parameters when the effect is disabled.</label>
       <default>true</default>

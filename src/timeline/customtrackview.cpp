@@ -1176,13 +1176,13 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
             info.endPos = transitionClip->endPos();
         } else {
-            GenTime transitionDuration(65, m_document->fps());
+            GenTime transitionDuration(m_document->getFramePos(KdenliveSettings::transition_duration()), m_document->fps());
             if (m_dragItem->cropDuration() < transitionDuration)
                 info.endPos = m_dragItem->endPos();
             else
                 info.endPos = info.startPos + transitionDuration;
         }
-        if (info.endPos == info.startPos) info.endPos = info.startPos + GenTime(65, m_document->fps());
+        if (info.endPos == info.startPos) info.endPos = info.startPos + GenTime(m_document->getFramePos(KdenliveSettings::transition_duration()), m_document->fps());
         // Check there is no other transition at that place
         double startY = getPositionFromTrack(info.track) + 1 + m_tracksHeight / 2;
         QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
@@ -1208,13 +1208,20 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
             info.startPos = transitionClip->startPos();
         } else {
-            GenTime transitionDuration(65, m_document->fps());
+            GenTime transitionDuration(m_document->getFramePos(KdenliveSettings::transition_duration()), m_document->fps());
             if (m_dragItem->cropDuration() < transitionDuration)
                 info.startPos = m_dragItem->startPos();
             else
                 info.startPos = info.endPos - transitionDuration;
         }
-        if (info.endPos == info.startPos) info.startPos = info.endPos - GenTime(65, m_document->fps());
+        if (info.endPos == info.startPos) {
+            GenTime transitionDuration(m_document->getFramePos(KdenliveSettings::transition_duration()), m_document->fps());
+            if (info.endPos < transitionDuration) {
+                info.startPos = GenTime();
+            } else {
+                info.startPos = info.endPos - transitionDuration;
+            }
+        }
         QDomElement transition = MainWindow::transitions.getEffectByTag(QStringLiteral("luma"), QStringLiteral("dissolve")).cloneNode().toElement();
         EffectsList::setParameter(transition, QStringLiteral("reverse"), QStringLiteral("1"));
 
@@ -2822,7 +2829,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition, Q
                 if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.startPos.frames(m_document->fps()), transitiontrack);
                 if (transitionClip && transitionClip->endPos() < item->endPos()) {
                     info.endPos = transitionClip->endPos();
-                } else info.endPos = info.startPos + GenTime(65, m_document->fps());
+                } else info.endPos = info.startPos + GenTime(m_document->getFramePos(KdenliveSettings::transition_duration()), m_document->fps());
                 // Check there is no other transition at that place
 		double startY = getPositionFromTrack(info.track) + 1 + m_tracksHeight / 2;
                 QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
@@ -2845,7 +2852,14 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition, Q
                 if (transitiontrack != 0) transitionClip = getClipItemAtMiddlePoint(info.endPos.frames(m_document->fps()), transitiontrack);
                 if (transitionClip && transitionClip->startPos() > item->startPos()) {
                     info.startPos = transitionClip->startPos();
-                } else info.startPos = info.endPos - GenTime(65, m_document->fps());
+                } else {
+                    GenTime duration(m_document->getFramePos(KdenliveSettings::transition_duration()), m_document->fps());
+                    if (info.endPos < duration) {
+                        info.startPos = GenTime();
+                    } else {
+                        info.startPos = info.endPos - duration;
+                    }
+                }
                 if (transition.attribute(QStringLiteral("tag")) == QLatin1String("luma")) EffectsList::setParameter(transition, QStringLiteral("reverse"), QStringLiteral("1"));
                 else if (transition.attribute(QStringLiteral("id")) == QLatin1String("slide")) EffectsList::setParameter(transition, QStringLiteral("invert"), QStringLiteral("1"));
 
@@ -2871,7 +2885,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition, Q
             ClipItem *item = static_cast<ClipItem*>(itemList.at(i));
             ItemInfo info;
             info.startPos = item->startPos();
-            info.endPos = info.startPos + GenTime(65, m_document->fps());
+            info.endPos = info.startPos + GenTime(m_document->getFramePos(KdenliveSettings::transition_duration()), m_document->fps());
             info.track = item->track();
 
             // Check there is no other transition at that place
