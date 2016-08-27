@@ -234,6 +234,11 @@
     <label>Use timeline zone as in/out editing points.</label>
       <default>false</default>
     </entry>
+      
+    <entry name="clipcornertype" type="Int">
+        <label>Timeline clip corners.</label>
+        <default>1</default>
+    </entry>
 
     </group>
 

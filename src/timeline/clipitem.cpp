@@ -584,7 +584,11 @@ void ClipItem::paint(QPainter *painter,
     QPainterPath p;
     p.addRect(mappedExposed);
     QPainterPath q;
-    q.addRoundedRect(mapped, 3, 3);
+    if (KdenliveSettings::clipcornertype() == 0) {
+        q.addRoundedRect(mapped, 3, 3);
+    } else {
+        q.addRect(mapped);
+    }
     painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform, false);
     painter->setClipPath(p.intersected(q));
     painter->setPen(Qt::NoPen);
@@ -915,8 +919,15 @@ void ClipItem::paint(QPainter *painter,
     painter->setClipping(false);
     painter->setRenderHint(QPainter::Antialiasing, true);
     framePen.setWidthF(1.5);
+    if (KdenliveSettings::clipcornertype() == 1) {
+        framePen.setJoinStyle(Qt::MiterJoin);
+    }
     painter->setPen(framePen);
-    painter->drawRoundedRect(mapped.adjusted(0.5, 0, -0.5, 0), 3, 3);
+    if (KdenliveSettings::clipcornertype() == 0) {
+        painter->drawRoundedRect(mapped.adjusted(0.5, 0, -0.5, 0), 3, 3);
+    } else {
+        painter->drawRect(mapped.adjusted(0.5, 0, -0.5, 0));
+    }
 }
 
 const QString &ClipItem::getBinId() const
