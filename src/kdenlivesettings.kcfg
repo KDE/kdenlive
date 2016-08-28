@@ -63,7 +63,7 @@
       <label>Automatically import image sequences.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="autoimagetransparency" type="Bool">
       <label>Automatically add transparency transition to added images.</label>
       <default>false</default>
@@ -238,6 +238,11 @@
     <entry name="useTimelineZoneToEdit" type="Bool">
     <label>Use timeline zone as in/out editing points.</label>
       <default>false</default>
+    </entry>
+
+    <entry name="clipcornertype" type="Int">
+        <label>Timeline clip corners.</label>
+        <default>1</default>
     </entry>
 
     </group>
