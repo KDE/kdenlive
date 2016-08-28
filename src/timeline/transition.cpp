@@ -185,7 +185,11 @@ void Transition::paint(QPainter *painter,
     p.addRect(exposed);
     
     QPainterPath q;
-    q.addRoundedRect(mapped, 3, 3);
+    if (KdenliveSettings::clipcornertype() == 0) {
+        q.addRoundedRect(mapped, 3, 3);
+    } else {
+        q.addRect(mapped);
+    }
     painter->setClipPath(p.intersected(q));
     painter->fillRect(exposed, brush());
     const QString text = m_name + (m_forceTransitionTrack ? QStringLiteral("|>") : QString());
@@ -209,10 +213,17 @@ void Transition::paint(QPainter *painter,
     painter->drawText(txtBounding, Qt::AlignCenter, text);
 
     // Draw frame
+    if (KdenliveSettings::clipcornertype() == 1) {
+        framePen.setJoinStyle(Qt::MiterJoin);
+    }
     painter->setPen(framePen);
     painter->setClipping(false);
     painter->setRenderHint(QPainter::Antialiasing, true);
-    painter->drawRoundedRect(mapped.adjusted(0, 0, -0.5, -0.5), 3, 3);
+    if (KdenliveSettings::clipcornertype() == 0) {
+        painter->drawRoundedRect(mapped.adjusted(0, 0, -0.5, -0.5), 3, 3);
+    } else {
+        painter->drawRect(mapped.adjusted(0, 0, -0.5, -0.5));
+    }
 }
 
 int Transition::type() const
