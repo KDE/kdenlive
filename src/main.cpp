@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
         QIcon::setThemeName("breeze");
     }
     // Create KAboutData
-    KAboutData aboutData(QByteArray("kdenlive"), 
+    KAboutData aboutData(QByteArray("kdenlive"),
                          i18n("Kdenlive"), KDENLIVE_VERSION,
                          i18n("An open source video editor."),
                          KAboutLicense::GPL,
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Nara Oliveira and Farid Abdelnour | Estúdio Gunga"), i18n("Kdenlive 16.08 icon"));
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
-
+    aboutData.setOtherText(i18n("Using MLT version %1", mlt_version_get_string()));
 
     // Register about data
     KAboutData::setApplicationData(aboutData);
