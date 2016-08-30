@@ -153,6 +153,8 @@ public:
     void activateSplit();
     /** @brief Clear monitor display **/
     void clearDisplay();
+    /** @brief Seeks timeline without refreshing if monitor is not active **/
+    void silentSeek(int pos);
 
 protected:
     void mousePressEvent(QMouseEvent * event);

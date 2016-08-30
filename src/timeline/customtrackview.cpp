@@ -7803,14 +7803,14 @@ void CustomTrackView::checkTrackSequence(int track)
     if (times != timelineList) KMessageBox::sorry(this, i18n("error"), i18n("TRACTOR"));
 }
 
-void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone)
+int CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone)
 {
     bool extractAudio = true;
     bool extractVideo = true;
     ProjectClip *clp = m_document->getBinClip(clipId);
     if (!clp) {
         emit displayMessage(i18n("Select a Bin Clip to perform operation"), ErrorMessage);
-        return;
+        return -1;
     }
     ClipType cType = clp->clipType();
     if (KdenliveSettings::splitaudio()) {
@@ -7822,9 +7822,9 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     else if (m_timeline->getTrackInfo(m_selectedTrack).isLocked) {
         // Cannot perform an Extract operation on a locked track
         emit displayMessage(i18n("Cannot perform operation on a locked track"), ErrorMessage);
-        return;
+        return -1;
     }
-    if (binZone.isNull()) return;
+    if (binZone.isNull()) return -1;
     QPoint timelineZone;
     if (KdenliveSettings::useTimelineZoneToEdit()) {
         timelineZone = m_document->zone();
@@ -7888,6 +7888,7 @@ void CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString
     updateTrackDuration(info.track, addCommand);
     m_commandStack->push(addCommand);
     selectClip(true, false, m_selectedTrack, timelineZone.x());
+    return info.endPos.frames(m_document->fps());
 }
 
 void CustomTrackView::clearSelection(bool emitInfo)

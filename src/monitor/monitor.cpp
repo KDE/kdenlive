@@ -980,6 +980,16 @@ void Monitor::slotSeek(int pos)
     m_ruler->update();
 }
 
+void Monitor::silentSeek(int pos)
+{
+    if (render == NULL) return;
+    if (m_ruler->slotNewValue(pos)) {
+        m_timePos->setValue(pos);
+        render->silentSeek(pos);
+        render->rendererPosition(pos);
+    }
+}
+
 void Monitor::checkOverlay(int pos)
 {
     if (m_qmlManager->sceneType() != MonitorSceneDefault) {

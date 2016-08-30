@@ -2371,7 +2371,9 @@ void MainWindow::slotInsertClipInsert()
 {
     if (pCore->projectManager()->currentTimeline()) {
         QPoint binZone = m_clipMonitor->getZoneInfo();
-        pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::InsertEdit, m_clipMonitor->activeClipId(), binZone);
+        int pos = pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::InsertEdit, m_clipMonitor->activeClipId(), binZone);
+        if (pos > 0)
+            m_projectMonitor->silentSeek(pos);
     }
 }
 

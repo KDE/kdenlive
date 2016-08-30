@@ -146,6 +146,16 @@ void Render::seek(const GenTime &time)
     seek(pos);
 }
 
+void Render::silentSeek(int time)
+{
+    if (m_isActive) {
+        seek(time);
+        return;
+    }
+    m_mltProducer->seek(time);
+    m_mltConsumer->set("refresh", 1);
+}
+
 void Render::seek(int time)
 {
     resetZoneMode();
@@ -827,7 +837,7 @@ void Render::seekToFrameDiff(int diff)
     if (!m_mltProducer || !m_isActive)
         return;
     if (requestedSeekPosition == SEEK_INACTIVE) {
-        seek(m_mltConsumer->position() + diff);
+        seek(seekFramePosition() + diff);
     }
     else {
         seek(requestedSeekPosition + diff);
@@ -904,6 +914,8 @@ GenTime Render::seekPosition() const
 
 int Render::seekFramePosition() const
 {
+    if (m_mltProducer && m_mltProducer->get_speed() == 0)
+        return (int) m_mltProducer->position();
     if (m_mltConsumer) return (int) m_mltConsumer->position();
     return 0;
 }

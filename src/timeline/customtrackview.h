@@ -369,7 +369,7 @@ public slots:
     void slotTrackUp();
     void slotTrackDown();
     void slotSelectTrack(int ix, bool switchTarget = false);
-    void insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone);
+    int insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone);
 
     /** @brief Rebuilds a group to fit again after children changed.
     * @param childTrack the track of one of the groups children
