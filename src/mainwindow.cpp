@@ -955,6 +955,12 @@ void MainWindow::setupActions()
     connect(sceneMode, SIGNAL(triggered(QAction*)), this, SLOT(slotChangeEdit(QAction*)));
     addAction(QStringLiteral("timeline_mode"), sceneMode);
 
+    KDualAction *ac = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
+    ac->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-on")));
+    ac->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-off")));
+    ac->setShortcut(Qt::Key_G);
+    addAction(QStringLiteral("use_timeline_zone_in_edit"), ac);
+
     m_compositeAction = new KSelectAction(KoIconUtils::themedIcon("composite-track-off"), i18n("Track compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
     QAction *noComposite = new QAction(KoIconUtils::themedIcon("composite-track-off"),

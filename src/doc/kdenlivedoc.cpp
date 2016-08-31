@@ -1545,7 +1545,8 @@ void KdenliveDoc::getFileProperties(const QDomElement &xml, const QString &clipI
 void KdenliveDoc::doAddAction(const QString &name, QAction *a, QKeySequence shortcut)
 {
     pCore->window()->actionCollection()->addAction(name, a);
-    pCore->window()->actionCollection()->setDefaultShortcut(a, shortcut);
+    a->setShortcut(shortcut);
+    pCore->window()->actionCollection()->setDefaultShortcut(a, a->shortcut());
 }
 
 QAction *KdenliveDoc::getAction(const QString &name)
