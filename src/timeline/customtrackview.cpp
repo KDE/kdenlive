@@ -1148,7 +1148,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
         // Start Ripple edit
-        if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier) {
+        if (event->modifiers() == Qt::ControlModifier) {
             // Rolling edit
             if (!m_toolManagers.value(TrimType)->mousePress(m_dragItemInfo)) {
                 event->ignore();
@@ -7721,7 +7721,22 @@ void CustomTrackView::slotSelectAllClips()
 {
     m_scene->clearSelection();
     resetSelectionGroup();
-    groupSelectedItems(m_scene->items(), false, true);
+    QList<QGraphicsItem *> selection = m_scene->items();
+    QList<QGraphicsItem *> list;
+    for (int i = 0; i < selection.count(); ++i) {
+        if (selection.at(i)->parentItem() == NULL && (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget)) {
+            AbstractClipItem *item = static_cast<AbstractClipItem *>(selection.at(i));
+            if (!item->isItemLocked()) {
+                list << item;
+            }
+        } else if (selection.at(i)->type() == GroupWidget) {
+            AbstractGroupItem *item = static_cast<AbstractGroupItem *>(selection.at(i));
+            if (!item->isItemLocked()) {
+                list << item;
+            }
+        }
+    }
+    groupSelectedItems(list, false, true);
 }
 
 void CustomTrackView::selectClip(bool add, bool group, int track, int pos)

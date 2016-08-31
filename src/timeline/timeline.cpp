@@ -130,15 +130,12 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     sizeLayout->addWidget(butLarge);
 
     QToolButton *enableZone = new QToolButton(this);
-    KDualAction *ac = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
-    ac->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-on")));
-    ac->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-off")));
+    KDualAction *ac = (KDualAction*) m_doc->getAction(QStringLiteral("use_timeline_zone_in_edit"));
     enableZone->setAutoRaise(true);
     ac->setActive(KdenliveSettings::useTimelineZoneToEdit());
     enableZone->setDefaultAction(ac);
     connect(ac, &KDualAction::activeChangedByUser, this, &Timeline::slotEnableZone);
     sizeLayout->addWidget(enableZone);
-    m_doc->doAddAction(QStringLiteral("use_timeline_zone_in_edit"), ac, Qt::Key_G);
 
     QHBoxLayout *tracksLayout = new QHBoxLayout;
     tracksLayout->setContentsMargins(0, 0, 0, 0);
@@ -168,7 +165,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
-    m_disablePreview = m_doc->getAction("disable_preview");
+    m_disablePreview = m_doc->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &Timeline::disablePreview);
     m_disablePreview->setEnabled(false);
     m_trackview->initTools();
