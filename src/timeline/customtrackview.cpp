@@ -1148,7 +1148,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
         // Start Ripple edit
-        if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier) {
+        if (event->modifiers() == Qt::ControlModifier) {
             // Rolling edit
             if (!m_toolManagers.value(TrimType)->mousePress(m_dragItemInfo)) {
                 event->ignore();
