@@ -291,7 +291,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
 
     QHeaderView *header = m_view.running_jobs->header();
     header->setSectionResizeMode(0, QHeaderView::Fixed);
-    header->resizeSection(0, 30);
+    header->resizeSection(0, size + 4);
     header->setSectionResizeMode(1, QHeaderView::Interactive);
 
     m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Script Files"));
@@ -299,7 +299,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.scripts_list->setItemDelegate(m_scriptsDelegate);
     header = m_view.scripts_list->header();
     header->setSectionResizeMode(0, QHeaderView::Fixed);
-    header->resizeSection(0, 30);
+    header->resizeSection(0, size + 4);
 
     // Find path for Kdenlive renderer
     m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render");
