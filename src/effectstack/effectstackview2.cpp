@@ -596,8 +596,7 @@ void EffectStackView2::slotUpdateEffectState(bool disable, int index, MonitorSce
             emit changeEffectState(NULL, m_trackindex, QList <int>() << index, disable);
             break;
         case MASTER_CLIP:
-            m_masterclipref->changeEffectState(QList <int>() << index, disable);
-            m_effectMetaInfo.monitor->refreshMonitorIfActive();
+            emit changeMasterEffectState(m_masterclipref->clipId(), QList <int>() <<index, disable);
             break;
         default:
             // timeline clip effect
@@ -698,7 +697,7 @@ void EffectStackView2::slotCheckAll(int state)
     else if (m_status == TIMELINE_CLIP)
         emit changeEffectState(m_clipref, -1, indexes, disabled);
     else if (m_status == MASTER_CLIP)
-        m_masterclipref->changeEffectState(indexes, disabled);
+        emit changeMasterEffectState(m_masterclipref->clipId(), indexes, disabled);
 }
 
 void EffectStackView2::slotUpdateCheckAllButton()
@@ -756,8 +755,7 @@ void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDom
         slotSetCurrentEffect(ix);
     }
     else if (m_status == MASTER_CLIP) {
-        m_masterclipref->updateEffect(m_effectMetaInfo.monitor->profileInfo(), e, ix);
-        m_effectMetaInfo.monitor->refreshMonitorIfActive();
+        emit updateMasterEffect(m_masterclipref->clipId(), old, e, ix);
     }
     QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
 }
@@ -918,9 +916,7 @@ void EffectStackView2::slotResetEffect(int ix)
             emit updateEffect(m_clipref, -1, old, dom, ix,true);
         } else if (m_status == MASTER_CLIP) {
             m_masterclipref->initEffect(m_effectMetaInfo.monitor->profileInfo(), dom);
-            m_masterclipref->updateEffect(m_effectMetaInfo.monitor->profileInfo(), dom, ix);
-            slotMasterClipItemSelected(m_masterclipref, m_effectMetaInfo.monitor);
-            m_effectMetaInfo.monitor->refreshMonitorIfActive();
+            emit updateMasterEffect(m_masterclipref->clipId(), old, dom, ix);
         }
     }
 

@@ -799,6 +799,14 @@ void ProjectClip::addEffect(const ProfileInfo &pInfo, QDomElement &effect)
     bin()->emitItemUpdated(this);
 }
 
+void ProjectClip::updateEffect(const ProfileInfo &pInfo, QDomElement &effect, int ix, bool refreshStack)
+{
+    m_controller->updateEffect(pInfo, effect, ix);
+    if (refreshStack)
+        bin()->updateMasterEffect(m_controller);
+    bin()->emitItemUpdated(this);
+}
+
 void ProjectClip::removeEffect(int ix)
 {
     m_controller->removeEffect(ix);

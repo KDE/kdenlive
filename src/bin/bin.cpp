@@ -2291,6 +2291,21 @@ void Bin::slotEffectDropped(QString id, QDomElement effect)
     m_doc->commandStack()->push(command);
 }
 
+void Bin::slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix)
+{
+    if (id.isEmpty()) id = m_monitor->activeClipId();
+    if (id.isEmpty()) return;
+    UpdateBinEffectCommand *command = new UpdateBinEffectCommand(this, id, oldEffect, newEffect, ix);
+    m_doc->commandStack()->push(command);
+}
+
+void Bin::slotChangeEffectState(QString id, QList<int> indexes, bool disable)
+{
+    if (id.isEmpty()) id = m_monitor->activeClipId();
+    if (id.isEmpty()) return;
+    ChangeMasterEffectStateCommand *command = new ChangeMasterEffectStateCommand(this, id, indexes, disable);
+    m_doc->commandStack()->push(command);
+}
 
 void Bin::slotEffectDropped(QString effect, const QModelIndex &parent)
 {
@@ -2373,6 +2388,26 @@ void Bin::addEffect(const QString &id, QDomElement &effect)
     m_monitor->refreshMonitorIfActive();
 }
 
+void Bin::updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget)
+{
+    ProjectClip *currentItem = m_rootFolder->clip(id);
+    if (!currentItem) return;
+    currentItem->updateEffect(m_monitor->profileInfo(), effect, ix, refreshStackWidget);
+    m_monitor->refreshMonitorIfActive();
+}
+
+void Bin::changeEffectState(const QString &id, const QList <int>& indexes, bool disable, bool refreshStack)
+{
+    ProjectClip *currentItem = m_rootFolder->clip(id);
+    if (!currentItem) return;
+    ClipController *ctl = currentItem->controller();
+    if (!ctl) return;
+    ctl->changeEffectState(indexes, disable);
+    if (refreshStack)
+            updateMasterEffect(ctl);
+    m_monitor->refreshMonitorIfActive();
+}
+    
 void Bin::editMasterEffect(ClipController *ctl)
 {
     if (m_gainedFocus) {

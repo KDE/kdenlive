@@ -488,6 +488,9 @@ public:
     void moveEffect(const QString &id, const QList <int> &oldPos, const QList <int> &newPos);
     /** @brief Add an effect to a bin clip. */
     void addEffect(const QString &id, QDomElement &effect);
+    /** @brief Update a bin clip effect. */
+    void updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget);
+    void changeEffectState(const QString &id, const QList <int>& indexes, bool disable, bool refreshStack);
     /** @brief Edit an effect settings to a bin clip. */
     void editMasterEffect(ClipController *ctl);
     /** @brief An effect setting was changed, update stack if displayed. */
@@ -555,6 +558,8 @@ private slots:
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
     void slotEffectDropped(QString effect, const QModelIndex &parent);
+    void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix);
+    void slotChangeEffectState(QString id, QList<int> indexes, bool disable);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
     void slotAddUrl(QString url, int folderId, QMap <QString, QString> data = QMap <QString, QString>());
     void slotAddUrl(QString url, QMap <QString, QString> data = QMap <QString, QString>());
