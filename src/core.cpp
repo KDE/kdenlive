@@ -62,7 +62,7 @@ void Core::initialize()
     m_binWidget = new Bin();
     m_binController = new BinController();
     m_library = new LibraryWidget(m_projectManager);
-    connect(m_library, &LibraryWidget::addProjectClips, m_binWidget, &Bin::droppedUrls);
+    connect(m_library, SIGNAL(addProjectClips(QList <QUrl>)), m_binWidget, SLOT(droppedUrls(QList <QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_binWidget, SIGNAL(storeFolder(QString,QString,QString,QString)), m_binController, SLOT(slotStoreFolder(QString,QString,QString,QString)));
     connect(m_binController, SIGNAL(loadFolders(QMap<QString,QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString,QString>)));

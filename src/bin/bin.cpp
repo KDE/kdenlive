@@ -703,6 +703,9 @@ const QStringList Bin::getFolderInfo(QModelIndex selectedIx)
         indexes = m_proxyModel->selectionModel()->selectedIndexes();
     }
     if (indexes.isEmpty()) {
+        // return root folder info
+        folderInfo << QString::number(-1);
+        folderInfo << QString();
         return folderInfo;
     }
     QModelIndex ix = indexes.first();
@@ -713,10 +716,16 @@ const QStringList Bin::getFolderInfo(QModelIndex selectedIx)
         }
         if (currentItem == m_rootFolder) {
             // clip was added to root folder, leave folder info empty
+            folderInfo << QString::number(-1);
+            folderInfo << QString();
         } else {
             folderInfo << currentItem->clipId();
             folderInfo << currentItem->name();
         }
+    } else {
+            // return root folder info
+            folderInfo << QString::number(-1);
+            folderInfo << QString();
     }
     return folderInfo;
 }
@@ -985,7 +994,7 @@ void Bin::setDocument(KdenliveDoc* project)
     setEnabled(true);
     blockSignals(false);
     m_proxyModel->selectionModel()->blockSignals(false);
-    connect(m_jobManager, SIGNAL(addClip(QString)), this, SLOT(slotAddUrl(QString)));
+    connect(m_jobManager, SIGNAL(addClip(QString, int)), this, SLOT(slotAddUrl(QString,int)));
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
     connect(m_jobManager, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
     connect(m_discardCurrentClipJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotDiscardClipJobs()));
@@ -1003,6 +1012,22 @@ void Bin::setDocument(KdenliveDoc* project)
     autoSelect();
 }
 
+void Bin::slotAddUrl(QString url, int folderId, QMap <QString, QString> data)
+{
+    QList <QUrl>urls;
+    urls << QUrl::fromLocalFile(url);
+    QStringList folderInfo;
+    if (folderId >= 0) {
+            QModelIndex ix = getIndexForId(QString::number(folderId), true);
+            if (ix.isValid()) {
+                    folderInfo = getFolderInfo(m_proxyModel->mapFromSource(ix));
+            } else {
+                    folderInfo = getFolderInfo();
+            }
+    }
+    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, data);
+}
+
 void Bin::slotAddUrl(QString url, QMap <QString, QString> data)
 {
     QList <QUrl>urls;
@@ -1010,6 +1035,7 @@ void Bin::slotAddUrl(QString url, QMap <QString, QString> data)
     QStringList folderInfo = getFolderInfo();
     ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, data);
 }
+
 
 void Bin::createClip(QDomElement xml)
 {
@@ -2391,9 +2417,15 @@ void Bin::doMoveFolder(const QString &id, const QString &newParentId)
     emit storeFolder(id, newParent->clipId(), currentParent->clipId(), currentItem->name());
 }
 
-void Bin::droppedUrls(QList <QUrl> urls)
+void Bin::droppedUrls(QList <QUrl> urls, const QStringList &folderInfo)
 {
-    QModelIndex current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
+    QModelIndex current;
+    if (folderInfo.isEmpty()) {
+        current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
+    } else {
+        // get index for folder
+        current = getIndexForId(folderInfo.first(), true);
+    }
     slotItemDropped(urls, current);
 }
 

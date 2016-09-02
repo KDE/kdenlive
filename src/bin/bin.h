@@ -454,7 +454,6 @@ public:
     void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu();
     void startClipJob(const QStringList &params);
-    void droppedUrls(QList <QUrl> urls);
 
     void addClipCut(const QString&id, int in, int out);
     void removeClipCut(const QString&id, int in, int out);
@@ -529,6 +528,8 @@ public:
     void rebuildProxies();
     /** @brief Return a list of all clips hashes used in this project */
     QStringList getProxyHashList();
+        /** @brief Get info (id, name) of a folder (or the currently selected one)  */
+    const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
 
 private slots:
     void slotAddClip();
@@ -555,6 +556,7 @@ private slots:
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
     void slotEffectDropped(QString effect, const QModelIndex &parent);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
+    void slotAddUrl(QString url, int folderId, QMap <QString, QString> data = QMap <QString, QString>());
     void slotAddUrl(QString url, QMap <QString, QString> data = QMap <QString, QString>());
     void slotPrepareJobsMenu();
     void slotShowJobLog();
@@ -647,6 +649,7 @@ public slots:
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
     void slotAddClipToProject(QUrl url);
     void doUpdateThumbsProgress(long ms);
+    void droppedUrls(QList <QUrl> urls, const QStringList &folderInfo = QStringList());
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -718,7 +721,6 @@ private:
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
     void showClipProperties(ProjectClip *clip, bool forceRefresh = false);
-    const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
     /** @brief Get a Clip item from its id. */

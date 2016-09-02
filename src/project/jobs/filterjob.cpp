@@ -204,7 +204,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
                 producerParams.insert(QStringLiteral("producer"), sources.at(i));
 
                 // Consumer
-                QString consumerName = consumerParams.value(QStringLiteral("consumer"));
+                QString consumerName = d->consumerParams().value(QStringLiteral("consumer"));
                 if (clips.count() == 1) {
                     // We only have one clip, destination points to the final url
                     consumerParams.insert(QStringLiteral("consumer"), consumerName + ':' + destination);
@@ -219,7 +219,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
                 // Append a 'filename' parameter for saving vidstab data
                 filterParams.insert(QStringLiteral("filename"), trffile.path());
                 MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
-                job->setAddClipToProject(d->autoAddClip());
+                job->setAddClipToProject(d->autoAddClip() ?  clip->parent()->clipId().toInt() : -100);
                 job->description = d->desc();
                 jobs.insert(clip, job);
             }

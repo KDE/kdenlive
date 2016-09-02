@@ -34,7 +34,7 @@ class ClipTranscode : public QDialog, public Ui::ClipTranscode_UI
     Q_OBJECT
 
 public:
-    ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode = false, QWidget * parent = 0);
+    ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description, const QStringList &folderInfo = QStringList(), bool automaticMode = false, QWidget * parent = 0);
     ~ClipTranscode();
 
 public slots:
@@ -49,6 +49,7 @@ private slots:
 private:
     QProcess m_transcodeProcess;
     QStringList m_urls;
+    QStringList m_folderInfo;
     int m_duration;
     bool m_automaticMode;
     /** @brief The path for destination transcoded file. */
@@ -57,7 +58,7 @@ private:
     KMessageWidget *m_infoMessage;
     
 signals:
-    void addClip(const QUrl &url);
+    void addClip(const QUrl &url, const QStringList &folderInfo = QStringList());
     void transcodedClip(const QUrl &source, const QUrl &result);
 };
 

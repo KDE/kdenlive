@@ -182,14 +182,25 @@ void JobManager::slotProcessJobs()
 
         // Make sure destination path is writable
         if (!destination.isEmpty()) {
-            QFile file(destination);
-            if (!file.open(QIODevice::WriteOnly)) {
+            QFileInfo file(destination);
+            bool writable = false;
+            if (file.exists()) {
+                if (file.isWritable())
+                    writable = true;
+            } else {
+                QDir dir = file.absoluteDir();
+                if (!dir.exists()) {
+                    writable = dir.mkpath(QStringLiteral("."));
+                } else {
+                    QFileInfo dinfo(dir.absolutePath());
+                    writable = dinfo.isWritable();
+                }
+            }
+            if (!writable) {
                 emit updateJobStatus(job->clipId(), job->jobType, JobCrashed, i18n("Cannot write to path: %1", destination));
                 job->setStatus(JobCrashed);
                 continue;
             }
-            file.close();
-            QFile::remove(destination);
         }
         connect(job, SIGNAL(jobProgress(QString,int,int)), this, SIGNAL(processLog(QString,int,int)));
         connect(job, SIGNAL(cancelRunningJob(QString,QMap<QString, QString>)), m_bin, SLOT(slotCancelRunningJob(QString,QMap<QString, QString>)));
@@ -204,8 +215,8 @@ void JobManager::slotProcessJobs()
             if (job->jobType == AbstractClipJob::PROXYJOB) {
                 m_bin->gotProxy(job->clipId(), destination);
             }
-            if (job->addClipToProject()) {
-                emit addClip(destination);
+            if (job->addClipToProject() > -100) {
+                emit addClip(destination, job->addClipToProject());
             }
         } else if (job->status() == JobCrashed || job->status() == JobAborted) {
             emit updateJobStatus(job->clipId(), job->jobType, job->status(), job->errorMessage(), QString(), job->logDetails());

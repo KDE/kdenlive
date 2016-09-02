@@ -270,10 +270,10 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     if (m_project->saveSceneList(outputFileName, scene) == false) {
         return false;
     }
-
+    QUrl url = QUrl::fromLocalFile(outputFileName);
     // Save timeline thumbnails
     m_trackView->projectView()->saveThumbnails();
-    m_project->setUrl(QUrl::fromLocalFile(outputFileName));
+    m_project->setUrl(url);
     // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/
     // saved under file name
     // actual saving by KdenliveDoc::slotAutoSave() called by a timer 3 seconds after the document has been edited
@@ -281,14 +281,16 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     if (m_project->m_autosave == NULL) {
         // The temporary file is not opened or created until actually needed.
         // The file filename does not have to exist for KAutoSaveFile to be constructed (if it exists, it will not be touched).
-        m_project->m_autosave = new KAutoSaveFile(QUrl::fromLocalFile(outputFileName), this);
+        m_project->m_autosave = new KAutoSaveFile(url, this);
     } else {
-        m_project->m_autosave->setManagedFile(QUrl::fromLocalFile(outputFileName));
+        m_project->m_autosave->setManagedFile(url);
     }
 
     pCore->window()->setWindowTitle(m_project->description());
     m_project->setModified(false);
-    m_recentFilesAction->addUrl(QUrl::fromLocalFile(outputFileName));
+    m_recentFilesAction->addUrl(url);
+    // remember folder for next project opening
+    KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), url.adjusted(QUrl::RemoveFilename).path());
     saveRecentFiles();
     m_fileRevert->setEnabled(true);
     pCore->window()->m_undoView->stack()->setClean();

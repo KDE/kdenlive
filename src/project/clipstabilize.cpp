@@ -156,10 +156,11 @@ QMap <QString, QString> ClipStabilize::consumerParams()
 
 QString ClipStabilize::destination() const
 {
-    if (m_urls.count() == 1)
-        return dest_url->url().path();
-    else
-        return dest_url->url().path() + QDir::separator();
+    QString path = dest_url->url().path();
+    if (m_urls.count() > 1 && !path.endsWith(QDir::separator())) {
+        path.append(QDir::separator());
+    }
+    return path;
 }
 
 QString ClipStabilize::desc() const

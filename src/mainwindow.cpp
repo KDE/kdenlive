@@ -2480,9 +2480,9 @@ void MainWindow::slotEditItemDuration()
         pCore->projectManager()->currentTimeline()->projectView()->editItemDuration();
 }
 
-void MainWindow::slotAddProjectClip(const QUrl &url)
+void MainWindow::slotAddProjectClip(const QUrl &url,const QStringList &folderInfo)
 {
-    pCore->bin()->droppedUrls(QList<QUrl>() << url);
+    pCore->bin()->droppedUrls(QList<QUrl>() << url, folderInfo);
 }
 
 void MainWindow::slotAddProjectClipList(const QList<QUrl> &urls)
@@ -3142,8 +3142,9 @@ void MainWindow::slotTranscode(const QStringList &urls)
         m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
         return;
     }
-    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc);
-    connect(d, SIGNAL(addClip(QUrl)), this, SLOT(slotAddProjectClip(QUrl)));
+    qDebug()<<"// TRANSODINF FOLDER: "<<pCore->bin()->getFolderInfo();
+    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getFolderInfo());
+    connect(d, SIGNAL(addClip(QUrl,const QStringList &)), this, SLOT(slotAddProjectClip(QUrl,const QStringList &)));
     d->show();
 }
 
