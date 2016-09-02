@@ -703,6 +703,9 @@ const QStringList Bin::getFolderInfo(QModelIndex selectedIx)
         indexes = m_proxyModel->selectionModel()->selectedIndexes();
     }
     if (indexes.isEmpty()) {
+        // return root folder info
+        folderInfo << QString::number(-1);
+        folderInfo << QString();
         return folderInfo;
     }
     QModelIndex ix = indexes.first();
@@ -719,6 +722,10 @@ const QStringList Bin::getFolderInfo(QModelIndex selectedIx)
             folderInfo << currentItem->clipId();
             folderInfo << currentItem->name();
         }
+    } else {
+            // return root folder info
+            folderInfo << QString::number(-1);
+            folderInfo << QString();
     }
     return folderInfo;
 }
