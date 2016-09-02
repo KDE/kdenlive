@@ -262,11 +262,14 @@ signals:
     void addMasterEffect(const QString &id, const QDomElement&);
     /**  Parameters for an effect changed, update the filter in timeline */
     void updateEffect(ClipItem*, int, const QDomElement&, const QDomElement &, int,bool);
+    /**  Parameters for an effect changed, update the filter in timeline */
+    void updateMasterEffect(QString, const QDomElement&, const QDomElement &, int);
     /** An effect in stack was moved, we need to regenerate
         all effects for this clip in the playlist */
     void refreshEffectStack(ClipItem *);
     /** Enable or disable an effect */
     void changeEffectState(ClipItem*, int, const QList <int>&, bool);
+    void changeMasterEffectState(QString id, const QList <int>&, bool);
     /** An effect in stack was moved */
     void changeEffectPosition(ClipItem*, int, const QList <int>&, int);
     /** An effect in stack was moved for a Bin clip */

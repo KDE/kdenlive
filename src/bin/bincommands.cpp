@@ -150,6 +150,55 @@ void RemoveBinEffectCommand::redo()
     m_bin->removeEffect(m_clipId, m_effect);
 }
 
+UpdateBinEffectCommand::UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect,  QDomElement &newEffect, int ix, QUndoCommand *parent) :
+        QUndoCommand(parent),
+        m_bin(bin),
+        m_clipId(clipId),
+        m_oldEffect(oldEffect),
+        m_newEffect(newEffect),
+        m_ix(ix),
+        m_refreshStack(false)
+{
+    setText(i18n("Edit Bin Effect"));
+}
+// virtual
+void UpdateBinEffectCommand::undo()
+{
+    m_bin->updateEffect(m_clipId, m_oldEffect, m_ix, m_refreshStack);
+}
+// virtual
+void UpdateBinEffectCommand::redo()
+{
+    m_bin->updateEffect(m_clipId, m_newEffect, m_ix, m_refreshStack);
+    m_refreshStack = true;
+}
+
+ChangeMasterEffectStateCommand::ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList <int>& effectIndexes, bool disable, QUndoCommand *parent) :
+        QUndoCommand(parent),
+        m_bin(bin),
+        m_clipId(clipId),
+        m_effectIndexes(effectIndexes),
+        m_disable(disable),
+        m_refreshEffectStack(false)
+{
+    if (disable)
+        setText(i18np("Disable effect", "Disable effects", effectIndexes.count()));
+    else
+        setText(i18np("Enable effect", "Enable effects", effectIndexes.count()));
+}
+
+// virtual
+void ChangeMasterEffectStateCommand::undo()
+{
+    m_bin->changeEffectState(m_clipId, m_effectIndexes, !m_disable, m_refreshEffectStack);
+}
+// virtual
+void ChangeMasterEffectStateCommand::redo()
+{
+   m_bin->changeEffectState(m_clipId, m_effectIndexes, m_disable, m_refreshEffectStack);
+   m_refreshEffectStack = true;
+}
+
 MoveBinEffectCommand::MoveBinEffectCommand(Bin *bin, const QString &clipId, QList <int> oldPos, int newPos, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_bin(bin),

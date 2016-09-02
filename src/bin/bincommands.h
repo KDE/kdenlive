@@ -106,6 +106,35 @@ private:
     QDomElement m_effect;
 };
 
+class UpdateBinEffectCommand : public QUndoCommand
+{
+public:
+    explicit UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect, QDomElement &newEffect, int ix, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QString m_clipId;
+    QDomElement m_oldEffect;
+    QDomElement m_newEffect;
+    int m_ix;
+    bool m_refreshStack;
+};
+
+class ChangeMasterEffectStateCommand : public QUndoCommand
+{
+public:
+    ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList <int>& effectIndexes, bool disable, QUndoCommand *parent = 0);
+    void undo();
+    void redo();
+private:
+    Bin *m_bin;
+    QString m_clipId;
+    QList <int> m_effectIndexes;
+    bool m_disable;
+    bool m_refreshEffectStack;
+};
+
 class MoveBinEffectCommand : public QUndoCommand
 {
 public:
