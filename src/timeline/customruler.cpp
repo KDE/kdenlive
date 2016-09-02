@@ -604,6 +604,11 @@ const QPair <QStringList, QStringList> CustomRuler::previewChunks() const
     return resultChunks;
 }
 
+const QList <int> CustomRuler::getProcessedChunks() const
+{
+    return m_renderingPreviews;
+}
+
 const QList <int> CustomRuler::getDirtyChunks() const
 {
     return m_dirtyRenderingPreviews;
@@ -612,6 +617,13 @@ const QList <int> CustomRuler::getDirtyChunks() const
 bool CustomRuler::hasPreviewRange() const
 {
     return (!m_dirtyRenderingPreviews.isEmpty() || !m_renderingPreviews.isEmpty());
+}
+
+void CustomRuler::clearChunks()
+{
+    m_renderingPreviews.clear();
+    m_dirtyRenderingPreviews.clear();
+    update();
 }
 
 QList <int> CustomRuler::addChunks(QList <int> chunks, bool add)

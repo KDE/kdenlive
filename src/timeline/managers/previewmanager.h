@@ -60,6 +60,8 @@ public:
     void invalidatePreviews(QList <int> chunks);
     /** @brief: user adds current timeline zone to the preview zone. */
     void addPreviewRange(bool add);
+    /** @brief: Remove all existing previews. */
+    void clearPreviewRange();
     /** @brief: stops current rendering process. */
     void abortRendering();
     /** @brief: rendering parameters have changed, reload them. */

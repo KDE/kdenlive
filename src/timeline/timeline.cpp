@@ -1974,6 +1974,12 @@ void Timeline::addPreviewRange(bool add)
         m_timelinePreview->addPreviewRange(add);
 }
 
+void Timeline::clearPreviewRange()
+{
+    if (m_timelinePreview)
+        m_timelinePreview->clearPreviewRange();
+}
+
 void Timeline::storeHeaderSize(int , int )
 {
     KdenliveSettings::setTimelineheaderwidth(splitter->saveState().toBase64());

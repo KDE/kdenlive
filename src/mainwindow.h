@@ -332,6 +332,7 @@ private slots:
     void slotStopPreviewRender();
     void slotDefinePreviewRender();
     void slotRemovePreviewRender();
+    void slotClearPreviewRender();
     void slotSelectTimelineClip();
     void slotSelectTimelineTransition();
     void slotDeselectTimelineClip();

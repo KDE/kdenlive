@@ -178,6 +178,8 @@ public:
     void reloadTrack(ItemInfo info, bool includeLastFrame);
     /** @brief Add or remove current timeline zone to preview render zone. */
     void addPreviewRange(bool add);
+    /** @brief Resets all preview render zones. */
+    void clearPreviewRange();
     /** @brief Check if timeline preview profile changed and remove preview files if necessary. */
     void updatePreviewSettings(const QString &profile);
     /** @brief invalidate timeline preview for visible clips in a track */

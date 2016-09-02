@@ -306,6 +306,29 @@ void PreviewManager::doCleanupOldPreviews()
     }
 }
 
+void PreviewManager::clearPreviewRange()
+{
+        m_previewGatherTimer.stop();
+        abortPreview();
+        QList <int> toProcess = m_ruler->getProcessedChunks();
+        m_tractor->lock();
+        bool hasPreview = m_previewTrack != NULL;
+        foreach(int ix, toProcess) {
+            m_cacheDir.remove(QString("%1.%2").arg(ix).arg(m_extension));
+            if (!hasPreview)
+                continue;
+            int trackIx = m_previewTrack->get_clip_index_at(ix);
+            if (!m_previewTrack->is_blank(trackIx)) {
+                Mlt::Producer *prod = m_previewTrack->replace_with_blank(trackIx);
+                delete prod;
+            }
+        }
+        if (hasPreview)
+            m_previewTrack->consolidate_blanks();
+        m_tractor->unlock();
+        m_ruler->clearChunks();
+}
+
 void PreviewManager::addPreviewRange(bool add)
 {
     QPoint p = m_doc->zone();

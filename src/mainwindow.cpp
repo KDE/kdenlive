@@ -567,7 +567,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     tlMenu->addAction(stopPrevRender);
     tlMenu->addAction(actionCollection()->action(QStringLiteral("set_render_timeline_zone")));
     tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
-    tlMenu->addAction(actionCollection()->action(QStringLiteral("unset_render_timeline_zone")));
+    tlMenu->addAction(actionCollection()->action(QStringLiteral("clear_render_timeline_zone")));
 
     // Automatic timeline preview action
     QAction *autoRender = new QAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Automatic Preview"), this);
@@ -1308,6 +1308,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), KoIconUtils::themedIcon(QStringLiteral("timeline-lift")), Qt::Key_Z);
     addAction(QStringLiteral("set_render_timeline_zone"), i18n("Add Preview Zone"), this, SLOT(slotDefinePreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-add-zone")));
     addAction(QStringLiteral("unset_render_timeline_zone"), i18n("Unset Preview Zone"), this, SLOT(slotRemovePreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-remove-zone")));
+    addAction(QStringLiteral("clear_render_timeline_zone"), i18n("Clear Preview Zones"), this, SLOT(slotClearPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-remove-zone")));
     addAction(QStringLiteral("prerender_timeline_zone"), i18n("Start Preview Render"), this, SLOT(slotPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-render-on")), QKeySequence(Qt::SHIFT + Qt::Key_Return));
     addAction(QStringLiteral("stop_prerender_timeline"), i18n("Stop Preview Render"), this, SLOT(slotStopPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-render-off")));
 
@@ -2423,6 +2424,13 @@ void MainWindow::slotRemovePreviewRender()
 {
     if (pCore->projectManager()->current()) {
         pCore->projectManager()->currentTimeline()->addPreviewRange(false);
+    }
+}
+
+void MainWindow::slotClearPreviewRender()
+{
+    if (pCore->projectManager()->current()) {
+        pCore->projectManager()->currentTimeline()->clearPreviewRange();
     }
 }
 

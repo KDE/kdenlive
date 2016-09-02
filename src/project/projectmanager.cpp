@@ -533,6 +533,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     QList <QAction*> rulerActions;
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
+    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("clear_render_timeline_zone"));
     bool ok;
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), rulerActions, &ok, pCore->window());
     connect(m_trackView, &Timeline::startLoadingBin, m_progressDialog, &QProgressDialog::setMaximum, Qt::DirectConnection);

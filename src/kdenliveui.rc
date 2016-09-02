@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="145" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="146" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -108,6 +108,7 @@
         <Action name="stop_prerender_timeline" />
         <Action name="set_render_timeline_zone" />
         <Action name="unset_render_timeline_zone" />
+        <Action name="clear_render_timeline_zone"/>
       </Menu>
       <Action name="resize_timeline_clip_start" />
       <Action name="resize_timeline_clip_end" />
