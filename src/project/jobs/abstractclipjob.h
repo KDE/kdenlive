@@ -65,15 +65,15 @@ public:
     virtual const QString statusMessage();
     /** @brief Returns true if only one instance of this job can be run on a clip. */
     virtual bool isExclusive();
-    bool addClipToProject() const;
-    void setAddClipToProject(bool add);
+    int addClipToProject() const;
+    void setAddClipToProject(int add);
     
 protected:
     ClipJobStatus m_jobStatus;
     QString m_clipId;
     QString m_errorMessage;
     QString m_logDetails;
-    bool m_addClipToProject;
+    int m_addClipToProject;
     QProcess *m_jobProcess;
     
 signals:

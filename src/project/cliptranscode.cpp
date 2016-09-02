@@ -28,8 +28,8 @@
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
-ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description, bool automaticMode, QWidget * parent) :
-    QDialog(parent), m_urls(urls), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
+ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description, const QStringList &folderInfo, bool automaticMode, QWidget * parent) :
+    QDialog(parent), m_urls(urls), m_folderInfo(folderInfo), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -227,7 +227,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
                 url = QUrl::fromLocalFile(dest_url->url().path() + QDir::separator() + source_url->url().fileName() + extension);
             } else url = dest_url->url();
             if (m_automaticMode) emit transcodedClip(source_url->url(), url);
-            else emit addClip(url);
+            else emit addClip(url, m_folderInfo);
         }
         if (urls_list->count() > 0 && m_urls.count() > 0) {
             m_transcodeProcess.close();

@@ -219,7 +219,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
                 // Append a 'filename' parameter for saving vidstab data
                 filterParams.insert(QStringLiteral("filename"), trffile.path());
                 MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
-                job->setAddClipToProject(d->autoAddClip());
+                job->setAddClipToProject(d->autoAddClip() ?  clip->parent()->clipId().toInt() : -100);
                 job->description = d->desc();
                 jobs.insert(clip, job);
             }

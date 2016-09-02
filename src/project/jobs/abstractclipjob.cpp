@@ -42,12 +42,12 @@ AbstractClipJob::~AbstractClipJob()
 }
 
 
-bool AbstractClipJob::addClipToProject() const
+int AbstractClipJob::addClipToProject() const
 {
     return m_addClipToProject;
 }
 
-void AbstractClipJob::setAddClipToProject(bool add)
+void AbstractClipJob::setAddClipToProject(int add)
 {
     m_addClipToProject = add;
 }

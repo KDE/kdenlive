@@ -334,7 +334,7 @@ private slots:
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
-    void slotAddProjectClip(const QUrl &url);
+    void slotAddProjectClip(const QUrl &url,const QStringList &folderInfo);
     void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *transition);
