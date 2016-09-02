@@ -7072,6 +7072,7 @@ void CustomTrackView::splitAudio(bool warn, ItemInfo info, int destTrack, QUndoC
     if (!info.isValid()) {
         // Operate on current selection
         selection = scene()->selectedItems();
+        destTrack = m_timeline->audioTarget;
         if (selection.isEmpty()) {
             emit displayMessage(i18n("You must select at least one clip for this action"), ErrorMessage);
             if (!hasMasterCommand)
