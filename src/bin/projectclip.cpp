@@ -1154,6 +1154,11 @@ void ProjectClip::slotCreateAudioThumbs()
         } else {
             bin()->emitMessage(i18n("Failed to create FFmpeg audio thumbnails, using MLT"), 100, ErrorMessage);
         }
+        // Cleanup temporary ffmpeg audio thumb file
+        while (!channelFiles.isEmpty()) {
+            QTemporaryFile *tmp = channelFiles.takeFirst();
+            tmp->remove();
+        }
     }
     if (!jobFinished && !m_abortAudioThumb) {
         // MLT audio thumbs: slower but safer
