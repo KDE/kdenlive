@@ -1047,7 +1047,8 @@ void GLWidget::resetProfile(MltVideoProfile profile)
         m_consumer->stop();
         m_consumer->purge();
     }
-    m_monitorProfile->get_profile()->description = qstrdup(profile.description.toUtf8().constData());
+    const QByteArray desc = profile.description.toUtf8();
+    m_monitorProfile->get_profile()->description = qstrdup(desc.constData());
     m_monitorProfile->set_colorspace(profile.colorspace);
     m_monitorProfile->set_frame_rate(profile.frame_rate_num, profile.frame_rate_den);
     m_monitorProfile->set_height(profile.height);
@@ -1062,7 +1063,7 @@ void GLWidget::resetProfile(MltVideoProfile profile)
 
 void GLWidget::reloadProfile(Mlt::Profile &profile)
 {
-    m_monitorProfile->get_profile()->description = qstrdup(profile.description());
+    m_monitorProfile->get_profile()->description = strdup(profile.description());
     m_monitorProfile->set_colorspace(profile.colorspace());
     m_monitorProfile->set_frame_rate(profile.frame_rate_num(), profile.frame_rate_den());
     m_monitorProfile->set_height(profile.height());
