@@ -64,6 +64,12 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
     //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
+    QSize iconSize = buttonUp->iconSize();
+    buttonUp->setMaximumSize(iconSize);
+    buttonDown->setMaximumSize(iconSize);
+    menuButton->setMaximumSize(iconSize);
+    enabledButton->setMaximumSize(iconSize);
+    buttonDel->setMaximumSize(iconSize);
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-down")));
     buttonDown->setToolTip(i18n("Move effect down"));
@@ -94,6 +100,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
     m_colorIcon = new QLabel(this);
     l->insertWidget(0, m_colorIcon);
+    m_colorIcon->setMinimumSize(iconSize);
     title = new QLabel(this);
     l->insertWidget(2, title);
 
@@ -115,7 +122,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     if (m_regionEffect) effectname.append(':' + QUrl(EffectsList::parameter(m_effect, QStringLiteral("resource"))).fileName());
 
     // Create color thumb
-    QPixmap pix(menuButton->height(), menuButton->height());
+    QPixmap pix(iconSize);
     QColor col(m_effect.attribute(QStringLiteral("effectcolor")));
     QFont ft = font();
     ft.setBold(true);

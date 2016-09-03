@@ -38,7 +38,7 @@ public:
     Clip(Clip& other);
     ~Clip();
     Clip& operator=(Clip& other);
-    QByteArray xml();
+    const QByteArray xml();
     /** @brief: Clone a producer (creates a completely independant copy). */
     Mlt::Producer *clone();
     /** @brief: Clone a producer without using xml-string producer. 

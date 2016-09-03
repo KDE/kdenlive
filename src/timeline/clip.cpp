@@ -157,7 +157,7 @@ void Clip::disableEffects(bool disable)
     }
 }
 
-QByteArray Clip::xml()
+const QByteArray Clip::xml()
 {
     Mlt::Consumer c(*m_producer.profile(), "xml", "string");
     Mlt::Service s(m_producer.get_service());
