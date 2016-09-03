@@ -131,6 +131,7 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent) : QWidget(parent)
         m_freqLabels << BAND_TAB[i].label;
     }
     m_maxDb = 0;
+    setMinimumWidth(2 * m_freqLabels.size() + fontMetrics().width(QStringLiteral("888")) + 2);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMinimumHeight(100);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -212,18 +213,20 @@ void AudioGraphWidget::resizeEvent ( QResizeEvent * event )
 
 void AudioGraphWidget::drawBackground()
 {
-    QSize size(width(), height());
-    if (!size.isValid()) return;
-    m_pixmap = QPixmap(size);
+    QSize s = size();
+    if (!s.isValid()) return;
+    m_pixmap = QPixmap(s);
     if (m_pixmap.isNull()) return;
     m_pixmap.fill(palette().base().color());
     QPainter p(&m_pixmap);
     QRect rect(0, 0, width() - 3, height());
     p.setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     p.setOpacity(0.6);
-    drawDbLabels(p, rect);
     int offset = fontMetrics().width(QStringLiteral("888")) + 2;
-    rect.adjust(offset, 0, 0, 0);
+    if (rect.width() - offset > 10) {
+        drawDbLabels(p, rect);
+        rect.adjust(offset, 0, 0, 0);
+    }
     int barWidth = (rect.width() - (2 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
     drawChanLabels(p, rect, barWidth);
     rect.adjust(0, 0, 0, -fontMetrics().height());
@@ -238,12 +241,16 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
     if (m_levels.isEmpty()) return;
     int chanCount = m_levels.size();
     int height = m_rect.height();
-    int barWidth = (m_rect.width() - (2 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
+    double barWidth = (m_rect.width() - (2.0 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
     p.setOpacity(0.6);
+    QRectF rect(m_rect.left(), 0, barWidth, height);
     for (int i = 0; i < chanCount; i++) {
         double level = (0.5 + m_levels.at(i)) / 1.5 * height;
         if (level < 0) continue;
-        p.fillRect(m_rect.left() + i * barWidth + (2 * i), height - level, barWidth, level, Qt::darkGreen);
+        rect.moveLeft(m_rect.left() + i * barWidth + (2 * i));
+        rect.setHeight(level);
+        rect.moveBottom(height);
+        p.fillRect(rect, Qt::darkGreen);
     }
 }
 
