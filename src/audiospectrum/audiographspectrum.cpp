@@ -220,7 +220,8 @@ void AudioGraphWidget::drawBackground()
     int offset = fontMetrics().width(QStringLiteral("888")) + 2;
     rect.adjust(offset, 0, 0, 0);
     int barWidth = (rect.width() - (2 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
-    drawChanLabels(p, rect, barWidth);
+    if (barWidth > 0)
+        drawChanLabels(p, rect, barWidth);
     rect.adjust(0, 0, 0, -fontMetrics().height());
     m_rect = rect;
 }
