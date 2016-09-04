@@ -121,14 +121,19 @@ GLWidget::~GLWidget()
     delete m_threadCreateEvent;
     delete m_threadJoinEvent;
     delete m_displayEvent;
-    if (m_frameRenderer && m_frameRenderer->isRunning()) {
-        QMetaObject::invokeMethod(m_frameRenderer, "cleanup");
-        m_frameRenderer->quit();
-        m_frameRenderer->wait();
-        m_frameRenderer->deleteLater();
+    if (m_frameRenderer) {
+        if (m_frameRenderer->isRunning()) {
+            QMetaObject::invokeMethod(m_frameRenderer, "cleanup");
+            m_frameRenderer->quit();
+            m_frameRenderer->wait();
+            m_frameRenderer->deleteLater();
+        } else {
+            delete m_frameRenderer;
+        }
     }
     delete m_shareContext;
     delete m_shader;
+    delete m_monitorProfile;
 }
 
 void GLWidget::updateAudioForAnalysis()
@@ -1048,7 +1053,7 @@ void GLWidget::resetProfile(MltVideoProfile profile)
         m_consumer->purge();
     }
     const QByteArray desc = profile.description.toUtf8();
-    m_monitorProfile->get_profile()->description = qstrdup(desc.constData());
+    m_monitorProfile->get_profile()->description = strdup(desc.constData());
     m_monitorProfile->set_colorspace(profile.colorspace);
     m_monitorProfile->set_frame_rate(profile.frame_rate_num, profile.frame_rate_den);
     m_monitorProfile->set_height(profile.height);

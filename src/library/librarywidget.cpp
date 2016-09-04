@@ -156,7 +156,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     m_libraryTree->setColumnCount(1);
     m_libraryTree->setHeaderHidden(true);
     m_libraryTree->setDragEnabled(true);
-    m_libraryTree->setItemDelegate(new LibraryItemDelegate);
+    m_libraryTree->setItemDelegate(new LibraryItemDelegate(this));
     m_libraryTree->setAlternatingRowColors(true);
     lay->addWidget(m_libraryTree);
 

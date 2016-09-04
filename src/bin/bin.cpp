@@ -2038,7 +2038,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_addButton->setDefaultAction(defaultAction);
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(folder, m_addButton);
-    m_menu = new QMenu();
+    m_menu = new QMenu(this);
     m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), "clip_properties", m_propertiesPanel);
     m_propertiesDock->close();
     //m_menu->addActions(addMenu->actions());
