@@ -142,12 +142,6 @@ void GLWidget::updateAudioForAnalysis()
 	m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 }
 
-void GLWidget::showEvent(QShowEvent * event)
-{
-    QQuickView::showEvent(event);
-    //initializeGL();
-}
-
 void GLWidget::initializeGL()
 {
     if (m_isInitialized || !isVisible() || !openglContext()) return;
@@ -331,7 +325,7 @@ void GLWidget::createShader()
     m_texCoordLocation = m_shader->attributeLocation("texCoord");
 }
 
-static void uploadTextures(QOpenGLContext* context, SharedFrame& frame, GLuint texture[])
+static void uploadTextures(QOpenGLContext* context, const SharedFrame& frame, GLuint texture[])
 {
     int width = frame.get_image_width();
     int height = frame.get_image_height();
@@ -1052,8 +1046,8 @@ void GLWidget::resetProfile(MltVideoProfile profile)
         m_consumer->stop();
         m_consumer->purge();
     }
-    const QByteArray desc = profile.description.toUtf8();
-    m_monitorProfile->get_profile()->description = strdup(desc.constData());
+    free(m_monitorProfile->get_profile()->description );
+    m_monitorProfile->get_profile()->description = strdup(profile.description.toUtf8().data());
     m_monitorProfile->set_colorspace(profile.colorspace);
     m_monitorProfile->set_frame_rate(profile.frame_rate_num, profile.frame_rate_den);
     m_monitorProfile->set_height(profile.height);

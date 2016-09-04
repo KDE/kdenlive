@@ -30,7 +30,7 @@ private:
 };
 
 SharedFrame::SharedFrame()
-  : d(new FrameData)
+  : d(0)
 {
 }
 
@@ -56,7 +56,7 @@ SharedFrame& SharedFrame::operator=(const SharedFrame& other)
 
 bool SharedFrame::is_valid() const
 {
-    return d->f.is_valid();
+    return d && d->f.is_valid();
 }
 
 Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
