@@ -170,11 +170,12 @@ const QByteArray Clip::xml()
     c.set("store", "kdenlive");
     c.start();
     if (ignore) s.set("ignore_points", ignore);
-    return c.get("string");
+    return qstrdup(c.get("string"));
 }
 
 Mlt::Producer *Clip::clone() {
-    return new Mlt::Producer(*m_producer.profile(), "xml-string", xml().constData());
+    Mlt::Producer *prod = new Mlt::Producer(*m_producer.profile(), "xml-string", xml().constData());
+    return prod;
 }
 
 Mlt::Producer *Clip::softClone(const char*list) {
