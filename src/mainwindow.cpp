@@ -231,7 +231,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
         KdenliveSettings::setCurrent_profile("atsc_1080p_25");
         KdenliveSettings::setDefault_profile("atsc_1080p_25");
     }
-    m_commandStack = new QUndoGroup;
+    m_commandStack = new QUndoGroup(this);
     m_timelineArea = new QTabWidget(this);
     //m_timelineArea->setTabReorderingEnabled(true);
     m_timelineArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -1447,7 +1447,7 @@ void MainWindow::setupActions()
     redo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
 
-    QMenu *addClips = new QMenu();
+    QMenu *addClips = new QMenu(this);
 
     QAction *addClip = addAction(QStringLiteral("add_clip"), i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()), KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-clip")));
     addClips->addAction(addClip);

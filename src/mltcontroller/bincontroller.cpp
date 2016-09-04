@@ -42,6 +42,7 @@ BinController::BinController(QString profileName) :
 
 BinController::~BinController()
 {
+    destroyBin();
 }
 
 Mlt::Repository *BinController::mltRepository()
