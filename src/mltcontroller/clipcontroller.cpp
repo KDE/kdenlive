@@ -89,6 +89,7 @@ ClipController::~ClipController()
 {
   delete m_properties;
   delete m_masterProducer;
+  delete m_audioInfo;
 }
 
 double ClipController::dar() const

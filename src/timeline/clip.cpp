@@ -170,7 +170,7 @@ const QByteArray Clip::xml()
     c.set("store", "kdenlive");
     c.start();
     if (ignore) s.set("ignore_points", ignore);
-    return qstrdup(c.get("string"));
+    return c.get("string");
 }
 
 Mlt::Producer *Clip::clone() {

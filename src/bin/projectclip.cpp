@@ -1089,6 +1089,10 @@ void ProjectClip::slotCreateAudioThumbs()
         }
         audioThumbsProcess.waitForFinished(-1);
         if (m_abortAudioThumb) {
+            // Cleanup temporary ffmpeg audio thumb file
+            while (!channelFiles.isEmpty()) {
+                    delete channelFiles.takeFirst();
+            }            
             emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
             m_abortAudioThumb = false;
             return;
@@ -1156,8 +1160,7 @@ void ProjectClip::slotCreateAudioThumbs()
         }
         // Cleanup temporary ffmpeg audio thumb file
         while (!channelFiles.isEmpty()) {
-            QTemporaryFile *tmp = channelFiles.takeFirst();
-            tmp->remove();
+            delete channelFiles.takeFirst();
         }
     }
     if (!jobFinished && !m_abortAudioThumb) {
