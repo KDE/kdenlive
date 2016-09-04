@@ -5226,10 +5226,6 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
             item->setEnabled(true);
             ItemInfo info = item->info();
-            if (!alreadyMoved) {
-                item->updateItem(info.track + trackOffset);
-                info = item->info();
-            }
             bool isLocked = m_timeline->getTrackInfo(info.track).isLocked;
             if (isLocked)
                 item->setItemLocked(true);
