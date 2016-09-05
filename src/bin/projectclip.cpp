@@ -844,7 +844,8 @@ void ProjectClip::doExtractIntra()
 {
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
-    int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
+    int fullWidth = 150 * prod->profile()->dar() + 0.5;
+    double dar = prod->profile()->dar();
     int max = prod->get_length();
     int pos;
     while (!m_intraThumbs.isEmpty()) {
@@ -888,7 +889,7 @@ void ProjectClip::doExtractImage()
 {
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
-    int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
+    int frameWidth = 150 * prod->profile()->dar() + 0.5;
     bool ok = false;
     QDir thumbFolder = bin()->getCacheDir(CacheThumbs, &ok);
     int max = prod->get_length();
@@ -910,7 +911,7 @@ void ProjectClip::doExtractImage()
 	prod->seek(pos);
 	Mlt::Frame *frame = prod->get_frame();
 	if (frame && frame->is_valid()) {
-            img = KThumb::getFrame(frame, fullWidth, 150);
+            img = KThumb::getFrame(frame, frameWidth, 150);
             bin()->cachePixmap(path, img);
             emit thumbReady(pos, img);
         }
@@ -922,7 +923,7 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
 {
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
-    int fullWidth = (int)((double) 150 * prod->profile()->dar() + 0.5);
+    int fullWidth = 150 * prod->profile()->dar() + 0.5;
     bool ok = false;
     QDir thumbFolder = bin()->getCacheDir(CacheThumbs, &ok);
     int max = prod->get_length();
@@ -1038,6 +1039,7 @@ void ProjectClip::slotCreateAudioThumbs()
         for (int i = 0; i < channels; i++) {
             QTemporaryFile *channelTmpfile = new QTemporaryFile;
             if (!channelTmpfile->open()) {
+                delete channelTmpfile;
                 bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), 100, ErrorMessage);
                 return;
             }
@@ -1112,6 +1114,10 @@ void ProjectClip::slotCreateAudioThumbs()
                 }
                 if (res.isEmpty() || res.size() != dataSize) {
                     // Something went wrong, abort
+                   // Cleanup temporary ffmpeg audio thumb file
+                    while (!channelFiles.isEmpty()) {
+                        delete channelFiles.takeFirst();
+                    }      
                     emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
                     bin()->emitMessage(i18n("Error reading audio thumbnail"), 100, ErrorMessage);
                     return;

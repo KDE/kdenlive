@@ -135,7 +135,6 @@ void ProducerQueue::processFileProperties()
     requestClipInfo info;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
@@ -161,7 +160,7 @@ void ProducerQueue::processFileProperties()
             if (frameNumber > 0) prod->seek(frameNumber);
             Mlt::Frame *frame = prod->get_frame();
             if (frame && frame->is_valid()) {
-                int fullWidth = (int)((double) info.imageHeight * m_binController->profile()->dar() + 0.5);
+                int fullWidth = info.imageHeight * m_binController->profile()->dar() + 0.5;
                 QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
                 emit replyGetImage(info.clipId, img);
             }
@@ -442,7 +441,7 @@ void ProducerQueue::processFileProperties()
         if (info.xml.hasAttribute(QStringLiteral("templatetext")))
             producer->set("templatetext", info.xml.attribute(QStringLiteral("templatetext")).toUtf8().constData());
 
-        int fullWidth = (int)((double) info.imageHeight * m_binController->profile()->dar() + 0.5);
+        int fullWidth = info.imageHeight * m_binController->profile()->dar() + 0.5;
         int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
 
         if ((!info.replaceProducer && !EffectsList::property(info.xml, QStringLiteral("kdenlive:file_hash")).isEmpty()) || proxyProducer) {

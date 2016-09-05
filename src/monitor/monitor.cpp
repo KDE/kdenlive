@@ -937,6 +937,7 @@ void Monitor::slotExtractCurrentFrame(QString path)
     QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), framesFolder);
     fs->setMimeTypeFilters(QStringList() << QStringLiteral("image/png"));
     fs->setAcceptMode(QFileDialog::AcceptSave);
+    fs->setDefaultSuffix(QStringLiteral("png"));
     fs->selectFile(path);
     if (fs->exec()) {
         if (!fs->selectedFiles().isEmpty()) {
