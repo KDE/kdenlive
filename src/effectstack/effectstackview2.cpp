@@ -374,9 +374,9 @@ void EffectStackView2::setupListView()
             selectedCollapsibleEffect = currentEffect;
             // show monitor scene if necessary
             m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
-            int position = (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos() : GenTime())).frames(KdenliveSettings::project_fps());
-            currentEffect->slotSyncEffectsPos(position);
         }
+        int position = (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos() : GenTime())).frames(KdenliveSettings::project_fps());
+        currentEffect->slotSyncEffectsPos(position);
         currentEffect->setActive(isSelected);
         m_effects.append(currentEffect);
         if (group) {
@@ -1281,7 +1281,8 @@ void EffectStackView2::disableTimelineEffects(bool disable)
             m_stateStatus = DISABLEBIN;
         }
     }
-    if (m_status == TIMELINE_CLIP) m_effect->setEnabled(!disable);
+    if (m_status == TIMELINE_CLIP || m_status == TIMELINE_TRACK)
+        m_effect->setEnabled(!disable);
 }
 
 

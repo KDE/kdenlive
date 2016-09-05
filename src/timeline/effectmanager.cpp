@@ -369,19 +369,15 @@ bool EffectManager::enableEffects(const QList <int> &effectIndexes, bool disable
     bool success = false;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
-        if (effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
-            break;
+        if (effectIndexes.isEmpty() || effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
+            m_producer.lock();
+            filter->set("disable", (int) disable);
+            success = true;
+            m_producer.unlock();
         }
         delete filter;
         ct++;
         filter = m_producer.filter(ct);
-    }
-    if (filter) {
-        m_producer.lock();
-        filter->set("disable", (int) disable);
-        success = true;
-        m_producer.unlock();
-        delete filter;
     }
     return success;
 }

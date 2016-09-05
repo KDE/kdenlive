@@ -448,7 +448,6 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     }
 
     //m_timeline->blockSignals(true);
-
     Mlt::GeometryItem item;
     bool fetch = m_geometry->fetch(&item, keyframePos);
     if (!m_fixedGeom && (fetch || item.key() == false)) {
