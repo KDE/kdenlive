@@ -860,6 +860,10 @@ int Track::spaceLength(int pos, bool fromBlankStart)
 
 void Track::disableEffects(bool disable)
 {
+    // Disable track effects
+    enableTrackEffects(QList <int> (), disable);
+    
+    // Disable timeline clip effects
     for (int i = 0; i < m_playlist.count(); i++) {
         QScopedPointer<Mlt::Producer> original(m_playlist.get_clip(i));
         if (original == NULL || !original->is_valid() || original->is_blank()) {

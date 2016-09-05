@@ -2110,9 +2110,8 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
 void CustomTrackView::slotAddEffect(ClipItem *clip, const QDomElement &effect, int track)
 {
     if (clip == NULL) {
-        // delete track effect
-        AddEffectCommand *command = new AddEffectCommand(this, track, GenTime(-1), effect, true);
-        m_commandStack->push(command);
+        // Track effect
+        slotAddTrackEffect(effect, track);
         return;
     }
     else slotAddEffect(effect, clip->startPos(), clip->track());
