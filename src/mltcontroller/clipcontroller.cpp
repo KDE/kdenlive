@@ -467,10 +467,9 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     height += height % 2;
     const uchar* imagedata = frame->get_image(format, width, height);
     QImage image(imagedata, width, height, QImage::Format_RGBA8888);
-    delete frame;
-
     QPixmap pixmap;
     pixmap.convertFromImage(image);
+    delete frame;
 
     return pixmap;
 }

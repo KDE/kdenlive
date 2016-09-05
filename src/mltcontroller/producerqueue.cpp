@@ -143,7 +143,7 @@ void ProducerQueue::processFileProperties()
             m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer
             Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
-            if (!prod) {
+            if (!prod || !prod->is_valid()) {
                 continue;
             }
             // Check if we are using GPU accel, then we need to use alternate producer
