@@ -296,9 +296,9 @@ void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkF
         }
     }
     if (producer && producer->is_valid() && !producer->is_blank()) {
-        int width = 45.0 * profile.sar();
+        int width = 45.0 * profile.dar();
         if (width % 2 == 1) width++;
-        item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, profile.dar(), width, 45)));
+        item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, width, 45)));
         int playTime = producer->get_playtime();
         item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
         item->setData(1, Qt::UserRole, playTime);
@@ -740,9 +740,9 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
                   }
             }
             if (producer && producer->is_valid() && !producer->is_blank()) {
-                int width = 45.0 * profile.sar();
+                int width = 45.0 * profile.dar();
                 if (width % 2 == 1) width++;
-                item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, profile.dar(), width, 45)));
+                item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, width, 45)));
                 int playTime = producer->get_playtime();
                 item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
                 item->setData(1, Qt::UserRole, playTime);

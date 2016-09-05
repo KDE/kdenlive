@@ -844,7 +844,7 @@ void ProjectClip::doExtractIntra()
 {
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
-    int fullWidth = 150 * prod->profile()->sar() + 0.5;
+    int fullWidth = 150 * prod->profile()->dar() + 0.5;
     double dar = prod->profile()->dar();
     int max = prod->get_length();
     int pos;
@@ -862,7 +862,7 @@ void ProjectClip::doExtractIntra()
 	prod->seek(pos);
 	Mlt::Frame *frame = prod->get_frame();
 	if (frame && frame->is_valid()) {
-            img = KThumb::getFrame(frame, dar, fullWidth, 150);
+            img = KThumb::getFrame(frame, fullWidth, 150);
             bin()->cachePixmap(path, img);
             emit thumbReady(pos, img);
         }
@@ -889,7 +889,7 @@ void ProjectClip::doExtractImage()
 {
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
-    int frameWidth = 150 * prod->profile()->sar() + 0.5;
+    int frameWidth = 150 * prod->profile()->dar() + 0.5;
     bool ok = false;
     QDir thumbFolder = bin()->getCacheDir(CacheThumbs, &ok);
     int max = prod->get_length();
@@ -911,7 +911,7 @@ void ProjectClip::doExtractImage()
 	prod->seek(pos);
 	Mlt::Frame *frame = prod->get_frame();
 	if (frame && frame->is_valid()) {
-            img = KThumb::getFrame(frame, prod->profile()->dar(), frameWidth, 150);
+            img = KThumb::getFrame(frame, frameWidth, 150);
             bin()->cachePixmap(path, img);
             emit thumbReady(pos, img);
         }
@@ -923,7 +923,7 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
 {
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
-    int fullWidth = 150 * prod->profile()->sar() + 0.5;
+    int fullWidth = 150 * prod->profile()->dar() + 0.5;
     bool ok = false;
     QDir thumbFolder = bin()->getCacheDir(CacheThumbs, &ok);
     int max = prod->get_length();
@@ -946,7 +946,7 @@ void ProjectClip::slotExtractSubImage(QList <int> frames)
         prod->seek(pos);
         Mlt::Frame *frame = prod->get_frame();
         if (frame && frame->is_valid()) {
-            QImage img = KThumb::getFrame(frame, prod->profile()->dar(), fullWidth, 150);
+            QImage img = KThumb::getFrame(frame, fullWidth, 150);
             if (!img.isNull()) {
                 img.save(path);
                 for (int i = 0; i < count(); ++i) {

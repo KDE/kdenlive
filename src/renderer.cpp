@@ -184,14 +184,14 @@ int Render::renderHeight() const
 QImage Render::extractFrame(int frame_position, const QString &path, int width, int height)
 {
     if (width == -1) {
-        width = renderWidth();
+        width = frameRenderWidth();
         height = renderHeight();
     } else if (width % 2 == 1) width++;
     if (!path.isEmpty()) {
         Mlt::Producer *producer = new Mlt::Producer(*m_qmlView->profile(), path.toUtf8().constData());
         if (producer) {
             if (producer->is_valid()) {
-                QImage img = KThumb::getFrame(producer, frame_position, m_qmlView->profile()->dar(), width, height);
+                QImage img = KThumb::getFrame(producer, frame_position, width, height);
                 delete producer;
                 return img;
             }
@@ -220,7 +220,7 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
     else {
         frame = m_mltProducer->get_frame();
     }
-    QImage img = KThumb::getFrame(frame, m_qmlView->profile()->dar(), width, height);
+    QImage img = KThumb::getFrame(frame, width, height);
     delete frame;
     return img;
 }
