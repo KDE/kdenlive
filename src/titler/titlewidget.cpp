@@ -1877,6 +1877,7 @@ void TitleWidget::saveTitle(QUrl url)
         fs->setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlivetitle"));
         fs->setFileMode(QFileDialog::AnyFile);
         fs->setAcceptMode(QFileDialog::AcceptSave);
+        fs->setDefaultSuffix(QStringLiteral("kdenlivetitle"));
         //TODO: KF5 porting?
         //fs->setConfirmOverwrite(true);
         //fs->setKeepLocation(true);
