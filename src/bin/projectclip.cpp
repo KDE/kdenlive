@@ -1038,6 +1038,7 @@ void ProjectClip::slotCreateAudioThumbs()
         for (int i = 0; i < channels; i++) {
             QTemporaryFile *channelTmpfile = new QTemporaryFile;
             if (!channelTmpfile->open()) {
+                delete channelTmpfile;
                 bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), 100, ErrorMessage);
                 return;
             }
@@ -1112,6 +1113,10 @@ void ProjectClip::slotCreateAudioThumbs()
                 }
                 if (res.isEmpty() || res.size() != dataSize) {
                     // Something went wrong, abort
+                   // Cleanup temporary ffmpeg audio thumb file
+                    while (!channelFiles.isEmpty()) {
+                        delete channelFiles.takeFirst();
+                    }      
                     emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
                     bin()->emitMessage(i18n("Error reading audio thumbnail"), 100, ErrorMessage);
                     return;
