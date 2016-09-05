@@ -91,7 +91,7 @@ bool DocumentValidator::validate(const double currentVersion)
             KMessageBox::sorry(QApplication::activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
         }
 	
-        if (separator != documentLocale.decimalPoint()) {
+        if (QString::fromUtf8(separator) != QString(documentLocale.decimalPoint())) {
 	    KMessageBox::sorry(QApplication::activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
             //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
             // HACK: There is a locale conflict, so set locale to at least have correct decimal point
