@@ -376,7 +376,10 @@ ProfileWidget::VIDEOSTD ProfileWidget::getStandard(MltVideoProfile profile)
             return Std2K;
             break;
         case 1080:
-            return StdFHD;
+            if (profile.width != 1920)
+                return StdCustom;
+            else 
+                return StdFHD;
             break;
         case 720:
             return StdHD;
