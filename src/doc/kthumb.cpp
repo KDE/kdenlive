@@ -44,13 +44,13 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
     QPixmap pix(width, height);
     if (!url.isValid()) return pix;
     Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
-    pix = QPixmap::fromImage(getFrame(producer, frame, width, height));
+    pix = QPixmap::fromImage(getFrame(producer, frame, profile.dar(), width, height));
     delete producer;
     return pix;
 }
 
 //static
-QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height)
+QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, double dar, int displayWidth, int height)
 {
     if (producer == NULL || !producer->is_valid()) {
         QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
@@ -65,14 +65,14 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
-    const QImage p = getFrame(frame, displayWidth, height);
+    const QImage p = getFrame(frame, dar, displayWidth, height);
     delete frame;
     return p;
 }
 
 
 //static
-QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
+QImage KThumb::getFrame(Mlt::Frame *frame, double dar, int width, int height)
 {
     if (frame == NULL || !frame->is_valid()) {
         QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
@@ -89,9 +89,9 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
         QImage image(ow, oh, QImage::Format_RGBA8888);
         memcpy(image.bits(), imagedata, ow * oh * 4);
         if (!image.isNull()) {
-            if (ow > (2 * width)) {
+            if (dar != 1.0 || ow > (2 * width)) {
                 // there was a scaling problem, do it manually
-                image = image.scaled(width, height);
+                image = image.scaled(dar * height, height);
             }
             return image;
             /*p.fill(QColor(100, 100, 100, 70));

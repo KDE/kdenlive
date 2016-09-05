@@ -55,7 +55,7 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
         m_preview->setMinimumSize(1, 1);
         lay->addWidget(m_preview);
         m_producer = new Mlt::Producer(*monitor->profile(), generatorTag.toUtf8().constData());
-        m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, monitor->profile()->width(), monitor->profile()->height()));
+        m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, monitor->profile()->dar(), monitor->profile()->width(), monitor->profile()->height()));
         m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
         QHBoxLayout *hlay = new QHBoxLayout;
         hlay->addWidget(new QLabel(i18n("Duration")));
@@ -92,7 +92,7 @@ void Generators::updateProducer(QDomElement,QDomElement effect,int)
     }
     int w = m_pixmap.width();
     int h = m_pixmap.height();
-    m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, w, h));
+    m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, 1.0, w, h));
     m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
 }
 

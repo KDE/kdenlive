@@ -135,7 +135,7 @@ void ProducerQueue::processFileProperties()
     requestClipInfo info;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-
+    double dar = m_binController->profile()->dar();
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
@@ -161,8 +161,8 @@ void ProducerQueue::processFileProperties()
             if (frameNumber > 0) prod->seek(frameNumber);
             Mlt::Frame *frame = prod->get_frame();
             if (frame && frame->is_valid()) {
-                int fullWidth = (int)((double) info.imageHeight * m_binController->profile()->dar() + 0.5);
-                QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                int fullWidth = info.imageHeight * m_binController->profile()->sar() + 0.5;
+                QImage img = KThumb::getFrame(frame, dar, fullWidth, info.imageHeight);
                 emit replyGetImage(info.clipId, img);
             }
             delete frame;
@@ -442,7 +442,7 @@ void ProducerQueue::processFileProperties()
         if (info.xml.hasAttribute(QStringLiteral("templatetext")))
             producer->set("templatetext", info.xml.attribute(QStringLiteral("templatetext")).toUtf8().constData());
 
-        int fullWidth = (int)((double) info.imageHeight * m_binController->profile()->dar() + 0.5);
+        int fullWidth = info.imageHeight * m_binController->profile()->sar() + 0.5;
         int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
 
         if ((!info.replaceProducer && !EffectsList::property(info.xml, QStringLiteral("kdenlive:file_hash")).isEmpty()) || proxyProducer) {
@@ -463,7 +463,7 @@ void ProducerQueue::processFileProperties()
                     glProd->attach(converter);
                     frame = glProd->get_frame();
                     if (frame && frame->is_valid()) {
-                        img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                        img = KThumb::getFrame(frame, dar, fullWidth, info.imageHeight);
                         emit replyGetImage(info.clipId, img);
                     }
                     delete glProd;
@@ -471,7 +471,7 @@ void ProducerQueue::processFileProperties()
                     if (frameNumber > 0) producer->seek(frameNumber);
                     frame = producer->get_frame();
                     if (frame && frame->is_valid()) {
-                        img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                        img = KThumb::getFrame(frame, dar, fullWidth, info.imageHeight);
                         emit replyGetImage(info.clipId, img);
                     }
                 }
@@ -645,10 +645,10 @@ void ProducerQueue::processFileProperties()
                     glProd->attach(scaler);
                     glProd->attach(converter);
                     frame = glProd->get_frame();
-                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                    img = KThumb::getFrame(frame, dar, fullWidth, info.imageHeight);
                     delete glProd;
                 } else {
-                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                    img = KThumb::getFrame(frame, dar, fullWidth, info.imageHeight);
                 }
                 emit replyGetImage(info.clipId, img);
             }
@@ -686,7 +686,7 @@ void ProducerQueue::processFileProperties()
                     else {
                         tmpProd = producer;
                     }
-                    QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                    QImage img = KThumb::getFrame(frame, dar, fullWidth, info.imageHeight);
                     if (frameNumber == -1) {
                         // No user specipied frame, look for best one
                         int variance = KThumb::imageVariance(img);
@@ -696,7 +696,7 @@ void ProducerQueue::processFileProperties()
                             frameNumber =  duration > 100 ? 100 : duration / 2 ;
                             tmpProd->seek(frameNumber);
                             frame = tmpProd->get_frame();
-                            img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                            img = KThumb::getFrame(frame, dar, fullWidth, info.imageHeight);
                         }
                     }
                     if (KdenliveSettings::gpu_accel()) {
@@ -862,7 +862,7 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, QList<int>
         return;
     }
 
-    int width = 60.0 * m_binController->profile()->dar();
+    int width = 60.0 * m_binController->profile()->sar();
     if (width % 2 == 1) width++;
 
     QPointer<QDialog> dialog = new QDialog(qApp->activeWindow());
@@ -887,7 +887,7 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, QList<int>
     for (int j = 1; j < video_list.count(); ++j) {
         Mlt::Producer multiprod(* m_binController->profile(), path.toUtf8().constData());
         multiprod.set("video_index", video_list.at(j));
-        QImage thumb = KThumb::getFrame(&multiprod, 0, width, 60);
+        QImage thumb = KThumb::getFrame(&multiprod, 0, m_binController->profile()->dar(), width, 60);
         QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", video_list.at(j)), mainWidget);
         mainLayout->addWidget(streamFrame);
         streamFrame->setProperty("vindex", video_list.at(j));

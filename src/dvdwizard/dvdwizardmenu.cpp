@@ -484,7 +484,7 @@ void DvdWizardMenu::buildImage()
         profile.set_explicit(true);
         Mlt::Producer *producer = new Mlt::Producer(profile, m_view.background_image->url().path().toUtf8().constData());
         if (producer && producer->is_valid()) {
-            pix = QPixmap::fromImage(KThumb::getFrame(producer, 0, m_width, m_height));
+            pix = QPixmap::fromImage(KThumb::getFrame(producer, 0, 1, m_width, m_height));
             m_movieLength = producer->get_length();
         }
         if (producer) delete producer;
