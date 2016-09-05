@@ -86,8 +86,8 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
     ow += ow % 2;
     const uchar* imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
-        QImage image(imagedata, ow, oh, QImage::Format_RGBA8888);
-        //memcpy(image.bits(), imagedata, ow * oh * 4);
+        QImage image(ow, oh, QImage::Format_RGBA8888);
+        memcpy(image.bits(), imagedata, ow * oh * 4);
         if (!image.isNull()) {
             if (ow > (2 * width)) {
                 // there was a scaling problem, do it manually

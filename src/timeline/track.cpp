@@ -431,6 +431,7 @@ QList <ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, M
             replaced << cInfo;
         }
     }
+    delete trackProducer;
     delete info;
     return replaced;
 }
