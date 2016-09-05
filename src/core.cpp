@@ -43,8 +43,8 @@ Core::~Core()
 {
     m_monitorManager->stopActiveMonitor();
     delete m_producerQueue;
-    delete m_projectManager;
     delete m_binWidget;
+    delete m_projectManager;
     delete m_binController;
     delete m_monitorManager;
     m_self = 0;
