@@ -135,7 +135,7 @@ void Core::initLocale()
     setlocale(LC_NUMERIC_MASK, NULL);
 #endif
     char *separator = localeconv()->decimal_point;
-    if (separator != systemLocale.decimalPoint()) {
+    if (QString::fromUtf8(separator) != QChar(systemLocale.decimalPoint())) {
         //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
         // HACK: There is a locale conflict, so set locale to C
         // Make sure to override exported values or it won't work
