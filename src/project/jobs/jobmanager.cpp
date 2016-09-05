@@ -215,7 +215,7 @@ void JobManager::slotProcessJobs()
             if (job->jobType == AbstractClipJob::PROXYJOB) {
                 m_bin->gotProxy(job->clipId(), destination);
             }
-            if (job->addClipToProject() > -100) {
+            else if (job->addClipToProject() > -100) {
                 emit addClip(destination, job->addClipToProject());
             }
         } else if (job->status() == JobCrashed || job->status() == JobAborted) {
