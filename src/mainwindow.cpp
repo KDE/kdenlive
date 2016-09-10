@@ -3244,7 +3244,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
     // Do we want proxy rendering
     if (project->useProxy() && !m_renderWidget->proxyRendering()) {
-        QString root = doc.documentElement().attribute(QStringLiteral("root"));
+        QString root = pCore->binController()->documentRoot();
 
         // replace proxy clips with originals
         //TODO
@@ -3276,10 +3276,10 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             } else {
                 suffix.clear();
             }
-            if (!producerResource.startsWith('/')) {
-                producerResource.prepend(root + '/');
-            }
             if (!producerResource.isEmpty()) {
+                if (!producerResource.startsWith(QLatin1Char('/'))) {
+                    producerResource.prepend(root);
+                }
                 if (proxies.contains(producerResource)) {
                     QString replacementResource = proxies.value(producerResource);
                     EffectsList::setProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);
