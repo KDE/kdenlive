@@ -85,7 +85,8 @@ else()
 endif()
 
 find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets 
-                            DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes DocTools Crash OPTIONAL_COMPONENTS FileMetaData)
+                            DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Crash
+                 OPTIONAL_COMPONENTS DocTools FileMetaData)
 
 if (KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")
@@ -105,7 +106,9 @@ set_package_properties(MLT PROPERTIES
 set(MLT_PREFIX ${MLT_ROOT_DIR})
 
 add_subdirectory(data)
-add_subdirectory(doc)
+if(KDOCTOOLS_FOUND)
+    add_subdirectory(doc)
+endif()
 #add_subdirectory(plugins)
 ecm_optional_add_subdirectory(po)
 add_subdirectory(renderer)
