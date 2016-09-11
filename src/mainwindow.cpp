@@ -860,7 +860,7 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
     EFFECTMODE status = m_effectStack->effectStatus();
     switch (status) {
         case TIMELINE_TRACK:
-            pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
+            pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, m_effectStack->trackIndex());
             break;
         case TIMELINE_CLIP:
             pCore->projectManager()->currentTimeline()->projectView()->slotAddEffectToCurrentItem(effectToAdd);
