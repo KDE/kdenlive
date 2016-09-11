@@ -176,8 +176,8 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
     pen.setStyle(Qt::DashLine);
     pen.setWidthF(0.0);
     p->setPen(pen);
-    QRectF bd = childrenBoundingRect().adjusted(0, 0, -1, 0);
-    p->drawRoundedRect(bd, 3, 3);
+    QRectF bd = childrenBoundingRect().adjusted(0, 0, 0, 0);
+    p->drawRect(bd);
 }
 
 int AbstractGroupItem::trackForPos(int position)

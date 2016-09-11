@@ -1866,7 +1866,7 @@ void MainWindow::connectDocument()
     m_normalEditTool->setChecked(true);
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), this, SLOT(slotUpdateProjectDuration(int)));
     pCore->monitorManager()->setDocument(project);
-    trackView->updateProfile(false);
+    trackView->updateProfile(1.0);
     if (m_recMonitor) {
         m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
     }
