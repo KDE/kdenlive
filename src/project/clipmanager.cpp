@@ -298,6 +298,7 @@ QString ClipManager::projectFolder() const
 
 AbstractGroupItem *ClipManager::createGroup()
 {
+    QMutexLocker lock(&m_groupsMutex);
     AbstractGroupItem *group = new AbstractGroupItem(m_doc->fps());
     m_groupsList.append(group);
     return group;
@@ -310,16 +311,19 @@ int ClipManager::lastClipId() const
 
 void ClipManager::removeGroup(AbstractGroupItem *group)
 {
+    QMutexLocker lock(&m_groupsMutex);
     m_groupsList.removeAll(group);
 }
 
 void ClipManager::resetGroups()
 {
+    QMutexLocker lock(&m_groupsMutex);
     m_groupsList.clear();
 }
 
-QString ClipManager::groupsXml() const
+QString ClipManager::groupsXml()
 {
+    QMutexLocker lock(&m_groupsMutex);
     if (m_groupsList.isEmpty()) {
 	return QString();
     }
