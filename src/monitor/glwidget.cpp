@@ -603,9 +603,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event)
     }*/
     if (!(event->buttons() & Qt::LeftButton))
         return;
-    if (m_dragStart == QPoint() ||  (event->pos() - m_dragStart).manhattanLength() < QApplication::startDragDistance())
-        return;
-    emit startDrag();
+    if (!m_dragStart.isNull() &&  (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
+        m_dragStart = QPoint();
+        emit startDrag();
+    }
 }
 
 void GLWidget::keyPressEvent(QKeyEvent* event)
@@ -1118,7 +1119,10 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     QQuickView::mouseReleaseEvent(event);
-    if (event->isAccepted()) return;
+    if (m_dragStart.isNull() || event->isAccepted()) {
+        // we are dragging
+        return;
+    }
     if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
         return;
     }

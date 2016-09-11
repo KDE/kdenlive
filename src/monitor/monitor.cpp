@@ -653,7 +653,6 @@ void Monitor::mousePressEvent(QMouseEvent * event)
     m_monitorManager->activateMonitor(m_id);
     if (!(event->button() & Qt::RightButton)) {
         if (m_glWidget->geometry().contains(event->pos())) {
-            m_dragStarted = true;
             m_DragStartPosition = event->pos();
             event->accept();
         }
@@ -764,7 +763,11 @@ void Monitor::reparent()
 // virtual
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
-    if (m_dragStarted && event->button() != Qt::RightButton) {
+    if (m_dragStarted) {
+        event->ignore();
+        return;
+    }
+    if (event->button() != Qt::RightButton) {
         if (m_glMonitor->geometry().contains(event->pos())) {
             if (isActive()) slotPlay();
             else {
@@ -817,7 +820,7 @@ void Monitor::leaveEvent(QEvent * event)
 // virtual
 void Monitor::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!m_dragStarted || m_controller == NULL) return;
+    if (m_dragStarted || m_controller == NULL) return;
 
     if ((event->pos() - m_DragStartPosition).manhattanLength()
             < QApplication::startDragDistance())
@@ -826,11 +829,10 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
     {
         QDrag *drag = new QDrag(this);
         QMimeData *mimeData = new QMimeData;
-
+        m_dragStarted = true;
         QStringList list;
         list.append(m_controller->clipId());
         QPoint p = m_ruler->zone();
-        qDebug()<<" * * *RULER ZONE: "<<p;
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y()));
         QByteArray data;
