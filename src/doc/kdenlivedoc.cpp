@@ -1435,7 +1435,7 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
     KdenliveSettings::setProject_fps(fps);
     m_width = m_profile.width;
     m_height = m_profile.height;
-    bool fpsChanged = m_timecode.fps() != fps;
+    double fpsChanged = m_timecode.fps() / fps;
     m_timecode.setFormat(fps);
     KdenliveSettings::setCurrent_profile(m_profile.path);
     pCore->monitorManager()->resetProfiles(m_profile, m_timecode);

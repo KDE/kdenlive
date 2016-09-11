@@ -1306,7 +1306,7 @@ void Timeline::slotSaveTimelinePreview(const QString &path)
     img.save(path);
 }
 
-void Timeline::updateProfile(bool fpsChanged)
+void Timeline::updateProfile(double fpsChanged)
 {
     m_ruler->updateFrameSize();
     m_ruler->updateProjectFps(m_doc->timecode());

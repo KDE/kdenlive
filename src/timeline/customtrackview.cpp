@@ -293,11 +293,30 @@ int CustomTrackView::getFrameWidth() const
     return (int) (m_tracksHeight * m_document->dar() + 0.5);
 }
 
-void CustomTrackView::updateSceneFrameWidth(bool fpsChanged)
+void CustomTrackView::updateSceneFrameWidth(double fpsChanged)
 {
     int frameWidth = getFrameWidth();
-    if (fpsChanged && m_projectDuration > 0) {
+    if (fpsChanged != 1.0 && m_projectDuration > 0) {
+        // try to remember and rebuild groups
+        // Prepare groups for reload
+        QDomDocument doc;
+        doc.setContent(m_document->groupsXml());
+        QDomNodeList groups;
+        if (!doc.isNull()) {
+            groups = doc.documentElement().elementsByTagName("group");
+            for (int nodeindex = 0; nodeindex < groups.count(); ++nodeindex) {
+                QDomNode grp = groups.item(nodeindex);
+                QDomNodeList nodes = grp.childNodes();
+                for (int itemindex = 0; itemindex < nodes.count(); ++itemindex) {
+                    QDomElement elem = nodes.item(itemindex).toElement();
+                    if (!elem.hasAttribute(QStringLiteral("position"))) continue;
+                    int pos = elem.attribute(QStringLiteral("position")).toInt();
+                    elem.setAttribute(QStringLiteral("position"), rintf(pos * fpsChanged));
+                }
+            }
+        }
         reloadTimeline();
+        loadGroups(groups);
     } else {
         QList<QGraphicsItem *> itemList = items();
         ClipItem *item;
@@ -3547,6 +3566,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
 void CustomTrackView::reloadTimeline()
 {
     removeTipAnimation();
+    m_document->clipManager()->resetGroups();
     emit clipItemSelected(NULL);
     emit transitionItemSelected(NULL);
     QList<QGraphicsItem *> selection = m_scene->items();
@@ -7032,7 +7052,6 @@ void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTim
 
 void CustomTrackView::loadGroups(const QDomNodeList &groups)
 {
-    m_document->clipManager()->resetGroups();
     for (int i = 0; i < groups.count(); ++i) {
         QDomNodeList children = groups.at(i).childNodes();
         scene()->clearSelection();

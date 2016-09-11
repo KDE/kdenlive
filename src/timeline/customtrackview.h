@@ -105,7 +105,7 @@ public:
     void cutSelectedClips(QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), GenTime currentPos = GenTime());
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup, QMenu *markermenu);
     bool checkTrackHeight(bool force = false);
-    void updateSceneFrameWidth(bool fpsChanged = false);
+    void updateSceneFrameWidth(double fpsChanged = 1.0);
     void setTool(ProjectTool tool);
     void cutClip(const ItemInfo &info, const GenTime &cutTime, bool cut, const EffectsList &oldStack = EffectsList(), bool execute = true);
     Transition *cutTransition(const ItemInfo &info, const GenTime &cutTime, bool cut, const QDomElement &oldStack = QDomElement(), bool execute = true);

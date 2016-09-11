@@ -256,8 +256,8 @@ signals:
     void startAutoSave();
     /** @brief Current doc created effects, reload list */
     void reloadEffects();
-    /** @brief Fps was changed, update timeline */
-    void updateFps(bool changed);
+    /** @brief Fps was changed, update timeline (changed = 1 means no change) */
+    void updateFps(double changed);
     /** @brief If a command is pushed when we are in the middle of undo stack, invalidate further undo history */
     void removeInvalidUndo(int ix);
     /** @brief Update compositing info */

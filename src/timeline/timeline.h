@@ -199,7 +199,7 @@ public slots:
     void slotSaveTimelinePreview(const QString &path);
     void checkDuration();
     void slotShowTrackEffects(int);
-    void updateProfile(bool fpsChanged);
+    void updateProfile(double fpsChanged);
     /** @brief Enable/disable multitrack view (split monitor in 4) */
     void slotMultitrackView(bool enable);
     /** @brief Stop rendering preview. */
