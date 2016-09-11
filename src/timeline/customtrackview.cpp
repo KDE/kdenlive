@@ -3523,7 +3523,7 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
                 QDomElement elem = nodes.item(itemindex).toElement();
                 if (!elem.hasAttribute("track")) continue;
                 int track = elem.attribute("track").toInt();
-                if (track <= ix) {
+                if (track < ix) {
                     // No change
                     continue;
                 }

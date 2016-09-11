@@ -82,7 +82,7 @@ Q_OBJECT public:
     void removeGroup(AbstractGroupItem *group);
     /** @brief Delete groups list, prepare for a reload. */
     void resetGroups();
-    QString groupsXml() const;
+    QString groupsXml();
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);
@@ -91,7 +91,7 @@ Q_OBJECT public:
 public slots:
     /** @brief Request creation of a clip thumbnail for specified frames. */
     void slotRequestThumbs(const QString &id, const QList<int> &frames);
-    
+
 private slots:
     void slotGetThumbs();
     /** @brief Clip has been copied, add it now. */
@@ -123,6 +123,7 @@ private:   // Private attributes
     QString m_processingAudioThumbId;
     /** @brief The list of removable drives. */
     QVector <SolidVolumeInfo> m_removableVolumes;
+    QMutex m_groupsMutex;
 
     QPoint m_projectTreeThumbSize;
 
