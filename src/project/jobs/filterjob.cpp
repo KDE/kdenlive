@@ -29,7 +29,7 @@
 #include <QDebug>
 #include <QUrl>
 #include <klocalizedstring.h>
-
+#include <KMessageBox>
 #include <mlt++/Mlt.h>
 
 // static 
@@ -77,8 +77,14 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         // extraParams.insert(QStringLiteral("producer_profile"), QStringLiteral("1"));
         for (int i = 0; i < clips.count(); i++) {
             QString prodstring = QString("timewarp:-1:" + sources.at(i));
+            QString destination = sources.at(i) + QStringLiteral(".mlt");
+            if (QFile::exists(destination)) {
+                if (KMessageBox::questionYesNo(qApp->activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", destination)) != KMessageBox::Yes) {
+                    continue;
+                }
+            }
             producerParams.insert(QStringLiteral("producer"), prodstring);
-            consumerParams.insert(QStringLiteral("consumer"), "xml:" + sources.at(i) + ".mlt");
+            consumerParams.insert(QStringLiteral("consumer"), "xml:" + destination);
             ProjectClip *clip = clips.at(i);
             MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
             job->description = i18n("Reverse clip");
