@@ -38,8 +38,8 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_thumbJob(NULL)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    setWindowTitle(i18n("Add Slideshow Clip"));
     m_view.setupUi(this);
+    setWindowTitle(i18n("Add Slideshow Clip"));
     if (clip) {
         m_view.clip_name->setText(clip->name());
         m_view.groupBox->setHidden(true);

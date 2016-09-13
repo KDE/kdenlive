@@ -24,12 +24,13 @@
 #include "doc/kdenlivedoc.h"
 #include "bin/projectclip.h"
 #include "project/clipstabilize.h"
+#include "project/dialogs/clipspeed.h"
 #include "ui_scenecutdialog_ui.h"
 
 #include <QDebug>
 #include <QUrl>
 #include <klocalizedstring.h>
-
+#include <KMessageBox>
 #include <mlt++/Mlt.h>
 
 // static 
@@ -75,16 +76,36 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         extraParams.insert(QStringLiteral("projecttreefilter"), QStringLiteral("1"));
         // Reverse clip using project profile since playlists can only be included with same fps
         // extraParams.insert(QStringLiteral("producer_profile"), QStringLiteral("1"));
+        bool multipleSelection = clips.count() > 1;
+        QPointer<ClipSpeed> d = new ClipSpeed(clips.count() == 1 ? QUrl::fromLocalFile(sources.first() + QStringLiteral(".mlt")) : QUrl::fromLocalFile(sources.first()).adjusted(QUrl::RemoveFilename), multipleSelection, QApplication::activeWindow());
+        if (d->exec() == QDialog::Accepted) {
+            QLocale locale;
+            QString speedString = QString("timewarp:%1:").arg(locale.toString(d->speed()/100));
+            QDir destFolder;
+            if (multipleSelection) {
+                destFolder = QDir(d->selectedUrl().path());
+            }
         for (int i = 0; i < clips.count(); i++) {
-            QString prodstring = QString("timewarp:-1:" + sources.at(i));
+            QString prodstring = speedString + sources.at(i);
             producerParams.insert(QStringLiteral("producer"), prodstring);
-            consumerParams.insert(QStringLiteral("consumer"), "xml:" + sources.at(i) + ".mlt");
+            QString destination;
+            if (multipleSelection) {
+                destination = destFolder.absoluteFilePath(QUrl::fromLocalFile(sources.at(i)).fileName());
+            } else {
+                destination = d->selectedUrl().path();
+            }
+            if (QFile::exists(destination)) {
+                if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", destination)) != KMessageBox::Yes) continue;
+            }
+            consumerParams.insert(QStringLiteral("consumer"), "xml:" + destination);
             ProjectClip *clip = clips.at(i);
             MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
             job->description = i18n("Reverse clip");
             job->setAddClipToProject(true);
             jobs.insert(clip, job);
         }
+        }
+        delete d;
         return jobs;
     } else if (filterName == QLatin1String("motion_est")) {
         // Show config dialog
