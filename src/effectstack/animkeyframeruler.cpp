@@ -174,7 +174,7 @@ void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent * event)
             m_seekPosition = m_movingKeyframePos;
             emit requestSeek(m_seekPosition);
         }
-        else if (KdenliveSettings::snaptopoints() && qAbs(m_movingKeyframePos - m_position) < headOffset)
+        else if (KdenliveSettings::snaptopoints() && qAbs(m_movingKeyframePos - m_position) < headOffset / m_scale)
             m_movingKeyframePos = m_position;
         update();
         return;
