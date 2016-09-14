@@ -1084,11 +1084,18 @@ void MainWindow::setupActions()
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
+
     m_buttonSnap = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-snap")), i18n("Snap"), this);
 
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
+
+    m_buttonAutomaticTransition = new QAction(KoIconUtils::themedIcon(QStringLiteral("auto-transition")), i18n("Automatic transitions"), this);
+
+    m_buttonAutomaticTransition->setCheckable(true);
+    m_buttonAutomaticTransition->setChecked(KdenliveSettings::automatictransitions());
+    connect(m_buttonAutomaticTransition, SIGNAL(triggered()), this, SLOT(slotSwitchAutomaticTransition()));
 
     m_buttonFitZoom = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Fit zoom to project"), this);
 
@@ -1136,6 +1143,7 @@ void MainWindow::setupActions()
 
     /*QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");*/
     toolbar->addAction(m_buttonAutomaticSplitAudio);
+    toolbar->addAction(m_buttonAutomaticTransition);
     toolbar->addAction(m_buttonVideoThumbs);
     toolbar->addAction(m_buttonAudioThumbs);
     toolbar->addAction(m_buttonShowMarkers);
@@ -1188,6 +1196,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool);
 
     addAction(QStringLiteral("automatic_split_audio"), m_buttonAutomaticSplitAudio);
+    addAction(QStringLiteral("automatic_transition"), m_buttonAutomaticTransition);
     addAction(QStringLiteral("show_video_thumbs"), m_buttonVideoThumbs);
     addAction(QStringLiteral("show_audio_thumbs"), m_buttonAudioThumbs);
     addAction(QStringLiteral("show_markers"), m_buttonShowMarkers);
@@ -2049,6 +2058,7 @@ void MainWindow::updateConfiguration()
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     slotSwitchSplitAudio(KdenliveSettings::splitaudio());
+    slotSwitchAutomaticTransition();
 
     // Update list of transcoding profiles
     buildDynamicActions();
@@ -2099,6 +2109,11 @@ void MainWindow::slotSwitchSnap()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
 }
 
+void MainWindow::slotSwitchAutomaticTransition()
+{
+    KdenliveSettings::setAutomatictransitions(!KdenliveSettings::automatictransitions());
+    m_buttonAutomaticTransition->setChecked(KdenliveSettings::automatictransitions());
+}
 
 void MainWindow::slotDeleteItem()
 {

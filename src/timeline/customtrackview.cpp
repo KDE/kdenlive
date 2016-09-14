@@ -2938,7 +2938,12 @@ void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, ItemInfo transitionI
 
 void CustomTrackView::addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh)
 {
-    Transition *tr = new Transition(transitionInfo, endTrack, m_document->fps(), params, true);
+    // If transition is to be created from paste, then use that automatic setting.
+    // Otherwise, when no automatic setting is present, use the current configuration setting.
+    bool autotrans = params.attribute(QStringLiteral("automatic"),
+                                     KdenliveSettings::automatictransitions() ? QLatin1String("1") : QLatin1String("0"))
+            == QStringLiteral("1");
+    Transition *tr = new Transition(transitionInfo, endTrack, m_document->fps(), params, autotrans);
     connect(tr, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
     tr->setPos(transitionInfo.startPos.frames(m_document->fps()), getPositionFromTrack(transitionInfo.track) + tr->itemOffset() + 1);
     ////qDebug() << "---- ADDING transition " << params.attribute("value");

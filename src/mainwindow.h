@@ -202,6 +202,7 @@ private:
     QAction *m_buttonShowMarkers;
     QAction *m_buttonFitZoom;
     QAction *m_buttonAutomaticSplitAudio;
+    QAction *m_buttonAutomaticTransition;
     QAction *m_normalEditTool;
     QAction *m_overwriteEditTool;
     QAction *m_insertEditTool;
@@ -285,6 +286,7 @@ private slots:
     void slotSwitchSplitAudio(bool enable);
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
+    void slotSwitchAutomaticTransition();
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();
