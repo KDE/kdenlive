@@ -1944,7 +1944,7 @@ void ClipItem::updateState(const QString &id, int aIndex, int vIndex, PlaylistSt
         m_clipState = PlaylistState::Original;
 
         if (id.startsWith(QLatin1String("slowmotion"))) {
-            m_clipState = (PlaylistState::ClipState) id.section(":", -1).toInt();
+            m_clipState = id.count(QLatin1Char(':')) == 4 ? (PlaylistState::ClipState) id.section(":", -1).toInt() : PlaylistState::Original;
             return;
         }
         if (id.endsWith(QLatin1String("_audio"))) {
