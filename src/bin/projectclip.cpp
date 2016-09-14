@@ -919,48 +919,6 @@ void ProjectClip::doExtractImage()
     }
 }
 
-void ProjectClip::slotExtractSubImage(QList <int> frames)
-{
-    Mlt::Producer *prod = thumbProducer();
-    if (prod == NULL || !prod->is_valid()) return;
-    int fullWidth = 150 * prod->profile()->dar() + 0.5;
-    bool ok = false;
-    QDir thumbFolder = bin()->getCacheDir(CacheThumbs, &ok);
-    int max = prod->get_length();
-    for (int i = 0; i < frames.count(); i++) {
-        int pos = frames.at(i);
-        QString path = thumbFolder.absoluteFilePath(hash() + "#" + QString::number(pos) + ".png");
-        if (ok) {
-            QImage img(path);
-            if (!img.isNull()) {
-                for (int i = 0; i < count(); ++i) {
-                    ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i));
-                    if (clip && clip->zone().x() == pos) {
-                        clip->setThumbnail(img);
-                    }
-                }
-                continue;
-            }
-        }
-        pos = qBound(0, pos, max - 1);
-        prod->seek(pos);
-        Mlt::Frame *frame = prod->get_frame();
-        if (frame && frame->is_valid()) {
-            QImage img = KThumb::getFrame(frame, fullWidth, 150);
-            if (!img.isNull()) {
-                img.save(path);
-                for (int i = 0; i < count(); ++i) {
-                    ProjectSubClip *clip = static_cast<ProjectSubClip *>(at(i));
-                    if (clip && clip->zone().x() == pos) {
-                        clip->setThumbnail(img);
-                    }
-                }
-            }
-        }
-        delete frame;
-    }
-}
-
 int ProjectClip::audioChannels() const
 {
     if (!m_controller || !m_controller->audioInfo()) return 0;

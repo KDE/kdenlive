@@ -72,7 +72,7 @@ public:
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(QImage);
-    
+
     /** @brief Remove reference to this subclip in the master clip, to be done before a subclip is deleted. */
     void discard();
     QPoint zone() const;
@@ -84,6 +84,8 @@ private:
     int m_in;
     int m_out;
 
+private slots:
+    void gotThumb(int pos, QImage img);
 };
 
 #endif

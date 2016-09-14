@@ -2686,7 +2686,7 @@ void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
     }
     if (!missingThumbs.isEmpty()) {
         // generate missing subclip thumbnails
-        QtConcurrent::run(clip, &ProjectClip::slotExtractSubImage, missingThumbs);
+        clip->slotExtractImage(missingThumbs);
     }
 }
 
@@ -2703,7 +2703,9 @@ void Bin::addClipCut(const QString&id, int in, int out)
     sub = new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
     QStringList markersComment = clip->markersText(GenTime(in, m_doc->fps()), GenTime(out, m_doc->fps()));
     sub->setDescription(markersComment.join(";"));
-    QtConcurrent::run(clip, &ProjectClip::slotExtractSubImage, QList <int>() << in);
+    QList <int> missingThumbs;
+    missingThumbs << in;
+    clip->slotExtractImage(missingThumbs);
 }
 
 void Bin::removeClipCut(const QString&id, int in, int out)

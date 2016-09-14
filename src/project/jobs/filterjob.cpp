@@ -101,7 +101,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
             ProjectClip *clip = clips.at(i);
             MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
             job->description = i18n("Reverse clip");
-            job->setAddClipToProject(true);
+            job->setAddClipToProject(1);
             jobs.insert(clip, job);
         }
         }
@@ -171,7 +171,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
             extraParams.insert(QStringLiteral("cutscenes"), QStringLiteral("1"));
         }
         delete d;
-        
+
         for (int i = 0; i < clips.count(); i++) {
             // Set clip specific infos
 
