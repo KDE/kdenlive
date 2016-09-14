@@ -221,8 +221,6 @@ public slots:
     void updateAudioThumbnail(QVariantList audioLevels);
     /** @brief Extract image thumbnails for timeline. */
     void slotExtractImage(QList <int> frames);
-    /** @brief Extract image thumbnails for clip's subclips. */
-    void slotExtractSubImage(QList <int> frames);
     void slotCreateAudioThumbs();
     /** @brief Set the Job status on a clip.
      * @param jobType The job type
