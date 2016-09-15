@@ -90,7 +90,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
             producerParams.insert(QStringLiteral("producer"), prodstring);
             QString destination;
             if (multipleSelection) {
-                destination = destFolder.absoluteFilePath(QUrl::fromLocalFile(sources.at(i)).fileName());
+                destination = destFolder.absoluteFilePath(QUrl::fromLocalFile(sources.at(i)).fileName() + QStringLiteral(".mlt"));
             } else {
                 destination = d->selectedUrl().path();
             }
@@ -126,7 +126,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         QMap <QString, QString> producerParams = QMap <QString, QString> ();
         QMap <QString, QString> filterParams = QMap <QString, QString> ();
         QMap <QString, QString> consumerParams = QMap <QString, QString> ();
-        
+
         // Producer params
         // None
 
@@ -135,7 +135,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         filterParams.insert(QStringLiteral("filter"), filterName);
         filterParams.insert(QStringLiteral("shot_change_list"), QStringLiteral("0"));
         filterParams.insert(QStringLiteral("denoise"), QStringLiteral("0"));
-        
+
         // Consumer
         consumerParams.insert(QStringLiteral("consumer"), QStringLiteral("null"));
         consumerParams.insert(QStringLiteral("all"), QStringLiteral("1"));
@@ -188,7 +188,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
             producerParams.insert(QStringLiteral("in"), QString::number(in));
             producerParams.insert(QStringLiteral("out"), QString::number(out));
             producerParams.insert(QStringLiteral("producer"), sources.at(i));
-            
+
             // Destination
             // Since this job is only doing analysis, we have a null consumer and no destination
             MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
@@ -250,9 +250,3 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
     }
     return jobs;
 }
-
-
-
-
-
-

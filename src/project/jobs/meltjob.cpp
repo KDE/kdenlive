@@ -52,8 +52,9 @@ MeltJob::MeltJob(ClipType cType, const QString id, const QMap <QString, QString>
     m_jobStatus = JobWaiting;
     description = i18n("Processing clip");
     QString consum = m_consumerParams.value(QStringLiteral("consumer"));
-    if (consum.contains(QLatin1Char(':')))
+    if (consum.contains(QLatin1Char(':'))) {
         m_dest = consum.section(QLatin1Char(':'), 1);
+    }
     m_url = producerParams.value(QStringLiteral("producer"));
 }
 
@@ -64,12 +65,17 @@ void MeltJob::startJob()
         setStatus(JobCrashed);
         return;
     }
+    QString consumerName = m_consumerParams.value(QStringLiteral("consumer"));
+    // safety check, make sure we don't overwrite a source clip
+    if (!m_dest.isEmpty() && !m_dest.endsWith(QStringLiteral(".mlt"))) {
+        m_errorMessage.append(i18n("Invalid destination: %1.", consumerName));
+        setStatus(JobCrashed);
+        return;
+    }
     int in = m_producerParams.value(QStringLiteral("in")).toInt();
     if (in > 0 && !m_extra.contains(QStringLiteral("offset"))) m_extra.insert(QStringLiteral("offset"), QString::number(in));
     int out = m_producerParams.value(QStringLiteral("out")).toInt();
     QString filterName = m_filterParams.value(QStringLiteral("filter"));
-    QString consumerName = m_consumerParams.value(QStringLiteral("consumer"));
-    if (consumerName.contains(QLatin1Char(':'))) m_dest = consumerName.section(QLatin1Char(':'), 1);
 
     // optional params
     int startPos = -1;
