@@ -1404,6 +1404,11 @@ void MainWindow::setupActions()
     selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     timelineActions->addAction(QStringLiteral("select_all_tracks"), selectAll);
 
+    QAction *unselectAll = KStandardAction::deselect(this, SLOT(slotUnselectAllTracks()), this);
+    unselectAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-unselect-all")));
+    unselectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    timelineActions->addAction(QStringLiteral("unselect_all_tracks"), unselectAll);
+
     kdenliveCategoryMap.insert(QStringLiteral("timeline"), timelineActions);
 
     // Cached data management
@@ -2357,6 +2362,13 @@ void MainWindow::slotSelectAllTracks()
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (pCore->projectManager()->currentTimeline())
         pCore->projectManager()->currentTimeline()->projectView()->slotSelectAllClips();
+}
+
+void MainWindow::slotUnselectAllTracks()
+{
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    if (pCore->projectManager()->currentTimeline())
+        pCore->projectManager()->currentTimeline()->projectView()->clearSelection();
 }
 
 void MainWindow::slotEditGuide(int pos, QString text)

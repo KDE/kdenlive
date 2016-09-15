@@ -379,6 +379,7 @@ private slots:
     void slotSelectTrack();
     /** @brief Select all clips in timeline. */
     void slotSelectAllTracks();
+    void slotUnselectAllTracks();
     void slotGetNewLumaStuff();
     void slotGetNewTitleStuff();
     void slotGetNewRenderStuff();
