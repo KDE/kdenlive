@@ -847,6 +847,14 @@ void ClipPropertiesController::fillProperties()
         }
     }
 
+    qint64 filesize = m_controller->int64_property("kdenlive:file_size");
+    if (filesize > 0) {
+        QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
+        propertyMap.append(QStringList()
+                           << i18n("File size")
+                           << KIO::convertSize(filesize) + QStringLiteral(" (") + locale.toString(filesize) + QStringLiteral(")"));
+    }
+
     for (int i = 0; i < propertyMap.count(); i++) {
         new QTreeWidgetItem(m_propertiesTree, propertyMap.at(i));
     }
