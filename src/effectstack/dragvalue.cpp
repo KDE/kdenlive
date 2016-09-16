@@ -72,6 +72,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         m_intEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_intEdit->setRange((int) m_minimum, (int)m_maximum);
+        m_intEdit->setValue((int) m_default);
         l->addWidget(m_intEdit);
         connect(m_intEdit, SIGNAL(valueChanged(int)), this, SLOT(slotSetValue(int)));
         connect(m_intEdit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
@@ -91,6 +92,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_label->setStep(1);
         m_doubleEdit->setSingleStep((m_maximum - m_minimum) / factor);
         l->addWidget(m_doubleEdit);
+        m_doubleEdit->setValue(m_default);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
     }
