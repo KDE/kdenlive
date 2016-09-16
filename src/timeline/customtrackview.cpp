@@ -315,6 +315,7 @@ void CustomTrackView::updateSceneFrameWidth(double fpsChanged)
                 }
             }
         }
+        clearSelection();
         reloadTimeline();
         loadGroups(groups);
     } else {

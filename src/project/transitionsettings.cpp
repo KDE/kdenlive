@@ -22,6 +22,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "timeline/transition.h"
+#include "timeline/transitionhandler.h"
 #include "effectslist/effectslist.h"
 #include "effectstack/effectstackedit.h"
 #include "project/projectmanager.h"
@@ -159,6 +160,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
         // Reset the transition parameters to the default one
         disconnect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
         QDomElement newTransition = MainWindow::transitions.getEffectByName(transitionList->currentText()).cloneNode().toElement();
+        pCore->projectManager()->currentTimeline()->transitionHandler->initTransition(newTransition);
         slotUpdateEffectParams(e, newTransition);
         m_effectEdit->transferParamDesc(newTransition, m_usedTransition->info(), false);
         if (m_effectEdit->needsMonitorEffectScene())
