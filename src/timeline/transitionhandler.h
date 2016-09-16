@@ -37,6 +37,7 @@ class TransitionHandler : public QObject
 public:
     explicit TransitionHandler(Mlt::Tractor *tractor);
     bool addTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
+    /** @brief Initialize transition settings if necessary and return an array of values. */
     QMap<QString, QString> getTransitionParamsFromXml(const QDomElement &xml);
     void plantTransition(Mlt::Transition &tr, int a_track, int b_track);
     void plantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
@@ -58,6 +59,8 @@ public:
     void rebuildTransitions(int mode, QList <int> videoTracks, int maxTrack);
     /** @brief Returns the matching composite transition depending on the current settings. */
     static const QString compositeTransition();
+    /** @brief Initialize transition settings. */
+    void initTransition(QDomElement xml);
 
 private:
     Mlt::Tractor *m_tractor;
