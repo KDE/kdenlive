@@ -63,6 +63,16 @@ bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, Gen
     return true;
 }
 
+void TransitionHandler::initTransition(QDomElement xml)
+{
+    QMap<QString, QString> params = getTransitionParamsFromXml(xml);
+    QMapIterator<QString, QString> i(params);
+    while (i.hasNext()) {
+        i.next();
+        EffectsList::setParameter(xml, i.key(),i.value());
+    }
+}
+
 QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomElement &xml)
 {
     QDomNodeList attribs = xml.elementsByTagName(QStringLiteral("parameter"));

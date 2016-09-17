@@ -95,6 +95,7 @@ private:
     DragValue *m_spinY;
     DragValue *m_spinWidth;
     DragValue *m_spinHeight;
+    DragValue *m_spinSize;
     DragValue *m_spinOpacity;
     int m_offset;
     void parseKeyframes();
@@ -138,7 +139,8 @@ private slots:
     void slotAdjustToFrameSize();
     void slotFitToWidth();
     void slotFitToHeight();
-    
+    void slotResize(double value);
+
     /** @brief Moves the rect to the left frame border (x position = 0). */
     void slotMoveLeft();
     /** @brief Centers the rect horizontally. */

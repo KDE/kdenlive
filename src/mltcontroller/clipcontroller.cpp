@@ -137,7 +137,10 @@ void ClipController::getInfoForProducer()
     date = QFileInfo(m_url.path()).lastModified();
     m_audioIndex = -1;
     m_videoIndex = -1;
-    if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
+    // special case: playlist with a proxy clip have to be detected separately
+    if (m_usesProxy && m_url.path().endsWith(QStringLiteral(".mlt"))) {
+        m_clipType = Playlist;
+    } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
         m_audioIndex = int_property(QStringLiteral("audio_index"));
         m_videoIndex = int_property(QStringLiteral("video_index"));
         if (m_audioIndex == -1) {

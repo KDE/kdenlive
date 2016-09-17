@@ -207,6 +207,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     //m_ui.horizontalLayout->addStretch(10);
 
     m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, this);
+    m_spinSize->setStep(10);
     m_ui.horizontalLayout2->addWidget(m_spinSize);
 
     m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);

@@ -687,6 +687,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="automatictransitions" type="Bool">
+      <label>New transitions are automatic transitions.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="transitionfollowcursor" type="Bool">
       <label>When editing a composite transition, move timeline cursor for better preview.</label>
       <default>true</default>

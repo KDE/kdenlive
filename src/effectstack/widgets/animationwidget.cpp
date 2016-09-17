@@ -71,6 +71,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     , m_spinY(NULL)
     , m_spinWidth(NULL)
     , m_spinHeight(NULL)
+    , m_spinSize(NULL)
     , m_spinOpacity(NULL)
     , m_offset(effectIn - min)
 {
@@ -701,14 +702,19 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
     connect(m_spinHeight, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
     horLayout->addWidget(m_spinHeight);
-
-    if (e.attribute(QStringLiteral("opacity")) != QLatin1String("false")) {
-        m_spinOpacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, QString(), false, this);
-        connect(m_spinOpacity, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
-        horLayout->addWidget(m_spinOpacity);
-    }
     horLayout->addStretch(10);
-    
+
+    QHBoxLayout *horLayout2 = new QHBoxLayout;
+    m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, this);
+    m_spinSize->setStep(10);
+    connect(m_spinSize, &DragValue::valueChanged, this, &AnimationWidget::slotResize);
+    horLayout2->addWidget(m_spinSize);
+    if (e.attribute(QStringLiteral("opacity")) != QLatin1String("false")) {
+        m_spinOpacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
+        connect(m_spinOpacity, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+        horLayout2->addWidget(m_spinOpacity);
+    }
+
     // Build buttons
     QAction *originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
     connect(originalSize, SIGNAL(triggered()), this, SLOT(slotAdjustToSource()));
@@ -778,7 +784,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     alignButton->setDefaultAction(fitToWidth);
     alignButton->setAutoRaise(true);
     alignLayout->addWidget(alignButton);
-    
+
     alignButton = new QToolButton;
     alignButton->setDefaultAction(fitToHeight);
     alignButton->setAutoRaise(true);
@@ -787,6 +793,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
 
     static_cast<QVBoxLayout *>(layout())->addLayout(horLayout);
     static_cast<QVBoxLayout *>(layout())->addLayout(alignLayout);
+    static_cast<QVBoxLayout *>(layout())->addLayout(horLayout2);
     m_animController = m_animProperties.get_animation(paramTag.toUtf8().constData());
 }
 
@@ -838,6 +845,10 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
     rect.w = m_spinWidth->value();
     rect.h = m_spinHeight->value();
     rect.o = m_spinOpacity ? m_spinOpacity->value() / 100.0 : 1;
+    double scale = qMin(m_spinWidth->value() / m_monitor->render->frameRenderWidth(), m_spinHeight->value() / m_monitor->render->renderHeight());
+    m_spinSize->blockSignals(true);
+    m_spinSize->setValue(100.0 * scale);
+    m_spinSize->blockSignals(false);
     if (m_animController.is_key(pos)) {
         // This is a keyframe
         m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
@@ -851,6 +862,18 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
               setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
 	  }
     }
+}
+
+void AnimationWidget::slotResize(double value)
+{
+    m_spinWidth->blockSignals(true);
+    m_spinHeight->blockSignals(true);
+    m_spinWidth->setValue(m_monitor->render->frameRenderWidth() * value / 100.0);
+    m_spinHeight->setValue(m_monitor->render->renderHeight() * value / 100.0);
+    m_spinWidth->blockSignals(false);
+    m_spinHeight->blockSignals(false);
+    slotAdjustRectKeyframeValue();
+    setupMonitor();
 }
 
 bool AnimationWidget::isActive(const QString &name) const

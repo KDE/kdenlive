@@ -861,7 +861,7 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
     EFFECTMODE status = m_effectStack->effectStatus();
     switch (status) {
         case TIMELINE_TRACK:
-            pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, pCore->projectManager()->currentTimeline()->tracksCount() - m_effectStack->trackIndex());
+            pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, m_effectStack->trackIndex());
             break;
         case TIMELINE_CLIP:
             pCore->projectManager()->currentTimeline()->projectView()->slotAddEffectToCurrentItem(effectToAdd);
@@ -1084,11 +1084,18 @@ void MainWindow::setupActions()
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
+
     m_buttonSnap = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-snap")), i18n("Snap"), this);
 
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
+
+    m_buttonAutomaticTransition = new QAction(KoIconUtils::themedIcon(QStringLiteral("auto-transition")), i18n("Automatic transitions"), this);
+
+    m_buttonAutomaticTransition->setCheckable(true);
+    m_buttonAutomaticTransition->setChecked(KdenliveSettings::automatictransitions());
+    connect(m_buttonAutomaticTransition, SIGNAL(triggered()), this, SLOT(slotSwitchAutomaticTransition()));
 
     m_buttonFitZoom = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Fit zoom to project"), this);
 
@@ -1136,6 +1143,7 @@ void MainWindow::setupActions()
 
     /*QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");*/
     toolbar->addAction(m_buttonAutomaticSplitAudio);
+    toolbar->addAction(m_buttonAutomaticTransition);
     toolbar->addAction(m_buttonVideoThumbs);
     toolbar->addAction(m_buttonAudioThumbs);
     toolbar->addAction(m_buttonShowMarkers);
@@ -1188,6 +1196,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool);
 
     addAction(QStringLiteral("automatic_split_audio"), m_buttonAutomaticSplitAudio);
+    addAction(QStringLiteral("automatic_transition"), m_buttonAutomaticTransition);
     addAction(QStringLiteral("show_video_thumbs"), m_buttonVideoThumbs);
     addAction(QStringLiteral("show_audio_thumbs"), m_buttonAudioThumbs);
     addAction(QStringLiteral("show_markers"), m_buttonShowMarkers);
@@ -1394,6 +1403,11 @@ void MainWindow::setupActions()
     selectAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-all")));
     selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     timelineActions->addAction(QStringLiteral("select_all_tracks"), selectAll);
+
+    QAction *unselectAll = KStandardAction::deselect(this, SLOT(slotUnselectAllTracks()), this);
+    unselectAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-unselect-all")));
+    unselectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    timelineActions->addAction(QStringLiteral("unselect_all_tracks"), unselectAll);
 
     kdenliveCategoryMap.insert(QStringLiteral("timeline"), timelineActions);
 
@@ -1916,7 +1930,7 @@ void MainWindow::connectDocument()
     m_normalEditTool->setChecked(true);
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), this, SLOT(slotUpdateProjectDuration(int)));
     pCore->monitorManager()->setDocument(project);
-    trackView->updateProfile(false);
+    trackView->updateProfile(1.0);
     if (m_recMonitor) {
         m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
     }
@@ -2049,6 +2063,7 @@ void MainWindow::updateConfiguration()
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     slotSwitchSplitAudio(KdenliveSettings::splitaudio());
+    slotSwitchAutomaticTransition();
 
     // Update list of transcoding profiles
     buildDynamicActions();
@@ -2099,6 +2114,11 @@ void MainWindow::slotSwitchSnap()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
 }
 
+void MainWindow::slotSwitchAutomaticTransition()
+{
+    KdenliveSettings::setAutomatictransitions(!KdenliveSettings::automatictransitions());
+    m_buttonAutomaticTransition->setChecked(KdenliveSettings::automatictransitions());
+}
 
 void MainWindow::slotDeleteItem()
 {
@@ -2342,6 +2362,13 @@ void MainWindow::slotSelectAllTracks()
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (pCore->projectManager()->currentTimeline())
         pCore->projectManager()->currentTimeline()->projectView()->slotSelectAllClips();
+}
+
+void MainWindow::slotUnselectAllTracks()
+{
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    if (pCore->projectManager()->currentTimeline())
+        pCore->projectManager()->currentTimeline()->projectView()->clearSelection();
 }
 
 void MainWindow::slotEditGuide(int pos, QString text)
@@ -3057,7 +3084,7 @@ void MainWindow::buildDynamicActions()
         delete filter;
     }
     if (KdenliveSettings::producerslist().contains(QStringLiteral("timewarp"))) {
-	QAction *action = new QAction(i18n("Reverse clip"), m_extraFactory->actionCollection());
+	QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
         QStringList stabJob;
         stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << QStringLiteral("timewarp");
         action->setData(stabJob);
@@ -3304,7 +3331,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
     // Do we want proxy rendering
     if (project->useProxy() && !m_renderWidget->proxyRendering()) {
-        QString root = doc.documentElement().attribute(QStringLiteral("root"));
+        QString root = pCore->binController()->documentRoot();
 
         // replace proxy clips with originals
         //TODO
@@ -3336,10 +3363,10 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             } else {
                 suffix.clear();
             }
-            if (!producerResource.startsWith('/')) {
-                producerResource.prepend(root + '/');
-            }
             if (!producerResource.isEmpty()) {
+                if (!producerResource.startsWith(QLatin1Char('/'))) {
+                    producerResource.prepend(root);
+                }
                 if (proxies.contains(producerResource)) {
                     QString replacementResource = proxies.value(producerResource);
                     EffectsList::setProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);

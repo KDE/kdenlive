@@ -21,6 +21,7 @@
      <file alias="jog-dial.svg">../data/pics/breeze-light/lt_jog-dial.svg</file>
      <file alias="show-all-effects.svg">../data/pics/breeze-light/lt_show-all-effects.svg</file>
      <file alias="show-gpu-effects.svg">../data/pics/breeze-light/lt_show-gpu-effects.svg</file>
+     <file alias="auto-transition.svg">../data/pics/breeze-light/lt_auto-transition.svg</file>
      <file alias="kdenlive.png">../data/icons/48-apps-kdenlive.png</file>
   </qresource>
 </RCC>

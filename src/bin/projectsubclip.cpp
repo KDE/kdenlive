@@ -48,11 +48,20 @@ ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out, const QStri
     m_duration = timecode;
     // Save subclip in MLT
     parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + ";" +  QString::number(out));
+    connect(parent, &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
 }
 
 ProjectSubClip::~ProjectSubClip()
 {
     // controller is deleted in bincontroller
+}
+
+void ProjectSubClip::gotThumb(int pos, QImage img)
+{
+    if (pos == m_in) {
+        setThumbnail(img);
+        disconnect(m_masterClip, &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
+    }
 }
 
 void ProjectSubClip::discard()

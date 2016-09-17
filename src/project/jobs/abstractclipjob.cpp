@@ -32,7 +32,7 @@ AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id
         replaceClip(false),
         m_jobStatus(NoJob),
         m_clipId(id),
-        m_addClipToProject(false),
+        m_addClipToProject(-100),
         m_jobProcess(NULL)
 {
 }

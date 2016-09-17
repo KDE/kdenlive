@@ -11,21 +11,27 @@
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0" colspan="4">
-    <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
+   <item row="12" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>23</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_verticalzoom">
      <property name="text">
-      <string>Use FFmpeg for audio thumbnails (faster)</string>
+      <string>Zoom using vertical drag in ruler</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QCheckBox" name="kcfg_showmarkers">
-     <property name="text">
-      <string>Display clip markers comments</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="4">
+   <item row="7" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="label">
@@ -62,13 +68,6 @@
      </item>
     </layout>
    </item>
-   <item row="5" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_splitaudio">
-     <property name="text">
-      <string>Automatically split audio and video</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0" colspan="2">
     <widget class="QCheckBox" name="kcfg_autoscroll">
      <property name="text">
@@ -76,10 +75,62 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_verticalzoom">
+   <item row="8" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Timeline clip and transition corners</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="kcfg_clipcornertype">
+       <item>
+        <property name="text">
+         <string>Rounded</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Straight</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_splitaudio">
      <property name="text">
-      <string>Zoom using vertical drag in ruler</string>
+      <string>Automatically split audio and video</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="4">
+    <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
+     <property name="text">
+      <string>Use FFmpeg for audio thumbnails (faster)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QCheckBox" name="kcfg_showmarkers">
+     <property name="text">
+      <string>Display clip markers comments</string>
      </property>
     </widget>
    </item>
@@ -133,56 +184,12 @@
      </layout>
     </widget>
    </item>
-   <item row="11" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="kcfg_automatictransitions">
+     <property name="text">
+      <string>Create new transitions as automatic transitions</string>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>23</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="7" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Timeline clip and transition corners</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="kcfg_clipcornertype">
-       <item>
-        <property name="text">
-         <string>Rounded</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Straight</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+    </widget>
    </item>
   </layout>
  </widget>

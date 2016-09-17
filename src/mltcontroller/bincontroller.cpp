@@ -597,7 +597,14 @@ QMap <QString, QString> BinController::getProxies()
 	if (!prod->is_valid() || prod->is_blank()) continue;
         QString proxy = prod->parent().get("kdenlive:proxy");
 	if (proxy.length() > 2) {
-	    proxies.insert(proxy, prod->parent().get("kdenlive:originalurl"));
+            if (!proxy.startsWith(QLatin1Char('/'))) {
+                proxy.prepend(m_documentRoot);
+            }
+            QString sourceUrl(prod->parent().get("kdenlive:originalurl"));
+            if (!sourceUrl.startsWith(QLatin1Char('/'))) {
+                sourceUrl.prepend(m_documentRoot);
+            }
+	    proxies.insert(proxy, sourceUrl);
 	}
     }
     return proxies;

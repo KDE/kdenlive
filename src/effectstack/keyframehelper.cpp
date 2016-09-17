@@ -166,7 +166,7 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
                 m_extraGeometries[i]->remove(m_movingItem.frame());
         }
         int pos = qBound(0, (int)(xPos / m_scale), frameLength);
-        if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < headOffset)
+        if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < headOffset / m_scale)
             pos = m_position;
         m_movingItem.frame(pos + m_offset);
         for (int i = 0; i < m_extraMovingItems.count(); ++i) {
