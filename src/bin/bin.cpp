@@ -1869,14 +1869,16 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
                 m_doc->watchFile(clip->url());
             }
             if (m_doc->useProxy()) {
-                if (t == AV || t == Video || t == Playlist) {
+                if (t == AV || t == Video) {
                     int width = clip->getProducerIntProperty(QStringLiteral("meta.media.width"));
                     if (m_doc->autoGenerateProxy(width)) {
                         // Start proxy
                         m_doc->slotProxyCurrentItem(true, QList <ProjectClip *>() << clip);
                     }
-                }
-                else if (t == Image && m_doc->autoGenerateImageProxy(clip->getProducerIntProperty(QStringLiteral("meta.media.width")))) {
+                } else if (t == Playlist) {
+                    // always proxy playlists
+                    m_doc->slotProxyCurrentItem(true, QList <ProjectClip *>() << clip);
+                } else if (t == Image && m_doc->autoGenerateImageProxy(clip->getProducerIntProperty(QStringLiteral("meta.media.width")))) {
                     // Start proxy
                     m_doc->slotProxyCurrentItem(true, QList <ProjectClip *>() << clip);
                 }
@@ -3313,7 +3315,10 @@ void Bin::refreshProxySettings()
         QList <ProjectClip*> toProxy;
         foreach (ProjectClip *clp, clipList) {
             ClipType t = clp->clipType();
-            if ((t == AV || t == Video || t == Playlist)
+            if (t == Playlist) {
+                toProxy << clp;
+                continue;
+            } else if ((t == AV || t == Video)
                 && m_doc->autoGenerateProxy(clp->getProducerIntProperty(QStringLiteral("meta.media.width")))) {
                 // Start proxy
                 toProxy << clp;
