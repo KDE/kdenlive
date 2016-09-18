@@ -8449,16 +8449,37 @@ void CustomTrackView::updateTransitionWidget(Transition *tr, ItemInfo info)
 
 void CustomTrackView::dropTransitionGeometry(Transition *trans, const QString &geometry)
 {
-    if (m_dragItem && m_dragItem != trans) {
+    if (!m_dragItem || m_dragItem != trans) {
         clearSelection(false);
         m_dragItem = trans;
         m_dragItem->setMainSelectedClip(true);
         trans->setSelected(true);
         updateTimelineSelection();
     }
+    emit transitionItemSelected(trans);
     QMap <QString, QString> data;
     data.insert(i18n("Dropped Geometry"), geometry);
     slotImportClipKeyframes(TransitionWidget, trans->info(), trans->toXML(), data);
+}
+
+void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString &geometry)
+{
+    if (!m_dragItem || m_dragItem != clip) {
+        clearSelection(false);
+        m_dragItem = clip;
+        m_dragItem->setMainSelectedClip(true);
+        clip->setSelected(true);
+        updateTimelineSelection();
+    }
+    emit clipItemSelected(clip);
+    QMap <QString, QString> data;
+    data.insert(i18n("Dropped Geometry"), geometry);
+    QDomElement currentEffect = clip->getEffectAtIndex(clip->selectedEffectIndex());
+    if (currentEffect.isNull()) {
+        emit displayMessage(i18n("No effect to import keyframes"), InformationMessage);
+        return;
+    }
+    slotImportClipKeyframes(AVWidget, clip->info(), currentEffect.cloneNode().toElement(), data);
 }
 
 void CustomTrackView::breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt)

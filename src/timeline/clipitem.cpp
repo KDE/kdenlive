@@ -1627,9 +1627,19 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event)
             // Transition drop
             effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/transitionslist")));
             transitionDrop = true;
-        } else {
+        } else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
             // Effect drop
             effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
+        } else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+            if (m_selectionTimer.isActive())
+                m_selectionTimer.stop();
+            event->acceptProposedAction();
+            CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views().first());
+            if (view) {
+                QString geometry = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/geometry")));
+                view->dropClipGeometry(this, geometry);
+            }
+            return;
         }
         event->acceptProposedAction();
         QDomDocument doc;

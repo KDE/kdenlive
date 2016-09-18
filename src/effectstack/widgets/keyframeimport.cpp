@@ -215,6 +215,20 @@ void KeyframeImport::updateDataDisplay()
 {
     QString data = m_dataCombo->currentData().toString();
     m_maximas = m_keyframeView->loadKeyframes(data);
+    double wDist = m_maximas.at(2).y() - m_maximas.at(2).x();
+    double hDist = m_maximas.at(3).y() - m_maximas.at(3).x();
+    if (wDist == 0 && hDist == 0) {
+        // Source data has only x/y pos, no width/height so disable geometry import
+        int pos = m_sourceCombo->currentData().toInt();
+        int ix = m_sourceCombo->findData(10);
+        if (ix > -1)
+            m_sourceCombo->removeItem(ix);
+        if (pos == 10) {
+            ix = m_sourceCombo->findData(11);
+            if (ix > -1)
+                m_sourceCombo->setCurrentIndex(ix);
+        }
+    }
     updateRange();
     if (!m_inPoint->isValid()) {
         m_inPoint->blockSignals(true);
