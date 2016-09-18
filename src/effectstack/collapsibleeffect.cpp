@@ -631,7 +631,13 @@ void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
 void CollapsibleEffect::importKeyframes(const QString &keyframes)
 {
     QMap <QString, QString> data;
-    data.insert(i18n("Geometry"), keyframes);
+    if (keyframes.contains(QLatin1Char('\n'))) {
+        QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
+        foreach(const QString &param, params) {
+            data.insert(param.section("=", 0, 0), param.section("=", 1));
+        }
+    }
+    else data.insert(i18n("Geometry"), keyframes);
     emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), data);
 }
 

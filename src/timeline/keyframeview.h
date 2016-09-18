@@ -102,7 +102,7 @@ public:
     /** @brief Returns a copy of the original anim, with a crop zone (in/out), frame offset, max number of keyframes, and value mapping */
     QString getSingleAnimation(int ix, int in, int out, int offset, int limitKeyframes, QPoint maximas, double min, double max);
     /** @brief Returns a copy of the original anim, with a crop zone (in/out) and frame offset */
-    QString getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation);
+    QString getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation, bool positionOnly);
 	
 private:
     Mlt::Properties m_keyProperties;

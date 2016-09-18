@@ -1382,14 +1382,14 @@ void AnimationWidget::slotCopyKeyframes()
     const QMap <QString, QString> anims = getAnimation();
     if (anims.isEmpty())
         return;
-    QString value;
-    if (anims.count() == 1) {
-        value = anims.first();
-    } else {
-        value = anims.value(m_inTimeline);
+    QString result;
+    QMapIterator<QString, QString> i(anims);
+    while (i.hasNext()) {
+        i.next();
+        result.append(i.key() + QStringLiteral("=") + i.value() + QLatin1Char('\n'));
     }
     QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(value);
+    clipboard->setText(result);
 }
 
 void AnimationWidget::slotImportKeyframes()
