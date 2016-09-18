@@ -263,7 +263,7 @@ public slots:
 
     void slotPreferences(int page = -1, int option = -1);
     void connectDocument();
-    void slotTimelineClipSelected(ClipItem* item, bool reloadStack = true, bool raise = true);
+    void slotTimelineClipSelected(ClipItem* item, bool reloadStack = true);
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
     void updateDockTitleBars(bool isTopLevel = true);

@@ -34,6 +34,7 @@
 #include <QDialogButtonBox>
 #include <QDragEnterEvent>
 #include <QMimeData>
+#include <QClipboard>
 
 #include <KDualAction>
 #include <KConfig>
@@ -158,6 +159,12 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     m_endAttach->setCheckable(true);
     connect(m_endAttach, &QAction::toggled, this, &AnimationWidget::slotReverseKeyframeType);
 
+    // copy/paste keyframes from clipboard
+    QAction *copy = new QAction(i18n("Copy keyframes to clipboard"), this);
+    connect(copy, &QAction::triggered, this, &AnimationWidget::slotCopyKeyframes);
+    QAction *paste = new QAction(i18n("Import keyframes from clipboard"), this);
+    connect(paste, &QAction::triggered, this, &AnimationWidget::slotImportKeyframes);
+
     // save preset
     QAction *savePreset = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save preset"), this);
     connect(savePreset, &QAction::triggered, this, &AnimationWidget::savePreset);
@@ -169,6 +176,10 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     QMenu *container = new QMenu;
     tb->addAction(m_selectType);
     container->addAction(m_endAttach);
+    container->addSeparator();
+    container->addAction(copy);
+    container->addAction(paste);
+    container->addSeparator();
     container->addAction(savePreset);
     container->addAction(delPreset);
     container->addAction(defaultInterp);
@@ -263,7 +274,12 @@ void AnimationWidget::slotNext()
     slotPositionChanged(next, true);
 }
 
-void AnimationWidget::slotAddKeyframe(int pos, QString paramName, bool directUpdate)
+void AnimationWidget::slotAddKeyframe(int pos)
+{
+    slotAddDeleteKeyframe(true, pos);
+}
+
+void AnimationWidget::doAddKeyframe(int pos, QString paramName, bool directUpdate)
 {
     if (paramName.isEmpty()) {
         paramName = m_inTimeline;
@@ -328,7 +344,7 @@ void AnimationWidget::slotAddDeleteKeyframe(bool add, int pos)
         for (int i = 0; i < paramNames.count(); i++) {
             m_animController = m_animProperties.get_animation(paramNames.at(i).toUtf8().constData());
             if (!m_animController.is_key(pos - m_offset)) {
-                slotAddKeyframe(pos - m_offset, paramNames.at(i), false);
+                doAddKeyframe(pos - m_offset, paramNames.at(i), false);
             }
         }
         m_ruler->setActiveKeyframe(pos);
@@ -724,7 +740,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     connect(fitToWidth, SIGNAL(triggered()), this, SLOT(slotFitToWidth()));
     QAction *fitToHeight = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
     connect(fitToHeight, SIGNAL(triggered()), this, SLOT(slotFitToHeight()));
-    
+
     QAction *alignleft = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
     connect(alignleft, SIGNAL(triggered()), this, SLOT(slotMoveLeft()));
     QAction *alignhcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
@@ -1209,15 +1225,72 @@ void AnimationWidget::offsetAnimation(int offset)
 void AnimationWidget::reload(const QString &tag, const QString &data)
 {
     m_animProperties.set(tag.toUtf8().constData(), data.toUtf8().constData());
-    m_animProperties.anim_get_int(tag.toUtf8().constData(), 0, m_outPoint);
-    m_attachedToEnd = KeyframeView::checkNegatives(data, m_outPoint);
-    m_inTimeline = tag;
-    QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
-    while (i.hasNext()) {
-        i.next();
-        i.value()->setChecked(i.key() == tag);
+    if (tag == m_rectParameter) {
+        m_animProperties.anim_get_rect(tag.toUtf8().constData(), 0, m_outPoint);
+    } else {
+        m_animProperties.anim_get_int(tag.toUtf8().constData(), 0, m_outPoint);
+        m_attachedToEnd = KeyframeView::checkNegatives(data, m_outPoint);
+        m_inTimeline = tag;
+        QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
+        while (i.hasNext()) {
+            i.next();
+            i.value()->setChecked(i.key() == tag);
+        }
+    }
+    // Also add keyframes positions in other parameters
+    QStringList paramNames = m_doubleWidgets.keys();
+    QLocale locale;
+    m_animController = m_animProperties.get_animation(tag.toUtf8().constData());
+    for (int i = 0; i < paramNames.count(); i++) {
+        QString currentParam = paramNames.at(i);
+        if (currentParam == tag) continue;
+        // simple anim parameter, get default value
+        double def = locale.toDouble(defaultValue(currentParam));
+        // Clear current keyframes
+        m_animProperties.set(currentParam.toUtf8().constData(), "");
+        // Add default keyframes
+        int pos;
+        mlt_keyframe_type type;
+        for(int j = 0; j < m_animController.key_count(); ++j) {
+            m_animController.key_get(j, pos, type);
+            m_animProperties.anim_set(currentParam.toUtf8().constData(), def, pos, m_outPoint, type);
+        }
+        m_animProperties.anim_get_int(currentParam.toUtf8().constData(), 0, m_outPoint);
+    }
+    if (!m_rectParameter.isEmpty() && tag != m_rectParameter) {
+        // reset geometry keyframes
+        // simple anim parameter, get default value
+        QString def = getDefaultKeyframes(defaultValue(m_rectParameter));
+        // Clear current keyframes
+        m_animProperties.set(m_rectParameter.toUtf8().constData(), def.toUtf8().constData());
+        // Add default keyframes
+        int pos;
+        mlt_keyframe_type type;
+        m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), 0, m_outPoint);
+        mlt_rect rect = m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), 0, m_outPoint);
+        for(int j = 0; j < m_animController.key_count(); ++j) {
+            m_animController.key_get(j, pos, type);
+            m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, type);
+        }
+        m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), 0, m_outPoint);
     }
     rebuildKeyframes();
+    emit parameterChanged();
+}
+
+QString AnimationWidget::defaultValue(const QString &paramName)
+{
+    QStringList paramNames = m_doubleWidgets.keys();
+    for (int i = 0; i < paramNames.count(); i++) {
+        if (m_params.at(i).attribute(QStringLiteral("name")) == paramName) {
+            QString def = m_params.at(i).attribute(QStringLiteral("default"));
+            if (def.contains(QLatin1Char('%'))) {
+                def = EffectsController::getStringRectEval(m_monitor->profileInfo(), def);
+            }
+            return def;
+        }
+    }
+    return QString();
 }
 
 void AnimationWidget::slotAdjustToSource()
@@ -1325,4 +1398,26 @@ void AnimationWidget::slotCenterV()
 void AnimationWidget::slotMoveBottom()
 {
     m_spinY->setValue(m_monitor->render->renderHeight() - m_spinHeight->value());
+}
+
+void AnimationWidget::slotCopyKeyframes()
+{
+    const QMap <QString, QString> anims = getAnimation();
+    if (anims.isEmpty())
+        return;
+    QString value;
+    if (anims.count() == 1) {
+        value = anims.first();
+    } else {
+        value = anims.value(m_inTimeline);
+    }
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(value);
+}
+
+void AnimationWidget::slotImportKeyframes()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    QString values = clipboard->text();
+    emit setKeyframes(values);
 }

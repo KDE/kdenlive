@@ -592,7 +592,7 @@ signals:
     /** @brief A clip was selected in timeline, update the effect stack
      *  @param clip The clip
      *  @param raise If true, the effect stack widget will be raised (come to front). */
-    void clipItemSelected(ClipItem *clip, bool reloadStack = true, bool raise = true);
+    void clipItemSelected(ClipItem *clip, bool reloadStack = true);
     void transitionItemSelected(Transition*, int track = 0, QPoint p = QPoint(), bool update = false);
     void activateDocumentMonitor();
     void tracksChanged();

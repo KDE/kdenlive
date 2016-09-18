@@ -552,6 +552,7 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
     else {
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
         connect(m_paramWidget, SIGNAL(disableCurrentFilter(bool)), this, SLOT(slotDisableEffect(bool)));
+        connect(m_paramWidget, &ParameterContainer::importKeyframes, this, &CollapsibleEffect::importKeyframes);
         if (m_effect.firstChildElement(QStringLiteral("parameter")).isNull()) {
             // Effect has no parameter, don't allow expand
             collapseButton->setEnabled(false);
@@ -627,6 +628,13 @@ void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
     frame->setStyleSheet(frame->styleSheet());
 }
 
+void CollapsibleEffect::importKeyframes(const QString &keyframes)
+{
+    QMap <QString, QString> data;
+    data.insert(i18n("Geometry"), keyframes);
+    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), data);
+}
+
 void CollapsibleEffect::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
@@ -635,9 +643,7 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
         }
         emit activateEffect(effectIndex());
         QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
-        QMap <QString, QString> data;
-        data.insert(i18n("Geometry"), itemData);
-        emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), data);
+        importKeyframes(itemData);
         return;
     }
     frame->setProperty("target", false);
