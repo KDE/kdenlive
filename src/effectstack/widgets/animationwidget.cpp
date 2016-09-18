@@ -63,7 +63,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     , m_active(false)
     , m_clipPos(clipPos)
     , m_inPoint(min)
-    , m_outPoint(max)
+    , m_outPoint(max + 1)
     , m_editedKeyframe(-1)
     , m_attachedToEnd(-2)
     , m_xml(xml)
@@ -199,7 +199,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     // Timecode
     tb->addWidget(m_timePos);
     m_timePos->setFrame(false);
-    m_timePos->setRange(0, m_outPoint - m_inPoint);
+    m_timePos->setRange(0, m_outPoint - m_inPoint - 1);
 
     // Prepare property
     mlt_profile profile = m_monitor->profile()->get_profile();

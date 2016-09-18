@@ -77,8 +77,8 @@ public:
     mlt_keyframe_type type(int frame);
     void removeKeyframe(int frame);
     void addKeyframe(int frame, double value, mlt_keyframe_type type);
-    void addDefaultKeyframe(int frame, mlt_keyframe_type type);
-    const QString serialize();
+    void addDefaultKeyframe(ProfileInfo profile, int frame, mlt_keyframe_type type);
+    const QString serialize(const QString &name = QString(), bool rectAnimation = false);
     /** @brief Loads a rect animation and returns minimas/maximas for x,y,w,h **/
     QList <QPoint> loadKeyframes(const QString &data);
     bool loadKeyframes(const QLocale locale, QDomElement e, int cropStart, int length);
@@ -125,6 +125,7 @@ private:
         double factor;
         double min;
         double max;
+        QString defaultValue;
     };
     QMap <QString, ParameterInfo> m_paramInfos;
 
