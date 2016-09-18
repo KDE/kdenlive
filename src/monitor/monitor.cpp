@@ -34,6 +34,11 @@
 #include "doc/kthumb.h"
 #include "utils/KoIconUtils.h"
 #include "timeline/transitionhandler.h"
+#include "core.h"
+#include "bin/bin.h"
+#include "project/projectmanager.h"
+#include "doc/kdenlivedoc.h"
+#include "mainwindow.h"
 
 #include "klocalizedstring.h"
 #include <KRecentDirs>
@@ -445,8 +450,11 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         QAction *extractZone = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
     }
-    QAction *extractFrame = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
+    QAction *extractFrame = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract frame..."), this, SLOT(slotExtractCurrentFrame()));
     m_contextMenu->addAction(extractFrame);
+
+    QAction *extractFrameToProject = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract frame to project..."), this, SLOT(slotExtractCurrentFrameToProject()));
+    m_contextMenu->addAction (extractFrameToProject);
 
     if (m_id == Kdenlive::ProjectMonitor) {
         m_multitrackView = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this, SIGNAL(multitrackView(bool)));
@@ -932,11 +940,35 @@ ClipController *Monitor::currentController() const
     return m_controller;
 }
 
-void Monitor::slotExtractCurrentFrame(QString path)
+void Monitor::slotExtractCurrentFrameToProject()
 {
+    slotExtractCurrentFrame(QString(), true);
+}
+
+void Monitor::slotExtractCurrentFrame(QString path, bool addToProject)
+{
+    if (addToProject && QFileInfo(path).fileName().isEmpty()) {
+        // convenience: when extracting an image to be added to the project,
+        // suggest a suitable image file name. In the project monitor, this
+        // suggestion bases on the project file name; in the clip monitor,
+        // the suggestion bases on the clip file name currently shown.
+        // Finally, the frame number is added to this suggestion, prefixed
+        // with "-f", so we get something like clip-f#.png.
+        QString suggestedImageName = QFileInfo(currentController()
+                                        ? currentController()->clipName()
+                                        : pCore->projectManager()->current()->url().isValid()
+                                            ? pCore->projectManager()->current()->url().fileName()
+                                            : i18n("untitled")
+                                    ).completeBaseName()
+                                    + QStringLiteral("-f")
+                                    + QString::number(render->seekFramePosition())
+                                    + ".png";
+        path = QFileInfo(path, suggestedImageName).absoluteFilePath();
+    }
+
     QString framesFolder = KRecentDirs::dir(":KdenliveFramesFolder");
     if (framesFolder.isEmpty()) framesFolder = QDir::homePath();
-    QPointer<QFileDialog> fs = new QFileDialog(this, i18n("Save Image"), framesFolder);
+    QPointer<QFileDialog> fs = new QFileDialog(this, addToProject ? i18n("Save Image") : i18n("Save Image to Project"), framesFolder);
     fs->setMimeTypeFilters(QStringList() << QStringLiteral("image/png"));
     fs->setAcceptMode(QFileDialog::AcceptSave);
     fs->setDefaultSuffix(QStringLiteral("png"));
@@ -946,7 +978,7 @@ void Monitor::slotExtractCurrentFrame(QString path)
             QUrl savePath = fs->selectedUrls().first();
             if (QFile::exists(savePath.toLocalFile()) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", savePath.toLocalFile())) == KMessageBox::No) {
                 delete fs;
-                slotExtractCurrentFrame(savePath.fileName());
+                slotExtractCurrentFrame(savePath.fileName(), addToProject);
                 return;
             }
             // Create Qimage with frame
@@ -955,10 +987,16 @@ void Monitor::slotExtractCurrentFrame(QString path)
             if (m_controller && !m_controller->property(QStringLiteral("kdenlive:proxy")).isEmpty() && m_controller->property(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // using proxy, use original clip url to get frame
                 frame = render->extractFrame(render->seekFramePosition(), m_controller->property(QStringLiteral("resource")));
+            } else {
+                frame = render->extractFrame(render->seekFramePosition());
             }
-            else frame = render->extractFrame(render->seekFramePosition());
             frame.save(savePath.toLocalFile());
             KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), savePath.adjusted(QUrl::RemoveFilename).path());
+
+            if (addToProject) {
+                QStringList folderInfo = pCore->bin()->getFolderInfo();
+                pCore->bin()->droppedUrls(QList<QUrl>() << savePath, folderInfo);
+            }
         }
     }
     delete fs;

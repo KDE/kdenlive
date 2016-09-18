@@ -239,7 +239,8 @@ private:
 private slots:
     void seekCursor(int pos);
     void rendererStopped(int pos);
-    void slotExtractCurrentFrame(QString path = QString());
+    void slotExtractCurrentFrame(QString path = QString(), bool addToProject = false);
+    void slotExtractCurrentFrameToProject();
     void slotSetThumbFrame();
     void slotSaveZone();
     void slotSeek();
