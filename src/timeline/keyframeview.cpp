@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "klocalizedstring.h"
 
 #include "keyframeview.h"
-#include <../../media/home/data/downloads/git/kdenlive/src/mltcontroller/effectscontroller.h>
+#include "../mltcontroller/effectscontroller.h"
 
 KeyframeView::KeyframeView(int handleSize, QObject *parent) : QObject(parent)
     , activeKeyframe(-1)

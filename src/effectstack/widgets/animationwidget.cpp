@@ -153,7 +153,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
             break;
     }
     connect(defaultInterp, SIGNAL(triggered(QAction*)), this, SLOT(slotSetDefaultInterp(QAction*)));
-    m_selectType->setToolBarMode(KSelectAction::MenuMode);
+    m_selectType->setToolBarMode(KSelectAction::ComboBoxMode);
 
     m_endAttach = new QAction(i18n("Attach keyframe to end"), this);
     m_endAttach->setCheckable(true);
@@ -1011,11 +1011,20 @@ void AnimationWidget::applyPreset(int ix)
     QStringList presetNames = entries.keys();
     QStringList paramNames = m_doubleWidgets.keys();
     for (int i = 0; i < paramNames.count() && i < presetNames.count(); i++) {
-        QString keyframes = entries.value(presetNames.at(i)).toString();
-        m_animProperties.set(paramNames.at(i).toUtf8().constData(), keyframes.toUtf8().constData());
+        QString keyframes = entries.value(paramNames.at(i)).toString();
+        if (!keyframes.isEmpty()) {
+            m_animProperties.set(paramNames.at(i).toUtf8().constData(), keyframes.toUtf8().constData());
+            // Required to initialize anim property
+            m_animProperties.anim_get_int(m_inTimeline.toUtf8().constData(), 0, m_outPoint);
+        }
     }
-    // Required to initialize anim property
-    m_animProperties.anim_get_int(m_inTimeline.toUtf8().constData(), 0);
+    if (!m_rectParameter.isEmpty()) {
+        QString keyframes = entries.value(m_rectParameter).toString();
+        if (!keyframes.isEmpty()) {
+            m_animProperties.set(m_rectParameter.toUtf8().constData(), keyframes.toUtf8().constData());
+            m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), 0, m_outPoint);
+        }
+    }
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     rebuildKeyframes();
     emit parameterChanged();
