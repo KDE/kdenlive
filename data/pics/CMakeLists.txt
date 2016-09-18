@@ -167,9 +167,9 @@ breeze-light/lt_zoom-fit-height.svgz
 breeze-light/lt_zoom-fit-width.svgz
 breeze-light/lt_zoom-in.svgz
 breeze-light/lt_zoom-out.svgz
-breeze-light/lt_discrete.svgz
-breeze-light/lt_linear.svgz
-breeze-light/lt_smooth.svgz
+breeze-light/lt_discrete.svg
+breeze-light/lt_linear.svg
+breeze-light/lt_smooth.svg
 breeze-light/lt_keyframes.svgz
 breeze-light/lt_zone-in.svg
 breeze-light/lt_zone-out.svg
@@ -341,9 +341,9 @@ breeze-dark/dk_zoom-fit-height.svgz
 breeze-dark/dk_zoom-fit-width.svgz
 breeze-dark/dk_zoom-in.svgz
 breeze-dark/dk_zoom-out.svgz
-breeze-dark/dk_discrete.svgz
-breeze-dark/dk_linear.svgz
-breeze-dark/dk_smooth.svgz
+breeze-dark/dk_discrete.svg
+breeze-dark/dk_linear.svg
+breeze-dark/dk_smooth.svg
 breeze-dark/dk_keyframes.svgz
 breeze-dark/dk_zone-in.svg
 breeze-dark/dk_zone-out.svg
