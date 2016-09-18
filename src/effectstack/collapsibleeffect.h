@@ -91,7 +91,8 @@ public slots:
     void slotSyncEffectsPos(int pos);
     void slotDisable(bool disable, bool emitInfo = true);
     void slotResetEffect();
-    
+    void importKeyframes(const QString &keyframes);
+
 private slots:
     void setWidgetHeight(qreal value);
 

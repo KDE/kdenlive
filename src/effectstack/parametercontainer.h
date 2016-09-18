@@ -152,6 +152,7 @@ signals:
     void checkMonitorPosition(int);
     void seekTimeline(int);
     void showComments(bool);
+    void importKeyframes(const QString &);
     /** @brief Start an MLT filter job on this clip. 
      * @param filterParams a QMap containing filter name under the "filter" key, and all filter properties
      * @param consumerParams a QMap containing consumer name under the "consumer" key, and all consumer properties

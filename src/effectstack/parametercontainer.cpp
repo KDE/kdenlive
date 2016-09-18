@@ -360,6 +360,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             } else {
                 m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("in")).toInt(), effect.attribute(QStringLiteral("id")), pa, parent);
                 connect(m_animationWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+                connect(m_animationWidget, &AnimationWidget::setKeyframes, this, &ParameterContainer::importKeyframes);
                 connect(this, SIGNAL(syncEffectsPos(int)), m_animationWidget, SLOT(slotSyncPosition(int)));
                 connect(this, SIGNAL(initScene(int)), m_animationWidget, SLOT(slotPositionChanged(int)));
                 connect(m_animationWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));

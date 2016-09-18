@@ -110,6 +110,10 @@ private:
     void buildRectWidget(const QString &paramTag, const QDomElement &e);
     /** @brief Calculate path for keyframes centers and send to monitor */
     void setupMonitor(QRect r = QRect());
+    /** @brief Returns the default value for a parameter from its name */
+    QString defaultValue(const QString &paramName);
+    /** @brief Add a keyframe in all geometries */
+    void doAddKeyframe(int pos, QString paramName, bool directUpdate);
 
 public slots:
     void slotSyncPosition(int relTimelinePos);
@@ -123,12 +127,14 @@ private slots:
     void slotEditKeyframeType(QAction *action);
     void slotAdjustKeyframeValue(double value);
     void slotAdjustRectKeyframeValue();
-    void slotAddKeyframe(int pos = -1, QString paramName = QString(), bool directUpdate = true);
+    void slotAddKeyframe(int pos = -1);
     void slotDeleteKeyframe(int pos = -1);
     void slotReverseKeyframeType(bool reverse);
     void applyPreset(int ix);
     void savePreset();
     void deletePreset();
+    void slotCopyKeyframes();
+    void slotImportKeyframes();
     void slotSetDefaultInterp(QAction *action);
     void slotUpdateVisibleParameter(bool display);
     void slotUpdateGeometryRect(const QRect r);
@@ -155,6 +161,8 @@ private slots:
 signals:
     void seekToPos(int);
     void parameterChanged();
+    /** @brief keyframes dropped / pasted on widget, import them. */
+    void setKeyframes(const QString &);
 };
 
 #endif
