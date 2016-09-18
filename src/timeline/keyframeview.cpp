@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "klocalizedstring.h"
 
 #include "keyframeview.h"
+#include <../../media/home/data/downloads/git/kdenlive/src/mltcontroller/effectscontroller.h>
 
 KeyframeView::KeyframeView(int handleSize, QObject *parent) : QObject(parent)
     , activeKeyframe(-1)
@@ -520,9 +521,34 @@ void KeyframeView::updateKeyFramePos(QRectF br, int frame, const double y)
     if (next < 0) next += duration;
     int newpos = qBound(prev, frame - m_offset, next);
     double newval = keyframeUnmap(br, y);
-    m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), newval, newpos, duration - m_offset, m_keyAnim.keyframe_type(activeKeyframe));
-    if (activeKeyframe != newpos)
+    mlt_keyframe_type type = m_keyAnim.keyframe_type(activeKeyframe);
+    m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), newval, newpos, duration - m_offset, type);
+    if (activeKeyframe != newpos) {
         m_keyAnim.remove(activeKeyframe);
+        // Move keyframe in other geometries
+        int cnt = m_keyProperties.count();
+        QStringList paramNames;
+        for (int i = 0; i < cnt; i++) {
+            paramNames << m_keyProperties.get_name(i);
+        }
+        paramNames.removeAll(m_inTimeline);
+        foreach (const QString &paramName, paramNames) {
+            ParameterInfo info = m_paramInfos.value(paramName);
+            if (info.max == info.min) {
+                // this is probably an animated rect
+                mlt_rect rect = m_keyProperties.anim_get_rect(paramName.toUtf8().constData(), activeKeyframe - m_offset, duration - m_offset);
+                m_keyProperties.anim_set(paramName.toUtf8().constData(), rect, newpos, duration - m_offset, type);
+
+            } else {
+                double val = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), activeKeyframe - m_offset, duration - m_offset);
+                m_keyProperties.anim_set(paramName.toUtf8().constData(), val, newpos, duration - m_offset, type);
+            }
+            // Remove kfr at previous position
+            m_keyAnim = m_keyProperties.get_animation(paramName.toUtf8().constData());
+            m_keyAnim.remove(activeKeyframe);
+        }
+        m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
+    }
     if (attachToEnd == activeKeyframe) {
         attachToEnd = newpos;
     }
@@ -558,9 +584,28 @@ void KeyframeView::addKeyframe(int frame, double value, mlt_keyframe_type type)
     if (frame == duration - 1) {
         attachToEnd = frame - m_offset;
     }
+    // Add keyframe in other animations if any
+    int cnt = m_keyProperties.count();
+    QStringList paramNames;
+    for (int i = 0; i < cnt; i++) {
+        paramNames << m_keyProperties.get_name(i);
+    }
+    paramNames.removeAll(m_inTimeline);
+    foreach (const QString &paramName, paramNames) {
+        ParameterInfo info = m_paramInfos.value(paramName);
+        if (info.max == info.min) {
+            // this is probably an animated rect
+            mlt_rect rect = m_keyProperties.anim_get_rect(paramName.toUtf8().constData(), frame - m_offset, duration - m_offset);
+            m_keyProperties.anim_set(paramName.toUtf8().constData(), rect, frame - m_offset, duration - m_offset, type);
+
+        } else {
+            double val = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), frame - m_offset, duration - m_offset);
+            m_keyProperties.anim_set(paramName.toUtf8().constData(), val, frame - m_offset, duration - m_offset, type);
+        }
+    }
 }
 
-void KeyframeView::addDefaultKeyframe(int frame, mlt_keyframe_type type)
+void KeyframeView::addDefaultKeyframe(ProfileInfo profile, int frame, mlt_keyframe_type type)
 {
     double value = m_keyframeDefault;
     if (m_keyAnim.key_count() == 1 && frame != m_keyAnim.key_get_frame(0)) {
@@ -568,8 +613,36 @@ void KeyframeView::addDefaultKeyframe(int frame, mlt_keyframe_type type)
     }
     m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), value, frame, duration - m_offset, type);
     // Last keyframe should stick to end
-    if (frame == duration - 1) {
+    if (frame >= duration - 1) {
         attachToEnd = frame - m_offset;
+    }
+    // Add keyframe in other animations if any
+    int cnt = m_keyProperties.count();
+    QStringList paramNames;
+    QLocale locale;
+    for (int i = 0; i < cnt; i++) {
+        paramNames << m_keyProperties.get_name(i);
+    }
+    paramNames.removeAll(m_inTimeline);
+    foreach (const QString &paramName, paramNames) {
+        ParameterInfo info = m_paramInfos.value(paramName);
+        if (info.max == info.min) {
+            // this is probably an animated rect
+            QString defaultVal = info.defaultValue;
+            if (defaultVal.contains('%'))
+                defaultVal = EffectsController::getStringRectEval(profile, defaultVal).simplified();
+            mlt_rect rect;
+            rect.x = locale.toDouble(defaultVal.section(QStringLiteral(" "), 0, 0));
+            rect.y = locale.toDouble(defaultVal.section(QStringLiteral(" "), 1, 1));
+            rect.w = locale.toDouble(defaultVal.section(QStringLiteral(" "), 2, 2));
+            rect.h = locale.toDouble(defaultVal.section(QStringLiteral(" "), 3, 3));
+            rect.o = defaultVal.count(QLatin1Char(' ')) > 3 ? locale.toDouble(defaultVal.section(QStringLiteral(" "), 4, 4)) : 1.0;
+            m_keyProperties.anim_set(paramName.toUtf8().constData(), rect, frame - m_offset, duration - m_offset, type);
+
+        } else {
+            double val = locale.toDouble(info.defaultValue);
+            m_keyProperties.anim_set(paramName.toUtf8().constData(), val, frame - m_offset, duration - m_offset, type);
+        }
     }
 }
 
@@ -580,6 +653,18 @@ void KeyframeView::removeKeyframe(int frame)
     if (frame == duration - 1 && frame == attachToEnd) {
         attachToEnd = -2;
     }
+    // Remove keyframe in other animations if any
+    int cnt = m_keyProperties.count();
+    QStringList paramNames;
+    for (int i = 0; i < cnt; i++) {
+        paramNames << m_keyProperties.get_name(i);
+    }
+    paramNames.removeAll(m_inTimeline);
+    foreach (const QString &paramName, paramNames) {
+        m_keyAnim = m_keyProperties.get_animation(paramName.toUtf8().constData());
+        m_keyAnim.remove(frame);
+    }
+    m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
 }
 
 QAction *KeyframeView::parseKeyframeActions(QList <QAction *>actions)
@@ -626,9 +711,11 @@ bool KeyframeView::activeParam(const QString &name) const
     return name == m_inTimeline;
 }
 
-const QString KeyframeView::serialize()
+const QString KeyframeView::serialize(const QString &name, bool rectAnimation)
 {
-    if (attachToEnd == -2) {
+    if (!name.isEmpty())
+        m_keyAnim = m_keyProperties.get_animation(name.toUtf8().constData()); 
+    if (attachToEnd == -2 || rectAnimation) {
         return m_keyAnim.serialize_cut();
     }
     mlt_keyframe_type type;
@@ -657,6 +744,8 @@ const QString KeyframeView::serialize()
         key.append(locale.toString(val));
         result << key;
     }
+    if (!name.isEmpty())
+        m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
     return result.join(";");
 }
 
@@ -742,6 +831,7 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int c
         info.factor = locale.toDouble(e.attribute(QStringLiteral("factor")));
         info.max = locale.toDouble(e.attribute(QStringLiteral("max")));
         info.min = locale.toDouble(e.attribute(QStringLiteral("min")));
+        info.defaultValue = e.attribute(QStringLiteral("default"));
         if (info.factor == 0) {
             info.factor = 1;
         }
@@ -750,7 +840,7 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int c
             // Active parameter
             m_keyframeMin = info.min;
             m_keyframeMax = info.max;
-            m_keyframeDefault = locale.toDouble(e.attribute(QStringLiteral("default")));
+            m_keyframeDefault = locale.toDouble(info.defaultValue);
             m_keyframeFactor = info.factor;
             attachToEnd = checkNegatives(e.attribute("value").toUtf8().constData(), duration - m_offset);
             m_inTimeline = paramName;

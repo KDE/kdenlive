@@ -97,7 +97,7 @@ public:
     /** @brief Is this clip selected as the main clip. */
     bool isMainSelectedClip();
 
-    void insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue = false);
+    void insertKeyframe(ProfileInfo profile, QDomElement effect, int pos, double val, bool defaultValue = false);
     void movedKeyframe(QDomElement effect, int newpos, int oldpos = -1, double value = -1);
     void removeKeyframe(QDomElement effect, int frame);
 

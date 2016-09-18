@@ -849,7 +849,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         if (m_operationMode == KeyFrame) {
             if (m_dragItem->type() == AVWidget) {
                 ClipItem *item = static_cast<ClipItem *>(m_dragItem);
-                m_dragItem->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), m_dragItem->selectedKeyFramePos(), -1, true);
+                m_dragItem->insertKeyframe(m_document->getProfileInfo(), item->getEffectAtIndex(item->selectedEffectIndex()), m_dragItem->selectedKeyFramePos(), -1, true);
                 m_dragItem->update();
             }
         } else {
@@ -1451,10 +1451,10 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
         if (single == 1) {
-            item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropDuration()).frames(m_document->fps()) - 1, -1, true);
+            item->insertKeyframe(m_document->getProfileInfo(), item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropDuration()).frames(m_document->fps()) - 1, -1, true);
         }
         //QString previous = item->keyframes(item->selectedEffectIndex());
-        item->insertKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
+        item->insertKeyframe(m_document->getProfileInfo(), item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
         //QString next = item->keyframes(item->selectedEffectIndex());
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
         EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false, true);
