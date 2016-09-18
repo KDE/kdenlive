@@ -144,7 +144,9 @@ private slots:
     void slotAdjustToFrameSize();
     void slotFitToWidth();
     void slotFitToHeight();
-    
+    /** @brief Delete all keyframes after current cursor pos. */
+    void slotRemoveNext();
+
     /** @brief Moves the rect to the left frame border (x position = 0). */
     void slotMoveLeft();
     /** @brief Centers the rect horizontally. */

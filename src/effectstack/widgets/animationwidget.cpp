@@ -164,6 +164,9 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     QAction *paste = new QAction(i18n("Import keyframes from clipboard"), this);
     connect(paste, &QAction::triggered, this, &AnimationWidget::slotImportKeyframes);
 
+    QAction *removeNext = new QAction(i18n("Remove all keyframes after cursor"), this);
+    connect(removeNext, &QAction::triggered, this, &AnimationWidget::slotRemoveNext);
+
     // save preset
     QAction *savePreset = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save preset"), this);
     connect(savePreset, &QAction::triggered, this, &AnimationWidget::savePreset);
@@ -178,6 +181,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     container->addSeparator();
     container->addAction(copy);
     container->addAction(paste);
+    container->addAction(removeNext);
     container->addSeparator();
     container->addAction(savePreset);
     container->addAction(delPreset);
@@ -348,6 +352,34 @@ void AnimationWidget::slotAddDeleteKeyframe(bool add, int pos)
         }
         m_ruler->setActiveKeyframe(pos);
     }
+    // Restore default controller
+    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
+    // Rebuild
+    rebuildKeyframes();
+    emit parameterChanged();
+}
+
+void AnimationWidget::slotRemoveNext()
+{
+    int pos = m_timePos->getValue();
+    // Delete keyframe in all animations at current pos
+    QStringList paramNames = m_doubleWidgets.keys();
+    if (!m_rectParameter.isEmpty())
+        paramNames << m_rectParameter;
+    int kfrPos;
+    for (int i = 0; i < paramNames.count(); i++) {
+        m_animController = m_animProperties.get_animation(paramNames.at(i).toUtf8().constData());
+        int j = 0;
+        while (j < m_animController.key_count()) {
+            kfrPos = m_animController.key_get_frame(j);
+            if (kfrPos > (pos - m_offset)) {
+                m_animController.remove(kfrPos);
+            } else j++;
+        }
+    }
+    m_selectType->setEnabled(false);
+    m_addKeyframe->setActive(false);
+    slotPositionChanged(-1, false);
     // Restore default controller
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     // Rebuild

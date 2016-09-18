@@ -76,7 +76,7 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QString paramType = pa.attribute(QStringLiteral("type"));
-        if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated")) {
+        if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated") || paramType == QLatin1String("animatedrect")) {
             setAcceptDrops(true);
             break;
         }
@@ -502,7 +502,7 @@ void Transition::dropEvent(QGraphicsSceneDragDropEvent * event)
 {
     if (scene() && !scene()->views().isEmpty()) {
         if (m_selectionTimer.isActive())
-        m_selectionTimer.stop();
+            m_selectionTimer.stop();
         QString geometry = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/geometry")));
         event->acceptProposedAction();
         CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views().first());
