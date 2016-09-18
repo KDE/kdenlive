@@ -69,10 +69,15 @@ KeyframeImport::KeyframeImport(ItemInfo srcInfo, ItemInfo dstInfo, QMap<QString,
     lay->addWidget(m_previewLabel);
     m_keyframeView = new KeyframeView(0, this);
     // Zone in / out
-    m_inPoint = new PositionEdit(i18n("In"), srcInfo.cropStart.frames(tc.fps()), srcInfo.cropStart.frames(tc.fps()), (srcInfo.cropStart + srcInfo.cropDuration).frames(tc.fps()), tc, this);
+    ItemInfo reference;
+    if (srcInfo.isValid())
+        reference = srcInfo;
+    else
+        reference = dstInfo;
+    m_inPoint = new PositionEdit(i18n("In"), reference.cropStart.frames(tc.fps()), reference.cropStart.frames(tc.fps()), (reference.cropStart + reference.cropDuration).frames(tc.fps()), tc, this);
     connect(m_inPoint, SIGNAL(parameterChanged(int)), this, SLOT(updateDisplay()));
     lay->addWidget(m_inPoint);
-    m_outPoint = new PositionEdit(i18n("Out"), (srcInfo.cropStart + srcInfo.cropDuration).frames(tc.fps()), srcInfo.cropStart.frames(tc.fps()), (srcInfo.cropStart + srcInfo.cropDuration).frames(tc.fps()), tc, this);
+    m_outPoint = new PositionEdit(i18n("Out"), (reference.cropStart + reference.cropDuration).frames(tc.fps()), reference.cropStart.frames(tc.fps()), (reference.cropStart + reference.cropDuration).frames(tc.fps()), tc, this);
     connect(m_outPoint, SIGNAL(parameterChanged(int)), this, SLOT(updateDisplay()));
     lay->addWidget(m_outPoint);
 
@@ -99,6 +104,9 @@ KeyframeImport::KeyframeImport(ItemInfo srcInfo, ItemInfo dstInfo, QMap<QString,
     if (!m_geometryTargets.isEmpty()) {
         m_sourceCombo->insertItem(ix, i18n("Geometry"));
         m_sourceCombo->setItemData(ix, QString::number(10), Qt::UserRole);
+        ix++;
+        m_sourceCombo->insertItem(ix, i18n("Position"));
+        m_sourceCombo->setItemData(ix, QString::number(11), Qt::UserRole);
         ix++;
     }
     if (!m_simpleTargets.isEmpty()) {
@@ -381,7 +389,8 @@ QString KeyframeImport::selectedData() const
         return m_keyframeView->getSingleAnimation(ix, m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, maximas, m_destMin.value(), m_destMax.value());
     }
     // Geometry target
-    return m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_profile, m_supportsAnim);
+    int pos = m_sourceCombo->currentData().toInt();
+    return m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_profile, m_supportsAnim, pos == 11);
 }
 
 QString KeyframeImport::selectedTarget() const

@@ -421,7 +421,7 @@ QString KeyframeView::getSingleAnimation(int ix, int in, int out, int offset, in
     return result;
 }
 
-QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation)
+QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation, bool positionOnly)
 {
     m_keyProperties.set("kdenlive_import", "");
     int newduration = out - in + offset;
@@ -437,28 +437,32 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
     rect.h = pHeight;
     rect.o = 100;
     m_keyProperties.anim_set("kdenlive_import", rect, offset, newduration, kftype);
-    if (limitKeyframes > 0) {
+    if (limitKeyframes > 0 && m_keyAnim.key_count() > limitKeyframes) {
         int step = (out - in) / limitKeyframes;
         for (int i = step; i < out; i+= step) {
             rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in + i, duration);
             rect.x = (int) rect.x;
             rect.y = (int) rect.y;
-            rect.w = pWidth;
-            rect.h = pHeight;
-            rect.o = 100;
+            if (positionOnly) {
+                rect.w = pWidth;
+                rect.h = pHeight;
+                rect.o = 100;
+            }
             m_keyProperties.anim_set("kdenlive_import", rect, offset + i, newduration, kftype);
         }
     } else {
-        int next = m_keyAnim.next_key(in + 1);
-        while (next < out && next > 0) {
-            rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), next, duration);
+        int pos;
+        for(int i = 0; i < m_keyAnim.key_count(); ++i) {
+            m_keyAnim.key_get(i, pos, kftype);
+            rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), pos, duration);
             rect.x = (int) rect.x;
             rect.y = (int) rect.y;
-            rect.w = pWidth;
-            rect.h = pHeight;
-            rect.o = 100;
-            m_keyProperties.anim_set("kdenlive_import", rect, offset + next - in, newduration, mlt_keyframe_linear);
-            next = m_keyAnim.next_key(next + 1);
+            if (positionOnly) {
+                rect.w = pWidth;
+                rect.h = pHeight;
+                rect.o = 100;
+            }
+            m_keyProperties.anim_set("kdenlive_import", rect, offset + pos - in, newduration, kftype);
         }
     }
     QString result = anim.serialize_cut();
@@ -722,8 +726,8 @@ const QString KeyframeView::serialize(const QString &name, bool rectAnimation)
     QString key;
     QLocale locale;
     QStringList result;
+    int pos;
     for(int i = 0; i < m_keyAnim.key_count(); ++i) {
-        int pos = m_keyAnim.key_get_frame(i);
         m_keyAnim.key_get(i, pos, type);
         double val = m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), pos, duration - m_offset);
         if (pos >= attachToEnd) {
