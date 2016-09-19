@@ -743,6 +743,7 @@ void ParameterContainer::makeDrag(const QString &name)
     QString value = EffectsList::parameter(m_effect, name);
     if (value.isEmpty())
         return;
+    value.prepend(name + QStringLiteral("="));
     QDrag *dr = new QDrag(qApp);
     // The data to be transferred by the drag and drop operation is contained in a QMimeData object
     QMimeData *mimeData = new QMimeData;

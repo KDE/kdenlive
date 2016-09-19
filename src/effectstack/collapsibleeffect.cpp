@@ -636,8 +636,9 @@ void CollapsibleEffect::importKeyframes(const QString &keyframes)
         foreach(const QString &param, params) {
             data.insert(param.section("=", 0, 0), param.section("=", 1));
         }
+    } else {
+        data.insert(keyframes.section("=", 0, 0), keyframes.section("=", 1));
     }
-    else data.insert(i18n("Geometry"), keyframes);
     emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), data);
 }
 

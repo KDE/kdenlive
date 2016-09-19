@@ -71,6 +71,10 @@ public slots:
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotSyncEffectsPos(int pos);
 
+private slots:
+    /** @brief Import keyframes for the transition. */
+    void importKeyframes(const QString &keyframes);
+
 signals:
     void parameterChanged(const QDomElement&, const QDomElement&, int);
     void seekTimeline(int);

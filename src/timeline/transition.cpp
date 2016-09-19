@@ -139,7 +139,7 @@ void Transition::setTransitionParameters(const QDomElement &params)
         for (int i = 0; i < namenode.count() ; ++i) {
             QDomElement pa = namenode.item(i).toElement();
             QString paramType = pa.attribute(QStringLiteral("type"));
-            if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated")) {
+            if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated") || paramType == QLatin1String("animatedrect")) {
                 hasGeometry = true;
                 break;
             }
@@ -476,6 +476,7 @@ void Transition::updateKeyframes(QDomElement /*effect*/)
 //virtual
 void Transition::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
+    qDebug()<<"* * * ENTER TRANSITION DRAG";
     if (isItemLocked()) event->setAccepted(false);
     else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
         event->acceptProposedAction();
