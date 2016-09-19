@@ -36,7 +36,7 @@ install(FILES
 install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 install(FILES kdenlive_projectprofiles.knsrc kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_titles.knsrc DESTINATION ${CONFIG_INSTALL_DIR})
 install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
-install(FILES kdenlive.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES org.kde.kdenlive.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES kdenlive.svg DESTINATION ${DATA_INSTALL_DIR}/pixmaps)
 install(FILES org.kde.kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
