@@ -148,7 +148,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, boo
     if (m_paramWidget) delete m_paramWidget;
     m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);
     connect (m_paramWidget, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this, SIGNAL(parameterChanged(QDomElement,QDomElement,int)));
-
+    connect(m_paramWidget, &ParameterContainer::importKeyframes, this, &EffectStackEdit::importKeyframes);
     connect(m_paramWidget, SIGNAL(startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)), this, SIGNAL(startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)));
 
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
@@ -201,3 +201,16 @@ bool EffectStackEdit::doesAcceptDrops() const
     return m_paramWidget->doesAcceptDrops();
 }
 
+void EffectStackEdit::importKeyframes(const QString &keyframes)
+{
+    QMap <QString, QString> data;
+    if (keyframes.contains(QLatin1Char('\n'))) {
+        QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
+        foreach(const QString &param, params) {
+            data.insert(param.section("=", 0, 0), param.section("=", 1));
+        }
+    } else {
+        data.insert(keyframes.section("=", 0, 0), keyframes.section("=", 1));
+    }
+    emit importClipKeyframes(TransitionWidget, data);
+}
