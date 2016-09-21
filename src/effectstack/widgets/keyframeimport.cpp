@@ -124,12 +124,15 @@ KeyframeImport::KeyframeImport(ItemInfo srcInfo, ItemInfo dstInfo, QMap<QString,
         ix++;
     }
     connect(m_sourceCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateRange()));
+    m_alignCombo = new QComboBox(this);
+    m_alignCombo->addItems(QStringList() << i18n("Align top left") << i18n("Align center") << i18n("Align bottom right"));
     lab = new QLabel(i18n("Map "), this);
     QLabel *lab2 = new QLabel(i18n(" to "), this);
     l1->addWidget(lab);
     l1->addWidget(m_sourceCombo);
     l1->addWidget(lab2);
     l1->addWidget(m_targetCombo);
+    l1->addWidget(m_alignCombo);
     l1->addStretch(10);
     ix = 0;
     QMap<QString, QString>::const_iterator j = m_geometryTargets.constBegin();
@@ -245,6 +248,7 @@ void KeyframeImport::updateDataDisplay()
 void KeyframeImport::updateRange()
 {
     int pos = m_sourceCombo->currentData().toInt();
+    m_alignCombo->setEnabled(pos == 11);
     QString rangeText;
     if (m_limitRange->isChecked()) {
         switch (pos) {
@@ -404,7 +408,19 @@ QString KeyframeImport::selectedData() const
     }
     // Geometry target
     int pos = m_sourceCombo->currentData().toInt();
-    return m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_profile, m_supportsAnim, pos == 11);
+    QPoint rectOffset;
+    int ix = m_alignCombo->currentIndex();
+    switch (ix) {
+        case 1:
+            rectOffset = QPoint(m_profile.profileSize.width() / 2, m_profile.profileSize.height() / 2);
+            break;
+        case 2:
+            rectOffset = QPoint(m_profile.profileSize.width(), m_profile.profileSize.height());
+            break;
+        default:
+            break;
+    }
+    return m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_profile, m_supportsAnim, pos == 11, rectOffset);
 }
 
 QString KeyframeImport::selectedTarget() const

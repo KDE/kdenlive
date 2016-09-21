@@ -2409,7 +2409,7 @@ void Bin::changeEffectState(const QString &id, const QList <int>& indexes, bool 
             updateMasterEffect(ctl);
     m_monitor->refreshMonitorIfActive();
 }
-    
+
 void Bin::editMasterEffect(ClipController *ctl)
 {
     if (m_gainedFocus) {

@@ -143,7 +143,7 @@ void MeltJob::startJob()
 	}
     }
 
-    if (out == -1) {
+    if (out == -1 && in == -1) {
         m_producer = producer;
     } else {
         m_producer = producer->cut(in, out);

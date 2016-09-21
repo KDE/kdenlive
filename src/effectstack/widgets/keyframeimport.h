@@ -58,6 +58,7 @@ private:
     QSpinBox *m_limitNumber;
     QComboBox *m_sourceCombo;
     QComboBox *m_targetCombo;
+    QComboBox *m_alignCombo;
     QLabel *m_sourceRangeLabel;
     QList <QPoint> m_maximas;
     QDoubleSpinBox m_destMin;

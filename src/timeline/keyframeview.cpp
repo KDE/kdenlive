@@ -421,7 +421,7 @@ QString KeyframeView::getSingleAnimation(int ix, int in, int out, int offset, in
     return result;
 }
 
-QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation, bool positionOnly)
+QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation, bool positionOnly, QPoint rectOffset)
 {
     m_keyProperties.set("kdenlive_import", "");
     int newduration = out - in + offset;
@@ -433,9 +433,13 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
     mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in, duration);
     rect.x = (int) rect.x;
     rect.y = (int) rect.y;
-    rect.w = pWidth;
-    rect.h = pHeight;
-    rect.o = 100;
+    if (positionOnly) {
+        rect.x -= rectOffset.x();
+        rect.y -= rectOffset.y();
+        rect.w = pWidth;
+        rect.h = pHeight;
+        rect.o = 100;
+    }
     m_keyProperties.anim_set("kdenlive_import", rect, offset, newduration, kftype);
     if (limitKeyframes > 0 && m_keyAnim.key_count() > limitKeyframes) {
         int step = (out - in) / limitKeyframes;
@@ -444,6 +448,8 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
             rect.x = (int) rect.x;
             rect.y = (int) rect.y;
             if (positionOnly) {
+                rect.x -= rectOffset.x();
+                rect.y -= rectOffset.y();
                 rect.w = pWidth;
                 rect.h = pHeight;
                 rect.o = 100;
@@ -458,6 +464,8 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
             rect.x = (int) rect.x;
             rect.y = (int) rect.y;
             if (positionOnly) {
+                rect.x -= rectOffset.x();
+                rect.y -= rectOffset.y();
                 rect.w = pWidth;
                 rect.h = pHeight;
                 rect.o = 100;
@@ -755,15 +763,21 @@ const QString KeyframeView::serialize(const QString &name, bool rectAnimation)
 
 QList <QPoint> KeyframeView::loadKeyframes(const QString &data)
 {
+    QList <QPoint> result;
     m_keyframeType = NoKeyframe;
     m_inTimeline = QStringLiteral("imported");
     m_keyProperties.set(m_inTimeline.toUtf8().constData(), data.toUtf8().constData());
     // We need to initialize with length so that negative keyframes are correctly interpreted
-    m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), 0);
+    m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), 0, duration);
     m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
     duration = m_keyAnim.length();
     // calculate minimas / maximas
     int max = m_keyAnim.key_count();
+    if (max == 0) {
+        // invalid geometry
+        result << QPoint() << QPoint() << QPoint() << QPoint();
+        return result;
+    }
     int frame = m_keyAnim.key_get_frame(0);
     mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), frame, duration);
     QPoint pX(rect.x, rect.x);
@@ -802,7 +816,6 @@ QList <QPoint> KeyframeView::loadKeyframes(const QString &data)
             pH.setY(rect.h);
         }
     }
-    QList <QPoint> result;
     result << pX << pY << pW << pH;
     return result;
 }

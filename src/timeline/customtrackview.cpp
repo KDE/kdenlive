@@ -8090,6 +8090,8 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
         EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true, true);
         m_commandStack->push(command);
         emit clipItemSelected(clip);
+    } else {
+        emit displayMessage(i18n("Cannot find effect to update %1.", extra.value("finalfilter")), ErrorMessage);
     }
 }
 
@@ -8462,7 +8464,7 @@ void CustomTrackView::dropTransitionGeometry(Transition *trans, const QString &g
     slotImportClipKeyframes(TransitionWidget, trans->info(), trans->toXML(), data);
 }
 
-void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString &geometry)
+void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString geometry)
 {
     if (!m_dragItem || m_dragItem != clip) {
         clearSelection(false);
@@ -8472,8 +8474,12 @@ void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString &geometry)
         updateTimelineSelection();
     }
     emit clipItemSelected(clip);
+    if (geometry.isEmpty()) {
+        emit displayMessage(i18n("No keyframes to import"), InformationMessage);
+        return;
+    }
     QMap <QString, QString> data;
-    data.insert(i18n("Dropped Geometry"), geometry);
+    data.insert(geometry.section("=", 0, 0), geometry.section("=", 1));
     QDomElement currentEffect = clip->getEffectAtIndex(clip->selectedEffectIndex());
     if (currentEffect.isNull()) {
         emit displayMessage(i18n("No effect to import keyframes"), InformationMessage);

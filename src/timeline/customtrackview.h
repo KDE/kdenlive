@@ -261,7 +261,7 @@ public:
     /** @brief Geometry keyframes dropped on a transition, start import */
     void dropTransitionGeometry(Transition *trans, const QString &geometry);
     /** @brief Geometry keyframes dropped on a clip, start import */
-    void dropClipGeometry(ClipItem *trans, const QString &geometry);
+    void dropClipGeometry(ClipItem *trans, const QString geometry);
     /** @brief Switch current track lock state */
     void switchTrackLock();
     void switchAllTrackLock();
