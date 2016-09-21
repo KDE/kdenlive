@@ -133,7 +133,7 @@ public:
     * Shows a dialog to configure length and track. */
     void slotInsertSpace();
     /** @brief Prepares removing space. */
-    void slotRemoveSpace();
+    void slotRemoveSpace(bool multiTrack = false);
     void insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, const GenTime &offset);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
     void deleteTimelineTrack(int ix, TrackInfo trackinfo);
@@ -181,7 +181,7 @@ public:
     int selectedTrack() const;
     QStringList selectedClips() const;
     /** @brief Checks whether an item can be inserted (make sure it does not overlap another item) */
-    bool canBePastedTo(ItemInfo info, int type) const;
+    bool canBePastedTo(ItemInfo info, int type, QList<AbstractClipItem *>excluded = QList<AbstractClipItem *>()) const;
 
     /** @brief Selects a clip.
     * @param add Whether to select or deselect
@@ -223,11 +223,11 @@ public:
 
     /** @brief Returns frame number of current mouse position. */
     int getMousePos() const;
-
-    void completeSpaceOperation(int track, GenTime &timeOffset);
+    /** @brief Insert space in timeline after clips were moved. if fromstart is true, we assume clips have not yet been moved manually. */
+    void completeSpaceOperation(int track, GenTime &timeOffset, bool fromStart = false);
     void spaceToolMoveToSnapPos(double snappedPos);
     void createRectangleSelection(Qt::KeyboardModifiers modifiers);
-    int spaceToolSelectTrackOnly(int track, QList<QGraphicsItem *> &selection);
+    int spaceToolSelectTrackOnly(int track, QList<QGraphicsItem *> &selection, GenTime pos = GenTime(-1));
     QList<QGraphicsItem *> selectAllItemsToTheRight(int x);
     GenTime createGroupForSelectedItems(QList<QGraphicsItem *> &selection);
     void resetSelectionGroup(bool selectItems = true);
@@ -527,7 +527,6 @@ private:
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
     bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
-    bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
     /** Get available space for clip move (min and max free positions) */

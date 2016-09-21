@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="147" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="148" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -129,6 +129,7 @@
       <Menu name="space_menu" ><text>Space</text>
 	<Action name="insert_space" />
 	<Action name="delete_space" />
+        <Action name="delete_space_all_tracks" />
       </Menu>
       <Action name="group_clip" />
       <Action name="ungroup_clip" />

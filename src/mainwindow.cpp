@@ -525,6 +525,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_timelineContextMenu->addAction(actionCollection()->action(QStringLiteral("insert_space")));
     m_timelineContextMenu->addAction(actionCollection()->action(QStringLiteral("delete_space")));
+    m_timelineContextMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
     m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
 
     m_timelineContextClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_in_project_tree")));
@@ -1380,6 +1381,7 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("insert_space"), i18n("Insert Space"), this, SLOT(slotInsertSpace()));
     addAction(QStringLiteral("delete_space"), i18n("Remove Space"), this, SLOT(slotRemoveSpace()));
+    addAction(QStringLiteral("delete_space_all_tracks"), i18n("Remove Space In All Tracks"), this, SLOT(slotRemoveAllSpace()));
 
     KActionCategory *timelineActions = new KActionCategory(i18n("Tracks"), actionCollection());
     QAction *insertTrack = new QAction(QIcon(), i18n("Insert Track"), this);
@@ -2312,6 +2314,12 @@ void MainWindow::slotRemoveSpace()
 {
     if (pCore->projectManager()->currentTimeline())
         pCore->projectManager()->currentTimeline()->projectView()->slotRemoveSpace();
+}
+
+void MainWindow::slotRemoveAllSpace()
+{
+    if (pCore->projectManager()->currentTimeline())
+        pCore->projectManager()->currentTimeline()->projectView()->slotRemoveSpace(true);
 }
 
 void MainWindow::slotInsertTrack()

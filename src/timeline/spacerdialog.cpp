@@ -38,22 +38,13 @@ SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int trac
     inputLayout->addWidget(&m_in);
     m_in.setValue(duration);
 
-    /*QStringList trackItems;
-    trackItems << i18n("All tracks");
-    for (int i = tracks.count() - 1; i > 0; --i) {
-        if (!tracks.at(i).trackName.isEmpty())
-            trackItems << tracks.at(i).trackName;
-        else
-            trackItems << QString::number(i);
-    }
-    track_number->addItems(trackItems);*/
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
-    track_number->addItem(i18n("All tracks"));
+    track_number->addItem(i18n("All tracks"), -1);
     for (int i = tracks.count() - 1; i > 0 ; i--) {
         TrackInfo info = tracks.at(i);
         track_number->addItem(info.type == VideoTrack ? videoIcon : audioIcon,
-                             info.trackName.isEmpty() ? QString::number(i) : info.trackName);
+                             info.trackName.isEmpty() ? QString::number(i) : info.trackName, i);
     }
     track_number->setCurrentIndex(track == 0 ? 0 : tracks.count() - track);
 
@@ -67,7 +58,7 @@ GenTime SpacerDialog::selectedDuration() const
 
 int SpacerDialog::selectedTrack() const
 {
-    return track_number->count() - track_number->currentIndex();
+    return track_number->currentData().toInt();
 }
 
 

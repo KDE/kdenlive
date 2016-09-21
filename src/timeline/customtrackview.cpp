@@ -727,14 +727,19 @@ QList<QGraphicsItem *> CustomTrackView::selectAllItemsToTheRight(int x)
     return m_scene->items(r);
 }
 
-int CustomTrackView::spaceToolSelectTrackOnly(int track, QList<QGraphicsItem *> &selection)
+int CustomTrackView::spaceToolSelectTrackOnly(int track, QList<QGraphicsItem *> &selection, GenTime pos)
 {
     if (m_timeline->getTrackInfo(track).isLocked) {
         // Cannot use spacer on locked track
         emit displayMessage(i18n("Cannot use spacer in a locked track"), ErrorMessage);
         return -1;
     }
-    QRectF rect(mapToScene(m_clickEvent).x(), getPositionFromTrack(track) + m_tracksHeight / 2, sceneRect().width() - mapToScene(m_clickEvent).x(), m_tracksHeight / 2 - 2);
+    QRectF rect;
+    if (pos > GenTime()) {
+        rect = QRectF(pos.frames(m_document->fps()), getPositionFromTrack(track) + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
+    } else {
+        rect = QRectF(mapToScene(m_clickEvent).x(), getPositionFromTrack(track) + m_tracksHeight / 2, sceneRect().width() - mapToScene(m_clickEvent).x(), m_tracksHeight / 2 - 2);
+    }
     bool isOk;
     selection = checkForGroups(rect, &isOk);
     if (!isOk) {
@@ -3788,7 +3793,7 @@ QList<QGraphicsItem *> CustomTrackView::checkForGroups(const QRectF &rect, bool 
     return selection;
 }
 
-void CustomTrackView::slotRemoveSpace()
+void CustomTrackView::slotRemoveSpace(bool multiTrack)
 {
     GenTime pos;
     int track = 0;
@@ -3832,69 +3837,29 @@ void CustomTrackView::slotRemoveSpace()
         return;
     }
 
-    // Make sure there is no group in the way
-    QRectF rect(pos.frames(m_document->fps()), getPositionFromTrack(track) + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 2);
-
-    bool isOk;
-    QList<QGraphicsItem *> items = checkForGroups(rect, &isOk);
-    if (!isOk) {
-        // groups found on track, do not allow the move
-        emit displayMessage(i18n("Cannot remove space in a track with a group"), ErrorMessage);
-        return;
-    }
-
-    QList<ItemInfo> clipsToMove;
-    QList<ItemInfo> transitionsToMove;
-
-    for (int i = 0; i < items.count(); ++i) {
-        if (items.at(i)->type() == AVWidget || items.at(i)->type() == TransitionWidget) {
-            AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-            ItemInfo info = item->info();
-            if (item->type() == AVWidget) {
-                clipsToMove.append(info);
-            } else if (item->type() == TransitionWidget) {
-                transitionsToMove.append(info);
-            }
+    QList<QGraphicsItem *> selection;
+    if (multiTrack) {
+        selection = selectAllItemsToTheRight(pos.frames(m_document->fps()));
+    } else {
+        if (spaceToolSelectTrackOnly(track, selection, pos) == -1) {
+            return;
         }
     }
-
-    if (!transitionsToMove.isEmpty()) {
-        // Make sure that by moving the items, we don't get a transition collision
-        // Find first transition
-        ItemInfo info = transitionsToMove.at(0);
-        for (int i = 1; i < transitionsToMove.count(); ++i)
-            if (transitionsToMove.at(i).startPos < info.startPos) info = transitionsToMove.at(i);
-
-        // make sure there are no transitions on the way
-        QRectF rect(info.startPos.frames(m_document->fps()) - length, getPositionFromTrack(track) + m_tracksHeight / 2, length - 1, m_tracksHeight / 2 - 2);
-        items = scene()->items(rect);
-        int transitionCorrection = -1;
-        for (int i = 0; i < items.count(); ++i) {
-            if (items.at(i)->type() == TransitionWidget) {
-                // There is a transition on the way
-                AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-                int transitionEnd = item->endPos().frames(m_document->fps());
-                if (transitionEnd > transitionCorrection) transitionCorrection = transitionEnd;
-            }
-        }
-
-        if (transitionCorrection > 0) {
-            // We need to fix the move length
-            length = info.startPos.frames(m_document->fps()) - transitionCorrection;
-        }
-
-        // Make sure we don't send transition before 0
-        if (info.startPos.frames(m_document->fps()) < length) {
-            // reduce length to maximum possible
-            length = info.startPos.frames(m_document->fps());
-        }
+    createGroupForSelectedItems(selection);
+    QList <AbstractClipItem *> items;
+    foreach(QGraphicsItem *item, selection) {
+        if (item->type() == AVWidget || item->type() == TransitionWidget)
+            items << (AbstractClipItem *) item;
     }
-    QUndoCommand *command = new QUndoCommand;
-    command->setText(length > 0 ? i18n("Remove space") : i18n("Insert space"));
-    breakLockedGroups(clipsToMove, transitionsToMove, command);
-    new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, GenTime(-length, m_document->fps()), true, command);
-    updateTrackDuration(track, command);
-    m_commandStack->push(command);
+    GenTime timeOffset(-length, m_document->fps());
+    if (canBePasted(items, timeOffset, 0)) {
+        completeSpaceOperation(multiTrack ? -1 : track, timeOffset, true);
+    } else {
+        // Conflict, cannot move clips
+        emit displayMessage(i18n("Clip collision, cannot perform operation"), ErrorMessage);
+        clearSelection();
+        m_operationMode = None;
+    }
 }
 
 void CustomTrackView::slotInsertSpace()
@@ -3927,41 +3892,14 @@ void CustomTrackView::slotInsertSpace()
         ClipItem *item = getClipItemAtMiddlePoint(pos, track);
         if (item) pos = item->startPos().frames(m_document->fps());
 
-        // Make sure there is no group in the way
-        QRectF rect(pos, getPositionFromTrack(track) + m_tracksHeight / 2, sceneRect().width() - pos, m_tracksHeight / 2 - 2);
-        bool isOk;
-        items = checkForGroups(rect, &isOk);
-        if (!isOk) {
-            // groups found on track, do not allow the move
-            emit displayMessage(i18n("Cannot insert space in a track with a group"), ErrorMessage);
+        if (spaceToolSelectTrackOnly(track, items, GenTime(pos, m_document->fps())) == -1) {
             return;
         }
     } else {
-        QRectF rect(pos, 0, sceneRect().width() - pos, m_timeline->visibleTracksCount() * m_tracksHeight);
-        items = scene()->items(rect);
+        items = selectAllItemsToTheRight(pos);
     }
-
-    QList<ItemInfo> clipsToMove;
-    QList<ItemInfo> transitionsToMove;
-
-    for (int i = 0; i < items.count(); ++i) {
-        if (items.at(i)->type() == AVWidget || items.at(i)->type() == TransitionWidget) {
-            AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-            ItemInfo info = item->info();
-            if (item->type() == AVWidget)
-                clipsToMove.append(info);
-            else if (item->type() == TransitionWidget)
-                transitionsToMove.append(info);
-        }
-    }
-    if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
-        QUndoCommand *command = new QUndoCommand;
-        command->setText(spaceDuration < GenTime() ? i18n("Remove space") : i18n("Insert space"));
-        breakLockedGroups(clipsToMove, transitionsToMove, command);
-        new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, spaceDuration, true, command);
-        updateTrackDuration(track, command);
-        m_commandStack->push(command);
-    }
+    createGroupForSelectedItems(items);
+    completeSpaceOperation(track, spaceDuration, true);
 }
 
 void CustomTrackView::insertTimelineSpace(GenTime startPos, GenTime duration, int track, QList <ItemInfo> excludeList)
@@ -4189,7 +4127,7 @@ void CustomTrackView::scrollToStart()
     horizontalScrollBar()->setValue(0);
 }
 
-void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
+void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset, bool fromStart)
 {
   QList <AbstractGroupItem*> groups;
 
@@ -4223,25 +4161,25 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
     {
       if (items.at(i)->type() == AVWidget) 
       {
-	AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-	ItemInfo info = item->info();
-	clipsToMove.append(info);
+        AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+        ItemInfo info = item->info();
+        clipsToMove.append(info);
         int realTrack = getTrackFromPos(item->scenePos().y());
-	item->updateItem(realTrack);
-	if (trackClipStartList.value(info.track) == -1 || 
-	    info.startPos.frames(m_document->fps()) < trackClipStartList.value(info.track))
-	  trackClipStartList[info.track] = info.startPos.frames(m_document->fps());
-      } 
+        item->updateItem(realTrack);
+        if (trackClipStartList.value(info.track) == -1 || 
+            info.startPos.frames(m_document->fps()) < trackClipStartList.value(info.track))
+            trackClipStartList[info.track] = info.startPos.frames(m_document->fps());
+      }
       else if (items.at(i)->type() == TransitionWidget) 
       {
-	AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-	ItemInfo info = item->info();
-	transitionsToMove.append(info);
+        AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+        ItemInfo info = item->info();
+        transitionsToMove.append(info);
         int realTrack = getTrackFromPos(item->scenePos().y());
-	item->updateItem(realTrack);
-	if (trackTransitionStartList.value(info.track) == -1 || 
-	    info.startPos.frames(m_document->fps()) < trackTransitionStartList.value(info.track))
-	  trackTransitionStartList[info.track] = info.startPos.frames(m_document->fps());
+        item->updateItem(realTrack);
+        if (trackTransitionStartList.value(info.track) == -1 || 
+            info.startPos.frames(m_document->fps()) < trackTransitionStartList.value(info.track))
+        trackTransitionStartList[info.track] = info.startPos.frames(m_document->fps());
       }
     }
     if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) 
@@ -4249,15 +4187,16 @@ void CustomTrackView::completeSpaceOperation(int track, GenTime &timeOffset)
         QUndoCommand *command = new QUndoCommand;
         command->setText(timeOffset < GenTime() ? i18n("Remove space") : i18n("Insert space"));
         //TODO: break groups upstream
-        breakLockedGroups(clipsToMove, transitionsToMove, command, false);
-        new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, timeOffset, false, command);
+        breakLockedGroups(clipsToMove, transitionsToMove, command, fromStart);
+        new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, timeOffset, fromStart, command);
         updateTrackDuration(track, command);
         m_commandStack->push(command);
-        m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, timeOffset, GenTime());
+        if (!fromStart)
+            m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, timeOffset, GenTime());
     }
   }
   resetSelectionGroup();
-  for (int i = 0; i < groups.count(); ++i) 
+  if (!fromStart) for (int i = 0; i < groups.count(); ++i) 
   {
       rebuildGroup(groups.at(i));
   }
@@ -6324,7 +6263,7 @@ void CustomTrackView::copyClip()
         pasteAction->setEnabled(!m_copiedItems.isEmpty());
 }
 
-bool CustomTrackView::canBePastedTo(ItemInfo info, int type) const
+bool CustomTrackView::canBePastedTo(ItemInfo info, int type, QList<AbstractClipItem *>excluded) const
 {
     if (m_scene->editMode() != TimelineMode::NormalEdit) {
         // If we are in overwrite mode, always allow the move
@@ -6343,7 +6282,7 @@ bool CustomTrackView::canBePastedTo(ItemInfo info, int type) const
     QRectF rect((double) info.startPos.frames(m_document->fps()), (double)(getPositionFromTrack(info.track) + 1 + offset), (double)(info.endPos - info.startPos).frames(m_document->fps()), (double) height);
     QList<QGraphicsItem *> collisions = scene()->items(rect, Qt::IntersectsItemBoundingRect);
     for (int i = 0; i < collisions.count(); ++i) {
-        if (collisions.at(i)->type() == type) {
+        if (collisions.at(i)->type() == type && !excluded.contains((AbstractClipItem *)collisions.at(i))) {
             return false;
         }
     }
@@ -6371,7 +6310,7 @@ bool CustomTrackView::canBePasted(QList<AbstractClipItem *> items, GenTime offse
         info.startPos += offset;
         info.endPos += offset;
         info.track += trackOffset;
-        if (!canBePastedTo(info, items.at(i)->type())) return false;
+        if (!canBePastedTo(info, items.at(i)->type(), items)) return false;
     }
     return true;
 }
