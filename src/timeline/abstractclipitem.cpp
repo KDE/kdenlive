@@ -189,7 +189,9 @@ void AbstractClipItem::updateRectGeometry()
 void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChange*/)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - m_info.startPos;
-    if (durationDiff == GenTime()) return;
+    if (durationDiff == GenTime()) {
+        return;
+    }
 
     if (type() == AVWidget && hasSizeLimit && (cropStart() + durationDiff < GenTime())) {
         durationDiff = GenTime() - cropStart();
@@ -206,7 +208,6 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
         if (m_info.cropStart < GenTime())
             negCropStart = true;
     }
-
     m_info.cropDuration -= durationDiff;
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     moveBy(durationDiff.frames(m_fps), 0);
@@ -220,7 +221,6 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
         m_info.cropDuration -= diff;
         setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     }
-
     // set crop from start to 0 (isn't relevant as this only happens for color clips, images)
     if (negCropStart)
         m_info.cropStart = GenTime();

@@ -85,6 +85,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(splitter, &QSplitter::splitterMoved, this, &Timeline::storeHeaderSize);
     m_scene = new CustomTrackScene(this);
     m_trackview = new CustomTrackView(doc, this, m_scene, parent);
+    setFocusProxy(m_trackview);
     if (m_doc->setSceneList() == -1) *ok = false;
     else *ok = true;
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
@@ -230,18 +231,6 @@ int Timeline::tracksCount() const
 int Timeline::visibleTracksCount() const
 {
     return m_tractor->count() - 1 - m_hasOverlayTrack - m_usePreview;
-}
-
-//virtual
-void Timeline::keyPressEvent(QKeyEvent * event)
-{
-    if (event->key() == Qt::Key_Up) {
-        m_trackview->slotTrackUp();
-        event->accept();
-    } else if (event->key() == Qt::Key_Down) {
-        m_trackview->slotTrackDown();
-        event->accept();
-    } else QWidget::keyPressEvent(event);
 }
 
 int Timeline::duration() const
@@ -1735,17 +1724,23 @@ bool Timeline::createRippleWindow(int tk, int startPos)
     }
     Mlt::Producer *firstClip = playlist.get_clip(clipIndex - 1);
     Mlt::Producer *secondClip = playlist.get_clip(clipIndex);
-
+    qDebug()<<"** TRIM ON TK: "<<tk<<", POS: "<<startPos;
+    if (!firstClip || !firstClip->is_valid()) {
+        m_tractor->unlock();
+        return false;
+    }
+    if (!secondClip || !secondClip->is_valid()) {
+        m_tractor->unlock();
+        return false;
+    }
     // Create duplicate of second clip
     Clip clp2(secondClip->parent());
     Mlt::Producer *cln2 = clp2.clone();
     Clip(*cln2).addEffects(*secondClip);
-
     // Create copy of first clip
     Mlt::Producer *cln = new Mlt::Producer(firstClip->parent());
     cln->set_in_and_out(firstClip->get_in(), -1);
     Clip(*cln).addEffects(*firstClip);
-
     int secondStart = playlist.clip_start(clipIndex) - secondClip->get_in();
     int rippleStart = playlist.clip_start(clipIndex - 1);
 

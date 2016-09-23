@@ -38,6 +38,11 @@ public:
     bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
     void mouseMove(int pos);
     void mouseRelease(GenTime pos = GenTime());
+    bool enterTrimMode(ItemInfo info, bool trimStart);
+    void moveRoll(bool forward);
+
+public slots:
+    void endRoll();
 
 private:
     ClipItem *m_firstClip;

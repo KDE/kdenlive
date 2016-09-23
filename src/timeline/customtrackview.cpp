@@ -209,13 +209,55 @@ void CustomTrackView::initTools()
 //virtual
 void CustomTrackView::keyPressEvent(QKeyEvent * event)
 {
-    if (event->key() == Qt::Key_Up) {
-        slotTrackUp();
-        event->accept();
-    } else if (event->key() == Qt::Key_Down) {
-        slotTrackDown();
-        event->accept();
-    } else QWidget::keyPressEvent(event);
+    switch(event->key()) {
+        case Qt::Key_Up:
+            slotTrackUp();
+            event->accept();
+            break;
+        case Qt::Key_Down:
+            slotTrackDown();
+            event->accept();
+            break;
+        case Qt::Key_Left:
+        case Qt::Key_Right:
+            if (event->modifiers() == Qt::ControlModifier) {
+                if (m_dragItem == NULL || m_dragItem->type() != AVWidget) {
+                    QGraphicsView::keyPressEvent(event);
+                    return;
+                }
+                // Enter rolling
+                int diffStart = qAbs(m_cursorPos - m_dragItem->startPos().frames(m_document->fps()));
+                int diffEnd = qAbs(m_cursorPos - m_dragItem->endPos().frames(m_document->fps()));
+                TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+                if (m_moveOpMode == RollingEnd || m_moveOpMode == RollingStart) {
+                    // Already in trim mode, move
+                    mgr->moveRoll(event->key() == Qt::Key_Right);
+                } else {
+                    // init trim
+                    mgr->enterTrimMode(m_dragItem->info(), diffStart < diffEnd);
+                }
+                setFocus();
+                event->accept();
+                return;
+            }
+            break;
+        default:
+            break;
+    }
+    QGraphicsView::keyPressEvent(event);
+}
+
+bool CustomTrackView::event( QEvent * e ) 
+{
+    if ((m_moveOpMode == RollingEnd || m_moveOpMode == RollingStart) && e->type() == QEvent::ShortcutOverride) {
+        if (((QKeyEvent*)e)->key() == Qt::Key_Escape) {
+            TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+            mgr->endRoll();
+            e->accept();
+            return true;
+        }
+    }
+    return QGraphicsView::event(e);
 }
 
 void CustomTrackView::setDocumentModified()
@@ -2206,10 +2248,11 @@ void CustomTrackView::rippleMode(bool enable)
         emit displayMessage(i18n("Select a clip to enter ripple mode"), InformationMessage);
         return;
     }
-    if (m_operationMode == ResizeEnd)
+    if (m_operationMode == ResizeEnd) {
         m_moveOpMode = RollingEnd;
-    else if (m_operationMode == ResizeStart)
+    } else if (m_operationMode == ResizeStart) {
         m_moveOpMode = RollingStart;
+    }
     int ripplePos = m_moveOpMode == RollingStart ? m_dragItem->startPos().frames(m_document->fps()) : m_dragItem->endPos().frames(m_document->fps());
     if (m_timeline->createRippleWindow(m_dragItem->track(), ripplePos)) {
         emit loadMonitorScene(MonitorSceneRipple, true);
@@ -8471,8 +8514,11 @@ void CustomTrackView::switchAllTrackLock()
 
 void CustomTrackView::slotAcceptRipple(bool accept)
 {
-    m_timeline->removeSplitOverlay();
-    QMetaObject::invokeMethod(this, "doRipple", Qt::QueuedConnection, Q_ARG(bool, accept));
+    if (m_moveOpMode == RollingEnd || m_moveOpMode == RollingStart) {
+        TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+        if (mgr)
+            QMetaObject::invokeMethod(mgr, "endRoll", Qt::QueuedConnection);
+    }
 }
 
 void CustomTrackView::doRipple(bool accept)

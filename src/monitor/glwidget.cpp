@@ -612,8 +612,9 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event)
 void GLWidget::keyPressEvent(QKeyEvent* event)
 {
     QQuickView::keyPressEvent(event);
-    if (event->isAccepted()) return;
-    emit passKeyEvent(event);
+    if (!event->isAccepted()) {
+        emit passKeyEvent(event);
+    }
 }
 
 void GLWidget::createThread(RenderThread **thread, thread_function_t function, void *data)

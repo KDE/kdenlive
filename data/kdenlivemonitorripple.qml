@@ -32,36 +32,20 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            root.doAcceptRipple(mouseX > width / 2)
-        }
-    }
-
-    Rectangle {
-        id: cancel
-        anchors {
-            left: root.left
-            top: info.bottom
-        }
-        width: root.width / 2
-        height: root.height / 2 - info.height
-        color: "darkRed"
-        Text {
-            text: 'Cancel'
-            color: "white"
-            anchors.centerIn: parent
+            root.doAcceptRipple(true)
         }
     }
     Rectangle {
         id: accept
         anchors {
-            right: root.right
+            left: root.left
             top: info.bottom
         }
-        width: root.width / 2
+        width: root.width
         height: root.height / 2 - info.height
         color: "darkGreen"
         Text {
-            text: 'Accept'
+            text: 'close'
             color: "white"
             anchors.centerIn: parent
         }

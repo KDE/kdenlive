@@ -37,32 +37,7 @@ TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : Ab
 
 bool TrimManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *>)
 {
-    qDebug()<<"OP MODE: "<<m_view->prepareMode();
-    if (m_view->prepareMode() == ResizeStart) {
-        m_firstClip = m_view->getClipItemAtEnd(info.startPos, info.track);
-        m_secondClip = m_view->getClipItemAtStart(info.startPos, info.track);
-    } else {
-        m_firstClip = m_view->getClipItemAtEnd(info.endPos, info.track);
-        m_secondClip = m_view->getClipItemAtStart(info.endPos, info.track);
-    }
-    if (!m_firstClip || !m_secondClip) {
-        qDebug()<<"/ / / / WARNING, ERROR WITH TRIM CLIPS";
-        m_view->setOperationMode(None);
-        m_firstInfo = ItemInfo();
-        m_secondInfo = ItemInfo();
-        return false;
-    }
-    m_firstInfo = m_firstClip->info();
-    m_secondInfo = m_secondClip->info();
-    AbstractClipItem *dragItem = m_view->dragItem();
-    m_view->rippleMode(true);
-    m_view->loadMonitorScene(MonitorSceneRipple, true);
-    AbstractGroupItem *selectionGroup = m_view->selectionGroup();
-    if (selectionGroup) {
-        m_view->resetSelectionGroup(false);
-        dragItem->setSelected(true);
-    }
-    return true;
+    return enterTrimMode(info, m_view->prepareMode() == ResizeStart);
 }
 
 void TrimManager::mouseMove(int pos)
@@ -81,6 +56,61 @@ void TrimManager::mouseMove(int pos)
 
 void TrimManager::mouseRelease(GenTime)
 {
+    endRoll();
+}
+
+bool TrimManager::enterTrimMode(ItemInfo info, bool trimStart)
+{
+    if (trimStart) {
+        m_firstClip = m_view->getClipItemAtEnd(info.startPos, info.track);
+        m_secondClip = m_view->getClipItemAtStart(info.startPos, info.track);
+    } else {
+        m_firstClip = m_view->getClipItemAtEnd(info.endPos, info.track);
+        m_secondClip = m_view->getClipItemAtStart(info.endPos, info.track);
+    }
+    if (!m_firstClip || !m_secondClip) {
+        m_view->setOperationMode(None);
+        m_firstInfo = ItemInfo();
+        m_secondInfo = ItemInfo();
+        return false;
+    }
+    AbstractClipItem *dragItem = m_view->dragItem();
+    AbstractGroupItem *selectionGroup = m_view->selectionGroup();
+    if (selectionGroup) {
+        m_view->resetSelectionGroup(false);
+        dragItem->setSelected(true);
+    }
+    m_view->setOperationMode(trimStart ? RollingStart : RollingEnd);
+    m_firstInfo = m_firstClip->info();
+    m_secondInfo = m_secondClip->info();
+    m_view->rippleMode(true);
+    m_view->loadMonitorScene(MonitorSceneRipple, true);
+    m_view->seekCursorPos(trimStart ? info.startPos.frames(m_view->fps()) : info.endPos.frames(m_view->fps()));
+    return true;
+}
+
+void TrimManager::moveRoll(bool forward)
+{
+    if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
+        return;
+    int pos = m_firstClip->endPos().frames(m_view->fps());
+    bool snap = KdenliveSettings::snaptopoints();
+    KdenliveSettings::setSnaptopoints(false);
+    if (forward) {
+        pos++;
+        m_secondClip->resizeStart(pos, true, false);
+        m_firstClip->resizeEnd(pos, false);
+    } else {
+        pos--;
+        m_firstClip->resizeEnd(pos, false);
+        m_secondClip->resizeStart(pos, true, false);
+    }
+    m_view->seekCursorPos(pos);
+    KdenliveSettings::setSnaptopoints(snap);
+}
+
+void TrimManager::endRoll()
+{
     if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
         return;
     m_view->rippleMode(false);
@@ -97,5 +127,3 @@ void TrimManager::mouseRelease(GenTime)
     m_firstInfo = ItemInfo();
     m_secondInfo = ItemInfo();
 }
-
-

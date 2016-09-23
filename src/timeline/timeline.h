@@ -189,9 +189,6 @@ public:
     /** @brief Toggle current project's compositing mode. */
     void switchComposite(int mode);
 
-protected:
-    void keyPressEvent(QKeyEvent * event);
-
 public slots:
     void slotDeleteClip(const QString &clipId, QUndoCommand *deleteCommand);
     void slotChangeZoom(int horizontal, int vertical = -1);

@@ -861,6 +861,8 @@ void ProjectClip::doExtractIntra()
         }
 	prod->seek(pos);
 	Mlt::Frame *frame = prod->get_frame();
+        frame->set("deinterlace_method", "onefield");
+        frame->set("top_field_first", -1 );
 	if (frame && frame->is_valid()) {
             img = KThumb::getFrame(frame, fullWidth, 150);
             bin()->cachePixmap(path, img);
@@ -910,6 +912,8 @@ void ProjectClip::doExtractImage()
         }
 	prod->seek(pos);
 	Mlt::Frame *frame = prod->get_frame();
+        frame->set("deinterlace_method", "onefield");
+        frame->set("top_field_first", -1 );
 	if (frame && frame->is_valid()) {
             img = KThumb::getFrame(frame, frameWidth, 150);
             bin()->cachePixmap(path, img);

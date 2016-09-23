@@ -369,8 +369,6 @@ public slots:
     /** @brief Shows the configure tracks dialog. */
     void slotConfigTracks(int ix);
     void clipNameChanged(const QString &id);
-    void slotTrackUp();
-    void slotTrackDown();
     void slotSelectTrack(int ix, bool switchTarget = false);
     int insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone);
 
@@ -418,6 +416,7 @@ protected:
     virtual void dragEnterEvent(QDragEnterEvent * event);
     virtual void dragMoveEvent(QDragMoveEvent * event);
     virtual void dragLeaveEvent(QDragLeaveEvent * event);
+    virtual bool event( QEvent * e );
     /** @brief Something has been dropped onto the timeline */
     virtual void dropEvent(QDropEvent * event);
     virtual void enterEvent(QEvent * event);
@@ -558,6 +557,8 @@ private:
     void updateTimelineSelection();
     /** @brief Break groups containing an item in a locked track. */
     void breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
+    void slotTrackUp();
+    void slotTrackDown();
 
 private slots:
     void slotRefreshGuides();

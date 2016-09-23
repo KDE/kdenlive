@@ -73,30 +73,40 @@ QuickEventEater::QuickEventEater(QObject *parent) : QObject(parent)
 
 bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->type() == QEvent::DragEnter) {
-        QDragEnterEvent *ev = reinterpret_cast< QDragEnterEvent* >(event);
-        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
-            ev->acceptProposedAction();
-            return true;
+    switch (event->type()) {
+        case QEvent::DragEnter:
+        {
+            QDragEnterEvent *ev = reinterpret_cast< QDragEnterEvent* >(event);
+            if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
+                ev->acceptProposedAction();
+                return true;
+            }
+            break;
         }
-    }
-    else if (event->type() == QEvent::DragMove) {
-        QDragEnterEvent *ev = reinterpret_cast< QDragEnterEvent* >(event);
-        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
-            ev->acceptProposedAction();
-            return true;
+        case QEvent::DragMove:
+        {
+            QDragEnterEvent *ev = reinterpret_cast< QDragEnterEvent* >(event);
+            if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
+                ev->acceptProposedAction();
+                return true;
+            }
+            break;
         }
-    }
-    else if (event->type() == QEvent::Drop) {
-        QDropEvent *ev = static_cast< QDropEvent* >(event);
-        if (ev) {
-          const QString effects = QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
-          QDomDocument doc;
-          doc.setContent(effects, true);
-          emit addEffect(doc.documentElement());
-          ev->accept();
-          return true;
+        case QEvent::Drop:
+        {
+            QDropEvent *ev = static_cast< QDropEvent* >(event);
+            if (ev) {
+                const QString effects = QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
+                QDomDocument doc;
+                doc.setContent(effects, true);
+               emit addEffect(doc.documentElement());
+               ev->accept();
+               return true;
+            }
+            break;
         }
+        default:
+            break;
     }
     return QObject::eventFilter(obj, event);
 }

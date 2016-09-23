@@ -42,7 +42,6 @@ bool TreeEventEater::eventFilter(QObject *obj, QEvent *event)
         if (((QKeyEvent*)event)->key() == Qt::Key_Escape) {
             emit clearSearchLine();
         }
-        return QObject::eventFilter(obj, event);
     }
     return QObject::eventFilter(obj, event);
 }
