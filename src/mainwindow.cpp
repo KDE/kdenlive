@@ -2656,20 +2656,24 @@ void MainWindow::slotTimelineClipSelected(ClipItem* item, bool reloadStack)
 {
     m_effectStack->slotClipItemSelected(item, m_projectMonitor, reloadStack);
     m_projectMonitor->slotSetSelectedClip(item);
+    if (KdenliveSettings::raisepropsclips()) {
+        m_effectStack->raiseWindow(m_effectStackDock);
+    }
 }
 
 void MainWindow::slotTrackSelected(int index, const TrackInfo &info, bool raise)
 {
     m_effectStack->slotTrackItemSelected(index, info, m_projectMonitor);
-    if (raise) {
+    if (raise && KdenliveSettings::raisepropstracks()) {
         m_effectStack->raiseWindow(m_effectStackDock);
     }
 }
 
 void MainWindow::slotActivateTransitionView(Transition *transition)
 {
-    if (transition)
+    if (transition && KdenliveSettings::raisepropstransitions()) {
         m_effectStack->raiseWindow(m_effectStackDock);
+    }
 }
 
 void MainWindow::slotSnapRewind()

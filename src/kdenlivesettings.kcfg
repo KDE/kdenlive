@@ -245,6 +245,21 @@
         <default>1</default>
     </entry>
 
+    <entry name="raisepropsclips" type="Bool">
+      <label>Raise property pane when selecting timeline clips.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="raisepropstransitions" type="Bool">
+      <label>Raise property pane when selecting timeline transitions.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="raisepropstracks" type="Bool">
+      <label>Raise property pane when selecting timeline tracks.</label>
+      <default>true</default>
+    </entry>
+
     </group>
 
     <group name="sdl">

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="12" column="0">
+   <item row="11" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -88,12 +88,12 @@
       <widget class="QComboBox" name="kcfg_clipcornertype">
        <item>
         <property name="text">
-         <string>Rounded</string>
+         <string>rounded</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Straight</string>
+         <string>straight</string>
         </property>
        </item>
       </widget>
@@ -191,8 +191,51 @@
      </property>
     </widget>
    </item>
+   <item row="9" column="0">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Raise properties pane when selecting in timeline</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QCheckBox" name="kcfg_raisepropsclips">
+        <property name="text">
+         <string>Clips</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="kcfg_raisepropstransitions">
+        <property name="text">
+         <string>Transitions</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="kcfg_raisepropstracks">
+        <property name="text">
+         <string>Tracks</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>kcfg_videothumbnails</tabstop>
+  <tabstop>kcfg_audiothumbnails</tabstop>
+  <tabstop>kcfg_displayallchannels</tabstop>
+  <tabstop>kcfg_ffmpegaudiothumbnails</tabstop>
+  <tabstop>kcfg_showmarkers</tabstop>
+  <tabstop>kcfg_autoscroll</tabstop>
+  <tabstop>kcfg_verticalzoom</tabstop>
+  <tabstop>kcfg_splitaudio</tabstop>
+  <tabstop>kcfg_automatictransitions</tabstop>
+  <tabstop>kcfg_trackheight</tabstop>
+  <tabstop>kcfg_clipcornertype</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
