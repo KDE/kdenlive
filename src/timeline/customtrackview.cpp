@@ -4808,7 +4808,7 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
 {
     ProjectClip *binClip = m_document->getBinClip(clipId);
     if (!binClip) {
-        emit displayMessage(i18n("Cannot insert clip..."), ErrorMessage);
+        emit displayMessage(i18n("Cannot insert clip."), ErrorMessage);
         return;
     }
     if (!binClip->isReady()) {
@@ -8305,6 +8305,7 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMa
     }
     if (lowerTrack <1) {
         qWarning()<<" / / / TOO many tracks in playlist for our timeline ";
+        emit displayMessage(i18n("Not enough timeline tracks to expand selected playlist clip, need %1 tracks.", playlistTracks), MltError);
         delete command;
         return;
     }
@@ -8317,6 +8318,7 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMa
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == TransitionWidget || selection.at(i)->type() == AVWidget) {
             qWarning()<<" / / /There are clips in timeline preventing expand actions";
+            emit displayMessage(i18n("No free track space above and below the selected playlist clip, thus the clip cannot be expanded."), MltError);
             delete command;
             return;
         }

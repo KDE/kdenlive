@@ -2546,6 +2546,7 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         return;
     }
     QMap <QString, QString> idMap;
+    QDir mltRoot(doc.documentElement().attribute(QStringLiteral("root")));
     for (int i = 0; i < producers.count(); i++) {
         QDomElement prod = producers.at(i).toElement();
         QString originalId = prod.attribute(QStringLiteral("id"));
@@ -2561,6 +2562,24 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         // Add clip
         QDomElement clone = prod.cloneNode(true).toElement();
         EffectsList::setProperty(clone, QStringLiteral("kdenlive:folderid"), folderId);
+        QString mltService = EffectsList::property(clone, QStringLiteral("mlt_service"));
+        // Do we have a producer that uses a resource property that contains a path?
+        if (mltService == QLatin1String("avformat-novalidate") // av clip
+                || mltService == QLatin1String("avformat")     // av clip
+                || mltService == QLatin1String("pixbuf")       // image (sequence) clip
+                || mltService == QLatin1String("qimage")       // image (sequence) clip
+                || mltService == QLatin1String("xml")          // MLT playlist clip, someone likes recursion :)
+                ) {
+            // Make sure to correctly resolve relative resource paths based on
+            // the playlist's root, not on this project's root
+            QString resource = EffectsList::property(clone, QStringLiteral("resource"));
+            if (QFileInfo(resource).isRelative()) {
+                QFileInfo rootedResource(mltRoot, resource);
+                qDebug() << "fixed resource path for producer, newId:" << newId << "resource:" << rootedResource.absoluteFilePath();
+                EffectsList::setProperty(clone, QStringLiteral("resource"), rootedResource.absoluteFilePath());
+            }
+        }
+
         ClipCreationDialog::createClipsCommand(this, clone, newId, command);
     }
     pCore->projectManager()->currentTimeline()->importPlaylist(info, idMap, doc, command);

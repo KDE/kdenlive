@@ -1415,7 +1415,7 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("save_selection"), i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()), KoIconUtils::themedIcon(QStringLiteral("document-save")));
 
-    QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()), KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
+    QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Timeline Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()), KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
     pCore->library()->setupActions(QList <QAction *>() << sentToLibrary);
 
     KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
