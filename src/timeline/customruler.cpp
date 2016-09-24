@@ -498,7 +498,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
             QRectF rec(xPos, MAX_HEIGHT + 1, chunkWidth, PREVIEW_SIZE - 1);
             p.fillRect(rec, preview);
         }
-        preview = Qt::darkRed;
+        preview = QColor(200, 0, 0);
         preview.setAlpha(120);
         foreach(int frame, m_dirtyRenderingPreviews) {
             double xPos = frame * m_factor  - m_offset;

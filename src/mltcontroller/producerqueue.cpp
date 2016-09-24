@@ -432,7 +432,6 @@ void ProducerQueue::processFileProperties()
             producer->set("length", length);
             int kdenlive_duration = EffectsList::property(info.xml, QStringLiteral("kdenlive:duration")).toInt();
             producer->set("kdenlive:duration", kdenlive_duration > 0 ? kdenlive_duration : length);
-            
         }
         if (clipOut > 0) {
             producer->set_in_and_out(info.xml.attribute(QStringLiteral("in")).toInt(), clipOut);

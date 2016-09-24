@@ -1297,7 +1297,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
         ProjectClip *item = clipList.at(i);
         ClipType t = item->clipType();
         // Only allow proxy on some clip types
-        if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist) && item->isReady()) {
+        if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist || t == SlideShow) && item->isReady()) {
 	    if ((doProxy && !force && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) continue;
             if (pCore->producerQueue()->isProcessing(item->clipId())) {
                 continue;
@@ -1309,16 +1309,25 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
                 // insert required duration for proxy
                 newProps.insert(QStringLiteral("proxy_out"), item->getProducerProperty(QStringLiteral("out")));
                 newProps.insert(QStringLiteral("kdenlive:proxy"), path);
+                // We need to insert empty proxy so that undo will work
+                //TODO: how to handle clip properties
+                //oldProps = clip->currentProperties(newProps);
+                oldProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
             }
-            else if (!pCore->binController()->hasClip(item->clipId())) {
-                // Force clip reload
-                newProps.insert(QStringLiteral("resource"), item->url().toLocalFile());
+            else {
+                if (t == SlideShow) {
+                    // Revert to picture aspect ratio
+                    newProps.insert(QStringLiteral("aspect_ratio"), QStringLiteral("1"));
+                }
+                if (!pCore->binController()->hasClip(item->clipId())) {
+                    // Force clip reload
+                    newProps.insert(QStringLiteral("resource"), item->url().toLocalFile());
+                }
             }
-            // We need to insert empty proxy so that undo will work
-            //TODO: how to handle clip properties
-            //oldProps = clip->currentProperties(newProps);
-            if (doProxy) oldProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
             new EditClipCommand(pCore->bin(), item->clipId(), oldProps, newProps, true, masterCommand);
+        } else {
+            // Cannot proxy this clip type
+            pCore->bin()->doDisplayMessage(i18n("Clip type does not support proxies"), KMessageWidget::Information);
         }
     }
     if (!hasParent) {

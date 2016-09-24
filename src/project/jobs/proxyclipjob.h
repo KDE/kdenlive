@@ -23,6 +23,7 @@
 
 #include "abstractclipjob.h"
 
+class QTemporaryFile;
 class Bin;
 class ProjectClip;
 
@@ -31,7 +32,7 @@ class ProxyJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    ProxyJob(ClipType cType, const QString &id, const QStringList& parameters);
+    ProxyJob(ClipType cType, const QString &id, const QStringList& parameters, QTemporaryFile *playlist);
     virtual ~ ProxyJob();
     const QString destination() const;
     void startJob();
@@ -50,6 +51,7 @@ private:
     int m_renderHeight;
     int m_jobDuration;
     bool m_isFfmpegJob;
+    QTemporaryFile *m_playlist;
 };
 
 #endif

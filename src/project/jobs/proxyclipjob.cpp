@@ -24,12 +24,12 @@
 #include "bin/projectclip.h"
 #include "bin/bin.h"
 #include <QProcess>
-
+#include <QTemporaryFile>
 
 #include <QDebug>
 #include <klocalizedstring.h>
 
-ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList& parameters)
+ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList& parameters, QTemporaryFile *playlist)
     : AbstractClipJob(PROXYJOB, cType, id),
       m_jobDuration(0),
       m_isFfmpegJob(true)
@@ -42,6 +42,7 @@ ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList& paramet
     m_proxyParams = parameters.at(3);
     m_renderWidth = parameters.at(4).toInt();
     m_renderHeight = parameters.at(5).toInt();
+    m_playlist = playlist;
     replaceClip = true;
 }
 
@@ -49,7 +50,7 @@ void ProxyJob::startJob()
 {
     // Special case: playlist clips (.mlt or .kdenlive project files)
     m_jobDuration = 0;
-    if (clipType == Playlist) {
+    if (clipType == Playlist || clipType == SlideShow) {
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
         QStringList mltParameters;
@@ -167,6 +168,8 @@ void ProxyJob::startJob()
         }
         m_jobProcess->waitForFinished(400);
     }
+    // remove temporary playlist if it exists
+    delete m_playlist;
     if (m_jobStatus != JobAborted) {
         int result = m_jobProcess->exitStatus();
         if (result == QProcess::NormalExit) {
@@ -265,7 +268,7 @@ QList <ProjectClip *> ProxyJob::filterClips(QList <ProjectClip *>clips)
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *clip = clips.at(i);
         ClipType type = clip->clipType();
-        if (type != AV && type != Video && type != Playlist && type != Image) {
+        if (type != AV && type != Video && type != Playlist && type != Image && type != SlideShow) {
             // Clip will not be processed by this job
             continue;
         }
@@ -302,8 +305,22 @@ QHash <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, QList <P
             sourcePath.prepend("consumer:");
         }
         QStringList parameters;
+        QTemporaryFile *playlist = NULL;
+        if (item->clipType() == SlideShow) {
+            // we save a temporary .mlt clip for rendering
+            QDomDocument doc;
+            QDomElement xml = item->toXml(doc, false);
+            playlist = new QTemporaryFile();
+            playlist->setFileTemplate(playlist->fileTemplate() + QStringLiteral(".mlt"));
+            if (playlist->open()) {
+                sourcePath = playlist->fileName();
+                QTextStream out(playlist);
+                out << doc.toString();
+                playlist->close();
+            }
+        }
         parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << params << QString::number(renderSize.width()) << QString::number(renderSize.height());
-        ProxyJob *job = new ProxyJob(item->clipType(), id, parameters);
+        ProxyJob *job = new ProxyJob(item->clipType(), id, parameters, playlist);
         jobs.insert(item, job);
     }
     return jobs;
