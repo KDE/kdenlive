@@ -213,15 +213,15 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
 void LibraryWidget::setupActions(QList <QAction *>list)
 {
     QList <QAction *> menuList;
-    m_addAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("list-add")), i18n("Add Clip to Project"), this);
+    m_addAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-clip")), i18n("Add Clip to Project"), this);
     connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(slotAddToProject()));
     m_addAction->setData(1);
     m_deleteAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete Clip from Library"), this);
     connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(slotDeleteFromLibrary()));
     m_deleteAction->setData(1);
-    QAction *addFolder = new QAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Folder"), this);
+    QAction *addFolder = new QAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Library Folder"), this);
     connect(addFolder, SIGNAL(triggered(bool)), this, SLOT(slotAddFolder()));
-    QAction *renameFolder = new QAction(QIcon(), i18n("Rename Item"), this);
+    QAction *renameFolder = new QAction(QIcon(), i18n("Rename Library Clip"), this);
     renameFolder->setData(1);
     connect(renameFolder, SIGNAL(triggered(bool)), this, SLOT(slotRenameItem()));
     menuList << m_addAction << addFolder << renameFolder << m_deleteAction;
