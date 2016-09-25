@@ -1565,6 +1565,24 @@ QVariantList Monitor::effectPolygon() const
     return root->property("centerPoints").toList();
 }
 
+QVariantList Monitor::effectRoto() const
+{
+    QQuickItem *root = m_glMonitor->rootObject();
+    if (!root) {
+	return QVariantList();
+    }
+    QVariantList points = root->property("centerPoints").toList();
+    QVariantList controlPoints = root->property("centerPointsTypes").toList();
+    // rotoscoping effect needs a list of 
+    QVariantList mix;
+    for (int i = 0; i < points.count(); i++) {
+        mix << controlPoints.at(2 * i);
+        mix << points.at(i);
+        mix << controlPoints.at(2 * i + 1);
+    }
+    return mix;
+}
+
 void Monitor::setEffectKeyframe(bool enable)
 {
     QQuickItem *root = m_glMonitor->rootObject();

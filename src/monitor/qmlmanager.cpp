@@ -88,7 +88,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
             //TODO
             m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorrotoscene.qml")));
             root = m_view->rootObject();
-            QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
+            QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectRotoChanged()), Qt::UniqueConnection);
             root->setProperty("profile", QPoint(profile.width(), profile.height()));
             root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
             root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
@@ -128,4 +128,19 @@ void QmlManager::effectPolygonChanged()
     if (!m_view->rootObject()) return;
     QVariantList points = m_view->rootObject()->property("centerPoints").toList();
     emit effectPointsChanged(points);
+}
+
+void QmlManager::effectRotoChanged()
+{
+    if (!m_view->rootObject()) return;
+    QVariantList points = m_view->rootObject()->property("centerPoints").toList();
+    QVariantList controlPoints = m_view->rootObject()->property("centerPointsTypes").toList();
+    // rotoscoping effect needs a list of 
+    QVariantList mix;
+    for (int i = 0; i < points.count(); i++) {
+        mix << controlPoints.at(2 * i);
+        mix << points.at(i);
+        mix << controlPoints.at(2 * i + 1);
+    }
+    emit effectPointsChanged(mix);
 }

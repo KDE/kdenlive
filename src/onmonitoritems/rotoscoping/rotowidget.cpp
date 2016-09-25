@@ -53,25 +53,23 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
     QVBoxLayout *l = new QVBoxLayout(this);
     m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in, this);
     l->addWidget(m_keyframeWidget);
-
+    connect(m_monitor, SIGNAL(effectPointsChanged(QVariantList)), this, SLOT(slotUpdateDataPoints(QVariantList)));
     //MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
     //m_scene = NULL;//edit->getScene();
     //m_scene->cleanup();
 
     // TODO: port to qml monitor scene
     /*m_item = new SplineItem(QList <BPoint>(), NULL, m_scene);
-
     connect(m_item, SIGNAL(changed(bool)), this, SLOT(slotUpdateData(bool)));
+    connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
+    */
     connect(m_keyframeWidget, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
     connect(m_keyframeWidget, SIGNAL(keyframeAdded(int)), this, SLOT(slotAddKeyframe(int)));
     connect(m_keyframeWidget, SIGNAL(keyframeRemoved(int)), this, SLOT(slotRemoveKeyframe(int)));
     connect(m_keyframeWidget, SIGNAL(keyframeMoved(int,int)), this, SLOT(slotMoveKeyframe(int,int)));
-    connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
 
     setSpline(data, false);
     setupTrackingListen(info);
-    m_scene->centerView();
-    */
 }
 
 RotoWidget::~RotoWidget()
@@ -93,18 +91,14 @@ void RotoWidget::slotSyncPosition(int relTimelinePos)
     slotPositionChanged(relTimelinePos, false);
 }
 
-void RotoWidget::slotUpdateData(int pos, bool editing)
+void RotoWidget::slotUpdateData(int pos, QList <BPoint> spline)
 {
-    Q_UNUSED(editing)
-
     int width = m_monitor->render->frameRenderWidth();
     int height = m_monitor->render->renderHeight();
 
     /*
      * use the position of the on-monitor points to create a storable list
      */
-    //TODO: get points from monitor qml scene
-    QList <BPoint> spline; // = m_item->getPoints();
     QList <QVariant> vlist;
     foreach (const BPoint &point, spline) {
         QList <QVariant> pl;
@@ -131,9 +125,14 @@ void RotoWidget::slotUpdateData(int pos, bool editing)
     emit valueChanged();
 }
 
-void RotoWidget::slotUpdateData(bool editing)
+void RotoWidget::slotUpdateDataPoints(QVariantList points, int pos)
 {
-    slotUpdateData(-1, editing);
+    QList <BPoint> bPoints;
+    for (int i = 0; i < points.size() / 3; i++) {
+        BPoint b(points.at(3 * i).toPointF(), points.at(3 * i + 1).toPointF(), points.at(3 * i + 2).toPointF());
+        bPoints << b;
+    }
+    slotUpdateData(pos, bPoints);
 }
 
 QByteArray RotoWidget::getSpline()
@@ -154,6 +153,7 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
     pos += m_in;
 
     QList <BPoint> p;
+    bool isKeyframe = false;
 
     if (m_data.canConvert(QVariant::Map)) {
         QMap <QString, QVariant> map = m_data.toMap();
@@ -187,13 +187,9 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
                 }
                 p.append(bp);
             }
-
-            // TODO: port to qml monitor scene
-            /*m_item->setPoints(p);
-            m_item->setEnabled(false);*/
-            //m_scene->setEnabled(false);
         } else {
             p = getPoints(keyframe2);
+            isKeyframe = pos == keyframe2;
             // only update if necessary to preserve the current point selection
             // TODO: port to qml monitor scene
             /*
@@ -204,6 +200,7 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
         }
     } else {
         p = getPoints(-1);
+        isKeyframe = true;
         // only update if necessary to preserve the current point selection
         // TODO: port to qml monitor scene
         /*if (p != m_item->getPoints())
@@ -211,6 +208,15 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
         m_item->setEnabled(true);*/
         //m_scene->setEnabled(true);
     }
+    QVariantList centerPoints;
+    QVariantList controlPoints;
+    for (int i = 0; i < p.size(); i++) {
+        centerPoints << QVariant(p.at(i).p);
+        controlPoints << QVariant(p.at(i).h1);
+        controlPoints << QVariant(p.at(i).h2);
+    }
+    m_monitor->setUpEffectGeometry(QRect(), centerPoints, controlPoints);
+    m_monitor->setEffectKeyframe(isKeyframe);
 
     if (seek)
         emit seekToPos(pos - m_in);
@@ -252,11 +258,7 @@ void RotoWidget::slotAddKeyframe(int pos)
 
     if (pos < 0)
         m_keyframeWidget->addKeyframe();
-
-    slotUpdateData(pos);
-    // TODO: port to qml monitor scene
-    //m_item->setEnabled(true);
-    //m_scene->setEnabled(true);
+    slotUpdateDataPoints(m_monitor->effectRoto(), pos);
 }
 
 void RotoWidget::slotRemoveKeyframe(int pos)

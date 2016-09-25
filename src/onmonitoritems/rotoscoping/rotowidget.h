@@ -87,9 +87,9 @@ private:
 private slots:
 
     /** @brief Updates/Creates the spline at @param pos based on the on-monitor items. */
-    void slotUpdateData(int pos = -1, bool editing = false);
+    void slotUpdateData(int pos, QList <BPoint> spline);
     /** @brief Updates/Creates the spline at the current timeline position based on the on-monitor items. */
-    void slotUpdateData(bool editing);
+    void slotUpdateDataPoints(QVariantList points, int pos = -1);
 
     /** @brief Updates the on-monitor items to fit the spline at position @param pos. */
     void slotPositionChanged(int pos, bool seek = true);

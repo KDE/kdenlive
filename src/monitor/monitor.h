@@ -129,6 +129,7 @@ public:
     QSize profileSize() const;
     QRect effectRect() const;
     QVariantList effectPolygon() const;
+    QVariantList effectRoto() const;
     void setEffectKeyframe(bool enable);
     void sendFrameForAnalysis(bool analyse);
     void updateAudioForAnalysis();

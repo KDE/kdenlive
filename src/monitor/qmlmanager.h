@@ -55,6 +55,7 @@ private:
 private slots:
     void effectRectChanged();
     void effectPolygonChanged();
+    void effectRotoChanged();
 
 signals:
     void effectChanged(const QRect);
