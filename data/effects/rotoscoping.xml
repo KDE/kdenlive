@@ -17,7 +17,7 @@
         <parameter type="bool" name="invert" default="0">
             <name>Invert</name>
         </parameter>
-        
+
         <!--<parameter type="bool" name="track" default="0">
             <name>Track</name>
         </parameter>-->
@@ -25,7 +25,7 @@
         <parameter type="constant" name="feather" max="500" min="0" default="0">
             <name>Feather width</name>
         </parameter>
-        
+
         <parameter type="constant" name="feather_passes" max="20" min="1" default="1">
             <name>Feathering passes</name>
         </parameter>
