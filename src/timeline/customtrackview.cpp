@@ -8277,38 +8277,75 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMa
     if (!import || !import->is_valid()) {
         delete command;
         qDebug()<<" / / /CANNOT open playlist to import ";
+        emit displayMessage(i18n("Malformed playlist clip: invalid content."), MltError);
         return;
     }
     Mlt::Service service(import->parent().get_service());
     if (service.type() != tractor_type) {
         delete command;
         qDebug()<<" / / /CANNOT playlist file: "<<service.type();
+        emit displayMessage(i18n("Malformed playlist clip: missing tractor."), MltError);
         return;
     }
 
     // Parse imported file
     Mlt::Tractor tractor(service);
     int playlistTracks = tractor.count();
-    int lowerTrack = info.track;
-    if (lowerTrack + playlistTracks > m_timeline->tracksCount()) {
-        lowerTrack = m_timeline->tracksCount() - playlistTracks;
-    }
-    if (lowerTrack <1) {
-        qWarning()<<" / / / TOO many tracks in playlist for our timeline ";
-        emit displayMessage(i18n("Not enough timeline tracks to expand selected playlist clip, need %1 tracks.", playlistTracks), MltError);
+    // (In)sanity check... ;)
+    if (playlistTracks < 1) {
         delete command;
+        emit displayMessage(i18n("Malformed playlist clip: no tracks."), MltError);
         return;
     }
-    // Check if there are no objects on the way
-    double startY = getPositionFromTrack(lowerTrack + playlistTracks) + 1;
+    // Expansion of a playlist clip is "down": that is, a multi-track playlist
+    // occupies the tracks at and below the track where the playlist clip is.
+    // This is in line with how Kdenlive traditionally handles tracks, from
+    // top to bottom. Remember that the bottommost *user* timeline track has index 1!
+    int topTrack = info.track;
+    int bottomTrack = topTrack - playlistTracks + 1;
+    if (bottomTrack < 1) {
+        // playlist clip would expand below the timeline, so try to
+        // shift the playlist clip up onto a higher track. If there is
+        // room to do so, that is...
+        // Remember that timeline tracksCount() is the number of timeline tractor
+        // tracks, so this includes the black track with index 0. Or we just use
+        // visibleTracksCount() then :)
+        if (playlistTracks > m_timeline->visibleTracksCount()) {
+            // There are not enough tracks in the timeline.
+            qWarning() << " / / / more playlist tracks than timeline tracks";
+            delete command;
+            emit displayMessage(i18n("Selected playlist clip needs more tracks (%1) than there are tracks in the timeline (%2).",
+                                     playlistTracks, m_timeline->visibleTracksCount()), MltError);
+            return;
+        }
+        topTrack = playlistTracks;
+        bottomTrack = 1;
+    }
+    // Check if there are no objects on the way: the expansion direction
+    // for multi-track playlists is "down", that is, we occupy additional tracks
+    // *below* the playlist clip in the timeline.
+    double startY = getPositionFromTrack(topTrack) + 1; // TODO: check +1
     QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight * playlistTracks);
     QList<QGraphicsItem *> selection = m_scene->items(r);
     ClipItem *playlistToExpand = getClipItemAtStart(info.startPos, info.track);
     if (playlistToExpand) selection.removeAll(playlistToExpand);
     for (int i = 0; i < selection.count(); ++i) {
-        if (selection.at(i)->type() == TransitionWidget || selection.at(i)->type() == AVWidget) {
+        QGraphicsItem *item = selection.at(i);
+        if (item->type() == TransitionWidget || item->type() == AVWidget) {
+            if (item->type() == TransitionWidget) {
+                // We allow transitions immediately above the playlist clip (top track)
+                // to overlap with the playlist clip and don't regard this as a collision.
+                // The rationale is that any playlist clip cannot have a transition above
+                // its topmost track, so this is never going to be a collision. Au contraire,
+                // this improves some workflows incredibly, so we can now place playlist
+                // clips immediately below a higher track with some overlay logo.
+                Transition *tr = static_cast <Transition *>(item);
+                if (tr->track() > topTrack)
+                    continue;
+            }
             qWarning()<<" / / /There are clips in timeline preventing expand actions";
-            emit displayMessage(i18n("No free track space above and below the selected playlist clip, thus the clip cannot be expanded."), MltError);
+            emit displayMessage(i18n("Not enough free track space above or below the selected playlist clip: need free room on %1 tracks to expand playlist.",
+                                     playlistTracks), MltError);
             delete command;
             return;
         }
@@ -8351,12 +8388,12 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMa
             insertInfo.cropStart = GenTime(in, m_document->fps());
             insertInfo.cropDuration = GenTime(out - in + 1, m_document->fps());
             insertInfo.endPos = insertInfo.startPos + insertInfo.cropDuration;
-            insertInfo.track = lowerTrack + i;
+            insertInfo.track = bottomTrack + i;
             EffectsList effects = ClipController::xmlEffectList(original->profile(), *original);
             new AddTimelineClipCommand(this, newId, insertInfo, effects, PlaylistState::Original, true, false, false, command);
             startPos += original->get_playtime();
         }
-        updateTrackDuration(lowerTrack + i, command);
+        updateTrackDuration(bottomTrack + i, command);
     }
 
     // Paste transitions
@@ -8372,8 +8409,8 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMa
                 ItemInfo transitionInfo;
                 transitionInfo.startPos = info.startPos + GenTime(t.get_in(), m_document->fps());
                 transitionInfo.endPos = info.startPos + GenTime(t.get_out(), m_document->fps());
-                transitionInfo.track = t.get_b_track() + lowerTrack;
-                int endTrack = t.get_a_track() + lowerTrack;
+                transitionInfo.track = t.get_b_track() + bottomTrack;
+                int endTrack = t.get_a_track() + bottomTrack;
                 if (prop.get("kdenlive_id") == NULL && QString(prop.get("mlt_service")) == "composite" && Timeline::isSlide(prop.get("geometry")))
                     prop.set("kdenlive_id", "slide");
                 QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
