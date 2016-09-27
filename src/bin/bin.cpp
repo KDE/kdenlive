@@ -64,6 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <QtConcurrent>
 #include <QUndoCommand>
+#include <QCryptographicHash>
 
 
 MyListView::MyListView(QWidget * parent) : QListView(parent)
@@ -2547,7 +2548,12 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         delete command;
         return;
     }
+    // Maps playlist producer IDs to (project) bin producer IDs.
     QMap <QString, QString> idMap;
+    // Maps hash IDs to (project) first playlist producer instance ID. This is
+    // necessary to detect duplicate producer serializations produced by MLT.
+    // This covers, for instance, images and titles.
+    QMap <QString, QString> hashToIdMap;
     QDir mltRoot(doc.documentElement().attribute(QStringLiteral("root")));
     for (int i = 0; i < producers.count(); i++) {
         QDomElement prod = producers.at(i).toElement();
@@ -2557,14 +2563,57 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
         // slowmotion producer
         if (originalId.contains(QLatin1Char(':'))) originalId = originalId.section(QLatin1Char(':'), 1, 1);
 
+        // We already have seen and mapped this producer.
         if (idMap.contains(originalId)) continue;
+
+        // Check for duplicate producers, based on hash value of producer.
+        // Be careful as to the kdenlive:file_hash! It is not unique for
+        // title clips, nor color clips. Also not sure about image sequences.
+        // So we use mlt service-specific hashes to identify duplicate producers.
+        QString hash;
+        QString mltService = EffectsList::property(prod, QStringLiteral("mlt_service"));
+        if (mltService == QLatin1String("pixbuf")
+                || mltService == QLatin1String("kdenlivetitle")
+                || mltService == QLatin1String("color")
+                || mltService == QLatin1String("colour")) {
+            hash = mltService + QStringLiteral(":")
+                   + EffectsList::property(prod, QStringLiteral("kdenlive:clipname")) + QStringLiteral(":")
+                   + EffectsList::property(prod, QStringLiteral("kdenlive:folderid")) + QStringLiteral(":");
+            if (mltService == QLatin1String("kdenlivetitle")) {
+                // Calculate hash based on title contents.
+                hash.append(QString(QCryptographicHash::hash(EffectsList::property(prod, QStringLiteral("xmldata")).toUtf8(),
+                                                           QCryptographicHash::Md5
+                                                          ).toHex()));
+            } else if (mltService == QLatin1String("pixbuf")
+                       || mltService == QLatin1String("color")
+                       || mltService == QLatin1String("colour")) {
+                hash.append(EffectsList::property(prod, QStringLiteral("resource")));
+            }
+
+            QString singletonId = hashToIdMap.value(hash, QString());
+            if (singletonId.length()) {
+                // map duplicate producer ID to single bin clip producer ID.
+                qDebug() << "found duplicate producer:" << hash << ", reusing newID:" << singletonId;
+                idMap.insert(originalId, singletonId);
+                continue;
+            }
+        }
+
+        // First occurence of a producer, so allocate new bin clip producer ID.
         QString newId = QString::number(getFreeClipId());
         idMap.insert(originalId, newId);
         qDebug() << "originalId: " << originalId << ", newId: " << newId;
+
+        // Ensure to register new bin clip producer ID in hash hashmap for
+        // those clips that MLT likes to serialize multiple times. This is
+        // indicated by having a hash "value" unqual "". See also above.
+        if (hash.length()) {
+            hashToIdMap.insert(hash, newId);
+        }
+
         // Add clip
         QDomElement clone = prod.cloneNode(true).toElement();
         EffectsList::setProperty(clone, QStringLiteral("kdenlive:folderid"), folderId);
-        QString mltService = EffectsList::property(clone, QStringLiteral("mlt_service"));
         // Do we have a producer that uses a resource property that contains a path?
         if (mltService == QLatin1String("avformat-novalidate") // av clip
                 || mltService == QLatin1String("avformat")     // av clip

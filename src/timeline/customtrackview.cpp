@@ -8194,27 +8194,28 @@ bool CustomTrackView::hasSelection() const
 void CustomTrackView::exportTimelineSelection(QString path)
 {
     if (!m_selectionGroup && !m_dragItem) {
-	qDebug()<<"/// ARGH, NO SELECTION GRP";
-	return;
+        qDebug()<<"/// ARGH, NO SELECTION GRP";
+        emit displayMessage(i18n("No clips and transitions selected in timeline for exporting."), ErrorMessage);
+        return;
     }
     if (path.isEmpty()) {
         QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
         if (clipFolder.isEmpty()) {
             clipFolder = QDir::homePath();
         }
-        path = QFileDialog::getSaveFileName(this, i18n("Save Zone"), clipFolder, i18n("MLT playlist (*.mlt)"));
+        path = QFileDialog::getSaveFileName(this, i18n("Save Timeline Selection"), clipFolder, i18n("MLT playlist (*.mlt)"));
         if (path.isEmpty()) return;
     }
     QList<QGraphicsItem *> children;
     QRectF bounding;
     if (m_selectionGroup) {
-	children = m_selectionGroup->childItems();
-	bounding = m_selectionGroup->sceneBoundingRect();
+        children = m_selectionGroup->childItems();
+        bounding = m_selectionGroup->sceneBoundingRect();
     }
     else {
-	// only one clip selected
-	children << m_dragItem;
-	bounding = m_dragItem->sceneBoundingRect();
+        // only one clip selected
+        children << m_dragItem;
+        bounding = m_dragItem->sceneBoundingRect();
     }
     int firstTrack = getTrackFromPos(bounding.bottom());
     int lastTrack = getTrackFromPos(bounding.top());
@@ -8222,34 +8223,33 @@ void CustomTrackView::exportTimelineSelection(QString path)
     Mlt::Tractor *newTractor = new Mlt::Tractor(*(m_document->renderer()->getProducer()->profile()));
     Mlt::Field *field = newTractor->field();
     for (int i = firstTrack; i <= lastTrack; i++) {
-	QScopedPointer<Mlt::Playlist> newTrackPlaylist(new Mlt::Playlist(*newTractor->profile()));
-	newTractor->set_track(*newTrackPlaylist, i - firstTrack);
+        QScopedPointer<Mlt::Playlist> newTrackPlaylist(new Mlt::Playlist(*newTractor->profile()));
+        newTractor->set_track(*newTrackPlaylist, i - firstTrack);
     }
     int startOffest = m_projectDuration;
     // Find first frame of selection
     for (int i = 0; i < children.count(); ++i) {
-	QGraphicsItem *item = children.at(i);
-	if (item->type() != TransitionWidget && item->type() != AVWidget) {
-	      continue;
-	}
-	AbstractClipItem *it = static_cast<AbstractClipItem *>(item);
-	if (!it) continue;
-	int pos = it->startPos().frames(m_document->fps());
-	if (pos < startOffest) startOffest = pos;
+        QGraphicsItem *item = children.at(i);
+        if (item->type() != TransitionWidget && item->type() != AVWidget) {
+            continue;
+        }
+        AbstractClipItem *it = static_cast<AbstractClipItem *>(item);
+        if (!it) continue;
+        int pos = it->startPos().frames(m_document->fps());
+        if (pos < startOffest) startOffest = pos;
     }
     for (int i = 0; i < children.count(); ++i) {
-	QGraphicsItem *item = children.at(i);
-	if (item->type() == AVWidget) {
+        QGraphicsItem *item = children.at(i);
+        if (item->type() == AVWidget) {
             ClipItem *clip = static_cast<ClipItem*>(item);
-	    int track = clip->track() - firstTrack;
-	    m_timeline->duplicateClipOnPlaylist(clip->track(), clip->startPos().seconds(), startOffest, newTractor->track(track));
-	}
-	else if (item->type() == TransitionWidget) {
-	    Transition *tr = static_cast<Transition*>(item);
-	    int a_track = qBound(0, tr->transitionEndTrack() - firstTrack, lastTrack - firstTrack + 1);
-	    int b_track = qBound(0, tr->track() - firstTrack, lastTrack - firstTrack + 1);;
-	    m_timeline->transitionHandler->duplicateTransitionOnPlaylist(tr->startPos().frames(m_document->fps()) - startOffest, tr->endPos().frames(m_document->fps()) - startOffest, tr->transitionTag(), tr->toXML(), a_track, b_track, field);
-	}
+            int track = clip->track() - firstTrack;
+            m_timeline->duplicateClipOnPlaylist(clip->track(), clip->startPos().seconds(), startOffest, newTractor->track(track));
+        } else if (item->type() == TransitionWidget) {
+            Transition *tr = static_cast<Transition*>(item);
+            int a_track = qBound(0, tr->transitionEndTrack() - firstTrack, lastTrack - firstTrack + 1);
+            int b_track = qBound(0, tr->track() - firstTrack, lastTrack - firstTrack + 1);;
+            m_timeline->transitionHandler->duplicateTransitionOnPlaylist(tr->startPos().frames(m_document->fps()) - startOffest, tr->endPos().frames(m_document->fps()) - startOffest, tr->transitionTag(), tr->toXML(), a_track, b_track, field);
+        }
     }
     Mlt::Consumer xmlConsumer(*newTractor->profile(),  ("xml:" + path).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
