@@ -1319,8 +1319,8 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("remove_extract"), i18n("Extract Timeline Zone"), this, SLOT(slotExtractZone()), KoIconUtils::themedIcon(QStringLiteral("timeline-extract")), Qt::SHIFT + Qt::Key_X);
     addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), KoIconUtils::themedIcon(QStringLiteral("timeline-lift")), Qt::Key_Z);
     addAction(QStringLiteral("set_render_timeline_zone"), i18n("Add Preview Zone"), this, SLOT(slotDefinePreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-add-zone")));
-    addAction(QStringLiteral("unset_render_timeline_zone"), i18n("Unset Preview Zone"), this, SLOT(slotRemovePreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-remove-zone")));
-    addAction(QStringLiteral("clear_render_timeline_zone"), i18n("Clear Preview Zones"), this, SLOT(slotClearPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-remove-zone")));
+    addAction(QStringLiteral("unset_render_timeline_zone"), i18n("Remove Preview Zone"), this, SLOT(slotRemovePreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-remove-zone")));
+    addAction(QStringLiteral("clear_render_timeline_zone"), i18n("Remove All Preview Zones"), this, SLOT(slotClearPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-remove-all")));
     addAction(QStringLiteral("prerender_timeline_zone"), i18n("Start Preview Render"), this, SLOT(slotPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-render-on")), QKeySequence(Qt::SHIFT + Qt::Key_Return));
     addAction(QStringLiteral("stop_prerender_timeline"), i18n("Stop Preview Render"), this, SLOT(slotStopPreviewRender()), KoIconUtils::themedIcon(QStringLiteral("preview-render-off")));
 
