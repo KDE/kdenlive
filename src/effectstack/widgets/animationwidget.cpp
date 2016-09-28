@@ -488,7 +488,7 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
         m_timePos->setValue(pos);
     m_ruler->setValue(pos);
     if (m_spinX) {
-        updateRect(pos);
+        updateRect(pos - m_offset);
     }
     updateSlider(pos - m_offset);
     if (seek)

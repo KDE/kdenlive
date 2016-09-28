@@ -395,7 +395,8 @@ bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
     QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < namenode.count() ; ++i) {
         pa = namenode.item(i).toElement();
-        if (pa.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+        QString type = pa.attribute(QStringLiteral("type"));
+        if (type == QLatin1String("geometry") || type == QLatin1String("animated") || type == QLatin1String("animatedrect")) {
             keyframes = pa.attribute(QStringLiteral("value"));
             break;
         }
@@ -408,15 +409,21 @@ bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
     int i = 0;
     if (oldEnd < duration) {
         // Transition was expanded, check if we had a keyframe at end position
-        foreach(const QString &pos, values) {
-            if (!pos.contains('=')) {
+        foreach(QString pos, values) {
+            if (!pos.contains(QLatin1Char('='))) {
                 ++i;
                 continue;
             }
-            frame = pos.section('=', 0, 0).toInt();
+            frame = pos.section(QLatin1Char('='), 0, 0).remove(QLatin1Char('~')).remove(QLatin1Char('|')).toInt();
             if (frame == oldEnd) {
                 // Move that keyframe to new end
-                values[i] = QString::number(duration) + '=' + pos.section('=', 1);
+                QString separator = QStringLiteral("=");
+                if (pos.contains(QLatin1Char('~'))) {
+                    separator.prepend(QStringLiteral("~"));
+                } else if (pos.contains(QLatin1Char('|'))) {
+                    separator.prepend(QStringLiteral("|"));
+                }
+                values[i] = QString::number(duration) + separator + pos.section('=', 1);
                 pa.setAttribute(QStringLiteral("value"), values.join(QStringLiteral(";")));
                 return true;
             }
@@ -427,11 +434,11 @@ bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
     else if (oldEnd > duration) {
         // Transition was shortened, check for out of bounds keyframes
         foreach(const QString &pos, values) {
-            if (!pos.contains('=')) {
+            if (!pos.contains(QLatin1Char('='))) {
                 ++i;
                 continue;
             }
-            frame = pos.section('=', 0, 0).toInt();
+            frame = pos.section(QLatin1Char('='), 0, 0).remove(QLatin1Char('~')).remove(QLatin1Char('|')).toInt();
             if (frame > duration) {
                 modified = true;
                 break;
@@ -444,8 +451,8 @@ bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
             // Check if there is a keyframe at transition end
             QString prev = values.at(i-1);
             bool done = false;
-            if (prev.contains('=')) {
-                int previousKeyframe = prev.section('=', 0, 0).toInt();
+            if (prev.contains(QLatin1Char('='))) {
+                int previousKeyframe = prev.section(QLatin1Char('='), 0, 0).remove(QLatin1Char('~')).remove(QLatin1Char('|')).toInt();
                 if (previousKeyframe == duration) {
                     // Remove the last keyframes
                     while (values.count() > i) {
@@ -457,7 +464,13 @@ bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
             if (!done) {
                 // Add new keyframe at end and remove last keyframes
                 QString last = values.at(i);
-                last = QString::number(duration) + '=' + last.section('=', 1);
+                QString separator = QStringLiteral("=");
+                if (last.contains(QLatin1Char('~'))) {
+                    separator.prepend(QStringLiteral("~"));
+                } else if (last.contains(QLatin1Char('|'))) {
+                    separator.prepend(QStringLiteral("|"));
+                }
+                last = QString::number(duration) + separator + last.section(QLatin1Char('='), 1);
                 values[i] = last;
                 while (values.count() > (i + 1)) {
                     values.removeLast();
@@ -476,7 +489,6 @@ void Transition::updateKeyframes(QDomElement /*effect*/)
 //virtual
 void Transition::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-    qDebug()<<"* * * ENTER TRANSITION DRAG";
     if (isItemLocked()) event->setAccepted(false);
     else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
         event->acceptProposedAction();
