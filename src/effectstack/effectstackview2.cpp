@@ -152,8 +152,8 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m, bool reload
         m_effect->effectCompare->setChecked(false);
     }
     if (c) {
-        m_effect->setHidden(false);
         m_transition->setHidden(true);
+        m_effect->setHidden(false);
         m_effect->setEnabled(m_stateStatus != DISABLETIMELINE && m_stateStatus != DISABLEALL);
     }
     else if (m_status == TIMELINE_TRANSITION) return;
@@ -212,8 +212,8 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController* c, Monitor *m)
     m_clipref = NULL;
     m_trackindex = -1;
     if (c) {
-        m_effect->setHidden(false);
         m_transition->setHidden(true);
+        m_effect->setHidden(false);
         if (!c->isValid()) {
             m_effect->setEnabled(false);
             c = NULL;
@@ -257,6 +257,8 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Moni
         m_effect->effectCompare->setChecked(false);
     }
     if (m_status != TIMELINE_TRACK || ix != m_trackindex) {
+        m_transition->setHidden(true);
+        m_effect->setHidden(false);
         m_clipref = NULL;
         m_status = TIMELINE_TRACK;
         m_effectMetaInfo.monitor = m;
