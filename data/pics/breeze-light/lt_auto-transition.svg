@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" id="svg2" viewBox="0 0 16 16">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
     <defs id="defs4">
-        <style type="style/css" id="current-color-scheme">
-            .ColorScheme-Text{color:#4d4d4d}.ColorScheme-Background{color:#eff0f1}.ColorScheme-Highlight{color:#3daee9}.ColorScheme-ViewText{color:#31363b}.ColorScheme-ViewBackground{color:#fcfcfc}.ColorScheme-ViewHover{color:#93cee9}.ColorScheme-ViewFocus{color:#3daee9}.ColorScheme-ButtonText{color:#31363b}.ColorScheme-ButtonBackground{color:#eff0f1}.ColorScheme-ButtonHover{color:#93cee9}.ColorScheme-ButtonFocus{color:#3daee9}
+        <style type="text/css" id="current-color-scheme">
+            .ColorScheme-Text{color:#4d4d4d}
         </style>
     </defs>
     <path class="ColorScheme-Text" fill="currentColor" d="M 4 4 L 4 5 L 5 5 L 5 4 L 4 4 z M 6 4 L 6 5 L 7 5 L 7 4 L 6 4 z M 8 4 L 8 5 L 9 5 L 9 4 L 8 4 z M 10 4 L 10 5 L 11 5 L 11 4 L 10 4 z M 1 6 L 1 10 L 3 8 L 1 6 z M 4 6 L 4 7 L 5 7 L 5 6 L 4 6 z M 10 6 L 10 7 L 11 7 L 11 6 L 10 6 z M 14 6 L 12 8 L 14 10 L 14 6 z M 4 8 L 4 12 L 11 12 L 11 8 L 4 8 z M 5 9 L 10 9 L 10 11 L 5 11 L 5 9 z" id="path4190" />
