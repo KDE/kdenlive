@@ -325,6 +325,8 @@ public:
     GenTime groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     void sortGuides();
     void initTools();
+    /** @brief Cycle through timeline trim modes, returns label text for trim mode */
+    void switchTrimMode();
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -472,6 +474,9 @@ private:
      *  @param pos a time value that is inside the clip
      *  @param track the track where the clip is in MLT coordinates */
     ClipItem *getClipItemAtMiddlePoint(int pos, int track);
+    /** @brief Returns the higher clip at pos on the timeline
+     *  @param pos a time value that is inside the clip */
+    ClipItem *getUpperClipItemAt(int pos);
     /** @brief Returns a moved clip from timeline (means that the item was moved but its ItemInfo coordinates have not been updated yet)
      * */
     ClipItem *getMovedClipItem(ItemInfo info, GenTime offset, int trackOffset);
@@ -623,6 +628,7 @@ signals:
     /** @brief Select active keyframe in effect stack */
     void setActiveKeyframe(int);
     void loadMonitorScene(MonitorSceneType,bool);
+    void updateTrimMode(const QString mode = QString());
 };
 
 #endif

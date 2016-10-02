@@ -172,6 +172,14 @@ enum CacheType {
     CacheThumbs = 5
 };
 
+enum TrimMode {
+    NormalTrim,
+    RippleTrim,
+    RollingTrim,
+    SlipTrim,
+    SlideTrim
+};
+
 class TrackInfo {
 
 public:

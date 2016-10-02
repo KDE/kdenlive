@@ -197,13 +197,16 @@ CustomTrackView::~CustomTrackView()
 
 void CustomTrackView::initTools()
 {
-    m_toolManagers.insert(TrimType, new TrimManager(this, m_commandStack));
+    TrimManager *trim = new TrimManager(this, m_commandStack);
+    connect(trim, &TrimManager::updateTrimMode, this, &CustomTrackView::updateTrimMode);
+    m_toolManagers.insert(TrimType, trim);
     m_toolManagers.insert(SpacerType, new SpacerManager(this, m_commandStack));
     m_toolManagers.insert(ResizeType, new ResizeManager(this, m_commandStack));
     m_toolManagers.insert(RazorType, new RazorManager(this, m_commandStack));
     m_toolManagers.insert(MoveType, new MoveManager(m_timeline->transitionHandler, this, m_commandStack));
     m_toolManagers.insert(SelectType, new SelectManager(this, m_commandStack));
     m_toolManagers.insert(GuideType, new GuideManager(this, m_commandStack));
+    emit updateTrimMode();
 }
 
 //virtual
@@ -249,12 +252,14 @@ void CustomTrackView::keyPressEvent(QKeyEvent * event)
 
 bool CustomTrackView::event( QEvent * e ) 
 {
-    if ((m_moveOpMode == RollingEnd || m_moveOpMode == RollingStart) && e->type() == QEvent::ShortcutOverride) {
-        if (((QKeyEvent*)e)->key() == Qt::Key_Escape) {
-            TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
-            mgr->endRoll();
-            e->accept();
-            return true;
+    if (e->type() == QEvent::ShortcutOverride) {
+        TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+        if (mgr && mgr->trimMode() != NormalTrim) {
+            if (((QKeyEvent*)e)->key() == Qt::Key_Escape) {
+                mgr->setTrimMode(NormalTrim);
+                e->accept();
+                return true;
+            }
         }
     }
     return QGraphicsView::event(e);
@@ -4998,6 +5003,17 @@ ClipItem *CustomTrackView::getClipItemAtMiddlePoint(int pos, int track)
     return clip;
 }
 
+ClipItem *CustomTrackView::getUpperClipItemAt(int pos)
+{
+    ClipItem *clip = NULL;
+    for (int i = m_timeline->tracksCount(); i > 0; i--) {
+        clip = getClipItemAtMiddlePoint(pos, i);
+        if (clip)
+            break;
+    }
+    return clip;
+}
+
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track, bool alreadyMoved)
 {
     const QPointF p(pos, getPositionFromTrack(track) + Transition::itemOffset() + 1);
@@ -8652,4 +8668,38 @@ void CustomTrackView::reloadTrack(ItemInfo info, bool includeLastFrame)
 void CustomTrackView::sortGuides()
 {
     qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
+}
+
+void CustomTrackView::switchTrimMode()
+{
+    TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+    TrimMode mode = (TrimMode) (((int) mgr->trimMode() + 1) %5);
+    // Find best clip to trim
+    ItemInfo info;
+    //TODO: if cursor is not on a cut, switch only between splip and slide
+    AbstractClipItem *trimItem = NULL;
+    if (m_dragItem && m_dragItem->type() == AVWidget) {
+        trimItem = m_dragItem;
+    } else {
+        // find topmost clip
+        trimItem = getUpperClipItemAt(m_cursorPos);
+        if (trimItem) {
+            slotSelectItem(trimItem);
+        }
+    }
+    if (trimItem) {
+        info = trimItem->info();
+        GenTime cursor(m_cursorPos, m_document->fps());
+        if (cursor == info.startPos) {
+            // Start trim at clip start
+            mgr->setTrimMode(mode, info, true);
+        } else if (cursor == info.startPos) {
+            // Start trim at clip end
+            mgr->setTrimMode(mode, info, false);
+        } else {
+            int diffStart = qAbs(m_cursorPos - info.startPos.frames(m_document->fps()));
+            int diffEnd = qAbs(m_cursorPos - info.endPos.frames(m_document->fps()));
+            mgr->setTrimMode(mode, info, diffStart < diffEnd);
+        }
+    }
 }

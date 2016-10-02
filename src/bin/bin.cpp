@@ -218,7 +218,7 @@ const QString SmallJobLabel::getStyleSheet(const QPalette &p)
     QColor bg = scheme.background(KColorScheme::LinkBackground).color();
     QColor fg = scheme.foreground(KColorScheme::LinkText).color();
     QString style = QStringLiteral("QPushButton {margin:3px;padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue());
-    
+
     bg = scheme.background(KColorScheme::ActiveBackground).color();
     fg = scheme.foreground(KColorScheme::ActiveText).color();
     style.append(QStringLiteral("\nQPushButton:hover {margin:3px;padding:2px;background-color: rgb(%1, %2, %3);border-radius: 4px;border: none;color: rgb(%4, %5, %6)}").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(fg.red()).arg(fg.green()).arg(fg.blue()));

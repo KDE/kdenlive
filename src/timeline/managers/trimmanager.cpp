@@ -32,6 +32,7 @@
 TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
     , m_firstClip(NULL)
     , m_secondClip(NULL)
+    , m_trimMode(NormalTrim)
 {
 }
 
@@ -126,4 +127,36 @@ void TrimManager::endRoll()
     m_commandStack->push(command);
     m_firstInfo = ItemInfo();
     m_secondInfo = ItemInfo();
+}
+
+TrimMode TrimManager::trimMode() const
+{
+    return m_trimMode;
+}
+
+void TrimManager::setTrimMode(TrimMode mode, ItemInfo info, bool fromStart)
+{
+    m_trimMode = mode;
+    QString modeLabel;
+    switch (m_trimMode) {
+        case RippleTrim:
+            modeLabel = i18n(" Ripple ");
+            break;
+        case RollingTrim:
+            modeLabel = i18n(" Rolling ");
+            break;
+        case SlideTrim:
+            modeLabel = i18n(" Slide ");
+            break;
+        case SlipTrim:
+            modeLabel = i18n(" Slip ");
+            break;
+        default:
+            emit updateTrimMode(modeLabel);
+            endRoll();
+            return;
+            break;
+    }
+    emit updateTrimMode(modeLabel);
+    enterTrimMode(info, fromStart);
 }

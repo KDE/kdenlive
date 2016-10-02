@@ -223,6 +223,7 @@ private:
     KIconLoader *m_iconLoader;
     KToolBar *m_timelineToolBar;
     QWidget *m_timelineToolBarContainer;
+    QLabel *m_trimLabel;
 
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
@@ -472,6 +473,9 @@ private slots:
     void slotUpdateCompositing(QAction *compose);
     /** @brief Update compositing action to display current project setting. */
     void slotUpdateCompositeAction(int mode);
+    /** @brief Cycle through the different timeline trim modes. */
+    void slotSwitchTrimMode();
+    void setTrimMode(const QString mode);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

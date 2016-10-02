@@ -40,6 +40,8 @@ public:
     void mouseRelease(GenTime pos = GenTime());
     bool enterTrimMode(ItemInfo info, bool trimStart);
     void moveRoll(bool forward);
+    void setTrimMode(TrimMode mode, ItemInfo info = ItemInfo(), bool fromStart = true);
+    TrimMode trimMode() const;
 
 public slots:
     void endRoll();
@@ -49,6 +51,10 @@ private:
     ClipItem *m_secondClip;
     ItemInfo m_firstInfo;
     ItemInfo m_secondInfo;
+    TrimMode m_trimMode;
+
+signals:
+    void updateTrimMode(const QString);
 };
 
 #endif

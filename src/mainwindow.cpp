@@ -1138,11 +1138,18 @@ void MainWindow::setupActions()
     connect(m_zoomIn, SIGNAL(triggered(bool)), this, SLOT(slotZoomIn()));
     connect(m_zoomOut, SIGNAL(triggered(bool)), this, SLOT(slotZoomOut()));
 
+    m_trimLabel = new QLabel(QStringLiteral(" "), this);
+    m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    //m_trimLabel->setAutoFillBackground(true);
+    m_trimLabel->setAlignment(Qt::AlignHCenter);
+    m_trimLabel->setStyleSheet("QLabel { background-color :red; }");
+
     KToolBar *toolbar = new KToolBar(QStringLiteral("statusToolBar"), this, Qt::BottomToolBarArea);
     toolbar->setMovable(false);
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     /*QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");*/
+    toolbar->addWidget(m_trimLabel);
     toolbar->addAction(m_buttonAutomaticSplitAudio);
     toolbar->addAction(m_buttonAutomaticTransition);
     toolbar->addAction(m_buttonVideoThumbs);
@@ -1277,6 +1284,8 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("mlt_gamma"), monitorGamma);
     monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
     connect(monitorGamma, SIGNAL(triggered(int)), this, SLOT(slotSetMonitorGamma(int)));
+
+    addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), KoIconUtils::themedIcon(QStringLiteral("cursor-arrow")), Qt::CTRL + Qt::Key_T);
 
     addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()), QIcon(), Qt::CTRL + Qt::Key_I);
     addAction(QStringLiteral("insert_timeline"), i18n("Insert Zone in Timeline"), this, SLOT(slotInsertZoneToTimeline()), QIcon(), Qt::SHIFT + Qt::CTRL + Qt::Key_I);
@@ -1855,6 +1864,7 @@ void MainWindow::connectDocument()
     connect(pCore->producerQueue(), SIGNAL(infoProcessingFinished()), trackView->projectView(), SLOT(slotInfoProcessingFinished()), Qt::DirectConnection);
 
     connect(trackView->projectView(), SIGNAL(importKeyframes(GraphicsRectItem,QString,QString)), this, SLOT(slotProcessImportKeyframes(GraphicsRectItem,QString,QString)));
+    connect(trackView->projectView(), &CustomTrackView::updateTrimMode, this, &MainWindow::setTrimMode);
     connect(m_projectMonitor, &Monitor::multitrackView, trackView, &Timeline::slotMultitrackView);
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
@@ -1946,6 +1956,7 @@ void MainWindow::connectDocument()
     //show();
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
     // set tool to select tool
+    setTrimMode(QStringLiteral());
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(slotRefreshMonitor(bool)), Qt::UniqueConnection);
     connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(slotRefreshMonitor(bool)), Qt::UniqueConnection);
@@ -3852,6 +3863,22 @@ void MainWindow::forceIconSet(bool force)
     }
 }
 
+void MainWindow::slotSwitchTrimMode()
+{
+    if (pCore->projectManager()->currentTimeline()) {
+        pCore->projectManager()->currentTimeline()->projectView()->switchTrimMode();
+    }
+}
+
+void MainWindow::setTrimMode(const QString mode)
+{
+    if (pCore->projectManager()->currentTimeline()) {
+        m_trimLabel->setText(mode);
+        m_trimLabel->setVisible(!mode.isEmpty());
+    }
+}
+
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif
+ 
