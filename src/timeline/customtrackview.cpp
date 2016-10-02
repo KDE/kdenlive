@@ -221,29 +221,6 @@ void CustomTrackView::keyPressEvent(QKeyEvent * event)
             slotTrackDown();
             event->accept();
             break;
-        case Qt::Key_Left:
-        case Qt::Key_Right:
-            if (event->modifiers() == Qt::ControlModifier) {
-                if (m_dragItem == NULL || m_dragItem->type() != AVWidget) {
-                    QGraphicsView::keyPressEvent(event);
-                    return;
-                }
-                // Enter rolling
-                int diffStart = qAbs(m_cursorPos - m_dragItem->startPos().frames(m_document->fps()));
-                int diffEnd = qAbs(m_cursorPos - m_dragItem->endPos().frames(m_document->fps()));
-                TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
-                if (m_moveOpMode == RollingEnd || m_moveOpMode == RollingStart) {
-                    // Already in trim mode, move
-                    mgr->moveRoll(event->key() == Qt::Key_Right);
-                } else {
-                    // init trim
-                    mgr->enterTrimMode(m_dragItem->info(), diffStart < diffEnd);
-                }
-                setFocus();
-                event->accept();
-                return;
-            }
-            break;
         default:
             break;
     }
@@ -2240,7 +2217,7 @@ bool CustomTrackView::createSplitOverlay(Mlt::Filter *filter)
     return m_timeline->createOverlay(filter, m_dragItem->track(), m_dragItem->startPos().frames(m_document->fps()));
 }
 
-void CustomTrackView::rippleMode(bool enable)
+void CustomTrackView::trimMode(bool enable)
 {
     if (!enable) {
         m_timeline->removeSplitOverlay();
@@ -2259,8 +2236,8 @@ void CustomTrackView::rippleMode(bool enable)
         m_moveOpMode = RollingStart;
     }
     int ripplePos = m_moveOpMode == RollingStart ? m_dragItem->startPos().frames(m_document->fps()) : m_dragItem->endPos().frames(m_document->fps());
+    qDebug()<<" * **STARTING RIPPLE MODE: "<<ripplePos;
     if (m_timeline->createRippleWindow(m_dragItem->track(), ripplePos)) {
-        emit loadMonitorScene(MonitorSceneRipple, true);
         monitorRefresh();
     }
 }
@@ -4129,6 +4106,10 @@ void CustomTrackView::setCursorPos(int pos)
 {
     if (pos != m_cursorPos) {
         emit cursorMoved(m_cursorPos, pos);
+        if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
+            TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+            mgr->moveRoll(pos > m_cursorPos, pos);
+        }
         m_cursorPos = pos;
         m_cursorLine->setPos(m_cursorPos + m_cursorOffset, 0);
         if (m_autoScroll) checkScrolling();
@@ -8670,13 +8651,20 @@ void CustomTrackView::sortGuides()
     qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
 }
 
-void CustomTrackView::switchTrimMode()
+void CustomTrackView::switchTrimMode(int mode)
+{
+    switchTrimMode((TrimMode) mode);
+}
+
+void CustomTrackView::switchTrimMode(TrimMode mode)
 {
     TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
-    TrimMode mode = (TrimMode) (((int) mgr->trimMode() + 1) %5);
+    if (mode == NormalTrim) {
+        mode = (TrimMode) (qMax(((int) mgr->trimMode() + 1) %5, 1));
+    }
     // Find best clip to trim
     ItemInfo info;
-    //TODO: if cursor is not on a cut, switch only between splip and slide
+    //TODO: if cursor is not on a cut, switch only between slip and slide
     AbstractClipItem *trimItem = NULL;
     if (m_dragItem && m_dragItem->type() == AVWidget) {
         trimItem = m_dragItem;

@@ -62,51 +62,60 @@ void TrimManager::mouseRelease(GenTime)
 
 bool TrimManager::enterTrimMode(ItemInfo info, bool trimStart)
 {
-    if (trimStart) {
-        m_firstClip = m_view->getClipItemAtEnd(info.startPos, info.track);
-        m_secondClip = m_view->getClipItemAtStart(info.startPos, info.track);
-    } else {
-        m_firstClip = m_view->getClipItemAtEnd(info.endPos, info.track);
-        m_secondClip = m_view->getClipItemAtStart(info.endPos, info.track);
-    }
-    if (!m_firstClip || !m_secondClip) {
-        m_view->setOperationMode(None);
-        m_firstInfo = ItemInfo();
-        m_secondInfo = ItemInfo();
-        return false;
-    }
-    AbstractClipItem *dragItem = m_view->dragItem();
-    AbstractGroupItem *selectionGroup = m_view->selectionGroup();
-    if (selectionGroup) {
-        m_view->resetSelectionGroup(false);
-        dragItem->setSelected(true);
-    }
-    m_view->setOperationMode(trimStart ? RollingStart : RollingEnd);
-    m_firstInfo = m_firstClip->info();
-    m_secondInfo = m_secondClip->info();
-    m_view->rippleMode(true);
     m_view->loadMonitorScene(MonitorSceneRipple, true);
-    m_view->seekCursorPos(trimStart ? info.startPos.frames(m_view->fps()) : info.endPos.frames(m_view->fps()));
+    m_view->setQmlProperty(QStringLiteral("trimmode"), (int) m_trimMode);
+    if (m_trimMode == RollingTrim) {
+        if (trimStart) {
+            m_firstClip = m_view->getClipItemAtEnd(info.startPos, info.track);
+            m_secondClip = m_view->getClipItemAtStart(info.startPos, info.track);
+        } else {
+            m_firstClip = m_view->getClipItemAtEnd(info.endPos, info.track);
+            m_secondClip = m_view->getClipItemAtStart(info.endPos, info.track);
+        }
+        if (!m_firstClip || !m_secondClip) {
+            m_view->displayMessage(i18n("Could not find necessary clips to perform rolling trim"), InformationMessage);
+            m_view->setOperationMode(None);
+            m_firstInfo = ItemInfo();
+            m_secondInfo = ItemInfo();
+            return false;
+        }
+        AbstractClipItem *dragItem = m_view->dragItem();
+        AbstractGroupItem *selectionGroup = m_view->selectionGroup();
+        if (selectionGroup) {
+            m_view->resetSelectionGroup(false);
+            dragItem->setSelected(true);
+        }
+        m_view->setOperationMode(trimStart ? RollingStart : RollingEnd);
+        m_firstInfo = m_firstClip->info();
+        m_secondInfo = m_secondClip->info();
+        m_view->trimMode(true);
+        m_view->seekCursorPos(trimStart ? info.startPos.frames(m_view->fps()) : info.endPos.frames(m_view->fps()));
+        return true;
+    }
     return true;
 }
 
-void TrimManager::moveRoll(bool forward)
+void TrimManager::moveRoll(bool forward, int pos)
 {
     if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
         return;
-    int pos = m_firstClip->endPos().frames(m_view->fps());
+    if (pos == -1) {
+        pos = m_firstClip->endPos().frames(m_view->fps());
+        if (forward)
+            pos++;
+        else
+            pos--;
+    }
     bool snap = KdenliveSettings::snaptopoints();
     KdenliveSettings::setSnaptopoints(false);
     if (forward) {
-        pos++;
         m_secondClip->resizeStart(pos, true, false);
         m_firstClip->resizeEnd(pos, false);
     } else {
-        pos--;
         m_firstClip->resizeEnd(pos, false);
         m_secondClip->resizeStart(pos, true, false);
     }
-    m_view->seekCursorPos(pos);
+    //m_view->seekCursorPos(pos);
     KdenliveSettings::setSnaptopoints(snap);
 }
 
@@ -114,7 +123,7 @@ void TrimManager::endRoll()
 {
     if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
         return;
-    m_view->rippleMode(false);
+    m_view->trimMode(false);
     QUndoCommand *command = new QUndoCommand;
     command->setText(i18n("Rolling Edit"));
     if (m_firstClip->endPos() < m_firstInfo.endPos) {

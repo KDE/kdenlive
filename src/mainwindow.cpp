@@ -1874,7 +1874,9 @@ void MainWindow::connectDocument()
     connect(project, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
     connect(trackView->projectView(), SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
     connect(trackView->projectView(), SIGNAL(loadMonitorScene(MonitorSceneType,bool)), m_projectMonitor, SLOT(slotShowEffectScene(MonitorSceneType,bool)));
+    connect(trackView->projectView(), &CustomTrackView::setQmlProperty, m_projectMonitor, &Monitor::setQmlProperty);
     connect(m_projectMonitor, SIGNAL(acceptRipple(bool)), trackView->projectView(), SLOT(slotAcceptRipple(bool)));
+    connect(m_projectMonitor, SIGNAL(switchTrimMode(int)), trackView->projectView(), SLOT(switchTrimMode(int)));
     connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
 
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));
@@ -1887,6 +1889,7 @@ void MainWindow::connectDocument()
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
+    connect(trackView, SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
     connect(trackView->projectView(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
     connect(pCore->bin(), SIGNAL(clipNameChanged(QString)), trackView->projectView(), SLOT(clipNameChanged(QString)));
     connect(pCore->bin(), SIGNAL(displayMessage(QString,int,MessageType)), m_messageLabel, SLOT(setProgressMessage(QString,int,MessageType)));

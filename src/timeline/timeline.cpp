@@ -1724,13 +1724,14 @@ bool Timeline::createRippleWindow(int tk, int startPos)
     }
     Mlt::Producer *firstClip = playlist.get_clip(clipIndex - 1);
     Mlt::Producer *secondClip = playlist.get_clip(clipIndex);
-    qDebug()<<"** TRIM ON TK: "<<tk<<", POS: "<<startPos;
     if (!firstClip || !firstClip->is_valid()) {
         m_tractor->unlock();
+        emit displayMessage(i18n("Cannot find first clip to perform ripple trim"), ErrorMessage);
         return false;
     }
     if (!secondClip || !secondClip->is_valid()) {
         m_tractor->unlock();
+        emit displayMessage(i18n("Cannot find second clip to perform ripple trim"), ErrorMessage);
         return false;
     }
     // Create duplicate of second clip
@@ -1746,10 +1747,16 @@ bool Timeline::createRippleWindow(int tk, int startPos)
 
     Mlt::Filter f1(*m_tractor->profile(), "affine");
     f1.set("transition.geometry", "50% 0 50% 50%");
+    f1.set("transition.always_active", 1);
     cln2->attach(f1);
 
     Mlt::Playlist ripple1(*m_tractor->profile());
-    ripple1.insert_blank(0, secondStart);
+    if (secondStart < 0) {
+        cln2->set_in_and_out(-secondStart, -1);
+        secondStart = 0;
+    }
+    if (secondStart > 0)
+        ripple1.insert_blank(0, secondStart);
     ripple1.insert_at(secondStart, cln2, 1);
     Mlt::Playlist ripple2(*m_tractor->profile());
     ripple2.insert_blank(0, rippleStart);

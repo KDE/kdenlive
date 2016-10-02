@@ -267,7 +267,7 @@ public:
     void switchAllTrackLock();
     /** @brief Insert space in timeline. track = -1 means all tracks */
     void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, QList <ItemInfo> excludeList = QList <ItemInfo>());
-    void rippleMode(bool enable);
+    void trimMode(bool enable);
         /** @brief Returns a clip from timeline
      *  @param pos the end time position
      *  @param track the track where the clip is in MLT coordinates */
@@ -326,7 +326,7 @@ public:
     void sortGuides();
     void initTools();
     /** @brief Cycle through timeline trim modes, returns label text for trim mode */
-    void switchTrimMode();
+    void switchTrimMode(TrimMode mode = NormalTrim);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -411,6 +411,7 @@ public slots:
     void extractZone(QPoint z, bool closeGap, QList <ItemInfo> excludedClips = QList <ItemInfo>(), QUndoCommand *masterCommand = NULL, int track = -1);
     /** @brief Select an item in timeline. */
     void slotSelectItem(AbstractClipItem *item);
+    void switchTrimMode(int mode);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -629,6 +630,7 @@ signals:
     void setActiveKeyframe(int);
     void loadMonitorScene(MonitorSceneType,bool);
     void updateTrimMode(const QString mode = QString());
+    void setQmlProperty(const QString&, const QVariant&);
 };
 
 #endif

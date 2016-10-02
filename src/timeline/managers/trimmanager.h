@@ -39,7 +39,7 @@ public:
     void mouseMove(int pos);
     void mouseRelease(GenTime pos = GenTime());
     bool enterTrimMode(ItemInfo info, bool trimStart);
-    void moveRoll(bool forward);
+    void moveRoll(bool forward, int pos = -1);
     void setTrimMode(TrimMode mode, ItemInfo info = ItemInfo(), bool fromStart = true);
     TrimMode trimMode() const;
 

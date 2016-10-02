@@ -293,6 +293,7 @@ signals:
     void loadingBin(int);
     /** @brief We are about to reload timeline, reset bin clip usage */
     void resetUsageCount();
+    void displayMessage(const QString &, MessageType);
 };
 
 #endif

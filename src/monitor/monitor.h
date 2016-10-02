@@ -362,6 +362,7 @@ signals:
     void createSplitOverlay(Mlt::Filter *);
     void removeSplitOverlay();
     void acceptRipple(bool);
+    void switchTrimMode(int);
 };
 
 #endif

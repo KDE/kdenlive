@@ -1844,6 +1844,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
           break;
       case MonitorSceneRipple:
           QObject::connect(root, SIGNAL(doAcceptRipple(bool)), this, SIGNAL(acceptRipple(bool)), Qt::UniqueConnection);
+          QObject::connect(root, SIGNAL(switchTrimMode(int)), this, SIGNAL(switchTrimMode(int)), Qt::UniqueConnection);
           break;
       case MonitorSceneDefault:
           QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
