@@ -106,7 +106,7 @@ set_package_properties(MLT PROPERTIES
 set(MLT_PREFIX ${MLT_ROOT_DIR})
 
 add_subdirectory(data)
-if(KDOCTOOLS_FOUND)
+if(KF5DocTools_FOUND)
     add_subdirectory(doc)
 endif()
 #add_subdirectory(plugins)
