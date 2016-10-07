@@ -28,20 +28,21 @@
 #include <KLocalizedString>
 
 
-ResizeManager::ResizeManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
+ResizeManager::ResizeManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(ResizeType, view, commandStack)
 {
 }
 
-bool ResizeManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem *>)
+bool ResizeManager::mousePress(QMouseEvent *event, ItemInfo info, QList<QGraphicsItem *>)
 {
     m_dragItemInfo = info;
-    m_controlModifier = modifiers;
+    m_controlModifier = event->modifiers();
     AbstractClipItem *dragItem = m_view->dragItem();
     AbstractGroupItem *selectionGroup = m_view->selectionGroup();
     if (selectionGroup) {
         m_view->resetSelectionGroup(false);
         dragItem->setSelected(true);
     }
+    m_view->setOperationMode(m_view->prepareMode());
     m_startInfos.clear();
     if (dragItem->type() == AVWidget && dragItem->parentItem()) {
         // Store start infos
@@ -59,30 +60,35 @@ bool ResizeManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, Q
     return true;
 }
 
-void ResizeManager::mouseMove(int pos)
+bool ResizeManager::mouseMove(QMouseEvent *event, int pos, int)
 {
-    AbstractClipItem *dragItem = m_view->dragItem();
-    if (!(m_controlModifier & Qt::ControlModifier) && dragItem->type() == AVWidget && dragItem->parentItem()) {
-        AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
-        if (parent) {
+    double snappedPos = m_view->getSnapPointForPos(pos);
+    if (event->buttons() & Qt::LeftButton) {
+        AbstractClipItem *dragItem = m_view->dragItem();
+        if (!(m_controlModifier & Qt::ControlModifier) && dragItem->type() == AVWidget && dragItem->parentItem()) {
+            AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
+            if (parent) {
+                if (m_view->operationMode() == ResizeStart)
+                    parent->resizeStart(snappedPos);
+                else
+                    parent->resizeEnd(snappedPos);
+            }
+        } else {
             if (m_view->operationMode() == ResizeStart)
-                parent->resizeStart(pos);
-            else
-                parent->resizeEnd(pos);
+                dragItem->resizeStart(snappedPos, true, false);
+            else 
+                dragItem->resizeEnd(snappedPos,false);
         }
-    } else {
-        if (m_view->operationMode() == ResizeStart)
-            dragItem->resizeStart(pos, true, false);
-        else 
-            dragItem->resizeEnd(pos,false);
+        QString crop = m_view->timecode().getDisplayTimecode(dragItem->cropStart(), KdenliveSettings::frametimecode());
+        QString duration = m_view->timecode().getDisplayTimecode(dragItem->cropDuration(), KdenliveSettings::frametimecode());
+        QString offset = m_view->timecode().getDisplayTimecode(dragItem->cropStart() - m_dragItemInfo.cropStart, KdenliveSettings::frametimecode());
+        m_view->displayMessage(i18n("Crop from start: %1 Duration: %2 Offset: %3", crop, duration, offset), InformationMessage);
+        event->accept();
     }
-    QString crop = m_view->timecode().getDisplayTimecode(dragItem->cropStart(), KdenliveSettings::frametimecode());
-    QString duration = m_view->timecode().getDisplayTimecode(dragItem->cropDuration(), KdenliveSettings::frametimecode());
-    QString offset = m_view->timecode().getDisplayTimecode(dragItem->cropStart() - m_dragItemInfo.cropStart, KdenliveSettings::frametimecode());
-    m_view->displayMessage(i18n("Crop from start: %1 Duration: %2 Offset: %3", crop, duration, offset), InformationMessage);
+    return true;
 }
 
-void ResizeManager::mouseRelease(GenTime pos)
+void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
 {
     Q_UNUSED(pos);
     AbstractClipItem *dragItem = m_view->dragItem();

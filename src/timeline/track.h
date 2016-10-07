@@ -206,6 +206,7 @@ public:
     bool moveEffect(double start, int oldPos, int newPos);
     bool moveTrackEffect(int oldPos, int newPos);
     QList <QPoint> visibleClips();
+    bool resize_in_out(int pos, int in, int out);
 
 signals:
     /** @brief notify track length change to update background

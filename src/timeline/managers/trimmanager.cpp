@@ -21,50 +21,59 @@
 #include "kdenlivesettings.h"
 #include "timeline/customtrackview.h"
 #include "timeline/clipitem.h"
+#include "renderer.h"
 
 #include <KLocalizedString>
 #include <QtConcurrent>
 #include <QStandardPaths>
 #include <QProcess>
+#include <mlt++/MltPlaylist.h>
 
 
-
-TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
+TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(TrimType, view, commandStack)
     , m_firstClip(NULL)
     , m_secondClip(NULL)
     , m_trimMode(NormalTrim)
+    , m_rippleIndex(0)
+    , m_trimPlaylist(NULL)
+    , trimChanged(false)
 {
 }
 
-bool TrimManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *>)
+bool TrimManager::mousePress(QMouseEvent *, ItemInfo info, QList<QGraphicsItem *>)
 {
     return enterTrimMode(info, m_view->prepareMode() == ResizeStart);
 }
 
-void TrimManager::mouseMove(int pos)
+bool TrimManager::mouseMove(QMouseEvent *event, int pos, int)
 {
-    if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
-        return;
-    if (pos < m_firstClip->endPos().frames(m_view->fps())) {
-        m_firstClip->resizeEnd(pos, false);
-        m_secondClip->resizeStart(pos, true, false);
-    } else {
-        m_secondClip->resizeStart(pos, true, false);
-        m_firstClip->resizeEnd(pos, false);
+    if (event->buttons() & Qt::LeftButton) {
+        if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
+            return false;
+        double snappedPos = m_view->getSnapPointForPos(pos);
+        if (snappedPos < m_firstClip->endPos().frames(m_view->fps())) {
+            m_firstClip->resizeEnd(snappedPos, false);
+            m_secondClip->resizeStart(snappedPos, true, false);
+        } else {
+            m_secondClip->resizeStart(snappedPos, true, false);
+            m_firstClip->resizeEnd(snappedPos, false);
+        }
+        m_view->seekCursorPos(snappedPos);
+        return true;
     }
-    m_view->seekCursorPos(pos);
+    return false;
 }
 
-void TrimManager::mouseRelease(GenTime)
+void TrimManager::mouseRelease(QMouseEvent *, GenTime)
 {
-    endRoll();
+    endTrim();
 }
 
 bool TrimManager::enterTrimMode(ItemInfo info, bool trimStart)
 {
     m_view->loadMonitorScene(MonitorSceneRipple, true);
     m_view->setQmlProperty(QStringLiteral("trimmode"), (int) m_trimMode);
-    if (m_trimMode == RollingTrim) {
+    if (m_trimMode == RollingTrim || m_trimMode == RippleTrim) {
         if (trimStart) {
             m_firstClip = m_view->getClipItemAtEnd(info.startPos, info.track);
             m_secondClip = m_view->getClipItemAtStart(info.startPos, info.track);
@@ -85,14 +94,56 @@ bool TrimManager::enterTrimMode(ItemInfo info, bool trimStart)
             m_view->resetSelectionGroup(false);
             dragItem->setSelected(true);
         }
-        m_view->setOperationMode(trimStart ? RollingStart : RollingEnd);
         m_firstInfo = m_firstClip->info();
         m_secondInfo = m_secondClip->info();
-        m_view->trimMode(true);
+        if (m_trimMode == RollingTrim)  {
+            m_view->setOperationMode(trimStart ? RollingStart : RollingEnd);
+        } else if (m_trimMode == RippleTrim)  {
+            m_view->setOperationMode(trimStart ? RippleStart : RippleEnd);
+        }
+        m_view->trimMode(true, m_secondInfo.startPos.frames(m_view->fps()));
         m_view->seekCursorPos(trimStart ? info.startPos.frames(m_view->fps()) : info.endPos.frames(m_view->fps()));
-        return true;
+    }
+    if (m_trimMode == RippleTrim) {
+        m_render->byPassSeek = true;
+        connect(m_render, SIGNAL(renderSeek(int)), this, SLOT(renderSeekRequest(int)), Qt::UniqueConnection);
+    } else if (m_render->byPassSeek) {
+        m_render->byPassSeek = false;
+        disconnect(m_render, SIGNAL(renderSeek(int)), this, SLOT(renderSeekRequest(int)));
     }
     return true;
+}
+
+void TrimManager::initRipple(Mlt::Playlist *playlist, int pos, Render *renderer)
+{
+    m_render = renderer;
+    connect(renderer, SIGNAL(renderSeek(int)), this, SLOT(renderSeekRequest(int)));
+    m_trimPlaylist = playlist;
+    m_rippleIndex = playlist->get_clip_index_at(pos);
+}
+
+void TrimManager::renderSeekRequest(int diff)
+{
+    qDebug()<<" + + +RIPPLE DIFF: "<<diff;
+    Mlt::ClipInfo *cInfo = m_trimPlaylist->clip_info(m_rippleIndex);
+    int in = cInfo->frame_in;
+    int out = cInfo->frame_out;
+    qDebug()<<"* * *RESITE CLIP FIRST IN: "<<in<<"-"<<out<<", "<<cInfo->start<<", "<<cInfo->length;
+    delete cInfo;
+    ClipItem *clipToRipple = NULL;
+    if (m_view->operationMode() == RippleStart) {
+        in -= diff;
+        clipToRipple = m_secondClip;
+    } else {
+        out += diff;
+        clipToRipple = m_firstClip;
+        m_render->seekToFrame(m_firstClip->endPos().frames(m_view->fps()) + diff);
+    }
+    qDebug()<<"* * *RESITE CLIP IN: "<<in;
+    m_trimPlaylist->resize_clip(m_rippleIndex, in, out);
+    m_render->doRefresh();
+    m_view->rippleClip(clipToRipple, diff);
+    trimChanged = true;
 }
 
 void TrimManager::moveRoll(bool forward, int pos)
@@ -117,25 +168,43 @@ void TrimManager::moveRoll(bool forward, int pos)
     }
     //m_view->seekCursorPos(pos);
     KdenliveSettings::setSnaptopoints(snap);
+    trimChanged = true;
 }
 
-void TrimManager::endRoll()
+void TrimManager::endTrim()
 {
-    if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
-        return;
     m_view->trimMode(false);
-    QUndoCommand *command = new QUndoCommand;
-    command->setText(i18n("Rolling Edit"));
-    if (m_firstClip->endPos() < m_firstInfo.endPos) {
-        m_view->prepareResizeClipEnd(m_firstClip, m_firstInfo, m_firstClip->startPos().frames(m_view->fps()), false, command);
-        m_view->prepareResizeClipStart(m_secondClip, m_secondInfo, m_secondClip->startPos().frames(m_view->fps()), false, command);
-    } else {
-        m_view->prepareResizeClipStart(m_secondClip, m_secondInfo, m_secondClip->startPos().frames(m_view->fps()), false, command);
-        m_view->prepareResizeClipEnd(m_firstClip, m_firstInfo, m_firstClip->startPos().frames(m_view->fps()), false, command);
+    if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
+            return;
+    if (m_render->byPassSeek) {
+        m_render->byPassSeek = false;
+        disconnect(m_render, SIGNAL(renderSeek(int)), this, SLOT(renderSeekRequest(int)));
     }
-    m_commandStack->push(command);
-    m_firstInfo = ItemInfo();
-    m_secondInfo = ItemInfo();
+    if (m_view->operationMode() == RippleStart || m_view->operationMode() == RippleEnd) {
+        delete m_trimPlaylist;
+        m_trimPlaylist = NULL;
+        if (m_view->operationMode() == RippleStart) {
+            m_view->finishRipple(m_secondClip, m_secondInfo, (m_secondInfo.endPos - m_secondClip->endPos()).frames(m_view->fps()), true);
+        } else {
+            m_view->finishRipple(m_firstClip, m_firstInfo, (m_firstClip->endPos() - m_firstInfo.endPos).frames(m_view->fps()), false);
+        }
+        //TODO: integrate in undo/redo framework
+        return;
+    }
+    if (m_view->operationMode() == RollingStart || m_view->operationMode() == RollingEnd) {
+        QUndoCommand *command = new QUndoCommand;
+        command->setText(i18n("Rolling Edit"));
+        if (m_firstClip->endPos() < m_firstInfo.endPos) {
+            m_view->prepareResizeClipEnd(m_firstClip, m_firstInfo, m_firstClip->startPos().frames(m_view->fps()), false, command);
+            m_view->prepareResizeClipStart(m_secondClip, m_secondInfo, m_secondClip->startPos().frames(m_view->fps()), false, command);
+        } else {
+            m_view->prepareResizeClipStart(m_secondClip, m_secondInfo, m_secondClip->startPos().frames(m_view->fps()), false, command);
+            m_view->prepareResizeClipEnd(m_firstClip, m_firstInfo, m_firstClip->startPos().frames(m_view->fps()), false, command);
+        }
+        m_commandStack->push(command);
+        m_firstInfo = ItemInfo();
+        m_secondInfo = ItemInfo();
+    }
 }
 
 TrimMode TrimManager::trimMode() const
@@ -146,6 +215,9 @@ TrimMode TrimManager::trimMode() const
 void TrimManager::setTrimMode(TrimMode mode, ItemInfo info, bool fromStart)
 {
     m_trimMode = mode;
+    if (trimChanged && mode != NormalTrim) {
+        endTrim();
+    }
     QString modeLabel;
     switch (m_trimMode) {
         case RippleTrim:
@@ -162,7 +234,7 @@ void TrimManager::setTrimMode(TrimMode mode, ItemInfo info, bool fromStart)
             break;
         default:
             emit updateTrimMode(modeLabel);
-            endRoll();
+            endTrim();
             return;
             break;
     }

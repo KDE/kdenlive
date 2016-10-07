@@ -108,6 +108,9 @@ class Render: public AbstractRender
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();
+    /** @brief In some trim modes, arrow keys move the trim pos but not timeline cursor.
+     *  if byPassSeek is true, we don't seek renderer but emit a signal for timeline. */
+    bool byPassSeek;
 
     /** @brief Seeks the renderer clip to the given time. */
     void seek(const GenTime &time);
@@ -345,6 +348,8 @@ signals:
     void mltFrameReceived(Mlt::Frame *);
     /** @brief We want to replace a clip with another, but before we need to change clip producer id so that there is no interference*/
     void prepareTimelineReplacement(const QString &);
+    /** @brief When in bypass seek mode, we don't seek but pass over the position diff. */
+    void renderSeek(int);
 
 public slots:
 

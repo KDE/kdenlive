@@ -22,6 +22,9 @@
 
 #include "abstracttoolmanager.h"
 
+#include <QTimer>
+#include <QPoint>
+
 class TransitionHandler;
 
 /**
@@ -35,13 +38,21 @@ class MoveManager : public AbstractToolManager
 
 public:
     explicit MoveManager(TransitionHandler *handler, CustomTrackView *view, DocUndoStack *commandStack = NULL);
-    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
-    void mouseMove(int pos = 0);
-    void mouseRelease(GenTime pos = GenTime());
+    bool mousePress(QMouseEvent *event, ItemInfo info = ItemInfo(), QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
+    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime());
+    bool mouseMove(QMouseEvent *event, int pos, int);
 
 private:
     ItemInfo m_dragItemInfo;
     TransitionHandler *m_transitionHandler;
+    int m_scrollOffset;
+    int m_scrollTrigger;
+    QTimer m_scrollTimer;
+    bool m_dragMoved;
+    QPoint m_clickPoint;
+
+private slots:
+    void slotCheckMouseScrolling();
 };
 
 #endif

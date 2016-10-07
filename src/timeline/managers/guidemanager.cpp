@@ -25,11 +25,11 @@
 #include <QMouseEvent>
 #include <QGraphicsItem>
 
-GuideManager::GuideManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
+GuideManager::GuideManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(GuideType, view, commandStack)
 {
 }
 
-bool GuideManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *> list)
+bool GuideManager::mousePress(QMouseEvent *, ItemInfo info, QList<QGraphicsItem *> list)
 {
     Q_UNUSED(info);
     m_collisionList = list;
@@ -49,12 +49,13 @@ bool GuideManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraph
     return false;
 }
 
-void GuideManager::mouseMove(int pos)
+bool GuideManager::mouseMove(QMouseEvent *event, int pos, int)
 {
-    Q_UNUSED(pos);
+    event->accept();
+    return false;
 }
 
-void GuideManager::mouseRelease(GenTime pos)
+void GuideManager::mouseRelease(QMouseEvent *, GenTime pos)
 {
     m_view->setCursor(Qt::ArrowCursor);
     m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, false);

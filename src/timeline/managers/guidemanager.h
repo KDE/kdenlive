@@ -38,9 +38,9 @@ class GuideManager : public AbstractToolManager
 
 public:
     explicit GuideManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
-    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
-    void mouseMove(int pos = 0);
-    void mouseRelease(GenTime pos = GenTime());
+    bool mousePress(QMouseEvent *event, ItemInfo info = ItemInfo(), QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
+    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime());
+    bool mouseMove(QMouseEvent *event, int pos, int);
     /** @brief Check if a guide operation is applicable on items under mouse. 
      * @param items The list of items under mouse
      * @param operationMode Will be set to MoveGuide if applicable

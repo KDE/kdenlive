@@ -35,6 +35,7 @@
 #include "timeline/guide.h"
 #include "effectslist/effectslist.h"
 #include "timeline/customtrackscene.h"
+#include "timeline/managers/abstracttoolmanager.h"
 
 class Timeline;
 class ClipController;
@@ -44,7 +45,6 @@ class AbstractGroupItem;
 class Transition;
 class AudioCorrelation;
 class KSelectAction;
-class AbstractToolManager;
 
 class CustomTrackView : public QGraphicsView
 {
@@ -53,6 +53,7 @@ class CustomTrackView : public QGraphicsView
 public:
     CustomTrackView(KdenliveDoc *doc, Timeline* timeline, CustomTrackScene* projectscene, QWidget *parent = 0);
     virtual ~ CustomTrackView();
+
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
@@ -267,7 +268,7 @@ public:
     void switchAllTrackLock();
     /** @brief Insert space in timeline. track = -1 means all tracks */
     void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, QList <ItemInfo> excludeList = QList <ItemInfo>());
-    void trimMode(bool enable);
+    void trimMode(bool enable, int ripplePos = -1);
         /** @brief Returns a clip from timeline
      *  @param pos the end time position
      *  @param track the track where the clip is in MLT coordinates */
@@ -325,8 +326,10 @@ public:
     GenTime groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     void sortGuides();
     void initTools();
-    /** @brief Cycle through timeline trim modes, returns label text for trim mode */
-    void switchTrimMode(TrimMode mode = NormalTrim);
+    AbstractToolManager *toolManager(AbstractToolManager::ToolManagerType trimType);
+    /** @brief Perform a ripple move on timeline clips */
+    bool rippleClip(ClipItem *clip, int diff);
+    void finishRipple(ClipItem *clip, ItemInfo startInfo, int diff, bool fromStart);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -411,6 +414,8 @@ public slots:
     void extractZone(QPoint z, bool closeGap, QList <ItemInfo> excludedClips = QList <ItemInfo>(), QUndoCommand *masterCommand = NULL, int track = -1);
     /** @brief Select an item in timeline. */
     void slotSelectItem(AbstractClipItem *item);
+    /** @brief Cycle through timeline trim modes */
+    void switchTrimMode(TrimMode mode = NormalTrim);
     void switchTrimMode(int mode);
 
 protected:
@@ -431,15 +436,6 @@ protected:
     virtual void contextMenuEvent(QContextMenuEvent * event);
 
 private:
-    enum ToolManagerType {
-        TrimType = 0,
-        SpacerType,
-        MoveType,
-        ResizeType,
-        RazorType,
-        SelectType,
-        GuideType
-    };
     int m_ct;
     int m_tracksHeight;
     int m_projectDuration;
@@ -449,7 +445,6 @@ private:
     Timeline *m_timeline;
     CustomTrackScene *m_scene;
     QGraphicsLineItem *m_cursorLine;
-    QGraphicsLineItem *m_cutLine;
     ItemInfo m_dragItemInfo;
     ItemInfo m_selectionGroupInfo;
     /** @brief Possible timeline action */
@@ -469,7 +464,8 @@ private:
     QList <Guide *> m_guides;
     QColor m_selectedTrackColor;
     QColor m_lockedTrackColor;
-    QMap <ToolManagerType, AbstractToolManager*> m_toolManagers;
+    QMap <AbstractToolManager::ToolManagerType, AbstractToolManager*> m_toolManagers;
+    AbstractToolManager *m_currentToolManager;
 
     /** @brief Returns a clip from timeline
      *  @param pos a time value that is inside the clip
@@ -507,8 +503,6 @@ private:
     QList <QAction*> m_audioActions;
     QList <QAction*> m_avActions;
     QActionGroup *m_clipTypeGroup;
-    QTimer m_scrollTimer;
-    int m_scrollOffset;
     bool m_clipDrag;
 
     int m_findIndex;
@@ -531,7 +525,7 @@ private:
     void updatePositionEffects(ClipItem * item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
     bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
-    bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
+    bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset, QList <AbstractClipItem *>excluded = QList <AbstractClipItem *>()) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
     /** Get available space for clip move (min and max free positions) */
@@ -568,7 +562,6 @@ private:
 
 private slots:
     void slotRefreshGuides();
-    void slotCheckMouseScrolling();
     void slotEditTimeLineGuide();
     void slotDeleteTimeLineGuide();
     void checkTrackSequence(int track);
@@ -585,8 +578,6 @@ private slots:
     void slotPrepareTimelineReplacement(const QString &id);
     /** @brief Update a producer in all tracks (for example when an effect changed). */
     void slotUpdateTimelineProducer(const QString &id);
-    /** @brief Refresh razor marker. */
-    void slotRefreshCutLine();
     void slotEditKeyframeType(QAction *action);
     void slotAttachKeyframeToEnd(bool attach);
     void disableClip();

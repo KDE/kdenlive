@@ -20,28 +20,34 @@
 #include "spacermanager.h"
 #include "timeline/customtrackview.h"
 #include "timeline/clipitem.h"
+#include "timeline/abstractgroupitem.h"
 
 #include <KLocalizedString>
 #include <QProcess>
 #include <QGraphicsItem>
+#include <QApplication>
 
 
-
-SpacerManager::SpacerManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
+SpacerManager::SpacerManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(SpacerType, view, commandStack)
+    , m_dragMoved(false)
 {
 }
 
-bool SpacerManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem *>)
+bool SpacerManager::mousePress(QMouseEvent *event, ItemInfo info, QList<QGraphicsItem *>)
 {
     m_view->clearSelection();
     m_view->updateClipTypeActions(NULL);
     m_view->setOperationMode(Spacer);
+    m_dragMoved = false;
+    m_clickPoint = event->pos();
     QList<QGraphicsItem *> selection;
-    if (modifiers & Qt::ControlModifier) {
+    if (event->modifiers() & Qt::ControlModifier) {
         // Ctrl + click, select all items on track after click position
         m_track = info.track;
-        if (m_view->spaceToolSelectTrackOnly(info.track, selection))
-            return true;
+        if (m_view->spaceToolSelectTrackOnly(info.track, selection)) {
+            event->accept();
+            return false;
+        }
     } else {
         m_track = -1;
         // Select all items on all tracks after click position
@@ -49,20 +55,43 @@ bool SpacerManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, Q
     }
     m_startPos = m_view->createGroupForSelectedItems(selection);
     m_spacerOffset = m_startPos - info.startPos;
-    return true;
+    event->accept();
+    return false;
 }
 
-void SpacerManager::mouseMove(int pos)
+void SpacerManager::initTool(double )
 {
+    qDebug()<<"* ** INIT SPACER";
     m_view->setCursor(Qt::SplitHCursor);
-    int snappedPos = m_view->getSnapPointForPos(pos + m_spacerOffset.frames(m_view->fps()));
-    if (snappedPos < 0) snappedPos = 0;
-    m_view->spaceToolMoveToSnapPos(snappedPos);
 }
 
-void SpacerManager::mouseRelease(GenTime pos)
+bool SpacerManager::mouseMove(QMouseEvent *event, int pos, int )
 {
-    GenTime timeOffset = pos - m_startPos;
+    if (event->buttons() & Qt::LeftButton) {
+        if (!m_dragMoved) {
+            if ((m_clickPoint - event->pos()).manhattanLength() < QApplication::startDragDistance()) {
+                event->ignore();
+                return false;
+            }
+            m_dragMoved = true;
+        }
+        int snappedPos = m_view->getSnapPointForPos(pos + m_spacerOffset.frames(m_view->fps()));
+        if (snappedPos < 0) snappedPos = 0;
+        m_view->spaceToolMoveToSnapPos(snappedPos);
+        event->accept();
+        return true;
+    }
+    return false;
+}
+
+void SpacerManager::mouseRelease(QMouseEvent *, GenTime pos)
+{
+    //GenTime timeOffset = pos - m_startPos;
+    if (!m_dragMoved || !m_view->selectionGroup()) {
+        m_view->clearSelection();
+        return;
+    }
+    GenTime timeOffset = GenTime(m_view->selectionGroup()->sceneBoundingRect().left(), m_view->fps()) - m_startPos;
     m_view->completeSpaceOperation(m_track, timeOffset);
 }
 

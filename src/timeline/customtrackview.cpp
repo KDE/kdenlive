@@ -89,13 +89,13 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_timeline(timeline)
   , m_scene(projectscene)
   , m_cursorLine(NULL)
-  , m_cutLine(NULL)
   , m_operationMode(None)
   , m_moveOpMode(None)
   , m_dragItem(NULL)
   , m_dragGuide(NULL)
   , m_visualTip(NULL)
   , m_keyProperties(NULL)
+  , m_currentToolManager(NULL)
   , m_autoScroll(KdenliveSettings::autoscroll())
   , m_timelineContextMenu(NULL)
   , m_timelineContextClipMenu(NULL)
@@ -109,7 +109,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
   , m_editGuide(NULL)
   , m_deleteGuide(NULL)
   , m_clipTypeGroup(NULL)
-  , m_scrollOffset(0)
   , m_clipDrag(false)
   , m_findIndex(0)
   , m_tool(SelectTool)
@@ -155,7 +154,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     verticalScrollBar()->setTracking(true);
     // repaint guides when using vertical scroll
     connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
-    connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshCutLine()));
 
     m_cursorLine = projectscene->addLine(0, 0, 0, m_tracksHeight);
     m_cursorLine->setZValue(1000);
@@ -166,12 +164,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     pen1.setColor(line);
     m_cursorLine->setPen(pen1);
 
-    connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
-    m_scrollTimer.setInterval(100);
-    m_scrollTimer.setSingleShot(true);
-
-    QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
-    m_razorCursor = QCursor(razorIcon.pixmap(32, 32));
     connect(m_document->renderer(), SIGNAL(prepareTimelineReplacement(QString)), this, SLOT(slotPrepareTimelineReplacement(QString)), Qt::DirectConnection);
     connect(m_document->renderer(), SIGNAL(replaceTimelineProducer(QString)), this, SLOT(slotReplaceTimelineProducer(QString)), Qt::DirectConnection);
     connect(m_document->renderer(), SIGNAL(updateTimelineProducer(QString)), this, SLOT(slotUpdateTimelineProducer(QString)));
@@ -199,13 +191,17 @@ void CustomTrackView::initTools()
 {
     TrimManager *trim = new TrimManager(this, m_commandStack);
     connect(trim, &TrimManager::updateTrimMode, this, &CustomTrackView::updateTrimMode);
-    m_toolManagers.insert(TrimType, trim);
-    m_toolManagers.insert(SpacerType, new SpacerManager(this, m_commandStack));
-    m_toolManagers.insert(ResizeType, new ResizeManager(this, m_commandStack));
-    m_toolManagers.insert(RazorType, new RazorManager(this, m_commandStack));
-    m_toolManagers.insert(MoveType, new MoveManager(m_timeline->transitionHandler, this, m_commandStack));
-    m_toolManagers.insert(SelectType, new SelectManager(this, m_commandStack));
-    m_toolManagers.insert(GuideType, new GuideManager(this, m_commandStack));
+    m_currentToolManager = new SelectManager(this, m_commandStack);
+    m_toolManagers.insert(AbstractToolManager::TrimType, trim);
+    m_toolManagers.insert(AbstractToolManager::SpacerType, new SpacerManager(this, m_commandStack));
+    m_toolManagers.insert(AbstractToolManager::ResizeType, new ResizeManager(this, m_commandStack));
+    
+    AbstractToolManager *razorManager = new RazorManager(this, m_commandStack);
+    m_toolManagers.insert(AbstractToolManager::RazorType, razorManager);
+    connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), razorManager, SLOT(updateTimelineItems()));
+    m_toolManagers.insert(AbstractToolManager::MoveType, new MoveManager(m_timeline->transitionHandler, this, m_commandStack));
+    m_toolManagers.insert(AbstractToolManager::SelectType, m_currentToolManager);
+    m_toolManagers.insert(AbstractToolManager::GuideType, new GuideManager(this, m_commandStack));
     emit updateTrimMode();
 }
 
@@ -230,7 +226,7 @@ void CustomTrackView::keyPressEvent(QKeyEvent * event)
 bool CustomTrackView::event( QEvent * e ) 
 {
     if (e->type() == QEvent::ShortcutOverride) {
-        TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+        TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(AbstractToolManager::TrimType));
         if (mgr && mgr->trimMode() != NormalTrim) {
             if (((QKeyEvent*)e)->key() == Qt::Key_Escape) {
                 mgr->setTrimMode(NormalTrim);
@@ -394,9 +390,7 @@ bool CustomTrackView::checkTrackHeight(bool force)
     } else {
         m_cursorLine->setLine(0, 0, 0, m_tracksHeight * m_timeline->visibleTracksCount() - 1);
     }
-    if (m_cutLine) {
-        m_cutLine->setLine(0, 0, 0, m_tracksHeight * m_scene->scale().y());
-    }
+    m_currentToolManager->updateTimelineItems();
     for (int i = 0; i < m_guides.count(); ++i) {
         m_guides.at(i)->setLine(0, 0, 0, newHeight - 1);
     }
@@ -456,16 +450,6 @@ int CustomTrackView::getNextVideoTrack(int track)
         if (m_timeline->getTrackInfo(track).type == VideoTrack) break;
     }
     return track;
-}
-
-void CustomTrackView::slotCheckMouseScrolling()
-{
-    if (m_scrollOffset == 0) {
-        m_scrollTimer.stop();
-        return;
-    }
-    horizontalScrollBar()->setValue(horizontalScrollBar()->value() + m_scrollOffset);
-    m_scrollTimer.start();
 }
 
 void CustomTrackView::slotCheckPositionScrolling()
@@ -604,14 +588,9 @@ void CustomTrackView::spaceToolMoveToSnapPos(double snappedPos)
 // virtual
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 {
-    int pos = event->x();
     int mappedXPos = qMax((int)(mapToScene(event->pos()).x()), 0);
-    double snappedPos = getSnapPointForPos(mappedXPos);
     emit mousePosition(mappedXPos);
 
-    if (m_cutLine) {
-        m_cutLine->setPos(mappedXPos, getPositionFromTrack(getTrackFromPos(mapToScene(event->pos()).y())));
-    }
     if (m_moveOpMode == Seek && event->buttons() != Qt::NoButton) {
         QGraphicsView::mouseMoveEvent(event);
         if (mappedXPos != m_document->renderer()->getCurrentSeekPosition() && mappedXPos != cursorPos()) {
@@ -637,52 +616,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 	    m_moveOpMode = m_operationMode;
 	}
     }
-    if (m_moveOpMode == Spacer) {
-        // spacer tool
-        m_toolManagers.value(SpacerType)->mouseMove(mappedXPos);
-        event->accept();
-        return;
-    }
-    if (m_moveOpMode != None && m_moveOpMode != WaitingForConfirm && event->buttons() != Qt::NoButton) {
-        if (m_dragItem && m_operationMode != ZoomTimeline) m_clipDrag = true;
-        if (m_dragItem && m_tool == SelectTool) {
-            if (m_moveOpMode == MoveOperation && m_clipDrag) {
-                QGraphicsView::mouseMoveEvent(event);
-                // If mouse is at a border of the view, scroll
-                if (pos < 5) {
-                    m_scrollOffset = -30;
-                    m_scrollTimer.start();
-                } else if (viewport()->width() - pos < 10) {
-                    m_scrollOffset = 30;
-                    m_scrollTimer.start();
-                } else if (m_scrollTimer.isActive()) {
-                    m_scrollTimer.stop();
-                }
-            } else if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
-                m_toolManagers.value(TrimType)->mouseMove(snappedPos);
-            } else if (m_moveOpMode == ResizeStart || m_moveOpMode == ResizeEnd) {
-                emit pauseMonitor();
-                m_toolManagers.value(ResizeType)->mouseMove(snappedPos);
-            } else if (m_moveOpMode == FadeIn) {
-                static_cast<ClipItem*>(m_dragItem)->setFadeIn(static_cast<int>(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
-            } else if (m_moveOpMode == FadeOut) {
-                static_cast<ClipItem*>(m_dragItem)->setFadeOut(static_cast<int>(m_dragItem->endPos().frames(m_document->fps()) - mappedXPos));
-            } else if (m_moveOpMode == KeyFrame) {
-                GenTime keyFramePos = GenTime(mappedXPos, m_document->fps()) - m_dragItem->startPos();
-                double value = m_dragItem->mapFromScene(mapToScene(event->pos()).toPoint()).y();
-                m_dragItem->updateKeyFramePos(keyFramePos.frames(fps()), value);
-                QString position = m_document->timecode().getDisplayTimecodeFromFrames(m_dragItem->selectedKeyFramePos(), KdenliveSettings::frametimecode());
-                emit displayMessage(position + " : " + QString::number(m_dragItem->editedKeyFrameValue()), InformationMessage);
-            }
-            removeTipAnimation();
-            event->accept();
-            return;
-        } else if (m_moveOpMode == MoveGuide) {
-            removeTipAnimation();
-            QGraphicsView::mouseMoveEvent(event);
-            return;
-        }
-    }
 
     QList<QGraphicsItem *> itemList = items(event->pos());
     QGraphicsRectItem *item = NULL;
@@ -703,13 +636,18 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     }
     switch (m_tool) {
         case RazorTool:
-            setCursor(m_razorCursor);
             RazorManager::checkOperation(item, this, event, mappedXPos, m_operationMode, abort);
+            break;
+        case SpacerTool:
             break;
         case SelectTool:
         default:
             SelectManager::checkOperation(item, this, event, m_selectionGroup, m_operationMode, m_moveOpMode);
             break;
+    }
+
+    if (!m_currentToolManager->mouseMove(event, mappedXPos, getPositionFromTrack(getTrackFromPos(mapToScene(event->pos()).y())))) {
+        QGraphicsView::mouseMoveEvent(event);
     }
 }
 
@@ -887,12 +825,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         return;
     }
-    if (m_tool == SelectTool && event->button() == Qt::LeftButton) {
-        if (m_toolManagers.value(SelectType)->mousePress(ItemInfo(), event->modifiers())) {
-            QGraphicsView::mousePressEvent(event);
-            return;
-        }
-    }
+
     m_dragGuide = NULL;
     m_clickEvent = event->pos();
 
@@ -906,8 +839,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
 
-    if (event->button() == Qt::LeftButton && m_toolManagers.value(GuideType)->mousePress(ItemInfo(), event->modifiers(), collisionList)) {
+    if (event->button() == Qt::LeftButton && m_toolManagers.value(AbstractToolManager::GuideType)->mousePress(event, ItemInfo(), collisionList)) {
         QGraphicsView::mousePressEvent(event);
+        if (m_currentToolManager->type() != AbstractToolManager::GuideType) {
+            m_currentToolManager->closeTool();
+            m_currentToolManager = m_toolManagers.value(AbstractToolManager::GuideType);
+        }
         return;
     }
 
@@ -979,22 +916,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_dragItem = NULL;
     }
 
-    // No item under click
-    if (m_dragItem == NULL && m_tool != SpacerTool) {
-        resetSelectionGroup(false);
-        m_scene->clearSelection();
-        updateClipTypeActions(NULL);
-	updateTimelineSelection();
-        if (event->button() == Qt::LeftButton) {
-	    m_moveOpMode = Seek;
-            setCursor(Qt::ArrowCursor);
-            seekCursorPos((int)(mapToScene(event->x(), 0).x()));
-            event->setAccepted(true);
-	    QGraphicsView::mousePressEvent(event);
-            return;
-        }
-    }
-
     // context menu requested
     if (event->button() == Qt::RightButton) {
         // Check if we want keyframes context menu
@@ -1038,20 +959,24 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     ItemInfo clickInfo;
     clickInfo.startPos = GenTime(clickPoint.x(), m_document->fps());
     clickInfo.track = getTrackFromPos(clickPoint.y());
-    if (event->button() == Qt::LeftButton) {
+    if (m_currentToolManager->type() == AbstractToolManager::SpacerType || m_currentToolManager->type() == AbstractToolManager::RazorType) {
+        m_currentToolManager->mousePress(event, clickInfo);
+        return;
+    }
+    /*if (event->button() == Qt::LeftButton) {
         if (m_tool == SpacerTool) {
-            m_toolManagers.value(SpacerType)->mousePress(clickInfo, event->modifiers());
+            m_toolManagers.value(AbstractToolManager::SpacerType)->mousePress(clickInfo, event->modifiers());
             QGraphicsView::mousePressEvent(event);
             return;
         }
         // Razor tool
         if (m_tool == RazorTool) {
             m_document->renderer()->switchPlay(false);
-            m_toolManagers.value(RazorType)->mousePress(clickInfo);
+            m_toolManagers.value(AbstractToolManager::RazorType)->mousePress(clickInfo);
             event->accept();
             return;
         }
-    }
+    }*/
     if (m_dragItem) {
         bool itemSelected = false;
         bool selected = true;
@@ -1083,25 +1008,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             }
             updateTimelineSelection();
             return;
-
-            resetSelectionGroup();
-            m_dragItem->setSelected(selected);
-            groupSelectedItems(QList <QGraphicsItem*>(), false, true);
-            if (selected) {
-                m_selectionMutex.lock();
-                if (m_selectionGroup) {
-                    m_selectionGroup->setProperty("y_absolute", yOffset);
-                    m_selectionGroup->setProperty("locked_tracks", QVariant::fromValue(lockedTracks));
-                }
-                m_selectionMutex.unlock();
-            }
-            else {
-                m_dragItem->setMainSelectedClip(false);
-                m_dragItem = NULL;
-            }
-            updateTimelineSelection();
-            return;
         }
+
         if (itemSelected == false) {
             // User clicked a non selected item, select it
             resetSelectionGroup(false);
@@ -1162,6 +1070,13 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         else m_operationMode = None;
     }
+    // Switch to correct tool
+    if (!m_currentToolManager->isCurrent(m_operationMode)) {
+        m_currentToolManager->closeTool();
+        m_currentToolManager = m_toolManagers.value(m_currentToolManager->getTool(m_operationMode));
+        m_currentToolManager->initTool(mapToScene(event->pos()).x());
+    }
+
     // Update snap points
     if (m_selectionGroup == NULL) {
         if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
@@ -1194,27 +1109,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         }
         m_selectionMutex.unlock();
     }
-
-    if (m_operationMode == ResizeEnd || m_operationMode == ResizeStart) {
-        // Start Ripple edit
-        if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::AltModifier) {
-            // Rolling edit
-            if (!m_toolManagers.value(TrimType)->mousePress(m_dragItemInfo)) {
-                event->ignore();
-                return;
-            }
-        } else {
-            // Resize
-            m_toolManagers.value(ResizeType)->mousePress(m_dragItemInfo, event->modifiers());
-        }
-    }
+    m_currentToolManager->mousePress(event, m_dragItemInfo);
 
     QGraphicsView::mousePressEvent(event);
     if (m_operationMode == KeyFrame) {
         m_dragItem->prepareKeyframeMove();
         return;
-    } else if (m_operationMode == MoveOperation) {
-        m_toolManagers.value(MoveType)->mousePress(m_dragItem->info());
     } else if (m_operationMode == TransitionStart && event->modifiers() != Qt::ControlModifier) {
         ItemInfo info;
         info.startPos = m_dragItem->startPos();
@@ -2217,7 +2117,7 @@ bool CustomTrackView::createSplitOverlay(Mlt::Filter *filter)
     return m_timeline->createOverlay(filter, m_dragItem->track(), m_dragItem->startPos().frames(m_document->fps()));
 }
 
-void CustomTrackView::trimMode(bool enable)
+void CustomTrackView::trimMode(bool enable, int ripplePos)
 {
     if (!enable) {
         m_timeline->removeSplitOverlay();
@@ -2235,11 +2135,15 @@ void CustomTrackView::trimMode(bool enable)
     } else if (m_operationMode == ResizeStart) {
         m_moveOpMode = RollingStart;
     }
-    int ripplePos = m_moveOpMode == RollingStart ? m_dragItem->startPos().frames(m_document->fps()) : m_dragItem->endPos().frames(m_document->fps());
-    qDebug()<<" * **STARTING RIPPLE MODE: "<<ripplePos;
-    if (m_timeline->createRippleWindow(m_dragItem->track(), ripplePos)) {
+
+    if (m_timeline->createRippleWindow(m_dragItem->track(), ripplePos, m_moveOpMode)) {
         monitorRefresh();
     }
+}
+
+AbstractToolManager *CustomTrackView::toolManager(AbstractToolManager::ToolManagerType trimType)
+{
+    return m_toolManagers.value(trimType);
 }
 
 void CustomTrackView::slotAddEffectToCurrentItem(QDomElement effect)
@@ -3098,26 +3002,14 @@ void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event)
 
 void CustomTrackView::enterEvent(QEvent * event)
 {
-      if (m_tool == RazorTool && !m_cutLine) {
-          m_cutLine = m_scene->addLine(0, 0, 0, m_tracksHeight * m_scene->scale().y());
-          m_cutLine->setZValue(1000);
-          QPen pen1 = QPen();
-          pen1.setWidth(1);
-          QColor line(Qt::red);
-          pen1.setColor(line);
-          m_cutLine->setPen(pen1);
-          m_cutLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
-      }
+      m_currentToolManager->enterEvent(0, m_tracksHeight * m_scene->scale().y());
       QGraphicsView::enterEvent(event);
 }
 
 void CustomTrackView::leaveEvent(QEvent * event)
 {
       removeTipAnimation();
-      if (m_cutLine) {
-          delete m_cutLine;
-          m_cutLine = NULL;
-      }
+      m_currentToolManager->leaveEvent();
       QGraphicsView::leaveEvent(event);
 }
 
@@ -4107,7 +3999,7 @@ void CustomTrackView::setCursorPos(int pos)
     if (pos != m_cursorPos) {
         emit cursorMoved(m_cursorPos, pos);
         if (m_moveOpMode == RollingStart || m_moveOpMode == RollingEnd) {
-            TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+            TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(AbstractToolManager::TrimType));
             mgr->moveRoll(pos > m_cursorPos, pos);
         }
         m_cursorPos = pos;
@@ -4253,7 +4145,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         return;
     }
     m_clipDrag = false;
-    if (m_scrollTimer.isActive()) m_scrollTimer.stop();
+
 
     /*if (m_dragItem == NULL && m_selectionGroup == NULL) {
         emit transitionItemSelected(NULL);
@@ -4262,152 +4154,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     }*/
     QPointF clickPoint = mapToScene(event->pos());
     GenTime clickFrame(clickPoint.x(), m_document->fps());
-
-    switch ((int) (m_moveOpMode == WaitingForConfirm ? m_operationMode : m_moveOpMode)) {
-        case MoveGuide:
-            m_toolManagers.value(GuideType)->mouseRelease();
-            break;
-        case Spacer:
-            m_toolManagers.value(SpacerType)->mouseRelease(GenTime(m_selectionGroup->sceneBoundingRect().left(), m_document->fps()));
-            break;
-        case RubberSelection:
-            m_toolManagers.value(SelectType)->mouseRelease();
-            break;
-        case MoveOperation:
-            m_toolManagers.value(MoveType)->mouseRelease();
-            break;
-        case RollingStart:
-        case RollingEnd:
-            m_toolManagers.value(TrimType)->mouseRelease(m_selectionGroup ? m_selectionGroup->startPos() : GenTime());
-            break;
-        case ResizeStart:
-        case ResizeEnd:
-            m_toolManagers.value(ResizeType)->mouseRelease();
-            break;
+    m_currentToolManager->mouseRelease(event, m_selectionGroup ? m_selectionGroup->startPos() : GenTime());
+    if (m_tool == SelectTool && m_currentToolManager->type() != AbstractToolManager::SelectType) {
+        m_currentToolManager->closeTool();
+        m_currentToolManager = m_toolManagers.value(AbstractToolManager::SelectType);
+        m_currentToolManager->initTool(m_tracksHeight * m_scene->scale().y());
     }
-
-
-    if (m_moveOpMode == FadeIn && m_dragItem) {
-        ClipItem * item = static_cast <ClipItem *>(m_dragItem);
-        // find existing video fade, if none then audio fade
-
-        int fadeIndex = item->hasEffect(QLatin1String(""), QStringLiteral("fade_from_black"));
-        int fadeIndex2 = item->hasEffect(QStringLiteral("volume"), QStringLiteral("fadein"));
-        if (fadeIndex >= 0 && fadeIndex2 >= 0) {
-            // We have 2 fadin effects, use currently selected or first one
-            int current = item->selectedEffectIndex();
-            if (fadeIndex != current) {
-                if (fadeIndex2 == current) {
-                    fadeIndex = current;
-                }
-                else fadeIndex = qMin(fadeIndex, fadeIndex2);
-            }
-        }
-        else fadeIndex = qMax(fadeIndex, fadeIndex2);
-        // resize fade in effect
-        if (fadeIndex >= 0) {
-            QDomElement oldeffect = item->effectAtIndex(fadeIndex);
-            int end = item->fadeIn();
-            if (end == 0) {
-                slotDeleteEffect(item, -1, oldeffect, false);
-            } else {
-                int start = item->cropStart().frames(m_document->fps());
-                end += start;
-                QDomElement effect = oldeffect.cloneNode().toElement();
-                EffectsList::setParameter(oldeffect, QStringLiteral("in"), QString::number(start));
-                EffectsList::setParameter(oldeffect, QStringLiteral("out"), QString::number(end));
-                slotUpdateClipEffect(item, -1, effect, oldeffect, fadeIndex);
-                emit clipItemSelected(item);
-            }
-        // new fade in
-        } else if (item->fadeIn() != 0) {
-            QDomElement effect;
-            if (item->clipState() == PlaylistState::VideoOnly || (item->clipType() != Audio && item->clipState() != PlaylistState::AudioOnly && item->clipType() != Playlist)) {
-                effect = MainWindow::videoEffects.getEffectByTag(QLatin1String(""), QStringLiteral("fade_from_black")).cloneNode().toElement();
-            } else {
-                effect = MainWindow::audioEffects.getEffectByTag(QStringLiteral("volume"), QStringLiteral("fadein")).cloneNode().toElement();
-            }
-            EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(item->fadeIn()));
-            slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
-        }
-
-    } else if (m_moveOpMode == FadeOut && m_dragItem) {
-        ClipItem * item = static_cast <ClipItem *>(m_dragItem);
-        // find existing video fade, if none then audio fade
-
-        int fadeIndex = item->hasEffect(QLatin1String(""), QStringLiteral("fade_to_black"));
-        int fadeIndex2 = item->hasEffect(QStringLiteral("volume"), QStringLiteral("fadeout"));
-        if (fadeIndex >= 0 && fadeIndex2 >= 0) {
-            // We have 2 fadin effects, use currently selected or first one
-            int current = item->selectedEffectIndex();
-            if (fadeIndex != current) {
-                if (fadeIndex2 == current) {
-                    fadeIndex = current;
-                }
-                else fadeIndex = qMin(fadeIndex, fadeIndex2);
-            }
-        }
-        else fadeIndex = qMax(fadeIndex, fadeIndex2);
-        // resize fade out effect
-        if (fadeIndex >= 0) {
-            QDomElement oldeffect = item->effectAtIndex(fadeIndex);
-            int start = item->fadeOut();
-            if (start == 0) {
-                slotDeleteEffect(item, -1, oldeffect, false);
-            } else {
-                int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
-                start = end - start;
-                QDomElement effect = oldeffect.cloneNode().toElement();
-                EffectsList::setParameter(oldeffect, QStringLiteral("in"), QString::number(start));
-                EffectsList::setParameter(oldeffect, QStringLiteral("out"), QString::number(end));
-                slotUpdateClipEffect(item, -1, effect, oldeffect, fadeIndex);
-                emit clipItemSelected(item);
-            }
-        // new fade out
-        } else if (item->fadeOut() != 0) {
-            QDomElement effect;
-            if (item->clipState() == PlaylistState::VideoOnly || (item->clipType() != Audio && item->clipState() != PlaylistState::AudioOnly && item->clipType() != Playlist)) {
-                effect = MainWindow::videoEffects.getEffectByTag(QLatin1String(""), QStringLiteral("fade_to_black")).cloneNode().toElement();
-            } else {
-                effect = MainWindow::audioEffects.getEffectByTag(QStringLiteral("volume"), QStringLiteral("fadeout")).cloneNode().toElement();
-            }
-            int end = (item->cropDuration() + item->cropStart()).frames(m_document->fps());
-            int start = end-item->fadeOut();
-            EffectsList::setParameter(effect, QStringLiteral("in"), QString::number(start));
-            EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(end));
-            slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
-        }
-
-    } else if (m_moveOpMode == KeyFrame && m_dragItem) {
-        // update the MLT effect
-        ClipItem * item = static_cast <ClipItem *>(m_dragItem);
-        QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
-
-        // check if we want to remove keyframe
-        double val = mapToScene(event->pos()).toPoint().y();
-        QRectF br = item->sceneBoundingRect();
-        double maxh = 100.0 / br.height();
-        val = (br.bottom() - val) * maxh;
-        int start = item->cropStart().frames(m_document->fps());
-        int end = (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1;
-
-        if ((val < -50 || val > 150) && item->selectedKeyFramePos() != start && item->selectedKeyFramePos() != end && item->keyframesCount() > 1) {
-            //delete keyframe
-            item->removeKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos());
-        } else {
-            item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->originalKeyFramePos());
-        }
-
-        QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
-
-        EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false, true);
-        m_commandStack->push(command);
-        updateEffect(item->track(), item->startPos(), item->selectedEffect());
-        emit clipItemSelected(item);
-    } else if (m_moveOpMode == WaitingForConfirm && m_operationMode == KeyFrame && m_dragItem) {
-        emit setActiveKeyframe(m_dragItem->selectedKeyFramePos());
-    }
-
     m_moveOpMode = None;
 }
 
@@ -6070,32 +5822,21 @@ void CustomTrackView::slotDeleteAllGuides()
 
 void CustomTrackView::setTool(ProjectTool tool)
 {
+    if (m_tool == tool)
+        return;
     m_tool = tool;
-    if (m_cutLine && tool != RazorTool) {
-        delete m_cutLine;
-        m_cutLine = NULL;
-    }
+    m_currentToolManager->closeTool();
     switch (m_tool) {
     case RazorTool:
-        if (!m_cutLine) {
-            m_cutLine = m_scene->addLine(0, 0, 0, m_tracksHeight * m_scene->scale().y());
-            m_cutLine->setZValue(1000);
-            QPen pen1 = QPen();
-            pen1.setWidth(1);
-            QColor line(Qt::red);
-            pen1.setColor(line);
-            m_cutLine->setPen(pen1);
-            m_cutLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
-            slotRefreshCutLine();
-        }
-        setCursor(m_razorCursor);
+        m_currentToolManager = m_toolManagers.value(AbstractToolManager::RazorType);
         break;
     case SpacerTool:
-        setCursor(Qt::SplitHCursor);
+        m_currentToolManager = m_toolManagers.value(AbstractToolManager::SpacerType);
         break;
     default:
-        unsetCursor();
+        m_currentToolManager = m_toolManagers.value(AbstractToolManager::SelectType);
     }
+    m_currentToolManager->initTool(m_tracksHeight * m_scene->scale().y());
 }
 
 void CustomTrackView::setScale(double scaleFactor, double verticalScale)
@@ -6145,7 +5886,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     }
     double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();
     centerOn(QPointF(cursorPos(), verticalPos));
-    slotRefreshCutLine();
+    m_currentToolManager->updateTimelineItems();
     m_scene->isZooming = false;
 }
 
@@ -6343,14 +6084,15 @@ bool CustomTrackView::canBePastedTo(QList <ItemInfo> infoList, int type) const
     return true;
 }
 
-bool CustomTrackView::canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const
+bool CustomTrackView::canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset, QList <AbstractClipItem *>excluded) const
 {
+    excluded << items;
     for (int i = 0; i < items.count(); ++i) {
         ItemInfo info = items.at(i)->info();
         info.startPos += offset;
         info.endPos += offset;
         info.track += trackOffset;
-        if (!canBePastedTo(info, items.at(i)->type(), items)) return false;
+        if (!canBePastedTo(info, items.at(i)->type(), excluded)) return false;
     }
     return true;
 }
@@ -8443,15 +8185,6 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMa
     else delete command;
 }
 
-void CustomTrackView::slotRefreshCutLine()
-{
-    if (m_cutLine) {
-        QPointF pos = mapToScene(mapFromGlobal(QCursor::pos()));
-        int mappedXPos = qMax((int)(pos.x()), 0);
-        m_cutLine->setPos(mappedXPos, getPositionFromTrack(getTrackFromPos(pos.y())));
-    }
-}
-
 void CustomTrackView::updateTransitionWidget(Transition *tr, ItemInfo info)
 {
     QPoint p;
@@ -8548,13 +8281,13 @@ void CustomTrackView::switchAllTrackLock()
         slotSwitchTrackLock(m_selectedTrack, !m_timeline->getTrackInfo(2).isLocked, true);
 }
 
-void CustomTrackView::slotAcceptRipple(bool accept)
+void CustomTrackView::slotAcceptRipple(bool)
 {
-    if (m_moveOpMode == RollingEnd || m_moveOpMode == RollingStart) {
-        TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
-        if (mgr)
-            QMetaObject::invokeMethod(mgr, "endRoll", Qt::QueuedConnection);
-    }
+    QMetaObject::invokeMethod(this, "switchTrimMode", Qt::QueuedConnection);
+    /*TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+    if (mgr)
+        
+    }*/
 }
 
 void CustomTrackView::doRipple(bool accept)
@@ -8658,7 +8391,7 @@ void CustomTrackView::switchTrimMode(int mode)
 
 void CustomTrackView::switchTrimMode(TrimMode mode)
 {
-    TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(TrimType));
+    TrimManager *mgr = qobject_cast<TrimManager *>(m_toolManagers.value(AbstractToolManager::TrimType));
     if (mode == NormalTrim) {
         mode = (TrimMode) (qMax(((int) mgr->trimMode() + 1) %5, 1));
     }
@@ -8690,4 +8423,59 @@ void CustomTrackView::switchTrimMode(TrimMode mode)
             mgr->setTrimMode(mode, info, diffStart < diffEnd);
         }
     }
+}
+
+bool CustomTrackView::rippleClip(ClipItem *clip, int diff)
+{
+    GenTime timeOffset(diff, m_document->fps());
+    if (clip->cropDuration() + timeOffset > clip->maxDuration()) {
+        emit displayMessage(i18n("Maximum length reached"), InformationMessage);
+        return false;
+    }
+    QList<QGraphicsItem *> selection;
+    spaceToolSelectTrackOnly(clip->track(), selection, clip->endPos());
+    createGroupForSelectedItems(selection);
+    QList <AbstractClipItem *> items;
+    foreach(QGraphicsItem *item, selection) {
+        if (item->type() == AVWidget || item->type() == TransitionWidget)
+            items << (AbstractClipItem *) item;
+    }
+    bool snap = KdenliveSettings::snaptopoints();
+    KdenliveSettings::setSnaptopoints(false);
+    QList <AbstractClipItem*> excluded;
+    excluded << clip;
+    if (canBePasted(items, timeOffset, 0, excluded)) {
+        m_selectionGroup->setTransform(QTransform::fromTranslate(diff, 0), true);
+        clip->setCropStart(clip->cropStart() - GenTime(diff, m_document->fps()));
+        clip->resizeEnd(clip->endPos().frames(m_document->fps()) + diff, false);
+        qDebug()<<"* * *RESIZING END: "<<clip->endPos().frames(m_document->fps()) + diff;
+    } else {
+        //TODO: corruption, cannot move 
+    }
+    /*if (diff > 0) {
+        for (int i = 0; i < list
+        m_view->
+        m_secondClip->resizeStart(pos, true, false);
+        m_firstClip->resizeEnd(pos, false);
+    } else {
+        m_secondClip->resizeStart(pos, true, false);
+    }*/
+    KdenliveSettings::setSnaptopoints(snap);
+    return true;
+}
+
+void CustomTrackView::finishRipple(ClipItem *clip, ItemInfo startInfo, int diff, bool fromStart)
+{
+    QUndoCommand *moveCommand = new QUndoCommand();
+    moveCommand->setText(i18n("Ripple clip"));
+    ItemInfo newInfo = clip->info();
+    if (fromStart) {
+        //newInfo.cropStart += GenTime(diff, m_document->fps());
+    }
+    qDebug()<<"CROPSATRT: "<<startInfo.cropStart.frames(25)<<" / "<<newInfo.cropStart.frames(25);
+    new ResizeClipCommand(this, startInfo, newInfo, false, false, moveCommand);
+    m_commandStack->push(moveCommand);
+    if (m_timeline->track(startInfo.track)->resize_in_out(startInfo.startPos.frames(m_document->fps()), clip->cropStart().frames(m_document->fps()), clip->cropStart().frames(m_document->fps()) + clip->cropDuration().frames(m_document->fps())))
+    //resizeClip(startInfo, clip->info(), true);
+    qDebug()<<"* * *RESIZING CLIP: "<<diff<<", FROM START: "<<fromStart;
 }

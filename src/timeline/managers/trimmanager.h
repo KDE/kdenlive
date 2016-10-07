@@ -22,7 +22,12 @@
 
 #include "abstracttoolmanager.h"
 
+
 class ClipItem;
+class Render;
+namespace Mlt {
+    class Playlist;
+};
 
 /**
  * @namespace TrimManager
@@ -35,16 +40,20 @@ class TrimManager : public AbstractToolManager
 
 public:
     explicit TrimManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
-    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
-    void mouseMove(int pos);
-    void mouseRelease(GenTime pos = GenTime());
+    bool mousePress(QMouseEvent *event, ItemInfo info = ItemInfo(), QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
+    bool mouseMove(QMouseEvent *event, int pos, int track = -1);
+    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime());
     bool enterTrimMode(ItemInfo info, bool trimStart);
     void moveRoll(bool forward, int pos = -1);
     void setTrimMode(TrimMode mode, ItemInfo info = ItemInfo(), bool fromStart = true);
     TrimMode trimMode() const;
+    void initRipple(Mlt::Playlist *playlist, int pos, Render *renderer);
 
 public slots:
-    void endRoll();
+    void endTrim();
+
+private slots:
+    void renderSeekRequest(int diff);
 
 private:
     ClipItem *m_firstClip;
@@ -52,6 +61,11 @@ private:
     ItemInfo m_firstInfo;
     ItemInfo m_secondInfo;
     TrimMode m_trimMode;
+    int m_rippleIndex;
+    Mlt::Playlist *m_trimPlaylist;
+    bool trimChanged;
+    Render *m_render;
+    void closeRipple();
 
 signals:
     void updateTrimMode(const QString);

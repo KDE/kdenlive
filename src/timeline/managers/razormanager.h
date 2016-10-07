@@ -25,7 +25,7 @@
 class QGraphicsItem;
 class QMouseEvent;
 class CustomTrackView;
-
+class QGraphicsLineItem;
 
 #include "abstracttoolmanager.h"
 
@@ -41,9 +41,13 @@ class RazorManager : public AbstractToolManager
 
 public:
     explicit RazorManager(CustomTrackView *view, DocUndoStack *commandStack = NULL);
-    bool mousePress(ItemInfo info = ItemInfo(), Qt::KeyboardModifiers modifiers = Qt::NoModifier, QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
-    void mouseMove(int pos = 0);
-    void mouseRelease(GenTime pos = GenTime());
+    bool mousePress(QMouseEvent *event, ItemInfo info = ItemInfo(), QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
+    bool mouseMove(QMouseEvent *event, int pos = 0, int track = -1);
+    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime());
+    void enterEvent(int pos, double trackHeight);
+    void leaveEvent();
+    void initTool(double trackHeight);
+    void closeTool();
     /** @brief Check if a guide operation is applicable on items under mouse. 
      * @param items The list of items under mouse
      * @param operationMode Will be set to MoveGuide if applicable
@@ -51,6 +55,14 @@ public:
      **/
     static void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, int eventPos, OperationType &operationMode, bool &abort);
 
+public slots:
+    void slotRefreshCutLine();
+    void updateTimelineItems();
+
+private:
+    QGraphicsLineItem *m_cutLine;
+    QCursor m_cursor;
+    void buildCutLine( double trackHeight);
 };
 
 #endif

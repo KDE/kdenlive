@@ -59,6 +59,7 @@
 
 Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, GLWidget *qmlView, QWidget *parent) :
     AbstractRender(rendererName, parent),
+    byPassSeek(false),
     requestedSeekPosition(SEEK_INACTIVE),
     showFrameSemaphore(1),
     externalConsumer(false),
@@ -834,6 +835,10 @@ void Render::seekToFrame(int pos)
 
 void Render::seekToFrameDiff(int diff)
 {
+    if (byPassSeek) {
+        emit renderSeek(diff);
+        return;
+    }
     if (!m_mltProducer || !m_isActive)
         return;
     if (requestedSeekPosition == SEEK_INACTIVE) {

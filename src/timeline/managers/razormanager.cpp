@@ -23,16 +23,23 @@
 #include "timeline/clipitem.h"
 #include "timeline/abstractgroupitem.h"
 #include "timeline/timelinecommands.h"
+#include "utils/KoIconUtils.h"
 
 #include <QMouseEvent>
+#include <QIcon>
 #include <QGraphicsItem>
+#include <QGraphicsLineItem>
 #include <klocalizedstring.h>
 
-RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
+
+RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(RazorType, view, commandStack)
+    , m_cutLine(NULL)
 {
+    QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
+    m_cursor = QCursor(razorIcon.pixmap(32, 32));
 }
 
-bool RazorManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraphicsItem *>)
+bool RazorManager::mousePress(QMouseEvent *, ItemInfo info, QList<QGraphicsItem *>)
 {
     QList<QGraphicsItem *> items;
     AbstractClipItem *dragItem = m_view->dragItem();
@@ -47,12 +54,63 @@ bool RazorManager::mousePress(ItemInfo info, Qt::KeyboardModifiers, QList<QGraph
     return true;
 }
 
-void RazorManager::mouseMove(int pos)
+void RazorManager::enterEvent(int, double trackHeight)
 {
-    Q_UNUSED(pos);
+    buildCutLine(trackHeight);
 }
 
-void RazorManager::mouseRelease(GenTime pos)
+void RazorManager::initTool(double trackHeight)
+{
+    buildCutLine(trackHeight);
+    m_view->setCursor(m_cursor);
+}
+
+void RazorManager::buildCutLine(double trackHeight)
+{
+    if (!m_cutLine) {
+          m_cutLine = m_view->scene()->addLine(0, 0, 0, trackHeight);
+          m_cutLine->setZValue(1000);
+          QPen pen1 = QPen();
+          pen1.setWidth(1);
+          QColor line(Qt::red);
+          pen1.setColor(line);
+          m_cutLine->setPen(pen1);
+          m_cutLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
+          slotRefreshCutLine();
+    }
+}
+
+void RazorManager::leaveEvent()
+{
+    if (m_cutLine) {
+        delete m_cutLine;
+        m_cutLine = NULL;
+    }
+}
+
+void RazorManager::closeTool()
+{
+    if (m_cutLine) {
+        delete m_cutLine;
+        m_cutLine = NULL;
+    }
+}
+
+bool RazorManager::mouseMove(QMouseEvent *, int pos, int track)
+{
+    if (m_cutLine) {
+        m_cutLine->setPos(pos, track);
+    }
+    return true;
+}
+
+void RazorManager::updateTimelineItems()
+{
+    if (m_cutLine)
+        slotRefreshCutLine();
+}
+
+void RazorManager::mouseRelease(QMouseEvent *, GenTime pos)
 {
     Q_UNUSED(pos);
     m_view->setCursor(Qt::OpenHandCursor);
@@ -77,3 +135,11 @@ void RazorManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QM
     }
 }
 
+void RazorManager::slotRefreshCutLine()
+{
+    if (m_cutLine) {
+        QPointF pos = m_view->mapToScene(m_view->mapFromGlobal(QCursor::pos()));
+        int mappedXPos = qMax((int)(pos.x()), 0);
+        m_cutLine->setPos(mappedXPos, m_view->getPositionFromTrack(m_view->getTrackFromPos(pos.y())));
+    }
+}

@@ -41,6 +41,7 @@
 #include "effectslist/initeffects.h"
 #include "mltcontroller/effectscontroller.h"
 #include "managers/previewmanager.h"
+#include "managers/trimmanager.h"
 
 #include <QScrollBar>
 #include <QLocale>
@@ -1710,8 +1711,11 @@ bool Timeline::createOverlay(Mlt::Filter *filter, int tk, int startPos)
     return true;
 }
 
-bool Timeline::createRippleWindow(int tk, int startPos)
+bool Timeline::createRippleWindow(int tk, int startPos, OperationType mode)
 {
+    if (m_hasOverlayTrack) {
+        return true;
+    }
     Track *sourceTrack = track(tk);
     if (!sourceTrack) return false;
     m_tractor->lock();
@@ -1742,7 +1746,14 @@ bool Timeline::createRippleWindow(int tk, int startPos)
     Mlt::Producer *cln = new Mlt::Producer(firstClip->parent());
     cln->set_in_and_out(firstClip->get_in(), -1);
     Clip(*cln).addEffects(*firstClip);
-    int secondStart = playlist.clip_start(clipIndex) - secondClip->get_in();
+    int secondStart = playlist.clip_start(clipIndex);
+    bool rolling = m_trackview->operationMode() == RollingStart || m_trackview->operationMode() == RollingEnd;
+    if (rolling) {
+        secondStart -= secondClip->get_in();
+    } else {
+        //cln2->set_in_and_out(secondClip->get_in(), secondClip->get_out());
+        qDebug()<<"* * *INIT RIPPLE; CLP START: "<<secondClip->get_in();
+    }
     int rippleStart = playlist.clip_start(clipIndex - 1);
 
     Mlt::Filter f1(*m_tractor->profile(), "affine");
@@ -1750,14 +1761,17 @@ bool Timeline::createRippleWindow(int tk, int startPos)
     f1.set("transition.always_active", 1);
     cln2->attach(f1);
 
-    Mlt::Playlist ripple1(*m_tractor->profile());
+    Mlt::Playlist *ripple1 = new Mlt::Playlist(*m_tractor->profile());
     if (secondStart < 0) {
         cln2->set_in_and_out(-secondStart, -1);
         secondStart = 0;
     }
     if (secondStart > 0)
-        ripple1.insert_blank(0, secondStart);
-    ripple1.insert_at(secondStart, cln2, 1);
+        ripple1->insert_blank(0, secondStart);
+    ripple1->insert_at(secondStart, cln2, 1);
+    int ix = ripple1->get_clip_index_at(secondStart);
+    ripple1->resize_clip(ix, secondClip->get_in(), secondClip->get_out());
+    qDebug()<<"* * *INIT RIPPLE; REAL START: "<<cln2->get_in()<<" / "<<secondStart;
     Mlt::Playlist ripple2(*m_tractor->profile());
     ripple2.insert_blank(0, rippleStart);
     ripple2.insert_at(rippleStart, cln, 1);
@@ -1769,7 +1783,7 @@ bool Timeline::createRippleWindow(int tk, int startPos)
     t.set("geometry", "0% 0 50% 50%");
     t.set("always_active", 1);
 
-    trac.set_track(ripple1, 0);
+    trac.set_track(*ripple1, 0);
     trac.set_track(ripple2, 1);
     trac.plant_transition(t, 0, 1);
     delete cln;
@@ -1786,6 +1800,9 @@ bool Timeline::createRippleWindow(int tk, int startPos)
     delete overlayTrack;
     m_hasOverlayTrack = true;
     m_tractor->unlock();
+    AbstractToolManager *mgr = m_trackview->toolManager(AbstractToolManager::TrimType);
+    TrimManager *trimmer = qobject_cast<TrimManager *>(mgr);
+    trimmer->initRipple(ripple1, secondStart, m_doc->renderer());
     return true;
 }
 

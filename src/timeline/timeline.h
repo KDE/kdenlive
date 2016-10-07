@@ -158,7 +158,7 @@ public:
     /** @brief Creates an overlay track with a filtered clip */
     bool createOverlay(Mlt::Filter *filter, int tk, int startPos);
     /** @brief Creates an overlay track with a ripple transition*/
-    bool createRippleWindow(int tk, int startPos);
+    bool createRippleWindow(int tk, int startPos, OperationType mode);
     void removeSplitOverlay();
     /** @brief Temporarily add/remove track before saving */
     void connectOverlayTrack(bool enable);

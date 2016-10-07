@@ -27,28 +27,63 @@
 #include "timeline/transitionhandler.h"
 
 #include <KLocalizedString>
+#include <QScrollBar>
+#include <QFontMetrics>
+#include <QApplication>
 
-MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
+MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(MoveType, view, commandStack)
     , m_transitionHandler(handler)
+    , m_scrollOffset(0)
+    , m_scrollTrigger(QFontMetrics(view->font()).averageCharWidth() * 3)
+    , m_dragMoved(false)
 {
+    connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
+    m_scrollTimer.setInterval(100);
+    m_scrollTimer.setSingleShot(true);
 }
 
-bool MoveManager::mousePress(ItemInfo info, Qt::KeyboardModifiers , QList<QGraphicsItem *>)
+bool MoveManager::mousePress(QMouseEvent *event, ItemInfo info, QList<QGraphicsItem *>)
 {
     m_view->setCursor(Qt::ClosedHandCursor);
+    m_dragMoved = false;
+    m_clickPoint = event->pos();
     m_dragItemInfo = info;
+    m_view->setOperationMode(MoveOperation);
     return true;
 }
 
-void MoveManager::mouseMove(int pos)
+bool MoveManager::mouseMove(QMouseEvent *event, int , int)
 {
-    Q_UNUSED(pos);
+    if (!m_dragMoved && event->buttons() & Qt::LeftButton) {
+        if ((m_clickPoint - event->pos()).manhattanLength() < QApplication::startDragDistance()) {
+            event->ignore();
+            return false;
+        }
+        m_dragMoved = true;
+    }
+    if (m_dragItemInfo.isValid()) {
+        if (event->pos().x() < m_scrollTrigger) {
+            m_scrollOffset = -30;
+            m_scrollTimer.start();
+        } else if (m_view->viewport()->width() - event->pos().x() < m_scrollTrigger) {
+            m_scrollOffset = 30;
+            m_scrollTimer.start();
+        } else if (m_scrollTimer.isActive()) {
+            m_scrollTimer.stop();
+        }
+        event->accept();
+        return false;
+    }
+    return true;
 }
 
-void MoveManager::mouseRelease(GenTime pos)
+void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
 {
     Q_UNUSED(pos);
+    if (m_scrollTimer.isActive()) m_scrollTimer.stop();
     m_view->setCursor(Qt::OpenHandCursor);
+    if (!m_dragMoved)
+        return;
     AbstractClipItem *dragItem = m_view->dragItem();
     if (!dragItem || !m_dragItemInfo.isValid() || m_view->operationMode() == WaitingForConfirm) {
         // No move performed
@@ -321,3 +356,12 @@ void MoveManager::mouseRelease(GenTime pos)
 }
 
 
+void MoveManager::slotCheckMouseScrolling()
+{
+    if (m_scrollOffset == 0) {
+        m_scrollTimer.stop();
+        return;
+    }
+    m_view->horizontalScrollBar()->setValue(m_view->horizontalScrollBar()->value() + m_scrollOffset);
+    m_scrollTimer.start();
+}

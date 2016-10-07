@@ -54,6 +54,8 @@ enum OperationType {
     ResizeEnd,
     RollingStart,
     RollingEnd,
+    RippleStart,
+    RippleEnd,
     FadeIn,
     FadeOut,
     TransitionStart,

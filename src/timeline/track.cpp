@@ -1017,3 +1017,10 @@ QList <QPoint> Track::visibleClips()
     delete info;
     return clips;
 }
+
+bool Track::resize_in_out(int pos, int in, int out)
+{
+    int ix = m_playlist.get_clip_index_at(pos);
+    m_playlist.resize_clip(ix, in, out);
+    return true;
+}

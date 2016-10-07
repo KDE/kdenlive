@@ -21,6 +21,9 @@
 #include "timeline/customtrackview.h"
 #include "timeline/clipitem.h"
 #include "timeline/abstractgroupitem.h"
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "timeline/timelinecommands.h"
 
 #include <KLocalizedString>
 #include <QProcess>
@@ -31,45 +34,254 @@
 
 #include "klocalizedstring.h"
 
-SelectManager::SelectManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(view, commandStack)
+SelectManager::SelectManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(SelectType, view, commandStack)
+    , m_dragMoved(false)
 {
 }
 
-bool SelectManager::mousePress(ItemInfo info, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem *>)
+bool SelectManager::mousePress(QMouseEvent *event, ItemInfo info, QList<QGraphicsItem *>)
 {
     Q_UNUSED(info);
-    m_modifiers = modifiers;
+    m_view->activateMonitor();
+    m_modifiers = event->modifiers();
+    m_dragMoved = false;
+    m_clickPoint = event->pos();
     if (m_modifiers & Qt::ShiftModifier) {
-        m_view->createRectangleSelection(modifiers);
+        m_view->createRectangleSelection(event->modifiers());
         return true;
     }
-    m_view->activateMonitor();
+    // No item under click
+    AbstractClipItem *dragItem = m_view->dragItem();
+    if (dragItem == NULL) {
+        m_view->clearSelection(true);
+        if (event->button() == Qt::LeftButton) {
+	    m_view->setOperationMode(Seek);
+            m_view->seekCursorPos((int) m_view->mapToScene(event->pos()).x());
+            event->setAccepted(true);
+            return true;
+        }
+    } else m_view->setOperationMode(m_view->prepareMode());
+    switch(m_view->operationMode()) {
+        case FadeIn:
+        case FadeOut:
+            //m_view->setCursor(Qt::PointingHandCursor);
+            break;
+        case KeyFrame:
+            //m_view->setCursor(Qt::PointingHandCursor);
+            dragItem->prepareKeyframeMove();
+            break;
+        default:
+            //m_view->setCursor(Qt::ArrowCursor);
+            break;
+    }
     return false;
 }
 
-void SelectManager::mouseMove(int pos)
+bool SelectManager::mouseMove(QMouseEvent *event, int pos, int)
 {
-    Q_UNUSED(pos);
+    OperationType mode = m_view->operationMode();
+    if (mode == Seek) {
+        return false;
+    }
+    if (!m_dragMoved && event->buttons() & Qt::LeftButton) {
+        if ((m_clickPoint - event->pos()).manhattanLength() < QApplication::startDragDistance()) {
+            event->ignore();
+            return false;
+        }
+        m_dragMoved = true;
+    }
+    if (mode == FadeIn) {
+        AbstractClipItem *dragItem = m_view->dragItem();
+        double mappedXPos = m_view->mapToScene(event->pos()).x();
+        static_cast<ClipItem*>(dragItem)->setFadeIn(static_cast<int>(mappedXPos - dragItem->startPos().frames(m_view->fps())));
+        event->accept();
+        return true;
+    } else if (mode == FadeOut) {
+        AbstractClipItem *dragItem = m_view->dragItem();
+        double mappedXPos = m_view->mapToScene(event->pos()).x();
+        static_cast<ClipItem*>(dragItem)->setFadeOut(static_cast<int>(dragItem->endPos().frames(m_view->fps()) - mappedXPos));
+        event->accept();
+        return true;
+    } else if (mode == KeyFrame) {
+        AbstractClipItem *dragItem = m_view->dragItem();
+        double mappedXPos = m_view->mapToScene(event->pos()).x();
+        GenTime keyFramePos = GenTime(mappedXPos, m_view->fps()) - dragItem->startPos();
+        double value = dragItem->mapFromScene(m_view->mapToScene(event->pos()).toPoint()).y();
+        dragItem->updateKeyFramePos(keyFramePos.frames(m_view->fps()), value);
+        QString position = m_view->timecode().getDisplayTimecodeFromFrames(dragItem->selectedKeyFramePos(), KdenliveSettings::frametimecode());
+        m_view->displayMessage(position + " : " + QString::number(dragItem->editedKeyFrameValue()), InformationMessage);
+        event->accept();
+        return true;
+    }
+    return false;
 }
 
-void SelectManager::mouseRelease(GenTime pos)
+void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
 {
     Q_UNUSED(pos);
+    if (!m_dragMoved)
+        return;
     AbstractClipItem *dragItem = m_view->dragItem();
-    if (!(m_modifiers & Qt::ControlModifier)) {
-        if (dragItem) dragItem->setMainSelectedClip(false);
+    OperationType moveType = m_view->operationMode();
+    if (moveType == RubberSelection) {
+        //setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
+        if (event->modifiers() != Qt::ControlModifier) {
+            if (dragItem) dragItem->setMainSelectedClip(false);
             dragItem = NULL;
+        }
+        //event->accept();
+        m_view->resetSelectionGroup();
+        m_view->groupSelectedItems();
+        if (m_view->selectionGroup() == NULL && dragItem) {
+            // Only 1 item selected
+            if (dragItem->type() == AVWidget) {
+                dragItem->setMainSelectedClip(true);
+                m_view->clipItemSelected(static_cast<ClipItem *>(dragItem), false);
+            }
+        }
+        return;
     }
-    m_view->resetSelectionGroup();
-    m_view->groupSelectedItems();
-    AbstractGroupItem *selectionGroup = m_view->selectionGroup();
-    if (selectionGroup == NULL && dragItem) {
-        // Only 1 item selected
-        if (dragItem->type() == AVWidget) {
-            dragItem->setMainSelectedClip(true);
-            m_view->clipItemSelected(static_cast<ClipItem *>(dragItem), false);
+    if (moveType == Seek || moveType == WaitingForConfirm || moveType == None || (!m_dragMoved && moveType == MoveOperation)) {
+        if (!(m_modifiers & Qt::ControlModifier)) {
+            if (dragItem) dragItem->setMainSelectedClip(false);
+                dragItem = NULL;
+        }
+        m_view->resetSelectionGroup();
+        m_view->groupSelectedItems();
+        AbstractGroupItem *selectionGroup = m_view->selectionGroup();
+        if (selectionGroup == NULL && dragItem) {
+            // Only 1 item selected
+            if (dragItem->type() == AVWidget) {
+                dragItem->setMainSelectedClip(true);
+                m_view->clipItemSelected(static_cast<ClipItem *>(dragItem), false);
+            }
         }
     }
+    if (moveType == FadeIn && dragItem) {
+        ClipItem * item = static_cast <ClipItem *>(dragItem);
+        // find existing video fade, if none then audio fade
+
+        int fadeIndex = item->hasEffect(QLatin1String(""), QStringLiteral("fade_from_black"));
+        int fadeIndex2 = item->hasEffect(QStringLiteral("volume"), QStringLiteral("fadein"));
+        if (fadeIndex >= 0 && fadeIndex2 >= 0) {
+            // We have 2 fadin effects, use currently selected or first one
+            int current = item->selectedEffectIndex();
+            if (fadeIndex != current) {
+                if (fadeIndex2 == current) {
+                    fadeIndex = current;
+                }
+                else fadeIndex = qMin(fadeIndex, fadeIndex2);
+            }
+        }
+        else fadeIndex = qMax(fadeIndex, fadeIndex2);
+        // resize fade in effect
+        if (fadeIndex >= 0) {
+            QDomElement oldeffect = item->effectAtIndex(fadeIndex);
+            int end = item->fadeIn();
+            if (end == 0) {
+                m_view->slotDeleteEffect(item, -1, oldeffect, false);
+            } else {
+                int start = item->cropStart().frames(m_view->fps());
+                end += start;
+                QDomElement effect = oldeffect.cloneNode().toElement();
+                EffectsList::setParameter(oldeffect, QStringLiteral("in"), QString::number(start));
+                EffectsList::setParameter(oldeffect, QStringLiteral("out"), QString::number(end));
+                m_view->slotUpdateClipEffect(item, -1, effect, oldeffect, fadeIndex);
+                m_view->clipItemSelected(item);
+            }
+        // new fade in
+        } else if (item->fadeIn() != 0) {
+            QDomElement effect;
+            if (item->clipState() == PlaylistState::VideoOnly || (item->clipType() != Audio && item->clipState() != PlaylistState::AudioOnly && item->clipType() != Playlist)) {
+                effect = MainWindow::videoEffects.getEffectByTag(QLatin1String(""), QStringLiteral("fade_from_black")).cloneNode().toElement();
+            } else {
+                effect = MainWindow::audioEffects.getEffectByTag(QStringLiteral("volume"), QStringLiteral("fadein")).cloneNode().toElement();
+            }
+            EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(item->fadeIn()));
+            m_view->slotAddEffect(effect, dragItem->startPos(), dragItem->track());
+        }
+
+    } else if (moveType == FadeOut && dragItem) {
+        ClipItem * item = static_cast <ClipItem *>(dragItem);
+        // find existing video fade, if none then audio fade
+
+        int fadeIndex = item->hasEffect(QLatin1String(""), QStringLiteral("fade_to_black"));
+        int fadeIndex2 = item->hasEffect(QStringLiteral("volume"), QStringLiteral("fadeout"));
+        if (fadeIndex >= 0 && fadeIndex2 >= 0) {
+            // We have 2 fadin effects, use currently selected or first one
+            int current = item->selectedEffectIndex();
+            if (fadeIndex != current) {
+                if (fadeIndex2 == current) {
+                    fadeIndex = current;
+                }
+                else fadeIndex = qMin(fadeIndex, fadeIndex2);
+            }
+        }
+        else fadeIndex = qMax(fadeIndex, fadeIndex2);
+        // resize fade out effect
+        if (fadeIndex >= 0) {
+            QDomElement oldeffect = item->effectAtIndex(fadeIndex);
+            int start = item->fadeOut();
+            if (start == 0) {
+                m_view->slotDeleteEffect(item, -1, oldeffect, false);
+            } else {
+                int end = (item->cropDuration() + item->cropStart()).frames(m_view->fps());
+                start = end - start;
+                QDomElement effect = oldeffect.cloneNode().toElement();
+                EffectsList::setParameter(oldeffect, QStringLiteral("in"), QString::number(start));
+                EffectsList::setParameter(oldeffect, QStringLiteral("out"), QString::number(end));
+                m_view->slotUpdateClipEffect(item, -1, effect, oldeffect, fadeIndex);
+                m_view->clipItemSelected(item);
+            }
+        // new fade out
+        } else if (item->fadeOut() != 0) {
+            QDomElement effect;
+            if (item->clipState() == PlaylistState::VideoOnly || (item->clipType() != Audio && item->clipState() != PlaylistState::AudioOnly && item->clipType() != Playlist)) {
+                effect = MainWindow::videoEffects.getEffectByTag(QLatin1String(""), QStringLiteral("fade_to_black")).cloneNode().toElement();
+            } else {
+                effect = MainWindow::audioEffects.getEffectByTag(QStringLiteral("volume"), QStringLiteral("fadeout")).cloneNode().toElement();
+            }
+            int end = (item->cropDuration() + item->cropStart()).frames(m_view->fps());
+            int start = end-item->fadeOut();
+            EffectsList::setParameter(effect, QStringLiteral("in"), QString::number(start));
+            EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(end));
+            m_view->slotAddEffect(effect, dragItem->startPos(), dragItem->track());
+        }
+
+    } else if (moveType == KeyFrame && dragItem && m_dragMoved) {
+        // update the MLT effect
+        ClipItem * item = static_cast <ClipItem *>(dragItem);
+        QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
+
+        // check if we want to remove keyframe
+        double val = m_view->mapToScene(event->pos()).toPoint().y();
+        QRectF br = item->sceneBoundingRect();
+        double maxh = 100.0 / br.height();
+        val = (br.bottom() - val) * maxh;
+        int start = item->cropStart().frames(m_view->fps());
+        int end = (item->cropStart() + item->cropDuration()).frames(m_view->fps()) - 1;
+
+        if ((val < -50 || val > 150) && item->selectedKeyFramePos() != start && item->selectedKeyFramePos() != end && item->keyframesCount() > 1) {
+            //delete keyframe
+            item->removeKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos());
+        } else {
+            item->movedKeyframe(item->getEffectAtIndex(item->selectedEffectIndex()), item->selectedKeyFramePos(), item->originalKeyFramePos());
+        }
+
+        QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
+
+        EditEffectCommand *command = new EditEffectCommand(m_view, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false, true);
+        m_commandStack->push(command);
+        m_view->updateEffect(item->track(), item->startPos(), item->selectedEffect());
+        m_view->clipItemSelected(item);
+    } else if (moveType == KeyFrame && dragItem) {
+        m_view->setActiveKeyframe(dragItem->selectedKeyFramePos());
+    }
+}
+
+void SelectManager::initTool(double)
+{
+    m_view->unsetCursor();
 }
 
 void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation)
