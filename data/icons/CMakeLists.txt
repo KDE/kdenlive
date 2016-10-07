@@ -52,6 +52,7 @@ ecm_install_icons(ICONS
   64-apps-kdenlive.png
   128-apps-kdenlive.png
   256-apps-kdenlive.png
+  sc-apps-kdenlive.svgz
   64-mimetypes-application-x-kdenlivetitle.png
   sc-actions-kdenlive-align-bottom.svgz
   sc-actions-kdenlive-align-hor.svgz
