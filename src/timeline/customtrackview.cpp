@@ -5098,9 +5098,11 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
     if (resizeClipStart) {
         if (m_timeline->track(start.track)->resize(start.startPos.seconds(), (end.startPos - start.startPos).seconds(), false))
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
+        else emit displayMessage(i18n("Resizing clip start failed!!"), ErrorMessage);
     } else {
         if (m_timeline->track(start.track)->resize(start.startPos.seconds(), (end.endPos - start.endPos).seconds(), true))
             item->resizeEnd((int) end.endPos.frames(m_document->fps()));
+        else emit displayMessage(i18n("Resizing clip end failed!!"), ErrorMessage);
     }
 
     if (!resizeClipStart && end.cropStart != start.cropStart) {
