@@ -103,7 +103,7 @@ void CornersWidget::slotUpdateItem()
     //m_item->setPolygon(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
     //m_monitor->setUpEffectGeometry(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
     m_monitor->setUpEffectGeometry(QRect(), points);
-    bool enable = getPos(keyframe->row()) == m_pos || keyframe_list->rowCount() == 1;
+    bool enable = getPos(keyframe->row()) - m_min == m_pos || keyframe_list->rowCount() == 1;
     m_monitor->setEffectKeyframe(enable);
 }
 

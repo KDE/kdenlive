@@ -548,7 +548,7 @@ void KeyframeEdit::checkVisibleParam()
 void KeyframeEdit::slotUpdateRange(int inPoint, int outPoint)
 {
     m_min = inPoint;
-    m_max = outPoint;
+    m_max = outPoint - 1;
 }
 
 void KeyframeEdit::rowClicked(int newRow, int, int oldRow, int)
