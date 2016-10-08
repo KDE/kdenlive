@@ -202,7 +202,7 @@ public:
     bool removeEffect(double start, int effectIndex, bool updateIndex);
     bool removeTrackEffect(int effectIndex, bool updateIndex);
     bool enableEffects(double start, const QList <int> &effectIndexes, bool disable);
-    bool enableTrackEffects(const QList <int> &effectIndexes, bool disable);
+    bool enableTrackEffects(const QList <int> &effectIndexes, bool disable, bool remember = false);
     bool moveEffect(double start, int oldPos, int newPos);
     bool moveTrackEffect(int oldPos, int newPos);
     QList <QPoint> visibleClips();

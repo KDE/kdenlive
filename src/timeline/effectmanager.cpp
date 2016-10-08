@@ -363,17 +363,27 @@ bool EffectManager::removeEffect(int effectIndex, bool updateIndex)
     return success;
 }
 
-bool EffectManager::enableEffects(const QList <int> &effectIndexes, bool disable)
+bool EffectManager::enableEffects(const QList <int> &effectIndexes, bool disable, bool rememberState)
 {
     int ct = 0;
     bool success = false;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
         if (effectIndexes.isEmpty() || effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
-            m_producer.lock();
-            filter->set("disable", (int) disable);
+            //m_producer.lock();
+            if (rememberState) {
+                if (disable && filter->get_int("disable") == 0) {
+                    filter->set("auto_disable", 1);
+                    filter->set("disable", (int) disable);
+                } else if (!disable && filter->get_int("auto_disable") == 1) {
+                    filter->set("disable", (char*) NULL);
+                    filter->set("auto_disable", (char*) NULL);
+                }
+            } else {
+                filter->set("disable", (int) disable);
+            }
             success = true;
-            m_producer.unlock();
+            //m_producer.unlock();
         }
         delete filter;
         ct++;
