@@ -119,8 +119,6 @@ bool SelectManager::mouseMove(QMouseEvent *event, int pos, int)
 void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
 {
     Q_UNUSED(pos);
-    if (!m_dragMoved)
-        return;
     AbstractClipItem *dragItem = m_view->dragItem();
     OperationType moveType = m_view->operationMode();
     if (moveType == RubberSelection) {
@@ -129,7 +127,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
             if (dragItem) dragItem->setMainSelectedClip(false);
             dragItem = NULL;
         }
-        //event->accept();
+        event->accept();
         m_view->resetSelectionGroup();
         m_view->groupSelectedItems();
         if (m_view->selectionGroup() == NULL && dragItem) {
@@ -141,6 +139,8 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
         }
         return;
     }
+    if (!m_dragMoved)
+        return;
     if (moveType == Seek || moveType == WaitingForConfirm || moveType == None || (!m_dragMoved && moveType == MoveOperation)) {
         if (!(m_modifiers & Qt::ControlModifier)) {
             if (dragItem) dragItem->setMainSelectedClip(false);
