@@ -9,7 +9,7 @@
                     <name>Color to select</name>
             </parameter>
         
-            <parameter type="bool" name="Invert selection" default="0">
+            <parameter type="bool" name="Invert selection" default="1">
                     <name>Invert selection</name>
             </parameter>    
         
@@ -56,7 +56,7 @@
                     <name>Color to select</name>
             </parameter>
         
-            <parameter type="bool" name="Invert selection" default="0">
+            <parameter type="bool" name="Invert selection" default="1">
                     <name>Invert selection</name>
             </parameter>
 
