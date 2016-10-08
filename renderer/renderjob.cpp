@@ -285,6 +285,9 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         if (!m_dualpass && !m_player.isEmpty()) {
             QStringList args = m_player.split(QLatin1Char(' '));
             QString exec = args.takeFirst();
+            // Decode url
+            QString url = QUrl::fromEncoded(args.takeLast().toUtf8()).path();
+            args << url;
             QProcess::startDetached(exec, args);
         }
         if (m_dualpass) {
