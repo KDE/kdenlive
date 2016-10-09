@@ -22,6 +22,7 @@
 #include "clipstabilize.h"
 #include "effectstack/widgets/doubleparameterwidget.h"
 #include "effectstack/effectstackview2.h"
+#include "effectstack/positionedit.h"
 
 #include <QDebug>
 #include <mlt++/Mlt.h>
@@ -30,7 +31,7 @@
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
-ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent) :
+ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget * parent) :
     QDialog(parent),
     m_filtername(filterName),
     m_urls(urls),
@@ -71,7 +72,8 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
             << QStringLiteral("crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background")
             << QStringLiteral("zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform")
             << QStringLiteral("optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)")
-            << QStringLiteral("sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image"));
+            << QStringLiteral("sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image")
+            << QStringLiteral("tripod,type,position,value,0,min,0,max,100000,tooltip,reference frame"));
     } else if (m_filtername==QLatin1String("videostab")) {
         fillParameters(QStringList(QStringLiteral("shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated")));
     }
@@ -80,6 +82,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
 
     vbox=new QVBoxLayout(optionsbox);
     QHashIterator<QString,QHash<QString,QString> > hi(m_ui_params);
+    m_tc.setFormat(KdenliveSettings::project_fps());
     while(hi.hasNext()){
         hi.next();
         QHash<QString,QString> val=hi.value();
@@ -106,7 +109,12 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
             connect(ch, &QCheckBox::stateChanged, this, &ClipStabilize::slotUpdateParams);
             ch->setToolTip(val[QStringLiteral("tooltip")]);
             vbox->addWidget(ch);
-
+        } else if (val[QStringLiteral("type")]==QLatin1String("position")){
+            PositionEdit *posedit = new PositionEdit(hi.key(), 0, 0, out, m_tc, this);
+	    posedit->setToolTip(val[QStringLiteral("tooltip")]);
+            posedit->setObjectName(hi.key());
+            vbox->addWidget(posedit);
+            connect(posedit, &PositionEdit::parameterChanged, this, &ClipStabilize::slotUpdateParams);
         }
     }
     adjustSize();
@@ -129,7 +137,7 @@ QMap <QString, QString> ClipStabilize::filterParams()
 {
     QMap <QString, QString> params;
     params.insert(QStringLiteral("filter"), m_filtername);
-    
+
     QMapIterator<QString, QString> i(m_fixedParams);
     while (i.hasNext()) {
 	i.next();
@@ -177,9 +185,12 @@ void ClipStabilize::slotUpdateParams()
             if (m_ui_params[name][QStringLiteral("type")]==QLatin1String("int") || m_ui_params[name][QStringLiteral("type")]==QLatin1String("double")){
                 DoubleParameterWidget *dbl=static_cast<DoubleParameterWidget*>(w);
                 m_ui_params[name][QStringLiteral("value")]=QString::number((double)(dbl->getValue()));
-            }else if (m_ui_params[name][QStringLiteral("type")]==QLatin1String("bool")){
+            } else if (m_ui_params[name][QStringLiteral("type")]==QLatin1String("bool")){
                 QCheckBox *ch=(QCheckBox*)w;
                 m_ui_params[name][QStringLiteral("value")]= ch->checkState() == Qt::Checked ? "1" : "0" ;
+            } else if (m_ui_params[name][QStringLiteral("type")]==QLatin1String("position")){
+                PositionEdit *pos=(PositionEdit *)w;
+                m_ui_params[name][QStringLiteral("value")]= QString::number(pos->getPosition());
             }
         }
     }

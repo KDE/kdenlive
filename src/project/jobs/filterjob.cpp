@@ -197,8 +197,12 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectCli
         }
         return jobs;
     } else if (filterName == QLatin1String("vidstab") || filterName == QLatin1String("videostab2") || filterName == QLatin1String("videostab")) {
-        // vidstab 
-        QPointer<ClipStabilize> d = new ClipStabilize(sources, filterName);
+        // vidstab
+        int out = 100000;
+        if (clips.count() == 1) {
+            out = clips.first()->duration().frames(KdenliveSettings::project_fps());
+        }
+        QPointer<ClipStabilize> d = new ClipStabilize(sources, filterName, out);
         if (d->exec() == QDialog::Accepted) {
             QMap <QString, QString> producerParams = d->producerParams();
             QMap <QString, QString> filterParams = d->filterParams();

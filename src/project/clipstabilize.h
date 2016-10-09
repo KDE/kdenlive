@@ -24,7 +24,7 @@
 
 
 #include "ui_clipstabilize_ui.h"
-
+#include "timecode.h"
 #include <QUrl>
 
 class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
@@ -32,7 +32,7 @@ class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
     Q_OBJECT
 
 public:
-    explicit ClipStabilize(const QStringList &urls, const QString &filterName,QWidget * parent = 0);
+    explicit ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget * parent = 0);
     ~ClipStabilize();
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
@@ -59,6 +59,7 @@ private:
     QVBoxLayout *vbox;
     void fillParameters(QStringList);
     QMap <QString, QString> m_fixedParams;
+    Timecode m_tc;
 
 signals:
     void addClip(const QUrl &url);
