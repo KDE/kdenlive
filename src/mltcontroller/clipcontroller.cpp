@@ -187,6 +187,15 @@ void ClipController::getInfoForProducer()
     if (m_audioIndex > -1 || m_clipType == Playlist) {
         m_audioInfo = new AudioStreamInfo(m_masterProducer, m_audioIndex);
     }
+
+    if (!m_hasLimitedDuration) {
+        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        if (playtime <= 0) {
+            // Fix clips having missing kdenlive:duration
+            m_masterProducer->set("kdenlive:duration", m_masterProducer->get_playtime());
+            m_masterProducer->set("out", m_masterProducer->get_length() - 1);
+        }
+    }
 }
 
 bool ClipController::hasLimitedDuration() const
