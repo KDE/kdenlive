@@ -57,22 +57,37 @@ void ProxyJob::startJob()
         mltParameters << m_src;
         mltParameters << QStringLiteral("-consumer") << QStringLiteral("avformat:") + m_dest;
         QStringList params = m_proxyParams.split(QLatin1Char('-'), QString::SkipEmptyParts);
+        double display_ratio;
+        if (m_src.startsWith(QLatin1String("consumer:"))) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(QStringLiteral(":"), 1));
+        else display_ratio = KdenliveDoc::getDisplayRatio(m_src);
+        if (display_ratio == 0)
+            display_ratio = 1;
 
+        bool skipNext = false;
         foreach(const QString &s, params) {
             QString t = s.simplified();
+            if (skipNext) {
+                skipNext = false;
+                continue;
+            }
             if (t.count(QLatin1Char(' ')) == 0) {
                 t.append(QLatin1String("=1"));
             }
-            else t.replace(QLatin1Char(' '), QLatin1String("="));
+            else if (t.startsWith(QLatin1String("vf "))) {
+                skipNext = true;
+                bool ok = false;
+                int width = t.section(QLatin1Char('='), 1, 1).section(QLatin1Char(':'), 0, 0).toInt(&ok);
+                if (!ok) width = 640;
+                int height = width / display_ratio;
+                mltParameters << QString("s=%1x%2").arg(width).arg(height);
+                continue;
+            } else t.replace(QLatin1Char(' '), QLatin1String("="));
             mltParameters << t;
         }
 
         mltParameters.append(QStringLiteral("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
         //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
-        double display_ratio;
-        if (m_src.startsWith(QLatin1String("consumer:"))) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(QStringLiteral(":"), 1));
-        else display_ratio = KdenliveDoc::getDisplayRatio(m_src);
         mltParameters << QStringLiteral("aspect=") + QLocale().toString(display_ratio);
 
         // Ask for progress reporting
