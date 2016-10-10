@@ -155,6 +155,7 @@ public slots:
 
 signals:
     void moveData(QList <QUrl>, QString);
+    void importSequence(QStringList, QString);
 };
 
 
@@ -177,6 +178,7 @@ private slots:
     void slotAddFolder();
     void slotRenameItem();
     void slotMoveData(QList <QUrl>, QString);
+    void slotSaveSequence(QStringList info, QString dest);
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotDownloadFinished(KJob *);
     void slotDownloadProgress(KJob *, unsigned long);

@@ -62,6 +62,7 @@ public:
     QString projectSceneList();
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
+    void saveZone(QStringList info, QDir dir);
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);

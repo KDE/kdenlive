@@ -774,3 +774,7 @@ QString ProjectManager::getDefaultProjectFormat()
     return QStringLiteral("atsc_1080p_2997");
 }
 
+void ProjectManager::saveZone(QStringList info, QDir dir)
+{
+    pCore->bin()->saveZone(info, dir);
+}

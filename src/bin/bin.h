@@ -531,8 +531,10 @@ public:
     void rebuildProxies();
     /** @brief Return a list of all clips hashes used in this project */
     QStringList getProxyHashList();
-        /** @brief Get info (id, name) of a folder (or the currently selected one)  */
+    /** @brief Get info (id, name) of a folder (or the currently selected one)  */
     const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
+    /** @brief Save a clip zone as MLT playlist */
+    void saveZone(QStringList info, QDir dir);
 
 private slots:
     void slotAddClip();

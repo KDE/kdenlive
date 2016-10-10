@@ -3554,3 +3554,14 @@ void Bin::showClearButton(bool show)
     m_searchLine->setClearButtonEnabled(show);
 }
 
+void Bin::saveZone(QStringList info, QDir dir)
+{
+    if (info.size() != 3) {
+        return;
+    }
+    ProjectClip *clip = getBinClip(info.first());
+    if (clip && clip->controller()) {
+        QPoint zone(info.at(1).toInt(), info.at(2).toInt());
+        clip->controller()->saveZone(zone, dir);
+    }
+}

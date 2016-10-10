@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QMutex>
 #include <QDateTime>
+#include <QDir>
 
 class QPixmap;
 class BinController;
@@ -194,6 +195,8 @@ public:
     void moveEffect(int oldPos, int newPos);
     /** @brief Request an update of all track producers */
     void reloadTrackProducers();
+    /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
+    void saveZone(QPoint zone, QDir dir);
 
 private:
     Mlt::Producer *m_masterProducer;

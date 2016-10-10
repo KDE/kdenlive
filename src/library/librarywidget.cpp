@@ -74,7 +74,7 @@ QMimeData * LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
 
 QStringList LibraryTree::mimeTypes() const
 {
-    return QStringList() << QString("text/uri-list");;
+    return QStringList() << QStringLiteral("text/uri-list") << QStringLiteral("kdenlive/clip") << QStringLiteral("kdenlive/producerslist");
 }
 
 void LibraryTree::slotUpdateThumb(const QString &path, const QString &iconPath)
@@ -130,10 +130,8 @@ void LibraryTree::mousePressEvent(QMouseEvent * event)
 
 void LibraryTree::dropEvent(QDropEvent *event)
 {
-    const QMimeData* qMimeData = event->mimeData();
-    if (!qMimeData->hasUrls()) return;
     //QTreeWidget::dropEvent(event);
-    QList <QUrl> urls = qMimeData->urls();
+    const QMimeData* qMimeData = event->mimeData();
     QTreeWidgetItem *dropped = this->itemAt(event->pos());
     QString dest;
     if (dropped) {
@@ -142,8 +140,28 @@ void LibraryTree::dropEvent(QDropEvent *event)
             dest = QUrl::fromLocalFile(dest).adjusted(QUrl::RemoveFilename).path();
         }
     }
+    if (qMimeData->hasUrls()) {
+        QList <QUrl> urls = qMimeData->urls();
+        emit moveData(urls, dest);
+    } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/clip"))) {
+        emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(';'), dest);
+    } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
+        QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(';');
+        foreach(QString data, list) {
+            if (data.startsWith(QLatin1Char('#'))) {
+                // Bin folder, not supported yet
+                continue;
+            }
+            if (data.contains(QLatin1Char('/'))) {
+                // Clip zone
+                emit importSequence(data.split(QLatin1Char('/')), dest);
+            } else {
+                // Full clip
+                emit importSequence(QStringList() << data << QStringLiteral("-1") << QStringLiteral("-1"), dest);
+            }
+        }
+    }
     event->accept();
-    emit moveData(urls, dest);
 }
 
 
@@ -198,6 +216,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     m_timer.setInterval(4000);
     connect(&m_timer, &QTimer::timeout, m_infoWidget, &KMessageWidget::animatedHide);
     connect(m_libraryTree, &LibraryTree::moveData, this, &LibraryWidget::slotMoveData);
+    connect(m_libraryTree, &LibraryTree::importSequence, this, &LibraryWidget::slotSaveSequence);
 
     m_coreLister = new KCoreDirLister(this);
     m_coreLister->setDelayedMimeTypes(false);
@@ -396,6 +415,18 @@ void LibraryWidget::slotMoveData(QList <QUrl> urls, QString dest)
             dir.rename(url.path(), url.fileName());
         }
     }
+}
+
+void LibraryWidget::slotSaveSequence(QStringList info, QString dest)
+{
+    if (info.isEmpty()) return;
+    if (dest .isEmpty()) {
+        // moving to library's root
+        dest = m_directory.absolutePath();
+    }
+    QDir dir(dest);
+    if (!dir.exists()) return;
+    m_manager->saveZone(info, dir);
 }
 
 void LibraryWidget::slotItemEdited(QTreeWidgetItem *item, int column)

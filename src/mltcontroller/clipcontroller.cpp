@@ -819,3 +819,20 @@ void ClipController::disableEffects(bool disable)
     if (changed) m_binController->updateTrackProducer(clipId());
 }
 
+void ClipController::saveZone(QPoint zone, QDir dir)
+{
+    QString path = QString(clipName() + "_" + QString::number(zone.x()) + ".mlt");
+    if (dir.exists(path)) {
+        //TODO ask for overwrite
+    }
+    Mlt::Consumer xmlConsumer(*profile(), ("xml:" + dir.absoluteFilePath(path)).toUtf8().constData());
+    xmlConsumer.set("terminate_on_pause", 1);
+    Mlt::Producer prod(m_masterProducer->get_producer());
+    Mlt::Producer *prod2 = prod.cut(zone.x(), zone.y());
+    Mlt::Playlist list(*profile());
+    list.insert_at(0, *prod2, 0);
+    //list.set("title", desc.toUtf8().constData());
+    xmlConsumer.connect(list);
+    xmlConsumer.run();
+    delete prod2;
+}
