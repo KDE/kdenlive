@@ -109,7 +109,7 @@ GLWidget::GLWidget(int id, QObject *parent)
         mlt_properties_set_data(mlt_global_properties(), "glslManager", NULL, 0, NULL, NULL);
         emit gpuNotSupported();
     }
-    connect(this, SIGNAL(sceneGraphInitialized()), SLOT(initializeGL()), Qt::DirectConnection);
+    connect(this, SIGNAL(sceneGraphInitialized()), SLOT(initializeGL()));
     connect(this, SIGNAL(beforeRendering()), SLOT(paintGL()), Qt::DirectConnection);
 }
 
