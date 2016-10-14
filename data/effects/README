@@ -109,6 +109,8 @@ The rest:
             - "url":
                 - url/path
                 - represented by button to open "file open" dialog
+                - additional attributes:
+                     - "filter": Filter for file extensions. Example : "*.cpp *.cc *.C|C++ Source Files\n*.h *.H|Header files" or as using mimetype: "image/png text/html"
             - "wipe":
                 - special GUI for the wipe transition makes it possible to select a direction of a slide
             - "addedgeometry":

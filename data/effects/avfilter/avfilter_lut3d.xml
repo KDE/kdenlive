@@ -1,0 +1,15 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.lut3d" id="avfilter.lut3d">
+	<name>Apply LUT</name>
+  <description>Apply a Look Up Table (LUT) to the video.
+  <full><![CDATA[A LUT is an easy way to correct the color of a video. Supported formats: .3dl (AfterEffects), .cube (Iridas), .dat(DaVinci), .m3d (Pandora)]]></full></description>
+	<author>libavfilter</author>
+  <parameter type="url" name="av.file" filter="*.cube *.3dl *.dat *.m3d|LUT files">
+		<name>LUT file to apply</name>
+	</parameter>
+  <parameter type="list" name="av.interp" default="0" paramlist="nearest;trilinear;tetrahedral ">
+		<name>Interpolation Mode</name>
+	  <paramlistdisplay>Nearest, Trilinear, Tetrahedral</paramlistdisplay>
+	</parameter>
+</effect>
+

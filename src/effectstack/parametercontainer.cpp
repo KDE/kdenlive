@@ -256,7 +256,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         } else if (type == QLatin1String("list")) {
             Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
-	    lsval->list->setFocusPolicy(Qt::StrongFocus);
+            lsval->list->setFocusPolicy(Qt::StrongFocus);
             QString items = pa.attribute(QStringLiteral("paramlist"));
             QStringList listitems;
             if (items == QLatin1String("%lumaPaths")) {
@@ -304,7 +304,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 if (!value.isEmpty() && listitems.contains(value)) lsval->list->setCurrentIndex(listitems.indexOf(value));
             }
             lsval->name->setText(paramName);
-	    lsval->setToolTip(comment);
+            lsval->setToolTip(comment);
             lsval->labelComment->setText(comment);
             lsval->widgetComment->setHidden(true);
             if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
@@ -612,8 +612,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             Urlval *cval = new Urlval;
             cval->setupUi(toFillin);
             cval->label->setText(paramName);
-	    cval->setToolTip(comment);
-            cval->urlwidget->setFilter(ClipCreationDialog::getExtensions().join(' '));
+            cval->setToolTip(comment);
+            cval->widgetComment->setHidden(true);
+            QString filter = pa.attribute(QStringLiteral("filter"));
+            if(filter.size()>0)
+                cval->urlwidget->setFilter(filter);
             m_valueItems[paramName] = cval;
             cval->urlwidget->setUrl(QUrl(value));
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(slotCollectAllParameters()));
@@ -986,21 +989,21 @@ void ParameterContainer::slotCollectAllParameters()
                 setValue = locale.toString(doubleparam->getValue());
             }
         } else if (type == QLatin1String("list")) {
-	    Listval* val = static_cast<Listval*>(m_valueItems.value(paramName));
+            Listval* val = static_cast<Listval*>(m_valueItems.value(paramName));
             if (val) {
-	        KComboBox *box = val->list;
-		setValue = box->itemData(box->currentIndex()).toString();
+                KComboBox *box = val->list;
+                setValue = box->itemData(box->currentIndex()).toString();
                 // special case, list value is allowed to be empty
                 pa.setAttribute(QStringLiteral("value"), setValue);
                 setValue.clear();
-	    }
+            }
         } else if (type == QLatin1String("bool")) {
-	    Boolval* val = static_cast<Boolval*>(m_valueItems.value(paramName));
+            Boolval* val = static_cast<Boolval*>(m_valueItems.value(paramName));
             if (val) {
-		QCheckBox *box = val->checkBox;
-		setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
-	    }
-	} else if (type == QLatin1String("switch")) {
+                QCheckBox *box = val->checkBox;
+                setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
+            }
+        } else if (type == QLatin1String("switch")) {
             Boolval* val = static_cast<Boolval*>(m_valueItems.value(paramName));
             if (val) {
                 QCheckBox *box = val->checkBox;
@@ -1009,7 +1012,7 @@ void ParameterContainer::slotCollectAllParameters()
         } else if (type == QLatin1String("color")) {
             ChooseColorWidget *choosecolor = static_cast<ChooseColorWidget*>(m_valueItems.value(paramName));
             if (choosecolor) setValue = choosecolor->getColor();
-	    if (pa.hasAttribute(QStringLiteral("paramprefix"))) setValue.prepend(pa.attribute(QStringLiteral("paramprefix")));
+            if (pa.hasAttribute(QStringLiteral("paramprefix"))) setValue.prepend(pa.attribute(QStringLiteral("paramprefix")));
         } else if (type == QLatin1String("geometry")) {
             if (m_geometryWidget) namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getValue());
         } else if (type == QLatin1String("addedgeometry")) {

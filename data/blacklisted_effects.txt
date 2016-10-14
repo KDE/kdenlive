@@ -178,5 +178,6 @@ avfilter.volumedetect
 avfilter.acompressor
 avfilter.aecho
 avfilter.agate
+avfilter.lut3d
 avfilter.selectivecolor
 
