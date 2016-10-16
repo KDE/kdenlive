@@ -578,7 +578,6 @@ void GLWidget::mousePressEvent(QMouseEvent* event)
         event->ignore();
         return;
     }
-    if (event->isAccepted()) return;
     if (event->button() & Qt::LeftButton) {
         m_dragStart = event->pos();
     }
