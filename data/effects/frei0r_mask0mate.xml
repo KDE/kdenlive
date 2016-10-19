@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.mask0mate" id="frei0r.mask0mate" type="video" unique="1">
-	<name>Mask0Mate</name>
+	<name>Rectangular Alpha mask</name>
 	<description>Creates an square alpha-channel mask</description>
 	<author>Richard Spindler</author>
 	<parameter type="constant" name="Left" max="1000" min="0" default="0" factor="1000">

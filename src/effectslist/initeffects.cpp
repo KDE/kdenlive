@@ -553,7 +553,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toLatin1().data());
     ////qDebug() << filtername;
     if (metadata && metadata->is_valid()) {
-        if (metadata->get("title") && metadata->get("identifier")) {
+        if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
             QDomElement eff = ret.createElement(QStringLiteral("effect"));
             QString id = metadata->get("identifier");
             eff.setAttribute(QStringLiteral("tag"), id);
@@ -561,7 +561,9 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             ////qDebug()<<"Effect: "<<id;
 
             QDomElement name = ret.createElement(QStringLiteral("name"));
-            name.appendChild(ret.createTextNode(metadata->get("title")));
+            QString name_str = metadata->get("title");
+            name_str[0] = name_str[0].toUpper();
+            name.appendChild(ret.createTextNode(name_str));
 
             QDomElement desc = ret.createElement(QStringLiteral("description"));
             desc.appendChild(ret.createTextNode(metadata->get("description")));

@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect LC_NUMERIC="C" tag="frei0r.pr0be" id="frei0r.pr0be">
-        <name>pr0be</name>
+        <name>Video values</name>
         <description>Measure video values</description>
         <author>Marko Cebokli</author>
         
