@@ -51,6 +51,7 @@
  <group name="Audio only" renderer="avformat" type="audio">
   <profile name="WAV" extension="wav" args="properties=WAV"/>
   <profile name="MP3" extension="mp3" audioqualities="3,7" defaultaudioquality="5" args="aq=%audioquality"/>
+  <profile name="OGG" extension="ogg" audioqualities="3,7" defaultaudioquality="4" args="aq=%audioquality" args="vcodec=none"/>
   <profile name="AC3" extension="ac3" audiobitrates="192,64" defaultaudiobitrate="160" args="ab=%audiobitrate+'k'"/>
  </group>
 </profiles>

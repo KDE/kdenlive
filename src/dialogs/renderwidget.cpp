@@ -1635,6 +1635,7 @@ void RenderWidget::refreshParams()
     }
     m_view.video->setEnabled(quality);
     m_view.quality->setEnabled(quality);
+    m_view.qualityLabel->setEnabled(quality);
     m_view.video->blockSignals(false);
 
     // audio quality control
