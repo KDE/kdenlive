@@ -83,6 +83,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("project-defaults")));
     connect(m_configProject.kcfg_generateproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyminsize, SLOT(setEnabled(bool)));
     m_configProject.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
+    m_configProject.projecturl->setMode(KFile::Directory);
+    m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
     connect(m_configProject.kcfg_generateimageproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyimageminsize, SLOT(setEnabled(bool)));
     m_configProject.kcfg_proxyimageminsize->setEnabled(KdenliveSettings::generateimageproxy());
 
@@ -103,8 +105,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configEnv.kcfg_mltthreads->setMaximum(maxThreads > 2 ? maxThreads : 8);
     m_configEnv.tmppathurl->setMode(KFile::Directory);
     m_configEnv.tmppathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_currenttmpfolder"));
-    m_configEnv.projecturl->setMode(KFile::Directory);
-    m_configEnv.projecturl->lineEdit()->setObjectName(QStringLiteral("kcfg_defaultprojectfolder"));
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_capturefolder"));
     m_configEnv.capturefolderurl->setEnabled(!KdenliveSettings::capturetoprojectfolder());
@@ -705,6 +705,10 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configEnv.kcfg_capturetoprojectfolder->isChecked() != KdenliveSettings::capturetoprojectfolder()) {
         KdenliveSettings::setCapturetoprojectfolder(m_configEnv.kcfg_capturetoprojectfolder->isChecked());
         updateCapturePath = true;
+    }
+
+    if (m_configProject.projecturl->url().path() != KdenliveSettings::defaultprojectfolder()) {
+        KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().path());
     }
 
     if (m_configEnv.capturefolderurl->url().path() != KdenliveSettings::capturefolder()) {

@@ -63,6 +63,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     ,m_lumas(lumas)
 {
     setupUi(this);
+    tabWidget->setTabBarAutoHide(true);
     QVBoxLayout *vbox = new QVBoxLayout;
     m_pw = new ProfileWidget(this);
     vbox->addWidget(m_pw);
@@ -70,7 +71,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
 
     list_search->setTreeWidget(files_list);
     project_folder->setMode(KFile::Directory);
-    project_folder->setUrl(QUrl(projectPath));
 
     m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
     //buttonOk->setEnabled(false);
@@ -93,6 +93,14 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
+        QString storageFolder = doc->getDocumentProperty(QStringLiteral("storagefolder"));
+        if (!storageFolder.isEmpty()) {
+            custom_folder->setChecked(true);
+            project_folder->setUrl(QUrl::fromLocalFile(storageFolder));
+        } else {
+            xdg_folder->setChecked(true);
+            project_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
+        }
         TemporaryData *cacheWidget = new TemporaryData(doc, true, this);
         connect(cacheWidget, SIGNAL(disableProxies()), this, SIGNAL(disableProxies()));
         connect(cacheWidget, SIGNAL(disablePreview()), this, SIGNAL(disablePreview()));
@@ -109,6 +117,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         m_proxyextension = KdenliveSettings::proxyextension();
         m_previewparams = KdenliveSettings::previewparams();
         m_previewextension = KdenliveSettings::previewextension();
+        xdg_folder->setChecked(!KdenliveSettings::customprojectfolder());
+        custom_folder->setChecked(KdenliveSettings::customprojectfolder());
+        project_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
     }
 
     // Select profile
@@ -216,7 +227,10 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     if (doc != NULL) {
         slotUpdateFiles();
         connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
-    } else tabWidget->widget(1)->setEnabled(false);
+    } else {
+        tabWidget->removeTab(2);
+        tabWidget->removeTab(1);
+    }
     connect(project_folder, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButton(QString)));
     connect(button_export, SIGNAL(clicked()), this, SLOT(slotExportToText()));
     // Delete unused files is not implemented
@@ -726,3 +740,10 @@ void ProjectSettings::loadPreviewProfiles()
     slotUpdatePreviewParams();
 }
 
+const QString ProjectSettings::storageFolder() const
+{
+    if (custom_folder->isChecked()) {
+        return project_folder->url().path();
+    }
+    return QString();
+}

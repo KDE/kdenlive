@@ -75,7 +75,7 @@ class KdenliveDoc: public QObject
     Q_OBJECT
 public:
 
-    KdenliveDoc(const QUrl &url, const QUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = 0);
+    KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -109,7 +109,7 @@ public:
     bool isModified() const;
 
     /** @brief Returns the project folder, used to store project files. */
-    QUrl projectFolder() const;
+    QString projectFolder() const;
     void setZoom(int horizontal, int vertical);
     QPoint zoom() const;
     double dar() const;
@@ -196,7 +196,7 @@ private:
     bool m_modified;
 
     /** @brief The project folder, used to store project files (titles, effects...). */
-    QUrl m_projectFolder;
+    QString m_projectFolder;
     QList <int> m_undoChunks;
     QMap <QString, QString> m_documentProperties;
     QMap <QString, QString> m_documentMetadata;

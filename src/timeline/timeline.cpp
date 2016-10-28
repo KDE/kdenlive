@@ -1932,7 +1932,6 @@ void Timeline::initializePreview()
             m_ruler->hidePreview(true);
             delete m_timelinePreview;
             m_timelinePreview = NULL;
-            qDebug()<<" * * * *TL PREVIEW NOT INITIALIZED!!!";
         } else {
             m_ruler->hidePreview(false);
         }

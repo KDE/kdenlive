@@ -51,6 +51,7 @@ public:
     static QStringList extractPlaylistUrls(const QString &path);
     static QStringList extractSlideshowUrls(const QUrl &url);
     const QString selectedPreview() const;
+    const QString storageFolder() const;
 
 public slots:
     virtual void accept();

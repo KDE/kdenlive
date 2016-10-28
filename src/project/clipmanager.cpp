@@ -292,7 +292,7 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, c
 
 QString ClipManager::projectFolder() const
 {
-    return m_doc->projectFolder().path();
+    return m_doc->projectFolder();
 }
 
 

@@ -934,7 +934,7 @@ ProjectFolder *Bin::rootFolder()
     return m_rootFolder;
 }
 
-QUrl Bin::projectFolder() const
+QString Bin::projectFolder() const
 {
     return m_doc->projectFolder();
 }
@@ -3003,7 +3003,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     }
     cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
     //TODO KF5 how to add custom cbox to Qfiledialog
-    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), m_doc->projectFolder().path());
+    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), m_doc->projectFolder());
     fd->setMimeTypeFilters(QStringList()<<QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) return;
@@ -3085,7 +3085,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
         }
         cbox->setCurrentIndex(0);
         //TODO KF5 how to add custom cbox to Qfiledialog
-        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), m_doc->projectFolder().path());
+        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), m_doc->projectFolder());
         fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
         fd->setFileMode(QFileDialog::AnyFile);
         fd->setAcceptMode(QFileDialog::AcceptSave);
@@ -3160,8 +3160,9 @@ void Bin::slotGetCurrentProjectImage(bool request)
 void Bin::showTitleWidget(ProjectClip *clip)
 {
     QString path = clip->getProducerProperty(QStringLiteral("resource"));
-    QString titlepath = m_doc->projectFolder().path() + QDir::separator() + "titles/";
-    TitleWidget dia_ui(QUrl(), m_doc->timecode(), titlepath, pCore->monitorManager()->projectMonitor()->render, pCore->window());
+    QDir titleFolder(m_doc->projectFolder() + QStringLiteral("/titles"));
+    titleFolder.mkpath(QStringLiteral("."));
+    TitleWidget dia_ui(QUrl(), m_doc->timecode(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor()->render, pCore->window());
     connect(&dia_ui, SIGNAL(requestBackgroundFrame(bool)), pCore->monitorManager()->projectMonitor(), SLOT(slotGetCurrentImage(bool)));
     QDomDocument doc;
     QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));

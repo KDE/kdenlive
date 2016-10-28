@@ -554,15 +554,18 @@ void Render::checkMaxThreads()
 }
 
 
-const QString Render::sceneList()
+const QString Render::sceneList(const QString root)
 {
     QString playlist;
+    qDebug()<<" * * *Setting document xml root: "<<root;
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), "xml:kdenlive_playlist");
     //qDebug()<<" ++ + READY TO SAVE: "<<m_qmlView->profile()->width()<<" / "<<m_qmlView->profile()->description();
     if (!xmlConsumer.is_valid()) return QString();
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.set("store", "kdenlive");
+    if (!root.isEmpty())
+        xmlConsumer.set("root", root.toUtf8().constData());
     // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
     // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
     //xmlConsumer.set("no_meta", 1);
@@ -574,31 +577,7 @@ const QString Render::sceneList()
     return playlist;
 }
 
-bool Render::saveSceneList(QString path, QDomElement kdenliveData)
-{
-    QFile file(path);
-    QDomDocument doc;
-    doc.setContent(sceneList(), false);
-    if (doc.isNull()) return false;
-    QDomElement root = doc.documentElement();
-    if (!kdenliveData.isNull() && !root.isNull()) {
-        // add Kdenlive specific tags
-        root.appendChild(doc.importNode(kdenliveData, true));
-    }
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "//////  ERROR writing to file: " << path;
-        return false;
-    }
-    file.write(doc.toString().toUtf8());
-    if (file.error() != QFile::NoError) {
-        file.close();
-        return false;
-    }
-    file.close();
-    return true;
-}
-
-void Render::saveZone(QPoint zone)
+void Render::saveZone(const QString projectFolder, QPoint zone)
 {
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
@@ -608,10 +587,10 @@ void Render::saveZone(QPoint zone)
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), ("xml:" + url).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     m_mltProducer->optimise();
-    qDebug()<<" - - -- - SAVE ZONE SEVICE: "<<m_mltProducer->get("mlt_type");
+    qDebug()<<" - - -- - SAVE ZONE SERVICE: "<<m_mltProducer->get("mlt_type");
     if (QString(m_mltProducer->get("mlt_type")) != QLatin1String("producer")) {
 	// TODO: broken
-	QString scene = sceneList();
+	QString scene = sceneList(projectFolder);
 	Mlt::Producer duplicate(*m_mltProducer->profile(), "xml-string", scene.toUtf8().constData());
 	duplicate.set_in_and_out(zone.x(), zone.y());
 	qDebug()<<"/// CUT: "<<zone.x()<<"x"<< zone.y()<<" / "<<duplicate.get_length();

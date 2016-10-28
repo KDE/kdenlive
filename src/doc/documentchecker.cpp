@@ -68,10 +68,21 @@ bool DocumentChecker::hasErrorInClips()
     QDomElement e;
     QString resource;
     int max;
-    QString root = m_doc.documentElement().attribute(QStringLiteral("root"));
-    if (!root.isEmpty()) root = QDir::cleanPath(root) + QDir::separator();
+    QDomElement baseElement = m_doc.documentElement();
+    QString root = baseElement.attribute(QStringLiteral("root"));
+    if (!root.isEmpty()) {
+        QDir dir(root);
+        if (!dir.exists()) {
+            // Looks like project was moved, try recovering root from current project url
+            m_rootReplacement.first = root;
+            root = m_url.adjusted(QUrl::RemoveFilename).path();
+            baseElement.setAttribute(QStringLiteral("root"), root);
+            m_rootReplacement.second = root;
+        }
+        root = QDir::cleanPath(root) + QDir::separator();
+    }
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
-    QDomElement profile = m_doc.documentElement().firstChildElement(QStringLiteral("profile"));
+    QDomElement profile = baseElement.firstChildElement(QStringLiteral("profile"));
     bool hdProfile = true;
     if (!profile.isNull()) {
         if (profile.attribute(QStringLiteral("width")).toInt() < 1000) {
@@ -270,24 +281,44 @@ bool DocumentChecker::hasErrorInClips()
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPMISSING);
+        item->setData(0, clipTypeRole, type);
+        item->setData(0, idRole, e.attribute(QStringLiteral("id")));
+        item->setToolTip(0, i18n("Missing item"));
+
         if (status == TITLE_IMAGE_ELEMENT) {
             item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
             item->setToolTip(1, e.attribute("name"));
-            item->setText(1, e.attribute("resource"));
+            QString imageResource = e.attribute("resource");
             item->setData(0, typeRole, status);
             item->setData(0, typeOriginalResource, e.attribute("resource"));
+            if (!m_rootReplacement.first.isEmpty()) {
+                if (imageResource.startsWith(m_rootReplacement.first)) {
+                    imageResource.replace(m_rootReplacement.first, m_rootReplacement.second);
+                    if (QFile::exists(imageResource)) {
+                        item->setData(0, statusRole, CLIPOK);
+                        item->setToolTip(0, i18n("Relocated item"));
+                    }
+                }
+            }
+            item->setText(1, imageResource);
         } else {
             item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
             if (!resource.startsWith("/")) {
                 resource.prepend(root);
             }
-            item->setText(1, resource);
             item->setData(0, hashRole, EffectsList::property(e, QStringLiteral("kdenlive:file_hash")));
             item->setData(0, sizeRole, EffectsList::property(e, QStringLiteral("kdenlive:file_size")));
+            if (!m_rootReplacement.first.isEmpty()) {
+                if (resource.startsWith(m_rootReplacement.first)) {
+                    resource.replace(m_rootReplacement.first, m_rootReplacement.second);
+                    if (QFile::exists(resource)) {
+                        item->setData(0, statusRole, CLIPOK);
+                        item->setToolTip(0, i18n("Relocated item"));
+                    }
+                }
+            }
+            item->setText(1, resource);
         }
-        item->setData(0, clipTypeRole, type);
-        item->setData(0, idRole, e.attribute(QStringLiteral("id")));
-        item->setToolTip(0, i18n("Missing item"));
     }
 
     foreach(const QString font, m_missingFonts) {

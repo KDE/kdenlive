@@ -59,24 +59,21 @@ PreviewManager::~PreviewManager()
 bool PreviewManager::initialize()
 {
     // Make sure our document id does not contain .. tricks
-    QString documentId = QDir::cleanPath(m_doc->getDocumentProperty(QStringLiteral("documentid")));
     bool ok;
+    QString documentId = QDir::cleanPath(m_doc->getDocumentProperty(QStringLiteral("documentid")));
     documentId.toLong(&ok);
     if (!ok || documentId.isEmpty()) {
         // Something is wrong, documentId should be a number (ms since epoch), abort
         m_doc->displayMessage(i18n("Wrong document ID, cannot create temporary folder"), ErrorMessage);
         return false;
     }
-    qDebug()<<"* * * INIT PREVIEW CACHE: "<<documentId;
-    QString kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    documentId.append(QStringLiteral("/preview"));
-    m_cacheDir = QDir(kdenliveCacheDir + "/" + documentId);
-    if (!m_cacheDir.exists()) {
+    m_cacheDir = m_doc->getCacheDir(CachePreview, &ok);
+    if (!m_cacheDir.exists() || !ok) {
         m_doc->displayMessage(i18n("Cannot create folder %1", m_cacheDir.absolutePath()), ErrorMessage);
         return false;
     }
-    if (kdenliveCacheDir.isEmpty() || m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() || (!m_cacheDir.exists("undo") && !m_cacheDir.mkdir("undo"))) {
-        m_doc->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absoluteFilePath(documentId)), ErrorMessage);
+    if (m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() || (!m_cacheDir.exists("undo") && !m_cacheDir.mkdir("undo")) || !m_cacheDir.absolutePath().contains(documentId)) {
+        m_doc->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absolutePath()), ErrorMessage);
         return false;
     }
     if (!loadParams()) {
@@ -86,7 +83,7 @@ bool PreviewManager::initialize()
     m_undoDir = QDir(m_cacheDir.absoluteFilePath("undo"));
 
     // Make sure our cache dirs are inside the temporary folder
-    if (!m_cacheDir.makeAbsolute() || !m_undoDir.makeAbsolute() || !m_cacheDir.absolutePath().startsWith(kdenliveCacheDir) || !m_undoDir.absolutePath().startsWith(kdenliveCacheDir)) {
+    if (!m_cacheDir.makeAbsolute() || !m_undoDir.makeAbsolute() || !m_undoDir.mkpath(QStringLiteral("."))) {
         m_doc->displayMessage(i18n("Something is wrong with cache folders"), ErrorMessage);
         return false;
     }

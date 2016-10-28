@@ -381,7 +381,12 @@
 
     <entry name="defaultprojectfolder" type="Path">
       <label>Default folder for project files.</label>
-      <default>$HOME/kdenlive</default>
+      <default></default>
+    </entry>
+    
+    <entry name="customprojectfolder" type="Bool">
+      <label>Don't use default XDG folders to store project files.</label>
+      <default>false</default>
     </entry>
 
     <entry name="capturetoprojectfolder" type="Bool">

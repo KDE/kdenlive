@@ -92,7 +92,7 @@ public:
     void resetProfile(MltVideoProfile profile);
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
-    const QString sceneList();
+    const QString sceneList(const QString root);
     const QString activeClipId();
     GenTime position();
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
@@ -292,7 +292,7 @@ public slots:
     void slotRewind(double speed = 0);
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
-    void saveSceneList(const QString &path, const QDomElement &info = QDomElement());
+    //void saveSceneList(const QString &path, const QDomElement &info = QDomElement());
     void slotStart();
     void slotEnd();
     void slotSetZoneStart();

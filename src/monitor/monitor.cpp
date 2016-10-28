@@ -1381,7 +1381,7 @@ void Monitor::slotOpenDvdFile(const QString &file)
 
 void Monitor::slotSaveZone()
 {
-    render->saveZone(m_ruler->zone());
+    render->saveZone(pCore->projectManager()->current()->projectFolder(), m_ruler->zone());
 }
 
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
@@ -1408,16 +1408,16 @@ void Monitor::resetProfile(MltVideoProfile profile)
     m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
 }
 
-void Monitor::saveSceneList(const QString &path, const QDomElement &info)
+/*void Monitor::saveSceneList(const QString &path, const QDomElement &info)
 {
     if (render == NULL) return;
     render->saveSceneList(path, info);
-}
+}*/
 
-const QString Monitor::sceneList()
+const QString Monitor::sceneList(const QString root)
 {
     if (render == NULL) return QString();
-    return render->sceneList();
+    return render->sceneList(root);
 }
 
 void Monitor::setClipZone(const QPoint &pos)

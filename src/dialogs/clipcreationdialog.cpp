@@ -263,10 +263,9 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, QStringList group
 void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin)
 {
     // Make sure the titles folder exists
-    QDir dir(doc->projectFolder().path());
-    dir.mkdir(QStringLiteral("titles"));
-    dir.cd(QStringLiteral("titles"));
-    QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl::fromLocalFile(templatePath), doc->timecode(), dir.path(), doc->renderer(), bin);
+    QDir dir(doc->projectFolder() + QStringLiteral("/titles"));
+    dir.mkpath(QStringLiteral("."));
+    QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl::fromLocalFile(templatePath), doc->timecode(), dir.absolutePath(), doc->renderer(), bin);
     QObject::connect(dia_ui, SIGNAL(requestBackgroundFrame(bool)), bin, SLOT(slotGetCurrentProjectImage(bool)));
     if (dia_ui->exec() == QDialog::Accepted) {
         // Ready, create clip xml
@@ -298,7 +297,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo
 void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
 
-    QPointer<TitleTemplateDialog> dia = new TitleTemplateDialog(doc->projectFolder().path(), QApplication::activeWindow());
+    QPointer<TitleTemplateDialog> dia = new TitleTemplateDialog(doc->projectFolder(), QApplication::activeWindow());
 
     if (dia->exec() == QDialog::Accepted) {
         QString textTemplate = dia->selectedTemplate();
@@ -456,7 +455,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
                 for (int i = 0; i < items.count() ; ++i) {
                     QDomElement content = items.item(i).toElement();
                     if (content.hasAttribute(QStringLiteral("base64"))) {
-                        QString titlesFolder = doc->projectFolder().path() + QDir::separator() + "titles/";
+                        QString titlesFolder = doc->projectFolder()+ QStringLiteral("/titles/");
                         QString path = TitleDocument::extractBase64Image(titlesFolder, content.attribute(QStringLiteral("base64")));
                         if (!path.isEmpty()) {
                             content.setAttribute(QStringLiteral("url"), path);

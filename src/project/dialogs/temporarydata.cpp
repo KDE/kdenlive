@@ -94,10 +94,10 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     QVBoxLayout *lay = new QVBoxLayout;
 
     m_currentPage = new QWidget(this);
-    m_currentPage->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_currentPage->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     m_grid = new QGridLayout;
     m_currentPie = new ChartWidget(this);
-    m_grid->addWidget(m_currentPie, 0, 0, 4, 1);
+    m_grid->addWidget(m_currentPie, 0, 0, 5, 1);
     QPalette pal(palette());
     QFontMetrics ft(font());
     int minHeight = ft.height() / 2;
@@ -169,22 +169,27 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteThumbs);
     del->setEnabled(false);
     m_grid->addWidget(del, 3, 4);
+    m_grid->setRowStretch(4, 10);
 
     QFrame *sep = new QFrame(this);
     sep->setFrameShape(QFrame::HLine);
-    m_grid->addWidget(sep, 4, 0, 1, 5);
+    m_grid->addWidget(sep, 5, 0, 1, 5);
     // Current total
-    preview = new QLabel(QString("<a href='#'>") + i18n("Project total cache data") + QString("</a>"), this);
+    preview = new QLabel(i18n("Project total cache data"), this);
+    m_grid->addWidget(preview, 6, 0, 1, 3);
+    bool ok;
+    QDir dir = m_doc->getCacheDir(CacheBase, &ok);
+    preview = new QLabel(QString("<a href='#'>") + dir.absolutePath() + QString("</a>"), this);
     preview->setToolTip(i18n("Click to open cache folder"));
     connect(preview, SIGNAL(linkActivated(const QString &)), this, SLOT(openCacheFolder()));
-    m_grid->addWidget(preview, 5, 0, 1, 3);
+    m_grid->addWidget(preview, 7, 0, 1, 5);
     m_currentSize = new QLabel(this);
-    m_grid->addWidget(m_currentSize, 5, 3);
+    m_grid->addWidget(m_currentSize, 6, 3);
     del = new QToolButton(this);
     del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteCurrentCacheData);
     del->setEnabled(false);
-    m_grid->addWidget(del, 5, 4);
+    m_grid->addWidget(del, 6, 4);
 
     m_currentPage->setLayout(m_grid);
     m_proxies = m_doc->getProxyHashList();

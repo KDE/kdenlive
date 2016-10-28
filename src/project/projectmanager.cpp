@@ -122,7 +122,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         return;
     }
     // fix mantis#3160
-    QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + "/_untitled.kdenlive");
+    QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
     if (checkForBackupFile(startFile)) {
         return;
     }
@@ -131,7 +131,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     if (profileName.isEmpty()) {
             profileName = KdenliveSettings::current_profile();
     }
-    QUrl projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
+    QString projectFolder;
     QMap <QString, QString> documentProperties;
     QMap <QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
@@ -139,6 +139,10 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
             return;
+        }
+        if (KdenliveSettings::customprojectfolder()) {
+            projectFolder = KdenliveSettings::defaultprojectfolder();
+            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder);
         }
     } else {
         QPointer<ProjectSettings> w = new ProjectSettings(NULL, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
@@ -158,7 +162,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
             pCore->window()->slotSwitchAudioThumbs();
         }
         profileName = w->selectedProfile();
-        projectFolder = w->selectedFolder();
+        projectFolder = w->storageFolder();
         projectTracks = w->tracks();
         documentProperties.insert(QStringLiteral("enableproxy"), QString::number((int) w->useProxy()));
         documentProperties.insert(QStringLiteral("generateproxy"), QString::number((int) w->generateProxy()));
@@ -172,6 +176,9 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
             documentProperties.insert(QStringLiteral("previewextension"), preview.section(";", 1, 1));
         }
         documentProperties.insert(QStringLiteral("proxyimageminsize"), QString::number(w->proxyImageMinSize()));
+        if (!projectFolder.isEmpty()) {
+            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder);
+        }
         documentMetadata = w->metadata();
         delete w;
     }
@@ -265,8 +272,8 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     pCore->monitorManager()->pauseActiveMonitor();
     // Sync document properties
     prepareSave();
-
-    QString scene = projectSceneList();
+    QString saveFolder = QFileInfo(outputFileName).absolutePath();
+    QString scene = projectSceneList(saveFolder);
     if (m_project->saveSceneList(outputFileName, scene) == false) {
         return false;
     }
@@ -290,7 +297,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     m_project->setModified(false);
     m_recentFilesAction->addUrl(url);
     // remember folder for next project opening
-    KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), url.adjusted(QUrl::RemoveFilename).path());
+    KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), saveFolder);
     saveRecentFiles();
     m_fileRevert->setEnabled(true);
     pCore->window()->m_undoView->stack()->setClean();
@@ -319,7 +326,7 @@ bool ProjectManager::hasSelection() const
 bool ProjectManager::saveFileAs()
 {
     QFileDialog fd(pCore->window());
-    fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).path() : m_project->projectFolder().path());
+    fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).path() : m_project->projectFolder());
     fd.setMimeTypeFilters(QStringList()<<QStringLiteral("application/x-kdenlive"));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
@@ -512,7 +519,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog->show();
     bool openBackup;
     m_notesPlugin->clear();
-    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()), pCore->window()->m_commandStack, KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
+    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack, KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -613,7 +620,7 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
         projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
         projectFile = url;
     } else {
-        projectFolder = m_project->projectFolder();
+        projectFolder = QUrl::fromLocalFile(m_project->projectFolder());
         projectFile = m_project->url();
         projectId = m_project->getDocumentProperty(QStringLiteral("documentid"));
     }
@@ -675,7 +682,7 @@ void ProjectManager::slotAutoSave()
     m_lastSave.start();
 }
 
-QString ProjectManager::projectSceneList()
+QString ProjectManager::projectSceneList(const QString outputFolder)
 {
     bool multitrackEnabled = m_trackView->multitrackView;
     if (multitrackEnabled) {
@@ -683,7 +690,7 @@ QString ProjectManager::projectSceneList()
         m_trackView->slotMultitrackView(false);
     }
     m_trackView->connectOverlayTrack(false);
-    QString scene = pCore->monitorManager()->projectMonitor()->sceneList();
+    QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder);
     m_trackView->connectOverlayTrack(true);
     if (multitrackEnabled) {
         // Multitrack view was enabled, re-enable for auto save

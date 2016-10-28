@@ -1573,13 +1573,9 @@ bool MainWindow::readOptions()
     pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
 
     if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
-        QDir dir(QDir::homePath());
-        if (!dir.mkdir(QStringLiteral("kdenlive"))) {
-            qDebug() << "/// ERROR CREATING PROJECT FOLDER: ";
-        } else {
-            dir.cd("kdenlive");
-            KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
-        }
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+        dir.mkpath(QStringLiteral("."));
+        KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
     }
     if (KdenliveSettings::trackheight() == 0) {
         QFontMetrics metrics(font());
@@ -1605,6 +1601,13 @@ bool MainWindow::readOptions()
             delete w;
             ::exit(1);
         }
+    } else if (!KdenliveSettings::ffmpegpath().isEmpty() && !QFile::exists(KdenliveSettings::ffmpegpath())) {
+        // Invalid entry for FFmpeg, check system
+        QPointer<Wizard> w = new Wizard(true);
+        if (w->exec() == QDialog::Accepted && w->isOk()) {
+            w->adjustSettings();
+        }
+        delete w;
     }
     initialGroup.writeEntry("version", version);
     return firstRun;
@@ -1632,7 +1635,7 @@ void MainWindow::slotEditProjectSettings()
     KdenliveDoc *project = pCore->projectManager()->current();
     QPoint p = pCore->projectManager()->currentTimeline()->getTracksCount();
 
-    QPointer<ProjectSettings> w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectFolder().path(), true, !project->isModified(), this);
+    QPointer<ProjectSettings> w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectFolder(), true, !project->isModified(), this);
     connect(w, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
     connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
     connect(w, SIGNAL(refreshProfiles()), this, SLOT(slotRefreshProfiles()));
@@ -1642,11 +1645,21 @@ void MainWindow::slotEditProjectSettings()
         project->setProjectFolder(w->selectedFolder());
         pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
         bool modified = false;
+        if (w->storageFolder() != project->projectFolder()) {
+            if (w->storageFolder().isEmpty() && project->projectFolder() == QStandardPaths::writableLocation(QStandardPaths::CacheLocation)) {
+                // Ok, we continue to use system folders
+            } else {
+                // Project folder changed:
+                if (KMessageBox::warningContinueCancel(this, i18n("This will move all temporary files from <b>%1</b> to <b>%2</b>", project->projectFolder(), w->storageFolder().isEmpty() ? QStandardPaths::writableLocation(QStandardPaths::CacheLocation) : w->storageFolder())) == KMessageBox::Continue) {
+                    // Proceeed with move
+                }
+            }
+        }
         if (m_recMonitor) {
-            m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
+            m_recMonitor->slotUpdateCaptureFolder(project->projectFolder() + QDir::separator());
         }
         if (m_renderWidget) {
-            m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());
+            m_renderWidget->setDocumentPath(project->projectFolder() + QDir::separator());
         }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) {
             slotSwitchVideoThumbs();
@@ -1716,7 +1729,7 @@ void MainWindow::slotRenderProject()
     KdenliveDoc *project = pCore->projectManager()->current();
 
     if (!m_renderWidget) {
-        QString projectfolder = project ? project->projectFolder().path() + QDir::separator() : KdenliveSettings::defaultprojectfolder();
+        QString projectfolder = project ? project->projectFolder() + QDir::separator() : KdenliveSettings::defaultprojectfolder();
         MltVideoProfile profile;
         if (project) {
             profile = project->mltProfile();
@@ -1728,7 +1741,7 @@ void MainWindow::slotRenderProject()
             connect(m_renderWidget, SIGNAL(openDvdWizard(QString)), this, SLOT(slotDvdWizard(QString)));
             m_renderWidget->setProfile(project->mltProfile());
             m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
-            m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());
+            m_renderWidget->setDocumentPath(project->projectFolder() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
         if (m_compositeAction->currentAction())
@@ -1932,7 +1945,7 @@ void MainWindow::connectDocument()
         slotCheckRenderStatus();
         m_renderWidget->setProfile(project->mltProfile());
         m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
-        m_renderWidget->setDocumentPath(project->projectFolder().path() + QDir::separator());
+        m_renderWidget->setDocumentPath(project->projectFolder() + QDir::separator());
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
     m_zoomSlider->setValue(project->zoom().x());
@@ -1947,7 +1960,7 @@ void MainWindow::connectDocument()
     pCore->monitorManager()->setDocument(project);
     trackView->updateProfile(1.0);
     if (m_recMonitor) {
-        m_recMonitor->slotUpdateCaptureFolder(project->projectFolder().path() + QDir::separator());
+        m_recMonitor->slotUpdateCaptureFolder(project->projectFolder() + QDir::separator());
     }
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
     slotUpdateMousePosition(0);
@@ -2061,7 +2074,7 @@ void MainWindow::slotUpdateCaptureFolder()
 {
     if (m_recMonitor) {
         if (pCore->projectManager()->current())
-            m_recMonitor->slotUpdateCaptureFolder(pCore->projectManager()->current()->projectFolder().path() + QDir::separator());
+            m_recMonitor->slotUpdateCaptureFolder(pCore->projectManager()->current()->projectFolder() + QDir::separator());
         else
             m_recMonitor->slotUpdateCaptureFolder(KdenliveSettings::defaultprojectfolder());
     }
@@ -2948,8 +2961,7 @@ void MainWindow::slotGetNewTitleStuff()
 {
     if (getNewStuff(QStringLiteral("kdenlive_titles.knsrc")) > 0) {
         // get project title path
-        QString titlePath = pCore->projectManager()->current()->projectFolder().path();
-        titlePath.append(QStringLiteral("/titles/"));
+        QString titlePath = pCore->projectManager()->current()->projectFolder() + QStringLiteral("/titles/");
         TitleWidget::refreshTitleTemplates(titlePath);
     }
 }
@@ -3273,7 +3285,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         playlistPath = temp.fileName();
     }
 
-    QString playlistContent = pCore->projectManager()->projectSceneList();
+    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename).path());
     if (!chapterFile.isEmpty()) {
         int in = 0;
         int out;
@@ -3581,7 +3593,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
 void MainWindow::slotOpenStopmotion()
 {
     if (m_stopmotion == NULL) {
-        m_stopmotion = new StopmotionWidget(pCore->monitorManager(), pCore->projectManager()->current()->projectFolder(), m_stopmotion_actions->actions(), this);
+        //m_stopmotion = new StopmotionWidget(pCore->monitorManager(), pCore->projectManager()->current()->projectFolder(), m_stopmotion_actions->actions(), this);
         //TODO
         //connect(m_stopmotion, SIGNAL(addOrUpdateSequence(QString)), m_projectList, SLOT(slotAddOrUpdateSequence(QString)));
         //for (int i = 0; i < m_gfxScopesList.count(); ++i) {
@@ -3604,9 +3616,10 @@ void MainWindow::slotUpdateProxySettings()
 void MainWindow::slotArchiveProject()
 {
     QList <ClipController*> list = pCore->binController()->getControllerList();
-    pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), pCore->projectManager()->current()->metadata(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
-    QDomDocument doc = pCore->projectManager()->current()->xmlSceneList(m_projectMonitor->sceneList());
-    QPointer<ArchiveWidget> d = new ArchiveWidget(pCore->projectManager()->current()->url().fileName(), doc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this);
+    KdenliveDoc *doc = pCore->projectManager()->current();
+    pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
+    QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename).path()));
+    QPointer<ArchiveWidget> d = new ArchiveWidget(doc->url().fileName(), xmlDoc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }
@@ -3617,7 +3630,7 @@ void MainWindow::slotDownloadResources()
 {
     QString currentFolder;
     if (pCore->projectManager()->current())
-        currentFolder = pCore->projectManager()->current()->projectFolder().path();
+        currentFolder = pCore->projectManager()->current()->projectFolder();
     else
         currentFolder = KdenliveSettings::defaultprojectfolder();
     ResourceWidget *d = new ResourceWidget(currentFolder);

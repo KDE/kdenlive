@@ -133,8 +133,7 @@ class Render: public AbstractRender
 
     /** @brief Get the current MLT producer playlist.
      * @return A string describing the playlist */
-    const QString sceneList();
-    bool saveSceneList(QString path, QDomElement kdenliveData = QDomElement());
+    const QString sceneList(const QString root);
 
     /** @brief Tells the renderer to play the scene at the specified speed,
      * @param speed speed to play the scene to
@@ -369,7 +368,7 @@ public slots:
     void doRefresh();
 
     /** @brief Save a part of current timeline to an xml file. */
-     void saveZone(QPoint zone);
+    void saveZone(const QString projectFolder, QPoint zone);
 
     /** @brief Renderer moved to a new frame, check seeking */
     bool checkFrameNumber(int pos);
