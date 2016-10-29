@@ -27,6 +27,7 @@
 class GeometryWidget;
 class AnimationWidget;
 class Monitor;
+class DraggableLabel;
 
 namespace Mlt
 {
@@ -54,22 +55,6 @@ struct wipeInfo {
     WIPE_DIRECTON end;
     int startTransparency;
     int endTransparency;
-};
-
-class DraggableLabel : public QLabel
-{
-    Q_OBJECT
-public:
-    explicit DraggableLabel(const QString &text, QWidget *parent = Q_NULLPTR);
-protected:
-    void mousePressEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
-signals:
-    void startDrag(const QString &);
-private:
-    QPoint m_clickStart;
-    bool m_dragStarted;
 };
 
 class MySpinBox : public QSpinBox

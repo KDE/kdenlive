@@ -21,6 +21,7 @@
 #define DOUBLEPARAMETERWIDGET_H
 
 #include <QWidget>
+#include "abstractparamwidget.h"
 
 class DragValue;
 class QRadioButton;
@@ -33,7 +34,7 @@ class QRadioButton;
  * The widget does only handle integers, so the parameter has to be converted into the proper double range afterwards.
  */
 
-class DoubleParameterWidget : public QWidget
+class DoubleParameterWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:

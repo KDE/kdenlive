@@ -24,7 +24,7 @@
 #include <QRadioButton>
 
 DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, bool showRadiobutton, QWidget *parent)
-    : QWidget(parent)
+    : AbstractParamWidget(parent)
     , factor(1)
     , m_radio(Q_NULLPTR)
 {
@@ -47,6 +47,10 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
     m_dragVal->setValue(value, false);
     connect(m_dragVal, &DragValue::valueChanged, this, &DoubleParameterWidget::slotSetValue);
     connect(m_dragVal, &DragValue::inTimeline, this, &DoubleParameterWidget::setInTimeline);
+
+    connect(this, &DoubleParameterWidget::valueChanged,
+            [this](double){ emit qobject_cast<AbstractParamWidget*>(this)->valueChanged();});
+
 }
 
 bool DoubleParameterWidget::hasEditFocus() const
