@@ -252,13 +252,17 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
 #endif
     setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition) KdenliveSettings::tabposition());
-    m_timelineToolBar = toolBar("timelineToolBar"); //KToolBar("timelineToolBar", this);
+    m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     m_timelineToolBarContainer = new QWidget(this);
     QVBoxLayout *ctnLay = new QVBoxLayout;
     ctnLay->setSpacing(0);
     ctnLay->setContentsMargins(0, 0, 0, 0);
     m_timelineToolBarContainer->setLayout(ctnLay);
     ctnLay->addWidget(m_timelineToolBar);
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup mainConfig(config, QStringLiteral("MainWindow"));
+    KConfigGroup tbGroup(&mainConfig, QStringLiteral("Toolbar timelineToolBar"));
+    m_timelineToolBar->applySettings(tbGroup);
     QFrame *fr = new QFrame(this);
     fr->setFrameShape(QFrame::HLine);
     fr->setMaximumHeight(1);
@@ -561,7 +565,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     // TODO: let user select timeline toolbar toolbutton style
-    //connect(toolBar(), &QToolBar::toolButtonStyleChanged, m_timelineToolBar, &QToolBar::setToolButtonStyle);
+    //connect(toolBar(), &QToolBar::iconSizeChanged, m_timelineToolBar, &QToolBar::setToolButtonStyle);
     m_timelineToolBar->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_timelineToolBar, &QWidget::customContextMenuRequested, this, &MainWindow::showTimelineToolbarMenu);
 
@@ -1642,19 +1646,9 @@ void MainWindow::slotEditProjectSettings()
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
-        project->setProjectFolder(w->selectedFolder());
+        //project->setProjectFolder(w->selectedFolder());
         pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
         bool modified = false;
-        if (w->storageFolder() != project->projectFolder()) {
-            if (w->storageFolder().isEmpty() && project->projectFolder() == QStandardPaths::writableLocation(QStandardPaths::CacheLocation)) {
-                // Ok, we continue to use system folders
-            } else {
-                // Project folder changed:
-                if (KMessageBox::warningContinueCancel(this, i18n("This will move all temporary files from <b>%1</b> to <b>%2</b>", project->projectFolder(), w->storageFolder().isEmpty() ? QStandardPaths::writableLocation(QStandardPaths::CacheLocation) : w->storageFolder())) == KMessageBox::Continue) {
-                    // Proceeed with move
-                }
-            }
-        }
         if (m_recMonitor) {
             m_recMonitor->slotUpdateCaptureFolder(project->projectFolder() + QDir::separator());
         }
@@ -1704,6 +1698,40 @@ void MainWindow::slotEditProjectSettings()
         }
         if (w->metadata() != project->metadata()) {
             project->setMetadata(w->metadata());
+        }
+        QString newProjectFolder = w->storageFolder();
+        if (newProjectFolder.isEmpty()) {
+            newProjectFolder = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        }
+        if (newProjectFolder != project->projectFolder()) {
+            KMessageBox::ButtonCode answer;
+            // Project folder changed:
+            if (project->isModified()) {
+                answer = KMessageBox::warningContinueCancel(this, i18n("The current project has not been saved. This will first save the project, then move all temporary files from <b>%1</b> to <b>%2</b>, and the project file will be reloaded", project->projectFolder(), newProjectFolder));
+                if (answer == KMessageBox::Continue) {
+                    pCore->projectManager()->saveFile();
+                }
+            } else {
+                answer = KMessageBox::warningContinueCancel(this, i18n("This will move all temporary files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded", project->projectFolder(), newProjectFolder));
+            }
+            if (answer == KMessageBox::Continue) {
+                // Proceeed with move
+                QString documentId = QDir::cleanPath(project->getDocumentProperty(QStringLiteral("documentid")));
+                bool ok;
+                documentId.toLong(&ok);
+                if (!ok || documentId.isEmpty()) {
+                    KMessageBox::sorry(this, i18n("Cannot perform operation, invalid document id: %1", documentId));
+                } else {
+                    QDir newDir(newProjectFolder);
+                    QDir oldDir(project->projectFolder());
+                    if (newDir.exists(documentId)) {
+                        KMessageBox::sorry(this, i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
+                    } else {
+                        // Proceed with the move
+                        pCore->projectManager()->moveDataFolder(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
+                    }
+                }
+            }
         }
         if (modified) project->setModified();
     }
@@ -3822,7 +3850,97 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
 {
     QMenu menu;
     menu.addAction(actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
+    QMenu *contextSize = new QMenu(i18n("Icon Size"));
+    menu.addMenu(contextSize);
+    QActionGroup *sizeGroup = new QActionGroup(contextSize);
+    int currentSize = m_timelineToolBar->iconSize().width();
+    QAction *a = new QAction(i18nc("@item:inmenu Icon size", "Default"), contextSize);
+    a->setData(m_timelineToolBar->iconSizeDefault());
+    a->setCheckable(true);
+    if (m_timelineToolBar->iconSizeDefault() == currentSize) {
+        a->setChecked(true);
+    }
+    a->setActionGroup(sizeGroup);
+    contextSize->addAction(a);
+    KIconTheme *theme = KIconLoader::global()->theme();
+    QList<int> avSizes;
+    if (theme) {
+        avSizes = theme->querySizes(KIconLoader::Toolbar);
+    }
+
+    qSort(avSizes);
+ 
+    if (avSizes.count() < 10) {
+        // Fixed or threshold type icons
+        Q_FOREACH (int it, avSizes) {
+            QString text;
+            if (it < 19) {
+                text = i18n("Small (%1x%2)", it, it);
+            } else if (it < 25) {
+                text = i18n("Medium (%1x%2)", it, it);
+            } else if (it < 35) {
+                text = i18n("Large (%1x%2)", it, it);
+            } else {
+                text = i18n("Huge (%1x%2)", it, it);
+            }
+ 
+            // save the size in the contextIconSizes map
+            QAction *a = new QAction(text, contextSize);
+            a->setData(it);
+            a->setCheckable(true);
+            a->setActionGroup(sizeGroup);
+            if (it == currentSize) {
+                a->setChecked(true);
+            }
+            contextSize->addAction(a);
+        }
+    } else {
+        // Scalable icons.
+        const int progression[] = { 16, 22, 32, 48, 64, 96, 128, 192, 256 };
+ 
+        for (uint i = 0; i < 9; i++) {
+            Q_FOREACH (int it, avSizes) {
+                if (it >= progression[ i ]) {
+                    QString text;
+                    if (it < 19) {
+                        text = i18n("Small (%1x%2)", it, it);
+                    } else if (it < 25) {
+                        text = i18n("Medium (%1x%2)", it, it);
+                    } else if (it < 35) {
+                        text = i18n("Large (%1x%2)", it, it);
+                    } else {
+                        text = i18n("Huge (%1x%2)", it, it);
+                    }
+ 
+                    // save the size in the contextIconSizes map
+                    QAction *a = new QAction(text, contextSize);
+                    a->setData(it);
+                    a->setCheckable(true);
+                    a->setActionGroup(sizeGroup);
+                    if (it == currentSize) {
+                        a->setChecked(true);
+                    }
+                    contextSize->addAction(a);
+                    break;
+                }
+            }
+        }
+    }
+    connect(contextSize, &QMenu::triggered, this, &MainWindow::setTimelineToolbarIconSize);
     menu.exec(m_timelineToolBar->mapToGlobal(pos));
+    contextSize->deleteLater();
+}
+
+void MainWindow::setTimelineToolbarIconSize(QAction *a)
+{
+    if (!a)
+        return;
+    int size = a->data().toInt();
+    m_timelineToolBar->setIconDimensions(size);
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup mainConfig(config, QStringLiteral("MainWindow"));
+    KConfigGroup tbGroup(&mainConfig, QStringLiteral("Toolbar timelineToolBar"));
+    m_timelineToolBar->saveSettings(tbGroup);
 }
 
 void MainWindow::slotManageCache()

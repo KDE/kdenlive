@@ -138,7 +138,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     m_documentProperties[QStringLiteral("proxyminsize")] = QString::number(KdenliveSettings::proxyminsize());
     m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number((int) KdenliveSettings::generateimageproxy());
     m_documentProperties[QStringLiteral("proxyimageminsize")] = QString::number(KdenliveSettings::proxyimageminsize());
-    m_documentProperties[QStringLiteral("documentid")] = QString::number(QDateTime::currentMSecsSinceEpoch());
 
     // Load properties
     QMapIterator<QString, QString> i(properties);
@@ -739,7 +738,7 @@ void KdenliveDoc::setProjectFolder(QUrl url)
         dir.mkpath(dir.absolutePath());
     }
     dir.mkdir(QStringLiteral("titles"));
-    if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder, url.path())) == KMessageBox::Yes) moveProjectData(url);
+    /*if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder, url.path())) == KMessageBox::Yes) moveProjectData(url);*/
     m_projectFolder = url.path();
 
     updateProjectFolderPlacesEntry();
@@ -754,31 +753,31 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
         if (clip->clipType() == Text) {
             // the image for title clip must be moved
             QUrl oldUrl = clip->clipUrl();
-            QUrl newUrl = QUrl::fromLocalFile(url.toLocalFile() + QDir::separator() + "titles/" + oldUrl.fileName());
-            KIO::Job *job = KIO::copy(oldUrl, newUrl);
-            if (job->exec()) clip->setProperty(QStringLiteral("resource"), newUrl.path());
+            if (!oldUrl.isEmpty()) {
+                QUrl newUrl = QUrl::fromLocalFile(url.toLocalFile() + QStringLiteral("/titles/") + oldUrl.fileName());
+                KIO::Job *job = KIO::copy(oldUrl, newUrl);
+                if (job->exec()) clip->setProperty(QStringLiteral("resource"), newUrl.path());
+            }
+            continue;
         }
-        /*
-        QString hash = clip->getClipHash();
-        QUrl oldVideoThumbUrl = QUrl::fromLocalFile(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".png");
-        if (QFile::exists(oldVideoThumbUrl.path())) {
-            cacheUrls << oldVideoThumbUrl;
+        QString proxy = clip->property(QStringLiteral("kdenlive:proxy"));
+        if (proxy.length() > 2 && QFile::exists(proxy)) {
+            QUrl pUrl = QUrl::fromLocalFile(proxy);
+            if (!cacheUrls.contains(pUrl)) {
+                cacheUrls << pUrl;
+            }
         }
-        QUrl oldAudioThumbUrl = QUrl::fromLocalFile(m_projectFolder.path() + QDir::separator() + "thumbs/" + hash + ".thumb");
-        if (QFile::exists(oldAudioThumbUrl.path())) {
-            cacheUrls << oldAudioThumbUrl;
-        }
-        QUrl oldVideoProxyUrl = QUrl::fromLocalFile(m_projectFolder.path() + QDir::separator() + "proxy/" + hash + '.' + KdenliveSettings::proxyextension());
-        if (QFile::exists(oldVideoProxyUrl.path())) {
-            cacheUrls << oldVideoProxyUrl;
-        }
-        */
     }
-    /*if (!cacheUrls.isEmpty()) {
-        KIO::Job *job = KIO::copy(cacheUrls, QUrl::fromLocalFile(url.path() + QDir::separator() + "thumbs/"));
-        KJobWidgets::setWindow(job, QApplication::activeWindow());
-        job->exec();
-    }*/
+    if (!cacheUrls.isEmpty()) {
+        QDir proxyDir(url.path() + "/proxy/");
+        if (proxyDir.mkpath(QStringLiteral("."))) {
+            KIO::CopyJob *job = KIO::move(cacheUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
+            KJobWidgets::setWindow(job, QApplication::activeWindow());
+            if (job->exec() > 0) {
+                KMessageBox::sorry(QApplication::activeWindow(), i18n("Moving proxy clips failed: %1", job->errorText()));
+            }
+        }
+    }
 }
 
 const QString &KdenliveDoc::profilePath() const
@@ -1382,7 +1381,7 @@ QMap <QString, QString> KdenliveDoc::documentProperties()
 {
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
     m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));
-    m_documentProperties.insert(QStringLiteral("storagefolder"), m_projectFolder);
+    m_documentProperties.insert(QStringLiteral("storagefolder"), m_projectFolder + QStringLiteral("/") + m_documentProperties.value(QStringLiteral("documentid")));
     m_documentProperties.insert(QStringLiteral("profile"), profilePath());
     m_documentProperties.insert(QStringLiteral("position"), QString::number(m_render->seekPosition().frames(m_render->fps())));
     return m_documentProperties;
@@ -1391,6 +1390,11 @@ QMap <QString, QString> KdenliveDoc::documentProperties()
 void KdenliveDoc::loadDocumentProperties()
 {
     QDomNodeList list = m_document.elementsByTagName(QStringLiteral("playlist"));
+    QDomElement baseElement = m_document.documentElement();
+    QString root = baseElement.attribute(QStringLiteral("root"));
+    if (!root.isEmpty()) {
+        root = QDir::cleanPath(root) + QDir::separator();
+    }
     if (!list.isEmpty()) {
         QDomElement pl = list.at(0).toElement();
         if (pl.isNull()) return;
@@ -1402,7 +1406,16 @@ void KdenliveDoc::loadDocumentProperties()
             name = e.attribute(QStringLiteral("name"));
             if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
                 name = name.section(QStringLiteral("."), 1);
-                m_documentProperties.insert(name, e.firstChild().nodeValue());
+                if (name == QStringLiteral("storagefolder")) {
+                    // Make sure we have an absolute path
+                    QString value = e.firstChild().nodeValue();
+                    if (!value.startsWith(QStringLiteral("/"))) {
+                        value.prepend(root);
+                    }
+                    m_documentProperties.insert(name, value);
+                } else {
+                    m_documentProperties.insert(name, e.firstChild().nodeValue());
+                }
             } else if (name.startsWith(QLatin1String("kdenlive:docmetadata."))) {
                 name = name.section(QStringLiteral("."), 1);
                 m_documentMetadata.insert(name, e.firstChild().nodeValue());
@@ -1411,7 +1424,9 @@ void KdenliveDoc::loadDocumentProperties()
     }
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
     if (!path.isEmpty()) {
-        m_projectFolder = path;
+        QDir dir(path);
+        dir.cdUp();
+        m_projectFolder = dir.absolutePath();
     }
 
     QString profile = m_documentProperties.value(QStringLiteral("profile"));

@@ -96,7 +96,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         QString storageFolder = doc->getDocumentProperty(QStringLiteral("storagefolder"));
         if (!storageFolder.isEmpty()) {
             custom_folder->setChecked(true);
-            project_folder->setUrl(QUrl::fromLocalFile(storageFolder));
+            QDir dir(storageFolder);
+            dir.cdUp();
+            project_folder->setUrl(QUrl::fromLocalFile(dir.absolutePath()));
         } else {
             xdg_folder->setChecked(true);
             project_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));

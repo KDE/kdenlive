@@ -78,6 +78,7 @@ private:
 
     void fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans);
     void fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers);
+    void fixProxyClip(const QString &id, const QString oldUrl, const QString newUrl, QDomNodeList producers);
 };
 
 

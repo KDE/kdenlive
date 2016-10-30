@@ -476,6 +476,8 @@ private slots:
     /** @brief Cycle through the different timeline trim modes. */
     void slotSwitchTrimMode();
     void setTrimMode(const QString mode);
+    /** @brief Set timeline toolbar icon size. */
+    void setTimelineToolbarIconSize(QAction *a);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

@@ -29,13 +29,14 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <KActionCollection>
 #include <KRecentDirs>
-#include <QAction>
+#include <KJob>
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
 #include <QProgressDialog>
 #include <QCryptographicHash>
 #include <QFileDialog>
+#include <QAction>
 #include <QDebug>
 #include <QMimeDatabase>
 #include <QMimeType>
@@ -136,13 +137,15 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QMap <QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     pCore->monitorManager()->resetDisplay();
+    QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
+    documentProperties.insert(QStringLiteral("documentid"), documentId);
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
             return;
         }
         if (KdenliveSettings::customprojectfolder()) {
             projectFolder = KdenliveSettings::defaultprojectfolder();
-            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder);
+            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + QStringLiteral("/") + documentId);
         }
     } else {
         QPointer<ProjectSettings> w = new ProjectSettings(NULL, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
@@ -177,7 +180,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         }
         documentProperties.insert(QStringLiteral("proxyimageminsize"), QString::number(w->proxyImageMinSize()));
         if (!projectFolder.isEmpty()) {
-            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder);
+            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + QStringLiteral("/") + documentId);
         }
         documentMetadata = w->metadata();
         delete w;
@@ -274,6 +277,13 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     QString scene = projectSceneList(saveFolder);
+    if (!m_replacementPattern.isEmpty()) {
+        QMapIterator<QString, QString> i(m_replacementPattern);
+        while (i.hasNext()) {
+            i.next();
+            scene.replace(i.key(), i.value());
+        }
+    }
     if (m_project->saveSceneList(outputFileName, scene) == false) {
         return false;
     }
@@ -784,4 +794,42 @@ QString ProjectManager::getDefaultProjectFormat()
 void ProjectManager::saveZone(QStringList info, QDir dir)
 {
     pCore->bin()->saveZone(info, dir);
+}
+
+void ProjectManager::moveDataFolder(const QString &src, const QString &dest)
+{
+    // Move tmp folder (thumbnails, timeline preview)
+    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src),QUrl::fromLocalFile(dest));
+    connect(copyJob, SIGNAL(result(KJob *)), this, SLOT(slotMoveFinished(KJob *)));
+    connect(copyJob, SIGNAL(percent(KJob *, unsigned long)), this, SLOT(slotMoveProgress(KJob *, unsigned long)));
+    // Move proxies
+    m_project->moveProjectData(QUrl::fromLocalFile(dest));
+}
+
+void ProjectManager::slotMoveProgress(KJob *, unsigned long progress)
+{
+    pCore->window()->slotGotProgressInfo(i18n("Moving project folder"), progress, ProcessingJobMessage);
+}
+
+void ProjectManager::slotMoveFinished(KJob *job)
+{
+    if (job->error() == 0) {
+        pCore->window()->slotGotProgressInfo(QString(), 100, InformationMessage);
+        KIO::CopyJob *copyJob = static_cast<KIO::CopyJob *> (job);
+        QString newFolder = copyJob->destUrl().path();
+        // Check if project folder is inside document folder, in which case, paths will be relative
+        QDir projectDir(m_project->url().toString(QUrl::RemoveFilename | QUrl::RemoveScheme));
+        QDir srcDir(m_project->projectFolder());
+        if (srcDir.absolutePath().startsWith(projectDir.absolutePath())) {
+            m_replacementPattern.insert(QStringLiteral(">proxy/"), QStringLiteral(">") + newFolder + QStringLiteral("/proxy/"));
+        } else {
+            m_replacementPattern.insert(m_project->projectFolder() + QStringLiteral("/proxy/"), newFolder + QStringLiteral("/proxy/"));
+        }
+        m_project->setProjectFolder(QUrl::fromLocalFile(newFolder));
+        saveFile();
+        m_replacementPattern.clear();
+        slotRevert();
+    } else {
+        KMessageBox::sorry(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
+    }
 }

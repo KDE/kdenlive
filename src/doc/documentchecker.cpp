@@ -81,6 +81,26 @@ bool DocumentChecker::hasErrorInClips()
         }
         root = QDir::cleanPath(root) + QDir::separator();
     }
+    // Check if strorage folder for temp files exists
+    QString storageFolder;
+    QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+    for (int i = 0; i < playlists.count(); ++i) {
+        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QStringLiteral("main bin")) {
+            QString documentid = EffectsList::property(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"));
+            storageFolder = EffectsList::property(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"));
+            if (!storageFolder.isEmpty() && !!storageFolder.startsWith(QStringLiteral("/"))) {
+                storageFolder.prepend(root);
+            }
+            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && QFile::exists(m_url.adjusted(QUrl::RemoveFilename).path() + QStringLiteral("/") + documentid)) {
+                storageFolder = m_url.adjusted(QUrl::RemoveFilename).path();
+                qDebug()<<"* * *Switching storage folder: "<<storageFolder;
+                EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"), storageFolder + QStringLiteral("/") + documentid);
+                m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
+            }
+            break;
+        }
+    }
+
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
     QDomElement profile = baseElement.firstChildElement(QStringLiteral("profile"));
     bool hdProfile = true;
@@ -140,7 +160,18 @@ bool DocumentChecker::hasErrorInClips()
             }
             if (!QFile::exists(proxy)) {
                 // Missing clip found
-                missingProxies.append(e);
+                // Check if proxy exists in current storage folder
+                bool fixed = false;
+                if (!storageFolder.isEmpty()) {
+                    QDir dir(storageFolder + QStringLiteral("/proxy/"));
+                    if (dir.exists(QFileInfo(proxy).fileName())) {
+                        QString updatedPath = dir.absoluteFilePath(QFileInfo(proxy).fileName());
+                        fixProxyClip(e.attribute(QStringLiteral("id")), EffectsList::property(e, QStringLiteral("kdenlive:proxy")), updatedPath, documentProducers);
+                        fixed = true;
+                    }
+                }
+                if (!fixed)
+                    missingProxies.append(e);
             }
             QString original = EffectsList::property(e, QStringLiteral("kdenlive:originalurl"));
             if (!original.startsWith(QLatin1String("/"))) {
@@ -701,6 +732,35 @@ void DocumentChecker::acceptDialog()
         child = m_ui.treeWidget->topLevelItem(ix);
     }
     //QDialog::accept();
+}
+
+void DocumentChecker::fixProxyClip(const QString &id, const QString oldUrl, const QString newUrl, QDomNodeList producers)
+{
+    QDomElement e, property;
+    QDomNodeList properties;
+    for (int i = 0; i < producers.count(); ++i) {
+        e = producers.item(i).toElement();
+        QString sourceId = e.attribute(QStringLiteral("id"));
+        QString parentId = sourceId.section('_', 0, 0);
+        if (parentId.startsWith(QLatin1String("slowmotion"))) {
+            parentId = parentId.section(':', 1, 1);
+        }
+        if (parentId == id) {
+            // Fix clip
+            QString resource = EffectsList::property(e, QStringLiteral("resource"));
+            // TODO: Slowmmotion clips
+            if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$"))) {
+                //fixedResource.append('?' + resource.section('?', -1));
+            }
+            if (resource == oldUrl) {
+                EffectsList::setProperty(e, QStringLiteral("resource"), newUrl);
+            }
+            if (sourceId == id) {
+                // Only set originalurl on master producer
+                EffectsList::setProperty(e, QStringLiteral("kdenlive:proxy"), newUrl);
+            }
+        }
+    }
 }
 
 void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers)

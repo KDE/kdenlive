@@ -173,6 +173,8 @@ public:
     QStringList getProxyHashList();
     /** @brief Returns true if advanced compositing is available */ 
     static int compositingMode();
+    /** @brief Move project data files to new url */ 
+    void moveProjectData(const QUrl &url);
 
 private:
     QUrl m_url;
@@ -202,7 +204,6 @@ private:
     QMap <QString, QString> m_documentMetadata;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
-    void moveProjectData(const QUrl &url);
 
     /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);

@@ -28,6 +28,7 @@ class QAction;
 class QUrl;
 class QProgressDialog;
 class KAutoSaveFile;
+class KJob;
 
 /**
  * @class ProjectManager
@@ -63,6 +64,8 @@ public:
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(QStringList info, QDir dir);
+    /** @brief Move the current project's data folder */
+    void moveDataFolder(const QString &src, const QString &dest);
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
@@ -122,6 +125,9 @@ private slots:
     void slotOpenBackup(const QUrl &url = QUrl());
     /** @brief Start autosaving the document. */
     void slotAutoSave();
+    /** @brief Report progress of folder move operation. */
+    void slotMoveProgress(KJob *, unsigned long progress);
+    void slotMoveFinished(KJob *job);
 
 signals:
     void docOpened(KdenliveDoc *document);
@@ -141,6 +147,7 @@ private:
     QTimer m_autoSaveTimer;
     QUrl m_startUrl;
     QString m_loadClipsOnOpen;
+    QMap <QString, QString> m_replacementPattern;
 
     QAction *m_fileRevert;
     KRecentFilesAction *m_recentFilesAction;
