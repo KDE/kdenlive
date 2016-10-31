@@ -51,7 +51,7 @@ signals:
 public slots:
     /** @brief Toggle the comments on or off
      */
-    void slotShowComment(bool){
+    virtual void slotShowComment(bool){
         qDebug()<<"DEBUG: show comment not correctly overriden";
     };
 

@@ -8,7 +8,6 @@ set(kdenlive_SRCS
   effectstack/effectstackedit.cpp
   effectstack/effectstackview2.cpp
   effectstack/graphicsscenerectmove.cpp
-  effectstack/keyframeedit.cpp
   effectstack/keyframehelper.cpp
   effectstack/animkeyframeruler.cpp
   effectstack/parametercontainer.cpp
@@ -23,6 +22,7 @@ set(kdenlive_SRCS
   effectstack/widgets/doubleparameterwidget.cpp
   effectstack/widgets/draggablelabel.cpp
   effectstack/widgets/geometrywidget.cpp
+  effectstack/widgets/keyframeedit.cpp
   effectstack/widgets/kis_cubic_curve.cpp
   effectstack/widgets/kis_curve_widget.cpp
   effectstack/widgets/keyframeimport.cpp

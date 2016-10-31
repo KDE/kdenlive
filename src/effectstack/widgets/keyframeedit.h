@@ -18,10 +18,11 @@
 #ifndef KEYFRAMEEDIT_H
 #define KEYFRAMEEDIT_H
 
-#include "keyframehelper.h"
+#include "effectstack/keyframehelper.h"
 
 #include "ui_keyframeeditor_ui.h"
 #include "definitions.h"
+#include "abstractparamwidget.h"
 
 #include <QWidget>
 #include <QDomElement>
@@ -81,7 +82,7 @@ private:
     int m_max;
 };
 
-class KeyframeEdit : public QWidget, public Ui::KeyframeEditor_UI
+class KeyframeEdit : public AbstractParamWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
@@ -105,6 +106,10 @@ public slots:
 
     void slotUpdateRange(int inPoint, int outPoint);
     void slotAddKeyframe(int pos = -1);
+
+    /** @brief Toggle the comments on or off
+     */
+    void slotShowComment(bool) override;
 
 protected:
     /** @brief Gets the position of a keyframe from the table.
@@ -150,7 +155,7 @@ private slots:
     void rowClicked(int newRow, int, int oldRow, int);
 
 signals:
-    void parameterChanged();
+    void valueChanged();
     void seekToPos(int);
     void showComments(bool show);
 };

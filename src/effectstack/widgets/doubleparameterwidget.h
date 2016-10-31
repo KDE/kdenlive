@@ -73,9 +73,10 @@ public slots:
     /** @brief Sets value to m_default. */
     void slotReset();
 
-private slots:
     /** @brief Shows/Hides the comment label. */
-    void slotShowComment(bool show);
+    void slotShowComment(bool show) override;
+
+private slots:
 
     void slotSetValue(double value, bool final);
 

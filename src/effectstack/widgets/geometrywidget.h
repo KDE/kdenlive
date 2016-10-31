@@ -22,6 +22,7 @@
 
 #include "ui_geometrywidget_ui.h"
 #include "timecode.h"
+#include "abstractparamwidget.h"
 #include <mlt++/Mlt.h>
 
 #include <QWidget>
@@ -34,7 +35,7 @@ class QGraphicsRectItem;
 class DragValue;
 struct EffectMetaInfo;
 
-class GeometryWidget : public QWidget
+class GeometryWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
@@ -191,7 +192,6 @@ private slots:
     void slotUpdateCenters(const QVariantList &centers);
 
 signals:
-    void parameterChanged();
     void seekToPos(int);
     void importClipKeyframes();
 };

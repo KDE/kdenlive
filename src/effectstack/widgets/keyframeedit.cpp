@@ -16,8 +16,8 @@
  ***************************************************************************/
 
 #include "keyframeedit.h"
-#include "positionedit.h"
-#include "widgets/doubleparameterwidget.h"
+#include "effectstack/positionedit.h"
+#include "doubleparameterwidget.h"
 #include "kdenlivesettings.h"
 #include "utils/KoIconUtils.h"
 
@@ -27,7 +27,7 @@
 #include <QHeaderView>
 
 KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget *parent) :
-    QWidget(parent),
+    AbstractParamWidget(parent),
     m_min(minFrame),
     m_max(maxFrame),
     m_timecode(tc),
@@ -331,7 +331,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             m_params[col].setAttribute(getTag(), keyframes);
         }
 
-        emit parameterChanged();
+        emit valueChanged();
         return;
 
     }
@@ -374,7 +374,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         }
     }
     m_params[column].setAttribute(getTag(), keyframes);
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 const QString KeyframeEdit::getTag() const
@@ -394,7 +394,7 @@ void KeyframeEdit::generateAllParams()
         }
         m_params[col].setAttribute(getTag(), keyframes);
     }
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 const QString KeyframeEdit::getValue(const QString &name)
@@ -554,7 +554,7 @@ void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
 
     }
     if (update) {
-        emit parameterChanged();
+        emit valueChanged();
     }
 }
 
@@ -595,4 +595,9 @@ void KeyframeEdit::rowClicked(int newRow, int, int oldRow, int)
     if (oldRow != newRow) {
         slotAdjustKeyframeInfo(true);
     }
+}
+
+void KeyframeEdit::slotShowComment(bool show)
+{
+    emit showComments(show);
 }

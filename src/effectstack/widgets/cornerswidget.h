@@ -20,7 +20,7 @@
 #ifndef CORNERSWIDGET_H
 #define CORNERSWIDGET_H
 
-#include "effectstack/keyframeedit.h"
+#include "keyframeedit.h"
 
 class QDomElement;
 class Monitor;

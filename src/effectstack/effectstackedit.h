@@ -18,7 +18,6 @@
 #ifndef EFFECTSTACKEDIT_H
 #define EFFECTSTACKEDIT_H
 
-#include "keyframeedit.h"
 #include "parametercontainer.h"
 
 #include "definitions.h"

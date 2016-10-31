@@ -34,6 +34,7 @@
 #include <KRecentDirs>
 #include <KMessageBox>
 #include "kxmlgui_version.h"
+#include "klocalizedstring.h"
 
 Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
     QDialog(parent)

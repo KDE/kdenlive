@@ -20,14 +20,18 @@
 #ifndef PARAMETERCONTAINER_H
 #define PARAMETERCONTAINER_H
 
-#include "keyframeedit.h"
 
 #include <QLabel>
+#include <QSpinBox>
+#include <QDomElement>
+#include <QVBoxLayout>
+#include "definitions.h"
 
 class GeometryWidget;
 class AnimationWidget;
 class Monitor;
 class DraggableLabel;
+class KeyframeEdit;
 
 namespace Mlt
 {

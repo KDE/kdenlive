@@ -37,7 +37,7 @@
 #include <QMenu>
 
 GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget *parent):
-    QWidget(parent),
+    AbstractParamWidget(parent),
     m_monitor(info->monitor),
     m_timePos(new TimecodeDisplay(info->monitor->timecode())),
     m_clipPos(clipPos),
@@ -252,7 +252,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
 
     connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
     connect(m_monitor, &Monitor::seekToKeyframe, this, &GeometryWidget::slotSeekToKeyframe);
-    connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
+    connect(this, SIGNAL(valueChanged()), this, SLOT(slotUpdateProperties()));
 }
 
 GeometryWidget::~GeometryWidget()
@@ -502,7 +502,7 @@ void GeometryWidget::slotKeyframeMoved(int pos)
 {
     slotPositionChanged(pos);
     slotUpdateGeometry();
-    QTimer::singleShot(100, this, &GeometryWidget::parameterChanged);
+    QTimer::singleShot(100, this, &GeometryWidget::valueChanged);
 }
 
 void GeometryWidget::slotSeekToKeyframe(int index)
@@ -562,7 +562,7 @@ void GeometryWidget::slotAddKeyframe(int pos)
     checkSingleKeyframe();
     m_timeline->update();
     slotPositionChanged(seekPos, false);
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::slotDeleteKeyframe(int pos)
@@ -593,7 +593,7 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
     m_timeline->update();
     checkSingleKeyframe();
     slotPositionChanged(seekPos, false);
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::slotPreviousKeyframe()
@@ -676,7 +676,7 @@ void GeometryWidget::slotUpdateGeometry()
             geom->insert(item2);
         }
     }
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::slotUpdateGeometryRect(const QRect r)
@@ -718,7 +718,7 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
         }
     }
     m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::slotUpdateCenters(const QVariantList &centers)
@@ -734,7 +734,7 @@ void GeometryWidget::slotUpdateCenters(const QVariantList &centers)
         pos = item.frame() + 1;
         ix++;
     }
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::slotUpdateProperties(QRect rect)
@@ -838,7 +838,7 @@ void GeometryWidget::slotSetOpacity(double value)
     }
     item.mix(value);
     m_geometry->insert(item);
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::slotMoveLeft()
@@ -988,7 +988,7 @@ void GeometryWidget::slotResetKeyframes()
     m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     m_monitor->setUpEffectGeometry(QRect(item.x(), item.y(), item.w(), item.h()), calculateCenters());
     slotPositionChanged(-1, false);
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::slotResetNextKeyframes()
@@ -1020,7 +1020,7 @@ void GeometryWidget::slotResetNextKeyframes()
     }
     m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     slotPositionChanged(-1, false);
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::slotResetPreviousKeyframes()
@@ -1063,7 +1063,7 @@ void GeometryWidget::slotResetPreviousKeyframes()
     }
     m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     slotPositionChanged(-1, false);
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::importKeyframes(const QString &data, int maximum)
@@ -1114,7 +1114,7 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
     }
     m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     slotPositionChanged(-1, false);
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void GeometryWidget::slotUpdateRange(int inPoint, int outPoint)

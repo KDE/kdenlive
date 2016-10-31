@@ -23,6 +23,7 @@
 
 #include "kdenlive_debug.h"
 #include <QVBoxLayout>
+#include <QApplication>
 #include <QToolBar>
 #include <QDomElement>
 #include <QMenu>
@@ -53,7 +54,7 @@
 #include "../animkeyframeruler.h"
 
 AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml, QWidget *parent) :
-    QWidget(parent)
+    AbstractParamWidget(parent)
     , m_monitor(info->monitor)
     , m_frameSize(info->frameSize)
     , m_timePos(new TimecodeDisplay(info->monitor->timecode(), this))
@@ -318,7 +319,7 @@ void AnimationWidget::doAddKeyframe(int pos, QString paramName, bool directUpdat
     if (directUpdate) {
         m_ruler->setActiveKeyframe(pos);
         rebuildKeyframes();
-        emit parameterChanged();
+        emit valueChanged();
     }
 }
 
@@ -361,7 +362,7 @@ void AnimationWidget::slotAddDeleteKeyframe(bool add, int pos)
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     // Rebuild
     rebuildKeyframes();
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void AnimationWidget::slotRemoveNext()
@@ -392,7 +393,7 @@ void AnimationWidget::slotRemoveNext()
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     // Rebuild
     rebuildKeyframes();
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void AnimationWidget::slotSyncPosition(int relTimelinePos)
@@ -434,7 +435,7 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
     }
     rebuildKeyframes();
     slotPositionChanged(m_ruler->position(), false);
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void AnimationWidget::rebuildKeyframes()
@@ -677,7 +678,7 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
         }*/
         rebuildKeyframes();
         setupMonitor();
-        emit parameterChanged();
+        emit valueChanged();
     }
 }
 
@@ -888,7 +889,7 @@ void AnimationWidget::slotUpdateVisibleParameter(bool display)
         m_inTimeline = slider->objectName();
         m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
         rebuildKeyframes();
-        emit parameterChanged();
+        emit valueChanged();
     }
 }
 
@@ -907,7 +908,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
         // This is a keyframe
         type =  m_animController.keyframe_type(pos);
         m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-        emit parameterChanged();
+        emit valueChanged();
     } else if (m_animController.key_count() <= 1) {
         pos = m_animController.key_get_frame(0);
         if (pos >= 0) {
@@ -915,7 +916,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
                 type =  m_animController.keyframe_type(pos);
             }
             m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-            emit parameterChanged();
+            emit valueChanged();
         }
     }
 }
@@ -938,13 +939,13 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
     if (m_animController.is_key(pos)) {
         // This is a keyframe
         m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
-        emit parameterChanged();
+	emit valueChanged();
         setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
     } else if (m_animController.key_count() <= 1) {
         pos = m_animController.key_get_frame(0);
         if (pos >= 0) {
             m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
-            emit parameterChanged();
+            emit valueChanged();
             setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
         }
     }
@@ -1031,7 +1032,7 @@ void AnimationWidget::slotReverseKeyframeType(bool reverse)
             m_attachedToEnd = -2;
         }
         rebuildKeyframes();
-        emit parameterChanged();
+        emit valueChanged();
     }
 }
 
@@ -1101,7 +1102,7 @@ void AnimationWidget::applyPreset(int ix)
     }
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     rebuildKeyframes();
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 void AnimationWidget::savePreset()
@@ -1362,7 +1363,7 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
         m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), 0, m_outPoint);
     }
     rebuildKeyframes();
-    emit parameterChanged();
+    emit valueChanged();
 }
 
 QString AnimationWidget::defaultValue(const QString &paramName)

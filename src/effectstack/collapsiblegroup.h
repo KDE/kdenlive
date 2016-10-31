@@ -23,7 +23,6 @@
 #include "abstractcollapsiblewidget.h"
 #include "collapsibleeffect.h"
 #include "timecode.h"
-#include "effectstack/keyframeedit.h"
 
 #include <QLineEdit>
 #include <QMutex>

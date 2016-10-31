@@ -30,6 +30,7 @@
 #include "widgets/doubleparameterwidget.h"
 #include "widgets/draggablelabel.h"
 #include "widgets/geometrywidget.h"
+#include "widgets/keyframeedit.h"
 #include "widgets/kis_cubic_curve.h"
 #include "widgets/kis_curve_widget.h"
 #include "widgets/listparamwidget.h"
@@ -314,7 +315,8 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     connect(m_animationWidget, &AnimationWidget::setKeyframes, this, &ParameterContainer::importKeyframes);
                     connect(this, &ParameterContainer::syncEffectsPos, m_animationWidget, &AnimationWidget::slotSyncPosition);
                     connect(this, SIGNAL(initScene(int)), m_animationWidget, SLOT(slotPositionChanged(int)));
-                    connect(m_animationWidget, &AnimationWidget::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+                    connect(m_animationWidget, &AnimationWidget::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
+                    connect(this, SIGNAL(showComments(bool)), m_animationWidget, SLOT(slotShowComment(bool)));
                     m_vbox->addWidget(m_animationWidget);
                     if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                         m_animationWidget->setEnabled(false);
@@ -325,7 +327,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 m_acceptDrops = true;
                 m_monitorEffectScene = MonitorSceneGeometry;
                 bool useOffset = false;
-                if (effect.tagName() == QLatin1String("effect") && effect.hasAttribute(QStringLiteral("kdenlive:sync_in_out")) && effect.attribute(QStringLiteral("kdenlive:sync_in_out")).toInt() == 0) {
+                if (	effect.tagName() == QLatin1String("effect") && effect.hasAttribute(QStringLiteral("kdenlive:sync_in_out")) && effect.attribute(QStringLiteral("kdenlive:sync_in_out")).toInt() == 0) {
                     useOffset = true;
                 }
                 m_geometryWidget = new GeometryWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), useOffset, parent);
@@ -333,7 +335,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     m_geometryWidget->setEnabled(false);
                     m_conditionalWidgets << m_geometryWidget;
                 }
-                connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
+                connect(m_geometryWidget, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
                 if (minFrame == maxFrame) {
                     m_geometryWidget->setupParam(pa, m_in, m_out);
                     connect(this, SIGNAL(updateRange(int,int)), m_geometryWidget, SLOT(slotUpdateRange(int,int)));
@@ -376,7 +378,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     m_vbox->addWidget(geo);
                     m_valueItems[paramName + "keyframe"] = geo;
                     m_keyframeEditor = geo;
-                    connect(geo, &KeyframeEdit::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+                    connect(geo, &KeyframeEdit::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
                     connect(geo, &KeyframeEdit::seekToPos, this, &ParameterContainer::seekTimeline);
                     connect(this, &ParameterContainer::showComments, geo, &KeyframeEdit::showComments);
                 } else {

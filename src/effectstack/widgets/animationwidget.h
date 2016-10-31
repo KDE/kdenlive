@@ -26,7 +26,9 @@
 #include <QList>
 
 #include "timecodedisplay.h"
+#include "abstractparamwidget.h"
 #include "mlt++/MltProperties.h"
+#include "mlt++/MltAnimation.h"
 
 class AnimKeyframeRuler;
 class Monitor;
@@ -37,12 +39,7 @@ class KSelectAction;
 class QComboBox;
 class DragValue;
 
-namespace Mlt
-{
-class Animation;
-}
-
-class AnimationWidget : public QWidget
+class AnimationWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
@@ -166,7 +163,6 @@ private slots:
 
 signals:
     void seekToPos(int);
-    void parameterChanged();
     /** @brief keyframes dropped / pasted on widget, import them. */
     void setKeyframes(const QString &);
 };
