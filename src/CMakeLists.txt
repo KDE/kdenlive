@@ -149,7 +149,6 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/dvdwizardvob_ui.ui
     ui/effectlist_ui.ui
     ui/freesound_ui.ui
-    ui/geometryval_ui.ui
     ui/geometrywidget_ui.ui
     ui/histogram_ui.ui
     ui/keyframedialog_ui.ui

@@ -7,7 +7,6 @@ set(kdenlive_SRCS
   effectstack/dragvalue.cpp
   effectstack/effectstackedit.cpp
   effectstack/effectstackview2.cpp
-  effectstack/geometryval.cpp
   effectstack/graphicsscenerectmove.cpp
   effectstack/keyframeedit.cpp
   effectstack/keyframehelper.cpp
