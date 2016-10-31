@@ -127,7 +127,7 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/audiospectrum_ui.ui
     ui/backupdialog_ui.ui
     ui/bezierspline_ui.ui
-    ui/boolval_ui.ui
+    ui/boolparamwidget_ui.ui
     ui/clipdurationdialog_ui.ui
     ui/clipproperties_ui.ui
     ui/cliptranscode_ui.ui

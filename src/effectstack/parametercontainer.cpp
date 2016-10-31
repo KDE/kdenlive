@@ -25,6 +25,7 @@
 
 #include "widgets/animationwidget.h"
 #include "widgets/bezier/beziersplinewidget.h"
+#include "widgets/boolparamwidget.h"
 #include "widgets/choosecolorwidget.h"
 #include "widgets/cornerswidget.h"
 #include "widgets/doubleparameterwidget.h"
@@ -44,7 +45,6 @@
 #include "utils/KoIconUtils.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 
-#include "ui_boolval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "ui_urlval_ui.h"
 #include "ui_keywordval_ui.h"
@@ -79,10 +79,6 @@ void MySpinBox::focusOutEvent(QFocusEvent *e)
     setFocusPolicy(Qt::StrongFocus);
     e->accept();
 }
-
-class Boolval: public QWidget, public Ui::Boolval_UI
-{
-};
 
 
 class Wipeval: public QWidget, public Ui::Wipeval_UI
@@ -154,6 +150,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
         m_vbox->addWidget(gainWidget);
         m_valueItems[effect.attribute(QStringLiteral("id"))] = gainWidget;
+
         connect(gainWidget, &LumaLiftGain::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
     } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("avfilter.selectivecolor")) {
         SelectiveColor *cmykAdjust = new SelectiveColor(effect);
@@ -284,41 +281,27 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
                 m_vbox->addWidget(lswid);
             } else if (type == QLatin1String("bool")) {
-                Boolval *bval = new Boolval;
-                bval->setupUi(toFillin);
-                bval->checkBox->setCheckState(value == QLatin1String("0") ? Qt::Unchecked : Qt::Checked);
-                bval->name->setText(paramName);
-                bval->name->setToolTip(comment);
-                bval->labelComment->setText(comment);
-                bval->widgetComment->setHidden(true);
+                bool checked = (value == QLatin1String("0"));
+                BoolParamWidget *bwid = new BoolParamWidget(paramName, comment, checked, parent);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                    bval->setEnabled(false);
-                    m_conditionalWidgets << bval;
+                    bwid->setEnabled(false);
+                    m_conditionalWidgets << bwid;
                 }
-                m_valueItems[paramName] = bval;
-                connect(bval->checkBox, &QCheckBox::stateChanged, this, &ParameterContainer::slotCollectAllParameters);
-                if (!comment.isEmpty()) {
-                    connect(this, &ParameterContainer::showComments, bval->widgetComment, &QWidget::setVisible);
-                }
-                m_uiItems.append(bval);
+                m_valueItems[paramName] = bwid;
+                connect(bwid, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
+                connect(this, SIGNAL(showComments(bool)), bwid, SLOT(slotShowComment(bool)));
+                m_vbox->addWidget(bwid);
             } else if (type == QLatin1String("switch")) {
-                Boolval *bval = new Boolval;
-                bval->setupUi(toFillin);
-                bval->checkBox->setCheckState(value == pa.attribute(QStringLiteral("min")) ? Qt::Unchecked : Qt::Checked);
-                bval->name->setText(paramName);
-                bval->name->setToolTip(comment);
-                bval->labelComment->setText(comment);
-                bval->widgetComment->setHidden(true);
+                bool checked = (value == pa.attribute("min"));
+                BoolParamWidget *bwid = new BoolParamWidget(paramName, comment, checked, parent);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                    bval->setEnabled(false);
-                    m_conditionalWidgets << bval;
+                    bwid->setEnabled(false);
+                    m_conditionalWidgets << bwid;
                 }
-                m_valueItems[paramName] = bval;
-                connect(bval->checkBox, &QCheckBox::stateChanged, this, &ParameterContainer::slotCollectAllParameters);
-                if (!comment.isEmpty()) {
-                    connect(this, &ParameterContainer::showComments, bval->widgetComment, &QWidget::setVisible);
-                }
-                m_uiItems.append(bval);
+                m_valueItems[paramName] = bwid;
+                connect(bwid, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
+                connect(this, SIGNAL(showComments(bool)), bwid, SLOT(slotShowComment(bool)));
+                m_vbox->addWidget(bwid);
             } else if (type.startsWith(QLatin1String("animated"))) {
                 m_acceptDrops = true;
                 if (type == QLatin1String("animatedrect")) {
@@ -995,16 +978,14 @@ void ParameterContainer::slotCollectAllParameters()
                 setValue.clear();
             }
         } else if (type == QLatin1String("bool")) {
-            Boolval *val = static_cast<Boolval *>(m_valueItems.value(paramName));
+            BoolParamWidget *val = qobject_cast<BoolParamWidget *>(m_valueItems.value(paramName));
             if (val) {
-                QCheckBox *box = val->checkBox;
-                setValue = box->checkState() == Qt::Checked ? "1" : "0";
+                setValue = val->getValue() ? "1" : "0" ;
             }
         } else if (type == QLatin1String("switch")) {
-            Boolval *val = static_cast<Boolval *>(m_valueItems.value(paramName));
+            BoolParamWidget *val = qobject_cast<BoolParamWidget *>(m_valueItems.value(paramName));
             if (val) {
-                QCheckBox *box = val->checkBox;
-                setValue = box->checkState() == Qt::Checked ? pa.attribute(QStringLiteral("max")) : pa.attribute(QStringLiteral("min"));
+                setValue = val->getValue() ? pa.attribute("max") : pa.attribute("min") ;
             }
         } else if (type == QLatin1String("color")) {
             ChooseColorWidget *choosecolor = static_cast<ChooseColorWidget *>(m_valueItems.value(paramName));

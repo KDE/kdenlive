@@ -16,6 +16,7 @@ set(kdenlive_SRCS
   effectstack/positionedit.cpp
   effectstack/widgets/abstractparamwidget.h
   effectstack/widgets/animationwidget.cpp
+  effectstack/widgets/boolparamwidget.cpp
   effectstack/widgets/choosecolorwidget.cpp
   effectstack/widgets/colorpickerwidget.cpp
   effectstack/widgets/colorwheel.cpp
