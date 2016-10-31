@@ -77,7 +77,7 @@ bool SelectManager::mousePress(QMouseEvent *event, ItemInfo info, QList<QGraphic
     return false;
 }
 
-bool SelectManager::mouseMove(QMouseEvent *event, int pos, int)
+bool SelectManager::mouseMove(QMouseEvent *event, int, int)
 {
     OperationType mode = m_view->operationMode();
     if (mode == Seek) {

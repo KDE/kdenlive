@@ -49,7 +49,7 @@ bool GuideManager::mousePress(QMouseEvent *, ItemInfo info, QList<QGraphicsItem 
     return false;
 }
 
-bool GuideManager::mouseMove(QMouseEvent *event, int pos, int)
+bool GuideManager::mouseMove(QMouseEvent *event, int, int)
 {
     event->accept();
     return false;

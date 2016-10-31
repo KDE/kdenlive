@@ -174,7 +174,7 @@ public:
     /** @brief Returns true if advanced compositing is available */ 
     static int compositingMode();
     /** @brief Move project data files to new url */ 
-    void moveProjectData(const QUrl &url);
+    void moveProjectData(const QString &src, const QString &dest);
 
 private:
     QUrl m_url;

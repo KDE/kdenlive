@@ -87,6 +87,7 @@ bool SpacerManager::mouseMove(QMouseEvent *event, int pos, int )
 void SpacerManager::mouseRelease(QMouseEvent *, GenTime pos)
 {
     //GenTime timeOffset = pos - m_startPos;
+    Q_UNUSED(pos);
     if (!m_dragMoved || !m_view->selectionGroup()) {
         m_view->clearSelection();
         return;

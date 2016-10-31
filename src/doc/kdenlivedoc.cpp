@@ -744,8 +744,14 @@ void KdenliveDoc::setProjectFolder(QUrl url)
     updateProjectFolderPlacesEntry();
 }
 
-void KdenliveDoc::moveProjectData(const QUrl &url)
+void KdenliveDoc::moveProjectData(const QString &src, const QString &dest)
 {
+    // Move tmp folder (thumbnails, timeline preview)
+    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src),QUrl::fromLocalFile(dest));
+    connect(copyJob, SIGNAL(result(KJob *)), this, SLOT(slotMoveFinished(KJob *)));
+    connect(copyJob, SIGNAL(percent(KJob *, unsigned long)), this, SLOT(slotMoveProgress(KJob *, unsigned long)));
+    // Move proxies
+
     QList <ClipController*> list = pCore->binController()->getControllerList();
     QList<QUrl> cacheUrls;
     for (int i = 0; i < list.count(); ++i) {
@@ -754,7 +760,7 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
             // the image for title clip must be moved
             QUrl oldUrl = clip->clipUrl();
             if (!oldUrl.isEmpty()) {
-                QUrl newUrl = QUrl::fromLocalFile(url.toLocalFile() + QStringLiteral("/titles/") + oldUrl.fileName());
+                QUrl newUrl = QUrl::fromLocalFile(dest + QStringLiteral("/titles/") + oldUrl.fileName());
                 KIO::Job *job = KIO::copy(oldUrl, newUrl);
                 if (job->exec()) clip->setProperty(QStringLiteral("resource"), newUrl.path());
             }
@@ -769,7 +775,7 @@ void KdenliveDoc::moveProjectData(const QUrl &url)
         }
     }
     if (!cacheUrls.isEmpty()) {
-        QDir proxyDir(url.path() + "/proxy/");
+        QDir proxyDir(dest + "/proxy/");
         if (proxyDir.mkpath(QStringLiteral("."))) {
             KIO::CopyJob *job = KIO::move(cacheUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
             KJobWidgets::setWindow(job, QApplication::activeWindow());
