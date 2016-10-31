@@ -176,6 +176,10 @@ void MeltJob::startJob()
 	    m_consumer->set(j.key().toUtf8().constData(), j.value().toUtf8().constData());
 	}
     }
+    if (consumerName.startsWith(QStringLiteral("xml:"))) {
+        // Use relative path in xml
+        m_consumer->set("root", QFileInfo(m_dest).absolutePath().toUtf8().constData());
+    }
 
     // Build filter
     if (!filterName.isEmpty()) {
