@@ -22,17 +22,19 @@
 #include "geometryval.h"
 #include "positionedit.h"
 #include "dragvalue.h"
-#include "widgets/kis_curve_widget.h"
-#include "widgets/kis_cubic_curve.h"
-#include "widgets/choosecolorwidget.h"
-#include "widgets/geometrywidget.h"
-#include "widgets/doubleparameterwidget.h"
-#include "widgets/cornerswidget.h"
-#include "widgets/bezier/beziersplinewidget.h"
-#include "widgets/lumaliftgain.h"
+
 #include "widgets/animationwidget.h"
-#include "widgets/selectivecolor.h"
+#include "widgets/bezier/beziersplinewidget.h"
+#include "widgets/choosecolorwidget.h"
+#include "widgets/cornerswidget.h"
+#include "widgets/doubleparameterwidget.h"
 #include "widgets/draggablelabel.h"
+#include "widgets/geometrywidget.h"
+#include "widgets/kis_cubic_curve.h"
+#include "widgets/kis_curve_widget.h"
+#include "widgets/listparamwidget.h"
+#include "widgets/lumaliftgain.h"
+#include "widgets/selectivecolor.h"
 
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -42,7 +44,6 @@
 #include "utils/KoIconUtils.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
 
-#include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "ui_urlval_ui.h"
@@ -83,9 +84,6 @@ class Boolval: public QWidget, public Ui::Boolval_UI
 {
 };
 
-class Listval: public QWidget, public Ui::Listval_UI
-{
-};
 
 class Wipeval: public QWidget, public Ui::Wipeval_UI
 {
@@ -222,36 +220,35 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
                 connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
             } else if (type == QLatin1String("list")) {
-                Listval *lsval = new Listval;
-                lsval->setupUi(toFillin);
-                lsval->list->setFocusPolicy(Qt::StrongFocus);
+                ListParamWidget *lswid = new ListParamWidget(paramName, comment, parent);
+                lswid->setFocusPolicy(Qt::StrongFocus);
                 QString items = pa.attribute(QStringLiteral("paramlist"));
                 QStringList listitems;
                 if (items == QLatin1String("%lumaPaths")) {
                     // Special case: Luma files
                     // Create thumbnails
-                    lsval->list->setIconSize(QSize(50, 30));
+                    lswid->setIconSize(QSize(50, 30));
                     if (m_metaInfo->monitor->profileInfo().profileSize.width() > 1000) {
                         // HD project
                         listitems = MainWindow::m_lumaFiles.value(QStringLiteral("HD"));
                     } else {
                         listitems = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
                     }
-                    lsval->list->addItem(i18n("None (Dissolve)"));
+                    lswid->addItem(i18n("None (Dissolve)"));
                     for (int i = 0; i < listitems.count(); ++i) {
                         QString entry = listitems.at(i);
-                        lsval->list->addItem(listitems.at(i).section(QLatin1Char('/'), -1), entry);
+                        lswid->addItem(listitems.at(i).section(QStringLiteral("/"), -1), entry);
                         if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
                             if (!MainWindow::m_lumacache.contains(entry)) {
                                 QImage pix(entry);
                                 MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
                             }
-                            lsval->list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                            lswid->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                         }
                     }
-                    lsval->list->setCurrentText(pa.attribute(QStringLiteral("default")));
+                    lswid->setCurrentText(pa.attribute(QStringLiteral("default")));
                     if (!value.isEmpty() && listitems.contains(value)) {
-                        lsval->list->setCurrentIndex(listitems.indexOf(value) + 1);
+                        lswid->setCurrentIndex(listitems.indexOf(value) + 1);
                     }
                 } else {
                     listitems = items.split(';');
@@ -270,26 +267,22 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                         listitemsdisplay = listitems;
                     }
                     for (int i = 0; i < listitems.count(); ++i) {
-                        lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
+                        lswid->addItem(listitemsdisplay.at(i), listitems.at(i));
                     }
                     if (!value.isEmpty() && listitems.contains(value)) {
-                        lsval->list->setCurrentIndex(listitems.indexOf(value));
+                        lswid->setCurrentIndex(listitems.indexOf(value));
                     }
                 }
-                lsval->name->setText(paramName);
-                lsval->setToolTip(comment);
-                lsval->labelComment->setText(comment);
-                lsval->widgetComment->setHidden(true);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                    lsval->list->setEnabled(false);
-                    m_conditionalWidgets << lsval->list;
+                    lswid->setEnabled(false);
+                    m_conditionalWidgets << lswid;
                 }
-                m_valueItems[paramName] = lsval;
-                connect(lsval->list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCollectAllParameters()));
+                m_valueItems[paramName] = lswid;
+                connect(lswid, SIGNAL(valueChanged()) , this, SLOT(slotCollectAllParameters()));
                 if (!comment.isEmpty()) {
-                    connect(this, &ParameterContainer::showComments, lsval->widgetComment, &QWidget::setVisible);
+                    connect(this, SIGNAL(showComments(bool)), lswid, SLOT(slotShowComment(bool)));
                 }
-                m_uiItems.append(lsval);
+                m_vbox->addWidget(lswid);
             } else if (type == QLatin1String("bool")) {
                 Boolval *bval = new Boolval;
                 bval->setupUi(toFillin);
@@ -994,10 +987,9 @@ void ParameterContainer::slotCollectAllParameters()
                 setValue = locale.toString(doubleparam->getValue());
             }
         } else if (type == QLatin1String("list")) {
-            Listval *val = static_cast<Listval *>(m_valueItems.value(paramName));
+            ListParamWidget *val = qobject_cast<ListParamWidget *>(m_valueItems.value(paramName));
             if (val) {
-                KComboBox *box = val->list;
-                setValue = box->itemData(box->currentIndex()).toString();
+                setValue = val->getValue();
                 // special case, list value is allowed to be empty
                 pa.setAttribute(QStringLiteral("value"), setValue);
                 setValue.clear();

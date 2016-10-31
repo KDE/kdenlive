@@ -18,15 +18,16 @@ set(kdenlive_SRCS
   effectstack/widgets/animationwidget.cpp
   effectstack/widgets/choosecolorwidget.cpp
   effectstack/widgets/colorpickerwidget.cpp
+  effectstack/widgets/colorwheel.cpp
   effectstack/widgets/cornerswidget.cpp
   effectstack/widgets/doubleparameterwidget.cpp
   effectstack/widgets/draggablelabel.cpp
   effectstack/widgets/geometrywidget.cpp
   effectstack/widgets/kis_cubic_curve.cpp
   effectstack/widgets/kis_curve_widget.cpp
-  effectstack/widgets/colorwheel.cpp
-  effectstack/widgets/lumaliftgain.cpp
   effectstack/widgets/keyframeimport.cpp
+  effectstack/widgets/listparamwidget.cpp
+  effectstack/widgets/lumaliftgain.cpp
   effectstack/widgets/selectivecolor.cpp
   PARENT_SCOPE)
 

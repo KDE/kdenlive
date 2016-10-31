@@ -155,7 +155,7 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/keyframedialog_ui.ui
     ui/keyframeeditor_ui.ui
     ui/keyframewidget_ui.ui
-    ui/listval_ui.ui
+    ui/listparamwidget_ui.ui
     ui/logindialog_ui.ui
     ui/managecaptures_ui.ui
     ui/manageencodingprofile_ui.ui
