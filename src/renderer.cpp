@@ -948,7 +948,6 @@ bool Render::checkFrameNumber(int pos)
     } else {
         m_isRefreshing = false;
         if (m_mltProducer->get_speed() == 0) {
-            m_mltConsumer->stop();
             m_mltConsumer->purge();
         } else if (m_isZoneMode) {
             if (pos >= m_mltProducer->get_int("out") - 1) {

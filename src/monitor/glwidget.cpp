@@ -395,6 +395,7 @@ void GLWidget::releaseAnalyse()
 
 void GLWidget::paintGL()
 {
+    if (m_glslManager && !m_texture[0]) return;
     QOpenGLFunctions* f = openglContext()->functions();
     int width = this->width() * devicePixelRatio();
     int height = this->height() * devicePixelRatio();
@@ -420,7 +421,6 @@ void GLWidget::paintGL()
         m_mutex.unlock();
     }
 #endif
-    if (!m_texture[0]) return;
 
     // Bind textures.
     for (int i = 0; i < 3; ++i) {
