@@ -248,7 +248,11 @@
       </widget>
      </item>
      <item>
-      <widget class="KUrlRequester" name="projecturl"/>
+      <widget class="KUrlRequester" name="projecturl">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

@@ -96,13 +96,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         QString storageFolder = doc->getDocumentProperty(QStringLiteral("storagefolder"));
         if (!storageFolder.isEmpty()) {
             custom_folder->setChecked(true);
-            QDir dir(storageFolder);
-            dir.cdUp();
-            project_folder->setUrl(QUrl::fromLocalFile(dir.absolutePath()));
-        } else {
-            xdg_folder->setChecked(true);
-            project_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
         }
+        project_folder->setUrl(QUrl::fromLocalFile(doc->projectFolder()));
         TemporaryData *cacheWidget = new TemporaryData(doc, true, this);
         connect(cacheWidget, SIGNAL(disableProxies()), this, SIGNAL(disableProxies()));
         connect(cacheWidget, SIGNAL(disablePreview()), this, SIGNAL(disablePreview()));
@@ -119,9 +114,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         m_proxyextension = KdenliveSettings::proxyextension();
         m_previewparams = KdenliveSettings::previewparams();
         m_previewextension = KdenliveSettings::previewextension();
-        xdg_folder->setChecked(!KdenliveSettings::customprojectfolder());
         custom_folder->setChecked(KdenliveSettings::customprojectfolder());
-        project_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
+        project_folder->setUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     }
 
     // Select profile

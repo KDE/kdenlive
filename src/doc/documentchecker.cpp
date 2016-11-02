@@ -93,7 +93,6 @@ bool DocumentChecker::hasErrorInClips()
             }
             if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && QFile::exists(m_url.adjusted(QUrl::RemoveFilename).path() + QStringLiteral("/") + documentid)) {
                 storageFolder = m_url.adjusted(QUrl::RemoveFilename).path();
-                qDebug()<<"* * *Switching storage folder: "<<storageFolder;
                 EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"), storageFolder + QStringLiteral("/") + documentid);
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
             }

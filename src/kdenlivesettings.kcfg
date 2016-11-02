@@ -383,7 +383,7 @@
       <label>Default folder for project files.</label>
       <default></default>
     </entry>
-    
+
     <entry name="customprojectfolder" type="Bool">
       <label>Don't use default XDG folders to store project files.</label>
       <default>false</default>

@@ -1387,7 +1387,10 @@ QMap <QString, QString> KdenliveDoc::documentProperties()
 {
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
     m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));
-    m_documentProperties.insert(QStringLiteral("storagefolder"), m_projectFolder + QStringLiteral("/") + m_documentProperties.value(QStringLiteral("documentid")));
+    if (!m_projectFolder.isEmpty()) {
+        m_documentProperties.insert(QStringLiteral("storagefolder"), m_projectFolder + QStringLiteral("/") +
+        m_documentProperties.value(QStringLiteral("documentid")));
+    }
     m_documentProperties.insert(QStringLiteral("profile"), profilePath());
     m_documentProperties.insert(QStringLiteral("position"), QString::number(m_render->seekPosition().frames(m_render->fps())));
     return m_documentProperties;

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>591</width>
-    <height>746</height>
+    <height>710</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,26 +27,26 @@
        <string>Settings</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0" colspan="4">
-        <widget class="QLabel" name="label_4">
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="video_thumbs">
          <property name="text">
-          <string>Project folder to store proxy clips, thumbnails, previews</string>
+          <string>Video</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QCheckBox" name="audio_thumbs">
+         <property name="text">
+          <string>Audio</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0" colspan="4">
-        <widget class="QRadioButton" name="xdg_folder">
-         <property name="text">
-          <string>Standard system fo&amp;lders</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="4">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QRadioButton" name="custom_folder">
+          <widget class="QCheckBox" name="custom_folder">
            <property name="text">
-            <string>C&amp;ustom Folder</string>
+            <string>Custom project folder</string>
            </property>
           </widget>
          </item>
@@ -59,14 +59,14 @@
          </item>
         </layout>
        </item>
-       <item row="3" column="0" colspan="4">
+       <item row="2" column="0" colspan="4">
         <widget class="QGroupBox" name="profile_box">
          <property name="title">
           <string>Video Profile</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="4">
+       <item row="3" column="0" colspan="4">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QLabel" name="label_7">
@@ -103,41 +103,21 @@
          </item>
         </layout>
        </item>
-       <item row="5" column="0">
+       <item row="0" column="0" colspan="4">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Project folder to store proxy clips, thumbnails, previews</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Thumbnails:</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
-        <widget class="QCheckBox" name="video_thumbs">
-         <property name="text">
-          <string>Video</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="2">
-        <widget class="QCheckBox" name="audio_thumbs">
-         <property name="text">
-          <string>Audio</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>229</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="6" column="0" colspan="4">
+       <item row="5" column="0" colspan="4">
         <widget class="QGroupBox" name="enable_proxy">
          <property name="title">
           <string>Prox&amp;y clips</string>
@@ -248,7 +228,7 @@
          </layout>
         </widget>
        </item>
-       <item row="7" column="0" colspan="4">
+       <item row="6" column="0" colspan="4">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="QLabel" name="label_25">
@@ -292,7 +272,7 @@
          </item>
         </layout>
        </item>
-       <item row="8" column="0" colspan="4">
+       <item row="7" column="0" colspan="4">
         <widget class="QPlainTextEdit" name="previewparams">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
@@ -305,7 +285,7 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="4">
+       <item row="8" column="0" colspan="4">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -318,22 +298,28 @@
          </property>
         </spacer>
        </item>
+       <item row="4" column="3">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>229</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
       <zorder>label_4</zorder>
-      <zorder>project_folder</zorder>
       <zorder>profile_box</zorder>
       <zorder>label_2</zorder>
       <zorder>video_thumbs</zorder>
       <zorder>audio_thumbs</zorder>
       <zorder>enable_proxy</zorder>
       <zorder></zorder>
-      <zorder></zorder>
       <zorder>horizontalSpacer</zorder>
-      <zorder>label_25</zorder>
-      <zorder>proxyparams</zorder>
-      <zorder>xdg_folder</zorder>
-      <zorder>custom_folder</zorder>
-      <zorder>verticalSpacer</zorder>
       <zorder>previewparams</zorder>
       <zorder>verticalSpacer</zorder>
      </widget>
@@ -535,25 +521,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>tabWidget</zorder>
-  <zorder>buttonBox</zorder>
-  <zorder>label_4</zorder>
-  <zorder>preview_profile</zorder>
-  <zorder>label_7</zorder>
-  <zorder>audio_thumbs</zorder>
-  <zorder>label_8</zorder>
-  <zorder>label_25</zorder>
-  <zorder>preview_showprofileinfo</zorder>
-  <zorder>video_tracks</zorder>
-  <zorder>profile_box</zorder>
-  <zorder>horizontalSpacer</zorder>
-  <zorder>enable_proxy</zorder>
-  <zorder>video_thumbs</zorder>
-  <zorder>preview_manageprofile</zorder>
-  <zorder>horizontalSpacer_2</zorder>
-  <zorder>project_folder</zorder>
-  <zorder>label_2</zorder>
-  <zorder>audio_tracks</zorder>
  </widget>
  <customwidgets>
   <customwidget>
@@ -614,12 +581,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>92</x>
-     <y>137</y>
+     <x>124</x>
+     <y>101</y>
     </hint>
     <hint type="destinationlabel">
-     <x>377</x>
-     <y>137</y>
+     <x>409</x>
+     <y>101</y>
     </hint>
    </hints>
   </connection>
