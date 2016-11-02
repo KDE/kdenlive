@@ -4037,10 +4037,14 @@ void CustomTrackView::initCursorPos(int pos)
 
 void CustomTrackView::checkScrolling()
 {
-    QGraphicsView::ViewportUpdateMode mode = viewportUpdateMode();
-    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);    
-    ensureVisible(seekPosition(), verticalScrollBar()->value() + 10, 2, 2, 50, 0);
-    setViewportUpdateMode(mode);
+    double xPos = seekPosition();
+    QRectF viewRect = mapToScene(rect()).boundingRect();
+    if (xPos - viewRect.left() < 50 || viewRect.right() - xPos < 50) {
+        QGraphicsView::ViewportUpdateMode mode = viewportUpdateMode();
+        setViewportUpdateMode(QGraphicsView::FullViewportUpdate);    
+        ensureVisible(xPos, viewRect.top() + 5, 2, 2, 50, 0);
+        setViewportUpdateMode(mode);
+    }
 }
 
 void CustomTrackView::scrollToStart()
