@@ -224,8 +224,8 @@
   <url type="bugtracker">https://bugs.kde.org</url>
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <screenshots>
-    <screenshot type="default" width="1280" height="720">
-      <image>http://kdenlive.org/sites/kdenlive.org/files/kdenlive-screenshot.png</image>
+    <screenshot type="source">
+      <image>https://kdenlive.org/wp-content/data/kdenlive-screenshot.png</image>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>
