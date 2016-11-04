@@ -167,6 +167,8 @@ const QByteArray Clip::xml()
     c.connect(s);
     c.set("time_format", "frames");
     c.set("no_meta", 1);
+    c.set("no_root", 1);
+    c.set("root", "/");
     c.set("store", "kdenlive");
     c.start();
     if (ignore) s.set("ignore_points", ignore);

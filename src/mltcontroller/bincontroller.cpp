@@ -427,8 +427,7 @@ QString BinController::xmlFromId(const QString & id)
 
 QString BinController::getProducerXML(Mlt::Producer &producer, bool includeMeta)
 {
-    QString filename = QStringLiteral("string");
-    Mlt::Consumer c(*producer.profile(), "xml", filename.toUtf8().constData());
+    Mlt::Consumer c(*producer.profile(), "xml", "string");
     Mlt::Service s(producer.get_service());
     if (!s.is_valid())
         return QLatin1String("");
@@ -438,15 +437,13 @@ QString BinController::getProducerXML(Mlt::Producer &producer, bool includeMeta)
     c.set("time_format", "frames");
     if (!includeMeta) c.set("no_meta", 1);
     c.set("store", "kdenlive");
-    if (filename != QLatin1String("string")) {
-        c.set("no_root", 1);
-        c.set("root", QFileInfo(filename).absolutePath().toUtf8().constData());
-    }
+    c.set("no_root", 1);
+    c.set("root", "/");
     c.connect(s);
     c.start();
     if (ignore)
         s.set("ignore_points", ignore);
-    return QString::fromUtf8(c.get(filename.toUtf8().constData()));
+    return QString::fromUtf8(c.get("string"));
 }
 
 ClipController *BinController::getController(const QString &id)

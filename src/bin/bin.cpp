@@ -864,6 +864,7 @@ void Bin::slotReloadClip()
 	    emit openClip(NULL);
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
+            qDebug()<<"*****************\n"<<doc.toString()<<"\n******************";
             if (!xml.isNull()) {
                 currentItem->setClipStatus(AbstractProjectItem::StatusWaiting);
                 // We need to set a temporary id before all outdated producers are replaced;
