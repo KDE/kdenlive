@@ -84,8 +84,8 @@ static QString colorToString(const QColor &color, bool alpha)
     return colorStr;
 }
 
-ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, bool alphaEnabled, QWidget *parent) :
-    QWidget(parent)
+ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, const QString &comment, bool alphaEnabled, QWidget *parent) :
+        AbstractParamWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -105,15 +105,22 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
 //     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     ColorPickerWidget *picker = new ColorPickerWidget(rightSide);
 
-    layout->addWidget(label);
-    layout->addWidget(rightSide);
-    rightSideLayout->addWidget(m_button);
-    rightSideLayout->addWidget(picker, 0, Qt::AlignRight);
+    layout->addWidget(label, 1);
+    layout->addWidget(rightSide, 1);
+    rightSideLayout->addStretch();
+    rightSideLayout->addWidget(m_button, 2);
+    rightSideLayout->addWidget(picker);
 
     connect(picker, &ColorPickerWidget::colorPicked, this, &ChooseColorWidget::setColor);
-    connect(picker, &ColorPickerWidget::displayMessage, this, &ChooseColorWidget::displayMessage);
     connect(picker, &ColorPickerWidget::disableCurrentFilter, this, &ChooseColorWidget::disableCurrentFilter);
     connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified(QColor)));
+
+    //connect the signal of the derived class to the signal of the base class
+    connect(this, &ChooseColorWidget::modified,
+            [this](const QColor&){ emit valueChanged();});
+
+    //setup comment
+    setToolTip(comment);
 }
 
 QString ChooseColorWidget::getColor() const

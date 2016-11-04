@@ -21,24 +21,29 @@
 #define CHOOSECOLORWIDGET_H
 
 #include <QWidget>
+#include "abstractparamwidget.h"
 
 class KColorButton;
 
 /**
  * @class ChooseColorWidget
  * @brief Provides options to choose a color.
+ Two mechanisms are provided: color-picking directly on the screen and choosing from a list
  * @author Till Theato
  */
 
-class ChooseColorWidget : public QWidget
+class ChooseColorWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
     /** @brief Sets up the widget.
-    * @param text (optional) What the color will be used for
-    * @param color (optional) initial color
-    * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit ChooseColorWidget(const QString &text = QString(), const QString &color = QStringLiteral("0xffffffff"), bool alphaEnabled = false, QWidget *parent = Q_NULLPTR);
+    * @param name (optional) What the color will be used for (name of the parameter)
+    * @param color (optional) initial color 
+    * @param comment (optional) Comment about the parameter
+    * @param alphaEnabled (optional) Should transparent colors be enabled
+    * @param parent(optional) Parent widget
+    */
+    explicit ChooseColorWidget(const QString &name = QString(), const QString &color = QStringLiteral("0xffffffff"), const QString &comment = QString(), bool alphaEnabled = false, QWidget* parent = 0);
 
     /** @brief Gets the chosen color. */
     QString getColor() const;
@@ -55,10 +60,7 @@ private slots:
 
 signals:
     /** @brief Emitted whenever a different color was chosen. */
-    void modified(const QColor& = QColor());
-    void displayMessage(const QString &, int);
-    /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
-    void disableCurrentFilter(bool);
+    void modified(QColor = QColor());
 };
 
 #endif

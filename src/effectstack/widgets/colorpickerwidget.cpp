@@ -95,10 +95,6 @@ void ColorPickerWidget::slotGetAverageColor()
     int sumG = 0;
     int sumB = 0;
 
-    // only show message for larger rects because of the overhead displayMessage creates
-    if (numPixel > 40000) {
-        emit displayMessage(i18n("Requesting color information..."), 0);
-    }
 
     /*
      Only getting the image once for the whole rect
@@ -122,10 +118,6 @@ void ColorPickerWidget::slotGetAverageColor()
             sumB += color.blue();
         }
 
-        // Warning: slows things down, so don't do it for every pixel (the inner for loop)
-        if (numPixel > 40000) {
-            emit displayMessage(i18n("Requesting color information..."), (int)(x * m_grabRect.height() / (qreal)numPixel * 100));
-        }
     }
 
 #ifdef Q_WS_X11
@@ -133,9 +125,6 @@ void ColorPickerWidget::slotGetAverageColor()
     m_image = Q_NULLPTR;
 #endif
 
-    if (numPixel > 40000) {
-        emit displayMessage(i18n("Calculated average color for rectangle."), -1);
-    }
 
     emit colorPicked(QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel));
     emit disableCurrentFilter(false);

@@ -136,7 +136,6 @@ private:
 signals:
     void parameterChanged(const QDomElement &, const QDomElement &, int);
     void syncEffectsPos(int);
-    void displayMessage(const QString &, int);
     void disableCurrentFilter(bool);
     void checkMonitorPosition(int);
     void seekTimeline(int);

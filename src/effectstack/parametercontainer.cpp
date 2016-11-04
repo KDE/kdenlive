@@ -392,16 +392,14 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 if (value.startsWith('#')) {
                     value = value.replace('#', QLatin1String("0x"));
                 }
-                ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, pa.hasAttribute(QStringLiteral("alpha")), parent);
-                choosecolor->setToolTip(comment);
+                ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, comment, pa.hasAttribute(QStringLiteral("alpha")), parent);
                 m_vbox->addWidget(choosecolor);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     choosecolor->setEnabled(false);
                     m_conditionalWidgets << choosecolor;
                 }
                 m_valueItems[paramName] = choosecolor;
-                connect(choosecolor, &ChooseColorWidget::displayMessage, this, &ParameterContainer::displayMessage);
-                connect(choosecolor, &ChooseColorWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
+                connect(choosecolor, &ChooseColorWidget::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
                 connect(choosecolor, &ChooseColorWidget::disableCurrentFilter, this, &ParameterContainer::disableCurrentFilter);
             } else if (type == QLatin1String("position")) {
                 int pos = value.toInt();

@@ -48,6 +48,11 @@ signals:
     /** @brief Signal sent when the parameters hold by the widgets are modified
      */
     void valueChanged();
+
+    /* @brief Signal sent when the filter needs to be deactivated or reactivated.
+       This happens for example when the user has to pick a color.
+     */
+    void disableCurrentFilter(bool);
 public slots:
     /** @brief Toggle the comments on or off
      */

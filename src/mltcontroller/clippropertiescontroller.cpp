@@ -279,7 +279,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         // Edit color widget
         m_originalProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
         mlt_color color = m_properties.get_color("resource");
-        ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), false, this);
+        ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), "", false, this);
         vbox->addWidget(choosecolor);
         //connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
