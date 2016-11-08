@@ -29,7 +29,6 @@
 #include <KGuiItem>
 #include <KTar>
 #include <QDebug>
-#include <KIO/MkdirJob>
 #include <KJobWidgets>
 #include <kio/directorysizejob.h>
 #include <KMessageWidget>
@@ -541,9 +540,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                 QUrl slideFolder = QUrl::fromLocalFile(archive_url->url().path() + "/slideshows");
                 if (isArchive) m_foldersList.append(QStringLiteral("slideshows"));
                 else {
-                    KIO::MkdirJob *job = KIO::mkdir(slideFolder);
-                    KJobWidgets::setWindow(job, QApplication::activeWindow());
-                    if (!job->exec()) {
+                    QDir dir(slideFolder.path());
+                    if (!dir.mkpath(QStringLiteral("."))) {
                         KMessageBox::sorry(this, i18n("Cannot create directory %1", slideFolder.path()));
                     }
                 }
@@ -623,9 +621,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         slotStartArchiving(false);
     }
     else {
-        KIO::MkdirJob *job = KIO::mkdir(destUrl);
-        KJobWidgets::setWindow(job, QApplication::activeWindow());
-        if (!job->exec()) {
+        QDir dir(destUrl.path());
+        if (!dir.mkpath(QStringLiteral("."))) {
             KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.path()));
         }
         m_copyJob = KIO::copy (files, destUrl, KIO::HideProgressInfo);
@@ -876,9 +873,8 @@ void ArchiveWidget::slotStartExtracting()
     }
     QFileInfo f(m_extractUrl.path());
     m_requestedSize = f.size();
-    KIO::MkdirJob *job = KIO::mkdir(archive_url->url());
-    KJobWidgets::setWindow(job, QApplication::activeWindow());
-    if (!job->exec()) {
+    QDir dir(archive_url->url().path());
+    if (!dir.mkpath(QStringLiteral("."))) {
         KMessageBox::sorry(this, i18n("Cannot create directory %1", archive_url->url().path()));
     }
     slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting..."));
