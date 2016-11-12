@@ -282,7 +282,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);
         }
         m_logstream << "Rendering of " << m_dest << " finished" << endl;
-        if (!m_dualpass && !m_player.isEmpty()) {
+        if (!m_dualpass && m_player.length() > 3 && m_player.contains(QLatin1Char(' '))) {
             QStringList args = m_player.split(QLatin1Char(' '));
             QString exec = args.takeFirst();
             // Decode url
@@ -290,6 +290,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
             args << url;
             QProcess::startDetached(exec, args);
         }
+        m_logstream.flush();
         if (m_dualpass) {
             emit renderingFinished();
             deleteLater();
