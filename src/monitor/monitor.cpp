@@ -1381,7 +1381,7 @@ void Monitor::slotOpenDvdFile(const QString &file)
 
 void Monitor::slotSaveZone()
 {
-    render->saveZone(pCore->projectManager()->current()->projectFolder(), m_ruler->zone());
+    render->saveZone(pCore->projectManager()->current()->projectDataFolder(), m_ruler->zone());
 }
 
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)

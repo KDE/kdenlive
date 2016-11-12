@@ -495,8 +495,6 @@ public:
     void editMasterEffect(ClipController *ctl);
     /** @brief An effect setting was changed, update stack if displayed. */
     void updateMasterEffect(ClipController *ctl);
-    /** @brief Returns current project's folder for storing items. */
-    QString projectFolder() const;
     /** @brief Display a message about an operation in status bar. */
     void emitMessage(const QString &, int, MessageType);
     void rebuildMenu();

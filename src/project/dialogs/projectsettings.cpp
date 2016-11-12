@@ -97,7 +97,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         if (!storageFolder.isEmpty()) {
             custom_folder->setChecked(true);
         }
-        project_folder->setUrl(QUrl::fromLocalFile(doc->projectFolder()));
+        project_folder->setUrl(QUrl::fromLocalFile(doc->projectTempFolder()));
         TemporaryData *cacheWidget = new TemporaryData(doc, true, this);
         connect(cacheWidget, SIGNAL(disableProxies()), this, SIGNAL(disableProxies()));
         connect(cacheWidget, SIGNAL(disablePreview()), this, SIGNAL(disablePreview()));

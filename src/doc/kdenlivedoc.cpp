@@ -721,10 +721,18 @@ QString KdenliveDoc::groupsXml() const
     return m_clipManager->groupsXml();
 }
 
-QString KdenliveDoc::projectFolder() const
+QString KdenliveDoc::projectTempFolder() const
 {
     if (m_projectFolder.isEmpty()) {
         return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    }
+    return m_projectFolder;
+}
+
+QString KdenliveDoc::projectDataFolder() const
+{
+    if (m_projectFolder.isEmpty()) {
+        return KdenliveSettings::defaultprojectfolder();
     }
     return m_projectFolder;
 }

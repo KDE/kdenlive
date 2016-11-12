@@ -630,7 +630,7 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
         projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
         projectFile = url;
     } else {
-        projectFolder = QUrl::fromLocalFile(m_project->projectFolder());
+        projectFolder = QUrl::fromLocalFile(m_project->projectTempFolder());
         projectFile = m_project->url();
         projectId = m_project->getDocumentProperty(QStringLiteral("documentid"));
     }
@@ -809,11 +809,11 @@ void ProjectManager::slotMoveFinished(KJob *job)
         QString newFolder = copyJob->destUrl().path();
         // Check if project folder is inside document folder, in which case, paths will be relative
         QDir projectDir(m_project->url().toString(QUrl::RemoveFilename | QUrl::RemoveScheme));
-        QDir srcDir(m_project->projectFolder());
+        QDir srcDir(m_project->projectTempFolder());
         if (srcDir.absolutePath().startsWith(projectDir.absolutePath())) {
             m_replacementPattern.insert(QStringLiteral(">proxy/"), QStringLiteral(">") + newFolder + QStringLiteral("/proxy/"));
         } else {
-            m_replacementPattern.insert(m_project->projectFolder() + QStringLiteral("/proxy/"), newFolder + QStringLiteral("/proxy/"));
+            m_replacementPattern.insert(m_project->projectTempFolder() + QStringLiteral("/proxy/"), newFolder + QStringLiteral("/proxy/"));
         }
         m_project->setProjectFolder(QUrl::fromLocalFile(newFolder));
         saveFile();

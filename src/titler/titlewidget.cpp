@@ -1834,7 +1834,7 @@ void TitleWidget::itemRight()
 
 void TitleWidget::loadTitle(QUrl url)
 {
-    if (!url.isValid()) url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl(m_projectTitlePath), i18n("Kdenlive title (*.kdenlivetitle)"));
+    if (!url.isValid()) url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl::fromLocalFile(m_projectTitlePath), i18n("Kdenlive title (*.kdenlivetitle)"));
     if (url.isValid()) {
         QList<QGraphicsItem *> items = m_scene->items();
         items.removeAll(m_frameBorder);

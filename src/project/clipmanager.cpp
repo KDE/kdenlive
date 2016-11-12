@@ -289,13 +289,6 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, c
     m_doc->commandStack()->push(command);
 }
 
-
-QString ClipManager::projectFolder() const
-{
-    return m_doc->projectFolder();
-}
-
-
 AbstractGroupItem *ClipManager::createGroup()
 {
     QMutexLocker lock(&m_groupsMutex);

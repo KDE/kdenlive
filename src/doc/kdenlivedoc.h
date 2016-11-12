@@ -108,8 +108,10 @@ public:
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
 
-    /** @brief Returns the project folder, used to store project files. */
-    QString projectFolder() const;
+    /** @brief Returns the project folder, used to store project temporary files. */
+    QString projectTempFolder() const;
+    /** @brief Returns the folder used to store project data files (titles, etc). */
+    QString projectDataFolder() const;
     void setZoom(int horizontal, int vertical);
     QPoint zoom() const;
     double dar() const;

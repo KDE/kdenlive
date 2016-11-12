@@ -935,11 +935,6 @@ ProjectFolder *Bin::rootFolder()
     return m_rootFolder;
 }
 
-QString Bin::projectFolder() const
-{
-    return m_doc->projectFolder();
-}
-
 void Bin::setMonitor(Monitor *monitor)
 {
     m_monitor = monitor;
@@ -3004,7 +2999,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     }
     cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
     //TODO KF5 how to add custom cbox to Qfiledialog
-    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), m_doc->projectFolder());
+    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), m_doc->projectDataFolder());
     fd->setMimeTypeFilters(QStringList()<<QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) return;
@@ -3086,7 +3081,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
         }
         cbox->setCurrentIndex(0);
         //TODO KF5 how to add custom cbox to Qfiledialog
-        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), m_doc->projectFolder());
+        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), m_doc->projectDataFolder());
         fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
         fd->setFileMode(QFileDialog::AnyFile);
         fd->setAcceptMode(QFileDialog::AcceptSave);
@@ -3161,7 +3156,7 @@ void Bin::slotGetCurrentProjectImage(bool request)
 void Bin::showTitleWidget(ProjectClip *clip)
 {
     QString path = clip->getProducerProperty(QStringLiteral("resource"));
-    QDir titleFolder(m_doc->projectFolder() + QStringLiteral("/titles"));
+    QDir titleFolder(m_doc->projectDataFolder() + QStringLiteral("/titles"));
     titleFolder.mkpath(QStringLiteral("."));
     TitleWidget dia_ui(QUrl(), m_doc->timecode(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor()->render, pCore->window());
     connect(&dia_ui, SIGNAL(requestBackgroundFrame(bool)), pCore->monitorManager()->projectMonitor(), SLOT(slotGetCurrentImage(bool)));

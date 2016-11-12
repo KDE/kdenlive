@@ -295,7 +295,7 @@ QString MonitorManager::getProjectFolder() const
 	//qDebug()<<" + + +NULL DOC!!";
 	return QString();
     }
-    return m_document->projectFolder() + QDir::separator();
+    return m_document->projectDataFolder() + QDir::separator();
 }
 
 BinController *MonitorManager::binController()
