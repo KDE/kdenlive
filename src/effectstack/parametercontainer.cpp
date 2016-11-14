@@ -216,9 +216,13 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             m_conditionalWidgets << mw;
         }
         if (pa.tagName() != QLatin1String("parameter")) continue;
+        QString type = pa.attribute(QStringLiteral("type"));
+        if (type == QLatin1String("fixed")) {
+            // Fixed parameters are not exposed in the UI
+            continue;
+        }
         QDomElement na = pa.firstChildElement(QStringLiteral("name"));
         QDomElement commentElem = pa.firstChildElement(QStringLiteral("comment"));
-        QString type = pa.attribute(QStringLiteral("type"));
         QString paramName = na.isNull() ? pa.attribute(QStringLiteral("name")) : i18n(na.text().toUtf8().data());
         QString comment;
         if (!commentElem.isNull())

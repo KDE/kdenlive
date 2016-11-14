@@ -37,7 +37,7 @@ AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, const
     QString effectName;
     QDomElement namenode = m_effect.firstChildElement(QStringLiteral("name"));
     if (!namenode.isNull())
-        effectName = i18n(namenode.text().toUtf8().data());
+        effectName = i18n(namenode.text().toUtf8().constData());
     else
         effectName = i18n("effect");
     if (doIt)
@@ -277,8 +277,9 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, con
 {
     QString effectName;
     QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
+    qDebug()<<"editing EFFECT; "<<namenode.text();
     if (!namenode.isNull())
-        effectName = i18n(namenode.text().toUtf8().data());
+        effectName = i18n(namenode.text().toUtf8().constData());
     else
         effectName = i18n("effect");
     setText(i18n("Edit effect %1", effectName));

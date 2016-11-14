@@ -86,7 +86,7 @@ bool SelectManager::mouseMove(QMouseEvent *event, int, int)
     if (!m_dragMoved && event->buttons() & Qt::LeftButton) {
         if ((m_clickPoint - event->pos()).manhattanLength() < QApplication::startDragDistance()) {
             event->ignore();
-            return false;
+            return true;
         }
         m_dragMoved = true;
     }
