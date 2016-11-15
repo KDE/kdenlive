@@ -22,6 +22,7 @@
 #include "utils/KoIconUtils.h"
 #include "kdenlivesettings.h"
 #include "renderer.h"
+#include "utils/thememanager.h"
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
 #endif
@@ -72,7 +73,9 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     QWizard(parent),
     m_systemCheckIsOk(false),
     m_brokenModule(false)
-{    
+{
+    // Check color theme
+    ThemeManager::instance()->initDarkTheme();
     setWindowTitle(i18n("Welcome to Kdenlive"));
     int logoHeight = fontMetrics().height() * 2.5;
     setWizardStyle(QWizard::ModernStyle);

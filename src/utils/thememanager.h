@@ -52,16 +52,18 @@ public:
     static ThemeManager* instance();
 
     QString currentThemeName() const;
-    void    setCurrentTheme(const QString& name);
+    void setCurrentTheme(const QString& name);
 
     QString defaultThemeName() const;
 
-    void    setThemeMenuAction(KActionMenu* const action);
+    void setThemeMenuAction(KActionMenu* const action);
+    /** @brief set dark theme by default if available */
+    void initDarkTheme();
 
 Q_SIGNALS:
 
     void signalThemeChanged(const QString&);
-    
+
 public Q_SLOTS:
     void slotSettingsChanged();
     void slotChangePalette();

@@ -48,7 +48,7 @@
 #include <KColorScheme>
 #include <ktoolinvocation.h>
 #include "thememanager.h"
-
+#include "kdenlivesettings.h"
 
 class ThemeManagerCreator
 {
@@ -296,3 +296,15 @@ void ThemeManager::slotSettingsChanged()
     slotChangePalette();
 }
 
+void ThemeManager::initDarkTheme()
+{
+    QString defaultTheme = currentKDEdefaultTheme();
+    if (defaultTheme.isEmpty() || defaultTheme == QLatin1String("Breeze")) {
+        // Switch to breeze dark if available
+        if (d->themeMap.contains(QStringLiteral("Breeze Dark"))) {
+            KdenliveSettings::setColortheme(d->themeMap.value(QStringLiteral("Breeze Dark")));
+            setCurrentTheme(KdenliveSettings::colortheme());
+            slotChangePalette();
+        }
+    }
+}
