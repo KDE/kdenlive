@@ -4405,7 +4405,7 @@ void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, bo
     // Expand groups
     int max = itemList.count();
     for (int i = 0; i < max; ++i) {
-        if (itemList.at(i)->type() == GroupWidget) {
+        if (itemList.at(i)->type() == GroupWidget && itemList.at(i) != m_selectionGroup) {
             if (!existingGroups.contains(itemList.at(i))) {
                 existingGroups << itemList.at(i);
             }
@@ -4513,14 +4513,14 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
     QList <QGraphicsItem *>list;
     for (int i = 0; i < clipInfos.count(); ++i) {
         ClipItem *clip = getClipItemAtStart(clipInfos.at(i).startPos, clipInfos.at(i).track);
-        if (clip) {
+        if (clip && !list.contains(clip)) {
             list.append(clip);
             //clip->setSelected(true);
         }
     }
     for (int i = 0; i < transitionInfos.count(); ++i) {
         Transition *clip = getTransitionItemAt(transitionInfos.at(i).startPos, transitionInfos.at(i).track);
-        if (clip) {
+        if (clip && !list.contains(clip)) {
             list.append(clip);
             //clip->setSelected(true);
         }
