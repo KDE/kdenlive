@@ -712,11 +712,8 @@ QString ProjectManager::projectSceneList(const QString outputFolder)
 void ProjectManager::prepareSave()
 {
     pCore->binController()->saveDocumentProperties(m_trackView->documentProperties(), m_project->metadata(), m_trackView->projectView()->guidesData());
-    QString projectNotes = m_project->documentNotes();
-    pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), projectNotes);
-    QString groupsXml = m_project->groupsXml();
-    if (!groupsXml.isEmpty())
-	pCore->binController()->saveProperty(QStringLiteral("kdenlive:clipgroups"), groupsXml);
+    pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), m_project->documentNotes());
+    pCore->binController()->saveProperty(QStringLiteral("kdenlive:clipgroups"), m_project->groupsXml());
 }
 
 
