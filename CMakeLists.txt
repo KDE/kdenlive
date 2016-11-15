@@ -4,8 +4,8 @@ project(Kdenlive)
 # stable release. An additional number can be used for bugfix-only releases.
 
 # KDE Application Version, managed by release script
-set (KDE_APPLICATIONS_VERSION_MAJOR "16")
-set (KDE_APPLICATIONS_VERSION_MINOR "11")
+set (KDE_APPLICATIONS_VERSION_MAJOR "17")
+set (KDE_APPLICATIONS_VERSION_MINOR "03")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION ${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO})
