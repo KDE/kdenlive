@@ -219,7 +219,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
             }
             else {
                 qDebug()<<" // / processing file open: validate";
-                parent->slotGotProgressInfo(i18n("Validating"), 0);
+                parent->slotGotProgressInfo(i18n("Validating"), 100);
                 qApp->processEvents();
                 DocumentValidator validator(m_document, url);
                 success = validator.isProject();
@@ -241,7 +241,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                     }
                     if (success) { // Let the validator handle error messages
                         qDebug()<<" // / processing file validate ok";
-                        parent->slotGotProgressInfo(i18n("Check missing clips"), 0);
+                        parent->slotGotProgressInfo(i18n("Check missing clips"), 100);
                         qApp->processEvents();
                         DocumentChecker d(m_url, m_document);
                         success = !d.hasErrorInClips();
