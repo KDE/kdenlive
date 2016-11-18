@@ -565,10 +565,13 @@ void AnimationWidget::updateRect(int pos)
     m_spinY->blockSignals(true);
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
+    m_spinSize->blockSignals(true);
     m_spinX->setValue(rect.x);
     m_spinY->setValue(rect.y);
     m_spinWidth->setValue(rect.w);
     m_spinHeight->setValue(rect.h);
+    double scale = qMin(rect.w / m_monitor->render->frameRenderWidth(), rect.h / m_monitor->render->renderHeight());
+    m_spinSize->setValue(100.0 * scale);
     if (m_spinOpacity) {
         m_spinOpacity->blockSignals(true);
         m_spinOpacity->setValue(100.0 * rect.o);
@@ -619,6 +622,7 @@ void AnimationWidget::updateRect(int pos)
     m_spinY->setEnabled(enableEdit);
     m_spinWidth->setEnabled(enableEdit);
     m_spinHeight->setEnabled(enableEdit);
+    m_spinSize->setEnabled(enableEdit);
     if (m_spinOpacity) {
         m_spinOpacity->setEnabled(enableEdit);
     }
@@ -626,6 +630,7 @@ void AnimationWidget::updateRect(int pos)
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
+    m_spinSize->blockSignals(false);
     m_endAttach->blockSignals(false);
     setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
     // Restore default controller
