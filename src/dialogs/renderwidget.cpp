@@ -312,7 +312,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
     if (!interface || (!interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) && !interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager"))))
         m_view.shutdown->setEnabled(false);
-
+    refreshView();
     focusFirstVisibleItem();
     adjustSize();
 }
