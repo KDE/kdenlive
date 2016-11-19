@@ -273,7 +273,11 @@ void SlideshowClip::parseFolder()
     }
     m_count = m_view.icon_list->count();
     m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_count > 0);
-    m_view.label_info->setText(i18np("1 image found", "%1 images found", m_count));
+    if (m_count == 0) {
+        m_view.label_info->setText(i18n("No image found"));
+    } else {
+        m_view.label_info->setText(i18np("1 image found", "%1 images found", m_count));
+    }
     if (m_view.show_thumbs->isChecked()) slotGenerateThumbs();
     m_view.icon_list->setCurrentRow(0);
 }

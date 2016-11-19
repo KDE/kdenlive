@@ -211,6 +211,7 @@ private:
     bool saveProfile(QDomElement newprofile);
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString groupName, const QString path, const QString profileName);
+    void checkCodecs();
 
 signals:
     void abortProcess(const QString &url);

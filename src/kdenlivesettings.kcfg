@@ -762,21 +762,6 @@
       <default></default>
     </entry>
 
-    <entry name="audiocodecs" type="StringList">
-      <label>Available avformat audio codecs.</label>
-      <default></default>
-    </entry>
-
-    <entry name="videocodecs" type="StringList">
-      <label>Available avformat video codecs.</label>
-      <default></default>
-    </entry>
-
-    <entry name="supportedformats" type="StringList">
-      <label>Available avformat formats.</label>
-      <default></default>
-    </entry>
-
     <entry name="hastitleproducer" type="Bool">
       <label>Is MLT compiled with Qt4 Kdenlive title support.</label>
       <default>true</default>
