@@ -92,6 +92,9 @@ enum JOBSTATUS {
     ABORTEDJOB
 };
 
+static QStringList acodecsList;
+static QStringList vcodecsList;
+static QStringList supportedFormats;
 
 RenderJobItem::RenderJobItem(QTreeWidget * parent, const QStringList & strings, int type)
     : QTreeWidgetItem(parent, strings, type),
@@ -312,6 +315,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
     if (!interface || (!interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) && !interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager"))))
         m_view.shutdown->setEnabled(false);
+    checkCodecs();
     refreshView();
     focusFirstVisibleItem();
     adjustSize();
@@ -1429,14 +1433,6 @@ void RenderWidget::refreshView()
     QIcon brokenIcon = KoIconUtils::themedIcon(QStringLiteral("dialog-close"));
     QIcon warningIcon = KoIconUtils::themedIcon(QStringLiteral("dialog-warning"));
 
-    QStringList formatsList;
-    QStringList vcodecsList;
-    QStringList acodecsList;
-    if (!KdenliveSettings::bypasscodeccheck()) {
-	formatsList= KdenliveSettings::supportedformats();
-	vcodecsList = KdenliveSettings::videocodecs();
-	acodecsList = KdenliveSettings::audiocodecs();
-    }
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
@@ -1474,13 +1470,13 @@ void RenderWidget::refreshView()
             }
 
             // Make sure the selected profile uses an installed avformat codec / format
-            if (!formatsList.isEmpty()) {
+            if (!supportedFormats.isEmpty()) {
                 QString format;
                 if (std.startsWith(QLatin1String("f="))) format = std.section(QStringLiteral("f="), 1, 1);
                 else if (std.contains(QStringLiteral(" f="))) format = std.section(QStringLiteral(" f="), 1, 1);
                 if (!format.isEmpty()) {
                     format = format.section(' ', 0, 0).toLower();
-                    if (!formatsList.contains(format)) {
+                    if (!supportedFormats.contains(format)) {
                         item->setData(0, ErrorRole, i18n("Unsupported video format: %1", format));
                         item->setIcon(0, brokenIcon);
                         item->setForeground(0, disabled);
@@ -1817,7 +1813,6 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     QString extension;
     QDomNodeList groups = doc.elementsByTagName(QStringLiteral("group"));
     QTreeWidgetItem *item = NULL;
-    const QStringList acodecsList = KdenliveSettings::audiocodecs();
     bool replaceVorbisCodec = false;
     if (acodecsList.contains(QStringLiteral("libvorbis"))) replaceVorbisCodec = true;
     bool replaceLibfaacCodec = false;
@@ -2545,5 +2540,30 @@ void RenderWidget::adjustSpeed(int speedIndex)
         if (speedIndex < speeds.count()) {
             m_view.speed->setToolTip(i18n("Codec speed parameters:\n") + speeds.at(speedIndex));
         }
+    }
+}
+
+void RenderWidget::checkCodecs()
+{
+    Mlt::Profile p;
+    Mlt::Consumer *consumer = new Mlt::Consumer(p, "avformat");;
+    if (consumer) {
+        consumer->set("vcodec", "list");
+        consumer->set("acodec", "list");
+        consumer->set("f", "list");
+        consumer->start();
+        vcodecsList.clear();
+        Mlt::Properties vcodecs((mlt_properties) consumer->get_data("vcodec"));
+        for (int i = 0; i < vcodecs.count(); ++i)
+            vcodecsList << QString(vcodecs.get(i));
+        acodecsList.clear();
+        Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
+        for (int i = 0; i < acodecs.count(); ++i)
+            acodecsList << QString(acodecs.get(i));
+        supportedFormats.clear();
+        Mlt::Properties formats((mlt_properties) consumer->get_data("f"));
+        for (int i = 0; i < formats.count(); ++i)
+            supportedFormats << QString(formats.get(i));
+        delete consumer;
     }
 }

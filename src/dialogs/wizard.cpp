@@ -54,6 +54,9 @@ const int mltVersionRevision = MLT_MIN_PATCH_VERSION;
 
 static const char kdenlive_version[] = KDENLIVE_VERSION;
 
+static QStringList acodecsList;
+static QStringList vcodecsList;
+
 
 MyWizardPage::MyWizardPage(QWidget *parent) : QWizardPage(parent)
     , m_isComplete(false)
@@ -363,21 +366,12 @@ void Wizard::checkMltComponents()
             consumer->set("acodec", "list");
             consumer->set("f", "list");
             consumer->start();
-            QStringList result;
             Mlt::Properties vcodecs((mlt_properties) consumer->get_data("vcodec"));
             for (int i = 0; i < vcodecs.count(); ++i)
-                result << QString(vcodecs.get(i));
-            KdenliveSettings::setVideocodecs(result);
-            result.clear();
+                vcodecsList << QString(vcodecs.get(i));
             Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
             for (int i = 0; i < acodecs.count(); ++i)
-                result << QString(acodecs.get(i));
-            KdenliveSettings::setAudiocodecs(result);
-            result.clear();
-            Mlt::Properties formats((mlt_properties) consumer->get_data("f"));
-            for (int i = 0; i < formats.count(); ++i)
-                result << QString(formats.get(i));
-            KdenliveSettings::setSupportedformats(result);
+                acodecsList << QString(acodecs.get(i));
             checkMissingCodecs();
             delete consumer;
         }
@@ -413,8 +407,6 @@ void Wizard::checkMltComponents()
 
 void Wizard::checkMissingCodecs()
 {
-    const QStringList acodecsList = KdenliveSettings::audiocodecs();
-    const QStringList vcodecsList = KdenliveSettings::videocodecs();
     bool replaceVorbisCodec = false;
     if (acodecsList.contains(QStringLiteral("libvorbis"))) replaceVorbisCodec = true;
     bool replaceLibfaacCodec = false;
