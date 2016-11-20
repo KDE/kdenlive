@@ -294,13 +294,15 @@ void AnimationWidget::doAddKeyframe(int pos, QString paramName, bool directUpdat
     pos -= m_offset;
     // Try to get previous key's type
     mlt_keyframe_type type = (mlt_keyframe_type) KdenliveSettings::defaultkeyframeinterp();
-    int previous = m_animController.previous_key(pos);
-    if (m_animController.is_key(previous)) {
-        type =  m_animController.keyframe_type(previous);
-    } else {
-        int next = m_animController.next_key(pos);
-        if (m_animController.is_key(next)) {
-            type =  m_animController.keyframe_type(next);
+    if (m_animController.key_count() > 1) {
+        int previous = m_animController.previous_key(pos);
+        if (m_animController.is_key(previous)) {
+            type =  m_animController.keyframe_type(previous);
+        } else {
+            int next = m_animController.next_key(pos);
+            if (m_animController.is_key(next)) {
+                type =  m_animController.keyframe_type(next);
+            }
         }
     }
 
@@ -437,12 +439,13 @@ void AnimationWidget::rebuildKeyframes()
     QVector <int> types;
     int frame;
     mlt_keyframe_type type;
-    for (int i = 0; i < m_animController.key_count(); i++) {
+    int count = m_animController.key_count();
+    for (int i = 0; i < count; i++) {
         if (!m_animController.key_get(i, frame, type)) {
             frame += m_offset;
             if (frame >= 0) {
 		  keyframes << frame;
-		  types << (int) type;
+		  types << (count > 1 ? (int) type : mlt_keyframe_linear);
 	    }
         }
     }
@@ -466,7 +469,7 @@ void AnimationWidget::updateToolbar()
                 break;
             }
         }
-        m_selectType->setEnabled(true);
+        m_selectType->setEnabled(m_animController.key_count() > 1);
         m_addKeyframe->setActive(true);
         m_addKeyframe->setEnabled(m_animController.key_count() > 1);
         if (m_doubleWidgets.value(m_inTimeline))
@@ -536,7 +539,7 @@ void AnimationWidget::updateSlider(int pos)
                 if (m_active) m_monitor->setEffectKeyframe(true);
                 m_addKeyframe->setActive(true);
                 m_addKeyframe->setEnabled(m_animController.key_count() > 1);
-                m_selectType->setEnabled(true);
+                m_selectType->setEnabled(m_animController.key_count() > 1);
                 m_endAttach->setEnabled(true);
                 m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
                 mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
@@ -603,7 +606,7 @@ void AnimationWidget::updateRect(int pos)
         }
         m_addKeyframe->setActive(true);
         m_addKeyframe->setEnabled(m_animController.key_count() > 1);
-        m_selectType->setEnabled(true);
+        m_selectType->setEnabled(m_animController.key_count() > 1);
         m_endAttach->setEnabled(true);
         m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
         mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
