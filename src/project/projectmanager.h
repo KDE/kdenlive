@@ -64,6 +64,8 @@ public:
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(QStringList info, QDir dir);
+    /** @brief Move project data files to new url */ 
+    void moveProjectData(const QString &src, const QString &dest);
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
