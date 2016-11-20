@@ -100,7 +100,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     page2->setTitle(i18n("Video Standard"));
     m_standard.setupUi(page2);*/
     setButtonText(QWizard::CancelButton, i18n("Abort"));
-    setButtonText(QWizard::FinishButton, i18n("Ok"));
+    setButtonText(QWizard::FinishButton, i18n("OK"));
 
     slotCheckMlt();
     m_startLayout->addStretch();
