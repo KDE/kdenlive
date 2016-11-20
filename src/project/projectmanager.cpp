@@ -793,6 +793,15 @@ void ProjectManager::saveZone(QStringList info, QDir dir)
     pCore->bin()->saveZone(info, dir);
 }
 
+void ProjectManager::moveProjectData(const QString &src, const QString &dest)
+{
+    // Move tmp folder (thumbnails, timeline preview)
+    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src),QUrl::fromLocalFile(dest));
+    connect(copyJob, SIGNAL(result(KJob *)), this, SLOT(slotMoveFinished(KJob *)));
+    connect(copyJob, SIGNAL(percent(KJob *, unsigned long)), this, SLOT(slotMoveProgress(KJob *, unsigned long)));
+    m_project->moveProjectData(src, dest);
+}
+
 void ProjectManager::slotMoveProgress(KJob *, unsigned long progress)
 {
     pCore->window()->slotGotProgressInfo(i18n("Moving project folder"), progress, ProcessingJobMessage);

@@ -1728,7 +1728,7 @@ void MainWindow::slotEditProjectSettings()
                         KMessageBox::sorry(this, i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
                     } else {
                         // Proceed with the move
-                        project->moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
+                        pCore->projectManager()->moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
                     }
                 }
             }

@@ -166,6 +166,7 @@ enum ClipJobStatus {
 };
 
 enum CacheType {
+    SystemCacheRoot = -1,
     CacheRoot = 0,
     CacheBase = 1,
     CachePreview = 2,

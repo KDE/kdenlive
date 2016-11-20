@@ -754,12 +754,7 @@ void KdenliveDoc::setProjectFolder(QUrl url)
 
 void KdenliveDoc::moveProjectData(const QString &src, const QString &dest)
 {
-    // Move tmp folder (thumbnails, timeline preview)
-    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src),QUrl::fromLocalFile(dest));
-    connect(copyJob, SIGNAL(result(KJob *)), this, SLOT(slotMoveFinished(KJob *)));
-    connect(copyJob, SIGNAL(percent(KJob *, unsigned long)), this, SLOT(slotMoveProgress(KJob *, unsigned long)));
     // Move proxies
-
     QList <ClipController*> list = pCore->binController()->getControllerList();
     QList<QUrl> cacheUrls;
     for (int i = 0; i < list.count(); ++i) {
@@ -1710,6 +1705,8 @@ QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
     }
     basePath = kdenliveCacheDir + QStringLiteral("/") + documentId;
     switch (type) {
+        case SystemCacheRoot:
+            return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
         case CacheRoot:
             basePath = kdenliveCacheDir;
             break;

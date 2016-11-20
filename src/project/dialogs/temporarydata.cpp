@@ -488,7 +488,7 @@ void TemporaryData::updateGlobalInfo()
     m_totalGlobal = 0;
     m_listWidget->clear();
     bool ok = false;
-    QDir preview = m_doc->getCacheDir(CacheRoot, &ok);
+    QDir preview = m_doc->getCacheDir(SystemCacheRoot, &ok);
     if (!ok) {
         m_globalPage->setEnabled(false);
         return;
