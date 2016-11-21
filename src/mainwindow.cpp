@@ -3312,7 +3312,6 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         temp.open();
         playlistPath = temp.fileName();
     }
-
     QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename).path());
     if (!chapterFile.isEmpty()) {
         int in = 0;
@@ -3394,7 +3393,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
     // Do we want proxy rendering
     if (project->useProxy() && !m_renderWidget->proxyRendering()) {
-        QString root = pCore->binController()->documentRoot();
+        QString root = doc.documentElement().attribute(QStringLiteral("root")) + QStringLiteral("/");
 
         // replace proxy clips with originals
         //TODO
@@ -3409,7 +3408,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             QDomElement e = producers.item(n).toElement();
             producerResource = EffectsList::property(e, QStringLiteral("resource"));
             producerService = EffectsList::property(e, QStringLiteral("mlt_service"));
-            if (producerResource.isEmpty()) {
+            if (producerResource.isEmpty() || producerService == QLatin1String("color")) {
                 continue;
             }
             if (producerService == QLatin1String("timewarp")) {
