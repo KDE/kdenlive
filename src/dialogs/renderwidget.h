@@ -134,8 +134,14 @@ public:
     bool proxyRendering();
     /** @brief Returns true if the stem audio export checkbox is set. */
     bool isStemAudioExportEnabled() const;
+    enum RenderError {
+        CompositeError = 0,
+        ProfileError = 1,
+        ProxyWarning = 2
+    };
+    
     /** @brief Display warning message in render widget. */
-    void errorMessage(const QString &message);
+    void errorMessage(RenderError type, const QString &message);
 
 protected:
     virtual QSize sizeHint() const;
@@ -189,6 +195,8 @@ private slots:
     void adjustQuality(int videoQuality);
     /** @brief Show updated command parameter in tooltip. */
     void adjustSpeed(int videoQuality);
+    /** @brief Display warning on proxy rendering. */
+    void slotProxyWarn(bool enableProxy);
 
 private:
     Ui::RenderWidget_UI m_view;
@@ -199,6 +207,7 @@ private:
     bool m_blockProcessing;
     QString m_renderer;
     KMessageWidget *m_infoMessage;
+    QMap<int, QString>m_errorMessages;
 
     void parseMltPresets();
     void parseProfiles(const QString &selectedProfile = QString());

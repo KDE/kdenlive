@@ -113,7 +113,6 @@ void RazorManager::updateTimelineItems()
 void RazorManager::mouseRelease(QMouseEvent *, GenTime pos)
 {
     Q_UNUSED(pos);
-    m_view->setCursor(Qt::OpenHandCursor);
     m_view->setOperationMode(None);
 }
 

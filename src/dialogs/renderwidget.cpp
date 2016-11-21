@@ -209,7 +209,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.tc_type->setEnabled(false);
     m_view.checkTwoPass->setEnabled(false);
     m_view.proxy_render->setHidden(!enableProxy);
-
+    connect(m_view.proxy_render, &QCheckBox::toggled, this, &RenderWidget::slotProxyWarn);
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor bg = scheme.background(KColorScheme::NegativeBackground).color();
     m_view.errorBox->setStyleSheet(QStringLiteral("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
@@ -288,8 +288,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.out_file->setMode(KFile::File);
     m_view.out_file->setFocusPolicy(Qt::ClickFocus);
 
-    m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
     m_jobsDelegate = new RenderViewDelegate(this);
+    m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
     m_view.running_jobs->setItemDelegate(m_jobsDelegate);
 
     QHeaderView *header = m_view.running_jobs->header();
@@ -1565,11 +1565,11 @@ void RenderWidget::refreshParams()
     }
     if (!item || item->isHidden() || extension.isEmpty()) {
         if (!item)
-            errorMessage(i18n("No matching profile"));
+            errorMessage(ProfileError, i18n("No matching profile"));
         else if (!item->parent()) // category
             ;
         else if (extension.isEmpty()) {
-            errorMessage(i18n("Invalid profile"));
+            errorMessage(ProfileError, i18n("Invalid profile"));
         }
         m_view.advanced_params->clear();
         m_view.buttonRender->setEnabled(false);
@@ -1577,7 +1577,7 @@ void RenderWidget::refreshParams()
         return;
     }
     QString params = item->data(0, ParamsRole).toString();
-    errorMessage(item->data(0, ErrorRole).toString());
+    errorMessage(ProfileError, item->data(0, ErrorRole).toString());
     m_view.advanced_params->setPlainText(params);
     if (params.contains(QStringLiteral(" s=")) || params.startsWith(QLatin1String("s=")) || params.contains("%dv_standard")) {
         // profile has a fixed size, do not allow resize
@@ -2394,12 +2394,24 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
     new KRun(QUrl::fromLocalFile(item->text(1)), this);
 }
 
-void RenderWidget::errorMessage(const QString &message)
+void RenderWidget::errorMessage(RenderError type, const QString &message)
 {
-    if (!message.isEmpty()) {
+    QString fullMessage;
+    m_errorMessages.insert(type, message);
+    QMapIterator<int, QString> i(m_errorMessages);
+    while (i.hasNext()) {
+        i.next();
+        if (!i.value().isEmpty()) {
+            if (!fullMessage.isEmpty())
+                 fullMessage.append(QStringLiteral("\n"));
+            fullMessage.append(i.value());
+        }
+    }
+    if (!fullMessage.isEmpty()) {
+        m_infoMessage->hide();
         m_infoMessage->setMessageType(KMessageWidget::Warning);
-        m_infoMessage->setText(message);
-        m_infoMessage->animatedShow();
+        m_infoMessage->setText(fullMessage);
+        m_infoMessage->show();
     }
     else {
         if (m_view.tabWidget->currentIndex() == 0 && m_infoMessage->isVisible())  {
@@ -2566,4 +2578,9 @@ void RenderWidget::checkCodecs()
             supportedFormats << QString(formats.get(i));
         delete consumer;
     }
+}
+
+void RenderWidget::slotProxyWarn(bool enableProxy)
+{
+    errorMessage(ProxyWarning, enableProxy ? i18n("Rendering using low quality proxy") : QString());
 }
