@@ -30,6 +30,8 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
 include(ECMOptionalAddSubdirectory)
+include(ECMMarkNonGuiExecutable)
+include(ECMAddAppIcon)
 
 add_definitions(-DQT_NO_CAST_TO_ASCII)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)

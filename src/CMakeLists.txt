@@ -217,6 +217,10 @@ if(BUILD_JogShuttle)
   )
 endif(BUILD_JogShuttle)
 
+# Sets the icon on Windows and OSX
+file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../data/icons/*-apps-kdenlive.png")
+ecm_add_app_icon(kdenlive_SRCS ICONS ${ICONS_SRCS})
+
 qt5_add_dbus_adaptor(kdenlive_SRCS
   org.kdenlive.MainWindow.xml
   mainwindow.h

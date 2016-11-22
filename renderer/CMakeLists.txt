@@ -7,6 +7,7 @@ set(kdenlive_render_SRCS
 )
 
 add_executable(kdenlive_render ${kdenlive_render_SRCS})
+ecm_mark_nongui_executable(kdenlive_render)
 
 qt5_use_modules(kdenlive_render Widgets Concurrent DBus)
 
