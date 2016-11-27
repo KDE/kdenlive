@@ -320,7 +320,7 @@ QHash <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, QList <P
             sourcePath.prepend("consumer:");
         }
         QStringList parameters;
-        QTemporaryFile *playlist = NULL;
+        QTemporaryFile *playlist = Q_NULLPTR;
         if (item->clipType() == SlideShow) {
             // we save a temporary .mlt clip for rendering
             QDomDocument doc;

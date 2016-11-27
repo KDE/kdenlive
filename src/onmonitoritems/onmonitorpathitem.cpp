@@ -32,7 +32,7 @@
 OnMonitorPathItem::OnMonitorPathItem(QGraphicsItem* parent) :
     QGraphicsPathItem(parent),
     m_modified(false),
-    m_view(NULL),
+    m_view(Q_NULLPTR),
     m_activePoint(-1)
 {
     setFlags(QGraphicsItem::ItemIsMovable);

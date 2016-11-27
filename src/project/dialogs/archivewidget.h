@@ -60,7 +60,7 @@ public:
 private slots:
     void slotCheckSpace();
     bool slotStartArchiving(bool firstPass = true);
-    void slotArchivingFinished(KJob *job = NULL, bool finished = false);
+    void slotArchivingFinished(KJob *job = Q_NULLPTR, bool finished = false);
     void slotArchivingProgress(KJob *, qulonglong);
     virtual void done ( int r );
     bool closeAccepted();

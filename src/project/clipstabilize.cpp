@@ -35,7 +35,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     QDialog(parent),
     m_filtername(filterName),
     m_urls(urls),
-    vbox(NULL)
+    vbox(Q_NULLPTR)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

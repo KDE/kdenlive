@@ -29,7 +29,7 @@ static const char* kPlaylistTrackId = "main bin";
 BinController::BinController(QString profileName) :
   QObject()
 {
-    m_binPlaylist = NULL;
+    m_binPlaylist = Q_NULLPTR;
     // Disable VDPAU that crashes in multithread environment.
     //TODO: make configurable
     setenv("MLT_NO_VDPAU", "1", 1);
@@ -60,7 +60,7 @@ void BinController::destroyBin()
     if (m_binPlaylist) {
         m_binPlaylist->clear();
         delete m_binPlaylist;
-        m_binPlaylist = NULL;
+        m_binPlaylist = Q_NULLPTR;
     }
     qDeleteAll(m_extraClipList);
     m_extraClipList.clear();
@@ -189,7 +189,7 @@ QMap<double,QString> BinController::takeGuidesData()
         guidesData.insert(time, guidesProperties.get(i));
         // Clear bin data
         QString propertyName = "kdenlive:guide." + QString(guidesProperties.get_name(i));
-        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) NULL);
+        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) Q_NULLPTR);
     }
     return guidesData;
 }
@@ -206,12 +206,12 @@ void BinController::slotStoreFolder(const QString &folderId, const QString &pare
     if (!oldParentId.isEmpty()) {
         // Folder was moved, remove old reference
         QString oldPropertyName = "kdenlive:folder." + oldParentId + "." + folderId;
-        m_binPlaylist->set(oldPropertyName.toUtf8().constData(), (char *) NULL);
+        m_binPlaylist->set(oldPropertyName.toUtf8().constData(), (char *) Q_NULLPTR);
     }
     QString propertyName = "kdenlive:folder." + parentId + "." + folderId;
     if (folderName.isEmpty()) {
         // Remove this folder info
-        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) NULL);
+        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) Q_NULLPTR);
     }
     else {
         m_binPlaylist->set(propertyName.toUtf8().constData(), folderName.toUtf8().constData());
@@ -223,7 +223,7 @@ void BinController::storeMarker(const QString &markerId, const QString &markerHa
     QString propertyName = "kdenlive:marker." + markerId;
     if (markerHash.isEmpty()) {
         // Remove this marker
-        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) NULL);
+        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) Q_NULLPTR);
     }
     else {
         m_binPlaylist->set(propertyName.toUtf8().constData(), markerHash.toUtf8().constData());
@@ -345,12 +345,12 @@ Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
 Mlt::Producer *BinController::getBinProducer(const QString &id)
 {
     // TODO: framebuffer speed clips
-    if (!m_clipList.contains(id)) return NULL;
+    if (!m_clipList.contains(id)) return Q_NULLPTR;
     ClipController *controller = m_clipList.value(id);
     if (controller) 
         return &controller->originalProducer();
     else
-        return NULL;
+        return Q_NULLPTR;
 }
 
 Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
@@ -413,7 +413,7 @@ QStringList BinController::getClipIds() const
 QString BinController::xmlFromId(const QString & id)
 {
     ClipController *controller = m_clipList.value(id);
-    if (!controller) return NULL;
+    if (!controller) return Q_NULLPTR;
     Mlt::Producer original = controller->originalProducer();
     QString xml = getProducerXML(original);
     QDomDocument mltData;
@@ -534,7 +534,7 @@ void BinController::saveDocumentProperties(const QMap <QString, QString> props, 
     docProperties.pass_values(playlistProps, "kdenlive:docproperties.");
     for (int i = 0; i < docProperties.count(); i++) {
         QString propName = QStringLiteral("kdenlive:docproperties.") + docProperties.get_name(i);
-        playlistProps.set(propName.toUtf8().constData(), (char *)NULL);
+        playlistProps.set(propName.toUtf8().constData(), (char *)Q_NULLPTR);
     }
 
     // Clear previous metadata
@@ -542,7 +542,7 @@ void BinController::saveDocumentProperties(const QMap <QString, QString> props, 
     docMetadata.pass_values(playlistProps, "kdenlive:docmetadata.");
     for (int i = 0; i < docMetadata.count(); i++) {
         QString propName = QStringLiteral("kdenlive:docmetadata.") + docMetadata.get_name(i);
-        playlistProps.set(propName.toUtf8().constData(), (char *)NULL);
+        playlistProps.set(propName.toUtf8().constData(), (char *)Q_NULLPTR);
     }
 
     // Clear previous guides
@@ -550,7 +550,7 @@ void BinController::saveDocumentProperties(const QMap <QString, QString> props, 
     guideProperties.pass_values(playlistProps, "kdenlive:guide.");
     for (int i = 0; i < guideProperties.count(); i++) {
         QString propName = QStringLiteral("kdenlive:guide.") + guideProperties.get_name(i);
-        playlistProps.set(propName.toUtf8().constData(), (char *)NULL);
+        playlistProps.set(propName.toUtf8().constData(), (char *)Q_NULLPTR);
     }
 
     QMapIterator<QString, QString> i(props);

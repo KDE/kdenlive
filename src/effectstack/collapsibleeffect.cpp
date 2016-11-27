@@ -48,12 +48,12 @@
 
 CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget * parent) :
     AbstractCollapsibleWidget(parent),
-    m_paramWidget(NULL),
+    m_paramWidget(Q_NULLPTR),
     m_effect(effect),
     m_itemInfo(info),
     m_original_effect(original_effect),
     m_isMovable(true),
-    m_animation(NULL),
+    m_animation(Q_NULLPTR),
     m_regionEffect(false)
 {
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
@@ -502,7 +502,7 @@ void CollapsibleEffect::updateWidget(const ItemInfo &info, const QDomElement &ef
 {
     // cleanup
     delete m_paramWidget;
-    m_paramWidget = NULL;
+    m_paramWidget = Q_NULLPTR;
     m_effect = effect;
     setupWidget(info, metaInfo);
 }
@@ -525,7 +525,7 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
     }
     if (m_paramWidget) {
         delete m_paramWidget;
-        m_paramWidget = NULL;
+        m_paramWidget = Q_NULLPTR;
     }
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
         m_regionEffect = true;

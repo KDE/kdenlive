@@ -142,7 +142,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                     }
                     if (newStartTrInfo.startPos < newStartTrInfo.endPos) moveStartTrans = true;
                 }
-                if (startTransition == NULL || startTransition->endPos() < m_dragItemInfo.endPos) {
+                if (startTransition == Q_NULLPTR || startTransition->endPos() < m_dragItemInfo.endPos) {
                     // Check if there is a transition at clip end
                     Transition *tr = m_view->getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track);
                     if (tr && tr->isAutomatic()) {
@@ -225,7 +225,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                         }
                     }
                 }
-                if (m_dragItemInfo.track == info.track && (tr == NULL || tr->endPos() < m_dragItemInfo.endPos)) {
+                if (m_dragItemInfo.track == info.track && (tr == Q_NULLPTR || tr->endPos() < m_dragItemInfo.endPos)) {
                     // Check if there is a transition at clip end
                     tr = m_view->getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track + 1);
                     if (tr && tr->isAutomatic() && tr->transitionEndTrack() == m_dragItemInfo.track) {

@@ -495,7 +495,7 @@ void EffectsListView::slotAutoExpand(const QString &text)
         }
         folder->setExpanded(expandFolder);
     }
-    if (!selected) m_effectsList->setCurrentItem(NULL);
+    if (!selected) m_effectsList->setCurrentItem(Q_NULLPTR);
 }
 
 void EffectsListView::updatePalette()

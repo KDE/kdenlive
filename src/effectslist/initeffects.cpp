@@ -688,7 +688,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         QDomElement desc = ret.createElement(QStringLiteral("description"));
         ktrans.appendChild(tname);
         ktrans.appendChild(desc);
-        Mlt::Properties *metadata = NULL;
+        Mlt::Properties *metadata = Q_NULLPTR;
         if (!customTransitions.contains(name)) metadata = repository->metadata(transition_type, name.toUtf8().data());
         if (metadata && metadata->is_valid()) {
             // If possible, set name and description.

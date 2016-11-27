@@ -31,11 +31,11 @@
 
 
 TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(TrimType, view, commandStack)
-    , m_firstClip(NULL)
-    , m_secondClip(NULL)
+    , m_firstClip(Q_NULLPTR)
+    , m_secondClip(Q_NULLPTR)
     , m_trimMode(NormalTrim)
     , m_rippleIndex(0)
-    , m_trimPlaylist(NULL)
+    , m_trimPlaylist(Q_NULLPTR)
     , trimChanged(false)
 {
 }
@@ -130,7 +130,7 @@ void TrimManager::renderSeekRequest(int diff)
     int out = cInfo->frame_out;
     qDebug()<<"* * *RESITE CLIP FIRST IN: "<<in<<"-"<<out<<", "<<cInfo->start<<", "<<cInfo->length;
     delete cInfo;
-    ClipItem *clipToRipple = NULL;
+    ClipItem *clipToRipple = Q_NULLPTR;
     if (m_view->operationMode() == RippleStart) {
         in -= diff;
         clipToRipple = m_secondClip;
@@ -182,7 +182,7 @@ void TrimManager::endTrim()
     }
     if (m_view->operationMode() == RippleStart || m_view->operationMode() == RippleEnd) {
         delete m_trimPlaylist;
-        m_trimPlaylist = NULL;
+        m_trimPlaylist = Q_NULLPTR;
         if (m_view->operationMode() == RippleStart) {
             m_view->finishRipple(m_secondClip, m_secondInfo, (m_secondInfo.endPos - m_secondClip->endPos()).frames(m_view->fps()), true);
         } else {

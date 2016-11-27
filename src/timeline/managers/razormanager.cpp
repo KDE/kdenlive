@@ -33,7 +33,7 @@
 
 
 RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(RazorType, view, commandStack)
-    , m_cutLine(NULL)
+    , m_cutLine(Q_NULLPTR)
 {
     QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
     m_cursor = QCursor(razorIcon.pixmap(32, 32));
@@ -84,7 +84,7 @@ void RazorManager::leaveEvent()
 {
     if (m_cutLine) {
         delete m_cutLine;
-        m_cutLine = NULL;
+        m_cutLine = Q_NULLPTR;
     }
 }
 
@@ -92,7 +92,7 @@ void RazorManager::closeTool()
 {
     if (m_cutLine) {
         delete m_cutLine;
-        m_cutLine = NULL;
+        m_cutLine = Q_NULLPTR;
     }
 }
 

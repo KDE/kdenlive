@@ -62,7 +62,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
         m_filterActive(false)
 {
 #ifdef Q_WS_X11
-    m_image = NULL;
+    m_image = Q_NULLPTR;
 #endif
 
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -131,7 +131,7 @@ void ColorPickerWidget::slotGetAverageColor()
 
 #ifdef Q_WS_X11
     XDestroyImage(m_image);
-    m_image = NULL;
+    m_image = Q_NULLPTR;
 #endif
 
     if (numPixel > 40000)
@@ -234,7 +234,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
     if( !qApp->desktop()->geometry().contains( p ))
         return QColor();
     unsigned long xpixel;
-    if (m_image == NULL) {
+    if (m_image == Q_NULLPTR) {
         Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
         m_image = XGetImage(QX11Info::display(), root, p.x(), p.y(), 1, 1, -1, ZPixmap);
         xpixel = XGetPixel(m_image, 0, 0);

@@ -114,9 +114,9 @@ bool DocumentValidator::validate(const double currentVersion)
         QLocale::setDefault(documentLocale);
         // locale conversion might need to be redone
 #ifndef Q_OS_MAC
-        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, NULL));
+        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, Q_NULLPTR));
 #else
-        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC_MASK, NULL));
+        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC_MASK, Q_NULLPTR));
 #endif
     }
     double version = -1;

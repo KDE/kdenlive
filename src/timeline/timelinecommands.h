@@ -204,7 +204,7 @@ private:
 class EditTransitionCommand : public QUndoCommand
 {
 public:
-    EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand * parent = NULL);
+    EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand * parent = Q_NULLPTR);
     virtual int id() const;
     virtual bool mergeWith(const QUndoCommand * command);
     virtual void undo();

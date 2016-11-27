@@ -131,21 +131,21 @@ bool QuickMonitorEventEater::eventFilter(QObject *obj, QEvent *event)
 
 Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent) :
     AbstractMonitor(id, manager, parent)
-    , render(NULL)
-    , m_controller(NULL)
-    , m_glMonitor(NULL)
-    , m_splitEffect(NULL)
-    , m_splitProducer(NULL)
+    , render(Q_NULLPTR)
+    , m_controller(Q_NULLPTR)
+    , m_glMonitor(Q_NULLPTR)
+    , m_splitEffect(Q_NULLPTR)
+    , m_splitProducer(Q_NULLPTR)
     , m_length(2)
     , m_dragStarted(false)
-    , m_recManager(NULL)
-    , m_loopClipAction(NULL)
-    , m_sceneVisibilityAction(NULL)
-    , m_multitrackView(NULL)
-    , m_contextMenu(NULL)
-    , m_selectedClip(NULL)
+    , m_recManager(Q_NULLPTR)
+    , m_loopClipAction(Q_NULLPTR)
+    , m_sceneVisibilityAction(Q_NULLPTR)
+    , m_multitrackView(Q_NULLPTR)
+    , m_contextMenu(Q_NULLPTR)
+    , m_selectedClip(Q_NULLPTR)
     , m_loopClipTransition(true)
-    , m_editMarker(NULL)
+    , m_editMarker(Q_NULLPTR)
     , m_forceSizeFactor(0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
 {
@@ -418,7 +418,7 @@ void Monitor::refreshIcons()
 QAction *Monitor::recAction()
 {
     if (m_recManager) return m_recManager->switchAction();
-    return NULL;
+    return Q_NULLPTR;
 }
 
 void Monitor::slotLockMonitor(bool lock)
@@ -771,7 +771,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 
 void Monitor::reparent()
 {
-    m_glWidget->setParent(NULL);
+    m_glWidget->setParent(Q_NULLPTR);
     m_glWidget->showMinimized();
     m_glWidget->showNormal();
     QVBoxLayout *lay = (QVBoxLayout *) layout();
@@ -802,7 +802,7 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event)
 
 void Monitor::slotStartDrag()
 {
-    if (m_id == Kdenlive::ProjectMonitor || m_controller == NULL) {
+    if (m_id == Kdenlive::ProjectMonitor || m_controller == Q_NULLPTR) {
         // dragging is only allowed for clip monitor
         return;
     }
@@ -839,7 +839,7 @@ void Monitor::leaveEvent(QEvent * event)
 // virtual
 void Monitor::mouseMoveEvent(QMouseEvent *event)
 {
-    if (m_dragStarted || m_controller == NULL) return;
+    if (m_dragStarted || m_controller == Q_NULLPTR) return;
 
     if ((event->pos() - m_DragStartPosition).manhattanLength()
             < QApplication::startDragDistance())
@@ -933,7 +933,7 @@ void Monitor::slotMouseSeek(int eventDelta, int modifiers)
 
 void Monitor::slotSetThumbFrame()
 {
-    if (m_controller == NULL) {
+    if (m_controller == Q_NULLPTR) {
         return;
     }
     m_controller->setProperty(QStringLiteral("kdenlive:thumbnailFrame"), (int) render->seekFramePosition());
@@ -942,7 +942,7 @@ void Monitor::slotSetThumbFrame()
 
 void Monitor::slotExtractCurrentZone()
 {
-    if (m_controller == NULL) return;
+    if (m_controller == Q_NULLPTR) return;
     emit extractZone(m_controller->clipId());
 }
 
@@ -1026,7 +1026,7 @@ void Monitor::slotSeek()
 
 void Monitor::slotSeek(int pos)
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     slotActivateMonitor();
     render->seekToFrame(pos);
     m_ruler->update();
@@ -1034,7 +1034,7 @@ void Monitor::slotSeek(int pos)
 
 void Monitor::silentSeek(int pos)
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
         render->silentSeek(pos);
@@ -1202,7 +1202,7 @@ void Monitor::adjustRulerSize(int length, int offset)
     if (length > 0) m_length = length;
     m_ruler->adjustScale(m_length, offset);
     m_timePos->setRange(offset, offset + length);
-    if (m_controller != NULL) {
+    if (m_controller != Q_NULLPTR) {
         QPoint zone = m_controller->zone();
         m_ruler->setZone(zone.x(), zone.y());
     }
@@ -1253,7 +1253,7 @@ void Monitor::refreshMonitorIfActive()
 
 void Monitor::pause()
 {
-    if (!m_playAction->isActive() || render == NULL) return;
+    if (!m_playAction->isActive() || render == Q_NULLPTR) return;
     slotActivateMonitor();
     render->switchPlay(false);
     m_playAction->setActive(false);
@@ -1267,14 +1267,14 @@ void Monitor::switchPlay(bool play)
 
 void Monitor::slotSwitchPlay()
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     slotActivateMonitor();
     render->switchPlay(m_playAction->isActive());
 }
 
 void Monitor::slotPlay()
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     slotActivateMonitor();
     m_playAction->setActive(!m_playAction->isActive());
     render->switchPlay(m_playAction->isActive());
@@ -1283,7 +1283,7 @@ void Monitor::slotPlay()
 
 void Monitor::slotPlayZone()
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     slotActivateMonitor();
     QPoint p = m_ruler->zone();
     bool ok = render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
@@ -1294,7 +1294,7 @@ void Monitor::slotPlayZone()
 
 void Monitor::slotLoopZone()
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     slotActivateMonitor();
     QPoint p = m_ruler->zone();
     render->loopZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
@@ -1303,7 +1303,7 @@ void Monitor::slotLoopZone()
 
 void Monitor::slotLoopClip()
 {
-    if (render == NULL || m_selectedClip == NULL)
+    if (render == Q_NULLPTR || m_selectedClip == Q_NULLPTR)
         return;
     slotActivateMonitor();
     render->loopZone(m_selectedClip->startPos(), m_selectedClip->endPos());
@@ -1312,14 +1312,14 @@ void Monitor::slotLoopClip()
 
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     if (render->setProducer(prod, -1, false))
         prod->set_speed(1.0);
 }
 
 void Monitor::updateClipProducer(const QString &playlist)
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
     render->setProducer(prod, render->seekFramePosition(), true);
     render->play(1.0);
@@ -1327,10 +1327,10 @@ void Monitor::updateClipProducer(const QString &playlist)
 
 void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 {
-    if (render == NULL) {
+    if (render == Q_NULLPTR) {
         return;
     }
-    bool sameClip = controller == m_controller && controller != NULL;
+    bool sameClip = controller == m_controller && controller != Q_NULLPTR;
     m_controller = controller;
     if (!m_glMonitor->isVisible()) {
         // Don't load clip if monitor is not active (disabled)
@@ -1358,7 +1358,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 	//hasEffects =  controller->hasEffects();
     }
     else {
-        render->setProducer(NULL, -1, isActive());
+        render->setProducer(Q_NULLPTR, -1, isActive());
         m_glMonitor->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
     }
@@ -1375,7 +1375,7 @@ const QString Monitor::activeClipId()
 
 void Monitor::slotOpenDvdFile(const QString &file)
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     m_glMonitor->initializeGL();
     render->loadUrl(file);
 }
@@ -1388,7 +1388,7 @@ void Monitor::slotSaveZone()
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 {
     m_timePos->updateTimeCode(tc);
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     slotActivateMonitor();
     render->prepareProfileReset(tc.fps());
     if (m_multitrackView) m_multitrackView->setChecked(false);
@@ -1398,7 +1398,7 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 void Monitor::resetProfile(MltVideoProfile profile)
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     render->prepareProfileReset(m_monitorManager->timecode().fps());
     m_glMonitor->resetProfile(profile);
     render->finishProfileReset();
@@ -1411,19 +1411,19 @@ void Monitor::resetProfile(MltVideoProfile profile)
 
 /*void Monitor::saveSceneList(const QString &path, const QDomElement &info)
 {
-    if (render == NULL) return;
+    if (render == Q_NULLPTR) return;
     render->saveSceneList(path, info);
 }*/
 
 const QString Monitor::sceneList(const QString root)
 {
-    if (render == NULL) return QString();
+    if (render == Q_NULLPTR) return QString();
     return render->sceneList(root);
 }
 
 void Monitor::setClipZone(const QPoint &pos)
 {
-    if (m_controller == NULL) return;
+    if (m_controller == Q_NULLPTR) return;
     m_controller->setZone(pos);
 }
 
@@ -1472,7 +1472,7 @@ void Monitor::updateTimecodeFormat()
 
 QPoint Monitor::getZoneInfo() const
 {
-    if (m_controller == NULL) return QPoint();
+    if (m_controller == Q_NULLPTR) return QPoint();
     return m_ruler->zone();
 }
 
@@ -1746,13 +1746,13 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
             // Delete temp track
             emit removeSplitOverlay();
             delete m_splitEffect;
-            m_splitEffect = NULL;
+            m_splitEffect = Q_NULLPTR;
             loadQmlScene(MonitorSceneDefault);
             slotActivateMonitor(true);
         }
         return;
     }
-    if (m_controller == NULL || !m_controller->hasEffects()) {
+    if (m_controller == Q_NULLPTR || !m_controller->hasEffects()) {
         // disable split effect
         if (m_controller) {
             //warningMessage(i18n("Clip has no effects"));
@@ -1772,8 +1772,8 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
     else if (m_splitEffect) {
         render->setProducer(m_controller->masterProducer(), pos, isActive());
         delete m_splitEffect;
-        m_splitProducer = NULL;
-        m_splitEffect = NULL;
+        m_splitProducer = Q_NULLPTR;
+        m_splitEffect = Q_NULLPTR;
         loadQmlScene(MonitorSceneDefault);
     }
     slotActivateMonitor();
@@ -1958,7 +1958,7 @@ void Monitor::slotSwitchRec(bool enable)
 
 bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p)
 {
-    m_controller = NULL;
+    m_controller = Q_NULLPTR;
     if (render->updateProducer(p)) {
         m_glMonitor->reconfigureMulti(params, path, p->profile());
         return true;
@@ -1968,7 +1968,7 @@ bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Prod
 bool Monitor::stopCapture()
 {
     m_glMonitor->stopCapture();
-    slotOpenClip(NULL);
+    slotOpenClip(Q_NULLPTR);
     m_glMonitor->reconfigure(profile());
     return true;
 }

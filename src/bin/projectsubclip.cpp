@@ -77,13 +77,13 @@ QString ProjectSubClip::getToolTip() const
 ProjectClip* ProjectSubClip::clip(const QString &id)
 {
     Q_UNUSED(id)
-    return NULL;
+    return Q_NULLPTR;
 }
 
 ProjectFolder* ProjectSubClip::folder(const QString &id)
 {
     Q_UNUSED(id)
-    return NULL;
+    return Q_NULLPTR;
 }
 
 void ProjectSubClip::disableEffects(bool)
@@ -104,7 +104,7 @@ QPoint ProjectSubClip::zone() const
 ProjectClip* ProjectSubClip::clipAt(int ix)
 {
     Q_UNUSED(ix)
-    return NULL;
+    return Q_NULLPTR;
 }
 
 QDomElement ProjectSubClip::toXml(QDomDocument& document, bool)
@@ -119,7 +119,7 @@ QDomElement ProjectSubClip::toXml(QDomDocument& document, bool)
 ProjectSubClip *ProjectSubClip::subClip(int in, int out)
 {
     if (m_in == in && m_out == out) return this;
-    return NULL;
+    return Q_NULLPTR;
 }
 
 void ProjectSubClip::setCurrent(bool current, bool notify)

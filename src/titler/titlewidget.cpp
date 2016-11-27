@@ -67,8 +67,8 @@ const int TYPEWRITEREFFECT = 3;
 TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent) :
     QDialog(parent),
     Ui::TitleWidget_UI(),
-    m_startViewport(NULL),
-    m_endViewport(NULL),
+    m_startViewport(Q_NULLPTR),
+    m_endViewport(Q_NULLPTR),
     m_render(render),
     m_count(0),
     m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
@@ -515,7 +515,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     if (url.isValid()) {
         loadTitle(url);
     } else {
-        prepareTools(NULL);
+        prepareTools(Q_NULLPTR);
         slotTextTool();
         QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
     }
@@ -1059,7 +1059,7 @@ void TitleWidget::selectionChanged()
     }
 
     if (l.size() == 0) {
-        prepareTools(NULL);
+        prepareTools(Q_NULLPTR);
     } else if (l.size() == 1) {
         prepareTools(l.at(0));
     } else {
@@ -1079,7 +1079,7 @@ void TitleWidget::selectionChanged()
             prepareTools(l.at(0));
         } else {
             // Get the default toolset, but enable the property frame (x,y,w,h)
-            prepareTools(NULL);
+            prepareTools(Q_NULLPTR);
             frame_properties->setEnabled(true);
 
             // Enable x/y/w/h if it makes sense.
@@ -1606,7 +1606,7 @@ void TitleWidget::slotUpdateText()
     int i;
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     for (i = 0; i < l.length(); ++i) {
-        MyTextItem* item = NULL;
+        MyTextItem* item = Q_NULLPTR;
         if (l.at(i)->type() == TEXTITEM) {
             item = static_cast <MyTextItem *>(l.at(i));
         }
@@ -2487,8 +2487,8 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_w->blockSignals(true);
     value_h->blockSignals(true);
 
-    if (referenceItem == NULL) {
-        //qDebug() << "NULL item.\n";
+    if (referenceItem == Q_NULLPTR) {
+        //qDebug() << "Q_NULLPTR item.\n";
         effect_list->setCurrentIndex(0);
         origin_x_left->setChecked(false);
         origin_y_top->setChecked(false);
@@ -2745,7 +2745,7 @@ void TitleWidget::slotEditGradient()
 {
     QToolButton *caller = qobject_cast<QToolButton *>(QObject::sender());
     if (!caller) return;
-    QComboBox *combo = NULL;
+    QComboBox *combo = Q_NULLPTR;
     if (caller == edit_gradient) {
 	combo = gradients_combo;
     } else {
@@ -2852,7 +2852,7 @@ void TitleWidget::slotUpdateShadow()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     for (int i = 0; i < graphicsView->scene()->selectedItems().length(); ++i) {
-        MyTextItem* item = NULL;
+        MyTextItem* item = Q_NULLPTR;
         if (l.at(i)->type() == TEXTITEM) {
             item = static_cast <MyTextItem *>(l.at(i));
         }

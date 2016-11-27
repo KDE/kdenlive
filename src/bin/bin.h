@@ -544,7 +544,7 @@ private slots:
     void slotShowDescColumn(bool show);
 
     /** @brief Setup the bin view type (icon view, tree view, ...).
-    * @param action The action whose data defines the view type or NULL to keep default view */
+    * @param action The action whose data defines the view type or Q_NULLPTR to keep default view */
     void slotInitView(QAction *action);
 
     /** @brief Update status for clip jobs  */

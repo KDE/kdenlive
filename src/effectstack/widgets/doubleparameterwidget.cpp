@@ -30,7 +30,7 @@
 DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, bool showRadiobutton, QWidget *parent) 
   : QWidget(parent)
   , factor(1)
-  , m_radio(NULL)
+  , m_radio(Q_NULLPTR)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     QGridLayout *layout = new QGridLayout(this);

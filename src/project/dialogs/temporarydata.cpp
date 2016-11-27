@@ -86,8 +86,8 @@ void ChartWidget::paintEvent(QPaintEvent *event)
 TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget * parent) :
     QWidget(parent)
     , m_doc(doc)
-    , m_globalPage(NULL)
-    , m_globalDelete(NULL)
+    , m_globalPage(Q_NULLPTR)
+    , m_globalDelete(Q_NULLPTR)
 {
     chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue)  << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
     mCurrentSizes << 0 << 0 << 0 << 0;

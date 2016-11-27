@@ -147,8 +147,8 @@ void Clip::disableEffects(bool disable)
                 filter->set("auto_disable", 1);
             }
             else if (!disable && filter->get_int("auto_disable") == 1) {
-                filter->set("disable", (char*) NULL);
-                filter->set("auto_disable", (char*) NULL);
+                filter->set("disable", (char*) Q_NULLPTR);
+                filter->set("auto_disable", (char*) Q_NULLPTR);
             }
         }
         ct++;

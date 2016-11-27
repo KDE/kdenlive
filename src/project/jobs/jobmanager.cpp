@@ -152,7 +152,7 @@ void JobManager::slotProcessJobs()
 {
     bool firstPass = true;
     while (!m_jobList.isEmpty() && !m_abortAllJobs) {
-        AbstractClipJob *job = NULL;
+        AbstractClipJob *job = Q_NULLPTR;
         m_jobMutex.lock();
         for (int i = 0; i < m_jobList.count(); ++i) {
             if (m_jobList.at(i)->status() == JobWaiting) {
@@ -166,14 +166,14 @@ void JobManager::slotProcessJobs()
         }
         m_jobMutex.unlock();
 
-        if (job == NULL) {
+        if (job == Q_NULLPTR) {
             break;
         }
         firstPass = false;
         QString destination = job->destination();
         // Check if the clip is still here
         ProjectClip *currentClip = m_bin->getBinClip(job->clipId());
-        if (currentClip == NULL) {
+        if (currentClip == Q_NULLPTR) {
             job->setStatus(JobDone);
             continue;
         }

@@ -53,7 +53,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
 
     m_previewTimer = new QTimer(this);
 
-    if (m_clip != NULL) {
+    if (m_clip != Q_NULLPTR) {
         m_in->setRange(0, m_clip->getPlaytime().frames(tc.fps()));
         m_previewTimer->setInterval(500);
         connect(m_previewTimer, SIGNAL(timeout()), this, SLOT(slotUpdateThumb()));

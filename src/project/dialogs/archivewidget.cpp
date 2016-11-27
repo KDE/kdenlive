@@ -39,14 +39,14 @@
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController*> &list, const QStringList &luma_list, QWidget * parent) :
         QDialog(parent)
         , m_requestedSize(0)
-        , m_copyJob(NULL)
+        , m_copyJob(Q_NULLPTR)
         , m_name(projectName.section('.', 0, -2))
         , m_doc(doc)
-	, m_temp(NULL)
+	, m_temp(Q_NULLPTR)
         , m_abortArchive(false)
         , m_extractMode(false)
-	, m_progressTimer(NULL)
-        , m_extractArchive(NULL)
+	, m_progressTimer(Q_NULLPTR)
+        , m_extractArchive(Q_NULLPTR)
         , m_missingClips(0)
 {
     setAttribute(Qt::WA_DeleteOnClose);
@@ -206,14 +206,14 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
 ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget * parent):
     QDialog(parent),
     m_requestedSize(0),
-    m_copyJob(NULL),
-    m_temp(NULL),
+    m_copyJob(Q_NULLPTR),
+    m_temp(Q_NULLPTR),
     m_abortArchive(false),
     m_extractMode(true),
     m_extractUrl(url),
-    m_extractArchive(NULL),
+    m_extractArchive(Q_NULLPTR),
     m_missingClips(0),
-    m_infoMessage(NULL)
+    m_infoMessage(Q_NULLPTR)
 {
     //setAttribute(Qt::WA_DeleteOnClose);
 
@@ -507,7 +507,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         return true;
     }
     bool isArchive = compressed_archive->isChecked();
-    if (!firstPass) m_copyJob = NULL;
+    if (!firstPass) m_copyJob = Q_NULLPTR;
     else {
         //starting archiving
         m_abortArchive = false;
@@ -591,7 +591,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
 
     if (items == 0) {
 	// No clips to archive
-	slotArchivingFinished(NULL, true);
+	slotArchivingFinished(Q_NULLPTR, true);
 	return true;
     }
 
@@ -638,7 +638,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
 
 void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
 {
-    if (job == NULL || job->error() == 0) {
+    if (job == Q_NULLPTR || job->error() == 0) {
         if (!finished && slotStartArchiving(false)) {
             // We still have files to archive
             return;
@@ -655,7 +655,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         } else processProjectFile();
     }
     else {
-        m_copyJob = NULL;
+        m_copyJob = Q_NULLPTR;
         slotJobResult(false, i18n("There was an error while copying the files: %1", job->errorString()));
     }
     if (!compressed_archive->isChecked()) {
@@ -953,7 +953,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
     if (onlyProxy == Qt::Checked) {
         // Archive proxy clips
         QStringList proxyIdList;
-        QTreeWidgetItem *parentItem = NULL;
+        QTreeWidgetItem *parentItem = Q_NULLPTR;
 
         // Build list of existing proxy ids
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {

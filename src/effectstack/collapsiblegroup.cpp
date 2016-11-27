@@ -242,7 +242,7 @@ void CollapsibleGroup::addGroupEffect(CollapsibleEffect *effect)
 {
     QMutexLocker lock(&m_mutex);
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-    if (vbox == NULL) {
+    if (vbox == Q_NULLPTR) {
 	vbox = new QVBoxLayout();
 	vbox->setContentsMargins(0, 0, 0, 0);
 	vbox->setSpacing(2);
@@ -264,7 +264,7 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
 {
     QMutexLocker lock(&m_mutex);
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-    if (vbox == NULL) return;
+    if (vbox == Q_NULLPTR) return;
     for (int i = m_subWidgets.count() - 1; i >= 0 ; --i) {
 	vbox->removeWidget(m_subWidgets.at(i));
 	layout->insertWidget(ix, m_subWidgets.at(i));
@@ -287,7 +287,7 @@ bool CollapsibleGroup::isGroup() const
 void CollapsibleGroup::updateTimecodeFormat()
 {
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-    if (vbox == NULL) return;
+    if (vbox == Q_NULLPTR) return;
     for (int j = vbox->count() - 1; j >= 0; --j) {
 	CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(j)->widget());
 	if (e) e->updateTimecodeFormat();

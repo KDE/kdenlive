@@ -207,7 +207,7 @@ void ProducerQueue::processFileProperties()
         }
         //qDebug()<<" / / /CHECKING PRODUCER PATH: "<<path;
         QUrl url = QUrl::fromLocalFile(path);
-        Mlt::Producer *producer = NULL;
+        Mlt::Producer *producer = Q_NULLPTR;
         ClipType type = (ClipType)info.xml.attribute(QStringLiteral("type")).toInt();
         if (type == Unknown) {
             type = getTypeForService(ProjectClip::getXmlProperty(info.xml, QStringLiteral("mlt_service")), path);
@@ -317,7 +317,7 @@ void ProducerQueue::processFileProperties()
                 }
             }
         }
-        if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
+        if (producer == Q_NULLPTR || producer->is_blank() || !producer->is_valid()) {
             qDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
             m_processingClipId.removeAll(info.clipId);
             if (proxyProducer) {
@@ -449,7 +449,7 @@ void ProducerQueue::processFileProperties()
             // the old one has been removed.
             if (proxyProducer) {
                 // Recreate clip thumb
-                Mlt::Frame *frame = NULL;
+                Mlt::Frame *frame = Q_NULLPTR;
                 QImage img;
                 if (KdenliveSettings::gpu_accel()) {
                     Clip clp(*producer);
@@ -489,7 +489,7 @@ void ProducerQueue::processFileProperties()
                 }
             }
             m_binController->replaceProducer(info.clipId, *producer);
-            emit gotFileProperties(info, NULL);
+            emit gotFileProperties(info, Q_NULLPTR);
             continue;
         }
         // We are not replacing an existing producer, so set the id
@@ -670,7 +670,7 @@ void ProducerQueue::processFileProperties()
                     else
                         filePropertyMap[QStringLiteral("type")] = QStringLiteral("video");
                     // Check if we are using GPU accel, then we need to use alternate producer
-                    Mlt::Producer *tmpProd = NULL;
+                    Mlt::Producer *tmpProd = Q_NULLPTR;
                     if (KdenliveSettings::gpu_accel()) {
                         delete frame;
                         Clip clp(*producer);
@@ -749,7 +749,7 @@ void ProducerQueue::processFileProperties()
                     filePropertyMap[QStringLiteral("pix_fmt")] = producer->get(query.toUtf8().constData());
                     filePropertyMap[QStringLiteral("colorspace")] = producer->get("meta.media.colorspace");
 
-                } else qDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
+                } else qDebug() << " / / / / /WARNING, VIDEO CONTEXT IS Q_NULLPTR!!!!!!!!!!!!!!";
                 if (producer->get_int("audio_index") > -1) {
                     // Get the audio_index
                     int index = producer->get_int("audio_index");
@@ -779,7 +779,7 @@ void ProducerQueue::processFileProperties()
         if (m_binController->hasClip(info.clipId)) {
             // If controller already exists, we just want to update the producer
             m_binController->replaceProducer(info.clipId, *producer);
-            emit gotFileProperties(info, NULL);
+            emit gotFileProperties(info, Q_NULLPTR);
         }
         else {
             // Create the controller

@@ -31,7 +31,7 @@
 
 EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent) :
     QDialog(parent),
-    m_configGroup(NULL)
+    m_configGroup(Q_NULLPTR)
 {
     setupUi(this);
     setWindowTitle(i18n("Manage Encoding Profiles"));

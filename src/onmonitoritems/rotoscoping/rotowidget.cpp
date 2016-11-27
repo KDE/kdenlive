@@ -46,7 +46,7 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
         m_monitor(monitor),
         m_in(info.cropStart.frames(KdenliveSettings::project_fps())),
         m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1),
-        m_filter(NULL)
+        m_filter(Q_NULLPTR)
 {
     Q_UNUSED(data)
 
@@ -54,12 +54,12 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
     m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in, this);
     l->addWidget(m_keyframeWidget);
     connect(m_monitor, SIGNAL(effectPointsChanged(QVariantList)), this, SLOT(slotUpdateDataPoints(QVariantList)));
-    //MonitorEditWidget *edit = NULL; //monitor->getEffectEdit();
-    //m_scene = NULL;//edit->getScene();
+    //MonitorEditWidget *edit = Q_NULLPTR; //monitor->getEffectEdit();
+    //m_scene = Q_NULLPTR;//edit->getScene();
     //m_scene->cleanup();
 
     // TODO: port to qml monitor scene
-    /*m_item = new SplineItem(QList <BPoint>(), NULL, m_scene);
+    /*m_item = new SplineItem(QList <BPoint>(), Q_NULLPTR, m_scene);
     connect(m_item, SIGNAL(changed(bool)), this, SLOT(slotUpdateData(bool)));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
     */

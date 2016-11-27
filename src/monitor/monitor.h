@@ -91,7 +91,7 @@ public:
     AbstractRender *abstractRender();
     void resetProfile(MltVideoProfile profile);
     void setCustomProfile(const QString &profile, const Timecode &tc);
-    void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL, QAction *loopClip = NULL);
+    void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = Q_NULLPTR, QAction *loopClip = Q_NULLPTR);
     const QString sceneList(const QString root);
     const QString activeClipId();
     GenTime position();
@@ -214,7 +214,7 @@ private:
     /** Selected clip/transition in timeline. Used for looping it. */
     AbstractClipItem *m_selectedClip;
     /** true if selected clip is transition, false = selected clip is clip.
-     *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = NULL. */
+     *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = Q_NULLPTR. */
     bool m_loopClipTransition;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;

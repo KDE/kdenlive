@@ -108,7 +108,7 @@ void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain,
                                  qint64 *correlation,
                                  qint64 *out_max)
 {
-    Q_ASSERT(correlation != NULL);
+    Q_ASSERT(correlation != Q_NULLPTR);
 
     qint64 const* left;
     qint64 const* right;
@@ -162,7 +162,7 @@ void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain,
     }
     qDebug() << "Correlation calculated. Time taken: " << t.elapsed() << " ms.";
 
-    if (out_max != NULL) {
+    if (out_max != Q_NULLPTR) {
         *out_max = max;
     }
 }

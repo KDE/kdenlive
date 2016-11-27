@@ -39,7 +39,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
     , audioThumbCreated(false)
     , m_properties(new Mlt::Properties(producer.get_properties()))
     , m_usesProxy(false)
-    , m_audioInfo(NULL)
+    , m_audioInfo(Q_NULLPTR)
     , m_audioIndex(0)
     , m_videoIndex(0)
     , m_clipType(Unknown)
@@ -72,10 +72,10 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
 ClipController::ClipController(BinController *bincontroller) : QObject()
     , selectedEffectIndex(1)
     , audioThumbCreated(false)
-    , m_masterProducer(NULL)
-    , m_properties(NULL)
+    , m_masterProducer(Q_NULLPTR)
+    , m_properties(Q_NULLPTR)
     , m_usesProxy(false)
-    , m_audioInfo(NULL)
+    , m_audioInfo(Q_NULLPTR)
     , m_audioIndex(0)
     , m_videoIndex(0)
     , m_clipType(Unknown)
@@ -215,13 +215,13 @@ Mlt::Producer *ClipController::masterProducer()
 
 bool ClipController::isValid()
 {
-    if (m_masterProducer == NULL) return false;
+    if (m_masterProducer == Q_NULLPTR) return false;
     return m_masterProducer->is_valid();
 }
 
 const QString ClipController::clipId()
 {
-    if (m_masterProducer == NULL) return QString();
+    if (m_masterProducer == Q_NULLPTR) return QString();
     return property(QStringLiteral("id"));
 }
 
@@ -428,7 +428,7 @@ void ClipController::setProperty(const QString& name, const QString& value)
 {
     //TODO: also set property on all track producers
     if (value.isEmpty()) {
-        m_masterProducer->parent().set(name.toUtf8().constData(), (char *)NULL);
+        m_masterProducer->parent().set(name.toUtf8().constData(), (char *)Q_NULLPTR);
     }
     else m_masterProducer->parent().set(name.toUtf8().constData(), value.toUtf8().constData());
 }
@@ -436,7 +436,7 @@ void ClipController::setProperty(const QString& name, const QString& value)
 void ClipController::resetProperty(const QString& name)
 {
     //TODO: also set property on all track producers
-    m_masterProducer->parent().set(name.toUtf8().constData(), (char *)NULL);
+    m_masterProducer->parent().set(name.toUtf8().constData(), (char *)Q_NULLPTR);
 }
 
 ClipType ClipController::clipType() const
@@ -450,7 +450,7 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     //int currentPosition = position();
     m_masterProducer->seek(framePosition);
     Mlt::Frame *frame = m_masterProducer->get_frame();
-    if (frame == NULL || !frame->is_valid()) {
+    if (frame == Q_NULLPTR || !frame->is_valid()) {
         QPixmap p(width, height);
         p.fill(QColor(Qt::red).rgb());
         return p;
@@ -810,8 +810,8 @@ void ClipController::disableEffects(bool disable)
             // We want to re-enable effects
             int auto_disable = effect->get_int("auto_disable");
             if (auto_disable == 1) {
-                effect->set("disable", (char*) NULL);
-                effect->set("auto_disable", (char*) NULL);
+                effect->set("disable", (char*) Q_NULLPTR);
+                effect->set("auto_disable", (char*) Q_NULLPTR);
                 changed = true;
             }
         }

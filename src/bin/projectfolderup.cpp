@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectFolderUp::ProjectFolderUp(AbstractProjectItem* parent) :
     AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), parent)
-    , m_bin(NULL)
+    , m_bin(Q_NULLPTR)
 {
     m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("go-previous"));
     m_name = i18n("Back");
@@ -50,7 +50,7 @@ void ProjectFolderUp::setCurrent(bool current, bool notify)
 ProjectClip* ProjectFolderUp::clip(const QString &id)
 {
     Q_UNUSED(id)
-    return NULL;
+    return Q_NULLPTR;
 }
 
 
@@ -62,13 +62,13 @@ QString ProjectFolderUp::getToolTip() const
 ProjectFolder* ProjectFolderUp::folder(const QString &id)
 {
     Q_UNUSED(id)
-    return NULL;
+    return Q_NULLPTR;
 }
 
 ProjectClip* ProjectFolderUp::clipAt(int index)
 {
     Q_UNUSED(index)
-    return NULL;
+    return Q_NULLPTR;
 }
 
 void ProjectFolderUp::disableEffects(bool)

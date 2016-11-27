@@ -417,7 +417,7 @@ QString KeyframeView::getSingleAnimation(int ix, int in, int out, int offset, in
         }
     }
     QString result = anim.serialize_cut();
-    m_keyProperties.set("kdenlive_import", (char*) NULL);
+    m_keyProperties.set("kdenlive_import", (char*) Q_NULLPTR);
     return result;
 }
 
@@ -474,7 +474,7 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
         }
     }
     QString result = anim.serialize_cut();
-    m_keyProperties.set("kdenlive_import", (char*) NULL);
+    m_keyProperties.set("kdenlive_import", (char*) Q_NULLPTR);
     return result;
 }
 
@@ -688,7 +688,7 @@ QAction *KeyframeView::parseKeyframeActions(QList <QAction *>actions)
             return actions.at(i);
         }
     }
-    return NULL;
+    return Q_NULLPTR;
 }
 
 void KeyframeView::attachKeyframeToEnd(bool attach)
@@ -828,7 +828,7 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int c
     // reset existing properties
     int max = m_keyProperties.count();
     for (int i = max -1; i >= 0; i--) {
-        m_keyProperties.set(m_keyProperties.get_name(i), (char*) NULL);
+        m_keyProperties.set(m_keyProperties.get_name(i), (char*) Q_NULLPTR);
     }
     attachToEnd = -2;
     m_useOffset = effect.attribute(QStringLiteral("kdenlive:sync_in_out")) != QLatin1String("1");
@@ -930,7 +930,7 @@ void KeyframeView::reset()
     activeKeyframe = -1;
     int max = m_keyProperties.count();
     for (int i = max -1; i >= 0; i--) {
-        m_keyProperties.set(m_keyProperties.get_name(i), (char*) NULL);
+        m_keyProperties.set(m_keyProperties.get_name(i), (char*) Q_NULLPTR);
     }
     emit updateKeyframes(); 
 }

@@ -112,7 +112,7 @@ int main(int argc, char **argv)
         RenderJob *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         if (!locale.isEmpty()) job->setLocale(locale);
         job->start();
-        RenderJob *dualjob = NULL;
+        RenderJob *dualjob = Q_NULLPTR;
         if (dualpass) {
             if (vprelist.size()>1)
                 args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")),QStringLiteral("vpre=%1").arg(vprelist.at(1)));

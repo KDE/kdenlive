@@ -146,9 +146,9 @@ class Fontval: public QWidget, public Ui::Fontval_UI
 
 ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent) :
         m_info(info),
-        m_keyframeEditor(NULL),
-        m_geometryWidget(NULL),
-        m_animationWidget(NULL),
+        m_keyframeEditor(Q_NULLPTR),
+        m_geometryWidget(Q_NULLPTR),
+        m_animationWidget(Q_NULLPTR),
         m_metaInfo(metaInfo),
         m_effect(effect),
         m_acceptDrops(false),
@@ -426,7 +426,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             }
         } else if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
             // keyframe editor widget
-            if (m_keyframeEditor == NULL) {
+            if (m_keyframeEditor == Q_NULLPTR) {
                 KeyframeEdit *geo;
                 if (pa.attribute(QStringLiteral("widget")) == QLatin1String("corners")) {
                     // we want a corners-keyframe-widget
@@ -696,7 +696,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             m_conditionalWidgets << lab;
         } else {
             delete toFillin;
-            toFillin = NULL;
+            toFillin = Q_NULLPTR;
         }
 
         if (toFillin)

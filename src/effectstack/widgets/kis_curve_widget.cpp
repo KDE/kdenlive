@@ -60,11 +60,11 @@ KisCurveWidget::KisCurveWidget(QWidget *parent, Qt::WindowFlags f)
     d->m_readOnlyMode   = false;
     d->m_guideVisible   = false;
     d->m_pixmapDirty = true;
-    d->m_pixmapCache = NULL;
+    d->m_pixmapCache = Q_NULLPTR;
     d->setState(ST_NORMAL);
 
-    d->m_intIn = NULL;
-    d->m_intOut = NULL;
+    d->m_intIn = Q_NULLPTR;
+    d->m_intOut = Q_NULLPTR;
 
     d->m_maxPoints = -1;
 

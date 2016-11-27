@@ -33,7 +33,7 @@ OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem* parent) :
   , m_mode(NoAction)
   , m_selectedCorner(-1)
   , m_modified(false)
-  , m_view(NULL)
+  , m_view(Q_NULLPTR)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 

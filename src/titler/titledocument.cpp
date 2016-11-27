@@ -65,7 +65,7 @@ QByteArray fileToByteArray(const QString& filename)
 
 TitleDocument::TitleDocument()
 {
-    m_scene = NULL;
+    m_scene = Q_NULLPTR;
     m_width = 0;
     m_height = 0;
 }
@@ -134,9 +134,9 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
     main.setAttribute(QStringLiteral("height"), m_height);
     // Save locale
 #ifndef Q_OS_MAC
-    const char *locale = setlocale(LC_NUMERIC, NULL);
+    const char *locale = setlocale(LC_NUMERIC, Q_NULLPTR);
 #else
-    const char *locale = setlocale(LC_NUMERIC_MASK, NULL);
+    const char *locale = setlocale(LC_NUMERIC_MASK, Q_NULLPTR);
 #endif
     main.setAttribute(QStringLiteral("LC_NUMERIC"), locale);
     doc.appendChild(main);
@@ -384,7 +384,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
     if (titles.size()) {
         QDomNodeList items = titles.item(0).childNodes();
         for (int i = 0; i < items.count(); ++i) {
-            QGraphicsItem *gitem = NULL;
+            QGraphicsItem *gitem = Q_NULLPTR;
             QDomNode itemNode = items.item(i);
             //qDebug() << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = itemNode.attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
@@ -416,7 +416,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                     }
                     font.setLetterSpacing(QFont::AbsoluteSpacing, txtProperties.namedItem(QStringLiteral("letter-spacing")).nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem(QStringLiteral("font-color")).nodeValue()));
-                    MyTextItem *txt = new MyTextItem(itemNode.namedItem(QStringLiteral("content")).firstChild().nodeValue(), NULL);
+                    MyTextItem *txt = new MyTextItem(itemNode.namedItem(QStringLiteral("content")).firstChild().nodeValue(), Q_NULLPTR);
                     m_scene->addItem(txt);
                     txt->setFont(font);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
@@ -533,7 +533,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsSvgItem")) {
                     QString url = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("url")).nodeValue();
                     QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
-                    QGraphicsSvgItem *rec = NULL;
+                    QGraphicsSvgItem *rec = Q_NULLPTR;
                     if (base64.isEmpty()) {
                         rec = new MySvgItem(url);
                     } else {

@@ -66,7 +66,7 @@ public:
     int setProducer(Mlt::Producer* producer);
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    int reconfigure(Mlt::Profile *profile = NULL);
+    int reconfigure(Mlt::Profile *profile = Q_NULLPTR);
 
     int displayWidth() const { return m_rect.width(); }
     void updateAudioForAnalysis();

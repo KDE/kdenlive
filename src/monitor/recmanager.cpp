@@ -42,9 +42,9 @@
 RecManager::RecManager(Monitor *parent) :
     QObject(parent)
     , m_monitor(parent)
-    , m_captureProcess(NULL)
+    , m_captureProcess(Q_NULLPTR)
     , m_recToolbar(new QToolBar(parent))
-    , m_screenCombo(NULL)
+    , m_screenCombo(Q_NULLPTR)
 {
     m_playAction = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);
@@ -304,7 +304,7 @@ void RecManager::slotProcessStatus(QProcess::ProcessState status)
             }
         }
         delete m_captureProcess;
-        m_captureProcess = NULL;
+        m_captureProcess = Q_NULLPTR;
     }
 }
 
@@ -345,7 +345,7 @@ void RecManager::slotVideoDeviceChanged(int)
         m_monitorManager->clearScopeSource();
         m_captureDevice->stop();
         delete m_captureDevice;
-        m_captureDevice = NULL;
+        m_captureDevice = Q_NULLPTR;
     }
 
     // The m_videoBox container has to be shown once before the MLT consumer is build, or preview will fail
@@ -359,10 +359,10 @@ Mlt::Producer *RecManager::createV4lProducer()
 {
     QString profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
     Mlt::Profile *vidProfile = new Mlt::Profile(profilePath.toUtf8().constData());
-    Mlt::Producer *prod = NULL;
+    Mlt::Producer *prod = Q_NULLPTR;
     if (m_recVideo->isChecked()) {
 	prod = new Mlt::Producer(*vidProfile, QStringLiteral("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
-        if (!prod || !prod->is_valid()) return NULL;
+        if (!prod || !prod->is_valid()) return Q_NULLPTR;
 	prod->set("width", vidProfile->width());
 	prod->set("height", vidProfile->height());
 	prod->set("framerate", vidProfile->fps());
@@ -400,7 +400,7 @@ void RecManager::slotPreview(bool preview)
             else emit warningMessage(i18n("Capture crashed, please check your parameters"));
 	}
 	else {
-	    m_monitor->slotOpenClip(NULL);
+	    m_monitor->slotOpenClip(Q_NULLPTR);
 	}
     }
 

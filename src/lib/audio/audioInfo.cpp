@@ -17,7 +17,7 @@
 AudioInfo::AudioInfo(Mlt::Producer *producer)
 {
     // Since we already receive an MLT producer, we do not need to initialize MLT:
-    // Mlt::Factory::init(NULL);
+    // Mlt::Factory::init(Q_NULLPTR);
 
     // Get the number of streams and add the information of each of them if it is an audio stream.
     int streams = producer->get_int("meta.media.nb_streams");

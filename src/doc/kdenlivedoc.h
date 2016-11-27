@@ -228,7 +228,7 @@ public slots:
      * Emits docModified conected to MainWindow::slotUpdateDocumentState \n
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
-    void slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipList = QList<ProjectClip *>(), bool force = false, QUndoCommand *masterCommand = NULL);
+    void slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipList = QList<ProjectClip *>(), bool force = false, QUndoCommand *masterCommand = Q_NULLPTR);
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave();

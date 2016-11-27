@@ -140,8 +140,8 @@ QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
 
 DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     QWizardPage(parent),
-    m_color(NULL),
-    m_safeRect(NULL),
+    m_color(Q_NULLPTR),
+    m_safeRect(Q_NULLPTR),
     m_finalSize(720, 576),
     m_movieLength(-1)
 {
@@ -268,7 +268,7 @@ void DvdWizardMenu::slotEnableShadows(int enable)
                 shadow->setOffset(4, 4);
                 list.at(i)->setGraphicsEffect(shadow);
             }
-            else list.at(i)->setGraphicsEffect(NULL);
+            else list.at(i)->setGraphicsEffect(Q_NULLPTR);
         }
     }
 }
@@ -495,7 +495,7 @@ void DvdWizardMenu::buildImage()
 
 void DvdWizardMenu::buildButton()
 {
-    DvdButton *button = NULL;
+    DvdButton *button = Q_NULLPTR;
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
@@ -503,7 +503,7 @@ void DvdWizardMenu::buildButton()
             break;
         }
     }
-    if (button == NULL) return;
+    if (button == Q_NULLPTR) return;
     button->setPlainText(m_view.play_text->text());
     QFont font = m_view.font_family->currentFont();
     font.setPixelSize(m_view.font_size->value());
@@ -576,7 +576,7 @@ void DvdWizardMenu::updateUnderlineColor(QColor c)
 
 void DvdWizardMenu::updateColor(const QColor &c)
 {
-    DvdButton *button = NULL;
+    DvdButton *button = Q_NULLPTR;
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {

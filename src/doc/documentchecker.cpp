@@ -59,7 +59,7 @@ const int LUMAPLACEHOLDER = 12;
 enum TITLECLIPTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
 
 DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc):
-    m_url(url), m_doc(doc), m_dialog(NULL)
+    m_url(url), m_doc(doc), m_dialog(Q_NULLPTR)
 {
 }
 

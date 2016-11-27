@@ -92,7 +92,7 @@ void MyLabel::paintEvent(QPaintEvent* event)
 
 StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent) :
     AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent),
-    m_captureDevice(NULL)
+    m_captureDevice(Q_NULLPTR)
 {
 }
 
@@ -147,7 +147,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     QDialog(parent)
   , Ui::Stopmotion_UI()
   , m_projectFolder(projectFolder)
-  , m_captureDevice(NULL)
+  , m_captureDevice(Q_NULLPTR)
   , m_sequenceFrame(0)
   , m_animatedIndex(-1)
   , m_animate(false)
@@ -341,7 +341,7 @@ StopmotionWidget::~StopmotionWidget()
     if (m_captureDevice) {
         m_captureDevice->stop();
         delete m_captureDevice;
-        m_captureDevice = NULL;
+        m_captureDevice = Q_NULLPTR;
     }
 
     delete m_monitor;
@@ -419,7 +419,7 @@ void StopmotionWidget::slotUpdateDeviceHandler()
         m_bmCapture = new BmdCaptureHandler(m_layout);
         if (m_bmCapture) connect(m_bmCapture, SIGNAL(gotMessage(QString)), this, SLOT(slotGotHDMIMessage(QString)));
     }
-    live_button->setEnabled(m_bmCapture != NULL);
+    live_button->setEnabled(m_bmCapture != Q_NULLPTR);
     m_layout->addWidget(m_frame_preview);*/
 }
 
@@ -485,7 +485,7 @@ void StopmotionWidget::slotLive(bool isOn)
             resource = capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString();
         }
 
-        if (m_captureDevice == NULL) {
+        if (m_captureDevice == Q_NULLPTR) {
             /*TODO:
             //m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
             m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
@@ -520,7 +520,7 @@ void StopmotionWidget::slotLive(bool isOn)
             log_box->insertItem(-1, i18n("Stopped"));
             log_box->setCurrentIndex(0);
             //delete m_captureDevice;
-            //m_captureDevice = NULL;
+            //m_captureDevice = Q_NULLPTR;
         }
     }
 
@@ -566,7 +566,7 @@ void StopmotionWidget::reloadOverlay()
 
 void StopmotionWidget::slotUpdateOverlay()
 {
-    if (m_captureDevice == NULL) return;
+    if (m_captureDevice == Q_NULLPTR) return;
 
     QString tag;
     QStringList params;
@@ -627,7 +627,7 @@ void StopmotionWidget::sequenceNameChanged(const QString& name)
 
 void StopmotionWidget::slotCaptureFrame()
 {
-    if (m_captureDevice == NULL) return;
+    if (m_captureDevice == Q_NULLPTR) return;
     if (sequence_name->currentText().isEmpty()) {
         QString seqName = QInputDialog::getText(this, i18n("Create New Sequence"), i18n("Enter sequence name"));
         if (seqName.isEmpty()) {
@@ -817,7 +817,7 @@ void StopmotionWidget::slotSeekFrame(bool forward)
 
 void StopmotionWidget::slotRemoveFrame()
 {
-    if (frame_list->currentItem() == NULL) return;
+    if (frame_list->currentItem() == Q_NULLPTR) return;
     QString path = frame_list->currentItem()->toolTip();
     if (KMessageBox::questionYesNo(this, i18n("Delete frame %1 from disk?", path), i18n("Delete Frame")) != KMessageBox::Yes)
         return;

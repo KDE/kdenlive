@@ -227,7 +227,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, QStringList groupInfo
 //static
 void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
 {
-    QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), KRecentDirs::dir(QStringLiteral(":KdenliveSlideShowFolder")), NULL, bin);
+    QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), KRecentDirs::dir(QStringLiteral(":KdenliveSlideShowFolder")), Q_NULLPTR, bin);
 
     if (dia->exec() == QDialog::Accepted) {
         // Ready, create xml

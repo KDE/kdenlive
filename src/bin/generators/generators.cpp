@@ -37,10 +37,10 @@
 
 Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
       QDialog(parent)
-    , m_producer(NULL)
-    , m_timePos(NULL)
-    , m_container(NULL)
-    , m_preview(NULL)
+    , m_producer(Q_NULLPTR)
+    , m_timePos(Q_NULLPTR)
+    , m_container(Q_NULLPTR)
+    , m_preview(Q_NULLPTR)
 {
     QFile file(path);
     QDomDocument doc;

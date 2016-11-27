@@ -87,7 +87,7 @@ const double DOCUMENTVERSION = 0.95;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
     QObject(parent),
-    m_autosave(NULL),
+    m_autosave(Q_NULLPTR),
     m_url(url),
     m_width(0),
     m_height(0),
@@ -158,7 +158,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
         systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
         QLocale::setDefault(systemLocale);
         // locale conversion might need to be redone
-        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, NULL));
+        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, Q_NULLPTR));
     }
     *openBackup = false;
     if (url.isValid()) {
@@ -1269,7 +1269,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
 {
     if (clipList.isEmpty()) clipList = pCore->bin()->selectedClips();
     bool hasParent = true;
-    if (masterCommand == NULL) {
+    if (masterCommand == Q_NULLPTR) {
         masterCommand = new QUndoCommand();
         if (doProxy) masterCommand->setText(i18np("Add proxy clip", "Add proxy clips", clipList.count()));
         else masterCommand->setText(i18np("Remove proxy clip", "Remove proxy clips", clipList.count()));

@@ -52,7 +52,7 @@ bool SelectManager::mousePress(QMouseEvent *event, ItemInfo info, QList<QGraphic
     }
     // No item under click
     AbstractClipItem *dragItem = m_view->dragItem();
-    if (dragItem == NULL) {
+    if (dragItem == Q_NULLPTR) {
         m_view->clearSelection(true);
         if (event->button() == Qt::LeftButton) {
 	    m_view->setOperationMode(Seek);
@@ -125,12 +125,12 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
         //setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
         if (event->modifiers() != Qt::ControlModifier) {
             if (dragItem) dragItem->setMainSelectedClip(false);
-            dragItem = NULL;
+            dragItem = Q_NULLPTR;
         }
         event->accept();
         m_view->resetSelectionGroup();
         m_view->groupSelectedItems();
-        if (m_view->selectionGroup() == NULL && dragItem) {
+        if (m_view->selectionGroup() == Q_NULLPTR && dragItem) {
             // Only 1 item selected
             if (dragItem->type() == AVWidget) {
                 dragItem->setMainSelectedClip(true);
@@ -144,12 +144,12 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
     if (moveType == Seek || moveType == WaitingForConfirm || moveType == None || (!m_dragMoved && moveType == MoveOperation)) {
         if (!(m_modifiers & Qt::ControlModifier)) {
             if (dragItem) dragItem->setMainSelectedClip(false);
-                dragItem = NULL;
+                dragItem = Q_NULLPTR;
         }
         m_view->resetSelectionGroup();
         m_view->groupSelectedItems();
         AbstractGroupItem *selectionGroup = m_view->selectionGroup();
-        if (selectionGroup == NULL && dragItem) {
+        if (selectionGroup == Q_NULLPTR && dragItem) {
             // Only 1 item selected
             if (dragItem->type() == AVWidget) {
                 dragItem->setMainSelectedClip(true);
@@ -308,7 +308,7 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
                 view->setToolTip(tooltipMessage);
             return;
         }
-        ClipItem *ci = NULL;
+        ClipItem *ci = Q_NULLPTR;
         if (item->type() == AVWidget)
             ci = static_cast <ClipItem *>(item);
         QString message;

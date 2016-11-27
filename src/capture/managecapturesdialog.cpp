@@ -114,7 +114,7 @@ void ManageCapturesDialog::slotDeleteCurrent()
         qDebug()<<"// ERRor removing file "<<item->data(0, Qt::UserRole).toString();
     }
     delete item;
-    item = NULL;
+    item = Q_NULLPTR;
 }
 
 void ManageCapturesDialog::slotToggle()

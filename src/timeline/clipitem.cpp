@@ -379,7 +379,7 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
 
 void ClipItem::slotFetchThumbs()
 {
-    if (scene() == NULL || m_clipType == Audio || m_clipType == Color) return;
+    if (scene() == Q_NULLPTR || m_clipType == Audio || m_clipType == Color) return;
     if (m_clipType == Image || m_clipType == Text || m_clipType == QText || m_clipType == TextTemplate) {
         if (m_startPix.isNull()) slotGetStartThumb();
         return;
@@ -447,7 +447,7 @@ void ClipItem::slotSetEndThumb(const QImage &img)
 
 void ClipItem::slotThumbReady(int frame, const QImage &img)
 {
-    if (scene() == NULL) return;
+    if (scene() == Q_NULLPTR) return;
     if (m_startThumbRequested && frame == m_speedIndependantInfo.cropStart.frames(m_fps)) {
         QRectF r = boundingRect();
 	QPixmap pix = QPixmap::fromImage(img);
@@ -1177,7 +1177,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
         else
             setZValue(2);
     }
-    CustomTrackScene *scene = NULL;
+    CustomTrackScene *scene = Q_NULLPTR;
     if (change == ItemPositionChange) {
         scene = projectScene();
     }

@@ -145,17 +145,17 @@ static QString defaultStyle(const char *fallback=Q_NULLPTR)
 
 MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
-    m_timelineArea(NULL),
-    m_stopmotion(NULL),
-    m_effectStack(NULL),
+    m_timelineArea(Q_NULLPTR),
+    m_stopmotion(Q_NULLPTR),
+    m_effectStack(Q_NULLPTR),
     m_exitCode(EXIT_SUCCESS),
-    m_effectList(NULL),
-    m_transitionList(NULL),
-    m_clipMonitor(NULL),
-    m_projectMonitor(NULL),
-    m_recMonitor(NULL),
-    m_renderWidget(NULL),
-    m_messageLabel(NULL),
+    m_effectList(Q_NULLPTR),
+    m_transitionList(Q_NULLPTR),
+    m_clipMonitor(Q_NULLPTR),
+    m_projectMonitor(Q_NULLPTR),
+    m_recMonitor(Q_NULLPTR),
+    m_renderWidget(Q_NULLPTR),
+    m_messageLabel(Q_NULLPTR),
     m_themeInitialized(false),
     m_isDarkTheme(false)
 {
@@ -508,7 +508,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     QMenu *monitorOverlay = static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
     connect(monitorOverlay, SIGNAL(triggered(QAction*)), this, SLOT(slotSwitchMonitorOverlay(QAction*)));
 
-    m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, NULL, m_loopClip);
+    m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, Q_NULLPTR, m_loopClip);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container(QStringLiteral("marker_menu"), this)));
 
     QMenu *clipInTimeline = static_cast<QMenu*>(factory()->container(QStringLiteral("clip_in_timeline"), this));
@@ -749,8 +749,8 @@ MainWindow::~MainWindow()
 {
     delete m_stopmotion;
     delete m_audioSpectrum;
-    m_effectStack->slotClipItemSelected(NULL, m_projectMonitor);
-    m_effectStack->slotTransitionItemSelected(NULL, 0, QPoint(), false);
+    m_effectStack->slotClipItemSelected(Q_NULLPTR, m_projectMonitor);
+    m_effectStack->slotTransitionItemSelected(Q_NULLPTR, 0, QPoint(), false);
     if (m_projectMonitor) m_projectMonitor->stop();
     if (m_clipMonitor) m_clipMonitor->stop();
     delete pCore;
@@ -834,7 +834,7 @@ void MainWindow::saveNewToolbarConfig()
     pCore->bin()->rebuildMenu();
     QMenu *monitorOverlay = static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
     if (monitorOverlay) {
-        m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, NULL, m_loopClip);
+        m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, Q_NULLPTR, m_loopClip);
         m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container(QStringLiteral("marker_menu"), this)));
     }
 }
@@ -858,7 +858,7 @@ void MainWindow::slotFullScreen()
 void MainWindow::slotAddEffect(const QDomElement &effect)
 {
     if (effect.isNull()) {
-        qDebug() << "--- ERROR, TRYING TO APPEND NULL EFFECT";
+        qDebug() << "--- ERROR, TRYING TO APPEND Q_NULLPTR EFFECT";
         return;
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
@@ -2205,7 +2205,7 @@ void MainWindow::slotAddClipMarker()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
 
-    ClipController *clip = NULL;
+    ClipController *clip = Q_NULLPTR;
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
@@ -2237,7 +2237,7 @@ void MainWindow::slotAddClipMarker()
 
 void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
 {
-    ClipController *clip = NULL;
+    ClipController *clip = Q_NULLPTR;
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
@@ -2270,7 +2270,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
 
 void MainWindow::slotDeleteAllClipMarkers()
 {
-    ClipController *clip = NULL;
+    ClipController *clip = Q_NULLPTR;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
@@ -2290,7 +2290,7 @@ void MainWindow::slotDeleteAllClipMarkers()
 
 void MainWindow::slotEditClipMarker()
 {
-    ClipController *clip = NULL;
+    ClipController *clip = Q_NULLPTR;
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
@@ -2915,7 +2915,7 @@ void MainWindow::hideEvent(QHideEvent */*event*/)
     QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
     if (path.isEmpty()) {
         QString tmppath = pCore->projectManager()->current()->projectFolder().path() + QDir::separator();
-        if (baseClip == NULL) {
+        if (baseClip == Q_NULLPTR) {
             tmppath.append("untitled.mlt");
         } else {
             tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + '-' + QString::number(zone.x()).rightJustified(4, '0') + ".mlt");
@@ -3111,7 +3111,7 @@ void MainWindow::loadDockActions()
 
 void MainWindow::buildDynamicActions()
 {
-    KActionCategory *ts = NULL;
+    KActionCategory *ts = Q_NULLPTR;
     if (kdenliveCategoryMap.contains(QStringLiteral("clipjobs"))) {
 	ts = kdenliveCategoryMap.take(QStringLiteral("clipjobs"));
 	delete ts;
@@ -3196,7 +3196,7 @@ void MainWindow::buildDynamicActions()
     kdenliveCategoryMap.insert(QStringLiteral("audiotranscoderslist"), ats);
 
     // Populate View menu with show / hide actions for dock widgets
-    KActionCategory *guiActions = NULL;
+    KActionCategory *guiActions = Q_NULLPTR;
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
 	guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
 	delete guiActions;
@@ -3278,7 +3278,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 {
     KdenliveDoc *project = pCore->projectManager()->current();
 
-    if (m_renderWidget == NULL) return;
+    if (m_renderWidget == Q_NULLPTR) return;
     QString playlistPath;
     QString mltSuffix(QStringLiteral(".mlt"));
     QList<QString> playlistPaths;
@@ -3581,14 +3581,14 @@ void MainWindow::slotSetMonitorGamma(int gamma)
 
 void MainWindow::slotInsertZoneToTree()
 {
-    if (!m_clipMonitor->isActive() || m_clipMonitor->currentController() == NULL) return;
+    if (!m_clipMonitor->isActive() || m_clipMonitor->currentController() == Q_NULLPTR) return;
     QPoint info = m_clipMonitor->getZoneInfo();
     pCore->bin()->slotAddClipCut(m_clipMonitor->activeClipId(), info.x(), info.y());
 }
 
 void MainWindow::slotInsertZoneToTimeline()
 {
-    if (pCore->projectManager()->currentTimeline() == NULL || m_clipMonitor->currentController() == NULL) return;
+    if (pCore->projectManager()->currentTimeline() == Q_NULLPTR || m_clipMonitor->currentController() == Q_NULLPTR) return;
     QPoint info = m_clipMonitor->getZoneInfo();
     pCore->projectManager()->currentTimeline()->projectView()->insertClipCut(m_clipMonitor->activeClipId(), info.x(), info.y());
 }
@@ -3618,7 +3618,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
 
 void MainWindow::slotOpenStopmotion()
 {
-    if (m_stopmotion == NULL) {
+    if (m_stopmotion == Q_NULLPTR) {
         //m_stopmotion = new StopmotionWidget(pCore->monitorManager(), pCore->projectManager()->current()->projectFolder(), m_stopmotion_actions->actions(), this);
         //TODO
         //connect(m_stopmotion, SIGNAL(addOrUpdateSequence(QString)), m_projectList, SLOT(slotAddOrUpdateSequence(QString)));

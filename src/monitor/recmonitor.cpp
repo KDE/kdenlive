@@ -51,7 +51,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     m_isCapturing(false),
     m_didCapture(false),
     m_isPlaying(false),
-    m_captureDevice(NULL),
+    m_captureDevice(Q_NULLPTR),
     m_analyse(false)
 {
     setupUi(this);
@@ -234,7 +234,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_monitorManager->clearScopeSource();
         m_captureDevice->stop();
         delete m_captureDevice;
-        m_captureDevice = NULL;
+        m_captureDevice = Q_NULLPTR;
     }
 
     // The m_videoBox container has to be shown once before the MLT consumer is build, or preview will fail
@@ -1019,7 +1019,7 @@ void RecMonitor::buildMltDevice(const QString &path)
 {
     //TODO
     Q_UNUSED(path)
-    if (m_captureDevice == NULL) {
+    if (m_captureDevice == Q_NULLPTR) {
 	m_monitorManager->updateScopeSource();
         //TODO
         /*m_captureDevice = new MltDeviceCapture(path, videoSurface, this);

@@ -83,7 +83,7 @@ void ShuttleThread::run()
 		timeout.tv_usec = 400000;
 		// do select in blocked mode and wake up after timeout
 		// for stop_me evaluation
-		int result = select(mc.fd + 1, &readset, NULL, NULL, &timeout);
+		int result = select(mc.fd + 1, &readset, Q_NULLPTR, Q_NULLPTR, &timeout);
 		// see if there was an error or timeout else process event
 		if (result < 0 && errno == EINTR) {
 			// EINTR event caught. This is not a problem - continue processing

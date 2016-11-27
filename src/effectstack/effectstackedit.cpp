@@ -39,7 +39,7 @@
 
 EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     QScrollArea(parent),
-    m_paramWidget(NULL)
+    m_paramWidget(Q_NULLPTR)
 {
     m_baseWidget = new QWidget(this);
     m_metaInfo.monitor = monitor;

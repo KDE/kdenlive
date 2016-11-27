@@ -46,8 +46,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     m_decimals(decimals),
     m_default(defaultValue),
     m_id(id),
-    m_intEdit(NULL),
-    m_doubleEdit(NULL)
+    m_intEdit(Q_NULLPTR),
+    m_doubleEdit(Q_NULLPTR)
 {
     if (showSlider) setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     else setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);

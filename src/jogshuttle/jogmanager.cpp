@@ -30,9 +30,9 @@ JogManager::JogManager(QObject* parent) :
 void JogManager::slotConfigurationChanged()
 {
     delete m_shuttleAction;
-    m_shuttleAction = NULL;
+    m_shuttleAction = Q_NULLPTR;
     delete m_shuttle;
-    m_shuttle = NULL;
+    m_shuttle = Q_NULLPTR;
 
     if (KdenliveSettings::enableshuttle()) {
         m_shuttle = new JogShuttle(JogShuttle::canonicalDevice(KdenliveSettings::shuttledevice()));

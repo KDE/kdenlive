@@ -387,11 +387,11 @@ void Wizard::checkMltComponents()
             m_systemCheckIsOk = false;
         }
         // AVformat module
-        Mlt::Consumer *consumer = NULL;
+        Mlt::Consumer *consumer = Q_NULLPTR;
         Mlt::Profile p;
         if (consumersItemList.contains(QStringLiteral("avformat")))
             consumer = new Mlt::Consumer(p, "avformat");
-        if (consumer == NULL || !consumer->is_valid()) {
+        if (consumer == Q_NULLPTR || !consumer->is_valid()) {
             m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/video</li>"));
             m_brokenModule = true;
         }

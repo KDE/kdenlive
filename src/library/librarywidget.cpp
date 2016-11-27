@@ -167,7 +167,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
 
 LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget(parent)
   , m_manager(manager)
-  , m_previewJob(NULL)
+  , m_previewJob(Q_NULLPTR)
 {
     QVBoxLayout *lay = new QVBoxLayout(this);
     m_libraryTree = new LibraryTree(this);
@@ -520,7 +520,7 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
         } else {
             path = fileUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).path();
         }
-        QTreeWidgetItem *matchingFolder = NULL;
+        QTreeWidgetItem *matchingFolder = Q_NULLPTR;
         if (path != m_directory.path()) {
             foreach(QTreeWidgetItem *folder, m_folders) {
                 if (folder->data(0, Qt::UserRole).toString() == path) {
@@ -546,7 +546,7 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
                 delete matchingFolder;
             }
         } else {
-            if (matchingFolder == NULL) {
+            if (matchingFolder == Q_NULLPTR) {
                 matchingFolder = m_libraryTree->invisibleRootItem();
             }
             for(int i = 0; i < matchingFolder->childCount(); i++) {
@@ -571,7 +571,7 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         QUrl fileUrl = fitem.url();
         QString name = fileUrl.fileName();
         QTreeWidgetItem *treeItem;
-        QTreeWidgetItem *parent = NULL;
+        QTreeWidgetItem *parent = Q_NULLPTR;
         if (url != QUrl::fromLocalFile(m_directory.path())) {
             // not a top level item
             QString directory = fileUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).path();

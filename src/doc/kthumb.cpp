@@ -52,7 +52,7 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 //static
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height)
 {
-    if (producer == NULL || !producer->is_valid()) {
+    if (producer == Q_NULLPTR || !producer->is_valid()) {
         QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::red).rgb());
         return p;
@@ -74,7 +74,7 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 //static
 QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
 {
-    if (frame == NULL || !frame->is_valid()) {
+    if (frame == Q_NULLPTR || !frame->is_valid()) {
         QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::red).rgb());
         return p;

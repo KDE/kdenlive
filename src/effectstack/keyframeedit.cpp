@@ -292,7 +292,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
     if (column == -1) {
         // position of keyframe changed
         QTableWidgetItem *item = keyframe_list->item(row, 0);
-        if (item == NULL)
+        if (item == Q_NULLPTR)
             return;
 
         int pos = getPos(row);
@@ -325,7 +325,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
 
     }
     QTableWidgetItem *item = keyframe_list->item(row, column);
-    if (item == NULL)
+    if (item == Q_NULLPTR)
         return;
 
     int pos = getPos(row);

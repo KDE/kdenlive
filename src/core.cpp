@@ -24,17 +24,17 @@ the Free Software Foundation, either version 3 of the License, or
 #include <xlocale.h>
 #endif
 
-Core *Core::m_self = NULL;
+Core *Core::m_self = Q_NULLPTR;
 
 
 Core::Core(MainWindow *mainWindow) :
     m_mainWindow(mainWindow)
-    , m_projectManager(NULL)
-    , m_monitorManager(NULL)
-    , m_binController(NULL)
-    , m_producerQueue(NULL)
-    , m_binWidget(NULL)
-    , m_library(NULL)
+    , m_projectManager(Q_NULLPTR)
+    , m_monitorManager(Q_NULLPTR)
+    , m_binController(Q_NULLPTR)
+    , m_producerQueue(Q_NULLPTR)
+    , m_binWidget(Q_NULLPTR)
+    , m_library(Q_NULLPTR)
 {
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
 }
@@ -130,9 +130,9 @@ void Core::initLocale()
 {
     QLocale systemLocale = QLocale();
 #ifndef Q_OS_MAC
-    setlocale(LC_NUMERIC, NULL);
+    setlocale(LC_NUMERIC, Q_NULLPTR);
 #else
-    setlocale(LC_NUMERIC_MASK, NULL);
+    setlocale(LC_NUMERIC_MASK, Q_NULLPTR);
 #endif
     char *separator = localeconv()->decimal_point;
     if (QString::fromUtf8(separator) != QChar(systemLocale.decimalPoint())) {

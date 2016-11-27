@@ -152,7 +152,7 @@ ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *
     , m_id(controller->clipId())
     , m_type(controller->clipType())
     , m_properties(controller->properties())
-    , m_textEdit(NULL)
+    , m_textEdit(Q_NULLPTR)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QVBoxLayout *lay = new QVBoxLayout;
@@ -617,7 +617,7 @@ void ClipPropertiesController::slotEnableForce(int state)
             TimecodeDisplay *timePos = findChild<TimecodeDisplay *>(param + "_value");
             timePos->setValue(m_properties.get_int("kdenlive:original_length"));
             slotDurationChanged(m_properties.get_int("kdenlive:original_length"));
-            m_properties.set("kdenlive:original_length", (char *) NULL);
+            m_properties.set("kdenlive:original_length", (char *) Q_NULLPTR);
             return;
         }
         else if (param == QLatin1String("kdenlive:transparency")) {
@@ -967,7 +967,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             p.waitForFinished();
             QString res = p.readAllStandardOutput();
             m_controller->setProperty(QStringLiteral("kdenlive:exiftool"), 1);
-            QTreeWidgetItem *exif = NULL;
+            QTreeWidgetItem *exif = Q_NULLPTR;
             QStringList list = res.split('\n');
             foreach(const QString &tagline, list) {
                 if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) continue;
@@ -993,7 +993,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                 if (m_type != Image) {
                     m_controller->setProperty(QStringLiteral("kdenlive:exiftool"), 1);
                 }
-                QTreeWidgetItem *exif = NULL;
+                QTreeWidgetItem *exif = Q_NULLPTR;
                 QStringList list = res.split('\n');
                 foreach(const QString &tagline, list) {
                     if (m_type != Image && !tagline.startsWith(QLatin1String("-H264"))) continue;
@@ -1016,7 +1016,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
     if (magic == 1) {
         Mlt::Properties subProperties;
         subProperties.pass_values(m_properties, "kdenlive:meta.magiclantern.");
-        QTreeWidgetItem *magicL = NULL;
+        QTreeWidgetItem *magicL = Q_NULLPTR;
         for (int i = 0; i < subProperties.count(); i++) {
             if (!magicL) {
                 magicL = new QTreeWidgetItem(tree, QStringList() << i18n("Magic Lantern") << QString());
@@ -1034,7 +1034,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             QFile file(url);
             if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                 m_controller->setProperty(QStringLiteral("kdenlive:magiclantern"), 1);
-                QTreeWidgetItem *magicL = NULL;
+                QTreeWidgetItem *magicL = Q_NULLPTR;
                 while (!file.atEnd()) {
                     QString line = file.readLine().simplified();
                     if (line.startsWith('#') || line.isEmpty() || !line.contains(':')) continue;

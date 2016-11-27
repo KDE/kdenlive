@@ -112,10 +112,10 @@ private:
     /** @brief The track index of currently edited track. */
     int m_trackindex;
 
-    /** @brief The effect currently being dragged, NULL if no drag happening. */
+    /** @brief The effect currently being dragged, Q_NULLPTR if no drag happening. */
     CollapsibleEffect *m_draggedEffect;
 
-    /** @brief The effect currently being dragged, NULL if no drag happening. */
+    /** @brief The effect currently being dragged, Q_NULLPTR if no drag happening. */
     CollapsibleGroup *m_draggedGroup;
 
     /** @brief The current number of groups. */
@@ -162,19 +162,19 @@ private:
 public slots:
     /** @brief Sets the clip whose effect list should be managed.
     * @param c Clip whose effect list should be managed */
-    void slotClipItemSelected(ClipItem* c, Monitor *m = NULL, bool reloadStack = true);
+    void slotClipItemSelected(ClipItem* c, Monitor *m = Q_NULLPTR, bool reloadStack = true);
     /** @brief An effect parameter was changed, refresh effect stack if it was displaying it.
     * @param c Clip controller whose effect list should be managed */
     void slotRefreshMasterClipEffects(ClipController* c, Monitor *m);
     /** @brief Display effects for the selected Bin clip.
     * @param c Clip controller whose effect list should be managed */
-    void slotMasterClipItemSelected(ClipController* c, Monitor *m = NULL);
+    void slotMasterClipItemSelected(ClipController* c, Monitor *m = Q_NULLPTR);
 
     /** @brief Update the clip range (in-out points)
     * @param c Clip whose effect list should be managed */
     void slotClipItemUpdate();
 
-    void slotTrackItemSelected(int ix, const TrackInfo &info, Monitor *m = NULL);
+    void slotTrackItemSelected(int ix, const TrackInfo &info, Monitor *m = Q_NULLPTR);
 
     /** @brief Check if the mouse wheel events should be used for scrolling the widget view. */
     void slotCheckWheelEventFilter();

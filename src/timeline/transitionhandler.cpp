@@ -195,7 +195,7 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
         }
         //else qDebug() << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
 
-        if (nextservice == NULL) break;
+        if (nextservice == Q_NULLPTR) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_service_identify( nextservice );
         resource = mlt_properties_get(properties, "mlt_service");
@@ -217,10 +217,10 @@ void TransitionHandler::cloneProperties(Mlt::Properties &dest, Mlt::Properties &
     for ( i = 0; i < count; i ++ )
     {
         char *value = source.get(i);
-        if ( value != NULL )
+        if ( value != Q_NULLPTR )
         {
             char *name = source.get_name( i );
-            if (name != NULL && name[0] != '_') dest.set(name, value);
+            if (name != Q_NULLPTR && name[0] != '_') dest.set(name, value);
         }
     }
 }
@@ -292,7 +292,7 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
             break;
         }
         nextservice = mlt_service_producer(nextservice);
-        if (nextservice == NULL) break;
+        if (nextservice == Q_NULLPTR) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_service_identify( nextservice );
         resource = mlt_properties_get(properties, "mlt_service");
@@ -329,7 +329,7 @@ bool TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_tra
             break;
         }
         nextservice = mlt_service_producer(nextservice);
-        if (nextservice == NULL) break;
+        if (nextservice == Q_NULLPTR) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_service_identify( nextservice );
         resource = mlt_properties_get(properties, "mlt_service");
@@ -352,7 +352,7 @@ void TransitionHandler::deleteTrackTransitions(int ix)
         if (ix == currentTrack) {
             field->disconnect_service(transition);
         }
-        if (nextservice == NULL) break;
+        if (nextservice == Q_NULLPTR) break;
         type = mlt_service_identify(nextservice );
     }
 }
@@ -395,7 +395,7 @@ bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrac
             } else transition.set_in_and_out(new_in, new_out);
             break;
         }
-        if (nextservice == NULL) break;
+        if (nextservice == Q_NULLPTR) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_service_identify( nextservice );
         resource = mlt_properties_get(properties, "mlt_service");
@@ -503,7 +503,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
                     transition.set("split_disable", 1);
                 }
             }
-            if (nextservice == NULL) break;
+            if (nextservice == Q_NULLPTR) break;
             type = mlt_service_identify(nextservice);
         }
         for (int i = 1, screen = 0; i < tracks && screen < 4; ++i) {
@@ -554,10 +554,10 @@ void TransitionHandler::enableMultiTrack(bool enable)
                 QString mlt_service = transition.get("mlt_service");
                 if (compositeService.contains(mlt_service) && transition.get_int("split_disable") == 1) {
                     transition.set("disable", 0);
-                    transition.set("split_disable", (char*) NULL);
+                    transition.set("split_disable", (char*) Q_NULLPTR);
                 }
             }
-            if (nextservice == NULL) break;
+            if (nextservice == Q_NULLPTR) break;
             type = mlt_service_identify(nextservice);
         }
     }
