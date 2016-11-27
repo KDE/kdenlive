@@ -362,7 +362,7 @@ class Bin : public QWidget
     enum BinViewType {BinTreeView, BinIconView };
 
 public:
-    explicit Bin(QWidget* parent = 0);
+    explicit Bin(QWidget* parent = Q_NULLPTR);
     ~Bin();
 
     bool isLoading;

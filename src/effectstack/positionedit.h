@@ -30,7 +30,7 @@ class PositionEdit : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PositionEdit(const QString &name, int pos, int min, int max, const Timecode& tc, QWidget* parent = 0);
+    explicit PositionEdit(const QString &name, int pos, int min, int max, const Timecode& tc, QWidget* parent = Q_NULLPTR);
     ~PositionEdit();
     int getPosition() const;
     void setPosition(int pos);

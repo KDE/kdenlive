@@ -841,7 +841,7 @@ void GLWidget::stopCapture()
     }
 }
 
-int GLWidget::reconfigureMulti(QString params, QString path, Mlt::Profile *profile)
+int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile)
 {
     QString serviceName = property("mlt_service").toString();
     if (!m_consumer || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") != 0) {

@@ -48,7 +48,7 @@ public:
     * @param comment A comment explaining the parameter. Will be shown for the tooltip.
     * @param suffix (optional) Suffix to display in spinbox
     * @param parent (optional) Parent Widget */
-    explicit DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix = QString(), int decimals = 0, bool showRadiobutton = false, QWidget* parent = 0);
+    explicit DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix = QString(), int decimals = 0, bool showRadiobutton = false, QWidget* parent = Q_NULLPTR);
     ~DoubleParameterWidget();
 
     /** @brief The factor by which real param value is multiplicated to give the slider value. */

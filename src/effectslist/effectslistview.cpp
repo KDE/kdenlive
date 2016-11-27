@@ -205,7 +205,7 @@ void EffectsListView::refreshIcons()
     }
 }
 
-void EffectsListView::slotAddFavorite(QString id)
+void EffectsListView::slotAddFavorite(const QString &id)
 {
     QStringList favs = KdenliveSettings::favorite_effects();
     if (!favs.contains(id)) {

@@ -319,7 +319,7 @@ void ScopeManager::createScopes()
     // createScopeDock(new AudioSpectrum(pCore->window()), i18n("AudioSpectrum"));
 }
 
-template <class T> void ScopeManager::createScopeDock(T* scopeWidget, const QString& title, const QString name)
+template <class T> void ScopeManager::createScopeDock(T* scopeWidget, const QString& title, const QString &name)
 {
     QDockWidget *dock = pCore->window()->addDock(title, name, scopeWidget);
     addScope(scopeWidget, dock);

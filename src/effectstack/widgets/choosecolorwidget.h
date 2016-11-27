@@ -39,7 +39,7 @@ public:
     * @param text (optional) What the color will be used for
     * @param color (optional) initial color 
     * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit ChooseColorWidget(const QString &text = QString(), const QString &color = QStringLiteral("0xffffffff"), bool alphaEnabled = false, QWidget* parent = 0);
+    explicit ChooseColorWidget(const QString &text = QString(), const QString &color = QStringLiteral("0xffffffff"), bool alphaEnabled = false, QWidget* parent = Q_NULLPTR);
 
     /** @brief Gets the chosen color. */
     QString getColor() const;

@@ -576,7 +576,7 @@ void Monitor::updateMarkers()
     }
 }
 
-void Monitor::setGuides(QMap <double, QString> guides)
+void Monitor::setGuides(const QMap<double, QString> &guides)
 {
     m_markerMenu->clear();
     QMapIterator<double, QString> i(guides);

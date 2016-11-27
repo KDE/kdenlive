@@ -59,7 +59,7 @@ class OAuth2 : public QObject
     Q_OBJECT
 
 public:
-    explicit OAuth2(QWidget* parent = 0);
+    explicit OAuth2(QWidget* parent = Q_NULLPTR);
 
     void obtainAccessToken();
     void obtainNewAccessToken();

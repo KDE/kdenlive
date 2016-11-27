@@ -249,7 +249,7 @@ void MonitorManager::slotEnd()
     else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotEnd();
 }
 
-void MonitorManager::resetProfiles(MltVideoProfile profile, const Timecode &tc)
+void MonitorManager::resetProfiles(const MltVideoProfile &profile, const Timecode &tc)
 {
     m_timecode = tc;
     m_clipMonitor->resetProfile(profile);

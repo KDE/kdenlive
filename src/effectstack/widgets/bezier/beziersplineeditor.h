@@ -28,7 +28,7 @@ class BezierSplineEditor : public QWidget
     Q_OBJECT
 
 public:
-    explicit BezierSplineEditor(QWidget* parent = 0);
+    explicit BezierSplineEditor(QWidget* parent = Q_NULLPTR);
     ~BezierSplineEditor();
 
     CubicBezierSpline spline() const;

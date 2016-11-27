@@ -111,7 +111,7 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
     return QVector<float>();
 }
 
-void FFTTools::fftNormalized(const audioShortVector audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
+void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
                              const WindowType windowType, const uint windowSize, const float param)
 {
 #ifdef DEBUG_FFTTOOLS
@@ -228,7 +228,7 @@ void FFTTools::fftNormalized(const audioShortVector audioFrame, const uint chann
 #endif
 }
 
-const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> in, const uint targetSize, uint left, uint right, float fill)
+const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &in, const uint targetSize, uint left, uint right, float fill)
 {
 #ifdef DEBUG_FFTTOOLS
     QTime start = QTime::currentTime();

@@ -62,7 +62,7 @@ public:
      * @brief Constructor.
      * @param parent parent this item should be added to
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem *parent = 0);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem *parent = Q_NULLPTR);
     /**
      * @brief Creates a project item upon project load.
      * @param description element for this item.
@@ -70,7 +70,7 @@ public:
      *
      * We try to read the attributes "name" and "description"
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, AbstractProjectItem* parent = 0);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, AbstractProjectItem* parent = Q_NULLPTR);
     virtual ~AbstractProjectItem();
 
     bool operator==(const AbstractProjectItem *projectItem) const;

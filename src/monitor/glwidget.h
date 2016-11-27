@@ -64,7 +64,7 @@ public:
     void clear();
     /** @brief Update producer, should ONLY be called from renderer.cpp */
     int setProducer(Mlt::Producer* producer);
-    int reconfigureMulti(QString params, QString path, Mlt::Profile *profile);
+    int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
     int reconfigure(Mlt::Profile *profile = NULL);
 

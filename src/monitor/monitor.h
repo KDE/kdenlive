@@ -104,7 +104,7 @@ public:
     /** @brief Add clip markers to the ruler and context menu */
     void setMarkers(const QList <CommentedTime> &markers);
     /** @brief Add timeline guides to the ruler and context menu */
-    void setGuides(QMap <double, QString> guides);
+    void setGuides(const QMap<double, QString> &guides);
     void reloadProducer(const QString &id);
     /** @brief Reimplemented from QWidget, updates the palette colors. */
     void setPalette ( const QPalette & p);

@@ -54,7 +54,7 @@ public:
         * freqSpectrum has to be of size windowSize/2
         For windowType and param see the FFTTools::window() function above.
     */
-    void fftNormalized(const audioShortVector audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
+    void fftNormalized(const audioShortVector &audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
                        const WindowType windowType, const uint windowSize, const float param = 0);
 
 
@@ -72,7 +72,7 @@ public:
         @param fill         If right lies outside of the array bounds (which is perfectly fine here) then this value
                             will be used for filling the missing information.
         */
-    static const QVector<float> interpolatePeakPreserving(const QVector<float> in, const uint targetSize, uint left = 0, uint right = 0, float fill = 0.0);
+    static const QVector<float> interpolatePeakPreserving(const QVector<float> &in, const uint targetSize, uint left = 0, uint right = 0, float fill = 0.0);
 
 private:
     QHash<QString, kiss_fftr_cfg> m_fftCfgs; // FFT cfg cache

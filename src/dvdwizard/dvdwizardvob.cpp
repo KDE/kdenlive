@@ -270,7 +270,7 @@ void DvdWizardVob::slotAddVobList(QList<QUrl> list)
     slotCheckProfiles();
 }
 
-void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkFormats)
+void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool checkFormats)
 {
     if (!url.isValid()) return;
     QFile f(url.path());

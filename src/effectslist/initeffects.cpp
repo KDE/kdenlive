@@ -46,7 +46,6 @@ void initEffects::refreshLumas()
     // Check for Kdenlive installed luma files, add empty string at start for no luma
     QStringList imagefiles;
     QStringList fileFilters;
-    QString defaultWipeLuma;
     MainWindow::m_lumaFiles.clear();
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
@@ -160,6 +159,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     Mlt::Properties *filters = repository->filters();
     QStringList filtersList;
     int max = filters->count();
+    filtersList.reserve(max);
     for (int i = 0; i < max; ++i)
         filtersList << filters->get_name(i);
     delete filters;
@@ -168,6 +168,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     Mlt::Properties *producers = repository->producers();
     QStringList producersList;
     max = producers->count();
+    producersList.reserve(max);
     for (int i = 0; i < max; ++i)
         producersList << producers->get_name(i);
     KdenliveSettings::setProducerslist(producersList);
@@ -862,7 +863,7 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
 }
 
 // static
-void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, QStringList installedTransitions, QMap <QString, QString> effectDescriptions)
+void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, const QStringList &installedTransitions, const QMap <QString, QString> &effectDescriptions)
 {
     QDomDocument doc;
     QFile file(name);

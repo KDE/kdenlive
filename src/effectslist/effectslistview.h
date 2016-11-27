@@ -177,7 +177,7 @@ private slots:
     void slotAutoExpand(const QString &text);
     /** @brief Add an effect to the favorites
     * @param id id of the effect we want */
-    void slotAddFavorite(QString id);
+    void slotAddFavorite(const QString &id);
     /** @brief Add currently selected effect to the favorites */
     void slotAddToFavorites();
     void slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos);

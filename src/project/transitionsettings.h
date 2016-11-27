@@ -32,7 +32,7 @@ class TransitionSettings : public QWidget, public Ui::TransitionSettings_UI
     Q_OBJECT
 
 public:
-    explicit TransitionSettings(Monitor *monitor, QWidget* parent = 0);
+    explicit TransitionSettings(Monitor *monitor, QWidget* parent = Q_NULLPTR);
     void raiseWindow(QWidget*);
     void updateProjectFormat();
     void updateTimecodeFormat();

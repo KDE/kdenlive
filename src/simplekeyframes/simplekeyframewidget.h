@@ -33,7 +33,7 @@ class SimpleKeyframeWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit SimpleKeyframeWidget(const Timecode &t, int duration, QWidget* parent = 0);
+    explicit SimpleKeyframeWidget(const Timecode &t, int duration, QWidget* parent = Q_NULLPTR);
     ~SimpleKeyframeWidget();
 
     int getPosition() const;

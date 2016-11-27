@@ -34,7 +34,7 @@ class MyFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit MyFrame(QWidget* parent = 0);
+    explicit MyFrame(QWidget* parent = Q_NULLPTR);
 
 protected:
     void hideEvent ( QHideEvent * event );

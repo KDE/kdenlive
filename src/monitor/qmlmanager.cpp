@@ -137,6 +137,7 @@ void QmlManager::effectRotoChanged()
     QVariantList controlPoints = m_view->rootObject()->property("centerPointsTypes").toList();
     // rotoscoping effect needs a list of 
     QVariantList mix;
+    mix.reserve(points.count());
     for (int i = 0; i < points.count(); i++) {
         mix << controlPoints.at(2 * i);
         mix << points.at(i);
