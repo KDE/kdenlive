@@ -39,7 +39,7 @@ class MonitorManager : public QObject
     Q_OBJECT
 
 public:
-    explicit MonitorManager(QObject *parent = 0);
+    explicit MonitorManager(QObject *parent = Q_NULLPTR);
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor);
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);

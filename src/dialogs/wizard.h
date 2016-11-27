@@ -51,7 +51,7 @@ class Wizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit Wizard(bool autoClose, QWidget * parent = 0);
+    explicit Wizard(bool autoClose, QWidget * parent = Q_NULLPTR);
     void installExtraMimes(const QString &baseName, const QStringList &globs);
     void runUpdateMimeDatabase();
     void adjustSettings();

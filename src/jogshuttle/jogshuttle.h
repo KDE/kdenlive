@@ -81,7 +81,7 @@ class JogShuttle: public QObject
 {
     Q_OBJECT
 public:
-    explicit JogShuttle(const QString &device, QObject * parent = 0);
+    explicit JogShuttle(const QString &device, QObject * parent = Q_NULLPTR);
     ~JogShuttle();
     void stopDevice();
     void initDevice(const QString &device);

@@ -36,7 +36,7 @@ class MyEditableLabel : public QLineEdit
 {
     Q_OBJECT
 public:
-    explicit MyEditableLabel(QWidget * parent = 0);
+    explicit MyEditableLabel(QWidget * parent = Q_NULLPTR);
     
 protected:
     void mouseDoubleClickEvent( QMouseEvent *e);
@@ -54,7 +54,7 @@ class CollapsibleGroup : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget * parent = 0);
+    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget * parent = Q_NULLPTR);
     ~CollapsibleGroup();
     void updateTimecodeFormat();
     void setActive(bool activate);

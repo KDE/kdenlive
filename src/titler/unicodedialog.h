@@ -20,7 +20,7 @@ class UnicodeDialog : public QDialog
 public:
     /** \brief The input method for the dialog. Atm only InputHex supported. */
     enum InputMethod { InputHex, InputDec };
-    explicit UnicodeDialog(InputMethod inputMeth, QWidget *parent = 0);
+    explicit UnicodeDialog(InputMethod inputMeth, QWidget *parent = Q_NULLPTR);
     ~UnicodeDialog();
 
 private Q_SLOTS:
@@ -39,7 +39,7 @@ class UnicodeWidget : public QWidget, public Ui::UnicodeWidget_UI
     Q_OBJECT
 public:
 
-    explicit UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent = 0);
+    explicit UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent = Q_NULLPTR);
     ~UnicodeWidget();
 
     /** \brief Returns infos about a unicode number. Extendable/improvable ;) */

@@ -30,7 +30,7 @@ class InvalidDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent = 0);
+    explicit InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent = Q_NULLPTR);
     ~InvalidDialog();
 
     void addClip(const QString &id, const QString &path);

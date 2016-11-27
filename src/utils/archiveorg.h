@@ -39,7 +39,7 @@ class ArchiveOrg : public AbstractService
     Q_OBJECT
 
 public:
-    explicit ArchiveOrg(QListWidget *listWidget, QObject * parent = 0);
+    explicit ArchiveOrg(QListWidget *listWidget, QObject * parent = Q_NULLPTR);
     virtual ~ArchiveOrg();
     QString getExtension(QListWidgetItem *item);
     QString getDefaultDownloadName(QListWidgetItem *item);

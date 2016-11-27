@@ -31,8 +31,8 @@ class CubicBezierSpline : public QObject
     Q_OBJECT
 
 public:
-    explicit CubicBezierSpline(QObject* parent = 0);
-    CubicBezierSpline(const CubicBezierSpline &spline, QObject* parent = 0);
+    explicit CubicBezierSpline(QObject* parent = Q_NULLPTR);
+    CubicBezierSpline(const CubicBezierSpline &spline, QObject* parent = Q_NULLPTR);
     CubicBezierSpline& operator=(const CubicBezierSpline &spline);
 
     /** @brief Loads the points from the string @param spline.

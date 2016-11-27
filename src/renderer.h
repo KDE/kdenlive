@@ -104,7 +104,7 @@ class Render: public AbstractRender
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    Render(Kdenlive::MonitorId rendererName, BinController *binController, GLWidget *qmlView, QWidget *parent = 0);
+    Render(Kdenlive::MonitorId rendererName, BinController *binController, GLWidget *qmlView, QWidget *parent = Q_NULLPTR);
 
     /** @brief Destroy the MLT Renderer. */
     virtual ~Render();

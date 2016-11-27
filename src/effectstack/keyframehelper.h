@@ -31,7 +31,7 @@ class KeyframeHelper : public QWidget
 {
     Q_OBJECT
 public:
-    explicit KeyframeHelper(QWidget *parent = 0);
+    explicit KeyframeHelper(QWidget *parent = Q_NULLPTR);
     int value() const;
     int frameLength;
 

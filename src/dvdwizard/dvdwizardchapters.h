@@ -35,7 +35,7 @@ class DvdWizardChapters : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget * parent = 0);
+    explicit DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget * parent = Q_NULLPTR);
     virtual ~DvdWizardChapters();
     void changeProfile(DVDFORMAT format);
     void setPal(bool isPal);

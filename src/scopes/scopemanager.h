@@ -50,7 +50,7 @@ class ScopeManager : public QObject
     };
 
 public:
-    explicit ScopeManager(QObject *parent = 0);
+    explicit ScopeManager(QObject *parent = Q_NULLPTR);
 
     /**
       Adds a scope and sets up signal/slot connections to ensure that the scope

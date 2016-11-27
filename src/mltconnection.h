@@ -26,7 +26,7 @@ class MltConnection : public QObject
     Q_OBJECT
 
 public:
-    explicit MltConnection(QObject* parent = 0);
+    explicit MltConnection(QObject* parent = Q_NULLPTR);
 
     /** @brief Locates the MLT environment.
      * @param mltPath (optional) path to MLT environment

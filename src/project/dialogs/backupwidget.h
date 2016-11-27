@@ -37,7 +37,7 @@ class BackupWidget : public QDialog, public Ui::BackupDialog_UI
     Q_OBJECT
 
 public:
-    BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget * parent = 0);
+    BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget * parent = Q_NULLPTR);
     // Constructor for extracting widget
     ~BackupWidget();
     /** @brief Return the path for selected backup file. */

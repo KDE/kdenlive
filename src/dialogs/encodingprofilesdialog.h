@@ -31,7 +31,7 @@ class EncodingProfilesDialog : public QDialog, Ui::ManageEncodingProfile_UI
     Q_OBJECT
 
 public:
-    explicit EncodingProfilesDialog(int profileType, QWidget * parent = 0);
+    explicit EncodingProfilesDialog(int profileType, QWidget * parent = Q_NULLPTR);
     ~EncodingProfilesDialog();
 
 private slots:

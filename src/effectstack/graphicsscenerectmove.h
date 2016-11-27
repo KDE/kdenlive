@@ -82,7 +82,7 @@ public slots:
 class MyRectItem: public QGraphicsRectItem
 {
 public:
-    explicit MyRectItem(QGraphicsItem *parent = 0);
+    explicit MyRectItem(QGraphicsItem *parent = Q_NULLPTR);
     void setRect(const QRectF & rectangle);
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
@@ -93,7 +93,7 @@ private:
 class MyPixmapItem: public QGraphicsPixmapItem
 {
 public:
-    MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent = 0);
+    MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent = Q_NULLPTR);
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 };
@@ -101,7 +101,7 @@ protected:
 class MySvgItem: public QGraphicsSvgItem
 {
 public:
-    MySvgItem(const QString &fileName = QString(), QGraphicsItem *parent = 0);
+    MySvgItem(const QString &fileName = QString(), QGraphicsItem *parent = Q_NULLPTR);
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 };
@@ -110,7 +110,7 @@ class GraphicsSceneRectMove: public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit GraphicsSceneRectMove(QObject* parent = 0);
+    explicit GraphicsSceneRectMove(QObject* parent = Q_NULLPTR);
     void setSelectedItem(QGraphicsItem *item);
     void setScale(double s);
     void setZoom(double s);

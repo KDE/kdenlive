@@ -57,7 +57,7 @@ class ColorPickerWidget : public QWidget
 
 public:
     /** @brief Sets up the widget. */
-    explicit ColorPickerWidget(QWidget *parent = 0);
+    explicit ColorPickerWidget(QWidget *parent = Q_NULLPTR);
     /** @brief Makes sure the event filter is removed. */
     virtual ~ColorPickerWidget();
 

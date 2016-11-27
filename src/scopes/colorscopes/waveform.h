@@ -27,7 +27,7 @@ class Waveform : public AbstractGfxScopeWidget {
     Q_OBJECT
 
 public:
-    explicit Waveform(QWidget *parent = 0);
+    explicit Waveform(QWidget *parent = Q_NULLPTR);
     ~Waveform();
 
     QString widgetName() const;

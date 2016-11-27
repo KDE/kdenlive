@@ -32,7 +32,7 @@ class ManageCapturesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ManageCapturesDialog(const QList<QUrl> &files, QWidget * parent = 0);
+    explicit ManageCapturesDialog(const QList<QUrl> &files, QWidget * parent = Q_NULLPTR);
     ~ManageCapturesDialog();
     QList<QUrl> importFiles();
 

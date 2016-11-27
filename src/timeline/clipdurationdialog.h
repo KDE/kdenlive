@@ -37,7 +37,7 @@ class ClipDurationDialog : public QDialog, public Ui::ClipDurationDialog_UI
     Q_OBJECT
 
 public:
-    explicit ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget * parent = 0);
+    explicit ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget * parent = Q_NULLPTR);
     ~ClipDurationDialog();
     GenTime startPos() const;
     GenTime cropStart() const;

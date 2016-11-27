@@ -77,7 +77,7 @@ class MySpinBox : public QSpinBox
     Q_OBJECT
 
 public:
-    explicit MySpinBox(QWidget * parent = 0);
+    explicit MySpinBox(QWidget * parent = Q_NULLPTR);
 
 protected:
     void focusInEvent(QFocusEvent*);
@@ -89,7 +89,7 @@ class ParameterContainer : public QObject
     Q_OBJECT
 
 public:
-    explicit ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent = 0);
+    explicit ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent = Q_NULLPTR);
     ~ParameterContainer();
     void updateTimecodeFormat();
     void updateParameter(const QString &key, const QString &value);

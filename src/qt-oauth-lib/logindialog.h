@@ -57,7 +57,7 @@ class LoginDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit LoginDialog(QWidget *parent = 0);
+    explicit LoginDialog(QWidget *parent = Q_NULLPTR);
     ~LoginDialog();
     void setLoginUrl(const QUrl& url);
     QString authCode();

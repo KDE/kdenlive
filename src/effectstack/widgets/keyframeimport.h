@@ -38,7 +38,7 @@ class KeyframeImport : public QDialog
 {
     Q_OBJECT
 public:
-    explicit KeyframeImport(ItemInfo srcInfo, ItemInfo dstInfo, QMap<QString, QString> data, const Timecode &tc, QDomElement xml, ProfileInfo profile, QWidget *parent = 0);
+    explicit KeyframeImport(ItemInfo srcInfo, ItemInfo dstInfo, QMap<QString, QString> data, const Timecode &tc, QDomElement xml, ProfileInfo profile, QWidget *parent = Q_NULLPTR);
     virtual ~KeyframeImport();
     QString selectedData() const;
     QString selectedTarget() const;

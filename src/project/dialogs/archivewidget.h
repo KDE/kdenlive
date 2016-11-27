@@ -50,9 +50,9 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController*> &list, const QStringList &luma_list, QWidget * parent = 0);
+    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController*> &list, const QStringList &luma_list, QWidget * parent = Q_NULLPTR);
     // Constructor for extracting widget
-    explicit ArchiveWidget(const QUrl &url, QWidget * parent = 0);
+    explicit ArchiveWidget(const QUrl &url, QWidget * parent = Q_NULLPTR);
     ~ArchiveWidget();
 
     QString extractedProjectFile() const;

@@ -34,7 +34,7 @@ class NotesWidget : public QTextEdit
     Q_OBJECT
 
 public:
-    explicit NotesWidget(QWidget * parent = 0);
+    explicit NotesWidget(QWidget * parent = Q_NULLPTR);
     ~NotesWidget();
 
 protected:

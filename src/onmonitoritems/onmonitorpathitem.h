@@ -35,7 +35,7 @@ class OnMonitorPathItem : public QObject, public QGraphicsPathItem
 {
     Q_OBJECT
 public:
-    explicit OnMonitorPathItem(QGraphicsItem *parent = 0);
+    explicit OnMonitorPathItem(QGraphicsItem *parent = Q_NULLPTR);
     void setPoints(Mlt::Geometry *geometry);
     void getMode(const QPointF &pos);
     void rebuildShape();

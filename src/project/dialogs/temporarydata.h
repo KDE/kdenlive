@@ -43,7 +43,7 @@ class QPushButton;
 class ChartWidget : public QWidget
 {
 public:
-    explicit ChartWidget(QWidget *parent = 0);
+    explicit ChartWidget(QWidget *parent = Q_NULLPTR);
     void setSegments(QList <int> segments);
 
 protected:
@@ -88,7 +88,7 @@ class TemporaryData : public QWidget
     Q_OBJECT
 
 public:
-    explicit TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget * parent = 0);
+    explicit TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget * parent = Q_NULLPTR);
 
 private:
     KdenliveDoc *m_doc;

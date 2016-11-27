@@ -30,7 +30,7 @@ class OnMonitorCornersItem : public QObject, public QGraphicsPolygonItem
 {
     Q_OBJECT
 public:
-    explicit OnMonitorCornersItem(QGraphicsItem *parent = 0);
+    explicit OnMonitorCornersItem(QGraphicsItem *parent = Q_NULLPTR);
 
     enum cornersActions { Corner, Move, MoveSide, NoAction };
     /** @brief Gets The action mode for the area @param pos +- 4. */

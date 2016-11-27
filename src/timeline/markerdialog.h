@@ -47,7 +47,7 @@ class MarkerDialog : public QDialog, public Ui::MarkerDialog_UI
     Q_OBJECT
 
 public:
-    explicit MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent = 0);
+    explicit MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent = Q_NULLPTR);
     ~MarkerDialog();
 
     CommentedTime newMarker();

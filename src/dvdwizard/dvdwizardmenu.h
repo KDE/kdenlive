@@ -38,7 +38,7 @@ class DvdScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit DvdScene(QObject * parent = 0);
+    explicit DvdScene(QObject * parent = Q_NULLPTR);
     void setProfile(int width, int height);
     int gridSize() const;
     void setGridSize(int gridSize);
@@ -88,7 +88,7 @@ class DvdWizardMenu : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardMenu(DVDFORMAT format, QWidget * parent = 0);
+    explicit DvdWizardMenu(DVDFORMAT format, QWidget * parent = Q_NULLPTR);
     virtual ~DvdWizardMenu();
     bool createMenu() const;
     void createBackgroundImage(const QString &img1, bool letterbox);

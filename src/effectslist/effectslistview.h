@@ -43,7 +43,7 @@ class TreeEventEater : public QObject
 {
     Q_OBJECT
 public:
-    explicit TreeEventEater(QObject *parent = 0);
+    explicit TreeEventEater(QObject *parent = Q_NULLPTR);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
@@ -56,7 +56,7 @@ class MyTreeWidgetSearchLine : public KTreeWidgetSearchLine
 {
     Q_OBJECT
 public:
-    explicit MyTreeWidgetSearchLine(QWidget *parent = 0);
+    explicit MyTreeWidgetSearchLine(QWidget *parent = Q_NULLPTR);
 
 protected:
     bool itemMatches(const QTreeWidgetItem *item, const QString &pattern) const;
@@ -74,7 +74,7 @@ class MyDropButton : public QToolButton
     Q_OBJECT
 
 public:
-    explicit MyDropButton(QWidget *parent = 0) : QToolButton(parent) {
+    explicit MyDropButton(QWidget *parent = Q_NULLPTR) : QToolButton(parent) {
         setAcceptDrops(true);
         setAutoExclusive(true);
         setCheckable(true);
@@ -117,7 +117,7 @@ public:
         TransitionMode = 1
     };
 
-    explicit EffectsListView(LISTMODE mode = EffectMode, QWidget *parent = 0);
+    explicit EffectsListView(LISTMODE mode = EffectMode, QWidget *parent = Q_NULLPTR);
 
     /** @brief Re-initializes the list of effects. */
     void reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions);

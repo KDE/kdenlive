@@ -41,7 +41,7 @@ class EffectStackView2 : public QWidget
     Q_OBJECT
 
 public:
-    explicit EffectStackView2(Monitor *projectMonitor, QWidget *parent = 0);
+    explicit EffectStackView2(Monitor *projectMonitor, QWidget *parent = Q_NULLPTR);
     virtual ~EffectStackView2();
 
     /** @brief Raises @param dock if a clip is loaded. */

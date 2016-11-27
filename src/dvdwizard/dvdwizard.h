@@ -39,7 +39,7 @@ class DvdWizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit DvdWizard(MonitorManager *manager, const QString &url = QString(), QWidget * parent = 0);
+    explicit DvdWizard(MonitorManager *manager, const QString &url = QString(), QWidget * parent = Q_NULLPTR);
     virtual ~DvdWizard();
     void processSpumux();
 

@@ -36,7 +36,7 @@ class EffectsListWidget : public QTreeWidget
     static const int TypeRole = Qt::UserRole;
     static const int IdRole = TypeRole + 1;
 
-    explicit EffectsListWidget(QWidget *parent = 0);
+    explicit EffectsListWidget(QWidget *parent = Q_NULLPTR);
     virtual ~EffectsListWidget();
     const QDomElement currentEffect() const;
     QString currentInfo() const;

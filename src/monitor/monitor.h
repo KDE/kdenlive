@@ -58,7 +58,7 @@ class QuickEventEater : public QObject
 {
     Q_OBJECT
 public:
-    explicit QuickEventEater(QObject *parent = 0);
+    explicit QuickEventEater(QObject *parent = Q_NULLPTR);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
@@ -85,7 +85,7 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
-    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = 0);
+    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = Q_NULLPTR);
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender();

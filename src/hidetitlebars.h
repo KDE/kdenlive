@@ -25,7 +25,7 @@ class HideTitleBars : public QObject
     Q_OBJECT
 
 public:
-    explicit HideTitleBars(QObject *parent = 0);
+    explicit HideTitleBars(QObject *parent = Q_NULLPTR);
 
 private:
     QAction *m_switchAction;

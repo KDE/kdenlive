@@ -48,7 +48,7 @@ class FlashLabel: public QWidget
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_OBJECT
 public:
-    explicit FlashLabel(QWidget *parent = 0);
+    explicit FlashLabel(QWidget *parent = Q_NULLPTR);
     ~FlashLabel();
     QColor color() const;
     void setColor(const QColor &);

@@ -31,7 +31,7 @@ class TrackDialog : public QDialog, public Ui::AddTrack_UI
     Q_OBJECT
 
 public:
-    explicit TrackDialog(Timeline *timeline, QWidget * parent = 0);
+    explicit TrackDialog(Timeline *timeline, QWidget * parent = Q_NULLPTR);
 };
 
 

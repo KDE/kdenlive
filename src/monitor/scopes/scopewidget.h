@@ -65,7 +65,7 @@ public:
       The \a name will be set as the objectName and should be initialized by
       subclasses.
     */
-    explicit ScopeWidget(QWidget *parent = 0);
+    explicit ScopeWidget(QWidget *parent = Q_NULLPTR);
 
     //! Destructs a ScopeWidget.
     virtual ~ScopeWidget();

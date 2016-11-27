@@ -51,7 +51,7 @@ class CustomTrackView : public QGraphicsView
     Q_OBJECT
 
 public:
-    CustomTrackView(KdenliveDoc *doc, Timeline* timeline, CustomTrackScene* projectscene, QWidget *parent = 0);
+    CustomTrackView(KdenliveDoc *doc, Timeline* timeline, CustomTrackScene* projectscene, QWidget *parent = Q_NULLPTR);
     virtual ~ CustomTrackView();
 
     virtual void mousePressEvent(QMouseEvent * event);

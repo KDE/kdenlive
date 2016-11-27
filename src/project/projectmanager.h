@@ -42,7 +42,7 @@ class /*KDENLIVECORE_EXPORT*/ ProjectManager : public QObject
 
 public:
     /** @brief Sets up actions to interact for project interaction (undo, redo, open, save, ...) and creates an empty project. */
-    explicit ProjectManager(QObject* parent = 0);
+    explicit ProjectManager(QObject* parent = Q_NULLPTR);
     virtual ~ProjectManager();
 
     /** @brief Returns a pointer to the currently opened project. A project should always be open. */

@@ -70,7 +70,7 @@ class MyListView: public QListView
 {
     Q_OBJECT
 public:
-    explicit MyListView(QWidget *parent = 0);
+    explicit MyListView(QWidget *parent = Q_NULLPTR);
 
 protected:
     void focusInEvent(QFocusEvent *event);
@@ -83,7 +83,7 @@ class MyTreeView: public QTreeView
     Q_OBJECT
     Q_PROPERTY(bool editing READ isEditing WRITE setEditing)
 public:
-    explicit MyTreeView(QWidget *parent = 0);
+    explicit MyTreeView(QWidget *parent = Q_NULLPTR);
     void setEditing(bool edit);
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -109,8 +109,8 @@ class BinMessageWidget: public KMessageWidget
 {
     Q_OBJECT
 public:
-    explicit BinMessageWidget(QWidget *parent = 0);
-    BinMessageWidget(const QString &text, QWidget *parent = 0);
+    explicit BinMessageWidget(QWidget *parent = Q_NULLPTR);
+    BinMessageWidget(const QString &text, QWidget *parent = Q_NULLPTR);
 
 protected:
     bool event(QEvent* ev);
@@ -124,7 +124,7 @@ class SmallJobLabel: public QPushButton
 {
     Q_OBJECT
 public:
-    explicit SmallJobLabel(QWidget *parent = 0);
+    explicit SmallJobLabel(QWidget *parent = Q_NULLPTR);
     static const QString getStyleSheet(const QPalette &p);
     void setAction(QAction *action);
 private:
@@ -154,7 +154,7 @@ private slots:
 class BinItemDelegate: public QStyledItemDelegate
 {
 public:
-    explicit BinItemDelegate(QObject* parent = 0): QStyledItemDelegate(parent) 
+    explicit BinItemDelegate(QObject* parent = Q_NULLPTR): QStyledItemDelegate(parent) 
     {
     }
 
@@ -338,7 +338,7 @@ class LineEventEater : public QObject
 {
     Q_OBJECT
 public:
-    explicit LineEventEater(QObject *parent = 0);
+    explicit LineEventEater(QObject *parent = Q_NULLPTR);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
@@ -625,7 +625,7 @@ public slots:
     void slotAddClipCut(const QString&id, int in, int out);
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
-    void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = 0);
+    void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = Q_NULLPTR);
     void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
     void slotDuplicateClip();
@@ -637,7 +637,7 @@ public slots:
     /** @brief Abort audio thumbnail for clip with id */
     void slotAbortAudioThumb(const QString &id, long duration);
     /** @brief Add extra data to a clip. */
-    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = 0);
+    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = Q_NULLPTR);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
     /** @brief Pass some important properties to timeline track producers. */
     void updateTimelineProducers(const QString &id, QMap <QString, QString> passProperties);

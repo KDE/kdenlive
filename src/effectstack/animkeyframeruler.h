@@ -33,7 +33,7 @@ class AnimKeyframeRuler : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AnimKeyframeRuler(int min, int max, QWidget *parent = 0);
+    explicit AnimKeyframeRuler(int min, int max, QWidget *parent = Q_NULLPTR);
     int position() const;
     int frameLength;
     void updateKeyframes(QVector<int> keyframes, QVector<int> types, int attachToEnd);
