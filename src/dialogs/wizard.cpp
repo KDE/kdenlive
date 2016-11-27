@@ -87,7 +87,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     m_page = new MyWizardPage(this);
     m_page->setTitle(i18n("Welcome to Kdenlive %1", QString(kdenlive_version)));
     m_page->setSubTitle(i18n("Using MLT %1", mlt_version_get_string()));
-    setPixmap(QWizard::LogoPixmap, KoIconUtils::themedIcon(QStringLiteral("kdenlive")).pixmap(logoHeight, logoHeight));
+    setPixmap(QWizard::LogoPixmap, KoIconUtils::themedIcon(QStringLiteral(":/pics/kdenlive.png")).pixmap(logoHeight, logoHeight));
     m_startLayout = new QVBoxLayout;
     m_errorWidget = new KMessageWidget(this);
     m_startLayout->addWidget(m_errorWidget);
@@ -103,7 +103,6 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     setButtonText(QWizard::FinishButton, i18n("OK"));
 
     slotCheckMlt();
-    m_startLayout->addStretch();
     if (!m_errors.isEmpty() || !m_warnings.isEmpty() || !m_infos.isEmpty()) {
         QLabel *lab = new QLabel(this);
         lab->setText(i18n("Startup error or warning, check our <a href='#'>online manual</a>."));
@@ -129,6 +128,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
         KMessageWidget *errorLabel = new KMessageWidget(this);
         errorLabel->setText("<ul>" + m_errors + "</ul>");
         errorLabel->setMessageType(KMessageWidget::Error);
+        errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
         m_startLayout->addWidget(errorLabel);
         m_page->setComplete(false);
@@ -146,6 +146,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
         KMessageWidget *errorLabel = new KMessageWidget(this);
         errorLabel->setText("<ul>" + m_warnings + "</ul>");
         errorLabel->setMessageType(KMessageWidget::Warning);
+        errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
         m_startLayout->addWidget(errorLabel);
         errorLabel->show();
@@ -154,6 +155,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
         KMessageWidget *errorLabel = new KMessageWidget(this);
         errorLabel->setText("<ul>" + m_infos + "</ul>");
         errorLabel->setMessageType(KMessageWidget::Information);
+        errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
         m_startLayout->addWidget(errorLabel);
         errorLabel->show();
@@ -341,6 +343,38 @@ void Wizard::checkMltComponents()
             producersItemList << producers->get_name(i);
         delete producers;
 
+        // Check that we have the frei0r effects installed
+        Mlt::Properties *filters = repository->filters();
+        bool hasFrei0r = false;
+        QString filterName;
+        for (int i = 0; i < filters->count(); ++i) {
+            filterName = filters->get_name(i);
+            if (filterName.startsWith(QStringLiteral("frei0r."))) {
+                hasFrei0r = true;
+                break;
+            }
+        }
+        delete filters;
+        if (!hasFrei0r) {
+            // Frei0r effects not found
+            m_warnings.append(QString("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommanded</li>"));
+        }
+
+        // Check that we have the breeze icon theme installed
+        QStringList iconPaths = QIcon::themeSearchPaths();
+        bool hasBreeze = false;
+        foreach(const QString &path, iconPaths) {
+            QDir dir(path);
+            if (dir.exists(QStringLiteral("breeze"))) {
+                hasBreeze = true;
+                break;
+            }
+        }
+        if (!hasBreeze) {
+            // Breeze icons not found
+            m_warnings.append(QString("<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides many icons used in Kdenlive. Install recommanded</li>"));
+        }
+
         Mlt::Properties *consumers = repository->consumers();
         QStringList consumersItemList;
         for (int i = 0; i < consumers->count(); ++i)
@@ -411,19 +445,23 @@ void Wizard::checkMissingCodecs()
     if (acodecsList.contains(QStringLiteral("libvorbis"))) replaceVorbisCodec = true;
     bool replaceLibfaacCodec = false;
     if (!acodecsList.contains(QStringLiteral("aac")) && acodecsList.contains(QStringLiteral("libfaac"))) replaceLibfaacCodec = true;
-
-    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/";
-    QDir directory = QDir(exportFolder);
+    QStringList profilesList;
+    profilesList << QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("export/profiles.xml"));
+    QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/");
     QStringList filter;
     filter << QStringLiteral("*.xml");
     QStringList fileList = directory.entryList(filter, QDir::Files);
+    foreach(const QString &filename, fileList) {
+        profilesList << directory.absoluteFilePath(filename);
+    }
+
     // We should parse customprofiles.xml in last position, so that user profiles
     // can also override profiles installed by KNewStuff
     QStringList requiredACodecs;
     QStringList requiredVCodecs;
-    foreach(const QString &filename, fileList) {
+    foreach(const QString &filename, profilesList) {
         QDomDocument doc;
-        QFile file(exportFolder + filename);
+        QFile file(filename);
         doc.setContent(&file, false);
         file.close();
         QString std;
@@ -455,7 +493,6 @@ void Wizard::checkMissingCodecs()
             requiredACodecs.replace(ix, QStringLiteral("libfaac"));
         }
     }
-
     for (int i = 0; i < acodecsList.count(); ++i)
         requiredACodecs.removeAll(acodecsList.at(i));
     for (int i = 0; i < vcodecsList.count(); ++i)
@@ -465,16 +502,7 @@ void Wizard::checkMissingCodecs()
         if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) missing.append(',');
         missing.append(requiredVCodecs.join(QStringLiteral(",")));
         missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
-        // Some codecs required for rendering are not present on this system, warn user
-        show();
-        KMessageWidget *infoMessage = new KMessageWidget(this);
-        m_startLayout->insertWidget(1, infoMessage);
-        infoMessage->setCloseButtonVisible(false);
-        infoMessage->setWordWrap(true);
-        infoMessage->setMessageType(KMessageWidget::Warning);
-        connect(infoMessage, &KMessageWidget::linkActivated, this, &Wizard::slotOpenManual);
-        infoMessage->setText(missing);
-        infoMessage->animatedShow();
+        m_infos.append(QString("<li>%1</li>").arg(missing));
     }
 }
 

@@ -83,6 +83,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_view.button_down->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
     m_vobList = new DvdTreeWidget(this);
     QVBoxLayout *lay1 = new QVBoxLayout;
+    lay1->setMargin(0);
     lay1->addWidget(m_vobList);
     m_view.list_frame->setLayout(lay1);
     m_vobList->setColumnCount(3);

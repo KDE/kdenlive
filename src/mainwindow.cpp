@@ -666,7 +666,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     new JogManager(this);
 #endif
     scmanager->slotCheckActiveScopes();
-    //TODO: remove for release
     m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
 
