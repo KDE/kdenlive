@@ -35,6 +35,7 @@
 InvalidDialog::InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent)
     : QDialog(parent)
 {
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     setWindowTitle(caption);
     // Info only means users can only click on ok
     QDialogButtonBox *buttonBox;
@@ -46,21 +47,14 @@ InvalidDialog::InvalidDialog(const QString &caption, const QString &message, boo
         buttonBox = new QDialogButtonBox(QDialogButtonBox::No|QDialogButtonBox::Yes);
         okButton = buttonBox->button(QDialogButtonBox::Yes);
     }
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    setLayout(mainLayout);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &InvalidDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &InvalidDialog::reject);
 
-    QWidget *mainWidget = new QWidget(this);
-    QVBoxLayout *boxLayout = new QVBoxLayout;
-    boxLayout->addWidget(new QLabel(message));    
-
-    m_clipList = new QListWidget();
-    boxLayout->addWidget(m_clipList);
-    mainWidget->setLayout(boxLayout);
-    mainLayout->addWidget(mainWidget);
+    m_clipList = new QListWidget(this);
+    mainLayout->addWidget(new QLabel(message));
+    mainLayout->addWidget(m_clipList);
     mainLayout->addWidget(buttonBox);
 }
 
