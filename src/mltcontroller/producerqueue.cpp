@@ -308,7 +308,7 @@ void ProducerQueue::processFileProperties()
                         //delete producer;
                         delete blankProfile;
                         //m_processingClipId.removeAll(info.clipId);
-                        info.xml.removeAttribute("checkProfile");
+                        info.xml.removeAttribute(QStringLiteral("checkProfile"));
                         emit switchProfile(clipProfile, info.clipId, info.xml);
                     } else if (KdenliveSettings::default_profile().isEmpty()) {
                         // Confirm default project format
@@ -479,11 +479,11 @@ void ProducerQueue::processFileProperties()
             m_processingClipId.removeAll(info.clipId);
 
             // Store original properties in a kdenlive: prefixed format
-            QDomNodeList props = info.xml.elementsByTagName("property");
+            QDomNodeList props = info.xml.elementsByTagName(QStringLiteral("property"));
             for (int i = 0; i < props.count(); ++i) {
                 QDomElement e = props.at(i).toElement();
-                QString name = e.attribute("name");
-                if (name.startsWith("meta.")) {
+                QString name = e.attribute(QStringLiteral("name"));
+                if (name.startsWith(QLatin1String("meta."))) {
                     name.prepend("kdenlive:");
                     producer->set(name.toUtf8().constData(), e.firstChild().nodeValue().toUtf8().constData());
                 }
@@ -830,10 +830,10 @@ void ProducerQueue::processProducerProperties(Mlt::Producer *prod, QDomElement x
     }
     for (int i = 0; i < props.count(); ++i) {
         if (props.at(i).toElement().tagName() != QStringLiteral("property")) continue;
-        QString propertyName = props.at(i).toElement().attribute("name");
-        if (!internalProperties.contains(propertyName) && !propertyName.startsWith("_")) {
+        QString propertyName = props.at(i).toElement().attribute(QStringLiteral("name"));
+        if (!internalProperties.contains(propertyName) && !propertyName.startsWith(QLatin1String("_"))) {
             value = props.at(i).firstChild().nodeValue();
-            if (propertyName.startsWith("kdenlive-force.")) {
+            if (propertyName.startsWith(QLatin1String("kdenlive-force."))) {
                 // this is a special forced property, pass it
                 propertyName.remove(0, 15);
             }

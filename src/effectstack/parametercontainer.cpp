@@ -340,7 +340,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         } else if (type == QLatin1String("switch")) {
             Boolval *bval = new Boolval;
             bval->setupUi(toFillin);
-            bval->checkBox->setCheckState(value == pa.attribute("min") ? Qt::Unchecked : Qt::Checked);
+            bval->checkBox->setCheckState(value == pa.attribute(QStringLiteral("min")) ? Qt::Unchecked : Qt::Checked);
             bval->name->setText(paramName);
             bval->name->setToolTip(comment);
             bval->labelComment->setText(comment);
@@ -685,7 +685,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             connect(button, SIGNAL(pressed()), this, SLOT(slotStartFilterJobAction()));
         } else if (type == QLatin1String("readonly")) {
             QHBoxLayout *lay= new QHBoxLayout(toFillin);
-            DraggableLabel *lab = new DraggableLabel(QString("<a href=\"%1\">").arg(pa.attribute(QStringLiteral("name"))) + paramName + QStringLiteral("</a>"));
+            DraggableLabel *lab = new DraggableLabel(QStringLiteral("<a href=\"%1\">").arg(pa.attribute(QStringLiteral("name"))) + paramName + QStringLiteral("</a>"));
             lab->setObjectName(pa.attribute(QStringLiteral("name")));
             connect(lab, &QLabel::linkActivated, this, &ParameterContainer::copyData);
             connect(lab, &DraggableLabel::startDrag, this, &ParameterContainer::makeDrag);
@@ -1011,7 +1011,7 @@ void ParameterContainer::slotCollectAllParameters()
             Boolval* val = static_cast<Boolval*>(m_valueItems.value(paramName));
             if (val) {
                 QCheckBox *box = val->checkBox;
-                setValue = box->checkState() == Qt::Checked ? pa.attribute("max") : pa.attribute("min") ;
+                setValue = box->checkState() == Qt::Checked ? pa.attribute(QStringLiteral("max")) : pa.attribute(QStringLiteral("min")) ;
             }
         } else if (type == QLatin1String("color")) {
             ChooseColorWidget *choosecolor = static_cast<ChooseColorWidget*>(m_valueItems.value(paramName));

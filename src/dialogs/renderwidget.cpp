@@ -1076,16 +1076,16 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
 
         bool resizeProfile = false;
-        if (renderArgs.contains("%dv_standard")) {
+        if (renderArgs.contains(QLatin1String("%dv_standard"))) {
             QString std;
             if (fmod((double)m_profile.frame_rate_num / m_profile.frame_rate_den, 30.01) > 27) {
-                std = "ntsc";
+                std = QStringLiteral("ntsc");
                 if (!(m_profile.frame_rate_num == 30000 && m_profile.frame_rate_den == 1001))
                     forcedfps = 30000.0 / 1001;
                 if (!(m_profile.width == 720 && m_profile.height == 480))
                     resizeProfile = true;
             } else {
-                std = "pal";
+                std = QStringLiteral("pal");
                 if (!(m_profile.frame_rate_num == 25 && m_profile.frame_rate_den == 1))
                     forcedfps = 25;
                 if (!(m_profile.width == 720 && m_profile.height == 576))
@@ -1093,8 +1093,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             }
 
             if ((double) m_profile.display_aspect_num / m_profile.display_aspect_den > 1.5)
-                std += "_wide";
-            renderArgs.replace("%dv_standard", std);
+                std += QLatin1String("_wide");
+            renderArgs.replace(QLatin1String("%dv_standard"), std);
         }
 
         // If there is an fps change, we need to use the producer consumer AND update the in/out points
@@ -1579,7 +1579,7 @@ void RenderWidget::refreshParams()
     QString params = item->data(0, ParamsRole).toString();
     errorMessage(ProfileError, item->data(0, ErrorRole).toString());
     m_view.advanced_params->setPlainText(params);
-    if (params.contains(QStringLiteral(" s=")) || params.startsWith(QLatin1String("s=")) || params.contains("%dv_standard")) {
+    if (params.contains(QStringLiteral(" s=")) || params.startsWith(QLatin1String("s=")) || params.contains(QLatin1String("%dv_standard"))) {
         // profile has a fixed size, do not allow resize
         m_view.rescale->setEnabled(false);
         setRescaleEnabled(false);
@@ -1780,7 +1780,7 @@ void RenderWidget::parseMltPresets()
         root.cdUp();
         QTreeWidgetItem *item = loadFromMltPreset(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"));
         if (item) {
-            item->setData(0, ParamsRole, QString("properties=GIF"));
+            item->setData(0, ParamsRole, QStringLiteral("properties=GIF"));
             groupItem->addChild(item);
         }
     }
@@ -1908,13 +1908,13 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(0, RenderRole, "avformat");
             item->setData(0, StandardRole, standard);
             item->setData(0, ParamsRole, params);
-            if (params.contains("%quality"))
+            if (params.contains(QLatin1String("%quality")))
                 item->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(',', QString::SkipEmptyParts));
-            else if (params.contains("%bitrate"))
+            else if (params.contains(QLatin1String("%bitrate")))
                 item->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(',', QString::SkipEmptyParts));
-            if (params.contains("%audioquality"))
+            if (params.contains(QLatin1String("%audioquality")))
                 item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(',', QString::SkipEmptyParts));
-            else if (params.contains("%audiobitrate"))
+            else if (params.contains(QLatin1String("%audiobitrate")))
                 item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
             if (profile.hasAttribute(QStringLiteral("speeds")))
                 item->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(';', QString::SkipEmptyParts));
@@ -1987,13 +1987,13 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(0, RenderRole, renderer);
             item->setData(0, StandardRole, standard);
             item->setData(0, ParamsRole, params);
-            if (params.contains("%quality"))
+            if (params.contains(QLatin1String("%quality")))
                 item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(',', QString::SkipEmptyParts));
-            else if (params.contains("%bitrate"))
+            else if (params.contains(QLatin1String("%bitrate")))
                 item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(',', QString::SkipEmptyParts));
-            if (params.contains("%audioquality"))
+            if (params.contains(QLatin1String("%audioquality")))
                 item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audioqualities")).split(',', QString::SkipEmptyParts));
-            else if (params.contains("%audiobitrate"))
+            else if (params.contains(QLatin1String("%audiobitrate")))
                 item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
             if (profileElement.hasAttribute(QStringLiteral("speeds")))
                 item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(';', QString::SkipEmptyParts));

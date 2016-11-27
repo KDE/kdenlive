@@ -66,8 +66,8 @@ void LoginDialog::urlChanged(const QUrl &url)
 {
     //qDebug() << "URL =" << url;
     QString str = url.toString();
-    int posCode = str.indexOf("&code=");
-    int posErr = str.indexOf("&error=");
+    int posCode = str.indexOf(QLatin1String("&code="));
+    int posErr = str.indexOf(QLatin1String("&error="));
     if(posCode != -1)
     {
 
@@ -80,7 +80,7 @@ void LoginDialog::urlChanged(const QUrl &url)
     {
 
         QString sError =str.mid(posErr+7) ;
-        if (sError=="access_denied" )
+        if (sError==QLatin1String("access_denied") )
         {
             emit accessDenied();
         }

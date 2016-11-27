@@ -1508,7 +1508,7 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         // We found a known matching profile, switch and inform user
         QMap< QString, QString > profileProperties = ProfilesDialog::getSettingsFromFile(matchingProfile);
         profile.path = matchingProfile;
-        profile.description = profileProperties.value("description");
+        profile.description = profileProperties.value(QStringLiteral("description"));
         
         if (KdenliveSettings::default_profile().isEmpty()) {
             // Default project format not yet confirmed, propose
@@ -1551,7 +1551,7 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         // No known profile, ask user if he wants to use clip profile anyway
         if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2))) == KMessageBox::Continue) {
             m_profile = profile;
-            m_profile.description = QString("%1x%2 %3fps").arg(profile.width).arg(profile.height).arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
+            m_profile.description = QStringLiteral("%1x%2 %3fps").arg(profile.width).arg(profile.height).arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
             ProfilesDialog::saveProfile(m_profile);
             updateProjectProfile(true);
             emit docModified(true);
@@ -1606,13 +1606,13 @@ void KdenliveDoc::selectPreviewProfile()
     QMapIterator<QString, QString> i(values);
     QStringList matchingProfiles;
     QStringList fallBackProfiles;
-    QString profileSize = QString("%1x%2").arg(m_render->renderWidth()).arg(m_render->renderHeight());
+    QString profileSize = QStringLiteral("%1x%2").arg(m_render->renderWidth()).arg(m_render->renderHeight());
 
     while (i.hasNext()) {
         i.next();
         // Check for frame rate
         QString params = i.value();
-        QStringList data = i.value().split(" ");
+        QStringList data = i.value().split(QStringLiteral(" "));
         // Check for size mismatch
         if (params.contains(QStringLiteral("s="))) {
             QString paramSize = params.section(QStringLiteral("s="), 1).section(QStringLiteral(" "), 0, 0);
@@ -1644,8 +1644,8 @@ void KdenliveDoc::selectPreviewProfile()
         bestMatch = fallBackProfiles.first();
     }
     if (!bestMatch.isEmpty()) {
-        setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(";", 0, 0));
-        setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(";", 1, 1));
+        setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(QStringLiteral(";"), 0, 0));
+        setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(QStringLiteral(";"), 1, 1));
     } else {
         setDocumentProperty(QStringLiteral("previewparameters"), QStringLiteral());
         setDocumentProperty(QStringLiteral("previewextension"), QStringLiteral());
@@ -1679,12 +1679,12 @@ void KdenliveDoc::initCacheDirs()
     }
     QString basePath = kdenliveCacheDir + "/" + documentId;
     QDir dir(basePath);
-    dir.mkpath(".");
-    dir.mkdir("preview");
-    dir.mkdir("audiothumbs");
-    dir.mkdir("videothumbs");
+    dir.mkpath(QStringLiteral("."));
+    dir.mkdir(QStringLiteral("preview"));
+    dir.mkdir(QStringLiteral("audiothumbs"));
+    dir.mkdir(QStringLiteral("videothumbs"));
     QDir cacheDir(kdenliveCacheDir);
-    cacheDir.mkdir("proxy");
+    cacheDir.mkdir(QStringLiteral("proxy"));
 }
 
 QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const

@@ -1408,7 +1408,7 @@ void FrameRenderer::cleanup()
 void GLWidget::setAudioThumb(int channels, QVariantList audioCache)
 {
     if (rootObject()) {
-        QmlAudioThumb *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>("audiothumb");
+        QmlAudioThumb *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
         if (audioThumbDisplay) {
             QImage img(width(), height() / 6, QImage::Format_ARGB32_Premultiplied);
             img.fill(Qt::transparent);

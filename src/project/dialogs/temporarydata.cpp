@@ -179,7 +179,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_grid->addWidget(preview, 6, 0, 1, 3);
     bool ok;
     QDir dir = m_doc->getCacheDir(CacheBase, &ok);
-    preview = new QLabel(QString("<a href='#'>") + dir.absolutePath() + QString("</a>"), this);
+    preview = new QLabel(QStringLiteral("<a href='#'>") + dir.absolutePath() + QStringLiteral("</a>"), this);
     preview->setToolTip(i18n("Click to open cache folder"));
     connect(preview, SIGNAL(linkActivated(const QString &)), this, SLOT(openCacheFolder()));
     m_grid->addWidget(preview, 7, 0, 1, 5);
@@ -346,7 +346,7 @@ void TemporaryData::deletePreview()
     }
     if (dir.dirName() == QLatin1String("preview")) {
         dir.removeRecursively();
-        dir.mkpath(".");
+        dir.mkpath(QStringLiteral("."));
         emit disablePreview();
         updateDataInfo();
     }
@@ -383,7 +383,7 @@ void TemporaryData::deleteAudio()
     }
     if (dir.dirName() == QLatin1String("audiothumbs")) {
         dir.removeRecursively();
-        dir.mkpath(".");
+        dir.mkpath(QStringLiteral("."));
         updateDataInfo();
     }
 }
@@ -400,7 +400,7 @@ void TemporaryData::deleteThumbs()
     }
     if (dir.dirName() == QLatin1String("videothumbs")) {
         dir.removeRecursively();
-        dir.mkpath(".");
+        dir.mkpath(QStringLiteral("."));
         updateDataInfo();
     }
 }
@@ -528,16 +528,16 @@ void TemporaryData::gotFolderSize(KJob *job)
         QString path = QUrl::fromPercentEncoding(str.at(0).toUtf8());
         // Remove leading dot
         path.remove(0, 1);
-        item->setText(0, m_processingDirectory + QString(" (%1)").arg(QUrl::fromLocalFile(path).fileName()));
+        item->setText(0, m_processingDirectory + QStringLiteral(" (%1)").arg(QUrl::fromLocalFile(path).fileName()));
         if (QFile::exists(path)) {
-            item->setIcon(0, KoIconUtils::themedIcon("kdenlive"));
+            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("kdenlive")));
         } else {
-            item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
+            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
         }
     } else {
         item->setText(0, m_processingDirectory);
         if (m_processingDirectory == QLatin1String("proxy")) {
-            item->setIcon(0, KoIconUtils::themedIcon("kdenlive-show-video"));
+            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
         }
     }
     item->setData(0, Qt::UserRole, m_processingDirectory);

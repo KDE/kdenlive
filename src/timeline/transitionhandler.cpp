@@ -628,7 +628,7 @@ void TransitionHandler::rebuildTransitions(int mode, QList <int> videoTracks, in
     QString compositeGeometry;
     if (mode == 1) {
         composite = QStringLiteral("composite");
-        compositeGeometry = QString("0=0/0:%1x%2").arg(m_tractor->profile()->width()).arg(m_tractor->profile()->height());
+        compositeGeometry = QStringLiteral("0=0/0:%1x%2").arg(m_tractor->profile()->width()).arg(m_tractor->profile()->height());
     } else {
         composite = compositeTransition();
     }

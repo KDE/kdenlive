@@ -53,11 +53,11 @@ void CornersWidget::setFrameSize(const QPoint &size, double stretch)
     QSize profileSize = m_monitor->profileSize();
     if (size.y() == 0 || (size.x() == profileSize.width() && size.y() == profileSize.height())) {
         // no need for dar bars
-        m_monitor->setQmlProperty(QLatin1String("sourcedar"), 0);
+        m_monitor->setQmlProperty(QStringLiteral("sourcedar"), 0);
     }
     else {
         // show bars indicating source clip aspect ratio
-        m_monitor->setQmlProperty(QLatin1String("sourcedar"), (double) size.x() * stretch / size.y());
+        m_monitor->setQmlProperty(QStringLiteral("sourcedar"), (double) size.x() * stretch / size.y());
     }
 }
 

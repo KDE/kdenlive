@@ -115,7 +115,7 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     connect(m_pOAuth2, SIGNAL(Canceled()), this, SLOT(slotFreesoundCanceled()));
 #endif
     m_currentService = new FreeSound(search_results);
-    m_currentService->slotStartSearch("dummy", 0);// Run a dummy search to initialise the search.
+    m_currentService->slotStartSearch(QStringLiteral("dummy"), 0);// Run a dummy search to initialise the search.
                                     // for reasons I (ttguy) can not fathom the first search that gets run fails
                                     // with The file or folder http://www.freesound.org/apiv2/search/t<blah blay> does not exist.
                                     // but subsequent identicle search will work. With this kludge in place we do not have to click the search button
@@ -300,20 +300,20 @@ void ResourceWidget::slotDisplayMetaInfo(const QMap<QString, QString> &metaInfo)
     if (metaInfo.contains(QStringLiteral("description"))) {
         slotSetDescription(metaInfo.value(QStringLiteral("description")));
     }
-    if (metaInfo.contains(QLatin1String("itemDownload"))) {
-        m_currentInfo.itemDownload=metaInfo.value(QLatin1String("itemDownload"));
+    if (metaInfo.contains(QStringLiteral("itemDownload"))) {
+        m_currentInfo.itemDownload=metaInfo.value(QStringLiteral("itemDownload"));
     }
-    if (metaInfo.contains(QLatin1String("itemPreview"))) {
+    if (metaInfo.contains(QStringLiteral("itemPreview"))) {
         if (m_autoPlay->isChecked()) {
             m_currentService->startItemPreview(search_results->currentItem());
             button_preview->setText(i18n("Stop"));
         }
     }
-    if (metaInfo.contains(QLatin1String("fileType"))) {
-         m_currentInfo.fileType=metaInfo.value(QLatin1String("fileType"));
+    if (metaInfo.contains(QStringLiteral("fileType"))) {
+         m_currentInfo.fileType=metaInfo.value(QStringLiteral("fileType"));
     }
-    if (metaInfo.contains(QLatin1String("HQpreview"))) {
-         m_currentInfo.HQpreview=metaInfo.value(QLatin1String("HQpreview"));
+    if (metaInfo.contains(QStringLiteral("HQpreview"))) {
+         m_currentInfo.HQpreview=metaInfo.value(QStringLiteral("HQpreview"));
     }
 
 
@@ -404,7 +404,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     {
         saveUrl=QUrl::fromLocalFile (mSaveLocation);
     }
-    slotSetDescription("");
+    slotSetDescription(QLatin1String(""));
     button_import->setEnabled(false); // disable buttons while download runs. enabled in slotGotFile
 #ifdef QT5_USE_WEBKIT
     if(m_currentService->serviceType==FREESOUND)// open a dialog to authenticate with free sound and download the file
@@ -614,25 +614,25 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
     QString licenseName;
 
     if (licenseUrl.contains(QStringLiteral("/sampling+/")))
-        licenseName = "Sampling+";
+        licenseName = QStringLiteral("Sampling+");
     else if (licenseUrl.contains(QStringLiteral("/by/")))
-        licenseName = "Attribution";
+        licenseName = QStringLiteral("Attribution");
     else if (licenseUrl.contains(QStringLiteral("/by-nd/")))
-        licenseName = "Attribution-NoDerivs";
+        licenseName = QStringLiteral("Attribution-NoDerivs");
     else if (licenseUrl.contains(QStringLiteral("/by-nc-sa/")))
-        licenseName = "Attribution-NonCommercial-ShareAlike";
+        licenseName = QStringLiteral("Attribution-NonCommercial-ShareAlike");
     else if (licenseUrl.contains(QStringLiteral("/by-sa/")))
-        licenseName = "Attribution-ShareAlike";
+        licenseName = QStringLiteral("Attribution-ShareAlike");
     else if (licenseUrl.contains(QStringLiteral("/by-nc/")))
-        licenseName = "Attribution-NonCommercial";
+        licenseName = QStringLiteral("Attribution-NonCommercial");
     else if (licenseUrl.contains(QStringLiteral("/by-nc-nd/")))
-        licenseName = "Attribution-NonCommercial-NoDerivs";
+        licenseName = QStringLiteral("Attribution-NonCommercial-NoDerivs");
 
-    else if (licenseUrl.contains("/publicdomain/zero/") )
-        licenseName = "Creative Commons 0";
-    else if (licenseUrl.endsWith(QLatin1String("/publicdomain"))||licenseUrl.contains("openclipart.org/share"))
+    else if (licenseUrl.contains(QLatin1String("/publicdomain/zero/")) )
+        licenseName = QStringLiteral("Creative Commons 0");
+    else if (licenseUrl.endsWith(QLatin1String("/publicdomain"))||licenseUrl.contains(QLatin1String("openclipart.org/share")))
 
-        licenseName = "Public Domain";
+        licenseName = QStringLiteral("Public Domain");
 
     else licenseName = i18n("Unknown");
     item_license->setText(licenseName);
@@ -757,7 +757,7 @@ void ResourceWidget::slotFreesoundAccessDenied()
 void ResourceWidget::slotAccessTokenReceived(QString sAccessToken)
 {
      //qDebug() << "slotAccessTokenReceived: " <<sAccessToken;
-     if (sAccessToken !="")
+     if (sAccessToken !=QLatin1String(""))
      {
         // QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
 
@@ -767,7 +767,7 @@ void ResourceWidget::slotAccessTokenReceived(QString sAccessToken)
          // eg https://www.freesound.org/apiv2/sounds/39206/download/
          request.setRawHeader(QByteArray("Authorization"),QByteArray("Bearer").append(sAccessToken.toUtf8()));
 
-         m_meta="";
+         m_meta=QLatin1String("");
          m_desc="<br><b>" +  i18n("Starting File Download") + "</b><br>";
          updateLayout();
 
@@ -778,7 +778,7 @@ void ResourceWidget::slotAccessTokenReceived(QString sAccessToken)
      else
      {
 
-         m_meta="";
+         m_meta=QLatin1String("");
          m_desc="<br><b>" +  i18n("Error Getting Access Token from Freesound.") + "</b>";
          m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection")+ "</b>");
          updateLayout();
@@ -807,7 +807,7 @@ QString ResourceWidget::GetSaveFileNameAndPathS(QString path,QString ext)
                                        QMessageBox::No);
         if (ret==QMessageBox::No)
         {
-            return "";
+            return QLatin1String("");
         }
     }
     return saveUrlstring;

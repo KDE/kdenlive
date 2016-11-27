@@ -254,16 +254,16 @@ void ClipItem::setSelectedEffect(const int ix)
     bool refreshClip = false;
     m_keyframeView.reset();
     if (!effect.isNull() && effect.attribute(QStringLiteral("disable")) != QLatin1String("1")) {
-        QString effectId = effect.attribute("id");
+        QString effectId = effect.attribute(QStringLiteral("id"));
 
         // Check for fades to display in timeline
-        int startFade1 = m_effectList.hasEffect(QString(), "fadein");
-        int startFade2 = m_effectList.hasEffect(QString(), "fade_from_black");
+        int startFade1 = m_effectList.hasEffect(QString(), QStringLiteral("fadein"));
+        int startFade2 = m_effectList.hasEffect(QString(), QStringLiteral("fade_from_black"));
 
         if (startFade1 >= 0 && startFade2 >= 0) {
             // We have 2 fade ins, only display if effect is selected
             if (ix == startFade1 || ix == startFade2) {
-                m_startFade = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
+                m_startFade = EffectsList::parameter(effect, QStringLiteral("out")).toInt() - EffectsList::parameter(effect, QStringLiteral("in")).toInt();
                 refreshClip = true;
             }
             else {
@@ -273,18 +273,18 @@ void ClipItem::setSelectedEffect(const int ix)
         } else if (startFade1 >= 0 || startFade2 >= 0) {
             int current = qMax(startFade1, startFade2);
             QDomElement fade = effectAtIndex(current);
-            m_startFade = EffectsList::parameter(fade, "out").toInt() - EffectsList::parameter(fade, "in").toInt();
+            m_startFade = EffectsList::parameter(fade, QStringLiteral("out")).toInt() - EffectsList::parameter(fade, QStringLiteral("in")).toInt();
             refreshClip = true;
         }
 
         // Check for fades out to display in timeline
-        int endFade1 = m_effectList.hasEffect(QString(), "fadeout");
-        int endFade2 = m_effectList.hasEffect(QString(), "fade_to_black");
+        int endFade1 = m_effectList.hasEffect(QString(), QStringLiteral("fadeout"));
+        int endFade2 = m_effectList.hasEffect(QString(), QStringLiteral("fade_to_black"));
 
         if (endFade1 >= 0 && endFade2 >= 0) {
             // We have 2 fade ins, only display if effect is selected
             if (ix == endFade1 || ix == endFade2) {
-                m_endFade = EffectsList::parameter(effect, "out").toInt() - EffectsList::parameter(effect, "in").toInt();
+                m_endFade = EffectsList::parameter(effect, QStringLiteral("out")).toInt() - EffectsList::parameter(effect, QStringLiteral("in")).toInt();
                 refreshClip = true;
             }
             else {
@@ -294,7 +294,7 @@ void ClipItem::setSelectedEffect(const int ix)
         } else if (endFade1 >= 0 || endFade2 >= 0) {
             int current = qMax(endFade1, endFade2);
             QDomElement fade = effectAtIndex(current);
-            m_endFade = EffectsList::parameter(fade, "out").toInt() - EffectsList::parameter(fade, "in").toInt();
+            m_endFade = EffectsList::parameter(fade, QStringLiteral("out")).toInt() - EffectsList::parameter(fade, QStringLiteral("in")).toInt();
             refreshClip = true;
         }
         if (m_keyframeView.loadKeyframes(locale, effect, cropStart().frames(m_fps), cropDuration().frames(m_fps)) && !refreshClip) {
@@ -1954,7 +1954,7 @@ void ClipItem::updateState(const QString &id, int aIndex, int vIndex, PlaylistSt
         m_clipState = PlaylistState::Original;
 
         if (id.startsWith(QLatin1String("slowmotion"))) {
-            m_clipState = id.count(QLatin1Char(':')) == 4 ? (PlaylistState::ClipState) id.section(":", -1).toInt() : PlaylistState::Original;
+            m_clipState = id.count(QLatin1Char(':')) == 4 ? (PlaylistState::ClipState) id.section(QStringLiteral(":"), -1).toInt() : PlaylistState::Original;
             return;
         }
         if (id.endsWith(QLatin1String("_audio"))) {

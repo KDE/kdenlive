@@ -415,7 +415,7 @@ Bin::Bin(QWidget* parent) :
     m_renameFolderAction = new QAction(i18n("Rename Folder"), this);
     connect(m_renameFolderAction, SIGNAL(triggered(bool)), this, SLOT(slotRenameFolder()));
     m_renameFolderAction->setData("rename_folder");
-    pCore->window()->actionCollection()->addAction("rename_folder", m_renameFolderAction);
+    pCore->window()->actionCollection()->addAction(QStringLiteral("rename_folder"), m_renameFolderAction);
 
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction*)));
@@ -913,16 +913,16 @@ void Bin::slotDuplicateClip()
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
             if (!xml.isNull()) {
-		QString currentName = EffectsList::property(xml, "kdenlive:clipname");
+		QString currentName = EffectsList::property(xml, QStringLiteral("kdenlive:clipname"));
 		if (currentName.isEmpty()) {
-		    QUrl url = QUrl::fromLocalFile(EffectsList::property(xml, "resource"));
+		    QUrl url = QUrl::fromLocalFile(EffectsList::property(xml, QStringLiteral("resource")));
 		    if (url.isValid()) {
 			QString currentName = url.fileName();
 		    }
 		}
 		if (!currentName.isEmpty()) {
 		     currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
-		     EffectsList::setProperty(xml, "kdenlive:clipname", currentName);
+		     EffectsList::setProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
 		}
 		ClipCreationDialog::createClipFromXml(m_doc, xml, folderInfo, this);
 	    }
@@ -1526,7 +1526,7 @@ void Bin::rebuildMenu()
     m_menu->insertMenu(m_reloadAction, m_extractAudioAction);
     m_menu->insertMenu(m_reloadAction, m_transcodeAction);
     m_menu->insertMenu(m_reloadAction, m_clipsActionsMenu);
-    m_inTimelineAction = m_menu->insertMenu(m_reloadAction, static_cast<QMenu*>(pCore->window()->factory()->container("clip_in_timeline", pCore->window())));
+    m_inTimelineAction = m_menu->insertMenu(m_reloadAction, static_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("clip_in_timeline"), pCore->window())));
   
 }
 
@@ -1596,7 +1596,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
         }
     }
     // Enable / disable clip actions
-    m_proxyAction->setEnabled(m_doc->getDocumentProperty("enableproxy").toInt() && enableClipActions);
+    m_proxyAction->setEnabled(m_doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() && enableClipActions);
     m_openAction->setEnabled(type == Image || type == Audio || type == TextTemplate || type == Text);
     m_reloadAction->setEnabled(enableClipActions);
     m_locateAction->setEnabled(enableClipActions);
@@ -1990,7 +1990,7 @@ void Bin::setupGeneratorMenu()
         m_clipsActionsMenu = addMenu;
     }
 
-    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container("clip_in_timeline", pCore->window()));
+    addMenu = qobject_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("clip_in_timeline"), pCore->window()));
     if (addMenu) {
         m_inTimelineAction = m_menu->addMenu(addMenu);
         m_inTimelineAction->setEnabled(!addMenu->isEmpty());
@@ -2038,7 +2038,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAct
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(folder, m_addButton);
     m_menu = new QMenu(this);
-    m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), "clip_properties", m_propertiesPanel);
+    m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
     m_propertiesDock->close();
     //m_menu->addActions(addMenu->actions());
 }
@@ -2532,8 +2532,8 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
     if (doc.documentElement().isNull()) {
         invalid = true;
     }
-    QDomNodeList producers = doc.documentElement().elementsByTagName("producer");
-    QDomNodeList tracks = doc.documentElement().elementsByTagName("track");
+    QDomNodeList producers = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
+    QDomNodeList tracks = doc.documentElement().elementsByTagName(QStringLiteral("track"));
     if (invalid || producers.isEmpty()) {
         doDisplayMessage(i18n("Playlist clip %1 is invalid.", url.fileName()), KMessageWidget::Warning);
         delete command;
@@ -2768,7 +2768,7 @@ void Bin::addClipCut(const QString&id, int in, int out)
     }
     sub = new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
     QStringList markersComment = clip->markersText(GenTime(in, m_doc->fps()), GenTime(out, m_doc->fps()));
-    sub->setDescription(markersComment.join(";"));
+    sub->setDescription(markersComment.join(QStringLiteral(";")));
     QList <int> missingThumbs;
     missingThumbs << in;
     clip->slotExtractImage(missingThumbs);
@@ -2851,7 +2851,7 @@ void Bin::updateTimecodeFormat()
 
 void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap results, stringMap filterInfo)
 {
-    if (filterInfo.contains("finalfilter")) {
+    if (filterInfo.contains(QStringLiteral("finalfilter"))) {
         if (filterInfo.contains(QStringLiteral("storedata"))) {
             // Store returned data as clip extra data
             ProjectClip *clip = getBinClip(id);
@@ -2867,9 +2867,9 @@ void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap
             if (!currentItem) return;
             ClipController *ctl = currentItem->controller();
             EffectsList list = ctl->effectList();
-            QDomElement effect = list.effectById(filterInfo.value("finalfilter"));
+            QDomElement effect = list.effectById(filterInfo.value(QStringLiteral("finalfilter")));
             QDomDocument doc;
-            QDomElement e = doc.createElement("test");
+            QDomElement e = doc.createElement(QStringLiteral("test"));
             doc.appendChild(e);
             e.appendChild(doc.importNode(effect, true));
             if (!effect.isNull()) {
@@ -2879,7 +2879,7 @@ void Bin::slotGotFilterJobResults(QString id, int startPos, int track, stringMap
                     EffectsList::setParameter(newEffect, i.key(), i.value());
                     ++i;
                 }
-                ctl->updateEffect(pCore->monitorManager()->projectMonitor()->profileInfo(), newEffect, effect.attribute("kdenlive_ix").toInt());
+                ctl->updateEffect(pCore->monitorManager()->projectMonitor()->profileInfo(), newEffect, effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
                 emit masterClipUpdated(ctl, m_monitor);
                 // TODO use undo / redo for bin clip edit effect
                 /*EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true);
@@ -3442,8 +3442,8 @@ void Bin::reloadAllProducers()
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc);
         // Make sure we reload clip length
-        xml.removeAttribute("out");
-        EffectsList::removeProperty(xml, "length");
+        xml.removeAttribute(QStringLiteral("out"));
+        EffectsList::removeProperty(xml, QStringLiteral("length"));
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             clip->discardAudioThumb();
@@ -3488,10 +3488,10 @@ void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unused
     foreach(ProjectClip *clip, clipList) {
         if (clip->refCount() == 0) {
             *unused += 1;
-            *unusedSize += clip->getProducerInt64Property("kdenlive:file_size");
+            *unusedSize += clip->getProducerInt64Property(QStringLiteral("kdenlive:file_size"));
         } else {
             *used += 1;
-            *usedSize += clip->getProducerInt64Property("kdenlive:file_size");
+            *usedSize += clip->getProducerInt64Property(QStringLiteral("kdenlive:file_size"));
         }
     }
 }
@@ -3520,7 +3520,7 @@ bool Bin::addClip(QDomElement elem, const QString &clipId)
     const QString producerId = clipId.section('_', 0, 0);
     elem.setAttribute(QStringLiteral("id"), producerId);
     if ((KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && isEmpty()) {
-        elem.setAttribute("checkProfile", 1);
+        elem.setAttribute(QStringLiteral("checkProfile"), 1);
     }
     createClip(elem);
     m_doc->getFileProperties(elem, producerId, 150, true);

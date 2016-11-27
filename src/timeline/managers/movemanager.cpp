@@ -168,7 +168,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                             QDomElement old = tr->toXML();
                             if (tr->updateKeyframes(trInfo, newTrInfo)) {
                                 QDomElement xml = old.cloneNode().toElement();
-                                m_transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                                m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                                 new EditTransitionCommand(m_view, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                             }
                             new MoveTransitionCommand(m_view, trInfo, newTrInfo, true, false, moveCommand);
@@ -182,7 +182,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                                 if (startTransition->updateKeyframes(startTrInfo, newStartTrInfo)) {
                                     QDomElement old = startTransition->toXML();
                                     QDomElement xml = startTransition->toXML();
-                                    m_transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
+                                    m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
                                 }
                                 new AddTransitionCommand(m_view, newStartTrInfo, transTrack, startTransition->toXML(), false, true, moveCommand);
                             }
@@ -195,7 +195,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                     if (startTransition->updateKeyframes(startTrInfo, newStartTrInfo)) {
                         QDomElement old = startTransition->toXML();
                         QDomElement xml = old.cloneNode().toElement();
-                        m_transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
+                        m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
                         new EditTransitionCommand(m_view, startTransition->track(), startTransition->startPos(), old, xml, false, moveCommand);
                     }
                     new MoveTransitionCommand(m_view, startTrInfo, newStartTrInfo, true, false, moveCommand);
@@ -218,7 +218,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                             QDomElement old = tr->toXML();
                             if (tr->updateKeyframes(trInfo, newTrInfo)) {
                                 QDomElement xml = old.cloneNode().toElement();
-                                m_transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                                m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                                 new EditTransitionCommand(m_view, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                             }
                             new MoveTransitionCommand(m_view, trInfo, newTrInfo, true, false, moveCommand);
@@ -246,7 +246,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                                 QDomElement old = tr->toXML();
                                 if (tr->updateKeyframes(trInfo, newTrInfo)) {
                                     QDomElement xml = old.cloneNode().toElement();
-                                    m_transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                                    m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                                     new EditTransitionCommand(m_view, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                                 }
                                 new MoveTransitionCommand(m_view, trInfo, newTrInfo, true, false, moveCommand);

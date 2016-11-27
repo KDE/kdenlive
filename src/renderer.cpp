@@ -1398,7 +1398,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     QString newName = QStringLiteral("playlist0");
     int i = 1;
     while (trackNames.contains(newName)) {
-        newName = QString("playlist%1").arg(i);
+        newName = QStringLiteral("playlist%1").arg(i);
         i++;
     }
     Mlt::Playlist playlist(*service.profile());

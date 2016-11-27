@@ -595,7 +595,7 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
             m_folders << treeItem;
             m_coreLister->openUrl(fileUrl, KCoreDirLister::Keep);
         }
-        else if (name.endsWith(".mlt") || name.endsWith(".kdenlive")) {
+        else if (name.endsWith(QLatin1String(".mlt")) || name.endsWith(QLatin1String(".kdenlive"))) {
             treeItem->setData(0, Qt::UserRole + 2, (int) LibraryItem::PlayList);
         } else {
             treeItem->setData(0, Qt::UserRole + 2, (int) LibraryItem::Clip);

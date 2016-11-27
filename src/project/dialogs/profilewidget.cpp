@@ -291,7 +291,7 @@ void ProfileWidget::ratesUpdated()
     m_customSize->clear();
     m_customSize->addItems(getFrameSizes(currentStd, m_rate_list->currentText()));
     if (std == StdCustom) {
-        int ix = m_customSize->findText(QString("%1x%2").arg(m_currentProfile.width).arg(m_currentProfile.height));
+        int ix = m_customSize->findText(QStringLiteral("%1x%2").arg(m_currentProfile.width).arg(m_currentProfile.height));
         if (ix > 0) {
             m_customSize->setCurrentIndex(ix);
         }
@@ -315,7 +315,7 @@ QStringList ProfileWidget::getFrameSizes(QList <MltVideoProfile> currentStd, con
         }
         if (fps != rate)
             continue;
-        QString res = QString("%1x%2").arg(prof.width).arg(prof.height);
+        QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
         if (!sizes.contains(res))
             sizes << res;
     }
@@ -344,7 +344,7 @@ void ProfileWidget::checkInterlace(QList <MltVideoProfile> currentStd, const QSt
         }
         if (fps != rate)
             continue;
-        QString res = QString("%1x%2").arg(prof.width).arg(prof.height);
+        QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
         if (res != size)
             continue;
         if (prof.progressive)
@@ -414,7 +414,7 @@ void ProfileWidget::updateDisplay()
         }
         if (fps != rate)
             continue;
-        QString res = QString("%1x%2").arg(prof.width).arg(prof.height);
+        QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
         if (res != size)
             continue;
         if (prof.progressive == interlaced)
@@ -441,8 +441,8 @@ void ProfileWidget::updateDisplay()
         if (prof == m_currentProfile) {
             foundMatching = true;
         }
-        displays << QString("%1:%2").arg(prof.display_aspect_num).arg(prof.display_aspect_den);
-        samples << QString("%1:%2").arg(prof.sample_aspect_num).arg(prof.sample_aspect_den);
+        displays << QStringLiteral("%1:%2").arg(prof.display_aspect_num).arg(prof.display_aspect_den);
+        samples << QStringLiteral("%1:%2").arg(prof.sample_aspect_num).arg(prof.sample_aspect_den);
         colors << ProfilesDialog::getColorspaceDescription(prof.colorspace);
     }
     if (!foundMatching) {
@@ -458,8 +458,8 @@ void ProfileWidget::updateDisplay()
     m_sample_list->addItems(samples);
     m_color_list->addItems(colors);
 
-    m_display_list->setCurrentText(QString("%1:%2").arg(m_currentProfile.display_aspect_num).arg(m_currentProfile.display_aspect_den));
-    m_sample_list->setCurrentText(QString("%1:%2").arg(m_currentProfile.sample_aspect_num).arg(m_currentProfile.sample_aspect_den));
+    m_display_list->setCurrentText(QStringLiteral("%1:%2").arg(m_currentProfile.display_aspect_num).arg(m_currentProfile.display_aspect_den));
+    m_sample_list->setCurrentText(QStringLiteral("%1:%2").arg(m_currentProfile.sample_aspect_num).arg(m_currentProfile.sample_aspect_den));
     m_color_list->setCurrentText(ProfilesDialog::getColorspaceDescription(m_currentProfile.colorspace));
 }
 
@@ -484,15 +484,15 @@ void ProfileWidget::selectProfile()
         }
         if (fps != rate)
             continue;
-        QString res = QString("%1x%2").arg(prof.width).arg(prof.height);
+        QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
         if (res != size)
             continue;
         if (prof.progressive == interlaced)
             continue;
-        res = QString("%1:%2").arg(prof.display_aspect_num).arg(prof.display_aspect_den);
+        res = QStringLiteral("%1:%2").arg(prof.display_aspect_num).arg(prof.display_aspect_den);
         if (res != display)
             continue;
-        res = QString("%1:%2").arg(prof.sample_aspect_num).arg(prof.sample_aspect_den);
+        res = QStringLiteral("%1:%2").arg(prof.sample_aspect_num).arg(prof.sample_aspect_den);
         if (res != sample)
             continue;
         res = ProfilesDialog::getColorspaceDescription(prof.colorspace);

@@ -310,7 +310,7 @@ void GeometryWidget::updateTimecodeFormat()
 QString GeometryWidget::getValue() const
 {
     if (m_fixedGeom) {
-        return QString("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
+        return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
     }
     QString result = m_geometry->serialise();
     if (result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"),0,0).contains(QStringLiteral("="))) {
@@ -430,7 +430,7 @@ void GeometryWidget::checkSingleKeyframe()
 {
     if (!m_geometry) return;
     QString serial = m_geometry->serialise();
-    m_singleKeyframe = !serial.contains(";");
+    m_singleKeyframe = !serial.contains(QLatin1String(";"));
 }
 
 void GeometryWidget::slotPositionChanged(int pos, bool seek)

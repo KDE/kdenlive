@@ -141,7 +141,7 @@ void RenderJob::receivedStderr()
             if (seconds == m_seconds) return;
             if (seconds < 0) seconds += 24*60*60;
             m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint) 0,
-                                QString(), tr("Remaining time: ") + QTime(0, 0, 0).addSecs((int) (seconds * (100 - m_progress) / m_progress)).toString("hh:mm:ss"));
+                                QString(), tr("Remaining time: ") + QTime(0, 0, 0).addSecs((int) (seconds * (100 - m_progress) / m_progress)).toString(QStringLiteral("hh:mm:ss")));
             //m_jobUiserver->call("setSpeed", (frame - m_frame) / (seconds - m_seconds));
             m_frame = frame;
             m_seconds = seconds;
@@ -169,7 +169,7 @@ void RenderJob::start()
 
         if (interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
             QDBusInterface kuiserver(QStringLiteral("org.kde.JobViewServer"), QStringLiteral("/JobViewServer"), QStringLiteral("org.kde.JobViewServer"));
-            QDBusReply<QDBusObjectPath> objectPath = kuiserver.asyncCall(QLatin1String("requestView"),QLatin1String("kdenlive"), QLatin1String("kdenlive"), 0x0001);
+            QDBusReply<QDBusObjectPath> objectPath = kuiserver.asyncCall(QStringLiteral("requestView"),QLatin1String("kdenlive"), QLatin1String("kdenlive"), 0x0001);
             QString reply = ((QDBusObjectPath) objectPath).path();
 
             // Use of the KDE JobViewServer is an ugly hack, it is not reliable
@@ -180,7 +180,7 @@ void RenderJob::start()
                 if (!m_args.contains(QStringLiteral("pass=2")))
                     m_jobUiserver->call(QStringLiteral("setPercent"), (uint) 0);
 
-                m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
+                m_jobUiserver->call(QStringLiteral("setInfoMessage"), tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
                 QDBusConnection::sessionBus().connect(QStringLiteral("org.kde.JobViewServer"), reply, dbusView, QStringLiteral("cancelRequested"), this, SLOT(slotAbort()));
             }
         }

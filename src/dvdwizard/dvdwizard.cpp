@@ -909,12 +909,12 @@ void DvdWizard::slotAbort()
 
 void DvdWizard::slotSave()
 {
-    QString projectFolder = KRecentDirs::dir(":KdenliveDvdFolder");
+    QString projectFolder = KRecentDirs::dir(QStringLiteral(":KdenliveDvdFolder"));
     if (projectFolder.isEmpty()) projectFolder = QDir::homePath();
     QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save DVD Project"), QUrl::fromLocalFile(projectFolder), i18n("DVD project (*.kdvd)"));
     if (!url.isValid())
         return;
-    KRecentDirs::add(":KdenliveDvdFolder", url.adjusted(QUrl::RemoveFilename).path());
+    KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), url.adjusted(QUrl::RemoveFilename).path());
     if (currentId() == 0)
         m_pageChapters->setVobFiles(m_pageVob->dvdFormat(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
 
@@ -948,12 +948,12 @@ void DvdWizard::slotSave()
 
 void DvdWizard::slotLoad()
 {
-    QString projectFolder = KRecentDirs::dir(":KdenliveDvdFolder");
+    QString projectFolder = KRecentDirs::dir(QStringLiteral(":KdenliveDvdFolder"));
     if (projectFolder.isEmpty()) projectFolder = QDir::homePath();
     const QUrl url = QFileDialog::getOpenFileUrl(this, QString(), QUrl::fromLocalFile(projectFolder), i18n("DVD project (*.kdvd)"));
     if (!url.isValid())
         return;
-    KRecentDirs::add(":KdenliveDvdFolder", url.adjusted(QUrl::RemoveFilename).path());
+    KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), url.adjusted(QUrl::RemoveFilename).path());
     QDomDocument doc;
     QFile file(url.path());
     doc.setContent(&file, false);

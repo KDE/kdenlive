@@ -230,7 +230,7 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, QDomElement effect)
         // Check if this effect has a variable parameter, init effects default value
         if ((type == QLatin1String("animatedrect") || type == QLatin1String("geometry")) && !hasValue) {
             QString kfr = AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
-            if (kfr.contains("%")) {
+            if (kfr.contains(QLatin1String("%"))) {
                 kfr = EffectsController::getStringRectEval(pInfo, kfr);
             }
             e.setAttribute(QStringLiteral("value"), kfr);
@@ -274,7 +274,7 @@ void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList
         // Check if this effect has a variable parameter, init effects default value
         if ((type == QLatin1String("animatedrect") || type == QLatin1String("geometry")) && !hasValue) {
             QString kfr = AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
-            if (kfr.contains("%")) {
+            if (kfr.contains(QLatin1String("%"))) {
                 kfr = EffectsController::getStringRectEval(pInfo, kfr);
             }
             e.setAttribute(QStringLiteral("value"), kfr);
@@ -483,7 +483,7 @@ void EffectsController::offsetKeyframes(int in, QDomElement effect)
                 int pos = values.at(j).section('=', 0, 0).toInt() - in;
                 values[j] = QString::number(pos) + "=" + values.at(j).section('=', 1);
             }
-            e.setAttribute(QStringLiteral("keyframes"), values.join(";"));
+            e.setAttribute(QStringLiteral("keyframes"), values.join(QStringLiteral(";")));
         }
     }
 }

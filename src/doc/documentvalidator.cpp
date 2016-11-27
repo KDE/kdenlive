@@ -1496,7 +1496,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             parsedValues << QString::number(l.key()) + "=" + locale.toString(l.value());
                         }
                     }
-                    EffectsList::setProperty(eff, conversionParams.at(2), parsedValues.join(";"));
+                    EffectsList::setProperty(eff, conversionParams.at(2), parsedValues.join(QStringLiteral(";")));
                     EffectsList::setProperty(eff, QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
                     eff.setAttribute(QStringLiteral("out"), out);
                 }
@@ -1523,7 +1523,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     EffectsList::setProperty(prod, QStringLiteral("warp_resource"), resource.section(QStringLiteral("?"), 0, 0));
                     EffectsList::setProperty(prod, QStringLiteral("warp_speed"), resource.section(QStringLiteral("?"), 1).section(QStringLiteral(":"), 0, 0));
                     EffectsList::setProperty(prod, QStringLiteral("resource"), resource.section(QStringLiteral("?"), 1) + ":" + resource.section(QStringLiteral("?"), 0, 0));
-                    EffectsList::setProperty(prod, QStringLiteral("audio_index"), "-1");
+                    EffectsList::setProperty(prod, QStringLiteral("audio_index"), QStringLiteral("-1"));
                 }
             }
         }
@@ -1549,7 +1549,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (prod.isNull()) continue;
             QString id = prod.attribute(QStringLiteral("id")).section(QStringLiteral("_"), 0, 0);
             if (id == QLatin1String("black")) {
-                EffectsList::setProperty(prod, "set.test_audio", "0");
+                EffectsList::setProperty(prod, QStringLiteral("set.test_audio"), QStringLiteral("0"));
                 break;
             }
         }
@@ -2008,7 +2008,7 @@ void DocumentValidator::checkOrphanedProducers()
                 QString binId = binProd.attribute(QStringLiteral("id")).section(QStringLiteral("_"), 0, 0);
                 if (service != QLatin1String("timewarp") && (binId.startsWith(QLatin1String("slowmotion")) || !binProducers.contains(binId))) continue;
                 QString binService = EffectsList::property(binProd, QStringLiteral("mlt_service"));
-                qDebug()<<" / /LKNG FOR: "<<service<<" / "<<orphanValue<<", checking: "<<binProd.attribute("id");
+                qDebug()<<" / /LKNG FOR: "<<service<<" / "<<orphanValue<<", checking: "<<binProd.attribute(QStringLiteral("id"));
                 if (service != binService) continue;
                 QString binValue = EffectsList::property(binProd, distinctiveTag);
                 if (binValue == orphanValue) {
@@ -2050,7 +2050,7 @@ void DocumentValidator::checkOrphanedProducers()
 
 void DocumentValidator::fixTitleProducerLocale(QDomElement &producer)
 {
-    QString data = EffectsList::property(producer, "xmldata");
+    QString data = EffectsList::property(producer, QStringLiteral("xmldata"));
     QDomDocument doc;
     doc.setContent(data);
     QDomNodeList nodes = doc.elementsByTagName(QStringLiteral("position"));

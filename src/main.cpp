@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
-        QIcon::setThemeName("breeze");
+        QIcon::setThemeName(QStringLiteral("breeze"));
     }
     // Create KAboutData
     KAboutData aboutData(QByteArray("kdenlive"),
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 
     // Add rcc stored icons to the search path so that we always find our icons
     KIconLoader *loader = KIconLoader::global();
-    loader->reconfigure("kdenlive", QStringList() << QStringLiteral(":/pics"));
+    loader->reconfigure(QStringLiteral("kdenlive"), QStringList() << QStringLiteral(":/pics"));
 
     // Set app stuff from about data
     app.setApplicationDisplayName(aboutData.displayName());

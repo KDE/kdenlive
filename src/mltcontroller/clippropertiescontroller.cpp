@@ -847,7 +847,7 @@ void ClipPropertiesController::fillProperties()
         }
     }
 
-    qint64 filesize = m_controller->int64_property("kdenlive:file_size");
+    qint64 filesize = m_controller->int64_property(QStringLiteral("kdenlive:file_size"));
     if (filesize > 0) {
         QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
         propertyMap.append(QStringList()

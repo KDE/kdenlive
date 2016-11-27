@@ -79,7 +79,7 @@ void ProxyJob::startJob()
                 int width = t.section(QLatin1Char('='), 1, 1).section(QLatin1Char(':'), 0, 0).toInt(&ok);
                 if (!ok) width = 640;
                 int height = width / display_ratio;
-                mltParameters << QString("s=%1x%2").arg(width).arg(height);
+                mltParameters << QStringLiteral("s=%1x%2").arg(width).arg(height);
                 continue;
             } else t.replace(QLatin1Char(' '), QLatin1String("="));
             mltParameters << t;

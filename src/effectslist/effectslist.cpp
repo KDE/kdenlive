@@ -88,7 +88,7 @@ QDomElement EffectsList::effectById(const QString & id) const
     QDomNodeList effects = m_baseElement.childNodes();
     for (int i = 0; i < effects.count(); ++i) {
         QDomElement effect =  effects.at(i).toElement();
-        if (!id.isEmpty() && effect.attribute("id") == id) {
+        if (!id.isEmpty() && effect.attribute(QStringLiteral("id")) == id) {
             return effect;
         }
     }

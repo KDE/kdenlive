@@ -82,7 +82,7 @@ void MonitorAudioLevel::refreshScope(const QSize& /*size*/, bool /*full*/)
             }
             QVector<int> levels;
             for (int i = 0; i < audioChannels; i++) {
-                QString s = QString("meta.media.audio_level.%1").arg(i);
+                QString s = QStringLiteral("meta.media.audio_level.%1").arg(i);
                 double audioLevel = mFrame.get_double(s.toLatin1().constData());
                 if (audioLevel == 0.0) {
                     levels << -100;

@@ -406,7 +406,7 @@ void ProjectSettings::accept()
 {
     QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
     if (!params.isEmpty()) {
-        if (params.section(";", 0, 0) != m_previewparams || params.section(";", 1, 1) != m_previewextension) {
+        if (params.section(QStringLiteral(";"), 0, 0) != m_previewparams || params.section(QStringLiteral(";"), 1, 1) != m_previewextension) {
             // Timeline preview settings changed, warn
             if (KMessageBox::warningContinueCancel(this, i18n("You changed the timeline preview profile. This will remove all existing timeline previews for this project.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) return;
         }

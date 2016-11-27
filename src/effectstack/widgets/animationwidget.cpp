@@ -983,7 +983,7 @@ const QMap <QString, QString> AnimationWidget::getAnimation()
                 key.append(locale.toString(val));
                 result << key;
             }
-            animationResults.insert(i.key(), result.join(";"));
+            animationResults.insert(i.key(), result.join(QStringLiteral(";")));
         }
     }
     // restore original controller

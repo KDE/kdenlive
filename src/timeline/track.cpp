@@ -39,7 +39,7 @@ Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist
     m_playlist(playlist)
 {
     QString playlist_name = playlist.get("id");
-    if (playlist_name != "black_track") {
+    if (playlist_name != QLatin1String("black_track")) {
         trackHeader = new HeaderTrack(info(), actions, this, height, parent);
     }
 }
@@ -326,7 +326,7 @@ QList <Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
 	current.remove(0, 1);
 	if (current.startsWith("slowmotion:" + id + ":")) {
             Track::SlowmoInfo info;
-            info.readFromString(current.section(":", 2), locale);
+            info.readFromString(current.section(QStringLiteral(":"), 2), locale);
             list << info;
         }
     }

@@ -327,7 +327,7 @@ GenTime ClipController::getPlaytime() const
 QString ClipController::property(const QString &name) const
 {
     if (!m_properties) return QString();
-    if (m_usesProxy && name.startsWith("meta.")) {
+    if (m_usesProxy && name.startsWith(QLatin1String("meta."))) {
         QString correctedName = QStringLiteral("kdenlive:") + name;
         return m_properties->get(correctedName.toUtf8().constData());
     }
@@ -337,7 +337,7 @@ QString ClipController::property(const QString &name) const
 int ClipController::int_property(const QString &name) const
 {
     if (!m_properties) return 0;
-    if (m_usesProxy && name.startsWith("meta.")) {
+    if (m_usesProxy && name.startsWith(QLatin1String("meta."))) {
         QString correctedName = QStringLiteral("kdenlive:") + name;
         return m_properties->get_int(correctedName.toUtf8().constData());
     }
@@ -749,7 +749,7 @@ void ClipController::changeEffectState(const QList <int> indexes, bool disable)
 
 void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix)
 {
-    QString tag = e.attribute(QLatin1String("id"));
+    QString tag = e.attribute(QStringLiteral("id"));
     if (tag == QLatin1String("autotrack_rectangle") || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox")) {
         // this filters cannot be edited, remove and re-add it
         removeEffect(ix, true);

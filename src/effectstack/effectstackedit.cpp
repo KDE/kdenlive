@@ -207,10 +207,10 @@ void EffectStackEdit::importKeyframes(const QString &keyframes)
     if (keyframes.contains(QLatin1Char('\n'))) {
         QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
         foreach(const QString &param, params) {
-            data.insert(param.section("=", 0, 0), param.section("=", 1));
+            data.insert(param.section(QStringLiteral("="), 0, 0), param.section(QStringLiteral("="), 1));
         }
     } else {
-        data.insert(keyframes.section("=", 0, 0), keyframes.section("=", 1));
+        data.insert(keyframes.section(QStringLiteral("="), 0, 0), keyframes.section(QStringLiteral("="), 1));
     }
     emit importClipKeyframes(TransitionWidget, data);
 }

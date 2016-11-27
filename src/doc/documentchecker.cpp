@@ -224,19 +224,19 @@ bool DocumentChecker::hasErrorInClips()
         if (!QFile::exists(filePath)) {
             QString fixedLuma;
             // check if this was an old format luma, not in correct folder
-            fixedLuma = filePath.section("/", 0, -2);
+            fixedLuma = filePath.section(QStringLiteral("/"), 0, -2);
             fixedLuma.append(hdProfile ? "/HD/" : "/PAL/");
-            fixedLuma.append(filePath.section("/", -1));
+            fixedLuma.append(filePath.section(QStringLiteral("/"), -1));
             if (QFile::exists(fixedLuma)) {
                 // Auto replace pgm with png for lumas
                 autoFixLuma.insert(filePath, fixedLuma);
                 continue;
             }
-            if (filePath.endsWith(".pgm")) {
-                fixedLuma = filePath.section(".", 0, -2) + ".png";
+            if (filePath.endsWith(QLatin1String(".pgm"))) {
+                fixedLuma = filePath.section(QStringLiteral("."), 0, -2) + ".png";
             }
-            else if (filePath.endsWith(".png")) {
-                fixedLuma = filePath.section(".", 0, -2) + ".pgm";
+            else if (filePath.endsWith(QLatin1String(".png"))) {
+                fixedLuma = filePath.section(QStringLiteral("."), 0, -2) + ".pgm";
             }
             if (!fixedLuma.isEmpty() && QFile::exists(fixedLuma)) {
                 // Auto replace pgm with png for lumas
@@ -248,15 +248,15 @@ bool DocumentChecker::hasErrorInClips()
     if (!autoFixLuma.isEmpty()) {
         for (int i = 0; i < max; ++i) {
             QDomElement transition = trans.at(i).toElement();
-            QString service = getProperty(transition, "mlt_service");
+            QString service = getProperty(transition, QStringLiteral("mlt_service"));
             QString luma;
-            if (service == "luma") {
-                luma = getProperty(transition, "resource");
-            } else if (service == "composite") {
-                luma = getProperty(transition, "luma");
+            if (service == QLatin1String("luma")) {
+                luma = getProperty(transition, QStringLiteral("resource"));
+            } else if (service == QLatin1String("composite")) {
+                luma = getProperty(transition, QStringLiteral("luma"));
             }
             if (!luma.isEmpty() && autoFixLuma.contains(luma)) {
-                setProperty(transition, service == "luma" ? "resource" : "luma", autoFixLuma.value(luma));
+                setProperty(transition, service == QLatin1String("luma") ? "resource" : "luma", autoFixLuma.value(luma));
             }
         }
     }
@@ -270,7 +270,7 @@ bool DocumentChecker::hasErrorInClips()
 
     foreach(const QString &l, missingLumas) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << l);
-        item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
+        item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
         item->setData(0, idRole, l);
         item->setData(0, statusRole, LUMAMISSING);
     }
@@ -282,7 +282,7 @@ bool DocumentChecker::hasErrorInClips()
         QString clipType;
         ClipType type;
         int status = CLIPMISSING;
-        QString resource = EffectsList::property(e, "resource");
+        QString resource = EffectsList::property(e, QStringLiteral("resource"));
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
 	QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
 	if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") || service == QLatin1String("timewarp")) {
@@ -299,7 +299,7 @@ bool DocumentChecker::hasErrorInClips()
 	} else if (service == QLatin1String("mlt")) {
 	    clipType = i18n("Playlist clip");
             type = Playlist;
-	} else if (e.tagName() == "missingtitle") {
+	} else if (e.tagName() == QLatin1String("missingtitle")) {
             clipType = i18n("Title Image");
             status = TITLE_IMAGE_ELEMENT;
             type = Text;
@@ -316,11 +316,11 @@ bool DocumentChecker::hasErrorInClips()
         item->setToolTip(0, i18n("Missing item"));
 
         if (status == TITLE_IMAGE_ELEMENT) {
-            item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
-            item->setToolTip(1, e.attribute("name"));
-            QString imageResource = e.attribute("resource");
+            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
+            item->setToolTip(1, e.attribute(QStringLiteral("name")));
+            QString imageResource = e.attribute(QStringLiteral("resource"));
             item->setData(0, typeRole, status);
-            item->setData(0, typeOriginalResource, e.attribute("resource"));
+            item->setData(0, typeOriginalResource, e.attribute(QStringLiteral("resource")));
             if (!m_rootReplacement.first.isEmpty()) {
                 if (imageResource.startsWith(m_rootReplacement.first)) {
                     imageResource.replace(m_rootReplacement.first, m_rootReplacement.second);
@@ -332,8 +332,8 @@ bool DocumentChecker::hasErrorInClips()
             }
             item->setText(1, imageResource);
         } else {
-            item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
-            if (!resource.startsWith("/")) {
+            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
+            if (!resource.startsWith(QLatin1String("/"))) {
                 resource.prepend(root);
             }
             item->setData(0, hashRole, EffectsList::property(e, QStringLiteral("kdenlive:file_hash")));
@@ -355,9 +355,9 @@ bool DocumentChecker::hasErrorInClips()
         QString clipType = i18n("Title Font");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPPLACEHOLDER);
-        item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
-        item->setToolTip(1, e.attribute("name"));
-        QString ft = e.attribute("resource");
+        item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
+        item->setToolTip(1, e.attribute(QStringLiteral("name")));
+        QString ft = e.attribute(QStringLiteral("resource"));
         QString newft = QFontInfo(QFont(ft)).family();
         item->setText(1, i18n("%1 will be replaced by %2", ft, newft));
         item->setData(0, typeRole, CLIPMISSING);
@@ -383,7 +383,7 @@ bool DocumentChecker::hasErrorInClips()
     max = missingProxies.count();
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
-        item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
+        item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
         item->setText(1, i18np("%1 missing proxy clip, will be recreated on project opening", "%1 missing proxy clips, will be recreated on project opening", max));
         //item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, PROXYMISSING);
@@ -435,7 +435,7 @@ bool DocumentChecker::hasErrorInClips()
     max = missingSources.count();
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Source clip"));
-        item->setIcon(0, KoIconUtils::themedIcon("dialog-warning"));
+        item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
         item->setText(1, i18n("%1 missing source clips, you can only use the proxies", max));
         //item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, SOURCEMISSING);
@@ -449,7 +449,7 @@ bool DocumentChecker::hasErrorInClips()
             e.setAttribute(QStringLiteral("_missingsource"), QStringLiteral("1"));
             QTreeWidgetItem *subitem = new QTreeWidgetItem(item, QStringList() << i18n("Source clip"));
             //qDebug()<<"// Adding missing source clip: "<<realPath;
-            subitem->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
+            subitem->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
             subitem->setText(1, realPath);
             subitem->setData(0, hashRole, EffectsList::property(e, QStringLiteral("kdenlive:file_hash")));
             subitem->setData(0, sizeRole, EffectsList::property(e, QStringLiteral("kdenlive:file_size")));
@@ -526,7 +526,7 @@ void DocumentChecker::slotSearchClips()
                 if (!clipPath.isEmpty()) {
                     fixed = true;
                     subchild->setText(1, clipPath);
-                    subchild->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
+                    subchild->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-ok")));
                     subchild->setData(0, statusRole, CLIPOK);
                 }
             }
@@ -554,7 +554,7 @@ void DocumentChecker::slotSearchClips()
             if (!fileName.isEmpty()) {
                 fixed = true;
                 child->setText(1, fileName);
-                child->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
+                child->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-ok")));
                 child->setData(0, statusRole, LUMAOK);
             }
         }
@@ -566,7 +566,7 @@ void DocumentChecker::slotSearchClips()
                 // File found
                 fixed = true;
                 child->setText(1, newPath);
-                child->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
+                child->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-ok")));
                 child->setData(0, statusRole, CLIPOK);
             }
         }
@@ -693,13 +693,13 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         fixed = true;
     }
     if (fixed || QFile::exists(url.path())) {
-        item->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
+        item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-ok")));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) item->setData(0, statusRole, CLIPOK);
         else item->setData(0, statusRole, LUMAOK);
         checkStatus();
     } else {
-        item->setIcon(0, KoIconUtils::themedIcon("dialog-close"));
+        item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) item->setData(0, statusRole, CLIPMISSING);
         else item->setData(0, statusRole, LUMAMISSING);
@@ -837,17 +837,17 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
                 e = producers.item(i).toElement();
                 if (e.attribute(QStringLiteral("id")).section('_', 0, 0) == id || e.attribute(QStringLiteral("id")).section(':', 1, 1) == id) {
                     // Fix clip
-                    QString resource = getProperty(e, QLatin1String("resource"));
-                    QString service = getProperty(e, QLatin1String("mlt_service"));
+                    QString resource = getProperty(e, QStringLiteral("resource"));
+                    QString service = getProperty(e, QStringLiteral("mlt_service"));
                     QString fixedResource = child->text(1);
                     if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$"))) {
                         fixedResource.append('?' + resource.section('?', -1));
                     }
                     if (service == QLatin1String("timewarp")) {
-                        setProperty(e, QLatin1String("warp_resource"), fixedResource);
-                        fixedResource.prepend(getProperty(e, QLatin1String("warp_speed")) + ":");
+                        setProperty(e, QStringLiteral("warp_resource"), fixedResource);
+                        fixedResource.prepend(getProperty(e, QStringLiteral("warp_speed")) + ":");
                     }
-                    setProperty(e, QLatin1String("resource"), fixedResource);
+                    setProperty(e, QStringLiteral("resource"), fixedResource);
                 }
             }
         }
@@ -898,10 +898,10 @@ void DocumentChecker::slotPlaceholders()
     while (child) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             child->setData(0, statusRole, CLIPPLACEHOLDER);
-            child->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
+            child->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-ok")));
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
             child->setData(0, statusRole, LUMAPLACEHOLDER);
-            child->setIcon(0, KoIconUtils::themedIcon("dialog-ok"));
+            child->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-ok")));
         }
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);

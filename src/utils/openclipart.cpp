@@ -76,7 +76,7 @@ void OpenClipArt::slotShowResults(KJob* job)
         QDomElement link = currentClip.firstChildElement(QStringLiteral("link"));
         item->setData(infoUrl, link.firstChild().nodeValue());
 
-        QDomElement license = currentClip.firstChildElement("cc:license");
+        QDomElement license = currentClip.firstChildElement(QStringLiteral("cc:license"));
 
 
         item->setData(licenseRole, license.firstChild().nodeValue());
@@ -106,7 +106,7 @@ OnlineItemInfo OpenClipArt::displayItemDetails(QListWidgetItem *item)
     info.author = item->data(authorRole).toString();
     info.authorUrl = item->data(authorUrl).toString();
 
-    info.license = "https://openclipart.org/share"; // all openclipartfiles are public domain
+    info.license = QStringLiteral("https://openclipart.org/share"); // all openclipartfiles are public domain
     info.description = item->data(descriptionRole).toString();
     emit gotThumb(item->data(imageRole).toString());
     return info;

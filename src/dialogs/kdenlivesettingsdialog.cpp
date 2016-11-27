@@ -127,7 +127,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     // Video 4 Linux device detection
     for (int i = 0; i < 10; ++i) {
-        QString path = QLatin1String("/dev/video") + QString::number(i);
+        QString path = QStringLiteral("/dev/video") + QString::number(i);
         if (QFile::exists(path)) {
             QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path);
             if (!deviceInfo.isEmpty()) {

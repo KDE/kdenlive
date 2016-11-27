@@ -72,7 +72,7 @@ bool PreviewManager::initialize()
         m_doc->displayMessage(i18n("Cannot create folder %1", m_cacheDir.absolutePath()), ErrorMessage);
         return false;
     }
-    if (m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() || (!m_cacheDir.exists("undo") && !m_cacheDir.mkdir("undo")) || !m_cacheDir.absolutePath().contains(documentId)) {
+    if (m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() || (!m_cacheDir.exists(QStringLiteral("undo")) && !m_cacheDir.mkdir(QStringLiteral("undo"))) || !m_cacheDir.absolutePath().contains(documentId)) {
         m_doc->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absolutePath()), ErrorMessage);
         return false;
     }
@@ -80,7 +80,7 @@ bool PreviewManager::initialize()
         m_doc->displayMessage(i18n("Invalid timeline preview parameters"), ErrorMessage);
         return false;
     }
-    m_undoDir = QDir(m_cacheDir.absoluteFilePath("undo"));
+    m_undoDir = QDir(m_cacheDir.absoluteFilePath(QStringLiteral("undo")));
 
     // Make sure our cache dirs are inside the temporary folder
     if (!m_cacheDir.makeAbsolute() || !m_undoDir.makeAbsolute() || !m_undoDir.mkpath(QStringLiteral("."))) {
@@ -114,7 +114,7 @@ bool PreviewManager::buildPreviewTrack()
 void PreviewManager::loadChunks(QStringList previewChunks, QStringList dirtyChunks, QDateTime documentDate)
 {
     foreach (const QString frame, previewChunks) {
-        const QString fileName = m_cacheDir.absoluteFilePath(QString("%1.%2").arg(frame).arg(m_extension));
+        const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(frame).arg(m_extension));
         QFile file(fileName);
         if (file.exists()) {
             if (!documentDate.isNull() && QFileInfo(file).lastModified() > documentDate) {
@@ -179,11 +179,11 @@ void PreviewManager::disconnectTrack()
 bool PreviewManager::loadParams()
 {
     m_extension= m_doc->getDocumentProperty(QStringLiteral("previewextension"));
-    m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(" ", QString::SkipEmptyParts);
+    m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QStringLiteral(" "), QString::SkipEmptyParts);
 
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {
         m_doc->selectPreviewProfile();
-        m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(" ", QString::SkipEmptyParts);
+        m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QStringLiteral(" "), QString::SkipEmptyParts);
         m_extension= m_doc->getDocumentProperty(QStringLiteral("previewextension"));
     }
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {
@@ -197,9 +197,9 @@ bool PreviewManager::loadParams()
 	    i--;
 	}
     }
-    m_consumerParams << "an=1";
+    m_consumerParams << QStringLiteral("an=1");
     if (KdenliveSettings::gpu_accel())
-        m_consumerParams << "glsl.=1";
+        m_consumerParams << QStringLiteral("glsl.=1");
     return true;
 }
 
@@ -219,8 +219,8 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
         m_undoDir.mkdir(QString::number(ix));
         bool foundPreviews = false;
         foreach(int i, chunks) {
-            QString current = QString("%1.%2").arg(i).arg(m_extension);
-            if (m_cacheDir.rename(current, QString("undo/%1/%2").arg(ix).arg(current))) {
+            QString current = QStringLiteral("%1.%2").arg(i).arg(m_extension);
+            if (m_cacheDir.rename(current, QStringLiteral("undo/%1/%2").arg(ix).arg(current))) {
                 foundPreviews = true;
             }
         }
@@ -241,8 +241,8 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
                 bool foundPreviews = false;
                 m_undoDir.mkdir(QString::number(stackMax));
                 foreach(int i, chunks) {
-                    QString current = QString("%1.%2").arg(i).arg(m_extension);
-                    if (m_cacheDir.rename(current, QString("undo/%1/%2").arg(stackMax).arg(current))) {
+                    QString current = QStringLiteral("%1.%2").arg(i).arg(m_extension);
+                    if (m_cacheDir.rename(current, QStringLiteral("undo/%1/%2").arg(stackMax).arg(current))) {
                         foundPreviews = true;
                     }
                 }
@@ -258,7 +258,7 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
         }
         QList <int> foundChunks;
         foreach(int i, chunks) {
-            QString cacheFileName = QString("%1.%2").arg(i).arg(m_extension);
+            QString cacheFileName = QStringLiteral("%1.%2").arg(i).arg(m_extension);
             if (!lastUndo) {
                 m_cacheDir.remove(cacheFileName);
             }
@@ -311,7 +311,7 @@ void PreviewManager::clearPreviewRange()
         m_tractor->lock();
         bool hasPreview = m_previewTrack != NULL;
         foreach(int ix, toProcess) {
-            m_cacheDir.remove(QString("%1.%2").arg(ix).arg(m_extension));
+            m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
             if (!hasPreview)
                 continue;
             int trackIx = m_previewTrack->get_clip_index_at(ix);
@@ -353,7 +353,7 @@ void PreviewManager::addPreviewRange(bool add)
         m_tractor->lock();
         bool hasPreview = m_previewTrack != NULL;
         foreach(int ix, toProcess) {
-            m_cacheDir.remove(QString("%1.%2").arg(ix).arg(m_extension));
+            m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
             if (!hasPreview)
                 continue;
             int trackIx = m_previewTrack->get_clip_index_at(ix);
@@ -409,7 +409,7 @@ void PreviewManager::doPreviewRender(QString scene)
     while (!m_waitingThumbs.isEmpty()) {
         int i = m_waitingThumbs.takeFirst();
         ct++;
-        QString fileName = QString("%1.%2").arg(i).arg(m_extension);
+        QString fileName = QStringLiteral("%1.%2").arg(i).arg(m_extension);
         if (m_waitingThumbs.isEmpty()) {
             progress = 1000;
         } else {
@@ -425,7 +425,7 @@ void PreviewManager::doPreviewRender(QString scene)
         args << scene;
         args << "in=" + QString::number(i);
         args << "out=" + QString::number(i + chunkSize - 1);
-        args << "-consumer" << "avformat:" + m_cacheDir.absoluteFilePath(fileName);
+        args << QStringLiteral("-consumer") << "avformat:" + m_cacheDir.absoluteFilePath(fileName);
         args << m_consumerParams;
         QProcess previewProcess;
         connect(this, SIGNAL(abortPreview()), &previewProcess, SLOT(kill()), Qt::DirectConnection);
@@ -519,7 +519,7 @@ void PreviewManager::reloadChunks(QList <int> chunks)
     m_tractor->lock();
     foreach(int ix, chunks) {
         if (m_previewTrack->is_blank_at(ix)) {
-            const QString fileName = m_cacheDir.absoluteFilePath(QString("%1.%2").arg(ix).arg(m_extension));
+            const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
             Mlt::Producer prod(*m_tractor->profile(), 0, fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 m_ruler->updatePreview(ix, true);

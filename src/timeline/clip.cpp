@@ -76,7 +76,7 @@ void Clip::addEffects(Mlt::Service& service, bool skipFades)
         // Only duplicate Kdenlive filters, and skip the fade in effects
         if (effect->is_valid()) {
 	    QString effectId = effect->get("kdenlive_id");
-	    if (effectId.isEmpty() || (skipFades && (effectId == "fadein" || effectId == "fade_from_black"))) {
+	    if (effectId.isEmpty() || (skipFades && (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")))) {
 		continue;
 	    }
             // no easy filter copy: do it by hand!

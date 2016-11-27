@@ -212,8 +212,8 @@ QMap <QString, QString> Timeline::documentProperties()
     props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
     props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
     QPair <QStringList, QStringList> chunks = m_ruler->previewChunks();
-    props.insert(QStringLiteral("previewchunks"), chunks.first.join(","));
-    props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(","));
+    props.insert(QStringLiteral("previewchunks"), chunks.first.join(QStringLiteral(",")));
+    props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QStringLiteral(",")));
     props.insert(QStringLiteral("disablepreview"), QString::number((int) m_disablePreview->isChecked()));
     return props;
 }
@@ -442,7 +442,7 @@ void Timeline::getTransitions() {
                     QString value = prop.get(paramName.toUtf8().constData());
                     // if transition parameter has an "optional" attribute, it means that it can contain an empty value
                     if (value.isEmpty() && !e.hasAttribute(QStringLiteral("optional"))) continue;
-                    if (e.hasAttribute("factor") || e.hasAttribute("offset"))
+                    if (e.hasAttribute(QStringLiteral("factor")) || e.hasAttribute(QStringLiteral("offset")))
                         adjustDouble(e, value);
                     else
                         e.setAttribute(QStringLiteral("value"), value);
@@ -1624,7 +1624,7 @@ void Timeline::refreshTrackActions()
         return;
     }
     foreach(QAction *action, m_trackActions) {
-        if (action->data().toString() == "delete_track") {
+        if (action->data().toString() == QLatin1String("delete_track")) {
             action->setEnabled(tracks > 2);
         }
     }
@@ -1879,7 +1879,7 @@ void Timeline::loadPreviewRender()
         if (!m_timelinePreview || m_disablePreview->isChecked())
             return;
         m_timelinePreview->buildPreviewTrack();
-        m_timelinePreview->loadChunks(chunks.split(",", QString::SkipEmptyParts), dirty.split(",", QString::SkipEmptyParts), documentDate);
+        m_timelinePreview->loadChunks(chunks.split(QStringLiteral(","), QString::SkipEmptyParts), dirty.split(QStringLiteral(","), QString::SkipEmptyParts), documentDate);
         m_usePreview = true;
     } else {
         m_ruler->hidePreview(true);
@@ -1889,8 +1889,8 @@ void Timeline::loadPreviewRender()
 void Timeline::updatePreviewSettings(const QString &profile)
 {
     if (profile.isEmpty()) return;
-    QString params = profile.section(";", 0, 0);
-    QString ext = profile.section(";", 1, 1);
+    QString params = profile.section(QStringLiteral(";"), 0, 0);
+    QString ext = profile.section(QStringLiteral(";"), 1, 1);
     if (params != m_doc->getDocumentProperty(QStringLiteral("previewparameters")) || ext != m_doc->getDocumentProperty(QStringLiteral("previewextension"))) {
         // Timeline preview params changed, delete all existing previews.
         invalidateRange(ItemInfo());

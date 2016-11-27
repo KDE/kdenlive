@@ -254,7 +254,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 content.setAttribute(QStringLiteral("alignment"), (int) t->alignment());
             }
 
-            content.setAttribute(QStringLiteral("shadow"), t->shadowInfo().join(";"));
+            content.setAttribute(QStringLiteral("shadow"), t->shadowInfo().join(QStringLiteral(";")));
             break;
         default:
             continue;

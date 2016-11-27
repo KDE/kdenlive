@@ -52,10 +52,10 @@ OAuth2::OAuth2(QWidget* parent)
 
 {
    //  m_strEndPoint = "https://www.freesound.org/apiv2/oauth2/logout_and_authorize/";
-    m_strEndPoint = "https://www.freesound.org/apiv2/oauth2/authorize/";
-    m_strClientID = "33e04f36da52710a28cc";    //obtained when ttguy registered the kdenlive application with freesound
-    m_strRedirectURI = "https://www.freesound.org/home/app_permissions/permission_granted/";
-    m_strResponseType = "code";
+    m_strEndPoint = QStringLiteral("https://www.freesound.org/apiv2/oauth2/authorize/");
+    m_strClientID = QStringLiteral("33e04f36da52710a28cc");    //obtained when ttguy registered the kdenlive application with freesound
+    m_strRedirectURI = QStringLiteral("https://www.freesound.org/home/app_permissions/permission_granted/");
+    m_strResponseType = QStringLiteral("code");
     m_pLoginDialog = new LoginDialog(parent);
     m_pParent = parent;
 
@@ -131,7 +131,7 @@ void OAuth2::ForgetAccessToken()
 QString OAuth2::loginUrl()
 {
 
-    QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=%4").arg(m_strEndPoint, m_strClientID, m_strRedirectURI, m_strResponseType);
+    QString str = QStringLiteral("%1?client_id=%2&redirect_uri=%3&response_type=%4").arg(m_strEndPoint, m_strClientID, m_strRedirectURI, m_strResponseType);
   //  qDebug() << "Login URL" << str;
     return str;
 }
@@ -196,24 +196,24 @@ void OAuth2::RequestAccessCode(bool pIsReRequest, QString pCode)
     //curl -X POST -d "client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=refresh_token&refresh_token=REFRESH_TOKEN" "https://www.freesound.org/apiv2/oauth2/access_token/"
    if (pIsReRequest)
    {
-       vGrantType ="refresh_token";
-       vCodeTypeParamName="refresh_token";
+       vGrantType =QStringLiteral("refresh_token");
+       vCodeTypeParamName=QStringLiteral("refresh_token");
    }
    else
    {
-       vGrantType ="authorization_code";
-       vCodeTypeParamName="code";
+       vGrantType =QStringLiteral("authorization_code");
+       vCodeTypeParamName=QStringLiteral("code");
    }
 
 
     QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
-    QUrl serviceUrl = QUrl("https://www.freesound.org/apiv2/oauth2/access_token/");
+    QUrl serviceUrl = QUrl(QStringLiteral("https://www.freesound.org/apiv2/oauth2/access_token/"));
 
     QUrlQuery postData;
 
-    postData.addQueryItem("client_id", this->getClientID());
-    postData.addQueryItem("client_secret", this->getClientSecret());
-    postData.addQueryItem("grant_type", vGrantType );
+    postData.addQueryItem(QStringLiteral("client_id"), this->getClientID());
+    postData.addQueryItem(QStringLiteral("client_secret"), this->getClientSecret());
+    postData.addQueryItem(QStringLiteral("grant_type"), vGrantType );
     postData.addQueryItem(vCodeTypeParamName, pCode);
     connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(serviceRequestFinished(QNetworkReply*)));
     QNetworkRequest request(serviceUrl);
@@ -261,22 +261,22 @@ void OAuth2::serviceRequestFinished(QNetworkReply* reply)
                  QMap <QString, QVariant> map = data.toMap();
 
 
-                 if (map.contains("access_token")) {
-                      m_strAccessToken = map.value("access_token").toString();
+                 if (map.contains(QStringLiteral("access_token"))) {
+                      m_strAccessToken = map.value(QStringLiteral("access_token")).toString();
                       m_bAccessTokenRec = true;
 
 
 
                  }
-                 if (map.contains("refresh_token")) {
-                      mstr_RefreshToken = map.value("refresh_token").toString();
+                 if (map.contains(QStringLiteral("refresh_token"))) {
+                      mstr_RefreshToken = map.value(QStringLiteral("refresh_token")).toString();
                  }
-                 if (map.contains("expires_in")) {
+                 if (map.contains(QStringLiteral("expires_in"))) {
                       // iExpiresIn = map.value("expires_in").toInt(); //time in seconds until the access_token expires
                  }
-                 if (map.contains("error")) {
+                 if (map.contains(QStringLiteral("error"))) {
                       m_bAccessTokenRec=false;
-                      sErrorText = map.value("error").toString();
+                      sErrorText = map.value(QStringLiteral("error")).toString();
                       qDebug() << "OAuth2::serviceRequestFinished map error:  "<<  sErrorText;
                       ForgetAccessToken();
                       emit accessTokenReceived(QString());//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
@@ -300,7 +300,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply* reply)
 
 
                      ForgetAccessToken();
-                     emit accessTokenReceived("");//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
+                     emit accessTokenReceived(QLatin1String(""));//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
 
                  }
              }

@@ -113,7 +113,7 @@ void SelectiveColor::effectChanged()
     if (vBlack == 0 && vYell == 0 && vMag == 0 && vCyan == 0) {
         // default empty val
     } else {
-        result = QString("%1 %2 %3 %4").arg(vCyan / 100.0).arg(vMag / 100.0).arg(vYell / 100.0).arg(vBlack / 100.0);
+        result = QStringLiteral("%1 %2 %3 %4").arg(vCyan / 100.0).arg(vMag / 100.0).arg(vYell / 100.0).arg(vBlack / 100.0);
     }
     QStringList values = range->currentData().toStringList();
     if (values.isEmpty()) {

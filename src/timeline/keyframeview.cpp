@@ -253,25 +253,25 @@ void KeyframeView::drawKeyFrameChannels(QRectF br, int in, int out, QPainter *pa
     if (xDist > 0) {
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cX);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18nc("X as in x coordinate", "X") + QString(" (%1-%2)").arg(maximas.at(0).x()).arg(maximas.at(0).y()), &drawnText);
+        painter->drawText(txtRect, 0, i18nc("X as in x coordinate", "X") + QStringLiteral(" (%1-%2)").arg(maximas.at(0).x()).arg(maximas.at(0).y()), &drawnText);
     }
     if (yDist > 0) {
         if (drawnText.isValid()) txtRect.setX(drawnText.right() + rectSize);
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cY);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y") + QString(" (%1-%2)").arg(maximas.at(1).x()).arg(maximas.at(1).y()), &drawnText);
+        painter->drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y") + QStringLiteral(" (%1-%2)").arg(maximas.at(1).x()).arg(maximas.at(1).y()), &drawnText);
     }
     if (wDist > 0) {
         if (drawnText.isValid()) txtRect.setX(drawnText.right() + rectSize);
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cW);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18n("Width") + QString(" (%1-%2)").arg(maximas.at(2).x()).arg(maximas.at(2).y()), &drawnText);
+        painter->drawText(txtRect, 0, i18n("Width") + QStringLiteral(" (%1-%2)").arg(maximas.at(2).x()).arg(maximas.at(2).y()), &drawnText);
     }
     if (hDist > 0) {
         if (drawnText.isValid()) txtRect.setX(drawnText.right() + rectSize);
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cH);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18n("Height") + QString(" (%1-%2)").arg(maximas.at(3).x()).arg(maximas.at(3).y()), &drawnText);
+        painter->drawText(txtRect, 0, i18n("Height") + QStringLiteral(" (%1-%2)").arg(maximas.at(3).x()).arg(maximas.at(3).y()), &drawnText);
     }
 
     // Draw curves
@@ -758,7 +758,7 @@ const QString KeyframeView::serialize(const QString &name, bool rectAnimation)
     }
     if (!name.isEmpty())
         m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
-    return result.join(";");
+    return result.join(QStringLiteral(";"));
 }
 
 QList <QPoint> KeyframeView::loadKeyframes(const QString &data)
@@ -832,7 +832,7 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int c
     }
     attachToEnd = -2;
     m_useOffset = effect.attribute(QStringLiteral("kdenlive:sync_in_out")) != QLatin1String("1");
-    m_offset = effect.attribute("in").toInt() - cropStart;
+    m_offset = effect.attribute(QStringLiteral("in")).toInt() - cropStart;
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
@@ -859,7 +859,7 @@ bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int c
             m_keyframeMax = info.max;
             m_keyframeDefault = locale.toDouble(info.defaultValue);
             m_keyframeFactor = info.factor;
-            attachToEnd = checkNegatives(e.attribute("value").toUtf8().constData(), duration - m_offset);
+            attachToEnd = checkNegatives(e.attribute(QStringLiteral("value")).toUtf8().constData(), duration - m_offset);
             m_inTimeline = paramName;
         }
         // parse keyframes
@@ -900,11 +900,11 @@ void KeyframeView::setOffset(int frames)
 int KeyframeView::checkNegatives(const QString &data, int maxDuration)
 {
     int result = -2;
-    QStringList frames = data.split(";");
+    QStringList frames = data.split(QStringLiteral(";"));
     for (int i = 0; i < frames.count(); i++) {
-        if (frames.at(i).startsWith("-")) {
+        if (frames.at(i).startsWith(QLatin1String("-"))) {
             // We found a negative kfr
-            QString sub = frames.at(i).section("=", 0, 0);
+            QString sub = frames.at(i).section(QStringLiteral("="), 0, 0);
             if (!sub.at(sub.length() - 1).isDigit()) {
                 // discrete or smooth keyframe, we need to remove the tag (| or ~)
                 sub.chop(1);

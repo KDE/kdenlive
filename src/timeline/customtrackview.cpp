@@ -323,7 +323,7 @@ void CustomTrackView::updateSceneFrameWidth(double fpsChanged)
         doc.setContent(m_document->groupsXml());
         QDomNodeList groups;
         if (!doc.isNull()) {
-            groups = doc.documentElement().elementsByTagName("group");
+            groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
             for (int nodeindex = 0; nodeindex < groups.count(); ++nodeindex) {
                 QDomNode grp = groups.item(nodeindex);
                 QDomNodeList nodes = grp.childNodes();
@@ -2876,7 +2876,7 @@ void CustomTrackView::addTransition(const ItemInfo &transitionInfo, int endTrack
     // If transition is to be created from paste, then use that automatic setting.
     // Otherwise, when no automatic setting is present, use the current configuration setting.
     bool autotrans = params.attribute(QStringLiteral("automatic"),
-                                     KdenliveSettings::automatictransitions() ? QLatin1String("1") : QLatin1String("0"))
+                                     KdenliveSettings::automatictransitions() ? QStringLiteral("1") : QStringLiteral("0"))
             == QStringLiteral("1");
     Transition *tr = new Transition(transitionInfo, endTrack, m_document->fps(), params, autotrans);
     connect(tr, &AbstractClipItem::selectItem, this, &CustomTrackView::slotSelectItem);
@@ -3462,20 +3462,20 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     doc.setContent(m_document->groupsXml());
     QDomNodeList groups;
     if (!doc.isNull()) {
-        groups = doc.documentElement().elementsByTagName("group");
+        groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
         for (int nodeindex = 0; nodeindex < groups.count(); ++nodeindex) {
             QDomNode grp = groups.item(nodeindex);
             QDomNodeList nodes = grp.childNodes();
             for (int itemindex = 0; itemindex < nodes.count(); ++itemindex) {
                 QDomElement elem = nodes.item(itemindex).toElement();
-                if (!elem.hasAttribute("track")) continue;
-                int track = elem.attribute("track").toInt();
+                if (!elem.hasAttribute(QStringLiteral("track"))) continue;
+                int track = elem.attribute(QStringLiteral("track")).toInt();
                 if (track < ix) {
                     // No change
                     continue;
                 }
                 else {
-                    elem.setAttribute("track", track + 1);
+                    elem.setAttribute(QStringLiteral("track"), track + 1);
                 }
             }
         }
@@ -3554,25 +3554,25 @@ void CustomTrackView::removeTrack(int ix)
     doc.setContent(m_document->groupsXml());
     QDomNodeList groups;
     if (!doc.isNull()) {
-        groups = doc.documentElement().elementsByTagName("group");
+        groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
         for (int nodeindex = 0; nodeindex < groups.count(); ++nodeindex) {
             QDomNode grp = groups.item(nodeindex);
             QDomNodeList nodes = grp.childNodes();
             for (int itemindex = 0; itemindex < nodes.count(); ++itemindex) {
                 QDomElement elem = nodes.item(itemindex).toElement();
-                if (!elem.hasAttribute("track")) continue;
-                int track = elem.attribute("track").toInt();
+                if (!elem.hasAttribute(QStringLiteral("track"))) continue;
+                int track = elem.attribute(QStringLiteral("track")).toInt();
                 if (track < ix) {
                     // No change
                     continue;
                 }
                 else if (track > ix) {
-                    elem.setAttribute("track", track - 1);
+                    elem.setAttribute(QStringLiteral("track"), track - 1);
                 }
                 else {
                     // track == ix
                     // A grouped item was on deleted track, remove it from group
-                    elem.setAttribute("track", -1);
+                    elem.setAttribute(QStringLiteral("track"), -1);
                 }
             }
         }
@@ -4563,19 +4563,19 @@ void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList 
     // Get speed and strobe values from effects
     double speed = 1.0;
     int strobe = 1;
-    QDomElement speedEffect = effects.effectById("speed");
+    QDomElement speedEffect = effects.effectById(QStringLiteral("speed"));
     if (!speedEffect.isNull()) {
-        QDomNodeList nodes = speedEffect.elementsByTagName("parameter");
+        QDomNodeList nodes = speedEffect.elementsByTagName(QStringLiteral("parameter"));
         for (int i = 0; i < nodes.count(); ++i) {
             QDomElement e = nodes.item(i).toElement();
-            if (e.attribute("name") == "speed") {
-                speed = locale.toDouble(e.attribute("value", "1"));
-                int factor = e.attribute("factor", "1").toInt();
+            if (e.attribute(QStringLiteral("name")) == QLatin1String("speed")) {
+                speed = locale.toDouble(e.attribute(QStringLiteral("value"), QStringLiteral("1")));
+                int factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toInt();
                 speed /= factor;
                 if (speed == 0) speed = 1;
             }
-            else if (e.attribute("name") == "strobe") {
-                strobe = e.attribute("value", "1").toInt();
+            else if (e.attribute(QStringLiteral("name")) == QLatin1String("strobe")) {
+                strobe = e.attribute(QStringLiteral("value"), QStringLiteral("1")).toInt();
             }
         }
     }
@@ -5190,7 +5190,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                     QDomElement old = transition->toXML();
                     if (transition->updateKeyframes(trInfo, newTrInfo)) {
                         QDomElement xml = transition->toXML();
-                        m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                        m_timeline->transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                         new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
                     }
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, command);
@@ -5209,7 +5209,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
                     QDomElement old = transition->toXML();
                     if (transition->updateKeyframes(trInfo, newTrInfo)) {
                         QDomElement xml = transition->toXML();
-                        m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(),  xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                        m_timeline->transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                         new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
                     }
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, command);
@@ -5243,7 +5243,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo ol
             QDomElement old = transition->toXML();
             if (transition->updateKeyframes(oldInfo, info)) {
                 QDomElement xml = transition->toXML();
-                m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), info.startPos, info.endPos, xml);
+                m_timeline->transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(), xml.attribute(QStringLiteral("transition_atrack")).toInt(), info.startPos, info.endPos, xml);
                 new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
             }
             updateTransitionWidget(transition, info);
@@ -5303,7 +5303,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                   QDomElement old = tr->toXML();
                   if (tr->updateKeyframes(trInfo, newTrInfo)) {
                       QDomElement xml = tr->toXML();
-                      m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                      m_timeline->transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(), xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                       new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, command);
                   }
                   new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, command);
@@ -5323,7 +5323,7 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldI
                     QDomElement old = tr->toXML();
                     if (tr->updateKeyframes(trInfo, newTrInfo)) {
                         QDomElement xml = tr->toXML();
-                        m_timeline->transitionHandler->updateTransition(xml.attribute("tag"), xml.attribute("tag"), xml.attribute("transition_btrack").toInt(), xml.attribute("transition_atrack").toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                        m_timeline->transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(), xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
                         new EditTransitionCommand(this, tr->track(), tr->startPos(), old, xml, false, command);
                     }
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, false, command);
@@ -5475,7 +5475,7 @@ void CustomTrackView::updatePositionEffects(ClipItem* item, const ItemInfo &info
         if (!eff.isNull() && diff != 0) {
             int freeze_pos = EffectsList::parameter(eff, QStringLiteral("frame")).toInt() + diff;
             EffectsList::setParameter(eff, QStringLiteral("frame"), QString::number(freeze_pos));
-            if (standalone && item->isSelected() && item->selectedEffect().attribute("id") == "freeze") {
+            if (standalone && item->isSelected() && item->selectedEffect().attribute(QStringLiteral("id")) == QLatin1String("freeze")) {
                 emit clipItemSelected(item);
             }
         }
@@ -6259,8 +6259,8 @@ void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime
                 e.setAttribute(QStringLiteral("value"), resizedAnim);
             } else if (xml.hasAttribute(QStringLiteral("kdenlive:sync_in_out"))) {
                 // Effect attached to clip in, update
-                xml.setAttribute("in", QString::number(newstart.frames(m_document->fps())));
-                xml.setAttribute("out", QString::number((newstart + duration).frames(m_document->fps())));
+                xml.setAttribute(QStringLiteral("in"), QString::number(newstart.frames(m_document->fps())));
+                xml.setAttribute(QStringLiteral("out"), QString::number((newstart + duration).frames(m_document->fps())));
             }
         }
     }
@@ -8159,28 +8159,28 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMa
                 transitionInfo.endPos = info.startPos + GenTime(t.get_out(), m_document->fps());
                 transitionInfo.track = t.get_b_track() + bottomTrack;
                 int endTrack = t.get_a_track() + bottomTrack;
-                if (prop.get("kdenlive_id") == NULL && QString(prop.get("mlt_service")) == "composite" && Timeline::isSlide(prop.get("geometry")))
+                if (prop.get("kdenlive_id") == NULL && QString(prop.get("mlt_service")) == QLatin1String("composite") && Timeline::isSlide(prop.get("geometry")))
                     prop.set("kdenlive_id", "slide");
                 QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
 
-                QDomNodeList params = base.elementsByTagName("parameter");
+                QDomNodeList params = base.elementsByTagName(QStringLiteral("parameter"));
                 for (int i = 0; i < params.count(); ++i) {
                     QDomElement e = params.item(i).toElement();
-                    QString paramName = e.hasAttribute("tag") ? e.attribute("tag") : e.attribute("name");
+                    QString paramName = e.hasAttribute(QStringLiteral("tag")) ? e.attribute(QStringLiteral("tag")) : e.attribute(QStringLiteral("name"));
                     QString value;
-                    if (paramName == "a_track") {
+                    if (paramName == QLatin1String("a_track")) {
                         value = QString::number(transitionInfo.track);
                     }
-                    else if (paramName == "b_track") {
+                    else if (paramName == QLatin1String("b_track")) {
                         value = QString::number(endTrack);
                     }
                     else value = prop.get(paramName.toUtf8().constData());
                     //int factor = e.attribute("factor").toInt();
                     if (value.isEmpty()) continue;
-                    e.setAttribute("value", value);
+                    e.setAttribute(QStringLiteral("value"), value);
                 }
-                base.setAttribute("force_track", prop.get_int("force_track"));
-                base.setAttribute("automatic", prop.get_int("automatic"));
+                base.setAttribute(QStringLiteral("force_track"), prop.get_int("force_track"));
+                base.setAttribute(QStringLiteral("automatic"), prop.get_int("automatic"));
                 new AddTransitionCommand(this, transitionInfo, endTrack, base, false, true, command);
             }
         }
@@ -8239,7 +8239,7 @@ void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString geometry)
         return;
     }
     QMap <QString, QString> data;
-    data.insert(geometry.section("=", 0, 0), geometry.section("=", 1));
+    data.insert(geometry.section(QStringLiteral("="), 0, 0), geometry.section(QStringLiteral("="), 1));
     QDomElement currentEffect = clip->getEffectAtIndex(clip->selectedEffectIndex());
     if (currentEffect.isNull()) {
         emit displayMessage(i18n("No effect to import keyframes"), InformationMessage);

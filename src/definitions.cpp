@@ -143,7 +143,7 @@ const QString MltVideoProfile::descriptiveString()
     } else {
         fps = QString::number((double)frame_rate_num / frame_rate_den, 'f', 2);
     }
-    data.append(QString("(%1x%2, %3fps)").arg(width).arg(height).arg(fps));
+    data.append(QStringLiteral("(%1x%2, %3fps)").arg(width).arg(height).arg(fps));
     return data;
 }
 

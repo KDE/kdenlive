@@ -179,10 +179,10 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     QStringList availableStyles = QStyleFactory::keys();
     QString desktopStyle = QApplication::style()->objectName();
     if (QString::compare(desktopStyle, QLatin1String("GTK+"), Qt::CaseInsensitive) == 0 && KdenliveSettings::widgetstyle().isEmpty()) {
-        if (availableStyles.contains(QLatin1String("breeze"), Qt::CaseInsensitive)) {
+        if (availableStyles.contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
             // Auto switch to Breeze theme
             KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
-        } else if (availableStyles.contains(QLatin1String("fusion"), Qt::CaseInsensitive)) {
+        } else if (availableStyles.contains(QStringLiteral("fusion"), Qt::CaseInsensitive)) {
             KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
         }
     }
@@ -228,8 +228,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     // If using a custom profile, make sure the file exists or fallback to default
     if (KdenliveSettings::current_profile().startsWith(QStringLiteral("/")) && !QFile::exists(KdenliveSettings::current_profile())) {
         KMessageBox::sorry(this, i18n("Cannot find your default profile, switching to ATSC 1080p 25"));
-        KdenliveSettings::setCurrent_profile("atsc_1080p_25");
-        KdenliveSettings::setDefault_profile("atsc_1080p_25");
+        KdenliveSettings::setCurrent_profile(QStringLiteral("atsc_1080p_25"));
+        KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
     }
     m_commandStack = new QUndoGroup(this);
     m_timelineArea = new QTabWidget(this);
@@ -438,7 +438,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     widgetlist->setDefaultWidget(m_effectBasket);
     //widgetlist->setText(i18n("Favorite Effects"));
     widgetlist->setToolTip(i18n("Favorite Effects"));
-    widgetlist->setIcon(KoIconUtils::themedIcon("favorite"));
+    widgetlist->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     QMenu *menu = new QMenu(this);
     menu->addAction(widgetlist);
 
@@ -453,7 +453,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     QWidgetAction* toolButtonAction = new QWidgetAction(this);
     toolButtonAction->setText(i18n("Favorite Effects"));
-    toolButtonAction->setIcon(KoIconUtils::themedIcon("favorite"));
+    toolButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     toolButtonAction->setDefaultWidget(basketButton);
     addAction(QStringLiteral("favorite_effects"), toolButtonAction);
     connect(toolButtonAction, SIGNAL(triggered(bool)), basketButton, SLOT(showMenu()));
@@ -667,7 +667,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 #endif
     scmanager->slotCheckActiveScopes();
     //TODO: remove for release
-    m_messageLabel->setMessage("This is a beta version. Always backup your data", MltError);
+    m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
 
 void MainWindow::slotThemeChanged(const QString &theme)
@@ -969,9 +969,9 @@ void MainWindow::setupActions()
     ac->setShortcut(Qt::Key_G);
     addAction(QStringLiteral("use_timeline_zone_in_edit"), ac);
 
-    m_compositeAction = new KSelectAction(KoIconUtils::themedIcon("composite-track-off"), i18n("Track compositing"), this);
+    m_compositeAction = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-off")), i18n("Track compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
-    QAction *noComposite = new QAction(KoIconUtils::themedIcon("composite-track-off"),
+    QAction *noComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-off")),
  i18n("None"), this);
     noComposite->setCheckable(true);
     noComposite->setData(0);
@@ -979,18 +979,18 @@ void MainWindow::setupActions()
     int compose = KdenliveDoc::compositingMode();
     if (compose == 2) {
         // Movit, do not show "preview" option since movit is faster
-        QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"), this);
+        QAction *hqComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
         hqComposite->setCheckable(true);
         hqComposite->setData(2);
         m_compositeAction->addAction(hqComposite);
         m_compositeAction->setCurrentAction(hqComposite);
     } else {
-        QAction *previewComposite = new QAction(KoIconUtils::themedIcon("composite-track-preview"), i18n("Preview"), this);
+        QAction *previewComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-preview")), i18n("Preview"), this);
         previewComposite->setCheckable(true);
         previewComposite->setData(1);
         m_compositeAction->addAction(previewComposite);
         if (compose == 1) {
-            QAction *hqComposite = new QAction(KoIconUtils::themedIcon("composite-track-on"), i18n("High Quality"), this);
+            QAction *hqComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
             hqComposite->setData(2);
             hqComposite->setCheckable(true);
             m_compositeAction->addAction(hqComposite);
@@ -1146,7 +1146,7 @@ void MainWindow::setupActions()
     m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     //m_trimLabel->setAutoFillBackground(true);
     m_trimLabel->setAlignment(Qt::AlignHCenter);
-    m_trimLabel->setStyleSheet("QLabel { background-color :red; }");
+    m_trimLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; }"));
 
     KToolBar *toolbar = new KToolBar(QStringLiteral("statusToolBar"), this, Qt::BottomToolBarArea);
     toolbar->setMovable(false);
@@ -1628,7 +1628,7 @@ void MainWindow::slotRunWizard()
 
 void MainWindow::slotRefreshProfiles()
 {
-    KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
+    KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists(QStringLiteral("settings")));
     if (d) {
         d->checkProfile();
     }
@@ -1869,7 +1869,7 @@ void MainWindow::slotUpdateMousePosition(int pos)
             m_timeFormatButton->setText(pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pos) + " / " + pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pCore->projectManager()->currentTimeline()->duration()));
             break;
         default:
-            m_timeFormatButton->setText(QString("%1 / %2").arg(pos, 6, 10, QLatin1Char('0')).arg(pCore->projectManager()->currentTimeline()->duration(), 6, 10, QLatin1Char('0')));
+            m_timeFormatButton->setText(QStringLiteral("%1 / %2").arg(pos, 6, 10, QLatin1Char('0')).arg(pCore->projectManager()->currentTimeline()->duration(), 6, 10, QLatin1Char('0')));
         }
     }
 }
@@ -2854,9 +2854,9 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
             actionList.insert(j, a);
         }
 	QList <QAction*> list = inTimelineMenu->actions();
-	unplugActionList("timeline_occurences");
+	unplugActionList(QStringLiteral("timeline_occurences"));
 	qDeleteAll(list);
-	plugActionList("timeline_occurences", actionList);
+	plugActionList(QStringLiteral("timeline_occurences"), actionList);
 
         if (actionList.isEmpty()) {
             inTimelineMenu->setEnabled(false);
@@ -3078,9 +3078,9 @@ void MainWindow::loadClipActions()
     unplugActionList(QStringLiteral("add_effect"));
     plugActionList(QStringLiteral("add_effect"), m_effectsMenu->actions());
 
-    QList <QAction *>clipJobActions = getExtraActions("clipjobs");
-    unplugActionList("clip_jobs");
-    plugActionList("clip_jobs", clipJobActions);
+    QList <QAction *>clipJobActions = getExtraActions(QStringLiteral("clipjobs"));
+    unplugActionList(QStringLiteral("clip_jobs"));
+    plugActionList(QStringLiteral("clip_jobs"), clipJobActions);
 
     QList <QAction *>atcActions = getExtraActions(QStringLiteral("audiotranscoderslist"));
     unplugActionList(QStringLiteral("audio_transcoders_list"));
@@ -3106,8 +3106,8 @@ void MainWindow::loadDockActions()
     foreach(const QString &text, sortedList) {
         orderedList << sorted.value(text);
     }
-    unplugActionList( "dock_actions" );
-    plugActionList( "dock_actions", orderedList);
+    unplugActionList( QStringLiteral("dock_actions") );
+    plugActionList( QStringLiteral("dock_actions"), orderedList);
 }
 
 void MainWindow::buildDynamicActions()
@@ -3186,7 +3186,7 @@ void MainWindow::buildDynamicActions()
         if (data.count() > 1) a->setToolTip(data.at(1));
         // slottranscode
         connect(a, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
-	if (data.count() > 3 && data.at(3) == "audio") {
+	if (data.count() > 3 && data.at(3) == QLatin1String("audio")) {
 	    // This is an audio transcoding action
 	    ats->addAction(i.key(), a);
 	} else {
@@ -3386,9 +3386,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     }
 
     // Add autoclose to playlists.
-    QDomNodeList playlists = doc.elementsByTagName("playlist");
+    QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
     for (int i = 0; i < playlists.length();++i) {
-        playlists.item(i).toElement().setAttribute("autoclose", 1);
+        playlists.item(i).toElement().setAttribute(QStringLiteral("autoclose"), 1);
     }
 
     // Do we want proxy rendering
@@ -3834,7 +3834,7 @@ void MainWindow::configureToolbars()
 void MainWindow::rebuildTimlineToolBar()
 {
     // Timeline toolbar settings changed, we can now re-add our toolbar to custom location
-    m_timelineToolBar = toolBar("timelineToolBar");
+    m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     removeToolBar(m_timelineToolBar);
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     QVBoxLayout *ctnLay = (QVBoxLayout *) m_timelineToolBarContainer->layout();

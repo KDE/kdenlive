@@ -976,7 +976,7 @@ void Monitor::slotExtractCurrentFrame(QString path, bool addToProject)
         path = QFileInfo(path, suggestedImageName).absoluteFilePath();
     }
 
-    QString framesFolder = KRecentDirs::dir(":KdenliveFramesFolder");
+    QString framesFolder = KRecentDirs::dir(QStringLiteral(":KdenliveFramesFolder"));
     if (framesFolder.isEmpty()) framesFolder = QDir::homePath();
     QPointer<QFileDialog> fs = new QFileDialog(this, addToProject ? i18n("Save Image") : i18n("Save Image to Project"), framesFolder);
     fs->setMimeTypeFilters(QStringList() << QStringLiteral("image/png"));
@@ -1848,7 +1848,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
           break;
       case MonitorSceneDefault:
           QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
-          m_qmlManager->setProperty(QLatin1String("timecode"), m_timePos->displayText());
+          m_qmlManager->setProperty(QStringLiteral("timecode"), m_timePos->displayText());
           if (m_id == Kdenlive::ClipMonitor) {
               updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
           } else if (m_id == Kdenlive::ProjectMonitor) {
@@ -1863,46 +1863,46 @@ void Monitor::loadQmlScene(MonitorSceneType type)
 
 void Monitor::connectQmlToolbar(QQuickItem *root)
 {
-    QObject *button = root->findChild<QObject*>("fullScreen");
+    QObject *button = root->findChild<QObject*>(QStringLiteral("fullScreen"));
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SLOT(slotSwitchFullScreen()), Qt::UniqueConnection);
     }
     // Normal monitor toolbar
-    button = root->findChild<QObject*>("nextSnap");
+    button = root->findChild<QObject*>(QStringLiteral("nextSnap"));
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToNextSnap()), Qt::UniqueConnection);
     }
-    button = root->findChild<QObject*>("prevSnap");
+    button = root->findChild<QObject*>(QStringLiteral("prevSnap"));
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToPreviousSnap()), Qt::UniqueConnection);
     }
-    button = root->findChild<QObject*>("addMarker");
+    button = root->findChild<QObject*>(QStringLiteral("addMarker"));
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(addMarker()), Qt::UniqueConnection);
     }
-    button = root->findChild<QObject*>("removeMarker");
+    button = root->findChild<QObject*>(QStringLiteral("removeMarker"));
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(deleteMarker()), Qt::UniqueConnection);
     }
     
     // Effect monitor toolbar
-    button = root->findChild<QObject*>("nextKeyframe");
+    button = root->findChild<QObject*>(QStringLiteral("nextKeyframe"));
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToNextKeyframe()), Qt::UniqueConnection);
     }
-    button = root->findChild<QObject*>("prevKeyframe");
+    button = root->findChild<QObject*>(QStringLiteral("prevKeyframe"));
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToPreviousKeyframe()), Qt::UniqueConnection);
     }
-    button = root->findChild<QObject*>("addKeyframe");
+    button = root->findChild<QObject*>(QStringLiteral("addKeyframe"));
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
     }
-    button = root->findChild<QObject*>("removeKeyframe");
+    button = root->findChild<QObject*>(QStringLiteral("removeKeyframe"));
     if (button) {
         QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(deleteKeyframe()), Qt::UniqueConnection);
     }
-    button = root->findChild<QObject*>("zoomSlider");
+    button = root->findChild<QObject*>(QStringLiteral("zoomSlider"));
     if (button) {
         QObject::connect(button, SIGNAL(zoomChanged(double)), m_glMonitor, SLOT(slotZoomScene(double)), Qt::UniqueConnection);
     }

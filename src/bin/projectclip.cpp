@@ -337,7 +337,7 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
     bool isNewProducer = true;
     if (m_controller) {
         // Replace clip for this controller
-        resetProducerProperty("kdenlive:file_hash");
+        resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
         isNewProducer = false;
     }
     else if (controller) {
@@ -594,8 +594,8 @@ void ProjectClip::setProperties(QMap <QString, QString> properties, bool refresh
     bool reload = false;
     // Some properties also need to be passed to track producers
     QStringList timelineProperties;
-    if (properties.contains(QLatin1String("templatetext"))) {
-        m_description = properties.value(QLatin1String("templatetext"));
+    if (properties.contains(QStringLiteral("templatetext"))) {
+        m_description = properties.value(QStringLiteral("templatetext"));
         bin()->emitItemUpdated(this);
         refreshPanel = true;
     }
@@ -957,7 +957,7 @@ const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
         audioPath.append("_" + QString::number(audioInfo->audio_index()));
     }
     int roundedFps = (int) m_controller->profile()->fps();
-    audioPath.append(QString("_%1_audio.png").arg(roundedFps));
+    audioPath.append(QStringLiteral("_%1_audio.png").arg(roundedFps));
     return audioPath;
 }
 
@@ -1012,32 +1012,32 @@ void ProjectClip::slotCreateAudioThumbs()
         // Output progress info
         args << QStringLiteral("-progress") << QStringLiteral("/dev/stdout");
 
-        bool isFFmpeg = KdenliveSettings::ffmpegpath().contains("ffmpeg");
+        bool isFFmpeg = KdenliveSettings::ffmpegpath().contains(QLatin1String("ffmpeg"));
 
         if (channels == 1) {
             if (isFFmpeg) {
                 args << QStringLiteral("-filter_complex:a") << QStringLiteral("aformat=channel_layouts=mono,aresample=async=100");
-                args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[0]->fileName();
+                args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(audioStream > 0 ? ":" + QString::number(audioStream) : QLatin1String("")) << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[0]->fileName();
             } else {
                 args << QStringLiteral("-filter_complex:a") << QStringLiteral("aformat=channel_layouts=mono:sample_rates=100");
-                args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< channelFiles[0]->fileName();
+                args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(audioStream > 0 ? ":" + QString::number(audioStream) : QLatin1String("")) << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< channelFiles[0]->fileName();
             }
         } else if (channels == 2) {
             if (isFFmpeg) {
-                args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aresample=async=100,channelsplit=channel_layout=stereo[0:0][0:1]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
+                args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aresample=async=100,channelsplit=channel_layout=stereo[0:0][0:1]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : QLatin1String(""));
                 // Channel 1
                 args << QStringLiteral("-map") << QStringLiteral("[0:1]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[0]->fileName();
                 // Channel 2
                 args << QStringLiteral("-map") << QStringLiteral("[0:0]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[1]->fileName();
             } else {
-                args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aformat=sample_rates=100,channelsplit=channel_layout=stereo[0:0][0:1]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
+                args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aformat=sample_rates=100,channelsplit=channel_layout=stereo[0:0][0:1]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : QLatin1String(""));
                 // Channel 1
                 args << QStringLiteral("-map") << QStringLiteral("[0:1]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< channelFiles[0]->fileName();
                 // Channel 2
                 args << QStringLiteral("-map") << QStringLiteral("[0:0]") << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("s16le")<< channelFiles[1]->fileName();
             }
         } else if (channels == 6) {
-            args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aresample=async=100,channelsplit=channel_layout=5.1[0:0][0:1][0:2][0:3][0:4][0:5]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : "");
+            args << QStringLiteral("-filter_complex:a") << QStringLiteral("[0:a%1]aresample=async=100,channelsplit=channel_layout=5.1[0:0][0:1][0:2][0:3][0:4][0:5]").arg(audioStream > 0 ? ":" + QString::number(audioStream) : QLatin1String(""));
                 for (int i = 0; i < channels; i++) {
                     // Channel 1
                     args << QStringLiteral("-map") << QStringLiteral("[0:%1]").arg(i) << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")<< channelFiles[i]->fileName();
