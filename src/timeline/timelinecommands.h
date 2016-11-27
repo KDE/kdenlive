@@ -153,7 +153,7 @@ private:
 class ConfigTracksCommand : public QUndoCommand
 {
 public:
-    ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState = -1, int newState = -1, QUndoCommand* parent = 0);
+    ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState = -1, int newState = -1, QUndoCommand* parent = Q_NULLPTR);
     void undo();
     void redo();
 private:
@@ -387,7 +387,7 @@ private:
 class RebuildGroupCommand : public QUndoCommand
 {
 public:
-    RebuildGroupCommand(CustomTrackView *view, int childTrack, const GenTime &childPos, QUndoCommand* parent = 0);
+    RebuildGroupCommand(CustomTrackView *view, int childTrack, const GenTime &childPos, QUndoCommand* parent = Q_NULLPTR);
     void undo();
     void redo();
 private:

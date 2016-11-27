@@ -1659,7 +1659,7 @@ void KdenliveDoc::checkPreviewStack()
     emit removeInvalidUndo(m_commandStack->count());
 }
 
-void KdenliveDoc::saveMltPlaylist(const QString fileName)
+void KdenliveDoc::saveMltPlaylist(const QString &fileName)
 {
     m_render->preparePreviewRendering(fileName);
 }

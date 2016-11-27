@@ -1559,7 +1559,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     return true;
 }
 
-void DocumentValidator::convertKeyframeEffect(QDomElement effect, QStringList params, QMap <int, double> &values, int offset)
+void DocumentValidator::convertKeyframeEffect(const QDomElement &effect, const QStringList &params, QMap <int, double> &values, int offset)
 {
     QLocale locale;
     int in = effect.attribute(QStringLiteral("in")).toInt() - offset;
@@ -1944,7 +1944,7 @@ bool DocumentValidator::checkMovit()
     return true;
 }
 
-QString DocumentValidator::factorizeGeomValue(QString value, double factor)
+QString DocumentValidator::factorizeGeomValue(const QString &value, double factor)
 {
     QStringList vals = value.split(QStringLiteral(";"));
     QString result;
