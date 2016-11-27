@@ -54,7 +54,7 @@ public:
      *  @param consumerParams the parameters passed to the Mlt::Consumer. The "consumer" value should hold the consumer's initialization string.
         @param extraParams these parameters can be used to further affect the Job handling.
      */
-    MeltJob(ClipType cType, const QString id,  const QMap <QString, QString> producerParams, const QMap <QString, QString> filterParams, const QMap <QString, QString> consumerParams, const stringMap extraParams = stringMap());
+    MeltJob(ClipType cType, const QString &id,  const QMap <QString, QString> &producerParams, const QMap <QString, QString> &filterParams, const QMap <QString, QString> &consumerParams, const stringMap &extraParams = stringMap());
     virtual ~ MeltJob();
     /** @brief Returns the file path that will be written by this Mlt job. Empty when no file is written. */
     const QString destination() const;

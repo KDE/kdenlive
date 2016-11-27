@@ -587,7 +587,7 @@ void TemporaryData::deleteSelected()
         return;
     }
     const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    foreach(const QString folder, folders) {
+    foreach(const QString &folder, folders) {
         if (folder == currentId) {
             // Trying to delete current project's tmp folder. Do not delete, but clear it
             deleteCurrentCacheData();

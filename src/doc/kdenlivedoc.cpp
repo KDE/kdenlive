@@ -948,7 +948,7 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
     return foundFileName;
 }
 
-void KdenliveDoc::deleteClip(const QString &clipId, ClipType type, const QString url)
+void KdenliveDoc::deleteClip(const QString &clipId, ClipType type, const QString &url)
 {
     pCore->binController()->removeBinClip(clipId);
     // Remove from file watch
@@ -1570,7 +1570,7 @@ void KdenliveDoc::getFileProperties(const QDomElement &xml, const QString &clipI
     pCore->producerQueue()->getFileProperties(xml, clipId, imageHeight, replaceProducer);
 }
 
-void KdenliveDoc::doAddAction(const QString &name, QAction *a, QKeySequence shortcut)
+void KdenliveDoc::doAddAction(const QString &name, QAction *a, const QKeySequence &shortcut)
 {
     pCore->window()->actionCollection()->addAction(name, a);
     a->setShortcut(shortcut);
@@ -1587,7 +1587,7 @@ void KdenliveDoc::previewProgress(int p)
     pCore->window()->setPreviewProgress(p);
 }
 
-void KdenliveDoc::displayMessage(const QString text, MessageType type, int timeOut)
+void KdenliveDoc::displayMessage(const QString &text, MessageType type, int timeOut)
 {
     pCore->window()->displayMessage(text, type, timeOut);
 }
@@ -1620,7 +1620,7 @@ void KdenliveDoc::selectPreviewProfile()
                 continue;
         }
         bool rateFound = false;
-        foreach(const QString arg, data) {
+        foreach(const QString &arg, data) {
             if (arg.startsWith(QStringLiteral("r="))) {
                 rateFound = true;
                 double fps = arg.section(QStringLiteral("="), 1).toDouble();

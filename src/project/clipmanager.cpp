@@ -251,7 +251,7 @@ void ClipManager::slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst)
 }
 
 
-void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId)
+void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &path, const QString &group, const QString &groupId)
 {
     QDomDocument doc;
     QDomElement prod = doc.createElement(QStringLiteral("producer"));

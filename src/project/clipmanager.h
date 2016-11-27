@@ -70,7 +70,7 @@ Q_OBJECT public:
     explicit ClipManager(KdenliveDoc *doc);
     virtual ~ ClipManager();
 
-    void slotAddTextTemplateClip(QString titleName, const QUrl &path, const QString &group, const QString &groupId);
+    void slotAddTextTemplateClip(const QString &titleName, const QUrl &path, const QString &group, const QString &groupId);
     void doDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
     int lastClipId() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */

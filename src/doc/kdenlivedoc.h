@@ -90,7 +90,7 @@ public:
     ClipManager *clipManager();
     QString groupsXml() const;
 
-    void deleteClip(const QString &clipId, ClipType type, const QString url);
+    void deleteClip(const QString &clipId, ClipType type, const QString &url);
     int getFramePos(const QString &duration);
     /** @brief Get a bin's clip from its id. */
     ProjectClip *getBinClip(const QString &clipId);
@@ -161,12 +161,12 @@ public:
     /** @brief Get an action from main actioncollection. */
     QAction *getAction(const QString &name);
     /** @brief Add an action to main actioncollection. */
-    void doAddAction(const QString &name, QAction *a, QKeySequence shortcut);
+    void doAddAction(const QString &name, QAction *a, const QKeySequence &shortcut);
     void invalidatePreviews(QList <int> chunks);
     void previewProgress(int p);
     /** @brief Select most appropriate rendering profile for timeline preview based on fps / size. */
     void selectPreviewProfile();
-    void displayMessage(const QString text, MessageType type = DefaultMessage, int timeOut = 0);
+    void displayMessage(const QString &text, MessageType type = DefaultMessage, int timeOut = 0);
     /** @brief Get a cache directory for this project. */
     QDir getCacheDir(CacheType type, bool *ok) const;
     /** @brief Create standard cache dirs for the project */ 

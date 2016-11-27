@@ -317,7 +317,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fp
 }
 
 // static 
-QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double fps, QList <ProjectClip*> clips, QStringList parameters)
+QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double fps, const QList <ProjectClip*> &clips, const QStringList &parameters)
 {
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     QString params = parameters.at(0);
@@ -390,7 +390,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
 }
 
 // static 
-QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps, QList <ProjectClip*> clips, QStringList parameters)
+QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps, const QList <ProjectClip*> &clips, const QStringList &parameters)
 {
     // Might be useful some day
     Q_UNUSED(parameters);

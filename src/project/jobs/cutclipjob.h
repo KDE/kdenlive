@@ -51,9 +51,9 @@ public:
     stringMap cancelProperties();
     const QString statusMessage();
     bool isExclusive();
-    static QHash <ProjectClip *, AbstractClipJob *> prepareTranscodeJob(double fps, QList <ProjectClip *> ids,  QStringList parameters);
+    static QHash <ProjectClip *, AbstractClipJob *> prepareTranscodeJob(double fps, const QList<ProjectClip *> &ids,  const QStringList &parameters);
     static QHash <ProjectClip *, AbstractClipJob *> prepareCutClipJob(double fps, double originalFps, ProjectClip *clip);
-    static QHash <ProjectClip *, AbstractClipJob *> prepareAnalyseJob(double fps, QList <ProjectClip*> clips, QStringList parameters);
+    static QHash <ProjectClip *, AbstractClipJob *> prepareAnalyseJob(double fps, const QList <ProjectClip*> &clips, const QStringList &parameters);
     static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, const QStringList &params);
 
 private:
