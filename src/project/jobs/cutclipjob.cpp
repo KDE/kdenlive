@@ -325,7 +325,6 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
     if (parameters.count() > 1)
         desc = parameters.at(1);
 
-    //const QString &condition, QString params, QString desc
     QStringList existingFiles;
     QStringList sources;
     QStringList destinations;

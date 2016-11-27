@@ -413,7 +413,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
     return result.join(QStringLiteral(";"));
 }
 
-EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, QDomElement effect)
+EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, const QDomElement &effect)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -472,7 +472,7 @@ EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, QDomE
     return parameters;
 }
 
-void EffectsController::offsetKeyframes(int in, QDomElement effect)
+void EffectsController::offsetKeyframes(int in, const QDomElement &effect)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {

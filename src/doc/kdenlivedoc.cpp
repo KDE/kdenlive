@@ -340,6 +340,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
     // Tracks are added «backwards», so we need to reverse the track numbering
     // mbt 331: http://www.kdenlive.org/mantis/view.php?id=331
     // Better default names for tracks: Audio 1 etc. instead of blank numbers
+    tracks.reserve(audiotracks + videotracks);
     for (int i = 0; i < audiotracks; ++i) {
         TrackInfo audioTrack;
         audioTrack.type = AudioTrack;

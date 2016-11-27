@@ -619,6 +619,7 @@ GenTime Monitor::getSnapForPos(bool previous)
 {
     QList <GenTime> snaps;
     QList < GenTime > markers = m_controller->snapMarkers();
+    snaps.reserve(markers.size());
     for (int i = 0; i < markers.size(); ++i) {
         GenTime t = markers.at(i);
         snaps.append(t);

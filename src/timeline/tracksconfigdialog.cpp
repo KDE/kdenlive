@@ -112,6 +112,7 @@ const QList <TrackInfo> TracksConfigDialog::tracksList()
 {
     QList <TrackInfo> tracks;
     TrackInfo info;
+    tracks.reserve(table->rowCount());
     for (int i = 0; i < table->rowCount(); i++) {
         info.trackName = table->item(i, 0)->text();
         QTableWidgetItem *item = table->item(i, 1);
