@@ -46,7 +46,7 @@ public:
      * @param operationMode Will be set to MoveGuide if applicable
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
      **/
-    static void checkOperation(QList<QGraphicsItem *> items, CustomTrackView *parent, QMouseEvent * /*event*/, OperationType &operationMode, bool &abort);
+    static void checkOperation(const QList<QGraphicsItem *> &items, CustomTrackView *parent, QMouseEvent * /*event*/, OperationType &operationMode, bool &abort);
 
 private:
     QList<QGraphicsItem *> m_collisionList;

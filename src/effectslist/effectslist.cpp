@@ -378,7 +378,7 @@ QDomElement EffectsList::itemFromIndex(int ix) const
     return effects.at(ix - 1).toElement();
 }
 
-QDomElement EffectsList::insert(QDomElement effect)
+QDomElement EffectsList::insert(const QDomElement &effect)
 {
     QDomNodeList effects = m_baseElement.childNodes();
     int ix = effect.attribute(QStringLiteral("kdenlive_ix")).toInt();

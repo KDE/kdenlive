@@ -79,7 +79,7 @@ void GuideManager::mouseRelease(QMouseEvent *, GenTime pos)
 }
 
 //static
-void GuideManager::checkOperation(QList<QGraphicsItem *> items, CustomTrackView *parent, QMouseEvent * /*event*/, OperationType &operationMode, bool &abort)
+void GuideManager::checkOperation(const QList<QGraphicsItem *> &items, CustomTrackView *parent, QMouseEvent * /*event*/, OperationType &operationMode, bool &abort)
 {
     if (items.count() == 1 && items.at(0)->type() == GUIDEITEM) {
         operationMode = MoveGuide;

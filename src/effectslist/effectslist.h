@@ -77,7 +77,7 @@ public:
     const QDomElement at(int ix) const;
     void removeAt(int ix);
     QDomElement itemFromIndex(int ix) const;
-    QDomElement insert(QDomElement effect);
+    QDomElement insert(const QDomElement &effect);
     void updateEffect(const QDomElement &effect);
     static bool hasKeyFrames(const QDomElement &effect);
     static void setParameter(QDomElement effect, const QString &name, const QString &value);

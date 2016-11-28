@@ -58,12 +58,12 @@ public:
         double speed;
         int strobe;
         PlaylistState::ClipState state;
-        QString toString(QLocale locale) {
+        QString toString(const QLocale &locale) {
             QStringList str;
             str << locale.toString(speed) << QString::number(strobe) << QString::number((int) state);
             return str.join(QStringLiteral(":"));
         }
-        void readFromString(const QString &str, QLocale locale) {
+        void readFromString(const QString &str, const QLocale &locale) {
             speed = locale.toDouble(str.section(QStringLiteral(":"), 0, 0));
             strobe = str.section(QStringLiteral(":"), 1, 1).toInt();
             if (str.count(QLatin1Char(':')) == 1) {

@@ -7566,7 +7566,7 @@ void CustomTrackView::checkTrackSequence(int track)
     if (times != timelineList) KMessageBox::sorry(this, i18n("error"), i18n("TRACTOR"));
 }
 
-int CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString clipId, QPoint binZone)
+int CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString &clipId, QPoint binZone)
 {
     bool extractAudio = true;
     bool extractVideo = true;
