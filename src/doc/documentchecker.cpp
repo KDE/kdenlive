@@ -442,7 +442,6 @@ bool DocumentChecker::hasErrorInClips()
         item->setToolTip(0, i18n("Missing source clip"));
         for (int i = 0; i < max; ++i) {
             e = missingSources.at(i).toElement();
-            QString clipType;
             QString realPath = EffectsList::property(e, QStringLiteral("kdenlive:originalurl"));
             QString id = e.attribute(QStringLiteral("id"));
             // Tell Kdenlive the source is missing

@@ -2742,7 +2742,6 @@ void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
             // Problem, the zone has no in/out points
             continue;
         }
-        QImage img;
         int in = i.value().section(QLatin1Char(';'), 0, 0).toInt();
         int out = i.value().section(QLatin1Char(';'), 1, 1).toInt();
         if (maxFrame > 0)

@@ -49,7 +49,6 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     if (m_urls.count() == 1) {
         QString newFile = m_urls.first();
         newFile.append(".mlt");
-        QUrl dest(newFile);
         dest_url->setMode(KFile::File);
         dest_url->setUrl(QUrl(newFile));
     } else {

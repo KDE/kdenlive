@@ -242,7 +242,6 @@ void RecManager::slotRecord(bool record)
         ++i;
     }
     m_captureFile = QUrl::fromLocalFile(path);
-    QString args;
     QString captureSize;
     int screen = -1;
     if (m_screenCombo) {

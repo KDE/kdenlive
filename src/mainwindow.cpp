@@ -3230,7 +3230,6 @@ void MainWindow::slotTranscode(const QStringList &urls)
 {
     QString params;
     QString desc;
-    QString condition;
     if (urls.isEmpty()) {
         QAction *action = qobject_cast<QAction *>(sender());
         QStringList data = action->data().toStringList();
@@ -3327,7 +3326,6 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         QMap <double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
         QMapIterator<double, QString> g(guidesData);
-        QLocale locale;
         while (g.hasNext()) {
             g.next();
             int time = (int) GenTime(g.key()).frames(project->fps());

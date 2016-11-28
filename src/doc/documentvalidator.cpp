@@ -555,7 +555,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         QDomNodeList objects = titleclip.childNodes();
                         int maxchild = objects.count();
                         for (int k = 0; k < maxchild; ++k) {
-                            QString objectxml;
                             QDomElement ob = objects.at(k).toElement();
                             if (ob.attribute(QStringLiteral("type")) == QLatin1String("3")) {
                                 // text object - all of this goes into "xmldata"...

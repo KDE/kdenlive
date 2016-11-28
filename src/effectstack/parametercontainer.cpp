@@ -1265,7 +1265,6 @@ void ParameterContainer::slotStartFilterJobAction()
                 EffectsParameterList parameters;
                 QDomNodeList params = m_effect.elementsByTagName(QStringLiteral("parameter"));
                 EffectsController::adjustEffectParameters(parameters, params, m_metaInfo->monitor->profileInfo());
-                QString paramData;
                 for (int j = 0; j < parameters.count(); ++j) {
                     filterParams.insert(parameters.at(j).name(), parameters.at(j).value());
                 }
