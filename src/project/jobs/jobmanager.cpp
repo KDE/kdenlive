@@ -246,7 +246,7 @@ void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString,QS
     launchJob(clip, job);
 }
 
-void JobManager::prepareJobs(QList <ProjectClip *>clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList params)
+void JobManager::prepareJobs(const QList<ProjectClip *> &clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
     //TODO filter clips
     QList <ProjectClip *> matching = filterClips(clips, jobType, params);

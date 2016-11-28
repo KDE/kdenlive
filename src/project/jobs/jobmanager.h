@@ -73,7 +73,7 @@ public:
      *  @param jobType the jobtype requested
      *  @param type the parameters for the job
      */
-    void prepareJobs(QList <ProjectClip *>clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList params = QStringList());
+    void prepareJobs(const QList <ProjectClip *> &clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList &params = QStringList());
 
     /** @brief Filter a list of selected clips to keep only those that match the job type
      *  @param clips the list of selected clips

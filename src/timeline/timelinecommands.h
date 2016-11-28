@@ -399,11 +399,11 @@ private:
 class RefreshMonitorCommand : public QUndoCommand
 {
 public:
-    RefreshMonitorCommand(CustomTrackView *view, QList <ItemInfo> info, bool execute, bool refreshOnUndo, QUndoCommand * parent = Q_NULLPTR);
-    RefreshMonitorCommand(CustomTrackView *view, ItemInfo info, bool execute, bool refreshOnUndo, QUndoCommand * parent = Q_NULLPTR);
+    RefreshMonitorCommand(CustomTrackView *view, const QList<ItemInfo> &info, bool execute, bool refreshOnUndo, QUndoCommand * parent = Q_NULLPTR);
+    RefreshMonitorCommand(CustomTrackView *view, const ItemInfo &info, bool execute, bool refreshOnUndo, QUndoCommand * parent = Q_NULLPTR);
     void undo();
     void redo();
-    void updateRange(QList <ItemInfo> info);
+    void updateRange(const QList <ItemInfo> &info);
 private:
     CustomTrackView *m_view;
     QList <ItemInfo> m_info;

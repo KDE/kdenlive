@@ -720,7 +720,7 @@ void RebuildGroupCommand::redo()
     m_view->rebuildGroup(m_childTrack, m_childPos);
 }
 
-RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, QList <ItemInfo> info, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
+RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const QList <ItemInfo> &info, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_info(info),
@@ -729,7 +729,7 @@ RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, QList <ItemI
 {
 }
 
-RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, ItemInfo info, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
+RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const ItemInfo &info, bool execute, bool refreshOnUndo, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_info(QList <ItemInfo>() << info),
@@ -752,7 +752,7 @@ void RefreshMonitorCommand::redo()
     m_exec = true;
 }
 
-void RefreshMonitorCommand::updateRange(QList <ItemInfo> info)
+void RefreshMonitorCommand::updateRange(const QList <ItemInfo> &info)
 {
     m_info.clear();
     m_info = info;

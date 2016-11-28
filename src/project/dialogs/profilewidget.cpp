@@ -356,7 +356,7 @@ void ProfileWidget::checkInterlace(const QList <MltVideoProfile> &currentStd, co
     m_interlaced->setEnabled(allowInterlaced && allowProgressive);
 }
 
-ProfileWidget::VIDEOSTD ProfileWidget::getStandard(MltVideoProfile profile)
+ProfileWidget::VIDEOSTD ProfileWidget::getStandard(const MltVideoProfile &profile)
 {
     switch(profile.height) {
         case 2160:

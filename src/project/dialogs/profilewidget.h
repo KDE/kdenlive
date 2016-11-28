@@ -78,7 +78,7 @@ private:
         StdSDWide,
         StdCustom
     };
-    VIDEOSTD getStandard(MltVideoProfile profile);
+    VIDEOSTD getStandard(const MltVideoProfile &profile);
     void updateCombos();
     QStringList getFrameSizes(const QList<MltVideoProfile> &currentStd, const QString &rate);
     void checkInterlace(const QList<MltVideoProfile> &currentStd, const QString &size, const QString &rate);

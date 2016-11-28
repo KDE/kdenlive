@@ -34,7 +34,7 @@
 #include <mlt++/Mlt.h>
 
 // static 
-QList <ProjectClip *> FilterJob::filterClips(QList <ProjectClip *>clips, const QStringList &params)
+QList <ProjectClip *> FilterJob::filterClips(const QList <ProjectClip *> &clips, const QStringList &params)
 {
     QString condition;
     if (params.count() > 3) {
@@ -58,10 +58,11 @@ QList <ProjectClip *> FilterJob::filterClips(QList <ProjectClip *>clips, const Q
     return result;
 }
 
-QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(QList <ProjectClip*> clips, QStringList parameters)
+QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList <ProjectClip*> &clips, const QStringList &parameters)
 {
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     QStringList sources;
+    sources.reserve(clips.count());
     for (int i = 0; i < clips.count(); i++) {
         sources << clips.at(i)->url().toLocalFile();
     }
