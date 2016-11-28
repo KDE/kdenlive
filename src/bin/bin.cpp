@@ -917,7 +917,7 @@ void Bin::slotDuplicateClip()
 		if (currentName.isEmpty()) {
 		    QUrl url = QUrl::fromLocalFile(EffectsList::property(xml, QStringLiteral("resource")));
 		    if (url.isValid()) {
-			QString currentName = url.fileName();
+			currentName = url.fileName();
 		    }
 		}
 		if (!currentName.isEmpty()) {
