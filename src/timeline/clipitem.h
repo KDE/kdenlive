@@ -166,8 +166,8 @@ public:
     QPixmap endThumb() const;
     void setState(PlaylistState::ClipState state);
     void updateState(const QString &id, int aIndex, int vIndex, PlaylistState::ClipState originalState);
-
-    bool updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo);
+    bool updateAnimatedKeyframes(int ix, QDomElement parameter, const ItemInfo &oldInfo);
+    bool updateNormalKeyframes(QDomElement parameter, const ItemInfo &oldInfo);
 
     /** @brief Adjusts effects after a clip duration change. */
     QMap<int, QDomElement> adjustEffectsToDuration(const ItemInfo &oldInfo);

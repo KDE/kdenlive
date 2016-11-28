@@ -67,6 +67,10 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
     connect(m_effect->checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
     connect(m_effect->effectCompare, &QToolButton::toggled, this, &EffectStackView2::slotSwitchCompare);
 
+    m_scrollTimer.setSingleShot(true);
+    m_scrollTimer.setInterval(200);
+    connect(&m_scrollTimer, &QTimer::timeout, this, &EffectStackView2::slotCheckWheelEventFilter);
+
     m_layout.addWidget(m_effect);
     m_layout.addWidget(m_transition);
     m_transition->setHidden(true);
@@ -278,12 +282,19 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Moni
 void EffectStackView2::setupListView()
 {
     blockSignals(true);
+    m_scrollTimer.stop();
     m_monitorSceneWanted = MonitorSceneDefault;
     m_draggedEffect = NULL;
     m_draggedGroup = NULL;
     disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
     QWidget *view = m_effect->container->takeWidget();
     if (view) {
+        /*QList<CollapsibleEffect *> allChildren = view->findChildren<CollapsibleEffect *>();
+        qDebug()<<" * * *FOUND CHLD: "<<allChildren.count();
+        foreach(CollapsibleEffect *eff, allChildren) {
+            eff->setEnabled(false);
+        }*/
+        //delete view;
         view->setEnabled(false);
         view->setHidden(true);
         view->deleteLater();
@@ -409,7 +420,7 @@ void EffectStackView2::setupListView()
     slotUpdateCheckAllButton();
 
     // Wait a little bit for the new layout to be ready, then check if we have a scrollbar
-    QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
+    m_scrollTimer.start();
 }
 
 int EffectStackView2::activeEffectIndex() const
@@ -759,7 +770,7 @@ void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDom
     else if (m_status == MASTER_CLIP) {
         emit updateMasterEffect(m_masterclipref->clipId(), old, e, ix);
     }
-    QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
+    m_scrollTimer.start();
 }
 
 void EffectStackView2::slotSetCurrentEffect(int ix)
@@ -992,7 +1003,7 @@ void EffectStackView2::slotCreateRegion(int ix, QUrl url)
     // Check drag & drop
     currentEffect->installEventFilter( this );
 
-    QTimer::singleShot(200, this, SLOT(slotCheckWheelEventFilter()));
+    m_scrollTimer.start();
 
 }
 

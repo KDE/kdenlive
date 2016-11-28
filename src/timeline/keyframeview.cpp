@@ -529,7 +529,7 @@ void KeyframeView::updateKeyFramePos(QRectF br, int frame, const double y)
     }
     int prev = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(0) == activeKeyframe ? 0 : m_keyAnim.previous_key(activeKeyframe - 1) + 1;
     prev = qMax(prev, -m_offset);
-    int next = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(m_keyAnim.key_count() - 1) == activeKeyframe ? duration - m_offset :  m_keyAnim.next_key(activeKeyframe + 1) - 1;
+    int next = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(m_keyAnim.key_count() - 1) == activeKeyframe ? duration - m_offset - 1 :  m_keyAnim.next_key(activeKeyframe + 1) - 1;
     if (next < 0) next += duration;
     int newpos = qBound(prev, frame - m_offset, next);
     double newval = keyframeUnmap(br, y);
@@ -959,6 +959,29 @@ QString KeyframeView::cutAnimation(const QString &animation, int start, int dura
         return anim.serialize_cut();
     }
     return anim.serialize_cut(start, start + duration);
+}
+
+//static
+QString KeyframeView::switchAnimation(QString animation, int newPos, int oldPos, int newDuration, int oldDuration, bool isRect)
+{
+    Mlt::Properties props;
+    props.set("keyframes", animation.toUtf8().constData());
+    props.anim_get_double("keyframes", 0, oldDuration);
+    Mlt::Animation anim = props.get_animation("keyframes");
+    if (anim.is_key(oldPos)) {
+	// insert new keyframe at start
+        if (isRect) {
+            mlt_rect rect = props.anim_get_rect("keyframes", oldPos);
+            props.anim_set("keyframes", rect, newPos, newDuration, anim.keyframe_type(oldPos));
+            anim.remove(oldPos);
+        } else {
+            double value = props.anim_get_double("keyframes", oldPos, oldDuration);
+            props.anim_set("keyframes", value, newPos, newDuration, anim.keyframe_type(oldPos));
+            anim.remove(oldPos);
+        }
+    }
+    return anim.serialize_cut();
+    //return anim.serialize_cut(start, start + duration);
 }
 
 

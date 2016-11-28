@@ -1735,7 +1735,7 @@ void ClipItem::setState(PlaylistState::ClipState state)
 QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo)
 {
     QMap<int, QDomElement> effects;
-    qDebug()<<"Adjusting effect to duraion";
+    //qDebug()<<"Adjusting effect to duration: "<<oldInfo.cropStart.frames(25)<<" - "<<cropStart().frames(25);
     for (int i = 0; i < m_effectList.count(); ++i) {
         QDomElement effect = m_effectList.at(i);
 
@@ -1790,7 +1790,6 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo
         QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
         for (int j = 0; j < params.count(); ++j) {
             QDomElement param = params.item(j).toElement();
-
             QString type = param.attribute(QStringLiteral("type"));
             if (type == QLatin1String("geometry") && !param.hasAttribute(QStringLiteral("fixed"))) {
                 if (!effects.contains(i)) {
@@ -1805,10 +1804,13 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo
                 if (!effects.contains(i))
                     effects[i] = effect.cloneNode().toElement();
                 updateNormalKeyframes(param, oldInfo);
-            } else if (type == QLatin1String("animated")) {
+            } else if (type.startsWith(QLatin1String("animated"))) {
                 if (effect.attribute(QStringLiteral("sync_in_out")) == QLatin1String("1")) {
                     effect.setAttribute(QStringLiteral("in"), cropStart().frames(m_fps));
                     effect.setAttribute(QStringLiteral("out"), (cropStart() + cropDuration()).frames(m_fps) - 1);
+                } else {
+                    // Check if we have keyframes at in/out points
+                    updateAnimatedKeyframes(i, param, oldInfo);
                 }
 		effects[i] = effect.cloneNode().toElement();
             } else if (type == QLatin1String("roto-spline")) {
@@ -1823,7 +1825,17 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo
     return effects;
 }
 
-bool ClipItem::updateNormalKeyframes(QDomElement parameter, ItemInfo oldInfo)
+
+bool ClipItem::updateAnimatedKeyframes(int ix, QDomElement parameter, const ItemInfo &oldInfo)
+{
+    int in = cropStart().frames(m_fps);
+    int out = (cropStart() + cropDuration()).frames(m_fps) - 1;
+    int oldin = oldInfo.cropStart.frames(m_fps);
+    int oldout = oldin + oldInfo.cropDuration.frames(m_fps) - 1;
+    return switchKeyframes(parameter, in, oldin, out, oldout);
+}
+
+bool ClipItem::updateNormalKeyframes(QDomElement parameter, const ItemInfo &oldInfo)
 {
     int in = cropStart().frames(m_fps);
     int out = (cropStart() + cropDuration()).frames(m_fps) - 1;

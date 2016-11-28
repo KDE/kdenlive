@@ -269,11 +269,11 @@ void AnimationWidget::slotPrevious()
 void AnimationWidget::slotNext()
 {
     int next = m_animController.next_key(m_timePos->getValue() - m_offset + 1) + m_offset;
-    if (!m_animController.is_key(next)) {
+    if (!m_animController.is_key(next - m_offset)) {
         // No keyframe after current pos, return end position
         next = m_timePos->maximum();
     } else {
-        m_ruler->setActiveKeyframe(next);
+        m_ruler->setActiveKeyframe(next - m_offset);
     }
     slotPositionChanged(next, true);
 }
@@ -350,7 +350,7 @@ void AnimationWidget::slotAddDeleteKeyframe(bool add, int pos)
         for (int i = 0; i < paramNames.count(); i++) {
             m_animController = m_animProperties.get_animation(paramNames.at(i).toUtf8().constData());
             if (!m_animController.is_key(pos - m_offset)) {
-                doAddKeyframe(pos - m_offset, paramNames.at(i), false);
+                doAddKeyframe(pos, paramNames.at(i), false);
             }
         }
         m_ruler->setActiveKeyframe(pos);
