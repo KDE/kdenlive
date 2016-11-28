@@ -88,10 +88,10 @@ public:
       */
     void drawKeyFrames(QRectF br, int length, bool active, QPainter *painter, const QTransform &transformation);
     /** @brief Draw the x, y, w, h channels of an animated geometry */
-    void drawKeyFrameChannels(QRectF br, int in, int out, QPainter *painter, QList <QPoint> maximas, int limitKeyframes, QColor textColor);
+    void drawKeyFrameChannels(QRectF br, int in, int out, QPainter *painter, const QList<QPoint> &maximas, int limitKeyframes, const QColor &textColor);
     int mouseOverKeyFrames(QRectF br, QPointF pos, double scale);
     void showMenu(QWidget *parent, QPoint pos);
-    QAction *parseKeyframeActions(QList <QAction *>actions);
+    QAction *parseKeyframeActions(const QList<QAction *> &actions);
     static QString cutAnimation(const QString &animation, int start, int duration, int fullduration, bool doCut = true);
     /** @brief when loading an animation from a serialized string, check where is the first negative keyframe) */
     static int checkNegatives(const QString &data, int maxDuration);

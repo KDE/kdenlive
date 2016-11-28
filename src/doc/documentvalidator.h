@@ -47,7 +47,7 @@ private:
     /** @brief Upgrade from a previous Kdenlive document version. */
     bool upgrade(double version, const double currentVersion);
     /** @brief Pass producer properties from previous Kdenlive versions. */
-    void updateProducerInfo(QDomElement prod, const QDomElement source);
+    void updateProducerInfo(const QDomElement &prod, const QDomElement &source);
     /** @brief Make sur we don't have orphaned producers (that are not in Bin). */
     void checkOrphanedProducers();
     QStringList getInfoFromEffectName(const QString &oldName);

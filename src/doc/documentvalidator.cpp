@@ -1570,7 +1570,7 @@ void DocumentValidator::convertKeyframeEffect(const QDomElement &effect, const Q
     }
 }
 
-void DocumentValidator::updateProducerInfo(QDomElement prod, const QDomElement source)
+void DocumentValidator::updateProducerInfo(const QDomElement &prod, const QDomElement &source)
 {
     QString pxy = source.attribute(QStringLiteral("proxy"));
     if (pxy.length() > 1) {

@@ -103,7 +103,7 @@ bool AbstractClipItem::isAttachedToEnd() const
     return m_keyframeView.activeKeyframe == m_keyframeView.attachToEnd;
 }
 
-QAction *AbstractClipItem::parseKeyframeActions(QList <QAction *> list)
+QAction *AbstractClipItem::parseKeyframeActions(const QList <QAction *> &list)
 {
     return m_keyframeView.parseKeyframeActions(list);
 }
@@ -382,7 +382,7 @@ int AbstractClipItem::posForTrack(int track)
     return pos;
 }
 
-void AbstractClipItem::attachKeyframeToEnd(QDomElement effect, bool attach)
+void AbstractClipItem::attachKeyframeToEnd(const QDomElement &effect, bool attach)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
@@ -396,7 +396,7 @@ void AbstractClipItem::attachKeyframeToEnd(QDomElement effect, bool attach)
     }
 }
 
-void AbstractClipItem::editKeyframeType(QDomElement effect, int type)
+void AbstractClipItem::editKeyframeType(const QDomElement &effect, int type)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {

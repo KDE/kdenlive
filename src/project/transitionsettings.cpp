@@ -76,7 +76,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     connect(m_effectEdit, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
 }
 
-void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, QMap<QString,QString> data)
+void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, const QMap<QString,QString> &data)
 {
     emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), m_usedTransition->toXML(), data);
 }

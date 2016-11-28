@@ -302,7 +302,7 @@ void ProfileWidget::ratesUpdated()
 
 
 
-QStringList ProfileWidget::getFrameSizes(QList <MltVideoProfile> currentStd, const QString &rate)
+QStringList ProfileWidget::getFrameSizes(const QList <MltVideoProfile> &currentStd, const QString &rate)
 {
     QStringList sizes;
     for (int i = 0; i < currentStd.count(); i++) {
@@ -330,7 +330,7 @@ void ProfileWidget::slotCheckInterlace()
     updateDisplay();
 }
 
-void ProfileWidget::checkInterlace(QList <MltVideoProfile> currentStd, const QString &size, const QString &rate)
+void ProfileWidget::checkInterlace(const QList <MltVideoProfile> &currentStd, const QString &size, const QString &rate)
 {
     bool allowInterlaced = false;
     bool allowProgressive = false;

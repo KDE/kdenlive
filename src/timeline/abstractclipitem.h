@@ -79,9 +79,9 @@ public:
     int keyframesCount();
     double editedKeyFrameValue();
     double getKeyFrameClipHeight(const double y);
-    QAction *parseKeyframeActions(QList <QAction *> list);
-    void editKeyframeType(QDomElement effect, int type);
-    void attachKeyframeToEnd(QDomElement effect, bool attach);
+    QAction *parseKeyframeActions(const QList<QAction *> &list);
+    void editKeyframeType(const QDomElement &effect, int type);
+    void attachKeyframeToEnd(const QDomElement &effect, bool attach);
     bool isAttachedToEnd() const;
 
     /** @brief Resizes the clip from the end.

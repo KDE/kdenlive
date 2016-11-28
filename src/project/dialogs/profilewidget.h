@@ -80,8 +80,8 @@ private:
     };
     VIDEOSTD getStandard(MltVideoProfile profile);
     void updateCombos();
-    QStringList getFrameSizes(QList <MltVideoProfile> currentStd, const QString &rate);
-    void checkInterlace(QList <MltVideoProfile> currentStd, const QString &size, const QString &rate);
+    QStringList getFrameSizes(const QList<MltVideoProfile> &currentStd, const QString &rate);
+    void checkInterlace(const QList<MltVideoProfile> &currentStd, const QString &size, const QString &rate);
     QList <MltVideoProfile> getList(VIDEOSTD std);
 
 private slots:

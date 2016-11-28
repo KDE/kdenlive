@@ -76,9 +76,9 @@ private:
     QStringList m_safeFonts;
     QStringList m_missingProxyIds;
 
-    void fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans);
-    void fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers);
-    void fixProxyClip(const QString &id, const QString oldUrl, const QString newUrl, QDomNodeList producers);
+    void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &trans);
+    void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers);
+    void fixProxyClip(const QString &id, const QString oldUrl, const QString newUrl, const QDomNodeList &producers);
 };
 
 

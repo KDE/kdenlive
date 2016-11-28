@@ -222,7 +222,7 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
     painter->restore();
 }
 
-void KeyframeView::drawKeyFrameChannels(QRectF br, int in, int out, QPainter *painter, QList <QPoint> maximas, int limitKeyframes, QColor textColor)
+void KeyframeView::drawKeyFrameChannels(QRectF br, int in, int out, QPainter *painter, const QList <QPoint> &maximas, int limitKeyframes, const QColor &textColor)
 {
     double frameFactor = (double) (out - in) / br.width();
     int offset = 1;
@@ -679,7 +679,7 @@ void KeyframeView::removeKeyframe(int frame)
     m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
 }
 
-QAction *KeyframeView::parseKeyframeActions(QList <QAction *>actions)
+QAction *KeyframeView::parseKeyframeActions(const QList <QAction *> &actions)
 {
 
     mlt_keyframe_type type = m_keyAnim.keyframe_type(activeKeyframe);

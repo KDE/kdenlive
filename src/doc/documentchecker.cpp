@@ -732,7 +732,7 @@ void DocumentChecker::acceptDialog()
     //QDialog::accept();
 }
 
-void DocumentChecker::fixProxyClip(const QString &id, const QString oldUrl, const QString newUrl, QDomNodeList producers)
+void DocumentChecker::fixProxyClip(const QString &id, const QString oldUrl, const QString newUrl, const QDomNodeList &producers)
 {
     QDomElement e, property;
     QDomNodeList properties;
@@ -761,7 +761,7 @@ void DocumentChecker::fixProxyClip(const QString &id, const QString oldUrl, cons
     }
 }
 
-void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList producers)
+void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers)
 {
     QDomElement e, property;
     QDomNodeList properties;
@@ -795,7 +795,7 @@ void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, QDomNodeList pro
     }
 }
 
-void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers, QDomNodeList trans)
+void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &trans)
 {
     QDomElement e, property;
     QDomNodeList properties;
