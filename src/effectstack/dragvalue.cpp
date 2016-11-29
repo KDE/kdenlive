@@ -363,7 +363,6 @@ void DragValue::setInTimelineProperty(bool intimeline)
         style()->polish(m_doubleEdit);
         m_doubleEdit->update();
     }
-    
 }
 
 CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidget* parent) :

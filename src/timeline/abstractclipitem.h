@@ -123,6 +123,7 @@ protected:
     int posForTrack(int track);
     bool resizeGeometries(QDomElement effect, int width, int height, int previousDuration, int start, int duration, int cropstart);
     QString resizeAnimations(QDomElement effect, int previousDuration, int start, int duration, int cropstart);
+    bool switchKeyframes(QDomElement param, int in, int oldin, int out, int oldout);
 
 signals:
     void selectItem(AbstractClipItem*);

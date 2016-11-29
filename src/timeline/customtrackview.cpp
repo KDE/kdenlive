@@ -7794,10 +7794,6 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
             ++i;
         }
     }
-    if (item == m_dragItem) {
-        // clip is selected, update effect stack
-        emit clipItemSelected(item);
-    }
 }
 
 

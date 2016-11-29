@@ -93,6 +93,8 @@ public:
     void showMenu(QWidget *parent, QPoint pos);
     QAction *parseKeyframeActions(const QList<QAction *> &actions);
     static QString cutAnimation(const QString &animation, int start, int duration, int fullduration, bool doCut = true);
+    /** @brief when an animation is resized, update in / out point keyframes */
+    static QString switchAnimation(QString animation, int newPos, int oldPos, int newDuration, int oldDuration, bool isRect);
     /** @brief when loading an animation from a serialized string, check where is the first negative keyframe) */
     static int checkNegatives(const QString &data, int maxDuration);
     /** @brief returns true if currently edited parameter name is name */

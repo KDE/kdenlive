@@ -624,3 +624,18 @@ QString AbstractClipItem::resizeAnimations(QDomElement effect, int previousDurat
     }
     return keyframes;
 }
+
+bool AbstractClipItem::switchKeyframes(QDomElement param, int in, int oldin, int out, int oldout)
+{
+    QString animation = param.attribute(QStringLiteral("value"));
+    if (in != oldin)
+        animation = KeyframeView::switchAnimation(animation, in, oldin, out, oldout, param.attribute(QStringLiteral("type")) == QLatin1String("animatedrect"));
+    if (out != oldout)
+        animation = KeyframeView::switchAnimation(animation, out - 1, oldout - 1, out, oldout, param.attribute(QStringLiteral("type")) == QLatin1String("animatedrect"));
+    if (animation != param.attribute(QStringLiteral("value"))) {
+        param.setAttribute(QStringLiteral("value"), animation);
+        return true;
+    }
+    return false;
+}
+
