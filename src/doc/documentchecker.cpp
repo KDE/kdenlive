@@ -840,14 +840,15 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
                     // Fix clip
                     QString resource = getProperty(e, QLatin1String("resource"));
                     QString service = getProperty(e, QLatin1String("mlt_service"));
+                    QString updatedResource = fixedResource;
                     if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$"))) {
-                        fixedResource.append('?' + resource.section('?', -1));
+                        updatedResource.append('?' + resource.section('?', -1));
                     }
                     if (service == QLatin1String("timewarp")) {
-                        setProperty(e, QLatin1String("warp_resource"), fixedResource);
-                        fixedResource.prepend(getProperty(e, QLatin1String("warp_speed")) + ":");
+                        setProperty(e, QLatin1String("warp_resource"), updatedResource);
+                        updatedResource.prepend(getProperty(e, QLatin1String("warp_speed")) + ":");
                     }
-                    setProperty(e, QLatin1String("resource"), fixedResource);
+                    setProperty(e, QLatin1String("resource"), updatedResource);
                 }
             }
         }
