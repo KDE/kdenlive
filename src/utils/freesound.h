@@ -40,15 +40,15 @@ class FreeSound : public AbstractService
 public:
     explicit FreeSound(QListWidget *listWidget, QObject * parent = Q_NULLPTR);
     ~FreeSound();
-    QString getExtension(QListWidgetItem *item);
-    QString getDefaultDownloadName(QListWidgetItem *item);
+    QString getExtension(QListWidgetItem *item) Q_DECL_OVERRIDE;
+    QString getDefaultDownloadName(QListWidgetItem *item) Q_DECL_OVERRIDE;
 
 
 public slots:
-    void slotStartSearch(const QString& searchText, int page = 0);
-    OnlineItemInfo displayItemDetails(QListWidgetItem *item);
-    bool startItemPreview(QListWidgetItem *item);
-    void stopItemPreview(QListWidgetItem *item);
+    void slotStartSearch(const QString& searchText, int page = 0) Q_DECL_OVERRIDE;
+    OnlineItemInfo displayItemDetails(QListWidgetItem *item) Q_DECL_OVERRIDE;
+    bool startItemPreview(QListWidgetItem *item) Q_DECL_OVERRIDE;
+    void stopItemPreview(QListWidgetItem *item) Q_DECL_OVERRIDE;
 
 
 private slots:

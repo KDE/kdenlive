@@ -73,7 +73,7 @@ public:
     explicit MyListView(QWidget *parent = Q_NULLPTR);
 
 protected:
-    void focusInEvent(QFocusEvent *event);
+    void focusInEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
 signals:
     void focusView();
 };
@@ -86,14 +86,14 @@ public:
     explicit MyTreeView(QWidget *parent = Q_NULLPTR);
     void setEditing(bool edit);
 protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent * event);
-    void focusInEvent(QFocusEvent *event);
-    void keyPressEvent(QKeyEvent* event);
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void focusInEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
 
 protected slots:
-    void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint);
-    void editorDestroyed(QObject *editor);
+    void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) Q_DECL_OVERRIDE;
+    void editorDestroyed(QObject *editor) Q_DECL_OVERRIDE;
 
 private:
     QPoint m_startPos;
@@ -113,7 +113,7 @@ public:
     BinMessageWidget(const QString &text, QWidget *parent = Q_NULLPTR);
 
 protected:
-    bool event(QEvent* ev);
+    bool event(QEvent* ev) Q_DECL_OVERRIDE;
 
 signals:
     void messageClosing();
@@ -158,7 +158,7 @@ public:
     {
     }
 
-    void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const
+    void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const Q_DECL_OVERRIDE
     {
         if (index.column() != 0) {
             return QStyledItemDelegate::updateEditorGeometry(editor, option, index);
@@ -186,7 +186,7 @@ public:
         editor->setGeometry( r2 );
     }
 
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
         QString text = index.data(AbstractProjectItem::DataName).toString();
@@ -217,7 +217,7 @@ public:
         return QSize(qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4);
     }
 
-    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const Q_DECL_OVERRIDE {
         if (index.column() == 0 && !index.data().isNull()) {
             QRect r1 = option.rect;
             painter->save();
@@ -341,7 +341,7 @@ public:
     explicit LineEventEater(QObject *parent = Q_NULLPTR);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void clearSearchLine();
@@ -657,8 +657,8 @@ public slots:
     void droppedUrls(QList <QUrl> urls, const QStringList &folderInfo = QStringList());
 
 protected:
-    void contextMenuEvent(QContextMenuEvent *event);
-    bool eventFilter(QObject *obj, QEvent *event);
+    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 private:
     ProjectItemModel *m_itemModel;

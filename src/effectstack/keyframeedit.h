@@ -39,7 +39,7 @@ public:
         : QItemDelegate(parent), m_min(min), m_max(max) {
     }
 
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE {
         if (index.column() == 1) {
             QSpinBox *spin = new QSpinBox(parent);
             connect(spin, SIGNAL(valueChanged(int)), this, SLOT(commitEditorData()));
@@ -51,7 +51,7 @@ public:
     }
 
 
-    void setEditorData(QWidget *editor, const QModelIndex &index) const {
+    void setEditorData(QWidget *editor, const QModelIndex &index) const Q_DECL_OVERRIDE {
         if (index.column() == 1) {
             QSpinBox *spin = qobject_cast< QSpinBox* >(editor);
             spin->setRange(m_min, m_max);

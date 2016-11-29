@@ -43,7 +43,7 @@ public:
     explicit CornersWidget(Monitor *monitor, const QDomElement &e, int minFrame, int maxFrame, int pos, const Timecode &tc, int activeKeyframe, QWidget* parent = Q_NULLPTR);
     virtual ~CornersWidget();
 
-    virtual void addParameter(const QDomElement &e, int activeKeyframe = -1);
+    void addParameter(const QDomElement &e, int activeKeyframe = -1) Q_DECL_OVERRIDE;
 
 public slots:
     /** @brief Updates the on-monitor item.  */

@@ -89,8 +89,8 @@ public:
     static void refreshTitleTemplates(const QString &projectPath);
 
 protected:
-    void resizeEvent(QResizeEvent * event);
-    void keyPressEvent(QKeyEvent *e);
+    void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
 private:
 

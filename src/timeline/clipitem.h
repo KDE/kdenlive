@@ -49,14 +49,14 @@ class ClipItem : public AbstractClipItem
 public:
     ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
     virtual ~ ClipItem();
-    virtual void paint(QPainter *painter,
+    void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
-                       QWidget *);
-    virtual int type() const;
-    void resizeStart(int posx, bool size = true, bool emitChange = true);
-    void resizeEnd(int posx, bool emitChange = true);
-    OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers);
-    void updateKeyframes(QDomElement effect);
+                       QWidget *) Q_DECL_OVERRIDE;
+    int type() const Q_DECL_OVERRIDE;
+    void resizeStart(int posx, bool size = true, bool emitChange = true) Q_DECL_OVERRIDE;
+    void resizeEnd(int posx, bool emitChange = true) Q_DECL_OVERRIDE;
+    OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers) Q_DECL_OVERRIDE;
+    void updateKeyframes(QDomElement effect) Q_DECL_OVERRIDE;
     static int itemHeight();
     ClipType clipType() const;
     const QString &getBinId() const;
@@ -152,7 +152,7 @@ public:
     void setSpeed(const double speed, int strobe);
     double speed() const;
     int strobe() const;
-    GenTime maxDuration() const;
+    GenTime maxDuration() const Q_DECL_OVERRIDE;
     GenTime speedIndependantCropStart() const;
     GenTime speedIndependantCropDuration() const;
     const ItemInfo speedIndependantInfo() const;
@@ -198,13 +198,13 @@ public:
     bool hasVisibleVideo() const;
 
 protected:
-    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
-    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
-    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
-    void dropEvent(QGraphicsSceneDragDropEvent *event);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
     //virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
     //virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
 private:
     ProjectClip *m_binClip;

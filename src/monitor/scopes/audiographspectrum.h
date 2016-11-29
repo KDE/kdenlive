@@ -61,8 +61,8 @@ public slots:
     void showAudio(const QVector<double>&bands);
 
 protected:
-    void paintEvent(QPaintEvent *pe);
-    void resizeEvent(QResizeEvent * event);
+    void paintEvent(QPaintEvent *pe) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
 
 private:
     QVector<double> m_levels;

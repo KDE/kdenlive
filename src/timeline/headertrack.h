@@ -53,11 +53,11 @@ public:
     void setAudioMute(bool mute);
 
 protected:
-    void mousePressEvent(QMouseEvent * event);
-    void mouseDoubleClickEvent(QMouseEvent * event);
-    void dropEvent(QDropEvent * event);
-    void dragEnterEvent(QDragEnterEvent *event);
-    bool eventFilter(QObject *obj, QEvent *event);
+    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent * event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 private:
     TrackType m_type;

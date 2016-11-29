@@ -71,7 +71,7 @@ public:
      */
     void setPixmap(const QPixmap & pix);
 
-    virtual QSize sizeHint() const;
+    QSize sizeHint() const Q_DECL_OVERRIDE;
 
 signals:
 
@@ -86,13 +86,13 @@ protected slots:
 
 protected:
 
-    void keyPressEvent(QKeyEvent *);
-    void paintEvent(QPaintEvent *);
-    void mousePressEvent(QMouseEvent * e);
-    void mouseReleaseEvent(QMouseEvent * e);
-    void mouseMoveEvent(QMouseEvent * e);
-    void leaveEvent(QEvent *);
-    void resizeEvent(QResizeEvent *e);
+    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent * e) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent * e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent * e) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
 public:
 

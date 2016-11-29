@@ -42,10 +42,10 @@ public:
 
     Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params = QDomElement(), bool automaticTransition = false);
     virtual ~Transition();
-    virtual void paint(QPainter *painter,
+    void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
-                       QWidget *widget);
-    virtual int type() const;
+                       QWidget *widget) Q_DECL_OVERRIDE;
+    int type() const Q_DECL_OVERRIDE;
 
     /** @brief Returns an XML representation of this transition. */
     QDomElement toXML();
@@ -54,8 +54,8 @@ public:
     int transitionEndTrack() const;
     QString transitionTag() const;
     QStringList transitionInfo() const;
-    OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers);
-    void updateKeyframes(QDomElement effect);
+    OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers) Q_DECL_OVERRIDE;
+    void updateKeyframes(QDomElement effect) Q_DECL_OVERRIDE;
     static int itemHeight();
     static int itemOffset();
     //const QMap < QString, QString > transitionParameters() const;
@@ -79,11 +79,11 @@ public:
     bool checkKeyFrames(int width, int height, int previousDuration, int cutPos = -1);
 
 protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
-    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
-    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
-    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
-    void dropEvent(QGraphicsSceneDragDropEvent *event);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
 
 private:
     QString m_name;

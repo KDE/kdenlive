@@ -37,7 +37,7 @@ public:
     explicit MyFrame(QWidget* parent = Q_NULLPTR);
 
 protected:
-    void hideEvent ( QHideEvent * event );
+    void hideEvent ( QHideEvent * event ) Q_DECL_OVERRIDE;
 
 signals:
     void getColor();
@@ -62,10 +62,10 @@ public:
     virtual ~ColorPickerWidget();
 
 protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    bool eventFilter(QObject *object, QEvent *event);
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *object, QEvent *event) Q_DECL_OVERRIDE;
 
 private:
     /** @brief Closes the event filter and makes mouse and keyboard work again on other widgets/windows. */

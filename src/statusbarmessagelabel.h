@@ -98,10 +98,10 @@ public:
 
 protected:
     //void paintEvent(QPaintEvent* event);
-    void mousePressEvent(QMouseEvent * );
+    void mousePressEvent(QMouseEvent * ) Q_DECL_OVERRIDE;
 
     /** @see QWidget::resizeEvent() */
-    void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 
 public slots:
     void setProgressMessage(const QString& text, int progress = 100, MessageType type = ProcessingJobMessage, int timeoutMS = 0);

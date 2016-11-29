@@ -57,17 +57,17 @@ public:
     MeltJob(ClipType cType, const QString &id,  const QMap <QString, QString> &producerParams, const QMap <QString, QString> &filterParams, const QMap <QString, QString> &consumerParams, const stringMap &extraParams = stringMap());
     virtual ~ MeltJob();
     /** @brief Returns the file path that will be written by this Mlt job. Empty when no file is written. */
-    const QString destination() const;
+    const QString destination() const Q_DECL_OVERRIDE;
     /** @brief Start processing the job. */
-    void startJob();
+    void startJob() Q_DECL_OVERRIDE;
     /** @brief These properties can be used to undo the action that launched this job. */
-    stringMap cancelProperties();
+    stringMap cancelProperties() Q_DECL_OVERRIDE;
     /** @brief When true, this will tell the JobManager to add the @destination() file to the project Bin. */
     bool addClipToProject;
     /** @brief Returns a text string describing the job's current activity. */
-    const QString statusMessage();
+    const QString statusMessage() Q_DECL_OVERRIDE;
     /** @brief Sets the status for this job (can be used by the JobManager to abort the job). */
-    void setStatus(ClipJobStatus status);
+    void setStatus(ClipJobStatus status) Q_DECL_OVERRIDE;
     /** @brief Here we will send the current progress info to anyone interested. */
     void emitFrameNumber(int pos);
     

@@ -61,7 +61,7 @@ public:
     explicit QuickEventEater(QObject *parent = Q_NULLPTR);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void addEffect(QDomElement);
@@ -74,7 +74,7 @@ public:
     explicit QuickMonitorEventEater(QWidget *parent);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void doKeyPressEvent(QKeyEvent*);
@@ -88,7 +88,7 @@ public:
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = Q_NULLPTR);
     ~Monitor();
     Render *render;
-    AbstractRender *abstractRender();
+    AbstractRender *abstractRender() Q_DECL_OVERRIDE;
     void resetProfile(MltVideoProfile profile);
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = Q_NULLPTR, QAction *loopClip = Q_NULLPTR);
@@ -136,7 +136,7 @@ public:
     void switchMonitorInfo(int code);
     void switchDropFrames(bool drop);
     void updateMonitorGamma();
-    void mute(bool, bool updateIconOnly = false);
+    void mute(bool, bool updateIconOnly = false) Q_DECL_OVERRIDE;
     bool startCapture(const QString &params, const QString &path, Mlt::Producer *p);
     bool stopCapture();
     void reparent();
@@ -158,21 +158,21 @@ public:
     void silentSeek(int pos);
 
 protected:
-    void mousePressEvent(QMouseEvent * event);
-    void mouseReleaseEvent(QMouseEvent * event);
-    void mouseDoubleClickEvent(QMouseEvent * event);
-    void resizeEvent(QResizeEvent *event);
-    void keyPressEvent(QKeyEvent* event);
+    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
 
     /** @brief Move to another position on mouse wheel event.
      *
      * Moves towards the end of the clip/timeline on mouse wheel down/back, the
      * opposite on mouse wheel up/forward.
      * Ctrl + wheel moves by a second, without Ctrl it moves by a single frame. */
-    void wheelEvent(QWheelEvent * event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void enterEvent(QEvent * event);
-    void leaveEvent(QEvent * event);
+    void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent * event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent * event) Q_DECL_OVERRIDE;
     virtual QStringList mimeTypes() const;
 
 private:
@@ -279,10 +279,10 @@ public slots:
     void slotOpenClip(ClipController *controller, int in = -1, int out = -1);
     void slotRefreshMonitor(bool visible);
     void slotSeek(int pos);
-    void stop();
-    void start();
+    void stop() Q_DECL_OVERRIDE;
+    void start() Q_DECL_OVERRIDE;
     void switchPlay(bool play);
-    void slotPlay();
+    void slotPlay() Q_DECL_OVERRIDE;
     void pause();
     void slotPlayZone();
     void slotLoopZone();
@@ -314,8 +314,8 @@ public slots:
     void slotSetSelectedClip(AbstractClipItem *item);
     void slotSetSelectedClip(ClipItem *item);
     void slotSetSelectedClip(Transition *item);
-    void slotMouseSeek(int eventDelta, int modifiers);
-    void slotSwitchFullScreen(bool minimizeOnly = false);
+    void slotMouseSeek(int eventDelta, int modifiers) Q_DECL_OVERRIDE;
+    void slotSwitchFullScreen(bool minimizeOnly = false) Q_DECL_OVERRIDE;
     /** @brief Display or hide the record toolbar */
     void slotSwitchRec(bool enable);
     /** @brief Request QImage of current frame */

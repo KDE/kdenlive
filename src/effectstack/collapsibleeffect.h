@@ -49,9 +49,9 @@ public:
 	
     void setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
-    void setActive(bool activate);
+    void setActive(bool activate) Q_DECL_OVERRIDE;
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
-    virtual bool eventFilter( QObject * o, QEvent * e );
+    bool eventFilter( QObject * o, QEvent * e ) Q_DECL_OVERRIDE;
     /** @brief Update effect GUI to reflect parameted changes. */
     void updateWidget(const ItemInfo &info, const QDomElement &effect, EffectMetaInfo *metaInfo);
     /** @brief Returns effect xml. */
@@ -59,7 +59,7 @@ public:
     /** @brief Returns effect xml with keyframe offset for saving. */
     QDomElement effectForSave() const;
     int groupIndex() const;
-    bool isGroup() const;
+    bool isGroup() const Q_DECL_OVERRIDE;
     int effectIndex() const;
     void setGroupIndex(int ix);
     void setGroupName(const QString &groupName);
@@ -135,11 +135,11 @@ private:
     void updateCollapsedState();
 
 protected:
-    virtual void mouseDoubleClickEvent ( QMouseEvent * event );
-    virtual void mouseReleaseEvent( QMouseEvent *event );
-    virtual void dragEnterEvent(QDragEnterEvent *event);
-    virtual void dragLeaveEvent(QDragLeaveEvent *event);
-    virtual void dropEvent(QDropEvent *event);
+    void mouseDoubleClickEvent ( QMouseEvent * event ) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent( QMouseEvent *event ) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dragLeaveEvent(QDragLeaveEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void parameterChanged(const QDomElement &, const QDomElement&, int);

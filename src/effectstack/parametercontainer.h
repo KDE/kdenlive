@@ -62,9 +62,9 @@ class DraggableLabel : public QLabel
 public:
     explicit DraggableLabel(const QString &text, QWidget *parent = Q_NULLPTR);
 protected:
-    void mousePressEvent(QMouseEvent *ev);
-    void mouseReleaseEvent(QMouseEvent *ev);
-    void mouseMoveEvent(QMouseEvent *ev);
+    void mousePressEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
 signals:
     void startDrag(const QString &);
 private:
@@ -80,8 +80,8 @@ public:
     explicit MySpinBox(QWidget * parent = Q_NULLPTR);
 
 protected:
-    void focusInEvent(QFocusEvent*);
-    void focusOutEvent(QFocusEvent*);
+    void focusInEvent(QFocusEvent*) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent*) Q_DECL_OVERRIDE;
 };
 
 class ParameterContainer : public QObject

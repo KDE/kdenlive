@@ -41,7 +41,7 @@ public:
     explicit AnalysisTree(QWidget *parent = Q_NULLPTR);
 
 protected:
-    virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const;
+    QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;
 };
 
 

@@ -42,7 +42,7 @@ public:
     explicit RenderViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const {
+               const QModelIndex &index) const Q_DECL_OVERRIDE {
         if (index.column() == 1) {
             painter->save();
             QStyleOptionViewItem opt(option);
@@ -144,8 +144,8 @@ public:
     void errorMessage(RenderError type, const QString &message);
 
 protected:
-    virtual QSize sizeHint() const;
-    virtual void keyPressEvent(QKeyEvent *e);
+    QSize sizeHint() const Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut,

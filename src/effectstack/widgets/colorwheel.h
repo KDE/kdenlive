@@ -29,8 +29,8 @@ class ColorWheel : public QWidget
 public:
     explicit ColorWheel(QString id, QString name, QColor color, QWidget *parent = Q_NULLPTR);
 
-    virtual QSize sizeHint () const;
-    virtual QSize minimumSizeHint () const;
+    QSize sizeHint () const Q_DECL_OVERRIDE;
+    QSize minimumSizeHint () const Q_DECL_OVERRIDE;
     QColor color();
     void setColor(const QColor &color);
 
@@ -41,11 +41,11 @@ public slots:
     void changeColor(const QColor &color);
 
 protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void resizeEvent(QResizeEvent *event);
-    void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
     QString m_id;

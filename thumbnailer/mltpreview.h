@@ -34,8 +34,8 @@ class MltPreview : public ThumbCreator
 public:
     MltPreview();
     virtual ~MltPreview();
-    virtual bool create(const QString &path, int width, int height, QImage &img);
-    virtual Flags flags() const;
+    bool create(const QString &path, int width, int height, QImage &img) Q_DECL_OVERRIDE;
+    Flags flags() const Q_DECL_OVERRIDE;
 
 protected:
     static uint imageVariance(const QImage &image);

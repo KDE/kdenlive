@@ -36,13 +36,13 @@ public:
     int frameLength;
 
 protected:
-    void paintEvent(QPaintEvent * /*e*/);
-    void wheelEvent(QWheelEvent * e);
-    void mousePressEvent(QMouseEvent * event);
-    void mouseMoveEvent(QMouseEvent * event);
-    void mouseReleaseEvent(QMouseEvent * event);
-    void mouseDoubleClickEvent(QMouseEvent * event);
-    void leaveEvent( QEvent * event );
+    void paintEvent(QPaintEvent * /*e*/) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent * e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void leaveEvent( QEvent * event ) Q_DECL_OVERRIDE;
 
 private:
     Mlt::Geometry *m_geom;

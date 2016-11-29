@@ -29,7 +29,7 @@
 class SleepThread : QThread
 {
 public:
-    virtual void run() {}
+    void run() Q_DECL_OVERRIDE {}
     static void msleep(unsigned long msecs) {
         QThread::msleep(msecs);
     }

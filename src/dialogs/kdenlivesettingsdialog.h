@@ -47,9 +47,9 @@ public:
     void checkProfile();
 
 protected slots:
-    void updateSettings();
-    void updateWidgets();
-    virtual bool hasChanged();
+    void updateSettings() Q_DECL_OVERRIDE;
+    void updateWidgets() Q_DECL_OVERRIDE;
+    bool hasChanged() Q_DECL_OVERRIDE;
 
 private slots:
     void slotCheckShuttle(int state = 0);

@@ -49,10 +49,10 @@ class EffectsListWidget : public QTreeWidget
     void resetFavorites();
 
 protected:
-    virtual void dragMoveEvent(QDragMoveEvent *event);
-    virtual void contextMenuEvent(QContextMenuEvent * event);
-    virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const;
-    virtual void keyPressEvent(QKeyEvent *e);
+    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent * event) Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
 private:
     QMenu *m_menu;

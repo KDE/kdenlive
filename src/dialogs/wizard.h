@@ -43,7 +43,7 @@ class MyWizardPage : public QWizardPage
 public:
     explicit MyWizardPage(QWidget *parent = Q_NULLPTR);
     void setComplete(bool complete);
-    bool isComplete() const;
+    bool isComplete() const Q_DECL_OVERRIDE;
     bool m_isComplete;
 };
 

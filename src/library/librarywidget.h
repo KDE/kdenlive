@@ -60,7 +60,7 @@ public:
     explicit LibraryItemDelegate(QObject* parent = Q_NULLPTR): QStyledItemDelegate(parent) {
     }
 
-    void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const
+    void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const Q_DECL_OVERRIDE
     {
         QStyleOptionViewItem opt = option;
         initStyleOption(&opt, index);
@@ -77,7 +77,7 @@ public:
         editor->setGeometry( r2 );
     }
 
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
         QString text = index.data(Qt::UserRole + 1).toString();
@@ -92,7 +92,7 @@ public:
         return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
     }
 
-    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const Q_DECL_OVERRIDE {
         if (index.column() == 0) {
             QRect r1 = option.rect;
             painter->save();
@@ -144,10 +144,10 @@ public:
     explicit LibraryTree(QWidget *parent = Q_NULLPTR);
 
 protected:
-    virtual QStringList mimeTypes() const;
-    virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const;
-    virtual void dropEvent(QDropEvent *event);
-    void mousePressEvent(QMouseEvent * event);
+    QStringList mimeTypes() const Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
 
 public slots:
     void slotUpdateThumb(const QString &path, const QString &iconPath);

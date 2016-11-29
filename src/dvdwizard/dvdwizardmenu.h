@@ -47,8 +47,8 @@ private:
     int m_height;
     int m_gridSize;
 protected:
-    void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent );
-    void drawForeground(QPainter *painter, const QRectF &rect);
+    void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) Q_DECL_OVERRIDE;
+    void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 signals:
     void sceneChanged();
 };
@@ -59,7 +59,7 @@ class DvdButtonUnderline : public QGraphicsRectItem
 public:
     explicit DvdButtonUnderline( const QRectF & rect, QGraphicsItem * parent = Q_NULLPTR ) : QGraphicsRectItem(rect, parent) {}
 
-    int type() const {
+    int type() const Q_DECL_OVERRIDE {
         // Enable the use of qgraphicsitem_cast with this item.
         return UserType + 2;
     }
@@ -73,14 +73,14 @@ public:
     int target() const;
     QString command() const;
     bool backMenu() const;
-    int type() const;
+    int type() const Q_DECL_OVERRIDE;
     void setBackMenu(bool back);
 private:
     int m_target;
     QString m_command;
     bool m_backToMenu;
 protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 };
 
 class DvdWizardMenu : public QWizardPage

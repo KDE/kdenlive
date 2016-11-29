@@ -83,7 +83,7 @@ public:
     static MltVideoProfile getProfileFromPath(const QString &path, const QString &name);
 
 protected:
-    virtual void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotUpdateDisplay(QString currentProfile = QString());
@@ -94,8 +94,8 @@ private slots:
     void slotProfileEdited();
     /** @brief Make sure the profile's width is always a multiple of 8 */
     void slotAdjustWidth();
-    virtual void accept();
-    virtual void reject();
+    void accept() Q_DECL_OVERRIDE;
+    void reject() Q_DECL_OVERRIDE;
 
 private:
     Ui::ProfilesDialog_UI m_view;

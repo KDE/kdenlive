@@ -54,7 +54,7 @@ public:
     static QPair <QString, QString> parseGenerator(const QString &path, const QStringList &producers);
     QUrl getSavedClip(QString path = QString());
 
-    virtual void resizeEvent(QResizeEvent * event);
+    void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
 
 private:
     Mlt::Producer *m_producer;

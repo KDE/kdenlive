@@ -38,21 +38,21 @@ public:
     explicit Spectrogram(QWidget *parent = Q_NULLPTR);
     ~Spectrogram();
 
-    QString widgetName() const;
+    QString widgetName() const Q_DECL_OVERRIDE;
 
 protected:
     ///// Implemented methods /////
-    QRect scopeRect();
-    QImage renderHUD(uint accelerationFactor);
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData);
-    QImage renderBackground(uint accelerationFactor);
-    bool isHUDDependingOnInput() const;
-    bool isScopeDependingOnInput() const;
-    bool isBackgroundDependingOnInput() const;
-    virtual void readConfig();
+    QRect scopeRect() Q_DECL_OVERRIDE;
+    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData) Q_DECL_OVERRIDE;
+    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
+    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE;
+    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE;
+    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE;
+    void readConfig() Q_DECL_OVERRIDE;
     void writeConfig();
-    void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers);
-    void resizeEvent(QResizeEvent *event);
+    void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Ui::Spectrogram_UI *ui;

@@ -64,7 +64,7 @@ Q_OBJECT public:
     int doCapture;
 
     /** @brief Someone needs us to send again a frame. */
-    void sendFrameUpdate() {}
+    void sendFrameUpdate() Q_DECL_OVERRIDE {}
 
     void emitFrameUpdated(Mlt::Frame&);
     void emitFrameNumber(double position);

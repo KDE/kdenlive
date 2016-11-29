@@ -56,28 +56,28 @@ public:
     ProjectSubClip(ProjectClip *parent, int in, int out, const QString &timecode, const QString &name = QString());
     virtual ~ProjectSubClip();
 
-    ProjectClip *clip(const QString &id);
-    ProjectFolder* folder(const QString &id);
+    ProjectClip *clip(const QString &id) Q_DECL_OVERRIDE;
+    ProjectFolder* folder(const QString &id) Q_DECL_OVERRIDE;
     ProjectSubClip* subClip(int in, int out);
-    ProjectClip *clipAt(int ix);
+    ProjectClip *clipAt(int ix) Q_DECL_OVERRIDE;
     /** @brief Recursively disable/enable bin effects. */
-    void disableEffects(bool disable);
-    QDomElement toXml(QDomDocument &document, bool includeMeta = false);
+    void disableEffects(bool disable) Q_DECL_OVERRIDE;
+    QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;
 
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
 
     /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
-    virtual void setCurrent(bool current, bool notify = true);
+    void setCurrent(bool current, bool notify = true) Q_DECL_OVERRIDE;
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(QImage);
 
     /** @brief Remove reference to this subclip in the master clip, to be done before a subclip is deleted. */
     void discard();
-    QPoint zone() const;
-    virtual QString getToolTip() const;
-    virtual bool rename(const QString &name, int column);
+    QPoint zone() const Q_DECL_OVERRIDE;
+    QString getToolTip() const Q_DECL_OVERRIDE;
+    bool rename(const QString &name, int column) Q_DECL_OVERRIDE;
 
 private:
     ProjectClip *m_masterClip;

@@ -205,7 +205,7 @@ class Render: public AbstractRender
     void showAudio(Mlt::Frame&);
 
     QList <int> checkTrackSequence(int);
-    void sendFrameUpdate();
+    void sendFrameUpdate() Q_DECL_OVERRIDE;
 
     /** @brief Returns a pointer to the main producer. */
     Mlt::Producer *getProducer();

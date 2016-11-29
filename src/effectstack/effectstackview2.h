@@ -61,7 +61,7 @@ public:
     void updateTimecodeFormat();
 
     /** @brief Used to trigger drag effects. */
-    virtual bool eventFilter( QObject * o, QEvent * e );
+    bool eventFilter( QObject * o, QEvent * e ) Q_DECL_OVERRIDE;
 
     CollapsibleEffect *getEffectByIndex(int ix);
 
@@ -98,11 +98,11 @@ public:
     };
 
 protected:
-    void mouseMoveEvent(QMouseEvent * event);
-    void mouseReleaseEvent(QMouseEvent * event);
-    void resizeEvent ( QResizeEvent * event );
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dropEvent(QDropEvent *event);
+    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void resizeEvent ( QResizeEvent * event ) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
   
 private:
     ClipItem* m_clipref;

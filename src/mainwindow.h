@@ -123,21 +123,21 @@ protected:
      * @return false if the user presses "Cancel" on a confirmation dialog or
      *     the operation requested (starting waiting jobs or saving file) fails,
      *     true otherwise */
-    virtual bool queryClose();
-    virtual void closeEvent(QCloseEvent*);
+    bool queryClose() Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent*) Q_DECL_OVERRIDE;
 
     /** @brief Reports a message in the status bar when an error occurs. */
-    virtual void customEvent(QEvent *e);
+    void customEvent(QEvent *e) Q_DECL_OVERRIDE;
 
     /** @brief Stops the active monitor when the window gets hidden. */
-    virtual void hideEvent(QHideEvent *e);
+    void hideEvent(QHideEvent *e) Q_DECL_OVERRIDE;
 
     /** @brief Saves the file and the window properties when saving the session. */
-    virtual void saveProperties(KConfigGroup &config);   
+    void saveProperties(KConfigGroup &config) Q_DECL_OVERRIDE;
 
     /** @brief Restores the window and the file when a session is loaded. */
-    virtual void readProperties(const KConfigGroup &config);
-    virtual void saveNewToolbarConfig();
+    void readProperties(const KConfigGroup &config) Q_DECL_OVERRIDE;
+    void saveNewToolbarConfig() Q_DECL_OVERRIDE;
 
 private:
 
@@ -228,7 +228,7 @@ private:
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
     void saveOptions();
-    virtual bool event(QEvent *e);
+    bool event(QEvent *e) Q_DECL_OVERRIDE;
 
     void loadGenerators();
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
@@ -268,7 +268,7 @@ public slots:
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
     void updateDockTitleBars(bool isTopLevel = true);
-    void configureToolbars();
+    void configureToolbars() Q_DECL_OVERRIDE;
 
 private slots:
     /** @brief Shows the shortcut dialog. */

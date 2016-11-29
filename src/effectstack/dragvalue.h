@@ -40,13 +40,13 @@ public:
     
 protected:
     //virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    void mousePressEvent(QMouseEvent * event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     //virtual void paintEvent(QPaintEvent *event);
-    void wheelEvent(QWheelEvent * event);
-    void focusInEvent(QFocusEvent *e);
-    void focusOutEvent(QFocusEvent *e);
+    void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
+    void focusInEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
 
 private:
     QPoint m_dragStartPosition;
@@ -136,8 +136,8 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *e);
     virtual void mouseReleaseEvent(QMouseEvent *e);*/
     /** @brief Forwards tab focus to lineedit since it is disabled. */
-    virtual void focusInEvent(QFocusEvent *e);
-    virtual void focusOutEvent(QFocusEvent *e);
+    void focusInEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
     //virtual void keyPressEvent(QKeyEvent *e);
     //virtual void wheelEvent(QWheelEvent *e);
     //virtual void paintEvent( QPaintEvent * event );

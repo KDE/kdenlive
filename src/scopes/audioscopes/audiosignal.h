@@ -39,15 +39,15 @@ public:
     /** @brief Used for checking whether audio data needs to be delivered */
     bool monitoringEnabled() const;
 
-    QRect scopeRect();
-    QImage renderHUD(uint accelerationFactor);
-    QImage renderBackground(uint accelerationFactor);
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int);
+    QRect scopeRect() Q_DECL_OVERRIDE;
+    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
+    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int) Q_DECL_OVERRIDE;
 
-    QString widgetName() const { return QStringLiteral("audioSignal"); }
-    bool isHUDDependingOnInput() const { return false; }
-    bool isScopeDependingOnInput() const { return true; }
-    bool isBackgroundDependingOnInput() const { return false; }
+    QString widgetName() const Q_DECL_OVERRIDE { return QStringLiteral("audioSignal"); }
+    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE { return false; }
+    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE { return true; }
+    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE { return false; }
 
 private:
     double valueToPixel(double in);

@@ -62,7 +62,7 @@ private slots:
     bool slotStartArchiving(bool firstPass = true);
     void slotArchivingFinished(KJob *job = Q_NULLPTR, bool finished = false);
     void slotArchivingProgress(KJob *, qulonglong);
-    virtual void done ( int r );
+    void done ( int r ) Q_DECL_OVERRIDE;
     bool closeAccepted();
     void createArchive();
     void slotArchivingProgress(int);
@@ -78,7 +78,7 @@ private slots:
     void slotProxyOnly(int onlyProxy);
 
 protected:
-    virtual void closeEvent ( QCloseEvent * e );
+    void closeEvent ( QCloseEvent * e ) Q_DECL_OVERRIDE;
     
 private:
     KIO::filesize_t m_requestedSize;

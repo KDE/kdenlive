@@ -46,7 +46,7 @@ public:
     void defineDefaultAction(QAction *action, QAction *actionInProgress);
 
 protected:
-    virtual void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
     QAction *m_defaultAction;

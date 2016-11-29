@@ -36,7 +36,7 @@ public:
     void setOffset(int xOffset, int yOffset, int blur);
     void setShadow(QImage image);
 protected:
-    void draw(QPainter *painter);
+    void draw(QPainter *painter) Q_DECL_OVERRIDE;
 private:
     int m_xOffset;
     int m_yOffset;
@@ -51,18 +51,18 @@ public:
     MyTextItem(const QString &, QGraphicsItem *parent = Q_NULLPTR);
     void setAlignment(Qt::Alignment alignment);
     /** @brief returns an extended bounding containing shadow */
-    QRectF boundingRect() const;
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
     /** @brief returns the normal bounding rect around text */
     QRectF baseBoundingRect() const;
     Qt::Alignment alignment() const;
     void updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color);
     QStringList shadowInfo() const;
     void loadShadow(QStringList info);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt) Q_DECL_OVERRIDE;
 
 protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
-    virtual void paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    void paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w) Q_DECL_OVERRIDE;
 
 private:
     Qt::Alignment m_alignment;
@@ -85,7 +85,7 @@ public:
     explicit MyRectItem(QGraphicsItem *parent = Q_NULLPTR);
     void setRect(const QRectF & rectangle);
 protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 private:
     QRectF m_rect;
 };
@@ -95,7 +95,7 @@ class MyPixmapItem: public QGraphicsPixmapItem
 public:
     MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent = Q_NULLPTR);
 protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 };
 
 class MySvgItem: public QGraphicsSvgItem
@@ -103,7 +103,7 @@ class MySvgItem: public QGraphicsSvgItem
 public:
     MySvgItem(const QString &fileName = QString(), QGraphicsItem *parent = Q_NULLPTR);
 protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 };
 
 class GraphicsSceneRectMove: public QGraphicsScene
@@ -125,14 +125,14 @@ public slots:
     void slotUseGrid(bool enableGrid);
 
 protected:
-    virtual void keyPressEvent(QKeyEvent * keyEvent);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent*);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e);
+    void keyPressEvent(QKeyEvent * keyEvent) Q_DECL_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e) Q_DECL_OVERRIDE;
     /** @brief Resizes and moves items */
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent*);
-    virtual void wheelEvent(QGraphicsSceneWheelEvent * wheelEvent);
-    void drawForeground(QPainter *painter, const QRectF &rect);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent*) Q_DECL_OVERRIDE;
+    void wheelEvent(QGraphicsSceneWheelEvent * wheelEvent) Q_DECL_OVERRIDE;
+    void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 
 private:
     void setCursor(QCursor);

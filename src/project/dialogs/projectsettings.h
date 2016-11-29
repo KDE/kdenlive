@@ -54,7 +54,7 @@ public:
     const QString storageFolder() const;
 
 public slots:
-    virtual void accept();
+    void accept() Q_DECL_OVERRIDE;
 
 private slots:
     void slotUpdateButton(const QString &path);

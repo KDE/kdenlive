@@ -52,33 +52,33 @@ public:
      * @brief Returns the clip if it is a child (also indirect).
      * @param id id of the child which should be returned
      */
-    ProjectClip *clip(const QString &id);
+    ProjectClip *clip(const QString &id) Q_DECL_OVERRIDE;
 
     /** 
      * @brief Returns itself or a child folder that matches the requested id.
      * @param id id of the child which should be returned
      */
-    ProjectFolder* folder(const QString &id);
+    ProjectFolder* folder(const QString &id) Q_DECL_OVERRIDE;
 
     /** @brief Calls AbstractProjectItem::setCurrent and blank the bin monitor. */
-    virtual void setCurrent(bool current, bool notify = true);
+    void setCurrent(bool current, bool notify = true) Q_DECL_OVERRIDE;
 
     /** 
      * @brief Returns the clip if it is a child (also indirect).
      * @param index index of the child which should be returned
      */    
-    ProjectClip* clipAt(int index);
+    ProjectClip* clipAt(int index) Q_DECL_OVERRIDE;
 
     /** @brief Recursively disable/enable bin effects. */
-    void disableEffects(bool disable);
+    void disableEffects(bool disable) Q_DECL_OVERRIDE;
 
     /** @brief Returns a pointer to the bin model this folder belongs to. */
-    Bin *bin();
+    Bin *bin() Q_DECL_OVERRIDE;
 
     /** @brief Returns an xml description of the folder. */
-    QDomElement toXml(QDomDocument &document, bool includeMeta = false);
-    virtual QString getToolTip() const;
-    virtual bool rename(const QString &name, int column);
+    QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;
+    QString getToolTip() const Q_DECL_OVERRIDE;
+    bool rename(const QString &name, int column) Q_DECL_OVERRIDE;
 
 private:
     Bin *m_bin;

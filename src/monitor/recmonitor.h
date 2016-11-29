@@ -57,7 +57,7 @@ public:
     explicit RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent = Q_NULLPTR);
     ~RecMonitor();
 
-    AbstractRender *abstractRender();
+    AbstractRender *abstractRender() Q_DECL_OVERRIDE;
     void analyseFrames(bool analyze);
     enum CaptureDevice {
         Firewire = 0,
@@ -67,8 +67,8 @@ public:
     };
 
 protected:
-    void mousePressEvent(QMouseEvent * event);
-    void mouseDoubleClickEvent(QMouseEvent*);
+    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent*) Q_DECL_OVERRIDE;
 
 private:
     QDateTime m_captureTime;
@@ -146,17 +146,17 @@ private slots:
     void slotShowLog();
 
 public slots:
-    void slotPlay();
-    void stop();
-    void start();
+    void slotPlay() Q_DECL_OVERRIDE;
+    void stop() Q_DECL_OVERRIDE;
+    void start() Q_DECL_OVERRIDE;
     /**
      * @brief Stops the RecMonitor capturing
      */
     void slotStopCapture();
     void slotUpdateCaptureFolder(const QString &currentProjectFolder);
     void slotUpdateFullScreenGrab();
-    void slotMouseSeek(int eventDelta, int modifiers);
-    void slotSwitchFullScreen(bool minimizeOnly = false);
+    void slotMouseSeek(int eventDelta, int modifiers) Q_DECL_OVERRIDE;
+    void slotSwitchFullScreen(bool minimizeOnly = false) Q_DECL_OVERRIDE;
 
 signals:
     void renderPosition(int);

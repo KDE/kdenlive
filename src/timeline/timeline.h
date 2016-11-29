@@ -54,7 +54,7 @@ public:
     explicit ScrollEventEater(QObject *parent = Q_NULLPTR);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 };
 
 

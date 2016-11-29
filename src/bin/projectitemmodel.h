@@ -44,25 +44,25 @@ public:
     ~ProjectItemModel();
 
     /** @brief Returns item data depending on role requested */
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
     /** @brief Called when user edits an item */
-    bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
+    bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
     /** @brief Allow selection and drag & drop */
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
     /** @brief Returns column names in case we want to use columns in QTreeView */
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
     /** @brief Mandatory reimplementation from QAbstractItemModel */
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     /** @brief Mandatory reimplementation from QAbstractItemModel */
-    QModelIndex parent(const QModelIndex &index) const;
+    QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
     /** @brief Mandatory reimplementation from QAbstractItemModel */
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     /** @brief Mandatory reimplementation from QAbstractItemModel */
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     /** @brief Returns the mimetype used for Drag actions */
-    QStringList mimeTypes() const;
+    QStringList mimeTypes() const Q_DECL_OVERRIDE;
     /** @brief Create data that will be used for Drag events */
-    QMimeData *mimeData(const QModelIndexList &indices) const;
+    QMimeData *mimeData(const QModelIndexList &indices) const Q_DECL_OVERRIDE;
     /** @brief Set size for thumbnails */
     void setIconSize(QSize s);
     /** @brief Prepare some stuff before inserting a new item */
@@ -73,8 +73,8 @@ public:
     void onAboutToRemoveItem(AbstractProjectItem *item);
     /** @brief Prepare some stuff after removing a new item */
     void onItemRemoved(AbstractProjectItem *item);
-    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-    Qt::DropActions supportedDropActions() const;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
+    Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
 
 public slots:
     /** @brief An item in the list was modified, notify */

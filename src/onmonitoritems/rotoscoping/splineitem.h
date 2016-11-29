@@ -33,7 +33,7 @@ public:
 
     enum { Type = UserType + 10 };
 
-    virtual int type() const;
+    int type() const Q_DECL_OVERRIDE;
 
     bool editing() const;
     void initSpline(QGraphicsScene *scene, const QList< BPoint >& points);
@@ -44,10 +44,10 @@ public:
     void removeChild(QGraphicsItem *child);
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event) Q_DECL_OVERRIDE;
 
 private:
     int getClosestPointOnCurve(const QPointF &point, double *tFinal);

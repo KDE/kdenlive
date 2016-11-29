@@ -30,10 +30,10 @@ public:
     explicit Waveform(QWidget *parent = Q_NULLPTR);
     ~Waveform();
 
-    QString widgetName() const;
+    QString widgetName() const Q_DECL_OVERRIDE;
 
 protected:
-    virtual void readConfig();
+    void readConfig() Q_DECL_OVERRIDE;
     void writeConfig();
 
 private:
@@ -50,13 +50,13 @@ private:
     QImage m_waveform;
 
     /// Implemented methods ///
-    QRect scopeRect();
-    QImage renderHUD(uint);
-    QImage renderGfxScope(uint, const QImage &);
-    QImage renderBackground(uint);
-    bool isHUDDependingOnInput() const;
-    bool isScopeDependingOnInput() const;
-    bool isBackgroundDependingOnInput() const;
+    QRect scopeRect() Q_DECL_OVERRIDE;
+    QImage renderHUD(uint) Q_DECL_OVERRIDE;
+    QImage renderGfxScope(uint, const QImage &) Q_DECL_OVERRIDE;
+    QImage renderBackground(uint) Q_DECL_OVERRIDE;
+    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE;
+    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE;
+    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE;
 
 };
 

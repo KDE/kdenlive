@@ -54,10 +54,10 @@ public:
     CustomTrackView(KdenliveDoc *doc, Timeline* timeline, CustomTrackScene* projectscene, QWidget *parent = Q_NULLPTR);
     virtual ~ CustomTrackView();
 
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseReleaseEvent(QMouseEvent * event);
-    virtual void mouseMoveEvent(QMouseEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void addTrack(const TrackInfo &type, int ix = -1);
     void removeTrack(int ix);
     /** @brief Makes the document use new track info (name, type, ...). */
@@ -419,21 +419,21 @@ public slots:
     void switchTrimMode(int mode);
 
 protected:
-    virtual void drawBackground(QPainter * painter, const QRectF & rect);
+    void drawBackground(QPainter * painter, const QRectF & rect) Q_DECL_OVERRIDE;
     //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
-    virtual void dragEnterEvent(QDragEnterEvent * event);
-    virtual void dragMoveEvent(QDragMoveEvent * event);
-    virtual void dragLeaveEvent(QDragLeaveEvent * event);
-    virtual bool event( QEvent * e );
+    void dragEnterEvent(QDragEnterEvent * event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent * event) Q_DECL_OVERRIDE;
+    void dragLeaveEvent(QDragLeaveEvent * event) Q_DECL_OVERRIDE;
+    bool event( QEvent * e ) Q_DECL_OVERRIDE;
     /** @brief Something has been dropped onto the timeline */
-    virtual void dropEvent(QDropEvent * event);
-    virtual void enterEvent(QEvent * event);
-    virtual void leaveEvent(QEvent * event);
-    virtual void wheelEvent(QWheelEvent * e);
-    virtual void keyPressEvent(QKeyEvent * event);
+    void dropEvent(QDropEvent * event) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent * event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent * event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent * e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent * event) Q_DECL_OVERRIDE;
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions() const;
-    virtual void contextMenuEvent(QContextMenuEvent * event);
+    void contextMenuEvent(QContextMenuEvent * event) Q_DECL_OVERRIDE;
 
 private:
     int m_ct;
