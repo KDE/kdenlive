@@ -83,7 +83,7 @@ public slots:
     * @return Whether the file was saved. */
     bool saveFileAs();
     /** @brief Saves current timeline selection to an MLT playlist. */
-    void slotSaveSelection(QString path = QString());
+    void slotSaveSelection(const QString &path = QString());
 
 
     /** @brief Set properties to match outputFileName and save the document.

@@ -56,10 +56,10 @@ MltDeviceCapture::MltDeviceCapture(QString profile, /*VideoSurface *surface, */Q
     if (profile.isEmpty())
         profile = KdenliveSettings::current_profile();
     buildConsumer(profile);
-    connect(this, SIGNAL(unblockPreview()), this, SLOT(slotPreparePreview()));
+    connect(this, &MltDeviceCapture::unblockPreview, this, &MltDeviceCapture::slotPreparePreview);
     m_droppedFramesTimer.setSingleShot(false);
     m_droppedFramesTimer.setInterval(1000);
-    connect(&m_droppedFramesTimer, SIGNAL(timeout()), this, SLOT(slotCheckDroppedFrames()));
+    connect(&m_droppedFramesTimer, &QTimer::timeout, this, &MltDeviceCapture::slotCheckDroppedFrames);
 }
 
 MltDeviceCapture::~MltDeviceCapture()

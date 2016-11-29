@@ -782,7 +782,6 @@ void Bin::slotDeleteClip()
     QStringList subClipIds;
     QStringList foldersIds;
     ProjectSubClip *sub;
-    QString subId;
     QPoint zone;
     // check folders, remove child folders if there is any
     QList <ProjectFolder*> topFolders;
@@ -847,7 +846,8 @@ void Bin::slotDeleteClip()
 		  break;
 	    }
 	}
-	if (!isChild) clipIds << current->clipId();
+    if (!isChild)
+        clipIds << current->clipId();
     }
     m_doc->clipManager()->deleteProjectItems(clipIds, foldersIds, subClipIds);
 }

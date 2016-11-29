@@ -397,7 +397,6 @@ void DvdWizardVob::setUrl(const QString &url)
 QStringList DvdWizardVob::selectedUrls() const
 {
     QStringList result;
-    QString path;
     int max = m_vobList->topLevelItemCount();
     int i = 0;
     if (m_view.use_intro->isChecked()) {

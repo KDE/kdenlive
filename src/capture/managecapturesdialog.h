@@ -42,9 +42,6 @@ private slots:
     void slotToggle();
     void slotCheckItemIcon();
 
-protected:
-    //void wheelEvent(QWheelEvent * event);
-
 private:
     Ui::ManageCaptures_UI m_view;
     QPushButton *m_importButton;

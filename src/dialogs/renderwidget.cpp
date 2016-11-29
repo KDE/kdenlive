@@ -560,7 +560,6 @@ bool RenderWidget::saveProfile(QDomElement newprofile)
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
-    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
     QDomDocument doc;
     QFile file(dir.absoluteFilePath(QStringLiteral("customprofiles.xml")));
     doc.setContent(&file, false);

@@ -27,7 +27,7 @@ QmlAudioThumb::QmlAudioThumb(QQuickItem *parent)
 {
 }
 
-void QmlAudioThumb::setImage(QImage &img)
+void QmlAudioThumb::setImage(const QImage &img)
 {
     m_img = img;
     update();

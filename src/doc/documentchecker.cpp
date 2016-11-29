@@ -351,7 +351,7 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
-    foreach(const QString font, m_missingFonts) {
+    foreach(const QString &font, m_missingFonts) {
         QString clipType = i18n("Title Font");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPPLACEHOLDER);
@@ -852,7 +852,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }
         }
     } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER && t != TITLE_FONT_ELEMENT && t != TITLE_IMAGE_ELEMENT) {
-        QString id = child->data(0, idRole).toString();
+        //QString id = child->data(0, idRole).toString();
         /*for (int i = 0; i < infoproducers.count(); ++i) {
             e = infoproducers.item(i).toElement();
             if (e.attribute("id") == id) {

@@ -327,11 +327,10 @@ void ResourceWidget::slotDisplayMetaInfo(const QMap<QString, QString> &metaInfo)
  */
 void ResourceWidget::slotPlaySound()
 {
-    QString caption;
-    QString sStop =i18n("Stop");
-    QString sPreview = i18n("Preview");
     if (!m_currentService)
         return;
+    QString caption;
+    const QString sPreview = i18n("Preview");
     caption= button_preview->text();
     if (caption.contains(sPreview))
     {
@@ -343,7 +342,7 @@ void ResourceWidget::slotPlaySound()
     {
         m_currentService->stopItemPreview(search_results->currentItem());
 
-        button_preview->setText(i18n("Preview"));
+        button_preview->setText(sPreview);
     }
 }
 

@@ -322,7 +322,7 @@ void ProjectManager::saveRecentFiles()
     config->sync();
 }
 
-void ProjectManager::slotSaveSelection(QString path)
+void ProjectManager::slotSaveSelection(const QString &path)
 {
     m_trackView->projectView()->exportTimelineSelection(path);
 }

@@ -609,7 +609,6 @@ QString AbstractClipItem::resizeAnimations(QDomElement effect, int previousDurat
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             animation = e.attribute(QStringLiteral("value"));
-	    QString result;
             if (effect.attribute(QStringLiteral("sync_in_out")) == QLatin1String("1")) {
                 keyframes = KeyframeView::cutAnimation(animation, start, duration, previousDuration);
                 effect.setAttribute(QStringLiteral("in"), QString::number(start));

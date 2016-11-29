@@ -1487,7 +1487,7 @@ void KdenliveDoc::slotSwitchProfile()
     QAction *action = qobject_cast<QAction *>(sender());
     if (!action) return;
     QVariantList data = action->data().toList();
-    QString id = data.takeFirst().toString();
+    //QString id = data.takeFirst().toString();
     if (!data.isEmpty()) {
         // we want a profile switch
         m_profile = MltVideoProfile(data);

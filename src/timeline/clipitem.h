@@ -107,7 +107,7 @@ public:
     /** @brief Replaces an effect.
     * @param ix The effect's index in effectlist
     * @param effect The new effect */
-    void updateEffect(QDomElement effect);
+    void updateEffect(const QDomElement &effect);
     /** @brief Enable / disable a list of effect from their indexes.
      * @returns true if some the effects are video effects, requiring a monitor refresh */
     bool enableEffects(QList <int> indexes, bool disable);

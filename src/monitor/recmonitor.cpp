@@ -605,7 +605,6 @@ void RecMonitor::slotRecord()
 
         m_captureArgs.clear();
         m_displayArgs.clear();
-        QString args;
         QString playlist;
         QString v4lparameters;
         MltVideoProfile profile;

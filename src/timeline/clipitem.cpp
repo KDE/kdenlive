@@ -1306,7 +1306,7 @@ QDomElement ClipItem::getEffectAtIndex(int ix) const
     return m_effectList.itemFromIndex(ix);
 }
 
-void ClipItem::updateEffect(QDomElement effect)
+void ClipItem::updateEffect(const QDomElement &effect)
 {
     m_effectList.updateEffect(effect);
     m_effectNames = m_effectList.effectNames().join(QStringLiteral(" / "));

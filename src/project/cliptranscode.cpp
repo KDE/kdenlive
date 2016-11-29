@@ -91,7 +91,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
         slotUpdateParams(0);
     }
 
-    connect(button_start, SIGNAL(clicked()), this, SLOT(slotStartTransCode()));
+    connect(button_start, &QAbstractButton::clicked, this, &ClipTranscode::slotStartTransCode);
 
     m_transcodeProcess.setProcessChannelMode(QProcess::MergedChannels);
     connect(&m_transcodeProcess, &QProcess::readyReadStandardOutput, this, &ClipTranscode::slotShowTranscodeInfo);

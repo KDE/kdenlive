@@ -253,7 +253,6 @@ void ProfileWidget::updateList()
         currentFps = m_rate_list->currentText();
     }
     m_rate_list->clear();
-    QString similarProfile;
     QList <MltVideoProfile> currentStd = getList(std);
     QStringList frameRates;
     QString text;

@@ -38,7 +38,7 @@ public:
     ~ClipTranscode();
 
 public slots:
-void slotStartTransCode();
+    void slotStartTransCode();
 
 
 private slots:
