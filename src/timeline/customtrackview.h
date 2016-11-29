@@ -284,7 +284,7 @@ public:
     * @param pos New startPos
     * @param check (optional, default = false) Whether to check for collisions
     * @param command (optional) Will be used as parent command (for undo history) */
-    void prepareResizeClipStart(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false, QUndoCommand *command = Q_NULLPTR);
+    void prepareResizeClipStart(AbstractClipItem *item, const ItemInfo &oldInfo, int pos, bool check = false, QUndoCommand *command = Q_NULLPTR);
 
     /** @brief Takes care of updating effects and attached transitions during a resize from end.
     * @param item Item to resize
@@ -388,7 +388,7 @@ public slots:
     /** @brief Add en effect to a track.
     * @param effect The new effect xml
     * @param ix The track index */
-    void slotAddTrackEffect(QDomElement effect, int ix);
+    void slotAddTrackEffect(const QDomElement &effect, int ix);
     /** @brief Select all clips in selected track. */
     void slotSelectClipsInTrack();
     /** @brief Select all clips in timeline. */

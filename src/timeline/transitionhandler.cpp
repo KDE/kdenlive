@@ -225,7 +225,7 @@ void TransitionHandler::cloneProperties(Mlt::Properties &dest, Mlt::Properties &
     }
 }
 
-void TransitionHandler::updateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool force)
+void TransitionHandler::updateTransition(const QString &oldTag, const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml, bool force)
 {
     if (oldTag == tag && !force) updateTransitionParams(tag, a_track, b_track, in, out, xml);
     else {

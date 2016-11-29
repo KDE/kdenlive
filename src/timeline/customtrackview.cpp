@@ -5147,7 +5147,7 @@ void CustomTrackView::resizeClip(const ItemInfo &start, const ItemInfo &end, boo
     KdenliveSettings::setSnaptopoints(snap);
 }
 
-void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check, QUndoCommand *command)
+void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, const ItemInfo &oldInfo, int pos, bool check, QUndoCommand *command)
 {
     if (pos == oldInfo.startPos.frames(m_document->fps()))
         return;
@@ -7712,7 +7712,7 @@ bool CustomTrackView::hasAudio(int track) const
     return false;
 }
 
-void CustomTrackView::slotAddTrackEffect(QDomElement effect, int ix)
+void CustomTrackView::slotAddTrackEffect(const QDomElement &effect, int ix)
 {
     EffectsController::initTrackEffect(m_document->getProfileInfo(), effect);
     QUndoCommand *effectCommand = new QUndoCommand();

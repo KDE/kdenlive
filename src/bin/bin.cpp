@@ -695,7 +695,7 @@ Monitor *Bin::monitor()
     return m_monitor;
 }
 
-const QStringList Bin::getFolderInfo(QModelIndex selectedIx)
+const QStringList Bin::getFolderInfo(const QModelIndex &selectedIx)
 {
     QStringList folderInfo;
     QModelIndexList indexes;

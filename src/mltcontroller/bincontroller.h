@@ -145,13 +145,13 @@ public:
     Mlt::Repository *mltRepository();
 
     /** @brief Load thumbnails for all producers */
-    void checkThumbnails(const QDir thumbFolder);
+    void checkThumbnails(const QDir &thumbFolder);
 
     /** @brief Request audio thumbnails for all producers */
     void checkAudioThumbs();
 
     /** @brief Save document properties in MLT's bin playlist */
-    void saveDocumentProperties(const QMap <QString, QString> props, const QMap <QString, QString> metadata, const QMap <double, QString> guidesData);
+    void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, const QMap<double, QString> &guidesData);
 
     /** @brief Save a property to main bin */
     void saveProperty(const QString &name, const QString & value);

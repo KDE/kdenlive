@@ -193,7 +193,7 @@ class Render: public AbstractRender
     Mlt::Producer *getSlowmotionProducer(const QString &url);
     void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
-    bool mltResizeClipCrop(ItemInfo info, GenTime newCropStart);
+    bool mltResizeClipCrop(const ItemInfo &info, GenTime newCropStart);
 
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
 
@@ -368,7 +368,7 @@ public slots:
     void doRefresh();
 
     /** @brief Save a part of current timeline to an xml file. */
-    void saveZone(const QString projectFolder, QPoint zone);
+    void saveZone(const QString &projectFolder, QPoint zone);
 
     /** @brief Renderer moved to a new frame, check seeking */
     bool checkFrameNumber(int pos);

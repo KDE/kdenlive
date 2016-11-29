@@ -316,17 +316,17 @@ public:
     static QColor markerColor(int type);
 
     /* Implementation of > operator; Works identically as with basic types. */
-    bool operator>(CommentedTime op) const;
+    bool operator>(const CommentedTime &op) const;
     /* Implementation of < operator; Works identically as with basic types. */
-    bool operator<(CommentedTime op) const;
+    bool operator<(const CommentedTime &op) const;
     /* Implementation of >= operator; Works identically as with basic types. */
-    bool operator>=(CommentedTime op) const;
+    bool operator>=(const CommentedTime &op) const;
     /* Implementation of <= operator; Works identically as with basic types. */
-    bool operator<=(CommentedTime op) const;
+    bool operator<=(const CommentedTime &op) const;
     /* Implementation of == operator; Works identically as with basic types. */
-    bool operator==(CommentedTime op) const;
+    bool operator==(const CommentedTime &op) const;
     /* Implementation of != operator; Works identically as with basic types. */
-    bool operator!=(CommentedTime op) const;
+    bool operator!=(const CommentedTime &op) const;
 
 private:
     GenTime t;

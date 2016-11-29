@@ -530,7 +530,7 @@ public:
     /** @brief Return a list of all clips hashes used in this project */
     QStringList getProxyHashList();
     /** @brief Get info (id, name) of a folder (or the currently selected one)  */
-    const QStringList getFolderInfo(QModelIndex selectedIx = QModelIndex());
+    const QStringList getFolderInfo(const QModelIndex &selectedIx = QModelIndex());
     /** @brief Save a clip zone as MLT playlist */
     void saveZone(QStringList info, QDir dir);
 

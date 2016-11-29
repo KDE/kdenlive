@@ -475,7 +475,7 @@ void BinController::updateTrackProducer(const QString &id)
     emit updateTimelineProducer(id);
 }
 
-void BinController::checkThumbnails(const QDir thumbFolder)
+void BinController::checkThumbnails(const QDir &thumbFolder)
 {
     // Parse all controllers and load thumbnails
     QMapIterator<QString, ClipController *> i(m_clipList);
@@ -526,7 +526,7 @@ void BinController::checkAudioThumbs()
     }
 }
 
-void BinController::saveDocumentProperties(const QMap <QString, QString> props, const QMap <QString, QString> metadata, const QMap <double, QString> guidesData)
+void BinController::saveDocumentProperties(const QMap <QString, QString> &props, const QMap <QString, QString> &metadata, const QMap <double, QString> &guidesData)
 {
     // Clear previous properites
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());

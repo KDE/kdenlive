@@ -577,7 +577,7 @@ const QString Render::sceneList(const QString root)
     return playlist;
 }
 
-void Render::saveZone(const QString projectFolder, QPoint zone)
+void Render::saveZone(const QString &projectFolder, QPoint zone)
 {
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
@@ -1259,7 +1259,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
     m_mltConsumer->set("refresh", 1);
 }
 
-bool Render::mltResizeClipCrop(ItemInfo info, GenTime newCropStart)
+bool Render::mltResizeClipCrop(const ItemInfo &info, GenTime newCropStart)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     int newCropFrame = (int) newCropStart.frames(m_fps);

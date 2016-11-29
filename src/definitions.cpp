@@ -219,26 +219,26 @@ QColor CommentedTime::markerColor(int type) {
     }
 }
 
-bool CommentedTime::operator>(CommentedTime op) const {
+bool CommentedTime::operator>(const CommentedTime &op) const {
     return t > op.time();
 }
 
-bool CommentedTime::operator<(CommentedTime op) const {
+bool CommentedTime::operator<(const CommentedTime &op) const {
     return t < op.time();
 }
 
-bool CommentedTime::operator>=(CommentedTime op) const {
+bool CommentedTime::operator>=(const CommentedTime &op) const {
     return t >= op.time();
 }
 
-bool CommentedTime::operator<=(CommentedTime op) const {
+bool CommentedTime::operator<=(const CommentedTime &op) const {
     return t <= op.time();
 }
 
-bool CommentedTime::operator==(CommentedTime op) const {
+bool CommentedTime::operator==(const CommentedTime &op) const {
     return t == op.time();
 }
 
-bool CommentedTime::operator!=(CommentedTime op) const {
+bool CommentedTime::operator!=(const CommentedTime &op) const {
     return t != op.time();
 }

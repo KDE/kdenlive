@@ -42,7 +42,7 @@ public:
     void plantTransition(Mlt::Transition &tr, int a_track, int b_track);
     void plantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
-    void updateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool force = false);
+    void updateTransition(const QString &oldTag, const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml, bool force = false);
     void updateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
     bool deleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
     void deleteTrackTransitions(int ix);
