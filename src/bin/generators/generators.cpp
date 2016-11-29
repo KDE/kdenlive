@@ -81,7 +81,7 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
     }
 }
 
-void Generators::updateProducer(QDomElement,QDomElement effect,int)
+void Generators::updateProducer(const QDomElement &, const QDomElement &effect,int)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count() ; ++i) {
@@ -109,7 +109,7 @@ Generators::~Generators()
 }
 
 //static
-void Generators::getGenerators(QStringList producers, QMenu *menu)
+void Generators::getGenerators(const QStringList &producers, QMenu *menu)
 {
     QStringList generatorFolders = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("generators"), QStandardPaths::LocateDirectory);
     QStringList filters;
@@ -128,7 +128,7 @@ void Generators::getGenerators(QStringList producers, QMenu *menu)
 }
 
 //static
-QPair <QString, QString> Generators::parseGenerator(const QString &path, QStringList producers)
+QPair <QString, QString> Generators::parseGenerator(const QString &path, const QStringList &producers)
 {
     QPair <QString, QString>  result;
     QDomDocument doc;

@@ -50,8 +50,8 @@ public:
     explicit Generators(Monitor *monitor, const QString &path, QWidget *parent = Q_NULLPTR);
     virtual ~Generators();
 
-    static void getGenerators(QStringList producers, QMenu *menu);
-    static QPair <QString, QString> parseGenerator(const QString &path, QStringList producers);
+    static void getGenerators(const QStringList &producers, QMenu *menu);
+    static QPair <QString, QString> parseGenerator(const QString &path, const QStringList &producers);
     QUrl getSavedClip(QString path = QString());
 
     virtual void resizeEvent(QResizeEvent * event);
@@ -64,7 +64,7 @@ private:
     QPixmap m_pixmap;
 
 private slots:
-    void updateProducer(QDomElement old = QDomElement(),QDomElement effect = QDomElement(),int ix = 0);
+    void updateProducer(const QDomElement &old = QDomElement(), const QDomElement &effect = QDomElement(),int ix = 0);
     void updateDuration(int duration);
 };
 
