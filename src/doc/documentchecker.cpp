@@ -803,6 +803,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
     int t = child->data(0, typeRole).toInt();
     if (child->data(0, statusRole).toInt() == CLIPOK) {
         QString id = child->data(0, idRole).toString();
+        QString fixedResource = child->text(1);
         if (t == TITLE_IMAGE_ELEMENT) {
             // edit images embedded in titles
             for (int i = 0; i < producers.count(); ++i) {
@@ -814,7 +815,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
                         property = properties.item(j).toElement();
                         if (property.attribute(QStringLiteral("name")) == QLatin1String("xmldata")) {
                             QString xml = property.firstChild().nodeValue();
-                            xml.replace(child->data(0, typeOriginalResource).toString(), child->text(1));
+                            xml.replace(child->data(0, typeOriginalResource).toString(), fixedResource);
                             property.firstChild().setNodeValue(xml);
                             break;
                         }
@@ -835,11 +836,10 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, QDomNodeList producers
             }*/
             for (int i = 0; i < producers.count(); ++i) {
                 e = producers.item(i).toElement();
-                if (e.attribute(QStringLiteral("id")).section('_', 0, 0) == id || e.attribute(QStringLiteral("id")).section(':', 1, 1) == id) {
+                if (e.attribute(QStringLiteral("id")).section('_', 0, 0) == id || e.attribute(QStringLiteral("id")).section(':', 1, 1) == id || e.attribute(QStringLiteral("id")) == id) {
                     // Fix clip
                     QString resource = getProperty(e, QLatin1String("resource"));
                     QString service = getProperty(e, QLatin1String("mlt_service"));
-                    QString fixedResource = child->text(1);
                     if (resource.contains(QRegExp("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$"))) {
                         fixedResource.append('?' + resource.section('?', -1));
                     }

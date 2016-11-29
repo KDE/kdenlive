@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "project/invaliddialog.h"
 #include "projectsortproxymodel.h"
 #include "bincommands.h"
+#include "doc/documentchecker.h"
 #include "mlt++/Mlt.h"
 
 #include <QToolBar>
@@ -1044,6 +1045,28 @@ void Bin::createClip(QDomElement xml)
         if (!parentFolder) {
             // parent folder does not exist, put in root folder
             parentFolder = m_rootFolder;
+        }
+    }
+    QString path = EffectsList::property(xml, QStringLiteral("resource"));
+    if (path.endsWith(QStringLiteral(".mlt")) || path.endsWith(QStringLiteral(".kdenlive"))) {
+        QFile f(path);
+        QDomDocument doc;
+        doc.setContent(&f, false);
+        f.close();
+        DocumentChecker d(QUrl::fromLocalFile(path), doc);
+        if (!d.hasErrorInClips() && doc.documentElement().attribute(QStringLiteral("modified")) == QLatin1String("1")) {
+            QString backupFile = path + QStringLiteral(".backup");
+            KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
+            if (copyjob->exec()) {
+                if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                    KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
+                } else {
+                    QTextStream out(&f);
+                    out << doc.toString();
+                    f.close();
+                    KMessageBox::information(this, i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile));
+                }
+            }
         }
     }
     new ProjectClip(xml, m_blankThumb, parentFolder);
