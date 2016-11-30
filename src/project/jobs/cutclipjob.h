@@ -54,7 +54,7 @@ public:
     static QHash <ProjectClip *, AbstractClipJob *> prepareTranscodeJob(double fps, const QList<ProjectClip *> &ids,  const QStringList &parameters);
     static QHash <ProjectClip *, AbstractClipJob *> prepareCutClipJob(double fps, double originalFps, ProjectClip *clip);
     static QHash <ProjectClip *, AbstractClipJob *> prepareAnalyseJob(double fps, const QList <ProjectClip*> &clips, const QStringList &parameters);
-    static QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, const QStringList &params);
+    static QList <ProjectClip *> filterClips(const QList<ProjectClip *> &clips, const QStringList &params);
 
 private:
     QString m_dest;

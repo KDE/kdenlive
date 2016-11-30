@@ -383,7 +383,7 @@ void Monitor::slotGetCurrentImage(bool request)
     }
 }
 
-void Monitor::slotAddEffect(QDomElement effect)
+void Monitor::slotAddEffect(const QDomElement &effect)
 {
     if (m_id == Kdenlive::ClipMonitor) {
         if (m_controller) emit addMasterEffect(m_controller->clipId(), effect);
@@ -1395,7 +1395,7 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     m_glMonitor->resetProfile(ProfilesDialog::getVideoProfile(profile));
 }
 
-void Monitor::resetProfile(MltVideoProfile profile)
+void Monitor::resetProfile(const MltVideoProfile &profile)
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == Q_NULLPTR) return;
@@ -1415,7 +1415,7 @@ void Monitor::resetProfile(MltVideoProfile profile)
     render->saveSceneList(path, info);
 }*/
 
-const QString Monitor::sceneList(const QString root)
+const QString Monitor::sceneList(const QString &root)
 {
     if (render == Q_NULLPTR) return QString();
     return render->sceneList(root);
@@ -1537,7 +1537,7 @@ void Monitor::slotSeekToKeyFrame()
     }
 }
 
-void Monitor::setUpEffectGeometry(QRect r, QVariantList list, QVariantList types)
+void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, const QVariantList &types)
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (!root) return;
@@ -1576,6 +1576,7 @@ QVariantList Monitor::effectRoto() const
     QVariantList controlPoints = root->property("centerPointsTypes").toList();
     // rotoscoping effect needs a list of 
     QVariantList mix;
+    mix.reserve(points.count() * 3);
     for (int i = 0; i < points.count(); i++) {
         mix << controlPoints.at(2 * i);
         mix << points.at(i);
@@ -1706,7 +1707,7 @@ void Monitor::gpuError()
     warningMessage(i18n("Cannot initialize Movit's GLSL manager, please disable Movit"), -1);
 }
 
-void Monitor::warningMessage(const QString &text, int timeout, QList <QAction*> actions)
+void Monitor::warningMessage(const QString &text, int timeout, const QList <QAction*> &actions)
 {
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     m_infoMessage->setText(text);

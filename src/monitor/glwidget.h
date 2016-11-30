@@ -87,12 +87,12 @@ public:
     bool sendFrameForAnalysis;
     void updateGamma();
     Mlt::Profile *profile();
-    void resetProfile(MltVideoProfile profile);
+    void resetProfile(const MltVideoProfile &profile);
     void reloadProfile(Mlt::Profile &profile);
     void lockMonitor();
     void releaseMonitor();
     int realTime() const;
-    void setAudioThumb(int channels = 0, QVariantList audioCache = QList<QVariant>());
+    void setAudioThumb(int channels = 0, const QVariantList &audioCache = QList<QVariant>());
     int droppedFrames() const;
     void resetDrops();
 

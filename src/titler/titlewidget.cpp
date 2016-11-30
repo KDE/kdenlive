@@ -847,7 +847,7 @@ void TitleWidget::displayBackgroundFrame()
     }
 }
 
-void TitleWidget::slotGotBackground(QImage img)
+void TitleWidget::slotGotBackground(const QImage &img)
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(r.width() / 2, r.height() / 2)));

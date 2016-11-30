@@ -63,7 +63,7 @@ bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, Gen
     return true;
 }
 
-void TransitionHandler::initTransition(QDomElement xml)
+void TransitionHandler::initTransition(const QDomElement &xml)
 {
     QMap<QString, QString> params = getTransitionParamsFromXml(xml);
     QMapIterator<QString, QString> i(params);
@@ -303,7 +303,7 @@ void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_
 }
 
 
-bool TransitionHandler::deleteTransition(QString tag, int /*a_track*/, int b_track, GenTime in, GenTime out, QDomElement /*xml*/, bool /*do_refresh*/)
+bool TransitionHandler::deleteTransition(const QString &tag, int /*a_track*/, int b_track, GenTime in, GenTime out, const QDomElement &/*xml*/, bool /*do_refresh*/)
 {
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();

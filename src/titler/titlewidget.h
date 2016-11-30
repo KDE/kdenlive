@@ -232,7 +232,7 @@ public slots:
     void saveTitle(QUrl url = QUrl());
     /** Load a title from a title file */
     void loadTitle(QUrl url = QUrl());
-    void slotGotBackground(QImage img);
+    void slotGotBackground(const QImage &img);
 
 private slots:
 

@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QAction>
 #include <QPainter>
 
-ProgressButton::ProgressButton(const QString text, double max, QWidget *parent) : QToolButton(parent)
+ProgressButton::ProgressButton(const QString &text, double max, QWidget *parent) : QToolButton(parent)
     , m_defaultAction(Q_NULLPTR)
     , m_max(max)
 {

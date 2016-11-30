@@ -389,7 +389,7 @@ void RenderWidget::slotCheckEndGuidePosition()
         m_view.guide_end->setCurrentIndex(m_view.guide_start->currentIndex());
 }
 
-void RenderWidget::setGuides(QMap <double, QString> guidesData, double duration)
+void RenderWidget::setGuides(const QMap <double, QString> &guidesData, double duration)
 {
     m_view.guide_start->clear();
     m_view.guide_end->clear();
@@ -934,7 +934,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile)
     updateButtons();
 }
 
-void RenderWidget::slotPrepareExport(bool scriptExport, const QString scriptPath)
+void RenderWidget::slotPrepareExport(bool scriptExport, const QString &scriptPath)
 {
     if (!QFile::exists(KdenliveSettings::rendererpath())) {
         KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
@@ -1785,7 +1785,7 @@ void RenderWidget::parseMltPresets()
     }
 }
 
-QTreeWidgetItem *RenderWidget::loadFromMltPreset(const QString groupName, const QString path, const QString profileName)
+QTreeWidgetItem *RenderWidget::loadFromMltPreset(const QString &groupName, const QString &path, const QString &profileName)
 {
     KConfig config(path, KConfig::SimpleConfig);
     KConfigGroup group = config.group(QByteArray());

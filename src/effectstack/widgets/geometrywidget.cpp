@@ -715,7 +715,7 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     emit parameterChanged();
 }
 
-void GeometryWidget::slotUpdateCenters(const QVariantList centers)
+void GeometryWidget::slotUpdateCenters(const QVariantList &centers)
 {
     Mlt::GeometryItem item;
     int pos = 0;

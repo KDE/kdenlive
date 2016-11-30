@@ -220,7 +220,7 @@ bool CutClipJob::isExclusive()
 }
 
 // static 
-QList <ProjectClip *> CutClipJob::filterClips(QList <ProjectClip *>clips, const QStringList &params)
+QList <ProjectClip *> CutClipJob::filterClips(const QList <ProjectClip *> &clips, const QStringList &params)
 {
     QString condition;
     if (params.count() > 3) {

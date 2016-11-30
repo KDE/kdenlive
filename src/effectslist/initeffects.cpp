@@ -178,6 +178,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         Mlt::Properties *consumers = repository->consumers();
         QStringList consumersList;
         max = consumers->count();
+        consumersList.reserve(max);
         for (int i = 0; i < max; ++i)
             consumersList << consumers->get_name(i);
         delete consumers;
@@ -427,7 +428,7 @@ void initEffects::parseCustomEffectsFile()
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, QStringList filtersList, QStringList producersList, Mlt::Repository *repository, QMap <QString, QString> effectDescriptions)
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, const QStringList &filtersList, const QStringList &producersList, Mlt::Repository *repository, const QMap <QString, QString> &effectDescriptions)
 {
     QDomDocument doc;
     QFile file(name);

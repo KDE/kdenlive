@@ -56,7 +56,7 @@ void MonitorManager::setDocument(KdenliveDoc *doc)
     m_document = doc;
 }
 
-QAction *MonitorManager::getAction(QString name)
+QAction *MonitorManager::getAction(const QString &name)
 {
     return pCore->window()->action(name.toLatin1());
 }

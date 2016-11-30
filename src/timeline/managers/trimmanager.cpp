@@ -69,7 +69,7 @@ void TrimManager::mouseRelease(QMouseEvent *, GenTime)
     endTrim();
 }
 
-bool TrimManager::enterTrimMode(ItemInfo info, bool trimStart)
+bool TrimManager::enterTrimMode(const ItemInfo &info, bool trimStart)
 {
     m_view->loadMonitorScene(MonitorSceneRipple, true);
     m_view->setQmlProperty(QStringLiteral("trimmode"), (int) m_trimMode);
@@ -212,7 +212,7 @@ TrimMode TrimManager::trimMode() const
     return m_trimMode;
 }
 
-void TrimManager::setTrimMode(TrimMode mode, ItemInfo info, bool fromStart)
+void TrimManager::setTrimMode(TrimMode mode, const ItemInfo &info, bool fromStart)
 {
     m_trimMode = mode;
     if (trimChanged && mode != NormalTrim) {

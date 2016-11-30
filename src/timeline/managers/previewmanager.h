@@ -77,7 +77,7 @@ public:
     /** @brief: Returns directory currently used to store the preview files. */
     const QDir getCacheDir() const;
     /** @brief: Load existing ruler chunks. */
-    void loadChunks(QStringList previewChunks, QStringList dirtyChunks, QDateTime documentDate);
+    void loadChunks(const QStringList &previewChunks, QStringList dirtyChunks, const QDateTime &documentDate);
 
 private:
     KdenliveDoc *m_doc;

@@ -166,7 +166,7 @@ public:
     QPixmap endThumb() const;
     void setState(PlaylistState::ClipState state);
     void updateState(const QString &id, int aIndex, int vIndex, PlaylistState::ClipState originalState);
-    bool updateAnimatedKeyframes(int ix, QDomElement parameter, const ItemInfo &oldInfo);
+    bool updateAnimatedKeyframes(int ix, const QDomElement &parameter, const ItemInfo &oldInfo);
     bool updateNormalKeyframes(QDomElement parameter, const ItemInfo &oldInfo);
 
     /** @brief Adjusts effects after a clip duration change. */
@@ -247,7 +247,7 @@ private slots:
     void slotSetEndThumb(const QImage &img);
     void slotThumbReady(int frame, const QImage &img);
     /** @brief For fixed thumbnail clip (image / titles), update thumb to reflect bin thumbnail. */
-    void slotUpdateThumb(QImage);
+    void slotUpdateThumb(const QImage &);
     /** @brief Something changed a detail in clip (thumbs, markers,...), repaint. */
     void slotRefreshClip();
 

@@ -205,6 +205,7 @@ MoveBinEffectCommand::MoveBinEffectCommand(Bin *bin, const QString &clipId, cons
         m_clipId(clipId),
         m_oldindex(oldPos)
 {
+    m_newindex.reserve(m_oldindex.count());
     for (int i = 0; i < m_oldindex.count(); ++i) {
         m_newindex << newPos + i;
     }

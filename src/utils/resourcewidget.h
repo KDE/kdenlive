@@ -83,7 +83,7 @@ private slots:
     void slotFreesoundAccessDenied();
     void slotReadyRead();
     void DownloadRequestFinished(QNetworkReply* reply);
-    void slotAccessTokenReceived(QString sAccessToken);
+    void slotAccessTokenReceived(const QString &sAccessToken);
     void slotFreesoundUseHQPreview();
     void slotFreesoundCanceled();
     void slotSearchFinished();
@@ -98,7 +98,7 @@ private:
     void loadConfig();
     void saveConfig();
     void parseLicense(const QString &);
-    QString GetSaveFileNameAndPathS(QString path,QString ext);
+    QString GetSaveFileNameAndPathS(const QString &path, const QString &ext);
     QString m_folder;
     QString  mSaveLocation;
     AbstractService *m_currentService;
@@ -110,7 +110,7 @@ private:
     QString m_meta;
     QMovie *m_movie;
     void updateLayout();
-    void DoFileDownload(QUrl srcUrl, QUrl saveUrl);
+    void DoFileDownload(const QUrl &srcUrl, const QUrl &saveUrl);
 
 signals:
     void addClip(const QUrl&);

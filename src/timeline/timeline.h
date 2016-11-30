@@ -120,7 +120,7 @@ public:
      *  @param ix The track number in MLT's coordinates (0 = black track, 1 = bottom audio, etc) 
      *  deprecated use string version with track name instead */
     TrackInfo getTrackInfo(int ix);
-    void setTrackInfo(int trackIndex, TrackInfo info);
+    void setTrackInfo(int trackIndex, const TrackInfo &info);
     QList <TrackInfo> getTracksInfo();
     QStringList getTrackNames();
     void addTrackEffect(int trackIndex, QDomElement effect, bool addToPlaylist = true);
@@ -175,7 +175,7 @@ public:
     /** @brief Returns the document properties with some added values from timeline. */
     QMap <QString, QString> documentProperties();
     void reloadTrack(int ix, int start = 0, int end = -1);
-    void reloadTrack(ItemInfo info, bool includeLastFrame);
+    void reloadTrack(const ItemInfo &info, bool includeLastFrame);
     /** @brief Add or remove current timeline zone to preview render zone. */
     void addPreviewRange(bool add);
     /** @brief Resets all preview render zones. */
@@ -204,7 +204,7 @@ public slots:
     /** @brief Stop rendering preview. */
     void stopPreviewRender();
     /** @brief Invalidate a preview rendering range. */
-    void invalidateRange(ItemInfo info = ItemInfo());
+    void invalidateRange(const ItemInfo &info = ItemInfo());
 
 private:
     Mlt::Tractor *m_tractor;

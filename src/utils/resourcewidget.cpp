@@ -432,7 +432,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
  * when user chooses to use HQ preview file from freesound
  * Starts a file copy job to download the file. When file finishes dowloading slotGotFile will be called
  */
-void ResourceWidget::DoFileDownload(QUrl srcUrl, QUrl saveUrl)
+void ResourceWidget::DoFileDownload(const QUrl &srcUrl, const QUrl &saveUrl)
 {
     KIO::FileCopyJob * getJob = KIO::file_copy(srcUrl, saveUrl, -1, KIO::Overwrite);
     KFileItem info(srcUrl);
@@ -753,7 +753,7 @@ void ResourceWidget::slotFreesoundAccessDenied()
  * and starts the download of the requested file. ResourceWidget::DownloadRequestFinished will be
  * notified when that job finishes
  */
-void ResourceWidget::slotAccessTokenReceived(QString sAccessToken)
+void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
 {
      //qDebug() << "slotAccessTokenReceived: " <<sAccessToken;
      if (sAccessToken !=QLatin1String(""))
@@ -791,7 +791,7 @@ void ResourceWidget::slotAccessTokenReceived(QString sAccessToken)
  * Prompts user to choose a file name and path as to where to save a file.
  * Returns a QString of the path and file name or empty string if user  cancels
  */
-QString ResourceWidget::GetSaveFileNameAndPathS(QString path,QString ext)
+QString ResourceWidget::GetSaveFileNameAndPathS(const QString &path,const QString &ext)
 {
     QString saveUrlstring = QFileDialog::getSaveFileName(this, QString(), path, ext);
     if ( saveUrlstring.isEmpty() )

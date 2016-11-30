@@ -108,7 +108,7 @@ void CornersWidget::slotUpdateItem()
     m_monitor->setEffectKeyframe(enable);
 }
 
-void CornersWidget::slotUpdateGeometry(QVariantList points)
+void CornersWidget::slotUpdateGeometry(const QVariantList &points)
 {
     if (keyframe_list->columnCount() < 8)
         return;

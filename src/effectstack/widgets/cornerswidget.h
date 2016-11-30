@@ -62,7 +62,7 @@ private slots:
     /** @brief Updates the on-monitor item according to the current timeline position. */
     void slotUpdateItem();
     /** @brief Updates the keyframe editor according to the on-monitor item. */
-    void slotUpdateGeometry(QVariantList points);
+    void slotUpdateGeometry(const QVariantList &points);
 
     /** @brief Inserts a keyframe at the current (playback) position (m_pos). */
     void slotInsertKeyframe();

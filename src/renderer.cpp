@@ -554,7 +554,7 @@ void Render::checkMaxThreads()
 }
 
 
-const QString Render::sceneList(const QString root)
+const QString Render::sceneList(const QString &root)
 {
     QString playlist;
     qDebug()<<" * * *Setting document xml root: "<<root;

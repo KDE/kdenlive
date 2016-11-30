@@ -68,7 +68,7 @@ void EffectManager::setProducer(Mlt::Service& producer)
     }
 }*/
 
-bool EffectManager::addEffect(EffectsParameterList params, int duration)
+bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
 {
     bool updateIndex = false;
     const int filter_ix = params.paramValue(QStringLiteral("kdenlive_ix")).toInt();

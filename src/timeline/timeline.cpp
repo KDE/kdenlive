@@ -654,7 +654,7 @@ bool Timeline::isLastClip(const ItemInfo &info)
     return tk->isLastClip(info.endPos.seconds());
 }
 
-void Timeline::setTrackInfo(int ix, TrackInfo info)
+void Timeline::setTrackInfo(int ix, const TrackInfo &info)
 {
     if (ix < 0 || ix > m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
@@ -934,7 +934,7 @@ void Timeline::reloadTrack(int ix, int start, int end)
     loadTrack(ix, 0, pl, startIndex, endIndex, false);
 }
 
-void Timeline::reloadTrack(ItemInfo info, bool includeLastFrame)
+void Timeline::reloadTrack(const ItemInfo &info, bool includeLastFrame)
 {
     // Get playlist
     if (!info.isValid())
@@ -1852,7 +1852,7 @@ void Timeline::stopPreviewRender()
         m_timelinePreview->abortRendering();
 }
 
-void Timeline::invalidateRange(ItemInfo info)
+void Timeline::invalidateRange(const ItemInfo &info)
 {
     if (!m_timelinePreview)
         return;

@@ -113,7 +113,7 @@ class RenderWidget : public QDialog
 public:
     explicit RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget * parent = Q_NULLPTR);
     virtual ~RenderWidget();
-    void setGuides(QMap <double, QString> guidesData, double duration);
+    void setGuides(const QMap<double, QString> &guidesData, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());
     void setProfile(const MltVideoProfile& profile);
     void setRenderJob(const QString &dest, int progress = 0);
@@ -153,7 +153,7 @@ public slots:
     const QList<QString> &playlistPaths, const QList<QString> &trackNames,
     const QString &scriptPath, bool exportAudio);
     void slotAbortCurrentJob();
-    void slotPrepareExport(bool scriptExport = false, QString scriptPath = QString());
+    void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
 
 private slots:
     void slotUpdateButtons(const QUrl &url);
@@ -219,7 +219,7 @@ private:
     void startRendering(RenderJobItem *item);
     bool saveProfile(QDomElement newprofile);
     /** @brief Create a rendering profile from MLT preset. */
-    QTreeWidgetItem *loadFromMltPreset(const QString groupName, const QString path, const QString profileName);
+    QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, const QString &profileName);
     void checkCodecs();
 
 signals:

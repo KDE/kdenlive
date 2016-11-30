@@ -42,7 +42,7 @@ public:
     EffectManager& operator=(EffectManager& other);
     Mlt::Service & producer();
     void setProducer(Mlt::Service& producer);
-    bool addEffect(EffectsParameterList params, int duration);
+    bool addEffect(const EffectsParameterList &params, int duration);
     bool doAddFilter(EffectsParameterList params, int duration);
     bool editEffect(EffectsParameterList params, int duration, bool replaceEffect);
     bool removeEffect(int effectIndex, bool updateIndex);

@@ -43,7 +43,7 @@ public:
     * @param text (optional) What the color will be used for
     * @param color (optional) initial color 
     * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit SelectiveColor(const QDomElement effect, QWidget* parent = Q_NULLPTR);
+    explicit SelectiveColor(const QDomElement &effect, QWidget* parent = Q_NULLPTR);
     ~SelectiveColor();
     void addParam(QDomElement &effect, QString name);
     void updateEffect(QDomElement &effect);

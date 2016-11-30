@@ -89,10 +89,10 @@ public:
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender() Q_DECL_OVERRIDE;
-    void resetProfile(MltVideoProfile profile);
+    void resetProfile(const MltVideoProfile &profile);
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = Q_NULLPTR, QAction *loopClip = Q_NULLPTR);
-    const QString sceneList(const QString root);
+    const QString sceneList(const QString &root);
     const QString activeClipId();
     GenTime position();
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
@@ -124,7 +124,7 @@ public:
     Mlt::Profile *profile();
     int getZoneStart();
     int getZoneEnd();
-    void setUpEffectGeometry(QRect r, QVariantList list = QVariantList(), QVariantList types = QVariantList());
+    void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList());
     /** @brief Returns effective display size */
     QSize profileSize() const;
     QRect effectRect() const;
@@ -259,9 +259,9 @@ private slots:
     void slotForceSize(QAction *a);
     void slotSeekToKeyFrame();
     /** @brief Display a non blocking error message to user **/
-    void warningMessage(const QString &text, int timeout = 5000, QList <QAction*> actions = QList <QAction*>());
+    void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList <QAction*>());
     void slotLockMonitor(bool lock);
-    void slotAddEffect(QDomElement effect);
+    void slotAddEffect(const QDomElement &effect);
     void slotSwitchPlay();
     void slotEditInlineMarker();
     /** @brief Pass keypress event to mainwindow */

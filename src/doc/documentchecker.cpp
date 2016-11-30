@@ -732,7 +732,7 @@ void DocumentChecker::acceptDialog()
     //QDialog::accept();
 }
 
-void DocumentChecker::fixProxyClip(const QString &id, const QString oldUrl, const QString newUrl, const QDomNodeList &producers)
+void DocumentChecker::fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl, const QDomNodeList &producers)
 {
     QDomElement e, property;
     QDomNodeList properties;

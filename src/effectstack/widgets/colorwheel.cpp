@@ -21,7 +21,7 @@
 #include "colorwheel.h"
 #include <qmath.h>
 
-ColorWheel::ColorWheel(QString id, QString name, QColor color, QWidget *parent)
+ColorWheel::ColorWheel(const QString &id, const QString &name, const QColor &color, QWidget *parent)
     : QWidget(parent)
     , m_id(id)
     , m_isMouseDown(false)

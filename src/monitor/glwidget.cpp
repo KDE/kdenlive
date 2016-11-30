@@ -1041,7 +1041,7 @@ Mlt::Profile *GLWidget::profile()
     return m_monitorProfile;
 }
 
-void GLWidget::resetProfile(MltVideoProfile profile)
+void GLWidget::resetProfile(const MltVideoProfile &profile)
 {
     if (m_consumer && !m_consumer->is_stopped()) {
         m_consumer->stop();
@@ -1405,7 +1405,7 @@ void FrameRenderer::cleanup()
     }
 }
 
-void GLWidget::setAudioThumb(int channels, QVariantList audioCache)
+void GLWidget::setAudioThumb(int channels, const QVariantList &audioCache)
 {
     if (rootObject()) {
         QmlAudioThumb *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));

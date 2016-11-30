@@ -131,7 +131,7 @@ class Render: public AbstractRender
 
     /** @brief Get the current MLT producer playlist.
      * @return A string describing the playlist */
-    const QString sceneList(const QString root);
+    const QString sceneList(const QString &root);
 
     /** @brief Tells the renderer to play the scene at the specified speed,
      * @param speed speed to play the scene to

@@ -459,7 +459,7 @@ public:
     void removeClipCut(const QString&id, int in, int out);
 
     /** @brief Create the subclips defined in the parent clip. */
-    void loadSubClips(const QString&id, const QMap <QString,QString> data);
+    void loadSubClips(const QString&id, const QMap<QString, QString> &data);
 
     /** @brief Set focus to the Bin view. */
     void focusBinView() const;

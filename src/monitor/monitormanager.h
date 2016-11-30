@@ -63,7 +63,7 @@ public:
     BinController *binController();
     Mlt::Profile *profile();
     /** @brief Return a mainwindow action from its id name. */
-    QAction *getAction(QString name);
+    QAction *getAction(const QString &name);
     Monitor *clipMonitor();
     Monitor *projectMonitor();
     void lockMonitor(Kdenlive::MonitorId name, bool);

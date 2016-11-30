@@ -86,9 +86,9 @@ public:
     static void parseEffectFile(EffectsList *customEffectList,
                                 EffectsList *audioEffectList,
                                 EffectsList *videoEffectList,
-                                const QString &name, QStringList filtersList,
-                                QStringList producersList,
-                                Mlt::Repository *repository, QMap <QString, QString> effectDescriptions);
+                                const QString &name, const QStringList &filtersList,
+                                const QStringList &producersList,
+                                Mlt::Repository *repository, const QMap<QString, QString> &effectDescriptions);
     static void parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions);
     
     /** @brief Reloads information about custom effects. */

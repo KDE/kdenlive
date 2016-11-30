@@ -165,7 +165,7 @@ void AddTransitionCommand::redo()
     m_doIt = true;
 }
 
-ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, ItemInfo info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent) :
+ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const ItemInfo &info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
         m_info(info),

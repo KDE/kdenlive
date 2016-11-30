@@ -189,7 +189,7 @@ private slots:
     /** @brief Show / hide keyframe path in monitor scene. */
     void slotShowPath(bool show);
     /** @brief Eduit center points for the geometry keyframes. */
-    void slotUpdateCenters(const QVariantList centers);
+    void slotUpdateCenters(const QVariantList &centers);
 
 signals:
     void parameterChanged();

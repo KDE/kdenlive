@@ -2752,7 +2752,7 @@ void Bin::slotAddClipCut(const QString&id, int in, int out)
     m_doc->commandStack()->push(command);
 }
 
-void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
+void Bin::loadSubClips(const QString&id, const QMap <QString,QString> &data)
 {
     ProjectClip *clip = getBinClip(id);
     if (!clip) return;

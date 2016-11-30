@@ -1922,7 +1922,7 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip)
         monitorRefresh(clip->info());
 }
 
-void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
+void CustomTrackView::addEffect(int track, GenTime pos, const QDomElement &effect)
 {
     if (pos < GenTime()) {
         // Add track effect

@@ -43,9 +43,9 @@ public:
     bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
     bool mouseMove(QMouseEvent *event, int pos, int track = -1) Q_DECL_OVERRIDE;
     void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) Q_DECL_OVERRIDE;
-    bool enterTrimMode(ItemInfo info, bool trimStart);
+    bool enterTrimMode(const ItemInfo &info, bool trimStart);
     void moveRoll(bool forward, int pos = -1);
-    void setTrimMode(TrimMode mode, ItemInfo info = ItemInfo(), bool fromStart = true);
+    void setTrimMode(TrimMode mode, const ItemInfo &info = ItemInfo(), bool fromStart = true);
     TrimMode trimMode() const;
     void initRipple(Mlt::Playlist *playlist, int pos, Render *renderer);
 

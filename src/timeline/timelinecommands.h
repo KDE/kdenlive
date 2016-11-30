@@ -107,7 +107,7 @@ private:
 class ChangeClipTypeCommand : public QUndoCommand
 {
 public:
-    ChangeClipTypeCommand(CustomTrackView *view, ItemInfo info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent = Q_NULLPTR);
+    ChangeClipTypeCommand(CustomTrackView *view, const ItemInfo &info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:

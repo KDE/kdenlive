@@ -522,7 +522,7 @@ double KeyframeView::editedKeyFrameValue()
     return m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), activeKeyframe, duration - m_offset);
 }
 
-void KeyframeView::updateKeyFramePos(QRectF br, int frame, const double y)
+void KeyframeView::updateKeyFramePos(const QRectF &br, int frame, const double y)
 {
     if (!m_keyAnim.is_key(activeKeyframe)) {
         return;

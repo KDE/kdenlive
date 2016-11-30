@@ -44,7 +44,7 @@ public:
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
     void updateTransition(const QString &oldTag, const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml, bool force = false);
     void updateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
-    bool deleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
+    bool deleteTransition(const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml, bool refresh = true);
     void deleteTrackTransitions(int ix);
     bool moveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
@@ -60,7 +60,7 @@ public:
     /** @brief Returns the matching composite transition depending on the current settings. */
     static const QString compositeTransition();
     /** @brief Initialize transition settings. */
-    void initTransition(QDomElement xml);
+    void initTransition(const QDomElement &xml);
 
 private:
     Mlt::Tractor *m_tractor;

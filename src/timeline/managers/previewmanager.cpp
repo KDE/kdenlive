@@ -111,7 +111,7 @@ bool PreviewManager::buildPreviewTrack()
     return true;
 }
 
-void PreviewManager::loadChunks(QStringList previewChunks, QStringList dirtyChunks, QDateTime documentDate)
+void PreviewManager::loadChunks(const QStringList &previewChunks, QStringList dirtyChunks, const QDateTime &documentDate)
 {
     foreach (const QString frame, previewChunks) {
         const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(frame).arg(m_extension));

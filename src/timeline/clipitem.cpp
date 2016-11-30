@@ -1826,7 +1826,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo
 }
 
 
-bool ClipItem::updateAnimatedKeyframes(int ix, QDomElement parameter, const ItemInfo &oldInfo)
+bool ClipItem::updateAnimatedKeyframes(int ix, const QDomElement &parameter, const ItemInfo &oldInfo)
 {
     int in = cropStart().frames(m_fps);
     int out = (cropStart() + cropDuration()).frames(m_fps) - 1;
@@ -1977,7 +1977,7 @@ void ClipItem::updateState(const QString &id, int aIndex, int vIndex, PlaylistSt
     }
 }
 
-void ClipItem::slotUpdateThumb(QImage img)
+void ClipItem::slotUpdateThumb(const QImage &img)
 {
     m_startPix = QPixmap::fromImage(img);
     update();

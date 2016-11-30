@@ -738,7 +738,7 @@ QString KdenliveDoc::projectDataFolder() const
     return m_projectFolder;
 }
 
-void KdenliveDoc::setProjectFolder(QUrl url)
+void KdenliveDoc::setProjectFolder(const QUrl &url)
 {
     if (url == QUrl::fromLocalFile(m_projectFolder)) return;
     setModified(true);

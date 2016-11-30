@@ -123,7 +123,7 @@ public:
     /** @brief Saves only the MLT xml to a file for preview rendering. */
     void saveMltPlaylist(const QString &fileName);
     void cacheImage(const QString &fileId, const QImage &img) const;
-    void setProjectFolder(QUrl url);
+    void setProjectFolder(const QUrl &url);
     void setZone(int start, int end);
     QPoint zone() const;
     int setSceneList();

@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <KLocalizedString>
 
-SelectiveColor::SelectiveColor(const QDomElement effect, QWidget* parent) :
+SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget* parent) :
         QWidget(parent)
 {
     setupUi(this);

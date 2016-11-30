@@ -90,7 +90,7 @@ public:
     /** @brief Add effect to a clip or selection */
     void slotAddEffect(const QDomElement &effect, const GenTime &pos, int track);
     void slotAddGroupEffect(const QDomElement &effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = Q_NULLPTR);
-    void addEffect(int track, GenTime pos, QDomElement effect);
+    void addEffect(int track, GenTime pos, const QDomElement &effect);
     void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
     void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false, bool refreshMonitor = true);
     /** @brief Enable / disable a list of effects */

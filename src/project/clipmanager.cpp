@@ -223,7 +223,7 @@ void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringLi
     }
 }
 
-void ClipManager::doDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute)
+void ClipManager::doDeleteClips(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand, bool execute)
 {
     for (int i = 0; i < clipIds.size(); ++i) {
         QString xml = pCore->binController()->xmlFromId(clipIds.at(i));

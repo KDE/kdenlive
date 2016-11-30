@@ -1159,7 +1159,7 @@ void AnimationWidget::slotUpdateGeometryRect(const QRect r)
     setupMonitor();
 }
 
-void AnimationWidget::slotUpdateCenters(const QVariantList centers)
+void AnimationWidget::slotUpdateCenters(const QVariantList &centers)
 {
     if (centers.count() != m_animController.key_count()) {
         qDebug()<<"* * * *CENTER POINTS MISMATCH, aborting edit";
