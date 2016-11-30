@@ -33,8 +33,6 @@ class ProjectClip;
 class QDomElement;
 
 namespace Mlt {
-  class Producer;
-  class Properties;
 };
 
 

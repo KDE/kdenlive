@@ -26,8 +26,6 @@
 
 class QDomElement;
 class Monitor;
-class MonitorScene;
-class OnMonitorCornersItem;
 
 
 class CornersWidget : public KeyframeEdit

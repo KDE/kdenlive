@@ -26,7 +26,6 @@
 #include "timecode.h"
 
 namespace Mlt {
-    class Animation;
 }
 
 class AnimKeyframeRuler : public QWidget

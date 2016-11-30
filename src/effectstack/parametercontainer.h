@@ -29,7 +29,6 @@ class AnimationWidget;
 class Monitor;
 
 namespace Mlt {
-    class Profile;
 }
 
 enum EFFECTMODE {

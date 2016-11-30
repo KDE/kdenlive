@@ -55,7 +55,6 @@ public:
 
 namespace Mlt
 {
-class Producer;
 }
 
 /**

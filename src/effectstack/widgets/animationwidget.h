@@ -34,7 +34,6 @@ class KDualAction;
 struct EffectMetaInfo;
 class DoubleParameterWidget;
 class KSelectAction;
-class QDialog;
 class QComboBox;
 class DragValue;
 

@@ -36,7 +36,6 @@
 
 namespace Mlt {
 class Filter;
-class Consumer;
 }
 
 class MonitorManager;

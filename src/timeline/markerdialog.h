@@ -32,8 +32,6 @@ class ClipController;
 
 namespace Mlt
 {
-class Producer;
-class Profile;
 }
 
 /**

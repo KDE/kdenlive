@@ -22,7 +22,6 @@
 
 #include "abstracttoolmanager.h"
 
-class ClipItem;
 
 /**
  * @namespace SpacerManager
