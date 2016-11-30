@@ -35,7 +35,7 @@ class KeyItemDelegate: public QItemDelegate
 {
     Q_OBJECT
 public:
-    KeyItemDelegate(int min, int max, QAbstractItemView* parent = 0)
+    KeyItemDelegate(int min, int max, QAbstractItemView* parent = Q_NULLPTR)
         : QItemDelegate(parent), m_min(min), m_max(max) {
     }
 

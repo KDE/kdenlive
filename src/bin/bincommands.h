@@ -124,13 +124,13 @@ private:
 class ChangeMasterEffectStateCommand : public QUndoCommand
 {
 public:
-    ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList <int>& effectIndexes, bool disable, QUndoCommand *parent = Q_NULLPTR);
+    ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList<int>& effectIndexes, bool disable, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
     Bin *m_bin;
     QString m_clipId;
-    QList <int> m_effectIndexes;
+    QList<int> m_effectIndexes;
     bool m_disable;
     bool m_refreshEffectStack;
 };
@@ -144,8 +144,8 @@ public:
 private:
     Bin *m_bin;
     QString m_clipId;
-    QList <int> m_oldindex;
-    QList <int> m_newindex;
+    QList<int> m_oldindex;
+    QList<int> m_newindex;
 };
 
 class RenameBinSubClipCommand : public QUndoCommand

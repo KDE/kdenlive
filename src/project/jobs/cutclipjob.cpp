@@ -328,6 +328,8 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
     QStringList existingFiles;
     QStringList sources;
     QStringList destinations;
+    destinations.reserve(clips.count());
+    sources.reserve(clips.count());
     for (int i = 0; i < clips.count(); i++) {
         QString source = clips.at(i)->url().toLocalFile();
         sources << source;
@@ -414,7 +416,7 @@ void CutClipJob::processAnalyseLog()
     }
     QJsonObject jsonObject = doc.object();
     QJsonArray jsonArray = jsonObject[QStringLiteral("frames")].toArray();
-    QList <int> frames;
+    QList<int> frames;
     foreach (const QJsonValue & value, jsonArray) {
         QJsonObject obj = value.toObject();
         if (obj[QStringLiteral("pict_type")].toString() != QLatin1String("I")) continue;

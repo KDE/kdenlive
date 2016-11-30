@@ -57,7 +57,7 @@ public:
     /** @brief: a timeline operation caused changes to frames between startFrame and endFrame. */
     void invalidatePreview(int startFrame, int endFrame);
     /** @brief: after a small  delay (some operations trigger several invalidatePreview calls), take care of these invalidated chunks. */
-    void invalidatePreviews(QList <int> chunks);
+    void invalidatePreviews(QList<int> chunks);
     /** @brief: user adds current timeline zone to the preview zone. */
     void addPreviewRange(bool add);
     /** @brief: Remove all existing previews. */
@@ -97,16 +97,16 @@ private:
     QTimer m_previewGatherTimer;
     bool m_initialized;
     bool m_abortPreview;
-    QList <int> m_waitingThumbs;
+    QList<int> m_waitingThumbs;
     QFuture <void> m_previewThread;
     /** @brief: After an undo/redo, if we have preview history, use it. */
-    void reloadChunks(QList <int> chunks);
+    void reloadChunks(QList<int> chunks);
 
 private slots:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */
     void doCleanupOldPreviews();
     /** @brief: Start the real rendering process. */
-    void doPreviewRender(QString scene);
+    void doPreviewRender(const QString &scene);
     /** @brief: If user does an undo, then makes a new timeline operation, delete undo history of more recent stack . */
     void slotRemoveInvalidUndo(int ix);
     /** @brief: When the timer collecting invalid zones is done, process. */

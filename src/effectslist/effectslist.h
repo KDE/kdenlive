@@ -71,7 +71,7 @@ public:
     QString getInfoFromIndex(const int ix) const;
     QString getEffectInfo(const QDomElement &effect) const;
     void clone(const EffectsList &original);
-    QDomElement append(QDomElement e);
+    QDomElement append(const QDomElement &e);
     bool isEmpty() const;
     int count() const;
     const QDomElement at(int ix) const;
@@ -85,9 +85,9 @@ public:
     /** @brief Change the value of a 'property' element from the effect node. */
     static void setProperty(QDomElement effect, const QString &name, const QString &value);
     /** @brief Rename a 'property' element from the effect node. */
-    static void renameProperty(QDomElement effect, const QString &oldName, const QString &newName);
+    static void renameProperty(const QDomElement &effect, const QString &oldName, const QString &newName);
     /** @brief Get the value of a 'property' element from the effect node. */
-    static QString property(QDomElement effect, const QString &name);
+    static QString property(const QDomElement &effect, const QString &name);
     /** @brief Delete a 'property' element from the effect node. */
     static void removeProperty(QDomElement effect, const QString &name);
     /** @brief Remove all 'meta.*' properties from a producer, used when replacing proxy producers in xml for rendering. */
@@ -96,7 +96,7 @@ public:
     /** @brief Get am effect with effect index equal to ix. */
     QDomElement effectFromIndex(const QDomNodeList &effects, int ix);
     /** @brief Update all effects indexes to make sure they are 1, 2, 3, ... */
-    void updateIndexes(QDomNodeList effects, int startIndex);
+    void updateIndexes(const QDomNodeList &effects, int startIndex);
     /** @brief Enable / disable a list of effects */
     bool enableEffects(const QList<int> &indexes, bool disable);
 

@@ -36,7 +36,7 @@ AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) 
         m_channels = producer->get_int(key.data());
 
         int streams = producer->get_int("meta.media.nb_streams");
-        QList <int> audioStreams;
+        QList<int> audioStreams;
         for (int i = 0; i < streams; ++i) {
             QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
             QString type = producer->get(propertyName.data());

@@ -485,12 +485,12 @@ public:
     void deleteAllClipMarkers(const QString &id);
     /** @brief Remove an effect from a bin clip. */
     void removeEffect(const QString &id, const QDomElement &effect);
-    void moveEffect(const QString &id, const QList <int> &oldPos, const QList <int> &newPos);
+    void moveEffect(const QString &id, const QList<int> &oldPos, const QList<int> &newPos);
     /** @brief Add an effect to a bin clip. */
     void addEffect(const QString &id, QDomElement &effect);
     /** @brief Update a bin clip effect. */
     void updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget);
-    void changeEffectState(const QString &id, const QList <int>& indexes, bool disable, bool refreshStack);
+    void changeEffectState(const QString &id, const QList<int>& indexes, bool disable, bool refreshStack);
     /** @brief Edit an effect settings to a bin clip. */
     void editMasterEffect(ClipController *ctl);
     /** @brief An effect setting was changed, update stack if displayed. */

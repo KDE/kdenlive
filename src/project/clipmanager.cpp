@@ -107,7 +107,7 @@ void ClipManager::clearCache()
     pixmapCache->clear();
 }
 
-void ClipManager::slotRequestThumbs(const QString &id, const QList <int>& frames)
+void ClipManager::slotRequestThumbs(const QString &id, const QList<int>& frames)
 {
     m_thumbsMutex.lock();
     foreach (int frame, frames) {
@@ -194,7 +194,7 @@ void ClipManager::slotGetThumbs()
     emit displayMessage(QString(), -1);
 }
 
-void ClipManager::deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand)
+void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand)
 {
     // Create meta command
     bool execute = deleteCommand == Q_NULLPTR;

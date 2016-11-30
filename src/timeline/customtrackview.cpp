@@ -2403,7 +2403,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     else emit displayMessage(i18n("Cannot find clip to update effect"), ErrorMessage);
 }
 
-void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effectIndexes, bool disable, bool updateEffectStack)
+void CustomTrackView::updateEffectState(int track, GenTime pos, QList<int> effectIndexes, bool disable, bool updateEffectStack)
 {
     if (pos < GenTime()) {
         // editing a track effect
@@ -2437,7 +2437,7 @@ void CustomTrackView::updateEffectState(int track, GenTime pos, QList <int> effe
     else emit displayMessage(i18n("Cannot find clip to update effect"), ErrorMessage);
 }
 
-void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int> &oldPos, const QList <int> &newPos)
+void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList<int> &oldPos, const QList<int> &newPos)
 {
     if (pos < GenTime()) {
         // Moving track effect
@@ -2502,7 +2502,7 @@ void CustomTrackView::moveEffect(int track, const GenTime &pos, const QList <int
     } else emit displayMessage(i18n("Cannot move effect"), ErrorMessage);
 }
 
-void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, QList <int> effectIndexes, bool disable)
+void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, QList<int> effectIndexes, bool disable)
 {
     ChangeEffectStateCommand *command;
     if (clip == Q_NULLPTR) {
@@ -2510,7 +2510,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, QList <in
         command = new ChangeEffectStateCommand(this, track, GenTime(-1), effectIndexes, disable, false, true);
     } else {
         // Check if we have a speed effect, disabling / enabling it needs a special procedure since it is a pseudoo effect
-        QList <int> speedEffectIndexes;
+        QList<int> speedEffectIndexes;
         for (int i = 0; i < effectIndexes.count(); ++i) {
             QDomElement effect = clip->effectAtIndex(effectIndexes.at(i));
             if (effect.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
@@ -2530,7 +2530,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, QList <in
     m_commandStack->push(command);
 }
 
-void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, QList <int> currentPos, int newPos)
+void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, QList<int> currentPos, int newPos)
 {
     MoveEffectCommand *command;
     if (clip == Q_NULLPTR) {
@@ -5951,7 +5951,7 @@ bool CustomTrackView::findString(const QString &text)
     return false;
 }
 
-void CustomTrackView::selectFound(QString track, QString pos)
+void CustomTrackView::selectFound(const QString &track, const QString &pos)
 {
     int hor = m_document->timecode().getFrameCount(pos);
     activateMonitor();
@@ -6050,7 +6050,7 @@ void CustomTrackView::copyClip()
         pasteAction->setEnabled(!m_copiedItems.isEmpty());
 }
 
-bool CustomTrackView::canBePastedTo(ItemInfo info, int type, QList<AbstractClipItem *>excluded) const
+bool CustomTrackView::canBePastedTo(const ItemInfo &info, int type, const QList<AbstractClipItem *> &excluded) const
 {
     if (m_scene->editMode() != TimelineMode::NormalEdit) {
         // If we are in overwrite mode, always allow the move
@@ -6076,7 +6076,7 @@ bool CustomTrackView::canBePastedTo(ItemInfo info, int type, QList<AbstractClipI
     return true;
 }
 
-bool CustomTrackView::canBePastedTo(QList <ItemInfo> infoList, int type) const
+bool CustomTrackView::canBePastedTo(const QList <ItemInfo> &infoList, int type) const
 {
     QPainterPath path;
     for (int i = 0; i < infoList.count(); ++i) {
@@ -6090,7 +6090,7 @@ bool CustomTrackView::canBePastedTo(QList <ItemInfo> infoList, int type) const
     return true;
 }
 
-bool CustomTrackView::canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset, QList <AbstractClipItem *>excluded) const
+bool CustomTrackView::canBePasted(const QList<AbstractClipItem *> &items, GenTime offset, int trackOffset, QList <AbstractClipItem *>excluded) const
 {
     excluded << items;
     for (int i = 0; i < items.count(); ++i) {
@@ -6631,7 +6631,7 @@ void CustomTrackView::slotConfigTracks(int ix)
                                                             ix, parentWidget());
     if (d->exec() == QDialog::Accepted) {
         configTracks(d->tracksList());
-        QList <int> toDelete = d->deletedTracks();
+        QList<int> toDelete = d->deletedTracks();
         while (!toDelete.isEmpty()) {
             int track = toDelete.takeLast();
             TrackInfo info = m_timeline->getTrackInfo(track);
@@ -7547,10 +7547,10 @@ void CustomTrackView::setEditMode(TimelineMode::EditMode mode)
 
 void CustomTrackView::checkTrackSequence(int track)
 {
-    QList <int> times = m_document->renderer()->checkTrackSequence(track);
+    QList<int> times = m_document->renderer()->checkTrackSequence(track);
     QRectF rect(0, getPositionFromTrack(track) + m_tracksHeight / 2, sceneRect().width(), 2);
     QList<QGraphicsItem *> selection = m_scene->items(rect);
-    QList <int> timelineList;
+    QList<int> timelineList;
     timelineList.append(0);
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {

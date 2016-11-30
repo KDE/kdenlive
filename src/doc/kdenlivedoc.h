@@ -162,7 +162,7 @@ public:
     QAction *getAction(const QString &name);
     /** @brief Add an action to main actioncollection. */
     void doAddAction(const QString &name, QAction *a, const QKeySequence &shortcut);
-    void invalidatePreviews(QList <int> chunks);
+    void invalidatePreviews(QList<int> chunks);
     void previewProgress(int p);
     /** @brief Select most appropriate rendering profile for timeline preview based on fps / size. */
     void selectPreviewProfile();
@@ -201,7 +201,7 @@ private:
 
     /** @brief The project folder, used to store project files (titles, effects...). */
     QString m_projectFolder;
-    QList <int> m_undoChunks;
+    QList<int> m_undoChunks;
     QMap <QString, QString> m_documentProperties;
     QMap <QString, QString> m_documentMetadata;
 

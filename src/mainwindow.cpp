@@ -330,7 +330,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_effectStack, SIGNAL(updateMasterEffect(QString,QDomElement,QDomElement,int)), pCore->bin(), SLOT(slotUpdateEffect(QString,QDomElement,QDomElement,int)));
     connect(m_effectStack, SIGNAL(changeMasterEffectState(QString,QList<int>,bool)), pCore->bin(), SLOT(slotChangeEffectState(QString,QList<int>,bool)));
     connect(m_effectStack, SIGNAL(removeMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotDeleteEffect(QString,QDomElement)));
-    connect(m_effectStack, SIGNAL(changeEffectPosition(QString,const QList <int>,int)), pCore->bin(), SLOT(slotMoveEffect(QString,const QList <int>,int)));
+    connect(m_effectStack, SIGNAL(changeEffectPosition(QString,const QList<int>,int)), pCore->bin(), SLOT(slotMoveEffect(QString,const QList<int>,int)));
     connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
     connect(m_effectStack, SIGNAL(displayMessage(QString,int)), m_messageLabel, SLOT(setProgressMessage(QString,int)));
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);

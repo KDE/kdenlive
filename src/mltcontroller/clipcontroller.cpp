@@ -735,7 +735,7 @@ EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &s
     return effList;
 }
 
-void ClipController::changeEffectState(const QList <int> &indexes, bool disable)
+void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
 {
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {

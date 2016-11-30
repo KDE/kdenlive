@@ -120,13 +120,13 @@ private:
 class ChangeEffectStateCommand : public QUndoCommand
 {
 public:
-    ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList <int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent = Q_NULLPTR);
+    ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
     CustomTrackView *m_view;
     const int m_track;
-    QList <int> m_effectIndexes;
+    QList<int> m_effectIndexes;
     const GenTime m_pos;
     bool m_disable;
     bool m_doIt;
@@ -251,7 +251,7 @@ private:
 class AddSpaceCommand : public QUndoCommand
 {
 public:
-    AddSpaceCommand(CustomTrackView *view, ItemInfo spaceInfo, QList <ItemInfo> excludeList, bool doIt, QUndoCommand * parent = Q_NULLPTR, bool trackonly = false);
+    AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList<ItemInfo> &excludeList, bool doIt, QUndoCommand * parent = Q_NULLPTR, bool trackonly = false);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -293,7 +293,7 @@ private:
 class MoveEffectCommand : public QUndoCommand
 {
 public:
-    MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList <int> &oldPos, int newPos, QUndoCommand * parent = Q_NULLPTR);
+    MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &oldPos, int newPos, QUndoCommand * parent = Q_NULLPTR);
     int id() const Q_DECL_OVERRIDE;
     bool mergeWith(const QUndoCommand * command) Q_DECL_OVERRIDE;
     void undo() Q_DECL_OVERRIDE;
@@ -301,8 +301,8 @@ public:
 private:
     CustomTrackView *m_view;
     int m_track;
-    QList <int> m_oldindex;
-    QList <int> m_newindex;
+    QList<int> m_oldindex;
+    QList<int> m_newindex;
     GenTime m_pos;
 };
 

@@ -244,9 +244,9 @@ private:
     QMutex m_intraThumbMutex;
     QMutex m_audioMutex;
     QFuture <void> m_thumbThread;
-    QList <int> m_requestedThumbs;
+    QList<int> m_requestedThumbs;
     QFuture <void> m_intraThread;
-    QList <int> m_intraThumbs;
+    QList<int> m_intraThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
     void doExtractImage();
     void doExtractIntra();

@@ -194,7 +194,7 @@ int ClipItem::selectedEffectIndex() const
     return m_selectedEffect;
 }
 
-void ClipItem::initEffect(ProfileInfo pInfo, QDomElement effect, int diff, int offset)
+void ClipItem::initEffect(ProfileInfo pInfo, const QDomElement &effect, int diff, int offset)
 {
     EffectsController::initEffect(m_info, pInfo, m_effectList, m_binClip->getProducerProperty(QStringLiteral("proxy")), effect, diff, offset);
 }
@@ -385,7 +385,7 @@ void ClipItem::slotFetchThumbs()
         return;
     }
 
-    QList <int> frames;
+    QList<int> frames;
     if (m_startPix.isNull()) {
         m_startThumbRequested = true;
         frames.append((int)m_speedIndependantInfo.cropStart.frames(m_fps));
@@ -1016,7 +1016,7 @@ void ClipItem::resetFrameWidth(int width)
     update();
 }
 
-QList <GenTime> ClipItem::snapMarkers(const QList < GenTime > markers ) const
+QList <GenTime> ClipItem::snapMarkers(const QList < GenTime > &markers ) const
 {
     QList < GenTime > snaps;
     GenTime pos;
@@ -1320,7 +1320,7 @@ void ClipItem::updateEffect(const QDomElement &effect)
     }
 }
 
-bool ClipItem::enableEffects(QList <int> indexes, bool disable)
+bool ClipItem::enableEffects(QList<int> indexes, bool disable)
 {
     return m_effectList.enableEffects(indexes, disable);
 }

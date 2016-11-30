@@ -254,6 +254,7 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
     QPolygonF poly;
 
     p.setPen(QPen(palette().text().color(), 1, Qt::SolidLine));
+    poly.reserve(wWidth);
     for (x = 0 ; x < wWidth ; ++x) {
         double normalizedX = double(x) / wWidth;
         double curY = wHeight - d->m_curve.value(normalizedX) * wHeight;

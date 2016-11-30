@@ -204,13 +204,13 @@ private slots:
     /** @brief Move an effect in the stack.
      * @param indexes The list of effect index in the stack
      * @param up true if we want to move effect up, false for down */
-    void slotMoveEffectUp(const QList <int> &indexes, bool up);
+    void slotMoveEffectUp(const QList<int> &indexes, bool up);
 
     /** @brief Delete an effect in the stack. */
-    void slotDeleteEffect(const QDomElement effect);
+    void slotDeleteEffect(const QDomElement &effect);
 
     /** @brief Delete all effect in a group. */
-    void slotDeleteGroup(QDomDocument doc);
+    void slotDeleteGroup(const QDomDocument &doc);
 
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotRenderPos(int pos);
@@ -230,7 +230,7 @@ private slots:
     void slotCreateGroup(int ix);
 
     /** @brief Create a region effect with ix index. */
-    void slotCreateRegion(int ix, QUrl url);
+    void slotCreateRegion(int ix, const QUrl &url);
 
     /** @brief Move an effect.
       ** @param currentIndexes the list of effect indexes to move in stack layout
@@ -238,7 +238,7 @@ private slots:
       ** @param groupIndex the index of the group if any (-1 if none)
       ** @param groupName the name of the group to paste the effect
       */
-    void slotMoveEffect(QList <int> currentIndexes, int newIndex, int groupIndex, QString groupName = QString());
+    void slotMoveEffect(const QList<int> &currentIndexes, int newIndex, int groupIndex, const QString &groupName = QString());
 
     /** @brief Remove effects from a group */
     void slotUnGroup(CollapsibleGroup* group);
@@ -271,12 +271,12 @@ signals:
         all effects for this clip in the playlist */
     void refreshEffectStack(ClipItem *);
     /** Enable or disable an effect */
-    void changeEffectState(ClipItem*, int, const QList <int>&, bool);
-    void changeMasterEffectState(QString id, const QList <int>&, bool);
+    void changeEffectState(ClipItem*, int, const QList<int>&, bool);
+    void changeMasterEffectState(QString id, const QList<int>&, bool);
     /** An effect in stack was moved */
-    void changeEffectPosition(ClipItem*, int, const QList <int>&, int);
+    void changeEffectPosition(ClipItem*, int, const QList<int>&, int);
     /** An effect in stack was moved for a Bin clip */
-    void changeEffectPosition(const QString &, const QList <int>&, int);
+    void changeEffectPosition(const QString &, const QList<int>&, int);
     /** an effect was saved, reload list */
     void reloadEffects();
     /** An effect with position parameter was changed, seek */

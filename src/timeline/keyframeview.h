@@ -68,7 +68,7 @@ public:
     * @param frame new Position
     * @param y new Value */
     void updateKeyFramePos(QRectF br, int frame, const double y);
-    double getKeyFrameClipHeight(QRectF br, const double y);
+    double getKeyFrameClipHeight(const QRectF &br, const double y);
      /** @brief Returns the number of keyframes the selected effect has, -1 if none. */
     int keyframesCount();
     double editedKeyFrameValue();
@@ -81,14 +81,14 @@ public:
     const QString serialize(const QString &name = QString(), bool rectAnimation = false);
     /** @brief Loads a rect animation and returns minimas/maximas for x,y,w,h **/
     QList <QPoint> loadKeyframes(const QString &data);
-    bool loadKeyframes(const QLocale locale, QDomElement e, int cropStart, int length);
+    bool loadKeyframes(const QLocale &locale, const QDomElement &e, int cropStart, int length);
     void reset();
     /** @brief Draw the keyframes of a clip
       * @param painter The painter device for the clip
       */
-    void drawKeyFrames(QRectF br, int length, bool active, QPainter *painter, const QTransform &transformation);
+    void drawKeyFrames(const QRectF &br, int length, bool active, QPainter *painter, const QTransform &transformation);
     /** @brief Draw the x, y, w, h channels of an animated geometry */
-    void drawKeyFrameChannels(QRectF br, int in, int out, QPainter *painter, const QList<QPoint> &maximas, int limitKeyframes, const QColor &textColor);
+    void drawKeyFrameChannels(const QRectF &br, int in, int out, QPainter *painter, const QList<QPoint> &maximas, int limitKeyframes, const QColor &textColor);
     int mouseOverKeyFrames(QRectF br, QPointF pos, double scale);
     void showMenu(QWidget *parent, QPoint pos);
     QAction *parseKeyframeActions(const QList<QAction *> &actions);
@@ -118,11 +118,11 @@ private:
     int m_handleSize;
     bool m_useOffset;
     int m_offset;
-    double keyframeUnmap(QRectF br, double y);
-    double keyframeMap(QRectF br, double value);
-    QPointF keyframeMap(QRectF br, int frame, double value);
-    QPointF keyframePoint(QRectF br, int index);
-    QPointF keyframePoint(QRectF br, int frame, double value, double factor, double min, double max);
+    double keyframeUnmap(const QRectF &br, double y);
+    double keyframeMap(const QRectF &br, double value);
+    QPointF keyframeMap(const QRectF &br, int frame, double value);
+    QPointF keyframePoint(const QRectF &br, int index);
+    QPointF keyframePoint(const QRectF &br, int frame, double value, double factor, double min, double max);
     struct ParameterInfo {
         double factor;
         double min;

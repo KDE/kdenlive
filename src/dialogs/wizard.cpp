@@ -339,6 +339,7 @@ void Wizard::checkMltComponents()
         // Retrieve the list of available transitions.
         Mlt::Properties *producers = repository->producers();
         QStringList producersItemList;
+        producersItemList.reserve(producers->count());
         for (int i = 0; i < producers->count(); ++i)
             producersItemList << producers->get_name(i);
         delete producers;
@@ -377,6 +378,7 @@ void Wizard::checkMltComponents()
 
         Mlt::Properties *consumers = repository->consumers();
         QStringList consumersItemList;
+        consumersItemList.reserve(consumers->count());
         for (int i = 0; i < consumers->count(); ++i)
             consumersItemList << consumers->get_name(i);
         delete consumers;

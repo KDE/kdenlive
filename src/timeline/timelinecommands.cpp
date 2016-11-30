@@ -185,7 +185,7 @@ void ChangeClipTypeCommand::redo()
     m_view->doChangeClipType(m_info, m_state);
 }
 
-ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime& pos, const QList <int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
+ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime& pos, const QList<int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
     QUndoCommand(parent),
     m_view(view),
     m_track(track),
@@ -428,7 +428,7 @@ void GroupClipsCommand::redo()
     m_doIt = true;
 }
 
-AddSpaceCommand::AddSpaceCommand(CustomTrackView *view, ItemInfo spaceInfo, QList <ItemInfo> excludeList, bool doIt, QUndoCommand * parent, bool trackonly) :
+AddSpaceCommand::AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList <ItemInfo> &excludeList, bool doIt, QUndoCommand * parent, bool trackonly) :
     QUndoCommand(parent),
     m_view(view),
     m_spaceInfo(spaceInfo),
@@ -550,6 +550,7 @@ MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, con
     m_oldindex(oldPos),
     m_pos(pos)
 {
+    m_newindex.reserve(m_oldindex.count());
     for (int i = 0; i < m_oldindex.count(); ++i) {
         m_newindex << newPos + i;
     }

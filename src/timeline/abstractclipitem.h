@@ -57,11 +57,11 @@ public:
 
     virtual OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers) = 0;
     virtual void updateKeyframes(const QDomElement &effect) = 0;
-    virtual GenTime startPos() const ;
-    virtual GenTime endPos() const ;
-    virtual int track() const ;
-    virtual GenTime cropStart() const ;
-    virtual GenTime cropDuration() const ;
+    virtual GenTime startPos() const;
+    virtual GenTime endPos() const;
+    virtual int track() const;
+    virtual GenTime cropStart() const;
+    virtual GenTime cropDuration() const;
     /** @brief Return the current item's height */
     static int itemHeight();
     /** @brief Return the current item's vertical offset

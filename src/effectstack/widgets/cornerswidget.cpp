@@ -96,6 +96,7 @@ void CornersWidget::slotUpdateItem()
     if (keyframeOld  == keyframe) {
         points = pointsNext;
     } else {
+        points.reserve(4);
         for (int i = 0; i < 4; ++i)
             points.append(QVariant(QLineF(pointsPrev.at(i).toPointF(), pointsNext.at(i).toPointF()).pointAt(position).toPoint()));
     }

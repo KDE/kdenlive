@@ -363,12 +363,12 @@ void CollapsibleEffect::slotDeleteEffect()
 
 void CollapsibleEffect::slotEffectUp()
 {
-    emit changeEffectPosition(QList <int>() <<effectIndex(), true);
+    emit changeEffectPosition(QList<int>() <<effectIndex(), true);
 }
 
 void CollapsibleEffect::slotEffectDown()
 {
-    emit changeEffectPosition(QList <int>() <<effectIndex(), false);
+    emit changeEffectPosition(QList<int>() <<effectIndex(), false);
 }
 
 void CollapsibleEffect::slotSaveEffect()
@@ -598,7 +598,7 @@ void CollapsibleEffect::updateTimecodeFormat()
     }
 }
 
-void CollapsibleEffect::slotUpdateRegionEffectParams(const QDomElement /*old*/, const QDomElement /*e*/, int /*ix*/)
+void CollapsibleEffect::slotUpdateRegionEffectParams(const QDomElement &/*old*/, const QDomElement &/*e*/, int /*ix*/)
 {
     //qDebug()<<"// EMIT CHANGE SUBEFFECT.....:";
     emit parameterChanged(m_original_effect, m_effect, effectIndex());
@@ -681,7 +681,7 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
             event->accept();
             if (info.groupIndex >= 0) {
                 // Moving group
-                QList <int> effectsIds;
+                QList<int> effectsIds;
                 // Collect moved effects ids
                 for (int i = 0; i < subeffects.count(); ++i) {
                     QDomElement effect = subeffects.at(i).toElement();
@@ -710,7 +710,7 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
         emit addEffect(e);
         return;
     }
-    emit moveEffect(QList <int> () <<ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
+    emit moveEffect(QList<int> () <<ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }

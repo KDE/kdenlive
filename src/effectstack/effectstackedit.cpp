@@ -143,7 +143,7 @@ bool EffectStackEdit::eventFilter( QObject * o, QEvent * e )
     return QWidget::eventFilter(o, e);
 }
 
-void EffectStackEdit::transferParamDesc(const QDomElement &d, ItemInfo info, bool /*isEffect*/)
+void EffectStackEdit::transferParamDesc(const QDomElement &d, const ItemInfo &info, bool /*isEffect*/)
 {
     if (m_paramWidget) delete m_paramWidget;
     m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);

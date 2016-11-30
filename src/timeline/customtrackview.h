@@ -94,7 +94,7 @@ public:
     void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
     void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false, bool refreshMonitor = true);
     /** @brief Enable / disable a list of effects */
-    void updateEffectState(int track, GenTime pos, QList <int> effectIndexes, bool disable, bool updateEffectStack);
+    void updateEffectState(int track, GenTime pos, QList<int> effectIndexes, bool disable, bool updateEffectStack);
     void moveEffect(int track, const GenTime &pos, const QList<int> &oldPos, const QList<int> &newPos);
     void addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh);
     void deleteTransition(const ItemInfo &transitionInfo, int endTrack, QDomElement params, bool refresh);
@@ -114,7 +114,7 @@ public:
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
     bool findString(const QString &text);
-    void selectFound(QString track, QString pos);
+    void selectFound(const QString &track, const QString &pos);
     bool findNextString(const QString &text);
     void initSearchStrings();
     void clearSearchStrings();
@@ -182,7 +182,7 @@ public:
     int selectedTrack() const;
     QStringList selectedClips() const;
     /** @brief Checks whether an item can be inserted (make sure it does not overlap another item) */
-    bool canBePastedTo(ItemInfo info, int type, QList<AbstractClipItem *>excluded = QList<AbstractClipItem *>()) const;
+    bool canBePastedTo(const ItemInfo &info, int type, const QList<AbstractClipItem *> &excluded = QList<AbstractClipItem *>()) const;
 
     /** @brief Selects a clip.
     * @param add Whether to select or deselect
@@ -339,8 +339,8 @@ public slots:
     void moveCursorPos(int delta);
     void slotDeleteEffectGroup(ClipItem *clip, int track, QDomDocument doc, bool affectGroup = true);
     void slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup = true, QUndoCommand *parentCommand = Q_NULLPTR);
-    void slotChangeEffectState(ClipItem *clip, int track, QList <int> effectIndexes, bool disable);
-    void slotChangeEffectPosition(ClipItem *clip, int track, QList <int> currentPos, int newPos);
+    void slotChangeEffectState(ClipItem *clip, int track, QList<int> effectIndexes, bool disable);
+    void slotChangeEffectPosition(ClipItem *clip, int track, QList<int> currentPos, int newPos);
     void slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix, bool refreshEffectStack = true);
     void slotUpdateClipRegion(ClipItem *clip, int ix, const QString &region);
     void slotRefreshEffects(ClipItem *clip);
@@ -524,8 +524,8 @@ private:
 
     void updatePositionEffects(ClipItem * item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
-    bool canBePastedTo(QList <ItemInfo> infoList, int type) const;
-    bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset, QList <AbstractClipItem *>excluded = QList <AbstractClipItem *>()) const;
+    bool canBePastedTo(const QList<ItemInfo> &infoList, int type) const;
+    bool canBePasted(const QList<AbstractClipItem *> &items, GenTime offset, int trackOffset, QList <AbstractClipItem *>excluded = QList <AbstractClipItem *>()) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
     /** Get available space for clip move (min and max free positions) */

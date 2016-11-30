@@ -204,6 +204,7 @@ QMap <QString, QString> GradientWidget::gradients() const
 QList <QIcon> GradientWidget::icons() const
 {
     QList <QIcon> icons;
+    icons.reserve(gradient_list->count());
     for (int i = 0; i < gradient_list->count(); i++) {
         QPixmap pix = gradient_list->item(i)->icon().pixmap(6 * m_height, m_height);
         QIcon icon(pix.scaled(30, 30));

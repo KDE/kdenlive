@@ -84,7 +84,7 @@ void DvdWizardChapters::slotAddChapter()
     QStringList currentChaps = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
     if (currentChaps.contains(QString::number(pos))) return;
     else currentChaps.append(QString::number(pos));
-    QList <int> chapterTimes;
+    QList<int> chapterTimes;
     chapterTimes.reserve(currentChaps.count());
     for (int i = 0; i < currentChaps.count(); ++i)
         chapterTimes.append(currentChaps.at(i).toInt());

@@ -55,11 +55,11 @@ public:
     /** @brief Returns a list of rendered timeline preview chunks */
     const QPair <QStringList, QStringList> previewChunks() const;
     /** @brief Returns a list of clean timeline preview chunks (that have been created) */
-    const QList <int> getProcessedChunks() const;
+    const QList<int> getProcessedChunks() const;
     /** @brief Returns a list of dirty timeline preview chunks (that need to be generated) */
-    const QList <int> getDirtyChunks() const;
+    const QList<int> getDirtyChunks() const;
     void clearChunks();
-    QList <int> addChunks(QList <int> chunks, bool add);
+    QList<int> addChunks(QList<int> chunks, bool add);
     /** @brief Returns true if a timeline preview zone has already be defined */
     bool hasPreviewRange() const;
     /** @brief Refresh timeline preview range */
@@ -99,8 +99,8 @@ private:
     int m_startRate;
     MOUSE_MOVE m_mouseMove;
     QMenu *m_goMenu;
-    QList <int> m_renderingPreviews;
-    QList <int> m_dirtyRenderingPreviews;
+    QList<int> m_renderingPreviews;
+    QList<int> m_dirtyRenderingPreviews;
 
 public slots:
     void slotMoveRuler(int newPos);

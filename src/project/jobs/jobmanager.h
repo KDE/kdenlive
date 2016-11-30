@@ -81,7 +81,7 @@ public:
      *  @param type the parameters for the job, might be relevant to filter clips
      *  @returns A QMap list (id, urls) of clip that match the job type 
      */
-    QList <ProjectClip *> filterClips(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params);
+    QList <ProjectClip *> filterClips(const QList<ProjectClip *> &clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params);
 
     /** @brief Put the job in our queue. 
      *  @param clip the clip to whom the job will be applied

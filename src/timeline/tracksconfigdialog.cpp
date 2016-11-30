@@ -130,7 +130,7 @@ const QList <TrackInfo> TracksConfigDialog::tracksList()
     return tracks;
 }
 
-QList <int> TracksConfigDialog::deletedTracks() const
+QList<int> TracksConfigDialog::deletedTracks() const
 {
     return m_deletedRows;
 }

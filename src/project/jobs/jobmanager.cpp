@@ -226,7 +226,7 @@ void JobManager::slotProcessJobs()
     QTimer::singleShot(200, this, SIGNAL(checkJobProcess()));
 }
 
-QList <ProjectClip *> JobManager::filterClips(QList <ProjectClip *>clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
+QList <ProjectClip *> JobManager::filterClips(const QList <ProjectClip *> &clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
      //TODO: filter depending on clip type
     if (jobType == AbstractClipJob::TRANSCODEJOB || jobType == AbstractClipJob::CUTJOB) {

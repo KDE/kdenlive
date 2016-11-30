@@ -2360,13 +2360,13 @@ void Bin::slotDeleteEffect(const QString &id, QDomElement effect)
     m_doc->commandStack()->push(command);
 }
 
-void Bin::slotMoveEffect(const QString &id, const QList <int>& currentPos, int newPos)
+void Bin::slotMoveEffect(const QString &id, const QList<int>& currentPos, int newPos)
 {
     MoveBinEffectCommand *command = new MoveBinEffectCommand(this, id, currentPos, newPos);
     m_doc->commandStack()->push(command);
 }
 
-void Bin::moveEffect(const QString &id, const QList <int> &oldPos, const QList <int> &newPos)
+void Bin::moveEffect(const QString &id, const QList<int> &oldPos, const QList<int> &newPos)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
@@ -2418,7 +2418,7 @@ void Bin::updateEffect(const QString &id, QDomElement &effect, int ix, bool refr
     m_monitor->refreshMonitorIfActive();
 }
 
-void Bin::changeEffectState(const QString &id, const QList <int>& indexes, bool disable, bool refreshStack)
+void Bin::changeEffectState(const QString &id, const QList<int>& indexes, bool disable, bool refreshStack)
 {
     ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) return;
@@ -2757,7 +2757,7 @@ void Bin::loadSubClips(const QString&id, const QMap <QString,QString> data)
     ProjectClip *clip = getBinClip(id);
     if (!clip) return;
     QMapIterator<QString, QString> i(data);
-    QList <int> missingThumbs;
+    QList<int> missingThumbs;
     int maxFrame = clip->duration().frames(m_doc->fps()) - 1;
     while (i.hasNext()) {
         i.next();
@@ -2791,7 +2791,7 @@ void Bin::addClipCut(const QString&id, int in, int out)
     sub = new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
     QStringList markersComment = clip->markersText(GenTime(in, m_doc->fps()), GenTime(out, m_doc->fps()));
     sub->setDescription(markersComment.join(QStringLiteral(";")));
-    QList <int> missingThumbs;
+    QList<int> missingThumbs;
     missingThumbs << in;
     clip->slotExtractImage(missingThumbs);
 }

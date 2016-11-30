@@ -282,7 +282,7 @@ void EffectsList::setProperty(QDomElement effect, const QString &name, const QSt
 }
 
 // static
-void EffectsList::renameProperty(QDomElement effect, const QString &oldName, const QString &newName)
+void EffectsList::renameProperty(const QDomElement &effect, const QString &oldName, const QString &newName)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
     // Update property if it already exists
@@ -296,7 +296,7 @@ void EffectsList::renameProperty(QDomElement effect, const QString &oldName, con
 }
 
 // static
-QString EffectsList::property(QDomElement effect, const QString &name)
+QString EffectsList::property(const QDomElement &effect, const QString &name)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
     for (int i = 0; i < params.count(); ++i) {
@@ -334,7 +334,7 @@ void EffectsList::removeMetaProperties(QDomElement producer)
     }
 }
 
-QDomElement EffectsList::append(QDomElement e)
+QDomElement EffectsList::append(const QDomElement &e)
 {
     QDomElement result;
     if (!e.isNull()) {
@@ -396,7 +396,7 @@ QDomElement EffectsList::insert(const QDomElement &effect)
     return result;
 }
 
-void EffectsList::updateIndexes(QDomNodeList effects, int startIndex)
+void EffectsList::updateIndexes(const QDomNodeList &effects, int startIndex)
 {
     for (int i = startIndex; i < effects.count(); ++i) {
         QDomElement listeffect =  effects.at(i).toElement();
@@ -404,7 +404,7 @@ void EffectsList::updateIndexes(QDomNodeList effects, int startIndex)
     }
 }
 
-bool EffectsList::enableEffects(const QList <int>& indexes, bool disable)
+bool EffectsList::enableEffects(const QList<int>& indexes, bool disable)
 {
     bool monitorRefresh = false;
     QDomNodeList effects = m_baseElement.childNodes();

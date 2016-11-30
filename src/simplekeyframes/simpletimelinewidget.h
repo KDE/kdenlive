@@ -27,7 +27,7 @@ class SimpleTimelineWidget : public QWidget
 
 public:
     explicit SimpleTimelineWidget(QWidget* parent = Q_NULLPTR);
-    void setKeyframes(const QList <int>& keyframes);
+    void setKeyframes(const QList<int>& keyframes);
     void setDuration(int dur);
 
 public slots:
@@ -52,7 +52,7 @@ private:
     int m_currentKeyframe;
     int m_currentKeyframeOriginal;
     int m_hoverKeyframe;
-    QList <int> m_keyframes;
+    QList<int> m_keyframes;
     int m_lineHeight;
     double m_scale;
 

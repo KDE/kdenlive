@@ -333,7 +333,7 @@ QList <Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
     return list;
 }
 
-QList <ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, QMap <QString, Mlt::Producer *> newSlowMos)
+QList <ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, const QMap <QString, Mlt::Producer *> &newSlowMos)
 {
     QString idForAudioTrack;
     QString idForVideoTrack;
@@ -587,7 +587,7 @@ TrackInfo Track::info()
     return info;
 }
 
-void Track::setInfo(TrackInfo info)
+void Track::setInfo(const TrackInfo &info)
 {
     if (!trackHeader) return;
     m_playlist.set("kdenlive:track_name", info.trackName.toUtf8().constData());
@@ -625,7 +625,7 @@ int Track::getBlankLength(int pos, bool fromBlankStart)
     return m_playlist.clip_length(clipIndex) + m_playlist.clip_start(clipIndex) - pos;
 }
 
-void Track::updateClipProperties(const QString &id, QMap <QString, QString> properties)
+void Track::updateClipProperties(const QString &id, const QMap <QString, QString> &properties)
 {
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
     QString idForVideoTrack = id + "_video";
@@ -862,7 +862,7 @@ int Track::spaceLength(int pos, bool fromBlankStart)
 void Track::disableEffects(bool disable)
 {
     // Disable track effects
-    enableTrackEffects(QList <int> (), disable, true);
+    enableTrackEffects(QList<int> (), disable, true);
     // Disable timeline clip effects
     for (int i = 0; i < m_playlist.count(); i++) {
         QScopedPointer<Mlt::Producer> original(m_playlist.get_clip(i));
@@ -936,7 +936,7 @@ bool Track::removeTrackEffect(int effectIndex, bool updateIndex)
     return effect.removeEffect(effectIndex, updateIndex);
 }
 
-bool Track::enableEffects(double start, const QList <int> &effectIndexes, bool disable)
+bool Track::enableEffects(double start, const QList<int> &effectIndexes, bool disable)
 {
     int pos = frame(start);
     int clipIndex = m_playlist.get_clip_index_at(pos);
@@ -949,7 +949,7 @@ bool Track::enableEffects(double start, const QList <int> &effectIndexes, bool d
     return effect.enableEffects(effectIndexes, disable);
 }
 
-bool Track::enableTrackEffects(const QList <int> &effectIndexes, bool disable, bool remember)
+bool Track::enableTrackEffects(const QList<int> &effectIndexes, bool disable, bool remember)
 {
     EffectManager effect(m_playlist);
     return effect.enableEffects(effectIndexes, disable, remember);

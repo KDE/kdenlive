@@ -303,7 +303,7 @@ void RotoWidget::updateTimecodeFormat()
 void RotoWidget::keyframeTimelineFullUpdate()
 {
     if (m_data.canConvert(QVariant::Map)) {
-        QList <int> keyframes;
+        QList<int> keyframes;
         QMap <QString, QVariant> map = m_data.toMap();
         QMap <QString, QVariant>::const_iterator i = map.constBegin();
         while (i != map.constEnd()) {
@@ -324,7 +324,7 @@ void RotoWidget::keyframeTimelineFullUpdate()
         // static (only one keyframe)
         // make sure the first keyframe was already created
         if (m_data.isValid()) {
-            m_keyframeWidget->setKeyframes(QList <int>() << 0);
+            m_keyframeWidget->setKeyframes(QList<int>() << 0);
         }
     }
 }

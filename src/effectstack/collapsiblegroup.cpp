@@ -152,7 +152,7 @@ void CollapsibleGroup::slotDeleteGroup()
 
 void CollapsibleGroup::slotEffectUp()
 {
-    QList <int> indexes;
+    QList<int> indexes;
     for (int i = 0; i < m_subWidgets.count(); ++i)
         indexes << m_subWidgets.at(i)->effectIndex();
     emit changeEffectPosition(indexes, true);
@@ -160,7 +160,7 @@ void CollapsibleGroup::slotEffectUp()
 
 void CollapsibleGroup::slotEffectDown()
 {
-    QList <int> indexes;
+    QList<int> indexes;
     for (int i = 0; i < m_subWidgets.count(); ++i)
         indexes << m_subWidgets.at(i)->effectIndex();
     emit changeEffectPosition(indexes, false);
@@ -328,8 +328,8 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 		event->ignore();
 		return;
 	    }
-	    QList <int> pastedEffectIndexes;
-	    QList <int> currentEffectIndexes;
+	    QList<int> pastedEffectIndexes;
+	    QList<int> currentEffectIndexes;
 	    EffectInfo pasteInfo;
 	    pasteInfo.fromString(pastedEffects.at(0).toElement().attribute(QStringLiteral("kdenlive_info")));
 	    if (pasteInfo.groupIndex == -1) {
@@ -372,7 +372,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
     }
     if (m_subWidgets.isEmpty()) return;
     int new_index = m_subWidgets.last()->effectIndex();
-    emit moveEffect(QList <int> () <<ix, new_index, m_info.groupIndex, m_title->text());
+    emit moveEffect(QList<int> () <<ix, new_index, m_info.groupIndex, m_title->text());
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }

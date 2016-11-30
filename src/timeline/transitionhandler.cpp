@@ -579,10 +579,10 @@ const QString TransitionHandler::compositeTransition()
     return QStringLiteral("composite");
 }
 
-void TransitionHandler::rebuildTransitions(int mode, const QList <int> &videoTracks, int maxTrack)
+void TransitionHandler::rebuildTransitions(int mode, const QList<int> &videoTracks, int maxTrack)
 {
     QStringList compositeService { QStringLiteral("qtblend"), QStringLiteral("composite"), QStringLiteral("frei0r.cairoblend"),  QStringLiteral("movit.overlay") };
-    QList <int> disabled;
+    QList<int> disabled;
     QScopedPointer<Mlt::Service> service(m_tractor->field());
     Mlt::Field *field = m_tractor->field();
     field->lock();

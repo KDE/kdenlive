@@ -107,7 +107,7 @@ private slots:
     void slotCreateRegion();
     void slotUnGroup();
     /** @brief A sub effect parameter was changed */
-    void slotUpdateRegionEffectParams(const QDomElement /*old*/, const QDomElement /*e*/, int /*ix*/);
+    void slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/);
     /** @brief Dis/enable effect before processing an operation (color picker) */
     void slotDisableEffect(bool disable);
     void prepareImportClipKeyframes();

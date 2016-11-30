@@ -52,10 +52,10 @@ ChartWidget::ChartWidget(QWidget * parent) :
     int minHeight = ft.height() * 6;
     setMinimumSize(minHeight, minHeight);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    m_segments = QList <int>();
+    m_segments = QList<int>();
 }
 
-void ChartWidget::setSegments(QList <int> segments)
+void ChartWidget::setSegments(const QList<int> &segments)
 {
     m_segments = segments;
     update();
@@ -323,7 +323,7 @@ void TemporaryData::updateTotal()
     if (button && button->widget()) {
         button->widget()->setEnabled(m_totalCurrent > 0);
     }
-    QList <int> segments;
+    QList<int> segments;
     foreach(qulonglong size, mCurrentSizes) {
         if (m_totalCurrent == 0) {
             segments << 0;
@@ -568,7 +568,7 @@ void TemporaryData::refreshGlobalPie()
     }
     m_selectedSize->setText(KIO::convertSize(currentSize));
     int percent = m_totalGlobal <= 0 ? 0 : (int) (currentSize * 360 / m_totalGlobal);
-    m_globalPie->setSegments(QList <int>() << 360 << percent);
+    m_globalPie->setSegments(QList<int>() << 360 << percent);
     if (list.size() == 1 && list.at(0)->text(0) == m_doc->getDocumentProperty(QStringLiteral("documentid"))) {
         m_globalDelete->setText(i18n("Clear current cache"));
     } else m_globalDelete->setText(i18n("Delete selected cache"));

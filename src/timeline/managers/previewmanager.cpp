@@ -129,7 +129,7 @@ void PreviewManager::loadChunks(QStringList previewChunks, QStringList dirtyChun
         }
     }
     if (!dirtyChunks.isEmpty()) {
-        QList <int> list;
+        QList<int> list;
         foreach(const QString i, dirtyChunks) {
             list << i.toInt();
         }
@@ -203,7 +203,7 @@ bool PreviewManager::loadParams()
     return true;
 }
 
-void PreviewManager::invalidatePreviews(QList <int> chunks)
+void PreviewManager::invalidatePreviews(QList<int> chunks)
 {
     QMutexLocker lock(&m_previewMutex);
     bool timer = false;
@@ -256,7 +256,7 @@ void PreviewManager::invalidatePreviews(QList <int> chunks)
         if (!tmpDir.cd(QString::number(stackIx))) {
             moveFile = false;
         }
-        QList <int> foundChunks;
+        QList<int> foundChunks;
         foreach(int i, chunks) {
             QString cacheFileName = QStringLiteral("%1.%2").arg(i).arg(m_extension);
             if (!lastUndo) {
@@ -307,7 +307,7 @@ void PreviewManager::clearPreviewRange()
 {
         m_previewGatherTimer.stop();
         abortPreview();
-        QList <int> toProcess = m_ruler->getProcessedChunks();
+        QList<int> toProcess = m_ruler->getProcessedChunks();
         m_tractor->lock();
         bool hasPreview = m_previewTrack != Q_NULLPTR;
         foreach(int ix, toProcess) {
@@ -332,11 +332,11 @@ void PreviewManager::addPreviewRange(bool add)
     int chunkSize = KdenliveSettings::timelinechunks();
     int startChunk = p.x() / chunkSize;
     int endChunk = rintl(p.y() / chunkSize);
-    QList <int> frames;
+    QList<int> frames;
     for (int i = startChunk; i <= endChunk; i++) {
         frames << i * chunkSize;
     }
-    QList <int> toProcess = m_ruler->addChunks(frames, add);
+    QList<int> toProcess = m_ruler->addChunks(frames, add);
     if (toProcess.isEmpty())
         return;
     if (add) {
@@ -386,7 +386,7 @@ void PreviewManager::startPreviewRender()
     if (!m_ruler->hasPreviewRange()) {
         addPreviewRange(true);
     }
-    QList <int> chunks = m_ruler->getDirtyChunks();
+    QList<int> chunks = m_ruler->getDirtyChunks();
     if (!chunks.isEmpty()) {
         // Abort any rendering
         abortRendering();
@@ -398,7 +398,7 @@ void PreviewManager::startPreviewRender()
     }
 }
 
-void PreviewManager::doPreviewRender(QString scene)
+void PreviewManager::doPreviewRender(const QString &scene)
 {
     int progress;
     int chunkSize = KdenliveSettings::timelinechunks();
@@ -455,7 +455,7 @@ void PreviewManager::doPreviewRender(QString scene)
 
 void PreviewManager::slotProcessDirtyChunks()
 {
-    QList <int> chunks = m_ruler->getDirtyChunks();
+    QList<int> chunks = m_ruler->getDirtyChunks();
     if (chunks.isEmpty())
         return;
     invalidatePreviews(chunks);
@@ -512,7 +512,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     m_previewGatherTimer.start();
 }
 
-void PreviewManager::reloadChunks(QList <int> chunks)
+void PreviewManager::reloadChunks(QList<int> chunks)
 {
     if (m_previewTrack == Q_NULLPTR)
         return;

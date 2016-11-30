@@ -34,7 +34,7 @@ class MyQGraphicsEffect: public QGraphicsEffect
 public:
     explicit MyQGraphicsEffect(QObject *parent = Q_NULLPTR);
     void setOffset(int xOffset, int yOffset, int blur);
-    void setShadow(QImage image);
+    void setShadow(const QImage &image);
 protected:
     void draw(QPainter *painter) Q_DECL_OVERRIDE;
 private:
@@ -57,7 +57,7 @@ public:
     Qt::Alignment alignment() const;
     void updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color);
     QStringList shadowInfo() const;
-    void loadShadow(QStringList info);
+    void loadShadow(const QStringList &info);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt) Q_DECL_OVERRIDE;
 
 protected:
@@ -135,7 +135,7 @@ protected:
     void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 
 private:
-    void setCursor(QCursor);
+    void setCursor(const QCursor &);
     double m_zoom;
     QGraphicsItem* m_selectedItem;
     resizeModes m_resizeMode;

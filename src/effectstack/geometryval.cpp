@@ -367,7 +367,7 @@ QString Geometryval::getValue() const
     return m_geom->serialise();
 }
 
-void Geometryval::setupParam(const QDomElement par, int minFrame, int maxFrame)
+void Geometryval::setupParam(const QDomElement &par, int minFrame, int maxFrame)
 {
     QString val = par.attribute(QStringLiteral("value"));
     if (par.attribute(QStringLiteral("fixed")) == QLatin1String("1")) {

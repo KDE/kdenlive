@@ -537,7 +537,7 @@ void CustomRuler::activateZone()
 
 bool CustomRuler::isUnderPreview(int start, int end)
 {
-    QList <int> allPreviews;
+    QList<int> allPreviews;
     allPreviews << m_renderingPreviews << m_dirtyRenderingPreviews;
     qSort(allPreviews);
     foreach (int ix, allPreviews) {
@@ -604,12 +604,12 @@ const QPair <QStringList, QStringList> CustomRuler::previewChunks() const
     return resultChunks;
 }
 
-const QList <int> CustomRuler::getProcessedChunks() const
+const QList<int> CustomRuler::getProcessedChunks() const
 {
     return m_renderingPreviews;
 }
 
-const QList <int> CustomRuler::getDirtyChunks() const
+const QList<int> CustomRuler::getDirtyChunks() const
 {
     return m_dirtyRenderingPreviews;
 }
@@ -626,10 +626,10 @@ void CustomRuler::clearChunks()
     update();
 }
 
-QList <int> CustomRuler::addChunks(QList <int> chunks, bool add)
+QList<int> CustomRuler::addChunks(QList<int> chunks, bool add)
 {
     qSort(chunks);
-    QList <int> toProcess;
+    QList<int> toProcess;
     if (add) {
         foreach(int frame, chunks) {
             if (m_renderingPreviews.contains(frame)) {

@@ -363,7 +363,7 @@ bool EffectManager::removeEffect(int effectIndex, bool updateIndex)
     return success;
 }
 
-bool EffectManager::enableEffects(const QList <int> &effectIndexes, bool disable, bool rememberState)
+bool EffectManager::enableEffects(const QList<int> &effectIndexes, bool disable, bool rememberState)
 {
     int ct = 0;
     bool success = false;

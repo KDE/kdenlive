@@ -826,7 +826,7 @@ QVariant ProjectClip::data(DataType type) const
     return AbstractProjectItem::data(type);
 }
 
-void ProjectClip::slotQueryIntraThumbs(const QList <int> &frames)
+void ProjectClip::slotQueryIntraThumbs(const QList<int> &frames)
 {
     QMutexLocker lock(&m_intraThumbMutex);
     for (int i = 0; i < frames.count(); i++) {
@@ -873,7 +873,7 @@ void ProjectClip::doExtractIntra()
 }
 
 
-void ProjectClip::slotExtractImage(const QList <int> &frames)
+void ProjectClip::slotExtractImage(const QList<int> &frames)
 {
     QMutexLocker lock(&m_thumbMutex);
     for (int i = 0; i < frames.count(); i++) {

@@ -62,7 +62,7 @@ AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent) :
     m_keyframe = scheme.foreground(KColorScheme::LinkText).color();
 }
 
-void AnimKeyframeRuler::updateKeyframes(QVector<int> keyframes, QVector<int> types, int attachToEnd)
+void AnimKeyframeRuler::updateKeyframes(const QVector<int> &keyframes, const QVector<int> &types, int attachToEnd)
 {
     m_keyframes = keyframes;
     m_keyframeTypes = types;

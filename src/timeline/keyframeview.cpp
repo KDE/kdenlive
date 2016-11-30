@@ -50,30 +50,30 @@ KeyframeView::~KeyframeView()
 {
 }
 
-double KeyframeView::keyframeUnmap(QRectF br, double y) {
+double KeyframeView::keyframeUnmap(const QRectF &br, double y) {
     return ((br.bottom() - y) / br.height() * (m_keyframeMax - m_keyframeMin) + m_keyframeMin) / m_keyframeFactor;
 }
 
-double KeyframeView::keyframeMap(QRectF br, double value) {
+double KeyframeView::keyframeMap(const QRectF &br, double value) {
     return br.bottom() - br.height() * (value * m_keyframeFactor - m_keyframeMin) / (m_keyframeMax - m_keyframeMin);
 }
 
-QPointF KeyframeView::keyframeMap(QRectF br, int frame, double value) {
+QPointF KeyframeView::keyframeMap(const QRectF &br, int frame, double value) {
     return QPointF(br.x() + br.width() * frame / duration,
                    br.bottom() - br.height() * (value * m_keyframeFactor - m_keyframeMin) / (m_keyframeMax - m_keyframeMin));
 }
 
-QPointF KeyframeView::keyframePoint(QRectF br, int index) {
+QPointF KeyframeView::keyframePoint(const QRectF &br, int index) {
     int frame = m_keyAnim.key_get_frame(index);
     return keyframeMap(br, frame < 0 ? frame + duration + m_offset : frame + m_offset, m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), frame, duration - m_offset));
 }
 
-QPointF KeyframeView::keyframePoint(QRectF br, int frame, double value, double factor, double min, double max) {
+QPointF KeyframeView::keyframePoint(const QRectF &br, int frame, double value, double factor, double min, double max) {
     return QPointF(br.x() + br.width() * frame / duration,
                    br.bottom() - br.height() * (value * factor - min) / (max - min));
 }
 
-void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *painter, const QTransform &transformation)
+void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPainter *painter, const QTransform &transformation)
 {
     if (duration == 0 || m_keyframeType == NoKeyframe || !m_keyAnim.is_valid() || m_keyAnim.key_count() < 1)
         return;
@@ -222,7 +222,7 @@ void KeyframeView::drawKeyFrames(QRectF br, int length, bool active, QPainter *p
     painter->restore();
 }
 
-void KeyframeView::drawKeyFrameChannels(QRectF br, int in, int out, QPainter *painter, const QList <QPoint> &maximas, int limitKeyframes, const QColor &textColor)
+void KeyframeView::drawKeyFrameChannels(const QRectF &br, int in, int out, QPainter *painter, const QList <QPoint> &maximas, int limitKeyframes, const QColor &textColor)
 {
     double frameFactor = (double) (out - in) / br.width();
     int offset = 1;
@@ -568,7 +568,7 @@ void KeyframeView::updateKeyFramePos(QRectF br, int frame, const double y)
     emit updateKeyframes();
 }
 
-double KeyframeView::getKeyFrameClipHeight(QRectF br, const double y)
+double KeyframeView::getKeyFrameClipHeight(const QRectF &br, const double y)
 {
     return keyframeUnmap(br, y);
 }
@@ -820,7 +820,7 @@ QList <QPoint> KeyframeView::loadKeyframes(const QString &data)
     return result;
 }
 
-bool KeyframeView::loadKeyframes(const QLocale locale, QDomElement effect, int cropStart, int length)
+bool KeyframeView::loadKeyframes(const QLocale &locale, const QDomElement &effect, int cropStart, int length)
 {
     m_keyframeType = NoKeyframe;
     duration = length;

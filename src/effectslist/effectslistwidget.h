@@ -40,12 +40,12 @@ class EffectsListWidget : public QTreeWidget
     virtual ~EffectsListWidget();
     const QDomElement currentEffect() const;
     QString currentInfo() const;
-    static const QDomElement itemEffect(int type, QStringList effectInfo);
-    void initList(QMenu *effectsMenu, KActionCategory *effectActions, QString categoryFile, bool transitionMode);
+    static const QDomElement itemEffect(int type, const QStringList &effectInfo);
+    void initList(QMenu *effectsMenu, KActionCategory *effectActions, const QString &categoryFile, bool transitionMode);
     void updatePalette();
     void setRootOnCustomFolder();
     void resetRoot();
-    void createTopLevelItems(QList <QTreeWidgetItem *>list, int effectType);
+    void createTopLevelItems(const QList <QTreeWidgetItem *> &list, int effectType);
     void resetFavorites();
 
 protected:

@@ -124,7 +124,7 @@ bool HeaderTrack::eventFilter(QObject *obj, QEvent *event)
 }
 
 
-void HeaderTrack::updateStatus(TrackInfo info)
+void HeaderTrack::updateStatus(const TrackInfo &info)
 {
     m_switchAudio->setActive(info.isMute);
     if (m_switchVideo) m_switchVideo->setActive(info.isBlind);

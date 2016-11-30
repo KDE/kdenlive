@@ -584,8 +584,8 @@ void ProducerQueue::processFileProperties()
             vindex = producer->get_int("video_index");
             // List streams
             int streams = producer->get_int("meta.media.nb_streams");
-            QList <int> audio_list;
-            QList <int> video_list;
+            QList<int> audio_list;
+            QList<int> video_list;
             for (int i = 0; i < streams; ++i) {
                 QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
                 QString type = producer->get(propertyName.data());

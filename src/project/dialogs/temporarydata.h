@@ -44,13 +44,13 @@ class ChartWidget : public QWidget
 {
 public:
     explicit ChartWidget(QWidget *parent = Q_NULLPTR);
-    void setSegments(QList <int> segments);
+    void setSegments(const QList<int> &segments);
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    QList <int> m_segments;
+    QList<int> m_segments;
 };
 
 

@@ -110,7 +110,7 @@ public:
     void updateEffect(const QDomElement &effect);
     /** @brief Enable / disable a list of effect from their indexes.
      * @returns true if some the effects are video effects, requiring a monitor refresh */
-    bool enableEffects(QList <int> indexes, bool disable);
+    bool enableEffects(QList<int> indexes, bool disable);
     bool moveEffect(QDomElement effect, int ix);
     void flashClip();
     void addTransition(Transition*);
@@ -126,7 +126,7 @@ public:
 
     /** @brief Gets clip's marker times.
     * @return A list of the times. */
-    QList <GenTime> snapMarkers(const QList < GenTime > markers ) const;
+    QList <GenTime> snapMarkers(const QList<GenTime> &markers ) const;
     QList <CommentedTime> commentedSnapMarkers() const;
 
     /** @brief Gets the position of the fade in effect. */
@@ -137,7 +137,7 @@ public:
     void setSelectedEffect(const int ix);
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
-    void initEffect(ProfileInfo info, QDomElement effect, int diff = 0, int offset = 0);
+    void initEffect(ProfileInfo info, const QDomElement &effect, int diff = 0, int offset = 0);
 
     /** @brief Gets all keyframes.
     * @param index Index of the effect

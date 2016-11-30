@@ -606,14 +606,14 @@ void EffectStackView2::slotUpdateEffectState(bool disable, int index, MonitorSce
     }
     switch (m_status) {
         case TIMELINE_TRACK:
-            emit changeEffectState(Q_NULLPTR, m_trackindex, QList <int>() << index, disable);
+            emit changeEffectState(Q_NULLPTR, m_trackindex, QList<int>() << index, disable);
             break;
         case MASTER_CLIP:
-            emit changeMasterEffectState(m_masterclipref->clipId(), QList <int>() <<index, disable);
+            emit changeMasterEffectState(m_masterclipref->clipId(), QList<int>() <<index, disable);
             break;
         default:
             // timeline clip effect
-            emit changeEffectState(m_clipref, -1, QList <int>() <<index, disable);
+            emit changeEffectState(m_clipref, -1, QList<int>() <<index, disable);
     }
     slotUpdateCheckAllButton();
 }
@@ -694,7 +694,7 @@ void EffectStackView2::slotCheckAll(int state)
 
     bool disabled = state == Qt::Unchecked;
     // Disable all effects
-    QList <int> indexes;
+    QList<int> indexes;
     for (int i = 0; i < m_effects.count(); ++i) {
         m_effects.at(i)->slotDisable(disabled, false);
         indexes << m_effects.at(i)->effectIndex();
@@ -802,7 +802,7 @@ void EffectStackView2::setActiveKeyframe(int frame)
     }
 }
 
-void EffectStackView2::slotDeleteGroup(QDomDocument doc)
+void EffectStackView2::slotDeleteGroup(const QDomDocument &doc)
 {
     ClipItem * clip = Q_NULLPTR;
     int ix = -1;
@@ -820,7 +820,7 @@ void EffectStackView2::slotDeleteGroup(QDomDocument doc)
     emit removeEffectGroup(clip, ix, doc);
 }
 
-void EffectStackView2::slotDeleteEffect(const QDomElement effect)
+void EffectStackView2::slotDeleteEffect(const QDomElement &effect)
 {
     if (m_status == TIMELINE_TRACK)
         emit removeEffect(Q_NULLPTR, m_trackindex, effect);
@@ -937,7 +937,7 @@ void EffectStackView2::slotResetEffect(int ix)
     //m_ui.labelComment->setHidden(!m_ui.buttonShowComments->isChecked() || m_ui.labelComment->text().isEmpty());
 }
 
-void EffectStackView2::slotCreateRegion(int ix, QUrl url)
+void EffectStackView2::slotCreateRegion(int ix, const QUrl &url)
 {
     QDomElement oldeffect = m_currentEffectList.itemFromIndex(ix);
     QDomElement neweffect = oldeffect.cloneNode().toElement();
@@ -1062,7 +1062,7 @@ void EffectStackView2::connectGroup(CollapsibleGroup *group)
     connect(group, SIGNAL(changeEffectPosition(QList<int>,bool)), this , SLOT(slotMoveEffectUp(QList<int>,bool)));
 }
 
-void EffectStackView2::slotMoveEffect(QList <int> currentIndexes, int newIndex, int groupIndex, QString groupName)
+void EffectStackView2::slotMoveEffect(const QList<int> &currentIndexes, int newIndex, int groupIndex, const QString &groupName)
 {
     if (currentIndexes.count() == 1) {
         CollapsibleEffect *effectToMove = getEffectByIndex(currentIndexes.at(0));
@@ -1162,7 +1162,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
             return;
         }
         // Moving group: delete all effects and re-add them
-        QList <int> indexes;
+        QList<int> indexes;
         for (int i = 0; i < effects.count(); ++i) {
             QDomElement effect = effects.at(i).cloneNode().toElement();
             indexes << effect.attribute(QStringLiteral("kdenlive_ix")).toInt();

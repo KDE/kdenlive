@@ -139,7 +139,7 @@ public:
      * @param videoOnlyProducer is the video only (without sound) replacement clip
      * @param newSlowMos the slowmotion producers required for replacement
      * @return list of in/out that were replaced */
-    QList <ItemInfo> replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, QMap <QString, Mlt::Producer *> newSlowMos);
+    QList <ItemInfo> replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, const QMap<QString, Mlt::Producer *> &newSlowMos);
     void updateEffects(const QString &id, Mlt::Producer *original);
     /** @brief replace an instance of a clip with another resource
      * @param t is the clip time in playlist
@@ -178,7 +178,7 @@ public:
     const QString getProperty(const QString &name);
     int getIntProperty(const QString &name);
     TrackInfo info();
-    void setInfo(TrackInfo info);
+    void setInfo(const TrackInfo &info);
     void lockTrack(bool locked);
     int state();
     void setState(int state);
@@ -186,7 +186,7 @@ public:
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getBlankLength(int pos, bool fromBlankStart);
     /** @brief Update producer properties on all instances of this clip. */
-    void updateClipProperties(const QString &id, QMap <QString, QString> properties);
+    void updateClipProperties(const QString &id, const QMap<QString, QString> &properties);
     /** @brief Returns a list of speed info for all slowmotion producer used on this track for an id. */
     QList <SlowmoInfo> getSlowmotionInfos(const QString &id);
     /** @brief Returns the length of blank space from a position pos. */
@@ -201,8 +201,8 @@ public:
     bool editTrackEffect(EffectsParameterList params, bool replace);
     bool removeEffect(double start, int effectIndex, bool updateIndex);
     bool removeTrackEffect(int effectIndex, bool updateIndex);
-    bool enableEffects(double start, const QList <int> &effectIndexes, bool disable);
-    bool enableTrackEffects(const QList <int> &effectIndexes, bool disable, bool remember = false);
+    bool enableEffects(double start, const QList<int> &effectIndexes, bool disable);
+    bool enableTrackEffects(const QList<int> &effectIndexes, bool disable, bool remember = false);
     bool moveEffect(double start, int oldPos, int newPos);
     bool moveTrackEffect(int oldPos, int newPos);
     QList <QPoint> visibleClips();

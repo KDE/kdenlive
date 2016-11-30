@@ -64,7 +64,7 @@ void EffectsListWidget::slotExpandItem(const QModelIndex & index)
     setExpanded(index, !isExpanded(index));
 }
 
-void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActions, QString categoryFile, bool transitionMode)
+void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActions, const QString &categoryFile, bool transitionMode)
 {
     QString current;
     QString currentFolder;
@@ -341,7 +341,7 @@ QIcon EffectsListWidget::generateIcon(int size, const QString &name, QDomElement
     return QIcon(pix);
 }
 
-const QDomElement EffectsListWidget::itemEffect(int type, QStringList effectInfo)
+const QDomElement EffectsListWidget::itemEffect(int type, const QStringList &effectInfo)
 {
     QDomElement effect;
     if (type == (int)EffectsList::EFFECT_FOLDER) return effect;
@@ -480,7 +480,7 @@ void EffectsListWidget::resetRoot()
 {
     setRootIndex(indexFromItem(invisibleRootItem()));
 }
-void EffectsListWidget::createTopLevelItems(QList <QTreeWidgetItem *>list, int effectType)
+void EffectsListWidget::createTopLevelItems(const QList <QTreeWidgetItem *> &list, int effectType)
 {
     // Favorites is a pseudo-folder used to store items, not visible to end user, so don't i18n its name
     QTreeWidgetItem *misc = findFolder(QStringLiteral("TemporaryFolder"));

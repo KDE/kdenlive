@@ -778,7 +778,7 @@ QString ProjectManager::getDefaultProjectFormat()
     zone = QTimeZone(QTimeZone::systemTimeZoneId());
 #endif
 
-    QList <int> ntscCountries;
+    QList<int> ntscCountries;
     ntscCountries << QLocale::Canada << QLocale::Chile << QLocale::CostaRica << QLocale::Cuba << QLocale::DominicanRepublic << QLocale::Ecuador;
     ntscCountries  << QLocale::Japan << QLocale::Mexico << QLocale::Nicaragua << QLocale::Panama << QLocale::Peru << QLocale::Philippines;
     ntscCountries  << QLocale::PuertoRico << QLocale::SouthKorea << QLocale::Taiwan << QLocale::UnitedStates;
@@ -788,7 +788,7 @@ QString ProjectManager::getDefaultProjectFormat()
     return QStringLiteral("atsc_1080p_2997");
 }
 
-void ProjectManager::saveZone(QStringList info, QDir dir)
+void ProjectManager::saveZone(const QStringList &info, const QDir &dir)
 {
     pCore->bin()->saveZone(info, dir);
 }

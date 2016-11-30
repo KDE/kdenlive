@@ -37,7 +37,7 @@ public:
     ~SimpleKeyframeWidget();
 
     int getPosition() const;
-    void setKeyframes(const QList <int> &keyframes);
+    void setKeyframes(const QList<int> &keyframes);
     void addKeyframe(int pos = -1);
 
     void updateTimecodeFormat();

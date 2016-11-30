@@ -32,7 +32,7 @@
 #include <QStandardPaths>
 #include <QDebug>
 
-ProfilesDialog::ProfilesDialog(QString profileDescription, QWidget * parent) :
+ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget * parent) :
     QDialog(parent),
     m_profileIsModified(false),
     m_isCustomProfile(false)
@@ -85,7 +85,7 @@ ProfilesDialog::ProfilesDialog(QString profileDescription, QWidget * parent) :
 }
 
 
-ProfilesDialog::ProfilesDialog(QString profilePath, bool, QWidget * parent) :
+ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget * parent) :
     QDialog(parent),
     m_profileIsModified(false),
     m_isCustomProfile(true),
@@ -269,7 +269,7 @@ bool ProfilesDialog::slotSaveProfile()
     return true;
 }
 
-void ProfilesDialog::saveProfile(QString path)
+void ProfilesDialog::saveProfile(const QString &path)
 {
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {

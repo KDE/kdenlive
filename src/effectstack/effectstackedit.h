@@ -66,7 +66,7 @@ private:
 
 public slots:
     /** @brief Called when an effect is selected, builds the UI for this effect. */
-    void transferParamDesc(const QDomElement &d, ItemInfo info, bool isEffect = true);
+    void transferParamDesc(const QDomElement &d, const ItemInfo &info, bool isEffect = true);
 
     /** @brief Pass position changes of the timeline cursor to the effects to keep their local timelines in sync. */
     void slotSyncEffectsPos(int pos);

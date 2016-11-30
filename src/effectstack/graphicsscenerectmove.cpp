@@ -43,7 +43,7 @@ MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent) :
 {
 }
 
-void MyQGraphicsEffect::setShadow(QImage image)
+void MyQGraphicsEffect::setShadow(const QImage &image)
 {
     m_shadow = image;
 }
@@ -104,7 +104,7 @@ QStringList MyTextItem::shadowInfo() const
     return info;
 }
 
-void MyTextItem::loadShadow(QStringList info)
+void MyTextItem::loadShadow(const QStringList &info)
 {
     if (info.count() < 5) return;
     updateShadow((info.at(0).toInt() == true), info.at(2).toInt(), info.at(3).toInt(),info.at(4).toInt(), QColor(info.at(1)));
@@ -931,7 +931,7 @@ void GraphicsSceneRectMove::setZoom(double s)
     ////qDebug()<<"//////////  ZOOM: "<<zoom;
 }
 
-void GraphicsSceneRectMove::setCursor(QCursor c)
+void GraphicsSceneRectMove::setCursor(const QCursor &c)
 {
     const QList<QGraphicsView*> l = views();
     foreach(QGraphicsView* v, l) {

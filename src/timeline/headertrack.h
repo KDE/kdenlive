@@ -45,7 +45,7 @@ public:
     void renameTrack(const QString &name);
     QString name() const;
     /** @brief Update status of mute/blind/lock/composite buttons.*/
-    void updateStatus(TrackInfo info);
+    void updateStatus(const TrackInfo &info);
     void refreshPalette();
     void switchTarget(bool enable);
     void updateLed();

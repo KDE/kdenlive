@@ -74,7 +74,7 @@ Q_OBJECT public:
     void doDeleteClips(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand, bool execute);
     int lastClipId() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */
-    void deleteProjectItems(QStringList clipIds, QStringList folderIds, QStringList subClipIds, QUndoCommand *deleteCommand = Q_NULLPTR);
+    void deleteProjectItems(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand = Q_NULLPTR);
     void clear();
     void clearCache();
     AbstractGroupItem *createGroup();

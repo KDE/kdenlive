@@ -1293,9 +1293,9 @@ bool Render::mltResizeClipCrop(const ItemInfo &info, GenTime newCropStart)
     return true;
 }
 
-QList <int> Render::checkTrackSequence(int track)
+QList<int> Render::checkTrackSequence(int track)
 {
-    QList <int> list;
+    QList<int> list;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         qWarning() << "// TRACTOR PROBLEM";

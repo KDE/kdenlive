@@ -1441,7 +1441,7 @@ void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effec
     }
 }
 
-bool Timeline::enableTrackEffects(int trackIndex, const QList <int> &effectIndexes, bool disable)
+bool Timeline::enableTrackEffects(int trackIndex, const QList<int> &effectIndexes, bool disable)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qWarning() << "Set Track effect outisde of range";
@@ -2009,7 +2009,7 @@ void Timeline::switchComposite(int mode)
         return;
     int maxTrack = tracksCount();
     // check video tracks
-    QList <int> videoTracks;
+    QList<int> videoTracks;
     for (int i = 1; i < maxTrack; i++) {
         if (m_tracks.at(i)->trackHeader && m_tracks.at(i)->info().type == VideoTrack) {
             videoTracks << i;
