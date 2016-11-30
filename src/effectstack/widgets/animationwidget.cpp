@@ -232,9 +232,9 @@ void AnimationWidget::finishSetup()
 }
 
 //static
-QString AnimationWidget::getDefaultKeyframes(const QString &defaultValue, bool linearOnly)
+QString AnimationWidget::getDefaultKeyframes(int start, const QString &defaultValue, bool linearOnly)
 {
-    QString keyframes = QStringLiteral("0");
+    QString keyframes = QString::number(start);
     if (linearOnly) {
         keyframes.append(QStringLiteral("="));
     } else {
@@ -671,7 +671,7 @@ void AnimationWidget::addParameter(const QDomElement &e)
         keyframes = e.attribute(QStringLiteral("value"));
     }
     if (keyframes.isEmpty()) {
-        keyframes = getDefaultKeyframes(e.attribute(QStringLiteral("default")));
+        keyframes = getDefaultKeyframes(m_inPoint, e.attribute(QStringLiteral("default")));
         if (keyframes.contains('%')) {
             keyframes = EffectsController::getStringRectEval(m_monitor->profileInfo(), keyframes);
         }
@@ -1012,7 +1012,7 @@ void AnimationWidget::loadPresets(QString currentText)
     QMap <QString, QVariant> defaultEntry;
     QStringList paramNames = m_doubleWidgets.keys();
     for (int i = 0; i < paramNames.count(); i++) {
-        defaultEntry.insert(paramNames.at(i), getDefaultKeyframes(m_params.at(i).attribute(QStringLiteral("default"))));
+        defaultEntry.insert(paramNames.at(i), getDefaultKeyframes(m_inPoint, m_params.at(i).attribute(QStringLiteral("default"))));
     }
     m_presetCombo->addItem(i18n("Default"), defaultEntry);
     loadPreset(dir.absoluteFilePath(m_xml.attribute(QStringLiteral("type"))));
@@ -1304,7 +1304,7 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
     if (!m_rectParameter.isEmpty() && tag != m_rectParameter) {
         // reset geometry keyframes
         // simple anim parameter, get default value
-        QString def = getDefaultKeyframes(defaultValue(m_rectParameter));
+        QString def = getDefaultKeyframes(m_inPoint, defaultValue(m_rectParameter));
         // Clear current keyframes
         m_animProperties.set(m_rectParameter.toUtf8().constData(), def.toUtf8().constData());
         // Add default keyframes

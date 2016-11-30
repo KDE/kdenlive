@@ -905,9 +905,9 @@ bool Track::editEffect(double start, EffectsParameterList params, bool replace)
     if (!clip) {
         return false;
     }
-    Mlt::Service clipService(clip->get_service());
-    EffectManager effect(clipService);
-    return effect.editEffect(params, duration, replace);
+    EffectManager effect(*clip.data());
+    bool result = effect.editEffect(params, duration, replace);
+    return result;
 }
 
 bool Track::editTrackEffect(EffectsParameterList params, bool replace)

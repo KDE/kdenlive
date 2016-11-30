@@ -1380,7 +1380,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         ClipItem * item = static_cast <ClipItem *>(m_dragItem);
         QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
         if (single == 1) {
-            item->insertKeyframe(m_document->getProfileInfo(), item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropDuration()).frames(m_document->fps()) - 1, -1, true);
+            item->insertKeyframe(m_document->getProfileInfo(), item->getEffectAtIndex(item->selectedEffectIndex()), (item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1, -1, true);
         }
         //QString previous = item->keyframes(item->selectedEffectIndex());
         item->insertKeyframe(m_document->getProfileInfo(), item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
@@ -1906,7 +1906,6 @@ bool CustomTrackView::itemCollision(AbstractClipItem *item, const ItemInfo &newP
 
 void CustomTrackView::slotRefreshEffects(ClipItem *clip)
 {
-    // Does not seem used anywhere...
     int track = clip->track();
     GenTime pos = clip->startPos();
     if (!m_timeline->track(track)->removeEffect(pos.seconds(), -1, false)) {

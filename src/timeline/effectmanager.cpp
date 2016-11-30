@@ -316,8 +316,7 @@ bool EffectManager::editEffect(EffectsParameterList params, int duration, bool r
         if (params.paramValue(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")) {
             // This effect must sync in / out with parent clip
             //params.removeParam(QStringLiteral("sync_in_out"));
-            Mlt::Producer prod(m_producer);
-            filter->set_in_and_out(prod.get_in(), prod.get_out());
+            filter->set_in_and_out(m_producer.get_int("in"), m_producer.get_int("out"));
         } else {
             // Reset in/out properties
             filter->set("in", (char*)NULL);

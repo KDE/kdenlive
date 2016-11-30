@@ -200,7 +200,6 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
     }
     m_info.startPos += durationDiff;
     m_keyframeView.setOffset(durationDiff.frames(m_fps));
-
     // set to true if crop from start is negative (possible for color clips, images as they have no size limit)
     bool negCropStart = false;
     if (type() == AVWidget) {
@@ -616,7 +615,7 @@ QString AbstractClipItem::resizeAnimations(QDomElement effect, int previousDurat
                 effect.setAttribute(QStringLiteral("out"), QString::number(start + duration));
             }
             else {
-                keyframes = KeyframeView::cutAnimation(animation, cropstart, duration, previousDuration, false);
+                keyframes = KeyframeView::addBorderKeyframes(animation, cropstart, duration);
             }
             // TODO: in case of multiple animated params, use _intimeline to detect active one
             e.setAttribute(QStringLiteral("value"), keyframes);
@@ -628,10 +627,12 @@ QString AbstractClipItem::resizeAnimations(QDomElement effect, int previousDurat
 bool AbstractClipItem::switchKeyframes(QDomElement param, int in, int oldin, int out, int oldout)
 {
     QString animation = param.attribute(QStringLiteral("value"));
-    if (in != oldin)
+    if (in != oldin) {
         animation = KeyframeView::switchAnimation(animation, in, oldin, out, oldout, param.attribute(QStringLiteral("type")) == QLatin1String("animatedrect"));
-    if (out != oldout)
-        animation = KeyframeView::switchAnimation(animation, out - 1, oldout - 1, out, oldout, param.attribute(QStringLiteral("type")) == QLatin1String("animatedrect"));
+    }
+    if (out != oldout) {
+        animation = KeyframeView::switchAnimation(animation, out, oldout, out, oldout, param.attribute(QStringLiteral("type")) == QLatin1String("animatedrect"));
+    }
     if (animation != param.attribute(QStringLiteral("value"))) {
         param.setAttribute(QStringLiteral("value"), animation);
         return true;

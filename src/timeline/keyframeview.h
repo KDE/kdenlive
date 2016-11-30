@@ -97,6 +97,8 @@ public:
     static QString switchAnimation(QString animation, int newPos, int oldPos, int newDuration, int oldDuration, bool isRect);
     /** @brief when loading an animation from a serialized string, check where is the first negative keyframe) */
     static int checkNegatives(const QString &data, int maxDuration);
+    /** @brief Add keyframes at start / end points if not existing */
+    static const QString addBorderKeyframes(const QString &animation, int start, int duration);
     /** @brief returns true if currently edited parameter name is name */
     bool activeParam(const QString &name) const;
     /** @brief Sets a temporary offset for drawing keyframes when resizing clip start */

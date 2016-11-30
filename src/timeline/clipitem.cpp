@@ -1453,7 +1453,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
             else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
                 parameters.addParam(e.attribute(QStringLiteral("name")), e.attribute(QStringLiteral("value")));
 		// Effects with a animated parameter need to sync in / out with parent clip
-                if (!e.hasAttribute(QStringLiteral("sync_in_out")) || e.attribute(QStringLiteral("sync_in_out")) ==  QLatin1String("1")) {
+                if (e.attribute(QStringLiteral("sync_in_out")) ==  QLatin1String("1")) {
                     needInOutSync = true;
                 }
             } else if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
@@ -1808,10 +1808,9 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo
                 if (effect.attribute(QStringLiteral("sync_in_out")) == QLatin1String("1")) {
                     effect.setAttribute(QStringLiteral("in"), cropStart().frames(m_fps));
                     effect.setAttribute(QStringLiteral("out"), (cropStart() + cropDuration()).frames(m_fps) - 1);
-                } else {
-                    // Check if we have keyframes at in/out points
-                    updateAnimatedKeyframes(i, param, oldInfo);
                 }
+                // Check if we have keyframes at in/out points
+                updateAnimatedKeyframes(i, param, oldInfo);
 		effects[i] = effect.cloneNode().toElement();
             } else if (type == QLatin1String("roto-spline")) {
                 if (!effects.contains(i))
@@ -1855,7 +1854,6 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, const ItemInfo &oldI
         }
         keyframes[keyframepos] = locale.toDouble(keyframe.section('=', 1, 1));
     }
-
 
     QMap<int, double>::iterator i = keyframes.end();
     int lastPos = -1;
