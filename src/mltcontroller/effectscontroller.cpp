@@ -103,8 +103,9 @@ EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, c
     parameters.addParam(QStringLiteral("tag"), effect.attribute(QStringLiteral("tag")));
     //if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
     parameters.addParam(QStringLiteral("kdenlive_ix"), effect.attribute(QStringLiteral("kdenlive_ix")));
-    if (effect.hasAttribute(QStringLiteral("sync_in_out")))
+    if (effect.hasAttribute(QStringLiteral("sync_in_out"))) {
         parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), effect.attribute(QStringLiteral("sync_in_out")));
+    }
     parameters.addParam(QStringLiteral("kdenlive_info"), effect.attribute(QStringLiteral("kdenlive_info")));
     parameters.addParam(QStringLiteral("id"), effect.attribute(QStringLiteral("id")));
     if (effect.hasAttribute(QStringLiteral("src"))) parameters.addParam(QStringLiteral("src"), effect.attribute(QStringLiteral("src")));
@@ -137,10 +138,11 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         QString paramname = prefix + e.attribute(QStringLiteral("name"));
-        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated") || (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
+        /*if (e.attribute(QStringLiteral("type")) == QLatin1String("animated") || (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // effects with geometry param need in / out synced with the clip, request it...
-            //parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
-        }
+            parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
+            qDebug()<<" ** * ADDIN EFFECT ANIM SYN TRUE";
+        }*/
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             parameters.addParam(paramname, e.attribute(QStringLiteral("value")));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
@@ -229,7 +231,7 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
         bool hasValue = e.hasAttribute(QStringLiteral("value"));
         // Check if this effect has a variable parameter, init effects default value
         if ((type == QLatin1String("animatedrect") || type == QLatin1String("geometry")) && !hasValue) {
-            QString kfr = AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
+            QString kfr = AnimationWidget::getDefaultKeyframes(0, e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
             if (kfr.contains(QLatin1String("%"))) {
                 kfr = EffectsController::getStringRectEval(pInfo, kfr);
             }
@@ -244,7 +246,7 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
             } else e.setAttribute(QStringLiteral("value"), evaluatedValue);
         } else {
             if (type == QLatin1String("animated") && !hasValue) {
-                e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default"))));
+                e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(0, e.attribute(QStringLiteral("default"))));
             }
             else if (!hasValue) {
                 e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
@@ -273,7 +275,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
         bool hasValue = e.hasAttribute(QStringLiteral("value"));
         // Check if this effect has a variable parameter, init effects default value
         if ((type == QLatin1String("animatedrect") || type == QLatin1String("geometry")) && !hasValue) {
-            QString kfr = AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
+            QString kfr = AnimationWidget::getDefaultKeyframes(info.cropStart.frames(fps), e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
             if (kfr.contains(QLatin1String("%"))) {
                 kfr = EffectsController::getStringRectEval(pInfo, kfr);
             }
@@ -288,7 +290,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
             } else e.setAttribute(QStringLiteral("value"), evaluatedValue);
         } else {
             if (type == QLatin1String("animated") && !hasValue) {
-                e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(e.attribute(QStringLiteral("default"))));
+                e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(info.cropStart.frames(fps), e.attribute(QStringLiteral("default"))));
             }
             else if (!hasValue) {
                 e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
@@ -312,7 +314,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
             }
         }
 
-        if (type.startsWith(QStringLiteral("animated"))  || (type == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
+        if (EffectsList::parameter(effect, QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")  || (type == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // Effects with a geometry parameter need to sync in / out with parent clip
             effect.setAttribute(QStringLiteral("in"), QString::number((int) info.cropStart.frames(fps)));
             effect.setAttribute(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(fps) - 1));

@@ -1496,7 +1496,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         }
                     }
                     EffectsList::setProperty(eff, conversionParams.at(2), parsedValues.join(QStringLiteral(";")));
-                    EffectsList::setProperty(eff, QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
+                    //EffectsList::setProperty(eff, QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
                     eff.setAttribute(QStringLiteral("out"), out);
                 }
             }

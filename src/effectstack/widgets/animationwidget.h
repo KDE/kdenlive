@@ -50,7 +50,7 @@ public:
     void updateTimecodeFormat();
     void addParameter(const QDomElement &e);
     const QMap <QString, QString> getAnimation();
-    static QString getDefaultKeyframes(const QString &defaultValue, bool linearOnly = false);
+    static QString getDefaultKeyframes(int start, const QString &defaultValue, bool linearOnly = false);
     void setActiveKeyframe(int frame);
     void finishSetup();
     /** @brief Returns true if currently active param is name */

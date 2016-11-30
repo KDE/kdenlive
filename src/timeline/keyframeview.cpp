@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QAction>
 #include <QApplication>
-
 #include "klocalizedstring.h"
 
 #include "keyframeview.h"
@@ -142,14 +141,28 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
         Mlt::Animation drawAnim = m_keyProperties.get_animation(paramName.toUtf8().constData());
         if (!drawAnim.is_valid()) continue;
         QPainterPath path;
-        int frame = drawAnim.key_get_frame(0);
+        // Find first key before our clip start, get frame for rect left first
+        int firstKF = qMax(0, drawAnim.previous_key(-m_offset));
+        int lastKF = drawAnim.next_key(duration - m_offset);
+        if (lastKF < duration - m_offset) {
+            lastKF = duration - m_offset;
+        }
+        int frame = firstKF;
         double value = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), frame, duration - m_offset);
         QPointF start = keyframePoint(br, frame + m_offset, value, info.factor, info.min, info.max);
         path.moveTo(br.x(), br.bottom());
         path.lineTo(br.x(), start.y());
         path.lineTo(start);
+        int currentFrame;
         painter->setPen(paramName == m_inTimeline ? QColor(Qt::white) : Qt::NoPen);
         for(int i = 0; i < drawAnim.key_count(); ++i) {
+            currentFrame = drawAnim.key_get_frame(i);
+            if (currentFrame < firstKF) {
+                continue;
+            }
+            if (currentFrame > lastKF) {
+                break;
+            }
             if (active && paramName == m_inTimeline) {
                 painter->setBrush((drawAnim.key_get_frame(i) == activeKeyframe) ? QColor(Qt::red) : QColor(Qt::blue));
                 painter->drawEllipse(QRectF(transformation.map(start) - h/2, transformation.map(start) + h / 2));
@@ -170,10 +183,10 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
                     case mlt_keyframe_smooth:
                         frame = drawAnim.key_get_frame(qMax(i - 1, 0));
                         value = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), frame, duration - m_offset);
-                        QPointF pre = keyframePoint(br, frame, value, info.factor, info.min, info.max);
+                        QPointF pre = keyframePoint(br, frame + m_offset, value, info.factor, info.min, info.max);
                         frame = drawAnim.key_get_frame(qMin(i + 2, drawAnim.key_count() - 1));
                         value = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), frame, duration - m_offset);
-                        QPointF post = keyframePoint(br, frame, value, info.factor, info.min, info.max);
+                        QPointF post = keyframePoint(br, frame + m_offset, value, info.factor, info.min, info.max);
                         QPointF c1 = (end - pre) / 6.0; // + start
                         QPointF c2 = (start - post) / 6.0; // + end
                         double mid = (end.x() - start.x()) / 2;
@@ -891,9 +904,23 @@ bool KeyframeView::loadKeyframes(const QLocale &locale, const QDomElement &effec
 
 void KeyframeView::setOffset(int frames)
 {
-    if (m_useOffset) {
+    if (!m_keyAnim.is_valid())
+        return;
+    if (m_keyAnim.is_key(-m_offset)) {
+        mlt_keyframe_type type = m_keyAnim.keyframe_type(-m_offset);
+        double value = m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), -m_offset, duration - m_offset);
+        m_keyAnim.remove(-m_offset);
+        if (activeKeyframe == -m_offset) {
+            activeKeyframe -= frames;
+        }
+        m_offset -= frames;
+        m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), value, - m_offset, duration - m_offset, type);
+        //addKeyframe(-m_offset, value, type);
+    } else {
         m_offset -= frames;
     }
+    //double value = m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), 0, duration - m_offset);
+    //}
 }
 
 // static
@@ -962,6 +989,34 @@ QString KeyframeView::cutAnimation(const QString &animation, int start, int dura
 }
 
 //static
+const QString KeyframeView::addBorderKeyframes(const QString &animation, int start, int duration)
+{
+    bool modified = false;
+    Mlt::Properties props;
+    props.set("keyframes", animation.toUtf8().constData());
+    props.anim_get_double("keyframes", 0, start+duration);
+    Mlt::Animation anim = props.get_animation("keyframes");
+    if (!anim.is_key(start)) {
+        double value = props.anim_get_double("keyframes", start, start+duration);
+        int previous = anim.previous_key(start);
+	mlt_keyframe_type type = anim.keyframe_type(previous);
+        props.anim_set("keyframes", value, start, start+duration, type);
+        modified = true;
+    }
+    if (!anim.is_key(start+duration)) {
+        double value = props.anim_get_double("keyframes", start+duration, start+duration);
+        int previous = anim.previous_key(start+duration);
+	mlt_keyframe_type type = anim.keyframe_type(previous);
+        props.anim_set("keyframes", value, start+duration, start+duration, type);
+        modified = true;
+    }
+    if (modified) {
+        return anim.serialize_cut();
+    }
+    return animation;
+}
+
+//static
 QString KeyframeView::switchAnimation(QString animation, int newPos, int oldPos, int newDuration, int oldDuration, bool isRect)
 {
     Mlt::Properties props;
@@ -971,7 +1026,7 @@ QString KeyframeView::switchAnimation(QString animation, int newPos, int oldPos,
     if (anim.is_key(oldPos)) {
 	// insert new keyframe at start
         if (isRect) {
-            mlt_rect rect = props.anim_get_rect("keyframes", oldPos);
+            mlt_rect rect = props.anim_get_rect("keyframes", oldPos, oldDuration);
             props.anim_set("keyframes", rect, newPos, newDuration, anim.keyframe_type(oldPos));
             anim.remove(oldPos);
         } else {
