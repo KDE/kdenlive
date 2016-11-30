@@ -47,7 +47,7 @@ public:
         GuideType
     };
     explicit AbstractToolManager(ToolManagerType type, CustomTrackView *view, DocUndoStack *commandStack = Q_NULLPTR);
-    virtual bool mousePress(QMouseEvent *event, ItemInfo info = ItemInfo(), QList<QGraphicsItem *> list = QList<QGraphicsItem *>()) = 0;
+    virtual bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) = 0;
     virtual bool mouseMove(QMouseEvent *event, int pos = 0, int track = -1);
     virtual void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) = 0;
     virtual void enterEvent(int pos, double trackHeight);

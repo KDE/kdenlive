@@ -56,7 +56,7 @@ public:
     void resizeStart(int posx, bool size = true, bool emitChange = true) Q_DECL_OVERRIDE;
     void resizeEnd(int posx, bool emitChange = true) Q_DECL_OVERRIDE;
     OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers) Q_DECL_OVERRIDE;
-    void updateKeyframes(QDomElement effect) Q_DECL_OVERRIDE;
+    void updateKeyframes(const QDomElement &effect) Q_DECL_OVERRIDE;
     static int itemHeight();
     ClipType clipType() const;
     const QString &getBinId() const;

@@ -89,7 +89,7 @@ Transition::~Transition()
     if (scene()) scene()->removeItem(this);
 }
 
-Transition *Transition::clone(ItemInfo newInfo)
+Transition *Transition::clone(const ItemInfo &newInfo)
 {
     const QDomElement xml = toXML().cloneNode().toElement();
     Transition *tr = new Transition(newInfo.isValid() ? newInfo : info(), transitionEndTrack(), m_fps, xml);
@@ -387,7 +387,7 @@ bool Transition::hasGeometry()
     return false;
 }
 
-bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
+bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInfo)
 {
     QString keyframes;
     QDomElement pa;
@@ -482,7 +482,7 @@ bool Transition::updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo)
     return true;
 }
 
-void Transition::updateKeyframes(QDomElement /*effect*/)
+void Transition::updateKeyframes(const QDomElement &/*effect*/)
 {
 }
 

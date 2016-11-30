@@ -55,7 +55,7 @@ public:
     QString transitionTag() const;
     QStringList transitionInfo() const;
     OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers) Q_DECL_OVERRIDE;
-    void updateKeyframes(QDomElement effect) Q_DECL_OVERRIDE;
+    void updateKeyframes(const QDomElement &effect) Q_DECL_OVERRIDE;
     static int itemHeight();
     static int itemOffset();
     //const QMap < QString, QString > transitionParameters() const;
@@ -68,14 +68,14 @@ public:
     void updateTransitionEndTrack(int newtrack);
     void setForcedTrack(bool force, int track);
     bool forcedTrack() const;
-    Transition *clone(ItemInfo newInfo = ItemInfo());
+    Transition *clone(const ItemInfo &newInfo = ItemInfo());
     bool isAutomatic() const;
     void setAutomatic(bool automatic);
     bool hasGeometry();
     /** @brief When a transition is resized, check if keyframes are out of the transition and fix if necessary. 
      * @param oldEnd the previous transition end, so that when we expand the transition, if there is a keyframe at end we move it
      */
-    bool updateKeyframes(ItemInfo oldInfo, ItemInfo newInfo);
+    bool updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInfo);
     bool checkKeyFrames(int width, int height, int previousDuration, int cutPos = -1);
 
 protected:

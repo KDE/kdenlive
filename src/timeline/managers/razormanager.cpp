@@ -39,7 +39,7 @@ RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : 
     m_cursor = QCursor(razorIcon.pixmap(32, 32));
 }
 
-bool RazorManager::mousePress(QMouseEvent *, ItemInfo info, QList<QGraphicsItem *>)
+bool RazorManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<QGraphicsItem *> &)
 {
     QList<QGraphicsItem *> items;
     AbstractClipItem *dragItem = m_view->dragItem();

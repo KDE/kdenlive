@@ -82,14 +82,14 @@ public:
     void setScale(double scaleFactor, double verticalScale);
     void deleteClip(const QString &clipId, QUndoCommand *deleteCommand);
     /** @brief An effect was dropped on @param clip */
-    void slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track);
+    void slotDropEffect(ClipItem *clip, const QDomElement &effect, GenTime pos, int track);
     /** @brief A transition was dropped on @param clip */
     void slotDropTransition(ClipItem *clip, QDomElement transition, QPointF scenePos);
     /** @brief Add effect to current clip */
-    void slotAddEffectToCurrentItem(QDomElement effect);
+    void slotAddEffectToCurrentItem(const QDomElement &effect);
     /** @brief Add effect to a clip or selection */
-    void slotAddEffect(QDomElement effect, const GenTime &pos, int track);
-    void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = Q_NULLPTR);
+    void slotAddEffect(const QDomElement &effect, const GenTime &pos, int track);
+    void slotAddGroupEffect(const QDomElement &effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = Q_NULLPTR);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
     void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false, bool refreshMonitor = true);
@@ -342,7 +342,7 @@ public slots:
     void slotChangeEffectState(ClipItem *clip, int track, QList <int> effectIndexes, bool disable);
     void slotChangeEffectPosition(ClipItem *clip, int track, QList <int> currentPos, int newPos);
     void slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix, bool refreshEffectStack = true);
-    void slotUpdateClipRegion(ClipItem *clip, int ix, QString region);
+    void slotUpdateClipRegion(ClipItem *clip, int ix, const QString &region);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());

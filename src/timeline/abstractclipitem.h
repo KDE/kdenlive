@@ -56,7 +56,7 @@ public:
     void closeAnimation();
 
     virtual OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers) = 0;
-    virtual void updateKeyframes(QDomElement effect) = 0;
+    virtual void updateKeyframes(const QDomElement &effect) = 0;
     virtual GenTime startPos() const ;
     virtual GenTime endPos() const ;
     virtual int track() const ;

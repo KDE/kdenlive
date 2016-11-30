@@ -39,7 +39,7 @@ SelectManager::SelectManager(CustomTrackView *view, DocUndoStack *commandStack) 
 {
 }
 
-bool SelectManager::mousePress(QMouseEvent *event, ItemInfo info, QList<QGraphicsItem *>)
+bool SelectManager::mousePress(QMouseEvent *event, const ItemInfo &info, const QList<QGraphicsItem *> &)
 {
     Q_UNUSED(info);
     m_view->activateMonitor();

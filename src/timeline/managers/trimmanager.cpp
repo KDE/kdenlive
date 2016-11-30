@@ -40,7 +40,7 @@ TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : Ab
 {
 }
 
-bool TrimManager::mousePress(QMouseEvent *, ItemInfo info, QList<QGraphicsItem *>)
+bool TrimManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<QGraphicsItem *> &)
 {
     return enterTrimMode(info, m_view->prepareMode() == ResizeStart);
 }

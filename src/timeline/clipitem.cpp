@@ -1983,7 +1983,7 @@ void ClipItem::slotUpdateThumb(QImage img)
     update();
 }
 
-void ClipItem::updateKeyframes(QDomElement effect)
+void ClipItem::updateKeyframes(const QDomElement &effect)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);

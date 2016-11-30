@@ -42,7 +42,7 @@ MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, DocU
     m_scrollTimer.setSingleShot(true);
 }
 
-bool MoveManager::mousePress(QMouseEvent *event, ItemInfo info, QList<QGraphicsItem *>)
+bool MoveManager::mousePress(QMouseEvent *event, const ItemInfo &info, const QList<QGraphicsItem *> &)
 {
     m_view->setCursor(Qt::ClosedHandCursor);
     m_dragMoved = false;

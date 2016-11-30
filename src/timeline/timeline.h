@@ -169,7 +169,7 @@ public:
     /** @brief Refresh Header Leds */
     void updateHeaders();
     /** @brief Returns true if position is on the last clip */
-    bool isLastClip(ItemInfo info);
+    bool isLastClip(const ItemInfo &info);
     /** @brief find lowest video track in timeline. */
     int getLowestVideoTrack();
     /** @brief Returns the document properties with some added values from timeline. */

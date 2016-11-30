@@ -29,7 +29,7 @@ GuideManager::GuideManager(CustomTrackView *view, DocUndoStack *commandStack) : 
 {
 }
 
-bool GuideManager::mousePress(QMouseEvent *, ItemInfo info, QList<QGraphicsItem *> list)
+bool GuideManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<QGraphicsItem *> &list)
 {
     Q_UNUSED(info);
     m_collisionList = list;

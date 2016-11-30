@@ -2006,7 +2006,7 @@ void CustomTrackView::deleteEffect(int track, const GenTime &pos, const QDomElem
     }
 }
 
-void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group, AbstractClipItem *dropTarget)
+void CustomTrackView::slotAddGroupEffect(const QDomElement &effect, AbstractGroupItem *group, AbstractClipItem *dropTarget)
 {
     QList<QGraphicsItem *> itemList = group->childItems();
     QUndoCommand *effectCommand = new QUndoCommand();
@@ -2066,7 +2066,7 @@ void CustomTrackView::slotAddEffect(ClipItem *clip, const QDomElement &effect, i
     else slotAddEffect(effect, clip->startPos(), clip->track());
 }
 
-void CustomTrackView::slotDropEffect(ClipItem *clip, QDomElement effect, GenTime pos, int track)
+void CustomTrackView::slotDropEffect(ClipItem *clip, const QDomElement &effect, GenTime pos, int track)
 {
     if (clip == Q_NULLPTR) return;
     slotAddEffect(effect, pos, track);
@@ -2146,12 +2146,12 @@ AbstractToolManager *CustomTrackView::toolManager(AbstractToolManager::ToolManag
     return m_toolManagers.value(trimType);
 }
 
-void CustomTrackView::slotAddEffectToCurrentItem(QDomElement effect)
+void CustomTrackView::slotAddEffectToCurrentItem(const QDomElement &effect)
 {
     slotAddEffect(effect, GenTime(), -1);
 }
 
-void CustomTrackView::slotAddEffect(QDomElement effect, const GenTime &pos, int track)
+void CustomTrackView::slotAddEffect(const QDomElement &effect, const GenTime &pos, int track)
 {
     QList<QGraphicsItem *> itemList;
     QUndoCommand *effectCommand = new QUndoCommand();
@@ -2548,7 +2548,7 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElemen
     m_commandStack->push(command);
 }
 
-void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, QString region)
+void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, const QString &region)
 {
     QDomElement effect = clip->getEffectAtIndex(ix);
     QDomElement oldeffect = effect.cloneNode().toElement();

@@ -32,7 +32,7 @@ ResizeManager::ResizeManager(CustomTrackView *view, DocUndoStack *commandStack) 
 {
 }
 
-bool ResizeManager::mousePress(QMouseEvent *event, ItemInfo info, QList<QGraphicsItem *>)
+bool ResizeManager::mousePress(QMouseEvent *event, const ItemInfo &info, const QList<QGraphicsItem *> &)
 {
     m_dragItemInfo = info;
     m_controlModifier = event->modifiers();

@@ -34,7 +34,7 @@ class ResizeManager : public AbstractToolManager
 
 public:
     explicit ResizeManager(CustomTrackView *view, DocUndoStack *commandStack = Q_NULLPTR);
-    bool mousePress(QMouseEvent *event, ItemInfo info = ItemInfo(), QList<QGraphicsItem *> list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
+    bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
     bool mouseMove(QMouseEvent *event, int pos = 0, int track = -1) Q_DECL_OVERRIDE;
     void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) Q_DECL_OVERRIDE;
 

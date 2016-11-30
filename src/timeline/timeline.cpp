@@ -645,7 +645,7 @@ TrackInfo Timeline::getTrackInfo(int ix)
     return tk->info();
 }
 
-bool Timeline::isLastClip(ItemInfo info)
+bool Timeline::isLastClip(const ItemInfo &info)
 {
     Track *tk = track(info.track);
     if (tk == Q_NULLPTR) {
