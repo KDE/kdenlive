@@ -278,7 +278,7 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
 }
 
 
-Mlt::Producer *ClipController::getTrackProducer(const QString trackName, PlaylistState::ClipState clipState, double speed)
+Mlt::Producer *ClipController::getTrackProducer(const QString &trackName, PlaylistState::ClipState clipState, double speed)
 {
     //TODO
     Q_UNUSED(speed)
@@ -735,7 +735,7 @@ EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &s
     return effList;
 }
 
-void ClipController::changeEffectState(const QList <int> indexes, bool disable)
+void ClipController::changeEffectState(const QList <int> &indexes, bool disable)
 {
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {
@@ -819,7 +819,7 @@ void ClipController::disableEffects(bool disable)
     if (changed) m_binController->updateTrackProducer(clipId());
 }
 
-void ClipController::saveZone(QPoint zone, QDir dir)
+void ClipController::saveZone(QPoint zone, const QDir &dir)
 {
     QString path = QString(clipName() + "_" + QString::number(zone.x()) + ".mlt");
     if (dir.exists(path)) {

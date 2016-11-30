@@ -133,7 +133,7 @@ private:
     QString m_strResponseType;
     QString mstr_RefreshToken;
     bool m_bAccessTokenRec;
-    void RequestAccessCode(bool pIsReRequest, QString pCode);
+    void RequestAccessCode(bool pIsReRequest, const QString &pCode);
 
 
     LoginDialog* m_pLoginDialog;

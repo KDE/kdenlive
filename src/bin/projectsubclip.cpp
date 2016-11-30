@@ -56,7 +56,7 @@ ProjectSubClip::~ProjectSubClip()
     // controller is deleted in bincontroller
 }
 
-void ProjectSubClip::gotThumb(int pos, QImage img)
+void ProjectSubClip::gotThumb(int pos, const QImage &img)
 {
     if (pos == m_in) {
         setThumbnail(img);
@@ -130,7 +130,7 @@ void ProjectSubClip::setCurrent(bool current, bool notify)
     }
 }
 
-void ProjectSubClip::setThumbnail(QImage img)
+void ProjectSubClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     m_thumbnail = QIcon(thumb);

@@ -146,7 +146,7 @@ private:
 };
 #endif
 
-ClipPropertiesController::ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent) : QWidget(parent)
+ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipController *controller, QWidget *parent) : QWidget(parent)
     , m_controller(controller)
     , m_tc(tc)
     , m_id(controller->clipId())

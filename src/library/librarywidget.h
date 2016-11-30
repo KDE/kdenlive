@@ -165,7 +165,7 @@ class LibraryWidget : public QWidget
 
 public:
     explicit LibraryWidget(ProjectManager *m_manager, QWidget *parent = Q_NULLPTR);
-    void setupActions(QList <QAction *>list);
+    void setupActions(const QList<QAction *> &list);
 
 public slots:
     void slotAddToLibrary();
@@ -177,8 +177,8 @@ private slots:
     void updateActions();
     void slotAddFolder();
     void slotRenameItem();
-    void slotMoveData(QList <QUrl>, QString);
-    void slotSaveSequence(QStringList info, QString dest);
+    void slotMoveData(const QList<QUrl> &, QString);
+    void slotSaveSequence(const QStringList &info, QString dest);
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotDownloadFinished(KJob *);
     void slotDownloadProgress(KJob *, unsigned long);

@@ -814,7 +814,7 @@ ClipType ProducerQueue::getTypeForService(const QString &id, const QString &path
     return Unknown;
 }
 
-void ProducerQueue::processProducerProperties(Mlt::Producer *prod, QDomElement xml)
+void ProducerQueue::processProducerProperties(Mlt::Producer *prod, const QDomElement &xml)
 {
     //TODO: there is some duplication with clipcontroller > updateproducer that also copies properties 
     QString value;
@@ -843,7 +843,7 @@ void ProducerQueue::processProducerProperties(Mlt::Producer *prod, QDomElement x
 }
 
 
-void ProducerQueue::slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data)
+void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QList<int> &audio_list, const QList<int> &video_list, stringMap data)
 { 
     if (KdenliveSettings::automultistreams()) {
         for (int i = 1; i < video_list.count(); ++i) {

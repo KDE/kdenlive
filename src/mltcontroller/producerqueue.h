@@ -68,7 +68,7 @@ private:
     BinController *m_binController;
     ClipType getTypeForService(const QString &id, const QString &path) const;
     /** @brief Pass xml values to an MLT producer at build time */
-    void processProducerProperties(Mlt::Producer *prod, QDomElement xml);
+    void processProducerProperties(Mlt::Producer *prod, const QDomElement &xml);
 
 public slots:
       /** @brief Requests the file properties for the specified URL (will be put in a queue list)
@@ -85,7 +85,7 @@ private slots:
     /** @brief Process the clip info requests (in a separate thread). */
     void processFileProperties();
     /** @brief A clip with multiple video streams was found, ask what to do. */
-    void slotMultiStreamProducerFound(const QString &path, QList<int> audio_list, QList<int> video_list, stringMap data);
+    void slotMultiStreamProducerFound(const QString &path, const QList<int> &audio_list, const QList<int> &video_list, stringMap data);
 
 signals:
     /** @brief The renderer received a reply to a getFileProperties request. */

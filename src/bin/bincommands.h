@@ -138,7 +138,7 @@ private:
 class MoveBinEffectCommand : public QUndoCommand
 {
 public:
-    explicit MoveBinEffectCommand(Bin *bin, const QString &clipId, QList <int> oldPos, int newPos, QUndoCommand *parent = Q_NULLPTR);
+    explicit MoveBinEffectCommand(Bin *bin, const QString &clipId, const QList<int> &oldPos, int newPos, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:

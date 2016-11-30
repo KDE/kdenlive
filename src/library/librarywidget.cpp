@@ -229,7 +229,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     connect(m_libraryTree, &LibraryTree::itemChanged, this, &LibraryWidget::slotItemEdited, Qt::UniqueConnection);
 }
 
-void LibraryWidget::setupActions(QList <QAction *>list)
+void LibraryWidget::setupActions(const QList <QAction *> &list)
 {
     QList <QAction *> menuList;
     m_addAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-clip")), i18n("Add Clip to Project"), this);
@@ -395,7 +395,7 @@ void LibraryWidget::slotRenameItem()
     m_libraryTree->editItem(current);
 }
 
-void LibraryWidget::slotMoveData(QList <QUrl> urls, QString dest)
+void LibraryWidget::slotMoveData(const QList<QUrl> &urls, QString dest)
 {
     if (urls.isEmpty()) return;
     if (dest .isEmpty()) {
@@ -417,7 +417,7 @@ void LibraryWidget::slotMoveData(QList <QUrl> urls, QString dest)
     }
 }
 
-void LibraryWidget::slotSaveSequence(QStringList info, QString dest)
+void LibraryWidget::slotSaveSequence(const QStringList &info, QString dest)
 {
     if (info.isEmpty()) return;
     if (dest .isEmpty()) {

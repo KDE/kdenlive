@@ -187,7 +187,7 @@ void OAuth2::SlotAuthCodeObtained()
  * @param pIsReRequest - pass false if you are requesting an access code using a previously obtained authorization code. Pass true if you are requesting a new access code via refresh token
  * @param pCode - pass an authorisation code here if pIsReRequest  is false. Otherwise pass a refresh token here.
  */
-void OAuth2::RequestAccessCode(bool pIsReRequest, QString pCode)
+void OAuth2::RequestAccessCode(bool pIsReRequest, const QString &pCode)
 {
   QString vGrantType;
   QString vCodeTypeParamName;

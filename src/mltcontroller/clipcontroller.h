@@ -148,7 +148,7 @@ public:
     /** @brief Get a clone of master producer for a specific track. Retrieve it if it already exists
      *  in our list, otherwise we create it. 
      *  Deprecated, track logic should be handled in timeline/track.cpp */
-    Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
+    Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString &   trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
     
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
     void addMasterProducer(Mlt::Producer &producer);
@@ -173,7 +173,7 @@ public:
     void removeEffect(int effectIndex, bool delayRefresh = false);
     EffectsList effectList();
     /** @brief Enable/disable an effect. */
-    void changeEffectState(const QList <int> indexes, bool disable);
+    void changeEffectState(const QList<int> &indexes, bool disable);
     void updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix);
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
@@ -196,7 +196,7 @@ public:
     /** @brief Request an update of all track producers */
     void reloadTrackProducers();
     /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
-    void saveZone(QPoint zone, QDir dir);
+    void saveZone(QPoint zone, const QDir &dir);
 
 private:
     Mlt::Producer *m_masterProducer;

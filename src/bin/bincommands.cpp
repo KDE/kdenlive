@@ -199,7 +199,7 @@ void ChangeMasterEffectStateCommand::redo()
    m_refreshEffectStack = true;
 }
 
-MoveBinEffectCommand::MoveBinEffectCommand(Bin *bin, const QString &clipId, QList <int> oldPos, int newPos, QUndoCommand *parent) :
+MoveBinEffectCommand::MoveBinEffectCommand(Bin *bin, const QString &clipId, const QList <int> &oldPos, int newPos, QUndoCommand *parent) :
         QUndoCommand(parent),
         m_bin(bin),
         m_clipId(clipId),

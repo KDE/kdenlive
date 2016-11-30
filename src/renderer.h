@@ -191,7 +191,7 @@ class Render: public AbstractRender
      */
     void mltCheckLength(Mlt::Tractor *tractor);
     Mlt::Producer *getSlowmotionProducer(const QString &url);
-    void mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
+    void mltInsertSpace(const QMap<int, int> &trackClipStartList, const QMap<int, int> &trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
     bool mltResizeClipCrop(const ItemInfo &info, GenTime newCropStart);
 
@@ -252,8 +252,8 @@ class Render: public AbstractRender
     /** @brief Stop all activities in preparation for a change in profile */
     void prepareProfileReset(double fps);
     void finishProfileReset();
-    void updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties);
-    void preparePreviewRendering(const QString sceneListFile);
+    void updateSlowMotionProducers(const QString &id, const QMap<QString, QString> &passProperties);
+    void preparePreviewRendering(const QString &sceneListFile);
     void silentSeek(int time);
 
 private:

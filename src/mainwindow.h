@@ -362,7 +362,7 @@ private slots:
     void slotRemoveSpace();
     void slotRemoveAllSpace();
     void slotAddGuide();
-    void slotEditGuide(int pos = -1, QString text = QString());
+    void slotEditGuide(int pos = -1, const QString &text = QString());
     void slotDeleteGuide();
     void slotDeleteAllGuides();
     void slotGuidesUpdated();
@@ -475,7 +475,7 @@ private slots:
     void slotUpdateCompositeAction(int mode);
     /** @brief Cycle through the different timeline trim modes. */
     void slotSwitchTrimMode();
-    void setTrimMode(const QString mode);
+    void setTrimMode(const QString &mode);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
 

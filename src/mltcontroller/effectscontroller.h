@@ -45,7 +45,7 @@ public:
     int groupIndex;
     QString groupName;
     QString toString() const;
-    void fromString(QString value);
+    void fromString(const QString &value);
 };
 
 /**)
@@ -96,7 +96,7 @@ namespace EffectsController
     EffectsParameterList getEffectArgs(const ProfileInfo &info, const QDomElement &effect);
 
     /** @brief Get effect parameters ready for MLT*/
-    void adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const ProfileInfo &info, const QString &prefix = QString());
+    void adjustEffectParameters(EffectsParameterList &parameters, const QDomNodeList &params, const ProfileInfo &info, const QString &prefix = QString());
 
     /** @brief Returns an value from a string by replacing "%width" and "%height" with given profile values:
      *  @param info The struct that gives width & height
@@ -106,9 +106,9 @@ namespace EffectsController
     QString getStringRectEval(const ProfileInfo &info, QString eval);
 
     /** @brief Initialize some track effects parameters */
-    void initTrackEffect(ProfileInfo pInfo, QDomElement effect);
+    void initTrackEffect(ProfileInfo pInfo, const QDomElement &effect);
      /** @brief Initialize some effects parameters: keyframes, fades, in / out points  */
-    void initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString &proxy, QDomElement effect, int diff = 0, int offset = 0);
+    void initEffect(const ItemInfo &info, ProfileInfo pInfo, const EffectsList &list, const QString &proxy, QDomElement effect, int diff = 0, int offset = 0);
 
     /** @brief Adjust keyframes to the new clip. */
     const QString adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newEnd, ProfileInfo pInfo);

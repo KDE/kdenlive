@@ -35,7 +35,7 @@ class DocumentChecker: public QObject
     Q_OBJECT
 
 public:
-    explicit DocumentChecker(QUrl url, const QDomDocument &doc);
+    explicit DocumentChecker(const QUrl &url, const QDomDocument &doc);
     ~DocumentChecker();
     /**
      * @brief checks for problems with the clips in the project
@@ -52,8 +52,8 @@ private slots:
     void slotEditItem(QTreeWidgetItem *item, int);
     void slotPlaceholders();
     void slotDeleteSelected();
-    QString getProperty(QDomElement effect, const QString &name);
-    void setProperty(QDomElement effect, const QString &name, const QString &value);
+    QString getProperty(const QDomElement &effect, const QString &name);
+    void setProperty(const QDomElement &effect, const QString &name, const QString &value);
     QString searchLuma(const QDir &dir, const QString &file) const;
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
     void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id, const QString &baseClip);

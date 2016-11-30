@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageBox>
 
 
-ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *controller, ProjectFolder* parent) :
+ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ClipController *controller, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent)
     , m_abortAudioThumb(false)
     , m_controller(controller)
@@ -70,7 +70,7 @@ ProjectClip::ProjectClip(const QString &id, QIcon thumb, ClipController *control
     createAudioThumbs();
 }
 
-ProjectClip::ProjectClip(const QDomElement& description, QIcon thumb, ProjectFolder* parent) :
+ProjectClip::ProjectClip(const QDomElement& description, const QIcon &thumb, ProjectFolder* parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
     , m_abortAudioThumb(false)
     , m_controller(Q_NULLPTR)
@@ -139,7 +139,7 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
     return value;
 }
 
-void ProjectClip::updateAudioThumbnail(QVariantList audioLevels)
+void ProjectClip::updateAudioThumbnail(const QVariantList &audioLevels)
 {
     audioFrameCache = audioLevels;
     m_controller->audioThumbCreated = true;
@@ -302,7 +302,7 @@ QDomElement ProjectClip::toXml(QDomDocument& document, bool includeMeta)
     }
 }
 
-void ProjectClip::setThumbnail(QImage img)
+void ProjectClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     if (hasProxy() && !thumb.isNull()) {
@@ -586,7 +586,7 @@ bool ProjectClip::hasProxy() const
     return true;
 }
 
-void ProjectClip::setProperties(QMap <QString, QString> properties, bool refreshPanel)
+void ProjectClip::setProperties(const QMap <QString, QString> &properties, bool refreshPanel)
 {
     QMapIterator<QString, QString> i(properties);
     QMap <QString, QString> passProperties;
@@ -826,7 +826,7 @@ QVariant ProjectClip::data(DataType type) const
     return AbstractProjectItem::data(type);
 }
 
-void ProjectClip::slotQueryIntraThumbs(QList <int> frames)
+void ProjectClip::slotQueryIntraThumbs(const QList <int> &frames)
 {
     QMutexLocker lock(&m_intraThumbMutex);
     for (int i = 0; i < frames.count(); i++) {
@@ -873,7 +873,7 @@ void ProjectClip::doExtractIntra()
 }
 
 
-void ProjectClip::slotExtractImage(QList <int> frames)
+void ProjectClip::slotExtractImage(const QList <int> &frames)
 {
     QMutexLocker lock(&m_thumbMutex);
     for (int i = 0; i < frames.count(); i++) {

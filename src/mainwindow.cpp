@@ -2433,7 +2433,7 @@ void MainWindow::slotUnselectAllTracks()
         pCore->projectManager()->currentTimeline()->projectView()->clearSelection();
 }
 
-void MainWindow::slotEditGuide(int pos, QString text)
+void MainWindow::slotEditGuide(int pos, const QString &text)
 {
     if (pCore->projectManager()->currentTimeline())
         pCore->projectManager()->currentTimeline()->projectView()->slotEditGuide(pos, text);
@@ -4000,7 +4000,7 @@ void MainWindow::slotSwitchTrimMode()
     }
 }
 
-void MainWindow::setTrimMode(const QString mode)
+void MainWindow::setTrimMode(const QString &mode)
 {
     if (pCore->projectManager()->currentTimeline()) {
         m_trimLabel->setText(mode);

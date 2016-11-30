@@ -42,7 +42,7 @@ QString EffectInfo::toString() const {
     return data.join(QStringLiteral("/"));
 }
 
-void EffectInfo::fromString(QString value) {
+void EffectInfo::fromString(const QString &value) {
     if (value.isEmpty()) return;
     QStringList data = value.split(QStringLiteral("/"));
     isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
@@ -130,7 +130,7 @@ EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, c
 }
 
 
-void EffectsController::adjustEffectParameters(EffectsParameterList &parameters, QDomNodeList params, const ProfileInfo &info, const QString &prefix)
+void EffectsController::adjustEffectParameters(EffectsParameterList &parameters, const QDomNodeList &params, const ProfileInfo &info, const QString &prefix)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -216,7 +216,7 @@ QString EffectsController::getStringRectEval(const ProfileInfo &info, QString ev
     return eval;
 }
 
-void EffectsController::initTrackEffect(ProfileInfo pInfo, QDomElement effect)
+void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &effect)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
@@ -253,7 +253,7 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, QDomElement effect)
     }
 }
 
-void EffectsController::initEffect(ItemInfo info, ProfileInfo pInfo, EffectsList list, const QString& proxy, QDomElement effect, int diff, int offset)
+void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, const EffectsList &list, const QString& proxy, QDomElement effect, int diff, int offset)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed

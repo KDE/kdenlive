@@ -58,7 +58,7 @@ const int LUMAPLACEHOLDER = 12;
 
 enum TITLECLIPTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
 
-DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc):
+DocumentChecker::DocumentChecker(const QUrl &url, const QDomDocument &doc):
     m_url(url), m_doc(doc), m_dialog(Q_NULLPTR)
 {
 }
@@ -482,7 +482,7 @@ DocumentChecker::~DocumentChecker()
 }
 
 
-QString DocumentChecker::getProperty(QDomElement effect, const QString &name)
+QString DocumentChecker::getProperty(const QDomElement &effect, const QString &name)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
     for (int i = 0; i < params.count(); ++i) {
@@ -494,7 +494,7 @@ QString DocumentChecker::getProperty(QDomElement effect, const QString &name)
     return QString();
 }
 
-void DocumentChecker::setProperty(QDomElement effect, const QString &name, const QString &value)
+void DocumentChecker::setProperty(const QDomElement &effect, const QString &name, const QString &value)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
     for (int i = 0; i < params.count(); ++i) {

@@ -59,12 +59,12 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectClip(const QString &id, QIcon thumb, ClipController *controller, ProjectFolder* parent);
+    ProjectClip(const QString &id, const QIcon &thumb, ClipController *controller, ProjectFolder* parent);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "id" attribute and "resource" property are used
      */
-    ProjectClip(const QDomElement &description, QIcon thumb, ProjectFolder *parent);
+    ProjectClip(const QDomElement &description, const QIcon &thumb, ProjectFolder *parent);
     virtual ~ProjectClip();
 
     void reloadProducer(bool refreshOnly = false);
@@ -121,7 +121,7 @@ public:
     QVariant data(DataType type) const Q_DECL_OVERRIDE;
 
     /** @brief Sets thumbnail for this clip. */
-    void setThumbnail(QImage);
+    void setThumbnail(const QImage &);
     QPixmap thumbnail(int width, int height);
 
     /** @brief Sets the MLT producer associated with this clip
@@ -141,7 +141,7 @@ public:
     ClipController *controller();
 
     /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
-    void setProperties(QMap <QString, QString> properties, bool refreshPanel = false);
+    void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false);
     
     /** @brief Get an XML property from MLT produced xml. */
     static QString getXmlProperty(const QDomElement &producer, const QString &propertyName, const QString &defaultValue = QString());
@@ -213,14 +213,14 @@ public:
     const QString getAudioThumbPath(AudioStreamInfo *audioInfo);
     /** @brief Returns a cached pixmap for a frame of this clip */
     QImage findCachedThumb(int pos);
-    void slotQueryIntraThumbs(QList <int> frames);
+    void slotQueryIntraThumbs(const QList<int> &frames);
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
     bool isSplittable() const;
 
 public slots:
-    void updateAudioThumbnail(QVariantList audioLevels);
+    void updateAudioThumbnail(const QVariantList &audioLevels);
     /** @brief Extract image thumbnails for timeline. */
-    void slotExtractImage(QList <int> frames);
+    void slotExtractImage(const QList<int> &frames);
     void slotCreateAudioThumbs();
     /** @brief Set the Job status on a clip.
      * @param jobType The job type

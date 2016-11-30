@@ -374,7 +374,7 @@ public:
     ProjectFolder *rootFolder();
 
     /** @brief Create a clip item from its xml description  */
-    void createClip(QDomElement xml);
+    void createClip(const QDomElement &xml);
 
     /** @brief Used to notify the Model View that an item was updated */
     void emitItemUpdated(AbstractProjectItem* item);
@@ -408,7 +408,7 @@ public:
     bool hasPendingJob(const QString &id, AbstractClipJob::JOBTYPE type);
 
     /** @brief Reload / replace a producer */
-    void reloadProducer(const QString &id, QDomElement xml);
+    void reloadProducer(const QString &id, const QDomElement &xml);
     
     /** @brief Current producer has changed, refresh monitor and timeline*/
     void refreshClip(const QString &id);
@@ -418,7 +418,7 @@ public:
     void emitItemAdded(AbstractProjectItem* item);
     void emitAboutToRemoveItem(AbstractProjectItem* item);
     void emitItemRemoved(AbstractProjectItem* item);
-    void setupMenu(QMenu *addMenu, QAction *defaultAction, QHash <QString, QAction*> actions);
+    void setupMenu(QMenu *addMenu, QAction *defaultAction, const QHash<QString, QAction *> &actions);
 
     /** @brief The source file was modified, we will reload it soon, disable item in the meantime */
     void setWaitingStatus(const QString &id);
@@ -521,7 +521,7 @@ public:
     QDockWidget *clipPropertiesDock();
     /** @brief Returns a cached thumbnail. */
     QImage findCachedPixmap(const QString &path);
-    void cachePixmap(const QString &path, QImage img);
+    void cachePixmap(const QString &path, const QImage &img);
     /** @brief Returns a document's cache dir. ok is set to false if folder does not exist */
     QDir getCacheDir(CacheType type, bool *ok) const;
     /** @brief Command adding a bin clip */
@@ -532,7 +532,7 @@ public:
     /** @brief Get info (id, name) of a folder (or the currently selected one)  */
     const QStringList getFolderInfo(const QModelIndex &selectedIx = QModelIndex());
     /** @brief Save a clip zone as MLT playlist */
-    void saveZone(QStringList info, QDir dir);
+    void saveZone(const QStringList &info, const QDir &dir);
 
 private slots:
     void slotAddClip();
@@ -555,22 +555,22 @@ private slots:
     void selectProxyModel(const QModelIndex &id);
     void autoSelect();
     void slotSaveHeaders();
-    void slotItemDropped(QStringList ids, const QModelIndex &parent);
+    void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
-    void slotEffectDropped(QString effect, const QModelIndex &parent);
+    void slotEffectDropped(const QString &effect, const QModelIndex &parent);
     void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix);
-    void slotChangeEffectState(QString id, QList<int> indexes, bool disable);
-    void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
-    void slotAddUrl(QString url, int folderId, QMap <QString, QString> data = QMap <QString, QString>());
-    void slotAddUrl(QString url, QMap <QString, QString> data = QMap <QString, QString>());
+    void slotChangeEffectState(QString id, const QList<int> &indexes, bool disable);
+    void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
+    void slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data = QMap <QString, QString>());
+    void slotAddUrl(const QString &url, const QMap<QString, QString> &data = QMap <QString, QString>());
     void slotPrepareJobsMenu();
     void slotShowJobLog();
     /** @brief process clip job result. */
-    void slotGotFilterJobResults(QString ,int , int, stringMap, stringMap);
+    void slotGotFilterJobResults(const QString & , int , int, const stringMap &, const stringMap &);
     /** @brief Reset all text and log data from info message widget. */
     void slotResetInfoMessage();
     /** @brief Show dialog prompting for removal of invalid clips. */
-    void slotQueryRemoval(const QString &id, QUrl url, const QString &errorMessage);
+    void slotQueryRemoval(const QString &id, const QUrl &url, const QString &errorMessage);
     /** @brief Request display of current clip in monitor. */
     void slotOpenCurrent();
     void slotZoomView(bool zoomIn);
@@ -583,7 +583,7 @@ private slots:
     void slotCreateAudioThumbs();
     void doRefreshPanel(const QString &id);
     /** @brief Send audio thumb data to monitor for display. */
-    void slotSendAudioThumb(QString id);
+    void slotSendAudioThumb(const QString &id);
     void doRefreshAudioThumbs(const QString &id);
     /** @brief Enable item view and hide message */
     void slotMessageActionTriggered();
@@ -600,10 +600,10 @@ public slots:
      *  @param id the clip id
      *  @param controller The Controller for this clip
      */
-    void slotProducerReady(requestClipInfo info, ClipController *controller);
+    void slotProducerReady(const requestClipInfo &info, ClipController *controller);
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
     /** @brief Create a folder when opening a document */
-    void slotLoadFolders(QMap<QString,QString> foldersData);
+    void slotLoadFolders(const QMap<QString, QString> &foldersData);
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();
@@ -617,7 +617,7 @@ public slots:
     void slotStartCutJob(const QString &id);
     /** @brief Triggered by a clip job action, start the job */
     void slotStartClipJob(bool enable);
-    void slotEditClipCommand(const QString &id, QMap<QString, QString>oldProps, QMap<QString, QString>newProps);
+    void slotEditClipCommand(const QString &id, const QMap<QString, QString> &oldProps, const QMap<QString, QString> &newProps);
     void slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps);
     /** @brief Start a filter job requested by a filter applied in timeline */
     void slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams);
@@ -625,36 +625,36 @@ public slots:
     void slotAddClipCut(const QString&id, int in, int out);
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
-    void slotAddClipMarker(const QString &id, QList <CommentedTime> newMarker, QUndoCommand *groupCommand = Q_NULLPTR);
+    void slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMarker, QUndoCommand *groupCommand = Q_NULLPTR);
     void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
     void slotDuplicateClip();
     void slotLocateClip();
     void slotDeleteEffect(const QString &id, QDomElement effect);
-    void slotMoveEffect(const QString &id, QList <int> currentPos, int newPos);
+    void slotMoveEffect(const QString &id, const QList<int> &currentPos, int newPos);
     /** @brief Request audio thumbnail for clip with id */
     void slotCreateAudioThumb(const QString &id);
     /** @brief Abort audio thumbnail for clip with id */
     void slotAbortAudioThumb(const QString &id, long duration);
     /** @brief Add extra data to a clip. */
     void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = Q_NULLPTR);
-    void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties, bool refreshPropertiesPanel);
+    void slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel);
     /** @brief Pass some important properties to timeline track producers. */
-    void updateTimelineProducers(const QString &id, QMap <QString, QString> passProperties);
+    void updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
     void slotEffectDropped(QString id, QDomElement);
     /** @brief Request current frame from project monitor. */
     void slotGetCurrentProjectImage(bool request);
-    void slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command);
+    void slotExpandUrl(const ItemInfo &info, const QUrl &url, QUndoCommand *command);
     void abortAudioThumbs();
-    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, QList <QAction*> actions = QList <QAction*>());
+    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList <QAction*>());
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
         /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
-    void slotAddClipToProject(QUrl url);
+    void slotAddClipToProject(const QUrl &url);
     void doUpdateThumbsProgress(long ms);
-    void droppedUrls(QList <QUrl> urls, const QStringList &folderInfo = QStringList());
+    void droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo = QStringList());
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;

@@ -71,7 +71,7 @@ public:
     void setCurrent(bool current, bool notify = true) Q_DECL_OVERRIDE;
 
     /** @brief Sets thumbnail for this clip. */
-    void setThumbnail(QImage);
+    void setThumbnail(const QImage &);
 
     /** @brief Remove reference to this subclip in the master clip, to be done before a subclip is deleted. */
     void discard();
@@ -85,7 +85,7 @@ private:
     int m_out;
 
 private slots:
-    void gotThumb(int pos, QImage img);
+    void gotThumb(int pos, const QImage &img);
 };
 
 #endif

@@ -1118,7 +1118,7 @@ void Render::unlockService(Mlt::Tractor *tractor)
     service.unlock();
 }
 
-void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset)
+void Render::mltInsertSpace(const QMap <int, int> &trackClipStartList, const QMap <int, int> &trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset)
 {
     if (!m_mltProducer) {
         //qDebug() << "PLAYLIST NOT INITIALISED //////";
@@ -1584,7 +1584,7 @@ Mlt::Producer *Render::getSlowmotionProducer(const QString &url)
     return Q_NULLPTR;
 }
 
-void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString> passProperties)
+void Render::updateSlowMotionProducers(const QString &id, const QMap <QString, QString> &passProperties)
 {
     QMapIterator<QString, Mlt::Producer *> i(m_slowmotionProducers);
     Mlt::Producer *prod;
@@ -1602,7 +1602,7 @@ void Render::updateSlowMotionProducers(const QString &id, QMap <QString, QString
     }
 }
 
-void Render::preparePreviewRendering(const QString sceneListFile)
+void Render::preparePreviewRendering(const QString &sceneListFile)
 {
     // Save temporary scenelist
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), "xml", sceneListFile.toUtf8().constData());

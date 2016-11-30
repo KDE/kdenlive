@@ -61,7 +61,7 @@ public:
      * @param properties The clip's properties
      * @param parent The widget where our infos will be displayed
      */
-    explicit ClipPropertiesController(Timecode tc, ClipController *controller, QWidget *parent);
+    explicit ClipPropertiesController(const Timecode &tc, ClipController *controller, QWidget *parent);
     virtual ~ClipPropertiesController();
 
 public slots:

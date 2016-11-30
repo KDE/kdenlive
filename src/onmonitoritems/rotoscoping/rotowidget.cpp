@@ -91,7 +91,7 @@ void RotoWidget::slotSyncPosition(int relTimelinePos)
     slotPositionChanged(relTimelinePos, false);
 }
 
-void RotoWidget::slotUpdateData(int pos, QList <BPoint> spline)
+void RotoWidget::slotUpdateData(int pos, const QList <BPoint> &spline)
 {
     int width = m_monitor->render->frameRenderWidth();
     int height = m_monitor->render->renderHeight();
@@ -125,7 +125,7 @@ void RotoWidget::slotUpdateData(int pos, QList <BPoint> spline)
     emit valueChanged();
 }
 
-void RotoWidget::slotUpdateDataPoints(QVariantList points, int pos)
+void RotoWidget::slotUpdateDataPoints(const QVariantList &points, int pos)
 {
     QList <BPoint> bPoints;
     for (int i = 0; i < points.size() / 3; i++) {
