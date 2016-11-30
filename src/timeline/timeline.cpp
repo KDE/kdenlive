@@ -1149,7 +1149,7 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
 }
 
 //static
-void Timeline::setParam(ProfileInfo info, QDomElement param, QString value) {
+void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &value) {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     //get Kdenlive scaling parameters
@@ -1539,7 +1539,7 @@ void Timeline::updateClipProperties(const QString &id, QMap <QString, QString> p
     }
 }
 
-int Timeline::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect)
+int Timeline::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect)
 {
     QLocale locale;
     QString url = QString::fromUtf8(originalProd->get("resource"));
@@ -1612,7 +1612,7 @@ void Timeline::disableTimelineEffects(bool disable)
     }
 }
 
-void Timeline::importPlaylist(ItemInfo info, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command)
+void Timeline::importPlaylist(ItemInfo info, const QMap <QString, QString> &idMaps, const QDomDocument &doc, QUndoCommand *command)
 {
     projectView()->importPlaylist(info, idMaps, doc, command);
 }

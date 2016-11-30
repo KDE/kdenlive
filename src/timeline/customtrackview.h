@@ -135,7 +135,7 @@ public:
     void slotInsertSpace();
     /** @brief Prepares removing space. */
     void slotRemoveSpace(bool multiTrack = false);
-    void insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, const GenTime &offset);
+    void insertSpace(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, const GenTime &offset);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
     void deleteTimelineTrack(int ix, TrackInfo trackinfo);
     void saveThumbnails();
@@ -292,10 +292,10 @@ public:
     * @param pos New endPos
     * @param check (optional, default = false) Whether to check for collisions
     * @param command (optional) Will be used as parent command (for undo history) */
-    void prepareResizeClipEnd(AbstractClipItem *item, ItemInfo oldInfo, int pos, bool check = false, QUndoCommand *command = Q_NULLPTR);
+    void prepareResizeClipEnd(AbstractClipItem *item, const ItemInfo &oldInfo, int pos, bool check = false, QUndoCommand *command = Q_NULLPTR);
     AbstractClipItem *dragItem();
     /** @brief Cut clips in all non locked tracks. */
-    void cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QList <ItemInfo> excludedTransitions, QUndoCommand *masterCommand, int track = -1);
+    void cutTimeline(int cutPos, const QList<ItemInfo> &excludedClips, const QList<ItemInfo> &excludedTransitions, QUndoCommand *masterCommand, int track = -1);
     void updateClipTypeActions(ClipItem *clip);
     void setOperationMode(OperationType mode);
     OperationType operationMode() const;
@@ -347,7 +347,7 @@ public slots:
     void setDuration(int duration);
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
     void slotAddTransitionToSelectedClips(QDomElement transition, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>());
-    void slotTransitionUpdated(Transition *, QDomElement);
+    void slotTransitionUpdated(Transition *, const QDomElement &);
     void slotSwitchTrackLock(int ix, bool enable, bool applyToAll = false);
     void slotUpdateClip(const QString &clipId, bool reload = true);
 
@@ -411,7 +411,7 @@ public slots:
     /** @brief Export part of the playlist in an xml file */
     void exportTimelineSelection(QString path = QString());
     /** Remove zone from current track */
-    void extractZone(QPoint z, bool closeGap, QList <ItemInfo> excludedClips = QList <ItemInfo>(), QUndoCommand *masterCommand = Q_NULLPTR, int track = -1);
+    void extractZone(QPoint z, bool closeGap, const QList<ItemInfo> &excludedClips = QList <ItemInfo>(), QUndoCommand *masterCommand = Q_NULLPTR, int track = -1);
     /** @brief Select an item in timeline. */
     void slotSelectItem(AbstractClipItem *item);
     /** @brief Cycle through timeline trim modes */

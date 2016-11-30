@@ -137,9 +137,9 @@ public:
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
     void updateClipProperties(const QString &id, QMap <QString, QString> properties);
-    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect = false);
+    int changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect = false);
     /** @brief Set an effect's XML accordingly to MLT::filter values. */
-    static void setParam(ProfileInfo info, QDomElement param, QString value);
+    static void setParam(ProfileInfo info, QDomElement param, const QString &value);
     int getTracks();
     void getTransitions();
     void refreshTractor();
@@ -154,7 +154,7 @@ public:
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
     static bool isSlide(QString geometry);
     /** @brief Import amultitrack MLT playlist in timeline */
-    void importPlaylist(ItemInfo info, QMap <QString, QString> idMaps, QDomDocument doc, QUndoCommand *command);
+    void importPlaylist(ItemInfo info, const QMap<QString, QString> &idMaps, const QDomDocument &doc, QUndoCommand *command);
     /** @brief Creates an overlay track with a filtered clip */
     bool createOverlay(Mlt::Filter *filter, int tk, int startPos);
     /** @brief Creates an overlay track with a ripple transition*/

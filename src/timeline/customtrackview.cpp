@@ -2912,7 +2912,7 @@ void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTr
     emit transitionItemSelected(Q_NULLPTR);
 }
 
-void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old)
+void CustomTrackView::slotTransitionUpdated(Transition *tr, const QDomElement &old)
 {
     ////qDebug() << "TRANS UPDATE, TRACKS: " << old.attribute("transition_btrack") << ", NEW: " << tr->toXML().attribute("transition_btrack");
     QDomElement xml = tr->toXML();
@@ -3124,7 +3124,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
     setFocus();
 }
 
-void CustomTrackView::cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QList <ItemInfo> excludedTransitions, QUndoCommand *masterCommand, int track)
+void CustomTrackView::cutTimeline(int cutPos, const QList <ItemInfo> &excludedClips, const QList <ItemInfo> &excludedTransitions, QUndoCommand *masterCommand, int track)
 {
     QRectF rect;
     if (track == -1) {
@@ -3188,7 +3188,7 @@ void CustomTrackView::cutTimeline(int cutPos, QList <ItemInfo> excludedClips, QL
     }
 }
 
-void CustomTrackView::extractZone(QPoint z, bool closeGap, QList <ItemInfo> excludedClips, QUndoCommand *masterCommand, int track)
+void CustomTrackView::extractZone(QPoint z, bool closeGap, const QList <ItemInfo> &excludedClips, QUndoCommand *masterCommand, int track)
 {
     // remove track zone and close gap
     if (closeGap && m_timeline->getTrackInfo(m_selectedTrack).isLocked) {
@@ -3859,7 +3859,7 @@ void CustomTrackView::insertTimelineSpace(GenTime startPos, GenTime duration, in
     }
 }
 
-void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, const GenTime &offset)
+void CustomTrackView::insertSpace(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, const GenTime &offset)
 {
     int diff = duration.frames(m_document->fps());
     resetSelectionGroup();
@@ -5259,7 +5259,7 @@ void CustomTrackView::prepareResizeClipStart(AbstractClipItem* item, const ItemI
     }
 }
 
-void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, ItemInfo oldInfo, int pos, bool check, QUndoCommand *command)
+void CustomTrackView::prepareResizeClipEnd(AbstractClipItem* item, const ItemInfo &oldInfo, int pos, bool check, QUndoCommand *command)
 {
     if (pos == oldInfo.endPos.frames(m_document->fps()))
         return;
