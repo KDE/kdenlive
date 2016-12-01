@@ -92,7 +92,7 @@ ProfileWidget::ProfileWidget(QWidget* parent) :
     setLayout(lay);
     manage_profiles->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     manage_profiles->setToolTip(i18n("Manage project profiles"));
-    connect(manage_profiles, SIGNAL(clicked(bool)), this, SLOT(slotEditProfiles()));
+    connect(manage_profiles, &QAbstractButton::clicked, this, &ProfileWidget::slotEditProfiles);
     connect(m_standard, SIGNAL(activated(int)), this, SLOT(updateList()));
     connect(m_rate_list, SIGNAL(activated(int)), this, SLOT(ratesUpdated()));
     connect(m_customSize, SIGNAL(activated(int)), this, SLOT(slotCheckInterlace()));

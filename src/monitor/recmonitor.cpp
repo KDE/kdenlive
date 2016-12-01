@@ -77,7 +77,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     connect(m_rewAction, &QAction::triggered, this, &RecMonitor::slotRewind);
 
     m_playAction = toolbar->addAction(m_playIcon, i18n("Play"));
-    connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotStartPreview()));
+    connect(m_playAction, &QAction::triggered, this, &RecMonitor::slotStartPreview);
 
     m_stopAction = toolbar->addAction(QIcon::fromTheme(QStringLiteral("media-playback-stop")), i18n("Stop"));
     connect(m_stopAction, &QAction::triggered, this, &RecMonitor::slotStopCapture);

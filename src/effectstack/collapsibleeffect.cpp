@@ -565,9 +565,9 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
         collapseButton->setArrowType(Qt::RightArrow);
 
     }
-    connect (m_paramWidget, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this, SIGNAL(parameterChanged(QDomElement,QDomElement,int)));
+    connect (m_paramWidget, &ParameterContainer::parameterChanged, this, &CollapsibleEffect::parameterChanged);
 
-    connect(m_paramWidget, SIGNAL(startFilterJob(QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), this, SIGNAL(startFilterJob(QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
+    connect(m_paramWidget, &ParameterContainer::startFilterJob, this, &CollapsibleEffect::startFilterJob);
 
     connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
     connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));

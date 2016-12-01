@@ -37,7 +37,7 @@ MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, DocU
     , m_scrollTrigger(QFontMetrics(view->font()).averageCharWidth() * 3)
     , m_dragMoved(false)
 {
-    connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
+    connect(&m_scrollTimer, &QTimer::timeout, this, &MoveManager::slotCheckMouseScrolling);
     m_scrollTimer.setInterval(100);
     m_scrollTimer.setSingleShot(true);
 }
