@@ -256,7 +256,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
     return true;
 }
 
-bool EffectManager::editEffect(EffectsParameterList params, int duration, bool replaceEffect)
+bool EffectManager::editEffect(const EffectsParameterList &params, int duration, bool replaceEffect)
 {
     int index = params.paramValue(QStringLiteral("kdenlive_ix")).toInt();
     QString tag =  params.paramValue(QStringLiteral("tag"));

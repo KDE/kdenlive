@@ -45,7 +45,7 @@ class AnimationWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, QDomElement xml, QWidget *parent = Q_NULLPTR);
+    explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml, QWidget *parent = Q_NULLPTR);
     virtual ~AnimationWidget();
     void updateTimecodeFormat();
     void addParameter(const QDomElement &e);

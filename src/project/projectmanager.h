@@ -60,7 +60,7 @@ public:
     /** @brief Returns true if there is a selected item in timeline */
     bool hasSelection() const;
     /** @brief Returns current project's xml scene */
-    QString projectSceneList(const QString outputFolder);
+    QString projectSceneList(const QString &outputFolder);
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);

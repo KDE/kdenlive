@@ -75,8 +75,8 @@ public:
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
-    void addClip(const QString &clipId, ItemInfo info, EffectsList list, PlaylistState::ClipState state, bool refresh = true);
-    void deleteClip(ItemInfo info, bool refresh = true);
+    void addClip(const QString &clipId, const ItemInfo &info, const EffectsList &list, PlaylistState::ClipState state, bool refresh = true);
+    void deleteClip(const ItemInfo &info, bool refresh = true);
     void addMarker(const QString &id, const CommentedTime &marker);
     void addData(const QString &id, const QString &key, const QString &data);
     void setScale(double scaleFactor, double verticalScale);
@@ -84,7 +84,7 @@ public:
     /** @brief An effect was dropped on @param clip */
     void slotDropEffect(ClipItem *clip, const QDomElement &effect, GenTime pos, int track);
     /** @brief A transition was dropped on @param clip */
-    void slotDropTransition(ClipItem *clip, QDomElement transition, QPointF scenePos);
+    void slotDropTransition(ClipItem *clip, const QDomElement &transition, QPointF scenePos);
     /** @brief Add effect to current clip */
     void slotAddEffectToCurrentItem(const QDomElement &effect);
     /** @brief Add effect to a clip or selection */
@@ -92,12 +92,12 @@ public:
     void slotAddGroupEffect(const QDomElement &effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = Q_NULLPTR);
     void addEffect(int track, GenTime pos, const QDomElement &effect);
     void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
-    void updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false, bool refreshMonitor = true);
+    void updateEffect(int track, GenTime pos, const QDomElement &insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false, bool refreshMonitor = true);
     /** @brief Enable / disable a list of effects */
-    void updateEffectState(int track, GenTime pos, QList<int> effectIndexes, bool disable, bool updateEffectStack);
+    void updateEffectState(int track, GenTime pos, const QList<int> &effectIndexes, bool disable, bool updateEffectStack);
     void moveEffect(int track, const GenTime &pos, const QList<int> &oldPos, const QList<int> &newPos);
     void addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh);
-    void deleteTransition(const ItemInfo &transitionInfo, int endTrack, QDomElement params, bool refresh);
+    void deleteTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh);
     void updateTransition(int track, const GenTime &pos,  const QDomElement &oldTransition, const QDomElement &transition, bool updateTransitionWidget);
     void activateMonitor();
     int duration() const;
@@ -121,7 +121,7 @@ public:
     QList<ItemInfo> findId(const QString &clipId);
     void clipStart();
     void clipEnd();
-    void doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe, const QString &id, bool removeEffect = false);
+    void doChangeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe, const QString &id, bool removeEffect = false);
     /** @brief Every command added to the undo stack automatically triggers a document change event.
      *  This function should only be called when changing a document setting or another function that 
      *  is not integrated in the undo / redo system */
@@ -137,7 +137,7 @@ public:
     void slotRemoveSpace(bool multiTrack = false);
     void insertSpace(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, const GenTime &offset);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
-    void deleteTimelineTrack(int ix, TrackInfo trackinfo);
+    void deleteTimelineTrack(int ix, const TrackInfo &trackinfo);
     void saveThumbnails();
     void autoTransition();
     void initCursorPos(int pos);
@@ -150,11 +150,11 @@ public:
     * Makes sure no clip on track to lock is selected. */
     void lockTrack(int ix, bool lock, bool requestUpdate = true);
     void groupClips(bool group = true, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), bool forceLock = false, QUndoCommand *command = Q_NULLPTR, bool doIt = true);
-    void doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group);
+    void doGroupClips(const QList<ItemInfo> &clipInfos, const QList<ItemInfo> &transitionInfos, bool group);
     void loadGroups(const QDomNodeList &groups);
 
     /** @brief Creates SplitAudioCommands for selected clips. */
-    void splitAudio(bool warn = true, ItemInfo info = ItemInfo(), int destTrack = -1, QUndoCommand *masterCommand = Q_NULLPTR);
+    void splitAudio(bool warn = true, const ItemInfo &info = ItemInfo(), int destTrack = -1, QUndoCommand *masterCommand = Q_NULLPTR);
 
     /// Define which clip to take as reference for automatic audio alignment
     void setAudioAlignReference();
@@ -170,7 +170,7 @@ public:
     bool doSplitAudio(const GenTime &pos, int track, int destTrack, bool split);
     /** @brief Sets the clip type (av, video only, audio only) of the current selection. */
     void setClipType(PlaylistState::ClipState state);
-    void doChangeClipType(ItemInfo info, PlaylistState::ClipState state);
+    void doChangeClipType(const ItemInfo &info, PlaylistState::ClipState state);
     /** @brief Check if there is a guide at position.
      * @param pos Position to check
      * @param framePos If set to true, pos is an exact frame number, otherwise it's a mouse event pos
@@ -217,10 +217,10 @@ public:
     int seekPosition() const;
 
     /** @brief Trigger a monitor refresh. */
-    void monitorRefresh(QList <ItemInfo> range, bool invalidateRange = false);
+    void monitorRefresh(const QList<ItemInfo> &range, bool invalidateRange = false);
     void monitorRefresh(bool invalidateRange = false);
     /** @brief Trigger a monitor refresh if timeline cursor is inside range. */
-    void monitorRefresh(ItemInfo range, bool invalidateRange = false);
+    void monitorRefresh(const ItemInfo &range, bool invalidateRange = false);
 
     /** @brief Returns frame number of current mouse position. */
     int getMousePos() const;
@@ -243,7 +243,7 @@ public:
     /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
     void expandActiveClip();
     /** @brief Import amultitrack MLT playlist in timeline */
-    void importPlaylist(ItemInfo info, QMap <QString, QString> idMap, QDomDocument doc, QUndoCommand *command);
+    void importPlaylist(const ItemInfo &info, const QMap<QString, QString> &idMap, const QDomDocument &doc, QUndoCommand *command);
     /** @brief Returns true if there is a selected item in timeline */
     bool hasSelection() const;
     /** @brief Get the index of the video track that is just above current track */
@@ -262,12 +262,12 @@ public:
     /** @brief Geometry keyframes dropped on a transition, start import */
     void dropTransitionGeometry(Transition *trans, const QString &geometry);
     /** @brief Geometry keyframes dropped on a clip, start import */
-    void dropClipGeometry(ClipItem *trans, const QString geometry);
+    void dropClipGeometry(ClipItem *trans, const QString &geometry);
     /** @brief Switch current track lock state */
     void switchTrackLock();
     void switchAllTrackLock();
     /** @brief Insert space in timeline. track = -1 means all tracks */
-    void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, QList <ItemInfo> excludeList = QList <ItemInfo>());
+    void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, const QList<ItemInfo> &excludeList = QList <ItemInfo>());
     void trimMode(bool enable, int ripplePos = -1);
         /** @brief Returns a clip from timeline
      *  @param pos the end time position
@@ -301,7 +301,7 @@ public:
     OperationType operationMode() const;
     OperationType prepareMode() const;
     TimelineMode::EditMode sceneEditMode();
-    bool isLastClip(ItemInfo info);
+    bool isLastClip(const ItemInfo &info);
     TrackInfo getTrackInfo(int ix);
     Transition *getTransitionItemAtStart(GenTime pos, int track);
     Transition *getTransitionItemAtEnd(GenTime pos, int track);
@@ -315,21 +315,21 @@ public:
      * In addition to update the duration in TrackInfo it updates effects with keyframes on the track. */
     void updateTrackDuration(int track, QUndoCommand *command);
     /** @brief Send updtaed info to transition widget. */
-    void updateTransitionWidget(Transition *tr, ItemInfo info);
+    void updateTransitionWidget(Transition *tr, const ItemInfo &info);
     AbstractGroupItem *selectionGroup();
     Timecode timecode();
     /** @brief Collects information about the group's children to pass it on to RazorGroupCommand.
     * @param group The group to cut
     * @param cutPos The absolute position of the cut */
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
-    void reloadTrack(ItemInfo info, bool includeLastFrame);
+    void reloadTrack(const ItemInfo &info, bool includeLastFrame);
     GenTime groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     void sortGuides();
     void initTools();
     AbstractToolManager *toolManager(AbstractToolManager::ToolManagerType trimType);
     /** @brief Perform a ripple move on timeline clips */
     bool rippleClip(ClipItem *clip, int diff);
-    void finishRipple(ClipItem *clip, ItemInfo startInfo, int diff, bool fromStart);
+    void finishRipple(ClipItem *clip, const ItemInfo &startInfo, int diff, bool fromStart);
 
 public slots:
     /** @brief Send seek request to MLT. */
@@ -337,16 +337,16 @@ public slots:
     /** @brief Move timeline cursor to new position. */
     void setCursorPos(int pos);
     void moveCursorPos(int delta);
-    void slotDeleteEffectGroup(ClipItem *clip, int track, QDomDocument doc, bool affectGroup = true);
-    void slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup = true, QUndoCommand *parentCommand = Q_NULLPTR);
+    void slotDeleteEffectGroup(ClipItem *clip, int track, const QDomDocument &doc, bool affectGroup = true);
+    void slotDeleteEffect(ClipItem *clip, int track, const QDomElement &effect, bool affectGroup = true, QUndoCommand *parentCommand = Q_NULLPTR);
     void slotChangeEffectState(ClipItem *clip, int track, QList<int> effectIndexes, bool disable);
-    void slotChangeEffectPosition(ClipItem *clip, int track, QList<int> currentPos, int newPos);
-    void slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix, bool refreshEffectStack = true);
+    void slotChangeEffectPosition(ClipItem *clip, int track, const QList<int> &currentPos, int newPos);
+    void slotUpdateClipEffect(ClipItem *clip, int track, const QDomElement &oldeffect, const QDomElement &effect, int ix, bool refreshEffectStack = true);
     void slotUpdateClipRegion(ClipItem *clip, int ix, const QString &region);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
-    void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
-    void slotAddTransitionToSelectedClips(QDomElement transition, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>());
+    void slotAddTransition(ClipItem* clip, const ItemInfo &transitionInfo, int endTrack, const QDomElement &transition = QDomElement());
+    void slotAddTransitionToSelectedClips(const QDomElement &transition, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>());
     void slotTransitionUpdated(Transition *, const QDomElement &);
     void slotSwitchTrackLock(int ix, bool enable, bool applyToAll = false);
     void slotUpdateClip(const QString &clipId, bool reload = true);
@@ -401,7 +401,7 @@ public slots:
     void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
 
     void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
-    void slotImportClipKeyframes(GraphicsRectItem type, ItemInfo info, QDomElement xml, QMap<QString, QString> data = QMap<QString, QString>());
+    void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> data = QMap<QString, QString>());
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
@@ -476,7 +476,7 @@ private:
     ClipItem *getUpperClipItemAt(int pos);
     /** @brief Returns a moved clip from timeline (means that the item was moved but its ItemInfo coordinates have not been updated yet)
      * */
-    ClipItem *getMovedClipItem(ItemInfo info, GenTime offset, int trackOffset);
+    ClipItem *getMovedClipItem(const ItemInfo &info, GenTime offset, int trackOffset);
     /** @brief Returns a transition from timeline
      *  @param pos a time value that is inside the clip
      *  @param track the track where the clip is in MLT coordinates */
@@ -547,16 +547,16 @@ private:
      * @param oldInfo pre resize info
      * @param fromStart false = resize from end
      * @param command Used as a parent for EditEffectCommand */
-    void adjustEffects(ClipItem *item, ItemInfo oldInfo, QUndoCommand *command);
+    void adjustEffects(ClipItem *item, const ItemInfo &oldInfo, QUndoCommand *command);
     
     /** @brief Prepare an add clip command for an effect */
-    void processEffect(ClipItem *item, QDomElement effect, int offset, QUndoCommand *effectCommand);
+    void processEffect(ClipItem *item, const QDomElement &effect, int offset, QUndoCommand *effectCommand);
     /** @brief Reload all clips and transitions from MLT's playlist */
     void reloadTimeline();
     /** @brief Timeline selection changed, update effect stack. */
     void updateTimelineSelection();
     /** @brief Break groups containing an item in a locked track. */
-    void breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
+    void breakLockedGroups(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
     void slotTrackUp();
     void slotTrackDown();
 
@@ -572,7 +572,7 @@ private slots:
     void slotContextMenuActivated();
     void slotDoResetMenuPosition();
     /** @brief A Filter job producer results. */
-    void slotGotFilterJobResults(const QString &id, int startPos, int track, stringMap filterParams, stringMap extra);
+    void slotGotFilterJobResults(const QString &id, int startPos, int track, const stringMap &filterParams, const stringMap &extra);
     /** @brief Replace a producer in all tracks (for example when proxying a clip). */
     void slotReplaceTimelineProducer(const QString &id);
     void slotPrepareTimelineReplacement(const QString &id);

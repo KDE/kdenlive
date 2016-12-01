@@ -339,7 +339,7 @@ private:
 class RazorClipCommand : public QUndoCommand
 {
 public:
-    RazorClipCommand(CustomTrackView *view, const ItemInfo &info, EffectsList stack, const GenTime &cutTime, bool doIt = true, QUndoCommand * parent = Q_NULLPTR);
+    RazorClipCommand(CustomTrackView *view, const ItemInfo &info, const EffectsList &stack, const GenTime &cutTime, bool doIt = true, QUndoCommand * parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -354,7 +354,7 @@ private:
 class RazorTransitionCommand : public QUndoCommand
 {
 public:
-    RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement params, const GenTime &cutTime, bool doIt = true, QUndoCommand * parent = Q_NULLPTR);
+    RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement &params, const GenTime &cutTime, bool doIt = true, QUndoCommand * parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:

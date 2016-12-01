@@ -1040,7 +1040,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
     return playlist.get_length();
 }
 
-void Timeline::loadGuides(QMap <double, QString> guidesData)
+void Timeline::loadGuides(const QMap <double, QString> &guidesData)
 {
     QMapIterator<double, QString> i(guidesData);
     while (i.hasNext()) {
@@ -1098,7 +1098,7 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
     }
 }
 
-QString Timeline::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
+QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement &e) {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QString starttag = e.attribute(QStringLiteral("starttag"), QStringLiteral("start"));
@@ -1532,7 +1532,7 @@ int Timeline::getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart)
     return track(trackIndex)->getBlankLength(pos, fromBlankStart);
 }
 
-void Timeline::updateClipProperties(const QString &id, QMap <QString, QString> properties)
+void Timeline::updateClipProperties(const QString &id, const QMap <QString, QString> &properties)
 {
     for (int i = 1; i< m_tracks.count(); i++) {
         track(i)->updateClipProperties(id, properties);

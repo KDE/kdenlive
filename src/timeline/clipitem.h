@@ -110,7 +110,7 @@ public:
     void updateEffect(const QDomElement &effect);
     /** @brief Enable / disable a list of effect from their indexes.
      * @returns true if some the effects are video effects, requiring a monitor refresh */
-    bool enableEffects(QList<int> indexes, bool disable);
+    bool enableEffects(const QList<int> &indexes, bool disable);
     bool moveEffect(QDomElement effect, int ix);
     void flashClip();
     void addTransition(Transition*);

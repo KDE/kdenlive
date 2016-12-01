@@ -156,7 +156,7 @@ QStringList EffectsList::effectInfo(const QDomElement &effect) const
     return info;
 }
 
-QStringList EffectsList::effectNames()
+QStringList EffectsList::effectNames() const
 {
     QStringList list;
     QDomNodeList effects = m_baseElement.childNodes();

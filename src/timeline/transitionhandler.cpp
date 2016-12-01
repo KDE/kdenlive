@@ -28,7 +28,7 @@ TransitionHandler::TransitionHandler(Mlt::Tractor *tractor) : QObject()
 {
 }
 
-bool TransitionHandler::addTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)
+bool TransitionHandler::addTransition(const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml)
 {
     if (in >= out) return false;
     double fps = m_tractor->get_fps();
@@ -235,7 +235,7 @@ void TransitionHandler::updateTransition(const QString &oldTag, const QString &t
     }
 }
 
-void TransitionHandler::updateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)
+void TransitionHandler::updateTransitionParams(const QString &type, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml)
 {
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
@@ -357,7 +357,7 @@ void TransitionHandler::deleteTrackTransitions(int ix)
     }
 }
 
-bool TransitionHandler::moveTransition(QString type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut)
+bool TransitionHandler::moveTransition(const QString &type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut)
 {
     double fps = m_tractor->get_fps();
     int new_in = (int)newIn.frames(fps);

@@ -352,7 +352,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     } else m_configCapture.dvgrab_info->setText(i18n("<strong><em>dvgrab</em> utility not found, please install it for firewire capture</strong>"));
 }
 
-void KdenliveSettingsDialog::setupJogshuttleBtns(QString device)
+void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
 {
     QList<KComboBox*> list;
     QList<QLabel*> list1;

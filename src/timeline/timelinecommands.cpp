@@ -629,7 +629,7 @@ void MoveTransitionCommand::redo()
     m_doIt = true;
 }
 
-RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo &info, EffectsList stack, const GenTime &cutTime, bool doIt, QUndoCommand * parent) :
+RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo &info, const EffectsList &stack, const GenTime &cutTime, bool doIt, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_info(info),
@@ -653,7 +653,7 @@ void RazorClipCommand::redo()
     m_doIt = true;
 }
 
-RazorTransitionCommand::RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement params, const GenTime &cutTime, bool doIt, QUndoCommand * parent) :
+RazorTransitionCommand::RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement &params, const GenTime &cutTime, bool doIt, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_info(info),

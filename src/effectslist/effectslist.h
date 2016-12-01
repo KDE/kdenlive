@@ -65,7 +65,7 @@ public:
     QStringList effectInfo(const QDomElement &effect) const;
 
     /** @brief Lists effects names. */
-    QStringList effectNames();
+    QStringList effectNames() const;
     QString getInfo(const QString & tag, const QString & id) const;
     QDomElement effectById(const QString & id) const;
     QString getInfoFromIndex(const int ix) const;

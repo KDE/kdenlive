@@ -692,7 +692,7 @@ void ProjectManager::slotAutoSave()
     m_lastSave.start();
 }
 
-QString ProjectManager::projectSceneList(const QString outputFolder)
+QString ProjectManager::projectSceneList(const QString &outputFolder)
 {
     bool multitrackEnabled = m_trackView->multitrackView;
     if (multitrackEnabled) {

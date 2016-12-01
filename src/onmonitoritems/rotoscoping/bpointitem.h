@@ -28,7 +28,7 @@ class QGraphicsView;
 class BPointItem : public QAbstractGraphicsShapeItem
 {
 public:
-    explicit BPointItem(const BPoint &point, QGraphicsItem* parent = 0);
+    explicit BPointItem(const BPoint &point, QGraphicsItem* parent = Q_NULLPTR);
 
     BPoint getPoint() const;
     void setPoint(const BPoint &point);
@@ -37,7 +37,7 @@ public:
     int type() const Q_DECL_OVERRIDE;
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) Q_DECL_OVERRIDE;
 
     /** @brief Gets The action mode for the area @param pos +- 4. */
     int getSelection(const QPointF &pos);

@@ -41,15 +41,15 @@ namespace ClipCreationDialog
 {
 
     QStringList getExtensions();
-    void createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
-    void createQTextClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin, ProjectClip *clip = 0);
-    void createClipFromXml(KdenliveDoc *doc, QDomElement xml, QStringList groupInfo, Bin *bin);
-    void createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
-    void createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin);
-    void createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
-    void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin, const QMap <QString, QString> &data = QMap <QString, QString>());
-    void createClipsCommand(Bin *bin, QDomElement producer, const QString &id, QUndoCommand *command);
-    void createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin);
+    void createColorClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
+    void createQTextClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin, ProjectClip *clip = Q_NULLPTR);
+    void createClipFromXml(KdenliveDoc *doc, QDomElement xml, const QStringList &groupInfo, Bin *bin);
+    void createSlideshowClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
+    void createTitleClip(KdenliveDoc *doc, const QStringList &groupInfo, const QString &templatePath, Bin *bin);
+    void createTitleTemplateClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
+    void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin, const QMap <QString, QString> &data = QMap <QString, QString>());
+    void createClipsCommand(Bin *bin, const QDomElement &producer, const QString &id, QUndoCommand *command);
+    void createClipsCommand(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
     void addXmlProperties(QDomElement &producer, QMap <QString, QString> &properties);
 };
 

@@ -1320,7 +1320,7 @@ void ClipItem::updateEffect(const QDomElement &effect)
     }
 }
 
-bool ClipItem::enableEffects(QList<int> indexes, bool disable)
+bool ClipItem::enableEffects(const QList<int> &indexes, bool disable)
 {
     return m_effectList.enableEffects(indexes, disable);
 }

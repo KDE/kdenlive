@@ -105,7 +105,7 @@ public:
     bool checkProjectAudio();
 
     /** @brief Load guides from data */
-    void loadGuides(QMap <double, QString> guidesData);
+    void loadGuides(const QMap<double, QString> &guidesData);
 
     void checkTrackHeight(bool force = false);
     void updatePalette();
@@ -136,7 +136,7 @@ public:
     /** @brief Check if we have a blank space on selected track. 
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
-    void updateClipProperties(const QString &id, QMap <QString, QString> properties);
+    void updateClipProperties(const QString &id, const QMap<QString, QString> &properties);
     int changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect = false);
     /** @brief Set an effect's XML accordingly to MLT::filter values. */
     static void setParam(ProfileInfo info, QDomElement param, const QString &value);
@@ -150,7 +150,7 @@ public:
     void loadTimeline();
     /** @brief Dis/enable all effects in timeline*/
     void disableTimelineEffects(bool disable);
-    QString getKeyframes(Mlt::Service service, int &ix, QDomElement e);
+    QString getKeyframes(Mlt::Service service, int &ix, const QDomElement &e);
     void getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect);
     static bool isSlide(QString geometry);
     /** @brief Import amultitrack MLT playlist in timeline */

@@ -680,7 +680,7 @@ Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QStri
     return prod;
 }
 
-int Track::changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect)
+int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect)
 {
     //TODO: invalidate preview rendering
     int newLength = 0;
@@ -874,7 +874,7 @@ void Track::disableEffects(bool disable)
     }
 }
 
-bool Track::addEffect(double start, EffectsParameterList params)
+bool Track::addEffect(double start, const EffectsParameterList &params)
 {
     int pos = frame(start);
     int clipIndex = m_playlist.get_clip_index_at(pos);
@@ -888,7 +888,7 @@ bool Track::addEffect(double start, EffectsParameterList params)
     return effect.addEffect(params, duration);
 }
 
-bool Track::addTrackEffect(EffectsParameterList params)
+bool Track::addTrackEffect(const EffectsParameterList &params)
 {
     Mlt::Service trackService(m_playlist.get_service());
     EffectManager effect(trackService);
@@ -896,7 +896,7 @@ bool Track::addTrackEffect(EffectsParameterList params)
     return effect.addEffect(params, duration);
 }
 
-bool Track::editEffect(double start, EffectsParameterList params, bool replace)
+bool Track::editEffect(double start, const EffectsParameterList &params, bool replace)
 {
     int pos = frame(start);
     int clipIndex = m_playlist.get_clip_index_at(pos);
@@ -910,7 +910,7 @@ bool Track::editEffect(double start, EffectsParameterList params, bool replace)
     return result;
 }
 
-bool Track::editTrackEffect(EffectsParameterList params, bool replace)
+bool Track::editTrackEffect(const EffectsParameterList &params, bool replace)
 {
     EffectManager effect(m_playlist);
     int duration = m_playlist.get_playtime() - 1;

@@ -113,7 +113,7 @@ private:
     void loadCurrentV4lProfileInfo();
     void saveCurrentV4lProfile();
     void loadEncodingProfiles();
-    void setupJogshuttleBtns(QString device);
+    void setupJogshuttleBtns(const QString &device);
 
 signals:
     void customChanged();

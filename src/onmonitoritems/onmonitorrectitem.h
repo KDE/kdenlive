@@ -40,7 +40,7 @@ public:
     rectActions getMode(const QPointF &pos);
 
     /** @brief Reimplemented to draw the handles. */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 ) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR ) Q_DECL_OVERRIDE;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;

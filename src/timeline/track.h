@@ -169,7 +169,7 @@ public:
      * "speed" is the current speed. 
      * If removeEffect is true, we revert to original avformat producer
      */
-    int changeClipSpeed(ItemInfo info, ItemInfo speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect = false);
+    int changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect = false);
     Mlt::Producer *buildSlowMoProducer(Mlt::Properties passProps, const QString &url, const QString &id, Track::SlowmoInfo info);
     /** @brief Returns true if there is a clip with audio on this track */
     bool hasAudio();
@@ -195,10 +195,10 @@ public:
     void disableEffects(bool disable);
     /** @brief Returns true if position is on last clip or beyond track length. */
     bool isLastClip(qreal t);
-    bool addEffect(double start, EffectsParameterList params);
-    bool addTrackEffect(EffectsParameterList params);
-    bool editEffect(double start, EffectsParameterList params, bool replace);
-    bool editTrackEffect(EffectsParameterList params, bool replace);
+    bool addEffect(double start, const EffectsParameterList &params);
+    bool addTrackEffect(const EffectsParameterList &params);
+    bool editEffect(double start, const EffectsParameterList &params, bool replace);
+    bool editTrackEffect(const EffectsParameterList &params, bool replace);
     bool removeEffect(double start, int effectIndex, bool updateIndex);
     bool removeTrackEffect(int effectIndex, bool updateIndex);
     bool enableEffects(double start, const QList<int> &effectIndexes, bool disable);

@@ -2094,7 +2094,7 @@ void CustomTrackView::slotSelectItem(AbstractClipItem *item)
         emit transitionItemSelected((Transition*)item);
 }
 
-void CustomTrackView::slotDropTransition(ClipItem *clip, QDomElement transition, QPointF scenePos)
+void CustomTrackView::slotDropTransition(ClipItem *clip, const QDomElement &transition, QPointF scenePos)
 {
     if (clip == Q_NULLPTR) return;
     m_menuPosition = mapFromScene(scenePos);
@@ -2214,7 +2214,7 @@ void CustomTrackView::slotAddEffect(const QDomElement &effect, const GenTime &po
     } else delete effectCommand;
 }
 
-void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, int offset, QUndoCommand *effectCommand)
+void CustomTrackView::processEffect(ClipItem *item, const QDomElement &effect, int offset, QUndoCommand *effectCommand)
 {
     if (effect.attribute(QStringLiteral("type")) == QLatin1String("audio")) {
         // Don't add audio effects on video clips
@@ -2251,7 +2251,7 @@ void CustomTrackView::processEffect(ClipItem *item, QDomElement effect, int offs
     new AddEffectCommand(this, item->track(), item->startPos(), effect, true, effectCommand);
 }
 
-void CustomTrackView::slotDeleteEffectGroup(ClipItem *clip, int track, QDomDocument doc, bool affectGroup)
+void CustomTrackView::slotDeleteEffectGroup(ClipItem *clip, int track, const QDomDocument &doc, bool affectGroup)
 {
     QUndoCommand *delCommand = new QUndoCommand();
     QString effectName = doc.documentElement().attribute(QStringLiteral("name"));
@@ -2263,7 +2263,7 @@ void CustomTrackView::slotDeleteEffectGroup(ClipItem *clip, int track, QDomDocum
     m_commandStack->push(delCommand);
 }
 
-void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement effect, bool affectGroup, QUndoCommand *parentCommand)
+void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, const QDomElement &effect, bool affectGroup, QUndoCommand *parentCommand)
 {
     if (clip == Q_NULLPTR) {
         // delete track effect
@@ -2318,7 +2318,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, QDomElement ef
     }
 }
 
-void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedEffect, bool updateEffectStack, bool replaceEffect, bool refreshMonitor)
+void CustomTrackView::updateEffect(int track, GenTime pos, const QDomElement &insertedEffect, bool updateEffectStack, bool replaceEffect, bool refreshMonitor)
 {
     if (insertedEffect.isNull()) {
         //qDebug()<<"// Trying to add null effect";
@@ -2402,7 +2402,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement insertedE
     else emit displayMessage(i18n("Cannot find clip to update effect"), ErrorMessage);
 }
 
-void CustomTrackView::updateEffectState(int track, GenTime pos, QList<int> effectIndexes, bool disable, bool updateEffectStack)
+void CustomTrackView::updateEffectState(int track, GenTime pos, const QList<int> &effectIndexes, bool disable, bool updateEffectStack)
 {
     if (pos < GenTime()) {
         // editing a track effect
@@ -2529,7 +2529,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, QList<int
     m_commandStack->push(command);
 }
 
-void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, QList<int> currentPos, int newPos)
+void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, const QList<int> &currentPos, int newPos)
 {
     MoveEffectCommand *command;
     if (clip == Q_NULLPTR) {
@@ -2539,7 +2539,7 @@ void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, QList<
     m_commandStack->push(command);
 }
 
-void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, QDomElement oldeffect, QDomElement effect, int ix, bool refreshEffectStack)
+void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, const QDomElement &oldeffect, const QDomElement &effect, int ix, bool refreshEffectStack)
 {
     EditEffectCommand *command;
     if (clip) command = new EditEffectCommand(this, clip->track(), clip->startPos(), oldeffect.cloneNode().toElement(), effect.cloneNode().toElement(), ix, refreshEffectStack, true, true);
@@ -2764,7 +2764,7 @@ Transition *CustomTrackView::cutTransition(const ItemInfo &info, const GenTime &
     }
 }
 
-void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition, QList<QGraphicsItem *> itemList)
+void CustomTrackView::slotAddTransitionToSelectedClips(const QDomElement &transition, QList<QGraphicsItem *> itemList)
 {
     if (itemList.isEmpty()) itemList = scene()->selectedItems();
     if (itemList.count() == 1) {
@@ -2860,7 +2860,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition, Q
     }
 }
 
-void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, ItemInfo transitionInfo, int endTrack, QDomElement transition)
+void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, const ItemInfo &transitionInfo, int endTrack, const QDomElement &transition)
 {
     if (transitionInfo.startPos >= transitionInfo.endPos) {
         emit displayMessage(i18n("Invalid transition"), ErrorMessage);
@@ -2891,7 +2891,7 @@ void CustomTrackView::addTransition(const ItemInfo &transitionInfo, int endTrack
     }
 }
 
-void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTrack, QDomElement /*params*/, bool refresh)
+void CustomTrackView::deleteTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &/*params*/, bool refresh)
 {
     Transition *item = getTransitionItemAt(transitionInfo.startPos, transitionInfo.track);
     if (!item) {
@@ -3818,7 +3818,7 @@ void CustomTrackView::slotInsertSpace()
     completeSpaceOperation(track, spaceDuration, true);
 }
 
-void CustomTrackView::insertTimelineSpace(GenTime startPos, GenTime duration, int track, QList <ItemInfo> excludeList)
+void CustomTrackView::insertTimelineSpace(GenTime startPos, GenTime duration, int track, const QList <ItemInfo> &excludeList)
 {
     int pos = startPos.frames(m_document->fps());
     QRectF rect;
@@ -4166,7 +4166,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
     m_moveOpMode = None;
 }
 
-void CustomTrackView::deleteClip(ItemInfo info, bool refresh)
+void CustomTrackView::deleteClip(const ItemInfo &info, bool refresh)
 {
     ClipItem *item = getClipItemAtStart(info.startPos, info.track, info.endPos);
     m_ct++;
@@ -4272,7 +4272,7 @@ void CustomTrackView::deleteSelectedClips()
 }
 
 
-void CustomTrackView::doChangeClipSpeed(ItemInfo info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe, const QString &id, bool removeEffect)
+void CustomTrackView::doChangeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe, const QString &id, bool removeEffect)
 {
     ClipItem *item = getClipItemAtStart(info.startPos, info.track);
     if (!item) {
@@ -4475,7 +4475,7 @@ void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, bo
     }
 }
 
-void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group)
+void CustomTrackView::doGroupClips(const QList <ItemInfo> &clipInfos, const QList <ItemInfo> &transitionInfos, bool group)
 {
     resetSelectionGroup();
     m_scene->clearSelection();
@@ -4532,7 +4532,7 @@ void CustomTrackView::slotInfoProcessingFinished()
     m_producerNotReady.wakeAll();
 }
 
-void CustomTrackView::addClip(const QString &clipId, ItemInfo info, EffectsList effects, PlaylistState::ClipState state, bool refresh)
+void CustomTrackView::addClip(const QString &clipId, const  ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool refresh)
 {
     ProjectClip *binClip = m_document->getBinClip(clipId);
     if (!binClip) {
@@ -4704,7 +4704,7 @@ ClipItem *CustomTrackView::getClipItemAtStart(GenTime pos, int track, GenTime en
     return clip;
 }
 
-ClipItem *CustomTrackView::getMovedClipItem(ItemInfo info, GenTime offset, int trackOffset)
+ClipItem *CustomTrackView::getMovedClipItem(const ItemInfo &info, GenTime offset, int trackOffset)
 {
     QList<QGraphicsItem *> list = scene()->items(QPointF((info.startPos + offset).frames(m_document->fps()), getPositionFromTrack(info.track + trackOffset) + m_tracksHeight / 2));
     ClipItem *clip = Q_NULLPTR;
@@ -6640,7 +6640,7 @@ void CustomTrackView::slotConfigTracks(int ix)
     delete d;
 }
 
-void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
+void CustomTrackView::deleteTimelineTrack(int ix, const TrackInfo &trackinfo)
 {
     if (m_timeline->tracksCount() < 2) return;
     // Clear effect stack
@@ -6806,7 +6806,7 @@ void CustomTrackView::loadGroups(const QDomNodeList &groups)
     }
 }
 
-void CustomTrackView::splitAudio(bool warn, ItemInfo info, int destTrack, QUndoCommand *masterCommand)
+void CustomTrackView::splitAudio(bool warn, const ItemInfo &info, int destTrack, QUndoCommand *masterCommand)
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> selection;
@@ -7172,7 +7172,7 @@ void CustomTrackView::disableClip()
     monitorRefresh(range, true);
 }
 
-void CustomTrackView::monitorRefresh(QList <ItemInfo> range, bool invalidateRange)
+void CustomTrackView::monitorRefresh(const QList <ItemInfo> &range, bool invalidateRange)
 {
     bool refreshMonitor = false;
     for (int i = 0; i < range.count(); i++) {
@@ -7185,7 +7185,7 @@ void CustomTrackView::monitorRefresh(QList <ItemInfo> range, bool invalidateRang
         m_document->renderer()->doRefresh();
 }
 
-void CustomTrackView::monitorRefresh(ItemInfo range, bool invalidateRange)
+void CustomTrackView::monitorRefresh(const ItemInfo &range, bool invalidateRange)
 {
     if (range.contains(GenTime(m_cursorPos, m_document->fps())))
         m_document->renderer()->doRefresh();
@@ -7200,7 +7200,7 @@ void CustomTrackView::monitorRefresh(bool invalidateRange)
         m_timeline->invalidateRange();
 }
 
-void CustomTrackView::doChangeClipType(ItemInfo info, PlaylistState::ClipState state)
+void CustomTrackView::doChangeClipType(const ItemInfo &info, PlaylistState::ClipState state)
 {
     ClipItem *clip = getClipItemAtStart(info.startPos, info.track);
     if (clip == Q_NULLPTR) {
@@ -7783,7 +7783,7 @@ void CustomTrackView::updateTrackDuration(int track, QUndoCommand *command)
 }
 
 
-void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoCommand* command)
+void CustomTrackView::adjustEffects(ClipItem* item, const ItemInfo &oldInfo, QUndoCommand* command)
 {
     QMap<int, QDomElement> effects = item->adjustEffectsToDuration(oldInfo);
     if (!effects.isEmpty()) {
@@ -7796,7 +7796,7 @@ void CustomTrackView::adjustEffects(ClipItem* item, ItemInfo oldInfo, QUndoComma
 }
 
 
-void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPos, int track, stringMap filterParams, stringMap extra)
+void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPos, int track, const stringMap &filterParams, const stringMap &extra)
 {
     ClipItem *clip = getClipItemAtStart(GenTime(startPos, m_document->fps()), track);
     if (clip == Q_NULLPTR) {
@@ -7821,7 +7821,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
 }
 
 
-void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, ItemInfo info, QDomElement xml, QMap<QString, QString> data)
+void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> data)
 {
     ClipItem *item = Q_NULLPTR;
     ItemInfo srcInfo;
@@ -8014,7 +8014,7 @@ int CustomTrackView::getPositionFromTrack(int track) const
 }
 
 
-void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMap, QDomDocument doc, QUndoCommand *command)
+void CustomTrackView::importPlaylist(const ItemInfo &info, const QMap <QString, QString> &idMap, const QDomDocument &doc, QUndoCommand *command)
 {
     Mlt::Producer *import = new Mlt::Producer(*m_document->renderer()->getProducer()->profile(), "xml-string", doc.toString().toUtf8().constData());
     if (!import || !import->is_valid()) {
@@ -8189,7 +8189,7 @@ void CustomTrackView::importPlaylist(ItemInfo info, QMap <QString, QString> idMa
     else delete command;
 }
 
-void CustomTrackView::updateTransitionWidget(Transition *tr, ItemInfo info)
+void CustomTrackView::updateTransitionWidget(Transition *tr, const ItemInfo &info)
 {
     QPoint p;
     ClipItem *transitionClip = getClipItemAtStart(info.startPos, info.track);
@@ -8219,7 +8219,7 @@ void CustomTrackView::dropTransitionGeometry(Transition *trans, const QString &g
     slotImportClipKeyframes(TransitionWidget, trans->info(), trans->toXML(), data);
 }
 
-void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString geometry)
+void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString &geometry)
 {
     if (!m_dragItem || m_dragItem != clip) {
         clearSelection(false);
@@ -8243,7 +8243,7 @@ void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString geometry)
     slotImportClipKeyframes(AVWidget, clip->info(), currentEffect.cloneNode().toElement(), data);
 }
 
-void CustomTrackView::breakLockedGroups(QList<ItemInfo> clipsToMove, QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt)
+void CustomTrackView::breakLockedGroups(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt)
 {
     QList <AbstractGroupItem *> processedGroups;
     for (int i = 0; i < clipsToMove.count(); ++i) {
@@ -8363,7 +8363,7 @@ TimelineMode::EditMode CustomTrackView::sceneEditMode()
     return m_scene->editMode();
 }
 
-bool CustomTrackView::isLastClip(ItemInfo info)
+bool CustomTrackView::isLastClip(const ItemInfo &info)
 {
     return m_timeline->isLastClip(info);
 }
@@ -8378,7 +8378,7 @@ Timecode CustomTrackView::timecode()
     return m_document->timecode();
 }
 
-void CustomTrackView::reloadTrack(ItemInfo info, bool includeLastFrame)
+void CustomTrackView::reloadTrack(const ItemInfo &info, bool includeLastFrame)
 {
     m_timeline->reloadTrack(info, includeLastFrame);
 }
@@ -8468,7 +8468,7 @@ bool CustomTrackView::rippleClip(ClipItem *clip, int diff)
     return true;
 }
 
-void CustomTrackView::finishRipple(ClipItem *clip, ItemInfo startInfo, int diff, bool fromStart)
+void CustomTrackView::finishRipple(ClipItem *clip, const ItemInfo &startInfo, int diff, bool fromStart)
 {
     QUndoCommand *moveCommand = new QUndoCommand();
     moveCommand->setText(i18n("Ripple clip"));

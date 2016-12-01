@@ -79,7 +79,7 @@ QStringList ClipCreationDialog::getExtensions()
 }
 
 //static
-void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement xml, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement xml, const QStringList &groupInfo, Bin *bin)
 {
     //FIXME?
     Q_UNUSED(groupInfo)
@@ -91,7 +91,7 @@ void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement xml, QS
 }
 
 //static
-void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin)
 {
     QPointer<QDialog> dia = new QDialog(bin);
     Ui::ColorClip_UI dia_ui;
@@ -132,7 +132,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, QStringList groupInfo
     delete dia;
 }
 
-void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin, ProjectClip *clip)
+void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin, ProjectClip *clip)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
@@ -225,7 +225,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, QStringList groupInfo
 }
 
 //static
-void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin)
 {
     QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), KRecentDirs::dir(QStringLiteral(":KdenliveSlideShowFolder")), Q_NULLPTR, bin);
 
@@ -260,7 +260,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, QStringList group
     delete dia;
 }
 
-void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo, QString templatePath, Bin *bin)
+void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &groupInfo, const QString &templatePath, Bin *bin)
 {
     // Make sure the titles folder exists
     QDir dir(doc->projectDataFolder() + QStringLiteral("/titles"));
@@ -294,7 +294,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, QStringList groupInfo
 }
 
 
-void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin)
 {
 
     QPointer<TitleTemplateDialog> dia = new TitleTemplateDialog(doc->projectDataFolder(), QApplication::activeWindow());
@@ -356,7 +356,7 @@ void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap <QString, 
     }
 }
 
-void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, QStringList groupInfo, Bin *bin, const QMap <QString, QString> &data)
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin, const QMap <QString, QString> &data)
 {
     QUndoCommand *addClips = new QUndoCommand();
     
@@ -491,7 +491,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
     }
 }
 
-void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupInfo, Bin *bin)
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin)
 {
     QList <QUrl> list;
     QString allExtensions = getExtensions().join(QStringLiteral(" "));
@@ -595,7 +595,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, QStringList groupI
     }
 }
 
-void ClipCreationDialog::createClipsCommand(Bin *bin, QDomElement producer, const QString &id, QUndoCommand *command)
+void ClipCreationDialog::createClipsCommand(Bin *bin, const QDomElement &producer, const QString &id, QUndoCommand *command)
 {
     new AddClipCommand(bin, producer, id, true, command);
 }

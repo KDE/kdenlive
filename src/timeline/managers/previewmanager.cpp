@@ -203,7 +203,7 @@ bool PreviewManager::loadParams()
     return true;
 }
 
-void PreviewManager::invalidatePreviews(QList<int> chunks)
+void PreviewManager::invalidatePreviews(const QList<int> &chunks)
 {
     QMutexLocker lock(&m_previewMutex);
     bool timer = false;

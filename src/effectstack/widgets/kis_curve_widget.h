@@ -107,7 +107,7 @@ public:
      * Replace the current curve with a curve specified by the curve defined by the control
      * points in @param inlist.
      */
-    void setCurve(KisCubicCurve inlist);
+    void setCurve(const KisCubicCurve &inlist);
 
     /**
      * Connect/disconnect external spinboxes to the curve

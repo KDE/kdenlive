@@ -492,7 +492,7 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
 }
 
 
-int KeyframeView::mouseOverKeyFrames(QRectF br, QPointF pos, double scale)
+int KeyframeView::mouseOverKeyFrames(const QRectF &br, QPointF pos, double scale)
 {
     if (m_keyframeType == NoKeyframe)
         return -1;
@@ -1017,7 +1017,7 @@ const QString KeyframeView::addBorderKeyframes(const QString &animation, int sta
 }
 
 //static
-QString KeyframeView::switchAnimation(QString animation, int newPos, int oldPos, int newDuration, int oldDuration, bool isRect)
+QString KeyframeView::switchAnimation(const QString &animation, int newPos, int oldPos, int newDuration, int oldDuration, bool isRect)
 {
     Mlt::Properties props;
     props.set("keyframes", animation.toUtf8().constData());

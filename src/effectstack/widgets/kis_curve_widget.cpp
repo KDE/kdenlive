@@ -422,7 +422,7 @@ KisCubicCurve KisCurveWidget::curve()
     return d->m_curve;
 }
 
-void KisCurveWidget::setCurve(KisCubicCurve inlist)
+void KisCurveWidget::setCurve(const KisCubicCurve &inlist)
 {
     d->m_curve = inlist;
     d->m_grab_point_index = qBound(0, d->m_grab_point_index, d->m_curve.points().count() - 1);

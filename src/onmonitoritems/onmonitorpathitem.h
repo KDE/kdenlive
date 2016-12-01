@@ -43,7 +43,7 @@ public:
     QPainterPath shape () const Q_DECL_OVERRIDE;
 
     /** @brief Reimplemented to draw the handles. */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0 ) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR ) Q_DECL_OVERRIDE;
     QRectF boundingRect () const Q_DECL_OVERRIDE;
 
 protected:
