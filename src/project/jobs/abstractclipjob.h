@@ -47,7 +47,7 @@ public:
         THUMBJOB = 5,
         ANALYSECLIPJOB = 6
     };
-    AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id);
+    AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, QObject *parent = Q_NULLPTR);
     virtual ~ AbstractClipJob();
     ClipType clipType;
     JOBTYPE jobType;

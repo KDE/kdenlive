@@ -36,7 +36,7 @@ class EffectManager : public QObject
     Q_PROPERTY(Mlt::Producer producer READ producer WRITE setProducer)
 
 public:
-    explicit EffectManager(Mlt::Service &producer);
+    explicit EffectManager(Mlt::Service &producer, QObject *parent = Q_NULLPTR);
     EffectManager(EffectManager& other);
     ~EffectManager();
     EffectManager& operator=(EffectManager& other);

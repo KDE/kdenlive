@@ -25,8 +25,8 @@
 #include <QDebug>
 
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id) :
-        QObject(),
+AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, QObject *parent) :
+        QObject(parent),
         clipType(cType),
         jobType(type),
         replaceClip(false),

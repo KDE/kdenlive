@@ -18,7 +18,8 @@
 #include <QDebug>
 #endif
 
-ColorTools::ColorTools()
+ColorTools::ColorTools(QObject *parent)
+    : QObject(parent)
 {
 }
 

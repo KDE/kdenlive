@@ -34,7 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 
 
-ClipController::ClipController(BinController *bincontroller, Mlt::Producer& producer) : QObject()
+ClipController::ClipController(BinController *bincontroller, Mlt::Producer& producer, QObject *parent)
+    : QObject(parent)
     , selectedEffectIndex(1)
     , audioThumbCreated(false)
     , m_properties(new Mlt::Properties(producer.get_properties()))

@@ -25,8 +25,9 @@
 #include <mlt++/Mlt.h>
 
 
-EffectManager::EffectManager(Mlt::Service &producer) : QObject(),
-    m_producer(producer)
+EffectManager::EffectManager(Mlt::Service &producer, QObject *parent)
+    : QObject(parent),
+      m_producer(producer)
 {
 }
 
