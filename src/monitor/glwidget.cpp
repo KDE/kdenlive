@@ -109,8 +109,8 @@ GLWidget::GLWidget(int id, QObject *parent)
         mlt_properties_set_data(mlt_global_properties(), "glslManager", Q_NULLPTR, 0, Q_NULLPTR, Q_NULLPTR);
         emit gpuNotSupported();
     }
-    connect(this, SIGNAL(sceneGraphInitialized()), SLOT(initializeGL()), Qt::DirectConnection);
-    connect(this, SIGNAL(beforeRendering()), SLOT(paintGL()), Qt::DirectConnection);
+    connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
+    connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
 }
 
 GLWidget::~GLWidget()
@@ -202,17 +202,17 @@ void GLWidget::initializeGL()
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
-    connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), this, SIGNAL(frameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
+    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     if (KdenliveSettings::gpu_accel() || openglContext()->supportsThreadedOpenGL())
-        connect(m_frameRenderer, SIGNAL(textureReady(GLuint,GLuint,GLuint)), SLOT(updateTexture(GLuint,GLuint,GLuint)), Qt::DirectConnection);
+        connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
     else
-        connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), SLOT(onFrameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
+        connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
 #else
     connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), SLOT(onFrameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
 #endif
 
-    connect(m_frameRenderer, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), this, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), Qt::QueuedConnection);
+    connect(m_frameRenderer, &FrameRenderer::audioSamplesSignal, this, &GLWidget::audioSamplesSignal, Qt::QueuedConnection);
     connect(this, &GLWidget::textureUpdated, this, &GLWidget::update, Qt::QueuedConnection);
     m_initSem.release();
     m_isInitialized = true;

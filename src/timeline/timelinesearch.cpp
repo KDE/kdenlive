@@ -21,7 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 TimelineSearch::TimelineSearch(QObject* parent) :
     QObject(parent)
 {
-    connect(&m_searchTimer, SIGNAL(timeout()), SLOT(slotEndSearch()));
+    connect(&m_searchTimer, &QTimer::timeout, this, &TimelineSearch::slotEndSearch);
     m_searchTimer.setSingleShot(true);
 
     m_findAction = pCore->window()->addAction(QStringLiteral("project_find"), i18n("Find"), this, SLOT(slotInitSearch()), QIcon::fromTheme(QStringLiteral("edit-find")), Qt::Key_Slash);

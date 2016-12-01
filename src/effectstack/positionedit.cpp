@@ -46,8 +46,8 @@ PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const
     m_slider->setValue(pos);
     m_display->setValue(pos);
     connect(m_slider, SIGNAL(valueChanged(int)), m_display, SLOT(setValue(int)));
-    connect(m_slider, SIGNAL(valueChanged(int)), this, SIGNAL(parameterChanged(int)));
-    connect(m_display, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotUpdatePosition()));
+    connect(m_slider, &QAbstractSlider::valueChanged, this, &PositionEdit::parameterChanged);
+    connect(m_display, &TimecodeDisplay::timeCodeEditingFinished, this, &PositionEdit::slotUpdatePosition);
 }
 
 PositionEdit::~PositionEdit()

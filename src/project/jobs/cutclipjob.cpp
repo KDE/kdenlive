@@ -356,7 +356,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
     ui.extra_params->setVisible(false);
     d->adjustSize();
     ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    connect(ui.button_more, SIGNAL(toggled(bool)), ui.extra_params, SLOT(setVisible(bool)));
+    connect(ui.button_more, &QAbstractButton::toggled, ui.extra_params, &QWidget::setVisible);
     ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
     ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
     QString mess = desc;

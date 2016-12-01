@@ -40,8 +40,8 @@ CornersWidget::CornersWidget(Monitor *monitor, const QDomElement& e, int minFram
 {
     m_monitor->slotShowEffectScene(MonitorSceneCorners);
     connect(m_monitor, &Monitor::effectPointsChanged, this, &CornersWidget::slotUpdateGeometry);
-    connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateItem()), Qt::UniqueConnection);
-    connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotPrepareKeyframe()));
+    connect(this, &KeyframeEdit::parameterChanged, this, &CornersWidget::slotUpdateItem, Qt::UniqueConnection);
+    connect(m_monitor, &Monitor::addKeyframe, this, &CornersWidget::slotPrepareKeyframe);
 }
 
 CornersWidget::~CornersWidget()
@@ -129,9 +129,9 @@ void CornersWidget::slotUpdateGeometry(const QVariantList &points)
     }
     slotAdjustKeyframeInfo(false);
     blockSignals(false);
-    disconnect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateItem()));
+    disconnect(this, &KeyframeEdit::parameterChanged, this, &CornersWidget::slotUpdateItem);
     generateAllParams();
-    connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateItem()), Qt::UniqueConnection);
+    connect(this, &KeyframeEdit::parameterChanged, this, &CornersWidget::slotUpdateItem, Qt::UniqueConnection);
 }
 
 QVariantList CornersWidget::getPoints(QTableWidgetItem* keyframe)

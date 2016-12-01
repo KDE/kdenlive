@@ -36,13 +36,13 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent)
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     mUnicodeWidget = new UnicodeWidget(inputMeth);
-    connect(mUnicodeWidget, SIGNAL(charSelected(QString)), SIGNAL(charSelected(QString)));
+    connect(mUnicodeWidget, &UnicodeWidget::charSelected, this, &UnicodeDialog::charSelected);
     mainLayout->addWidget(mUnicodeWidget);
     mainLayout->addWidget(buttonBox);
-    connect(okButton, SIGNAL(clicked()), SLOT(slotAccept()));
+    connect(okButton, &QAbstractButton::clicked, this, &UnicodeDialog::slotAccept);
 }
 
 UnicodeDialog::~UnicodeDialog()
@@ -66,10 +66,10 @@ UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *pare
     setupUi(this);
     readChoices();
     showLastUnicode();
-    connect(unicodeNumber, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
-    connect(unicodeNumber, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
-    connect(arrowUp, SIGNAL(clicked()), this, SLOT(slotPrevUnicode()));
-    connect(arrowDown, SIGNAL(clicked()), this, SLOT(slotNextUnicode()));
+    connect(unicodeNumber, &QLineEdit::textChanged, this, &UnicodeWidget::slotTextChanged);
+    connect(unicodeNumber, &QLineEdit::returnPressed, this, &UnicodeWidget::slotReturnPressed);
+    connect(arrowUp, &QAbstractButton::clicked, this, &UnicodeWidget::slotPrevUnicode);
+    connect(arrowDown, &QAbstractButton::clicked, this, &UnicodeWidget::slotNextUnicode);
 
     switch (inputMethod) {
     case UnicodeDialog::InputHex:

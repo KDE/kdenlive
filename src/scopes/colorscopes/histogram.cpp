@@ -40,11 +40,11 @@ Histogram::Histogram(QWidget *parent) :
     m_menu->addAction(m_aRec601);
     m_menu->addAction(m_aRec709);
 
-    connect(ui->cbY, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(ui->cbS, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(ui->cbR, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(ui->cbG, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
-    connect(ui->cbB, SIGNAL(toggled(bool)), this, SLOT(forceUpdateScope()));
+    connect(ui->cbY, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
+    connect(ui->cbS, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
+    connect(ui->cbR, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
+    connect(ui->cbG, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
+    connect(ui->cbB, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
     connect(m_aUnscaled, &QAction::toggled, this, &Histogram::forceUpdateScope);
     connect(m_aRec601, &QAction::toggled, this, &Histogram::forceUpdateScope);
     connect(m_aRec709, &QAction::toggled, this, &Histogram::forceUpdateScope);

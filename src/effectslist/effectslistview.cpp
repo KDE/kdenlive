@@ -85,7 +85,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
 
     TreeEventEater *leventEater = new TreeEventEater(this);
     m_search_effect->installEventFilter(leventEater);
-    connect(leventEater, SIGNAL(clearSearchLine()), m_search_effect, SLOT(clear()));
+    connect(leventEater, &TreeEventEater::clearSearchLine, m_search_effect, &QLineEdit::clear);
 
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
@@ -137,24 +137,24 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
 
     connect(m_effectsFavorites, SIGNAL(addEffectToFavorites(QString)), this, SLOT(slotAddFavorite(QString)));
 
-    connect(effectsAll, SIGNAL(clicked()), this, SLOT(filterList()));
-    connect(effectsVideo, SIGNAL(clicked()), this, SLOT(filterList()));
-    connect(effectsAudio, SIGNAL(clicked()), this, SLOT(filterList()));
-    connect(effectsGPU, SIGNAL(clicked()), this, SLOT(filterList()));
-    connect(effectsCustom, SIGNAL(clicked()), this, SLOT(filterList()));
-    connect(m_effectsFavorites, SIGNAL(clicked()), this, SLOT(filterList()));
-    connect(buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
+    connect(effectsAll, &QAbstractButton::clicked, this, &EffectsListView::filterList);
+    connect(effectsVideo, &QAbstractButton::clicked, this, &EffectsListView::filterList);
+    connect(effectsAudio, &QAbstractButton::clicked, this, &EffectsListView::filterList);
+    connect(effectsGPU, &QAbstractButton::clicked, this, &EffectsListView::filterList);
+    connect(effectsCustom, &QAbstractButton::clicked, this, &EffectsListView::filterList);
+    connect(m_effectsFavorites, &QAbstractButton::clicked, this, &EffectsListView::filterList);
+    connect(buttonInfo, &QAbstractButton::clicked, this, &EffectsListView::showInfoPanel);
     connect(m_effectsList, &EffectsListWidget::itemSelectionChanged, this, &EffectsListView::slotUpdateInfo);
     connect(m_effectsList, &EffectsListWidget::itemDoubleClicked, this, &EffectsListView::slotEffectSelected);
-    connect(m_effectsList, SIGNAL(displayMenu(QTreeWidgetItem *, const QPoint &)), this, SLOT(slotDisplayMenu(QTreeWidgetItem *, const QPoint &)));
+    connect(m_effectsList, &EffectsListWidget::displayMenu, this, &EffectsListView::slotDisplayMenu);
     connect(m_effectsList, &EffectsListWidget::applyEffect, this, &EffectsListView::addEffect);
-    connect(m_search_effect, SIGNAL(textChanged(QString)), this, SLOT(slotAutoExpand(QString)));
+    connect(m_search_effect, &QLineEdit::textChanged, this, &EffectsListView::slotAutoExpand);
 
     // Select preferred effect tab
     if (m_mode == TransitionMode) {
         return;
     }
-    connect(m_search_effect, SIGNAL(hiddenChanged(QTreeWidgetItem*,bool)), this, SLOT(slotUpdateSearch(QTreeWidgetItem*,bool)));
+    connect(m_search_effect, &KTreeWidgetSearchLine::hiddenChanged, this, &EffectsListView::slotUpdateSearch);
     switch (KdenliveSettings::selected_effecttab()) {
       case EffectsList::EFFECT_VIDEO:
         effectsVideo->setChecked(true);

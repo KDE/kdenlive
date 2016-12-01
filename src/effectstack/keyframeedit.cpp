@@ -41,7 +41,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     keyframe_list->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonSeek->setChecked(KdenliveSettings::keyframeseek());
-    connect(buttonSeek, SIGNAL(toggled(bool)), this, SLOT(slotSetSeeking(bool)));
+    connect(buttonSeek, &QAbstractButton::toggled, this, &KeyframeEdit::slotSetSeeking);
 
     buttonKeyframes->setIcon(KoIconUtils::themedIcon(QStringLiteral("chronometer")));
     button_add->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
@@ -51,7 +51,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     buttonResetKeyframe->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-undo")));
     buttonSeek->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
     connect(keyframe_list, &QTableWidget::currentCellChanged, this, &KeyframeEdit::rowClicked);
-    connect(keyframe_list, SIGNAL(cellChanged(int,int)), this, SLOT(slotGenerateParams(int,int)));
+    connect(keyframe_list, &QTableWidget::cellChanged, this, &KeyframeEdit::slotGenerateParams);
 
     m_position = new PositionEdit(i18n("Position"), 0, 0, 1, tc, widgetTable);
     ((QGridLayout*)widgetTable->layout())->addWidget(m_position, 3, 0, 1, -1);
@@ -67,11 +67,11 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     keyframe_list->resizeRowsToContents();
 
     //keyframe_list->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
-    connect(button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyframe()));
-    connect(button_add, SIGNAL(clicked()), this, SLOT(slotAddKeyframe()));
-    connect(buttonKeyframes, SIGNAL(clicked()), this, SLOT(slotKeyframeMode()));
-    connect(buttonResetKeyframe, SIGNAL(clicked()), this, SLOT(slotResetKeyframe()));
-    connect(m_position, SIGNAL(parameterChanged(int)), this, SLOT(slotAdjustKeyframePos(int)));
+    connect(button_delete, &QAbstractButton::clicked, this, &KeyframeEdit::slotDeleteKeyframe);
+    connect(button_add, &QAbstractButton::clicked, this, &KeyframeEdit::slotAddKeyframe);
+    connect(buttonKeyframes, &QAbstractButton::clicked, this, &KeyframeEdit::slotKeyframeMode);
+    connect(buttonResetKeyframe, &QAbstractButton::clicked, this, &KeyframeEdit::slotResetKeyframe);
+    connect(m_position, &PositionEdit::parameterChanged, this, &KeyframeEdit::slotAdjustKeyframePos);
 
     //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem*,int)));
 
@@ -122,7 +122,7 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
                                                                    m_params.at(columnId).attribute(QStringLiteral("min")).toDouble(), m_params.at(columnId).attribute(QStringLiteral("max")).toDouble(),
                                                                    m_params.at(columnId).attribute(QStringLiteral("default")).toDouble(), comment, columnId, m_params.at(columnId).attribute(QStringLiteral("suffix")), m_params.at(columnId).attribute(QStringLiteral("decimals")).toInt(), false, this);
-    connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
+    connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &KeyframeEdit::slotAdjustKeyframeValue);
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
     connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
     m_slidersLayout->addWidget(doubleparam, columnId, 0);

@@ -53,7 +53,7 @@ void MyFrame::hideEvent ( QHideEvent * event )
     QFrame::hideEvent(event);
     // We need a timer here since hiding the frame will trigger a monitor refresh timer that will
     // repaint the monitor after 70 ms.
-    QTimer::singleShot(250, this, SIGNAL(getColor()));
+    QTimer::singleShot(250, this, &MyFrame::getColor);
 }
 
 

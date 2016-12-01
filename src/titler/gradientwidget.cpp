@@ -37,19 +37,19 @@ GradientWidget::GradientWidget(const QMap <QString, QString> &gradients, int ix,
 {
     setupUi(this);
     updatePreview();
-    connect(color1_pos, SIGNAL(valueChanged(int)), this, SLOT(updatePreview()));
-    connect(color2_pos, SIGNAL(valueChanged(int)), this, SLOT(updatePreview()));
-    connect(angle, SIGNAL(valueChanged(int)), this, SLOT(updatePreview()));
-    connect(color1, SIGNAL(changed(const QColor &)), this, SLOT(updatePreview()));
-    connect(color2, SIGNAL(changed(const QColor &)), this, SLOT(updatePreview()));
+    connect(color1_pos, &QAbstractSlider::valueChanged, this, &GradientWidget::updatePreview);
+    connect(color2_pos, &QAbstractSlider::valueChanged, this, &GradientWidget::updatePreview);
+    connect(angle, &QAbstractSlider::valueChanged, this, &GradientWidget::updatePreview);
+    connect(color1, &KColorButton::changed, this, &GradientWidget::updatePreview);
+    connect(color2, &KColorButton::changed, this, &GradientWidget::updatePreview);
     add_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
     remove_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
     connect(add_gradient, SIGNAL(clicked()), this, SLOT(saveGradient()));
-    connect(remove_gradient, SIGNAL(clicked()), this, SLOT(deleteGradient()));
+    connect(remove_gradient, &QAbstractButton::clicked, this, &GradientWidget::deleteGradient);
     QFontMetrics metrics(font());
     m_height = metrics.lineSpacing();
     gradient_list->setIconSize(QSize(6 * m_height, m_height));
-    connect(gradient_list, SIGNAL(currentRowChanged(int)), this, SLOT(loadGradient()));
+    connect(gradient_list, &QListWidget::currentRowChanged, this, &GradientWidget::loadGradient);
     loadGradients(gradients);
     gradient_list->setCurrentRow(ix);
 }

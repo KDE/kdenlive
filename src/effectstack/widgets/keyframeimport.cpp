@@ -75,10 +75,10 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
     else
         reference = dstInfo;
     m_inPoint = new PositionEdit(i18n("In"), reference.cropStart.frames(tc.fps()), reference.cropStart.frames(tc.fps()), (reference.cropStart + reference.cropDuration).frames(tc.fps()), tc, this);
-    connect(m_inPoint, SIGNAL(parameterChanged(int)), this, SLOT(updateDisplay()));
+    connect(m_inPoint, &PositionEdit::parameterChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_inPoint);
     m_outPoint = new PositionEdit(i18n("Out"), (reference.cropStart + reference.cropDuration).frames(tc.fps()), reference.cropStart.frames(tc.fps()), (reference.cropStart + reference.cropDuration).frames(tc.fps()), tc, this);
-    connect(m_outPoint, SIGNAL(parameterChanged(int)), this, SLOT(updateDisplay()));
+    connect(m_outPoint, &PositionEdit::parameterChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_outPoint);
 
     // Check what kind of parameters are in our target
@@ -177,8 +177,8 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
 
     l1 = new QHBoxLayout;
     m_limitRange = new QCheckBox(i18n("Actual range only"), this);
-    connect(m_limitRange, SIGNAL(toggled(bool)), this, SLOT(updateRange()));
-    connect(m_limitRange, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
+    connect(m_limitRange, &QAbstractButton::toggled, this, &KeyframeImport::updateRange);
+    connect(m_limitRange, &QAbstractButton::toggled, this, &KeyframeImport::updateDisplay);
     l1->addWidget(m_limitRange);
     l1->addStretch(10);
     lay->addLayout(l1);
@@ -193,12 +193,12 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
     l1->addStretch(10);
     lay->addLayout(l1);
     connect(m_limitKeyframes, &QCheckBox::toggled, m_limitNumber, &QSpinBox::setEnabled);
-    connect(m_limitKeyframes, SIGNAL(toggled(bool)), this, SLOT(updateDisplay()));
+    connect(m_limitKeyframes, &QAbstractButton::toggled, this, &KeyframeImport::updateDisplay);
     connect(m_limitNumber, SIGNAL(valueChanged(int)), this, SLOT(updateDisplay()));
     connect(m_dataCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateDataDisplay()));
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     lay->addWidget(buttonBox);
     updateDestinationRange();
     updateDataDisplay();

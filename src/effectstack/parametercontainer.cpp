@@ -195,10 +195,10 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
         m_vbox->addWidget(gainWidget);
         m_valueItems[effect.attribute(QStringLiteral("id"))] = gainWidget;
-        connect(gainWidget, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
+        connect(gainWidget, &LumaLiftGain::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
     } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("avfilter.selectivecolor")) {
         SelectiveColor *cmykAdjust = new SelectiveColor(effect);
-        connect(cmykAdjust, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
+        connect(cmykAdjust, &SelectiveColor::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
         m_vbox->addWidget(cmykAdjust);
         m_valueItems[effect.attribute(QStringLiteral("id"))] = cmykAdjust;
     }
@@ -255,7 +255,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             }
             m_vbox->addWidget(doubleparam);
             m_valueItems[paramName] = doubleparam;
-            connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotCollectAllParameters()));
+            connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
             connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
         } else if (type == QLatin1String("list")) {
             Listval *lsval = new Listval;
@@ -318,7 +318,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             m_valueItems[paramName] = lsval;
             connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(slotCollectAllParameters()));
             if (!comment.isEmpty())
-                connect(this, SIGNAL(showComments(bool)), lsval->widgetComment, SLOT(setVisible(bool)));
+                connect(this, &ParameterContainer::showComments, lsval->widgetComment, &QWidget::setVisible);
             m_uiItems.append(lsval);
         } else if (type == QLatin1String("bool")) {
             Boolval *bval = new Boolval;
@@ -333,9 +333,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 m_conditionalWidgets << bval;
             }
             m_valueItems[paramName] = bval;
-            connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(slotCollectAllParameters()));
+            connect(bval->checkBox, &QCheckBox::stateChanged , this, &ParameterContainer::slotCollectAllParameters);
             if (!comment.isEmpty())
-                connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
+                connect(this, &ParameterContainer::showComments, bval->widgetComment, &QWidget::setVisible);
             m_uiItems.append(bval);
         } else if (type == QLatin1String("switch")) {
             Boolval *bval = new Boolval;
@@ -350,9 +350,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 m_conditionalWidgets << bval;
             }
             m_valueItems[paramName] = bval;
-            connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(slotCollectAllParameters()));
+            connect(bval->checkBox, &QCheckBox::stateChanged , this, &ParameterContainer::slotCollectAllParameters);
             if (!comment.isEmpty())
-                connect(this, SIGNAL(showComments(bool)), bval->widgetComment, SLOT(setVisible(bool)));
+                connect(this, &ParameterContainer::showComments, bval->widgetComment, &QWidget::setVisible);
             m_uiItems.append(bval);
         } else if (type.startsWith(QLatin1String("animated"))) {
             m_acceptDrops = true;
@@ -363,11 +363,11 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 m_animationWidget->addParameter(pa);
             } else {
                 m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("in")).toInt(), effect.attribute(QStringLiteral("id")), pa, parent);
-                connect(m_animationWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
+                connect(m_animationWidget, &AnimationWidget::seekToPos, this, &ParameterContainer::seekTimeline);
                 connect(m_animationWidget, &AnimationWidget::setKeyframes, this, &ParameterContainer::importKeyframes);
-                connect(this, SIGNAL(syncEffectsPos(int)), m_animationWidget, SLOT(slotSyncPosition(int)));
+                connect(this, &ParameterContainer::syncEffectsPos, m_animationWidget, &AnimationWidget::slotSyncPosition);
                 connect(this, SIGNAL(initScene(int)), m_animationWidget, SLOT(slotPositionChanged(int)));
-                connect(m_animationWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
+                connect(m_animationWidget, &AnimationWidget::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
                 m_vbox->addWidget(m_animationWidget);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     m_animationWidget->setEnabled(false);
@@ -387,25 +387,25 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     m_geometryWidget->setEnabled(false);
                     m_conditionalWidgets << m_geometryWidget;
                 }
-                connect(m_geometryWidget, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
+                connect(m_geometryWidget, &GeometryWidget::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
                 if (minFrame == maxFrame) {
                     m_geometryWidget->setupParam(pa, m_in, m_out);
-                    connect(this, SIGNAL(updateRange(int,int)), m_geometryWidget, SLOT(slotUpdateRange(int,int)));
+                    connect(this, &ParameterContainer::updateRange, m_geometryWidget, &GeometryWidget::slotUpdateRange);
                 }
                 else
                     m_geometryWidget->setupParam(pa, minFrame, maxFrame);
                 m_vbox->addWidget(m_geometryWidget);
                 m_valueItems[paramName+"geometry"] = m_geometryWidget;
-                connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-                connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
-                connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
-                connect(this, SIGNAL(initScene(int)), m_geometryWidget, SLOT(slotInitScene(int)));
+                connect(m_geometryWidget, &GeometryWidget::seekToPos, this, &ParameterContainer::seekTimeline);
+                connect(m_geometryWidget, &GeometryWidget::importClipKeyframes, this, &ParameterContainer::importClipKeyframes);
+                connect(this, &ParameterContainer::syncEffectsPos, m_geometryWidget, &GeometryWidget::slotSyncPosition);
+                connect(this, &ParameterContainer::initScene, m_geometryWidget, &GeometryWidget::slotInitScene);
                 connect(this, &ParameterContainer::updateFrameInfo, m_geometryWidget, &GeometryWidget::setFrameSize);
             } else {
                 Geometryval *geo = new Geometryval(m_metaInfo->monitor->profile(), m_metaInfo->monitor->timecode(), m_metaInfo->frameSize, 0);
                 if (minFrame == maxFrame) {
                     geo->setupParam(pa, m_in, m_out);
-		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
+		    connect(this, &ParameterContainer::updateRange, geo, &Geometryval::slotUpdateRange);
 		}
                 else
                     geo->setupParam(pa, minFrame, maxFrame);
@@ -415,9 +415,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
                 m_vbox->addWidget(geo);
                 m_valueItems[paramName+"geometry"] = geo;
-                connect(geo, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
-                connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-                connect(this, SIGNAL(syncEffectsPos(int)), geo, SLOT(slotSyncPosition(int)));
+                connect(geo, &Geometryval::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+                connect(geo, &Geometryval::seekToPos, this, &ParameterContainer::seekTimeline);
+                connect(this, &ParameterContainer::syncEffectsPos, geo, &Geometryval::slotSyncPosition);
             }
         } else if (type == QLatin1String("addedgeometry")) {
             // this is a parameter that should be linked to the geometry widget, for example rotation, shear, ...
@@ -432,14 +432,14 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     // we want a corners-keyframe-widget
                     int relativePos = (m_metaInfo->monitor->position() - info.startPos).frames(KdenliveSettings::project_fps());
                     CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, relativePos, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
-		    connect(this, SIGNAL(updateRange(int,int)), corners, SLOT(slotUpdateRange(int,int)));
+		    connect(this, &ParameterContainer::updateRange, corners, &KeyframeEdit::slotUpdateRange);
 		    m_monitorEffectScene = MonitorSceneCorners;
                     connect(this, &ParameterContainer::updateFrameInfo, corners, &CornersWidget::setFrameSize);
-                    connect(this, SIGNAL(syncEffectsPos(int)), corners, SLOT(slotSyncPosition(int)));
+                    connect(this, &ParameterContainer::syncEffectsPos, corners, &CornersWidget::slotSyncPosition);
                     geo = static_cast<KeyframeEdit *>(corners);
                 } else {
                     geo = new KeyframeEdit(pa, m_in, m_out, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt());
-		    connect(this, SIGNAL(updateRange(int,int)), geo, SLOT(slotUpdateRange(int,int)));
+		    connect(this, &ParameterContainer::updateRange, geo, &KeyframeEdit::slotUpdateRange);
                 }
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     geo->setEnabled(false);
@@ -448,9 +448,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 m_vbox->addWidget(geo);
                 m_valueItems[paramName+"keyframe"] = geo;
                 m_keyframeEditor = geo;
-                connect(geo, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
-                connect(geo, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-                connect(this, SIGNAL(showComments(bool)), geo, SIGNAL(showComments(bool)));
+                connect(geo, &KeyframeEdit::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+                connect(geo, &KeyframeEdit::seekToPos, this, &ParameterContainer::seekTimeline);
+                connect(this, &ParameterContainer::showComments, geo, &KeyframeEdit::showComments);
             } else {
                 // we already have a keyframe editor, so just add another column for the new param
                 m_keyframeEditor->addParameter(pa);
@@ -467,9 +467,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 m_conditionalWidgets << choosecolor;
             }
             m_valueItems[paramName] = choosecolor;
-            connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
-            connect(choosecolor, SIGNAL(modified()) , this, SLOT(slotCollectAllParameters()));
-	    connect(choosecolor, SIGNAL(disableCurrentFilter(bool)) , this, SIGNAL(disableCurrentFilter(bool)));
+            connect(choosecolor, &ChooseColorWidget::displayMessage, this, &ParameterContainer::displayMessage);
+            connect(choosecolor, &ChooseColorWidget::modified , this, &ParameterContainer::slotCollectAllParameters);
+	    connect(choosecolor, &ChooseColorWidget::disableCurrentFilter , this, &ParameterContainer::disableCurrentFilter);
         } else if (type == QLatin1String("position")) {
             int pos = value.toInt();
             if (effect.attribute(QStringLiteral("id")) == QLatin1String("fadein") || effect.attribute(QStringLiteral("id")) == QLatin1String("fade_from_black")) {
@@ -487,7 +487,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             }
             m_vbox->addWidget(posedit);
             m_valueItems[paramName+"position"] = posedit;
-            connect(posedit, SIGNAL(parameterChanged()), this, SLOT(slotCollectAllParameters()));
+            connect(posedit, &PositionEdit::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
         } else if (type == QLatin1String("curve")) {
             KisCurveWidget *curve = new KisCurveWidget(parent);
             curve->setMaxPoints(pa.attribute(QStringLiteral("max")).toInt());
@@ -531,7 +531,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             m_vbox->addWidget(spinin);
             m_vbox->addWidget(spinout);
 
-            connect(curve, SIGNAL(modified()), this, SLOT(slotCollectAllParameters()));
+            connect(curve, &KisCurveWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
             m_valueItems[paramName] = curve;
 
             QString depends = pa.attribute(QStringLiteral("depends"));
@@ -542,16 +542,16 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             stretch = false;
             m_vbox->addWidget(widget);
             m_valueItems[paramName] = widget;
-            connect(widget, SIGNAL(modified()), this, SLOT(slotCollectAllParameters()));
+            connect(widget, &BezierSplineWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
             QString depends = pa.attribute(QStringLiteral("depends"));
             if (!depends.isEmpty())
                 meetDependency(paramName, type, EffectsList::parameter(e, depends));
         } else if (type == QLatin1String("roto-spline")) {
             m_monitorEffectScene = MonitorSceneRoto;
             RotoWidget *roto = new RotoWidget(value.toLatin1(), m_metaInfo->monitor, info, m_metaInfo->monitor->timecode(), parent);
-            connect(roto, SIGNAL(valueChanged()), this, SLOT(slotCollectAllParameters()));
-            connect(roto, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
-            connect(this, SIGNAL(syncEffectsPos(int)), roto, SLOT(slotSyncPosition(int)));
+            connect(roto, &RotoWidget::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
+            connect(roto, &RotoWidget::seekToPos, this, &ParameterContainer::seekTimeline);
+            connect(this, &ParameterContainer::syncEffectsPos, roto, &RotoWidget::slotSyncPosition);
             m_vbox->addWidget(roto);
             m_valueItems[paramName] = roto;
         } else if (type == QLatin1String("wipe")) {
@@ -598,18 +598,18 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             wpval->start_transp->setValue(w.startTransparency);
             wpval->end_transp->setValue(w.endTransparency);
             m_valueItems[paramName] = wpval;
-            connect(wpval->end_up, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->end_down, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->end_left, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->end_right, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->end_center, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->start_up, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->start_down, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->start_left, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->start_right, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->start_center, SIGNAL(clicked()), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->start_transp, SIGNAL(valueChanged(int)), this, SLOT(slotCollectAllParameters()));
-            connect(wpval->end_transp, SIGNAL(valueChanged(int)), this, SLOT(slotCollectAllParameters()));
+            connect(wpval->end_up, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->end_down, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->end_left, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->end_right, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->end_center, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->start_up, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->start_down, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->start_left, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->start_right, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->start_center, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->start_transp, &QAbstractSlider::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
+            connect(wpval->end_transp, &QAbstractSlider::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
             //wpval->title->setTitle(na.toElement().text());
             m_uiItems.append(wpval);
         } else if (type == QLatin1String("url")) {
@@ -624,7 +624,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             m_valueItems[paramName] = cval;
             cval->urlwidget->setUrl(QUrl(value));
             connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(slotCollectAllParameters()));
-            connect(cval->urlwidget, SIGNAL(urlSelected(QUrl)) , this, SLOT(slotCollectAllParameters()));
+            connect(cval->urlwidget, &KUrlRequester::urlSelected , this, &ParameterContainer::slotCollectAllParameters);
             if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                 cval->setEnabled(false);
                 m_conditionalWidgets << cval;
@@ -655,7 +655,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             kval->comboboxwidget->model()->setData( kval->comboboxwidget->model()->index(0,0), QVariant(Qt::NoItemFlags), Qt::UserRole -1);
             kval->comboboxwidget->setCurrentIndex(0);
             m_valueItems[paramName] = kval;
-            connect(kval->lineeditwidget, SIGNAL(editingFinished()) , this, SLOT(slotCollectAllParameters()));
+            connect(kval->lineeditwidget, &QLineEdit::editingFinished , this, &ParameterContainer::slotCollectAllParameters);
             connect(kval->comboboxwidget, SIGNAL(activated(QString)), this, SLOT(slotCollectAllParameters()));
             m_uiItems.append(kval);
         } else if (type == QLatin1String("fontfamily")) {
@@ -664,7 +664,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             fval->name->setText(paramName);
             fval->fontfamilywidget->setCurrentFont(QFont(value));
             m_valueItems[paramName] = fval;
-            connect(fval->fontfamilywidget, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotCollectAllParameters())) ;
+            connect(fval->fontfamilywidget, &QFontComboBox::currentFontChanged, this, &ParameterContainer::slotCollectAllParameters) ;
             m_uiItems.append(fval);
         } else if (type == QLatin1String("filterjob")) {
             QVBoxLayout *l= new QVBoxLayout(toFillin);
@@ -682,7 +682,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
             button->setText(paramName);
             l->addWidget(button);
             m_valueItems[paramName] = button;
-            connect(button, SIGNAL(pressed()), this, SLOT(slotStartFilterJobAction()));
+            connect(button, &QAbstractButton::pressed, this, &ParameterContainer::slotStartFilterJobAction);
         } else if (type == QLatin1String("readonly")) {
             QHBoxLayout *lay= new QHBoxLayout(toFillin);
             DraggableLabel *lab = new DraggableLabel(QStringLiteral("<a href=\"%1\">").arg(pa.attribute(QStringLiteral("name"))) + paramName + QStringLiteral("</a>"));

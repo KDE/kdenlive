@@ -53,7 +53,7 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, co
     m_projectWildcard.append("-??.kdenlive");
 
     slotParseBackupFiles();
-    connect(backup_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotDisplayBackupPreview()));
+    connect(backup_list, &QListWidget::currentRowChanged, this, &BackupWidget::slotDisplayBackupPreview);
     backup_list->setCurrentRow(0);
     backup_list->setMinimumHeight(QFontMetrics(font()).lineSpacing() * 12);
     slotParseBackupFiles();

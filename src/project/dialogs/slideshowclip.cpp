@@ -50,9 +50,9 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.icon_list->setIconSize(QSize(50, 50));
     m_view.show_thumbs->setChecked(KdenliveSettings::showslideshowthumbs());
 
-    connect(m_view.show_thumbs, SIGNAL(stateChanged(int)), this, SLOT(slotEnableThumbs(int)));
-    connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
-    connect(m_view.luma_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
+    connect(m_view.show_thumbs, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableThumbs);
+    connect(m_view.slide_fade, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableLuma);
+    connect(m_view.luma_fade, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableLumaFile);
 
     //WARNING: keep in sync with project/clipproperties.cpp
     m_view.image_type->addItem(QStringLiteral("JPG (*.jpg)"), "jpg");
@@ -111,10 +111,10 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         m_view.method_mime->setChecked(KdenliveSettings::slideshowbymime());
         slotMethodChanged(m_view.method_mime->isChecked());
     }
-    connect(m_view.method_mime, SIGNAL(toggled(bool)), this, SLOT(slotMethodChanged(bool)));
+    connect(m_view.method_mime, &QAbstractButton::toggled, this, &SlideshowClip::slotMethodChanged);
     connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
-    connect(m_view.folder_url, SIGNAL(textChanged(QString)), this, SLOT(parseFolder()));
-    connect(m_view.pattern_url, SIGNAL(textChanged(QString)), this, SLOT(parseFolder()));
+    connect(m_view.folder_url, &KUrlRequester::textChanged, this, &SlideshowClip::parseFolder);
+    connect(m_view.pattern_url, &KUrlRequester::textChanged, this, &SlideshowClip::parseFolder);
 
 
     // Check for Kdenlive installed luma files

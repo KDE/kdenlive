@@ -78,14 +78,14 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     m_ui.buttonAddDelete->setIconSize(iconSize);
 
-    connect(m_timeline, SIGNAL(requestSeek(int)), this, SLOT(slotRequestSeek(int)));
-    connect(m_timeline, SIGNAL(keyframeMoved(int)),   this, SLOT(slotKeyframeMoved(int)));
-    connect(m_timeline, SIGNAL(addKeyframe(int)),     this, SLOT(slotAddKeyframe(int)));
-    connect(m_timeline, SIGNAL(removeKeyframe(int)),  this, SLOT(slotDeleteKeyframe(int)));
+    connect(m_timeline, &KeyframeHelper::requestSeek, this, &GeometryWidget::slotRequestSeek);
+    connect(m_timeline, &KeyframeHelper::keyframeMoved,   this, &GeometryWidget::slotKeyframeMoved);
+    connect(m_timeline, &KeyframeHelper::addKeyframe,     this, &GeometryWidget::slotAddKeyframe);
+    connect(m_timeline, &KeyframeHelper::removeKeyframe,  this, &GeometryWidget::slotDeleteKeyframe);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotPositionChanged()));
-    connect(m_ui.buttonPrevious,  SIGNAL(clicked()), this, SLOT(slotPreviousKeyframe()));
-    connect(m_ui.buttonNext,      SIGNAL(clicked()), this, SLOT(slotNextKeyframe()));
-    connect(m_ui.buttonAddDelete, SIGNAL(clicked()), this, SLOT(slotAddDeleteKeyframe()));
+    connect(m_ui.buttonPrevious,  &QAbstractButton::clicked, this, &GeometryWidget::slotPreviousKeyframe);
+    connect(m_ui.buttonNext,      &QAbstractButton::clicked, this, &GeometryWidget::slotNextKeyframe);
+    connect(m_ui.buttonAddDelete, &QAbstractButton::clicked, this, &GeometryWidget::slotAddDeleteKeyframe);
 
     m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, this);
     m_ui.horizontalLayout->addWidget(m_spinX, 0, 0);
@@ -103,47 +103,47 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
 
     QMenu *menu = new QMenu(this);
     QAction *originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
-    connect(originalSize, SIGNAL(triggered()), this, SLOT(slotAdjustToSource()));
+    connect(originalSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToSource);
     QAction *adjustSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
-    connect(adjustSize, SIGNAL(triggered()), this, SLOT(slotAdjustToFrameSize()));
+    connect(adjustSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToFrameSize);
     QAction *fitToWidth = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
-    connect(fitToWidth, SIGNAL(triggered()), this, SLOT(slotFitToWidth()));
+    connect(fitToWidth, &QAction::triggered, this, &GeometryWidget::slotFitToWidth);
     QAction *fitToHeight = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
-    connect(fitToHeight, SIGNAL(triggered()), this, SLOT(slotFitToHeight()));
+    connect(fitToHeight, &QAction::triggered, this, &GeometryWidget::slotFitToHeight);
 
     QAction *importKeyframes = new QAction(i18n("Import keyframes from clip"), this);
-    connect(importKeyframes, SIGNAL(triggered()), this, SIGNAL(importClipKeyframes()));
+    connect(importKeyframes, &QAction::triggered, this, &GeometryWidget::importClipKeyframes);
     menu->addAction(importKeyframes);
     QAction *resetKeyframes = new QAction(i18n("Reset all keyframes"), this);
-    connect(resetKeyframes, SIGNAL(triggered()), this, SLOT(slotResetKeyframes()));
+    connect(resetKeyframes, &QAction::triggered, this, &GeometryWidget::slotResetKeyframes);
     menu->addAction(resetKeyframes);
 
     QAction *resetNextKeyframes = new QAction(i18n("Reset keyframes after cursor"), this);
-    connect(resetNextKeyframes, SIGNAL(triggered()), this, SLOT(slotResetNextKeyframes()));
+    connect(resetNextKeyframes, &QAction::triggered, this, &GeometryWidget::slotResetNextKeyframes);
     menu->addAction(resetNextKeyframes);
     QAction *resetPreviousKeyframes = new QAction(i18n("Reset keyframes before cursor"), this);
-    connect(resetPreviousKeyframes, SIGNAL(triggered()), this, SLOT(slotResetPreviousKeyframes()));
+    connect(resetPreviousKeyframes, &QAction::triggered, this, &GeometryWidget::slotResetPreviousKeyframes);
     menu->addAction(resetPreviousKeyframes);
     menu->addSeparator();
 
     QAction *syncTimeline = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-link")), i18n("Synchronize with timeline cursor"), this);
     syncTimeline->setCheckable(true);
     syncTimeline->setChecked(KdenliveSettings::transitionfollowcursor());
-    connect(syncTimeline, SIGNAL(toggled(bool)), this, SLOT(slotSetSynchronize(bool)));
+    connect(syncTimeline, &QAction::toggled, this, &GeometryWidget::slotSetSynchronize);
     menu->addAction(syncTimeline);
 
     QAction *alignleft = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
-    connect(alignleft, SIGNAL(triggered()), this, SLOT(slotMoveLeft()));
+    connect(alignleft, &QAction::triggered, this, &GeometryWidget::slotMoveLeft);
     QAction *alignhcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
-    connect(alignhcenter, SIGNAL(triggered()), this, SLOT(slotCenterH()));
+    connect(alignhcenter, &QAction::triggered, this, &GeometryWidget::slotCenterH);
     QAction *alignright = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
-    connect(alignright, SIGNAL(triggered()), this, SLOT(slotMoveRight()));
+    connect(alignright, &QAction::triggered, this, &GeometryWidget::slotMoveRight);
     QAction *aligntop = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
-    connect(aligntop, SIGNAL(triggered()), this, SLOT(slotMoveTop()));
+    connect(aligntop, &QAction::triggered, this, &GeometryWidget::slotMoveTop);
     QAction *alignvcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
-    connect(alignvcenter, SIGNAL(triggered()), this, SLOT(slotCenterV()));
+    connect(alignvcenter, &QAction::triggered, this, &GeometryWidget::slotCenterV);
     QAction *alignbottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
-    connect(alignbottom, SIGNAL(triggered()), this, SLOT(slotMoveBottom()));
+    connect(alignbottom, &QAction::triggered, this, &GeometryWidget::slotMoveBottom);
 
     m_ui.buttonOptions->setMenu(menu);
     m_ui.buttonOptions->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
@@ -224,23 +224,23 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
         m_rotateZ = new DragValue(i18n("Rotate Z"), 0, 0, -1800, 1800,  -1, QString(), true, this);
         m_rotateZ->setObjectName(QStringLiteral("rotate_z"));
         m_ui.horizontalLayout3->addWidget(m_rotateZ);
-        connect(m_rotateX,            SIGNAL(valueChanged(double)), this, SLOT(slotUpdateGeometry()));
-        connect(m_rotateY,            SIGNAL(valueChanged(double)), this, SLOT(slotUpdateGeometry()));
-        connect(m_rotateZ,            SIGNAL(valueChanged(double)), this, SLOT(slotUpdateGeometry()));
+        connect(m_rotateX,            &DragValue::valueChanged, this, &GeometryWidget::slotUpdateGeometry);
+        connect(m_rotateY,            &DragValue::valueChanged, this, &GeometryWidget::slotUpdateGeometry);
+        connect(m_rotateZ,            &DragValue::valueChanged, this, &GeometryWidget::slotUpdateGeometry);
     }
     
     /*
         Setup of geometry controls
     */
 
-    connect(m_spinX,            SIGNAL(valueChanged(double)), this, SLOT(slotSetX(double)));
-    connect(m_spinY,            SIGNAL(valueChanged(double)), this, SLOT(slotSetY(double)));
-    connect(m_spinWidth,        SIGNAL(valueChanged(double)), this, SLOT(slotSetWidth(double)));
-    connect(m_spinHeight,       SIGNAL(valueChanged(double)), this, SLOT(slotSetHeight(double)));
+    connect(m_spinX,            &DragValue::valueChanged, this, &GeometryWidget::slotSetX);
+    connect(m_spinY,            &DragValue::valueChanged, this, &GeometryWidget::slotSetY);
+    connect(m_spinWidth,        &DragValue::valueChanged, this, &GeometryWidget::slotSetWidth);
+    connect(m_spinHeight,       &DragValue::valueChanged, this, &GeometryWidget::slotSetHeight);
 
-    connect(m_spinSize, SIGNAL(valueChanged(double)), this, SLOT(slotResize(double)));
+    connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
 
-    connect(m_opacity, SIGNAL(valueChanged(double)), this, SLOT(slotSetOpacity(double)));
+    connect(m_opacity, &DragValue::valueChanged, this, &GeometryWidget::slotSetOpacity);
     
     /*connect(m_ui.buttonMoveLeft,   SIGNAL(clicked()), this, SLOT(slotMoveLeft()));
     connect(m_ui.buttonCenterH,    SIGNAL(clicked()), this, SLOT(slotCenterH()));
@@ -255,7 +255,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     */
 
     connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
-    connect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)));
+    connect(m_monitor, &Monitor::seekToKeyframe, this, &GeometryWidget::slotSeekToKeyframe);
     connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateProperties()));
 }
 
@@ -501,7 +501,7 @@ void GeometryWidget::slotKeyframeMoved(int pos)
 {
     slotPositionChanged(pos);
     slotUpdateGeometry();
-    QTimer::singleShot(100, this, SIGNAL(parameterChanged()));
+    QTimer::singleShot(100, this, &GeometryWidget::parameterChanged);
 }
 
 void GeometryWidget::slotSeekToKeyframe(int index)

@@ -81,8 +81,8 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
 
     // Keyframe ruler
     m_ruler = new AnimKeyframeRuler(min, max, this);
-    connect(m_ruler, SIGNAL(addKeyframe(int)), this, SLOT(slotAddKeyframe(int)));
-    connect(m_ruler, SIGNAL(removeKeyframe(int)), this, SLOT(slotDeleteKeyframe(int)));
+    connect(m_ruler, &AnimKeyframeRuler::addKeyframe, this, &AnimationWidget::slotAddKeyframe);
+    connect(m_ruler, &AnimKeyframeRuler::removeKeyframe, this, &AnimationWidget::slotDeleteKeyframe);
     vbox2->addWidget(m_ruler);
     vbox2->setContentsMargins(0, 0, 0, 0);
     QToolBar *tb = new QToolBar(this);
@@ -720,7 +720,7 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, const QDomEleme
                                                                    e.attribute(QStringLiteral("default")).toDouble() * factor, comment, index, e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), true, this);
     doubleparam->setObjectName(paramTag);
     doubleparam->factor = factor;
-    connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
+    connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
     layout()->addWidget(doubleparam);
     if (!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
         doubleparam->setInTimelineProperty(true);
@@ -729,7 +729,7 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, const QDomEleme
         m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     }
     m_doubleWidgets.insert(paramTag, doubleparam);
-    connect(doubleparam, SIGNAL(displayInTimeline(bool)), this, SLOT(slotUpdateVisibleParameter(bool)));
+    connect(doubleparam, &DoubleParameterWidget::displayInTimeline, this, &AnimationWidget::slotUpdateVisibleParameter);
 }
 
 void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement &e)
@@ -744,19 +744,19 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
 
     QHBoxLayout *horLayout = new QHBoxLayout;
     m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, this);
-    connect(m_spinX, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+    connect(m_spinX, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinX);
 
     m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, this);
-    connect(m_spinY, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+    connect(m_spinY, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinY);
 
     m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_monitor->render->frameRenderWidth(), 0, 1, 99000, -1, QString(), false, this);
-    connect(m_spinWidth, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+    connect(m_spinWidth, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinWidth);
 
     m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
-    connect(m_spinHeight, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+    connect(m_spinHeight, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinHeight);
     horLayout->addStretch(10);
 
@@ -767,32 +767,32 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     horLayout2->addWidget(m_spinSize);
     if (e.attribute(QStringLiteral("opacity")) != QLatin1String("false")) {
         m_spinOpacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
-        connect(m_spinOpacity, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustRectKeyframeValue()));
+        connect(m_spinOpacity, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
         horLayout2->addWidget(m_spinOpacity);
     }
 
     // Build buttons
     QAction *originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
-    connect(originalSize, SIGNAL(triggered()), this, SLOT(slotAdjustToSource()));
+    connect(originalSize, &QAction::triggered, this, &AnimationWidget::slotAdjustToSource);
     QAction *adjustSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
-    connect(adjustSize, SIGNAL(triggered()), this, SLOT(slotAdjustToFrameSize()));
+    connect(adjustSize, &QAction::triggered, this, &AnimationWidget::slotAdjustToFrameSize);
     QAction *fitToWidth = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
-    connect(fitToWidth, SIGNAL(triggered()), this, SLOT(slotFitToWidth()));
+    connect(fitToWidth, &QAction::triggered, this, &AnimationWidget::slotFitToWidth);
     QAction *fitToHeight = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
-    connect(fitToHeight, SIGNAL(triggered()), this, SLOT(slotFitToHeight()));
+    connect(fitToHeight, &QAction::triggered, this, &AnimationWidget::slotFitToHeight);
 
     QAction *alignleft = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
-    connect(alignleft, SIGNAL(triggered()), this, SLOT(slotMoveLeft()));
+    connect(alignleft, &QAction::triggered, this, &AnimationWidget::slotMoveLeft);
     QAction *alignhcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
-    connect(alignhcenter, SIGNAL(triggered()), this, SLOT(slotCenterH()));
+    connect(alignhcenter, &QAction::triggered, this, &AnimationWidget::slotCenterH);
     QAction *alignright = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
-    connect(alignright, SIGNAL(triggered()), this, SLOT(slotMoveRight()));
+    connect(alignright, &QAction::triggered, this, &AnimationWidget::slotMoveRight);
     QAction *aligntop = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
-    connect(aligntop, SIGNAL(triggered()), this, SLOT(slotMoveTop()));
+    connect(aligntop, &QAction::triggered, this, &AnimationWidget::slotMoveTop);
     QAction *alignvcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
-    connect(alignvcenter, SIGNAL(triggered()), this, SLOT(slotCenterV()));
+    connect(alignvcenter, &QAction::triggered, this, &AnimationWidget::slotCenterV);
     QAction *alignbottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
-    connect(alignbottom, SIGNAL(triggered()), this, SLOT(slotMoveBottom()));;
+    connect(alignbottom, &QAction::triggered, this, &AnimationWidget::slotMoveBottom);;
 
     QHBoxLayout *alignLayout = new QHBoxLayout;
     alignLayout->setSpacing(0);
@@ -1082,8 +1082,8 @@ void AnimationWidget::savePreset()
     l->addWidget(&effectName);
     l->addWidget(&cb);
     l->addWidget(buttonBox);
-    d.connect(buttonBox, SIGNAL(rejected()), &d, SLOT(reject()));
-    d.connect(buttonBox, SIGNAL(accepted()), &d, SLOT(accept()));
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
     if (d.exec() != QDialog::Accepted) {
         return;
     }
@@ -1215,7 +1215,7 @@ void AnimationWidget::connectMonitor(bool activate)
         connect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         connect(m_monitor, &Monitor::effectPointsChanged, this, &AnimationWidget::slotUpdateCenters, Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
-        connect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)), Qt::UniqueConnection);
+        connect(m_monitor, &Monitor::seekToKeyframe, this, &AnimationWidget::slotSeekToKeyframe, Qt::UniqueConnection);
         connect(m_monitor, &Monitor::seekToNextKeyframe, this, &AnimationWidget::slotNext,Qt::UniqueConnection);
         connect(m_monitor, &Monitor::seekToPreviousKeyframe, this, &AnimationWidget::slotPrevious,Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
@@ -1230,7 +1230,7 @@ void AnimationWidget::connectMonitor(bool activate)
         disconnect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
         disconnect(m_monitor, &Monitor::seekToNextKeyframe, this, &AnimationWidget::slotNext);
         disconnect(m_monitor, &Monitor::seekToPreviousKeyframe, this, &AnimationWidget::slotPrevious);
-        disconnect(m_monitor, SIGNAL(seekToKeyframe(int)), this, SLOT(slotSeekToKeyframe(int)));
+        disconnect(m_monitor, &Monitor::seekToKeyframe, this, &AnimationWidget::slotSeekToKeyframe);
     }
 }
 

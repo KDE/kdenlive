@@ -53,13 +53,13 @@ ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget * p
         item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         item->setCheckState(0, Qt::Checked);
     }
-    connect(m_view.treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotRefreshButtons()));
-    connect(m_view.deleteButton, SIGNAL(pressed()), this, SLOT(slotDeleteCurrent()));
-    connect(m_view.toggleButton, SIGNAL(pressed()), this, SLOT(slotToggle()));
+    connect(m_view.treeWidget, &QTreeWidget::itemChanged, this, &ManageCapturesDialog::slotRefreshButtons);
+    connect(m_view.deleteButton, &QAbstractButton::pressed, this, &ManageCapturesDialog::slotDeleteCurrent);
+    connect(m_view.toggleButton, &QAbstractButton::pressed, this, &ManageCapturesDialog::slotToggle);
     QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(0);
     if (item) m_view.treeWidget->setCurrentItem(item);
-    connect(m_view.treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckItemIcon()));
-    QTimer::singleShot(500, this, SLOT(slotCheckItemIcon()));
+    connect(m_view.treeWidget, &QTreeWidget::itemSelectionChanged, this, &ManageCapturesDialog::slotCheckItemIcon);
+    QTimer::singleShot(500, this, &ManageCapturesDialog::slotCheckItemIcon);
     m_view.treeWidget->resizeColumnToContents(0);
     m_view.treeWidget->setEnabled(false);
     adjustSize();

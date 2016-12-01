@@ -375,7 +375,7 @@ void RecMonitor::slotDisconnect()
         m_fwdAction->setEnabled(true);
     } else {
         m_captureProcess->write("q", 1);
-        QTimer::singleShot(1000, m_captureProcess, SLOT(kill()));
+        QTimer::singleShot(1000, m_captureProcess, &QProcess::kill);
         if (m_didCapture) manageCapturedFiles();
         m_didCapture = false;
     }
@@ -407,7 +407,7 @@ void RecMonitor::slotStopCapture()
         break;
     case ScreenBag:
 	m_captureProcess->terminate();
-        QTimer::singleShot(1500, m_captureProcess, SLOT(kill()));
+        QTimer::singleShot(1500, m_captureProcess, &QProcess::kill);
         break;
     case Video4Linux:
     case BlackMagic:
@@ -769,7 +769,7 @@ void RecMonitor::slotRecord()
         // stop capture
         m_displayProcess->kill();
         //captureProcess->kill();
-        QTimer::singleShot(1000, this, SLOT(slotRecord()));
+        QTimer::singleShot(1000, this, &RecMonitor::slotRecord);
     }
 }
 

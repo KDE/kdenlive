@@ -55,7 +55,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString& rend
 {
     m_renderProcess = new QProcess;
     m_renderProcess->setReadChannel(QProcess::StandardError);
-    connect(m_renderProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotCheckProcess(QProcess::ProcessState)));
+    connect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
 
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
@@ -195,7 +195,7 @@ void RenderJob::start()
     }
 
     // Because of the logging, we connect to stderr in all cases.
-    connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
+    connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
     m_renderProcess->start(m_prog, m_args);
     m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QStringLiteral(" ")) << endl;
 }

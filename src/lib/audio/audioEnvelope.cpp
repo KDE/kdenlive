@@ -35,7 +35,7 @@ AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int of
     if (path == QLatin1String("<playlist>") || path == QLatin1String("<tractor>") || path ==QLatin1String( "<producer>"))
 	path = url;
     m_producer = new Mlt::Producer(*(producer->profile()), path.toUtf8().constData());
-    connect(&m_watcher, SIGNAL(finished()), this, SLOT(slotProcessEnveloppe()));
+    connect(&m_watcher, &QFutureWatcherBase::finished, this, &AudioEnvelope::slotProcessEnveloppe);
     if (!m_producer || !m_producer->is_valid()) {
 	qDebug()<<"// Cannot create envelope for producer: "<<path;
     }

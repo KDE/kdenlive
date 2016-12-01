@@ -65,7 +65,7 @@ Vectorscope::Vectorscope(QWidget *parent) :
     ui->sliderGain->setMaximum(40);
 
     connect(ui->backgroundMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBackgroundChanged()));
-    connect(ui->sliderGain, SIGNAL(valueChanged(int)), this, SLOT(slotGainChanged(int)));
+    connect(ui->sliderGain, &QAbstractSlider::valueChanged, this, &Vectorscope::slotGainChanged);
     connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
     connect(this, &Vectorscope::signalMousePositionChanged, this, &Vectorscope::forceUpdateHUD);
     ui->sliderGain->setValue(0);

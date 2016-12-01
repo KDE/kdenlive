@@ -80,12 +80,12 @@ OAuth2::OAuth2(QWidget* parent)
        m_bAccessTokenRec=true;
        m_strAccessToken=strAccessTokenFromSettings;
     }
-    connect(m_pLoginDialog, SIGNAL(AuthCodeObtained()), this, SLOT(SlotAuthCodeObtained()));
+    connect(m_pLoginDialog, &LoginDialog::AuthCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
 
-    connect(m_pLoginDialog, SIGNAL(accessDenied()), this, SLOT(SlotAccessDenied()));
-    connect(m_pLoginDialog, SIGNAL(canceled()), this, SLOT(SlotCanceled()));
-    connect(m_pLoginDialog, SIGNAL(UseHQPreview()), this, SLOT(SlotDownloadHQPreview()));
-    connect(this, SIGNAL(AuthCodeObtained()), this, SLOT(SlotAuthCodeObtained()));
+    connect(m_pLoginDialog, &LoginDialog::accessDenied, this, &OAuth2::SlotAccessDenied);
+    connect(m_pLoginDialog, &LoginDialog::canceled, this, &OAuth2::SlotCanceled);
+    connect(m_pLoginDialog, &LoginDialog::UseHQPreview, this, &OAuth2::SlotDownloadHQPreview);
+    connect(this, &OAuth2::AuthCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
 }
 /**
   * @brief OAuth2::getClientID - returns QString of the "clientID"
@@ -215,7 +215,7 @@ void OAuth2::RequestAccessCode(bool pIsReRequest, const QString &pCode)
     postData.addQueryItem(QStringLiteral("client_secret"), this->getClientSecret());
     postData.addQueryItem(QStringLiteral("grant_type"), vGrantType );
     postData.addQueryItem(vCodeTypeParamName, pCode);
-    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(serviceRequestFinished(QNetworkReply*)));
+    connect(networkManager, &QNetworkAccessManager::finished, this, &OAuth2::serviceRequestFinished);
     QNetworkRequest request(serviceUrl);
     request.setHeader(QNetworkRequest::ContentTypeHeader,     "application/x-www-form-urlencoded");
     networkManager->post(request, postData.toString(QUrl::FullyEncoded).toUtf8());

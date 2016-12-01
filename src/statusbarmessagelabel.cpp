@@ -86,8 +86,8 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     m_animation.setTargetObject(this);
     m_animation.setPropertyName("color");
     m_queueTimer.setSingleShot(true);
-    connect(&m_queueTimer, SIGNAL(timeout()), this, SLOT(slotMessageTimeout()));
-    connect(m_label, SIGNAL(linkActivated(const QString &)), this, SLOT(slotShowJobLog(const QString &)));
+    connect(&m_queueTimer, &QTimer::timeout, this, &StatusBarMessageLabel::slotMessageTimeout);
+    connect(m_label, &QLabel::linkActivated, this, &StatusBarMessageLabel::slotShowJobLog);
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()
@@ -300,7 +300,7 @@ void StatusBarMessageLabel::slotShowJobLog(const QString &text)
     d.setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     mainLayout->addWidget(buttonBox);
-    d.connect(buttonBox, SIGNAL(rejected()), &d, SLOT(accept()));
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::accept);
     d.exec();
     confirmErrorMessage();
 }

@@ -45,12 +45,12 @@ ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
     sliderScaling->setRange(0, 80);
     sliderScaling->setSliderPosition(50);
 
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotExportPlane()));
-    connect(tResX, SIGNAL(textChanged(QString)), this, SLOT(slotValidate()));
-    connect(tResY, SIGNAL(textChanged(QString)), this, SLOT(slotValidate()));
-    connect(kurlrequester, SIGNAL(textChanged(QString)), this, SLOT(slotValidate()));
-    connect(sliderColor, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateDisplays()));
-    connect(sliderScaling, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateDisplays()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &ColorPlaneExport::slotExportPlane);
+    connect(tResX, &QLineEdit::textChanged, this, &ColorPlaneExport::slotValidate);
+    connect(tResY, &QLineEdit::textChanged, this, &ColorPlaneExport::slotValidate);
+    connect(kurlrequester, &KUrlRequester::textChanged, this, &ColorPlaneExport::slotValidate);
+    connect(sliderColor, &QAbstractSlider::valueChanged, this, &ColorPlaneExport::slotUpdateDisplays);
+    connect(sliderScaling, &QAbstractSlider::valueChanged, this, &ColorPlaneExport::slotUpdateDisplays);
     connect(cbColorspace, SIGNAL(currentIndexChanged(int)), this, SLOT(slotColormodeChanged()));
 
     kurlrequester->setUrl(QUrl(QStringLiteral("/tmp/yuv-plane.png")));

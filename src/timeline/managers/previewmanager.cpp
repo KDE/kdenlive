@@ -428,7 +428,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
         args << QStringLiteral("-consumer") << "avformat:" + m_cacheDir.absoluteFilePath(fileName);
         args << m_consumerParams;
         QProcess previewProcess;
-        connect(this, SIGNAL(abortPreview()), &previewProcess, SLOT(kill()), Qt::DirectConnection);
+        connect(this, &PreviewManager::abortPreview, &previewProcess, &QProcess::kill, Qt::DirectConnection);
         previewProcess.start(KdenliveSettings::rendererpath(), args);
         if (previewProcess.waitForStarted()) {
             previewProcess.waitForFinished(-1);

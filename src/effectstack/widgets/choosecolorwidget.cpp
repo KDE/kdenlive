@@ -109,9 +109,9 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
     rightSideLayout->addWidget(m_button);
     rightSideLayout->addWidget(picker, 0, Qt::AlignRight);
 
-    connect(picker, SIGNAL(colorPicked(QColor)), this, SLOT(setColor(QColor)));
-    connect(picker, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
-    connect(picker, SIGNAL(disableCurrentFilter(bool)), this, SIGNAL(disableCurrentFilter(bool)));
+    connect(picker, &ColorPickerWidget::colorPicked, this, &ChooseColorWidget::setColor);
+    connect(picker, &ColorPickerWidget::displayMessage, this, &ChooseColorWidget::displayMessage);
+    connect(picker, &ColorPickerWidget::disableCurrentFilter, this, &ChooseColorWidget::disableCurrentFilter);
     connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified(QColor)));
 }
 

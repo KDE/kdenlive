@@ -22,8 +22,8 @@ HideTitleBars::HideTitleBars(QObject* parent) :
     m_switchAction->setCheckable(true);
     m_switchAction->setChecked(KdenliveSettings::showtitlebars());
     pCore->window()->addAction(QStringLiteral("show_titlebars"), m_switchAction);
-    connect(m_switchAction, SIGNAL(triggered(bool)), SLOT(slotShowTitleBars(bool)));
-    connect(pCore->window(), SIGNAL(GUISetupDone()), SLOT(slotInstallRightClick()));
+    connect(m_switchAction, &QAction::triggered, this, &HideTitleBars::slotShowTitleBars);
+    connect(pCore->window(), &MainWindow::GUISetupDone, this, &HideTitleBars::slotInstallRightClick);
 }
 
 void HideTitleBars::slotInstallRightClick()
@@ -31,7 +31,7 @@ void HideTitleBars::slotInstallRightClick()
     QList <QTabBar *> tabs = pCore->window()->findChildren<QTabBar *>();
     for (int i = 0; i < tabs.count(); ++i) {
         tabs.at(i)->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(tabs.at(i), SIGNAL(customContextMenuRequested(QPoint)), SLOT(slotSwitchTitleBars()));
+        connect(tabs.at(i), &QWidget::customContextMenuRequested, this, &HideTitleBars::slotSwitchTitleBars);
     }
     slotShowTitleBars(KdenliveSettings::showtitlebars());
 }

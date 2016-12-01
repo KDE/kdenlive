@@ -43,7 +43,7 @@ public:
         if (index.column() == 1) {
             QSpinBox *spin = new QSpinBox(parent);
             connect(spin, SIGNAL(valueChanged(int)), this, SLOT(commitEditorData()));
-            connect(spin, SIGNAL(editingFinished()), this, SLOT(commitAndCloseEditor()));
+            connect(spin, &QAbstractSpinBox::editingFinished, this, &KeyItemDelegate::commitAndCloseEditor);
             return spin;
         } else {
             return QItemDelegate::createEditor(parent, option, index);

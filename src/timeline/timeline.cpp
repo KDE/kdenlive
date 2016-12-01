@@ -99,9 +99,9 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     m_tractor->attach(f);*/
 
     m_ruler = new CustomRuler(doc->timecode(), rulerActions, m_trackview);
-    connect(m_ruler, SIGNAL(zoneMoved(int,int)), this, SIGNAL(zoneMoved(int,int)));
-    connect(m_ruler, SIGNAL(adjustZoom(int)), this, SIGNAL(setZoom(int)));
-    connect(m_ruler, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
+    connect(m_ruler, &CustomRuler::zoneMoved, this, &Timeline::zoneMoved);
+    connect(m_ruler, &CustomRuler::adjustZoom, this, &Timeline::setZoom);
+    connect(m_ruler, &CustomRuler::mousePosition, this, &Timeline::mousePosition);
     connect(m_ruler, SIGNAL(seekCursorPos(int)), m_doc->renderer(), SLOT(seek(int)), Qt::QueuedConnection);
     connect(m_ruler, &CustomRuler::resizeRuler, this, &Timeline::resizeRuler, Qt::DirectConnection);
     QHBoxLayout *layout = new QHBoxLayout;
@@ -121,14 +121,14 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     butSmall->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zoom-small")));
     butSmall->setToolTip(i18n("Smaller tracks"));
     butSmall->setAutoRaise(true);
-    connect(butSmall, SIGNAL(clicked()), this, SLOT(slotVerticalZoomDown()));
+    connect(butSmall, &QAbstractButton::clicked, this, &Timeline::slotVerticalZoomDown);
     sizeLayout->addWidget(butSmall);
 
     QToolButton *butLarge = new QToolButton(this);
     butLarge->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zoom-large")));
     butLarge->setToolTip(i18n("Bigger tracks"));
     butLarge->setAutoRaise(true);
-    connect(butLarge, SIGNAL(clicked()), this, SLOT(slotVerticalZoomUp()));
+    connect(butLarge, &QAbstractButton::clicked, this, &Timeline::slotVerticalZoomUp);
     sizeLayout->addWidget(butLarge);
 
     QToolButton *enableZone = new QToolButton(this);
@@ -152,21 +152,21 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     headersLayout->setContentsMargins(0, m_trackview->frameWidth(), 0, 0);
     headersLayout->setSpacing(0);
     headers_container->setLayout(headersLayout);
-    connect(headers_area->verticalScrollBar(), SIGNAL(valueChanged(int)), m_trackview->verticalScrollBar(), SLOT(setValue(int)));
+    connect(headers_area->verticalScrollBar(), &QAbstractSlider::valueChanged, m_trackview->verticalScrollBar(), &QAbstractSlider::setValue);
 
     tracksLayout->addWidget(m_trackview);
-    connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), headers_area->verticalScrollBar(), SLOT(setValue(int)));
-    connect(m_trackview, SIGNAL(tracksChanged()), this, SLOT(slotReloadTracks()));
-    connect(m_trackview, SIGNAL(updateTrackHeaders()), this, SLOT(slotRepaintTracks()));
+    connect(m_trackview->verticalScrollBar(), &QAbstractSlider::valueChanged, headers_area->verticalScrollBar(), &QAbstractSlider::setValue);
+    connect(m_trackview, &CustomTrackView::tracksChanged, this, &Timeline::slotReloadTracks);
+    connect(m_trackview, &CustomTrackView::updateTrackHeaders, this, &Timeline::slotRepaintTracks);
     connect(m_trackview, SIGNAL(showTrackEffects(int,TrackInfo)), this, SIGNAL(showTrackEffects(int,TrackInfo)));
-    connect(m_trackview, SIGNAL(updateTrackEffectState(int)), this, SLOT(slotUpdateTrackEffectState(int)));
+    connect(m_trackview, &CustomTrackView::updateTrackEffectState, this, &Timeline::slotUpdateTrackEffectState);
     transitionHandler = new TransitionHandler(m_tractor);
-    connect(m_trackview, SIGNAL(cursorMoved(int,int)), m_ruler, SLOT(slotCursorMoved(int,int)));
-    connect(m_trackview, SIGNAL(updateRuler(int)), m_ruler, SLOT(updateRuler(int)), Qt::DirectConnection);
+    connect(m_trackview, &CustomTrackView::cursorMoved, m_ruler, &CustomRuler::slotCursorMoved);
+    connect(m_trackview, &CustomTrackView::updateRuler, m_ruler, &CustomRuler::updateRuler, Qt::DirectConnection);
 
-    connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
-    connect(m_trackview->horizontalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(slotUpdateVerticalScroll(int,int)));
-    connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
+    connect(m_trackview->horizontalScrollBar(), &QAbstractSlider::valueChanged, m_ruler, &CustomRuler::slotMoveRuler);
+    connect(m_trackview->horizontalScrollBar(), &QAbstractSlider::rangeChanged, this, &Timeline::slotUpdateVerticalScroll);
+    connect(m_trackview, &CustomTrackView::mousePosition, this, &Timeline::mousePosition);
     m_disablePreview = m_doc->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &Timeline::disablePreview);
     m_disablePreview->setEnabled(false);
@@ -332,12 +332,12 @@ int Timeline::getTracks() {
             headerLayout->insertWidget(0, tk->trackHeader);
             if (trackduration > duration) duration = trackduration;
             tk->trackHeader->setSelectedIndex(m_trackview->selectedTrack());
-            connect(tk->trackHeader, SIGNAL(switchTrackVideo(int,bool)), this, SLOT(switchTrackVideo(int,bool)));
-            connect(tk->trackHeader, SIGNAL(switchTrackAudio(int,bool)), this, SLOT(switchTrackAudio(int,bool)));
+            connect(tk->trackHeader, &HeaderTrack::switchTrackVideo, this, &Timeline::switchTrackVideo);
+            connect(tk->trackHeader, &HeaderTrack::switchTrackAudio, this, &Timeline::switchTrackAudio);
             connect(tk->trackHeader, SIGNAL(switchTrackLock(int,bool)), m_trackview, SLOT(slotSwitchTrackLock(int,bool)));
-            connect(tk->trackHeader, SIGNAL(selectTrack(int,bool)), m_trackview, SLOT(slotSelectTrack(int,bool)));
+            connect(tk->trackHeader, &HeaderTrack::selectTrack, m_trackview, &CustomTrackView::slotSelectTrack);
             connect(tk->trackHeader, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
-            connect(tk->trackHeader, SIGNAL(configTrack()), this, SIGNAL(configTrack()));
+            connect(tk->trackHeader, &HeaderTrack::configTrack, this, &Timeline::configTrack);
             connect(tk->trackHeader, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
             if (playlist.filter_count()) {
                 getEffects(playlist, Q_NULLPTR, i);

@@ -112,7 +112,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
         // Everything is ok, auto close the wizard
         m_page->setComplete(true);
         if (autoClose) {
-            QTimer::singleShot(0, this, SLOT(accept()));
+            QTimer::singleShot(0, this, &QDialog::accept);
             return;
         } else {
             KMessageWidget *lab = new KMessageWidget(this);

@@ -39,7 +39,7 @@ LayoutManagement::LayoutManagement(QObject* parent) :
     layoutActions->addAction(QStringLiteral("load_layouts"), m_loadLayout);
     connect(m_loadLayout, SIGNAL(triggered(QAction*)), SLOT(slotLoadLayout(QAction*)));
 
-    connect(pCore->window(), SIGNAL(GUISetupDone()), SLOT(slotOnGUISetupDone()));
+    connect(pCore->window(), &MainWindow::GUISetupDone, this, &LayoutManagement::slotOnGUISetupDone);
 }
 
 void LayoutManagement::initializeLayouts()
@@ -117,7 +117,7 @@ void LayoutManagement::slotOnGUISetupDone()
 {
     QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("layout_save_as"), pCore->window()));
     if (saveLayout) {
-        connect(saveLayout, SIGNAL(triggered(QAction*)), SLOT(slotSaveLayout(QAction*)));
+        connect(saveLayout, &QMenu::triggered, this, &LayoutManagement::slotSaveLayout);
     }
 
     initializeLayouts();

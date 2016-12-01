@@ -38,13 +38,13 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
     if (m_actionMap.size() == 0)
       m_actionMap.append(QStringLiteral("monitor_pause"));
 
-    connect(m_jogShuttle, SIGNAL(jogBack()), pCore->monitorManager(), SLOT(slotRewindOneFrame()));
-    connect(m_jogShuttle, SIGNAL(jogForward()), pCore->monitorManager(), SLOT(slotForwardOneFrame()));
-    connect(m_jogShuttle, SIGNAL(shuttlePos(int)), SLOT(slotShuttlePos(int)));
-    connect(m_jogShuttle, SIGNAL(button(int)), SLOT(slotButton(int)));
+    connect(m_jogShuttle, &JogShuttle::jogBack, pCore->monitorManager(), &MonitorManager::slotRewindOneFrame);
+    connect(m_jogShuttle, &JogShuttle::jogForward, pCore->monitorManager(), &MonitorManager::slotForwardOneFrame);
+    connect(m_jogShuttle, &JogShuttle::shuttlePos, this, &JogShuttleAction::slotShuttlePos);
+    connect(m_jogShuttle, &JogShuttle::button, this, &JogShuttleAction::slotButton);
 
-    connect(this, SIGNAL(rewind(double)), pCore->monitorManager(), SLOT(slotRewind(double)));
-    connect(this, SIGNAL(forward(double)), pCore->monitorManager(), SLOT(slotForward(double)));
+    connect(this, &JogShuttleAction::rewind, pCore->monitorManager(), &MonitorManager::slotRewind);
+    connect(this, &JogShuttleAction::forward, pCore->monitorManager(), &MonitorManager::slotForward);
 }
 
 JogShuttleAction::~JogShuttleAction()

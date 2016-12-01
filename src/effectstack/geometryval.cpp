@@ -57,9 +57,9 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     vbox2->setContentsMargins(0, 0, 0, 0);
 
     connect(m_helper, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
-    connect(m_helper, SIGNAL(keyframeMoved(int)), this, SLOT(slotKeyframeMoved(int)));
-    connect(m_helper, SIGNAL(addKeyframe(int)), this, SLOT(slotAddFrame(int)));
-    connect(m_helper, SIGNAL(removeKeyframe(int)), this, SLOT(slotDeleteFrame(int)));
+    connect(m_helper, &KeyframeHelper::keyframeMoved, this, &Geometryval::slotKeyframeMoved);
+    connect(m_helper, &KeyframeHelper::addKeyframe, this, &Geometryval::slotAddFrame);
+    connect(m_helper, &KeyframeHelper::removeKeyframe, this, &Geometryval::slotDeleteFrame);
 
     m_scene = new GraphicsSceneRectMove(this);
     m_scene->setTool(TITLE_SELECT);
@@ -89,7 +89,7 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     m_editOptions = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("system-run")), i18n("Show/Hide options"));
     m_editOptions->setCheckable(true);
     buttonMenu->setDefaultAction(m_editOptions);
-    connect(m_editOptions, SIGNAL(triggered()), this, SLOT(slotSwitchOptions()));
+    connect(m_editOptions, &QAction::triggered, this, &Geometryval::slotSwitchOptions);
     slotSwitchOptions();
 
     m_reset = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset"), this, SLOT(slotResetPosition()));
@@ -106,11 +106,11 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     m_scene->setZoom(sc);
     m_sceneview->centerOn(frameBorder);
     m_sceneview->setMouseTracking(true);
-    connect(buttonNext , SIGNAL(clicked()) , this , SLOT(slotNextFrame()));
-    connect(buttonPrevious , SIGNAL(clicked()) , this , SLOT(slotPreviousFrame()));
-    connect(buttonDelete , SIGNAL(clicked()) , this , SLOT(slotDeleteFrame()));
-    connect(buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
-    connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
+    connect(buttonNext , &QAbstractButton::clicked , this , &Geometryval::slotNextFrame);
+    connect(buttonPrevious , &QAbstractButton::clicked , this , &Geometryval::slotPreviousFrame);
+    connect(buttonDelete , &QAbstractButton::clicked , this , &Geometryval::slotDeleteFrame);
+    connect(buttonAdd , &QAbstractButton::clicked , this , &Geometryval::slotAddFrame);
+    connect(m_scene, &GraphicsSceneRectMove::actionFinished, this, &Geometryval::slotUpdateTransitionProperties);
 
     buttonhcenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")));
     buttonhcenter->setToolTip(i18n("Align item horizontally"));
@@ -125,20 +125,20 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     buttonleft->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")));
     buttonleft->setToolTip(i18n("Align item to left"));
 
-    connect(buttonhcenter, SIGNAL(clicked()), this, SLOT(slotAlignHCenter()));
-    connect(buttonvcenter, SIGNAL(clicked()), this, SLOT(slotAlignVCenter()));
-    connect(buttontop, SIGNAL(clicked()), this, SLOT(slotAlignTop()));
-    connect(buttonbottom, SIGNAL(clicked()), this, SLOT(slotAlignBottom()));
-    connect(buttonright, SIGNAL(clicked()), this, SLOT(slotAlignRight()));
-    connect(buttonleft, SIGNAL(clicked()), this, SLOT(slotAlignLeft()));
+    connect(buttonhcenter, &QAbstractButton::clicked, this, &Geometryval::slotAlignHCenter);
+    connect(buttonvcenter, &QAbstractButton::clicked, this, &Geometryval::slotAlignVCenter);
+    connect(buttontop, &QAbstractButton::clicked, this, &Geometryval::slotAlignTop);
+    connect(buttonbottom, &QAbstractButton::clicked, this, &Geometryval::slotAlignBottom);
+    connect(buttonright, &QAbstractButton::clicked, this, &Geometryval::slotAlignRight);
+    connect(buttonleft, &QAbstractButton::clicked, this, &Geometryval::slotAlignLeft);
     connect(spinX, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryX(int)));
     connect(spinY, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryY(int)));
     connect(spinWidth, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryWidth(int)));
     connect(spinHeight, SIGNAL(valueChanged(int)), this, SLOT(slotGeometryHeight(int)));
-    connect(spinResize, SIGNAL(editingFinished()), this, SLOT(slotResizeCustom()));
-    connect(buttonResize, SIGNAL(clicked()), this, SLOT(slotResizeOriginal()));
+    connect(spinResize, &QAbstractSpinBox::editingFinished, this, &Geometryval::slotResizeCustom);
+    connect(buttonResize, &QAbstractButton::clicked, this, &Geometryval::slotResizeOriginal);
 
-    connect(this, SIGNAL(parameterChanged()), this, SLOT(slotUpdateGeometry()));
+    connect(this, &Geometryval::parameterChanged, this, &Geometryval::slotUpdateGeometry);
 }
 
 
@@ -500,7 +500,7 @@ void Geometryval::slotKeyframeMoved(int pos)
 {
     slotPositionChanged(pos);
     slotUpdateTransitionProperties();
-    QTimer::singleShot(100, this, SIGNAL(parameterChanged()));
+    QTimer::singleShot(100, this, &Geometryval::parameterChanged);
 }
 
 void Geometryval::slotSwitchOptions()

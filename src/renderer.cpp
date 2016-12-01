@@ -93,13 +93,13 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     m_mltProducer->set_speed(0.0);*/
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(50);
-    connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
-    connect(this, SIGNAL(checkSeeking()), this, SLOT(slotCheckSeeking()));
+    connect(&m_refreshTimer, &QTimer::timeout, this, &Render::refresh);
+    connect(this, &Render::checkSeeking, this, &Render::slotCheckSeeking);
     if (m_name == Kdenlive::ProjectMonitor) {
-        connect(m_binController, SIGNAL(prepareTimelineReplacement(QString)), this, SIGNAL(prepareTimelineReplacement(QString)), Qt::DirectConnection);
-        connect(m_binController, SIGNAL(replaceTimelineProducer(QString)), this, SIGNAL(replaceTimelineProducer(QString)), Qt::DirectConnection);
-	connect(m_binController, SIGNAL(updateTimelineProducer(QString)), this, SIGNAL(updateTimelineProducer(QString)));
-        connect(m_binController, SIGNAL(setDocumentNotes(QString)), this, SIGNAL(setDocumentNotes(QString)));
+        connect(m_binController, &BinController::prepareTimelineReplacement, this, &Render::prepareTimelineReplacement, Qt::DirectConnection);
+        connect(m_binController, &BinController::replaceTimelineProducer, this, &Render::replaceTimelineProducer, Qt::DirectConnection);
+	connect(m_binController, &BinController::updateTimelineProducer, this, &Render::updateTimelineProducer);
+        connect(m_binController, &BinController::setDocumentNotes, this, &Render::setDocumentNotes);
     }
 }
 

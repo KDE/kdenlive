@@ -79,7 +79,7 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
 
     buttonReset->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
     buttonReset->setToolTip(i18n("Reset"));
-    connect(buttonReset, SIGNAL(clicked()), this, SLOT(setupOriginal()));
+    connect(buttonReset, &QAbstractButton::clicked, this, &TracksConfigDialog::setupOriginal);
 
     buttonAdd->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     buttonAdd->setToolTip(i18n("Add Track"));
@@ -87,7 +87,7 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
 
     buttonDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     buttonDelete->setToolTip(i18n("Delete Track"));
-    connect(buttonDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
+    connect(buttonDelete, &QAbstractButton::clicked, this, &TracksConfigDialog::slotDelete);
 
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("arrow-up")));
     buttonUp->setToolTip(i18n("Move Track upwards"));
@@ -105,7 +105,7 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
     table->setGeometry(rect);*/
     table->horizontalHeader()->setStretchLastSection(true);
     table->setMinimumSize(table->horizontalHeader()->length(), table->verticalHeader()->length() + table->horizontalHeader()->height() * 2);
-    connect(table, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(slotUpdateRow(QTableWidgetItem*)));
+    connect(table, &QTableWidget::itemChanged, this, &TracksConfigDialog::slotUpdateRow);
 }
 
 const QList <TrackInfo> TracksConfigDialog::tracksList()

@@ -59,7 +59,7 @@ HeaderTrack::HeaderTrack(const TrackInfo &info, const QList <QAction *> &actions
     track_number->setContextMenuPolicy(Qt::NoContextMenu);
     track_number->installEventFilter(this);
     track_number->setEnabled(false);
-    connect(track_number, SIGNAL(editingFinished()), this, SLOT(slotRenameTrack()));
+    connect(track_number, &QLineEdit::editingFinished, this, &HeaderTrack::slotRenameTrack);
     effect_label->setPixmap(KoIconUtils::themedIcon(QStringLiteral("kdenlive-track_has_effect")).pixmap(s));
     updateEffectLabel(info.effectsList.effectNames());
     setAcceptDrops(true);
@@ -75,13 +75,13 @@ HeaderTrack::HeaderTrack(const TrackInfo &info, const QList <QAction *> &actions
     m_switchLock->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-lock")));
     m_switchLock->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-unlock")));
     m_switchLock->setActive(info.isLocked);
-    connect(m_switchLock, SIGNAL(activeChanged(bool)), this, SLOT(switchLock(bool)));
+    connect(m_switchLock, &KDualAction::activeChanged, this, &HeaderTrack::switchLock);
     m_tb->addAction(m_switchLock);
     m_switchAudio = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
     m_switchAudio->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-hide-audio")));
     m_switchAudio->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audio")));
     m_switchAudio->setActive(info.isMute);
-    connect(m_switchAudio, SIGNAL(activeChanged(bool)), this, SLOT(switchAudio(bool)));
+    connect(m_switchAudio, &KDualAction::activeChanged, this, &HeaderTrack::switchAudio);
     m_tb->addAction(m_switchAudio);
     setAutoFillBackground(true);
     if (m_type == VideoTrack) {
@@ -89,7 +89,7 @@ HeaderTrack::HeaderTrack(const TrackInfo &info, const QList <QAction *> &actions
         m_switchVideo->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-hide-video")));
         m_switchVideo->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
         m_switchVideo->setActive(info.isBlind);
-        connect(m_switchVideo, SIGNAL(activeChanged(bool)), this, SLOT(switchVideo(bool)));
+        connect(m_switchVideo, &KDualAction::activeChanged, this, &HeaderTrack::switchVideo);
         m_tb->addAction(m_switchVideo);
     } else {
         setBackgroundRole(QPalette::AlternateBase);

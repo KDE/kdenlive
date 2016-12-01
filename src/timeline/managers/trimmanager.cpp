@@ -106,10 +106,10 @@ bool TrimManager::enterTrimMode(const ItemInfo &info, bool trimStart)
     }
     if (m_trimMode == RippleTrim) {
         m_render->byPassSeek = true;
-        connect(m_render, SIGNAL(renderSeek(int)), this, SLOT(renderSeekRequest(int)), Qt::UniqueConnection);
+        connect(m_render, &Render::renderSeek, this, &TrimManager::renderSeekRequest, Qt::UniqueConnection);
     } else if (m_render->byPassSeek) {
         m_render->byPassSeek = false;
-        disconnect(m_render, SIGNAL(renderSeek(int)), this, SLOT(renderSeekRequest(int)));
+        disconnect(m_render, &Render::renderSeek, this, &TrimManager::renderSeekRequest);
     }
     return true;
 }
@@ -117,7 +117,7 @@ bool TrimManager::enterTrimMode(const ItemInfo &info, bool trimStart)
 void TrimManager::initRipple(Mlt::Playlist *playlist, int pos, Render *renderer)
 {
     m_render = renderer;
-    connect(renderer, SIGNAL(renderSeek(int)), this, SLOT(renderSeekRequest(int)));
+    connect(renderer, &Render::renderSeek, this, &TrimManager::renderSeekRequest);
     m_trimPlaylist = playlist;
     m_rippleIndex = playlist->get_clip_index_at(pos);
 }
@@ -178,7 +178,7 @@ void TrimManager::endTrim()
             return;
     if (m_render->byPassSeek) {
         m_render->byPassSeek = false;
-        disconnect(m_render, SIGNAL(renderSeek(int)), this, SLOT(renderSeekRequest(int)));
+        disconnect(m_render, &Render::renderSeek, this, &TrimManager::renderSeekRequest);
     }
     if (m_view->operationMode() == RippleStart || m_view->operationMode() == RippleEnd) {
         delete m_trimPlaylist;

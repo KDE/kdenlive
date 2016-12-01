@@ -61,7 +61,7 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
         hlay->addWidget(new QLabel(i18n("Duration")));
         m_timePos = new TimecodeDisplay(monitor->timecode(), this);
         if (base.hasAttribute(QStringLiteral("updateonduration"))) {
-            connect(m_timePos, SIGNAL(timeCodeEditingFinished(int)), this, SLOT(updateDuration(int)));
+            connect(m_timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &Generators::updateDuration);
         }
         hlay->addWidget(m_timePos);
         lay->addLayout(hlay);
@@ -74,8 +74,8 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
         connect(m_container, &ParameterContainer::parameterChanged, this, &Generators::updateProducer);
         lay->addStretch(10);
         QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-        connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-        connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+        connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+        connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
         lay->addWidget(buttonBox);
         m_timePos->setValue(KdenliveSettings::color_duration());
     }

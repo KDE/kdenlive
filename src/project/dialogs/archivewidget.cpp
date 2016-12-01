@@ -53,10 +53,10 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     setupUi(this);
     setWindowTitle(i18n("Archive Project"));
     archive_url->setUrl(QUrl::fromLocalFile(QDir::homePath()));
-    connect(archive_url, SIGNAL(textChanged(QString)), this, SLOT(slotCheckSpace()));
+    connect(archive_url, &KUrlRequester::textChanged, this, &ArchiveWidget::slotCheckSpace);
     connect(this, SIGNAL(archivingFinished(bool)), this, SLOT(slotArchivingFinished(bool)));
     connect(this, SIGNAL(archiveProgress(int)), this, SLOT(slotArchivingProgress(int)));
-    connect(proxy_only, SIGNAL(stateChanged(int)), this, SLOT(slotProxyOnly(int)));
+    connect(proxy_only, &QCheckBox::stateChanged, this, &ArchiveWidget::slotProxyOnly);
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
@@ -196,7 +196,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     compressed_archive->setText(compressed_archive->text() + " (" + m_name + ".tar.gz)");
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
-    connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartArchiving()));
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartArchiving);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     
     slotCheckSpace();
@@ -221,9 +221,9 @@ ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget * parent):
     m_progressTimer = new QTimer;
     m_progressTimer->setInterval(800);
     m_progressTimer->setSingleShot(false);
-    connect(m_progressTimer, SIGNAL(timeout()), this, SLOT(slotExtractProgress()));
-    connect(this, SIGNAL(extractingFinished()), this, SLOT(slotExtractingFinished()));
-    connect(this, SIGNAL(showMessage(QString,QString)), this, SLOT(slotDisplayMessage(QString,QString)));
+    connect(m_progressTimer, &QTimer::timeout, this, &ArchiveWidget::slotExtractProgress);
+    connect(this, &ArchiveWidget::extractingFinished, this, &ArchiveWidget::slotExtractingFinished);
+    connect(this, &ArchiveWidget::showMessage, this, &ArchiveWidget::slotDisplayMessage);
     
     compressed_archive->setHidden(true);
     proxy_only->setHidden(true);
@@ -233,7 +233,7 @@ ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget * parent):
     setWindowTitle(i18n("Open Archived Project"));
     archive_url->setUrl(QUrl::fromLocalFile(QDir::homePath()));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Extract"));
-    connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartExtracting()));
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartExtracting);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     adjustSize();
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::openArchiveForExtraction);
@@ -886,7 +886,7 @@ void ArchiveWidget::slotStartExtracting()
 void ArchiveWidget::slotExtractProgress()
 {
     KIO::DirectorySizeJob *job = KIO::directorySize(archive_url->url());
-    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotGotProgress(KJob*)));
+    connect(job, &KJob::result, this, &ArchiveWidget::slotGotProgress);
 }
 
 void ArchiveWidget::slotGotProgress(KJob* job)

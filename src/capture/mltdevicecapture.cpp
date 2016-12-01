@@ -643,7 +643,7 @@ void MltDeviceCapture::uyvy2rgb(unsigned char *yuv_buffer, int width, int height
 
 void MltDeviceCapture::slotPreparePreview()
 {
-    QTimer::singleShot(1000, this, SLOT(slotAllowPreview()));
+    QTimer::singleShot(1000, this, &MltDeviceCapture::slotAllowPreview);
 }
 
 void MltDeviceCapture::slotAllowPreview()

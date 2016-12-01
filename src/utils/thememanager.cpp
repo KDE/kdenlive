@@ -160,8 +160,8 @@ void ThemeManager::populateThemeMenu()
 
     d->themeMenuActionGroup = new QActionGroup(d->themeMenuAction);
 
-    connect(d->themeMenuActionGroup, SIGNAL(triggered(QAction*)),
-            this, SLOT(slotChangePalette()));
+    connect(d->themeMenuActionGroup, &QActionGroup::triggered,
+            this, &ThemeManager::slotChangePalette);
 
     QAction* action = new QAction(defaultThemeName(), d->themeMenuActionGroup);
     action->setCheckable(true);
@@ -213,8 +213,8 @@ void ThemeManager::populateThemeMenu()
     config->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-theme")));
     d->themeMenuAction->addAction(config);
 
-    connect(config, SIGNAL(triggered()),
-            this, SLOT(slotConfigColors()));
+    connect(config, &QAction::triggered,
+            this, &ThemeManager::slotConfigColors);
 }
 
 void ThemeManager::slotConfigColors()

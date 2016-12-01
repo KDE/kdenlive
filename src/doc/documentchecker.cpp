@@ -463,11 +463,11 @@ bool DocumentChecker::hasErrorInClips()
         m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
     }
     m_ui.treeWidget->resizeColumnToContents(0);
-    connect(m_ui.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
-    connect(m_ui.usePlaceholders, SIGNAL(pressed()), this, SLOT(slotPlaceholders()));
-    connect(m_ui.removeSelected, SIGNAL(pressed()), this, SLOT(slotDeleteSelected()));
-    connect(m_ui.treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotEditItem(QTreeWidgetItem*,int)));
-    connect(m_ui.treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckButtons()));
+    connect(m_ui.recursiveSearch, &QAbstractButton::pressed, this, &DocumentChecker::slotSearchClips);
+    connect(m_ui.usePlaceholders, &QAbstractButton::pressed, this, &DocumentChecker::slotPlaceholders);
+    connect(m_ui.removeSelected, &QAbstractButton::pressed, this, &DocumentChecker::slotDeleteSelected);
+    connect(m_ui.treeWidget, &QTreeWidget::itemDoubleClicked, this, &DocumentChecker::slotEditItem);
+    connect(m_ui.treeWidget, &QTreeWidget::itemSelectionChanged, this, &DocumentChecker::slotCheckButtons);
     //adjustSize();
     if (m_ui.treeWidget->topLevelItem(0)) m_ui.treeWidget->setCurrentItem(m_ui.treeWidget->topLevelItem(0));
     checkStatus();

@@ -73,7 +73,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
 
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
-    connect(m_effectEdit, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement)));
+    connect(m_effectEdit, &EffectStackEdit::parameterChanged, this , &TransitionSettings::slotUpdateEffectParams);
 }
 
 void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, const QMap<QString,QString> &data)
@@ -158,13 +158,13 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
         // Reset the transition parameters to the default one
-        disconnect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+        disconnect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos);
         QDomElement newTransition = MainWindow::transitions.getEffectByName(transitionList->currentText()).cloneNode().toElement();
         pCore->projectManager()->currentTimeline()->transitionHandler->initTransition(newTransition);
         slotUpdateEffectParams(e, newTransition);
         m_effectEdit->transferParamDesc(newTransition, m_usedTransition->info(), false);
         if (m_effectEdit->needsMonitorEffectScene())
-            connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)), Qt::UniqueConnection);
+            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
     } else if (!updateCurrent) {
         // Transition changed, update parameters dialog
         //slotUpdateEffectParams(e, e);
@@ -184,7 +184,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
                 m_effectEdit->transferParamDesc(m_usedTransition->toXML(), m_usedTransition->info(), false);
         }
         if (m_effectEdit->needsMonitorEffectScene())
-            connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)), Qt::UniqueConnection);
+            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
     }
     slotCheckMonitorPosition(m_effectEdit->monitor()->render->seekFramePosition());
 }
@@ -212,7 +212,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
     setEnabled(t != Q_NULLPTR);
     m_effectEdit->setFrameSize(p);
     m_autoTrackTransition = nextTrack;
-    disconnect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+    disconnect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos);
     if (t == m_usedTransition) {
         if (t == Q_NULLPTR) return;
         if (update) {
@@ -229,7 +229,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
         }
         if (m_effectEdit->needsMonitorEffectScene()) {
             slotRenderPos(m_effectEdit->monitor()->position().frames(KdenliveSettings::project_fps()));
-            connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)), Qt::UniqueConnection);
+            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
         return;
     } else if (update) return;
@@ -253,7 +253,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
         }
         if (m_effectEdit->needsMonitorEffectScene()) {
             slotRenderPos(m_effectEdit->monitor()->position().frames(KdenliveSettings::project_fps()));
-            connect(m_effectEdit->monitor(), SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)), Qt::UniqueConnection);
+            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     } else {
         // null transition selected

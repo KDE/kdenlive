@@ -40,7 +40,7 @@ EffectBasket::EffectBasket(EffectsListView *effectList) :
     setDragEnabled(true);
     m_effectList->creatFavoriteBasket(this);
     connect(m_effectList, &EffectsListView::reloadBasket, this, &EffectBasket::slotReloadBasket);
-    connect(this, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(slotAddEffect(QListWidgetItem *)));
+    connect(this, &QListWidget::itemActivated, this, &EffectBasket::slotAddEffect);
 }
 
 void EffectBasket::slotReloadBasket()

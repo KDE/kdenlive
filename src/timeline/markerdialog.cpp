@@ -56,7 +56,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
     if (m_clip != Q_NULLPTR) {
         m_in->setRange(0, m_clip->getPlaytime().frames(tc.fps()));
         m_previewTimer->setInterval(500);
-        connect(m_previewTimer, SIGNAL(timeout()), this, SLOT(slotUpdateThumb()));
+        connect(m_previewTimer, &QTimer::timeout, this, &MarkerDialog::slotUpdateThumb);
         m_dar = m_clip->dar();
         int width = Kdenlive::DefaultThumbHeight * m_dar;
         QPixmap p(width, Kdenlive::DefaultThumbHeight);
@@ -91,7 +91,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
             clip_thumb->setFixedHeight(p.height());
             clip_thumb->setPixmap(p);
         }
-        connect(m_in, SIGNAL(timeCodeEditingFinished()), this, SIGNAL(updateThumb()));
+        connect(m_in, &TimecodeDisplay::timeCodeEditingFinished, this, &MarkerDialog::updateThumb);
     } else {
         clip_thumb->setHidden(true);
         label_category->setHidden(true);

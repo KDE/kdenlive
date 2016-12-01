@@ -85,17 +85,17 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     setAcceptDrops(true);
     m_audioThumbReady = m_binClip->audioThumbCreated();
     //setAcceptsHoverEvents(true);
-    connect(m_binClip, SIGNAL(refreshClipDisplay()), this, SLOT(slotRefreshClip()));
+    connect(m_binClip, &ProjectClip::refreshClipDisplay, this, &ClipItem::slotRefreshClip);
     if (m_clipType == AV || m_clipType == Video || m_clipType == SlideShow || m_clipType == Playlist) {
         m_baseColor = QColor(141, 166, 215);
         if (m_binClip->isReady()) {
             m_hasThumbs = true;
             m_startThumbTimer.setSingleShot(true);
-            connect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
+            connect(&m_startThumbTimer, &QTimer::timeout, this, &ClipItem::slotGetStartThumb);
             m_endThumbTimer.setSingleShot(true);
-            connect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
+            connect(&m_endThumbTimer, &QTimer::timeout, this, &ClipItem::slotGetEndThumb);
 	    connect(m_binClip, SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
-            if (generateThumbs && KdenliveSettings::videothumbnails()) QTimer::singleShot(0, this, SLOT(slotFetchThumbs()));
+            if (generateThumbs && KdenliveSettings::videothumbnails()) QTimer::singleShot(0, this, &ClipItem::slotFetchThumbs);
         }
     } else if (m_clipType == Color) {
         m_baseColor = m_binClip->getProducerColorProperty(QStringLiteral("resource"));
@@ -107,7 +107,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo& info, double fps, double s
     } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);
     }
-    connect(m_binClip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+    connect(m_binClip, &ProjectClip::gotAudioData, this, &ClipItem::slotGotAudioData);
     m_paintColor = m_baseColor;
 }
 
@@ -404,8 +404,8 @@ void ClipItem::slotFetchThumbs()
 void ClipItem::stopThumbs()
 {
     // Clip is about to be deleted, make sure we don't request thumbnails
-    disconnect(&m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
-    disconnect(&m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
+    disconnect(&m_startThumbTimer, &QTimer::timeout, this, &ClipItem::slotGetStartThumb);
+    disconnect(&m_endThumbTimer, &QTimer::timeout, this, &ClipItem::slotGetEndThumb);
 }
 
 void ClipItem::slotGetStartThumb()
@@ -542,7 +542,7 @@ void ClipItem::flashClip()
         m_timeLine->setUpdateInterval(80);
         m_timeLine->setCurveShape(QTimeLine::EaseInOutCurve);
         m_timeLine->setFrameRange(0, 100);
-        connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(animate(qreal)));
+        connect(m_timeLine, &QTimeLine::valueChanged, this, &ClipItem::animate);
     }
     m_timeLine->start();
 }

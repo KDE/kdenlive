@@ -37,9 +37,9 @@ ScopeManager::ScopeManager(QObject *parent) :
 {
     m_signalMapper = new QSignalMapper(this);
 
-    connect(pCore->monitorManager(), SIGNAL(checkColorScopes()), SLOT(slotUpdateActiveRenderer()));
-    connect(pCore->monitorManager(), SIGNAL(clearScopes()), SLOT(slotClearColorScopes()));
-    connect(pCore->monitorManager(), SIGNAL(checkScopes()), SLOT(slotCheckActiveScopes()));
+    connect(pCore->monitorManager(), &MonitorManager::checkColorScopes, this, &ScopeManager::slotUpdateActiveRenderer);
+    connect(pCore->monitorManager(), &MonitorManager::clearScopes, this, &ScopeManager::slotClearColorScopes);
+    connect(pCore->monitorManager(), &MonitorManager::checkScopes, this, &ScopeManager::slotCheckActiveScopes);
     connect(m_signalMapper, SIGNAL(mapped(QString)), SLOT(slotRequestFrame(QString)));
 
     slotUpdateActiveRenderer();
@@ -70,9 +70,9 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
         asd.scope = audioScope;
         m_audioScopes.append(asd);
 
-        connect(audioScope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotCheckActiveScopes()));
+        connect(audioScope, &AbstractScopeWidget::requestAutoRefresh, this, &ScopeManager::slotCheckActiveScopes);
         if (audioScopeWidget != Q_NULLPTR) {
-            connect(audioScopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(slotCheckActiveScopes()));
+            connect(audioScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
             connect(audioScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
         }
 
@@ -101,11 +101,11 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
         gsd.scope = colorScope;
         m_colorScopes.append(gsd);
 
-        connect(colorScope, SIGNAL(requestAutoRefresh(bool)), this, SLOT(slotCheckActiveScopes()));
-        connect(colorScope, SIGNAL(signalFrameRequest(QString)), this, SLOT(slotRequestFrame(QString)));
-        connect(colorScope, SIGNAL(signalScopeRenderingFinished(uint, uint)), this, SLOT(slotScopeReady()));
+        connect(colorScope, &AbstractScopeWidget::requestAutoRefresh, this, &ScopeManager::slotCheckActiveScopes);
+        connect(colorScope, &AbstractGfxScopeWidget::signalFrameRequest, this, &ScopeManager::slotRequestFrame);
+        connect(colorScope, &AbstractScopeWidget::signalScopeRenderingFinished, this, &ScopeManager::slotScopeReady);
         if (colorScopeWidget != Q_NULLPTR) {
-            connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(slotCheckActiveScopes()));
+            connect(colorScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
             connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
         }
 
@@ -212,8 +212,8 @@ void ScopeManager::slotUpdateActiveRenderer()
 
     // Connect new renderer
     if (m_lastConnectedRenderer != Q_NULLPTR) {
-        connect(m_lastConnectedRenderer, SIGNAL(frameUpdated(QImage)),
-                this, SLOT(slotDistributeFrame(QImage)), Qt::UniqueConnection);
+        connect(m_lastConnectedRenderer, &AbstractRender::frameUpdated,
+                this, &ScopeManager::slotDistributeFrame, Qt::UniqueConnection);
         connect(m_lastConnectedRenderer, &AbstractRender::audioSamplesSignal,
                 this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
 
@@ -237,8 +237,8 @@ void ScopeManager::slotCheckActiveScopes()
     qDebug() << "Checking active scopes ...";
 #endif
     // Leave a small delay to make sure that scope widget has been shown or hidden
-    QTimer::singleShot(500, this, SLOT(checkActiveAudioScopes()));
-    QTimer::singleShot(500, this, SLOT(checkActiveColourScopes()));
+    QTimer::singleShot(500, this, &ScopeManager::checkActiveAudioScopes);
+    QTimer::singleShot(500, this, &ScopeManager::checkActiveColourScopes);
 }
 
 

@@ -81,11 +81,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     // Select profile
     m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile());
     m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("project-defaults")));
-    connect(m_configProject.kcfg_generateproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyminsize, SLOT(setEnabled(bool)));
+    connect(m_configProject.kcfg_generateproxy, &QAbstractButton::toggled, m_configProject.kcfg_proxyminsize, &QWidget::setEnabled);
     m_configProject.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
-    connect(m_configProject.kcfg_generateimageproxy, SIGNAL(toggled(bool)), m_configProject.kcfg_proxyimageminsize, SLOT(setEnabled(bool)));
+    connect(m_configProject.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProject.kcfg_proxyimageminsize, &QWidget::setEnabled);
     m_configProject.kcfg_proxyimageminsize->setEnabled(KdenliveSettings::generateimageproxy());
 
     QWidget *p3 = new QWidget;
@@ -108,13 +108,13 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_capturefolder"));
     m_configEnv.capturefolderurl->setEnabled(!KdenliveSettings::capturetoprojectfolder());
-    connect(m_configEnv.kcfg_capturetoprojectfolder, SIGNAL(clicked()), this, SLOT(slotEnableCaptureFolder()));
+    connect(m_configEnv.kcfg_capturetoprojectfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableCaptureFolder);
     // Library folder
     m_configEnv.libraryfolderurl->setMode(KFile::Directory);
     m_configEnv.libraryfolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_libraryfolder"));
     m_configEnv.libraryfolderurl->setEnabled(!KdenliveSettings::librarytodefaultfolder());
     m_configEnv.kcfg_librarytodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/library"));
-    connect(m_configEnv.kcfg_librarytodefaultfolder, SIGNAL(clicked()), this, SLOT(slotEnableLibraryFolder()));
+    connect(m_configEnv.kcfg_librarytodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableLibraryFolder);
 
     m_page2 = addPage(p2, i18n("Environment"));
     m_page2->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-x-executable-script")));
@@ -138,7 +138,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     }
     connect(m_configCapture.kcfg_detectedv4ldevices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lDevice()));
     connect(m_configCapture.kcfg_v4l_format, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lCaptureProfile()));
-    connect(m_configCapture.config_v4l, SIGNAL(clicked()), this, SLOT(slotEditVideo4LinuxProfile()));
+    connect(m_configCapture.config_v4l, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditVideo4LinuxProfile);
 
     slotUpdatev4lDevice();
 #endif
@@ -156,9 +156,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configShuttle.setupUi(p5);
 #ifdef USE_JOGSHUTTLE
     m_configShuttle.toolBtnReload->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-refresh")));
-    connect(m_configShuttle.kcfg_enableshuttle, SIGNAL(stateChanged(int)), this, SLOT(slotCheckShuttle(int)));
+    connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
-    connect(m_configShuttle.toolBtnReload, SIGNAL(clicked(bool)), this, SLOT(slotReloadShuttleDevices()));
+    connect(m_configShuttle.toolBtnReload, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadShuttleDevices);
 
     slotCheckShuttle(KdenliveSettings::enableshuttle());
     m_configShuttle.shuttledisabled->hide();
@@ -194,7 +194,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
     m_configSdl.reload_blackmagic->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-refresh")));
-    connect(m_configSdl.reload_blackmagic, SIGNAL(clicked(bool)), this, SLOT(slotReloadBlackMagic()));
+    connect(m_configSdl.reload_blackmagic, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadBlackMagic);
 
     //m_configSdl.kcfg_openglmonitors->setHidden(true);
 
@@ -207,23 +207,23 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_page7 = addPage(p7, i18n("Transcode"));
     m_page7->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-copy")));
 
-    connect(m_configTranscode.button_add, SIGNAL(clicked()), this, SLOT(slotAddTranscode()));
-    connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
-    connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QListWidgetItem*)), this, SLOT(slotDialogModified()));
-    connect(m_configTranscode.profiles_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotSetTranscodeProfile()));
+    connect(m_configTranscode.button_add, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotAddTranscode);
+    connect(m_configTranscode.button_delete, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotDeleteTranscode);
+    connect(m_configTranscode.profiles_list, &QListWidget::itemChanged, this, &KdenliveSettingsDialog::slotDialogModified);
+    connect(m_configTranscode.profiles_list, &QListWidget::currentRowChanged, this, &KdenliveSettingsDialog::slotSetTranscodeProfile);
     
-    connect(m_configTranscode.profile_name, SIGNAL(textChanged(QString)), this, SLOT(slotEnableTranscodeUpdate()));
-    connect(m_configTranscode.profile_description, SIGNAL(textChanged(QString)), this, SLOT(slotEnableTranscodeUpdate()));
-    connect(m_configTranscode.profile_extension, SIGNAL(textChanged(QString)), this, SLOT(slotEnableTranscodeUpdate()));
-    connect(m_configTranscode.profile_parameters, SIGNAL(textChanged()), this, SLOT(slotEnableTranscodeUpdate()));
-    connect(m_configTranscode.profile_audioonly, SIGNAL(stateChanged(int)), this, SLOT(slotEnableTranscodeUpdate()));
+    connect(m_configTranscode.profile_name, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+    connect(m_configTranscode.profile_description, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+    connect(m_configTranscode.profile_extension, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+    connect(m_configTranscode.profile_parameters, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+    connect(m_configTranscode.profile_audioonly, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     
-    connect(m_configTranscode.button_update, SIGNAL(pressed()), this, SLOT(slotUpdateTranscodingProfile()));
+    connect(m_configTranscode.button_update, &QAbstractButton::pressed, this, &KdenliveSettingsDialog::slotUpdateTranscodingProfile);
     
     m_configTranscode.profile_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
-    connect(m_configEnv.kp_image, SIGNAL(clicked()), this, SLOT(slotEditImageApplication()));
-    connect(m_configEnv.kp_audio, SIGNAL(clicked()), this, SLOT(slotEditAudioApplication()));
+    connect(m_configEnv.kp_image, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditImageApplication);
+    connect(m_configEnv.kp_audio, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditAudioApplication);
 
     loadEncodingProfiles();
 
@@ -247,14 +247,14 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     // decklink profile
     QAction *act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
     act->setData(4);
-    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configCapture.decklink_manageprofile->setDefaultAction(act);
     m_configCapture.decklink_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
     m_configCapture.decklink_parameters->setVisible(false);
     m_configCapture.decklink_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.decklink_parameters->setPlainText(KdenliveSettings::decklink_parameters());
     connect(m_configCapture.kcfg_decklink_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkProfile()));
-    connect(m_configCapture.decklink_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.decklink_parameters, SLOT(setVisible(bool)));
+    connect(m_configCapture.decklink_showprofileinfo, &QAbstractButton::clicked, m_configCapture.decklink_parameters, &QWidget::setVisible);
 
     // ffmpeg profile
     m_configCapture.v4l_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
@@ -264,10 +264,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
     act->setData(2);
-    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configCapture.v4l_manageprofile->setDefaultAction(act);
     connect(m_configCapture.kcfg_v4l_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateV4lProfile()));
-    connect(m_configCapture.v4l_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.v4l_parameters, SLOT(setVisible(bool)));
+    connect(m_configCapture.v4l_showprofileinfo, &QAbstractButton::clicked, m_configCapture.v4l_parameters, &QWidget::setVisible);
 
     // screen grab profile
     m_configCapture.grab_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
@@ -276,18 +276,18 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     m_configCapture.grab_parameters->setPlainText(KdenliveSettings::grab_parameters());
     act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
     act->setData(3);
-    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configCapture.grab_manageprofile->setDefaultAction(act);
     connect(m_configCapture.kcfg_grab_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateGrabProfile()));
-    connect(m_configCapture.grab_showprofileinfo, SIGNAL(clicked(bool)), m_configCapture.grab_parameters, SLOT(setVisible(bool)));
+    connect(m_configCapture.grab_showprofileinfo, &QAbstractButton::clicked, m_configCapture.grab_parameters, &QWidget::setVisible);
 
     // Timeline preview
     act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
     act->setData(1);
-    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configProject.preview_manageprofile->setDefaultAction(act);
     connect(m_configProject.kcfg_preview_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatePreviewProfile()));
-    connect(m_configProject.preview_showprofileinfo, SIGNAL(clicked(bool)), m_configProject.previewparams, SLOT(setVisible(bool)));
+    connect(m_configProject.preview_showprofileinfo, &QAbstractButton::clicked, m_configProject.previewparams, &QWidget::setVisible);
     m_configProject.previewparams->setVisible(false);
     m_configProject.previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
     m_configProject.previewparams->setPlainText(KdenliveSettings::previewparams());
@@ -309,10 +309,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     act = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure profiles"), this);
     act->setData(0);
-    connect(act, SIGNAL(triggered(bool)), this, SLOT(slotManageEncodingProfile()));
+    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configProject.proxy_manageprofile->setDefaultAction(act);
 
-    connect(m_configProject.proxy_showprofileinfo, SIGNAL(clicked(bool)), m_configProject.proxyparams, SLOT(setVisible(bool)));
+    connect(m_configProject.proxy_showprofileinfo, &QAbstractButton::clicked, m_configProject.proxyparams, &QWidget::setVisible);
     connect(m_configProject.kcfg_proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyProfile()));
 
 

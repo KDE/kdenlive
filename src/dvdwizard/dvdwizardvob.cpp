@@ -93,11 +93,11 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     connect(m_vobList, SIGNAL(addClips(QList<QUrl>)), this, SLOT(slotAddVobList(QList<QUrl>)));
     connect(m_vobList, SIGNAL(addNewClip()), this, SLOT(slotAddVobList()));
     connect(m_view.button_add, SIGNAL(clicked()), this, SLOT(slotAddVobList()));
-    connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteVobFile()));
-    connect(m_view.button_up, SIGNAL(clicked()), this, SLOT(slotItemUp()));
-    connect(m_view.button_down, SIGNAL(clicked()), this, SLOT(slotItemDown()));
-    connect(m_view.convert_abort, SIGNAL(clicked()), this, SLOT(slotAbortTranscode()));
-    connect(m_vobList, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckVobList()));
+    connect(m_view.button_delete, &QAbstractButton::clicked, this, &DvdWizardVob::slotDeleteVobFile);
+    connect(m_view.button_up, &QAbstractButton::clicked, this, &DvdWizardVob::slotItemUp);
+    connect(m_view.button_down, &QAbstractButton::clicked, this, &DvdWizardVob::slotItemDown);
+    connect(m_view.convert_abort, &QAbstractButton::clicked, this, &DvdWizardVob::slotAbortTranscode);
+    connect(m_vobList, &QTreeWidget::itemSelectionChanged, this, &DvdWizardVob::slotCheckVobList);
     
     m_vobList->setIconSize(QSize(60, 45));
 
@@ -124,7 +124,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
 
     m_vobList->setItemDelegate(new DvdViewDelegate(m_vobList));
     m_transcodeAction = new QAction(i18n("Transcode"), this);
-    connect(m_transcodeAction, SIGNAL(triggered()), this, SLOT(slotTranscodeFiles()));
+    connect(m_transcodeAction, &QAction::triggered, this, &DvdWizardVob::slotTranscodeFiles);
 
     m_warnMessage = new KMessageWidget;
     m_warnMessage->setCloseButtonVisible(false);

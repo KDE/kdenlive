@@ -181,7 +181,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     QDir dir = m_doc->getCacheDir(CacheBase, &ok);
     preview = new QLabel(QStringLiteral("<a href='#'>") + dir.absolutePath() + QStringLiteral("</a>"), this);
     preview->setToolTip(i18n("Click to open cache folder"));
-    connect(preview, SIGNAL(linkActivated(const QString &)), this, SLOT(openCacheFolder()));
+    connect(preview, &QLabel::linkActivated, this, &TemporaryData::openCacheFolder);
     m_grid->addWidget(preview, 7, 0, 1, 5);
     m_currentSize = new QLabel(this);
     m_grid->addWidget(m_currentSize, 6, 3);

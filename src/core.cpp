@@ -36,7 +36,7 @@ Core::Core(MainWindow *mainWindow) :
     , m_binWidget(Q_NULLPTR)
     , m_library(Q_NULLPTR)
 {
-    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(deleteLater()));
+    connect(qApp, &QCoreApplication::aboutToQuit, this, &QObject::deleteLater);
 }
 
 Core::~Core()
@@ -66,18 +66,18 @@ void Core::initialize()
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_binWidget, SIGNAL(storeFolder(QString,QString,QString,QString)), m_binController, SLOT(slotStoreFolder(QString,QString,QString,QString)));
     connect(m_binController, SIGNAL(loadFolders(QMap<QString,QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString,QString>)));
-    connect(m_binController, SIGNAL(requestAudioThumb(QString)), m_binWidget, SLOT(slotCreateAudioThumb(QString)));
-    connect(m_binController, SIGNAL(abortAudioThumbs()), m_binWidget, SLOT(abortAudioThumbs()));
+    connect(m_binController, &BinController::requestAudioThumb, m_binWidget, &Bin::slotCreateAudioThumb);
+    connect(m_binController, &BinController::abortAudioThumbs, m_binWidget, &Bin::abortAudioThumbs);
     connect(m_binController, SIGNAL(loadThumb(QString,QImage,bool)), m_binWidget, SLOT(slotThumbnailReady(QString,QImage,bool)));
     m_monitorManager = new MonitorManager(this);
     // Producer queue, creating MLT::Producers on request
     m_producerQueue = new ProducerQueue(m_binController);
     connect(m_producerQueue, SIGNAL(gotFileProperties(requestClipInfo,ClipController *)), m_binWidget, SLOT(slotProducerReady(requestClipInfo,ClipController *)), Qt::DirectConnection);
-    connect(m_producerQueue, SIGNAL(replyGetImage(QString,QImage,bool)), m_binWidget, SLOT(slotThumbnailReady(QString,QImage,bool)));
-    connect(m_producerQueue, SIGNAL(removeInvalidClip(QString,bool,QString)), m_binWidget, SLOT(slotRemoveInvalidClip(QString,bool,QString)), Qt::DirectConnection);
+    connect(m_producerQueue, &ProducerQueue::replyGetImage, m_binWidget, &Bin::slotThumbnailReady);
+    connect(m_producerQueue, &ProducerQueue::removeInvalidClip, m_binWidget, &Bin::slotRemoveInvalidClip, Qt::DirectConnection);
     connect(m_producerQueue, SIGNAL(addClip(const QString&,const QMap<QString,QString>&)), m_binWidget, SLOT(slotAddUrl(const QString&,const QMap<QString,QString>&)));
     connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), m_producerQueue, SLOT(getFileProperties(QDomElement,QString,int)));
-    connect(m_binWidget, SIGNAL(producerReady(QString)), m_producerQueue, SLOT(slotProcessingDone(QString)), Qt::DirectConnection);
+    connect(m_binWidget, &Bin::producerReady, m_producerQueue, &ProducerQueue::slotProcessingDone, Qt::DirectConnection);
 
     //TODO
     /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/

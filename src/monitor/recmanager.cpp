@@ -55,7 +55,7 @@ RecManager::RecManager(Monitor *parent) :
     connect(m_recAction, &QAction::toggled, this, &RecManager::slotRecord);
 
     m_showLogAction = new QAction(i18n("Show log"), this);
-    connect(m_showLogAction, SIGNAL(triggered(bool)), this, SLOT(slotShowLog()));
+    connect(m_showLogAction, &QAction::triggered, this, &RecManager::slotShowLog);
 
     m_recVideo = new QCheckBox(i18n("Video"));
     m_recAudio = new QCheckBox(i18n("Audio"));
@@ -210,7 +210,7 @@ void RecManager::slotRecord(bool record)
      if (!record) {
         if (!m_captureProcess) return;
         m_captureProcess->terminate();
-        QTimer::singleShot(1500, m_captureProcess, SLOT(kill()));
+        QTimer::singleShot(1500, m_captureProcess, &QProcess::kill);
         return;
     }
     if (m_captureProcess) return;

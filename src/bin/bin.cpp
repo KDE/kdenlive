@@ -208,8 +208,8 @@ SmallJobLabel::SmallJobLabel(QWidget *parent) : QPushButton(parent)
     setFixedWidth(0);
     setFlat(true);
     m_timeLine = new QTimeLine(500, this);
-    QObject::connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(slotTimeLineChanged(qreal)));
-    QObject::connect(m_timeLine, SIGNAL(finished()), this, SLOT(slotTimeLineFinished()));
+    QObject::connect(m_timeLine, &QTimeLine::valueChanged, this, &SmallJobLabel::slotTimeLineChanged);
+    QObject::connect(m_timeLine, &QTimeLine::finished, this, &SmallJobLabel::slotTimeLineFinished);
     hide();
 }
 
@@ -352,11 +352,11 @@ Bin::Bin(QWidget* parent) :
     //m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search"));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
-    connect(m_searchLine, SIGNAL(textChanged(const QString &)), m_proxyModel, SLOT(slotSetSearchString(const QString &)));
+    connect(m_searchLine, &QLineEdit::textChanged, m_proxyModel, &ProjectSortProxyModel::slotSetSearchString);
 
     LineEventEater *leventEater = new LineEventEater(this);
     m_searchLine->installEventFilter(leventEater);
-    connect(leventEater, SIGNAL(clearSearchLine()), m_searchLine, SLOT(clear()));
+    connect(leventEater, &LineEventEater::clearSearchLine, m_searchLine, &QLineEdit::clear);
     connect(leventEater, &LineEventEater::showClearButton, this, &Bin::showClearButton);
 
     setFocusPolicy(Qt::ClickFocus);
@@ -367,14 +367,14 @@ Bin::Bin(QWidget* parent) :
     m_proxyModel->setSourceModel(m_itemModel);
     connect(m_itemModel, SIGNAL(dataChanged(const QModelIndex&,const QModelIndex&)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex&,const
     QModelIndex&)));
-    connect(m_itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
-    connect(m_itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)));
-    connect(m_proxyModel, SIGNAL(selectModel(QModelIndex)), this, SLOT(selectProxyModel(QModelIndex)));
+    connect(m_itemModel, &QAbstractItemModel::rowsInserted, this, &Bin::rowsInserted);
+    connect(m_itemModel, &QAbstractItemModel::rowsRemoved, this, &Bin::rowsRemoved);
+    connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
     connect(m_itemModel, SIGNAL(itemDropped(QStringList, const QModelIndex &)), this, SLOT(slotItemDropped(QStringList, const QModelIndex &)));
     connect(m_itemModel, SIGNAL(itemDropped(const QList<QUrl>&, const QModelIndex &)), this, SLOT(slotItemDropped(const QList<QUrl>&, const QModelIndex &)));
     connect(m_itemModel, SIGNAL(effectDropped(QString, const QModelIndex &)), this, SLOT(slotEffectDropped(QString, const QModelIndex &)));
-    connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(slotItemEdited(QModelIndex,QModelIndex,QVector<int>)));
-    connect(m_itemModel, SIGNAL(addClipCut(QString,int,int)), this, SLOT(slotAddClipCut(QString,int,int)));
+    connect(m_itemModel, &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
+    connect(m_itemModel, &ProjectItemModel::addClipCut, this, &Bin::slotAddClipCut);
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
 
     // Zoom slider
@@ -383,7 +383,7 @@ Bin::Bin(QWidget* parent) :
     m_slider->setMinimumWidth(40);
     m_slider->setRange(0, 10);
     m_slider->setValue(KdenliveSettings::bin_zoom());
-    connect(m_slider, SIGNAL(valueChanged(int)), this, SLOT(slotSetIconSize(int)));
+    connect(m_slider, &QAbstractSlider::valueChanged, this, &Bin::slotSetIconSize);
     QWidgetAction * widgetslider = new QWidgetAction(this);
     widgetslider->setDefaultWidget(m_slider);
 
@@ -406,7 +406,7 @@ Bin::Bin(QWidget* parent) :
     pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode_icon"), iconViewAction);
 
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
-    connect(disableEffects, SIGNAL(triggered(bool)), this, SLOT(slotDisableEffects(bool)));
+    connect(disableEffects, &QAction::triggered, this, &Bin::slotDisableEffects);
     disableEffects->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     disableEffects->setData("disable_bin_effects");
     disableEffects->setCheckable(true);
@@ -414,7 +414,7 @@ Bin::Bin(QWidget* parent) :
     pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
 
     m_renameFolderAction = new QAction(i18n("Rename Folder"), this);
-    connect(m_renameFolderAction, SIGNAL(triggered(bool)), this, SLOT(slotRenameFolder()));
+    connect(m_renameFolderAction, &QAction::triggered, this, &Bin::slotRenameFolder);
     m_renameFolderAction->setData("rename_folder");
     pCore->window()->actionCollection()->addAction(QStringLiteral("rename_folder"), m_renameFolderAction);
 
@@ -432,10 +432,10 @@ Bin::Bin(QWidget* parent) :
     // Column show / hide actions
     m_showDate = new QAction(i18n("Show date"), this);
     m_showDate->setCheckable(true);
-    connect(m_showDate, SIGNAL(triggered(bool)), this, SLOT(slotShowDateColumn(bool)));
+    connect(m_showDate, &QAction::triggered, this, &Bin::slotShowDateColumn);
     m_showDesc = new QAction(i18n("Show description"), this);
     m_showDesc->setCheckable(true);
-    connect(m_showDesc, SIGNAL(triggered(bool)), this, SLOT(slotShowDescColumn(bool)));
+    connect(m_showDesc, &QAction::triggered, this, &Bin::slotShowDescColumn);
     settingsMenu->addAction(m_showDate);
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(disableEffects);
@@ -451,7 +451,7 @@ Bin::Bin(QWidget* parent) :
     m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
     QAction *infoAction = m_toolbar->addWidget(m_infoLabel);
     m_jobsMenu = new QMenu(this);
-    connect(m_jobsMenu, SIGNAL(aboutToShow()), this, SLOT(slotPrepareJobsMenu()));
+    connect(m_jobsMenu, &QMenu::aboutToShow, this, &Bin::slotPrepareJobsMenu);
     m_cancelJobs = new QAction(i18n("Cancel All Jobs"), this);
     m_cancelJobs->setCheckable(false);
     m_discardCurrentClipJobs = new QAction(i18n("Cancel Current Clip Jobs"), this);
@@ -481,8 +481,8 @@ Bin::Bin(QWidget* parent) :
     m_infoMessage = new BinMessageWidget;
     m_layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(false);
-    connect(m_infoMessage, SIGNAL(linkActivated(const QString &)), this, SLOT(slotShowJobLog()));
-    connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
+    connect(m_infoMessage, &KMessageWidget::linkActivated, this, &Bin::slotShowJobLog);
+    connect(m_infoMessage, &BinMessageWidget::messageClosing, this, &Bin::slotResetInfoMessage);
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
     connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl,QString)), this, SLOT(slotQueryRemoval(QString,QUrl,QString)));
@@ -964,9 +964,9 @@ void Bin::setMonitor(Monitor *monitor)
     m_monitor = monitor;
     connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
     connect(m_monitor, SIGNAL(requestAudioThumb(QString)), this, SLOT(slotSendAudioThumb(QString)));
-    connect(m_monitor, SIGNAL(refreshCurrentClip()), this, SLOT(slotOpenCurrent()));
+    connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
     connect(m_monitor, SIGNAL(updateClipMarker(QString, QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-    connect(this, SIGNAL(openClip(ClipController*,int,int)), m_monitor, SLOT(slotOpenClip(ClipController*,int,int)));
+    connect(this, &Bin::openClip, m_monitor, &Monitor::slotOpenClip);
 }
 
 int Bin::getFreeFolderId()
@@ -1017,11 +1017,11 @@ void Bin::setDocument(KdenliveDoc* project)
     m_proxyModel->selectionModel()->blockSignals(false);
     connect(m_jobManager, SIGNAL(addClip(QString, int)), this, SLOT(slotAddUrl(QString,int)));
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
-    connect(m_jobManager, SIGNAL(jobCount(int)), m_infoLabel, SLOT(slotSetJobCount(int)));
-    connect(m_discardCurrentClipJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotDiscardClipJobs()));
-    connect(m_cancelJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotCancelJobs()));
-    connect(m_discardPendingJobs, SIGNAL(triggered()), m_jobManager, SLOT(slotCancelPendingJobs()));
-    connect(m_jobManager, SIGNAL(updateJobStatus(QString,int,int,QString,QString,QString)), this, SLOT(slotUpdateJobStatus(QString,int,int,QString,QString,QString)));
+    connect(m_jobManager, &JobManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
+    connect(m_discardCurrentClipJobs, &QAction::triggered, m_jobManager, &JobManager::slotDiscardClipJobs);
+    connect(m_cancelJobs, &QAction::triggered, m_jobManager, &JobManager::slotCancelJobs);
+    connect(m_discardPendingJobs, &QAction::triggered, m_jobManager, &JobManager::slotCancelPendingJobs);
+    connect(m_jobManager, &JobManager::updateJobStatus, this, &Bin::slotUpdateJobStatus);
 
     connect(m_jobManager, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
 
@@ -1522,7 +1522,7 @@ void Bin::slotInitView(QAction *action)
         MyTreeView *view = static_cast<MyTreeView*>(m_itemView);
 	view->setSortingEnabled(true);
         view->setWordWrap(true);
-        connect(m_proxyModel, SIGNAL(layoutAboutToBeChanged()), this, SLOT(slotSetSorting()));
+        connect(m_proxyModel, &QAbstractItemModel::layoutAboutToBeChanged, this, &Bin::slotSetSorting);
         m_proxyModel->setDynamicSortFilter(true);
         if (!m_headerInfo.isEmpty()) {
             view->header()->restoreState(m_headerInfo);
@@ -1534,13 +1534,13 @@ void Bin::slotInitView(QAction *action)
 	}
         m_showDate->setChecked(!view->isColumnHidden(1));
         m_showDesc->setChecked(!view->isColumnHidden(2));
-	connect(view->header(), SIGNAL(sectionResized(int,int,int)), this, SLOT(slotSaveHeaders()));
-        connect(view->header(), SIGNAL(sectionClicked(int)), this, SLOT(slotSaveHeaders()));
-        connect(view, SIGNAL(focusView()), this, SLOT(slotGotFocus()));
+	connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);
+        connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
+        connect(view, &MyTreeView::focusView, this, &Bin::slotGotFocus);
     }
     else if (m_listType == BinIconView) {
 	MyListView *view = static_cast<MyListView*>(m_itemView);
-        connect(view, SIGNAL(focusView()), this, SLOT(slotGotFocus()));
+        connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
     }
     m_itemView->setEditTriggers(QAbstractItemView::NoEditTriggers); //DoubleClicked);
     m_itemView->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -1818,16 +1818,16 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
         m_propertiesPanel->setLayout(lay);
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
-    connect(this, SIGNAL(refreshTimeCode()), panel, SLOT(slotRefreshTimeCode()));
-    connect(this, SIGNAL(refreshPanelMarkers()), panel, SLOT(slotFillMarkers()));
+    connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
+    connect(this, &Bin::refreshPanelMarkers, panel, &ClipPropertiesController::slotFillMarkers);
     connect(panel, SIGNAL(updateClipProperties(const QString &, QMap<QString, QString>, QMap<QString, QString>)), this, SLOT(slotEditClipCommand(const QString &, QMap<QString, QString>, QMap<QString, QString>)));
     connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
     connect(panel, SIGNAL(addMarkers(QString,QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-    connect(panel, SIGNAL(editClip()), this, SLOT(slotEditClip()));
+    connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
     connect(panel, SIGNAL(editAnalysis(QString,QString,QString)), this, SLOT(slotAddClipExtraData(QString,QString,QString)));
 
-    connect(panel, SIGNAL(loadMarkers(QString)), this, SLOT(slotLoadClipMarkers(QString)));
-    connect(panel, SIGNAL(saveMarkers(QString)), this, SLOT(slotSaveClipMarkers(QString)));
+    connect(panel, &ClipPropertiesController::loadMarkers, this, &Bin::slotLoadClipMarkers);
+    connect(panel, &ClipPropertiesController::saveMarkers, this, &Bin::slotSaveClipMarkers);
     lay->addWidget(panel);
 }
 
@@ -2148,7 +2148,7 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
     m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
     foreach(QAction *action, actions) {
         m_infoMessage->addAction(action);
-        connect(action, SIGNAL(triggered(bool)), this, SLOT(slotMessageActionTriggered()));
+        connect(action, &QAction::triggered, this, &Bin::slotMessageActionTriggered);
     }
     m_infoMessage->setCloseButtonVisible(actions.isEmpty());
     m_infoMessage->setMessageType(type);
@@ -2175,7 +2175,7 @@ void Bin::slotShowJobLog()
     d.setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     mainLayout->addWidget(buttonBox);
-    d.connect(buttonBox, SIGNAL(rejected()), &d, SLOT(accept()));
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::accept);
     d.exec();
 }
 
@@ -3204,7 +3204,7 @@ void Bin::showTitleWidget(ProjectClip *clip)
     QDir titleFolder(m_doc->projectDataFolder() + QStringLiteral("/titles"));
     titleFolder.mkpath(QStringLiteral("."));
     TitleWidget dia_ui(QUrl(), m_doc->timecode(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor()->render, pCore->window());
-    connect(&dia_ui, SIGNAL(requestBackgroundFrame(bool)), pCore->monitorManager()->projectMonitor(), SLOT(slotGetCurrentImage(bool)));
+    connect(&dia_ui, &TitleWidget::requestBackgroundFrame, pCore->monitorManager()->projectMonitor(), &Monitor::slotGetCurrentImage);
     QDomDocument doc;
     QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
     if (xmldata.isEmpty() && QFile::exists(path)) {

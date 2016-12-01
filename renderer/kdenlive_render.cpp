@@ -118,7 +118,7 @@ int main(int argc, char **argv)
                 args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")),QStringLiteral("vpre=%1").arg(vprelist.at(1)));
             args.replace(args.indexOf(QStringLiteral("pass=1")), QStringLiteral("pass=2"));
             dualjob = new RenderJob(erase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
-            QObject::connect(job, SIGNAL(renderingFinished()), dualjob, SLOT(start()));
+            QObject::connect(job, &RenderJob::renderingFinished, dualjob, &RenderJob::start);
         }
         app.exec();
         if (dualjob) delete dualjob;

@@ -110,7 +110,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     enabledButton->setDefaultAction(m_enabledButton);
 
     m_groupAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Group"), this);
-    connect(m_groupAction, SIGNAL(triggered(bool)), this, SLOT(slotCreateGroup()));
+    connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffect::slotCreateGroup);
 
     QDomElement namenode = m_effect.firstChildElement(QStringLiteral("name"));
     if (namenode.isNull()) {
@@ -163,11 +163,11 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
         m_enabledButton->setActive(false);
     }
 
-    connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
+    connect(collapseButton, &QAbstractButton::clicked, this, &CollapsibleEffect::slotSwitch);
     connect(m_enabledButton, SIGNAL(activeChangedByUser(bool)), this, SLOT(slotDisable(bool)));
-    connect(buttonUp, SIGNAL(clicked()), this, SLOT(slotEffectUp()));
-    connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
-    connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteEffect()));
+    connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleEffect::slotEffectUp);
+    connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffect::slotEffectDown);
+    connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffect::slotDeleteEffect);
 
     Q_FOREACH( QSpinBox * sp, findChildren<QSpinBox*>() ) {
         sp->installEventFilter( this );
@@ -543,7 +543,7 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
             }
             CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, canMoveUp, i == effects.count() - 1, container);
             m_subParamWidgets.append(coll);
-            connect(coll, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateRegionEffectParams(QDomElement,QDomElement,int)));
+            connect(coll, &CollapsibleEffect::parameterChanged, this , &CollapsibleEffect::slotUpdateRegionEffectParams);
             //container = new QWidget(widgetFrame);
             vbox->addWidget(coll);
             //p = new ParameterContainer(effects.at(i).toElement(), info, isEffect, container);
@@ -551,7 +551,7 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
     }
     else {
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
-        connect(m_paramWidget, SIGNAL(disableCurrentFilter(bool)), this, SLOT(slotDisableEffect(bool)));
+        connect(m_paramWidget, &ParameterContainer::disableCurrentFilter, this, &CollapsibleEffect::slotDisableEffect);
         connect(m_paramWidget, &ParameterContainer::importKeyframes, this, &CollapsibleEffect::importKeyframes);
         if (m_effect.firstChildElement(QStringLiteral("parameter")).isNull()) {
             // Effect has no parameter, don't allow expand
@@ -569,10 +569,10 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
 
     connect(m_paramWidget, &ParameterContainer::startFilterJob, this, &CollapsibleEffect::startFilterJob);
 
-    connect (this, SIGNAL(syncEffectsPos(int)), m_paramWidget, SIGNAL(syncEffectsPos(int)));
-    connect (m_paramWidget, SIGNAL(checkMonitorPosition(int)), this, SIGNAL(checkMonitorPosition(int)));
-    connect (m_paramWidget, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
-    connect(m_paramWidget, SIGNAL(importClipKeyframes()), this, SLOT(prepareImportClipKeyframes()));
+    connect (this, &CollapsibleEffect::syncEffectsPos, m_paramWidget, &ParameterContainer::syncEffectsPos);
+    connect (m_paramWidget, &ParameterContainer::checkMonitorPosition, this, &CollapsibleEffect::checkMonitorPosition);
+    connect (m_paramWidget, &ParameterContainer::seekTimeline, this, &CollapsibleEffect::seekTimeline);
+    connect(m_paramWidget, &ParameterContainer::importClipKeyframes, this, &CollapsibleEffect::prepareImportClipKeyframes);
 }
 
 void CollapsibleEffect::slotDisableEffect(bool disable)

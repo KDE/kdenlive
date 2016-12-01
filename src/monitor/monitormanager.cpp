@@ -400,7 +400,7 @@ void MonitorManager::setupActions()
     m_muteAction->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("audio-volume-medium")));
     m_muteAction->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("audio-volume-muted")));
     pCore->window()->addAction(QStringLiteral("mlt_mute"), m_muteAction);
-    connect(m_muteAction, SIGNAL(activeChanged(bool)), this, SLOT(slotMuteCurrentMonitor(bool)));
+    connect(m_muteAction, &KDualAction::activeChanged, this, &MonitorManager::slotMuteCurrentMonitor);
 
     QAction * zoneEnd = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-forward")), i18n("Go to Zone End"), this);
     zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);

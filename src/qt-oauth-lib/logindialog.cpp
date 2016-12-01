@@ -48,7 +48,7 @@ LoginDialog::LoginDialog(QWidget *parent) :
     setWindowTitle(i18n("Freesound Login"));
     ui->FreeSoundLoginLabel->setText(i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality preview file instead (no freesound account required)."));
    // ui->textBrowser
-    connect(ui->webView, SIGNAL(urlChanged(QUrl)), this, SLOT(urlChanged(QUrl)));
+    connect(ui->webView, &QWebView::urlChanged, this, &LoginDialog::urlChanged);
 }
 
 LoginDialog::~LoginDialog()

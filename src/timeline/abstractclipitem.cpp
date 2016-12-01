@@ -48,7 +48,7 @@ AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, dou
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
     setPen(Qt::NoPen);
-    connect(&m_keyframeView, SIGNAL(updateKeyframes(const QRectF&)), this, SLOT(doUpdate(const QRectF&)));
+    connect(&m_keyframeView, &KeyframeView::updateKeyframes, this, &AbstractClipItem::doUpdate);
     m_selectionTimer.setSingleShot(true);
     m_selectionTimer.setInterval(1000);
     QObject::connect(&m_selectionTimer, &QTimer::timeout, this, &AbstractClipItem::slotSelectItem);
@@ -134,7 +134,7 @@ void AbstractClipItem::closeAnimation()
     closeAnimation2->setStartValue(1.0);
     closeAnimation2->setEndValue(0.0);
     QParallelAnimationGroup *group = new QParallelAnimationGroup;
-    connect(group, SIGNAL(finished()), this, SLOT(deleteLater()));
+    connect(group, &QAbstractAnimation::finished, this, &QObject::deleteLater);
     group->addAnimation(closeAnimation);
     group->addAnimation(closeAnimation2);
     group->start(QAbstractAnimation::DeleteWhenStopped);

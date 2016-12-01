@@ -67,7 +67,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     l->insertWidget(2, m_title);
     m_title->setText(info.groupName.isEmpty() ? i18n("Effect Group") : info.groupName);
     m_info.groupName = m_title->text();
-    connect(m_title, SIGNAL(editingFinished()), this, SLOT(slotRenameGroup()));
+    connect(m_title, &QLineEdit::editingFinished, this, &CollapsibleGroup::slotRenameGroup);
     buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-down")));
@@ -96,11 +96,11 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
 	slotShow(false);
     }
 
-    connect(collapseButton, SIGNAL(clicked()), this, SLOT(slotSwitch()));
+    connect(collapseButton, &QAbstractButton::clicked, this, &CollapsibleGroup::slotSwitch);
     connect(m_enabledButton, SIGNAL(activeChangedByUser(bool)), this, SLOT(slotEnable(bool)));
-    connect(buttonUp, SIGNAL(clicked()), this, SLOT(slotEffectUp()));
-    connect(buttonDown, SIGNAL(clicked()), this, SLOT(slotEffectDown()));
-    connect(buttonDel, SIGNAL(clicked()), this, SLOT(slotDeleteGroup()));
+    connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleGroup::slotEffectUp);
+    connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleGroup::slotEffectDown);
+    connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleGroup::slotDeleteGroup);
 
 }
 

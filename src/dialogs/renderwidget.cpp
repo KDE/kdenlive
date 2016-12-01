@@ -185,18 +185,18 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     m_view.advanced_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     m_view.optionsGroup->setVisible(m_view.options->isChecked());
-    connect(m_view.options, SIGNAL(toggled(bool)), m_view.optionsGroup, SLOT(setVisible(bool)));
+    connect(m_view.options, &QAbstractButton::toggled, m_view.optionsGroup, &QWidget::setVisible);
     m_view.videoLabel->setVisible(m_view.options->isChecked());
-    connect(m_view.options, SIGNAL(toggled(bool)), m_view.videoLabel, SLOT(setVisible(bool)));
+    connect(m_view.options, &QAbstractButton::toggled, m_view.videoLabel, &QWidget::setVisible);
     m_view.video->setVisible(m_view.options->isChecked());
-    connect(m_view.options, SIGNAL(toggled(bool)), m_view.video, SLOT(setVisible(bool)));
+    connect(m_view.options, &QAbstractButton::toggled, m_view.video, &QWidget::setVisible);
     m_view.audioLabel->setVisible(m_view.options->isChecked());
-    connect(m_view.options, SIGNAL(toggled(bool)), m_view.audioLabel, SLOT(setVisible(bool)));
+    connect(m_view.options, &QAbstractButton::toggled, m_view.audioLabel, &QWidget::setVisible);
     m_view.audio->setVisible(m_view.options->isChecked());
-    connect(m_view.options, SIGNAL(toggled(bool)), m_view.audio, SLOT(setVisible(bool)));
-    connect(m_view.quality, SIGNAL(valueChanged(int)), this, SLOT(adjustAVQualities(int)));
+    connect(m_view.options, &QAbstractButton::toggled, m_view.audio, &QWidget::setVisible);
+    connect(m_view.quality, &QAbstractSlider::valueChanged, this, &RenderWidget::adjustAVQualities);
     connect(m_view.video, SIGNAL(valueChanged(int)), this, SLOT(adjustQuality(int)));
-    connect(m_view.speed, SIGNAL(valueChanged(int)), this, SLOT(adjustSpeed(int)));
+    connect(m_view.speed, &QAbstractSlider::valueChanged, this, &RenderWidget::adjustSpeed);
 
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
@@ -231,56 +231,56 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     connect(m_view.rescale_height, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleHeight(int)));
     m_view.rescale_keep->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
     m_view.rescale_keep->setToolTip(i18n("Preserve aspect ratio"));
-    connect(m_view.rescale_keep, SIGNAL(clicked()), this, SLOT(slotSwitchAspectRatio()));
+    connect(m_view.rescale_keep, &QAbstractButton::clicked, this, &RenderWidget::slotSwitchAspectRatio);
 
     connect(m_view.buttonRender, SIGNAL(clicked()), this, SLOT(slotPrepareExport()));
-    connect(m_view.buttonGenerateScript, SIGNAL(clicked()), this, SLOT(slotGenerateScript()));
+    connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, &RenderWidget::slotGenerateScript);
 
     m_view.abort_job->setEnabled(false);
     m_view.start_script->setEnabled(false);
     m_view.delete_script->setEnabled(false);
 
-    connect(m_view.export_audio, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateAudioLabel(int)));
+    connect(m_view.export_audio, &QCheckBox::stateChanged, this, &RenderWidget::slotUpdateAudioLabel);
     m_view.export_audio->setCheckState(Qt::PartiallyChecked);
 
     parseProfiles();
     parseScriptFiles();
     m_view.running_jobs->setUniformRowHeights(false);
     m_view.scripts_list->setUniformRowHeights(false);
-    connect(m_view.start_script, SIGNAL(clicked()), this, SLOT(slotStartScript()));
-    connect(m_view.delete_script, SIGNAL(clicked()), this, SLOT(slotDeleteScript()));
-    connect(m_view.scripts_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckScript()));
-    connect(m_view.running_jobs, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckJob()));
-    connect(m_view.running_jobs, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotPlayRendering(QTreeWidgetItem*,int)));
+    connect(m_view.start_script, &QAbstractButton::clicked, this, &RenderWidget::slotStartScript);
+    connect(m_view.delete_script, &QAbstractButton::clicked, this, &RenderWidget::slotDeleteScript);
+    connect(m_view.scripts_list, &QTreeWidget::itemSelectionChanged, this, &RenderWidget::slotCheckScript);
+    connect(m_view.running_jobs, &QTreeWidget::itemSelectionChanged, this, &RenderWidget::slotCheckJob);
+    connect(m_view.running_jobs, &QTreeWidget::itemDoubleClicked, this, &RenderWidget::slotPlayRendering);
 
-    connect(m_view.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
-    connect(m_view.buttonEdit, SIGNAL(clicked()), this, SLOT(slotEditProfile()));
-    connect(m_view.buttonDelete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
-    connect(m_view.buttonFavorite, SIGNAL(clicked()), this, SLOT(slotCopyToFavorites()));
+    connect(m_view.buttonSave, &QAbstractButton::clicked, this, &RenderWidget::slotSaveProfile);
+    connect(m_view.buttonEdit, &QAbstractButton::clicked, this, &RenderWidget::slotEditProfile);
+    connect(m_view.buttonDelete, &QAbstractButton::clicked, this, &RenderWidget::slotDeleteProfile);
+    connect(m_view.buttonFavorite, &QAbstractButton::clicked, this, &RenderWidget::slotCopyToFavorites);
 
-    connect(m_view.abort_job, SIGNAL(clicked()), this, SLOT(slotAbortCurrentJob()));
-    connect(m_view.start_job, SIGNAL(clicked()), this, SLOT(slotStartCurrentJob()));
-    connect(m_view.clean_up, SIGNAL(clicked()), this, SLOT(slotCLeanUpJobs()));
-    connect(m_view.hide_log, SIGNAL(clicked()), this, SLOT(slotHideLog()));
+    connect(m_view.abort_job, &QAbstractButton::clicked, this, &RenderWidget::slotAbortCurrentJob);
+    connect(m_view.start_job, &QAbstractButton::clicked, this, &RenderWidget::slotStartCurrentJob);
+    connect(m_view.clean_up, &QAbstractButton::clicked, this, &RenderWidget::slotCLeanUpJobs);
+    connect(m_view.hide_log, &QAbstractButton::clicked, this, &RenderWidget::slotHideLog);
 
-    connect(m_view.buttonClose, SIGNAL(clicked()), this, SLOT(hide()));
-    connect(m_view.buttonClose2, SIGNAL(clicked()), this, SLOT(hide()));
-    connect(m_view.buttonClose3, SIGNAL(clicked()), this, SLOT(hide()));
-    connect(m_view.rescale, SIGNAL(toggled(bool)), this, SLOT(setRescaleEnabled(bool)));
+    connect(m_view.buttonClose, &QAbstractButton::clicked, this, &QWidget::hide);
+    connect(m_view.buttonClose2, &QAbstractButton::clicked, this, &QWidget::hide);
+    connect(m_view.buttonClose3, &QAbstractButton::clicked, this, &QWidget::hide);
+    connect(m_view.rescale, &QAbstractButton::toggled, this, &RenderWidget::setRescaleEnabled);
     connect(m_view.out_file, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButtons()));
     connect(m_view.out_file, SIGNAL(urlSelected(QUrl)), this, SLOT(slotUpdateButtons(QUrl)));
 
-    connect(m_view.formats, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(refreshParams()));
-    connect(m_view.formats, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotEditItem(QTreeWidgetItem*)));
+    connect(m_view.formats, &QTreeWidget::currentItemChanged, this, &RenderWidget::refreshParams);
+    connect(m_view.formats, &QTreeWidget::itemDoubleClicked, this, &RenderWidget::slotEditItem);
 
-    connect(m_view.render_guide, SIGNAL(clicked(bool)), this, SLOT(slotUpdateGuideBox()));
-    connect(m_view.render_zone, SIGNAL(clicked(bool)), this, SLOT(slotUpdateGuideBox()));
-    connect(m_view.render_full, SIGNAL(clicked(bool)), this, SLOT(slotUpdateGuideBox()));
+    connect(m_view.render_guide, &QAbstractButton::clicked, this, &RenderWidget::slotUpdateGuideBox);
+    connect(m_view.render_zone, &QAbstractButton::clicked, this, &RenderWidget::slotUpdateGuideBox);
+    connect(m_view.render_full, &QAbstractButton::clicked, this, &RenderWidget::slotUpdateGuideBox);
 
     connect(m_view.guide_end, SIGNAL(activated(int)), this, SLOT(slotCheckStartGuidePosition()));
     connect(m_view.guide_start, SIGNAL(activated(int)), this, SLOT(slotCheckEndGuidePosition()));
 
-    connect(m_view.tc_overlay, SIGNAL(toggled(bool)), m_view.tc_type, SLOT(setEnabled(bool)));
+    connect(m_view.tc_overlay, &QAbstractButton::toggled, m_view.tc_type, &QWidget::setEnabled);
 
     //m_view.splitter->setStretchFactor(1, 5);
     //m_view.splitter->setStretchFactor(0, 2);
@@ -1249,7 +1249,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                 QFile::setPermissions(scriptPath,
                         file.permissions() | QFile::ExeUser);
 
-                QTimer::singleShot(400, this, SLOT(parseScriptFiles()));
+                QTimer::singleShot(400, this, &RenderWidget::parseScriptFiles);
                 m_view.tabWidget->setCurrentIndex(2);
                 return;
 

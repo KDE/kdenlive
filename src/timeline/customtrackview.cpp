@@ -153,7 +153,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     verticalScrollBar()->setMaximum(m_tracksHeight);
     verticalScrollBar()->setTracking(true);
     // repaint guides when using vertical scroll
-    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
+    connect(verticalScrollBar(), &QAbstractSlider::valueChanged, this, &CustomTrackView::slotRefreshGuides);
 
     m_cursorLine = projectscene->addLine(0, 0, 0, m_tracksHeight);
     m_cursorLine->setZValue(1000);
@@ -164,10 +164,10 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTra
     pen1.setColor(line);
     m_cursorLine->setPen(pen1);
 
-    connect(m_document->renderer(), SIGNAL(prepareTimelineReplacement(QString)), this, SLOT(slotPrepareTimelineReplacement(QString)), Qt::DirectConnection);
-    connect(m_document->renderer(), SIGNAL(replaceTimelineProducer(QString)), this, SLOT(slotReplaceTimelineProducer(QString)), Qt::DirectConnection);
-    connect(m_document->renderer(), SIGNAL(updateTimelineProducer(QString)), this, SLOT(slotUpdateTimelineProducer(QString)));
-    connect(m_document->renderer(), SIGNAL(rendererPosition(int)), this, SLOT(setCursorPos(int)));
+    connect(m_document->renderer(), &Render::prepareTimelineReplacement, this, &CustomTrackView::slotPrepareTimelineReplacement, Qt::DirectConnection);
+    connect(m_document->renderer(), &Render::replaceTimelineProducer, this, &CustomTrackView::slotReplaceTimelineProducer, Qt::DirectConnection);
+    connect(m_document->renderer(), &Render::updateTimelineProducer, this, &CustomTrackView::slotUpdateTimelineProducer);
+    connect(m_document->renderer(), &Render::rendererPosition, this, &CustomTrackView::setCursorPos);
     scale(1, 1);
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_disableClipAction = new QAction(QIcon::fromTheme(QStringLiteral("visibility")), i18n("Disable Clip"), this);
@@ -198,7 +198,7 @@ void CustomTrackView::initTools()
     
     AbstractToolManager *razorManager = new RazorManager(this, m_commandStack);
     m_toolManagers.insert(AbstractToolManager::RazorType, razorManager);
-    connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), razorManager, SLOT(updateTimelineItems()));
+    connect(horizontalScrollBar(), &QAbstractSlider::valueChanged, razorManager, &AbstractToolManager::updateTimelineItems);
     m_toolManagers.insert(AbstractToolManager::MoveType, new MoveManager(m_timeline->transitionHandler, this, m_commandStack));
     m_toolManagers.insert(AbstractToolManager::SelectType, m_currentToolManager);
     m_toolManagers.insert(AbstractToolManager::GuideType, new GuideManager(this, m_commandStack));
@@ -250,17 +250,17 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
     m_timelineContextClipMenu = clip;
     m_timelineContextTransitionMenu = transition;
     m_timelineContextClipMenu->addAction(m_disableClipAction);
-    connect(m_timelineContextTransitionMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
-    connect(m_timelineContextMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
-    connect(m_timelineContextClipMenu, SIGNAL(aboutToHide()), this, SLOT(slotResetMenuPosition()));
-    connect(m_timelineContextTransitionMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotContextMenuActivated()));
-    connect(m_timelineContextMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotContextMenuActivated()));
-    connect(m_timelineContextClipMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotContextMenuActivated()));
+    connect(m_timelineContextTransitionMenu, &QMenu::aboutToHide, this, &CustomTrackView::slotResetMenuPosition);
+    connect(m_timelineContextMenu, &QMenu::aboutToHide, this, &CustomTrackView::slotResetMenuPosition);
+    connect(m_timelineContextClipMenu, &QMenu::aboutToHide, this, &CustomTrackView::slotResetMenuPosition);
+    connect(m_timelineContextTransitionMenu, &QMenu::triggered, this, &CustomTrackView::slotContextMenuActivated);
+    connect(m_timelineContextMenu, &QMenu::triggered, this, &CustomTrackView::slotContextMenuActivated);
+    connect(m_timelineContextClipMenu, &QMenu::triggered, this, &CustomTrackView::slotContextMenuActivated);
 
     m_markerMenu = new QMenu(i18n("Go to marker..."), this);
     m_markerMenu->setEnabled(false);
     markermenu->addMenu(m_markerMenu);
-    connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
+    connect(m_markerMenu, &QMenu::triggered, this, &CustomTrackView::slotGoToMarker);
     QList <QAction *> list = m_timelineContextClipMenu->actions();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->data().toString() == QLatin1String("paste_effects")) m_pasteEffectsAction = list.at(i);
@@ -278,11 +278,11 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
 
     m_timelineContextMenu->addSeparator();
     m_deleteGuide = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Guide"), this);
-    connect(m_deleteGuide, SIGNAL(triggered()), this, SLOT(slotDeleteTimeLineGuide()));
+    connect(m_deleteGuide, &QAction::triggered, this, &CustomTrackView::slotDeleteTimeLineGuide);
     m_timelineContextMenu->addAction(m_deleteGuide);
 
     m_editGuide = new QAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18n("Edit Guide"), this);
-    connect(m_editGuide, SIGNAL(triggered()), this, SLOT(slotEditTimeLineGuide()));
+    connect(m_editGuide, &QAction::triggered, this, &CustomTrackView::slotEditTimeLineGuide);
     m_timelineContextMenu->addAction(m_editGuide);
 }
 
@@ -294,7 +294,7 @@ void CustomTrackView::slotDoResetMenuPosition()
 void CustomTrackView::slotResetMenuPosition()
 {
     // after a short time (so that the action is triggered / or menu is closed, we reset the menu pos
-    QTimer::singleShot(300, this, SLOT(slotDoResetMenuPosition()));
+    QTimer::singleShot(300, this, &CustomTrackView::slotDoResetMenuPosition);
 }
 
 void CustomTrackView::slotContextMenuActivated()
@@ -459,12 +459,12 @@ void CustomTrackView::slotCheckPositionScrolling()
     if (mapFromScene(m_cursorPos, 0).x() < 3) {
         if (horizontalScrollBar()->value() == 0) return;
         horizontalScrollBar()->setValue(horizontalScrollBar()->value() - 2);
-        QTimer::singleShot(200, this, SLOT(slotCheckPositionScrolling()));
+        QTimer::singleShot(200, this, &CustomTrackView::slotCheckPositionScrolling);
         seekCursorPos(mapToScene(QPoint(-2, 0)).x());
     } else if (viewport()->width() - 3 < mapFromScene(m_cursorPos + 1, 0).x()) {
         horizontalScrollBar()->setValue(horizontalScrollBar()->value() + 2);
         seekCursorPos(mapToScene(QPoint(viewport()->width(), 0)).x() + 1);
-        QTimer::singleShot(200, this, SLOT(slotCheckPositionScrolling()));
+        QTimer::singleShot(200, this, &CustomTrackView::slotCheckPositionScrolling);
     }
 }
 
@@ -1527,7 +1527,7 @@ void CustomTrackView::displayKeyframesMenu(QPoint pos, AbstractClipItem *clip)
         m_attachKeyframeToEnd->setCheckable(true);
         m_timelineContextKeyframeMenu->addAction(m_attachKeyframeToEnd);
         connect(m_selectKeyframeType, SIGNAL(triggered(QAction*)), this, SLOT(slotEditKeyframeType(QAction*)));
-        connect(m_attachKeyframeToEnd, SIGNAL(triggered(bool)), this, SLOT(slotAttachKeyframeToEnd(bool)));
+        connect(m_attachKeyframeToEnd, &QAction::triggered, this, &CustomTrackView::slotAttachKeyframeToEnd);
     }
     m_attachKeyframeToEnd->setChecked(clip->isAttachedToEnd());
     m_selectKeyframeType->setCurrentAction(clip->parseKeyframeActions(m_selectKeyframeType->actions()));
@@ -6875,8 +6875,8 @@ void CustomTrackView::setAudioAlignReference()
             }
             AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), prod);
             m_audioCorrelator = new AudioCorrelation(envelope);
-            connect(m_audioCorrelator, SIGNAL(gotAudioAlignData(int,int,int)), this, SLOT(slotAlignClip(int,int,int)));
-            connect(m_audioCorrelator, SIGNAL(displayMessage(QString,MessageType)), this, SIGNAL(displayMessage(QString,MessageType)));
+            connect(m_audioCorrelator, &AudioCorrelation::gotAudioAlignData, this, &CustomTrackView::slotAlignClip);
+            connect(m_audioCorrelator, &AudioCorrelation::displayMessage, this, &CustomTrackView::displayMessage);
             emit displayMessage(i18n("Processing audio, please wait."), ProcessingJobMessage);
         }
         return;

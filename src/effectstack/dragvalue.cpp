@@ -75,7 +75,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setValue((int) m_default);
         l->addWidget(m_intEdit);
         connect(m_intEdit, SIGNAL(valueChanged(int)), this, SLOT(slotSetValue(int)));
-        connect(m_intEdit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
+        connect(m_intEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     } else {
         m_doubleEdit = new QDoubleSpinBox(this);
         m_doubleEdit->setDecimals(decimals);
@@ -94,10 +94,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         l->addWidget(m_doubleEdit);
         m_doubleEdit->setValue(m_default);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
-        connect(m_doubleEdit, SIGNAL(editingFinished()), this, SLOT(slotEditingFinished()));
+        connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     }
     connect(m_label, SIGNAL(valueChanged(double,bool)), this, SLOT(setValueFromProgress(double,bool)));
-    connect(m_label, SIGNAL(resetValue()), this, SLOT(slotReset()));
+    connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
     setLayout(l);
     if (m_intEdit)
         m_label->setMaximumHeight(m_intEdit->sizeHint().height());
@@ -119,19 +119,19 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     m_menu->addAction(m_directUpdate);
 
     QAction *reset = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-undo")), i18n("Reset value"), this);
-    connect(reset, SIGNAL(triggered()), this, SLOT(slotReset()));
+    connect(reset, &QAction::triggered, this, &DragValue::slotReset);
     m_menu->addAction(reset);
 
     if (m_id > -1) {
         QAction *timeline = new QAction(KoIconUtils::themedIcon(QStringLiteral("go-jump")), i18n("Show %1 in timeline", label), this);
-        connect(timeline, SIGNAL(triggered()), this, SLOT(slotSetInTimeline()));
-        connect(m_label, SIGNAL(setInTimeline()), this, SLOT(slotSetInTimeline()));
+        connect(timeline, &QAction::triggered, this, &DragValue::slotSetInTimeline);
+        connect(m_label, &CustomLabel::setInTimeline, this, &DragValue::slotSetInTimeline);
         m_menu->addAction(timeline);
     }
 
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotShowContextMenu(QPoint)));
+    connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
     connect(m_scale, SIGNAL(triggered(int)), this, SLOT(slotSetScaleMode(int)));
-    connect(m_directUpdate, SIGNAL(triggered(bool)), this, SLOT(slotSetDirectUpdate(bool)));
+    connect(m_directUpdate, &QAction::triggered, this, &DragValue::slotSetDirectUpdate);
 }
 
 

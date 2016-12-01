@@ -65,19 +65,19 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget * pare
     fillList(profileDescription);
     slotUpdateDisplay();
     connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
-    connect(m_view.button_create, SIGNAL(clicked()), this, SLOT(slotCreateProfile()));
-    connect(m_view.button_save, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
-    connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
-    connect(m_view.button_default, SIGNAL(clicked()), this, SLOT(slotSetDefaultProfile()));
+    connect(m_view.button_create, &QAbstractButton::clicked, this, &ProfilesDialog::slotCreateProfile);
+    connect(m_view.button_save, &QAbstractButton::clicked, this, &ProfilesDialog::slotSaveProfile);
+    connect(m_view.button_delete, &QAbstractButton::clicked, this, &ProfilesDialog::slotDeleteProfile);
+    connect(m_view.button_default, &QAbstractButton::clicked, this, &ProfilesDialog::slotSetDefaultProfile);
 
-    connect(m_view.description, SIGNAL(textChanged(QString)), this, SLOT(slotProfileEdited()));
+    connect(m_view.description, &QLineEdit::textChanged, this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.aspect_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.display_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.display_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.progressive, SIGNAL(stateChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.progressive, &QCheckBox::stateChanged, this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
@@ -118,16 +118,16 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget * paren
     m_view.description->setEnabled(false);
 
     slotUpdateDisplay(profilePath);
-    connect(m_view.button_save, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
+    connect(m_view.button_save, &QAbstractButton::clicked, this, &ProfilesDialog::slotSaveProfile);
 
-    connect(m_view.description, SIGNAL(textChanged(QString)), this, SLOT(slotProfileEdited()));
+    connect(m_view.description, &QLineEdit::textChanged, this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.aspect_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.display_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.display_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.progressive, SIGNAL(stateChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.progressive, &QCheckBox::stateChanged, this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
     connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);

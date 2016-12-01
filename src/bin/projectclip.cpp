@@ -690,8 +690,8 @@ void ProjectClip::setJobStatus(int jobType, int status, int progress, const QStr
 ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 {
     ClipPropertiesController *panel = new ClipPropertiesController(bin()->projectTimecode(), m_controller, parent);
-    connect(this, SIGNAL(refreshPropertiesPanel()), panel, SLOT(slotReloadProperties()));
-    connect(this, SIGNAL(refreshAnalysisPanel()), panel, SLOT(slotFillAnalysisData()));
+    connect(this, &ProjectClip::refreshPropertiesPanel, panel, &ClipPropertiesController::slotReloadProperties);
+    connect(this, &ProjectClip::refreshAnalysisPanel, panel, &ClipPropertiesController::slotFillAnalysisData);
     return panel;
 }
 
@@ -1044,7 +1044,7 @@ void ProjectClip::slotCreateAudioThumbs()
                 }
         }
         QProcess audioThumbsProcess;
-        connect(this, SIGNAL(doAbortAudioThumbs()), &audioThumbsProcess, SLOT(kill()), Qt::DirectConnection);
+        connect(this, &ProjectClip::doAbortAudioThumbs, &audioThumbsProcess, &QProcess::kill, Qt::DirectConnection);
         connect(&audioThumbsProcess, &QProcess::readyReadStandardOutput, this, &ProjectClip::updateFfmpegProgress);
         audioThumbsProcess.start(KdenliveSettings::ffmpegpath(), args);
         bool ffmpegError = false;

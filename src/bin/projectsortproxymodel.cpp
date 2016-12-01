@@ -30,7 +30,7 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
 {
     m_collator.setNumericMode(true);
     m_selection = new QItemSelectionModel(this);
-    connect(m_selection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(onCurrentRowChanged(QItemSelection,QItemSelection)));
+    connect(m_selection, &QItemSelectionModel::selectionChanged, this, &ProjectSortProxyModel::onCurrentRowChanged);
     setDynamicSortFilter(true);
 }
 

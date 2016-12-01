@@ -75,23 +75,23 @@ BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
     s.fromString(spline);
     m_edit.setSpline(s);
 
-    connect(&m_edit, SIGNAL(modified()), this, SIGNAL(modified()));
-    connect(&m_edit, SIGNAL(currentPoint(BPoint)), this, SLOT(slotUpdatePointEntries(BPoint)));
+    connect(&m_edit, &BezierSplineEditor::modified, this, &BezierSplineWidget::modified);
+    connect(&m_edit, &BezierSplineEditor::currentPoint, this, &BezierSplineWidget::slotUpdatePointEntries);
 
-    connect(m_pX, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP(double,bool)));
-    connect(m_pY, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointP(double,bool)));
-    connect(m_h1X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double,bool)));
-    connect(m_h1Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH1(double,bool)));
-    connect(m_h2X, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double,bool)));
-    connect(m_h2Y, SIGNAL(valueChanged(double,bool)), this, SLOT(slotUpdatePointH2(double,bool)));
+    connect(m_pX, &DragValue::valueChanged, this, &BezierSplineWidget::slotUpdatePointP);
+    connect(m_pY, &DragValue::valueChanged, this, &BezierSplineWidget::slotUpdatePointP);
+    connect(m_h1X, &DragValue::valueChanged, this, &BezierSplineWidget::slotUpdatePointH1);
+    connect(m_h1Y, &DragValue::valueChanged, this, &BezierSplineWidget::slotUpdatePointH1);
+    connect(m_h2X, &DragValue::valueChanged, this, &BezierSplineWidget::slotUpdatePointH2);
+    connect(m_h2Y, &DragValue::valueChanged, this, &BezierSplineWidget::slotUpdatePointH2);
 
-    connect(m_ui.buttonLinkHandles, SIGNAL(toggled(bool)), this, SLOT(slotSetHandlesLinked(bool)));
-    connect(m_ui.buttonZoomIn, SIGNAL(clicked()), &m_edit, SLOT(slotZoomIn()));
-    connect(m_ui.buttonZoomOut, SIGNAL(clicked()), &m_edit, SLOT(slotZoomOut()));
-    connect(m_ui.buttonGridChange, SIGNAL(clicked()), this, SLOT(slotGridChange()));
-    connect(m_ui.buttonShowPixmap, SIGNAL(toggled(bool)), this, SLOT(slotShowPixmap(bool)));
-    connect(m_ui.buttonResetSpline, SIGNAL(clicked()), this, SLOT(slotResetSpline()));
-    connect(m_ui.buttonShowAllHandles, SIGNAL(toggled(bool)), this, SLOT(slotShowAllHandles(bool)));
+    connect(m_ui.buttonLinkHandles, &QAbstractButton::toggled, this, &BezierSplineWidget::slotSetHandlesLinked);
+    connect(m_ui.buttonZoomIn, &QAbstractButton::clicked, &m_edit, &BezierSplineEditor::slotZoomIn);
+    connect(m_ui.buttonZoomOut, &QAbstractButton::clicked, &m_edit, &BezierSplineEditor::slotZoomOut);
+    connect(m_ui.buttonGridChange, &QAbstractButton::clicked, this, &BezierSplineWidget::slotGridChange);
+    connect(m_ui.buttonShowPixmap, &QAbstractButton::toggled, this, &BezierSplineWidget::slotShowPixmap);
+    connect(m_ui.buttonResetSpline, &QAbstractButton::clicked, this, &BezierSplineWidget::slotResetSpline);
+    connect(m_ui.buttonShowAllHandles, &QAbstractButton::toggled, this, &BezierSplineWidget::slotShowAllHandles);
 
     m_edit.setGridLines(KdenliveSettings::bezier_gridlines());
     m_ui.buttonShowPixmap->setChecked(KdenliveSettings::bezier_showpixmap());

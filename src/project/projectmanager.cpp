@@ -69,7 +69,7 @@ ProjectManager::ProjectManager(QObject* parent) :
     m_notesPlugin = new NotesPlugin(this);
 
     m_autoSaveTimer.setSingleShot(true);
-    connect(&m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+    connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
 
     // Ensure the default data folder exist
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
@@ -149,7 +149,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         }
     } else {
         QPointer<ProjectSettings> w = new ProjectSettings(Q_NULLPTR, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
-        connect(w, SIGNAL(refreshProfiles()), pCore->window(), SLOT(slotRefreshProfiles()));
+        connect(w.data(), &ProjectSettings::refreshProfiles, pCore->window(), &MainWindow::slotRefreshProfiles);
         if (w->exec() != QDialog::Accepted) {
             delete w;
             return;
@@ -797,7 +797,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 {
     // Move tmp folder (thumbnails, timeline preview)
     KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src),QUrl::fromLocalFile(dest));
-    connect(copyJob, SIGNAL(result(KJob *)), this, SLOT(slotMoveFinished(KJob *)));
+    connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
     connect(copyJob, SIGNAL(percent(KJob *, unsigned long)), this, SLOT(slotMoveProgress(KJob *, unsigned long)));
     m_project->moveProjectData(src, dest);
 }

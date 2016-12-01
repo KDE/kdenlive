@@ -27,7 +27,7 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager) :
     m_widget->setPlaceholderText(i18n("Enter your project notes here ..."));
     m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), m_widget);
     m_notesDock->close();
-    connect(projectManager, SIGNAL(docOpened(KdenliveDoc*)), SLOT(setProject(KdenliveDoc*)));
+    connect(projectManager, &ProjectManager::docOpened, this, &NotesPlugin::setProject);
 }
 
 NotesPlugin::~NotesPlugin()
@@ -38,7 +38,7 @@ NotesPlugin::~NotesPlugin()
 
 void NotesPlugin::setProject(KdenliveDoc* document)
 {
-    connect(m_widget, SIGNAL(seekProject(int)), pCore->monitorManager()->projectMonitor()->render, SLOT(seekToFrame(int)));
+    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor()->render, &Render::seekToFrame);
     connect(m_widget, SIGNAL(textChanged()), document, SLOT(setModified()));
 }
 

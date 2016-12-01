@@ -78,8 +78,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
     video_tracks->setValue(videotracks);
-    connect(generate_proxy, SIGNAL(toggled(bool)), proxy_minsize, SLOT(setEnabled(bool)));
-    connect(generate_imageproxy, SIGNAL(toggled(bool)), proxy_imageminsize, SLOT(setEnabled(bool)));
+    connect(generate_proxy, &QAbstractButton::toggled, proxy_minsize, &QWidget::setEnabled);
+    connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
 
     QString currentProf;
     if (doc) {
@@ -99,8 +99,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
         }
         project_folder->setUrl(QUrl::fromLocalFile(doc->projectTempFolder()));
         TemporaryData *cacheWidget = new TemporaryData(doc, true, this);
-        connect(cacheWidget, SIGNAL(disableProxies()), this, SIGNAL(disableProxies()));
-        connect(cacheWidget, SIGNAL(disablePreview()), this, SIGNAL(disablePreview()));
+        connect(cacheWidget, &TemporaryData::disableProxies, this, &ProjectSettings::disableProxies);
+        connect(cacheWidget, &TemporaryData::disablePreview, this, &ProjectSettings::disablePreview);
         tabWidget->addTab(cacheWidget, i18n("Cache Data"));
     }
     else {
@@ -134,13 +134,13 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     proxy_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
 
-    connect(proxy_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManageEncodingProfile()));
+    connect(proxy_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManageEncodingProfile);
     proxy_profile->setToolTip(i18n("Select default proxy profile"));
 
     connect(proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyParams()));
     proxyparams->setVisible(false);
     proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
-    connect(proxy_showprofileinfo, SIGNAL(clicked(bool)), proxyparams, SLOT(setVisible(bool)));
+    connect(proxy_showprofileinfo, &QAbstractButton::clicked, proxyparams, &QWidget::setVisible);
 
     // Preview GUI stuff
     preview_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
@@ -148,13 +148,13 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
     preview_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     preview_manageprofile->setToolTip(i18n("Manage timeline preview profiles"));
 
-    connect(preview_manageprofile, SIGNAL(clicked(bool)), this, SLOT(slotManagePreviewProfile()));
+    connect(preview_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManagePreviewProfile);
     preview_profile->setToolTip(i18n("Select default preview profile"));
 
     connect(preview_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatePreviewParams()));
     previewparams->setVisible(false);
     previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
-    connect(preview_showprofileinfo, SIGNAL(clicked(bool)), previewparams, SLOT(setVisible(bool)));
+    connect(preview_showprofileinfo, &QAbstractButton::clicked, previewparams, &QWidget::setVisible);
 
     if (readOnlyTracks) {
         video_tracks->setEnabled(false);
@@ -215,20 +215,20 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metad
 	++meta;
     }
 
-    connect(add_metadata, SIGNAL(clicked()), this, SLOT(slotAddMetadataField()));
-    connect(delete_metadata, SIGNAL(clicked()), this, SLOT(slotDeleteMetadataField()));
+    connect(add_metadata, &QAbstractButton::clicked, this, &ProjectSettings::slotAddMetadataField);
+    connect(delete_metadata, &QAbstractButton::clicked, this, &ProjectSettings::slotDeleteMetadataField);
     add_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
     delete_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
 
     if (doc != Q_NULLPTR) {
         slotUpdateFiles();
-        connect(delete_unused, SIGNAL(clicked()), this, SLOT(slotDeleteUnused()));
+        connect(delete_unused, &QAbstractButton::clicked, this, &ProjectSettings::slotDeleteUnused);
     } else {
         tabWidget->removeTab(2);
         tabWidget->removeTab(1);
     }
-    connect(project_folder, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButton(QString)));
-    connect(button_export, SIGNAL(clicked()), this, SLOT(slotExportToText()));
+    connect(project_folder, &KUrlRequester::textChanged, this, &ProjectSettings::slotUpdateButton);
+    connect(button_export, &QAbstractButton::clicked, this, &ProjectSettings::slotExportToText);
     // Delete unused files is not implemented
     delete_unused->setVisible(false);
 }

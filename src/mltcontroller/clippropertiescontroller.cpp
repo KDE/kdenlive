@@ -201,7 +201,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
 
     slotFillMarkers();
     m_markersPage->setLayout(mBox);
-    connect(m_markerTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotSeekToMarker()));
+    connect(m_markerTree, &QAbstractItemView::doubleClicked, this, &ClipPropertiesController::slotSeekToMarker);
 
     // metadata
     QVBoxLayout *m2Box = new QVBoxLayout;
@@ -232,7 +232,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     QVBoxLayout *vbox = new QVBoxLayout;
     if (m_type == Text || m_type == SlideShow || m_type == TextTemplate) {
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
-        connect(editButton, SIGNAL(clicked()), this, SIGNAL(editClip()));
+        connect(editButton, &QAbstractButton::clicked, this, &ClipPropertiesController::editClip);
         vbox->addWidget(editButton);
     }
     if (m_type == Color || m_type == Image || m_type == AV || m_type == Video || m_type == TextTemplate) {
@@ -256,10 +256,10 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         else timePos->setEnabled(false);
         hlay->addWidget(timePos);
         vbox->addLayout(hlay);
-        connect(box, SIGNAL(toggled(bool)), timePos, SLOT(setEnabled(bool)));
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
-        connect(timePos, SIGNAL(timeCodeEditingFinished(int)), this, SLOT(slotDurationChanged(int)));
-        connect(this, SIGNAL(updateTimeCodeFormat()), timePos, SLOT(slotUpdateTimeCodeFormat()));
+        connect(box, &QAbstractButton::toggled, timePos, &QWidget::setEnabled);
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+        connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
+        connect(this, &ClipPropertiesController::updateTimeCodeFormat, timePos, &TimecodeDisplay::slotUpdateTimeCodeFormat);
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
     }
     if (m_type == TextTemplate) {
@@ -281,7 +281,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), false, this);
         vbox->addWidget(choosecolor);
         //connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
-        connect(choosecolor, SIGNAL(modified(QColor)), this, SLOT(slotColorModified(QColor)));
+        connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
         connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
     } else if (m_type == Image) {
         int transparency = m_properties.get_int("kdenlive:transparency");
@@ -290,7 +290,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         QCheckBox *box = new QCheckBox(i18n("Transparent"), this);
         box->setObjectName(QStringLiteral("kdenlive:transparency"));
         box->setChecked(transparency == 1);
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         hlay->addWidget(box);
         vbox->addLayout(hlay);
     }
@@ -304,7 +304,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         QCheckBox *box = new QCheckBox(i18n("Aspect Ratio"), this);
         box->setObjectName(QStringLiteral("force_ar"));
         vbox->addWidget(box);
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         QSpinBox *spin1 = new QSpinBox(this);
         spin1->setMaximum(8000);
         spin1->setObjectName(QStringLiteral("force_aspect_num_value"));
@@ -337,8 +337,8 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         }
         connect(spin2, SIGNAL(valueChanged(int)), this, SLOT(slotAspectValueChanged(int)));
         connect(spin1, SIGNAL(valueChanged(int)), this, SLOT(slotAspectValueChanged(int)));
-        connect(box, SIGNAL(toggled(bool)), spin1, SLOT(setEnabled(bool)));
-        connect(box, SIGNAL(toggled(bool)), spin2, SLOT(setEnabled(bool)));
+        connect(box, &QAbstractButton::toggled, spin1, &QWidget::setEnabled);
+        connect(box, &QAbstractButton::toggled, spin2, &QWidget::setEnabled);
         vbox->addLayout(hlay);
         }
 
@@ -351,7 +351,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         QHBoxLayout *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Frame rate"), this);
         box->setObjectName(QStringLiteral("force_fps"));
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         QDoubleSpinBox *spin = new QDoubleSpinBox(this);
         spin->setMaximum(1000);
         connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
@@ -362,7 +362,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         else {
             spin->setValue(locale.toDouble(force_fps));
         }
-        connect(box, SIGNAL(toggled(bool)), spin, SLOT(setEnabled(bool)));
+        connect(box, &QAbstractButton::toggled, spin, &QWidget::setEnabled);
         box->setChecked(!force_fps.isEmpty());
         spin->setEnabled(!force_fps.isEmpty());
         hlay->addWidget(box);
@@ -374,7 +374,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         m_originalProperties.insert(QStringLiteral("force_progressive"), force_prog.isEmpty() ? QStringLiteral("-") : force_prog);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Scanning"), this);
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("force_progressive"));
         QComboBox *combo = new QComboBox(this);
         combo->addItem(i18n("Interlaced"), 0);
@@ -384,7 +384,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         if (!force_prog.isEmpty()) {
             combo->setCurrentIndex(force_prog.toInt());
         }
-        connect(box, SIGNAL(toggled(bool)), combo, SLOT(setEnabled(bool)));
+        connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
         box->setChecked(!force_prog.isEmpty());
         combo->setEnabled(!force_prog.isEmpty());
         hlay->addWidget(box);
@@ -396,7 +396,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         m_originalProperties.insert(QStringLiteral("force_tff"), force_tff.isEmpty() ? QStringLiteral("-") : force_tff);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Field order"), this);
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("force_tff"));
         combo = new QComboBox(this);
         combo->addItem(i18n("Bottom first"), 0);
@@ -406,7 +406,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         if (!force_tff.isEmpty()) {
             combo->setCurrentIndex(force_tff.toInt());
         }
-        connect(box, SIGNAL(toggled(bool)), combo, SLOT(setEnabled(bool)));
+        connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
         box->setChecked(!force_tff.isEmpty());
         combo->setEnabled(!force_tff.isEmpty());
         hlay->addWidget(box);
@@ -418,7 +418,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         m_originalProperties.insert(QStringLiteral("autorotate"), autorotate);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Disable autorotate"), this);
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("autorotate"));
         box->setChecked(autorotate == QLatin1String("0"));
         hlay->addWidget(box);
@@ -476,7 +476,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Colorspace"), this);
         box->setObjectName(QStringLiteral("force_colorspace"));
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         combo = new QComboBox(this);
         combo->setObjectName(QStringLiteral("force_colorspace_value"));
         combo->addItem(ProfilesDialog::getColorspaceDescription(601), 601);
@@ -494,7 +494,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
             combo->setCurrentIndex(combo->findData(colorspace));
         }
         else combo->setEnabled(false);
-        connect(box, SIGNAL(toggled(bool)), combo, SLOT(setEnabled(bool)));
+        connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
         connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComboValueChanged()));
         hlay->addWidget(box);
         hlay->addWidget(combo);
@@ -505,7 +505,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         m_originalProperties.insert(QStringLiteral("set.force_full_luma"), force_luma);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Full luma range"), this);
-        connect(box, SIGNAL(stateChanged(int)), this, SLOT(slotEnableForce(int)));
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("set.force_full_luma"));
         box->setChecked(!force_luma.isEmpty());
         hlay->addWidget(box);

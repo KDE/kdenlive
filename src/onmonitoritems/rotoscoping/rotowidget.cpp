@@ -64,9 +64,9 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
     */
     connect(m_keyframeWidget, SIGNAL(positionChanged(int)), this, SLOT(slotPositionChanged(int)));
-    connect(m_keyframeWidget, SIGNAL(keyframeAdded(int)), this, SLOT(slotAddKeyframe(int)));
-    connect(m_keyframeWidget, SIGNAL(keyframeRemoved(int)), this, SLOT(slotRemoveKeyframe(int)));
-    connect(m_keyframeWidget, SIGNAL(keyframeMoved(int,int)), this, SLOT(slotMoveKeyframe(int,int)));
+    connect(m_keyframeWidget, &SimpleKeyframeWidget::keyframeAdded, this, &RotoWidget::slotAddKeyframe);
+    connect(m_keyframeWidget, &SimpleKeyframeWidget::keyframeRemoved, this, &RotoWidget::slotRemoveKeyframe);
+    connect(m_keyframeWidget, &SimpleKeyframeWidget::keyframeMoved, this, &RotoWidget::slotMoveKeyframe);
 
     setSpline(data, false);
     setupTrackingListen(info);

@@ -62,14 +62,14 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWid
 
     connect(m_time, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSetPosition()));
     connect(m_timeline, SIGNAL(positionChanged(int)), this, SLOT(slotSetPosition(int)));
-    connect(m_timeline, SIGNAL(atKeyframe(bool)), this, SLOT(slotAtKeyframe(bool)));
-    connect(m_timeline, SIGNAL(keyframeAdded(int)), this, SIGNAL(keyframeAdded(int)));
-    connect(m_timeline, SIGNAL(keyframeRemoved(int)), this, SIGNAL(keyframeRemoved(int)));
-    connect(m_timeline, SIGNAL(keyframeMoved(int,int)), this, SIGNAL(keyframeMoved(int,int)));
+    connect(m_timeline, &SimpleTimelineWidget::atKeyframe, this, &SimpleKeyframeWidget::slotAtKeyframe);
+    connect(m_timeline, &SimpleTimelineWidget::keyframeAdded, this, &SimpleKeyframeWidget::keyframeAdded);
+    connect(m_timeline, &SimpleTimelineWidget::keyframeRemoved, this, &SimpleKeyframeWidget::keyframeRemoved);
+    connect(m_timeline, &SimpleTimelineWidget::keyframeMoved, this, &SimpleKeyframeWidget::keyframeMoved);
 
-    connect(m_buttonAddDelete, SIGNAL(pressed()), m_timeline, SLOT(slotAddRemove()));
-    connect(m_buttonPrevious, SIGNAL(pressed()), m_timeline, SLOT(slotGoToPrev()));
-    connect(m_buttonNext, SIGNAL(pressed()), m_timeline, SLOT(slotGoToNext()));
+    connect(m_buttonAddDelete, &QAbstractButton::pressed, m_timeline, &SimpleTimelineWidget::slotAddRemove);
+    connect(m_buttonPrevious, &QAbstractButton::pressed, m_timeline, &SimpleTimelineWidget::slotGoToPrev);
+    connect(m_buttonNext, &QAbstractButton::pressed, m_timeline, &SimpleTimelineWidget::slotGoToNext);
 
     // no keyframes yet
     setEnabled(false);

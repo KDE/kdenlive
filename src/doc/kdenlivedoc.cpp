@@ -112,9 +112,9 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     connect(m_clipManager, SIGNAL(displayMessage(QString,int)), parent, SLOT(slotGotProgressInfo(QString,int)));
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
-    connect(m_commandStack, SIGNAL(indexChanged(int)), this, SLOT(slotModified()));
-    connect(m_commandStack, SIGNAL(invalidate()), this, SLOT(checkPreviewStack()));
-    connect(m_render, SIGNAL(setDocumentNotes(QString)), this, SLOT(slotSetDocumentNotes(QString)));
+    connect(m_commandStack, &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
+    connect(m_commandStack, &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack);
+    connect(m_render, &Render::setDocumentNotes, this, &KdenliveDoc::slotSetDocumentNotes);
     connect(pCore->producerQueue(), &ProducerQueue::switchProfile, this, &KdenliveDoc::switchProfile);
     //connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
@@ -1538,14 +1538,14 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         QList <QAction*> list;
         QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch"), this);
         QVariantList params;
-        connect(ac, SIGNAL(triggered(bool)), this, SLOT(slotSwitchProfile()));
+        connect(ac, &QAction::triggered, this, &KdenliveDoc::slotSwitchProfile);
         params << id << profile.toList();
         ac->setData(params);
         QAction *ac2 = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         QVariantList params2;
         params2 << id;
         ac2->setData(params2);
-        connect(ac2, SIGNAL(triggered(bool)), this, SLOT(slotSwitchProfile()));
+        connect(ac2, &QAction::triggered, this, &KdenliveDoc::slotSwitchProfile);
         list << ac << ac2;
         pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile.descriptiveString()), KMessageWidget::Information, list);
     } else {

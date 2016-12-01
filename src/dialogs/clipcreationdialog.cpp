@@ -266,7 +266,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &gr
     QDir dir(doc->projectDataFolder() + QStringLiteral("/titles"));
     dir.mkpath(QStringLiteral("."));
     QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl::fromLocalFile(templatePath), doc->timecode(), dir.absolutePath(), doc->renderer(), bin);
-    QObject::connect(dia_ui, SIGNAL(requestBackgroundFrame(bool)), bin, SLOT(slotGetCurrentProjectImage(bool)));
+    QObject::connect(dia_ui.data(), &TitleWidget::requestBackgroundFrame, bin, &Bin::slotGetCurrentProjectImage);
     if (dia_ui->exec() == QDialog::Accepted) {
         // Ready, create clip xml
         QDomDocument xml;

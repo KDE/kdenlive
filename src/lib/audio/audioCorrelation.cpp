@@ -22,7 +22,7 @@ AudioCorrelation::AudioCorrelation(AudioEnvelope *mainTrackEnvelope) :
     m_mainTrackEnvelope(mainTrackEnvelope)
 {
     m_mainTrackEnvelope->normalizeEnvelope();
-    connect(m_mainTrackEnvelope, SIGNAL(envelopeReady(AudioEnvelope*)), this, SLOT(slotAnnounceEnvelope()));
+    connect(m_mainTrackEnvelope, &AudioEnvelope::envelopeReady, this, &AudioCorrelation::slotAnnounceEnvelope);
 }
 
 AudioCorrelation::~AudioCorrelation()
@@ -46,7 +46,7 @@ void AudioCorrelation::slotAnnounceEnvelope()
 void AudioCorrelation::addChild(AudioEnvelope *envelope)
 {
     envelope->normalizeEnvelope();
-    connect(envelope, SIGNAL(envelopeReady(AudioEnvelope*)), this, SLOT(slotProcessChild(AudioEnvelope*)));
+    connect(envelope, &AudioEnvelope::envelopeReady, this, &AudioCorrelation::slotProcessChild);
 }
 
 void AudioCorrelation::slotProcessChild(AudioEnvelope *envelope)

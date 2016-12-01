@@ -31,9 +31,9 @@ DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, 
 {
     m_view.setupUi(this);
     connect(m_view.vob_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateChaptersList()));
-    connect(m_view.button_add, SIGNAL(clicked()), this, SLOT(slotAddChapter()));
-    connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotRemoveChapter()));
-    connect(m_view.chapters_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotGoToChapter()));
+    connect(m_view.button_add, &QAbstractButton::clicked, this, &DvdWizardChapters::slotAddChapter);
+    connect(m_view.button_delete, &QAbstractButton::clicked, this, &DvdWizardChapters::slotRemoveChapter);
+    connect(m_view.chapters_list, &QListWidget::itemSelectionChanged, this, &DvdWizardChapters::slotGoToChapter);
     connect(m_view.chapters_box, &QCheckBox::stateChanged, this, &DvdWizardChapters::slotEnableChapters);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 

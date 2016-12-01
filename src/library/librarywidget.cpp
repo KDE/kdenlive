@@ -221,7 +221,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     m_coreLister = new KCoreDirLister(this);
     m_coreLister->setDelayedMimeTypes(false);
     connect(m_coreLister, SIGNAL(itemsAdded(const QUrl &, const KFileItemList &)), this, SLOT(slotItemsAdded (const QUrl &, const KFileItemList &)));
-    connect(m_coreLister, SIGNAL(itemsDeleted(const KFileItemList &)), this, SLOT(slotItemsDeleted(const KFileItemList &)));
+    connect(m_coreLister, &KCoreDirLister::itemsDeleted, this, &LibraryWidget::slotItemsDeleted);
     connect(m_coreLister, SIGNAL(clear()), this, SLOT(slotClearAll()));
     m_coreLister->openUrl(QUrl::fromLocalFile(m_directory.absolutePath()));
     m_libraryTree->setSortingEnabled(true);
@@ -233,16 +233,16 @@ void LibraryWidget::setupActions(const QList <QAction *> &list)
 {
     QList <QAction *> menuList;
     m_addAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-clip")), i18n("Add Clip to Project"), this);
-    connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(slotAddToProject()));
+    connect(m_addAction, &QAction::triggered, this, &LibraryWidget::slotAddToProject);
     m_addAction->setData(1);
     m_deleteAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete Clip from Library"), this);
-    connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(slotDeleteFromLibrary()));
+    connect(m_deleteAction, &QAction::triggered, this, &LibraryWidget::slotDeleteFromLibrary);
     m_deleteAction->setData(1);
     QAction *addFolder = new QAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Library Folder"), this);
-    connect(addFolder, SIGNAL(triggered(bool)), this, SLOT(slotAddFolder()));
+    connect(addFolder, &QAction::triggered, this, &LibraryWidget::slotAddFolder);
     QAction *renameFolder = new QAction(QIcon(), i18n("Rename Library Clip"), this);
     renameFolder->setData(1);
-    connect(renameFolder, SIGNAL(triggered(bool)), this, SLOT(slotRenameItem()));
+    connect(renameFolder, &QAction::triggered, this, &LibraryWidget::slotRenameItem);
     menuList << m_addAction << addFolder << renameFolder << m_deleteAction;
     m_toolBar->addAction(m_addAction);
     m_toolBar->addSeparator();
@@ -408,7 +408,7 @@ void LibraryWidget::slotMoveData(const QList<QUrl> &urls, QString dest)
         if (!url.path().startsWith(m_directory.absolutePath())) {
             // Dropped an external file, attempt to copy it to library
             KIO::FileCopyJob *copyJob = KIO::file_copy(url, QUrl::fromLocalFile(dir.absoluteFilePath(url.fileName())));
-            connect(copyJob, SIGNAL(result(KJob *)), this, SLOT(slotDownloadFinished(KJob *)));
+            connect(copyJob, &KJob::result, this, &LibraryWidget::slotDownloadFinished);
             connect(copyJob, SIGNAL(percent(KJob *, unsigned long)), this, SLOT(slotDownloadProgress(KJob *, unsigned long)));
         } else {
             // Internal drag/drop
@@ -606,7 +606,7 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
     QStringList plugins = KIO::PreviewJob::availablePlugins();
     m_previewJob = KIO::filePreview(list, QSize(80, 80), &plugins);
     m_previewJob->setIgnoreMaximumSize();
-    connect(m_previewJob, SIGNAL(gotPreview(const KFileItem &, const QPixmap &)), this, SLOT(slotGotPreview(const KFileItem &, const QPixmap &)));
+    connect(m_previewJob, &KIO::PreviewJob::gotPreview, this, &LibraryWidget::slotGotPreview);
     m_libraryTree->blockSignals(false);
 }
 

@@ -64,7 +64,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
     m_effect = new EffectSettings(this);
     m_transition = new TransitionSettings(projectMonitor, this);
     connect(m_transition, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)));
-    connect(m_effect->checkAll, SIGNAL(stateChanged(int)), this, SLOT(slotCheckAll(int)));
+    connect(m_effect->checkAll, &QCheckBox::stateChanged, this, &EffectStackView2::slotCheckAll);
     connect(m_effect->effectCompare, &QToolButton::toggled, this, &EffectStackView2::slotSwitchCompare);
 
     m_scrollTimer.setSingleShot(true);
@@ -170,10 +170,10 @@ void EffectStackView2::slotClipItemSelected(ClipItem* c, Monitor *m, bool reload
         }
     } else {
         m_effectMetaInfo.monitor = m;
-        if (m_clipref) disconnect(m_clipref, SIGNAL(updateRange()), this, SLOT(slotClipItemUpdate()));
+        if (m_clipref) disconnect(m_clipref, &ClipItem::updateRange, this, &EffectStackView2::slotClipItemUpdate);
         m_clipref = c;
         if (c) {
-            connect(m_clipref, SIGNAL(updateRange()), this, SLOT(slotClipItemUpdate()));
+            connect(m_clipref, &ClipItem::updateRange, this, &EffectStackView2::slotClipItemUpdate);
             m_effect->setLabel(i18n("Effects for %1", m_clipref->clipName()), m_clipref->clipName());
             int frameWidth = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.width"));
             int frameHeight = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.height"));
@@ -286,7 +286,7 @@ void EffectStackView2::setupListView()
     m_monitorSceneWanted = MonitorSceneDefault;
     m_draggedEffect = Q_NULLPTR;
     m_draggedGroup = Q_NULLPTR;
-    disconnect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+    disconnect(m_effectMetaInfo.monitor, &Monitor::renderPosition, this, &EffectStackView2::slotRenderPos);
     QWidget *view = m_effect->container->takeWidget();
     if (view) {
         /*QList<CollapsibleEffect *> allChildren = view->findChildren<CollapsibleEffect *>();
@@ -413,7 +413,7 @@ void EffectStackView2::setupListView()
         for (int i = 0; i < allGroups.count(); ++i) {
             allGroups.at(i)->adjustEffects();
         }
-        connect(m_effectMetaInfo.monitor, SIGNAL(renderPosition(int)), this, SLOT(slotRenderPos(int)));
+        connect(m_effectMetaInfo.monitor, &Monitor::renderPosition, this, &EffectStackView2::slotRenderPos);
     }
 
     vbox1->addStretch(10);
@@ -445,20 +445,20 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
 {
     // Check drag & drop
     currentEffect->installEventFilter( this );
-    connect(currentEffect, SIGNAL(parameterChanged(QDomElement,QDomElement,int)), this , SLOT(slotUpdateEffectParams(QDomElement,QDomElement,int)));
-    connect(currentEffect, SIGNAL(startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)), this , SLOT(slotStartFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&)));
-    connect(currentEffect, SIGNAL(deleteEffect(QDomElement)), this , SLOT(slotDeleteEffect(QDomElement)));
-    connect(currentEffect, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
-    connect(currentEffect, SIGNAL(resetEffect(int)), this , SLOT(slotResetEffect(int)));
-    connect(currentEffect, SIGNAL(changeEffectPosition(QList<int>,bool)), this , SLOT(slotMoveEffectUp(QList<int>,bool)));
-    connect(currentEffect, SIGNAL(effectStateChanged(bool,int,MonitorSceneType)), this, SLOT(slotUpdateEffectState(bool,int,MonitorSceneType)));
-    connect(currentEffect, SIGNAL(activateEffect(int)), this, SLOT(slotSetCurrentEffect(int)));
-    connect(currentEffect, SIGNAL(seekTimeline(int)), this , SLOT(slotSeekTimeline(int)));
-    connect(currentEffect, SIGNAL(createGroup(int)), this , SLOT(slotCreateGroup(int)));
-    connect(currentEffect, SIGNAL(moveEffect(QList<int>,int,int,QString)), this , SLOT(slotMoveEffect(QList<int>,int,int,QString)));
-    connect(currentEffect, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
-    connect(currentEffect, SIGNAL(createRegion(int,QUrl)), this, SLOT(slotCreateRegion(int,QUrl)));
-    connect(currentEffect, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
+    connect(currentEffect, &CollapsibleEffect::parameterChanged, this , &EffectStackView2::slotUpdateEffectParams);
+    connect(currentEffect, &CollapsibleEffect::startFilterJob, this , &EffectStackView2::slotStartFilterJob);
+    connect(currentEffect, &CollapsibleEffect::deleteEffect, this , &EffectStackView2::slotDeleteEffect);
+    connect(currentEffect, &AbstractCollapsibleWidget::reloadEffects, this , &EffectStackView2::reloadEffects);
+    connect(currentEffect, &CollapsibleEffect::resetEffect, this , &EffectStackView2::slotResetEffect);
+    connect(currentEffect, &AbstractCollapsibleWidget::changeEffectPosition, this , &EffectStackView2::slotMoveEffectUp);
+    connect(currentEffect, &CollapsibleEffect::effectStateChanged, this, &EffectStackView2::slotUpdateEffectState);
+    connect(currentEffect, &CollapsibleEffect::activateEffect, this, &EffectStackView2::slotSetCurrentEffect);
+    connect(currentEffect, &CollapsibleEffect::seekTimeline, this , &EffectStackView2::slotSeekTimeline);
+    connect(currentEffect, &CollapsibleEffect::createGroup, this , &EffectStackView2::slotCreateGroup);
+    connect(currentEffect, &AbstractCollapsibleWidget::moveEffect, this , &EffectStackView2::slotMoveEffect);
+    connect(currentEffect, &AbstractCollapsibleWidget::addEffect, this , &EffectStackView2::slotAddEffect);
+    connect(currentEffect, &CollapsibleEffect::createRegion, this, &EffectStackView2::slotCreateRegion);
+    connect(currentEffect, &CollapsibleEffect::deleteGroup, this , &EffectStackView2::slotDeleteGroup);
     connect(currentEffect, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)));
 }
 
@@ -1053,13 +1053,13 @@ void EffectStackView2::slotCreateGroup(int ix)
 
 void EffectStackView2::connectGroup(CollapsibleGroup *group)
 {
-    connect(group, SIGNAL(moveEffect(QList<int>,int,int,QString)), this , SLOT(slotMoveEffect(QList<int>,int,int,QString)));
-    connect(group, SIGNAL(addEffect(QDomElement)), this , SLOT(slotAddEffect(QDomElement)));
-    connect(group, SIGNAL(unGroup(CollapsibleGroup*)), this , SLOT(slotUnGroup(CollapsibleGroup*)));
-    connect(group, SIGNAL(groupRenamed(CollapsibleGroup*)), this , SLOT(slotRenameGroup(CollapsibleGroup*)));
-    connect(group, SIGNAL(reloadEffects()), this , SIGNAL(reloadEffects()));
-    connect(group, SIGNAL(deleteGroup(QDomDocument)), this , SLOT(slotDeleteGroup(QDomDocument)));
-    connect(group, SIGNAL(changeEffectPosition(QList<int>,bool)), this , SLOT(slotMoveEffectUp(QList<int>,bool)));
+    connect(group, &AbstractCollapsibleWidget::moveEffect, this , &EffectStackView2::slotMoveEffect);
+    connect(group, &AbstractCollapsibleWidget::addEffect, this , &EffectStackView2::slotAddEffect);
+    connect(group, &CollapsibleGroup::unGroup, this , &EffectStackView2::slotUnGroup);
+    connect(group, &CollapsibleGroup::groupRenamed, this , &EffectStackView2::slotRenameGroup);
+    connect(group, &AbstractCollapsibleWidget::reloadEffects, this , &EffectStackView2::reloadEffects);
+    connect(group, &CollapsibleGroup::deleteGroup, this , &EffectStackView2::slotDeleteGroup);
+    connect(group, &AbstractCollapsibleWidget::changeEffectPosition, this , &EffectStackView2::slotMoveEffectUp);
 }
 
 void EffectStackView2::slotMoveEffect(const QList<int> &currentIndexes, int newIndex, int groupIndex, const QString &groupName)

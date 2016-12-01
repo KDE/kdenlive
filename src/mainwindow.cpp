@@ -210,7 +210,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     KActionMenu *themeAction= new KActionMenu(i18n("Theme"), this);
     ThemeManager::instance()->setThemeMenuAction(themeAction);
     ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
-    connect(ThemeManager::instance(), SIGNAL(signalThemeChanged(const QString &)), this, SLOT(slotThemeChanged(const QString &)), Qt::DirectConnection);
+    connect(ThemeManager::instance(), &ThemeManager::signalThemeChanged, this, &MainWindow::slotThemeChanged, Qt::DirectConnection);
 
     if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
@@ -244,7 +244,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     //initEffects::parseCustomEffectsFile();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence(QStringLiteral("Esc")), this);
-    connect(m_shortcutRemoveFocus, SIGNAL(activated()), this, SLOT(slotRemoveFocus()));
+    connect(m_shortcutRemoveFocus, &QShortcut::activated, this, &MainWindow::slotRemoveFocus);
 
     /// Add Widgets
     setDockOptions(dockOptions() | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
@@ -282,8 +282,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_clipMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_clipMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
 
-    connect(pCore->bin(), SIGNAL(clipNeedsReload(QString,bool)),this, SLOT(slotUpdateClip(QString,bool)));
-    connect(pCore->bin(), SIGNAL(findInTimeline(QString)), this, SLOT(slotClipInTimeline(QString)));
+    connect(pCore->bin(), &Bin::clipNeedsReload,this, &MainWindow::slotUpdateClip);
+    connect(pCore->bin(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline);
 
     //TODO deprecated, replace with Bin methods if necessary
     /*connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
@@ -291,11 +291,11 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(m_projectList, SIGNAL(updateProfile(QString)), this, SLOT(slotUpdateProjectProfile(QString)));
     connect(m_projectList, SIGNAL(refreshClip(QString,bool)), pCore->monitorManager(), SLOT(slotRefreshCurrentMonitor(QString)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));*/
-    connect(m_clipMonitor, SIGNAL(extractZone(QString)), pCore->bin(), SLOT(slotStartCutJob(QString)));
-    connect(m_clipMonitor, SIGNAL(passKeyPress(QKeyEvent*)), this, SLOT(triggerKey(QKeyEvent*)));
+    connect(m_clipMonitor, &Monitor::extractZone, pCore->bin(), &Bin::slotStartCutJob);
+    connect(m_clipMonitor, &Monitor::passKeyPress, this, &MainWindow::triggerKey);
 
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
-    connect(m_projectMonitor, SIGNAL(passKeyPress(QKeyEvent*)), this, SLOT(triggerKey(QKeyEvent*)));
+    connect(m_projectMonitor, &Monitor::passKeyPress, this, &MainWindow::triggerKey);
     connect(m_projectMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
     connect(m_projectMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteClipMarker);
     connect(m_projectMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
@@ -323,15 +323,15 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     m_effectStack = new EffectStackView2(m_projectMonitor, this);
-    connect(m_effectStack, SIGNAL(startFilterJob(const ItemInfo&,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)), pCore->bin(), SLOT(slotStartFilterJob(const ItemInfo &,const QString&,QMap<QString,QString>&,QMap<QString,QString>&,QMap<QString,QString>&)));
-    connect(pCore->bin(), SIGNAL(masterClipSelected(ClipController *, Monitor *)), m_effectStack, SLOT(slotMasterClipItemSelected(ClipController *, Monitor *)));
-    connect(pCore->bin(), SIGNAL(masterClipUpdated(ClipController *, Monitor *)), m_effectStack, SLOT(slotRefreshMasterClipEffects(ClipController *, Monitor *)));
+    connect(m_effectStack, &EffectStackView2::startFilterJob, pCore->bin(), &Bin::slotStartFilterJob);
+    connect(pCore->bin(), &Bin::masterClipSelected, m_effectStack, &EffectStackView2::slotMasterClipItemSelected);
+    connect(pCore->bin(), &Bin::masterClipUpdated, m_effectStack, &EffectStackView2::slotRefreshMasterClipEffects);
     connect(m_effectStack, SIGNAL(addMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString,QDomElement)));
     connect(m_effectStack, SIGNAL(updateMasterEffect(QString,QDomElement,QDomElement,int)), pCore->bin(), SLOT(slotUpdateEffect(QString,QDomElement,QDomElement,int)));
     connect(m_effectStack, SIGNAL(changeMasterEffectState(QString,QList<int>,bool)), pCore->bin(), SLOT(slotChangeEffectState(QString,QList<int>,bool)));
-    connect(m_effectStack, SIGNAL(removeMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotDeleteEffect(QString,QDomElement)));
+    connect(m_effectStack, &EffectStackView2::removeMasterEffect, pCore->bin(), &Bin::slotDeleteEffect);
     connect(m_effectStack, SIGNAL(changeEffectPosition(QString,const QList<int>,int)), pCore->bin(), SLOT(slotMoveEffect(QString,const QList<int>,int)));
-    connect(m_effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
+    connect(m_effectStack, &EffectStackView2::reloadEffects, this, &MainWindow::slotReloadEffects);
     connect(m_effectStack, SIGNAL(displayMessage(QString,int)), m_messageLabel, SLOT(setProgressMessage(QString,int)));
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);
 
@@ -356,7 +356,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     // Color and icon theme stuff
     addAction(QStringLiteral("themes_menu"), themeAction);
-    connect(m_commandStack, SIGNAL(cleanChanged(bool)), m_saveAction, SLOT(setDisabled(bool)));
+    connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
     addAction(QStringLiteral("styles_menu"), stylesAction);
 
     QAction *iconAction = new QAction(i18n("Force Breeze Icon Theme"), this);
@@ -456,7 +456,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     toolButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     toolButtonAction->setDefaultWidget(basketButton);
     addAction(QStringLiteral("favorite_effects"), toolButtonAction);
-    connect(toolButtonAction, SIGNAL(triggered(bool)), basketButton, SLOT(showMenu()));
+    connect(toolButtonAction, &QAction::triggered, basketButton, &QToolButton::showMenu);
 
     // Render button
     ProgressButton *timelineRender = new ProgressButton(i18n("Render"), 100, this);
@@ -506,7 +506,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     // Connect monitor overlay info menu.
     QMenu *monitorOverlay = static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
-    connect(monitorOverlay, SIGNAL(triggered(QAction*)), this, SLOT(slotSwitchMonitorOverlay(QAction*)));
+    connect(monitorOverlay, &QMenu::triggered, this, &MainWindow::slotSwitchMonitorOverlay);
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, Q_NULLPTR, m_loopClip);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container(QStringLiteral("marker_menu"), this)));
@@ -515,13 +515,13 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     clipInTimeline->setIcon(KoIconUtils::themedIcon(QStringLiteral("go-jump")));
     pCore->bin()->setupGeneratorMenu();
 
-    connect(pCore->monitorManager(), SIGNAL(updateOverlayInfos(int,int)), this, SLOT(slotUpdateMonitorOverlays(int,int)));
+    connect(pCore->monitorManager(), &MonitorManager::updateOverlayInfos, this, &MainWindow::slotUpdateMonitorOverlays);
 
     // Setup and fill effects and transitions menus.
     QMenu *m = static_cast<QMenu*>(factory()->container(QStringLiteral("video_effects_menu"), this));
-    connect(m, SIGNAL(triggered(QAction*)), this, SLOT(slotAddVideoEffect(QAction*)));
-    connect(m_effectsMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotAddVideoEffect(QAction*)));
-    connect(m_transitionsMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotAddTransition(QAction*)));
+    connect(m, &QMenu::triggered, this, &MainWindow::slotAddVideoEffect);
+    connect(m_effectsMenu, &QMenu::triggered, this, &MainWindow::slotAddVideoEffect);
+    connect(m_transitionsMenu, &QMenu::triggered, this, &MainWindow::slotAddTransition);
 
     m_timelineContextMenu = new QMenu(this);
     m_timelineContextClipMenu = new QMenu(this);
@@ -558,8 +558,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(QStringLiteral("auto_transition")));
 
-    connect(m_effectList, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
-    connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
+    connect(m_effectList, &EffectsListView::addEffect, this, &MainWindow::slotAddEffect);
+    connect(m_effectList, &EffectsListView::reloadEffects, this, &MainWindow::slotReloadEffects);
 
     slotConnectMonitors();
 
@@ -658,9 +658,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
         }
     }
     pCore->projectManager()->init(Url, clipsToLoad);
-    QTimer::singleShot(0, pCore->projectManager(), SLOT(slotLoadOnOpen()));
-    QTimer::singleShot(0, this, SIGNAL(GUISetupDone()));
-    connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
+    QTimer::singleShot(0, pCore->projectManager(), &ProjectManager::slotLoadOnOpen);
+    QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
+    connect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme, Qt::UniqueConnection);
 
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
@@ -671,7 +671,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
 
 void MainWindow::slotThemeChanged(const QString &theme)
 {
-    disconnect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()));
+    disconnect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme);
     KSharedConfigPtr config = KSharedConfig::openConfig(theme);
     setPalette(KColorScheme::createApplicationPalette(config));
     qApp->setPalette(palette());
@@ -725,7 +725,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
     m_themeInitialized = true;
     m_isDarkTheme = useDarkIcons;
 #endif
-    connect(this, SIGNAL(reloadTheme()), this, SLOT(slotReloadTheme()), Qt::UniqueConnection);
+    connect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme, Qt::UniqueConnection);
 }
 
 bool MainWindow::event(QEvent *e) {
@@ -791,7 +791,7 @@ void MainWindow::loadGenerators()
 {
     QMenu *addMenu = static_cast<QMenu*>(factory()->container(QStringLiteral("generators"), this));
     Generators::getGenerators(KdenliveSettings::producerslist(), addMenu);
-    connect(addMenu, SIGNAL(triggered(QAction *)), this, SLOT(buildGenerator(QAction *)));
+    connect(addMenu, &QMenu::triggered, this, &MainWindow::buildGenerator);
 }
 
 void MainWindow::buildGenerator(QAction *action)
@@ -893,8 +893,8 @@ void MainWindow::slotConnectMonitors()
     //connect(m_projectList, SIGNAL(deleteProjectClips(QStringList,QMap<QString,QString>)), this, SLOT(slotDeleteProjectClips(QStringList,QMap<QString,QString>)));
     connect(m_projectMonitor->render, SIGNAL(gotFileProperties(requestClipInfo,ClipController *)), pCore->bin(), SLOT(slotProducerReady(requestClipInfo,ClipController *)), Qt::DirectConnection);
 
-    connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(QString)), pCore->bin(), SLOT(slotRefreshClipThumbnail(QString)));
-    connect(m_projectMonitor, SIGNAL(requestFrameForAnalysis(bool)), this, SLOT(slotMonitorRequestRenderFrame(bool)));
+    connect(m_clipMonitor, &Monitor::refreshClipThumbnail, pCore->bin(), &Bin::slotRefreshClipThumbnail);
+    connect(m_projectMonitor, &Monitor::requestFrameForAnalysis, this, &MainWindow::slotMonitorRequestRenderFrame);
     connect(m_projectMonitor, &Monitor::createSplitOverlay, this, &MainWindow::createSplitOverlay);
     connect(m_projectMonitor, &Monitor::removeSplitOverlay, this, &MainWindow::removeSplitOverlay);
 }
@@ -1063,7 +1063,7 @@ void MainWindow::setupActions()
     actionWidget->setMaximumWidth(max);
     actionWidget->setMaximumHeight(max - 4);*/
 
-    connect(toolGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotChangeTool(QAction*)));
+    connect(toolGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeTool);
 
     //create automatic audio split button
     m_buttonAutomaticSplitAudio = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-split-audio")), i18n("Split audio and video automatically"), this);
@@ -1075,31 +1075,31 @@ void MainWindow::setupActions()
 
     m_buttonVideoThumbs->setCheckable(true);
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
-    connect(m_buttonVideoThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchVideoThumbs()));
+    connect(m_buttonVideoThumbs, &QAction::triggered, this, &MainWindow::slotSwitchVideoThumbs);
 
     m_buttonAudioThumbs = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audiothumb")), i18n("Show audio thumbnails"), this);
 
     m_buttonAudioThumbs->setCheckable(true);
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
-    connect(m_buttonAudioThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchAudioThumbs()));
+    connect(m_buttonAudioThumbs, &QAction::triggered, this, &MainWindow::slotSwitchAudioThumbs);
 
     m_buttonShowMarkers = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-markers")), i18n("Show markers comments"), this);
 
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
-    connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
+    connect(m_buttonShowMarkers, &QAction::triggered, this, &MainWindow::slotSwitchMarkersComments);
 
     m_buttonSnap = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-snap")), i18n("Snap"), this);
 
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
-    connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
+    connect(m_buttonSnap, &QAction::triggered, this, &MainWindow::slotSwitchSnap);
 
     m_buttonAutomaticTransition = new QAction(KoIconUtils::themedIcon(QStringLiteral("auto-transition")), i18n("Automatic transitions"), this);
 
     m_buttonAutomaticTransition->setCheckable(true);
     m_buttonAutomaticTransition->setChecked(KdenliveSettings::automatictransitions());
-    connect(m_buttonAutomaticTransition, SIGNAL(triggered()), this, SLOT(slotSwitchAutomaticTransition()));
+    connect(m_buttonAutomaticTransition, &QAction::triggered, this, &MainWindow::slotSwitchAutomaticTransition);
 
     m_buttonFitZoom = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Fit zoom to project"), this);
 
@@ -1135,11 +1135,11 @@ void MainWindow::setupActions()
     actionWidget->setMaximumHeight(max - 4);
     actionWidget->setStyleSheet(styleBorderless);*/
 
-    connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetZoom(int)));
-    connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(slotShowZoomSliderToolTip(int)));
-    connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
-    connect(m_zoomIn, SIGNAL(triggered(bool)), this, SLOT(slotZoomIn()));
-    connect(m_zoomOut, SIGNAL(triggered(bool)), this, SLOT(slotZoomOut()));
+    connect(m_zoomSlider, &QAbstractSlider::valueChanged, this, &MainWindow::slotSetZoom);
+    connect(m_zoomSlider, &QAbstractSlider::sliderMoved, this, &MainWindow::slotShowZoomSliderToolTip);
+    connect(m_buttonFitZoom, &QAction::triggered, this, &MainWindow::slotFitZoom);
+    connect(m_zoomIn, &QAction::triggered, this, &MainWindow::slotZoomIn);
+    connect(m_zoomOut, &QAction::triggered, this, &MainWindow::slotZoomOut);
 
     m_trimLabel = new QLabel(QStringLiteral(" "), this);
     m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -1279,7 +1279,7 @@ void MainWindow::setupActions()
     QAction *dropFrames = new QAction(QIcon(), i18n("Real Time (drop frames)"), this);
     dropFrames->setCheckable(true);
     dropFrames->setChecked(KdenliveSettings::monitor_dropframes());
-    connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
+    connect(dropFrames, &QAction::toggled, this, &MainWindow::slotSwitchDropFrames);
 
     KSelectAction *monitorGamma = new KSelectAction(i18n("Monitor Gamma"), this);
     monitorGamma->addAction(i18n("sRGB (computer)"));
@@ -1296,12 +1296,12 @@ void MainWindow::setupActions()
     QAction *resizeStart =  new QAction(QIcon(), i18n("Resize Item Start"), this);
     addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart);
     resizeStart->setShortcut(Qt::Key_1);
-    connect(resizeStart, SIGNAL(triggered(bool)), this, SLOT(slotResizeItemStart()));
+    connect(resizeStart, &QAction::triggered, this, &MainWindow::slotResizeItemStart);
 
     QAction *resizeEnd =  new QAction(QIcon(), i18n("Resize Item End"), this);
     addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd);
     resizeEnd->setShortcut(Qt::Key_2);
-    connect(resizeEnd, SIGNAL(triggered(bool)), this, SLOT(slotResizeItemEnd()));
+    connect(resizeEnd, &QAction::triggered, this, &MainWindow::slotResizeItemEnd);
 
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
               KoIconUtils::themedIcon(QStringLiteral("media-seek-backward")), Qt::ALT + Qt::Key_Left);
@@ -1317,7 +1317,7 @@ void MainWindow::setupActions()
     stickTransition->setCheckable(true);
     stickTransition->setEnabled(false);
     addAction(QStringLiteral("auto_transition"), stickTransition);
-    connect(stickTransition, SIGNAL(triggered(bool)), this, SLOT(slotAutoTransition()));
+    connect(stickTransition, &QAction::triggered, this, &MainWindow::slotAutoTransition);
 
     addAction(QStringLiteral("group_clip"), i18n("Group Clips"), this, SLOT(slotGroupClips()), KoIconUtils::themedIcon(QStringLiteral("object-group")), Qt::CTRL + Qt::Key_G);
 
@@ -1388,7 +1388,7 @@ void MainWindow::setupActions()
     m_clipTypeGroup->addAction(audioOnly);
     m_clipTypeGroup->addAction(videoOnly);
     m_clipTypeGroup->addAction(audioAndVideo);
-    connect(m_clipTypeGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateClipType(QAction*)));
+    connect(m_clipTypeGroup, &QActionGroup::triggered, this, &MainWindow::slotUpdateClipType);
     m_clipTypeGroup->setEnabled(false);
 
     addAction(QStringLiteral("insert_space"), i18n("Insert Space"), this, SLOT(slotInsertSpace()));
@@ -1468,12 +1468,12 @@ void MainWindow::setupActions()
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
     undo->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-undo")));
     undo->setEnabled(false);
-    connect(m_commandStack, SIGNAL(canUndoChanged(bool)), undo, SLOT(setEnabled(bool)));
+    connect(m_commandStack, &QUndoGroup::canUndoChanged, undo, &QAction::setEnabled);
 
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
     redo->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-redo")));
     redo->setEnabled(false);
-    connect(m_commandStack, SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
+    connect(m_commandStack, &QUndoGroup::canRedoChanged, redo, &QAction::setEnabled);
 
     QMenu *addClips = new QMenu(this);
 
@@ -1639,9 +1639,9 @@ void MainWindow::slotEditProjectSettings()
     QPoint p = pCore->projectManager()->currentTimeline()->getTracksCount();
 
     QPointer<ProjectSettings> w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectTempFolder(), true, !project->isModified(), this);
-    connect(w, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
+    connect(w.data(), &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
     connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
-    connect(w, SIGNAL(refreshProfiles()), this, SLOT(slotRefreshProfiles()));
+    connect(w.data(), &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
@@ -1761,11 +1761,11 @@ void MainWindow::slotRenderProject()
         if (project) {
             profile = project->mltProfile();
             m_renderWidget = new RenderWidget(projectfolder, project->useProxy(), profile, this);
-            connect(m_renderWidget, SIGNAL(shutdown()), this, SLOT(slotShutdown()));
-            connect(m_renderWidget, SIGNAL(selectedRenderProfile(QMap<QString,QString>)), this, SLOT(slotSetDocumentRenderProfile(QMap<QString,QString>)));
-            connect(m_renderWidget, SIGNAL(prepareRenderingData(bool,bool,QString,QString)), this, SLOT(slotPrepareRendering(bool,bool,QString,QString)));
-            connect(m_renderWidget, SIGNAL(abortProcess(QString)), this, SIGNAL(abortRenderJob(QString)));
-            connect(m_renderWidget, SIGNAL(openDvdWizard(QString)), this, SLOT(slotDvdWizard(QString)));
+            connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
+            connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
+            connect(m_renderWidget, &RenderWidget::prepareRenderingData, this, &MainWindow::slotPrepareRendering);
+            connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
+            connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
             m_renderWidget->setProfile(project->mltProfile());
             m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
@@ -1892,18 +1892,18 @@ void MainWindow::connectDocument()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
     Timeline *trackView = pCore->projectManager()->currentTimeline();
-    connect(project, SIGNAL(startAutoSave()), pCore->projectManager(), SLOT(slotStartAutoSave()));
-    connect(project, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
+    connect(project, &KdenliveDoc::startAutoSave, pCore->projectManager(), &ProjectManager::slotStartAutoSave);
+    connect(project, &KdenliveDoc::reloadEffects, this, &MainWindow::slotReloadEffects);
     KdenliveSettings::setProject_fps(project->fps());
     m_clipMonitorDock->raise();
     m_effectStack->transitionConfig()->updateProjectFormat();
 
-    connect(trackView, SIGNAL(configTrack()), this, SLOT(slotConfigTrack()));
-    connect(trackView, SIGNAL(updateTracksInfo()), this, SLOT(slotUpdateTrackInfo()));
-    connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
-    connect(pCore->producerQueue(), SIGNAL(infoProcessingFinished()), trackView->projectView(), SLOT(slotInfoProcessingFinished()), Qt::DirectConnection);
+    connect(trackView, &Timeline::configTrack, this, &MainWindow::slotConfigTrack);
+    connect(trackView, &Timeline::updateTracksInfo, this, &MainWindow::slotUpdateTrackInfo);
+    connect(trackView, &Timeline::mousePosition, this, &MainWindow::slotUpdateMousePosition);
+    connect(pCore->producerQueue(), &ProducerQueue::infoProcessingFinished, trackView->projectView(), &CustomTrackView::slotInfoProcessingFinished, Qt::DirectConnection);
 
-    connect(trackView->projectView(), SIGNAL(importKeyframes(GraphicsRectItem,QString,QString)), this, SLOT(slotProcessImportKeyframes(GraphicsRectItem,QString,QString)));
+    connect(trackView->projectView(), &CustomTrackView::importKeyframes, this, &MainWindow::slotProcessImportKeyframes);
     connect(trackView->projectView(), &CustomTrackView::updateTrimMode, this, &MainWindow::setTrimMode);
     connect(m_projectMonitor, &Monitor::multitrackView, trackView, &Timeline::slotMultitrackView);
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
@@ -1911,32 +1911,32 @@ void MainWindow::connectDocument()
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
 
-    connect(project, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
-    connect(trackView->projectView(), SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
-    connect(trackView->projectView(), SIGNAL(loadMonitorScene(MonitorSceneType,bool)), m_projectMonitor, SLOT(slotShowEffectScene(MonitorSceneType,bool)));
+    connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
+    connect(trackView->projectView(), &CustomTrackView::guidesUpdated, this, &MainWindow::slotGuidesUpdated);
+    connect(trackView->projectView(), &CustomTrackView::loadMonitorScene, m_projectMonitor, &Monitor::slotShowEffectScene);
     connect(trackView->projectView(), &CustomTrackView::setQmlProperty, m_projectMonitor, &Monitor::setQmlProperty);
     connect(m_projectMonitor, SIGNAL(acceptRipple(bool)), trackView->projectView(), SLOT(slotAcceptRipple(bool)));
     connect(m_projectMonitor, SIGNAL(switchTrimMode(int)), trackView->projectView(), SLOT(switchTrimMode(int)));
-    connect(project, SIGNAL(saveTimelinePreview(QString)), trackView, SLOT(slotSaveTimelinePreview(QString)));
+    connect(project, &KdenliveDoc::saveTimelinePreview, trackView, &Timeline::slotSaveTimelinePreview);
 
     connect(trackView, SIGNAL(showTrackEffects(int,TrackInfo)), this, SLOT(slotTrackSelected(int,TrackInfo)));
 
-    connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*,bool)), this, SLOT(slotTimelineClipSelected(ClipItem*,bool)), Qt::DirectConnection);
+    connect(trackView->projectView(), &CustomTrackView::clipItemSelected, this, &MainWindow::slotTimelineClipSelected, Qt::DirectConnection);
     connect(trackView->projectView(), &CustomTrackView::setActiveKeyframe, m_effectStack, &EffectStackView2::setActiveKeyframe);
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_effectStack, SLOT(slotTransitionItemSelected(Transition*,int,QPoint,bool)), Qt::DirectConnection);
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), this, SLOT(slotActivateTransitionView(Transition*)));
-    connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
-    connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
-    connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
+    connect(trackView->projectView(), &CustomTrackView::zoomIn, this, &MainWindow::slotZoomIn);
+    connect(trackView->projectView(), &CustomTrackView::zoomOut, this, &MainWindow::slotZoomOut);
+    connect(trackView, &Timeline::setZoom, this, &MainWindow::slotSetZoom);
     connect(trackView, SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
     connect(trackView->projectView(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
-    connect(pCore->bin(), SIGNAL(clipNameChanged(QString)), trackView->projectView(), SLOT(clipNameChanged(QString)));
+    connect(pCore->bin(), &Bin::clipNameChanged, trackView->projectView(), &CustomTrackView::clipNameChanged);
     connect(pCore->bin(), SIGNAL(displayMessage(QString,int,MessageType)), m_messageLabel, SLOT(setProgressMessage(QString,int,MessageType)));
 
     connect(trackView->projectView(), SIGNAL(showClipFrame(const QString&,int)), pCore->bin(), SLOT(selectClipById(const QString&,int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
-    connect(trackView->projectView(), SIGNAL(pauseMonitor()), m_projectMonitor, SLOT(pause()), Qt::DirectConnection);
+    connect(trackView->projectView(), &CustomTrackView::pauseMonitor, m_projectMonitor, &Monitor::pause, Qt::DirectConnection);
     connect(m_projectMonitor, &Monitor::addEffect, trackView->projectView(), &CustomTrackView::slotAddEffectToCurrentItem);
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition*)));
@@ -1947,8 +1947,8 @@ void MainWindow::connectDocument()
     //connect(m_projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), trackView->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
 
     // Effect stack signals
-    connect(m_effectStack, SIGNAL(updateEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*,int,QDomElement,QDomElement,int,bool)));
-    connect(m_effectStack, SIGNAL(updateClipRegion(ClipItem*,int,QString)), trackView->projectView(), SLOT(slotUpdateClipRegion(ClipItem*,int,QString)));
+    connect(m_effectStack, &EffectStackView2::updateEffect, trackView->projectView(), &CustomTrackView::slotUpdateClipEffect);
+    connect(m_effectStack, &EffectStackView2::updateClipRegion, trackView->projectView(), &CustomTrackView::slotUpdateClipRegion);
     connect(m_effectStack, SIGNAL(removeEffect(ClipItem*,int,QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*,int,QDomElement)));
     connect(m_effectStack, SIGNAL(removeEffectGroup(ClipItem*,int,QDomDocument)), trackView->projectView(), SLOT(slotDeleteEffectGroup(ClipItem*,int,QDomDocument)));
 
@@ -1956,17 +1956,17 @@ void MainWindow::connectDocument()
     connect(m_effectStack, SIGNAL(changeEffectState(ClipItem*,int,QList<int>,bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*,int,QList<int>,bool)));
     connect(m_effectStack, SIGNAL(changeEffectPosition(ClipItem*,int,QList<int>,int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*,int,QList<int>,int)));
 
-    connect(m_effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
-    connect(m_effectStack, SIGNAL(seekTimeline(int)), trackView->projectView(), SLOT(seekCursorPos(int)));
+    connect(m_effectStack, &EffectStackView2::refreshEffectStack, trackView->projectView(), &CustomTrackView::slotRefreshEffects);
+    connect(m_effectStack, &EffectStackView2::seekTimeline, trackView->projectView(), &CustomTrackView::seekCursorPos);
     connect(m_effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)), trackView->projectView(), SLOT(slotImportClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)));
 
     // Transition config signals
     connect(m_effectStack->transitionConfig(), SIGNAL(transitionUpdated(Transition*,QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition*,QDomElement)));
-    connect(m_effectStack->transitionConfig(), SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(seekCursorPos(int)));
+    connect(m_effectStack->transitionConfig(), &TransitionSettings::seekTimeline, trackView->projectView() , &CustomTrackView::seekCursorPos);
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()));
     connect(project, &KdenliveDoc::updateFps, trackView, &Timeline::updateProfile, Qt::DirectConnection);
-    connect(trackView, SIGNAL(zoneMoved(int,int)), this, SLOT(slotZoneMoved(int,int)));
+    connect(trackView, &Timeline::zoneMoved, this, &MainWindow::slotZoneMoved);
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu*>(factory()->container(QStringLiteral("marker_menu"), this)));
     if (m_renderWidget) {
         slotCheckRenderStatus();
@@ -1983,7 +1983,7 @@ void MainWindow::connectDocument()
     setWindowModified(project->isModified());
     m_saveAction->setEnabled(project->isModified());
     m_normalEditTool->setChecked(true);
-    connect(m_projectMonitor, SIGNAL(durationChanged(int)), this, SLOT(slotUpdateProjectDuration(int)));
+    connect(m_projectMonitor, &Monitor::durationChanged, this, &MainWindow::slotUpdateProjectDuration);
     pCore->monitorManager()->setDocument(project);
     trackView->updateProfile(1.0);
     if (m_recMonitor) {
@@ -2001,8 +2001,8 @@ void MainWindow::connectDocument()
     // set tool to select tool
     setTrimMode(QStringLiteral());
     m_buttonSelectTool->setChecked(true);
-    connect(m_projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(slotRefreshMonitor(bool)), Qt::UniqueConnection);
-    connect(m_clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(slotRefreshMonitor(bool)), Qt::UniqueConnection);
+    connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
+    connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
 }
 
 void MainWindow::slotZoneMoved(int start, int end)
@@ -2057,16 +2057,16 @@ void MainWindow::slotPreferences(int page, int option)
     }
 
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
-    connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(updateConfiguration()));
-    connect(dialog, SIGNAL(settingsChanged(QString)), SIGNAL(configurationChanged()));
-    connect(dialog, SIGNAL(doResetProfile()), pCore->projectManager(), SLOT(slotResetProfiles()));
-    connect(dialog, SIGNAL(checkTabPosition()), this, SLOT(slotCheckTabPosition()));
-    connect(dialog, SIGNAL(restartKdenlive()), this, SLOT(slotRestart()));
-    connect(dialog, SIGNAL(updateLibraryFolder()), pCore, SIGNAL(updateLibraryPath()));
+    connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
+    connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
+    connect(dialog, &KdenliveSettingsDialog::doResetProfile, pCore->projectManager(), &ProjectManager::slotResetProfiles);
+    connect(dialog, &KdenliveSettingsDialog::checkTabPosition, this, &MainWindow::slotCheckTabPosition);
+    connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
+    connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore, &Core::updateLibraryPath);
 
     if (m_recMonitor) {
-        connect(dialog, SIGNAL(updateCaptureFolder()), this, SLOT(slotUpdateCaptureFolder()));
-        connect(dialog, SIGNAL(updateFullScreenGrab()), m_recMonitor, SLOT(slotUpdateFullScreenGrab()));
+        connect(dialog, &KdenliveSettingsDialog::updateCaptureFolder, this, &MainWindow::slotUpdateCaptureFolder);
+        connect(dialog, &KdenliveSettingsDialog::updateFullScreenGrab, m_recMonitor, &RecMonitor::slotUpdateFullScreenGrab);
     }
     dialog->show();
     if (page != -1) {
@@ -2845,7 +2845,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
             int j = 0;
             QAction *a = new QAction(track + ": " + start, inTimelineMenu);
             a->setData(QStringList() << track << start);
-            connect(a, SIGNAL(triggered()), this, SLOT(slotSelectClipInTimeline()));
+            connect(a, &QAction::triggered, this, &MainWindow::slotSelectClipInTimeline);
             while (j < actionList.count()) {
                 if (actionList.at(j)->text() > a->text()) break;
                 j++;
@@ -3127,7 +3127,7 @@ void MainWindow::buildDynamicActions()
 	    QAction *action = new QAction(i18n("Stabilize") + " (" + stab + ")", m_extraFactory->actionCollection());
             action->setData(QStringList() << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << stab);
 	    ts->addAction(action->text(), action);
-            connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+            connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
             delete filter;
             break;
         }
@@ -3141,7 +3141,7 @@ void MainWindow::buildDynamicActions()
             stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << QStringLiteral("motion_est");
             action->setData(stabJob);
 	    ts->addAction(action->text(), action);
-            connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+            connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
         }
         delete filter;
     }
@@ -3151,13 +3151,13 @@ void MainWindow::buildDynamicActions()
         stabJob << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << QStringLiteral("timewarp");
         action->setData(stabJob);
 	ts->addAction(action->text(), action);
-        connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+        connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
     }
     QAction *action = new QAction(i18n("Analyse keyframes"), m_extraFactory->actionCollection());
     QStringList stabJob(QString::number((int) AbstractClipJob::ANALYSECLIPJOB));
     action->setData(stabJob);
     ts->addAction(action->text(), action);
-    connect(action, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+    connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
     kdenliveCategoryMap.insert(QStringLiteral("clipjobs"), ts);
 
     if (kdenliveCategoryMap.contains(QStringLiteral("transcoderslist"))) {
@@ -3184,7 +3184,7 @@ void MainWindow::buildDynamicActions()
         a->setData(data);
         if (data.count() > 1) a->setToolTip(data.at(1));
         // slottranscode
-        connect(a, SIGNAL(triggered(bool)), pCore->bin(), SLOT(slotStartClipJob(bool)));
+        connect(a, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
 	if (data.count() > 3 && data.at(3) == QLatin1String("audio")) {
 	    // This is an audio transcoding action
 	    ats->addAction(i.key(), a);
@@ -3205,7 +3205,7 @@ void MainWindow::buildDynamicActions()
     QAction *showTimeline = new QAction(i18n("Timeline"), this);
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
-    connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
+    connect(showTimeline, &QAction::triggered, this, &MainWindow::slotShowTimeline);
     guiActions->addAction(showTimeline->text(), showTimeline);
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
@@ -3242,7 +3242,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
     }
     qDebug()<<"// TRANSODINF FOLDER: "<<pCore->bin()->getFolderInfo();
     ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getFolderInfo());
-    connect(d, SIGNAL(addClip(QUrl,const QStringList &)), this, SLOT(slotAddProjectClip(QUrl,const QStringList &)));
+    connect(d, &ClipTranscode::addClip, this, &MainWindow::slotAddProjectClip);
     d->show();
 }
 
@@ -3714,8 +3714,8 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
-    connect(dockWidget, SIGNAL(dockLocationChanged(Qt::DockWidgetArea)), this, SLOT(updateDockTitleBars()));
-    connect(dockWidget, SIGNAL(topLevelChanged(bool)), this, SLOT(updateDockTitleBars(bool)));
+    connect(dockWidget, &QDockWidget::dockLocationChanged, this, &MainWindow::updateDockTitleBars);
+    connect(dockWidget, &QDockWidget::topLevelChanged, this, &MainWindow::updateDockTitleBars);
     return dockWidget;
 }
 
@@ -3824,7 +3824,7 @@ void MainWindow::configureToolbars()
     KEditToolBar *toolBarEditor = new KEditToolBar(guiFactory(), this);
     toolBarEditor->setAttribute(Qt::WA_DeleteOnClose);
     connect(toolBarEditor, SIGNAL(newToolBarConfig()), SLOT(saveNewToolbarConfig()));
-    connect(toolBarEditor, SIGNAL(finished(int)), SLOT(rebuildTimlineToolBar()));
+    connect(toolBarEditor, &QDialog::finished, this, &MainWindow::rebuildTimlineToolBar);
     toolBarEditor->show();
 }
 
@@ -3945,7 +3945,7 @@ void MainWindow::slotManageCache()
     d.setWindowTitle(i18n("Manage Cache Data"));
     QVBoxLayout *lay = new QVBoxLayout;
     TemporaryData tmp(pCore->projectManager()->current(), false, this);
-    connect(&tmp, SIGNAL(disableProxies()), this, SLOT(slotDisableProxies()));
+    connect(&tmp, &TemporaryData::disableProxies, this, &MainWindow::slotDisableProxies);
     connect(&tmp, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);

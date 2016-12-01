@@ -49,10 +49,10 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent
     m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
-    connect(profile_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowParams()));
-    connect(button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
-    connect(button_add, SIGNAL(clicked()), this, SLOT(slotAddProfile()));
-    connect(button_edit, SIGNAL(clicked()), this, SLOT(slotEditProfile()));
+    connect(profile_list, &QListWidget::currentRowChanged, this, &EncodingProfilesDialog::slotShowParams);
+    connect(button_delete, &QAbstractButton::clicked, this, &EncodingProfilesDialog::slotDeleteProfile);
+    connect(button_add, &QAbstractButton::clicked, this, &EncodingProfilesDialog::slotAddProfile);
+    connect(button_edit, &QAbstractButton::clicked, this, &EncodingProfilesDialog::slotEditProfile);
     profile_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     slotLoadProfiles();
 }

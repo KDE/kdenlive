@@ -39,7 +39,7 @@ ProjectItemModel::ProjectItemModel(Bin *bin) :
     QAbstractItemModel(bin)
   , m_bin(bin)
 {
-    connect(m_bin, SIGNAL(itemUpdated(AbstractProjectItem*)), this, SLOT(onItemUpdated(AbstractProjectItem*)));
+    connect(m_bin, &Bin::itemUpdated, this, &ProjectItemModel::onItemUpdated);
 }
 
 ProjectItemModel::~ProjectItemModel()

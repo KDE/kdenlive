@@ -46,8 +46,8 @@ JobManager::JobManager(Bin *bin): QObject()
   , m_bin(bin)
   , m_abortAllJobs(false)
 {
-    connect(this, SIGNAL(processLog(QString,int,int,QString)), this, SLOT(slotProcessLog(QString,int,int,QString)));
-    connect(this, SIGNAL(checkJobProcess()), this, SLOT(slotCheckJobProcess()));
+    connect(this, &JobManager::processLog, this, &JobManager::slotProcessLog);
+    connect(this, &JobManager::checkJobProcess, this, &JobManager::slotCheckJobProcess);
 }
 
 JobManager::~JobManager()
@@ -203,7 +203,7 @@ void JobManager::slotProcessJobs()
             }
         }
         connect(job, SIGNAL(jobProgress(QString,int,int)), this, SIGNAL(processLog(QString,int,int)));
-        connect(job, SIGNAL(cancelRunningJob(QString,QMap<QString, QString>)), m_bin, SLOT(slotCancelRunningJob(QString,QMap<QString, QString>)));
+        connect(job, &AbstractClipJob::cancelRunningJob, m_bin, &Bin::slotCancelRunningJob);
 
         if (job->jobType == AbstractClipJob::MLTJOB || job->jobType == AbstractClipJob::ANALYSECLIPJOB) {
             connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)));
@@ -223,7 +223,7 @@ void JobManager::slotProcessJobs()
         }
     }
     // Thread finished, cleanup & update count
-    QTimer::singleShot(200, this, SIGNAL(checkJobProcess()));
+    QTimer::singleShot(200, this, &JobManager::checkJobProcess);
 }
 
 QList <ProjectClip *> JobManager::filterClips(const QList <ProjectClip *> &clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)

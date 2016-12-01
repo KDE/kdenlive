@@ -47,11 +47,11 @@ SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget* parent) :
         }
     }
     connect(range, SIGNAL(currentIndexChanged(int)), this, SLOT(updateValues()));
-    connect(slider_black, SIGNAL(valueChanged(int)), this, SLOT(effectChanged()));
-    connect(slider_yell, SIGNAL(valueChanged(int)), this, SLOT(effectChanged()));
-    connect(slider_mag, SIGNAL(valueChanged(int)), this, SLOT(effectChanged()));
-    connect(slider_cyan, SIGNAL(valueChanged(int)), this, SLOT(effectChanged()));
-    connect(relative, SIGNAL(toggled(bool)), this, SLOT(effectChanged()));
+    connect(slider_black, &QAbstractSlider::valueChanged, this, &SelectiveColor::effectChanged);
+    connect(slider_yell, &QAbstractSlider::valueChanged, this, &SelectiveColor::effectChanged);
+    connect(slider_mag, &QAbstractSlider::valueChanged, this, &SelectiveColor::effectChanged);
+    connect(slider_cyan, &QAbstractSlider::valueChanged, this, &SelectiveColor::effectChanged);
+    connect(relative, &QAbstractButton::toggled, this, &SelectiveColor::effectChanged);
     updateValues();
 }
 

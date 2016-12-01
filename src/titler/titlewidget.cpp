@@ -145,34 +145,34 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     title_duration->setInputMask(m_tc.mask());
     title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
 
-    connect(backgroundColor, SIGNAL(changed(QColor)), this, SLOT(slotChangeBackground())) ;
+    connect(backgroundColor, &KColorButton::changed, this, &TitleWidget::slotChangeBackground) ;
     connect(backgroundAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
 
-    connect(shadowBox, SIGNAL(toggled(bool)), this, SLOT(slotUpdateShadow()));
-    connect(shadowColor, SIGNAL(changed(QColor)), this, SLOT(slotUpdateShadow()));
+    connect(shadowBox, &QGroupBox::toggled, this, &TitleWidget::slotUpdateShadow);
+    connect(shadowColor, &KColorButton::changed, this, &TitleWidget::slotUpdateShadow);
     connect(blur_radius, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateShadow()));
     connect(shadowX, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateShadow()));
     connect(shadowY, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateShadow()));
 
-    connect(fontColorButton, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText()));
-    connect(plain_color, SIGNAL(clicked(bool)), this, SLOT(slotUpdateText()));
-    connect(gradient_color, SIGNAL(clicked(bool)), this, SLOT(slotUpdateText()));
+    connect(fontColorButton, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
+    connect(plain_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
+    connect(gradient_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
     connect(gradients_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
-    connect(textOutlineColor, SIGNAL(changed(QColor)), this, SLOT(slotUpdateText())) ;
-    connect(font_family, SIGNAL(currentFontChanged(QFont)), this, SLOT(slotUpdateText())) ;
+    connect(textOutlineColor, &KColorButton::changed, this, &TitleWidget::slotUpdateText) ;
+    connect(font_family, &QFontComboBox::currentFontChanged, this, &TitleWidget::slotUpdateText) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
     connect(letter_spacing, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
     connect(line_spacing, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
     connect(textOutline, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
-    connect(font_family, SIGNAL(editTextChanged(QString)), this, SLOT(slotFontText(QString)));
+    connect(font_family, &QComboBox::editTextChanged, this, &TitleWidget::slotFontText);
 
-    connect(rectFColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
-    connect(rectBColor, SIGNAL(changed(QColor)), this, SLOT(rectChanged()));
-    connect(plain_rect, SIGNAL(clicked(bool)), this, SLOT(rectChanged()));
-    connect(gradient_rect, SIGNAL(clicked(bool)), this, SLOT(rectChanged()));
+    connect(rectFColor, &KColorButton::changed, this, &TitleWidget::rectChanged);
+    connect(rectBColor, &KColorButton::changed, this, &TitleWidget::rectChanged);
+    connect(plain_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
+    connect(gradient_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
     connect(gradients_rect_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(rectChanged()));
     connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
 
@@ -190,20 +190,20 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(itemrotatex, SIGNAL(valueChanged(int)), this, SLOT(itemRotateX(int)));
     connect(itemrotatey, SIGNAL(valueChanged(int)), this, SLOT(itemRotateY(int)));
     connect(itemrotatez, SIGNAL(valueChanged(int)), this, SLOT(itemRotateZ(int)));
-    connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
-    connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
-    connect(itemtop, SIGNAL(clicked()), this, SLOT(itemTop()));
-    connect(itembottom, SIGNAL(clicked()), this, SLOT(itemBottom()));
-    connect(itemleft, SIGNAL(clicked()), this, SLOT(itemLeft()));
-    connect(itemright, SIGNAL(clicked()), this, SLOT(itemRight()));
+    connect(itemhcenter, &QAbstractButton::clicked, this, &TitleWidget::itemHCenter);
+    connect(itemvcenter, &QAbstractButton::clicked, this, &TitleWidget::itemVCenter);
+    connect(itemtop, &QAbstractButton::clicked, this, &TitleWidget::itemTop);
+    connect(itembottom, &QAbstractButton::clicked, this, &TitleWidget::itemBottom);
+    connect(itemleft, &QAbstractButton::clicked, this, &TitleWidget::itemLeft);
+    connect(itemright, &QAbstractButton::clicked, this, &TitleWidget::itemRight);
     connect(effect_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotAddEffect(int)));
     connect(typewriter_delay, SIGNAL(valueChanged(int)), this, SLOT(slotEditTypewriter(int)));
     connect(typewriter_start, SIGNAL(valueChanged(int)), this, SLOT(slotEditTypewriter(int)));
 
-    connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
-    connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
+    connect(origin_x_left, &QAbstractButton::clicked, this, &TitleWidget::slotOriginXClicked);
+    connect(origin_y_top, &QAbstractButton::clicked, this, &TitleWidget::slotOriginYClicked);
 
-    connect(render, SIGNAL(frameUpdated(QImage)), this, SLOT(slotGotBackground(QImage)));
+    connect(render, &AbstractRender::frameUpdated, this, &TitleWidget::slotGotBackground);
 
     // Position and size
     m_signalMapper = new QSignalMapper(this);
@@ -217,21 +217,21 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(value_y, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
     connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotValueChanged(int)));
 
-    connect(buttonFitZoom, SIGNAL(clicked()), this, SLOT(slotAdjustZoom()));
-    connect(buttonRealSize, SIGNAL(clicked()), this, SLOT(slotZoomOneToOne()));
-    connect(buttonItalic, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
-    connect(buttonUnder, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
-    connect(buttonAlignLeft, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
-    connect(buttonAlignRight, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
-    connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
-    connect(edit_gradient, SIGNAL(clicked()), this, SLOT(slotEditGradient()));
-    connect(edit_rect_gradient, SIGNAL(clicked()), this, SLOT(slotEditGradient()));
-    connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
+    connect(buttonFitZoom, &QAbstractButton::clicked, this, &TitleWidget::slotAdjustZoom);
+    connect(buttonRealSize, &QAbstractButton::clicked, this, &TitleWidget::slotZoomOneToOne);
+    connect(buttonItalic, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
+    connect(buttonUnder, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
+    connect(buttonAlignLeft, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
+    connect(buttonAlignRight, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
+    connect(buttonAlignCenter, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
+    connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
+    connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
+    connect(displayBg, &QCheckBox::stateChanged, this, &TitleWidget::displayBackgroundFrame);
 
-    connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
+    connect(m_unicodeDialog, &UnicodeDialog::charSelected, this, &TitleWidget::slotInsertUnicodeString);
 
     // mbd
-    connect(this, SIGNAL(accepted()), this, SLOT(slotAccepted()));
+    connect(this, &QDialog::accepted, this, &TitleWidget::slotAccepted);
 
     font_weight_box->blockSignals(true);
     font_weight_box->addItem(i18nc("Font style", "Light"), QFont::Light);
@@ -268,19 +268,19 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_unicodeAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-unicode")), QString(), this);
     m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
     m_unicodeAction->setToolTip(getTooltipWithShortcut(i18n("Insert Unicode character"), m_unicodeAction));
-    connect(m_unicodeAction, SIGNAL(triggered()), this, SLOT(slotInsertUnicode()));
+    connect(m_unicodeAction, &QAction::triggered, this, &TitleWidget::slotInsertUnicode);
     buttonInsertUnicode->setDefaultAction(m_unicodeAction);
 
     m_zUp = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-up")), QString(), this);
     m_zUp->setShortcut(Qt::Key_PageUp);
     m_zUp->setToolTip(i18n("Raise object"));
-    connect(m_zUp, SIGNAL(triggered()), this, SLOT(slotZIndexUp()));
+    connect(m_zUp, &QAction::triggered, this, &TitleWidget::slotZIndexUp);
     zUp->setDefaultAction(m_zUp);
 
     m_zDown = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-down")), QString(), this);
     m_zDown->setShortcut(Qt::Key_PageDown);
     m_zDown->setToolTip(i18n("Lower object"));
-    connect(m_zDown, SIGNAL(triggered()), this, SLOT(slotZIndexDown()));
+    connect(m_zDown, &QAction::triggered, this, &TitleWidget::slotZIndexDown);
     zDown->setDefaultAction(m_zDown);
 
     m_zTop = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-top")), QString(), this);
@@ -288,42 +288,42 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     // cursor is NOT in a text field ...
     //m_zTop->setShortcut(Qt::Key_Home);
     m_zTop->setToolTip(i18n("Raise object to top"));
-    connect(m_zTop, SIGNAL(triggered()), this, SLOT(slotZIndexTop()));
+    connect(m_zTop, &QAction::triggered, this, &TitleWidget::slotZIndexTop);
     zTop->setDefaultAction(m_zTop);
 
     m_zBottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-bottom")), QString(), this);
     // TODO mbt 1414
     //m_zBottom->setShortcut(Qt::Key_End);
     m_zBottom->setToolTip(i18n("Lower object to bottom"));
-    connect(m_zBottom, SIGNAL(triggered()), this, SLOT(slotZIndexBottom()));
+    connect(m_zBottom, &QAction::triggered, this, &TitleWidget::slotZIndexBottom);
     zBottom->setDefaultAction(m_zBottom);
 
     m_selectAll = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-all")), QString(), this);
     m_selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
-    connect(m_selectAll, SIGNAL(triggered()), this, SLOT(slotSelectAll()));
+    connect(m_selectAll, &QAction::triggered, this, &TitleWidget::slotSelectAll);
     buttonSelectAll->setDefaultAction(m_selectAll);
 
     m_selectText = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-texts")), QString(), this);
     m_selectText->setShortcut(Qt::CTRL + Qt::Key_T);
-    connect(m_selectText, SIGNAL(triggered()), this, SLOT(slotSelectText()));
+    connect(m_selectText, &QAction::triggered, this, &TitleWidget::slotSelectText);
     buttonSelectText->setDefaultAction(m_selectText);
     buttonSelectText->setEnabled(false);
 
     m_selectRects = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-rects")), QString(), this);
     m_selectRects->setShortcut(Qt::CTRL + Qt::Key_R);
-    connect(m_selectRects, SIGNAL(triggered()), this, SLOT(slotSelectRects()));
+    connect(m_selectRects, &QAction::triggered, this, &TitleWidget::slotSelectRects);
     buttonSelectRects->setDefaultAction(m_selectRects);
     buttonSelectRects->setEnabled(false);
 
     m_selectImages = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-images")), QString(), this);
     m_selectImages->setShortcut(Qt::CTRL + Qt::Key_I);
-    connect(m_selectImages, SIGNAL(triggered()), this, SLOT(slotSelectImages()));
+    connect(m_selectImages, &QAction::triggered, this, &TitleWidget::slotSelectImages);
     buttonSelectImages->setDefaultAction(m_selectImages);
     buttonSelectImages->setEnabled(false);
 
     m_unselectAll = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-unselect-all")), QString(), this);
     m_unselectAll->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
-    connect(m_unselectAll, SIGNAL(triggered()), this, SLOT(slotSelectNone()));
+    connect(m_unselectAll, &QAction::triggered, this, &TitleWidget::slotSelectNone);
     buttonUnselectAll->setDefaultAction(m_unselectAll);
     buttonUnselectAll->setEnabled(false);
 
@@ -333,9 +333,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     zDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-down")));
     zTop->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-top")));
     zBottom->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-zindex-bottom")));
-    connect(zDown, SIGNAL(clicked()), this, SLOT(slotZIndexDown()));
-    connect(zTop, SIGNAL(clicked()), this, SLOT(slotZIndexTop()));
-    connect(zBottom, SIGNAL(clicked()), this, SLOT(slotZIndexBottom()));
+    connect(zDown, &QAbstractButton::clicked, this, &TitleWidget::slotZIndexDown);
+    connect(zTop, &QAbstractButton::clicked, this, &TitleWidget::slotZIndexTop);
+    connect(zBottom, &QAbstractButton::clicked, this, &TitleWidget::slotZIndexBottom);
 
     origin_x_left->setToolTip(i18n("Invert x axis and change 0 point"));
     origin_y_top->setToolTip(i18n("Invert y axis and change 0 point"));
@@ -383,25 +383,25 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + ' ' + m_buttonCursor->shortcut().toString());
-    connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
+    connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("insert-text")), i18n("Add Text"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
     m_buttonText->setToolTip(i18n("Add Text") + ' ' + m_buttonText->shortcut().toString());
-    connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
+    connect(m_buttonText, &QAction::triggered, this, &TitleWidget::slotTextTool);
 
     m_buttonRect = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-rect")), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
     m_buttonRect->setToolTip(i18n("Add Rectangle") + ' ' + m_buttonRect->shortcut().toString());
-    connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
+    connect(m_buttonRect, &QAction::triggered, this, &TitleWidget::slotRectTool);
 
     m_buttonImage = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("insert-image")), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
     m_buttonImage->setToolTip(i18n("Add Image") + ' ' + m_buttonImage->shortcut().toString());
-    connect(m_buttonImage, SIGNAL(triggered()), this, SLOT(slotImageTool()));
+    connect(m_buttonImage, &QAction::triggered, this, &TitleWidget::slotImageTool);
 
     m_toolbar->addSeparator();
 
@@ -427,9 +427,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
     graphicsView->setRubberBandSelectionMode(Qt::ContainsItemBoundingRect);
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
-    connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
+    connect(m_scene, &QGraphicsScene::changed, this, &TitleWidget::slotChanged);
     connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
-    connect(use_grid, SIGNAL(toggled(bool)), m_scene, SLOT(slotUseGrid(bool)));
+    connect(use_grid, &QAbstractButton::toggled, m_scene, &GraphicsSceneRectMove::slotUseGrid);
 
     // Video frame rect
     QPen framepen;
@@ -470,13 +470,13 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     displayBackgroundFrame();
     graphicsView->scene()->addItem(m_frameImage);
 
-    connect(m_scene, SIGNAL(selectionChanged()), this , SLOT(selectionChanged()));
-    connect(m_scene, SIGNAL(itemMoved()), this , SLOT(selectionChanged()));
-    connect(m_scene, SIGNAL(sceneZoom(bool)), this , SLOT(slotZoom(bool)));
-    connect(m_scene, SIGNAL(actionFinished()), this , SLOT(slotSelectTool()));
-    connect(m_scene, SIGNAL(newRect(QGraphicsRectItem*)), this , SLOT(slotNewRect(QGraphicsRectItem*)));
-    connect(m_scene, SIGNAL(newText(MyTextItem*)), this , SLOT(slotNewText(MyTextItem*)));
-    connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
+    connect(m_scene, &QGraphicsScene::selectionChanged, this , &TitleWidget::selectionChanged);
+    connect(m_scene, &GraphicsSceneRectMove::itemMoved, this , &TitleWidget::selectionChanged);
+    connect(m_scene, &GraphicsSceneRectMove::sceneZoom, this , &TitleWidget::slotZoom);
+    connect(m_scene, &GraphicsSceneRectMove::actionFinished, this , &TitleWidget::slotSelectTool);
+    connect(m_scene, &GraphicsSceneRectMove::newRect, this , &TitleWidget::slotNewRect);
+    connect(m_scene, &GraphicsSceneRectMove::newText, this , &TitleWidget::slotNewText);
+    connect(zoom_slider, &QAbstractSlider::valueChanged, this , &TitleWidget::slotUpdateZoom);
     connect(zoom_spin, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateZoom(int)));
 
     // mbd: load saved settings
@@ -517,15 +517,15 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     } else {
         prepareTools(Q_NULLPTR);
         slotTextTool();
-        QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
+        QTimer::singleShot(200, this, &TitleWidget::slotAdjustZoom);
     }
     initAnimation();
     QColor color = backgroundColor->color();
     m_scene->setBackgroundBrush(QBrush(color));
     color.setAlpha(backgroundAlpha->value());
     m_frameBackground->setBrush(color);
-    connect(anim_start, SIGNAL(toggled(bool)), this, SLOT(slotAnimStart(bool)));
-    connect(anim_end, SIGNAL(toggled(bool)), this, SLOT(slotAnimEnd(bool)));
+    connect(anim_start, &QAbstractButton::toggled, this, &TitleWidget::slotAnimStart);
+    connect(anim_end, &QAbstractButton::toggled, this, &TitleWidget::slotAnimEnd);
     connect(templateBox, SIGNAL(currentIndexChanged(int)), this, SLOT(templateIndexChanged(int)));
 
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(KdenliveSettings::hastitleproducer());
@@ -874,10 +874,10 @@ void TitleWidget::initAnimation()
     graphicsView->scene()->addItem(m_startViewport);
     graphicsView->scene()->addItem(m_endViewport);
 
-    connect(keep_aspect, SIGNAL(toggled(bool)), this, SLOT(slotKeepAspect(bool)));
-    connect(resize50, SIGNAL(clicked()), this, SLOT(slotResize50()));
-    connect(resize100, SIGNAL(clicked()), this, SLOT(slotResize100()));
-    connect(resize200, SIGNAL(clicked()), this, SLOT(slotResize200()));
+    connect(keep_aspect, &QAbstractButton::toggled, this, &TitleWidget::slotKeepAspect);
+    connect(resize50, &QAbstractButton::clicked, this, &TitleWidget::slotResize50);
+    connect(resize100, &QAbstractButton::clicked, this, &TitleWidget::slotResize100);
+    connect(resize200, &QAbstractButton::clicked, this, &TitleWidget::slotResize200);
 }
 
 void TitleWidget::slotUpdateZoom(int pos)
@@ -1968,7 +1968,7 @@ void TitleWidget::setXml(const QDomDocument &doc)
     endViewportY->setValue(m_endViewport->data(1).toInt());
     endViewportSize->setValue(m_endViewport->data(2).toInt());*/
 
-    QTimer::singleShot(200, this, SLOT(slotAdjustZoom()));
+    QTimer::singleShot(200, this, &TitleWidget::slotAdjustZoom);
     slotSelectTool();
     selectionChanged();
 }

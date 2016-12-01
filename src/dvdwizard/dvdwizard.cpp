@@ -94,10 +94,10 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
 
     addPage(page4);
 
-    connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(slotPageChanged(int)));
-    connect(m_status.button_start, SIGNAL(clicked()), this, SLOT(slotGenerate()));
-    connect(m_status.button_abort, SIGNAL(clicked()), this, SLOT(slotAbort()));
-    connect(m_status.button_preview, SIGNAL(clicked()), this, SLOT(slotPreview()));
+    connect(this, &QWizard::currentIdChanged, this, &DvdWizard::slotPageChanged);
+    connect(m_status.button_start, &QAbstractButton::clicked, this, &DvdWizard::slotGenerate);
+    connect(m_status.button_abort, &QAbstractButton::clicked, this, &DvdWizard::slotAbort);
+    connect(m_status.button_preview, &QAbstractButton::clicked, this, &DvdWizard::slotPreview);
 
     QString programName(QStringLiteral("k3b"));
     QString exec = QStandardPaths::findExecutable(programName);
@@ -123,8 +123,8 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     setButtonText(QWizard::CustomButton2, i18n("Save"));
     button(QWizard::CustomButton1)->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     button(QWizard::CustomButton2)->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
-    connect(button(QWizard::CustomButton1), SIGNAL(clicked()), this, SLOT(slotLoad()));
-    connect(button(QWizard::CustomButton2), SIGNAL(clicked()), this, SLOT(slotSave()));
+    connect(button(QWizard::CustomButton1), &QAbstractButton::clicked, this, &DvdWizard::slotLoad);
+    connect(button(QWizard::CustomButton2), &QAbstractButton::clicked, this, &DvdWizard::slotSave);
     setOption(QWizard::HaveCustomButton1, true);
     setOption(QWizard::HaveCustomButton2, true);
     QList<QWizard::WizardButton> layout;
@@ -661,7 +661,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QStrin
     env.insert(QStringLiteral("VIDEO_FORMAT"), m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
     m_dvdauthor->setProcessEnvironment(env);
     connect(m_dvdauthor, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotRenderFinished(int,QProcess::ExitStatus)));
-    connect(m_dvdauthor, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowRenderInfo()));
+    connect(m_dvdauthor, &QProcess::readyReadStandardOutput, this, &DvdWizard::slotShowRenderInfo);
     m_dvdauthor->setProcessChannelMode(QProcess::MergedChannels);
     m_dvdauthor->start(QStringLiteral("dvdauthor"), args);
     m_status.button_abort->setEnabled(true);
@@ -761,7 +761,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     }
     m_mkiso = new QProcess(this);
     connect(m_mkiso, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotIsoFinished(int,QProcess::ExitStatus)));
-    connect(m_mkiso, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowIsoInfo()));
+    connect(m_mkiso, &QProcess::readyReadStandardOutput, this, &DvdWizard::slotShowIsoInfo);
     m_mkiso->setProcessChannelMode(QProcess::MergedChannels);
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     m_status.job_progress->setCurrentRow(4);
@@ -892,7 +892,7 @@ void DvdWizard::slotGenerate()
 
     if (warnMessage.isEmpty() || KMessageBox::questionYesNo(this, warnMessage) == KMessageBox::Yes) {
         cleanup();
-        QTimer::singleShot(300, this, SLOT(generateDvd()));
+        QTimer::singleShot(300, this, &DvdWizard::generateDvd);
         m_status.button_preview->setEnabled(false);
         m_status.button_burn->setEnabled(false);
         m_status.job_progress->setEnabled(true);

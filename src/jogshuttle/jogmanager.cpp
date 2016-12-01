@@ -24,7 +24,7 @@ JogManager::JogManager(QObject* parent) :
 {
     slotConfigurationChanged();
 
-    connect(pCore->window(), SIGNAL(configurationChanged()), SLOT(slotConfigurationChanged()));
+    connect(pCore->window(), &MainWindow::configurationChanged, this, &JogManager::slotConfigurationChanged);
 }
 
 void JogManager::slotConfigurationChanged()
@@ -38,7 +38,7 @@ void JogManager::slotConfigurationChanged()
         m_shuttle = new JogShuttle(JogShuttle::canonicalDevice(KdenliveSettings::shuttledevice()));
         m_shuttleAction = new JogShuttleAction(m_shuttle, JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons()));
 
-        connect(m_shuttleAction, SIGNAL(action(QString)), SLOT(slotDoAction(QString)));
+        connect(m_shuttleAction, &JogShuttleAction::action, this, &JogManager::slotDoAction);
     }
 }
 

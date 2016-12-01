@@ -160,7 +160,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
     m_glMonitor = new GLWidget((int) id);
-    connect(m_glMonitor, SIGNAL(passKeyEvent(QKeyEvent*)), this, SLOT(doKeyPressEvent(QKeyEvent*)));
+    connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow*>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     QuickEventEater *leventEater = new QuickEventEater(this);
@@ -173,7 +173,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     QuickMonitorEventEater *monitorEventEater = new QuickMonitorEventEater(this);
     m_glWidget->installEventFilter(monitorEventEater);
-    connect(monitorEventEater, SIGNAL(doKeyPressEvent(QKeyEvent*)), this, SLOT(doKeyPressEvent(QKeyEvent*)));
+    connect(monitorEventEater, &QuickMonitorEventEater::doKeyPressEvent, this, &Monitor::doKeyPressEvent);
 
     glayout->addWidget(m_videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
@@ -182,16 +182,16 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_horizontalScroll = new QScrollBar(Qt::Horizontal);
     glayout->addWidget(m_horizontalScroll, 1, 0);
     m_horizontalScroll->hide();
-    connect(m_horizontalScroll, SIGNAL(valueChanged(int)), m_glMonitor, SLOT(setOffsetX(int)));
-    connect(m_verticalScroll, SIGNAL(valueChanged(int)), m_glMonitor, SLOT(setOffsetY(int)));
-    connect(m_glMonitor, SIGNAL(frameDisplayed(const SharedFrame&)), this, SLOT(onFrameDisplayed(const SharedFrame&)));
+    connect(m_horizontalScroll, &QAbstractSlider::valueChanged, m_glMonitor, &GLWidget::setOffsetX);
+    connect(m_verticalScroll, &QAbstractSlider::valueChanged, m_glMonitor, &GLWidget::setOffsetY);
+    connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed);
     connect(m_glMonitor, SIGNAL(mouseSeek(int,int)), this, SLOT(slotMouseSeek(int,int)));
     connect(m_glMonitor, SIGNAL(monitorPlay()), this, SLOT(slotPlay()));
-    connect(m_glMonitor, SIGNAL(startDrag()), this, SLOT(slotStartDrag()));
+    connect(m_glMonitor, &GLWidget::startDrag, this, &Monitor::slotStartDrag);
     connect(m_glMonitor, SIGNAL(switchFullScreen(bool)), this, SLOT(slotSwitchFullScreen(bool)));
-    connect(m_glMonitor, SIGNAL(zoomChanged()), this, SLOT(setZoom()));
+    connect(m_glMonitor, &GLWidget::zoomChanged, this, &Monitor::setZoom);
     connect(m_glMonitor, SIGNAL(lockMonitor(bool)), this, SLOT(slotLockMonitor(bool)), Qt::DirectConnection);
-    connect(m_glMonitor, SIGNAL(showContextMenu(QPoint)), this, SLOT(slotShowMenu(QPoint)));
+    connect(m_glMonitor, &GLWidget::showContextMenu, this, &Monitor::slotShowMenu);
     connect(m_glMonitor, &GLWidget::gpuNotSupported, this, &Monitor::gpuError);
 
     m_glWidget->setMinimumSize(QSize(320, 180));
@@ -250,7 +250,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         }
         m_markerMenu->setEnabled(false);
         m_configMenu->addMenu(m_markerMenu);
-        connect(m_markerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotGoToMarker(QAction*)));
+        connect(m_markerMenu, &QMenu::triggered, this, &Monitor::slotGoToMarker);
         m_forceSize = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("transform-scale")), i18n("Force Monitor Size"), this);
         QAction *fullAction = m_forceSize->addAction(QIcon(), i18n("Force 100%"));
         fullAction->setData(100);
@@ -295,14 +295,14 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id == Kdenlive::DvdMonitor) m_ruler->setZone(-3, -2);
     layout->addWidget(m_ruler);
 
-    connect(render, SIGNAL(durationChanged(int,int)), this, SLOT(adjustRulerSize(int,int)));
-    connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
+    connect(render, &Render::durationChanged, this, &Monitor::adjustRulerSize);
+    connect(render, &Render::rendererStopped, this, &Monitor::rendererStopped);
     connect(render, &AbstractRender::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SIGNAL(frameUpdated(QImage)));
-    connect(m_glMonitor, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)), render, SIGNAL(audioSamplesSignal(const audioShortVector&,int,int,int)));
+    connect(m_glMonitor, &GLWidget::audioSamplesSignal, render, &AbstractRender::audioSamplesSignal);
 
     if (id != Kdenlive::ClipMonitor) {
-        connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
+        connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
     } else {
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SLOT(setClipZone(QPoint)));
@@ -313,7 +313,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_sceneVisibilityAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
         m_sceneVisibilityAction->setCheckable(true);
         m_sceneVisibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
-        connect(m_sceneVisibilityAction, SIGNAL(triggered(bool)), this, SLOT(slotEnableEffectScene(bool)));
+        connect(m_sceneVisibilityAction, &QAction::triggered, this, &Monitor::slotEnableEffectScene);
         m_toolbar->addAction(m_sceneVisibilityAction);
     }
 
@@ -377,7 +377,7 @@ void Monitor::slotGetCurrentImage(bool request)
         m_monitorManager->activateMonitor(m_id, true);
         refreshMonitorIfActive();
         // Update analysis state
-        QTimer::singleShot(500, m_monitorManager, SIGNAL(checkScopes()));
+        QTimer::singleShot(500, m_monitorManager, &MonitorManager::checkScopes);
     } else {
         m_glMonitor->releaseAnalyse();
     }
@@ -480,7 +480,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
 
     QAction *overlayAudio = m_contextMenu->addAction(QIcon(), i18n("Overlay audio waveform"));
     overlayAudio->setCheckable(true);
-    connect(overlayAudio, SIGNAL(toggled(bool)), m_glMonitor, SLOT(slotSwitchAudioOverlay(bool)));
+    connect(overlayAudio, &QAction::toggled, m_glMonitor, &GLWidget::slotSwitchAudioOverlay);
     overlayAudio->setChecked(KdenliveSettings::displayAudioOverlay());
 
     QAction *switchAudioMonitor = m_configMenu->addAction(i18n("Show Audio Levels"), this, SLOT(slotSwitchAudioMonitor()));
@@ -1716,7 +1716,7 @@ void Monitor::warningMessage(const QString &text, int timeout, const QList <QAct
     }
     m_infoMessage->setCloseButtonVisible(true);
     m_infoMessage->animatedShow();
-    if (timeout > 0) QTimer::singleShot(timeout, m_infoMessage, SLOT(animatedHide()));
+    if (timeout > 0) QTimer::singleShot(timeout, m_infoMessage, &KMessageWidget::animatedHide);
 }
 
 void Monitor::activateSplit()
@@ -2038,9 +2038,9 @@ void Monitor::displayAudioMonitor(bool isActive)
 {
     bool enable = isActive && (KdenliveSettings::monitoraudio() & m_id);
     if (enable) {
-        connect(m_monitorManager, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)), Qt::UniqueConnection);
+        connect(m_monitorManager, &MonitorManager::frameDisplayed, m_audioMeterWidget, &ScopeWidget::onNewFrame, Qt::UniqueConnection);
     } else {
-        disconnect(m_monitorManager, SIGNAL(frameDisplayed(const SharedFrame&)), m_audioMeterWidget, SLOT(onNewFrame(const SharedFrame&)));
+        disconnect(m_monitorManager, &MonitorManager::frameDisplayed, m_audioMeterWidget, &ScopeWidget::onNewFrame);
     }
     m_audioMeterWidget->setVisibility((KdenliveSettings::monitoraudio() & m_id) != 0);
 }

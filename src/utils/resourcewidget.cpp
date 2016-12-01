@@ -76,9 +76,9 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     QPalette p = palette();
     p.setBrush(QPalette::Base, p.window());
     info_browser->setPalette(p);
-    connect(button_search, SIGNAL(clicked()), this, SLOT(slotStartSearch()));
-    connect(search_results, SIGNAL(currentRowChanged(int)), this, SLOT(slotUpdateCurrentSound()));
-    connect(button_preview, SIGNAL(clicked()), this, SLOT(slotPlaySound()));
+    connect(button_search, &QAbstractButton::clicked, this, &ResourceWidget::slotStartSearch);
+    connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentSound);
+    connect(button_preview, &QAbstractButton::clicked, this, &ResourceWidget::slotPlaySound);
     connect(button_import, SIGNAL(clicked()), this, SLOT(slotSaveItem()));
     connect(item_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeService()));
@@ -88,11 +88,11 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
     if (!m_networkManager->isOnline()) {
         slotOnlineChanged(false);
     }
-    connect(m_networkManager, SIGNAL(onlineStateChanged(bool)), this, SLOT(slotOnlineChanged(bool)));
-    connect(page_next, SIGNAL(clicked()), this, SLOT(slotNextPage()));
-    connect(page_prev, SIGNAL(clicked()), this, SLOT(slotPreviousPage()));
+    connect(m_networkManager, &QNetworkConfigurationManager::onlineStateChanged, this, &ResourceWidget::slotOnlineChanged);
+    connect(page_next, &QAbstractButton::clicked, this, &ResourceWidget::slotNextPage);
+    connect(page_prev, &QAbstractButton::clicked, this, &ResourceWidget::slotPreviousPage);
     connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
-    connect(info_browser, SIGNAL(anchorClicked(QUrl)), this, SLOT(slotOpenLink(QUrl)));
+    connect(info_browser, &QTextBrowser::anchorClicked, this, &ResourceWidget::slotOpenLink);
 
     m_networkAccessManager = new QNetworkAccessManager(this);
 
@@ -110,9 +110,9 @@ ResourceWidget::ResourceWidget(const QString & folder, QWidget * parent) :
 #ifdef QT5_USE_WEBKIT
     m_pOAuth2 = new OAuth2(this);
     connect(m_pOAuth2, SIGNAL(accessTokenReceived(QString)), this, SLOT(slotAccessTokenReceived(QString)));
-    connect(m_pOAuth2, SIGNAL(accessDenied()), this, SLOT(slotFreesoundAccessDenied()));
-    connect(m_pOAuth2, SIGNAL( UseHQPreview()), this, SLOT(slotFreesoundUseHQPreview()));
-    connect(m_pOAuth2, SIGNAL(Canceled()), this, SLOT(slotFreesoundCanceled()));
+    connect(m_pOAuth2, &OAuth2::accessDenied, this, &ResourceWidget::slotFreesoundAccessDenied);
+    connect(m_pOAuth2, &OAuth2::UseHQPreview, this, &ResourceWidget::slotFreesoundUseHQPreview);
+    connect(m_pOAuth2, &OAuth2::Canceled, this, &ResourceWidget::slotFreesoundCanceled);
 #endif
     m_currentService = new FreeSound(search_results);
     m_currentService->slotStartSearch(QStringLiteral("dummy"), 0);// Run a dummy search to initialise the search.
@@ -261,7 +261,7 @@ void ResourceWidget::slotLoadPreview(const QString &url)
     m_tmpThumbFile->close();
     if (m_tmpThumbFile->open()) {
         KIO::FileCopyJob *copyjob = KIO::file_copy(gif_url, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::HideProgressInfo | KIO::Overwrite);
-        connect(copyjob, SIGNAL(result(KJob*)), this, SLOT(slotLoadAnimatedGif(KJob*)));
+        connect(copyjob, &KJob::result, this, &ResourceWidget::slotLoadAnimatedGif);
         copyjob->start();
     }
 }
@@ -442,7 +442,7 @@ void ResourceWidget::DoFileDownload(const QUrl &srcUrl, const QUrl &saveUrl)
     getJob->setProperty("originurl", m_currentInfo.itemDownload);
     if (!m_currentInfo.authorUrl.isEmpty()) getJob->setProperty("author", m_currentInfo.authorUrl);
     else if (!m_currentInfo.author.isEmpty()) getJob->setProperty("author", m_currentInfo.author);
-    connect(getJob, SIGNAL(result(KJob*)), this, SLOT(slotGotFile(KJob*)));
+    connect(getJob, &KJob::result, this, &ResourceWidget::slotGotFile);
     getJob->start();
 }
 
@@ -546,10 +546,10 @@ void ResourceWidget::slotChangeService()
 
     connect(m_currentService, SIGNAL(gotMetaInfo(QString)), this, SLOT(slotSetMetadata(QString)));
     connect(m_currentService, SIGNAL(gotMetaInfo(QMap<QString,QString>)), this, SLOT(slotDisplayMetaInfo(QMap<QString,QString>)));
-    connect(m_currentService, SIGNAL(maxPages(int)), this, SLOT(slotSetMaximum(int)));
-    connect(m_currentService, SIGNAL(searchInfo(QString)), search_info, SLOT(setText(QString)));
-    connect(m_currentService, SIGNAL(gotThumb(QString)), this, SLOT(slotLoadThumb(QString)));
-    connect(m_currentService, SIGNAL(searchDone()), this, SLOT(slotSearchFinished()));
+    connect(m_currentService, &AbstractService::maxPages, this, &ResourceWidget::slotSetMaximum);
+    connect(m_currentService, &AbstractService::searchInfo, search_info, &QLabel::setText);
+    connect(m_currentService, &AbstractService::gotThumb, this, &ResourceWidget::slotLoadThumb);
+    connect(m_currentService, &AbstractService::searchDone, this, &ResourceWidget::slotSearchFinished);
     if (m_currentService->hasPreview)
         connect (m_currentService,SIGNAL(previewFinished()),this, SLOT(slotPreviewFinished()));
 
@@ -771,8 +771,8 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
          updateLayout();
 
          QNetworkReply *reply2 = m_networkAccessManager->get(request);
-         connect(reply2, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
-         connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(DownloadRequestFinished(QNetworkReply*)));
+         connect(reply2, &QIODevice::readyRead, this, &ResourceWidget::slotReadyRead);
+         connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &ResourceWidget::DownloadRequestFinished);
      }
      else
      {

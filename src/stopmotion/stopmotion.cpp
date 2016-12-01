@@ -157,17 +157,17 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     //setAttribute(Qt::WA_DeleteOnClose);
     //HACK: the monitor widget is hidden, it is just used to control the capturedevice from monitormanager
     m_monitor->setHidden(true);
-    connect(m_monitor, SIGNAL(stopCapture()), this, SLOT(slotStopCapture()));
+    connect(m_monitor, &StopmotionMonitor::stopCapture, this, &StopmotionWidget::slotStopCapture);
     m_manager->appendMonitor(m_monitor);
     QAction* analyze = new QAction(i18n("Send frames to color scopes"), this);
     analyze->setCheckable(true);
     analyze->setChecked(KdenliveSettings::analyse_stopmotion());
-    connect(analyze, SIGNAL(triggered(bool)), this, SLOT(slotSwitchAnalyse(bool)));
+    connect(analyze, &QAction::triggered, this, &StopmotionWidget::slotSwitchAnalyse);
 
     QAction* mirror = new QAction(i18n("Mirror display"), this);
     mirror->setCheckable(true);
     //mirror->setChecked(KdenliveSettings::analyse_stopmotion());
-    connect(mirror, SIGNAL(triggered(bool)), this, SLOT(slotSwitchMirror(bool)));
+    connect(mirror, &QAction::triggered, this, &StopmotionWidget::slotSwitchMirror);
 
     addActions(actions);
     setupUi(this);
@@ -177,12 +177,12 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     live_button->setIcon(QIcon::fromTheme(QStringLiteral("camera-photo")));
 
     m_captureAction = actions.at(0);
-    connect(m_captureAction, SIGNAL(triggered()), this, SLOT(slotCaptureFrame()));
+    connect(m_captureAction, &QAction::triggered, this, &StopmotionWidget::slotCaptureFrame);
     m_captureAction->setCheckable(true);
     m_captureAction->setChecked(false);
     capture_button->setDefaultAction(m_captureAction);
 
-    connect(actions.at(1), SIGNAL(triggered()), this, SLOT(slotSwitchLive()));
+    connect(actions.at(1), &QAction::triggered, this, &StopmotionWidget::slotSwitchLive);
 
     QAction *intervalCapture = new QAction(i18n("Interval capture"), this);
     intervalCapture->setIcon(QIcon::fromTheme(QStringLiteral("chronometer")));
@@ -197,7 +197,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     // Build config menu
     QMenu* confMenu = new QMenu;
     m_showOverlay = actions.at(2);
-    connect(m_showOverlay, SIGNAL(triggered(bool)), this, SLOT(slotShowOverlay(bool)));
+    connect(m_showOverlay, &QAction::triggered, this, &StopmotionWidget::slotShowOverlay);
     overlay_button->setDefaultAction(m_showOverlay);
     //confMenu->addAction(m_showOverlay);
 
@@ -230,20 +230,20 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
             list.at(i)->setChecked(true);
         }
     }
-    connect(effectsMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotUpdateOverlayEffect(QAction*)));
+    connect(effectsMenu, &QMenu::triggered, this, &StopmotionWidget::slotUpdateOverlayEffect);
     confMenu->addMenu(effectsMenu);
 
     QAction* showThumbs = new QAction(QIcon::fromTheme(QStringLiteral("image-x-generic")), i18n("Show sequence thumbnails"), this);
     showThumbs->setCheckable(true);
     showThumbs->setChecked(KdenliveSettings::showstopmotionthumbs());
-    connect(showThumbs, SIGNAL(triggered(bool)), this, SLOT(slotShowThumbs(bool)));
+    connect(showThumbs, &QAction::triggered, this, &StopmotionWidget::slotShowThumbs);
 
     QAction* removeCurrent = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete current frame"), this);
     removeCurrent->setShortcut(Qt::Key_Delete);
-    connect(removeCurrent, SIGNAL(triggered()), this, SLOT(slotRemoveFrame()));
+    connect(removeCurrent, &QAction::triggered, this, &StopmotionWidget::slotRemoveFrame);
 
     QAction* conf = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure"), this);
-    connect(conf, SIGNAL(triggered()), this, SLOT(slotConfigure()));
+    connect(conf, &QAction::triggered, this, &StopmotionWidget::slotConfigure);
 
     confMenu->addAction(showThumbs);
     confMenu->addAction(removeCurrent);
@@ -290,8 +290,8 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     } else live_button->setEnabled(false);*/
 
     m_frame_preview = new MyLabel(this);
-    connect(m_frame_preview, SIGNAL(seek(bool)), this, SLOT(slotSeekFrame(bool)));
-    connect(m_frame_preview, SIGNAL(switchToLive()), this, SLOT(slotSwitchLive()));
+    connect(m_frame_preview, &MyLabel::seek, this, &StopmotionWidget::slotSeekFrame);
+    connect(m_frame_preview, &MyLabel::switchToLive, this, &StopmotionWidget::slotSwitchLive);
     layout->addWidget(m_frame_preview);
     m_frame_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     video_preview->setLayout(layout);
@@ -318,19 +318,19 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
 
     live_button->setChecked(false);
     button_addsequence->setEnabled(false);
-    connect(live_button, SIGNAL(toggled(bool)), this, SLOT(slotLive(bool)));
-    connect(button_addsequence, SIGNAL(clicked(bool)), this, SLOT(slotAddSequence()));
-    connect(preview_button, SIGNAL(clicked(bool)), this, SLOT(slotPlayPreview(bool)));
-    connect(frame_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotShowSelectedFrame()));
-    connect(frame_list, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotShowSelectedFrame()));
-    connect(this, SIGNAL(doCreateThumbs(QImage,int)), this, SLOT(slotCreateThumbs(QImage,int)));
+    connect(live_button, &QAbstractButton::toggled, this, &StopmotionWidget::slotLive);
+    connect(button_addsequence, &QAbstractButton::clicked, this, &StopmotionWidget::slotAddSequence);
+    connect(preview_button, &QAbstractButton::clicked, this, &StopmotionWidget::slotPlayPreview);
+    connect(frame_list, &QListWidget::currentRowChanged, this, &StopmotionWidget::slotShowSelectedFrame);
+    connect(frame_list, &QListWidget::itemClicked, this, &StopmotionWidget::slotShowSelectedFrame);
+    connect(this, &StopmotionWidget::doCreateThumbs, this, &StopmotionWidget::slotCreateThumbs);
 
     frame_list->addAction(removeCurrent);
     frame_list->setContextMenuPolicy(Qt::ActionsContextMenu);
     frame_list->setHidden(!KdenliveSettings::showstopmotionthumbs());
     parseExistingSequences();
     QTimer::singleShot(500, this, SLOT(slotLive()));
-    connect(&m_intervalTimer, SIGNAL(timeout()), this, SLOT(slotCaptureFrame()));
+    connect(&m_intervalTimer, &QTimer::timeout, this, &StopmotionWidget::slotCaptureFrame);
     m_intervalTimer.setSingleShot(true);
     m_intervalTimer.setInterval(KdenliveSettings::captureinterval() * 1000);
 }
@@ -371,7 +371,7 @@ void StopmotionWidget::slotConfigure()
     ui.sm_interval->setSuffix(ki18np(" second", " seconds"));
     ui.sm_notifytime->setSuffix(ki18np(" second", " seconds"));
     ui.sm_notifytime->setValue(KdenliveSettings::sm_notifytime());
-    connect(ui.sm_prenotify, SIGNAL(toggled(bool)), ui.sm_notifytime, SLOT(setEnabled(bool)));
+    connect(ui.sm_prenotify, &QAbstractButton::toggled, ui.sm_notifytime, &QWidget::setEnabled);
     ui.sm_prenotify->setChecked(KdenliveSettings::sm_prenotify());
     ui.sm_loop->setChecked(KdenliveSettings::sm_loop());
     ui.sm_framesplayback->setValue(KdenliveSettings::sm_framesplayback());
@@ -601,7 +601,7 @@ void StopmotionWidget::slotUpdateOverlay()
 void StopmotionWidget::sequenceNameChanged(const QString& name)
 {
     // Get rid of frames from previous sequence
-    disconnect(this, SIGNAL(doCreateThumbs(QImage,int)), this, SLOT(slotCreateThumbs(QImage,int)));
+    disconnect(this, &StopmotionWidget::doCreateThumbs, this, &StopmotionWidget::slotCreateThumbs);
     m_filesList.clear();
     m_future.waitForFinished();
     frame_list->clear();
@@ -613,12 +613,12 @@ void StopmotionWidget::sequenceNameChanged(const QString& name)
         m_sequenceFrame = m_filesList.isEmpty() ? 0 : SlideshowClip::getFrameNumberFromPath(QUrl::fromLocalFile(m_filesList.last())) + 1;
         if (!m_filesList.isEmpty()) {
             m_sequenceName = sequence_name->currentText();
-            connect(this, SIGNAL(doCreateThumbs(QImage,int)), this, SLOT(slotCreateThumbs(QImage,int)));
+            connect(this, &StopmotionWidget::doCreateThumbs, this, &StopmotionWidget::slotCreateThumbs);
             m_future = QtConcurrent::run(this, &StopmotionWidget::slotPrepareThumbs);
             button_addsequence->setEnabled(true);
         } else {
             // new sequence
-            connect(this, SIGNAL(doCreateThumbs(QImage,int)), this, SLOT(slotCreateThumbs(QImage,int)));
+            connect(this, &StopmotionWidget::doCreateThumbs, this, &StopmotionWidget::slotCreateThumbs);
             button_addsequence->setEnabled(false);
         }
         capture_button->setEnabled(live_button->isChecked());
@@ -655,7 +655,7 @@ void StopmotionWidget::slotCaptureFrame()
     button_addsequence->setEnabled(true);
     if (capture_interval->isChecked()) {
         if (KdenliveSettings::sm_prenotify())
-            QTimer::singleShot((KdenliveSettings::captureinterval() - KdenliveSettings::sm_notifytime()) * 1000, this, SLOT(slotPreNotify()));
+            QTimer::singleShot((KdenliveSettings::captureinterval() - KdenliveSettings::sm_notifytime()) * 1000, this, &StopmotionWidget::slotPreNotify);
         m_intervalTimer.start();
     }
     else
@@ -758,7 +758,7 @@ void StopmotionWidget::slotPlayPreview(bool animate)
     if (KdenliveSettings::showstopmotionthumbs()) {
         if (KdenliveSettings::sm_framesplayback() == 0) frame_list->setCurrentRow(0);
         else frame_list->setCurrentRow(frame_list->count() - KdenliveSettings::sm_framesplayback());
-        QTimer::singleShot(200, this, SLOT(slotAnimate()));
+        QTimer::singleShot(200, this, &StopmotionWidget::slotAnimate);
     } else {
         SlideshowClip::selectedPath(QUrl::fromLocalFile(getPathForFrame(0, sequence_name->currentText())), false, QString(), &m_animationList);
         if (KdenliveSettings::sm_framesplayback() > 0) {
@@ -786,7 +786,7 @@ void StopmotionWidget::slotAnimate()
                     }
                 }
                 frame_list->setCurrentRow(newRow);
-                QTimer::singleShot(100, this, SLOT(slotAnimate()));
+                QTimer::singleShot(100, this, &StopmotionWidget::slotAnimate);
                 return;
             }
         } else {
@@ -797,7 +797,7 @@ void StopmotionWidget::slotAnimate()
             if (m_animatedIndex > -1) {
                 slotShowFrame(m_animationList.at(m_animatedIndex));
                 m_animatedIndex++;
-                QTimer::singleShot(100, this, SLOT(slotAnimate()));
+                QTimer::singleShot(100, this, &StopmotionWidget::slotAnimate);
                 return;
             }
         }

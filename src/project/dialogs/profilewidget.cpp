@@ -96,7 +96,7 @@ ProfileWidget::ProfileWidget(QWidget* parent) :
     connect(m_standard, SIGNAL(activated(int)), this, SLOT(updateList()));
     connect(m_rate_list, SIGNAL(activated(int)), this, SLOT(ratesUpdated()));
     connect(m_customSize, SIGNAL(activated(int)), this, SLOT(slotCheckInterlace()));
-    connect(m_interlaced, SIGNAL(clicked(bool)), this, SLOT(updateDisplay()));
+    connect(m_interlaced, &QAbstractButton::clicked, this, &ProfileWidget::updateDisplay);
     connect(m_display_list, SIGNAL(activated(int)), this, SLOT(selectProfile()));
     connect(m_sample_list, SIGNAL(activated(int)), this, SLOT(selectProfile()));
     connect(m_color_list, SIGNAL(activated(int)), this, SLOT(selectProfile()));
