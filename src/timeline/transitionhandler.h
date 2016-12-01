@@ -48,13 +48,13 @@ public:
     void deleteTrackTransitions(int ix);
     bool moveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
-    void duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field);
+    void duplicateTransitionOnPlaylist(int in, int out, const QString &tag, const QDomElement &xml, int a_track, int b_track, Mlt::Field *field);
     /** @brief Get a transition with tag name. */
     Mlt::Transition *getTransition(const QString &name, int b_track, int a_track = -1, bool internalTransition = false) const;
     /** @brief Enable/disable multitrack split view. */
     void enableMultiTrack(bool enable);
     /** @brief Returns internal track transition. */
-    Mlt::Transition *getTrackTransition(const QStringList names, int b_track, int a_track) const;
+    Mlt::Transition *getTrackTransition(const QStringList &names, int b_track, int a_track) const;
     /** @brief Switch track compositing mode. */
     void rebuildTransitions(int mode, const QList<int> &videoTracks, int maxTrack);
     /** @brief Returns the matching composite transition depending on the current settings. */

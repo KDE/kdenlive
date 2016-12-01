@@ -430,7 +430,7 @@ Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_tra
     return 0;
 }
 
-Mlt::Transition *TransitionHandler::getTrackTransition(const QStringList names, int b_track, int a_track) const
+Mlt::Transition *TransitionHandler::getTrackTransition(const QStringList &names, int b_track, int a_track) const
 {
     QScopedPointer<Mlt::Service> service(m_tractor->field());
     while (service && service->is_valid()) {
@@ -449,7 +449,7 @@ Mlt::Transition *TransitionHandler::getTrackTransition(const QStringList names, 
     return 0;
 }
 
-void TransitionHandler::duplicateTransitionOnPlaylist(int in, int out, QString tag, QDomElement xml, int a_track, int b_track, Mlt::Field *field)
+void TransitionHandler::duplicateTransitionOnPlaylist(int in, int out, const QString &tag, const QDomElement &xml, int a_track, int b_track, Mlt::Field *field)
 {
     QMap<QString, QString> args = getTransitionParamsFromXml(xml);
     Mlt::Transition transition(*m_tractor->profile(), tag.toUtf8().constData());
