@@ -556,7 +556,7 @@ private:
     /** @brief Timeline selection changed, update effect stack. */
     void updateTimelineSelection();
     /** @brief Break groups containing an item in a locked track. */
-    void breakLockedGroups(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
+    void breakLockedGroups(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transitionsToMove, QUndoCommand *masterCommand, bool doIt = true);
     void slotTrackUp();
     void slotTrackDown();
 

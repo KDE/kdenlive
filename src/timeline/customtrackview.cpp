@@ -8243,7 +8243,7 @@ void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString &geometry)
     slotImportClipKeyframes(AVWidget, clip->info(), currentEffect.cloneNode().toElement(), data);
 }
 
-void CustomTrackView::breakLockedGroups(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> transitionsToMove, QUndoCommand *masterCommand, bool doIt)
+void CustomTrackView::breakLockedGroups(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transitionsToMove, QUndoCommand *masterCommand, bool doIt)
 {
     QList <AbstractGroupItem *> processedGroups;
     for (int i = 0; i < clipsToMove.count(); ++i) {
