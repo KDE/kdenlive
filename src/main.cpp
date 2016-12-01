@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     // Init application
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
-    app.setWindowIcon(QIcon(":/pics/kdenlive.png"));
+    app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
     KLocalizedString::setApplicationDomain("kdenlive");
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
