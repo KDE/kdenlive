@@ -1142,22 +1142,22 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent * event)
     event->accept();
 }
 
-void GLWidget::setOffsetX(int x)
+void GLWidget::setOffsetX(int x, int max)
 {
     m_offset.setX(x);
     emit offsetChanged();
+    if (rootObject()) {
+        rootObject()->setProperty("offsetx", m_zoom > 1.0f ? x - max / 2.0 - 10: 0);
+    }
     update();
 }
 
-void GLWidget::setOffsetY(int y)
+void GLWidget::setOffsetY(int y, int max)
 {
     m_offset.setY(y);
-    emit offsetChanged();
-    // TODO: pass scrollbar offset for qml view
-    /*if (rootObject()) {
-        double scaley = (double) m_rect.width() / (((double) m_monitorProfile->height() * m_monitorProfile->dar() / m_monitorProfile->width())) /         m_monitorProfile->width() * m_zoom;
-        rootObject()->setProperty("offsety", y / scaley );
-    }*/
+    if (rootObject()) {
+        rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0 - 10: 0);
+    }
     update();
 }
 

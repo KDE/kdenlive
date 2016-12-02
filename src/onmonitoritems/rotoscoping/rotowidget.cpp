@@ -335,29 +335,35 @@ void RotoWidget::setupTrackingListen(const ItemInfo &info)
         // TODO: track effects
         return;
     }
+    Mlt::Producer *clip = NULL;
+    if (info.track == 0) {
+        clip = m_monitor->render->getProducer();
+    } else {
+        Mlt::Service service(m_monitor->render->getProducer()->parent().get_service());
+        Mlt::Tractor tractor(service);
+        Mlt::Producer trackProducer(tractor.track(info.track));
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        clip = trackPlaylist.get_clip_at((int)info.startPos.frames(KdenliveSettings::project_fps()));
+    }
 
-    Mlt::Service service(m_monitor->render->getProducer()->parent().get_service());
-    Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(tractor.count() - info.track - 1));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int)info.startPos.frames(KdenliveSettings::project_fps()));
     if (!clip) {
         return;
     }
 
     int i = 0;
-    Mlt::Filter *filter = clip->filter(0);
-    while (filter) {
-        if (strcmp(filter->get("kdenlive_id"), "rotoscoping") == 0) {
-            m_filter = filter;
-            filter->listen("tracking-finished", this, (mlt_listener)tracking_finished);
+    Mlt::Service service(*clip);
+    for (int ix = 0; ix < service.filter_count(); ++ix) {
+        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
+        QString id = effect->get("kdenlive_id");
+        if (id == QLatin1String("rotoscoping")) {
+            m_filter = service.filter(ix);
+            m_filter->listen("tracking-finished", this, (mlt_listener)tracking_finished);
             break;
         }
-        filter = clip->filter(++i);
     }
-
-    delete clip;
+    if (info.track > 0) {
+        delete clip;
+    }
 }
 
 void RotoWidget::setSpline(const QByteArray &spline, bool notify)
