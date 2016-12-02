@@ -22,7 +22,6 @@
 
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 
 #include <QPen>
 #include <QBrush>

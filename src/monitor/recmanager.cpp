@@ -30,12 +30,10 @@
 #include <KMessageBox>
 #include "klocalizedstring.h"
 
-#include <QDebug>
 #include <QComboBox>
 #include <QToolBar>
 #include <QDesktopWidget>
 #include <QStandardPaths>
-#include <QIcon>
 #include <QDir>
 #include <QFile>
 

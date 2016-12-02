@@ -32,13 +32,13 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QWheelEvent>
-#include <QMimeData>
 #include <QFontDatabase>
 #include <QFileDialog>
 #include <QDebug>
 #include <QStandardPaths>
 #include <QPainter>
 #include <QTimeLine>
+#include <QMimeData>
 
 #include <KRecentDirs>
 #include <KComboBox>

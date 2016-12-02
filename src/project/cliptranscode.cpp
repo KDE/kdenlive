@@ -21,7 +21,6 @@
 #include "cliptranscode.h"
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 #include <QFontDatabase>
 #include <QStandardPaths>
 

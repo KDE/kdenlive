@@ -21,7 +21,6 @@
 #include "kdenlivesettings.h"
 
 #include <QMouseEvent>
-#include <QLayout>
 #include <QLineEdit>
 #include <QStyle>
 #include <QFontDatabase>

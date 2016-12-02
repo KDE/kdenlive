@@ -27,11 +27,11 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMutexLocker>
-#include <QMimeData>
 #include <QDir>
 #include <QDebug>
 #include <QFontDatabase>
 #include <QStandardPaths>
+#include <QMimeData>
 
 #include <klocalizedstring.h>
 #include <KMessageBox>

@@ -24,7 +24,6 @@
 #include "kdenlivesettings.h"
 
 #include <QWheelEvent>
-#include <QDebug>
 #include <QFontDatabase>
 
 #include "klocalizedstring.h"

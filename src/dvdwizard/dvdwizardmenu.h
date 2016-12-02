@@ -31,7 +31,6 @@
 #include <QGraphicsRectItem>
 #include <QDomElement>
 
-#include <QDebug>
 #include <KMessageWidget>
 
 class DvdScene : public QGraphicsScene

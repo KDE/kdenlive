@@ -22,7 +22,6 @@
 
 #include <QTableWidget>
 #include <KComboBox>
-#include <QDebug>
 #include <QIcon>
 
 #include "klocalizedstring.h"

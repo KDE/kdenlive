@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timeline/clip.h"
 
 #include <QtConcurrent>
-#include <QPainter>
 
 
 ProducerQueue::ProducerQueue(BinController *controller) : QObject(controller)

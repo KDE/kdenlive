@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QTabWidget>
-#include <QDialogButtonBox>
 #include <QPaintEvent>
 #include <QFontMetrics>
 #include <QPainter>

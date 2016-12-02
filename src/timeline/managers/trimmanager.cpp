@@ -24,9 +24,7 @@
 #include "renderer.h"
 
 #include <KLocalizedString>
-#include <QtConcurrent>
 #include <QStandardPaths>
-#include <QProcess>
 #include <mlt++/MltPlaylist.h>
 
 

@@ -19,7 +19,6 @@
 #ifndef SHAREDFRAME_H
 #define SHAREDFRAME_H
 
-#include <QObject>
 #include <QExplicitlySharedDataPointer>
 #include <mlt++/MltFrame.h>
 #include <stdint.h>

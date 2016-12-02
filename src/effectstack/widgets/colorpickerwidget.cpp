@@ -29,9 +29,6 @@
 #include <QFrame>
 #include <QApplication>
 #include <QTimer>
-#include <QIcon>
-#include <QDebug>
-#include <QWindow>
 #include <klocalizedstring.h>
 
 #ifdef Q_WS_X11

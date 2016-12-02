@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QLabel>
 #include <QComboBox>
-#include <QDebug>
-#include <QListWidgetItem>
 #include <KLocalizedString>
 #include <KMessageWidget>
 

@@ -43,14 +43,10 @@
 #include <KIO/SimpleJob>
 #include <KRun>
 #include <KConfigGroup>
-#include <KPixmapSequence>
 #include <KFileItem>
 #include <KMessageBox>
-#include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
-#include <QJsonParseError>
-#include <QJsonDocument>
 #include <QMovie>
 #include <QPixmap>
 

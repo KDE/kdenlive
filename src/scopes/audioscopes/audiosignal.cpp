@@ -19,7 +19,6 @@
 
 #include "audiosignal.h"
 
-#include <QDebug>
 
 #include <QPainter>
 #include <QTime>

@@ -28,12 +28,8 @@
 #include "scopes/sharedframe.h"
 #include "effectslist/effectslist.h"
 
-#include <QLabel>
 #include <QDomElement>
 #include <QToolBar>
-#include <QWindow>
-#include <QIcon>
-#include <QProcess>
 #include <QElapsedTimer>
 
 class SmallRuler;

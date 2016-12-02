@@ -23,13 +23,12 @@
 #include "kdenlivesettings.h"
 #include "definitions.h"
 
-#include <QDebug>
 #include <QFontDatabase>
 #include <KColorScheme>
 
 #include <QMouseEvent>
-#include <QStylePainter>
 #include <QApplication>
+#include <QPainter>
 
 const int margin = 5;
 

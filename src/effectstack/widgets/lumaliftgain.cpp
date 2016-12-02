@@ -23,10 +23,7 @@
 #include "effectstack/widgets/colorwheel.h"
 #include "utils/flowlayout.h"
 
-#include <QLabel>
-#include <QHBoxLayout>
 
-#include <QDebug>
 #include <KLocalizedString>
 
 static const double GAMMA_FACTOR = 2.0;

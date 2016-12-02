@@ -30,7 +30,6 @@
 #include <QWizard>
 #include <QProcess>
 
-#include <QDebug>
 #include <QTemporaryFile>
 
 typedef QMap <QString, QRect> stringRectMap;

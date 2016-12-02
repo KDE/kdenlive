@@ -37,7 +37,6 @@
 #include <mlt++/Mlt.h>
 
 
-#include <KMessageBox>
 #include <KIO/JobUiDelegate>
 #include <KIO/MkdirJob>
 #include <solid/device.h>
@@ -46,16 +45,11 @@
 #include <solid/storagevolume.h>
 #include <klocalizedstring.h>
 #include <KJobWidgets/KJobWidgets>
-#include <KRecentDirs>
-#include <KFileItem>
 
 #include <QGraphicsItemGroup>
 #include <QtConcurrent>
 #include <QApplication>
-#include <QMimeType>
 #include <QCheckBox>
-#include <QHBoxLayout>
-#include <QFileDialog>
 
 ClipManager::ClipManager(KdenliveDoc *doc) :
     QObject(),

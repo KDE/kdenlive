@@ -21,7 +21,6 @@
 
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 #include <QIcon>
 #include <klocalizedstring.h>
 #include <QFontDatabase>

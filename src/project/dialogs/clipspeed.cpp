@@ -24,7 +24,6 @@
 #include <klocalizedstring.h>
 #include <QFontDatabase>
 #include <QStandardPaths>
-#include <KUrlRequester>
 #include <QMenu>
 
 ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget * parent) :

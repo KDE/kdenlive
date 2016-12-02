@@ -23,9 +23,9 @@
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QTextStream>
 
 #include <KColorButton>
-#include <QDebug>
 
 static QColor stringToColor(QString strColor)
 {

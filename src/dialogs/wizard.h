@@ -23,12 +23,8 @@
 
 #include <QWizard>
 #include <QVBoxLayout>
-#include <QItemDelegate>
 #include <QWizardPage>
-#include <QPainter>
 
-#include <QIcon>
-#include <QDebug>
 
 #include "ui_wizardstandard_ui.h"
 #include "ui_wizardextra_ui.h"

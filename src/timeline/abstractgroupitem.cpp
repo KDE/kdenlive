@@ -25,14 +25,12 @@
 
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QDomDocument>
 #include <QGraphicsSceneMouseEvent>
 #include <QMimeData>
-
 
 AbstractGroupItem::AbstractGroupItem(double /* fps */) :
     QObject(),

@@ -20,11 +20,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtWidgets>
 #include <QOpenGLFunctions_3_2_Core>
-#include <QUrl>
-#include <QtQml>
 #include <QQuickItem>
+#include <QApplication>
+#include <QPainter>
 
 #include <mlt++/Mlt.h>
 #include "glwidget.h"

@@ -37,10 +37,8 @@
 
 #include "oauth2.h"
 #include <QDebug>
-#include <QApplication>
 #include "logindialog.h"
 
-#include <QMessageBox>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QJsonParseError>

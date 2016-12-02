@@ -29,11 +29,11 @@
 #include <QGraphicsView>
 #include <QCursor>
 #include <QTextCursor>
-#include <QTextDocument>
 #include <QList>
 #include <QKeyEvent>
 #include <QApplication>
 #include <QTextBlock>
+#include <QTextDocument>
 
 MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent) :
     QGraphicsEffect(parent)

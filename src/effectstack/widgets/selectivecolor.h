@@ -25,9 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_selectivecolor_ui.h"
 
 #include <QWidget>
-#include <QDomNodeList>
 #include <QLocale>
-
+#include <QDomElement>
 
 /**
  * @class SelectiveColor

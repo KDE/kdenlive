@@ -33,7 +33,6 @@
 #include <KDualAction>
 
 #include <QObject>
-#include <QTimer>
 #include <QDebug>
 
 MonitorManager::MonitorManager(QObject *parent) :

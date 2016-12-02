@@ -48,10 +48,8 @@
 #include <QList>
 #include <QEvent>
 #include <QMutex>
-#include <QFuture>
 #include <QSemaphore>
 #include <QTimer>
-#include <QDir>
 
 class KComboBox;
 class BinController;

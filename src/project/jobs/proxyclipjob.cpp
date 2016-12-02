@@ -26,7 +26,6 @@
 #include <QProcess>
 #include <QTemporaryFile>
 
-#include <QDebug>
 #include <klocalizedstring.h>
 
 ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList& parameters, QTemporaryFile *playlist)

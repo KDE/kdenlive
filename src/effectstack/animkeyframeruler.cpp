@@ -25,12 +25,11 @@
 
 #include "mlt++/MltAnimation.h"
 
-#include <QDebug>
 #include <QFontDatabase>
 #include <KColorScheme>
 
+#include <QPainter>
 #include <QMouseEvent>
-#include <QStylePainter>
 #include <QApplication>
 
 const int margin = 5;

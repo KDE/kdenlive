@@ -20,7 +20,6 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 
 #include <QLabel>
 #include <QSlider>

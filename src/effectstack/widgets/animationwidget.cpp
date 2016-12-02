@@ -29,13 +29,11 @@
 #include <QStandardPaths>
 #include <QComboBox>
 #include <QDir>
-#include <QInputDialog>
 #include <QCheckBox>
 #include <QDialogButtonBox>
-#include <QDragEnterEvent>
-#include <QMimeData>
 #include <QClipboard>
-
+#include <QLineEdit>
+#include <QDialog>
 #include <KDualAction>
 #include <KConfig>
 #include <KConfigGroup>

@@ -19,7 +19,6 @@
 #include "effectslist.h"
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 #include <klocalizedstring.h>
 
 

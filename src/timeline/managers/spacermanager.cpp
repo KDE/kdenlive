@@ -22,8 +22,6 @@
 #include "timeline/clipitem.h"
 #include "timeline/abstractgroupitem.h"
 
-#include <KLocalizedString>
-#include <QProcess>
 #include <QGraphicsItem>
 #include <QApplication>
 

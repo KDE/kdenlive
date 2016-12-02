@@ -24,7 +24,6 @@
 #include <QGridLayout>
 #include <QRadioButton>
 
-#include <QDebug>
 
 
 DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, bool showRadiobutton, QWidget *parent) 

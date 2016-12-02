@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EFFECTSETTINGS_H
 #define EFFECTSETTINGS_H
 
-#include <QDomElement>
 #include <QCheckBox>
 
 #include "definitions.h"

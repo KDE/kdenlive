@@ -27,9 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "klocalizedstring.h"
 #include <KComboBox>
 #include <QDir>
-#include <QLabel>
 #include <QStandardPaths>
-#include <QDebug>
 
 TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget * parent) :
     QDialog(parent)

@@ -19,7 +19,6 @@
 
 #include "dvdwizardchapters.h"
 
-#include <QDebug>
 
 
 DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :

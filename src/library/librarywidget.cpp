@@ -27,14 +27,12 @@
 #include "kdenlivesettings.h"
 
 #include <QVBoxLayout>
-#include <QDateTime>
 #include <QStandardPaths>
 #include <QTreeWidgetItem>
 #include <QInputDialog>
 #include <QAction>
 #include <QMimeData>
 #include <QDropEvent>
-#include <QtConcurrent>
 #include <QToolBar>
 #include <QProgressBar>
 

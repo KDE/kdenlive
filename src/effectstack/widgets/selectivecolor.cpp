@@ -22,9 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effectstack/widgets/selectivecolor.h"
 #include "utils/KoIconUtils.h"
 
-#include <QLabel>
-#include <QComboBox>
-#include <QDebug>
 #include <KLocalizedString>
 
 SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget* parent) :

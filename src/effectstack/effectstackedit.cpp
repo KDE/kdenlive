@@ -22,7 +22,6 @@
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
 
-#include <QDebug>
 #include <KComboBox>
 
 #include <QVBoxLayout>

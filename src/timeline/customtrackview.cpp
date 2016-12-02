@@ -57,7 +57,6 @@
 
 #include <QDebug>
 #include <klocalizedstring.h>
-#include <KCursor>
 #include <KMessageBox>
 #include <KRecentDirs>
 

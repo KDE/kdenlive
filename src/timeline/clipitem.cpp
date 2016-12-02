@@ -34,8 +34,6 @@
 
 #include <klocalizedstring.h>
 #include <QDebug>
-#include <QIcon>
-#include <QtConcurrent>
 #include <QPainter>
 #include <QTimer>
 #include <QStyleOptionGraphicsItem>

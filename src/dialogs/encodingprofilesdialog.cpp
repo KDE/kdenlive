@@ -23,7 +23,6 @@
 #include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
-#include <QDebug>
 #include <QVBoxLayout>
 #include <QLineEdit>
 #include <QPlainTextEdit>

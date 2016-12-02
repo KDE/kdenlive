@@ -15,7 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUrl>
 #include <QTimer>
 #include <QTime>
-
+#include <QDir>
 #include <KRecentFilesAction>
 #include "kdenlivecore_export.h"
 

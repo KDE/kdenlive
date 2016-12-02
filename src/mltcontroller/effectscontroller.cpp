@@ -24,11 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dialogs/profilesdialog.h"
 #include "effectstack/widgets/animationwidget.h"
 
-#include <QUrl>
 #include <QDebug>
-#include <QPixmap>
 #include <QScriptEngine>
-#include <KLocalizedString>
 
 EffectInfo::EffectInfo() {isCollapsed = false; groupIndex = -1; groupIsCollapsed = false;}
 

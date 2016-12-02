@@ -28,7 +28,6 @@
 
 #include <QWizardPage>
 
-#include <QDebug>
 
 class DvdWizardChapters : public QWizardPage
 {

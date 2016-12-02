@@ -25,11 +25,9 @@
 
 #include "mlt++/Mlt.h"
 
-#include <QDebug>
 #include <klocalizedstring.h>
 
 #include <QApplication>
-#include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>

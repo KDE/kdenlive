@@ -24,7 +24,6 @@
 #include "definitions.h"
 
 #include <QUndoCommand>
-#include <QMap>
 #include <QPoint>
 
 class ProjectList;

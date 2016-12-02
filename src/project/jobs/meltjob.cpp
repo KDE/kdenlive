@@ -22,8 +22,6 @@
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 
-#include <QDebug>
-#include <QUrl>
 #include <klocalizedstring.h>
 
 #include <mlt++/Mlt.h>

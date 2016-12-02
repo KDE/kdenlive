@@ -41,19 +41,14 @@
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <QDialog>
-#include <QPainter>
 #include <QString>
 #include <QApplication>
 #include <QProcess>
-#include <QtConcurrent>
 
 #include <cstdlib>
 #include <cstdarg>
-#include <KConfigGroup>
 #include <KRecentDirs>
-#include <QDialogButtonBox>
 #include <QPushButton>
-#include <QVBoxLayout>
 
 #define SEEK_INACTIVE (-1)
 

@@ -27,7 +27,6 @@
 
 
 #include <QDomDocument>
-#include <QSize>
 
 namespace Kdenlive {
   enum EFFECTTYPE { simpleEffect, groupEffect };

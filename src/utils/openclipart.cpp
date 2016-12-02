@@ -24,7 +24,6 @@
 #include <QListWidget>
 #include <QDomDocument>
 
-#include <QDebug>
 #include <kio/job.h>
 
 

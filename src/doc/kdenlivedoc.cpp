@@ -44,7 +44,6 @@
 #include "timeline/transitionhandler.h"
 
 #include <KMessageBox>
-#include <KRecentDirs>
 #include <klocalizedstring.h>
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
@@ -55,12 +54,10 @@
 #include <QFile>
 #include <QDebug>
 #include <QFileDialog>
-#include <QInputDialog>
 #include <QDomImplementation>
 #include <QUndoGroup>
 #include <QTimer>
 #include <QUndoStack>
-#include <QTextEdit>
 
 #include <mlt++/Mlt.h>
 #include <KJobWidgets/KJobWidgets>

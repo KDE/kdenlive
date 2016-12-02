@@ -34,7 +34,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include <QDomElement>
-#include <QDir>
 
 #include <mlt++/Mlt.h>
 

@@ -31,13 +31,10 @@
 #include <QApplication>
 #include <QMenu>
 #include <QAction>
-#include <QStyle>
 
-#include <QDebug>
-#include <QIcon>
 #include <klocalizedstring.h>
 #include <QFontDatabase>
-
+#include <QStyle>
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider, QWidget* parent) :
     QWidget(parent),

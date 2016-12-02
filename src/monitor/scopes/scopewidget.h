@@ -21,7 +21,6 @@
 
 #include <QWidget>
 #include <QString>
-#include <QDebug>
 #include <QThread>
 #include <QFuture>
 #include <QMutex>

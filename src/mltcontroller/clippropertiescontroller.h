@@ -27,8 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <mlt++/Mlt.h>
 #include <QString>
-#include <QObject>
-#include <QUrl>
 
 class ClipController;
 class QMimeData;

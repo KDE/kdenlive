@@ -24,7 +24,6 @@
 #include "kdenlivesettings.h"
 
 #include "klocalizedstring.h"
-#include <QDebug>
 #include <QAction>
 #include <QMenu>
 #include <QMimeData>

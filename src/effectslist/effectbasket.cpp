@@ -23,7 +23,6 @@
 #include "effectslistwidget.h"
 #include "effectslistview.h"
 
-#include <QDebug>
 #include <klocalizedstring.h>
 
 #include <QListWidget>

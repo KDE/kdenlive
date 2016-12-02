@@ -84,7 +84,6 @@ return frameNumber;
 #include "timecode.h"
 
 #include <QDebug>
-#include <KLocalizedString>
 
 Timecode::Timecode(Formats format, double framesPerSecond)
 {

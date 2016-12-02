@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QPainter>
 #include <QAction>
-#include <QApplication>
 #include "klocalizedstring.h"
 
 #include "keyframeview.h"

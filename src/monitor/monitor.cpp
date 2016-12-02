@@ -53,7 +53,6 @@
 #include <QToolButton>
 #include <QToolBar>
 #include <QDesktopWidget>
-#include <QLabel>
 #include <QVBoxLayout>
 #include <QSlider>
 #include <QDrag>

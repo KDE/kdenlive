@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstractprojectitem.h"
 #include "definitions.h"
 
-#include <QUrl>
-#include <QMutex>
 
 class ProjectFolder;
 class ProjectClip;

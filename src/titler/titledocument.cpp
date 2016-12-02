@@ -35,7 +35,6 @@
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsTextItem>
-#include <QTextDocument>
 #include <QGraphicsSvgItem>
 #include <QCryptographicHash>
 #include <QSvgRenderer>

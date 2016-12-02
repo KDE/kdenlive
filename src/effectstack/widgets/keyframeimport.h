@@ -23,7 +23,6 @@
 #define KEYFRAMEIMPORT_H
 
 #include <QDialog>
-#include <QPixmap>
 #include <QLabel>
 
 #include "definitions.h"

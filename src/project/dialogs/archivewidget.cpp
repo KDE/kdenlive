@@ -29,7 +29,6 @@
 #include <KGuiItem>
 #include <KTar>
 #include <QDebug>
-#include <KJobWidgets>
 #include <kio/directorysizejob.h>
 #include <KMessageWidget>
 

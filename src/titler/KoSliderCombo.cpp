@@ -26,14 +26,12 @@
 #include <QStyle>
 #include <QStylePainter>
 #include <QStyleOptionSlider>
-#include <QLineEdit>
 #include <QValidator>
 #include <QHBoxLayout>
 #include <QMenu>
 #include <QMouseEvent>
 #include <QDesktopWidget>
 
-#include <QDebug>
 
 class KoSliderComboContainer : public QMenu
 {

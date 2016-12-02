@@ -32,14 +32,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/bin.h"
 #include "mlt++/Mlt.h"
 
-#include <QProcess>
-#include <QDialog>
 #include <QDebug>
 #include <QtConcurrent>
 
 #include <KMessageWidget>
 #include <klocalizedstring.h>
-#include <KMessageBox>
 #include "ui_scenecutdialog_ui.h"
 
 JobManager::JobManager(Bin *bin): QObject()

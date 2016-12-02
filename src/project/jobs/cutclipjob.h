@@ -24,7 +24,6 @@
 
 #include "abstractclipjob.h"
 
-#include <QJsonDocument>
 
 class ProjectClip;
 

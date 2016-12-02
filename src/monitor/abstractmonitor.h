@@ -25,10 +25,8 @@
 #include <stdint.h>
 
 #include <QObject>
-#include <QVector>
 #include <QWidget>
 #include <QImage>
-#include <QFrame>
 
 class MonitorManager;
 

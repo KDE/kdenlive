@@ -24,8 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "utils/KoIconUtils.h"
 
-#include <QDebug>
-#include <QMimeData>
 #include <QScrollArea>
 #include <QApplication>
 #include <QToolButton>
@@ -33,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QResizeEvent>
 #include "klocalizedstring.h"
 
-#include <KDualAction>
 
 ElidedCheckBox::ElidedCheckBox(QWidget *parent) :
     QCheckBox(parent)

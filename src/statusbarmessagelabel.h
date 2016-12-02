@@ -26,7 +26,6 @@
 
 
 #include <QList>
-#include <QPixmap>
 #include <QWidget>
 #include <QTimer>
 #include <QSemaphore>

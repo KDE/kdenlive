@@ -21,7 +21,6 @@
 #include "clipdurationdialog.h"
 #include "clipitem.h"
 
-#include <QDebug>
 #include <QFontDatabase>
 
 #include <QWheelEvent>

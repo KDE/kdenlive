@@ -27,7 +27,6 @@
 #include "project/dialogs/clipspeed.h"
 #include "ui_scenecutdialog_ui.h"
 
-#include <QDebug>
 #include <QUrl>
 #include <klocalizedstring.h>
 #include <KMessageBox>

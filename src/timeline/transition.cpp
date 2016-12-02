@@ -30,8 +30,8 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QPropertyAnimation>
-#include <QMimeData>
 #include <klocalizedstring.h>
+#include <QMimeData>
 
 Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params, bool automaticTransition) :
     AbstractClipItem(info, QRectF(), fps),

@@ -29,9 +29,8 @@
 
 #include <QToolButton>
 #include <QDragEnterEvent>
-#include <QMimeData>
 #include <QDomDocument>
-#include <QDebug>
+#include <QMimeData>
 
 class EffectsList;
 class EffectsListWidget;

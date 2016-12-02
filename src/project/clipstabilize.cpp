@@ -24,7 +24,6 @@
 #include "effectstack/effectstackview2.h"
 #include "effectstack/positionedit.h"
 
-#include <QDebug>
 #include <mlt++/Mlt.h>
 #include "kdenlivesettings.h"
 #include <QFontDatabase>

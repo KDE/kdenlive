@@ -23,7 +23,6 @@
 #include "kdenlivesettings.h"
 #include "timeline.h"
 
-#include <QDebug>
 #include <QIcon>
 
 

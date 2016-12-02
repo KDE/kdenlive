@@ -18,7 +18,8 @@
 
 #include "cubicbezierspline.h"
 #include <QStringList>
-#include <QDebug>
+#include <QLocale>
+#include <QVector>
 
 /** @brief For sorting a Bezier spline. Whether a is before b. */
 static bool pointLessThan(const BPoint &a, const BPoint &b)

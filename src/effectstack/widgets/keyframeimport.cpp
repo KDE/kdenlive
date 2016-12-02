@@ -21,12 +21,10 @@
 
 #include "utils/KoIconUtils.h"
 
-#include <QDebug>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QDialogButtonBox>
 #include <QLabel>
-#include <QSlider>
 #include <QComboBox>
 #include <QCheckBox>
 #include <QSpinBox>

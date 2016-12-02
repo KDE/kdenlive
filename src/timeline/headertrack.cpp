@@ -29,7 +29,6 @@
 #include <KColorScheme>
 
 #include <QDebug>
-#include <QIcon>
 #include <QMouseEvent>
 #include <QWidget>
 #include <QAction>

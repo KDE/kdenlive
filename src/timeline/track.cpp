@@ -27,7 +27,6 @@
 #include "clip.h"
 #include "effectmanager.h"
 
-#include <QtGlobal>
 #include <QDebug>
 #include <math.h>
 

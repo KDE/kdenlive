@@ -36,8 +36,8 @@
 #include <QDebug>
 #include <QIcon>
 #include <QDir>
-#include <QMenu>
 #include <QStandardPaths>
+#include <QMenu>
 // KDE includes
 
 #include <kmessagebox.h>

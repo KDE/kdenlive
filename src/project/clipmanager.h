@@ -23,7 +23,6 @@
 
 #include <QtXml/qdom.h>
 #include <QObject>
-#include <QTimer>
 #include <QMutex>
 #include <QFuture>
 

@@ -27,7 +27,6 @@
 #include <QGraphicsItemAnimation>
 #include <QTimeLine>
 #include <QMenu>
-#include <QUndoStack>
 #include <QMutex>
 #include <QWaitCondition>
 

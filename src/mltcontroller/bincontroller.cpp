@@ -22,7 +22,6 @@
 #include "clipcontroller.h"
 #include "kdenlivesettings.h"
 
-#include <QFileInfo>
 
 static const char* kPlaylistTrackId = "main bin";
 

@@ -26,7 +26,6 @@
 #include "timeline/timelinecommands.h"
 
 #include <KLocalizedString>
-#include <QProcess>
 #include <QGraphicsItem>
 
 #include <QMouseEvent>

@@ -25,6 +25,7 @@
 #include "recmonitor.h"
 
 #include "timecode.h"
+#include <QDir>
 
 class KdenliveDoc;
 class BinController;

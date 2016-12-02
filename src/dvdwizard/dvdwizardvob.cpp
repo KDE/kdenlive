@@ -35,12 +35,11 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QDomDocument>
-#include <QMimeData>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
 #include <unistd.h>
 #include <QStandardPaths>
-#include <QProgressBar>
+#include <QMimeData>
 
 DvdTreeWidget::DvdTreeWidget(QWidget *parent) :
     QTreeWidget(parent)

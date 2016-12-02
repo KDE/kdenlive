@@ -31,8 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <QIcon>
 #include <QMimeData>
-#include <QDebug>
-#include <QStringListModel>
 
 
 ProjectItemModel::ProjectItemModel(Bin *bin) :

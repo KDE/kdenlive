@@ -29,10 +29,9 @@
 #include "doc/kdenlivedoc.h"
 #include "utils/KoIconUtils.h"
 
-#include <QDebug>
-#include <QMimeData>
-#include <QTreeWidget>
 #include "klocalizedstring.h"
+
+#include <QMimeData>
 
 TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     QWidget(parent),

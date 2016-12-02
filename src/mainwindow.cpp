@@ -99,8 +99,6 @@
 #include <QStatusBar>
 #include <QTemporaryFile>
 #include <QMenu>
-#include <QDesktopWidget>
-#include <QBitmap>
 #include <QUndoGroup>
 #include <QFileDialog>
 #include <QStyleFactory>
@@ -112,7 +110,6 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QtGlobal>
 #include <QScreen>
 
 static const char version[] = KDENLIVE_VERSION;

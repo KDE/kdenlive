@@ -20,7 +20,6 @@
 
 #include <QIcon>
 #include <QApplication>
-#include <QPalette>
 #include <QDebug>
 
 #include <kiconloader.h>

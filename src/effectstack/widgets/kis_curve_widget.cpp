@@ -35,7 +35,6 @@
 #include <QPen>
 #include <QEvent>
 #include <QRect>
-#include <QFont>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QPaintEvent>

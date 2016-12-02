@@ -27,7 +27,6 @@
 #include "klocalizedstring.h"
 
 #include <QDir>
-#include <QScriptEngine>
 #include <QCloseEvent>
 #include <QStandardPaths>
 #include <QDebug>
