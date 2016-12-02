@@ -29,7 +29,7 @@
 #include <klocalizedstring.h>
 
 #include <QApplication>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QDialog>
 #include <QPointer>
 #include <QJsonObject>
@@ -413,7 +413,7 @@ void CutClipJob::processAnalyseLog()
 {
     QJsonDocument doc = QJsonDocument::fromJson(m_logDetails.toUtf8());
     if (doc.isEmpty()) {
-        qDebug()<<"+ + + + +CORRUPTED JSON DOC";
+        qCDebug(KDENLIVE_LOG)<<"+ + + + +CORRUPTED JSON DOC";
     }
     QJsonObject jsonObject = doc.object();
     QJsonArray jsonArray = jsonObject[QStringLiteral("frames")].toArray();

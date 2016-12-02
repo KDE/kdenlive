@@ -27,7 +27,7 @@
 #include "ui_smconfig_ui.h"
 #include "kdenlivesettings.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QFontDatabase>
 
 #include <KMessageBox>
@@ -296,7 +296,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     m_frame_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     video_preview->setLayout(layout);
 
-    ////qDebug()<<video_preview->winId();
+    ////qCDebug(KDENLIVE_LOG)<<video_preview->winId();
 
     QString profilePath;
     // Create MLT producer data
@@ -437,7 +437,7 @@ void StopmotionWidget::parseExistingSequences()
     filters << QStringLiteral("*_0000.png");
     //dir.setNameFilters(filters);
     QStringList sequences = dir.entryList(filters, QDir::Files, QDir::Name);
-    ////qDebug()<<"PF: "<<<<", sm: "<<sequences;
+    ////qCDebug(KDENLIVE_LOG)<<"PF: "<<<<", sm: "<<sequences;
     foreach(const QString &sequencename, sequences) {
         sequence_name->addItem(sequencename.section('_', 0, -2));
     }
@@ -506,7 +506,7 @@ void StopmotionWidget::slotLive(bool isOn)
             log_box->setCurrentIndex(0);
         }
         else {
-            //qDebug()<<"// problem starting stopmo";
+            //qCDebug(KDENLIVE_LOG)<<"// problem starting stopmo";
             log_box->insertItem(-1, i18n("Failed to start device"));
             log_box->setCurrentIndex(0);
             */

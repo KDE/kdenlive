@@ -34,7 +34,7 @@
 #include <QWheelEvent>
 #include <QFontDatabase>
 #include <QFileDialog>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QStandardPaths>
 #include <QPainter>
 #include <QTimeLine>
@@ -115,7 +115,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     QDomElement namenode = m_effect.firstChildElement(QStringLiteral("name"));
     if (namenode.isNull()) {
         // Warning, broken effect?
-        //qDebug()<<"// Could not create effect";
+        //qCDebug(KDENLIVE_LOG)<<"// Could not create effect";
         return;
     }
     QString effectname = i18n(namenode.text().toUtf8().data());
@@ -520,7 +520,7 @@ void CollapsibleEffect::setActiveKeyframe(int frame)
 void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo)
 {
     if (m_effect.isNull()) {
-        //         //qDebug() << "// EMPTY EFFECT STACK";
+        //         //qCDebug(KDENLIVE_LOG) << "// EMPTY EFFECT STACK";
         return;
     }
     if (m_paramWidget) {
@@ -600,7 +600,7 @@ void CollapsibleEffect::updateTimecodeFormat()
 
 void CollapsibleEffect::slotUpdateRegionEffectParams(const QDomElement &/*old*/, const QDomElement &/*e*/, int /*ix*/)
 {
-    //qDebug()<<"// EMIT CHANGE SUBEFFECT.....:";
+    //qCDebug(KDENLIVE_LOG)<<"// EMIT CHANGE SUBEFFECT.....:";
     emit parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 

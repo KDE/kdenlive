@@ -29,7 +29,7 @@
 #include "glwidget.h"
 #include <config-kdenlive.h>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include "klocalizedstring.h"
 
 #include <KComboBox>
@@ -363,7 +363,7 @@ void RecMonitor::slotDisconnect()
 {
     if (m_captureProcess->state() == QProcess::NotRunning) {
         m_captureTime = QDateTime::currentDateTime();
-        //qDebug() << "CURRENT TIME: " << m_captureTime.toString();       
+        //qCDebug(KDENLIVE_LOG) << "CURRENT TIME: " << m_captureTime.toString();       
         m_didCapture = false;
         slotStartPreview(false);
         m_discAction->setIcon(QIcon::fromTheme(QStringLiteral("network-disconnect")));
@@ -505,7 +505,7 @@ void RecMonitor::slotStartPreview(bool play)
 
         m_captureProcess->setStandardOutputProcess(m_displayProcess);
         m_captureProcess->setWorkingDirectory(m_capturePath);
-        //qDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
+        //qCDebug(KDENLIVE_LOG) << "Capture: Running dvgrab " << m_captureArgs.join(" ");
 
         m_captureProcess->start(KdenliveSettings::dvgrab_path(), m_captureArgs);
         if (play) m_captureProcess->write(" ", 1);
@@ -551,7 +551,7 @@ void RecMonitor::slotStartPreview(bool play)
     control_frame->setEnabled(false);
 
     if (device_selector->currentIndex() == Firewire) {
-        //qDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
+        //qCDebug(KDENLIVE_LOG) << "Capture: Running ffplay " << m_displayArgs.join(" ");
         m_displayProcess->start(KdenliveSettings::ffplaypath(), m_displayArgs);
         //video_frame->setText(i18n("Initialising..."));
     } else {
@@ -752,7 +752,7 @@ void RecMonitor::slotRecord()
 		// Problem launching capture app
 		showWarningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
 	    }
-            ////qDebug() << "// Screen grab params: " << m_captureArgs;
+            ////qCDebug(KDENLIVE_LOG) << "// Screen grab params: " << m_captureArgs;
             break;
         default:
             break;
@@ -761,7 +761,7 @@ void RecMonitor::slotRecord()
 
         if (device_selector->currentIndex() == Firewire) {
             m_isCapturing = true;
-            //qDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
+            //qCDebug(KDENLIVE_LOG) << "Capture: Running ffplay " << m_displayArgs.join(" ");
             m_displayProcess->start(KdenliveSettings::ffplaypath(), m_displayArgs);
             video_frame->setText(i18n("Initialising..."));
         }
@@ -841,10 +841,10 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     if (KdenliveSettings::screengrabenableaudio() && !KdenliveSettings::useosscapture()) {
         QStringList alsaArgs = KdenliveSettings::screengrabalsacapture().simplified().split(' ');
         alsaProcess->setStandardOutputProcess(captureProcess);
-        //qDebug() << "Capture: Running arecord " << alsaArgs.join(" ");
+        //qCDebug(KDENLIVE_LOG) << "Capture: Running arecord " << alsaArgs.join(" ");
         alsaProcess->start("arecord", alsaArgs);
     }
-    //qDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
+    //qCDebug(KDENLIVE_LOG) << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
     captureProcess->start(KdenliveSettings::ffmpegpath(), m_captureArgs);
 }*/
 
@@ -943,8 +943,8 @@ void RecMonitor::manageCapturedFiles()
             }
         }
     }
-    //qDebug() << "Found : " << capturedFiles.count() << " new capture files";
-    //qDebug() << capturedFiles;
+    //qCDebug(KDENLIVE_LOG) << "Found : " << capturedFiles.count() << " new capture files";
+    //qCDebug(KDENLIVE_LOG) << capturedFiles;
 
     if (!capturedFiles.isEmpty()) {
         QPointer<ManageCapturesDialog> d = new ManageCapturesDialog(capturedFiles, this);

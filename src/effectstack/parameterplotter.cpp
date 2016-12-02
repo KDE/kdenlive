@@ -20,7 +20,7 @@
 #include <KPlotObject>
 #include <QMouseEvent>
 #include <QPen>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <KPlotPoint>
 
 ParameterPlotter::ParameterPlotter(QWidget *parent) :
@@ -73,7 +73,7 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
     QString dat;
     QTextStream stre(&dat);
     d.save(stre, 2);
-    //qDebug() << dat;
+    //qCDebug(KDENLIVE_LOG) << dat;
     int i = 0;
     while (!namenode.item(i).isNull() && namenode.item(i).toElement().attribute(QStringLiteral("name")) != m_paramName)
         ++i;
@@ -143,7 +143,7 @@ void ParameterPlotter::createParametersNew()
 {
     QList<KPlotObject*> plotobjs = plotObjects();
     if (plotobjs.size() != m_parameterNameList.size()) {
-        //qDebug() << "ERROR size not equal";
+        //qCDebug(KDENLIVE_LOG) << "ERROR size not equal";
     }
     QDomNodeList namenode = m_itemParameter.elementsByTagName(QStringLiteral("parameter"));
     QString paramlist;

@@ -23,7 +23,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 #include <QFile>
 #include <QDir>
@@ -142,7 +142,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     QString itemName;
 
     if (!repository) {
-        //qDebug() << "Repository didn't finish initialisation" ;
+        //qCDebug(KDENLIVE_LOG) << "Repository didn't finish initialisation" ;
         return movit;
     }
 
@@ -191,7 +191,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     QStringList transitionsItemList;
     max = transitions->count();
     for (int i = 0; i < max; ++i) {
-        //qDebug()<<"TRANSITION "<<i<<" = "<<transitions->get_name(i);
+        //qCDebug(KDENLIVE_LOG)<<"TRANSITION "<<i<<" = "<<transitions->get_name(i);
         transitionsItemList << transitions->get_name(i);
     }
     delete transitions;
@@ -421,7 +421,7 @@ void initEffects::parseCustomEffectsFile()
         } else if (base.tagName() == QLatin1String("effect")) {
             effectsMap.insert(base.firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), base);
         }
-        else qDebug() << "Unsupported effect file: " << itemName;
+        else qCDebug(KDENLIVE_LOG) << "Unsupported effect file: " << itemName;
     }
     foreach(const QDomElement & effect, effectsMap)
         MainWindow::customEffects.append(effect);
@@ -441,7 +441,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     effects = doc.elementsByTagName(QStringLiteral("effect"));
     int i = effects.count();
     if (i == 0) {
-        qDebug() << "+++++++++++++\nEffect broken: " << name<<"\n+++++++++++";;
+        qCDebug(KDENLIVE_LOG) << "+++++++++++++\nEffect broken: " << name<<"\n+++++++++++";;
         return;
     }
 
@@ -546,14 +546,14 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 
     QDomDocument ret;
     Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toLatin1().data());
-    ////qDebug() << filtername;
+    ////qCDebug(KDENLIVE_LOG) << filtername;
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
             QDomElement eff = ret.createElement(QStringLiteral("effect"));
             QString id = metadata->get("identifier");
             eff.setAttribute(QStringLiteral("tag"), id);
             eff.setAttribute(QStringLiteral("id"), id);
-            ////qDebug()<<"Effect: "<<id;
+            ////qCDebug(KDENLIVE_LOG)<<"Effect: "<<id;
 
             QDomElement name = ret.createElement(QStringLiteral("name"));
             QString name_str = metadata->get("title");
@@ -577,7 +577,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
             if (QString(tags.get(0)) == QLatin1String("Audio")) eff.setAttribute(QStringLiteral("type"), QStringLiteral("audio"));
             /*for (int i = 0; i < tags.count(); ++i)
-                //qDebug()<<tags.get_name(i)<<"="<<tags.get(i);*/
+                //qCDebug(KDENLIVE_LOG)<<tags.get_name(i)<<"="<<tags.get(i);*/
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
             for (int j = 0; param_props.is_valid() && j < param_props.count(); ++j) {
@@ -660,7 +660,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     /*QString outstr;
      QTextStream str(&outstr);
      ret.save(str, 2);
-     //qDebug() << outstr;*/
+     //qCDebug(KDENLIVE_LOG) << outstr;*/
     return ret;
 }
 
@@ -693,7 +693,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         if (!customTransitions.contains(name)) metadata = repository->metadata(transition_type, name.toUtf8().data());
         if (metadata && metadata->is_valid()) {
             // If possible, set name and description.
-            //qDebug()<<" / / FOUND TRANS: "<<metadata->get("title");
+            //qCDebug(KDENLIVE_LOG)<<" / / FOUND TRANS: "<<metadata->get("title");
             if (metadata->get("title") && metadata->get("identifier"))
                 tname.appendChild(ret.createTextNode(metadata->get("title")));
             desc.appendChild(ret.createTextNode(metadata->get("description")));
@@ -819,7 +819,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         delete metadata;
         metadata = 0;
         // Add the transition to the global list.
-        ////qDebug() << ret.toString();
+        ////qCDebug(KDENLIVE_LOG) << ret.toString();
         transitions->append(ret.documentElement());
     }
 
@@ -882,7 +882,7 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
     effects = doc.elementsByTagName(QStringLiteral("transition"));
     int i = effects.count();
     if (i == 0) {
-        qDebug() << "+++++++++++++Transition broken: " << name<<"\n+++++++++++";;
+        qCDebug(KDENLIVE_LOG) << "+++++++++++++Transition broken: " << name<<"\n+++++++++++";;
         return;
     }
 

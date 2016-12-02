@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUndoCommand>
 #include <QStandardPaths>
 #include <QPushButton>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QDialog>
 #include <QPointer>
 #include <QMimeDatabase>
@@ -546,7 +546,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                     // import as sequence if we found more than one image in the sequence
                     QStringList list;
                     QString pattern = SlideshowClip::selectedPath(url, false, QString(), &list);
-                    qDebug()<<" / // IMPORT PATTERN: "<<pattern<<" COUNT: "<<list.count();
+                    qCDebug(KDENLIVE_LOG)<<" / // IMPORT PATTERN: "<<pattern<<" COUNT: "<<list.count();
                     int count = list.count();
                     if (count > 1) {
                         delete fileWidget;

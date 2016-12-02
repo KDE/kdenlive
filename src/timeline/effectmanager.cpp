@@ -137,13 +137,13 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
     // create filter
     QString tag =  params.paramValue(QStringLiteral("tag"));
     QLocale locale;
-    ////qDebug() << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
+    ////qCDebug(KDENLIVE_LOG) << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     QString kfr = params.paramValue(QStringLiteral("keyframes"));
     if (!kfr.isEmpty()) {
         QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
         char *starttag = qstrdup(params.paramValue(QStringLiteral("starttag"), QStringLiteral("start")).toUtf8().constData());
         char *endtag = qstrdup(params.paramValue(QStringLiteral("endtag"), QStringLiteral("end")).toUtf8().constData());
-        ////qDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
+        ////qCDebug(KDENLIVE_LOG) << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
         //double max = params.paramValue("max").toDouble();
         double min = params.paramValue(QStringLiteral("min")).toDouble();
         double factor = params.paramValue(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
@@ -166,14 +166,14 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
                     filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
                 }
                 filter->set("in", x1);
-                ////qDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
+                ////qCDebug(KDENLIVE_LOG) << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
                 filter->set(starttag, locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
                 m_producer.attach(*filter);
                 delete filter;
             } else {
                 delete[] starttag;
                 delete[] endtag;
-                //qDebug() << "filter is Q_NULLPTR";
+                //qCDebug(KDENLIVE_LOG) << "filter is Q_NULLPTR";
                 m_producer.unlock();
                 return false;
             }
@@ -198,7 +198,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
 
                 filter->set("in", x1);
                 filter->set("out", x2);
-                ////qDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
+                ////qCDebug(KDENLIVE_LOG) << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
                 filter->set(starttag, locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
                 filter->set(endtag, locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
                 m_producer.attach(*filter);
@@ -206,7 +206,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
             } else {
                 delete[] starttag;
                 delete[] endtag;
-                //qDebug() << "filter is Q_NULLPTR";
+                //qCDebug(KDENLIVE_LOG) << "filter is Q_NULLPTR";
                 m_producer.unlock();
                 return false;
             }
@@ -220,7 +220,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
         if (filter && filter->is_valid()) {
             filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
         } else {
-            //qDebug() << "filter is Q_NULLPTR";
+            //qCDebug(KDENLIVE_LOG) << "filter is Q_NULLPTR";
             m_producer.unlock();
             return false;
         }
@@ -247,7 +247,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
             for (int j = 0; j < params.count(); ++j) {
                 effectArgs.append(' ' + params.at(j).value());
             }
-            ////qDebug() << "SOX EFFECTS: " << effectArgs.simplified();
+            ////qCDebug(KDENLIVE_LOG) << "SOX EFFECTS: " << effectArgs.simplified();
             filter->set("effect", effectArgs.simplified().toUtf8().constData());
         }
         // attach filter to the clip
@@ -282,7 +282,7 @@ bool EffectManager::editEffect(const EffectsParameterList &params, int duration,
     }
 
     if (!filter) {
-        qDebug() << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT! " << index << ", " << tag;
+        qCDebug(KDENLIVE_LOG) << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT! " << index << ", " << tag;
         // filter was not found, it was probably a disabled filter, so add it to the correct place...
 
         bool success = addEffect(params, duration);

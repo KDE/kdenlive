@@ -36,7 +36,7 @@
  *********************************************************************************************************/
 
 #include "oauth2.h"
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include "logindialog.h"
 
 #include <QUrl>
@@ -130,7 +130,7 @@ QString OAuth2::loginUrl()
 {
 
     QString str = QStringLiteral("%1?client_id=%2&redirect_uri=%3&response_type=%4").arg(m_strEndPoint, m_strClientID, m_strRedirectURI, m_strResponseType);
-  //  qDebug() << "Login URL" << str;
+  //  qCDebug(KDENLIVE_LOG) << "Login URL" << str;
     return str;
 }
 
@@ -165,7 +165,7 @@ void OAuth2::obtainAccessToken()
  */
 void OAuth2::SlotAccessDenied()
 {
-    qDebug() << "access denied";
+    qCDebug(KDENLIVE_LOG) << "access denied";
     emit accessDenied();
 }
 /**
@@ -245,7 +245,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply* reply)
          QJsonParseError jsonError;
          QJsonDocument doc = QJsonDocument::fromJson(sReply, &jsonError);
          if (jsonError.error != QJsonParseError::NoError) {
-            qDebug()<<"OAuth2::serviceRequestFinished jsonError.error:  " <<  jsonError.errorString();
+            qCDebug(KDENLIVE_LOG)<<"OAuth2::serviceRequestFinished jsonError.error:  " <<  jsonError.errorString();
             ForgetAccessToken();
             emit accessTokenReceived(QString());//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
 
@@ -275,7 +275,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply* reply)
                  if (map.contains(QStringLiteral("error"))) {
                       m_bAccessTokenRec=false;
                       sErrorText = map.value(QStringLiteral("error")).toString();
-                      qDebug() << "OAuth2::serviceRequestFinished map error:  "<<  sErrorText;
+                      qCDebug(KDENLIVE_LOG) << "OAuth2::serviceRequestFinished map error:  "<<  sErrorText;
                       ForgetAccessToken();
                       emit accessTokenReceived(QString());//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
                  }

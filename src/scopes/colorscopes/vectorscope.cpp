@@ -15,7 +15,7 @@
 
 #include "klocalizedstring.h"
 #include <QAction>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QPainter>
 #include <KSharedConfig>
 #include <KConfigGroup>
@@ -263,7 +263,7 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
     QImage scope;
 
     if (cw <= 0) {
-        qDebug() << "Scope size not known yet. Aborting.";
+        qCDebug(KDENLIVE_LOG) << "Scope size not known yet. Aborting.";
     } else {
 
         VectorscopeGenerator::ColorSpace colorSpace = m_aColorSpace_YPbPr->isChecked() ?
@@ -511,7 +511,7 @@ void Vectorscope::slotGainChanged(int newval)
 
 void Vectorscope::slotExportBackground()
 {
-    qDebug() << "Exporting background";
+    qCDebug(KDENLIVE_LOG) << "Exporting background";
     m_colorPlaneExport->show();
 
 }

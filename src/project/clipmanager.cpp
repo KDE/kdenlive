@@ -345,7 +345,7 @@ QString ClipManager::groupsXml()
 /*
 void ClipManager::slotClipMissing(const QString &path)
 {
-    qDebug() << "// CLIP: " << path << " WAS MISSING";
+    qCDebug(KDENLIVE_LOG) << "// CLIP: " << path << " WAS MISSING";
     //TODO
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
@@ -356,7 +356,7 @@ void ClipManager::slotClipMissing(const QString &path)
 
 void ClipManager::slotClipAvailable(const QString &path)
 {
-    qDebug() << "// CLIP: " << path << " WAS ADDED";
+    qCDebug(KDENLIVE_LOG) << "// CLIP: " << path << " WAS ADDED";
     //TODO
     const QList <DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {

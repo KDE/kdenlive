@@ -15,7 +15,7 @@ extern "C"
 #include "../external/kiss_fft/tools/kiss_fftr.h"
 }
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QTime>
 #include <algorithm>
 
@@ -74,7 +74,7 @@ void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
     // Now we can convolve to get the correlation
     convolve(leftF, leftSize, rightF, rightSize, out_correlated);
 
-    qDebug() << "Correlation (FFT based) computed in " << t.elapsed() << " ms.";
+    qCDebug(KDENLIVE_LOG) << "Correlation (FFT based) computed in " << t.elapsed() << " ms.";
 }
 
 void FFTCorrelation::convolve(const float *left, const int leftSize,
@@ -145,5 +145,5 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
     delete[] rightData;
     delete[] convolved;
 
-    qDebug() << "FFT convolution computed. Time taken: " << time.elapsed() << " ms";
+    qCDebug(KDENLIVE_LOG) << "FFT convolution computed. Time taken: " << time.elapsed() << " ms";
 }

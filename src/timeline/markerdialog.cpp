@@ -25,7 +25,7 @@
 #include "mltcontroller/clipcontroller.h"
 
 #include <QWheelEvent>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QTimer>
 #include <QFontDatabase>
 
@@ -120,7 +120,7 @@ void MarkerDialog::slotUpdateThumb()
     if (!p.isNull())
         clip_thumb->setPixmap(p);
     else
-        qDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
+        qCDebug(KDENLIVE_LOG) << "!!!!!!!!!!!  ERROR CREATING THUMB";
 }
 
 QImage MarkerDialog::markerImage() const

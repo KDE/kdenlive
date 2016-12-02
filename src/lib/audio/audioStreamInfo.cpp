@@ -10,7 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "audioStreamInfo.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QString>
 #include <cstdlib>
 
@@ -80,7 +80,7 @@ int AudioStreamInfo::ffmpeg_audio_index() const
 
 void AudioStreamInfo::dumpInfo() const
 {
-    qDebug() << "Info for audio stream " << m_audioStreamIndex
+    qCDebug(KDENLIVE_LOG) << "Info for audio stream " << m_audioStreamIndex
              << "\n\tChannels: " << m_channels
              << "\n\tSampling rate: " << m_samplingRate
              << "\n\tBit rate: " << m_bitRate;

@@ -29,7 +29,7 @@
 #include <QDir>
 #include <QCloseEvent>
 #include <QStandardPaths>
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget * parent) :
     QDialog(parent),
@@ -174,7 +174,7 @@ void ProfilesDialog::fillList(const QString &selectedProfile)
             m_view.profiles_list->setCurrentIndex(ix);
         } else {
             // Error, profile not found
-            qWarning()<<"Project profile not found, disable  editing";
+            qCWarning(KDENLIVE_LOG)<<"Project profile not found, disable  editing";
         }
     }
     int ix = m_view.profiles_list->findText(selectedProfile);
@@ -291,7 +291,7 @@ void ProfilesDialog::slotDeleteProfile()
         success = QFile::remove(path);
         fillList();
     }
-    if (!success) qDebug()<< "//// Cannot delete profile " << path << ", does not seem to be custom one";
+    if (!success) qCDebug(KDENLIVE_LOG)<< "//// Cannot delete profile " << path << ", does not seem to be custom one";
 }
 
 // static
@@ -336,11 +336,11 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
 
     if (path.isEmpty() || !QFile::exists(path)) {
         if (name == QLatin1String("dv_pal")) {
-            //qDebug() << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
+            //qCDebug(KDENLIVE_LOG) << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
             return result;
         }
         if (name == KdenliveSettings::default_profile()) KdenliveSettings::setDefault_profile(QStringLiteral("dv_pal"));
-        //qDebug() << "// WARNING, COULD NOT FIND PROFILE " << name;
+        //qCDebug(KDENLIVE_LOG) << "// WARNING, COULD NOT FIND PROFILE " << name;
         return result;
     }
     return getProfileFromPath(path, name);

@@ -181,7 +181,7 @@ QMap<double,QString> BinController::takeGuidesData()
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
     guidesProperties.pass_values(playlistProps, "kdenlive:guide.");
     
-    qDebug()<<"***********\nFOUND GUIDES: "<<guidesProperties.count()<<"\n**********";
+    qCDebug(KDENLIVE_LOG)<<"***********\nFOUND GUIDES: "<<guidesProperties.count()<<"\n**********";
     QMap <double,QString> guidesData;
     for (int i = 0; i < guidesProperties.count(); i++) {
         double time = locale.toDouble(guidesProperties.get_name(i));
@@ -248,7 +248,7 @@ void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
 {
     ClipController *ctrl = m_clipList.value(id);
     if (!ctrl) {
-        qDebug()<<" / // error controller not found, crashing";
+        qCDebug(KDENLIVE_LOG)<<" / // error controller not found, crashing";
         return;
     }
     pasteEffects(id, producer);

@@ -35,7 +35,7 @@
 
 #include <qglobal.h>
 #include <qstring.h>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QDomDocument>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
@@ -1324,7 +1324,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                     // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
                     QString prof = renderArgs.section(QStringLiteral("mlt_profile="), 1, 1);
                     prof = prof.section(' ', 0, 0);
-                    qDebug() << "// render profile: " << prof;
+                    qCDebug(KDENLIVE_LOG) << "// render profile: " << prof;
                     renderItem->setMetadata(prof);
                 }
             }
@@ -1713,7 +1713,7 @@ void RenderWidget::parseMltPresets()
     QDir root(KdenliveSettings::mltpath());
     if (!root.cd(QStringLiteral("../presets/consumer/avformat"))) {
         //Cannot find MLT's presets directory
-        qWarning()<<" / / / WARNING, cannot find MLT's preset folder";
+        qCWarning(KDENLIVE_LOG)<<" / / / WARNING, cannot find MLT's preset folder";
         return;
     }
     if (root.cd(QStringLiteral("lossless"))) {
@@ -2261,7 +2261,7 @@ void RenderWidget::slotDeleteScript()
         bool success = true;
         success &= QFile::remove(path + ".mlt");
         success &= QFile::remove(path);
-        if (!success) qWarning()<<"// Error removing script or playlist: "<<path<<", "<<path<<".mlt";
+        if (!success) qCWarning(KDENLIVE_LOG)<<"// Error removing script or playlist: "<<path<<", "<<path<<".mlt";
         parseScriptFiles();
     }
 }
@@ -2334,7 +2334,7 @@ bool RenderWidget::startWaitingRenderJobs()
     QString autoscriptFile = getFreeScriptName(QUrl(), QStringLiteral("auto"));
     QFile file(autoscriptFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "//////  ERROR writing to file: " << autoscriptFile;
+        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << autoscriptFile;
         KMessageBox::error(0, i18n("Cannot write to file %1", autoscriptFile));
         return false;
     }

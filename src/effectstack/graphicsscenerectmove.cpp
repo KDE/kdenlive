@@ -22,7 +22,7 @@
 #include "titler/titledocument.h"
 #include "titler/gradientwidget.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsRectItem>
 #include <QGraphicsSvgItem>
@@ -603,7 +603,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
 
     if (m_tool == TITLE_SELECT) {
         foreach(QGraphicsItem *g, list) {
-            //qDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
+            //qCDebug(KDENLIVE_LOG) << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
             // check is there is a selected item in list
             if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
                 continue;
@@ -636,7 +636,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         if (item != Q_NULLPTR && item->flags() & QGraphicsItem::ItemIsMovable) {
             m_sceneClickPoint = e->scenePos();
             m_selectedItem = item;
-            //qDebug() << "/////////  ITEM TYPE: " << item->type();
+            //qCDebug(KDENLIVE_LOG) << "/////////  ITEM TYPE: " << item->type();
             if (item->type() == QGraphicsTextItem::Type) {
                 MyTextItem *t = static_cast<MyTextItem *>(item);
                 if (t->textInteractionFlags() == Qt::TextEditorInteraction) {
@@ -698,7 +698,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         m_selectedItem->setSelected(true);
         m_createdText = true;
     }
-    //qDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
+    //qCDebug(KDENLIVE_LOG) << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
 
 }
 
@@ -899,7 +899,7 @@ void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent)
 {
     if (wheelEvent->modifiers() == Qt::ControlModifier) {
         QList<QGraphicsView*> viewlist = views();
-        ////qDebug() << wheelEvent->delta() << ' ' << zoom;
+        ////qCDebug(KDENLIVE_LOG) << wheelEvent->delta() << ' ' << zoom;
         if (viewlist.size() > 0) {
             if (wheelEvent->delta() > 0) emit sceneZoom(true);
             else emit sceneZoom(false);
@@ -916,7 +916,7 @@ void GraphicsSceneRectMove::setScale(double s)
         viewlist[0]->scale(s, s);
         m_zoom = m_zoom * s;
     }
-    ////qDebug()<<"//////////  ZOOM: "<<zoom;
+    ////qCDebug(KDENLIVE_LOG)<<"//////////  ZOOM: "<<zoom;
 }
 
 void GraphicsSceneRectMove::setZoom(double s)
@@ -928,7 +928,7 @@ void GraphicsSceneRectMove::setZoom(double s)
         m_zoom = s;
     }
 
-    ////qDebug()<<"//////////  ZOOM: "<<zoom;
+    ////qCDebug(KDENLIVE_LOG)<<"//////////  ZOOM: "<<zoom;
 }
 
 void GraphicsSceneRectMove::setCursor(const QCursor &c)

@@ -43,7 +43,7 @@
 #ifdef QT_NO_DEBUG
 #define check_error(fn) {}
 #else
-#define check_error(fn) { int err = fn->glGetError(); if (err != GL_NO_ERROR) { qCritical() << "GL error"  << hex << err << dec << "at" << __FILE__ << ":" << __LINE__; } }
+#define check_error(fn) { int err = fn->glGetError(); if (err != GL_NO_ERROR) { qCCritical(KDENLIVE_LOG) << "GL error"  << hex << err << dec << "at" << __FILE__ << ":" << __LINE__; } }
 #endif
 
 #ifndef GL_TIMEOUT_IGNORED
@@ -150,13 +150,13 @@ void GLWidget::initializeGL()
         openglContext()->makeCurrent(this);
     }
     initializeOpenGLFunctions();
-    qDebug() << "OpenGL vendor: " << QString::fromUtf8((const char*) glGetString(GL_VENDOR));
-    qDebug() << "OpenGL renderer: " << QString::fromUtf8((const char*) glGetString(GL_RENDERER));
+    qCDebug(KDENLIVE_LOG) << "OpenGL vendor: " << QString::fromUtf8((const char*) glGetString(GL_VENDOR));
+    qCDebug(KDENLIVE_LOG) << "OpenGL renderer: " << QString::fromUtf8((const char*) glGetString(GL_RENDERER));
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
-    qDebug() << "OpenGL Threaded: "<<openglContext()->supportsThreadedOpenGL();
+    qCDebug(KDENLIVE_LOG) << "OpenGL Threaded: "<<openglContext()->supportsThreadedOpenGL();
 #endif
-    qDebug() << "OpenGL ARG_SYNC: "<<openglContext()->hasExtension("GL_ARB_sync");
-    qDebug() << "OpenGL OpenGLES: "<<openglContext()->isOpenGLES();
+    qCDebug(KDENLIVE_LOG) << "OpenGL ARG_SYNC: "<<openglContext()->hasExtension("GL_ARB_sync");
+    qCDebug(KDENLIVE_LOG) << "OpenGL OpenGLES: "<<openglContext()->isOpenGLES();
 
     if (m_glslManager && openglContext()->isOpenGLES()) {
         delete m_glslManager;
@@ -177,7 +177,7 @@ void GLWidget::initializeGL()
             if (ClientWaitSync) {
                 m_openGLSync = true;
             } else {
-                qDebug()<<"  / / // NO GL SYNC, ERROR";
+                qCDebug(KDENLIVE_LOG)<<"  / / // NO GL SYNC, ERROR";
                 emit gpuNotSupported();
                 delete m_glslManager;
                 m_glslManager = 0;

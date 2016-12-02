@@ -37,7 +37,7 @@
 #include "logindialog.h"
 #include "ui_logindialog_ui.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QWebView>
 
 LoginDialog::LoginDialog(QWidget *parent) :
@@ -64,7 +64,7 @@ LoginDialog::~LoginDialog()
  */
 void LoginDialog::urlChanged(const QUrl &url)
 {
-    //qDebug() << "URL =" << url;
+    //qCDebug(KDENLIVE_LOG) << "URL =" << url;
     QString str = url.toString();
     int posCode = str.indexOf(QLatin1String("&code="));
     int posErr = str.indexOf(QLatin1String("&error="));

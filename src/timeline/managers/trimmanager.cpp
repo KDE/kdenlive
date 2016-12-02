@@ -122,11 +122,11 @@ void TrimManager::initRipple(Mlt::Playlist *playlist, int pos, Render *renderer)
 
 void TrimManager::renderSeekRequest(int diff)
 {
-    qDebug()<<" + + +RIPPLE DIFF: "<<diff;
+    qCDebug(KDENLIVE_LOG)<<" + + +RIPPLE DIFF: "<<diff;
     Mlt::ClipInfo *cInfo = m_trimPlaylist->clip_info(m_rippleIndex);
     int in = cInfo->frame_in;
     int out = cInfo->frame_out;
-    qDebug()<<"* * *RESITE CLIP FIRST IN: "<<in<<"-"<<out<<", "<<cInfo->start<<", "<<cInfo->length;
+    qCDebug(KDENLIVE_LOG)<<"* * *RESITE CLIP FIRST IN: "<<in<<"-"<<out<<", "<<cInfo->start<<", "<<cInfo->length;
     delete cInfo;
     ClipItem *clipToRipple = Q_NULLPTR;
     if (m_view->operationMode() == RippleStart) {
@@ -137,7 +137,7 @@ void TrimManager::renderSeekRequest(int diff)
         clipToRipple = m_firstClip;
         m_render->seekToFrame(m_firstClip->endPos().frames(m_view->fps()) + diff);
     }
-    qDebug()<<"* * *RESITE CLIP IN: "<<in;
+    qCDebug(KDENLIVE_LOG)<<"* * *RESITE CLIP IN: "<<in;
     m_trimPlaylist->resize_clip(m_rippleIndex, in, out);
     m_render->doRefresh();
     m_view->rippleClip(clipToRipple, diff);

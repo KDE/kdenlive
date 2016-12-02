@@ -52,7 +52,7 @@
 
 #include <QCryptographicHash>
 #include <QFile>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QFileDialog>
 #include <QDomImplementation>
 #include <QUndoGroup>
@@ -168,7 +168,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
             //KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
         }
         else {
-            qDebug()<<" // / processing file open";
+            qCDebug(KDENLIVE_LOG)<<" // / processing file open";
             QString errorMsg;
             int line;
             int col;
@@ -215,7 +215,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                 }
             }
             else {
-                qDebug()<<" // / processing file open: validate";
+                qCDebug(KDENLIVE_LOG)<<" // / processing file open: validate";
                 parent->slotGotProgressInfo(i18n("Validating"), 100);
                 qApp->processEvents();
                 DocumentValidator validator(m_document, url);
@@ -237,7 +237,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                         success = validator.checkMovit();
                     }
                     if (success) { // Let the validator handle error messages
-                        qDebug()<<" // / processing file validate ok";
+                        qCDebug(KDENLIVE_LOG)<<" // / processing file validate ok";
                         parent->slotGotProgressInfo(i18n("Check missing clips"), 100);
                         qApp->processEvents();
                         DocumentChecker d(m_url, m_document);
@@ -302,9 +302,9 @@ KdenliveDoc::~KdenliveDoc()
         }
     }
     delete m_commandStack;
-    //qDebug() << "// DEL CLP MAN";
+    //qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
     delete m_clipManager;
-    //qDebug() << "// DEL CLP MAN done";
+    //qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) m_autosave->remove();
         delete m_autosave;
@@ -558,9 +558,9 @@ void KdenliveDoc::slotAutoSave()
     if (m_render && m_autosave) {
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
             // show error: could not open the autosave file
-            qDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
+            qCDebug(KDENLIVE_LOG) << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
-        //qDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
+        //qCDebug(KDENLIVE_LOG) << "// AUTOSAVE FILE: " << m_autosave->fileName();
         QDomDocument sceneList = xmlSceneList(m_render->sceneList(m_url.adjusted(QUrl::RemoveFilename).path()));
         if (sceneList.isNull()) {
             //Make sure we don't save if scenelist is corrupted
@@ -628,7 +628,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     // check if project contains custom effects to embed them in project file
     QDomNodeList effects = mlt.elementsByTagName(QStringLiteral("filter"));
     int maxEffects = effects.count();
-    //qDebug() << "// FOUD " << maxEffects << " EFFECTS+++++++++++++++++++++";
+    //qCDebug(KDENLIVE_LOG) << "// FOUD " << maxEffects << " EFFECTS+++++++++++++++++++++";
     QMap <QString, QString> effectIds;
     for (int i = 0; i < maxEffects; ++i) {
         QDomNode m = effects.at(i);
@@ -686,7 +686,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     QFile file(path);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "//////  ERROR writing to file: " << path;
+        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
@@ -932,10 +932,10 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
                 if (QString(fileHash.toHex()) == matchHash)
                     return file.fileName();
                 else
-                    qDebug() << filesAndDirs.at(i) << "size match but not hash";
+                    qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << "size match but not hash";
             }
         }
-        ////qDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
+        ////qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
@@ -1120,11 +1120,11 @@ double KdenliveDoc::getDisplayRatio(const QString &path)
     QFile file(path);
     QDomDocument doc;
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "ERROR, CANNOT READ: " << path;
+        qCWarning(KDENLIVE_LOG) << "ERROR, CANNOT READ: " << path;
         return 0;
     }
     if (!doc.setContent(&file)) {
-        qWarning() << "ERROR, CANNOT READ: " << path;
+        qCWarning(KDENLIVE_LOG) << "ERROR, CANNOT READ: " << path;
         file.close();
         return 0;
     }
@@ -1201,7 +1201,7 @@ void KdenliveDoc::cleanupBackupFiles()
     if (hourList.count() > 20) {
         int step = hourList.count() / 10;
         for (int i = 0; i < hourList.count(); i += step) {
-            //qDebug()<<"REMOVE AT: "<<i<<", COUNT: "<<hourList.count();
+            //qCDebug(KDENLIVE_LOG)<<"REMOVE AT: "<<i<<", COUNT: "<<hourList.count();
             hourList.removeAt(i);
             --i;
         }
@@ -1359,7 +1359,7 @@ void KdenliveDoc::slotClipModified(const QString &path)
 
 void KdenliveDoc::slotClipMissing(const QString &path)
 {
-    qDebug() << "// CLIP: " << path << " WAS MISSING";
+    qCDebug(KDENLIVE_LOG) << "// CLIP: " << path << " WAS MISSING";
     QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(path));
     //TODO handle missing clips by replacing producer with an invalid producer
     /*foreach (const QString &id, ids) {

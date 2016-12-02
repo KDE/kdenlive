@@ -21,7 +21,7 @@
 
 #include "utils/KoIconUtils.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QVBoxLayout>
 #include <QToolBar>
 #include <QDomElement>
@@ -402,7 +402,7 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
     bool isKey;
     mlt_keyframe_type type;
     if (m_animController.get_item(oldPos - m_offset, isKey, type)) {
-        qDebug()<<"////////ERROR NO KFR";
+        qCDebug(KDENLIVE_LOG)<<"////////ERROR NO KFR";
         return;
     }
     if (!m_rectParameter.isEmpty()) {
@@ -1136,7 +1136,7 @@ void AnimationWidget::slotUpdateGeometryRect(const QRect r)
             pos = m_animController.key_get_frame(0);
             if (pos < 0) {
                 // error
-                qDebug()<<"* * *NOT on a keyframe, something is wrong";
+                qCDebug(KDENLIVE_LOG)<<"* * *NOT on a keyframe, something is wrong";
                 return;
             }
         }
@@ -1160,7 +1160,7 @@ void AnimationWidget::slotUpdateGeometryRect(const QRect r)
 void AnimationWidget::slotUpdateCenters(const QVariantList &centers)
 {
     if (centers.count() != m_animController.key_count()) {
-        qDebug()<<"* * * *CENTER POINTS MISMATCH, aborting edit";
+        qCDebug(KDENLIVE_LOG)<<"* * * *CENTER POINTS MISMATCH, aborting edit";
     }
     int pos;
     mlt_keyframe_type type;

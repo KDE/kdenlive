@@ -36,7 +36,7 @@
 #include <KService>
 #include <KRun>
 #include <KOpenWithDialog>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QDir>
 #include <QTimer>
 #include <QThread>
@@ -341,7 +341,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
             if (version.contains(' ')) version = version.section(' ', -1);
             dvgrabVersion = version.toDouble();
 
-            //qDebug() << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
+            //qCDebug(KDENLIVE_LOG) << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
         }
         delete versionCheck;
         if (dvgrabVersion < 3.3) {
@@ -409,21 +409,21 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     QMap<QString, QString> mappable_actions(m_mappable_actions);
     QList<QString> action_names = mappable_actions.keys();
     QList<QString>::Iterator iter = action_names.begin();
-    //qDebug() << "::::::::::::::::";
+    //qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
     while (iter != action_names.end()) {
-        //qDebug() << *iter;
+        //qCDebug(KDENLIVE_LOG) << *iter;
         ++iter;
     }
 
-    //qDebug() << "::::::::::::::::";
+    //qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
 
     qSort(action_names);
     iter = action_names.begin();
     while (iter != action_names.end()) {
-        //qDebug() << *iter;
+        //qCDebug(KDENLIVE_LOG) << *iter;
         ++iter;
     }
-    //qDebug() << "::::::::::::::::";
+    //qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
 
     // Here we need to compute the action_id -> index-in-action_names. We iterate over the
     // action_names, as the sorting may depend on the user-language.
@@ -515,7 +515,7 @@ void KdenliveSettingsDialog::initDevices()
                 line = stream.readLine();
             }
             file.close();
-        } else qDebug()<<" / / / /CANNOT READ PCM";
+        } else qCDebug(KDENLIVE_LOG)<<" / / / /CANNOT READ PCM";
     }
 
     // Add pulseaudio capture option
@@ -551,11 +551,11 @@ void KdenliveSettingsDialog::initDevices()
 void KdenliveSettingsDialog::slotReadAudioDevices()
 {
     QString result = QString(m_readProcess.readAllStandardOutput());
-    //qDebug() << "// / / / / / READING APLAY: ";
-    //qDebug() << result;
+    //qCDebug(KDENLIVE_LOG) << "// / / / / / READING APLAY: ";
+    //qCDebug(KDENLIVE_LOG) << result;
     QStringList lines = result.split('\n');
     foreach(const QString & data, lines) {
-        ////qDebug() << "// READING LINE: " << data;
+        ////qCDebug(KDENLIVE_LOG) << "// READING LINE: " << data;
         if (!data.startsWith(' ') && data.count(':') > 1) {
             QString card = data.section(':', 0, 0).section(' ', -1);
             QString device = data.section(':', 1, 1).section(' ', -1);
@@ -651,7 +651,7 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
 void KdenliveSettingsDialog::updateWidgets()
 {
     // Revert widgets to last saved state (for example when user pressed "Cancel")
-    // //qDebug() << "// // // KCONFIG Revert called";
+    // //qCDebug(KDENLIVE_LOG) << "// // // KCONFIG Revert called";
 #ifdef USE_JOGSHUTTLE
     // revert jog shuttle device
     if (m_configShuttle.shuttledevicelist->count() > 0) {
@@ -689,7 +689,7 @@ void KdenliveSettingsDialog::updateWidgets()
 void KdenliveSettingsDialog::updateSettings()
 {
     // Save changes to settings (for example when user pressed "Apply" or "Ok")
-    // //qDebug() << "// // // KCONFIG UPDATE called";
+    // //qCDebug(KDENLIVE_LOG) << "// // // KCONFIG UPDATE called";
     KdenliveSettings::setDefault_profile(m_pw->selectedProfile());
 
     bool resetProfile = false;

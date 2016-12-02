@@ -13,7 +13,7 @@
 #include "klocalizedstring.h"
 //#define DEBUG_CTE
 #ifdef DEBUG_CTE
-#include <QDebug>
+#include "kdenlive_debug.h"
 #endif
 
 const QString EXTENSION_PNG = QStringLiteral(".png");
@@ -139,7 +139,7 @@ void ColorPlaneExport::slotValidate()
     if (ok) {
         ok = kurlrequester->text().trimmed().length() > 0;
 #ifdef DEBUG_CPE
-        qDebug() << "File given: " << ok;
+        qCDebug(KDENLIVE_LOG) << "File given: " << ok;
 #endif
     }
 
@@ -155,11 +155,11 @@ void ColorPlaneExport::slotValidate()
 void ColorPlaneExport::slotExportPlane()
 {
 #ifdef DEBUG_CPE
-    qDebug() << "Exporting plane now to " <<  kurlrequester->text();
+    qCDebug(KDENLIVE_LOG) << "Exporting plane now to " <<  kurlrequester->text();
 #endif
     QString lower = kurlrequester->text().toLower();
 #ifdef DEBUG_CPE
-    qDebug() << "Lower: " << lower;
+    qCDebug(KDENLIVE_LOG) << "Lower: " << lower;
 #endif
     if (!lower.endsWith(QLatin1String(".png")) && !lower.endsWith(QLatin1String(".jpg")) && !lower.endsWith(QLatin1String(".tif")) && !lower.endsWith(QLatin1String(".tiff"))) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", EXTENSION_PNG)) == KMessageBox::Yes) {
@@ -202,7 +202,7 @@ void ColorPlaneExport::slotExportPlane()
 void ColorPlaneExport::slotColormodeChanged()
 {
 #ifdef DEBUG_CPE
-    qDebug() << "Color mode changed to " << cbColorspace->itemData(cbColorspace->currentIndex()).toInt();
+    qCDebug(KDENLIVE_LOG) << "Color mode changed to " << cbColorspace->itemData(cbColorspace->currentIndex()).toInt();
 #endif
     lblScaling->setText(i18n("Scaling"));
     sliderScaling->setInvertedAppearance(true);
@@ -220,7 +220,7 @@ void ColorPlaneExport::slotColormodeChanged()
         break;
     case CPE_YUV_Y:
 #ifdef DEBUG_CPE
-        qDebug() << "Changing slider range.";
+        qCDebug(KDENLIVE_LOG) << "Changing slider range.";
 #endif
         enableSliderScaling(true);
         enableSliderColor(true);

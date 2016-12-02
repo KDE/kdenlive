@@ -22,7 +22,7 @@
 #include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QFontDatabase>
 #include <QHeaderView>
 
@@ -417,7 +417,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
         if (keyframe_list->item(item->row(), col)) {
             doubleparam->setValue(locale.toDouble(keyframe_list->item(item->row(), col)->text()));
         } else {
-            //qDebug() << "Null pointer exception caught: http://www.kdenlive.org/mantis/view.php?id=1771";
+            //qCDebug(KDENLIVE_LOG) << "Null pointer exception caught: http://www.kdenlive.org/mantis/view.php?id=1771";
         }
         doubleparam->blockSignals(false);
     }
@@ -516,7 +516,7 @@ void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
         if (!doubleparam)
             continue;
         doubleparam->setInTimelineProperty(col == id);
-        ////qDebug()<<"// PARAM: "<<col<<" Set TO: "<<(bool) (col == id);
+        ////qCDebug(KDENLIVE_LOG)<<"// PARAM: "<<col<<" Set TO: "<<(bool) (col == id);
         
     }
     if (update) emit parameterChanged();

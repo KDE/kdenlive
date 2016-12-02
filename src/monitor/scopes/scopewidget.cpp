@@ -17,7 +17,7 @@
  */
 
 #include "scopewidget.h"
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QtConcurrent/QtConcurrent>
 
 ScopeWidget::ScopeWidget(QWidget *parent)
@@ -29,8 +29,8 @@ ScopeWidget::ScopeWidget(QWidget *parent)
   , m_forceRefresh(false)
   , m_size(0, 0)
 {
-    //qDebug() << "begin" << m_future.isFinished();
-    //qDebug() << "end";
+    //qCDebug(KDENLIVE_LOG) << "begin" << m_future.isFinished();
+    //qCDebug(KDENLIVE_LOG) << "end";
 }
 
 ScopeWidget::~ScopeWidget()

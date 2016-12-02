@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 #include "utils/KoIconUtils.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <KColorScheme>
 #include "klocalizedstring.h"
 #include <QGraphicsDropShadowEffect>
@@ -779,9 +779,9 @@ QDomElement DvdWizardMenu::toXml() const
 
 void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
 {
-    //qDebug() << "// LOADING MENU";
+    //qCDebug(KDENLIVE_LOG) << "// LOADING MENU";
     if (xml.isNull()) return;
-    //qDebug() << "// LOADING MENU 1";
+    //qCDebug(KDENLIVE_LOG) << "// LOADING MENU 1";
     changeProfile(format);
     m_view.create_menu->setChecked(xml.attribute(QStringLiteral("enabled")).toInt());
     if (xml.hasAttribute(QStringLiteral("background_color"))) {
@@ -802,7 +802,7 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
     m_view.use_shadow->setChecked(xml.attribute(QStringLiteral("text_shadow")).toInt());
 
     QDomNodeList buttons = xml.elementsByTagName(QStringLiteral("button"));
-    //qDebug() << "// LOADING MENU 2" << buttons.count();
+    //qCDebug(KDENLIVE_LOG) << "// LOADING MENU 2" << buttons.count();
 
     if (buttons.count() > 0) {
         // Clear existing buttons

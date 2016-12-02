@@ -47,7 +47,7 @@
 #include <KMessageWidget>
 #include <KMessageBox>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QMouseEvent>
 #include <QMenu>
 #include <QToolButton>
@@ -1702,7 +1702,7 @@ void Monitor::setPalette ( const QPalette & p)
 
 void Monitor::gpuError()
 {
-    qWarning()<<" + + + + Error initializing Movit GLSL manager";
+    qCWarning(KDENLIVE_LOG)<<" + + + + Error initializing Movit GLSL manager";
     warningMessage(i18n("Cannot initialize Movit's GLSL manager, please disable Movit"), -1);
 }
 

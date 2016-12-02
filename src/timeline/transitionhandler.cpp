@@ -43,7 +43,7 @@ bool TransitionHandler::addTransition(const QString &tag, int a_track, int b_tra
     QMap<QString, QString>::Iterator it;
     QString key;
     if (xml.attribute(QStringLiteral("automatic")) == QLatin1String("1")) transition.set("automatic", 1);
-    ////qDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
+    ////qCDebug(KDENLIVE_LOG) << " ------  ADDING TRANSITION PARAMs: " << args.count();
     if (xml.hasAttribute(QStringLiteral("id")))
         transition.set("kdenlive_id", xml.attribute(QStringLiteral("id")).toUtf8().constData());
     if (xml.hasAttribute(QStringLiteral("force_track")))
@@ -53,7 +53,7 @@ bool TransitionHandler::addTransition(const QString &tag, int a_track, int b_tra
         key = it.key();
         if (!it.value().isEmpty())
             transition.set(key.toUtf8().constData(), it.value().toUtf8().constData());
-        ////qDebug() << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
+        ////qCDebug(KDENLIVE_LOG) << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
     }
     // attach transition
     m_tractor->lock();
@@ -193,7 +193,7 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
             trList.append(cp);
             field->disconnect_service(transition);
         }
-        //else qDebug() << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
+        //else qCDebug(KDENLIVE_LOG) << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
 
         if (nextservice == Q_NULLPTR) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -204,7 +204,7 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
 
     // re-add upper transitions
     for (int i = trList.count() - 1; i >= 0; --i) {
-        ////qDebug()<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
+        ////qCDebug(KDENLIVE_LOG)<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
     qDeleteAll(trList);
@@ -229,7 +229,7 @@ void TransitionHandler::updateTransition(const QString &oldTag, const QString &t
 {
     if (oldTag == tag && !force) updateTransitionParams(tag, a_track, b_track, in, out, xml);
     else {
-        ////qDebug()<<"// DELETING TRANS: "<<a_track<<"-"<<b_track;
+        ////qCDebug(KDENLIVE_LOG)<<"// DELETING TRANS: "<<a_track<<"-"<<b_track;
         deleteTransition(oldTag, a_track, b_track, in, out, xml, false);
         addTransition(tag, a_track, b_track, in, out, xml);
     }
@@ -254,7 +254,7 @@ void TransitionHandler::updateTransitionParams(const QString &type, int a_track,
         int currentIn = (int) mlt_transition_get_in(tr);
         int currentOut = (int) mlt_transition_get_out(tr);
 
-        // //qDebug()<<"Looking for transition : " << currentIn <<'x'<<currentOut<< ", OLD oNE: "<<in_pos<<'x'<<out_pos;
+        // //qCDebug(KDENLIVE_LOG)<<"Looking for transition : " << currentIn <<'x'<<currentOut<< ", OLD oNE: "<<in_pos<<'x'<<out_pos;
         if (resource == type && b_track == currentTrack && currentIn == in_pos && currentOut == out_pos) {
             QMap<QString, QString> map = getTransitionParamsFromXml(xml);
             QMap<QString, QString>::Iterator it;
@@ -286,7 +286,7 @@ void TransitionHandler::updateTransitionParams(const QString &type, int a_track,
             for (it = map.begin(); it != map.end(); ++it) {
                 key = it.key();
                 mlt_properties_set(transproperties, key.toUtf8().constData(), it.value().toUtf8().constData());
-                //qDebug() << " ------  UPDATING TRANS PARAM: " << key.toUtf8().constData() << ": " << it.value().toUtf8().constData();
+                //qCDebug(KDENLIVE_LOG) << " ------  UPDATING TRANS PARAM: " << key.toUtf8().constData() << ": " << it.value().toUtf8().constData();
                 //filter->set("kdenlive_id", id);
             }
             break;
@@ -313,7 +313,7 @@ bool TransitionHandler::deleteTransition(const QString &tag, int /*a_track*/, in
     double fps = m_tractor->get_fps();
     const int old_pos = (int)((in + out).frames(fps) / 2);
     bool found = false;
-    ////qDebug() << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
+    ////qCDebug(KDENLIVE_LOG) << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
 
     mlt_service_type mlt_type = mlt_service_identify( nextservice );
     while (mlt_type == transition_type) {
@@ -321,7 +321,7 @@ bool TransitionHandler::deleteTransition(const QString &tag, int /*a_track*/, in
         int currentTrack = mlt_transition_get_b_track(tr);
         int currentIn = (int) mlt_transition_get_in(tr);
         int currentOut = (int) mlt_transition_get_out(tr);
-        ////qDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
+        ////qCDebug(KDENLIVE_LOG) << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
 
         if (resource == tag && b_track == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
             found = true;
@@ -460,7 +460,7 @@ void TransitionHandler::duplicateTransitionOnPlaylist(int in, int out, const QSt
     QMap<QString, QString>::Iterator it;
     QString key;
     if (xml.attribute(QStringLiteral("automatic")) == QLatin1String("1")) transition.set("automatic", 1);
-    ////qDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
+    ////qCDebug(KDENLIVE_LOG) << " ------  ADDING TRANSITION PARAMs: " << args.count();
     if (xml.hasAttribute(QStringLiteral("id")))
         transition.set("kdenlive_id", xml.attribute(QStringLiteral("id")).toUtf8().constData());
     if (xml.hasAttribute(QStringLiteral("force_track")))
@@ -470,7 +470,7 @@ void TransitionHandler::duplicateTransitionOnPlaylist(int in, int out, const QSt
         key = it.key();
         if (!it.value().isEmpty())
             transition.set(key.toUtf8().constData(), it.value().toUtf8().constData());
-        ////qDebug() << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
+        ////qCDebug(KDENLIVE_LOG) << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
     }
     // attach transition
     field->plant_transition(transition, a_track, b_track);

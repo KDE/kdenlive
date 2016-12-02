@@ -103,7 +103,7 @@ bool Histogram::isBackgroundDependingOnInput() const { return false; }
 
 QRect Histogram::scopeRect()
 {
-    //qDebug() << "According to the spacer, the top left point is " << ui->verticalSpacer->geometry().x() << '/' << ui->verticalSpacer->geometry().y();
+    //qCDebug(KDENLIVE_LOG) << "According to the spacer, the top left point is " << ui->verticalSpacer->geometry().x() << '/' << ui->verticalSpacer->geometry().y();
     QPoint topleft(offset, offset+ ui->verticalSpacer->geometry().y());
     return QRect(topleft, this->rect().size() - QSize(topleft.x() + offset, topleft.y() + offset));
 }

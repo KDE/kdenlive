@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/bin.h"
 #include "mlt++/Mlt.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QtConcurrent>
 
 #include <KMessageWidget>
@@ -295,7 +295,7 @@ void JobManager::slotDiscardClipJobs()
     QAction* act = qobject_cast<QAction *>(sender());
     if (act == 0) {
         // Cannot access triggering action, something is wrong
-        qDebug()<<"// Error in job action";
+        qCDebug(KDENLIVE_LOG)<<"// Error in job action";
         return;
     }
     QString id = act->data().toString();

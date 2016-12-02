@@ -126,7 +126,7 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                             m_view->monitorRefresh(nfo, true);
                         }
                     } else {
-                        qDebug()<<" * * * * *PARENT GRP NOT FOUND";
+                        qCDebug(KDENLIVE_LOG)<<" * * * * *PARENT GRP NOT FOUND";
                     }
                 } else {
                     m_view->prepareResizeClipStart(dragItem, m_dragItemInfo, dragItem->startPos().frames(m_view->fps()));
@@ -156,7 +156,7 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                         m_view->monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << dragItem->info(), true);
                     }
                     if (!dragItem) {
-                        qDebug()<<" * * ** SOMETHING WRONG HERE: "<<m_dragItemInfo.endPos.frames(m_view->fps());
+                        qCDebug(KDENLIVE_LOG)<<" * * ** SOMETHING WRONG HERE: "<<m_dragItemInfo.endPos.frames(m_view->fps());
                     }
                 }
             }

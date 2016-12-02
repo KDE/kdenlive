@@ -37,7 +37,7 @@
 #include "timeline/transitionhandler.h"
 #include <mlt++/Mlt.h>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <QDialog>
@@ -268,7 +268,7 @@ double Render::sar() const
 /** Create the producer from the MLT XML QDomDocument */
 void Render::initSceneList()
 {
-    //qDebug() << "--------  INIT SCENE LIST ------_";
+    //qCDebug(KDENLIVE_LOG) << "--------  INIT SCENE LIST ------_";
     QDomDocument doc;
     QDomElement mlt = doc.createElement("mlt");
     doc.appendChild(mlt);
@@ -295,7 +295,7 @@ void Render::initSceneList()
     multitrack.appendChild(playlist5);
     tractor.appendChild(multitrack);
     mlt.appendChild(tractor);
-    // //qDebug()<<doc.toString();
+    // //qCDebug(KDENLIVE_LOG)<<doc.toString();
     /*
        QString tmp = QString("<mlt><producer resource=\"colour\" colour=\"red\" id=\"red\" /><tractor><multitrack><playlist></playlist><playlist></playlist><playlist /><playlist /><playlist></playlist></multitrack></tractor></mlt>");*/
     setSceneList(doc, 0);
@@ -427,7 +427,7 @@ int Render::setSceneList(QString playlist, int position)
     //if (m_winid == -1) return -1;
     int error = 0;
 
-    //qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
+    //qCDebug(KDENLIVE_LOG) << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
 
     // Remove previous profile info
     QDomDocument doc;
@@ -441,7 +441,7 @@ int Render::setSceneList(QString playlist, int position)
             m_mltConsumer->stop();
         }
     } else {
-        qWarning() << "///////  ERROR, TRYING TO USE Q_NULLPTR MLT CONSUMER";
+        qCWarning(KDENLIVE_LOG) << "///////  ERROR, TRYING TO USE Q_NULLPTR MLT CONSUMER";
         error = -1;
     }
 
@@ -461,7 +461,7 @@ int Render::setSceneList(QString playlist, int position)
     m_mltProducer = new Mlt::Producer(*m_qmlView->profile(), "xml-string", playlist.toUtf8().constData());
     //m_mltProducer = new Mlt::Producer(*m_qmlView->profile(), "xml-nogl-string", playlist.toUtf8().constData());
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
-        qDebug() << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
+        qCDebug(KDENLIVE_LOG) << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
         m_mltProducer = m_blackClip->cut(0, 1);
         error = -1;
     }
@@ -481,7 +481,7 @@ int Render::setSceneList(QString playlist, int position)
     // Fill Bin's playlist
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
+        qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
     }
     blockSignals(false);
     Mlt::Tractor tractor(service);
@@ -503,7 +503,7 @@ int Render::setSceneList(QString playlist, int position)
         m_mltConsumer = m_qmlView->consumer();
     }
 
-    //qDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
+    //qCDebug(KDENLIVE_LOG) << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     //m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
     fillSlowMotionProducers();
@@ -522,7 +522,7 @@ int Render::setSceneList(QString playlist, int position)
         emit gotFileProperties(info, m_binController->getController(id));
     }
 
-    ////qDebug()<<"// SETSCN LST, POS: "<<position;
+    ////qCDebug(KDENLIVE_LOG)<<"// SETSCN LST, POS: "<<position;
     if (position != 0) emit rendererPosition(position);
     return error;
 }
@@ -536,7 +536,7 @@ void Render::checkMaxThreads()
     // One thread to create the audio thumbnails
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM"<<m_mltProducer->parent().get("mlt_service");
+        qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM"<<m_mltProducer->parent().get("mlt_service");
         return;
     }
     Mlt::Tractor tractor(service);
@@ -544,7 +544,7 @@ void Render::checkMaxThreads()
     int requestedThreads = tractor.count() + m_qmlView->realTime() + 2;
     if (requestedThreads > mltMaxThreads) {
         mlt_service_cache_set_size(service.get_service(), "producer_avformat", requestedThreads);
-        //qDebug()<<"// MLT threads updated to: "<<mlt_service_cache_get_size(service.get_service(), "producer_avformat");
+        //qCDebug(KDENLIVE_LOG)<<"// MLT threads updated to: "<<mlt_service_cache_get_size(service.get_service(), "producer_avformat");
     }
 }
 
@@ -552,11 +552,11 @@ void Render::checkMaxThreads()
 const QString Render::sceneList(const QString &root)
 {
     QString playlist;
-    qDebug()<<" * * *Setting document xml root: "<<root;
+    qCDebug(KDENLIVE_LOG)<<" * * *Setting document xml root: "<<root;
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), "xml:kdenlive_playlist");
     if (!root.isEmpty())
         xmlConsumer.set("root", root.toUtf8().constData());
-    //qDebug()<<" ++ + READY TO SAVE: "<<m_qmlView->profile()->width()<<" / "<<m_qmlView->profile()->description();
+    //qCDebug(KDENLIVE_LOG)<<" ++ + READY TO SAVE: "<<m_qmlView->profile()->width()<<" / "<<m_qmlView->profile()->description();
     if (!xmlConsumer.is_valid()) return QString();
     m_mltProducer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
@@ -582,13 +582,13 @@ void Render::saveZone(const QString &projectFolder, QPoint zone)
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), ("xml:" + url).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     m_mltProducer->optimise();
-    qDebug()<<" - - -- - SAVE ZONE SERVICE: "<<m_mltProducer->get("mlt_type");
+    qCDebug(KDENLIVE_LOG)<<" - - -- - SAVE ZONE SERVICE: "<<m_mltProducer->get("mlt_type");
     if (QString(m_mltProducer->get("mlt_type")) != QLatin1String("producer")) {
 	// TODO: broken
 	QString scene = sceneList(projectFolder);
 	Mlt::Producer duplicate(*m_mltProducer->profile(), "xml-string", scene.toUtf8().constData());
 	duplicate.set_in_and_out(zone.x(), zone.y());
-	qDebug()<<"/// CUT: "<<zone.x()<<"x"<< zone.y()<<" / "<<duplicate.get_length();
+	qCDebug(KDENLIVE_LOG)<<"/// CUT: "<<zone.x()<<"x"<< zone.y()<<" / "<<duplicate.get_length();
 	xmlConsumer.connect(duplicate);
 	xmlConsumer.run();
     }
@@ -623,17 +623,17 @@ void Render::start()
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mutex);
     /*if (m_winid == -1) {
-        //qDebug() << "-----  BROKEN MONITOR: " << m_name << ", RESTART";
+        //qCDebug(KDENLIVE_LOG) << "-----  BROKEN MONITOR: " << m_name << ", RESTART";
         return;
     }*/
     if (!m_mltConsumer) {
-        //qDebug()<<" / - - - STARTED BEFORE CONSUMER!!!";
+        //qCDebug(KDENLIVE_LOG)<<" / - - - STARTED BEFORE CONSUMER!!!";
         return;
     }
     if (m_mltConsumer->is_stopped()) {
         if (m_mltConsumer->start() == -1) {
             //KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-            qWarning() << "/ / / / CANNOT START MONITOR";
+            qCWarning(KDENLIVE_LOG) << "/ / / / CANNOT START MONITOR";
         } else {
             m_mltConsumer->purge();
             m_isRefreshing = true;
@@ -858,7 +858,7 @@ void Render::setDropFrames(bool drop)
         //m_mltConsumer->stop();
         m_mltConsumer->set("real_time", dropFrames);
         if (m_mltConsumer->start() == -1) {
-            qWarning() << "ERROR, Cannot start monitor";
+            qCWarning(KDENLIVE_LOG) << "ERROR, Cannot start monitor";
         }
 
     }
@@ -871,7 +871,7 @@ void Render::setConsumerProperty(const QString &name, const QString &value)
         //m_mltConsumer->stop();
         m_mltConsumer->set(name.toUtf8().constData(), value.toUtf8().constData());
         if (m_isActive && m_mltConsumer->start() == -1) {
-            qWarning() << "ERROR, Cannot start monitor";
+            qCWarning(KDENLIVE_LOG) << "ERROR, Cannot start monitor";
         }
 
     }
@@ -1050,7 +1050,7 @@ Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool, bool
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
+        qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
         return Q_NULLPTR;
     }
     Mlt::Tractor tractor(service);
@@ -1107,7 +1107,7 @@ void Render::unlockService(Mlt::Tractor *tractor)
     if (!m_mltProducer) return;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
+        qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
         return;
     }
     service.unlock();
@@ -1116,16 +1116,16 @@ void Render::unlockService(Mlt::Tractor *tractor)
 void Render::mltInsertSpace(const QMap <int, int> &trackClipStartList, const QMap <int, int> &trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset)
 {
     if (!m_mltProducer) {
-        //qDebug() << "PLAYLIST NOT INITIALISED //////";
+        //qCDebug(KDENLIVE_LOG) << "PLAYLIST NOT INITIALISED //////";
         return;
     }
     Mlt::Producer parentProd(m_mltProducer->parent());
     if (parentProd.get_producer() == Q_NULLPTR) {
-        //qDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
+        //qCDebug(KDENLIVE_LOG) << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
         return;
     }
-    ////qDebug()<<"// CLP STRT LST: "<<trackClipStartList;
-    ////qDebug()<<"// TRA STRT LST: "<<trackTransitionStartList;
+    ////qCDebug(KDENLIVE_LOG)<<"// CLP STRT LST: "<<trackClipStartList;
+    ////qCDebug(KDENLIVE_LOG)<<"// TRA STRT LST: "<<trackTransitionStartList;
 
     Mlt::Service service(parentProd.get_service());
     Mlt::Tractor tractor(service);
@@ -1148,7 +1148,7 @@ void Render::mltInsertSpace(const QMap <int, int> &trackClipStartList, const QMa
             } else {
                 if (!trackPlaylist.is_blank(clipIndex)) clipIndex --;
                 if (!trackPlaylist.is_blank(clipIndex)) {
-                    //qDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
+                    //qCDebug(KDENLIVE_LOG) << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
                 }
                 int position = trackPlaylist.clip_start(clipIndex);
                 int blankDuration = trackPlaylist.clip_length(clipIndex);
@@ -1193,14 +1193,14 @@ void Render::mltInsertSpace(const QMap <int, int> &trackClipStartList, const QMa
             if (insertPos != -1) {
                 insertPos += offset;
 
-                /* //qDebug()<<"-------------\nTRACK "<<trackNb<<" HAS "<<clipNb<<" CLPIS";
-                 //qDebug() << "INSERT SPACE AT: "<<insertPos<<", DIFF: "<<diff<<", TK: "<<trackNb;
+                /* //qCDebug(KDENLIVE_LOG)<<"-------------\nTRACK "<<trackNb<<" HAS "<<clipNb<<" CLPIS";
+                 //qCDebug(KDENLIVE_LOG) << "INSERT SPACE AT: "<<insertPos<<", DIFF: "<<diff<<", TK: "<<trackNb;
                         for (int i = 0; i < clipNb; ++i) {
-                            //qDebug()<<"CLIP "<<i<<", START: "<<trackPlaylist.clip_start(i)<<", END: "<<trackPlaylist.clip_start(i) + trackPlaylist.clip_length(i);
-                     if (trackPlaylist.is_blank(i)) //qDebug()<<"++ BLANK ++ ";
-                     //qDebug()<<"-------------";
+                            //qCDebug(KDENLIVE_LOG)<<"CLIP "<<i<<", START: "<<trackPlaylist.clip_start(i)<<", END: "<<trackPlaylist.clip_start(i) + trackPlaylist.clip_length(i);
+                     if (trackPlaylist.is_blank(i)) //qCDebug(KDENLIVE_LOG)<<"++ BLANK ++ ";
+                     //qCDebug(KDENLIVE_LOG)<<"-------------";
                  }
-                 //qDebug()<<"END-------------";*/
+                 //qCDebug(KDENLIVE_LOG)<<"END-------------";*/
 
 
                 int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
@@ -1211,7 +1211,7 @@ void Render::mltInsertSpace(const QMap <int, int> &trackClipStartList, const QMa
                         clipIndex --;
                     }
                     if (!trackPlaylist.is_blank(clipIndex)) {
-                        //qDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
+                        //qCDebug(KDENLIVE_LOG) << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
                     }
                     int position = trackPlaylist.clip_start(clipIndex);
                     int blankDuration = trackPlaylist.clip_length(clipIndex);
@@ -1262,21 +1262,21 @@ bool Render::mltResizeClipCrop(const ItemInfo &info, GenTime newCropStart)
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     if (trackPlaylist.is_blank_at(info.startPos.frames(m_fps))) {
-        //qDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
+        //qCDebug(KDENLIVE_LOG) << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
         return false;
     }
     service.lock();
     int clipIndex = trackPlaylist.get_clip_index_at(info.startPos.frames(m_fps));
     QScopedPointer<Mlt::Producer> clip(trackPlaylist.get_clip(clipIndex));
     if (clip == Q_NULLPTR) {
-        //qDebug() << "////////  ERROR RSIZING Q_NULLPTR CLIP!!!!!!!!!!!";
+        //qCDebug(KDENLIVE_LOG) << "////////  ERROR RSIZING Q_NULLPTR CLIP!!!!!!!!!!!";
         service.unlock();
         return false;
     }
     int previousStart = clip->get_in();
     int previousOut = clip->get_out();
     if (previousStart == newCropFrame) {
-        //qDebug() << "////////  No ReSIZING Required";
+        //qCDebug(KDENLIVE_LOG) << "////////  No ReSIZING Required";
         service.unlock();
         return true;
     }
@@ -1293,7 +1293,7 @@ QList<int> Render::checkTrackSequence(int track)
     QList<int> list;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
+        qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
         return list;
     }
     Mlt::Tractor tractor(service);
@@ -1301,7 +1301,7 @@ QList<int> Render::checkTrackSequence(int track)
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipNb = trackPlaylist.count();
-    ////qDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
+    ////qCDebug(KDENLIVE_LOG) << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
     for (int i = 0; i < clipNb; ++i) {
         QScopedPointer<Mlt::Producer> c(trackPlaylist.get_clip(i));
         int pos = trackPlaylist.clip_start(i);
@@ -1373,12 +1373,12 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     Q_UNUSED(ix)
     Q_UNUSED(name)
     Q_UNUSED(videoTrack)
-    qDebug()<<"Track insertion requires a more recent MLT version";
+    qCDebug(KDENLIVE_LOG)<<"Track insertion requires a more recent MLT version";
     return transitionInfos;
 #else
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
+        qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
         return QList <TransitionInfo> ();
     }
     blockSignals(true);
@@ -1401,7 +1401,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     playlist.set("id", newName.toUtf8().constData());
     int ct = tractor.count();
     if (ix > ct) {
-        //qDebug() << "// ERROR, TRYING TO insert TRACK " << ix << ", max: " << ct;
+        //qCDebug(KDENLIVE_LOG) << "// ERROR, TRYING TO insert TRACK " << ix << ", max: " << ct;
         ix = ct;
     }
 

@@ -33,7 +33,7 @@
 #include <QMenu>
 #include <QFileDialog>
 #include <QNetworkConfigurationManager>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QFontDatabase>
 #include <QTemporaryFile>
 
@@ -495,7 +495,7 @@ void ResourceWidget::slotGotFile(KJob *job)
         errTxt  =job->errorString();
         KMessageBox::sorry(this, errTxt, i18n("Error Loading Data"));
 
-        qDebug()<<"//file import job errored: "<<errTxt;
+        qCDebug(KDENLIVE_LOG)<<"//file import job errored: "<<errTxt;
         return;
     }
     else
@@ -751,7 +751,7 @@ void ResourceWidget::slotFreesoundAccessDenied()
  */
 void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
 {
-     //qDebug() << "slotAccessTokenReceived: " <<sAccessToken;
+     //qCDebug(KDENLIVE_LOG) << "slotAccessTokenReceived: " <<sAccessToken;
      if (sAccessToken !=QLatin1String(""))
      {
         // QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);

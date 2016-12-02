@@ -22,7 +22,7 @@
 
 #include <mlt++/Mlt.h>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 #include <QTimer>
 #include <QString>
@@ -264,7 +264,7 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
             delete m_mltProducer;
             m_mltProducer = Q_NULLPTR;
         }
-        //qDebug()<<"//// ERROR CREATRING PROD";
+        //qCDebug(KDENLIVE_LOG)<<"//// ERROR CREATRING PROD";
         return false;
     }
     m_mltConsumer->connect(*m_mltProducer);
@@ -423,7 +423,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     }
 
     if (m_mltProducer == Q_NULLPTR || !m_mltProducer->is_valid()) {
-        //qDebug()<<"//// ERROR CREATRING PROD";
+        //qCDebug(KDENLIVE_LOG)<<"//// ERROR CREATRING PROD";
 	if (m_mltConsumer) {
             delete m_mltConsumer;
             m_mltConsumer = Q_NULLPTR;
@@ -453,18 +453,18 @@ void MltDeviceCapture::setOverlay(const QString &path)
     if (m_mltProducer == Q_NULLPTR || !m_mltProducer->is_valid()) return;
     Mlt::Producer parentProd(m_mltProducer->parent());
     if (parentProd.get_producer() == Q_NULLPTR) {
-        //qDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
+        //qCDebug(KDENLIVE_LOG) << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
         return;
     }
 
     Mlt::Service service(parentProd.get_service());
     if (service.type() != tractor_type) {
-        qWarning() << "// TRACTOR PROBLEM";
+        qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
         return;
     }
     Mlt::Tractor tractor(service);
     if ( tractor.count() < 2) {
-        qWarning() << "// TRACTOR PROBLEM";
+        qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
         return;
     }
     mlt_service_lock(service.get_service());

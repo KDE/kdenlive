@@ -21,7 +21,7 @@
 #include "managecapturesdialog.h"
 #include "doc/kthumb.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QFontDatabase>
 #include <KFileItem>
 #include "klocalizedstring.h"
@@ -108,10 +108,10 @@ void ManageCapturesDialog::slotDeleteCurrent()
     if (!item) return;
     const int i = m_view.treeWidget->indexOfTopLevelItem(item);
     m_view.treeWidget->takeTopLevelItem(i);
-    //qDebug() << "DELETING FILE: " << item->text(0);
+    //qCDebug(KDENLIVE_LOG) << "DELETING FILE: " << item->text(0);
     //KIO::NetAccess::del(QUrl(item->text(0)), this);
     if (!QFile::remove(item->data(0, Qt::UserRole).toString())) {
-        qDebug()<<"// ERRor removing file "<<item->data(0, Qt::UserRole).toString();
+        qCDebug(KDENLIVE_LOG)<<"// ERRor removing file "<<item->data(0, Qt::UserRole).toString();
     }
     delete item;
     item = Q_NULLPTR;

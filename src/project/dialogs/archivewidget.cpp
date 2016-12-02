@@ -28,7 +28,7 @@
 #include <KMessageBox>
 #include <KGuiItem>
 #include <KTar>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <kio/directorysizejob.h>
 #include <KMessageWidget>
 
@@ -789,7 +789,7 @@ bool ArchiveWidget::processProjectFile()
     QString path = archive_url->url().path() + QDir::separator() + m_name + ".kdenlive";
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "//////  ERROR writing to file: " << path;
+        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
         KMessageBox::error(this, i18n("Cannot write to file %1", path));
         return false;
     }
@@ -927,7 +927,7 @@ void ArchiveWidget::slotExtractingFinished()
         else {
             playList.replace(QLatin1String("$CURRENTPATH"), archive_url->url().adjusted(QUrl::StripTrailingSlash).path());
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                qWarning() << "//////  ERROR writing to file: ";
+                qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: ";
                 error = true;
             }
             else {

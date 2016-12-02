@@ -19,7 +19,7 @@
 //#define DEBUG_FFTTOOLS
 
 #ifdef DEBUG_FFTTOOLS
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QTime>
 #include <fstream>
 #endif
@@ -73,11 +73,11 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
         window[size] = .5 + param/2;
 
 #ifdef DEBUG_FFTTOOLS
-        qDebug() << "Triangle window (factor " << window[size] << "):";
+        qCDebug(KDENLIVE_LOG) << "Triangle window (factor " << window[size] << "):";
         for (int i = 0; i < size; ++i) {
-            qDebug() << window[i];
+            qCDebug(KDENLIVE_LOG) << window[i];
         }
-        qDebug() << "Triangle window end.";
+        qCDebug(KDENLIVE_LOG) << "Triangle window end.";
 #endif
 
         return window;
@@ -97,11 +97,11 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
         window[size] = .54;
 
 #ifdef DEBUG_FFTTOOLS
-        qDebug() << "Hanning window (factor " << window[size] << "):";
+        qCDebug(KDENLIVE_LOG) << "Hanning window (factor " << window[size] << "):";
         for (int i = 0; i < size; ++i) {
-            qDebug() << window[i];
+            qCDebug(KDENLIVE_LOG) << window[i];
         }
-        qDebug() << "Hanning window end.";
+        qCDebug(KDENLIVE_LOG) << "Hanning window end.";
 #endif
 
         return window;
@@ -132,12 +132,12 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
     kiss_fftr_cfg myCfg;
     if (m_fftCfgs.contains(cfgSig)) {
 #ifdef DEBUG_FFTTOOLS
-        qDebug() << "Re-using FFT configuration with size " << windowSize;
+        qCDebug(KDENLIVE_LOG) << "Re-using FFT configuration with size " << windowSize;
 #endif
         myCfg = m_fftCfgs.value(cfgSig);
     } else {
 #ifdef DEBUG_FFTTOOLS
-        qDebug() << "Creating FFT configuration with size " << windowSize;
+        qCDebug(KDENLIVE_LOG) << "Creating FFT configuration with size " << windowSize;
 #endif
         myCfg = kiss_fftr_alloc(windowSize, false,Q_NULLPTR,Q_NULLPTR);
         m_fftCfgs.insert(cfgSig, myCfg);
@@ -151,12 +151,12 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
 
         if (m_windowFunctions.contains(winSig)) {
 #ifdef DEBUG_FFTTOOLS
-            qDebug() << "Re-using window function with signature " << winSig;
+            qCDebug(KDENLIVE_LOG) << "Re-using window function with signature " << winSig;
 #endif
             window = m_windowFunctions.value(winSig);
         } else {
 #ifdef DEBUG_FFTTOOLS
-            qDebug() << "Building new window function with signature " << winSig;
+            qCDebug(KDENLIVE_LOG) << "Building new window function with signature " << winSig;
 #endif
             window = FFTTools::window(windowType, windowSize, 0);
             m_windowFunctions.insert(winSig, window);
@@ -203,7 +203,7 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
     std::ofstream mFile;
     mFile.open("/tmp/freq.m");
     if (!mFile) {
-        qDebug() << "Opening file failed.";
+        qCDebug(KDENLIVE_LOG) << "Opening file failed.";
     } else {
         mFile << "val = [ ";
 
@@ -219,12 +219,12 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
         mFile << " ];\n";
 
         mFile.close();
-        qDebug() << "File written.";
+        qCDebug(KDENLIVE_LOG) << "File written.";
     }
 #endif
 
 #ifdef DEBUG_FFTTOOLS
-    qDebug() << "Calculated FFT in " << start.elapsed() << " ms.";
+    qCDebug(KDENLIVE_LOG) << "Calculated FFT in " << start.elapsed() << " ms.";
 #endif
 }
 
@@ -318,7 +318,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
     }
 
 #ifdef DEBUG_FFTTOOLS
-    qDebug() << "Interpolated " << targetSize << " nodes from " << in.size() << " input points in " << start.elapsed() << " ms";
+    qCDebug(KDENLIVE_LOG) << "Interpolated " << targetSize << " nodes from " << in.size() << " input points in " << start.elapsed() << " ms";
 #endif
 
     return out;

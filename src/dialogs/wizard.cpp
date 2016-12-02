@@ -45,7 +45,7 @@
 #include <QTimer>
 #include <QStandardPaths>
 #include <QMimeDatabase>
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 // Recommended MLT version
 const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
@@ -602,23 +602,23 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
     }
     if (missingGlobs.isEmpty()) return;
     if (!mime.isValid() || mime.isDefault()) {
-        qDebug() << "mimeType " << baseName << " not found";
+        qCDebug(KDENLIVE_LOG) << "mimeType " << baseName << " not found";
     } else {
         QStringList extensions = mime.globPatterns();
         QString comment = mime.comment();
         foreach(const QString & glob, missingGlobs) {
             if (!extensions.contains(glob)) extensions << glob;
         }
-        //qDebug() << "EXTS: " << extensions;
+        //qCDebug(KDENLIVE_LOG) << "EXTS: " << extensions;
         QDir mimeDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/mime/packages/"));
         if (!mimeDir.exists()) {
             mimeDir.mkpath(QStringLiteral("."));
         }
         QString packageFileName = mimeDir.absoluteFilePath(mimefile + ".xml");
-        //qDebug() << "INSTALLING NEW MIME TO: " << packageFileName;
+        //qCDebug(KDENLIVE_LOG) << "INSTALLING NEW MIME TO: " << packageFileName;
         QFile packageFile(packageFileName);
         if (!packageFile.open(QIODevice::WriteOnly)) {
-            qCritical() << "Couldn't open" << packageFileName << "for writing";
+            qCCritical(KDENLIVE_LOG) << "Couldn't open" << packageFileName << "for writing";
             return;
         }
         QXmlStreamWriter writer(&packageFile);
@@ -658,7 +658,7 @@ void Wizard::runUpdateMimeDatabase()
     proc << localPackageDir;
     const int exitCode = proc.execute();
     if (exitCode) {
-        qWarning() << proc.program() << "exited with error code" << exitCode;
+        qCWarning(KDENLIVE_LOG) << proc.program() << "exited with error code" << exitCode;
     }
 }
 

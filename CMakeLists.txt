@@ -21,7 +21,7 @@ set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_
 
 set(QT_MIN_VERSION 5.5.0)
 
-find_package(ECM 1.2.0 REQUIRED CONFIG)
+find_package(ECM 5.21.0 REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(FeatureSummary)
 include(ECMInstallIcons)
@@ -32,6 +32,7 @@ include(KDECompilerSettings)
 include(ECMOptionalAddSubdirectory)
 include(ECMMarkNonGuiExecutable)
 include(ECMAddAppIcon)
+include(ECMQtDeclareLoggingCategory)
 
 add_definitions(-DQT_NO_CAST_TO_ASCII)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
@@ -119,6 +120,7 @@ add_subdirectory(thumbnailer)
 #add_subdirectory(testingArea)
 
 
+install( FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
 
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timeline/effectmanager.h"
 
 #include <QUrl>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QPixmap>
 #include <QFileInfo>
 #include <KLocalizedString>
@@ -50,7 +50,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
 {
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) {
-        qDebug()<<"// WARNING, USING INVALID PRODUCER";
+        qCDebug(KDENLIVE_LOG)<<"// WARNING, USING INVALID PRODUCER";
         return;
     }
     else {
@@ -107,7 +107,7 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
 {
     m_properties = new Mlt::Properties(producer.get_properties());
     m_masterProducer = &producer;
-    if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
+    if (!m_masterProducer->is_valid()) qCDebug(KDENLIVE_LOG)<<"// WARNING, USING INVALID PRODUCER";
     else {
         QString proxy = m_properties->get("kdenlive:proxy");
         if (proxy.length() > 2) {
@@ -130,7 +130,7 @@ void ClipController::getProducerXML(QDomDocument& document, bool includeMeta)
         QString xml = m_binController->getProducerXML(*m_masterProducer, includeMeta);
         document.setContent(xml);
     }
-    else qDebug()<<" + + ++ NO MASTER PROD";
+    else qCDebug(KDENLIVE_LOG)<<" + + ++ NO MASTER PROD";
 }
 
 void ClipController::getInfoForProducer()
@@ -267,7 +267,7 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer* producer)
     m_properties = new Mlt::Properties(producer->get_properties());
     // Pass properties from previous producer
     m_properties->pass_list(passProperties, getPassPropertiesList(m_usesProxy));
-    if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
+    if (!m_masterProducer->is_valid()) qCDebug(KDENLIVE_LOG)<<"// WARNING, USING INVALID PRODUCER";
     else {
         // URL and name shoule not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
@@ -531,7 +531,7 @@ void ClipController::editSnapMarker(const GenTime & time, const QString &comment
     CommentedTime marker(time, comment);
     int ix = m_snapMarkers.indexOf(marker);
     if (ix == -1) {
-        qCritical() << "trying to edit Snap Marker that does not already exists";
+        qCCritical(KDENLIVE_LOG) << "trying to edit Snap Marker that does not already exists";
         return;
     }
     m_snapMarkers[ix].setComment(comment);
@@ -545,7 +545,7 @@ QString ClipController::deleteSnapMarker(const GenTime & time)
     CommentedTime marker(time, QString());
     int ix = m_snapMarkers.indexOf(marker);
     if (ix == -1) {
-        qCritical() << "trying to edit Snap Marker that does not already exists";
+        qCCritical(KDENLIVE_LOG) << "trying to edit Snap Marker that does not already exists";
         return QString();
     }
     QString result = m_snapMarkers.at(ix).comment();
@@ -771,7 +771,7 @@ void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e
         if (ser == QLatin1String("region")) prefix = QStringLiteral("filter0.");
         for (int j = 0; j < params.count(); ++j) {
             effect->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
-            //qDebug()<<params.at(j).name()<<" = "<<params.at(j).value();
+            //qCDebug(KDENLIVE_LOG)<<params.at(j).name()<<" = "<<params.at(j).value();
         }
         service.unlock();
     }

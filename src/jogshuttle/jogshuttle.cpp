@@ -21,7 +21,7 @@
 
 #include "jogshuttle.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 #include <QApplication>
 #include <QEvent>
@@ -132,7 +132,7 @@ void ShuttleThread::shuttle(const media_ctrl_event& ev)
     int value = ev.value / 2;
 
     if (value > MaxShuttleRange || value < -MaxShuttleRange) {
-        //qDebug() << "Jog shuttle value is out of range: " << MaxShuttleRange;
+        //qCDebug(KDENLIVE_LOG) << "Jog shuttle value is out of range: " << MaxShuttleRange;
         return;
     }
     QApplication::postEvent(m_parent,
@@ -169,7 +169,7 @@ void JogShuttle::stopDevice()
         // if still running - do it in the hardcore way
         if (m_shuttleProcess.isRunning()) {
         	m_shuttleProcess.terminate();
-            qWarning() << "Needed to force jogshuttle process termination";
+            qCWarning(KDENLIVE_LOG) << "Needed to force jogshuttle process termination";
         }
     }
 }
@@ -214,14 +214,14 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
     foreach (const QString &fileName, fileList) {
         QString devFullPath = devDir.absoluteFilePath(fileName);
         QString fileLink = JogShuttle::canonicalDevice(devFullPath);
-        //qDebug() << QString(" [%1] ").arg(fileName);
-        //qDebug() << QString(" [%1] ").arg(fileLink);
+        //qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileName);
+        //qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileLink);
 
         media_ctrl mc;
         media_ctrl_open_dev(&mc, (char*)fileLink.toUtf8().data());
         if (mc.fd > 0 && mc.device) {
             devs.insert(QString(mc.device->name), devFullPath);
-            qDebug() <<  QStringLiteral(" [keys-count=%1] ").arg(media_ctrl_get_keys_count(&mc));
+            qCDebug(KDENLIVE_LOG) <<  QStringLiteral(" [keys-count=%1] ").arg(media_ctrl_get_keys_count(&mc));
         }
         media_ctrl_close(&mc);
     }

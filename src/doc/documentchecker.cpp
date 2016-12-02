@@ -30,7 +30,7 @@
 #include <klocalizedstring.h>
 #include <KRecentDirs>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QFontDatabase>
 #include <QTreeWidgetItem>
 #include <QFile>
@@ -447,7 +447,7 @@ bool DocumentChecker::hasErrorInClips()
             // Tell Kdenlive the source is missing
             e.setAttribute(QStringLiteral("_missingsource"), QStringLiteral("1"));
             QTreeWidgetItem *subitem = new QTreeWidgetItem(item, QStringList() << i18n("Source clip"));
-            //qDebug()<<"// Adding missing source clip: "<<realPath;
+            //qCDebug(KDENLIVE_LOG)<<"// Adding missing source clip: "<<realPath;
             subitem->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
             subitem->setText(1, realPath);
             subitem->setData(0, hashRole, EffectsList::property(e, QStringLiteral("kdenlive:file_hash")));
@@ -666,7 +666,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
                 }
             }
         }
-        ////qDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
+        ////qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
@@ -872,7 +872,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
                 setProperty(trans.at(i).toElement(), service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), child->text(1));
-                //qDebug() << "replace with; " << child->text(1);
+                //qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
@@ -1032,7 +1032,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
     foreach(const QString &fontelement, fonts) {
         if (m_safeFonts.contains(fontelement)) continue;
         QFont f(fontelement);
-        ////qDebug() << "/ / / CHK FONTS: " << fontelement << " = " << QFontInfo(f).family();
+        ////qCDebug(KDENLIVE_LOG) << "/ / / CHK FONTS: " << fontelement << " = " << QFontInfo(f).family();
         if (fontelement != QFontInfo(f).family()) {
             m_missingFonts << fontelement;
         }

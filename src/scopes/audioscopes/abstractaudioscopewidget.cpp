@@ -18,7 +18,7 @@
 //#define DEBUG_AASW
 
 #ifdef DEBUG_AASW
-#include <QDebug>
+#include "kdenlive_debug.h"
 #endif
 
 AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *parent) :
@@ -34,7 +34,7 @@ AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *par
 void AbstractAudioScopeWidget::slotReceiveAudio(const audioShortVector &sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_AASW
-    qDebug() << "Received audio for " << widgetName() << '.';
+    qCDebug(KDENLIVE_LOG) << "Received audio for " << widgetName() << '.';
 #endif
     m_audioFrame = sampleData;
     m_freq = freq;

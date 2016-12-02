@@ -33,7 +33,7 @@
 #include <KDualAction>
 
 #include <QObject>
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 MonitorManager::MonitorManager(QObject *parent) :
         QObject(parent),
@@ -291,7 +291,7 @@ void MonitorManager::slotSwitchFullscreen()
 QString MonitorManager::getProjectFolder() const
 {
     if (m_document == Q_NULLPTR) {
-    //qDebug()<<" + + +Q_NULLPTR DOC!!";
+    //qCDebug(KDENLIVE_LOG)<<" + + +Q_NULLPTR DOC!!";
 	return QString();
     }
     return m_document->projectDataFolder() + QDir::separator();

@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "fftCorrelation.h"
 
 #include "klocalizedstring.h"
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QTime>
 #include <cmath>
 #include <iostream>
@@ -35,7 +35,7 @@ AudioCorrelation::~AudioCorrelation()
         delete info;
     }
 
-    qDebug() << "Envelope deleted.";
+    qCDebug(KDENLIVE_LOG) << "Envelope deleted.";
 }
 
 void AudioCorrelation::slotAnnounceEnvelope()
@@ -160,7 +160,7 @@ void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain,
         }
 
     }
-    qDebug() << "Correlation calculated. Time taken: " << t.elapsed() << " ms.";
+    qCDebug(KDENLIVE_LOG) << "Correlation calculated. Time taken: " << t.elapsed() << " ms.";
 
     if (out_max != Q_NULLPTR) {
         *out_max = max;

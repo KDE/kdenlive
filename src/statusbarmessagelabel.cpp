@@ -132,7 +132,7 @@ void StatusBarMessageLabel::setMessage(const QString& text, MessageType type, in
     m_queueSemaphore.acquire();
     if (!m_messageQueue.contains(item)) {
         if (item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage) {
-            qDebug() << item.text;
+            qCDebug(KDENLIVE_LOG) << item.text;
 
             // Put the new error message at first place and immediately show it
             if (item.timeoutMillis < 3000) {

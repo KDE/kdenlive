@@ -25,7 +25,7 @@
 
 // (defined in the header file)
 #ifdef DEBUG_AUDIOSPEC
-#include <QDebug>
+#include "kdenlive_debug.h"
 #endif
 
 // (defined in the header file)
@@ -327,7 +327,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
 #ifdef DEBUG_AUDIOSPEC
         m_showTotal++;
         m_timeTotal += drawTime.elapsed();
-        qDebug() << widgetName() << " took " << drawTime.elapsed() << " ms for drawing. Average: " << ((float)m_timeTotal/m_showTotal) ;
+        qCDebug(KDENLIVE_LOG) << widgetName() << " took " << drawTime.elapsed() << " ms for drawing. Average: " << ((float)m_timeTotal/m_showTotal) ;
 #endif
 
         emit signalScopeRenderingFinished(start.elapsed(), 1);
@@ -479,7 +479,7 @@ QImage AudioSpectrum::renderHUD(uint)
 
     } else {
 #ifdef DEBUG_AUDIOSPEC
-        qDebug() << "Widget is too small for painting inside. Size of inner scope rect is "
+        qCDebug(KDENLIVE_LOG) << "Widget is too small for painting inside. Size of inner scope rect is "
                  << m_innerScopeRect.width() << 'x' << m_innerScopeRect.height() <<".";
 #endif
         emit signalHUDRenderingFinished(0, 1);

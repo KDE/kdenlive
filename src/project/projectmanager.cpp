@@ -37,7 +37,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QCryptographicHash>
 #include <QFileDialog>
 #include <QAction>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QTimeZone>
@@ -103,7 +103,7 @@ void ProjectManager::slotLoadOnOpen()
         QStringList list = m_loadClipsOnOpen.split(',');
         QList <QUrl> urls;
         foreach(const QString &path, list) {
-            //qDebug() << QDir::current().absoluteFilePath(path);
+            //qCDebug(KDENLIVE_LOG) << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
         pCore->bin()->droppedUrls(urls);
@@ -374,7 +374,7 @@ bool ProjectManager::saveFile()
 {
     if (!m_project) {
         // Calling saveFile before a project was created, something is wrong
-        qDebug()<<"SaveFile called without project";
+        qCDebug(KDENLIVE_LOG)<<"SaveFile called without project";
         return false;
     }
     if (m_project->url().isEmpty()) {
@@ -469,7 +469,7 @@ void ProjectManager::openFile(const QUrl &url)
     QMimeType mime = db.mimeTypeForUrl(url);
     if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
         // Opening a compressed project file, we need to process it
-        //qDebug()<<"Opening archive, processing";
+        //qCDebug(KDENLIVE_LOG)<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) {
             openFile(QUrl::fromLocalFile(ar->extractedProjectFile()));

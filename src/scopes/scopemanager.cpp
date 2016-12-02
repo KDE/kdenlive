@@ -61,7 +61,7 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
     if (!exists) {
         // Add scope to the list, set up signal/slot connections
 #ifdef DEBUG_SM
-        qDebug() << "Adding scope to scope manager: " << audioScope->widgetName();
+        qCDebug(KDENLIVE_LOG) << "Adding scope to scope manager: " << audioScope->widgetName();
 #endif
 
         m_signalMapper->setMapping(audioScopeWidget, QString(audioScope->widgetName()));
@@ -92,7 +92,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
     }
     if (!exists) {
 #ifdef DEBUG_SM
-        qDebug() << "Adding scope to scope manager: " << colorScope->widgetName();
+        qCDebug(KDENLIVE_LOG) << "Adding scope to scope manager: " << colorScope->widgetName();
 #endif
 
         m_signalMapper->setMapping(colorScopeWidget, QString(colorScope->widgetName()));
@@ -118,7 +118,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
 void ScopeManager::slotDistributeAudio(const audioShortVector &sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_SM
-    qDebug() << "ScopeManager: Starting to distribute audio.";
+    qCDebug(KDENLIVE_LOG) << "ScopeManager: Starting to distribute audio.";
 #endif
     for (int i = 0; i < m_audioScopes.size(); ++i) {
         // Distribute audio to all scopes that are visible and want to be refreshed
@@ -126,7 +126,7 @@ void ScopeManager::slotDistributeAudio(const audioShortVector &sampleData, int f
             if (m_audioScopes[i].scope->autoRefreshEnabled()) {
                 m_audioScopes[i].scope->slotReceiveAudio(sampleData, freq, num_channels, num_samples);
 #ifdef DEBUG_SM
-                qDebug() << "ScopeManager: Distributed audio to " << m_audioScopes[i].scope->widgetName();
+                qCDebug(KDENLIVE_LOG) << "ScopeManager: Distributed audio to " << m_audioScopes[i].scope->widgetName();
 #endif
             }
         }
@@ -135,14 +135,14 @@ void ScopeManager::slotDistributeAudio(const audioShortVector &sampleData, int f
 void ScopeManager::slotDistributeFrame(const QImage &image)
 {
 #ifdef DEBUG_SM
-    qDebug() << "ScopeManager: Starting to distribute frame.";
+    qCDebug(KDENLIVE_LOG) << "ScopeManager: Starting to distribute frame.";
 #endif
     for (int i = 0; i < m_colorScopes.size(); ++i) {
         if (!m_colorScopes[i].scope->visibleRegion().isEmpty()) {
             if (m_colorScopes[i].scope->autoRefreshEnabled()) {
                 m_colorScopes[i].scope->slotRenderZoneUpdated(image);
 #ifdef DEBUG_SM
-                qDebug() << "ScopeManager: Distributed frame to " << m_colorScopes[i].scope->widgetName();
+                qCDebug(KDENLIVE_LOG) << "ScopeManager: Distributed frame to " << m_colorScopes[i].scope->widgetName();
 #endif
             } else if (m_colorScopes[i].singleFrameRequested) {
                 // Special case: Auto refresh is disabled, but user requested an update (e.g. by clicking).
@@ -151,7 +151,7 @@ void ScopeManager::slotDistributeFrame(const QImage &image)
                 m_colorScopes[i].scope->slotRenderZoneUpdated(image);
                 m_colorScopes[i].scope->forceUpdateScope();
 #ifdef DEBUG_SM
-                qDebug() << "ScopeManager: Distributed forced frame to " << m_colorScopes[i].scope->widgetName();
+                qCDebug(KDENLIVE_LOG) << "ScopeManager: Distributed forced frame to " << m_colorScopes[i].scope->widgetName();
 #endif
             }
         }
@@ -169,7 +169,7 @@ void ScopeManager::slotScopeReady()
 void ScopeManager::slotRequestFrame(const QString &widgetName)
 {
 #ifdef DEBUG_SM
-    qDebug() << "ScopeManager: New frame was requested by " << widgetName;
+    qCDebug(KDENLIVE_LOG) << "ScopeManager: New frame was requested by " << widgetName;
 #endif
 
     // Search for the scope in the lists and tag it to trigger a forced update
@@ -201,7 +201,7 @@ void ScopeManager::slotUpdateActiveRenderer()
     // Disconnect old connections
     if (m_lastConnectedRenderer != Q_NULLPTR) {
 #ifdef DEBUG_SM
-        qDebug() << "Disconnected previous renderer: " << m_lastConnectedRenderer->id();
+        qCDebug(KDENLIVE_LOG) << "Disconnected previous renderer: " << m_lastConnectedRenderer->id();
 #endif
         m_lastConnectedRenderer->disconnect(this);
     }
@@ -218,12 +218,12 @@ void ScopeManager::slotUpdateActiveRenderer()
                 this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
 
 #ifdef DEBUG_SM
-        qDebug() << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->id();
+        qCDebug(KDENLIVE_LOG) << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->id();
 #endif
 
         if (imagesAcceptedByScopes()) {
 #ifdef DEBUG_SM
-            qDebug() << "Some scopes accept images, triggering frame update.";
+            qCDebug(KDENLIVE_LOG) << "Some scopes accept images, triggering frame update.";
 #endif
             m_lastConnectedRenderer->sendFrameUpdate();
         }
@@ -234,7 +234,7 @@ void ScopeManager::slotUpdateActiveRenderer()
 void ScopeManager::slotCheckActiveScopes()
 {
 #ifdef DEBUG_SM
-    qDebug() << "Checking active scopes ...";
+    qCDebug(KDENLIVE_LOG) << "Checking active scopes ...";
 #endif
     // Leave a small delay to make sure that scope widget has been shown or hidden
     QTimer::singleShot(500, this, &ScopeManager::checkActiveAudioScopes);
@@ -252,7 +252,7 @@ bool ScopeManager::audioAcceptedByScopes() const
         }
     }
 #ifdef DEBUG_SM
-    qDebug() << "Any scope accepting audio? " << accepted;
+    qCDebug(KDENLIVE_LOG) << "Any scope accepting audio? " << accepted;
 #endif
     return accepted;
 }
@@ -266,7 +266,7 @@ bool ScopeManager::imagesAcceptedByScopes() const
         }
     }
 #ifdef DEBUG_SM
-    qDebug() << "Any scope accepting images? " << accepted;
+    qCDebug(KDENLIVE_LOG) << "Any scope accepting images? " << accepted;
 #endif
     return accepted;
 }
@@ -278,7 +278,7 @@ void ScopeManager::checkActiveAudioScopes()
     bool audioStillRequested = audioAcceptedByScopes();
 
 #ifdef DEBUG_SM
-    qDebug() << "ScopeManager: New audio data still requested? " << audioStillRequested;
+    qCDebug(KDENLIVE_LOG) << "ScopeManager: New audio data still requested? " << audioStillRequested;
 #endif
 
     KdenliveSettings::setMonitor_audio(audioStillRequested);
@@ -290,7 +290,7 @@ void ScopeManager::checkActiveColourScopes()
     bool imageStillRequested = imagesAcceptedByScopes();
 
 #ifdef DEBUG_SM
-    qDebug() << "ScopeManager: New frames still requested? " << imageStillRequested;
+    qCDebug(KDENLIVE_LOG) << "ScopeManager: New frames still requested? " << imageStillRequested;
 #endif
 
     // Notify monitors whether frames are still required

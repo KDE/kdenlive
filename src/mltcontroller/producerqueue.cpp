@@ -204,7 +204,7 @@ void ProducerQueue::processFileProperties()
             //path = info.xml.attribute("resource");
             proxyProducer = false;
         }
-        //qDebug()<<" / / /CHECKING PRODUCER PATH: "<<path;
+        //qCDebug(KDENLIVE_LOG)<<" / / /CHECKING PRODUCER PATH: "<<path;
         QUrl url = QUrl::fromLocalFile(path);
         Mlt::Producer *producer = Q_NULLPTR;
         ClipType type = (ClipType)info.xml.attribute(QStringLiteral("type")).toInt();
@@ -317,7 +317,7 @@ void ProducerQueue::processFileProperties()
             }
         }
         if (producer == Q_NULLPTR || producer->is_blank() || !producer->is_valid()) {
-            qDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
+            qCDebug(KDENLIVE_LOG) << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
             m_processingClipId.removeAll(info.clipId);
             if (proxyProducer) {
                 // Proxy file is corrupted
@@ -343,7 +343,7 @@ void ProducerQueue::processFileProperties()
             producer->set("out", info.xml.attribute(QStringLiteral("proxy_out")).toInt());
             if (producer->get_out() != info.xml.attribute(QStringLiteral("proxy_out")).toInt()) {
                 // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
-                qDebug()<<"/ // PROXY LENGTH MISMATCH, DELETE PRODUCER";
+                qCDebug(KDENLIVE_LOG)<<"/ // PROXY LENGTH MISMATCH, DELETE PRODUCER";
                 m_processingClipId.removeAll(info.clipId);
                 emit removeInvalidProxy(info.clipId, true);
                 delete producer;
@@ -499,7 +499,7 @@ void ProducerQueue::processFileProperties()
 
         if (frameNumber > 0) producer->seek(frameNumber);
         duration = duration > 0 ? duration : producer->get_playtime();
-        //qDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
+        //qCDebug(KDENLIVE_LOG) << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
 
         if (type == SlideShow) {
             int ttl = EffectsList::property(info.xml,QStringLiteral("ttl")).toInt();
@@ -708,7 +708,7 @@ void ProducerQueue::processFileProperties()
 
                 if (vindex > -1) {
                     /*if (context->duration == AV_NOPTS_VALUE) {
-                    //qDebug() << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
+                    //qCDebug(KDENLIVE_LOG) << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
                     emit removeInvalidClip(clipId);
                     delete producer;
                     return;
@@ -748,7 +748,7 @@ void ProducerQueue::processFileProperties()
                     filePropertyMap[QStringLiteral("pix_fmt")] = producer->get(query.toUtf8().constData());
                     filePropertyMap[QStringLiteral("colorspace")] = producer->get("meta.media.colorspace");
 
-                } else qDebug() << " / / / / /WARNING, VIDEO CONTEXT IS Q_NULLPTR!!!!!!!!!!!!!!";
+                } else qCDebug(KDENLIVE_LOG) << " / / / / /WARNING, VIDEO CONTEXT IS Q_NULLPTR!!!!!!!!!!!!!!";
                 if (producer->get_int("audio_index") > -1) {
                     // Get the audio_index
                     int index = producer->get_int("audio_index");

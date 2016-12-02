@@ -313,7 +313,7 @@ void LibraryWidget::slotDeleteFromLibrary()
 {
     QTreeWidgetItem *current = m_libraryTree->currentItem();
     if (!current) {
-        qDebug()<<" * * *Deleting no item ";
+        qCDebug(KDENLIVE_LOG)<<" * * *Deleting no item ";
         return;
     }
     QString path = current->data(0, Qt::UserRole).toString();

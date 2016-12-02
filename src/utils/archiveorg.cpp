@@ -27,7 +27,7 @@
 #include <QApplication>
 #include <QJsonDocument>
 #include <QJsonParseError>
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 #include "kdenlivesettings.h"
 #include <kio/storedtransferjob.h>
@@ -70,7 +70,7 @@ void ArchiveOrg::slotStartSearch(const QString &searchText, int page)
     uri.append("&output=json");
 
 
-  //  qDebug()<<"ArchiveOrg URL: "<< uri;
+  //  qCDebug(KDENLIVE_LOG)<<"ArchiveOrg URL: "<< uri;
     KJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
 
 
@@ -83,7 +83,7 @@ void ArchiveOrg::slotShowResults(KJob* job)
 {
     if (job->error() != 0 )
     {
-        qDebug()<<"ArchiveOrg job error"<<job->errorString() 	;
+        qCDebug(KDENLIVE_LOG)<<"ArchiveOrg job error"<<job->errorString() 	;
         return;
     }
     m_listWidget->blockSignals(true);
@@ -211,7 +211,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
         QMap <QString, QVariant> map = data.toMap();
         QMap<QString, QVariant>::const_iterator i = map.constBegin();
         while (i != map.constEnd()) {
-        //   qDebug()<<"ArchiveOrg::slotParseResults - i.key"<<  i.key();
+        //   qCDebug(KDENLIVE_LOG)<<"ArchiveOrg::slotParseResults - i.key"<<  i.key();
            if (i.key()==QLatin1String("files"))
            {
                QString format;
@@ -226,23 +226,23 @@ void ArchiveOrg::slotParseResults(KJob* job)
                    QMap<QString, QVariant>::const_iterator j = filesList.constBegin();
                    bool bThumbNailFound =false;
                    while (j != filesList.constEnd()) {
-                      //  qDebug()<<"ArchiveOrg::slotParseResults - file url "<< "https://archive.org/download/"+ m_metaInfo.value(QStringLiteral("id")) + j.key();
+                      //  qCDebug(KDENLIVE_LOG)<<"ArchiveOrg::slotParseResults - file url "<< "https://archive.org/download/"+ m_metaInfo.value(QStringLiteral("id")) + j.key();
                          sDownloadUrl = "https://archive.org/download/"+ m_metaInfo.value(QStringLiteral("id")) + j.key();
                          fileMetaData=j.value();
                          if (fileMetaData.canConvert(QVariant::Map)) {
                              QMap <QString, QVariant> filesMetaDataList = fileMetaData.toMap();
                              QMap<QString, QVariant>::const_iterator k = filesMetaDataList.constBegin();
                              while (k != filesMetaDataList.constEnd()) {
-                               // qDebug()<< k.key()<<": "<<k.value().toString();
+                               // qCDebug(KDENLIVE_LOG)<< k.key()<<": "<<k.value().toString();
                                  if (k.key()==QLatin1String("format"))
                                  {
-                                 //   qDebug()<<"Format: "<<k.value().toString();
+                                 //   qCDebug(KDENLIVE_LOG)<<"Format: "<<k.value().toString();
                                     format=k.value().toString();
                                  }
                                  if (k.key()==QLatin1String("size"))
                                  {
                                        fileSize=  QLocale::system().toString(k.value().toInt()/1024);
-                                    //  qDebug()<<" fileSize: "<<k.value().toInt()/1024;
+                                    //  qCDebug(KDENLIVE_LOG)<<" fileSize: "<<k.value().toInt()/1024;
                                  }
                                  if (k.key()==QLatin1String("length"))
                                  {
@@ -263,7 +263,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
                           {
                             sThumbUrl= "https://archive.org/download/"+ m_metaInfo.value(QStringLiteral("id")) + j.key();
                             //m_metaInfo.insert(QStringLiteral("preview"), sPreviewUrl);
-                           //  qDebug()<<" sPreviewUrl: "<<sPreviewUrl;
+                           //  qCDebug(KDENLIVE_LOG)<<" sPreviewUrl: "<<sPreviewUrl;
                              bThumbNailFound=true;
                              emit gotThumb(sThumbUrl);
                            }
@@ -287,7 +287,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
     html += QLatin1String("</table>");
     if (m_metaInfo.value(QStringLiteral("id")) == job->property("id").toString())
     {
-      //  qDebug()<<"ArchiveOrg::slotParseResults html: "<<html;
+      //  qCDebug(KDENLIVE_LOG)<<"ArchiveOrg::slotParseResults html: "<<html;
         emit gotMetaInfo(html);// connected ResourceWidget::slotSetMetadata which updates the display with the html we pass
 
     }
@@ -300,7 +300,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
     m_thumbsPath.clear();
     for (int i = 0; i < links.count(); ++i) {
         QString href = links.at(i).toElement().attribute(QStringLiteral("href"));
-        qDebug()<<"ArchiveOrg::slotParseResults"<< href;
+        qCDebug(KDENLIVE_LOG)<<"ArchiveOrg::slotParseResults"<< href;
         if (href.endsWith(QLatin1String(".thumbs/"))) {
             // sub folder contains image thumbs, display one.
             m_thumbsPath = m_metaInfo.value(QStringLiteral("url")) + '/' + href;
@@ -322,7 +322,7 @@ void ArchiveOrg::slotParseResults(KJob* job)
     if (m_metaInfo.value(QStringLiteral("id")) == job->property("id").toString())
     {
         emit gotMetaInfo(html);// connected ResourceWidget::slotSetMetadata which updates the display with the html we pass
-     //   qDebug()<<"ArchiveOrg::slotParseResults"<<html;
+     //   qCDebug(KDENLIVE_LOG)<<"ArchiveOrg::slotParseResults"<<html;
     }
     */
 }

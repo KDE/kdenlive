@@ -17,7 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "bin/bin.h"
 #include "library/librarywidget.h"
 #include <QCoreApplication>
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 #include <locale>
 #ifdef Q_OS_MAC
@@ -136,7 +136,7 @@ void Core::initLocale()
 #endif
     char *separator = localeconv()->decimal_point;
     if (QString::fromUtf8(separator) != QChar(systemLocale.decimalPoint())) {
-        //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
+        //qCDebug(KDENLIVE_LOG)<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
         // HACK: There is a locale conflict, so set locale to C
         // Make sure to override exported values or it won't work
         qputenv("LANG", "C");

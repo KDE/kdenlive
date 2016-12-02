@@ -552,10 +552,10 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
             prod.set("mlt_service", "avformat-novalidate");
             m_previewTrack->insert_at(frame, &prod, 1);
         } else {
-            qDebug()<<"* * * INVALID PROD: "<<file;
+            qCDebug(KDENLIVE_LOG)<<"* * * INVALID PROD: "<<file;
         }
     } else {
-        qDebug()<<"* * * NON EMPTY PROD: "<<frame;
+        qCDebug(KDENLIVE_LOG)<<"* * * NON EMPTY PROD: "<<frame;
     }
     m_previewTrack->consolidate_blanks();
     m_tractor->unlock();

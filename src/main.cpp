@@ -29,7 +29,7 @@
 #include <KSharedConfig>
 #include <KConfigGroup>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QUrl> //new
 #include <QApplication>
 #include <klocalizedstring.h>
@@ -63,9 +63,9 @@ int main(int argc, char *argv[])
             if (env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() != QLatin1String("kde")) {
                 // We are not on a KDE desktop, force breeze icon theme
                 grp.writeEntry("force_breeze", true);
-                qDebug()<<"Non KDE Desktop detected, forcing Breeze icon theme";
+                qCDebug(KDENLIVE_LOG)<<"Non KDE Desktop detected, forcing Breeze icon theme";
             } else {
-                qDebug()<<"KDE Desktop detected, using system icons";
+                qCDebug(KDENLIVE_LOG)<<"KDE Desktop detected, using system icons";
             }
         }
     }
@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
     int result = app.exec();
 
     if (EXIT_RESTART == result) {
-        qDebug() << "restarting app";
+        qCDebug(KDENLIVE_LOG) << "restarting app";
         QProcess* restart = new QProcess;
         restart->start(app.applicationFilePath(), QStringList());
         restart->waitForReadyRead();

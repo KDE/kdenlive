@@ -20,7 +20,7 @@
 
 #include <QIcon>
 #include <QApplication>
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 #include <kiconloader.h>
 #include <kiconengine.h>
@@ -49,7 +49,7 @@ QIcon themedIcon(const QString &name) {
     if (KIconLoader::global()->iconPath(realName, KIconLoader::User, true).isEmpty()) {
         realName = name;
     }
-    //qDebug()<<"-- LOADING ICON: "<<realName;
+    //qCDebug(KDENLIVE_LOG)<<"-- LOADING ICON: "<<realName;
     QIcon icon = QIcon(new KIconEngine(realName, KIconLoader::global()));
 
     // fallback

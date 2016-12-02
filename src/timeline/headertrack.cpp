@@ -28,7 +28,7 @@
 #include <KDualAction>
 #include <KColorScheme>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QMouseEvent>
 #include <QWidget>
 #include <QAction>
@@ -105,7 +105,7 @@ HeaderTrack::HeaderTrack(const TrackInfo &info, const QList <QAction *> &actions
 
 HeaderTrack::~HeaderTrack()
 {
-    //qDebug()<<" - --DEL TK HEAD: "<<m_name;
+    //qCDebug(KDENLIVE_LOG)<<" - --DEL TK HEAD: "<<m_name;
 }
 
 bool HeaderTrack::eventFilter(QObject *obj, QEvent *event)

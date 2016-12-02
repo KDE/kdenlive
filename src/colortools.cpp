@@ -15,7 +15,7 @@
 
 //#define DEBUG_CT
 #ifdef DEBUG_CT
-#include <QDebug>
+#include "kdenlive_debug.h"
 #endif
 
 ColorTools::ColorTools(QObject *parent)
@@ -258,9 +258,9 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
     QImage plane(size, QImage::Format_ARGB32);
 
 #ifdef DEBUG_CT
-    qDebug() << "Requested: Saturation " << S << ", Value " << V;
+    qCDebug(KDENLIVE_LOG) << "Requested: Saturation " << S << ", Value " << V;
     QColor colTest(-1, 256, 257);
-    qDebug() << "-1 mapped to " << colTest.red() << ", 256 to " << colTest.green() << ", 257 to " << colTest.blue();
+    qCDebug(KDENLIVE_LOG) << "-1 mapped to " << colTest.red() << ", 256 to " << colTest.green() << ", 257 to " << colTest.blue();
 #endif
 
     QColor col(0, 0, 0);
@@ -273,7 +273,7 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
         float hue = x/(size.width() - 1.0) * 359;
         for (int y = 0; y < size.height(); ++y) {
             huediff = (1.0f - y/(size.height() - 1.0)) * hueValues + MIN;
-//            qDebug() << "hue: " << hue << ", huediff: " << huediff;
+//            qCDebug(KDENLIVE_LOG) << "hue: " << hue << ", huediff: " << huediff;
 
             newhue = hue + huediff + 360; // Avoid negative numbers. Rest (>360) will be mapped correctly.
 

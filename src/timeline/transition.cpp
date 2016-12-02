@@ -23,7 +23,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 #include <QBrush>
 #include <QDomElement>
@@ -320,7 +320,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 
         m_info.track = newTrack;
         m_info.startPos = GenTime((int) newPos.x(), m_fps);
-        ////qDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
+        ////qCDebug(KDENLIVE_LOG)<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
         return newPos;
     }
     return QGraphicsItem::itemChange(change, value);

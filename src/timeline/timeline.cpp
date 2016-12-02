@@ -630,14 +630,14 @@ void Timeline::slotReloadTracks()
 TrackInfo Timeline::getTrackInfo(int ix)
 {
     if (ix < 0 || ix > m_tracks.count()) {
-	qWarning()<<"/// ARGH, requested info for track: "<<ix<<" - MAX is: "<<m_tracks.count();
+	qCWarning(KDENLIVE_LOG)<<"/// ARGH, requested info for track: "<<ix<<" - MAX is: "<<m_tracks.count();
 	// Let it crash to find wrong calls
 	TrackInfo info;
 	return info;
     }
     Track *tk = track(ix);
     if (tk == Q_NULLPTR) {
-	qWarning()<<"/// ARGH, requesting Q_NULLPTR track: "<<ix<<" - MAX is: "<<m_tracks.count();
+	qCWarning(KDENLIVE_LOG)<<"/// ARGH, requesting Q_NULLPTR track: "<<ix<<" - MAX is: "<<m_tracks.count();
 	// Let it crash to find wrong calls
 	TrackInfo info;
 	return info;
@@ -657,7 +657,7 @@ bool Timeline::isLastClip(const ItemInfo &info)
 void Timeline::setTrackInfo(int ix, const TrackInfo &info)
 {
     if (ix < 0 || ix > m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
         return;
     }
     Track *tk = track(ix);
@@ -687,7 +687,7 @@ void Timeline::lockTrack(int ix, bool lock)
 {
     Track *tk = track(ix);
     if (tk == Q_NULLPTR) {
-        qWarning() << "Set Track effect outisde of range: "<<ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: "<<ix;
         return;
     }
     tk->lockTrack(lock);
@@ -697,7 +697,7 @@ bool Timeline::isTrackLocked(int ix)
 {
     Track *tk = track(ix);
     if (tk == Q_NULLPTR) {
-        qWarning() << "Set Track effect outisde of range: "<<ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: "<<ix;
         return false;
     }
     int locked = tk->getIntProperty(QStringLiteral("kdenlive:locked_track"));
@@ -755,7 +755,7 @@ void Timeline::doSwitchTrackVideo(int ix, bool hide)
 {
     Track* tk = track(ix);
     if (tk == Q_NULLPTR) {
-        qWarning() << "Set Track effect outisde of range: "<<ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: "<<ix;
         return;
     }
     int state = tk->state();
@@ -809,7 +809,7 @@ void Timeline::doSwitchTrackAudio(int ix, bool mute)
 {
     Track* tk = track(ix);
     if (tk == Q_NULLPTR) {
-        qWarning() << "Set Track effect outisde of range: "<<ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: "<<ix;
         return;
     }
     int state = tk->state();
@@ -1008,7 +1008,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         if (binclip == Q_NULLPTR) {
 	    // Warning, unknown clip found, timeline corruption!!
 	    //TODO: fix this
-            qDebug()<<"* * * * *UNKNOWN CLIP, WE ARE DEAD: "<<id;
+            qCDebug(KDENLIVE_LOG)<<"* * * * *UNKNOWN CLIP, WE ARE DEAD: "<<id;
 	    continue;
 	}
 	if (updateReferences)
@@ -1019,11 +1019,11 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         clipinfo.cropStart = GenTime(info->frame_in, fps);
         clipinfo.cropDuration = GenTime(info->frame_count, fps);
         clipinfo.track = ix;
-	//qDebug()<<"// Loading clip: "<<clipinfo.startPos.frames(25)<<" / "<<clipinfo.endPos.frames(25)<<"\n++++++++++++++++++++++++";
+	//qCDebug(KDENLIVE_LOG)<<"// Loading clip: "<<clipinfo.startPos.frames(25)<<" / "<<clipinfo.endPos.frames(25)<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, slowInfo.speed, slowInfo.strobe, m_trackview->getFrameWidth(), true);
         connect(item, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
         item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - clipinfo.track) + 1 + item->itemOffset());
-        //qDebug()<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
+        //qCDebug(KDENLIVE_LOG)<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
         item->updateState(idString, info->producer->get_int("audio_index"), info->producer->get_int("video_index"), originalState);
         m_scene->addItem(item);
         if (locked) item->setItemLocked(true);
@@ -1131,7 +1131,7 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
         QString id = effect->get(name.append(".kdenlive_id").toUtf8().constData());
         QDomElement subclipeffect = getEffectByTag(tag, id);
         if (subclipeffect.isNull()) {
-            qWarning() << "Region sub-effect not found";
+            qCWarning(KDENLIVE_LOG) << "Region sub-effect not found";
             continue;
         }
         //load effect
@@ -1329,7 +1329,7 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
     Mlt::Producer *clipProducer = sourceTrack->playlist().replace_with_blank(clipIndex);
     sourceTrack->playlist().consolidate_blanks();
     if (!clipProducer || clipProducer->is_blank()) {
-        qDebug() << "// Cannot get clip at index: "<<clipIndex<<" / "<< startPos;
+        qCDebug(KDENLIVE_LOG) << "// Cannot get clip at index: "<<clipIndex<<" / "<< startPos;
         sourceTrack->playlist().unlock();
         return false;
     }
@@ -1343,7 +1343,7 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
 void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlaylist)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
         return;
     }
     Track *sourceTrack = track(trackIndex);
@@ -1376,7 +1376,7 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute(QStringLiteral("keyframes")).isEmpty()) {
                 e.setAttribute(QStringLiteral("keyframes"), "0:" + def + ';');
-                //qDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
+                //qCDebug(KDENLIVE_LOG) << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
                 //break;
             }
         }
@@ -1399,7 +1399,7 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
 bool Timeline::removeTrackEffect(int trackIndex, int effectIndex, const QDomElement &effect)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
         return false;
     }
     int toRemove = effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
@@ -1424,13 +1424,13 @@ bool Timeline::removeTrackEffect(int trackIndex, int effectIndex, const QDomElem
 void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
         return;
     }
     Track *sourceTrack = track(trackIndex);
     int max = sourceTrack->effectsList.count();
     if (effectIndex <= 0 || effectIndex > (max) || effect.isNull()) {
-        //qDebug() << "Invalid effect index: " << effectIndex;
+        //qCDebug(KDENLIVE_LOG) << "Invalid effect index: " << effectIndex;
         return;
     }
     sourceTrack->effectsList.removeAt(effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
@@ -1444,7 +1444,7 @@ void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effec
 bool Timeline::enableTrackEffects(int trackIndex, const QList<int> &effectIndexes, bool disable)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
         return false;
     }
     Track *sourceTrack = track(trackIndex);
@@ -1468,7 +1468,7 @@ bool Timeline::enableTrackEffects(int trackIndex, const QList<int> &effectIndexe
 const EffectsList Timeline::getTrackEffects(int trackIndex)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
         return EffectsList();
     }
     Track *sourceTrack = track(trackIndex);
@@ -1478,7 +1478,7 @@ const EffectsList Timeline::getTrackEffects(int trackIndex)
 QDomElement Timeline::getTrackEffect(int trackIndex, int effectIndex)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
         return QDomElement();
     }
     Track *sourceTrack = track(trackIndex);
@@ -1490,7 +1490,7 @@ QDomElement Timeline::getTrackEffect(int trackIndex, int effectIndex)
 int Timeline::hasTrackEffect(int trackIndex, const QString &tag, const QString &id) 
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
         return -1;
     }
     Track *sourceTrack = track(trackIndex);
@@ -1526,7 +1526,7 @@ QPoint Timeline::getTracksCount()
 int Timeline::getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qWarning() << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
         return 0;
     }
     return track(trackIndex)->getBlankLength(pos, fromBlankStart);
@@ -1571,7 +1571,7 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
     int pos = sourceTrack->frame(startPos);
     int clipIndex = sourceTrack->playlist().get_clip_index_at(pos);
     if (sourceTrack->playlist().is_blank(clipIndex)) {
-	  qDebug()<<"// ERROR FINDING CLIP on TK: "<<tk<<", FRM: "<<pos;
+	  qCDebug(KDENLIVE_LOG)<<"// ERROR FINDING CLIP on TK: "<<tk<<", FRM: "<<pos;
     }
     Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
     Clip clp(clipProducer->parent());
@@ -1668,7 +1668,7 @@ void Timeline::removeSplitOverlay()
     if (strcmp(prod->get("id"), "overlay_track") == 0) {
         m_tractor->remove_track(tracksCount());
     } else {
-        qWarning() << "Overlay track not found, something is wrong!!";
+        qCWarning(KDENLIVE_LOG) << "Overlay track not found, something is wrong!!";
     }
     delete prod;
     m_hasOverlayTrack = false;
@@ -1752,7 +1752,7 @@ bool Timeline::createRippleWindow(int tk, int startPos, OperationType mode)
         secondStart -= secondClip->get_in();
     } else {
         //cln2->set_in_and_out(secondClip->get_in(), secondClip->get_out());
-        qDebug()<<"* * *INIT RIPPLE; CLP START: "<<secondClip->get_in();
+        qCDebug(KDENLIVE_LOG)<<"* * *INIT RIPPLE; CLP START: "<<secondClip->get_in();
     }
     int rippleStart = playlist.clip_start(clipIndex - 1);
 
@@ -1771,7 +1771,7 @@ bool Timeline::createRippleWindow(int tk, int startPos, OperationType mode)
     ripple1->insert_at(secondStart, cln2, 1);
     int ix = ripple1->get_clip_index_at(secondStart);
     ripple1->resize_clip(ix, secondClip->get_in(), secondClip->get_out());
-    qDebug()<<"* * *INIT RIPPLE; REAL START: "<<cln2->get_in()<<" / "<<secondStart;
+    qCDebug(KDENLIVE_LOG)<<"* * *INIT RIPPLE; REAL START: "<<cln2->get_in()<<" / "<<secondStart;
     Mlt::Playlist ripple2(*m_tractor->profile());
     ripple2.insert_blank(0, rippleStart);
     ripple2.insert_at(rippleStart, cln, 1);

@@ -24,7 +24,7 @@
 #include "utils/KoIconUtils.h"
 #include "kdenlivesettings.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <klocalizedstring.h>
 
 #include <QMenu>
@@ -438,7 +438,7 @@ void EffectsListView::slotRemoveEffect()
         file.close();
         QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
         if (effects.count() != 1) {
-            //qDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
+            //qCDebug(KDENLIVE_LOG) << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
         } else {
             QDomElement e = effects.item(0).toElement();
             if (e.attribute(QStringLiteral("id")) == effectId) {

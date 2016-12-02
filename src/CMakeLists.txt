@@ -123,6 +123,8 @@ list(APPEND kdenlive_SRCS
   core.cpp
 )
 
+ecm_qt_declare_logging_category(kdenlive_SRCS HEADER kdenlive_debug.h IDENTIFIER KDENLIVE_LOG CATEGORY_NAME org.kde.multimedia.kdenlive)
+
 ki18n_wrap_ui(kdenlive_UIS
   ui/addtrack_ui.ui
   ui/archivewidget_ui.ui

@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QMimeDatabase>
 #include <QUrl>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QPixmap>
 #include <QVBoxLayout>
 #include <QHBoxLayout>

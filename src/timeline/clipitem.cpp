@@ -33,7 +33,7 @@
 #include "utils/KoIconUtils.h"
 
 #include <klocalizedstring.h>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QPainter>
 #include <QTimer>
 #include <QStyleOptionGraphicsItem>
@@ -1733,7 +1733,7 @@ void ClipItem::setState(PlaylistState::ClipState state)
 QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo)
 {
     QMap<int, QDomElement> effects;
-    //qDebug()<<"Adjusting effect to duration: "<<oldInfo.cropStart.frames(25)<<" - "<<cropStart().frames(25);
+    //qCDebug(KDENLIVE_LOG)<<"Adjusting effect to duration: "<<oldInfo.cropStart.frames(25)<<" - "<<cropStart().frames(25);
     for (int i = 0; i < m_effectList.count(); ++i) {
         QDomElement effect = m_effectList.at(i);
 

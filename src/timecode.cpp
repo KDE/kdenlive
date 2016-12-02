@@ -83,7 +83,7 @@ return frameNumber;
 
 #include "timecode.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 Timecode::Timecode(Formats format, double framesPerSecond)
 {
@@ -178,7 +178,7 @@ QString Timecode::getTimecode(const GenTime & time) const
         return getTimecodeSeconds(time);
         break;
     default:
-        qWarning() <<
+        qCWarning(KDENLIVE_LOG) <<
         "Unknown timecode format specified, defaulting to HH_MM_SS_FF"
         << endl;
         return getTimecodeHH_MM_SS_FF(time);

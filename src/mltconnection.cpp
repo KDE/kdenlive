@@ -19,7 +19,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QFile>
 #include <QStandardPaths>
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 
 MltConnection::MltConnection(QObject* parent) :
@@ -100,7 +100,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
         }
     }
 
-    //qDebug() << "RESULTING MLT PATH: " << KdenliveSettings::mltpath();
+    //qCDebug(KDENLIVE_LOG) << "RESULTING MLT PATH: " << KdenliveSettings::mltpath();
 
     // Parse again MLT profiles to build a list of available video formats
     if (profilesList.isEmpty()) {

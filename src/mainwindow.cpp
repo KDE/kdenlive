@@ -95,7 +95,7 @@
 #include <klocalizedstring.h>
 
 #include <QAction>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QStatusBar>
 #include <QTemporaryFile>
 #include <QMenu>
@@ -855,7 +855,7 @@ void MainWindow::slotFullScreen()
 void MainWindow::slotAddEffect(const QDomElement &effect)
 {
     if (effect.isNull()) {
-        qDebug() << "--- ERROR, TRYING TO APPEND Q_NULLPTR EFFECT";
+        qCDebug(KDENLIVE_LOG) << "--- ERROR, TRYING TO APPEND Q_NULLPTR EFFECT";
         return;
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
@@ -1834,7 +1834,7 @@ void MainWindow::addEffect(const QString &effectName)
     if (!effect.isNull()) {
         slotAddEffect(effect);
     } else {
-        qDebug()<<" * * *EFFECT: "<<effectName<<" NOT AVAILABLE";
+        qCDebug(KDENLIVE_LOG)<<" * * *EFFECT: "<<effectName<<" NOT AVAILABLE";
         exitApp();
     }
 }
@@ -2975,7 +2975,7 @@ int MainWindow::getNewStuff(const QString &configFile)
     if (dialog->exec()) entries = dialog->changedEntries();
     foreach(const KNS3::Entry & entry, entries) {
         if (entry.status() == KNS3::Entry::Installed)
-            qDebug() << "// Installed files: " << entry.installedFiles();
+            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
     }
     delete dialog;
     return entries.size();
@@ -3237,7 +3237,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
         m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
         return;
     }
-    qDebug()<<"// TRANSODINF FOLDER: "<<pCore->bin()->getFolderInfo();
+    qCDebug(KDENLIVE_LOG)<<"// TRANSODINF FOLDER: "<<pCore->bin()->getFolderInfo();
     ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getFolderInfo());
     connect(d, &ClipTranscode::addClip, this, &MainWindow::slotAddProjectClip);
     d->show();
@@ -3346,11 +3346,11 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             // save chapters file
             QFile file(chapterFile);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                qWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
+                qCWarning(KDENLIVE_LOG) << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
             } else {
                 file.write(doc.toString().toUtf8());
                 if (file.error() != QFile::NoError) {
-                    qWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
+                    qCWarning(KDENLIVE_LOG) << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
                 }
                 file.close();
             }
@@ -3457,7 +3457,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
                 // save track name
                 trackNames << trackName;
-                qDebug() << "Track-Name: " << trackName;
+                qCDebug(KDENLIVE_LOG) << "Track-Name: " << trackName;
 
                 // create stem export doc content
                 QDomNodeList tracks = docCopy.elementsByTagName(QStringLiteral("track"));
@@ -3486,7 +3486,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         // add mlt suffix
         plPath += mltSuffix;
         playlistPaths << plPath;
-        qDebug() << "playlistPath: " << plPath << endl;
+        qCDebug(KDENLIVE_LOG) << "playlistPath: " << plPath << endl;
 
         // Do save scenelist
         QFile file(plPath);
@@ -3603,7 +3603,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
         }
     }
 #ifdef DEBUG_MAINW
-    qDebug() << "Any scope accepting new frames? " << request;
+    qCDebug(KDENLIVE_LOG) << "Any scope accepting new frames? " << request;
 #endif
     if (!request) {
         m_projectMonitor->render->sendFrameForAnalysis = false;

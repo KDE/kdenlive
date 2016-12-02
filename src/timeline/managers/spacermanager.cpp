@@ -59,7 +59,7 @@ bool SpacerManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
 
 void SpacerManager::initTool(double )
 {
-    qDebug()<<"* ** INIT SPACER";
+    qCDebug(KDENLIVE_LOG)<<"* ** INIT SPACER";
     m_view->setCursor(Qt::SplitHCursor);
 }
 

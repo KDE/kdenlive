@@ -32,7 +32,7 @@
 #include "mltcontroller/clipcontroller.h"
 #include "timeline/transition.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <klocalizedstring.h>
 #include <KColorScheme>
 #include <QFontDatabase>
@@ -290,7 +290,7 @@ void EffectStackView2::setupListView()
     QWidget *view = m_effect->container->takeWidget();
     if (view) {
         /*QList<CollapsibleEffect *> allChildren = view->findChildren<CollapsibleEffect *>();
-        qDebug()<<" * * *FOUND CHLD: "<<allChildren.count();
+        qCDebug(KDENLIVE_LOG)<<" * * *FOUND CHLD: "<<allChildren.count();
         foreach(CollapsibleEffect *eff, allChildren) {
             eff->setEnabled(false);
         }*/
@@ -330,7 +330,7 @@ void EffectStackView2::setupListView()
     for (int i = 0; i < effectsCount; ++i) {
         QDomElement d = m_currentEffectList.at(i).cloneNode().toElement();
         if (d.isNull()) {
-            //qDebug() << " . . . . WARNING, Q_NULLPTR EFFECT IN STACK!!!!!!!!!";
+            //qCDebug(KDENLIVE_LOG) << " . . . . WARNING, Q_NULLPTR EFFECT IN STACK!!!!!!!!!";
             continue;
         }
 
@@ -358,7 +358,7 @@ void EffectStackView2::setupListView()
 
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(d, true));
-        //qDebug() << "IMPORTED STK: " << doc.toString();*/
+        //qCDebug(KDENLIVE_LOG) << "IMPORTED STK: " << doc.toString();*/
 
         ItemInfo info;
         bool isSelected = false;
@@ -1154,7 +1154,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
         EffectInfo info;
         info.fromString(effects.at(0).toElement().attribute(QStringLiteral("kdenlive_info")));
         if (info.groupIndex < 0) {
-            //qDebug()<<"// ADDING EFFECT!!!";
+            //qCDebug(KDENLIVE_LOG)<<"// ADDING EFFECT!!!";
             // Adding a new group effect to the stack
             event->setDropAction(Qt::CopyAction);
             event->accept();
@@ -1167,7 +1167,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
             QDomElement effect = effects.at(i).cloneNode().toElement();
             indexes << effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
         }
-        //qDebug()<<"// Moving: "<<indexes<<" TO "<<m_currentEffectList.count();
+        //qCDebug(KDENLIVE_LOG)<<"// Moving: "<<indexes<<" TO "<<m_currentEffectList.count();
         slotMoveEffect(indexes, m_currentEffectList.count(), info.groupIndex, info.groupName);
     }
     else if (ix == 0) {

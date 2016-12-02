@@ -24,7 +24,7 @@
 #include "dialogs/clipcreationdialog.h"
 #include <mlt++/Mlt.h>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <KIO/Global>
@@ -696,7 +696,7 @@ void DvdWizardVob::processTranscoding()
             parameters << s;
         }
     }
-    qDebug()<<" / / /STARTING TCODE JB: \n"<<KdenliveSettings::ffmpegpath()<<" = "<< parameters;
+    qCDebug(KDENLIVE_LOG)<<" / / /STARTING TCODE JB: \n"<<KdenliveSettings::ffmpegpath()<<" = "<< parameters;
     m_transcodeProcess.start(KdenliveSettings::ffmpegpath(), parameters);
     m_view.convert_label->setText(i18n("Transcoding: %1", QUrl::fromLocalFile(m_currentTranscoding.filename).fileName()));
 }

@@ -27,7 +27,7 @@
 //#define DEBUG_SPECTROGRAM
 
 #ifdef DEBUG_SPECTROGRAM
-#include <QDebug>
+#include "kdenlive_debug.h"
 #endif
 
 #define MIN_DB_VALUE -120
@@ -325,7 +325,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         bool newDataAvailable = newData > 0;
 
 #ifdef DEBUG_SPECTROGRAM
-        qDebug() << "New data for " << widgetName() << ": " << newDataAvailable << " (" << newData << " units)";
+        qCDebug(KDENLIVE_LOG) << "New data for " << widgetName() << ": " << newDataAvailable << " (" << newData << " units)";
 #endif
 
         QTime start = QTime::currentTime();
@@ -358,7 +358,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         }
 #ifdef DEBUG_SPECTROGRAM
         else {
-            qDebug() << widgetName() << ": Has no new data to Fourier-transform";
+            qCDebug(KDENLIVE_LOG) << widgetName() << ": Has no new data to Fourier-transform";
         }
 #endif
 
@@ -437,13 +437,13 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         }
 
 #ifdef DEBUG_SPECTROGRAM
-        qDebug() << "Rendered " << y-topDist << "lines from " << m_fftHistory.size() << " available samples in " << start.elapsed() << " ms"
+        qCDebug(KDENLIVE_LOG) << "Rendered " << y-topDist << "lines from " << m_fftHistory.size() << " available samples in " << start.elapsed() << " ms"
                  << (completeRedraw ? "" : " (re-used old image)");
         uint storedBytes = 0;
         for (QList< QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); ++it) {
             storedBytes += (*it).size() * sizeof((*it)[0]);
         }
-        qDebug() << QString("Total storage used: %1 kB").arg((double)storedBytes/1000, 0, 'f', 2);
+        qCDebug(KDENLIVE_LOG) << QString("Total storage used: %1 kB").arg((double)storedBytes/1000, 0, 'f', 2);
 #endif
 
         m_fftHistoryImg = spectrum;

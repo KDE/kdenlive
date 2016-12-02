@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 #include <QFile>
 #include <QDir>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QCryptographicHash>
 #include <QtConcurrent>
 #include <KLocalizedString>
@@ -331,7 +331,7 @@ QPixmap ProjectClip::thumbnail(int width, int height)
 bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
 {
     if (!replaceProducer && m_controller) {
-        qDebug()<<"// RECEIVED PRODUCER BUT WE ALREADY HAVE ONE\n----------";
+        qCDebug(KDENLIVE_LOG)<<"// RECEIVED PRODUCER BUT WE ALREADY HAVE ONE\n----------";
         return false;
     }
     bool isNewProducer = true;
@@ -937,7 +937,7 @@ void ProjectClip::discardAudioThumb()
     if (!audioThumbPath.isEmpty())
         QFile::remove(audioThumbPath);
     audioFrameCache.clear();
-    qDebug()<<"////////////////////  DISCARD AUIIO THUMBNS";
+    qCDebug(KDENLIVE_LOG)<<"////////////////////  DISCARD AUIIO THUMBNS";
     m_controller->audioThumbCreated = false;
     m_abortAudioThumb = false;
 }

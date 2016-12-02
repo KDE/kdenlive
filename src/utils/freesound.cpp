@@ -26,7 +26,7 @@
 #include <QApplication>
 #include <QJsonDocument>
 #include <QJsonParseError>
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 #include "kdenlivesettings.h"
 #include <kio/storedtransferjob.h>
@@ -71,7 +71,7 @@ void FreeSound::slotStartSearch(const QString &searchText, int page)
         uri.append("&page=" + QString::number(page));
 
     uri.append("&token="  + OAuth2_strClientSecret);
-   //  qDebug()<<uri;
+   //  qCDebug(KDENLIVE_LOG)<<uri;
     KIO::StoredTransferJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
     connect(resolveJob, &KIO::StoredTransferJob::result, this, &FreeSound::slotShowResults);
 }
@@ -84,7 +84,7 @@ void FreeSound::slotShowResults(KJob* job)
 {
     if (job->error() != 0 )
     {
-        qDebug()<< job->errorString();
+        qCDebug(KDENLIVE_LOG)<< job->errorString();
 
     }
     else
@@ -288,7 +288,7 @@ bool FreeSound::startItemPreview(QListWidgetItem *item)
         if (m_previewProcess->state() != QProcess::NotRunning) {
             m_previewProcess->close();
         }
-        qDebug()<<KdenliveSettings::ffplaypath() + " " +  url  + " -nodisp -autoexit";
+        qCDebug(KDENLIVE_LOG)<<KdenliveSettings::ffplaypath() + " " +  url  + " -nodisp -autoexit";
         m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << QStringLiteral("-nodisp") << QStringLiteral("-autoexit"));
 
 	}
@@ -357,5 +357,5 @@ void FreeSound::slotPreviewFinished(int exitCode, QProcess::ExitStatus exitStatu
 
 void FreeSound::slotPreviewErrored(QProcess::ProcessError error)
 {
-    qDebug()<< error;
+    qCDebug(KDENLIVE_LOG)<< error;
 }

@@ -25,7 +25,7 @@
 #include <klocalizedstring.h>
 #include <KRecentDirs>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QFontDatabase>
 #include <QDir>
 #include <QStandardPaths>
@@ -249,7 +249,7 @@ void SlideshowClip::parseFolder()
         QString filter = QUrl::fromLocalFile(path).fileName();
         QString ext = filter.section('.', -1);
         filter = filter.section('%', 0, -2);
-        qDebug()<<" / /"<<path<<" / "<<ext<<" / "<<filter;
+        qCDebug(KDENLIVE_LOG)<<" / /"<<path<<" / "<<ext<<" / "<<filter;
         QString regexp = '^' + filter + "\\d+\\." + ext + '$';
         QRegExp rx(regexp);
         QStringList entries;
@@ -330,7 +330,7 @@ QString SlideshowClip::selectedPath()
     else url = m_view.pattern_url->url();
     QString path = selectedPath(url, m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
     m_count = list.count();
-    //qDebug()<<"// SELECTED PATH: "<<path;
+    //qCDebug(KDENLIVE_LOG)<<"// SELECTED PATH: "<<path;
     return path;
 }
 
@@ -393,7 +393,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
         extension = filter + "%0" + QString::number(precision) + 'd' + ext;
 	if (firstFrame > 0) extension.append(QStringLiteral("?begin:%1").arg(firstFrame));
     }
-    //qDebug() << "// FOUND " << (*list).count() << " items for " << url.path();
+    //qCDebug(KDENLIVE_LOG) << "// FOUND " << (*list).count() << " items for " << url.path();
     return  folder + extension;
 }
 

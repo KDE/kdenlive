@@ -277,7 +277,7 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, con
 {
     QString effectName;
     QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
-    qDebug()<<"editing EFFECT; "<<namenode.text();
+    qCDebug(KDENLIVE_LOG)<<"editing EFFECT; "<<namenode.text();
     if (!namenode.isNull())
         effectName = i18n(namenode.text().toUtf8().constData());
     else
@@ -535,9 +535,9 @@ void MoveClipCommand::undo()
 void MoveClipCommand::redo()
 {
     if (m_doIt) {
-        //        qDebug() << "Executing move clip command. End now:" << m_endPos;
+        //        qCDebug(KDENLIVE_LOG) << "Executing move clip command. End now:" << m_endPos;
         m_success = m_view->moveClip(m_startPos, m_endPos, m_refresh, m_alreadyMoved, &m_endPos);
-        //        qDebug() << "Move clip command executed. End now: " << m_endPos;
+        //        qCDebug(KDENLIVE_LOG) << "Move clip command executed. End now: " << m_endPos;
     }
     m_doIt = true;
     m_alreadyMoved = false;

@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTimeLine>
 #include <QSlider>
 #include <QMenu>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QtConcurrent>
 #include <QUndoCommand>
 #include <QCryptographicHash>
@@ -635,7 +635,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             }
         }
         else {
-            qDebug()<<" +++++++ NO VIEW-------!!";
+            qCDebug(KDENLIVE_LOG)<<" +++++++ NO VIEW-------!!";
         }
         return true;
     } else if (event->type() == QEvent::Wheel) {
@@ -746,7 +746,7 @@ void Bin::deleteClip(const QString &id)
     }
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) {
-	qWarning()<<"Cannot bin find clip to delete: "<<id;
+	qCWarning(KDENLIVE_LOG)<<"Cannot bin find clip to delete: "<<id;
 	return;
     }
     m_jobManager->discardJobs(id);
@@ -888,7 +888,7 @@ void Bin::slotReloadClip()
             }
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
-            qDebug()<<"*****************\n"<<doc.toString()<<"\n******************";
+            qCDebug(KDENLIVE_LOG)<<"*****************\n"<<doc.toString()<<"\n******************";
             if (!xml.isNull()) {
                 currentItem->setClipStatus(AbstractProjectItem::StatusWaiting);
                 // We need to set a temporary id before all outdated producers are replaced;
@@ -912,7 +912,7 @@ void Bin::slotLocateClip()
 	  bool exists = QFile(url.toLocalFile()).exists();
 	  if (currentItem->hasUrl() && exists) {
 	    QDesktopServices::openUrl(url);
-	    qDebug()<<"  / / "+url.toString();
+	    qCDebug(KDENLIVE_LOG)<<"  / / "+url.toString();
 	  } else {
 	    if(!exists){
 	      emitMessage(i18n("Couldn't locate ") + QString(" ("+url.toString()+")"), 100, ErrorMessage);
@@ -1184,7 +1184,7 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
 {
     ProjectFolder *parentFolder = m_rootFolder->folder(parentId);
     if (!parentFolder) {
-        qDebug()<<"  / / ERROR IN PARENT FOLDER";
+        qCDebug(KDENLIVE_LOG)<<"  / / ERROR IN PARENT FOLDER";
         return;
     }
     //FIXME(style): constructor actually adds the new pointer to parent's children
@@ -1196,7 +1196,7 @@ void Bin::renameFolder(const QString &id, const QString &name)
 {
     ProjectFolder *folder = m_rootFolder->folder(id);
     if (!folder || !folder->parent()) {
-        qDebug()<<"  / / ERROR IN PARENT FOLDER";
+        qCDebug(KDENLIVE_LOG)<<"  / / ERROR IN PARENT FOLDER";
         return;
     }
     folder->setName(name);
@@ -1301,7 +1301,7 @@ void Bin::doRemoveFolder(const QString &id)
 {
     ProjectFolder *folder = m_rootFolder->folder(id);
     if (!folder) {
-        qDebug()<<"  / / FOLDER not found";
+        qCDebug(KDENLIVE_LOG)<<"  / / FOLDER not found";
         return;
     }
     //TODO: warn user on non-empty folders
@@ -2003,7 +2003,7 @@ void Bin::emitRefreshPanel(const QString &id)
 void Bin::setupGeneratorMenu()
 {
     if (!m_menu) {
-        qDebug()<<"Warning, menu was not created, something is wrong";
+        qCDebug(KDENLIVE_LOG)<<"Warning, menu was not created, something is wrong";
         return;
     }
 
@@ -2256,7 +2256,7 @@ void Bin::slotCreateProjectClip()
     QAction* act = qobject_cast<QAction *>(sender());
     if (act == 0) {
         // Cannot access triggering action, something is wrong
-        qDebug()<<"// Error in clip creation action";
+        qCDebug(KDENLIVE_LOG)<<"// Error in clip creation action";
         return;
     }
     ClipType type = (ClipType) act->data().toInt();
@@ -2416,7 +2416,7 @@ void Bin::moveEffect(const QString &id, const QList<int> &oldPos, const QList<in
 void Bin::removeEffect(const QString &id, const QDomElement &effect)
 {
     if (effect.isNull()) {
-        qWarning()<<" / /ERROR, trying to remove empty effect";
+        qCWarning(KDENLIVE_LOG)<<" / /ERROR, trying to remove empty effect";
         return;
     }
     ProjectClip *currentItem = m_rootFolder->clip(id);
@@ -2635,7 +2635,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QUrl &url, QUndoCommand *com
             QString singletonId = hashToIdMap.value(hash, QString());
             if (singletonId.length()) {
                 // map duplicate producer ID to single bin clip producer ID.
-                qDebug() << "found duplicate producer:" << hash << ", reusing newID:" << singletonId;
+                qCDebug(KDENLIVE_LOG) << "found duplicate producer:" << hash << ", reusing newID:" << singletonId;
                 idMap.insert(originalId, singletonId);
                 continue;
             }
@@ -2644,7 +2644,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QUrl &url, QUndoCommand *com
         // First occurence of a producer, so allocate new bin clip producer ID.
         QString newId = QString::number(getFreeClipId());
         idMap.insert(originalId, newId);
-        qDebug() << "originalId: " << originalId << ", newId: " << newId;
+        qCDebug(KDENLIVE_LOG) << "originalId: " << originalId << ", newId: " << newId;
 
         // Ensure to register new bin clip producer ID in hash hashmap for
         // those clips that MLT likes to serialize multiple times. This is
@@ -2668,7 +2668,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QUrl &url, QUndoCommand *com
             QString resource = EffectsList::property(clone, QStringLiteral("resource"));
             if (QFileInfo(resource).isRelative()) {
                 QFileInfo rootedResource(mltRoot, resource);
-                qDebug() << "fixed resource path for producer, newId:" << newId << "resource:" << rootedResource.absoluteFilePath();
+                qCDebug(KDENLIVE_LOG) << "fixed resource path for producer, newId:" << newId << "resource:" << rootedResource.absoluteFilePath();
                 EffectsList::setProperty(clone, QStringLiteral("resource"), rootedResource.absoluteFilePath());
             }
         }
@@ -2719,7 +2719,7 @@ void Bin::slotStartClipJob(bool enable)
     QAction* act = qobject_cast<QAction *>(sender());
     if (act == 0) {
         // Cannot access triggering action, something is wrong
-        qDebug()<<"// Error in clip job action";
+        qCDebug(KDENLIVE_LOG)<<"// Error in clip job action";
         return;
     }
     startClipJob(act->data().toStringList());
@@ -2729,7 +2729,7 @@ void Bin::startClipJob(const QStringList &params)
 {
     QStringList data = params;
     if (data.isEmpty()) {
-        qDebug()<<"// Error in clip job action";
+        qCDebug(KDENLIVE_LOG)<<"// Error in clip job action";
         return;
     }
     AbstractClipJob::JOBTYPE jobType = (AbstractClipJob::JOBTYPE) data.takeFirst().toInt();
@@ -2955,7 +2955,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
     QString key = filterInfo.value(QStringLiteral("key"));
     int offset = filterInfo.value(QStringLiteral("offset")).toInt();
     QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
-    //qDebug()<<"// RESULT; "<<key<<" = "<<value;
+    //qCDebug(KDENLIVE_LOG)<<"// RESULT; "<<key<<" = "<<value;
     if (filterInfo.contains(QStringLiteral("resultmessage"))) {
         QString mess = filterInfo.value(QStringLiteral("resultmessage"));
         mess.replace(QLatin1String("%count"), QString::number(value.count()));

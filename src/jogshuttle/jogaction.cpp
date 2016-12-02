@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <klocalizedstring.h>
-#include <QDebug>
+#include "kdenlive_debug.h"
 
 // TODO(fleury): this should probably be a user configuration parameter (at least the max speed).
 //const double SPEEDS[] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};
@@ -58,7 +58,7 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
         if (shuttle_pos < 0)
             emit rewind(-SPEEDS[magnitude]);
         if (shuttle_pos == 0) {
-            ////qDebug() << "Shuttle pos0 action: " << m_actionMap[0];
+            ////qCDebug(KDENLIVE_LOG) << "Shuttle pos0 action: " << m_actionMap[0];
             emit action(m_actionMap[0]);
         }
         if (shuttle_pos > 0)
@@ -70,10 +70,10 @@ void JogShuttleAction::slotButton(int button_id)
 {
     if (button_id >= m_actionMap.size() || m_actionMap[button_id].isEmpty()) {
         // TODO(fleury): Shoudl this go to the status bar to inform the user ?
-        //qDebug() << "No action applied for button: " << button_id;
+        //qCDebug(KDENLIVE_LOG) << "No action applied for button: " << button_id;
         return;
     }
-    ////qDebug() << "Shuttle button =" << button_id << ": action=" << m_actionMap[button_id];
+    ////qCDebug(KDENLIVE_LOG) << "Shuttle button =" << button_id << ": action=" << m_actionMap[button_id];
     emit action(m_actionMap[button_id]);
 }
 

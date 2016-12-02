@@ -33,7 +33,7 @@
 #include <QBitmap>
 #include <QPainter>
 #include <QPixmap>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QIcon>
 #include <QDir>
 #include <QStandardPaths>
@@ -138,7 +138,7 @@ void ThemeManager::slotChangePalette()
 
     QString filename = d->themeMap.value(theme);
 
-    //qDebug() << theme << " :: " << filename;
+    //qCDebug(KDENLIVE_LOG) << theme << " :: " << filename;
 
     emit signalThemeChanged(filename);
 }

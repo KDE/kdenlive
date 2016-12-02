@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dialogs/profilesdialog.h"
 #include "effectstack/widgets/animationwidget.h"
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QScriptEngine>
 
 EffectInfo::EffectInfo() {isCollapsed = false; groupIndex = -1; groupIsCollapsed = false;}
@@ -138,7 +138,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
         /*if (e.attribute(QStringLiteral("type")) == QLatin1String("animated") || (e.attribute(QStringLiteral("type")) == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // effects with geometry param need in / out synced with the clip, request it...
             parameters.addParam(QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
-            qDebug()<<" ** * ADDIN EFFECT ANIM SYN TRUE";
+            qCDebug(KDENLIVE_LOG)<<" ** * ADDIN EFFECT ANIM SYN TRUE";
         }*/
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             parameters.addParam(paramname, e.attribute(QStringLiteral("value")));
@@ -151,14 +151,14 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
                 double val = (values.at(j).section('=', 1, 1).toDouble() - offset) / factor;
                 values[j] = pos + '=' + locale.toString(val);
             }
-            // //qDebug() << "/ / / /SENDING KEYFR:" << values;
+            // //qCDebug(KDENLIVE_LOG) << "/ / / /SENDING KEYFR:" << values;
             parameters.addParam(paramname, values.join(QStringLiteral(";")));
             /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
             parameters.addParam("max", e.attribute("max"));
             parameters.addParam("min", e.attribute("min"));
             parameters.addParam("factor", e.attribute("factor", "1"));*/
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")) {
-            //qDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
+            //qCDebug(KDENLIVE_LOG) << "/ / / /SENDING KEYFR EFFECT TYPE";
             parameters.addParam(QStringLiteral("keyframes"), e.attribute(QStringLiteral("keyframes")));
             parameters.addParam(QStringLiteral("max"), e.attribute(QStringLiteral("max")));
             parameters.addParam(QStringLiteral("min"), e.attribute(QStringLiteral("min")));

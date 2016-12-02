@@ -28,7 +28,7 @@
 #include <QDropEvent>
 #include <QMutexLocker>
 #include <QDir>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QFontDatabase>
 #include <QStandardPaths>
 #include <QMimeData>
@@ -347,7 +347,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 	    for (int i = 0; i < m_subWidgets.count(); ++i) {
 		currentEffectIndexes << m_subWidgets.at(i)->effectIndex();
 	    }
-	    //qDebug()<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
+	    //qCDebug(KDENLIVE_LOG)<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
 	    if (pastedEffectIndexes.at(0) < currentEffectIndexes.at(0)) {
 		// Pasting group after current one:
 		emit moveEffect(pastedEffectIndexes, currentEffectIndexes.last(), pasteInfo.groupIndex, pasteInfo.groupName);

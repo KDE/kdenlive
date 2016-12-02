@@ -113,7 +113,7 @@ QImage Waveform::renderHUD(uint)
     davinci.setPen(penLight);
 
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile());
-//    qDebug() << values.value("width");
+//    qCDebug(KDENLIVE_LOG) << values.value("width");
 
     const int rightX = scopeRect().width()-m_textWidth.width()+3;
     const int x = m_mousePos.x() - scopeRect().x();

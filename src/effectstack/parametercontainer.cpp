@@ -54,7 +54,7 @@
 #include <QMap>
 #include <QString>
 #include <QImage>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QClipboard>
 #include <QDrag>
 #include <QMimeData>
@@ -181,7 +181,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     QDomElement clone = effect.cloneNode(true).toElement();
     QDomDocument doc;
     doc.appendChild(doc.importNode(clone, true));
-    qDebug()<<"-------------------------------------\n"<<"LOADED TRANS: "<<doc.toString()<<"\n-------------------";*/
+    qCDebug(KDENLIVE_LOG)<<"-------------------------------------\n"<<"LOADED TRANS: "<<doc.toString()<<"\n-------------------";*/
 
     // Conditional effect (display / enable some parameters only if a parameter is present
     if (effect.hasAttribute(QStringLiteral("condition"))) {
@@ -982,7 +982,7 @@ void ParameterContainer::slotCollectAllParameters()
         else if (type == QLatin1String("animated"))
             continue;
         if (type != QLatin1String("animatedrect") && type != QLatin1String("simplekeyframe") && type != QLatin1String("fixed") && type != QLatin1String("addedgeometry") && !m_valueItems.contains(paramName)) {
-            qDebug() << "// Param: " << paramName << " NOT FOUND";
+            qCDebug(KDENLIVE_LOG) << "// Param: " << paramName << " NOT FOUND";
             continue;
         }
 

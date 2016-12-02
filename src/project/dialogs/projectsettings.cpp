@@ -35,7 +35,7 @@
 #include "bin/bin.h"
 
 #include <KMessageBox>
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <kio/directorysizejob.h>
 #include <klocalizedstring.h>
 #include <KIO/FileCopyJob>
@@ -596,7 +596,7 @@ void ProjectSettings::slotExportToText()
     }
     QTemporaryFile tmpfile;
     if (!tmpfile.open()) {
-        qWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+        qCWarning(KDENLIVE_LOG) << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
         return;
     }
     QFile xmlf(tmpfile.fileName());

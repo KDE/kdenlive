@@ -26,7 +26,7 @@
 #include <KMessageBox>
 #include <KIO/FileCopyJob>
 
-#include <QDebug>
+#include "kdenlive_debug.h"
 #include <QTemporaryFile>
 #include <QDir>
 #include <QApplication>
@@ -331,7 +331,7 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGr
     doc.documentElement().setAttribute(QStringLiteral("out"), duration);
     QTemporaryFile tmpfile;
     if (!tmpfile.open()) {
-        qWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+        qCWarning(KDENLIVE_LOG) << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
         return false;
     }
     QFile xmlf(tmpfile.fileName());
@@ -385,7 +385,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
         for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *gitem = Q_NULLPTR;
             QDomNode itemNode = items.item(i);
-            //qDebug() << items.item(i).attributes().namedItem("type").nodeValue();
+            //qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = itemNode.attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
             double xPosition = itemNode.namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("x")).nodeValue().toDouble();
             if (zValue > -1000) {
@@ -585,7 +585,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
             }
 
             if (itemNode.nodeName() == QLatin1String("background")) {
-                //qDebug() << items.item(i).attributes().namedItem("color").nodeValue();
+                //qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(itemNode.attributes().namedItem(QStringLiteral("color")).nodeValue()));
                 //color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
                 QList<QGraphicsItem *> items = m_scene->items();
