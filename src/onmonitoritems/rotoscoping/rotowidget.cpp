@@ -350,7 +350,6 @@ void RotoWidget::setupTrackingListen(const ItemInfo &info)
         return;
     }
 
-    int i = 0;
     Mlt::Service service(*clip);
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> effect(service.filter(ix));
