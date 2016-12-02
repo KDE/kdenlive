@@ -1,9 +1,3 @@
-set(QT_USE_QTDBUS 1)
-set(QT_USE_QTOPENGL 1)
-set(QT_USE_QTSCRIPT 1)
-set(QT_USE_QTSVG 1)
-set(QT_USE_QTXML 1)
-
 add_definitions(${Qt5Gui_DEFINITIONS})
 if(${Qt5Gui_OPENGL_IMPLEMENTATION} STREQUAL "GL")
   find_package(OpenGL REQUIRED)
