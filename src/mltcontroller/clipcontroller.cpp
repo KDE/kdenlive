@@ -313,7 +313,7 @@ const QString ClipController::getStringDuration()
         }
         return m_masterProducer->get_length_time(mlt_time_smpte);
     }
-    return QString(i18n("Unknown"));
+    return i18n("Unknown");
 }
 
 GenTime ClipController::getPlaytime() const

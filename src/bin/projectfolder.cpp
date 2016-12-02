@@ -86,7 +86,7 @@ QList <ProjectClip *> ProjectFolder::childClips()
 
 QString ProjectFolder::getToolTip() const
 {
-    return QString(i18np("%1 clip", "%1 clips", size()));
+    return i18np("%1 clip", "%1 clips", size());
 }
 
 ProjectFolder* ProjectFolder::folder(const QString &id)
