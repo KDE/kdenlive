@@ -13,8 +13,12 @@ Item {
     property point center
     property double scalex
     property double scaley
+    property double offsetx : 0
+    property double offsety : 0
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
+    onOffsetxChanged: canvas.requestPaint()
+    onOffsetyChanged: canvas.requestPaint()
     property bool iskeyframe
     property int requestedKeyFrame
     property var centerPoints: []
@@ -133,8 +137,8 @@ Item {
         property color hoverColor: "#ff0000"
         width: root.profile.x * root.scalex
         height: root.profile.y * root.scaley
-        x: root.center.x - width / 2
-        y: root.center.y - height / 2
+        x: root.center.x - width / 2 - root.offsetx;
+        y: root.center.y - height / 2 - root.offsety;
         color: "transparent"
         border.color: "#ffffff00"
     }

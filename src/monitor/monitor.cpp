@@ -181,8 +181,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_horizontalScroll = new QScrollBar(Qt::Horizontal);
     glayout->addWidget(m_horizontalScroll, 1, 0);
     m_horizontalScroll->hide();
-    connect(m_horizontalScroll, &QAbstractSlider::valueChanged, m_glMonitor, &GLWidget::setOffsetX);
-    connect(m_verticalScroll, &QAbstractSlider::valueChanged, m_glMonitor, &GLWidget::setOffsetY);
+    connect(m_horizontalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetX);
+    connect(m_verticalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetY);
     connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed);
     connect(m_glMonitor, SIGNAL(mouseSeek(int,int)), this, SLOT(slotMouseSeek(int,int)));
     connect(m_glMonitor, SIGNAL(monitorPlay()), this, SLOT(slotPlay()));
@@ -367,6 +367,16 @@ Monitor::~Monitor()
     delete m_ruler;
     delete m_timePos;
     delete render;
+}
+
+void Monitor::setOffsetX(int x)
+{
+    m_glMonitor->setOffsetX(x, m_horizontalScroll->maximum());
+}
+
+void Monitor::setOffsetY(int y)
+{
+    m_glMonitor->setOffsetY(y, m_verticalScroll->maximum());
 }
 
 void Monitor::slotGetCurrentImage(bool request)
@@ -735,6 +745,8 @@ void Monitor::setZoom()
     if (m_glMonitor->zoom() == 1.0f) {
         m_horizontalScroll->hide();
         m_verticalScroll->hide();
+        m_glMonitor->setOffsetX(m_horizontalScroll->value(), m_horizontalScroll->maximum());
+        m_glMonitor->setOffsetY(m_verticalScroll->value(), m_verticalScroll->maximum());
     } else {
         adjustScrollBars(0.5f, 0.5f);
     }

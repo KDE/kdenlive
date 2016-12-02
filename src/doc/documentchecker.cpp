@@ -117,10 +117,12 @@ bool DocumentChecker::hasErrorInClips()
     m_missingFonts.clear();
     max = documentProducers.count();
     QStringList verifiedPaths;
+    QStringList serviceToCheck;
+    serviceToCheck << QStringLiteral("kdenlivetitle") << QStringLiteral("qimage") << QStringLiteral("pixbuf") << QStringLiteral("timewarp") << QStringLiteral("framebuffer");
     for (int i = 0; i < max; ++i) {
         e = documentProducers.item(i).toElement();
 	QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
-        if (service == QLatin1String("colour") || service == QLatin1String("color")) continue;
+        if (!service.startsWith(QLatin1String("avformat")) && !serviceToCheck.contains(service)) continue;
         if (service == QLatin1String("qtext")) {
             checkMissingImagesAndFonts(QStringList(), QStringList(EffectsList::property(e, QStringLiteral("family"))),
                                        e.attribute(QStringLiteral("id")), e.attribute(QStringLiteral("name")));

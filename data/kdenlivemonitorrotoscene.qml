@@ -16,6 +16,10 @@ Item {
     property double scaley : 1
     property double stretch : 1
     property double sourcedar : 1
+    property double offsetx : 0
+    property double offsety : 0
+    onOffsetxChanged: canvas.requestPaint()
+    onOffsetyChanged: canvas.requestPaint()
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
     onSourcedarChanged: refreshdar()
@@ -155,8 +159,8 @@ Item {
         property color hoverColor: "#ff0000"
         width: root.profile.x * root.scalex
         height: root.profile.y * root.scaley
-        x: root.center.x - width / 2
-        y: root.center.y - height / 2
+        x: root.center.x - width / 2 - root.offsetx
+        y: root.center.y - height / 2 - root.offsety
         color: "transparent"
         border.color: "#ffffff00"
     }

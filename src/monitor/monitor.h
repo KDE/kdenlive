@@ -266,6 +266,8 @@ private slots:
     void slotUpdateQmlTimecode(const QString &tc);
     /** @brief There was an error initializing Movit */
     void gpuError();
+    void setOffsetX(int x);
+    void setOffsetY(int y);
 
 public slots:
     void slotOpenDvdFile(const QString &);

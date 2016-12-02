@@ -103,8 +103,8 @@ protected:
 
 public slots:
     void setZoom(float zoom);
-    void setOffsetX(int x);
-    void setOffsetY(int y);
+    void setOffsetX(int x, int max);
+    void setOffsetY(int y, int max);
     void slotSwitchAudioOverlay(bool enable);
     void slotZoomScene(double value);
     void initializeGL();
