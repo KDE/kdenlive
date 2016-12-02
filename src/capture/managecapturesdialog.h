@@ -34,7 +34,7 @@ class ManageCapturesDialog : public QDialog
 public:
     explicit ManageCapturesDialog(const QList<QUrl> &files, QWidget * parent = Q_NULLPTR);
     ~ManageCapturesDialog();
-    QList<QUrl> importFiles();
+    QList<QUrl> importFiles() const;
 
 private slots:
     void slotRefreshButtons();

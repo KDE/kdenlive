@@ -131,7 +131,7 @@ void ManageCapturesDialog::slotToggle()
     }
 }
 
-QList<QUrl> ManageCapturesDialog::importFiles()
+QList<QUrl> ManageCapturesDialog::importFiles() const
 {
     QList<QUrl> result;
 
