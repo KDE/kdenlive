@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef RENDERWIDGET_H
 #define RENDERWIDGET_H
 
@@ -33,7 +32,6 @@
 class QDomElement;
 class QKeyEvent;
 
-
 // RenderViewDelegate is used to draw the progress bars.
 class RenderViewDelegate : public QStyledItemDelegate
 {
@@ -42,7 +40,8 @@ public:
     explicit RenderViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const Q_DECL_OVERRIDE {
+               const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
         if (index.column() == 1) {
             painter->save();
             QStyleOptionViewItem opt(option);
@@ -58,11 +57,11 @@ public:
             int mid = (int)((r1.height() / 2));
             r1.setBottom(r1.y() + mid);
             QRect bounding;
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop ,index.data().toString(), &bounding);
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);
             r1.moveTop(r1.bottom() - textMargin);
             font.setBold(false);
             painter->setFont(font);
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop , index.data(Qt::UserRole).toString());
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::UserRole).toString());
             int progress = index.data(Qt::UserRole + 3).toInt();
             if (progress > 0 && progress < 100) {
                 // draw progress bar
@@ -83,18 +82,19 @@ public:
             } else {
                 r1.setBottom(opt.rect.bottom());
                 r1.setTop(r1.bottom() - mid);
-                painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data(Qt::UserRole + 5).toString());
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom, index.data(Qt::UserRole + 5).toString());
             }
             painter->restore();
-        } else QStyledItemDelegate::paint(painter, option, index);
+        } else {
+            QStyledItemDelegate::paint(painter, option, index);
+        }
     }
 };
-
 
 class RenderJobItem: public QTreeWidgetItem
 {
 public:
-    explicit RenderJobItem(QTreeWidget * parent, const QStringList & strings, int type = QTreeWidgetItem::Type);
+    explicit RenderJobItem(QTreeWidget *parent, const QStringList &strings, int type = QTreeWidgetItem::Type);
     void setStatus(int status);
     int status() const;
     void setMetadata(const QString &data);
@@ -111,16 +111,16 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget * parent = Q_NULLPTR);
+    explicit RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget *parent = Q_NULLPTR);
     virtual ~RenderWidget();
     void setGuides(const QMap<double, QString> &guidesData, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());
-    void setProfile(const MltVideoProfile& profile);
+    void setProfile(const MltVideoProfile &profile);
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void setDocumentPath(const QString &path);
     void reloadProfiles();
-    void setRenderProfile(const QMap <QString, QString>& props);
+    void setRenderProfile(const QMap <QString, QString> &props);
     int waitingJobsCount() const;
     QString getFreeScriptName(const QUrl &projectName = QUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
@@ -139,7 +139,7 @@ public:
         ProfileError = 1,
         ProxyWarning = 2
     };
-    
+
     /** @brief Display warning message in render widget. */
     void errorMessage(RenderError type, const QString &message);
 
@@ -149,9 +149,9 @@ protected:
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut,
-    const QMap <QString, QString> &metadata,
-    const QList<QString> &playlistPaths, const QList<QString> &trackNames,
-    const QString &scriptPath, bool exportAudio);
+                    const QMap <QString, QString> &metadata,
+                    const QList<QString> &playlistPaths, const QList<QString> &trackNames,
+                    const QString &scriptPath, bool exportAudio);
     void slotAbortCurrentJob();
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
 
@@ -231,7 +231,6 @@ signals:
     void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile, const QString scriptPath);
     void shutdown();
 };
-
 
 #endif
 

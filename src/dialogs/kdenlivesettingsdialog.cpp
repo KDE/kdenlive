@@ -47,14 +47,13 @@
 #include <fcntl.h>
 
 #ifdef USE_JOGSHUTTLE
-  #include "jogshuttle/jogaction.h"
-  #include "jogshuttle/jogshuttleconfig.h"
-  #include <linux/input.h>
+#include "jogshuttle/jogaction.h"
+#include "jogshuttle/jogshuttleconfig.h"
+#include <linux/input.h>
 #include <QStandardPaths>
 #endif
 
-
-KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, bool gpuAllowed, QWidget * parent) :
+KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &mappable_actions, bool gpuAllowed, QWidget *parent) :
     KConfigDialog(parent, QStringLiteral("settings"), KdenliveSettings::self()),
     m_modified(false),
     m_shuttleModified(false),
@@ -198,7 +197,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     //m_configSdl.kcfg_openglmonitors->setHidden(true);
 
-
     m_page6 = addPage(p6, i18n("Playback"));
     m_page6->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")));
 
@@ -211,15 +209,15 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configTranscode.button_delete, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotDeleteTranscode);
     connect(m_configTranscode.profiles_list, &QListWidget::itemChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     connect(m_configTranscode.profiles_list, &QListWidget::currentRowChanged, this, &KdenliveSettingsDialog::slotSetTranscodeProfile);
-    
+
     connect(m_configTranscode.profile_name, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_description, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_extension, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_parameters, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_audioonly, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-    
+
     connect(m_configTranscode.button_update, &QAbstractButton::pressed, this, &KdenliveSettingsDialog::slotUpdateTranscodingProfile);
-    
+
     m_configTranscode.profile_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     connect(m_configEnv.kp_image, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditImageApplication);
@@ -234,7 +232,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
 
     slotUpdateGrabRegionStatus();
     loadTranscodeProfiles();
-
 
     //HACK: check dvgrab version, because only dvgrab >= 3.3 supports
     //   --timestamp option without bug
@@ -315,7 +312,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
     connect(m_configProject.proxy_showprofileinfo, &QAbstractButton::clicked, m_configProject.proxyparams, &QWidget::setVisible);
     connect(m_configProject.kcfg_proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyProfile()));
 
-
     slotUpdateProxyProfile(-1);
     slotUpdateV4lProfile(-1);
     slotUpdateGrabProfile(-1);
@@ -338,7 +334,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
         versionCheck->start(QStringLiteral("dvgrab"), QStringList() << QStringLiteral("--version"));
         if (versionCheck->waitForFinished()) {
             QString version = QString(versionCheck->readAll()).simplified();
-            if (version.contains(' ')) version = version.section(' ', -1);
+            if (version.contains(' ')) {
+                version = version.section(' ', -1);
+            }
             dvgrabVersion = version.toDouble();
 
             //qCDebug(KDENLIVE_LOG) << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
@@ -349,13 +347,15 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString>& map
             m_configCapture.kcfg_firewiretimestamp->setEnabled(false);
         }
         m_configCapture.dvgrab_info->setText(i18n("dvgrab version %1 at %2", dvgrabVersion, KdenliveSettings::dvgrab_path()));
-    } else m_configCapture.dvgrab_info->setText(i18n("<strong><em>dvgrab</em> utility not found, please install it for firewire capture</strong>"));
+    } else {
+        m_configCapture.dvgrab_info->setText(i18n("<strong><em>dvgrab</em> utility not found, please install it for firewire capture</strong>"));
+    }
 }
 
 void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
 {
-    QList<KComboBox*> list;
-    QList<QLabel*> list1;
+    QList<KComboBox *> list;
+    QList<QLabel *> list1;
 
     list << m_configShuttle.shuttle1;
     list << m_configShuttle.shuttle2;
@@ -389,13 +389,14 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     list1 << m_configShuttle.label_15; // #14
     list1 << m_configShuttle.label_16; // #15
 
-
     for (int i = 0; i < list.count(); ++i) {
         list[i]->hide();
         list1[i]->hide();
     }
 #ifdef USE_JOGSHUTTLE
-    if (!m_configShuttle.kcfg_enableshuttle->isChecked()) return;
+    if (!m_configShuttle.kcfg_enableshuttle->isChecked()) {
+        return;
+    }
     int keysCount = JogShuttle::keysCount(device);
 
     for (int i = 0; i < keysCount; ++i) {
@@ -429,7 +430,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     // action_names, as the sorting may depend on the user-language.
     QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
     QMap<QString, int> action_pos;
-    foreach (const QString& action_id, actions_map) {
+    foreach (const QString &action_id, actions_map) {
         // This loop find out at what index is the string that would map to the action_id.
         for (int i = 0; i < action_names.size(); ++i) {
             if (mappable_actions[action_names.at(i)] == action_id) {
@@ -440,12 +441,13 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     }
 
     int i = 0;
-    foreach (KComboBox* button, m_shuttle_buttons) {
+    foreach (KComboBox *button, m_shuttle_buttons) {
         button->addItems(action_names);
         connect(button, SIGNAL(activated(int)), this, SLOT(slotShuttleModified()));
         ++i;
-        if (i < actions_map.size())
+        if (i < actions_map.size()) {
             button->setCurrentIndex(action_pos[actions_map[i]]);
+        }
     }
 #endif
 }
@@ -515,7 +517,9 @@ void KdenliveSettingsDialog::initDevices()
                 line = stream.readLine();
             }
             file.close();
-        } else qCDebug(KDENLIVE_LOG)<<" / / / /CANNOT READ PCM";
+        } else {
+            qCDebug(KDENLIVE_LOG) << " / / / /CANNOT READ PCM";
+        }
     }
 
     // Add pulseaudio capture option
@@ -554,7 +558,7 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
     //qCDebug(KDENLIVE_LOG) << "// / / / / / READING APLAY: ";
     //qCDebug(KDENLIVE_LOG) << result;
     QStringList lines = result.split('\n');
-    foreach(const QString & data, lines) {
+    foreach (const QString &data, lines) {
         ////qCDebug(KDENLIVE_LOG) << "// READING LINE: " << data;
         if (!data.startsWith(' ') && data.count(':') > 1) {
             QString card = data.section(':', 0, 0).section(' ', -1);
@@ -632,9 +636,11 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
     }
     for (int i = 0; i < devNames.count(); ++i) {
         m_configShuttle.shuttledevicelist->addItem(
-                devNames.at(i), devPaths.at(i));
+            devNames.at(i), devPaths.at(i));
     }
-    if (state) setupJogshuttleBtns(m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString());
+    if (state) {
+        setupJogshuttleBtns(m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString());
+    }
 #endif /* USE_JOGSHUTTLE */
 }
 
@@ -668,7 +674,7 @@ void KdenliveSettingsDialog::updateWidgets()
     qSort(action_names);
     QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
     QMap<QString, int> action_pos;
-    foreach (const QString& action_id, actions_map) {
+    foreach (const QString &action_id, actions_map) {
         // This loop find out at what index is the string that would map to the action_id.
         for (int i = 0; i < action_names.size(); ++i) {
             if (m_mappable_actions[action_names[i]] == action_id) {
@@ -678,10 +684,11 @@ void KdenliveSettingsDialog::updateWidgets()
         }
     }
     int i = 0;
-    foreach (KComboBox* button, m_shuttle_buttons) {
+    foreach (KComboBox *button, m_shuttle_buttons) {
         ++i;
-        if (i < actions_map.size())
+        if (i < actions_map.size()) {
             button->setCurrentIndex(action_pos[actions_map[i]]);
+        }
     }
 #endif /* USE_JOGSHUTTLE */
 }
@@ -784,8 +791,12 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setPreviewextension(data.section(';', 1, 1));
     }
 
-    if (updateCapturePath) emit updateCaptureFolder();
-    if (updateLibrary) emit updateLibraryFolder();
+    if (updateCapturePath) {
+        emit updateCaptureFolder();
+    }
+    if (updateLibrary) {
+        emit updateLibraryFolder();
+    }
 
     QString value = m_configCapture.kcfg_v4l_alsadevice->itemData(m_configCapture.kcfg_v4l_alsadevice->currentIndex()).toString();
     if (value != KdenliveSettings::v4l_alsadevicename()) {
@@ -846,30 +857,34 @@ void KdenliveSettingsDialog::updateSettings()
 
     QStringList actions;
     actions << QStringLiteral("monitor_pause");  // the Job rest position action.
-    foreach (KComboBox* button, m_shuttle_buttons) {
+    foreach (KComboBox *button, m_shuttle_buttons) {
         actions << m_mappable_actions[button->currentText()];
     }
     QString maps = JogShuttleConfig::actionMap(actions);
     //fprintf(stderr, "Shuttle config: %s\n", JogShuttleConfig::actionMap(actions).toLatin1().constData());
-    if (KdenliveSettings::shuttlebuttons() != maps)
+    if (KdenliveSettings::shuttlebuttons() != maps) {
         KdenliveSettings::setShuttlebuttons(maps);
+    }
 #endif
 
     bool restart = false;
     if (m_configSdl.kcfg_gpu_accel->isChecked() != KdenliveSettings::gpu_accel()) {
-	// GPU setting was changed, we need to restart Kdenlive or everything will be corrupted
-	if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive must be restarted to change this setting")) == KMessageBox::Continue) {
-	    restart = true;
-	}
-	else {
-	    m_configSdl.kcfg_gpu_accel->setChecked(KdenliveSettings::gpu_accel());
-	}
+        // GPU setting was changed, we need to restart Kdenlive or everything will be corrupted
+        if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive must be restarted to change this setting")) == KMessageBox::Continue) {
+            restart = true;
+        } else {
+            m_configSdl.kcfg_gpu_accel->setChecked(KdenliveSettings::gpu_accel());
+        }
     }
 
     KConfigDialog::settingsChangedSlot();
     //KConfigDialog::updateSettings();
-    if (resetProfile) emit doResetProfile();
-    if (restart) emit restartKdenlive();
+    if (resetProfile) {
+        emit doResetProfile();
+    }
+    if (restart) {
+        emit restartKdenlive();
+    }
     emit checkTabPosition();
 }
 
@@ -898,7 +913,9 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
         i.next();
         QListWidgetItem *item = new QListWidgetItem(i.key());
         QString data = i.value();
-        if (data.contains(';')) item->setToolTip(data.section(';', 1, 1));
+        if (data.contains(';')) {
+            item->setToolTip(data.section(';', 1, 1));
+        }
         item->setData(Qt::UserRole, data);
         m_configTranscode.profiles_list->addItem(item);
         //item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -932,9 +949,12 @@ void KdenliveSettingsDialog::slotAddTranscode()
     QString data = m_configTranscode.profile_parameters->toPlainText();
     data.append(" %1." + m_configTranscode.profile_extension->text());
     data.append(';');
-    if (!m_configTranscode.profile_description->text().isEmpty())
+    if (!m_configTranscode.profile_description->text().isEmpty()) {
         data.append(m_configTranscode.profile_description->text());
-    if (m_configTranscode.profile_audioonly->isChecked()) data.append(";audio");
+    }
+    if (m_configTranscode.profile_audioonly->isChecked()) {
+        data.append(";audio");
+    }
     item->setData(Qt::UserRole, data);
     m_configTranscode.profiles_list->addItem(item);
     m_configTranscode.profiles_list->setCurrentItem(item);
@@ -944,15 +964,20 @@ void KdenliveSettingsDialog::slotAddTranscode()
 void KdenliveSettingsDialog::slotUpdateTranscodingProfile()
 {
     QListWidgetItem *item = m_configTranscode.profiles_list->currentItem();
-    if (!item) return;
+    if (!item) {
+        return;
+    }
     m_configTranscode.button_update->setEnabled(false);
     item->setText(m_configTranscode.profile_name->text());
     QString data = m_configTranscode.profile_parameters->toPlainText();
     data.append(" %1." + m_configTranscode.profile_extension->text());
     data.append(';');
-    if (!m_configTranscode.profile_description->text().isEmpty())
+    if (!m_configTranscode.profile_description->text().isEmpty()) {
         data.append(m_configTranscode.profile_description->text());
-    if (m_configTranscode.profile_audioonly->isChecked()) data.append(";audio");
+    }
+    if (m_configTranscode.profile_audioonly->isChecked()) {
+        data.append(";audio");
+    }
     item->setData(Qt::UserRole, data);
     slotDialogModified();
 }
@@ -960,16 +985,22 @@ void KdenliveSettingsDialog::slotUpdateTranscodingProfile()
 void KdenliveSettingsDialog::slotDeleteTranscode()
 {
     QListWidgetItem *item = m_configTranscode.profiles_list->currentItem();
-    if (item == Q_NULLPTR) return;
+    if (item == Q_NULLPTR) {
+        return;
+    }
     delete item;
     slotDialogModified();
 }
 
 void KdenliveSettingsDialog::slotEnableTranscodeUpdate()
 {
-    if (!m_configTranscode.profile_box->isEnabled()) return;
+    if (!m_configTranscode.profile_box->isEnabled()) {
+        return;
+    }
     bool allow = true;
-    if (m_configTranscode.profile_name->text().isEmpty() || m_configTranscode.profile_extension->text().isEmpty()) allow = false;
+    if (m_configTranscode.profile_name->text().isEmpty() || m_configTranscode.profile_extension->text().isEmpty()) {
+        allow = false;
+    }
     m_configTranscode.button_update->setEnabled(allow);
 }
 
@@ -990,7 +1021,9 @@ void KdenliveSettingsDialog::slotSetTranscodeProfile()
     QString data = item->data(Qt::UserRole).toString();
     if (data.contains(';')) {
         m_configTranscode.profile_description->setText(data.section(';', 1, 1));
-        if (data.section(';', 2, 2) == QLatin1String("audio")) m_configTranscode.profile_audioonly->setChecked(true);
+        if (data.section(';', 2, 2) == QLatin1String("audio")) {
+            m_configTranscode.profile_audioonly->setChecked(true);
+        }
         data = data.section(';', 0, 0).simplified();
     }
     m_configTranscode.profile_extension->setText(data.section('.', -1));
@@ -1003,7 +1036,7 @@ void KdenliveSettingsDialog::slotShuttleModified()
 #ifdef USE_JOGSHUTTLE
     QStringList actions;
     actions << QStringLiteral("monitor_pause");  // the Job rest position action.
-    foreach (KComboBox* button, m_shuttle_buttons) {
+    foreach (KComboBox *button, m_shuttle_buttons) {
         actions << m_mappable_actions[button->currentText()];
     }
     QString maps = JogShuttleConfig::actionMap(actions);
@@ -1021,14 +1054,18 @@ void KdenliveSettingsDialog::slotDialogModified()
 //virtual
 bool KdenliveSettingsDialog::hasChanged()
 {
-    if (m_modified || m_shuttleModified) return true;
+    if (m_modified || m_shuttleModified) {
+        return true;
+    }
     return KConfigDialog::hasChanged();
 }
 
 void KdenliveSettingsDialog::slotUpdatev4lDevice()
 {
     QString device = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex()).toString();
-    if (!device.isEmpty()) m_configCapture.kcfg_video4vdevice->setText(device);
+    if (!device.isEmpty()) {
+        m_configCapture.kcfg_video4vdevice->setText(device);
+    }
     QString info = m_configCapture.kcfg_detectedv4ldevices->itemData(m_configCapture.kcfg_detectedv4ldevices->currentIndex(), Qt::UserRole + 1).toString();
 
     m_configCapture.kcfg_v4l_format->blockSignals(true);
@@ -1075,14 +1112,16 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
     m_configCapture.p_progressive->setText(i18n("Progressive"));
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
-    if (!dir.exists() || !dir.exists(QStringLiteral("video4linux"))) saveCurrentV4lProfile();
+    if (!dir.exists() || !dir.exists(QStringLiteral("video4linux"))) {
+        saveCurrentV4lProfile();
+    }
 }
 
 void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
 {
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
     if (!dir.exists()) {
-            dir.mkpath(QStringLiteral("."));
+        dir.mkpath(QStringLiteral("."));
     }
     MltVideoProfile prof;
     if (!dir.exists(QStringLiteral("video4linux"))) {
@@ -1098,14 +1137,17 @@ void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
         prof.progressive = 1;
         prof.colorspace = 601;
         ProfilesDialog::saveProfile(prof, dir.absoluteFilePath(QStringLiteral("video4linux")));
+    } else {
+        prof = ProfilesDialog::getVideoProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
     }
-    else prof = ProfilesDialog::getVideoProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
     m_configCapture.p_size->setText(QString::number(prof.width) + 'x' + QString::number(prof.height));
     m_configCapture.p_fps->setText(QString::number(prof.frame_rate_num) + '/' + QString::number(prof.frame_rate_den));
     m_configCapture.p_aspect->setText(QString::number(prof.sample_aspect_num) + '/' + QString::number(prof.sample_aspect_den));
     m_configCapture.p_display->setText(QString::number(prof.display_aspect_num) + '/' + QString::number(prof.display_aspect_den));
     m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(prof.colorspace));
-    if (prof.progressive) m_configCapture.p_progressive->setText(i18n("Progressive"));
+    if (prof.progressive) {
+        m_configCapture.p_progressive->setText(i18n("Progressive"));
+    }
 }
 
 void KdenliveSettingsDialog::saveCurrentV4lProfile()
@@ -1124,7 +1166,7 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
     profile.progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
     if (!dir.exists()) {
-            dir.mkpath(QStringLiteral("."));
+        dir.mkpath(QStringLiteral("."));
     }
     ProfilesDialog::saveProfile(profile, dir.absoluteFilePath(QStringLiteral("video4linux")));
 }
@@ -1155,10 +1197,14 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     QMapIterator<QString, QString> i(values);
     while (i.hasNext()) {
         i.next();
-        if (!i.key().isEmpty()) m_configCapture.kcfg_v4l_profile->addItem(i.key(), i.value());
+        if (!i.key().isEmpty()) {
+            m_configCapture.kcfg_v4l_profile->addItem(i.key(), i.value());
+        }
     }
     m_configCapture.kcfg_v4l_profile->blockSignals(false);
-    if (!currentItem.isEmpty()) m_configCapture.kcfg_v4l_profile->setCurrentIndex(m_configCapture.kcfg_v4l_profile->findText(currentItem));
+    if (!currentItem.isEmpty()) {
+        m_configCapture.kcfg_v4l_profile->setCurrentIndex(m_configCapture.kcfg_v4l_profile->findText(currentItem));
+    }
 
     // Load Screen Grab profiles
     m_configCapture.kcfg_grab_profile->blockSignals(true);
@@ -1169,10 +1215,14 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     QMapIterator<QString, QString> j(values);
     while (j.hasNext()) {
         j.next();
-        if (!j.key().isEmpty()) m_configCapture.kcfg_grab_profile->addItem(j.key(), j.value());
+        if (!j.key().isEmpty()) {
+            m_configCapture.kcfg_grab_profile->addItem(j.key(), j.value());
+        }
     }
     m_configCapture.kcfg_grab_profile->blockSignals(false);
-    if (!currentItem.isEmpty()) m_configCapture.kcfg_grab_profile->setCurrentIndex(m_configCapture.kcfg_grab_profile->findText(currentItem));
+    if (!currentItem.isEmpty()) {
+        m_configCapture.kcfg_grab_profile->setCurrentIndex(m_configCapture.kcfg_grab_profile->findText(currentItem));
+    }
 
     // Load Decklink profiles
     m_configCapture.kcfg_decklink_profile->blockSignals(true);
@@ -1183,11 +1233,15 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     QMapIterator<QString, QString> k(values);
     while (k.hasNext()) {
         k.next();
-        if (!k.key().isEmpty()) m_configCapture.kcfg_decklink_profile->addItem(k.key(), k.value());
+        if (!k.key().isEmpty()) {
+            m_configCapture.kcfg_decklink_profile->addItem(k.key(), k.value());
+        }
     }
     m_configCapture.kcfg_decklink_profile->blockSignals(false);
-    if (!currentItem.isEmpty()) m_configCapture.kcfg_decklink_profile->setCurrentIndex(m_configCapture.kcfg_decklink_profile->findText(currentItem));
-    
+    if (!currentItem.isEmpty()) {
+        m_configCapture.kcfg_decklink_profile->setCurrentIndex(m_configCapture.kcfg_decklink_profile->findText(currentItem));
+    }
+
     // Load Timeline Preview profiles
     m_configProject.kcfg_preview_profile->blockSignals(true);
     currentItem = m_configProject.kcfg_preview_profile->currentText();
@@ -1198,9 +1252,13 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     QMapIterator<QString, QString> l(values);
     while (l.hasNext()) {
         l.next();
-        if (!l.key().isEmpty()) m_configProject.kcfg_preview_profile->addItem(l.key(), l.value());
+        if (!l.key().isEmpty()) {
+            m_configProject.kcfg_preview_profile->addItem(l.key(), l.value());
+        }
     }
-    if (!currentItem.isEmpty()) m_configProject.kcfg_preview_profile->setCurrentIndex(m_configProject.kcfg_preview_profile->findText(currentItem));
+    if (!currentItem.isEmpty()) {
+        m_configProject.kcfg_preview_profile->setCurrentIndex(m_configProject.kcfg_preview_profile->findText(currentItem));
+    }
     m_configProject.kcfg_preview_profile->blockSignals(false);
     QString data = m_configProject.kcfg_preview_profile->itemData(m_configProject.kcfg_preview_profile->currentIndex()).toString();
     if (data.isEmpty()) {
@@ -1218,9 +1276,13 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     QMapIterator<QString, QString> m(values);
     while (m.hasNext()) {
         m.next();
-        if (!m.key().isEmpty()) m_configProject.kcfg_proxy_profile->addItem(m.key(), m.value());
+        if (!m.key().isEmpty()) {
+            m_configProject.kcfg_proxy_profile->addItem(m.key(), m.value());
+        }
     }
-    if (!currentItem.isEmpty()) m_configProject.kcfg_proxy_profile->setCurrentIndex(m_configProject.kcfg_proxy_profile->findText(currentItem));
+    if (!currentItem.isEmpty()) {
+        m_configProject.kcfg_proxy_profile->setCurrentIndex(m_configProject.kcfg_proxy_profile->findText(currentItem));
+    }
     m_configProject.kcfg_proxy_profile->blockSignals(false);
     data = m_configProject.kcfg_proxy_profile->itemData(m_configProject.kcfg_proxy_profile->currentIndex()).toString();
     if (data.isEmpty()) {
@@ -1232,49 +1294,74 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
 
 void KdenliveSettingsDialog::slotUpdateDecklinkProfile(int ix)
 {
-    if (ix == -1) ix = KdenliveSettings::decklink_profile();
-    else ix = m_configCapture.kcfg_decklink_profile->currentIndex();
+    if (ix == -1) {
+        ix = KdenliveSettings::decklink_profile();
+    } else {
+        ix = m_configCapture.kcfg_decklink_profile->currentIndex();
+    }
     QString data = m_configCapture.kcfg_decklink_profile->itemData(ix).toString();
-    if (data.isEmpty()) return;
+    if (data.isEmpty()) {
+        return;
+    }
     m_configCapture.decklink_parameters->setPlainText(data.section(';', 0, 0));
     //
 }
 
 void KdenliveSettingsDialog::slotUpdateV4lProfile(int ix)
 {
-    if (ix == -1) ix = KdenliveSettings::v4l_profile();
-    else ix = m_configCapture.kcfg_v4l_profile->currentIndex();
+    if (ix == -1) {
+        ix = KdenliveSettings::v4l_profile();
+    } else {
+        ix = m_configCapture.kcfg_v4l_profile->currentIndex();
+    }
     QString data = m_configCapture.kcfg_v4l_profile->itemData(ix).toString();
-    if (data.isEmpty()) return;
+    if (data.isEmpty()) {
+        return;
+    }
     m_configCapture.v4l_parameters->setPlainText(data.section(';', 0, 0));
     //
 }
 
 void KdenliveSettingsDialog::slotUpdateGrabProfile(int ix)
 {
-    if (ix == -1) ix = KdenliveSettings::grab_profile();
-    else ix = m_configCapture.kcfg_grab_profile->currentIndex();
+    if (ix == -1) {
+        ix = KdenliveSettings::grab_profile();
+    } else {
+        ix = m_configCapture.kcfg_grab_profile->currentIndex();
+    }
     QString data = m_configCapture.kcfg_grab_profile->itemData(ix).toString();
-    if (data.isEmpty()) return;
+    if (data.isEmpty()) {
+        return;
+    }
     m_configCapture.grab_parameters->setPlainText(data.section(';', 0, 0));
     //
 }
 
 void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
 {
-    if (ix == -1) ix = KdenliveSettings::proxy_profile();
-    else ix = m_configProject.kcfg_proxy_profile->currentIndex();
+    if (ix == -1) {
+        ix = KdenliveSettings::proxy_profile();
+    } else {
+        ix = m_configProject.kcfg_proxy_profile->currentIndex();
+    }
     QString data = m_configProject.kcfg_proxy_profile->itemData(ix).toString();
-    if (data.isEmpty()) return;
+    if (data.isEmpty()) {
+        return;
+    }
     m_configProject.proxyparams->setPlainText(data.section(';', 0, 0));
 }
 
 void KdenliveSettingsDialog::slotUpdatePreviewProfile(int ix)
 {
-    if (ix == -1) ix = KdenliveSettings::preview_profile();
-    else ix = m_configProject.kcfg_preview_profile->currentIndex();
+    if (ix == -1) {
+        ix = KdenliveSettings::preview_profile();
+    } else {
+        ix = m_configProject.kcfg_preview_profile->currentIndex();
+    }
     QString data = m_configProject.kcfg_preview_profile->itemData(ix).toString();
-    if (data.isEmpty()) return;
+    if (data.isEmpty()) {
+        return;
+    }
     m_configProject.previewparams->setPlainText(data.section(';', 0, 0));
 }
 

@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDir>
 #include <QStandardPaths>
 
-TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget * parent) :
+TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent) :
     QDialog(parent)
 {
     m_view.setupUi(this);
@@ -41,25 +41,26 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget * parent
     // Project templates
     QDir dir(path);
     QStringList templateFiles = dir.entryList(filter, QDir::Files);
-    foreach(const QString & fname, templateFiles) {
+    foreach (const QString &fname, templateFiles) {
         m_view.template_list->comboBox()->addItem(fname, dir.absoluteFilePath(fname));
     }
 
     // System templates
     QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
 
-    foreach(const QString & folderpath, titleTemplates) {
+    foreach (const QString &folderpath, titleTemplates) {
         QDir folder(folderpath);
         QStringList filesnames = folder.entryList(filter, QDir::Files);
-        foreach(const QString & fname, filesnames) {
+        foreach (const QString &fname, filesnames) {
             m_view.template_list->comboBox()->addItem(fname, folder.absoluteFilePath(fname));
         }
     }
 
-    if (!templateFiles.isEmpty())
+    if (!templateFiles.isEmpty()) {
         m_view.buttonBox->button(QDialogButtonBox::Ok)->setFocus();
+    }
     QStringList mimeTypeFilters;
-    mimeTypeFilters <<QStringLiteral("application/x-kdenlivetitle");
+    mimeTypeFilters << QStringLiteral("application/x-kdenlivetitle");
     m_view.template_list->setFilter(mimeTypeFilters.join(' '));
     connect(m_view.template_list->comboBox(), SIGNAL(currentIndexChanged(int)), this, SLOT(updatePreview()));
     updatePreview();
@@ -68,7 +69,9 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget * parent
 QString TitleTemplateDialog::selectedTemplate() const
 {
     QString textTemplate = m_view.template_list->comboBox()->itemData(m_view.template_list->comboBox()->currentIndex()).toString();
-    if (textTemplate.isEmpty()) textTemplate = m_view.template_list->comboBox()->currentText();
+    if (textTemplate.isEmpty()) {
+        textTemplate = m_view.template_list->comboBox()->currentText();
+    }
     return textTemplate;
 }
 
@@ -80,7 +83,9 @@ QString TitleTemplateDialog::selectedText() const
 void TitleTemplateDialog::updatePreview()
 {
     QString textTemplate = m_view.template_list->comboBox()->itemData(m_view.template_list->comboBox()->currentIndex()).toString();
-    if (textTemplate.isEmpty()) textTemplate = m_view.template_list->comboBox()->currentText();
+    if (textTemplate.isEmpty()) {
+        textTemplate = m_view.template_list->comboBox()->currentText();
+    }
     QPixmap pix = KThumb::getImage(QUrl::fromLocalFile(textTemplate), m_view.preview->width());
     m_view.preview->setPixmap(pix);
 }

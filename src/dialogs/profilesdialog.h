@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef PROFILESDIALOG_H
 #define PROFILESDIALOG_H
-
 
 #include "definitions.h"
 #include "ui_profiledialog_ui.h"
@@ -33,12 +31,12 @@ class ProfilesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ProfilesDialog(const QString &profileDescription = QString(), QWidget * parent = Q_NULLPTR);
+    explicit ProfilesDialog(const QString &profileDescription = QString(), QWidget *parent = Q_NULLPTR);
     /** @brief Using this constructor, the dialog only allows editing one profile. */
-    explicit ProfilesDialog(const QString &profilePath, bool, QWidget * parent = Q_NULLPTR);
+    explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = Q_NULLPTR);
 
     void fillList(const QString &selectedProfile = QString());
-    static QMap< QString, QString > getSettingsFromFile(const QString& path);
+    static QMap< QString, QString > getSettingsFromFile(const QString &path);
     /** @brief Create profile from xml in MLT project file */
     static MltVideoProfile getVideoProfileFromXml(const QDomElement &element);
     static MltVideoProfile getVideoProfile(const QString &name);
@@ -108,7 +106,6 @@ private:
     void saveProfile(const QString &path);
     bool askForSave();
 };
-
 
 #endif
 

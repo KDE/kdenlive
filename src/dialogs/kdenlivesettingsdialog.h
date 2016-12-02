@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef KDENLIVESETTINGSDIALOG_H
 #define KDENLIVESETTINGSDIALOG_H
 
@@ -41,7 +40,7 @@ class KdenliveSettingsDialog : public KConfigDialog
     Q_OBJECT
 
 public:
-    KdenliveSettingsDialog(const QMap<QString, QString>& mappable_actions, bool gpuAllowed, QWidget * parent = Q_NULLPTR);
+    KdenliveSettingsDialog(const QMap<QString, QString> &mappable_actions, bool gpuAllowed, QWidget *parent = Q_NULLPTR);
     ~KdenliveSettingsDialog();
     void showPage(int page, int option);
     void checkProfile();
@@ -106,7 +105,7 @@ private:
     bool m_modified;
     bool m_shuttleModified;
     QMap<QString, QString> m_mappable_actions;
-    QVector<KComboBox*> m_shuttle_buttons;
+    QVector<KComboBox *> m_shuttle_buttons;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();
@@ -126,7 +125,6 @@ signals:
     void restartKdenlive();
     void checkTabPosition();
 };
-
 
 #endif
 

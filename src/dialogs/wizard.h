@@ -17,14 +17,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef WIZARD_H
 #define WIZARD_H
 
 #include <QWizard>
 #include <QVBoxLayout>
 #include <QWizardPage>
-
 
 #include "ui_wizardstandard_ui.h"
 #include "ui_wizardextra_ui.h"
@@ -47,7 +45,7 @@ class Wizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit Wizard(bool autoClose, QWidget * parent = Q_NULLPTR);
+    explicit Wizard(bool autoClose, QWidget *parent = Q_NULLPTR);
     void installExtraMimes(const QString &baseName, const QStringList &globs);
     void runUpdateMimeDatabase();
     void adjustSettings();

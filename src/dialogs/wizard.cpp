@@ -31,12 +31,10 @@
 #include <mlt++/Mlt.h>
 #include <framework/mlt_version.h>
 
-
 #include <klocalizedstring.h>
 #include <KProcess>
 #include <KRun>
 #include <KMessageWidget>
-
 
 #include <QLabel>
 #include <QMimeType>
@@ -56,7 +54,6 @@ static const char kdenlive_version[] = KDENLIVE_VERSION;
 
 static QStringList acodecsList;
 static QStringList vcodecsList;
-
 
 MyWizardPage::MyWizardPage(QWidget *parent) : QWizardPage(parent)
     , m_isComplete(false)
@@ -220,7 +217,6 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
 
 #endif
 
-
     //listViewDelegate = new WizardDelegate(treeWidget);
     //m_check.programList->setItemDelegate(listViewDelegate);
     //slotDetectWebcam();
@@ -257,8 +253,12 @@ void Wizard::slotDetectWebcam()
             }
         }
         slotUpdateCaptureParameters();
-        if (!found) m_capture.v4l_devices->setCurrentIndex(0);
-    } else m_capture.v4l_status->setText(i18n("No device found, plug your webcam and refresh."));
+        if (!found) {
+            m_capture.v4l_devices->setCurrentIndex(0);
+        }
+    } else {
+        m_capture.v4l_status->setText(i18n("No device found, plug your webcam and refresh."));
+    }
     m_capture.v4l_devices->blockSignals(false);
 #endif /* USE_V4L */
 }
@@ -266,7 +266,9 @@ void Wizard::slotDetectWebcam()
 void Wizard::slotUpdateCaptureParameters()
 {
     QString device = m_capture.v4l_devices->itemData(m_capture.v4l_devices->currentIndex()).toString();
-    if (!device.isEmpty()) KdenliveSettings::setVideo4vdevice(device);
+    if (!device.isEmpty()) {
+        KdenliveSettings::setVideo4vdevice(device);
+    }
 
     QString formats = m_capture.v4l_devices->itemData(m_capture.v4l_devices->currentIndex(), Qt::UserRole + 1).toString();
 
@@ -275,12 +277,12 @@ void Wizard::slotUpdateCaptureParameters()
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
     if (!dir.exists()) {
-            dir.mkpath(QStringLiteral("."));
+        dir.mkpath(QStringLiteral("."));
     }
-    
+
     if (dir.exists(QStringLiteral("video4linux"))) {
         MltVideoProfile profileInfo = ProfilesDialog::getVideoProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
-        m_capture.v4l_formats->addItem(i18n("Current settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QStringLiteral("unknown") <<QString::number(profileInfo.width)<<QString::number(profileInfo.height)<<QString::number(profileInfo.frame_rate_num)<<QString::number(profileInfo.frame_rate_den));
+        m_capture.v4l_formats->addItem(i18n("Current settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QStringLiteral("unknown") << QString::number(profileInfo.width) << QString::number(profileInfo.height) << QString::number(profileInfo.frame_rate_num) << QString::number(profileInfo.frame_rate_den));
     }
     QStringList pixelformats = formats.split('>', QString::SkipEmptyParts);
     QString itemSize;
@@ -295,14 +297,16 @@ void Wizard::slotUpdateCaptureParameters()
             itemRates = sizes.at(j).section('=', 1, 1).split(',', QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
                 QString formatDescription = '[' + format + "] " + itemSize + " (" + itemRates.at(k) + ')';
-                if (m_capture.v4l_formats->findText(formatDescription) == -1)
+                if (m_capture.v4l_formats->findText(formatDescription) == -1) {
                     m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
+                }
             }
         }
     }
     if (!dir.exists(QStringLiteral("video4linux"))) {
-        if (m_capture.v4l_formats->count() > 9) slotSaveCaptureFormat();
-        else {
+        if (m_capture.v4l_formats->count() > 9) {
+            slotSaveCaptureFormat();
+        } else {
             // No existing profile and no autodetected profiles
             MltVideoProfile profileInfo;
             profileInfo.width = 320;
@@ -316,7 +320,7 @@ void Wizard::slotUpdateCaptureParameters()
             profileInfo.progressive = 1;
             profileInfo.colorspace = 601;
             ProfilesDialog::saveProfile(profileInfo, dir.absoluteFilePath(QStringLiteral("video4linux")));
-            m_capture.v4l_formats->addItem(i18n("Default settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QStringLiteral("unknown") <<QString::number(profileInfo.width)<<QString::number(profileInfo.height)<<QString::number(profileInfo.frame_rate_num)<<QString::number(profileInfo.frame_rate_den));
+            m_capture.v4l_formats->addItem(i18n("Default settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QStringLiteral("unknown") << QString::number(profileInfo.width) << QString::number(profileInfo.height) << QString::number(profileInfo.frame_rate_num) << QString::number(profileInfo.frame_rate_den));
         }
     }
     m_capture.v4l_formats->blockSignals(false);
@@ -340,8 +344,9 @@ void Wizard::checkMltComponents()
         Mlt::Properties *producers = repository->producers();
         QStringList producersItemList;
         producersItemList.reserve(producers->count());
-        for (int i = 0; i < producers->count(); ++i)
+        for (int i = 0; i < producers->count(); ++i) {
             producersItemList << producers->get_name(i);
+        }
         delete producers;
 
         // Check that we have the frei0r effects installed
@@ -364,7 +369,7 @@ void Wizard::checkMltComponents()
         // Check that we have the breeze icon theme installed
         QStringList iconPaths = QIcon::themeSearchPaths();
         bool hasBreeze = false;
-        foreach(const QString &path, iconPaths) {
+        foreach (const QString &path, iconPaths) {
             QDir dir(path);
             if (dir.exists(QStringLiteral("breeze"))) {
                 hasBreeze = true;
@@ -379,8 +384,9 @@ void Wizard::checkMltComponents()
         Mlt::Properties *consumers = repository->consumers();
         QStringList consumersItemList;
         consumersItemList.reserve(consumers->count());
-        for (int i = 0; i < consumers->count(); ++i)
+        for (int i = 0; i < consumers->count(); ++i) {
             consumersItemList << consumers->get_name(i);
+        }
         delete consumers;
 
         if (!consumersItemList.contains(QStringLiteral("sdl")) && !consumersItemList.contains(QStringLiteral("rtaudio"))) {
@@ -391,23 +397,25 @@ void Wizard::checkMltComponents()
         // AVformat module
         Mlt::Consumer *consumer = Q_NULLPTR;
         Mlt::Profile p;
-        if (consumersItemList.contains(QStringLiteral("avformat")))
+        if (consumersItemList.contains(QStringLiteral("avformat"))) {
             consumer = new Mlt::Consumer(p, "avformat");
+        }
         if (consumer == Q_NULLPTR || !consumer->is_valid()) {
             m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/video</li>"));
             m_brokenModule = true;
-        }
-        else {
+        } else {
             consumer->set("vcodec", "list");
             consumer->set("acodec", "list");
             consumer->set("f", "list");
             consumer->start();
             Mlt::Properties vcodecs((mlt_properties) consumer->get_data("vcodec"));
-            for (int i = 0; i < vcodecs.count(); ++i)
+            for (int i = 0; i < vcodecs.count(); ++i) {
                 vcodecsList << QString(vcodecs.get(i));
+            }
             Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
-            for (int i = 0; i < acodecs.count(); ++i)
+            for (int i = 0; i < acodecs.count(); ++i) {
                 acodecsList << QString(acodecs.get(i));
+            }
             checkMissingCodecs();
             delete consumer;
         }
@@ -444,16 +452,20 @@ void Wizard::checkMltComponents()
 void Wizard::checkMissingCodecs()
 {
     bool replaceVorbisCodec = false;
-    if (acodecsList.contains(QStringLiteral("libvorbis"))) replaceVorbisCodec = true;
+    if (acodecsList.contains(QStringLiteral("libvorbis"))) {
+        replaceVorbisCodec = true;
+    }
     bool replaceLibfaacCodec = false;
-    if (!acodecsList.contains(QStringLiteral("aac")) && acodecsList.contains(QStringLiteral("libfaac"))) replaceLibfaacCodec = true;
+    if (!acodecsList.contains(QStringLiteral("aac")) && acodecsList.contains(QStringLiteral("libfaac"))) {
+        replaceLibfaacCodec = true;
+    }
     QStringList profilesList;
     profilesList << QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("export/profiles.xml"));
     QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/");
     QStringList filter;
     filter << QStringLiteral("*.xml");
     QStringList fileList = directory.entryList(filter, QDir::Files);
-    foreach(const QString &filename, fileList) {
+    foreach (const QString &filename, fileList) {
         profilesList << directory.absoluteFilePath(filename);
     }
 
@@ -461,7 +473,7 @@ void Wizard::checkMissingCodecs()
     // can also override profiles installed by KNewStuff
     QStringList requiredACodecs;
     QStringList requiredVCodecs;
-    foreach(const QString &filename, profilesList) {
+    foreach (const QString &filename, profilesList) {
         QDomDocument doc;
         QFile file(filename);
         doc.setContent(&file, false);
@@ -472,13 +484,23 @@ void Wizard::checkMissingCodecs()
         for (int i = 0; i < profiles.count(); ++i) {
             std = profiles.at(i).toElement().attribute(QStringLiteral("args"));
             format.clear();
-            if (std.startsWith(QLatin1String("acodec="))) format = std.section(QStringLiteral("acodec="), 1, 1);
-            else if (std.contains(QStringLiteral(" acodec="))) format = std.section(QStringLiteral(" acodec="), 1, 1);
-            if (!format.isEmpty()) requiredACodecs << format.section(' ', 0, 0).toLower();
+            if (std.startsWith(QLatin1String("acodec="))) {
+                format = std.section(QStringLiteral("acodec="), 1, 1);
+            } else if (std.contains(QStringLiteral(" acodec="))) {
+                format = std.section(QStringLiteral(" acodec="), 1, 1);
+            }
+            if (!format.isEmpty()) {
+                requiredACodecs << format.section(' ', 0, 0).toLower();
+            }
             format.clear();
-            if (std.startsWith(QLatin1String("vcodec="))) format = std.section(QStringLiteral("vcodec="), 1, 1);
-            else if (std.contains(QStringLiteral(" vcodec="))) format = std.section(QStringLiteral(" vcodec="), 1, 1);
-            if (!format.isEmpty()) requiredVCodecs << format.section(' ', 0, 0).toLower();
+            if (std.startsWith(QLatin1String("vcodec="))) {
+                format = std.section(QStringLiteral("vcodec="), 1, 1);
+            } else if (std.contains(QStringLiteral(" vcodec="))) {
+                format = std.section(QStringLiteral(" vcodec="), 1, 1);
+            }
+            if (!format.isEmpty()) {
+                requiredVCodecs << format.section(' ', 0, 0).toLower();
+            }
         }
     }
     requiredACodecs.removeDuplicates();
@@ -495,13 +517,17 @@ void Wizard::checkMissingCodecs()
             requiredACodecs.replace(ix, QStringLiteral("libfaac"));
         }
     }
-    for (int i = 0; i < acodecsList.count(); ++i)
+    for (int i = 0; i < acodecsList.count(); ++i) {
         requiredACodecs.removeAll(acodecsList.at(i));
-    for (int i = 0; i < vcodecsList.count(); ++i)
+    }
+    for (int i = 0; i < vcodecsList.count(); ++i) {
         requiredVCodecs.removeAll(vcodecsList.at(i));
+    }
     if (!requiredACodecs.isEmpty() || !requiredVCodecs.isEmpty()) {
         QString missing = requiredACodecs.join(QStringLiteral(","));
-        if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) missing.append(',');
+        if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) {
+            missing.append(',');
+        }
         missing.append(requiredVCodecs.join(QStringLiteral(",")));
         missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
         m_infos.append(QString("<li>%1</li>").arg(missing));
@@ -536,20 +562,26 @@ void Wizard::slotCheckPrograms()
             m_infos.append(i18n("<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"));
         }
     }
-    if (!exepath.isEmpty()) KdenliveSettings::setFfmpegpath(exepath);
-    if (!playpath.isEmpty()) KdenliveSettings::setFfplaypath(playpath);
-    if (!probepath.isEmpty()) KdenliveSettings::setFfprobepath(probepath);
+    if (!exepath.isEmpty()) {
+        KdenliveSettings::setFfmpegpath(exepath);
+    }
+    if (!playpath.isEmpty()) {
+        KdenliveSettings::setFfplaypath(playpath);
+    }
+    if (!probepath.isEmpty()) {
+        KdenliveSettings::setFfprobepath(probepath);
+    }
 
 // Deprecated
-/*
-#ifndef Q_WS_MAC
-    item = new QTreeWidgetItem(m_treeWidget, QStringList() << QString() << i18n("dvgrab"));
-    item->setData(1, Qt::UserRole, i18n("Required for firewire capture"));
-    item->setSizeHint(0, m_itemSize);
-    if (QStandardPaths::findExecutable(QStringLiteral("dvgrab")).isEmpty()) item->setIcon(0, m_badIcon);
-    else item->setIcon(0, m_okIcon);
-#endif
-*/
+    /*
+    #ifndef Q_WS_MAC
+        item = new QTreeWidgetItem(m_treeWidget, QStringList() << QString() << i18n("dvgrab"));
+        item->setData(1, Qt::UserRole, i18n("Required for firewire capture"));
+        item->setSizeHint(0, m_itemSize);
+        if (QStandardPaths::findExecutable(QStringLiteral("dvgrab")).isEmpty()) item->setIcon(0, m_badIcon);
+        else item->setIcon(0, m_okIcon);
+    #endif
+    */
     if (QStandardPaths::findExecutable(QStringLiteral("dvdauthor")).isEmpty()) {
         m_infos.append(i18n("<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"));
         allIsOk = false;
@@ -572,18 +604,26 @@ void Wizard::slotCheckPrograms()
     QString program;
     if (KdenliveSettings::defaultimageapp().isEmpty()) {
         program = QStandardPaths::findExecutable(QStringLiteral("gimp"));
-        if (program.isEmpty()) program = QStandardPaths::findExecutable(QStringLiteral("krita"));
-        if (!program.isEmpty()) KdenliveSettings::setDefaultimageapp(program);
+        if (program.isEmpty()) {
+            program = QStandardPaths::findExecutable(QStringLiteral("krita"));
+        }
+        if (!program.isEmpty()) {
+            KdenliveSettings::setDefaultimageapp(program);
+        }
     }
     if (KdenliveSettings::defaultaudioapp().isEmpty()) {
         program = QStandardPaths::findExecutable(QStringLiteral("audacity"));
-        if (program.isEmpty()) program = QStandardPaths::findExecutable(QStringLiteral("traverso"));
-        if (!program.isEmpty()) KdenliveSettings::setDefaultaudioapp(program);
+        if (program.isEmpty()) {
+            program = QStandardPaths::findExecutable(QStringLiteral("traverso"));
+        }
+        if (!program.isEmpty()) {
+            KdenliveSettings::setDefaultaudioapp(program);
+        }
     }
     if (allIsOk) {
         // OK
     } else {
-         // WRONG
+        // WRONG
     }
 }
 
@@ -595,19 +635,25 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
     QMimeType mime = db.mimeTypeForName(baseName);
     QStringList missingGlobs;
 
-    foreach(const QString & glob, globs) {
+    foreach (const QString &glob, globs) {
         QMimeType type = db.mimeTypeForFile(glob, QMimeDatabase::MatchExtension);
         QString mimeName = type.name();
-        if (!mimeName.contains(QStringLiteral("audio")) && !mimeName.contains(QStringLiteral("video"))) missingGlobs << glob;
+        if (!mimeName.contains(QStringLiteral("audio")) && !mimeName.contains(QStringLiteral("video"))) {
+            missingGlobs << glob;
+        }
     }
-    if (missingGlobs.isEmpty()) return;
+    if (missingGlobs.isEmpty()) {
+        return;
+    }
     if (!mime.isValid() || mime.isDefault()) {
         qCDebug(KDENLIVE_LOG) << "mimeType " << baseName << " not found";
     } else {
         QStringList extensions = mime.globPatterns();
         QString comment = mime.comment();
-        foreach(const QString & glob, missingGlobs) {
-            if (!extensions.contains(glob)) extensions << glob;
+        foreach (const QString &glob, missingGlobs) {
+            if (!extensions.contains(glob)) {
+                extensions << glob;
+            }
         }
         //qCDebug(KDENLIVE_LOG) << "EXTS: " << extensions;
         QDir mimeDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/mime/packages/"));
@@ -637,7 +683,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
             writer.writeEndElement(); // comment
         }
 
-        foreach(const QString & pattern, extensions) {
+        foreach (const QString &pattern, extensions) {
             writer.writeStartElement(nsUri, QStringLiteral("glob"));
             writer.writeAttribute(QStringLiteral("pattern"), pattern);
             writer.writeEndElement(); // glob
@@ -712,7 +758,6 @@ void Wizard::slotCheckSelectedItem()
     m_standard.profiles_list->setCurrentRow(m_standard.profiles_list->currentRow());
 }
 
-
 void Wizard::adjustSettings()
 {
     //if (m_extra.installmimes->isChecked()) {
@@ -746,9 +791,13 @@ void Wizard::slotCheckMlt()
         m_startLayout->addWidget(label);
         m_systemCheckIsOk = false;
         // Warn
-    } else m_systemCheckIsOk = true;
+    } else {
+        m_systemCheckIsOk = true;
+    }
 
-    if (m_systemCheckIsOk) checkMltComponents();
+    if (m_systemCheckIsOk) {
+        checkMltComponents();
+    }
     slotCheckPrograms();
 }
 
@@ -770,7 +819,9 @@ void Wizard::slotShowWebInfos()
 void Wizard::slotSaveCaptureFormat()
 {
     QStringList format = m_capture.v4l_formats->itemData(m_capture.v4l_formats->currentIndex()).toStringList();
-    if (format.isEmpty()) return;
+    if (format.isEmpty()) {
+        return;
+    }
     MltVideoProfile profile;
     profile.description = QStringLiteral("Video4Linux capture");
     profile.colorspace = 601;
@@ -785,7 +836,7 @@ void Wizard::slotSaveCaptureFormat()
     profile.progressive = 1;
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
     if (!dir.exists()) {
-            dir.mkpath(QStringLiteral("."));
+        dir.mkpath(QStringLiteral("."));
     }
     ProfilesDialog::saveProfile(profile, dir.absoluteFilePath(QStringLiteral("video4linux")));
 }

@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef ENCODINGPROFILESDIALOG_H
 #define ENCODINGPROFILESDIALOG_H
 
@@ -31,7 +30,7 @@ class EncodingProfilesDialog : public QDialog, Ui::ManageEncodingProfile_UI
     Q_OBJECT
 
 public:
-    explicit EncodingProfilesDialog(int profileType, QWidget * parent = Q_NULLPTR);
+    explicit EncodingProfilesDialog(int profileType, QWidget *parent = Q_NULLPTR);
     ~EncodingProfilesDialog();
 
 private slots:
@@ -45,7 +44,6 @@ private:
     KConfig *m_configFile;
     KConfigGroup *m_configGroup;
 };
-
 
 #endif
 

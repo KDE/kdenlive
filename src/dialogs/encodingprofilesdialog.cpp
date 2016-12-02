@@ -28,7 +28,7 @@
 #include <QPlainTextEdit>
 #include <QStandardPaths>
 
-EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget * parent) :
+EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget *parent) :
     QDialog(parent),
     m_configGroup(Q_NULLPTR)
 {
@@ -98,24 +98,27 @@ void EncodingProfilesDialog::slotLoadProfiles()
     }
     profile_list->blockSignals(false);
     profile_list->setCurrentRow(0);
-    button_delete->setEnabled(profile_list->count() > 0);
-    button_edit->setEnabled(profile_list->count() > 0);
+    const bool multiProfile(profile_list->count() > 0);
+    button_delete->setEnabled(multiProfile);
+    button_edit->setEnabled(multiProfile);
 }
 
 void EncodingProfilesDialog::slotShowParams()
 {
     profile_parameters->clear();
     QListWidgetItem *item = profile_list->currentItem();
-    if (!item)
+    if (!item) {
         return;
+    }
     profile_parameters->setPlainText(item->data(Qt::UserRole).toString().section(';', 0, 0));
 }
 
 void EncodingProfilesDialog::slotDeleteProfile()
 {
     QListWidgetItem *item = profile_list->currentItem();
-    if (!item)
+    if (!item) {
         return;
+    }
     QString profile = item->text();
     m_configGroup->deleteEntry(profile);
     slotLoadProfiles();
@@ -186,6 +189,4 @@ void EncodingProfilesDialog::slotEditProfile()
     }
     delete d;
 }
-
-
 
