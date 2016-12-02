@@ -3359,7 +3359,7 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
         properties.insert(QStringLiteral("loop"), QString::number(dia->loop()));
         properties.insert(QStringLiteral("crop"), QString::number(dia->crop()));
         properties.insert(QStringLiteral("fade"), QString::number(dia->fade()));
-        properties.insert(QStringLiteral("luma_duration"), dia->lumaDuration());
+        properties.insert(QStringLiteral("luma_duration"), QString::number(m_doc->getFramePos(dia->lumaDuration())));
         properties.insert(QStringLiteral("luma_file"), dia->lumaFile());
         properties.insert(QStringLiteral("softness"), QString::number(dia->softness()));
         properties.insert(QStringLiteral("animation"), dia->animation());
