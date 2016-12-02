@@ -503,7 +503,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
         if (metadata && metadata->is_valid()) {
             version = metadata->get_double("version");
         }
-        if (metadata) delete metadata;
+        delete metadata;
 
         if (documentElement.hasAttribute(QStringLiteral("version"))) {
             // a specific version of the filter is required

@@ -257,8 +257,8 @@ void UnicodeWidget::updateOverviewChars(uint unicode)
 
 void UnicodeWidget::clearOverviewChars()
 {
-    leftChars->setText(QLatin1String(""));
-    rightChars->setText(QLatin1String(""));
+    leftChars->clear();
+    rightChars->clear();
 }
 
 QString UnicodeWidget::nextUnicode(const QString &text, Direction direction)

@@ -35,7 +35,7 @@ JogShuttleAction::JogShuttleAction (const JogShuttle* jogShuttle, const QStringL
         : QObject(parent), m_jogShuttle(jogShuttle), m_actionMap(actionMap)
 {
     // Add action map 0 used for stopping the monitor when the shuttle is in neutral position.
-    if (m_actionMap.size() == 0)
+    if (m_actionMap.isEmpty())
       m_actionMap.append(QStringLiteral("monitor_pause"));
 
     connect(m_jogShuttle, &JogShuttle::jogBack, pCore->monitorManager(), &MonitorManager::slotRewindOneFrame);
@@ -55,14 +55,14 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
 {
     size_t magnitude = abs(shuttle_pos);
     if (magnitude < SPEEDS_SIZE) {
-        if (shuttle_pos < 0)
+        if (shuttle_pos < 0) {
             emit rewind(-SPEEDS[magnitude]);
-        if (shuttle_pos == 0) {
+        } else if (shuttle_pos == 0) {
             ////qCDebug(KDENLIVE_LOG) << "Shuttle pos0 action: " << m_actionMap[0];
             emit action(m_actionMap[0]);
-        }
-        if (shuttle_pos > 0)
+        } else if (shuttle_pos > 0) {
             emit forward(SPEEDS[magnitude]);
+        }
     }
 }
 
