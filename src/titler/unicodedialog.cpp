@@ -322,9 +322,9 @@ void UnicodeWidget::slotTextChanged(const QString &text)
     unicodeNumber->blockSignals(true);
 
     QString newText = validateText(text);
-    if (newText.length() == 0) {
-        unicodeChar->setText(QLatin1String(""));
-        unicodeNumber->setText(QLatin1String(""));
+    if (newText.isEmpty()) {
+        unicodeChar->clear();
+        unicodeNumber->clear();
         clearOverviewChars();
         m_lastCursorPos = 0;
         m_lastUnicodeNumber = QLatin1String("");

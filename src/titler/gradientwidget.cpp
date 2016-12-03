@@ -165,6 +165,7 @@ void GradientWidget::saveGradient(const QString &name)
 QStringList GradientWidget::getNames() const
 {
     QStringList result;
+    result.reserve(gradient_list->count());
     for (int i = 0; i < gradient_list->count(); i++) {
         result << gradient_list->item(i)->text();
     }
