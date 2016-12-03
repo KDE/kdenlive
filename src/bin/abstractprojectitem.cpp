@@ -177,7 +177,6 @@ AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
 QVariant AbstractProjectItem::data(DataType type) const
 {
     QVariant data;
-    QLocale locale;
     switch (type) {
         case DataName:
             data = QVariant(m_name);

@@ -1858,7 +1858,6 @@ bool DocumentValidator::checkMovit()
     // Parse all effects in document
     QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
     int max = filters.count();
-    QLocale locale;
     for (int i = 0; i < max; ++i) {
         QDomElement filt = filters.at(i).toElement();
         QString filterId = filt.attribute(QStringLiteral("id"));

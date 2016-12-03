@@ -670,7 +670,6 @@ void ClipPropertiesController::slotEnableForce(int state)
             if (!spin || !spin2) return;
             properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
             properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
-            QLocale locale;
             properties.insert(QStringLiteral("force_aspect_ratio"), locale.toString((double) spin->value() / spin2->value()));
         }
     }
@@ -728,7 +727,6 @@ void ClipPropertiesController::slotComboValueChanged()
     }
     QString param = box->objectName().section(QStringLiteral("_"), 0, -2);
     QMap <QString, QString> properties;
-    QLocale locale;
     properties.insert(param, QString::number(box->currentData().toInt()));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;

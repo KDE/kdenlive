@@ -202,8 +202,6 @@ void ClipItem::initEffect(ProfileInfo pInfo, QDomElement effect, int diff, int o
 bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int cutPos)
 {
     bool clipEffectsModified = false;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     int effectsCount = m_effectList.count();
     if (effectsCount == 0) {
         // reset keyframes

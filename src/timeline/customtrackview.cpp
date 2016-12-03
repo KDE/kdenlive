@@ -6241,8 +6241,6 @@ void CustomTrackView::pasteClipEffects()
 void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml)
 {
     // parse parameters to check if we need to adjust to the new crop start
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();

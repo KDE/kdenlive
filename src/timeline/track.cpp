@@ -339,7 +339,6 @@ QList <ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, M
     QString idForVideoTrack;
     QString service = original->parent().get("mlt_service");
     QString idForTrack = original->parent().get("id");
-    QLocale locale;
     int tkState = state();
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack

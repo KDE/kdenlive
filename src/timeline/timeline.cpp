@@ -364,10 +364,8 @@ void Timeline::checkDuration() {
 }
 
 void Timeline::getTransitions() {
-    QLocale locale;
     int compositeMode = 0;
     double fps = m_doc->fps();
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     while (service) {
@@ -1051,10 +1049,9 @@ void Timeline::loadGuides(QMap <double, QString> guidesData)
     }
 }
 
-void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
+void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) 
+{
     int effectNb = clip == NULL ? 0 : clip->effectsCount();
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         QDomElement clipeffect = getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
@@ -1098,7 +1095,8 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
     }
 }
 
-QString Timeline::getKeyframes(Mlt::Service service, int &ix, QDomElement e) {
+QString Timeline::getKeyframes(Mlt::Service service, int &ix, QDomElement e) 
+{
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QString starttag = e.attribute(QStringLiteral("starttag"), QStringLiteral("start"));
@@ -1149,7 +1147,8 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
 }
 
 //static
-void Timeline::setParam(ProfileInfo info, QDomElement param, QString value) {
+void Timeline::setParam(ProfileInfo info, QDomElement param, QString value) 
+{
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     //get Kdenlive scaling parameters
