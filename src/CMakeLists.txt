@@ -51,12 +51,6 @@ if(WITH_JogShuttle)
   endif(HAVE_LINUX_INPUT_H)
 endif(WITH_JogShuttle)
 
-set_package_properties(LibV4L2 PROPERTIES 
-                DESCRIPTION "Collection of video4linux support libraries"
-                URL "http://freecode.com/projects/libv4l"
-                TYPE RUNTIME
-                PURPOSE "Required for better webcam support")
-
 set_package_properties(OpenGL PROPERTIES
     DESCRIPTION "the OpenGL library"
                 URL ""
