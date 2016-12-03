@@ -333,7 +333,7 @@ void KeyframeImport::updateDisplay()
     int selectedtarget = m_sourceCombo->currentData().toInt();
     int profileWidth = m_profile.profileSize.width();
     int profileHeight = m_profile.profileSize.height();
-    if (m_maximas.count() > 0) {
+    if (!m_maximas.isEmpty()) {
         if (m_maximas.at(0).x() == m_maximas.at(0).y() || (selectedtarget < 10 && selectedtarget != 0)) {
             maximas << QPoint();
         } else {

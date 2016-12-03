@@ -365,14 +365,14 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, typeRole, CLIPMISSING);
     }
 
-    if (m_missingClips.count() > 0) {
+    if (!m_missingClips.isEmpty()) {
         m_ui.infoLabel->setText(i18n("The project file contains missing clips or files"));
     }
-    if (missingProxies.count() > 0) {
+    if (!missingProxies.isEmpty()) {
         if (!m_ui.infoLabel->text().isEmpty()) m_ui.infoLabel->setText(m_ui.infoLabel->text() + ". ");
         m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18n("Missing proxies will be recreated after opening."));
     }
-    if (missingSources.count() > 0) {
+    if (!missingSources.isEmpty()) {
         if (!m_ui.infoLabel->text().isEmpty()) m_ui.infoLabel->setText(m_ui.infoLabel->text() + ". ");
         m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18np("The project file contains a missing clip, you can still work with its proxy.", "The project file contains %1 missing clips, you can still work with their proxies.", missingSources.count()));
     }

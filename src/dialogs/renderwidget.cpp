@@ -1000,7 +1000,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
     // script file
     QFile file(scriptPath);
     int stemCount = playlistPaths.count();
-    bool stemExport = (trackNames.count() > 0);
+    bool stemExport = (!trackNames.isEmpty());
 
     for (int stemIdx = 0; stemIdx < stemCount; stemIdx++) {
         QString dest(destBase);

@@ -804,7 +804,7 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
     QDomNodeList buttons = xml.elementsByTagName(QStringLiteral("button"));
     //qCDebug(KDENLIVE_LOG) << "// LOADING MENU 2" << buttons.count();
 
-    if (buttons.count() > 0) {
+    if (!buttons.isEmpty()) {
         // Clear existing buttons
         foreach (QGraphicsItem *item, m_scene->items()) {
             if (item->type() == DvdButtonItem) {

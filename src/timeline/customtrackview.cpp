@@ -4231,7 +4231,7 @@ void CustomTrackView::deleteSelectedClips()
                 }
             }
             itemList += children;
-            if (clipInfos.count() > 0)
+            if (!clipInfos.isEmpty())
                 new GroupClipsCommand(this, clipInfos, transitionInfos, false, true, deleteSelected);
 
         } else if (itemList.at(i)->parentItem() && itemList.at(i)->parentItem()->type() == GroupWidget)
@@ -4420,7 +4420,7 @@ void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, bo
             if (forceLock || !clip->isItemLocked()) transitionInfos.append(clip->info());
         }
     }
-    if (clipInfos.count() > 0) {
+    if (!clipInfos.isEmpty()) {
         // break previous groups
         QUndoCommand *metaCommand = Q_NULLPTR;
         if (group && !command && !existingGroups.isEmpty()) {

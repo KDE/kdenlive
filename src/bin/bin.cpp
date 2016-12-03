@@ -2545,7 +2545,7 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
             foreach(const QString & path, result) {
                 folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
             }
-            if (folderFiles.count() > 0) {
+            if (!folderFiles.isEmpty()) {
 		QString folderId = slotAddFolder(dir.dirName());
 		QModelIndex ind = getIndexForId(folderId, true);
 		QStringList newFolderInfo;

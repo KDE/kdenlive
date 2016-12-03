@@ -126,7 +126,7 @@ void ClipTranscode::slotStartTransCode()
         source_url->setUrl(QUrl::fromLocalFile(m_urls.takeFirst()));
         destination = dest_url->url().path() + QDir::separator() + source_url->url().fileName();
         QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
-        if (matching.count() > 0) {
+        if (!matching.isEmpty()) {
             matching.at(0)->setFlags(Qt::ItemIsSelectable);
             urls_list->setCurrentItem(matching.at(0));
         }

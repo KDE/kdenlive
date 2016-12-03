@@ -648,7 +648,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     }
     //TODO: find a way to process this before rendering MLT scenelist to xml
     QDomDocument customeffects = initEffects::getUsedCustomEffects(effectIds);
-    if (customeffects.documentElement().childNodes().count() > 0) {
+    if (!customeffects.documentElement().childNodes().isEmpty()) {
 	EffectsList::setProperty(mainPlaylist, QStringLiteral("kdenlive:customeffects"), customeffects.toString());
     }
     //addedXml.appendChild(sceneList.importNode(customeffects.documentElement(), true));
