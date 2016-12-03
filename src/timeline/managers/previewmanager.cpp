@@ -113,7 +113,7 @@ bool PreviewManager::buildPreviewTrack()
 
 void PreviewManager::loadChunks(const QStringList &previewChunks, QStringList dirtyChunks, const QDateTime &documentDate)
 {
-    foreach (const QString frame, previewChunks) {
+    foreach (const QString &frame, previewChunks) {
         const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(frame).arg(m_extension));
         QFile file(fileName);
         if (file.exists()) {
@@ -130,7 +130,7 @@ void PreviewManager::loadChunks(const QStringList &previewChunks, QStringList di
     }
     if (!dirtyChunks.isEmpty()) {
         QList<int> list;
-        foreach(const QString i, dirtyChunks) {
+        foreach(const QString &i, dirtyChunks) {
             list << i.toInt();
         }
         m_ruler->addChunks(list, true);
@@ -473,7 +473,7 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
     }
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     bool ok;
-    foreach(const QString dir, dirs) {
+    foreach(const QString &dir, dirs) {
         if (dir.toInt(&ok) >= ix && ok == true) {
             QDir tmp = m_undoDir;
             if (tmp.cd(dir)) {

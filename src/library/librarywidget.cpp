@@ -145,7 +145,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
         emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(';'), dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(';');
-        foreach(QString data, list) {
+        foreach(const QString &data, list) {
             if (data.startsWith(QLatin1Char('#'))) {
                 // Bin folder, not supported yet
                 continue;
