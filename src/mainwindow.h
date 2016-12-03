@@ -486,7 +486,7 @@ signals:
     void reloadTheme();
     void setPreviewProgress(int);
     void setRenderProgress(int);
-    void displayMessage(const QString, MessageType,int);
+    void displayMessage(const QString &, MessageType,int);
 };
 
 
