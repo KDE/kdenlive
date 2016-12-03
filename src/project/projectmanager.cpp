@@ -255,7 +255,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
 	m_autoSaveTimer.stop();
         if (m_project) {
             pCore->producerQueue()->abortOperations();
-            pCore->bin()->abortAudioThumbs();
+            pCore->bin()->abortOperations();
             pCore->window()->slotTimelineClipSelected(NULL, false);
             pCore->monitorManager()->clipMonitor()->slotOpenClip(NULL);
             pCore->window()->m_effectStack->clear();
