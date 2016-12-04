@@ -2460,6 +2460,7 @@ void RenderWidget::slotUpdateAudioLabel(int ix)
         m_view.export_audio->setText(i18n("Export audio (automatic)"));
     else
         m_view.export_audio->setText(i18n("Export audio"));
+    m_view.stemAudioExport->setEnabled(ix != Qt::Unchecked);
 }
 
 bool RenderWidget::automaticAudioExport() const
@@ -2485,7 +2486,7 @@ bool RenderWidget::proxyRendering()
 bool RenderWidget::isStemAudioExportEnabled() const
 {
     return (m_view.stemAudioExport->isChecked()
-            && m_view.stemAudioExport->isVisible());
+            && m_view.stemAudioExport->isVisible() && m_view.stemAudioExport->isEnabled());
 }
 
 void RenderWidget::setRescaleEnabled(bool enable)
