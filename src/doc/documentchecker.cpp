@@ -87,6 +87,12 @@ bool DocumentChecker::hasErrorInClips()
     for (int i = 0; i < playlists.count(); ++i) {
         if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QStringLiteral("main bin")) {
             QString documentid = EffectsList::property(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"));
+            if (documentid.isEmpty()) {
+                // invalid document id, recreate one
+                documentid = QString::number(QDateTime::currentMSecsSinceEpoch());
+                //TODO: Warn on invalid doc id
+                EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"), documentid);
+            }
             storageFolder = EffectsList::property(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"));
             if (!storageFolder.isEmpty() && !!storageFolder.startsWith(QStringLiteral("/"))) {
                 storageFolder.prepend(root);
