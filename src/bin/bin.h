@@ -647,6 +647,8 @@ public slots:
     void slotGetCurrentProjectImage(bool request);
     void slotExpandUrl(const ItemInfo &info, const QUrl &url, QUndoCommand *command);
     void abortAudioThumbs();
+    /** @brief Abort all ongoing operations to prepare close. */
+    void abortOperations();
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList <QAction*>());
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();

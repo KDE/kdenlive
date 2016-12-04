@@ -4403,21 +4403,31 @@ void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, bo
     // Expand groups
     int max = itemList.count();
     for (int i = 0; i < max; ++i) {
-        if (itemList.at(i)->type() == GroupWidget && itemList.at(i) != m_selectionGroup) {
-            if (!existingGroups.contains(itemList.at(i))) {
-                existingGroups << itemList.at(i);
+        QGraphicsItem *item = itemList.at(i);
+        if (item->type() == GroupWidget && item != m_selectionGroup) {
+            if (!existingGroups.contains(item)) {
+                existingGroups << item;
             }
-            itemList += itemList.at(i)->childItems();
+            itemList += item->childItems();
+        } else if (item->parentItem() && item->parentItem()->type() == GroupWidget) {
+            AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(item->parentItem());
+            itemList += grp->childItems();
         }
     }
-
+    QList <AbstractClipItem *> processedClips;
     for (int i = 0; i < itemList.count(); ++i) {
         if (itemList.at(i)->type() == AVWidget) {
             AbstractClipItem *clip = static_cast <AbstractClipItem *>(itemList.at(i));
-            if (forceLock || !clip->isItemLocked()) clipInfos.append(clip->info());
+            if (!processedClips.contains(clip) && (forceLock || !clip->isItemLocked())) {
+                clipInfos.append(clip->info());
+                processedClips << clip;
+            }
         } else if (itemList.at(i)->type() == TransitionWidget) {
             AbstractClipItem *clip = static_cast <AbstractClipItem *>(itemList.at(i));
-            if (forceLock || !clip->isItemLocked()) transitionInfos.append(clip->info());
+            if (!processedClips.contains(clip) && (forceLock || !clip->isItemLocked())) {
+                transitionInfos.append(clip->info());
+                processedClips << clip;
+            }
         }
     }
     if (!clipInfos.isEmpty()) {
@@ -6240,8 +6250,6 @@ void CustomTrackView::pasteClipEffects()
 void CustomTrackView::adjustKeyfames(GenTime oldstart, GenTime newstart, GenTime duration, QDomElement xml)
 {
     // parse parameters to check if we need to adjust to the new crop start
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();

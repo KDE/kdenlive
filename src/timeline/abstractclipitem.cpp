@@ -530,8 +530,6 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
 void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
 {
     if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     effect.setAttribute(QStringLiteral("active_keyframe"), 0);
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {

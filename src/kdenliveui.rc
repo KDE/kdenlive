@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="148" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="149" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -28,15 +28,6 @@
 	  <ActionList name="transcoders_list" />
       </Menu>
       <Menu name="generators" ><text>Generators</text>
-      </Menu>
-      <Menu name="track_menu" ><text>Tracks</text>
-	<Action name="insert_track" />
-	<Action name="delete_track" />
-	<Action name="config_tracks" />
-	<Separator />
-	<Action name="select_track" />
-	<Action name="select_all_tracks" />
-    <Action name="unselect_all_tracks" />
       </Menu>
       <Separator />
       <Action name="bin_view_mode" />
@@ -136,6 +127,14 @@
       <Action name="save_selection" />
       <Action name="send_library" />
       <Menu name="timeline_tracks" ><text>Tracks</text>
+        <Action name="insert_track" />
+	<Action name="delete_track" />
+	<Action name="config_tracks" />
+	<Separator />
+	<Action name="select_track" />
+	<Action name="select_all_tracks" />
+        <Action name="unselect_all_tracks" />
+        <Separator />
         <Action name="switch_track_lock" />
         <Action name="switch_all_track_lock" />
         <Action name="switch_track_target" />

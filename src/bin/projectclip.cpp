@@ -288,9 +288,13 @@ QDomElement ProjectClip::toXml(QDomDocument& document, bool includeMeta)
 {
     if (m_controller) {
         m_controller->getProducerXML(document, includeMeta);
-        return document.documentElement().firstChildElement(QStringLiteral("producer"));
+        QDomElement prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
+        if (m_type != Unknown) {
+            prod.setAttribute(QStringLiteral("type"), (int) m_type);
+        }
+        return prod;
     } else {
-        // We only have very basic infos, ike id and url, pass them
+        // We only have very basic infos, like id and url, pass them
         QDomElement prod = document.createElement(QStringLiteral("producer"));
         prod.setAttribute(QStringLiteral("id"), m_id);
         EffectsList::setProperty(prod, QStringLiteral("resource"), m_temporaryUrl.path());
@@ -592,6 +596,7 @@ void ProjectClip::setProperties(const QMap <QString, QString> &properties, bool 
     QMap <QString, QString> passProperties;
     bool refreshAnalysis = false;
     bool reload = false;
+    bool refreshOnly = true;
     // Some properties also need to be passed to track producers
     QStringList timelineProperties;
     if (properties.contains(QStringLiteral("templatetext"))) {
@@ -607,6 +612,7 @@ void ProjectClip::setProperties(const QMap <QString, QString> &properties, bool 
         setProducerProperty(i.key(), i.value());
         if (m_type == SlideShow && keys.contains(i.key())) {
             reload = true;
+            refreshOnly = false;
         }
         if (i.key().startsWith(QLatin1String("kdenlive:clipanalysis"))) refreshAnalysis = true;
         if (timelineProperties.contains(i.key())) {
@@ -658,7 +664,7 @@ void ProjectClip::setProperties(const QMap <QString, QString> &properties, bool 
     }
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
-        reloadProducer(true);
+        reloadProducer(refreshOnly);
         bin()->refreshClip(m_id);
     }
     if (!passProperties.isEmpty()) {

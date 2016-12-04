@@ -95,8 +95,6 @@ void EffectsParameterList::removeParam(const QString &name) {
 EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, const QDomElement &effect)
 {
     EffectsParameterList parameters;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     parameters.addParam(QStringLiteral("tag"), effect.attribute(QStringLiteral("tag")));
     //if (effect.hasAttribute("region")) parameters.addParam("region", effect.attribute("region"));
     parameters.addParam(QStringLiteral("kdenlive_ix"), effect.attribute(QStringLiteral("kdenlive_ix")));

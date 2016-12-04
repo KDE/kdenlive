@@ -732,7 +732,6 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, const QDomEleme
 
 void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement &e)
 {
-    QLocale locale;
     QDomElement na = e.firstChildElement(QStringLiteral("name"));
     QString paramName = i18n(na.text().toUtf8().data());
     QDomElement commentElem = e.firstChildElement(QStringLiteral("comment"));

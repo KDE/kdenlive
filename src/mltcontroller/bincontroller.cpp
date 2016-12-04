@@ -180,7 +180,6 @@ QMap<double,QString> BinController::takeGuidesData()
     Mlt::Properties guidesProperties;
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
     guidesProperties.pass_values(playlistProps, "kdenlive:guide.");
-    
     qCDebug(KDENLIVE_LOG)<<"***********\nFOUND GUIDES: "<<guidesProperties.count()<<"\n**********";
     QMap <double,QString> guidesData;
     for (int i = 0; i < guidesProperties.count(); i++) {

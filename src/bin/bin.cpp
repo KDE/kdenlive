@@ -495,22 +495,7 @@ Bin::~Bin()
     blockSignals(true);
     m_proxyModel->selectionModel()->blockSignals(true);
     setEnabled(false);
-    abortAudioThumbs();
-    if (m_propertiesPanel) {
-        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
-            delete w;
-        }
-    }
-    if (m_rootFolder) {
-        while (!m_rootFolder->isEmpty()) {
-            AbstractProjectItem *child = m_rootFolder->at(0);
-            m_rootFolder->removeChild(child);
-            delete child;
-        }
-    }
-    delete m_rootFolder;
-    delete m_itemView;
-    delete m_jobManager;
+    abortOperations();
     delete m_infoMessage;
     delete m_propertiesPanel;
 }
@@ -549,6 +534,31 @@ void Bin::processAudioThumbs()
 {
     if (m_audioThumbsThread.isRunning()) return;
     m_audioThumbsThread = QtConcurrent::run(this, &Bin::slotCreateAudioThumbs);
+}
+
+void Bin::abortOperations()
+{
+    blockSignals(true);
+    abortAudioThumbs();
+    if (m_propertiesPanel) {
+        foreach (QWidget * w, m_propertiesPanel->findChildren<ClipPropertiesController*>()) {
+            delete w;
+        }
+    }
+    if (m_rootFolder) {
+        while (!m_rootFolder->isEmpty()) {
+            AbstractProjectItem *child = m_rootFolder->at(0);
+            m_rootFolder->removeChild(child);
+            delete child;
+        }
+    }
+    delete m_rootFolder;
+    m_rootFolder = NULL;
+    delete m_itemView;
+    m_itemView = NULL;
+    delete m_jobManager;
+    m_jobManager = NULL;
+    blockSignals(false);
 }
 
 void Bin::abortAudioThumbs()
@@ -3358,7 +3368,7 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
         properties.insert(QStringLiteral("loop"), QString::number(dia->loop()));
         properties.insert(QStringLiteral("crop"), QString::number(dia->crop()));
         properties.insert(QStringLiteral("fade"), QString::number(dia->fade()));
-        properties.insert(QStringLiteral("luma_duration"), dia->lumaDuration());
+        properties.insert(QStringLiteral("luma_duration"), QString::number(m_doc->getFramePos(dia->lumaDuration())));
         properties.insert(QStringLiteral("luma_file"), dia->lumaFile());
         properties.insert(QStringLiteral("softness"), QString::number(dia->softness()));
         properties.insert(QStringLiteral("animation"), dia->animation());

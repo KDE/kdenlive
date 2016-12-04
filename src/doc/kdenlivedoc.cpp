@@ -1454,7 +1454,7 @@ void KdenliveDoc::loadDocumentProperties()
 
 void KdenliveDoc::updateProjectProfile(bool reloadProducers)
 {
-    pCore->bin()->abortAudioThumbs();
+    pCore->bin()->abortOperations();
     pCore->producerQueue()->abortOperations();
     KdenliveSettings::setProject_display_ratio((double) m_profile.display_aspect_num / m_profile.display_aspect_den);
     double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;

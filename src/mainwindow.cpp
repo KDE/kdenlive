@@ -3307,15 +3307,16 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         temp.open();
         playlistPath = temp.fileName();
     }
+    int in = 0;
+    int out;
+    if (zoneOnly) {
+        in = pCore->projectManager()->currentTimeline()->inPoint();
+        out = pCore->projectManager()->currentTimeline()->outPoint();
+    } else {
+        out = (int) GenTime(project->projectDuration()).frames(project->fps()) - 2;
+    }
     QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename).path());
     if (!chapterFile.isEmpty()) {
-        int in = 0;
-        int out;
-        if (!zoneOnly) out = (int) GenTime(project->projectDuration()).frames(project->fps());
-        else {
-            in = pCore->projectManager()->currentTimeline()->inPoint();
-            out = pCore->projectManager()->currentTimeline()->outPoint();
-        }
         QDomDocument doc;
         QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
         chapters.setAttribute(QStringLiteral("fps"), project->fps());
@@ -3502,11 +3503,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         }
         file.close();
     }
-    m_renderWidget->slotExport(scriptExport,
-            pCore->projectManager()->currentTimeline()->inPoint(),
-            pCore->projectManager()->currentTimeline()->outPoint(),
-            project->metadata(),
-            playlistPaths, trackNames, scriptPath, exportAudio);
+    m_renderWidget->slotExport(scriptExport, in, out,project->metadata(), playlistPaths, trackNames, scriptPath, exportAudio);
 }
 
 void MainWindow::slotUpdateTimecodeFormat(int ix)

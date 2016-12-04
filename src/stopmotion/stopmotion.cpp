@@ -461,8 +461,6 @@ void StopmotionWidget::slotLive(bool isOn)
     capture_button->setEnabled(false);
     if (isOn) {
         m_frame_preview->setHidden(true);
-        QLocale locale;
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
         MltVideoProfile profile;
         QString resource;

@@ -500,7 +500,6 @@ void ProducerQueue::processFileProperties()
         if (frameNumber > 0) producer->seek(frameNumber);
         duration = duration > 0 ? duration : producer->get_playtime();
         //qCDebug(KDENLIVE_LOG) << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
-
         if (type == SlideShow) {
             int ttl = EffectsList::property(info.xml,QStringLiteral("ttl")).toInt();
             QString anim = EffectsList::property(info.xml,QStringLiteral("animation"));
