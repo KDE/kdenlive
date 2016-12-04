@@ -1147,7 +1147,7 @@ void EffectStackView2::processDroppedEffect(QDomElement e, QDropEvent *event)
     if (e.tagName() == QLatin1String("effectgroup")) {
         // We are dropping a group, all effects in group should be moved
         QDomNodeList effects = e.elementsByTagName(QStringLiteral("effect"));
-        if (effects.count() == 0) {
+        if (effects.isEmpty()) {
             event->ignore();
             return;
         }

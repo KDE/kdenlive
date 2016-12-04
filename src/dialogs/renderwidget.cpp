@@ -1902,7 +1902,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
         replaceLibfaacCodec = true;
     }
 
-    if (editable || groups.count() == 0) {
+    if (editable || groups.isEmpty()) {
         QDomElement profiles = doc.documentElement();
         if (editable && profiles.attribute(QStringLiteral("version"), 0).toInt() < 1) {
             // this is an old profile version, update it

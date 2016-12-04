@@ -830,7 +830,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // check item under mouse
     QList<QGraphicsItem *> collisionList = items(m_clickEvent);
-    if (event->button() == Qt::LeftButton && event->modifiers() == Qt::ControlModifier && m_tool != SpacerTool && collisionList.count() == 0) {
+    if (event->button() == Qt::LeftButton && event->modifiers() == Qt::ControlModifier && m_tool != SpacerTool && collisionList.isEmpty()) {
         // Pressing Ctrl + left mouse button in an empty area scrolls the timeline
         setDragMode(QGraphicsView::ScrollHandDrag);
         m_moveOpMode = ScrollTimeline;
@@ -4198,7 +4198,7 @@ void CustomTrackView::deleteSelectedClips()
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    if (itemList.count() == 0) {
+    if (itemList.isEmpty()) {
         emit displayMessage(i18n("Select clip to delete"), ErrorMessage);
         return;
     }
@@ -6028,7 +6028,7 @@ void CustomTrackView::copyClip()
     m_copiedItems.clear();
     QAction *pasteAction = m_document->getAction(KStandardAction::name(KStandardAction::Paste));
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    if (itemList.count() == 0) {
+    if (itemList.isEmpty()) {
         emit displayMessage(i18n("Select a clip before copying"), ErrorMessage);
         if (pasteAction)
             pasteAction->setEnabled(false);
@@ -6104,7 +6104,7 @@ bool CustomTrackView::canBePasted(const QList<AbstractClipItem *> &items, GenTim
 
 void CustomTrackView::pasteClip()
 {
-    if (m_copiedItems.count() == 0) {
+    if (m_copiedItems.isEmpty()) {
         emit displayMessage(i18n("No clip copied"), ErrorMessage);
         return;
     }

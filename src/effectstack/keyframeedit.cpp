@@ -535,7 +535,7 @@ bool KeyframeEdit::isVisibleParam(const QString& name)
 
 void KeyframeEdit::checkVisibleParam()
 {
-    if (m_params.count() == 0)
+    if (m_params.isEmpty())
         return;
     foreach(const QDomElement &elem, m_params) {
         if (elem.attribute(QStringLiteral("intimeline")) == QLatin1String("1"))

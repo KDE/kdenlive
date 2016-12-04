@@ -296,7 +296,7 @@ KdenliveDoc::~KdenliveDoc()
         documentId.toLong(&ok);
         if (ok && !documentId.isEmpty()) {
             QDir baseCache = getCacheDir(CacheBase, &ok);
-            if (baseCache.dirName() == documentId && baseCache.entryList(QDir::Files).count() == 0) {
+            if (baseCache.dirName() == documentId && baseCache.entryList(QDir::Files).isEmpty()) {
                 baseCache.removeRecursively();
             }
         }
