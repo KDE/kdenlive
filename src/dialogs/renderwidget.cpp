@@ -1106,14 +1106,13 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                 zoneOut /= ratio;
             }
         }
-
-        if (m_view.render_zone->isChecked()) {
-            render_process_args << "in=" + QString::number(zoneIn) << "out=" + QString::number(zoneOut);
-        } else if (m_view.render_guide->isChecked()) {
+        if (m_view.render_guide->isChecked()) {
             double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
             double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
             double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
             render_process_args << "in=" + QString::number((int) GenTime(guideStart).frames(fps)) << "out=" + QString::number((int) GenTime(guideEnd).frames(fps));
+        } else {
+            render_process_args << "in=" + QString::number(zoneIn) << "out=" + QString::number(zoneOut);
         }
 
         if (!overlayargs.isEmpty())
