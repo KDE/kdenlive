@@ -1927,8 +1927,8 @@ void MainWindow::connectDocument()
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), m_effectStack, SLOT(slotTransitionItemSelected(Transition*,int,QPoint,bool)), Qt::DirectConnection);
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*,int,QPoint,bool)), this, SLOT(slotActivateTransitionView(Transition*)));
-    connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
-    connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
+    connect(trackView->projectView(), SIGNAL(zoomIn(bool)), this, SLOT(slotZoomIn(bool)));
+    connect(trackView->projectView(), SIGNAL(zoomOut(bool)), this, SLOT(slotZoomOut(bool)));
     connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
     connect(trackView, SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
     connect(trackView->projectView(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
@@ -2640,15 +2640,15 @@ void MainWindow::slotAddVideoEffect(QAction *result)
 }
 
 
-void MainWindow::slotZoomIn()
+void MainWindow::slotZoomIn(bool zoomOnMouse)
 {
-    m_zoomSlider->setValue(m_zoomSlider->value() - 1);
+    slotSetZoom(m_zoomSlider->value() - 1, zoomOnMouse);
     slotShowZoomSliderToolTip();
 }
 
-void MainWindow::slotZoomOut()
+void MainWindow::slotZoomOut(bool zoomOnMouse)
 {
-    m_zoomSlider->setValue(m_zoomSlider->value() + 1);
+    slotSetZoom(m_zoomSlider->value() + 1, zoomOnMouse);
     slotShowZoomSliderToolTip();
 }
 
@@ -2661,13 +2661,12 @@ void MainWindow::slotFitZoom()
     }
 }
 
-void MainWindow::slotSetZoom(int value)
+void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
 {
-    value = qMax(m_zoomSlider->minimum(), value);
-    value = qMin(m_zoomSlider->maximum(), value);
+    value = qBound(m_zoomSlider->minimum(), value, m_zoomSlider->maximum());
 
     if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->slotChangeZoom(value);
+        pCore->projectManager()->currentTimeline()->slotChangeZoom(value, -1, zoomOnMouse);
     }
 
     m_zoomOut->setEnabled(value < m_zoomSlider->maximum());

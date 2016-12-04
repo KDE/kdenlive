@@ -191,7 +191,7 @@ public:
 
 public slots:
     void slotDeleteClip(const QString &clipId, QUndoCommand *deleteCommand);
-    void slotChangeZoom(int horizontal, int vertical = -1);
+    void slotChangeZoom(int horizontal, int vertical = -1, bool zoomOnMouse = false);
     void setDuration(int dur);
     void slotSetZone(const QPoint &p, bool updateDocumentProperties = true);
     /** @brief Save a snapshot image of current timeline view */

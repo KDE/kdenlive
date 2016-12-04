@@ -195,7 +195,7 @@ void CustomTrackView::initTools()
     m_toolManagers.insert(AbstractToolManager::TrimType, trim);
     m_toolManagers.insert(AbstractToolManager::SpacerType, new SpacerManager(this, m_commandStack));
     m_toolManagers.insert(AbstractToolManager::ResizeType, new ResizeManager(this, m_commandStack));
-    
+
     AbstractToolManager *razorManager = new RazorManager(this, m_commandStack);
     m_toolManagers.insert(AbstractToolManager::RazorType, razorManager);
     connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), razorManager, SLOT(updateTimelineItems()));
@@ -410,8 +410,8 @@ void CustomTrackView::wheelEvent(QWheelEvent * e)
 {
     if (e->modifiers() == Qt::ControlModifier) {
         if (m_moveOpMode == None || m_moveOpMode == WaitingForConfirm || m_moveOpMode == ZoomTimeline) {
-            if (e->delta() > 0) emit zoomIn();
-            else emit zoomOut();
+            if (e->delta() > 0) emit zoomIn(true);
+            else emit zoomOut(true);
         }
     } else if (e->modifiers() == Qt::AltModifier) {
         if (m_moveOpMode == None || m_moveOpMode == WaitingForConfirm || m_moveOpMode == ZoomTimeline) {
@@ -5854,10 +5854,11 @@ void CustomTrackView::setTool(ProjectTool tool)
     m_currentToolManager->initTool(m_tracksHeight * m_scene->scale().y());
 }
 
-void CustomTrackView::setScale(double scaleFactor, double verticalScale)
+void CustomTrackView::setScale(double scaleFactor, double verticalScale, bool zoomOnMouse)
 {
 
     QMatrix newmatrix;
+    int lastMousePos = getMousePos();
     newmatrix = newmatrix.scale(scaleFactor, verticalScale);
     m_scene->isZooming = true;
     m_scene->setScale(scaleFactor, verticalScale);
@@ -5900,7 +5901,14 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
             setSceneRect(0, 0, (m_projectDuration + 300), sceneRect().height());
     }
     double verticalPos = mapToScene(QPoint(0, viewport()->height() / 2)).y();
-    centerOn(QPointF(cursorPos(), verticalPos));
+    if (zoomOnMouse) {
+        // Zoom on mouse position
+        centerOn(QPointF(lastMousePos, verticalPos));
+        int diff = scaleFactor * (getMousePos() - lastMousePos);
+        horizontalScrollBar()->setValue(horizontalScrollBar()->value() - diff);
+    } else {
+        centerOn(QPointF(cursorPos(), verticalPos));
+    }
     m_currentToolManager->updateTimelineItems();
     m_scene->isZooming = false;
 }

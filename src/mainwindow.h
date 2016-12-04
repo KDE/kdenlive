@@ -298,11 +298,11 @@ private slots:
     /** @brief Sets the timeline zoom slider to @param value.
     *
     * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
-    void slotSetZoom(int value);
+    void slotSetZoom(int value, bool zoomOnMouse = false);
     /** @brief Decreases the timeline zoom level by 1. */
-    void slotZoomIn();
+    void slotZoomIn(bool zoomOnMouse = false);
     /** @brief Increases the timeline zoom level by 1. */
-    void slotZoomOut();
+    void slotZoomOut(bool zoomOnMouse = false);
     /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();
     /** @brief Updates the zoom slider tooltip to fit @param zoomlevel. */
