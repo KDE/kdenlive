@@ -63,7 +63,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
 
     m_effect = new EffectSettings(this);
     m_transition = new TransitionSettings(projectMonitor, this);
-    connect(m_transition, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)));
+    connect(m_transition, SIGNAL(importClipKeyframes(GraphicsRectItem,ItemInfo,QDomElement,QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem,ItemInfo,QDomElement,QMap<QString,QString>)));
     connect(m_effect->checkAll, &QCheckBox::stateChanged, this, &EffectStackView2::slotCheckAll);
     connect(m_effect->effectCompare, &QToolButton::toggled, this, &EffectStackView2::slotSwitchCompare);
 
@@ -459,7 +459,7 @@ void EffectStackView2::connectEffect(CollapsibleEffect *currentEffect)
     connect(currentEffect, &AbstractCollapsibleWidget::addEffect, this , &EffectStackView2::slotAddEffect);
     connect(currentEffect, &CollapsibleEffect::createRegion, this, &EffectStackView2::slotCreateRegion);
     connect(currentEffect, &CollapsibleEffect::deleteGroup, this , &EffectStackView2::slotDeleteGroup);
-    connect(currentEffect, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString>)));
+    connect(currentEffect, SIGNAL(importClipKeyframes(GraphicsRectItem,ItemInfo,QDomElement,QMap<QString,QString>)), this, SIGNAL(importClipKeyframes(GraphicsRectItem,ItemInfo,QDomElement,QMap<QString,QString>)));
 }
 
 void EffectStackView2::slotCheckWheelEventFilter()

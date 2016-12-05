@@ -310,7 +310,7 @@ public:
     GenTime time() const;
     /** @brief Returns a string containing infos needed to store marker info. string equals marker type + ":" + marker comment */
     QString hash() const;
-    void    setComment(const QString &comm);
+    void setComment(const QString &comm);
     void setMarkerType(int t);
     int markerType() const;
     static QColor markerColor(int type);

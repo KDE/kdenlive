@@ -61,7 +61,7 @@ LibraryTree::LibraryTree(QWidget *parent) : QTreeWidget(parent)
 //virtual
 QMimeData * LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
-    QList <QUrl> urls;
+    QList<QUrl> urls;
     foreach(QTreeWidgetItem *item, list) {
         urls << QUrl::fromLocalFile(item->data(0, Qt::UserRole).toString());
     }
@@ -139,7 +139,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
         }
     }
     if (qMimeData->hasUrls()) {
-        QList <QUrl> urls = qMimeData->urls();
+        QList<QUrl> urls = qMimeData->urls();
         emit moveData(urls, dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/clip"))) {
         emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(';'), dest);
@@ -218,7 +218,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
 
     m_coreLister = new KCoreDirLister(this);
     m_coreLister->setDelayedMimeTypes(false);
-    connect(m_coreLister, SIGNAL(itemsAdded(const QUrl &, const KFileItemList &)), this, SLOT(slotItemsAdded (const QUrl &, const KFileItemList &)));
+    connect(m_coreLister, SIGNAL(itemsAdded(QUrl,KFileItemList)), this, SLOT(slotItemsAdded(QUrl,KFileItemList)));
     connect(m_coreLister, &KCoreDirLister::itemsDeleted, this, &LibraryWidget::slotItemsDeleted);
     connect(m_coreLister, SIGNAL(clear()), this, SLOT(slotClearAll()));
     m_coreLister->openUrl(QUrl::fromLocalFile(m_directory.absolutePath()));
@@ -292,7 +292,7 @@ void LibraryWidget::slotAddToProject()
 {
     QTreeWidgetItem *current = m_libraryTree->currentItem();
     if (!current) return;
-    QList <QUrl> list;
+    QList<QUrl> list;
     list << QUrl::fromLocalFile(current->data(0, Qt::UserRole).toString());
     emit addProjectClips(list);
 }
@@ -407,7 +407,7 @@ void LibraryWidget::slotMoveData(const QList<QUrl> &urls, QString dest)
             // Dropped an external file, attempt to copy it to library
             KIO::FileCopyJob *copyJob = KIO::file_copy(url, QUrl::fromLocalFile(dir.absoluteFilePath(url.fileName())));
             connect(copyJob, &KJob::result, this, &LibraryWidget::slotDownloadFinished);
-            connect(copyJob, SIGNAL(percent(KJob *, unsigned long)), this, SLOT(slotDownloadProgress(KJob *, unsigned long)));
+            connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotDownloadProgress(KJob*,ulong)));
         } else {
             // Internal drag/drop
             dir.rename(url.path(), url.fileName());

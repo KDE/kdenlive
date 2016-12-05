@@ -205,7 +205,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id == Kdenlive::ClipMonitor) {
         // Add options for recording
         m_recManager = new RecManager(this);
-        connect(m_recManager, SIGNAL(warningMessage(QString,int,QList <QAction*>)), this, SLOT(warningMessage(QString,int,QList <QAction*>)));
+        connect(m_recManager, SIGNAL(warningMessage(QString,int,QList<QAction*>)), this, SLOT(warningMessage(QString,int,QList<QAction*>)));
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
     }
 

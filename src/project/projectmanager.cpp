@@ -101,7 +101,7 @@ void ProjectManager::slotLoadOnOpen()
 
     if (!m_loadClipsOnOpen.isEmpty() && m_project) {
         QStringList list = m_loadClipsOnOpen.split(',');
-        QList <QUrl> urls;
+        QList<QUrl> urls;
         foreach(const QString &path, list) {
             //qCDebug(KDENLIVE_LOG) << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
@@ -199,7 +199,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     // Set default target tracks to upper audio / lower video tracks
     m_trackView->audioTarget = projectTracks.y() > 0 ? projectTracks.y() : -1;
     m_trackView->videoTarget = projectTracks.x() > 0 ? projectTracks.y() + 1 : -1;
-    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand*)), Qt::DirectConnection);
+    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo,QUrl,QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo,QUrl,QUndoCommand*)), Qt::DirectConnection);
 
     m_trackView->loadTimeline();
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());
@@ -563,7 +563,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->videoTarget = doc->getDocumentProperty(QStringLiteral("videotargettrack"), QStringLiteral("-1")).toInt();
     m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
-    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand*)), Qt::DirectConnection);
+    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo,QUrl,QUndoCommand*)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo,QUrl,QUndoCommand*)), Qt::DirectConnection);
     pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
@@ -798,7 +798,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
     // Move tmp folder (thumbnails, timeline preview)
     KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src),QUrl::fromLocalFile(dest));
     connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
-    connect(copyJob, SIGNAL(percent(KJob *, unsigned long)), this, SLOT(slotMoveProgress(KJob *, unsigned long)));
+    connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotMoveProgress(KJob*,ulong)));
     m_project->moveProjectData(src, dest);
 }
 

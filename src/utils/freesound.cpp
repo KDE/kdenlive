@@ -47,8 +47,8 @@ FreeSound::FreeSound(QListWidget *listWidget, QObject *parent) :
     hasPreview = true;
     hasMetadata = true;
 
-    connect (m_previewProcess ,SIGNAL (error(QProcess::ProcessError )),this,SLOT(slotPreviewErrored(QProcess::ProcessError)));
-    connect (m_previewProcess ,SIGNAL (finished(int , QProcess::ExitStatus )),this,SLOT(slotPreviewFinished(int , QProcess::ExitStatus)));
+    connect (m_previewProcess ,SIGNAL (error(QProcess::ProcessError)),this,SLOT(slotPreviewErrored(QProcess::ProcessError)));
+    connect (m_previewProcess ,SIGNAL (finished(int,QProcess::ExitStatus)),this,SLOT(slotPreviewFinished(int,QProcess::ExitStatus)));
 }
 
 FreeSound::~FreeSound()

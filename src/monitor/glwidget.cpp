@@ -208,7 +208,7 @@ void GLWidget::initializeGL()
     else
         connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
 #else
-    connect(m_frameRenderer, SIGNAL(frameDisplayed(const SharedFrame&)), SLOT(onFrameDisplayed(const SharedFrame&)), Qt::QueuedConnection);
+    connect(m_frameRenderer, SIGNAL(frameDisplayed(SharedFrame)), SLOT(onFrameDisplayed(SharedFrame)), Qt::QueuedConnection);
 #endif
 
     connect(m_frameRenderer, &FrameRenderer::audioSamplesSignal, this, &GLWidget::audioSamplesSignal, Qt::QueuedConnection);

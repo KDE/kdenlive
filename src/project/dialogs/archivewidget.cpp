@@ -98,7 +98,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     
     // process all files
     QStringList allFonts;
-    QList <QUrl> fileUrls;
+    QList<QUrl> fileUrls;
     QStringList fileNames;
     QStringList extraImageUrls;
     QStringList otherUrls;
@@ -520,7 +520,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         proxy_only->setEnabled(false);
         compressed_archive->setEnabled(false);
     }
-    QList <QUrl> files;
+    QList<QUrl> files;
     QUrl destUrl;
     QString destPath;
     QTreeWidgetItem *parentItem;

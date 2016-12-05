@@ -1168,7 +1168,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QMimeDatabase db;
             QMimeType mime = db.mimeTypeForFile(dest);
             KService::Ptr serv =  KMimeTypeTrader::self()->preferredService(mime.name());
-            KIO::DesktopExecParser parser(*serv, QList <QUrl>() << QUrl::fromLocalFile(QUrl::toPercentEncoding(dest)));
+            KIO::DesktopExecParser parser(*serv, QList<QUrl>() << QUrl::fromLocalFile(QUrl::toPercentEncoding(dest)));
             render_process_args << parser.resultingArguments().join(QStringLiteral(" "));
         } else {
             render_process_args << QStringLiteral("-");

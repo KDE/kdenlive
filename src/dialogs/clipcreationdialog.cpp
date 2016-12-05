@@ -405,7 +405,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             list.removeAll(file);
             QDir dir(file.path());
             QStringList result = dir.entryList(QDir::Files);
-            QList <QUrl> folderFiles;
+            QList<QUrl> folderFiles;
             folderFiles << file;
             foreach(const QString & path, result) {
                 // TODO: create folder command
@@ -493,7 +493,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
 
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin)
 {
-    QList <QUrl> list;
+    QList<QUrl> list;
     QString allExtensions = getExtensions().join(QStringLiteral(" "));
     QString dialogFilter = allExtensions + "|" + i18n("All Supported Files") + "\n*|" + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));

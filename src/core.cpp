@@ -62,7 +62,7 @@ void Core::initialize()
     m_binWidget = new Bin();
     m_binController = new BinController();
     m_library = new LibraryWidget(m_projectManager);
-    connect(m_library, SIGNAL(addProjectClips(QList <QUrl>)), m_binWidget, SLOT(droppedUrls(QList <QUrl>)));
+    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_binWidget, SIGNAL(storeFolder(QString,QString,QString,QString)), m_binController, SLOT(slotStoreFolder(QString,QString,QString,QString)));
     connect(m_binController, SIGNAL(loadFolders(QMap<QString,QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString,QString>)));
@@ -72,10 +72,10 @@ void Core::initialize()
     m_monitorManager = new MonitorManager(this);
     // Producer queue, creating MLT::Producers on request
     m_producerQueue = new ProducerQueue(m_binController);
-    connect(m_producerQueue, SIGNAL(gotFileProperties(requestClipInfo,ClipController *)), m_binWidget, SLOT(slotProducerReady(requestClipInfo,ClipController *)), Qt::DirectConnection);
+    connect(m_producerQueue, SIGNAL(gotFileProperties(requestClipInfo,ClipController*)), m_binWidget, SLOT(slotProducerReady(requestClipInfo,ClipController*)), Qt::DirectConnection);
     connect(m_producerQueue, &ProducerQueue::replyGetImage, m_binWidget, &Bin::slotThumbnailReady);
     connect(m_producerQueue, &ProducerQueue::removeInvalidClip, m_binWidget, &Bin::slotRemoveInvalidClip, Qt::DirectConnection);
-    connect(m_producerQueue, SIGNAL(addClip(const QString&,const QMap<QString,QString>&)), m_binWidget, SLOT(slotAddUrl(const QString&,const QMap<QString,QString>&)));
+    connect(m_producerQueue, SIGNAL(addClip(QString,QMap<QString,QString>)), m_binWidget, SLOT(slotAddUrl(QString,QMap<QString,QString>)));
     connect(m_binController, SIGNAL(createThumb(QDomElement,QString,int)), m_producerQueue, SLOT(getFileProperties(QDomElement,QString,int)));
     connect(m_binWidget, &Bin::producerReady, m_producerQueue, &ProducerQueue::slotProcessingDone, Qt::DirectConnection);
 

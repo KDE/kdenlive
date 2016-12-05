@@ -365,14 +365,14 @@ Bin::Bin(QWidget* parent) :
 
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel);
-    connect(m_itemModel, SIGNAL(dataChanged(const QModelIndex&,const QModelIndex&)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex&,const
+    connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex&,const
     QModelIndex&)));
     connect(m_itemModel, &QAbstractItemModel::rowsInserted, this, &Bin::rowsInserted);
     connect(m_itemModel, &QAbstractItemModel::rowsRemoved, this, &Bin::rowsRemoved);
     connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
-    connect(m_itemModel, SIGNAL(itemDropped(QStringList, const QModelIndex &)), this, SLOT(slotItemDropped(QStringList, const QModelIndex &)));
-    connect(m_itemModel, SIGNAL(itemDropped(const QList<QUrl>&, const QModelIndex &)), this, SLOT(slotItemDropped(const QList<QUrl>&, const QModelIndex &)));
-    connect(m_itemModel, SIGNAL(effectDropped(QString, const QModelIndex &)), this, SLOT(slotEffectDropped(QString, const QModelIndex &)));
+    connect(m_itemModel, SIGNAL(itemDropped(QStringList,QModelIndex)), this, SLOT(slotItemDropped(QStringList,QModelIndex)));
+    connect(m_itemModel, SIGNAL(itemDropped(QList<QUrl>,QModelIndex)), this, SLOT(slotItemDropped(QList<QUrl>,QModelIndex)));
+    connect(m_itemModel, SIGNAL(effectDropped(QString,QModelIndex)), this, SLOT(slotEffectDropped(QString,QModelIndex)));
     connect(m_itemModel, &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
     connect(m_itemModel, &ProjectItemModel::addClipCut, this, &Bin::slotAddClipCut);
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
@@ -975,7 +975,7 @@ void Bin::setMonitor(Monitor *monitor)
     connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
     connect(m_monitor, SIGNAL(requestAudioThumb(QString)), this, SLOT(slotSendAudioThumb(QString)));
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
-    connect(m_monitor, SIGNAL(updateClipMarker(QString, QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+    connect(m_monitor, SIGNAL(updateClipMarker(QString,QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
     connect(this, &Bin::openClip, m_monitor, &Monitor::slotOpenClip);
 }
 
@@ -1025,7 +1025,7 @@ void Bin::setDocument(KdenliveDoc* project)
     setEnabled(true);
     blockSignals(false);
     m_proxyModel->selectionModel()->blockSignals(false);
-    connect(m_jobManager, SIGNAL(addClip(QString, int)), this, SLOT(slotAddUrl(QString,int)));
+    connect(m_jobManager, SIGNAL(addClip(QString,int)), this, SLOT(slotAddUrl(QString,int)));
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
     connect(m_jobManager, &JobManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
     connect(m_discardCurrentClipJobs, &QAction::triggered, m_jobManager, &JobManager::slotDiscardClipJobs);
@@ -1045,7 +1045,7 @@ void Bin::setDocument(KdenliveDoc* project)
 
 void Bin::slotAddUrl(const QString &url, int folderId, const QMap <QString, QString> &data)
 {
-    QList <QUrl>urls;
+    QList<QUrl>urls;
     urls << QUrl::fromLocalFile(url);
     QStringList folderInfo;
     if (folderId >= 0) {
@@ -1061,7 +1061,7 @@ void Bin::slotAddUrl(const QString &url, int folderId, const QMap <QString, QStr
 
 void Bin::slotAddUrl(const QString &url, const QMap <QString, QString> &data)
 {
-    QList <QUrl>urls;
+    QList<QUrl>urls;
     urls << QUrl::fromLocalFile(url);
     QStringList folderInfo = getFolderInfo();
     ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, data);
@@ -1830,7 +1830,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
     connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
     connect(this, &Bin::refreshPanelMarkers, panel, &ClipPropertiesController::slotFillMarkers);
-    connect(panel, SIGNAL(updateClipProperties(const QString &, QMap<QString, QString>, QMap<QString, QString>)), this, SLOT(slotEditClipCommand(const QString &, QMap<QString, QString>, QMap<QString, QString>)));
+    connect(panel, SIGNAL(updateClipProperties(QString,QMap<QString,QString>,QMap<QString,QString>)), this, SLOT(slotEditClipCommand(QString,QMap<QString,QString>,QMap<QString,QString>)));
     connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
     connect(panel, SIGNAL(addMarkers(QString,QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
@@ -2507,7 +2507,7 @@ void Bin::doMoveFolder(const QString &id, const QString &newParentId)
     emit storeFolder(id, newParent->clipId(), currentParent->clipId(), currentItem->name());
 }
 
-void Bin::droppedUrls(const QList <QUrl> &urls, const QStringList &folderInfo)
+void Bin::droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo)
 {
     QModelIndex current;
     if (folderInfo.isEmpty()) {
@@ -2521,7 +2521,7 @@ void Bin::droppedUrls(const QList <QUrl> &urls, const QStringList &folderInfo)
 
 void Bin::slotAddClipToProject(const QUrl &url)
 {
-    QList <QUrl> urls;
+    QList<QUrl> urls;
     urls << url;
     QModelIndex current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
     slotItemDropped(urls, current);
@@ -2541,7 +2541,7 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
         }
     }
     //TODO: verify if urls exist
-    QList <QUrl> clipsToAdd = urls;
+    QList<QUrl> clipsToAdd = urls;
     QMimeDatabase db;
     foreach(const QUrl & file, clipsToAdd) {
         // Check there is no folder here
@@ -2551,7 +2551,7 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
             clipsToAdd.removeAll(file);
             QDir dir(file.path());
             QStringList result = dir.entryList(QDir::Files);
-            QList <QUrl> folderFiles;
+            QList<QUrl> folderFiles;
             foreach(const QString & path, result) {
                 folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
             }
