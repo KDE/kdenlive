@@ -32,15 +32,15 @@
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
 
-AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps) :
-        QObject()
-        , QGraphicsRectItem(rect)
-        , m_info(info)
-        , m_visibleParam(0)
-        , m_selectedEffect(-1)
-        , m_fps(fps)
-        , m_isMainSelectedClip(false)
-	, m_keyframeView(QFontInfo(QApplication::font()).pixelSize() * 0.7, this)
+AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF &rect, double fps) :
+    QObject()
+    , QGraphicsRectItem(rect)
+    , m_info(info)
+    , m_visibleParam(0)
+    , m_selectedEffect(-1)
+    , m_fps(fps)
+    , m_isMainSelectedClip(false)
+    , m_keyframeView(QFontInfo(QApplication::font()).pixelSize() * 0.7, this)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -108,7 +108,9 @@ QAction *AbstractClipItem::parseKeyframeActions(const QList <QAction *> &list)
 
 void AbstractClipItem::closeAnimation()
 {
-    if (!isEnabled()) return;
+    if (!isEnabled()) {
+        return;
+    }
     setEnabled(false);
     setFlag(QGraphicsItem::ItemIsSelectable, false);
     if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, 0, QApplication::activeWindow())) {
@@ -175,8 +177,9 @@ void AbstractClipItem::updateItem(int track)
 {
     m_info.track = track;
     m_info.startPos = GenTime((int) scenePos().x(), m_fps);
-    if (m_info.cropDuration > GenTime())
-	m_info.endPos = m_info.startPos + m_info.cropDuration;
+    if (m_info.cropDuration > GenTime()) {
+        m_info.endPos = m_info.startPos + m_info.cropDuration;
+    }
 }
 
 void AbstractClipItem::updateRectGeometry()
@@ -202,8 +205,9 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
     bool negCropStart = false;
     if (type() == AVWidget) {
         m_info.cropStart += durationDiff;
-        if (m_info.cropStart < GenTime())
+        if (m_info.cropStart < GenTime()) {
             negCropStart = true;
+        }
     }
     m_info.cropDuration -= durationDiff;
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
@@ -212,21 +216,25 @@ void AbstractClipItem::resizeStart(int posx, bool hasSizeLimit, bool /*emitChang
     if (m_info.startPos != GenTime(posx, m_fps)) {
         GenTime diff = m_info.startPos - GenTime(posx, m_fps);
 
-        if (type() == AVWidget)
+        if (type() == AVWidget) {
             m_info.cropStart += diff;
+        }
 
         m_info.cropDuration -= diff;
         setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     }
     // set crop from start to 0 (isn't relevant as this only happens for color clips, images)
-    if (negCropStart)
+    if (negCropStart) {
         m_info.cropStart = GenTime();
+    }
 }
 
 void AbstractClipItem::resizeEnd(int posx, bool /*emitChange*/)
 {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
-    if (durationDiff == GenTime()) return;
+    if (durationDiff == GenTime()) {
+        return;
+    }
     if (cropDuration() + durationDiff <= GenTime()) {
         durationDiff = GenTime() - (cropDuration() - GenTime(3, m_fps));
     }
@@ -239,17 +247,21 @@ void AbstractClipItem::resizeEnd(int posx, bool /*emitChange*/)
         QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
         bool fixItem = false;
         for (int i = 0; i < collisionList.size(); ++i) {
-            if (!collisionList.at(i)->isEnabled()) continue;
+            if (!collisionList.at(i)->isEnabled()) {
+                continue;
+            }
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == type() && item->pos().x() > pos().x()) {
-                GenTime diff = static_cast<AbstractClipItem*>(item)->startPos() - startPos();
+                GenTime diff = static_cast<AbstractClipItem *>(item)->startPos() - startPos();
                 if (fixItem == false || diff < m_info.cropDuration) {
                     fixItem = true;
                     m_info.cropDuration = diff;
                 }
             }
         }
-        if (fixItem) setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
+        if (fixItem) {
+            setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
+        }
     }
 }
 
@@ -275,21 +287,24 @@ GenTime AbstractClipItem::maxDuration() const
     return m_maxDuration;
 }
 
-CustomTrackScene* AbstractClipItem::projectScene()
+CustomTrackScene *AbstractClipItem::projectScene()
 {
-    if (scene())
-        return static_cast <CustomTrackScene*>(scene());
+    if (scene()) {
+        return static_cast <CustomTrackScene *>(scene());
+    }
     return Q_NULLPTR;
 }
 
 void AbstractClipItem::setItemLocked(bool locked)
 {
-    if (locked)
+    if (locked) {
         setSelected(false);
+    }
 
     // Allow move only if not in a group
-    if (locked || parentItem() == Q_NULLPTR)
+    if (locked || parentItem() == Q_NULLPTR) {
         setFlag(QGraphicsItem::ItemIsMovable, !locked);
+    }
     setFlag(QGraphicsItem::ItemIsSelectable, !locked);
 }
 
@@ -299,7 +314,7 @@ bool AbstractClipItem::isItemLocked() const
 }
 
 // virtual
-void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
+void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->modifiers() & Qt::ShiftModifier) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
@@ -310,7 +325,7 @@ void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
 }
 
 // virtual
-void AbstractClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
+void AbstractClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->modifiers() & Qt::ControlModifier) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
@@ -320,7 +335,7 @@ void AbstractClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
     }
 }
 
-void AbstractClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+void AbstractClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->buttons() !=  Qt::LeftButton || event->modifiers() & Qt::ControlModifier) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
@@ -347,7 +362,9 @@ int AbstractClipItem::itemOffset()
 
 void AbstractClipItem::setMainSelectedClip(bool selected)
 {
-    if (selected == m_isMainSelectedClip) return;
+    if (selected == m_isMainSelectedClip) {
+        return;
+    }
     m_isMainSelectedClip = selected;
     update();
 }
@@ -360,10 +377,12 @@ bool AbstractClipItem::isMainSelectedClip()
 int AbstractClipItem::trackForPos(int position)
 {
     int track = 1;
-    if (!scene() || scene()->views().isEmpty()) return track;
-    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
+    if (!scene() || scene()->views().isEmpty()) {
+        return track;
+    }
+    CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);
     if (view) {
-	track = view->getTrackFromPos(position);
+        track = view->getTrackFromPos(position);
     }
     return track;
 }
@@ -371,10 +390,12 @@ int AbstractClipItem::trackForPos(int position)
 int AbstractClipItem::posForTrack(int track)
 {
     int pos = 0;
-    if (!scene() || scene()->views().isEmpty()) return pos;
-    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
+    if (!scene() || scene()->views().isEmpty()) {
+        return pos;
+    }
+    CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);
     if (view) {
-	pos = view->getPositionFromTrack(track) + 1;
+        pos = view->getPositionFromTrack(track) + 1;
     }
     return pos;
 }
@@ -384,10 +405,12 @@ void AbstractClipItem::attachKeyframeToEnd(const QDomElement &effect, bool attac
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (e.isNull()) continue;
+        if (e.isNull()) {
+            continue;
+        }
         QString paramName = e.attribute(QStringLiteral("name"));
         if (m_keyframeView.activeParam(paramName) && e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-	    m_keyframeView.attachKeyframeToEnd(attach);
+            m_keyframeView.attachKeyframeToEnd(attach);
             e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
     }
@@ -398,10 +421,12 @@ void AbstractClipItem::editKeyframeType(const QDomElement &effect, int type)
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (e.isNull()) continue;
+        if (e.isNull()) {
+            continue;
+        }
         QString paramName = e.attribute(QStringLiteral("name"));
         if (m_keyframeView.activeParam(paramName) && e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
-	    m_keyframeView.editKeyframeType(type);
+            m_keyframeView.editKeyframeType(type);
             e.setAttribute(QStringLiteral("value"), m_keyframeView.serialize());
         }
     }
@@ -409,57 +434,67 @@ void AbstractClipItem::editKeyframeType(const QDomElement &effect, int type)
 
 void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, int pos, double val, bool defaultValue)
 {
-    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
+    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) {
+        return;
+    }
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     effect.setAttribute(QStringLiteral("active_keyframe"), pos);
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (e.isNull()) continue;
+        if (e.isNull()) {
+            continue;
+        }
         QString paramName = e.attribute(QStringLiteral("name"));
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             if (!m_keyframeView.activeParam(paramName)) {
                 continue;
             }
-	    if (defaultValue) {
-		m_keyframeView.addDefaultKeyframe(profile, pos, m_keyframeView.type(pos));
-	    } else {
-		m_keyframeView.addKeyframe(pos, val, m_keyframeView.type(pos));
-	    }
-	    // inserting a keyframe touches all animated params
-	    for (int j = 0; j < params.count(); ++j) {
+            if (defaultValue) {
+                m_keyframeView.addDefaultKeyframe(profile, pos, m_keyframeView.type(pos));
+            } else {
+                m_keyframeView.addKeyframe(pos, val, m_keyframeView.type(pos));
+            }
+            // inserting a keyframe touches all animated params
+            for (int j = 0; j < params.count(); ++j) {
                 QDomElement f = params.item(j).toElement();
-                if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect"))
+                if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
                     continue;
+                }
                 f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")), f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
             }
-        }
-        else if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")
-            || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")
+                   || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
             bool added = false;
-            foreach(const QString &str, keyframes) {
+            foreach (const QString &str, keyframes) {
                 int kpos = str.section('=', 0, 0).toInt();
                 double newval = locale.toDouble(str.section('=', 1, 1));
                 if (kpos < pos) {
                     newkfr.append(str);
                 } else if (!added) {
-                    if (i == m_visibleParam)
+                    if (i == m_visibleParam) {
                         newkfr.append(QString::number(pos) + '=' + QString::number((int)val));
-                    else
+                    } else {
                         newkfr.append(QString::number(pos) + '=' + locale.toString(newval));
-                    if (kpos > pos) newkfr.append(str);
+                    }
+                    if (kpos > pos) {
+                        newkfr.append(str);
+                    }
                     added = true;
-                } else newkfr.append(str);
+                } else {
+                    newkfr.append(str);
+                }
             }
             if (!added) {
-                if (i == m_visibleParam)
+                if (i == m_visibleParam) {
                     newkfr.append(QString::number(pos) + '=' + QString::number((int)val));
-                else
+                } else {
                     newkfr.append(QString::number(pos) + '=' + e.attribute(QStringLiteral("default")));
+                }
             }
             e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
         }
@@ -468,7 +503,9 @@ void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, i
 
 void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos, double value)
 {
-    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
+    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) {
+        return;
+    }
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     effect.setAttribute(QStringLiteral("active_keyframe"), newpos);
@@ -477,41 +514,43 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
     int end = (cropStart() + cropDuration()).frames(m_fps) - 1;
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (e.isNull()) continue;
+        if (e.isNull()) {
+            continue;
+        }
         QString paramName = e.attribute(QStringLiteral("name"));
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             if (m_keyframeView.activeParam(paramName)) {
                 // inserting a keyframe touches all animated params
                 for (int j = 0; j < params.count(); ++j) {
                     QDomElement f = params.item(j).toElement();
-                    if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect"))
+                    if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
                         continue;
+                    }
                     f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")), f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
                 }
             }
-        }
-        else if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
+        } else if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach(const QString &str, keyframes) {
+            foreach (const QString &str, keyframes) {
                 if (str.section('=', 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
                     newpos = qBound(start, newpos, end);
-                    if (i == m_visibleParam)
+                    if (i == m_visibleParam) {
                         newkfr.append(QString::number(newpos) + '=' + locale.toString(value));
-                    else
+                    } else {
                         newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
+                    }
                 }
             }
             e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
-        }
-        else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
             QString kfr = e.attribute(QStringLiteral("value"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach(const QString &str, keyframes) {
+            foreach (const QString &str, keyframes) {
                 if (str.section('=', 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
@@ -529,28 +568,31 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
 
 void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
 {
-    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) return;
+    if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) {
+        return;
+    }
     effect.setAttribute(QStringLiteral("active_keyframe"), 0);
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
-        if (e.isNull()) continue;
+        if (e.isNull()) {
+            continue;
+        }
         if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach(const QString &str, keyframes) {
+            foreach (const QString &str, keyframes) {
                 if (str.section('=', 0, 0).toInt() != frame) {
                     newkfr.append(str);
                 }
             }
             e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
-        }
-        else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
+        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
             QString kfr = e.attribute(QStringLiteral("value"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach(const QString &str, keyframes) {
+            foreach (const QString &str, keyframes) {
                 if (str.section('=', 0, 0).toInt() != frame) {
                     newkfr.append(str);
                 }
@@ -561,8 +603,9 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
             // inserting a keyframe touches all animated params
             for (int j = 0; j < params.count(); ++j) {
                 QDomElement f = params.item(j).toElement();
-                if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect"))
+                if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
                     continue;
+                }
                 f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")), f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
             }
         }
@@ -608,13 +651,12 @@ QString AbstractClipItem::resizeAnimations(QDomElement effect, int previousDurat
                 keyframes = KeyframeView::cutAnimation(animation, start, duration, previousDuration);
                 effect.setAttribute(QStringLiteral("in"), QString::number(start));
                 effect.setAttribute(QStringLiteral("out"), QString::number(start + duration));
-            }
-            else {
+            } else {
                 keyframes = KeyframeView::addBorderKeyframes(animation, cropstart, duration);
             }
             // TODO: in case of multiple animated params, use _intimeline to detect active one
             e.setAttribute(QStringLiteral("value"), keyframes);
-	}
+        }
     }
     return keyframes;
 }

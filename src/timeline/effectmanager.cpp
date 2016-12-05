@@ -10,20 +10,19 @@
  * accepted by the membership of KDE e.V. (or its successor approved
  * by the membership of KDE e.V.), which shall act as a proxy
  * defined in Section 14 of version 3 of the license.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "effectmanager.h"
 #include <mlt++/Mlt.h>
-
 
 EffectManager::EffectManager(Mlt::Service &producer, QObject *parent)
     : QObject(parent),
@@ -31,7 +30,7 @@ EffectManager::EffectManager(Mlt::Service &producer, QObject *parent)
 {
 }
 
-EffectManager::EffectManager(EffectManager& other) : QObject()
+EffectManager::EffectManager(EffectManager &other) : QObject()
 {
     m_producer = other.producer();
 }
@@ -40,18 +39,18 @@ EffectManager::~EffectManager()
 {
 }
 
-EffectManager& EffectManager::operator=(EffectManager& other)
+EffectManager &EffectManager::operator=(EffectManager &other)
 {
     m_producer = other.producer();
     return *this;
 }
 
-Mlt::Service & EffectManager::producer()
+Mlt::Service &EffectManager::producer()
 {
     return m_producer;
 }
 
-void EffectManager::setProducer(Mlt::Service& producer)
+void EffectManager::setProducer(Mlt::Service &producer)
 {
     m_producer = producer;
 }
@@ -61,11 +60,11 @@ void EffectManager::setProducer(Mlt::Service& producer)
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
-	if (filter->get_int("kdenlive:sync_in_out") == 1) {
+    if (filter->get_int("kdenlive:sync_in_out") == 1) {
             filter->set_in_and_out(m_producer.get_in(), m_producer.get_out());
         }
         ct++;
-	filter = m_producer.filter(ct);
+    filter = m_producer.filter(ct);
     }
 }*/
 
@@ -95,7 +94,9 @@ bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
         while (filter) {
             filters << filter;
             if (filter->get_int("kdenlive_ix") >= filter_ix) {
-                if (updateIndex) filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
+                if (updateIndex) {
+                    filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
+                }
             }
             ct++;
             filter = m_producer.filter(ct);
@@ -113,7 +114,9 @@ bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
         if (filter->get_int("kdenlive_ix") >= filter_ix) {
             filtersList.append(filter);
             m_producer.detach(*filter);
-        } else ct++;
+        } else {
+            ct++;
+        }
         filter = m_producer.filter(ct);
     }
 
@@ -122,8 +125,9 @@ bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
     // re-add following filters
     for (int i = 0; i < filtersList.count(); ++i) {
         Mlt::Filter *filter = filtersList.at(i);
-        if (updateIndex)
+        if (updateIndex) {
             filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
+        }
         m_producer.attach(*filter);
     }
     m_producer.unlock();
@@ -178,39 +182,41 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
                 return false;
             }
         } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
-            Mlt::Filter *filter = new Mlt::Filter(*m_producer.profile(), qstrdup(tag.toUtf8().constData()));
-            if (filter && filter->is_valid()) {
-                filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
-                int x1 = keyFrames.at(i).section('=', 0, 0).toInt();
-                double y1 = keyFrames.at(i).section('=', 1, 1).toDouble();
-                int x2 = keyFrames.at(i + 1).section('=', 0, 0).toInt();
-                double y2 = keyFrames.at(i + 1).section('=', 1, 1).toDouble();
-                if (x2 == -1) x2 = duration;
-                // non-overlapping sections
-                if (i > 0) {
-                    y1 += (y2 - y1) / (x2 - x1);
-                    ++x1;
-                }
+                Mlt::Filter *filter = new Mlt::Filter(*m_producer.profile(), qstrdup(tag.toUtf8().constData()));
+                if (filter && filter->is_valid()) {
+                    filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
+                    int x1 = keyFrames.at(i).section('=', 0, 0).toInt();
+                    double y1 = keyFrames.at(i).section('=', 1, 1).toDouble();
+                    int x2 = keyFrames.at(i + 1).section('=', 0, 0).toInt();
+                    double y2 = keyFrames.at(i + 1).section('=', 1, 1).toDouble();
+                    if (x2 == -1) {
+                        x2 = duration;
+                    }
+                    // non-overlapping sections
+                    if (i > 0) {
+                        y1 += (y2 - y1) / (x2 - x1);
+                        ++x1;
+                    }
 
-                for (int j = 0; j < params.count(); ++j) {
-                    filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
-                }
+                    for (int j = 0; j < params.count(); ++j) {
+                        filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
+                    }
 
-                filter->set("in", x1);
-                filter->set("out", x2);
-                ////qCDebug(KDENLIVE_LOG) << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-                filter->set(starttag, locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
-                filter->set(endtag, locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
-                m_producer.attach(*filter);
-                delete filter;
-            } else {
-                delete[] starttag;
-                delete[] endtag;
-                //qCDebug(KDENLIVE_LOG) << "filter is Q_NULLPTR";
-                m_producer.unlock();
-                return false;
+                    filter->set("in", x1);
+                    filter->set("out", x2);
+                    ////qCDebug(KDENLIVE_LOG) << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
+                    filter->set(starttag, locale.toString(((min + y1) - paramOffset) / factor).toUtf8().data());
+                    filter->set(endtag, locale.toString(((min + y2) - paramOffset) / factor).toUtf8().data());
+                    m_producer.attach(*filter);
+                    delete filter;
+                } else {
+                    delete[] starttag;
+                    delete[] endtag;
+                    //qCDebug(KDENLIVE_LOG) << "filter is Q_NULLPTR";
+                    m_producer.unlock();
+                    return false;
+                }
             }
-        }
         delete[] starttag;
         delete[] endtag;
     } else {
@@ -302,8 +308,9 @@ bool EffectManager::editEffect(const EffectsParameterList &params, int duration,
             if (filter->get_int("kdenlive_ix") > index) {
                 filtersList.append(filter);
                 m_producer.detach(*filter);
+            } else {
+                ct++;
             }
-            else ct++;
             delete filter;
             filter = m_producer.filter(ct);
         }
@@ -320,8 +327,8 @@ bool EffectManager::editEffect(const EffectsParameterList &params, int duration,
             filter->set_in_and_out(m_producer.get_int("in"), m_producer.get_int("out"));
         } else {
             // Reset in/out properties
-            filter->set("in", (char*)Q_NULLPTR);
-            filter->set("out", (char*)Q_NULLPTR);
+            filter->set("in", (char *)Q_NULLPTR);
+            filter->set("out", (char *)Q_NULLPTR);
         }
     }
 
@@ -353,9 +360,13 @@ bool EffectManager::removeEffect(int effectIndex, bool updateIndex)
             }
         } else if (updateIndex) {
             // Adjust the other effects index
-            if (filter->get_int("kdenlive_ix") > effectIndex) filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
+            if (filter->get_int("kdenlive_ix") > effectIndex) {
+                filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") - 1);
+            }
             ct++;
-        } else ct++;
+        } else {
+            ct++;
+        }
         filter = m_producer.filter(ct);
     }
     m_producer.unlock();
@@ -376,8 +387,8 @@ bool EffectManager::enableEffects(const QList<int> &effectIndexes, bool disable,
                     filter->set("auto_disable", 1);
                     filter->set("disable", (int) disable);
                 } else if (!disable && filter->get_int("auto_disable") == 1) {
-                    filter->set("disable", (char*) Q_NULLPTR);
-                    filter->set("auto_disable", (char*) Q_NULLPTR);
+                    filter->set("disable", (char *) Q_NULLPTR);
+                    filter->set("auto_disable", (char *) Q_NULLPTR);
                 }
             } else {
                 filter->set("disable", (int) disable);
@@ -417,7 +428,9 @@ bool EffectManager::moveEffect(int oldPos, int newPos)
             if (filter && filter->get_int("kdenlive_ix") > newPos) {
                 filtersList.append(filter);
                 m_producer.detach(*filter);
-            } else ct++;
+            } else {
+                ct++;
+            }
             filter = m_producer.filter(ct);
         }
     } else {
@@ -427,7 +440,9 @@ bool EffectManager::moveEffect(int oldPos, int newPos)
                 filter->set("kdenlive_ix", newPos);
                 filtersList.append(filter);
                 m_producer.detach(*filter);
-            } else ct++;
+            } else {
+                ct++;
+            }
             filter = m_producer.filter(ct);
         }
 
@@ -437,10 +452,14 @@ bool EffectManager::moveEffect(int oldPos, int newPos)
             toDelete << filter;
             int pos = filter->get_int("kdenlive_ix");
             if (pos >= newPos) {
-                if (pos < oldPos) filter->set("kdenlive_ix", pos + 1);
+                if (pos < oldPos) {
+                    filter->set("kdenlive_ix", pos + 1);
+                }
                 filtersList.append(filter);
                 m_producer.detach(*filter);
-            } else ct++;
+            } else {
+                ct++;
+            }
             filter = m_producer.filter(ct);
         }
     }

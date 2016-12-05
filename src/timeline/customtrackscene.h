@@ -35,8 +35,6 @@
 class Timeline;
 class MltVideoProfile;
 
-
-
 class CustomTrackScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -44,7 +42,7 @@ class CustomTrackScene : public QGraphicsScene
 public:
     explicit CustomTrackScene(Timeline *timeline, QObject *parent = Q_NULLPTR);
     ~CustomTrackScene();
-    void setSnapList(const QList <GenTime>& snaps);
+    void setSnapList(const QList <GenTime> &snaps);
     GenTime previousSnapPoint(const GenTime &pos) const;
     GenTime nextSnapPoint(const GenTime &pos) const;
     double getSnapPointForPos(double pos, bool doSnap = true);

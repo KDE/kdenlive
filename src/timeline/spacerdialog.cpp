@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "spacerdialog.h"
 
 #include "doc/kthumb.h"
@@ -28,7 +27,7 @@
 
 #include "klocalizedstring.h"
 
-SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget * parent) :
+SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget *parent) :
     QDialog(parent),
     m_in(tc)
 {
@@ -40,10 +39,10 @@ SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int trac
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     track_number->addItem(i18n("All tracks"), -1);
-    for (int i = tracks.count() - 1; i > 0 ; i--) {
+    for (int i = tracks.count() - 1; i > 0; i--) {
         TrackInfo info = tracks.at(i);
         track_number->addItem(info.type == VideoTrack ? videoIcon : audioIcon,
-                             info.trackName.isEmpty() ? QString::number(i) : info.trackName, i);
+                              info.trackName.isEmpty() ? QString::number(i) : info.trackName, i);
     }
     track_number->setCurrentIndex(track == 0 ? 0 : tracks.count() - track);
 
@@ -59,7 +58,4 @@ int SpacerDialog::selectedTrack() const
 {
     return track_number->currentData().toInt();
 }
-
-
-
 

@@ -22,7 +22,6 @@
 
 #include "abstracttoolmanager.h"
 
-
 /**
  * @namespace ResizeManager
  * @brief Provides convenience methods to handle selection tool.

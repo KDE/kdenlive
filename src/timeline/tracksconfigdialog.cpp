@@ -27,7 +27,7 @@
 #include "klocalizedstring.h"
 
 TracksDelegate::TracksDelegate(QObject *parent) :
-        QItemDelegate(parent)
+    QItemDelegate(parent)
 {
 }
 
@@ -43,8 +43,9 @@ QWidget *TracksDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 void TracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     KComboBox *comboBox = qobject_cast<KComboBox *>(editor);
-    if (!comboBox)
+    if (!comboBox) {
         return;
+    }
     const int pos = comboBox->findText(index.model()->data(index).toString(), Qt::MatchExactly);
     comboBox->setCurrentIndex(pos);
 }
@@ -52,8 +53,9 @@ void TracksDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 void TracksDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     KComboBox *comboBox = qobject_cast<KComboBox *>(editor);
-    if (!comboBox)
+    if (!comboBox) {
         return;
+    }
     model->setData(index, comboBox->currentText());
 }
 
@@ -62,15 +64,14 @@ void TracksDelegate::emitCommitData()
     emit commitData(qobject_cast<QWidget *>(sender()));
 }
 
-
-TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget* parent) :
-        QDialog(parent),
-        m_timeline(timeline)
+TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget *parent) :
+    QDialog(parent),
+    m_timeline(timeline)
 {
     setupUi(this);
 
     table->setColumnCount(5);
-    table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    table->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     table->setHorizontalHeaderLabels(QStringList() << i18n("Name") << i18n("Type") << i18n("Hidden") << i18n("Muted") << i18n("Locked") << i18n("Composite"));
     table->setSelectionMode(QAbstractItemView::SingleSelection);
     table->setItemDelegateForColumn(1, new TracksDelegate(this));
@@ -147,16 +148,18 @@ void TracksConfigDialog::setupOriginal(int selected)
         table->setItem(i, 0, new QTableWidgetItem(info.trackName));
 
         QTableWidgetItem *item1 = new QTableWidgetItem(i18n("Video"));
-        if (info.type == AudioTrack)
+        if (info.type == AudioTrack) {
             item1->setText(i18n("Audio"));
+        }
         table->setItem(i, 1, item1);
         table->openPersistentEditor(item1);
 
         QTableWidgetItem *item2 = new QTableWidgetItem(QLatin1String(""));
         item2->setFlags(item2->flags() & ~Qt::ItemIsEditable);
         item2->setCheckState(info.isBlind ? Qt::Checked : Qt::Unchecked);
-        if (info.type == AudioTrack)
+        if (info.type == AudioTrack) {
             item2->setFlags(item2->flags() & ~Qt::ItemIsEnabled);
+        }
         table->setItem(i, 2, item2);
 
         QTableWidgetItem *item3 = new QTableWidgetItem(QLatin1String(""));
@@ -172,13 +175,14 @@ void TracksConfigDialog::setupOriginal(int selected)
     table->setVerticalHeaderLabels(numbers);
 
     table->resizeColumnsToContents();
-    if (selected != -1)
+    if (selected != -1) {
         table->selectRow(max - selected);
+    }
 
     m_deletedRows.clear();
 }
 
-void TracksConfigDialog::slotUpdateRow(QTableWidgetItem* item)
+void TracksConfigDialog::slotUpdateRow(QTableWidgetItem *item)
 {
     if (table->column(item) == 1) {
         QTableWidgetItem *item2 = table->item(table->row(item), 2);
@@ -196,8 +200,9 @@ void TracksConfigDialog::slotDelete()
 {
     int row = table->currentRow();
     int trackToDelete = table->rowCount() - row;
-    if (row < 0 || m_deletedRows.contains(trackToDelete))
+    if (row < 0 || m_deletedRows.contains(trackToDelete)) {
         return;
+    }
     m_deletedRows.append(trackToDelete);
     qSort(m_deletedRows);
     for (int i = 0; i < table->columnCount(); ++i) {
@@ -206,5 +211,4 @@ void TracksConfigDialog::slotDelete()
         item->setBackground(palette().dark());
     }
 }
-
 

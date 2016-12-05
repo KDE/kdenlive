@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "markerdialog.h"
 
 #include "doc/kthumb.h"
@@ -31,7 +30,7 @@
 
 #include "klocalizedstring.h"
 
-MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget * parent)
+MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget *parent)
     : QDialog(parent)
     , m_clip(clip)
     , m_dar(4.0 / 3.0)
@@ -117,10 +116,11 @@ void MarkerDialog::slotUpdateThumb()
     /*m_image = KThumb::getFrame(m_producer, pos, swidth, width, 100);
     const QPixmap p = QPixmap::fromImage(m_image);*/
     const QPixmap p = m_clip->pixmap(pos, width, Kdenlive::DefaultThumbHeight);
-    if (!p.isNull())
+    if (!p.isNull()) {
         clip_thumb->setPixmap(p);
-    else
+    } else {
         qCDebug(KDENLIVE_LOG) << "!!!!!!!!!!!  ERROR CREATING THUMB";
+    }
 }
 
 QImage MarkerDialog::markerImage() const
@@ -133,7 +133,4 @@ CommentedTime MarkerDialog::newMarker()
     KdenliveSettings::setDefault_marker_type(marker_type->currentIndex());
     return CommentedTime(m_in->gentime(), marker_comment->text(), marker_type->currentIndex());
 }
-
-
-
 

@@ -44,8 +44,7 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, 0, QApplication::activeWindow())) {
         // animation disabled
         setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
-    }
-    else {
+    } else {
         QPropertyAnimation *startAnimation = new QPropertyAnimation(this, "rect");
         startAnimation->setDuration(200);
         const QRectF r(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight() / 2);
@@ -59,21 +58,29 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
     m_info.cropStart = GenTime();
     m_maxDuration = GenTime(600);
 
-    if (m_automaticTransition) setBrush(QColor(200, 200, 50, 180));
-    else setBrush(QColor(200, 100, 50, 180));
+    if (m_automaticTransition) {
+        setBrush(QColor(200, 200, 50, 180));
+    } else {
+        setBrush(QColor(200, 100, 50, 180));
+    }
 
     if (params.isNull()) {
         m_parameters = MainWindow::transitions.getEffectByTag(QStringLiteral("luma"), QStringLiteral("dissolve")).cloneNode().toElement();
     } else {
         m_parameters = params;
     }
-    if (m_automaticTransition) m_parameters.setAttribute(QStringLiteral("automatic"), 1);
-    else if (m_parameters.attribute(QStringLiteral("automatic")) == QLatin1String("1")) m_automaticTransition = true;
-    if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("1")) m_forceTransitionTrack = true;
+    if (m_automaticTransition) {
+        m_parameters.setAttribute(QStringLiteral("automatic"), 1);
+    } else if (m_parameters.attribute(QStringLiteral("automatic")) == QLatin1String("1")) {
+        m_automaticTransition = true;
+    }
+    if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("1")) {
+        m_forceTransitionTrack = true;
+    }
     m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
 
     QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < namenode.count() ; ++i) {
+    for (int i = 0; i < namenode.count(); ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QString paramType = pa.attribute(QStringLiteral("type"));
         if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated") || paramType == QLatin1String("animatedrect")) {
@@ -86,7 +93,9 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
 Transition::~Transition()
 {
     blockSignals(true);
-    if (scene()) scene()->removeItem(this);
+    if (scene()) {
+        scene()->removeItem(this);
+    }
 }
 
 Transition *Transition::clone(const ItemInfo &newInfo)
@@ -130,13 +139,16 @@ void Transition::setTransitionParameters(const QDomElement &params)
 {
     if (m_parameters != params) {
         m_parameters = params;
-        if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("1")) setForcedTrack(true, m_parameters.attribute(QStringLiteral("transition_btrack")).toInt());
-        else if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("0")) setForcedTrack(false, m_parameters.attribute(QStringLiteral("transition_btrack")).toInt());
+        if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("1")) {
+            setForcedTrack(true, m_parameters.attribute(QStringLiteral("transition_btrack")).toInt());
+        } else if (m_parameters.attribute(QStringLiteral("force_track")) == QLatin1String("0")) {
+            setForcedTrack(false, m_parameters.attribute(QStringLiteral("transition_btrack")).toInt());
+        }
         m_name = i18n(m_parameters.firstChildElement("name").text().toUtf8().data());
         update();
         bool hasGeometry = false;
         QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
-        for (int i = 0; i < namenode.count() ; ++i) {
+        for (int i = 0; i < namenode.count(); ++i) {
             QDomElement pa = namenode.item(i).toElement();
             QString paramType = pa.attribute(QStringLiteral("type"));
             if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated") || paramType == QLatin1String("animatedrect")) {
@@ -155,7 +167,9 @@ int Transition::transitionEndTrack() const
 
 void Transition::updateTransitionEndTrack(int newtrack)
 {
-    if (!m_forceTransitionTrack) m_transitionTrack = newtrack;
+    if (!m_forceTransitionTrack) {
+        m_transitionTrack = newtrack;
+    }
 }
 
 void Transition::setForcedTrack(bool force, int track)
@@ -183,7 +197,7 @@ void Transition::paint(QPainter *painter,
     painter->setWorldTransform(QTransform());
     QPainterPath p;
     p.addRect(exposed);
-    
+
     QPainterPath q;
     if (KdenliveSettings::clipcornertype() == 0) {
         q.addRoundedRect(mapped, 3, 3);
@@ -198,8 +212,7 @@ void Transition::paint(QPainter *painter,
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
         framePen.setColor(scene()->palette().highlight().color());
         framePen.setColor(Qt::red);
-    }
-    else {
+    } else {
         framePen.setColor(brush().color().darker());
     }
 
@@ -235,8 +248,11 @@ int Transition::type() const
 QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedChange) {
-        if (value.toBool()) setZValue(5);
-        else setZValue(4);
+        if (value.toBool()) {
+            setZValue(5);
+        } else {
+            setZValue(4);
+        }
     }
     CustomTrackScene *scene = Q_NULLPTR;
     if (change == ItemPositionChange) {
@@ -254,7 +270,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
         int newTrack = trackForPos(newPos.y());
-	QList<int> lockedTracks = property("locked_tracks").value< QList<int> >();
+        QList<int> lockedTracks = property("locked_tracks").value< QList<int> >();
         if (lockedTracks.contains(newTrack)) {
             // Trying to move to a locked track
             return pos();
@@ -267,7 +283,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         // Only one clip is moving
         QRectF sceneShape = rect();
         sceneShape.translate(newPos);
-        QList<QGraphicsItem*> items;
+        QList<QGraphicsItem *> items;
         // TODO: manage transitions in OVERWRITE MODE
         //if (projectScene()->editMode() == NORMALEDIT)
         items = scene->items(sceneShape, Qt::IntersectsItemShape);
@@ -276,7 +292,9 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
         bool forwardMove = newPos.x() > pos().x();
         if (!items.isEmpty()) {
             for (int i = 0; i < items.count(); ++i) {
-                if (!items.at(i)->isEnabled()) continue;
+                if (!items.at(i)->isEnabled()) {
+                    continue;
+                }
                 if (items.at(i)->type() == type()) {
                     int offset = 0;
                     // Collision!
@@ -285,9 +303,9 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
                         return pos();
                     }
                     if (forwardMove) {
-                        offset = qMax(offset, (int)(newPos.x() - (static_cast < AbstractClipItem* >(items.at(i))->startPos() - cropDuration()).frames(m_fps)));
+                        offset = qMax(offset, (int)(newPos.x() - (static_cast < AbstractClipItem * >(items.at(i))->startPos() - cropDuration()).frames(m_fps)));
                     } else {
-                        offset = qMax(offset, (int)((static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps)) - newPos.x()));
+                        offset = qMax(offset, (int)((static_cast < AbstractClipItem * >(items.at(i))->endPos().frames(m_fps)) - newPos.x()));
                     }
 
                     if (offset > 0) {
@@ -298,10 +316,12 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
                             sceneShape.translate(QPointF(offset, 0));
                             newPos.setX(newPos.x() + offset);
                         }
-                        QList<QGraphicsItem*> subitems = scene->items(sceneShape, Qt::IntersectsItemShape);
+                        QList<QGraphicsItem *> subitems = scene->items(sceneShape, Qt::IntersectsItemShape);
                         subitems.removeAll(this);
                         for (int j = 0; j < subitems.count(); ++j) {
-                            if (!subitems.at(j)->isEnabled()) continue;
+                            if (!subitems.at(j)->isEnabled()) {
+                                continue;
+                            }
                             if (subitems.at(j)->type() == type()) {
                                 // move was not successful, revert to previous pos
                                 m_info.startPos = GenTime((int) pos().x(), m_fps);
@@ -326,32 +346,35 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
     return QGraphicsItem::itemChange(change, value);
 }
 
-
 OperationType Transition::operationMode(const QPointF &pos, Qt::KeyboardModifiers)
 {
-    if (isItemLocked()) return None;
+    if (isItemLocked()) {
+        return None;
+    }
 
     const double scale = projectScene()->scale().x();
     double maximumOffset = 6 / scale;
 
     QRectF rect = sceneBoundingRect();
-    if (qAbs((int)(pos.x())) < maximumOffset) return ResizeStart;
-    else if (qAbs((int)(pos.x() - (rect.width()))) < maximumOffset) return ResizeEnd;
+    if (qAbs((int)(pos.x())) < maximumOffset) {
+        return ResizeStart;
+    } else if (qAbs((int)(pos.x() - (rect.width()))) < maximumOffset) {
+        return ResizeEnd;
+    }
     return MoveOperation;
 }
 
 //static
 int Transition::itemHeight()
 {
-    return (int) (KdenliveSettings::trackheight() / 3 * 2 - 1);
+    return (int)(KdenliveSettings::trackheight() / 3 * 2 - 1);
 }
 
 //static
 int Transition::itemOffset()
 {
-    return (int) (KdenliveSettings::trackheight() / 3 * 2);
+    return (int)(KdenliveSettings::trackheight() / 3 * 2);
 }
-
 
 QDomElement Transition::toXML()
 {
@@ -379,10 +402,12 @@ QDomElement Transition::toXML()
 bool Transition::hasGeometry()
 {
     QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < namenode.count() ; ++i) {
+    for (int i = 0; i < namenode.count(); ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QString paramType = pa.attribute(QStringLiteral("type"));
-        if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated") || paramType == QLatin1String("animatedrect")) return true;
+        if (paramType == QLatin1String("geometry") || paramType == QLatin1String("animated") || paramType == QLatin1String("animatedrect")) {
+            return true;
+        }
     }
     return false;
 }
@@ -393,7 +418,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
     QDomElement pa;
     bool modified = false;
     QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < namenode.count() ; ++i) {
+    for (int i = 0; i < namenode.count(); ++i) {
         pa = namenode.item(i).toElement();
         QString type = pa.attribute(QStringLiteral("type"));
         if (type == QLatin1String("geometry") || type == QLatin1String("animated") || type == QLatin1String("animatedrect")) {
@@ -401,7 +426,9 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
             break;
         }
     }
-    if (keyframes.isEmpty()) return false;
+    if (keyframes.isEmpty()) {
+        return false;
+    }
     int duration = newInfo.cropDuration.frames(m_fps) - 1;
     int oldEnd = oldInfo.cropDuration.frames(m_fps) - 1;
     QStringList values = keyframes.split(';');
@@ -409,7 +436,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
     int i = 0;
     if (oldEnd < duration) {
         // Transition was expanded, check if we had a keyframe at end position
-        foreach(const QString &pos, values) {
+        foreach (const QString &pos, values) {
             if (!pos.contains(QLatin1Char('='))) {
                 ++i;
                 continue;
@@ -430,10 +457,9 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
             ++i;
         }
         return false;
-    }
-    else if (oldEnd > duration) {
+    } else if (oldEnd > duration) {
         // Transition was shortened, check for out of bounds keyframes
-        foreach(const QString &pos, values) {
+        foreach (const QString &pos, values) {
             if (!pos.contains(QLatin1Char('='))) {
                 ++i;
                 continue;
@@ -449,7 +475,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
     if (modified) {
         if (i > 0) {
             // Check if there is a keyframe at transition end
-            QString prev = values.at(i-1);
+            QString prev = values.at(i - 1);
             bool done = false;
             if (prev.contains(QLatin1Char('='))) {
                 int previousKeyframe = prev.section(QLatin1Char('='), 0, 0).remove(QLatin1Char('~')).remove(QLatin1Char('|')).toInt();
@@ -489,36 +515,42 @@ void Transition::updateKeyframes(const QDomElement &/*effect*/)
 //virtual
 void Transition::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-    if (isItemLocked()) event->setAccepted(false);
-    else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
+    if (isItemLocked()) {
+        event->setAccepted(false);
+    } else if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
         event->acceptProposedAction();
         m_selectionTimer.start();
-    } else event->setAccepted(false);
+    } else {
+        event->setAccepted(false);
+    }
 }
 
 void Transition::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
     Q_UNUSED(event)
-    if (m_selectionTimer.isActive())
+    if (m_selectionTimer.isActive()) {
         m_selectionTimer.stop();
+    }
 }
 
 void Transition::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
     QGraphicsItem::dragMoveEvent(event);
-    if (m_selectionTimer.isActive() && !isSelected())
+    if (m_selectionTimer.isActive() && !isSelected()) {
         m_selectionTimer.start();
+    }
 }
 
 //virtual
-void Transition::dropEvent(QGraphicsSceneDragDropEvent * event)
+void Transition::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
     if (scene() && !scene()->views().isEmpty()) {
-        if (m_selectionTimer.isActive())
+        if (m_selectionTimer.isActive()) {
             m_selectionTimer.stop();
+        }
         QString geometry = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/geometry")));
         event->acceptProposedAction();
-        CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views().first());
+        CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views().first());
         if (view) {
             view->dropTransitionGeometry(this, geometry);
         }
@@ -532,7 +564,7 @@ bool Transition::checkKeyFrames(int width, int height, int previousDuration, int
     QDomDocument doc;
     doc.appendChild(doc.importNode(m_parameters, true));
     clipEffectsModified = resizeGeometries(m_parameters, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
-    QString newAnimation = resizeAnimations(m_parameters, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1,cropStart().frames(m_fps));
+    QString newAnimation = resizeAnimations(m_parameters, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
     if (!newAnimation.isEmpty()) {
         clipEffectsModified = true;
     }

@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "trackdialog.h"
 
 #include "kdenlivesettings.h"
@@ -25,20 +24,17 @@
 
 #include <QIcon>
 
-
-TrackDialog::TrackDialog(Timeline *timeline, QWidget * parent) :
-        QDialog(parent)
+TrackDialog::TrackDialog(Timeline *timeline, QWidget *parent) :
+    QDialog(parent)
 {
     //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     setupUi(this);
-    for (int i = timeline->tracksCount() - 1; i > 0 ; i--) {
+    for (int i = timeline->tracksCount() - 1; i > 0; i--) {
         TrackInfo info = timeline->getTrackInfo(i);
         comboTracks->addItem(info.type == VideoTrack ? videoIcon : audioIcon,
                              info.trackName.isEmpty() ? QString::number(i) : info.trackName);
     }
 }
-
-
 

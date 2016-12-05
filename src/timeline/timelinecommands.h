@@ -20,7 +20,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef TIMELINECOMMANDS_H
 #define TIMELINECOMMANDS_H
 
@@ -35,7 +34,7 @@ class Timeline;
 class AddEffectCommand : public QUndoCommand
 {
 public:
-    AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -61,7 +60,7 @@ public:
      * refresh is executed separately
      * @param parent The parent command
      * */
-    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool doIt, bool doRemove, bool refreshMonitor, QUndoCommand * parent = Q_NULLPTR);
+    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool doIt, bool doRemove, bool refreshMonitor, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -78,7 +77,7 @@ private:
 class AddTrackCommand : public QUndoCommand
 {
 public:
-    AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand * parent = Q_NULLPTR);
+    AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -91,7 +90,7 @@ private:
 class AddTransitionCommand : public QUndoCommand
 {
 public:
-    AddTransitionCommand(CustomTrackView *view, const ItemInfo &info, int transitiontrack, const QDomElement &params, bool remove, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    AddTransitionCommand(CustomTrackView *view, const ItemInfo &info, int transitiontrack, const QDomElement &params, bool remove, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -107,7 +106,7 @@ private:
 class ChangeClipTypeCommand : public QUndoCommand
 {
 public:
-    ChangeClipTypeCommand(CustomTrackView *view, const ItemInfo &info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand * parent = Q_NULLPTR);
+    ChangeClipTypeCommand(CustomTrackView *view, const ItemInfo &info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -120,7 +119,7 @@ private:
 class ChangeEffectStateCommand : public QUndoCommand
 {
 public:
-    ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int>& effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent = Q_NULLPTR);
+    ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -136,7 +135,7 @@ private:
 class ChangeSpeedCommand : public QUndoCommand
 {
 public:
-    ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand * parent = Q_NULLPTR);
+    ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -153,7 +152,7 @@ private:
 class ConfigTracksCommand : public QUndoCommand
 {
 public:
-    ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState = -1, int newState = -1, QUndoCommand* parent = Q_NULLPTR);
+    ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState = -1, int newState = -1, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -170,7 +169,7 @@ class EditEffectCommand : public QUndoCommand
 public:
     EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, bool refreshMonitor, QUndoCommand *parent = Q_NULLPTR);
     int id() const Q_DECL_OVERRIDE;
-    bool mergeWith(const QUndoCommand * command) Q_DECL_OVERRIDE;
+    bool mergeWith(const QUndoCommand *command) Q_DECL_OVERRIDE;
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -189,7 +188,7 @@ private:
 class EditGuideCommand : public QUndoCommand
 {
 public:
-    EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -204,9 +203,9 @@ private:
 class EditTransitionCommand : public QUndoCommand
 {
 public:
-    EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     int id() const Q_DECL_OVERRIDE;
-    bool mergeWith(const QUndoCommand * command) Q_DECL_OVERRIDE;
+    bool mergeWith(const QUndoCommand *command) Q_DECL_OVERRIDE;
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -221,7 +220,7 @@ private:
 class GroupClipsCommand : public QUndoCommand
 {
 public:
-    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo> &transitionInfos, bool group, bool doIt = true, QUndoCommand * parent = Q_NULLPTR);
+    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo> &transitionInfos, bool group, bool doIt = true, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -236,7 +235,7 @@ private:
 class InsertSpaceCommand : public QUndoCommand
 {
 public:
-    InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -251,7 +250,7 @@ private:
 class AddSpaceCommand : public QUndoCommand
 {
 public:
-    AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList<ItemInfo> &excludeList, bool doIt, QUndoCommand * parent = Q_NULLPTR, bool trackonly = false);
+    AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList<ItemInfo> &excludeList, bool doIt, QUndoCommand *parent = Q_NULLPTR, bool trackonly = false);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -265,7 +264,7 @@ private:
 class LockTrackCommand : public QUndoCommand
 {
 public:
-    LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand * parent = Q_NULLPTR);
+    LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -277,7 +276,7 @@ private:
 class MoveClipCommand : public QUndoCommand
 {
 public:
-    MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool alreadyMoved, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool alreadyMoved, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -293,9 +292,9 @@ private:
 class MoveEffectCommand : public QUndoCommand
 {
 public:
-    MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &oldPos, int newPos, QUndoCommand * parent = Q_NULLPTR);
+    MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &oldPos, int newPos, QUndoCommand *parent = Q_NULLPTR);
     int id() const Q_DECL_OVERRIDE;
-    bool mergeWith(const QUndoCommand * command) Q_DECL_OVERRIDE;
+    bool mergeWith(const QUndoCommand *command) Q_DECL_OVERRIDE;
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -309,7 +308,7 @@ private:
 class MoveGroupCommand : public QUndoCommand
 {
 public:
-    MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> &startClip, const QList <ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> &startClip, const QList <ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -325,7 +324,7 @@ private:
 class MoveTransitionCommand : public QUndoCommand
 {
 public:
-    MoveTransitionCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool refresh, QUndoCommand * parent = Q_NULLPTR);
+    MoveTransitionCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool refresh, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -339,7 +338,7 @@ private:
 class RazorClipCommand : public QUndoCommand
 {
 public:
-    RazorClipCommand(CustomTrackView *view, const ItemInfo &info, const EffectsList &stack, const GenTime &cutTime, bool doIt = true, QUndoCommand * parent = Q_NULLPTR);
+    RazorClipCommand(CustomTrackView *view, const ItemInfo &info, const EffectsList &stack, const GenTime &cutTime, bool doIt = true, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -350,11 +349,10 @@ private:
     bool m_doIt;
 };
 
-
 class RazorTransitionCommand : public QUndoCommand
 {
 public:
-    RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement &params, const GenTime &cutTime, bool doIt = true, QUndoCommand * parent = Q_NULLPTR);
+    RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement &params, const GenTime &cutTime, bool doIt = true, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -364,7 +362,6 @@ private:
     GenTime m_cutTime;
     bool m_doIt;
 };
-
 
 /*
 class RazorGroupCommand : public QUndoCommand
@@ -387,7 +384,7 @@ private:
 class RebuildGroupCommand : public QUndoCommand
 {
 public:
-    RebuildGroupCommand(CustomTrackView *view, int childTrack, const GenTime &childPos, QUndoCommand* parent = Q_NULLPTR);
+    RebuildGroupCommand(CustomTrackView *view, int childTrack, const GenTime &childPos, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -399,8 +396,8 @@ private:
 class RefreshMonitorCommand : public QUndoCommand
 {
 public:
-    RefreshMonitorCommand(CustomTrackView *view, const QList<ItemInfo> &info, bool execute, bool refreshOnUndo, QUndoCommand * parent = Q_NULLPTR);
-    RefreshMonitorCommand(CustomTrackView *view, const ItemInfo &info, bool execute, bool refreshOnUndo, QUndoCommand * parent = Q_NULLPTR);
+    RefreshMonitorCommand(CustomTrackView *view, const QList<ItemInfo> &info, bool execute, bool refreshOnUndo, QUndoCommand *parent = Q_NULLPTR);
+    RefreshMonitorCommand(CustomTrackView *view, const ItemInfo &info, bool execute, bool refreshOnUndo, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
     void updateRange(const QList <ItemInfo> &info);
@@ -414,7 +411,7 @@ private:
 class ResizeClipCommand : public QUndoCommand
 {
 public:
-    ResizeClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool dontWorry, QUndoCommand * parent = Q_NULLPTR);
+    ResizeClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool dontWorry, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -428,7 +425,7 @@ private:
 class SplitAudioCommand : public QUndoCommand
 {
 public:
-    SplitAudioCommand(CustomTrackView *view, const int track, const int destTrack, const GenTime &pos, QUndoCommand * parent = Q_NULLPTR);
+    SplitAudioCommand(CustomTrackView *view, const int track, const int destTrack, const GenTime &pos, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -443,7 +440,7 @@ private:
 class ChangeTrackStateCommand : public QUndoCommand
 {
 public:
-    ChangeTrackStateCommand(Timeline *timeline, const int track, bool changeAudio, bool changeVideo, bool hideAudio, bool hideVideo, QUndoCommand * parent = Q_NULLPTR);
+    ChangeTrackStateCommand(Timeline *timeline, const int track, bool changeAudio, bool changeVideo, bool hideAudio, bool hideVideo, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:

@@ -18,7 +18,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "timeline.h"
 #include "track.h"
 #include "clip.h"
@@ -58,14 +57,14 @@ ScrollEventEater::ScrollEventEater(QObject *parent) : QObject(parent)
 bool ScrollEventEater::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress) {
-        QWidget *parent = (QWidget*)obj;
-        if (parent)
+        QWidget *parent = (QWidget *)obj;
+        if (parent) {
             parent->setFocus();
+        }
         return QObject::eventFilter(obj, event);
     }
     return QObject::eventFilter(obj, event);
 }
-
 
 Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent) :
     QWidget(parent),
@@ -87,8 +86,11 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     m_scene = new CustomTrackScene(this);
     m_trackview = new CustomTrackView(doc, this, m_scene, parent);
     setFocusProxy(m_trackview);
-    if (m_doc->setSceneList() == -1) *ok = false;
-    else *ok = true;
+    if (m_doc->setSceneList() == -1) {
+        *ok = false;
+    } else {
+        *ok = true;
+    }
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
     m_tractor = new Mlt::Tractor(s);
 
@@ -132,7 +134,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     sizeLayout->addWidget(butLarge);
 
     QToolButton *enableZone = new QToolButton(this);
-    KDualAction *ac = (KDualAction*) m_doc->getAction(QStringLiteral("use_timeline_zone_in_edit"));
+    KDualAction *ac = (KDualAction *) m_doc->getAction(QStringLiteral("use_timeline_zone_in_edit"));
     enableZone->setAutoRaise(true);
     ac->setActive(KdenliveSettings::useTimelineZoneToEdit());
     enableZone->setDefaultAction(ac);
@@ -178,8 +180,9 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
 
 Timeline::~Timeline()
 {
-    if (m_timelinePreview)
+    if (m_timelinePreview) {
         delete m_timelinePreview;
+    }
     delete m_ruler;
     delete m_trackview;
     delete m_scene;
@@ -218,9 +221,11 @@ QMap <QString, QString> Timeline::documentProperties()
     return props;
 }
 
-Track* Timeline::track(int i) 
+Track *Timeline::track(int i)
 {
-    if (i < 0 || i >= m_tracks.count()) return Q_NULLPTR;
+    if (i < 0 || i >= m_tracks.count()) {
+        return Q_NULLPTR;
+    }
     return m_tracks.at(i);
 }
 
@@ -269,7 +274,9 @@ int Timeline::outPoint() const
 void Timeline::slotSetZone(const QPoint &p, bool updateDocumentProperties)
 {
     m_ruler->setZone(p);
-    if (updateDocumentProperties) m_doc->setZone(p.x(), p.y());
+    if (updateDocumentProperties) {
+        m_doc->setZone(p.x(), p.y());
+    }
 }
 
 void Timeline::setDuration(int dur)
@@ -278,11 +285,12 @@ void Timeline::setDuration(int dur)
     m_ruler->setDuration(dur);
 }
 
-int Timeline::getTracks() {
+int Timeline::getTracks()
+{
     int duration = 1;
     qDeleteAll<>(m_tracks);
     m_tracks.clear();
-    QVBoxLayout *headerLayout = qobject_cast< QVBoxLayout* >(headers_container->layout());
+    QVBoxLayout *headerLayout = qobject_cast< QVBoxLayout * >(headers_container->layout());
     QLayoutItem *child;
     while ((child = headerLayout->takeAt(0)) != 0) {
         delete child;
@@ -291,7 +299,9 @@ int Timeline::getTracks() {
     for (int i = 0; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
-        if (playlist_name == QLatin1String("black_track") || playlist_name == QLatin1String("timeline_preview") || playlist_name == QLatin1String("overlay_track")) continue;
+        if (playlist_name == QLatin1String("black_track") || playlist_name == QLatin1String("timeline_preview") || playlist_name == QLatin1String("overlay_track")) {
+            continue;
+        }
         clipsCount += track->count();
     }
     emit startLoadingBin(clipsCount);
@@ -303,7 +313,9 @@ int Timeline::getTracks() {
     for (int i = 0; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
-        if (playlist_name == QLatin1String("playlistmain") || playlist_name == QLatin1String("timeline_preview") || playlist_name == QLatin1String("overlay_track")) continue;
+        if (playlist_name == QLatin1String("playlistmain") || playlist_name == QLatin1String("timeline_preview") || playlist_name == QLatin1String("overlay_track")) {
+            continue;
+        }
         bool isBackgroundBlackTrack = playlist_name == QLatin1String("black_track");
         // check track effects
         Mlt::Playlist playlist(*track);
@@ -328,9 +340,13 @@ int Timeline::getTracks() {
 
         if (!isBackgroundBlackTrack) {
             int currentWidth = tk->trackHeader->minimumWidth();
-            if (currentWidth > headerWidth) headerWidth = currentWidth;
+            if (currentWidth > headerWidth) {
+                headerWidth = currentWidth;
+            }
             headerLayout->insertWidget(0, tk->trackHeader);
-            if (trackduration > duration) duration = trackduration;
+            if (trackduration > duration) {
+                duration = trackduration;
+            }
             tk->trackHeader->setSelectedIndex(m_trackview->selectedTrack());
             connect(tk->trackHeader, &HeaderTrack::switchTrackVideo, this, &Timeline::switchTrackVideo);
             connect(tk->trackHeader, &HeaderTrack::switchTrackAudio, this, &Timeline::switchTrackAudio);
@@ -359,19 +375,22 @@ int Timeline::getTracks() {
     return duration;
 }
 
-void Timeline::checkDuration() {
+void Timeline::checkDuration()
+{
     m_doc->renderer()->mltCheckLength(m_tractor);
 }
 
-void Timeline::getTransitions() {
+void Timeline::getTransitions()
+{
     int compositeMode = 0;
     double fps = m_doc->fps();
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     while (service) {
         Mlt::Properties prop(MLT_SERVICE_PROPERTIES(service));
-        if (QString(prop.get("mlt_type")) != QLatin1String("transition"))
+        if (QString(prop.get("mlt_type")) != QLatin1String("transition")) {
             break;
+        }
         //skip automatic mix
         if (prop.get_int("internal_added") == 237) {
             QString trans = prop.get("mlt_service");
@@ -391,8 +410,9 @@ void Timeline::getTransitions() {
         transitionInfo.endPos = GenTime(prop.get_int("out") + 1, fps);
         transitionInfo.track = b_track;
         // When adding composite transition, check if it is a wipe transition
-        if (prop.get("kdenlive_id") == Q_NULLPTR && QString(prop.get("mlt_service")) == QLatin1String("composite") && isSlide(prop.get("geometry")))
+        if (prop.get("kdenlive_id") == Q_NULLPTR && QString(prop.get("mlt_service")) == QLatin1String("composite") && isSlide(prop.get("geometry"))) {
             prop.set("kdenlive_id", "slide");
+        }
         QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
         //check invalid parameters
         if (a_track > m_tractor->count() - 1) {
@@ -404,9 +424,9 @@ void Timeline::getTransitions() {
             prop.set("b_track", m_tractor->count() - 1);
         }
         if (a_track == b_track || b_track <= 0
-            || transitionInfo.startPos >= transitionInfo.endPos
-            || base.isNull()
-            //|| !m_trackview->canBePastedTo(transitionInfo, TransitionWidget)
+                || transitionInfo.startPos >= transitionInfo.endPos
+                || base.isNull()
+                //|| !m_trackview->canBePastedTo(transitionInfo, TransitionWidget)
            ) {
             // invalid transition, remove it
             m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
@@ -439,17 +459,24 @@ void Timeline::getTransitions() {
                     QString paramName = e.hasAttribute(QStringLiteral("tag")) ? e.attribute(QStringLiteral("tag")) : e.attribute(QStringLiteral("name"));
                     QString value = prop.get(paramName.toUtf8().constData());
                     // if transition parameter has an "optional" attribute, it means that it can contain an empty value
-                    if (value.isEmpty() && !e.hasAttribute(QStringLiteral("optional"))) continue;
-                    if (e.hasAttribute(QStringLiteral("factor")) || e.hasAttribute(QStringLiteral("offset")))
+                    if (value.isEmpty() && !e.hasAttribute(QStringLiteral("optional"))) {
+                        continue;
+                    }
+                    if (e.hasAttribute(QStringLiteral("factor")) || e.hasAttribute(QStringLiteral("offset"))) {
                         adjustDouble(e, value);
-                    else
+                    } else {
                         e.setAttribute(QStringLiteral("value"), value);
+                    }
                 }
                 Transition *tr = new Transition(transitionInfo, a_track, fps, base, QString(prop.get("automatic")) == QLatin1String("1"));
                 connect(tr, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
                 tr->setPos(transitionInfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - transitionInfo.track) + 1 + tr->itemOffset());
-                if (QString(prop.get("force_track")) == QLatin1String("1")) tr->setForcedTrack(true, a_track);
-                if (isTrackLocked(b_track)) tr->setItemLocked(true);
+                if (QString(prop.get("force_track")) == QLatin1String("1")) {
+                    tr->setForcedTrack(true, a_track);
+                }
+                if (isTrackLocked(b_track)) {
+                    tr->setItemLocked(true);
+                }
                 m_scene->addItem(tr);
             }
             service = mlt_service_producer(service);
@@ -459,8 +486,11 @@ void Timeline::getTransitions() {
 }
 
 // static
-bool Timeline::isSlide(QString geometry) {
-    if (geometry.count(';') != 1) return false;
+bool Timeline::isSlide(QString geometry)
+{
+    if (geometry.count(';') != 1) {
+        return false;
+    }
 
     geometry.remove(QChar('%'), Qt::CaseInsensitive);
     geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
@@ -479,14 +509,18 @@ bool Timeline::isSlide(QString geometry) {
     return true;
 }
 
-void Timeline::adjustDouble(QDomElement &e, const QString &value) {
+void Timeline::adjustDouble(QDomElement &e, const QString &value)
+{
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QString factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1"));
     double offset = locale.toDouble(e.attribute(QStringLiteral("offset"), QStringLiteral("0")));
     double fact = 1;
-    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
-    else fact = locale.toDouble(factor);
+    if (factor.contains('%')) {
+        fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
+    } else {
+        fact = locale.toDouble(factor);
+    }
     QString type = e.attribute(QStringLiteral("type"));
     if (type == QLatin1String("double") || type == QLatin1String("constant")) {
         double val = locale.toDouble(value);
@@ -529,7 +563,9 @@ void Timeline::parseDocument(const QDomDocument &doc)
         m_doc->saveCustomEffects(effects);
     }
 
-    if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
+    if (!m_documentErrors.isNull()) {
+        KMessageBox::sorry(this, m_documentErrors);
+    }
     if (mlt.hasAttribute(QStringLiteral("upgraded")) || mlt.hasAttribute(QStringLiteral("modified"))) {
         // Our document was upgraded, create a backup copy just in case
         QString baseFile = m_doc->url().path().section(QStringLiteral(".kdenlive"), 0, 0);
@@ -540,16 +576,18 @@ void Timeline::parseDocument(const QDomDocument &doc)
             backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
         }
         QString message;
-        if (mlt.hasAttribute(QStringLiteral("upgraded")))
+        if (mlt.hasAttribute(QStringLiteral("upgraded"))) {
             message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
-        else
+        } else {
             message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
+        }
 
         KIO::FileCopyJob *copyjob = KIO::file_copy(m_doc->url(), QUrl::fromLocalFile(backupFile));
-        if (copyjob->exec())
+        if (copyjob->exec()) {
             KMessageBox::information(this, message);
-        else
+        } else {
             KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.", backupFile));
+        }
     }
 }
 
@@ -579,10 +617,11 @@ void Timeline::slotChangeZoom(int horizontal, int vertical, bool zoomOnMouse)
         m_trackview->setScale(m_scale, m_scene->scale().y(), zoomOnMouse);
     } else {
         m_verticalZoom = vertical;
-        if (m_verticalZoom == 0)
+        if (m_verticalZoom == 0) {
             m_trackview->setScale(m_scale, 0.5);
-        else
+        } else {
             m_trackview->setScale(m_scale, m_verticalZoom);
+        }
         adjustTrackHeaders();
     }
 }
@@ -592,7 +631,9 @@ int Timeline::fitZoom() const
     int zoom = (int)((duration() + 20 / m_scale) * m_trackview->getFrameWidth() / m_trackview->width());
     int i;
     for (i = 0; i < 13; ++i)
-        if (m_ruler->comboScale[i] > zoom) break;
+        if (m_ruler->comboScale[i] > zoom) {
+            break;
+        }
     return i;
 }
 
@@ -628,17 +669,17 @@ void Timeline::slotReloadTracks()
 TrackInfo Timeline::getTrackInfo(int ix)
 {
     if (ix < 0 || ix > m_tracks.count()) {
-	qCWarning(KDENLIVE_LOG)<<"/// ARGH, requested info for track: "<<ix<<" - MAX is: "<<m_tracks.count();
-	// Let it crash to find wrong calls
-	TrackInfo info;
-	return info;
+        qCWarning(KDENLIVE_LOG) << "/// ARGH, requested info for track: " << ix << " - MAX is: " << m_tracks.count();
+        // Let it crash to find wrong calls
+        TrackInfo info;
+        return info;
     }
     Track *tk = track(ix);
     if (tk == Q_NULLPTR) {
-	qCWarning(KDENLIVE_LOG)<<"/// ARGH, requesting Q_NULLPTR track: "<<ix<<" - MAX is: "<<m_tracks.count();
-	// Let it crash to find wrong calls
-	TrackInfo info;
-	return info;
+        qCWarning(KDENLIVE_LOG) << "/// ARGH, requesting Q_NULLPTR track: " << ix << " - MAX is: " << m_tracks.count();
+        // Let it crash to find wrong calls
+        TrackInfo info;
+        return info;
     }
     return tk->info();
 }
@@ -662,7 +703,6 @@ void Timeline::setTrackInfo(int ix, const TrackInfo &info)
     tk->setInfo(info);
 }
 
-
 QList <TrackInfo> Timeline::getTracksInfo()
 {
     QList <TrackInfo> tracks;
@@ -685,7 +725,7 @@ void Timeline::lockTrack(int ix, bool lock)
 {
     Track *tk = track(ix);
     if (tk == Q_NULLPTR) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: "<<ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
         return;
     }
     tk->lockTrack(lock);
@@ -695,7 +735,7 @@ bool Timeline::isTrackLocked(int ix)
 {
     Track *tk = track(ix);
     if (tk == Q_NULLPTR) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: "<<ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
         return false;
     }
     int locked = tk->getIntProperty(QStringLiteral("kdenlive:locked_track"));
@@ -707,7 +747,9 @@ void Timeline::updateTrackState(int ix, int state)
     int currentState = 0;
     QScopedPointer<Mlt::Producer> track(m_tractor->track(ix));
     currentState = track->get_int("hide");
-    if (state == currentState) return;
+    if (state == currentState) {
+        return;
+    }
     if (state == 0) {
         // Show all
         if (currentState & 1) {
@@ -716,22 +758,19 @@ void Timeline::updateTrackState(int ix, int state)
         if (currentState & 2) {
             doSwitchTrackAudio(ix, false);
         }
-    }
-    else if (state == 1) {
+    } else if (state == 1) {
         // Mute video
         if (currentState & 2) {
             doSwitchTrackAudio(ix, false);
         }
         doSwitchTrackVideo(ix, true);
-    }
-    else if (state == 2) {
+    } else if (state == 2) {
         // Mute audio
         if (currentState & 1) {
             doSwitchTrackVideo(ix, false);
         }
         doSwitchTrackAudio(ix, true);
-    }
-    else {
+    } else {
         doSwitchTrackVideo(ix, true);
         doSwitchTrackAudio(ix, true);
     }
@@ -751,9 +790,9 @@ void Timeline::switchTrackAudio(int ix, bool hide)
 
 void Timeline::doSwitchTrackVideo(int ix, bool hide)
 {
-    Track* tk = track(ix);
+    Track *tk = track(ix);
     if (tk == Q_NULLPTR) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: "<<ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
         return;
     }
     int state = tk->state();
@@ -766,16 +805,13 @@ void Timeline::doSwitchTrackVideo(int ix, bool hide)
     if (hide) {
         if (state & 2) {
             newstate = 3;
-        }
-        else {
+        } else {
             newstate = 1;
         }
-    }
-    else {
+    } else {
         if (state & 2) {
             newstate = 2;
-        }
-        else {
+        } else {
             newstate = 0;
         }
     }
@@ -805,9 +841,9 @@ void Timeline::refreshTractor()
 
 void Timeline::doSwitchTrackAudio(int ix, bool mute)
 {
-    Track* tk = track(ix);
+    Track *tk = track(ix);
     if (tk == Q_NULLPTR) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: "<<ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
         return;
     }
     int state = tk->state();
@@ -818,8 +854,11 @@ void Timeline::doSwitchTrackAudio(int ix, bool mute)
     tk->trackHeader->setAudioMute(mute);
     int newstate;
     if (mute) {
-        if (state & 1) newstate = 3;
-        else newstate = 2;
+        if (state & 1) {
+            newstate = 3;
+        } else {
+            newstate = 2;
+        }
     } else if (state & 1) {
         newstate = 1;
     } else {
@@ -835,12 +874,12 @@ int Timeline::getLowestVideoTrack()
     for (int i = 1; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         Mlt::Playlist playlist(*track);
-        if (playlist.get_int("kdenlive:audio_track") != 1)
+        if (playlist.get_int("kdenlive:audio_track") != 1) {
             return i;
+        }
     }
     return -1;
 }
-
 
 void Timeline::updatePalette()
 {
@@ -857,8 +896,9 @@ void Timeline::updatePalette()
         for (int i = 0; i < m_tracks.count(); i++) {
             if (m_tracks.at(i)->trackHeader) {
                 m_tracks.at(i)->trackHeader->refreshPalette();
-                if (i == ix)
+                if (i == ix) {
                     m_tracks.at(ix)->trackHeader->setSelectedIndex(ix);
+                }
             }
         }
     }
@@ -882,7 +922,9 @@ void Timeline::refreshIcons()
     for (int i = 0; i < allMenus.count(); i++) {
         QAction *m = allMenus.at(i);
         QIcon ic = m->icon();
-        if (ic.isNull() || ic.name().isEmpty()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) {
+            continue;
+        }
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
     }
@@ -890,11 +932,15 @@ void Timeline::refreshIcons()
     for (int i = 0; i < allButtons.count(); i++) {
         KDualAction *m = allButtons.at(i);
         QIcon ic = m->activeIcon();
-        if (ic.isNull() || ic.name().isEmpty()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) {
+            continue;
+        }
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setActiveIcon(newIcon);
         ic = m->inactiveIcon();
-        if (ic.isNull() || ic.name().isEmpty()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) {
+            continue;
+        }
         newIcon = KoIconUtils::themedIcon(ic.name());
         m->setInactiveIcon(newIcon);
     }
@@ -902,7 +948,9 @@ void Timeline::refreshIcons()
 
 void Timeline::adjustTrackHeaders()
 {
-    if (m_tracks.isEmpty()) return;
+    if (m_tracks.isEmpty()) {
+        return;
+    }
     int height = KdenliveSettings::trackheight() * m_scene->scale().y() - 1;
     for (int i = 1; i < m_tracks.count(); i++) {
         m_tracks.at(i)->trackHeader->adjustSize(height);
@@ -913,8 +961,9 @@ void Timeline::reloadTrack(int ix, int start, int end)
 {
     // Get playlist
     Mlt::Playlist pl = m_tracks.at(ix)->playlist();
-    if (end == -1) 
+    if (end == -1) {
         end = pl.get_length();
+    }
     // Remove current clips
     int startIndex = pl.get_clip_index_at(start);
     int endIndex = pl.get_clip_index_at(end);
@@ -935,8 +984,9 @@ void Timeline::reloadTrack(int ix, int start, int end)
 void Timeline::reloadTrack(const ItemInfo &info, bool includeLastFrame)
 {
     // Get playlist
-    if (!info.isValid())
+    if (!info.isValid()) {
         return;
+    }
     Mlt::Playlist pl = m_tracks.at(info.track)->playlist();
     // Remove current clips
     int startIndex = pl.get_clip_index_at(info.startPos.frames(m_doc->fps()));
@@ -945,14 +995,16 @@ void Timeline::reloadTrack(const ItemInfo &info, bool includeLastFrame)
     loadTrack(info.track, 0, pl, startIndex, endIndex, false);
 }
 
-int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, int end, bool updateReferences) {
+int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, int end, bool updateReferences)
+{
     // parse track
     Mlt::ClipInfo *info = new Mlt::ClipInfo();
     double fps = m_doc->fps();
-    if (end == -1)
+    if (end == -1) {
         end = playlist.count();
+    }
     bool locked = playlist.get_int("kdenlive:locked_track") == 1;
-    for(int i = start; i <= end; ++i) {
+    for (int i = start; i <= end; ++i) {
         emit loadingBin(offset + i + 1);
         if (playlist.is_blank(i)) {
             continue;
@@ -979,15 +1031,17 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             m_doc->renderer()->loadExtraProducer(idString, new Mlt::Producer(clip->parent()));
         }
         if (idString.startsWith(QLatin1String("slowmotion"))) {
-	    hasSpeedEffect = true;
+            hasSpeedEffect = true;
             QLocale locale;
             locale.setNumberOptions(QLocale::OmitGroupSeparator);
             id = idString.section(':', 1, 1);
             slowInfo.speed = locale.toDouble(idString.section(':', 2, 2));
             slowInfo.strobe = idString.section(':', 3, 3).toInt();
-            if (slowInfo.strobe == 0) slowInfo.strobe = 1;
+            if (slowInfo.strobe == 0) {
+                slowInfo.strobe = 1;
+            }
             slowInfo.state = (PlaylistState::ClipState) idString.section(':', 4, 4).toInt();
-	    // Slowmotion producer, store it for reuse
+            // Slowmotion producer, store it for reuse
             Mlt::Producer *parentProd = new Mlt::Producer(clip->parent());
             QString url = parentProd->get("warp_resource");
             if (!m_doc->renderer()->storeSlowmotionProducer(slowInfo.toString(locale) + url, parentProd)) {
@@ -1004,27 +1058,30 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             originalState = (PlaylistState::ClipState) info->producer->get_int("kdenlive:clipstate");
         }
         if (binclip == Q_NULLPTR) {
-	    // Warning, unknown clip found, timeline corruption!!
-	    //TODO: fix this
-            qCDebug(KDENLIVE_LOG)<<"* * * * *UNKNOWN CLIP, WE ARE DEAD: "<<id;
-	    continue;
-	}
-	if (updateReferences)
+            // Warning, unknown clip found, timeline corruption!!
+            //TODO: fix this
+            qCDebug(KDENLIVE_LOG) << "* * * * *UNKNOWN CLIP, WE ARE DEAD: " << id;
+            continue;
+        }
+        if (updateReferences) {
             binclip->addRef();
+        }
         ItemInfo clipinfo;
         clipinfo.startPos = GenTime(info->start, fps);
         clipinfo.endPos = GenTime(info->start + info->frame_count, fps);
         clipinfo.cropStart = GenTime(info->frame_in, fps);
         clipinfo.cropDuration = GenTime(info->frame_count, fps);
         clipinfo.track = ix;
-	//qCDebug(KDENLIVE_LOG)<<"// Loading clip: "<<clipinfo.startPos.frames(25)<<" / "<<clipinfo.endPos.frames(25)<<"\n++++++++++++++++++++++++";
+        //qCDebug(KDENLIVE_LOG)<<"// Loading clip: "<<clipinfo.startPos.frames(25)<<" / "<<clipinfo.endPos.frames(25)<<"\n++++++++++++++++++++++++";
         ClipItem *item = new ClipItem(binclip, clipinfo, fps, slowInfo.speed, slowInfo.strobe, m_trackview->getFrameWidth(), true);
         connect(item, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
         item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - clipinfo.track) + 1 + item->itemOffset());
         //qCDebug(KDENLIVE_LOG)<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
         item->updateState(idString, info->producer->get_int("audio_index"), info->producer->get_int("video_index"), originalState);
         m_scene->addItem(item);
-        if (locked) item->setItemLocked(true);
+        if (locked) {
+            item->setItemLocked(true);
+        }
         if (hasSpeedEffect) {
             QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), QStringLiteral("speed")).cloneNode().toElement();
             EffectsList::setParameter(speedeffect, QStringLiteral("speed"), QString::number((int)(100 * slowInfo.speed + 0.5)));
@@ -1049,7 +1106,8 @@ void Timeline::loadGuides(const QMap <double, QString> &guidesData)
     }
 }
 
-void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
+void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track)
+{
     int effectNb = clip == Q_NULLPTR ? 0 : clip->effectsCount();
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> effect(service.filter(ix));
@@ -1068,11 +1126,14 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
         QDomNodeList clipeffectparams = currenteffect.childNodes();
 
         QDomNodeList params = currenteffect.elementsByTagName(QStringLiteral("parameter"));
-	ProfileInfo info = m_doc->getProfileInfo();
+        ProfileInfo info = m_doc->getProfileInfo();
         for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
-            if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")) e.setAttribute(QStringLiteral("keyframes"), getKeyframes(service, ix, e));
-            else setParam(info, e, effect->get(e.attribute(QStringLiteral("name")).toUtf8().constData()));
+            if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")) {
+                e.setAttribute(QStringLiteral("keyframes"), getKeyframes(service, ix, e));
+            } else {
+                setParam(info, e, effect->get(e.attribute(QStringLiteral("name")).toUtf8().constData()));
+            }
         }
 
         if (effect->get_out()) { // no keyframes but in/out points
@@ -1085,7 +1146,9 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
         if (!sync.isEmpty()) {
             currenteffect.setAttribute(QStringLiteral("kdenlive:sync_in_out"), sync);
         }
-        if (QString(effect->get("tag")) == QLatin1String("region")) getSubfilters(effect.data(), currenteffect);
+        if (QString(effect->get("tag")) == QLatin1String("region")) {
+            getSubfilters(effect.data(), currenteffect);
+        }
         if (clip) {
             clip->addEffect(m_doc->getProfileInfo(), currenteffect, false);
         } else {
@@ -1094,22 +1157,28 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track) {
     }
 }
 
-QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement &e) {
+QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement &e)
+{
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QString starttag = e.attribute(QStringLiteral("starttag"), QStringLiteral("start"));
     QString endtag = e.attribute(QStringLiteral("endtag"), QStringLiteral("end"));
     double fact, offset = locale.toDouble(e.attribute(QStringLiteral("offset"), QStringLiteral("0")));
     QString factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1"));
-    if (factor.contains('%')) fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
-    else fact = locale.toDouble(factor);
+    if (factor.contains('%')) {
+        fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
+    } else {
+        fact = locale.toDouble(factor);
+    }
     // retrieve keyframes
     QScopedPointer<Mlt::Filter> effect(service.filter(ix));
     int effectNb = effect->get_int("kdenlive_ix");
     QString keyframes = QString::number(effect->get_in()) + '=' + locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + ';';
-    for (;ix < service.filter_count(); ++ix) {
+    for (; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> eff2(service.filter(ix));
-        if (eff2->get_int("kdenlive_ix") != effectNb) break;
+        if (eff2->get_int("kdenlive_ix") != effectNb) {
+            break;
+        }
         if (eff2->get_in() < eff2->get_out()) {
             keyframes.append(QString::number(eff2->get_out()) + '=' + locale.toString(offset + fact * eff2->get_double(endtag.toUtf8().constData())) + ';');
         }
@@ -1118,10 +1187,13 @@ QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement 
     return keyframes;
 }
 
-void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
-    for (int i = 0; ; ++i) {
+void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
+{
+    for (int i = 0;; ++i) {
         QString name = "filter" + QString::number(i);
-        if (!effect->get(name.toUtf8().constData())) break;
+        if (!effect->get(name.toUtf8().constData())) {
+            break;
+        }
         //identify effect
         QString tag = effect->get(name.append(".tag").toUtf8().constData());
         QString id = effect->get(name.append(".kdenlive_id").toUtf8().constData());
@@ -1135,7 +1207,7 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
         subclipeffect.setAttribute(QStringLiteral("region_ix"), i);
         //get effect parameters (prefixed by subfilter name)
         QDomNodeList params = subclipeffect.elementsByTagName(QStringLiteral("parameter"));
-	ProfileInfo info = m_doc->getProfileInfo();
+        ProfileInfo info = m_doc->getProfileInfo();
         for (int i = 0; i < params.count(); ++i) {
             QDomElement param = params.item(i).toElement();
             setParam(info, param, effect->get((name + "." + param.attribute(QStringLiteral("name"))).toUtf8().constData()));
@@ -1145,7 +1217,8 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect) {
 }
 
 //static
-void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &value) {
+void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &value)
+{
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     //get Kdenlive scaling parameters
@@ -1168,7 +1241,7 @@ void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &valu
                 // Add 0.5 since we are converting to integer below so that 0.8 is converted to 1 and not 0
                 val = val * fact + 0.5;
             }
-            kfrs[l] = fr + '=' + QString::number((int) (val + offset));
+            kfrs[l] = fr + '=' + QString::number((int)(val + offset));
         }
         param.setAttribute(QStringLiteral("keyframes"), kfrs.join(QStringLiteral(";")));
     } else if (type == QLatin1String("double") || type == QLatin1String("constant")) {
@@ -1190,7 +1263,6 @@ QDomElement Timeline::getEffectByTag(const QString &effecttag, const QString &ef
     return clipeffect;
 }
 
-
 QGraphicsScene *Timeline::projectScene()
 {
     return m_scene;
@@ -1201,38 +1273,44 @@ CustomTrackView *Timeline::projectView()
     return m_trackview;
 }
 
-void Timeline::setEditMode(const QString & editMode)
+void Timeline::setEditMode(const QString &editMode)
 {
     m_editMode = editMode;
 }
 
-const QString & Timeline::editMode() const
+const QString &Timeline::editMode() const
 {
     return m_editMode;
 }
 
 void Timeline::slotVerticalZoomDown()
 {
-    if (m_verticalZoom == 0) return;
+    if (m_verticalZoom == 0) {
+        return;
+    }
     m_verticalZoom--;
     m_doc->setZoom(m_doc->zoom().x(), m_verticalZoom);
-    if (m_verticalZoom == 0)
+    if (m_verticalZoom == 0) {
         m_trackview->setScale(m_scene->scale().x(), 0.5);
-    else
+    } else {
         m_trackview->setScale(m_scene->scale().x(), 1);
+    }
     adjustTrackHeaders();
     m_trackview->verticalScrollBar()->setValue(headers_area->verticalScrollBar()->value());
 }
 
 void Timeline::slotVerticalZoomUp()
 {
-    if (m_verticalZoom == 2) return;
+    if (m_verticalZoom == 2) {
+        return;
+    }
     m_verticalZoom++;
     m_doc->setZoom(m_doc->zoom().x(), m_verticalZoom);
-    if (m_verticalZoom == 2)
+    if (m_verticalZoom == 2) {
         m_trackview->setScale(m_scene->scale().x(), 2);
-    else
+    } else {
         m_trackview->setScale(m_scene->scale().x(), 1);
+    }
     adjustTrackHeaders();
     m_trackview->verticalScrollBar()->setValue(headers_area->verticalScrollBar()->value());
 }
@@ -1240,16 +1318,22 @@ void Timeline::slotVerticalZoomUp()
 void Timeline::slotRenameTrack(int ix, const QString &name)
 {
     QString currentName = track(ix)->getProperty(QStringLiteral("kdenlive:track_name"));
-    if (currentName == name) return;
+    if (currentName == name) {
+        return;
+    }
     ConfigTracksCommand *configTracks = new ConfigTracksCommand(this, ix, currentName, name);
     m_doc->commandStack()->push(configTracks);
 }
 
 void Timeline::renameTrack(int ix, const QString &name)
 {
-    if (ix < 1) return;
+    if (ix < 1) {
+        return;
+    }
     Track *tk = track(ix);
-    if (!tk) return;
+    if (!tk) {
+        return;
+    }
     tk->setProperty(QStringLiteral("kdenlive:track_name"), name);
     tk->trackHeader->renameTrack(name);
     slotReloadTracks();
@@ -1258,7 +1342,9 @@ void Timeline::renameTrack(int ix, const QString &name)
 void Timeline::slotUpdateVerticalScroll(int /*min*/, int max)
 {
     int height = 0;
-    if (max > 0) height = m_trackview->horizontalScrollBar()->height() - 1;
+    if (max > 0) {
+        height = m_trackview->horizontalScrollBar()->height() - 1;
+    }
     headers_container->layout()->setContentsMargins(0, m_trackview->frameWidth(), 0, height);
 }
 
@@ -1275,9 +1361,13 @@ void Timeline::slotShowTrackEffects(int ix)
 
 void Timeline::slotUpdateTrackEffectState(int ix)
 {
-    if (ix < 1) return;
+    if (ix < 1) {
+        return;
+    }
     Track *tk = track(ix);
-    if (!tk) return;
+    if (!tk) {
+        return;
+    }
     tk->trackHeader->updateEffectLabel(tk->effectsList.effectNames());
 }
 
@@ -1325,7 +1415,7 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
     Mlt::Producer *clipProducer = sourceTrack->playlist().replace_with_blank(clipIndex);
     sourceTrack->playlist().consolidate_blanks();
     if (!clipProducer || clipProducer->is_blank()) {
-        qCDebug(KDENLIVE_LOG) << "// Cannot get clip at index: "<<clipIndex<<" / "<< startPos;
+        qCDebug(KDENLIVE_LOG) << "// Cannot get clip at index: " << clipIndex << " / " << startPos;
         sourceTrack->playlist().unlock();
         return false;
     }
@@ -1379,8 +1469,9 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
 
         if (effect.attribute(QStringLiteral("id")) == QLatin1String("crop")) {
             // default use_profile to 1 for clips with proxies to avoid problems when rendering
-            if (e.attribute(QStringLiteral("name")) == QLatin1String("use_profile") && m_doc->useProxy())
+            if (e.attribute(QStringLiteral("name")) == QLatin1String("use_profile") && m_doc->useProxy()) {
                 e.setAttribute(QStringLiteral("value"), QStringLiteral("1"));
+            }
         }
     }
     sourceTrack->effectsList.append(effect);
@@ -1451,8 +1542,9 @@ bool Timeline::enableTrackEffects(int trackIndex, const QList<int> &effectIndexe
         effect = list.itemFromIndex(effectIndexes.at(i));
         if (!effect.isNull()) {
             effect.setAttribute(QStringLiteral("disable"), (int) disable);
-            if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio"))
+            if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
                 hasVideoEffect = true;
+            }
         }
     }
     if (hasVideoEffect) {
@@ -1479,11 +1571,13 @@ QDomElement Timeline::getTrackEffect(int trackIndex, int effectIndex)
     }
     Track *sourceTrack = track(trackIndex);
     EffectsList list = sourceTrack->effectsList;
-    if (effectIndex > list.count() || effectIndex < 1 || list.itemFromIndex(effectIndex).isNull()) return QDomElement();
+    if (effectIndex > list.count() || effectIndex < 1 || list.itemFromIndex(effectIndex).isNull()) {
+        return QDomElement();
+    }
     return list.itemFromIndex(effectIndex).cloneNode().toElement();
 }
 
-int Timeline::hasTrackEffect(int trackIndex, const QString &tag, const QString &id) 
+int Timeline::hasTrackEffect(int trackIndex, const QString &tag, const QString &id)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
@@ -1504,7 +1598,6 @@ double Timeline::fps() const
     return m_doc->fps();
 }
 
-
 QPoint Timeline::getTracksCount()
 {
     int audioTracks = 0;
@@ -1513,8 +1606,11 @@ QPoint Timeline::getTracksCount()
     // Ignore black background track, start at one
     for (int i = 1; i < max; i++) {
         Track *tk = track(i);
-        if (tk->type == AudioTrack) audioTracks++;
-        else videoTracks++;
+        if (tk->type == AudioTrack) {
+            audioTracks++;
+        } else {
+            videoTracks++;
+        }
     }
     return QPoint(videoTracks, audioTracks);
 }
@@ -1530,7 +1626,7 @@ int Timeline::getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart)
 
 void Timeline::updateClipProperties(const QString &id, const QMap <QString, QString> &properties)
 {
-    for (int i = 1; i< m_tracks.count(); i++) {
+    for (int i = 1; i < m_tracks.count(); i++) {
         track(i)->updateClipProperties(id, properties);
     }
 }
@@ -1567,7 +1663,7 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
     int pos = sourceTrack->frame(startPos);
     int clipIndex = sourceTrack->playlist().get_clip_index_at(pos);
     if (sourceTrack->playlist().is_blank(clipIndex)) {
-	  qCDebug(KDENLIVE_LOG)<<"// ERROR FINDING CLIP on TK: "<<tk<<", FRM: "<<pos;
+        qCDebug(KDENLIVE_LOG) << "// ERROR FINDING CLIP on TK: " << tk << ", FRM: " << pos;
     }
     Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
     Clip clp(clipProducer->parent());
@@ -1596,14 +1692,16 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
 int Timeline::getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart)
 {
     Track *sourceTrack = track(tk);
-    if (!sourceTrack) return 0;
+    if (!sourceTrack) {
+        return 0;
+    }
     int insertPos = pos.frames(m_doc->fps());
     return sourceTrack->spaceLength(insertPos, fromBlankStart);
 }
 
 void Timeline::disableTimelineEffects(bool disable)
 {
-    for (int i = 1; i< tracksCount(); i++) {
+    for (int i = 1; i < tracksCount(); i++) {
         track(i)->disableEffects(disable);
     }
 }
@@ -1619,7 +1717,7 @@ void Timeline::refreshTrackActions()
     if (tracks > 3) {
         return;
     }
-    foreach(QAction *action, m_trackActions) {
+    foreach (QAction *action, m_trackActions) {
         if (action->data().toString() == QLatin1String("delete_track")) {
             action->setEnabled(tracks > 2);
         }
@@ -1634,20 +1732,24 @@ void Timeline::slotMultitrackView(bool enable)
 
 void Timeline::connectOverlayTrack(bool enable)
 {
-    if (!m_hasOverlayTrack && !m_usePreview) return;
+    if (!m_hasOverlayTrack && !m_usePreview) {
+        return;
+    }
     m_tractor->lock();
     if (enable) {
         // Re-add overlaytrack
-        if (m_usePreview)
+        if (m_usePreview) {
             m_timelinePreview->reconnectTrack();
+        }
         if (m_hasOverlayTrack) {
             m_tractor->insert_track(*m_overlayTrack, tracksCount() + 1);
             delete m_overlayTrack;
             m_overlayTrack = Q_NULLPTR;
         }
     } else {
-        if (m_usePreview)
+        if (m_usePreview) {
             m_timelinePreview->disconnectTrack();
+        }
         if (m_hasOverlayTrack) {
             m_overlayTrack = m_tractor->track(tracksCount());
             m_tractor->remove_track(tracksCount());
@@ -1658,7 +1760,9 @@ void Timeline::connectOverlayTrack(bool enable)
 
 void Timeline::removeSplitOverlay()
 {
-    if (!m_hasOverlayTrack) return;
+    if (!m_hasOverlayTrack) {
+        return;
+    }
     m_tractor->lock();
     Mlt::Producer *prod = m_tractor->track(tracksCount());
     if (strcmp(prod->get("id"), "overlay_track") == 0) {
@@ -1674,7 +1778,9 @@ void Timeline::removeSplitOverlay()
 bool Timeline::createOverlay(Mlt::Filter *filter, int tk, int startPos)
 {
     Track *sourceTrack = track(tk);
-    if (!sourceTrack) return false;
+    if (!sourceTrack) {
+        return false;
+    }
     m_tractor->lock();
     int clipIndex = sourceTrack->playlist().get_clip_index_at(startPos);
     Mlt::Producer *clipProducer = sourceTrack->playlist().get_clip(clipIndex);
@@ -1713,7 +1819,9 @@ bool Timeline::createRippleWindow(int tk, int startPos, OperationType mode)
         return true;
     }
     Track *sourceTrack = track(tk);
-    if (!sourceTrack) return false;
+    if (!sourceTrack) {
+        return false;
+    }
     m_tractor->lock();
     Mlt::Playlist playlist = sourceTrack->playlist();
     int clipIndex = playlist.get_clip_index_at(startPos);
@@ -1748,7 +1856,7 @@ bool Timeline::createRippleWindow(int tk, int startPos, OperationType mode)
         secondStart -= secondClip->get_in();
     } else {
         //cln2->set_in_and_out(secondClip->get_in(), secondClip->get_out());
-        qCDebug(KDENLIVE_LOG)<<"* * *INIT RIPPLE; CLP START: "<<secondClip->get_in();
+        qCDebug(KDENLIVE_LOG) << "* * *INIT RIPPLE; CLP START: " << secondClip->get_in();
     }
     int rippleStart = playlist.clip_start(clipIndex - 1);
 
@@ -1762,12 +1870,13 @@ bool Timeline::createRippleWindow(int tk, int startPos, OperationType mode)
         cln2->set_in_and_out(-secondStart, -1);
         secondStart = 0;
     }
-    if (secondStart > 0)
+    if (secondStart > 0) {
         ripple1->insert_blank(0, secondStart);
+    }
     ripple1->insert_at(secondStart, cln2, 1);
     int ix = ripple1->get_clip_index_at(secondStart);
     ripple1->resize_clip(ix, secondClip->get_in(), secondClip->get_out());
-    qCDebug(KDENLIVE_LOG)<<"* * *INIT RIPPLE; REAL START: "<<cln2->get_in()<<" / "<<secondStart;
+    qCDebug(KDENLIVE_LOG) << "* * *INIT RIPPLE; REAL START: " << cln2->get_in() << " / " << secondStart;
     Mlt::Playlist ripple2(*m_tractor->profile());
     ripple2.insert_blank(0, rippleStart);
     ripple2.insert_at(rippleStart, cln, 1);
@@ -1802,7 +1911,6 @@ bool Timeline::createRippleWindow(int tk, int startPos, OperationType mode)
     return true;
 }
 
-
 void Timeline::switchTrackTarget()
 {
     if (!KdenliveSettings::splitaudio()) {
@@ -1817,8 +1925,9 @@ void Timeline::switchTrackTarget()
             current->trackHeader->switchTarget(false);
             videoTarget = -1;
         } else {
-            if (videoTarget > -1)
+            if (videoTarget > -1) {
                 m_tracks.at(videoTarget)->trackHeader->switchTarget(false);
+            }
             current->trackHeader->switchTarget(true);
             videoTarget = m_trackview->selectedTrack();
         }
@@ -1828,8 +1937,9 @@ void Timeline::switchTrackTarget()
             current->trackHeader->switchTarget(false);
             audioTarget = -1;
         } else {
-            if (audioTarget > -1)
+            if (audioTarget > -1) {
                 m_tracks.at(audioTarget)->trackHeader->switchTarget(false);
+            }
             current->trackHeader->switchTarget(true);
             audioTarget = m_trackview->selectedTrack();
         }
@@ -1844,17 +1954,19 @@ void Timeline::slotEnableZone(bool enable)
 
 void Timeline::stopPreviewRender()
 {
-    if (m_timelinePreview)
+    if (m_timelinePreview) {
         m_timelinePreview->abortRendering();
+    }
 }
 
 void Timeline::invalidateRange(const ItemInfo &info)
 {
-    if (!m_timelinePreview)
+    if (!m_timelinePreview) {
         return;
-    if (info.isValid())
+    }
+    if (info.isValid()) {
         m_timelinePreview->invalidatePreview(info.startPos.frames(m_doc->fps()), info.endPos.frames(m_doc->fps()));
-    else {
+    } else {
         m_timelinePreview->invalidatePreview(0, m_trackview->duration());
     }
 }
@@ -1872,8 +1984,9 @@ void Timeline::loadPreviewRender()
         if (!m_timelinePreview) {
             initializePreview();
         }
-        if (!m_timelinePreview || m_disablePreview->isChecked())
+        if (!m_timelinePreview || m_disablePreview->isChecked()) {
             return;
+        }
         m_timelinePreview->buildPreviewTrack();
         m_timelinePreview->loadChunks(chunks.split(QStringLiteral(","), QString::SkipEmptyParts), dirty.split(QStringLiteral(","), QString::SkipEmptyParts), documentDate);
         m_usePreview = true;
@@ -1884,7 +1997,9 @@ void Timeline::loadPreviewRender()
 
 void Timeline::updatePreviewSettings(const QString &profile)
 {
-    if (profile.isEmpty()) return;
+    if (profile.isEmpty()) {
+        return;
+    }
     QString params = profile.section(QStringLiteral(";"), 0, 0);
     QString ext = profile.section(QStringLiteral(";"), 1, 1);
     if (params != m_doc->getDocumentProperty(QStringLiteral("previewparameters")) || ext != m_doc->getDocumentProperty(QStringLiteral("previewextension"))) {
@@ -1898,11 +2013,12 @@ void Timeline::updatePreviewSettings(const QString &profile)
 
 void Timeline::invalidateTrack(int ix)
 {
-    if (!m_timelinePreview)
+    if (!m_timelinePreview) {
         return;
-    Track* tk = track(ix);
+    }
+    Track *tk = track(ix);
     QList <QPoint> visibleRange = tk->visibleClips();
-    foreach(const QPoint p, visibleRange) {
+    foreach (const QPoint p, visibleRange) {
         m_timelinePreview->invalidatePreview(p.x(), p.y());
     }
 }
@@ -1945,9 +2061,9 @@ void Timeline::initializePreview()
 void Timeline::startPreviewRender()
 {
     // Timeline preview stuff
-    if (!m_timelinePreview)
+    if (!m_timelinePreview) {
         initializePreview();
-    else if (m_disablePreview->isChecked()) {
+    } else if (m_disablePreview->isChecked()) {
         m_disablePreview->setChecked(false);
         disablePreview(false);
     }
@@ -1984,25 +2100,28 @@ void Timeline::disablePreview(bool disable)
 
 void Timeline::addPreviewRange(bool add)
 {
-    if (m_timelinePreview)
+    if (m_timelinePreview) {
         m_timelinePreview->addPreviewRange(add);
+    }
 }
 
 void Timeline::clearPreviewRange()
 {
-    if (m_timelinePreview)
+    if (m_timelinePreview) {
         m_timelinePreview->clearPreviewRange();
+    }
 }
 
-void Timeline::storeHeaderSize(int , int )
+void Timeline::storeHeaderSize(int, int)
 {
     KdenliveSettings::setTimelineheaderwidth(splitter->saveState().toBase64());
 }
 
 void Timeline::switchComposite(int mode)
 {
-    if (m_tracks.isEmpty())
+    if (m_tracks.isEmpty()) {
         return;
+    }
     int maxTrack = tracksCount();
     // check video tracks
     QList<int> videoTracks;

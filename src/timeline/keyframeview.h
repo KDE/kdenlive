@@ -8,7 +8,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -69,7 +69,7 @@ public:
     * @param y new Value */
     void updateKeyFramePos(const QRectF &br, int frame, const double y);
     double getKeyFrameClipHeight(const QRectF &br, const double y);
-     /** @brief Returns the number of keyframes the selected effect has, -1 if none. */
+    /** @brief Returns the number of keyframes the selected effect has, -1 if none. */
     int keyframesCount();
     double editedKeyFrameValue();
     void editKeyframeType(int type);
@@ -107,7 +107,7 @@ public:
     QString getSingleAnimation(int ix, int in, int out, int offset, int limitKeyframes, QPoint maximas, double min, double max);
     /** @brief Returns a copy of the original anim, with a crop zone (in/out) and frame offset */
     QString getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation, bool positionOnly, QPoint rectOffset);
-	
+
 private:
     Mlt::Properties m_keyProperties;
     Mlt::Animation m_keyAnim;

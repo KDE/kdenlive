@@ -43,8 +43,8 @@ public:
     Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params = QDomElement(), bool automaticTransition = false);
     virtual ~Transition();
     void paint(QPainter *painter,
-                       const QStyleOptionGraphicsItem *option,
-                       QWidget *widget) Q_DECL_OVERRIDE;
+               const QStyleOptionGraphicsItem *option,
+               QWidget *widget) Q_DECL_OVERRIDE;
     int type() const Q_DECL_OVERRIDE;
 
     /** @brief Returns an XML representation of this transition. */
@@ -72,7 +72,7 @@ public:
     bool isAutomatic() const;
     void setAutomatic(bool automatic);
     bool hasGeometry();
-    /** @brief When a transition is resized, check if keyframes are out of the transition and fix if necessary. 
+    /** @brief When a transition is resized, check if keyframes are out of the transition and fix if necessary.
      * @param oldEnd the previous transition end, so that when we expand the transition, if there is a keyframe at end we move it
      */
     bool updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInfo);
@@ -98,10 +98,10 @@ private:
     int m_transitionTrack;
 
     /** @brief Returns the display name for a transition type. */
-    QString getTransitionName(const TransitionType & type);
+    QString getTransitionName(const TransitionType &type);
 
     /** @brief Returns the transition type for a given name. */
-    TransitionType getTransitionForName(const QString & type);
+    TransitionType getTransitionForName(const QString &type);
 };
 
 #endif

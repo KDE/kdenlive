@@ -22,7 +22,6 @@
 
 #include "abstracttoolmanager.h"
 
-
 /**
  * @namespace SpacerManager
  * @brief Provides convenience methods to handle selection tool.

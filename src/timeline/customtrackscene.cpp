@@ -20,13 +20,12 @@
 #include "customtrackscene.h"
 #include "timeline.h"
 
-
 CustomTrackScene::CustomTrackScene(Timeline *timeline, QObject *parent) :
-        QGraphicsScene(parent),
-        isZooming(false),
-        m_timeline(timeline),
-        m_scale(1.0, 1.0),
-        m_editMode(TimelineMode::NormalEdit)
+    QGraphicsScene(parent),
+    isZooming(false),
+    m_timeline(timeline),
+    m_scale(1.0, 1.0),
+    m_editMode(TimelineMode::NormalEdit)
 {
 }
 
@@ -38,20 +37,24 @@ double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap)
 {
     if (doSnap) {
         double maximumOffset;
-        if (m_scale.x() > 3) maximumOffset = 10 / m_scale.x();
-        else maximumOffset = 6 / m_scale.x();
+        if (m_scale.x() > 3) {
+            maximumOffset = 10 / m_scale.x();
+        } else {
+            maximumOffset = 6 / m_scale.x();
+        }
         for (int i = 0; i < m_snapPoints.size(); ++i) {
             if (qAbs((int)(pos - m_snapPoints.at(i).frames(m_timeline->fps()))) < maximumOffset) {
                 return m_snapPoints.at(i).frames(m_timeline->fps());
             }
-            if (m_snapPoints.at(i).frames(m_timeline->fps()) > pos)
+            if (m_snapPoints.at(i).frames(m_timeline->fps()) > pos) {
                 break;
+            }
         }
     }
     return GenTime(pos, m_timeline->fps()).frames(m_timeline->fps());
 }
 
-void CustomTrackScene::setSnapList(const QList <GenTime>& snaps)
+void CustomTrackScene::setSnapList(const QList <GenTime> &snaps)
 {
     m_snapPoints = snaps;
 }
@@ -60,7 +63,9 @@ GenTime CustomTrackScene::previousSnapPoint(const GenTime &pos) const
 {
     for (int i = 0; i < m_snapPoints.size(); ++i) {
         if (m_snapPoints.at(i) >= pos) {
-            if (i == 0) return GenTime();
+            if (i == 0) {
+                return GenTime();
+            }
             return m_snapPoints.at(i - 1);
         }
     }
@@ -108,5 +113,4 @@ TimelineMode::EditMode CustomTrackScene::editMode() const
 {
     return m_editMode;
 }
-
 

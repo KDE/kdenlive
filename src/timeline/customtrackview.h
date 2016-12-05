@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef CUSTOMTRACKVIEW_H
 #define CUSTOMTRACKVIEW_H
 
@@ -50,12 +49,12 @@ class CustomTrackView : public QGraphicsView
     Q_OBJECT
 
 public:
-    CustomTrackView(KdenliveDoc *doc, Timeline* timeline, CustomTrackScene* projectscene, QWidget *parent = Q_NULLPTR);
+    CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTrackScene *projectscene, QWidget *parent = Q_NULLPTR);
     virtual ~ CustomTrackView();
 
-    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void addTrack(const TrackInfo &type, int ix = -1);
     void removeTrack(int ix);
@@ -122,7 +121,7 @@ public:
     void clipEnd();
     void doChangeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe, const QString &id, bool removeEffect = false);
     /** @brief Every command added to the undo stack automatically triggers a document change event.
-     *  This function should only be called when changing a document setting or another function that 
+     *  This function should only be called when changing a document setting or another function that
      *  is not integrated in the undo / redo system */
     void setDocumentModified();
     void setInPoint();
@@ -164,7 +163,7 @@ public:
     /** @brief Separates the audio of a clip to a audio track.
     * @param pos Position of the clip to split
     * @param track Track of the clip
-    * @param split Split or unsplit 
+    * @param split Split or unsplit
     * @return true if the split was successful  */
     bool doSplitAudio(const GenTime &pos, int track, int destTrack, bool split);
     /** @brief Sets the clip type (av, video only, audio only) of the current selection. */
@@ -247,14 +246,14 @@ public:
     bool hasSelection() const;
     /** @brief Get the index of the video track that is just above current track */
     int getNextVideoTrack(int track);
-    /** @brief returns id of clip under cursor and set pos to cursor position in clip, 
+    /** @brief returns id of clip under cursor and set pos to cursor position in clip,
      *  zone gets in/out points */
     const QString getClipUnderCursor(int *pos, QPoint *zone = Q_NULLPTR) const;
     /** @brief returns displayable timecode info */
     QString getDisplayTimecode(const GenTime &time) const;
     QString getDisplayTimecodeFromFrames(int frames) const;
     /** @brief Call the default QGraphicsView mouse event */
-    void graphicsViewMouseEvent(QMouseEvent * event);
+    void graphicsViewMouseEvent(QMouseEvent *event);
     /** @brief Creates an overlay track with filtered clip */
     bool createSplitOverlay(Mlt::Filter *filter);
     void removeSplitOverlay();
@@ -268,13 +267,13 @@ public:
     /** @brief Insert space in timeline. track = -1 means all tracks */
     void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, const QList<ItemInfo> &excludeList = QList <ItemInfo>());
     void trimMode(bool enable, int ripplePos = -1);
-        /** @brief Returns a clip from timeline
-     *  @param pos the end time position
-     *  @param track the track where the clip is in MLT coordinates */
+    /** @brief Returns a clip from timeline
+    *  @param pos the end time position
+    *  @param track the track where the clip is in MLT coordinates */
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
-    /** @brief Returns a clip from timeline 
+    /** @brief Returns a clip from timeline
      *  @param pos the time position
-     *  @param track the track where the clip is in MLT coordinates 
+     *  @param track the track where the clip is in MLT coordinates
      *  @param end the end position of the clip in case of overlapping clips (overwrite mode) */
     ClipItem *getClipItemAtStart(GenTime pos, int track, GenTime end = GenTime());
     /** @brief Takes care of updating effects and attached transitions during a resize from start.
@@ -310,7 +309,7 @@ public:
     /** @brief Updates the duration stored in a track's TrackInfo.
      * @param track Number of track as used in ItemInfo (not the numbering used in KdenliveDoc) (negative for all tracks)
      * @param command If effects need to be updated the commands to do this will be attached to this undo command
-     * 
+     *
      * In addition to update the duration in TrackInfo it updates effects with keyframes on the track. */
     void updateTrackDuration(int track, QUndoCommand *command);
     /** @brief Send updtaed info to transition widget. */
@@ -344,7 +343,7 @@ public slots:
     void slotUpdateClipRegion(ClipItem *clip, int ix, const QString &region);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
-    void slotAddTransition(ClipItem* clip, const ItemInfo &transitionInfo, int endTrack, const QDomElement &transition = QDomElement());
+    void slotAddTransition(ClipItem *clip, const ItemInfo &transitionInfo, int endTrack, const QDomElement &transition = QDomElement());
     void slotAddTransitionToSelectedClips(const QDomElement &transition, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>());
     void slotTransitionUpdated(Transition *, const QDomElement &);
     void slotSwitchTrackLock(int ix, bool enable, bool applyToAll = false);
@@ -418,21 +417,21 @@ public slots:
     void switchTrimMode(int mode);
 
 protected:
-    void drawBackground(QPainter * painter, const QRectF & rect) Q_DECL_OVERRIDE;
+    void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
     //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
-    void dragEnterEvent(QDragEnterEvent * event) Q_DECL_OVERRIDE;
-    void dragMoveEvent(QDragMoveEvent * event) Q_DECL_OVERRIDE;
-    void dragLeaveEvent(QDragLeaveEvent * event) Q_DECL_OVERRIDE;
-    bool event( QEvent * e ) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+    void dragLeaveEvent(QDragLeaveEvent *event) Q_DECL_OVERRIDE;
+    bool event(QEvent *e) Q_DECL_OVERRIDE;
     /** @brief Something has been dropped onto the timeline */
-    void dropEvent(QDropEvent * event) Q_DECL_OVERRIDE;
-    void enterEvent(QEvent * event) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent * event) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent * e) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent * event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions() const;
-    void contextMenuEvent(QContextMenuEvent * event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
 
 private:
     int m_ct;
@@ -463,7 +462,7 @@ private:
     QList <Guide *> m_guides;
     QColor m_selectedTrackColor;
     QColor m_lockedTrackColor;
-    QMap <AbstractToolManager::ToolManagerType, AbstractToolManager*> m_toolManagers;
+    QMap <AbstractToolManager::ToolManagerType, AbstractToolManager *> m_toolManagers;
     AbstractToolManager *m_currentToolManager;
 
     /** @brief Returns a clip from timeline
@@ -499,8 +498,8 @@ private:
     QAction *m_disableClipAction;
     QAction *m_editGuide;
     QAction *m_deleteGuide;
-    QList <QAction*> m_audioActions;
-    QList <QAction*> m_avActions;
+    QList <QAction *> m_audioActions;
+    QList <QAction *> m_avActions;
     QActionGroup *m_clipTypeGroup;
     bool m_clipDrag;
 
@@ -521,7 +520,7 @@ private:
     AudioCorrelation *m_audioCorrelator;
     ClipItem *m_audioAlignmentReference;
 
-    void updatePositionEffects(ClipItem * item, const ItemInfo &info, bool standalone = true);
+    void updatePositionEffects(ClipItem *item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
     bool canBePastedTo(const QList<ItemInfo> &infoList, int type) const;
     bool canBePasted(const QList<AbstractClipItem *> &items, GenTime offset, int trackOffset, QList <AbstractClipItem *>excluded = QList <AbstractClipItem *>()) const;
@@ -547,7 +546,7 @@ private:
      * @param fromStart false = resize from end
      * @param command Used as a parent for EditEffectCommand */
     void adjustEffects(ClipItem *item, const ItemInfo &oldInfo, QUndoCommand *command);
-    
+
     /** @brief Prepare an add clip command for an effect */
     void processEffect(ClipItem *item, const QDomElement &effect, int offset, QUndoCommand *effectCommand);
     /** @brief Reload all clips and transitions from MLT's playlist */
@@ -592,12 +591,12 @@ signals:
      *  @param clip The clip
      *  @param raise If true, the effect stack widget will be raised (come to front). */
     void clipItemSelected(ClipItem *clip, bool reloadStack = true);
-    void transitionItemSelected(Transition*, int track = 0, QPoint p = QPoint(), bool update = false);
+    void transitionItemSelected(Transition *, int track = 0, QPoint p = QPoint(), bool update = false);
     void activateDocumentMonitor();
     void tracksChanged();
     void displayMessage(const QString &, MessageType);
     void doTrackLock(int, bool);
-    void updateClipMarkers(ClipController*);
+    void updateClipMarkers(ClipController *);
     void updateTrackHeaders();
     void playMonitor();
     void pauseMonitor();
@@ -609,7 +608,7 @@ signals:
     /** @brief Cursor position changed, repaint ruler.*/
     void updateRuler(int pos);
     /** @brief Send data from a clip to be imported as keyframes for effect / transition.*/
-    void importKeyframes(GraphicsRectItem type, const QString&, const QString&);
+    void importKeyframes(GraphicsRectItem type, const QString &, const QString &);
     /** @brief Guides were changed, inform render widget*/
     void guidesUpdated();
     /** @brief Prepare importing and expand of a playlist clip */
@@ -618,9 +617,9 @@ signals:
     void showClipFrame(const QString &id, int frame);
     /** @brief Select active keyframe in effect stack */
     void setActiveKeyframe(int);
-    void loadMonitorScene(MonitorSceneType,bool);
+    void loadMonitorScene(MonitorSceneType, bool);
     void updateTrimMode(const QString mode = QString());
-    void setQmlProperty(const QString&, const QVariant&);
+    void setQmlProperty(const QString &, const QVariant &);
 };
 
 #endif

@@ -37,10 +37,10 @@ bool GuideManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<Q
     for (int i = 0; i < m_collisionList.count(); ++i) {
         if (m_collisionList.at(i)->type() == GUIDEITEM) {
             // a guide item was pressed
-            m_dragGuide = static_cast<Guide*>(m_collisionList.at(i));
+            m_dragGuide = static_cast<Guide *>(m_collisionList.at(i));
             m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, true);
             m_view->setOperationMode(MoveGuide);
-                // deselect all clips so that only the guide will move
+            // deselect all clips so that only the guide will move
             m_view->clearSelection();
             m_view->updateSnapPoints(Q_NULLPTR);
             return true;

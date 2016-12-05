@@ -29,7 +29,6 @@
 #include "definitions.h"
 #include <mlt++/Mlt.h>
 
-
 class TransitionHandler : public QObject
 {
     Q_OBJECT

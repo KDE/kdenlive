@@ -35,7 +35,6 @@
 class CustomTrackScene;
 class QGraphicsSceneMouseEvent;
 
-
 class AbstractClipItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
@@ -44,11 +43,10 @@ class AbstractClipItem : public QObject, public QGraphicsRectItem
 
 public:
 
-
-    AbstractClipItem(const ItemInfo &info, const QRectF& rect, double fps);
+    AbstractClipItem(const ItemInfo &info, const QRectF &rect, double fps);
     virtual ~ AbstractClipItem();
     ItemInfo info() const;
-    CustomTrackScene* projectScene();
+    CustomTrackScene *projectScene();
     void updateRectGeometry();
     void updateItem(int track);
     void setItemLocked(bool locked);
@@ -116,9 +114,9 @@ protected:
     bool m_isMainSelectedClip;
     KeyframeView m_keyframeView;
 
-    void mousePressEvent(QGraphicsSceneMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent * event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
     int trackForPos(int position);
     int posForTrack(int track);
     bool resizeGeometries(QDomElement effect, int width, int height, int previousDuration, int start, int duration, int cropstart);
@@ -126,7 +124,7 @@ protected:
     bool switchKeyframes(QDomElement param, int in, int oldin, int out, int oldout);
 
 signals:
-    void selectItem(AbstractClipItem*);
+    void selectItem(AbstractClipItem *);
 };
 
 #endif

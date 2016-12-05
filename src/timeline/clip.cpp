@@ -10,27 +10,26 @@
  * accepted by the membership of KDE e.V. (or its successor approved
  * by the membership of KDE e.V.), which shall act as a proxy
  * defined in Section 14 of version 3 of the license.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "clip.h"
 #include <mlt++/Mlt.h>
-
 
 Clip::Clip(Mlt::Producer &producer) : QObject(),
     m_producer(producer)
 {
 }
 
-Clip::Clip(Clip& other) : QObject()
+Clip::Clip(Clip &other) : QObject()
 {
     m_producer = other.producer();
 }
@@ -39,18 +38,18 @@ Clip::~Clip()
 {
 }
 
-Clip& Clip::operator=(Clip& other)
+Clip &Clip::operator=(Clip &other)
 {
     m_producer = other.producer();
     return *this;
 }
 
-Mlt::Producer & Clip::producer()
+Mlt::Producer &Clip::producer()
 {
     return m_producer;
 }
 
-void Clip::setProducer(Mlt::Producer& producer)
+void Clip::setProducer(Mlt::Producer &producer)
 {
     m_producer = producer;
 }
@@ -60,25 +59,25 @@ void Clip::adjustEffectsLength()
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
-	if (filter->get_int("kdenlive:sync_in_out") == 1) {
+        if (filter->get_int("kdenlive:sync_in_out") == 1) {
             filter->set_in_and_out(m_producer.get_in(), m_producer.get_out());
         }
         ct++;
         delete filter;
-	filter = m_producer.filter(ct);
+        filter = m_producer.filter(ct);
     }
 }
 
-void Clip::addEffects(Mlt::Service& service, bool skipFades)
+void Clip::addEffects(Mlt::Service &service, bool skipFades)
 {
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         // Only duplicate Kdenlive filters, and skip the fade in effects
         if (effect->is_valid()) {
-	    QString effectId = effect->get("kdenlive_id");
-	    if (effectId.isEmpty() || (skipFades && (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")))) {
-		continue;
-	    }
+            QString effectId = effect->get("kdenlive_id");
+            if (effectId.isEmpty() || (skipFades && (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")))) {
+                continue;
+            }
             // no easy filter copy: do it by hand!
             Mlt::Filter *copy = new Mlt::Filter(*effect->profile(), effect->get("mlt_service"));
             if (copy && copy->is_valid()) {
@@ -88,8 +87,9 @@ void Clip::addEffects(Mlt::Service& service, bool skipFades)
                         // Effect in/out must be synced with clip in/out
                         copy->set_in_and_out(m_producer.get_in(), m_producer.get_out());
                     }
-                    if (paramName.at(0) != '_')
+                    if (paramName.at(0) != '_') {
                         copy->set(effect->get_name(i), effect->get(i));
+                    }
                 }
                 m_producer.attach(*copy);
             }
@@ -98,21 +98,23 @@ void Clip::addEffects(Mlt::Service& service, bool skipFades)
     }
 }
 
-void Clip::replaceEffects(Mlt::Service& service)
+void Clip::replaceEffects(Mlt::Service &service)
 {
     // remove effects first
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
-	QString ix = filter->get("kdenlive_ix");
-	if (!ix.isEmpty()) {
+        QString ix = filter->get("kdenlive_ix");
+        if (!ix.isEmpty()) {
             if (m_producer.detach(*filter) == 0) {
+            } else {
+                ct++;
             }
-            else ct++;
-	}
-	else ct++;
+        } else {
+            ct++;
+        }
         delete filter;
-	filter = m_producer.filter(ct);
+        filter = m_producer.filter(ct);
     }
     addEffects(service);
 }
@@ -123,15 +125,17 @@ void Clip::deleteEffects()
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
-	QString ix = filter->get("kdenlive_ix");
-	if (!ix.isEmpty()) {
+        QString ix = filter->get("kdenlive_ix");
+        if (!ix.isEmpty()) {
             if (m_producer.detach(*filter) == 0) {
+            } else {
+                ct++;
             }
-            else ct++;
-	}
-	else ct++;
+        } else {
+            ct++;
+        }
         delete filter;
-	filter = m_producer.filter(ct);
+        filter = m_producer.filter(ct);
     }
 }
 
@@ -145,10 +149,9 @@ void Clip::disableEffects(bool disable)
             if (disable && filter->get_int("disable") == 0) {
                 filter->set("disable", 1);
                 filter->set("auto_disable", 1);
-            }
-            else if (!disable && filter->get_int("auto_disable") == 1) {
-                filter->set("disable", (char*) Q_NULLPTR);
-                filter->set("auto_disable", (char*) Q_NULLPTR);
+            } else if (!disable && filter->get_int("auto_disable") == 1) {
+                filter->set("disable", (char *) Q_NULLPTR);
+                filter->set("auto_disable", (char *) Q_NULLPTR);
             }
         }
         ct++;
@@ -162,8 +165,12 @@ const QByteArray Clip::xml()
     Mlt::Consumer c(*m_producer.profile(), "xml", "string");
     Mlt::Service s(m_producer.get_service());
     int ignore = s.get_int("ignore_points");
-    if (ignore) s.set("ignore_points", 0);
-    if (s.get_int("ignore_points")) s.set("ignore_points", 0);
+    if (ignore) {
+        s.set("ignore_points", 0);
+    }
+    if (s.get_int("ignore_points")) {
+        s.set("ignore_points", 0);
+    }
     c.connect(s);
     c.set("time_format", "frames");
     c.set("no_meta", 1);
@@ -171,16 +178,20 @@ const QByteArray Clip::xml()
     c.set("root", "/");
     c.set("store", "kdenlive");
     c.start();
-    if (ignore) s.set("ignore_points", ignore);
+    if (ignore) {
+        s.set("ignore_points", ignore);
+    }
     return c.get("string");
 }
 
-Mlt::Producer *Clip::clone() {
+Mlt::Producer *Clip::clone()
+{
     Mlt::Producer *prod = new Mlt::Producer(*m_producer.profile(), "xml-string", xml().constData());
     return prod;
 }
 
-Mlt::Producer *Clip::softClone(const char*list) {
+Mlt::Producer *Clip::softClone(const char *list)
+{
     QString service = m_producer.get("mlt_service");
     QString resource = m_producer.get("resource");
     Mlt::Producer *clone = new Mlt::Producer(*m_producer.profile(), service.toUtf8().constData(), resource.toUtf8().constData());

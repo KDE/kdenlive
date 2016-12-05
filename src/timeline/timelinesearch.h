@@ -20,7 +20,7 @@ class QKeyEvent;
 /**
  * @class TimelineSearch
  * @brief Provides functionality to search the timeline items (clips, guides) by name.
- * 
+ *
  * Currently a part of the code remains in CustomTrackView.
  * Should be made a plugin when refactoring is done.
  */
@@ -30,7 +30,7 @@ class TimelineSearch : public QObject
     Q_OBJECT
 
 public:
-    explicit TimelineSearch(QObject* parent = Q_NULLPTR);
+    explicit TimelineSearch(QObject *parent = Q_NULLPTR);
 
 private slots:
     void slotInitSearch();

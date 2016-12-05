@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef SPACERDIALOG_H
 #define SPACERDIALOG_H
-
 
 #include "ui_spacerdialog_ui.h"
 #include "timecode.h"
@@ -38,14 +36,13 @@ class SpacerDialog : public QDialog, public Ui::SpacerDialog_UI
     Q_OBJECT
 
 public:
-    SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList <TrackInfo>& tracks, QWidget * parent = Q_NULLPTR);
+    SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList <TrackInfo> &tracks, QWidget *parent = Q_NULLPTR);
     GenTime selectedDuration() const;
     int selectedTrack() const;
 
 private:
     TimecodeDisplay m_in;
 };
-
 
 #endif
 

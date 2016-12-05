@@ -22,7 +22,6 @@
 
 #include "kdenlivesettings.h"
 
-
 #include <QPen>
 #include <QBrush>
 #include <QStyleOptionGraphicsItem>
@@ -31,17 +30,19 @@
 #include <QGraphicsItem>
 
 Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, double height) :
-        QGraphicsLineItem(),
-        m_position(pos),
-        m_label(label),
-        m_view(view),
-        m_pen(QPen())
+    QGraphicsLineItem(),
+    m_position(pos),
+    m_label(label),
+    m_view(view),
+    m_pen(QPen())
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setToolTip(label);
     setLine(0, 0, 0, height);
-    if (m_position < GenTime()) m_position = GenTime();
+    if (m_position < GenTime()) {
+        m_position = GenTime();
+    }
     setPos(m_position.frames(m_view->fps()), 0);
     m_pen.setWidthF(0);
     m_pen.setColor(QColor(0, 0, 200, 180));
@@ -115,7 +116,9 @@ QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value)
         QPointF newPos = value.toPointF();
         newPos.setY(0);
         newPos.setX(m_view->getSnapPointForPos(newPos.x()));
-        if (newPos.x() < 0.0) newPos.setX(0.0);
+        if (newPos.x() < 0.0) {
+            newPos.setX(0.0);
+        }
         return newPos;
     }
     return QGraphicsItem::itemChange(change, value);
@@ -126,7 +129,7 @@ QRectF Guide::boundingRect() const
 {
     double scale = m_view->matrix().m11();
     double width = m_pen.widthF() / scale * 2;
-    QRectF rect(line().x1() - width / 2 , line().y1(), width, line().y2() - line().y1());
+    QRectF rect(line().x1() - width / 2, line().y1(), width, line().y2() - line().y1());
     if (KdenliveSettings::showmarkers()) {
         // +3 to cover the arc at the end of the comment
         rect.setWidth(width + m_width + 3);
@@ -138,9 +141,11 @@ QRectF Guide::boundingRect() const
 QPainterPath Guide::shape() const
 {
     QPainterPath path;
-    if (!scene()) return path;
+    if (!scene()) {
+        return path;
+    }
     double width = m_pen.widthF() * 2;
-    path.addRect(line().x1() - width / 2 , line().y1(), width, line().y2() - line().y1());
+    path.addRect(line().x1() - width / 2, line().y1(), width, line().y2() - line().y1());
     if (KdenliveSettings::showmarkers() && scene()->views().count()) {
         const QFontMetrics metric = m_view->fontMetrics();
         int offset = scene()->views()[0]->verticalScrollBar()->value();
@@ -157,13 +162,13 @@ void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     if (KdenliveSettings::showmarkers() && scene() && scene()->views().count()) {
         QPointF p1 = line().p1();
         const QFontMetrics metric = m_view->fontMetrics();
-	painter->setClipRect(option->rect);
+        painter->setClipRect(option->rect);
         // makes sure the text stays visible when scrolling vertical
         int offset = scene()->views()[0]->verticalScrollBar()->value();
 
         QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + offset, m_width, metric.height(), Qt::AlignLeft | Qt::AlignTop, m_label);
-	painter->setBrush(QBrush(m_pen.color()));
-	painter->drawRoundedRect(txtBounding.adjusted(-5, -5, 2, 1), 3, 3);
+        painter->setBrush(QBrush(m_pen.color()));
+        painter->drawRoundedRect(txtBounding.adjusted(-5, -5, 2, 1), 3, 3);
         painter->setPen(Qt::white);
         painter->drawText(txtBounding.adjusted(1, 0, 1, 0), Qt::AlignCenter, m_label);
     }

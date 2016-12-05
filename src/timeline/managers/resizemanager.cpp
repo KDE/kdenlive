@@ -27,7 +27,6 @@
 
 #include <KLocalizedString>
 
-
 ResizeManager::ResizeManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(ResizeType, view, commandStack)
 {
 }
@@ -68,16 +67,18 @@ bool ResizeManager::mouseMove(QMouseEvent *event, int pos, int)
         if (!(m_controlModifier & Qt::ControlModifier) && dragItem->type() == AVWidget && dragItem->parentItem()) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
             if (parent) {
-                if (m_view->operationMode() == ResizeStart)
+                if (m_view->operationMode() == ResizeStart) {
                     parent->resizeStart(snappedPos);
-                else
+                } else {
                     parent->resizeEnd(snappedPos);
+                }
             }
         } else {
-            if (m_view->operationMode() == ResizeStart)
+            if (m_view->operationMode() == ResizeStart) {
                 dragItem->resizeStart(snappedPos, true, false);
-            else 
-                dragItem->resizeEnd(snappedPos,false);
+            } else {
+                dragItem->resizeEnd(snappedPos, false);
+            }
         }
         QString crop = m_view->timecode().getDisplayTimecode(dragItem->cropStart(), KdenliveSettings::frametimecode());
         QString duration = m_view->timecode().getDisplayTimecode(dragItem->cropDuration(), KdenliveSettings::frametimecode());
@@ -126,7 +127,7 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                             m_view->monitorRefresh(nfo, true);
                         }
                     } else {
-                        qCDebug(KDENLIVE_LOG)<<" * * * * *PARENT GRP NOT FOUND";
+                        qCDebug(KDENLIVE_LOG) << " * * * * *PARENT GRP NOT FOUND";
                     }
                 } else {
                     m_view->prepareResizeClipStart(dragItem, m_dragItemInfo, dragItem->startPos().frames(m_view->fps()));
@@ -140,7 +141,7 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                         range.startPos = m_dragItemInfo.startPos;
                     }
                     if (dragItem->type() == AVWidget) {
-                        ClipItem *cp = qobject_cast<ClipItem*>(dragItem);
+                        ClipItem *cp = qobject_cast<ClipItem *>(dragItem);
                         cp->slotUpdateRange();
                         if (cp->hasVisibleVideo()) {
                             m_view->monitorRefresh(range, true);
@@ -149,19 +150,20 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                         delete dragItem;
                         m_view->reloadTrack(range, true);
                         dragItem = m_view->getClipItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track);
-                        if (dragItem)
+                        if (dragItem) {
                             m_view->slotSelectItem(dragItem);
+                        }
                     } else {
                         // Resized transition
                         m_view->monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << dragItem->info(), true);
                     }
                     if (!dragItem) {
-                        qCDebug(KDENLIVE_LOG)<<" * * ** SOMETHING WRONG HERE: "<<m_dragItemInfo.endPos.frames(m_view->fps());
+                        qCDebug(KDENLIVE_LOG) << " * * ** SOMETHING WRONG HERE: " << m_dragItemInfo.endPos.frames(m_view->fps());
                     }
                 }
             }
         } else if (m_view->operationMode() == ResizeEnd) {
-            dragItem->setProperty("resizingEnd",QVariant());
+            dragItem->setProperty("resizingEnd", QVariant());
             if (dragItem->endPos() != m_dragItemInfo.endPos) {
                 if (!(m_controlModifier & Qt::ControlModifier)  && dragItem->type() == AVWidget && dragItem->parentItem()) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
@@ -205,12 +207,14 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                         range.startPos = m_dragItemInfo.endPos;
                     }
                     if (dragItem->type() == AVWidget) {
-                        ClipItem *cp = qobject_cast<ClipItem*>(dragItem);
+                        ClipItem *cp = qobject_cast<ClipItem *>(dragItem);
                         cp->slotUpdateRange();
                         if (cp->hasVisibleVideo()) {
                             m_view->monitorRefresh(range, true);
                         }
-                    } else m_view->monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << dragItem->info(), true);
+                    } else {
+                        m_view->monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << dragItem->info(), true);
+                    }
                 }
             }
         }
@@ -219,5 +223,4 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
     m_view->setCursor(Qt::OpenHandCursor);
     m_view->setOperationMode(None);
 }
-
 

@@ -27,7 +27,6 @@
 #include <QStandardPaths>
 #include <mlt++/MltPlaylist.h>
 
-
 TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(TrimType, view, commandStack)
     , m_firstClip(Q_NULLPTR)
     , m_secondClip(Q_NULLPTR)
@@ -46,8 +45,9 @@ bool TrimManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<QG
 bool TrimManager::mouseMove(QMouseEvent *event, int pos, int)
 {
     if (event->buttons() & Qt::LeftButton) {
-        if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
+        if (!m_firstInfo.isValid() || !m_secondInfo.isValid()) {
             return false;
+        }
         double snappedPos = m_view->getSnapPointForPos(pos);
         if (snappedPos < m_firstClip->endPos().frames(m_view->fps())) {
             m_firstClip->resizeEnd(snappedPos, false);
@@ -122,11 +122,11 @@ void TrimManager::initRipple(Mlt::Playlist *playlist, int pos, Render *renderer)
 
 void TrimManager::renderSeekRequest(int diff)
 {
-    qCDebug(KDENLIVE_LOG)<<" + + +RIPPLE DIFF: "<<diff;
+    qCDebug(KDENLIVE_LOG) << " + + +RIPPLE DIFF: " << diff;
     Mlt::ClipInfo *cInfo = m_trimPlaylist->clip_info(m_rippleIndex);
     int in = cInfo->frame_in;
     int out = cInfo->frame_out;
-    qCDebug(KDENLIVE_LOG)<<"* * *RESITE CLIP FIRST IN: "<<in<<"-"<<out<<", "<<cInfo->start<<", "<<cInfo->length;
+    qCDebug(KDENLIVE_LOG) << "* * *RESITE CLIP FIRST IN: " << in << "-" << out << ", " << cInfo->start << ", " << cInfo->length;
     delete cInfo;
     ClipItem *clipToRipple = Q_NULLPTR;
     if (m_view->operationMode() == RippleStart) {
@@ -137,7 +137,7 @@ void TrimManager::renderSeekRequest(int diff)
         clipToRipple = m_firstClip;
         m_render->seekToFrame(m_firstClip->endPos().frames(m_view->fps()) + diff);
     }
-    qCDebug(KDENLIVE_LOG)<<"* * *RESITE CLIP IN: "<<in;
+    qCDebug(KDENLIVE_LOG) << "* * *RESITE CLIP IN: " << in;
     m_trimPlaylist->resize_clip(m_rippleIndex, in, out);
     m_render->doRefresh();
     m_view->rippleClip(clipToRipple, diff);
@@ -146,14 +146,16 @@ void TrimManager::renderSeekRequest(int diff)
 
 void TrimManager::moveRoll(bool forward, int pos)
 {
-    if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
+    if (!m_firstInfo.isValid() || !m_secondInfo.isValid()) {
         return;
+    }
     if (pos == -1) {
         pos = m_firstClip->endPos().frames(m_view->fps());
-        if (forward)
+        if (forward) {
             pos++;
-        else
+        } else {
             pos--;
+        }
     }
     bool snap = KdenliveSettings::snaptopoints();
     KdenliveSettings::setSnaptopoints(false);
@@ -172,8 +174,9 @@ void TrimManager::moveRoll(bool forward, int pos)
 void TrimManager::endTrim()
 {
     m_view->trimMode(false);
-    if (!m_firstInfo.isValid() || !m_secondInfo.isValid())
-            return;
+    if (!m_firstInfo.isValid() || !m_secondInfo.isValid()) {
+        return;
+    }
     if (m_render->byPassSeek) {
         m_render->byPassSeek = false;
         disconnect(m_render, &Render::renderSeek, this, &TrimManager::renderSeekRequest);
@@ -218,23 +221,23 @@ void TrimManager::setTrimMode(TrimMode mode, const ItemInfo &info, bool fromStar
     }
     QString modeLabel;
     switch (m_trimMode) {
-        case RippleTrim:
-            modeLabel = i18n(" Ripple ");
-            break;
-        case RollingTrim:
-            modeLabel = i18n(" Rolling ");
-            break;
-        case SlideTrim:
-            modeLabel = i18n(" Slide ");
-            break;
-        case SlipTrim:
-            modeLabel = i18n(" Slip ");
-            break;
-        default:
-            emit updateTrimMode(modeLabel);
-            endTrim();
-            return;
-            break;
+    case RippleTrim:
+        modeLabel = i18n(" Ripple ");
+        break;
+    case RollingTrim:
+        modeLabel = i18n(" Rolling ");
+        break;
+    case SlideTrim:
+        modeLabel = i18n(" Slide ");
+        break;
+    case SlipTrim:
+        modeLabel = i18n(" Slip ");
+        break;
+    default:
+        emit updateTrimMode(modeLabel);
+        endTrim();
+        return;
+        break;
     }
     emit updateTrimMode(modeLabel);
     enterTrimMode(info, fromStart);

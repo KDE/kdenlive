@@ -56,31 +56,30 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 };
 
-
 class Timeline : public QWidget, public Ui::TimeLine_UI
 {
     Q_OBJECT
 
 public:
-    explicit Timeline(KdenliveDoc *doc, const QList <QAction *>& actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent = Q_NULLPTR);
+    explicit Timeline(KdenliveDoc *doc, const QList <QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent = Q_NULLPTR);
     virtual ~ Timeline();
 
     /** @brief is multitrack view (split screen for tracks) enabled */
     bool multitrackView;
     int videoTarget;
     int audioTarget;
-    Track* track(int i);
+    Track *track(int i);
     /** @brief Number of tracks in the MLT playlist. */
     int tracksCount() const;
     /** @brief Number of visible tracks (= tracksCount() - 1 ) because black trck is not visible to user. */
     int visibleTracksCount() const;
-    void setEditMode(const QString & editMode);
-    const QString & editMode() const;
+    void setEditMode(const QString &editMode);
+    const QString &editMode() const;
     QGraphicsScene *projectScene();
     CustomTrackView *projectView();
     int duration() const;
     KdenliveDoc *document();
-    void refresh() ;
+    void refresh();
     int outPoint() const;
     int inPoint() const;
     int fitZoom() const;
@@ -116,7 +115,7 @@ public:
     void renameTrack(int ix, const QString &name);
     void updateTrackState(int ix, int state);
     /** @brief Returns info about a track.
-     *  @param ix The track number in MLT's coordinates (0 = black track, 1 = bottom audio, etc) 
+     *  @param ix The track number in MLT's coordinates (0 = black track, 1 = bottom audio, etc)
      *  deprecated use string version with track name instead */
     TrackInfo getTrackInfo(int ix);
     void setTrackInfo(int trackIndex, const TrackInfo &info);
@@ -132,7 +131,7 @@ public:
     MltVideoProfile mltProfile() const;
     double fps() const;
     QPoint getTracksCount();
-    /** @brief Check if we have a blank space on selected track. 
+    /** @brief Check if we have a blank space on selected track.
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
     void updateClipProperties(const QString &id, const QMap<QString, QString> &properties);
@@ -207,7 +206,7 @@ public slots:
 
 private:
     Mlt::Tractor *m_tractor;
-    QList <Track*> m_tracks;
+    QList <Track *> m_tracks;
     /** @brief number of special overlay tracks to preview effects */
     bool m_hasOverlayTrack;
     Mlt::Producer *m_overlayTrack;
@@ -285,7 +284,7 @@ signals:
     void configTrack();
     void updateTracksInfo();
     void setZoom(int);
-    void showTrackEffects(int, const TrackInfo&);
+    void showTrackEffects(int, const TrackInfo &);
     /** @brief Indicate how many clips we are going to load */
     void startLoadingBin(int);
     /** @brief Indicate which clip we are currently loading */

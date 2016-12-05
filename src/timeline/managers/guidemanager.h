@@ -41,7 +41,7 @@ public:
     bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
     void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) Q_DECL_OVERRIDE;
     bool mouseMove(QMouseEvent *event, int pos, int) Q_DECL_OVERRIDE;
-    /** @brief Check if a guide operation is applicable on items under mouse. 
+    /** @brief Check if a guide operation is applicable on items under mouse.
      * @param items The list of items under mouse
      * @param operationMode Will be set to MoveGuide if applicable
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes

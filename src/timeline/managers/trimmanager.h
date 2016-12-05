@@ -22,11 +22,11 @@
 
 #include "abstracttoolmanager.h"
 
-
 class ClipItem;
 class Render;
-namespace Mlt {
-    class Playlist;
+namespace Mlt
+{
+class Playlist;
 };
 
 /**

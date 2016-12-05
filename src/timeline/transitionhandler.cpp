@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "transitionhandler.h"
 #include "mltcontroller/effectscontroller.h"
 #include "mainwindow.h"
@@ -30,29 +29,39 @@ TransitionHandler::TransitionHandler(Mlt::Tractor *tractor) : QObject()
 
 bool TransitionHandler::addTransition(const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml)
 {
-    if (in >= out) return false;
+    if (in >= out) {
+        return false;
+    }
     double fps = m_tractor->get_fps();
     QMap<QString, QString> args = getTransitionParamsFromXml(xml);
     QScopedPointer<Mlt::Field> field(m_tractor->field());
 
     Mlt::Transition transition(*m_tractor->profile(), tag.toUtf8().constData());
-    if (!transition.is_valid()) return false;
-    if (out != GenTime())
+    if (!transition.is_valid()) {
+        return false;
+    }
+    if (out != GenTime()) {
         transition.set_in_and_out((int) in.frames(fps), (int) out.frames(fps) - 1);
+    }
 
     QMap<QString, QString>::Iterator it;
     QString key;
-    if (xml.attribute(QStringLiteral("automatic")) == QLatin1String("1")) transition.set("automatic", 1);
+    if (xml.attribute(QStringLiteral("automatic")) == QLatin1String("1")) {
+        transition.set("automatic", 1);
+    }
     ////qCDebug(KDENLIVE_LOG) << " ------  ADDING TRANSITION PARAMs: " << args.count();
-    if (xml.hasAttribute(QStringLiteral("id")))
+    if (xml.hasAttribute(QStringLiteral("id"))) {
         transition.set("kdenlive_id", xml.attribute(QStringLiteral("id")).toUtf8().constData());
-    if (xml.hasAttribute(QStringLiteral("force_track")))
+    }
+    if (xml.hasAttribute(QStringLiteral("force_track"))) {
         transition.set("force_track", xml.attribute(QStringLiteral("force_track")).toInt());
+    }
 
     for (it = args.begin(); it != args.end(); ++it) {
         key = it.key();
-        if (!it.value().isEmpty())
+        if (!it.value().isEmpty()) {
             transition.set(key.toUtf8().constData(), it.value().toUtf8().constData());
+        }
         ////qCDebug(KDENLIVE_LOG) << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
     }
     // attach transition
@@ -69,7 +78,7 @@ void TransitionHandler::initTransition(const QDomElement &xml)
     QMapIterator<QString, QString> i(params);
     while (i.hasNext()) {
         i.next();
-        EffectsList::setParameter(xml, i.key(),i.value());
+        EffectsList::setParameter(xml, i.key(), i.value());
     }
 }
 
@@ -95,7 +104,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
                 }
                 QStringList lumas = MainWindow::m_lumaFiles.value(lumaFolder);
                 bool found = false;
-                foreach(const QString &luma, lumas) {
+                foreach (const QString &luma, lumas) {
                     if (QUrl::fromLocalFile(luma).fileName() == defaultValue) {
                         map[name] = luma;
                         found = true;
@@ -112,9 +121,9 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
                 }
             } else {
                 if (defaultValue.contains(QLatin1Char('%'))) {
-                     ProfileInfo pInfo;
-                     pInfo.profileSize = QSize(m_tractor->profile()->width(), m_tractor->profile()->height());
-                     pInfo.profileFps = m_tractor->profile()->fps();
+                    ProfileInfo pInfo;
+                    pInfo.profileSize = QSize(m_tractor->profile()->width(), m_tractor->profile()->height());
+                    pInfo.profileFps = m_tractor->profile()->fps();
                     defaultValue = EffectsController::getStringRectEval(pInfo, defaultValue);
                 }
                 map[name] = defaultValue;
@@ -122,7 +131,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
         }
         double factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
         double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
-        if (factor!= 1 || offset != 0) {
+        if (factor != 1 || offset != 0) {
             if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
                 QStringList values = map.value(name).split(';', QString::SkipEmptyParts);
                 for (int j = 0; j < values.count(); ++j) {
@@ -143,15 +152,17 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
             QStringList values = map.value(name).split(QRegExp("[,:;x]"));
             QString neu;
             QTextStream txtNeu(&neu);
-            if (values.size() > 0)
+            if (values.size() > 0) {
                 txtNeu << (int)values[0].toDouble();
+            }
             int i = 0;
             for (i = 0; i < separators.size() && i + 1 < values.size(); ++i) {
                 txtNeu << separators[i];
-                txtNeu << (int)(values[i+1].toDouble());
+                txtNeu << (int)(values[i + 1].toDouble());
             }
-            if (i < separators.size())
+            if (i < separators.size()) {
                 txtNeu << separators[i];
+            }
             map[name] = neu;
         }
 
@@ -177,7 +188,7 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
     QString insertresource = mlt_properties_get(insertproperties, "mlt_service");
     bool isMixTransition = insertresource == QLatin1String("mix");
 
-    mlt_service_type mlt_type = mlt_service_identify( nextservice );
+    mlt_service_type mlt_type = mlt_service_identify(nextservice);
     while (mlt_type == transition_type) {
         Mlt::Transition transition((mlt_transition) nextservice);
         nextservice = mlt_service_producer(nextservice);
@@ -195,9 +206,11 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
         }
         //else qCDebug(KDENLIVE_LOG) << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
 
-        if (nextservice == Q_NULLPTR) break;
+        if (nextservice == Q_NULLPTR) {
+            break;
+        }
         properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_service_identify( nextservice );
+        mlt_type = mlt_service_identify(nextservice);
         resource = mlt_properties_get(properties, "mlt_service");
     }
     field->plant_transition(tr, a_track, b_track);
@@ -214,21 +227,22 @@ void TransitionHandler::cloneProperties(Mlt::Properties &dest, Mlt::Properties &
 {
     int count = source.count();
     int i = 0;
-    for ( i = 0; i < count; i ++ )
-    {
+    for (i = 0; i < count; i ++) {
         char *value = source.get(i);
-        if ( value != Q_NULLPTR )
-        {
-            char *name = source.get_name( i );
-            if (name != Q_NULLPTR && name[0] != '_') dest.set(name, value);
+        if (value != Q_NULLPTR) {
+            char *name = source.get_name(i);
+            if (name != Q_NULLPTR && name[0] != '_') {
+                dest.set(name, value);
+            }
         }
     }
 }
 
 void TransitionHandler::updateTransition(const QString &oldTag, const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml, bool force)
 {
-    if (oldTag == tag && !force) updateTransitionParams(tag, a_track, b_track, in, out, xml);
-    else {
+    if (oldTag == tag && !force) {
+        updateTransitionParams(tag, a_track, b_track, in, out, xml);
+    } else {
         ////qCDebug(KDENLIVE_LOG)<<"// DELETING TRANS: "<<a_track<<"-"<<b_track;
         deleteTransition(oldTag, a_track, b_track, in, out, xml, false);
         addTransition(tag, a_track, b_track, in, out, xml);
@@ -246,7 +260,7 @@ void TransitionHandler::updateTransitionParams(const QString &type, int a_track,
     int in_pos = (int) in.frames(fps);
     int out_pos = (int) out.frames(fps) - 1;
 
-    mlt_service_type mlt_type = mlt_service_identify( nextservice );
+    mlt_service_type mlt_type = mlt_service_identify(nextservice);
     while (mlt_type == transition_type) {
         mlt_transition tr = (mlt_transition) nextservice;
         int currentTrack = mlt_transition_get_b_track(tr);
@@ -292,16 +306,17 @@ void TransitionHandler::updateTransitionParams(const QString &type, int a_track,
             break;
         }
         nextservice = mlt_service_producer(nextservice);
-        if (nextservice == Q_NULLPTR) break;
+        if (nextservice == Q_NULLPTR) {
+            break;
+        }
         properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_service_identify( nextservice );
+        mlt_type = mlt_service_identify(nextservice);
         resource = mlt_properties_get(properties, "mlt_service");
     }
     field->unlock();
     //askForRefresh();
     //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
-
 
 bool TransitionHandler::deleteTransition(const QString &tag, int /*a_track*/, int b_track, GenTime in, GenTime out, const QDomElement &/*xml*/, bool /*do_refresh*/)
 {
@@ -315,7 +330,7 @@ bool TransitionHandler::deleteTransition(const QString &tag, int /*a_track*/, in
     bool found = false;
     ////qCDebug(KDENLIVE_LOG) << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
 
-    mlt_service_type mlt_type = mlt_service_identify( nextservice );
+    mlt_service_type mlt_type = mlt_service_identify(nextservice);
     while (mlt_type == transition_type) {
         mlt_transition tr = (mlt_transition) nextservice;
         int currentTrack = mlt_transition_get_b_track(tr);
@@ -329,9 +344,11 @@ bool TransitionHandler::deleteTransition(const QString &tag, int /*a_track*/, in
             break;
         }
         nextservice = mlt_service_producer(nextservice);
-        if (nextservice == Q_NULLPTR) break;
+        if (nextservice == Q_NULLPTR) {
+            break;
+        }
         properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_service_identify( nextservice );
+        mlt_type = mlt_service_identify(nextservice);
         resource = mlt_properties_get(properties, "mlt_service");
     }
     field->unlock();
@@ -344,16 +361,18 @@ void TransitionHandler::deleteTrackTransitions(int ix)
 {
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
-    mlt_service_type type = mlt_service_identify( nextservice );
+    mlt_service_type type = mlt_service_identify(nextservice);
     while (type == transition_type) {
-	Mlt::Transition transition((mlt_transition) nextservice);
+        Mlt::Transition transition((mlt_transition) nextservice);
         nextservice = mlt_service_producer(nextservice);
         int currentTrack = transition.get_b_track();
         if (ix == currentTrack) {
             field->disconnect_service(transition);
         }
-        if (nextservice == Q_NULLPTR) break;
-        type = mlt_service_identify(nextservice );
+        if (nextservice == Q_NULLPTR) {
+            break;
+        }
+        type = mlt_service_identify(nextservice);
     }
 }
 
@@ -362,7 +381,9 @@ bool TransitionHandler::moveTransition(const QString &type, int startTrack, int 
     double fps = m_tractor->get_fps();
     int new_in = (int)newIn.frames(fps);
     int new_out = (int)newOut.frames(fps) - 1;
-    if (new_in >= new_out) return false;
+    if (new_in >= new_out) {
+        return false;
+    }
     int old_in = (int)oldIn.frames(fps);
     int old_out = (int)oldOut.frames(fps) - 1;
 
@@ -373,7 +394,7 @@ bool TransitionHandler::moveTransition(const QString &type, int startTrack, int 
     QString resource = mlt_properties_get(properties, "mlt_service");
     int old_pos = (int)(old_in + old_out) / 2;
     bool found = false;
-    mlt_service_type mlt_type = mlt_service_identify( nextservice );
+    mlt_service_type mlt_type = mlt_service_identify(nextservice);
     while (mlt_type == transition_type) {
         Mlt::Transition transition((mlt_transition) nextservice);
         nextservice = mlt_service_producer(nextservice);
@@ -392,12 +413,16 @@ bool TransitionHandler::moveTransition(const QString &type, int startTrack, int 
                 new_transition.set_in_and_out(new_in, new_out);
                 field->disconnect_service(transition);
                 plantTransition(field.data(), new_transition, newTransitionTrack, newTrack);
-            } else transition.set_in_and_out(new_in, new_out);
+            } else {
+                transition.set_in_and_out(new_in, new_out);
+            }
             break;
         }
-        if (nextservice == Q_NULLPTR) break;
+        if (nextservice == Q_NULLPTR) {
+            break;
+        }
         properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_service_identify( nextservice );
+        mlt_type = mlt_service_identify(nextservice);
         resource = mlt_properties_get(properties, "mlt_service");
     }
     field->unlock();
@@ -415,11 +440,10 @@ Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_tra
                 if (a_track == -1 || t.get_a_track() == a_track) {
                     int internal = t.get_int("internal_added");
                     if (internal == 0) {
-                      if (!internalTransition) {
-                          return new Mlt::Transition(t);
-                      }
-                    }
-                    else if (internalTransition) {
+                        if (!internalTransition) {
+                            return new Mlt::Transition(t);
+                        }
+                    } else if (internalTransition) {
                         return new Mlt::Transition(t);
                     }
                 }
@@ -453,23 +477,31 @@ void TransitionHandler::duplicateTransitionOnPlaylist(int in, int out, const QSt
 {
     QMap<QString, QString> args = getTransitionParamsFromXml(xml);
     Mlt::Transition transition(*m_tractor->profile(), tag.toUtf8().constData());
-    if (!transition.is_valid()) return;
-    if (out != 0)
+    if (!transition.is_valid()) {
+        return;
+    }
+    if (out != 0) {
         transition.set_in_and_out(in, out);
+    }
 
     QMap<QString, QString>::Iterator it;
     QString key;
-    if (xml.attribute(QStringLiteral("automatic")) == QLatin1String("1")) transition.set("automatic", 1);
+    if (xml.attribute(QStringLiteral("automatic")) == QLatin1String("1")) {
+        transition.set("automatic", 1);
+    }
     ////qCDebug(KDENLIVE_LOG) << " ------  ADDING TRANSITION PARAMs: " << args.count();
-    if (xml.hasAttribute(QStringLiteral("id")))
+    if (xml.hasAttribute(QStringLiteral("id"))) {
         transition.set("kdenlive_id", xml.attribute(QStringLiteral("id")).toUtf8().constData());
-    if (xml.hasAttribute(QStringLiteral("force_track")))
+    }
+    if (xml.hasAttribute(QStringLiteral("force_track"))) {
         transition.set("force_track", xml.attribute(QStringLiteral("force_track")).toInt());
+    }
 
     for (it = args.begin(); it != args.end(); ++it) {
         key = it.key();
-        if (!it.value().isEmpty())
+        if (!it.value().isEmpty()) {
             transition.set(key.toUtf8().constData(), it.value().toUtf8().constData());
+        }
         ////qCDebug(KDENLIVE_LOG) << " ------  ADDING TRANS PARAM: " << key << ": " << it.value();
     }
     // attach transition
@@ -491,7 +523,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
         // disable track composition (frei0r.cairoblend)
         QScopedPointer<Mlt::Field> field(m_tractor->field());
         mlt_service nextservice = mlt_service_get_producer(field->get_service());
-        mlt_service_type type = mlt_service_identify( nextservice );
+        mlt_service_type type = mlt_service_identify(nextservice);
         while (type == transition_type) {
             Mlt::Transition transition((mlt_transition) nextservice);
             nextservice = mlt_service_producer(nextservice);
@@ -503,7 +535,9 @@ void TransitionHandler::enableMultiTrack(bool enable)
                     transition.set("split_disable", 1);
                 }
             }
-            if (nextservice == Q_NULLPTR) break;
+            if (nextservice == Q_NULLPTR) {
+                break;
+            }
             type = mlt_service_identify(nextservice);
         }
         for (int i = 1, screen = 0; i < tracks && screen < 4; ++i) {
@@ -542,7 +576,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
     } else {
         QScopedPointer<Mlt::Field> field(m_tractor->field());
         mlt_service nextservice = mlt_service_get_producer(field->get_service());
-        mlt_service_type type = mlt_service_identify( nextservice );
+        mlt_service_type type = mlt_service_identify(nextservice);
         while (type == transition_type) {
             Mlt::Transition transition((mlt_transition) nextservice);
             nextservice = mlt_service_producer(nextservice);
@@ -554,10 +588,12 @@ void TransitionHandler::enableMultiTrack(bool enable)
                 QString mlt_service = transition.get("mlt_service");
                 if (compositeService.contains(mlt_service) && transition.get_int("split_disable") == 1) {
                     transition.set("disable", 0);
-                    transition.set("split_disable", (char*) Q_NULLPTR);
+                    transition.set("split_disable", (char *) Q_NULLPTR);
                 }
             }
-            if (nextservice == Q_NULLPTR) break;
+            if (nextservice == Q_NULLPTR) {
+                break;
+            }
             type = mlt_service_identify(nextservice);
         }
     }
@@ -565,11 +601,12 @@ void TransitionHandler::enableMultiTrack(bool enable)
     emit refresh();
 }
 
-// static 
+// static
 const QString TransitionHandler::compositeTransition()
 {
-    if (KdenliveSettings::gpu_accel())
+    if (KdenliveSettings::gpu_accel()) {
         return QStringLiteral("movit.overlay");
+    }
     if (MainWindow::transitions.hasTransition(QStringLiteral("qtblend"))) {
         return QStringLiteral("qtblend");
     }
@@ -595,8 +632,7 @@ void TransitionHandler::rebuildTransitions(int mode, const QList<int> &videoTrac
                 QString service = t.get("mlt_service");
                 if (service == QLatin1String("mix")) {
                     field->disconnect_service(t);
-                }
-                else if (compositeService.contains(service)) {
+                } else if (compositeService.contains(service)) {
                     if (mode < 0) {
                         mode = service == QLatin1String("composite") ? 1 : 2;
                     }
@@ -632,7 +668,7 @@ void TransitionHandler::rebuildTransitions(int mode, const QList<int> &videoTrac
     } else {
         composite = compositeTransition();
     }
-    foreach(int track,  videoTracks) {
+    foreach (int track,  videoTracks) {
         Mlt::Transition transition(*m_tractor->profile(), composite.toUtf8().constData());
         transition.set("always_active", 1);
         transition.set("a_track", 0);
@@ -640,7 +676,7 @@ void TransitionHandler::rebuildTransitions(int mode, const QList<int> &videoTrac
         if (mode == 1) {
             transition.set("valign", "middle");
             transition.set("halign", "centre");
-	    transition.set("aligned", 0);
+            transition.set("aligned", 0);
             transition.set("fill", 1);
             transition.set("geometry", compositeGeometry.toUtf8().constData());
         }

@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "clipdurationdialog.h"
 #include "clipitem.h"
 
@@ -25,11 +24,11 @@
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget * parent):
-        QDialog(parent),
-        m_clip(clip),
-        m_min(min),
-        m_max(max)
+ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget *parent):
+    QDialog(parent),
+    m_clip(clip),
+    m_min(min),
+    m_max(max)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -38,7 +37,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &t
     m_cropStart = new TimecodeDisplay(tc);
     m_dur = new TimecodeDisplay(tc);
     m_cropEnd = new TimecodeDisplay(tc);
-    
+
     clip_position_box->addWidget(m_pos);
     crop_start_box->addWidget(m_cropStart);
     clip_duration_box->addWidget(m_dur);
@@ -48,15 +47,16 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &t
     if (clip->type() == AVWidget) {
         ClipItem *item = static_cast <ClipItem *>(clip);
         const int t = item->clipType();
-        if (t == Color || t == Image || t == Text)
+        if (t == Color || t == Image || t == Text) {
             allowCrop = false;
+        }
     }
 
     if (!allowCrop || clip->type() == TransitionWidget) {
         m_cropStart->setHidden(true);
         crop_label->hide();
         m_cropEnd->setHidden(true),
-        end_label->hide();
+                  end_label->hide();
     }
 
     m_crop = m_clip->cropStart();
@@ -86,10 +86,11 @@ void ClipDurationDialog::slotCheckStart()
 {
     GenTime start = m_pos->gentime();
     GenTime duration = m_dur->gentime();
-    if (m_min != GenTime() && start < m_min)
+    if (m_min != GenTime() && start < m_min) {
         m_pos->setValue(m_min);
-    else if (m_max != GenTime() && start + duration > m_max)
+    } else if (m_max != GenTime() && start + duration > m_max) {
         m_pos->setValue(m_max - duration);
+    }
 }
 
 void ClipDurationDialog::slotCheckDuration()
@@ -99,10 +100,11 @@ void ClipDurationDialog::slotCheckDuration()
     GenTime cropStart = m_cropStart->gentime();
     GenTime maxDuration;
 
-    if (m_clip->maxDuration() == GenTime())
+    if (m_clip->maxDuration() == GenTime()) {
         maxDuration = m_max;
-    else
+    } else {
         maxDuration = m_max == GenTime() ? start + m_clip->maxDuration() - cropStart : qMin(m_max, start + m_clip->maxDuration() - cropStart);
+    }
 
     if (maxDuration != GenTime() && start + duration > maxDuration) {
         m_dur->blockSignals(true);
@@ -169,7 +171,4 @@ GenTime ClipDurationDialog::duration() const
 {
     return m_dur->gentime();
 }
-
-
-
 

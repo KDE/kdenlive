@@ -35,13 +35,13 @@ class MyLabel : public QLabel
 {
     Q_OBJECT
 public:
-    explicit MyLabel(QWidget* parent = Q_NULLPTR);
+    explicit MyLabel(QWidget *parent = Q_NULLPTR);
     void setImage(const QImage &img);
 
 protected:
-    void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
 
 private:
     QImage m_img;
@@ -55,7 +55,6 @@ signals:
     void switchToLive();
 };
 
-
 class StopmotionMonitor : public AbstractMonitor
 {
     Q_OBJECT
@@ -65,7 +64,7 @@ public:
     AbstractRender *abstractRender() Q_DECL_OVERRIDE;
     Kdenlive::MonitorId id() const;
     void setRender(MltDeviceCapture *render);
-    void mute(bool,bool) Q_DECL_OVERRIDE;
+    void mute(bool, bool) Q_DECL_OVERRIDE;
 
 private:
     MltDeviceCapture *m_captureDevice;
@@ -81,7 +80,6 @@ signals:
     void stopCapture();
 };
 
-
 class StopmotionWidget : public QDialog, public Ui::Stopmotion_UI
 {
     Q_OBJECT
@@ -92,11 +90,11 @@ public:
      * @param projectFolder The current project folder, where captured files will be stored.
      * @param actions The actions for this widget that can have a keyboard shortcut.
      * @param parent (optional) parent widget */
-    StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList< QAction* > &actions, QWidget* parent = Q_NULLPTR);
+    StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList< QAction * > &actions, QWidget *parent = Q_NULLPTR);
     virtual ~StopmotionWidget();
 
 protected:
-    void closeEvent(QCloseEvent* e) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *e) Q_DECL_OVERRIDE;
 
 private:
     /** @brief Current project folder (where the captured frames will be saved). */
@@ -112,7 +110,7 @@ private:
     /** @brief Holds the frame number of the current sequence. */
     int m_sequenceFrame;
 
-    QAction* m_captureAction;
+    QAction *m_captureAction;
 
     /** @brief Holds the index of the frame to be displayed in the frame preview mode. */
     int m_animatedIndex;
@@ -121,7 +119,7 @@ private:
     void parseExistingSequences();
 
     /** @brief This widget will hold the frame preview. */
-    MyLabel* m_frame_preview;
+    MyLabel *m_frame_preview;
 
     /** @brief The list of files in the sequence to create thumbnails. */
     QStringList m_filesList;
@@ -130,14 +128,14 @@ private:
     QFuture<void> m_future;
 
     /** @brief The action triggering display of last frame over current live video feed. */
-    QAction* m_showOverlay;
+    QAction *m_showOverlay;
 
     /** @brief The list of all frames path. */
     QStringList m_animationList;
-    
+
     /** @brief Tells if we are in animation (playback) mode. */
     bool m_animate;
-    
+
     /** @brief Timer for interval capture. */
     QTimer m_intervalTimer;
 
@@ -155,7 +153,6 @@ private:
     /** @brief Holds the index of the effect to be applied to the video feed. */
     int m_effectIndex;
 
-
 public slots:
     /** @brief Display the live feed from capture device.
      @param isOn enable or disable the feature */
@@ -172,13 +169,13 @@ private slots:
     void slotUpdateOverlay();
 
     /** @brief User changed the capture name. */
-    void sequenceNameChanged(const QString& name);
+    void sequenceNameChanged(const QString &name);
 
     /** @brief Grab a frame from current capture feed. */
     void slotCaptureFrame();
 
     /** @brief Display a previous frame in monitor. */
-    void slotShowFrame(const QString& path);
+    void slotShowFrame(const QString &path);
 
     /** @brief Get full path for a frame in the sequence.
      *  @param ix the frame number.
@@ -202,7 +199,7 @@ private slots:
     void slotSeekFrame(bool forward);
 
     /** @brief Display warning / error message from capture backend. */
-    void slotGotHDMIMessage(const QString& message);
+    void slotGotHDMIMessage(const QString &message);
 
     /** @brief Create thumbnails for existing sequence frames. */
     void slotCreateThumbs(const QImage &img, int ix);
@@ -223,20 +220,20 @@ private slots:
     void slotNewThumb(const QString &path);
 
     /** @brief Set the effect to be applied to overlay frame. */
-    void slotUpdateOverlayEffect(QAction* act);
+    void slotUpdateOverlayEffect(QAction *act);
 
     /** @brief Switch between live view / currently selected frame. */
     void slotSwitchLive();
 
     /** @brief Delete current frame from disk. */
     void slotRemoveFrame();
-    
+
     /** @brief Enable / disable frame analysis (in color scopes). */
     void slotSwitchAnalyse(bool isOn);
 
     /** @brief Enable / disable horizontal mirror effect. */
     void slotSwitchMirror(bool isOn);
-    
+
     /** @brief Send a notification a few seconds before capturing. */
     void slotPreNotify();
 
@@ -244,8 +241,8 @@ signals:
     /** @brief Ask to add sequence to current project. */
     void addOrUpdateSequence(const QString &);
 
-    void doCreateThumbs(const QImage&, int);
-    void gotFrame(const QImage&);
+    void doCreateThumbs(const QImage &, int);
+    void gotFrame(const QImage &);
 };
 
 #endif

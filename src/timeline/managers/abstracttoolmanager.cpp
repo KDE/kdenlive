@@ -40,56 +40,56 @@ bool AbstractToolManager::mouseMove(QMouseEvent *, int, int)
 bool AbstractToolManager::isCurrent(OperationType type) const
 {
     switch (type) {
-        case MoveOperation:
-            return m_managerType == MoveType;
-            break;
-        case ResizeStart:
-        case ResizeEnd:
-            return m_managerType == ResizeType;
-            break;
-        case RollingStart:
-        case RollingEnd:
-        case RippleStart:
-        case RippleEnd:
-            return m_managerType == TrimType;
-            break;
-        case MoveGuide:
-            return m_managerType == GuideType;
-            break;
-        case Spacer:
-            return m_managerType == SpacerType;
-            break;
-        default:
-            return m_managerType == SelectType;
-            break;
+    case MoveOperation:
+        return m_managerType == MoveType;
+        break;
+    case ResizeStart:
+    case ResizeEnd:
+        return m_managerType == ResizeType;
+        break;
+    case RollingStart:
+    case RollingEnd:
+    case RippleStart:
+    case RippleEnd:
+        return m_managerType == TrimType;
+        break;
+    case MoveGuide:
+        return m_managerType == GuideType;
+        break;
+    case Spacer:
+        return m_managerType == SpacerType;
+        break;
+    default:
+        return m_managerType == SelectType;
+        break;
     }
 }
 
 AbstractToolManager::ToolManagerType AbstractToolManager::getTool(OperationType type) const
 {
     switch (type) {
-        case MoveOperation:
-            return MoveType;
-            break;
-        case ResizeStart:
-        case ResizeEnd:
-            return ResizeType;
-            break;
-        case RollingStart:
-        case RollingEnd:
-        case RippleStart:
-        case RippleEnd:
-            return TrimType;
-            break;
-        case MoveGuide:
-            return GuideType;
-            break;
-        case Spacer:
-            return SpacerType;
-            break;
-        default:
-            return SelectType;
-            break;
+    case MoveOperation:
+        return MoveType;
+        break;
+    case ResizeStart:
+    case ResizeEnd:
+        return ResizeType;
+        break;
+    case RollingStart:
+    case RollingEnd:
+    case RippleStart:
+    case RippleEnd:
+        return TrimType;
+        break;
+    case MoveGuide:
+        return GuideType;
+        break;
+    case Spacer:
+        return SpacerType;
+        break;
+    default:
+        return SelectType;
+        break;
     }
 }
 
@@ -101,7 +101,7 @@ void AbstractToolManager::initTool(double)
 {
 }
 
-void AbstractToolManager::enterEvent(int , double)
+void AbstractToolManager::enterEvent(int, double)
 {
 }
 

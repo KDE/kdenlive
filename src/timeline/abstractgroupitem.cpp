@@ -25,7 +25,6 @@
 
 #include "kdenlivesettings.h"
 
-
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QDomDocument>
@@ -67,14 +66,16 @@ int AbstractGroupItem::track() const
 
 void AbstractGroupItem::setItemLocked(bool locked)
 {
-    if (locked)
+    if (locked) {
         setSelected(false);
+    }
 
     setFlag(QGraphicsItem::ItemIsMovable, !locked);
     setFlag(QGraphicsItem::ItemIsSelectable, !locked);
 
-    foreach (QGraphicsItem *child, childItems())
-        static_cast<AbstractClipItem*>(child)->setItemLocked(locked);
+    foreach (QGraphicsItem *child, childItems()) {
+        static_cast<AbstractClipItem *>(child)->setItemLocked(locked);
+    }
 }
 
 bool AbstractGroupItem::isItemLocked() const
@@ -82,9 +83,11 @@ bool AbstractGroupItem::isItemLocked() const
     return !(flags() & (QGraphicsItem::ItemIsSelectable));
 }
 
-CustomTrackScene* AbstractGroupItem::projectScene()
+CustomTrackScene *AbstractGroupItem::projectScene()
 {
-    if (scene()) return static_cast <CustomTrackScene*>(scene());
+    if (scene()) {
+        return static_cast <CustomTrackScene *>(scene());
+    }
     return Q_NULLPTR;
 }
 
@@ -151,13 +154,13 @@ QPainterPath AbstractGroupItem::spacerGroupShape(GraphicsRectItem type, const QP
     return path;
 }
 
-void AbstractGroupItem::addItem(QGraphicsItem * item)
+void AbstractGroupItem::addItem(QGraphicsItem *item)
 {
     addToGroup(item);
     item->setFlag(QGraphicsItem::ItemIsMovable, false);
 }
 
-void AbstractGroupItem::removeItem(QGraphicsItem * item)
+void AbstractGroupItem::removeItem(QGraphicsItem *item)
 {
     removeFromGroup(item);
 }
@@ -181,10 +184,12 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
 int AbstractGroupItem::trackForPos(int position)
 {
     int track = 1;
-    if (!scene() || scene()->views().isEmpty()) return track;
-    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
+    if (!scene() || scene()->views().isEmpty()) {
+        return track;
+    }
+    CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);
     if (view) {
-	track = view->getTrackFromPos(position);
+        track = view->getTrackFromPos(position);
     }
     return track;
 }
@@ -192,10 +197,12 @@ int AbstractGroupItem::trackForPos(int position)
 int AbstractGroupItem::posForTrack(int track)
 {
     int pos = 0;
-    if (!scene() || scene()->views().isEmpty()) return pos;
-    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
+    if (!scene() || scene()->views().isEmpty()) {
+        return pos;
+    }
+    CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);
     if (view) {
-	pos = view->getPositionFromTrack(track);
+        pos = view->getPositionFromTrack(track);
     }
     return pos;
 }
@@ -204,8 +211,11 @@ int AbstractGroupItem::posForTrack(int track)
 QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedChange) {
-        if (value.toBool()) setZValue(3);
-        else setZValue(1);
+        if (value.toBool()) {
+            setZValue(3);
+        } else {
+            setZValue(1);
+        }
     }
     CustomTrackScene *scene = Q_NULLPTR;
     if (change == ItemPositionChange && parentItem() == 0) {
@@ -236,13 +246,15 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         for (int i = 0; i < children.count(); ++i) {
             int currentTrack = 0;
             if (children.at(i)->type() == AVWidget || children.at(i)->type() == TransitionWidget) {
-                currentTrack = static_cast <AbstractClipItem*> (children.at(i))->track();
-                if (!groupTracks.contains(currentTrack)) groupTracks.append(currentTrack);
+                currentTrack = static_cast <AbstractClipItem *>(children.at(i))->track();
+                if (!groupTracks.contains(currentTrack)) {
+                    groupTracks.append(currentTrack);
+                }
+            } else if (children.at(i)->type() == GroupWidget) {
+                currentTrack = static_cast <AbstractGroupItem *>(children.at(i))->track();
+            } else {
+                continue;
             }
-            else if (children.at(i)->type() == GroupWidget) {
-                currentTrack = static_cast <AbstractGroupItem*> (children.at(i))->track();
-            }
-            else continue;
             if (children.at(i)->type() == AVWidget) {
                 if (topTrack == -1 || currentTrack >= topTrack) {
                     offset = 0;
@@ -258,8 +270,10 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 bool clipGroup = false;
                 for (int j = 0; j < subchildren.count(); ++j) {
                     if (subchildren.at(j)->type() == AVWidget || subchildren.at(j)->type() == TransitionWidget) {
-                        int subTrack = static_cast <AbstractClipItem*> (subchildren.at(j))->track();
-                        if (!groupTracks.contains(subTrack)) groupTracks.append(subTrack);
+                        int subTrack = static_cast <AbstractClipItem *>(subchildren.at(j))->track();
+                        if (!groupTracks.contains(subTrack)) {
+                            groupTracks.append(subTrack);
+                        }
                         clipGroup = true;
                     }
                 }
@@ -281,7 +295,9 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         int groupHeight = 0;
         for (int i = 0; i < groupTracks.count(); ++i) {
             int trackOffset = topTrack - groupTracks.at(i) + 1;
-            if (trackOffset > groupHeight) groupHeight = trackOffset;
+            if (trackOffset > groupHeight) {
+                groupHeight = trackOffset;
+            }
         }
         proposedTrack = qBound(groupHeight, proposedTrack, maximumTrack);
         int groupOffset = proposedTrack - topTrack;
@@ -295,8 +311,9 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 }
             }
         }
-        if (!lockAdjust)
+        if (!lockAdjust) {
             newPos.setY(posForTrack(proposedTrack) + offset);
+        }
         //if (newPos == start) return start;
 
         /*if (newPos.x() < 0) {
@@ -304,7 +321,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             return QPointF(pos().x() - start.x(), pos().y());
         }*/
 
-        QList<QGraphicsItem*> collidingItems;
+        QList<QGraphicsItem *> collidingItems;
         QPainterPath shape;
         if (projectScene()->editMode() == TimelineMode::NormalEdit) {
             shape = clipGroupShape(newPos - pos());
@@ -344,22 +361,24 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             if (forwardMove) {
                 newPos.setX(newPos.x() - offset);
             } else {
-		newPos.setX(newPos.x() + offset);
+                newPos.setX(newPos.x() + offset);
             }
             // If there is still a collision after our position adjust, restore original pos
             collidingItems = scene->items(clipGroupShape(newPos - pos()), Qt::IntersectsItemShape);
             collidingItems.removeAll(this);
             for (int i = 0; i < children.count(); ++i) {
-		if (children.at(i)->type() == GroupWidget) {
-		    QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
+                if (children.at(i)->type() == GroupWidget) {
+                    QList<QGraphicsItem *> subchildren = children.at(i)->childItems();
                     for (int j = 0; j < subchildren.count(); ++j) {
-			collidingItems.removeAll(subchildren.at(j));
+                        collidingItems.removeAll(subchildren.at(j));
                     }
                 }
                 collidingItems.removeAll(children.at(i));
             }
             for (int i = 0; i < collidingItems.count(); ++i)
-                if (collidingItems.at(i)->type() == AVWidget) return pos();
+                if (collidingItems.at(i)->type() == AVWidget) {
+                    return pos();
+                }
         }
 
         if (projectScene()->editMode() == TimelineMode::NormalEdit) {
@@ -376,8 +395,9 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 collidingItems.removeAll(children.at(i));
             }
         }
-        if (collidingItems.isEmpty()) return newPos;
-        else {
+        if (collidingItems.isEmpty()) {
+            return newPos;
+        } else {
             bool forwardMove = xpos > start.x();
             int offset = 0;
             for (int i = 0; i < collidingItems.count(); ++i) {
@@ -390,10 +410,10 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     }
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(collision);
                     // Determine best pos
-		    QPainterPath clipPath;
-		    clipPath.addRect(item->sceneBoundingRect());
-		    QPainterPath res = shape.intersected(clipPath);
-		    offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
+                    QPainterPath clipPath;
+                    clipPath.addRect(item->sceneBoundingRect());
+                    QPainterPath res = shape.intersected(clipPath);
+                    offset = qMax(offset, (int)(res.boundingRect().width() + 0.5));
                 }
             }
             if (offset > 0) {
@@ -408,7 +428,9 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                     collidingItems.removeAll(children.at(i));
                 }
                 for (int i = 0; i < collidingItems.count(); ++i)
-                    if (collidingItems.at(i)->type() == TransitionWidget) return pos();
+                    if (collidingItems.at(i)->type() == TransitionWidget) {
+                        return pos();
+                    }
             }
         }
         return newPos;
@@ -417,24 +439,26 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 }
 
 //virtual
-void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event)
+void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
     QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
     e.setAttribute(QStringLiteral("kdenlive_ix"), 0);
-    CustomTrackView *view = static_cast<CustomTrackView*>(scene()->views()[0]);
+    CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);
     QPointF dropPos = event->scenePos();
     QList<QGraphicsItem *> selection = scene()->items(dropPos);
     AbstractClipItem *dropChild = Q_NULLPTR;
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
-            dropChild = static_cast<AbstractClipItem*>(selection.at(i));
+            dropChild = static_cast<AbstractClipItem *>(selection.at(i));
             break;
         }
     }
-    if (view) view->slotAddGroupEffect(e, this, dropChild);
+    if (view) {
+        view->slotAddGroupEffect(e, this, dropChild);
+    }
 }
 
 //virtual
@@ -449,7 +473,7 @@ void AbstractGroupItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 }
 
 // virtual
-void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
+void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->modifiers() & Qt::ShiftModifier) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
@@ -457,7 +481,7 @@ void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
     } else {
         QList <QGraphicsItem *>list = scene()->items(event->scenePos());
         // only allow group move if we click over an item in the group
-        foreach(const QGraphicsItem *item, list) {
+        foreach (const QGraphicsItem *item, list) {
             if (item->type() == TransitionWidget || item->type() == AVWidget) {
                 QGraphicsItem::mousePressEvent(event);
                 return;
@@ -468,7 +492,7 @@ void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
 }
 
 // virtual
-void AbstractGroupItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
+void AbstractGroupItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->modifiers() & Qt::ControlModifier) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
@@ -478,7 +502,7 @@ void AbstractGroupItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
     }
 }
 
-void AbstractGroupItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+void AbstractGroupItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->buttons() !=  Qt::LeftButton || event->modifiers() & Qt::ControlModifier) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
@@ -521,10 +545,12 @@ GenTime AbstractGroupItem::duration() const
         if (children.at(i)->type() != GroupWidget) {
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
             if (item) {
-                if (start < GenTime() || item->startPos() < start)
+                if (start < GenTime() || item->startPos() < start) {
                     start = item->startPos();
-                if (item->endPos() > end)
+                }
+                if (item->endPos() > end) {
                     end = item->endPos();
+                }
             }
         } else {
             children << children.at(i)->childItems();
@@ -541,8 +567,9 @@ GenTime AbstractGroupItem::startPos() const
         if (children.at(i)->type() != GroupWidget) {
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
             if (item) {
-                if (start < GenTime() || item->startPos() < start)
+                if (start < GenTime() || item->startPos() < start) {
                     start = item->startPos();
+                }
             }
         } else {
             children << children.at(i)->childItems();
@@ -554,8 +581,9 @@ GenTime AbstractGroupItem::startPos() const
 QGraphicsItem *AbstractGroupItem::otherClip(QGraphicsItem *item)
 {
     QList<QGraphicsItem *> children = childItems();
-    if (children.isEmpty() || children.count() != 2)
+    if (children.isEmpty() || children.count() != 2) {
         return Q_NULLPTR;
+    }
     if (children.at(0) == item) {
         return children.at(1);
     } else {
@@ -570,9 +598,9 @@ QList <AbstractClipItem *> AbstractGroupItem::childClips() const
     for (int i = 0; i < children.count(); ++i) {
         if (children.at(i)->type() != GroupWidget) {
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
-	    childClips << item;
-	} else {
-            AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(children.at(i));	    
+            childClips << item;
+        } else {
+            AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(children.at(i));
             childClips << grp->childClips();
         }
     }

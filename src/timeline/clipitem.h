@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef CLIPITEM_H
 #define CLIPITEM_H
 
@@ -38,8 +37,8 @@ class ProjectClip;
 
 namespace Mlt
 {
-    class Producer;
-    class Profile;
+class Producer;
+class Profile;
 }
 
 class ClipItem : public AbstractClipItem
@@ -50,8 +49,8 @@ public:
     ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
     virtual ~ ClipItem();
     void paint(QPainter *painter,
-                       const QStyleOptionGraphicsItem *option,
-                       QWidget *) Q_DECL_OVERRIDE;
+               const QStyleOptionGraphicsItem *option,
+               QWidget *) Q_DECL_OVERRIDE;
     int type() const Q_DECL_OVERRIDE;
     void resizeStart(int posx, bool size = true, bool emitChange = true) Q_DECL_OVERRIDE;
     void resizeEnd(int posx, bool emitChange = true) Q_DECL_OVERRIDE;
@@ -79,7 +78,7 @@ public:
     * @return The parameters that will be passed to Mlt */
     EffectsParameterList addEffect(ProfileInfo info, QDomElement effect, bool animate = true);
 
-    /** @brief Deletes the effect with id @param ix. 
+    /** @brief Deletes the effect with id @param ix.
      * @return true if deleted effect was video and requires monitor refresh */
     bool deleteEffect(int ix);
 
@@ -88,8 +87,8 @@ public:
 
     /** @brief Gets a unique (?) effect id. */
     int effectsCounter();
-    
-        /** @brief Gets a copy of the xml of an effect.
+
+    /** @brief Gets a copy of the xml of an effect.
     * @param ix The effect's list index (starting from 0)
     * @return A copy of the effect's xml */
     QDomElement effect(int ix) const;
@@ -113,20 +112,20 @@ public:
     bool enableEffects(const QList<int> &indexes, bool disable);
     bool moveEffect(QDomElement effect, int ix);
     void flashClip();
-    void addTransition(Transition*);
+    void addTransition(Transition *);
 
     /** @brief Regenerates audio and video thumbnails.
     * @param clearExistingThumbs true = regenerate all thumbs, false = only create missing thumbs. */
     void resetThumbs(bool clearExistingThumbs);
 
     /** @brief Updates clip properties from base clip.
-    * @param checkDuration whether or not to check for a valid duration. 
+    * @param checkDuration whether or not to check for a valid duration.
     * @param resetThumbs whether or not to recreate the image thumbnails. */
     void refreshClip(bool checkDuration, bool resetThumbs);
 
     /** @brief Gets clip's marker times.
     * @return A list of the times. */
-    QList <GenTime> snapMarkers(const QList<GenTime> &markers ) const;
+    QList <GenTime> snapMarkers(const QList<GenTime> &markers) const;
     QList <CommentedTime> commentedSnapMarkers() const;
 
     /** @brief Gets the position of the fade in effect. */
@@ -233,7 +232,7 @@ private:
     int m_strobe;
 
     EffectsList m_effectList;
-    QList <Transition*> m_transitionsList;
+    QList <Transition *> m_transitionsList;
     QMap<int, QPixmap> m_audioThumbCachePic;
     bool m_audioThumbReady;
     double m_framePixelWidth;

@@ -52,7 +52,7 @@ bool MoveManager::mousePress(QMouseEvent *event, const ItemInfo &info, const QLi
     return true;
 }
 
-bool MoveManager::mouseMove(QMouseEvent *event, int , int)
+bool MoveManager::mouseMove(QMouseEvent *event, int, int)
 {
     if (!m_dragMoved && event->buttons() & Qt::LeftButton) {
         if ((m_clickPoint - event->pos()).manhattanLength() < QApplication::startDragDistance()) {
@@ -80,10 +80,13 @@ bool MoveManager::mouseMove(QMouseEvent *event, int , int)
 void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
 {
     Q_UNUSED(pos);
-    if (m_scrollTimer.isActive()) m_scrollTimer.stop();
+    if (m_scrollTimer.isActive()) {
+        m_scrollTimer.stop();
+    }
     m_view->setCursor(Qt::OpenHandCursor);
-    if (!m_dragMoved)
+    if (!m_dragMoved) {
         return;
+    }
     AbstractClipItem *dragItem = m_view->dragItem();
     if (!dragItem || !m_dragItemInfo.isValid() || m_view->operationMode() == WaitingForConfirm) {
         // No move performed
@@ -99,8 +102,9 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
             if (success) {
                 QUndoCommand *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Move clip"));
-                if (item->hasVisibleVideo())
+                if (item->hasVisibleVideo()) {
                     new RefreshMonitorCommand(m_view, QList <ItemInfo>() << info << m_dragItemInfo, false, true, moveCommand);
+                }
                 QList <ItemInfo> excluded;
                 excluded << info;
                 item->setItemLocked(true);
@@ -140,7 +144,9 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                         // move transition with clip
                         newStartTrInfo.endPos = newStartTrInfo.endPos + (newStartTrInfo.startPos - startTrInfo.startPos);
                     }
-                    if (newStartTrInfo.startPos < newStartTrInfo.endPos) moveStartTrans = true;
+                    if (newStartTrInfo.startPos < newStartTrInfo.endPos) {
+                        moveStartTrans = true;
+                    }
                 }
                 if (startTransition == Q_NULLPTR || startTransition->endPos() < m_dragItemInfo.endPos) {
                     // Check if there is a transition at clip end
@@ -207,7 +213,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                     ItemInfo newTrInfo = trInfo;
                     newTrInfo.startPos = dragItem->startPos();
                     newTrInfo.cropDuration = newTrInfo.endPos - dragItem->startPos();
-                    ClipItem * upperClip = m_view->getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
+                    ClipItem *upperClip = m_view->getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
                     if (!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) {
                         if (!m_view->getClipItemAtEnd(newTrInfo.endPos, tr->track())) {
                             // transition end should be adjusted to clip on upper track
@@ -232,7 +238,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                         ItemInfo trInfo = tr->info();
                         ItemInfo newTrInfo = trInfo;
                         newTrInfo.endPos = dragItem->endPos();
-                        ClipItem * upperClip = m_view->getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track + 1);
+                        ClipItem *upperClip = m_view->getClipItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track + 1);
                         if (!upperClip /*|| !upperClip->baseClip()->isTransparent()*/) {
                             if (!m_view->getClipItemAtStart(trInfo.startPos, tr->track())) {
                                 // transition moved, update start
@@ -255,14 +261,17 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                     }
                 }
                 m_view->updateTrackDuration(info.track, moveCommand);
-                if (m_dragItemInfo.track != info.track)
+                if (m_dragItemInfo.track != info.track) {
                     m_view->updateTrackDuration(m_dragItemInfo.track, moveCommand);
+                }
                 bool refresh = item->hasVisibleVideo();
-                if (refresh)
+                if (refresh) {
                     new RefreshMonitorCommand(m_view, QList <ItemInfo>() << info << m_dragItemInfo, false, false, moveCommand);
+                }
                 m_commandStack->push(moveCommand);
-                if (refresh)
+                if (refresh) {
                     m_view->monitorRefresh(QList <ItemInfo>() << info << m_dragItemInfo, true);
+                }
                 item = m_view->getClipItemAtStart(info.startPos, info.track, info.endPos);
                 if (item) {
                     item->setItemLocked(isLocked);
@@ -289,8 +298,9 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                 m_view->adjustTimelineTransitions(m_view->sceneEditMode(), transition, moveCommand);
                 new MoveTransitionCommand(m_view, m_dragItemInfo, info, false, true, moveCommand);
                 m_view->updateTrackDuration(info.track, moveCommand);
-                if (m_dragItemInfo.track != info.track)
+                if (m_dragItemInfo.track != info.track) {
                     m_view->updateTrackDuration(m_dragItemInfo.track, moveCommand);
+                }
                 m_commandStack->push(moveCommand);
                 m_view->monitorRefresh(QList <ItemInfo>() << info << m_dragItemInfo, true);
                 m_view->updateTransitionWidget(transition, info);
@@ -325,16 +335,18 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
         QList <ItemInfo> updatedClipsToMove;
         QList <ItemInfo> updatedTransitionsToMove;
         for (int i = 0; i < items.count(); ++i) {
-                if (items.at(i)->type() != AVWidget && items.at(i)->type() != TransitionWidget) continue;
-                AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-                ItemInfo info = item->info();
-                if (item->type() == AVWidget) {
-                    clipsToMove.append(info);
-                    updatedClipsToMove << item->info();
-                } else {
-                    transitionsToMove.append(info);
-                    updatedTransitionsToMove << item->info();
-                }
+            if (items.at(i)->type() != AVWidget && items.at(i)->type() != TransitionWidget) {
+                continue;
+            }
+            AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+            ItemInfo info = item->info();
+            if (item->type() == AVWidget) {
+                clipsToMove.append(info);
+                updatedClipsToMove << item->info();
+            } else {
+                transitionsToMove.append(info);
+                updatedTransitionsToMove << item->info();
+            }
         }
         if (m_view->sceneEditMode() == TimelineMode::InsertEdit) {
             m_view->cutTimeline(cutInfo.startPos.frames(m_view->fps()), clipsToMove, transitionsToMove, moveGroup, -1);
@@ -354,7 +366,6 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
     m_dragItemInfo = ItemInfo();
     m_view->setOperationMode(None);
 }
-
 
 void MoveManager::slotCheckMouseScrolling()
 {

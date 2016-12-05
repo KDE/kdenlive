@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef TRACKDIALOG_H
 #define TRACKDIALOG_H
-
 
 #include "ui_addtrack_ui.h"
 
@@ -31,9 +29,8 @@ class TrackDialog : public QDialog, public Ui::AddTrack_UI
     Q_OBJECT
 
 public:
-    explicit TrackDialog(Timeline *timeline, QWidget * parent = Q_NULLPTR);
+    explicit TrackDialog(Timeline *timeline, QWidget *parent = Q_NULLPTR);
 };
-
 
 #endif
 

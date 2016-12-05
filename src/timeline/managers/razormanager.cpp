@@ -31,7 +31,6 @@
 #include <QGraphicsLineItem>
 #include <klocalizedstring.h>
 
-
 RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(RazorType, view, commandStack)
     , m_cutLine(Q_NULLPTR)
 {
@@ -43,8 +42,9 @@ bool RazorManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<Q
 {
     QList<QGraphicsItem *> items;
     AbstractClipItem *dragItem = m_view->dragItem();
-    if (!dragItem)
+    if (!dragItem) {
         return false;
+    }
     if (dragItem->parentItem()) {
         items << dragItem->parentItem()->childItems();
     } else {
@@ -68,15 +68,15 @@ void RazorManager::initTool(double trackHeight)
 void RazorManager::buildCutLine(double trackHeight)
 {
     if (!m_cutLine) {
-          m_cutLine = m_view->scene()->addLine(0, 0, 0, trackHeight);
-          m_cutLine->setZValue(1000);
-          QPen pen1 = QPen();
-          pen1.setWidth(1);
-          QColor line(Qt::red);
-          pen1.setColor(line);
-          m_cutLine->setPen(pen1);
-          m_cutLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
-          slotRefreshCutLine();
+        m_cutLine = m_view->scene()->addLine(0, 0, 0, trackHeight);
+        m_cutLine->setZValue(1000);
+        QPen pen1 = QPen();
+        pen1.setWidth(1);
+        QColor line(Qt::red);
+        pen1.setColor(line);
+        m_cutLine->setPen(pen1);
+        m_cutLine->setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
+        slotRefreshCutLine();
     }
 }
 
@@ -106,8 +106,9 @@ bool RazorManager::mouseMove(QMouseEvent *, int pos, int track)
 
 void RazorManager::updateTimelineItems()
 {
-    if (m_cutLine)
+    if (m_cutLine) {
         slotRefreshCutLine();
+    }
 }
 
 void RazorManager::mouseRelease(QMouseEvent *, GenTime pos)
@@ -122,7 +123,7 @@ void RazorManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QM
     if (item && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {
         // razor tool over a clip, display current frame in monitor
         if (event->modifiers() == Qt::ShiftModifier && item->type() == AVWidget) {
-            ClipItem *clip = static_cast <ClipItem*>(item);
+            ClipItem *clip = static_cast <ClipItem *>(item);
             QMetaObject::invokeMethod(view, "showClipFrame", Qt::QueuedConnection, Q_ARG(QString, clip->getBinId()), Q_ARG(int, eventPos - (clip->startPos() - clip->cropStart()).frames(view->fps())));
         }
         event->accept();

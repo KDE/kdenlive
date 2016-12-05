@@ -34,7 +34,7 @@ class HeaderTrack : public QWidget, public Ui::TrackHeader_UI
     Q_OBJECT
 
 public:
-    HeaderTrack(const TrackInfo &info, const QList <QAction *>& actions, Track *parent, int height, QWidget *parentWidget);
+    HeaderTrack(const TrackInfo &info, const QList <QAction *> &actions, Track *parent, int height, QWidget *parentWidget);
     virtual ~HeaderTrack();
     bool isTarget;
     void setLock(bool lock);
@@ -53,9 +53,9 @@ public:
     void setAudioMute(bool mute);
 
 protected:
-    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent * event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
@@ -77,10 +77,10 @@ private slots:
     void switchLock(bool);
 
 signals:
-    void switchTrackAudio(int index,bool);
-    void switchTrackVideo(int index,bool);
-    void switchTrackLock(int index,bool);
-    void renameTrack(int index, const QString&name);
+    void switchTrackAudio(int index, bool);
+    void switchTrackVideo(int index, bool);
+    void switchTrackLock(int index, bool);
+    void renameTrack(int index, const QString &name);
     void selectTrack(int index, bool switchTarget = false);
     void configTrack();
     void addTrackEffect(QDomElement, int index);

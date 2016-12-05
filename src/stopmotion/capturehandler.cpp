@@ -20,7 +20,6 @@
 #include "capturehandler.h"
 #include "kdenlivesettings.h"
 
-
 CaptureHandler::CaptureHandler(QVBoxLayout *lay, QWidget *parent):
     m_layout(lay),
     m_parent(parent),
@@ -52,33 +51,44 @@ void CaptureHandler::uyvy2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buff
         /* Compute parts of the UV components */
 
         int U = yuv_buffer[y_ptr];
-        int Y = yuv_buffer[y_ptr+1];
-        int V = yuv_buffer[y_ptr+2];
-        int Y2 = yuv_buffer[y_ptr+3];
+        int Y = yuv_buffer[y_ptr + 1];
+        int V = yuv_buffer[y_ptr + 2];
+        int Y2 = yuv_buffer[y_ptr + 3];
         y_ptr += 4;
 
         int r = ((298 * (Y - 16)               + 409 * (V - 128) + 128) >> 8);
         int g = ((298 * (Y - 16) - 100 * (U - 128) - 208 * (V - 128) + 128) >> 8);
         int b = ((298 * (Y - 16) + 516 * (U - 128)               + 128) >> 8);
 
-        if (r > 255) r = 255;
-        if (g > 255) g = 255;
-        if (b > 255) b = 255;
+        if (r > 255) {
+            r = 255;
+        }
+        if (g > 255) {
+            g = 255;
+        }
+        if (b > 255) {
+            b = 255;
+        }
 
-        if (r < 0) r = 0;
-        if (g < 0) g = 0;
-        if (b < 0) b = 0;
+        if (r < 0) {
+            r = 0;
+        }
+        if (g < 0) {
+            g = 0;
+        }
+        if (b < 0) {
+            b = 0;
+        }
 
         rgb_buffer[rgb_ptr] = b;
-        rgb_buffer[rgb_ptr+1] = g;
-        rgb_buffer[rgb_ptr+2] = r;
-        rgb_buffer[rgb_ptr+3] = 255;
+        rgb_buffer[rgb_ptr + 1] = g;
+        rgb_buffer[rgb_ptr + 2] = r;
+        rgb_buffer[rgb_ptr + 3] = 255;
 
         rgb_ptr += 4;
         /*r = 1.164*(Y2-16) + 1.596*(V-128);
         g = 1.164*(Y2-16) - 0.813*(V-128) - 0.391*(U-128);
         b = 1.164*(Y2-16) + 2.018*(U-128);*/
-
 
         r = ((298 * (Y2 - 16)               + 409 * (V - 128) + 128) >> 8);
 
@@ -86,20 +96,31 @@ void CaptureHandler::uyvy2rgb(unsigned char *yuv_buffer, unsigned char *rgb_buff
 
         b = ((298 * (Y2 - 16) + 516 * (U - 128)               + 128) >> 8);
 
-        if (r > 255) r = 255;
-        if (g > 255) g = 255;
-        if (b > 255) b = 255;
+        if (r > 255) {
+            r = 255;
+        }
+        if (g > 255) {
+            g = 255;
+        }
+        if (b > 255) {
+            b = 255;
+        }
 
-        if (r < 0) r = 0;
-        if (g < 0) g = 0;
-        if (b < 0) b = 0;
+        if (r < 0) {
+            r = 0;
+        }
+        if (g < 0) {
+            g = 0;
+        }
+        if (b < 0) {
+            b = 0;
+        }
 
         rgb_buffer[rgb_ptr] = b;
-        rgb_buffer[rgb_ptr+1] = g;
-        rgb_buffer[rgb_ptr+2] = r;
-        rgb_buffer[rgb_ptr+3] = 255;
+        rgb_buffer[rgb_ptr + 1] = g;
+        rgb_buffer[rgb_ptr + 2] = r;
+        rgb_buffer[rgb_ptr + 3] = 255;
         rgb_ptr += 4;
     }
 }
-
 

@@ -30,15 +30,15 @@ class CustomTrackScene;
 class AbstractClipItem;
 class QGraphicsSceneMouseEvent;
 
-class AbstractGroupItem : public QObject , public QGraphicsItemGroup
+class AbstractGroupItem : public QObject, public QGraphicsItemGroup
 {
     Q_OBJECT
 public:
     explicit AbstractGroupItem(double fps);
     int type() const Q_DECL_OVERRIDE;
-    CustomTrackScene* projectScene();
-    void addItem(QGraphicsItem * item);
-    void removeItem(QGraphicsItem * item);
+    CustomTrackScene *projectScene();
+    void addItem(QGraphicsItem *item);
+    void removeItem(QGraphicsItem *item);
     int track() const;
     QPainterPath clipGroupShape(const QPointF &offset) const;
     QPainterPath clipGroupSpacerShape(const QPointF &offset) const;
@@ -67,9 +67,9 @@ protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QGraphicsSceneMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent * event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
     int trackForPos(int position);
     int posForTrack(int track);
 

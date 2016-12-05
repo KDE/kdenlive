@@ -18,7 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "klocalizedstring.h"
 #include <QStatusBar>
 
-TimelineSearch::TimelineSearch(QObject* parent) :
+TimelineSearch::TimelineSearch(QObject *parent) :
     QObject(parent)
 {
     connect(&m_searchTimer, &QTimer::timeout, this, &TimelineSearch::slotEndSearch);
@@ -79,7 +79,7 @@ bool TimelineSearch::eventFilter(QObject *watched, QEvent *event)
     if (watched == pCore->window() && event->type() == QEvent::ShortcutOverride) {
 
         // Search, or pass event on if no search active or started
-        return keyPressEvent(static_cast<QKeyEvent*>(event));
+        return keyPressEvent(static_cast<QKeyEvent *>(event));
 
     } else {
         return QObject::eventFilter(watched, event);

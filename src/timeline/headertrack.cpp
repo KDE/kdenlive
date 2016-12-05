@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "headertrack.h"
 #include "track.h"
 #include "kdenlivesettings.h"
@@ -37,12 +36,12 @@
 #include <QMimeData>
 
 HeaderTrack::HeaderTrack(const TrackInfo &info, const QList <QAction *> &actions, Track *parent, int height, QWidget *parentWidget) :
-        QWidget(parentWidget),
-        isTarget(false),
-        m_type(info.type),
-        m_parentTrack(parent),
-        m_isSelected(false),
-        m_switchVideo(Q_NULLPTR)
+    QWidget(parentWidget),
+    isTarget(false),
+    m_type(info.type),
+    m_parentTrack(parent),
+    m_isSelected(false),
+    m_switchVideo(Q_NULLPTR)
 {
     setupUi(this);
     setFocusPolicy(Qt::ClickFocus);
@@ -102,7 +101,6 @@ HeaderTrack::HeaderTrack(const TrackInfo &info, const QList <QAction *> &actions
     addActions(actions);
 }
 
-
 HeaderTrack::~HeaderTrack()
 {
     //qCDebug(KDENLIVE_LOG)<<" - --DEL TK HEAD: "<<m_name;
@@ -122,11 +120,12 @@ bool HeaderTrack::eventFilter(QObject *obj, QEvent *event)
     return QWidget::eventFilter(obj, event);
 }
 
-
 void HeaderTrack::updateStatus(const TrackInfo &info)
 {
     m_switchAudio->setActive(info.isMute);
-    if (m_switchVideo) m_switchVideo->setActive(info.isBlind);
+    if (m_switchVideo) {
+        m_switchVideo->setActive(info.isBlind);
+    }
     m_switchLock->setActive(info.isLocked);
     updateBackground(info.isLocked);
     updateLed();
@@ -158,7 +157,7 @@ void HeaderTrack::updateEffectLabel(const QStringList &effects)
 }
 
 // virtual
-void HeaderTrack::mousePressEvent(QMouseEvent * event)
+void HeaderTrack::mousePressEvent(QMouseEvent *event)
 {
     if (track_number->hasFocus()) {
         track_number->clearFocus();
@@ -170,7 +169,7 @@ void HeaderTrack::mousePressEvent(QMouseEvent * event)
     event->setAccepted(true);
 }
 
-void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
+void HeaderTrack::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (track_number->hasFocus()) {
         track_number->clearFocus();
@@ -181,7 +180,7 @@ void HeaderTrack::mouseDoubleClickEvent(QMouseEvent* event)
 }
 
 //virtual
-void HeaderTrack::dropEvent(QDropEvent * event)
+void HeaderTrack::dropEvent(QDropEvent *event)
 {
     const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
     QDomDocument doc;
@@ -322,8 +321,9 @@ void HeaderTrack::updateLed()
 void HeaderTrack::slotRenameTrack()
 {
     track_number->clearFocus();
-    if (m_name != track_number->text())
+    if (m_name != track_number->text()) {
         emit renameTrack(m_parentTrack->index(), track_number->text());
+    }
     track_number->setEnabled(false);
 }
 
@@ -344,11 +344,10 @@ void HeaderTrack::refreshPalette()
     KColorScheme scheme(pal.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     pal.setColor(QPalette::Base, scheme.background(KColorScheme::NormalBackground).color());
     pal.setColor(QPalette::AlternateBase, scheme.background(KColorScheme::AlternateBackground).color());
-    pal.setColor(QPalette::Mid, scheme.background(KColorScheme::ActiveBackground ).color());
-    pal.setColor(QPalette::Shadow, scheme.background(KColorScheme::NeutralBackground ).color());
-    pal.setColor(QPalette::Dark, scheme.background(KColorScheme::NegativeBackground ).color());
+    pal.setColor(QPalette::Mid, scheme.background(KColorScheme::ActiveBackground).color());
+    pal.setColor(QPalette::Shadow, scheme.background(KColorScheme::NeutralBackground).color());
+    pal.setColor(QPalette::Dark, scheme.background(KColorScheme::NegativeBackground).color());
     setPalette(pal);
     updateLed();
 }
-
 

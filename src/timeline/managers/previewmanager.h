@@ -30,9 +30,10 @@
 class KdenliveDoc;
 class CustomRuler;
 
-namespace Mlt {
-    class Tractor;
-    class Playlist;
+namespace Mlt
+{
+class Tractor;
+class Playlist;
 }
 
 /**

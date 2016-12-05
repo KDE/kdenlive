@@ -29,7 +29,6 @@ class QGraphicsLineItem;
 
 #include "abstracttoolmanager.h"
 
-
 /**
  * @namespace RazorManager
  * @brief Provides convenience methods to handle selection tool.
@@ -48,7 +47,7 @@ public:
     void leaveEvent() Q_DECL_OVERRIDE;
     void initTool(double trackHeight) Q_DECL_OVERRIDE;
     void closeTool() Q_DECL_OVERRIDE;
-    /** @brief Check if a guide operation is applicable on items under mouse. 
+    /** @brief Check if a guide operation is applicable on items under mouse.
      * @param items The list of items under mouse
      * @param operationMode Will be set to MoveGuide if applicable
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
@@ -62,7 +61,7 @@ public slots:
 private:
     QGraphicsLineItem *m_cutLine;
     QCursor m_cursor;
-    void buildCutLine( double trackHeight);
+    void buildCutLine(double trackHeight);
 };
 
 #endif

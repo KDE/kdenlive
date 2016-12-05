@@ -53,5 +53,4 @@ signals:
     void gotFrame(QImage);
 };
 
-
 #endif

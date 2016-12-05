@@ -37,7 +37,7 @@ class AbstractToolManager : public QObject
     Q_OBJECT
 
 public:
-     enum ToolManagerType {
+    enum ToolManagerType {
         TrimType = 0,
         SpacerType,
         MoveType,

@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef CLIPDURATIONDIALOG_H
 #define CLIPDURATIONDIALOG_H
 
@@ -28,7 +27,7 @@
 
 /**
  * @class ClipDurationDialog
- * @brief A dialog for modifying an item's (clip or transition) duration. 
+ * @brief A dialog for modifying an item's (clip or transition) duration.
  * @author Jean-Baptiste Mardelle
  */
 
@@ -37,7 +36,7 @@ class ClipDurationDialog : public QDialog, public Ui::ClipDurationDialog_UI
     Q_OBJECT
 
 public:
-    explicit ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget * parent = Q_NULLPTR);
+    explicit ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget *parent = Q_NULLPTR);
     ~ClipDurationDialog();
     GenTime startPos() const;
     GenTime cropStart() const;
@@ -59,7 +58,6 @@ private:
     GenTime m_max;
     GenTime m_crop;
 };
-
 
 #endif
 

@@ -25,7 +25,6 @@
 #include <QGraphicsItem>
 #include <QApplication>
 
-
 SpacerManager::SpacerManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(SpacerType, view, commandStack)
     , m_dragMoved(false)
 {
@@ -57,13 +56,13 @@ bool SpacerManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
     return false;
 }
 
-void SpacerManager::initTool(double )
+void SpacerManager::initTool(double)
 {
-    qCDebug(KDENLIVE_LOG)<<"* ** INIT SPACER";
+    qCDebug(KDENLIVE_LOG) << "* ** INIT SPACER";
     m_view->setCursor(Qt::SplitHCursor);
 }
 
-bool SpacerManager::mouseMove(QMouseEvent *event, int pos, int )
+bool SpacerManager::mouseMove(QMouseEvent *event, int pos, int)
 {
     if (event->buttons() & Qt::LeftButton) {
         if (!m_dragMoved) {
@@ -74,7 +73,9 @@ bool SpacerManager::mouseMove(QMouseEvent *event, int pos, int )
             m_dragMoved = true;
         }
         int snappedPos = m_view->getSnapPointForPos(pos + m_spacerOffset.frames(m_view->fps()));
-        if (snappedPos < 0) snappedPos = 0;
+        if (snappedPos < 0) {
+            snappedPos = 0;
+        }
         m_view->spaceToolMoveToSnapPos(snappedPos);
         event->accept();
         return true;
@@ -93,5 +94,4 @@ void SpacerManager::mouseRelease(QMouseEvent *, GenTime pos)
     GenTime timeOffset = GenTime(m_view->selectionGroup()->sceneBoundingRect().left(), m_view->fps()) - m_startPos;
     m_view->completeSpaceOperation(m_track, timeOffset);
 }
-
 
