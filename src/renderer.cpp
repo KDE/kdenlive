@@ -579,6 +579,9 @@ void Render::saveZone(const QString &projectFolder, QPoint zone)
         clipFolder = QDir::homePath();
     }
     QString url = QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Save Zone"), clipFolder, i18n("MLT playlist (*.mlt)"));
+    if (url.isEmpty()) {
+        return;
+    }
     Mlt::Consumer xmlConsumer(*m_qmlView->profile(), ("xml:" + url).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     m_mltProducer->optimise();
