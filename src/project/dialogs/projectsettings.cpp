@@ -580,7 +580,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
 
 void ProjectSettings::slotExportToText()
 {
-    QString savePath = QFileDialog::getSaveFileName(this, QString(), project_folder->url().path(), QStringLiteral("text/plain"));
+    const QString savePath = QFileDialog::getSaveFileName(this, QString(), project_folder->url().path(), QStringLiteral("text/plain"));
     if (savePath.isEmpty()) return;
     QString data;
     data.append(i18n("Project folder: %1",  project_folder->url().path()) + '\n');
