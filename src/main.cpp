@@ -59,14 +59,12 @@ int main(int argc, char *argv[])
     KConfigGroup initialGroup(config, "version");
     if (!initialGroup.exists()) {
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP"))) {
-            if (env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() != QLatin1String("kde")) {
-                // We are not on a KDE desktop, force breeze icon theme
-                grp.writeEntry("force_breeze", true);
-                qDebug()<<"Non KDE Desktop detected, forcing Breeze icon theme";
-            } else {
-                qDebug()<<"KDE Desktop detected, using system icons";
-            }
+        if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP")) && env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde")) {
+            qDebug()<<"KDE Desktop detected, using system icons";
+        } else {
+            // We are not on a KDE desktop, force breeze icon theme
+            grp.writeEntry("force_breeze", true);
+            qDebug()<<"Non KDE Desktop detected, forcing Breeze icon theme";
         }
     }
 
@@ -102,9 +100,11 @@ int main(int argc, char *argv[])
     // Register about data
     KAboutData::setApplicationData(aboutData);
 
+#ifndef __MINGW32__
     // Add rcc stored icons to the search path so that we always find our icons
     KIconLoader *loader = KIconLoader::global();
     loader->reconfigure("kdenlive", QStringList() << QStringLiteral(":/pics"));
+#endif
 
     // Set app stuff from about data
     app.setApplicationDisplayName(aboutData.displayName());
