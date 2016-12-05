@@ -568,7 +568,7 @@ void Timeline::moveCursorPos(int pos)
     m_trackview->setCursorPos(pos);
 }
 
-void Timeline::slotChangeZoom(int horizontal, int vertical)
+void Timeline::slotChangeZoom(int horizontal, int vertical, bool zoomOnMouse)
 {
     m_ruler->setPixelPerMark(horizontal);
     m_scale = (double) m_trackview->getFrameWidth() / m_ruler->comboScale[horizontal];
@@ -576,7 +576,7 @@ void Timeline::slotChangeZoom(int horizontal, int vertical)
     if (vertical == -1) {
         // user called zoom
         m_doc->setZoom(horizontal, m_verticalZoom);
-        m_trackview->setScale(m_scale, m_scene->scale().y());
+        m_trackview->setScale(m_scale, m_scene->scale().y(), zoomOnMouse);
     } else {
         m_verticalZoom = vertical;
         if (m_verticalZoom == 0)

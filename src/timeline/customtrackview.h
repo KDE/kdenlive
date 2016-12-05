@@ -78,7 +78,7 @@ public:
     void deleteClip(const ItemInfo &info, bool refresh = true);
     void addMarker(const QString &id, const CommentedTime &marker);
     void addData(const QString &id, const QString &key, const QString &data);
-    void setScale(double scaleFactor, double verticalScale);
+    void setScale(double scaleFactor, double verticalScale, bool zoomOnMouse = false);
     void deleteClip(const QString &clipId, QUndoCommand *deleteCommand);
     /** @brief An effect was dropped on @param clip */
     void slotDropEffect(ClipItem *clip, const QDomElement &effect, GenTime pos, int track);
@@ -585,8 +585,8 @@ private slots:
 
 signals:
     void cursorMoved(int, int);
-    void zoomIn();
-    void zoomOut();
+    void zoomIn(bool zoomOnMouse);
+    void zoomOut(bool zoomOnMouse);
     void mousePosition(int);
     /** @brief A clip was selected in timeline, update the effect stack
      *  @param clip The clip
