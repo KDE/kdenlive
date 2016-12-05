@@ -1132,7 +1132,7 @@ void MainWindow::setupActions()
     actionWidget->setMaximumHeight(max - 4);
     actionWidget->setStyleSheet(styleBorderless);*/
 
-    connect(m_zoomSlider, &QAbstractSlider::valueChanged, this, &MainWindow::slotSetZoom);
+    connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetZoom(int)));
     connect(m_zoomSlider, &QAbstractSlider::sliderMoved, this, &MainWindow::slotShowZoomSliderToolTip);
     connect(m_buttonFitZoom, &QAction::triggered, this, &MainWindow::slotFitZoom);
     connect(m_zoomIn, &QAction::triggered, this, &MainWindow::slotZoomIn);
@@ -1926,7 +1926,7 @@ void MainWindow::connectDocument()
 
     connect(trackView->projectView(), &CustomTrackView::zoomIn, this, &MainWindow::slotZoomIn);
     connect(trackView->projectView(), &CustomTrackView::zoomOut, this, &MainWindow::slotZoomOut);
-    connect(trackView, &Timeline::setZoom, this, &MainWindow::slotSetZoom);
+    connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
 
     connect(trackView, SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
     connect(trackView->projectView(), SIGNAL(displayMessage(QString,MessageType)), m_messageLabel, SLOT(setMessage(QString,MessageType)));
