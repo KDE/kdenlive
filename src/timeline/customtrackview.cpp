@@ -7676,7 +7676,10 @@ void CustomTrackView::clearSelection(bool emitInfo)
     scene()->clearSelection();
     if (m_dragItem) m_dragItem->setMainSelectedClip(false);
     m_dragItem = NULL;
-    if (emitInfo) emit clipItemSelected(NULL);
+    if (emitInfo) {
+        emit clipItemSelected(NULL);
+        emit transitionItemSelected(NULL);
+    }
 }
 
 void CustomTrackView::updatePalette()

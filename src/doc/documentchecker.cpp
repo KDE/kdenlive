@@ -124,7 +124,7 @@ bool DocumentChecker::hasErrorInClips()
     max = documentProducers.count();
     QStringList verifiedPaths;
     QStringList serviceToCheck;
-    serviceToCheck << QStringLiteral("kdenlivetitle") << QStringLiteral("qimage") << QStringLiteral("pixbuf") << QStringLiteral("timewarp") << QStringLiteral("framebuffer");
+    serviceToCheck << QStringLiteral("kdenlivetitle") << QStringLiteral("qimage") << QStringLiteral("pixbuf") << QStringLiteral("timewarp") << QStringLiteral("framebuffer") << QStringLiteral("xml");
     for (int i = 0; i < max; ++i) {
         e = documentProducers.item(i).toElement();
 	QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
@@ -523,7 +523,7 @@ void DocumentChecker::slotSearchClips()
     int ix = 0;
     bool fixed = false;
     m_ui.recursiveSearch->setChecked(true);
-    qApp->processEvents();
+    //TODO: make non modal
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     QDir searchDir(newpath);
     while (child) {
