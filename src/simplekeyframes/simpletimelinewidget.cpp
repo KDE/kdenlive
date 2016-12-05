@@ -131,9 +131,10 @@ void SimpleTimelineWidget::slotGoToPrev()
         return;
 
     for (int i = m_keyframes.count() - 1; i >= 0; --i) {
-        if (m_keyframes.at(i) < m_position) {
-            slotSetPosition(m_keyframes.at(i));
-            emit positionChanged(m_keyframes.at(i));
+        const int framePos(m_keyframes.at(i));
+        if (framePos < m_position) {
+            slotSetPosition(framePos);
+            emit positionChanged(framePos);
             emit atKeyframe(true);
             return;
         }

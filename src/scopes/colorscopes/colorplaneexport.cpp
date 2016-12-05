@@ -87,9 +87,7 @@ void ColorPlaneExport::enableCbVariant(bool enable)
    cbVariant->setEnabled(enable);
    lblVariant->setEnabled(enable);
    if (!enable) {
-       while (cbVariant->count() > 0) {
-           cbVariant->removeItem(0);
-       }
+       cbVariant->clear();
    }
 }
 
