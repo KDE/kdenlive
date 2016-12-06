@@ -57,12 +57,15 @@ int main(int argc, char **argv)
             locale = QString(args.at(0)).section(QLatin1Char(':'), 1);
             args.removeFirst();
         }
-        if (args.at(0).startsWith(QLatin1String("in=")))
+        if (args.at(0).startsWith(QLatin1String("in="))) {
             in = args.takeFirst().section(QLatin1Char('='), -1).toInt();
-        if (args.at(0).startsWith(QLatin1String("out=")))
+        }
+        if (args.at(0).startsWith(QLatin1String("out="))) {
             out = args.takeFirst().section(QLatin1Char('='), -1).toInt();
-        if (args.at(0).startsWith(QLatin1String("preargs=")))
+        }
+        if (args.at(0).startsWith(QLatin1String("preargs="))) {
             preargs = args.takeFirst().section(QLatin1Char('='), 1).split(QLatin1Char(' '), QString::SkipEmptyParts);
+        }
 
         QString render = args.takeFirst();
         QString profile = args.takeFirst();
@@ -72,8 +75,9 @@ int main(int argc, char **argv)
         QUrl srcurl = QUrl::fromEncoded(srcString);
         QString src = srcurl.path();
         // The QUrl path() strips the consumer: protocol, so re-add it if necessary
-        if (srcString.startsWith("consumer:"))
+        if (srcString.startsWith("consumer:")) {
             src.prepend(QLatin1String("consumer:"));
+        }
         QUrl desturl = QUrl::fromEncoded(args.takeFirst().toUtf8());
         QString dest = desturl.path();
         bool dualpass = false;
@@ -82,7 +86,7 @@ int main(int argc, char **argv)
 
         int vprepos = args.indexOf(QRegExp(QLatin1String("vpre=.*")));
         if (vprepos >= 0) {
-            vpre=args.at(vprepos);
+            vpre = args.at(vprepos);
         }
         QStringList vprelist = vpre.remove(QStringLiteral("vpre=")).split(QLatin1Char(','));
         if (vprelist.size() > 0) {
@@ -94,7 +98,9 @@ int main(int argc, char **argv)
             dualpass = true;
             doerase = false;
             args.replace(args.indexOf(QStringLiteral("pass=2")), QStringLiteral("pass=1"));
-            if (args.contains(QStringLiteral("vcodec=libx264"))) args << QStringLiteral("passlogfile=%1").arg(dest + QStringLiteral(".log"));
+            if (args.contains(QStringLiteral("vcodec=libx264"))) {
+                args << QStringLiteral("passlogfile=%1").arg(dest + QStringLiteral(".log"));
+            }
         } else {
             args.removeAll(QStringLiteral("pass=1"));
             doerase = erase;
@@ -108,20 +114,25 @@ int main(int argc, char **argv)
             }
         }
 
-        qDebug() << "//STARTING RENDERING: " << erase << ',' << usekuiserver << ',' << render << ',' << profile << ',' << rendermodule << ',' << player << ',' << src << ',' << dest << ',' << preargs << ',' << args << ',' << in << ',' << out ;
+        qDebug() << "//STARTING RENDERING: " << erase << ',' << usekuiserver << ',' << render << ',' << profile << ',' << rendermodule << ',' << player << ',' << src << ',' << dest << ',' << preargs << ',' << args << ',' << in << ',' << out;
         RenderJob *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
-        if (!locale.isEmpty()) job->setLocale(locale);
+        if (!locale.isEmpty()) {
+            job->setLocale(locale);
+        }
         job->start();
         RenderJob *dualjob = Q_NULLPTR;
         if (dualpass) {
-            if (vprelist.size()>1)
-                args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")),QStringLiteral("vpre=%1").arg(vprelist.at(1)));
+            if (vprelist.size() > 1) {
+                args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")), QStringLiteral("vpre=%1").arg(vprelist.at(1)));
+            }
             args.replace(args.indexOf(QStringLiteral("pass=1")), QStringLiteral("pass=2"));
             dualjob = new RenderJob(erase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
             QObject::connect(job, &RenderJob::renderingFinished, dualjob, &RenderJob::start);
         }
         app.exec();
-        if (dualjob) delete dualjob;
+        if (dualjob) {
+            delete dualjob;
+        }
     } else {
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
                 "kdenlive_render [-erase] [-kuiserver] [-locale:LOCALE] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]\n"

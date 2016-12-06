@@ -20,12 +20,11 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-
 #include <QLabel>
 #include <QSlider>
 #include <QHBoxLayout>
 
-PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const Timecode&tc, QWidget* parent) :
+PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const Timecode &tc, QWidget *parent) :
     QWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -95,5 +94,4 @@ bool PositionEdit::isValid() const
 {
     return m_slider->minimum() != m_slider->maximum();
 }
-
 

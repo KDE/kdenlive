@@ -59,7 +59,6 @@
 #include <QDrag>
 #include <QMimeData>
 
-
 DraggableLabel::DraggableLabel(const QString &text, QWidget *parent):
     QLabel(text, parent)
     , m_dragStarted(false)
@@ -80,10 +79,11 @@ void DraggableLabel::mousePressEvent(QMouseEvent *ev)
 void DraggableLabel::mouseReleaseEvent(QMouseEvent *ev)
 {
     // Don't call mouserelease in cas of drag because label might be deleted by a drop
-    if (!m_dragStarted)
+    if (!m_dragStarted) {
         QLabel::mouseReleaseEvent(ev);
-    else
+    } else {
         ev->ignore();
+    }
     m_clickStart = QPoint();
 }
 
@@ -101,7 +101,7 @@ void DraggableLabel::mouseMoveEvent(QMouseEvent *ev)
     }
 }
 
-MySpinBox::MySpinBox(QWidget * parent):
+MySpinBox::MySpinBox(QWidget *parent):
     QSpinBox(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
@@ -109,14 +109,14 @@ MySpinBox::MySpinBox(QWidget * parent):
 
 void MySpinBox::focusInEvent(QFocusEvent *e)
 {
-     setFocusPolicy(Qt::WheelFocus);
-     e->accept();
+    setFocusPolicy(Qt::WheelFocus);
+    e->accept();
 }
 
 void MySpinBox::focusOutEvent(QFocusEvent *e)
 {
-     setFocusPolicy(Qt::StrongFocus);
-     e->accept();
+    setFocusPolicy(Qt::StrongFocus);
+    e->accept();
 }
 
 class Boolval: public QWidget, public Ui::Boolval_UI
@@ -143,17 +143,16 @@ class Fontval: public QWidget, public Ui::Fontval_UI
 {
 };
 
-
-ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent) :
-        m_info(info),
-        m_keyframeEditor(Q_NULLPTR),
-        m_geometryWidget(Q_NULLPTR),
-        m_animationWidget(Q_NULLPTR),
-        m_metaInfo(metaInfo),
-        m_effect(effect),
-        m_acceptDrops(false),
-        m_monitorEffectScene(MonitorSceneDefault),
-        m_conditionParameter(false)
+ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget *parent) :
+    m_info(info),
+    m_keyframeEditor(Q_NULLPTR),
+    m_geometryWidget(Q_NULLPTR),
+    m_animationWidget(Q_NULLPTR),
+    m_metaInfo(metaInfo),
+    m_effect(effect),
+    m_acceptDrops(false),
+    m_monitorEffectScene(MonitorSceneDefault),
+    m_conditionParameter(false)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -168,7 +167,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     int minFrame = e.attribute(QStringLiteral("start")).toInt();
     int maxFrame = e.attribute(QStringLiteral("end")).toInt();
     // In transitions, maxFrame is in fact one frame after the end of transition
-    if (maxFrame > 0) maxFrame --;
+    if (maxFrame > 0) {
+        maxFrame --;
+    }
 
     bool disable = effect.attribute(QStringLiteral("disable")) == QLatin1String("1") && KdenliveSettings::disable_effect_parameters();
     parent->setEnabled(!disable);
@@ -190,7 +191,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         m_conditionParameter = !conditionParam.isEmpty();
     }
 
-    if (effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain") ) {
+    if (effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain")) {
         // We use a special custom widget here
         LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
         m_vbox->addWidget(gainWidget);
@@ -201,507 +202,525 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         connect(cmykAdjust, &SelectiveColor::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
         m_vbox->addWidget(cmykAdjust);
         m_valueItems[effect.attribute(QStringLiteral("id"))] = cmykAdjust;
-    }
-    else for (int i = 0; i < namenode.count() ; ++i) {
-        QDomElement pa = namenode.item(i).toElement();
-        if (pa.tagName() == QLatin1String("conditionalinfo")) {
-            // Conditional info
-            KMessageWidget *mw = new KMessageWidget;
-            mw->setWordWrap(true);
-            mw->setMessageType(KMessageWidget::Information);
-            mw->setText(i18n(pa.text().toUtf8().data()));
-            mw->setCloseButtonVisible(false);
-            mw->setVisible(!m_conditionParameter);
-            m_vbox->addWidget(mw);
-            m_conditionalWidgets << mw;
-        }
-        if (pa.tagName() != QLatin1String("parameter")) continue;
-        QString type = pa.attribute(QStringLiteral("type"));
-        if (type == QLatin1String("fixed")) {
-            // Fixed parameters are not exposed in the UI
-            continue;
-        }
-        QDomElement na = pa.firstChildElement(QStringLiteral("name"));
-        QDomElement commentElem = pa.firstChildElement(QStringLiteral("comment"));
-        QString paramName = na.isNull() ? pa.attribute(QStringLiteral("name")) : i18n(na.text().toUtf8().data());
-        QString comment;
-        if (!commentElem.isNull())
-            comment = i18n(commentElem.text().toUtf8().data());
-        QWidget * toFillin = new QWidget(parent);
-        QString value = pa.attribute(QStringLiteral("value")).isNull() ?
-                        pa.attribute(QStringLiteral("default")) : pa.attribute(QStringLiteral("value"));
-
-
-        /** See effects/README for info on the different types */
-        if (type == QLatin1String("double") || type == QLatin1String("constant")) {
-            double min;
-            double max;
-            m_acceptDrops = true;
-            if (pa.attribute(QStringLiteral("min")).contains('%'))
-                min = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute(QStringLiteral("min")), m_metaInfo->frameSize);
-            else
-                min = locale.toDouble(pa.attribute(QStringLiteral("min")));
-            if (pa.attribute(QStringLiteral("max")).contains('%'))
-                max = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute(QStringLiteral("max")), m_metaInfo->frameSize);
-            else
-                max = locale.toDouble(pa.attribute(QStringLiteral("max")));
-
-            DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, locale.toDouble(value), min, max,
-                    locale.toDouble(pa.attribute(QStringLiteral("default"))), comment, -1, pa.attribute(QStringLiteral("suffix")), pa.attribute(QStringLiteral("decimals")).toInt(), false, parent);
-	    doubleparam->setFocusPolicy(Qt::StrongFocus);
-            if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                doubleparam->setEnabled(false);
-                m_conditionalWidgets << doubleparam;
+    } else for (int i = 0; i < namenode.count(); ++i) {
+            QDomElement pa = namenode.item(i).toElement();
+            if (pa.tagName() == QLatin1String("conditionalinfo")) {
+                // Conditional info
+                KMessageWidget *mw = new KMessageWidget;
+                mw->setWordWrap(true);
+                mw->setMessageType(KMessageWidget::Information);
+                mw->setText(i18n(pa.text().toUtf8().data()));
+                mw->setCloseButtonVisible(false);
+                mw->setVisible(!m_conditionParameter);
+                m_vbox->addWidget(mw);
+                m_conditionalWidgets << mw;
             }
-            m_vbox->addWidget(doubleparam);
-            m_valueItems[paramName] = doubleparam;
-            connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
-            connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
-        } else if (type == QLatin1String("list")) {
-            Listval *lsval = new Listval;
-            lsval->setupUi(toFillin);
-            lsval->list->setFocusPolicy(Qt::StrongFocus);
-            QString items = pa.attribute(QStringLiteral("paramlist"));
-            QStringList listitems;
-            if (items == QLatin1String("%lumaPaths")) {
-                // Special case: Luma files
-                // Create thumbnails
-                lsval->list->setIconSize(QSize(50, 30));
-                if (m_metaInfo->monitor->profileInfo().profileSize.width() > 1000) {
-                    // HD project
-                    listitems = MainWindow::m_lumaFiles.value(QStringLiteral("HD"));
+            if (pa.tagName() != QLatin1String("parameter")) {
+                continue;
+            }
+            QString type = pa.attribute(QStringLiteral("type"));
+            if (type == QLatin1String("fixed")) {
+                // Fixed parameters are not exposed in the UI
+                continue;
+            }
+            QDomElement na = pa.firstChildElement(QStringLiteral("name"));
+            QDomElement commentElem = pa.firstChildElement(QStringLiteral("comment"));
+            QString paramName = na.isNull() ? pa.attribute(QStringLiteral("name")) : i18n(na.text().toUtf8().data());
+            QString comment;
+            if (!commentElem.isNull()) {
+                comment = i18n(commentElem.text().toUtf8().data());
+            }
+            QWidget *toFillin = new QWidget(parent);
+            QString value = pa.attribute(QStringLiteral("value")).isNull() ?
+                            pa.attribute(QStringLiteral("default")) : pa.attribute(QStringLiteral("value"));
+
+            /** See effects/README for info on the different types */
+            if (type == QLatin1String("double") || type == QLatin1String("constant")) {
+                double min;
+                double max;
+                m_acceptDrops = true;
+                if (pa.attribute(QStringLiteral("min")).contains('%')) {
+                    min = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute(QStringLiteral("min")), m_metaInfo->frameSize);
                 } else {
-                    listitems = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
+                    min = locale.toDouble(pa.attribute(QStringLiteral("min")));
                 }
-                lsval->list->addItem(i18n("None (Dissolve)"));
-                for (int i = 0; i < listitems.count(); ++i) {
-                    QString entry = listitems.at(i);
-                    lsval->list->addItem(listitems.at(i).section(QStringLiteral("/"), -1), entry);
-                    if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
-                        if (!MainWindow::m_lumacache.contains(entry)) {
-                            QImage pix(entry);
-                            MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                if (pa.attribute(QStringLiteral("max")).contains('%')) {
+                    max = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute(QStringLiteral("max")), m_metaInfo->frameSize);
+                } else {
+                    max = locale.toDouble(pa.attribute(QStringLiteral("max")));
+                }
+
+                DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, locale.toDouble(value), min, max,
+                        locale.toDouble(pa.attribute(QStringLiteral("default"))), comment, -1, pa.attribute(QStringLiteral("suffix")), pa.attribute(QStringLiteral("decimals")).toInt(), false, parent);
+                doubleparam->setFocusPolicy(Qt::StrongFocus);
+                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                    doubleparam->setEnabled(false);
+                    m_conditionalWidgets << doubleparam;
+                }
+                m_vbox->addWidget(doubleparam);
+                m_valueItems[paramName] = doubleparam;
+                connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
+                connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
+            } else if (type == QLatin1String("list")) {
+                Listval *lsval = new Listval;
+                lsval->setupUi(toFillin);
+                lsval->list->setFocusPolicy(Qt::StrongFocus);
+                QString items = pa.attribute(QStringLiteral("paramlist"));
+                QStringList listitems;
+                if (items == QLatin1String("%lumaPaths")) {
+                    // Special case: Luma files
+                    // Create thumbnails
+                    lsval->list->setIconSize(QSize(50, 30));
+                    if (m_metaInfo->monitor->profileInfo().profileSize.width() > 1000) {
+                        // HD project
+                        listitems = MainWindow::m_lumaFiles.value(QStringLiteral("HD"));
+                    } else {
+                        listitems = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
+                    }
+                    lsval->list->addItem(i18n("None (Dissolve)"));
+                    for (int i = 0; i < listitems.count(); ++i) {
+                        QString entry = listitems.at(i);
+                        lsval->list->addItem(listitems.at(i).section(QStringLiteral("/"), -1), entry);
+                        if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
+                            if (!MainWindow::m_lumacache.contains(entry)) {
+                                QImage pix(entry);
+                                MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                            }
+                            lsval->list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                         }
-                        lsval->list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                    }
+                    lsval->list->setCurrentText(pa.attribute(QStringLiteral("default")));
+                    if (!value.isEmpty() && listitems.contains(value)) {
+                        lsval->list->setCurrentIndex(listitems.indexOf(value) + 1);
+                    }
+                } else {
+                    listitems = items.split(';');
+                    if (listitems.count() == 1) {
+                        // probably custom effect created before change to ';' as separator
+                        listitems = pa.attribute(QStringLiteral("paramlist")).split(',');
+                    }
+                    QDomElement list = pa.firstChildElement(QStringLiteral("paramlistdisplay"));
+                    QStringList listitemsdisplay;
+                    if (!list.isNull()) {
+                        listitemsdisplay = i18n(list.text().toUtf8().data()).split(',');
+                    } else {
+                        listitemsdisplay = i18n(pa.attribute("paramlistdisplay").toUtf8().data()).split(',');
+                    }
+                    if (listitemsdisplay.count() != listitems.count()) {
+                        listitemsdisplay = listitems;
+                    }
+                    for (int i = 0; i < listitems.count(); ++i) {
+                        lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
+                    }
+                    if (!value.isEmpty() && listitems.contains(value)) {
+                        lsval->list->setCurrentIndex(listitems.indexOf(value));
                     }
                 }
-                lsval->list->setCurrentText(pa.attribute(QStringLiteral("default")));
-                if (!value.isEmpty() && listitems.contains(value)) lsval->list->setCurrentIndex(listitems.indexOf(value) + 1);
-            } else {
-                listitems = items.split(';');
-                if (listitems.count() == 1) {
-                    // probably custom effect created before change to ';' as separator
-                    listitems = pa.attribute(QStringLiteral("paramlist")).split(',');
+                lsval->name->setText(paramName);
+                lsval->setToolTip(comment);
+                lsval->labelComment->setText(comment);
+                lsval->widgetComment->setHidden(true);
+                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                    lsval->list->setEnabled(false);
+                    m_conditionalWidgets << lsval->list;
                 }
-                QDomElement list = pa.firstChildElement(QStringLiteral("paramlistdisplay"));
-                QStringList listitemsdisplay;
-                if (!list.isNull()) {
-                    listitemsdisplay = i18n(list.text().toUtf8().data()).split(',');
+                m_valueItems[paramName] = lsval;
+                connect(lsval->list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCollectAllParameters()));
+                if (!comment.isEmpty()) {
+                    connect(this, &ParameterContainer::showComments, lsval->widgetComment, &QWidget::setVisible);
+                }
+                m_uiItems.append(lsval);
+            } else if (type == QLatin1String("bool")) {
+                Boolval *bval = new Boolval;
+                bval->setupUi(toFillin);
+                bval->checkBox->setCheckState(value == QLatin1String("0") ? Qt::Unchecked : Qt::Checked);
+                bval->name->setText(paramName);
+                bval->name->setToolTip(comment);
+                bval->labelComment->setText(comment);
+                bval->widgetComment->setHidden(true);
+                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                    bval->setEnabled(false);
+                    m_conditionalWidgets << bval;
+                }
+                m_valueItems[paramName] = bval;
+                connect(bval->checkBox, &QCheckBox::stateChanged, this, &ParameterContainer::slotCollectAllParameters);
+                if (!comment.isEmpty()) {
+                    connect(this, &ParameterContainer::showComments, bval->widgetComment, &QWidget::setVisible);
+                }
+                m_uiItems.append(bval);
+            } else if (type == QLatin1String("switch")) {
+                Boolval *bval = new Boolval;
+                bval->setupUi(toFillin);
+                bval->checkBox->setCheckState(value == pa.attribute(QStringLiteral("min")) ? Qt::Unchecked : Qt::Checked);
+                bval->name->setText(paramName);
+                bval->name->setToolTip(comment);
+                bval->labelComment->setText(comment);
+                bval->widgetComment->setHidden(true);
+                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                    bval->setEnabled(false);
+                    m_conditionalWidgets << bval;
+                }
+                m_valueItems[paramName] = bval;
+                connect(bval->checkBox, &QCheckBox::stateChanged, this, &ParameterContainer::slotCollectAllParameters);
+                if (!comment.isEmpty()) {
+                    connect(this, &ParameterContainer::showComments, bval->widgetComment, &QWidget::setVisible);
+                }
+                m_uiItems.append(bval);
+            } else if (type.startsWith(QLatin1String("animated"))) {
+                m_acceptDrops = true;
+                if (type == QLatin1String("animatedrect")) {
+                    m_monitorEffectScene = MonitorSceneGeometry;
+                }
+                if (m_animationWidget) {
+                    m_animationWidget->addParameter(pa);
                 } else {
-                    listitemsdisplay = i18n(pa.attribute("paramlistdisplay").toUtf8().data()).split(',');
-                }
-                if (listitemsdisplay.count() != listitems.count())
-                    listitemsdisplay = listitems;
-                for (int i = 0; i < listitems.count(); ++i) {
-                    lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
-                }
-                if (!value.isEmpty() && listitems.contains(value)) lsval->list->setCurrentIndex(listitems.indexOf(value));
-            }
-            lsval->name->setText(paramName);
-            lsval->setToolTip(comment);
-            lsval->labelComment->setText(comment);
-            lsval->widgetComment->setHidden(true);
-            if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                lsval->list->setEnabled(false);
-                m_conditionalWidgets << lsval->list;
-            }
-            m_valueItems[paramName] = lsval;
-            connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(slotCollectAllParameters()));
-            if (!comment.isEmpty())
-                connect(this, &ParameterContainer::showComments, lsval->widgetComment, &QWidget::setVisible);
-            m_uiItems.append(lsval);
-        } else if (type == QLatin1String("bool")) {
-            Boolval *bval = new Boolval;
-            bval->setupUi(toFillin);
-            bval->checkBox->setCheckState(value == QLatin1String("0") ? Qt::Unchecked : Qt::Checked);
-            bval->name->setText(paramName);
-	    bval->name->setToolTip(comment);
-            bval->labelComment->setText(comment);
-            bval->widgetComment->setHidden(true);
-            if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                bval->setEnabled(false);
-                m_conditionalWidgets << bval;
-            }
-            m_valueItems[paramName] = bval;
-            connect(bval->checkBox, &QCheckBox::stateChanged , this, &ParameterContainer::slotCollectAllParameters);
-            if (!comment.isEmpty())
-                connect(this, &ParameterContainer::showComments, bval->widgetComment, &QWidget::setVisible);
-            m_uiItems.append(bval);
-        } else if (type == QLatin1String("switch")) {
-            Boolval *bval = new Boolval;
-            bval->setupUi(toFillin);
-            bval->checkBox->setCheckState(value == pa.attribute(QStringLiteral("min")) ? Qt::Unchecked : Qt::Checked);
-            bval->name->setText(paramName);
-            bval->name->setToolTip(comment);
-            bval->labelComment->setText(comment);
-            bval->widgetComment->setHidden(true);
-            if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                bval->setEnabled(false);
-                m_conditionalWidgets << bval;
-            }
-            m_valueItems[paramName] = bval;
-            connect(bval->checkBox, &QCheckBox::stateChanged , this, &ParameterContainer::slotCollectAllParameters);
-            if (!comment.isEmpty())
-                connect(this, &ParameterContainer::showComments, bval->widgetComment, &QWidget::setVisible);
-            m_uiItems.append(bval);
-        } else if (type.startsWith(QLatin1String("animated"))) {
-            m_acceptDrops = true;
-            if (type == QLatin1String("animatedrect")) {
-                m_monitorEffectScene = MonitorSceneGeometry;
-            }
-            if (m_animationWidget) {
-                m_animationWidget->addParameter(pa);
-            } else {
-                m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("in")).toInt(), effect.attribute(QStringLiteral("id")), pa, parent);
-                connect(m_animationWidget, &AnimationWidget::seekToPos, this, &ParameterContainer::seekTimeline);
-                connect(m_animationWidget, &AnimationWidget::setKeyframes, this, &ParameterContainer::importKeyframes);
-                connect(this, &ParameterContainer::syncEffectsPos, m_animationWidget, &AnimationWidget::slotSyncPosition);
-                connect(this, SIGNAL(initScene(int)), m_animationWidget, SLOT(slotPositionChanged(int)));
-                connect(m_animationWidget, &AnimationWidget::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
-                m_vbox->addWidget(m_animationWidget);
-                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                    m_animationWidget->setEnabled(false);
-                    m_conditionalWidgets << m_animationWidget;
-                }
-            }
-        } else if (type == QLatin1String("geometry")) {
-            m_acceptDrops = true;
-            if (true) {
-                m_monitorEffectScene = MonitorSceneGeometry;
-                bool useOffset = false;
-                if (effect.tagName() == QLatin1String("effect") && effect.hasAttribute(QStringLiteral("kdenlive:sync_in_out")) && effect.attribute(QStringLiteral("kdenlive:sync_in_out")).toInt() == 0) {
-                    useOffset = true;
-                }
-                m_geometryWidget = new GeometryWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), useOffset, parent);
-                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                    m_geometryWidget->setEnabled(false);
-                    m_conditionalWidgets << m_geometryWidget;
-                }
-                connect(m_geometryWidget, &GeometryWidget::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
-                if (minFrame == maxFrame) {
-                    m_geometryWidget->setupParam(pa, m_in, m_out);
-                    connect(this, &ParameterContainer::updateRange, m_geometryWidget, &GeometryWidget::slotUpdateRange);
-                }
-                else
-                    m_geometryWidget->setupParam(pa, minFrame, maxFrame);
-                m_vbox->addWidget(m_geometryWidget);
-                m_valueItems[paramName+"geometry"] = m_geometryWidget;
-                connect(m_geometryWidget, &GeometryWidget::seekToPos, this, &ParameterContainer::seekTimeline);
-                connect(m_geometryWidget, &GeometryWidget::importClipKeyframes, this, &ParameterContainer::importClipKeyframes);
-                connect(this, &ParameterContainer::syncEffectsPos, m_geometryWidget, &GeometryWidget::slotSyncPosition);
-                connect(this, &ParameterContainer::initScene, m_geometryWidget, &GeometryWidget::slotInitScene);
-                connect(this, &ParameterContainer::updateFrameInfo, m_geometryWidget, &GeometryWidget::setFrameSize);
-            } else {
-                Geometryval *geo = new Geometryval(m_metaInfo->monitor->profile(), m_metaInfo->monitor->timecode(), m_metaInfo->frameSize, 0);
-                if (minFrame == maxFrame) {
-                    geo->setupParam(pa, m_in, m_out);
-		    connect(this, &ParameterContainer::updateRange, geo, &Geometryval::slotUpdateRange);
-		}
-                else
-                    geo->setupParam(pa, minFrame, maxFrame);
-                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                    geo->setEnabled(false);
-                    m_conditionalWidgets << geo;
-                }
-                m_vbox->addWidget(geo);
-                m_valueItems[paramName+"geometry"] = geo;
-                connect(geo, &Geometryval::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
-                connect(geo, &Geometryval::seekToPos, this, &ParameterContainer::seekTimeline);
-                connect(this, &ParameterContainer::syncEffectsPos, geo, &Geometryval::slotSyncPosition);
-            }
-        } else if (type == QLatin1String("addedgeometry")) {
-            // this is a parameter that should be linked to the geometry widget, for example rotation, shear, ...
-            if (m_geometryWidget) {
-                m_geometryWidget->addParameter(pa);
-            }
-        } else if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
-            // keyframe editor widget
-            if (m_keyframeEditor == Q_NULLPTR) {
-                KeyframeEdit *geo;
-                if (pa.attribute(QStringLiteral("widget")) == QLatin1String("corners")) {
-                    // we want a corners-keyframe-widget
-                    int relativePos = (m_metaInfo->monitor->position() - info.startPos).frames(KdenliveSettings::project_fps());
-                    CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, relativePos, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
-		    connect(this, &ParameterContainer::updateRange, corners, &KeyframeEdit::slotUpdateRange);
-		    m_monitorEffectScene = MonitorSceneCorners;
-                    connect(this, &ParameterContainer::updateFrameInfo, corners, &CornersWidget::setFrameSize);
-                    connect(this, &ParameterContainer::syncEffectsPos, corners, &CornersWidget::slotSyncPosition);
-                    geo = static_cast<KeyframeEdit *>(corners);
-                } else {
-                    geo = new KeyframeEdit(pa, m_in, m_out, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt());
-		    connect(this, &ParameterContainer::updateRange, geo, &KeyframeEdit::slotUpdateRange);
-                }
-                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                    geo->setEnabled(false);
-                    m_conditionalWidgets << geo;
-                }
-                m_vbox->addWidget(geo);
-                m_valueItems[paramName+"keyframe"] = geo;
-                m_keyframeEditor = geo;
-                connect(geo, &KeyframeEdit::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
-                connect(geo, &KeyframeEdit::seekToPos, this, &ParameterContainer::seekTimeline);
-                connect(this, &ParameterContainer::showComments, geo, &KeyframeEdit::showComments);
-            } else {
-                // we already have a keyframe editor, so just add another column for the new param
-                m_keyframeEditor->addParameter(pa);
-            }
-        } else if (type == QLatin1String("color")) {
-	    if (pa.hasAttribute(QStringLiteral("paramprefix"))) value.remove(0, pa.attribute(QStringLiteral("paramprefix")).size());
-            if (value.startsWith('#'))
-                value = value.replace('#', QLatin1String("0x"));
-            ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, pa.hasAttribute(QStringLiteral("alpha")), parent);
-	    choosecolor->setToolTip(comment);
-            m_vbox->addWidget(choosecolor);
-            if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                choosecolor->setEnabled(false);
-                m_conditionalWidgets << choosecolor;
-            }
-            m_valueItems[paramName] = choosecolor;
-            connect(choosecolor, &ChooseColorWidget::displayMessage, this, &ParameterContainer::displayMessage);
-            connect(choosecolor, &ChooseColorWidget::modified , this, &ParameterContainer::slotCollectAllParameters);
-	    connect(choosecolor, &ChooseColorWidget::disableCurrentFilter , this, &ParameterContainer::disableCurrentFilter);
-        } else if (type == QLatin1String("position")) {
-            int pos = value.toInt();
-            if (effect.attribute(QStringLiteral("id")) == QLatin1String("fadein") || effect.attribute(QStringLiteral("id")) == QLatin1String("fade_from_black")) {
-                pos = pos - m_in;
-            } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("fadeout") || effect.attribute(QStringLiteral("id")) == QLatin1String("fade_to_black")) {
-                // fadeout position starts from clip end
-                pos = m_out - pos;
-            }
-            PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->monitor->timecode());
-	    posedit->setToolTip(comment);
-	    connect(this, SIGNAL(updateRange(int,int)), posedit, SLOT(setRange(int,int)));
-            if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                posedit->setEnabled(false);
-                m_conditionalWidgets << posedit;
-            }
-            m_vbox->addWidget(posedit);
-            m_valueItems[paramName+"position"] = posedit;
-            connect(posedit, &PositionEdit::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
-        } else if (type == QLatin1String("curve")) {
-            KisCurveWidget *curve = new KisCurveWidget(parent);
-            curve->setMaxPoints(pa.attribute(QStringLiteral("max")).toInt());
-            QList<QPointF> points;
-            int number;
-            double version = 0;
-            QDomElement namenode = effect.firstChildElement(QStringLiteral("version"));
-            if (!namenode.isNull()) {
-                version = locale.toDouble(namenode.text());
-            }
-	    if (version > 0.2) {
-		// Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
-                number = locale.toDouble(EffectsList::parameter(e, pa.attribute(QStringLiteral("number")))) * 10 + 0.5;
-            } else {
-                number = EffectsList::parameter(e, pa.attribute(QStringLiteral("number"))).toInt();
-            }
-            QString inName = pa.attribute(QStringLiteral("inpoints"));
-            QString outName = pa.attribute(QStringLiteral("outpoints"));
-            int start = pa.attribute(QStringLiteral("min")).toInt();
-            for (int j = start; j <= number; ++j) {
-                QString in = inName;
-                in.replace(QLatin1String("%i"), QString::number(j));
-                QString out = outName;
-                out.replace(QLatin1String("%i"), QString::number(j));
-                points << QPointF(locale.toDouble(EffectsList::parameter(e, in)), locale.toDouble(EffectsList::parameter(e, out)));
-            }
-            if (!points.isEmpty()) {
-                curve->setCurve(KisCubicCurve(points));
-            }
-            MySpinBox *spinin = new MySpinBox();
-            spinin->setRange(0, 1000);
-            MySpinBox *spinout = new MySpinBox();
-            spinout->setRange(0, 1000);
-            curve->setupInOutControls(spinin, spinout, 0, 1000);
-            if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                curve->setEnabled(false);
-                spinin->setEnabled(false);
-                spinout->setEnabled(false);
-            }
-            m_vbox->addWidget(curve);
-            m_vbox->addWidget(spinin);
-            m_vbox->addWidget(spinout);
-
-            connect(curve, &KisCurveWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
-            m_valueItems[paramName] = curve;
-
-            QString depends = pa.attribute(QStringLiteral("depends"));
-            if (!depends.isEmpty())
-                meetDependency(paramName, type, EffectsList::parameter(e, depends));
-        } else if (type == QLatin1String("bezier_spline")) {
-            BezierSplineWidget *widget = new BezierSplineWidget(value, parent);
-            stretch = false;
-            m_vbox->addWidget(widget);
-            m_valueItems[paramName] = widget;
-            connect(widget, &BezierSplineWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
-            QString depends = pa.attribute(QStringLiteral("depends"));
-            if (!depends.isEmpty())
-                meetDependency(paramName, type, EffectsList::parameter(e, depends));
-        } else if (type == QLatin1String("roto-spline")) {
-            m_monitorEffectScene = MonitorSceneRoto;
-            RotoWidget *roto = new RotoWidget(value.toLatin1(), m_metaInfo->monitor, info, m_metaInfo->monitor->timecode(), parent);
-            connect(roto, &RotoWidget::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
-            connect(roto, &RotoWidget::seekToPos, this, &ParameterContainer::seekTimeline);
-            connect(this, &ParameterContainer::syncEffectsPos, roto, &RotoWidget::slotSyncPosition);
-            m_vbox->addWidget(roto);
-            m_valueItems[paramName] = roto;
-        } else if (type == QLatin1String("wipe")) {
-            Wipeval *wpval = new Wipeval;
-            wpval->setupUi(toFillin);
-            // Make sure button shows its pressed state even if widget loses focus
-            QColor bg = QPalette().highlight().color();
-            toFillin->setStyleSheet(QStringLiteral("QPushButton:checked {background-color:rgb(%1,%2,%3);}").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
-            wipeInfo w = getWipeInfo(value);
-            switch (w.start) {
-            case UP:
-                wpval->start_up->setChecked(true);
-                break;
-            case DOWN:
-                wpval->start_down->setChecked(true);
-                break;
-            case RIGHT:
-                wpval->start_right->setChecked(true);
-                break;
-            case LEFT:
-                wpval->start_left->setChecked(true);
-                break;
-            default:
-                wpval->start_center->setChecked(true);
-                break;
-            }
-            switch (w.end) {
-            case UP:
-                wpval->end_up->setChecked(true);
-                break;
-            case DOWN:
-                wpval->end_down->setChecked(true);
-                break;
-            case RIGHT:
-                wpval->end_right->setChecked(true);
-                break;
-            case LEFT:
-                wpval->end_left->setChecked(true);
-                break;
-            default:
-                wpval->end_center->setChecked(true);
-                break;
-            }
-            wpval->start_transp->setValue(w.startTransparency);
-            wpval->end_transp->setValue(w.endTransparency);
-            m_valueItems[paramName] = wpval;
-            connect(wpval->end_up, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->end_down, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->end_left, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->end_right, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->end_center, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->start_up, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->start_down, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->start_left, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->start_right, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->start_center, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->start_transp, &QAbstractSlider::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
-            connect(wpval->end_transp, &QAbstractSlider::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
-            //wpval->title->setTitle(na.toElement().text());
-            m_uiItems.append(wpval);
-        } else if (type == QLatin1String("url")) {
-            Urlval *cval = new Urlval;
-            cval->setupUi(toFillin);
-            cval->label->setText(paramName);
-            cval->setToolTip(comment);
-            cval->widgetComment->setHidden(true);
-            QString filter = pa.attribute(QStringLiteral("filter"));
-            if(filter.size()>0)
-                cval->urlwidget->setFilter(filter);
-            m_valueItems[paramName] = cval;
-            cval->urlwidget->setUrl(QUrl(value));
-            connect(cval->urlwidget, SIGNAL(returnPressed()) , this, SLOT(slotCollectAllParameters()));
-            connect(cval->urlwidget, &KUrlRequester::urlSelected , this, &ParameterContainer::slotCollectAllParameters);
-            if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                cval->setEnabled(false);
-                m_conditionalWidgets << cval;
-            }
-            m_uiItems.append(cval);
-	} else if (type == QLatin1String("keywords")) {
-            Keywordval* kval = new Keywordval;
-            kval->setupUi(toFillin);
-            kval->label->setText(paramName);
-            kval->lineeditwidget->setText(value);
-	    kval->setToolTip(comment);
-            QDomElement klistelem = pa.firstChildElement(QStringLiteral("keywords"));
-            QDomElement kdisplaylistelem = pa.firstChildElement(QStringLiteral("keywordsdisplay"));
-            QStringList keywordlist;
-            QStringList keyworddisplaylist;
-            if (!klistelem.isNull()) {
-                keywordlist = klistelem.text().split(';');
-                keyworddisplaylist = i18n(kdisplaylistelem.text().toUtf8().data()).split(';');
-            }
-            if (keyworddisplaylist.count() != keywordlist.count()) {
-                keyworddisplaylist = keywordlist;
-            }
-            for (int i = 0; i < keywordlist.count(); ++i) {
-                kval->comboboxwidget->addItem(keyworddisplaylist.at(i), keywordlist.at(i));
-            }
-            // Add disabled user prompt at index 0
-            kval->comboboxwidget->insertItem(0, i18n("<select a keyword>"), "");
-            kval->comboboxwidget->model()->setData( kval->comboboxwidget->model()->index(0,0), QVariant(Qt::NoItemFlags), Qt::UserRole -1);
-            kval->comboboxwidget->setCurrentIndex(0);
-            m_valueItems[paramName] = kval;
-            connect(kval->lineeditwidget, &QLineEdit::editingFinished , this, &ParameterContainer::slotCollectAllParameters);
-            connect(kval->comboboxwidget, SIGNAL(activated(QString)), this, SLOT(slotCollectAllParameters()));
-            m_uiItems.append(kval);
-        } else if (type == QLatin1String("fontfamily")) {
-            Fontval* fval = new Fontval;
-            fval->setupUi(toFillin);
-            fval->name->setText(paramName);
-            fval->fontfamilywidget->setCurrentFont(QFont(value));
-            m_valueItems[paramName] = fval;
-            connect(fval->fontfamilywidget, &QFontComboBox::currentFontChanged, this, &ParameterContainer::slotCollectAllParameters) ;
-            m_uiItems.append(fval);
-        } else if (type == QLatin1String("filterjob")) {
-            QVBoxLayout *l= new QVBoxLayout(toFillin);
-            QPushButton *button = new QPushButton(toFillin);
-            button->setProperty("realName", paramName);
-	    if (effect.hasAttribute(QStringLiteral("condition"))) {
-                if (m_conditionParameter) {
-                    QDomElement na = pa.firstChildElement(QStringLiteral("name"));
-                    QString conditionalName = na.attribute(QStringLiteral("conditional"));
-                    if (!conditionalName.isEmpty()) {
-                        paramName = conditionalName;
+                    m_animationWidget = new AnimationWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), m_in, m_out, effect.attribute(QStringLiteral("in")).toInt(), effect.attribute(QStringLiteral("id")), pa, parent);
+                    connect(m_animationWidget, &AnimationWidget::seekToPos, this, &ParameterContainer::seekTimeline);
+                    connect(m_animationWidget, &AnimationWidget::setKeyframes, this, &ParameterContainer::importKeyframes);
+                    connect(this, &ParameterContainer::syncEffectsPos, m_animationWidget, &AnimationWidget::slotSyncPosition);
+                    connect(this, SIGNAL(initScene(int)), m_animationWidget, SLOT(slotPositionChanged(int)));
+                    connect(m_animationWidget, &AnimationWidget::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+                    m_vbox->addWidget(m_animationWidget);
+                    if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                        m_animationWidget->setEnabled(false);
+                        m_conditionalWidgets << m_animationWidget;
                     }
                 }
+            } else if (type == QLatin1String("geometry")) {
+                m_acceptDrops = true;
+                if (true) {
+                    m_monitorEffectScene = MonitorSceneGeometry;
+                    bool useOffset = false;
+                    if (effect.tagName() == QLatin1String("effect") && effect.hasAttribute(QStringLiteral("kdenlive:sync_in_out")) && effect.attribute(QStringLiteral("kdenlive:sync_in_out")).toInt() == 0) {
+                        useOffset = true;
+                    }
+                    m_geometryWidget = new GeometryWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()), effect.hasAttribute(QStringLiteral("showrotation")), useOffset, parent);
+                    if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                        m_geometryWidget->setEnabled(false);
+                        m_conditionalWidgets << m_geometryWidget;
+                    }
+                    connect(m_geometryWidget, &GeometryWidget::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+                    if (minFrame == maxFrame) {
+                        m_geometryWidget->setupParam(pa, m_in, m_out);
+                        connect(this, &ParameterContainer::updateRange, m_geometryWidget, &GeometryWidget::slotUpdateRange);
+                    } else {
+                        m_geometryWidget->setupParam(pa, minFrame, maxFrame);
+                    }
+                    m_vbox->addWidget(m_geometryWidget);
+                    m_valueItems[paramName + "geometry"] = m_geometryWidget;
+                    connect(m_geometryWidget, &GeometryWidget::seekToPos, this, &ParameterContainer::seekTimeline);
+                    connect(m_geometryWidget, &GeometryWidget::importClipKeyframes, this, &ParameterContainer::importClipKeyframes);
+                    connect(this, &ParameterContainer::syncEffectsPos, m_geometryWidget, &GeometryWidget::slotSyncPosition);
+                    connect(this, &ParameterContainer::initScene, m_geometryWidget, &GeometryWidget::slotInitScene);
+                    connect(this, &ParameterContainer::updateFrameInfo, m_geometryWidget, &GeometryWidget::setFrameSize);
+                } else {
+                    Geometryval *geo = new Geometryval(m_metaInfo->monitor->profile(), m_metaInfo->monitor->timecode(), m_metaInfo->frameSize, 0);
+                    if (minFrame == maxFrame) {
+                        geo->setupParam(pa, m_in, m_out);
+                        connect(this, &ParameterContainer::updateRange, geo, &Geometryval::slotUpdateRange);
+                    } else {
+                        geo->setupParam(pa, minFrame, maxFrame);
+                    }
+                    if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                        geo->setEnabled(false);
+                        m_conditionalWidgets << geo;
+                    }
+                    m_vbox->addWidget(geo);
+                    m_valueItems[paramName + "geometry"] = geo;
+                    connect(geo, &Geometryval::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+                    connect(geo, &Geometryval::seekToPos, this, &ParameterContainer::seekTimeline);
+                    connect(this, &ParameterContainer::syncEffectsPos, geo, &Geometryval::slotSyncPosition);
+                }
+            } else if (type == QLatin1String("addedgeometry")) {
+                // this is a parameter that should be linked to the geometry widget, for example rotation, shear, ...
+                if (m_geometryWidget) {
+                    m_geometryWidget->addParameter(pa);
+                }
+            } else if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
+                // keyframe editor widget
+                if (m_keyframeEditor == Q_NULLPTR) {
+                    KeyframeEdit *geo;
+                    if (pa.attribute(QStringLiteral("widget")) == QLatin1String("corners")) {
+                        // we want a corners-keyframe-widget
+                        int relativePos = (m_metaInfo->monitor->position() - info.startPos).frames(KdenliveSettings::project_fps());
+                        CornersWidget *corners = new CornersWidget(m_metaInfo->monitor, pa, m_in, m_out, relativePos, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt(), parent);
+                        connect(this, &ParameterContainer::updateRange, corners, &KeyframeEdit::slotUpdateRange);
+                        m_monitorEffectScene = MonitorSceneCorners;
+                        connect(this, &ParameterContainer::updateFrameInfo, corners, &CornersWidget::setFrameSize);
+                        connect(this, &ParameterContainer::syncEffectsPos, corners, &CornersWidget::slotSyncPosition);
+                        geo = static_cast<KeyframeEdit *>(corners);
+                    } else {
+                        geo = new KeyframeEdit(pa, m_in, m_out, m_metaInfo->monitor->timecode(), e.attribute(QStringLiteral("active_keyframe"), QStringLiteral("-1")).toInt());
+                        connect(this, &ParameterContainer::updateRange, geo, &KeyframeEdit::slotUpdateRange);
+                    }
+                    if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                        geo->setEnabled(false);
+                        m_conditionalWidgets << geo;
+                    }
+                    m_vbox->addWidget(geo);
+                    m_valueItems[paramName + "keyframe"] = geo;
+                    m_keyframeEditor = geo;
+                    connect(geo, &KeyframeEdit::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+                    connect(geo, &KeyframeEdit::seekToPos, this, &ParameterContainer::seekTimeline);
+                    connect(this, &ParameterContainer::showComments, geo, &KeyframeEdit::showComments);
+                } else {
+                    // we already have a keyframe editor, so just add another column for the new param
+                    m_keyframeEditor->addParameter(pa);
+                }
+            } else if (type == QLatin1String("color")) {
+                if (pa.hasAttribute(QStringLiteral("paramprefix"))) {
+                    value.remove(0, pa.attribute(QStringLiteral("paramprefix")).size());
+                }
+                if (value.startsWith('#')) {
+                    value = value.replace('#', QLatin1String("0x"));
+                }
+                ChooseColorWidget *choosecolor = new ChooseColorWidget(paramName, value, pa.hasAttribute(QStringLiteral("alpha")), parent);
+                choosecolor->setToolTip(comment);
+                m_vbox->addWidget(choosecolor);
+                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                    choosecolor->setEnabled(false);
+                    m_conditionalWidgets << choosecolor;
+                }
+                m_valueItems[paramName] = choosecolor;
+                connect(choosecolor, &ChooseColorWidget::displayMessage, this, &ParameterContainer::displayMessage);
+                connect(choosecolor, &ChooseColorWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
+                connect(choosecolor, &ChooseColorWidget::disableCurrentFilter, this, &ParameterContainer::disableCurrentFilter);
+            } else if (type == QLatin1String("position")) {
+                int pos = value.toInt();
+                if (effect.attribute(QStringLiteral("id")) == QLatin1String("fadein") || effect.attribute(QStringLiteral("id")) == QLatin1String("fade_from_black")) {
+                    pos = pos - m_in;
+                } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("fadeout") || effect.attribute(QStringLiteral("id")) == QLatin1String("fade_to_black")) {
+                    // fadeout position starts from clip end
+                    pos = m_out - pos;
+                }
+                PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->monitor->timecode());
+                posedit->setToolTip(comment);
+                connect(this, SIGNAL(updateRange(int,int)), posedit, SLOT(setRange(int,int)));
+                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                    posedit->setEnabled(false);
+                    m_conditionalWidgets << posedit;
+                }
+                m_vbox->addWidget(posedit);
+                m_valueItems[paramName + "position"] = posedit;
+                connect(posedit, &PositionEdit::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+            } else if (type == QLatin1String("curve")) {
+                KisCurveWidget *curve = new KisCurveWidget(parent);
+                curve->setMaxPoints(pa.attribute(QStringLiteral("max")).toInt());
+                QList<QPointF> points;
+                int number;
+                double version = 0;
+                QDomElement namenode = effect.firstChildElement(QStringLiteral("version"));
+                if (!namenode.isNull()) {
+                    version = locale.toDouble(namenode.text());
+                }
+                if (version > 0.2) {
+                    // Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
+                    number = locale.toDouble(EffectsList::parameter(e, pa.attribute(QStringLiteral("number")))) * 10 + 0.5;
+                } else {
+                    number = EffectsList::parameter(e, pa.attribute(QStringLiteral("number"))).toInt();
+                }
+                QString inName = pa.attribute(QStringLiteral("inpoints"));
+                QString outName = pa.attribute(QStringLiteral("outpoints"));
+                int start = pa.attribute(QStringLiteral("min")).toInt();
+                for (int j = start; j <= number; ++j) {
+                    QString in = inName;
+                    in.replace(QLatin1String("%i"), QString::number(j));
+                    QString out = outName;
+                    out.replace(QLatin1String("%i"), QString::number(j));
+                    points << QPointF(locale.toDouble(EffectsList::parameter(e, in)), locale.toDouble(EffectsList::parameter(e, out)));
+                }
+                if (!points.isEmpty()) {
+                    curve->setCurve(KisCubicCurve(points));
+                }
+                MySpinBox *spinin = new MySpinBox();
+                spinin->setRange(0, 1000);
+                MySpinBox *spinout = new MySpinBox();
+                spinout->setRange(0, 1000);
+                curve->setupInOutControls(spinin, spinout, 0, 1000);
+                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                    curve->setEnabled(false);
+                    spinin->setEnabled(false);
+                    spinout->setEnabled(false);
+                }
+                m_vbox->addWidget(curve);
+                m_vbox->addWidget(spinin);
+                m_vbox->addWidget(spinout);
+
+                connect(curve, &KisCurveWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
+                m_valueItems[paramName] = curve;
+
+                QString depends = pa.attribute(QStringLiteral("depends"));
+                if (!depends.isEmpty()) {
+                    meetDependency(paramName, type, EffectsList::parameter(e, depends));
+                }
+            } else if (type == QLatin1String("bezier_spline")) {
+                BezierSplineWidget *widget = new BezierSplineWidget(value, parent);
+                stretch = false;
+                m_vbox->addWidget(widget);
+                m_valueItems[paramName] = widget;
+                connect(widget, &BezierSplineWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
+                QString depends = pa.attribute(QStringLiteral("depends"));
+                if (!depends.isEmpty()) {
+                    meetDependency(paramName, type, EffectsList::parameter(e, depends));
+                }
+            } else if (type == QLatin1String("roto-spline")) {
+                m_monitorEffectScene = MonitorSceneRoto;
+                RotoWidget *roto = new RotoWidget(value.toLatin1(), m_metaInfo->monitor, info, m_metaInfo->monitor->timecode(), parent);
+                connect(roto, &RotoWidget::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
+                connect(roto, &RotoWidget::seekToPos, this, &ParameterContainer::seekTimeline);
+                connect(this, &ParameterContainer::syncEffectsPos, roto, &RotoWidget::slotSyncPosition);
+                m_vbox->addWidget(roto);
+                m_valueItems[paramName] = roto;
+            } else if (type == QLatin1String("wipe")) {
+                Wipeval *wpval = new Wipeval;
+                wpval->setupUi(toFillin);
+                // Make sure button shows its pressed state even if widget loses focus
+                QColor bg = QPalette().highlight().color();
+                toFillin->setStyleSheet(QStringLiteral("QPushButton:checked {background-color:rgb(%1,%2,%3);}").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
+                wipeInfo w = getWipeInfo(value);
+                switch (w.start) {
+                case UP:
+                    wpval->start_up->setChecked(true);
+                    break;
+                case DOWN:
+                    wpval->start_down->setChecked(true);
+                    break;
+                case RIGHT:
+                    wpval->start_right->setChecked(true);
+                    break;
+                case LEFT:
+                    wpval->start_left->setChecked(true);
+                    break;
+                default:
+                    wpval->start_center->setChecked(true);
+                    break;
+                }
+                switch (w.end) {
+                case UP:
+                    wpval->end_up->setChecked(true);
+                    break;
+                case DOWN:
+                    wpval->end_down->setChecked(true);
+                    break;
+                case RIGHT:
+                    wpval->end_right->setChecked(true);
+                    break;
+                case LEFT:
+                    wpval->end_left->setChecked(true);
+                    break;
+                default:
+                    wpval->end_center->setChecked(true);
+                    break;
+                }
+                wpval->start_transp->setValue(w.startTransparency);
+                wpval->end_transp->setValue(w.endTransparency);
+                m_valueItems[paramName] = wpval;
+                connect(wpval->end_up, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->end_down, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->end_left, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->end_right, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->end_center, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->start_up, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->start_down, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->start_left, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->start_right, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->start_center, &QAbstractButton::clicked, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->start_transp, &QAbstractSlider::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
+                connect(wpval->end_transp, &QAbstractSlider::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
+                //wpval->title->setTitle(na.toElement().text());
+                m_uiItems.append(wpval);
+            } else if (type == QLatin1String("url")) {
+                Urlval *cval = new Urlval;
+                cval->setupUi(toFillin);
+                cval->label->setText(paramName);
+                cval->setToolTip(comment);
+                cval->widgetComment->setHidden(true);
+                QString filter = pa.attribute(QStringLiteral("filter"));
+                if (filter.size() > 0) {
+                    cval->urlwidget->setFilter(filter);
+                }
+                m_valueItems[paramName] = cval;
+                cval->urlwidget->setUrl(QUrl(value));
+                connect(cval->urlwidget, SIGNAL(returnPressed()), this, SLOT(slotCollectAllParameters()));
+                connect(cval->urlwidget, &KUrlRequester::urlSelected, this, &ParameterContainer::slotCollectAllParameters);
+                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
+                    cval->setEnabled(false);
+                    m_conditionalWidgets << cval;
+                }
+                m_uiItems.append(cval);
+            } else if (type == QLatin1String("keywords")) {
+                Keywordval *kval = new Keywordval;
+                kval->setupUi(toFillin);
+                kval->label->setText(paramName);
+                kval->lineeditwidget->setText(value);
+                kval->setToolTip(comment);
+                QDomElement klistelem = pa.firstChildElement(QStringLiteral("keywords"));
+                QDomElement kdisplaylistelem = pa.firstChildElement(QStringLiteral("keywordsdisplay"));
+                QStringList keywordlist;
+                QStringList keyworddisplaylist;
+                if (!klistelem.isNull()) {
+                    keywordlist = klistelem.text().split(';');
+                    keyworddisplaylist = i18n(kdisplaylistelem.text().toUtf8().data()).split(';');
+                }
+                if (keyworddisplaylist.count() != keywordlist.count()) {
+                    keyworddisplaylist = keywordlist;
+                }
+                for (int i = 0; i < keywordlist.count(); ++i) {
+                    kval->comboboxwidget->addItem(keyworddisplaylist.at(i), keywordlist.at(i));
+                }
+                // Add disabled user prompt at index 0
+                kval->comboboxwidget->insertItem(0, i18n("<select a keyword>"), "");
+                kval->comboboxwidget->model()->setData(kval->comboboxwidget->model()->index(0, 0), QVariant(Qt::NoItemFlags), Qt::UserRole - 1);
+                kval->comboboxwidget->setCurrentIndex(0);
+                m_valueItems[paramName] = kval;
+                connect(kval->lineeditwidget, &QLineEdit::editingFinished, this, &ParameterContainer::slotCollectAllParameters);
+                connect(kval->comboboxwidget, SIGNAL(activated(QString)), this, SLOT(slotCollectAllParameters()));
+                m_uiItems.append(kval);
+            } else if (type == QLatin1String("fontfamily")) {
+                Fontval *fval = new Fontval;
+                fval->setupUi(toFillin);
+                fval->name->setText(paramName);
+                fval->fontfamilywidget->setCurrentFont(QFont(value));
+                m_valueItems[paramName] = fval;
+                connect(fval->fontfamilywidget, &QFontComboBox::currentFontChanged, this, &ParameterContainer::slotCollectAllParameters);
+                m_uiItems.append(fval);
+            } else if (type == QLatin1String("filterjob")) {
+                QVBoxLayout *l = new QVBoxLayout(toFillin);
+                QPushButton *button = new QPushButton(toFillin);
+                button->setProperty("realName", paramName);
+                if (effect.hasAttribute(QStringLiteral("condition"))) {
+                    if (m_conditionParameter) {
+                        QDomElement na = pa.firstChildElement(QStringLiteral("name"));
+                        QString conditionalName = na.attribute(QStringLiteral("conditional"));
+                        if (!conditionalName.isEmpty()) {
+                            paramName = conditionalName;
+                        }
+                    }
+                }
+                button->setText(paramName);
+                l->addWidget(button);
+                m_valueItems[paramName] = button;
+                connect(button, &QAbstractButton::pressed, this, &ParameterContainer::slotStartFilterJobAction);
+            } else if (type == QLatin1String("readonly")) {
+                QHBoxLayout *lay = new QHBoxLayout(toFillin);
+                DraggableLabel *lab = new DraggableLabel(QStringLiteral("<a href=\"%1\">").arg(pa.attribute(QStringLiteral("name"))) + paramName + QStringLiteral("</a>"));
+                lab->setObjectName(pa.attribute(QStringLiteral("name")));
+                connect(lab, &QLabel::linkActivated, this, &ParameterContainer::copyData);
+                connect(lab, &DraggableLabel::startDrag, this, &ParameterContainer::makeDrag);
+                lay->setContentsMargins(0, 0, 0, 0);
+                lay->addWidget(lab);
+                lab->setVisible(m_conditionParameter);
+                lab->setProperty("revert", 1);
+                m_conditionalWidgets << lab;
+            } else {
+                delete toFillin;
+                toFillin = Q_NULLPTR;
             }
-            button->setText(paramName);
-            l->addWidget(button);
-            m_valueItems[paramName] = button;
-            connect(button, &QAbstractButton::pressed, this, &ParameterContainer::slotStartFilterJobAction);
-        } else if (type == QLatin1String("readonly")) {
-            QHBoxLayout *lay= new QHBoxLayout(toFillin);
-            DraggableLabel *lab = new DraggableLabel(QStringLiteral("<a href=\"%1\">").arg(pa.attribute(QStringLiteral("name"))) + paramName + QStringLiteral("</a>"));
-            lab->setObjectName(pa.attribute(QStringLiteral("name")));
-            connect(lab, &QLabel::linkActivated, this, &ParameterContainer::copyData);
-            connect(lab, &DraggableLabel::startDrag, this, &ParameterContainer::makeDrag);
-            lay->setContentsMargins(0, 0, 0, 0);
-            lay->addWidget(lab);
-            lab->setVisible(m_conditionParameter);
-            lab->setProperty("revert", 1);
-            m_conditionalWidgets << lab;
-        } else {
-            delete toFillin;
-            toFillin = Q_NULLPTR;
+
+            if (toFillin) {
+                m_vbox->addWidget(toFillin);
+            }
         }
-
-        if (toFillin)
-            m_vbox->addWidget(toFillin);
-    }
 
     if (effect.hasAttribute(QStringLiteral("sync_in_out"))) {
         QCheckBox *cb = new QCheckBox(i18n("sync keyframes with clip start"));
@@ -709,11 +728,13 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         m_vbox->addWidget(cb);
         connect(cb, &QCheckBox::toggled, this, &ParameterContainer::toggleSync);
     }
-    if (stretch)
+    if (stretch) {
         m_vbox->addStretch(2);
+    }
 
-    if (m_keyframeEditor)
+    if (m_keyframeEditor) {
         m_keyframeEditor->checkVisibleParam();
+    }
 
     if (m_animationWidget) {
         m_animationWidget->finishSetup();
@@ -723,7 +744,9 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
     QList<DoubleParameterWidget *> allWidgets = findChildren<DoubleParameterWidget *>();
     int minSize = 0;
     for (int i = 0; i < allWidgets.count(); ++i) {
-        if (minSize < allWidgets.at(i)->spinSize()) minSize = allWidgets.at(i)->spinSize();
+        if (minSize < allWidgets.at(i)->spinSize()) {
+            minSize = allWidgets.at(i)->spinSize();
+        }
     }
     for (int i = 0; i < allWidgets.count(); ++i) {
         allWidgets.at(i)->setSpinSize(minSize);
@@ -739,8 +762,9 @@ ParameterContainer::~ParameterContainer()
 void ParameterContainer::copyData(const QString &name)
 {
     QString value = EffectsList::parameter(m_effect, name);
-    if (value.isEmpty())
+    if (value.isEmpty()) {
         return;
+    }
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(value);
 }
@@ -748,8 +772,9 @@ void ParameterContainer::copyData(const QString &name)
 void ParameterContainer::makeDrag(const QString &name)
 {
     QString value = EffectsList::parameter(m_effect, name);
-    if (value.isEmpty())
+    if (value.isEmpty()) {
         return;
+    }
     value.prepend(name + QStringLiteral("="));
     QDrag *dr = new QDrag(qApp);
     // The data to be transferred by the drag and drop operation is contained in a QMimeData object
@@ -777,7 +802,7 @@ void ParameterContainer::toggleSync(bool enable)
                 // Save updated animation to xml effect
                 QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
                 QMap<QString, QString> values = m_animationWidget->getAnimation();
-                for (int i = 0; i < namenode.count() ; ++i) {
+                for (int i = 0; i < namenode.count(); ++i) {
                     QDomElement pa = namenode.item(i).toElement();
                     QString paramName = pa.attribute(QStringLiteral("name"));
                     if (values.count() > 1) {
@@ -792,7 +817,7 @@ void ParameterContainer::toggleSync(bool enable)
                 // Switch keyframes offset
                 QString updated = m_geometryWidget->offsetAnimation(oldIn, true);
                 QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
-                for (int i = 0; i < namenode.count() ; ++i) {
+                for (int i = 0; i < namenode.count(); ++i) {
                     QDomElement pa = namenode.item(i).toElement();
                     if (pa.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
                         pa.setAttribute(QStringLiteral("value"), updated);
@@ -811,7 +836,7 @@ void ParameterContainer::toggleSync(bool enable)
                 // Save updated animation to xml effect
                 QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
                 QMap<QString, QString> values = m_animationWidget->getAnimation();
-                for (int i = 0; i < namenode.count() ; ++i) {
+                for (int i = 0; i < namenode.count(); ++i) {
                     QDomElement pa = namenode.item(i).toElement();
                     QString paramName = pa.attribute(QStringLiteral("name"));
                     if (values.count() > 1) {
@@ -826,7 +851,7 @@ void ParameterContainer::toggleSync(bool enable)
                 // Switch keyframes offset
                 QString updated = m_geometryWidget->offsetAnimation(-m_in, false);
                 QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
-                for (int i = 0; i < namenode.count() ; ++i) {
+                for (int i = 0; i < namenode.count(); ++i) {
                     QDomElement pa = namenode.item(i).toElement();
                     if (pa.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
                         pa.setAttribute(QStringLiteral("value"), updated);
@@ -840,16 +865,16 @@ void ParameterContainer::toggleSync(bool enable)
     emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
 }
 
-void ParameterContainer::meetDependency(const QString& name, const QString &type, const QString &value)
+void ParameterContainer::meetDependency(const QString &name, const QString &type, const QString &value)
 {
     if (type == QLatin1String("curve")) {
-        KisCurveWidget *curve = static_cast<KisCurveWidget*>(m_valueItems[name]);
+        KisCurveWidget *curve = static_cast<KisCurveWidget *>(m_valueItems[name]);
         if (curve) {
             const int color = value.toInt();
             curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)(color == 3 ? 4 : color), 0.8)));
         }
     } else if (type == QLatin1String("bezier_spline")) {
-        BezierSplineWidget *widget = static_cast<BezierSplineWidget*>(m_valueItems[name]);
+        BezierSplineWidget *widget = static_cast<BezierSplineWidget *>(m_valueItems[name]);
         if (widget) {
             QLocale locale;
             widget->setMode((BezierSplineWidget::CurveModes)((int)(locale.toDouble(value) * 10 + 0.5)));
@@ -861,64 +886,74 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
 {
     wipeInfo info;
     // Convert old geometry values that used a comma as separator
-    if (value.contains(',')) value.replace(',','/');
+    if (value.contains(',')) {
+        value.replace(',', '/');
+    }
     QString start = value.section(';', 0, 0);
     QString end = value.section(';', 1, 1).section('=', 1, 1);
-    if (start.startsWith(QLatin1String("-100%/0")))
+    if (start.startsWith(QLatin1String("-100%/0"))) {
         info.start = LEFT;
-    else if (start.startsWith(QLatin1String("100%/0")))
+    } else if (start.startsWith(QLatin1String("100%/0"))) {
         info.start = RIGHT;
-    else if (start.startsWith(QLatin1String("0%/100%")))
+    } else if (start.startsWith(QLatin1String("0%/100%"))) {
         info.start = DOWN;
-    else if (start.startsWith(QLatin1String("0%/-100%")))
+    } else if (start.startsWith(QLatin1String("0%/-100%"))) {
         info.start = UP;
-    else
+    } else {
         info.start = CENTER;
+    }
 
-    if (start.count(':') == 2)
+    if (start.count(':') == 2) {
         info.startTransparency = start.section(':', -1).toInt();
-    else
+    } else {
         info.startTransparency = 100;
+    }
 
-    if (end.startsWith(QLatin1String("-100%/0")))
+    if (end.startsWith(QLatin1String("-100%/0"))) {
         info.end = LEFT;
-    else if (end.startsWith(QLatin1String("100%/0")))
+    } else if (end.startsWith(QLatin1String("100%/0"))) {
         info.end = RIGHT;
-    else if (end.startsWith(QLatin1String("0%/100%")))
+    } else if (end.startsWith(QLatin1String("0%/100%"))) {
         info.end = DOWN;
-    else if (end.startsWith(QLatin1String("0%/-100%")))
+    } else if (end.startsWith(QLatin1String("0%/-100%"))) {
         info.end = UP;
-    else
+    } else {
         info.end = CENTER;
+    }
 
-    if (end.count(':') == 2)
+    if (end.count(':') == 2) {
         info.endTransparency = end.section(':', -1).toInt();
-    else
+    } else {
         info.endTransparency = 100;
+    }
 
     return info;
 }
 
 void ParameterContainer::updateTimecodeFormat()
 {
-    if (m_keyframeEditor)
+    if (m_keyframeEditor) {
         m_keyframeEditor->updateTimecodeFormat();
+    }
 
-    if (m_animationWidget) 
+    if (m_animationWidget) {
         m_animationWidget->updateTimecodeFormat();
+    }
 
     QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < namenode.count() ; ++i) {
+    for (int i = 0; i < namenode.count(); ++i) {
         QDomNode pa = namenode.item(i);
         QDomElement na = pa.firstChildElement(QStringLiteral("name"));
         QString type = pa.attributes().namedItem(QStringLiteral("type")).nodeValue();
         QString paramName = na.isNull() ? pa.attributes().namedItem(QStringLiteral("name")).nodeValue() : i18n(na.text().toUtf8().data());
 
         if (type == QLatin1String("geometry")) {
-            if (m_geometryWidget) m_geometryWidget->updateTimecodeFormat();
+            if (m_geometryWidget) {
+                m_geometryWidget->updateTimecodeFormat();
+            }
             break;
         } else if (type == QLatin1String("position")) {
-            PositionEdit *posi = static_cast<PositionEdit*>(m_valueItems[paramName+"position"]);
+            PositionEdit *posi = static_cast<PositionEdit *>(m_valueItems[paramName + "position"]);
             posi->updateTimecodeFormat();
             break;
         } else if (type == QLatin1String("roto-spline")) {
@@ -930,20 +965,22 @@ void ParameterContainer::updateTimecodeFormat()
 
 void ParameterContainer::slotCollectAllParameters()
 {
-    if ((m_valueItems.isEmpty() && !m_animationWidget && !m_geometryWidget) || m_effect.isNull()) return;
+    if ((m_valueItems.isEmpty() && !m_animationWidget && !m_geometryWidget) || m_effect.isNull()) {
+        return;
+    }
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     const QDomElement oldparam = m_effect.cloneNode().toElement();
     //QDomElement newparam = oldparam.cloneNode().toElement();
 
-    if (m_effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || m_effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain") ) {
-        LumaLiftGain *gainWidget = static_cast<LumaLiftGain*>(m_valueItems.value(m_effect.attribute(QStringLiteral("id"))));
+    if (m_effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || m_effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain")) {
+        LumaLiftGain *gainWidget = static_cast<LumaLiftGain *>(m_valueItems.value(m_effect.attribute(QStringLiteral("id"))));
         gainWidget->updateEffect(m_effect);
         emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
         return;
     }
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("avfilter.selectivecolor")) {
-        SelectiveColor *cmykAdjust = static_cast<SelectiveColor*>(m_valueItems.value(m_effect.attribute(QStringLiteral("id"))));
+        SelectiveColor *cmykAdjust = static_cast<SelectiveColor *>(m_valueItems.value(m_effect.attribute(QStringLiteral("id"))));
         cmykAdjust->updateEffect(m_effect);
         emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
         return;
@@ -954,7 +991,7 @@ void ParameterContainer::slotCollectAllParameters()
     // special case, m_animationWidget can hold several parameters
     if (m_animationWidget) {
         QMap<QString, QString> values = m_animationWidget->getAnimation();
-        for (int i = 0; i < namenode.count() ; ++i) {
+        for (int i = 0; i < namenode.count(); ++i) {
             QDomElement pa = namenode.item(i).toElement();
             QString paramName = pa.attribute(QStringLiteral("name"));
             if (values.count() > 1) {
@@ -966,21 +1003,22 @@ void ParameterContainer::slotCollectAllParameters()
         }
     }
 
-    for (int i = 0; i < namenode.count() ; ++i) {
+    for (int i = 0; i < namenode.count(); ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QDomElement na = pa.firstChildElement(QStringLiteral("name"));
         QString type = pa.attribute(QStringLiteral("type"));
         QString paramName = na.isNull() ? pa.attribute(QStringLiteral("name")) : i18n(na.text().toUtf8().data());
-        if (type == QLatin1String("complex"))
+        if (type == QLatin1String("complex")) {
             paramName.append("complex");
-        else if (type == QLatin1String("position"))
+        } else if (type == QLatin1String("position")) {
             paramName.append("position");
-        else if (type == QLatin1String("geometry"))
+        } else if (type == QLatin1String("geometry")) {
             paramName.append("geometry");
-        else if (type == QLatin1String("keyframe"))
+        } else if (type == QLatin1String("keyframe")) {
             paramName.append("keyframe");
-        else if (type == QLatin1String("animated"))
+        } else if (type == QLatin1String("animated")) {
             continue;
+        }
         if (type != QLatin1String("animatedrect") && type != QLatin1String("simplekeyframe") && type != QLatin1String("fixed") && type != QLatin1String("addedgeometry") && !m_valueItems.contains(paramName)) {
             qCDebug(KDENLIVE_LOG) << "// Param: " << paramName << " NOT FOUND";
             continue;
@@ -988,12 +1026,12 @@ void ParameterContainer::slotCollectAllParameters()
 
         QString setValue;
         if (type == QLatin1String("double") || type == QLatin1String("constant")) {
-            DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget*>(m_valueItems.value(paramName));
+            DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget *>(m_valueItems.value(paramName));
             if (doubleparam) {
                 setValue = locale.toString(doubleparam->getValue());
             }
         } else if (type == QLatin1String("list")) {
-            Listval* val = static_cast<Listval*>(m_valueItems.value(paramName));
+            Listval *val = static_cast<Listval *>(m_valueItems.value(paramName));
             if (val) {
                 KComboBox *box = val->list;
                 setValue = box->itemData(box->currentIndex()).toString();
@@ -1002,28 +1040,38 @@ void ParameterContainer::slotCollectAllParameters()
                 setValue.clear();
             }
         } else if (type == QLatin1String("bool")) {
-            Boolval* val = static_cast<Boolval*>(m_valueItems.value(paramName));
+            Boolval *val = static_cast<Boolval *>(m_valueItems.value(paramName));
             if (val) {
                 QCheckBox *box = val->checkBox;
-                setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
+                setValue = box->checkState() == Qt::Checked ? "1" : "0";
             }
         } else if (type == QLatin1String("switch")) {
-            Boolval* val = static_cast<Boolval*>(m_valueItems.value(paramName));
+            Boolval *val = static_cast<Boolval *>(m_valueItems.value(paramName));
             if (val) {
                 QCheckBox *box = val->checkBox;
-                setValue = box->checkState() == Qt::Checked ? pa.attribute(QStringLiteral("max")) : pa.attribute(QStringLiteral("min")) ;
+                setValue = box->checkState() == Qt::Checked ? pa.attribute(QStringLiteral("max")) : pa.attribute(QStringLiteral("min"));
             }
         } else if (type == QLatin1String("color")) {
-            ChooseColorWidget *choosecolor = static_cast<ChooseColorWidget*>(m_valueItems.value(paramName));
-            if (choosecolor) setValue = choosecolor->getColor();
-            if (pa.hasAttribute(QStringLiteral("paramprefix"))) setValue.prepend(pa.attribute(QStringLiteral("paramprefix")));
+            ChooseColorWidget *choosecolor = static_cast<ChooseColorWidget *>(m_valueItems.value(paramName));
+            if (choosecolor) {
+                setValue = choosecolor->getColor();
+            }
+            if (pa.hasAttribute(QStringLiteral("paramprefix"))) {
+                setValue.prepend(pa.attribute(QStringLiteral("paramprefix")));
+            }
         } else if (type == QLatin1String("geometry")) {
-            if (m_geometryWidget) namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getValue());
+            if (m_geometryWidget) {
+                namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getValue());
+            }
         } else if (type == QLatin1String("addedgeometry")) {
-            if (m_geometryWidget) namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute(QStringLiteral("name"))));
+            if (m_geometryWidget) {
+                namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute(QStringLiteral("name"))));
+            }
         } else if (type == QLatin1String("position")) {
-            PositionEdit *pedit = static_cast<PositionEdit*>(m_valueItems.value(paramName));
-            int pos = 0; if (pedit) pos = pedit->getPosition();
+            PositionEdit *pedit = static_cast<PositionEdit *>(m_valueItems.value(paramName));
+            int pos = 0; if (pedit) {
+                pos = pedit->getPosition();
+            }
             setValue = QString::number(pos);
             if (m_effect.attribute(QStringLiteral("id")) == QLatin1String("fadein") || m_effect.attribute(QStringLiteral("id")) == QLatin1String("fade_from_black")) {
                 // Make sure duration is not longer than clip
@@ -1045,7 +1093,7 @@ void ParameterContainer::slotCollectAllParameters()
                 setValue.clear();
             }
         } else if (type == QLatin1String("curve")) {
-            KisCurveWidget *curve = static_cast<KisCurveWidget*>(m_valueItems.value(paramName));
+            KisCurveWidget *curve = static_cast<KisCurveWidget *>(m_valueItems.value(paramName));
             if (curve) {
                 QList<QPointF> points = curve->curve().points();
                 QString number = pa.attribute(QStringLiteral("number"));
@@ -1073,47 +1121,55 @@ void ParameterContainer::slotCollectAllParameters()
                 }
             }
             QString depends = pa.attribute(QStringLiteral("depends"));
-            if (!depends.isEmpty())
+            if (!depends.isEmpty()) {
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
+            }
         } else if (type == QLatin1String("bezier_spline")) {
-            BezierSplineWidget *widget = static_cast<BezierSplineWidget*>(m_valueItems.value(paramName));
-            if (widget) setValue = widget->spline();
+            BezierSplineWidget *widget = static_cast<BezierSplineWidget *>(m_valueItems.value(paramName));
+            if (widget) {
+                setValue = widget->spline();
+            }
             QString depends = pa.attribute(QStringLiteral("depends"));
-            if (!depends.isEmpty())
+            if (!depends.isEmpty()) {
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
+            }
         } else if (type == QLatin1String("roto-spline")) {
             RotoWidget *widget = static_cast<RotoWidget *>(m_valueItems.value(paramName));
-            if (widget) setValue = widget->getSpline();
+            if (widget) {
+                setValue = widget->getSpline();
+            }
         } else if (type == QLatin1String("wipe")) {
-            Wipeval *wp = static_cast<Wipeval*>(m_valueItems.value(paramName));
+            Wipeval *wp = static_cast<Wipeval *>(m_valueItems.value(paramName));
             if (wp) {
                 wipeInfo info;
-                if (wp->start_left->isChecked())
+                if (wp->start_left->isChecked()) {
                     info.start = LEFT;
-                else if (wp->start_right->isChecked())
+                } else if (wp->start_right->isChecked()) {
                     info.start = RIGHT;
-                else if (wp->start_up->isChecked())
+                } else if (wp->start_up->isChecked()) {
                     info.start = UP;
-                else if (wp->start_down->isChecked())
+                } else if (wp->start_down->isChecked()) {
                     info.start = DOWN;
-                else if (wp->start_center->isChecked())
+                } else if (wp->start_center->isChecked()) {
                     info.start = CENTER;
-                else
+                } else {
                     info.start = LEFT;
+                }
                 info.startTransparency = wp->start_transp->value();
 
-                if (wp->end_left->isChecked())
+                if (wp->end_left->isChecked()) {
                     info.end = LEFT;
-                else if (wp->end_right->isChecked())
+                } else if (wp->end_right->isChecked()) {
                     info.end = RIGHT;
-                else if (wp->end_up->isChecked())
+                } else if (wp->end_up->isChecked()) {
                     info.end = UP;
-                else if (wp->end_down->isChecked())
+                } else if (wp->end_down->isChecked()) {
                     info.end = DOWN;
-                else if (wp->end_center->isChecked())
+                } else if (wp->end_center->isChecked()) {
                     info.end = CENTER;
-                else
+                } else {
                     info.end = RIGHT;
+                }
                 info.endTransparency = wp->end_transp->value();
 
                 setValue = getWipeString(info);
@@ -1125,18 +1181,20 @@ void ParameterContainer::slotCollectAllParameters()
 
             if (m_keyframeEditor->isVisibleParam(realName)) {
                 pa.setAttribute(QStringLiteral("intimeline"), QStringLiteral("1"));
-	    }
-            else if (pa.hasAttribute(QStringLiteral("intimeline")))
+            } else if (pa.hasAttribute(QStringLiteral("intimeline"))) {
                 pa.setAttribute(QStringLiteral("intimeline"), QStringLiteral("0"));
+            }
         } else if (type == QLatin1String("url")) {
-            KUrlRequester *req = static_cast<Urlval*>(m_valueItems.value(paramName))->urlwidget;
-            if (req) setValue = req->url().path();
+            KUrlRequester *req = static_cast<Urlval *>(m_valueItems.value(paramName))->urlwidget;
+            if (req) {
+                setValue = req->url().path();
+            }
         } else if (type == QLatin1String("keywords")) {
-            Keywordval* val = static_cast<Keywordval*>(m_valueItems.value(paramName));
+            Keywordval *val = static_cast<Keywordval *>(m_valueItems.value(paramName));
             if (val) {
                 QLineEdit *line = val->lineeditwidget;
                 KComboBox *combo = val->comboboxwidget;
-                if(combo->currentIndex()) {
+                if (combo->currentIndex()) {
                     QString comboval = combo->itemData(combo->currentIndex()).toString();
                     line->insert(comboval);
                     combo->setCurrentIndex(0);
@@ -1144,9 +1202,9 @@ void ParameterContainer::slotCollectAllParameters()
                 setValue = line->text();
             }
         } else if (type == QLatin1String("fontfamily")) {
-            Fontval* val = static_cast<Fontval*>(m_valueItems.value(paramName));
+            Fontval *val = static_cast<Fontval *>(m_valueItems.value(paramName));
             if (val) {
-                QFontComboBox* fontfamily = val->fontfamilywidget;
+                QFontComboBox *fontfamily = val->fontfamilywidget;
                 setValue = fontfamily->currentFont().family();
             }
         }
@@ -1237,7 +1295,7 @@ void ParameterContainer::slotStartFilterJobAction()
         }
     }
     QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < namenode.count() ; ++i) {
+    for (int i = 0; i < namenode.count(); ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute(QStringLiteral("type"));
         if (type == QLatin1String("filterjob")) {
@@ -1247,7 +1305,7 @@ void ParameterContainer::slotStartFilterJobAction()
             consumerParams.insert(QStringLiteral("consumer"), pa.attribute(QStringLiteral("consumer")));
             QString filterattributes = pa.attribute(QStringLiteral("filterparams"));
             if (filterattributes.contains(QStringLiteral("%position"))) {
-                int filterStart = qBound(m_in, (int) (m_metaInfo->monitor->position() - m_info.startPos).frames(KdenliveSettings::project_fps()) + m_in, m_out);
+                int filterStart = qBound(m_in, (int)(m_metaInfo->monitor->position() - m_info.startPos).frames(KdenliveSettings::project_fps()) + m_in, m_out);
                 filterattributes.replace(QLatin1String("%position"), QString::number(filterStart));
             }
 
@@ -1293,11 +1351,10 @@ void ParameterContainer::slotStartFilterJobAction()
     }
 }
 
-
 void ParameterContainer::clearLayout(QLayout *layout)
 {
     QLayoutItem *item;
-    while((item = layout->takeAt(0))) {
+    while ((item = layout->takeAt(0))) {
         if (item->layout()) {
             clearLayout(item->layout());
             delete item->layout();
@@ -1318,7 +1375,7 @@ void ParameterContainer::setKeyframes(const QString &tag, const QString &data)
 {
     const QDomElement oldparam = m_effect.cloneNode().toElement();
     QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < namenode.count() ; ++i) {
+    for (int i = 0; i < namenode.count(); ++i) {
         QDomElement pa = namenode.item(i).toElement();
         if (pa.attribute(QStringLiteral("name")) == tag) {
             pa.setAttribute(QStringLiteral("value"), data);
@@ -1361,15 +1418,19 @@ void ParameterContainer::refreshFrameInfo()
 
 void ParameterContainer::setActiveKeyframe(int frame)
 {
-    if (m_animationWidget) m_animationWidget->setActiveKeyframe(frame);
+    if (m_animationWidget) {
+        m_animationWidget->setActiveKeyframe(frame);
+    }
 }
 
 void ParameterContainer::connectMonitor(bool activate)
 {
-    if (m_animationWidget)
+    if (m_animationWidget) {
         m_animationWidget->connectMonitor(activate);
-    if (m_geometryWidget)
+    }
+    if (m_geometryWidget) {
         m_geometryWidget->connectMonitor(activate);
+    }
 }
 
 bool ParameterContainer::doesAcceptDrops() const

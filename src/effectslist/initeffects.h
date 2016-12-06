@@ -23,7 +23,6 @@
 #include <QMap>
 #include <mlt++/Mlt.h>
 
-
 /**Init the MLT effects
   *@author Jean-Baptiste Mardelle
   */
@@ -42,9 +41,9 @@ public:
      * It checks for all available effects and transitions, removes blacklisted
      * ones, calls fillTransitionsList() and parseEffectFile() to fill the lists
      * (with sorted, unique items) and then fills the global lists. */
-    static bool parseEffectFiles(Mlt::Repository* repository, const QString &locale = QString());
+    static bool parseEffectFiles(Mlt::Repository *repository, const QString &locale = QString());
     static void refreshLumas();
-    static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
+    static QDomDocument createDescriptionFromMlt(Mlt::Repository *repository, const QString &type, const QString &name);
     static QDomDocument getUsedCustomEffects(const QMap<QString, QString> &effectids);
 
     /** @brief Fills the transitions list.
@@ -63,7 +62,7 @@ public:
      * @param tag parameter tag
      * @param type parameter type (string, double, bool, etc.)
      * @return element with the parameter information */
-    static QDomElement quickParameterFill(QDomDocument & doc,
+    static QDomElement quickParameterFill(QDomDocument &doc,
                                           const QString &name,
                                           const QString &tag,
                                           const QString &type,
@@ -90,13 +89,12 @@ public:
                                 const QStringList &producersList,
                                 Mlt::Repository *repository, const QMap<QString, QString> &effectDescriptions);
     static void parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions);
-    
+
     /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();
 
 private:
     initEffects(); // disable the constructor
 };
-
 
 #endif

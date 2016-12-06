@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "collapsibleeffect.h"
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
@@ -46,7 +45,7 @@
 #include <KMessageBox>
 #include <KDualAction>
 
-CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget * parent) :
+CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget *parent) :
     AbstractCollapsibleWidget(parent),
     m_paramWidget(Q_NULLPTR),
     m_effect(effect),
@@ -119,7 +118,9 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
         return;
     }
     QString effectname = i18n(namenode.text().toUtf8().data());
-    if (m_regionEffect) effectname.append(':' + QUrl(EffectsList::parameter(m_effect, QStringLiteral("resource"))).fileName());
+    if (m_regionEffect) {
+        effectname.append(':' + QUrl(EffectsList::parameter(m_effect, QStringLiteral("resource"))).fileName());
+    }
 
     // Create color thumb
     QPixmap pix(iconSize);
@@ -129,8 +130,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     bool isAudio = m_effect.attribute(QStringLiteral("type")) == QLatin1String("audio");
     if (isAudio) {
         pix.fill(Qt::transparent);
-    }
-    else {
+    } else {
         pix.fill(col);
     }
     QPainter p(&pix);
@@ -148,7 +148,9 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     title->setText(effectname);
 
     if (!m_regionEffect) {
-        if (m_info.groupIndex == -1) m_menu->addAction(m_groupAction);
+        if (m_info.groupIndex == -1) {
+            m_menu->addAction(m_groupAction);
+        }
         m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
     setupWidget(info, metaInfo);
@@ -158,8 +160,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     if (m_effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) {
         title->setEnabled(false);
         m_enabledButton->setActive(true);
-    }
-    else {
+    } else {
         m_enabledButton->setActive(false);
     }
 
@@ -169,17 +170,17 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffect::slotEffectDown);
     connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffect::slotDeleteEffect);
 
-    Q_FOREACH( QSpinBox * sp, findChildren<QSpinBox*>() ) {
-        sp->installEventFilter( this );
-        sp->setFocusPolicy( Qt::StrongFocus );
+    Q_FOREACH (QSpinBox *sp, findChildren<QSpinBox *>()) {
+        sp->installEventFilter(this);
+        sp->setFocusPolicy(Qt::StrongFocus);
     }
-    Q_FOREACH( KComboBox * cb, findChildren<KComboBox*>() ) {
-        cb->installEventFilter( this );
-        cb->setFocusPolicy( Qt::StrongFocus );
+    Q_FOREACH (KComboBox *cb, findChildren<KComboBox *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(Qt::StrongFocus);
     }
-    Q_FOREACH( QProgressBar * cb, findChildren<QProgressBar*>() ) {
-        cb->installEventFilter( this );
-        cb->setFocusPolicy( Qt::StrongFocus );
+    Q_FOREACH (QProgressBar *cb, findChildren<QProgressBar *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(Qt::StrongFocus);
     }
     m_animation = new QTimeLine(200, this); //duration matches to match kmessagewidget
     connect(m_animation, &QTimeLine::valueChanged, this, &CollapsibleEffect::setWidgetHeight);
@@ -214,7 +215,9 @@ void CollapsibleEffect::slotCreateRegion()
     QString allExtensions = ClipCreationDialog::getExtensions().join(QStringLiteral(" "));
     const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    if (clipFolder.isEmpty()) clipFolder = QDir::homePath();
+    if (clipFolder.isEmpty()) {
+        clipFolder = QDir::homePath();
+    }
     QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), QString(), clipFolder, dialogFilter);
     d->setFileMode(QFileDialog::ExistingFile);
     if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
@@ -229,7 +232,7 @@ void CollapsibleEffect::slotUnGroup()
     emit unGroup(this);
 }
 
-bool CollapsibleEffect::eventFilter( QObject * o, QEvent * e ) 
+bool CollapsibleEffect::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::Enter) {
         frame->setProperty("mouseover", true);
@@ -242,38 +245,29 @@ bool CollapsibleEffect::eventFilter( QObject * o, QEvent * e )
             e->accept();
             return false;
         }
-        if (qobject_cast<QAbstractSpinBox*>(o)) {
-            if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
-            {
+        if (qobject_cast<QAbstractSpinBox *>(o)) {
+            if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            }
-            else
-            {
+            } else {
                 e->ignore();
                 return true;
             }
         }
-        if (qobject_cast<KComboBox*>(o)) {
-            if(qobject_cast<KComboBox*>(o)->focusPolicy() == Qt::WheelFocus)
-            {
+        if (qobject_cast<KComboBox *>(o)) {
+            if (qobject_cast<KComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            }
-            else
-            {
+            } else {
                 e->ignore();
                 return true;
             }
         }
-        if (qobject_cast<QProgressBar*>(o)) {
-            if(qobject_cast<QProgressBar*>(o)->focusPolicy() == Qt::WheelFocus)
-            {
+        if (qobject_cast<QProgressBar *>(o)) {
+            if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            }
-            else
-            {
+            } else {
                 e->ignore();
                 return true;
             }
@@ -328,18 +322,21 @@ void CollapsibleEffect::setActive(bool activate)
     }
 }
 
-void CollapsibleEffect::mouseDoubleClickEvent ( QMouseEvent * event )
+void CollapsibleEffect::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (frame->underMouse() && collapseButton->isEnabled()) {
         event->accept();
         slotSwitch();
+    } else {
+        event->ignore();
     }
-    else event->ignore();
 }
 
-void CollapsibleEffect::mouseReleaseEvent( QMouseEvent *event )
+void CollapsibleEffect::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (!decoframe->property("active").toBool()) emit activateEffect(effectIndex());
+    if (!decoframe->property("active").toBool()) {
+        emit activateEffect(effectIndex());
+    }
     QWidget::mouseReleaseEvent(event);
 }
 
@@ -363,24 +360,28 @@ void CollapsibleEffect::slotDeleteEffect()
 
 void CollapsibleEffect::slotEffectUp()
 {
-    emit changeEffectPosition(QList<int>() <<effectIndex(), true);
+    emit changeEffectPosition(QList<int>() << effectIndex(), true);
 }
 
 void CollapsibleEffect::slotEffectDown()
 {
-    emit changeEffectPosition(QList<int>() <<effectIndex(), false);
+    emit changeEffectPosition(QList<int>() << effectIndex(), false);
 }
 
 void CollapsibleEffect::slotSaveEffect()
 {
     QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
-    if (name.isEmpty()) return;
+    if (name.isEmpty()) {
+        return;
+    }
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/");
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
 
-    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) return;
+    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) {
+            return;
+        }
 
     QDomDocument doc;
     QDomElement effect = m_effect.cloneNode().toElement();
@@ -457,8 +458,7 @@ void CollapsibleEffect::setGroupIndex(int ix)
 {
     if (m_info.groupIndex == -1 && ix != -1) {
         m_menu->removeAction(m_groupAction);
-    }
-    else if (m_info.groupIndex != -1 && ix == -1) {
+    } else if (m_info.groupIndex != -1 && ix == -1) {
         m_menu->addAction(m_groupAction);
     }
     m_info.groupIndex = ix;
@@ -494,7 +494,9 @@ int CollapsibleEffect::groupIndex() const
 
 int CollapsibleEffect::effectIndex() const
 {
-    if (m_effect.isNull()) return -1;
+    if (m_effect.isNull()) {
+        return -1;
+    }
     return m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
 }
 
@@ -509,12 +511,16 @@ void CollapsibleEffect::updateWidget(const ItemInfo &info, const QDomElement &ef
 
 void CollapsibleEffect::updateFrameInfo()
 {
-    if (m_paramWidget) m_paramWidget->refreshFrameInfo();
+    if (m_paramWidget) {
+        m_paramWidget->refreshFrameInfo();
+    }
 }
 
 void CollapsibleEffect::setActiveKeyframe(int frame)
 {
-    if (m_paramWidget) m_paramWidget->setActiveKeyframe(frame);
+    if (m_paramWidget) {
+        m_paramWidget->setActiveKeyframe(frame);
+    }
 }
 
 void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo)
@@ -533,7 +539,7 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
         QDomNodeList origin_effects =  m_original_effect.elementsByTagName(QStringLiteral("effect"));
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
         QWidget *container = new QWidget(widgetFrame);
-        QVBoxLayout *vbox = static_cast<QVBoxLayout *> (widgetFrame->layout());
+        QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
         vbox->addWidget(container);
         // m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, container);
         for (int i = 0; i < effects.count(); ++i) {
@@ -543,13 +549,12 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
             }
             CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, canMoveUp, i == effects.count() - 1, container);
             m_subParamWidgets.append(coll);
-            connect(coll, &CollapsibleEffect::parameterChanged, this , &CollapsibleEffect::slotUpdateRegionEffectParams);
+            connect(coll, &CollapsibleEffect::parameterChanged, this, &CollapsibleEffect::slotUpdateRegionEffectParams);
             //container = new QWidget(widgetFrame);
             vbox->addWidget(coll);
             //p = new ParameterContainer(effects.at(i).toElement(), info, isEffect, container);
         }
-    }
-    else {
+    } else {
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
         connect(m_paramWidget, &ParameterContainer::disableCurrentFilter, this, &CollapsibleEffect::slotDisableEffect);
         connect(m_paramWidget, &ParameterContainer::importKeyframes, this, &CollapsibleEffect::importKeyframes);
@@ -565,13 +570,13 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
         collapseButton->setArrowType(Qt::RightArrow);
 
     }
-    connect (m_paramWidget, &ParameterContainer::parameterChanged, this, &CollapsibleEffect::parameterChanged);
+    connect(m_paramWidget, &ParameterContainer::parameterChanged, this, &CollapsibleEffect::parameterChanged);
 
     connect(m_paramWidget, &ParameterContainer::startFilterJob, this, &CollapsibleEffect::startFilterJob);
 
-    connect (this, &CollapsibleEffect::syncEffectsPos, m_paramWidget, &ParameterContainer::syncEffectsPos);
-    connect (m_paramWidget, &ParameterContainer::checkMonitorPosition, this, &CollapsibleEffect::checkMonitorPosition);
-    connect (m_paramWidget, &ParameterContainer::seekTimeline, this, &CollapsibleEffect::seekTimeline);
+    connect(this, &CollapsibleEffect::syncEffectsPos, m_paramWidget, &ParameterContainer::syncEffectsPos);
+    connect(m_paramWidget, &ParameterContainer::checkMonitorPosition, this, &CollapsibleEffect::checkMonitorPosition);
+    connect(m_paramWidget, &ParameterContainer::seekTimeline, this, &CollapsibleEffect::seekTimeline);
     connect(m_paramWidget, &ParameterContainer::importClipKeyframes, this, &CollapsibleEffect::prepareImportClipKeyframes);
 }
 
@@ -593,8 +598,9 @@ void CollapsibleEffect::updateTimecodeFormat()
     m_paramWidget->updateTimecodeFormat();
     if (!m_subParamWidgets.isEmpty()) {
         // we have a group
-        for (int i = 0; i < m_subParamWidgets.count(); ++i)
+        for (int i = 0; i < m_subParamWidgets.count(); ++i) {
             m_subParamWidgets.at(i)->updateTimecodeFormat();
+        }
     }
 }
 
@@ -618,8 +624,9 @@ void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
     } else if (m_paramWidget->doesAcceptDrops() && event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry")) && event->source()->objectName() != QStringLiteral("ParameterContainer")) {
         event->setDropAction(Qt::CopyAction);
         event->setAccepted(true);
+    } else {
+        QWidget::dragEnterEvent(event);
     }
-    else QWidget::dragEnterEvent(event);
 }
 
 void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
@@ -633,7 +640,7 @@ void CollapsibleEffect::importKeyframes(const QString &keyframes)
     QMap<QString, QString> data;
     if (keyframes.contains(QLatin1Char('\n'))) {
         QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
-        foreach(const QString &param, params) {
+        foreach (const QString &param, params) {
             data.insert(param.section(QStringLiteral("="), 0, 0), param.section(QStringLiteral("="), 1));
         }
     } else {
@@ -688,8 +695,7 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
                     effectsIds << effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
                 }
                 emit moveEffect(effectsIds, currentEffectIx, info.groupIndex, info.groupName);
-            }
-            else {
+            } else {
                 // group effect dropped from effect list
                 if (m_info.groupIndex > -1) {
                     // TODO: Should we merge groups??
@@ -710,11 +716,10 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
         emit addEffect(e);
         return;
     }
-    emit moveEffect(QList<int> () <<ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
+    emit moveEffect(QList<int> () << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
-
 
 void CollapsibleEffect::adjustButtons(int ix, int max)
 {
@@ -724,13 +729,14 @@ void CollapsibleEffect::adjustButtons(int ix, int max)
 
 MonitorSceneType CollapsibleEffect::needsMonitorEffectScene() const
 {
-    if (m_paramWidget && !m_enabledButton->isActive())
+    if (m_paramWidget && !m_enabledButton->isActive()) {
         return m_paramWidget->needsMonitorEffectScene();
-    else
+    } else {
         return MonitorSceneDefault;
+    }
 }
 
-void CollapsibleEffect::setRange(int inPoint , int outPoint)
+void CollapsibleEffect::setRange(int inPoint, int outPoint)
 {
     m_paramWidget->setRange(inPoint, outPoint);
 }
@@ -747,5 +753,5 @@ bool CollapsibleEffect::isMovable() const
 
 void CollapsibleEffect::prepareImportClipKeyframes()
 {
-    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), QMap<QString,QString>());
+    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), QMap<QString, QString>());
 }

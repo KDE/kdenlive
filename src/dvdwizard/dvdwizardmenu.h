@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef DVDWIZARDMENU_H
 #define DVDWIZARDMENU_H
 
@@ -37,7 +36,7 @@ class DvdScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit DvdScene(QObject * parent = Q_NULLPTR);
+    explicit DvdScene(QObject *parent = Q_NULLPTR);
     void setProfile(int width, int height);
     int gridSize() const;
     void setGridSize(int gridSize);
@@ -46,7 +45,7 @@ private:
     int m_height;
     int m_gridSize;
 protected:
-    void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 signals:
     void sceneChanged();
@@ -56,9 +55,10 @@ class DvdButtonUnderline : public QGraphicsRectItem
 {
 
 public:
-    explicit DvdButtonUnderline( const QRectF & rect, QGraphicsItem * parent = Q_NULLPTR ) : QGraphicsRectItem(rect, parent) {}
+    explicit DvdButtonUnderline(const QRectF &rect, QGraphicsItem *parent = Q_NULLPTR) : QGraphicsRectItem(rect, parent) {}
 
-    int type() const Q_DECL_OVERRIDE {
+    int type() const Q_DECL_OVERRIDE
+    {
         // Enable the use of qgraphicsitem_cast with this item.
         return UserType + 2;
     }
@@ -67,7 +67,7 @@ public:
 class DvdButton : public QGraphicsTextItem
 {
 public:
-    explicit DvdButton(const QString & text);
+    explicit DvdButton(const QString &text);
     void setTarget(int t, const QString &c);
     int target() const;
     QString command() const;
@@ -87,7 +87,7 @@ class DvdWizardMenu : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardMenu(DVDFORMAT format, QWidget * parent = Q_NULLPTR);
+    explicit DvdWizardMenu(DVDFORMAT format, QWidget *parent = Q_NULLPTR);
     virtual ~DvdWizardMenu();
     bool createMenu() const;
     void createBackgroundImage(const QString &img1, bool letterbox);

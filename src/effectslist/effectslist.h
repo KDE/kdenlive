@@ -25,11 +25,11 @@
 #ifndef EFFECTSLIST_H
 #define EFFECTSLIST_H
 
-
 #include <QDomDocument>
 
-namespace Kdenlive {
-  enum EFFECTTYPE { simpleEffect, groupEffect };
+namespace Kdenlive
+{
+enum EFFECTTYPE { simpleEffect, groupEffect };
 }
 
 class EffectsList: public QDomDocument
@@ -39,8 +39,8 @@ public:
     ~EffectsList();
     /** @brief Returns the XML element of an effect.
      * @param name name of the effect to be returned */
-    QDomElement getEffectByName(const QString & name) const;
-    QDomElement getEffectByTag(const QString & tag, const QString & id) const;
+    QDomElement getEffectByName(const QString &name) const;
+    QDomElement getEffectByTag(const QString &tag, const QString &id) const;
 
     static const int EFFECT_VIDEO = 1;
     static const int EFFECT_AUDIO = 2;
@@ -48,14 +48,14 @@ public:
     static const int EFFECT_CUSTOM = 4;
     static const int EFFECT_FAVORITES = 5;
     static const int EFFECT_FOLDER = 6;
-    static const int TRANSITION_TYPE= 7;
+    static const int TRANSITION_TYPE = 7;
 
     /** @brief Checks the existence of an effect.
      * @param tag effect tag
      * @param id effect id
      * @return effect index if the effect exists, -1 otherwise */
-    int hasEffect(const QString & tag, const QString & id) const;
-    bool hasTransition(const QString & tag) const;
+    int hasEffect(const QString &tag, const QString &id) const;
+    bool hasTransition(const QString &tag) const;
 
     /** @brief Lists the core properties of an effect.
      * @param ix effect index
@@ -65,8 +65,8 @@ public:
 
     /** @brief Lists effects names. */
     QStringList effectNames() const;
-    QString getInfo(const QString & tag, const QString & id) const;
-    QDomElement effectById(const QString & id) const;
+    QString getInfo(const QString &tag, const QString &id) const;
+    QDomElement effectById(const QString &id) const;
     QString getInfoFromIndex(const int ix) const;
     QString getEffectInfo(const QDomElement &effect) const;
     void clone(const EffectsList &original);

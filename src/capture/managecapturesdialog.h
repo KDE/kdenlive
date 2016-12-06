@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef MANAGECAPTURESDIALOG_H
 #define MANAGECAPTURESDIALOG_H
 
@@ -32,7 +31,7 @@ class ManageCapturesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ManageCapturesDialog(const QList<QUrl> &files, QWidget * parent = Q_NULLPTR);
+    explicit ManageCapturesDialog(const QList<QUrl> &files, QWidget *parent = Q_NULLPTR);
     ~ManageCapturesDialog();
     QList<QUrl> importFiles() const;
 
@@ -46,7 +45,6 @@ private:
     Ui::ManageCaptures_UI m_view;
     QPushButton *m_importButton;
 };
-
 
 #endif
 

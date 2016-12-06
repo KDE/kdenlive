@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef COLLAPSIBLEEFFECT_H
 #define COLLAPSIBLEEFFECT_H
 
@@ -43,15 +42,15 @@ class CollapsibleEffect : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget * parent = Q_NULLPTR);
+    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget *parent = Q_NULLPTR);
     ~CollapsibleEffect();
     QLabel *title;
-	
+
     void setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo);
     void updateTimecodeFormat();
     void setActive(bool activate) Q_DECL_OVERRIDE;
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
-    bool eventFilter( QObject * o, QEvent * e ) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
     /** @brief Update effect GUI to reflect parameted changes. */
     void updateWidget(const ItemInfo &info, const QDomElement &effect, EffectMetaInfo *metaInfo);
     /** @brief Returns effect xml. */
@@ -77,7 +76,7 @@ public:
     /** @brief Returns this effect's monitor scene type if any is needed. */
     MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set clip in / out points. */
-    void setRange(int inPoint , int outPoint);
+    void setRange(int inPoint, int outPoint);
     /** @brief Import keyframes from a clip's data. */
     void setKeyframes(const QString &tag, const QString &data);
     /** @brief Pass frame size info (dar, etc). */
@@ -135,14 +134,14 @@ private:
     void updateCollapsedState();
 
 protected:
-    void mouseDoubleClickEvent ( QMouseEvent * event ) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent( QMouseEvent *event ) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragLeaveEvent(QDragLeaveEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
 
 signals:
-    void parameterChanged(const QDomElement &, const QDomElement&, int);
+    void parameterChanged(const QDomElement &, const QDomElement &, int);
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix, MonitorSceneType effectNeedsMonitorScene);
     void deleteEffect(const QDomElement &);
@@ -150,17 +149,16 @@ signals:
     void checkMonitorPosition(int);
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap<QString, QString>&);
+    void startFilterJob(QMap<QString, QString> &, QMap<QString, QString> &, QMap<QString, QString> &);
     /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
     void createGroup(int ix);
     void unGroup(CollapsibleEffect *);
-    void createRegion(int, const QUrl&);
-    void deleteGroup(const QDomDocument&);
-    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString> data = QMap<QString,QString>());
+    void createRegion(int, const QUrl &);
+    void deleteGroup(const QDomDocument &);
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString, QString> data = QMap<QString, QString>());
 };
-
 
 #endif
 

@@ -28,7 +28,7 @@ class BezierSplineEditor : public QWidget
     Q_OBJECT
 
 public:
-    explicit BezierSplineEditor(QWidget* parent = Q_NULLPTR);
+    explicit BezierSplineEditor(QWidget *parent = Q_NULLPTR);
     ~BezierSplineEditor();
 
     CubicBezierSpline spline() const;
@@ -62,8 +62,8 @@ public slots:
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

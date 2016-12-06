@@ -29,8 +29,8 @@ class ColorWheel : public QWidget
 public:
     explicit ColorWheel(const QString &id, const QString &name, const QColor &color, QWidget *parent = Q_NULLPTR);
 
-    QSize sizeHint () const Q_DECL_OVERRIDE;
-    QSize minimumSizeHint () const Q_DECL_OVERRIDE;
+    QSize sizeHint() const Q_DECL_OVERRIDE;
+    QSize minimumSizeHint() const Q_DECL_OVERRIDE;
     QColor color();
     void setColor(const QColor &color);
 

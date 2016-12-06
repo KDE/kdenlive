@@ -36,7 +36,7 @@
 #include "kxmlgui_version.h"
 
 Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
-      QDialog(parent)
+    QDialog(parent)
     , m_producer(Q_NULLPTR)
     , m_timePos(Q_NULLPTR)
     , m_container(Q_NULLPTR)
@@ -73,7 +73,7 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
         m_container = new ParameterContainer(base, info, &metaInfo, frameWidget);
         connect(m_container, &ParameterContainer::parameterChanged, this, &Generators::updateProducer);
         lay->addStretch(10);
-        QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+        QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
         connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
         connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
         lay->addWidget(buttonBox);
@@ -81,10 +81,10 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
     }
 }
 
-void Generators::updateProducer(const QDomElement &, const QDomElement &effect,int)
+void Generators::updateProducer(const QDomElement &, const QDomElement &effect, int)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < params.count() ; ++i) {
+    for (int i = 0; i < params.count(); ++i) {
         QDomElement pa = params.item(i).toElement();
         QString paramName = pa.attribute(QStringLiteral("name"));
         QString paramValue = pa.attribute(QStringLiteral("value"));
@@ -96,7 +96,7 @@ void Generators::updateProducer(const QDomElement &, const QDomElement &effect,i
     m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
 }
 
-void Generators::resizeEvent(QResizeEvent * event)
+void Generators::resizeEvent(QResizeEvent *event)
 {
     QDialog::resizeEvent(event);
     m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
@@ -114,10 +114,10 @@ void Generators::getGenerators(const QStringList &producers, QMenu *menu)
     QStringList generatorFolders = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("generators"), QStandardPaths::LocateDirectory);
     QStringList filters;
     filters << QStringLiteral("*.xml");
-    foreach(const QString & folder, generatorFolders) {
+    foreach (const QString &folder, generatorFolders) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
-        foreach(const QString & fname, filesnames) {
+        foreach (const QString &fname, filesnames) {
             QPair <QString, QString> result = parseGenerator(directory.absoluteFilePath(fname), producers);
             if (!result.first.isEmpty()) {
                 QAction *action = menu->addAction(result.first);
@@ -164,8 +164,8 @@ QUrl Generators::getSavedClip(QString clipFolder)
     QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save clip"), QUrl::fromLocalFile(clipFolder), i18n("MLT playlist (*.mlt)"));
     if (url.isValid()) {
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
-    // Since Plasma 5.7 (release at same time as KF 5.23, 
-    // the file dialog manages the overwrite check
+        // Since Plasma 5.7 (release at same time as KF 5.23,
+        // the file dialog manages the overwrite check
         if (QFile::exists(url.path())) {
             if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
                 return getSavedClip(url.path());

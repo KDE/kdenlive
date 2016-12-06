@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 #include <KLocalizedString>
 
-ProjectFolderUp::ProjectFolderUp(AbstractProjectItem* parent) :
+ProjectFolderUp::ProjectFolderUp(AbstractProjectItem *parent) :
     AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), parent)
     , m_bin(Q_NULLPTR)
 {
@@ -35,7 +35,6 @@ ProjectFolderUp::ProjectFolderUp(AbstractProjectItem* parent) :
     m_name = i18n("Back");
     setParent(parent);
 }
-
 
 ProjectFolderUp::~ProjectFolderUp()
 {
@@ -47,25 +46,24 @@ void ProjectFolderUp::setCurrent(bool current, bool notify)
     Q_UNUSED(notify)
 }
 
-ProjectClip* ProjectFolderUp::clip(const QString &id)
+ProjectClip *ProjectFolderUp::clip(const QString &id)
 {
     Q_UNUSED(id)
     return Q_NULLPTR;
 }
-
 
 QString ProjectFolderUp::getToolTip() const
 {
     return i18n("Go up");
 }
 
-ProjectFolder* ProjectFolderUp::folder(const QString &id)
+ProjectFolder *ProjectFolderUp::folder(const QString &id)
 {
     Q_UNUSED(id)
     return Q_NULLPTR;
 }
 
-ProjectClip* ProjectFolderUp::clipAt(int index)
+ProjectClip *ProjectFolderUp::clipAt(int index)
 {
     Q_UNUSED(index)
     return Q_NULLPTR;
@@ -75,7 +73,7 @@ void ProjectFolderUp::disableEffects(bool)
 {
 }
 
-Bin* ProjectFolderUp::bin()
+Bin *ProjectFolderUp::bin()
 {
     if (m_bin) {
         return m_bin;
@@ -87,12 +85,12 @@ Bin* ProjectFolderUp::bin()
     }
 }
 
-QDomElement ProjectFolderUp::toXml(QDomDocument& document, bool)
+QDomElement ProjectFolderUp::toXml(QDomDocument &document, bool)
 {
     return document.documentElement();
 }
 
-bool ProjectFolderUp::rename(const QString &, int )
+bool ProjectFolderUp::rename(const QString &, int)
 {
     return false;
 }

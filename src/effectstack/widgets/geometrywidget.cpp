@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "geometrywidget.h"
 
 #include "effectstack/dragvalue.h"
@@ -37,8 +36,7 @@
 #include <QGridLayout>
 #include <QMenu>
 
-
-GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget* parent):
+GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget *parent):
     QWidget(parent),
     m_monitor(info->monitor),
     m_timePos(new TimecodeDisplay(info->monitor->timecode())),
@@ -196,7 +194,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     alignButton->setDefaultAction(fitToWidth);
     alignButton->setAutoRaise(true);
     alignLayout->addWidget(alignButton);
-    
+
     alignButton = new QToolButton;
     alignButton->setDefaultAction(fitToHeight);
     alignButton->setAutoRaise(true);
@@ -213,7 +211,6 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
     m_ui.horizontalLayout2->addWidget(m_opacity);
 
-
     if (showRotation) {
         m_rotateX = new DragValue(i18n("Rotate X"), 0, 0, -1800, 1800, -1, QString(), true, this);
         m_rotateX->setObjectName(QStringLiteral("rotate_x"));
@@ -228,7 +225,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
         connect(m_rotateY,            &DragValue::valueChanged, this, &GeometryWidget::slotUpdateGeometry);
         connect(m_rotateZ,            &DragValue::valueChanged, this, &GeometryWidget::slotUpdateGeometry);
     }
-    
+
     /*
         Setup of geometry controls
     */
@@ -241,14 +238,13 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
 
     connect(m_opacity, &DragValue::valueChanged, this, &GeometryWidget::slotSetOpacity);
-    
+
     /*connect(m_ui.buttonMoveLeft,   SIGNAL(clicked()), this, SLOT(slotMoveLeft()));
     connect(m_ui.buttonCenterH,    SIGNAL(clicked()), this, SLOT(slotCenterH()));
     connect(m_ui.buttonMoveRight,  SIGNAL(clicked()), this, SLOT(slotMoveRight()));
     connect(m_ui.buttonMoveTop,    SIGNAL(clicked()), this, SLOT(slotMoveTop()));
     connect(m_ui.buttonCenterV,    SIGNAL(clicked()), this, SLOT(slotCenterV()));
     connect(m_ui.buttonMoveBottom, SIGNAL(clicked()), this, SLOT(slotMoveBottom()));*/
-
 
     /*
         Setup of configuration controls
@@ -281,14 +277,13 @@ GeometryWidget::~GeometryWidget()
 void GeometryWidget::connectMonitor(bool activate)
 {
     if (activate) {
-	connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
-	connect(m_monitor, &Monitor::effectPointsChanged, this, &GeometryWidget::slotUpdateCenters, Qt::UniqueConnection);
+        connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
+        connect(m_monitor, &Monitor::effectPointsChanged, this, &GeometryWidget::slotUpdateCenters, Qt::UniqueConnection);
     } else {
-	disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
-	disconnect(m_monitor, &Monitor::effectPointsChanged, this, &GeometryWidget::slotUpdateCenters);
+        disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
+        disconnect(m_monitor, &Monitor::effectPointsChanged, this, &GeometryWidget::slotUpdateCenters);
     }
 }
-
 
 void GeometryWidget::slotShowPreviousKeyFrame(bool show)
 {
@@ -313,7 +308,7 @@ QString GeometryWidget::getValue() const
         return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
     }
     QString result = m_geometry->serialise();
-    if (result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"),0,0).contains(QStringLiteral("="))) {
+    if (result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"), 0, 0).contains(QStringLiteral("="))) {
         result.prepend("0=");
     }
     return result;
@@ -321,7 +316,7 @@ QString GeometryWidget::getValue() const
 
 QString GeometryWidget::offsetAnimation(int offset, bool useOffset)
 {
-    Mlt::Geometry *geometry = new Mlt::Geometry((char*)Q_NULLPTR, m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    Mlt::Geometry *geometry = new Mlt::Geometry((char *)Q_NULLPTR, m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     Mlt::GeometryItem item;
     int pos = 0;
     int ix = 0;
@@ -333,7 +328,7 @@ QString GeometryWidget::offsetAnimation(int offset, bool useOffset)
     }
     m_useOffset = useOffset;
     QString result = geometry->serialise();
-    if (!m_fixedGeom && result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"),0,0).contains(QStringLiteral("="))) {
+    if (!m_fixedGeom && result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"), 0, 0).contains(QStringLiteral("="))) {
         result.prepend("0=");
     }
     m_geometry->parse(result.toUtf8().data(), m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
@@ -361,8 +356,9 @@ QString GeometryWidget::getExtraValue(const QString &name) const
 {
     int ix = m_extraGeometryNames.indexOf(name);
     QString val = m_extraGeometries.at(ix)->serialise();
-    if (!val.contains(QStringLiteral("="))) val = val.section('/', 0, 0);
-    else {
+    if (!val.contains(QStringLiteral("="))) {
+        val = val.section('/', 0, 0);
+    } else {
         QStringList list = val.split(';', QString::SkipEmptyParts);
         val.clear();
         val.append(list.takeFirst().section('/', 0, 0));
@@ -377,10 +373,11 @@ void GeometryWidget::setupParam(const QDomElement &elem, int minframe, int maxfr
 {
     m_inPoint = minframe;
     m_outPoint = maxframe;
-    if (m_geometry)
+    if (m_geometry) {
         m_geometry->parse(elem.attribute(QStringLiteral("value")).toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
-    else
+    } else {
         m_geometry = new Mlt::Geometry(elem.attribute(QStringLiteral("value")).toUtf8().data(), maxframe - minframe, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    }
 
     if (elem.attribute(QStringLiteral("fixed")) == QLatin1String("1") || maxframe < minframe) {
         // Keyframes are disabled
@@ -422,13 +419,16 @@ void GeometryWidget::slotSyncPosition(int relTimelinePos)
 
 void GeometryWidget::slotRequestSeek(int pos)
 {
-    if (KdenliveSettings::transitionfollowcursor())
+    if (KdenliveSettings::transitionfollowcursor()) {
         emit seekToPos(pos);
+    }
 }
 
 void GeometryWidget::checkSingleKeyframe()
 {
-    if (!m_geometry) return;
+    if (!m_geometry) {
+        return;
+    }
     QString serial = m_geometry->serialise();
     m_singleKeyframe = !serial.contains(QLatin1String(";"));
 }
@@ -488,8 +488,9 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     }
     m_monitor->setUpEffectGeometry(r, calculateCenters());
     slotUpdateProperties(r);
-    if (seek && KdenliveSettings::transitionfollowcursor())
+    if (seek && KdenliveSettings::transitionfollowcursor()) {
         emit seekToPos(pos);
+    }
 }
 
 void GeometryWidget::slotInitScene(int pos)
@@ -521,19 +522,20 @@ void GeometryWidget::slotSeekToKeyframe(int index)
     slotPositionChanged(pos, true);
 }
 
-
 void GeometryWidget::slotAddKeyframe(int pos)
 {
     // "fixed" effect: don't allow keyframe (FIXME: find a better way to access this property!)
-    if (m_ui.widgetTimeWrapper->isHidden())
+    if (m_ui.widgetTimeWrapper->isHidden()) {
         return;
+    }
     Mlt::GeometryItem item;
     int seekPos;
     if (pos == -1) {
         pos = m_timeline->value();
         seekPos = pos;
-        if (m_useOffset)
+        if (m_useOffset) {
             seekPos -= m_inPoint;
+        }
     } else {
         seekPos = pos;
     }
@@ -570,15 +572,17 @@ void GeometryWidget::slotDeleteKeyframe(int pos)
     if (pos == -1) {
         pos = m_timeline->value();
         seekPos = pos;
-        if (m_useOffset)
+        if (m_useOffset) {
             seekPos -= m_inPoint;
+        }
     } else {
         seekPos = pos;
     }
     // check there is more than one keyframe, do not allow to delete last one
     if (m_geometry->next_key(&item, pos + 1)) {
-        if (m_geometry->prev_key(&item, pos - 1) || item.frame() == pos)
+        if (m_geometry->prev_key(&item, pos - 1) || item.frame() == pos) {
             return;
+        }
     }
     m_geometry->remove(pos);
     for (int i = 0; i < m_extraGeometries.count(); ++i) {
@@ -600,8 +604,9 @@ void GeometryWidget::slotPreviousKeyframe()
     int pos = 0;
     if (!m_geometry->prev_key(&item, currentPos - 1) && item.frame() < currentPos) {
         pos = item.frame();
-        if (m_useOffset)
+        if (m_useOffset) {
             pos -= m_inPoint;
+        }
     }
     // Make sure we don't seek past transition's in
     pos = qMax(pos, 0);
@@ -615,8 +620,9 @@ void GeometryWidget::slotNextKeyframe()
     int pos = m_timeline->frameLength;
     if (!m_geometry->next_key(&item, m_timeline->value() + 1)) {
         pos = item.frame();
-        if (m_useOffset)
+        if (m_useOffset) {
             pos -= m_inPoint;
+        }
     }
     // Make sure we don't seek past transition's out
     pos = qMin(pos, m_timeline->frameLength);
@@ -626,12 +632,12 @@ void GeometryWidget::slotNextKeyframe()
 void GeometryWidget::slotAddDeleteKeyframe()
 {
     Mlt::GeometryItem item;
-    if (m_geometry->fetch(&item, m_timeline->value()) || item.key() == false)
+    if (m_geometry->fetch(&item, m_timeline->value()) || item.key() == false) {
         slotAddKeyframe();
-    else
+    } else {
         slotDeleteKeyframe();
+    }
 }
-
 
 void GeometryWidget::slotUpdateGeometry()
 {
@@ -733,12 +739,15 @@ void GeometryWidget::slotUpdateCenters(const QVariantList &centers)
 
 void GeometryWidget::slotUpdateProperties(QRect rect)
 {
-    if (!rect.isValid()) rect = m_monitor->effectRect().normalized();
+    if (!rect.isValid()) {
+        rect = m_monitor->effectRect().normalized();
+    }
     double size;
-    if (rect.width() / m_monitor->render->dar() > rect.height())
+    if (rect.width() / m_monitor->render->dar() > rect.height()) {
         size = rect.width() * 100.0 / m_monitor->render->frameRenderWidth();
-    else
+    } else {
         size = rect.height() * 100.0 / m_monitor->render->renderHeight();
+    }
 
     m_spinX->blockSignals(true);
     m_spinY->blockSignals(true);
@@ -758,7 +767,6 @@ void GeometryWidget::slotUpdateProperties(QRect rect)
     m_spinHeight->blockSignals(false);
     m_spinSize->blockSignals(false);
 }
-
 
 QVariantList GeometryWidget::calculateCenters()
 {
@@ -815,7 +823,6 @@ void GeometryWidget::slotResize(double value)
     m_monitor->setUpEffectGeometry(QRect(), calculateCenters());
 }
 
-
 void GeometryWidget::slotSetOpacity(double value)
 {
     int pos = m_timePos->getValue();
@@ -833,7 +840,6 @@ void GeometryWidget::slotSetOpacity(double value)
     m_geometry->insert(item);
     emit parameterChanged();
 }
-
 
 void GeometryWidget::slotMoveLeft()
 {
@@ -865,12 +871,12 @@ void GeometryWidget::slotMoveBottom()
     m_spinY->setValue(m_monitor->render->renderHeight() - m_spinHeight->value());
 }
 
-
 void GeometryWidget::slotSetSynchronize(bool sync)
 {
     KdenliveSettings::setTransitionfollowcursor(sync);
-    if (sync)
+    if (sync) {
         emit seekToPos(m_timePos->getValue());
+    }
 }
 
 void GeometryWidget::setFrameSize(const QPoint &size)
@@ -885,7 +891,7 @@ void GeometryWidget::slotAdjustToSource()
     }
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() + 0.5));
+    m_spinWidth->setValue((int)(m_frameSize.x() / m_monitor->render->sar() + 0.5));
     m_spinHeight->setValue(m_frameSize.y());
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
@@ -904,7 +910,7 @@ void GeometryWidget::slotAdjustToFrameSize()
     if (sourceDar > monitorDar) {
         // Fit to width
         double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
-        m_spinHeight->setValue((int) (m_frameSize.y() * factor + 0.5));
+        m_spinHeight->setValue((int)(m_frameSize.y() * factor + 0.5));
         m_spinWidth->setValue(m_monitor->render->frameRenderWidth());
         // Center
         m_spinY->blockSignals(true);
@@ -914,7 +920,7 @@ void GeometryWidget::slotAdjustToFrameSize()
         // Fit to height
         double factor = (double) m_monitor->render->renderHeight() / m_frameSize.y();
         m_spinHeight->setValue(m_monitor->render->renderHeight());
-        m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
+        m_spinWidth->setValue((int)(m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
         // Center
         m_spinX->blockSignals(true);
         m_spinX->setValue((m_monitor->render->frameRenderWidth() - m_spinWidth->value()) / 2);
@@ -933,7 +939,7 @@ void GeometryWidget::slotFitToWidth()
     double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinHeight->setValue((int) (m_frameSize.y() * factor + 0.5));
+    m_spinHeight->setValue((int)(m_frameSize.y() * factor + 0.5));
     m_spinWidth->setValue(m_monitor->render->frameRenderWidth());
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
@@ -949,7 +955,7 @@ void GeometryWidget::slotFitToHeight()
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
     m_spinHeight->setValue(m_monitor->render->renderHeight());
-    m_spinWidth->setValue((int) (m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
+    m_spinWidth->setValue((int)(m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     updateMonitorGeometry();
@@ -1041,13 +1047,12 @@ void GeometryWidget::slotResetPreviousKeyframes()
     if (!m_geometry->next_key(&item, 0)) {
         item.frame(0);
         /*item.x(0);
-    item.y(0);
-    item.w(m_monitor->render->frameRenderWidth());
-    item.h(m_monitor->render->renderHeight());
-    item.mix(100);*/
+        item.y(0);
+        item.w(m_monitor->render->frameRenderWidth());
+        item.h(m_monitor->render->renderHeight());
+        item.mix(100);*/
         m_geometry->insert(item);
-    }
-    else {
+    } else {
         item.frame(0);
         item.x(0);
         item.y(0);
@@ -1064,7 +1069,9 @@ void GeometryWidget::slotResetPreviousKeyframes()
 void GeometryWidget::importKeyframes(const QString &data, int maximum)
 {
     QStringList list = data.split(';', QString::SkipEmptyParts);
-    if (list.isEmpty()) return;
+    if (list.isEmpty()) {
+        return;
+    }
     QPoint screenSize = m_frameSize;
     if (screenSize == QPoint() || screenSize.x() == 0 || screenSize.y() == 0) {
         screenSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
@@ -1084,21 +1091,20 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
         if (geom.contains('=')) {
             item.frame(geom.section('=', 0, 0).toInt());
             geom = geom.section('=', 1);
+        } else {
+            item.frame(0);
         }
-        else item.frame(0);
         if (geom.contains('/')) {
             item.x(geom.section('/', 0, 0).toDouble());
             item.y(geom.section('/', 1, 1).section(':', 0, 0).toDouble());
-        }
-        else {
+        } else {
             item.x(0);
             item.y(0);
         }
         if (geom.contains('x')) {
             item.w(geom.section('x', 0, 0).section(':', 1, 1).toDouble());
             item.h(geom.section('x', 1, 1).section(':', 0, 0).toDouble());
-        }
-        else {
+        } else {
             item.w(screenSize.x());
             item.h(screenSize.y());
         }
@@ -1118,5 +1124,4 @@ void GeometryWidget::slotUpdateRange(int inPoint, int outPoint)
     m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
     m_timePos->setRange(0, m_outPoint - m_inPoint);
 }
-
 

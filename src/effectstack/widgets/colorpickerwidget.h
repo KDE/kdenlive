@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef COLORPICKERWIDGET_H
 #define COLORPICKERWIDGET_H
 
@@ -29,15 +28,14 @@ class QFrame;
 #include <X11/Xlib.h>
 #endif
 
-
 class MyFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit MyFrame(QWidget* parent = Q_NULLPTR);
+    explicit MyFrame(QWidget *parent = Q_NULLPTR);
 
 protected:
-    void hideEvent ( QHideEvent * event ) Q_DECL_OVERRIDE;
+    void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void getColor();
@@ -48,7 +46,7 @@ signals:
  * @brief A widget to pick a color anywhere on the screen.
  * @author Till Theato
  *
- * The code is partially based on the color picker in KColorDialog. 
+ * The code is partially based on the color picker in KColorDialog.
  */
 
 class ColorPickerWidget : public QWidget
@@ -85,7 +83,7 @@ private:
 #else
     QImage m_image;
 #endif
-    
+
 private slots:
     /** @brief Sets up an event filter for picking a color. */
     void slotSetupEventFilter();
@@ -94,8 +92,8 @@ private slots:
     void slotGetAverageColor();
 
 signals:
-    void colorPicked(const QColor&);
-    void displayMessage(const QString&, int);
+    void colorPicked(const QColor &);
+    void displayMessage(const QString &, int);
     /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
     void disableCurrentFilter(bool);
 };

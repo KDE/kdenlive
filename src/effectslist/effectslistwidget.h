@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef EFFECTSLISTWIDGET_H
 #define EFFECTSLISTWIDGET_H
 
@@ -32,7 +31,7 @@ class EffectsListWidget : public QTreeWidget
 {
     Q_OBJECT
 
-    public:
+public:
     static const int TypeRole = Qt::UserRole;
     static const int IdRole = TypeRole + 1;
 
@@ -50,7 +49,7 @@ class EffectsListWidget : public QTreeWidget
 
 protected:
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
-    void contextMenuEvent(QContextMenuEvent * event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
     QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
@@ -61,7 +60,7 @@ private:
 
     /** @brief Loads the effects from the given effectlist as item of this widget.
      * @param effectlist effectlist containing the effects that should be loaded
-     * @param defaultFolder parent item which will be used by default 
+     * @param defaultFolder parent item which will be used by default
      * @param folders list of folders which might be used instead for specific effects
      * @param type type of the effects
      * @param current name of selected effect before reload; if an effect name matches this one it will become selected
@@ -71,7 +70,7 @@ private:
     QIcon generateIcon(int size, const QString &name, QDomElement info);
 
 private slots:
-    void slotExpandItem(const QModelIndex & index);
+    void slotExpandItem(const QModelIndex &index);
 
 signals:
     void applyEffect(const QDomElement);

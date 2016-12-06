@@ -34,16 +34,16 @@ class GraphicsSceneRectMove;
 class QGraphicsRectItem;
 class QGraphicsView;
 
-namespace Mlt {
-    class Profile;
+namespace Mlt
+{
+class Profile;
 }
-
 
 class Geometryval : public QWidget, public Ui::Geometryval
 {
     Q_OBJECT
 public:
-    explicit Geometryval(const Mlt::Profile *profile, const Timecode &t, const QPoint &frame_size, int startPoint = 0, QWidget* parent = Q_NULLPTR);
+    explicit Geometryval(const Mlt::Profile *profile, const Timecode &t, const QPoint &frame_size, int startPoint = 0, QWidget *parent = Q_NULLPTR);
     virtual ~Geometryval();
     QDomElement getParamDesc();
     QString getValue() const;

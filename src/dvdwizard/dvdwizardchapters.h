@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef DVDWIZARDCHAPTERS_H
 #define DVDWIZARDCHAPTERS_H
 
@@ -28,13 +27,12 @@
 
 #include <QWizardPage>
 
-
 class DvdWizardChapters : public QWizardPage
 {
     Q_OBJECT
 
 public:
-    explicit DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget * parent = Q_NULLPTR);
+    explicit DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent = Q_NULLPTR);
     virtual ~DvdWizardChapters();
     void changeProfile(DVDFORMAT format);
     void setPal(bool isPal);

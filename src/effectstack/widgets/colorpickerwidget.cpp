@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "colorpickerwidget.h"
 #include "utils/KoIconUtils.h"
 
@@ -34,9 +33,9 @@
 #ifdef Q_WS_X11
 #include <X11/Xutil.h>
 #include <fixx11h.h>
-#endif 
+#endif
 
-MyFrame::MyFrame(QWidget* parent) :
+MyFrame::MyFrame(QWidget *parent) :
     QFrame(parent)
 {
     setFrameStyle(QFrame::Box | QFrame::Plain);
@@ -45,7 +44,7 @@ MyFrame::MyFrame(QWidget* parent) :
 }
 
 // virtual
-void MyFrame::hideEvent ( QHideEvent * event )
+void MyFrame::hideEvent(QHideEvent *event)
 {
     QFrame::hideEvent(event);
     // We need a timer here since hiding the frame will trigger a monitor refresh timer that will
@@ -53,10 +52,9 @@ void MyFrame::hideEvent ( QHideEvent * event )
     QTimer::singleShot(250, this, &MyFrame::getColor);
 }
 
-
 ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
-        QWidget(parent),
-        m_filterActive(false)
+    QWidget(parent),
+    m_filterActive(false)
 {
 #ifdef Q_WS_X11
     m_image = Q_NULLPTR;
@@ -81,7 +79,9 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 ColorPickerWidget::~ColorPickerWidget()
 {
     delete m_grabRectFrame;
-    if (m_filterActive) removeEventFilter(this);
+    if (m_filterActive) {
+        removeEventFilter(this);
+    }
 }
 
 void ColorPickerWidget::slotGetAverageColor()
@@ -96,8 +96,9 @@ void ColorPickerWidget::slotGetAverageColor()
     int sumB = 0;
 
     // only show message for larger rects because of the overhead displayMessage creates
-    if (numPixel > 40000)
+    if (numPixel > 40000) {
         emit displayMessage(i18n("Requesting color information..."), 0);
+    }
 
     /*
      Only getting the image once for the whole rect
@@ -122,8 +123,9 @@ void ColorPickerWidget::slotGetAverageColor()
         }
 
         // Warning: slows things down, so don't do it for every pixel (the inner for loop)
-        if (numPixel > 40000)
+        if (numPixel > 40000) {
             emit displayMessage(i18n("Requesting color information..."), (int)(x * m_grabRect.height() / (qreal)numPixel * 100));
+        }
     }
 
 #ifdef Q_WS_X11
@@ -131,18 +133,19 @@ void ColorPickerWidget::slotGetAverageColor()
     m_image = Q_NULLPTR;
 #endif
 
-    if (numPixel > 40000)
+    if (numPixel > 40000) {
         emit displayMessage(i18n("Calculated average color for rectangle."), -1);
+    }
 
     emit colorPicked(QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel));
     emit disableCurrentFilter(false);
 }
 
-void ColorPickerWidget::mousePressEvent(QMouseEvent* event)
+void ColorPickerWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton) {
         closeEventFilter();
-	emit disableCurrentFilter(false);
+        emit disableCurrentFilter(false);
         event->accept();
         return;
     }
@@ -166,20 +169,20 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
         m_grabRect = m_grabRect.normalized();
 
         if (m_grabRect.width() * m_grabRect.height() == 0) {
-	    m_grabRectFrame->hide();
+            m_grabRectFrame->hide();
             emit colorPicked(grabColor(event->globalPos()));
-	    emit disableCurrentFilter(false);
+            emit disableCurrentFilter(false);
         } else {
             // delay because m_grabRectFrame does not hide immediately
             connect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
-	    m_grabRectFrame->hide();
+            m_grabRectFrame->hide();
         }
         return;
     }
     QWidget::mouseReleaseEvent(event);
 }
 
-void ColorPickerWidget::mouseMoveEvent(QMouseEvent* event)
+void ColorPickerWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (m_filterActive) {
         m_grabRect.setWidth(event->globalX() - m_grabRect.x());
@@ -212,7 +215,7 @@ bool ColorPickerWidget::eventFilter(QObject *object, QEvent *event)
     // Close color picker on any key press
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::ShortcutOverride) {
         closeEventFilter();
-	emit disableCurrentFilter(false);
+        emit disableCurrentFilter(false);
         event->setAccepted(true);
         return true;
     }
@@ -228,8 +231,9 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
      return from QPixmap::grabWindow in the case where the application is using
      an argb visual
     */
-    if( !qApp->desktop()->geometry().contains( p ))
+    if (!qApp->desktop()->geometry().contains(p)) {
         return QColor();
+    }
     unsigned long xpixel;
     if (m_image == Q_NULLPTR) {
         Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
@@ -258,8 +262,9 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
             QPixmap pm = currentScreen->grabWindow(0, p.x(), p.y(), 1, 1);
             QImage i = pm.toImage();
             return i.pixel(0, 0);
+        } else {
+            return qRgb(0, 0, 0);
         }
-        else return qRgb(0, 0, 0);
     } else {
         return m_image.pixel(p.x(), p.y());
     }

@@ -50,23 +50,23 @@ void initEffects::refreshLumas()
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     customLumas.append(QString(mlt_environment("MLT_DATA")) + "/lumas");
-    foreach(const QString &folder, customLumas) {
+    foreach (const QString &folder, customLumas) {
         QDir topDir(folder);
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-        foreach(const QString &f, folders) {
+        foreach (const QString &f, folders) {
             QDir dir(topDir.absoluteFilePath(f));
             QStringList filesnames = dir.entryList(fileFilters, QDir::Files);
             if (MainWindow::m_lumaFiles.contains(f)) {
                 imagefiles = MainWindow::m_lumaFiles.value(f);
             }
-            foreach(const QString & fname, filesnames) {
+            foreach (const QString &fname, filesnames) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
             MainWindow::m_lumaFiles.insert(f, imagefiles);
         }
     }
     /*
-    
+
     QStringList imagenamelist = QStringList() << i18n("None");
     QStringList imagefiles = QStringList() << QString();
     QStringList filters;
@@ -115,7 +115,7 @@ void initEffects::refreshLumas()
 }
 
 // static
-QDomDocument initEffects::getUsedCustomEffects(const QMap<QString, QString>& effectids)
+QDomDocument initEffects::getUsedCustomEffects(const QMap<QString, QString> &effectids)
 {
     QMapIterator<QString, QString> i(effectids);
     QDomDocument doc;
@@ -133,7 +133,7 @@ QDomDocument initEffects::getUsedCustomEffects(const QMap<QString, QString>& eff
 }
 
 //static
-bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &locale)
+bool initEffects::parseEffectFiles(Mlt::Repository *repository, const QString &locale)
 {
     bool movit = false;
     QStringList::Iterator more;
@@ -160,8 +160,9 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     QStringList filtersList;
     int max = filters->count();
     filtersList.reserve(max);
-    for (int i = 0; i < max; ++i)
+    for (int i = 0; i < max; ++i) {
         filtersList << filters->get_name(i);
+    }
     delete filters;
 
     // Retrieve the list of available producers.
@@ -169,8 +170,9 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     QStringList producersList;
     max = producers->count();
     producersList.reserve(max);
-    for (int i = 0; i < max; ++i)
+    for (int i = 0; i < max; ++i) {
         producersList << producers->get_name(i);
+    }
     KdenliveSettings::setProducerslist(producersList);
     delete producers;
 
@@ -179,12 +181,14 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         QStringList consumersList;
         max = consumers->count();
         consumersList.reserve(max);
-        for (int i = 0; i < max; ++i)
+        for (int i = 0; i < max; ++i) {
             consumersList << consumers->get_name(i);
+        }
         delete consumers;
         movit = true;
+    } else {
+        KdenliveSettings::setGpu_accel(false);
     }
-    else KdenliveSettings::setGpu_accel(false);
 
     // Retrieve the list of available transitions.
     Mlt::Properties *transitions = repository->transitions();
@@ -198,7 +202,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
 
     // Create structure holding all transitions descriptions so that if an XML file has no description, we take it from MLT
     QMap<QString, QString> transDescriptions;
-    foreach(const QString & transname, transitionsItemList) {
+    foreach (const QString &transname, transitionsItemList) {
         QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("transitions"), transname);
         if (!doc.isNull()) {
             if (doc.elementsByTagName(QStringLiteral("description")).count() > 0) {
@@ -235,8 +239,9 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         while (!in.atEnd()) {
             QString black = in.readLine().simplified();
             if (!black.isEmpty() && !black.startsWith('#') &&
-                    transitionsItemList.contains(black))
+                    transitionsItemList.contains(black)) {
                 transitionsItemList.removeAll(black);
+            }
         }
         file.close();
     }
@@ -256,7 +261,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
                     mltFiltersList.contains(black)) {
                 mltFiltersList.removeAll(black);
                 mltBlackList << black;
-	    }
+            }
         }
         file2.close();
     }
@@ -282,13 +287,14 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         effectsMap.insert(effectInfo.firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::transitions.clearList();
-    foreach(const QDomElement & effect, effectsMap)
+    foreach (const QDomElement &effect, effectsMap) {
         MainWindow::transitions.append(effect);
+    }
     effectsMap.clear();
 
     // Create structure holding all effects descriptions so that if an XML effect has no description, we take it from MLT
     QMap<QString, QString> effectDescriptions;
-    foreach(const QString & filtername, mltBlackList) {
+    foreach (const QString &filtername, mltBlackList) {
         QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("filters"), filtername);
         if (!doc.isNull()) {
             if (doc.elementsByTagName(QStringLiteral("description")).count() > 0) {
@@ -306,7 +312,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     }
 
     // Create effects from MLT
-    foreach(const QString & filtername, mltFiltersList) {
+    foreach (const QString &filtername, mltFiltersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("filters"), filtername);
         //WARNING: TEMPORARY FIX for empty MLT effects descriptions - disable effects without parameters - jbm 09-06-2011
         if (!doc.isNull() && doc.elementsByTagName(QStringLiteral("parameter")).count() > 0) {
@@ -316,14 +322,13 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
                     //WARNING: TEMPORARY FIX for unusable MLT SOX parameters description
                     if (desc.startsWith(QLatin1String("Process audio using a SoX"))) {
                         // Remove MLT's SOX generated effects since the parameters properties are unusable for us
+                    } else {
+                        audioEffectsMap.insert(doc.documentElement().firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), doc.documentElement());
                     }
-                    else {
-			audioEffectsMap.insert(doc.documentElement().firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), doc.documentElement());
-		    }
                 }
-            }
-            else
+            } else {
                 videoEffectsMap.insert(doc.documentElement().firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), doc.documentElement());
+            }
         }
     }
 
@@ -348,14 +353,16 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     max = MainWindow::customEffects.count();
     for (int i = 0; i < max; ++i) {
         effectInfo = MainWindow::customEffects.at(i);
-	if (effectInfo.tagName() == QLatin1String("effectgroup")) {
-	    effectsMap.insert(effectInfo.attribute(QStringLiteral("name")).toUtf8().data(), effectInfo);
-	}
-        else effectsMap.insert(effectInfo.firstChildElement(QStringLiteral("name")).text().toUtf8().data(), effectInfo);
+        if (effectInfo.tagName() == QLatin1String("effectgroup")) {
+            effectsMap.insert(effectInfo.attribute(QStringLiteral("name")).toUtf8().data(), effectInfo);
+        } else {
+            effectsMap.insert(effectInfo.firstChildElement(QStringLiteral("name")).text().toUtf8().data(), effectInfo);
+        }
     }
     MainWindow::customEffects.clearList();
-    foreach(const QDomElement & effect, effectsMap)
+    foreach (const QDomElement &effect, effectsMap) {
         MainWindow::customEffects.append(effect);
+    }
     effectsMap.clear();
 
     // Create audio effects
@@ -365,8 +372,9 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         audioEffectsMap.insert(effectInfo.firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::audioEffects.clearList();
-    foreach(const QDomElement & effect, audioEffectsMap)
+    foreach (const QDomElement &effect, audioEffectsMap) {
         MainWindow::audioEffects.append(effect);
+    }
 
     // Create video effects
     max = MainWindow::videoEffects.count();
@@ -375,9 +383,10 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
         videoEffectsMap.insert(effectInfo.firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::videoEffects.clearList();
-    foreach(const QDomElement & effect, videoEffectsMap)
+    foreach (const QDomElement &effect, videoEffectsMap) {
         MainWindow::videoEffects.append(effect);
-    
+    }
+
     return movit;
 }
 
@@ -404,27 +413,29 @@ void initEffects::parseCustomEffectsFile()
     QDomNodeList effects;
     QDomElement e;
     int unknownGroupCount = 0;
-    foreach(const QString & filename, fileList) {
+    foreach (const QString &filename, fileList) {
         QString itemName = directory.absoluteFilePath(filename);
         QFile file(itemName);
         doc.setContent(&file, false);
         file.close();
-	QDomElement base = doc.documentElement();
+        QDomElement base = doc.documentElement();
         if (base.tagName() == QLatin1String("effectgroup")) {
-	    QString groupName = base.attribute(QStringLiteral("name"));
-	    if (groupName.isEmpty()) {
-		groupName = i18n("Group %1", unknownGroupCount);
-		base.setAttribute(QStringLiteral("name"), groupName);
-		unknownGroupCount++;
-	    }
-	    effectsMap.insert(groupName.toLower().toUtf8().data(), base);
+            QString groupName = base.attribute(QStringLiteral("name"));
+            if (groupName.isEmpty()) {
+                groupName = i18n("Group %1", unknownGroupCount);
+                base.setAttribute(QStringLiteral("name"), groupName);
+                unknownGroupCount++;
+            }
+            effectsMap.insert(groupName.toLower().toUtf8().data(), base);
         } else if (base.tagName() == QLatin1String("effect")) {
             effectsMap.insert(base.firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), base);
+        } else {
+            qCDebug(KDENLIVE_LOG) << "Unsupported effect file: " << itemName;
         }
-        else qCDebug(KDENLIVE_LOG) << "Unsupported effect file: " << itemName;
     }
-    foreach(const QDomElement & effect, effectsMap)
+    foreach (const QDomElement &effect, effectsMap) {
         MainWindow::customEffects.append(effect);
+    }
 }
 
 // static
@@ -441,16 +452,18 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     effects = doc.elementsByTagName(QStringLiteral("effect"));
     int i = effects.count();
     if (i == 0) {
-        qCDebug(KDENLIVE_LOG) << "+++++++++++++\nEffect broken: " << name<<"\n+++++++++++";;
+        qCDebug(KDENLIVE_LOG) << "+++++++++++++\nEffect broken: " << name << "\n+++++++++++";;
         return;
     }
 
     bool needsLocaleConversion = false;
     i--;
-    for (; i >= 0 ; i--) {
+    for (; i >= 0; i--) {
         QLocale locale;
         QDomNode n = effects.item(i);
-        if (n.isNull()) continue;
+        if (n.isNull()) {
+            continue;
+        }
         documentElement = n.toElement();
         QString tag = documentElement.attribute(QStringLiteral("tag"), QString());
         QString id = documentElement.hasAttribute(QStringLiteral("id")) ? documentElement.attribute(QStringLiteral("id")) : tag;
@@ -488,11 +501,11 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
                 for (int k = 0; k < attrs.count(); ++k) {
                     QString nodeName = attrs.item(k).nodeName();
                     if (nodeName != QLatin1String("type") && nodeName != QLatin1String("name")) {
-                            QString val = attrs.item(k).nodeValue();
-                            if (val.contains(oldSeparator)) {
-                                QString newVal = val.replace(oldSeparator, separator);
-                                attrs.item(k).setNodeValue(newVal);
-                            }
+                        QString val = attrs.item(k).nodeValue();
+                        if (val.contains(oldSeparator)) {
+                            QString newVal = val.replace(oldSeparator, separator);
+                            attrs.item(k).setNodeValue(newVal);
+                        }
                     }
                 }
             }
@@ -520,28 +533,29 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
         // Parse effect information.
         if (base.tagName() != QLatin1String("effectgroup") && (filtersList.contains(tag) || producersList.contains(tag))) {
             QString type = documentElement.attribute(QStringLiteral("type"), QString());
-            if (type == QLatin1String("audio"))
+            if (type == QLatin1String("audio")) {
                 audioEffectList->append(documentElement);
-            else if (type == QLatin1String("custom")) {
+            } else if (type == QLatin1String("custom")) {
                 customEffectList->append(documentElement);
-            }
-            else
+            } else {
                 videoEffectList->append(documentElement);
+            }
             addedTags << id;
         }
     }
     if (base.tagName() == QLatin1String("effectgroup")) {
-	QString type = base.attribute(QStringLiteral("type"), QString());
-        if (type == QLatin1String("audio"))
+        QString type = base.attribute(QStringLiteral("type"), QString());
+        if (type == QLatin1String("audio")) {
             audioEffectList->append(base);
-        else if (type == QLatin1String("custom"))
-	    customEffectList->append(base);
-        else
-	    videoEffectList->append(base);
+        } else if (type == QLatin1String("custom")) {
+            customEffectList->append(base);
+        } else {
+            videoEffectList->append(base);
+        }
     }
 }
 
-QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, const QString& /*type*/, const QString& filtername)
+QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository *repository, const QString & /*type*/, const QString &filtername)
 {
 
     QDomDocument ret;
@@ -575,7 +589,9 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             eff.appendChild(version);
 
             Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
-            if (QString(tags.get(0)) == QLatin1String("Audio")) eff.setAttribute(QStringLiteral("type"), QStringLiteral("audio"));
+            if (QString(tags.get(0)) == QLatin1String("Audio")) {
+                eff.setAttribute(QStringLiteral("type"), QStringLiteral("audio"));
+            }
             /*for (int i = 0; i < tags.count(); ++i)
                 //qCDebug(KDENLIVE_LOG)<<tags.get_name(i)<<"="<<tags.get(i);*/
 
@@ -585,33 +601,37 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 
                 Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(j)));
                 params.setAttribute(QStringLiteral("name"), paramdesc.get("identifier"));
-		if (params.attribute(QStringLiteral("name")) == QLatin1String("argument")) {
-		    // This parameter has to be given as attribute when using command line, do not show it in Kdenlive
-		    continue;
-		}
-		
-		if (paramdesc.get("readonly") && !strcmp(paramdesc.get("readonly"), "yes")) {
+                if (params.attribute(QStringLiteral("name")) == QLatin1String("argument")) {
+                    // This parameter has to be given as attribute when using command line, do not show it in Kdenlive
+                    continue;
+                }
+
+                if (paramdesc.get("readonly") && !strcmp(paramdesc.get("readonly"), "yes")) {
                     // Do not expose readonly parameters
                     continue;
                 }
 
-                if (paramdesc.get("maximum")) params.setAttribute(QStringLiteral("max"), paramdesc.get("maximum"));
-                if (paramdesc.get("minimum")) params.setAttribute(QStringLiteral("min"), paramdesc.get("minimum"));
+                if (paramdesc.get("maximum")) {
+                    params.setAttribute(QStringLiteral("max"), paramdesc.get("maximum"));
+                }
+                if (paramdesc.get("minimum")) {
+                    params.setAttribute(QStringLiteral("min"), paramdesc.get("minimum"));
+                }
 
                 QString paramType = paramdesc.get("type");
                 if (paramType == QLatin1String("integer")) {
-		    if (params.attribute(QStringLiteral("min")) == QLatin1String("0") && params.attribute(QStringLiteral("max")) == QLatin1String("1"))
-			params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
-                    else params.setAttribute(QStringLiteral("type"), QStringLiteral("constant"));
-		}
-                else if (paramType == QLatin1String("float")) {
+                    if (params.attribute(QStringLiteral("min")) == QLatin1String("0") && params.attribute(QStringLiteral("max")) == QLatin1String("1")) {
+                        params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
+                    } else {
+                        params.setAttribute(QStringLiteral("type"), QStringLiteral("constant"));
+                    }
+                } else if (paramType == QLatin1String("float")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("constant"));
                     // param type is float, set default decimals to 3
                     params.setAttribute(QStringLiteral("decimals"), QStringLiteral("3"));
-                }
-                else if (paramType == QLatin1String("boolean"))
+                } else if (paramType == QLatin1String("boolean")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
-                else if (paramType == QLatin1String("geometry")) {
+                } else if (paramType == QLatin1String("geometry")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("geometry"));
                 } else if (paramType == QLatin1String("string")) {
                     // string parameter are not really supported, so if we have a default value, enforce it
@@ -626,10 +646,14 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                     }
                 } else {
                     params.setAttribute(QStringLiteral("type"), paramType);
-                    if (!QString(paramdesc.get("format")).isEmpty()) params.setAttribute(QStringLiteral("format"), paramdesc.get("format"));
+                    if (!QString(paramdesc.get("format")).isEmpty()) {
+                        params.setAttribute(QStringLiteral("format"), paramdesc.get("format"));
+                    }
                 }
                 if (!params.hasAttribute(QStringLiteral("value"))) {
-                    if (paramdesc.get("default")) params.setAttribute(QStringLiteral("default"), paramdesc.get("default"));
+                    if (paramdesc.get("default")) {
+                        params.setAttribute(QStringLiteral("default"), paramdesc.get("default"));
+                    }
                     if (paramdesc.get("value")) {
                         params.setAttribute(QStringLiteral("value"), paramdesc.get("value"));
                     } else {
@@ -643,12 +667,12 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                     pname.appendChild(ret.createTextNode(paramName));
                     params.appendChild(pname);
                 }
-		
-		if (paramdesc.get("description")) {
-		    QDomElement desc = ret.createElement(QStringLiteral("comment"));
-		    desc.appendChild(ret.createTextNode(paramdesc.get("description")));
-		    params.appendChild(desc);
-		}
+
+                if (paramdesc.get("description")) {
+                    QDomElement desc = ret.createElement(QStringLiteral("comment"));
+                    desc.appendChild(ret.createTextNode(paramdesc.get("description")));
+                    params.appendChild(desc);
+                }
 
                 eff.appendChild(params);
             }
@@ -668,18 +692,20 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 {
     // Remove transitions that are not implemented.
     int pos = names.indexOf(QStringLiteral("mix"));
-    if (pos != -1)
+    if (pos != -1) {
         names.takeAt(pos);
+    }
     // Remove unused luma transition, replaced with a custom composite Wipe transition
     pos = names.indexOf(QStringLiteral("luma"));
-    if (pos != -1)
+    if (pos != -1) {
         names.takeAt(pos);
+    }
 
     //WARNING: this is a hack to get around temporary invalid metadata in MLT, 2nd of june 2011 JBM
     QStringList customTransitions;
     customTransitions << QStringLiteral("composite") << QStringLiteral("affine") << QStringLiteral("mix") << QStringLiteral("region");
 
-    foreach(const QString & name, names) {
+    foreach (const QString &name, names) {
         QDomDocument ret;
         QDomElement ktrans = ret.createElement(QStringLiteral("transition"));
         ret.appendChild(ktrans);
@@ -690,12 +716,15 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         ktrans.appendChild(tname);
         ktrans.appendChild(desc);
         Mlt::Properties *metadata = Q_NULLPTR;
-        if (!customTransitions.contains(name)) metadata = repository->metadata(transition_type, name.toUtf8().data());
+        if (!customTransitions.contains(name)) {
+            metadata = repository->metadata(transition_type, name.toUtf8().data());
+        }
         if (metadata && metadata->is_valid()) {
             // If possible, set name and description.
             //qCDebug(KDENLIVE_LOG)<<" / / FOUND TRANS: "<<metadata->get("title");
-            if (metadata->get("title") && metadata->get("identifier"))
+            if (metadata->get("title") && metadata->get("identifier")) {
                 tname.appendChild(ret.createTextNode(metadata->get("title")));
+            }
             desc.appendChild(ret.createTextNode(metadata->get("description")));
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
@@ -706,38 +735,41 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
 
                 params.setAttribute(QStringLiteral("name"), paramdesc.get("identifier"));
 
-                if (paramdesc.get("maximum"))
+                if (paramdesc.get("maximum")) {
                     params.setAttribute(QStringLiteral("max"), paramdesc.get_double("maximum"));
-                if (paramdesc.get("minimum"))
+                }
+                if (paramdesc.get("minimum")) {
                     params.setAttribute(QStringLiteral("min"), paramdesc.get_double("minimum"));
-                if (paramdesc.get("default"))
+                }
+                if (paramdesc.get("default")) {
                     params.setAttribute(QStringLiteral("default"), paramdesc.get("default"));
+                }
                 if (QString(paramdesc.get("type")) == QLatin1String("integer")) {
-                    if (params.attribute(QStringLiteral("min")) == QLatin1String("0") && params.attribute(QStringLiteral("max")) == QLatin1String("1"))
+                    if (params.attribute(QStringLiteral("min")) == QLatin1String("0") && params.attribute(QStringLiteral("max")) == QLatin1String("1")) {
                         params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
-                    else {
+                    } else {
                         params.setAttribute(QStringLiteral("type"), QStringLiteral("constant"));
                         params.setAttribute(QStringLiteral("factor"), QStringLiteral("100"));
                     }
-                }
-                else if (QString(paramdesc.get("type")) == QLatin1String("float")) {
+                } else if (QString(paramdesc.get("type")) == QLatin1String("float")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("double"));
                     if (paramdesc.get_int("maximum") == 1) {
                         params.setAttribute(QStringLiteral("factor"), 100);
                         params.setAttribute(QStringLiteral("max"), 100);
                         params.setAttribute(QStringLiteral("default"), paramdesc.get_double("default") * 100);
                     }
-                }
-                else if (QString(paramdesc.get("type")) == QLatin1String("boolean"))
+                } else if (QString(paramdesc.get("type")) == QLatin1String("boolean")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
+                }
                 if (!QString(paramdesc.get("format")).isEmpty()) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("complex"));
                     params.setAttribute(QStringLiteral("format"), paramdesc.get("format"));
                 }
-                if (paramdesc.get("value"))
+                if (paramdesc.get("value")) {
                     params.setAttribute(QStringLiteral("value"), paramdesc.get("value"));
-                else
+                } else {
                     params.setAttribute(QStringLiteral("value"), params.attribute(QStringLiteral("default")));
+                }
 
                 QDomElement pname = ret.createElement(QStringLiteral("name"));
                 pname.appendChild(ret.createTextNode(paramdesc.get("title")));
@@ -813,8 +845,9 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 paramList.append(quickParameterFill(ret, i18n("Force Progressive Rendering"), QStringLiteral("composite.progressive"), QStringLiteral("bool"), QStringLiteral("1"), QStringLiteral("0"), QStringLiteral("1")));
                 paramList.append(quickParameterFill(ret, i18n("Force Deinterlace Overlay"), QStringLiteral("composite.deinterlace"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
             }
-            foreach(const QDomElement & e, paramList)
-            ktrans.appendChild(e);
+            foreach (const QDomElement &e, paramList) {
+                ktrans.appendChild(e);
+            }
         }
         delete metadata;
         metadata = 0;
@@ -838,7 +871,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
     transitions->append(ret.documentElement());*/
 }
 
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &name, const QString &tag, const QString &type, const QString &def, const QString &min, const QString &max, const QString &list, const QString &listdisplaynames, const QString &factor, const QString &opacity)
+QDomElement initEffects::quickParameterFill(QDomDocument &doc, const QString &name, const QString &tag, const QString &type, const QString &def, const QString &min, const QString &max, const QString &list, const QString &listdisplaynames, const QString &factor, const QString &opacity)
 {
     QDomElement parameter = doc.createElement(QStringLiteral("parameter"));
     parameter.setAttribute(QStringLiteral("tag"), tag);
@@ -848,14 +881,18 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
     parameter.setAttribute(QStringLiteral("name"), tag);
     parameter.setAttribute(QStringLiteral("max"), max);
     parameter.setAttribute(QStringLiteral("min"), min);
-    if (!list.isEmpty())
+    if (!list.isEmpty()) {
         parameter.setAttribute(QStringLiteral("paramlist"), list);
-    if (!listdisplaynames.isEmpty())
+    }
+    if (!listdisplaynames.isEmpty()) {
         parameter.setAttribute(QStringLiteral("paramlistdisplay"), listdisplaynames);
-    if (!factor.isEmpty())
+    }
+    if (!factor.isEmpty()) {
         parameter.setAttribute(QStringLiteral("factor"), factor);
-    if (!opacity.isEmpty())
+    }
+    if (!opacity.isEmpty()) {
         parameter.setAttribute(QStringLiteral("opacity"), opacity);
+    }
     QDomElement pname = doc.createElement(QStringLiteral("name"));
     pname.appendChild(doc.createTextNode(name));
     parameter.appendChild(pname);
@@ -882,16 +919,18 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
     effects = doc.elementsByTagName(QStringLiteral("transition"));
     int i = effects.count();
     if (i == 0) {
-        qCDebug(KDENLIVE_LOG) << "+++++++++++++Transition broken: " << name<<"\n+++++++++++";;
+        qCDebug(KDENLIVE_LOG) << "+++++++++++++Transition broken: " << name << "\n+++++++++++";;
         return;
     }
 
     bool needsLocaleConversion = false;
     i--;
-    for (; i >= 0 ; i--) {
+    for (; i >= 0; i--) {
         QLocale locale;
         QDomNode n = effects.item(i);
-        if (n.isNull()) continue;
+        if (n.isNull()) {
+            continue;
+        }
         documentElement = n.toElement();
         QString tag = documentElement.attribute(QStringLiteral("tag"));
         if (!installedTransitions.contains(tag)) {
@@ -933,11 +972,11 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
                 for (int k = 0; k < attrs.count(); ++k) {
                     QString nodeName = attrs.item(k).nodeName();
                     if (nodeName != QLatin1String("type") && nodeName != QLatin1String("name")) {
-                            QString val = attrs.item(k).nodeValue();
-                            if (val.contains(oldSeparator)) {
-                                QString newVal = val.replace(oldSeparator, separator);
-                                attrs.item(k).setNodeValue(newVal);
-                            }
+                        QString val = attrs.item(k).nodeValue();
+                        if (val.contains(oldSeparator)) {
+                            QString newVal = val.replace(oldSeparator, separator);
+                            attrs.item(k).setNodeValue(newVal);
+                        }
                     }
                 }
             }
@@ -948,7 +987,9 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
         if (metadata && metadata->is_valid()) {
             version = metadata->get_double("version");
         }
-        if (metadata) delete metadata;
+        if (metadata) {
+            delete metadata;
+        }
 
         if (documentElement.hasAttribute(QStringLiteral("version"))) {
             // a specific version of the filter is required
@@ -966,5 +1007,4 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
     }
     transitionList->append(base);
 }
-
 

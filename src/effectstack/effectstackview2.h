@@ -3,7 +3,7 @@
                              -------------------
     begin                : Feb 15 2008
     copyright            : (C) 2008 by Marco Gittler (g.marco@freenet.de)
-    copyright            : (C) 2012 by Jean-Baptiste Mardelle (jb@kdenlive.org) 
+    copyright            : (C) 2012 by Jean-Baptiste Mardelle (jb@kdenlive.org)
  ***************************************************************************/
 
 /***************************************************************************
@@ -37,7 +37,6 @@ class TransitionSettings;
 class ClipController;
 class Monitor;
 
-
 class EffectStackView2 : public QWidget
 {
     Q_OBJECT
@@ -47,7 +46,7 @@ public:
     virtual ~EffectStackView2();
 
     /** @brief Raises @param dock if a clip is loaded. */
-    void raiseWindow(QWidget* dock);
+    void raiseWindow(QWidget *dock);
 
     /** @brief return the current status of effect stack (timeline clip, track or master clip). */
     EFFECTMODE effectStatus() const;
@@ -61,7 +60,7 @@ public:
     void updateTimecodeFormat();
 
     /** @brief Used to trigger drag effects. */
-    bool eventFilter( QObject * o, QEvent * e ) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
 
     CollapsibleEffect *getEffectByIndex(int ix);
 
@@ -89,7 +88,7 @@ public:
     /** @brief Dis/Enable the effect stack */
     void disableBinEffects(bool disable);
     void disableTimelineEffects(bool disable);
-    
+
     enum STACKSTATUS {
         NORMALSTATUS = 0,
         DISABLEBIN = 1,
@@ -98,14 +97,14 @@ public:
     };
 
 protected:
-    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void resizeEvent ( QResizeEvent * event ) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
-  
+
 private:
-    ClipItem* m_clipref;
+    ClipItem *m_clipref;
     ClipController *m_masterclipref;
     /** @brief Current status of the effect stack (if it contains a timeline clip, track or master clip effect. */
     EFFECTMODE m_status;
@@ -131,7 +130,7 @@ private:
     /** If in track mode: Info of the edited track to be able to access its duration. */
     TrackInfo m_trackInfo;
 
-    QList <CollapsibleEffect*> m_effects;
+    QList <CollapsibleEffect *> m_effects;
     EffectsList m_currentEffectList;
 
     QVBoxLayout m_layout;
@@ -144,13 +143,12 @@ private:
     /** @brief The last mouse click position, used to detect drag events. */
     QPoint m_clickPoint;
 
-
     /** @brief Sets the list of effects according to the clip's effect list. */
     void setupListView();
 
     /** @brief Build the drag info and start it. */
     void startDrag();
-    
+
     /** @brief Connect an effect to its signals. */
     void connectEffect(CollapsibleEffect *currentEffect);
     /** @brief Connect a group to its signals. */
@@ -165,13 +163,13 @@ private:
 public slots:
     /** @brief Sets the clip whose effect list should be managed.
     * @param c Clip whose effect list should be managed */
-    void slotClipItemSelected(ClipItem* c, Monitor *m = Q_NULLPTR, bool reloadStack = true);
+    void slotClipItemSelected(ClipItem *c, Monitor *m = Q_NULLPTR, bool reloadStack = true);
     /** @brief An effect parameter was changed, refresh effect stack if it was displaying it.
     * @param c Clip controller whose effect list should be managed */
-    void slotRefreshMasterClipEffects(ClipController* c, Monitor *m);
+    void slotRefreshMasterClipEffects(ClipController *c, Monitor *m);
     /** @brief Display effects for the selected Bin clip.
     * @param c Clip controller whose effect list should be managed */
-    void slotMasterClipItemSelected(ClipController* c, Monitor *m = Q_NULLPTR);
+    void slotMasterClipItemSelected(ClipController *c, Monitor *m = Q_NULLPTR);
 
     /** @brief Update the clip range (in-out points)
     * @param c Clip whose effect list should be managed */
@@ -182,7 +180,7 @@ public slots:
     /** @brief Check if the mouse wheel events should be used for scrolling the widget view. */
     void slotCheckWheelEventFilter();
 
-    void slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update);
+    void slotTransitionItemSelected(Transition *t, int nextTrack, const QPoint &p, bool update);
 
     /** @brief Select active keyframe in an animated effect. */
     void setActiveKeyframe(int frame);
@@ -192,14 +190,13 @@ private slots:
     /** @brief Emits seekTimeline with position = clipstart + @param pos. */
     void slotSeekTimeline(int pos);
 
-
     /* @brief Define the region filter for current effect.
     void slotRegionChanged();*/
 
     /** @brief Checks whether the monitor scene has to be displayed. */
     void slotCheckMonitorPosition(int renderPos);
 
-    void slotUpdateEffectParams(const QDomElement &old, const QDomElement& e, int ix);
+    void slotUpdateEffectParams(const QDomElement &old, const QDomElement &e, int ix);
 
     /** @brief Move an effect in the stack.
      * @param indexes The list of effect index in the stack
@@ -241,7 +238,7 @@ private slots:
     void slotMoveEffect(const QList<int> &currentIndexes, int newIndex, int groupIndex, const QString &groupName = QString());
 
     /** @brief Remove effects from a group */
-    void slotUnGroup(CollapsibleGroup* group);
+    void slotUnGroup(CollapsibleGroup *group);
 
     /** @brief Add en effect to selected clip */
     void slotAddEffect(const QDomElement &effect);
@@ -259,35 +256,35 @@ private slots:
     void slotSwitchCompare(bool enable);
 
 signals:
-    void removeEffectGroup(ClipItem*, int, const QDomDocument);
-    void removeEffect(ClipItem*, int, const QDomElement);
+    void removeEffectGroup(ClipItem *, int, const QDomDocument);
+    void removeEffect(ClipItem *, int, const QDomElement);
     void removeMasterEffect(const QString &id, const QDomElement);
-    void addMasterEffect(const QString &id, const QDomElement&);
+    void addMasterEffect(const QString &id, const QDomElement &);
     /**  Parameters for an effect changed, update the filter in timeline */
-    void updateEffect(ClipItem*, int, const QDomElement&, const QDomElement &, int,bool);
+    void updateEffect(ClipItem *, int, const QDomElement &, const QDomElement &, int, bool);
     /**  Parameters for an effect changed, update the filter in timeline */
-    void updateMasterEffect(QString, const QDomElement&, const QDomElement &, int);
+    void updateMasterEffect(QString, const QDomElement &, const QDomElement &, int);
     /** An effect in stack was moved, we need to regenerate
         all effects for this clip in the playlist */
     void refreshEffectStack(ClipItem *);
     /** Enable or disable an effect */
-    void changeEffectState(ClipItem*, int, const QList<int>&, bool);
-    void changeMasterEffectState(QString id, const QList<int>&, bool);
+    void changeEffectState(ClipItem *, int, const QList<int> &, bool);
+    void changeMasterEffectState(QString id, const QList<int> &, bool);
     /** An effect in stack was moved */
-    void changeEffectPosition(ClipItem*, int, const QList<int>&, int);
+    void changeEffectPosition(ClipItem *, int, const QList<int> &, int);
     /** An effect in stack was moved for a Bin clip */
-    void changeEffectPosition(const QString &, const QList<int>&, int);
+    void changeEffectPosition(const QString &, const QList<int> &, int);
     /** an effect was saved, reload list */
     void reloadEffects();
     /** An effect with position parameter was changed, seek */
     void seekTimeline(int);
     /** The region effect for current effect was changed */
-    void updateClipRegion(ClipItem*, int, const QString&);
-    void displayMessage(const QString&, int);
+    void updateClipRegion(ClipItem *, int, const QString &);
+    void displayMessage(const QString &, int);
     void showComments(bool show);
-    void startFilterJob(const ItemInfo &info, const QString &clipId, QMap<QString, QString>&, QMap<QString, QString>&, QMap<QString, QString>&);
-    void addEffect(ClipItem*,const QDomElement &,int);
-    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString,QString> data = QMap<QString,QString>());
+    void startFilterJob(const ItemInfo &info, const QString &clipId, QMap<QString, QString> &, QMap<QString, QString> &, QMap<QString, QString> &);
+    void addEffect(ClipItem *, const QDomElement &, int);
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString, QString> data = QMap<QString, QString>());
 };
 
 #endif

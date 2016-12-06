@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "effectslistview.h"
 #include "effectslist.h"
 #include "effectslistwidget.h"
@@ -39,7 +38,7 @@ TreeEventEater::TreeEventEater(QObject *parent) : QObject(parent)
 bool TreeEventEater::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::ShortcutOverride) {
-        if (((QKeyEvent*)event)->key() == Qt::Key_Escape) {
+        if (((QKeyEvent *)event)->key() == Qt::Key_Escape) {
             emit clearSearchLine();
         }
     }
@@ -65,7 +64,6 @@ bool MyTreeWidgetSearchLine::itemMatches(const QTreeWidgetItem *item, const QStr
     }
     return false;
 }
-
 
 EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     QWidget(parent)
@@ -96,10 +94,11 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     setFocusProxy(m_search_effect);
     m_effectsList->setFocusProxy(m_search_effect);
 
-    if (KdenliveSettings::showeffectinfo())
+    if (KdenliveSettings::showeffectinfo()) {
         buttonInfo->setDown(true);
-    else
+    } else {
         infopanel->hide();
+    }
 
     m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("list-add")), i18n("Add Effect to Selected Clip"), this, SLOT(slotEffectSelected()));
     m_favoriteAction = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("favorite")), i18n("Add Effect to Favorites"), this, SLOT(slotAddToFavorites()));
@@ -110,26 +109,26 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     horizontalLayout->addWidget(m_effectsFavorites);
     effectsAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("show-all-effects")));
     switch (m_mode) {
-      case TransitionMode:
-          effectsAll->setToolTip(i18n("Show all transitions"));
-          effectsGPU->setToolTip(i18n("Show GPU transitions"));
-          effectsVideo->setHidden(true);
-          effectsAudio->setHidden(true);
-          effectsCustom->setHidden(true);
-          m_effectsFavorites->setHidden(true);
-          break;
-      default:
-          effectsAll->setToolTip(i18n("Show all effects"));
-          effectsVideo->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
-          effectsVideo->setToolTip(i18n("Show video effects"));
-          effectsAudio->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audio")));
-          effectsAudio->setToolTip(i18n("Show audio effects"));
-          effectsGPU->setIcon(KoIconUtils::themedIcon(QStringLiteral("show-gpu-effects")));
-          effectsGPU->setToolTip(i18n("Show GPU effects"));
-          effectsCustom->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-custom-effect")));
-          effectsCustom->setToolTip(i18n("Show custom effects"));
-          m_effectsFavorites->setToolTip(i18n("Show favorite effects"));
-          break;
+    case TransitionMode:
+        effectsAll->setToolTip(i18n("Show all transitions"));
+        effectsGPU->setToolTip(i18n("Show GPU transitions"));
+        effectsVideo->setHidden(true);
+        effectsAudio->setHidden(true);
+        effectsCustom->setHidden(true);
+        m_effectsFavorites->setHidden(true);
+        break;
+    default:
+        effectsAll->setToolTip(i18n("Show all effects"));
+        effectsVideo->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
+        effectsVideo->setToolTip(i18n("Show video effects"));
+        effectsAudio->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audio")));
+        effectsAudio->setToolTip(i18n("Show audio effects"));
+        effectsGPU->setIcon(KoIconUtils::themedIcon(QStringLiteral("show-gpu-effects")));
+        effectsGPU->setToolTip(i18n("Show GPU effects"));
+        effectsCustom->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-custom-effect")));
+        effectsCustom->setToolTip(i18n("Show custom effects"));
+        m_effectsFavorites->setToolTip(i18n("Show favorite effects"));
+        break;
     }
     if (!KdenliveSettings::gpu_accel()) {
         effectsGPU->setHidden(true);
@@ -156,19 +155,21 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     }
     connect(m_search_effect, &KTreeWidgetSearchLine::hiddenChanged, this, &EffectsListView::slotUpdateSearch);
     switch (KdenliveSettings::selected_effecttab()) {
-      case EffectsList::EFFECT_VIDEO:
+    case EffectsList::EFFECT_VIDEO:
         effectsVideo->setChecked(true);
         break;
-      case EffectsList::EFFECT_AUDIO:
+    case EffectsList::EFFECT_AUDIO:
         effectsAudio->setChecked(true);
         break;
-      case EffectsList::EFFECT_GPU:
-        if (KdenliveSettings::gpu_accel()) effectsGPU->setChecked(true);
+    case EffectsList::EFFECT_GPU:
+        if (KdenliveSettings::gpu_accel()) {
+            effectsGPU->setChecked(true);
+        }
         break;
-      case EffectsList::EFFECT_CUSTOM:
+    case EffectsList::EFFECT_CUSTOM:
         effectsCustom->setChecked(true);
         break;
-      case EffectsList::EFFECT_FAVORITES:
+    case EffectsList::EFFECT_FAVORITES:
         m_effectsFavorites->setChecked(true);
         break;
     }
@@ -191,7 +192,9 @@ void EffectsListView::refreshIcons()
     for (int i = 0; i < allMenus.count(); i++) {
         QAction *m = allMenus.at(i);
         QIcon ic = m->icon();
-        if (ic.isNull() || ic.name().isEmpty()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) {
+            continue;
+        }
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
     }
@@ -199,7 +202,9 @@ void EffectsListView::refreshIcons()
     for (int i = 0; i < allButtons.count(); i++) {
         QToolButton *m = allButtons.at(i);
         QIcon ic = m->icon();
-        if (ic.isNull() || ic.name().isEmpty()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) {
+            continue;
+        }
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
     }
@@ -221,12 +226,16 @@ void EffectsListView::creatFavoriteBasket(QListWidget *list)
     list->clear();
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
-        if (folder->text(0) == QLatin1String("Favorites")) continue;
+        if (folder->text(0) == QLatin1String("Favorites")) {
+            continue;
+        }
         for (int j = 0; j < folder->childCount(); ++j) {
             QTreeWidgetItem *item = folder->child(j);
             QStringList data = item->data(0, Qt::UserRole + 1).toStringList();
             QString id = data.at(1);
-            if (id.isEmpty()) id = data.at(0);
+            if (id.isEmpty()) {
+                id = data.at(0);
+            }
             if (KdenliveSettings::favorite_effects().contains(id)) {
                 QListWidgetItem *it = new QListWidgetItem(item->icon(0), item->text(0));
                 it->setData(EffectsListWidget::TypeRole, item->data(0, EffectsListWidget::TypeRole));
@@ -241,12 +250,20 @@ void EffectsListView::creatFavoriteBasket(QListWidget *list)
 void EffectsListView::filterList()
 {
     int pos = 0;
-    if (effectsVideo->isChecked()) pos = EffectsList::EFFECT_VIDEO;
-    else if (effectsAudio->isChecked()) pos = EffectsList::EFFECT_AUDIO;
-    else if (effectsGPU->isChecked()) pos = EffectsList::EFFECT_GPU;
-    else if (m_effectsFavorites->isChecked()) pos = EffectsList::EFFECT_FAVORITES;
-    else if (effectsCustom->isChecked()) pos = EffectsList::EFFECT_CUSTOM;
-    if (m_mode == EffectMode) KdenliveSettings::setSelected_effecttab(pos);
+    if (effectsVideo->isChecked()) {
+        pos = EffectsList::EFFECT_VIDEO;
+    } else if (effectsAudio->isChecked()) {
+        pos = EffectsList::EFFECT_AUDIO;
+    } else if (effectsGPU->isChecked()) {
+        pos = EffectsList::EFFECT_GPU;
+    } else if (m_effectsFavorites->isChecked()) {
+        pos = EffectsList::EFFECT_FAVORITES;
+    } else if (effectsCustom->isChecked()) {
+        pos = EffectsList::EFFECT_CUSTOM;
+    }
+    if (m_mode == EffectMode) {
+        KdenliveSettings::setSelected_effecttab(pos);
+    }
     m_effectsList->resetFavorites();
     if (pos == EffectsList::EFFECT_CUSTOM) {
         m_removeAction->setText(i18n("Delete effect"));
@@ -270,7 +287,9 @@ void EffectsListView::filterList()
                 QTreeWidgetItem *item = folder->child(j);
                 QStringList data = item->data(0, Qt::UserRole + 1).toStringList();
                 QString id = data.at(1);
-                if (id.isEmpty()) id = data.at(0);
+                if (id.isEmpty()) {
+                    id = data.at(0);
+                }
                 if (KdenliveSettings::favorite_effects().contains(id)) {
                     favorites << item->clone();
                 }
@@ -325,13 +344,13 @@ void EffectsListView::filterList()
             }
         }
         // do not hide the folder if it's empty but "All" is selected
-        if (pos == 0)
+        if (pos == 0) {
             hideFolder = false;
+        }
         folder->setHidden(hideFolder);
     }
     // make sure we don't show anything not matching the search expression
     m_search_effect->updateSearch();
-
 
     /*item = m_effectsList->currentItem();
     if (item) {
@@ -357,9 +376,9 @@ void EffectsListView::showInfoPanel()
 void EffectsListView::slotEffectSelected()
 {
     QDomElement effect = m_effectsList->currentEffect();
-    QTreeWidgetItem* item = m_effectsList->currentItem();
-    if (item && m_effectsList->indexOfTopLevelItem(item)!=-1){
-	item->setExpanded(!item->isExpanded());		
+    QTreeWidgetItem *item = m_effectsList->currentItem();
+    if (item && m_effectsList->indexOfTopLevelItem(item) != -1) {
+        item->setExpanded(!item->isExpanded());
     }
     if (!effect.isNull()) {
         emit addEffect(effect);
@@ -368,8 +387,9 @@ void EffectsListView::slotEffectSelected()
 
 void EffectsListView::slotUpdateInfo()
 {
-    if (infopanel->isVisible())
+    if (infopanel->isVisible()) {
         infopanel->setText(m_effectsList->currentInfo());
+    }
 }
 
 void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions)
@@ -401,7 +421,9 @@ void EffectsListView::slotAddToFavorites()
 {
     QDomElement effect = m_effectsList->currentEffect();
     QString id = effect.attribute(QStringLiteral("id"));
-    if (id.isEmpty()) id = effect.attribute(QStringLiteral("tag"));
+    if (id.isEmpty()) {
+        id = effect.attribute(QStringLiteral("tag"));
+    }
     slotAddFavorite(id);
 }
 
@@ -430,7 +452,7 @@ void EffectsListView::slotRemoveEffect()
     filter << QStringLiteral("*.xml");
     const QStringList fileList = directory.entryList(filter, QDir::Files);
     QString itemName;
-    foreach(const QString &filename, fileList) {
+    foreach (const QString &filename, fileList) {
         itemName = directory.absoluteFilePath(filename);
         QDomDocument doc;
         QFile file(itemName);
@@ -454,11 +476,13 @@ void EffectsListView::slotUpdateSearch(QTreeWidgetItem *item, bool hidden)
 {
     if (!hidden) {
         if (item->data(0, Qt::UserRole).toInt() == KdenliveSettings::selected_effecttab()) {
-            if (item->parent())
+            if (item->parent()) {
                 item->parent()->setHidden(false);
+            }
         } else {
-            if (KdenliveSettings::selected_effecttab() != 0)
+            if (KdenliveSettings::selected_effecttab() != 0) {
                 item->setHidden(true);
+            }
         }
     }
 }
@@ -480,22 +504,23 @@ void EffectsListView::slotAutoExpand(const QString &text)
             if (curr && curr->parent() == folder) {
                 expandFolder = true;
             }
-        }
-        else {
+        } else {
             for (int j = 0; j < folder->childCount(); ++j) {
                 QTreeWidgetItem *item = folder->child(j);
                 if (!item->isHidden()) {
                     expandFolder = true;
-		    if (!selected) {
-			m_effectsList->setCurrentItem(item);
-			selected = true;
-		    }
-		}
+                    if (!selected) {
+                        m_effectsList->setCurrentItem(item);
+                        selected = true;
+                    }
+                }
             }
         }
         folder->setExpanded(expandFolder);
     }
-    if (!selected) m_effectsList->setCurrentItem(Q_NULLPTR);
+    if (!selected) {
+        m_effectsList->setCurrentItem(Q_NULLPTR);
+    }
 }
 
 void EffectsListView::updatePalette()
@@ -505,5 +530,4 @@ void EffectsListView::updatePalette()
     m_effectsList->updatePalette();
     //m_effectsList->setStyleSheet(customStyleSheet());
 }
-
 

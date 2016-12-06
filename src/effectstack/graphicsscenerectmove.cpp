@@ -63,7 +63,6 @@ void MyQGraphicsEffect::draw(QPainter *painter)
     drawSource(painter);
 }
 
-
 MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent) :
     QGraphicsTextItem(txt, parent)
     , m_alignment(Qt::AlignLeft)
@@ -100,14 +99,16 @@ void MyTextItem::updateShadow(bool enabled, int blur, int xoffset, int yoffset, 
 QStringList MyTextItem::shadowInfo() const
 {
     QStringList info;
-    info << QString::number(m_shadowEffect->isEnabled()) << m_shadowColor.name(QColor::HexArgb) << QString::number( m_shadowBlur) << QString::number(m_shadowOffset.x()) << QString::number(m_shadowOffset.y());
+    info << QString::number(m_shadowEffect->isEnabled()) << m_shadowColor.name(QColor::HexArgb) << QString::number(m_shadowBlur) << QString::number(m_shadowOffset.x()) << QString::number(m_shadowOffset.y());
     return info;
 }
 
 void MyTextItem::loadShadow(const QStringList &info)
 {
-    if (info.count() < 5) return;
-    updateShadow((info.at(0).toInt() == true), info.at(2).toInt(), info.at(3).toInt(),info.at(4).toInt(), QColor(info.at(1)));
+    if (info.count() < 5) {
+        return;
+    }
+    updateShadow((info.at(0).toInt() == true), info.at(2).toInt(), info.at(3).toInt(), info.at(4).toInt(), QColor(info.at(1)));
 }
 
 void MyTextItem::setAlignment(Qt::Alignment alignment)
@@ -130,7 +131,7 @@ void MyTextItem::updateGeometry(int, int, int)
     // update gradient if necessary
     QString gradientData = data(TitleDocument::Gradient).toString();
     if (!gradientData.isEmpty()) {
-        QTextCursor cursor = textCursor(); 
+        QTextCursor cursor = textCursor();
         QTextCharFormat cformat;
         QRectF rect = boundingRect();
         int position = textCursor().position();
@@ -161,15 +162,14 @@ void MyTextItem::updateGeometry(int, int, int)
             }
         }*/
 
-        foreach(const QString &line, lines)
-        {
+        foreach (const QString &line, lines) {
             QPainterPath linePath;
             linePath.addText(0, linePos, font(), line);
             linePos += lineSpacing;
-            if ( m_alignment == Qt::AlignHCenter ) {
+            if (m_alignment == Qt::AlignHCenter) {
                 double offset = (bounding.width() - metrics.width(line)) / 2;
                 linePath.translate(offset, 0);
-            } else if ( m_alignment == Qt::AlignRight ) {
+            } else if (m_alignment == Qt::AlignRight) {
                 double offset = bounding.width() - metrics.width(line);
                 linePath.translate(offset, 0);
             }
@@ -183,20 +183,18 @@ void MyTextItem::updateGeometry(int, int, int)
     update();
 }
 
-void MyTextItem::paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w)
+void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
 {
     if (textInteractionFlags() & Qt::TextEditable) {
         QGraphicsTextItem::paint(painter, option, w);
-    }
-    else {
+    } else {
         painter->setRenderHint(QPainter::Antialiasing);
         int outline = data(TitleDocument::OutlineWidth).toInt();
         QTextCursor cursor(document());
         cursor.select(QTextCursor::Document);
         QColor fontcolor = cursor.charFormat().foreground().color();
         painter->fillPath(m_path, QBrush(fontcolor));
-        if ( outline > 0 )
-        {
+        if (outline > 0) {
             QVariant variant = data(TitleDocument::OutlineColor);
             QColor outlineColor = variant.value<QColor>();
             QPen pen(outlineColor);
@@ -238,7 +236,7 @@ void MyTextItem::updateShadow()
 void MyTextItem::blurShadow(QImage &result, int radius)
 {
     int tab[] = { 14, 10, 8, 6, 5, 5, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2 };
-    int alpha = (radius < 1)  ? 16 : (radius > 17) ? 1 : tab[radius-1];
+    int alpha = (radius < 1)  ? 16 : (radius > 17) ? 1 : tab[radius - 1];
 
     int r1 = 0;
     int r2 = result.height() - 1;
@@ -247,53 +245,61 @@ void MyTextItem::blurShadow(QImage &result, int radius)
 
     int bpl = result.bytesPerLine();
     int rgba[4];
-    unsigned char* p;
+    unsigned char *p;
 
     int i1 = 0;
     int i2 = 3;
 
     for (int col = c1; col <= c2; col++) {
         p = result.scanLine(r1) + col * 4;
-        for (int i = i1; i <= i2; i++)
+        for (int i = i1; i <= i2; i++) {
             rgba[i] = p[i] << 4;
+        }
 
         p += bpl;
         for (int j = r1; j < r2; j++, p += bpl)
-            for (int i = i1; i <= i2; i++)
+            for (int i = i1; i <= i2; i++) {
                 p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+            }
     }
 
     for (int row = r1; row <= r2; row++) {
         p = result.scanLine(row) + c1 * 4;
-        for (int i = i1; i <= i2; i++)
+        for (int i = i1; i <= i2; i++) {
             rgba[i] = p[i] << 4;
+        }
 
         p += 4;
         for (int j = c1; j < c2; j++, p += 4)
-            for (int i = i1; i <= i2; i++)
+            for (int i = i1; i <= i2; i++) {
                 p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+            }
     }
 
     for (int col = c1; col <= c2; col++) {
         p = result.scanLine(r2) + col * 4;
-        for (int i = i1; i <= i2; i++)
+        for (int i = i1; i <= i2; i++) {
             rgba[i] = p[i] << 4;
+        }
 
         p -= bpl;
         for (int j = r1; j < r2; j++, p -= bpl)
-            for (int i = i1; i <= i2; i++)
+            for (int i = i1; i <= i2; i++) {
                 p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+            }
     }
 
     for (int row = r1; row <= r2; row++) {
         p = result.scanLine(row) + c2 * 4;
-        for (int i = i1; i <= i2; i++)
+        for (int i = i1; i <= i2; i++) {
             rgba[i] = p[i] << 4;
+        }
 
         p -= 4;
         for (int j = c1; j < c2; j++, p -= 4)
-            for (int i = i1; i <= i2; i++)
+            for (int i = i1; i <= i2; i++) {
                 p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+            }
     }
 }
 
@@ -304,9 +310,8 @@ void MyTextItem::updateGeometry()
     setTextWidth(boundingRect().width());
     setAlignment(m_alignment);
     QPointF topRight = boundingRect().topRight();
- 
-    if (m_alignment & Qt::AlignRight)
-    {
+
+    if (m_alignment & Qt::AlignRight) {
         setPos(pos() + (topRightPrev - topRight));
     }
 }
@@ -329,22 +334,24 @@ QRectF MyTextItem::baseBoundingRect() const
 QRectF MyTextItem::boundingRect() const
 {
     QRectF base = baseBoundingRect();
-    if (m_shadowEffect->isEnabled() && m_shadowOffset.x() > 0)
+    if (m_shadowEffect->isEnabled() && m_shadowOffset.x() > 0) {
         base.setRight(base.right() + m_shadowOffset.x());
-    if (m_shadowEffect->isEnabled() && m_shadowOffset.y() > 0)
+    }
+    if (m_shadowEffect->isEnabled() && m_shadowOffset.y() > 0) {
         base.setBottom(base.bottom() + m_shadowOffset.y());
+    }
     return base;
 }
 
-QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value) 
+QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && scene()) {
         QPoint newPos = value.toPoint();
-        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove*> (scene())) {
-            GraphicsSceneRectMove* customScene = qobject_cast<GraphicsSceneRectMove*> (scene());
+        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove *> (scene())) {
+            GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *> (scene());
             int gridSize = customScene->gridSize();
-            int xV = (newPos.x()/gridSize)*gridSize;
-            int yV = (newPos.y()/gridSize)*gridSize;
+            int xV = (newPos.x() / gridSize) * gridSize;
+            int yV = (newPos.y() / gridSize) * gridSize;
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -361,8 +368,7 @@ QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value
 
 void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
 {
-    if(textInteractionFlags() == Qt::TextEditorInteraction)
-    {
+    if (textInteractionFlags() == Qt::TextEditorInteraction) {
         // if editor mode is already on: pass double click events on to the editor:
         QGraphicsTextItem::mouseDoubleClickEvent(evt);
         return;
@@ -388,7 +394,7 @@ MyRectItem::MyRectItem(QGraphicsItem *parent) :
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
-void MyRectItem::setRect(const QRectF & rectangle)
+void MyRectItem::setRect(const QRectF &rectangle)
 {
     QGraphicsRectItem::setRect(rectangle);
     if (m_rect != rectangle && !data(TitleDocument::Gradient).isNull()) {
@@ -398,15 +404,15 @@ void MyRectItem::setRect(const QRectF & rectangle)
     }
 }
 
-QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value) 
+QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && scene()) {
         QPoint newPos = value.toPoint();
-        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove*> (scene())) {
-            GraphicsSceneRectMove* customScene = qobject_cast<GraphicsSceneRectMove*> (scene());
+        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove *> (scene())) {
+            GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *> (scene());
             int gridSize = customScene->gridSize();
-            int xV = (newPos.x()/gridSize)*gridSize;
-            int yV = (newPos.y()/gridSize)*gridSize;
+            int xV = (newPos.x() / gridSize) * gridSize;
+            int yV = (newPos.y() / gridSize) * gridSize;
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -421,15 +427,15 @@ MyPixmapItem::MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent) :
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
-QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &value) 
+QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && scene()) {
         QPoint newPos = value.toPoint();
-        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove*> (scene())) {
-            GraphicsSceneRectMove* customScene = qobject_cast<GraphicsSceneRectMove*> (scene());
+        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove *> (scene())) {
+            GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *> (scene());
             int gridSize = customScene->gridSize();
-            int xV = (newPos.x()/gridSize)*gridSize;
-            int yV = (newPos.y()/gridSize)*gridSize;
+            int xV = (newPos.x() / gridSize) * gridSize;
+            int yV = (newPos.y() / gridSize) * gridSize;
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -444,15 +450,15 @@ MySvgItem::MySvgItem(const QString &fileName, QGraphicsItem *parent) :
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
-QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value) 
+QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && scene()) {
         QPoint newPos = value.toPoint();
-        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove*> (scene())) {
-            GraphicsSceneRectMove* customScene = qobject_cast<GraphicsSceneRectMove*> (scene());
+        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove *> (scene())) {
+            GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *> (scene());
             int gridSize = customScene->gridSize();
-            int xV = (newPos.x()/gridSize)*gridSize;
-            int yV = (newPos.y()/gridSize)*gridSize;
+            int xV = (newPos.x() / gridSize) * gridSize;
+            int yV = (newPos.y() / gridSize) * gridSize;
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -502,7 +508,7 @@ void GraphicsSceneRectMove::setTool(TITLETOOL tool)
     }
 }
 
-void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
+void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
 {
     if (m_selectedItem == Q_NULLPTR || !(m_selectedItem->flags() & QGraphicsItem::ItemIsMovable)) {
         QGraphicsScene::keyPressEvent(keyEvent);
@@ -516,28 +522,40 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
         }
     }
     int diff = m_gridSize;
-    if (keyEvent->modifiers() & Qt::ControlModifier) diff = m_gridSize * 5;
+    if (keyEvent->modifiers() & Qt::ControlModifier) {
+        diff = m_gridSize * 5;
+    }
     switch (keyEvent->key()) {
     case Qt::Key_Left:
-        foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(-diff,0); }
+        foreach (QGraphicsItem * qgi, selectedItems()) {
+            qgi->moveBy(-diff, 0);
+        }
         emit itemMoved();
         break;
     case Qt::Key_Right:
-        foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy( diff,0); }
+        foreach (QGraphicsItem * qgi, selectedItems()) {
+            qgi->moveBy(diff, 0);
+        }
         emit itemMoved();
         break;
     case Qt::Key_Up:
-        foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(0,-diff); }
+        foreach (QGraphicsItem * qgi, selectedItems()) {
+            qgi->moveBy(0, -diff);
+        }
         emit itemMoved();
         break;
     case Qt::Key_Down:
-        foreach (QGraphicsItem *qgi, selectedItems()) { qgi->moveBy(0, diff); }
+        foreach (QGraphicsItem * qgi, selectedItems()) {
+            qgi->moveBy(0, diff);
+        }
         emit itemMoved();
         break;
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
         foreach (QGraphicsItem *qgi, selectedItems()) {
-            if (qgi->data(-1).toInt() == -1) continue;
+            if (qgi->data(-1).toInt() == -1) {
+                continue;
+            }
             removeItem(qgi);
             delete qgi;
         }
@@ -550,7 +568,7 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
     emit actionFinished();
 }
 
-void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
+void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
 {
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
@@ -558,28 +576,34 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
     m_selectedItem = Q_NULLPTR;
 
     // http://www.kdenlive.org/mantis/view.php?id=1035
-    QList<QGraphicsItem*> i = items(QRectF(p , QSizeF(4, 4)).toRect());
-    if (i.isEmpty()) return;
+    QList<QGraphicsItem *> i = items(QRectF(p, QSizeF(4, 4)).toRect());
+    if (i.isEmpty()) {
+        return;
+    }
 
     int ix = 1;
-    QGraphicsItem* g = i.first();
+    QGraphicsItem *g = i.first();
     while (!(g->flags() & QGraphicsItem::ItemIsSelectable) && ix < i.count()) {
         g = i.at(ix);
         ix++;
     }
     if (g && g->type() == QGraphicsTextItem::Type && g->flags() & QGraphicsItem::ItemIsSelectable) {
         m_selectedItem = g;
-    } else emit doubleClickEvent();
+    } else {
+        emit doubleClickEvent();
+    }
     QGraphicsScene::mouseDoubleClickEvent(e);
 }
 
 void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
-    if (m_tool == TITLE_RECTANGLE && m_selectedItem) setSelectedItem(m_selectedItem);
+    if (m_tool == TITLE_RECTANGLE && m_selectedItem) {
+        setSelectedItem(m_selectedItem);
+    }
     QGraphicsScene::mouseReleaseEvent(e);
     if (m_createdText) {
         m_selectedItem->setSelected(true);
-        MyTextItem *newText = static_cast<MyTextItem*>(m_selectedItem);
+        MyTextItem *newText = static_cast<MyTextItem *>(m_selectedItem);
         QTextCursor cur(newText->document());
         cur.select(QTextCursor::Document);
         newText->setTextCursor(cur);
@@ -588,7 +612,7 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     emit actionFinished();
 }
 
-void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
+void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
     int xPos = ((int) e->scenePos().x() / m_gridSize) * m_gridSize;
     int yPos = ((int) e->scenePos().y() / m_gridSize) * m_gridSize;
@@ -602,7 +626,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
     }
 
     if (m_tool == TITLE_SELECT) {
-        foreach(QGraphicsItem *g, list) {
+        foreach (QGraphicsItem *g, list) {
             //qCDebug(KDENLIVE_LOG) << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
             // check is there is a selected item in list
             if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
@@ -626,7 +650,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         }
         if (item == Q_NULLPTR  || !(item->flags() & QGraphicsItem::ItemIsSelectable)) {
             m_selectedItem = Q_NULLPTR;
-            foreach(QGraphicsItem* g, list) {
+            foreach (QGraphicsItem *g, list) {
                 if (g->zValue() > -1000) {
                     item = g;
                     break;
@@ -648,35 +672,36 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 setCursor(Qt::ClosedHandCursor);
             } else if (item->type() == QGraphicsRectItem::Type || item->type() == QGraphicsSvgItem::Type || item->type() == QGraphicsPixmapItem::Type) {
                 QRectF r1;
-                if (m_selectedItem->type() == QGraphicsRectItem::Type)
-                    r1 = ((QGraphicsRectItem*)m_selectedItem)->rect().normalized();
-                else
+                if (m_selectedItem->type() == QGraphicsRectItem::Type) {
+                    r1 = ((QGraphicsRectItem *)m_selectedItem)->rect().normalized();
+                } else {
                     r1 = m_selectedItem->boundingRect().normalized();
+                }
 
                 r1.translate(m_selectedItem->scenePos());
                 switch (m_resizeMode) {
-                    case BottomRight:
-                    case Right:
-                    case Down:
-                        m_clickPoint = r1.topLeft();
-                        e->accept();
-                        break;
-                    case TopLeft:
-                    case Left:
-                    case Up:
-                        m_clickPoint = r1.bottomRight();
-                        e->accept();
-                        break;
-                    case TopRight:
-                        m_clickPoint = r1.bottomLeft();
-                        e->accept();
-                        break;
-                    case BottomLeft:
-                        m_clickPoint = r1.topRight();
-                        e->accept();
-                        break;
-                    default:
-                        break;
+                case BottomRight:
+                case Right:
+                case Down:
+                    m_clickPoint = r1.topLeft();
+                    e->accept();
+                    break;
+                case TopLeft:
+                case Left:
+                case Up:
+                    m_clickPoint = r1.bottomRight();
+                    e->accept();
+                    break;
+                case TopRight:
+                    m_clickPoint = r1.bottomLeft();
+                    e->accept();
+                    break;
+                case BottomLeft:
+                    m_clickPoint = r1.topRight();
+                    e->accept();
+                    break;
+                default:
+                    break;
                 }
             }
         }
@@ -716,10 +741,10 @@ void GraphicsSceneRectMove::clearTextSelection()
     clearSelection();
 }
 
-void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
+void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
     if (e->buttons() != Qt::NoButton && !m_moveStarted) {
-        QList<QGraphicsView*> viewlist = views();
+        QList<QGraphicsView *> viewlist = views();
         if (viewlist.isEmpty()) {
             // invalid
             e->accept();
@@ -738,45 +763,49 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     if (m_selectedItem && (e->buttons() & Qt::LeftButton)) {
         if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsSvgItem::Type || m_selectedItem->type() == QGraphicsPixmapItem::Type) {
             QRectF newrect;
-            if (m_selectedItem->type() == QGraphicsRectItem::Type)
-                newrect = ((QGraphicsRectItem*)m_selectedItem)->rect();
-            else
+            if (m_selectedItem->type() == QGraphicsRectItem::Type) {
+                newrect = ((QGraphicsRectItem *)m_selectedItem)->rect();
+            } else {
                 newrect = m_selectedItem->boundingRect();
+            }
             int xPos = ((int) e->scenePos().x() / m_gridSize) * m_gridSize;
             int yPos = ((int) e->scenePos().y() / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
             switch (m_resizeMode) {
-                case BottomRight:
-                case BottomLeft:
-                case TopRight:
-                case TopLeft:
-                    newrect = QRectF(m_clickPoint, newpoint).normalized();
-                    break;
-                case Up:
-                    newrect = QRectF(m_clickPoint, QPointF(m_clickPoint.x() - newrect.width(), newpoint.y())).normalized();
-                    break;
-                case Down:
-                    newrect = QRectF(m_clickPoint, QPointF(newrect.width() + m_clickPoint.x(), newpoint.y())).normalized();
-                    break;
-                case Right:
-                    newrect = QRectF(m_clickPoint, QPointF(newpoint.x(), m_clickPoint.y() + newrect.height())).normalized();
-                    break;
-                case Left:
-                    newrect = QRectF(m_clickPoint, QPointF(newpoint.x(), m_clickPoint.y() - newrect.height())).normalized();
-                    break;
-                default:
-                    break;
+            case BottomRight:
+            case BottomLeft:
+            case TopRight:
+            case TopLeft:
+                newrect = QRectF(m_clickPoint, newpoint).normalized();
+                break;
+            case Up:
+                newrect = QRectF(m_clickPoint, QPointF(m_clickPoint.x() - newrect.width(), newpoint.y())).normalized();
+                break;
+            case Down:
+                newrect = QRectF(m_clickPoint, QPointF(newrect.width() + m_clickPoint.x(), newpoint.y())).normalized();
+                break;
+            case Right:
+                newrect = QRectF(m_clickPoint, QPointF(newpoint.x(), m_clickPoint.y() + newrect.height())).normalized();
+                break;
+            case Left:
+                newrect = QRectF(m_clickPoint, QPointF(newpoint.x(), m_clickPoint.y() - newrect.height())).normalized();
+                break;
+            default:
+                break;
             }
 
             if (m_selectedItem->type() == QGraphicsRectItem::Type && m_resizeMode != NoResize) {
-                MyRectItem *gi = static_cast<MyRectItem*>(m_selectedItem);
+                MyRectItem *gi = static_cast<MyRectItem *>(m_selectedItem);
                 // Resize using aspect ratio
                 if (!m_selectedItem->data(0).isNull()) {
                     // we want to keep aspect ratio
                     double hRatio = (double) newrect.width() / m_selectedItem->data(0).toInt();
                     double vRatio = (double) newrect.height() / m_selectedItem->data(1).toInt();
-                    if (hRatio < vRatio) newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
-                    else newrect.setWidth(m_selectedItem->data(0).toInt() * vRatio);
+                    if (hRatio < vRatio) {
+                        newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
+                    } else {
+                        newrect.setWidth(m_selectedItem->data(0).toInt() * vRatio);
+                    }
                 }
                 gi->setPos(newrect.topLeft());
                 gi->setRect(QRectF(QPointF(), newrect.bottomRight() - newrect.topLeft()));
@@ -794,16 +823,18 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         }
         emit itemMoved();
     } else if (m_tool == TITLE_SELECT) {
-        QList<QGraphicsView*> viewlist = views();
+        QList<QGraphicsView *> viewlist = views();
         QGraphicsView *view = Q_NULLPTR;
-        if (viewlist.size() > 0) view = viewlist[0];
+        if (viewlist.size() > 0) {
+            view = viewlist[0];
+        }
 
         QPointF p = e->scenePos();
         p += QPoint(-2, -2);
         m_resizeMode = NoResize;
         bool itemFound = false;
-        QList<QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
-        foreach(const QGraphicsItem* g, list) {
+        QList<QGraphicsItem *> list = items(QRectF(p, QSizeF(4, 4)).toRect());
+        foreach (const QGraphicsItem *g, list) {
             if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
                 continue;
             }
@@ -813,8 +844,10 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 itemFound = true;
                 break;
             } else if (g->type() == QGraphicsRectItem::Type && g->zValue() > -1000) {
-                if (view == Q_NULLPTR) continue;
-                QRectF r1 = ((const QGraphicsRectItem*)g)->rect().normalized();
+                if (view == Q_NULLPTR) {
+                    continue;
+                }
+                QRectF r1 = ((const QGraphicsRectItem *)g)->rect().normalized();
                 itemFound = true;
 
                 // Item mapped coordinates
@@ -842,29 +875,25 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 } else if (mouseArea.contains(r.point(2))) {
                     m_possibleAction = BottomRight;
                     setCursor(Qt::SizeFDiagCursor);
-                }
-                else if (mouseArea.contains(r.point(1))) {
+                } else if (mouseArea.contains(r.point(1))) {
                     m_possibleAction = TopRight;
                     setCursor(Qt::SizeBDiagCursor);
                 } else if (mouseArea.contains(r.point(3))) {
                     m_possibleAction = BottomLeft;
                     setCursor(Qt::SizeBDiagCursor);
-                }
-                else if (top.intersects(mouseArea)) {
+                } else if (top.intersects(mouseArea)) {
                     m_possibleAction = Up;
                     setCursor(Qt::SizeVerCursor);
                 } else if (bottom.intersects(mouseArea)) {
                     m_possibleAction = Down;
                     setCursor(Qt::SizeVerCursor);
-                }
-                else if (right.intersects(mouseArea)) {
+                } else if (right.intersects(mouseArea)) {
                     m_possibleAction = Right;
                     setCursor(Qt::SizeHorCursor);
                 } else if (left.intersects(mouseArea)) {
                     m_possibleAction = Left;
                     setCursor(Qt::SizeHorCursor);
-                }
-                else {
+                } else {
                     setCursor(Qt::OpenHandCursor);
                     m_possibleAction = NoResize;
                 }
@@ -895,23 +924,31 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     }
 }
 
-void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent)
+void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
 {
     if (wheelEvent->modifiers() == Qt::ControlModifier) {
-        QList<QGraphicsView*> viewlist = views();
+        QList<QGraphicsView *> viewlist = views();
         ////qCDebug(KDENLIVE_LOG) << wheelEvent->delta() << ' ' << zoom;
         if (viewlist.size() > 0) {
-            if (wheelEvent->delta() > 0) emit sceneZoom(true);
-            else emit sceneZoom(false);
+            if (wheelEvent->delta() > 0) {
+                emit sceneZoom(true);
+            } else {
+                emit sceneZoom(false);
+            }
         }
-    } else wheelEvent->setAccepted(false);
+    } else {
+        wheelEvent->setAccepted(false);
+    }
 }
 
 void GraphicsSceneRectMove::setScale(double s)
 {
-    if (m_zoom < 1.0 / 7.0 && s < 1.0) return;
-    else if (m_zoom > 10.0 / 7.9 && s > 1.0) return;
-    QList<QGraphicsView*> viewlist = views();
+    if (m_zoom < 1.0 / 7.0 && s < 1.0) {
+        return;
+    } else if (m_zoom > 10.0 / 7.9 && s > 1.0) {
+        return;
+    }
+    QList<QGraphicsView *> viewlist = views();
     if (viewlist.size() > 0) {
         viewlist[0]->scale(s, s);
         m_zoom = m_zoom * s;
@@ -921,7 +958,7 @@ void GraphicsSceneRectMove::setScale(double s)
 
 void GraphicsSceneRectMove::setZoom(double s)
 {
-    QList<QGraphicsView*> viewlist = views();
+    QList<QGraphicsView *> viewlist = views();
     if (viewlist.size() > 0) {
         viewlist[0]->resetTransform();
         viewlist[0]->scale(s, s);
@@ -933,8 +970,8 @@ void GraphicsSceneRectMove::setZoom(double s)
 
 void GraphicsSceneRectMove::setCursor(const QCursor &c)
 {
-    const QList<QGraphicsView*> l = views();
-    foreach(QGraphicsView* v, l) {
+    const QList<QGraphicsView *> l = views();
+    foreach (QGraphicsView *v, l) {
         v->setCursor(c);
     }
 }
@@ -944,10 +981,12 @@ void GraphicsSceneRectMove::slotUpdateFontSize(int s)
     m_fontSize = s;
 }
 
-void GraphicsSceneRectMove::drawForeground(QPainter *painter, const QRectF &rect) {
+void GraphicsSceneRectMove::drawForeground(QPainter *painter, const QRectF &rect)
+{
     // draw the grid if needed
-    if (m_gridSize <= 1)
+    if (m_gridSize <= 1) {
         return;
+    }
 
     QPen pen(QColor(255, 0, 0, 100));
     painter->setPen(pen);
@@ -955,9 +994,9 @@ void GraphicsSceneRectMove::drawForeground(QPainter *painter, const QRectF &rect
     qreal left = int(rect.left()) - (int(rect.left()) % m_gridSize);
     qreal top = int(rect.top()) - (int(rect.top()) % m_gridSize);
     QVector<QPointF> points;
-    for (qreal x = left; x < rect.right(); x += m_gridSize){
-        for (qreal y = top; y < rect.bottom(); y += m_gridSize){
-            points.append(QPointF(x,y));
+    for (qreal x = left; x < rect.right(); x += m_gridSize) {
+        for (qreal y = top; y < rect.bottom(); y += m_gridSize) {
+            points.append(QPointF(x, y));
         }
     }
     painter->drawPoints(points.data(), points.size());
@@ -980,5 +1019,4 @@ void GraphicsSceneRectMove::addNewItem(QGraphicsItem *item)
     item->setSelected(true);
     m_selectedItem = item;
 }
-
 

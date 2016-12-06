@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "choosecolorwidget.h"
 #include "colorpickerwidget.h"
 
@@ -36,10 +35,10 @@ static QColor stringToColor(QString strColor)
         if (strColor.length() == 10) {
             // 0xRRGGBBAA
             intval = strColor.toUInt(&ok, 16);
-            color.setRgb( ( intval >> 24 ) & 0xff,   // r
-                          ( intval >> 16 ) & 0xff,   // g
-                          ( intval >>  8 ) & 0xff,   // b
-                          ( intval       ) & 0xff ); // a
+            color.setRgb((intval >> 24) & 0xff,      // r
+                         (intval >> 16) & 0xff,     // g
+                         (intval >>  8) & 0xff,     // b
+                         (intval) & 0xff);          // a
         } else {
             // 0xRRGGBB, 0xRGB
             color.setNamedColor(strColor.replace(0, 2, QStringLiteral("#")));
@@ -49,14 +48,14 @@ static QColor stringToColor(QString strColor)
             // #AARRGGBB
             strColor = strColor.replace('#', QLatin1String("0x"));
             intval = strColor.toUInt(&ok, 16);
-            color.setRgb( ( intval >> 16 ) & 0xff,   // r
-                          ( intval >>  8 ) & 0xff,   // g
-                          ( intval       ) & 0xff,   // b
-                          ( intval >> 24 ) & 0xff ); // a
-	} else if (strColor.length() == 8) {
-	    // 0xRRGGBB
-	    strColor = strColor.replace('#', QLatin1String("0x"));
-	    color.setNamedColor(strColor);
+            color.setRgb((intval >> 16) & 0xff,      // r
+                         (intval >>  8) & 0xff,     // g
+                         (intval) & 0xff,           // b
+                         (intval >> 24) & 0xff);    // a
+        } else if (strColor.length() == 8) {
+            // 0xRRGGBB
+            strColor = strColor.replace('#', QLatin1String("0x"));
+            color.setNamedColor(strColor);
         } else {
             // #RRGGBB, #RGB
             color.setNamedColor(strColor);
@@ -79,14 +78,14 @@ static QString colorToString(const QColor &color, bool alpha)
     if (alpha) {
         stream << color.alpha();
     } else {
-	// MLT always wants 0xRRGGBBAA format
-	stream << "ff";
+        // MLT always wants 0xRRGGBBAA format
+        stream << "ff";
     }
     return colorStr;
 }
 
 ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, bool alphaEnabled, QWidget *parent) :
-        QWidget(parent)
+    QWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -100,7 +99,9 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
     rightSideLayout->setSpacing(0);
 
     m_button = new KColorButton(stringToColor(color), rightSide);
-    if (alphaEnabled) m_button->setAlphaChannelEnabled(alphaEnabled);
+    if (alphaEnabled) {
+        m_button->setAlphaChannelEnabled(alphaEnabled);
+    }
 //     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     ColorPickerWidget *picker = new ColorPickerWidget(rightSide);
 
@@ -121,7 +122,7 @@ QString ChooseColorWidget::getColor() const
     return colorToString(m_button->color(), alphaChannel);
 }
 
-void ChooseColorWidget::setColor(const QColor& color)
+void ChooseColorWidget::setColor(const QColor &color)
 {
     m_button->setColor(color);
 }

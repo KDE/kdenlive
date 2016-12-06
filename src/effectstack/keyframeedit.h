@@ -35,11 +35,13 @@ class KeyItemDelegate: public QItemDelegate
 {
     Q_OBJECT
 public:
-    KeyItemDelegate(int min, int max, QAbstractItemView* parent = Q_NULLPTR)
-        : QItemDelegate(parent), m_min(min), m_max(max) {
+    KeyItemDelegate(int min, int max, QAbstractItemView *parent = Q_NULLPTR)
+        : QItemDelegate(parent), m_min(min), m_max(max)
+    {
     }
 
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE {
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
         if (index.column() == 1) {
             QSpinBox *spin = new QSpinBox(parent);
             connect(spin, SIGNAL(valueChanged(int)), this, SLOT(commitEditorData()));
@@ -50,10 +52,10 @@ public:
         }
     }
 
-
-    void setEditorData(QWidget *editor, const QModelIndex &index) const Q_DECL_OVERRIDE {
+    void setEditorData(QWidget *editor, const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
         if (index.column() == 1) {
-            QSpinBox *spin = qobject_cast< QSpinBox* >(editor);
+            QSpinBox *spin = qobject_cast< QSpinBox * >(editor);
             spin->setRange(m_min, m_max);
             spin->setValue(index.model()->data(index).toInt());
         } else {
@@ -62,13 +64,15 @@ public:
     }
 
 private slots:
-    void commitAndCloseEditor() {
-        QSpinBox *spin = qobject_cast< QSpinBox* >(sender());
+    void commitAndCloseEditor()
+    {
+        QSpinBox *spin = qobject_cast< QSpinBox * >(sender());
         emit closeEditor(spin);
     }
 
-    void commitEditorData() {
-        QSpinBox *spin = qobject_cast< QSpinBox* >(sender());
+    void commitEditorData()
+    {
+        QSpinBox *spin = qobject_cast< QSpinBox * >(sender());
         emit commitData(spin);
     }
 
@@ -81,7 +85,7 @@ class KeyframeEdit : public QWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget* parent = Q_NULLPTR);
+    explicit KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget *parent = Q_NULLPTR);
     virtual ~KeyframeEdit();
     virtual void addParameter(const QDomElement &e, int activeKeyframe = -1);
     const QString getValue(const QString &name);

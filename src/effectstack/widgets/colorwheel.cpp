@@ -46,7 +46,7 @@ QColor ColorWheel::color()
     return m_color;
 }
 
-void ColorWheel::setColor(const QColor& color)
+void ColorWheel::setColor(const QColor &color)
 {
     m_color = color;
 }
@@ -58,7 +58,9 @@ int ColorWheel::wheelSize() const
 
 QColor ColorWheel::colorForPoint(const QPoint &point)
 {
-    if (! m_image.valid(point)) return QColor();
+    if (! m_image.valid(point)) {
+        return QColor();
+    }
     if (m_isInWheel) {
         qreal w = wheelSize();
         qreal xf = qreal(point.x()) / w;
@@ -68,23 +70,24 @@ QColor ColorWheel::colorForPoint(const QPoint &point)
         qreal rad = qMin(hypot(xp, yp), 1.0);
         qreal theta = qAtan2(yp, xp);
         theta -= 105.0 / 360.0 * 2.0 * M_PI;
-        if (theta < 0.0)
+        if (theta < 0.0) {
             theta += 2.0 * M_PI;
+        }
         qreal hue = (theta * 180.0 / M_PI) / 360.0;
-        return QColor::fromHsvF( hue, rad, m_color.valueF() );
+        return QColor::fromHsvF(hue, rad, m_color.valueF());
     }
     if (m_isInSquare) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
-        return QColor::fromHsvF( m_color.hueF(), m_color.saturationF(), value);
+        return QColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
     }
     return QColor();
 }
 
-QSize ColorWheel::sizeHint () const
+QSize ColorWheel::sizeHint() const
 {
-    return QSize(width(),height());
+    return QSize(width(), height());
 }
-QSize ColorWheel::minimumSizeHint () const
+QSize ColorWheel::minimumSizeHint() const
 {
     return QSize(100, 100);
 }
@@ -97,8 +100,7 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
         m_isInSquare = false;
         if (event->button() != Qt::MidButton) {
             changeColor(colorForPoint(m_lastPoint));
-        }
-        else {
+        } else {
             // reset to default on middle button
             qreal r = m_color.redF();
             qreal b = m_color.blueF();
@@ -112,17 +114,14 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
         m_isInSquare = true;
         if (event->button() != Qt::MidButton) {
             changeColor(colorForPoint(m_lastPoint));
-        }
-        else {
+        } else {
             QColor c;
             if (m_id == QLatin1String("lift")) {
                 c = QColor::fromRgbF(0, 0, 0);
-            }
-            else if (m_id == QLatin1String("gamma")) {
+            } else if (m_id == QLatin1String("gamma")) {
                 c = QColor::fromRgbF(0.5, 0.5, 0.5);
-            }
-            else {
-                 c = QColor::fromRgbF(0.25, 0.25, 0.25);
+            } else {
+                c = QColor::fromRgbF(0.25, 0.25, 0.25);
             }
             changeColor(c);
         }
@@ -133,11 +132,13 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
 void ColorWheel::mouseMoveEvent(QMouseEvent *event)
 {
     m_lastPoint = event->pos();
-    if (!m_isMouseDown) return;
+    if (!m_isMouseDown) {
+        return;
+    }
     if (m_wheelRegion.contains(m_lastPoint) && m_isInWheel) {
         QColor color = colorForPoint(m_lastPoint);
         changeColor(color);
-    } else if(m_sliderRegion.contains(m_lastPoint) && m_isInSquare) {
+    } else if (m_sliderRegion.contains(m_lastPoint) && m_isInSquare) {
         QColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     }
@@ -165,13 +166,12 @@ QString ColorWheel::getParamValues()
 {
     if (m_id == QLatin1String("gamma")) {
         return QString::number(m_color.redF() * 2, 'g', 2) + "," + QString::number(m_color.greenF() * 2, 'g', 2) + "," + QString::number(m_color.blueF() * 2, 'g', 2);
-    }
-    else if (m_id == QLatin1String("gain")) {
+    } else if (m_id == QLatin1String("gain")) {
         return QString::number(m_color.redF() * 4, 'g', 2) + "," + QString::number(m_color.greenF() * 4, 'g', 2) + "," + QString::number(m_color.blueF() * 4, 'g', 2);
     }
     // default (lift)
     return QString::number(m_color.redF(), 'g', 2) + "," + QString::number(m_color.greenF(), 'g', 2) + "," + QString::number(m_color.blueF(), 'g', 2);
-    
+
 }
 
 void ColorWheel::paintEvent(QPaintEvent *event)
@@ -197,32 +197,32 @@ void ColorWheel::drawWheel()
     m_image.fill(0); // transparent
 
     QConicalGradient conicalGradient;
-    conicalGradient.setColorAt(        0.0, Qt::red);
-    conicalGradient.setColorAt( 60.0/360.0, Qt::yellow);
-    conicalGradient.setColorAt(135.0/360.0, Qt::green);
-    conicalGradient.setColorAt(180.0/360.0, Qt::cyan);
-    conicalGradient.setColorAt(240.0/360.0, Qt::blue);
-    conicalGradient.setColorAt(315.0/360.0, Qt::magenta);
-    conicalGradient.setColorAt(        1.0, Qt::red);
+    conicalGradient.setColorAt(0.0, Qt::red);
+    conicalGradient.setColorAt(60.0 / 360.0, Qt::yellow);
+    conicalGradient.setColorAt(135.0 / 360.0, Qt::green);
+    conicalGradient.setColorAt(180.0 / 360.0, Qt::cyan);
+    conicalGradient.setColorAt(240.0 / 360.0, Qt::blue);
+    conicalGradient.setColorAt(315.0 / 360.0, Qt::magenta);
+    conicalGradient.setColorAt(1.0, Qt::red);
 
-    QRadialGradient radialGradient(0.0, 0.0, r/2);
+    QRadialGradient radialGradient(0.0, 0.0, r / 2);
     radialGradient.setColorAt(0.0, Qt::white);
     radialGradient.setColorAt(1.0, Qt::transparent);
 
-    painter.translate(r / 2, r / 2 );
+    painter.translate(r / 2, r / 2);
     painter.rotate(-105);
 
     QBrush hueBrush(conicalGradient);
     painter.setPen(Qt::NoPen);
     painter.setBrush(hueBrush);
-    painter.drawEllipse(QPoint(0, 0), r/2-m_margin, r/2-m_margin);
+    painter.drawEllipse(QPoint(0, 0), r / 2 - m_margin, r / 2 - m_margin);
 
     QBrush saturationBrush(radialGradient);
     painter.setBrush(saturationBrush);
-    painter.drawEllipse(QPoint(0, 0), r/2-m_margin, r/2-m_margin);
+    painter.drawEllipse(QPoint(0, 0), r / 2 - m_margin, r / 2 - m_margin);
 
-    m_wheelRegion = QRegion(r/2, r/2, r-2*m_margin, r-2*m_margin, QRegion::Ellipse);
-    m_wheelRegion.translate(-(r-2*m_margin)/2, -(r-2*m_margin)/2);
+    m_wheelRegion = QRegion(r / 2, r / 2, r - 2 * m_margin, r - 2 * m_margin, QRegion::Ellipse);
+    m_wheelRegion.translate(-(r - 2 * m_margin) / 2, -(r - 2 * m_margin) / 2);
 }
 
 void ColorWheel::drawSlider()
@@ -244,7 +244,7 @@ void ColorWheel::drawSlider()
     m_sliderRegion = QRegion(ws, m_margin, w, h);
 }
 
-void ColorWheel::drawWheelDot(QPainter& painter)
+void ColorWheel::drawWheelDot(QPainter &painter)
 {
     int r = wheelSize() / 2;
     QPen pen(Qt::white);

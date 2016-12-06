@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef ABSTRACTCOLLAPSIBLEWIDGET_H
 #define ABSTRACTCOLLAPSIBLEWIDGET_H
 
@@ -31,19 +30,19 @@ class AbstractCollapsibleWidget : public QWidget, public Ui::CollapsibleWidget_U
     Q_OBJECT
 
 public:
-    explicit AbstractCollapsibleWidget(QWidget * parent = Q_NULLPTR);
+    explicit AbstractCollapsibleWidget(QWidget *parent = Q_NULLPTR);
     virtual void setActive(bool activate) = 0;
     virtual bool isGroup() const = 0;
-    
+
 signals:
     void addEffect(const QDomElement &e);
     /** @brief Move effects in the stack one step up or down. */
-    void changeEffectPosition(const QList<int>&, bool upwards);
+    void changeEffectPosition(const QList<int> &, bool upwards);
     /** @brief Move effects in the stack. */
     void moveEffect(const QList<int> &current_pos, int new_pos, int groupIndex, const QString &groupName);
     /** @brief An effect was saved, trigger effect list reload. */
     void reloadEffects();
-  
+
 };
 
 #endif

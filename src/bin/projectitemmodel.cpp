@@ -8,7 +8,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -32,10 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QIcon>
 #include <QMimeData>
 
-
 ProjectItemModel::ProjectItemModel(Bin *bin) :
     QAbstractItemModel(bin)
-  , m_bin(bin)
+    , m_bin(bin)
 {
     connect(m_bin, &Bin::itemUpdated, this, &ProjectItemModel::onItemUpdated);
 }
@@ -47,21 +46,21 @@ ProjectItemModel::~ProjectItemModel()
 int ProjectItemModel::mapToColumn(int column) const
 {
     switch (column) {
-      case 0:
-          return AbstractProjectItem::DataName;
-          break;
-      case 1:
-          return AbstractProjectItem::DataDate;
-          break;
-      case 2:
-          return AbstractProjectItem::DataDescription;
-          break;
-      default:
-          return AbstractProjectItem::DataName;
+    case 0:
+        return AbstractProjectItem::DataName;
+        break;
+    case 1:
+        return AbstractProjectItem::DataDate;
+        break;
+    case 2:
+        return AbstractProjectItem::DataDescription;
+        break;
+    default:
+        return AbstractProjectItem::DataName;
     }
 }
 
-QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
+QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
@@ -78,14 +77,13 @@ QVariant ProjectItemModel::data(const QModelIndex& index, int role) const
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         QIcon icon = item->data(AbstractProjectItem::DataThumbnail).value<QIcon>();
         return icon;
-    }
-    else {
+    } else {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->data((AbstractProjectItem::DataType) role);
     }
 }
 
-bool ProjectItemModel::setData(const QModelIndex & index, const QVariant & value, int role)
+bool ProjectItemModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
     if (item->rename(value.toString(), index.column())) {
@@ -96,7 +94,7 @@ bool ProjectItemModel::setData(const QModelIndex & index, const QVariant & value
     return false;
 }
 
-Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
+Qt::ItemFlags ProjectItemModel::flags(const QModelIndex &index) const
 {
     /*return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;*/
     if (!index.isValid()) {
@@ -105,22 +103,23 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex& index) const
     AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
     AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
     switch (type) {
-      case AbstractProjectItem::FolderItem:
-          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
-          break;
-      case AbstractProjectItem::ClipItem:
-          if (!item->statusReady())
-              return Qt::ItemIsSelectable;
-          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
-          break;
-      case AbstractProjectItem::SubClipItem:
-          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
-          break;
-      case AbstractProjectItem::FolderUpItem:
-          return Qt::ItemIsEnabled;
-          break;
-      default:
-          return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+    case AbstractProjectItem::FolderItem:
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
+        break;
+    case AbstractProjectItem::ClipItem:
+        if (!item->statusReady()) {
+            return Qt::ItemIsSelectable;
+        }
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
+        break;
+    case AbstractProjectItem::SubClipItem:
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
+        break;
+    case AbstractProjectItem::FolderUpItem:
+        return Qt::ItemIsEnabled;
+        break;
+    default:
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }
 }
 
@@ -129,8 +128,9 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
 {
     Q_UNUSED(row)
     Q_UNUSED(column)
-    if (action == Qt::IgnoreAction)
+    if (action == Qt::IgnoreAction) {
         return true;
+    }
 
     if (data->hasUrls()) {
         emit itemDropped(data->urls(), parent);
@@ -138,7 +138,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     }
 
     if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
-       // Dropping an Bin item
+        // Dropping an Bin item
         QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(';');
         emit itemDropped(ids, parent);
         return true;
@@ -182,7 +182,7 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
-QModelIndex ProjectItemModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex ProjectItemModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (!hasIndex(row, column, parent)) {
         return QModelIndex();
@@ -191,7 +191,7 @@ QModelIndex ProjectItemModel::index(int row, int column, const QModelIndex& pare
     AbstractProjectItem *parentItem;
 
     if (parent.isValid()) {
-        parentItem = static_cast<AbstractProjectItem*>(parent.internalPointer());
+        parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
     } else {
         parentItem = m_bin->rootFolder();
     }
@@ -200,13 +200,13 @@ QModelIndex ProjectItemModel::index(int row, int column, const QModelIndex& pare
     return createIndex(row, column, childItem);
 }
 
-QModelIndex ProjectItemModel::parent(const QModelIndex& index) const
+QModelIndex ProjectItemModel::parent(const QModelIndex &index) const
 {
     if (!index.isValid()) {
         return QModelIndex();
     }
 
-    AbstractProjectItem * parentItem = static_cast<AbstractProjectItem*>(index.internalPointer())->parent();
+    AbstractProjectItem *parentItem = static_cast<AbstractProjectItem *>(index.internalPointer())->parent();
 
     if (!parentItem || parentItem == m_bin->rootFolder()) {
         return QModelIndex();
@@ -215,7 +215,7 @@ QModelIndex ProjectItemModel::parent(const QModelIndex& index) const
     return createIndex(parentItem->index(), 0, parentItem);
 }
 
-int ProjectItemModel::rowCount(const QModelIndex& parent) const
+int ProjectItemModel::rowCount(const QModelIndex &parent) const
 {
     // ?
     /*if (parent.column() > 0) {
@@ -224,7 +224,7 @@ int ProjectItemModel::rowCount(const QModelIndex& parent) const
 
     AbstractProjectItem *parentItem;
     if (parent.isValid()) {
-        parentItem = static_cast<AbstractProjectItem*>(parent.internalPointer());
+        parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
     } else {
         parentItem = m_bin->rootFolder();
     }
@@ -232,10 +232,10 @@ int ProjectItemModel::rowCount(const QModelIndex& parent) const
     return parentItem->count();
 }
 
-int ProjectItemModel::columnCount(const QModelIndex& parent) const
+int ProjectItemModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) {
-        return static_cast<AbstractProjectItem*>(parent.internalPointer())->supportedDataCount();
+        return static_cast<AbstractProjectItem *>(parent.internalPointer())->supportedDataCount();
     } else {
         return m_bin->rootFolder()->supportedDataCount();
     }
@@ -254,7 +254,7 @@ QStringList ProjectItemModel::mimeTypes() const
     return types;
 }
 
-QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
+QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
 {
     // Mime data is a list of id's separated by ';'.
     // Clip ids are represented like:  2 (where 2 is the clip's id)
@@ -264,16 +264,17 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
     QStringList list;
     for (int i = 0; i < indices.count(); i++) {
         QModelIndex ix = indices.at(i);
-        if (!ix.isValid() || ix.column() != 0) continue;
-        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(ix.internalPointer());
+        if (!ix.isValid() || ix.column() != 0) {
+            continue;
+        }
+        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(ix.internalPointer());
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {
             list << item->clipId();
         } else if (type == AbstractProjectItem::SubClipItem) {
             QPoint p = item->zone();
             list << item->clipId() + "/" + QString::number(p.x()) + "/" + QString::number(p.y());
-        }
-        else if (type == AbstractProjectItem::FolderItem) {
+        } else if (type == AbstractProjectItem::FolderItem) {
             list << "#" + item->clipId();
         }
     }
@@ -285,11 +286,12 @@ QMimeData* ProjectItemModel::mimeData(const QModelIndexList& indices) const
     return mimeData;
 }
 
-
-void ProjectItemModel::onAboutToAddItem(AbstractProjectItem* item)
+void ProjectItemModel::onAboutToAddItem(AbstractProjectItem *item)
 {
     AbstractProjectItem *parentItem = item->parent();
-    if (parentItem == Q_NULLPTR) return;
+    if (parentItem == Q_NULLPTR) {
+        return;
+    }
     QModelIndex parentIndex;
     if (parentItem != m_bin->rootFolder()) {
         parentIndex = createIndex(parentItem->index(), 0, parentItem);
@@ -297,16 +299,18 @@ void ProjectItemModel::onAboutToAddItem(AbstractProjectItem* item)
     beginInsertRows(parentIndex, parentItem->count(), parentItem->count());
 }
 
-void ProjectItemModel::onItemAdded(AbstractProjectItem* item)
+void ProjectItemModel::onItemAdded(AbstractProjectItem *item)
 {
     Q_UNUSED(item)
     endInsertRows();
 }
 
-void ProjectItemModel::onAboutToRemoveItem(AbstractProjectItem* item)
+void ProjectItemModel::onAboutToRemoveItem(AbstractProjectItem *item)
 {
     AbstractProjectItem *parentItem = item->parent();
-    if (parentItem == Q_NULLPTR) return;
+    if (parentItem == Q_NULLPTR) {
+        return;
+    }
     QModelIndex parentIndex;
     if (parentItem != m_bin->rootFolder()) {
         parentIndex = createIndex(parentItem->index(), 0, parentItem);
@@ -315,18 +319,21 @@ void ProjectItemModel::onAboutToRemoveItem(AbstractProjectItem* item)
     beginRemoveRows(parentIndex, item->index(), item->index());
 }
 
-void ProjectItemModel::onItemRemoved(AbstractProjectItem* item)
+void ProjectItemModel::onItemRemoved(AbstractProjectItem *item)
 {
     Q_UNUSED(item)
     endRemoveRows();
 }
 
-
-void ProjectItemModel::onItemUpdated(AbstractProjectItem* item)
+void ProjectItemModel::onItemUpdated(AbstractProjectItem *item)
 {
-    if (!item || item->clipStatus() == AbstractProjectItem::StatusDeleting) return;
+    if (!item || item->clipStatus() == AbstractProjectItem::StatusDeleting) {
+        return;
+    }
     AbstractProjectItem *parentItem = item->parent();
-    if (parentItem == Q_NULLPTR) return;
+    if (parentItem == Q_NULLPTR) {
+        return;
+    }
     QModelIndex parentIndex;
     if (parentItem != m_bin->rootFolder()) {
         parentIndex = createIndex(parentItem->index(), 0, parentItem);

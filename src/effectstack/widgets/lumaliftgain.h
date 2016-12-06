@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef LUMALIFTGAINWIDGET_H
 #define LUMALIFTGAINWIDGET_H
 
@@ -39,9 +38,9 @@ class LumaLiftGain : public QWidget
 public:
     /** @brief Sets up the widget.
     * @param text (optional) What the color will be used for
-    * @param color (optional) initial color 
+    * @param color (optional) initial color
     * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit LumaLiftGain(const QDomNodeList &nodes, QWidget* parent = Q_NULLPTR);
+    explicit LumaLiftGain(const QDomNodeList &nodes, QWidget *parent = Q_NULLPTR);
     void updateEffect(QDomElement &effect);
 
 private:

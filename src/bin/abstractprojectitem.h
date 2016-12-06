@@ -8,7 +8,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -35,15 +35,12 @@ class Bin;
 class QDomElement;
 class QDomDocument;
 
-
-
 /**
  * @class AbstractProjectItem
  * @brief Base class for all project items (clips, folders, ...).
  *
  * Project items are stored in a tree like structure ...
  */
-
 
 class AbstractProjectItem : public QObject, public QList<AbstractProjectItem *>
 {
@@ -70,7 +67,7 @@ public:
      *
      * We try to read the attributes "name" and "description"
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, AbstractProjectItem* parent = Q_NULLPTR);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, AbstractProjectItem *parent = Q_NULLPTR);
     virtual ~AbstractProjectItem();
 
     bool operator==(const AbstractProjectItem *projectItem) const;
@@ -101,14 +98,14 @@ public:
 
     /** @brief Returns the index this item has in its parent's child list. */
     int index() const;
-    
+
     /** @brief Returns the type of this item (folder, clip, subclip, etc). */
     PROJECTITEMTYPE itemType() const;
 
     /** @brief Used to search for a clip with a specific id. */
     virtual ProjectClip *clip(const QString &id) = 0;
     /** @brief Used to search for a folder with a specific id. */
-    virtual ProjectFolder* folder(const QString &id) = 0;
+    virtual ProjectFolder *folder(const QString &id) = 0;
     virtual ProjectClip *clipAt(int ix) = 0;
     /** @brief Recursively disable/enable bin effects. */
     virtual void disableEffects(bool disable) = 0;
@@ -141,17 +138,17 @@ public:
         // Number of occurences used in timeline
         UsageCount,
         // Empty if clip has no effect, icon otherwise
-	IconOverlay,
+        IconOverlay,
         // item type (clip, subclip, folder)
         ItemTypeRole,
         // Duration of the clip
         DataDuration,
         // If there is a running job, which type
-	JobType,
+        JobType,
         // Current progress of the job
-	JobProgress,
+        JobProgress,
         // error message if job crashes (not fully implemented)
-	JobMessage,
+        JobMessage,
         // Item status (ready or not, missing, waiting, ...)
         ClipStatus
     };
@@ -162,7 +159,7 @@ public:
         StatusWaiting,
         StatusDeleting
     };
-    
+
     void setClipStatus(AbstractProjectItem::CLIPSTATUS status);
     AbstractProjectItem::CLIPSTATUS clipStatus() const;
     bool statusReady() const;
@@ -215,7 +212,7 @@ protected:
     CLIPSTATUS m_clipStatus;
     AbstractClipJob::JOBTYPE m_jobType;
     int m_jobProgress;
-    
+
     QString m_jobMessage;
     PROJECTITEMTYPE m_itemType;
 

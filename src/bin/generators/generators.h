@@ -32,8 +32,9 @@
  *
  */
 
-namespace Mlt {
-    class Producer;
+namespace Mlt
+{
+class Producer;
 }
 
 class QLabel;
@@ -54,7 +55,7 @@ public:
     static QPair <QString, QString> parseGenerator(const QString &path, const QStringList &producers);
     QUrl getSavedClip(QString path = QString());
 
-    void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Mlt::Producer *m_producer;
@@ -64,7 +65,7 @@ private:
     QPixmap m_pixmap;
 
 private slots:
-    void updateProducer(const QDomElement &old = QDomElement(), const QDomElement &effect = QDomElement(),int ix = 0);
+    void updateProducer(const QDomElement &old = QDomElement(), const QDomElement &effect = QDomElement(), int ix = 0);
     void updateDuration(int duration);
 };
 

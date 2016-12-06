@@ -17,19 +17,16 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "doubleparameterwidget.h"
 #include "effectstack/dragvalue.h"
 
 #include <QGridLayout>
 #include <QRadioButton>
 
-
-
-DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, bool showRadiobutton, QWidget *parent) 
-  : QWidget(parent)
-  , factor(1)
-  , m_radio(Q_NULLPTR)
+DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, bool showRadiobutton, QWidget *parent)
+    : QWidget(parent)
+    , factor(1)
+    , m_radio(Q_NULLPTR)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     QGridLayout *layout = new QGridLayout(this);
@@ -86,8 +83,9 @@ void DoubleParameterWidget::enableEdit(bool enable)
 
 void DoubleParameterWidget::slotSetValue(double value, bool final)
 {
-    if (m_radio && !m_radio->isChecked())
+    if (m_radio && !m_radio->isChecked()) {
         m_radio->setChecked(true);
+    }
     if (final) {
         emit valueChanged(value);
     }
@@ -95,14 +93,16 @@ void DoubleParameterWidget::slotSetValue(double value, bool final)
 
 void DoubleParameterWidget::setChecked(bool check)
 {
-    if (m_radio)
+    if (m_radio) {
         m_radio->setChecked(check);
+    }
 }
 
 void DoubleParameterWidget::hideRadioButton()
 {
-    if (m_radio)
+    if (m_radio) {
         m_radio->setVisible(false);
+    }
 }
 
 double DoubleParameterWidget::getValue()
@@ -120,9 +120,8 @@ void DoubleParameterWidget::setInTimelineProperty(bool intimeline)
     m_dragVal->setInTimelineProperty(intimeline);
 }
 
-void DoubleParameterWidget::slotShowComment( bool show)
+void DoubleParameterWidget::slotShowComment(bool show)
 {
     Q_UNUSED(show)
 }
-
 

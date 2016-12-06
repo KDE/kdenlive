@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef COLLAPSIBLEGROUP_H
 #define COLLAPSIBLEGROUP_H
-
 
 #include "abstractcollapsiblewidget.h"
 #include "collapsibleeffect.h"
@@ -36,12 +34,11 @@ class MyEditableLabel : public QLineEdit
 {
     Q_OBJECT
 public:
-    explicit MyEditableLabel(QWidget * parent = Q_NULLPTR);
-    
-protected:
-    void mouseDoubleClickEvent( QMouseEvent *e) Q_DECL_OVERRIDE;
-};
+    explicit MyEditableLabel(QWidget *parent = Q_NULLPTR);
 
+protected:
+    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+};
 
 /**)
  * @class CollapsibleEffect
@@ -54,7 +51,7 @@ class CollapsibleGroup : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget * parent = Q_NULLPTR);
+    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget *parent = Q_NULLPTR);
     ~CollapsibleGroup();
     void updateTimecodeFormat();
     void setActive(bool activate) Q_DECL_OVERRIDE;
@@ -65,7 +62,7 @@ public:
     void addGroupEffect(CollapsibleEffect *effect);
     void removeGroup(int ix, QVBoxLayout *layout);
     /** @brief Return all effects in group. */
-    QList <CollapsibleEffect*> effects();
+    QList <CollapsibleEffect *> effects();
     /** @brief Return the editable title widget. */
     QWidget *title() const;
     /** @brief Return the XML data describing all effects in group. */
@@ -94,20 +91,19 @@ private:
     MyEditableLabel *m_title;
     QMutex m_mutex;
     KDualAction *m_enabledButton;
-    
+
 protected:
-    void mouseDoubleClickEvent ( QMouseEvent * event ) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragLeaveEvent(QDragLeaveEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
-    
+
 signals:
-    void deleteGroup(const QDomDocument&);
+    void deleteGroup(const QDomDocument &);
     void unGroup(CollapsibleGroup *);
     void groupRenamed(CollapsibleGroup *);
 
 };
-
 
 #endif
 

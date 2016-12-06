@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "effectbasket.h"
 #include "kdenlivesettings.h"
 #include "effectslistwidget.h"
@@ -29,10 +28,9 @@
 #include <QMimeData>
 #include <QDomDocument>
 
-
 EffectBasket::EffectBasket(EffectsListView *effectList) :
-        QListWidget(effectList)
-        , m_effectList(effectList)
+    QListWidget(effectList)
+    , m_effectList(effectList)
 {
     setFrameStyle(QFrame::NoFrame);
     setSelectionMode(QAbstractItemView::SingleSelection);
@@ -65,7 +63,7 @@ QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> list) const
     return mime;
 }
 
-void EffectBasket::showEvent(QShowEvent * event)
+void EffectBasket::showEvent(QShowEvent *event)
 {
     QListWidget::showEvent(event);
     if (!currentItem()) {
@@ -80,5 +78,4 @@ void EffectBasket::slotAddEffect(QListWidgetItem *item)
     QDomElement effect = EffectsListWidget::itemEffect(type, info);
     emit addEffect(effect);
 }
-
 

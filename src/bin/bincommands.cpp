@@ -24,40 +24,44 @@
 #include <klocalizedstring.h>
 
 AddBinFolderCommand::AddBinFolderCommand(Bin *bin, const QString &id, const QString &name, const QString &parentId, bool remove, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_id(id),
-        m_name(name),
-        m_parentId(parentId),
-        m_remove(remove)
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_id(id),
+    m_name(name),
+    m_parentId(parentId),
+    m_remove(remove)
 {
-    if (remove) setText(i18n("Remove Folder"));
-    else setText(i18n("Add Folder"));
+    if (remove) {
+        setText(i18n("Remove Folder"));
+    } else {
+        setText(i18n("Add Folder"));
+    }
 }
 // virtual
 void AddBinFolderCommand::undo()
 {
-    if (m_remove)
+    if (m_remove) {
         m_bin->doAddFolder(m_id, m_name, m_parentId);
-    else
+    } else {
         m_bin->doRemoveFolder(m_id);
+    }
 }
 // virtual
 void AddBinFolderCommand::redo()
 {
-    if (m_remove)
+    if (m_remove) {
         m_bin->doRemoveFolder(m_id);
-    else
+    } else {
         m_bin->doAddFolder(m_id, m_name, m_parentId);
+    }
 }
 
-
 MoveBinClipCommand::MoveBinClipCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_clipId(clipId),
-        m_oldParentId(oldParentId),
-        m_newParentId(newParentId)
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_clipId(clipId),
+    m_oldParentId(oldParentId),
+    m_newParentId(newParentId)
 {
     setText(i18n("Move Clip"));
 }
@@ -73,11 +77,11 @@ void MoveBinClipCommand::redo()
 }
 
 MoveBinFolderCommand::MoveBinFolderCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_clipId(clipId),
-        m_oldParentId(oldParentId),
-        m_newParentId(newParentId)
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_clipId(clipId),
+    m_oldParentId(oldParentId),
+    m_newParentId(newParentId)
 {
     setText(i18n("Move Clip"));
 }
@@ -93,11 +97,11 @@ void MoveBinFolderCommand::redo()
 }
 
 RenameBinFolderCommand::RenameBinFolderCommand(Bin *bin, const QString &folderId, const QString &newName, const QString &oldName, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_clipId(folderId),
-        m_oldName(oldName),
-        m_newName(newName)
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_clipId(folderId),
+    m_oldName(oldName),
+    m_newName(newName)
 {
     setText(i18n("Rename Folder"));
 }
@@ -113,10 +117,10 @@ void RenameBinFolderCommand::redo()
 }
 
 AddBinEffectCommand::AddBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &effect, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_clipId(clipId),
-        m_effect(effect)
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_clipId(clipId),
+    m_effect(effect)
 {
     setText(i18n("Add Bin Effect"));
 }
@@ -132,10 +136,10 @@ void AddBinEffectCommand::redo()
 }
 
 RemoveBinEffectCommand::RemoveBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &effect, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_clipId(clipId),
-        m_effect(effect)
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_clipId(clipId),
+    m_effect(effect)
 {
     setText(i18n("Remove Bin Effect"));
 }
@@ -151,13 +155,13 @@ void RemoveBinEffectCommand::redo()
 }
 
 UpdateBinEffectCommand::UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect,  QDomElement &newEffect, int ix, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_clipId(clipId),
-        m_oldEffect(oldEffect),
-        m_newEffect(newEffect),
-        m_ix(ix),
-        m_refreshStack(false)
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_clipId(clipId),
+    m_oldEffect(oldEffect),
+    m_newEffect(newEffect),
+    m_ix(ix),
+    m_refreshStack(false)
 {
     setText(i18n("Edit Bin Effect"));
 }
@@ -173,18 +177,19 @@ void UpdateBinEffectCommand::redo()
     m_refreshStack = true;
 }
 
-ChangeMasterEffectStateCommand::ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList<int>& effectIndexes, bool disable, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_clipId(clipId),
-        m_effectIndexes(effectIndexes),
-        m_disable(disable),
-        m_refreshEffectStack(false)
+ChangeMasterEffectStateCommand::ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList<int> &effectIndexes, bool disable, QUndoCommand *parent) :
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_clipId(clipId),
+    m_effectIndexes(effectIndexes),
+    m_disable(disable),
+    m_refreshEffectStack(false)
 {
-    if (disable)
+    if (disable) {
         setText(i18np("Disable effect", "Disable effects", effectIndexes.count()));
-    else
+    } else {
         setText(i18np("Enable effect", "Enable effects", effectIndexes.count()));
+    }
 }
 
 // virtual
@@ -195,15 +200,15 @@ void ChangeMasterEffectStateCommand::undo()
 // virtual
 void ChangeMasterEffectStateCommand::redo()
 {
-   m_bin->changeEffectState(m_clipId, m_effectIndexes, m_disable, m_refreshEffectStack);
-   m_refreshEffectStack = true;
+    m_bin->changeEffectState(m_clipId, m_effectIndexes, m_disable, m_refreshEffectStack);
+    m_refreshEffectStack = true;
 }
 
 MoveBinEffectCommand::MoveBinEffectCommand(Bin *bin, const QString &clipId, const QList<int> &oldPos, int newPos, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_clipId(clipId),
-        m_oldindex(oldPos)
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_clipId(clipId),
+    m_oldindex(oldPos)
 {
     m_newindex.reserve(m_oldindex.count());
     for (int i = 0; i < m_oldindex.count(); ++i) {
@@ -224,13 +229,13 @@ void MoveBinEffectCommand::redo()
 }
 
 RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out, QUndoCommand *parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_clipId(clipId),
-        m_oldName(oldName),
-        m_newName(newName),
-        m_in(in),
-        m_out(out)
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_clipId(clipId),
+    m_oldName(oldName),
+    m_newName(newName),
+    m_in(in),
+    m_out(out)
 {
     setText(i18n("Rename Zone"));
 }
@@ -244,7 +249,6 @@ void RenameBinSubClipCommand::redo()
 {
     m_bin->renameSubClip(m_clipId, m_newName, m_oldName, m_in, m_out);
 }
-
 
 AddBinClipCutCommand::AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent) :
     QUndoCommand(parent)
@@ -262,8 +266,7 @@ void AddBinClipCutCommand::undo()
 {
     if (m_addCut) {
         m_bin->removeClipCut(m_clipId, m_in, m_out);
-    }
-    else {
+    } else {
         m_bin->addClipCut(m_clipId, m_in, m_out);
     }
 }
@@ -272,20 +275,19 @@ void AddBinClipCutCommand::redo()
 {
     if (m_addCut) {
         m_bin->addClipCut(m_clipId, m_in, m_out);
-    }
-    else {
+    } else {
         m_bin->removeClipCut(m_clipId, m_in, m_out);
     }
 }
 
-EditClipCommand::EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_oldparams(oldparams),
-        m_newparams(newparams),
-        m_id(id),
-        m_doIt(doIt),
-        m_firstExec(true)
+EditClipCommand::EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt, QUndoCommand *parent) :
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_oldparams(oldparams),
+    m_newparams(newparams),
+    m_id(id),
+    m_doIt(doIt),
+    m_firstExec(true)
 {
     setText(i18n("Edit clip"));
 }
@@ -297,35 +299,41 @@ void EditClipCommand::undo()
 // virtual
 void EditClipCommand::redo()
 {
-    if (m_doIt)
+    if (m_doIt) {
         m_bin->slotUpdateClipProperties(m_id, m_newparams, !m_firstExec);
+    }
     m_doIt = true;
     m_firstExec = false;
 }
 
-AddClipCommand::AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) :
-        QUndoCommand(parent),
-        m_bin(bin),
-        m_xml(xml),
-        m_id(id),
-        m_doIt(doIt)
+AddClipCommand::AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand *parent) :
+    QUndoCommand(parent),
+    m_bin(bin),
+    m_xml(xml),
+    m_id(id),
+    m_doIt(doIt)
 {
-    if (doIt) setText(i18n("Add clip"));
-    else setText(i18n("Delete clip"));
+    if (doIt) {
+        setText(i18n("Add clip"));
+    } else {
+        setText(i18n("Delete clip"));
+    }
 }
 // virtual
 void AddClipCommand::undo()
 {
-    if (m_doIt)
+    if (m_doIt) {
         m_bin->deleteClip(m_id);
-    else
+    } else {
         m_bin->addClip(m_xml, m_id);
+    }
 }
 // virtual
 void AddClipCommand::redo()
 {
-    if (m_doIt)
+    if (m_doIt) {
         m_bin->addClip(m_xml, m_id);
-    else
+    } else {
         m_bin->deleteClip(m_id);
+    }
 }

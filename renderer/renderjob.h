@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef RENDERJOB_H
 #define RENDERJOB_H
 
@@ -34,7 +33,7 @@ class RenderJob : public QObject
     Q_OBJECT
 
 public:
-    RenderJob(bool erase, bool usekuiserver, int pid, const QString& renderer, const QString& profile, const QString& rendermodule, const QString& player, const QString& scenelist, const QString& dest, const QStringList& preargs, const QStringList& args, int in = -1, int out = -1);
+    RenderJob(bool erase, bool usekuiserver, int pid, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in = -1, int out = -1);
     ~RenderJob();
     void setLocale(const QString &locale);
 
@@ -45,7 +44,7 @@ private slots:
     void slotIsOver(QProcess::ExitStatus status, bool isWritable = true);
     void receivedStderr();
     void slotAbort();
-    void slotAbort(const QString& url);
+    void slotAbort(const QString &url);
     void slotCheckProcess(QProcess::ProcessState state);
 
 private:
@@ -54,8 +53,8 @@ private:
     int m_progress;
     QString m_prog;
     QString m_player;
-    QDBusInterface* m_jobUiserver;
-    QDBusInterface* m_kdenliveinterface;
+    QDBusInterface *m_jobUiserver;
+    QDBusInterface *m_kdenliveinterface;
     bool m_usekuiserver;
     /** @brief Used to create a temporary file for logging. */
     QFile m_logfile;
@@ -65,7 +64,7 @@ private:
     /** @brief The process id of the Kdenlive instance, used to get the dbus service. */
     int m_pid;
     bool m_dualpass;
-    QProcess* m_renderProcess;
+    QProcess *m_renderProcess;
     QString m_errorMessage;
     QList<QVariant> m_dbusargs;
     QTime m_startTime;

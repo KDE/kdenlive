@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef GEOMETRYWIDGET_H
 #define GEOMETRYWIDGET_H
 
@@ -44,7 +43,7 @@ public:
     * @param timecode Timecode needed by timecode display widget
     * @param clipPos Position of the clip in timeline
     * @param parent (optional) Parent widget */
-    explicit GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget* parent = Q_NULLPTR);
+    explicit GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget *parent = Q_NULLPTR);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;

@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -24,23 +24,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KLocalizedString>
 
-SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget* parent) :
-        QWidget(parent)
+SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget *parent) :
+    QWidget(parent)
 {
     setupUi(this);
     QDomNodeList namenode = effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < namenode.count() ; ++i) {
+    for (int i = 0; i < namenode.count(); ++i) {
         QDomElement pa = namenode.item(i).toElement();
         QDomElement na = pa.firstChildElement(QStringLiteral("name"));
         QString type = pa.attribute(QStringLiteral("type"));
         QString paramName = na.isNull() ? pa.attribute(QStringLiteral("name")) : i18n(na.text().toUtf8().data());
-        if (type == QLatin1String("cmyk"))
+        if (type == QLatin1String("cmyk")) {
             addParam(pa, paramName);
-        else if (pa.attribute(QStringLiteral("name")) == QLatin1String("av.correction_method")) {
-            if (pa.attribute(QStringLiteral("value")).toInt() == 1)
+        } else if (pa.attribute(QStringLiteral("name")) == QLatin1String("av.correction_method")) {
+            if (pa.attribute(QStringLiteral("value")).toInt() == 1) {
                 relative->setChecked(true);
-            else
+            } else {
                 absolute->setChecked(true);
+            }
         }
     }
     connect(range, SIGNAL(currentIndexChanged(int)), this, SLOT(updateValues()));
@@ -63,11 +64,13 @@ void SelectiveColor::addParam(QDomElement &effect, QString name)
         name = tag;
     }
     QString value = effect.attribute(QStringLiteral("value"));
-    if (value.isEmpty())
+    if (value.isEmpty()) {
         value = effect.attribute(QStringLiteral("default"));
+    }
     QIcon icon;
-    if (!value.isEmpty())
+    if (!value.isEmpty()) {
         icon = KoIconUtils::themedIcon(QStringLiteral("dialog-ok-apply"));
+    }
     range->addItem(icon, name, QStringList() << effect.attribute(QStringLiteral("name")) << value);
 }
 
@@ -85,17 +88,17 @@ void SelectiveColor::updateValues()
     spin_cyan->setValue(0);
     QStringList vals = values.at(1).split(QStringLiteral(" "));
     switch (vals.count()) {
-        case 4 :
-            spin_black->setValue(vals.at(3).toDouble() * 100);
-        case 3:
-            spin_yell->setValue(vals.at(2).toDouble() * 100);
-        case 2:
-            spin_mag->setValue(vals.at(1).toDouble() * 100);
-        case 1:
-            spin_cyan->setValue(vals.at(0).toDouble() * 100);
-            break;
-        default:
-            break;
+    case 4 :
+        spin_black->setValue(vals.at(3).toDouble() * 100);
+    case 3:
+        spin_yell->setValue(vals.at(2).toDouble() * 100);
+    case 2:
+        spin_mag->setValue(vals.at(1).toDouble() * 100);
+    case 1:
+        spin_cyan->setValue(vals.at(0).toDouble() * 100);
+        break;
+    default:
+        break;
     }
     blockSignals(false);
 }
@@ -135,9 +138,11 @@ void SelectiveColor::updateEffect(QDomElement &effect)
         values.insert(vals.at(0), vals.at(1));
     }
     QDomNodeList namenode = effect.childNodes();
-    for (int i = 0; i < namenode.count() ; ++i) {
+    for (int i = 0; i < namenode.count(); ++i) {
         QDomElement pa = namenode.item(i).toElement();
-        if (pa.tagName() != QLatin1String("parameter")) continue;
+        if (pa.tagName() != QLatin1String("parameter")) {
+            continue;
+        }
         QString paramName = pa.attribute(QStringLiteral("name"));
         if (values.contains(paramName)) {
             pa.setAttribute(QStringLiteral("value"), values.value(paramName));
@@ -146,5 +151,4 @@ void SelectiveColor::updateEffect(QDomElement &effect)
         }
     }
 }
-
 

@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -38,7 +38,7 @@ class ProjectSortProxyModel : public QSortFilterProxyModel
 
 public:
     explicit ProjectSortProxyModel(QObject *parent = Q_NULLPTR);
-    QItemSelectionModel* selectionModel();
+    QItemSelectionModel *selectionModel();
 
 public slots:
     /** @brief Set search string that will filter the view */
@@ -48,25 +48,25 @@ public slots:
 
 private slots:
     /** @brief Called when a row change is detected by selection model */
-    void onCurrentRowChanged(const QItemSelection& current, const QItemSelection& previous);
+    void onCurrentRowChanged(const QItemSelection &current, const QItemSelection &previous);
 
 protected:
     /** @brief Decide which items should be displayed depending on the search string  */
     // cppcheck-suppress unusedFunction
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
     /** @brief Reimplemented to show folders first  */
-    bool lessThan(const QModelIndex & left, const QModelIndex & right) const Q_DECL_OVERRIDE;
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;
     bool filterAcceptsRowItself(int source_row, const QModelIndex &source_parent) const;
     bool hasAcceptedChildren(int source_row, const QModelIndex &source_parent) const;
 
 private:
-    QItemSelectionModel*m_selection;
+    QItemSelectionModel *m_selection;
     QString m_searchString;
     QCollator m_collator;
 
 signals:
     /** @brief Emitted when the row changes, used to prepare action for selected item  */
-    void selectModel(const QModelIndex&);
- };
- 
+    void selectModel(const QModelIndex &);
+};
+
 #endif

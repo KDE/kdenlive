@@ -28,15 +28,16 @@ class GeometryWidget;
 class AnimationWidget;
 class Monitor;
 
-namespace Mlt {
+namespace Mlt
+{
 }
 
 enum EFFECTMODE {
-        EMPTY = 0,
-        TIMELINE_CLIP,
-        TIMELINE_TRACK,
-        MASTER_CLIP,
-        TIMELINE_TRANSITION
+    EMPTY = 0,
+    TIMELINE_CLIP,
+    TIMELINE_TRACK,
+    MASTER_CLIP,
+    TIMELINE_TRANSITION
 };
 
 struct EffectMetaInfo {
@@ -76,11 +77,11 @@ class MySpinBox : public QSpinBox
     Q_OBJECT
 
 public:
-    explicit MySpinBox(QWidget * parent = Q_NULLPTR);
+    explicit MySpinBox(QWidget *parent = Q_NULLPTR);
 
 protected:
-    void focusInEvent(QFocusEvent*) Q_DECL_OVERRIDE;
-    void focusOutEvent(QFocusEvent*) Q_DECL_OVERRIDE;
+    void focusInEvent(QFocusEvent *) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent *) Q_DECL_OVERRIDE;
 };
 
 class ParameterContainer : public QObject
@@ -88,7 +89,7 @@ class ParameterContainer : public QObject
     Q_OBJECT
 
 public:
-    explicit ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget * parent = Q_NULLPTR);
+    explicit ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget *parent = Q_NULLPTR);
     ~ParameterContainer();
     void updateTimecodeFormat();
     void updateParameter(const QString &key, const QString &value);
@@ -118,11 +119,11 @@ private slots:
     void makeDrag(const QString &name);
 
 private:
-        /** @brief Updates parameter @param name according to new value of dependency.
+    /** @brief Updates parameter @param name according to new value of dependency.
     * @param name Name of the parameter which will be updated
     * @param type Type of the parameter which will be updated
     * @param value Value of the dependency parameter */
-    void meetDependency(const QString& name, const QString &type, const QString &value);
+    void meetDependency(const QString &name, const QString &type, const QString &value);
     wipeInfo getWipeInfo(QString value);
     QString getWipeString(wipeInfo info);
     /** @brief Delete all child widgets */
@@ -130,9 +131,9 @@ private:
     int m_in;
     int m_out;
     ItemInfo m_info;
-    QList<QWidget*> m_uiItems;
-    QMap<QString, QWidget*> m_valueItems;
-    QList<QWidget*> m_conditionalWidgets;
+    QList<QWidget *> m_uiItems;
+    QMap<QString, QWidget *> m_valueItems;
+    QList<QWidget *> m_conditionalWidgets;
     KeyframeEdit *m_keyframeEditor;
     GeometryWidget *m_geometryWidget;
     AnimationWidget *m_animationWidget;
@@ -144,15 +145,15 @@ private:
     bool m_conditionParameter;
 
 signals:
-    void parameterChanged(const QDomElement &, const QDomElement&, int);
+    void parameterChanged(const QDomElement &, const QDomElement &, int);
     void syncEffectsPos(int);
-    void displayMessage(const QString&, int);
+    void displayMessage(const QString &, int);
     void disableCurrentFilter(bool);
     void checkMonitorPosition(int);
     void seekTimeline(int);
     void showComments(bool);
     void importKeyframes(const QString &);
-    /** @brief Start an MLT filter job on this clip. 
+    /** @brief Start an MLT filter job on this clip.
      * @param filterParams a QMap containing filter name under the "filter" key, and all filter properties
      * @param consumerParams a QMap containing consumer name under the "consumer" key, and all consumer properties
      * @param extraParams a QMap containing extra data used by the job

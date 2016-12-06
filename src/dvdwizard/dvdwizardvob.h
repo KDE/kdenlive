@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef DVDWIZARDVOB_H
 #define DVDWIZARDVOB_H
 
@@ -50,14 +49,14 @@ public:
     explicit DvdTreeWidget(QWidget *parent);
 
 protected:
-    void dragEnterEvent(QDragEnterEvent * event ) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent * event ) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent( QMouseEvent * ) Q_DECL_OVERRIDE;
-    void dragMoveEvent(QDragMoveEvent * event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void addNewClip();
-    void addClips(const QList<QUrl>&);
+    void addClips(const QList<QUrl> &);
 };
 
 class DvdViewDelegate : public QStyledItemDelegate
@@ -67,7 +66,8 @@ public:
     explicit DvdViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const Q_DECL_OVERRIDE {
+               const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
         if (index.column() == 0) {
             painter->save();
             QStyleOptionViewItem opt(option);
@@ -93,7 +93,7 @@ public:
             painter->setFont(font);
             QString subText = index.data(Qt::UserRole).toString();
             QRectF bounding;
-            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText, &bounding);
+            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter, subText, &bounding);
             painter->restore();
         } else {
             QStyledItemDelegate::paint(painter, option, index);
@@ -101,13 +101,12 @@ public:
     }
 };
 
-
 class DvdWizardVob : public QWizardPage
 {
     Q_OBJECT
 
 public:
-    explicit DvdWizardVob(QWidget * parent = Q_NULLPTR);
+    explicit DvdWizardVob(QWidget *parent = Q_NULLPTR);
     virtual ~DvdWizardVob();
     QStringList selectedUrls() const;
     void setUrl(const QString &url);
@@ -116,7 +115,7 @@ public:
     int duration(int ix) const;
     QStringList durations() const;
     QStringList chapters() const;
-    void setProfile(const QString& profile);
+    void setProfile(const QString &profile);
     void clear();
     const QString introMovie() const;
     void setUseIntroMovie(bool use);

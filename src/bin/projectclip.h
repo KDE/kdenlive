@@ -8,7 +8,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstractprojectitem.h"
 #include "definitions.h"
 
-
 #include <QUrl>
 #include <QMutex>
 #include <QFuture>
@@ -39,16 +38,16 @@ class ClipPropertiesController;
 class ProjectSubClip;
 class QUndoCommand;
 
-namespace Mlt {
-  class Producer;
-  class Properties;
+namespace Mlt
+{
+class Producer;
+class Properties;
 };
-
 
 /**
  * @class ProjectClip
  * @brief Represents a clip in the project (not timeline).
- * 
+ *
  */
 
 class ProjectClip : public AbstractProjectItem
@@ -59,7 +58,7 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectClip(const QString &id, const QIcon &thumb, ClipController *controller, ProjectFolder* parent);
+    ProjectClip(const QString &id, const QIcon &thumb, ClipController *controller, ProjectFolder *parent);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "id" attribute and "resource" property are used
@@ -74,13 +73,13 @@ public:
 
     /** @brief Returns this if @param id matches the clip's id or Q_NULLPTR otherwise. */
     ProjectClip *clip(const QString &id) Q_DECL_OVERRIDE;
-    
-    ProjectFolder* folder(const QString &id) Q_DECL_OVERRIDE;
-    
-    ProjectSubClip* getSubClip(int in, int out);
+
+    ProjectFolder *folder(const QString &id) Q_DECL_OVERRIDE;
+
+    ProjectSubClip *getSubClip(int in, int out);
 
     /** @brief Returns this if @param ix matches the clip's index or Q_NULLPTR otherwise. */
-    ProjectClip* clipAt(int ix) Q_DECL_OVERRIDE;
+    ProjectClip *clipAt(int ix) Q_DECL_OVERRIDE;
 
     /** @brief Recursively disable/enable bin effects. */
     void disableEffects(bool disable) Q_DECL_OVERRIDE;
@@ -92,7 +91,7 @@ public:
     bool hasParent(const QString &id) const;
     ClipPropertiesController *buildProperties(QWidget *parent);
     QPoint zone() const Q_DECL_OVERRIDE;
-    
+
     /** @brief Returns true if we want to add an affine transition in timeline when dropping this clip. */
     bool isTransparent() const;
 
@@ -107,17 +106,17 @@ public:
 
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
-    
+
     /** @brief Returns the original clip's fps. */
     double getOriginalFps() const;
 
     /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
     void setCurrent(bool current, bool notify = true) Q_DECL_OVERRIDE;
-    
+
     bool rename(const QString &name, int column) Q_DECL_OVERRIDE;
 
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;
-    
+
     QVariant data(DataType type) const Q_DECL_OVERRIDE;
 
     /** @brief Sets thumbnail for this clip. */
@@ -130,27 +129,27 @@ public:
      *  @returns true if producer was changed
      * . */
     bool setProducer(ClipController *controller, bool replaceProducer);
-    
+
     /** @brief Returns true if this clip already has a producer. */
     bool isReady() const;
-    
+
     /** @brief Returns this clip's producer. */
     Mlt::Producer *originalProducer();
     Mlt::Producer *thumbProducer();
-    
+
     ClipController *controller();
 
     /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
     void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false);
-    
+
     /** @brief Get an XML property from MLT produced xml. */
     static QString getXmlProperty(const QDomElement &producer, const QString &propertyName, const QString &defaultValue = QString());
-    
+
     QString getToolTip() const Q_DECL_OVERRIDE;
 
     /** @brief The clip hash created from the clip's resource. */
     const QString hash();
-    
+
     /** @brief Set a property on the MLT producer. */
     void setProducerProperty(const QString &name, int data);
     /** @brief Set a property on the MLT producer. */
@@ -159,7 +158,7 @@ public:
     void setProducerProperty(const QString &name, const QString &data);
     /** @brief Reset a property on the MLT producer (=delete the property). */
     void resetProducerProperty(const QString &name);
-    
+
     /** @brief Get a property from the MLT producer. */
     QMap<QString, QString> currentProperties(const QMap<QString, QString> &props);
     QString getProducerProperty(const QString &key) const;
@@ -184,7 +183,7 @@ public:
     void setWaitingStatus(const QString &id);
     /** @brief Returns true if the clip matched a condition, for example vcodec=mpeg1video. */
     bool matches(const QString &condition);
-    /** @brief Returns true if the clip's video codec is equal to @param codec. 
+    /** @brief Returns true if the clip's video codec is equal to @param codec.
      *  @param audioCodec set to true if you want to check audio codec. When false, this will check the video codec
      */
     const QString codec(bool audioCodec) const;

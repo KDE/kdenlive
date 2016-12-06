@@ -69,7 +69,7 @@ public:
      * XXX: or is the pixmap what is drawn to the  left and bottom of the curve
      * itself?
      */
-    void setPixmap(const QPixmap & pix);
+    void setPixmap(const QPixmap &pix);
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
@@ -83,14 +83,13 @@ signals:
 protected slots:
     void inOutChanged(int);
 
-
 protected:
 
     void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent * e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent * e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent * e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
@@ -128,9 +127,8 @@ public:
 private:
 
     class Private;
-    Private * const d;
+    Private *const d;
 
 };
-
 
 #endif /* KIS_CURVE_WIDGET_H */

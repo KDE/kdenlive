@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "keyframehelper.h"
 
 #include "kdenlivesettings.h"
@@ -36,15 +35,15 @@ const int margin = 5;
 
 KeyframeHelper::KeyframeHelper(QWidget *parent) :
     QWidget(parent)
-  , frameLength(1)
-  , m_geom(Q_NULLPTR)
-  , m_position(0)
-  , m_scale(0)
-  , m_movingKeyframe(false)
-  , m_movingItem()
-  , m_hoverKeyframe(-1)
-  , m_seekPosition(SEEK_INACTIVE)
-  , m_offset(0)
+    , frameLength(1)
+    , m_geom(Q_NULLPTR)
+    , m_position(0)
+    , m_scale(0)
+    , m_movingKeyframe(false)
+    , m_movingItem()
+    , m_hoverKeyframe(-1)
+    , m_seekPosition(SEEK_INACTIVE)
+    , m_offset(0)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);
@@ -59,7 +58,7 @@ KeyframeHelper::KeyframeHelper(QWidget *parent) :
 }
 
 // virtual
-void KeyframeHelper::mousePressEvent(QMouseEvent * event)
+void KeyframeHelper::mousePressEvent(QMouseEvent *event)
 {
     m_hoverKeyframe = -1;
     if (event->button() != Qt::LeftButton) {
@@ -83,7 +82,9 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
 
                 while (!m_extraMovingItems.isEmpty()) {
                     Mlt::GeometryItem *gitem = m_extraMovingItems.takeFirst();
-                    if (gitem) delete gitem;
+                    if (gitem) {
+                        delete gitem;
+                    }
                 }
                 for (int i = 0; i < m_extraGeometries.count(); ++i) {
                     if (m_extraGeometries.at(i)->next_key(item, mousePos) == 0) {
@@ -108,7 +109,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent * event)
     }
 }
 
-void KeyframeHelper::leaveEvent( QEvent * event )
+void KeyframeHelper::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
     if (m_hoverKeyframe != -1) {
@@ -118,7 +119,7 @@ void KeyframeHelper::leaveEvent( QEvent * event )
 }
 
 // virtual
-void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
+void KeyframeHelper::mouseMoveEvent(QMouseEvent *event)
 {
     int xPos = event->x() - margin;
     int headOffset = m_lineHeight / 1.5;
@@ -138,7 +139,9 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
             Mlt::GeometryItem item;
             if (m_geom->next_key(&item, mousePos) == 0) {
                 if (qAbs((item.frame() - m_offset) * m_scale - xPos) < headOffset) {
-                    if (m_hoverKeyframe == item.frame()) return;
+                    if (m_hoverKeyframe == item.frame()) {
+                        return;
+                    }
                     m_hoverKeyframe = item.frame();
                     setCursor(Qt::PointingHandCursor);
                     update();
@@ -157,25 +160,30 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
     }
     if (!m_dragStart.isNull() || m_movingKeyframe) {
         if (!m_movingKeyframe) {
-            if ((QPoint(xPos, event->y()) - m_dragStart).manhattanLength() < QApplication::startDragDistance()) return;
+            if ((QPoint(xPos, event->y()) - m_dragStart).manhattanLength() < QApplication::startDragDistance()) {
+                return;
+            }
             m_movingKeyframe = true;
             m_dragStart = QPoint();
             m_geom->remove(m_movingItem.frame());
-            for (int i = 0; i < m_extraGeometries.count(); ++i)
+            for (int i = 0; i < m_extraGeometries.count(); ++i) {
                 m_extraGeometries[i]->remove(m_movingItem.frame());
+            }
         }
         int pos = qBound(0, (int)(xPos / m_scale), frameLength);
-        if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < headOffset / m_scale)
+        if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < headOffset / m_scale) {
             pos = m_position;
+        }
         m_movingItem.frame(pos + m_offset);
         for (int i = 0; i < m_extraMovingItems.count(); ++i) {
-            if (m_extraMovingItems.at(i))
+            if (m_extraMovingItems.at(i)) {
                 m_extraMovingItems[i]->frame(pos);
+            }
         }
         update();
         return;
     }
-    m_seekPosition = (int) (xPos / m_scale);
+    m_seekPosition = (int)(xPos / m_scale);
     m_seekPosition = qMax(0, m_seekPosition);
     m_seekPosition = qMin(frameLength, m_seekPosition);
     m_hoverKeyframe = -2;
@@ -183,7 +191,7 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
     update();
 }
 
-void KeyframeHelper::mouseDoubleClickEvent(QMouseEvent * event)
+void KeyframeHelper::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (m_geom != Q_NULLPTR && event->button() == Qt::LeftButton) {
         // check if we want to move a keyframe
@@ -201,7 +209,7 @@ void KeyframeHelper::mouseDoubleClickEvent(QMouseEvent * event)
 }
 
 // virtual
-void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
+void KeyframeHelper::mouseReleaseEvent(QMouseEvent *event)
 {
     setCursor(Qt::ArrowCursor);
     m_hoverKeyframe = -1;
@@ -210,14 +218,14 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
         m_movingKeyframe = false;
 
         for (int i = 0; i < m_extraGeometries.count(); ++i) {
-            if (m_extraMovingItems.at(i))
+            if (m_extraMovingItems.at(i)) {
                 m_extraGeometries[i]->insert(m_extraMovingItems.at(i));
+            }
         }
         m_movingKeyframe = false;
         emit keyframeMoved(m_position);
         return;
-    }
-    else if (!m_dragStart.isNull()) {
+    } else if (!m_dragStart.isNull()) {
         m_seekPosition = m_movingItem.frame();
         m_dragStart = QPoint();
         emit requestSeek(m_seekPosition);
@@ -226,12 +234,13 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent * event)
 }
 
 // virtual
-void KeyframeHelper::wheelEvent(QWheelEvent * e)
+void KeyframeHelper::wheelEvent(QWheelEvent *e)
 {
-    if (e->delta() < 0)
+    if (e->delta() < 0) {
         --m_position;
-    else
+    } else {
         ++m_position;
+    }
     m_position = qMax(0, m_position);
     m_position = qMin(frameLength, m_position);
     emit requestSeek(m_position);
@@ -250,13 +259,15 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
     p.setRenderHints(QPainter::Antialiasing);
     const QRectF clipRect = e->rect();
     p.setClipRect(clipRect);
-    m_scale = (double) (width() - 2 * margin) / frameLength;
+    m_scale = (double)(width() - 2 * margin) / frameLength;
     int headOffset = m_lineHeight / 1.5;
     if (m_geom != Q_NULLPTR) {
         int pos = m_offset;
         Mlt::GeometryItem item;
         while (true) {
-            if (m_geom->next_key(&item, pos) == 1) break;
+            if (m_geom->next_key(&item, pos) == 1) {
+                break;
+            }
             pos = item.frame();
             int offsetPos = pos - m_offset;
             if (offsetPos < 0) {
@@ -269,8 +280,7 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
                 // active keyframe
                 p.setBrush(m_selected);
                 p.setPen(m_selected);
-            }
-            else {
+            } else {
                 p.setPen(palette().text().color());
                 p.setBrush(palette().text());
             }
@@ -300,10 +310,11 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
     const int cursor = margin + m_position * m_scale;
     int cursorwidth = (m_size - (m_lineHeight + headOffset / 2)) / 2 + 1;
     pa.setPoints(3, cursor - cursorwidth, m_size, cursor + cursorwidth, m_size, cursor, m_lineHeight + (headOffset / 2) + 1);
-    if (m_hoverKeyframe == -2)
+    if (m_hoverKeyframe == -2) {
         p.setBrush(palette().highlight());
-    else
+    } else {
         p.setBrush(palette().text());
+    }
     p.drawPolygon(pa);
 }
 
@@ -317,8 +328,9 @@ int KeyframeHelper::value() const
 
 void KeyframeHelper::setValue(const int pos)
 {
-    if (pos == m_position || m_geom == Q_NULLPTR)
+    if (pos == m_position || m_geom == Q_NULLPTR) {
         return;
+    }
     if (pos == m_seekPosition) {
         m_seekPosition = SEEK_INACTIVE;
     }
@@ -338,5 +350,4 @@ void KeyframeHelper::addGeometry(Mlt::Geometry *geom)
 {
     m_extraGeometries.append(geom);
 }
-
 

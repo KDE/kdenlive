@@ -32,33 +32,33 @@ class KisCubicCurve
 {
 public:
     KisCubicCurve();
-    explicit KisCubicCurve(const QList<QPointF>& points);
-    explicit KisCubicCurve(const QVector<QPointF>& points);
-    KisCubicCurve(const KisCubicCurve& curve);
+    explicit KisCubicCurve(const QList<QPointF> &points);
+    explicit KisCubicCurve(const QVector<QPointF> &points);
+    KisCubicCurve(const KisCubicCurve &curve);
     ~KisCubicCurve();
-    KisCubicCurve& operator=(const KisCubicCurve& curve);
-    bool operator==(const KisCubicCurve& curve) const;
+    KisCubicCurve &operator=(const KisCubicCurve &curve);
+    bool operator==(const KisCubicCurve &curve) const;
 public:
     qreal value(qreal x) const;
     QList<QPointF> points() const;
-    void setPoints(const QList<QPointF>& points);
-    void setPoint(int idx, const QPointF& point);
+    void setPoints(const QList<QPointF> &points);
+    void setPoint(int idx, const QPointF &point);
     /**
      * Add a point to the curve, the list of point is always sorted.
      * @return the index of the inserted point
      */
-    int addPoint(const QPointF& point);
+    int addPoint(const QPointF &point);
     void removePoint(int idx);
 public:
     QVector<quint16> uint16Transfer(int size = 256) const;
     QVector<qreal> floatTransfer(int size = 256) const;
 public:
     QString toString() const;
-    void fromString(const QString&);
+    void fromString(const QString &);
 private:
     struct Data;
     struct Private;
-    Private* const d;
+    Private *const d;
 };
 
 Q_DECLARE_METATYPE(KisCubicCurve);

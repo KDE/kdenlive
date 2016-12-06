@@ -47,24 +47,28 @@ DvdTreeWidget::DvdTreeWidget(QWidget *parent) :
     setAcceptDrops(true);
 }
 
-void DvdTreeWidget::dragEnterEvent(QDragEnterEvent * event ) {
+void DvdTreeWidget::dragEnterEvent(QDragEnterEvent *event)
+{
     if (event->mimeData()->hasUrls()) {
         event->setDropAction(Qt::CopyAction);
         event->setAccepted(true);
+    } else {
+        QTreeWidget::dragEnterEvent(event);
     }
-    else QTreeWidget::dragEnterEvent(event);
 }
 
-void DvdTreeWidget::dragMoveEvent(QDragMoveEvent * event) {
+void DvdTreeWidget::dragMoveEvent(QDragMoveEvent *event)
+{
     event->acceptProposedAction();
 }
 
-void DvdTreeWidget::mouseDoubleClickEvent( QMouseEvent * )
+void DvdTreeWidget::mouseDoubleClickEvent(QMouseEvent *)
 {
     emit addNewClip();
 }
 
-void DvdTreeWidget::dropEvent(QDropEvent * event ) {
+void DvdTreeWidget::dropEvent(QDropEvent *event)
+{
     QList<QUrl> clips = event->mimeData()->urls();
     event->accept();
     emit addClips(clips);
@@ -97,12 +101,16 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     connect(m_view.button_down, &QAbstractButton::clicked, this, &DvdWizardVob::slotItemDown);
     connect(m_view.convert_abort, &QAbstractButton::clicked, this, &DvdWizardVob::slotAbortTranscode);
     connect(m_vobList, &QTreeWidget::itemSelectionChanged, this, &DvdWizardVob::slotCheckVobList);
-    
+
     m_vobList->setIconSize(QSize(60, 45));
 
     QString errorMessage;
-    if (QStandardPaths::findExecutable(QStringLiteral("dvdauthor")).isEmpty()) errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
-    if (QStandardPaths::findExecutable(QStringLiteral("mkisofs")).isEmpty() && QStandardPaths::findExecutable(QStringLiteral("genisoimage")).isEmpty()) errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
+    if (QStandardPaths::findExecutable(QStringLiteral("dvdauthor")).isEmpty()) {
+        errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.</strong>", i18n("dvdauthor")));
+    }
+    if (QStandardPaths::findExecutable(QStringLiteral("mkisofs")).isEmpty() && QStandardPaths::findExecutable(QStringLiteral("genisoimage")).isEmpty()) {
+        errorMessage.append(i18n("<strong>Program %1 or %2 is required for the DVD wizard.</strong>", i18n("mkisofs"), i18n("genisoimage")));
+    }
     if (!errorMessage.isEmpty()) {
         m_view.button_add->setEnabled(false);
         m_view.dvd_profile->setEnabled(false);
@@ -127,13 +135,13 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
 
     m_warnMessage = new KMessageWidget;
     m_warnMessage->setCloseButtonVisible(false);
-    QGridLayout *s =  static_cast <QGridLayout*> (layout());
+    QGridLayout *s =  static_cast <QGridLayout *>(layout());
     s->addWidget(m_warnMessage, 2, 0, 1, -1);
     if (!errorMessage.isEmpty()) {
         m_warnMessage->setMessageType(KMessageWidget::Error);
         m_warnMessage->setText(errorMessage);
         m_installCheck = false;
-    }else {
+    } else {
         m_warnMessage->setMessageType(KMessageWidget::Warning);
         m_warnMessage->setText(i18n("Your clips do not match selected DVD format, transcoding required."));
         m_warnMessage->addAction(m_transcodeAction);
@@ -170,26 +178,29 @@ void DvdWizardVob::slotShowTranscodeInfo()
         if (log.contains(QStringLiteral("Duration:"))) {
             QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(',', 0, 0).simplified();
             QStringList numbers = data.split(':');
-            if (numbers.size() < 3) return;
+            if (numbers.size() < 3) {
+                return;
+            }
             m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
             //log_text->setHidden(true);
             //job_progress->setHidden(false);
-        }
-        else {
+        } else {
             //log_text->setHidden(false);
             //job_progress->setHidden(true);
         }
-    }
-    else if (log.contains(QStringLiteral("time="))) {
+    } else if (log.contains(QStringLiteral("time="))) {
         int progress;
         QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(' ', 0, 0);
         if (time.contains(':')) {
             QStringList numbers = time.split(':');
-            if (numbers.size() < 3) return;
+            if (numbers.size() < 3) {
+                return;
+            }
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+        } else {
+            progress = (int) time.toDouble();
         }
-        else progress = (int) time.toDouble();
-        m_view.convert_progress->setValue((int) (100.0 * progress / m_duration));
+        m_view.convert_progress->setValue((int)(100.0 * progress / m_duration));
     }
     //log_text->setPlainText(log);
 }
@@ -214,10 +225,9 @@ void DvdWizardVob::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exit
             processTranscoding();
             return;
         }
-    }
-    else {
+    } else {
         // Something failed
-      //TODO show log
+        //TODO show log
         m_warnMessage->setMessageType(KMessageWidget::Warning);
         m_warnMessage->setText(i18n("Transcoding failed!"));
         m_warnMessage->animatedShow();
@@ -230,7 +240,6 @@ void DvdWizardVob::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exit
         slotCheckProfiles();
     }
 }
-
 
 void DvdWizardVob::slotCheckProfiles()
 {
@@ -246,8 +255,7 @@ void DvdWizardVob::slotCheckProfiles()
     m_transcodeAction->setEnabled(conflict);
     if (conflict) {
         showProfileError();
-    }
-    else {
+    } else {
         m_warnMessage->animatedHide();
     }
 }
@@ -262,7 +270,7 @@ void DvdWizardVob::slotAddVobList(QList<QUrl> list)
             KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), list.at(0).adjusted(QUrl::RemoveFilename).path());
         }
     }
-    foreach(const QUrl &url, list) {
+    foreach (const QUrl &url, list) {
         slotAddVobFile(url, QString(), false);
     }
     slotCheckVobList();
@@ -271,7 +279,9 @@ void DvdWizardVob::slotAddVobList(QList<QUrl> list)
 
 void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool checkFormats)
 {
-    if (!url.isValid()) return;
+    if (!url.isValid()) {
+        return;
+    }
     QFile f(url.path());
     qint64 fileSize = f.size();
 
@@ -297,7 +307,9 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
     }
     if (producer && producer->is_valid() && !producer->is_blank()) {
         int width = 45.0 * profile.dar();
-        if (width % 2 == 1) width++;
+        if (width % 2 == 1) {
+            width++;
+        }
         item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, width, 45)));
         int playTime = producer->get_playtime();
         item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
@@ -305,12 +317,17 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
         int standard = -1;
         int aspect = profile.dar() * 100;
         if (profile.height() == 576 && profile.fps() == 25.0) {
-            if (aspect > 150) standard = 1;
-            else standard = 0;
-        }
-        else if (profile.height() == 480 && qAbs(profile.fps() - 30000.0 / 1001) < 0.2) {
-            if (aspect > 150) standard = 3;
-            else standard = 2;
+            if (aspect > 150) {
+                standard = 1;
+            } else {
+                standard = 0;
+            }
+        } else if (profile.height() == 480 && qAbs(profile.fps() - 30000.0 / 1001) < 0.2) {
+            if (aspect > 150) {
+                standard = 3;
+            } else {
+                standard = 2;
+            }
         }
         QString standardName;
         switch (standard) {
@@ -342,17 +359,17 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
             }
         }
 
-    }
-    else {
+    } else {
         // Cannot load movie, reject
         showError(i18n("The clip %1 is invalid.", url.fileName()));
     }
-    if (producer) delete producer;
+    if (producer) {
+        delete producer;
+    }
 
     if (chapters.isEmpty() == false) {
         item->setData(1, Qt::UserRole + 1, chapters);
-    }
-    else if (QFile::exists(url.path() + ".dvdchapter")) {
+    } else if (QFile::exists(url.path() + ".dvdchapter")) {
         // insert chapters as children
         QFile file(url.path() + ".dvdchapter");
         if (file.open(QIODevice::ReadOnly)) {
@@ -369,8 +386,9 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
             }
             item->setData(1, Qt::UserRole + 1, chaptersList.join(QStringLiteral(";")));
         }
-    } else // Explicitly add a chapter at 00:00:00:00
+    } else { // Explicitly add a chapter at 00:00:00:00
         item->setData(1, Qt::UserRole + 1, "0");
+    }
 
     if (checkFormats) {
         slotCheckVobList();
@@ -381,12 +399,13 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
 void DvdWizardVob::slotDeleteVobFile()
 {
     QTreeWidgetItem *item = m_vobList->currentItem();
-    if (item == Q_NULLPTR) return;
+    if (item == Q_NULLPTR) {
+        return;
+    }
     delete item;
     slotCheckVobList();
     slotCheckProfiles();
 }
-
 
 void DvdWizardVob::setUrl(const QString &url)
 {
@@ -404,11 +423,12 @@ QStringList DvdWizardVob::selectedUrls() const
     }
     for (; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
-        if (item) result.append(item->text(0));
+        if (item) {
+            result.append(item->text(0));
+        }
     }
     return result;
 }
-
 
 QStringList DvdWizardVob::durations() const
 {
@@ -422,7 +442,9 @@ QStringList DvdWizardVob::durations() const
     }
     for (; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
-        if (item) result.append(QString::number(item->data(1, Qt::UserRole).toInt()));
+        if (item) {
+            result.append(QString::number(item->data(1, Qt::UserRole).toInt()));
+        }
     }
     return result;
 }
@@ -456,8 +478,9 @@ void DvdWizardVob::updateChapters(const QMap<QString, QString> &chaptersdata)
     }
     for (; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
-        if (chaptersdata.contains(item->text(0)))
+        if (chaptersdata.contains(item->text(0))) {
             item->setData(1, Qt::UserRole + 1, chaptersdata.value(item->text(0)));
+        }
     }
 }
 
@@ -474,8 +497,9 @@ int DvdWizardVob::duration(int ix) const
 const QString DvdWizardVob::introMovie() const
 {
     QString url;
-    if (m_view.use_intro->isChecked() && m_vobList->topLevelItemCount() > 0)
+    if (m_view.use_intro->isChecked() && m_vobList->topLevelItemCount() > 0) {
         url = m_vobList->topLevelItem(0)->text(0);
+    }
     return url;
 }
 
@@ -490,18 +514,27 @@ void DvdWizardVob::slotCheckVobList()
     int max = m_vobList->topLevelItemCount();
     QTreeWidgetItem *item = m_vobList->currentItem();
     bool hasItem = true;
-    if (item == Q_NULLPTR) hasItem = false;
+    if (item == Q_NULLPTR) {
+        hasItem = false;
+    }
     m_view.button_delete->setEnabled(hasItem);
-    if (hasItem && m_vobList->indexOfTopLevelItem(item) == 0) m_view.button_up->setEnabled(false);
-    else m_view.button_up->setEnabled(hasItem);
-    if (hasItem && m_vobList->indexOfTopLevelItem(item) == max - 1) m_view.button_down->setEnabled(false);
-    else m_view.button_down->setEnabled(hasItem);
+    if (hasItem && m_vobList->indexOfTopLevelItem(item) == 0) {
+        m_view.button_up->setEnabled(false);
+    } else {
+        m_view.button_up->setEnabled(hasItem);
+    }
+    if (hasItem && m_vobList->indexOfTopLevelItem(item) == max - 1) {
+        m_view.button_down->setEnabled(false);
+    } else {
+        m_view.button_down->setEnabled(hasItem);
+    }
 
     qint64 totalSize = 0;
     for (int i = 0; i < max; ++i) {
         item = m_vobList->topLevelItem(i);
-        if (item)
+        if (item) {
             totalSize += (qint64) item->data(2, Qt::UserRole).toInt();
+        }
     }
 
     qint64 maxSize = (qint64) 47000 * 100000;
@@ -512,9 +545,13 @@ void DvdWizardVob::slotCheckVobList()
 void DvdWizardVob::slotItemUp()
 {
     QTreeWidgetItem *item = m_vobList->currentItem();
-    if (item == Q_NULLPTR) return;
+    if (item == Q_NULLPTR) {
+        return;
+    }
     int index = m_vobList->indexOfTopLevelItem(item);
-    if (index == 0) return;
+    if (index == 0) {
+        return;
+    }
     m_vobList->insertTopLevelItem(index - 1, m_vobList->takeTopLevelItem(index));
 }
 
@@ -522,11 +559,13 @@ void DvdWizardVob::slotItemDown()
 {
     int max = m_vobList->topLevelItemCount();
     QTreeWidgetItem *item = m_vobList->currentItem();
-    if (item == Q_NULLPTR)
+    if (item == Q_NULLPTR) {
         return;
+    }
     int index = m_vobList->indexOfTopLevelItem(item);
-    if (index == max - 1)
+    if (index == max - 1) {
         return;
+    }
     m_vobList->insertTopLevelItem(index + 1, m_vobList->takeTopLevelItem(index));
 }
 
@@ -574,16 +613,17 @@ QString DvdWizardVob::getDvdProfile(DVDFORMAT format)
     return profile;
 }
 
-void DvdWizardVob::setProfile(const QString& profile)
+void DvdWizardVob::setProfile(const QString &profile)
 {
-    if (profile == QLatin1String("dv_pal_wide"))
+    if (profile == QLatin1String("dv_pal_wide")) {
         m_view.dvd_profile->setCurrentIndex(PAL_WIDE);
-    else if (profile == QLatin1String("dv_ntsc"))
+    } else if (profile == QLatin1String("dv_ntsc")) {
         m_view.dvd_profile->setCurrentIndex(NTSC);
-    else if (profile == QLatin1String("dv_ntsc_wide"))
+    } else if (profile == QLatin1String("dv_ntsc_wide")) {
         m_view.dvd_profile->setCurrentIndex(NTSC_WIDE);
-    else
+    } else {
         m_view.dvd_profile->setCurrentIndex(PAL);
+    }
 }
 
 void DvdWizardVob::clear()
@@ -636,19 +676,23 @@ void DvdWizardVob::slotTranscodeFiles()
             // File needs to be transcoded
             m_transcodeAction->setEnabled(false);
             QSize original = item->data(0, Qt::UserRole + 2).toSize();
-            double input_aspect= (double) original.width() / original.height();
+            double input_aspect = (double) original.width() / original.height();
             QStringList postParams;
             if (input_aspect > (double) destSize.width() / destSize.height()) {
                 // letterboxing
-                int conv_height = (int) (destSize.width() / input_aspect);
-                int conv_pad = (int) (((double) (destSize.height() - conv_height)) / 2.0);
-                if (conv_pad %2 == 1) conv_pad --;
+                int conv_height = (int)(destSize.width() / input_aspect);
+                int conv_pad = (int)(((double)(destSize.height() - conv_height)) / 2.0);
+                if (conv_pad % 2 == 1) {
+                    conv_pad --;
+                }
                 postParams << QStringLiteral("-vf") << QStringLiteral("scale=%1:%2,pad=%3:%4:0:%5,setdar=%6").arg(finalSize.width()).arg(destSize.height() - 2 * conv_pad).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
             } else {
                 // pillarboxing
-                int conv_width = (int) (destSize.height() * input_aspect);
-                int conv_pad = (int) (((double) (destSize.width() - conv_width)) / destSize.width() * finalSize.width() / 2.0);
-                if (conv_pad %2 == 1) conv_pad --;
+                int conv_width = (int)(destSize.height() * input_aspect);
+                int conv_pad = (int)(((double)(destSize.width() - conv_width)) / destSize.width() * finalSize.width() / 2.0);
+                if (conv_pad % 2 == 1) {
+                    conv_pad --;
+                }
                 postParams << QStringLiteral("-vf") << QStringLiteral("scale=%1:%2,pad=%3:%4:%5:0,setdar=%6").arg(finalSize.width() - 2 * conv_pad).arg(destSize.height()).arg(finalSize.width()).arg(finalSize.height()).arg(conv_pad).arg(input_aspect);
             }
             TranscodeJobInfo jobInfo;
@@ -683,7 +727,7 @@ void DvdWizardVob::processTranscoding()
 
     bool replaceVfParams = false;
     QStringList splitted = params.split(' ');
-    foreach(QString s, splitted) {
+    foreach (QString s, splitted) {
         if (replaceVfParams) {
             parameters << postParams.at(1);
             replaceVfParams = false;
@@ -696,7 +740,7 @@ void DvdWizardVob::processTranscoding()
             parameters << s;
         }
     }
-    qCDebug(KDENLIVE_LOG)<<" / / /STARTING TCODE JB: \n"<<KdenliveSettings::ffmpegpath()<<" = "<< parameters;
+    qCDebug(KDENLIVE_LOG) << " / / /STARTING TCODE JB: \n" << KdenliveSettings::ffmpegpath() << " = " << parameters;
     m_transcodeProcess.start(KdenliveSettings::ffmpegpath(), parameters);
     m_view.convert_label->setText(i18n("Transcoding: %1", QUrl::fromLocalFile(m_currentTranscoding.filename).fileName()));
 }
@@ -736,11 +780,13 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
                     // fps changed, rebuild producer
                     delete producer;
                     producer = new Mlt::Producer(profile, resource.toUtf8().data());
-                  }
+                }
             }
             if (producer && producer->is_valid() && !producer->is_blank()) {
                 int width = 45.0 * profile.dar();
-                if (width % 2 == 1) width++;
+                if (width % 2 == 1) {
+                    width++;
+                }
                 item->setData(0, Qt::DecorationRole, QPixmap::fromImage(KThumb::getFrame(producer, 0, width, 45)));
                 int playTime = producer->get_playtime();
                 item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
@@ -748,12 +794,17 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
                 int standard = -1;
                 int aspect = profile.dar() * 100;
                 if (profile.height() == 576) {
-                    if (aspect > 150) standard = 1;
-                    else standard = 0;
-                }
-                else if (profile.height() == 480) {
-                    if (aspect > 150) standard = 3;
-                    else standard = 2;
+                    if (aspect > 150) {
+                        standard = 1;
+                    } else {
+                        standard = 0;
+                    }
+                } else if (profile.height() == 480) {
+                    if (aspect > 150) {
+                        standard = 3;
+                    } else {
+                        standard = 2;
+                    }
                 }
                 QString standardName;
                 switch (standard) {
@@ -775,14 +826,17 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
                 item->setData(0, Qt::UserRole, standardName);
                 item->setData(0, Qt::UserRole + 1, standard);
                 item->setData(0, Qt::UserRole + 2, QSize(profile.dar() * profile.height(), profile.height()));
-            }
-            else {
+            } else {
                 // Cannot load movie, reject
                 showError(i18n("The clip %1 is invalid.", transcoded));
             }
-            if (producer) delete producer;
+            if (producer) {
+                delete producer;
+            }
             slotCheckVobList();
-            if (m_transcodeQueue.isEmpty()) slotCheckProfiles();
+            if (m_transcodeQueue.isEmpty()) {
+                slotCheckProfiles();
+            }
             break;
         }
     }

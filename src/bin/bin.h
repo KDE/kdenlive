@@ -8,7 +8,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -61,10 +61,10 @@ class JobManager;
 class ProjectFolderUp;
 class InvalidDialog;
 
-namespace Mlt {
-  class Producer;
+namespace Mlt
+{
+class Producer;
 };
-
 
 class MyListView: public QListView
 {
@@ -87,9 +87,9 @@ public:
     void setEditing(bool edit);
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void focusInEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 protected slots:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) Q_DECL_OVERRIDE;
@@ -113,12 +113,11 @@ public:
     BinMessageWidget(const QString &text, QWidget *parent = Q_NULLPTR);
 
 protected:
-    bool event(QEvent* ev) Q_DECL_OVERRIDE;
+    bool event(QEvent *ev) Q_DECL_OVERRIDE;
 
 signals:
     void messageClosing();
 };
-
 
 class SmallJobLabel: public QPushButton
 {
@@ -134,7 +133,7 @@ private:
         UsageRole
     };
 
-    QTimeLine* m_timeLine;
+    QTimeLine *m_timeLine;
     QAction *m_action;
 
 public slots:
@@ -145,7 +144,6 @@ private slots:
     void slotTimeLineFinished();
 };
 
-
 /**
  * @class BinItemDelegate
  * @brief This class is responsible for drawing items in the QTreeView.
@@ -154,11 +152,11 @@ private slots:
 class BinItemDelegate: public QStyledItemDelegate
 {
 public:
-    explicit BinItemDelegate(QObject* parent = Q_NULLPTR): QStyledItemDelegate(parent) 
+    explicit BinItemDelegate(QObject *parent = Q_NULLPTR): QStyledItemDelegate(parent)
     {
     }
 
-    void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const Q_DECL_OVERRIDE
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
     {
         if (index.column() != 0) {
             return QStyledItemDelegate::updateEditorGeometry(editor, option, index);
@@ -182,8 +180,8 @@ public:
         QFont ft = option.font;
         ft.setBold(true);
         QFontMetricsF fm(ft);
-        QRect r2 =fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString()).toRect();
-        editor->setGeometry( r2 );
+        QRect r2 = fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString()).toRect();
+        editor->setGeometry(r2);
     }
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
@@ -206,7 +204,7 @@ public:
             return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
         }
         if (type == AbstractProjectItem::SubClipItem) {
-            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMin(hint.height(), (int) (option.decorationSize.height() / 1.5))));
+            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMin(hint.height(), (int)(option.decorationSize.height() / 1.5))));
         }
         QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
         QString line1 = index.data(Qt::DisplayRole).toString();
@@ -217,7 +215,8 @@ public:
         return QSize(qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4);
     }
 
-    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const Q_DECL_OVERRIDE {
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
         if (index.column() == 0 && !index.data().isNull()) {
             QRect r1 = option.rect;
             painter->save();
@@ -232,8 +231,9 @@ public:
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             if (option.state & QStyle::State_Selected) {
                 painter->setPen(option.palette.highlightedText().color());
+            } else {
+                painter->setPen(option.palette.text().color());
             }
-            else painter->setPen(option.palette.text().color());
             QRect r = r1;
             QFont font = painter->font();
             font.setBold(true);
@@ -261,13 +261,13 @@ public:
                     QColor subTextColor = painter->pen().color();
                     subTextColor.setAlphaF(.5);
                     painter->setPen(subTextColor);
-                    painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
+                    painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
                     // Draw usage counter
                     int usage = index.data(AbstractProjectItem::UsageCount).toInt();
                     if (usage > 0) {
                         bounding.moveLeft(bounding.right() + (2 * textMargin));
                         QString us = QString().sprintf("[%d]", usage);
-                        painter->drawText(bounding, Qt::AlignLeft | Qt::AlignTop , us, &bounding);
+                        painter->drawText(bounding, Qt::AlignLeft | Qt::AlignTop, us, &bounding);
                     }
                 }
                 if (type == AbstractProjectItem::ClipItem) {
@@ -285,7 +285,7 @@ public:
                         // Draw job progress bar
                         int progressWidth = option.fontMetrics.averageCharWidth() * 8;
                         int progressHeight = option.fontMetrics.ascent() / 4;
-                        QRect progress(r1.x() + 1, opt.rect.bottom() - progressHeight - 2, progressWidth , progressHeight);
+                        QRect progress(r1.x() + 1, opt.rect.bottom() - progressHeight - 2, progressWidth, progressHeight);
                         painter->setPen(Qt::NoPen);
                         painter->setBrush(Qt::darkGray);
                         if (jobProgress > 0) {
@@ -312,8 +312,7 @@ public:
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 // Folder or Folder Up items
                 double factor = (double) opt.decorationSize.height() / r1.height();
                 int decoWidth = 2 * textMargin;
@@ -348,7 +347,6 @@ signals:
     void showClearButton(bool);
 };
 
-
 /**
  * @class Bin
  * @brief The bin widget takes care of both item model and view upon project opening.
@@ -362,7 +360,7 @@ class Bin : public QWidget
     enum BinViewType {BinTreeView, BinIconView };
 
 public:
-    explicit Bin(QWidget* parent = Q_NULLPTR);
+    explicit Bin(QWidget *parent = Q_NULLPTR);
     ~Bin();
 
     bool isLoading;
@@ -377,7 +375,7 @@ public:
     void createClip(const QDomElement &xml);
 
     /** @brief Used to notify the Model View that an item was updated */
-    void emitItemUpdated(AbstractProjectItem* item);
+    void emitItemUpdated(AbstractProjectItem *item);
 
     /** @brief Set monitor associated with this bin (clipmonitor) */
     void setMonitor(Monitor *monitor);
@@ -409,20 +407,19 @@ public:
 
     /** @brief Reload / replace a producer */
     void reloadProducer(const QString &id, const QDomElement &xml);
-    
+
     /** @brief Current producer has changed, refresh monitor and timeline*/
     void refreshClip(const QString &id);
 
     /** @brief Some stuff used to notify the Item Model */
-    void emitAboutToAddItem(AbstractProjectItem* item);
-    void emitItemAdded(AbstractProjectItem* item);
-    void emitAboutToRemoveItem(AbstractProjectItem* item);
-    void emitItemRemoved(AbstractProjectItem* item);
+    void emitAboutToAddItem(AbstractProjectItem *item);
+    void emitItemAdded(AbstractProjectItem *item);
+    void emitAboutToRemoveItem(AbstractProjectItem *item);
+    void emitItemRemoved(AbstractProjectItem *item);
     void setupMenu(QMenu *addMenu, QAction *defaultAction, const QHash<QString, QAction *> &actions);
 
     /** @brief The source file was modified, we will reload it soon, disable item in the meantime */
     void setWaitingStatus(const QString &id);
-
 
     const QString getDocumentProperty(const QString &key);
 
@@ -434,16 +431,16 @@ public:
 
     /** @brief Give a number available for a clip id, used when adding a new clip to the project. Id must be unique */
     int getFreeClipId();
-    
+
     /** @brief Give a number available for a folder id, used when adding a new folder to the project. Id must be unique */
     int getFreeFolderId();
 
     /** @brief Returns the id of the last inserted clip */
     int lastClipId() const;
-    
+
     /** @brief Ask MLT to reload this clip's producer  */
     void reloadClip(const QString &id);
-    
+
     /** @brief Delete a folder  */
     void doRemoveFolder(const QString &id);
     /** @brief Add a folder  */
@@ -455,11 +452,11 @@ public:
     void setupGeneratorMenu();
     void startClipJob(const QStringList &params);
 
-    void addClipCut(const QString&id, int in, int out);
-    void removeClipCut(const QString&id, int in, int out);
+    void addClipCut(const QString &id, int in, int out);
+    void removeClipCut(const QString &id, int in, int out);
 
     /** @brief Create the subclips defined in the parent clip. */
-    void loadSubClips(const QString&id, const QMap<QString, QString> &data);
+    void loadSubClips(const QString &id, const QMap<QString, QString> &data);
 
     /** @brief Set focus to the Bin view. */
     void focusBinView() const;
@@ -490,7 +487,7 @@ public:
     void addEffect(const QString &id, QDomElement &effect);
     /** @brief Update a bin clip effect. */
     void updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget);
-    void changeEffectState(const QString &id, const QList<int>& indexes, bool disable, bool refreshStack);
+    void changeEffectState(const QString &id, const QList<int> &indexes, bool disable, bool refreshStack);
     /** @brief Edit an effect settings to a bin clip. */
     void editMasterEffect(ClipController *ctl);
     /** @brief An effect setting was changed, update stack if displayed. */
@@ -548,7 +545,7 @@ private slots:
     void slotInitView(QAction *action);
 
     /** @brief Update status for clip jobs  */
-    void slotUpdateJobStatus(const QString&, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
+    void slotUpdateJobStatus(const QString &, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
     void slotSetIconSize(int size);
     void rowsInserted(const QModelIndex &parent, int start, int end);
     void rowsRemoved(const QModelIndex &parent, int start, int end);
@@ -556,7 +553,7 @@ private slots:
     void autoSelect();
     void slotSaveHeaders();
     void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
-    void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
+    void slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
     void slotEffectDropped(const QString &effect, const QModelIndex &parent);
     void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix);
     void slotChangeEffectState(QString id, const QList<int> &indexes, bool disable);
@@ -566,7 +563,7 @@ private slots:
     void slotPrepareJobsMenu();
     void slotShowJobLog();
     /** @brief process clip job result. */
-    void slotGotFilterJobResults(const QString & , int , int, const stringMap &, const stringMap &);
+    void slotGotFilterJobResults(const QString &, int, int, const stringMap &, const stringMap &);
     /** @brief Reset all text and log data from info message widget. */
     void slotResetInfoMessage();
     /** @brief Show dialog prompting for removal of invalid clips. */
@@ -620,9 +617,9 @@ public slots:
     void slotEditClipCommand(const QString &id, const QMap<QString, QString> &oldProps, const QMap<QString, QString> &newProps);
     void slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps);
     /** @brief Start a filter job requested by a filter applied in timeline */
-    void slotStartFilterJob(const ItemInfo &info, const QString&id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams, QMap<QString, QString> &extraParams);
+    void slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams, QMap<QString, QString> &extraParams);
     /** @brief Add a sub clip */
-    void slotAddClipCut(const QString&id, int in, int out);
+    void slotAddClipCut(const QString &id, int in, int out);
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
     void slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMarker, QUndoCommand *groupCommand = Q_NULLPTR);
@@ -649,10 +646,10 @@ public slots:
     void abortAudioThumbs();
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
-    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList <QAction*>());
+    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList <QAction *>());
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
-        /** @brief Select a clip in the Bin from its id. */
+    /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
     void slotAddClipToProject(const QUrl &url);
     void doUpdateThumbsProgress(long ms);
@@ -672,7 +669,7 @@ private:
     ProjectSortProxyModel *m_proxyModel;
     JobManager *m_jobManager;
     QToolBar *m_toolbar;
-    KdenliveDoc* m_doc;
+    KdenliveDoc *m_doc;
     QLineEdit *m_searchLine;
     QToolButton *m_addButton;
     QMenu *m_extractAudioAction;
@@ -738,13 +735,13 @@ private:
     void processAudioThumbs();
 
 signals:
-    void itemUpdated(AbstractProjectItem*);
+    void itemUpdated(AbstractProjectItem *);
     void producerReady(const QString &id);
     /** @brief Save folder info into MLT. */
     void storeFolder(QString folderId, QString parentId, QString oldParentId, QString folderName);
-    void gotFilterJobResults(QString,int,int,stringMap,stringMap);
+    void gotFilterJobResults(QString, int, int, stringMap, stringMap);
     /** @brief The clip was changed and thumbnail needs a refresh. */
-    void clipNeedsReload(const QString &,bool);
+    void clipNeedsReload(const QString &, bool);
     /** @brief Trigger timecode format refresh where needed. */
     void refreshTimeCode();
     /** @brief Request display of effect stack for a Bin clip. */

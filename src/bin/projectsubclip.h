@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -25,19 +25,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstractprojectitem.h"
 #include "definitions.h"
 
-
 class ProjectFolder;
 class ProjectClip;
 class QDomElement;
 
-namespace Mlt {
+namespace Mlt
+{
 };
-
 
 /**
  * @class ProjectSubClip
  * @brief Represents a clip in the project (not timeline).
- * 
+ *
 
  */
 
@@ -53,8 +52,8 @@ public:
     virtual ~ProjectSubClip();
 
     ProjectClip *clip(const QString &id) Q_DECL_OVERRIDE;
-    ProjectFolder* folder(const QString &id) Q_DECL_OVERRIDE;
-    ProjectSubClip* subClip(int in, int out);
+    ProjectFolder *folder(const QString &id) Q_DECL_OVERRIDE;
+    ProjectSubClip *subClip(int in, int out);
     ProjectClip *clipAt(int ix) Q_DECL_OVERRIDE;
     /** @brief Recursively disable/enable bin effects. */
     void disableEffects(bool disable) Q_DECL_OVERRIDE;

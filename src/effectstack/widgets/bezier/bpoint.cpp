@@ -20,19 +20,18 @@
 
 #include <QLineF>
 
-
 BPoint::BPoint() :
-        h1(QPointF(-1, -1)),
-        p(QPointF(-1, -1)),
-        h2(QPointF(-1, -1)),
-        handlesLinked(true)
+    h1(QPointF(-1, -1)),
+    p(QPointF(-1, -1)),
+    h2(QPointF(-1, -1)),
+    handlesLinked(true)
 {
 }
 
 BPoint::BPoint(const QPointF &handle1, const QPointF &point, const QPointF &handle2) :
-        h1(handle1),
-        p(point),
-        h2(handle2)
+    h1(handle1),
+    p(point),
+    h2(handle2)
 {
     autoSetLinked();
 }
@@ -47,7 +46,7 @@ const QPointF &BPoint::operator[](int i) const
     return i == 0 ? h1 : (i == 1 ? p : h2);
 }
 
-bool BPoint::operator==(const BPoint& point) const
+bool BPoint::operator==(const BPoint &point) const
 {
     return      point.h1 == h1 &&
                 point.p  == p  &&
@@ -72,7 +71,7 @@ void BPoint::setH1(const QPointF &handle1)
         QLineF l = QLineF(p, h2);
         l.setAngle(angle);
         h2 = l.p2();
-    }    
+    }
 }
 
 void BPoint::setH2(const QPointF &handle2)

@@ -24,19 +24,18 @@
 #include <QPainter>
 #include <QMouseEvent>
 
-
-BezierSplineEditor::BezierSplineEditor(QWidget* parent) :
-        QWidget(parent)
-        , m_mode(ModeNormal)
-        , m_zoomLevel(0)
-        , m_gridLines(3)
-        , m_showAllHandles(true)
-        , m_pixmapCache(Q_NULLPTR)
-        , m_pixmapIsDirty(true)
-        , m_currentPointIndex(-1)
-	, m_currentPointType(PTypeP)
-	, m_grabOffsetX(0)
-	, m_grabOffsetY(0)
+BezierSplineEditor::BezierSplineEditor(QWidget *parent) :
+    QWidget(parent)
+    , m_mode(ModeNormal)
+    , m_zoomLevel(0)
+    , m_gridLines(3)
+    , m_showAllHandles(true)
+    , m_pixmapCache(Q_NULLPTR)
+    , m_pixmapIsDirty(true)
+    , m_currentPointIndex(-1)
+    , m_currentPointType(PTypeP)
+    , m_grabOffsetX(0)
+    , m_grabOffsetY(0)
 {
     setMouseTracking(true);
     setAutoFillBackground(false);
@@ -55,7 +54,7 @@ CubicBezierSpline BezierSplineEditor::spline() const
     return m_spline;
 }
 
-void BezierSplineEditor::setSpline(const CubicBezierSpline& spline)
+void BezierSplineEditor::setSpline(const CubicBezierSpline &spline)
 {
     m_spline = spline;
     m_currentPointIndex = -1;
@@ -67,25 +66,27 @@ void BezierSplineEditor::setSpline(const CubicBezierSpline& spline)
 
 BPoint BezierSplineEditor::getCurrentPoint()
 {
-    if (m_currentPointIndex >= 0)
+    if (m_currentPointIndex >= 0) {
         return m_spline.getPoint(m_currentPointIndex);
-    else
+    } else {
         return BPoint();
+    }
 }
 
-void BezierSplineEditor::updateCurrentPoint(const BPoint& p, bool final)
+void BezierSplineEditor::updateCurrentPoint(const BPoint &p, bool final)
 {
     if (m_currentPointIndex >= 0) {
         m_spline.setPoint(m_currentPointIndex, p);
         // during validation the point might have changed
         emit currentPoint(m_spline.getPoint(m_currentPointIndex));
-        if (final)
+        if (final) {
             emit modified();
+        }
         update();
     }
 }
 
-void BezierSplineEditor::setPixmap(const QPixmap& pixmap)
+void BezierSplineEditor::setPixmap(const QPixmap &pixmap)
 {
     m_pixmap = pixmap;
     m_pixmapIsDirty = true;
@@ -94,14 +95,14 @@ void BezierSplineEditor::setPixmap(const QPixmap& pixmap)
 
 void BezierSplineEditor::slotZoomIn()
 {
-    m_zoomLevel = qMax(m_zoomLevel-1, 0);
+    m_zoomLevel = qMax(m_zoomLevel - 1, 0);
     m_pixmapIsDirty = true;
     update();
 }
 
 void BezierSplineEditor::slotZoomOut()
 {
-    m_zoomLevel = qMin(m_zoomLevel+1, 3);
+    m_zoomLevel = qMin(m_zoomLevel + 1, 3);
     m_pixmapIsDirty = true;
     update();
 }
@@ -125,7 +126,7 @@ void BezierSplineEditor::setGridLines(int lines)
     update();
 }
 
-void BezierSplineEditor::paintEvent(QPaintEvent* event)
+void BezierSplineEditor::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
 
@@ -136,8 +137,8 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
      */
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offsetX = 1/8. * m_zoomLevel * wWidth;
-    int offsetY = 1/8. * m_zoomLevel * wHeight;
+    int offsetX = 1 / 8. * m_zoomLevel * wWidth;
+    int offsetY = 1 / 8. * m_zoomLevel * wHeight;
     wWidth -= 2 * offsetX;
     wHeight -= 2 * offsetY;
 
@@ -149,18 +150,18 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     p.fillRect(rect().translated(-offsetX, -offsetY), palette().background());
     if (!m_pixmap.isNull()) {
         if (m_pixmapIsDirty || !m_pixmapCache) {
-            if (m_pixmapCache)
+            if (m_pixmapCache) {
                 delete m_pixmapCache;
+            }
             m_pixmapCache = new QPixmap(wWidth + 1, wHeight + 1);
             QPainter cachePainter(m_pixmapCache);
 
-            cachePainter.scale(1.0*(wWidth+1) / m_pixmap.width(), 1.0*(wHeight+1) / m_pixmap.height());
+            cachePainter.scale(1.0 * (wWidth + 1) / m_pixmap.width(), 1.0 * (wHeight + 1) / m_pixmap.height());
             cachePainter.drawPixmap(0, 0, m_pixmap);
             m_pixmapIsDirty = false;
         }
         p.drawPixmap(0, 0, *m_pixmapCache);
     }
-
 
     p.setPen(QPen(palette().mid().color(), 1, Qt::SolidLine));
 
@@ -190,20 +191,20 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
      */
     p.drawLine(QLineF(0, wHeight, wWidth, 0));
 
-
     /*
      * Prepare Spline, Points
      */
     int max = m_spline.points().count() - 1;
-    if (max < 1)
+    if (max < 1) {
         return;
+    }
     BPoint point(m_spline.getPoint(0, wWidth, wHeight, true));
 
     /*
      * Spline
      */
     BPoint next;
-    
+
     QPainterPath splinePath(QPointF(point.p.x(), point.p.y()));
     for (int i = 0; i < max; ++i) {
         point = m_spline.getPoint(i, wWidth, wHeight, true);
@@ -212,7 +213,6 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
     }
     p.setPen(QPen(palette().text().color(), 1, Qt::SolidLine));
     p.drawPath(splinePath);
-
 
     /*
      * Points + Handles
@@ -228,10 +228,12 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
             // selected point: fill p and handles
             p.setBrush(QBrush(QColor(Qt::red), Qt::SolidPattern));
             // connect p and handles with lines
-            if (i != 0)
-                p.drawLine(QLineF(point.h1.x(), point.h1.y(), point.p.x(),point.p.y()));
-            if (i != max)
+            if (i != 0) {
+                p.drawLine(QLineF(point.h1.x(), point.h1.y(), point.p.x(), point.p.y()));
+            }
+            if (i != max) {
                 p.drawLine(QLineF(point.p.x(), point.p.y(), point.h2.x(), point.h2.y()));
+            }
         }
 
         p.drawEllipse(QRectF(point.p.x() - 3,
@@ -243,23 +245,24 @@ void BezierSplineEditor::paintEvent(QPaintEvent* event)
             p.drawConvexPolygon(handle.translated(point.h2.x(), point.h2.y()));
         }
 
-        if ( i == m_currentPointIndex)
+        if (i == m_currentPointIndex) {
             p.setBrush(QBrush(Qt::NoBrush));
+        }
     }
 }
 
-void BezierSplineEditor::resizeEvent(QResizeEvent* event)
+void BezierSplineEditor::resizeEvent(QResizeEvent *event)
 {
     m_pixmapIsDirty = true;
     QWidget::resizeEvent(event);
 }
 
-void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
+void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
 {
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offsetX = 1/8. * m_zoomLevel * wWidth;
-    int offsetY = 1/8. * m_zoomLevel * wHeight;
+    int offsetX = 1 / 8. * m_zoomLevel * wWidth;
+    int offsetY = 1 / 8. * m_zoomLevel * wHeight;
     wWidth -= 2 * offsetX;
     wHeight -= 2 * offsetY;
 
@@ -273,13 +276,15 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
         m_spline.removePoint(closestPointIndex);
         setCursor(Qt::ArrowCursor);
         m_mode = ModeNormal;
-        if (closestPointIndex < m_currentPointIndex)
+        if (closestPointIndex < m_currentPointIndex) {
             --m_currentPointIndex;
+        }
         update();
-        if (m_currentPointIndex >= 0)
+        if (m_currentPointIndex >= 0) {
             emit currentPoint(m_spline.getPoint(m_currentPointIndex));
-        else
+        } else {
             emit currentPoint(BPoint());
+        }
         emit modified();
         return;
     } else if (event->button() != Qt::LeftButton) {
@@ -287,9 +292,9 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
     }
 
     if (closestPointIndex < 0) {
-        m_currentPointIndex = m_spline.addPoint(BPoint(QPointF(x-0.05, y-0.05),
-                                                       QPointF(x, y),
-                                                       QPointF(x+0.05, y+0.05)));
+        m_currentPointIndex = m_spline.addPoint(BPoint(QPointF(x - 0.05, y - 0.05),
+                                                QPointF(x, y),
+                                                QPointF(x + 0.05, y + 0.05)));
         m_currentPointType = PTypeP;
     } else {
         m_currentPointIndex = closestPointIndex;
@@ -299,10 +304,12 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
     BPoint point = m_spline.getPoint(m_currentPointIndex);
 
     m_grabPOriginal = point;
-    if (m_currentPointIndex > 0)
+    if (m_currentPointIndex > 0) {
         m_grabPPrevious = m_spline.getPoint(m_currentPointIndex - 1);
-    if (m_currentPointIndex < m_spline.points().count() - 1)
+    }
+    if (m_currentPointIndex < m_spline.points().count() - 1) {
         m_grabPNext = m_spline.getPoint(m_currentPointIndex + 1);
+    }
     m_grabOffsetX = point[(int)m_currentPointType].x() - x;
     m_grabOffsetY = point[(int)m_currentPointType].y() - y;
 
@@ -316,10 +323,11 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent* event)
     update();
 }
 
-void BezierSplineEditor::mouseReleaseEvent(QMouseEvent* event)
+void BezierSplineEditor::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() != Qt::LeftButton)
+    if (event->button() != Qt::LeftButton) {
         return;
+    }
 
     setCursor(Qt::ArrowCursor);
     m_mode = ModeNormal;
@@ -327,27 +335,28 @@ void BezierSplineEditor::mouseReleaseEvent(QMouseEvent* event)
     emit modified();
 }
 
-void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
+void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
 {
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offsetX = 1/8. * m_zoomLevel * wWidth;
-    int offsetY = 1/8. * m_zoomLevel * wHeight;
+    int offsetX = 1 / 8. * m_zoomLevel * wWidth;
+    int offsetY = 1 / 8. * m_zoomLevel * wHeight;
     wWidth -= 2 * offsetX;
     wHeight -= 2 * offsetY;
 
     double x = (event->pos().x() - offsetX) / (double)(wWidth);
     double y = 1.0 - (event->pos().y() - offsetY) / (double)(wHeight);
-    
+
     if (m_mode == ModeNormal) {
         // If no point is selected set the cursor shape if on top
         point_types type;
         int nearestPointIndex = nearestPointInRange(QPointF(x, y), wWidth, wHeight, &type);
 
-        if (nearestPointIndex < 0)
+        if (nearestPointIndex < 0) {
             setCursor(Qt::ArrowCursor);
-        else
+        } else {
             setCursor(Qt::CrossCursor);
+        }
     } else {
         // Else, drag the selected point
         setCursor(Qt::CrossCursor);
@@ -361,20 +370,22 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
         switch (m_currentPointType) {
         case PTypeH1:
             rightX = point.p.x();
-            if (m_currentPointIndex == 0)
+            if (m_currentPointIndex == 0) {
                 leftX = -4;
-            else
+            } else {
                 leftX = m_spline.getPoint(m_currentPointIndex - 1).p.x();
+            }
 
             x = qBound(leftX, x, rightX);
             point.setH1(QPointF(x, y));
             break;
 
         case PTypeP:
-            if (m_currentPointIndex == 0)
+            if (m_currentPointIndex == 0) {
                 rightX = 0.0;
-            else if (m_currentPointIndex == m_spline.points().count() - 1)
+            } else if (m_currentPointIndex == m_spline.points().count() - 1) {
                 leftX = 1.0;
+            }
 
             x = qBound(leftX, x, rightX);
             y = qBound(0., y, 1.);
@@ -393,10 +404,11 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
 
         case PTypeH2:
             leftX = point.p.x();
-            if (m_currentPointIndex == m_spline.points().count() - 1)
+            if (m_currentPointIndex == m_spline.points().count() - 1) {
                 rightX = 5;
-            else
+            } else {
                 rightX = m_spline.getPoint(m_currentPointIndex + 1).p.x();
+            }
 
             x = qBound(leftX, x, rightX);
             point.setH2(QPointF(x, y));
@@ -409,33 +421,38 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent* event)
             // we might have changed the handles of other points
             // try to restore
             if (index == m_currentPointIndex) {
-                if (m_currentPointIndex > 0)
+                if (m_currentPointIndex > 0) {
                     m_spline.setPoint(m_currentPointIndex - 1, m_grabPPrevious);
-                if (m_currentPointIndex < m_spline.points().count() -1)
+                }
+                if (m_currentPointIndex < m_spline.points().count() - 1) {
                     m_spline.setPoint(m_currentPointIndex + 1, m_grabPNext);
+                }
             } else {
                 if (m_currentPointIndex < index) {
                     m_spline.setPoint(index, m_grabPPrevious);
                     m_grabPNext = m_grabPPrevious;
-                    if (m_currentPointIndex > 0)
+                    if (m_currentPointIndex > 0) {
                         m_grabPPrevious = m_spline.getPoint(m_currentPointIndex - 1);
+                    }
                 } else {
                     m_spline.setPoint(index, m_grabPNext);
                     m_grabPPrevious = m_grabPNext;
-                    if (m_currentPointIndex < m_spline.points().count() - 1)
+                    if (m_currentPointIndex < m_spline.points().count() - 1) {
                         m_grabPNext = m_spline.getPoint(m_currentPointIndex + 1);
+                    }
                 }
             }
         }
 
         emit currentPoint(point);
-        if (KdenliveSettings::dragvalue_directupdate())
+        if (KdenliveSettings::dragvalue_directupdate()) {
             emit modified();
+        }
         update();
     }
 }
 
-void BezierSplineEditor::mouseDoubleClickEvent(QMouseEvent* /*event*/)
+void BezierSplineEditor::mouseDoubleClickEvent(QMouseEvent * /*event*/)
 {
     if (m_currentPointIndex >= 0) {
         BPoint p = m_spline.getPoint(m_currentPointIndex);
@@ -445,12 +462,12 @@ void BezierSplineEditor::mouseDoubleClickEvent(QMouseEvent* /*event*/)
     }
 }
 
-void BezierSplineEditor::leaveEvent(QEvent* event)
+void BezierSplineEditor::leaveEvent(QEvent *event)
 {
     QWidget::leaveEvent(event);
 }
 
-int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wHeight, BezierSplineEditor::point_types* sel)
+int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wHeight, BezierSplineEditor::point_types *sel)
 {
     double nearestDistanceSquared = 1000;
     point_types selectedPoint = PTypeP;
@@ -459,7 +476,7 @@ int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wH
 
     double distanceSquared;
     // find out distance using the Pythagorean theorem
-    foreach(const BPoint & point, m_spline.points()) {
+    foreach (const BPoint &point, m_spline.points()) {
         for (int j = 0; j < 3; ++j) {
             distanceSquared = pow(point[j].x() - p.x(), 2) + pow(point[j].y() - p.y(), 2);
             if (distanceSquared < nearestDistanceSquared) {
@@ -482,5 +499,4 @@ int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wH
 
     return -1;
 }
-
 

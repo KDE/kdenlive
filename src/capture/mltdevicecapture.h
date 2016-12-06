@@ -1,8 +1,8 @@
- /***************************************************************************
-                         mltdevicecapture.h  -  description
-                            -------------------
-   begin                : Sun May 21 2011
-   copyright            : (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)
+/***************************************************************************
+                        mltdevicecapture.h  -  description
+                           -------------------
+  begin                : Sun May 21 2011
+  copyright            : (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)
 
 ***************************************************************************/
 
@@ -22,8 +22,6 @@
  *
  * Capturing is stopped  by  RecMonitor::slotStopCapture()
  */
-
-
 
 #ifndef MLTDEVICECAPTURE_H
 #define MLTDEVICECAPTURE_H
@@ -66,13 +64,13 @@ Q_OBJECT public:
     /** @brief Someone needs us to send again a frame. */
     void sendFrameUpdate() Q_DECL_OVERRIDE {}
 
-    void emitFrameUpdated(Mlt::Frame&);
+    void emitFrameUpdated(Mlt::Frame &);
     void emitFrameNumber(double position);
     void emitConsumerStopped();
-    void showFrame(Mlt::Frame&);
-    void showAudio(Mlt::Frame&);
+    void showFrame(Mlt::Frame &);
+    void showAudio(Mlt::Frame &);
 
-    void saveFrame(Mlt::Frame& frame);
+    void saveFrame(Mlt::Frame &frame);
 
     /** @brief Starts the MLT Video4Linux process.
      * @param surface The widget onto which the frame should be painted
@@ -82,7 +80,7 @@ Q_OBJECT public:
     bool slotStartPreview(const QString &producer, bool xmlFormat = false);
     /** @brief Save current frame to file. */
     void captureFrame(const QString &path);
-    
+
     /** @brief This will add the video clip from path and add it in the overlay track. */
     void setOverlay(const QString &path);
 
@@ -91,15 +89,15 @@ Q_OBJECT public:
 
     /** @brief This will add a horizontal flip effect, easier to work when filming yourself. */
     void mirror(bool activate);
-    
+
     /** @brief True if we are processing an image (yuv > rgb) when recording. */
     bool processingImage;
-    
+
     void pause();
 
 private:
-    Mlt::Consumer * m_mltConsumer;
-    Mlt::Producer * m_mltProducer;
+    Mlt::Consumer *m_mltConsumer;
+    Mlt::Producer *m_mltProducer;
     Mlt::Profile *m_mltProfile;
     Mlt::Event *m_showFrameEvent;
     QString m_activeProfile;
@@ -112,36 +110,34 @@ private:
     void uyvy2rgb(unsigned char *yuv_buffer, int width, int height);
 
     QString m_capturePath;
-    
+
     QTimer m_droppedFramesTimer;
-    
+
     QMutex m_mutex;
 
     /** @brief Build the MLT Consumer object with initial settings.
-     *  @param profileName The MLT profile to use for the consumer 
+     *  @param profileName The MLT profile to use for the consumer
      *  @returns true if consumer is valid */
     bool buildConsumer(const QString &profileName = QString());
-
 
 private slots:
     void slotPreparePreview();
     void slotAllowPreview();
     /** @brief When capturing, check every second for dropped frames. */
     void slotCheckDroppedFrames();
-  
+
 signals:
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
-    void showImageSignal(const QImage&);
+    void showImageSignal(const QImage &);
 
     void frameSaved(const QString &);
-    
+
     void droppedFrames(int);
-    
+
     void unblockPreview();
     void imageReady(const QImage &);
-
 
 public slots:
     /** @brief Stops the consumer. */

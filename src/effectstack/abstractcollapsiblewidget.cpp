@@ -17,14 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "abstractcollapsiblewidget.h"
 
-
-AbstractCollapsibleWidget::AbstractCollapsibleWidget(QWidget * parent) :
-        QWidget(parent)
+AbstractCollapsibleWidget::AbstractCollapsibleWidget(QWidget *parent) :
+    QWidget(parent)
 {
     setupUi(this);
 }
-
 

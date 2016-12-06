@@ -25,15 +25,14 @@
 #include <QString>
 #include <QList>
 
-
 class CubicBezierSpline : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit CubicBezierSpline(QObject* parent = Q_NULLPTR);
-    CubicBezierSpline(const CubicBezierSpline &spline, QObject* parent = Q_NULLPTR);
-    CubicBezierSpline& operator=(const CubicBezierSpline &spline);
+    explicit CubicBezierSpline(QObject *parent = Q_NULLPTR);
+    CubicBezierSpline(const CubicBezierSpline &spline, QObject *parent = Q_NULLPTR);
+    CubicBezierSpline &operator=(const CubicBezierSpline &spline);
 
     /** @brief Loads the points from the string @param spline.
      *
@@ -67,8 +66,6 @@ public:
      * @param invertHeight (default = false) true => y = 0 is at the very top
      */
     BPoint getPoint(int ix, int normalisedWidth = 1, int normalisedHeight = 1, bool invertHeight = false);
-
-
 
 private:
     void validatePoints();

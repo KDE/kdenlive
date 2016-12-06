@@ -62,7 +62,7 @@ public:
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
-    void paint( QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget* w) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w) Q_DECL_OVERRIDE;
 
 private:
     Qt::Alignment m_alignment;
@@ -83,7 +83,7 @@ class MyRectItem: public QGraphicsRectItem
 {
 public:
     explicit MyRectItem(QGraphicsItem *parent = Q_NULLPTR);
-    void setRect(const QRectF & rectangle);
+    void setRect(const QRectF &rectangle);
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 private:
@@ -110,7 +110,7 @@ class GraphicsSceneRectMove: public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit GraphicsSceneRectMove(QObject* parent = Q_NULLPTR);
+    explicit GraphicsSceneRectMove(QObject *parent = Q_NULLPTR);
     void setSelectedItem(QGraphicsItem *item);
     void setScale(double s);
     void setZoom(double s);
@@ -125,19 +125,19 @@ public slots:
     void slotUseGrid(bool enableGrid);
 
 protected:
-    void keyPressEvent(QKeyEvent * keyEvent) Q_DECL_OVERRIDE;
-    void mousePressEvent(QGraphicsSceneMouseEvent*) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent*) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *keyEvent) Q_DECL_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent *) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e) Q_DECL_OVERRIDE;
     /** @brief Resizes and moves items */
-    void mouseMoveEvent(QGraphicsSceneMouseEvent*) Q_DECL_OVERRIDE;
-    void wheelEvent(QGraphicsSceneWheelEvent * wheelEvent) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *) Q_DECL_OVERRIDE;
+    void wheelEvent(QGraphicsSceneWheelEvent *wheelEvent) Q_DECL_OVERRIDE;
     void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 
 private:
     void setCursor(const QCursor &);
     double m_zoom;
-    QGraphicsItem* m_selectedItem;
+    QGraphicsItem *m_selectedItem;
     resizeModes m_resizeMode;
     resizeModes m_possibleAction;
     QPointF m_sceneClickPoint;

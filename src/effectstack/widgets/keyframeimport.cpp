@@ -68,10 +68,11 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
     m_keyframeView = new KeyframeView(0, this);
     // Zone in / out
     ItemInfo reference;
-    if (srcInfo.isValid())
+    if (srcInfo.isValid()) {
         reference = srcInfo;
-    else
+    } else {
         reference = dstInfo;
+    }
     m_inPoint = new PositionEdit(i18n("In"), reference.cropStart.frames(tc.fps()), reference.cropStart.frames(tc.fps()), (reference.cropStart + reference.cropDuration).frames(tc.fps()), tc, this);
     connect(m_inPoint, &PositionEdit::parameterChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_inPoint);
@@ -85,7 +86,9 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
         QDomElement e = params.at(i).toElement();
         QString pType = e.attribute(QStringLiteral("type"));
         if (pType == QLatin1String("animatedrect") || pType == QLatin1String("geometry")) {
-            if (pType == QLatin1String("animatedrect")) m_supportsAnim = true;
+            if (pType == QLatin1String("animatedrect")) {
+                m_supportsAnim = true;
+            }
             QDomElement na = e.firstChildElement(QStringLiteral("name"));
             QString paramName = na.isNull() ? e.attribute(QStringLiteral("name")) : i18n(na.text().toUtf8().data());
             m_geometryTargets.insert(paramName, e.attribute(QStringLiteral("name")));
@@ -194,7 +197,7 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
     connect(m_limitKeyframes, &QAbstractButton::toggled, this, &KeyframeImport::updateDisplay);
     connect(m_limitNumber, SIGNAL(valueChanged(int)), this, SLOT(updateDisplay()));
     connect(m_dataCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateDataDisplay()));
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     lay->addWidget(buttonBox);
@@ -222,12 +225,14 @@ void KeyframeImport::updateDataDisplay()
         // Source data has only x/y pos, no width/height so disable geometry import
         int pos = m_sourceCombo->currentData().toInt();
         int ix = m_sourceCombo->findData(10);
-        if (ix > -1)
+        if (ix > -1) {
             m_sourceCombo->removeItem(ix);
+        }
         if (pos == 10) {
             ix = m_sourceCombo->findData(11);
-            if (ix > -1)
+            if (ix > -1) {
                 m_sourceCombo->setCurrentIndex(ix);
+            }
         }
     }
     updateRange();
@@ -250,41 +255,41 @@ void KeyframeImport::updateRange()
     QString rangeText;
     if (m_limitRange->isChecked()) {
         switch (pos) {
-            case 0:
-                rangeText = i18n("Source range %1 to %2", m_maximas.at(0).x(), m_maximas.at(0).y());
-                break;
-            case 1:
-                rangeText = i18n("Source range %1 to %2", m_maximas.at(1).x(), m_maximas.at(1).y());
-                break;
-            case 2:
-                rangeText = i18n("Source range %1 to %2", m_maximas.at(2).x(), m_maximas.at(2).y());
-                break;
-            case 3:
-                rangeText = i18n("Source range %1 to %2", m_maximas.at(3).x(), m_maximas.at(3).y());
-                break;
-            default:
-                rangeText = i18n("Source range: (%1-%2), (%3-%4)", m_maximas.at(0).x(), m_maximas.at(0).y(), m_maximas.at(1).x(), m_maximas.at(1).y());
-                break;
+        case 0:
+            rangeText = i18n("Source range %1 to %2", m_maximas.at(0).x(), m_maximas.at(0).y());
+            break;
+        case 1:
+            rangeText = i18n("Source range %1 to %2", m_maximas.at(1).x(), m_maximas.at(1).y());
+            break;
+        case 2:
+            rangeText = i18n("Source range %1 to %2", m_maximas.at(2).x(), m_maximas.at(2).y());
+            break;
+        case 3:
+            rangeText = i18n("Source range %1 to %2", m_maximas.at(3).x(), m_maximas.at(3).y());
+            break;
+        default:
+            rangeText = i18n("Source range: (%1-%2), (%3-%4)", m_maximas.at(0).x(), m_maximas.at(0).y(), m_maximas.at(1).x(), m_maximas.at(1).y());
+            break;
         }
     } else {
         int profileWidth = m_profile.profileSize.width();
         int profileHeight = m_profile.profileSize.height();
         switch (pos) {
-            case 0:
-                rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()));
-                break;
-            case 1:
-                rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(1).x()), qMax(profileHeight, m_maximas.at(1).y()));
-                break;
-            case 2:
-                rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(2).x()), qMax(profileWidth, m_maximas.at(2).y()));
-                break;
-            case 3:
-                rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(3).x()), qMax(profileHeight, m_maximas.at(3).y()));
-                break;
-            default:
-                rangeText = i18n("Source range: (%1-%2), (%3-%4)", qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()), qMin(0, m_maximas.at(1).x()), qMax(profileHeight, m_maximas.at(1).y()));
-                break;
+        case 0:
+            rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()));
+            break;
+        case 1:
+            rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(1).x()), qMax(profileHeight, m_maximas.at(1).y()));
+            break;
+        case 2:
+            rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(2).x()), qMax(profileWidth, m_maximas.at(2).y()));
+            break;
+        case 3:
+            rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(3).x()), qMax(profileHeight, m_maximas.at(3).y()));
+            break;
+        default:
+            rangeText = i18n("Source range: (%1-%2), (%3-%4)", qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()), qMin(0, m_maximas.at(1).x()), qMax(profileHeight, m_maximas.at(1).y()));
+            break;
         }
     }
     m_sourceRangeLabel->setText(rangeText);
@@ -304,7 +309,9 @@ void KeyframeImport::updateDestinationRange()
             QDomElement e = params.at(i).toElement();
             if (e.attribute(QStringLiteral("name")) == tag) {
                 double factor = e.attribute(QStringLiteral("factor")).toDouble();
-                if (factor == 0) factor = 1;
+                if (factor == 0) {
+                    factor = 1;
+                }
                 double min = e.attribute(QStringLiteral("min")).toDouble() / factor;
                 double max = e.attribute(QStringLiteral("max")).toDouble() / factor;
                 m_destMin.setRange(min, max);
@@ -337,9 +344,9 @@ void KeyframeImport::updateDisplay()
         if (m_maximas.at(0).x() == m_maximas.at(0).y() || (selectedtarget < 10 && selectedtarget != 0)) {
             maximas << QPoint();
         } else {
-            if (m_limitRange->isChecked())
+            if (m_limitRange->isChecked()) {
                 maximas << m_maximas.at(0);
-            else {
+            } else {
                 QPoint p1(qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()));
                 maximas << p1;
             }
@@ -349,9 +356,9 @@ void KeyframeImport::updateDisplay()
         if (m_maximas.at(1).x() == m_maximas.at(1).y() || (selectedtarget < 10 && selectedtarget != 1)) {
             maximas << QPoint();
         } else {
-            if (m_limitRange->isChecked())
+            if (m_limitRange->isChecked()) {
                 maximas << m_maximas.at(1);
-            else {
+            } else {
                 QPoint p2(qMin(0, m_maximas.at(1).x()), qMax(profileHeight, m_maximas.at(1).y()));
                 maximas << p2;
             }
@@ -361,9 +368,9 @@ void KeyframeImport::updateDisplay()
         if (m_maximas.at(2).x() == m_maximas.at(2).y() || (selectedtarget < 10 && selectedtarget != 2)) {
             maximas << QPoint();
         } else {
-            if (m_limitRange->isChecked())
+            if (m_limitRange->isChecked()) {
                 maximas << m_maximas.at(2);
-            else {
+            } else {
                 QPoint p3(qMin(0, m_maximas.at(2).x()), qMax(profileWidth, m_maximas.at(2).y()));
                 maximas << p3;
             }
@@ -373,9 +380,9 @@ void KeyframeImport::updateDisplay()
         if (m_maximas.at(3).x() == m_maximas.at(3).y() || (selectedtarget < 10 && selectedtarget != 3)) {
             maximas << QPoint();
         } else {
-            if (m_limitRange->isChecked())
+            if (m_limitRange->isChecked()) {
                 maximas << m_maximas.at(3);
-            else {
+            } else {
                 QPoint p4(qMin(0, m_maximas.at(3).x()), qMax(profileHeight, m_maximas.at(3).y()));
                 maximas << p4;
             }
@@ -409,14 +416,14 @@ QString KeyframeImport::selectedData() const
     QPoint rectOffset;
     int ix = m_alignCombo->currentIndex();
     switch (ix) {
-        case 1:
-            rectOffset = QPoint(m_profile.profileSize.width() / 2, m_profile.profileSize.height() / 2);
-            break;
-        case 2:
-            rectOffset = QPoint(m_profile.profileSize.width(), m_profile.profileSize.height());
-            break;
-        default:
-            break;
+    case 1:
+        rectOffset = QPoint(m_profile.profileSize.width() / 2, m_profile.profileSize.height() / 2);
+        break;
+    case 2:
+        rectOffset = QPoint(m_profile.profileSize.width(), m_profile.profileSize.height());
+        break;
+    default:
+        break;
     }
     return m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_profile, m_supportsAnim, pos == 11, rectOffset);
 }

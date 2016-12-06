@@ -30,10 +30,10 @@ class DragValue;
 class BezierSplineWidget : public QWidget
 {
     Q_OBJECT
-    
+
 public:
     /** @brief Sets up the UI and sets the spline to @param spline. */
-    explicit BezierSplineWidget(const QString &spline, QWidget* parent = Q_NULLPTR);
+    explicit BezierSplineWidget(const QString &spline, QWidget *parent = Q_NULLPTR);
 
     /** @brief Returns the current spline. */
     QString spline() const;

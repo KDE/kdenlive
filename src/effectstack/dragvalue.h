@@ -29,7 +29,6 @@ class QAction;
 class QMenu;
 class KSelectAction;
 
-
 class CustomLabel : public QProgressBar
 {
     Q_OBJECT
@@ -37,14 +36,14 @@ public:
     explicit CustomLabel(const QString &label, bool showSlider = true, int range = 1000, QWidget *parent = Q_NULLPTR);
     void setProgressValue(double value);
     void setStep(double step);
-    
+
 protected:
     //virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     //virtual void paintEvent(QPaintEvent *event);
-    void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void focusInEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
     void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
 
@@ -57,7 +56,7 @@ private:
     void slotValueInc(double factor = 1);
     void slotValueDec(double factor = 1);
     void setNewValue(double, bool);
-    
+
 signals:
     void valueChanged(double, bool);
     void setInTimeline();
@@ -83,8 +82,8 @@ public:
     * @param id Used to identify this widget. If this parameter is set, "Show in Timeline" will be available in context menu.
     * @param suffix The suffix that will be displayed in the spinbox (for example '%')
     * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
-    */    
-    explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1, const QString &suffix = QString(), bool showSlider = true, QWidget* parent = Q_NULLPTR);
+    */
+    explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1, const QString &suffix = QString(), bool showSlider = true, QWidget *parent = Q_NULLPTR);
     virtual ~DragValue();
 
     /** @brief Returns the precision = number of decimals */
@@ -124,8 +123,6 @@ public slots:
 signals:
     void valueChanged(double value, bool final = true);
     void inTimeline(int);
-
-
 
     /*
      * Private

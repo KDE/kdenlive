@@ -8,7 +8,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVariant>
 #include <QPainter>
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem* parent) :
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem *parent) :
     QObject()
     , m_parent(parent)
     , m_id(id)
@@ -40,7 +40,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 {
 }
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement& description, AbstractProjectItem* parent) :
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, AbstractProjectItem *parent) :
     QObject()
     , m_parent(parent)
     , m_id(description.attribute(QStringLiteral("id")))
@@ -62,15 +62,15 @@ AbstractProjectItem::~AbstractProjectItem()
     }
 }
 
-bool AbstractProjectItem::operator==(const AbstractProjectItem* projectItem) const
+bool AbstractProjectItem::operator==(const AbstractProjectItem *projectItem) const
 {
     // FIXME: only works for folders
-    bool equal = static_cast<const QList* const>(this) == static_cast<const QList* const>(projectItem);
+    bool equal = static_cast<const QList *const>(this) == static_cast<const QList *const>(projectItem);
     equal &= m_parent == projectItem->parent();
     return equal;
 }
 
-AbstractProjectItem* AbstractProjectItem::parent() const
+AbstractProjectItem *AbstractProjectItem::parent() const
 {
     return m_parent;
 }
@@ -103,8 +103,7 @@ const QString &AbstractProjectItem::clipId() const
     return m_id;
 }
 
-
-void AbstractProjectItem::setParent(AbstractProjectItem* parent)
+void AbstractProjectItem::setParent(AbstractProjectItem *parent)
 {
     if (m_parent != parent) {
         if (m_parent) {
@@ -119,7 +118,7 @@ void AbstractProjectItem::setParent(AbstractProjectItem* parent)
     }
 }
 
-Bin* AbstractProjectItem::bin()
+Bin *AbstractProjectItem::bin()
 {
     if (m_parent) {
         return m_parent->bin();
@@ -141,16 +140,16 @@ QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
     return pix;
 }
 
-void AbstractProjectItem::addChild(AbstractProjectItem* child)
+void AbstractProjectItem::addChild(AbstractProjectItem *child)
 {
     if (child && !contains(child)) {
         bin()->emitAboutToAddItem(child);
         append(child);
-	bin()->emitItemAdded(child);
+        bin()->emitItemAdded(child);
     }
 }
 
-void AbstractProjectItem::removeChild(AbstractProjectItem* child)
+void AbstractProjectItem::removeChild(AbstractProjectItem *child)
 {
     if (child && contains(child)) {
         bin()->emitAboutToRemoveItem(child);
@@ -162,7 +161,7 @@ void AbstractProjectItem::removeChild(AbstractProjectItem* child)
 int AbstractProjectItem::index() const
 {
     if (m_parent) {
-        return m_parent->indexOf(const_cast<AbstractProjectItem*>(this));
+        return m_parent->indexOf(const_cast<AbstractProjectItem *>(this));
     }
     return 0;
 }
@@ -172,52 +171,51 @@ AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
     return m_itemType;
 }
 
-
 QVariant AbstractProjectItem::data(DataType type) const
 {
     QVariant data;
     switch (type) {
-        case DataName:
-            data = QVariant(m_name);
-            break;
-        case DataDescription:
-            data = QVariant(m_description);
-            break;
-	case DataThumbnail:
-            data = QVariant(m_thumbnail);
-            break;
-        case DataId:
-            data = QVariant(m_id);
-            break;
-	case DataDuration:
-	    data = QVariant(m_duration);
-            break;
-        case DataDate:
-            data = QVariant(m_date);
-            break;
-        case UsageCount:
-            data = QVariant(m_usage);
-            break;
-        case ItemTypeRole:
-            data = QVariant(m_itemType);
-            break;
-	case JobType:
-	    data = QVariant(m_jobType);
-            break;
-	case JobProgress:
-	    data = QVariant(m_jobProgress);
-            break;
-	case JobMessage:
-	    data = QVariant(m_jobMessage);
-            break;
-        case ClipStatus:
-            data = QVariant(m_clipStatus);
-            break;
-        case ClipToolTip:
-            data = QVariant(getToolTip());
-            break;
-        default:
-            break;
+    case DataName:
+        data = QVariant(m_name);
+        break;
+    case DataDescription:
+        data = QVariant(m_description);
+        break;
+    case DataThumbnail:
+        data = QVariant(m_thumbnail);
+        break;
+    case DataId:
+        data = QVariant(m_id);
+        break;
+    case DataDuration:
+        data = QVariant(m_duration);
+        break;
+    case DataDate:
+        data = QVariant(m_date);
+        break;
+    case UsageCount:
+        data = QVariant(m_usage);
+        break;
+    case ItemTypeRole:
+        data = QVariant(m_itemType);
+        break;
+    case JobType:
+        data = QVariant(m_jobType);
+        break;
+    case JobProgress:
+        data = QVariant(m_jobProgress);
+        break;
+    case JobMessage:
+        data = QVariant(m_jobMessage);
+        break;
+    case ClipStatus:
+        data = QVariant(m_clipStatus);
+        break;
+    case ClipToolTip:
+        data = QVariant(getToolTip());
+        break;
+    default:
+        break;
     }
     return data;
 }
@@ -232,7 +230,7 @@ QString AbstractProjectItem::name() const
     return m_name;
 }
 
-void AbstractProjectItem::setName(const QString& name)
+void AbstractProjectItem::setName(const QString &name)
 {
     m_name = name;
 }
@@ -242,7 +240,7 @@ QString AbstractProjectItem::description() const
     return m_description;
 }
 
-void AbstractProjectItem::setDescription(const QString& description)
+void AbstractProjectItem::setDescription(const QString &description)
 {
     m_description = description;
 }
@@ -266,5 +264,4 @@ AbstractProjectItem::CLIPSTATUS AbstractProjectItem::clipStatus() const
 {
     return m_clipStatus;
 }
-
 

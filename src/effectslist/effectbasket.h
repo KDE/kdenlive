@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef EFFECTBASKET_H
 #define EFFECTBASKET_H
 
@@ -41,7 +40,7 @@ public:
 
 protected:
     QMimeData *mimeData(const QList<QListWidgetItem *> list) const Q_DECL_OVERRIDE;
-    void showEvent(QShowEvent * event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 private:
     EffectsListView *m_effectList;

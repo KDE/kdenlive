@@ -35,7 +35,6 @@
 // For QDomNode debugging (output into files); leaving here as sample code.
 //#define DEBUG_ESE
 
-
 EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
     QScrollArea(parent),
     m_paramWidget(Q_NULLPTR)
@@ -78,7 +77,9 @@ void EffectStackEdit::setFrameSize(const QPoint &p)
 
 void EffectStackEdit::updateTimecodeFormat()
 {
-    if (m_paramWidget) m_paramWidget->updateTimecodeFormat();
+    if (m_paramWidget) {
+        m_paramWidget->updateTimecodeFormat();
+    }
 }
 
 void EffectStackEdit::updateParameter(const QString &name, const QString &value)
@@ -93,7 +94,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
     }
 }
 
-bool EffectStackEdit::eventFilter( QObject * o, QEvent * e ) 
+bool EffectStackEdit::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::Wheel) {
         QWheelEvent *we = static_cast<QWheelEvent *>(e);
@@ -102,38 +103,29 @@ bool EffectStackEdit::eventFilter( QObject * o, QEvent * e )
             e->accept();
             return false;
         }
-        if (qobject_cast<QAbstractSpinBox*>(o)) {
-            if(qobject_cast<QAbstractSpinBox*>(o)->focusPolicy() == Qt::WheelFocus)
-            {
+        if (qobject_cast<QAbstractSpinBox *>(o)) {
+            if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            }
-            else
-            {
+            } else {
                 e->ignore();
                 return true;
             }
         }
-        if (qobject_cast<KComboBox*>(o)) {
-            if(qobject_cast<KComboBox*>(o)->focusPolicy() == Qt::WheelFocus)
-            {
+        if (qobject_cast<KComboBox *>(o)) {
+            if (qobject_cast<KComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            }
-            else
-            {
+            } else {
                 e->ignore();
                 return true;
             }
         }
-        if (qobject_cast<QProgressBar*>(o)) {
-            if(qobject_cast<QProgressBar*>(o)->focusPolicy() == Qt::WheelFocus)
-            {
+        if (qobject_cast<QProgressBar *>(o)) {
+            if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            }
-            else
-            {
+            } else {
                 e->ignore();
                 return true;
             }
@@ -144,29 +136,31 @@ bool EffectStackEdit::eventFilter( QObject * o, QEvent * e )
 
 void EffectStackEdit::transferParamDesc(const QDomElement &d, const ItemInfo &info, bool /*isEffect*/)
 {
-    if (m_paramWidget) delete m_paramWidget;
+    if (m_paramWidget) {
+        delete m_paramWidget;
+    }
     m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);
-    connect (m_paramWidget, &ParameterContainer::parameterChanged, this, &EffectStackEdit::parameterChanged);
+    connect(m_paramWidget, &ParameterContainer::parameterChanged, this, &EffectStackEdit::parameterChanged);
     connect(m_paramWidget, &ParameterContainer::importKeyframes, this, &EffectStackEdit::importKeyframes);
     connect(m_paramWidget, &ParameterContainer::startFilterJob, this, &EffectStackEdit::startFilterJob);
 
-    connect (this, &EffectStackEdit::syncEffectsPos, m_paramWidget, &ParameterContainer::syncEffectsPos);
-    connect (this, &EffectStackEdit::initScene, m_paramWidget, &ParameterContainer::initScene);
-    connect (m_paramWidget, &ParameterContainer::checkMonitorPosition, this, &EffectStackEdit::checkMonitorPosition);
-    connect (m_paramWidget, &ParameterContainer::seekTimeline, this, &EffectStackEdit::seekTimeline);
-    connect (m_paramWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
+    connect(this, &EffectStackEdit::syncEffectsPos, m_paramWidget, &ParameterContainer::syncEffectsPos);
+    connect(this, &EffectStackEdit::initScene, m_paramWidget, &ParameterContainer::initScene);
+    connect(m_paramWidget, &ParameterContainer::checkMonitorPosition, this, &EffectStackEdit::checkMonitorPosition);
+    connect(m_paramWidget, &ParameterContainer::seekTimeline, this, &EffectStackEdit::seekTimeline);
+    connect(m_paramWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
 
-    Q_FOREACH( QSpinBox * sp, m_baseWidget->findChildren<QSpinBox*>() ) {
-        sp->installEventFilter( this );
-        sp->setFocusPolicy( Qt::StrongFocus );
+    Q_FOREACH (QSpinBox *sp, m_baseWidget->findChildren<QSpinBox *>()) {
+        sp->installEventFilter(this);
+        sp->setFocusPolicy(Qt::StrongFocus);
     }
-    Q_FOREACH( KComboBox * cb, m_baseWidget->findChildren<KComboBox*>() ) {
-        cb->installEventFilter( this );
-        cb->setFocusPolicy( Qt::StrongFocus );
+    Q_FOREACH (KComboBox *cb, m_baseWidget->findChildren<KComboBox *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(Qt::StrongFocus);
     }
-    Q_FOREACH( QProgressBar * cb, m_baseWidget->findChildren<QProgressBar*>() ) {
-        cb->installEventFilter( this );
-        cb->setFocusPolicy( Qt::StrongFocus );
+    Q_FOREACH (QProgressBar *cb, m_baseWidget->findChildren<QProgressBar *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(Qt::StrongFocus);
     }
     m_paramWidget->connectMonitor(true);
 }
@@ -181,22 +175,27 @@ void EffectStackEdit::initEffectScene(int pos)
     emit initScene(pos);
 }
 
-
 MonitorSceneType EffectStackEdit::needsMonitorEffectScene() const
 {
-    if (!m_paramWidget) return MonitorSceneDefault;
+    if (!m_paramWidget) {
+        return MonitorSceneDefault;
+    }
     return m_paramWidget->needsMonitorEffectScene();
 }
 
 void EffectStackEdit::setKeyframes(const QString &tag, const QString &data)
 {
-    if (!m_paramWidget) return;
+    if (!m_paramWidget) {
+        return;
+    }
     m_paramWidget->setKeyframes(tag, data);
 }
 
 bool EffectStackEdit::doesAcceptDrops() const
 {
-    if (!m_paramWidget) return false;
+    if (!m_paramWidget) {
+        return false;
+    }
     return m_paramWidget->doesAcceptDrops();
 }
 
@@ -205,7 +204,7 @@ void EffectStackEdit::importKeyframes(const QString &keyframes)
     QMap<QString, QString> data;
     if (keyframes.contains(QLatin1Char('\n'))) {
         QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
-        foreach(const QString &param, params) {
+        foreach (const QString &param, params) {
             data.insert(param.section(QStringLiteral("="), 0, 0), param.section(QStringLiteral("="), 1));
         }
     } else {

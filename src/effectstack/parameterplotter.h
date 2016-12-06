@@ -36,29 +36,29 @@ public:
     bool isMoveY() const;
     bool isMoveTimeline() const;
     bool isNewPoints() const;
-    void replot(const QString& name = QString());
+    void replot(const QString &name = QString());
 private:
-    KPlotPoint* m_movepoint;
+    KPlotPoint *m_movepoint;
     int m_activeIndexPlot;
     bool m_moveX, m_moveY, m_moveTimeline, m_newPoints;
     QPoint m_oldmousepoint;
     QStringList m_parameterNameList;
     void createParametersNew();
-    QList<KPlotObject*> m_plotobjects;
+    QList<KPlotObject *> m_plotobjects;
     QMap<int, double> m_stretchFactors;
     QList<QColor> m_colors;
     QDomElement m_itemParameter;
     int m_max_y, m_min_y;
     QString m_paramName;
 protected:
-    void mouseMoveEvent(QMouseEvent * event);
-    void mousePressEvent(QMouseEvent * event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 public slots:
-    void setPointLists(const QDomElement&, const QString& paramName, int , int);
+    void setPointLists(const QDomElement &, const QString &paramName, int, int);
 signals:
-    void parameterChanged(const QDomElement&);
+    void parameterChanged(const QDomElement &);
     void updateFrame(int);
-    void parameterList(const QStringList&);
+    void parameterList(const QStringList &);
 
 };
 

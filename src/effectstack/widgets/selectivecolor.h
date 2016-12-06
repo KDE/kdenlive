@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -40,9 +40,9 @@ class SelectiveColor : public QWidget, public Ui::SelectiveColor
 public:
     /** @brief Sets up the widget.
     * @param text (optional) What the color will be used for
-    * @param color (optional) initial color 
+    * @param color (optional) initial color
     * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit SelectiveColor(const QDomElement &effect, QWidget* parent = Q_NULLPTR);
+    explicit SelectiveColor(const QDomElement &effect, QWidget *parent = Q_NULLPTR);
     ~SelectiveColor();
     void addParam(QDomElement &effect, QString name);
     void updateEffect(QDomElement &effect);

@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef DVDWIZARD_H
 #define DVDWIZARD_H
 
@@ -38,7 +37,7 @@ class DvdWizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit DvdWizard(MonitorManager *manager, const QString &url = QString(), QWidget * parent = Q_NULLPTR);
+    explicit DvdWizard(MonitorManager *manager, const QString &url = QString(), QWidget *parent = Q_NULLPTR);
     virtual ~DvdWizard();
     void processSpumux();
 

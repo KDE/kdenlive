@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef EFFECTSLISTVIEW_H
 #define EFFECTSLISTVIEW_H
-
 
 #include "ui_effectlist_ui.h"
 #include "gentime.h"
@@ -61,7 +59,6 @@ protected:
     bool itemMatches(const QTreeWidgetItem *item, const QString &pattern) const Q_DECL_OVERRIDE;
 };
 
-
 /**
  * @class MyDropButton
  * @brief A QToolButton accepting effect drops
@@ -73,32 +70,34 @@ class MyDropButton : public QToolButton
     Q_OBJECT
 
 public:
-    explicit MyDropButton(QWidget *parent = Q_NULLPTR) : QToolButton(parent) {
+    explicit MyDropButton(QWidget *parent = Q_NULLPTR) : QToolButton(parent)
+    {
         setAcceptDrops(true);
         setAutoExclusive(true);
         setCheckable(true);
         setAutoRaise(true);
     }
 protected:
-    void dragEnterEvent(QDragEnterEvent * event) Q_DECL_OVERRIDE {
-        if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE {
+        if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist")))
+        {
             event->accept();
         }
     }
-    void dropEvent(QDropEvent * event) Q_DECL_OVERRIDE {
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE {
         const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
         QDomDocument doc;
         doc.setContent(effects, true);
         QString id = doc.documentElement().attribute(QStringLiteral("id"));
-        if (id.isEmpty()) id = doc.documentElement().attribute(QStringLiteral("tag"));
+        if (id.isEmpty())
+        {
+            id = doc.documentElement().attribute(QStringLiteral("tag"));
+        }
         emit addEffectToFavorites(id);
     }
 signals:
     void addEffectToFavorites(QString);
 };
-
-
-
 
 /**
  * @class EffectsListView
@@ -120,7 +119,7 @@ public:
 
     /** @brief Re-initializes the list of effects. */
     void reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions);
-    QMenu* getEffectsMenu();
+    QMenu *getEffectsMenu();
     //void slotAddEffect(GenTime pos, int track, QString name);
 
     /** @brief Palette was changed, update styles. */
@@ -182,7 +181,7 @@ private slots:
     void slotDisplayMenu(QTreeWidgetItem *item, const QPoint &pos);
 
 signals:
-    void addEffect(const QDomElement&);
+    void addEffect(const QDomElement &);
     void reloadEffects();
     void reloadBasket();
 };

@@ -49,7 +49,7 @@ public:
     bool effectNeedsSyncPosition() const;
     Monitor *monitor();
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
-    bool eventFilter( QObject * o, QEvent * e ) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
     /** @brief Returns type of monitor scene requested by this transition. */
     MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set keyframes for this transition. */
@@ -76,9 +76,9 @@ private slots:
     void importKeyframes(const QString &keyframes);
 
 signals:
-    void parameterChanged(const QDomElement&, const QDomElement&, int);
+    void parameterChanged(const QDomElement &, const QDomElement &, int);
     void seekTimeline(int);
-    void displayMessage(const QString&, int);
+    void displayMessage(const QString &, int);
     void checkMonitorPosition(int);
     void syncEffectsPos(int pos);
     /** @brief Request sending geometry info to monitor overlay. */
@@ -86,8 +86,8 @@ signals:
     void showComments(bool show);
     void effectStateChanged(bool enabled);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap<QString, QString>&);
-    void importClipKeyframes(GraphicsRectItem = AVWidget, QMap<QString,QString> data = QMap<QString,QString>());
+    void startFilterJob(QMap<QString, QString> &, QMap<QString, QString> &, QMap<QString, QString> &);
+    void importClipKeyframes(GraphicsRectItem = AVWidget, QMap<QString, QString> data = QMap<QString, QString>());
 };
 
 #endif

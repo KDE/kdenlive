@@ -30,28 +30,28 @@
 
 #include <mlt++/Mlt.h>
 
-Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const QPoint &frame_size, int startPoint, QWidget* parent) :
-        QWidget(parent),
-        m_profile(profile),
-        m_paramRect(Q_NULLPTR),
-        m_geom(Q_NULLPTR),
-        m_path(Q_NULLPTR),
-        m_fixedMode(false),
-        m_frameSize(frame_size),
-        m_startPoint(startPoint),
-        m_timePos(t)
+Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const QPoint &frame_size, int startPoint, QWidget *parent) :
+    QWidget(parent),
+    m_profile(profile),
+    m_paramRect(Q_NULLPTR),
+    m_geom(Q_NULLPTR),
+    m_path(Q_NULLPTR),
+    m_fixedMode(false),
+    m_frameSize(frame_size),
+    m_startPoint(startPoint),
+    m_timePos(t)
 {
     setupUi(this);
     toolbarlayout->addWidget(&m_timePos);
     toolbarlayout->insertStretch(-1);
 
-    QVBoxLayout* vbox = new QVBoxLayout(widget);
+    QVBoxLayout *vbox = new QVBoxLayout(widget);
     m_sceneview = new QGraphicsView(this);
     m_sceneview->setBackgroundBrush(QBrush(Qt::black));
     vbox->addWidget(m_sceneview);
     vbox->setContentsMargins(0, 0, 0, 0);
 
-    QVBoxLayout* vbox2 = new QVBoxLayout(keyframeWidget);
+    QVBoxLayout *vbox2 = new QVBoxLayout(keyframeWidget);
     m_helper = new KeyframeHelper(this);
     vbox2->addWidget(m_helper);
     vbox2->setContentsMargins(0, 0, 0, 0);
@@ -106,10 +106,10 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     m_scene->setZoom(sc);
     m_sceneview->centerOn(frameBorder);
     m_sceneview->setMouseTracking(true);
-    connect(buttonNext , &QAbstractButton::clicked , this , &Geometryval::slotNextFrame);
-    connect(buttonPrevious , &QAbstractButton::clicked , this , &Geometryval::slotPreviousFrame);
-    connect(buttonDelete , &QAbstractButton::clicked , this , &Geometryval::slotDeleteFrame);
-    connect(buttonAdd , &QAbstractButton::clicked , this , &Geometryval::slotAddFrame);
+    connect(buttonNext, &QAbstractButton::clicked, this, &Geometryval::slotNextFrame);
+    connect(buttonPrevious, &QAbstractButton::clicked, this, &Geometryval::slotPreviousFrame);
+    connect(buttonDelete, &QAbstractButton::clicked, this, &Geometryval::slotDeleteFrame);
+    connect(buttonAdd, &QAbstractButton::clicked, this, &Geometryval::slotAddFrame);
     connect(m_scene, &GraphicsSceneRectMove::actionFinished, this, &Geometryval::slotUpdateTransitionProperties);
 
     buttonhcenter->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")));
@@ -141,7 +141,6 @@ Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const Q
     connect(this, &Geometryval::parameterChanged, this, &Geometryval::slotUpdateGeometry);
 }
 
-
 Geometryval::~Geometryval()
 {
     m_scene->disconnect();
@@ -155,70 +154,78 @@ Geometryval::~Geometryval()
     delete m_scene;
 }
 
-
 void Geometryval::slotAlignHCenter()
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setPos((m_realWidth - m_paramRect->rect().width()) / 2, m_paramRect->pos().y());
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotAlignVCenter()
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setPos(m_paramRect->pos().x(), (m_profile->height() - m_paramRect->rect().height()) / 2);
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotAlignTop()
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setPos(m_paramRect->pos().x(), 0);
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotAlignBottom()
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setPos(m_paramRect->pos().x(), m_profile->height() - m_paramRect->rect().height());
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotAlignLeft()
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setPos(0, m_paramRect->pos().y());
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotAlignRight()
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setPos(m_realWidth - m_paramRect->rect().width(), m_paramRect->pos().y());
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotResizeOriginal()
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
-    if (m_frameSize.isNull())
+    }
+    if (m_frameSize.isNull()) {
         m_paramRect->setRect(0, 0, m_realWidth, m_profile->height());
-    else
+    } else {
         m_paramRect->setRect(0, 0, m_frameSize.x(), m_frameSize.y());
+    }
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotResizeCustom()
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     int value = spinResize->value();
     m_paramRect->setRect(0, 0, m_realWidth * value / 100, m_profile->height() * value / 100);
     slotUpdateTransitionProperties();
@@ -254,7 +261,9 @@ void Geometryval::slotPositionChanged(int pos, bool seek)
     if (pos == -1) {
         pos = m_timePos.getValue();
     }
-    if (seek && KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos + m_startPoint);
+    if (seek && KdenliveSettings::transitionfollowcursor()) {
+        emit seekToPos(pos + m_startPoint);
+    }
     m_timePos.setValue(pos);
     //spinPos->setValue(pos);
     m_helper->blockSignals(true);
@@ -292,11 +301,15 @@ void Geometryval::slotDeleteFrame(int pos)
     Mlt::GeometryItem item;
     int frame = m_timePos.getValue();
 
-    if (pos == -1) pos = frame;
+    if (pos == -1) {
+        pos = frame;
+    }
     int error = m_geom->next_key(&item, pos + 1);
     if (error) {
         error = m_geom->prev_key(&item, pos - 1);
-        if (error || item.frame() == pos) return;
+        if (error || item.frame() == pos) {
+            return;
+        }
     }
 
     m_geom->remove(frame);
@@ -315,7 +328,9 @@ void Geometryval::slotDeleteFrame(int pos)
 void Geometryval::slotAddFrame(int pos)
 {
     int frame = m_timePos.getValue();
-    if (pos == -1) pos = frame;
+    if (pos == -1) {
+        pos = frame;
+    }
     Mlt::GeometryItem item;
     item.frame(pos);
     QRectF r = m_paramRect->rect().normalized();
@@ -345,7 +360,9 @@ void Geometryval::slotNextFrame()
     if (error) {
         // Go to end
         pos = m_helper->frameLength;
-    } else pos = item.frame();
+    } else {
+        pos = item.frame();
+    }
     m_timePos.setValue(pos);
     slotPositionChanged();
 }
@@ -355,12 +372,13 @@ void Geometryval::slotPreviousFrame()
     Mlt::GeometryItem item;
     int error = m_geom->prev_key(&item, m_helper->value() - 1);
     //qCDebug(KDENLIVE_LOG) << "// SEEK TO NEXT KFR: " << error;
-    if (error) return;
+    if (error) {
+        return;
+    }
     int pos = item.frame();
     m_timePos.setValue(pos);
     slotPositionChanged();
 }
-
 
 QString Geometryval::getValue() const
 {
@@ -385,10 +403,11 @@ void Geometryval::setupParam(const QDomElement &par, int minFrame, int maxFrame)
         label_opacity->setHidden(true);
         spinTransp->setHidden(true);
     }
-    if (m_geom)
+    if (m_geom) {
         m_geom->parse(val.toUtf8().data(), maxFrame - minFrame, m_profile->width(), m_profile->height());
-    else
+    } else {
         m_geom = new Mlt::Geometry(val.toUtf8().data(), maxFrame - minFrame, m_profile->width(), m_profile->height());
+    }
 
     ////qCDebug(KDENLIVE_LOG) << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
     //read param her and set rect
@@ -420,9 +439,9 @@ void Geometryval::setupParam(const QDomElement &par, int minFrame, int maxFrame)
     slotUpdateGeometry();
     if (!m_fixedMode) {
         m_timePos.setRange(0, maxFrame - minFrame - 1);
-        connect(&m_timePos, SIGNAL(timeCodeEditingFinished()), this , SLOT(slotPositionChanged()));
+        connect(&m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotPositionChanged()));
     }
-    connect(spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
+    connect(spinTransp, SIGNAL(valueChanged(int)), this, SLOT(slotTransparencyChanged(int)));
 }
 
 void Geometryval::slotSyncPosition(int relTimelinePos)
@@ -430,20 +449,25 @@ void Geometryval::slotSyncPosition(int relTimelinePos)
     if (m_timePos.maximum() > 0 && KdenliveSettings::transitionfollowcursor()) {
         relTimelinePos = qMax(0, relTimelinePos);
         relTimelinePos = qMin(relTimelinePos, m_timePos.maximum());
-        if (relTimelinePos != m_timePos.getValue())
+        if (relTimelinePos != m_timePos.getValue()) {
             slotPositionChanged(relTimelinePos, false);
+        }
     }
 }
 
 void Geometryval::updateTransitionPath()
 {
-    if (m_fixedMode) return;
+    if (m_fixedMode) {
+        return;
+    }
     Mlt::GeometryItem item;
     int pos = 0;
     int counter = 0;
     QPainterPath path;
     while (true) {
-        if (m_geom->next_key(&item, pos) == 1) break;
+        if (m_geom->next_key(&item, pos) == 1) {
+            break;
+        }
         pos = item.frame();
         if (counter == 0) {
             path.moveTo(item.x() * m_dar + item.w() * m_dar / 2, item.y() + item.h() / 2);
@@ -495,7 +519,6 @@ void Geometryval::setFrameSize(const QPoint &p)
     m_frameSize = p;
 }
 
-
 void Geometryval::slotKeyframeMoved(int pos)
 {
     slotPositionChanged(pos);
@@ -517,32 +540,36 @@ void Geometryval::slotSwitchOptions()
 
 void Geometryval::slotGeometryX(int value)
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setPos(value, spinY->value());
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotGeometryY(int value)
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setPos(spinX->value(), value);
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotGeometryWidth(int value)
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setRect(0, 0, value, spinHeight->value());
     slotUpdateTransitionProperties();
 }
 
 void Geometryval::slotGeometryHeight(int value)
 {
-    if (!keyframeSelected())
+    if (!keyframeSelected()) {
         return;
+    }
     m_paramRect->setRect(0, 0, spinWidth->value(), value);
     slotUpdateTransitionProperties();
 }
@@ -577,12 +604,10 @@ bool Geometryval::keyframeSelected()
     return !(m_geom->fetch(&item, pos) || item.key() == false);
 }
 
-
 void Geometryval::slotUpdateRange(int inPoint, int outPoint)
 {
     m_helper->setKeyGeometry(m_geom, inPoint, outPoint);
     m_helper->update();
     m_timePos.setRange(0, outPoint - inPoint - 1);
 }
-
 

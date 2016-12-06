@@ -28,11 +28,10 @@
 #include <QLabel>
 #include <klocalizedstring.h>
 
-
-BezierSplineWidget::BezierSplineWidget(const QString& spline, QWidget* parent) :
-        QWidget(parent),
-        m_mode(ModeRGB),
-        m_showPixmap(false)
+BezierSplineWidget::BezierSplineWidget(const QString &spline, QWidget *parent) :
+    QWidget(parent),
+    m_mode(ModeRGB),
+    m_showPixmap(false)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(&m_edit);
@@ -108,8 +107,9 @@ void BezierSplineWidget::setMode(BezierSplineWidget::CurveModes mode)
 {
     if (m_mode != mode) {
         m_mode = mode;
-        if (m_showPixmap)
+        if (m_showPixmap) {
             slotShowPixmap();
+        }
     }
 }
 
@@ -123,12 +123,13 @@ void BezierSplineWidget::slotShowPixmap(bool show)
 {
     m_showPixmap = show;
     KdenliveSettings::setBezier_showpixmap(show);
-    if (show && (int)m_mode < 6)
+    if (show && (int)m_mode < 6) {
         m_edit.setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit.size(), static_cast<ColorTools::ColorsRGB>(m_mode), 1, palette().background().color().rgb())));
-    else if (show && m_mode == ModeHue)
+    } else if (show && m_mode == ModeHue) {
         m_edit.setPixmap(QPixmap::fromImage(ColorTools::hsvCurvePlane(m_edit.size(), QColor::fromHsv(200, 200, 200), ColorTools::COM_H, ColorTools::COM_H)));
-    else
+    } else {
         m_edit.setPixmap(QPixmap());
+    }
 }
 
 void BezierSplineWidget::slotUpdatePointEntries(const BPoint &p)
@@ -211,5 +212,4 @@ void BezierSplineWidget::slotShowAllHandles(bool show)
     m_edit.setShowAllHandles(show);
     KdenliveSettings::setBezier_showallhandles(show);
 }
-
 

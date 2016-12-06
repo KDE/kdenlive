@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef BINCOMMANDS_H
 #define BINCOMMANDS_H
 
@@ -27,11 +26,10 @@
 
 class Bin;
 
-
 class AddBinFolderCommand : public QUndoCommand
 {
 public:
-    explicit AddBinFolderCommand(Bin *bin, const QString &id, const QString &name, const QString &parentId, bool remove = false, QUndoCommand * parent = Q_NULLPTR);
+    explicit AddBinFolderCommand(Bin *bin, const QString &id, const QString &name, const QString &parentId, bool remove = false, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -41,7 +39,6 @@ private:
     QString m_parentId;
     bool m_remove;
 };
-
 
 class MoveBinClipCommand : public QUndoCommand
 {
@@ -124,7 +121,7 @@ private:
 class ChangeMasterEffectStateCommand : public QUndoCommand
 {
 public:
-    ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList<int>& effectIndexes, bool disable, QUndoCommand *parent = Q_NULLPTR);
+    ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList<int> &effectIndexes, bool disable, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -180,7 +177,7 @@ private:
 class EditClipCommand : public QUndoCommand
 {
 public:
-    EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -191,7 +188,7 @@ private:
     /** @brief Should this command be executed on first redo ? TODO: we should refactor the code to get rid of this and always execute actions through the command system.
      *. */
     bool m_doIt;
-    /** @brief This value is true is this is the first time we execute the command, false otherwise. This allows us to refresh the properties panel 
+    /** @brief This value is true is this is the first time we execute the command, false otherwise. This allows us to refresh the properties panel
      * only on the later executions of the command, since on the first execution, the properties panel already contains the correct info. */
     bool m_firstExec;
 };
@@ -199,7 +196,7 @@ private:
 class AddClipCommand : public QUndoCommand
 {
 public:
-    AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -208,7 +205,6 @@ private:
     QString m_id;
     bool m_doIt;
 };
-
 
 #endif
 

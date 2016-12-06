@@ -37,8 +37,9 @@ class KSelectAction;
 class QComboBox;
 class DragValue;
 
-namespace Mlt {
-    class Animation;
+namespace Mlt
+{
+class Animation;
 }
 
 class AnimationWidget : public QWidget
@@ -67,7 +68,7 @@ private:
     Monitor *m_monitor;
     QPoint m_frameSize;
     TimecodeDisplay *m_timePos;
-    KDualAction* m_addKeyframe;
+    KDualAction *m_addKeyframe;
     QComboBox *m_presetCombo;
     /** @brief True if effect is currently selected in stack */
     bool m_active;

@@ -23,7 +23,6 @@
 
 #include <QStringList>
 
-
 class V4lCaptureHandler
 {
 
@@ -32,6 +31,5 @@ public:
     static QStringList getDeviceName(const QString &input);
 
 };
-
 
 #endif

@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef KEYFRAMEHELPER_H
 #define KEYFRAMEHELPER_H
 
@@ -37,12 +36,12 @@ public:
 
 protected:
     void paintEvent(QPaintEvent * /*e*/) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent * e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void leaveEvent( QEvent * event ) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Mlt::Geometry *m_geom;

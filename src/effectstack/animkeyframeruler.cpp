@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "animkeyframeruler.h"
 
 #include "kdenlivesettings.h"
@@ -38,16 +37,16 @@ const int margin = 5;
 
 AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent) :
     QWidget(parent)
-  , frameLength(max - min)
-  , m_position(0)
-  , m_scale(0)
-  , m_movingKeyframe(false)
-  , m_movingKeyframePos(-1)
-  , m_movingKeyframeType(mlt_keyframe_linear)
-  , m_hoverKeyframe(-1)
-  , m_selectedKeyframe(-1)
-  , m_seekPosition(SEEK_INACTIVE)
-  , m_attachedToEnd(-2)
+    , frameLength(max - min)
+    , m_position(0)
+    , m_scale(0)
+    , m_movingKeyframe(false)
+    , m_movingKeyframePos(-1)
+    , m_movingKeyframeType(mlt_keyframe_linear)
+    , m_hoverKeyframe(-1)
+    , m_selectedKeyframe(-1)
+    , m_seekPosition(SEEK_INACTIVE)
+    , m_attachedToEnd(-2)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);
@@ -70,7 +69,7 @@ void AnimKeyframeRuler::updateKeyframes(const QVector<int> &keyframes, const QVe
 }
 
 // virtual
-void AnimKeyframeRuler::mousePressEvent(QMouseEvent * event)
+void AnimKeyframeRuler::mousePressEvent(QMouseEvent *event)
 {
     m_hoverKeyframe = -1;
     if (event->button() != Qt::LeftButton) {
@@ -83,7 +82,9 @@ void AnimKeyframeRuler::mousePressEvent(QMouseEvent * event)
         // check if we want to move a keyframe
         for (int i = 0; i < m_keyframes.count(); i++) {
             int kfrPos = m_keyframes.at(i);
-            if (kfrPos * m_scale - xPos > headOffset) break;
+            if (kfrPos * m_scale - xPos > headOffset) {
+                break;
+            }
             if (qAbs(kfrPos * m_scale - xPos) <  headOffset) {
                 m_hoverKeyframe = kfrPos;
                 setCursor(Qt::PointingHandCursor);
@@ -101,7 +102,7 @@ void AnimKeyframeRuler::mousePressEvent(QMouseEvent * event)
     }
 }
 
-void AnimKeyframeRuler::leaveEvent( QEvent * event )
+void AnimKeyframeRuler::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
     if (m_hoverKeyframe != -1) {
@@ -122,7 +123,7 @@ int AnimKeyframeRuler::activeKeyframe() const
 }
 
 // virtual
-void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent * event)
+void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent *event)
 {
     int xPos = event->x() - margin;
     int headOffset = m_lineHeight / 1.5;
@@ -140,7 +141,9 @@ void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent * event)
             // check if we want to move a keyframe
             for (int i = 0; i < m_keyframes.count(); i++) {
                 int kfrPos = m_keyframes.at(i);
-                if (kfrPos * m_scale - xPos > headOffset) break;
+                if (kfrPos * m_scale - xPos > headOffset) {
+                    break;
+                }
                 if (qAbs(kfrPos * m_scale - xPos) <  headOffset) {
                     m_hoverKeyframe = kfrPos;
                     setCursor(Qt::PointingHandCursor);
@@ -160,7 +163,9 @@ void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent * event)
     }
     if (!m_dragStart.isNull() || m_movingKeyframe) {
         if (!m_movingKeyframe) {
-            if ((QPoint(xPos, event->y()) - m_dragStart).manhattanLength() < QApplication::startDragDistance()) return;
+            if ((QPoint(xPos, event->y()) - m_dragStart).manhattanLength() < QApplication::startDragDistance()) {
+                return;
+            }
             m_movingKeyframe = true;
             int index = m_keyframes.indexOf(m_hoverKeyframe);
             m_movingKeyframeType = m_keyframeTypes.value(index);
@@ -172,13 +177,13 @@ void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent * event)
         if (event->modifiers() & Qt::ShiftModifier) {
             m_seekPosition = m_movingKeyframePos;
             emit requestSeek(m_seekPosition);
-        }
-        else if (KdenliveSettings::snaptopoints() && qAbs(m_movingKeyframePos - m_position) < headOffset / m_scale)
+        } else if (KdenliveSettings::snaptopoints() && qAbs(m_movingKeyframePos - m_position) < headOffset / m_scale) {
             m_movingKeyframePos = m_position;
+        }
         update();
         return;
     }
-    m_seekPosition = (int) (xPos / m_scale);
+    m_seekPosition = (int)(xPos / m_scale);
     m_seekPosition = qMax(0, m_seekPosition);
     m_seekPosition = qMin(frameLength, m_seekPosition);
     m_hoverKeyframe = -2;
@@ -186,7 +191,7 @@ void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent * event)
     update();
 }
 
-void AnimKeyframeRuler::mouseDoubleClickEvent(QMouseEvent * event)
+void AnimKeyframeRuler::mouseDoubleClickEvent(QMouseEvent *event)
 {
     QWidget::mouseDoubleClickEvent(event);
     if (event->button() == Qt::LeftButton) {
@@ -195,7 +200,9 @@ void AnimKeyframeRuler::mouseDoubleClickEvent(QMouseEvent * event)
         int headOffset = m_lineHeight / 1.5;
         for (int i = 0; i < m_keyframes.count(); i++) {
             int kfrPos = m_keyframes.at(i);
-            if (kfrPos * m_scale - xPos > headOffset) break;
+            if (kfrPos * m_scale - xPos > headOffset) {
+                break;
+            }
             if (qAbs(kfrPos * m_scale - xPos) <  headOffset) {
                 // There is already a keyframe close to mouse click
                 emit removeKeyframe(kfrPos);
@@ -210,7 +217,7 @@ void AnimKeyframeRuler::mouseDoubleClickEvent(QMouseEvent * event)
 }
 
 // virtual
-void AnimKeyframeRuler::mouseReleaseEvent(QMouseEvent * event)
+void AnimKeyframeRuler::mouseReleaseEvent(QMouseEvent *event)
 {
     setCursor(Qt::ArrowCursor);
     QWidget::mouseReleaseEvent(event);
@@ -232,12 +239,13 @@ void AnimKeyframeRuler::mouseReleaseEvent(QMouseEvent * event)
 }
 
 // virtual
-void AnimKeyframeRuler::wheelEvent(QWheelEvent * e)
+void AnimKeyframeRuler::wheelEvent(QWheelEvent *e)
 {
-    if (e->delta() < 0)
+    if (e->delta() < 0) {
         --m_position;
-    else
+    } else {
         ++m_position;
+    }
     m_position = qMax(0, m_position);
     m_position = qMin(frameLength, m_position);
     emit requestSeek(m_position);
@@ -256,7 +264,7 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
     p.setRenderHints(QPainter::Antialiasing);
     const QRectF clipRect = e->rect();
     p.setClipRect(clipRect);
-    m_scale = (double) (width() - 2 * margin) / frameLength;
+    m_scale = (double)(width() - 2 * margin) / frameLength;
     int headOffset = m_lineHeight / 1.5;
     if (m_attachedToEnd > -2) {
         int negStart = margin + m_attachedToEnd * m_scale;
@@ -269,52 +277,52 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
     QPolygon polygon;
     p.setPen(palette().text().color());
     for (int i = 0; i < m_keyframes.count(); i++) {
-            int pos  = m_keyframes.at(i);
-            // draw keyframes
-            if (pos == m_selectedKeyframe) {
-                p.setBrush(Qt::red);
-            } else if (pos == m_hoverKeyframe) {
-                // active keyframe
-                p.setBrush(m_selected);
-            } else {
-                //p.setBrush(m_keyframeRelatives.at(i) >= 0 ? palette().text() : Qt::yellow);
-		p.setBrush(palette().text());
-            }
-            int scaledPos = margin + pos * m_scale;
-            p.drawLine(scaledPos, headOffset, scaledPos, m_size);
-            mlt_keyframe_type type = (mlt_keyframe_type) m_keyframeTypes.at(i);
-            switch(type) {
-                case mlt_keyframe_discrete:
-                    p.drawRect(scaledPos - headOffset / 2, 0, headOffset, headOffset);
-                    break;
-                case mlt_keyframe_linear:
-                    polygon.setPoints(3, scaledPos, 0, scaledPos + headOffset/2, headOffset, scaledPos - headOffset/2, headOffset);
-                    p.drawPolygon(polygon);
-                    break;
-                default:
-                    p.drawEllipse(scaledPos - headOffset / 2, 0, headOffset, headOffset);
-                    break;
-            }
-        }
-        if (m_movingKeyframe) {
+        int pos  = m_keyframes.at(i);
+        // draw keyframes
+        if (pos == m_selectedKeyframe) {
+            p.setBrush(Qt::red);
+        } else if (pos == m_hoverKeyframe) {
+            // active keyframe
             p.setBrush(m_selected);
-            int scaledPos = margin + (int)(m_movingKeyframePos * m_scale);
-            // draw keyframes
-            p.drawLine(scaledPos, headOffset, scaledPos, m_size);
-            switch((int) m_movingKeyframeType) {
-                case mlt_keyframe_discrete:
-                    p.drawRect(scaledPos - headOffset / 2, 0, headOffset, headOffset);
-                    break;
-                case mlt_keyframe_linear:
-                    polygon.setPoints(3, scaledPos, 0, scaledPos + headOffset/2, headOffset, scaledPos - headOffset/2, headOffset);
-                    p.drawPolygon(polygon);
-                    break;
-                default:
-                    p.drawEllipse(scaledPos - headOffset / 2, 0, headOffset, headOffset);
-                    break;
-            }
-            p.setBrush(m_keyframe);
+        } else {
+            //p.setBrush(m_keyframeRelatives.at(i) >= 0 ? palette().text() : Qt::yellow);
+            p.setBrush(palette().text());
         }
+        int scaledPos = margin + pos * m_scale;
+        p.drawLine(scaledPos, headOffset, scaledPos, m_size);
+        mlt_keyframe_type type = (mlt_keyframe_type) m_keyframeTypes.at(i);
+        switch (type) {
+        case mlt_keyframe_discrete:
+            p.drawRect(scaledPos - headOffset / 2, 0, headOffset, headOffset);
+            break;
+        case mlt_keyframe_linear:
+            polygon.setPoints(3, scaledPos, 0, scaledPos + headOffset / 2, headOffset, scaledPos - headOffset / 2, headOffset);
+            p.drawPolygon(polygon);
+            break;
+        default:
+            p.drawEllipse(scaledPos - headOffset / 2, 0, headOffset, headOffset);
+            break;
+        }
+    }
+    if (m_movingKeyframe) {
+        p.setBrush(m_selected);
+        int scaledPos = margin + (int)(m_movingKeyframePos * m_scale);
+        // draw keyframes
+        p.drawLine(scaledPos, headOffset, scaledPos, m_size);
+        switch ((int) m_movingKeyframeType) {
+        case mlt_keyframe_discrete:
+            p.drawRect(scaledPos - headOffset / 2, 0, headOffset, headOffset);
+            break;
+        case mlt_keyframe_linear:
+            polygon.setPoints(3, scaledPos, 0, scaledPos + headOffset / 2, headOffset, scaledPos - headOffset / 2, headOffset);
+            p.drawPolygon(polygon);
+            break;
+        default:
+            p.drawEllipse(scaledPos - headOffset / 2, 0, headOffset, headOffset);
+            break;
+        }
+        p.setBrush(m_keyframe);
+    }
     p.setPen(palette().text().color());
     p.drawLine(margin, m_lineHeight + (headOffset / 2), width() - margin - 1, m_lineHeight + (headOffset / 2));
     p.drawLine(margin, m_lineHeight - headOffset, margin, m_lineHeight + headOffset);
@@ -328,10 +336,11 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
     const int cursor = margin + m_position * m_scale;
     int cursorwidth = (m_size - (m_lineHeight + headOffset / 2)) / 2 + 1;
     pa.setPoints(3, cursor - cursorwidth, m_size, cursor + cursorwidth, m_size, cursor, m_lineHeight + (headOffset / 2) + 1);
-    if (m_hoverKeyframe == -2)
+    if (m_hoverKeyframe == -2) {
         p.setBrush(palette().highlight());
-    else
+    } else {
         p.setBrush(palette().text());
+    }
     p.drawPolygon(pa);
 }
 
@@ -345,14 +354,16 @@ int AnimKeyframeRuler::position() const
 
 void AnimKeyframeRuler::setValue(const int pos)
 {
-    if (pos == m_position)
+    if (pos == m_position) {
         return;
+    }
     if (pos == m_seekPosition) {
         m_seekPosition = SEEK_INACTIVE;
     }
     m_position = pos;
-    if (m_movingKeyframePos >= 0) return;
+    if (m_movingKeyframePos >= 0) {
+        return;
+    }
     update();
 }
-
 

@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "collapsiblegroup.h"
 #include "utils/KoIconUtils.h"
 
@@ -38,7 +37,7 @@
 #include <KColorScheme>
 #include <KDualAction>
 
-MyEditableLabel::MyEditableLabel(QWidget * parent):
+MyEditableLabel::MyEditableLabel(QWidget *parent):
     QLineEdit(parent)
 {
     setFrame(false);
@@ -46,16 +45,15 @@ MyEditableLabel::MyEditableLabel(QWidget * parent):
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
 
-void MyEditableLabel::mouseDoubleClickEvent ( QMouseEvent * e )
+void MyEditableLabel::mouseDoubleClickEvent(QMouseEvent *e)
 {
     setReadOnly(false);
     selectAll();
     e->accept();
 }
 
-
-CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget * parent) :
-        AbstractCollapsibleWidget(parent)
+CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget *parent) :
+    AbstractCollapsibleWidget(parent)
 {
     m_info.groupIndex = ix;
     m_subWidgets = QList <CollapsibleEffect *> ();
@@ -75,8 +73,12 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
 
     buttonDel->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-deleffect")));
     buttonDel->setToolTip(i18n("Delete effect"));
-    if (firstGroup) buttonUp->setVisible(false);
-    if (lastGroup) buttonDown->setVisible(false);
+    if (firstGroup) {
+        buttonUp->setVisible(false);
+    }
+    if (lastGroup) {
+        buttonDown->setVisible(false);
+    }
     m_menu = new QMenu;
     m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Group"), this, SLOT(slotResetGroup()));
     m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Group"), this, SLOT(slotSaveGroup()));
@@ -91,9 +93,8 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     m_enabledButton->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
 
-
     if (info.groupIsCollapsed) {
-	slotShow(false);
+        slotShow(false);
     }
 
     connect(collapseButton, &QAbstractButton::clicked, this, &CollapsibleGroup::slotSwitch);
@@ -125,18 +126,20 @@ void CollapsibleGroup::setActive(bool activate)
     decoframe->setStyleSheet(decoframe->styleSheet());
 }
 
-void CollapsibleGroup::mouseDoubleClickEvent ( QMouseEvent * event )
+void CollapsibleGroup::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    if (frame->underMouse() && collapseButton->isEnabled()) slotSwitch();
+    if (frame->underMouse() && collapseButton->isEnabled()) {
+        slotSwitch();
+    }
     QWidget::mouseDoubleClickEvent(event);
 }
-
 
 void CollapsibleGroup::slotEnable(bool disable, bool emitInfo)
 {
     m_title->setEnabled(!disable);
-    for (int i = 0; i < m_subWidgets.count(); ++i)
-	m_subWidgets.at(i)->slotDisable(disable, emitInfo);
+    for (int i = 0; i < m_subWidgets.count(); ++i) {
+        m_subWidgets.at(i)->slotDisable(disable, emitInfo);
+    }
 }
 
 void CollapsibleGroup::slotDeleteGroup()
@@ -144,8 +147,9 @@ void CollapsibleGroup::slotDeleteGroup()
     QDomDocument doc;
     // delete effects from the last one to the first, otherwise each deletion would trigger an update
     // in other effects's kdenlive_ix index.
-    for (int i = m_subWidgets.count() - 1; i >= 0; --i)
+    for (int i = m_subWidgets.count() - 1; i >= 0; --i) {
         doc.appendChild(doc.importNode(m_subWidgets.at(i)->effect(), true));
+    }
     doc.documentElement().setAttribute(QStringLiteral("name"), m_info.groupName);
     emit deleteGroup(doc);
 }
@@ -153,49 +157,55 @@ void CollapsibleGroup::slotDeleteGroup()
 void CollapsibleGroup::slotEffectUp()
 {
     QList<int> indexes;
-    for (int i = 0; i < m_subWidgets.count(); ++i)
+    for (int i = 0; i < m_subWidgets.count(); ++i) {
         indexes << m_subWidgets.at(i)->effectIndex();
+    }
     emit changeEffectPosition(indexes, true);
 }
 
 void CollapsibleGroup::slotEffectDown()
 {
     QList<int> indexes;
-    for (int i = 0; i < m_subWidgets.count(); ++i)
+    for (int i = 0; i < m_subWidgets.count(); ++i) {
         indexes << m_subWidgets.at(i)->effectIndex();
+    }
     emit changeEffectPosition(indexes, false);
 }
 
 void CollapsibleGroup::slotSaveGroup()
 {
     QString name = QInputDialog::getText(this, i18n("Save Group"), i18n("Name for saved group: "), QLineEdit::Normal, m_title->text());
-    if (name.isEmpty()) return;
+    if (name.isEmpty()) {
+        return;
+    }
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/");
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
 
-    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) return;
+    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) {
+            return;
+        }
 
     QDomDocument doc = effectsData();
     QDomElement base = doc.documentElement();
     QDomNodeList effects = base.elementsByTagName(QStringLiteral("effect"));
     for (int i = 0; i < effects.count(); ++i) {
-	QDomElement eff = effects.at(i).toElement();
+        QDomElement eff = effects.at(i).toElement();
         eff.removeAttribute(QStringLiteral("kdenlive_ix"));
-	EffectInfo info;
-	info.fromString(eff.attribute(QStringLiteral("kdenlive_info")));
-	// Make sure all effects have the correct new group name
-	info.groupName = name;
-	// Saved effect group should have a group index of -1
-	info.groupIndex = -1;
-	eff.setAttribute(QStringLiteral("kdenlive_info"), info.toString());
+        EffectInfo info;
+        info.fromString(eff.attribute(QStringLiteral("kdenlive_info")));
+        // Make sure all effects have the correct new group name
+        info.groupName = name;
+        // Saved effect group should have a group index of -1
+        info.groupIndex = -1;
+        eff.setAttribute(QStringLiteral("kdenlive_info"), info.toString());
 
     }
-    
+
     base.setAttribute(QStringLiteral("name"), name);
     base.setAttribute(QStringLiteral("id"), name);
-    base.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));  
+    base.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
 
     QFile file(dir.absoluteFilePath(name + ".xml"));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
@@ -209,8 +219,9 @@ void CollapsibleGroup::slotSaveGroup()
 void CollapsibleGroup::slotResetGroup()
 {
     QMutexLocker lock(&m_mutex);
-    for (int i = 0; i < m_subWidgets.count(); ++i)
+    for (int i = 0; i < m_subWidgets.count(); ++i) {
         m_subWidgets.at(i)->slotResetEffect();
+    }
 }
 
 void CollapsibleGroup::slotSwitch()
@@ -224,13 +235,14 @@ void CollapsibleGroup::slotShow(bool show)
     widgetFrame->setVisible(show);
     if (show) {
         collapseButton->setArrowType(Qt::DownArrow);
-	m_info.groupIsCollapsed = false;
-    }
-    else {
+        m_info.groupIsCollapsed = false;
+    } else {
         collapseButton->setArrowType(Qt::RightArrow);
-	m_info.groupIsCollapsed = true;
+        m_info.groupIsCollapsed = true;
     }
-    if (!m_subWidgets.isEmpty()) m_subWidgets.at(0)->groupStateChanged(m_info.groupIsCollapsed);
+    if (!m_subWidgets.isEmpty()) {
+        m_subWidgets.at(0)->groupStateChanged(m_info.groupIsCollapsed);
+    }
 }
 
 QWidget *CollapsibleGroup::title() const
@@ -243,10 +255,10 @@ void CollapsibleGroup::addGroupEffect(CollapsibleEffect *effect)
     QMutexLocker lock(&m_mutex);
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
     if (vbox == Q_NULLPTR) {
-	vbox = new QVBoxLayout();
-	vbox->setContentsMargins(0, 0, 0, 0);
-	vbox->setSpacing(2);
-	widgetFrame->setLayout(vbox);
+        vbox = new QVBoxLayout();
+        vbox->setContentsMargins(0, 0, 0, 0);
+        vbox->setSpacing(2);
+        widgetFrame->setLayout(vbox);
     }
     effect->setGroupIndex(groupIndex());
     effect->setGroupName(m_title->text());
@@ -264,11 +276,13 @@ void CollapsibleGroup::removeGroup(int ix, QVBoxLayout *layout)
 {
     QMutexLocker lock(&m_mutex);
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-    if (vbox == Q_NULLPTR) return;
-    for (int i = m_subWidgets.count() - 1; i >= 0 ; --i) {
-	vbox->removeWidget(m_subWidgets.at(i));
-	layout->insertWidget(ix, m_subWidgets.at(i));
-	m_subWidgets.at(i)->decoframe->setObjectName(QStringLiteral("decoframe"));
+    if (vbox == Q_NULLPTR) {
+        return;
+    }
+    for (int i = m_subWidgets.count() - 1; i >= 0; --i) {
+        vbox->removeWidget(m_subWidgets.at(i));
+        layout->insertWidget(ix, m_subWidgets.at(i));
+        m_subWidgets.at(i)->decoframe->setObjectName(QStringLiteral("decoframe"));
         m_subWidgets.at(i)->removeFromGroup();
     }
     m_subWidgets.clear();
@@ -287,19 +301,23 @@ bool CollapsibleGroup::isGroup() const
 void CollapsibleGroup::updateTimecodeFormat()
 {
     QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-    if (vbox == Q_NULLPTR) return;
+    if (vbox == Q_NULLPTR) {
+        return;
+    }
     for (int j = vbox->count() - 1; j >= 0; --j) {
-	CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(j)->widget());
-	if (e) e->updateTimecodeFormat();
+        CollapsibleEffect *e = static_cast<CollapsibleEffect *>(vbox->itemAt(j)->widget());
+        if (e) {
+            e->updateTimecodeFormat();
+        }
     }
 }
 
 void CollapsibleGroup::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
-	frame->setProperty("target", true);
-	frame->setStyleSheet(frame->styleSheet());
-	event->acceptProposedAction();
+        frame->setProperty("target", true);
+        frame->setStyleSheet(frame->styleSheet());
+        event->acceptProposedAction();
     }
 }
 
@@ -320,59 +338,60 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
     QDomElement e = doc.documentElement();
     int ix = e.attribute(QStringLiteral("kdenlive_ix")).toInt();
     if (ix == 0 || e.tagName() == QLatin1String("effectgroup")) {
-	if (e.tagName() == QLatin1String("effectgroup")) {
-	    // dropped a group on another group
-	    QDomNodeList pastedEffects = e.elementsByTagName(QStringLiteral("effect"));
-	    if (pastedEffects.isEmpty() || m_subWidgets.isEmpty()) {
-		// Buggy groups, should not happen
-		event->ignore();
-		return;
-	    }
-	    QList<int> pastedEffectIndexes;
-	    QList<int> currentEffectIndexes;
-	    EffectInfo pasteInfo;
-	    pasteInfo.fromString(pastedEffects.at(0).toElement().attribute(QStringLiteral("kdenlive_info")));
-	    if (pasteInfo.groupIndex == -1) {
-		// Group dropped from effects list, add effect
-		e.setAttribute(QStringLiteral("kdenlive_ix"), m_subWidgets.last()->effectIndex());
-		emit addEffect(e);
-		event->setDropAction(Qt::CopyAction);
-		event->accept();
-		return;
-	    }
-	    // Moving group
-	    for (int i = 0; i < pastedEffects.count(); ++i) {
-		pastedEffectIndexes << pastedEffects.at(i).toElement().attribute(QStringLiteral("kdenlive_ix")).toInt();
-	    }
-	    for (int i = 0; i < m_subWidgets.count(); ++i) {
-		currentEffectIndexes << m_subWidgets.at(i)->effectIndex();
-	    }
-	    //qCDebug(KDENLIVE_LOG)<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
-	    if (pastedEffectIndexes.at(0) < currentEffectIndexes.at(0)) {
-		// Pasting group after current one:
-		emit moveEffect(pastedEffectIndexes, currentEffectIndexes.last(), pasteInfo.groupIndex, pasteInfo.groupName);
-	    }
-	    else {
-		// Group moved before current one
-		emit moveEffect(pastedEffectIndexes, currentEffectIndexes.first(), pasteInfo.groupIndex, pasteInfo.groupName);
-	    }
-	    event->setDropAction(Qt::MoveAction);
-	    event->accept();
-	    return;
-	}
-	// effect dropped from effects list, add it
-	e.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
-	if (!m_subWidgets.isEmpty()) {
-	    e.setAttribute(QStringLiteral("kdenlive_ix"), m_subWidgets.at(0)->effectIndex());
-	}
-	emit addEffect(e);
-	event->setDropAction(Qt::CopyAction);
-	event->accept();
-	return;
+        if (e.tagName() == QLatin1String("effectgroup")) {
+            // dropped a group on another group
+            QDomNodeList pastedEffects = e.elementsByTagName(QStringLiteral("effect"));
+            if (pastedEffects.isEmpty() || m_subWidgets.isEmpty()) {
+                // Buggy groups, should not happen
+                event->ignore();
+                return;
+            }
+            QList<int> pastedEffectIndexes;
+            QList<int> currentEffectIndexes;
+            EffectInfo pasteInfo;
+            pasteInfo.fromString(pastedEffects.at(0).toElement().attribute(QStringLiteral("kdenlive_info")));
+            if (pasteInfo.groupIndex == -1) {
+                // Group dropped from effects list, add effect
+                e.setAttribute(QStringLiteral("kdenlive_ix"), m_subWidgets.last()->effectIndex());
+                emit addEffect(e);
+                event->setDropAction(Qt::CopyAction);
+                event->accept();
+                return;
+            }
+            // Moving group
+            for (int i = 0; i < pastedEffects.count(); ++i) {
+                pastedEffectIndexes << pastedEffects.at(i).toElement().attribute(QStringLiteral("kdenlive_ix")).toInt();
+            }
+            for (int i = 0; i < m_subWidgets.count(); ++i) {
+                currentEffectIndexes << m_subWidgets.at(i)->effectIndex();
+            }
+            //qCDebug(KDENLIVE_LOG)<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
+            if (pastedEffectIndexes.at(0) < currentEffectIndexes.at(0)) {
+                // Pasting group after current one:
+                emit moveEffect(pastedEffectIndexes, currentEffectIndexes.last(), pasteInfo.groupIndex, pasteInfo.groupName);
+            } else {
+                // Group moved before current one
+                emit moveEffect(pastedEffectIndexes, currentEffectIndexes.first(), pasteInfo.groupIndex, pasteInfo.groupName);
+            }
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+            return;
+        }
+        // effect dropped from effects list, add it
+        e.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
+        if (!m_subWidgets.isEmpty()) {
+            e.setAttribute(QStringLiteral("kdenlive_ix"), m_subWidgets.at(0)->effectIndex());
+        }
+        emit addEffect(e);
+        event->setDropAction(Qt::CopyAction);
+        event->accept();
+        return;
     }
-    if (m_subWidgets.isEmpty()) return;
+    if (m_subWidgets.isEmpty()) {
+        return;
+    }
     int new_index = m_subWidgets.last()->effectIndex();
-    emit moveEffect(QList<int> () <<ix, new_index, m_info.groupIndex, m_title->text());
+    emit moveEffect(QList<int> () << ix, new_index, m_info.groupIndex, m_title->text());
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
@@ -380,15 +399,17 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
 void CollapsibleGroup::slotRenameGroup()
 {
     m_title->setReadOnly(true);
-    if (m_title->text().isEmpty()) m_title->setText(i18n("Effect Group"));
+    if (m_title->text().isEmpty()) {
+        m_title->setText(i18n("Effect Group"));
+    }
     for (int j = 0; j < m_subWidgets.count(); ++j) {
-	m_subWidgets.at(j)->setGroupName(m_title->text());
+        m_subWidgets.at(j)->setGroupName(m_title->text());
     }
     m_info.groupName = m_title->text();
     emit groupRenamed(this);
 }
 
-QList <CollapsibleEffect*> CollapsibleGroup::effects()
+QList <CollapsibleEffect *> CollapsibleGroup::effects()
 {
     QMutexLocker lock(&m_mutex);
     return m_subWidgets;
@@ -402,7 +423,7 @@ QDomDocument CollapsibleGroup::effectsData()
     list.setAttribute(QStringLiteral("name"), m_title->text());
     doc.appendChild(list);
     for (int j = 0; j < m_subWidgets.count(); ++j) {
-	list.appendChild(doc.importNode(m_subWidgets.at(j)->effectForSave(), true));
+        list.appendChild(doc.importNode(m_subWidgets.at(j)->effectForSave(), true));
     }
     return doc;
 }
@@ -417,6 +438,4 @@ void CollapsibleGroup::adjustEffects()
         }
     }
 }
-
-
 

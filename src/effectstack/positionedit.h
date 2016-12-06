@@ -18,7 +18,6 @@
 #ifndef POSITIONEDIT_H
 #define POSITIONEDIT_H
 
-
 #include "timecode.h"
 
 #include <QWidget>
@@ -30,7 +29,7 @@ class PositionEdit : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PositionEdit(const QString &name, int pos, int min, int max, const Timecode& tc, QWidget* parent = Q_NULLPTR);
+    explicit PositionEdit(const QString &name, int pos, int min, int max, const Timecode &tc, QWidget *parent = Q_NULLPTR);
     ~PositionEdit();
     int getPosition() const;
     void setPosition(int pos);

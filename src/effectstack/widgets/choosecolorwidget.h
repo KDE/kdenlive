@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef CHOOSECOLORWIDGET_H
 #define CHOOSECOLORWIDGET_H
 
@@ -37,9 +36,9 @@ class ChooseColorWidget : public QWidget
 public:
     /** @brief Sets up the widget.
     * @param text (optional) What the color will be used for
-    * @param color (optional) initial color 
+    * @param color (optional) initial color
     * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit ChooseColorWidget(const QString &text = QString(), const QString &color = QStringLiteral("0xffffffff"), bool alphaEnabled = false, QWidget* parent = Q_NULLPTR);
+    explicit ChooseColorWidget(const QString &text = QString(), const QString &color = QStringLiteral("0xffffffff"), bool alphaEnabled = false, QWidget *parent = Q_NULLPTR);
 
     /** @brief Gets the chosen color. */
     QString getColor() const;
@@ -57,7 +56,7 @@ private slots:
 signals:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(QColor = QColor());
-    void displayMessage(const QString&, int);
+    void displayMessage(const QString &, int);
     /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
     void disableCurrentFilter(bool);
 };
