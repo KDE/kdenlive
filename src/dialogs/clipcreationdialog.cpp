@@ -423,7 +423,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         QMap <QString, QString> properties;
-        properties.insert(QStringLiteral("resource"), file.path());
+        properties.insert(QStringLiteral("resource"), file.toLocalFile());
         if (!groupInfo.isEmpty()) {
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
@@ -433,7 +433,6 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             i.next();
             properties.insert(i.key(), i.value());
         }
-        //prod.setAttribute("resource", file.path());
         uint id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
         QMimeDatabase db;
