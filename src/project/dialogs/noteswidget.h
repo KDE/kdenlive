@@ -32,7 +32,6 @@
 class NotesWidget : public QTextEdit
 {
     Q_OBJECT
-
 public:
     explicit NotesWidget(QWidget * parent = Q_NULLPTR);
     ~NotesWidget();
@@ -43,8 +42,6 @@ protected:
     
 private slots:
     void slotFillNotesMenu(const QPoint &pos);
-    
-private:
 
 signals:
     void insertNotesTimecode();

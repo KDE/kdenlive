@@ -424,7 +424,7 @@ QString KisCubicCurve::toString() const
     QString sCurve;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    foreach (const QPointF pair, d->data->points) {
+    foreach (const QPointF &pair, d->data->points) {
         sCurve += locale.toString(pair.x());
         sCurve += '/';
         sCurve += QString::number(pair.y());

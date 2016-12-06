@@ -34,13 +34,19 @@ NotesWidget::NotesWidget(QWidget * parent) :
     setMouseTracking(true);
 }
 
+NotesWidget::~NotesWidget()
+{
+}
+
 void NotesWidget::slotFillNotesMenu(const QPoint &pos)
 {
     QMenu *menu = createStandardContextMenu();
-    QAction *a = new QAction(i18n("Insert current timecode"), menu);
-    connect(a, &QAction::triggered, this, &NotesWidget::insertNotesTimecode);
-    menu->insertAction(menu->actions().at(0), a);
-    menu->exec(viewport()->mapToGlobal(pos));
+    if (menu) {
+        QAction *a = new QAction(i18n("Insert current timecode"), menu);
+        connect(a, &QAction::triggered, this, &NotesWidget::insertNotesTimecode);
+        menu->insertAction(menu->actions().at(0), a);
+        menu->exec(viewport()->mapToGlobal(pos));
+    }
 }
 
 void NotesWidget::mouseMoveEvent( QMouseEvent * e )
@@ -63,10 +69,6 @@ void NotesWidget::mousePressEvent( QMouseEvent * e )
     //qCDebug(KDENLIVE_LOG)<<"+++++++++\nCLICKED NACHOR: "<<anchor;
     emit seekProject(anchor.toInt());
     e->setAccepted(true);
-}
-
-NotesWidget::~NotesWidget()
-{
 }
 
 

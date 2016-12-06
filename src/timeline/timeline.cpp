@@ -2018,7 +2018,7 @@ void Timeline::invalidateTrack(int ix)
     }
     Track *tk = track(ix);
     QList <QPoint> visibleRange = tk->visibleClips();
-    foreach (const QPoint p, visibleRange) {
+    foreach (const QPoint &p, visibleRange) {
         m_timelinePreview->invalidatePreview(p.x(), p.y());
     }
 }

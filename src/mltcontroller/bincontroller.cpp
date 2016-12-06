@@ -25,7 +25,7 @@
 
 static const char* kPlaylistTrackId = "main bin";
 
-BinController::BinController(QString profileName) :
+BinController::BinController(const QString &profileName) :
   QObject()
 {
     m_binPlaylist = Q_NULLPTR;
@@ -33,10 +33,7 @@ BinController::BinController(QString profileName) :
     //TODO: make configurable
     setenv("MLT_NO_VDPAU", "1", 1);
     m_repository = Mlt::Factory::init();
-    if (profileName.isEmpty()) {
-        profileName = KdenliveSettings::current_profile();
-    }
-    //resetProfile(profileName);
+    //resetProfile(profileName.isEmpty() ? KdenliveSettings::current_profile() : profileName);
 }
 
 BinController::~BinController()
@@ -91,6 +88,7 @@ QStringList BinController::getProjectHashes()
 {
     QStringList hashes;
     QMapIterator<QString, ClipController *> i(m_clipList);
+    hashes.reserve(m_clipList.count());
     while (i.hasNext()) {
         i.next();
         hashes << i.value()->getClipHash();

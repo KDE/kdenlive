@@ -141,7 +141,7 @@ void StatusBarMessageLabel::setMessage(const QString& text, MessageType type, in
             if (item.type == ProcessingJobMessage) {
                 // This is a job progress info, discard previous ones
                 QList <StatusBarMessageItem> cleanList;
-                foreach (const StatusBarMessageItem msg, m_messageQueue) {
+                foreach (const StatusBarMessageItem &msg, m_messageQueue) {
                     if (msg.type != ProcessingJobMessage) {
                         cleanList << msg;
                     }
