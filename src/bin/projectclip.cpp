@@ -851,7 +851,6 @@ void ProjectClip::doExtractIntra()
     Mlt::Producer *prod = thumbProducer();
     if (prod == NULL || !prod->is_valid()) return;
     int fullWidth = 150 * prod->profile()->dar() + 0.5;
-    double dar = prod->profile()->dar();
     int max = prod->get_length();
     int pos;
     while (!m_intraThumbs.isEmpty()) {

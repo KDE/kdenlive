@@ -1710,7 +1710,7 @@ bool Timeline::createOverlay(Mlt::Filter *filter, int tk, int startPos)
     return true;
 }
 
-bool Timeline::createRippleWindow(int tk, int startPos, OperationType mode)
+bool Timeline::createRippleWindow(int tk, int startPos, OperationType /*mode*/)
 {
     if (m_hasOverlayTrack) {
         return true;
