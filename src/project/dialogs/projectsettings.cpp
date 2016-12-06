@@ -57,7 +57,7 @@ class NoEditDelegate: public QStyledItemDelegate {
     }
 };
 
-ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &/*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget * parent) :
     QDialog(parent)
     ,m_savedProject(savedProject)
     ,m_lumas(lumas)

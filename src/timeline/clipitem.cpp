@@ -1941,7 +1941,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo
     return effects;
 }
 
-bool ClipItem::updateAnimatedKeyframes(int ix, const QDomElement &parameter, const ItemInfo &oldInfo)
+bool ClipItem::updateAnimatedKeyframes(int /*ix*/, const QDomElement &parameter, const ItemInfo &oldInfo)
 {
     int in = cropStart().frames(m_fps);
     int out = (cropStart() + cropDuration()).frames(m_fps) - 1;

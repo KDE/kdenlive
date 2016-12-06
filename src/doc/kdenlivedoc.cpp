@@ -750,7 +750,7 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
     updateProjectFolderPlacesEntry();
 }
 
-void KdenliveDoc::moveProjectData(const QString &src, const QString &dest)
+void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
 {
     // Move proxies
     QList <ClipController*> list = pCore->binController()->getControllerList();

@@ -524,7 +524,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog = new QProgressDialog(pCore->window());
     m_progressDialog->setWindowTitle(i18n("Loading project"));
     m_progressDialog->setCancelButton(0);
-    m_progressDialog->setLabelText(i18n("Loading playlist"));
+    m_progressDialog->setLabelText(i18n("Loading project"));
     m_progressDialog->setMaximum(0);
     m_progressDialog->show();
     bool openBackup;
