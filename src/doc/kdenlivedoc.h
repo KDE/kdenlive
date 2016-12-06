@@ -75,7 +75,7 @@ class KdenliveDoc: public QObject
     Q_OBJECT
 public:
 
-    KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = Q_NULLPTR);
+    KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString>& properties, const QMap<QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = Q_NULLPTR);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -131,21 +131,21 @@ public:
     const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
 
     /** @brief Gets the list of renderer properties saved into the document. */
-    QMap <QString, QString> getRenderProperties() const;
+    QMap<QString, QString> getRenderProperties() const;
     /** @brief Read the display ratio from an xml project file. */
     static double getDisplayRatio(const QString &path);
     /** @brief Backup the project file */
     void backupLastSavedVersion(const QString &path);
     /** @brief Returns the document metadata (author, copyright, ...) */
-    const QMap <QString, QString> metadata() const;
+    const QMap<QString, QString> metadata() const;
     /** @brief Set the document metadata (author, copyright, ...) */
-    void setMetadata(const QMap <QString, QString>& meta);
+    void setMetadata(const QMap<QString, QString>& meta);
     /** @brief Get frame size of the renderer (profile)*/
     const QSize getRenderSize() const;
     /** @brief Add url to the file watcher so that we monitor changes */
     void watchFile(const QUrl &url);
     /** @brief Get all document properties that need to be saved */
-    QMap <QString, QString> documentProperties();
+    QMap<QString, QString> documentProperties();
     bool useProxy() const;
     bool autoGenerateProxy(int width) const;
     bool autoGenerateImageProxy(int width) const;
@@ -202,8 +202,8 @@ private:
     /** @brief The project folder, used to store project files (titles, effects...). */
     QString m_projectFolder;
     QList<int> m_undoChunks;
-    QMap <QString, QString> m_documentProperties;
-    QMap <QString, QString> m_documentMetadata;
+    QMap<QString, QString> m_documentProperties;
+    QMap<QString, QString> m_documentMetadata;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 

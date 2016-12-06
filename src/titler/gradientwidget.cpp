@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utils/KoIconUtils.h"
 
-GradientWidget::GradientWidget(const QMap <QString, QString> &gradients, int ix, QWidget *parent) :
+GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, QWidget *parent) :
     QDialog(parent),
     Ui::GradientEdit_UI()
 {
@@ -193,9 +193,9 @@ void GradientWidget::loadGradient()
     angle->setValue(res.at(4).toInt());
 }
 
-QMap <QString, QString> GradientWidget::gradients() const
+QMap<QString, QString> GradientWidget::gradients() const
 {
-    QMap <QString, QString> gradients;
+    QMap<QString, QString> gradients;
     for (int i = 0; i < gradient_list->count(); i++) {
         gradients.insert(gradient_list->item(i)->text(), gradient_list->item(i)->data(Qt::UserRole).toString());
     }
@@ -215,7 +215,7 @@ QList <QIcon> GradientWidget::icons() const
 }
 
 
-void GradientWidget::loadGradients(QMap <QString, QString> gradients)
+void GradientWidget::loadGradients(QMap<QString, QString> gradients)
 {
     gradient_list->clear();
     if (gradients.isEmpty()) {

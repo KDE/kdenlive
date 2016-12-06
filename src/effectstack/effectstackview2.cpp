@@ -882,7 +882,7 @@ int EffectStackView2::getNextIndex(int ix)
     return previousIx;
 }
 
-void EffectStackView2::slotStartFilterJob(QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
+void EffectStackView2::slotStartFilterJob(QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams, QMap<QString, QString> &extraParams)
 {
     if (m_status == TIMELINE_CLIP && m_clipref) {
         emit startFilterJob(m_clipref->info(), m_clipref->getBinId(), filterParams, consumerParams, extraParams);

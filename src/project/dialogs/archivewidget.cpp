@@ -104,12 +104,12 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     QStringList otherUrls;
     generateItems(lumas, luma_list);
 
-    QMap <QString, QString> slideUrls;
-    QMap <QString, QString> audioUrls;
-    QMap <QString, QString>videoUrls;
-    QMap <QString, QString>imageUrls;
-    QMap <QString, QString>playlistUrls;
-    QMap <QString, QString>proxyUrls;
+    QMap<QString, QString> slideUrls;
+    QMap<QString, QString> audioUrls;
+    QMap<QString, QString>videoUrls;
+    QMap<QString, QString>imageUrls;
+    QMap<QString, QString>playlistUrls;
+    QMap<QString, QString>proxyUrls;
 
     for (int i = 0; i < list.count(); ++i) {
         ClipController *clip = list.at(i);
@@ -396,7 +396,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
     }
 }
 
-void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap <QString, QString>& items)
+void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QString, QString>& items)
 {
     QStringList filesList;
     QString fileName;

@@ -1303,7 +1303,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
 
         // Save rendering profile to document
-        QMap <QString, QString> renderProps;
+        QMap<QString, QString> renderProps;
         renderProps.insert(QStringLiteral("rendercategory"), m_view.formats->currentItem()->parent()->text(0));
         renderProps.insert(QStringLiteral("renderprofile"), m_view.formats->currentItem()->text(0));
         renderProps.insert(QStringLiteral("renderurl"), destBase);

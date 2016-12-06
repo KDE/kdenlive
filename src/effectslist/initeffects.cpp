@@ -115,7 +115,7 @@ void initEffects::refreshLumas()
 }
 
 // static
-QDomDocument initEffects::getUsedCustomEffects(const QMap <QString, QString>& effectids)
+QDomDocument initEffects::getUsedCustomEffects(const QMap<QString, QString>& effectids)
 {
     QMapIterator<QString, QString> i(effectids);
     QDomDocument doc;
@@ -197,7 +197,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     delete transitions;
 
     // Create structure holding all transitions descriptions so that if an XML file has no description, we take it from MLT
-    QMap <QString, QString> transDescriptions;
+    QMap<QString, QString> transDescriptions;
     foreach(const QString & transname, transitionsItemList) {
         QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("transitions"), transname);
         if (!doc.isNull()) {
@@ -287,7 +287,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     effectsMap.clear();
 
     // Create structure holding all effects descriptions so that if an XML effect has no description, we take it from MLT
-    QMap <QString, QString> effectDescriptions;
+    QMap<QString, QString> effectDescriptions;
     foreach(const QString & filtername, mltBlackList) {
         QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("filters"), filtername);
         if (!doc.isNull()) {
@@ -428,7 +428,7 @@ void initEffects::parseCustomEffectsFile()
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, const QStringList &filtersList, const QStringList &producersList, Mlt::Repository *repository, const QMap <QString, QString> &effectDescriptions)
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, const QStringList &filtersList, const QStringList &producersList, Mlt::Repository *repository, const QMap<QString, QString> &effectDescriptions)
 {
     QDomDocument doc;
     QFile file(name);
@@ -864,7 +864,7 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, const QString &n
 }
 
 // static
-void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, const QStringList &installedTransitions, const QMap <QString, QString> &effectDescriptions)
+void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions)
 {
     QDomDocument doc;
     QFile file(name);

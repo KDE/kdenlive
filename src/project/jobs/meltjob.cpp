@@ -33,7 +33,7 @@ static void consumer_frame_render(mlt_consumer, MeltJob * self, mlt_frame frame_
     self->emitFrameNumber((int) frame.get_position());
 }
 
-MeltJob::MeltJob(ClipType cType, const QString &id, const QMap <QString, QString> &producerParams, const QMap <QString, QString> &filterParams, const QMap <QString, QString> &consumerParams,  const QMap <QString, QString> &extraParams)
+MeltJob::MeltJob(ClipType cType, const QString &id, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams, const QMap<QString, QString> &consumerParams,  const QMap<QString, QString> &extraParams)
     : AbstractClipJob(MLTJOB, cType, id),
     addClipToProject(0),
     m_consumer(Q_NULLPTR),
@@ -215,7 +215,7 @@ void MeltJob::startJob()
     m_producer->set_speed(1);
     m_consumer->run();
 
-    QMap <QString, QString> jobResults;
+    QMap<QString, QString> jobResults;
     if (m_jobStatus != JobAborted && m_extra.contains(QStringLiteral("key"))) {
 	QString result = QString::fromLatin1(m_filter->get(m_extra.value(QStringLiteral("key")).toUtf8().constData()));
 	jobResults.insert(m_extra.value(QStringLiteral("key")), result);
@@ -243,7 +243,7 @@ const QString MeltJob::destination() const
 
 stringMap MeltJob::cancelProperties()
 {
-    QMap <QString, QString> props;
+    QMap<QString, QString> props;
     return props;
 }
 

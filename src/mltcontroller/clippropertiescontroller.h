@@ -97,8 +97,8 @@ private:
     QString m_id;
     ClipType m_type;
     Mlt::Properties m_properties;
-    QMap <QString, QString> m_originalProperties;
-    QMap <QString, QString> m_clipProperties;
+    QMap<QString, QString> m_originalProperties;
+    QMap<QString, QString> m_clipProperties;
     QTreeWidget *m_propertiesTree;
     QWidget *m_forcePage;
     QWidget *m_propertiesPage;
@@ -111,7 +111,7 @@ private:
     void fillProperties();
 
 signals:
-    void updateClipProperties(const QString &,QMap <QString, QString>, QMap <QString, QString>);
+    void updateClipProperties(const QString &,QMap<QString, QString>, QMap<QString, QString>);
     void modified(QColor);
     void modified(int);
     void updateTimeCodeFormat();

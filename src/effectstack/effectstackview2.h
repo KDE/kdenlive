@@ -221,7 +221,7 @@ private slots:
     void slotSetCurrentEffect(int ix);
 
     /** @brief Triggers a filter job on this clip. */
-    void slotStartFilterJob(QMap <QString, QString> &, QMap <QString, QString> &, QMap <QString, QString> &);
+    void slotStartFilterJob(QMap<QString, QString> &, QMap<QString, QString> &, QMap<QString, QString> &);
 
     /** @brief Reset an effect to its default values. */
     void slotResetEffect(int ix);

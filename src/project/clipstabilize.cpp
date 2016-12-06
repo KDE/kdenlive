@@ -126,14 +126,14 @@ ClipStabilize::~ClipStabilize()
     KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
 }
 
-QMap <QString, QString> ClipStabilize::producerParams()
+QMap<QString, QString> ClipStabilize::producerParams()
 {
-    return QMap <QString, QString>();
+    return QMap<QString, QString>();
 }
 
-QMap <QString, QString> ClipStabilize::filterParams()
+QMap<QString, QString> ClipStabilize::filterParams()
 {
-    QMap <QString, QString> params;
+    QMap<QString, QString> params;
     params.insert(QStringLiteral("filter"), m_filtername);
 
     QMapIterator<QString, QString> i(m_fixedParams);
@@ -150,10 +150,10 @@ QMap <QString, QString> ClipStabilize::filterParams()
     return params;
 }
 
-QMap <QString, QString> ClipStabilize::consumerParams()
+QMap<QString, QString> ClipStabilize::consumerParams()
 {
     // consumer params
-    QMap <QString, QString> params;
+    QMap<QString, QString> params;
     params.insert(QStringLiteral("consumer"), QStringLiteral("xml"));
     params.insert(QStringLiteral("all"), QStringLiteral("1"));
     params.insert(QStringLiteral("title"), i18n("Stabilised"));

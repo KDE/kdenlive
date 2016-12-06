@@ -43,7 +43,7 @@ public:
     QStringList selectedTargets() const;
     QStringList chapters(int ix) const;
     QDomElement toXml() const;
-    QMap <QString, QString> chaptersData() const;
+    QMap<QString, QString> chaptersData() const;
     void stopMonitor();
     void createMonitor(DVDFORMAT format);
 

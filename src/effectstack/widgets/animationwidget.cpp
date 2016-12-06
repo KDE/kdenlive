@@ -934,9 +934,9 @@ bool AnimationWidget::isActive(const QString &name) const
     return name == m_inTimeline;
 }
 
-const QMap <QString, QString> AnimationWidget::getAnimation()
+const QMap<QString, QString> AnimationWidget::getAnimation()
 {
-    QMap <QString, QString> animationResults;
+    QMap<QString, QString> animationResults;
 
     if (m_spinX) {
         m_animController = m_animProperties.get_animation(m_rectParameter.toUtf8().constData());
@@ -1031,7 +1031,7 @@ void AnimationWidget::loadPreset(const QString &path)
     KConfig confFile(path, KConfig::SimpleConfig);
     QStringList groups = confFile.groupList();
     foreach(const QString &grp, groups) {
-        QMap <QString, QString> entries = KConfigGroup(&confFile, grp).entryMap();
+        QMap<QString, QString> entries = KConfigGroup(&confFile, grp).entryMap();
         QMap <QString, QVariant> variantEntries;
         QMapIterator<QString, QString> i(entries);
         while (i.hasNext()) {
@@ -1093,7 +1093,7 @@ void AnimationWidget::savePreset()
     KConfig confFile(dir.absoluteFilePath(fileName), KConfig::SimpleConfig);
     KConfigGroup grp(&confFile, effectName.text());
     // Parse keyframes
-    QMap <QString, QString> currentKeyframes = getAnimation();
+    QMap<QString, QString> currentKeyframes = getAnimation();
     QMapIterator<QString, QString> i(currentKeyframes);
     while (i.hasNext()) {
         i.next();
@@ -1448,7 +1448,7 @@ void AnimationWidget::slotMoveBottom()
 
 void AnimationWidget::slotCopyKeyframes()
 {
-    const QMap <QString, QString> anims = getAnimation();
+    const QMap<QString, QString> anims = getAnimation();
     if (anims.isEmpty())
         return;
     QString result;

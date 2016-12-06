@@ -593,7 +593,7 @@ void ProducerQueue::processFileProperties()
 
             if (!info.xml.hasAttribute(QStringLiteral("video_index")) && video_list.count() > 1) {
                 // Clip has more than one video stream, ask which one should be used
-                QMap <QString, QString> data;
+                QMap<QString, QString> data;
                 if (info.xml.hasAttribute(QStringLiteral("group"))) data.insert(QStringLiteral("group"), info.xml.attribute(QStringLiteral("group")));
                 if (info.xml.hasAttribute(QStringLiteral("groupId"))) data.insert(QStringLiteral("groupId"), info.xml.attribute(QStringLiteral("groupId")));
                 emit multiStreamFound(path, audio_list, video_list, data);

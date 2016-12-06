@@ -8545,7 +8545,7 @@ int CustomTrackView::getPositionFromTrack(int track) const
     return m_tracksHeight * (totalTracks - track);
 }
 
-void CustomTrackView::importPlaylist(const ItemInfo &info, const QMap <QString, QString> &idMap, const QDomDocument &doc, QUndoCommand *command)
+void CustomTrackView::importPlaylist(const ItemInfo &info, const QMap<QString, QString> &idMap, const QDomDocument &doc, QUndoCommand *command)
 {
     Mlt::Producer *import = new Mlt::Producer(*m_document->renderer()->getProducer()->profile(), "xml-string", doc.toString().toUtf8().constData());
     if (!import || !import->is_valid()) {
@@ -8757,7 +8757,7 @@ void CustomTrackView::dropTransitionGeometry(Transition *trans, const QString &g
         updateTimelineSelection();
     }
     emit transitionItemSelected(trans);
-    QMap <QString, QString> data;
+    QMap<QString, QString> data;
     data.insert(i18n("Dropped Geometry"), geometry);
     slotImportClipKeyframes(TransitionWidget, trans->info(), trans->toXML(), data);
 }
@@ -8776,7 +8776,7 @@ void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString &geometry)
         emit displayMessage(i18n("No keyframes to import"), InformationMessage);
         return;
     }
-    QMap <QString, QString> data;
+    QMap<QString, QString> data;
     data.insert(geometry.section(QStringLiteral("="), 0, 0), geometry.section(QStringLiteral("="), 1));
     QDomElement currentEffect = clip->getEffectAtIndex(clip->selectedEffectIndex());
     if (currentEffect.isNull()) {

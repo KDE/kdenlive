@@ -209,9 +209,9 @@ void Timeline::loadTimeline()
     loadPreviewRender();
 }
 
-QMap <QString, QString> Timeline::documentProperties()
+QMap<QString, QString> Timeline::documentProperties()
 {
-    QMap <QString, QString> props = m_doc->documentProperties();
+    QMap<QString, QString> props = m_doc->documentProperties();
     props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
     props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
     QPair <QStringList, QStringList> chunks = m_ruler->previewChunks();
@@ -1624,7 +1624,7 @@ int Timeline::getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart)
     return track(trackIndex)->getBlankLength(pos, fromBlankStart);
 }
 
-void Timeline::updateClipProperties(const QString &id, const QMap <QString, QString> &properties)
+void Timeline::updateClipProperties(const QString &id, const QMap<QString, QString> &properties)
 {
     for (int i = 1; i < m_tracks.count(); i++) {
         track(i)->updateClipProperties(id, properties);
@@ -1706,7 +1706,7 @@ void Timeline::disableTimelineEffects(bool disable)
     }
 }
 
-void Timeline::importPlaylist(const ItemInfo &info, const QMap <QString, QString> &idMaps, const QDomDocument &doc, QUndoCommand *command)
+void Timeline::importPlaylist(const ItemInfo &info, const QMap<QString, QString> &idMaps, const QDomDocument &doc, QUndoCommand *command)
 {
     projectView()->importPlaylist(info, idMaps, doc, command);
 }

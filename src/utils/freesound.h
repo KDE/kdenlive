@@ -58,7 +58,7 @@ private slots:
     void slotPreviewErrored(QProcess::ProcessError error);
     
 private:
-    QMap <QString, QString> m_metaInfo;
+    QMap<QString, QString> m_metaInfo;
     QProcess *m_previewProcess;
 
 signals:

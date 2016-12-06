@@ -97,7 +97,7 @@ private slots:
 private:   // Private attributes
     /** @brief the list of groups in the document */
     QList <AbstractGroupItem *> m_groupsList;
-    QMap <QString, QString> m_folderList;
+    QMap<QString, QString> m_folderList;
     QList <QString> m_audioThumbsQueue;
     /** the document undo stack*/
     KdenliveDoc *m_doc;

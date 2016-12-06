@@ -68,8 +68,8 @@ private:
     QString searchPathRecursively(const QDir &dir, const QString &fileName, ClipType type = Unknown) const;
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash, const QString &fileName) const;
     void checkStatus();
-    QMap <QString, QString> m_missingTitleImages;
-    QMap <QString, QString> m_missingTitleFonts;
+    QMap<QString, QString> m_missingTitleImages;
+    QMap<QString, QString> m_missingTitleFonts;
     QList <QDomElement> m_missingClips;
     QStringList m_missingFonts;
     QStringList m_safeImages;

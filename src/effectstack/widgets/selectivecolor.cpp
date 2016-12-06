@@ -129,7 +129,7 @@ void SelectiveColor::effectChanged()
 
 void SelectiveColor::updateEffect(QDomElement &effect)
 {
-    QMap <QString, QString> values;
+    QMap<QString, QString> values;
     for (int i = 0; i < range->count(); i++) {
         QStringList vals = range->itemData(i).toStringList();
         values.insert(vals.at(0), vals.at(1));

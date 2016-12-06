@@ -159,7 +159,7 @@ void ProfilesDialog::fillList(const QString &selectedProfile)
 {
     // List the Mlt profiles
     m_view.profiles_list->clear();
-    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMapIterator<QString, QString> i(profilesInfo);
     while (i.hasNext()) {
         i.next();
@@ -367,7 +367,7 @@ MltVideoProfile ProfilesDialog::getProfileFromPath(const QString &path, const QS
 {
     KConfig confFile(path, KConfig::SimpleConfig);
     MltVideoProfile result;
-    QMap <QString, QString> entries = confFile.entryMap();
+    QMap<QString, QString> entries = confFile.entryMap();
     result.path = name;
     result.description = entries.value(QStringLiteral("description"));
     result.frame_rate_num = entries.value(QStringLiteral("frame_rate_num")).toInt();
@@ -507,9 +507,9 @@ QList <MltVideoProfile> ProfilesDialog::profilesList()
 }
 
 // static
-QMap <QString, QString> ProfilesDialog::getProfilesInfo()
+QMap<QString, QString> ProfilesDialog::getProfilesInfo()
 {
-    QMap <QString, QString> result;
+    QMap<QString, QString> result;
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
 
@@ -576,12 +576,12 @@ bool ProfilesDialog::matchProfile(int width, int height, double fps, double par,
 }
 
 // static
-QMap <QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth)
+QMap<QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth)
 {
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
-    QMap <QString, QString> result;
+    QMap<QString, QString> result;
     profilesFilter << QStringLiteral("*");
     // List the Mlt profiles
     QDir mltDir(KdenliveSettings::mltpath());

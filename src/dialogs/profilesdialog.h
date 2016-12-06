@@ -41,7 +41,7 @@ public:
     static MltVideoProfile getVideoProfileFromXml(const QDomElement &element);
     static MltVideoProfile getVideoProfile(const QString &name);
     static MltVideoProfile getVideoProfile(Mlt::Profile &profile);
-    static QMap <QString, QString> getProfilesInfo();
+    static QMap<QString, QString> getProfilesInfo();
     static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
     /** @brief Check if a given profile has a profile file describing it */
     static QString existingProfile(const MltVideoProfile &profile);
@@ -65,7 +65,7 @@ public:
      *  @param par The sample aspect ratio
      *  @param useDisplayWidth If true, compare width with profile's display width ( = dar * height)
      *  @return A string list of the matching profiles description */
-    static QMap <QString, QString> getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth = false);
+    static QMap<QString, QString> getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth = false);
 
     /** @brief Get the descriptive text for given colorspace code (defined by MLT)
      *  @param colorspace An int as defined in mlt_profile.h

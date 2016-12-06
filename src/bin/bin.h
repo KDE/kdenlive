@@ -561,8 +561,8 @@ private slots:
     void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix);
     void slotChangeEffectState(QString id, const QList<int> &indexes, bool disable);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
-    void slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data = QMap <QString, QString>());
-    void slotAddUrl(const QString &url, const QMap<QString, QString> &data = QMap <QString, QString>());
+    void slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data = QMap<QString, QString>());
+    void slotAddUrl(const QString &url, const QMap<QString, QString> &data = QMap<QString, QString>());
     void slotPrepareJobsMenu();
     void slotShowJobLog();
     /** @brief process clip job result. */
@@ -620,7 +620,7 @@ public slots:
     void slotEditClipCommand(const QString &id, const QMap<QString, QString> &oldProps, const QMap<QString, QString> &newProps);
     void slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps);
     /** @brief Start a filter job requested by a filter applied in timeline */
-    void slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams);
+    void slotStartFilterJob(const ItemInfo &info, const QString&id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams, QMap<QString, QString> &extraParams);
     /** @brief Add a sub clip */
     void slotAddClipCut(const QString&id, int in, int out);
     /** @brief Open current clip in an external editing application */

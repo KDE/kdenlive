@@ -175,9 +175,9 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     }
 }
 
-QMap <QString, QString> DvdWizardChapters::chaptersData() const
+QMap<QString, QString> DvdWizardChapters::chaptersData() const
 {
-    QMap <QString, QString> result;
+    QMap<QString, QString> result;
     int max = m_view.vob_list->count();
     for (int i = 0; i < max; ++i) {
         QString chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList().join(QStringLiteral(";"));

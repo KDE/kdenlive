@@ -115,7 +115,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &gr
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("out"), doc->getFramePos(doc->timecode().getTimecode(t->gentime())) - 1);
-        QMap <QString, QString> properties;
+        QMap<QString, QString> properties;
         properties.insert(QStringLiteral("resource"), color);
         properties.insert(QStringLiteral("kdenlive:clipname"), dia_ui.clip_name->text());
         properties.insert(QStringLiteral("mlt_service"), QStringLiteral("color"));
@@ -178,7 +178,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("out"), doc->timecode().getFrameCount(dia_ui.duration->text()));
 
-        QMap <QString, QString> properties;
+        QMap<QString, QString> properties;
         properties.insert(QStringLiteral("kdenlive:clipname"), dia_ui.name->text());
         if (!groupInfo.isEmpty()) {
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
@@ -200,7 +200,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
         properties.insert(QStringLiteral("style"), dia_ui.italic->isChecked() ? QStringLiteral("italic") : QStringLiteral("normal"));
         properties.insert(QStringLiteral("weight"), QString::number(dia_ui.weight->value()));
         if (clip) {
-            QMap <QString, QString> oldProperties;
+            QMap<QString, QString> oldProperties;
             oldProperties.insert(QStringLiteral("out"), clip->getProducerProperty(QStringLiteral("out")));
             oldProperties.insert(QStringLiteral("length"), clip->getProducerProperty(QStringLiteral("length")));
             oldProperties.insert(QStringLiteral("kdenlive:clipname"), clip->name());
@@ -236,7 +236,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QStringList
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("out"), QString::number(doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
         prod.setAttribute(QStringLiteral("type"), (int) SlideShow);
-        QMap <QString, QString> properties;
+        QMap<QString, QString> properties;
         properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
         properties.insert(QStringLiteral("resource"), dia->selectedPath());
         properties.insert(QStringLiteral("ttl"), QString::number(doc->getFramePos(dia->clipDuration())));
@@ -274,7 +274,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &gr
         uint id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
-        QMap <QString, QString> properties;
+        QMap<QString, QString> properties;
         properties.insert(QStringLiteral("xmldata"), dia_ui->xml().toString());
         properties.insert(QStringLiteral("kdenlive:clipname"), i18n("Title clip"));
         if (!groupInfo.isEmpty()) {
@@ -303,7 +303,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
 
-        QMap <QString, QString> properties;
+        QMap<QString, QString> properties;
         properties.insert(QStringLiteral("resource"), textTemplate);
         properties.insert(QStringLiteral("kdenlive:clipname"), i18n("Template title clip"));
         if (!groupInfo.isEmpty()) {
@@ -342,7 +342,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
     delete dia;
 }
 
-void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap <QString, QString> &properties)
+void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap<QString, QString> &properties)
 {
     QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
@@ -355,7 +355,7 @@ void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap <QString, 
     }
 }
 
-void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin, const QMap <QString, QString> &data)
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin, const QMap<QString, QString> &data)
 {
     QUndoCommand *addClips = new QUndoCommand();
 
@@ -419,7 +419,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
-        QMap <QString, QString> properties;
+        QMap<QString, QString> properties;
         properties.insert(QStringLiteral("resource"), file.path());
         if (!groupInfo.isEmpty()) {
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
@@ -562,7 +562,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
                         QString duration = doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
                         prod.setAttribute(QStringLiteral("out"), QString::number(doc->getFramePos(duration) * count));
-                        QMap <QString, QString> properties;
+                        QMap<QString, QString> properties;
                         properties.insert(QStringLiteral("resource"), pattern);
                         properties.insert(QStringLiteral("kdenlive:clipname"), fileName);
                         properties.insert(QStringLiteral("ttl"), QString::number(doc->getFramePos(duration)));

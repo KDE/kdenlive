@@ -147,7 +147,7 @@ private:
     QTimer m_autoSaveTimer;
     QUrl m_startUrl;
     QString m_loadClipsOnOpen;
-    QMap <QString, QString> m_replacementPattern;
+    QMap<QString, QString> m_replacementPattern;
 
     QAction *m_fileRevert;
     KRecentFilesAction *m_recentFilesAction;

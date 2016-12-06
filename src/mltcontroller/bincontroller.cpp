@@ -524,7 +524,7 @@ void BinController::checkAudioThumbs()
     }
 }
 
-void BinController::saveDocumentProperties(const QMap <QString, QString> &props, const QMap <QString, QString> &metadata, const QMap <double, QString> &guidesData)
+void BinController::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, const QMap <double, QString> &guidesData)
 {
     // Clear previous properites
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
@@ -583,9 +583,9 @@ const QString BinController::getProperty(const QString &name)
     return QString(m_binPlaylist->get(name.toUtf8().constData()));
 }
 
-QMap <QString, QString> BinController::getProxies()
+QMap<QString, QString> BinController::getProxies()
 {
-    QMap <QString, QString> proxies;
+    QMap<QString, QString> proxies;
     int size = m_binPlaylist->count();
     for (int i = 0; i < size; i++) {
         QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));

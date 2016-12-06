@@ -46,7 +46,7 @@ public:
     void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
     QString gradientToString() const;
     static QLinearGradient gradientFromString(const QString &str, int width, int height);
-    QMap <QString, QString> gradients() const;
+    QMap<QString, QString> gradients() const;
     QList <QIcon> icons() const;
     int selectedGradient() const;
 
@@ -54,7 +54,7 @@ private:
     QLinearGradient m_gradient;
     int m_height;
     QStringList getNames() const;
-    void loadGradients(QMap <QString, QString> gradients = QMap<QString, QString>());
+    void loadGradients(QMap<QString, QString> gradients = QMap<QString, QString>());
 
 private slots:
     void updatePreview();

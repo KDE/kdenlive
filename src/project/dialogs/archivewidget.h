@@ -91,7 +91,7 @@ private:
     bool m_abortArchive;
     QFuture<void> m_archiveThread;
     QStringList m_foldersList;
-    QMap <QString, QString> m_filesList;
+    QMap<QString, QString> m_filesList;
     bool m_extractMode;
     QUrl m_extractUrl;
     QString m_projectName;

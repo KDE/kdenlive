@@ -133,8 +133,8 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
             profileName = KdenliveSettings::current_profile();
     }
     QString projectFolder;
-    QMap <QString, QString> documentProperties;
-    QMap <QString, QString> documentMetadata;
+    QMap<QString, QString> documentProperties;
+    QMap<QString, QString> documentMetadata;
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     pCore->monitorManager()->resetDisplay();
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
@@ -148,7 +148,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
             documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + QStringLiteral("/") + documentId);
         }
     } else {
-        QPointer<ProjectSettings> w = new ProjectSettings(Q_NULLPTR, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
+        QPointer<ProjectSettings> w = new ProjectSettings(Q_NULLPTR, QMap<QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
         connect(w.data(), &ProjectSettings::refreshProfiles, pCore->window(), &MainWindow::slotRefreshProfiles);
         if (w->exec() != QDialog::Accepted) {
             delete w;
@@ -529,7 +529,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog->show();
     bool openBackup;
     m_notesPlugin->clear();
-    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack, KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(), QMap <QString, QString> (), QMap <QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
+    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack, KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(), QMap<QString, QString> (), QMap<QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
     if (stale == Q_NULLPTR) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;

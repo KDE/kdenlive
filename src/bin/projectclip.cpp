@@ -460,9 +460,9 @@ void ProjectClip::setProducerProperty(const QString &name, const QString &data)
     }
 }
 
-QMap <QString, QString> ProjectClip::currentProperties(const QMap <QString, QString> &props)
+QMap<QString, QString> ProjectClip::currentProperties(const QMap<QString, QString> &props)
 {
-    QMap <QString, QString> currentProps;
+    QMap<QString, QString> currentProps;
     if (!m_controller) {
         return currentProps;
     }
@@ -590,10 +590,10 @@ bool ProjectClip::hasProxy() const
     return true;
 }
 
-void ProjectClip::setProperties(const QMap <QString, QString> &properties, bool refreshPanel)
+void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool refreshPanel)
 {
     QMapIterator<QString, QString> i(properties);
-    QMap <QString, QString> passProperties;
+    QMap<QString, QString> passProperties;
     bool refreshAnalysis = false;
     bool reload = false;
     bool refreshOnly = true;
@@ -722,8 +722,8 @@ const QString ProjectClip::codec(bool audioCodec) const
 
 bool ProjectClip::rename(const QString &name, int column)
 {
-    QMap <QString, QString> newProperites;
-    QMap <QString, QString> oldProperites;
+    QMap<QString, QString> newProperites;
+    QMap<QString, QString> oldProperites;
     bool edited = false;
     switch (column) {
       case 0:
@@ -1287,7 +1287,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
     }
 }
 
-QMap <QString, QString> ProjectClip::analysisData(bool withPrefix)
+QMap<QString, QString> ProjectClip::analysisData(bool withPrefix)
 {
     return m_controller->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipanalysis."), withPrefix);
 }

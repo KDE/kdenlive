@@ -630,7 +630,7 @@ void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
 
 void CollapsibleEffect::importKeyframes(const QString &keyframes)
 {
-    QMap <QString, QString> data;
+    QMap<QString, QString> data;
     if (keyframes.contains(QLatin1Char('\n'))) {
         QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
         foreach(const QString &param, params) {

@@ -191,7 +191,7 @@ const QString CutClipJob::destination() const
 
 stringMap CutClipJob::cancelProperties()
 {
-    QMap <QString, QString> props;
+    QMap<QString, QString> props;
     return props;
 }
 
@@ -424,13 +424,13 @@ void CutClipJob::processAnalyseLog()
         frames << obj[QStringLiteral("coded_picture_number")].toInt();
     }
     qSort(frames);
-    QMap <QString, QString> jobResults;
+    QMap<QString, QString> jobResults;
     QStringList sortedFrames;
     foreach(int frm, frames) {
         sortedFrames << QString::number(frm);
     }
     jobResults.insert(QStringLiteral("i-frame"), sortedFrames.join(QStringLiteral(";")));
-    QMap <QString, QString> extraInfo;
+    QMap<QString, QString> extraInfo;
     extraInfo.insert(QStringLiteral("addmarkers"), QStringLiteral("3"));
     extraInfo.insert(QStringLiteral("key"), QStringLiteral("i-frame"));
     extraInfo.insert(QStringLiteral("simplelist"), QStringLiteral("1"));

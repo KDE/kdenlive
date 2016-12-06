@@ -34,7 +34,7 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
     Q_OBJECT
 
 public:
-    ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString& projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = Q_NULLPTR);
+    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString& projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = Q_NULLPTR);
     QString selectedProfile() const;
     QUrl selectedFolder() const;
     QPoint tracks() const;
@@ -47,7 +47,7 @@ public:
     int proxyImageMinSize() const;
     QString proxyParams() const;
     QString proxyExtension() const;
-    const QMap <QString, QString> metadata() const;
+    const QMap<QString, QString> metadata() const;
     static QStringList extractPlaylistUrls(const QString &path);
     static QStringList extractSlideshowUrls(const QUrl &url);
     const QString selectedPreview() const;

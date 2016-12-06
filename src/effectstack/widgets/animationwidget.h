@@ -49,7 +49,7 @@ public:
     virtual ~AnimationWidget();
     void updateTimecodeFormat();
     void addParameter(const QDomElement &e);
-    const QMap <QString, QString> getAnimation();
+    const QMap<QString, QString> getAnimation();
     static QString getDefaultKeyframes(int start, const QString &defaultValue, bool linearOnly = false);
     void setActiveKeyframe(int frame);
     void finishSetup();

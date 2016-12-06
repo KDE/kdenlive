@@ -3254,7 +3254,7 @@ void MainWindow::slotTranscodeClip()
     slotTranscode(urls);
 }
 
-void MainWindow::slotSetDocumentRenderProfile(const QMap <QString, QString> &props)
+void MainWindow::slotSetDocumentRenderProfile(const QMap<QString, QString> &props)
 {
     KdenliveDoc *project = pCore->projectManager()->current();
 
@@ -3393,7 +3393,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         // replace proxy clips with originals
         //TODO
-        QMap <QString, QString> proxies = pCore->binController()->getProxies();
+        QMap<QString, QString> proxies = pCore->binController()->getProxies();
 
         QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
         QString producerResource;

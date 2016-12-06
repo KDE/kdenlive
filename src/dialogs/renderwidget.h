@@ -120,7 +120,7 @@ public:
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void setDocumentPath(const QString &path);
     void reloadProfiles();
-    void setRenderProfile(const QMap <QString, QString> &props);
+    void setRenderProfile(const QMap<QString, QString> &props);
     int waitingJobsCount() const;
     QString getFreeScriptName(const QUrl &projectName = QUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
@@ -149,7 +149,7 @@ protected:
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut,
-                    const QMap <QString, QString> &metadata,
+                    const QMap<QString, QString> &metadata,
                     const QList<QString> &playlistPaths, const QList<QString> &trackNames,
                     const QString &scriptPath, bool exportAudio);
     void slotAbortCurrentJob();
@@ -227,7 +227,7 @@ signals:
     void openDvdWizard(const QString &url);
     /** Send the info about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file */
-    void selectedRenderProfile(const QMap <QString, QString> &renderProps);
+    void selectedRenderProfile(const QMap<QString, QString> &renderProps);
     void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile, const QString scriptPath);
     void shutdown();
 };

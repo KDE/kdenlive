@@ -87,7 +87,7 @@ const QString AbstractClipJob::destination() const
 
 stringMap AbstractClipJob::cancelProperties()
 {
-    return QMap <QString, QString>();
+    return QMap<QString, QString>();
 }
 
 void AbstractClipJob::processLogInfo()

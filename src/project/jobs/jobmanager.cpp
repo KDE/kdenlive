@@ -332,9 +332,9 @@ void JobManager::slotCancelJobs()
     for (int i = 0; i < m_jobList.count(); ++i) {
         DocClipBase *currentClip = m_doc->clipManager()->getClipById(m_jobList.at(i)->clipId());
         if (!currentClip) continue;
-        QMap <QString, QString> newProps = m_jobList.at(i)->cancelProperties();
+        QMap<QString, QString> newProps = m_jobList.at(i)->cancelProperties();
         if (newProps.isEmpty()) continue;
-        QMap <QString, QString> oldProps = currentClip->currentProperties(newProps);
+        QMap<QString, QString> oldProps = currentClip->currentProperties(newProps);
         //TODO
         //new EditClipCommand(this, m_jobList.at(i)->clipId(), oldProps, newProps, true, command);
     }

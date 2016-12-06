@@ -446,7 +446,7 @@ QStringList DvdWizardVob::chapters() const
     return result;
 }
 
-void DvdWizardVob::updateChapters(const QMap <QString, QString> &chaptersdata)
+void DvdWizardVob::updateChapters(const QMap<QString, QString> &chaptersdata)
 {
     int max = m_vobList->topLevelItemCount();
     int i = 0;

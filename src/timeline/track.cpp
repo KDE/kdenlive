@@ -623,7 +623,7 @@ int Track::getBlankLength(int pos, bool fromBlankStart)
     return m_playlist.clip_length(clipIndex) + m_playlist.clip_start(clipIndex) - pos;
 }
 
-void Track::updateClipProperties(const QString &id, const QMap <QString, QString> &properties)
+void Track::updateClipProperties(const QString &id, const QMap<QString, QString> &properties)
 {
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
     QString idForVideoTrack = id + "_video";

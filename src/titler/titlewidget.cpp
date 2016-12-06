@@ -2751,14 +2751,14 @@ void TitleWidget::slotEditGradient()
     } else {
 	combo = gradients_rect_combo;
     }
-    QMap <QString, QString> gradients;
+    QMap<QString, QString> gradients;
     for (int i = 0; i < combo->count(); i++) {
 	gradients.insert(combo->itemText(i), combo->itemData(i).toString());
     }
     GradientWidget d(gradients, combo->currentIndex());
     if (d.exec() == QDialog::Accepted) {
         // Save current gradients
-        QMap <QString, QString> gradients = d.gradients();
+        QMap<QString, QString> gradients = d.gradients();
         QList <QIcon> icons = d.icons();
         QMap<QString, QString>::const_iterator i = gradients.constBegin();
         KSharedConfigPtr config = KSharedConfig::openConfig();
@@ -2783,7 +2783,7 @@ void TitleWidget::storeGradient(const QString &gradientData)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup group(config, "TitleGradients");
-    QMap <QString, QString> values = group.entryMap();
+    QMap<QString, QString> values = group.entryMap();
     int ix = qMax(1, values.count());
     QString gradName = i18n("Gradient %1", ix);
     while (values.contains(gradName)) {
@@ -2807,7 +2807,7 @@ void TitleWidget::storeGradient(const QString &gradientData)
 
 void TitleWidget::loadGradients()
 {
-    QMap <QString, QString> gradients;
+    QMap<QString, QString> gradients;
     gradients_combo->blockSignals(true);
     gradients_rect_combo->blockSignals(true);
     QString data = gradients_combo->currentData().toString();
@@ -2816,7 +2816,7 @@ void TitleWidget::loadGradients()
     gradients_rect_combo->clear();
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup group(config, "TitleGradients");
-    QMap <QString, QString> values = group.entryMap();
+    QMap<QString, QString> values = group.entryMap();
     if (values.isEmpty()) {
         // Ensure we at least always have one sample black to white gradient
         values.insert(i18n("Gradient"), QStringLiteral("#ffffffff;#ff000000;0;100;90"));

@@ -776,7 +776,7 @@ void ParameterContainer::toggleSync(bool enable)
                 m_animationWidget->offsetAnimation(oldIn);
                 // Save updated animation to xml effect
                 QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
-                QMap <QString, QString> values = m_animationWidget->getAnimation();
+                QMap<QString, QString> values = m_animationWidget->getAnimation();
                 for (int i = 0; i < namenode.count() ; ++i) {
                     QDomElement pa = namenode.item(i).toElement();
                     QString paramName = pa.attribute(QStringLiteral("name"));
@@ -810,7 +810,7 @@ void ParameterContainer::toggleSync(bool enable)
                 m_animationWidget->offsetAnimation(-m_in);
                 // Save updated animation to xml effect
                 QDomNodeList namenode = m_effect.elementsByTagName(QStringLiteral("parameter"));
-                QMap <QString, QString> values = m_animationWidget->getAnimation();
+                QMap<QString, QString> values = m_animationWidget->getAnimation();
                 for (int i = 0; i < namenode.count() ; ++i) {
                     QDomElement pa = namenode.item(i).toElement();
                     QString paramName = pa.attribute(QStringLiteral("name"));
@@ -953,7 +953,7 @@ void ParameterContainer::slotCollectAllParameters()
 
     // special case, m_animationWidget can hold several parameters
     if (m_animationWidget) {
-        QMap <QString, QString> values = m_animationWidget->getAnimation();
+        QMap<QString, QString> values = m_animationWidget->getAnimation();
         for (int i = 0; i < namenode.count() ; ++i) {
             QDomElement pa = namenode.item(i).toElement();
             QString paramName = pa.attribute(QStringLiteral("name"));
@@ -1241,8 +1241,8 @@ void ParameterContainer::slotStartFilterJobAction()
         QDomElement pa = namenode.item(i).toElement();
         QString type = pa.attribute(QStringLiteral("type"));
         if (type == QLatin1String("filterjob")) {
-            QMap <QString, QString> filterParams;
-            QMap <QString, QString> consumerParams;
+            QMap<QString, QString> filterParams;
+            QMap<QString, QString> consumerParams;
             filterParams.insert(QStringLiteral("filter"), pa.attribute(QStringLiteral("filtertag")));
             consumerParams.insert(QStringLiteral("consumer"), pa.attribute(QStringLiteral("consumer")));
             QString filterattributes = pa.attribute(QStringLiteral("filterparams"));
@@ -1280,7 +1280,7 @@ void ParameterContainer::slotStartFilterJobAction()
             }
 
             // Fill extra params
-            QMap <QString, QString> extraParams;
+            QMap<QString, QString> extraParams;
             QDomNodeList jobparams = pa.elementsByTagName(QStringLiteral("jobparam"));
             for (int j = 0; j < jobparams.count(); ++j) {
                 QDomElement e = jobparams.item(j).toElement();

@@ -67,10 +67,10 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList <Proj
     }
     QString filterName = parameters.first();
     if (filterName == QLatin1String("timewarp")) {
-        QMap <QString, QString> producerParams = QMap <QString, QString> ();
-        QMap <QString, QString> filterParams = QMap <QString, QString> ();
-        QMap <QString, QString> consumerParams = QMap <QString, QString> ();
-        QMap <QString, QString> extraParams = QMap <QString, QString> ();
+        QMap<QString, QString> producerParams = QMap<QString, QString> ();
+        QMap<QString, QString> filterParams = QMap<QString, QString> ();
+        QMap<QString, QString> consumerParams = QMap<QString, QString> ();
+        QMap<QString, QString> extraParams = QMap<QString, QString> ();
         producerParams.insert(QStringLiteral("in"), QStringLiteral("0"));
         producerParams.insert(QStringLiteral("out"), QStringLiteral("-1"));
         extraParams.insert(QStringLiteral("projecttreefilter"), QStringLiteral("1"));
@@ -123,9 +123,9 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList <Proj
             return jobs;
         }
         // Autosplit filter
-        QMap <QString, QString> producerParams = QMap <QString, QString> ();
-        QMap <QString, QString> filterParams = QMap <QString, QString> ();
-        QMap <QString, QString> consumerParams = QMap <QString, QString> ();
+        QMap<QString, QString> producerParams = QMap<QString, QString> ();
+        QMap<QString, QString> filterParams = QMap<QString, QString> ();
+        QMap<QString, QString> consumerParams = QMap<QString, QString> ();
 
         // Producer params
         // None
@@ -147,7 +147,7 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList <Proj
         consumerParams.insert(QStringLiteral("top_field_first"), QStringLiteral("-1"));
 
         // Extra
-        QMap <QString, QString> extraParams;
+        QMap<QString, QString> extraParams;
         extraParams.insert(QStringLiteral("key"), QStringLiteral("shot_change_list"));
         extraParams.insert(QStringLiteral("projecttreefilter"), QStringLiteral("1"));
         QString keyword(QStringLiteral("%count"));
@@ -204,10 +204,10 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList <Proj
         }
         QPointer<ClipStabilize> d = new ClipStabilize(sources, filterName, out);
         if (d->exec() == QDialog::Accepted) {
-            QMap <QString, QString> producerParams = d->producerParams();
-            QMap <QString, QString> filterParams = d->filterParams();
-            QMap <QString, QString> consumerParams = d->consumerParams();
-            QMap <QString, QString> extraParams;
+            QMap<QString, QString> producerParams = d->producerParams();
+            QMap<QString, QString> filterParams = d->filterParams();
+            QMap<QString, QString> consumerParams = d->consumerParams();
+            QMap<QString, QString> extraParams;
             extraParams.insert(QStringLiteral("producer_profile"), QStringLiteral("1"));
             QString destination = d->destination();
             QUrl trffile;

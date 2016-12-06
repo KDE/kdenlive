@@ -107,7 +107,7 @@ public:
      * @brief Returns the list of all properties starting with prefix. For subclips, the list is of this type:
      * { subclip name , subclip in/out } where the subclip in/ou value is a semi-colon separated in/out value, like "25;220"
      */
-    QMap <QString, QString> getPropertiesFromPrefix(const QString &prefix, bool withPrefix = false);
+    QMap<QString, QString> getPropertiesFromPrefix(const QString &prefix, bool withPrefix = false);
     
     /**
      * @brief Returns the value of a property.

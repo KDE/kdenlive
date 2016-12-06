@@ -157,7 +157,7 @@ signals:
      * @param consumerParams a QMap containing consumer name under the "consumer" key, and all consumer properties
      * @param extraParams a QMap containing extra data used by the job
      */
-    void startFilterJob(QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams);
+    void startFilterJob(QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams, QMap<QString, QString> &extraParams);
     /** @brief Request import of keyframes from clip data. */
     void importClipKeyframes();
     /** @brief Master clip was resized, update effect. */

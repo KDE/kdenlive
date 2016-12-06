@@ -63,9 +63,9 @@ private:
     QDoubleSpinBox m_destMin;
     QDoubleSpinBox m_destMax;
     /** @brief Contains the 4 dimensional (x,y,w,h) target parameter names / tag **/
-    QMap <QString, QString> m_geometryTargets;
+    QMap<QString, QString> m_geometryTargets;
     /** @brief Contains the 1 dimensional target parameter names / tag **/
-    QMap <QString, QString> m_simpleTargets;
+    QMap<QString, QString> m_simpleTargets;
 
 protected:
     void resizeEvent(QResizeEvent *ev) Q_DECL_OVERRIDE;

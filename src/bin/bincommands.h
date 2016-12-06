@@ -180,13 +180,13 @@ private:
 class EditClipCommand : public QUndoCommand
 {
 public:
-    EditClipCommand(Bin *bin, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt, QUndoCommand * parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
     Bin *m_bin;
-    QMap <QString, QString> m_oldparams;
-    QMap <QString, QString> m_newparams;
+    QMap<QString, QString> m_oldparams;
+    QMap<QString, QString> m_newparams;
     QString m_id;
     /** @brief Should this command be executed on first redo ? TODO: we should refactor the code to get rid of this and always execute actions through the command system.
      *. */

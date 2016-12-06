@@ -63,7 +63,7 @@ private slots:
      */
     void slotUpdateCurrentSound();
     void slotPlaySound();
-    void slotDisplayMetaInfo(const QMap <QString, QString>& metaInfo);
+    void slotDisplayMetaInfo(const QMap<QString, QString>& metaInfo);
     void slotSaveItem(const QString &originalUrl = QString());
     void slotOpenUrl(const QString &url);
     void slotChangeService();

@@ -1582,7 +1582,7 @@ Mlt::Producer *Render::getSlowmotionProducer(const QString &url)
     return Q_NULLPTR;
 }
 
-void Render::updateSlowMotionProducers(const QString &id, const QMap <QString, QString> &passProperties)
+void Render::updateSlowMotionProducers(const QString &id, const QMap<QString, QString> &passProperties)
 {
     QMapIterator<QString, Mlt::Producer *> i(m_slowmotionProducers);
     Mlt::Producer *prod;

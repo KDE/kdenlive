@@ -570,7 +570,7 @@ void ClipPropertiesController::slotReloadProperties()
 
 void ClipPropertiesController::slotColorModified(QColor newcolor)
 {
-    QMap <QString, QString> properties;
+    QMap<QString, QString> properties;
     properties.insert(QStringLiteral("resource"), newcolor.name(QColor::HexArgb));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
@@ -578,7 +578,7 @@ void ClipPropertiesController::slotColorModified(QColor newcolor)
 
 void ClipPropertiesController::slotDurationChanged(int duration)
 {
-    QMap <QString, QString> properties;
+    QMap<QString, QString> properties;
     int original_length = m_properties.get_int("kdenlive:original_length");
     // kdenlive_length is the default duration for image / title clips
     int kdenlive_length = m_properties.get_int("kdenlive:duration");
@@ -608,7 +608,7 @@ void ClipPropertiesController::slotEnableForce(int state)
         return;
     }
     QString param = box->objectName();
-    QMap <QString, QString> properties;
+    QMap<QString, QString> properties;
     QLocale locale;
     if (state == Qt::Unchecked) {
         // The force property was disable, remove it / reset default if necessary
@@ -685,7 +685,7 @@ void ClipPropertiesController::slotValueChanged(double value)
         return;
     }
     QString param = box->objectName().section(QStringLiteral("_"), 0, -2);
-    QMap <QString, QString> properties;
+    QMap<QString, QString> properties;
     QLocale locale;
     properties.insert(param, locale.toString(value));
     emit updateClipProperties(m_id, m_originalProperties, properties);
@@ -699,7 +699,7 @@ void ClipPropertiesController::slotValueChanged(int value)
         return;
     }
     QString param = box->objectName().section(QStringLiteral("_"), 0, -2);
-    QMap <QString, QString> properties;
+    QMap<QString, QString> properties;
     properties.insert(param, QString::number(value));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
@@ -710,7 +710,7 @@ void ClipPropertiesController::slotAspectValueChanged(int)
     QSpinBox *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));
     QSpinBox *spin2 = findChild<QSpinBox *>(QStringLiteral("force_aspect_den_value"));
     if (!spin || !spin2) return;
-    QMap <QString, QString> properties;
+    QMap<QString, QString> properties;
     properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
     properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
     QLocale locale;
@@ -726,7 +726,7 @@ void ClipPropertiesController::slotComboValueChanged()
         return;
     }
     QString param = box->objectName().section(QStringLiteral("_"), 0, -2);
-    QMap <QString, QString> properties;
+    QMap<QString, QString> properties;
     properties.insert(param, QString::number(box->currentData().toInt()));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
@@ -1105,7 +1105,7 @@ void ClipPropertiesController::slotLoadAnalysis()
 
 void ClipPropertiesController::slotTextChanged()
 {
-    QMap <QString, QString> properties;
+    QMap<QString, QString> properties;
     properties.insert(QStringLiteral("templatetext"), m_textEdit->toPlainText());
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;

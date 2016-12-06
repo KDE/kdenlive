@@ -65,9 +65,9 @@ private:
     QString m_errors;
     QString m_warnings;
     QString m_infos;
-    QMap <QString, QString> m_dvProfiles;
-    QMap <QString, QString> m_hdvProfiles;
-    QMap <QString, QString> m_otherProfiles;
+    QMap<QString, QString> m_dvProfiles;
+    QMap<QString, QString> m_hdvProfiles;
+    QMap<QString, QString> m_otherProfiles;
     void slotCheckPrograms();
     void checkMltComponents();
     void checkMissingCodecs();

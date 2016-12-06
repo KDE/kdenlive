@@ -57,7 +57,7 @@ private slots:
    // void slotParseThumbs(KJob* job);
     
 private:
-    QMap <QString, QString> m_metaInfo;
+    QMap<QString, QString> m_metaInfo;
     QProcess *m_previewProcess;
     QString m_thumbsPath;
 

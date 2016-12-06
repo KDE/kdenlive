@@ -224,7 +224,7 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
-    QMap <QString, QString> autoFixLuma;
+    QMap<QString, QString> autoFixLuma;
     // Check existence of luma files
     foreach (const QString &lumafile, filesToCheck) {
         filePath = lumafile;

@@ -1074,9 +1074,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList kdenlive_producers = m_doc.elementsByTagName(QStringLiteral("kdenlive_producer"));
 
         // Rename all track producers to correct name: "id_playlistName" instead of "id_trackNumber"
-        QMap <QString, QString> trackRenaming;
+        QMap<QString, QString> trackRenaming;
         // Create a list of which producers / track on which the producer is
-        QMap <QString, QString> playlistForId;
+        QMap<QString, QString> playlistForId;
         QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
         for (int i = 0; i < entries.count(); i++) {
             QDomElement entry = entries.at(i).toElement();

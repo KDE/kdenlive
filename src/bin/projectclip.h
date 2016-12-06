@@ -161,7 +161,7 @@ public:
     void resetProducerProperty(const QString &name);
     
     /** @brief Get a property from the MLT producer. */
-    QMap <QString, QString> currentProperties(const QMap <QString, QString> &props);
+    QMap<QString, QString> currentProperties(const QMap<QString, QString> &props);
     QString getProducerProperty(const QString &key) const;
     int getProducerIntProperty(const QString &key) const;
     qint64 getProducerInt64Property(const QString &key) const;
@@ -202,7 +202,7 @@ public:
     int audioChannels() const;
     /** @brief get data analysis value. */
     QStringList updatedAnalysisData(const QString &name, const QString &data, int offset);
-    QMap <QString, QString> analysisData(bool withPrefix = false);
+    QMap<QString, QString> analysisData(bool withPrefix = false);
     /** @brief Abort running audio thumb process if any. */
     void abortAudioThumbs();
     /** @brief Returns the list of this clip's subclip's ids. */

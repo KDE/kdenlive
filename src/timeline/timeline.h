@@ -171,7 +171,7 @@ public:
     /** @brief find lowest video track in timeline. */
     int getLowestVideoTrack();
     /** @brief Returns the document properties with some added values from timeline. */
-    QMap <QString, QString> documentProperties();
+    QMap<QString, QString> documentProperties();
     void reloadTrack(int ix, int start = 0, int end = -1);
     void reloadTrack(const ItemInfo &info, bool includeLastFrame);
     /** @brief Add or remove current timeline zone to preview render zone. */
@@ -217,7 +217,7 @@ private:
     QString m_editMode;
     CustomTrackScene *m_scene;
     /** @brief A list of producer ids to be replaced when opening a corrupted document*/
-    QMap <QString, QString> m_replacementProducerIds;
+    QMap<QString, QString> m_replacementProducerIds;
 
     KdenliveDoc *m_doc;
     int m_verticalZoom;

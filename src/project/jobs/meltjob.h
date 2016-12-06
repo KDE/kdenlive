@@ -54,7 +54,7 @@ public:
      *  @param consumerParams the parameters passed to the Mlt::Consumer. The "consumer" value should hold the consumer's initialization string.
         @param extraParams these parameters can be used to further affect the Job handling.
      */
-    MeltJob(ClipType cType, const QString &id,  const QMap <QString, QString> &producerParams, const QMap <QString, QString> &filterParams, const QMap <QString, QString> &consumerParams, const stringMap &extraParams = stringMap());
+    MeltJob(ClipType cType, const QString &id,  const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams, const QMap<QString, QString> &consumerParams, const stringMap &extraParams = stringMap());
     virtual ~ MeltJob();
     /** @brief Returns the file path that will be written by this Mlt job. Empty when no file is written. */
     const QString destination() const Q_DECL_OVERRIDE;
@@ -77,13 +77,13 @@ private:
     Mlt::Profile *m_profile;
     Mlt::Filter *m_filter;
     Mlt::Event *m_showFrameEvent;
-    QMap <QString, QString> m_producerParams;
-    QMap <QString, QString> m_filterParams;
-    QMap <QString, QString> m_consumerParams;
+    QMap<QString, QString> m_producerParams;
+    QMap<QString, QString> m_filterParams;
+    QMap<QString, QString> m_consumerParams;
     QString m_dest;
     QString m_url;
     int m_length;
-    QMap <QString, QString> m_extra;
+    QMap<QString, QString> m_extra;
 
 signals:
     /** @brief When user requested a to process an Mlt::Filter, this will send back all necessary infos. */

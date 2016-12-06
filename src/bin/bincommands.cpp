@@ -278,7 +278,7 @@ void AddBinClipCutCommand::redo()
     }
 }
 
-EditClipCommand::EditClipCommand(Bin *bin, const QString &id, const QMap <QString, QString> &oldparams, const QMap <QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
+EditClipCommand::EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_bin(bin),
         m_oldparams(oldparams),

@@ -160,7 +160,7 @@ public:
     const QString getProperty(const QString &name);
 
     /** @brief Return a list of proxy / original url */
-    QMap <QString, QString> getProxies();
+    QMap<QString, QString> getProxies();
 
     /** @brief Loads the MLT's XML document root */
     void setDocumentRoot(const QString &);

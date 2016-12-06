@@ -150,7 +150,7 @@ signals:
     void checkMonitorPosition(int);
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
-    void startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap <QString, QString>&);
+    void startFilterJob(QMap<QString,QString>&, QMap<QString,QString>&,QMap<QString, QString>&);
     /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */

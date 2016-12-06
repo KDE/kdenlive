@@ -254,7 +254,7 @@ const QString ProxyJob::destination() const
 
 stringMap ProxyJob::cancelProperties()
 {
-    QMap <QString, QString> props;
+    QMap<QString, QString> props;
     props.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
     return props;
 }

@@ -57,7 +57,7 @@ class NoEditDelegate: public QStyledItemDelegate {
     }
 };
 
-ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap <QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool savedProject, QWidget * parent) :
     QDialog(parent)
     ,m_savedProject(savedProject)
     ,m_lumas(lumas)
@@ -624,9 +624,9 @@ void ProjectSettings::slotUpdatePreviewParams()
     previewparams->setPlainText(params.section(';', 0, 0));
 }
 
-const QMap <QString, QString> ProjectSettings::metadata() const
+const QMap<QString, QString> ProjectSettings::metadata() const
 {
-    QMap <QString, QString> metadata;
+    QMap<QString, QString> metadata;
     for (int i = 0; i < metadata_list->topLevelItemCount(); ++i)
     {
         QTreeWidgetItem *item = metadata_list->topLevelItem(i);
@@ -676,7 +676,7 @@ void ProjectSettings::loadProxyProfiles()
    // load proxy profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
     KConfigGroup group(&conf, "proxy");
-    QMap <QString, QString> values = group.entryMap();
+    QMap<QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
     int ix = -1;
     proxy_profile->clear();
@@ -706,7 +706,7 @@ void ProjectSettings::loadPreviewProfiles()
    // load proxy profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
     KConfigGroup group(&conf, "timelinepreview");
-    QMap <QString, QString> values = group.entryMap();
+    QMap<QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
     int ix = -1;
     preview_profile->clear();

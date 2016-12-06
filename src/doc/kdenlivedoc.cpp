@@ -82,7 +82,7 @@ void DocUndoStack::push(QUndoCommand *cmd)
 
 const double DOCUMENTVERSION = 0.95;
 
-KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap <QString, QString>& properties, const QMap <QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
+KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString>& properties, const QMap<QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
     QObject(parent),
     m_autosave(Q_NULLPTR),
     m_url(url),
@@ -629,7 +629,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     QDomNodeList effects = mlt.elementsByTagName(QStringLiteral("filter"));
     int maxEffects = effects.count();
     //qCDebug(KDENLIVE_LOG) << "// FOUD " << maxEffects << " EFFECTS+++++++++++++++++++++";
-    QMap <QString, QString> effectIds;
+    QMap<QString, QString> effectIds;
     for (int i = 0; i < maxEffects; ++i) {
         QDomNode m = effects.at(i);
         QDomNodeList params = m.childNodes();
@@ -1015,9 +1015,9 @@ const QString KdenliveDoc::getDocumentProperty(const QString &name, const QStrin
     return defaultValue;
 }
 
-QMap <QString, QString> KdenliveDoc::getRenderProperties() const
+QMap<QString, QString> KdenliveDoc::getRenderProperties() const
 {
-    QMap <QString, QString> renderProperties;
+    QMap<QString, QString> renderProperties;
     QMapIterator<QString, QString> i(m_documentProperties);
     while (i.hasNext()) {
         i.next();
@@ -1251,7 +1251,7 @@ void KdenliveDoc::cleanupBackupFiles()
     }
 }
 
-const QMap <QString, QString> KdenliveDoc::metadata() const
+const QMap<QString, QString> KdenliveDoc::metadata() const
 {
     return m_documentMetadata;
 }
@@ -1287,8 +1287,8 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
     }
 
     // Prepare updated properties
-    QMap <QString, QString> newProps;
-    QMap <QString, QString> oldProps;
+    QMap<QString, QString> newProps;
+    QMap<QString, QString> oldProps;
     if (!doProxy) newProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
 
     // Parse clips
@@ -1384,7 +1384,7 @@ void KdenliveDoc::slotProcessModifiedClips()
     if (m_modifiedClips.isEmpty()) m_modifiedTimer.stop();
 }
 
-QMap <QString, QString> KdenliveDoc::documentProperties()
+QMap<QString, QString> KdenliveDoc::documentProperties()
 {
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
     m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));

@@ -1043,7 +1043,7 @@ void Bin::setDocument(KdenliveDoc* project)
     autoSelect();
 }
 
-void Bin::slotAddUrl(const QString &url, int folderId, const QMap <QString, QString> &data)
+void Bin::slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data)
 {
     QList<QUrl>urls;
     urls << QUrl::fromLocalFile(url);
@@ -1059,7 +1059,7 @@ void Bin::slotAddUrl(const QString &url, int folderId, const QMap <QString, QStr
     ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, data);
 }
 
-void Bin::slotAddUrl(const QString &url, const QMap <QString, QString> &data)
+void Bin::slotAddUrl(const QString &url, const QMap<QString, QString> &data)
 {
     QList<QUrl>urls;
     urls << QUrl::fromLocalFile(url);
@@ -2601,11 +2601,11 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QUrl &url, QUndoCommand *com
         return;
     }
     // Maps playlist producer IDs to (project) bin producer IDs.
-    QMap <QString, QString> idMap;
+    QMap<QString, QString> idMap;
     // Maps hash IDs to (project) first playlist producer instance ID. This is
     // necessary to detect duplicate producer serializations produced by MLT.
     // This covers, for instance, images and titles.
-    QMap <QString, QString> hashToIdMap;
+    QMap<QString, QString> hashToIdMap;
     QDir mltRoot(doc.documentElement().attribute(QStringLiteral("root")));
     for (int i = 0; i < producers.count(); i++) {
         QDomElement prod = producers.at(i).toElement();
@@ -2752,7 +2752,7 @@ void Bin::slotCancelRunningJob(const QString &id, const QMap<QString, QString> &
     if (newProps.isEmpty()) return;
     ProjectClip *clip = getBinClip(id);
     if (!clip) return;
-    QMap <QString, QString> oldProps;
+    QMap<QString, QString> oldProps;
     QMapIterator<QString, QString> i(newProps);
     while (i.hasNext()) {
         i.next();
@@ -2846,12 +2846,12 @@ Timecode Bin::projectTimecode() const
     return m_doc->timecode();
 }
 
-void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QString, QString> &filterParams, QMap <QString, QString> &consumerParams, QMap <QString, QString> &extraParams)
+void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams, QMap<QString, QString> &extraParams)
 {
     ProjectClip *clip = getBinClip(id);
     if (!clip) return;
 
-    QMap <QString, QString> producerParams = QMap <QString, QString> ();
+    QMap<QString, QString> producerParams = QMap<QString, QString> ();
     producerParams.insert(QStringLiteral("producer"), clip->url().path());
     if (info.cropDuration != GenTime()) {
         producerParams.insert(QStringLiteral("in"), QString::number((int) info.cropStart.frames(m_doc->fps())));
@@ -3226,7 +3226,7 @@ void Bin::showTitleWidget(ProjectClip *clip)
     }
     dia_ui.setXml(doc);
     if (dia_ui.exec() == QDialog::Accepted) {
-        QMap <QString, QString> newprops;
+        QMap<QString, QString> newprops;
         newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
         if (dia_ui.duration() != clip->duration().frames(m_doc->fps())) {
             // duration changed, we need to update duration
@@ -3332,15 +3332,15 @@ void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QStr
     ProjectClip *clip = m_rootFolder->clip(id);
     if (!clip) return;
     QString oldValue = clip->getProducerProperty(key);
-    QMap <QString, QString> oldProps;
+    QMap<QString, QString> oldProps;
     oldProps.insert(key, oldValue);
-    QMap <QString, QString> newProps;
+    QMap<QString, QString> newProps;
     newProps.insert(key, data);
     EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true, groupCommand);
     if (!groupCommand) m_doc->commandStack()->push(command);
 }
 
-void Bin::slotUpdateClipProperties(const QString &id, const QMap <QString, QString> &properties, bool refreshPropertiesPanel)
+void Bin::slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel)
 {
     ProjectClip *clip = m_rootFolder->clip(id);
     if (clip) {
@@ -3360,7 +3360,7 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
     SlideshowClip *dia = new SlideshowClip(m_doc->timecode(), folder, clip, this);
     if (dia->exec() == QDialog::Accepted) {
         // edit clip properties
-        QMap <QString, QString> properties;
+        QMap<QString, QString> properties;
         properties.insert(QStringLiteral("out"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
         properties.insert(QStringLiteral("length"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
         properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
@@ -3373,7 +3373,7 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
         properties.insert(QStringLiteral("softness"), QString::number(dia->softness()));
         properties.insert(QStringLiteral("animation"), dia->animation());
 
-        QMap <QString, QString> oldProperties;
+        QMap<QString, QString> oldProperties;
         oldProperties.insert(QStringLiteral("out"), clip->getProducerProperty(QStringLiteral("out")));
         oldProperties.insert(QStringLiteral("length"), clip->getProducerProperty(QStringLiteral("length")));
         oldProperties.insert(QStringLiteral("kdenlive:clipname"), clip->name());
