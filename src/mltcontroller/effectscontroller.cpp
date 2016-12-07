@@ -8,7 +8,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -27,64 +27,90 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlive_debug.h"
 #include <QScriptEngine>
 
-EffectInfo::EffectInfo() {isCollapsed = false; groupIndex = -1; groupIsCollapsed = false;}
+EffectInfo::EffectInfo()
+{
+    isCollapsed = false;
+    groupIndex = -1;
+    groupIsCollapsed = false;
+}
 
-QString EffectInfo::toString() const {
+QString EffectInfo::toString() const
+{
     QStringList data;
     // effect collapsed state: 0 = effect not collapsed, 1 = effect collapsed,
     // 2 = group collapsed - effect not, 3 = group and effect collapsed
     int collapsedState = (int) isCollapsed;
-    if (groupIsCollapsed) collapsedState += 2;
+    if (groupIsCollapsed) {
+        collapsedState += 2;
+    }
     data << QString::number(collapsedState) << QString::number(groupIndex) << groupName;
     return data.join(QStringLiteral("/"));
 }
 
-void EffectInfo::fromString(const QString &value) {
-    if (value.isEmpty()) return;
+void EffectInfo::fromString(const QString &value)
+{
+    if (value.isEmpty()) {
+        return;
+    }
     QStringList data = value.split(QStringLiteral("/"));
     isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
     groupIsCollapsed = data.at(0).toInt() >= 2;
-    if (data.count() > 1) groupIndex = data.at(1).toInt();
-    if (data.count() > 2) groupName = data.at(2);
+    if (data.count() > 1) {
+        groupIndex = data.at(1).toInt();
+    }
+    if (data.count() > 2) {
+        groupName = data.at(2);
+    }
 }
-
 
 EffectParameter::EffectParameter(const QString &name, const QString &value): m_name(name), m_value(value) {}
 
-QString EffectParameter::name() const          {
+QString EffectParameter::name() const
+{
     return m_name;
 }
 
-QString EffectParameter::value() const          {
+QString EffectParameter::value() const
+{
     return m_value;
 }
 
-void EffectParameter::setValue(const QString &value) {
+void EffectParameter::setValue(const QString &value)
+{
     m_value = value;
 }
 
-
 EffectsParameterList::EffectsParameterList(): QList < EffectParameter >() {}
 
-bool EffectsParameterList::hasParam(const QString &name) const {
+bool EffectsParameterList::hasParam(const QString &name) const
+{
     for (int i = 0; i < size(); ++i)
-        if (at(i).name() == name) return true;
+        if (at(i).name() == name) {
+            return true;
+        }
     return false;
 }
 
-QString EffectsParameterList::paramValue(const QString &name, const QString &defaultValue) const {
+QString EffectsParameterList::paramValue(const QString &name, const QString &defaultValue) const
+{
     for (int i = 0; i < size(); ++i) {
-        if (at(i).name() == name) return at(i).value();
+        if (at(i).name() == name) {
+            return at(i).value();
+        }
     }
     return defaultValue;
 }
 
-void EffectsParameterList::addParam(const QString &name, const QString &value) {
-    if (name.isEmpty()) return;
+void EffectsParameterList::addParam(const QString &name, const QString &value)
+{
+    if (name.isEmpty()) {
+        return;
+    }
     append(EffectParameter(name, value));
 }
 
-void EffectsParameterList::removeParam(const QString &name) {
+void EffectsParameterList::removeParam(const QString &name)
+{
     for (int i = 0; i < size(); ++i)
         if (at(i).name() == name) {
             removeAt(i);
@@ -103,8 +129,12 @@ EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, c
     }
     parameters.addParam(QStringLiteral("kdenlive_info"), effect.attribute(QStringLiteral("kdenlive_info")));
     parameters.addParam(QStringLiteral("id"), effect.attribute(QStringLiteral("id")));
-    if (effect.hasAttribute(QStringLiteral("src"))) parameters.addParam(QStringLiteral("src"), effect.attribute(QStringLiteral("src")));
-    if (effect.hasAttribute(QStringLiteral("disable"))) parameters.addParam(QStringLiteral("disable"), effect.attribute(QStringLiteral("disable")));
+    if (effect.hasAttribute(QStringLiteral("src"))) {
+        parameters.addParam(QStringLiteral("src"), effect.attribute(QStringLiteral("src")));
+    }
+    if (effect.hasAttribute(QStringLiteral("disable"))) {
+        parameters.addParam(QStringLiteral("disable"), effect.attribute(QStringLiteral("disable")));
+    }
     /*if (effect.hasAttribute(QStringLiteral("in"))) parameters.addParam(QStringLiteral("in"), effect.attribute(QStringLiteral("in")));
     if (effect.hasAttribute(QStringLiteral("out"))) parameters.addParam(QStringLiteral("out"), effect.attribute(QStringLiteral("out")));*/
     if (effect.attribute(QStringLiteral("id")) == QLatin1String("region")) {
@@ -124,7 +154,6 @@ EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, c
     adjustEffectParameters(parameters, params, info);
     return parameters;
 }
-
 
 void EffectsController::adjustEffectParameters(EffectsParameterList &parameters, const QDomNodeList &params, const ProfileInfo &info, const QString &prefix)
 {
@@ -171,11 +200,12 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
             QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
             QString neu;
             QTextStream txtNeu(&neu);
-            if (values.size() > 0)
+            if (values.size() > 0) {
                 txtNeu << (int)values[0].toDouble();
+            }
             for (int i = 0; i < separators.size() && i + 1 < values.size(); ++i) {
                 txtNeu << separators[i];
-                txtNeu << (int)(values[i+1].toDouble());
+                txtNeu << (int)(values[i + 1].toDouble());
             }
             parameters.addParam(QStringLiteral("start"), neu);
         } else {
@@ -195,8 +225,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
     }
 }
 
-
-double EffectsController::getStringEval(const ProfileInfo &info, QString eval, const QPoint& frameSize)
+double EffectsController::getStringEval(const ProfileInfo &info, QString eval, const QPoint &frameSize)
 {
     QScriptEngine sEngine;
     sEngine.globalObject().setProperty(QStringLiteral("maxWidth"), info.profileSize.width() > frameSize.x() ? info.profileSize.width() : frameSize.x());
@@ -220,8 +249,9 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
         QDomElement e = params.item(i).toElement();
         const QString type = e.attribute(QStringLiteral("type"));
 
-        if (e.isNull())
+        if (e.isNull()) {
             continue;
+        }
 
         bool hasValue = e.hasAttribute(QStringLiteral("value"));
         // Check if this effect has a variable parameter, init effects default value
@@ -238,19 +268,20 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
                 if (e.attribute(QStringLiteral("value")).startsWith('%')) {
                     e.setAttribute(QStringLiteral("value"), evaluatedValue);
                 }
-            } else e.setAttribute(QStringLiteral("value"), evaluatedValue);
+            } else {
+                e.setAttribute(QStringLiteral("value"), evaluatedValue);
+            }
         } else {
             if (type == QLatin1String("animated") && !hasValue) {
                 e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(0, e.attribute(QStringLiteral("default"))));
-            }
-            else if (!hasValue) {
+            } else if (!hasValue) {
                 e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
             }
         }
     }
 }
 
-void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, const EffectsList &list, const QString& proxy, QDomElement effect, int diff, int offset)
+void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, const EffectsList &list, const QString &proxy, QDomElement effect, int diff, int offset)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
@@ -264,8 +295,9 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
         QDomElement e = params.item(i).toElement();
         const QString type = e.attribute(QStringLiteral("type"));
 
-        if (e.isNull())
+        if (e.isNull()) {
             continue;
+        }
 
         bool hasValue = e.hasAttribute(QStringLiteral("value"));
         // Check if this effect has a variable parameter, init effects default value
@@ -282,27 +314,28 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
                 if (e.attribute(QStringLiteral("value")).startsWith('%')) {
                     e.setAttribute(QStringLiteral("value"), evaluatedValue);
                 }
-            } else e.setAttribute(QStringLiteral("value"), evaluatedValue);
+            } else {
+                e.setAttribute(QStringLiteral("value"), evaluatedValue);
+            }
         } else {
             if (type == QLatin1String("animated") && !hasValue) {
                 e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(info.cropStart.frames(fps), e.attribute(QStringLiteral("default"))));
-            }
-            else if (!hasValue) {
+            } else if (!hasValue) {
                 e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
             }
         }
 
         if (effect.attribute(QStringLiteral("id")) == QLatin1String("crop")) {
             // default use_profile to 1 for clips with proxies to avoid problems when rendering
-            if (e.attribute(QStringLiteral("name")) == QLatin1String("use_profile") && !(proxy.isEmpty() || proxy == QLatin1String("-")))
+            if (e.attribute(QStringLiteral("name")) == QLatin1String("use_profile") && !(proxy.isEmpty() || proxy == QLatin1String("-"))) {
                 e.setAttribute(QStringLiteral("value"), QStringLiteral("1"));
+            }
         }
         if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
             if (e.attribute(QStringLiteral("keyframes")).isEmpty()) {
                 // Effect has a keyframe type parameter, we need to set the values
                 e.setAttribute(QStringLiteral("keyframes"), QString::number((int) info.cropStart.frames(fps)) + '=' + e.attribute(QStringLiteral("default")));
-            }
-            else {
+            } else {
                 // adjust keyframes to this clip
                 QString adjusted = adjustKeyframes(e.attribute(QStringLiteral("keyframes")), offset, info.cropStart.frames(fps), (info.cropStart + info.cropDuration).frames(fps) - 1, pInfo);
                 e.setAttribute(QStringLiteral("keyframes"), adjusted);
@@ -312,7 +345,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
         if (EffectsList::parameter(effect, QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")  || (type == QLatin1String("geometry") && !e.hasAttribute(QStringLiteral("fixed")))) {
             // Effects with a geometry parameter need to sync in / out with parent clip
             effect.setAttribute(QStringLiteral("in"), QString::number((int) info.cropStart.frames(fps)));
-            effect.setAttribute(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(fps) - 1));
+            effect.setAttribute(QStringLiteral("out"), QString::number((int)(info.cropStart + info.cropDuration).frames(fps) - 1));
             effect.setAttribute(QStringLiteral("sync_in_out"), QStringLiteral("1"));
         }
     }
@@ -351,27 +384,31 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
             if (effect.attribute(QStringLiteral("id")) == QLatin1String("fadein")) {
                 if (list.hasEffect(QString(), QStringLiteral("fade_from_black")) == -1) {
                     int effectDuration = EffectsList::parameter(effect, QStringLiteral("out")).toInt();
-                    if (offset != 0) effectDuration -= offset;
+                    if (offset != 0) {
+                        effectDuration -= offset;
+                    }
                     if (effectDuration > info.cropDuration.frames(fps)) {
                         effectDuration = info.cropDuration.frames(fps) / 2;
                     }
                     end += effectDuration;
                 } else {
-		    QDomElement fadein = list.getEffectByTag(QString(), QStringLiteral("fade_from_black"));
+                    QDomElement fadein = list.getEffectByTag(QString(), QStringLiteral("fade_from_black"));
                     end = EffectsList::parameter(fadein, QStringLiteral("out")).toInt() - offset;
-		}
+                }
             } else if (effect.attribute(QStringLiteral("id")) == QStringLiteral("fade_from_black")) {
                 if (list.hasEffect(QString(), QStringLiteral("fadein")) == -1) {
                     int effectDuration = EffectsList::parameter(effect, QStringLiteral("out")).toInt();
-                    if (offset != 0) effectDuration -= offset;
+                    if (offset != 0) {
+                        effectDuration -= offset;
+                    }
                     if (effectDuration > info.cropDuration.frames(fps)) {
                         effectDuration = info.cropDuration.frames(fps) / 2;
                     }
                     end += effectDuration;
                 } else {
-		    QDomElement fadein = list.getEffectByTag(QString(), QStringLiteral("fadein"));
+                    QDomElement fadein = list.getEffectByTag(QString(), QStringLiteral("fadein"));
                     end = EffectsList::parameter(fadein, QStringLiteral("out")).toInt() - offset;
-		}
+                }
             }
             EffectsList::setParameter(effect, QStringLiteral("in"), QString::number(start));
             EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(end));
@@ -387,7 +424,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
     int max = newOut - newIn;
     QLocale locale;
     const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
-    foreach(const QString &keyframe, list) {
+    foreach (const QString &keyframe, list) {
         const int pos = keyframe.section('=', 0, 0).toInt() + offset;
         const QString newKey = QString::number(pos) + '=' + keyframe.section('=', 1);
         if (pos >= newOut) {
@@ -417,11 +454,17 @@ EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, const
     EffectsParameterList parameters;
     parameters.addParam(QStringLiteral("tag"), effect.attribute(QStringLiteral("tag")));
     parameters.addParam(QStringLiteral("kdenlive_ix"), effect.attribute(QStringLiteral("kdenlive_ix")));
-    if (effect.hasAttribute(QStringLiteral("src"))) parameters.addParam(QStringLiteral("src"), effect.attribute(QStringLiteral("src")));
-    if (effect.hasAttribute(QStringLiteral("disable"))) parameters.addParam(QStringLiteral("disable"), effect.attribute(QStringLiteral("disable")));
+    if (effect.hasAttribute(QStringLiteral("src"))) {
+        parameters.addParam(QStringLiteral("src"), effect.attribute(QStringLiteral("src")));
+    }
+    if (effect.hasAttribute(QStringLiteral("disable"))) {
+        parameters.addParam(QStringLiteral("disable"), effect.attribute(QStringLiteral("disable")));
+    }
 
     QString effectId = effect.attribute(QStringLiteral("id"));
-    if (effectId.isEmpty()) effectId = effect.attribute(QStringLiteral("tag"));
+    if (effectId.isEmpty()) {
+        effectId = effect.attribute(QStringLiteral("tag"));
+    }
     parameters.addParam(QStringLiteral("id"), effectId);
 
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
@@ -484,5 +527,4 @@ void EffectsController::offsetKeyframes(int in, const QDomElement &effect)
         }
     }
 }
-
 

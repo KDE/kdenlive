@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "clipmanager.h"
 #include "mltcontroller/clipcontroller.h"
 #include "kdenlivesettings.h"
@@ -35,7 +34,6 @@
 #include "bin/bin.h"
 
 #include <mlt++/Mlt.h>
-
 
 #include <KIO/JobUiDelegate>
 #include <KIO/MkdirJob>
@@ -101,7 +99,7 @@ void ClipManager::clearCache()
     pixmapCache->clear();
 }
 
-void ClipManager::slotRequestThumbs(const QString &id, const QList<int>& frames)
+void ClipManager::slotRequestThumbs(const QString &id, const QList<int> &frames)
 {
     m_thumbsMutex.lock();
     foreach (int frame, frames) {
@@ -115,7 +113,9 @@ void ClipManager::slotRequestThumbs(const QString &id, const QList<int>& frames)
 
 void ClipManager::stopThumbs(const QString &id)
 {
-    if (m_closing || (m_requestedThumbs.isEmpty() && m_processingThumbId != id && m_audioThumbsQueue.isEmpty() && m_processingAudioThumbId != id)) return;
+    if (m_closing || (m_requestedThumbs.isEmpty() && m_processingThumbId != id && m_audioThumbsQueue.isEmpty() && m_processingAudioThumbId != id)) {
+        return;
+    }
     // Abort video thumbs for this clip
     m_abortThumb = true;
     m_thumbsThread.waitForFinished();
@@ -131,7 +131,7 @@ void ClipManager::stopThumbs(const QString &id)
         m_audioThumbsThread.waitForFinished();
         m_abortAudioThumb = false;
     }
-    
+
     if (!m_thumbsThread.isRunning() && !m_requestedThumbs.isEmpty()) {
         m_thumbsThread = QtConcurrent::run(this, &ClipManager::slotGetThumbs);
     }
@@ -140,7 +140,7 @@ void ClipManager::stopThumbs(const QString &id)
 void ClipManager::slotGetThumbs()
 {
     QMap<QString, int>::const_iterator i;
-    
+
     while (!m_requestedThumbs.isEmpty() && !m_abortThumb) {
         m_thumbsMutex.lock();
         i = m_requestedThumbs.constBegin();
@@ -199,12 +199,12 @@ void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringLi
         // Deleting folder only
         if (!subClipIds.isEmpty()) {
             deleteCommand->setText(i18np("Delete subclip", "Delete subclips", subClipIds.count()));
-        }
-        else {
+        } else {
             deleteCommand->setText(i18np("Delete folder", "Delete folders", folderIds.count()));
         }
+    } else {
+        deleteCommand->setText(i18np("Delete clip", "Delete clips", clipIds.count()));
     }
-    else deleteCommand->setText(i18np("Delete clip", "Delete clips", clipIds.count()));
     if (pCore->projectManager()->currentTimeline()) {
         // Remove clips from timeline
         if (!clipIds.isEmpty()) {
@@ -222,9 +222,9 @@ void ClipManager::doDeleteClips(const QStringList &clipIds, const QStringList &f
     for (int i = 0; i < clipIds.size(); ++i) {
         QString xml = pCore->binController()->xmlFromId(clipIds.at(i));
         if (!xml.isEmpty()) {
-	    QDomDocument doc;
-	    doc.setContent(xml);
-            new AddClipCommand(pCore->bin(), doc.documentElement(), clipIds.at(i), false, deleteCommand);	    
+            QDomDocument doc;
+            doc.setContent(xml);
+            new AddClipCommand(pCore->bin(), doc.documentElement(), clipIds.at(i), false, deleteCommand);
         }
     }
     for (int i = 0; i < folderIds.size(); ++i) {
@@ -239,11 +239,10 @@ void ClipManager::doDeleteClips(const QStringList &clipIds, const QStringList &f
     }
 }
 
-void ClipManager::slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst)
+void ClipManager::slotAddCopiedClip(KIO::Job *, const QUrl &, const QUrl &dst)
 {
     pCore->bin()->droppedUrls(QList<QUrl>() << dst);
 }
-
 
 void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &path, const QString &group, const QString &groupId)
 {
@@ -275,7 +274,9 @@ void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &
     }
     txtfile.close();
 
-    if (duration == 0) duration = m_doc->getFramePos(KdenliveSettings::title_duration());
+    if (duration == 0) {
+        duration = m_doc->getFramePos(KdenliveSettings::title_duration());
+    }
     prod.setAttribute(QStringLiteral("duration"), duration - 1);
     prod.setAttribute(QStringLiteral("out"), duration - 1);
 
@@ -312,7 +313,7 @@ QString ClipManager::groupsXml()
 {
     QMutexLocker lock(&m_groupsMutex);
     if (m_groupsList.isEmpty()) {
-	return QString();
+        return QString();
     }
     QDomDocument doc;
     QDomElement groups = doc.createElement(QStringLiteral("groups"));
@@ -366,7 +367,6 @@ void ClipManager::slotClipAvailable(const QString &path)
 }
 */
 
-
 bool ClipManager::isOnRemovableDevice(const QUrl &url)
 {
     //SolidVolumeInfo volume;
@@ -375,13 +375,10 @@ bool ClipManager::isOnRemovableDevice(const QUrl &url)
 
     //FIXME: Network shares! Here we get only the volume of the mount path...
     // This is probably not really clean. But Solid does not help us.
-    foreach (const SolidVolumeInfo &v, m_removableVolumes)
-    {
-        if (v.isMounted && !v.path.isEmpty() && path.startsWith(v.path))
-        {
+    foreach (const SolidVolumeInfo &v, m_removableVolumes) {
+        if (v.isMounted && !v.path.isEmpty() && path.startsWith(v.path)) {
             int length = v.path.length();
-            if (length > volumeMatch)
-            {
+            if (length > volumeMatch) {
                 volumeMatch = v.path.length();
                 //volume = v;
             }
@@ -401,6 +398,4 @@ void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QIma
         emit thumbReady(id, frame, img);
     }
 }
-
-
 

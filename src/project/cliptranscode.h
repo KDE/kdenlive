@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef CLIPTRANSCODE_H
 #define CLIPTRANSCODE_H
-
 
 #include "ui_cliptranscode_ui.h"
 
@@ -34,12 +32,11 @@ class ClipTranscode : public QDialog, public Ui::ClipTranscode_UI
     Q_OBJECT
 
 public:
-    ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description, const QStringList &folderInfo = QStringList(), bool automaticMode = false, QWidget * parent = Q_NULLPTR);
+    ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description, const QStringList &folderInfo = QStringList(), bool automaticMode = false, QWidget *parent = Q_NULLPTR);
     ~ClipTranscode();
 
 public slots:
     void slotStartTransCode();
-
 
 private slots:
     void slotShowTranscodeInfo();
@@ -56,12 +53,11 @@ private:
     QString m_destination;
     QStringList m_postParams;
     KMessageWidget *m_infoMessage;
-    
+
 signals:
     void addClip(const QUrl &url, const QStringList &folderInfo = QStringList());
     void transcodedClip(const QUrl &source, const QUrl &result);
 };
-
 
 #endif
 

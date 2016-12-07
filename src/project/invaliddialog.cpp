@@ -43,7 +43,7 @@ InvalidDialog::InvalidDialog(const QString &caption, const QString &message, boo
         buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
         okButton = buttonBox->button(QDialogButtonBox::Ok);
     } else {
-        buttonBox = new QDialogButtonBox(QDialogButtonBox::No|QDialogButtonBox::Yes);
+        buttonBox = new QDialogButtonBox(QDialogButtonBox::No | QDialogButtonBox::Yes);
         okButton = buttonBox->button(QDialogButtonBox::Yes);
     }
     okButton->setDefault(true);

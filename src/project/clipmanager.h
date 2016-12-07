@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef CLIPMANAGER_H
 #define CLIPMANAGER_H
 
@@ -30,10 +29,8 @@
 #include <KIO/CopyJob>
 #include <kimagecache.h>
 
-
 #include "gentime.h"
 #include "definitions.h"
-
 
 class KdenliveDoc;
 class AbstractGroupItem;
@@ -49,7 +46,10 @@ public:
     bool isRemovable; // may be removed
     bool isMounted;
 
-    bool isNull() const { return path.isNull(); }
+    bool isNull() const
+    {
+        return path.isNull();
+    }
 };
 
 namespace Mlt
@@ -83,7 +83,7 @@ Q_OBJECT public:
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);
-    KImageCache* pixmapCache;
+    KImageCache *pixmapCache;
 
 public slots:
     /** @brief Request creation of a clip thumbnail for specified frames. */
@@ -92,7 +92,7 @@ public slots:
 private slots:
     void slotGetThumbs();
     /** @brief Clip has been copied, add it now. */
-    void slotAddCopiedClip(KIO::Job*, const QUrl&, const QUrl &dst);
+    void slotAddCopiedClip(KIO::Job *, const QUrl &, const QUrl &dst);
 
 private:   // Private attributes
     /** @brief the list of groups in the document */
@@ -134,8 +134,8 @@ signals:
     void availableClip(const QString &);
     void checkAllClips(bool displayRatioChanged, bool fpsChanged, const QStringList &brokenClips);
     void displayMessage(const QString &, int);
-    void thumbReady(const QString &id, int, const QImage&);
-    void gotClipPropertyThumbnail(const QString &id, const QImage&);
+    void thumbReady(const QString &id, int, const QImage &);
+    void gotClipPropertyThumbnail(const QString &id, const QImage &);
 };
 
 #endif

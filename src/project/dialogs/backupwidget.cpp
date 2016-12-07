@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "backupwidget.h"
 #include "kdenlivesettings.h"
 
@@ -25,9 +24,9 @@
 #include <QDir>
 #include <QPushButton>
 
-BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget * parent) :
-        QDialog(parent)
-        , m_projectFolder(projectFolder)
+BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget *parent) :
+    QDialog(parent)
+    , m_projectFolder(projectFolder)
 {
     setupUi(this);
     setWindowTitle(i18n("Restore Backup File"));
@@ -39,8 +38,9 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, co
     } else {
         info_label->setText(i18n("Showing backup files for %1", projectUrl.fileName()));
         m_projectWildcard = projectUrl.fileName().section('.', 0, -2);
-        if (!projectId.isEmpty()) m_projectWildcard.append('-' + projectId);
-        else {
+        if (!projectId.isEmpty()) {
+            m_projectWildcard.append('-' + projectId);
+        } else {
             // No project id, it was lost, add wildcard
             m_projectWildcard.append('*');
         }
@@ -68,7 +68,7 @@ void BackupWidget::slotParseBackupFiles()
     QStringList filter;
     filter << m_projectWildcard;
     backup_list->clear();
-    
+
     // Parse new XDG backup folder $HOME/.local/share/kdenlive/.backup
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
     backupFolder.setNameFilters(filter);
@@ -83,7 +83,7 @@ void BackupWidget::slotParseBackupFiles()
         item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
         item->setToolTip(resultList.at(i).absoluteFilePath());
     }
-    
+
     // Parse old $HOME/kdenlive/.backup folder
     QDir dir(m_projectFolder.toLocalFile() + QStringLiteral("/.backup"));
     if (dir.exists()) {
@@ -100,7 +100,7 @@ void BackupWidget::slotParseBackupFiles()
             item->setToolTip(resultList.at(i).absoluteFilePath());
         }
     }
-    
+
     buttonBox->button(QDialogButtonBox::Open)->setEnabled(backup_list->count() > 0);
 }
 
@@ -117,10 +117,9 @@ void BackupWidget::slotDisplayBackupPreview()
 
 QString BackupWidget::selectedFile() const
 {
-    if (!backup_list->currentItem())
+    if (!backup_list->currentItem()) {
         return QString();
+    }
     return backup_list->currentItem()->data(Qt::UserRole).toString();
 }
-
-
 

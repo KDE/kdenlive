@@ -21,7 +21,7 @@ class QDockWidget;
 /**
  * @class NotesPlugin
  * @brief Handles connection of NotesWidget
- * 
+ *
  * Supposed to become a plugin/ProjectPart (@see refactoring branch).
  */
 

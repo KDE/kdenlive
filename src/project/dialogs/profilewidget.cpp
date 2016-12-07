@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -32,8 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KCollapsibleGroupBox>
 #endif
 
-ProfileWidget::ProfileWidget(QWidget* parent) :
-        QWidget(parent)
+ProfileWidget::ProfileWidget(QWidget *parent) :
+    QWidget(parent)
 {
     QGridLayout *lay = new QGridLayout;
     QLabel *lab = new QLabel(i18n("Resolution"), this);
@@ -127,46 +127,46 @@ void ProfileWidget::loadProfile(QString profile)
     QList <MltVideoProfile> list = ProfilesDialog::profilesList();
     for (int i = 0; i < list.count(); i++) {
         MltVideoProfile prof = list.at(i);
-        switch(prof.height) {
-            case 2160:
-                if (prof.width == 3840) {
-                    m_list4K.append(prof);
-                } else if (prof.width == 5120) {
-                    m_list4KWide.append(prof);
-                } else if (prof.width == 4096) {
-                    m_list4KDCI.append(prof);
-                } else {
-                    m_listCustom.append(prof);
-                }
-                break;
-            case 1440:
-                m_list2K.append(prof);
-                break;
-            case 1080:
-                if (prof.width == 1920) {
-                    m_listFHD.append(prof);
-                } else {
-                    m_listCustom.append(prof);
-                }
-                break;
-            case 720:
-                m_listHD.append(prof);
-                break;
-            case 576:
-            case 480:
-                if (prof.width != 720)
-                    m_listCustom.append(prof);
-                else if (prof.display_aspect_num == 4) {
-                    m_listSD.append(prof);
-                } else if (prof.display_aspect_num == 16) {
-                    m_listSDWide.append(prof);
-                } else {
-                    m_listCustom.append(prof);
-                }
-                break;
-            default:
+        switch (prof.height) {
+        case 2160:
+            if (prof.width == 3840) {
+                m_list4K.append(prof);
+            } else if (prof.width == 5120) {
+                m_list4KWide.append(prof);
+            } else if (prof.width == 4096) {
+                m_list4KDCI.append(prof);
+            } else {
                 m_listCustom.append(prof);
-                break;
+            }
+            break;
+        case 1440:
+            m_list2K.append(prof);
+            break;
+        case 1080:
+            if (prof.width == 1920) {
+                m_listFHD.append(prof);
+            } else {
+                m_listCustom.append(prof);
+            }
+            break;
+        case 720:
+            m_listHD.append(prof);
+            break;
+        case 576:
+        case 480:
+            if (prof.width != 720) {
+                m_listCustom.append(prof);
+            } else if (prof.display_aspect_num == 4) {
+                m_listSD.append(prof);
+            } else if (prof.display_aspect_num == 16) {
+                m_listSDWide.append(prof);
+            } else {
+                m_listCustom.append(prof);
+            }
+            break;
+        default:
+            m_listCustom.append(prof);
+            break;
         }
     }
     if (!m_list4KDCI.isEmpty()) {
@@ -202,37 +202,36 @@ void ProfileWidget::loadProfile(QString profile)
     updateList();
 }
 
-
 QList <MltVideoProfile> ProfileWidget::getList(VIDEOSTD std)
 {
     switch (std) {
-        case Std4KDCI:
-            return m_list4KDCI;
-            break;
-        case Std4KWide:
-            return m_list4KWide;
-            break;
-        case Std4K:
-            return m_list4K;
-            break;
-        case Std2K:
-            return m_list2K;
-            break;
-        case StdFHD:
-            return m_listFHD;
-            break;
-        case StdHD:
-            return m_listHD;
-            break;
-        case StdSD:
-            return m_listSD;
-            break;
-        case StdSDWide:
-            return m_listSDWide;
-            break;
-        default:
-            return m_listCustom;
-            break;
+    case Std4KDCI:
+        return m_list4KDCI;
+        break;
+    case Std4KWide:
+        return m_list4KWide;
+        break;
+    case Std4K:
+        return m_list4K;
+        break;
+    case Std2K:
+        return m_list2K;
+        break;
+    case StdFHD:
+        return m_listFHD;
+        break;
+    case StdHD:
+        return m_listHD;
+        break;
+    case StdSD:
+        return m_listSD;
+        break;
+    case StdSDWide:
+        return m_listSDWide;
+        break;
+    default:
+        return m_listCustom;
+        break;
     }
 }
 
@@ -261,8 +260,9 @@ void ProfileWidget::updateList()
         } else {
             text = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
         }
-        if (!frameRates.contains(text))
+        if (!frameRates.contains(text)) {
             frameRates << text;
+        }
     }
     if (frameRates.isEmpty()) {
         m_rate_list->setEnabled(false);
@@ -297,8 +297,6 @@ void ProfileWidget::ratesUpdated()
     updateDisplay();
 }
 
-
-
 QStringList ProfileWidget::getFrameSizes(const QList <MltVideoProfile> &currentStd, const QString &rate)
 {
     QStringList sizes;
@@ -310,11 +308,13 @@ QStringList ProfileWidget::getFrameSizes(const QList <MltVideoProfile> &currentS
         } else {
             fps = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
         }
-        if (fps != rate)
+        if (fps != rate) {
             continue;
+        }
         QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
-        if (!sizes.contains(res))
+        if (!sizes.contains(res)) {
             sizes << res;
+        }
     }
     qSort(sizes);
     return sizes;
@@ -339,15 +339,18 @@ void ProfileWidget::checkInterlace(const QList <MltVideoProfile> &currentStd, co
         } else {
             fps = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
         }
-        if (fps != rate)
+        if (fps != rate) {
             continue;
+        }
         QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
-        if (res != size)
+        if (res != size) {
             continue;
-        if (prof.progressive)
+        }
+        if (prof.progressive) {
             allowProgressive = true;
-        else
+        } else {
             allowInterlaced = true;
+        }
     }
     m_interlaced->setChecked(!m_currentProfile.progressive);
     m_interlaced->setEnabled(allowInterlaced && allowProgressive);
@@ -355,36 +358,38 @@ void ProfileWidget::checkInterlace(const QList <MltVideoProfile> &currentStd, co
 
 ProfileWidget::VIDEOSTD ProfileWidget::getStandard(const MltVideoProfile &profile)
 {
-    switch(profile.height) {
-        case 2160:
-            return Std4K;
-            break;
-        case 1440:
-            return Std2K;
-            break;
-        case 1080:
-            if (profile.width != 1920)
-                return StdCustom;
-            else 
-                return StdFHD;
-            break;
-        case 720:
-            return StdHD;
-            break;
-        case 576:
-        case 480:
-            if (profile.width != 720)
-                return StdCustom;
-            else if (profile.display_aspect_num == 4)
-                return StdSD;
-            else if (profile.display_aspect_num == 16)
-                return StdSDWide;
-            else
-                return StdCustom;
-            break;
-        default:
+    switch (profile.height) {
+    case 2160:
+        return Std4K;
+        break;
+    case 1440:
+        return Std2K;
+        break;
+    case 1080:
+        if (profile.width != 1920) {
             return StdCustom;
-            break;
+        } else {
+            return StdFHD;
+        }
+        break;
+    case 720:
+        return StdHD;
+        break;
+    case 576:
+    case 480:
+        if (profile.width != 720) {
+            return StdCustom;
+        } else if (profile.display_aspect_num == 4) {
+            return StdSD;
+        } else if (profile.display_aspect_num == 16) {
+            return StdSDWide;
+        } else {
+            return StdCustom;
+        }
+        break;
+    default:
+        return StdCustom;
+        break;
     }
 }
 
@@ -409,13 +414,16 @@ void ProfileWidget::updateDisplay()
         } else {
             fps = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
         }
-        if (fps != rate)
+        if (fps != rate) {
             continue;
+        }
         QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
-        if (res != size)
+        if (res != size) {
             continue;
-        if (prof.progressive == interlaced)
+        }
+        if (prof.progressive == interlaced) {
             continue;
+        }
         // Profile matches current properties
         matching << prof;
     }
@@ -483,22 +491,28 @@ void ProfileWidget::selectProfile()
         } else {
             fps = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
         }
-        if (fps != rate)
+        if (fps != rate) {
             continue;
+        }
         QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
-        if (res != size)
+        if (res != size) {
             continue;
-        if (prof.progressive == interlaced)
+        }
+        if (prof.progressive == interlaced) {
             continue;
+        }
         res = QStringLiteral("%1:%2").arg(prof.display_aspect_num).arg(prof.display_aspect_den);
-        if (res != display)
+        if (res != display) {
             continue;
+        }
         res = QStringLiteral("%1:%2").arg(prof.sample_aspect_num).arg(prof.sample_aspect_den);
-        if (res != sample)
+        if (res != sample) {
             continue;
+        }
         res = ProfilesDialog::getColorspaceDescription(prof.colorspace);
-        if (res != color)
+        if (res != color) {
             continue;
+        }
         found = true;
         m_currentProfile = prof;
         break;
@@ -517,5 +531,4 @@ void ProfileWidget::slotEditProfiles()
     loadProfile(m_currentProfile.path);
     delete w;
 }
-
 

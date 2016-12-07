@@ -21,9 +21,7 @@
 #ifndef CUTCLIPJOB
 #define CUTCLIPJOB
 
-
 #include "abstractclipjob.h"
-
 
 class ProjectClip;
 
@@ -52,7 +50,7 @@ public:
     bool isExclusive() Q_DECL_OVERRIDE;
     static QHash <ProjectClip *, AbstractClipJob *> prepareTranscodeJob(double fps, const QList<ProjectClip *> &ids,  const QStringList &parameters);
     static QHash <ProjectClip *, AbstractClipJob *> prepareCutClipJob(double fps, double originalFps, ProjectClip *clip);
-    static QHash <ProjectClip *, AbstractClipJob *> prepareAnalyseJob(double fps, const QList <ProjectClip*> &clips, const QStringList &parameters);
+    static QHash <ProjectClip *, AbstractClipJob *> prepareAnalyseJob(double fps, const QList <ProjectClip *> &clips, const QStringList &parameters);
     static QList <ProjectClip *> filterClips(const QList<ProjectClip *> &clips, const QStringList &params);
 
 private:

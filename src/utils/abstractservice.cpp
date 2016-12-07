@@ -18,19 +18,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "abstractservice.h"
 
 #include <QObject>
 
-
-AbstractService::AbstractService(QListWidget *listWidget, QObject * parent) :
-        QObject(parent),
-        hasPreview(false),
-        hasMetadata(false),
-        inlineDownload(false),
-        serviceType(NOSERVICE),
-        m_listWidget(listWidget)
+AbstractService::AbstractService(QListWidget *listWidget, QObject *parent) :
+    QObject(parent),
+    hasPreview(false),
+    hasMetadata(false),
+    inlineDownload(false),
+    serviceType(NOSERVICE),
+    m_listWidget(listWidget)
 {
 }
 
@@ -38,7 +36,7 @@ AbstractService::~AbstractService()
 {
 }
 
-void AbstractService::slotStartSearch(const QString & , int )
+void AbstractService::slotStartSearch(const QString &, int)
 {
 }
 
@@ -62,11 +60,8 @@ QString AbstractService::getExtension(QListWidgetItem *)
     return QString();
 }
 
-
 QString AbstractService::getDefaultDownloadName(QListWidgetItem *)
 {
     return QString();
 }
-
-
 

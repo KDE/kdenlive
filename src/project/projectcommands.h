@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef PROJECTCOMMANDS_H
 #define PROJECTCOMMANDS_H
 
@@ -29,11 +28,10 @@
 class ProjectList;
 class ProjectClip;
 
-
 class AddClipCutCommand : public QUndoCommand
 {
 public:
-    AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove, QUndoCommand * parent = Q_NULLPTR);
+    AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -62,7 +60,7 @@ private:
 class EditClipCutCommand : public QUndoCommand
 {
 public:
-    EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand * parent = Q_NULLPTR);
+    EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -92,7 +90,7 @@ private:
 class AddMarkerCommand : public QUndoCommand
 {
 public:
-    AddMarkerCommand(ProjectClip *clip, QList <CommentedTime> &oldMarkers, QList <CommentedTime> &newMarkers, QUndoCommand * parent = Q_NULLPTR);
+    AddMarkerCommand(ProjectClip *clip, QList <CommentedTime> &oldMarkers, QList <CommentedTime> &newMarkers, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:

@@ -22,24 +22,21 @@
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 
-
-
 AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, QObject *parent) :
-        QObject(parent),
-        clipType(cType),
-        jobType(type),
-        replaceClip(false),
-        m_jobStatus(NoJob),
-        m_clipId(id),
-        m_addClipToProject(-100),
-        m_jobProcess(Q_NULLPTR)
+    QObject(parent),
+    clipType(cType),
+    jobType(type),
+    replaceClip(false),
+    m_jobStatus(NoJob),
+    m_clipId(id),
+    m_addClipToProject(-100),
+    m_jobProcess(Q_NULLPTR)
 {
 }
 
 AbstractClipJob::~AbstractClipJob()
 {
 }
-
 
 int AbstractClipJob::addClipToProject() const
 {
@@ -103,7 +100,4 @@ bool AbstractClipJob::isExclusive()
 {
     return true;
 }
-
-
-
 

@@ -67,7 +67,7 @@ public:
     virtual bool isExclusive();
     int addClipToProject() const;
     void setAddClipToProject(int add);
-    
+
 protected:
     ClipJobStatus m_jobStatus;
     QString m_clipId;
@@ -75,12 +75,11 @@ protected:
     QString m_logDetails;
     int m_addClipToProject;
     QProcess *m_jobProcess;
-    
-signals:
-    void jobProgress(const QString&, int, int);
-    void cancelRunningJob(const QString &, const QMap<QString, QString>&);
-};
 
+signals:
+    void jobProgress(const QString &, int, int);
+    void cancelRunningJob(const QString &, const QMap<QString, QString> &);
+};
 
 #endif
 

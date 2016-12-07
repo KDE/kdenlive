@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef ARCHIVEWIDGET_H
 #define ARCHIVEWIDGET_H
-
 
 #include "ui_archivewidget_ui.h"
 
@@ -50,19 +48,19 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController*> &list, const QStringList &luma_list, QWidget * parent = Q_NULLPTR);
+    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController *> &list, const QStringList &luma_list, QWidget *parent = Q_NULLPTR);
     // Constructor for extracting widget
-    explicit ArchiveWidget(const QUrl &url, QWidget * parent = Q_NULLPTR);
+    explicit ArchiveWidget(const QUrl &url, QWidget *parent = Q_NULLPTR);
     ~ArchiveWidget();
 
     QString extractedProjectFile() const;
-    
+
 private slots:
     void slotCheckSpace();
     bool slotStartArchiving(bool firstPass = true);
     void slotArchivingFinished(KJob *job = Q_NULLPTR, bool finished = false);
     void slotArchivingProgress(KJob *, qulonglong);
-    void done ( int r ) Q_DECL_OVERRIDE;
+    void done(int r) Q_DECL_OVERRIDE;
     bool closeAccepted();
     void createArchive();
     void slotArchivingProgress(int);
@@ -71,15 +69,15 @@ private slots:
     void doExtracting();
     void slotExtractingFinished();
     void slotExtractProgress();
-    void slotGotProgress(KJob*);
+    void slotGotProgress(KJob *);
     void openArchiveForExtraction();
     void slotDisplayMessage(const QString &icon, const QString &text);
     void slotJobResult(bool success, const QString &text);
     void slotProxyOnly(int onlyProxy);
 
 protected:
-    void closeEvent ( QCloseEvent * e ) Q_DECL_OVERRIDE;
-    
+    void closeEvent(QCloseEvent *e) Q_DECL_OVERRIDE;
+
 private:
     KIO::filesize_t m_requestedSize;
     KIO::CopyJob *m_copyJob;
@@ -113,7 +111,6 @@ signals:
     void extractingFinished();
     void showMessage(const QString &, const QString &);
 };
-
 
 #endif
 

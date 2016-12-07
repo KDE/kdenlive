@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "archivewidget.h"
 #include "projectsettings.h"
 #include "titler/titlewidget.h"
@@ -35,18 +34,18 @@
 #include <QTreeWidget>
 #include <QtConcurrent>
 
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController*> &list, const QStringList &luma_list, QWidget * parent) :
-        QDialog(parent)
-        , m_requestedSize(0)
-        , m_copyJob(Q_NULLPTR)
-        , m_name(projectName.section('.', 0, -2))
-        , m_doc(doc)
-	, m_temp(Q_NULLPTR)
-        , m_abortArchive(false)
-        , m_extractMode(false)
-	, m_progressTimer(Q_NULLPTR)
-        , m_extractArchive(Q_NULLPTR)
-        , m_missingClips(0)
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController *> &list, const QStringList &luma_list, QWidget *parent) :
+    QDialog(parent)
+    , m_requestedSize(0)
+    , m_copyJob(Q_NULLPTR)
+    , m_name(projectName.section('.', 0, -2))
+    , m_doc(doc)
+    , m_temp(Q_NULLPTR)
+    , m_abortArchive(false)
+    , m_extractMode(false)
+    , m_progressTimer(Q_NULLPTR)
+    , m_extractArchive(Q_NULLPTR)
+    , m_missingClips(0)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
@@ -90,12 +89,12 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     lumas->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     lumas->setData(0, Qt::UserRole, "lumas");
     lumas->setExpanded(false);
-    
+
     QTreeWidgetItem *proxies = new QTreeWidgetItem(files_list, QStringList() << i18n("Proxy clips"));
     proxies->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
     proxies->setData(0, Qt::UserRole, "proxy");
     proxies->setExpanded(false);
-    
+
     // process all files
     QStringList allFonts;
     QList<QUrl> fileUrls;
@@ -119,10 +118,11 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             QUrl slideUrl = clip->clipUrl();
             //TODO: Slideshow files
             slideUrls.insert(id, slideUrl.path());
-        }
-        else if (t == Image) imageUrls.insert(id, clip->clipUrl().path());
-        else if (t == QText) allFonts << clip->property(QStringLiteral("family"));
-        else if (t == Text) {
+        } else if (t == Image) {
+            imageUrls.insert(id, clip->clipUrl().path());
+        } else if (t == QText) {
+            allFonts << clip->property(QStringLiteral("family"));
+        } else if (t == Text) {
             QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
             QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
             extraImageUrls << imagefiles;
@@ -131,14 +131,16 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             playlistUrls.insert(id, clip->clipUrl().path());
             QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl().path());
             otherUrls << files;
-        }
-        else if (!clip->clipUrl().isEmpty()) {
-            if (t == Audio) audioUrls.insert(id, clip->clipUrl().path());
-            else {
+        } else if (!clip->clipUrl().isEmpty()) {
+            if (t == Audio) {
+                audioUrls.insert(id, clip->clipUrl().path());
+            } else {
                 videoUrls.insert(id, clip->clipUrl().path());
                 // Check if we have a proxy
                 QString proxy = clip->property(QStringLiteral("kdenlive:proxy"));
-                if (!proxy.isEmpty() && proxy != QLatin1String("-") && QFile::exists(proxy)) proxyUrls.insert(id, proxy);
+                if (!proxy.isEmpty() && proxy != QLatin1String("-") && QFile::exists(proxy)) {
+                    proxyUrls.insert(id, proxy);
+                }
             }
         }
     }
@@ -151,17 +153,17 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     generateItems(playlists, playlistUrls);
     generateItems(others, otherUrls);
     generateItems(proxies, proxyUrls);
-    
+
     allFonts.removeDuplicates();
 
     m_infoMessage = new KMessageWidget(this);
-    QVBoxLayout *s =  static_cast <QVBoxLayout*> (layout());
+    QVBoxLayout *s =  static_cast <QVBoxLayout *>(layout());
     s->insertWidget(5, m_infoMessage);
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
-        
-        // missing clips, warn user
+
+    // missing clips, warn user
     if (m_missingClips > 0) {
         QString infoText = i18np("You have %1 missing clip in your project.", "You have %1 missing clips in your project.", m_missingClips);
         m_infoMessage->setMessageType(KMessageWidget::Warning);
@@ -178,31 +180,32 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
         int items = parentItem->childCount();
         if (items == 0) {
             files_list->topLevelItem(i)->setHidden(true);
-        }
-        else {
-            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows"))
-            {
+        } else {
+            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows")) {
                 // Special case: slideshows contain several files
                 for (int j = 0; j < items; ++j) {
                     total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
                 }
+            } else {
+                total += items;
             }
-            else total += items;
             parentItem->setText(0, files_list->topLevelItem(i)->text(0) + ' ' + i18np("(%1 item)", "(%1 items)", items));
         }
     }
-    if (m_name.isEmpty()) m_name = i18n("Untitled");
+    if (m_name.isEmpty()) {
+        m_name = i18n("Untitled");
+    }
     compressed_archive->setText(compressed_archive->text() + " (" + m_name + ".tar.gz)");
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
     connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartArchiving);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    
+
     slotCheckSpace();
 }
 
 // Constructor for extract widget
-ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget * parent):
+ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget *parent):
     QDialog(parent),
     m_requestedSize(0),
     m_copyJob(Q_NULLPTR),
@@ -223,7 +226,7 @@ ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget * parent):
     connect(m_progressTimer, &QTimer::timeout, this, &ArchiveWidget::slotExtractProgress);
     connect(this, &ArchiveWidget::extractingFinished, this, &ArchiveWidget::slotExtractingFinished);
     connect(this, &ArchiveWidget::showMessage, this, &ArchiveWidget::slotDisplayMessage);
-    
+
     compressed_archive->setHidden(true);
     proxy_only->setHidden(true);
     project_files->setHidden(true);
@@ -238,7 +241,6 @@ ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget * parent):
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::openArchiveForExtraction);
 }
 
-
 ArchiveWidget::~ArchiveWidget()
 {
     delete m_extractArchive;
@@ -246,7 +248,7 @@ ArchiveWidget::~ArchiveWidget()
 }
 
 void ArchiveWidget::slotDisplayMessage(const QString &icon, const QString &text)
-{    
+{
     icon_info->setPixmap(QIcon::fromTheme(icon).pixmap(16, 16));
     text_info->setText(text);
 }
@@ -262,7 +264,7 @@ void ArchiveWidget::openArchiveForExtraction()
 {
     emit showMessage(QStringLiteral("system-run"), i18n("Opening archive..."));
     m_extractArchive = new KTar(m_extractUrl.path());
-    if (!m_extractArchive->isOpen() && !m_extractArchive->open( QIODevice::ReadOnly )) {
+    if (!m_extractArchive->isOpen() && !m_extractArchive->open(QIODevice::ReadOnly)) {
         emit showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.path()));
         groupBox->setEnabled(false);
         return;
@@ -282,25 +284,29 @@ void ArchiveWidget::openArchiveForExtraction()
     if (!isProjectArchive) {
         emit showMessage(QStringLiteral("dialog-close"), i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.path()));
         groupBox->setEnabled(false);
-	buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
         return;
     }
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     emit showMessage(QStringLiteral("dialog-ok"), i18n("Ready"));
 }
 
-void ArchiveWidget::done ( int r )
+void ArchiveWidget::done(int r)
 {
-    if (closeAccepted()) QDialog::done(r);
+    if (closeAccepted()) {
+        QDialog::done(r);
+    }
 }
 
-void ArchiveWidget::closeEvent ( QCloseEvent * e )
+void ArchiveWidget::closeEvent(QCloseEvent *e)
 {
 
-    if (closeAccepted()) e->accept();
-    else e->ignore();
+    if (closeAccepted()) {
+        e->accept();
+    } else {
+        e->ignore();
+    }
 }
-
 
 bool ArchiveWidget::closeAccepted()
 {
@@ -309,19 +315,20 @@ bool ArchiveWidget::closeAccepted()
         if (KMessageBox::warningContinueCancel(this, i18n("Archiving in progress, do you want to stop it?"), i18n("Stop Archiving"), KGuiItem(i18n("Stop Archiving"))) != KMessageBox::Continue) {
             return false;
         }
-        if (m_copyJob) m_copyJob->kill();
+        if (m_copyJob) {
+            m_copyJob->kill();
+        }
     }
     return true;
 }
 
-
-void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList& items)
+void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList &items)
 {
     QStringList filesList;
     QString fileName;
     int ix = 0;
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
-    foreach(const QString & file, items) {
+    foreach (const QString &file, items) {
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         fileName = QUrl::fromLocalFile(file).fileName();
         if (isSlideshow) {
@@ -332,22 +339,21 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             QDir dir(slideUrl.adjusted(QUrl::RemoveFilename).path());
             if (slideUrl.fileName().startsWith(QLatin1String(".all."))) {
                 // mimetype slideshow (for example *.png)
-                    QStringList filters;
-                    // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-                    filters << "*." + slideUrl.fileName().section('.', -1);
-                    dir.setNameFilters(filters);
-                    QFileInfoList resultList = dir.entryInfoList(QDir::Files);
-                    QStringList slideImages;
-                    qint64 totalSize = 0;
-                    for (int i = 0; i < resultList.count(); ++i) {
-                        totalSize += resultList.at(i).size();
-                        slideImages << resultList.at(i).absoluteFilePath();
-                    }
-                    item->setData(0, Qt::UserRole + 1, slideImages);
-                    item->setData(0, Qt::UserRole + 3, totalSize);
-                    m_requestedSize += totalSize;
-            }
-            else {
+                QStringList filters;
+                // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
+                filters << "*." + slideUrl.fileName().section('.', -1);
+                dir.setNameFilters(filters);
+                QFileInfoList resultList = dir.entryInfoList(QDir::Files);
+                QStringList slideImages;
+                qint64 totalSize = 0;
+                for (int i = 0; i < resultList.count(); ++i) {
+                    totalSize += resultList.at(i).size();
+                    slideImages << resultList.at(i).absoluteFilePath();
+                }
+                item->setData(0, Qt::UserRole + 1, slideImages);
+                item->setData(0, Qt::UserRole + 3, totalSize);
+                m_requestedSize += totalSize;
+            } else {
                 // pattern url (like clip%.3d.png)
                 QStringList result = dir.entryList(QDir::Files);
                 QString filter = slideUrl.fileName();
@@ -357,9 +363,11 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 QRegExp rx(regexp);
                 QStringList slideImages;
                 QString directory = dir.absolutePath();
-                if (!directory.endsWith('/')) directory.append('/');
+                if (!directory.endsWith('/')) {
+                    directory.append('/');
+                }
                 qint64 totalSize = 0;
-                foreach(const QString & path, result) {
+                foreach (const QString &path, result) {
                     if (rx.exactMatch(path)) {
                         totalSize += QFileInfo(directory + path).size();
                         slideImages <<  directory + path;
@@ -368,9 +376,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
                 m_requestedSize += totalSize;
-            }                    
-        }
-        else if (filesList.contains(fileName)) {
+            }
+        } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
             int ix = 0;
             QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
@@ -386,8 +393,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             if (fileSize <= 0) {
                 item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
-            }
-            else {
+            } else {
                 m_requestedSize += fileSize;
                 item->setData(0, Qt::UserRole + 3, fileSize);
             }
@@ -396,7 +402,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
     }
 }
 
-void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QString, QString>& items)
+void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QString, QString> &items)
 {
     QStringList filesList;
     QString fileName;
@@ -417,22 +423,21 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
             QDir dir(slideUrl.adjusted(QUrl::RemoveFilename).path());
             if (slideUrl.fileName().startsWith(QLatin1String(".all."))) {
                 // mimetype slideshow (for example *.png)
-                    QStringList filters;
-                    // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-                    filters << "*." + slideUrl.fileName().section('.', -1);
-                    dir.setNameFilters(filters);
-                    QFileInfoList resultList = dir.entryInfoList(QDir::Files);
-                    QStringList slideImages;
-                    qint64 totalSize = 0;
-                    for (int i = 0; i < resultList.count(); ++i) {
-                        totalSize += resultList.at(i).size();
-                        slideImages << resultList.at(i).absoluteFilePath();
-                    }
-                    item->setData(0, Qt::UserRole + 1, slideImages);
-                    item->setData(0, Qt::UserRole + 3, totalSize);
-                    m_requestedSize += totalSize;
-            }
-            else {
+                QStringList filters;
+                // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
+                filters << "*." + slideUrl.fileName().section('.', -1);
+                dir.setNameFilters(filters);
+                QFileInfoList resultList = dir.entryInfoList(QDir::Files);
+                QStringList slideImages;
+                qint64 totalSize = 0;
+                for (int i = 0; i < resultList.count(); ++i) {
+                    totalSize += resultList.at(i).size();
+                    slideImages << resultList.at(i).absoluteFilePath();
+                }
+                item->setData(0, Qt::UserRole + 1, slideImages);
+                item->setData(0, Qt::UserRole + 3, totalSize);
+                m_requestedSize += totalSize;
+            } else {
                 // pattern url (like clip%.3d.png)
                 QStringList result = dir.entryList(QDir::Files);
                 QString filter = slideUrl.fileName();
@@ -443,8 +448,10 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 QStringList slideImages;
                 qint64 totalSize = 0;
                 QString directory = dir.absolutePath();
-                if (!directory.endsWith('/')) directory.append('/');
-                foreach(const QString & path, result) {
+                if (!directory.endsWith('/')) {
+                    directory.append('/');
+                }
+                foreach (const QString &path, result) {
                     if (rx.exactMatch(path)) {
                         totalSize += QFileInfo(directory + path).size();
                         slideImages <<  directory + path;
@@ -454,8 +461,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 item->setData(0, Qt::UserRole + 3, totalSize);
                 m_requestedSize += totalSize;
             }
-        }
-        else if (filesList.contains(fileName)) {
+        } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
             int ix = 0;
             QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
@@ -471,8 +477,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
             if (fileSize <= 0) {
                 item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
-            }
-            else {
+            } else {
                 m_requestedSize += fileSize;
                 item->setData(0, Qt::UserRole + 3, fileSize);
             }
@@ -484,14 +489,13 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
 
 void ArchiveWidget::slotCheckSpace()
 {
-    KDiskFreeSpaceInfo inf = KDiskFreeSpaceInfo::freeSpaceInfo( archive_url->url().path());
+    KDiskFreeSpaceInfo inf = KDiskFreeSpaceInfo::freeSpaceInfo(archive_url->url().path());
     KIO::filesize_t freeSize = inf.available();
     if (freeSize > m_requestedSize) {
         // everything is ok
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
         slotDisplayMessage(QStringLiteral("dialog-ok"), i18n("Available space on drive: %1", KIO::convertSize(freeSize)));
-    }
-    else {
+    } else {
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
         slotDisplayMessage(QStringLiteral("dialog-close"), i18n("Not enough space on drive, free space: %1", KIO::convertSize(freeSize)));
     }
@@ -501,13 +505,16 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
 {
     if (firstPass && (m_copyJob || m_archiveThread.isRunning())) {
         // archiving in progress, abort
-        if (m_copyJob) m_copyJob->kill(KJob::EmitResult);
+        if (m_copyJob) {
+            m_copyJob->kill(KJob::EmitResult);
+        }
         m_abortArchive = true;
         return true;
     }
     bool isArchive = compressed_archive->isChecked();
-    if (!firstPass) m_copyJob = Q_NULLPTR;
-    else {
+    if (!firstPass) {
+        m_copyJob = Q_NULLPTR;
+    } else {
         //starting archiving
         m_abortArchive = false;
         m_duplicateFiles.clear();
@@ -537,16 +544,18 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         if (parentItem->childCount() > 0) {
             if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows")) {
                 QUrl slideFolder = QUrl::fromLocalFile(archive_url->url().path() + "/slideshows");
-                if (isArchive) m_foldersList.append(QStringLiteral("slideshows"));
-                else {
+                if (isArchive) {
+                    m_foldersList.append(QStringLiteral("slideshows"));
+                } else {
                     QDir dir(slideFolder.path());
                     if (!dir.mkpath(QStringLiteral("."))) {
                         KMessageBox::sorry(this, i18n("Cannot create directory %1", slideFolder.path()));
                     }
                 }
                 isSlideshow = true;
+            } else {
+                isSlideshow = false;
             }
-            else isSlideshow = false;
             files_list->setCurrentItem(parentItem);
             parentItem->setExpanded(true);
             destPath = parentItem->data(0, Qt::UserRole).toString() + '/';
@@ -554,9 +563,11 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             QTreeWidgetItem *item;
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
-                if (item->isDisabled()) continue;
+                if (item->isDisabled()) {
+                    continue;
+                }
                 // Special case: slideshows
-		items++;
+                items++;
                 if (isSlideshow) {
                     destPath += item->data(0, Qt::UserRole).toString() + '/';
                     destUrl = QUrl::fromLocalFile(archive_url->url().path() + QDir::separator() + destPath);
@@ -570,32 +581,35 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                         parentItem->setDisabled(true);
                     }
                     break;
-                }
-                else if (item->data(0, Qt::UserRole).isNull()) {
+                } else if (item->data(0, Qt::UserRole).isNull()) {
                     files << QUrl::fromLocalFile(item->text(0));
-                }
-                else {
+                } else {
                     // We must rename the destination file, since another file with same name exists
                     //TODO: monitor progress
                     if (isArchive) {
                         m_filesList.insert(item->text(0), destPath + item->data(0, Qt::UserRole).toString());
+                    } else {
+                        m_duplicateFiles.insert(QUrl::fromLocalFile(item->text(0)), QUrl::fromLocalFile(destUrl.path() + "/" + item->data(0, Qt::UserRole).toString()));
                     }
-                    else m_duplicateFiles.insert(QUrl::fromLocalFile(item->text(0)), QUrl::fromLocalFile(destUrl.path() + "/" + item->data(0, Qt::UserRole).toString()));
                 }
             }
-            if (!isSlideshow) parentItem->setDisabled(true);
+            if (!isSlideshow) {
+                parentItem->setDisabled(true);
+            }
             break;
         }
     }
 
     if (items == 0) {
-	// No clips to archive
-	slotArchivingFinished(Q_NULLPTR, true);
-	return true;
+        // No clips to archive
+        slotArchivingFinished(Q_NULLPTR, true);
+        return true;
     }
 
     if (destPath.isEmpty()) {
-        if (m_duplicateFiles.isEmpty()) return false;
+        if (m_duplicateFiles.isEmpty()) {
+            return false;
+        }
         QMapIterator<QUrl, QUrl> i(m_duplicateFiles);
         if (i.hasNext()) {
             i.next();
@@ -615,16 +629,14 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             m_filesList.insert(files.at(i).path(), destPath + files.at(i).fileName());
         }
         slotArchivingFinished();
-    }
-    else if (files.isEmpty()) {
+    } else if (files.isEmpty()) {
         slotStartArchiving(false);
-    }
-    else {
+    } else {
         QDir dir(destUrl.path());
         if (!dir.mkpath(QStringLiteral("."))) {
             KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.path()));
         }
-        m_copyJob = KIO::copy (files, destUrl, KIO::HideProgressInfo);
+        m_copyJob = KIO::copy(files, destUrl, KIO::HideProgressInfo);
         connect(m_copyJob, SIGNAL(result(KJob*)), this, SLOT(slotArchivingFinished(KJob*)));
         connect(m_copyJob, SIGNAL(processedSize(KJob*,qulonglong)), this, SLOT(slotArchivingProgress(KJob*,qulonglong)));
     }
@@ -641,19 +653,18 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         if (!finished && slotStartArchiving(false)) {
             // We still have files to archive
             return;
-        }
-        else if (!compressed_archive->isChecked()) {
+        } else if (!compressed_archive->isChecked()) {
             // Archiving finished
             progressBar->setValue(100);
             if (processProjectFile()) {
                 slotJobResult(true, i18n("Project was successfully archived."));
-            }
-            else {
+            } else {
                 slotJobResult(false, i18n("There was an error processing project file"));
             }
-        } else processProjectFile();
-    }
-    else {
+        } else {
+            processProjectFile();
+        }
+    } else {
         m_copyJob = Q_NULLPTR;
         slotJobResult(false, i18n("There was an error while copying the files: %1", job->errorString()));
     }
@@ -664,8 +675,9 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         compressed_archive->setEnabled(true);
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
-            for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j)
-                files_list->topLevelItem(i)->child(j)->setDisabled(false);        
+            for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
+                files_list->topLevelItem(i)->child(j)->setDisabled(false);
+            }
         }
     }
 }
@@ -674,7 +686,6 @@ void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
 {
     progressBar->setValue((int) 100 * size / m_requestedSize);
 }
-
 
 bool ArchiveWidget::processProjectFile()
 {
@@ -693,11 +704,9 @@ bool ArchiveWidget::processProjectFile()
                 QUrl dest = destUrl;
                 if (isSlideshow) {
                     dest = QUrl::fromLocalFile(destUrl.path() + QDir::separator() + item->data(0, Qt::UserRole).toString() + "/" + src.fileName());
-                }
-                else if (item->data(0, Qt::UserRole).isNull()) {
+                } else if (item->data(0, Qt::UserRole).isNull()) {
                     dest = QUrl::fromLocalFile(destUrl.path() + QDir::separator() + src.fileName());
-                }
-                else {
+                } else {
                     dest = QUrl::fromLocalFile(destUrl.path() + "/" + item->data(0, Qt::UserRole).toString());
                 }
                 m_replacementList.insert(src, dest);
@@ -710,8 +719,11 @@ bool ArchiveWidget::processProjectFile()
 
     // Adjust global settings
     QString basePath;
-    if (isArchive) basePath = QStringLiteral("$CURRENTPATH");
-    else basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash).path();
+    if (isArchive) {
+        basePath = QStringLiteral("$CURRENTPATH");
+    } else {
+        basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash).path();
+    }
     mlt.setAttribute(QStringLiteral("root"), basePath);
     QDomElement project = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
     project.setAttribute(QStringLiteral("projectfolder"), basePath);
@@ -720,16 +732,22 @@ bool ArchiveWidget::processProjectFile()
     QDomNodeList prods = mlt.elementsByTagName(QStringLiteral("kdenlive_producer"));
     for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
-        if (e.isNull()) continue;
+        if (e.isNull()) {
+            continue;
+        }
         if (e.hasAttribute(QStringLiteral("resource"))) {
             QUrl src = QUrl::fromLocalFile(e.attribute(QStringLiteral("resource")));
             QUrl dest = m_replacementList.value(src);
-            if (!dest.isEmpty()) e.setAttribute(QStringLiteral("resource"), dest.path());
+            if (!dest.isEmpty()) {
+                e.setAttribute(QStringLiteral("resource"), dest.path());
+            }
         }
         if (e.hasAttribute(QStringLiteral("kdenlive:proxy")) && e.attribute(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
             QUrl src = QUrl::fromLocalFile(e.attribute(QStringLiteral("kdenlive:proxy")));
             QUrl dest = m_replacementList.value(src);
-            if (!dest.isEmpty()) e.setAttribute(QStringLiteral("kdenlive:proxy"), dest.path());
+            if (!dest.isEmpty()) {
+                e.setAttribute(QStringLiteral("kdenlive:proxy"), dest.path());
+            }
         }
     }
 
@@ -737,13 +755,19 @@ bool ArchiveWidget::processProjectFile()
     prods = mlt.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
-        if (e.isNull()) continue;
+        if (e.isNull()) {
+            continue;
+        }
         QString src = EffectsList::property(e, QStringLiteral("resource"));
         if (!src.isEmpty()) {
-            if (!src.startsWith('/')) src.prepend(root);
+            if (!src.startsWith('/')) {
+                src.prepend(root);
+            }
             QUrl srcUrl = QUrl::fromLocalFile(src);
             QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) EffectsList::setProperty(e, QStringLiteral("resource"), dest.path());
+            if (!dest.isEmpty()) {
+                EffectsList::setProperty(e, QStringLiteral("resource"), dest.path());
+            }
         }
     }
 
@@ -752,16 +776,24 @@ bool ArchiveWidget::processProjectFile()
     QString attribute;
     for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
-        if (e.isNull()) continue;
+        if (e.isNull()) {
+            continue;
+        }
         attribute = QStringLiteral("resource");
         QString src = EffectsList::property(e, attribute);
-        if (src.isEmpty()) attribute = QStringLiteral("luma");
+        if (src.isEmpty()) {
+            attribute = QStringLiteral("luma");
+        }
         src = EffectsList::property(e, attribute);
         if (!src.isEmpty()) {
-            if (!src.startsWith('/')) src.prepend(root);
+            if (!src.startsWith('/')) {
+                src.prepend(root);
+            }
             QUrl srcUrl = QUrl::fromLocalFile(src);
             QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) EffectsList::setProperty(e, attribute, dest.path());
+            if (!dest.isEmpty()) {
+                EffectsList::setProperty(e, attribute, dest.path());
+            }
         }
     }
 
@@ -779,7 +811,9 @@ bool ArchiveWidget::processProjectFile()
 
     if (isArchive) {
         m_temp = new QTemporaryFile;
-        if (!m_temp->open()) KMessageBox::error(this, i18n("Cannot create temporary file"));
+        if (!m_temp->open()) {
+            KMessageBox::error(this, i18n("Cannot create temporary file"));
+        }
         m_temp->write(playList.toUtf8());
         m_temp->close();
         m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
@@ -810,10 +844,10 @@ void ArchiveWidget::createArchive()
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
     KTar archive(archive_url->url().path() + QDir::separator() + m_name + ".tar.gz", QStringLiteral("application/x-gzip"));
-    archive.open( QIODevice::WriteOnly );
+    archive.open(QIODevice::WriteOnly);
 
     // Create folders
-    foreach(const QString &path, m_foldersList) {
+    foreach (const QString &path, m_foldersList) {
         archive.writeDir(path, user, group);
     }
 
@@ -843,8 +877,7 @@ void ArchiveWidget::slotArchivingFinished(bool result)
     if (result) {
         slotJobResult(true, i18n("Project was successfully archived."));
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    }
-    else {
+    } else {
         slotJobResult(false, i18n("There was an error processing project file"));
     }
     progressBar->setValue(100);
@@ -854,8 +887,9 @@ void ArchiveWidget::slotArchivingFinished(bool result)
     compressed_archive->setEnabled(true);
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         files_list->topLevelItem(i)->setDisabled(false);
-        for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j)
+        for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
             files_list->topLevelItem(i)->child(j)->setDisabled(false);
+        }
     }
 }
 
@@ -888,7 +922,7 @@ void ArchiveWidget::slotExtractProgress()
     connect(job, &KJob::result, this, &ArchiveWidget::slotGotProgress);
 }
 
-void ArchiveWidget::slotGotProgress(KJob* job)
+void ArchiveWidget::slotGotProgress(KJob *job)
 {
     if (!job->error()) {
         KIO::DirectorySizeJob *j = static_cast <KIO::DirectorySizeJob *>(job);
@@ -901,7 +935,7 @@ void ArchiveWidget::doExtracting()
 {
     m_extractArchive->directory()->copyTo(archive_url->url().path() + QDir::separator());
     m_extractArchive->close();
-    emit extractingFinished();    
+    emit extractingFinished();
 }
 
 QString ArchiveWidget::extractedProjectFile() const
@@ -917,20 +951,17 @@ void ArchiveWidget::slotExtractingFinished()
     bool error = false;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         error = true;
-    }
-    else {
+    } else {
         QString playList = QString::fromUtf8(file.readAll());
         file.close();
         if (playList.isEmpty()) {
             error = true;
-        }
-        else {
+        } else {
             playList.replace(QLatin1String("$CURRENTPATH"), archive_url->url().adjusted(QUrl::StripTrailingSlash).path());
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                 qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: ";
                 error = true;
-            }
-            else {
+            } else {
                 file.write(playList.toUtf8());
                 if (file.error() != QFile::NoError) {
                     error = true;
@@ -942,8 +973,9 @@ void ArchiveWidget::slotExtractingFinished()
     if (error) {
         KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot open project file %1", extractedProjectFile()), i18n("Cannot open file"));
         reject();
+    } else {
+        accept();
     }
-    else accept();
 }
 
 void ArchiveWidget::slotProxyOnly(int onlyProxy)
@@ -957,21 +989,29 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         // Build list of existing proxy ids
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             parentItem = files_list->topLevelItem(i);
-            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("proxy")) break;
+            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("proxy")) {
+                break;
+            }
         }
-        if (!parentItem) return;
+        if (!parentItem) {
+            return;
+        }
         int items = parentItem->childCount();
         for (int j = 0; j < items; ++j) {
             proxyIdList << parentItem->child(j)->data(0, Qt::UserRole + 2).toString();
         }
-        
+
         // Parse all items to disable original clips for existing proxies
         for (int i = 0; i < proxyIdList.count(); ++i) {
             QString id = proxyIdList.at(i);
-            if (id.isEmpty()) continue;
+            if (id.isEmpty()) {
+                continue;
+            }
             for (int j = 0; j < files_list->topLevelItemCount(); ++j) {
                 parentItem = files_list->topLevelItem(j);
-                if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("proxy")) continue;
+                if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("proxy")) {
+                    continue;
+                }
                 items = parentItem->childCount();
                 for (int k = 0; k < items; ++k) {
                     if (parentItem->child(k)->data(0, Qt::UserRole + 2).toString() == id) {
@@ -982,8 +1022,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
                 }
             }
         }
-    }
-    else {
+    } else {
         // Archive all clips
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
@@ -993,7 +1032,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
             }
         }
     }
-    
+
     // Calculate requested size
     int total = 0;
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
@@ -1001,12 +1040,15 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         int items = parentItem->childCount();
         int itemsCount = 0;
         bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
-        
+
         for (int j = 0; j < items; ++j) {
             if (!parentItem->child(j)->isDisabled()) {
                 m_requestedSize += parentItem->child(j)->data(0, Qt::UserRole + 3).toInt();
-                if (isSlideshow) total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
-                else total ++;
+                if (isSlideshow) {
+                    total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
+                } else {
+                    total ++;
+                }
                 itemsCount ++;
             }
         }
@@ -1015,7 +1057,4 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     slotCheckSpace();
 }
-
-
-
 

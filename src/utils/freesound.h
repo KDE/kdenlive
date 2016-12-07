@@ -18,10 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef FREESOUND_H
 #define FREESOUND_H
-
 
 #include "abstractservice.h"
 
@@ -38,25 +36,23 @@ class FreeSound : public AbstractService
     Q_OBJECT
 
 public:
-    explicit FreeSound(QListWidget *listWidget, QObject * parent = Q_NULLPTR);
+    explicit FreeSound(QListWidget *listWidget, QObject *parent = Q_NULLPTR);
     ~FreeSound();
     QString getExtension(QListWidgetItem *item) Q_DECL_OVERRIDE;
     QString getDefaultDownloadName(QListWidgetItem *item) Q_DECL_OVERRIDE;
 
-
 public slots:
-    void slotStartSearch(const QString& searchText, int page = 0) Q_DECL_OVERRIDE;
+    void slotStartSearch(const QString &searchText, int page = 0) Q_DECL_OVERRIDE;
     OnlineItemInfo displayItemDetails(QListWidgetItem *item) Q_DECL_OVERRIDE;
     bool startItemPreview(QListWidgetItem *item) Q_DECL_OVERRIDE;
     void stopItemPreview(QListWidgetItem *item) Q_DECL_OVERRIDE;
 
-
 private slots:
-    void slotShowResults(KJob* job);
-    void slotParseResults(KJob* job);
+    void slotShowResults(KJob *job);
+    void slotParseResults(KJob *job);
     void slotPreviewFinished(int  exitCode, QProcess::ExitStatus exitStatus);
     void slotPreviewErrored(QProcess::ProcessError error);
-    
+
 private:
     QMap<QString, QString> m_metaInfo;
     QProcess *m_previewProcess;
@@ -65,7 +61,6 @@ signals:
     void addClip(const QUrl &, const QString &);
     void previewFinished();
 };
-
 
 #endif
 

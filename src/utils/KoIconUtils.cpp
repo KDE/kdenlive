@@ -28,22 +28,25 @@
 namespace KoIconUtils
 {
 
-
 #if KXMLGUI_VERSION_MINOR > 22 || KXMLGUI_VERSION_MAJOR > 5
-    // Returning QIcon::fromTheme directly from header file
+// Returning QIcon::fromTheme directly from header file
 #else
 
-QIcon themedIcon(const QString &name) {
+QIcon themedIcon(const QString &name)
+{
     // try load themed icon
-    if (name.isEmpty()) return QIcon();
+    if (name.isEmpty()) {
+        return QIcon();
+    }
     QColor background = qApp->palette().window().color();
     bool useDarkIcons = background.value() < 100;
     QString realName;
-    const char * const prefix = useDarkIcons ? "dk_" : "lt_";
+    const char *const prefix = useDarkIcons ? "dk_" : "lt_";
     if (name.at(2) == '_') {
         realName = name.mid(3);
+    } else {
+        realName = name;
     }
-    else realName = name;
     realName.prepend(QLatin1String(prefix));
 
     if (KIconLoader::global()->iconPath(realName, KIconLoader::User, true).isEmpty()) {

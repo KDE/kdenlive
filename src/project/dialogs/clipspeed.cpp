@@ -26,7 +26,7 @@
 #include <QStandardPaths>
 #include <QMenu>
 
-ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget * parent) :
+ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent) :
     QDialog(parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -64,7 +64,6 @@ void ClipSpeed::slotUpdateSlider(double speed)
     m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(speed != 0.0);
 }
 
-
 void ClipSpeed::slotUpdateSpeed(int speed)
 {
     m_view.speedSpin->blockSignals(true);
@@ -79,8 +78,9 @@ QUrl ClipSpeed::selectedUrl() const
 
 void ClipSpeed::adjustSpeed(QAction *a)
 {
-    if (!a)
+    if (!a) {
         return;
+    }
     int speed = a->data().toInt();
     m_view.speedSlider->blockSignals(true);
     m_view.speedSpin->blockSignals(true);

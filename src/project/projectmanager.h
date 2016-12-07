@@ -35,14 +35,13 @@ class KJob;
  * @brief Takes care of interaction with projects.
  */
 
-
 class /*KDENLIVECORE_EXPORT*/ ProjectManager : public QObject
 {
     Q_OBJECT
 
 public:
     /** @brief Sets up actions to interact for project interaction (undo, redo, open, save, ...) and creates an empty project. */
-    explicit ProjectManager(QObject* parent = Q_NULLPTR);
+    explicit ProjectManager(QObject *parent = Q_NULLPTR);
     virtual ~ProjectManager();
 
     /** @brief Returns a pointer to the currently opened project. A project should always be open. */
@@ -64,7 +63,7 @@ public:
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);
-    /** @brief Move project data files to new url */ 
+    /** @brief Move project data files to new url */
     void moveProjectData(const QString &src, const QString &dest);
 
 public slots:
@@ -85,7 +84,6 @@ public slots:
     /** @brief Saves current timeline selection to an MLT playlist. */
     void slotSaveSelection(const QString &path = QString());
 
-
     /** @brief Set properties to match outputFileName and save the document.
      * Creates an autosave version of the output file too, at
      * ~/.kde/data/stalefiles/kdenlive/ \n
@@ -100,7 +98,7 @@ public slots:
     *
     * Checks if already open and whether backup exists */
     void openFile(const QUrl &url);
-    
+
     /** @brief Start autosave timer */
     void slotStartAutoSave();
 

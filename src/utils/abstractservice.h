@@ -18,10 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef ABSTRACTSERVICE_H
 #define ABSTRACTSERVICE_H
-
 
 #include <QListWidget>
 
@@ -54,19 +52,18 @@ struct OnlineItemInfo {
     QString HQpreview;
 };
 
-
 class AbstractService : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit AbstractService(QListWidget *listWidget, QObject * parent = Q_NULLPTR);
+    explicit AbstractService(QListWidget *listWidget, QObject *parent = Q_NULLPTR);
     ~AbstractService();
     /** @brief Get file extension for currently selected item. */
     virtual QString getExtension(QListWidgetItem *item);
     /** @brief Get recommEnded download file name. */
     virtual QString getDefaultDownloadName(QListWidgetItem *item);
-        /** @brief Does this service provide a preview (for example preview a sound. */
+    /** @brief Does this service provide a preview (for example preview a sound. */
     bool hasPreview;
     /** @brief Does this service provide meta info about the item. */
     bool hasMetadata;
@@ -83,7 +80,7 @@ public slots:
 
 protected:
     QListWidget *m_listWidget;
-    
+
 signals:
     void searchInfo(const QString &);
     void maxPages(int);
@@ -96,7 +93,6 @@ signals:
     /** @brief The requested search query is finished. */
     void searchDone();
 };
-
 
 #endif
 

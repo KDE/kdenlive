@@ -36,7 +36,7 @@ NotesPlugin::~NotesPlugin()
     delete m_notesDock;
 }
 
-void NotesPlugin::setProject(KdenliveDoc* document)
+void NotesPlugin::setProject(KdenliveDoc *document)
 {
     connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor()->render, &Render::seekToFrame);
     connect(m_widget, SIGNAL(textChanged()), document, SLOT(setModified()));
@@ -49,7 +49,7 @@ void NotesPlugin::slotInsertTimecode()
     m_widget->insertHtml("<a href=\"" + QString::number(frames) + "\">" + position + "</a> ");
 }
 
-NotesWidget* NotesPlugin::widget()
+NotesWidget *NotesPlugin::widget()
 {
     return m_widget;
 }
@@ -58,5 +58,4 @@ void NotesPlugin::clear()
 {
     m_widget->clear();
 }
-
 

@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef CLIPSPEED_H
 #define CLIPSPEED_H
 
@@ -34,7 +33,7 @@ class ClipSpeed : public QDialog
     Q_OBJECT
 
 public:
-    explicit ClipSpeed(const QUrl &destination, bool isDirectory, QWidget * parent = Q_NULLPTR);
+    explicit ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent = Q_NULLPTR);
     QUrl selectedUrl() const;
     double speed() const;
 
@@ -46,7 +45,6 @@ private slots:
 private:
     Ui::ClipSpeed_UI m_view;
 };
-
 
 #endif
 

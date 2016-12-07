@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -53,28 +53,29 @@ private:
     QList<int> m_segments;
 };
 
-
 /**
  * @class TreeWidgetItem
  * @brief Manage custom sort order for size.
  *
  */
 
-class TreeWidgetItem : public QTreeWidgetItem {
-  public:
-  TreeWidgetItem(QTreeWidget* parent):QTreeWidgetItem(parent){}
-  private:
-  bool operator<(const QTreeWidgetItem &other)const Q_DECL_OVERRIDE {
-     int column = treeWidget()->sortColumn();
-     switch (column) {
-         case 0:
+class TreeWidgetItem : public QTreeWidgetItem
+{
+public:
+    TreeWidgetItem(QTreeWidget *parent): QTreeWidgetItem(parent) {}
+private:
+    bool operator<(const QTreeWidgetItem &other)const Q_DECL_OVERRIDE
+    {
+        int column = treeWidget()->sortColumn();
+        switch (column) {
+        case 0:
             return text(column).toLower() < other.text(column).toLower();
             break;
-         default:
+        default:
             return data(column, Qt::UserRole) < other.data(column, Qt::UserRole);
             break;
-     }
-  }
+        }
+    }
 };
 
 /**
@@ -88,7 +89,7 @@ class TemporaryData : public QWidget
     Q_OBJECT
 
 public:
-    explicit TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget * parent = Q_NULLPTR);
+    explicit TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget *parent = Q_NULLPTR);
 
 private:
     KdenliveDoc *m_doc;

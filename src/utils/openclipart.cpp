@@ -18,7 +18,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "openclipart.h"
 
 #include <QListWidget>
@@ -26,9 +25,8 @@
 
 #include <kio/job.h>
 
-
 OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent) :
-        AbstractService(listWidget, parent)
+    AbstractService(listWidget, parent)
 {
     serviceType = OPENCLIPART;
 }
@@ -47,20 +45,22 @@ void OpenClipArt::slotStartSearch(const QString &searchText, int page)
     m_listWidget->clear();
     QString uri = QStringLiteral("http://openclipart.org/api/search/?query=");
     uri.append(searchText);
-    if (page > 1)
+    if (page > 1) {
         uri.append("&page=" + QString::number(page));
-        
-    KJob* resolveJob = KIO::storedGet( QUrl(uri), KIO::NoReload, KIO::HideProgressInfo );
+    }
+
+    KJob *resolveJob = KIO::storedGet(QUrl(uri), KIO::NoReload, KIO::HideProgressInfo);
     connect(resolveJob, &KJob::result, this, &OpenClipArt::slotShowResults);
 }
 
-
-void OpenClipArt::slotShowResults(KJob* job)
+void OpenClipArt::slotShowResults(KJob *job)
 {
-    if (job->error() != 0 ) return;
-    m_listWidget->blockSignals(true);    
-    KIO::StoredTransferJob* storedQueryJob = static_cast<KIO::StoredTransferJob*>( job );
-    
+    if (job->error() != 0) {
+        return;
+    }
+    m_listWidget->blockSignals(true);
+    KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
+
     QDomDocument doc;
     doc.setContent(QString::fromLatin1(storedQueryJob->data()));
     QDomNodeList items = doc.documentElement().elementsByTagName(QStringLiteral("item"));
@@ -77,19 +77,17 @@ void OpenClipArt::slotShowResults(KJob* job)
 
         QDomElement license = currentClip.firstChildElement(QStringLiteral("cc:license"));
 
-
         item->setData(licenseRole, license.firstChild().nodeValue());
         QDomElement desc = currentClip.firstChildElement(QStringLiteral("description"));
         item->setData(descriptionRole, desc.firstChild().nodeValue());
         QDomElement author = currentClip.firstChildElement(QStringLiteral("dc:creator"));
         item->setData(authorRole, author.firstChild().nodeValue());
         item->setData(authorUrl, QStringLiteral("http://openclipart.org/user-detail/") + author.firstChild().nodeValue());
-    }        
+    }
     m_listWidget->blockSignals(false);
     m_listWidget->setCurrentRow(0);
     emit searchDone();
 }
-    
 
 OnlineItemInfo OpenClipArt::displayItemDetails(QListWidgetItem *item)
 {
@@ -113,19 +111,21 @@ OnlineItemInfo OpenClipArt::displayItemDetails(QListWidgetItem *item)
 
 QString OpenClipArt::getExtension(QListWidgetItem *item)
 {
-    if (!item) return QString();
+    if (!item) {
+        return QString();
+    }
     QString url = item->data(downloadRole).toString();
     return QStringLiteral("*.") + url.section('.', -1);
 }
 
 QString OpenClipArt::getDefaultDownloadName(QListWidgetItem *item)
 {
-    if (!item) return QString();
+    if (!item) {
+        return QString();
+    }
     QString url = item->data(downloadRole).toString();
     QString path = item->text();
     path.append('.' + url.section('.', -1));
     return path;
 }
-
-
 

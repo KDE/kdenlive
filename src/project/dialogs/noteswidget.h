@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef NOTESWIDGET_H
 #define NOTESWIDGET_H
 
@@ -33,13 +32,13 @@ class NotesWidget : public QTextEdit
 {
     Q_OBJECT
 public:
-    explicit NotesWidget(QWidget * parent = Q_NULLPTR);
+    explicit NotesWidget(QWidget *parent = Q_NULLPTR);
     ~NotesWidget();
 
 protected:
-    void mouseMoveEvent ( QMouseEvent * e ) Q_DECL_OVERRIDE;
-    void mousePressEvent ( QMouseEvent * e ) Q_DECL_OVERRIDE;
-    
+    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+
 private slots:
     void slotFillNotesMenu(const QPoint &pos);
 
@@ -47,7 +46,6 @@ signals:
     void insertNotesTimecode();
     void seekProject(int);
 };
-
 
 #endif
 

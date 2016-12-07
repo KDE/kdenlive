@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "noteswidget.h"
 
 #include <klocalizedstring.h>
@@ -25,9 +24,8 @@
 #include <QMenu>
 #include <QMouseEvent>
 
-
-NotesWidget::NotesWidget(QWidget * parent) :
-        QTextEdit(parent)
+NotesWidget::NotesWidget(QWidget *parent) :
+    QTextEdit(parent)
 {
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &NotesWidget::customContextMenuRequested, this, &NotesWidget::slotFillNotesMenu);
@@ -49,17 +47,18 @@ void NotesWidget::slotFillNotesMenu(const QPoint &pos)
     }
 }
 
-void NotesWidget::mouseMoveEvent( QMouseEvent * e )
+void NotesWidget::mouseMoveEvent(QMouseEvent *e)
 {
     const QString anchor = anchorAt(e->pos());
-    if (anchor.isEmpty())
+    if (anchor.isEmpty()) {
         viewport()->setCursor(Qt::IBeamCursor);
-    else
+    } else {
         viewport()->setCursor(Qt::PointingHandCursor);
+    }
     QTextEdit::mouseMoveEvent(e);
 }
 
-void NotesWidget::mousePressEvent( QMouseEvent * e )
+void NotesWidget::mousePressEvent(QMouseEvent *e)
 {
     QString anchor = anchorAt(e->pos());
     if (anchor.isEmpty()) {
@@ -70,8 +69,4 @@ void NotesWidget::mousePressEvent( QMouseEvent * e )
     emit seekProject(anchor.toInt());
     e->setAccepted(true);
 }
-
-
-
-
 

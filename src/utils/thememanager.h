@@ -36,9 +36,7 @@
 
 // Local includes
 
-
 class KActionMenu;
-
 
 class Theme;
 
@@ -49,20 +47,20 @@ class ThemeManager : public QObject
 public:
 
     ~ThemeManager();
-    static ThemeManager* instance();
+    static ThemeManager *instance();
 
     QString currentThemeName() const;
-    void setCurrentTheme(const QString& name);
+    void setCurrentTheme(const QString &name);
 
     QString defaultThemeName() const;
 
-    void setThemeMenuAction(KActionMenu* const action);
+    void setThemeMenuAction(KActionMenu *const action);
     /** @brief set dark theme by default if available */
     void initDarkTheme();
 
 Q_SIGNALS:
 
-    void signalThemeChanged(const QString&);
+    void signalThemeChanged(const QString &);
 
 public Q_SLOTS:
     void slotSettingsChanged();
@@ -77,7 +75,7 @@ private:
     ThemeManager();
 
     void    populateThemeMenu();
-    QPixmap createSchemePreviewIcon(const KSharedConfigPtr& config) const;
+    QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config) const;
     QString currentKDEdefaultTheme() const;
     void    updateCurrentKDEdefaultThemePreview();
 
@@ -86,8 +84,7 @@ private:
     friend class ThemeManagerCreator;
 
     class Private;
-    Private* const d;
+    Private *const d;
 };
-
 
 #endif /* THEMEMANAGER_H */

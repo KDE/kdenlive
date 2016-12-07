@@ -46,10 +46,12 @@
 #include <QFileDialog>
 #include <QInputDialog>
 
-class NoEditDelegate: public QStyledItemDelegate {
-    public:
-      NoEditDelegate(QObject* parent=0): QStyledItemDelegate(parent) {}
-      QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE {
+class NoEditDelegate: public QStyledItemDelegate
+{
+public:
+    NoEditDelegate(QObject *parent = 0): QStyledItemDelegate(parent) {}
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
         Q_UNUSED(parent);
         Q_UNUSED(option);
         Q_UNUSED(index);
@@ -57,10 +59,10 @@ class NoEditDelegate: public QStyledItemDelegate {
     }
 };
 
-ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &/*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget * parent) :
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &/*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent) :
     QDialog(parent)
-    ,m_savedProject(savedProject)
-    ,m_lumas(lumas)
+    , m_savedProject(savedProject)
+    , m_lumas(lumas)
 {
     setupUi(this);
     tabWidget->setTabBarAutoHide(true);
@@ -102,8 +104,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         connect(cacheWidget, &TemporaryData::disableProxies, this, &ProjectSettings::disableProxies);
         connect(cacheWidget, &TemporaryData::disablePreview, this, &ProjectSettings::disablePreview);
         tabWidget->addTab(cacheWidget, i18n("Cache Data"));
-    }
-    else {
+    } else {
         currentProf = KdenliveSettings::default_profile();
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
         generate_proxy->setChecked(KdenliveSettings::generateproxy());
@@ -123,7 +124,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 
     proxy_minsize->setEnabled(generate_proxy->isChecked());
     proxy_imageminsize->setEnabled(generate_imageproxy->isChecked());
-
 
     loadProxyProfiles();
     loadPreviewProfiles();
@@ -168,51 +168,49 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Title"));
     item->setData(0, Qt::UserRole, QStringLiteral("meta.attr.title.markup"));
     if (metadata.contains(QStringLiteral("meta.attr.title.markup"))) {
-	item->setText(1, metadata.value(QStringLiteral("meta.attr.title.markup")));
-	metadata.remove(QStringLiteral("meta.attr.title.markup"));
+        item->setText(1, metadata.value(QStringLiteral("meta.attr.title.markup")));
+        metadata.remove(QStringLiteral("meta.attr.title.markup"));
     }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Author"));
     item->setData(0, Qt::UserRole, QStringLiteral("meta.attr.author.markup"));
     if (metadata.contains(QStringLiteral("meta.attr.author.markup"))) {
-	item->setText(1, metadata.value(QStringLiteral("meta.attr.author.markup")));
-	metadata.remove(QStringLiteral("meta.attr.author.markup"));
-    }
-    else if (metadata.contains(QStringLiteral("meta.attr.artist.markup"))) {
-	item->setText(0, i18n("Artist"));
-	item->setData(0, Qt::UserRole, QStringLiteral("meta.attr.artist.markup"));
-	item->setText(1, metadata.value(QStringLiteral("meta.attr.artist.markup")));
-	metadata.remove(QStringLiteral("meta.attr.artist.markup"));
+        item->setText(1, metadata.value(QStringLiteral("meta.attr.author.markup")));
+        metadata.remove(QStringLiteral("meta.attr.author.markup"));
+    } else if (metadata.contains(QStringLiteral("meta.attr.artist.markup"))) {
+        item->setText(0, i18n("Artist"));
+        item->setData(0, Qt::UserRole, QStringLiteral("meta.attr.artist.markup"));
+        item->setText(1, metadata.value(QStringLiteral("meta.attr.artist.markup")));
+        metadata.remove(QStringLiteral("meta.attr.artist.markup"));
     }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Copyright"));
     item->setData(0, Qt::UserRole, QStringLiteral("meta.attr.copyright.markup"));
     if (metadata.contains(QStringLiteral("meta.attr.copyright.markup"))) {
-	item->setText(1, metadata.value(QStringLiteral("meta.attr.copyright.markup")));
-	metadata.remove(QStringLiteral("meta.attr.copyright.markup"));
+        item->setText(1, metadata.value(QStringLiteral("meta.attr.copyright.markup")));
+        metadata.remove(QStringLiteral("meta.attr.copyright.markup"));
     }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     item = new QTreeWidgetItem(metadata_list, QStringList() << i18n("Year"));
     item->setData(0, Qt::UserRole, QStringLiteral("meta.attr.year.markup"));
     if (metadata.contains(QStringLiteral("meta.attr.year.markup"))) {
-	item->setText(1, metadata.value(QStringLiteral("meta.attr.year.markup")));
-	metadata.remove(QStringLiteral("meta.attr.year.markup"));
-    }
-    else if (metadata.contains(QStringLiteral("meta.attr.date.markup"))) {
-	item->setText(0, i18n("Date"));
-	item->setData(0, Qt::UserRole, QStringLiteral("meta.attr.date.markup"));
-	item->setText(1, metadata.value(QStringLiteral("meta.attr.date.markup")));
-	metadata.remove(QStringLiteral("meta.attr.date.markup"));
+        item->setText(1, metadata.value(QStringLiteral("meta.attr.year.markup")));
+        metadata.remove(QStringLiteral("meta.attr.year.markup"));
+    } else if (metadata.contains(QStringLiteral("meta.attr.date.markup"))) {
+        item->setText(0, i18n("Date"));
+        item->setData(0, Qt::UserRole, QStringLiteral("meta.attr.date.markup"));
+        item->setText(1, metadata.value(QStringLiteral("meta.attr.date.markup")));
+        metadata.remove(QStringLiteral("meta.attr.date.markup"));
     }
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QMap<QString, QString>::const_iterator meta = metadata.constBegin();
     while (meta != metadata.constEnd()) {
-	item = new QTreeWidgetItem(metadata_list, QStringList() << meta.key().section('.', 2,2));
-	item->setData(0, Qt::UserRole, meta.key());
-	item->setText(1, meta.value());
-	item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-	++meta;
+        item = new QTreeWidgetItem(metadata_list, QStringList() << meta.key().section('.', 2, 2));
+        item->setData(0, Qt::UserRole, meta.key());
+        item->setText(1, meta.value());
+        item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        ++meta;
     }
 
     connect(add_metadata, &QAbstractButton::clicked, this, &ProjectSettings::slotAddMetadataField);
@@ -233,7 +231,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     delete_unused->setVisible(false);
 }
 
-void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int )
+void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int)
 {
     metadata_list->editItem(item, 1);
 }
@@ -274,15 +272,16 @@ void ProjectSettings::slotDeleteUnused()
     */
 }
 
-
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 {
     // Get list of current project hashes
     QStringList hashes = pCore->binController()->getProjectHashes();
     m_projectProxies.clear();
     m_projectThumbs.clear();
-    if (cacheOnly) return;
-    QList <ClipController*> list = pCore->binController()->getControllerList();
+    if (cacheOnly) {
+        return;
+    }
+    QList <ClipController *> list = pCore->binController()->getControllerList();
     files_list->clear();
 
     // List all files that are used in the project. That also means:
@@ -313,7 +312,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     others->setExpanded(true);
     int count = 0;
     QStringList allFonts;
-    foreach(const QString & file, m_lumas) {
+    foreach (const QString &file, m_lumas) {
         count++;
         new QTreeWidgetItem(images, QStringList() << file);
     }
@@ -326,7 +325,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         }
         if (clip->clipType() == SlideShow) {
             QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
-            foreach(const QString & file, subfiles) {
+            foreach (const QString &file, subfiles) {
                 count++;
                 new QTreeWidgetItem(slideshows, QStringList() << file);
             }
@@ -358,14 +357,14 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         if (clip->clipType() == Text) {
             QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
             QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
-            foreach(const QString & file, imagefiles) {
+            foreach (const QString &file, imagefiles) {
                 count++;
                 new QTreeWidgetItem(images, QStringList() << file);
             }
             allFonts << fonts;
         } else if (clip->clipType() == Playlist) {
             QStringList files = extractPlaylistUrls(clip->clipUrl().path());
-            foreach(const QString & file, files) {
+            foreach (const QString &file, files) {
                 count++;
                 new QTreeWidgetItem(others, QStringList() << file);
             }
@@ -408,19 +407,23 @@ void ProjectSettings::accept()
     if (!params.isEmpty()) {
         if (params.section(QStringLiteral(";"), 0, 0) != m_previewparams || params.section(QStringLiteral(";"), 1, 1) != m_previewextension) {
             // Timeline preview settings changed, warn
-            if (KMessageBox::warningContinueCancel(this, i18n("You changed the timeline preview profile. This will remove all existing timeline previews for this project.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) return;
+            if (KMessageBox::warningContinueCancel(this, i18n("You changed the timeline preview profile. This will remove all existing timeline previews for this project.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) {
+                return;
+            }
         }
     }
     if (!m_savedProject && selectedProfile() != KdenliveSettings::current_profile())
-        if (KMessageBox::warningContinueCancel(this, i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation that might cause some corruption in transitions.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) return;
+        if (KMessageBox::warningContinueCancel(this, i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation that might cause some corruption in transitions.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) {
+            return;
+        }
     QDialog::accept();
 }
 
-
 void ProjectSettings::slotUpdateButton(const QString &path)
 {
-    if (path.isEmpty()) m_buttonOk->setEnabled(false);
-    else {
+    if (path.isEmpty()) {
+        m_buttonOk->setEnabled(false);
+    } else {
         m_buttonOk->setEnabled(true);
         slotUpdateFiles(true);
     }
@@ -497,15 +500,18 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     QStringList urls;
     QDomDocument doc;
     QFile file(path);
-    if (!file.open(QIODevice::ReadOnly))
+    if (!file.open(QIODevice::ReadOnly)) {
         return urls;
+    }
     if (!doc.setContent(&file)) {
         file.close();
         return urls;
     }
     file.close();
     QString root = doc.documentElement().attribute(QStringLiteral("root"));
-    if (!root.isEmpty() && !root.endsWith('/')) root.append('/');
+    if (!root.isEmpty() && !root.endsWith('/')) {
+        root.append('/');
+    }
     QDomNodeList files = doc.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
@@ -514,16 +520,19 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
             QString url = EffectsList::property(e, QStringLiteral("resource"));
             if (type == QLatin1String("timewarp")) {
                 url = EffectsList::property(e, QStringLiteral("warp_resource"));
-            }
-            else if (type == QLatin1String("framebuffer")) {
+            } else if (type == QLatin1String("framebuffer")) {
                 url = url.section('?', 0, 0);
             }
             if (!url.isEmpty()) {
-                if (!url.startsWith('/')) url.prepend(root);
+                if (!url.startsWith('/')) {
+                    url.prepend(root);
+                }
                 if (url.section('.', 0, -2).endsWith(QLatin1String("/.all"))) {
                     // slideshow clip, extract image urls
                     urls << extractSlideshowUrls(QUrl(url));
-                } else urls << url;
+                } else {
+                    urls << url;
+                }
                 if (url.endsWith(QLatin1String(".mlt")) || url.endsWith(QLatin1String(".kdenlive"))) {
                     //TODO: Do something to avoid infinite loops if 2 files reference themselves...
                     urls << extractPlaylistUrls(url);
@@ -538,14 +547,15 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
         QDomElement e = files.at(i).toElement();
         QString url = EffectsList::property(e, QStringLiteral("resource"));
         if (!url.isEmpty()) {
-            if (!url.startsWith('/')) url.prepend(root);
+            if (!url.startsWith('/')) {
+                url.prepend(root);
+            }
             urls << url;
         }
     }
 
     return urls;
 }
-
 
 //static
 QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
@@ -570,8 +580,10 @@ QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
         QRegExp rx(regexp);
         int count = 0;
         QStringList result = dir.entryList(QDir::Files);
-        foreach(const QString & path, result) {
-            if (rx.exactMatch(path)) count++;
+        foreach (const QString &path, result) {
+            if (rx.exactMatch(path)) {
+                count++;
+            }
         }
         urls.append(url.path() + " (" + i18np("1 image found", "%1 images found", count) + ')');
     }
@@ -581,7 +593,9 @@ QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
 void ProjectSettings::slotExportToText()
 {
     const QString savePath = QFileDialog::getSaveFileName(this, QString(), project_folder->url().path(), QStringLiteral("text/plain"));
-    if (savePath.isEmpty()) return;
+    if (savePath.isEmpty()) {
+        return;
+    }
     QString data;
     data.append(i18n("Project folder: %1",  project_folder->url().path()) + '\n');
     data.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + '\n');
@@ -600,8 +614,9 @@ void ProjectSettings::slotExportToText()
         return;
     }
     QFile xmlf(tmpfile.fileName());
-    if (!xmlf.open(QIODevice::WriteOnly))
+    if (!xmlf.open(QIODevice::WriteOnly)) {
         return;
+    }
     xmlf.write(data.toUtf8());
     if (xmlf.error() != QFile::NoError) {
         xmlf.close();
@@ -627,13 +642,14 @@ void ProjectSettings::slotUpdatePreviewParams()
 const QMap<QString, QString> ProjectSettings::metadata() const
 {
     QMap<QString, QString> metadata;
-    for (int i = 0; i < metadata_list->topLevelItemCount(); ++i)
-    {
+    for (int i = 0; i < metadata_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *item = metadata_list->topLevelItem(i);
         if (!item->text(1).simplified().isEmpty()) {
             // Insert metadata entry
             QString key = item->data(0, Qt::UserRole).toString();
-	    if (key.isEmpty()) key = "meta.attr." + item->text(0).simplified() + ".markup";
+            if (key.isEmpty()) {
+                key = "meta.attr." + item->text(0).simplified() + ".markup";
+            }
             QString value = item->text(1);
             metadata.insert(key, value);
         }
@@ -644,7 +660,9 @@ const QMap<QString, QString> ProjectSettings::metadata() const
 void ProjectSettings::slotAddMetadataField()
 {
     QString metaField = QInputDialog::getText(this, i18n("Metadata"), i18n("Metadata"));
-    if (metaField.isEmpty()) return;
+    if (metaField.isEmpty()) {
+        return;
+    }
     QTreeWidgetItem *item = new QTreeWidgetItem(metadata_list, QStringList() << metaField);
     item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 }
@@ -652,7 +670,9 @@ void ProjectSettings::slotAddMetadataField()
 void ProjectSettings::slotDeleteMetadataField()
 {
     QTreeWidgetItem *item = metadata_list->currentItem();
-    if (item) delete item;
+    if (item) {
+        delete item;
+    }
 }
 
 void ProjectSettings::slotManageEncodingProfile()
@@ -673,7 +693,7 @@ void ProjectSettings::slotManagePreviewProfile()
 
 void ProjectSettings::loadProxyProfiles()
 {
-   // load proxy profiles
+    // load proxy profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
     KConfigGroup group(&conf, "proxy");
     QMap<QString, QString> values = group.entryMap();
@@ -703,7 +723,7 @@ void ProjectSettings::loadProxyProfiles()
 
 void ProjectSettings::loadPreviewProfiles()
 {
-   // load proxy profiles
+    // load proxy profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
     KConfigGroup group(&conf, "timelinepreview");
     QMap<QString, QString> values = group.entryMap();

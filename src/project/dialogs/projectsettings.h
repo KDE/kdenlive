@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef PROJECTSETTINGS_H
 #define PROJECTSETTINGS_H
 
@@ -34,7 +33,7 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
     Q_OBJECT
 
 public:
-    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString& projectPath, bool readOnlyTracks, bool unsavedProject, QWidget * parent = Q_NULLPTR);
+    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool unsavedProject, QWidget *parent = Q_NULLPTR);
     QString selectedProfile() const;
     QUrl selectedFolder() const;
     QPoint tracks() const;
@@ -73,7 +72,7 @@ private slots:
     void slotManageEncodingProfile();
     void slotManagePreviewProfile();
     /** @brief Open editor for metadata item. */
-    void slotEditMetadata(QTreeWidgetItem *, int );
+    void slotEditMetadata(QTreeWidgetItem *, int);
 
 private:
     QPushButton *m_buttonOk;
@@ -100,7 +99,6 @@ signals:
     void disablePreview();
     void refreshProfiles();
 };
-
 
 #endif
 

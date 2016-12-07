@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -18,7 +18,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 
 #ifndef PRODUCERQUEUE_H
 #define PRODUCERQUEUE_H
@@ -35,7 +34,6 @@ namespace Mlt
 {
 class Producer;
 }
-
 
 /**)
  * @class ProducerQueue
@@ -71,7 +69,7 @@ private:
     void processProducerProperties(Mlt::Producer *prod, const QDomElement &xml);
 
 public slots:
-      /** @brief Requests the file properties for the specified URL (will be put in a queue list)
+    /** @brief Requests the file properties for the specified URL (will be put in a queue list)
     @param xml The xml parameters for the clip
     @param clipId The clip Id string
     @param imageHeight The height (in pixels) of the returned thumbnail (height of a treewidgetitem in projectlist)
@@ -89,10 +87,10 @@ private slots:
 
 signals:
     /** @brief The renderer received a reply to a getFileProperties request. */
-    void gotFileProperties(requestClipInfo,ClipController *);
+    void gotFileProperties(requestClipInfo, ClipController *);
 
     /** @brief The renderer received a reply to a getImage request. */
-    void replyGetImage(const QString &, const QImage &,bool fromFile = false);
+    void replyGetImage(const QString &, const QImage &, bool fromFile = false);
     /** @brief A proxy clip is missing, ask for creation. */
     void requestProxy(QString);
     void infoProcessingFinished();
@@ -106,8 +104,8 @@ signals:
      */
     void removeInvalidProxy(const QString &id, bool durationError);
     /** @brief A multiple stream clip was found. */
-    void multiStreamFound(const QString &,QList<int>,QList<int>,stringMap data);
-    void addClip(const QString &, const QMap<QString,QString>&);
+    void multiStreamFound(const QString &, QList<int>, QList<int>, stringMap data);
+    void addClip(const QString &, const QMap<QString, QString> &);
     /** @brief A clip changed whithout need to replace produder (for example clip), just ask refresh. */
     void refreshTimelineProducer(const QString);
 };

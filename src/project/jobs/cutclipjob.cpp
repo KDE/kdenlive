@@ -43,16 +43,16 @@ CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &par
     m_dest = parameters.at(1);
     m_src = parameters.at(2);
     switch (jobType) {
-        case AbstractClipJob::TRANSCODEJOB:
-            description = i18n("Transcode clip");
-            break;
-        case AbstractClipJob::CUTJOB:
-            description = i18n("Cut clip");
-            break;
-        case AbstractClipJob::ANALYSECLIPJOB:
-        default:
-            description = i18n("Analyse clip");
-            break;
+    case AbstractClipJob::TRANSCODEJOB:
+        description = i18n("Transcode clip");
+        break;
+    case AbstractClipJob::CUTJOB:
+        description = i18n("Cut clip");
+        break;
+    case AbstractClipJob::ANALYSECLIPJOB:
+    default:
+        description = i18n("Analyse clip");
+        break;
     }
     replaceClip = false;
     if (jobType != AbstractClipJob::ANALYSECLIPJOB) {
@@ -60,9 +60,10 @@ CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &par
         m_end = parameters.at(4);
         m_jobDuration = parameters.at(5).toInt();
         m_addClipToProject = parameters.at(6).toInt();
-        if (parameters.count() == 8) m_cutExtraParams = parameters.at(7).simplified();
-    }
-    else {
+        if (parameters.count() == 8) {
+            m_cutExtraParams = parameters.at(7).simplified();
+        }
+    } else {
         m_jobDuration = parameters.at(3).toInt();
     }
 }
@@ -75,15 +76,17 @@ void CutClipJob::startJob()
         QString exec;
         if (jobType == AbstractClipJob::ANALYSECLIPJOB) {
             // TODO: don't hardcode params
-            parameters << QStringLiteral("-select_streams") << QStringLiteral("v") << QStringLiteral("-show_frames")<<QStringLiteral("-hide_banner")<<QStringLiteral("-of")<<QStringLiteral("json=c=1")<< m_src;
+            parameters << QStringLiteral("-select_streams") << QStringLiteral("v") << QStringLiteral("-show_frames") << QStringLiteral("-hide_banner") << QStringLiteral("-of") << QStringLiteral("json=c=1") << m_src;
             exec = KdenliveSettings::ffprobepath();
         } else {
             parameters << QStringLiteral("-i") << m_src;
-            if (!m_start.isEmpty())
-                parameters << QStringLiteral("-ss") << m_start <<QStringLiteral("-t") << m_end;
+            if (!m_start.isEmpty()) {
+                parameters << QStringLiteral("-ss") << m_start << QStringLiteral("-t") << m_end;
+            }
             if (!m_cutExtraParams.isEmpty()) {
-                foreach(const QString &s, m_cutExtraParams.split(QLatin1Char(' ')))
+                foreach (const QString &s, m_cutExtraParams.split(QLatin1Char(' '))) {
                     parameters << s;
+                }
             }
 
             // Make sure we don't block when proxy file already exists
@@ -100,14 +103,15 @@ void CutClipJob::startJob()
         while (m_jobProcess->state() != QProcess::NotRunning) {
             if (jobType == AbstractClipJob::ANALYSECLIPJOB) {
                 analyseLogInfo();
-            }
-            else {
+            } else {
                 processLogInfo();
             }
             if (m_jobStatus == JobAborted) {
                 m_jobProcess->close();
                 m_jobProcess->waitForFinished();
-                if (!m_dest.isEmpty()) QFile::remove(m_dest);
+                if (!m_dest.isEmpty()) {
+                    QFile::remove(m_dest);
+                }
             }
             m_jobProcess->waitForFinished(400);
         }
@@ -131,7 +135,9 @@ void CutClipJob::startJob()
                 }
             } else if (result == QProcess::CrashExit) {
                 // Proxy process crashed
-                if (!m_dest.isEmpty()) QFile::remove(m_dest);
+                if (!m_dest.isEmpty()) {
+                    QFile::remove(m_dest);
+                }
                 setStatus(JobCrashed);
             }
         }
@@ -146,37 +152,45 @@ void CutClipJob::startJob()
 
 void CutClipJob::processLogInfo()
 {
-    if (!m_jobProcess || m_jobDuration == 0 || m_jobStatus == JobAborted) return;
+    if (!m_jobProcess || m_jobDuration == 0 || m_jobStatus == JobAborted) {
+        return;
+    }
     QString log = QString::fromUtf8(m_jobProcess->readAll());
-    if (!log.isEmpty()) m_logDetails.append(log + QLatin1Char('\n'));
+    if (!log.isEmpty()) {
+        m_logDetails.append(log + QLatin1Char('\n'));
+    }
     int progress;
     // Parse FFmpeg output
     //TODO: parsing progress info works with FFmpeg but not with libav
     if (log.contains(QLatin1String("frame="))) {
         progress = log.section(QStringLiteral("frame="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-        emit jobProgress(m_clipId, (int) (100.0 * progress / m_jobDuration), jobType);
-    }
-    else if (log.contains(QLatin1String("time="))) {
+        emit jobProgress(m_clipId, (int)(100.0 * progress / m_jobDuration), jobType);
+    } else if (log.contains(QLatin1String("time="))) {
         QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
         if (time.contains(QLatin1Char(':'))) {
             QStringList numbers = time.split(QLatin1Char(':'));
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+        } else {
+            progress = (int) time.toDouble();
         }
-        else progress = (int) time.toDouble();
-        emit jobProgress(m_clipId, (int) (100.0 * progress / m_jobDuration), jobType);
+        emit jobProgress(m_clipId, (int)(100.0 * progress / m_jobDuration), jobType);
     }
 }
 
 void CutClipJob::analyseLogInfo()
 {
-    if (!m_jobProcess || m_jobStatus == JobAborted) return;
+    if (!m_jobProcess || m_jobStatus == JobAborted) {
+        return;
+    }
     QString log = QString::fromUtf8(m_jobProcess->readAll());
     m_logDetails.append(log);
     int pos = log.indexOf(QStringLiteral("coded_picture_number"), 0);
     if (pos > -1) {
         log.remove(0, pos);
         int frame = log.section(QStringLiteral(","), 0, 0).section(QStringLiteral(":"), 1).toInt();
-        if (frame > 0 && m_jobDuration > 0) emit jobProgress(m_clipId, (int) (100.0 * frame / m_jobDuration), jobType);
+        if (frame > 0 && m_jobDuration > 0) {
+            emit jobProgress(m_clipId, (int)(100.0 * frame / m_jobDuration), jobType);
+        }
     }
 }
 
@@ -199,18 +213,26 @@ const QString CutClipJob::statusMessage()
 {
     QString statusInfo;
     switch (m_jobStatus) {
-        case JobWorking:
-            if (jobType == AbstractClipJob::TRANSCODEJOB) statusInfo = i18n("Transcoding clip");
-            else if (jobType == AbstractClipJob::CUTJOB) statusInfo = i18n("Extracting clip cut");
-            else statusInfo = i18n("Analysing clip");
-            break;
-        case JobWaiting:
-            if (jobType == AbstractClipJob::TRANSCODEJOB) statusInfo = i18n("Waiting - transcode clip");
-            else if (jobType == AbstractClipJob::CUTJOB) statusInfo = i18n("Waiting - cut clip");
-            else statusInfo = i18n("Waiting - analyse clip");
-            break;
-        default:
-            break;
+    case JobWorking:
+        if (jobType == AbstractClipJob::TRANSCODEJOB) {
+            statusInfo = i18n("Transcoding clip");
+        } else if (jobType == AbstractClipJob::CUTJOB) {
+            statusInfo = i18n("Extracting clip cut");
+        } else {
+            statusInfo = i18n("Analysing clip");
+        }
+        break;
+    case JobWaiting:
+        if (jobType == AbstractClipJob::TRANSCODEJOB) {
+            statusInfo = i18n("Waiting - transcode clip");
+        } else if (jobType == AbstractClipJob::CUTJOB) {
+            statusInfo = i18n("Waiting - cut clip");
+        } else {
+            statusInfo = i18n("Waiting - analyse clip");
+        }
+        break;
+    default:
+        break;
     }
     return statusInfo;
 }
@@ -220,7 +242,7 @@ bool CutClipJob::isExclusive()
     return false;
 }
 
-// static 
+// static
 QList <ProjectClip *> CutClipJob::filterClips(const QList <ProjectClip *> &clips, const QStringList &params)
 {
     QString condition;
@@ -245,18 +267,22 @@ QList <ProjectClip *> CutClipJob::filterClips(const QList <ProjectClip *> &clips
     return result;
 }
 
-// static 
+// static
 
 QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps, double originalFps, ProjectClip *clip)
 {
     QHash <ProjectClip *, AbstractClipJob *> jobs;
-    if (!clip) return jobs;
+    if (!clip) {
+        return jobs;
+    }
     QString source = clip->url().toLocalFile();
     QPoint zone = clip->zone();
     QString ext = source.section('.', -1);
     QString dest = source.section('.', 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
 
-    if (originalFps == 0) originalFps = fps;
+    if (originalFps == 0) {
+        originalFps = fps;
+    }
     // if clip and project have different frame rate, adjust in and out
     int in = zone.x();
     int out = zone.y();
@@ -290,8 +316,11 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fp
     }
     while (!acceptPath) {
         // Do not allow to save over original clip
-        if (dest == source) ui.info_label->setText("<b>" + i18n("You cannot overwrite original clip.") + "</b><br>" + mess);
-        else if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Overwrite file %1", dest)) == KMessageBox::Yes) break;
+        if (dest == source) {
+            ui.info_label->setText("<b>" + i18n("You cannot overwrite original clip.") + "</b><br>" + mess);
+        } else if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Overwrite file %1", dest)) == KMessageBox::Yes) {
+            break;
+        }
         if (d->exec() != QDialog::Accepted) {
             delete d;
             return jobs;
@@ -311,20 +340,23 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fp
     jobParams << dest << source << timeIn << timeOut << QString::number(duration);
     // parent folder, or -100 if we don't want to add clip to project
     jobParams << (KdenliveSettings::add_new_clip() ? clip->parent()->clipId() : QString::number(-100));
-    if (!extraParams.isEmpty()) jobParams << extraParams;
+    if (!extraParams.isEmpty()) {
+        jobParams << extraParams;
+    }
     CutClipJob *job = new CutClipJob(clip->clipType(), clip->clipId(), jobParams);
     jobs.insert(clip, job);
     return jobs;
 }
 
-// static 
-QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double fps, const QList <ProjectClip*> &clips, const QStringList &parameters)
+// static
+QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double fps, const QList <ProjectClip *> &clips, const QStringList &parameters)
 {
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     QString params = parameters.at(0);
     QString desc;
-    if (parameters.count() > 1)
+    if (parameters.count() > 1) {
         desc = parameters.at(1);
+    }
 
     QStringList existingFiles;
     QStringList sources;
@@ -336,10 +368,14 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
         sources << source;
         QString newFile = params.section(' ', -1).replace(QLatin1String("%1"), source);
         destinations << newFile;
-        if (QFile::exists(newFile)) existingFiles << newFile;
+        if (QFile::exists(newFile)) {
+            existingFiles << newFile;
+        }
     }
     if (!existingFiles.isEmpty()) {
-        if (KMessageBox::warningContinueCancelList(QApplication::activeWindow(), i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) return jobs;
+        if (KMessageBox::warningContinueCancelList(QApplication::activeWindow(), i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) {
+            return jobs;
+        }
     }
 
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
@@ -349,8 +385,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
     ui.extra_params->setMaximumHeight(QFontMetrics(qApp->font()).lineSpacing() * 5);
     if (clips.count() == 1) {
         ui.file_url->setUrl(QUrl(destinations.first()));
-    }
-    else {
+    } else {
         ui.destination_label->setVisible(false);
         ui.file_url->setVisible(false);
     }
@@ -375,8 +410,9 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
         QString dest;
         if (clips.count() > 1) {
             dest = destinations.at(i);
+        } else {
+            dest = ui.file_url->url().path();
         }
-        else dest = ui.file_url->url().path();
         QStringList jobParams;
         jobParams << QString::number((int) AbstractClipJob::TRANSCODEJOB);
         jobParams << dest << src << QString() << QString();
@@ -391,8 +427,8 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
     return jobs;
 }
 
-// static 
-QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps, const QList <ProjectClip*> &clips, const QStringList &parameters)
+// static
+QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps, const QList <ProjectClip *> &clips, const QStringList &parameters)
 {
     // Might be useful some day
     Q_UNUSED(parameters);
@@ -413,20 +449,22 @@ void CutClipJob::processAnalyseLog()
 {
     QJsonDocument doc = QJsonDocument::fromJson(m_logDetails.toUtf8());
     if (doc.isEmpty()) {
-        qCDebug(KDENLIVE_LOG)<<"+ + + + +CORRUPTED JSON DOC";
+        qCDebug(KDENLIVE_LOG) << "+ + + + +CORRUPTED JSON DOC";
     }
     QJsonObject jsonObject = doc.object();
     QJsonArray jsonArray = jsonObject[QStringLiteral("frames")].toArray();
     QList<int> frames;
-    foreach (const QJsonValue & value, jsonArray) {
+    foreach (const QJsonValue &value, jsonArray) {
         QJsonObject obj = value.toObject();
-        if (obj[QStringLiteral("pict_type")].toString() != QLatin1String("I")) continue;
+        if (obj[QStringLiteral("pict_type")].toString() != QLatin1String("I")) {
+            continue;
+        }
         frames << obj[QStringLiteral("coded_picture_number")].toInt();
     }
     qSort(frames);
     QMap<QString, QString> jobResults;
     QStringList sortedFrames;
-    foreach(int frm, frames) {
+    foreach (int frm, frames) {
         sortedFrames << QString::number(frm);
     }
     jobResults.insert(QStringLiteral("i-frame"), sortedFrames.join(QStringLiteral(";")));

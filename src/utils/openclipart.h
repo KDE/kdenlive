@@ -18,10 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef OPENCLIPART_H
 #define OPENCLIPART_H
-
 
 #include "abstractservice.h"
 
@@ -37,22 +35,19 @@ class OpenClipArt : public AbstractService
     Q_OBJECT
 
 public:
-    explicit OpenClipArt(QListWidget *listWidget, QObject * parent = Q_NULLPTR);
+    explicit OpenClipArt(QListWidget *listWidget, QObject *parent = Q_NULLPTR);
     ~OpenClipArt();
     QString getExtension(QListWidgetItem *item) Q_DECL_OVERRIDE;
     QString getDefaultDownloadName(QListWidgetItem *item) Q_DECL_OVERRIDE;
 
-
 public slots:
     void slotStartSearch(const QString &searchText, int page = 0) Q_DECL_OVERRIDE;
     OnlineItemInfo displayItemDetails(QListWidgetItem *item) Q_DECL_OVERRIDE;
- 
 
 private slots:
-    void slotShowResults(KJob* job);
+    void slotShowResults(KJob *job);
 
 };
-
 
 #endif
 

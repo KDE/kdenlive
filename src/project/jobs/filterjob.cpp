@@ -32,7 +32,7 @@
 #include <KMessageBox>
 #include <mlt++/Mlt.h>
 
-// static 
+// static
 QList <ProjectClip *> FilterJob::filterClips(const QList <ProjectClip *> &clips, const QStringList &params)
 {
     QString condition;
@@ -57,7 +57,7 @@ QList <ProjectClip *> FilterJob::filterClips(const QList <ProjectClip *> &clips,
     return result;
 }
 
-QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList <ProjectClip*> &clips, const QStringList &parameters)
+QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList <ProjectClip *> &clips, const QStringList &parameters)
 {
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     QStringList sources;
@@ -80,30 +80,32 @@ QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList <Proj
         QPointer<ClipSpeed> d = new ClipSpeed(clips.count() == 1 ? QUrl::fromLocalFile(sources.first() + QStringLiteral(".mlt")) : QUrl::fromLocalFile(sources.first()).adjusted(QUrl::RemoveFilename), multipleSelection, QApplication::activeWindow());
         if (d->exec() == QDialog::Accepted) {
             QLocale locale;
-            QString speedString = QStringLiteral("timewarp:%1:").arg(locale.toString(d->speed()/100));
+            QString speedString = QStringLiteral("timewarp:%1:").arg(locale.toString(d->speed() / 100));
             QDir destFolder;
             if (multipleSelection) {
                 destFolder = QDir(d->selectedUrl().path());
             }
-        for (int i = 0; i < clips.count(); i++) {
-            QString prodstring = speedString + sources.at(i);
-            producerParams.insert(QStringLiteral("producer"), prodstring);
-            QString destination;
-            if (multipleSelection) {
-                destination = destFolder.absoluteFilePath(QUrl::fromLocalFile(sources.at(i)).fileName() + QStringLiteral(".mlt"));
-            } else {
-                destination = d->selectedUrl().path();
+            for (int i = 0; i < clips.count(); i++) {
+                QString prodstring = speedString + sources.at(i);
+                producerParams.insert(QStringLiteral("producer"), prodstring);
+                QString destination;
+                if (multipleSelection) {
+                    destination = destFolder.absoluteFilePath(QUrl::fromLocalFile(sources.at(i)).fileName() + QStringLiteral(".mlt"));
+                } else {
+                    destination = d->selectedUrl().path();
+                }
+                if (QFile::exists(destination)) {
+                    if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", destination)) != KMessageBox::Yes) {
+                        continue;
+                    }
+                }
+                consumerParams.insert(QStringLiteral("consumer"), "xml:" + destination);
+                ProjectClip *clip = clips.at(i);
+                MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
+                job->description = i18n("Reverse clip");
+                job->setAddClipToProject(1);
+                jobs.insert(clip, job);
             }
-            if (QFile::exists(destination)) {
-                if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", destination)) != KMessageBox::Yes) continue;
-            }
-            consumerParams.insert(QStringLiteral("consumer"), "xml:" + destination);
-            ProjectClip *clip = clips.at(i);
-            MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
-            job->description = i18n("Reverse clip");
-            job->setAddClipToProject(1);
-            jobs.insert(clip, job);
-        }
         }
         delete d;
         return jobs;

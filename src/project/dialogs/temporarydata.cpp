@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -18,7 +18,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 
 #include "temporarydata.h"
 #include "doc/kdenlivedoc.h"
@@ -43,8 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static QList <QColor> chartColors;
 
-
-ChartWidget::ChartWidget(QWidget * parent) :
+ChartWidget::ChartWidget(QWidget *parent) :
     QWidget(parent)
 {
     QFontMetrics ft(font());
@@ -82,7 +80,7 @@ void ChartWidget::paintEvent(QPaintEvent *event)
     }
 }
 
-TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget * parent) :
+TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget *parent) :
     QWidget(parent)
     , m_doc(doc)
     , m_globalPage(Q_NULLPTR)
@@ -232,7 +230,7 @@ void TemporaryData::updateDataInfo()
         preview.setNameFilters(m_proxies);
         QFileInfoList fList = preview.entryInfoList();
         qint64 size = 0;
-        foreach(const QFileInfo &info, fList) {
+        foreach (const QFileInfo &info, fList) {
             size += info.size();
         }
         gotProxySize(size);
@@ -248,13 +246,14 @@ void TemporaryData::updateDataInfo()
         KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
         connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotThumbSize);
     }
-    if (m_globalPage)
+    if (m_globalPage) {
         updateGlobalInfo();
+    }
 }
 
 void TemporaryData::gotPreviewSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
+    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     qulonglong total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -283,7 +282,7 @@ void TemporaryData::gotProxySize(qint64 total)
 
 void TemporaryData::gotAudioSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
+    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     qulonglong total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -300,7 +299,7 @@ void TemporaryData::gotAudioSize(KJob *job)
 
 void TemporaryData::gotThumbSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
+    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     qulonglong total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -323,7 +322,7 @@ void TemporaryData::updateTotal()
         button->widget()->setEnabled(m_totalCurrent > 0);
     }
     QList<int> segments;
-    foreach(qulonglong size, mCurrentSizes) {
+    foreach (qulonglong size, mCurrentSizes) {
         if (m_totalCurrent == 0) {
             segments << 0;
         } else {
@@ -341,7 +340,7 @@ void TemporaryData::deletePreview()
         return;
     }
     if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache folder:\n%1", dir.absolutePath())) != KMessageBox::Continue) {
-            return;
+        return;
     }
     if (dir.dirName() == QLatin1String("preview")) {
         dir.removeRecursively();
@@ -361,9 +360,9 @@ void TemporaryData::deleteProxy()
     dir.setNameFilters(m_proxies);
     QStringList files = dir.entryList(QDir::Files);
     if (KMessageBox::warningContinueCancelList(this, i18n("Delete all project data in the cache proxy folder:\n%1", dir.absolutePath()), files) != KMessageBox::Continue) {
-            return;
+        return;
     }
-    foreach(const QString &file, files) {
+    foreach (const QString &file, files) {
         dir.remove(file);
     }
     emit disableProxies();
@@ -378,7 +377,7 @@ void TemporaryData::deleteAudio()
         return;
     }
     if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache audio folder:\n%1", dir.absolutePath())) != KMessageBox::Continue) {
-            return;
+        return;
     }
     if (dir.dirName() == QLatin1String("audiothumbs")) {
         dir.removeRecursively();
@@ -395,7 +394,7 @@ void TemporaryData::deleteThumbs()
         return;
     }
     if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache thumbnail folder:\n%1", dir.absolutePath())) != KMessageBox::Continue) {
-            return;
+        return;
     }
     if (dir.dirName() == QLatin1String("videothumbs")) {
         dir.removeRecursively();
@@ -412,7 +411,7 @@ void TemporaryData::deleteCurrentCacheData()
         return;
     }
     if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in cache folder:\n%1", dir.absolutePath())) != KMessageBox::Continue) {
-            return;
+        return;
     }
     if (dir.dirName() == m_doc->getDocumentProperty(QStringLiteral("documentid"))) {
         emit disablePreview();
@@ -502,8 +501,9 @@ void TemporaryData::updateGlobalInfo()
 
 void TemporaryData::processglobalDirectories()
 {
-    if (m_globalDirectories.isEmpty())
+    if (m_globalDirectories.isEmpty()) {
         return;
+    }
     m_processingDirectory = m_globalDirectories.takeFirst();
     KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(m_globalDir.absoluteFilePath(m_processingDirectory)));
     connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotFolderSize);
@@ -511,7 +511,7 @@ void TemporaryData::processglobalDirectories()
 
 void TemporaryData::gotFolderSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *> (job);
+    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     qulonglong total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -560,24 +560,26 @@ void TemporaryData::refreshGlobalPie()
 {
     QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
     qulonglong currentSize = 0;
-    foreach(QTreeWidgetItem *current, list) {
+    foreach (QTreeWidgetItem *current, list) {
         if (current) {
             currentSize += current->data(1, Qt::UserRole).toULongLong();
         }
     }
     m_selectedSize->setText(KIO::convertSize(currentSize));
-    int percent = m_totalGlobal <= 0 ? 0 : (int) (currentSize * 360 / m_totalGlobal);
+    int percent = m_totalGlobal <= 0 ? 0 : (int)(currentSize * 360 / m_totalGlobal);
     m_globalPie->setSegments(QList<int>() << 360 << percent);
     if (list.size() == 1 && list.at(0)->text(0) == m_doc->getDocumentProperty(QStringLiteral("documentid"))) {
         m_globalDelete->setText(i18n("Clear current cache"));
-    } else m_globalDelete->setText(i18n("Delete selected cache"));
+    } else {
+        m_globalDelete->setText(i18n("Delete selected cache"));
+    }
 }
 
 void TemporaryData::deleteSelected()
 {
     QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
     QStringList folders;
-    foreach(QTreeWidgetItem *current, list) {
+    foreach (QTreeWidgetItem *current, list) {
         if (current) {
             folders << current->data(0, Qt::UserRole).toString();
         }
@@ -586,7 +588,7 @@ void TemporaryData::deleteSelected()
         return;
     }
     const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    foreach(const QString &folder, folders) {
+    foreach (const QString &folder, folders) {
         if (folder == currentId) {
             // Trying to delete current project's tmp folder. Do not delete, but clear it
             deleteCurrentCacheData();

@@ -18,16 +18,13 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef ARCHIVEORG_H
 #define ARCHIVEORG_H
-
 
 #include "abstractservice.h"
 
 #include <QProcess>
 #include <kio/jobclasses.h>
-
 
 /**
   \brief search and download videos from archive.org
@@ -39,23 +36,22 @@ class ArchiveOrg : public AbstractService
     Q_OBJECT
 
 public:
-    explicit ArchiveOrg(QListWidget *listWidget, QObject * parent = Q_NULLPTR);
+    explicit ArchiveOrg(QListWidget *listWidget, QObject *parent = Q_NULLPTR);
     virtual ~ArchiveOrg();
     QString getExtension(QListWidgetItem *item) Q_DECL_OVERRIDE;
     QString getDefaultDownloadName(QListWidgetItem *item) Q_DECL_OVERRIDE;
 
-
 public slots:
     void slotStartSearch(const QString &searchText, int page = 0) Q_DECL_OVERRIDE;
     OnlineItemInfo displayItemDetails(QListWidgetItem *item) Q_DECL_OVERRIDE;
-  //  bool startItemPreview(QListWidgetItem *item);
-  //  void stopItemPreview(QListWidgetItem *item);
+    //  bool startItemPreview(QListWidgetItem *item);
+    //  void stopItemPreview(QListWidgetItem *item);
 
 private slots:
-    void slotShowResults(KJob* job);
-    void slotParseResults(KJob* job);
-   // void slotParseThumbs(KJob* job);
-    
+    void slotShowResults(KJob *job);
+    void slotParseResults(KJob *job);
+    // void slotParseThumbs(KJob* job);
+
 private:
     QMap<QString, QString> m_metaInfo;
     QProcess *m_previewProcess;
@@ -65,7 +61,6 @@ signals:
     void addClip(const QUrl &, const QString &);
     void gotPreview(const QString &url);
 };
-
 
 #endif
 

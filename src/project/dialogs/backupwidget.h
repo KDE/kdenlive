@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef BACKUPWIDGET_H
 #define BACKUPWIDGET_H
-
 
 #include "ui_backupdialog_ui.h"
 
@@ -37,12 +35,12 @@ class BackupWidget : public QDialog, public Ui::BackupDialog_UI
     Q_OBJECT
 
 public:
-    BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget * parent = Q_NULLPTR);
+    BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget *parent = Q_NULLPTR);
     // Constructor for extracting widget
     ~BackupWidget();
     /** @brief Return the path for selected backup file. */
     QString selectedFile() const;
-    
+
 private slots:
     /** @brief Parse the backup files in project folder. */
     void slotParseBackupFiles();
@@ -53,7 +51,6 @@ private:
     QString m_projectWildcard;
     QUrl m_projectFolder;
 };
-
 
 #endif
 

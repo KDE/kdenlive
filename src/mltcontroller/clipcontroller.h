@@ -8,7 +8,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -44,7 +44,6 @@ class AudioStreamInfo;
  * need to update or replace them
  */
 
-
 class ClipController : public QObject
 {
 public:
@@ -55,23 +54,23 @@ public:
      */
     explicit ClipController(BinController *bincontroller, Mlt::Producer &producer, QObject *parent = Q_NULLPTR);
     /**
-     * @brief Constructor used when opening a document and encountering a 
+     * @brief Constructor used when opening a document and encountering a
      * track producer before the master producer. The masterProducer MUST be set afterwards
      * @param bincontroller reference to the bincontroller
      */
     explicit ClipController(BinController *bincontroller);
     virtual ~ClipController();
-    
+
     /** @brief Returns true if the master producer is valid */
     bool isValid();
-    
+
     /** @brief Stores the file's creation time */
     QDateTime date;
 
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
     void updateProducer(const QString &id, Mlt::Producer *producer);
 
-    void getProducerXML(QDomDocument& document, bool includeMeta = false);
+    void getProducerXML(QDomDocument &document, bool includeMeta = false);
 
     /** @brief Returns a clone of our master producer. Delete after use! */
     Mlt::Producer *masterProducer();
@@ -99,16 +98,16 @@ public:
      * @param value the new value
      */
     void setProperty(const QString &name, const QString &value);
-    void setProperty(const QString& name, int value);
-    void setProperty(const QString& name, double value);
-    void resetProperty(const QString& name);
-    
+    void setProperty(const QString &name, int value);
+    void setProperty(const QString &name, double value);
+    void resetProperty(const QString &name);
+
     /**
      * @brief Returns the list of all properties starting with prefix. For subclips, the list is of this type:
      * { subclip name , subclip in/out } where the subclip in/ou value is a semi-colon separated in/out value, like "25;220"
      */
     QMap<QString, QString> getPropertiesFromPrefix(const QString &prefix, bool withPrefix = false);
-    
+
     /**
      * @brief Returns the value of a property.
      * @param name name o the property
@@ -137,27 +136,27 @@ public:
 
     /** @brief Returns the MLT producer's service. */
     QString serviceName() const;
-    
+
     /** @brief Returns the original master producer. */
     Mlt::Producer &originalProducer();
-    
+
     /** @brief Returns the current profile's display aspect ratio. */
     double dar() const;
     /** @brief Holds index of currently selected master clip effect. */
     int selectedEffectIndex;
     /** @brief Get a clone of master producer for a specific track. Retrieve it if it already exists
-     *  in our list, otherwise we create it. 
+     *  in our list, otherwise we create it.
      *  Deprecated, track logic should be handled in timeline/track.cpp */
-    Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString &   trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
-    
+    Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString    &trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
+
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
     void addMasterProducer(Mlt::Producer &producer);
-    
+
     QList < CommentedTime > commentedSnapMarkers() const;
-    GenTime findNextSnapMarker(const GenTime & currTime);
-    GenTime findPreviousSnapMarker(const GenTime & currTime);
-    QString deleteSnapMarker(const GenTime & time);
-    void editSnapMarker(const GenTime & time, const QString &comment);
+    GenTime findNextSnapMarker(const GenTime &currTime);
+    GenTime findPreviousSnapMarker(const GenTime &currTime);
+    QString deleteSnapMarker(const GenTime &time);
+    void editSnapMarker(const GenTime &time, const QString &comment);
     void addSnapMarker(const CommentedTime &marker);
     void loadSnapMarker(const QString &seconds, const QString &hash);
     QList < GenTime > snapMarkers() const;

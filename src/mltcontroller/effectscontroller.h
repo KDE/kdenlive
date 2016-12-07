@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <mlt++/Mlt.h>
 #include <QString>
-
 
 /**)
  * @class EffectInfo
@@ -65,7 +64,6 @@ private:
     QString m_value;
 };
 
-
 /**)
  * @class EffectsParameterList
  * @brief Use our own list for effect parameters so that they are not sorted in any ways, because
@@ -90,30 +88,30 @@ public:
 
 namespace EffectsController
 {
-    /** @brief Gets the effect parameters that will be passed to Mlt. */
-    EffectsParameterList getEffectArgs(const ProfileInfo &info, const QDomElement &effect);
+/** @brief Gets the effect parameters that will be passed to Mlt. */
+EffectsParameterList getEffectArgs(const ProfileInfo &info, const QDomElement &effect);
 
-    /** @brief Get effect parameters ready for MLT*/
-    void adjustEffectParameters(EffectsParameterList &parameters, const QDomNodeList &params, const ProfileInfo &info, const QString &prefix = QString());
+/** @brief Get effect parameters ready for MLT*/
+void adjustEffectParameters(EffectsParameterList &parameters, const QDomNodeList &params, const ProfileInfo &info, const QString &prefix = QString());
 
-    /** @brief Returns an value from a string by replacing "%width" and "%height" with given profile values:
-     *  @param info The struct that gives width & height
-     *  @param eval The string to be evaluated, for example: "%width / 2"
-     *  @return the evaluated value */
-    double getStringEval(const ProfileInfo &info, QString eval, const QPoint& frameSize = QPoint());
-    QString getStringRectEval(const ProfileInfo &info, QString eval);
+/** @brief Returns an value from a string by replacing "%width" and "%height" with given profile values:
+ *  @param info The struct that gives width & height
+ *  @param eval The string to be evaluated, for example: "%width / 2"
+ *  @return the evaluated value */
+double getStringEval(const ProfileInfo &info, QString eval, const QPoint &frameSize = QPoint());
+QString getStringRectEval(const ProfileInfo &info, QString eval);
 
-    /** @brief Initialize some track effects parameters */
-    void initTrackEffect(ProfileInfo pInfo, const QDomElement &effect);
-     /** @brief Initialize some effects parameters: keyframes, fades, in / out points  */
-    void initEffect(const ItemInfo &info, ProfileInfo pInfo, const EffectsList &list, const QString &proxy, QDomElement effect, int diff = 0, int offset = 0);
+/** @brief Initialize some track effects parameters */
+void initTrackEffect(ProfileInfo pInfo, const QDomElement &effect);
+/** @brief Initialize some effects parameters: keyframes, fades, in / out points  */
+void initEffect(const ItemInfo &info, ProfileInfo pInfo, const EffectsList &list, const QString &proxy, QDomElement effect, int diff = 0, int offset = 0);
 
-    /** @brief Adjust keyframes to the new clip. */
-    const QString adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newEnd, ProfileInfo pInfo);
-    EffectsParameterList addEffect(const ProfileInfo &info, const QDomElement &effect);
+/** @brief Adjust keyframes to the new clip. */
+const QString adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newEnd, ProfileInfo pInfo);
+EffectsParameterList addEffect(const ProfileInfo &info, const QDomElement &effect);
 
-    /** @brief Keyframe frame numbers are relative to clip's crop start. So when saving an effect, remove clip cropstart from keyframe numbers so that when we apply effect on another clip, frame numbers are applied relative to the new clip's crop start. */
-    void offsetKeyframes(int in, const QDomElement &effect);
+/** @brief Keyframe frame numbers are relative to clip's crop start. So when saving an effect, remove clip cropstart from keyframe numbers so that when we apply effect on another clip, frame numbers are applied relative to the new clip's crop start. */
+void offsetKeyframes(int in, const QDomElement &effect);
 };
 
 #endif

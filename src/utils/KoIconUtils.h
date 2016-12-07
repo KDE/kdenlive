@@ -29,17 +29,19 @@
 namespace KoIconUtils
 {
 #if KXMLGUI_VERSION_MINOR > 22 || KXMLGUI_VERSION_MAJOR > 5
-    inline QIcon themedIcon(const QString &name)
-    {
-        if (KdenliveSettings::force_breeze()) return QIcon(new KIconEngine(name, KIconLoader::global()));
-        return QIcon::fromTheme(name);
-    };
+inline QIcon themedIcon(const QString &name)
+{
+    if (KdenliveSettings::force_breeze()) {
+        return QIcon(new KIconEngine(name, KIconLoader::global()));
+    }
+    return QIcon::fromTheme(name);
+};
 #else
-    /**
-     * Load a themed icon using its base name. Use it in
-     * Krita instead of previous themedIcon()
-     */
-    QIcon themedIcon(const QString &name);
+/**
+ * Load a themed icon using its base name. Use it in
+ * Krita instead of previous themedIcon()
+ */
+QIcon themedIcon(const QString &name);
 #endif
 }
 

@@ -21,7 +21,6 @@
  *
  * ============================================================ */
 
-
 // Qt includes
 
 #include <QStringList>
@@ -61,7 +60,6 @@ Q_GLOBAL_STATIC(ThemeManagerCreator, creator)
 
 // ---------------------------------------------------------------
 
-
 class ThemeManager::Private
 {
 public:
@@ -76,8 +74,8 @@ public:
     const QString          defaultThemeName;
     QMap<QString, QString> themeMap;            // map<theme name, theme config path>
 
-    QActionGroup*          themeMenuActionGroup;
-    KActionMenu*           themeMenuAction;
+    QActionGroup          *themeMenuActionGroup;
+    KActionMenu           *themeMenuAction;
 };
 
 ThemeManager::ThemeManager()
@@ -90,7 +88,7 @@ ThemeManager::~ThemeManager()
     delete d;
 }
 
-ThemeManager* ThemeManager::instance()
+ThemeManager *ThemeManager::instance()
 {
     return &creator->object;
 }
@@ -102,25 +100,25 @@ QString ThemeManager::defaultThemeName() const
 
 QString ThemeManager::currentThemeName() const
 {
-    if (!d->themeMenuAction || !d->themeMenuActionGroup)
+    if (!d->themeMenuAction || !d->themeMenuActionGroup) {
         return defaultThemeName();
+    }
 
-    QAction* const action = d->themeMenuActionGroup->checkedAction();
+    QAction *const action = d->themeMenuActionGroup->checkedAction();
 
     return (!action ? defaultThemeName()
-                    : action->text().remove('&'));
+            : action->text().remove('&'));
 }
 
-void ThemeManager::setCurrentTheme(const QString& filename)
+void ThemeManager::setCurrentTheme(const QString &filename)
 {
-    if (!d->themeMenuAction || !d->themeMenuActionGroup)
+    if (!d->themeMenuAction || !d->themeMenuActionGroup) {
         return;
+    }
     QString name = d->themeMap.key(filename, d->defaultThemeName);
-    QList<QAction*> list = d->themeMenuActionGroup->actions();
-    foreach(QAction* const action, list)
-    {
-        if (action->text().remove('&') == name)
-        {
+    QList<QAction *> list = d->themeMenuActionGroup->actions();
+    foreach (QAction *const action, list) {
+        if (action->text().remove('&') == name) {
             action->setChecked(true);
             //slotChangePalette();
         }
@@ -133,8 +131,9 @@ void ThemeManager::slotChangePalette()
 
     QString theme(currentThemeName());
 
-    if (theme == defaultThemeName() || theme.isEmpty())
+    if (theme == defaultThemeName() || theme.isEmpty()) {
         theme = currentKDEdefaultTheme();
+    }
 
     QString filename = d->themeMap.value(theme);
 
@@ -143,7 +142,7 @@ void ThemeManager::slotChangePalette()
     emit signalThemeChanged(filename);
 }
 
-void ThemeManager::setThemeMenuAction(KActionMenu* const action)
+void ThemeManager::setThemeMenuAction(KActionMenu *const action)
 {
     d->themeMenuAction = action;
     populateThemeMenu();
@@ -151,8 +150,9 @@ void ThemeManager::setThemeMenuAction(KActionMenu* const action)
 
 void ThemeManager::populateThemeMenu()
 {
-    if (!d->themeMenuAction)
+    if (!d->themeMenuAction) {
         return;
+    }
 
     QString theme(currentThemeName());
     d->themeMenuAction->menu()->clear();
@@ -163,7 +163,7 @@ void ThemeManager::populateThemeMenu()
     connect(d->themeMenuActionGroup, &QActionGroup::triggered,
             this, &ThemeManager::slotChangePalette);
 
-    QAction* action = new QAction(defaultThemeName(), d->themeMenuActionGroup);
+    QAction *action = new QAction(defaultThemeName(), d->themeMenuActionGroup);
     action->setCheckable(true);
     d->themeMenuAction->addAction(action);
 
@@ -172,24 +172,23 @@ void ThemeManager::populateThemeMenu()
     QStringList schemeFiles;
     //const QStringList schemeFiles = KGlobal::dirs()->findAllResources("data", "color-schemes/*.colors", KStandardDirs::NoDuplicates);
     const QStringList colors = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("color-schemes"), QStandardPaths::LocateDirectory);
-    foreach(const QString & folder, colors) {
+    foreach (const QString &folder, colors) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
-        foreach(const QString & fname, filesnames) {
+        foreach (const QString &fname, filesnames) {
             schemeFiles << directory.absoluteFilePath(fname);
         }
     }
-    QMap<QString, QAction*> actionMap;
+    QMap<QString, QAction *> actionMap;
 
-    for (int i = 0; i < schemeFiles.size(); ++i)
-    {
+    for (int i = 0; i < schemeFiles.size(); ++i) {
         const QString filename  = schemeFiles.at(i);
         const QFileInfo info(filename);
         KSharedConfigPtr config = KSharedConfig::openConfig(filename);
         QIcon icon = createSchemePreviewIcon(config);
         KConfigGroup group(config, "General");
         const QString name = group.readEntry("Name", info.baseName());
-        QAction* ac = new QAction(name, d->themeMenuActionGroup);
+        QAction *ac = new QAction(name, d->themeMenuActionGroup);
         d->themeMap.insert(name, filename);
         ac->setIcon(icon);
         ac->setCheckable(true);
@@ -200,8 +199,7 @@ void ThemeManager::populateThemeMenu()
     QStringList actionMapKeys = actionMap.keys();
     actionMapKeys.sort();
 
-    foreach(const QString& name, actionMapKeys)
-    {
+    foreach (const QString &name, actionMapKeys) {
         d->themeMenuAction->addAction(actionMap.value(name));
     }
 
@@ -209,7 +207,7 @@ void ThemeManager::populateThemeMenu()
     setCurrentTheme(theme);
 
     d->themeMenuAction->addSeparator();
-    QAction* config = new QAction(i18n("Configuration..."), d->themeMenuAction);
+    QAction *config = new QAction(i18n("Configuration..."), d->themeMenuAction);
     config->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-theme")));
     d->themeMenuAction->addAction(config);
 
@@ -221,8 +219,7 @@ void ThemeManager::slotConfigColors()
 {
     int ret = KToolInvocation::kdeinitExec(QStringLiteral("kcmshell5"), QStringList() << QStringLiteral("colors"));
 
-    if (ret > 0)
-    {
+    if (ret > 0) {
         KMessageBox::error(0, i18n("Cannot start Colors Settings panel from KDE Control Center. "
                                    "Please check your system..."));
     }
@@ -230,12 +227,10 @@ void ThemeManager::slotConfigColors()
 
 void ThemeManager::updateCurrentKDEdefaultThemePreview()
 {
-    QList<QAction*> list = d->themeMenuActionGroup->actions();
+    QList<QAction *> list = d->themeMenuActionGroup->actions();
 
-    foreach(QAction* const action, list)
-    {
-        if (action->text().remove('&') == defaultThemeName())
-        {
+    foreach (QAction *const action, list) {
+        if (action->text().remove('&') == defaultThemeName()) {
             KSharedConfigPtr config = KSharedConfig::openConfig(d->themeMap.value(currentKDEdefaultTheme()));
             QIcon icon = createSchemePreviewIcon(config);
             action->setIcon(icon);
@@ -243,7 +238,7 @@ void ThemeManager::updateCurrentKDEdefaultThemePreview()
     }
 }
 
-QPixmap ThemeManager::createSchemePreviewIcon(const KSharedConfigPtr& config) const
+QPixmap ThemeManager::createSchemePreviewIcon(const KSharedConfigPtr &config) const
 {
     // code taken from kdebase/workspace/kcontrol/colors/colorscm.cpp
     const uchar bits1[] = { 0xff, 0xff, 0xff, 0x2c, 0x16, 0x0b };

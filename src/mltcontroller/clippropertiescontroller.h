@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -42,16 +42,14 @@ protected:
     QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;
 };
 
-
 /**
  * @class ClipPropertiesController
  * @brief This class creates the widgets allowing to edit clip properties
  */
 
-
 class ClipPropertiesController : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
     /**
      * @brief Constructor.
@@ -111,14 +109,14 @@ private:
     void fillProperties();
 
 signals:
-    void updateClipProperties(const QString &,QMap<QString, QString>, QMap<QString, QString>);
+    void updateClipProperties(const QString &, QMap<QString, QString>, QMap<QString, QString>);
     void modified(QColor);
     void modified(int);
     void updateTimeCodeFormat();
     /** @brief Seek clip monitor to a frame. */
     void seekToFrame(int);
     /** @brief Edit clip markers. */
-    void addMarkers(QString,QList<CommentedTime>);
+    void addMarkers(QString, QList<CommentedTime>);
     void loadMarkers(const QString &);
     void saveMarkers(const QString &);
     void editAnalysis(const QString &id, const QString &name, const QString &value);

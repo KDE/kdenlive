@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #include "transitionsettings.h"
 #include "core.h"
 #include "kdenlivesettings.h"
@@ -33,7 +31,7 @@
 
 #include <QMimeData>
 
-TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
+TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) :
     QWidget(parent),
     m_usedTransition(Q_NULLPTR),
     m_autoTrackTransition(0)
@@ -57,14 +55,18 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
     int ix = 0;
     for (; ix < max; ++ix) {
         transitionInfo = MainWindow::transitions.effectIdInfo(ix);
-        if (transitionInfo.isEmpty()) continue;
+        if (transitionInfo.isEmpty()) {
+            continue;
+        }
         transitionInfo << QString::number(ix);
         transitionsList.append(transitionInfo);
     }
     ix = 0;
-    foreach(const QStringList &value, transitionsList) {
+    foreach (const QStringList &value, transitionsList) {
         QStringList data = value;
-        if (!data.isEmpty()) data.removeLast();
+        if (!data.isEmpty()) {
+            data.removeLast();
+        }
         transitionList->addItem(value.at(0), data);
         transitionList->setItemData(ix, MainWindow::transitions.getInfoFromIndex(value.last().toInt()), Qt::ToolTipRole);
         ++ix;
@@ -72,10 +74,10 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget* parent) :
 
     connect(transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
-    connect(m_effectEdit, &EffectStackEdit::parameterChanged, this , &TransitionSettings::slotUpdateEffectParams);
+    connect(m_effectEdit, &EffectStackEdit::parameterChanged, this, &TransitionSettings::slotUpdateEffectParams);
 }
 
-void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, const QMap<QString,QString> &data)
+void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, const QMap<QString, QString> &data)
 {
     emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), m_usedTransition->toXML(), data);
 }
@@ -86,7 +88,9 @@ void TransitionSettings::refreshIcons()
     for (int i = 0; i < allMenus.count(); i++) {
         QAction *m = allMenus.at(i);
         QIcon ic = m->icon();
-        if (ic.isNull() || ic.name().isEmpty()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) {
+            continue;
+        }
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
     }
@@ -94,24 +98,27 @@ void TransitionSettings::refreshIcons()
     for (int i = 0; i < allButtons.count(); i++) {
         QToolButton *m = allButtons.at(i);
         QIcon ic = m->icon();
-        if (ic.isNull() || ic.name().isEmpty()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) {
+            continue;
+        }
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
     }
 }
 
-void TransitionSettings::dragEnterEvent(QDragEnterEvent * event ) {
+void TransitionSettings::dragEnterEvent(QDragEnterEvent *event)
+{
     if (m_effectEdit->doesAcceptDrops() && event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
         event->setDropAction(Qt::CopyAction);
         event->setAccepted(true);
+    } else {
+        QWidget::dragEnterEvent(event);
     }
-    else QWidget::dragEnterEvent(event);
 }
 
-void TransitionSettings::dropEvent( QDropEvent* event ) 
+void TransitionSettings::dropEvent(QDropEvent *event)
 {
-    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry")))
-    {
+    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
         QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
         QMap<QString, QString> data;
         data.insert(i18n("Geometry"), itemData);
@@ -137,8 +144,9 @@ void TransitionSettings::updateTrackList()
     transitionTrack->clear();
     transitionTrack->addItem(i18n("Auto"), -1);
     int limit = 1;
-    if (m_usedTransition)
+    if (m_usedTransition) {
         limit = m_usedTransition->track() - 1;
+    }
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     for (int i = limit; i > 0; i--) {
@@ -151,7 +159,6 @@ void TransitionSettings::updateTrackList()
     transitionTrack->blockSignals(false);
 }
 
-
 void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
 {
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
@@ -162,8 +169,9 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
         pCore->projectManager()->currentTimeline()->transitionHandler->initTransition(newTransition);
         slotUpdateEffectParams(e, newTransition);
         m_effectEdit->transferParamDesc(newTransition, m_usedTransition->info(), false);
-        if (m_effectEdit->needsMonitorEffectScene())
+        if (m_effectEdit->needsMonitorEffectScene()) {
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+        }
     } else if (!updateCurrent) {
         // Transition changed, update parameters dialog
         //slotUpdateEffectParams(e, e);
@@ -179,18 +187,22 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
             m_effectEdit->transferParamDesc(e, m_usedTransition->info(), false);
         } else {
             slotUpdateEffectParams(e, e);
-            if (m_usedTransition->hasGeometry())
+            if (m_usedTransition->hasGeometry()) {
                 m_effectEdit->transferParamDesc(m_usedTransition->toXML(), m_usedTransition->info(), false);
+            }
         }
-        if (m_effectEdit->needsMonitorEffectScene())
+        if (m_effectEdit->needsMonitorEffectScene()) {
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+        }
     }
     slotCheckMonitorPosition(m_effectEdit->monitor()->render->seekFramePosition());
 }
 
 void TransitionSettings::slotTransitionTrackChanged()
 {
-    if (m_usedTransition == Q_NULLPTR) return;
+    if (m_usedTransition == Q_NULLPTR) {
+        return;
+    }
     int ix = 0;
     QDomElement oldxml = m_usedTransition->toXML().cloneNode().toElement();
     if (transitionTrack->currentIndex() > 0) {
@@ -206,19 +218,24 @@ void TransitionSettings::slotTransitionTrackChanged()
     m_effectEdit->updateParameter(QStringLiteral("transition_btrack"), QString::number(ix));
 }
 
-void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update)
+void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack, const QPoint &p, bool update)
 {
     setEnabled(t != Q_NULLPTR);
     m_effectEdit->setFrameSize(p);
     m_autoTrackTransition = nextTrack;
     disconnect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos);
     if (t == m_usedTransition) {
-        if (t == Q_NULLPTR) return;
+        if (t == Q_NULLPTR) {
+            return;
+        }
         if (update) {
             transitionTrack->blockSignals(true);
             updateTrackList();
-            if (t->forcedTrack()) transitionTrack->setCurrentIndex(transitionTrack->findData(t->transitionEndTrack()));
-            else transitionTrack->setCurrentIndex(0);
+            if (t->forcedTrack()) {
+                transitionTrack->setCurrentIndex(transitionTrack->findData(t->transitionEndTrack()));
+            } else {
+                transitionTrack->setCurrentIndex(0);
+            }
             transitionTrack->blockSignals(false);
         }
         if (update || t->cropDuration() != m_transitionDuration || t->startPos() != m_transitionStart) {
@@ -231,17 +248,20 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
         return;
-    } else if (update) return;
+    } else if (update) {
+        return;
+    }
     if (t) {
         m_transitionDuration = t->cropDuration();
         m_transitionStart = t->startPos();
         transitionTrack->blockSignals(true);
         m_usedTransition = t;
         updateTrackList();
-        if (!t->forcedTrack())
+        if (!t->forcedTrack()) {
             transitionTrack->setCurrentIndex(0);
-        else
+        } else {
             transitionTrack->setCurrentIndex(transitionTrack->findData(t->transitionEndTrack()));
+        }
         transitionTrack->blockSignals(false);
         int ix = transitionList->findData(t->transitionInfo(), Qt::UserRole, Qt::MatchExactly);
         if (ix != -1) {
@@ -269,33 +289,40 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, con
         m_usedTransition->setTransitionParameters(param);
     }
     //oldparam must be also first given to Transition and then return the toXML()
-    if (oldparam != param)
+    if (oldparam != param) {
         emit transitionUpdated(m_usedTransition, oldparam);
+    }
 }
 
-void TransitionSettings::raiseWindow(QWidget* dock)
+void TransitionSettings::raiseWindow(QWidget *dock)
 {
-    if (dock && m_usedTransition)
+    if (dock && m_usedTransition) {
         dock->raise();
+    }
 }
 
 void TransitionSettings::slotRenderPos(int pos)
 {
     if (m_usedTransition) {
         m_effectEdit->slotSyncEffectsPos(pos - m_usedTransition->startPos().frames(KdenliveSettings::project_fps()));
-        if (isEnabled()) slotCheckMonitorPosition(pos);
+        if (isEnabled()) {
+            slotCheckMonitorPosition(pos);
+        }
     }
 }
 
 void TransitionSettings::slotSeekTimeline(int pos)
 {
-    if (m_usedTransition)
+    if (m_usedTransition) {
         emit seekTimeline(m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) + pos);
+    }
 }
 
 void TransitionSettings::slotCheckMonitorPosition(int renderPos)
 {
-    if (!isEnabled()) return;
+    if (!isEnabled()) {
+        return;
+    }
     MonitorSceneType sceneType = m_effectEdit->needsMonitorEffectScene();
     if (sceneType != MonitorSceneDefault) {
         if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
@@ -306,8 +333,7 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
         } else {
             m_effectEdit->monitor()->slotShowEffectScene(MonitorSceneDefault);
         }
-    }
-    else {
+    } else {
         m_effectEdit->monitor()->slotShowEffectScene(MonitorSceneDefault);
     }
 }
@@ -322,6 +348,4 @@ void TransitionSettings::updatePalette()
     // We need to reset current stylesheet if we want to change the palette!
     m_effectEdit->updatePalette();
 }
-
-
 

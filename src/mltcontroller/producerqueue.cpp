@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -18,7 +18,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 
 #include "producerqueue.h"
 #include "clipcontroller.h"
@@ -32,9 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtConcurrent>
 
-
 ProducerQueue::ProducerQueue(BinController *controller) : QObject(controller)
-  , m_binController(controller)
+    , m_binController(controller)
 {
     connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
     connect(this, &ProducerQueue::refreshTimelineProducer, m_binController, &BinController::replaceTimelineProducer);
@@ -102,7 +100,7 @@ void ProducerQueue::forceProcessing(const QString &id)
         m_infoThread.waitForFinished();
         emit infoProcessingFinished();
     }
-    
+
     m_infoMutex.lock();
     m_requestList.append(requestListCopy);
     m_infoMutex.unlock();
@@ -119,7 +117,9 @@ void ProducerQueue::slotProcessingDone(const QString &id)
 
 bool ProducerQueue::isProcessing(const QString &id)
 {
-    if (m_processingClipId.contains(id)) return true;
+    if (m_processingClipId.contains(id)) {
+        return true;
+    }
     QMutexLocker lock(&m_infoMutex);
     for (int i = 0; i < m_requestList.count(); ++i) {
         if (m_requestList.at(i).clipId == id) {
@@ -156,7 +156,9 @@ void ProducerQueue::processFileProperties()
                 prod->attach(converter);
             }
             int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
-            if (frameNumber > 0) prod->seek(frameNumber);
+            if (frameNumber > 0) {
+                prod->seek(frameNumber);
+            }
             Mlt::Frame *frame = prod->get_frame();
             if (frame && frame->is_valid()) {
                 int fullWidth = info.imageHeight * m_binController->profile()->dar() + 0.5;
@@ -185,8 +187,7 @@ void ProducerQueue::processFileProperties()
                     path.prepend(m_binController->documentRoot());
                 }
                 proxyProducer = false;
-            }
-            else {
+            } else {
                 path = proxy;
                 // Check for missing proxies
                 if (QFileInfo(path).size() <= 0) {
@@ -195,11 +196,11 @@ void ProducerQueue::processFileProperties()
                     proxyProducer = false;
                     //path = info.xml.attribute("resource");
                     path = ProjectClip::getXmlProperty(info.xml, QStringLiteral("resource"));
+                } else {
+                    proxyProducer = true;
                 }
-                else proxyProducer = true;
             }
-        }
-        else {
+        } else {
             path = ProjectClip::getXmlProperty(info.xml, QStringLiteral("resource"));
             //path = info.xml.attribute("resource");
             proxyProducer = false;
@@ -241,8 +242,7 @@ void ProducerQueue::processFileProperties()
                 // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
                 // Beware that "consumer" currently crashes on audio mixes!
                 path.prepend("xml:");
-            }
-            else {
+            } else {
                 path.prepend("consumer:");
                 // This is currently crashing so I guess we'd better reject it for now
                 m_processingClipId.removeAll(info.clipId);
@@ -317,13 +317,14 @@ void ProducerQueue::processFileProperties()
             }
         }
         if (producer == Q_NULLPTR || producer->is_blank() || !producer->is_valid()) {
-            qCDebug(KDENLIVE_LOG) << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: "<<path;
+            qCDebug(KDENLIVE_LOG) << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: " << path;
             m_processingClipId.removeAll(info.clipId);
             if (proxyProducer) {
                 // Proxy file is corrupted
                 emit removeInvalidProxy(info.clipId, false);
+            } else {
+                emit removeInvalidClip(info.clipId, info.replaceProducer);
             }
-            else emit removeInvalidClip(info.clipId, info.replaceProducer);
             delete producer;
             continue;
         }
@@ -343,7 +344,7 @@ void ProducerQueue::processFileProperties()
             producer->set("out", info.xml.attribute(QStringLiteral("proxy_out")).toInt());
             if (producer->get_out() != info.xml.attribute(QStringLiteral("proxy_out")).toInt()) {
                 // Proxy file length is different than original clip length, this will corrupt project so disable this proxy clip
-                qCDebug(KDENLIVE_LOG)<<"/ // PROXY LENGTH MISMATCH, DELETE PRODUCER";
+                qCDebug(KDENLIVE_LOG) << "/ // PROXY LENGTH MISMATCH, DELETE PRODUCER";
                 m_processingClipId.removeAll(info.clipId);
                 emit removeInvalidProxy(info.clipId, true);
                 delete producer;
@@ -416,18 +417,23 @@ void ProducerQueue::processFileProperties()
             } else {
                 length = EffectsList::property(info.xml, QStringLiteral("length")).toInt();
                 clipOut = info.xml.attribute(QStringLiteral("out")).toInt() - info.xml.attribute(QStringLiteral("in")).toInt();
-                if (length < clipOut)
+                if (length < clipOut) {
                     length = clipOut + 1;
+                }
             }
             // Pass duration if it was forced
             if (info.xml.hasAttribute(QStringLiteral("duration"))) {
                 duration = info.xml.attribute(QStringLiteral("duration")).toInt();
                 if (length < duration) {
                     length = duration;
-                    if (clipOut > 0) clipOut = length - 1;
+                    if (clipOut > 0) {
+                        clipOut = length - 1;
+                    }
                 }
             }
-            if (duration == 0) duration = length;
+            if (duration == 0) {
+                duration = length;
+            }
             producer->set("length", length);
             int kdenlive_duration = EffectsList::property(info.xml, QStringLiteral("kdenlive:duration")).toInt();
             producer->set("kdenlive:duration", kdenlive_duration > 0 ? kdenlive_duration : length);
@@ -436,15 +442,16 @@ void ProducerQueue::processFileProperties()
             producer->set_in_and_out(info.xml.attribute(QStringLiteral("in")).toInt(), clipOut);
         }
 
-        if (info.xml.hasAttribute(QStringLiteral("templatetext")))
+        if (info.xml.hasAttribute(QStringLiteral("templatetext"))) {
             producer->set("templatetext", info.xml.attribute(QStringLiteral("templatetext")).toUtf8().constData());
+        }
 
         int fullWidth = info.imageHeight * m_binController->profile()->dar() + 0.5;
         int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
 
         if ((!info.replaceProducer && !EffectsList::property(info.xml, QStringLiteral("kdenlive:file_hash")).isEmpty()) || proxyProducer) {
             // Clip  already has all properties
-            // We want to replace an existing producer. We MUST NOT set the producer's id property until 
+            // We want to replace an existing producer. We MUST NOT set the producer's id property until
             // the old one has been removed.
             if (proxyProducer) {
                 // Recreate clip thumb
@@ -453,7 +460,9 @@ void ProducerQueue::processFileProperties()
                 if (KdenliveSettings::gpu_accel()) {
                     Clip clp(*producer);
                     Mlt::Producer *glProd = clp.softClone(ClipController::getPassPropertiesList());
-                    if (frameNumber > 0) glProd->seek(frameNumber);
+                    if (frameNumber > 0) {
+                        glProd->seek(frameNumber);
+                    }
                     Mlt::Filter scaler(*m_binController->profile(), "swscale");
                     Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
                     glProd->attach(scaler);
@@ -465,14 +474,18 @@ void ProducerQueue::processFileProperties()
                     }
                     delete glProd;
                 } else {
-                    if (frameNumber > 0) producer->seek(frameNumber);
+                    if (frameNumber > 0) {
+                        producer->seek(frameNumber);
+                    }
                     frame = producer->get_frame();
                     if (frame && frame->is_valid()) {
                         img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
                         emit replyGetImage(info.clipId, img);
                     }
                 }
-                if (frame) delete frame;
+                if (frame) {
+                    delete frame;
+                }
             }
             // replace clip
             m_processingClipId.removeAll(info.clipId);
@@ -497,12 +510,14 @@ void ProducerQueue::processFileProperties()
         stringMap metadataPropertyMap;
         char property[200];
 
-        if (frameNumber > 0) producer->seek(frameNumber);
+        if (frameNumber > 0) {
+            producer->seek(frameNumber);
+        }
         duration = duration > 0 ? duration : producer->get_playtime();
         //qCDebug(KDENLIVE_LOG) << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
         if (type == SlideShow) {
-            int ttl = EffectsList::property(info.xml,QStringLiteral("ttl")).toInt();
-            QString anim = EffectsList::property(info.xml,QStringLiteral("animation"));
+            int ttl = EffectsList::property(info.xml, QStringLiteral("ttl")).toInt();
+            QString anim = EffectsList::property(info.xml, QStringLiteral("animation"));
             if (!anim.isEmpty()) {
                 Mlt::Filter *filter = new Mlt::Filter(*m_binController->profile(), "affine");
                 if (filter && filter->is_valid()) {
@@ -511,8 +526,9 @@ void ProducerQueue::processFileProperties()
                     if (!geometry.isEmpty()) {
                         if (anim.contains(QStringLiteral("low-pass"))) {
                             Mlt::Filter *blur = new Mlt::Filter(*m_binController->profile(), "boxblur");
-                            if (blur && blur->is_valid())
+                            if (blur && blur->is_valid()) {
                                 producer->attach(*blur);
+                            }
                         }
                         filter->set("transition.geometry", geometry.toUtf8().data());
                         filter->set("transition.cycle", cycle);
@@ -520,18 +536,22 @@ void ProducerQueue::processFileProperties()
                     }
                 }
             }
-            QString fade = EffectsList::property(info.xml,QStringLiteral("fade"));
+            QString fade = EffectsList::property(info.xml, QStringLiteral("fade"));
             if (fade == QLatin1String("1")) {
                 // user wants a fade effect to slideshow
                 Mlt::Filter *filter = new Mlt::Filter(*m_binController->profile(), "luma");
                 if (filter && filter->is_valid()) {
-                    if (ttl) filter->set("cycle", ttl);
-                    QString luma_duration = EffectsList::property(info.xml,QStringLiteral("luma_duration"));
-                    QString luma_file = EffectsList::property(info.xml,QStringLiteral("luma_file"));
-                    if (!luma_duration.isEmpty()) filter->set("duration", luma_duration.toInt());
+                    if (ttl) {
+                        filter->set("cycle", ttl);
+                    }
+                    QString luma_duration = EffectsList::property(info.xml, QStringLiteral("luma_duration"));
+                    QString luma_file = EffectsList::property(info.xml, QStringLiteral("luma_file"));
+                    if (!luma_duration.isEmpty()) {
+                        filter->set("duration", luma_duration.toInt());
+                    }
                     if (!luma_file.isEmpty()) {
                         filter->set("luma.resource", luma_file.toUtf8().constData());
-                        QString softness = EffectsList::property(info.xml,QStringLiteral("softness"));
+                        QString softness = EffectsList::property(info.xml, QStringLiteral("softness"));
                         if (!softness.isEmpty()) {
                             int soft = softness.toInt();
                             filter->set("luma.softness", (double) soft / 100.0);
@@ -540,7 +560,7 @@ void ProducerQueue::processFileProperties()
                     producer->attach(*filter);
                 }
             }
-            QString crop = EffectsList::property(info.xml,QStringLiteral("crop"));
+            QString crop = EffectsList::property(info.xml, QStringLiteral("crop"));
             if (crop == QLatin1String("1")) {
                 // user wants to center crop the slides
                 Mlt::Filter *filter = new Mlt::Filter(*m_binController->profile(), "crop");
@@ -571,13 +591,12 @@ void ProducerQueue::processFileProperties()
                 delete tmpProd;
                 tmpProd = new Mlt::Producer(original_profile, 0, path.toUtf8().constData());
                 int originalLength = tmpProd->get_length();
-                int fixedLength = (int) (originalLength * m_binController->profile()->fps() / originalFps);
+                int fixedLength = (int)(originalLength * m_binController->profile()->fps() / originalFps);
                 producer->set("length", fixedLength);
                 producer->set("out", fixedLength - 1);
             }
             delete tmpProd;
-        }
-        else if (mltService == QLatin1String("avformat")) {
+        } else if (mltService == QLatin1String("avformat")) {
             // Get frame rate
             vindex = producer->get_int("video_index");
             // List streams
@@ -587,15 +606,22 @@ void ProducerQueue::processFileProperties()
             for (int i = 0; i < streams; ++i) {
                 QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
                 QString type = producer->get(propertyName.data());
-                if (type == QLatin1String("audio")) audio_list.append(i);
-                else if (type == QLatin1String("video")) video_list.append(i);
+                if (type == QLatin1String("audio")) {
+                    audio_list.append(i);
+                } else if (type == QLatin1String("video")) {
+                    video_list.append(i);
+                }
             }
 
             if (!info.xml.hasAttribute(QStringLiteral("video_index")) && video_list.count() > 1) {
                 // Clip has more than one video stream, ask which one should be used
                 QMap<QString, QString> data;
-                if (info.xml.hasAttribute(QStringLiteral("group"))) data.insert(QStringLiteral("group"), info.xml.attribute(QStringLiteral("group")));
-                if (info.xml.hasAttribute(QStringLiteral("groupId"))) data.insert(QStringLiteral("groupId"), info.xml.attribute(QStringLiteral("groupId")));
+                if (info.xml.hasAttribute(QStringLiteral("group"))) {
+                    data.insert(QStringLiteral("group"), info.xml.attribute(QStringLiteral("group")));
+                }
+                if (info.xml.hasAttribute(QStringLiteral("groupId"))) {
+                    data.insert(QStringLiteral("groupId"), info.xml.attribute(QStringLiteral("groupId")));
+                }
                 emit multiStreamFound(path, audio_list, video_list, data);
                 // Force video index so that when reloading the clip we don't ask again for other streams
                 filePropertyMap[QStringLiteral("video_index")] = QString::number(vindex);
@@ -603,10 +629,10 @@ void ProducerQueue::processFileProperties()
 
             if (vindex > -1) {
                 snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
-                    double fps = producer->get_double(property);
-                    if (fps > 0) {
-                        filePropertyMap[QStringLiteral("fps")] = locale.toString(fps);
-                    }
+                double fps = producer->get_double(property);
+                if (fps > 0) {
+                    filePropertyMap[QStringLiteral("fps")] = locale.toString(fps);
+                }
             }
 
             if (!filePropertyMap.contains(QStringLiteral("fps"))) {
@@ -614,18 +640,20 @@ void ProducerQueue::processFileProperties()
                     filePropertyMap[QStringLiteral("fps")] = locale.toString(producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den"));
                 } else {
                     double fps = producer->get_double("source_fps");
-                    if (fps > 0) filePropertyMap[QStringLiteral("fps")] = locale.toString(fps);
+                    if (fps > 0) {
+                        filePropertyMap[QStringLiteral("fps")] = locale.toString(fps);
+                    }
                 }
             }
         }
         if (!filePropertyMap.contains(QStringLiteral("fps")) && type == Unknown) {
-              // something wrong, maybe audio file with embedded image
-              QMimeDatabase db;
-              QString mime = db.mimeTypeForFile(path).name();
-              if (mime.startsWith(QLatin1String("audio"))) {
-                  producer->set("video_index", -1);
-                  vindex = -1;
-              }
+            // something wrong, maybe audio file with embedded image
+            QMimeDatabase db;
+            QString mime = db.mimeTypeForFile(path).name();
+            if (mime.startsWith(QLatin1String("audio"))) {
+                producer->set("video_index", -1);
+                vindex = -1;
+            }
         }
         Mlt::Frame *frame = producer->get_frame();
         if (frame && frame->is_valid()) {
@@ -647,26 +675,36 @@ void ProducerQueue::processFileProperties()
                     img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
                 }
                 emit replyGetImage(info.clipId, img);
-            }
-            else {
+            } else {
                 filePropertyMap[QStringLiteral("frame_size")] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
                 int af = frame->get_int("audio_frequency");
                 int ac = frame->get_int("audio_channels");
                 // keep for compatibility with MLT <= 0.8.6
-                if (af == 0) af = frame->get_int("frequency");
-                if (ac == 0) ac = frame->get_int("channels");
-                if (af > 0) filePropertyMap[QStringLiteral("frequency")] = QString::number(af);
-                if (ac > 0) filePropertyMap[QStringLiteral("channels")] = QString::number(ac);
-                if (!filePropertyMap.contains(QStringLiteral("aspect_ratio"))) filePropertyMap[QStringLiteral("aspect_ratio")] = frame->get("aspect_ratio");
+                if (af == 0) {
+                    af = frame->get_int("frequency");
+                }
+                if (ac == 0) {
+                    ac = frame->get_int("channels");
+                }
+                if (af > 0) {
+                    filePropertyMap[QStringLiteral("frequency")] = QString::number(af);
+                }
+                if (ac > 0) {
+                    filePropertyMap[QStringLiteral("channels")] = QString::number(ac);
+                }
+                if (!filePropertyMap.contains(QStringLiteral("aspect_ratio"))) {
+                    filePropertyMap[QStringLiteral("aspect_ratio")] = frame->get("aspect_ratio");
+                }
 
                 if (frame->get_int("test_image") == 0 && vindex != -1) {
                     if (mltService == QLatin1String("xml") || mltService == QLatin1String("consumer")) {
                         filePropertyMap[QStringLiteral("type")] = QStringLiteral("playlist");
                         metadataPropertyMap[QStringLiteral("comment")] = QString::fromUtf8(producer->get("title"));
-                    } else if (!mlt_frame_is_test_audio(frame->get_frame()))
+                    } else if (!mlt_frame_is_test_audio(frame->get_frame())) {
                         filePropertyMap[QStringLiteral("type")] = QStringLiteral("av");
-                    else
+                    } else {
                         filePropertyMap[QStringLiteral("type")] = QStringLiteral("video");
+                    }
                     // Check if we are using GPU accel, then we need to use alternate producer
                     Mlt::Producer *tmpProd = Q_NULLPTR;
                     if (KdenliveSettings::gpu_accel()) {
@@ -678,8 +716,7 @@ void ProducerQueue::processFileProperties()
                         tmpProd->attach(scaler);
                         tmpProd->attach(converter);
                         frame = tmpProd->get_frame();
-                    }
-                    else {
+                    } else {
                         tmpProd = producer;
                     }
                     QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
@@ -689,7 +726,7 @@ void ProducerQueue::processFileProperties()
                         if (variance < 6) {
                             // Thumbnail is not interesting (for example all black, seek to fetch better thumb
                             delete frame;
-                            frameNumber =  duration > 100 ? 100 : duration / 2 ;
+                            frameNumber =  duration > 100 ? 100 : duration / 2;
                             tmpProd->seek(frameNumber);
                             frame = tmpProd->get_frame();
                             img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
@@ -698,7 +735,9 @@ void ProducerQueue::processFileProperties()
                     if (KdenliveSettings::gpu_accel()) {
                         delete tmpProd;
                     }
-                    if (frameNumber > -1) filePropertyMap[QStringLiteral("thumbnailFrame")] = QString::number(frameNumber);
+                    if (frameNumber > -1) {
+                        filePropertyMap[QStringLiteral("thumbnailFrame")] = QString::number(frameNumber);
+                    }
                     emit replyGetImage(info.clipId, img);
                 } else if (frame->get_int("test_audio") == 0) {
                     filePropertyMap[QStringLiteral("type")] = QStringLiteral("audio");
@@ -711,7 +750,7 @@ void ProducerQueue::processFileProperties()
                     emit removeInvalidClip(clipId);
                     delete producer;
                     return;
-                }*/
+                    }*/
                     // Get the video_index
                     int video_max = 0;
                     int default_audio = producer->get_int("audio_index");
@@ -724,10 +763,11 @@ void ProducerQueue::processFileProperties()
                     for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ++ix) {
                         snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
                         QString type = producer->get(property);
-                        if (type == QLatin1String("video"))
+                        if (type == QLatin1String("video")) {
                             video_max = ix;
-                        else if (type == QLatin1String("audio"))
+                        } else if (type == QLatin1String("audio")) {
                             audio_max = ix;
+                        }
                     }
                     filePropertyMap[QStringLiteral("default_video")] = QString::number(vindex);
                     filePropertyMap[QStringLiteral("video_max")] = QString::number(video_max);
@@ -747,7 +787,9 @@ void ProducerQueue::processFileProperties()
                     filePropertyMap[QStringLiteral("pix_fmt")] = producer->get(query.toUtf8().constData());
                     filePropertyMap[QStringLiteral("colorspace")] = producer->get("meta.media.colorspace");
 
-                } else qCDebug(KDENLIVE_LOG) << " / / / / /WARNING, VIDEO CONTEXT IS Q_NULLPTR!!!!!!!!!!!!!!";
+                } else {
+                    qCDebug(KDENLIVE_LOG) << " / / / / /WARNING, VIDEO CONTEXT IS Q_NULLPTR!!!!!!!!!!!!!!";
+                }
                 if (producer->get_int("audio_index") > -1) {
                     // Get the audio_index
                     int index = producer->get_int("audio_index");
@@ -756,8 +798,9 @@ void ProducerQueue::processFileProperties()
                         filePropertyMap[QStringLiteral("audiocodec")] = producer->get(property);
                     } else {
                         snprintf(property, sizeof(property), "meta.media.%d.codec.name", index);
-                        if (producer->get(property))
+                        if (producer->get(property)) {
                             filePropertyMap[QStringLiteral("audiocodec")] = producer->get(property);
+                        }
                     }
                 }
                 producer->set("mlt_service", "avformat-novalidate");
@@ -770,16 +813,16 @@ void ProducerQueue::processFileProperties()
         for (int i = 0; i < count; i ++) {
             QString name = metadata.get_name(i);
             QString value = QString::fromUtf8(metadata.get(i));
-            if (name.endsWith(QLatin1String(".markup")) && !value.isEmpty())
+            if (name.endsWith(QLatin1String(".markup")) && !value.isEmpty()) {
                 metadataPropertyMap[ name.section('.', 0, -2)] = value;
+            }
         }
         producer->seek(0);
         if (m_binController->hasClip(info.clipId)) {
             // If controller already exists, we just want to update the producer
             m_binController->replaceProducer(info.clipId, *producer);
             emit gotFileProperties(info, Q_NULLPTR);
-        }
-        else {
+        } else {
             // Create the controller
             ClipController *controller = new ClipController(m_binController, *producer);
             m_binController->addClipToBin(info.clipId, controller);
@@ -801,20 +844,32 @@ ClipType ProducerQueue::getTypeForService(const QString &id, const QString &path
 {
     if (id.isEmpty()) {
         QString ext = path.section(QStringLiteral("."), -1);
-        if (ext == QLatin1String("mlt") || ext == QLatin1String("kdenlive")) return Playlist;
+        if (ext == QLatin1String("mlt") || ext == QLatin1String("kdenlive")) {
+            return Playlist;
+        }
         return Unknown;
     }
-    if (id == QLatin1String("color") || id == QLatin1String("colour")) return Color;
-    if (id == QLatin1String("kdenlivetitle")) return Text;
-    if (id == QLatin1String("qtext")) return QText;
-    if (id == QLatin1String("xml") || id == QLatin1String("consumer")) return Playlist;
-    if (id == QLatin1String("webvfx")) return WebVfx;
+    if (id == QLatin1String("color") || id == QLatin1String("colour")) {
+        return Color;
+    }
+    if (id == QLatin1String("kdenlivetitle")) {
+        return Text;
+    }
+    if (id == QLatin1String("qtext")) {
+        return QText;
+    }
+    if (id == QLatin1String("xml") || id == QLatin1String("consumer")) {
+        return Playlist;
+    }
+    if (id == QLatin1String("webvfx")) {
+        return WebVfx;
+    }
     return Unknown;
 }
 
 void ProducerQueue::processProducerProperties(Mlt::Producer *prod, const QDomElement &xml)
 {
-    //TODO: there is some duplication with clipcontroller > updateproducer that also copies properties 
+    //TODO: there is some duplication with clipcontroller > updateproducer that also copies properties
     QString value;
     QStringList internalProperties;
     internalProperties << QStringLiteral("bypassDuplicate") << QStringLiteral("resource") << QStringLiteral("mlt_service") << QStringLiteral("audio_index") << QStringLiteral("video_index") << QStringLiteral("mlt_type");
@@ -822,12 +877,13 @@ void ProducerQueue::processProducerProperties(Mlt::Producer *prod, const QDomEle
 
     if (xml.tagName() == QLatin1String("producer")) {
         props = xml.childNodes();
-    }
-    else {
+    } else {
         props = xml.firstChildElement(QStringLiteral("producer")).childNodes();
     }
     for (int i = 0; i < props.count(); ++i) {
-        if (props.at(i).toElement().tagName() != QStringLiteral("property")) continue;
+        if (props.at(i).toElement().tagName() != QStringLiteral("property")) {
+            continue;
+        }
         QString propertyName = props.at(i).toElement().attribute(QStringLiteral("name"));
         if (!internalProperties.contains(propertyName) && !propertyName.startsWith(QLatin1String("_"))) {
             value = props.at(i).firstChild().nodeValue();
@@ -840,14 +896,13 @@ void ProducerQueue::processProducerProperties(Mlt::Producer *prod, const QDomEle
     }
 }
 
-
 void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QList<int> &audio_list, const QList<int> &video_list, stringMap data)
-{ 
+{
     if (KdenliveSettings::automultistreams()) {
         for (int i = 1; i < video_list.count(); ++i) {
             int vindex = video_list.at(i);
             int aindex = 0;
-            if (i <= audio_list.count() -1) {
+            if (i <= audio_list.count() - 1) {
                 aindex = audio_list.at(i);
             }
             data.insert(QStringLiteral("video_index"), QString::number(vindex));
@@ -859,11 +914,13 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QLis
     }
 
     int width = 60.0 * m_binController->profile()->dar();
-    if (width % 2 == 1) width++;
+    if (width % 2 == 1) {
+        width++;
+    }
 
     QPointer<QDialog> dialog = new QDialog(qApp->activeWindow());
     dialog->setWindowTitle(QStringLiteral("Multi Stream Clip"));
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     QWidget *mainWidget = new QWidget(dialog);
     QVBoxLayout *mainLayout = new QVBoxLayout;
     dialog->setLayout(mainLayout);
@@ -874,11 +931,11 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QLis
     dialog->connect(buttonBox, &QDialogButtonBox::accepted, dialog.data(), &QDialog::accept);
     dialog->connect(buttonBox, &QDialogButtonBox::rejected, dialog.data(), &QDialog::reject);
     okButton->setText(i18n("Import selected clips"));
-    
+
     QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", path), mainWidget);
     mainLayout->addWidget(lab1);
-    QList <QGroupBox*> groupList;
-    QList <KComboBox*> comboList;
+    QList <QGroupBox *> groupList;
+    QList <KComboBox *> comboList;
     // We start loading the list at 1, video index 0 should already be loaded
     for (int j = 1; j < video_list.count(); ++j) {
         Mlt::Producer multiprod(* m_binController->profile(), path.toUtf8().constData());
@@ -890,7 +947,7 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QLis
         groupList << streamFrame;
         streamFrame->setCheckable(true);
         streamFrame->setChecked(true);
-        QVBoxLayout *vh = new QVBoxLayout( streamFrame );
+        QVBoxLayout *vh = new QVBoxLayout(streamFrame);
         QLabel *iconLabel = new QLabel(mainWidget);
         mainLayout->addWidget(iconLabel);
         iconLabel->setPixmap(QPixmap::fromImage(thumb));

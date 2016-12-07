@@ -21,11 +21,10 @@
 #ifndef MELTJOB
 #define MELTJOB
 
-
 #include "abstractclipjob.h"
 
-
-namespace Mlt{
+namespace Mlt
+{
 class Profile;
 class Producer;
 class Consumer;
@@ -49,7 +48,7 @@ public:
      *  @param id the id of the clip that requested this clip job
      *  @param producerParams the parameters that will be passed to the Mlt::Producer. The "producer" value will be used to initialize the producer.
      *         should contain the in and out values (in=0, out=-1 to process all clip)
-     *  @param filterParams the parameters that will be passed to the (optional) Mlt::Filter attached to the producer. The "filter" value 
+     *  @param filterParams the parameters that will be passed to the (optional) Mlt::Filter attached to the producer. The "filter" value
      *         should contain the MLT's filter name.
      *  @param consumerParams the parameters passed to the Mlt::Consumer. The "consumer" value should hold the consumer's initialization string.
         @param extraParams these parameters can be used to further affect the Job handling.
@@ -70,7 +69,7 @@ public:
     void setStatus(ClipJobStatus status) Q_DECL_OVERRIDE;
     /** @brief Here we will send the current progress info to anyone interested. */
     void emitFrameNumber(int pos);
-    
+
 private:
     Mlt::Consumer *m_consumer;
     Mlt::Producer *m_producer;

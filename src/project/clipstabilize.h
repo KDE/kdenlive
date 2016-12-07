@@ -18,10 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef CLIPSTABILIZE_H
 #define CLIPSTABILIZE_H
-
 
 #include "ui_clipstabilize_ui.h"
 #include "timecode.h"
@@ -32,7 +30,7 @@ class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
     Q_OBJECT
 
 public:
-    explicit ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget * parent = Q_NULLPTR);
+    explicit ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget *parent = Q_NULLPTR);
     ~ClipStabilize();
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
@@ -47,7 +45,6 @@ public:
     /** @brief Return the job description. */
     QString desc() const;
 
-
 private slots:
     void slotUpdateParams();
     void slotValidate();
@@ -55,7 +52,7 @@ private slots:
 private:
     QString m_filtername;
     QStringList m_urls;
-    QHash<QString,QHash<QString,QString> > m_ui_params;
+    QHash<QString, QHash<QString, QString> > m_ui_params;
     QVBoxLayout *vbox;
     void fillParameters(QStringList);
     QMap<QString, QString> m_fixedParams;
@@ -64,7 +61,6 @@ private:
 signals:
     void addClip(const QUrl &url);
 };
-
 
 #endif
 

@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef SLIDESHOWCLIP_H
 #define SLIDESHOWCLIP_H
-
 
 #include "definitions.h"
 #include "timecode.h"
@@ -35,7 +33,7 @@ class SlideshowClip : public QDialog
     Q_OBJECT
 
 public:
-    explicit SlideshowClip(const Timecode& tc, QString clipFolder, ProjectClip *clip = Q_NULLPTR, QWidget * parent = Q_NULLPTR);
+    explicit SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip *clip = Q_NULLPTR, QWidget *parent = Q_NULLPTR);
     virtual ~ SlideshowClip();
     /** return selected path for slideshow in MLT format */
     QString selectedPath();
@@ -74,7 +72,6 @@ private:
     Timecode m_timecode;
     KIO::PreviewJob *m_thumbJob;
 };
-
 
 #endif
 

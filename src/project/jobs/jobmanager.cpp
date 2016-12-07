@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -40,8 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_scenecutdialog_ui.h"
 
 JobManager::JobManager(Bin *bin): QObject()
-  , m_bin(bin)
-  , m_abortAllJobs(false)
+    , m_bin(bin)
+    , m_abortAllJobs(false)
 {
     connect(this, &JobManager::processLog, this, &JobManager::slotProcessLog);
     connect(this, &JobManager::checkJobProcess, this, &JobManager::slotCheckJobProcess);
@@ -55,7 +55,9 @@ JobManager::~JobManager()
     }
     m_jobThreads.waitForFinished();
     m_jobThreads.clearFutures();
-    if (!m_jobList.isEmpty()) qDeleteAll(m_jobList);
+    if (!m_jobList.isEmpty()) {
+        qDeleteAll(m_jobList);
+    }
     m_jobList.clear();
 }
 
@@ -78,7 +80,7 @@ QStringList JobManager::getPendingJobs(const QString &id)
     return result;
 }
 
-void JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type) 
+void JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
 {
     QMutexLocker lock(&m_jobMutex);
     for (int i = 0; i < m_jobList.count(); ++i) {
@@ -95,7 +97,9 @@ bool JobManager::hasPendingJob(const QString &clipId, AbstractClipJob::JOBTYPE t
 {
     QMutexLocker lock(&m_jobMutex);
     for (int i = 0; i < m_jobList.count(); i++) {
-        if (m_abortAllJobs) break;
+        if (m_abortAllJobs) {
+            break;
+        }
         AbstractClipJob *job = m_jobList.at(i);
         if (job->clipId() == clipId && job->jobType == type && (job->status() == JobWaiting || job->status() == JobWorking)) {
             return true;
@@ -115,7 +119,9 @@ void JobManager::slotCheckJobProcess()
                 m_jobThreads.addFuture(futures.at(i));
             }
     }
-    if (m_jobList.isEmpty()) return;
+    if (m_jobList.isEmpty()) {
+        return;
+    }
 
     m_jobMutex.lock();
     int count = 0;
@@ -131,15 +137,18 @@ void JobManager::slotCheckJobProcess()
     }
     m_jobMutex.unlock();
     emit jobCount(count);
-    if (m_jobThreads.futures().isEmpty() || m_jobThreads.futures().count() < KdenliveSettings::proxythreads()) m_jobThreads.addFuture(QtConcurrent::run(this, &JobManager::slotProcessJobs));
+    if (m_jobThreads.futures().isEmpty() || m_jobThreads.futures().count() < KdenliveSettings::proxythreads()) {
+        m_jobThreads.addFuture(QtConcurrent::run(this, &JobManager::slotProcessJobs));
+    }
 }
 
 void JobManager::updateJobCount()
 {
     int count = 0;
     for (int i = 0; i < m_jobList.count(); ++i) {
-        if (m_jobList.at(i)->status() == JobWaiting || m_jobList.at(i)->status() == JobWorking)
+        if (m_jobList.at(i)->status() == JobWaiting || m_jobList.at(i)->status() == JobWorking) {
             count ++;
+        }
     }
     // Set jobs count
     emit jobCount(count);
@@ -182,8 +191,9 @@ void JobManager::slotProcessJobs()
             QFileInfo file(destination);
             bool writable = false;
             if (file.exists()) {
-                if (file.isWritable())
+                if (file.isWritable()) {
                     writable = true;
+                }
             } else {
                 QDir dir = file.absoluteDir();
                 if (!dir.exists()) {
@@ -211,8 +221,7 @@ void JobManager::slotProcessJobs()
             //TODO: replace with more generic clip replacement framework
             if (job->jobType == AbstractClipJob::PROXYJOB) {
                 m_bin->gotProxy(job->clipId(), destination);
-            }
-            else if (job->addClipToProject() > -100) {
+            } else if (job->addClipToProject() > -100) {
                 emit addClip(destination, job->addClipToProject());
             }
         } else if (job->status() == JobCrashed || job->status() == JobAborted) {
@@ -225,7 +234,7 @@ void JobManager::slotProcessJobs()
 
 QList <ProjectClip *> JobManager::filterClips(const QList <ProjectClip *> &clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
-     //TODO: filter depending on clip type
+    //TODO: filter depending on clip type
     if (jobType == AbstractClipJob::TRANSCODEJOB || jobType == AbstractClipJob::CUTJOB) {
         return CutClipJob::filterClips(clips, params);
     } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
@@ -236,7 +245,7 @@ QList <ProjectClip *> JobManager::filterClips(const QList <ProjectClip *> &clips
     return QList <ProjectClip *> ();
 }
 
-void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString,QString>&producerParams, const QMap<QString,QString>&filterParams, const QMap<QString,QString>&consumerParams, const QMap<QString,QString>&extraParams)
+void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams, const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams)
 {
     MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
     job->description = i18n("Filter %1", extraParams.value("finalfilter"));
@@ -275,7 +284,6 @@ void JobManager::prepareJobs(const QList<ProjectClip *> &clips, double fps, Abst
     }
 }
 
-
 void JobManager::launchJob(ProjectClip *clip, AbstractClipJob *job, bool runQueue)
 {
     if (job->isExclusive() && hasPendingJob(clip->clipId(), job->jobType)) {
@@ -292,14 +300,16 @@ void JobManager::launchJob(ProjectClip *clip, AbstractClipJob *job, bool runQueu
 
 void JobManager::slotDiscardClipJobs()
 {
-    QAction* act = qobject_cast<QAction *>(sender());
+    QAction *act = qobject_cast<QAction *>(sender());
     if (act == 0) {
         // Cannot access triggering action, something is wrong
-        qCDebug(KDENLIVE_LOG)<<"// Error in job action";
+        qCDebug(KDENLIVE_LOG) << "// Error in job action";
         return;
     }
     QString id = act->data().toString();
-    if (id.isEmpty()) return;
+    if (id.isEmpty()) {
+        return;
+    }
     discardJobs(id);
 }
 
@@ -344,7 +354,9 @@ void JobManager::slotCancelJobs()
     }
     else delete command;
     */
-    if (!m_jobList.isEmpty()) qDeleteAll(m_jobList);
+    if (!m_jobList.isEmpty()) {
+        qDeleteAll(m_jobList);
+    }
     m_jobList.clear();
     m_abortAllJobs = false;
     emit jobCount(0);

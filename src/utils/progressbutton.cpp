@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -31,7 +31,7 @@ ProgressButton::ProgressButton(const QString &text, double max, QWidget *parent)
 {
     setPopupMode(MenuButtonPopup);
     m_progress = width() - 6;
-    QPixmap pix(1,1);
+    QPixmap pix(1, 1);
     pix.fill(Qt::transparent);
     m_dummyAction = new QAction(QIcon(pix), text, this);
     initStyleOption(&m_buttonStyle);
@@ -49,11 +49,12 @@ void ProgressButton::defineDefaultAction(QAction *action, QAction *actionInProgr
 {
     setDefaultAction(action);
     m_defaultAction = action;
-    if (actionInProgress)
+    if (actionInProgress) {
         connect(m_dummyAction, &QAction::triggered, actionInProgress, &QAction::trigger);
+    }
 }
 
-void ProgressButton::setProgress(int progress) 
+void ProgressButton::setProgress(int progress)
 {
     int prog = m_iconSize * progress / m_max;
     QString remaining;
@@ -62,12 +63,14 @@ void ProgressButton::setProgress(int progress)
         qint64 ms = m_timer.elapsed() * (m_max / progress - 1);
         if (ms < 60000)
             // xgettext:no-c-format
+        {
             remaining = i18nc("s as seconds", "%1s", ms / 1000);
-        else if (ms < 3600000)
+        } else if (ms < 3600000)
             // xgettext:no-c-format
+        {
             remaining = i18nc("m as minutes", "%1m", ms / 60000);
-        else {
-            remaining = i18nc("h as hours", "%1h", qMin(99, (int) (ms / 3600000)));
+        } else {
+            remaining = i18nc("h as hours", "%1h", qMin(99, (int)(ms / 3600000)));
         }
     }
     if (progress < 0) {

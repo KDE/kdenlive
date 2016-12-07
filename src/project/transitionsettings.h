@@ -32,8 +32,8 @@ class TransitionSettings : public QWidget, public Ui::TransitionSettings_UI
     Q_OBJECT
 
 public:
-    explicit TransitionSettings(Monitor *monitor, QWidget* parent = Q_NULLPTR);
-    void raiseWindow(QWidget*);
+    explicit TransitionSettings(Monitor *monitor, QWidget *parent = Q_NULLPTR);
+    void raiseWindow(QWidget *);
     void updateProjectFormat();
     void updateTimecodeFormat();
     void setKeyframes(const QString &tag, const QString &data);
@@ -42,7 +42,7 @@ public:
 
 private:
     EffectStackEdit *m_effectEdit;
-    Transition* m_usedTransition;
+    Transition *m_usedTransition;
     GenTime m_transitionDuration;
     GenTime m_transitionStart;
     int m_autoTrackTransition;
@@ -50,13 +50,13 @@ private:
     void updateTrackList();
 
 protected:
-    void dragEnterEvent(QDragEnterEvent * event ) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent * event ) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
-    void slotTransitionItemSelected(Transition* t, int nextTrack, const QPoint &p, bool update);
+    void slotTransitionItemSelected(Transition *t, int nextTrack, const QPoint &p, bool update);
     void slotTransitionChanged(bool reinit = true, bool updateCurrent = false);
-    void slotUpdateEffectParams(const QDomElement &, const QDomElement&);
+    void slotUpdateEffectParams(const QDomElement &, const QDomElement &);
 
 private slots:
     /** @brief Sets the new B track for the transition (automatic or forced). */
@@ -68,9 +68,9 @@ private slots:
     void prepareImportClipKeyframes(GraphicsRectItem, const QMap<QString, QString> &data);
 
 signals:
-    void transitionUpdated(Transition *, const QDomElement&);
+    void transitionUpdated(Transition *, const QDomElement &);
     void seekTimeline(int);
-    void importClipKeyframes(GraphicsRectItem, ItemInfo, const QDomElement &, const QMap<QString,QString> &data = QMap<QString,QString>());
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, const QDomElement &, const QMap<QString, QString> &data = QMap<QString, QString>());
 };
 
 #endif

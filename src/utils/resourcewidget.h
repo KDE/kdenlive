@@ -18,10 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef RESOURCEWIDGET_H
 #define RESOURCEWIDGET_H
-
 
 #include "ui_freesound_ui.h"
 #include "abstractservice.h"
@@ -51,7 +49,7 @@ class ResourceWidget : public QDialog, public Ui::FreeSound_UI
     Q_OBJECT
 
 public:
-    explicit ResourceWidget(const QString & folder, QWidget * parent = Q_NULLPTR);
+    explicit ResourceWidget(const QString &folder, QWidget *parent = Q_NULLPTR);
     ~ResourceWidget();
 
 private slots:
@@ -63,7 +61,7 @@ private slots:
      */
     void slotUpdateCurrentSound();
     void slotPlaySound();
-    void slotDisplayMetaInfo(const QMap<QString, QString>& metaInfo);
+    void slotDisplayMetaInfo(const QMap<QString, QString> &metaInfo);
     void slotSaveItem(const QString &originalUrl = QString());
     void slotOpenUrl(const QString &url);
     void slotChangeService();
@@ -71,7 +69,7 @@ private slots:
     void slotNextPage();
     void slotPreviousPage();
     void slotOpenLink(const QUrl &url);
-    void slotLoadThumb(const QString& url);
+    void slotLoadThumb(const QString &url);
     /** @brief A file download is finished */
     void slotGotFile(KJob *job);
     void slotSetMetadata(const QString &metadata);
@@ -82,7 +80,7 @@ private slots:
     void slotPreviewFinished();
     void slotFreesoundAccessDenied();
     void slotReadyRead();
-    void DownloadRequestFinished(QNetworkReply* reply);
+    void DownloadRequestFinished(QNetworkReply *reply);
     void slotAccessTokenReceived(const QString &sAccessToken);
     void slotFreesoundUseHQPreview();
     void slotFreesoundCanceled();
@@ -90,11 +88,10 @@ private slots:
     void slotLoadPreview(const QString &url);
     void slotLoadAnimatedGif(KJob *job);
 
-
 private:
     OAuth2 *m_pOAuth2;
     QNetworkConfigurationManager *m_networkManager;
-    QNetworkAccessManager *m_networkAccessManager ;
+    QNetworkAccessManager *m_networkAccessManager;
     void loadConfig();
     void saveConfig();
     void parseLicense(const QString &);
@@ -113,9 +110,8 @@ private:
     void DoFileDownload(const QUrl &srcUrl, const QUrl &saveUrl);
 
 signals:
-    void addClip(const QUrl&);
+    void addClip(const QUrl &);
 };
-
 
 #endif
 

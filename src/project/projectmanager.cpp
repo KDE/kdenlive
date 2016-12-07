@@ -44,7 +44,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QLocale>
 #include <KConfigGroup>
 
-ProjectManager::ProjectManager(QObject* parent) :
+ProjectManager::ProjectManager(QObject *parent) :
     QObject(parent),
     m_project(0),
     m_trackView(0),
@@ -62,7 +62,7 @@ ProjectManager::ProjectManager(QObject* parent) :
     a->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
     m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
 
-    QAction * backupAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-undo")), i18n("Open Backup File"), this);
+    QAction *backupAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-undo")), i18n("Open Backup File"), this);
     pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 
@@ -85,7 +85,7 @@ ProjectManager::~ProjectManager()
         delete m_trackView;
     }
     if (m_project) {
-	delete m_project;
+        delete m_project;
     }
 }
 
@@ -93,16 +93,16 @@ void ProjectManager::slotLoadOnOpen()
 {
     if (m_startUrl.isValid()) {
         openFile();
-    }
-    else if (KdenliveSettings::openlastproject()) {
+    } else if (KdenliveSettings::openlastproject()) {
         openLastFile();
+    } else {
+        newFile(false);
     }
-    else newFile(false);
 
     if (!m_loadClipsOnOpen.isEmpty() && m_project) {
         QStringList list = m_loadClipsOnOpen.split(',');
         QList<QUrl> urls;
-        foreach(const QString &path, list) {
+        foreach (const QString &path, list) {
             //qCDebug(KDENLIVE_LOG) << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
@@ -111,7 +111,7 @@ void ProjectManager::slotLoadOnOpen()
     m_loadClipsOnOpen.clear();
 }
 
-void ProjectManager::init(const QUrl& projectUrl, const QString& clipList)
+void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
 {
     m_startUrl = projectUrl;
     m_loadClipsOnOpen = clipList;
@@ -130,7 +130,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     m_fileRevert->setEnabled(false);
     QString profileName = KdenliveSettings::default_profile();
     if (profileName.isEmpty()) {
-            profileName = KdenliveSettings::current_profile();
+        profileName = KdenliveSettings::current_profile();
     }
     QString projectFolder;
     QMap<QString, QString> documentProperties;
@@ -192,7 +192,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
-    QList <QAction*> rulerActions;
+    QList <QAction *> rulerActions;
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), rulerActions, &ok, pCore->window());
@@ -252,7 +252,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
     }
     if (!quit && !qApp->isSavingSession()) {
-	m_autoSaveTimer.stop();
+        m_autoSaveTimer.stop();
         if (m_project) {
             pCore->producerQueue()->abortOperations();
             pCore->bin()->abortOperations();
@@ -265,7 +265,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             delete m_project;
             m_project = Q_NULLPTR;
         }
-	pCore->monitorManager()->setDocument(m_project);
+        pCore->monitorManager()->setDocument(m_project);
     }
     return true;
 }
@@ -332,12 +332,11 @@ bool ProjectManager::hasSelection() const
     return m_trackView->projectView()->hasSelection();
 }
 
-
 bool ProjectManager::saveFileAs()
 {
     QFileDialog fd(pCore->window());
     fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).path() : KdenliveSettings::defaultprojectfolder());
-    fd.setMimeTypeFilters(QStringList()<<QStringLiteral("application/x-kdenlive"));
+    fd.setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlive"));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setDefaultSuffix(QStringLiteral("kdenlive"));
@@ -350,7 +349,7 @@ bool ProjectManager::saveFileAs()
     QString outputFile = fd.selectedFiles().at(0);
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
-    // Since Plasma 5.7 (release at same time as KF 5.23, 
+    // Since Plasma 5.7 (release at same time as KF 5.23,
     // the file dialog manages the overwrite check
     if (QFile::exists(outputFile)) {
         // Show the file dialog again if the user does not want to overwrite the file
@@ -374,7 +373,7 @@ bool ProjectManager::saveFile()
 {
     if (!m_project) {
         // Calling saveFile before a project was created, something is wrong
-        qCDebug(KDENLIVE_LOG)<<"SaveFile called without project";
+        qCDebug(KDENLIVE_LOG) << "SaveFile called without project";
         return false;
     }
     if (m_project->url().isEmpty()) {
@@ -426,19 +425,19 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
     // Check for autosave file that belong to the url we passed in.
     QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(url);
     KAutoSaveFile *orphanedFile = Q_NULLPTR;
-    // Check if we can have a lock on one of the file, 
+    // Check if we can have a lock on one of the file,
     // meaning it is not handled by any Kdenlive instancce
     if (!staleFiles.isEmpty()) {
-        foreach(KAutoSaveFile * stale, staleFiles) {
+        foreach (KAutoSaveFile *stale, staleFiles) {
             if (stale->open(QIODevice::QIODevice::ReadWrite)) {
-                  // Found orphaned autosave file
-                  orphanedFile = stale;
-                  break;
+                // Found orphaned autosave file
+                orphanedFile = stale;
+                break;
             } else {
-              // Another Kdenlive instance is probably handling this autosave file
-              staleFiles.removeAll(stale);
-              delete stale;
-              continue;
+                // Another Kdenlive instance is probably handling this autosave file
+                staleFiles.removeAll(stale);
+                delete stale;
+                continue;
             }
         }
     }
@@ -452,7 +451,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
             return true;
         } else {
             // remove the stale files
-            foreach(KAutoSaveFile * stale, staleFiles) {
+            foreach (KAutoSaveFile *stale, staleFiles) {
                 stale->open(QIODevice::ReadWrite);
                 delete stale;
             }
@@ -509,7 +508,9 @@ void ProjectManager::openFile(const QUrl &url)
 void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 {
     Q_ASSERT(m_project == Q_NULLPTR);
-    if (!pCore->window()->m_timelineArea->isEnabled()) return;
+    if (!pCore->window()->m_timelineArea->isEnabled()) {
+        return;
+    }
     m_fileRevert->setEnabled(true);
 
     // Recreate stopmotion widget on document change
@@ -537,17 +538,18 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         doc->m_autosave = stale;
         stale->setParent(doc);
         // if loading from an autosave of unnamed file then keep unnamed
-        if (url.fileName().contains(QStringLiteral("_untitled.kdenlive")))
+        if (url.fileName().contains(QStringLiteral("_untitled.kdenlive"))) {
             doc->setUrl(QUrl());
-        else
+        } else {
             doc->setUrl(url);
+        }
         doc->setModified(true);
         stale->setParent(doc);
     }
     m_progressDialog->setLabelText(i18n("Loading clips"));
     pCore->bin()->setDocument(doc);
 
-    QList <QAction*> rulerActions;
+    QList <QAction *> rulerActions;
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("clear_render_timeline_zone"));
@@ -599,28 +601,30 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
 void ProjectManager::slotRevert()
 {
-    if (m_project->isModified() && KMessageBox::warningContinueCancel(pCore->window(), i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel){
+    if (m_project->isModified() && KMessageBox::warningContinueCancel(pCore->window(), i18n("This will delete all changes made since you last saved your project. Are you sure you want to continue?"), i18n("Revert to last saved version")) == KMessageBox::Cancel) {
         return;
     }
     QUrl url = m_project->url();
-    if (closeCurrentDocument(false))
+    if (closeCurrentDocument(false)) {
         doOpenFile(url, Q_NULLPTR);
+    }
 }
 
 QString ProjectManager::getMimeType(bool open)
 {
     QString mimetype = i18n("Kdenlive project (*.kdenlive)");
-    if (open) mimetype.append(";;" + i18n("Archived project (*.tar.gz)"));
+    if (open) {
+        mimetype.append(";;" + i18n("Archived project (*.tar.gz)"));
+    }
     return mimetype;
 }
 
-
-KdenliveDoc* ProjectManager::current()
+KdenliveDoc *ProjectManager::current()
 {
     return m_project;
 }
 
-void ProjectManager::slotOpenBackup(const QUrl& url)
+void ProjectManager::slotOpenBackup(const QUrl &url)
 {
     QUrl projectFile;
     QUrl projectFolder;
@@ -650,17 +654,15 @@ void ProjectManager::slotOpenBackup(const QUrl& url)
     delete dia;
 }
 
-Timeline* ProjectManager::currentTimeline()
+Timeline *ProjectManager::currentTimeline()
 {
     return m_trackView;
 }
 
-
-KRecentFilesAction* ProjectManager::recentFilesAction()
+KRecentFilesAction *ProjectManager::recentFilesAction()
 {
     return m_recentFilesAction;
 }
-
 
 void ProjectManager::slotStartAutoSave()
 {
@@ -668,8 +670,7 @@ void ProjectManager::slotStartAutoSave()
         // If the project was not saved in the last 5 minute, force save
         m_autoSaveTimer.stop();
         slotAutoSave();
-    }
-    else {
+    } else {
         m_autoSaveTimer.start(3000); // will trigger slotAutoSave() in 3 seconds
     }
 }
@@ -715,7 +716,6 @@ void ProjectManager::prepareSave()
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), m_project->documentNotes());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:clipgroups"), m_project->groupsXml());
 }
-
 
 void ProjectManager::slotResetProfiles()
 {
@@ -783,8 +783,9 @@ QString ProjectManager::getDefaultProjectFormat()
     ntscCountries  << QLocale::Japan << QLocale::Mexico << QLocale::Nicaragua << QLocale::Panama << QLocale::Peru << QLocale::Philippines;
     ntscCountries  << QLocale::PuertoRico << QLocale::SouthKorea << QLocale::Taiwan << QLocale::UnitedStates;
     bool ntscProject = ntscCountries.contains(zone.country());
-    if (!ntscProject)
-            return QStringLiteral("atsc_1080p_25");
+    if (!ntscProject) {
+        return QStringLiteral("atsc_1080p_25");
+    }
     return QStringLiteral("atsc_1080p_2997");
 }
 
@@ -796,7 +797,7 @@ void ProjectManager::saveZone(const QStringList &info, const QDir &dir)
 void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 {
     // Move tmp folder (thumbnails, timeline preview)
-    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src),QUrl::fromLocalFile(dest));
+    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest));
     connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
     connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotMoveProgress(KJob*,ulong)));
     m_project->moveProjectData(src, dest);
@@ -811,7 +812,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
 {
     if (job->error() == 0) {
         pCore->window()->slotGotProgressInfo(QString(), 100, InformationMessage);
-        KIO::CopyJob *copyJob = static_cast<KIO::CopyJob *> (job);
+        KIO::CopyJob *copyJob = static_cast<KIO::CopyJob *>(job);
         QString newFolder = copyJob->destUrl().path();
         // Check if project folder is inside document folder, in which case, paths will be relative
         QDir projectDir(m_project->url().toString(QUrl::RemoveFilename | QUrl::RemoveScheme));

@@ -28,7 +28,7 @@
 
 #include <klocalizedstring.h>
 
-ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList& parameters, QTemporaryFile *playlist)
+ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList &parameters, QTemporaryFile *playlist)
     : AbstractClipJob(PROXYJOB, cType, id),
       m_jobDuration(0),
       m_isFfmpegJob(true)
@@ -57,13 +57,17 @@ void ProxyJob::startJob()
         mltParameters << QStringLiteral("-consumer") << QStringLiteral("avformat:") + m_dest;
         QStringList params = m_proxyParams.split(QLatin1Char('-'), QString::SkipEmptyParts);
         double display_ratio;
-        if (m_src.startsWith(QLatin1String("consumer:"))) display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(QStringLiteral(":"), 1));
-        else display_ratio = KdenliveDoc::getDisplayRatio(m_src);
-        if (display_ratio == 0)
+        if (m_src.startsWith(QLatin1String("consumer:"))) {
+            display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(QStringLiteral(":"), 1));
+        } else {
+            display_ratio = KdenliveDoc::getDisplayRatio(m_src);
+        }
+        if (display_ratio == 0) {
             display_ratio = 1;
+        }
 
         bool skipNext = false;
-        foreach(const QString &s, params) {
+        foreach (const QString &s, params) {
             QString t = s.simplified();
             if (skipNext) {
                 skipNext = false;
@@ -71,16 +75,19 @@ void ProxyJob::startJob()
             }
             if (t.count(QLatin1Char(' ')) == 0) {
                 t.append(QLatin1String("=1"));
-            }
-            else if (t.startsWith(QLatin1String("vf "))) {
+            } else if (t.startsWith(QLatin1String("vf "))) {
                 skipNext = true;
                 bool ok = false;
                 int width = t.section(QLatin1Char('='), 1, 1).section(QLatin1Char(':'), 0, 0).toInt(&ok);
-                if (!ok) width = 640;
+                if (!ok) {
+                    width = 640;
+                }
                 int height = width / display_ratio;
                 mltParameters << QStringLiteral("s=%1x%2").arg(width).arg(height);
                 continue;
-            } else t.replace(QLatin1Char(' '), QLatin1String("="));
+            } else {
+                t.replace(QLatin1Char(' '), QLatin1String("="));
+            }
             mltParameters << t;
         }
 
@@ -96,8 +103,7 @@ void ProxyJob::startJob()
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
         m_jobProcess->waitForStarted();
-    }
-    else if (clipType == Image) {
+    } else if (clipType == Image) {
         m_isFfmpegJob = false;
         // Image proxy
         QImage i(m_src);
@@ -110,39 +116,42 @@ void ProxyJob::startJob()
         QImage proxy;
         // Images are scaled to profile size.
         //TODO: Make it be configurable?
-        if (i.width() > i.height()) proxy = i.scaledToWidth(m_renderWidth);
-        else proxy = i.scaledToHeight(m_renderHeight);
+        if (i.width() > i.height()) {
+            proxy = i.scaledToWidth(m_renderWidth);
+        } else {
+            proxy = i.scaledToHeight(m_renderHeight);
+        }
         if (m_exif > 1) {
             // Rotate image according to exif data
             QImage processed;
             QMatrix matrix;
 
-            switch ( m_exif ) {
+            switch (m_exif) {
             case 2:
-                matrix.scale( -1, 1 );
+                matrix.scale(-1, 1);
                 break;
             case 3:
-                matrix.rotate( 180 );
+                matrix.rotate(180);
                 break;
             case 4:
-                matrix.scale( 1, -1 );
+                matrix.scale(1, -1);
                 break;
             case 5:
-                matrix.rotate( 270 );
-                matrix.scale( -1, 1 );
+                matrix.rotate(270);
+                matrix.scale(-1, 1);
                 break;
             case 6:
-                matrix.rotate( 90 );
+                matrix.rotate(90);
                 break;
             case 7:
-                matrix.rotate( 90 );
-                matrix.scale( -1, 1 );
+                matrix.rotate(90);
+                matrix.scale(-1, 1);
                 break;
             case 8:
-                matrix.rotate( 270 );
+                matrix.rotate(270);
                 break;
             }
-            processed = proxy.transformed( matrix );
+            processed = proxy.transformed(matrix);
             processed.save(m_dest);
         } else {
             proxy.save(m_dest);
@@ -158,7 +167,7 @@ void ProxyJob::startJob()
         }
         parameters << QStringLiteral("-i") << m_src;
         QString params = m_proxyParams;
-        foreach(const QString &s, params.split(QLatin1Char(' '))) {
+        foreach (const QString &s, params.split(QLatin1Char(' '))) {
             if (s != QLatin1String("-noautorotate")) {
                 parameters << s;
             }
@@ -192,10 +201,10 @@ void ProxyJob::startJob()
                 processLogInfo();
                 m_errorMessage.append(i18n("Failed to create proxy clip."));
                 setStatus(JobCrashed);
+            } else {
+                setStatus(JobDone);
             }
-            else setStatus(JobDone);
-        }
-        else if (result == QProcess::CrashExit) {
+        } else if (result == QProcess::CrashExit) {
             // Proxy process crashed
             QFile::remove(m_dest);
             setStatus(JobCrashed);
@@ -207,12 +216,15 @@ void ProxyJob::startJob()
 
 void ProxyJob::processLogInfo()
 {
-    if (!m_jobProcess || m_jobStatus == JobAborted) return;
-    QString log = QString::fromUtf8(m_jobProcess->readAll());
-    if (!log.isEmpty())
-        m_logDetails.append(log + QLatin1Char('\n'));
-    else
+    if (!m_jobProcess || m_jobStatus == JobAborted) {
         return;
+    }
+    QString log = QString::fromUtf8(m_jobProcess->readAll());
+    if (!log.isEmpty()) {
+        m_logDetails.append(log + QLatin1Char('\n'));
+    } else {
+        return;
+    }
 
     int progress;
     if (m_isFfmpegJob) {
@@ -221,20 +233,19 @@ void ProxyJob::processLogInfo()
             if (log.contains(QLatin1String("Duration:"))) {
                 QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
                 QStringList numbers = data.split(QLatin1Char(':'));
-                m_jobDuration = (int) (numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                m_jobDuration = (int)(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
             }
-        }
-        else if (log.contains(QLatin1String("time="))) {
+        } else if (log.contains(QLatin1String("time="))) {
             QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
             if (time.contains(QLatin1Char(':'))) {
                 QStringList numbers = time.split(QLatin1Char(':'));
                 progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+            } else {
+                progress = (int) time.toDouble();
             }
-            else progress = (int) time.toDouble();
-            emit jobProgress(m_clipId, (int) (100.0 * progress / m_jobDuration), jobType);
+            emit jobProgress(m_clipId, (int)(100.0 * progress / m_jobDuration), jobType);
         }
-    }
-    else {
+    } else {
         // Parse MLT output
         if (log.contains(QLatin1String("percentage:"))) {
             progress = log.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
@@ -275,7 +286,7 @@ const QString ProxyJob::statusMessage()
     return statusInfo;
 }
 
-// static 
+// static
 QList <ProjectClip *> ProxyJob::filterClips(const QList <ProjectClip *> &clips)
 {
     QList <ProjectClip *> result;
@@ -339,6 +350,4 @@ QHash <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QL
     }
     return jobs;
 }
-
-
 
