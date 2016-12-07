@@ -4,6 +4,7 @@ TargetDir=kdenlive/lumas
 Uncompress=archive
 
 [KNewStuff3]
-ProvidersUrl=http://download.kde.org/khotnewstuff/kdenlive-providers.xml
+ProvidersUrl=http://download.kde.org/ocs/providers.xml
+Categories=Kdenlive FX
 TargetDir=kdenlive/lumas
 Uncompress=archive
