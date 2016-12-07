@@ -161,7 +161,17 @@ QUrl Generators::getSavedClip(QString clipFolder)
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
-    QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save clip"), QUrl::fromLocalFile(clipFolder), i18n("MLT playlist (*.mlt)"));
+    QFileDialog fd(this);
+    fd.setDirectory(clipFolder);
+    fd.setNameFilter(i18n("MLT playlist (*.mlt)"));
+    fd.setAcceptMode(QFileDialog::AcceptSave);
+    fd.setFileMode(QFileDialog::AnyFile);
+    fd.setDefaultSuffix(QStringLiteral("mlt"));
+    if (fd.exec() != QDialog::Accepted || fd.selectedUrls().isEmpty()) {
+        return QUrl();
+    }
+    QUrl url = fd.selectedUrls().first();
+
     if (url.isValid()) {
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
         // Since Plasma 5.7 (release at same time as KF 5.23,

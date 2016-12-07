@@ -11,6 +11,7 @@ Item {
     property rect framesize
     property point profile
     property point center
+    property double zoom
     property double scalex
     property double scaley
     property double stretch : 1
@@ -25,10 +26,15 @@ Item {
     property bool iskeyframe
     property int requestedKeyFrame
     property var centerPoints: []
+    property bool showToolbar: false
     onCenterPointsChanged: canvas.requestPaint()
     signal effectPolygonChanged()
     signal addKeyframe()
     signal seekToKeyframe()
+    signal toolBarChanged(bool doAccept)
+    onZoomChanged: {
+        effectToolBar.setZoom(root.zoom)
+    }
 
     function refreshdar() {
         canvas.darOffset = root.sourcedar < root.profile.x * root.stretch / root.profile.y ? (root.profile.x * root.stretch - root.profile.y * root.sourcedar) / (2 * root.profile.x * root.stretch) :(root.profile.y - root.profile.x * root.stretch / root.sourcedar) / (2 * root.profile.y);
@@ -153,6 +159,13 @@ Item {
             root.addKeyframe()
         }
 
+        onClicked: {
+            if (mouse.button & Qt.MidButton) {
+                root.showToolbar = !root.showToolbar
+                toolBarChanged(root.showToolbar)
+            }
+        }
+
         onPositionChanged: {
             if (root.iskeyframe == false) return;
             if (pressed && root.requestedKeyFrame >= 0) {
@@ -183,5 +196,15 @@ Item {
               canvas.requestPaint()
             }
         }
+    }
+    EffectToolBar {
+        id: effectToolBar
+        anchors {
+            left: parent.left
+            top: parent.top
+            topMargin: 10
+            leftMargin: 10
+        }
+        visible: root.showToolbar
     }
 }

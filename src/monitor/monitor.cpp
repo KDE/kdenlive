@@ -307,14 +307,15 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SLOT(setClipZone(QPoint)));
     }
 
+    m_sceneVisibilityAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
+    m_sceneVisibilityAction->setCheckable(true);
+    m_sceneVisibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
+    connect(m_sceneVisibilityAction, &QAction::triggered, this, &Monitor::slotEnableEffectScene);
+    m_toolbar->addAction(m_sceneVisibilityAction);
 
-    if (id == Kdenlive::ProjectMonitor) {
-        m_sceneVisibilityAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
-        m_sceneVisibilityAction->setCheckable(true);
-        m_sceneVisibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
-        connect(m_sceneVisibilityAction, &QAction::triggered, this, &Monitor::slotEnableEffectScene);
-        m_toolbar->addAction(m_sceneVisibilityAction);
-    }
+    m_zoomVisibilityAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-in")), i18n("Zoom"), this);
+    m_zoomVisibilityAction->setCheckable(true);
+    connect(m_zoomVisibilityAction, &QAction::triggered, this, &Monitor::slotEnableSceneZoom);
 
     m_toolbar->addSeparator();
     m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
@@ -324,7 +325,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     configButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
     configButton->setToolTip(i18n("Options"));
     configButton->setMenu(m_configMenu);
-    configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
+    configButton->setPopupMode(QToolButton::InstantPopup);
     m_toolbar->addWidget(configButton);
     if (m_recManager) m_toolbar->addAction(m_recManager->switchAction());
     /*QWidget *spacer = new QWidget(this);
@@ -496,6 +497,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     switchAudioMonitor->setCheckable(true);
     switchAudioMonitor->setChecked(KdenliveSettings::monitoraudio() & m_id);
     m_configMenu->addAction(overlayAudio);
+    m_configMenu->addAction(m_zoomVisibilityAction);
     // For some reason, the frame in QAbstracSpinBox (base class of TimeCodeDisplay) needs to be displayed once, then hidden
     // or it will never appear (supposed to appear on hover).
     m_timePos->setFrame(false);
@@ -1513,6 +1515,10 @@ void Monitor::slotSetSelectedClip(Transition* item)
     }
 }
 
+void Monitor::slotEnableSceneZoom(bool enable)
+{
+    m_qmlManager->setProperty(QStringLiteral("showToolbar"), enable);
+}
 
 void Monitor::slotEnableEffectScene(bool enable)
 {
@@ -1835,13 +1841,14 @@ void Monitor::loadQmlScene(MonitorSceneType type)
     if (m_id == Kdenlive::DvdMonitor || type == m_qmlManager->sceneType()) {
         return;
     }
-    if (m_sceneVisibilityAction && !m_sceneVisibilityAction->isChecked()) {
+    bool sceneWithEdit = type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto;
+    if (m_sceneVisibilityAction && !m_sceneVisibilityAction->isChecked() && sceneWithEdit) {
         // User doesn't want effect scenes
-        if (type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto)
-            type = MonitorSceneDefault;
+        type = MonitorSceneDefault;
     }
     m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), (double) render->renderWidth() / render->frameRenderWidth(), m_glMonitor->displayRect(), m_glMonitor->zoom());
     QQuickItem *root = m_glMonitor->rootObject();
+    root->setProperty("showToolbar", m_zoomVisibilityAction->isChecked());
     QFontInfo info(font());
     root->setProperty("displayFontSize", info.pixelSize() * 1.4);
     connectQmlToolbar(root);
@@ -1854,6 +1861,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
       case MonitorSceneRoto:
           QObject::connect(root, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
           QObject::connect(root, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
+          QObject::connect(root, SIGNAL(toolBarChanged(bool)), m_zoomVisibilityAction, SLOT(setChecked(bool)), Qt::UniqueConnection);
           break;
       case MonitorSceneRipple:
           QObject::connect(root, SIGNAL(doAcceptRipple(bool)), this, SIGNAL(acceptRipple(bool)), Qt::UniqueConnection);

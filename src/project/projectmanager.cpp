@@ -340,13 +340,10 @@ bool ProjectManager::saveFileAs()
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setDefaultSuffix(QStringLiteral("kdenlive"));
-    if (fd.exec() != QDialog::Accepted) {
+    if (fd.exec() != QDialog::Accepted || fd.selectedFiles().isEmpty()) {
         return false;
     }
-    if (fd.selectedFiles().isEmpty()) {
-        return false;
-    }
-    QString outputFile = fd.selectedFiles().at(0);
+    QString outputFile = fd.selectedFiles().first();
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
     // Since Plasma 5.7 (release at same time as KF 5.23,
