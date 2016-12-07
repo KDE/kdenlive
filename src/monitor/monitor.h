@@ -205,6 +205,7 @@ private:
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QAction *m_sceneVisibilityAction;
+    QAction *m_zoomVisibilityAction;
     QAction *m_multitrackView;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
@@ -272,6 +273,8 @@ private slots:
     void gpuError();
     void setOffsetX(int x);
     void setOffsetY(int y);
+    /** @brief Show/hide monitor zoom */
+    void slotEnableSceneZoom(bool enable);
 
 public slots:
     void slotOpenDvdFile(const QString &);

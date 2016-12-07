@@ -12,6 +12,7 @@ Item {
     property point profile
     profile: Qt.point(1920, 1080)
     property point center: Qt.point(960, 540)
+    property double zoom
     property double scalex : 1
     property double scaley : 1
     property double stretch : 1
@@ -31,10 +32,15 @@ Item {
     property var centerPoints : []
     // The control points for the bezier curve points (2 controls points for each coordinate)
     property var centerPointsTypes : []
+    property bool showToolbar: false
     onCenterPointsTypesChanged: checkDefined()
     signal effectPolygonChanged()
     signal addKeyframe()
     signal seekToKeyframe()
+    signal toolBarChanged(bool doAccept)
+    onZoomChanged: {
+        effectToolBar.setZoom(root.zoom)
+    }
 
     function refreshdar() {
         canvas.darOffset = root.sourcedar < root.profile.x * root.stretch / root.profile.y ? (root.profile.x * root.stretch - root.profile.y * root.sourcedar) / (2 * root.profile.x * root.stretch) :(root.profile.y - root.profile.x * root.stretch / root.sourcedar) / (2 * root.profile.y);
@@ -164,6 +170,7 @@ Item {
         color: "transparent"
         border.color: "#ffffff00"
     }
+
     MouseArea {
         id: global
         objectName: "global"
@@ -175,6 +182,10 @@ Item {
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         onClicked: {
+            if (mouse.button & Qt.MidButton) {
+                root.showToolbar = !root.showToolbar
+                toolBarChanged(root.showToolbar)
+            }
             if (!root.isDefined) {
                 if (mouse.button == Qt.RightButton) {
                     // close shape, define control points
@@ -269,5 +280,15 @@ Item {
               canvas.requestPaint()
             }
         }
+    }
+    EffectToolBar {
+        id: effectToolBar
+        anchors {
+            left: parent.left
+            top: parent.top
+            topMargin: 10
+            leftMargin: 10
+        }
+        visible: root.showToolbar
     }
 }

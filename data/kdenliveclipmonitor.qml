@@ -28,11 +28,14 @@ Item {
         sceneToolBar.setZoom(root.zoom)
     }
     signal editCurrentMarker()
+    signal toolBarChanged(bool doAccept)
+
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.MidButton
         onClicked: {
             root.showToolbar = !root.showToolbar
+            toolBarChanged(root.showToolbar)
         }
     }
     SceneToolBar {

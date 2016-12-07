@@ -11,6 +11,7 @@ Item {
     property rect framesize
     property point profile
     property point center
+    property double zoom
     property double scalex
     property double scaley
     property double offsetx : 0
@@ -29,6 +30,10 @@ Item {
     signal centersChanged()
     signal addKeyframe()
     signal seekToKeyframe()
+    signal toolBarChanged(bool doAccept)
+    onZoomChanged: {
+        effectToolBar.setZoom(root.zoom)
+    }
 
     Text {
         id: fontReference
@@ -181,6 +186,7 @@ Item {
         onClicked: {
             if (mouse.button & Qt.MidButton) {
                 root.showToolbar = !root.showToolbar
+                toolBarChanged(root.showToolbar)
             } else {
                 if (root.requestedKeyFrame >= 0 && !isMoving) {
                     root.seekToKeyframe();
