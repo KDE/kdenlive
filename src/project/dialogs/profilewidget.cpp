@@ -429,11 +429,15 @@ void ProfileWidget::updateDisplay()
     if (!m_errorMessage->isHidden()) {
         m_errorMessage->animatedHide();
     }
+    const int matchingCount(matching.count());
     QStringList displays;
+    displays.reserve(matchingCount);
     QStringList samples;
+    samples.reserve(matchingCount);
     QStringList colors;
+    colors.reserve(matchingCount);
     bool foundMatching = false;
-    for (int i = 0; i < matching.count(); i++) {
+    for (int i = 0; i < matchingCount; i++) {
         MltVideoProfile prof = matching.at(i);
         if (prof == m_currentProfile) {
             foundMatching = true;

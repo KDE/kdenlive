@@ -62,15 +62,9 @@ MltDeviceCapture::MltDeviceCapture(QString profile, /*VideoSurface *surface, */Q
 
 MltDeviceCapture::~MltDeviceCapture()
 {
-    if (m_mltConsumer) {
-        delete m_mltConsumer;
-    }
-    if (m_mltProducer) {
-        delete m_mltProducer;
-    }
-    if (m_mltProfile) {
-        delete m_mltProfile;
-    }
+    delete m_mltConsumer;
+    delete m_mltProducer;
+    delete m_mltProfile;
 }
 
 bool MltDeviceCapture::buildConsumer(const QString &profileName)
@@ -79,9 +73,7 @@ bool MltDeviceCapture::buildConsumer(const QString &profileName)
         m_activeProfile = profileName;
     }
 
-    if (m_mltProfile) {
-        delete m_mltProfile;
-    }
+    delete m_mltProfile;
 
     char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
     qputenv("MLT_PROFILE", tmp);
@@ -151,9 +143,7 @@ void MltDeviceCapture::stop()
     //disconnect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
     //m_captureDisplayWidget->stop();
 
-    if (m_showFrameEvent) {
-        delete m_showFrameEvent;
-    }
+    delete m_showFrameEvent;
     m_showFrameEvent = Q_NULLPTR;
 
     if (m_mltConsumer) {

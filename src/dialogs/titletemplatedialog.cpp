@@ -34,8 +34,7 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
 {
     m_view.setupUi(this);
     // Get the list of existing templates
-    QStringList filter;
-    filter << QStringLiteral("*.kdenlivetitle");
+    const QStringList filter = { QStringLiteral("*.kdenlivetitle") };
     const QString path = folder + "/titles/";
 
     // Project templates
@@ -59,8 +58,7 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
     if (!templateFiles.isEmpty()) {
         m_view.buttonBox->button(QDialogButtonBox::Ok)->setFocus();
     }
-    QStringList mimeTypeFilters;
-    mimeTypeFilters << QStringLiteral("application/x-kdenlivetitle");
+    const QStringList mimeTypeFilters = { QStringLiteral("application/x-kdenlivetitle") };
     m_view.template_list->setFilter(mimeTypeFilters.join(' '));
     connect(m_view.template_list->comboBox(), SIGNAL(currentIndexChanged(int)), this, SLOT(updatePreview()));
     updatePreview();

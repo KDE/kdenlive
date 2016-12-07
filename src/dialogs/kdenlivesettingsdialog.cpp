@@ -613,10 +613,9 @@ void KdenliveSettingsDialog::slotEditAudioApplication()
 
 void KdenliveSettingsDialog::slotEditImageApplication()
 {
-    KService::Ptr service;
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
     if (dlg->exec() == QDialog::Accepted) {
-        service = dlg->service();
+        KService::Ptr service = dlg->service();
         m_configEnv.kcfg_defaultimageapp->setText(KRun::binaryName(service->exec(), false));
     }
     delete dlg;
