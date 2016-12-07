@@ -3,7 +3,7 @@
   <mime-type type="video/mlt-playlist">
     <comment>MLT video playlist</comment>
     <sub-class-of type="application/xml"/>
-    <glob pattern="*.westley"/>
     <glob pattern="*.mlt"/>
+    <glob pattern="*.westley"/>
   </mime-type>
 </mime-info>
