@@ -77,7 +77,7 @@ QPointF KeyframeView::keyframePoint(const QRectF &br, int frame, double value, d
 
 void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPainter *painter, const QTransform &transformation)
 {
-    if (duration == 0 || m_keyframeType == NoKeyframe || !m_keyAnim.is_valid() || m_keyAnim.key_count() < 1) {
+    if (duration == 0 || m_inTimeline.isEmpty() || m_keyframeType == NoKeyframe || !m_keyAnim.is_valid() || m_keyAnim.key_count() < 1) {
         return;
     }
     duration = length;
@@ -138,6 +138,8 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
     // Make sure edited param is painted last
     paramNames.append(m_inTimeline);
     foreach (const QString &paramName, paramNames) {
+        if (m_notInTimeline.contains(paramName))
+            continue;
         ParameterInfo info = m_paramInfos.value(paramName);
         if (info.max == info.min) {
             // this is probably an animated rect
@@ -567,7 +569,13 @@ void KeyframeView::updateKeyFramePos(const QRectF &br, int frame, const double y
     int newpos = qBound(prev, frame - m_offset, next);
     double newval = keyframeUnmap(br, y);
     mlt_keyframe_type type = m_keyAnim.keyframe_type(activeKeyframe);
-    m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), newval, newpos, duration - m_offset, type);
+    if (m_keyframeType == GeometryKeyframe) {
+        // Animated rect
+        mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), activeKeyframe - m_offset, duration - m_offset);
+        m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), rect, newpos, duration - m_offset, type);
+    } else {
+        m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), newval, newpos, duration - m_offset, type);
+    }
     if (activeKeyframe != newpos) {
         m_keyAnim.remove(activeKeyframe);
         // Move keyframe in other geometries
@@ -862,6 +870,7 @@ bool KeyframeView::loadKeyframes(const QLocale &locale, const QDomElement &effec
     m_keyframeType = NoKeyframe;
     duration = length;
     m_inTimeline.clear();
+    m_notInTimeline.clear();
     // reset existing properties
     int max = m_keyProperties.count();
     for (int i = max - 1; i >= 0; i--) {
@@ -871,23 +880,16 @@ bool KeyframeView::loadKeyframes(const QLocale &locale, const QDomElement &effec
     m_useOffset = effect.attribute(QStringLiteral("kdenlive:sync_in_out")) != QLatin1String("1");
     m_offset = effect.attribute(QStringLiteral("in")).toInt() - cropStart;
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
+    QStringList keyframeTypes;
+    keyframeTypes << QStringLiteral("keyframe") << QStringLiteral("simplekeyframe") << QStringLiteral("geometry") << QStringLiteral("animatedrect") << QStringLiteral("animated");
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) {
             continue;
         }
         QString type = e.attribute(QStringLiteral("type"));
-        if (type == QLatin1String("keyframe")) {
-            m_keyframeType = NormalKeyframe;
-        } else if (type == QLatin1String("simplekeyframe")) {
-            m_keyframeType = SimpleKeyframe;
-        } else if (type == QLatin1String("geometry") || type == QLatin1String("animatedrect")) {
-            m_keyframeType = GeometryKeyframe;
-        } else if (type == QLatin1String("animated")) {
-            m_keyframeType = AnimatedKeyframe;
-        } else {
+        if (!keyframeTypes.contains(type))
             continue;
-        }
         QString paramName = e.attribute(QStringLiteral("name"));
         ParameterInfo info;
         info.factor = locale.toDouble(e.attribute(QStringLiteral("factor")));
@@ -898,14 +900,28 @@ bool KeyframeView::loadKeyframes(const QLocale &locale, const QDomElement &effec
             info.factor = 1;
         }
         m_paramInfos.insert(paramName, info);
-        if (!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
-            // Active parameter
-            m_keyframeMin = info.min;
-            m_keyframeMax = info.max;
-            m_keyframeDefault = locale.toDouble(info.defaultValue);
-            m_keyframeFactor = info.factor;
-            attachToEnd = checkNegatives(e.attribute(QStringLiteral("value")).toUtf8().constData(), duration - m_offset);
-            m_inTimeline = paramName;
+        if (e.hasAttribute(QStringLiteral("notintimeline"))) {
+            // This param should not be drawn in timeline
+            m_notInTimeline << paramName;
+        } else {
+            if (type == QLatin1String("keyframe")) {
+                m_keyframeType = NormalKeyframe;
+            } else if (type == QLatin1String("simplekeyframe")) {
+                m_keyframeType = SimpleKeyframe;
+            } else if (type == QLatin1String("geometry") || type == QLatin1String("animatedrect")) {
+                m_keyframeType = GeometryKeyframe;
+            } else if (type == QLatin1String("animated")) {
+                m_keyframeType = AnimatedKeyframe;
+            }
+            if (!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
+                // Active parameter
+                m_keyframeMin = info.min;
+                m_keyframeMax = info.max;
+                m_keyframeDefault = locale.toDouble(info.defaultValue);
+                m_keyframeFactor = info.factor;
+                attachToEnd = checkNegatives(e.attribute(QStringLiteral("value")).toUtf8().constData(), duration - m_offset);
+                m_inTimeline = paramName;
+            }
         }
         // parse keyframes
         QString value = e.attribute(QStringLiteral("value"));
@@ -938,7 +954,7 @@ bool KeyframeView::loadKeyframes(const QLocale &locale, const QDomElement &effec
 
 void KeyframeView::setOffset(int frames)
 {
-    if (!m_keyAnim.is_valid()) {
+    if (duration == 0 || !m_keyAnim.is_valid()) {
         return;
     }
     if (m_keyAnim.is_key(-m_offset)) {
@@ -990,6 +1006,8 @@ void KeyframeView::reset()
     duration = 0;
     attachToEnd = -2;
     activeKeyframe = -1;
+    m_inTimeline.clear();
+    m_notInTimeline.clear();
     int max = m_keyProperties.count();
     for (int i = max - 1; i >= 0; i--) {
         m_keyProperties.set(m_keyProperties.get_name(i), (char *) Q_NULLPTR);

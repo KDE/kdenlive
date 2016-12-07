@@ -7285,7 +7285,6 @@ void CustomTrackView::splitAudio(bool warn, const ItemInfo &info, int destTrack,
     if (!info.isValid()) {
         // Operate on current selection
         selection = scene()->selectedItems();
-        destTrack = m_timeline->audioTarget;
         if (selection.isEmpty()) {
             emit displayMessage(i18n("You must select at least one clip for this action"), ErrorMessage);
             if (!hasMasterCommand) {
@@ -7293,20 +7292,23 @@ void CustomTrackView::splitAudio(bool warn, const ItemInfo &info, int destTrack,
             }
             return;
         }
-    } else {
-        new SplitAudioCommand(this, info.track, destTrack, info.startPos, masterCommand);
-    }
-    for (int i = 0; i < selection.count(); ++i) {
-        if (selection.at(i)->type() == AVWidget) {
-            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
-            if (clip->clipType() == AV || clip->clipType() == Playlist) {
-                if (clip->parentItem()) {
-                    emit displayMessage(i18n("Cannot split audio of grouped clips"), ErrorMessage);
-                } else {
-                    new SplitAudioCommand(this, clip->track(), destTrack, clip->startPos(), masterCommand);
+        if (KdenliveSettings::splitaudio()) {
+            destTrack = m_timeline->audioTarget;
+        }
+        for (int i = 0; i < selection.count(); ++i) {
+            if (selection.at(i)->type() == AVWidget) {
+                ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+                if (clip->clipType() == AV || clip->clipType() == Playlist) {
+                    if (clip->parentItem()) {
+                        emit displayMessage(i18n("Cannot split audio of grouped clips"), ErrorMessage);
+                    } else {
+                        new SplitAudioCommand(this, clip->track(), destTrack, clip->startPos(), masterCommand);
+                    }
                 }
             }
         }
+    } else {
+        new SplitAudioCommand(this, info.track, destTrack, info.startPos, masterCommand);
     }
     if (masterCommand->childCount()) {
         updateTrackDuration(-1, masterCommand);

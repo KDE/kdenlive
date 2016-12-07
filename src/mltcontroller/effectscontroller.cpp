@@ -302,7 +302,8 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
         bool hasValue = e.hasAttribute(QStringLiteral("value"));
         // Check if this effect has a variable parameter, init effects default value
         if ((type == QLatin1String("animatedrect") || type == QLatin1String("geometry")) && !hasValue) {
-            QString kfr = AnimationWidget::getDefaultKeyframes(info.cropStart.frames(fps), e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
+            int pos = type == QLatin1String("geometry") ? 0 : info.cropStart.frames(fps);
+            QString kfr = AnimationWidget::getDefaultKeyframes(pos, e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
             if (kfr.contains(QLatin1String("%"))) {
                 kfr = EffectsController::getStringRectEval(pInfo, kfr);
             }

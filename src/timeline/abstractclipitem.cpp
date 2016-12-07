@@ -518,7 +518,7 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
             continue;
         }
         QString paramName = e.attribute(QStringLiteral("name"));
-        if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
+        if (e.attribute(QStringLiteral("type")).startsWith(QLatin1String("animated"))) {
             if (m_keyframeView.activeParam(paramName)) {
                 // inserting a keyframe touches all animated params
                 for (int j = 0; j < params.count(); ++j) {
