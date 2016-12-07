@@ -120,6 +120,7 @@ private:
     int m_handleSize;
     bool m_useOffset;
     int m_offset;
+    QStringList m_notInTimeline;
     double keyframeUnmap(QRectF br, double y);
     double keyframeMap(QRectF br, double value);
     QPointF keyframeMap(QRectF br, int frame, double value);

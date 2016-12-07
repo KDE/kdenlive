@@ -717,7 +717,7 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, const QDomEleme
     doubleparam->factor = factor;
     connect(doubleparam, SIGNAL(valueChanged(double)), this, SLOT(slotAdjustKeyframeValue(double)));
     layout()->addWidget(doubleparam);
-    if (!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
+    if ((!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) && !e.hasAttribute(QStringLiteral("notintimeline"))) {
         doubleparam->setInTimelineProperty(true);
         doubleparam->setChecked(true);
         m_inTimeline = paramTag;
@@ -888,7 +888,7 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
 {
     m_animController = m_animProperties.get_animation(m_rectParameter.toUtf8().constData());
     m_inTimeline = m_rectParameter;
-    int pos = m_ruler->position();
+    int pos = m_ruler->position() - m_offset;
     mlt_rect rect;
     rect.x = m_spinX->value();
     rect.y = m_spinY->value();
