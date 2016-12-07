@@ -130,9 +130,7 @@ int main(int argc, char **argv)
             QObject::connect(job, &RenderJob::renderingFinished, dualjob, &RenderJob::start);
         }
         app.exec();
-        if (dualjob) {
-            delete dualjob;
-        }
+        delete dualjob;
     } else {
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
                 "kdenlive_render [-erase] [-kuiserver] [-locale:LOCALE] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]\n"

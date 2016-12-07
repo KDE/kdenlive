@@ -345,9 +345,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     m_livePreview = livePreview;
     m_frameCount = 0;
     m_droppedFrames = 0;
-    if (m_mltProfile) {
-        delete m_mltProfile;
-    }
+    delete m_mltProfile;
     char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
     m_mltProfile = new Mlt::Profile(tmp);
     delete[] tmp;
@@ -440,22 +438,16 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
 
     if (m_mltProducer == Q_NULLPTR || !m_mltProducer->is_valid()) {
         //qCDebug(KDENLIVE_LOG)<<"//// ERROR CREATRING PROD";
-        if (m_mltConsumer) {
-            delete m_mltConsumer;
-            m_mltConsumer = Q_NULLPTR;
-        }
-        if (m_mltProducer) {
-            delete m_mltProducer;
-            m_mltProducer = Q_NULLPTR;
-        }
+        delete m_mltConsumer;
+        m_mltConsumer = Q_NULLPTR;
+        delete m_mltProducer;
+        m_mltProducer = Q_NULLPTR;
         return false;
     }
 
     m_mltConsumer->connect(*m_mltProducer);
     if (m_mltConsumer->start() == -1) {
-        if (m_showFrameEvent) {
-            delete m_showFrameEvent;
-        }
+        delete m_showFrameEvent;
         m_showFrameEvent = Q_NULLPTR;
         delete m_mltConsumer;
         m_mltConsumer = Q_NULLPTR;

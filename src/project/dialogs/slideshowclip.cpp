@@ -296,9 +296,7 @@ void SlideshowClip::parseFolder()
 
 void SlideshowClip::slotGenerateThumbs()
 {
-    if (m_thumbJob) {
-        delete m_thumbJob;
-    };
+    delete m_thumbJob;
     KFileItemList fileList;
     for (int i = 0; i < m_view.icon_list->count(); ++i) {
         QListWidgetItem *item = m_view.icon_list->item(i);

@@ -830,9 +830,7 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
                 // Cannot load movie, reject
                 showError(i18n("The clip %1 is invalid.", transcoded));
             }
-            if (producer) {
-                delete producer;
-            }
+            delete producer;
             slotCheckVobList();
             if (m_transcodeQueue.isEmpty()) {
                 slotCheckProfiles();

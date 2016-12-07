@@ -82,18 +82,14 @@ void RazorManager::buildCutLine(double trackHeight)
 
 void RazorManager::leaveEvent()
 {
-    if (m_cutLine) {
-        delete m_cutLine;
-        m_cutLine = Q_NULLPTR;
-    }
+    delete m_cutLine;
+    m_cutLine = Q_NULLPTR;
 }
 
 void RazorManager::closeTool()
 {
-    if (m_cutLine) {
-        delete m_cutLine;
-        m_cutLine = Q_NULLPTR;
-    }
+    delete m_cutLine;
+    m_cutLine = Q_NULLPTR;
 }
 
 bool RazorManager::mouseMove(QMouseEvent *, int pos, int track)

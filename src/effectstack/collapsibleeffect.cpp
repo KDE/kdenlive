@@ -529,10 +529,9 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
         //         //qCDebug(KDENLIVE_LOG) << "// EMPTY EFFECT STACK";
         return;
     }
-    if (m_paramWidget) {
-        delete m_paramWidget;
-        m_paramWidget = Q_NULLPTR;
-    }
+    delete m_paramWidget;
+    m_paramWidget = Q_NULLPTR;
+
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
         m_regionEffect = true;
         QDomNodeList effects =  m_effect.elementsByTagName(QStringLiteral("effect"));

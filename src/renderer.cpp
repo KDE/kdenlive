@@ -1523,7 +1523,7 @@ double Render::getMltVersionInfo(const QString &tag)
     if (metadata && metadata->is_valid()) {
 	version = metadata->get_double("version");
     }
-    if (metadata) delete metadata;
+    delete metadata;
     return version;
 }
 

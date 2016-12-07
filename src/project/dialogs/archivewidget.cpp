@@ -867,7 +867,7 @@ void ArchiveWidget::createArchive()
         archive.addLocalFile(m_temp->fileName(), m_name + ".kdenlive");
         result = archive.close();
         delete m_temp;
-        m_temp = 0;
+        m_temp = Q_NULLPTR;
     }
     emit archivingFinished(result);
 }

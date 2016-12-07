@@ -211,7 +211,6 @@ void ProxyJob::startJob()
         }
     }
     delete m_jobProcess;
-    return;
 }
 
 void ProxyJob::processLogInfo()

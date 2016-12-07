@@ -518,9 +518,7 @@ void DvdWizardMenu::buildImage()
             pix = QPixmap::fromImage(KThumb::getFrame(producer, 0, m_width, m_height));
             m_movieLength = producer->get_length();
         }
-        if (producer) {
-            delete producer;
-        }
+        delete producer;
     }
     m_background->setPixmap(pix);
     m_scene->addItem(m_background);

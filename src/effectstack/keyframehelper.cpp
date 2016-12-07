@@ -82,9 +82,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent *event)
 
                 while (!m_extraMovingItems.isEmpty()) {
                     Mlt::GeometryItem *gitem = m_extraMovingItems.takeFirst();
-                    if (gitem) {
-                        delete gitem;
-                    }
+                    delete gitem;
                 }
                 for (int i = 0; i < m_extraGeometries.count(); ++i) {
                     if (m_extraGeometries.at(i)->next_key(item, mousePos) == 0) {

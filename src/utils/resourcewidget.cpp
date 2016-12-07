@@ -281,9 +281,7 @@ void ResourceWidget::slotLoadPreview(const QString &url)
 void ResourceWidget::slotLoadAnimatedGif(KJob *job)
 {
     if (!job->error()) {
-        if (m_movie) {
-            delete m_movie;
-        }
+        delete m_movie;
         m_movie = new QMovie(m_tmpThumbFile->fileName());
         GifLabel->clear();
         GifLabel->setMovie(m_movie);// pass a pointer to a QMovie

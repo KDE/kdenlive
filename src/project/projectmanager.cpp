@@ -81,12 +81,8 @@ ProjectManager::~ProjectManager()
 {
     delete m_notesPlugin;
 
-    if (m_trackView) {
-        delete m_trackView;
-    }
-    if (m_project) {
-        delete m_project;
-    }
+    delete m_trackView;
+    delete m_project;
 }
 
 void ProjectManager::slotLoadOnOpen()
@@ -515,9 +511,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         delete pCore->window()->m_stopmotion;
         pCore->window()->m_stopmotion = Q_NULLPTR;
     }
-    if (m_progressDialog) {
-        delete m_progressDialog;
-    }
+    delete m_progressDialog;
     pCore->monitorManager()->resetDisplay();
     m_progressDialog = new QProgressDialog(pCore->window());
     m_progressDialog->setWindowTitle(i18n("Loading project"));

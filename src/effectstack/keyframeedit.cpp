@@ -99,9 +99,7 @@ KeyframeEdit::~KeyframeEdit()
     while ((child = m_slidersLayout->takeAt(0)) != 0) {
         QWidget *wid = child->widget();
         delete child;
-        if (wid) {
-            delete wid;
-        }
+        delete wid;
     }
 }
 

@@ -136,9 +136,7 @@ bool EffectStackEdit::eventFilter(QObject *o, QEvent *e)
 
 void EffectStackEdit::transferParamDesc(const QDomElement &d, const ItemInfo &info, bool /*isEffect*/)
 {
-    if (m_paramWidget) {
-        delete m_paramWidget;
-    }
+    delete m_paramWidget;
     m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);
     connect(m_paramWidget, &ParameterContainer::parameterChanged, this, &EffectStackEdit::parameterChanged);
     connect(m_paramWidget, &ParameterContainer::importKeyframes, this, &EffectStackEdit::importKeyframes);

@@ -161,8 +161,7 @@ bool Track::del(qreal t, bool checkDuration)
     Mlt::Producer *clip = m_playlist.replace_with_blank(ix);
     if (clip) {
         delete clip;
-    }
-    else {
+    } else {
         qWarning("Error deleting clip at %d, tk: %d", pos, m_index);
         m_playlist.unlock();
         return false;

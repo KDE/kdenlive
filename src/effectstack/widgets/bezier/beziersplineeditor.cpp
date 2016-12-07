@@ -150,9 +150,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent *event)
     p.fillRect(rect().translated(-offsetX, -offsetY), palette().background());
     if (!m_pixmap.isNull()) {
         if (m_pixmapIsDirty || !m_pixmapCache) {
-            if (m_pixmapCache) {
-                delete m_pixmapCache;
-            }
+            delete m_pixmapCache;
             m_pixmapCache = new QPixmap(wWidth + 1, wHeight + 1);
             QPainter cachePainter(m_pixmapCache);
 
