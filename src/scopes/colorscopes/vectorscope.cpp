@@ -46,7 +46,6 @@ Vectorscope::Vectorscope(QWidget *parent) :
     ui->setupUi(this);
 
     m_colorTools = new ColorTools();
-    m_colorPlaneExport = new ColorPlaneExport(this);
     m_vectorscopeGenerator = new VectorscopeGenerator();
 
     ui->paintMode->addItem(i18n("Green 2"), QVariant(VectorscopeGenerator::PaintMode_Green2));
@@ -120,7 +119,6 @@ Vectorscope::~Vectorscope()
     writeConfig();
 
     delete m_colorTools;
-    delete m_colorPlaneExport;
     delete m_vectorscopeGenerator;
 
     delete m_aColorSpace_YPbPr;
@@ -511,9 +509,9 @@ void Vectorscope::slotGainChanged(int newval)
 
 void Vectorscope::slotExportBackground()
 {
-    qCDebug(KDENLIVE_LOG) << "Exporting background";
-    m_colorPlaneExport->show();
-
+    QPointer<ColorPlaneExport> colorPlaneExportDialog = new ColorPlaneExport(this);
+    colorPlaneExportDialog->exec();
+    delete colorPlaneExportDialog;
 }
 
 void Vectorscope::slotBackgroundChanged()

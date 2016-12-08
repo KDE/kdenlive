@@ -14,7 +14,6 @@
 #include "ui_vectorscope_ui.h"
 #include "abstractgfxscopewidget.h"
 
-class ColorPlaneExport;
 class ColorTools;
 
 class Vectorscope_UI;
@@ -54,7 +53,6 @@ private:
     Ui::Vectorscope_UI *ui;
 
     ColorTools *m_colorTools;
-    ColorPlaneExport *m_colorPlaneExport;
 
     QActionGroup *m_agColorSpace;
     QAction *m_aColorSpace_YUV;
