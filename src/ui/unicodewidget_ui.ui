@@ -20,6 +20,18 @@
    <string>Enter Unicode value</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
     <widget class="QFrame" name="frame">
      <property name="sizePolicy">
@@ -265,7 +277,7 @@
          <enum>QFrame::Plain</enum>
         </property>
         <property name="documentTitle">
-         <string notr="true"></string>
+         <string notr="true"/>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -319,13 +331,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
