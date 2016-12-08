@@ -56,6 +56,7 @@
 
 ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent) :
     QDialog(parent),
+    m_pOAuth2(Q_NULLPTR),
     m_folder(folder),
     m_currentService(Q_NULLPTR),
     m_movie(Q_NULLPTR)
@@ -805,7 +806,7 @@ QString ResourceWidget::GetSaveFileNameAndPathS(const QString &path, const QStri
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
         if (ret == QMessageBox::No) {
-            return QLatin1String("");
+            return QString();
         }
     }
     return saveUrlstring;

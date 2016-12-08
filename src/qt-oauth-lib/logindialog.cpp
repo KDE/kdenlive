@@ -40,14 +40,16 @@
 #include "kdenlive_debug.h"
 #include <QWebView>
 
-LoginDialog::LoginDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::LoginDialog)
+LoginDialog::LoginDialog(QWidget *parent)
+    : QDialog(parent),
+      ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose);
+    setWindowTitle(i18n("Freesound Login"));
+
     connect(ui->CancelButton, &QPushButton::clicked, this, &LoginDialog::slotRejected);
     connect(ui->GetHQpreview, &QPushButton::clicked, this, &LoginDialog::slotGetHQPreview);
-    setWindowTitle(i18n("Freesound Login"));
     ui->FreeSoundLoginLabel->setText(i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality preview file instead (no freesound account required)."));
    // ui->textBrowser
     connect(ui->webView, &QWebView::urlChanged, this, &LoginDialog::urlChanged);
@@ -60,7 +62,7 @@ LoginDialog::~LoginDialog()
 
 void LoginDialog::slotGetHQPreview()
 {
-    emit UseHQPreview();
+    emit useHQPreview();
     QDialog::accept();
 }
 
@@ -79,40 +81,33 @@ void LoginDialog::slotRejected()
 void LoginDialog::urlChanged(const QUrl &url)
 {
     //qCDebug(KDENLIVE_LOG) << "URL =" << url;
-    QString str = url.toString();
-    int posCode = str.indexOf(QLatin1String("&code="));
-    int posErr = str.indexOf(QLatin1String("&error="));
+    const QString str = url.toString();
+    const int posCode = str.indexOf(QLatin1String("&code="));
+    const int posErr = str.indexOf(QLatin1String("&error="));
     if(posCode != -1)
     {
-
-        m_strAuthCode =str.mid(posCode+6) ;
-        emit AuthCodeObtained();
+        m_strAuthCode =str.mid(posCode+6);
+        emit authCodeObtained();
         QDialog::accept();
-
-    }
-    if(posErr != -1)
+    } else if(posErr != -1)
     {
-
         QString sError =str.mid(posErr+7) ;
         if (sError==QLatin1String("access_denied") )
         {
             emit accessDenied();
         }
         QDialog::accept();
-
     }
 }
 
 
 
-QString LoginDialog::authCode()
+QString LoginDialog::authCode() const
 {
     return m_strAuthCode;
 }
 
-
 void LoginDialog::setLoginUrl(const QUrl& url)
 {
    ui->webView->setUrl(url);
-
 }

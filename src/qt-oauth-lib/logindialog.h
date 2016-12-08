@@ -60,14 +60,15 @@ public:
     explicit LoginDialog(QWidget *parent = Q_NULLPTR);
     ~LoginDialog();
     void setLoginUrl(const QUrl& url);
-    QString authCode();
+
+    QString authCode() const;
 
 signals:
     /**
-     * @brief AuthCodeObtained - emited when freesound gives us an Authorisation code \n
+     * @brief authCodeObtained - emited when freesound gives us an Authorisation code \n
      * Authorisation codes last 10mins and must be exchanged for an access token in that time
      */
-    void AuthCodeObtained();
+    void authCodeObtained();
     /**
      * @brief accessDenied -signal emmited if freesound denies acess - eg bad password or user has denied access to Kdenlive app.
      */
@@ -77,15 +78,16 @@ signals:
      */
     void canceled();
     /**
-     * @brief UseHQPreview - signal emmited when user clicks the "use HQ preview" button in the logon dialog
+     * @brief useHQPreview - signal emmited when user clicks the "use HQ preview" button in the logon dialog
      */
-    void UseHQPreview();
+    void useHQPreview();
 
 private slots:
     void urlChanged(const QUrl& url);
 
     void slotGetHQPreview();
     void slotRejected();
+
 private:
     Ui::LoginDialog *ui;
     QString m_strAuthCode;

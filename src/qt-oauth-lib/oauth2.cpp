@@ -78,11 +78,11 @@ OAuth2::OAuth2(QWidget* parent)
        m_bAccessTokenRec=true;
        m_strAccessToken=strAccessTokenFromSettings;
     }
-    connect(m_pLoginDialog, &LoginDialog::AuthCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
+    connect(m_pLoginDialog, &LoginDialog::authCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
 
     connect(m_pLoginDialog, &LoginDialog::accessDenied, this, &OAuth2::SlotAccessDenied);
     connect(m_pLoginDialog, &LoginDialog::canceled, this, &OAuth2::SlotCanceled);
-    connect(m_pLoginDialog, &LoginDialog::UseHQPreview, this, &OAuth2::SlotDownloadHQPreview);
+    connect(m_pLoginDialog, &LoginDialog::useHQPreview, this, &OAuth2::SlotDownloadHQPreview);
     connect(this, &OAuth2::AuthCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
 }
 /**
