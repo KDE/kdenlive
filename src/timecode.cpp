@@ -106,6 +106,10 @@ void Timecode::setFormat(double framesPerSecond, Formats format)
     }
 }
 
+Timecode::Formats Timecode::format() const {
+    return m_format;
+}
+
 double Timecode::fps() const
 {
     return m_realFps;

@@ -35,11 +35,11 @@ public:
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
     /** @brief Return the producer parameters, producer name as value of "producer" entry. */
-    QMap<QString, QString> producerParams();
+    QMap<QString, QString> producerParams() const;
     /** @brief Return the filter parameters, filter name as value of "filter" entry. */
-    QMap<QString, QString> filterParams();
+    QMap<QString, QString> filterParams() const;
     /** @brief Return the consumer parameters, consumer name as value of "consumer" entry. */
-    QMap<QString, QString> consumerParams();
+    QMap<QString, QString> consumerParams() const;
     /** @brief Return the destination file or folder. */
     QString destination() const;
     /** @brief Return the job description. */

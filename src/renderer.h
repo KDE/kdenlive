@@ -335,7 +335,7 @@ signals:
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
-    void showImageSignal(QImage);
+    void showImageSignal(const QImage &);
     void showAudioSignal(const QVector<double> &);
     void checkSeeking();
     /** @brief Activate current monitor. */

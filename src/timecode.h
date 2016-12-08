@@ -38,9 +38,7 @@ public:
      */
     void setFormat(double framesPerSecond, Formats format = HH_MM_SS_FF);
 
-    Formats format() const {
-        return m_format;
-    }
+    Formats format() const;
 
     ~Timecode();
 

@@ -125,12 +125,12 @@ ClipStabilize::~ClipStabilize()
     KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
 }
 
-QMap<QString, QString> ClipStabilize::producerParams()
+QMap<QString, QString> ClipStabilize::producerParams() const
 {
     return QMap<QString, QString>();
 }
 
-QMap<QString, QString> ClipStabilize::filterParams()
+QMap<QString, QString> ClipStabilize::filterParams() const
 {
     QMap<QString, QString> params;
     params.insert(QStringLiteral("filter"), m_filtername);
@@ -149,7 +149,7 @@ QMap<QString, QString> ClipStabilize::filterParams()
     return params;
 }
 
-QMap<QString, QString> ClipStabilize::consumerParams()
+QMap<QString, QString> ClipStabilize::consumerParams() const
 {
     // consumer params
     QMap<QString, QString> params;
