@@ -22,7 +22,6 @@
 
 #include <QComboBox>
 
-
 /**
  * @short A widget for qreal values with a popup slider
  *
@@ -134,7 +133,7 @@ private:
     Q_PRIVATE_SLOT(d, void lineEditFinished())
 
     class KoSliderComboPrivate;
-    KoSliderComboPrivate * const d;
+    KoSliderComboPrivate *const d;
 };
 
 #endif

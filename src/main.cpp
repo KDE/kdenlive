@@ -60,11 +60,11 @@ int main(int argc, char *argv[])
     if (!initialGroup.exists()) {
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP")) && env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde")) {
-            qCDebug(KDENLIVE_LOG)<<"KDE Desktop detected, using system icons";
+            qCDebug(KDENLIVE_LOG) << "KDE Desktop detected, using system icons";
         } else {
             // We are not on a KDE desktop, force breeze icon theme
             grp.writeEntry("force_breeze", true);
-            qCDebug(KDENLIVE_LOG)<<"Non KDE Desktop detected, forcing Breeze icon theme";
+            qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
         }
     }
 
@@ -135,12 +135,12 @@ int main(int argc, char *argv[])
 #endif
 
     // see if we are starting with session management
-    if (qApp->isSessionRestored()){
-	  int n = 1;
-	  while (KMainWindow::canBeRestored(n)){
-	      (new MainWindow())->restore(n);
-	      n++;
-	  }
+    if (qApp->isSessionRestored()) {
+        int n = 1;
+        while (KMainWindow::canBeRestored(n)) {
+            (new MainWindow())->restore(n);
+            n++;
+        }
     } else {
         QString clipsToLoad = parser.value(QStringLiteral("i"));
         QString mltPath = parser.value(QStringLiteral("mlt-path"));
@@ -152,14 +152,14 @@ int main(int argc, char *argv[])
             QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
             url = startup.resolved(url);
         }
-        MainWindow* window = new MainWindow(mltPath, url, clipsToLoad);
+        MainWindow *window = new MainWindow(mltPath, url, clipsToLoad);
         window->show();
     }
     int result = app.exec();
 
     if (EXIT_RESTART == result) {
         qCDebug(KDENLIVE_LOG) << "restarting app";
-        QProcess* restart = new QProcess;
+        QProcess *restart = new QProcess;
         restart->start(app.applicationFilePath(), QStringList());
         restart->waitForReadyRead();
         restart->waitForFinished(1000);

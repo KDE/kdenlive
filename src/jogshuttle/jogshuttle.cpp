@@ -18,7 +18,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "jogshuttle.h"
 
 #include "kdenlive_debug.h"
@@ -35,17 +34,15 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-
 // init media event type constants
 const QEvent::Type MediaCtrlEvent::Key = (QEvent::Type)QEvent::registerEventType();
 const QEvent::Type MediaCtrlEvent::Jog = (QEvent::Type)QEvent::registerEventType();
 const QEvent::Type MediaCtrlEvent::Shuttle = (QEvent::Type)QEvent::registerEventType();
 
-
 ShuttleThread::ShuttleThread(const QString &device, QObject *parent) :
-        m_device(device),
-        m_parent(parent),
-        m_isRunning(false)
+    m_device(device),
+    m_parent(parent),
+    m_isRunning(false)
 {
 }
 
@@ -65,69 +62,70 @@ void ShuttleThread::stop()
 
 void ShuttleThread::run()
 {
-	media_ctrl mc;
+    media_ctrl mc;
     media_ctrl_open_dev(&mc, m_device.toUtf8().data());
     if (mc.fd < 0) {
         return;
     }
-	fd_set readset;
-	struct timeval timeout;
-	// enter thread loop
+    fd_set readset;
+    struct timeval timeout;
+    // enter thread loop
     m_isRunning = true;
-	while (m_isRunning) {
-		// reset the read set
-		FD_ZERO(&readset);
-		FD_SET(mc.fd, &readset);
-		// reinit the timeout structure
-		timeout.tv_sec  = 0;
-		timeout.tv_usec = 400000;
-		// do select in blocked mode and wake up after timeout
-		// for stop_me evaluation
-		int result = select(mc.fd + 1, &readset, Q_NULLPTR, Q_NULLPTR, &timeout);
-		// see if there was an error or timeout else process event
-		if (result < 0 && errno == EINTR) {
-			// EINTR event caught. This is not a problem - continue processing
-			continue;
-		} else if (result < 0) {
-			// stop thread
-		    m_isRunning = false;
-		} else if (result > 0) {
-			// we have input
-			if (FD_ISSET(mc.fd, &readset)) {
-			    media_ctrl_event mev;
-			    mev.type = MEDIA_CTRL_EVENT_NONE;
+    while (m_isRunning) {
+        // reset the read set
+        FD_ZERO(&readset);
+        FD_SET(mc.fd, &readset);
+        // reinit the timeout structure
+        timeout.tv_sec  = 0;
+        timeout.tv_usec = 400000;
+        // do select in blocked mode and wake up after timeout
+        // for stop_me evaluation
+        int result = select(mc.fd + 1, &readset, Q_NULLPTR, Q_NULLPTR, &timeout);
+        // see if there was an error or timeout else process event
+        if (result < 0 && errno == EINTR) {
+            // EINTR event caught. This is not a problem - continue processing
+            continue;
+        } else if (result < 0) {
+            // stop thread
+            m_isRunning = false;
+        } else if (result > 0) {
+            // we have input
+            if (FD_ISSET(mc.fd, &readset)) {
+                media_ctrl_event mev;
+                mev.type = MEDIA_CTRL_EVENT_NONE;
                 // read input
-				media_ctrl_read_event(&mc, &mev);
+                media_ctrl_read_event(&mc, &mev);
                 // process event
                 handleEvent(mev);
-			}
-		} else if (result == 0) {
-		    // on timeout
-		}
-	}
-	// close the handle and return thread
+            }
+        } else if (result == 0) {
+            // on timeout
+        }
+    }
+    // close the handle and return thread
     media_ctrl_close(&mc);
 }
 
-void ShuttleThread::handleEvent(const media_ctrl_event& ev)
+void ShuttleThread::handleEvent(const media_ctrl_event &ev)
 {
-    if (ev.type == MEDIA_CTRL_EVENT_KEY)
+    if (ev.type == MEDIA_CTRL_EVENT_KEY) {
         key(ev);
-    else if (ev.type == MEDIA_CTRL_EVENT_JOG)
+    } else if (ev.type == MEDIA_CTRL_EVENT_JOG) {
         jog(ev);
-    else if (ev.type == MEDIA_CTRL_EVENT_SHUTTLE)
+    } else if (ev.type == MEDIA_CTRL_EVENT_SHUTTLE) {
         shuttle(ev);
-}
-
-void ShuttleThread::key(const media_ctrl_event& ev)
-{
-    if (ev.value == KEY_PRESS) {
-        QApplication::postEvent(m_parent,
-            new MediaCtrlEvent(MediaCtrlEvent::Key, ev.index + 1));
     }
 }
 
-void ShuttleThread::shuttle(const media_ctrl_event& ev)
+void ShuttleThread::key(const media_ctrl_event &ev)
+{
+    if (ev.value == KEY_PRESS) {
+        QApplication::postEvent(m_parent,
+                                new MediaCtrlEvent(MediaCtrlEvent::Key, ev.index + 1));
+    }
+}
+
+void ShuttleThread::shuttle(const media_ctrl_event &ev)
 {
     int value = ev.value / 2;
 
@@ -136,31 +134,31 @@ void ShuttleThread::shuttle(const media_ctrl_event& ev)
         return;
     }
     QApplication::postEvent(m_parent,
-        new MediaCtrlEvent(MediaCtrlEvent::Shuttle, value));
+                            new MediaCtrlEvent(MediaCtrlEvent::Shuttle, value));
 }
 
-void ShuttleThread::jog(const media_ctrl_event& ev)
+void ShuttleThread::jog(const media_ctrl_event &ev)
 {
     QApplication::postEvent(m_parent,
-        new MediaCtrlEvent(MediaCtrlEvent::Jog, ev.value));
+                            new MediaCtrlEvent(MediaCtrlEvent::Jog, ev.value));
 }
 
 JogShuttle::JogShuttle(const QString &device, QObject *parent) :
-        QObject(parent),
-        m_shuttleProcess(device, this)
+    QObject(parent),
+    m_shuttleProcess(device, this)
 {
     m_shuttleProcess.start();
 }
 
 JogShuttle::~JogShuttle()
 {
-	stopDevice();
+    stopDevice();
 }
 
 void JogShuttle::stopDevice()
 {
     if (m_shuttleProcess.isRunning()) {
-    	// tell thread to stop
+        // tell thread to stop
         m_shuttleProcess.stop();
         m_shuttleProcess.quit();
         // give the thread some time (ms) to shutdown
@@ -168,21 +166,21 @@ void JogShuttle::stopDevice()
 
         // if still running - do it in the hardcore way
         if (m_shuttleProcess.isRunning()) {
-        	m_shuttleProcess.terminate();
+            m_shuttleProcess.terminate();
             qCWarning(KDENLIVE_LOG) << "Needed to force jogshuttle process termination";
         }
     }
 }
 
-void JogShuttle::customEvent(QEvent* e)
+void JogShuttle::customEvent(QEvent *e)
 {
     QEvent::Type type = e->type();
 
     if (type == MediaCtrlEvent::Key) {
-        MediaCtrlEvent* mev = static_cast<MediaCtrlEvent*>(e);
+        MediaCtrlEvent *mev = static_cast<MediaCtrlEvent *>(e);
         emit button(mev->value());
     } else if (type == MediaCtrlEvent::Jog) {
-        MediaCtrlEvent* mev = static_cast<MediaCtrlEvent*>(e);
+        MediaCtrlEvent *mev = static_cast<MediaCtrlEvent *>(e);
         int value = mev->value();
 
         if (value < 0) {
@@ -191,17 +189,17 @@ void JogShuttle::customEvent(QEvent* e)
             emit jogForward();
         }
     } else if (type == MediaCtrlEvent::Shuttle) {
-        MediaCtrlEvent* mev = static_cast<MediaCtrlEvent*>(e);
+        MediaCtrlEvent *mev = static_cast<MediaCtrlEvent *>(e);
         emit shuttlePos(mev->value());
     }
 }
 
-QString JogShuttle::canonicalDevice(const QString& device)
+QString JogShuttle::canonicalDevice(const QString &device)
 {
     return QDir(device).canonicalPath();
 }
 
-DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
+DeviceMap JogShuttle::enumerateDevices(const QString &devPath)
 {
     DeviceMap devs;
     QDir devDir(devPath);
@@ -218,7 +216,7 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
         //qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileLink);
 
         media_ctrl mc;
-        media_ctrl_open_dev(&mc, (char*)fileLink.toUtf8().data());
+        media_ctrl_open_dev(&mc, (char *)fileLink.toUtf8().data());
         if (mc.fd > 0 && mc.device) {
             devs.insert(QString(mc.device->name), devFullPath);
             qCDebug(KDENLIVE_LOG) <<  QStringLiteral(" [keys-count=%1] ").arg(media_ctrl_get_keys_count(&mc));
@@ -229,19 +227,17 @@ DeviceMap JogShuttle::enumerateDevices(const QString& devPath)
     return devs;
 }
 
-int JogShuttle::keysCount(const QString& devPath)
+int JogShuttle::keysCount(const QString &devPath)
 {
     media_ctrl mc;
     int keysCount = 0;
 
     QString fileLink = canonicalDevice(devPath);
-    media_ctrl_open_dev(&mc, (char*)fileLink.toUtf8().data());
+    media_ctrl_open_dev(&mc, (char *)fileLink.toUtf8().data());
     if (mc.fd > 0 && mc.device) {
         keysCount = media_ctrl_get_keys_count(&mc);
     }
 
     return keysCount;
 }
-
-
 

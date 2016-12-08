@@ -39,21 +39,22 @@ class QToolBar;
 class QComboBox;
 class QCheckBox;
 
-namespace Mlt {
-    class Producer;
+namespace Mlt
+{
+class Producer;
 }
 
 class RecManager : public QObject
 {
     Q_OBJECT
 
-enum CaptureDevice {
-    Video4Linux = 0,
-    ScreenGrab = 1,
-    // Not implemented
-    Firewire = 2,
-    BlackMagic = 3
-};
+    enum CaptureDevice {
+        Video4Linux = 0,
+        ScreenGrab = 1,
+        // Not implemented
+        Firewire = 2,
+        BlackMagic = 3
+    };
 
 public:
     explicit RecManager(Monitor *parent = Q_NULLPTR);
@@ -92,7 +93,7 @@ private slots:
 
 signals:
     void addClipToProject(QUrl);
-    void warningMessage(QString, int timeout = 5000, QList <QAction*> actions = QList <QAction*>());
+    void warningMessage(QString, int timeout = 5000, QList <QAction *> actions = QList <QAction *>());
 };
 
 #endif

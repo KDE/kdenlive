@@ -27,7 +27,7 @@
 #include <klocalizedstring.h>
 
 SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent) :
-        QWidget(parent)
+    QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
@@ -94,8 +94,9 @@ void SimpleKeyframeWidget::slotSetPosition(int pos, bool update)
         m_timeline->slotSetPosition(pos);
     }
 
-    if (update)
+    if (update) {
         emit positionChanged(pos);
+    }
 }
 
 int SimpleKeyframeWidget::getPosition() const
@@ -103,7 +104,7 @@ int SimpleKeyframeWidget::getPosition() const
     return m_time->getValue();
 }
 
-void SimpleKeyframeWidget::setKeyframes(const QList< int >& keyframes)
+void SimpleKeyframeWidget::setKeyframes(const QList< int > &keyframes)
 {
     m_timeline->setKeyframes(keyframes);
     setEnabled(true);
@@ -132,5 +133,4 @@ void SimpleKeyframeWidget::slotAtKeyframe(bool atKeyframe)
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
 }
-
 

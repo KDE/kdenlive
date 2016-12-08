@@ -28,8 +28,8 @@ public:
       \c leftSize + \c rightSize.
       */
     static void convolve(const float *left, const int leftSize,
-                          const float *right, const int rightSize,
-                          float *out_convolved);
+                         const float *right, const int rightSize,
+                         float *out_convolved);
 
     /**
       Computes the correlation between \c left and \c right.

@@ -37,37 +37,39 @@ static const QChar DELIMITER = ';';
 static const QChar KEY_VALUE_SEP = '=';
 static const QString BUTTON_PREFIX(QStringLiteral("button"));
 
-QStringList JogShuttleConfig::actionMap(const QString& actionsConfig)
+QStringList JogShuttleConfig::actionMap(const QString &actionsConfig)
 {
-  QStringList actionMap;
-  QStringList mappings = actionsConfig.split(DELIMITER);
+    QStringList actionMap;
+    QStringList mappings = actionsConfig.split(DELIMITER);
 
-  foreach (const QString& mapping, mappings) {
-    QStringList parts = mapping.split(KEY_VALUE_SEP);
-    if (parts.size() != 2) {
-      fprintf(stderr, "Invalid button configuration: %s", mapping.toLatin1().constData());
-      continue;
+    foreach (const QString &mapping, mappings) {
+        QStringList parts = mapping.split(KEY_VALUE_SEP);
+        if (parts.size() != 2) {
+            fprintf(stderr, "Invalid button configuration: %s", mapping.toLatin1().constData());
+            continue;
+        }
+        // skip the 'button' prefix
+        int button_id = parts[0].midRef(BUTTON_PREFIX.length()).toInt();
+        //fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toLatin1(), button_id, parts[1].data().toLatin1()); // DBG
+        while (actionMap.size() <= button_id) {
+            actionMap << QString();
+        }
+        actionMap[button_id] = parts[1];
     }
-    // skip the 'button' prefix
-    int button_id = parts[0].midRef(BUTTON_PREFIX.length()).toInt();
-    //fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toLatin1(), button_id, parts[1].data().toLatin1()); // DBG
-    while (actionMap.size() <= button_id)
-        actionMap << QString();
-    actionMap[button_id] = parts[1];
-  }
-  
-  //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].data().toLatin1());  //DBG
-  return actionMap;
+
+    //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].data().toLatin1());  //DBG
+    return actionMap;
 }
 
-QString JogShuttleConfig::actionMap(const QStringList& actionMap)
+QString JogShuttleConfig::actionMap(const QStringList &actionMap)
 {
-  QStringList mappings;
-  for (int i=0; i < actionMap.size(); ++i) {
-      if (actionMap[i].isEmpty())
-          continue;
-      mappings << QStringLiteral("%1%2%3%4").arg(BUTTON_PREFIX).arg(i).arg(KEY_VALUE_SEP).arg(actionMap[i]);
-  }
+    QStringList mappings;
+    for (int i = 0; i < actionMap.size(); ++i) {
+        if (actionMap[i].isEmpty()) {
+            continue;
+        }
+        mappings << QStringLiteral("%1%2%3%4").arg(BUTTON_PREFIX).arg(i).arg(KEY_VALUE_SEP).arg(actionMap[i]);
+    }
 
-  return mappings.join(DELIMITER);
+    return mappings.join(DELIMITER);
 }

@@ -22,12 +22,12 @@ public:
     ~AudioInfo();
 
     int size() const;
-    AudioStreamInfo const* info(int pos) const;
+    AudioStreamInfo const *info(int pos) const;
 
     void dumpInfo() const;
 
 private:
-    QList<AudioStreamInfo*> m_list;
+    QList<AudioStreamInfo *> m_list;
 };
 
 #endif // AUDIOINFO_H

@@ -25,16 +25,15 @@
 #include <QFontDatabase>
 #include <KColorScheme>
 
-
-SimpleTimelineWidget::SimpleTimelineWidget(QWidget* parent) :
-        QWidget(parent),
-        m_duration(1),
-        m_position(0),
-        m_currentKeyframe(-1),
-        m_currentKeyframeOriginal(-1),
-        m_hoverKeyframe(-1),
-        m_lineHeight(10),
-        m_scale(1)
+SimpleTimelineWidget::SimpleTimelineWidget(QWidget *parent) :
+    QWidget(parent),
+    m_duration(1),
+    m_position(0),
+    m_currentKeyframe(-1),
+    m_currentKeyframeOriginal(-1),
+    m_hoverKeyframe(-1),
+    m_lineHeight(10),
+    m_scale(1)
 {
     setMouseTracking(true);
     setMinimumSize(QSize(150, 20));
@@ -67,37 +66,43 @@ void SimpleTimelineWidget::slotSetPosition(int pos)
 
 void SimpleTimelineWidget::slotAddKeyframe(int pos, int select)
 {
-    if (pos < 0)
+    if (pos < 0) {
         pos = m_position;
+    }
 
     m_keyframes.append(pos);
     qSort(m_keyframes);
-    if (select)
+    if (select) {
         m_currentKeyframe = m_currentKeyframeOriginal = pos;
+    }
     update();
 
     emit keyframeAdded(pos);
-    if (pos == m_position)
+    if (pos == m_position) {
         emit atKeyframe(true);
+    }
 }
 
 void SimpleTimelineWidget::slotAddRemove()
 {
-    if (m_keyframes.contains(m_position))
+    if (m_keyframes.contains(m_position)) {
         slotRemoveKeyframe(m_position);
-    else
+    } else {
         slotAddKeyframe(m_position);
+    }
 }
 
 void SimpleTimelineWidget::slotRemoveKeyframe(int pos)
 {
     m_keyframes.removeAll(pos);
-    if (m_currentKeyframe == pos)
+    if (m_currentKeyframe == pos) {
         m_currentKeyframe = m_currentKeyframeOriginal = -1;
+    }
     update();
     emit keyframeRemoved(pos);
-    if (pos == m_position)
+    if (pos == m_position) {
         emit atKeyframe(false);
+    }
 }
 
 void SimpleTimelineWidget::setDuration(int dur)
@@ -107,8 +112,9 @@ void SimpleTimelineWidget::setDuration(int dur)
 
 void SimpleTimelineWidget::slotGoToNext()
 {
-    if (m_position == m_duration)
+    if (m_position == m_duration) {
         return;
+    }
 
     foreach (const int &keyframe, m_keyframes) {
         if (keyframe > m_position) {
@@ -127,8 +133,9 @@ void SimpleTimelineWidget::slotGoToNext()
 
 void SimpleTimelineWidget::slotGoToPrev()
 {
-    if (m_position == 0)
+    if (m_position == 0) {
         return;
+    }
 
     for (int i = m_keyframes.count() - 1; i >= 0; --i) {
         const int framePos(m_keyframes.at(i));
@@ -146,11 +153,11 @@ void SimpleTimelineWidget::slotGoToPrev()
     emit atKeyframe(false);
 }
 
-void SimpleTimelineWidget::mousePressEvent(QMouseEvent* event)
+void SimpleTimelineWidget::mousePressEvent(QMouseEvent *event)
 {
     int pos = event->x() / m_scale;
     if (event->y() < m_lineHeight && event->button() == Qt::LeftButton)  {
-        foreach(const int &keyframe, m_keyframes) {
+        foreach (const int &keyframe, m_keyframes) {
             if (qAbs(keyframe - pos) < 5) {
                 m_currentKeyframeOriginal = keyframe;
                 m_keyframes[m_keyframes.indexOf(keyframe)] = pos;
@@ -169,15 +176,16 @@ void SimpleTimelineWidget::mousePressEvent(QMouseEvent* event)
     update();
 }
 
-void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent* event)
+void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
     if (event->buttons() & Qt::LeftButton) {
         if (m_currentKeyframe >= 0) {
             if (!m_keyframes.contains(pos)) {
                 // snap to position cursor
-                if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < 5 && !m_keyframes.contains(m_position))
+                if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < 5 && !m_keyframes.contains(m_position)) {
                     pos = m_position;
+                }
                 // should we maybe sort here?
                 m_keyframes[m_keyframes.indexOf(m_currentKeyframe)] = pos;
                 m_currentKeyframe = pos;
@@ -193,7 +201,7 @@ void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent* event)
         return;
     } else {
         if (event->y() < m_lineHeight) {
-            foreach(const int &keyframe, m_keyframes) {
+            foreach (const int &keyframe, m_keyframes) {
                 if (qAbs(keyframe - pos) < 5) {
                     m_hoverKeyframe = keyframe;
                     setCursor(Qt::PointingHandCursor);
@@ -211,7 +219,7 @@ void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent* event)
     }
 }
 
-void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent* event)
+void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
 
@@ -221,18 +229,20 @@ void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent* event)
     }
 }
 
-void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent* event)
+void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton && event->y() < m_lineHeight) {
         int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
-        foreach(const int &keyframe, m_keyframes) {
+        foreach (const int &keyframe, m_keyframes) {
             if (qAbs(keyframe - pos) < 5) {
                 m_keyframes.removeAll(keyframe);
-                if (keyframe == m_currentKeyframe)
+                if (keyframe == m_currentKeyframe) {
                     m_currentKeyframe = m_currentKeyframeOriginal = -1;
+                }
                 emit keyframeRemoved(keyframe);
-                if (keyframe == m_position)
+                if (keyframe == m_position) {
                     emit atKeyframe(false);
+                }
                 return;
             }
         }
@@ -241,28 +251,29 @@ void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent* event)
         m_keyframes.append(pos);
         qSort(m_keyframes);
         emit keyframeAdded(pos);
-        if (pos == m_position)
+        if (pos == m_position) {
             emit atKeyframe(true);
+        }
     } else {
         QWidget::mouseDoubleClickEvent(event);
     }
 }
 
-void SimpleTimelineWidget::wheelEvent(QWheelEvent* event)
+void SimpleTimelineWidget::wheelEvent(QWheelEvent *event)
 {
     int change = event->delta() < 0 ? -1 : 1;
     /*if (m_currentKeyframe > 0) {
         m_currentKeyframe = qBound(0, m_currentKeyframe + change, m_duration);
         emit keyframeMoved(m_currentKeyframeOriginal, m_currentKeyframe);
     } else { */
-        m_position = qBound(0, m_position + change, m_duration);
-        emit positionChanged(m_position);
+    m_position = qBound(0, m_position + change, m_duration);
+    emit positionChanged(m_position);
 //     }
     emit atKeyframe(m_keyframes.contains(m_position));
     update();
 }
 
-void SimpleTimelineWidget::paintEvent(QPaintEvent* event)
+void SimpleTimelineWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
 
@@ -281,14 +292,16 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent* event)
     foreach (const int &pos, m_keyframes) {
         tmp = keyframe;
         tmp.translate(pos * m_scale, 0);
-        if (pos == m_currentKeyframe || pos == m_hoverKeyframe)
+        if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
             p.setBrush(m_colSelected);
+        }
 
         p.drawConvexPolygon(tmp);
         p.drawLine(QLineF(0, -1, 0, 5).translated(pos * m_scale, 0));
 
-        if (pos == m_currentKeyframe || pos == m_hoverKeyframe)
+        if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
             p.setBrush(m_colKeyframeBg);
+        }
     }
 
     p.setPen(palette().dark().color());
@@ -306,5 +319,4 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent* event)
     p.setBrush(palette().dark().color());
     p.drawConvexPolygon(position);
 }
-
 

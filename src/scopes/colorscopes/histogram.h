@@ -19,7 +19,8 @@ class HistogramGenerator;
 /**
  *  \brief Displays the histogram of frames.
  */
-class Histogram : public AbstractGfxScopeWidget {
+class Histogram : public AbstractGfxScopeWidget
+{
     Q_OBJECT
 
 public:

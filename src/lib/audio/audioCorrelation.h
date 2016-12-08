@@ -16,7 +16,6 @@
 #include "definitions.h"
 #include <QList>
 
-
 /**
   This class does the correlation between two tracks
   in order to synchronize (align) them.
@@ -51,13 +50,13 @@ public:
 private:
     AudioEnvelope *m_mainTrackEnvelope;
 
-    QList<AudioEnvelope*> m_children;
-    QList<AudioCorrelationInfo*> m_correlations;
+    QList<AudioEnvelope *> m_children;
+    QList<AudioCorrelationInfo *> m_correlations;
 
-private slots:    
+private slots:
     void slotProcessChild(AudioEnvelope *envelope);
     void slotAnnounceEnvelope();
-    
+
 signals:
     void gotAudioAlignData(int, int, int);
     void displayMessage(const QString &, MessageType);

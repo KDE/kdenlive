@@ -26,7 +26,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 Core *Core::m_self = Q_NULLPTR;
 
-
 Core::Core(MainWindow *mainWindow) :
     m_mainWindow(mainWindow)
     , m_projectManager(Q_NULLPTR)
@@ -50,7 +49,7 @@ Core::~Core()
     m_self = 0;
 }
 
-void Core::build(MainWindow* mainWindow)
+void Core::build(MainWindow *mainWindow)
 {
     m_self = new Core(mainWindow);
     m_self->initLocale();
@@ -85,13 +84,12 @@ void Core::initialize()
     emit coreIsReady();
 }
 
-
-Core* Core::self()
+Core *Core::self()
 {
     return m_self;
 }
 
-MainWindow* Core::window()
+MainWindow *Core::window()
 {
     return m_mainWindow;
 }
@@ -101,7 +99,7 @@ ProjectManager *Core::projectManager()
     return m_projectManager;
 }
 
-MonitorManager* Core::monitorManager()
+MonitorManager *Core::monitorManager()
 {
     return m_monitorManager;
 }
@@ -151,5 +149,4 @@ void Core::initLocale()
     systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     QLocale::setDefault(systemLocale);
 }
-
 

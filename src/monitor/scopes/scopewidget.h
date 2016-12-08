@@ -56,7 +56,7 @@
 class ScopeWidget : public QWidget
 {
     Q_OBJECT
-    
+
 public:
     /*!
       Constructs an ScopeWidget.
@@ -83,7 +83,7 @@ public:
 
 public slots:
     //! Provides a new frame to the scope. Should be called by the application.
-    void onNewFrame(const SharedFrame& frame);
+    void onNewFrame(const SharedFrame &frame);
 
 protected:
     /*!
@@ -100,7 +100,7 @@ protected:
       protect any members that may be accessed concurrently by the refresh
       thread and the GUI thread.
     */
-    virtual void refreshScope(const QSize& size, bool full) = 0;
+    virtual void refreshScope(const QSize &size, bool full) = 0;
 
     /*!
       Stores frames received by onNewFrame().
@@ -110,8 +110,8 @@ protected:
     */
     DataQueue<SharedFrame> m_queue;
 
-    void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
 
 private:
     Q_INVOKABLE void onRefreshThreadComplete();

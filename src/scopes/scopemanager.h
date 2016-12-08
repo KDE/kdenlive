@@ -34,7 +34,8 @@ class ScopeManager : public QObject
     struct GfxScopeData {
         AbstractGfxScopeWidget *scope;
         bool singleFrameRequested;
-        GfxScopeData() {
+        GfxScopeData()
+        {
             scope = Q_NULLPTR;
             singleFrameRequested = false;
         }
@@ -43,9 +44,10 @@ class ScopeManager : public QObject
     struct AudioScopeData {
         AbstractAudioScopeWidget *scope;
         bool singleFrameRequested;
-        AudioScopeData() {
+        AudioScopeData()
+        {
             scope = Q_NULLPTR;
-            singleFrameRequested = false; 
+            singleFrameRequested = false;
         }
     };
 
@@ -97,7 +99,7 @@ private:
 
 public slots:
     void slotCheckActiveScopes();
-    
+
 private slots:
     /**
       Updates the signal/slot connection since the active renderer has changed.
@@ -111,11 +113,11 @@ private slots:
       \see checkActiveAudioScopes()
       \see checkActiveColourScopes()
       */
-    
-        /**
-      Checks whether audio data is required, and notifies the renderer (enable or disable data sending).
-      \see checkActiveAudioScopes() for image data
-      */
+
+    /**
+    Checks whether audio data is required, and notifies the renderer (enable or disable data sending).
+    \see checkActiveAudioScopes() for image data
+    */
     void checkActiveAudioScopes();
     /**
       Checks whether any scope accepts frames, and notifies the renderer.

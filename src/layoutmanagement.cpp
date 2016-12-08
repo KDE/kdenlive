@@ -20,7 +20,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KSharedConfig>
 #include <klocalizedstring.h>
 
-LayoutManagement::LayoutManagement(QObject* parent) :
+LayoutManagement::LayoutManagement(QObject *parent) :
     QObject(parent)
 {
     // Prepare layout actions
@@ -44,8 +44,10 @@ LayoutManagement::LayoutManagement(QObject* parent) :
 
 void LayoutManagement::initializeLayouts()
 {
-    QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("layout_save_as"), pCore->window()));
-    if (m_loadLayout == Q_NULLPTR || saveLayout == Q_NULLPTR) return;
+    QMenu *saveLayout = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("layout_save_as"), pCore->window()));
+    if (m_loadLayout == Q_NULLPTR || saveLayout == Q_NULLPTR) {
+        return;
+    }
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup layoutGroup(config, "Layouts");
     QStringList entries = layoutGroup.keyList();
@@ -53,7 +55,7 @@ void LayoutManagement::initializeLayouts()
     QList<QAction *> saveActions = saveLayout->actions();
     for (int i = 1; i < 5; ++i) {
         // Rename the layouts actions
-        foreach(const QString & key, entries) {
+        foreach (const QString &key, entries) {
             if (key.endsWith(QStringLiteral("_%1").arg(i))) {
                 // Found previously saved layout
                 QString layoutName = key.section('_', 0, -2);
@@ -99,7 +101,7 @@ void LayoutManagement::slotSaveLayout(QAction *action)
     int layoutId = originallayoutName.section('_', -1).toInt();
 
     QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal,
-                                               originallayoutName.section('_', 0, -2));
+                         originallayoutName.section('_', 0, -2));
     if (layoutName.isEmpty()) {
         return;
     }
@@ -115,12 +117,11 @@ void LayoutManagement::slotSaveLayout(QAction *action)
 
 void LayoutManagement::slotOnGUISetupDone()
 {
-    QMenu *saveLayout = static_cast<QMenu*>(pCore->window()->factory()->container(QStringLiteral("layout_save_as"), pCore->window()));
+    QMenu *saveLayout = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("layout_save_as"), pCore->window()));
     if (saveLayout) {
         connect(saveLayout, &QMenu::triggered, this, &LayoutManagement::slotSaveLayout);
     }
 
     initializeLayouts();
 }
-
 

@@ -50,7 +50,7 @@
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
 
-QByteArray fileToByteArray(const QString& filename)
+QByteArray fileToByteArray(const QString &filename)
 {
     QByteArray ret;
     QFile file(filename);
@@ -69,14 +69,14 @@ TitleDocument::TitleDocument()
     m_height = 0;
 }
 
-void TitleDocument::setScene(QGraphicsScene* _scene, int width, int height)
+void TitleDocument::setScene(QGraphicsScene *_scene, int width, int height)
 {
     m_scene = _scene;
     m_width = width;
     m_height = height;
 }
 
-int TitleDocument::base64ToUrl(QGraphicsItem* item, QDomElement& content, bool embed)
+int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed)
 {
     if (embed) {
         if (!item->data(Qt::UserRole + 1).toString().isEmpty()) {
@@ -108,7 +108,6 @@ int TitleDocument::base64ToUrl(QGraphicsItem* item, QDomElement& content, bool e
     return 0;
 }
 
-
 //static
 const QString TitleDocument::extractBase64Image(const QString &titlePath, const QString &data)
 {
@@ -117,14 +116,14 @@ const QString TitleDocument::extractBase64Image(const QString &titlePath, const 
     dir.mkpath(titlePath);
     QFile f(filename);
     if (f.open(QIODevice::WriteOnly)) {
-        f.write(QByteArray::fromBase64(data.toLatin1())) ;
+        f.write(QByteArray::fromBase64(data.toLatin1()));
         f.close();
         return filename;
     }
     return QString();
 }
 
-QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv, bool embed)
+QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed)
 {
     QDomDocument doc;
 
@@ -142,7 +141,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
     QTextCursor cur;
     QTextBlockFormat format;
 
-    foreach(QGraphicsItem * item, m_scene->items()) {
+    foreach (QGraphicsItem *item, m_scene->items()) {
         if (!(item->flags() & QGraphicsItem::ItemIsSelectable)) {
             continue;
         }
@@ -166,14 +165,14 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             break;
         case 3:
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsRectItem"));
-            content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<QGraphicsRectItem*>(item)->rect().normalized()));
-            content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<QGraphicsRectItem*>(item)->pen().color()));
-            if (static_cast<QGraphicsRectItem*>(item)->pen() == Qt::NoPen) {
+            content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<QGraphicsRectItem *>(item)->rect().normalized()));
+            content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<QGraphicsRectItem *>(item)->pen().color()));
+            if (static_cast<QGraphicsRectItem *>(item)->pen() == Qt::NoPen) {
                 content.setAttribute(QStringLiteral("penwidth"), 0);
             } else {
-                content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsRectItem*>(item)->pen().width());
+                content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsRectItem *>(item)->pen().width());
             }
-            content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<QGraphicsRectItem*>(item)->brush().color()));
+            content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<QGraphicsRectItem *>(item)->brush().color()));
             gradient = item->data(TitleDocument::Gradient).toString();
             if (!gradient.isEmpty()) {
                 content.setAttribute(QStringLiteral("gradient"), gradient);
@@ -183,7 +182,9 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsTextItem"));
             t = static_cast<MyTextItem *>(item);
             // Don't save empty text nodes
-            if (t->toPlainText().simplified().isEmpty()) continue;
+            if (t->toPlainText().simplified().isEmpty()) {
+                continue;
+            }
             //content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
             content.appendChild(doc.createTextNode(t->toPlainText()));
             font = t->font();
@@ -222,13 +223,17 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
                 content.setAttribute(QStringLiteral("box-width"), QString::number(t->baseBoundingRect().width()));
             }
             content.setAttribute(QStringLiteral("box-height"), QString::number(t->baseBoundingRect().height()));
-            if (!t->data(TitleDocument::LineSpacing).isNull()) content.setAttribute(QStringLiteral("line-spacing"), QString::number(t->data(TitleDocument::LineSpacing).toInt()));
+            if (!t->data(TitleDocument::LineSpacing).isNull()) {
+                content.setAttribute(QStringLiteral("line-spacing"), QString::number(t->data(TitleDocument::LineSpacing).toInt()));
+            }
             {
                 QTextCursor cursor(t->document());
                 cursor.select(QTextCursor::Document);
                 QColor fontcolor = cursor.charFormat().foreground().color();
                 content.setAttribute(QStringLiteral("font-color"), colorToString(fontcolor));
-                if (!t->data(TitleDocument::OutlineWidth).isNull()) content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toDouble()));
+                if (!t->data(TitleDocument::OutlineWidth).isNull()) {
+                    content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toDouble()));
+                }
                 if (!t->data(TitleDocument::OutlineColor).isNull()) {
                     QVariant variant = t->data(TitleDocument::OutlineColor);
                     QColor outlineColor = variant.value<QColor>();
@@ -238,7 +243,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
             if (!t->data(100).isNull()) {
                 QStringList effectParams = t->data(100).toStringList();
                 QString effectName = effectParams.takeFirst();
-		content.setAttribute(QStringLiteral("textwidth"), QString::number(t->sceneBoundingRect().width()));
+                content.setAttribute(QStringLiteral("textwidth"), QString::number(t->sceneBoundingRect().width()));
                 content.setAttribute(effectName, effectParams.join(QStringLiteral(";")));
             }
 
@@ -281,7 +286,9 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem* startv, QGraphicsRectItem* en
         pos.appendChild(tr);
         e.appendChild(pos);
         e.appendChild(content);
-        if (item->zValue() > -1000) main.appendChild(e);
+        if (item->zValue() > -1000) {
+            main.appendChild(e);
+        }
     }
     if (startv && endv) {
         QDomElement endport = doc.createElement(QStringLiteral("endviewport"));
@@ -311,7 +318,7 @@ QColor TitleDocument::getBackgroundColor() const
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); ++i) {
             if (items.at(i)->zValue() == -1100) {
-                color = static_cast<QGraphicsRectItem*>(items.at(i))->brush().color();
+                color = static_cast<QGraphicsRectItem *>(items.at(i))->brush().color();
                 return color;
             }
         }
@@ -319,11 +326,11 @@ QColor TitleDocument::getBackgroundColor() const
     return color;
 }
 
-
-bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed)
+bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int duration, bool embed)
 {
-    if (!m_scene)
+    if (!m_scene) {
         return false;
+    }
 
     QDomDocument doc = xml(startv, endv, embed);
     doc.documentElement().setAttribute(QStringLiteral("duration"), duration);
@@ -335,8 +342,9 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGr
         return false;
     }
     QFile xmlf(tmpfile.fileName());
-    if (!xmlf.open(QIODevice::WriteOnly))
+    if (!xmlf.open(QIODevice::WriteOnly)) {
         return false;
+    }
     xmlf.write(doc.toString().toUtf8());
     if (xmlf.error() != QFile::NoError) {
         xmlf.close();
@@ -347,7 +355,7 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGr
     return copyjob->exec();
 }
 
-int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath)
+int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath)
 {
     m_projectPath = projectpath;
     QDomNodeList titles = doc.elementsByTagName(QStringLiteral("kdenlivetitle"));
@@ -372,12 +380,13 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
             doc.documentElement().removeChild(viewportlist.at(0));
         }
     }
-    if (doc.documentElement().hasAttribute(QStringLiteral("duration")))
+    if (doc.documentElement().hasAttribute(QStringLiteral("duration"))) {
         *duration = doc.documentElement().attribute(QStringLiteral("duration")).toInt();
-    else if (doc.documentElement().hasAttribute(QStringLiteral("out")))
+    } else if (doc.documentElement().hasAttribute(QStringLiteral("out"))) {
         *duration = doc.documentElement().attribute(QStringLiteral("out")).toInt();
-    else
+    } else {
         *duration = Timecode().getFrameCount(KdenliveSettings::title_duration());
+    }
 
     int maxZValue = 0;
     if (titles.size()) {
@@ -560,10 +569,16 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 QDomElement trans = itemNode.namedItem(QStringLiteral("position")).firstChild().toElement();
                 gitem->setTransform(stringToTransform(trans.firstChild().nodeValue()));
                 QString rotate = trans.attribute(QStringLiteral("rotation"));
-                if (!rotate.isEmpty()) gitem->setData(TitleDocument::RotateFactor, stringToList(rotate));
+                if (!rotate.isEmpty()) {
+                    gitem->setData(TitleDocument::RotateFactor, stringToList(rotate));
+                }
                 QString zoom = trans.attribute(QStringLiteral("zoom"));
-                if (!zoom.isEmpty()) gitem->setData(TitleDocument::ZoomFactor, zoom.toInt());
-                if (zValue >= maxZValue) maxZValue = zValue + 1;
+                if (!zoom.isEmpty()) {
+                    gitem->setData(TitleDocument::ZoomFactor, zoom.toInt());
+                }
+                if (zValue >= maxZValue) {
+                    maxZValue = zValue + 1;
+                }
                 gitem->setZValue(zValue);
                 gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
 
@@ -591,7 +606,7 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
                 QList<QGraphicsItem *> items = m_scene->items();
                 for (int i = 0; i < items.size(); ++i) {
                     if (items.at(i)->zValue() == -1100) {
-                        static_cast<QGraphicsRectItem*>(items.at(i))->setBrush(QBrush(color));
+                        static_cast<QGraphicsRectItem *>(items.at(i))->setBrush(QBrush(color));
                         break;
                     }
                 }
@@ -611,42 +626,45 @@ int TitleDocument::loadFromXml(const QDomDocument& doc, QGraphicsRectItem* start
     return maxZValue;
 }
 
-QString TitleDocument::colorToString(const QColor& c)
+QString TitleDocument::colorToString(const QColor &c)
 {
     QString ret = QStringLiteral("%1,%2,%3,%4");
     ret = ret.arg(c.red()).arg(c.green()).arg(c.blue()).arg(c.alpha());
     return ret;
 }
 
-QString TitleDocument::rectFToString(const QRectF& c)
+QString TitleDocument::rectFToString(const QRectF &c)
 {
     QString ret = QStringLiteral("%1,%2,%3,%4");
     ret = ret.arg(c.left()).arg(c.top()).arg(c.width()).arg(c.height());
     return ret;
 }
 
-QRectF TitleDocument::stringToRect(const QString & s)
+QRectF TitleDocument::stringToRect(const QString &s)
 {
 
     QStringList l = s.split(',');
-    if (l.size() < 4)
+    if (l.size() < 4) {
         return QRectF();
+    }
     return QRectF(l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(), l.at(3).toDouble()).normalized();
 }
 
-QColor TitleDocument::stringToColor(const QString & s)
+QColor TitleDocument::stringToColor(const QString &s)
 {
     QStringList l = s.split(',');
-    if (l.size() < 4)
+    if (l.size() < 4) {
         return QColor();
+    }
     return QColor(l.at(0).toInt(), l.at(1).toInt(), l.at(2).toInt(), l.at(3).toInt());;
 }
 
-QTransform TitleDocument::stringToTransform(const QString& s)
+QTransform TitleDocument::stringToTransform(const QString &s)
 {
     QStringList l = s.split(QLatin1Char(','));
-    if (l.size() < 9)
+    if (l.size() < 9) {
         return QTransform();
+    }
     return QTransform(
                l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(),
                l.at(3).toDouble(), l.at(4).toDouble(), l.at(5).toDouble(),
@@ -654,11 +672,12 @@ QTransform TitleDocument::stringToTransform(const QString& s)
            );
 }
 
-QList<QVariant> TitleDocument::stringToList(const QString & s)
+QList<QVariant> TitleDocument::stringToList(const QString &s)
 {
     QStringList l = s.split(',');
-    if (l.size() < 3)
+    if (l.size() < 3) {
         return QList<QVariant>();
+    }
     return QList<QVariant>() << QVariant(l.at(0).toDouble()) << QVariant(l.at(1).toDouble()) << QVariant(l.at(2).toDouble());
 }
 
@@ -671,5 +690,4 @@ int TitleDocument::frameHeight() const
 {
     return m_height;
 }
-
 

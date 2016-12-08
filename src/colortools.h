@@ -17,7 +17,6 @@
 
 #include <QImage>
 
-
 class ColorTools : public QObject
 {
     Q_OBJECT
@@ -36,7 +35,7 @@ public:
       If not the full rect should be filled, set circleOnly to true.
       See also: http://en.wikipedia.org/wiki/YUV and http://de.wikipedia.org/wiki/Vektorskop
      */
-    QImage yuvColorWheel(const QSize& size, const unsigned char &Y, const float &scaling, const bool &modifiedVersion, const bool &circleOnly);
+    QImage yuvColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &modifiedVersion, const bool &circleOnly);
     /**
       @brief Draws a UV plane with given UV angle (ratio u:v stays constant)
       scaling defines how far to zoom in (or out). Lower value = zoom in.

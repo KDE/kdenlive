@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     \brief Title creation dialog
     Instances of TitleWidget classes are instansiated by KdenliveDoc::slotCreateTextClip ()
 */
-class GradientWidget : public QDialog , public Ui::GradientEdit_UI
+class GradientWidget : public QDialog, public Ui::GradientEdit_UI
 {
     Q_OBJECT
 
@@ -43,7 +43,7 @@ public:
      * @param render project renderer
      * @param parent (optional) parent widget */
     explicit GradientWidget(const QMap<QString, QString> &gradients = QMap<QString, QString>(), int ix = 0, QWidget *parent = Q_NULLPTR);
-    void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     QString gradientToString() const;
     static QLinearGradient gradientFromString(const QString &str, int width, int height);
     QMap<QString, QString> gradients() const;

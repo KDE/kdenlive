@@ -41,7 +41,7 @@ class RotoWidget : public QWidget
     Q_OBJECT
 
 public:
-    RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent = Q_NULLPTR);
+    RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget *parent = Q_NULLPTR);
     ~RotoWidget();
 
     /** @brief Returns the spline(s) in the JSON format used by filter_rotoscoping (MLT). */
@@ -60,7 +60,6 @@ public slots:
 signals:
     void valueChanged();
     void seekToPos(int pos);
-
 
 private:
     SimpleKeyframeWidget *m_keyframeWidget;

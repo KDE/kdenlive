@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -54,7 +54,7 @@ GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, 
     gradient_list->setCurrentRow(ix);
 }
 
-void GradientWidget::resizeEvent(QResizeEvent* event)
+void GradientWidget::resizeEvent(QResizeEvent *event)
 {
     QDialog::resizeEvent(event);
     updatePreview();
@@ -124,7 +124,9 @@ void GradientWidget::updatePreview()
     preview->setPixmap(p);
     // save changes to currently active gradient
     QListWidgetItem *current = gradient_list->currentItem();
-    if (!current) return;
+    if (!current) {
+        return;
+    }
     saveGradient(current->text());
 }
 
@@ -145,19 +147,19 @@ void GradientWidget::saveGradient(const QString &name)
     QIcon icon(pix);
     QListWidgetItem *item = Q_NULLPTR;
     if (!name.isEmpty()) {
-	item = gradient_list->currentItem();
-	item->setIcon(icon);
+        item = gradient_list->currentItem();
+        item->setIcon(icon);
     } else {
-	// Create new gradient
+        // Create new gradient
         int ct = gradient_list->count();
-	QStringList existing = getNames();
-	QString test = i18n("Gradient %1", ct);
-	while (existing.contains(test)) {
-	    ct++;
-	    test = i18n("Gradient %1", ct);
-	}
-	item = new QListWidgetItem(icon, test, gradient_list);
-	item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        QStringList existing = getNames();
+        QString test = i18n("Gradient %1", ct);
+        while (existing.contains(test)) {
+            ct++;
+            test = i18n("Gradient %1", ct);
+        }
+        item = new QListWidgetItem(icon, test, gradient_list);
+        item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     }
     item->setData(Qt::UserRole, gradientToString());
 }
@@ -172,18 +174,21 @@ QStringList GradientWidget::getNames() const
     return result;
 }
 
-
 void GradientWidget::deleteGradient()
 {
     QListWidgetItem *item = gradient_list->currentItem();
-    if (!item) return;
+    if (!item) {
+        return;
+    }
     delete item;
 }
 
 void GradientWidget::loadGradient()
 {
     QListWidgetItem *item = gradient_list->currentItem();
-    if (!item) return;
+    if (!item) {
+        return;
+    }
     QString data = item->data(Qt::UserRole).toString();
     QStringList res = data.split(';');
     color1->setColor(QColor(res.at(0)));
@@ -214,14 +219,13 @@ QList <QIcon> GradientWidget::icons() const
     return icons;
 }
 
-
 void GradientWidget::loadGradients(QMap<QString, QString> gradients)
 {
     gradient_list->clear();
     if (gradients.isEmpty()) {
-	KSharedConfigPtr config = KSharedConfig::openConfig();
-	KConfigGroup group(config, "TitleGradients");
-	gradients = group.entryMap();
+        KSharedConfigPtr config = KSharedConfig::openConfig();
+        KConfigGroup group(config, "TitleGradients");
+        gradients = group.entryMap();
     }
     QMapIterator<QString, QString> k(gradients);
     while (k.hasNext()) {

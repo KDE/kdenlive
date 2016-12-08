@@ -36,18 +36,19 @@ void MyValidator::fixup(QString &str) const
 
 QValidator::State MyValidator::validate(QString &str, int &) const
 {
-    if (str.contains(QLatin1Char(' ')))
+    if (str.contains(QLatin1Char(' '))) {
         fixup(str);
+    }
     return QValidator::Acceptable;
 }
 
-TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
-        : QAbstractSpinBox(parent),
-        m_timecode(t),
-        m_frametimecode(false),
-        m_minimum(0),
-        m_maximum(-1),
-        m_value(0)
+TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
+    : QAbstractSpinBox(parent),
+      m_timecode(t),
+      m_frametimecode(false),
+      m_minimum(0),
+      m_maximum(-1),
+      m_value(0)
 {
     QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     lineEdit()->setFont(ft);
@@ -68,11 +69,15 @@ TimecodeDisplay::TimecodeDisplay(const Timecode& t, QWidget *parent)
 }
 
 // virtual protected
-QAbstractSpinBox::StepEnabled TimecodeDisplay::stepEnabled () const
+QAbstractSpinBox::StepEnabled TimecodeDisplay::stepEnabled() const
 {
     QAbstractSpinBox::StepEnabled result = QAbstractSpinBox::StepNone;
-    if (m_value > m_minimum) result |= QAbstractSpinBox::StepDownEnabled;
-    if (m_maximum == -1 || m_value < m_maximum) result |= QAbstractSpinBox::StepUpEnabled;
+    if (m_value > m_minimum) {
+        result |= QAbstractSpinBox::StepDownEnabled;
+    }
+    if (m_maximum == -1 || m_value < m_maximum) {
+        result |= QAbstractSpinBox::StepUpEnabled;
+    }
     return result;
 }
 
@@ -85,7 +90,9 @@ void TimecodeDisplay::stepBy(int steps)
 
 void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
 {
-    if (!init && m_frametimecode == frametimecode) return;
+    if (!init && m_frametimecode == frametimecode) {
+        return;
+    }
     m_frametimecode = frametimecode;
     lineEdit()->clear();
     if (m_frametimecode) {
@@ -117,9 +124,9 @@ void TimecodeDisplay::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
         e->setAccepted(true);
         clearFocus();
-    }
-    else
+    } else {
         QAbstractSpinBox::keyPressEvent(e);
+    }
 }
 
 void TimecodeDisplay::mouseReleaseEvent(QMouseEvent *e)
@@ -129,7 +136,6 @@ void TimecodeDisplay::mouseReleaseEvent(QMouseEvent *e)
         clearFocus();
     }
 }
-
 
 void TimecodeDisplay::wheelEvent(QWheelEvent *e)
 {
@@ -194,13 +200,16 @@ void TimecodeDisplay::setValue(int value)
     }
 
     if (m_frametimecode) {
-	if (value == m_value && !lineEdit()->text().isEmpty()) return;
-	m_value = value;
+        if (value == m_value && !lineEdit()->text().isEmpty()) {
+            return;
+        }
+        m_value = value;
         lineEdit()->setText(QString::number(value));
-    }
-    else {
-	if (value == m_value && lineEdit()->text() != QLatin1String(":::")) return;
-	m_value = value;
+    } else {
+        if (value == m_value && lineEdit()->text() != QLatin1String(":::")) {
+            return;
+        }
+        m_value = value;
         QString v = m_timecode.getTimecodeFromFrames(value);
         lineEdit()->setText(v);
     }
@@ -223,8 +232,11 @@ void TimecodeDisplay::sendTimecode(bool send)
 void TimecodeDisplay::slotEditingFinished()
 {
     lineEdit()->deselect();
-    if (m_frametimecode) setValue(lineEdit()->text().toInt());
-    else setValue(lineEdit()->text());
+    if (m_frametimecode) {
+        setValue(lineEdit()->text().toInt());
+    } else {
+        setValue(lineEdit()->text());
+    }
     emit timeCodeEditingFinished(m_value);
 }
 

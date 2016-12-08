@@ -51,69 +51,81 @@ public:
 
     QString toString() const;
 
-
     /*
      * Operators.
      */
 
     /// Unary minus
-    GenTime operator -() {
+    GenTime operator -()
+    {
         return GenTime(-m_time);
     }
-    
+
     /// Addition
-    GenTime & operator+=(GenTime op) {
+    GenTime &operator+=(GenTime op)
+    {
         m_time += op.m_time;
         return *this;
     }
 
     /// Subtraction
-    GenTime & operator-=(GenTime op) {
+    GenTime &operator-=(GenTime op)
+    {
         m_time -= op.m_time;
         return *this;
     }
 
     /** @brief Adds two GenTimes. */
-    GenTime operator+(GenTime op) const {
+    GenTime operator+(GenTime op) const
+    {
         return GenTime(m_time + op.m_time);
     }
 
     /** @brief Subtracts one genTime from another. */
-    GenTime operator-(GenTime op) const {
+    GenTime operator-(GenTime op) const
+    {
         return GenTime(m_time - op.m_time);
     }
 
     /** @brief Multiplies one GenTime by a double value, returning a GenTime. */
-    GenTime operator*(double op) const {
+    GenTime operator*(double op) const
+    {
         return GenTime(m_time * op);
     }
 
     /** @brief Divides one GenTime by a double value, returning a GenTime. */
-    GenTime operator/(double op) const {
+    GenTime operator/(double op) const
+    {
         return GenTime(m_time / op);
     }
 
-    bool operator<(GenTime op) const {
+    bool operator<(GenTime op) const
+    {
         return m_time + s_delta < op.m_time;
     }
 
-    bool operator>(GenTime op) const {
+    bool operator>(GenTime op) const
+    {
         return m_time > op.m_time + s_delta;
     }
 
-    bool operator>=(GenTime op) const {
+    bool operator>=(GenTime op) const
+    {
         return m_time + s_delta >= op.m_time;
     }
 
-    bool operator<=(GenTime op) const {
+    bool operator<=(GenTime op) const
+    {
         return m_time <= op.m_time + s_delta;
     }
 
-    bool operator==(GenTime op) const {
+    bool operator==(GenTime op) const
+    {
         return fabs(m_time - op.m_time) < s_delta;
     }
 
-    bool operator!=(GenTime op) const {
+    bool operator!=(GenTime op) const
+    {
         return fabs(m_time - op.m_time) >= s_delta;
     }
 

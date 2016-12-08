@@ -19,12 +19,12 @@
 #include <QPoint>
 #include <KSharedConfig>
 
-const QSize Waveform::m_textWidth(35,0);
+const QSize Waveform::m_textWidth(35, 0);
 const int Waveform::m_paddingBottom(20);
 
 Waveform::Waveform(QWidget *parent) :
     AbstractGfxScopeWidget(true, parent)
-  ,ui(Q_NULLPTR)
+    , ui(Q_NULLPTR)
 {
     ui = new Ui::Waveform_UI();
     ui->setupUi(this);
@@ -32,7 +32,6 @@ Waveform::Waveform(QWidget *parent) :
     ui->paintMode->addItem(i18n("Yellow"), QVariant(WaveformGenerator::PaintMode_Yellow));
     ui->paintMode->addItem(i18n("White"), QVariant(WaveformGenerator::PaintMode_White));
     ui->paintMode->addItem(i18n("Green"), QVariant(WaveformGenerator::PaintMode_Green));
-
 
     m_aRec601 = new QAction(i18n("Rec. 601"), this);
     m_aRec601->setCheckable(true);
@@ -44,7 +43,6 @@ Waveform::Waveform(QWidget *parent) :
     m_menu->addSeparator()->setText(i18n("Luma mode"));
     m_menu->addAction(m_aRec601);
     m_menu->addAction(m_aRec709);
-
 
     connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
     connect(this, &Waveform::signalMousePositionChanged, this, &Waveform::forceUpdateHUD);
@@ -86,28 +84,38 @@ void Waveform::writeConfig()
     scopeConfig.sync();
 }
 
-
 QRect Waveform::scopeRect()
 {
     // Distance from top/left/right
     int offset = 6;
-    QPoint topleft(offset, ui->verticalSpacer->geometry().y()+offset);
+    QPoint topleft(offset, ui->verticalSpacer->geometry().y() + offset);
 
-    return QRect(topleft, this->size() - QSize(offset+topleft.x(), offset+topleft.y()));
+    return QRect(topleft, this->size() - QSize(offset + topleft.x(), offset + topleft.y()));
 }
-
 
 ///// Implemented methods /////
 
-QString Waveform::widgetName() const { return QStringLiteral("Waveform"); }
-bool Waveform::isHUDDependingOnInput() const { return false; }
-bool Waveform::isScopeDependingOnInput() const { return true; }
-bool Waveform::isBackgroundDependingOnInput() const { return false; }
+QString Waveform::widgetName() const
+{
+    return QStringLiteral("Waveform");
+}
+bool Waveform::isHUDDependingOnInput() const
+{
+    return false;
+}
+bool Waveform::isScopeDependingOnInput() const
+{
+    return true;
+}
+bool Waveform::isBackgroundDependingOnInput() const
+{
+    return false;
+}
 
 QImage Waveform::renderHUD(uint)
 {
     QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
-    hud.fill(qRgba(0,0,0,0));
+    hud.fill(qRgba(0, 0, 0, 0));
 
     QPainter davinci(&hud);
     davinci.setPen(penLight);
@@ -115,26 +123,26 @@ QImage Waveform::renderHUD(uint)
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile());
 //    qCDebug(KDENLIVE_LOG) << values.value("width");
 
-    const int rightX = scopeRect().width()-m_textWidth.width()+3;
+    const int rightX = scopeRect().width() - m_textWidth.width() + 3;
     const int x = m_mousePos.x() - scopeRect().x();
     const int y = m_mousePos.y() - scopeRect().y();
 
     if (scopeRect().height() > 0 && m_mouseWithinWidget) {
-        int val = 255*(1-(float)y/scopeRect().height());
+        int val = 255 * (1 - (float)y / scopeRect().height());
 
         if (val >= 0 && val <= 255) {
             // Draw a horizontal line through the current mouse position
             // and show the value of the waveform there
-            davinci.drawLine(0, y, scopeRect().size().width()-m_textWidth.width(), y);
+            davinci.drawLine(0, y, scopeRect().size().width() - m_textWidth.width(), y);
 
             // Make the value stick to the line unless it is at the top/bottom of the scope
-            int valY = y+5;
+            int valY = y + 5;
             const int top = 30;
             const int bottom = 20;
             if (valY < top) {
                 valY = top;
-            } else if (valY > scopeRect().height()-bottom) {
-                valY = scopeRect().height()-bottom;
+            } else if (valY > scopeRect().height() - bottom) {
+                valY = scopeRect().height() - bottom;
             }
             davinci.drawText(rightX, valY, QVariant(val).toString());
         }
@@ -145,21 +153,25 @@ QImage Waveform::renderHUD(uint)
             const int profileWidth = values.value(QStringLiteral("width")).toInt(&ok);
 
             if (ok) {
-                const int clipX = (float)x/(scopeRect().width()-m_textWidth.width()-1)*(profileWidth-1);
+                const int clipX = (float)x / (scopeRect().width() - m_textWidth.width() - 1) * (profileWidth - 1);
 
                 if (clipX >= 0 && clipX <= profileWidth) {
-                    int valX = x-15;
-                    if (valX < 0) { valX = 0; }
-                    if (valX > scopeRect().width()-55-m_textWidth.width()) { valX = scopeRect().width()-55-m_textWidth.width(); }
+                    int valX = x - 15;
+                    if (valX < 0) {
+                        valX = 0;
+                    }
+                    if (valX > scopeRect().width() - 55 - m_textWidth.width()) {
+                        valX = scopeRect().width() - 55 - m_textWidth.width();
+                    }
 
-                    davinci.drawLine(x, y, x, scopeRect().height()-m_paddingBottom);
-                    davinci.drawText(valX, scopeRect().height()-5, QVariant(clipX).toString() + " px");
+                    davinci.drawLine(x, y, x, scopeRect().height() - m_paddingBottom);
+                    davinci.drawText(valX, scopeRect().height() - 5, QVariant(clipX).toString() + " px");
                 }
             }
         }
 
     }
-    davinci.drawText(rightX, scopeRect().height()-m_paddingBottom, QStringLiteral("0"));
+    davinci.drawText(rightX, scopeRect().height() - m_paddingBottom, QStringLiteral("0"));
     davinci.drawText(rightX, 10, QStringLiteral("255"));
 
     emit signalHUDRenderingFinished(0, 1);
@@ -173,8 +185,8 @@ QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
 
     const int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
     WaveformGenerator::Rec rec = m_aRec601->isChecked() ? WaveformGenerator::Rec_601 : WaveformGenerator::Rec_709;
-    QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0,m_paddingBottom), qimage,
-                                                         (WaveformGenerator::PaintMode) paintmode, true, rec, accelFactor);
+    QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom), qimage,
+                  (WaveformGenerator::PaintMode) paintmode, true, rec, accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), 1);
     return wave;
@@ -185,5 +197,4 @@ QImage Waveform::renderBackground(uint)
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }
-
 

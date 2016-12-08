@@ -1,6 +1,6 @@
-/* 
+/*
   Copyright : (C) 1990 Philip J. Schneider (pjs@apple.com)
- * GraphicsGems.h  
+ * GraphicsGems.h
  * Version 1.0 - Andrew Glassner
  * from "Graphics Gems", Academic Press, 1990
  *
@@ -24,46 +24,42 @@
 /*********************/
 
 typedef struct Point2Struct {   /* 2d point */
-        double x, y;
-        } Point2;
+    double x, y;
+} Point2;
 typedef Point2 Vector2;
 
 typedef struct IntPoint2Struct {        /* 2d integer point */
-        int x, y;
-        } IntPoint2;
+    int x, y;
+} IntPoint2;
 
 typedef struct Matrix3Struct {  /* 3-by-3 matrix */
-        double element[3][3];
-        } Matrix3;
+    double element[3][3];
+} Matrix3;
 
 typedef struct Box2dStruct {            /* 2d box */
-        Point2 min, max;
-        } Box2;
-        
+    Point2 min, max;
+} Box2;
 
 /*********************/
 /* 3d geometry types */
 /*********************/
 
 typedef struct Point3Struct {   /* 3d point */
-        double x, y, z;
-        } Point3;
+    double x, y, z;
+} Point3;
 typedef Point3 Vector3;
 
 typedef struct IntPoint3Struct {        /* 3d integer point */
-        int x, y, z;
-        } IntPoint3;
-
+    int x, y, z;
+} IntPoint3;
 
 typedef struct Matrix4Struct {  /* 4-by-4 matrix */
-        double element[4][4];
-        } Matrix4;
+    double element[4][4];
+} Matrix4;
 
 typedef struct Box3dStruct {            /* 3d box */
-        Point3 min, max;
-        } Box3;
-
-
+    Point3 min, max;
+} Box3;
 
 /***********************/
 /* one-argument macros */
@@ -76,28 +72,27 @@ typedef struct Box3dStruct {            /* 3d box */
 #define ROUND(a)        ((a)>0 ? (int)((a)+0.5) : -(int)(0.5-(a)))
 
 /* take sign of a, either -1, 0, or 1 */
-#define ZSGN(a)         (((a)<0) ? -1 : (a)>0 ? 1 : 0)  
+#define ZSGN(a)         (((a)<0) ? -1 : (a)>0 ? 1 : 0)
 
 /* take binary sign of a, either -1, or 1 if >= 0 */
 #define SGN(a)          (((a)<0) ? -1 : 1)
 
 /* shout if something that should be true isn't */
 #define ASSERT(x) \
-if (!(x)) fprintf(stderr," Assert failed: x\n");
+    if (!(x)) fprintf(stderr," Assert failed: x\n");
 
 /* square a */
-#define SQR(a)          ((a)*(a))       
-
+#define SQR(a)          ((a)*(a))
 
 /***********************/
 /* two-argument macros */
 /***********************/
 
 /* find minimum of a and b */
-#define MIN(a,b)        (((a)<(b))?(a):(b))     
+#define MIN(a,b)        (((a)<(b))?(a):(b))
 
 /* find maximum of a and b */
-#define MAX(a,b)        (((a)>(b))?(a):(b))     
+#define MAX(a,b)        (((a)>(b))?(a):(b))
 
 /* swap a and b (see Gem by Wyvill) */
 #define SWAP(a,b)       { a^=b; b^=a; a^=b; }
@@ -109,7 +104,6 @@ if (!(x)) fprintf(stderr," Assert failed: x\n");
 /* clamp the input to the specified range */
 #define CLAMP(v,l,h)    ((v)<(l) ? (l) : (v) > (h) ? (h) : v)
 
-
 /****************************/
 /* memory allocation macros */
 /****************************/
@@ -119,7 +113,6 @@ if (!(x)) fprintf(stderr," Assert failed: x\n");
 
 /* create a new instance of a type */
 #define NEWTYPE(x)      (x *)(malloc((unsigned)sizeof(x)))
-
 
 /********************/
 /* useful constants */
@@ -137,7 +130,6 @@ if (!(x)) fprintf(stderr," Assert failed: x\n");
 #define DTOR            0.017453        /* convert degrees to radians */
 #define RTOD            57.29578        /* convert radians to degrees */
 
-
 /************/
 /* booleans */
 /************/
@@ -147,10 +139,8 @@ if (!(x)) fprintf(stderr," Assert failed: x\n");
 typedef int boolean;                    /* boolean data type */
 typedef boolean flag;                   /* flag data type */
 
-
-
 /*extern double V2SquaredLength(Vector2 *a), V2Length();
-extern double V2Dot(Vector2 *a, Vector2 *b), V2DistanceBetween2Points(); 
+extern double V2Dot(Vector2 *a, Vector2 *b), V2DistanceBetween2Points();
 extern Vector2 *V2Negate(), *V2Normalize(), *V2Scale(), *V2Add(), *V2Sub(Vector2 *a, Vector2 *b, Vector2 *c);
 extern Vector2 *V2Lerp(), *V2Combine(), *V2Mul(), *V2MakePerpendicular();
 extern Vector2 *V2New(), *V2Duplicate();

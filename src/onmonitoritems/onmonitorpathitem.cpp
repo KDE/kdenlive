@@ -29,7 +29,7 @@
 
 #include <mlt++/Mlt.h>
 
-OnMonitorPathItem::OnMonitorPathItem(QGraphicsItem* parent) :
+OnMonitorPathItem::OnMonitorPathItem(QGraphicsItem *parent) :
     QGraphicsPathItem(parent),
     m_modified(false),
     m_view(Q_NULLPTR),
@@ -60,7 +60,9 @@ void OnMonitorPathItem::setPoints(Mlt::Geometry *geometry)
 
 void OnMonitorPathItem::rebuildShape()
 {
-    if (m_activePoint > m_points.count()) m_activePoint = -1;
+    if (m_activePoint > m_points.count()) {
+        m_activePoint = -1;
+    }
     QPainterPath p;
     QPainterPath shape;
 
@@ -97,7 +99,7 @@ void OnMonitorPathItem::getMode(const QPointF &pos)
     m_activePoint = -1;
 }
 
-void OnMonitorPathItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void OnMonitorPathItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     /*if (event->buttons() != Qt::NoButton && (event->screenPos() - m_screenClickPoint).manhattanLength() < QApplication::startDragDistance()) {
      *   event->accept();
@@ -128,7 +130,7 @@ QList <QPointF> OnMonitorPathItem::points() const
     return m_points;
 }
 
-void OnMonitorPathItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void OnMonitorPathItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (m_modified) {
         m_modified = false;
@@ -137,17 +139,17 @@ void OnMonitorPathItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     event->accept();
 }
 
-QRectF OnMonitorPathItem::boundingRect () const
+QRectF OnMonitorPathItem::boundingRect() const
 {
     return shape().boundingRect();
 }
 
-QPainterPath OnMonitorPathItem::shape () const
+QPainterPath OnMonitorPathItem::shape() const
 {
     return m_shape;
 }
 
-void OnMonitorPathItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* /*event*/)
+void OnMonitorPathItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * /*event*/)
 {
     if (m_activePoint != -1) {
         m_activePoint = -1;
@@ -156,20 +158,22 @@ void OnMonitorPathItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* /*event*/)
     unsetCursor();
 }
 
-void OnMonitorPathItem::hoverEnterEvent(QGraphicsSceneHoverEvent* /*event*/)
+void OnMonitorPathItem::hoverEnterEvent(QGraphicsSceneHoverEvent * /*event*/)
 {
     setCursor(QCursor(Qt::PointingHandCursor));
 }
 
-void OnMonitorPathItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+void OnMonitorPathItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     int currentPoint = m_activePoint;
     getMode(event->pos());
-    if (currentPoint != m_activePoint) update();
+    if (currentPoint != m_activePoint) {
+        update();
+    }
     setCursor(QCursor(Qt::PointingHandCursor));
 }
 
-void OnMonitorPathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void OnMonitorPathItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     //Q_UNUSED(widget)
     QGraphicsPathItem::paint(painter, option, widget);
@@ -190,8 +194,9 @@ void OnMonitorPathItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
 bool OnMonitorPathItem::getView()
 {
-    if (m_view)
+    if (m_view) {
         return true;
+    }
 
     if (scene() && !scene()->views().isEmpty()) {
         m_view = scene()->views().first();
@@ -200,5 +205,4 @@ bool OnMonitorPathItem::getView()
         return false;
     }
 }
-
 

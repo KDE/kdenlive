@@ -49,7 +49,7 @@ public:
     /** @brief Constructor for the widget, sets value to 0.
     * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
     * @param parent parent Widget */
-    explicit TimecodeDisplay(const Timecode& t, QWidget *parent = Q_NULLPTR);
+    explicit TimecodeDisplay(const Timecode &t, QWidget *parent = Q_NULLPTR);
 
     /** @brief Returns the minimum value, which can be entered.
     * default is 0 */
@@ -123,7 +123,7 @@ protected:
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
-    QAbstractSpinBox::StepEnabled stepEnabled () const Q_DECL_OVERRIDE;
+    QAbstractSpinBox::StepEnabled stepEnabled() const Q_DECL_OVERRIDE;
 
 };
 

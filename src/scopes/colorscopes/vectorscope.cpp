@@ -37,7 +37,6 @@ const QPointF YPbPr_Cy(.169, -.5);
 const QPointF YPbPr_Mg(.331, .419);
 const QPointF YPbPr_Yl(-.5, .081);
 
-
 Vectorscope::Vectorscope(QWidget *parent) :
     AbstractGfxScopeWidget(true, parent),
     m_gain(1)
@@ -68,7 +67,6 @@ Vectorscope::Vectorscope(QWidget *parent) :
     connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
     connect(this, &Vectorscope::signalMousePositionChanged, this, &Vectorscope::forceUpdateHUD);
     ui->sliderGain->setValue(0);
-
 
     ///// Build context menu /////
 
@@ -171,8 +169,8 @@ QRect Vectorscope::scopeRect()
     int offset = 6;
 
     // We want to paint below the controls area. The line is the lowest element.
-    QPoint topleft(offset, ui->verticalSpacer->geometry().y()+offset);
-    QPoint bottomright(ui->horizontalSpacer->geometry().right()-offset, this->size().height()-offset);
+    QPoint topleft(offset, ui->verticalSpacer->geometry().y() + offset);
+    QPoint bottomright(ui->horizontalSpacer->geometry().right() - offset, this->size().height() - offset);
 
     m_visibleRect = QRect(topleft, bottomright);
 
@@ -183,27 +181,35 @@ QRect Vectorscope::scopeRect()
     scopeRect.setWidth(cw);
     scopeRect.setHeight(cw);
 
-
-    m_centerPoint = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), QPointF(0,0));
-    pR75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_R);
-    pG75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_G);
-    pB75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_B);
-    pCy75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_Cy);
-    pMg75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_Mg);
-    pYl75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YUV_Yl);
-    qR75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_R);
-    qG75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_G);
-    qB75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_B);
-    qCy75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_Cy);
-    qMg75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_Mg);
-    qYl75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75*VectorscopeGenerator::scaling*YPbPr_Yl);
+    m_centerPoint = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), QPointF(0, 0));
+    pR75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YUV_R);
+    pG75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YUV_G);
+    pB75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YUV_B);
+    pCy75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YUV_Cy);
+    pMg75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YUV_Mg);
+    pYl75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YUV_Yl);
+    qR75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YPbPr_R);
+    qG75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YPbPr_G);
+    qB75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YPbPr_B);
+    qCy75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YPbPr_Cy);
+    qMg75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YPbPr_Mg);
+    qYl75 = m_vectorscopeGenerator->mapToCircle(scopeRect.size(), P75 * VectorscopeGenerator::scaling * YPbPr_Yl);
 
     return scopeRect;
 }
 
-bool Vectorscope::isHUDDependingOnInput() const { return false; }
-bool Vectorscope::isScopeDependingOnInput() const { return true; }
-bool Vectorscope::isBackgroundDependingOnInput() const { return false; }
+bool Vectorscope::isHUDDependingOnInput() const
+{
+    return false;
+}
+bool Vectorscope::isScopeDependingOnInput() const
+{
+    return true;
+}
+bool Vectorscope::isBackgroundDependingOnInput() const
+{
+    return false;
+}
 
 QImage Vectorscope::renderHUD(uint)
 {
@@ -220,20 +226,20 @@ QImage Vectorscope::renderHUD(uint)
         QPainter davinci(&hud);
         QPoint widgetCenterPoint = m_scopeRect.topLeft() + m_centerPoint;
 
-        int dx = -widgetCenterPoint.x()+m_mousePos.x();
-        int dy =  widgetCenterPoint.y()-m_mousePos.y();
+        int dx = -widgetCenterPoint.x() + m_mousePos.x();
+        int dy =  widgetCenterPoint.y() - m_mousePos.y();
 
-        QPoint reference = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(1,0));
+        QPoint reference = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(1, 0));
 
-        float r = sqrt(dx*dx + dy*dy);
-        float percent = (float) 100*r/VectorscopeGenerator::scaling/m_gain/(reference.x() - widgetCenterPoint.x());
+        float r = sqrt(dx * dx + dy * dy);
+        float percent = (float) 100 * r / VectorscopeGenerator::scaling / m_gain / (reference.x() - widgetCenterPoint.x());
 
         switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
         case BG_NONE:
             davinci.setPen(penLight);
             break;
         default:
-            if (r > cw/2.0) {
+            if (r > cw / 2.0) {
                 davinci.setPen(penLight);
             } else {
                 davinci.setPen(penDark);
@@ -242,9 +248,9 @@ QImage Vectorscope::renderHUD(uint)
         }
         davinci.drawEllipse(m_centerPoint, (int)r, (int)r);
         davinci.setPen(penThin);
-        davinci.drawText(QPoint(m_scopeRect.width()-40, m_scopeRect.height()), i18n("%1 \%", locale.toString(percent, 'f', 0)));
+        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height()), i18n("%1 \%", locale.toString(percent, 'f', 0)));
 
-        float angle = copysign(acos(dx/r)*180/M_PI, dy);
+        float angle = copysign(acos(dx / r) * 180 / M_PI, dy);
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));
 
 //        m_circleEnabled = false;
@@ -265,12 +271,12 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
     } else {
 
         VectorscopeGenerator::ColorSpace colorSpace = m_aColorSpace_YPbPr->isChecked() ?
-                                                      VectorscopeGenerator::ColorSpace_YPbPr : VectorscopeGenerator::ColorSpace_YUV;
+                VectorscopeGenerator::ColorSpace_YPbPr : VectorscopeGenerator::ColorSpace_YUV;
         VectorscopeGenerator::PaintMode paintMode = (VectorscopeGenerator::PaintMode) ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
         scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size(),
-                                                             qimage,
-                                                             m_gain, paintMode, colorSpace,
-                                                             m_aAxisEnabled->isChecked(), accelerationFactor);
+                qimage,
+                m_gain, paintMode, colorSpace,
+                m_aAxisEnabled->isChecked(), accelerationFactor);
 
     }
 
@@ -285,7 +291,7 @@ QImage Vectorscope::renderBackground(uint)
     start.start();
 
     QImage bg(m_visibleRect.size(), QImage::Format_ARGB32);
-    bg.fill(qRgba(0,0,0,0));
+    bg.fill(qRgba(0, 0, 0, 0));
 
     // Set up tools
     QPainter davinci(&bg);
@@ -298,20 +304,18 @@ QImage Vectorscope::renderBackground(uint)
     QImage colorPlane;
     switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
     case BG_YUV:
-        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 128, 1/VectorscopeGenerator::scaling, false, true);
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 128, 1 / VectorscopeGenerator::scaling, false, true);
         davinci.drawImage(0, 0, colorPlane);
         break;
     case BG_CHROMA:
-        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 255, 1/VectorscopeGenerator::scaling, true, true);
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 255, 1 / VectorscopeGenerator::scaling, true, true);
         davinci.drawImage(0, 0, colorPlane);
         break;
     case BG_YPbPr:
-        colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), (unsigned char) 128, 1/VectorscopeGenerator::scaling, true);
+        colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), (unsigned char) 128, 1 / VectorscopeGenerator::scaling, true);
         davinci.drawImage(0, 0, colorPlane);
         break;
     }
-
-
 
     // Draw I/Q lines (from the YIQ color space; Skin tones lie on the I line)
     // Positions are calculated by transforming YIQ:[0 1 0] or YIQ:[0 0 1] to YUV/YPbPr.
@@ -327,17 +331,16 @@ QImage Vectorscope::renderBackground(uint)
         }
 
         if (m_aColorSpace_YUV->isChecked()) {
-            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.544,.838));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.544,-.838));
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.544, .838));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.544, -.838));
         } else {
-            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.675,.737));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.675,-.737));
+            vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.675, .737));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.675, -.737));
         }
 
         davinci.drawLine(vinciPoint, vinciPoint2);
         davinci.setPen(penThick);
         davinci.drawText(vinciPoint - QPoint(11, 5), QStringLiteral("I"));
-
 
         switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
         case BG_NONE:
@@ -350,17 +353,15 @@ QImage Vectorscope::renderBackground(uint)
 
         if (m_aColorSpace_YUV->isChecked()) {
             vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.838, .544));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.838,-.544));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.838, -.544));
         } else {
             vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.908, .443));
-            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.908,-.443));
+            vinciPoint2 = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.908, -.443));
         }
 
         davinci.drawLine(vinciPoint, vinciPoint2);
         davinci.setPen(penThick);
         davinci.drawText(vinciPoint - QPoint(-7, 2), QStringLiteral("Q"));
-
-
 
     }
 
@@ -370,53 +371,53 @@ QImage Vectorscope::renderBackground(uint)
 
     // Draw RGB/CMY points with 100% chroma
     if (m_aColorSpace_YUV->isChecked()) {
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_R);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(20, -10), QStringLiteral("R"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YUV_R);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint - QPoint(20, -10), QStringLiteral("R"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_G);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(20, 0), QStringLiteral("G"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YUV_G);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint - QPoint(20, 0), QStringLiteral("G"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_B);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, 10), QStringLiteral("B"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YUV_B);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint + QPoint(15, 10), QStringLiteral("B"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_Cy);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, -5), QStringLiteral("Cy"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YUV_Cy);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint + QPoint(15, -5), QStringLiteral("Cy"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_Mg);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, 10), QStringLiteral("Mg"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YUV_Mg);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint + QPoint(15, 10), QStringLiteral("Mg"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YUV_Yl);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(25, 0), QStringLiteral("Yl"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YUV_Yl);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint - QPoint(25, 0), QStringLiteral("Yl"));
     } else {
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_R);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(20, -10), QStringLiteral("R"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YPbPr_R);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint - QPoint(20, -10), QStringLiteral("R"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_G);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(20, 0), QStringLiteral("G"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YPbPr_G);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint - QPoint(20, 0), QStringLiteral("G"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_B);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, 10), QStringLiteral("B"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YPbPr_B);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint + QPoint(15, 10), QStringLiteral("B"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_Cy);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, -5), QStringLiteral("Cy"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YPbPr_Cy);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint + QPoint(15, -5), QStringLiteral("Cy"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_Mg);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint+QPoint(15, 10), QStringLiteral("Mg"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YPbPr_Mg);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint + QPoint(15, 10), QStringLiteral("Mg"));
 
-        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling*YPbPr_Yl);
-        davinci.drawEllipse(vinciPoint, 4,4);
-        davinci.drawText(vinciPoint-QPoint(25, 0), QStringLiteral("Yl"));
+        vinciPoint = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), VectorscopeGenerator::scaling * YPbPr_Yl);
+        davinci.drawEllipse(vinciPoint, 4, 4);
+        davinci.drawText(vinciPoint - QPoint(25, 0), QStringLiteral("Yl"));
     }
 
     switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
@@ -430,8 +431,8 @@ QImage Vectorscope::renderBackground(uint)
 
     // Draw axis
     if (m_aAxisEnabled->isChecked()) {
-        davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0,-.9)), m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0,.9)));
-        davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.9,0)), m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.9,0)));
+        davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0, -.9)), m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0, .9)));
+        davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.9, 0)), m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.9, 0)));
     }
 
     // Draw center point
@@ -443,8 +444,7 @@ QImage Vectorscope::renderBackground(uint)
         davinci.setPen(penThin);
         break;
     }
-    davinci.drawEllipse(m_centerPoint, 5,5);
-
+    davinci.drawEllipse(m_centerPoint, 5, 5);
 
     // Draw 75% box
     if (m_a75PBox->isChecked()) {
@@ -468,33 +468,30 @@ QImage Vectorscope::renderBackground(uint)
     // Draw RGB/CMY points with 75% chroma (for NTSC)
     davinci.setPen(penThin);
     if (m_aColorSpace_YUV->isChecked()) {
-        davinci.drawEllipse(pR75, 3,3);
-        davinci.drawEllipse(pG75, 3,3);
-        davinci.drawEllipse(pB75, 3,3);
-        davinci.drawEllipse(pCy75, 3,3);
-        davinci.drawEllipse(pMg75, 3,3);
-        davinci.drawEllipse(pYl75, 3,3);
+        davinci.drawEllipse(pR75, 3, 3);
+        davinci.drawEllipse(pG75, 3, 3);
+        davinci.drawEllipse(pB75, 3, 3);
+        davinci.drawEllipse(pCy75, 3, 3);
+        davinci.drawEllipse(pMg75, 3, 3);
+        davinci.drawEllipse(pYl75, 3, 3);
     } else {
-        davinci.drawEllipse(qR75, 3,3);
-        davinci.drawEllipse(qG75, 3,3);
-        davinci.drawEllipse(qB75, 3,3);
-        davinci.drawEllipse(qCy75, 3,3);
-        davinci.drawEllipse(qMg75, 3,3);
-        davinci.drawEllipse(qYl75, 3,3);
+        davinci.drawEllipse(qR75, 3, 3);
+        davinci.drawEllipse(qG75, 3, 3);
+        davinci.drawEllipse(qB75, 3, 3);
+        davinci.drawEllipse(qCy75, 3, 3);
+        davinci.drawEllipse(qMg75, 3, 3);
+        davinci.drawEllipse(qYl75, 3, 3);
     }
 
     // Draw realtime factor (number of skipped pixels)
     if (m_aRealtime->isChecked()) {
         davinci.setPen(penThin);
-        davinci.drawText(QPoint(m_scopeRect.width()-40, m_scopeRect.height()-15), QVariant(m_accelFactorScope).toString().append("x"));
+        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height() - 15), QVariant(m_accelFactorScope).toString().append("x"));
     }
 
     emit signalBackgroundRenderingFinished(start.elapsed(), 1);
     return bg;
 }
-
-
-
 
 ///// Slots /////
 
@@ -502,7 +499,7 @@ void Vectorscope::slotGainChanged(int newval)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    m_gain = 1 + (float)newval/10;
+    m_gain = 1 + (float)newval / 10;
     ui->lblGain->setText(locale.toString(m_gain, 'f', 1) + 'x');
     forceUpdateScope();
 }
@@ -556,5 +553,4 @@ void Vectorscope::slotColorSpaceChanged()
     }
     forceUpdate();
 }
-
 

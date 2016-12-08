@@ -22,7 +22,8 @@
 
 class ColorPlaneExport_UI;
 
-class ColorPlaneExport : public QDialog, public Ui::ColorPlaneExport_UI {
+class ColorPlaneExport : public QDialog, public Ui::ColorPlaneExport_UI
+{
     Q_OBJECT
 public:
     explicit ColorPlaneExport(QWidget *parent = Q_NULLPTR);

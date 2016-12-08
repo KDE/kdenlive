@@ -21,7 +21,7 @@ class QSize;
 
 class VectorscopeGenerator : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     enum ColorSpace { ColorSpace_YUV, ColorSpace_YPbPr };

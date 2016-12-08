@@ -35,7 +35,8 @@
 #include <QVector>
 #include <QPixmap>
 
-namespace Mlt {
+namespace Mlt
+{
 class Filter;
 }
 
@@ -57,11 +58,11 @@ public:
     void drawBackground();
 
 public slots:
-    void showAudio(const QVector<double>&bands);
+    void showAudio(const QVector<double> &bands);
 
 protected:
     void paintEvent(QPaintEvent *pe) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 private:
     QVector<double> m_levels;
@@ -70,10 +71,9 @@ private:
     QPixmap m_pixmap;
     QRect m_rect;
     int m_maxDb;
-    void drawDbLabels(QPainter& p, const QRect &rect);
-    void drawChanLabels(QPainter& p, const QRect &rect, int barWidth);
+    void drawDbLabels(QPainter &p, const QRect &rect);
+    void drawChanLabels(QPainter &p, const QRect &rect, int barWidth);
 };
-
 
 class AudioGraphSpectrum : public ScopeWidget
 {
@@ -84,11 +84,11 @@ public:
 
 private:
     MonitorManager *m_manager;
-    Mlt::Filter* m_filter;
+    Mlt::Filter *m_filter;
     AudioGraphWidget *m_graphWidget;
     //EqualizerWidget *m_equalizer;
     void processSpectrum();
-    void refreshScope(const QSize& size, bool full) Q_DECL_OVERRIDE;
+    void refreshScope(const QSize &size, bool full) Q_DECL_OVERRIDE;
 
 public slots:
     void refreshPixmap();

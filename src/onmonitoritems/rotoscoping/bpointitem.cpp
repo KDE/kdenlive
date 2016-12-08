@@ -25,10 +25,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-
-BPointItem::BPointItem(const BPoint &point, QGraphicsItem* parent) :
-        QAbstractGraphicsShapeItem(parent),
-        m_selection(-1)
+BPointItem::BPointItem(const BPoint &point, QGraphicsItem *parent) :
+    QAbstractGraphicsShapeItem(parent),
+    m_selection(-1)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -68,7 +67,7 @@ QRectF BPointItem::boundingRect() const
     return p.boundingRect().adjusted(-6, -6, 6, 6);
 }
 
-void BPointItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void BPointItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -101,15 +100,16 @@ int BPointItem::getSelection(const QPointF &pos)
     QList <qreal> d;
     d << QLineF(pos, m_point.h1).length() << QLineF(pos, m_point.p).length() << QLineF(pos, m_point.h2).length();
     // index of point nearest to pos
-    int i = ( d[1] < d[0] && d[1] < d[2]) ? 1 : (d[0] < d[2] ? 0 : 2);
+    int i = (d[1] < d[0] && d[1] < d[2]) ? 1 : (d[0] < d[2] ? 0 : 2);
 
-    if (d[i] < 6 / m_view->matrix().m11())
+    if (d[i] < 6 / m_view->matrix().m11()) {
         return i;
+    }
 
     return -1;
 }
 
-void BPointItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void BPointItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     m_selection = getSelection(event->pos());
 
@@ -118,7 +118,7 @@ void BPointItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
         setSelected(false);
     } else {
         if (event->button() == Qt::RightButton && m_selection == 1) {
-            SplineItem *parent = qgraphicsitem_cast<SplineItem*>(parentItem());
+            SplineItem *parent = qgraphicsitem_cast<SplineItem *>(parentItem());
             if (parent) {
                 parent->removeChild(this);
                 return;
@@ -128,7 +128,7 @@ void BPointItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
     }
 }
 
-void BPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void BPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     prepareGeometryChange();
     switch (m_selection) {
@@ -144,26 +144,29 @@ void BPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 
     if (parentItem()) {
-        SplineItem *parent = qgraphicsitem_cast<SplineItem*>(parentItem());
-        if (parent)
+        SplineItem *parent = qgraphicsitem_cast<SplineItem *>(parentItem());
+        if (parent) {
             parent->updateSpline(true);
+        }
     }
 }
 
-void BPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void BPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (parentItem()) {
-        SplineItem *parent = qgraphicsitem_cast<SplineItem*>(parentItem());
-        if (parent)
+        SplineItem *parent = qgraphicsitem_cast<SplineItem *>(parentItem());
+        if (parent) {
             parent->updateSpline(false);
+        }
     }
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
-void BPointItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+void BPointItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
-    if (getSelection(event->pos()) < 0)
+    if (getSelection(event->pos()) < 0) {
         unsetCursor();
-    else
+    } else {
         setCursor(QCursor(Qt::PointingHandCursor));
+    }
 }

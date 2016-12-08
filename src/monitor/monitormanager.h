@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef MONITORMANAGER_H
 #define MONITORMANAGER_H
 
@@ -31,8 +30,9 @@ class KdenliveDoc;
 class BinController;
 class KDualAction;
 
-namespace Mlt {
-    class Profile;
+namespace Mlt
+{
+class Profile;
 }
 
 class MonitorManager : public QObject
@@ -137,7 +137,7 @@ signals:
     /** @brief Monitor activated, refresh overlay options actions */
     void updateOverlayInfos(int, int);
     /** @brief info is available for audio spectum widget */
-    void frameDisplayed(const SharedFrame&);
+    void frameDisplayed(const SharedFrame &);
 };
 
 #endif

@@ -17,8 +17,6 @@
 
 #include "../abstractscopewidget.h"
 
-
-
 /**
 \brief Abstract class for scopes analyzing image frames.
 */

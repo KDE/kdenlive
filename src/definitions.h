@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
@@ -31,7 +30,8 @@
 
 const int MAXCLIPDURATION = 15000;
 
-namespace Kdenlive {
+namespace Kdenlive
+{
 
 enum MonitorId {
     NoMonitor = 0x01,
@@ -69,23 +69,25 @@ enum OperationType {
     ZoomTimeline
 };
 
-namespace PlaylistState {
+namespace PlaylistState
+{
 
-    enum ClipState {
-	Original = 0,
-	VideoOnly = 1,
-	AudioOnly = 2,
-        Disabled = 3
-    };
+enum ClipState {
+    Original = 0,
+    VideoOnly = 1,
+    AudioOnly = 2,
+    Disabled = 3
+};
 
 };
 
-namespace TimelineMode {
-    enum EditMode {
-        NormalEdit = 0,
-        OverwriteEdit = 1,
-        InsertEdit = 2
-    };
+namespace TimelineMode
+{
+enum EditMode {
+    NormalEdit = 0,
+    OverwriteEdit = 1,
+    InsertEdit = 2
+};
 };
 
 enum ClipType {
@@ -183,7 +185,8 @@ enum TrimMode {
     SlideTrim
 };
 
-class TrackInfo {
+class TrackInfo
+{
 
 public:
     TrackType type;
@@ -202,10 +205,9 @@ public:
         effectsList(true) {}
 };
 
-
 struct ProfileInfo {
-        QSize profileSize;
-        double profileFps;
+    QSize profileSize;
+    double profileFps;
 };
 
 struct requestClipInfo {
@@ -224,7 +226,8 @@ typedef QMap<QString, QString> stringMap;
 typedef QMap <int, QMap <int, QByteArray> > audioByteArray;
 typedef QVector<qint16> audioShortVector;
 
-class ItemInfo {
+class ItemInfo
+{
 public:
     /** startPos is the position where the clip starts on the track */
     GenTime startPos;
@@ -237,12 +240,15 @@ public:
     /** Track number */
     int track;
     ItemInfo() : track(0) {}
-    bool isValid() const {
+    bool isValid() const
+    {
         return startPos != endPos;
     }
-    bool contains(GenTime pos) const {
-        if (startPos == endPos)
+    bool contains(GenTime pos) const
+    {
+        if (startPos == endPos) {
             return true;
+        }
         return (pos <= endPos && pos >= startPos);
     }
     bool operator==(const ItemInfo &a)
@@ -251,7 +257,8 @@ public:
     }
 };
 
-class TransitionInfo {
+class TransitionInfo
+{
 public:
     /** startPos is the position where the clip starts on the track */
     GenTime startPos;
@@ -269,7 +276,8 @@ public:
         forceTrack(0) {}
 };
 
-class MltVideoProfile {
+class MltVideoProfile
+{
 public:
     QString path;
     QString description;
@@ -287,7 +295,7 @@ public:
     void adjustWidth();
     MltVideoProfile();
     explicit MltVideoProfile(const QVariantList &params);
-    bool operator==(const MltVideoProfile& point) const;
+    bool operator==(const MltVideoProfile &point) const;
     bool operator!=(const MltVideoProfile &other) const;
     /** @brief Returns true if both profiles have same fps, and can be mixed with the xml producer */
     bool isCompatible(const MltVideoProfile &point) const;
@@ -297,14 +305,12 @@ public:
     const QString dialogDescriptiveString();
 };
 
-
-
 class CommentedTime
 {
 public:
     CommentedTime();
-    CommentedTime(const GenTime &time, const QString& comment, int markerType = 0);
-    CommentedTime(const QString& hash, const GenTime &time);
+    CommentedTime(const GenTime &time, const QString &comment, int markerType = 0);
+    CommentedTime(const QString &hash, const GenTime &time);
 
     QString comment() const;
     GenTime time() const;

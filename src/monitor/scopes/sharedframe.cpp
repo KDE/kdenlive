@@ -21,7 +21,7 @@ class FrameData : public QSharedData
 {
 public:
     FrameData() : f((mlt_frame)0) {};
-    explicit FrameData(Mlt::Frame& frame) : f(frame) {};
+    explicit FrameData(Mlt::Frame &frame) : f(frame) {};
     ~FrameData() {};
 
     Mlt::Frame f;
@@ -30,17 +30,17 @@ private:
 };
 
 SharedFrame::SharedFrame()
-  : d(0)
+    : d(0)
 {
 }
 
-SharedFrame::SharedFrame(Mlt::Frame& frame)
-  : d(new FrameData(frame))
+SharedFrame::SharedFrame(Mlt::Frame &frame)
+    : d(new FrameData(frame))
 {
 }
 
-SharedFrame::SharedFrame(const SharedFrame& other)
-  : d(other.d)
+SharedFrame::SharedFrame(const SharedFrame &other)
+    : d(other.d)
 {
 }
 
@@ -48,10 +48,10 @@ SharedFrame::~SharedFrame()
 {
 }
 
-SharedFrame& SharedFrame::operator=(const SharedFrame& other)
+SharedFrame &SharedFrame::operator=(const SharedFrame &other)
 {
-   d = other.d;
-   return *this;
+    d = other.d;
+    return *this;
 }
 
 bool SharedFrame::is_valid() const
@@ -65,10 +65,10 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
     // It could be added to mlt_frame as an alternative to:
     //     mlt_frame mlt_frame_clone( mlt_frame self, int is_deep );
     // It could also be added to Mlt::Frame as a const function.
-    void* data = 0;
-    void* copy = 0;
+    void *data = 0;
+    void *copy = 0;
     int size = 0;
-    Mlt::Frame cloneFrame(mlt_frame_init( Q_NULLPTR ));
+    Mlt::Frame cloneFrame(mlt_frame_init(Q_NULLPTR));
     cloneFrame.inherit(d->f);
     cloneFrame.set("_producer", d->f.get_data("_producer", size), 0, Q_NULLPTR, Q_NULLPTR);
     cloneFrame.set("movit.convert", d->f.get_data("movit.convert", size), 0, Q_NULLPTR, Q_NULLPTR);
@@ -93,9 +93,8 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
         cloneFrame.set("audio_samples", 0);
     }
 
-    data = d->f.get_data("image", size );
-    if (image && data)
-    {
+    data = d->f.get_data("image", size);
+    if (image && data) {
         if (!size) {
             size = mlt_image_format_size(get_image_format(),
                                          get_image_width(),
@@ -112,9 +111,8 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
         cloneFrame.set("height", 0);
     }
 
-    data = d->f.get_data("alpha", size );
-    if (alpha && data)
-    {
+    data = d->f.get_data("alpha", size);
+    if (alpha && data) {
         if (!size) {
             size = get_image_width() * get_image_height();
         }
@@ -146,7 +144,7 @@ double SharedFrame::get_double(const char *name) const
     return d->f.get_double(name);
 }
 
-char* SharedFrame::get(const char *name) const
+char *SharedFrame::get(const char *name) const
 {
     return d->f.get(name);
 }
@@ -158,52 +156,52 @@ int SharedFrame::get_position() const
 
 mlt_image_format SharedFrame::get_image_format() const
 {
-    return (mlt_image_format)d->f.get_int( "format" );
+    return (mlt_image_format)d->f.get_int("format");
 }
 
 int SharedFrame::get_image_width() const
 {
-    return d->f.get_int( "width" );
+    return d->f.get_int("width");
 }
 
 int SharedFrame::get_image_height() const
 {
-    return d->f.get_int( "height" );
+    return d->f.get_int("height");
 }
 
-const uint8_t* SharedFrame::get_image() const
+const uint8_t *SharedFrame::get_image() const
 {
     mlt_image_format format = get_image_format();
     int width = get_image_width();
     int height = get_image_height();
-    return (uint8_t*)d->f.get_image(format, width, height, 0);
+    return (uint8_t *)d->f.get_image(format, width, height, 0);
 }
 
 mlt_audio_format SharedFrame::get_audio_format() const
 {
-    return (mlt_audio_format)d->f.get_int( "audio_format" );
+    return (mlt_audio_format)d->f.get_int("audio_format");
 }
 
 int SharedFrame::get_audio_channels() const
 {
-    return d->f.get_int( "audio_channels" );
+    return d->f.get_int("audio_channels");
 }
 
 int SharedFrame::get_audio_frequency() const
 {
-    return d->f.get_int( "audio_frequency" );
+    return d->f.get_int("audio_frequency");
 }
 
 int SharedFrame::get_audio_samples() const
 {
-    return d->f.get_int( "audio_samples" );
+    return d->f.get_int("audio_samples");
 }
 
-const int16_t* SharedFrame::get_audio() const
+const int16_t *SharedFrame::get_audio() const
 {
     mlt_audio_format format = get_audio_format();
     int frequency = get_audio_frequency();
     int channels = get_audio_channels();
     int samples = get_audio_samples();
-    return (int16_t*)d->f.get_audio(format, frequency, channels, samples);
+    return (int16_t *)d->f.get_audio(format, frequency, channels, samples);
 }

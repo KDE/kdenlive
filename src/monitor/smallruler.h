@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef SMALLRULER_H
 #define SMALLRULER_H
 
@@ -25,7 +24,6 @@
 
 #include <KColorScheme>
 #include <QWidget>
-
 
 class SmallRuler : public QWidget
 {
@@ -45,7 +43,7 @@ public:
     void setZoneStart();
     void setZoneEnd(bool discardLastFrame = false);
     QPoint zone() const;
-    void setMarkers(const QList < CommentedTime >& list);
+    void setMarkers(const QList < CommentedTime > &list);
     QString markerAt(GenTime pos);
     void updatePalette();
     void refreshRuler();
@@ -53,11 +51,11 @@ public:
 protected:
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
-    void enterEvent(QEvent* event) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent* event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
     int m_cursorFramePosition;

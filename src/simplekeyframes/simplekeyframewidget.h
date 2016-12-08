@@ -27,13 +27,12 @@ class SimpleTimelineWidget;
 class TimecodeDisplay;
 class QToolButton;
 
-
 class SimpleKeyframeWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SimpleKeyframeWidget(const Timecode &t, int duration, QWidget* parent = Q_NULLPTR);
+    explicit SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent = Q_NULLPTR);
     ~SimpleKeyframeWidget();
 
     int getPosition() const;
@@ -61,6 +60,5 @@ private:
     QToolButton *m_buttonNext;
     TimecodeDisplay *m_time;
 };
-
 
 #endif

@@ -22,7 +22,6 @@ Histogram::Histogram(QWidget *parent) :
     ui = new Ui::Histogram_UI();
     ui->setupUi(this);
 
-
     m_aUnscaled = new QAction(i18n("Unscaled"), this);
     m_aUnscaled->setCheckable(true);
 
@@ -97,14 +96,23 @@ QString Histogram::widgetName() const
     return QStringLiteral("Histogram");
 }
 
-bool Histogram::isHUDDependingOnInput() const { return false; }
-bool Histogram::isScopeDependingOnInput() const { return true; }
-bool Histogram::isBackgroundDependingOnInput() const { return false; }
+bool Histogram::isHUDDependingOnInput() const
+{
+    return false;
+}
+bool Histogram::isScopeDependingOnInput() const
+{
+    return true;
+}
+bool Histogram::isBackgroundDependingOnInput() const
+{
+    return false;
+}
 
 QRect Histogram::scopeRect()
 {
     //qCDebug(KDENLIVE_LOG) << "According to the spacer, the top left point is " << ui->verticalSpacer->geometry().x() << '/' << ui->verticalSpacer->geometry().y();
-    QPoint topleft(offset, offset+ ui->verticalSpacer->geometry().y());
+    QPoint topleft(offset, offset + ui->verticalSpacer->geometry().y());
     return QRect(topleft, this->rect().size() - QSize(topleft.x() + offset, topleft.y() + offset));
 }
 
@@ -117,7 +125,7 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
-    const int componentFlags =   (ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY
+    const int componentFlags = (ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY
                                | (ui->cbS->isChecked() ? 1 : 0) * HistogramGenerator::ComponentSum
                                | (ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR
                                | (ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG
@@ -126,7 +134,7 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
     HistogramGenerator::Rec rec = m_aRec601->isChecked() ? HistogramGenerator::Rec_601 : HistogramGenerator::Rec_709;
 
     QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags,
-                                                                rec, m_aUnscaled->isChecked(), accelFactor);
+                       rec, m_aUnscaled->isChecked(), accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), accelFactor);
     return histogram;
@@ -136,5 +144,4 @@ QImage Histogram::renderBackground(uint)
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }
-
 

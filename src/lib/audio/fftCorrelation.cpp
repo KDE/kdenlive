@@ -1,4 +1,4 @@
- /*
+/*
 Copyright (C) 2012  Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
 This file is part of kdenlive. See www.kdenlive.org.
 
@@ -23,13 +23,13 @@ void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
                                const qint64 *right, const int rightSize,
                                qint64 *out_correlated)
 {
-    float correlatedFloat[leftSize+rightSize+1];
+    float correlatedFloat[leftSize + rightSize + 1];
     correlate(left, leftSize, right, rightSize, correlatedFloat);
 
     // The correlation vector will have entries up to N (number of entries
     // of the vector), so converting to integers will not lose that much
     // of precision.
-    for (int i = 0; i < leftSize+rightSize+1; ++i) {
+    for (int i = 0; i < leftSize + rightSize + 1; ++i) {
         out_correlated[i] = correlatedFloat[i];
     }
 }
@@ -61,14 +61,13 @@ void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
         }
     }
 
-
     // One side needs to be reverted, since multiplication in frequency domain (fourier space)
     // calculates the convolution: \sum l[x]r[N-x] and not the correlation: \sum l[x]r[x]
     for (int i = 0; i < leftSize; ++i) {
-        leftF[i] = double(left[i])/maxLeft;
+        leftF[i] = double(left[i]) / maxLeft;
     }
     for (int i = 0; i < rightSize; ++i) {
-        rightF[rightSize-1 - i] = double(right[i])/maxRight;
+        rightF[rightSize - 1 - i] = double(right[i]) / maxRight;
     }
 
     // Now we can convolve to get the correlation
@@ -78,12 +77,11 @@ void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
 }
 
 void FFTCorrelation::convolve(const float *left, const int leftSize,
-                               const float *right, const int rightSize,
-                               float *out_convolved)
+                              const float *right, const int rightSize,
+                              float *out_convolved)
 {
     QTime time;
     time.start();
-
 
     // To avoid issues with repetition (we are dealing with cosine waves
     // in the fourier domain) we need to pad the vectors to at least twice their size,
@@ -96,46 +94,45 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
     // The vectors must have the same size (same frequency resolution!) and should
     // be a power of 2 (for FFT).
     int size = 64;
-    while (size/2 < largestSize) {
+    while (size / 2 < largestSize) {
         size = size << 1;
     }
 
-    kiss_fftr_cfg fftConfig = kiss_fftr_alloc(size, false, Q_NULLPTR,Q_NULLPTR);
-    kiss_fftr_cfg ifftConfig = kiss_fftr_alloc(size, true, Q_NULLPTR,Q_NULLPTR);
-    kiss_fft_cpx leftFFT[size/2];
-    kiss_fft_cpx rightFFT[size/2];
-    kiss_fft_cpx correlatedFFT[size/2];
-
+    kiss_fftr_cfg fftConfig = kiss_fftr_alloc(size, false, Q_NULLPTR, Q_NULLPTR);
+    kiss_fftr_cfg ifftConfig = kiss_fftr_alloc(size, true, Q_NULLPTR, Q_NULLPTR);
+    kiss_fft_cpx leftFFT[size / 2];
+    kiss_fft_cpx rightFFT[size / 2];
+    kiss_fft_cpx correlatedFFT[size / 2];
 
     // Fill in the data into our new vectors with padding
-    float * leftData = new float[size];
-    float * rightData = new float[size];
-    float * convolved = new float[size];
+    float *leftData = new float[size];
+    float *rightData = new float[size];
+    float *convolved = new float[size];
 
-    std::fill(leftData, leftData+size, 0);
-    std::fill(rightData, rightData+size, 0);
+    std::fill(leftData, leftData + size, 0);
+    std::fill(rightData, rightData + size, 0);
 
-    std::copy(left, left+leftSize, leftData);
-    std::copy(right, right+rightSize, rightData);
+    std::copy(left, left + leftSize, leftData);
+    std::copy(right, right + rightSize, rightData);
 
     // Fourier transformation of the vectors
     kiss_fftr(fftConfig, leftData, leftFFT);
     kiss_fftr(fftConfig, rightData, rightFFT);
 
     // Convolution in spacial domain is a multiplication in fourier domain. O(n).
-    for (int i = 0; i < size/2; ++i) {
-        correlatedFFT[i].r = leftFFT[i].r*rightFFT[i].r - leftFFT[i].i*rightFFT[i].i;
-        correlatedFFT[i].i = leftFFT[i].r*rightFFT[i].i + leftFFT[i].i*rightFFT[i].r;
+    for (int i = 0; i < size / 2; ++i) {
+        correlatedFFT[i].r = leftFFT[i].r * rightFFT[i].r - leftFFT[i].i * rightFFT[i].i;
+        correlatedFFT[i].i = leftFFT[i].r * rightFFT[i].i + leftFFT[i].i * rightFFT[i].r;
     }
 
     // Inverse fourier tranformation to get the convolved data.
     // Insert one element at the beginning to obtain the same result
     // that we also get with the nested for loop correlation.
     *out_convolved = 0;
-    int out_size = leftSize+rightSize+1;
+    int out_size = leftSize + rightSize + 1;
 
     kiss_fftri(ifftConfig, correlatedFFT, convolved);
-    std::copy(convolved, convolved+out_size-1, out_convolved+1);
+    std::copy(convolved, convolved + out_size - 1, out_convolved + 1);
 
     // Finally some cleanup.
     kiss_fftr_free(fftConfig);

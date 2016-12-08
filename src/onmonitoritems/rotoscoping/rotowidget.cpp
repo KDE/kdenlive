@@ -36,17 +36,18 @@ void tracking_finished(mlt_service *owner, RotoWidget *self, char *data)
 {
     Q_UNUSED(owner)
 
-    if (self)
+    if (self) {
         self->setSpline(QByteArray(data));
+    }
 }
 
 //TODO: port to new qml monitor edit
-RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget* parent) :
-        QWidget(parent),
-        m_monitor(monitor),
-        m_in(info.cropStart.frames(KdenliveSettings::project_fps())),
-        m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1),
-        m_filter(Q_NULLPTR)
+RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget *parent) :
+    QWidget(parent),
+    m_monitor(monitor),
+    m_in(info.cropStart.frames(KdenliveSettings::project_fps())),
+    m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1),
+    m_filter(Q_NULLPTR)
 {
     Q_UNUSED(data)
 
@@ -74,8 +75,9 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
 
 RotoWidget::~RotoWidget()
 {
-    if (m_filter)
+    if (m_filter) {
         mlt_events_disconnect(m_filter->get_properties(), this);
+    }
 
     delete m_keyframeWidget;
 
@@ -102,8 +104,9 @@ void RotoWidget::slotUpdateData(int pos, const QList <BPoint> &spline)
     QList <QVariant> vlist;
     foreach (const BPoint &point, spline) {
         QList <QVariant> pl;
-        for (int i = 0; i < 3; ++i)
+        for (int i = 0; i < 3; ++i) {
             pl << QVariant(QList <QVariant>() << QVariant(point[i].x() / width) << QVariant(point[i].y() / height));
+        }
         vlist << QVariant(pl);
     }
 
@@ -180,10 +183,11 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
             for (int i = 0; i < count; ++i) {
                 BPoint bp;
                 for (int j = 0; j < 3; ++j) {
-                    if (p1.at(i)[j] != p2.at(i)[j])
+                    if (p1.at(i)[j] != p2.at(i)[j]) {
                         bp[j] = QLineF(p1.at(i)[j], p2.at(i)[j]).pointAt(relPos);
-                    else
+                    } else {
                         bp[j] = p1.at(i)[j];
+                    }
                 }
                 p.append(bp);
             }
@@ -218,8 +222,9 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
     m_monitor->setUpEffectGeometry(QRect(), centerPoints, controlPoints);
     m_monitor->setEffectKeyframe(isKeyframe);
 
-    if (seek)
+    if (seek) {
         emit seekToPos(pos - m_in);
+    }
 }
 
 QList <BPoint> RotoWidget::getPoints(int keyframe)
@@ -228,20 +233,23 @@ QList <BPoint> RotoWidget::getPoints(int keyframe)
     int height = m_monitor->render->renderHeight();
     QList <BPoint> points;
     QList <QVariant> data;
-    if (keyframe >= 0)
+    if (keyframe >= 0) {
         data = m_data.toMap()[QString::number(keyframe).rightJustified(log10((double)m_out) + 1, '0')].toList();
-    else
+    } else {
         data = m_data.toList();
+    }
 
     // skip tracking flag
-    if (data.count() && data.at(0).canConvert(QVariant::String))
+    if (data.count() && data.at(0).canConvert(QVariant::String)) {
         data.removeFirst();
+    }
 
     foreach (const QVariant &bpoint, data) {
         QList <QVariant> l = bpoint.toList();
         BPoint p;
-        for (int i = 0; i < 3; ++i)
+        for (int i = 0; i < 3; ++i) {
             p[i] = QPointF(l.at(i).toList().at(0).toDouble() * width, l.at(i).toList().at(1).toDouble() * height);
+        }
         points << p;
     }
     return points;
@@ -256,18 +264,21 @@ void RotoWidget::slotAddKeyframe(int pos)
         m_data = QVariant(map);
     }
 
-    if (pos < 0)
+    if (pos < 0) {
         m_keyframeWidget->addKeyframe();
+    }
     slotUpdateDataPoints(m_monitor->effectRoto(), pos);
 }
 
 void RotoWidget::slotRemoveKeyframe(int pos)
 {
-    if (pos < 0)
+    if (pos < 0) {
         pos = m_keyframeWidget->getPosition();
+    }
 
-    if (!m_data.canConvert(QVariant::Map) || m_data.toMap().count() < 2)
+    if (!m_data.canConvert(QVariant::Map) || m_data.toMap().count() < 2) {
         return;
+    }
 
     QMap<QString, QVariant> map = m_data.toMap();
     map.remove(QString::number(pos + m_in).rightJustified(log10((double)m_out) + 1, '0'));
@@ -375,10 +386,10 @@ void RotoWidget::setSpline(const QByteArray &spline, bool notify)
     }
     keyframeTimelineFullUpdate();
     slotPositionChanged(m_keyframeWidget->getPosition(), false);
-    if (notify)
+    if (notify) {
         emit valueChanged();
+    }
 }
-
 
 static QVariant interpolate(int position, int in, int out, QVariant *splineIn, QVariant *splineOut)
 {
@@ -386,12 +397,14 @@ static QVariant interpolate(int position, int in, int out, QVariant *splineIn, Q
     QList<QVariant> keyframe1 = splineIn->toList();
     QList<QVariant> keyframe2 = splineOut->toList();
     QList<QVariant> keyframe;
-    if (keyframe1.count() && keyframe1.at(0).canConvert(QVariant::String))
+    if (keyframe1.count() && keyframe1.at(0).canConvert(QVariant::String)) {
         keyframe1.removeFirst();
-    if (keyframe2.count() && keyframe2.at(0).canConvert(QVariant::String))
+    }
+    if (keyframe2.count() && keyframe2.at(0).canConvert(QVariant::String)) {
         keyframe2.removeFirst();
+    }
     int max = qMin(keyframe1.count(), keyframe2.count());
-        
+
     for (int i = 0; i < max; ++i) {
         QList<QVariant> p1 = keyframe1.at(i).toList();
         QList<QVariant> p2 = keyframe2.at(i).toList();
@@ -406,7 +419,7 @@ static QVariant interpolate(int position, int in, int out, QVariant *splineIn, Q
     return QVariant(keyframe);
 }
 
-bool adjustRotoDuration(QByteArray* data, int in, int out)
+bool adjustRotoDuration(QByteArray *data, int in, int out)
 {
     QJsonParseError jsonError;
     QJsonDocument doc = QJsonDocument::fromJson(*data, &jsonError);
@@ -415,8 +428,9 @@ bool adjustRotoDuration(QByteArray* data, int in, int out)
         return true;
     }
     QVariant splines = doc.toVariant();
-    if (!splines.canConvert(QVariant::Map))
+    if (!splines.canConvert(QVariant::Map)) {
         return false;
+    }
 
     QMap<QString, QVariant> newMap;
     QMap<QString, QVariant> map = splines.toMap();
@@ -431,15 +445,17 @@ bool adjustRotoDuration(QByteArray* data, int in, int out)
     while (i-- != map.begin()) {
         if (!startFound && i.key().toInt() < in) {
             startFound = true;
-            if (lastPos < 0)
+            if (lastPos < 0) {
                 newMap[QString::number(in).rightJustified(log10((double)out) + 1, '0')] = i.value();
-            else
+            } else {
                 newMap[QString::number(in).rightJustified(log10((double)out) + 1, '0')] = interpolate(in, i.key().toInt(), lastPos, &i.value(), &last);
+            }
         }
         lastPos = i.key().toInt();
         last = i.value();
-        if (startFound)
+        if (startFound) {
             i = map.erase(i);
+        }
     }
 
     /*
@@ -451,17 +467,19 @@ bool adjustRotoDuration(QByteArray* data, int in, int out)
     while (i != map.end()) {
         if (!endFound && i.key().toInt() > out) {
             endFound = true;
-            if (lastPos < 0)
+            if (lastPos < 0) {
                 newMap[QString::number(out)] = i.value();
-            else
+            } else {
                 newMap[QString::number(out)] = interpolate(out, lastPos, i.key().toInt(), &last, &i.value());
+            }
         }
         lastPos = i.key().toInt();
         last = i.value();
-        if (endFound)
+        if (endFound) {
             i = map.erase(i);
-        else
+        } else {
             ++i;
+        }
     }
 
     /*
@@ -476,9 +494,9 @@ bool adjustRotoDuration(QByteArray* data, int in, int out)
     doc = QJsonDocument::fromVariant(QVariant(newMap));
     *data = doc.toJson();
 
-    if (startFound || endFound)
+    if (startFound || endFound) {
         return true;
+    }
     return false;
 }
-
 

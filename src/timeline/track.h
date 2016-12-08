@@ -2,7 +2,7 @@
  * Kdenlive timeline track handling MLT playlist
  * Copyright 2015 Kdenlive team <kdenlive@kde.org>
  * Author: Vincent Pinon <vpinon@kde.org>
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of
@@ -10,15 +10,15 @@
  * accepted by the membership of KDE e.V. (or its successor approved
  * by the membership of KDE e.V.), which shall act as a proxy
  * defined in Section 14 of version 3 of the license.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef TRACK_H
@@ -58,12 +58,14 @@ public:
         double speed;
         int strobe;
         PlaylistState::ClipState state;
-        QString toString(const QLocale &locale) {
+        QString toString(const QLocale &locale)
+        {
             QStringList str;
             str << locale.toString(speed) << QString::number(strobe) << QString::number((int) state);
             return str.join(QStringLiteral(":"));
         }
-        void readFromString(const QString &str, const QLocale &locale) {
+        void readFromString(const QString &str, const QLocale &locale)
+        {
             speed = locale.toDouble(str.section(QStringLiteral(":"), 0, 0));
             strobe = str.section(QStringLiteral(":"), 1, 1).toInt();
             if (str.count(QLatin1Char(':')) == 1) {
@@ -75,7 +77,7 @@ public:
     };
 
     /// Property access function
-    Mlt::Playlist & playlist();
+    Mlt::Playlist &playlist();
     qreal fps();
     /** List containing track effects */
     EffectsList effectsList;
@@ -159,16 +161,16 @@ public:
      * @param forceCreation if true, we do not attempt to re-use existing track producer but recreate it
      * @return producer cut for this track */
     Mlt::Producer *clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation = false);
-        /** @brief Changes the speed of a clip in MLT's playlist.
-     *
-     * It creates a new "framebuffer" producer, which must have its "resource"
-     * property set to "video.mpg?0.6", where "video.mpg" is the path to the
-     * clip and "0.6" is the speed in percentage. The newly created producer
-     * will have its "id" property set to "slowmotion:parentid:speed", where
-     * "parentid" is the id of the original clip in the ClipManager list and
-     * "speed" is the current speed. 
-     * If removeEffect is true, we revert to original avformat producer
-     */
+    /** @brief Changes the speed of a clip in MLT's playlist.
+    *
+    * It creates a new "framebuffer" producer, which must have its "resource"
+    * property set to "video.mpg?0.6", where "video.mpg" is the path to the
+    * clip and "0.6" is the speed in percentage. The newly created producer
+    * will have its "id" property set to "slowmotion:parentid:speed", where
+    * "parentid" is the id of the original clip in the ClipManager list and
+    * "speed" is the current speed.
+    * If removeEffect is true, we revert to original avformat producer
+    */
     int changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect = false);
     Mlt::Producer *buildSlowMoProducer(Mlt::Properties passProps, const QString &url, const QString &id, Track::SlowmoInfo info);
     /** @brief Returns true if there is a clip with audio on this track */
@@ -182,7 +184,7 @@ public:
     void lockTrack(bool locked);
     int state();
     void setState(int state);
-    /** @brief Check if we have a blank space at pos and its length. 
+    /** @brief Check if we have a blank space at pos and its length.
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getBlankLength(int pos, bool fromBlankStart);
     /** @brief Update producer properties on all instances of this clip. */

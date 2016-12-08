@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of
 the License or (at your option) version 3 or any later version
 accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy 
+by the membership of KDE e.V.), which shall act as a proxy
 defined in Section 14 of version 3 of the license.
 
 This program is distributed in the hope that it will be useful,
@@ -30,20 +30,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFont>
 #include <math.h>
 
-const double log_factor = 1.0 / log10(1.0/127);
+const double log_factor = 1.0 / log10(1.0 / 127);
 
 static inline double levelToDB(double dB)
 {
-    if (dB == 0) return 0;
+    if (dB == 0) {
+        return 0;
+    }
     return 100 * (1.0 - log10(dB) * log_factor);
 }
 
 MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent) : ScopeWidget(parent)
-  , audioChannels(2)
-  , m_height(height)
-  , m_channelHeight(height/2)
-  , m_channelDistance(2)
-  , m_channelFillHeight(m_channelHeight)
+    , audioChannels(2)
+    , m_height(height)
+    , m_channelHeight(height / 2)
+    , m_channelDistance(2)
+    , m_channelFillHeight(m_channelHeight)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_filter = new Mlt::Filter(*profile, "audiolevel");
@@ -60,7 +62,7 @@ MonitorAudioLevel::~MonitorAudioLevel()
     delete m_filter;
 }
 
-void MonitorAudioLevel::refreshScope(const QSize& /*size*/, bool /*full*/)
+void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
 {
     SharedFrame sFrame;
     while (m_queue.count() > 0) {
@@ -72,7 +74,7 @@ void MonitorAudioLevel::refreshScope(const QSize& /*size*/, bool /*full*/)
             int samples = sFrame.get_audio_samples();
             Mlt::Frame mFrame = sFrame.clone(true, false, false);
             m_filter->process(mFrame);
-            mFrame.get_audio( format, frequency, channels, samples );
+            mFrame.get_audio(format, frequency, channels, samples);
             if (samples == 0) {
                 // There was an error processing audio from frame
                 continue;
@@ -87,12 +89,12 @@ void MonitorAudioLevel::refreshScope(const QSize& /*size*/, bool /*full*/)
                     levels << (int) levelToDB(audioLevel);
                 }
             }
-            QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int>&, levels));
+            QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
         }
     }
 }
 
-void MonitorAudioLevel::resizeEvent ( QResizeEvent * event )
+void MonitorAudioLevel::resizeEvent(QResizeEvent *event)
 {
     drawBackground(m_peaks.size());
     ScopeWidget::resizeEvent(event);
@@ -105,9 +107,13 @@ void MonitorAudioLevel::refreshPixmap()
 
 void MonitorAudioLevel::drawBackground(int channels)
 {
-    if (height() == 0) return;
+    if (height() == 0) {
+        return;
+    }
     QSize newSize = QWidget::size();
-    if (!newSize.isValid()) return;
+    if (!newSize.isValid()) {
+        return;
+    }
     QFont ft = font();
     ft.setPixelSize(newSize.height() / 3);
     setFont(ft);
@@ -122,15 +128,17 @@ void MonitorAudioLevel::drawBackground(int channels)
     gradient.setColorAt(0.95, Qt::yellow);
     gradient.setColorAt(0.951, Qt::red); // 0db
     m_pixmap = QPixmap(QWidget::size());
-    if (m_pixmap.isNull()) return;
+    if (m_pixmap.isNull()) {
+        return;
+    }
     m_pixmap.fill(Qt::transparent);
     int totalHeight;
     if (channels < 2) {
         m_channelHeight = newSize.height() / 2;
         totalHeight = m_channelHeight;
     } else {
-        m_channelHeight = (newSize.height() - (channels -1)) / channels;
-        totalHeight = channels * m_channelHeight + (channels -1);
+        m_channelHeight = (newSize.height() - (channels - 1)) / channels;
+        totalHeight = channels * m_channelHeight + (channels - 1);
     }
     QRect rect(0, 0, newSize.width(), totalHeight);
     QPainter p(&m_pixmap);
@@ -149,7 +157,7 @@ void MonitorAudioLevel::drawBackground(int channels)
         int value = dbscale.at(i);
         QString label = QString().sprintf("%d", value);
         int labelWidth = fontMetrics().width(label);
-        double xf=pow(10.0,(double)dbscale.at(i) / 50.0 )*m_pixmap.width()*40.0/42;
+        double xf = pow(10.0, (double)dbscale.at(i) / 50.0) * m_pixmap.width() * 40.0 / 42;
         if (xf + labelWidth / 2 > m_pixmap.width()) {
             xf = width() - labelWidth / 2;
         }
@@ -173,19 +181,21 @@ void MonitorAudioLevel::drawBackground(int channels)
         for (int i = 0; i < channels; i++) {
             p.drawLine(0, i * (m_channelHeight + m_channelDistance), rect.width() - 1, i * (m_channelHeight + m_channelDistance));
         }
-    } else{
+    } else {
         m_channelDistance = 2;
         m_channelFillHeight = m_channelHeight - 2;
         for (int i = 0; i < channels; i++) {
             p.drawRect(0, i * (m_channelHeight + m_channelDistance), rect.width() - 1, m_channelHeight - 1);
-            if (i > 0) p.fillRect(0, i * (m_channelHeight + m_channelDistance) - 2, rect.width(), 2, Qt::transparent);
+            if (i > 0) {
+                p.fillRect(0, i * (m_channelHeight + m_channelDistance) - 2, rect.width(), 2, Qt::transparent);
+            }
         }
     }
     p.end();
 }
 
 // cppcheck-suppress unusedFunction
-void MonitorAudioLevel::setAudioValues(const QVector <int>& values)
+void MonitorAudioLevel::setAudioValues(const QVector <int> &values)
 {
     m_values = values;
     if (m_peaks.size() != m_values.size()) {
@@ -232,11 +242,12 @@ void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
     p.setOpacity(0.9);
     int width = m_channelDistance == 1 ? rect.width() : rect.width() - 1;
     for (int i = 0; i < m_values.count(); i++) {
-        if (m_values.at(i) >= 100) continue;
+        if (m_values.at(i) >= 100) {
+            continue;
+        }
         int val = (50 + m_values.at(i)) / 150.0 * rect.width();
         p.fillRect(val, i * (m_channelHeight + m_channelDistance) + 1, width - val, m_channelFillHeight, palette().dark());
         p.fillRect((50 + m_peaks.at(i)) / 150.0 * rect.width(), i * (m_channelHeight + m_channelDistance) + 1, 1, m_channelFillHeight, palette().text());
     }
 }
-
 

@@ -24,7 +24,6 @@
 #ifndef STATUSBARMESSAGELABEL_H
 #define STATUSBARMESSAGELABEL_H
 
-
 #include <QList>
 #include <QWidget>
 #include <QTimer>
@@ -40,7 +39,6 @@
 class QPaintEvent;
 class QResizeEvent;
 class QProgressBar;
-
 
 class FlashLabel: public QWidget
 {
@@ -69,7 +67,7 @@ struct StatusBarMessageItem {
         return (type == MltError && !confirmed);
     }
 
-    StatusBarMessageItem(const QString& text = QString(), MessageType type = DefaultMessage, int timeoutMS = 0) :
+    StatusBarMessageItem(const QString &text = QString(), MessageType type = DefaultMessage, int timeoutMS = 0) :
         text(text), type(type), timeoutMillis(timeoutMS), confirmed(false) {}
 
     bool operator ==(const StatusBarMessageItem &other)
@@ -91,20 +89,20 @@ class StatusBarMessageLabel : public FlashLabel
     Q_OBJECT
 
 public:
-    explicit StatusBarMessageLabel(QWidget* parent);
+    explicit StatusBarMessageLabel(QWidget *parent);
     virtual ~StatusBarMessageLabel();
     void updatePalette();
 
 protected:
     //void paintEvent(QPaintEvent* event);
-    void mousePressEvent(QMouseEvent * ) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
 
     /** @see QWidget::resizeEvent() */
-    void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
-    void setProgressMessage(const QString& text, int progress = 100, MessageType type = ProcessingJobMessage, int timeoutMS = 0);
-    void setMessage(const QString& text, MessageType type = DefaultMessage, int timeoutMS = 0);
+    void setProgressMessage(const QString &text, int progress = 100, MessageType type = ProcessingJobMessage, int timeoutMS = 0);
+    void setMessage(const QString &text, MessageType type = DefaultMessage, int timeoutMS = 0);
 
 private slots:
 

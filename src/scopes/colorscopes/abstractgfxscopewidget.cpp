@@ -21,7 +21,7 @@
 #endif
 
 AbstractGfxScopeWidget::AbstractGfxScopeWidget(bool trackMouse, QWidget *parent) :
-        AbstractScopeWidget(trackMouse, parent)
+    AbstractScopeWidget(trackMouse, parent)
 {
 }
 
@@ -39,9 +39,7 @@ void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
     emit signalFrameRequest(widgetName());
 }
 
-
 ///// Slots /////
-
 
 void AbstractGfxScopeWidget::slotRenderZoneUpdated(const QImage &frame)
 {
@@ -57,9 +55,7 @@ void AbstractGfxScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
     }
 }
 
-
 #ifdef DEBUG_AGSW
 #undef DEBUG_AGSW
 #endif
-
 

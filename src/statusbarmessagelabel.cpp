@@ -48,7 +48,7 @@ FlashLabel::~FlashLabel()
 {
 }
 
-void FlashLabel::setColor(const QColor &col) 
+void FlashLabel::setColor(const QColor &col)
 {
     QPalette pal = palette();
     pal.setColor(QPalette::Window, col);
@@ -61,9 +61,7 @@ QColor FlashLabel::color() const
     return palette().window().color();
 }
 
-
-
-StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
+StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent) :
     FlashLabel(parent),
     m_minTextHeight(-1),
     m_queueSemaphore(1)
@@ -101,25 +99,26 @@ void StatusBarMessageLabel::updatePalette()
 void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
 {
     QWidget::mousePressEvent(event);
-    if (m_pixmap->rect().contains(event->localPos().toPoint()) && m_currentMessage.type == MltError)
+    if (m_pixmap->rect().contains(event->localPos().toPoint()) && m_currentMessage.type == MltError) {
         confirmErrorMessage();
+    }
 }
 
-void StatusBarMessageLabel::setProgressMessage(const QString& text, int progress, MessageType type, int timeoutMS)
+void StatusBarMessageLabel::setProgressMessage(const QString &text, int progress, MessageType type, int timeoutMS)
 {
     if (type == ProcessingJobMessage) {
         m_progress->setValue(progress);
         m_progress->setVisible(progress < 100);
-    }
-    else if (m_currentMessage.type != ProcessingJobMessage || type == OperationCompletedMessage) {
+    } else if (m_currentMessage.type != ProcessingJobMessage || type == OperationCompletedMessage) {
         m_progress->setVisible(progress < 100);
     }
-    if (text == m_currentMessage.text)
+    if (text == m_currentMessage.text) {
         return;
+    }
     setMessage(text, type, timeoutMS);
 }
 
-void StatusBarMessageLabel::setMessage(const QString& text, MessageType type, int timeoutMS)
+void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, int timeoutMS)
 {
     StatusBarMessageItem item(text, type, timeoutMS);
     if (type == OperationCompletedMessage) {
@@ -187,8 +186,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
                 break;
             }
         }
-    }
-    else if (!m_messageQueue.isEmpty()) {
+    } else if (!m_messageQueue.isEmpty()) {
         if (!m_currentMessage.needsConfirmation()) {
             m_currentMessage = m_messageQueue.at(0);
             m_label->setText(m_currentMessage.text);
@@ -209,13 +207,13 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         if (!m_currentMessage.needsConfirmation()) {
             // If we only have the default message left to show in the queue,
             // keep the current one for a little longer.
-            m_queueTimer.start(m_currentMessage.timeoutMillis + 4000*(m_messageQueue.at(0).type == DefaultMessage));
+            m_queueTimer.start(m_currentMessage.timeoutMillis + 4000 * (m_messageQueue.at(0).type == DefaultMessage));
 
         }
     }
 
     QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
-    const char* iconName = 0;
+    const char *iconName = 0;
     if (m_animation.state() == QAbstractAnimation::Running) {
         m_animation.stop();
     }
@@ -278,7 +276,7 @@ void StatusBarMessageLabel::confirmErrorMessage()
     m_queueTimer.start(0);
 }
 
-void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
+void StatusBarMessageLabel::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
 }

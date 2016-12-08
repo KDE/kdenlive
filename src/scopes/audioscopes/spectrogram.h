@@ -25,13 +25,13 @@
 #ifndef SPECTROGRAM_H
 #define SPECTROGRAM_H
 
-
 #include "abstractaudioscopewidget.h"
 #include "ui_spectrogram_ui.h"
 #include "lib/audio/fftTools.h"
 
 class Spectrogram_UI;
-class Spectrogram : public AbstractAudioScopeWidget {
+class Spectrogram : public AbstractAudioScopeWidget
+{
     Q_OBJECT
 
 public:

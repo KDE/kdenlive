@@ -23,7 +23,8 @@ class WaveformGenerator;
 
    For further explanations of the waveform see the WaveformGenerator class.
 */
-class Waveform : public AbstractGfxScopeWidget {
+class Waveform : public AbstractGfxScopeWidget
+{
     Q_OBJECT
 
 public:

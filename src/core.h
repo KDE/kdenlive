@@ -24,11 +24,10 @@ class ProducerQueue;
 
 #define pCore Core::self()
 
-
 /**
  * @class Core
  * @brief Singleton that provides access to the different parts of Kdenlive
- * 
+ *
  * Needs to be initialize before any widgets are created in MainWindow.
  * Plugins should be loaded after the widget setup.
  */

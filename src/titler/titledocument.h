@@ -41,10 +41,10 @@ public:
         RotateFactor,
         ZoomFactor
     };
-    void setScene(QGraphicsScene* scene, int width, int height);
-    bool saveDocument(const QUrl &url, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int duration, bool embed_images = false);
-    QDomDocument xml(QGraphicsRectItem* startv, QGraphicsRectItem* endv, bool embed_images = false);
-    int loadFromXml(const QDomDocument& doc, QGraphicsRectItem* startv, QGraphicsRectItem* endv, int *duration, const QString& projectpath = QString());
+    void setScene(QGraphicsScene *scene, int width, int height);
+    bool saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int duration, bool embed_images = false);
+    QDomDocument xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed_images = false);
+    int loadFromXml(const QDomDocument &doc, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath = QString());
     /** \brief Get the background color (incl. alpha) from the document, if possibly
      * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
     QColor getBackgroundColor() const;
@@ -57,19 +57,18 @@ public:
     enum AxisPosition {AxisDefault = 0, AxisInverted = 1};
 
 private:
-    QGraphicsScene* m_scene;
+    QGraphicsScene *m_scene;
     QString m_projectPath;
     int m_width;
     int m_height;
-    QString colorToString(const QColor&);
-    QString rectFToString(const QRectF&);
+    QString colorToString(const QColor &);
+    QString rectFToString(const QRectF &);
     QRectF stringToRect(const QString &);
     QColor stringToColor(const QString &);
     QTransform stringToTransform(const QString &);
     QList<QVariant> stringToList(const QString &);
-    int base64ToUrl(QGraphicsItem* item, QDomElement& content, bool embed);
+    int base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed);
 };
 
 #endif
-
 

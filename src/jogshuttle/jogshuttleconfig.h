@@ -28,10 +28,10 @@
 
 class JogShuttleConfig: public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  static QStringList actionMap(const QString& actionMap);
-  static QString actionMap(const QStringList& actionMap);
+    static QStringList actionMap(const QString &actionMap);
+    static QString actionMap(const QStringList &actionMap);
 };
 
 #endif // JOGSHUTTLECONFIG_H

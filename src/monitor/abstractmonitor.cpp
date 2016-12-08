@@ -17,21 +17,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "abstractmonitor.h"
 #include "monitormanager.h"
 
 #include "kdenlivesettings.h"
 
-
-
-AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent): 
+AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent):
     QWidget(parent),
     m_id(id),
     m_monitorManager(manager)
 {
 }
-
 
 AbstractMonitor::~AbstractMonitor()
 {
@@ -46,6 +42,4 @@ bool AbstractMonitor::slotActivateMonitor(bool forceRefresh)
 {
     return m_monitorManager->activateMonitor(m_id, forceRefresh);
 }
-
-
 

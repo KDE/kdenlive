@@ -34,22 +34,19 @@
 
 #include <mlt++/Mlt.h>
 
-
 // Code borrowed from Shotcut's audiospectum by Brian Matherly <code@brianmatherly.com> (GPL)
 
 static const int WINDOW_SIZE = 8000; // 6 Hz FFT bins at 48kHz
 
-struct band
-{
+struct band {
     float low;    // Low frequency
     float center; // Center frequency
     float high;   // High frequency
-    const char* label;
+    const char *label;
 };
 
 // Preferred frequencies from ISO R 266-1997 / ANSI S1.6-1984
-static const band BAND_TAB[] =
-{
+static const band BAND_TAB[] = {
 //     Low      Preferred  High                Band
 //     Freq      Center    Freq     Label       Num
     {     1.12,     1.25,     1.41, "1.25"  }, //  1
@@ -101,11 +98,13 @@ static const int FIRST_AUDIBLE_BAND_INDEX = 12;
 static const int LAST_AUDIBLE_BAND_INDEX = 42;
 static const int AUDIBLE_BAND_COUNT = LAST_AUDIBLE_BAND_INDEX - FIRST_AUDIBLE_BAND_INDEX + 1;
 
-const double log_factor = 1.0 / log10(1.0/127);
+const double log_factor = 1.0 / log10(1.0 / 127);
 
 static inline double levelToDB(double dB)
 {
-    if (dB == 0) return 0;
+    if (dB == 0) {
+        return 0;
+    }
     return (1.0 - log10(dB) * log_factor);
 }
 
@@ -137,18 +136,20 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent) : QWidget(parent)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 }
 
-void AudioGraphWidget::showAudio(const QVector<double>&bands)
+void AudioGraphWidget::showAudio(const QVector<double> &bands)
 {
     m_levels = bands;
     update();
 }
 
-void AudioGraphWidget::drawDbLabels(QPainter& p, const QRect &rect)
+void AudioGraphWidget::drawDbLabels(QPainter &p, const QRect &rect)
 {
     int dbLabelCount = m_dbLabels.size();
     int textHeight = fontMetrics().ascent();
 
-    if (dbLabelCount == 0) return;
+    if (dbLabelCount == 0) {
+        return;
+    }
 
     int maxWidth = fontMetrics().width(QStringLiteral("-45"));
     // dB scale is vertical along the left side
@@ -158,7 +159,7 @@ void AudioGraphWidget::drawDbLabels(QPainter& p, const QRect &rect)
     for (int i = 0; i < dbLabelCount; i++) {
         QString label = QString::number(m_dbLabels.at(i));
         int x = rect.left() + maxWidth - fontMetrics().width(label);
-        int yline = rect.bottom() - pow(10.0,(double)m_dbLabels.at(i) / 50.0 )*rect.height()*40.0/42;
+        int yline = rect.bottom() - pow(10.0, (double)m_dbLabels.at(i) / 50.0) * rect.height() * 40.0 / 42;
         int y = yline + textHeight / 2;
         if (y - textHeight < 0) {
             y = textHeight;
@@ -171,12 +172,14 @@ void AudioGraphWidget::drawDbLabels(QPainter& p, const QRect &rect)
     }
 }
 
-void AudioGraphWidget::drawChanLabels(QPainter& p, const QRect &rect, int barWidth)
+void AudioGraphWidget::drawChanLabels(QPainter &p, const QRect &rect, int barWidth)
 {
     int chanLabelCount = m_freqLabels.size();
     int stride = 1;
 
-    if (chanLabelCount == 0) return;
+    if (chanLabelCount == 0) {
+        return;
+    }
 
     p.setPen(palette().text().color().rgb());
 
@@ -189,13 +192,13 @@ void AudioGraphWidget::drawChanLabels(QPainter& p, const QRect &rect, int barWid
         chanLabelWidth = width > chanLabelWidth ? width : chanLabelWidth;
     }
     int length = rect.width();
-    while( chanLabelWidth * chanLabelCount / stride > length ) {
+    while (chanLabelWidth * chanLabelCount / stride > length) {
         stride++;
     }
 
     int prevX = 0;
     int y = rect.bottom();
-    for (int i = 0; i < chanLabelCount; i+= stride) {
+    for (int i = 0; i < chanLabelCount; i += stride) {
         QString label = m_freqLabels.at(i);
         int x = rect.left() + (2 * i) + i * barWidth + barWidth / 2 - fontMetrics().width(label) / 2;
         if (x > prevX) {
@@ -205,7 +208,7 @@ void AudioGraphWidget::drawChanLabels(QPainter& p, const QRect &rect, int barWid
     }
 }
 
-void AudioGraphWidget::resizeEvent ( QResizeEvent * event )
+void AudioGraphWidget::resizeEvent(QResizeEvent *event)
 {
     drawBackground();
     QWidget::resizeEvent(event);
@@ -214,9 +217,13 @@ void AudioGraphWidget::resizeEvent ( QResizeEvent * event )
 void AudioGraphWidget::drawBackground()
 {
     QSize s = size();
-    if (!s.isValid()) return;
+    if (!s.isValid()) {
+        return;
+    }
     m_pixmap = QPixmap(s);
-    if (m_pixmap.isNull()) return;
+    if (m_pixmap.isNull()) {
+        return;
+    }
     m_pixmap.fill(palette().base().color());
     QPainter p(&m_pixmap);
     QRect rect(0, 0, width() - 3, height());
@@ -238,7 +245,9 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
     QPainter p(this);
     p.setClipRect(pe->rect());
     p.drawPixmap(0, 0, m_pixmap);
-    if (m_levels.isEmpty()) return;
+    if (m_levels.isEmpty()) {
+        return;
+    }
     int chanCount = m_levels.size();
     int height = m_rect.height();
     double barWidth = (m_rect.width() - (2.0 * (AUDIBLE_BAND_COUNT - 1))) / AUDIBLE_BAND_COUNT;
@@ -246,7 +255,9 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
     QRectF rect(m_rect.left(), 0, barWidth, height);
     for (int i = 0; i < chanCount; i++) {
         double level = (0.5 + m_levels.at(i)) / 1.5 * height;
-        if (level < 0) continue;
+        if (level < 0) {
+            continue;
+        }
         rect.moveLeft(m_rect.left() + i * barWidth + (2 * i));
         rect.setHeight(level);
         rect.moveBottom(height);
@@ -255,12 +266,12 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
 }
 
 AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent) : ScopeWidget(parent)
-  , m_manager(manager)
+    , m_manager(manager)
 {
     QVBoxLayout *lay = new QVBoxLayout(this);
     m_graphWidget = new AudioGraphWidget(this);
     lay->addWidget(m_graphWidget);
-    
+
     /*m_equalizer = new EqualizerWidget(this);
     lay->addWidget(m_equalizer);
     lay->setStretchFactor(m_graphWidget, 5);
@@ -309,11 +320,12 @@ void AudioGraphSpectrum::activate(bool enable)
 
 void AudioGraphSpectrum::refreshPixmap()
 {
-    if (m_graphWidget)
+    if (m_graphWidget) {
         m_graphWidget->drawBackground();
+    }
 }
 
-void AudioGraphSpectrum::refreshScope(const QSize& /*size*/, bool /*full*/)
+void AudioGraphSpectrum::refreshScope(const QSize & /*size*/, bool /*full*/)
 {
     SharedFrame sFrame;
     while (m_queue.count() > 0) {
@@ -325,7 +337,7 @@ void AudioGraphSpectrum::refreshScope(const QSize& /*size*/, bool /*full*/)
             int samples = sFrame.get_audio_samples();
             Mlt::Frame mFrame = sFrame.clone(true, false, false);
             m_filter->process(mFrame);
-            mFrame.get_audio( format, frequency, channels, samples );
+            mFrame.get_audio(format, frequency, channels, samples);
             if (samples == 0 || format == 0) {
                 // There was an error processing audio from frame
                 continue;
@@ -338,7 +350,7 @@ void AudioGraphSpectrum::refreshScope(const QSize& /*size*/, bool /*full*/)
 void AudioGraphSpectrum::processSpectrum()
 {
     QVector<double> bands(AUDIBLE_BAND_COUNT);
-    float* bins = (float*)m_filter->get_data("bins");
+    float *bins = (float *)m_filter->get_data("bins");
     int bin_count = m_filter->get_int("bin_count");
     double bin_width = m_filter->get_double("bin_width");
 
@@ -365,7 +377,7 @@ void AudioGraphSpectrum::processSpectrum()
                 break;
             }
             bands[band] = bins[bin];
-        } else if (bands[band] < bins[bin] ) {
+        } else if (bands[band] < bins[bin]) {
             // Pick the highest bin level within this band to represent the
             // whole band.
             bands[band] = bins[bin];
@@ -381,5 +393,5 @@ void AudioGraphSpectrum::processSpectrum()
     }
 
     // Update the audio signal widget
-    QMetaObject::invokeMethod(m_graphWidget, "showAudio", Qt::QueuedConnection, Q_ARG(const QVector<double>&, bands));
+    QMetaObject::invokeMethod(m_graphWidget, "showAudio", Qt::QueuedConnection, Q_ARG(const QVector<double> &, bands));
 }

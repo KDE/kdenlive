@@ -44,22 +44,34 @@ public:
     QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
     QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int) Q_DECL_OVERRIDE;
 
-    QString widgetName() const Q_DECL_OVERRIDE { return QStringLiteral("audioSignal"); }
-    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE { return false; }
-    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE { return true; }
-    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE { return false; }
+    QString widgetName() const Q_DECL_OVERRIDE
+    {
+        return QStringLiteral("audioSignal");
+    }
+    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE
+    {
+        return false;
+    }
+    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE
+    {
+        return true;
+    }
+    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE
+    {
+        return false;
+    }
 
 private:
     double valueToPixel(double in);
     QTimer m_timer;
-    QByteArray channels,peeks,peekage;
+    QByteArray channels, peeks, peekage;
     QList<int> dbscale;
 
 public slots:
     void showAudio(const QByteArray &);
-    void slotReceiveAudio(audioShortVector,int,int,int);
+    void slotReceiveAudio(audioShortVector, int, int, int);
 private slots:
-     void slotNoAudioTimeout();
+    void slotNoAudioTimeout();
 
 signals:
     void updateAudioMonitoring();

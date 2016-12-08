@@ -26,7 +26,6 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 
-
 inline QPointF closestPointInRect(QPointF point, QRectF rect)
 {
     QPointF closest;
@@ -52,8 +51,7 @@ void deCasteljau(BPoint *p1, BPoint *p2, BPoint *res, double t)
     p2->h1 = cd;
 }
 
-
-SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGraphicsScene *scene) :
+SplineItem::SplineItem(const QList< BPoint > &points, QGraphicsItem *parent, QGraphicsScene *scene) :
     QGraphicsPathItem(parent),
     m_closed(true),
     m_editing(false)
@@ -67,12 +65,11 @@ SplineItem::SplineItem(const QList< BPoint >& points, QGraphicsItem* parent, QGr
     initSpline(scene, points);
 }
 
-void SplineItem::initSpline(QGraphicsScene *scene, const QList< BPoint >& points)
+void SplineItem::initSpline(QGraphicsScene *scene, const QList< BPoint > &points)
 {
     scene->addItem(this);
     setPoints(points);
 }
-
 
 int SplineItem::type() const
 {
@@ -99,19 +96,21 @@ void SplineItem::updateSpline(bool editing)
 
     m_editing = editing;
 
-    if (m_closed && (!editing || KdenliveSettings::monitorscene_directupdate()))
+    if (m_closed && (!editing || KdenliveSettings::monitorscene_directupdate())) {
         emit changed(editing);
+    }
 }
 
 QList <BPoint> SplineItem::getPoints() const
 {
     QList <BPoint> points;
-    foreach (QGraphicsItem *child, childItems())
+    foreach (QGraphicsItem *child, childItems()) {
         points << qgraphicsitem_cast<BPointItem *>(child)->getPoint();
+    }
     return points;
 }
 
-void SplineItem::setPoints(const QList< BPoint >& points)
+void SplineItem::setPoints(const QList< BPoint > &points)
 {
     if (points.count() < 2) {
         m_closed = false;
@@ -133,7 +132,7 @@ void SplineItem::setPoints(const QList< BPoint >& points)
     setPath(path);
 }
 
-void SplineItem::removeChild(QGraphicsItem* child)
+void SplineItem::removeChild(QGraphicsItem *child)
 {
     if (childItems().count() > 2) {
         scene()->removeItem(child);
@@ -142,13 +141,14 @@ void SplineItem::removeChild(QGraphicsItem* child)
     }
 }
 
-void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     event->setAccepted(m_closed);
     QGraphicsItem::mousePressEvent(event);
 
-    if (event->isAccepted())
+    if (event->isAccepted()) {
         return;
+    }
 
     if (m_closed) {
         qreal size = 12 / m_view->matrix().m11();
@@ -178,8 +178,9 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
             BPointItem *bp = qgraphicsitem_cast<BPointItem *>(items.at(0));
             int selectionType = bp->getSelection(mapToItem(bp, event->pos()));
             // since h1 == p we need to check for both
-            if (selectionType == 0 || selectionType == 1)
+            if (selectionType == 0 || selectionType == 1) {
                 close = true;
+            }
         }
 
         if (close || event->button() == Qt::RightButton) {
@@ -213,26 +214,27 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
     }
 }
 
-void SplineItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void SplineItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseMoveEvent(event);
 }
 
-void SplineItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void SplineItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
-void SplineItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+void SplineItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     QGraphicsItem::hoverMoveEvent(event);
 
     qreal size = 12 / m_view->matrix().m11();
     QRectF r(event->scenePos() - QPointF(size / 2, size / 2), QSizeF(size, size));
-    if (path().intersects(r) && !path().contains(r))
+    if (path().intersects(r) && !path().contains(r)) {
         setCursor(QCursor(Qt::PointingHandCursor));
-    else
+    } else {
         unsetCursor();
+    }
 }
 
 int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
@@ -249,8 +251,9 @@ int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
         QPolygonF bounding = QPolygonF() << p1.p << p1.h2 << p2.h1 << p2.p;
         QPointF cl = closestPointInRect(point, bounding.boundingRect());
         qreal d = (point - cl).manhattanLength();
-        if (d > diff)
+        if (d > diff) {
             continue;
+        }
 
         Point2 b[4], p;
         double t;
@@ -281,5 +284,4 @@ int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
     *tFinal = param;
     return curveSegment;
 }
-
 

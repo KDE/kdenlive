@@ -8,8 +8,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-
-
 #ifndef ABSTRACTSCOPEWIDGET_H
 #define ABSTRACTSCOPEWIDGET_H
 
@@ -70,9 +68,7 @@ public:
     explicit AbstractScopeWidget(bool trackMouse = false, QWidget *parent = Q_NULLPTR);
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
-
     enum RescaleDirection { North, Northeast, East, Southeast };
-
 
     QPalette m_scopePalette;
 
@@ -157,7 +153,6 @@ protected:
     /** Identifier for the widget's configuration. */
     QString configName();
 
-
     ///// Unimplemented Methods /////
 
     /** Where on the widget we can paint in.
@@ -212,7 +207,6 @@ protected:
     void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *) Q_DECL_OVERRIDE; // Called when the widget is activated via the Menu entry
     //    void raise(); // Called only when  manually calling the event -> useless
-
 
 public slots:
     /** Forces an update of all layers. */
@@ -288,7 +282,6 @@ private:
     Qt::KeyboardModifiers m_rescaleModifiers;
     RescaleDirection m_rescaleDirection;
     QPoint m_rescaleStartPoint;
-
 
 protected slots:
     void slotContextMenuRequested(const QPoint &pos);

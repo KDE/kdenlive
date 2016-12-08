@@ -8,7 +8,6 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-
 #include "jogmanager.h"
 #include "jogshuttle.h"
 #include "jogaction.h"
@@ -17,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "mainwindow.h"
 
-JogManager::JogManager(QObject* parent) :
+JogManager::JogManager(QObject *parent) :
     QObject(parent),
     m_shuttle(Q_NULLPTR),
     m_shuttleAction(Q_NULLPTR)
@@ -42,9 +41,9 @@ void JogManager::slotConfigurationChanged()
     }
 }
 
-void JogManager::slotDoAction(const QString& actionName)
+void JogManager::slotDoAction(const QString &actionName)
 {
-    QAction* action = pCore->window()->actionCollection()->action(actionName);
+    QAction *action = pCore->window()->actionCollection()->action(actionName);
     if (!action) {
         fprintf(stderr, "%s", QStringLiteral("shuttle action '%1' unknown\n").arg(actionName).toLatin1().constData());
         return;

@@ -13,7 +13,6 @@
 #include "renderer.h"
 #include "monitor/monitor.h"
 
-
 // Uncomment for debugging
 //#define DEBUG_AASW
 
@@ -60,5 +59,4 @@ QImage AbstractAudioScopeWidget::renderScope(uint accelerationFactor)
 #ifdef DEBUG_AASW
 #undef DEBUG_AASW
 #endif
-
 

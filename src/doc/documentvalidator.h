@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef DOCUMENTVALIDATOR_H
 #define DOCUMENTVALIDATOR_H
 
@@ -51,7 +50,7 @@ private:
     /** @brief Make sur we don't have orphaned producers (that are not in Bin). */
     void checkOrphanedProducers();
     QStringList getInfoFromEffectName(const QString &oldName);
-    QString colorToString(const QColor& c);
+    QString colorToString(const QColor &c);
     /*
     /// @brief Updates effects that were created using a different version of the underlaying filter than the one installed.
     void updateEffects();

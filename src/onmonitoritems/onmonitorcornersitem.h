@@ -17,10 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef ONMONITORCORNERSITEM_H
 #define ONMONITORCORNERSITEM_H
-
 
 #include <QGraphicsPolygonItem>
 
@@ -37,7 +35,7 @@ public:
     cornersActions getMode(const QPointF &pos, int *corner);
 
     /** @brief Reimplemented to draw the handles. */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR ) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) Q_DECL_OVERRIDE;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;

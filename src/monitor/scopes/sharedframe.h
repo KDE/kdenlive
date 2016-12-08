@@ -48,27 +48,27 @@ class SharedFrame
 {
 public:
     SharedFrame();
-    explicit SharedFrame(Mlt::Frame& frame);
-    SharedFrame(const SharedFrame& other);
+    explicit SharedFrame(Mlt::Frame &frame);
+    SharedFrame(const SharedFrame &other);
     ~SharedFrame();
-    SharedFrame& operator=(const SharedFrame& other);
+    SharedFrame &operator=(const SharedFrame &other);
 
     bool is_valid() const;
     Mlt::Frame clone(bool audio = false, bool image = false, bool alpha = false) const;
     int get_int(const char *name) const;
     int64_t get_int64(const char *name) const;
     double get_double(const char *name) const;
-    char* get(const char *name) const;
+    char *get(const char *name) const;
     int get_position() const;
     mlt_image_format get_image_format() const;
     int get_image_width() const;
     int get_image_height() const;
-    const uint8_t* get_image() const;
+    const uint8_t *get_image() const;
     mlt_audio_format get_audio_format() const;
     int get_audio_channels() const;
     int get_audio_frequency() const;
     int get_audio_samples() const;
-    const int16_t* get_audio() const;
+    const int16_t *get_audio() const;
 private:
     QExplicitlySharedDataPointer<FrameData> d;
 };

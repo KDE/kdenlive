@@ -44,7 +44,6 @@
 
 #include <KMessageWidget>
 
-
 class MonitorManager;
 class MltDeviceCapture;
 class AbstractRender;
@@ -67,16 +66,16 @@ public:
     };
 
 protected:
-    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *) Q_DECL_OVERRIDE;
 
 private:
     QDateTime m_captureTime;
     /** @brief Provide feedback about dvgrab operations */
     QLabel m_dvinfo;
-    
+
     /** @brief Keeps a brief (max ten items) history of warning or error messages
-     * 	(currently only used for BLACKMAGIC). */
+     *  (currently only used for BLACKMAGIC). */
     KComboBox m_logger;
     QString m_capturePath;
 
@@ -111,7 +110,7 @@ private:
 
     bool m_analyse;
     void checkDeviceAvailability();
-    QPixmap mergeSideBySide(const QPixmap& pix, const QString &txt);
+    QPixmap mergeSideBySide(const QPixmap &pix, const QString &txt);
     void manageCapturedFiles();
     /** @brief Build MLT producer for device, using path as profile. */
     void buildMltDevice(const QString &path);

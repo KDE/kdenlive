@@ -51,24 +51,24 @@ const QPen AbstractScopeWidget::penBackground(QBrush(dark2),                    
 const QString AbstractScopeWidget::directions[] =  {QStringLiteral("North"), QStringLiteral("Northeast"), QStringLiteral("East"), QStringLiteral("Southeast")};
 
 AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
-        QWidget(parent)
-        , m_mousePos(0, 0)
-        , m_mouseWithinWidget(false)
-        , offset(5)
-        , m_accelFactorHUD(1)
-        , m_accelFactorScope(1)
-        , m_accelFactorBackground(1)
-        , m_semaphoreHUD(1)
-        , m_semaphoreScope(1)
-        , m_semaphoreBackground(1)
-        , initialDimensionUpdateDone(false)
-        , m_requestForcedUpdate(false)
-        , m_rescaleMinDist(4)
-        , m_rescaleVerticalThreshold(2.0f)
-        , m_rescaleActive(false)
-	, m_rescalePropertiesLocked(false)
-	, m_rescaleFirstRescaleDone(true)
-	, m_rescaleDirection(North)
+    QWidget(parent)
+    , m_mousePos(0, 0)
+    , m_mouseWithinWidget(false)
+    , offset(5)
+    , m_accelFactorHUD(1)
+    , m_accelFactorScope(1)
+    , m_accelFactorBackground(1)
+    , m_semaphoreHUD(1)
+    , m_semaphoreScope(1)
+    , m_semaphoreBackground(1)
+    , initialDimensionUpdateDone(false)
+    , m_requestForcedUpdate(false)
+    , m_rescaleMinDist(4)
+    , m_rescaleVerticalThreshold(2.0f)
+    , m_rescaleActive(false)
+    , m_rescalePropertiesLocked(false)
+    , m_rescaleFirstRescaleDone(true)
+    , m_rescaleDirection(North)
 
 {
     m_scopePalette = QPalette();
@@ -271,9 +271,7 @@ void AbstractScopeWidget::forceUpdateBackground()
 
 }
 
-
 ///// Events /////
-
 
 void AbstractScopeWidget::resizeEvent(QResizeEvent *event)
 {
@@ -328,7 +326,7 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
     m_mouseWithinWidget = true;
     emit signalMousePositionChanged();
 
-    QPoint movement = event->pos()-m_rescaleStartPoint;
+    QPoint movement = event->pos() - m_rescaleStartPoint;
 
     if (m_rescaleActive) {
         if (m_rescalePropertiesLocked) {
@@ -336,7 +334,6 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
 
             // Reset the starting point to make the next moveEvent relative to the current one
             m_rescaleStartPoint = event->pos();
-
 
             if (!m_rescaleFirstRescaleDone) {
                 // We have just learned the desired direction; Normalize the movement to one pixel
@@ -354,17 +351,15 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
 
             handleMouseDrag(movement, m_rescaleDirection, m_rescaleModifiers);
 
-
-
         } else {
             // Detect the movement direction here.
             // This algorithm relies on the aspect ratio of dy/dx (size and signum).
             if (movement.manhattanLength() > m_rescaleMinDist) {
-                float diff = ((float) movement.y())/movement.x();
+                float diff = ((float) movement.y()) / movement.x();
 
                 if (fabs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
                     m_rescaleDirection = North;
-                } else if (fabs(diff) < 1/m_rescaleVerticalThreshold) {
+                } else if (fabs(diff) < 1 / m_rescaleVerticalThreshold) {
                     m_rescaleDirection = East;
                 } else if (diff < 0) {
                     m_rescaleDirection = Northeast;
@@ -393,17 +388,16 @@ void AbstractScopeWidget::slotContextMenuRequested(const QPoint &pos)
 
 uint AbstractScopeWidget::calculateAccelFactorHUD(uint oldMseconds, uint)
 {
-    return ceil((float)oldMseconds*REALTIME_FPS / 1000);
+    return ceil((float)oldMseconds * REALTIME_FPS / 1000);
 }
 uint AbstractScopeWidget::calculateAccelFactorScope(uint oldMseconds, uint)
 {
-    return ceil((float)oldMseconds*REALTIME_FPS / 1000);
+    return ceil((float)oldMseconds * REALTIME_FPS / 1000);
 }
 uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
 {
-    return ceil((float)oldMseconds*REALTIME_FPS / 1000);
+    return ceil((float)oldMseconds * REALTIME_FPS / 1000);
 }
-
 
 ///// Slots /////
 
@@ -430,7 +424,7 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
     if ((m_newHUDFrames > 0 && m_aAutoRefresh->isChecked()) || m_newHUDUpdates > 0) {
 #ifdef DEBUG_ASW
         qCDebug(KDENLIVE_LOG) << "Trying to start a new HUD thread for " << m_widgetName
-                << ". New frames/updates: " << m_newHUDFrames << '/' << m_newHUDUpdates;
+                              << ". New frames/updates: " << m_newHUDFrames << '/' << m_newHUDUpdates;
 #endif
         prodHUDThread();
     }
@@ -468,7 +462,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
     if ((m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
 #ifdef DEBUG_ASW
         qCDebug(KDENLIVE_LOG) << "Trying to start a new scope thread for " << m_widgetName
-                << ". New frames/updates: " << m_newScopeFrames << '/' << m_newScopeUpdates;
+                              << ". New frames/updates: " << m_newScopeFrames << '/' << m_newScopeUpdates;
 #endif
         prodScopeThread();
     }
@@ -497,7 +491,7 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
     if ((m_newBackgroundFrames > 0 && m_aAutoRefresh->isChecked()) || m_newBackgroundUpdates > 0) {
 #ifdef DEBUG_ASW
         qCDebug(KDENLIVE_LOG) << "Trying to start a new background thread for " << m_widgetName
-                << ". New frames/updates: " << m_newBackgroundFrames << '/' << m_newBackgroundUpdates;
+                              << ". New frames/updates: " << m_newBackgroundFrames << '/' << m_newBackgroundUpdates;
 #endif
         prodBackgroundThread();;
     }
@@ -511,7 +505,7 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
 
 #ifdef DEBUG_ASW
     qCDebug(KDENLIVE_LOG) << "Data incoming at " << widgetName() << ". New frames total HUD/Scope/Background: " << m_newHUDFrames
-            << '/' << m_newScopeFrames << '/' << m_newBackgroundFrames;
+                          << '/' << m_newScopeFrames << '/' << m_newBackgroundFrames;
 #endif
 
     if (this->visibleRegion().isEmpty()) {
@@ -545,7 +539,7 @@ void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
 #ifdef DEBUG_ASW
     qCDebug(KDENLIVE_LOG) << "Auto-refresh switched to " << autoRefresh << " in " << widgetName()
-            << " (Visible: " << isVisible() << '/' << this->visibleRegion().isEmpty() << ')';
+                          << " (Visible: " << isVisible() << '/' << this->visibleRegion().isEmpty() << ')';
 #endif
     if (isVisible()) {
         // Notify listeners whether we accept new frames now
@@ -560,9 +554,7 @@ void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 
 void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection, const Qt::KeyboardModifiers) { }
 
-
 #ifdef DEBUG_ASW
 #undef DEBUG_ASW
 #endif
-
 

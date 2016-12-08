@@ -11,7 +11,6 @@
 #ifndef ABSTRACTAUDIOSCOPEWIDGET_H
 #define ABSTRACTAUDIOSCOPEWIDGET_H
 
-
 #include <QWidget>
 
 #include <stdint.h>

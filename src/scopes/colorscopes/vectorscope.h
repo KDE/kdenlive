@@ -26,7 +26,8 @@ enum BACKGROUND_MODE { BG_NONE = 0, BG_YUV = 1, BG_CHROMA = 2, BG_YPbPr = 3 };
 
    \see VectorscopeGenerator for more details about the vectorscope.
    */
-class Vectorscope : public AbstractGfxScopeWidget {
+class Vectorscope : public AbstractGfxScopeWidget
+{
     Q_OBJECT
 
 public:
@@ -79,7 +80,6 @@ private:
     /** Updates the dimension. Only necessary when the widget has been resized. */
     void updateDimensions();
     int cw;
-
 
 private slots:
     void slotGainChanged(int);

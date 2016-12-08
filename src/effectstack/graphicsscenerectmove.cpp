@@ -527,25 +527,25 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
     }
     switch (keyEvent->key()) {
     case Qt::Key_Left:
-        foreach (QGraphicsItem * qgi, selectedItems()) {
+        foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(-diff, 0);
         }
         emit itemMoved();
         break;
     case Qt::Key_Right:
-        foreach (QGraphicsItem * qgi, selectedItems()) {
+        foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(diff, 0);
         }
         emit itemMoved();
         break;
     case Qt::Key_Up:
-        foreach (QGraphicsItem * qgi, selectedItems()) {
+        foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(0, -diff);
         }
         emit itemMoved();
         break;
     case Qt::Key_Down:
-        foreach (QGraphicsItem * qgi, selectedItems()) {
+        foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(0, diff);
         }
         emit itemMoved();

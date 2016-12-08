@@ -28,7 +28,7 @@ class QGraphicsView;
 class BPointItem : public QAbstractGraphicsShapeItem
 {
 public:
-    explicit BPointItem(const BPoint &point, QGraphicsItem* parent = Q_NULLPTR);
+    explicit BPointItem(const BPoint &point, QGraphicsItem *parent = Q_NULLPTR);
 
     BPoint getPoint() const;
     void setPoint(const BPoint &point);

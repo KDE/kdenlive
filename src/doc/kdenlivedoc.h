@@ -56,13 +56,14 @@ class QUndoGroup;
 class QTimer;
 class QUndoGroup;
 
-namespace Mlt {
-    class Profile;
+namespace Mlt
+{
+class Profile;
 }
 
 class DocUndoStack: public QUndoStack
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit DocUndoStack(QUndoGroup *parent = Q_NULLPTR);
     void push(QUndoCommand *cmd);
@@ -75,7 +76,7 @@ class KdenliveDoc: public QObject
     Q_OBJECT
 public:
 
-    KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString>& properties, const QMap<QString, QString>& metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = Q_NULLPTR);
+    KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = Q_NULLPTR);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -139,7 +140,7 @@ public:
     /** @brief Returns the document metadata (author, copyright, ...) */
     const QMap<QString, QString> metadata() const;
     /** @brief Set the document metadata (author, copyright, ...) */
-    void setMetadata(const QMap<QString, QString>& meta);
+    void setMetadata(const QMap<QString, QString> &meta);
     /** @brief Get frame size of the renderer (profile)*/
     const QSize getRenderSize() const;
     /** @brief Add url to the file watcher so that we monitor changes */
@@ -169,13 +170,13 @@ public:
     void displayMessage(const QString &text, MessageType type = DefaultMessage, int timeOut = 0);
     /** @brief Get a cache directory for this project. */
     QDir getCacheDir(CacheType type, bool *ok) const;
-    /** @brief Create standard cache dirs for the project */ 
+    /** @brief Create standard cache dirs for the project */
     void initCacheDirs();
-    /** @brief Get a list of all proxy hash used in this project */ 
+    /** @brief Get a list of all proxy hash used in this project */
     QStringList getProxyHashList();
-    /** @brief Returns true if advanced compositing is available */ 
+    /** @brief Returns true if advanced compositing is available */
     static int compositingMode();
-    /** @brief Move project data files to new url */ 
+    /** @brief Move project data files to new url */
     void moveProjectData(const QString &src, const QString &dest);
 
 private:

@@ -41,7 +41,7 @@ public:
     void drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect,
                            const QColor &color, int textSpace, bool unscaled, uint max) const;
 
-    enum Components { ComponentY = 1<<0, ComponentR = 1<<1, ComponentG = 1<<2, ComponentB = 1<<3, ComponentSum = 1<<4 };
+    enum Components { ComponentY = 1 << 0, ComponentR = 1 << 1, ComponentG = 1 << 2, ComponentB = 1 << 3, ComponentSum = 1 << 4 };
 
 };
 

@@ -40,7 +40,9 @@ AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) 
         for (int i = 0; i < streams; ++i) {
             QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
             QString type = producer->get(propertyName.data());
-            if (type == QLatin1String("audio")) audioStreams << i;
+            if (type == QLatin1String("audio")) {
+                audioStreams << i;
+            }
         }
         if (audioStreams.count() > 1) {
             m_ffmpegAudioIndex = audioStreams.indexOf(m_audioStreamIndex);
@@ -77,11 +79,10 @@ int AudioStreamInfo::ffmpeg_audio_index() const
     return m_ffmpegAudioIndex;
 }
 
-
 void AudioStreamInfo::dumpInfo() const
 {
     qCDebug(KDENLIVE_LOG) << "Info for audio stream " << m_audioStreamIndex
-             << "\n\tChannels: " << m_channels
-             << "\n\tSampling rate: " << m_samplingRate
-             << "\n\tBit rate: " << m_bitRate;
+                          << "\n\tChannels: " << m_channels
+                          << "\n\tSampling rate: " << m_samplingRate
+                          << "\n\tBit rate: " << m_bitRate;
 }

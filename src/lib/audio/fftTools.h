@@ -57,7 +57,6 @@ public:
     void fftNormalized(const audioShortVector &audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
                        const WindowType windowType, const uint windowSize, const float param = 0);
 
-
     /** This is linear interpolation with the special property that it preserves peaks, which is required
         for e.g. showing correct Decibel values (where the peak values are of interest because of clipping which
         may occur for too strong frequencies; The lower values are smeared by the window function anyway).

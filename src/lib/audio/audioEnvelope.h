@@ -29,13 +29,13 @@ class QImage;
 class AudioEnvelope : public QObject
 {
     Q_OBJECT
-    
+
 public:
     explicit AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset = 0, int length = 0, int track = 0, int startPos = 0);
     virtual ~AudioEnvelope();
 
     /// Returns the envelope, calculates it if necessary.
-    qint64 const* envelope();
+    qint64 const *envelope();
     int envelopeSize() const;
 
     void loadEnvelope();
@@ -44,7 +44,7 @@ public:
     QImage drawEnvelope();
 
     void dumpInfo() const;
-    
+
     int track() const;
     int startPos() const;
 
@@ -67,10 +67,10 @@ private:
 
     bool m_envelopeStdDevCalculated;
     bool m_envelopeIsNormalized;
-    
+
 private slots:
     void slotProcessEnveloppe();
-    
+
 signals:
     void envelopeReady(AudioEnvelope *envelope);
 };

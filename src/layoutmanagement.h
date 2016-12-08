@@ -17,13 +17,12 @@ the Free Software Foundation, either version 3 of the License, or
 class KSelectAction;
 class QAction;
 
-
 class LayoutManagement : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit LayoutManagement(QObject* parent);
+    explicit LayoutManagement(QObject *parent);
 
 private slots:
     /** @brief Saves the widget layout. */

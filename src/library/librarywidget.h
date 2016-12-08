@@ -57,10 +57,11 @@ class QToolBar;
 class LibraryItemDelegate: public QStyledItemDelegate
 {
 public:
-    explicit LibraryItemDelegate(QObject* parent = Q_NULLPTR): QStyledItemDelegate(parent) {
+    explicit LibraryItemDelegate(QObject *parent = Q_NULLPTR): QStyledItemDelegate(parent)
+    {
     }
 
-    void updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const Q_DECL_OVERRIDE
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
     {
         QStyleOptionViewItem opt = option;
         initStyleOption(&opt, index);
@@ -73,8 +74,8 @@ public:
         QFont ft = option.font;
         ft.setBold(true);
         QFontMetricsF fm(ft);
-        QRect r2 =fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::DisplayRole).toString()).toRect();
-        editor->setGeometry( r2 );
+        QRect r2 = fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::DisplayRole).toString()).toRect();
+        editor->setGeometry(r2);
     }
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
@@ -92,7 +93,8 @@ public:
         return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
     }
 
-    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const Q_DECL_OVERRIDE {
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
         if (index.column() == 0) {
             QRect r1 = option.rect;
             painter->save();
@@ -106,8 +108,9 @@ public:
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             if (option.state & QStyle::State_Selected) {
                 painter->setPen(option.palette.highlightedText().color());
+            } else {
+                painter->setPen(option.palette.text().color());
             }
-            else painter->setPen(option.palette.text().color());
             QRect r = r1;
             QFont font = painter->font();
             font.setBold(true);
@@ -129,7 +132,7 @@ public:
             QColor subTextColor = painter->pen().color();
             subTextColor.setAlphaF(.5);
             painter->setPen(subTextColor);
-            painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop , subText, &bounding);
+            painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
             painter->restore();
         } else {
             QStyledItemDelegate::paint(painter, option, index);
@@ -147,7 +150,7 @@ protected:
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
     QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
     void slotUpdateThumb(const QString &path, const QString &iconPath);
@@ -157,7 +160,6 @@ signals:
     void moveData(QList<QUrl>, QString);
     void importSequence(QStringList, QString);
 };
-
 
 class LibraryWidget : public QWidget
 {
@@ -183,7 +185,7 @@ private slots:
     void slotDownloadFinished(KJob *);
     void slotDownloadProgress(KJob *, unsigned long);
     void slotGotPreview(const KFileItem &item, const QPixmap &pix);
-    void slotItemsAdded (const QUrl &url, const KFileItemList &list);
+    void slotItemsAdded(const QUrl &url, const KFileItemList &list);
     void slotItemsDeleted(const KFileItemList &list);
     void slotClearAll();
 
@@ -205,7 +207,7 @@ private:
 
 signals:
     void addProjectClips(QList<QUrl>);
-    void thumbReady(const QString&, const QString&);
+    void thumbReady(const QString &, const QString &);
 };
 
 #endif

@@ -18,7 +18,7 @@ class JogShuttleAction;
 
 /**
  * @class JogManager
- * @brief Turns JogShuttle support on/off according to KdenliveSettings and connects between JogShuttleAction and the actual actions. 
+ * @brief Turns JogShuttle support on/off according to KdenliveSettings and connects between JogShuttleAction and the actual actions.
  */
 
 class JogManager : public QObject
@@ -26,10 +26,10 @@ class JogManager : public QObject
     Q_OBJECT
 
 public:
-    explicit JogManager(QObject* parent = Q_NULLPTR);
+    explicit JogManager(QObject *parent = Q_NULLPTR);
 
 private slots:
-    void slotDoAction(const QString& actionName);
+    void slotDoAction(const QString &actionName);
     void slotConfigurationChanged();
 
 private:

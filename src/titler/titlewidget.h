@@ -39,7 +39,8 @@ public:
 class Transform
 {
 public:
-    Transform() {
+    Transform()
+    {
         scalex = 1.0;
         scaley = 1.0;
         rotatex = 0.0;
@@ -54,7 +55,7 @@ public:
     \brief Title creation dialog
     Instances of TitleWidget classes are instansiated by KdenliveDoc::slotCreateTextClip ()
 */
-class TitleWidget : public QDialog , public Ui::TitleWidget_UI
+class TitleWidget : public QDialog, public Ui::TitleWidget_UI
 {
     Q_OBJECT
 
@@ -69,7 +70,7 @@ public:
     explicit TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent = Q_NULLPTR);
     virtual ~TitleWidget();
     QDomDocument xml();
-    void setXml(const QDomDocument& doc);
+    void setXml(const QDomDocument &doc);
 
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title
@@ -89,7 +90,7 @@ public:
     static void refreshTitleTemplates(const QString &projectPath);
 
 protected:
-    void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
 private:
@@ -105,7 +106,7 @@ private:
 
     /** @brief Initialises the animation properties (viewport size, etc.). */
     void initAnimation();
-    QMap<QGraphicsItem*, Transform > m_transformations;
+    QMap<QGraphicsItem *, Transform > m_transformations;
     TitleDocument m_titledocument;
     QGraphicsRectItem *m_frameBorder;
     QGraphicsRectItem *m_frameBackground;
@@ -179,7 +180,7 @@ private:
 
     /** @brief Shows the toolbars suiting to toolType. */
     void showToolbars(TITLETOOL toolType);
-    
+
     /** @brief Set up the tools suiting referenceItem */
     void prepareTools(QGraphicsItem *referenceItem);
 
@@ -211,7 +212,7 @@ private:
     void selectItems(int itemType);
 
     /** @brief Appends the shortcut of a QAction to a tooltip text */
-    QString getTooltipWithShortcut(const QString& text, QAction *button);
+    QString getTooltipWithShortcut(const QString &text, QAction *button);
     void loadGradients();
     void storeGradient(const QString &gradientData);
 
@@ -277,7 +278,7 @@ private slots:
      * It's called when something changes in the QGraphicsScene. */
     void slotChanged();
 
-    /** 
+    /**
      * Reacts to changes of widht/height/x/y QSpinBox values.
      * @brief Updates width, height, and position of the selected items.
      * @param valueType of type ValueType
@@ -295,11 +296,10 @@ private slots:
     void slotSelectImages();
     void slotSelectNone();
 
-
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
     void slotInsertUnicode();
-    void slotInsertUnicodeString(const QString&);
+    void slotInsertUnicodeString(const QString &);
 
     void displayBackgroundFrame();
 
@@ -328,7 +328,7 @@ private slots:
      * @ref writeChoices */
     void slotAccepted();
 
-    void slotFontText(const QString& s);
+    void slotFontText(const QString &s);
 
     /** @brief Adds an effect to an element.
      * @param ix index of the effect in the effects menu

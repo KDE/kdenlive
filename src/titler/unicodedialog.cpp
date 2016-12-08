@@ -23,12 +23,11 @@
 const int MAX_LENGTH_HEX = 4;
 const uint MAX_UNICODE_V1 = 65535;
 
-
 UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent)
     : QDialog(parent)
 {
-    setWindowTitle( i18n("Details") );
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
+    setWindowTitle(i18n("Details"));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
@@ -52,13 +51,12 @@ void UnicodeDialog::slotAccept()
     accept();
 }
 
-
 /// CONSTRUCTORS/DECONSTRUCTORS
 
 UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent)
     : QWidget(parent),
-        inputMethod(inputMeth),
-        m_lastCursorPos(0)
+      inputMethod(inputMeth),
+      m_lastCursorPos(0)
 {
     setupUi(this);
     readChoices();
@@ -143,7 +141,9 @@ QString UnicodeWidget::trimmedUnicodeNumber(QString text)
 QString UnicodeWidget::unicodeInfo(const QString &unicode)
 {
     QString infoText(i18n("<small>(no character selected)</small>"));
-    if (unicode.length() == 0) return infoText;
+    if (unicode.length() == 0) {
+        return infoText;
+    }
 
     QString u = trimmedUnicodeNumber(unicode).toLower();
 
@@ -276,8 +276,12 @@ QString UnicodeWidget::nextUnicode(const QString &text, Direction direction)
             break;
         }
         // Wrapping
-        if (value == (uint) - 1) value = MAX_UNICODE_V1;
-        if (value > MAX_UNICODE_V1) value = 0;
+        if (value == (uint) - 1) {
+            value = MAX_UNICODE_V1;
+        }
+        if (value > MAX_UNICODE_V1) {
+            value = 0;
+        }
 
         newText.setNum(value, 16);
         break;
@@ -307,7 +311,6 @@ void UnicodeWidget::writeChoices()
 
     titleConfig.writeEntry("unicode_number", m_lastUnicodeNumber);
 }
-
 
 /// SLOTS
 
@@ -393,14 +396,14 @@ void UnicodeWidget::slotPrevUnicode()
     unicodeNumber->setText(nextUnicode(text, Backward));
 }
 
-void UnicodeWidget::wheelEvent(QWheelEvent * event)
+void UnicodeWidget::wheelEvent(QWheelEvent *event)
 {
     if (frame->underMouse()) {
-        if (event->delta() > 0)
+        if (event->delta() > 0) {
             slotNextUnicode();
-        else
+        } else {
             slotPrevUnicode();
+        }
     }
 }
-
 

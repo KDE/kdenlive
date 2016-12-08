@@ -29,7 +29,7 @@ class QTimerWithTime : public QTimer
 public:
     virtual void start(int msec);
     int elapsed() const;
- private:
+private:
     QTime m_time;
 };
 #endif

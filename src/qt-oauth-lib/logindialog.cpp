@@ -51,7 +51,7 @@ LoginDialog::LoginDialog(QWidget *parent)
     connect(ui->CancelButton, &QPushButton::clicked, this, &LoginDialog::slotRejected);
     connect(ui->GetHQpreview, &QPushButton::clicked, this, &LoginDialog::slotGetHQPreview);
     ui->FreeSoundLoginLabel->setText(i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality preview file instead (no freesound account required)."));
-   // ui->textBrowser
+    // ui->textBrowser
     connect(ui->webView, &QWebView::urlChanged, this, &LoginDialog::urlChanged);
 }
 
@@ -84,30 +84,25 @@ void LoginDialog::urlChanged(const QUrl &url)
     const QString str = url.toString();
     const int posCode = str.indexOf(QLatin1String("&code="));
     const int posErr = str.indexOf(QLatin1String("&error="));
-    if(posCode != -1)
-    {
-        m_strAuthCode =str.mid(posCode+6);
+    if (posCode != -1) {
+        m_strAuthCode = str.mid(posCode + 6);
         emit authCodeObtained();
         QDialog::accept();
-    } else if(posErr != -1)
-    {
-        QString sError =str.mid(posErr+7) ;
-        if (sError==QLatin1String("access_denied") )
-        {
+    } else if (posErr != -1) {
+        QString sError = str.mid(posErr + 7);
+        if (sError == QLatin1String("access_denied")) {
             emit accessDenied();
         }
         QDialog::accept();
     }
 }
 
-
-
 QString LoginDialog::authCode() const
 {
     return m_strAuthCode;
 }
 
-void LoginDialog::setLoginUrl(const QUrl& url)
+void LoginDialog::setLoginUrl(const QUrl &url)
 {
-   ui->webView->setUrl(url);
+    ui->webView->setUrl(url);
 }

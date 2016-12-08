@@ -27,12 +27,11 @@
 class JogShuttleAction: public QObject
 {
 Q_OBJECT public:
-    explicit JogShuttleAction(const JogShuttle* jogShuttle, const QStringList& actionMap, QObject * parent = Q_NULLPTR);
+    explicit JogShuttleAction(const JogShuttle *jogShuttle, const QStringList &actionMap, QObject *parent = Q_NULLPTR);
     ~JogShuttleAction();
 
-
 private:
-    const JogShuttle* m_jogShuttle;
+    const JogShuttle *m_jogShuttle;
     // this is indexed by button ID, having QString() for any non-used ones.
     QStringList m_actionMap;
 
@@ -43,7 +42,7 @@ public slots:
 signals:
     void rewind(double);
     void forward(double);
-    void action(const QString&);
+    void action(const QString &);
 };
 
 #endif

@@ -64,8 +64,6 @@ ColorPlaneExport::~ColorPlaneExport()
     delete m_colorTools;
 }
 
-
-
 ///// Helper functions /////
 
 void ColorPlaneExport::enableSliderScaling(bool enable)
@@ -84,22 +82,20 @@ void ColorPlaneExport::enableSliderColor(bool enable)
 
 void ColorPlaneExport::enableCbVariant(bool enable)
 {
-   cbVariant->setEnabled(enable);
-   lblVariant->setEnabled(enable);
-   if (!enable) {
-       cbVariant->clear();
-   }
+    cbVariant->setEnabled(enable);
+    lblVariant->setEnabled(enable);
+    if (!enable) {
+        cbVariant->clear();
+    }
 }
-
-
 
 ///// Slots /////
 
 void ColorPlaneExport::slotUpdateDisplays()
 {
-    m_scaling = 1 - (float)sliderScaling->value()/100;
+    m_scaling = 1 - (float)sliderScaling->value() / 100;
 
-    switch(cbColorspace->itemData(cbColorspace->currentIndex()).toInt()){
+    switch (cbColorspace->itemData(cbColorspace->currentIndex()).toInt()) {
     case CPE_RGB_CURVE:
         lblScaleNr->setText(QChar(0xb1) + QString::number(sliderScaling->value(), 'f', 2));;
         break;
@@ -178,8 +174,8 @@ void ColorPlaneExport::slotExportPlane()
         img = m_colorTools->yuvColorWheel(size, sliderColor->value(), m_scaling, true, false);
         break;
     case CPE_RGB_CURVE:
-        img = m_colorTools->rgbCurvePlane(size, (ColorTools::ColorsRGB) (cbVariant->itemData(cbVariant->currentIndex()).toInt()),
-                                          (double)sliderScaling->value()/255);
+        img = m_colorTools->rgbCurvePlane(size, (ColorTools::ColorsRGB)(cbVariant->itemData(cbVariant->currentIndex()).toInt()),
+                                          (double)sliderScaling->value() / 255);
         break;
     case CPE_YPbPr:
         img = m_colorTools->yPbPrColorWheel(size, sliderColor->value(), m_scaling, false);
@@ -211,7 +207,7 @@ void ColorPlaneExport::slotColormodeChanged()
         enableSliderScaling(true);
         enableSliderColor(true);
         enableCbVariant(false);
-        sliderColor->setRange(0,255);
+        sliderColor->setRange(0, 255);
         sliderColor->setPageStep(128);
         lblSliderName->setText(i18n("Y value"));
         lblSliderName->setToolTip(i18n("The Y value describes the brightness of the colors."));
@@ -224,7 +220,7 @@ void ColorPlaneExport::slotColormodeChanged()
         enableSliderColor(true);
         enableCbVariant(false);
         sliderColor->setMaximum(321);
-        sliderColor->setRange(0,179);
+        sliderColor->setRange(0, 179);
         sliderColor->setPageStep(90);
         lblSliderName->setText(i18n("UV angle"));
         lblSliderName->setToolTip(i18n("Angle through the UV plane, with all possible Y values."));
@@ -233,7 +229,7 @@ void ColorPlaneExport::slotColormodeChanged()
         enableSliderScaling(true);
         enableSliderColor(false);
         enableCbVariant(true);
-        sliderScaling->setRange(1,255);
+        sliderScaling->setRange(1, 255);
         sliderScaling->setValue(255);
         cbVariant->addItem(i18n("Red"), QVariant(ColorTools::COL_R));
         cbVariant->addItem(i18n("Green"), QVariant(ColorTools::COL_G));
@@ -244,10 +240,10 @@ void ColorPlaneExport::slotColormodeChanged()
         enableSliderScaling(true);
         enableSliderColor(true);
         enableCbVariant(false);
-        sliderScaling->setRange(0,255);
+        sliderScaling->setRange(0, 255);
         sliderScaling->setValue(200);
         sliderScaling->setInvertedAppearance(false);
-        sliderColor->setRange(0,255);
+        sliderColor->setRange(0, 255);
         sliderColor->setValue(200);
         lblSliderName->setText(i18n("HSV Saturation"));
         lblScaling->setText(i18n("HSV Value"));
@@ -272,5 +268,4 @@ void ColorPlaneExport::slotColormodeChanged()
     this->update();
     slotUpdateDisplays();
 }
-
 

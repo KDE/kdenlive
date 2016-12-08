@@ -15,7 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivesettings.h"
 #include <klocalizedstring.h>
 
-HideTitleBars::HideTitleBars(QObject* parent) :
+HideTitleBars::HideTitleBars(QObject *parent) :
     QObject(parent)
 {
     m_switchAction = new QAction(i18n("Show Title Bars"), this);
@@ -40,7 +40,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
 {
     QList <QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
-        QDockWidget* dock = docks.at(i);
+        QDockWidget *dock = docks.at(i);
         QWidget *bar = dock->titleBarWidget();
         if (show) {
             if (dock->isFloating()) {
@@ -52,7 +52,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
             }
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
             // Since Qt 5.6 we only display title bar in non tabbed dockwidgets
-            QList <QDockWidget*> docked = pCore->window()->tabifiedDockWidgets(dock);
+            QList <QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
             if (docked.isEmpty()) {
                 if (bar) {
                     dock->setTitleBarWidget(0);
@@ -61,7 +61,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
                 continue;
             } else {
                 bool hasVisibleDockSibling = false;
-                foreach(QDockWidget *sub, docked) {
+                foreach (QDockWidget *sub, docked) {
                     if (sub->toggleViewAction()->isChecked()) {
                         // we have another docked widget, so tabs are visible and can be used instead of title bars
                         hasVisibleDockSibling = true;
@@ -98,5 +98,4 @@ void HideTitleBars::slotSwitchTitleBars()
 {
     m_switchAction->trigger();
 }
-
 

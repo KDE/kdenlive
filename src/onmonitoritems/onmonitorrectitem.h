@@ -17,17 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef ONMONITORRECTITEM_H
 #define ONMONITORRECTITEM_H
-
 
 #include <QGraphicsRectItem>
 
 class QGraphicsView;
 
 enum rectActions { Move, ResizeTopLeft, ResizeBottomLeft, ResizeTopRight, ResizeBottomRight, ResizeLeft, ResizeRight, ResizeTop, ResizeBottom, NoAction };
-
 
 class OnMonitorRectItem : public QObject, public QGraphicsRectItem
 {
@@ -40,7 +37,7 @@ public:
     rectActions getMode(const QPointF &pos);
 
     /** @brief Reimplemented to draw the handles. */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR ) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) Q_DECL_OVERRIDE;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;

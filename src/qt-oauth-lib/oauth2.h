@@ -42,7 +42,7 @@
 #include <QNetworkReply>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-static QString OAuth2_strClientSecret =QStringLiteral("441d88374716e7a3503997151e4780566f007313");   //obtained when ttguy registered the kdenlive application with freesound
+static QString OAuth2_strClientSecret = QStringLiteral("441d88374716e7a3503997151e4780566f007313");  //obtained when ttguy registered the kdenlive application with freesound
 #endif /* DOXYGEN_SHOULD_SKIP_THIS ^^^ don't make this any more public than it is. This preprocessing directive makes the Doxygen documention ignore this line */
 
 #ifdef QT5_USE_WEBKIT
@@ -59,19 +59,16 @@ class OAuth2 : public QObject
     Q_OBJECT
 
 public:
-    explicit OAuth2(QWidget* parent = Q_NULLPTR);
+    explicit OAuth2(QWidget *parent = Q_NULLPTR);
 
     void obtainAccessToken();
     void obtainNewAccessToken();
     void ForgetAccessToken();
 
-
     QString getClientID() const;
     QString getClientSecret() const;
 
-
     static QString m_strClientSecret;
-
 
     QString loginUrl();
 
@@ -82,7 +79,6 @@ signals:
      * Signal that is emitted when login is ended OK and auth code obtained
      */
     void AuthCodeObtained();
-
 
     /**
      * @brief accessDenied
@@ -95,8 +91,6 @@ signals:
      *
      */
     void accessTokenReceived(QString sAccessToken);
-
-
 
     /**
      * @brief DownloadCanceled
@@ -118,7 +112,7 @@ signals:
 private slots:
 
     void SlotAccessDenied();
-    void serviceRequestFinished(QNetworkReply* reply);
+    void serviceRequestFinished(QNetworkReply *reply);
     void SlotAuthCodeObtained();
     void SlotCanceled();
     void SlotDownloadHQPreview();
@@ -135,9 +129,8 @@ private:
     bool m_bAccessTokenRec;
     void RequestAccessCode(bool pIsReRequest, const QString &pCode);
 
-
-    LoginDialog* m_pLoginDialog;
-    QWidget* m_pParent;
+    LoginDialog *m_pLoginDialog;
+    QWidget *m_pParent;
 };
 
 #endif // QT5_USE_WEBKIT

@@ -28,12 +28,12 @@
 #include <QCursor>
 #include <QGraphicsView>
 
-OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem* parent) :
+OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem *parent) :
     QGraphicsPolygonItem(parent)
-  , m_mode(NoAction)
-  , m_selectedCorner(-1)
-  , m_modified(false)
-  , m_view(Q_NULLPTR)
+    , m_mode(NoAction)
+    , m_selectedCorner(-1)
+    , m_modified(false)
+    , m_view(Q_NULLPTR)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -47,13 +47,15 @@ OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem* parent) :
 OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(const QPointF &pos, int *corner)
 {
     *corner = -1;
-    if (polygon().count() != 4)
+    if (polygon().count() != 4) {
         return NoAction;
+    }
 
     QPainterPath mouseArea;
     qreal size = 12;
-    if (getView())
+    if (getView()) {
         size /= m_view->matrix().m11();
+    }
     mouseArea.addRect(pos.x() - size / 2, pos.y() - size / 2, size, size);
     for (int i = 0; i < 4; ++i) {
         if (mouseArea.contains(polygon().at(i))) {
@@ -62,8 +64,9 @@ OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(const QPointF
         }
     }
     if (KdenliveSettings::onmonitoreffects_cornersshowcontrols()) {
-        if (mouseArea.contains(getCentroid()))
+        if (mouseArea.contains(getCentroid())) {
             return Move;
+        }
 
         for (int i = 0; i < 4; ++i) {
             int j = (i + 1) % 4;
@@ -77,16 +80,17 @@ OnMonitorCornersItem::cornersActions OnMonitorCornersItem::getMode(const QPointF
     return NoAction;
 }
 
-void OnMonitorCornersItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void OnMonitorCornersItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     m_mode = getMode(event->pos(), &m_selectedCorner);
     m_lastPoint = event->scenePos();
 
-    if (m_mode == NoAction)
+    if (m_mode == NoAction) {
         event->ignore();
+    }
 }
 
-void OnMonitorCornersItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void OnMonitorCornersItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     /*if (event->buttons() != Qt::NoButton && (event->screenPos() - m_screenClickPoint).manhattanLength() < QApplication::startDragDistance()) {
      *   event->accept();
@@ -128,7 +132,7 @@ void OnMonitorCornersItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 }
 
-void OnMonitorCornersItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void OnMonitorCornersItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (m_modified) {
         m_modified = false;
@@ -137,7 +141,7 @@ void OnMonitorCornersItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     event->accept();
 }
 
-void OnMonitorCornersItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+void OnMonitorCornersItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     int corner;
     switch (getMode(event->pos(), &corner)) {
@@ -153,22 +157,25 @@ void OnMonitorCornersItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
     }
 }
 
-void OnMonitorCornersItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void OnMonitorCornersItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
 
-    if (KdenliveSettings::onmonitoreffects_cornersshowlines())
+    if (KdenliveSettings::onmonitoreffects_cornersshowlines()) {
         QGraphicsPolygonItem::paint(painter, option, widget);
+    }
 
-    if (polygon().count() != 4)
+    if (polygon().count() != 4) {
         return;
+    }
 
     double baseSize = 1 / painter->worldTransform().m11();
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(QBrush(isEnabled() ? Qt::yellow : Qt::red));
     double handleSize = 4  * baseSize;
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 4; ++i) {
         painter->drawEllipse(polygon().at(i), handleSize, handleSize);
+    }
 
     if (KdenliveSettings::onmonitoreffects_cornersshowcontrols() && isEnabled()) {
         painter->setPen(QPen(Qt::red, 2, Qt::SolidLine));
@@ -210,18 +217,18 @@ QPointF OnMonitorCornersItem::getCentroid()
         x += f * (p[i].x() + p[j].x());
         y += f * (p[i].y() + p[j].y());
     }
-    x /= 6*A;
-    y /= 6*A;
+    x /= 6 * A;
+    y /= 6 * A;
     return QPointF(x, y);
 }
 
 QList <QPointF> OnMonitorCornersItem::sortedClockwise()
 {
     QList <QPointF> points = polygon().toList();
-    QPointF& a = points[0];
-    QPointF& b = points[1];
-    QPointF& c = points[2];
-    QPointF& d = points[3];
+    QPointF &a = points[0];
+    QPointF &b = points[1];
+    QPointF &c = points[2];
+    QPointF &d = points[3];
 
     /*
      * http://stackoverflow.com/questions/242404/sort-four-points-in-clockwise-order
@@ -236,7 +243,7 @@ QList <QPointF> OnMonitorCornersItem::sortedClockwise()
             double abd = a.x() * b.y() - a.y() * b.x() + b.x() * d.y() - b.y() * d.x() + d.x() * a.y() - d.y() * a.x();
             if (abd > 0) {
                 std::swap(d, c);
-            } else{
+            } else {
                 std::swap(a, d);
             }
         }
@@ -258,8 +265,9 @@ QList <QPointF> OnMonitorCornersItem::sortedClockwise()
 
 bool OnMonitorCornersItem::getView()
 {
-    if (m_view)
+    if (m_view) {
         return true;
+    }
 
     if (scene() && !scene()->views().isEmpty()) {
         m_view = scene()->views().first();
@@ -268,5 +276,4 @@ bool OnMonitorCornersItem::getView()
         return false;
     }
 }
-
 

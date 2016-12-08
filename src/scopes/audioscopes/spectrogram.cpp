@@ -36,18 +36,17 @@
 
 Spectrogram::Spectrogram(QWidget *parent) :
     AbstractAudioScopeWidget(true, parent)
-  , m_fftTools()
-  , m_fftHistory()
-  , m_fftHistoryImg()
-  , m_dBmin(-70)
-  , m_dBmax(0)
-  , m_freqMax(0)
-  , m_customFreq(false)
-  , m_parameterChanged(false)
+    , m_fftTools()
+    , m_fftHistory()
+    , m_fftHistoryImg()
+    , m_dBmin(-70)
+    , m_dBmax(0)
+    , m_freqMax(0)
+    , m_customFreq(false)
+    , m_parameterChanged(false)
 {
     ui = new Ui::Spectrogram_UI;
     ui->setupUi(this);
-
 
     m_aResetHz = new QAction(i18n("Reset maximum frequency to sampling rate"), this);
     m_aGrid = new QAction(i18n("Draw grid"), this);
@@ -57,14 +56,12 @@ Spectrogram::Spectrogram(QWidget *parent) :
     m_aHighlightPeaks = new QAction(i18n("Highlight peaks"), this);
     m_aHighlightPeaks->setCheckable(true);
 
-
     m_menu->addSeparator();
     m_menu->addAction(m_aResetHz);
     m_menu->addAction(m_aTrackMouse);
     m_menu->addAction(m_aGrid);
     m_menu->addAction(m_aHighlightPeaks);
     m_menu->removeAction(m_aRealtime);
-
 
     ui->windowSize->addItem(QStringLiteral("256"), QVariant(256));
     ui->windowSize->addItem(QStringLiteral("512"), QVariant(512));
@@ -86,12 +83,12 @@ Spectrogram::Spectrogram(QWidget *parent) :
 
     AbstractScopeWidget::init();
 
-    for (int i = 0; i <= 255/5; ++i) {
-        m_colorMap[i + 0*255/5] = qRgb(  0,   0, i*5); // black to blue
-        m_colorMap[i + 1*255/5] = qRgb(  0, i*5, 255); // blue to cyan
-        m_colorMap[i + 2*255/5] = qRgb(  0, 255, 255-i*5); // cyan to green
-        m_colorMap[i + 3*255/5] = qRgb(i*5, 255, 0); // green to yellow
-        m_colorMap[i + 4*255/5] = qRgb(255, 255-i*5, 0); // yellow to red
+    for (int i = 0; i <= 255 / 5; ++i) {
+        m_colorMap[i + 0 * 255 / 5] = qRgb(0,   0, i * 5); // black to blue
+        m_colorMap[i + 1 * 255 / 5] = qRgb(0, i * 5, 255); // blue to cyan
+        m_colorMap[i + 2 * 255 / 5] = qRgb(0, 255, 255 - i * 5); // cyan to green
+        m_colorMap[i + 3 * 255 / 5] = qRgb(i * 5, 255, 0); // green to yellow
+        m_colorMap[i + 4 * 255 / 5] = qRgb(255, 255 - i * 5, 0); // yellow to red
     }
 }
 
@@ -158,21 +155,21 @@ QString Spectrogram::widgetName() const
 QRect Spectrogram::scopeRect()
 {
     m_scopeRect = QRect(
-                QPoint(
-                    10,                                     // Left
-                    ui->verticalSpacer->geometry().top()+6  // Top
-                    ),
-                AbstractAudioScopeWidget::rect().bottomRight()
-                );
+                      QPoint(
+                          10,                                     // Left
+                          ui->verticalSpacer->geometry().top() + 6 // Top
+                      ),
+                      AbstractAudioScopeWidget::rect().bottomRight()
+                  );
     m_innerScopeRect = QRect(
-                QPoint(
-                    m_scopeRect.left()+66,                  // Left
-                    m_scopeRect.top()+6                     // Top
-                    ), QPoint(
-                    ui->verticalSpacer->geometry().right()-70,
-                    ui->verticalSpacer->geometry().bottom()-40
-                    )
-                );
+                           QPoint(
+                               m_scopeRect.left() + 66,                // Left
+                               m_scopeRect.top() + 6                   // Top
+                           ), QPoint(
+                               ui->verticalSpacer->geometry().right() - 70,
+                               ui->verticalSpacer->geometry().bottom() - 40
+                           )
+                       );
     return m_scopeRect;
 }
 
@@ -193,20 +190,19 @@ QImage Spectrogram::renderHUD(uint)
         bool hideText;
 
         QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
-        hud.fill(qRgba(0,0,0,0));
+        hud.fill(qRgba(0, 0, 0, 0));
 
         QPainter davinci(&hud);
         davinci.setPen(AbstractScopeWidget::penLight);
 
-
         // Frame display
         if (m_aGrid->isChecked()) {
             for (int frameNumber = 0; frameNumber < m_innerScopeRect.height(); frameNumber += minDistY) {
-                y = topDist + m_innerScopeRect.height()-1 - frameNumber;
+                y = topDist + m_innerScopeRect.height() - 1 - frameNumber;
                 hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(y - mouseY) < (int)textDistY && mouseY < m_innerScopeRect.height()
-                        && mouseX < m_innerScopeRect.width() && mouseX >= 0;
+                           && mouseX < m_innerScopeRect.width() && mouseX >= 0;
 
-                davinci.drawLine(leftDist, y, leftDist + m_innerScopeRect.width()-1, y);
+                davinci.drawLine(leftDist, y, leftDist + m_innerScopeRect.width() - 1, y);
                 if (!hideText) {
                     davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, y + 6, QVariant(frameNumber).toString());
                 }
@@ -222,62 +218,61 @@ QImage Spectrogram::renderHUD(uint)
             if (y < 0) {
                 y = 0;
             }
-            if (y > (int)topDist + m_innerScopeRect.height()-1 - 30) {
-                y = topDist + m_innerScopeRect.height()-1 - 30;
+            if (y > (int)topDist + m_innerScopeRect.height() - 1 - 30) {
+                y = topDist + m_innerScopeRect.height() - 1 - 30;
             }
-            davinci.drawLine(x, topDist + mouseY, leftDist + m_innerScopeRect.width()-1, topDist + mouseY);
+            davinci.drawLine(x, topDist + mouseY, leftDist + m_innerScopeRect.width() - 1, topDist + mouseY);
             davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX,
                              y,
-                             m_scopeRect.right()-m_innerScopeRect.right()-textDistX,
+                             m_scopeRect.right() - m_innerScopeRect.right() - textDistX,
                              40,
                              Qt::AlignLeft,
-                             i18n("Frame\n%1", m_innerScopeRect.height()-1-mouseY));
+                             i18n("Frame\n%1", m_innerScopeRect.height() - 1 - mouseY));
         }
 
         // Frequency grid
-        const uint hzDiff = ceil( ((float)minDistX)/m_innerScopeRect.width() * m_freqMax / 1000 ) * 1000;
-        const int rightBorder = leftDist + m_innerScopeRect.width()-1;
+        const uint hzDiff = ceil(((float)minDistX) / m_innerScopeRect.width() * m_freqMax / 1000) * 1000;
+        const int rightBorder = leftDist + m_innerScopeRect.width() - 1;
         x = 0;
         y = topDist + m_innerScopeRect.height() + textDistY;
         if (m_aGrid->isChecked()) {
             for (uint hz = 0; x <= rightBorder; hz += hzDiff) {
                 davinci.setPen(AbstractScopeWidget::penLight);
-                x = leftDist + (m_innerScopeRect.width()-1) * ((float)hz)/m_freqMax;
+                x = leftDist + (m_innerScopeRect.width() - 1) * ((float)hz) / m_freqMax;
 
                 // Hide text if it would overlap with the text drawn at the mouse position
-                hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 20)) < (int) minDistX + 16
-                        && mouseX < m_innerScopeRect.width() && mouseX >= 0;
+                hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x - (leftDist + mouseX + 20)) < (int) minDistX + 16
+                           && mouseX < m_innerScopeRect.width() && mouseX >= 0;
 
                 if (x <= rightBorder) {
-                    davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+                    davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() + 6);
                 }
-                if (x+textDistY < leftDist + m_innerScopeRect.width()) {
+                if (x + textDistY < leftDist + m_innerScopeRect.width()) {
                     // Only draw the text label if there is still enough room for the final one at the right.
                     if (!hideText) {
-                        davinci.drawText(x-4, y, QVariant(hz/1000).toString());
+                        davinci.drawText(x - 4, y, QVariant(hz / 1000).toString());
                     }
                 }
-
 
                 if (hz > 0) {
                     // Draw finer lines between the main lines
                     davinci.setPen(AbstractScopeWidget::penLightDots);
                     for (uint dHz = 3; dHz > 0; --dHz) {
-                        x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff/4.0f)/m_freqMax;
+                        x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff / 4.0f) / m_freqMax;
                         if (x > rightBorder) {
                             break;
                         }
-                        davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()-1);
+                        davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() - 1);
                     }
                 }
             }
             // Draw the line at the very right (maximum frequency)
-            x = leftDist + m_innerScopeRect.width()-1;
-            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x-(leftDist + mouseX + 30)) < (int) minDistX
-                    && mouseX < m_innerScopeRect.width() && mouseX >= 0;
-            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
+            x = leftDist + m_innerScopeRect.width() - 1;
+            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x - (leftDist + mouseX + 30)) < (int) minDistX
+                       && mouseX < m_innerScopeRect.width() && mouseX >= 0;
+            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() + 6);
             if (!hideText) {
-                davinci.drawText(x-10, y, i18n("%1 kHz", QString("%1").arg((double)m_freqMax/1000, 0, 'f', 1)));
+                davinci.drawText(x - 10, y, i18n("%1 kHz", QString("%1").arg((double)m_freqMax / 1000, 0, 'f', 1)));
             }
         }
 
@@ -285,26 +280,25 @@ QImage Spectrogram::renderHUD(uint)
         if (m_aTrackMouse->isChecked() && m_mouseWithinWidget && mouseX < m_innerScopeRect.width() && mouseX >= 0) {
             davinci.setPen(AbstractScopeWidget::penThin);
             x = leftDist + mouseX;
-            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height()+6);
-            davinci.drawText(x-10, y, i18n("%1 kHz", QString("%1")
-                                           .arg((double)(m_mousePos.x()-m_innerScopeRect.left())/m_innerScopeRect.width() * m_freqMax/1000, 0, 'f', 2)));
+            davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() + 6);
+            davinci.drawText(x - 10, y, i18n("%1 kHz", QString("%1")
+                                             .arg((double)(m_mousePos.x() - m_innerScopeRect.left()) / m_innerScopeRect.width() * m_freqMax / 1000, 0, 'f', 2)));
         }
 
         // Draw the dB brightness scale
         davinci.setPen(AbstractScopeWidget::penLighter);
         for (y = topDist; y < (int)topDist + m_innerScopeRect.height(); ++y) {
-            float val = 1-((float)y-topDist)/(m_innerScopeRect.height()-1);
+            float val = 1 - ((float)y - topDist) / (m_innerScopeRect.height() - 1);
             int col = m_colorMap[(int)(val * 255)];
-            for (x = leftDist-6; x >= (int)leftDist-13; --x) {
+            for (x = leftDist - 6; x >= (int)leftDist - 13; --x) {
                 hud.setPixel(x, y, col);
             }
         }
-        const int rectWidth = leftDist-m_scopeRect.left()-22;
+        const int rectWidth = leftDist - m_scopeRect.left() - 22;
         const int rectHeight = 50;
         davinci.setFont(QFont(QFont().defaultFamily(), 10));
         davinci.drawText(m_scopeRect.left(), topDist, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmax));
-        davinci.drawText(m_scopeRect.left(), topDist + m_innerScopeRect.height()-20, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmin));
-
+        davinci.drawText(m_scopeRect.left(), topDist + m_innerScopeRect.height() - 20, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmin));
 
         emit signalHUDRenderingFinished(start.elapsed(), 1);
         return hud;
@@ -314,11 +308,12 @@ QImage Spectrogram::renderHUD(uint)
     }
 }
 QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, const int freq,
-                                     const int num_channels, const int num_samples, const int newData) {
+                                     const int num_channels, const int num_samples, const int newData)
+{
     if (
-            audioFrame.size() > 63
-            && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0
-            ) {
+        audioFrame.size() > 63
+        && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0
+    ) {
         if (!m_customFreq) {
             m_freqMax = freq / 2;
         }
@@ -343,7 +338,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         if (newDataAvailable) {
 
-            float freqSpectrum[fftWindow/2];
+            float freqSpectrum[fftWindow / 2];
 
             // Get the spectral power distribution of the input samples,
             // using the given window size and function
@@ -352,8 +347,8 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
             // This methid might be called also when a simple refresh is required.
             // In this case there is no data to append to the history. Only append new data.
-            QVector<float> spectrumVector(fftWindow/2);
-            memcpy(spectrumVector.data(), &freqSpectrum[0], fftWindow/2 * sizeof(float));
+            QVector<float> spectrumVector(fftWindow / 2);
+            memcpy(spectrumVector.data(), &freqSpectrum[0], fftWindow / 2 * sizeof(float));
             m_fftHistory.prepend(spectrumVector);
         }
 #ifdef DEBUG_SPECTROGRAM
@@ -369,7 +364,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         // Draw the spectrum
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
-        spectrum.fill(qRgba(0,0,0,0));
+        spectrum.fill(qRgba(0, 0, 0, 0));
         QPainter davinci(&spectrum);
         const uint h = m_innerScopeRect.height();
         const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
@@ -404,7 +399,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
                 windowSize = (*it).size();
 
                 // Interpolate the frequency data to match the pixel coordinates
-                right = ((float) m_freqMax)/(m_freq/2) * (windowSize - 1);
+                right = ((float) m_freqMax) / (m_freq / 2) * (windowSize - 1);
                 dbMap = FFTTools::interpolatePeakPreserving((*it), m_innerScopeRect.width(), 0, right, -180);
 
                 for (int i = 0; i < dbMap.size(); ++i) {
@@ -413,16 +408,16 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
                     peak = val > m_dBmax;
 
                     // Normalize dB value to [0 1], 1 corresponding to dbMax dB and 0 to dbMin dB
-                    val = (val-m_dBmax)/(m_dBmax-m_dBmin) + 1;
+                    val = (val - m_dBmax) / (m_dBmax - m_dBmin) + 1;
                     if (val < 0) {
                         val = 0;
                     } else if (val > 1) {
                         val = 1;
                     }
                     if (!peak || !m_aHighlightPeaks->isChecked()) {
-                        spectrum.setPixel(leftDist + i, topDist + h-1 - y, m_colorMap[(int)(val * 255)]);
+                        spectrum.setPixel(leftDist + i, topDist + h - 1 - y, m_colorMap[(int)(val * 255)]);
                     } else {
-                        spectrum.setPixel(leftDist + i, topDist + h-1 - y, AbstractScopeWidget::colHighlightDark.rgba());
+                        spectrum.setPixel(leftDist + i, topDist + h - 1 - y, AbstractScopeWidget::colHighlightDark.rgba());
                     }
                 }
 
@@ -437,13 +432,13 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         }
 
 #ifdef DEBUG_SPECTROGRAM
-        qCDebug(KDENLIVE_LOG) << "Rendered " << y-topDist << "lines from " << m_fftHistory.size() << " available samples in " << start.elapsed() << " ms"
-                 << (completeRedraw ? "" : " (re-used old image)");
+        qCDebug(KDENLIVE_LOG) << "Rendered " << y - topDist << "lines from " << m_fftHistory.size() << " available samples in " << start.elapsed() << " ms"
+                              << (completeRedraw ? "" : " (re-used old image)");
         uint storedBytes = 0;
         for (QList< QVector<float> >::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); ++it) {
             storedBytes += (*it).size() * sizeof((*it)[0]);
         }
-        qCDebug(KDENLIVE_LOG) << QString("Total storage used: %1 kB").arg((double)storedBytes/1000, 0, 'f', 2);
+        qCDebug(KDENLIVE_LOG) << QString("Total storage used: %1 kB").arg((double)storedBytes / 1000, 0, 'f', 2);
 #endif
 
         m_fftHistoryImg = spectrum;
@@ -455,11 +450,23 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         return QImage();
     }
 }
-QImage Spectrogram::renderBackground(uint) { return QImage(); }
+QImage Spectrogram::renderBackground(uint)
+{
+    return QImage();
+}
 
-bool Spectrogram::isHUDDependingOnInput() const { return false; }
-bool Spectrogram::isScopeDependingOnInput() const { return true; }
-bool Spectrogram::isBackgroundDependingOnInput() const { return false; }
+bool Spectrogram::isHUDDependingOnInput() const
+{
+    return false;
+}
+bool Spectrogram::isScopeDependingOnInput() const
+{
+    return true;
+}
+bool Spectrogram::isBackgroundDependingOnInput() const
+{
+    return false;
+}
 
 void Spectrogram::handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers)
 {
@@ -502,7 +509,7 @@ void Spectrogram::handleMouseDrag(const QPoint &movement, const RescaleDirection
                 m_dBmin = m_dBmax - 6;
                 if (m_dBmin < MIN_DB_VALUE) {
                     m_dBmin = MIN_DB_VALUE;
-                    m_dBmax = MIN_DB_VALUE+6;
+                    m_dBmax = MIN_DB_VALUE + 6;
                 }
             }
         }
@@ -513,7 +520,7 @@ void Spectrogram::handleMouseDrag(const QPoint &movement, const RescaleDirection
 
     } else if (rescaleDirection == East) {
         // East-West direction: Adjust the maximum frequency
-        m_freqMax -= 100*movement.x();
+        m_freqMax -= 100 * movement.x();
         if (m_freqMax < MIN_FREQ_VALUE) {
             m_freqMax = MIN_FREQ_VALUE;
         }
@@ -527,8 +534,6 @@ void Spectrogram::handleMouseDrag(const QPoint &movement, const RescaleDirection
         forceUpdateScope();
     }
 }
-
-
 
 void Spectrogram::slotResetMaxFreq()
 {
@@ -548,5 +553,4 @@ void Spectrogram::resizeEvent(QResizeEvent *event)
 #ifdef DEBUG_SPECTROGRAM
 #undef DEBUG_SPECTROGRAM
 #endif
-
 

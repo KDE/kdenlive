@@ -19,14 +19,13 @@
 #include <KConfigGroup>
 
 RGBParade::RGBParade(QWidget *parent) :
-        AbstractGfxScopeWidget(true, parent)
+    AbstractGfxScopeWidget(true, parent)
 {
     ui = new Ui::RGBParade_UI();
     ui->setupUi(this);
 
     ui->paintMode->addItem(i18n("RGB"), QVariant(RGBParadeGenerator::PaintMode_RGB));
     ui->paintMode->addItem(i18n("White"), QVariant(RGBParadeGenerator::PaintMode_White));
-
 
     m_menu->addSeparator();
     m_aAxis = new QAction(i18n("Draw axis"), this);
@@ -77,26 +76,28 @@ void RGBParade::writeConfig()
     scopeConfig.sync();
 }
 
-
-QString RGBParade::widgetName() const { return QStringLiteral("RGB Parade"); }
+QString RGBParade::widgetName() const
+{
+    return QStringLiteral("RGB Parade");
+}
 
 QRect RGBParade::scopeRect()
 {
-    QPoint topleft(offset, ui->verticalSpacer->geometry().y() + 2*offset);
+    QPoint topleft(offset, ui->verticalSpacer->geometry().y() + 2 * offset);
     return QRect(topleft, QPoint(this->size().width() - offset, this->size().height() - offset));
 }
 
 QImage RGBParade::renderHUD(uint)
 {
     QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
-    hud.fill(qRgba(0,0,0,0));
+    hud.fill(qRgba(0, 0, 0, 0));
 
     QPainter davinci(&hud);
     davinci.setPen(penLight);
 
-    int x = scopeRect().width()-30;
+    int x = scopeRect().width() - 30;
 
-    davinci.drawText(x, scopeRect().height()-RGBParadeGenerator::distBottom, QStringLiteral("0"));
+    davinci.drawText(x, scopeRect().height() - RGBParadeGenerator::distBottom, QStringLiteral("0"));
     davinci.drawText(x, 10, QStringLiteral("255"));
 
     if (scopeRect().height() > 0 && m_mouseWithinWidget) {
@@ -105,18 +106,18 @@ QImage RGBParade::renderHUD(uint)
 
         // Draw a horizontal line through the current mouse position
         // and show the value of the waveform there
-        davinci.drawLine(0, y, scopeRect().size().width()-RGBParadeGenerator::distRight, y);
+        davinci.drawLine(0, y, scopeRect().size().width() - RGBParadeGenerator::distRight, y);
 
         // Make the value stick to the line unless it is at the top/bottom of the scope
         const int top = 30;
-        const int bottom = 20+RGBParadeGenerator::distBottom;
-        int valY = y+5;
+        const int bottom = 20 + RGBParadeGenerator::distBottom;
+        int valY = y + 5;
         if (valY < top) {
             valY = top;
-        } else if (valY > scopeRect().height()-bottom) {
-            valY = scopeRect().height()-bottom;
+        } else if (valY > scopeRect().height() - bottom) {
+            valY = scopeRect().height() - bottom;
         }
-        int val = 255*(1-((float)y/(scopeRect().height()-RGBParadeGenerator::distBottom)));
+        int val = 255 * (1 - ((float)y / (scopeRect().height() - RGBParadeGenerator::distBottom)));
         davinci.drawText(x, valY, QVariant(val).toString());
     }
 
@@ -131,7 +132,7 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
 
     int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
     QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, (RGBParadeGenerator::PaintMode) paintmode,
-                                                    m_aAxis->isChecked(), m_aGradRef->isChecked(), accelerationFactor);
+                    m_aAxis->isChecked(), m_aGradRef->isChecked(), accelerationFactor);
     emit signalScopeRenderingFinished(start.elapsed(), accelerationFactor);
     return parade;
 }

@@ -17,19 +17,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef ONMONITORPATHITEM_H
 #define ONMONITORPATHITEM_H
-
 
 #include <QGraphicsPathItem>
 
 class QGraphicsView;
 
-namespace Mlt {
+namespace Mlt
+{
 class Geometry;
 }
-
 
 class OnMonitorPathItem : public QObject, public QGraphicsPathItem
 {
@@ -40,11 +38,11 @@ public:
     void getMode(const QPointF &pos);
     void rebuildShape();
     QList <QPointF> points() const;
-    QPainterPath shape () const Q_DECL_OVERRIDE;
+    QPainterPath shape() const Q_DECL_OVERRIDE;
 
     /** @brief Reimplemented to draw the handles. */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR ) Q_DECL_OVERRIDE;
-    QRectF boundingRect () const Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) Q_DECL_OVERRIDE;
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
 
 protected:
     //virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);

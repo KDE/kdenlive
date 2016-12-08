@@ -19,7 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #include "librarywidget.h"
 #include "project/projectmanager.h"
 #include "utils/KoIconUtils.h"
@@ -40,7 +39,6 @@
 #include <KMessageBox>
 #include <KIO/FileCopyJob>
 
-
 enum LibraryItem {
     PlayList,
     Clip,
@@ -59,10 +57,10 @@ LibraryTree::LibraryTree(QWidget *parent) : QTreeWidget(parent)
 }
 
 //virtual
-QMimeData * LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
+QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
     QList<QUrl> urls;
-    foreach(QTreeWidgetItem *item, list) {
+    foreach (QTreeWidgetItem *item, list) {
         urls << QUrl::fromLocalFile(item->data(0, Qt::UserRole).toString());
     }
     QMimeData *mime = new QMimeData;
@@ -78,8 +76,8 @@ QStringList LibraryTree::mimeTypes() const
 void LibraryTree::slotUpdateThumb(const QString &path, const QString &iconPath)
 {
     QString name = QUrl::fromLocalFile(path).fileName();
-    QList <QTreeWidgetItem*> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
-    foreach(QTreeWidgetItem *item, list) {
+    QList <QTreeWidgetItem *> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
+    foreach (QTreeWidgetItem *item, list) {
         if (item->data(0, Qt::UserRole).toString() == path) {
             // We found our item
             blockSignals(true);
@@ -93,8 +91,8 @@ void LibraryTree::slotUpdateThumb(const QString &path, const QString &iconPath)
 void LibraryTree::slotUpdateThumb(const QString &path, const QPixmap &pix)
 {
     QString name = QUrl::fromLocalFile(path).fileName();
-    QList <QTreeWidgetItem*> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
-    foreach(QTreeWidgetItem *item, list) {
+    QList <QTreeWidgetItem *> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
+    foreach (QTreeWidgetItem *item, list) {
         if (item->data(0, Qt::UserRole).toString() == path) {
             // We found our item
             blockSignals(true);
@@ -105,19 +103,18 @@ void LibraryTree::slotUpdateThumb(const QString &path, const QPixmap &pix)
     }
 }
 
-
-void LibraryTree::mousePressEvent(QMouseEvent * event)
+void LibraryTree::mousePressEvent(QMouseEvent *event)
 {
     QTreeWidgetItem *clicked = this->itemAt(event->pos());
     QList <QAction *> act = actions();
     if (clicked) {
-        foreach(QAction *a, act) {
+        foreach (QAction *a, act) {
             a->setEnabled(true);
         }
     } else {
         // Clicked in empty area, disable clip actions
         clearSelection();
-        foreach(QAction *a, act) {
+        foreach (QAction *a, act) {
             if (a->data().toInt() == 1) {
                 a->setEnabled(false);
             }
@@ -129,7 +126,7 @@ void LibraryTree::mousePressEvent(QMouseEvent * event)
 void LibraryTree::dropEvent(QDropEvent *event)
 {
     //QTreeWidget::dropEvent(event);
-    const QMimeData* qMimeData = event->mimeData();
+    const QMimeData *qMimeData = event->mimeData();
     QTreeWidgetItem *dropped = this->itemAt(event->pos());
     QString dest;
     if (dropped) {
@@ -145,7 +142,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
         emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(';'), dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(';');
-        foreach(const QString &data, list) {
+        foreach (const QString &data, list) {
             if (data.startsWith(QLatin1Char('#'))) {
                 // Bin folder, not supported yet
                 continue;
@@ -162,10 +159,9 @@ void LibraryTree::dropEvent(QDropEvent *event)
     event->accept();
 }
 
-
 LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget(parent)
-  , m_manager(manager)
-  , m_previewJob(Q_NULLPTR)
+    , m_manager(manager)
+    , m_previewJob(Q_NULLPTR)
 {
     QVBoxLayout *lay = new QVBoxLayout(this);
     m_libraryTree = new LibraryTree(this);
@@ -245,13 +241,13 @@ void LibraryWidget::setupActions(const QList <QAction *> &list)
     m_toolBar->addAction(m_addAction);
     m_toolBar->addSeparator();
     m_toolBar->addAction(addFolder);
-    foreach(QAction *action, list) {
+    foreach (QAction *action, list) {
         m_toolBar->addAction(action);
         menuList << action;
     }
 
     // Create spacer
-    QWidget* spacer = new QWidget();
+    QWidget *spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_toolBar->addWidget(spacer);
     m_toolBar->addSeparator();
@@ -260,17 +256,20 @@ void LibraryWidget::setupActions(const QList <QAction *> &list)
     connect(m_libraryTree, &QTreeWidget::itemSelectionChanged, this, &LibraryWidget::updateActions);
 }
 
-
 void LibraryWidget::slotAddToLibrary()
 {
-    if (!isEnabled()) return;
+    if (!isEnabled()) {
+        return;
+    }
     if (!m_manager->hasSelection()) {
         showMessage(i18n("Select clips in timeline for the Library"));
         return;
     }
     bool ok;
     QString name = QInputDialog::getText(this, i18n("Add Clip to Library"), i18n("Enter a name for the clip in Library"), QLineEdit::Normal, QString(), &ok);
-    if (name.isEmpty() || !ok) return;
+    if (name.isEmpty() || !ok) {
+        return;
+    }
     if (m_directory.exists(name + ".mlt")) {
         //TODO: warn and ask for overwrite / rename
     }
@@ -291,7 +290,9 @@ void LibraryWidget::showMessage(const QString &text, KMessageWidget::MessageType
 void LibraryWidget::slotAddToProject()
 {
     QTreeWidgetItem *current = m_libraryTree->currentItem();
-    if (!current) return;
+    if (!current) {
+        return;
+    }
     QList<QUrl> list;
     list << QUrl::fromLocalFile(current->data(0, Qt::UserRole).toString());
     emit addProjectClips(list);
@@ -313,12 +314,13 @@ void LibraryWidget::slotDeleteFromLibrary()
 {
     QTreeWidgetItem *current = m_libraryTree->currentItem();
     if (!current) {
-        qCDebug(KDENLIVE_LOG)<<" * * *Deleting no item ";
+        qCDebug(KDENLIVE_LOG) << " * * *Deleting no item ";
         return;
     }
     QString path = current->data(0, Qt::UserRole).toString();
-    if (path.isEmpty())
+    if (path.isEmpty()) {
         return;
+    }
     if (current->data(0, Qt::UserRole + 2).toInt() == LibraryItem::Folder) {
         // Deleting a folder
         QDir dir(path);
@@ -355,7 +357,9 @@ void LibraryWidget::slotAddFolder()
 {
     bool ok;
     QString name = QInputDialog::getText(this, i18n("Add Folder to Library"), i18n("Enter a folder name"), QLineEdit::Normal, QString(), &ok);
-    if (name.isEmpty() || !ok) return;
+    if (name.isEmpty() || !ok) {
+        return;
+    }
     QTreeWidgetItem *current = m_libraryTree->currentItem();
     QString parentFolder;
     if (current) {
@@ -395,14 +399,18 @@ void LibraryWidget::slotRenameItem()
 
 void LibraryWidget::slotMoveData(const QList<QUrl> &urls, QString dest)
 {
-    if (urls.isEmpty()) return;
+    if (urls.isEmpty()) {
+        return;
+    }
     if (dest .isEmpty()) {
         // moving to library's root
         dest = m_directory.absolutePath();
     }
     QDir dir(dest);
-    if (!dir.exists()) return;
-    foreach(const QUrl &url, urls) {
+    if (!dir.exists()) {
+        return;
+    }
+    foreach (const QUrl &url, urls) {
         if (!url.path().startsWith(m_directory.absolutePath())) {
             // Dropped an external file, attempt to copy it to library
             KIO::FileCopyJob *copyJob = KIO::file_copy(url, QUrl::fromLocalFile(dir.absoluteFilePath(url.fileName())));
@@ -417,19 +425,25 @@ void LibraryWidget::slotMoveData(const QList<QUrl> &urls, QString dest)
 
 void LibraryWidget::slotSaveSequence(const QStringList &info, QString dest)
 {
-    if (info.isEmpty()) return;
+    if (info.isEmpty()) {
+        return;
+    }
     if (dest .isEmpty()) {
         // moving to library's root
         dest = m_directory.absolutePath();
     }
     QDir dir(dest);
-    if (!dir.exists()) return;
+    if (!dir.exists()) {
+        return;
+    }
     m_manager->saveZone(info, dir);
 }
 
 void LibraryWidget::slotItemEdited(QTreeWidgetItem *item, int column)
 {
-    if (!item || column != 0) return;
+    if (!item || column != 0) {
+        return;
+    }
     if (item->data(0, Qt::UserRole + 2).toInt() == LibraryItem::Folder) {
         QDir dir(item->data(0, Qt::UserRole).toString());
         dir.cdUp();
@@ -510,7 +524,7 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
 {
     m_libraryTree->blockSignals(true);
     QMutexLocker lock(&m_treeMutex);
-    foreach(const KFileItem &fitem, list) {
+    foreach (const KFileItem &fitem, list) {
         QUrl fileUrl = fitem.url();
         QString path;
         if (fitem.isDir()) {
@@ -520,7 +534,7 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
         }
         QTreeWidgetItem *matchingFolder = Q_NULLPTR;
         if (path != m_directory.path()) {
-            foreach(QTreeWidgetItem *folder, m_folders) {
+            foreach (QTreeWidgetItem *folder, m_folders) {
                 if (folder->data(0, Qt::UserRole).toString() == path) {
                     // Found parent folder
                     matchingFolder = folder;
@@ -533,12 +547,12 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
                 m_folders.removeAll(matchingFolder);
                 // warning, we also need to remove all subfolders since they will be recreated
                 QList <QTreeWidgetItem *> subList;
-                foreach(QTreeWidgetItem *folder, m_folders) {
+                foreach (QTreeWidgetItem *folder, m_folders) {
                     if (folder->data(0, Qt::UserRole).toString().startsWith(path)) {
                         subList << folder;
                     }
                 }
-                foreach(QTreeWidgetItem *sub, subList) {
+                foreach (QTreeWidgetItem *sub, subList) {
                     m_folders.removeAll(sub);
                 }
                 delete matchingFolder;
@@ -547,7 +561,7 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
             if (matchingFolder == Q_NULLPTR) {
                 matchingFolder = m_libraryTree->invisibleRootItem();
             }
-            for(int i = 0; i < matchingFolder->childCount(); i++) {
+            for (int i = 0; i < matchingFolder->childCount(); i++) {
                 QTreeWidgetItem *item = matchingFolder->child(i);
                 if (item->data(0, Qt::UserRole).toString() == fileUrl.path()) {
                     // Found deleted item
@@ -560,12 +574,11 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
     m_libraryTree->blockSignals(false);
 }
 
-
 void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
 {
     m_libraryTree->blockSignals(true);
     QMutexLocker lock(&m_treeMutex);
-    foreach(const KFileItem &fitem, list) {
+    foreach (const KFileItem &fitem, list) {
         QUrl fileUrl = fitem.url();
         QString name = fileUrl.fileName();
         QTreeWidgetItem *treeItem;
@@ -573,7 +586,7 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         if (url != QUrl::fromLocalFile(m_directory.path())) {
             // not a top level item
             QString directory = fileUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).path();
-            foreach(QTreeWidgetItem *folder, m_folders) {
+            foreach (QTreeWidgetItem *folder, m_folders) {
                 if (folder->data(0, Qt::UserRole).toString() == directory) {
                     // Found parent folder
                     parent = folder;
@@ -592,8 +605,7 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
             treeItem->setData(0, Qt::UserRole + 2, (int) LibraryItem::Folder);
             m_folders << treeItem;
             m_coreLister->openUrl(fileUrl, KCoreDirLister::Keep);
-        }
-        else if (name.endsWith(QLatin1String(".mlt")) || name.endsWith(QLatin1String(".kdenlive"))) {
+        } else if (name.endsWith(QLatin1String(".mlt")) || name.endsWith(QLatin1String(".kdenlive"))) {
             treeItem->setData(0, Qt::UserRole + 2, (int) LibraryItem::PlayList);
         } else {
             treeItem->setData(0, Qt::UserRole + 2, (int) LibraryItem::Clip);
@@ -615,5 +627,4 @@ void LibraryWidget::slotClearAll()
     m_libraryTree->clear();
     m_libraryTree->blockSignals(false);
 }
-
 

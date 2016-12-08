@@ -27,8 +27,8 @@ public:
     ~AudioCorrelationInfo();
 
     int size() const;
-    qint64* correlationVector();
-    qint64 const* correlationVector() const;
+    qint64 *correlationVector();
+    qint64 const *correlationVector() const;
 
     /**
       Returns the maximum value in the correlation vector.

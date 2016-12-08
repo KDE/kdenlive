@@ -13,11 +13,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QObject>
 
-
 /**
  * @class MltConnection
  * @brief Initializes MLT and provides access to its API
- * 
+ *
  * WIP…
  */
 
@@ -26,7 +25,7 @@ class MltConnection : public QObject
     Q_OBJECT
 
 public:
-    explicit MltConnection(QObject* parent = Q_NULLPTR);
+    explicit MltConnection(QObject *parent = Q_NULLPTR);
 
     /** @brief Locates the MLT environment.
      * @param mltPath (optional) path to MLT environment

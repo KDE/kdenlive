@@ -1,6 +1,6 @@
 /*
   Copyright : (C) 1990 Philip J. Schneider (pjs@apple.com)
-Solving the Nearest Point-on-Curve Problem 
+Solving the Nearest Point-on-Curve Problem
 and
 A Bezier Curve-Based Root-Finder
 by Philip J. Schneider
@@ -18,8 +18,8 @@ from "Graphics Gems", Academic Press, 1990
  * Basically, don't be a jerk, and remember that anything free comes with no guarantee.
 */
 
- /*     point_on_curve.c        */              
-                                                                        
+/*     point_on_curve.c        */
+
 #include "nearestpoint.h"
 
 #include <stdio.h>
@@ -31,19 +31,28 @@ from "Graphics Gems", Academic Press, 1990
 /*
  * Copied from ggveclib.c to avoid externs
  * Copyright:
-2d and 3d Vector C Library 
+2d and 3d Vector C Library
 by Andrew Glassner
 from "Graphics Gems", Academic Press, 1990
  */
 
-/* returns squared length of input vector */    
-double V2SquaredLength(Vector2 *a) { return((a->x * a->x)+(a->y * a->y)); }
+/* returns squared length of input vector */
+double V2SquaredLength(Vector2 *a)
+{
+    return ((a->x * a->x) + (a->y * a->y));
+}
 /* return the dot product of vectors a and b */
-double V2Dot(Vector2 *a, Vector2 *b) { return((a->x*b->x)+(a->y*b->y)); }
+double V2Dot(Vector2 *a, Vector2 *b)
+{
+    return ((a->x * b->x) + (a->y * b->y));
+}
 /* return vector difference c = a-b */
-Vector2 *V2Sub(Vector2 *a, Vector2 *b, Vector2 *c) { c->x = a->x-b->x;  c->y = a->y-b->y; return(c); }
-
-
+Vector2 *V2Sub(Vector2 *a, Vector2 *b, Vector2 *c)
+{
+    c->x = a->x - b->x;
+    c->y = a->y - b->y;
+    return (c);
+}
 
 /*
  *  Forward declarations
@@ -72,8 +81,8 @@ int             MAXDEPTH = 64;  /*  Maximum depth for recursion */
  */
 main()
 {
-   
- static Point2 bezCurve[4] = {  /*  A cubic Bezier curve        */
+
+    static Point2 bezCurve[4] = {  /*  A cubic Bezier curve        */
         { 0.0, 0.0 },
         { 1.0, 2.0 },
         { 3.0, 3.0 },
@@ -85,10 +94,9 @@ main()
     /*  Find the closest point */
     pointOnCurve = NearestPointOnCurve(arbPoint, bezCurve);
     printf("pointOnCurve : (%4.4f, %4.4f)\n", pointOnCurve.x,
-                pointOnCurve.y);
+           pointOnCurve.y);
 }
 #endif /* TESTMODE */
-
 
 /*
  *  NearestPointOnCurve :
@@ -102,7 +110,7 @@ Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut)
 //     Point2      *V;                     /* Control points of cubic Bezier */
 {
     Point2      *w;                     /* Ctl pts for 5th-degree eqn   */
-    double      t_candidate[W_DEGREE];  /* Possible roots               */     
+    double      t_candidate[W_DEGREE];  /* Possible roots               */
     int         n_solutions;            /* Number of roots found        */
     double      t;                      /* Parameter value of closest pt*/
 
@@ -126,7 +134,7 @@ Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut)
     /* Find distances for candidate points  */
     for (i = 0; i < n_solutions; ++i) {
         p = Bezier(V, DEGREE, t_candidate[i],
-                (Point2 *)NULL, (Point2 *)NULL);
+                   (Point2 *)NULL, (Point2 *)NULL);
         new_dist = V2SquaredLength(V2Sub(&P, &p, &v));
         if (new_dist < dist) {
             dist = new_dist;
@@ -146,7 +154,6 @@ Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut)
     return (Bezier(V, DEGREE, t, (Point2 *)NULL, (Point2 *)NULL));
 }
 
-
 /*
  *  ConvertToBezierForm :
  *              Given a point and a Bezier curve, generate a 5th-degree
@@ -159,7 +166,7 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
 {
     int         i, j, k, m, n;
     int         row, column;            /* Table indices                */
-    Vector2     c[DEGREE+1];            /* V(i)'s - P                   */
+    Vector2     c[DEGREE + 1];          /* V(i)'s - P                   */
     Vector2     d[DEGREE];              /* V(i+1) - V(i)                */
     Point2      *w;                     /* Ctl pts of 5th-degree curve  */
     double      cdTable[3][4];          /* Dot product of c, d          */
@@ -169,48 +176,46 @@ static Point2 *ConvertToBezierForm(Point2 P, Point2 *V)
         {0.1, 0.3, 0.6, 1.0},
     };
 
-
     /*Determine the c's -- these are vectors created by subtracting*/
     /* point P from each of the control points                          */
     for (i = 0; i <= DEGREE; ++i) {
-                V2Sub(&V[i], &P, &c[i]);
+        V2Sub(&V[i], &P, &c[i]);
     }
     /* Determine the d's -- these are vectors created by subtracting*/
     /* each control point from the next                                 */
-    for (i = 0; i <= DEGREE - 1; ++i) { 
-                d[i] = V2ScaleII(V2Sub(&V[i+1], &V[i], &d[i]), 3.0);
+    for (i = 0; i <= DEGREE - 1; ++i) {
+        d[i] = V2ScaleII(V2Sub(&V[i + 1], &V[i], &d[i]), 3.0);
     }
 
     /* Create the c,d table -- this is a table of dot products of the */
     /* c's and d's                                                      */
     for (row = 0; row <= DEGREE - 1; ++row) {
-                for (column = 0; column <= DEGREE; ++column) {
-                cdTable[row][column] = V2Dot(&d[row], &c[column]);
-                }
+        for (column = 0; column <= DEGREE; ++column) {
+            cdTable[row][column] = V2Dot(&d[row], &c[column]);
+        }
     }
 
     /* Now, apply the z's to the dot products, on the skew diagonal*/
     /* Also, set up the x-values, making these "points"         */
-    w = (Point2 *)malloc((unsigned)(W_DEGREE+1) * sizeof(Point2));
+    w = (Point2 *)malloc((unsigned)(W_DEGREE + 1) * sizeof(Point2));
     for (i = 0; i <= W_DEGREE; ++i) {
-                w[i].y = 0.0;
-                w[i].x = (double)(i) / W_DEGREE;
+        w[i].y = 0.0;
+        w[i].x = (double)(i) / W_DEGREE;
     }
 
     n = DEGREE;
-    m = DEGREE-1;
+    m = DEGREE - 1;
     for (k = 0; k <= n + m; ++k) {
-                int lb = MAX(0, k - m);
-                int ub = MIN(k, n);
-                for (i = lb; i <= ub; ++i) {
-                j = k - i;
-                w[i+j].y += cdTable[j][i] * z[j][i];
-                }
+        int lb = MAX(0, k - m);
+        int ub = MIN(k, n);
+        for (i = lb; i <= ub; ++i) {
+            j = k - i;
+            w[i + j].y += cdTable[j][i] * z[j][i];
+        }
     }
 
     return (w);
 }
-
 
 /*
  *  FindRoots :
@@ -223,56 +228,54 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
 //     int         degree;         /* The degree of the polynomial */
 //     double      *t;                     /* RETURN candidate t-values    */
 //     int         depth;          /* The depth of the recursion   */
-{  
+{
     int         i;
-    Point2      Left[W_DEGREE+1],       /* New left and right           */
-                Right[W_DEGREE+1];      /* control polygons             */
+    Point2      Left[W_DEGREE + 1],     /* New left and right           */
+                Right[W_DEGREE + 1];    /* control polygons             */
     int         left_count,             /* Solution count from          */
                 right_count;            /* children                     */
-    double      left_t[W_DEGREE+1] = {0},     /* Solutions from kids          */
-                right_t[W_DEGREE+1] = {0};
+    double      left_t[W_DEGREE + 1] = {0},   /* Solutions from kids          */
+                                       right_t[W_DEGREE + 1] = {0};
 
     switch (CrossingCount(w, degree)) {
-        case 0 :       /* No solutions here    */
-            return 0;  
+    case 0 :       /* No solutions here    */
+        return 0;
 
-        case 1 :       /* Unique solution      */
-            /* Stop recursion when the tree is deep enough      */
-            /* if deep enough, return 1 solution at midpoint    */
-            if (depth >= MAXDEPTH) {
-                t[0] = (w[0].x + w[W_DEGREE].x) / 2.0;
-                return 1;
-            }
-            if (ControlPolygonFlatEnough(w, degree)) {
-                t[0] = ComputeXIntercept(w, degree);
-                return 1;
-            }
-            break;
+    case 1 :       /* Unique solution      */
+        /* Stop recursion when the tree is deep enough      */
+        /* if deep enough, return 1 solution at midpoint    */
+        if (depth >= MAXDEPTH) {
+            t[0] = (w[0].x + w[W_DEGREE].x) / 2.0;
+            return 1;
+        }
+        if (ControlPolygonFlatEnough(w, degree)) {
+            t[0] = ComputeXIntercept(w, degree);
+            return 1;
+        }
+        break;
     }
 
     /* Otherwise, solve recursively after       */
     /* subdividing control polygon              */
     Bezier(w, degree, 0.5, Left, Right);
-    left_count  = FindRoots(Left,  degree, left_t, depth+1);
-    right_count = FindRoots(Right, degree, right_t, depth+1);
-
+    left_count  = FindRoots(Left,  degree, left_t, depth + 1);
+    right_count = FindRoots(Right, degree, right_t, depth + 1);
 
     /* Gather solutions together        */
     for (i = 0; i < left_count; ++i) {
         t[i] = left_t[i];
     }
     for (i = 0; i < right_count; ++i) {
-        t[i+left_count] = right_t[i];
+        t[i + left_count] = right_t[i];
     }
 
     /* Send back total number of solutions      */
-    return (left_count+right_count);
+    return (left_count + right_count);
 }
-
 
 /*
  * CrossingCount :
- *      Count the number of times a Bezier control polygon 
+ *      Count the number of times a Bezier control polygon
  *      crosses the 0-axis. This number is >= the number of roots.
  *
  */
@@ -280,20 +283,20 @@ static int CrossingCount(Point2 *V, int degree)
 //     Point2      *V;                     /*  Control pts of Bezier curve */
 //     int         degree;                 /*  Degreee of Bezier curve     */
 {
-    int         i;      
+    int         i;
     int         n_crossings = 0;        /*  Number of zero-crossings    */
     int         old_sign;               /*  Sign of coefficients        */
 
     old_sign = SGN(V[0].y);
     for (i = 1; i <= degree; ++i) {
-                int sign = SGN(V[i].y);
-                if (sign != old_sign) n_crossings++;
-                old_sign = sign;
+        int sign = SGN(V[i].y);
+        if (sign != old_sign) {
+            n_crossings++;
+        }
+        old_sign = sign;
     }
     return n_crossings;
 }
-
-
 
 /*
  *  ControlPolygonFlatEnough :
@@ -353,7 +356,7 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
             left_intercept,
             right_intercept;
     double  a, b, c;    /* Coefficients of implicit    */
-            /* eqn for line from V[0]-V[deg]*/
+    /* eqn for line from V[0]-V[deg]*/
     double  det, dInv;
     double  a1, b1, c1, a2, b2, c2;
 
@@ -370,8 +373,7 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
 
         if (value > max_distance_above) {
             max_distance_above = value;
-        }
-        else if (value < max_distance_below) {
+        } else if (value < max_distance_below) {
             max_distance_below = value;
         }
     }
@@ -387,7 +389,7 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
     c2 = c - max_distance_above;
 
     det = a1 * b2 - a2 * b1;
-    dInv = 1.0/det;
+    dInv = 1.0 / det;
 
     intercept_1 = (b1 * c2 - b2 * c1) * dInv;
 
@@ -397,7 +399,7 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
     c2 = c - max_distance_below;
 
     det = a1 * b2 - a2 * b1;
-    dInv = 1.0/det;
+    dInv = 1.0 / det;
 
     intercept_2 = (b1 * c2 - b2 * c1) * dInv;
 
@@ -407,15 +409,14 @@ static int ControlPolygonFlatEnough(Point2 *V, int degree)
 
     error = right_intercept - left_intercept;
 
-    return (error < EPSILON)? 1 : 0;
+    return (error < EPSILON) ? 1 : 0;
 }
-
 
 /*
  *  ComputeXIntercept :
  *      Compute intersection of chord from first control point to last
  *      with 0-axis.
- * 
+ *
  */
 /* NOTE: "T" and "Y" do not have to be computed, and there are many useless
  * operations in the following (e.g. "0.0 - 0.0").
@@ -436,25 +437,24 @@ static double ComputeXIntercept(Point2 *V, int degree)
     XMK = V[0].x - 0.0;
     YMK = V[0].y - 0.0;
 
-    det = XNM*YLK - YNM*XLK;
-    detInv = 1.0/det;
+    det = XNM * YLK - YNM * XLK;
+    detInv = 1.0 / det;
 
-    S = (XNM*YMK - YNM*XMK) * detInv;
-/*  T = (XLK*YMK - YLK*XMK) * detInv; */
+    S = (XNM * YMK - YNM * XMK) * detInv;
+    /*  T = (XLK*YMK - YLK*XMK) * detInv; */
 
     X = 0.0 + XLK * S;
-/*  Y = 0.0 + YLK * S; */
+    /*  Y = 0.0 + YLK * S; */
 
     return X;
 }
 
-
 /*
- *  Bezier : 
+ *  Bezier :
  *      Evaluate a Bezier curve at a particular parameter value
  *      Fill in control points for resulting sub-curves if "Left" and
  *      "Right" are non-null.
- * 
+ *
  */
 static Point2 Bezier(Point2 *V, int degree, double t, Point2 *Left, Point2 *Right)
 //     int         degree;         /* Degree of bezier curve       */
@@ -464,33 +464,32 @@ static Point2 Bezier(Point2 *V, int degree, double t, Point2 *Left, Point2 *Righ
 //     Point2      *Right;         /* RETURN right half ctl pts    */
 {
     int         i, j;           /* Index variables      */
-    Point2      Vtemp[W_DEGREE+1][W_DEGREE+1];
-
+    Point2      Vtemp[W_DEGREE + 1][W_DEGREE + 1];
 
     /* Copy control points      */
-    for (j =0; j <= degree; ++j) {
-                Vtemp[0][j] = V[j];
+    for (j = 0; j <= degree; ++j) {
+        Vtemp[0][j] = V[j];
     }
 
     /* Triangle computation     */
-    for (i = 1; i <= degree; ++i) {     
-                for (j =0 ; j <= degree - i; ++j) {
-                Vtemp[i][j].x =
-                        (1.0 - t) * Vtemp[i-1][j].x + t * Vtemp[i-1][j+1].x;
-                Vtemp[i][j].y =
-                        (1.0 - t) * Vtemp[i-1][j].y + t * Vtemp[i-1][j+1].y;
-                }
+    for (i = 1; i <= degree; ++i) {
+        for (j = 0; j <= degree - i; ++j) {
+            Vtemp[i][j].x =
+                (1.0 - t) * Vtemp[i - 1][j].x + t * Vtemp[i - 1][j + 1].x;
+            Vtemp[i][j].y =
+                (1.0 - t) * Vtemp[i - 1][j].y + t * Vtemp[i - 1][j + 1].y;
+        }
     }
-    
+
     if (Left != NULL) {
-                for (j = 0; j <= degree; ++j) {
-                Left[j]  = Vtemp[j][0];
-                }
+        for (j = 0; j <= degree; ++j) {
+            Left[j]  = Vtemp[j][0];
+        }
     }
     if (Right != NULL) {
-                for (j = 0; j <= degree; ++j) {
-                Right[j] = Vtemp[degree-j][j];
-                }
+        for (j = 0; j <= degree; ++j) {
+            Right[j] = Vtemp[degree - j][j];
+        }
     }
 
     return (Vtemp[degree][0]);

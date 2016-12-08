@@ -22,7 +22,6 @@
 #include "audioscopes/audiospectrum.h"
 #include "audioscopes/spectrogram.h"
 
-
 #include <QDockWidget>
 #include "klocalizedstring.h"
 
@@ -114,7 +113,6 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
     return added;
 }
 
-
 void ScopeManager::slotDistributeAudio(const audioShortVector &sampleData, int freq, int num_channels, int num_samples)
 {
 #ifdef DEBUG_SM
@@ -161,10 +159,10 @@ void ScopeManager::slotDistributeFrame(const QImage &image)
 
 void ScopeManager::slotScopeReady()
 {
-    if (m_lastConnectedRenderer)
+    if (m_lastConnectedRenderer) {
         m_lastConnectedRenderer->scopesClear();
+    }
 }
-
 
 void ScopeManager::slotRequestFrame(const QString &widgetName)
 {
@@ -186,15 +184,15 @@ void ScopeManager::slotRequestFrame(const QString &widgetName)
             break;
         }
     }
-    if (m_lastConnectedRenderer) m_lastConnectedRenderer->sendFrameUpdate();
+    if (m_lastConnectedRenderer) {
+        m_lastConnectedRenderer->sendFrameUpdate();
+    }
 }
-
 
 void ScopeManager::slotClearColorScopes()
 {
     m_lastConnectedRenderer = Q_NULLPTR;
 }
-
 
 void ScopeManager::slotUpdateActiveRenderer()
 {
@@ -208,7 +206,9 @@ void ScopeManager::slotUpdateActiveRenderer()
 
     m_lastConnectedRenderer = pCore->monitorManager()->activeRenderer();
     // DVD monitor shouldn't be monitored or will cause crash on deletion
-    if (pCore->monitorManager()->isActive(Kdenlive::DvdMonitor)) m_lastConnectedRenderer = Q_NULLPTR;
+    if (pCore->monitorManager()->isActive(Kdenlive::DvdMonitor)) {
+        m_lastConnectedRenderer = Q_NULLPTR;
+    }
 
     // Connect new renderer
     if (m_lastConnectedRenderer != Q_NULLPTR) {
@@ -230,7 +230,6 @@ void ScopeManager::slotUpdateActiveRenderer()
     }
 }
 
-
 void ScopeManager::slotCheckActiveScopes()
 {
 #ifdef DEBUG_SM
@@ -240,7 +239,6 @@ void ScopeManager::slotCheckActiveScopes()
     QTimer::singleShot(500, this, &ScopeManager::checkActiveAudioScopes);
     QTimer::singleShot(500, this, &ScopeManager::checkActiveColourScopes);
 }
-
 
 bool ScopeManager::audioAcceptedByScopes() const
 {
@@ -271,8 +269,6 @@ bool ScopeManager::imagesAcceptedByScopes() const
     return accepted;
 }
 
-
-
 void ScopeManager::checkActiveAudioScopes()
 {
     bool audioStillRequested = audioAcceptedByScopes();
@@ -295,16 +291,20 @@ void ScopeManager::checkActiveColourScopes()
 
     // Notify monitors whether frames are still required
     Monitor *monitor;
-    monitor = static_cast<Monitor*>( pCore->monitorManager()->monitor(Kdenlive::ProjectMonitor) );
+    monitor = static_cast<Monitor *>(pCore->monitorManager()->monitor(Kdenlive::ProjectMonitor));
     if (monitor != Q_NULLPTR) {
-	monitor->sendFrameForAnalysis(imageStillRequested);
+        monitor->sendFrameForAnalysis(imageStillRequested);
     }
 
-    monitor = static_cast<Monitor*>( pCore->monitorManager()->monitor(Kdenlive::ClipMonitor) );
-    if (monitor != Q_NULLPTR) { monitor->sendFrameForAnalysis(imageStillRequested); }
+    monitor = static_cast<Monitor *>(pCore->monitorManager()->monitor(Kdenlive::ClipMonitor));
+    if (monitor != Q_NULLPTR) {
+        monitor->sendFrameForAnalysis(imageStillRequested);
+    }
 
-    RecMonitor *recMonitor = static_cast<RecMonitor*>( pCore->monitorManager()->monitor(Kdenlive::RecordMonitor) );
-    if (recMonitor != Q_NULLPTR) { recMonitor->analyseFrames(imageStillRequested); }
+    RecMonitor *recMonitor = static_cast<RecMonitor *>(pCore->monitorManager()->monitor(Kdenlive::RecordMonitor));
+    if (recMonitor != Q_NULLPTR) {
+        recMonitor->analyseFrames(imageStillRequested);
+    }
 }
 
 void ScopeManager::createScopes()
@@ -319,7 +319,7 @@ void ScopeManager::createScopes()
     // createScopeDock(new AudioSpectrum(pCore->window()), i18n("AudioSpectrum"));
 }
 
-template <class T> void ScopeManager::createScopeDock(T* scopeWidget, const QString& title, const QString &name)
+template <class T> void ScopeManager::createScopeDock(T *scopeWidget, const QString &title, const QString &name)
 {
     QDockWidget *dock = pCore->window()->addDock(title, name, scopeWidget);
     addScope(scopeWidget, dock);
@@ -328,5 +328,4 @@ template <class T> void ScopeManager::createScopeDock(T* scopeWidget, const QStr
     // actual state will be restored by session management
     dock->close();
 }
-
 

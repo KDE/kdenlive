@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2011-2014 Meltytech, LLC
  * Author: Dan Dennedy <dan@dennedy.org>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -37,15 +37,15 @@ class QOpenGLFunctions_3_2_Core;
 //class QmlFilter;
 //class QmlMetadata;
 
-namespace Mlt {
+namespace Mlt
+{
 class Filter;
 }
 
 class RenderThread;
 class FrameRenderer;
 
-
-typedef void* ( *thread_function_t )( void* );
+typedef void *(*thread_function_t)(void *);
 
 class GLWidget : public QQuickView, protected QOpenGLFunctions
 {
@@ -58,24 +58,42 @@ public:
     GLWidget(int id, QObject *parent = Q_NULLPTR);
     ~GLWidget();
 
-    void createThread(RenderThread** thread, thread_function_t function, void* data);
+    void createThread(RenderThread **thread, thread_function_t function, void *data);
     void startGlsl();
     void stopGlsl();
     void clear();
     /** @brief Update producer, should ONLY be called from renderer.cpp */
-    int setProducer(Mlt::Producer* producer);
+    int setProducer(Mlt::Producer *producer);
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
     int reconfigure(Mlt::Profile *profile = Q_NULLPTR);
 
-    int displayWidth() const { return m_rect.width(); }
+    int displayWidth() const
+    {
+        return m_rect.width();
+    }
     void updateAudioForAnalysis();
-    int displayHeight() const { return m_rect.height(); }
+    int displayHeight() const
+    {
+        return m_rect.height();
+    }
 
-    QObject* videoWidget() { return this; }
-    Mlt::Filter* glslManager() const { return m_glslManager; }
-    QRect rect() const { return m_rect; }
-    QRect effectRect() const { return m_effectRect; }
+    QObject *videoWidget()
+    {
+        return this;
+    }
+    Mlt::Filter *glslManager() const
+    {
+        return m_glslManager;
+    }
+    QRect rect() const
+    {
+        return m_rect;
+    }
+    QRect effectRect() const
+    {
+        return m_effectRect;
+    }
     float zoom() const;
     float scale() const;
     QPoint offset() const;
@@ -97,9 +115,9 @@ public:
     void resetDrops();
 
 protected:
-    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
     void setZoom(float zoom);
@@ -111,7 +129,7 @@ public slots:
     void releaseAnalyse();
 
 signals:
-    void frameDisplayed(const SharedFrame& frame);
+    void frameDisplayed(const SharedFrame &frame);
     void textureUpdated();
     void dragStarted();
     void seekTo(int x);
@@ -127,7 +145,7 @@ signals:
     void mouseSeek(int eventDelta, int modifiers);
     void startDrag();
     void analyseFrame(QImage);
-    void audioSamplesSignal(const audioShortVector&,int,int,int);
+    void audioSamplesSignal(const audioShortVector &, int, int, int);
     void showContextMenu(const QPoint);
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
@@ -137,21 +155,21 @@ private:
     QRect m_rect;
     QRect m_effectRect;
     GLuint m_texture[3];
-    QOpenGLShaderProgram* m_shader;
+    QOpenGLShaderProgram *m_shader;
     QPoint m_dragStart;
-    Mlt::Filter* m_glslManager;
-    Mlt::Consumer* m_consumer;
-    Mlt::Producer* m_producer;
+    Mlt::Filter *m_glslManager;
+    Mlt::Consumer *m_consumer;
+    Mlt::Producer *m_producer;
     QSemaphore m_initSem;
     QSemaphore m_analyseSem;
     bool m_isInitialized;
-    Mlt::Event* m_threadStartEvent;
-    Mlt::Event* m_threadStopEvent;
-    Mlt::Event* m_threadCreateEvent;
-    Mlt::Event* m_threadJoinEvent;
-    Mlt::Event* m_displayEvent;
+    Mlt::Event *m_threadStartEvent;
+    Mlt::Event *m_threadStopEvent;
+    Mlt::Event *m_threadCreateEvent;
+    Mlt::Event *m_threadJoinEvent;
+    Mlt::Event *m_displayEvent;
     Mlt::Profile *m_monitorProfile;
-    FrameRenderer* m_frameRenderer;
+    FrameRenderer *m_frameRenderer;
     int m_projectionLocation;
     int m_modelViewLocation;
     int m_vertexLocation;
@@ -164,11 +182,11 @@ private:
     QMutex m_mutex;
     QPoint m_offset;
     QOffscreenSurface m_offscreenSurface;
-    QOpenGLContext* m_shareContext;
+    QOpenGLContext *m_shareContext;
     bool m_audioWaveDisplayed;
-    static void on_frame_show(mlt_consumer, void* self, mlt_frame frame);
-    static void on_gl_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr);
-    static void on_gl_nosync_frame_show(mlt_consumer, void* self, mlt_frame frame_ptr);
+    static void on_frame_show(mlt_consumer, void *self, mlt_frame frame);
+    static void on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
+    static void on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
     void createAudioOverlay(bool isAudio);
     void removeAudioOverlay();
     void adjustAudioOverlay(bool isAudio);
@@ -182,10 +200,10 @@ private slots:
     void onFrameDisplayed(const SharedFrame &frame);
 
 protected:
-    void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     void createShader();
 };
 
@@ -193,7 +211,7 @@ class RenderThread : public QThread
 {
     Q_OBJECT
 public:
-    RenderThread(thread_function_t function, void* data, QOpenGLContext *context, QSurface *surface);
+    RenderThread(thread_function_t function, void *data, QOpenGLContext *context, QSurface *surface);
     ~RenderThread();
 
 protected:
@@ -201,19 +219,25 @@ protected:
 
 private:
     thread_function_t m_function;
-    void* m_data;
-    QOpenGLContext* m_context;
-    QSurface* m_surface;
+    void *m_data;
+    QOpenGLContext *m_context;
+    QSurface *m_surface;
 };
 
 class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    explicit FrameRenderer(QOpenGLContext* shareContext, QSurface *surface);
+    explicit FrameRenderer(QOpenGLContext *shareContext, QSurface *surface);
     ~FrameRenderer();
-    QSemaphore* semaphore() { return &m_semaphore; }
-    QOpenGLContext* context() const { return m_context; }
+    QSemaphore *semaphore()
+    {
+        return &m_semaphore;
+    }
+    QOpenGLContext *context() const
+    {
+        return m_context;
+    }
     void clearFrame();
     Q_INVOKABLE void showFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLFrame(Mlt::Frame frame);
@@ -224,23 +248,21 @@ public slots:
 
 signals:
     void textureReady(GLuint yName, GLuint uName = 0, GLuint vName = 0);
-    void frameDisplayed(const SharedFrame& frame);
-    void audioSamplesSignal(const audioShortVector&,int,int,int);
+    void frameDisplayed(const SharedFrame &frame);
+    void audioSamplesSignal(const audioShortVector &, int, int, int);
 
 private:
     QSemaphore m_semaphore;
     SharedFrame m_frame;
     SharedFrame m_displayFrame;
-    QOpenGLContext* m_context;
-    QSurface* m_surface;
+    QOpenGLContext *m_context;
+    QSurface *m_surface;
 
 public:
     GLuint m_renderTexture[3];
     GLuint m_displayTexture[3];
-    QOpenGLFunctions_3_2_Core* m_gl32;
+    QOpenGLFunctions_3_2_Core *m_gl32;
     bool sendAudioForAnalysis;
 };
-
-
 
 #endif

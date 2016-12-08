@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -60,7 +59,6 @@ class KIconLoader;
 
 #define EXIT_RESTART (42)
 
-
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
@@ -76,7 +74,7 @@ public:
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
     explicit MainWindow(const QString &MltPath = QString(),
-                        const QUrl &Url = QUrl(), const QString & clipsToLoad = QString(), QWidget *parent = Q_NULLPTR);
+                        const QUrl &Url = QUrl(), const QString &clipsToLoad = QString(), QWidget *parent = Q_NULLPTR);
     virtual ~MainWindow();
 
     static EffectsList videoEffects;
@@ -85,8 +83,8 @@ public:
     static EffectsList transitions;
 
     /** @brief Cache for luma files thumbnails. */
-    static QMap <QString,QImage> m_lumacache;
-    static QMap <QString,QStringList> m_lumaFiles;
+    static QMap <QString, QImage> m_lumacache;
+    static QMap <QString, QStringList> m_lumaFiles;
 
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action);
@@ -105,7 +103,7 @@ public:
     QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
     // TODO make private again
-    QTabWidget* m_timelineArea;
+    QTabWidget *m_timelineArea;
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
     EffectStackView2 *m_effectStack;
@@ -113,10 +111,10 @@ public:
     /** @brief holds info about whether movit is available on this system */
     bool m_gpuAllowed;
     int m_exitCode;
-    QMap<QString, KActionCategory*> kdenliveCategoryMap;
+    QMap<QString, KActionCategory *> kdenliveCategoryMap;
     QList <QAction *> getExtraActions(const QString &name);
     /** @brief Returns true if docked widget is tabbed with another widget from its object name */
-    bool isTabbedWith(QDockWidget *widget, const QString & otherWidget);
+    bool isTabbedWith(QDockWidget *widget, const QString &otherWidget);
 
 protected:
     /** @brief Closes the window.
@@ -124,7 +122,7 @@ protected:
      *     the operation requested (starting waiting jobs or saving file) fails,
      *     true otherwise */
     bool queryClose() Q_DECL_OVERRIDE;
-    void closeEvent(QCloseEvent*) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *) Q_DECL_OVERRIDE;
 
     /** @brief Reports a message in the status bar when an error occurs. */
     void customEvent(QEvent *e) Q_DECL_OVERRIDE;
@@ -162,7 +160,7 @@ private:
 
     QDockWidget *m_recMonitorDock;
     RecMonitor *m_recMonitor;
-    
+
     AudioGraphSpectrum *m_audioSpectrum;
 
     QDockWidget *m_undoViewDock;
@@ -187,12 +185,11 @@ private:
     /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
     QStringList m_actionNames;
 
-
     /** @brief Shortcut to remove the focus from any element.
      *
      * It allows to get out of e.g. text input fields and to press another
      * shortcut. */
-    QShortcut* m_shortcutRemoveFocus;
+    QShortcut *m_shortcutRemoveFocus;
 
     RenderWidget *m_renderWidget;
     StatusBarMessageLabel *m_messageLabel;
@@ -264,7 +261,7 @@ public slots:
 
     void slotPreferences(int page = -1, int option = -1);
     void connectDocument();
-    void slotTimelineClipSelected(ClipItem* item, bool reloadStack = true);
+    void slotTimelineClipSelected(ClipItem *item, bool reloadStack = true);
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
     void updateDockTitleBars(bool isTopLevel = true);
@@ -344,12 +341,12 @@ private slots:
     void slotSelectAddTimelineTransition();
     void slotAddVideoEffect(QAction *result);
     void slotAddTransition(QAction *result);
-    void slotAddProjectClip(const QUrl &url,const QStringList &folderInfo);
+    void slotAddProjectClip(const QUrl &url, const QStringList &folderInfo);
     void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
     void slotActivateTransitionView(Transition *transition);
-    void slotChangeTool(QAction * action);
-    void slotChangeEdit(QAction * action);
+    void slotChangeTool(QAction *action);
+    void slotChangeEdit(QAction *action);
     void slotSetTool(ProjectTool tool);
     void slotSnapForward();
     void slotSnapRewind();
@@ -440,7 +437,7 @@ private slots:
     void slotDownloadResources();
 
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
-    void slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString& data);
+    void slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &data);
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
@@ -448,7 +445,7 @@ private slots:
     void slotReloadTheme();
     /** @brief Close Kdenlive and try to restart it */
     void slotRestart();
-    void triggerKey(QKeyEvent* ev);
+    void triggerKey(QKeyEvent *ev);
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);
     /** @brief Update widget style */
@@ -486,8 +483,7 @@ signals:
     void reloadTheme();
     void setPreviewProgress(int);
     void setRenderProgress(int);
-    void displayMessage(const QString &, MessageType,int);
+    void displayMessage(const QString &, MessageType, int);
 };
-
 
 #endif

@@ -37,7 +37,10 @@ public:
     {
     }
 
-    int value() { return m_value; }
+    int value()
+    {
+        return m_value;
+    }
 
     static const QEvent::Type Key;
     static const QEvent::Type Jog;
@@ -46,7 +49,6 @@ public:
 private:
     int m_value;
 };
-
 
 class ShuttleThread : public QThread
 {
@@ -63,16 +65,15 @@ private:
         MaxShuttleRange = 7
     };
 
-    void handleEvent(const media_ctrl_event& ev);
-    void jog(const media_ctrl_event& ev);
-    void shuttle(const media_ctrl_event& ev);
-    void key(const media_ctrl_event& ev);
+    void handleEvent(const media_ctrl_event &ev);
+    void jog(const media_ctrl_event &ev);
+    void shuttle(const media_ctrl_event &ev);
+    void key(const media_ctrl_event &ev);
 
     QString m_device;
     QObject *m_parent;
     volatile bool m_isRunning;
 };
-
 
 typedef QMap<QString, QString> DeviceMap;
 typedef QMap<QString, QString>::iterator DeviceMapIter;
@@ -81,16 +82,16 @@ class JogShuttle: public QObject
 {
     Q_OBJECT
 public:
-    explicit JogShuttle(const QString &device, QObject * parent = Q_NULLPTR);
+    explicit JogShuttle(const QString &device, QObject *parent = Q_NULLPTR);
     ~JogShuttle();
     void stopDevice();
     void initDevice(const QString &device);
-    static QString canonicalDevice(const QString& device);
-    static DeviceMap enumerateDevices(const QString& devPath);
-    static int keysCount(const QString& devPath);
+    static QString canonicalDevice(const QString &device);
+    static DeviceMap enumerateDevices(const QString &devPath);
+    static int keysCount(const QString &devPath);
 
 protected:
-    void customEvent(QEvent * e) Q_DECL_OVERRIDE;
+    void customEvent(QEvent *e) Q_DECL_OVERRIDE;
 
 private:
     ShuttleThread m_shuttleProcess;

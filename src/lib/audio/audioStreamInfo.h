@@ -26,7 +26,7 @@ public:
     int samplingRate() const;
     int channels() const;
     int bitrate() const;
-    const QString& samplingFormat() const;
+    const QString &samplingFormat() const;
     int audio_index() const;
     int ffmpeg_audio_index() const;
     void dumpInfo() const;

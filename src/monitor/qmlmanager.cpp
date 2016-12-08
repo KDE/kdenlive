@@ -19,8 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
-
 #include "qmlmanager.h"
 #include "qml/qmlaudiothumb.h"
 
@@ -33,11 +31,12 @@ QmlManager::QmlManager(QQuickView *view) :
 {
 }
 
-
 void QmlManager::enableAudioThumbs(bool enable)
 {
     QmlAudioThumb *audioThumbDisplay = m_view->rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
-    if (audioThumbDisplay) audioThumbDisplay->setProperty("stateVisible", enable);
+    if (audioThumbDisplay) {
+        audioThumbDisplay->setProperty("stateVisible", enable);
+    }
 }
 
 MonitorSceneType QmlManager::sceneType() const
@@ -62,55 +61,55 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     m_sceneType = type;
     QQuickItem *root;
     switch (type) {
-        case MonitorSceneGeometry:
-            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitoreffectscene.qml")));
-            root = m_view->rootObject();
-            QObject::connect(root, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
-            QObject::connect(root, SIGNAL(centersChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
-            root->setProperty("profile", QPoint(profile.width(), profile.height()));
-            root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
-            root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
-            root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
-            root->setProperty("center", displayRect.center());
-            break;
-        case MonitorSceneCorners:
-            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorcornerscene.qml")));
-            root = m_view->rootObject();
-            QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
-            root->setProperty("profile", QPoint(profile.width(), profile.height()));
-            root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
-            root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
-            root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
-            root->setProperty("stretch", profileStretch);
-            root->setProperty("center", displayRect.center());
-            break;
-        case MonitorSceneRoto:
-            //TODO
-            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorrotoscene.qml")));
-            root = m_view->rootObject();
-            QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectRotoChanged()), Qt::UniqueConnection);
-            root->setProperty("profile", QPoint(profile.width(), profile.height()));
-            root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
-            root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
-            root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
-            root->setProperty("stretch", profileStretch);
-            root->setProperty("center", displayRect.center());
-            break;
-        case MonitorSceneSplit:
-            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorsplit.qml")));
-            root = m_view->rootObject();
-            break;
-        case MonitorSceneRipple:
-            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorripple.qml")));
-            root = m_view->rootObject();
-            break;
-        default:
-            m_view->setSource(QUrl(id == Kdenlive::ClipMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
-            root = m_view->rootObject();
-            root->setProperty("profile", QPoint(profile.width(), profile.height()));
-            root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
-            root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
-            break;
+    case MonitorSceneGeometry:
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitoreffectscene.qml")));
+        root = m_view->rootObject();
+        QObject::connect(root, SIGNAL(effectChanged()), this, SLOT(effectRectChanged()), Qt::UniqueConnection);
+        QObject::connect(root, SIGNAL(centersChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
+        root->setProperty("profile", QPoint(profile.width(), profile.height()));
+        root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
+        root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
+        root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
+        root->setProperty("center", displayRect.center());
+        break;
+    case MonitorSceneCorners:
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorcornerscene.qml")));
+        root = m_view->rootObject();
+        QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
+        root->setProperty("profile", QPoint(profile.width(), profile.height()));
+        root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
+        root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
+        root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
+        root->setProperty("stretch", profileStretch);
+        root->setProperty("center", displayRect.center());
+        break;
+    case MonitorSceneRoto:
+        //TODO
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorrotoscene.qml")));
+        root = m_view->rootObject();
+        QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectRotoChanged()), Qt::UniqueConnection);
+        root->setProperty("profile", QPoint(profile.width(), profile.height()));
+        root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
+        root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
+        root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
+        root->setProperty("stretch", profileStretch);
+        root->setProperty("center", displayRect.center());
+        break;
+    case MonitorSceneSplit:
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorsplit.qml")));
+        root = m_view->rootObject();
+        break;
+    case MonitorSceneRipple:
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorripple.qml")));
+        root = m_view->rootObject();
+        break;
+    default:
+        m_view->setSource(QUrl(id == Kdenlive::ClipMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
+        root = m_view->rootObject();
+        root->setProperty("profile", QPoint(profile.width(), profile.height()));
+        root->setProperty("scalex", (double) displayRect.width() / profile.width() * zoom);
+        root->setProperty("scaley", (double) displayRect.width() / profileStretch / profile.width() * zoom);
+        break;
     }
 
     //m_glMonitor->setAudioThumb();
@@ -118,24 +117,30 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
 
 void QmlManager::effectRectChanged()
 {
-    if (!m_view->rootObject()) return;
+    if (!m_view->rootObject()) {
+        return;
+    }
     const QRect rect = m_view->rootObject()->property("framesize").toRect();
     emit effectChanged(rect);
 }
 
 void QmlManager::effectPolygonChanged()
 {
-    if (!m_view->rootObject()) return;
+    if (!m_view->rootObject()) {
+        return;
+    }
     QVariantList points = m_view->rootObject()->property("centerPoints").toList();
     emit effectPointsChanged(points);
 }
 
 void QmlManager::effectRotoChanged()
 {
-    if (!m_view->rootObject()) return;
+    if (!m_view->rootObject()) {
+        return;
+    }
     QVariantList points = m_view->rootObject()->property("centerPoints").toList();
     QVariantList controlPoints = m_view->rootObject()->property("centerPointsTypes").toList();
-    // rotoscoping effect needs a list of 
+    // rotoscoping effect needs a list of
     QVariantList mix;
     mix.reserve(points.count());
     for (int i = 0; i < points.count(); i++) {

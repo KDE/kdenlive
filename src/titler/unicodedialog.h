@@ -28,7 +28,7 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     /** \brief Contains the selected unicode character; emitted when Enter is pressed. */
-    void charSelected(const QString&);
+    void charSelected(const QString &);
 
 private:
     UnicodeWidget *mUnicodeWidget;
@@ -48,7 +48,7 @@ public:
     void showLastUnicode();
 
 protected:
-    void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 private:
     enum Direction { Forward, Backward };
@@ -61,7 +61,7 @@ private:
     /** \brief Removes all leading zeros */
     QString trimmedUnicodeNumber(QString text);
     /** \brief Checks whether the given string is a control character */
-    bool controlCharacter(const QString& text);
+    bool controlCharacter(const QString &text);
     /** \brief Checks whether the given uint is a control character */
     bool controlCharacter(uint value);
 
@@ -82,7 +82,7 @@ private:
 
 signals:
     /** \brief Contains the selected unicode character; emitted when Enter is pressed. */
-    void charSelected(const QString&);
+    void charSelected(const QString &);
 
 public slots:
     void slotReturnPressed();
@@ -92,7 +92,5 @@ private slots:
     void slotNextUnicode();
     void slotPrevUnicode();
 };
-
-
 
 #endif

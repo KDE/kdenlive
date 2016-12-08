@@ -26,12 +26,12 @@
 #include <QCursor>
 #include <QGraphicsView>
 
-OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem* parent) :
+OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem *parent) :
     QGraphicsRectItem(rect, parent)
-  , m_dar(dar)
-  , m_mode(NoAction)
-  , m_modified(false)
-  , m_view(Q_NULLPTR)
+    , m_dar(dar)
+    , m_mode(NoAction)
+    , m_modified(false)
+    , m_view(Q_NULLPTR)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -66,29 +66,30 @@ rectActions OnMonitorRectItem::getMode(const QPointF &pos)
     mouseArea.addRect(pos.x() - xsize / 2, pos.y() - ysize / 2, xsize, ysize);
 
     // Check for collisions between the mouse and the borders
-    if (mouseArea.contains(pol.at(0)))
+    if (mouseArea.contains(pol.at(0))) {
         return ResizeTopLeft;
-    else if (mouseArea.contains(pol.at(2)))
+    } else if (mouseArea.contains(pol.at(2))) {
         return ResizeBottomRight;
-    else if (mouseArea.contains(pol.at(1)))
+    } else if (mouseArea.contains(pol.at(1))) {
         return ResizeTopRight;
-    else if (mouseArea.contains(pol.at(3)))
+    } else if (mouseArea.contains(pol.at(3))) {
         return ResizeBottomLeft;
-    else if (top.intersects(mouseArea))
+    } else if (top.intersects(mouseArea)) {
         return ResizeTop;
-    else if (bottom.intersects(mouseArea))
+    } else if (bottom.intersects(mouseArea)) {
         return ResizeBottom;
-    else if (right.intersects(mouseArea))
+    } else if (right.intersects(mouseArea)) {
         return ResizeRight;
-    else if (left.intersects(mouseArea))
+    } else if (left.intersects(mouseArea)) {
         return ResizeLeft;
-    else if (rect().normalized().contains(pos))
+    } else if (rect().normalized().contains(pos)) {
         return Move;
-    else
+    } else {
         return NoAction;
+    }
 }
 
-void OnMonitorRectItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void OnMonitorRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
 
@@ -97,7 +98,7 @@ void OnMonitorRectItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
     m_mode = getMode(event->pos());
 }
 
-void OnMonitorRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void OnMonitorRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     /*if (event->buttons() != Qt::NoButton && (event->screenPos() - m_screenClickPoint).manhattanLength() < QApplication::startDragDistance()) {
      *   event->accept();
@@ -183,19 +184,22 @@ void OnMonitorRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             int diffHeight = qAbs(r.height() - m_oldRect.height());
 
             if (diffHeight != 0 || diffWidth != 0) {
-                if (diffWidth > diffHeight)
+                if (diffWidth > diffHeight) {
                     r.setBottom(r.width() / m_dar);
-                else
+                } else {
                     r.setRight(r.height() * m_dar);
+                }
 
                 // the rect's position changed
                 if (p - pos() != QPointF()) {
                     if (diffWidth > diffHeight) {
-                        if (m_mode != ResizeBottomLeft)
+                        if (m_mode != ResizeBottomLeft) {
                             setY(p.y() - r.height() + rect().normalized().height());
+                        }
                     } else {
-                        if (m_mode != ResizeTopRight)
+                        if (m_mode != ResizeTopRight) {
                             setX(p.x() - r.width() + rect().normalized().width());
+                        }
                     }
                 }
             }
@@ -215,7 +219,7 @@ void OnMonitorRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 }
 
-void OnMonitorRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void OnMonitorRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (m_modified) {
         m_modified = false;
@@ -224,7 +228,7 @@ void OnMonitorRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     event->accept();
 }
 
-void OnMonitorRectItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+void OnMonitorRectItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     switch (getMode(event->pos())) {
     case ResizeTopLeft:
@@ -252,7 +256,7 @@ void OnMonitorRectItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
     }
 }
 
-void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void OnMonitorRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget)
     Q_UNUSED(option)
@@ -272,7 +276,7 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         handle.moveBottomRight(r.bottomRight());
         painter->fillRect(handle, QColor(Qt::yellow));
     }
-    
+
     // Draw cross at center
     QPointF center = r.center();
     painter->drawLine(center + QPointF(-handle.width(), 0), center + QPointF(handle.width(), 0));
@@ -281,8 +285,9 @@ void OnMonitorRectItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
 bool OnMonitorRectItem::getView()
 {
-    if (m_view)
+    if (m_view) {
         return true;
+    }
 
     if (scene() && !scene()->views().isEmpty()) {
         m_view = scene()->views().first();
@@ -291,5 +296,4 @@ bool OnMonitorRectItem::getView()
         return false;
     }
 }
-
 

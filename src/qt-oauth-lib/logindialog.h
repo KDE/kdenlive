@@ -41,8 +41,9 @@
 #include <QString>
 #include <QUrl>
 
-namespace Ui {
-    class LoginDialog;
+namespace Ui
+{
+class LoginDialog;
 }
 
 /**
@@ -59,7 +60,7 @@ class LoginDialog : public QDialog
 public:
     explicit LoginDialog(QWidget *parent = Q_NULLPTR);
     ~LoginDialog();
-    void setLoginUrl(const QUrl& url);
+    void setLoginUrl(const QUrl &url);
 
     QString authCode() const;
 
@@ -83,7 +84,7 @@ signals:
     void useHQPreview();
 
 private slots:
-    void urlChanged(const QUrl& url);
+    void urlChanged(const QUrl &url);
 
     void slotGetHQPreview();
     void slotRejected();

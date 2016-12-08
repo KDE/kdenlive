@@ -80,7 +80,8 @@ public:
 
     }
 
-    QString message() const {
+    QString message() const
+    {
         return m_message;
     }
 
@@ -88,10 +89,9 @@ private:
     QString m_message;
 };
 
-
 class Render: public AbstractRender
 {
-    Q_OBJECT public:
+Q_OBJECT public:
 
     enum FailStates { OK = 0,
                       APP_NOEXIST
@@ -148,9 +148,9 @@ class Render: public AbstractRender
 
     /** @brief Plays the scene starting from a specific time.
      * @param startTime time to start playing the scene from */
-    void play(const GenTime & startTime);
-    bool playZone(const GenTime & startTime, const GenTime & stopTime);
-    void loopZone(const GenTime & startTime, const GenTime & stopTime);
+    void play(const GenTime &startTime);
+    bool playZone(const GenTime &startTime, const GenTime &stopTime);
+    void loopZone(const GenTime &startTime, const GenTime &stopTime);
 
     /** @brief Return true if we are currently playing */
     bool isPlaying() const;
@@ -164,7 +164,7 @@ class Render: public AbstractRender
     GenTime seekPosition() const;
     int seekFramePosition() const;
 
-    void emitFrameUpdated(Mlt::Frame&);
+    void emitFrameUpdated(Mlt::Frame &);
 
     double fps() const;
 
@@ -198,7 +198,7 @@ class Render: public AbstractRender
     /** @brief Sets an MLT consumer property. */
     void setConsumerProperty(const QString &name, const QString &value);
 
-    void showAudio(Mlt::Frame&);
+    void showAudio(Mlt::Frame &);
 
     QList<int> checkTrackSequence(int);
     void sendFrameUpdate() Q_DECL_OVERRIDE;
@@ -223,12 +223,12 @@ class Render: public AbstractRender
     void loadUrl(const QString &url);
     /** @brief Check if the installed FFmpeg / Libav supports x11grab */
     static bool checkX11Grab();
-    
-    /** @brief Get a track producer from a clip's id 
+
+    /** @brief Get a track producer from a clip's id
      *  Deprecated, track producers are now handled in timeline/track.cpp
      */
     Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString &id, int track, bool audioOnly = false, bool videoOnly = false);
-    
+
     /** @brief Ask to set this monitor as active */
     void setActiveMonitor();
 
@@ -259,8 +259,8 @@ private:
      * Useful to identify the renderers by what they do - e.g. background
      * rendering, workspace monitor, etc. */
     Kdenlive::MonitorId m_name;
-    Mlt::Consumer * m_mltConsumer;
-    Mlt::Producer * m_mltProducer;
+    Mlt::Consumer *m_mltConsumer;
+    Mlt::Producer *m_mltProducer;
     Mlt::Event *m_showFrameEvent;
     Mlt::Event *m_pauseEvent;
     BinController *m_binController;
@@ -325,12 +325,12 @@ signals:
     void rendererStopped(int);
 
     /** @brief A clip has changed, we must reload timeline producers. */
-    void replaceTimelineProducer(const QString&);
-    void updateTimelineProducer(const QString&);
+    void replaceTimelineProducer(const QString &);
+    void updateTimelineProducer(const QString &);
     /** @brief Load project notes. */
-    void setDocumentNotes(const QString&);
+    void setDocumentNotes(const QString &);
     /** @brief The renderer received a reply to a getFileProperties request. */
-    void gotFileProperties(requestClipInfo,ClipController *);
+    void gotFileProperties(requestClipInfo, ClipController *);
 
     /** @brief A frame's image has to be shown.
      *

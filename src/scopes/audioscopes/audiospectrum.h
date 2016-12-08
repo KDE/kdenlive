@@ -8,7 +8,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-
 #ifndef AUDIOSPECTRUM_H
 #define AUDIOSPECTRUM_H
 
@@ -35,7 +34,8 @@ class AudioSpectrum_UI;
 
    \todo Currently only supports one channel. Add support for multiple channels.
 */
-class AudioSpectrum : public AbstractAudioScopeWidget {
+class AudioSpectrum : public AbstractAudioScopeWidget
+{
     Q_OBJECT
 
 public:
@@ -44,7 +44,6 @@ public:
 
     // Implemented virtual methods
     QString widgetName() const Q_DECL_OVERRIDE;
-
 
 protected:
     ///// Implemented methods /////
@@ -91,7 +90,6 @@ private:
     long m_timeTotal;
     long m_showTotal;
 #endif
-
 
 private slots:
     void slotResetMaxFreq();

@@ -17,18 +17,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef DOCUMENTCHECKER_H
 #define DOCUMENTCHECKER_H
 
 #include "ui_missingclips_ui.h"
 #include "definitions.h"
 
-
 #include <QDir>
 #include <QUrl>
 #include <QDomElement>
-
 
 class DocumentChecker: public QObject
 {
@@ -80,7 +77,6 @@ private:
     void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers);
     void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl, const QDomNodeList &producers);
 };
-
 
 #endif
 

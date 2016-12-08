@@ -23,8 +23,6 @@ ColorTools::ColorTools(QObject *parent)
 {
 }
 
-
-
 QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &modifiedVersion, const bool &circleOnly)
 {
     QImage wheel(size, QImage::Format_ARGB32);
@@ -33,24 +31,24 @@ QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, cons
         return wheel;
     }
     if (circleOnly) {
-        wheel.fill(qRgba(0,0,0,0));
+        wheel.fill(qRgba(0, 0, 0, 0));
     }
 
     double dr, dg, db, dv, dmax;
     double ru, rv, rr;
     const int w = size.width();
     const int h = size.height();
-    const float w2 = (float)w/2;
-    const float h2 = (float)h/2;
+    const float w2 = (float)w / 2;
+    const float h2 = (float)h / 2;
 
     for (int u = 0; u < w; ++u) {
         // Transform u from {0,...,w} to [-1,1]
-        double du = (double) 2*u/(w-1) - 1;
-        du = scaling*du;
+        double du = (double) 2 * u / (w - 1) - 1;
+        du = scaling * du;
 
         for (int v = 0; v < h; ++v) {
-            dv = (double) 2*v/(h-1) - 1;
-            dv = scaling*dv;
+            dv = (double) 2 * v / (h - 1) - 1;
+            dv = scaling * dv;
 
             if (circleOnly) {
                 // Ellipsis equation: x²/a² + y²/b² = 1
@@ -58,23 +56,27 @@ QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, cons
                 // For rr > 1, the point lies outside. Don't draw it.
                 ru = u - w2;
                 rv = v - h2;
-                rr = ru*ru/(w2*w2) + rv*rv/(h2*h2);
+                rr = ru * ru / (w2 * w2) + rv * rv / (h2 * h2);
                 if (rr > 1) {
                     continue;
                 }
             }
 
             // Calculate the RGB values from YUV
-            dr = Y + 290.8*dv;
-            dg = Y - 100.6*du - 148*dv;
-            db = Y + 517.2*du;
+            dr = Y + 290.8 * dv;
+            dg = Y - 100.6 * du - 148 * dv;
+            db = Y + 517.2 * du;
 
             if (modifiedVersion) {
                 // Scale the RGB values down, or up, to max 255
                 dmax = fabs(dr);
-                if (fabs(dg) > dmax) dmax = fabs(dg);
-                if (fabs(db) > dmax) dmax = fabs(db);
-                dmax = 255/dmax;
+                if (fabs(dg) > dmax) {
+                    dmax = fabs(dg);
+                }
+                if (fabs(db) > dmax) {
+                    dmax = fabs(db);
+                }
+                dmax = 255 / dmax;
 
                 dr *= dmax;
                 dg *= dmax;
@@ -85,14 +87,26 @@ QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, cons
             // Note that not all possible (y,u,v) values with u,v \in [-1,1]
             // have a correct RGB representation, therefore some RGB values
             // may exceed {0,...,255}.
-            if (dr < 0) dr = 0;
-            if (dg < 0) dg = 0;
-            if (db < 0) db = 0;
-            if (dr > 255) dr = 255;
-            if (dg > 255) dg = 255;
-            if (db > 255) db = 255;
+            if (dr < 0) {
+                dr = 0;
+            }
+            if (dg < 0) {
+                dg = 0;
+            }
+            if (db < 0) {
+                db = 0;
+            }
+            if (dr > 255) {
+                dr = 255;
+            }
+            if (dg > 255) {
+                dg = 255;
+            }
+            if (db > 255) {
+                db = 255;
+            }
 
-            wheel.setPixel(u, (h-v-1), qRgba(dr, dg, db, 255));
+            wheel.setPixel(u, (h - v - 1), qRgba(dr, dg, db, 255));
         }
     }
 
@@ -111,32 +125,43 @@ QImage ColorTools::yuvVerticalPlane(const QSize &size, const float &angle, const
     double dr, dg, db, Y;
     const int w = size.width();
     const int h = size.height();
-    const double uscaling = scaling*cos(M_PI*angle/180);
-    const double vscaling = scaling*sin(M_PI*angle/180);
+    const double uscaling = scaling * cos(M_PI * angle / 180);
+    const double vscaling = scaling * sin(M_PI * angle / 180);
 
     for (int uv = 0; uv < w; ++uv) {
-        double du = uscaling*((double)2*uv/w - 1);//(double)?
-        double dv = vscaling*((double)2*uv/w - 1);
+        double du = uscaling * ((double)2 * uv / w - 1); //(double)?
+        double dv = vscaling * ((double)2 * uv / w - 1);
 
         for (int y = 0; y < h; ++y) {
-            Y = (double)255*y/h;
+            Y = (double)255 * y / h;
 
             // See yuv2rgb, yuvColorWheel
-            dr = Y + 290.8*dv;
-            dg = Y - 100.6*du - 148*dv;
-            db = Y + 517.2*du;
-            if (dr < 0) dr = 0;
-            if (dg < 0) dg = 0;
-            if (db < 0) db = 0;
-            if (dr > 255) dr = 255;
-            if (dg > 255) dg = 255;
-            if (db > 255) db = 255;
+            dr = Y + 290.8 * dv;
+            dg = Y - 100.6 * du - 148 * dv;
+            db = Y + 517.2 * du;
+            if (dr < 0) {
+                dr = 0;
+            }
+            if (dg < 0) {
+                dg = 0;
+            }
+            if (db < 0) {
+                db = 0;
+            }
+            if (dr > 255) {
+                dr = 255;
+            }
+            if (dg > 255) {
+                dg = 255;
+            }
+            if (db > 255) {
+                db = 255;
+            }
 
-            plane.setPixel(uv, (h-y-1), qRgba(dr, dg, db, 255));
+            plane.setPixel(uv, (h - y - 1), qRgba(dr, dg, db, 255));
 
         }
     }
-
 
     return plane;
 
@@ -159,28 +184,28 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB 
     double dx, dy;
 
     for (int x = 0; x < w; ++x) {
-        double dval = (double)255*x/(w-1);
+        double dval = (double)255 * x / (w - 1);
 
         for (int y = 0; y < h; ++y) {
-            dy = (double)y/(h-1);
-            dx = (double)x/(w-1);
+            dy = (double)y / (h - 1);
+            dx = (double)x / (w - 1);
 
-            if (1-scaling < 0.0001) {
-                dcol = (double)255*dy;
+            if (1 - scaling < 0.0001) {
+                dcol = (double)255 * dy;
             } else {
-                dcol = (double)255 * (dy - (dy-dx)*(1-scaling));
+                dcol = (double)255 * (dy - (dy - dx) * (1 - scaling));
             }
 
             if (color == ColorTools::COL_R) {
-                plane.setPixel(x, (h-y-1), qRgb(dcol, dval, dval));
+                plane.setPixel(x, (h - y - 1), qRgb(dcol, dval, dval));
             } else if (color == ColorTools::COL_G) {
-                plane.setPixel(x, (h-y-1), qRgb(dval, dcol, dval));
-            } else if (color == ColorTools::COL_B){
-                plane.setPixel(x, (h-y-1), qRgb(dval, dval, dcol));
+                plane.setPixel(x, (h - y - 1), qRgb(dval, dcol, dval));
+            } else if (color == ColorTools::COL_B) {
+                plane.setPixel(x, (h - y - 1), qRgb(dval, dval, dcol));
             } else if (color == ColorTools::COL_A) {
-                plane.setPixel(x, (h-y-1), qRgb(dcol / 255. * qRed(background), dcol / 255. * qGreen(background), dcol / 255. * qBlue(background)));
+                plane.setPixel(x, (h - y - 1), qRgb(dcol / 255. * qRed(background), dcol / 255. * qGreen(background), dcol / 255. * qBlue(background)));
             } else {
-                plane.setPixel(x, (h-y-1), qRgb(dcol, dcol, dcol));
+                plane.setPixel(x, (h - y - 1), qRgb(dcol, dcol, dcol));
             }
 
         }
@@ -197,52 +222,64 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, const unsigned char &Y, co
         return wheel;
     }
     if (circleOnly) {
-        wheel.fill(qRgba(0,0,0,0));
+        wheel.fill(qRgba(0, 0, 0, 0));
     }
 
     double dr, dg, db, dpR;
     double rB, rR, rr;
     const int w = size.width();
     const int h = size.height();
-    const float w2 = (float)w/2;
-    const float h2 = (float)h/2;
+    const float w2 = (float)w / 2;
+    const float h2 = (float)h / 2;
 
     for (int b = 0; b < w; ++b) {
         // Transform pB from {0,...,w} to [-0.5,0.5]
-        double dpB = (double) b/(w-1) - .5;
-        dpB = scaling*dpB;
+        double dpB = (double) b / (w - 1) - .5;
+        dpB = scaling * dpB;
 
         for (int r = 0; r < h; ++r) {
-            dpR = (double) r/(h-1) - .5;
-            dpR = scaling*dpR;
+            dpR = (double) r / (h - 1) - .5;
+            dpR = scaling * dpR;
 
             if (circleOnly) {
                 // see yuvColorWheel
                 rB = b - w2;
                 rR = r - h2;
-                rr = rB*rB/(w2*w2) + rR*rR/(h2*h2);
+                rr = rB * rB / (w2 * w2) + rR * rR / (h2 * h2);
                 if (rr > 1) {
                     continue;
                 }
             }
 
             // Calculate the RGB values from YPbPr
-            dr = Y + 357.5*dpR;
-            dg = Y - 87.75*dpB - 182.1*dpR;
-            db = Y + 451.86*dpB;
+            dr = Y + 357.5 * dpR;
+            dg = Y - 87.75 * dpB - 182.1 * dpR;
+            db = Y + 451.86 * dpB;
 
             // Avoid overflows (which would generate intersting patterns).
             // Note that not all possible (y,u,v) values with u,v \in [-1,1]
             // have a correct RGB representation, therefore some RGB values
             // may exceed {0,...,255}.
-            if (dr < 0) dr = 0;
-            if (dg < 0) dg = 0;
-            if (db < 0) db = 0;
-            if (dr > 255) dr = 255;
-            if (dg > 255) dg = 255;
-            if (db > 255) db = 255;
+            if (dr < 0) {
+                dr = 0;
+            }
+            if (dg < 0) {
+                dg = 0;
+            }
+            if (db < 0) {
+                db = 0;
+            }
+            if (dr > 255) {
+                dr = 255;
+            }
+            if (dg > 255) {
+                dg = 255;
+            }
+            if (db > 255) {
+                db = 255;
+            }
 
-            wheel.setPixel(b, (h-r-1), qRgba(dr, dg, db, 255));
+            wheel.setPixel(b, (h - r - 1), qRgba(dr, dg, db, 255));
         }
     }
 
@@ -265,14 +302,14 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
 
     QColor col(0, 0, 0);
 
-    const int hueValues = MAX-MIN;
+    const int hueValues = MAX - MIN;
 
     float huediff;
     int newhue;
     for (int x = 0; x < size.width(); ++x) {
-        float hue = x/(size.width() - 1.0) * 359;
+        float hue = x / (size.width() - 1.0) * 359;
         for (int y = 0; y < size.height(); ++y) {
-            huediff = (1.0f - y/(size.height() - 1.0)) * hueValues + MIN;
+            huediff = (1.0f - y / (size.height() - 1.0)) * hueValues + MIN;
 //            qCDebug(KDENLIVE_LOG) << "hue: " << hue << ", huediff: " << huediff;
 
             newhue = hue + huediff + 360; // Avoid negative numbers. Rest (>360) will be mapped correctly.
@@ -315,7 +352,6 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
         break;
     }*/
 
-
     QImage plane(size, QImage::Format_ARGB32);
 
     QColor col(0, 0, 0);
@@ -328,25 +364,25 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
     for (int x = 0; x < size.width(); ++x) {
         switch (xVariant) {
         case COM_H:
-            hue = x / (size.width()-1.0);
+            hue = x / (size.width() - 1.0);
             break;
         case COM_S:
-            sat = x / (size.width()-1.0);
+            sat = x / (size.width() - 1.0);
             break;
         case COM_V:
-            val = x / (size.width()-1.0);
+            val = x / (size.width() - 1.0);
             break;
         }
         for (int y = 0; y < size.height(); ++y) {
             switch (yVariant) {
             case COM_H:
-                hue = 1.0 - y / (size.height()-1.0);
+                hue = 1.0 - y / (size.height() - 1.0);
                 break;
             case COM_S:
-                sat = 1.0 - y / (size.height()-1.0);
+                sat = 1.0 - y / (size.height() - 1.0);
                 break;
             case COM_V:
-                val = 1.0 - y / (size.height()-1.0);
+                val = 1.0 - y / (size.height() - 1.0);
                 break;
             }
 
@@ -355,7 +391,7 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
             if (!shear) {
                 plane.setPixel(x, y, col.rgba());
             } else {
-                plane.setPixel(x, int(2*size.height() + y - x*size.width()/size.height() - offsetY * size.height()) % size.height(), col.rgba());
+                plane.setPixel(x, int(2 * size.height() + y - x * size.width() / size.height() - offsetY * size.height()) % size.height(), col.rgba());
             }
         }
     }
@@ -363,13 +399,4 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
     return plane;
 
 }
-
-
-
-
-
-
-
-
-
 

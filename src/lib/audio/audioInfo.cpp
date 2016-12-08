@@ -23,7 +23,7 @@ AudioInfo::AudioInfo(Mlt::Producer *producer)
     int streams = producer->get_int("meta.media.nb_streams");
     for (int i = 0; i < streams; ++i) {
         QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
-        const char* streamtype = producer->get(propertyName.data());
+        const char *streamtype = producer->get(propertyName.data());
         if (streamtype && strcmp("audio", streamtype) == 0) {
             m_list << new AudioStreamInfo(producer, i);
         }
@@ -42,7 +42,7 @@ int AudioInfo::size() const
     return m_list.size();
 }
 
-AudioStreamInfo const* AudioInfo::info(int pos) const
+AudioStreamInfo const *AudioInfo::info(int pos) const
 {
     Q_ASSERT(pos >= 0);
     Q_ASSERT(pos <= m_list.size());

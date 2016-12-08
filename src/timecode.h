@@ -43,8 +43,8 @@ public:
     ~Timecode();
 
     /** Returns the timecode for a given time */
-    QString getDisplayTimecode(const GenTime & time, bool frameDisplay) const;
-    QString getTimecode(const GenTime & time) const;
+    QString getDisplayTimecode(const GenTime &time, bool frameDisplay) const;
+    QString getTimecode(const GenTime &time) const;
     int getFrameCount(const QString &duration) const;
     static QString getStringTimecode(int frames, const double &fps, bool showFrames = false);
     const QString getDisplayTimecodeFromFrames(int frames, bool frameDisplay) const;
@@ -61,13 +61,13 @@ private:
     double m_dropFrames;
     int m_framesPer10Minutes;
 
-    const QString getTimecodeHH_MM_SS_FF(const GenTime & time) const;
+    const QString getTimecodeHH_MM_SS_FF(const GenTime &time) const;
     const QString getTimecodeHH_MM_SS_FF(int frames) const;
 
-    const QString getTimecodeHH_MM_SS_HH(const GenTime & time) const;
-    const QString getTimecodeFrames(const GenTime & time) const;
-    const QString getTimecodeSeconds(const GenTime & time) const;
-    const QString getTimecodeDropFrame(const GenTime & time) const;
+    const QString getTimecodeHH_MM_SS_HH(const GenTime &time) const;
+    const QString getTimecodeFrames(const GenTime &time) const;
+    const QString getTimecodeSeconds(const GenTime &time) const;
+    const QString getTimecodeDropFrame(const GenTime &time) const;
     const QString getTimecodeDropFrame(int framenumber) const;
 };
 

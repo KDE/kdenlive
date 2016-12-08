@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "monitormanager.h"
 #include "core.h"
 #include "renderer.h"
@@ -36,11 +35,11 @@
 #include "kdenlive_debug.h"
 
 MonitorManager::MonitorManager(QObject *parent) :
-        QObject(parent),
-        m_document(Q_NULLPTR),
-        m_clipMonitor(Q_NULLPTR),
-        m_projectMonitor(Q_NULLPTR),
-        m_activeMonitor(Q_NULLPTR)
+    QObject(parent),
+    m_document(Q_NULLPTR),
+    m_clipMonitor(Q_NULLPTR),
+    m_projectMonitor(Q_NULLPTR),
+    m_activeMonitor(Q_NULLPTR)
 {
     setupActions();
 }
@@ -68,13 +67,16 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     connect(m_projectMonitor->render, SIGNAL(activateMonitor(Kdenlive::MonitorId)), this, SLOT(activateMonitor(Kdenlive::MonitorId)));
     m_monitorsList.append(clipMonitor);
     m_monitorsList.append(projectMonitor);
-    if (recMonitor)
+    if (recMonitor) {
         m_monitorsList.append(recMonitor);
+    }
 }
 
 void MonitorManager::appendMonitor(AbstractMonitor *monitor)
 {
-    if (!m_monitorsList.contains(monitor)) m_monitorsList.append(monitor);
+    if (!m_monitorsList.contains(monitor)) {
+        m_monitorsList.append(monitor);
+    }
 }
 
 void MonitorManager::removeMonitor(AbstractMonitor *monitor)
@@ -82,36 +84,44 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
     m_monitorsList.removeAll(monitor);
 }
 
-AbstractMonitor* MonitorManager::monitor(Kdenlive::MonitorId monitorName)
+AbstractMonitor *MonitorManager::monitor(Kdenlive::MonitorId monitorName)
 {
     AbstractMonitor *monitor = Q_NULLPTR;
     for (int i = 0; i < m_monitorsList.size(); ++i) {
         if (m_monitorsList[i]->id() == monitorName) {
-        monitor = m_monitorsList.at(i);
-	}
+            monitor = m_monitorsList.at(i);
+        }
     }
     return monitor;
 }
 
 void MonitorManager::setConsumerProperty(const QString &name, const QString &value)
 {
-    if (m_clipMonitor) m_clipMonitor->render->setConsumerProperty(name, value);
-    if (m_projectMonitor) m_projectMonitor->render->setConsumerProperty(name, value);
+    if (m_clipMonitor) {
+        m_clipMonitor->render->setConsumerProperty(name, value);
+    }
+    if (m_projectMonitor) {
+        m_projectMonitor->render->setConsumerProperty(name, value);
+    }
 }
 
 void MonitorManager::lockMonitor(Kdenlive::MonitorId name, bool lock)
 {
     Q_UNUSED(name)
-    if (lock) m_refreshMutex.lock();
-    else m_refreshMutex.unlock();
+    if (lock) {
+        m_refreshMutex.lock();
+    } else {
+        m_refreshMutex.unlock();
+    }
 }
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh)
 {
-    if (m_clipMonitor == Q_NULLPTR || m_projectMonitor == Q_NULLPTR)
+    if (m_clipMonitor == Q_NULLPTR || m_projectMonitor == Q_NULLPTR) {
         return false;
+    }
     if (m_activeMonitor && m_activeMonitor->id() == name) {
-	if (forceRefresh) {
+        if (forceRefresh) {
             m_activeMonitor->start();
         }
         return false;
@@ -121,8 +131,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
     for (int i = 0; i < m_monitorsList.count(); ++i) {
         if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
-        }
-        else {
+        } else {
             m_monitorsList.at(i)->stop();
         }
     }
@@ -133,13 +142,12 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
             emit updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
             m_projectMonitor->displayAudioMonitor(false);
             m_clipMonitor->displayAudioMonitor(true);
-        }
-        else if (name == Kdenlive::ProjectMonitor) {
+        } else if (name == Kdenlive::ProjectMonitor) {
             emit updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
             m_clipMonitor->displayAudioMonitor(false);
             m_projectMonitor->displayAudioMonitor(true);
         }
-	m_activeMonitor->blockSignals(false);
+        m_activeMonitor->blockSignals(false);
         m_activeMonitor->start();
         // why?
         //updateAudioIcons();
@@ -156,31 +164,39 @@ void MonitorManager::resetDisplay()
 
 bool MonitorManager::isActive(Kdenlive::MonitorId id) const
 {
-    return m_activeMonitor ? m_activeMonitor->id() == id: false;
+    return m_activeMonitor ? m_activeMonitor->id() == id : false;
 }
 
 void MonitorManager::slotSwitchMonitors(bool activateClip)
 {
-    if (activateClip)
+    if (activateClip) {
         activateMonitor(Kdenlive::ClipMonitor);
-    else
+    } else {
         activateMonitor(Kdenlive::ProjectMonitor);
+    }
 }
 
 void MonitorManager::stopActiveMonitor()
 {
-    if (m_activeMonitor) m_activeMonitor->stop();
+    if (m_activeMonitor) {
+        m_activeMonitor->stop();
+    }
 }
 
 void MonitorManager::pauseActiveMonitor()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->pause();
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->pause();
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->pause();
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->pause();
+    }
 }
 
 void MonitorManager::slotPlay()
 {
-    if (m_activeMonitor) m_activeMonitor->slotPlay();
+    if (m_activeMonitor) {
+        m_activeMonitor->slotPlay();
+    }
 }
 
 void MonitorManager::slotPause()
@@ -190,62 +206,92 @@ void MonitorManager::slotPause()
 
 void MonitorManager::slotPlayZone()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotPlayZone();
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotPlayZone();
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotPlayZone();
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotPlayZone();
+    }
 }
 
 void MonitorManager::slotLoopZone()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotLoopZone();
-    else m_projectMonitor->slotLoopZone();
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotLoopZone();
+    } else {
+        m_projectMonitor->slotLoopZone();
+    }
 }
 
 void MonitorManager::slotRewind(double speed)
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotRewind(speed);
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotRewind(speed);
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotRewind(speed);
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotRewind(speed);
+    }
 }
 
 void MonitorManager::slotForward(double speed)
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotForward(speed);
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotForward(speed);
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotForward(speed);
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotForward(speed);
+    }
 }
 
 void MonitorManager::slotRewindOneFrame()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotRewindOneFrame();
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotRewindOneFrame();
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotRewindOneFrame();
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotRewindOneFrame();
+    }
 }
 
 void MonitorManager::slotForwardOneFrame()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotForwardOneFrame();
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotForwardOneFrame();
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotForwardOneFrame();
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotForwardOneFrame();
+    }
 }
 
 void MonitorManager::slotRewindOneSecond()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotRewindOneFrame(m_timecode.fps());
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotRewindOneFrame(m_timecode.fps());
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotRewindOneFrame(m_timecode.fps());
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotRewindOneFrame(m_timecode.fps());
+    }
 }
 
 void MonitorManager::slotForwardOneSecond()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotForwardOneFrame(m_timecode.fps());
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotForwardOneFrame(m_timecode.fps());
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotForwardOneFrame(m_timecode.fps());
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotForwardOneFrame(m_timecode.fps());
+    }
 }
 
 void MonitorManager::slotStart()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotStart();
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotStart();
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotStart();
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotStart();
+    }
 }
 
 void MonitorManager::slotEnd()
 {
-    if (m_activeMonitor == m_clipMonitor) m_clipMonitor->slotEnd();
-    else if (m_activeMonitor == m_projectMonitor) m_projectMonitor->slotEnd();
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotEnd();
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotEnd();
+    }
 }
 
 void MonitorManager::resetProfiles(const MltVideoProfile &profile, const Timecode &tc)
@@ -285,14 +331,16 @@ AbstractRender *MonitorManager::activeRenderer()
 
 void MonitorManager::slotSwitchFullscreen()
 {
-    if (m_activeMonitor) m_activeMonitor->slotSwitchFullScreen();
+    if (m_activeMonitor) {
+        m_activeMonitor->slotSwitchFullScreen();
+    }
 }
 
 QString MonitorManager::getProjectFolder() const
 {
     if (m_document == Q_NULLPTR) {
-    //qCDebug(KDENLIVE_LOG)<<" + + +Q_NULLPTR DOC!!";
-	return QString();
+        //qCDebug(KDENLIVE_LOG)<<" + + +Q_NULLPTR DOC!!";
+        return QString();
     }
     return m_document->projectDataFolder() + QDir::separator();
 }
@@ -316,52 +364,52 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("monitor_play"), playAction);
     connect(playAction, &QAction::triggered, this, &MonitorManager::slotPlay);
 
-    QAction * monitorPause = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-playback-stop")), i18n("Pause"), this);
+    QAction *monitorPause = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-playback-stop")), i18n("Pause"), this);
     monitorPause->setShortcut(Qt::Key_K);
     pCore->window()->addAction(QStringLiteral("monitor_pause"), monitorPause);
     connect(monitorPause, &QAction::triggered, this, &MonitorManager::slotPause);
-    
+
     QAction *fullMonitor = new QAction(i18n("Switch monitor fullscreen"), this);
     fullMonitor->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-fullscreen")));
     pCore->window()->addAction(QStringLiteral("monitor_fullscreen"), fullMonitor);
     connect(fullMonitor, &QAction::triggered, this, &MonitorManager::slotSwitchFullscreen);
 
-    QAction * monitorSeekBackward = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
+    QAction *monitorSeekBackward = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward);
     connect(monitorSeekBackward, SIGNAL(triggered(bool)), SLOT(slotRewind()));
 
-    QAction * monitorSeekBackwardOneFrame = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Frame"), this);
+    QAction *monitorSeekBackwardOneFrame = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Frame"), this);
     monitorSeekBackwardOneFrame->setShortcut(Qt::Key_Left);
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-frame"), monitorSeekBackwardOneFrame);
     connect(monitorSeekBackwardOneFrame, &QAction::triggered, this, &MonitorManager::slotRewindOneFrame);
 
-    QAction * monitorSeekBackwardOneSecond = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Second"), this);
+    QAction *monitorSeekBackwardOneSecond = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Second"), this);
     monitorSeekBackwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Left);
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-second"), monitorSeekBackwardOneSecond);
     connect(monitorSeekBackwardOneSecond, &QAction::triggered, this, &MonitorManager::slotRewindOneSecond);
 
-    QAction * monitorSeekForward = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
+    QAction *monitorSeekForward = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
     monitorSeekForward->setShortcut(Qt::Key_L);
     pCore->window()->addAction(QStringLiteral("monitor_seek_forward"), monitorSeekForward);
     connect(monitorSeekForward, SIGNAL(triggered(bool)), SLOT(slotForward()));
 
-    QAction * projectStart = new QAction(KoIconUtils::themedIcon(QStringLiteral("go-first")), i18n("Go to Project Start"), this);
+    QAction *projectStart = new QAction(KoIconUtils::themedIcon(QStringLiteral("go-first")), i18n("Go to Project Start"), this);
     projectStart->setShortcut(Qt::CTRL + Qt::Key_Home);
     pCore->window()->addAction(QStringLiteral("seek_start"), projectStart);
     connect(projectStart, &QAction::triggered, this, &MonitorManager::slotStart);
 
-    QAction * projectEnd = new QAction(KoIconUtils::themedIcon(QStringLiteral("go-last")), i18n("Go to Project End"), this);
+    QAction *projectEnd = new QAction(KoIconUtils::themedIcon(QStringLiteral("go-last")), i18n("Go to Project End"), this);
     projectEnd->setShortcut(Qt::CTRL + Qt::Key_End);
     pCore->window()->addAction(QStringLiteral("seek_end"), projectEnd);
     connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
 
-    QAction * monitorSeekForwardOneFrame = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")), i18n("Forward 1 Frame"), this);
+    QAction *monitorSeekForwardOneFrame = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")), i18n("Forward 1 Frame"), this);
     monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
     pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-frame"), monitorSeekForwardOneFrame);
     connect(monitorSeekForwardOneFrame, &QAction::triggered, this, &MonitorManager::slotForwardOneFrame);
 
-    QAction * monitorSeekForwardOneSecond = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")), i18n("Forward 1 Second"), this);
+    QAction *monitorSeekForwardOneSecond = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")), i18n("Forward 1 Second"), this);
     monitorSeekForwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Right);
     pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-second"), monitorSeekForwardOneSecond);
     connect(monitorSeekForwardOneSecond, &QAction::triggered, this, &MonitorManager::slotForwardOneSecond);
@@ -371,26 +419,36 @@ void MonitorManager::setupActions()
     interlace->addAction(i18n("Linear Blend (fast)"));
     interlace->addAction(i18n("YADIF - temporal only (good)"));
     interlace->addAction(i18n("YADIF - temporal + spacial (best)"));
-    if (KdenliveSettings::mltdeinterlacer() == QLatin1String("linearblend")) interlace->setCurrentItem(1);
-    else if (KdenliveSettings::mltdeinterlacer() == QLatin1String("yadif-temporal")) interlace->setCurrentItem(2);
-    else if (KdenliveSettings::mltdeinterlacer() == QLatin1String("yadif")) interlace->setCurrentItem(3);
-    else interlace->setCurrentItem(0);
+    if (KdenliveSettings::mltdeinterlacer() == QLatin1String("linearblend")) {
+        interlace->setCurrentItem(1);
+    } else if (KdenliveSettings::mltdeinterlacer() == QLatin1String("yadif-temporal")) {
+        interlace->setCurrentItem(2);
+    } else if (KdenliveSettings::mltdeinterlacer() == QLatin1String("yadif")) {
+        interlace->setCurrentItem(3);
+    } else {
+        interlace->setCurrentItem(0);
+    }
     pCore->window()->addAction(QStringLiteral("mlt_interlace"), interlace);
     connect(interlace, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetDeinterlacer);
-    
+
     KSelectAction *interpol = new KSelectAction(i18n("Interpolation"), this);
     interpol->addAction(i18n("Nearest Neighbor (fast)"));
     interpol->addAction(i18n("Bilinear (good)"));
     interpol->addAction(i18n("Bicubic (better)"));
     interpol->addAction(i18n("Hyper/Lanczos (best)"));
-    if (KdenliveSettings::mltinterpolation() == QLatin1String("bilinear")) interpol->setCurrentItem(1);
-    else if (KdenliveSettings::mltinterpolation() == QLatin1String("bicubic")) interpol->setCurrentItem(2);
-    else if (KdenliveSettings::mltinterpolation() == QLatin1String("hyper")) interpol->setCurrentItem(3);
-    else interpol->setCurrentItem(0);
+    if (KdenliveSettings::mltinterpolation() == QLatin1String("bilinear")) {
+        interpol->setCurrentItem(1);
+    } else if (KdenliveSettings::mltinterpolation() == QLatin1String("bicubic")) {
+        interpol->setCurrentItem(2);
+    } else if (KdenliveSettings::mltinterpolation() == QLatin1String("hyper")) {
+        interpol->setCurrentItem(3);
+    } else {
+        interpol->setCurrentItem(0);
+    }
     pCore->window()->addAction(QStringLiteral("mlt_interpolation"), interpol);
     connect(interpol, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetInterpolation);
 
-    QAction * zoneStart = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-backward")), i18n("Go to Zone Start"), this);
+    QAction *zoneStart = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-backward")), i18n("Go to Zone Start"), this);
     zoneStart->setShortcut(Qt::SHIFT + Qt::Key_I);
     pCore->window()->addAction(QStringLiteral("seek_zone_start"), zoneStart);
     connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);
@@ -401,7 +459,7 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("mlt_mute"), m_muteAction);
     connect(m_muteAction, &KDualAction::activeChanged, this, &MonitorManager::slotMuteCurrentMonitor);
 
-    QAction * zoneEnd = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-forward")), i18n("Go to Zone End"), this);
+    QAction *zoneEnd = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-forward")), i18n("Go to Zone End"), this);
     zoneEnd->setShortcut(Qt::SHIFT + Qt::Key_O);
     pCore->window()->addAction(QStringLiteral("seek_zone_end"), zoneEnd);
     connect(zoneEnd, &QAction::triggered, this, &MonitorManager::slotZoneEnd);
@@ -423,12 +481,13 @@ void MonitorManager::refreshIcons()
     for (int i = 0; i < allMenus.count(); i++) {
         QAction *m = allMenus.at(i);
         QIcon ic = m->icon();
-        if (ic.isNull() || ic.name().isEmpty()) continue;
+        if (ic.isNull() || ic.name().isEmpty()) {
+            continue;
+        }
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
     }
 }
-
 
 void MonitorManager::slotSetDeinterlacer(int ix)
 {
@@ -476,30 +535,32 @@ void MonitorManager::slotMuteCurrentMonitor(bool active)
     m_activeMonitor->mute(active);
 }
 
-Monitor* MonitorManager::clipMonitor()
+Monitor *MonitorManager::clipMonitor()
 {
     return m_clipMonitor;
 }
 
-Monitor* MonitorManager::projectMonitor()
+Monitor *MonitorManager::projectMonitor()
 {
     return m_projectMonitor;
 }
 
 void MonitorManager::slotZoneStart()
 {
-    if (m_activeMonitor == m_clipMonitor)
+    if (m_activeMonitor == m_clipMonitor) {
         m_clipMonitor->slotZoneStart();
-    else if (m_activeMonitor == m_projectMonitor)
+    } else if (m_activeMonitor == m_projectMonitor) {
         m_projectMonitor->slotZoneStart();
+    }
 }
 
 void MonitorManager::slotZoneEnd()
 {
-    if (m_activeMonitor == m_projectMonitor)
+    if (m_activeMonitor == m_projectMonitor) {
         m_projectMonitor->slotZoneEnd();
-    else if (m_activeMonitor == m_clipMonitor)
+    } else if (m_activeMonitor == m_clipMonitor) {
         m_clipMonitor->slotZoneEnd();
+    }
 }
 
 void MonitorManager::slotSetInPoint()
@@ -526,7 +587,8 @@ void MonitorManager::slotSetOutPoint()
 QDir MonitorManager::getCacheFolder(CacheType type)
 {
     bool ok = false;
-    if (m_document)
+    if (m_document) {
         return m_document->getCacheDir(type, &ok);
+    }
     return QDir();
 }

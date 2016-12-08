@@ -73,7 +73,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 signals:
-    void doKeyPressEvent(QKeyEvent*);
+    void doKeyPressEvent(QKeyEvent *);
 };
 
 class Monitor : public AbstractMonitor
@@ -103,7 +103,7 @@ public:
     void setGuides(const QMap<double, QString> &guides);
     void reloadProducer(const QString &id);
     /** @brief Reimplemented from QWidget, updates the palette colors. */
-    void setPalette ( const QPalette & p);
+    void setPalette(const QPalette &p);
     /** @brief Returns a hh:mm:ss timecode from a frame number. */
     QString getTimecodeFromFrames(int pos);
     /** @brief Returns current project's fps. */
@@ -154,21 +154,21 @@ public:
     void silentSeek(int pos);
 
 protected:
-    void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
     /** @brief Move to another position on mouse wheel event.
      *
      * Moves towards the end of the clip/timeline on mouse wheel down/back, the
      * opposite on mouse wheel up/forward.
      * Ctrl + wheel moves by a second, without Ctrl it moves by a single frame. */
-    void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void enterEvent(QEvent * event) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent * event) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
     virtual QStringList mimeTypes() const;
 
 private:
@@ -247,7 +247,7 @@ private slots:
     void slotSetVolume(int volume);
     void slotEditMarker();
     void slotExtractCurrentZone();
-    void onFrameDisplayed(const SharedFrame& frame);
+    void onFrameDisplayed(const SharedFrame &frame);
     void slotStartDrag();
     void setZoom();
     void slotEnableEffectScene(bool enable);
@@ -256,13 +256,13 @@ private slots:
     void slotForceSize(QAction *a);
     void slotSeekToKeyFrame();
     /** @brief Display a non blocking error message to user **/
-    void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList <QAction*>());
+    void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList <QAction *>());
     void slotLockMonitor(bool lock);
     void slotAddEffect(const QDomElement &effect);
     void slotSwitchPlay();
     void slotEditInlineMarker();
     /** @brief Pass keypress event to mainwindow */
-    void doKeyPressEvent(QKeyEvent*);
+    void doKeyPressEvent(QKeyEvent *);
     /** @brief The timecode was updated, refresh qml display */
     void slotUpdateQmlTimecode(const QString &tc);
     /** @brief There was an error initializing Movit */
@@ -328,7 +328,7 @@ signals:
     void renderPosition(int);
     void durationChanged(int);
     void refreshClipThumbnail(const QString &);
-    void zoneUpdated(const QPoint&);
+    void zoneUpdated(const QPoint &);
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);
@@ -342,12 +342,12 @@ signals:
     void seekToPreviousKeyframe();
     void seekToKeyframe(int);
     void addClipToProject(QUrl);
-    void showConfigDialog(int,int);
+    void showConfigDialog(int, int);
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
     void addEffect(QDomElement);
-    void addMasterEffect(QString,QDomElement);
-    void passKeyPress(QKeyEvent*);
+    void addMasterEffect(QString, QDomElement);
+    void passKeyPress(QKeyEvent *);
     /** @brief Update the text of a clip marker. */
     void updateClipMarker(QString, QList<CommentedTime>);
     /** @brief Update the text of a timeline guide. */

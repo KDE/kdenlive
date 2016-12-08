@@ -138,8 +138,9 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
     // Make sure edited param is painted last
     paramNames.append(m_inTimeline);
     foreach (const QString &paramName, paramNames) {
-        if (m_notInTimeline.contains(paramName))
+        if (m_notInTimeline.contains(paramName)) {
             continue;
+        }
         ParameterInfo info = m_paramInfos.value(paramName);
         if (info.max == info.min) {
             // this is probably an animated rect
@@ -888,8 +889,9 @@ bool KeyframeView::loadKeyframes(const QLocale &locale, const QDomElement &effec
             continue;
         }
         QString type = e.attribute(QStringLiteral("type"));
-        if (!keyframeTypes.contains(type))
+        if (!keyframeTypes.contains(type)) {
             continue;
+        }
         QString paramName = e.attribute(QStringLiteral("name"));
         ParameterInfo info;
         info.factor = locale.toDouble(e.attribute(QStringLiteral("factor")));
