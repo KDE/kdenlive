@@ -3653,7 +3653,7 @@ void MainWindow::slotDownloadResources()
     else
         currentFolder = KdenliveSettings::defaultprojectfolder();
     ResourceWidget *d = new ResourceWidget(currentFolder);
-    connect(d, SIGNAL(addClip(QUrl)), this, SLOT(slotAddProjectClip(QUrl)));
+    connect(d, SIGNAL(addClip(QUrl,QStringList)), this, SLOT(slotAddProjectClip(QUrl,QStringList)));
     d->show();
 }
 

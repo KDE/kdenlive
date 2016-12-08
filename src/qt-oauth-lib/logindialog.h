@@ -84,6 +84,8 @@ signals:
 private slots:
     void urlChanged(const QUrl& url);
 
+    void slotGetHQPreview();
+    void slotRejected();
 private:
     Ui::LoginDialog *ui;
     QString m_strAuthCode;
