@@ -113,7 +113,7 @@ private:
     void DoFileDownload(QUrl srcUrl, QUrl saveUrl);
 
 signals:
-    void addClip(const QUrl&);
+    void addClip(const QUrl&, const QStringList &);
 };
 
 
