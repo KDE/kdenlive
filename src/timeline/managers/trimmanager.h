@@ -68,7 +68,7 @@ private:
     void closeRipple();
 
 signals:
-    void updateTrimMode(const QString);
+    void updateTrimMode(const QString &);
 };
 
 #endif
