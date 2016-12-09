@@ -198,7 +198,7 @@ private:
     QTimer m_timer;
     KMessageWidget *m_infoWidget;
     ProjectManager *m_manager;
-    QList <QTreeWidgetItem *> m_folders;
+    QList<QTreeWidgetItem *> m_folders;
     KIO::PreviewJob *m_previewJob;
     KCoreDirLister *m_coreLister;
     QMutex m_treeMutex;

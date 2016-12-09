@@ -226,7 +226,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     effectsMenu->addAction(brightEffect);
     effectsMenu->addAction(invertEffect);
     effectsMenu->addAction(thresEffect);
-    QList <QAction *> list = effectsMenu->actions();
+    QList<QAction *> list = effectsMenu->actions();
     for (int i = 0; i < list.count(); ++i) {
         list.at(i)->setCheckable(true);
         if (list.at(i)->data().toInt() == m_effectIndex) {

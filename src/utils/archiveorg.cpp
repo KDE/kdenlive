@@ -95,17 +95,17 @@ void ArchiveOrg::slotShowResults(KJob *job)
 
     QVariant sounds;
     if (data.canConvert(QVariant::Map)) {
-        QMap <QString, QVariant> map = data.toMap();
+        QMap<QString, QVariant> map = data.toMap();
         QMap<QString, QVariant>::const_iterator i = map.constBegin();
         while (i != map.constEnd()) {
             if (i.key() == QLatin1String("response")) {
                 sounds = i.value();
                 if (sounds.canConvert(QVariant::Map)) {
-                    QMap <QString, QVariant> soundsList = sounds.toMap();
+                    QMap<QString, QVariant> soundsList = sounds.toMap();
                     if (soundsList.contains(QStringLiteral("numFound"))) {
                         emit searchInfo(i18np("Found %1 result", "Found %1 results", soundsList.value("numFound").toInt()));
                     }
-                    QList <QVariant> resultsList;
+                    QList<QVariant> resultsList;
                     if (soundsList.contains(QStringLiteral("docs"))) {
                         resultsList = soundsList.value(QStringLiteral("docs")).toList();
                         /* docs element has a sub element for each search result. And each of the sub elements look like:
@@ -119,7 +119,7 @@ void ArchiveOrg::slotShowResults(KJob *job)
 
                     for (int j = 0; j < resultsList.count(); ++j) {
                         if (resultsList.at(j).canConvert(QVariant::Map)) {
-                            QMap <QString, QVariant> soundmap = resultsList.at(j).toMap();
+                            QMap<QString, QVariant> soundmap = resultsList.at(j).toMap();
                             if (soundmap.contains(QStringLiteral("title"))) {
                                 QListWidgetItem *item = new   QListWidgetItem(soundmap.value(QStringLiteral("title")).toString(), m_listWidget);
                                 item->setData(descriptionRole, soundmap.value(QStringLiteral("description")).toString());
@@ -207,7 +207,7 @@ void ArchiveOrg::slotParseResults(KJob *job)
     QString html = QStringLiteral("<style type=\"text/css\">tr.cellone {background-color: %1;}").arg(qApp->palette().alternateBase().color().name());
     html += QLatin1String("</style><table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">");
     if (data.canConvert(QVariant::Map)) {
-        QMap <QString, QVariant> map = data.toMap();
+        QMap<QString, QVariant> map = data.toMap();
         QMap<QString, QVariant>::const_iterator i = map.constBegin();
         while (i != map.constEnd()) {
             //   qCDebug(KDENLIVE_LOG)<<"ArchiveOrg::slotParseResults - i.key"<<  i.key();
@@ -220,7 +220,7 @@ void ArchiveOrg::slotParseResults(KJob *job)
                 QString minsLong;
                 files = i.value();
                 if (files.canConvert(QVariant::Map)) {
-                    QMap <QString, QVariant> filesList = files.toMap();
+                    QMap<QString, QVariant> filesList = files.toMap();
                     QMap<QString, QVariant>::const_iterator j = filesList.constBegin();
                     bool bThumbNailFound = false;
                     while (j != filesList.constEnd()) {
@@ -228,7 +228,7 @@ void ArchiveOrg::slotParseResults(KJob *job)
                         sDownloadUrl = "https://archive.org/download/" + m_metaInfo.value(QStringLiteral("id")) + j.key();
                         fileMetaData = j.value();
                         if (fileMetaData.canConvert(QVariant::Map)) {
-                            QMap <QString, QVariant> filesMetaDataList = fileMetaData.toMap();
+                            QMap<QString, QVariant> filesMetaDataList = fileMetaData.toMap();
                             QMap<QString, QVariant>::const_iterator k = filesMetaDataList.constBegin();
                             while (k != filesMetaDataList.constEnd()) {
                                 // qCDebug(KDENLIVE_LOG)<< k.key()<<": "<<k.value().toString();

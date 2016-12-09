@@ -310,9 +310,9 @@ void Track::replaceId(const QString &id)
     }
 }
 
-QList <Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
+QList<Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
 {
-    QList <Track::SlowmoInfo> list;
+    QList<Track::SlowmoInfo> list;
     QLocale locale;
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
@@ -331,7 +331,7 @@ QList <Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
     return list;
 }
 
-QList <ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, const QMap <QString, Mlt::Producer *> &newSlowMos)
+QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, const QMap<QString, Mlt::Producer *> &newSlowMos)
 {
     QString idForAudioTrack;
     QString idForVideoTrack;
@@ -346,7 +346,7 @@ QList <ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, M
     }
     Mlt::Producer *trackProducer = Q_NULLPTR;
     Mlt::Producer *audioTrackProducer = Q_NULLPTR;
-    QList <ItemInfo> replaced;
+    QList<ItemInfo> replaced;
     Mlt::ClipInfo *info = new Mlt::ClipInfo();
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
@@ -971,9 +971,9 @@ bool Track::moveTrackEffect(int oldPos, int newPos)
     return effect.moveEffect(oldPos, newPos);
 }
 
-QList <QPoint> Track::visibleClips()
+QList<QPoint> Track::visibleClips()
 {
-    QList <QPoint> clips;
+    QList<QPoint> clips;
     int tkState = state();
     if (tkState & 1) {
         // Video is hidden for this track, nothing visible

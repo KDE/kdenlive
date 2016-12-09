@@ -1906,7 +1906,7 @@ void TitleWidget::saveTitle(QUrl url)
     bool embed_image = false;
 
     // If we have images in the title, ask for embed
-    QList <QGraphicsItem *> list = graphicsView->scene()->items();
+    QList<QGraphicsItem *> list = graphicsView->scene()->items();
     QGraphicsPixmapItem pix;
     int pixmapType = pix.type();
     foreach (const QGraphicsItem *item, list) {
@@ -1966,7 +1966,7 @@ void TitleWidget::setXml(const QDomDocument &doc)
 
     QDomElement e = doc.documentElement();
     m_transformations.clear();
-    QList <QGraphicsItem *> items = graphicsView->scene()->items();
+    QList<QGraphicsItem *> items = graphicsView->scene()->items();
     const double PI = 4.0 * atan(1.0);
     for (int i = 0; i < items.count(); ++i) {
         QTransform t = items.at(i)->transform();
@@ -2841,7 +2841,7 @@ void TitleWidget::slotEditGradient()
     if (d.exec() == QDialog::Accepted) {
         // Save current gradients
         QMap<QString, QString> gradients = d.gradients();
-        QList <QIcon> icons = d.icons();
+        QList<QIcon> icons = d.icons();
         QMap<QString, QString>::const_iterator i = gradients.constBegin();
         KSharedConfigPtr config = KSharedConfig::openConfig();
         KConfigGroup group(config, "TitleGradients");

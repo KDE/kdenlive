@@ -96,15 +96,15 @@ private slots:
 
 private:   // Private attributes
     /** @brief the list of groups in the document */
-    QList <AbstractGroupItem *> m_groupsList;
+    QList<AbstractGroupItem *> m_groupsList;
     QMap<QString, QString> m_folderList;
-    QList <QString> m_audioThumbsQueue;
+    QList<QString> m_audioThumbsQueue;
     /** the document undo stack*/
     KdenliveDoc *m_doc;
     /** List of the clip IDs that need to be reloaded after being externally modified */
-    QMap <QString, QTime> m_modifiedClips;
+    QMap<QString, QTime> m_modifiedClips;
     /** Struct containing the list of clip thumbnails to request (clip id and frames) */
-    QMap <QString, int> m_requestedThumbs;
+    QMap<QString, int> m_requestedThumbs;
     QMutex m_thumbsMutex;
     QFuture<void> m_thumbsThread;
     /** @brief The id of currently processed clip for thumbs creation. */

@@ -151,7 +151,7 @@ void EditFolderCommand::redo()
     //if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
 }
 
-AddMarkerCommand::AddMarkerCommand(ProjectClip *clip, QList <CommentedTime> &oldMarkers, QList <CommentedTime> &newMarkers, QUndoCommand *parent) :
+AddMarkerCommand::AddMarkerCommand(ProjectClip *clip, QList<CommentedTime> &oldMarkers, QList<CommentedTime> &newMarkers, QUndoCommand *parent) :
     QUndoCommand(parent),
     m_clip(clip),
     m_oldMarkers(oldMarkers),

@@ -286,9 +286,9 @@ const QString ProxyJob::statusMessage()
 }
 
 // static
-QList <ProjectClip *> ProxyJob::filterClips(const QList <ProjectClip *> &clips)
+QList<ProjectClip *> ProxyJob::filterClips(const QList<ProjectClip *> &clips)
 {
-    QList <ProjectClip *> result;
+    QList<ProjectClip *> result;
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *clip = clips.at(i);
         ClipType type = clip->clipType();
@@ -302,7 +302,7 @@ QList <ProjectClip *> ProxyJob::filterClips(const QList <ProjectClip *> &clips)
 }
 
 // static
-QHash <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QList <ProjectClip *> &clips)
+QHash <ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QList<ProjectClip *> &clips)
 {
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     QSize renderSize = bin->getRenderSize();

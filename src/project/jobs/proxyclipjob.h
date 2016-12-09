@@ -39,8 +39,8 @@ public:
     stringMap cancelProperties() Q_DECL_OVERRIDE;
     const QString statusMessage() Q_DECL_OVERRIDE;
     void processLogInfo() Q_DECL_OVERRIDE;
-    static QList <ProjectClip *> filterClips(const QList<ProjectClip *> &clips);
-    static QHash <ProjectClip *, AbstractClipJob *> prepareJob(Bin *bin, const QList <ProjectClip *> &clips);
+    static QList<ProjectClip *> filterClips(const QList<ProjectClip *> &clips);
+    static QHash <ProjectClip *, AbstractClipJob *> prepareJob(Bin *bin, const QList<ProjectClip *> &clips);
 
 private:
     QString m_dest;

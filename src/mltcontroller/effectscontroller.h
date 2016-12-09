@@ -71,7 +71,7 @@ private:
  * @author Jean-Baptiste Mardelle
  */
 
-class EffectsParameterList: public QList < EffectParameter >
+class EffectsParameterList: public QList< EffectParameter >
 {
 public:
     EffectsParameterList();

@@ -122,8 +122,8 @@ EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
 EffectsList MainWindow::transitions;
 
-QMap <QString, QImage> MainWindow::m_lumacache;
-QMap <QString, QStringList> MainWindow::m_lumaFiles;
+QMap<QString, QImage> MainWindow::m_lumacache;
+QMap<QString, QStringList> MainWindow::m_lumaFiles;
 
 /*static bool sortByNames(const QPair<QString, QAction *> &a, const QPair<QString, QAction*> &b)
 {
@@ -1475,7 +1475,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("save_selection"), i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()), KoIconUtils::themedIcon(QStringLiteral("document-save")));
 
     QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Timeline Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()), KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
-    pCore->library()->setupActions(QList <QAction *>() << sentToLibrary);
+    pCore->library()->setupActions(QList<QAction *>() << sentToLibrary);
 
     KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
 
@@ -2054,7 +2054,7 @@ void MainWindow::slotZoneMoved(int start, int end)
 
 void MainWindow::slotGuidesUpdated()
 {
-    QMap <double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
+    QMap<double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
     if (m_renderWidget) {
         m_renderWidget->setGuides(guidesData, pCore->projectManager()->current()->projectDuration());
     }
@@ -2272,7 +2272,7 @@ void MainWindow::slotAddClipMarker()
     QPointer<MarkerDialog> d = new MarkerDialog(clip, marker,
             project->timecode(), i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        pCore->bin()->slotAddClipMarker(id, QList <CommentedTime>() << d->newMarker());
+        pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
             project->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(project->fps())), d->markerImage());
@@ -2366,7 +2366,7 @@ void MainWindow::slotEditClipMarker()
     QPointer<MarkerDialog> d = new MarkerDialog(clip, oldMarker,
             pCore->projectManager()->current()->timecode(), i18n("Edit Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        pCore->bin()->slotAddClipMarker(id, QList <CommentedTime>() << d->newMarker());
+        pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
             pCore->projectManager()->current()->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(pCore->projectManager()->current()->fps())), d->markerImage());
@@ -2374,7 +2374,7 @@ void MainWindow::slotEditClipMarker()
         if (d->newMarker().time() != pos) {
             // remove old marker
             oldMarker.setMarkerType(-1);
-            pCore->bin()->slotAddClipMarker(id, QList <CommentedTime>() << oldMarker);
+            pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << oldMarker);
         }
     }
     delete d;
@@ -2396,7 +2396,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
         }
         //TODO: allow user to set default marker category
         CommentedTime marker(pos, pCore->projectManager()->current()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
-        pCore->bin()->slotAddClipMarker(clip->clipId(), QList <CommentedTime>() << marker);
+        pCore->bin()->slotAddClipMarker(clip->clipId(), QList<CommentedTime>() << marker);
     } else {
         pCore->projectManager()->currentTimeline()->projectView()->slotAddGuide(false);
     }
@@ -2921,7 +2921,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
         QList<ItemInfo> matching = pCore->projectManager()->currentTimeline()->projectView()->findId(clipId);
         QMenu *inTimelineMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
 
-        QList <QAction *> actionList;
+        QList<QAction *> actionList;
         for (int i = 0; i < matching.count(); ++i) {
             QString track = pCore->projectManager()->currentTimeline()->getTrackInfo(matching.at(i).track).trackName;
             QString start = pCore->projectManager()->current()->timecode().getTimecode(matching.at(i).startPos);
@@ -2937,7 +2937,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
             }
             actionList.insert(j, a);
         }
-        QList <QAction *> list = inTimelineMenu->actions();
+        QList<QAction *> list = inTimelineMenu->actions();
         unplugActionList(QStringLiteral("timeline_occurences"));
         qDeleteAll(list);
         plugActionList(QStringLiteral("timeline_occurences"), actionList);
@@ -3172,30 +3172,30 @@ void MainWindow::loadClipActions()
     unplugActionList(QStringLiteral("add_effect"));
     plugActionList(QStringLiteral("add_effect"), m_effectsMenu->actions());
 
-    QList <QAction *>clipJobActions = getExtraActions(QStringLiteral("clipjobs"));
+    QList<QAction *>clipJobActions = getExtraActions(QStringLiteral("clipjobs"));
     unplugActionList(QStringLiteral("clip_jobs"));
     plugActionList(QStringLiteral("clip_jobs"), clipJobActions);
 
-    QList <QAction *>atcActions = getExtraActions(QStringLiteral("audiotranscoderslist"));
+    QList<QAction *>atcActions = getExtraActions(QStringLiteral("audiotranscoderslist"));
     unplugActionList(QStringLiteral("audio_transcoders_list"));
     plugActionList(QStringLiteral("audio_transcoders_list"), atcActions);
 
-    QList <QAction *>tcActions = getExtraActions(QStringLiteral("transcoderslist"));
+    QList<QAction *>tcActions = getExtraActions(QStringLiteral("transcoderslist"));
     unplugActionList(QStringLiteral("transcoders_list"));
     plugActionList(QStringLiteral("transcoders_list"), tcActions);
 }
 
 void MainWindow::loadDockActions()
 {
-    QList <QAction *>list = kdenliveCategoryMap.value(QStringLiteral("interface"))->actions();
+    QList<QAction *>list = kdenliveCategoryMap.value(QStringLiteral("interface"))->actions();
     // Sort actions
-    QMap <QString, QAction *> sorted;
+    QMap<QString, QAction *> sorted;
     QStringList sortedList;
     foreach (QAction *a, list) {
         sorted.insert(a->text(), a);
         sortedList << a->text();
     }
-    QList <QAction *>orderedList;
+    QList<QAction *>orderedList;
     sortedList.sort(Qt::CaseInsensitive);
     foreach (const QString &text, sortedList) {
         orderedList << sorted.value(text);
@@ -3306,7 +3306,7 @@ void MainWindow::buildDynamicActions()
     guiActions->addAction(showTimeline->text(), showTimeline);
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
-    QList <QDockWidget *> docks = findChildren<QDockWidget *>();
+    QList<QDockWidget *> docks = findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget *dock = docks.at(i);
         QAction *dockInformations = dock->toggleViewAction();
@@ -3319,10 +3319,10 @@ void MainWindow::buildDynamicActions()
     kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
 }
 
-QList <QAction *> MainWindow::getExtraActions(const QString &name)
+QList<QAction *> MainWindow::getExtraActions(const QString &name)
 {
     if (!kdenliveCategoryMap.contains(name)) {
-        return QList <QAction *> ();
+        return QList<QAction *> ();
     }
     return kdenliveCategoryMap.value(name)->actions();
 }
@@ -3433,7 +3433,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         chapters.setAttribute(QStringLiteral("fps"), project->fps());
         doc.appendChild(chapters);
 
-        QMap <double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
+        QMap<double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
         QMapIterator<double, QString> g(guidesData);
         while (g.hasNext()) {
             g.next();
@@ -3753,7 +3753,7 @@ void MainWindow::slotUpdateProxySettings()
 
 void MainWindow::slotArchiveProject()
 {
-    QList <ClipController *> list = pCore->binController()->getControllerList();
+    QList<ClipController *> list = pCore->binController()->getControllerList();
     KdenliveDoc *doc = pCore->projectManager()->current();
     pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
     QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename).path()));
@@ -3838,7 +3838,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     if (!monitorOverlay) {
         return;
     }
-    QList <QAction *> actions = monitorOverlay->actions();
+    QList<QAction *> actions = monitorOverlay->actions();
     foreach (QAction *ac, actions) {
         int data = ac->data().toInt();
         if (data == 0x010) {
@@ -3883,7 +3883,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
         return;
     }
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-    QList <QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
+    QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget *dock = docks.at(i);
         QWidget *bar = dock->titleBarWidget();
@@ -3894,7 +3894,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
             }
             continue;
         }
-        QList <QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
+        QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
         if (docked.isEmpty()) {
             if (bar) {
                 dock->setTitleBarWidget(0);
@@ -4089,7 +4089,7 @@ void MainWindow::slotUpdateCompositing(QAction *compose)
 
 void MainWindow::slotUpdateCompositeAction(int mode)
 {
-    QList <QAction *> actions = m_compositeAction->actions();
+    QList<QAction *> actions = m_compositeAction->actions();
     for (int i = 0; i < actions.count(); i++) {
         if (actions.at(i)->data().toInt() == mode) {
             m_compositeAction->setCurrentAction(actions.at(i));

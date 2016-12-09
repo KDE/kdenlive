@@ -37,7 +37,7 @@ public:
     void setPoints(Mlt::Geometry *geometry);
     void getMode(const QPointF &pos);
     void rebuildShape();
-    QList <QPointF> points() const;
+    QList<QPointF> points() const;
     QPainterPath shape() const Q_DECL_OVERRIDE;
 
     /** @brief Reimplemented to draw the handles. */
@@ -53,7 +53,7 @@ protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    QList <QPointF> m_points;
+    QList<QPointF> m_points;
     QPointF m_lastPoint;
     bool m_modified;
     QGraphicsView *m_view;

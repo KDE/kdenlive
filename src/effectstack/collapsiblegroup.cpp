@@ -56,7 +56,7 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     AbstractCollapsibleWidget(parent)
 {
     m_info.groupIndex = ix;
-    m_subWidgets = QList <CollapsibleEffect *> ();
+    m_subWidgets = QList<CollapsibleEffect *> ();
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     frame->setObjectName(QStringLiteral("framegroup"));
     decoframe->setObjectName(QStringLiteral("decoframegroup"));
@@ -409,7 +409,7 @@ void CollapsibleGroup::slotRenameGroup()
     emit groupRenamed(this);
 }
 
-QList <CollapsibleEffect *> CollapsibleGroup::effects()
+QList<CollapsibleEffect *> CollapsibleGroup::effects()
 {
     QMutexLocker lock(&m_mutex);
     return m_subWidgets;

@@ -241,7 +241,7 @@ void ProjectSettings::slotDeleteUnused()
     QStringList toDelete;
     //TODO
     /*
-    QList <DocClipBase*> list = m_projectList->documentClipList();
+    QList<DocClipBase*> list = m_projectList->documentClipList();
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip->numReferences() == 0 && clip->clipType() != SlideShow) {
@@ -281,7 +281,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     if (cacheOnly) {
         return;
     }
-    QList <ClipController *> list = pCore->binController()->getControllerList();
+    QList<ClipController *> list = pCore->binController()->getControllerList();
     files_list->clear();
 
     // List all files that are used in the project. That also means:

@@ -28,7 +28,7 @@ HideTitleBars::HideTitleBars(QObject *parent) :
 
 void HideTitleBars::slotInstallRightClick()
 {
-    QList <QTabBar *> tabs = pCore->window()->findChildren<QTabBar *>();
+    QList<QTabBar *> tabs = pCore->window()->findChildren<QTabBar *>();
     for (int i = 0; i < tabs.count(); ++i) {
         tabs.at(i)->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(tabs.at(i), &QWidget::customContextMenuRequested, this, &HideTitleBars::slotSwitchTitleBars);
@@ -38,7 +38,7 @@ void HideTitleBars::slotInstallRightClick()
 
 void HideTitleBars::slotShowTitleBars(bool show)
 {
-    QList <QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
+    QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget *dock = docks.at(i);
         QWidget *bar = dock->titleBarWidget();
@@ -52,7 +52,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
             }
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
             // Since Qt 5.6 we only display title bar in non tabbed dockwidgets
-            QList <QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
+            QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
             if (docked.isEmpty()) {
                 if (bar) {
                     dock->setTitleBarWidget(0);

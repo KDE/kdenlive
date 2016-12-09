@@ -1193,7 +1193,7 @@ void Render::unlockService(Mlt::Tractor *tractor)
     service.unlock();
 }
 
-void Render::mltInsertSpace(const QMap <int, int> &trackClipStartList, const QMap <int, int> &trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset)
+void Render::mltInsertSpace(const QMap<int, int> &trackClipStartList, const QMap<int, int> &trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset)
 {
     if (!m_mltProducer) {
         //qCDebug(KDENLIVE_LOG) << "PLAYLIST NOT INITIALISED //////";
@@ -1466,9 +1466,9 @@ void Render::fillSlowMotionProducers()
 }
 
 //Updates all transitions
-QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack)
+QList<TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool videoTrack)
 {
-    QList <TransitionInfo> transitionInfos;
+    QList<TransitionInfo> transitionInfos;
     // Track add / delete was only added recently in MLT (pre 0.9.8 release).
 #if (LIBMLT_VERSION_INT < 0x0908)
     Q_UNUSED(ix)
@@ -1480,7 +1480,7 @@ QList <TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool 
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
-        return QList <TransitionInfo> ();
+        return QList<TransitionInfo> ();
     }
     blockSignals(true);
     service.lock();

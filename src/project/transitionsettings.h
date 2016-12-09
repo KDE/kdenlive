@@ -46,7 +46,7 @@ private:
     GenTime m_transitionDuration;
     GenTime m_transitionStart;
     int m_autoTrackTransition;
-    QList <TrackInfo> m_tracks;
+    QList<TrackInfo> m_tracks;
     void updateTrackList();
 
 protected:

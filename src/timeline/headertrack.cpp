@@ -35,7 +35,7 @@
 #include <QDomDocument>
 #include <QMimeData>
 
-HeaderTrack::HeaderTrack(const TrackInfo &info, const QList <QAction *> &actions, Track *parent, int height, QWidget *parentWidget) :
+HeaderTrack::HeaderTrack(const TrackInfo &info, const QList<QAction *> &actions, Track *parent, int height, QWidget *parentWidget) :
     QWidget(parentWidget),
     isTarget(false),
     m_type(info.type),

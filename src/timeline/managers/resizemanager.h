@@ -39,7 +39,7 @@ public:
 
 private:
     ItemInfo m_dragItemInfo;
-    QList <ItemInfo> m_startInfos;
+    QList<ItemInfo> m_startInfos;
     Qt::KeyboardModifiers m_controlModifier;
 };
 

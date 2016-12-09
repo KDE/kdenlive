@@ -321,7 +321,7 @@ QString ClipManager::groupsXml()
     for (int i = 0; i < m_groupsList.count(); ++i) {
         QDomElement group = doc.createElement(QStringLiteral("group"));
         groups.appendChild(group);
-        QList <QGraphicsItem *> children = m_groupsList.at(i)->childItems();
+        QList<QGraphicsItem *> children = m_groupsList.at(i)->childItems();
         for (int j = 0; j < children.count(); ++j) {
             if (children.at(j)->type() == AVWidget || children.at(j)->type() == TransitionWidget) {
                 AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(j));
@@ -348,7 +348,7 @@ void ClipManager::slotClipMissing(const QString &path)
 {
     qCDebug(KDENLIVE_LOG) << "// CLIP: " << path << " WAS MISSING";
     //TODO
-    const QList <DocClipBase *> list = getClipByResource(path);
+    const QList<DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != Q_NULLPTR) emit missingClip(clip->getId());
@@ -359,7 +359,7 @@ void ClipManager::slotClipAvailable(const QString &path)
 {
     qCDebug(KDENLIVE_LOG) << "// CLIP: " << path << " WAS ADDED";
     //TODO
-    const QList <DocClipBase *> list = getClipByResource(path);
+    const QList<DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
         if (clip != Q_NULLPTR) emit availableClip(clip->getId());

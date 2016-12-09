@@ -80,7 +80,7 @@ public:
     void addDefaultKeyframe(ProfileInfo profile, int frame, mlt_keyframe_type type);
     const QString serialize(const QString &name = QString(), bool rectAnimation = false);
     /** @brief Loads a rect animation and returns minimas/maximas for x,y,w,h **/
-    QList <QPoint> loadKeyframes(const QString &data);
+    QList<QPoint> loadKeyframes(const QString &data);
     bool loadKeyframes(const QLocale &locale, const QDomElement &e, int cropStart, int length);
     void reset();
     /** @brief Draw the keyframes of a clip
@@ -132,7 +132,7 @@ private:
         double max;
         QString defaultValue;
     };
-    QMap <QString, ParameterInfo> m_paramInfos;
+    QMap<QString, ParameterInfo> m_paramInfos;
 
 signals:
     void updateKeyframes(const QRectF &r = QRectF());

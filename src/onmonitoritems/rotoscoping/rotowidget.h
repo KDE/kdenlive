@@ -75,7 +75,7 @@ private:
      * The points are brought from the range [0, 1] into project resolution space.
      * This function does not do any interpolation and therfore will only return a list when a keyframe at the given postion exists.
      * Set @param keyframe to -1 if only one keyframe currently exists. */
-    QList <BPoint> getPoints(int keyframe);
+    QList<BPoint> getPoints(int keyframe);
 
     /** @brief Adds tracking_finished as listener for "tracking-finished" event in MLT rotoscoping filter. */
     void setupTrackingListen(const ItemInfo &info);

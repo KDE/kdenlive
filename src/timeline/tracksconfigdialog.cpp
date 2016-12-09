@@ -108,9 +108,9 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
     connect(table, &QTableWidget::itemChanged, this, &TracksConfigDialog::slotUpdateRow);
 }
 
-const QList <TrackInfo> TracksConfigDialog::tracksList()
+const QList<TrackInfo> TracksConfigDialog::tracksList()
 {
-    QList <TrackInfo> tracks;
+    QList<TrackInfo> tracks;
     TrackInfo info;
     tracks.reserve(table->rowCount());
     for (int i = 0; i < table->rowCount(); i++) {

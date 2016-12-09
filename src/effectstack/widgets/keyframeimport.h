@@ -59,7 +59,7 @@ private:
     QComboBox *m_targetCombo;
     QComboBox *m_alignCombo;
     QLabel *m_sourceRangeLabel;
-    QList <QPoint> m_maximas;
+    QList<QPoint> m_maximas;
     QDoubleSpinBox m_destMin;
     QDoubleSpinBox m_destMax;
     /** @brief Contains the 4 dimensional (x,y,w,h) target parameter names / tag **/

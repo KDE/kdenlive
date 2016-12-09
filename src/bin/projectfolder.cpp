@@ -69,9 +69,9 @@ ProjectClip *ProjectFolder::clip(const QString &id)
     return Q_NULLPTR;
 }
 
-QList <ProjectClip *> ProjectFolder::childClips()
+QList<ProjectClip *> ProjectFolder::childClips()
 {
-    QList <ProjectClip *> allChildren;
+    QList<ProjectClip *> allChildren;
     for (int i = 0; i < count(); ++i) {
         AbstractProjectItem *child = at(i);
         if (child->itemType() == ClipItem) {

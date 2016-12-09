@@ -123,7 +123,7 @@ protected slots:
     void slotAdjustKeyframeInfo(bool seek = true);
 
 private:
-    QList <QDomElement> m_params;
+    QList<QDomElement> m_params;
     Timecode m_timecode;
     QGridLayout *m_slidersLayout;
     PositionEdit *m_position;

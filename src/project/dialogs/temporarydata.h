@@ -108,8 +108,8 @@ private:
     QGridLayout *m_grid;
     qulonglong m_totalCurrent;
     qulonglong m_totalGlobal;
-    QList <qulonglong> mCurrentSizes;
-    QList <qulonglong> mGlobalSizes;
+    QList<qulonglong> mCurrentSizes;
+    QList<qulonglong> mGlobalSizes;
     QStringList m_globalDirectories;
     QString m_processingDirectory;
     QDir m_globalDir;

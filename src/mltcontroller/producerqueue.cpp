@@ -73,7 +73,7 @@ void ProducerQueue::getFileProperties(const QDomElement &xml, const QString &cli
 void ProducerQueue::forceProcessing(const QString &id)
 {
     // Make sure we load the clip producer now so that we can use it in timeline
-    QList <requestClipInfo> requestListCopy;
+    QList<requestClipInfo> requestListCopy;
     if (m_processingClipId.contains(id)) {
         m_infoMutex.lock();
         requestListCopy = m_requestList;
@@ -934,8 +934,8 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QLis
 
     QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", path), mainWidget);
     mainLayout->addWidget(lab1);
-    QList <QGroupBox *> groupList;
-    QList <KComboBox *> comboList;
+    QList<QGroupBox *> groupList;
+    QList<KComboBox *> comboList;
     // We start loading the list at 1, video index 0 should already be loaded
     for (int j = 1; j < video_list.count(); ++j) {
         Mlt::Producer multiprod(* m_binController->profile(), path.toUtf8().constData());

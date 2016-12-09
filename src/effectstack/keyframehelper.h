@@ -50,13 +50,13 @@ private:
     double m_scale;
     bool m_movingKeyframe;
     Mlt::GeometryItem m_movingItem;
-    QList <Mlt::GeometryItem *> m_extraMovingItems;
+    QList<Mlt::GeometryItem *> m_extraMovingItems;
     QPoint m_dragStart;
     int m_lineHeight;
     int m_hoverKeyframe;
     QColor m_selected;
     QColor m_keyframe;
-    QList <Mlt::Geometry *>m_extraGeometries;
+    QList<Mlt::Geometry *>m_extraGeometries;
     int m_seekPosition;
     int m_offset;
 

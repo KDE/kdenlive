@@ -243,14 +243,14 @@ bool CutClipJob::isExclusive()
 }
 
 // static
-QList <ProjectClip *> CutClipJob::filterClips(const QList <ProjectClip *> &clips, const QStringList &params)
+QList<ProjectClip *> CutClipJob::filterClips(const QList<ProjectClip *> &clips, const QStringList &params)
 {
     QString condition;
     if (params.count() > 3) {
         // there is a condition for this job, for example operate only on vcodec=mpeg1video
         condition = params.at(3);
     }
-    QList <ProjectClip *> result;
+    QList<ProjectClip *> result;
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *clip = clips.at(i);
         ClipType type = clip->clipType();
@@ -349,7 +349,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fp
 }
 
 // static
-QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double fps, const QList <ProjectClip *> &clips, const QStringList &parameters)
+QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double fps, const QList<ProjectClip *> &clips, const QStringList &parameters)
 {
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     QString params = parameters.at(0);
@@ -428,7 +428,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
 }
 
 // static
-QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps, const QList <ProjectClip *> &clips, const QStringList &parameters)
+QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps, const QList<ProjectClip *> &clips, const QStringList &parameters)
 {
     // Might be useful some day
     Q_UNUSED(parameters);

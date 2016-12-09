@@ -58,7 +58,7 @@ public:
     void updateKeyframes(const QDomElement &effect) Q_DECL_OVERRIDE;
     static int itemHeight();
     static int itemOffset();
-    //const QMap < QString, QString > transitionParameters() const;
+    //const QMap< QString, QString > transitionParameters() const;
     void setTransitionParameters(const QDomElement &params);
     void setTransitionTrack(int track);
 

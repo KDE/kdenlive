@@ -1160,7 +1160,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
 
         // Create easily searchable index of original producers
-        QMap <QString, QDomElement> m_source_producers;
+        QMap<QString, QDomElement> m_source_producers;
         for (int j = 0; j < kdenlive_producers.count(); j++) {
             QDomElement prod = kdenlive_producers.at(j).toElement();
             QString id = prod.attribute(QStringLiteral("id"));
@@ -1478,7 +1478,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // convert old keyframe filters to animated
         // these filters were "animated" by adding several instance of the filter, each one having a start and end tag.
         // We convert by parsing the start and end tags vor values and adding all to the new animated parameter
-        QMap <QString, QStringList> keyframeFilterToConvert;
+        QMap<QString, QStringList> keyframeFilterToConvert;
         keyframeFilterToConvert.insert(QStringLiteral("volume"), QStringList() << QStringLiteral("gain") << QStringLiteral("end") << QStringLiteral("level"));
         keyframeFilterToConvert.insert(QStringLiteral("brightness"), QStringList() << QStringLiteral("start") << QStringLiteral("end") << QStringLiteral("level"));
 
@@ -1492,7 +1492,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QString id = EffectsList::property(eff, QStringLiteral("kdenlive_id"));
                 if (keyframeFilterToConvert.contains(id) && !parsedIds.contains(id)) {
                     parsedIds << id;
-                    QMap <int, double> values;
+                    QMap<int, double> values;
                     QStringList conversionParams = keyframeFilterToConvert.value(id);
                     int offset = eff.attribute(QStringLiteral("in")).toInt();
                     int out = eff.attribute(QStringLiteral("out")).toInt();
@@ -1595,7 +1595,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     return true;
 }
 
-void DocumentValidator::convertKeyframeEffect(const QDomElement &effect, const QStringList &params, QMap <int, double> &values, int offset)
+void DocumentValidator::convertKeyframeEffect(const QDomElement &effect, const QStringList &params, QMap<int, double> &values, int offset)
 {
     QLocale locale;
     int in = effect.attribute(QStringLiteral("in")).toInt() - offset;
@@ -1732,8 +1732,8 @@ bool DocumentValidator::isModified() const
 void DocumentValidator::updateEffects()
 {
     // WARNING: order by findDirs will determine which js file to use (in case multiple scripts for the same filter exist)
-    QMap <QString, QUrl> paths;
-    QMap <QString, QScriptProgram> scripts;
+    QMap<QString, QUrl> paths;
+    QMap<QString, QScriptProgram> scripts;
     QStringList directories = QStandardPaths::locateAll(QStandardPaths::DataLocation, "effects/update");
     foreach (const QString &directoryName, directories) {
         QDir directory(directoryName);

@@ -703,9 +703,9 @@ void Timeline::setTrackInfo(int ix, const TrackInfo &info)
     tk->setInfo(info);
 }
 
-QList <TrackInfo> Timeline::getTracksInfo()
+QList<TrackInfo> Timeline::getTracksInfo()
 {
-    QList <TrackInfo> tracks;
+    QList<TrackInfo> tracks;
     for (int i = 0; i < tracksCount(); i++) {
         tracks << track(i)->info();
     }
@@ -1095,7 +1095,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
     return playlist.get_length();
 }
 
-void Timeline::loadGuides(const QMap <double, QString> &guidesData)
+void Timeline::loadGuides(const QMap<double, QString> &guidesData)
 {
     QMapIterator<double, QString> i(guidesData);
     while (i.hasNext()) {
@@ -2017,7 +2017,7 @@ void Timeline::invalidateTrack(int ix)
         return;
     }
     Track *tk = track(ix);
-    QList <QPoint> visibleRange = tk->visibleClips();
+    QList<QPoint> visibleRange = tk->visibleClips();
     foreach (const QPoint &p, visibleRange) {
         m_timelinePreview->invalidatePreview(p.x(), p.y());
     }

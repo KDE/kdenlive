@@ -152,14 +152,14 @@ public:
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
     void addMasterProducer(Mlt::Producer &producer);
 
-    QList < CommentedTime > commentedSnapMarkers() const;
+    QList< CommentedTime > commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime &currTime);
     GenTime findPreviousSnapMarker(const GenTime &currTime);
     QString deleteSnapMarker(const GenTime &time);
     void editSnapMarker(const GenTime &time, const QString &comment);
     void addSnapMarker(const CommentedTime &marker);
     void loadSnapMarker(const QString &seconds, const QString &hash);
-    QList < GenTime > snapMarkers() const;
+    QList< GenTime > snapMarkers() const;
     QString markerComment(const GenTime &t) const;
     QStringList markerComments(const GenTime &start, const GenTime &end) const;
     CommentedTime markerAt(const GenTime &t) const;
@@ -210,7 +210,7 @@ private:
     bool m_hasLimitedDuration;
     BinController *m_binController;
     /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
-    QList < CommentedTime > m_snapMarkers;
+    QList< CommentedTime > m_snapMarkers;
     QMutex m_effectMutex;
     void getInfoForProducer();
     //void rebuildEffectList(ProfileInfo info);

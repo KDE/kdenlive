@@ -114,9 +114,9 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
     // List clips whose proxy is missing
-    QList <QDomElement> missingProxies;
+    QList<QDomElement> missingProxies;
     // List clips who have a working proxy but no source clip
-    QList <QDomElement> missingSources;
+    QList<QDomElement> missingSources;
     m_safeImages.clear();
     m_safeFonts.clear();
     m_missingFonts.clear();

@@ -191,9 +191,9 @@ Q_OBJECT public:
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
     bool mltResizeClipCrop(const ItemInfo &info, GenTime newCropStart);
 
-    QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
+    QList<TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
 
-    //const QList <Mlt::Producer *> producersList();
+    //const QList<Mlt::Producer *> producersList();
     void setDropFrames(bool show);
     /** @brief Sets an MLT consumer property. */
     void setConsumerProperty(const QString &name, const QString &value);

@@ -48,7 +48,7 @@ private:
     QPointF getCentroid();
 
     /** @brief Returns the points of this polygon but sorted clockwise. */
-    QList <QPointF> sortedClockwise();
+    QList<QPointF> sortedClockwise();
 
     /** @brief Tries to get the view of the scene. */
     bool getView();

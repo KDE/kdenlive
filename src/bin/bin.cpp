@@ -814,7 +814,7 @@ void Bin::slotDeleteClip()
     ProjectSubClip *sub;
     QPoint zone;
     // check folders, remove child folders if there is any
-    QList <ProjectFolder *> topFolders;
+    QList<ProjectFolder *> topFolders;
     foreach (const QModelIndex &ix, indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
@@ -851,7 +851,7 @@ void Bin::slotDeleteClip()
         if (isChild) {
             continue;
         }
-        QList <ProjectFolder *> childFolders;
+        QList<ProjectFolder *> childFolders;
         // parse all folders to check for children
         foreach (ProjectFolder *f, topFolders) {
             if (current->folder(f->clipId())) {
@@ -870,7 +870,7 @@ void Bin::slotDeleteClip()
         foldersIds << f->clipId();
     }
 
-    QList <ProjectFolder *> topClips;
+    QList<ProjectFolder *> topClips;
     // Check if clips are in already selected folders
     foreach (const QModelIndex &ix, indexes) {
         if (!ix.isValid() || ix.column() != 0) {
@@ -1487,11 +1487,11 @@ void Bin::autoSelect()
     }*/
 }
 
-QList <ProjectClip *> Bin::selectedClips()
+QList<ProjectClip *> Bin::selectedClips()
 {
     //TODO: handle clips inside folders
     QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    QList <ProjectClip *> list;
+    QList<ProjectClip *> list;
     foreach (const QModelIndex &ix, indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
@@ -1967,14 +1967,14 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
                     int width = clip->getProducerIntProperty(QStringLiteral("meta.media.width"));
                     if (m_doc->autoGenerateProxy(width)) {
                         // Start proxy
-                        m_doc->slotProxyCurrentItem(true, QList <ProjectClip *>() << clip);
+                        m_doc->slotProxyCurrentItem(true, QList<ProjectClip *>() << clip);
                     }
                 } else if (t == Playlist) {
                     // always proxy playlists
-                    m_doc->slotProxyCurrentItem(true, QList <ProjectClip *>() << clip);
+                    m_doc->slotProxyCurrentItem(true, QList<ProjectClip *>() << clip);
                 } else if (t == Image && m_doc->autoGenerateImageProxy(clip->getProducerIntProperty(QStringLiteral("meta.media.width")))) {
                     // Start proxy
-                    m_doc->slotProxyCurrentItem(true, QList <ProjectClip *>() << clip);
+                    m_doc->slotProxyCurrentItem(true, QList<ProjectClip *>() << clip);
                 }
             }
         } else {
@@ -2203,10 +2203,10 @@ void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const 
     }
 }
 
-void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList <QAction *> &actions)
+void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions)
 {
     // Remove axisting actions if any
-    QList <QAction *> acts = m_infoMessage->actions();
+    QList<QAction *> acts = m_infoMessage->actions();
     while (!acts.isEmpty()) {
         QAction *a = acts.takeFirst();
         m_infoMessage->removeAction(a);
@@ -2312,7 +2312,7 @@ void Bin::slotStartCutJob(const QString &id)
 
 void Bin::startJob(const QString &id, AbstractClipJob::JOBTYPE type)
 {
-    QList <ProjectClip *> clips;
+    QList<ProjectClip *> clips;
     ProjectClip *clip = getBinClip(id);
     if (clip && !hasPendingJob(id, type)) {
         // Launch job
@@ -2846,7 +2846,7 @@ void Bin::startClipJob(const QStringList &params)
         return;
     }
     AbstractClipJob::JOBTYPE jobType = (AbstractClipJob::JOBTYPE) data.takeFirst().toInt();
-    QList <ProjectClip *>clips = selectedClips();
+    QList<ProjectClip *>clips = selectedClips();
     m_jobManager->prepareJobs(clips, m_doc->fps(), jobType, data);
 }
 
@@ -2893,7 +2893,7 @@ void Bin::slotAddClipCut(const QString &id, int in, int out)
     m_doc->commandStack()->push(command);
 }
 
-void Bin::loadSubClips(const QString &id, const QMap <QString, QString> &data)
+void Bin::loadSubClips(const QString &id, const QMap<QString, QString> &data)
 {
     ProjectClip *clip = getBinClip(id);
     if (!clip) {
@@ -3128,7 +3128,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         int cutPos = 0;
         QUndoCommand *command = new QUndoCommand();
         command->setText(i18n("Add Markers"));
-        QList <CommentedTime> markersList;
+        QList<CommentedTime> markersList;
         int index = 1;
         bool simpleList = false;
         double sourceFps = clip->getOriginalFps();
@@ -3168,7 +3168,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
     }
 }
 
-void Bin::slotAddClipMarker(const QString &id, const QList <CommentedTime> &newMarkers, QUndoCommand *groupCommand)
+void Bin::slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMarkers, QUndoCommand *groupCommand)
 {
     ProjectClip *clip = getBinClip(id);
     if (!clip) {
@@ -3227,7 +3227,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     QUndoCommand *command = new QUndoCommand();
     command->setText(QStringLiteral("Load markers"));
     QString markerText;
-    QList <CommentedTime> markersList;
+    QList<CommentedTime> markersList;
     foreach (const QString &line, lines) {
         markerText.clear();
         values = line.split('\t', QString::SkipEmptyParts);
@@ -3277,7 +3277,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
     if (!clip) {
         return;
     }
-    QList < CommentedTime > markers = clip->commentedSnapMarkers();
+    QList< CommentedTime > markers = clip->commentedSnapMarkers();
     if (!markers.isEmpty()) {
         // Set  up categories
         KComboBox *cbox = new KComboBox;
@@ -3344,7 +3344,7 @@ void Bin::deleteClipMarker(const QString &comment, const QString &id, const GenT
     command->setText(i18n("Delete marker"));
     CommentedTime marker(position, comment);
     marker.setMarkerType(-1);
-    QList <CommentedTime> markers;
+    QList<CommentedTime> markers;
     markers << marker;
     clip->addClipMarker(markers, command);
     if (command->childCount() > 0) {
@@ -3609,14 +3609,14 @@ void Bin::slotRenameFolder()
 
 void Bin::refreshProxySettings()
 {
-    QList <ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_rootFolder->childClips();
     QUndoCommand *masterCommand = new QUndoCommand();
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     if (!m_doc->useProxy()) {
         // Disable all proxies
         m_doc->slotProxyCurrentItem(false, clipList, false, masterCommand);
     } else {
-        QList <ProjectClip *> toProxy;
+        QList<ProjectClip *> toProxy;
         foreach (ProjectClip *clp, clipList) {
             ClipType t = clp->clipType();
             if (t == Playlist) {
@@ -3648,7 +3648,7 @@ void Bin::refreshProxySettings()
 QStringList Bin::getProxyHashList()
 {
     QStringList list;
-    QList <ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_rootFolder->childClips();
     foreach (ProjectClip *clp, clipList) {
         if (clp->clipType() == AV || clp->clipType() == Video || clp->clipType() == Playlist) {
             list << clp->hash();
@@ -3682,7 +3682,7 @@ void Bin::reloadAllProducers()
     if (m_rootFolder == Q_NULLPTR || m_rootFolder->isEmpty() || !isEnabled()) {
         return;
     }
-    QList <ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_rootFolder->childClips();
     emit openClip(Q_NULLPTR);
     foreach (ProjectClip *clip, clipList) {
         QDomDocument doc;
@@ -3706,7 +3706,7 @@ void Bin::slotMessageActionTriggered()
 
 void Bin::resetUsageCount()
 {
-    QList <ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_rootFolder->childClips();
     foreach (ProjectClip *clip, clipList) {
         clip->setRefCount(0);
     }
@@ -3714,7 +3714,7 @@ void Bin::resetUsageCount()
 
 void Bin::cleanup()
 {
-    QList <ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_rootFolder->childClips();
     QStringList ids;
     QStringList subIds;
     foreach (ProjectClip *clip, clipList) {
@@ -3730,7 +3730,7 @@ void Bin::cleanup()
 
 void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize)
 {
-    QList <ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_rootFolder->childClips();
     foreach (ProjectClip *clip, clipList) {
         if (clip->refCount() == 0) {
             *unused += 1;
@@ -3775,8 +3775,8 @@ bool Bin::addClip(QDomElement elem, const QString &clipId)
 
 void Bin::rebuildProxies()
 {
-    QList <ProjectClip *> clipList = m_rootFolder->childClips();
-    QList <ProjectClip *> toProxy;
+    QList<ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> toProxy;
     foreach (ProjectClip *clp, clipList) {
         if (clp->hasProxy()) {
             toProxy << clp;

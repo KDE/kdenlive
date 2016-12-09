@@ -395,7 +395,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             }*/
 
     //TODO check folders
-    /*QList < QList<QUrl> > foldersList;
+    /*QList< QList<QUrl> > foldersList;
     QMimeDatabase db;
     foreach(const QUrl & file, list) {
         // Check there is no folder here

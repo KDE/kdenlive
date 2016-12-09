@@ -447,7 +447,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
 
     if (markerMenu) {
         m_contextMenu->addMenu(markerMenu);
-        QList <QAction *>list = markerMenu->actions();
+        QList<QAction *>list = markerMenu->actions();
         for (int i = 0; i < list.count(); ++i) {
             if (list.at(i)->data().toString() == QLatin1String("edit_marker")) {
                 m_editMarker = list.at(i);
@@ -572,7 +572,7 @@ void Monitor::updateMarkers()
 {
     if (m_controller) {
         m_markerMenu->clear();
-        QList <CommentedTime> markers = m_controller->commentedSnapMarkers();
+        QList<CommentedTime> markers = m_controller->commentedSnapMarkers();
         if (!markers.isEmpty()) {
             for (int i = 0; i < markers.count(); ++i) {
                 int pos = (int) markers.at(i).time().frames(m_monitorManager->timecode().fps());
@@ -591,7 +591,7 @@ void Monitor::setGuides(const QMap<double, QString> &guides)
 {
     m_markerMenu->clear();
     QMapIterator<double, QString> i(guides);
-    QList <CommentedTime> guidesList;
+    QList<CommentedTime> guidesList;
     while (i.hasNext()) {
         i.next();
         CommentedTime timeGuide(GenTime(i.key()), i.value());
@@ -628,8 +628,8 @@ GenTime Monitor::position()
 
 GenTime Monitor::getSnapForPos(bool previous)
 {
-    QList <GenTime> snaps;
-    QList < GenTime > markers = m_controller->snapMarkers();
+    QList<GenTime> snaps;
+    QList< GenTime > markers = m_controller->snapMarkers();
     snaps.reserve(markers.size());
     for (int i = 0; i < markers.size(); ++i) {
         GenTime t = markers.at(i);
@@ -1724,7 +1724,7 @@ void Monitor::gpuError()
     warningMessage(i18n("Cannot initialize Movit's GLSL manager, please disable Movit"), -1);
 }
 
-void Monitor::warningMessage(const QString &text, int timeout, const QList <QAction*> &actions)
+void Monitor::warningMessage(const QString &text, int timeout, const QList<QAction*> &actions)
 {
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     m_infoMessage->setText(text);

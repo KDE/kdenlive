@@ -62,7 +62,7 @@ public:
     void addGroupEffect(CollapsibleEffect *effect);
     void removeGroup(int ix, QVBoxLayout *layout);
     /** @brief Return all effects in group. */
-    QList <CollapsibleEffect *> effects();
+    QList<CollapsibleEffect *> effects();
     /** @brief Return the editable title widget. */
     QWidget *title() const;
     /** @brief Return the XML data describing all effects in group. */
@@ -85,7 +85,7 @@ private slots:
     void slotRenameGroup();
 
 private:
-    QList <CollapsibleEffect *> m_subWidgets;
+    QList<CollapsibleEffect *> m_subWidgets;
     QMenu *m_menu;
     EffectInfo m_info;
     MyEditableLabel *m_title;

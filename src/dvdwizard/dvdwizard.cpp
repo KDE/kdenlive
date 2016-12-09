@@ -294,7 +294,7 @@ void DvdWizard::generateDvd()
 void DvdWizard::processSpumux()
 {
     //qCDebug(KDENLIVE_LOG) << "/// STARTING SPUMUX";
-    QMap <QString, QRect> buttons = m_pageMenu->buttonsInfo();
+    QMap<QString, QRect> buttons = m_pageMenu->buttonsInfo();
     QStringList buttonsTarget;
     // create xml spumux file
     QListWidgetItem *spuitem =  m_status.job_progress->item(2);
@@ -507,7 +507,7 @@ void DvdWizard::processSpumux()
     processDvdauthor(menuMovieUrl, buttons, buttonsTarget);
 }
 
-void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap <QString, QRect> &buttons, const QStringList &buttonsTarget)
+void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap<QString, QRect> &buttons, const QStringList &buttonsTarget)
 {
     // create dvdauthor xml
     QListWidgetItem *authitem =  m_status.job_progress->item(3);

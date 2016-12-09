@@ -76,7 +76,7 @@ QStringList LibraryTree::mimeTypes() const
 void LibraryTree::slotUpdateThumb(const QString &path, const QString &iconPath)
 {
     QString name = QUrl::fromLocalFile(path).fileName();
-    QList <QTreeWidgetItem *> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
+    QList<QTreeWidgetItem *> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
     foreach (QTreeWidgetItem *item, list) {
         if (item->data(0, Qt::UserRole).toString() == path) {
             // We found our item
@@ -91,7 +91,7 @@ void LibraryTree::slotUpdateThumb(const QString &path, const QString &iconPath)
 void LibraryTree::slotUpdateThumb(const QString &path, const QPixmap &pix)
 {
     QString name = QUrl::fromLocalFile(path).fileName();
-    QList <QTreeWidgetItem *> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
+    QList<QTreeWidgetItem *> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
     foreach (QTreeWidgetItem *item, list) {
         if (item->data(0, Qt::UserRole).toString() == path) {
             // We found our item
@@ -106,7 +106,7 @@ void LibraryTree::slotUpdateThumb(const QString &path, const QPixmap &pix)
 void LibraryTree::mousePressEvent(QMouseEvent *event)
 {
     QTreeWidgetItem *clicked = this->itemAt(event->pos());
-    QList <QAction *> act = actions();
+    QList<QAction *> act = actions();
     if (clicked) {
         foreach (QAction *a, act) {
             a->setEnabled(true);
@@ -223,9 +223,9 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     connect(m_libraryTree, &LibraryTree::itemChanged, this, &LibraryWidget::slotItemEdited, Qt::UniqueConnection);
 }
 
-void LibraryWidget::setupActions(const QList <QAction *> &list)
+void LibraryWidget::setupActions(const QList<QAction *> &list)
 {
-    QList <QAction *> menuList;
+    QList<QAction *> menuList;
     m_addAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-clip")), i18n("Add Clip to Project"), this);
     connect(m_addAction, &QAction::triggered, this, &LibraryWidget::slotAddToProject);
     m_addAction->setData(1);
@@ -546,7 +546,7 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
             if (matchingFolder) {
                 m_folders.removeAll(matchingFolder);
                 // warning, we also need to remove all subfolders since they will be recreated
-                QList <QTreeWidgetItem *> subList;
+                QList<QTreeWidgetItem *> subList;
                 foreach (QTreeWidgetItem *folder, m_folders) {
                     if (folder->data(0, Qt::UserRole).toString().startsWith(path)) {
                         subList << folder;

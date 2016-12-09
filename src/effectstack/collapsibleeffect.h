@@ -113,11 +113,11 @@ private slots:
 
 private:
     ParameterContainer *m_paramWidget;
-    QList <CollapsibleEffect *> m_subParamWidgets;
+    QList<CollapsibleEffect *> m_subParamWidgets;
     QDomElement m_effect;
     ItemInfo m_itemInfo;
     QDomElement m_original_effect;
-    QList <QDomElement> m_subEffects;
+    QList<QDomElement> m_subEffects;
     QMenu *m_menu;
     QPoint m_clickPoint;
     EffectInfo m_info;

@@ -73,7 +73,7 @@ bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
     bool updateIndex = false;
     const int filter_ix = params.paramValue(QStringLiteral("kdenlive_ix")).toInt();
     int ct = 0;
-    QList <Mlt::Filter *> filters;
+    QList<Mlt::Filter *> filters;
     m_producer.lock();
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
@@ -107,7 +107,7 @@ bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
     }
 
     // temporarily remove all effects after insert point
-    QList <Mlt::Filter *> filtersList;
+    QList<Mlt::Filter *> filtersList;
     ct = 0;
     filter = m_producer.filter(ct);
     while (filter) {
@@ -296,7 +296,7 @@ bool EffectManager::editEffect(const EffectsParameterList &params, int duration,
     }
     ct = 0;
     QString ser = filter->get("mlt_service");
-    QList <Mlt::Filter *> filtersList;
+    QList<Mlt::Filter *> filtersList;
     m_producer.lock();
     if (ser != tag) {
         // Effect service changes, delete effect and re-add it
@@ -351,7 +351,7 @@ bool EffectManager::removeEffect(int effectIndex, bool updateIndex)
     int ct = 0;
     bool success = false;
     Mlt::Filter *filter = m_producer.filter(ct);
-    QList <Mlt::Filter *> filters;
+    QList<Mlt::Filter *> filters;
     while (filter) {
         filters << filter;
         if ((effectIndex == -1 && strcmp(filter->get("kdenlive_id"), "")) || filter->get_int("kdenlive_ix") == effectIndex) {
@@ -406,8 +406,8 @@ bool EffectManager::enableEffects(const QList<int> &effectIndexes, bool disable,
 bool EffectManager::moveEffect(int oldPos, int newPos)
 {
     int ct = 0;
-    QList <Mlt::Filter *> filtersList;
-    QList <Mlt::Filter *> toDelete;
+    QList<Mlt::Filter *> filtersList;
+    QList<Mlt::Filter *> toDelete;
     Mlt::Filter *filter = m_producer.filter(ct);
     if (newPos > oldPos) {
         bool found = false;

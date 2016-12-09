@@ -104,7 +104,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     Mlt::Properties folderProperties;
     Mlt::Properties playlistProps(playlist.get_properties());
     folderProperties.pass_values(playlistProps, "kdenlive:folder.");
-    QMap <QString, QString> foldersData;
+    QMap<QString, QString> foldersData;
     for (int i = 0; i < folderProperties.count(); i++) {
         foldersData.insert(folderProperties.get_name(i), folderProperties.get(i));
     }
@@ -162,7 +162,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     // Load markers
     Mlt::Properties markerProperties;
     markerProperties.pass_values(playlistProps, "kdenlive:marker.");
-    QMap <QString, QString> markersData;
+    QMap<QString, QString> markersData;
     for (int i = 0; i < markerProperties.count(); i++) {
         QString markerId = markerProperties.get_name(i);
         QString controllerId = markerId.section(QStringLiteral(":"), 0, 0);
@@ -182,7 +182,7 @@ QMap<double, QString> BinController::takeGuidesData()
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
     guidesProperties.pass_values(playlistProps, "kdenlive:guide.");
     qCDebug(KDENLIVE_LOG) << "***********\nFOUND GUIDES: " << guidesProperties.count() << "\n**********";
-    QMap <double, QString> guidesData;
+    QMap<double, QString> guidesData;
     for (int i = 0; i < guidesProperties.count(); i++) {
         double time = locale.toDouble(guidesProperties.get_name(i));
         guidesData.insert(time, guidesProperties.get(i));
@@ -464,7 +464,7 @@ ClipController *BinController::getController(const QString &id)
     return m_clipList.value(id);
 }
 
-const QList <ClipController *> BinController::getControllerList() const
+const QList<ClipController *> BinController::getControllerList() const
 {
     return m_clipList.values();
 }
@@ -539,7 +539,7 @@ void BinController::checkAudioThumbs()
     }
 }
 
-void BinController::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, const QMap <double, QString> &guidesData)
+void BinController::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, const QMap<double, QString> &guidesData)
 {
     // Clear previous properites
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());

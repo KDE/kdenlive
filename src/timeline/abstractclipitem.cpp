@@ -101,7 +101,7 @@ bool AbstractClipItem::isAttachedToEnd() const
     return m_keyframeView.activeKeyframe == m_keyframeView.attachToEnd;
 }
 
-QAction *AbstractClipItem::parseKeyframeActions(const QList <QAction *> &list)
+QAction *AbstractClipItem::parseKeyframeActions(const QList<QAction *> &list)
 {
     return m_keyframeView.parseKeyframeActions(list);
 }
@@ -244,7 +244,7 @@ void AbstractClipItem::resizeEnd(int posx, bool /*emitChange*/)
 
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     if (durationDiff > GenTime()) {
-        QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
+        QList<QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
         bool fixItem = false;
         for (int i = 0; i < collisionList.size(); ++i) {
             if (!collisionList.at(i)->isEnabled()) {

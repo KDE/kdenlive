@@ -186,7 +186,7 @@ private:
     /** Timer used to reload clips when they have been externally modified */
     QTimer m_modifiedTimer;
     /** List of the clip IDs that need to be reloaded after being externally modified */
-    QMap <QString, QTime> m_modifiedClips;
+    QMap<QString, QTime> m_modifiedClips;
     int m_width;
     int m_height;
     Timecode m_timecode;

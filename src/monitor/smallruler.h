@@ -43,7 +43,7 @@ public:
     void setZoneStart();
     void setZoneEnd(bool discardLastFrame = false);
     QPoint zone() const;
-    void setMarkers(const QList < CommentedTime > &list);
+    void setMarkers(const QList< CommentedTime > &list);
     QString markerAt(GenTime pos);
     void updatePalette();
     void refreshRuler();
@@ -74,7 +74,7 @@ private:
     double m_mediumMarkSteps;
     int m_medium;
     int m_small;
-    QList <CommentedTime> m_markers;
+    QList<CommentedTime> m_markers;
     QPixmap m_pixmap;
     void prepareZoneUpdate();
     void updatePixmap();

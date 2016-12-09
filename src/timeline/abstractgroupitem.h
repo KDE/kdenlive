@@ -45,7 +45,7 @@ public:
     QPainterPath transitionGroupShape(const QPointF &offset) const;
     void setItemLocked(bool locked);
     bool isItemLocked() const;
-    QList <AbstractClipItem *> childClips() const;
+    QList<AbstractClipItem *> childClips() const;
     //    ItemInfo info() const;
 
     /** @brief Resizes all clips in this group from start.

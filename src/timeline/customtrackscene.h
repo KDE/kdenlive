@@ -42,7 +42,7 @@ class CustomTrackScene : public QGraphicsScene
 public:
     explicit CustomTrackScene(Timeline *timeline, QObject *parent = Q_NULLPTR);
     ~CustomTrackScene();
-    void setSnapList(const QList <GenTime> &snaps);
+    void setSnapList(const QList<GenTime> &snaps);
     GenTime previousSnapPoint(const GenTime &pos) const;
     GenTime nextSnapPoint(const GenTime &pos) const;
     double getSnapPointForPos(double pos, bool doSnap = true);
@@ -58,7 +58,7 @@ private:
     Timeline *m_timeline;
     QPointF m_scale;
     TimelineMode::EditMode m_editMode;
-    QList <GenTime> m_snapPoints;
+    QList<GenTime> m_snapPoints;
 };
 
 #endif

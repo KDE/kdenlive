@@ -57,7 +57,7 @@ public:
     explicit TracksConfigDialog(Timeline *timeline, int selected = -1, QWidget *parent = Q_NULLPTR);
 
     /** @brief Returns the new list of tracks created from the table. */
-    const QList <TrackInfo> tracksList();
+    const QList<TrackInfo> tracksList();
 
     /** @brief A list of tracks, which sould be deleted. */
     QList<int> deletedTracks() const;

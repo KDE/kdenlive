@@ -183,7 +183,7 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString resource = mlt_properties_get(properties, "mlt_service");
-    QList <Mlt::Transition *> trList;
+    QList<Mlt::Transition *> trList;
     mlt_properties insertproperties = tr.get_properties();
     QString insertresource = mlt_properties_get(insertproperties, "mlt_service");
     bool isMixTransition = insertresource == QLatin1String("mix");

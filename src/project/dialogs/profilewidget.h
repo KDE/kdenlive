@@ -47,15 +47,15 @@ private:
     /** @brief currently selected's profile path */
     MltVideoProfile m_currentProfile;
     void slotUpdateInfoDisplay();
-    QList <MltVideoProfile> m_list4KDCI;
-    QList <MltVideoProfile> m_list4KWide;
-    QList <MltVideoProfile> m_list4K;
-    QList <MltVideoProfile> m_list2K;
-    QList <MltVideoProfile> m_listFHD;
-    QList <MltVideoProfile> m_listHD;
-    QList <MltVideoProfile> m_listSD;
-    QList <MltVideoProfile> m_listSDWide;
-    QList <MltVideoProfile> m_listCustom;
+    QList<MltVideoProfile> m_list4KDCI;
+    QList<MltVideoProfile> m_list4KWide;
+    QList<MltVideoProfile> m_list4K;
+    QList<MltVideoProfile> m_list2K;
+    QList<MltVideoProfile> m_listFHD;
+    QList<MltVideoProfile> m_listHD;
+    QList<MltVideoProfile> m_listSD;
+    QList<MltVideoProfile> m_listSDWide;
+    QList<MltVideoProfile> m_listCustom;
     QComboBox *m_standard;
     QComboBox *m_rate_list;
     QCheckBox *m_interlaced;
@@ -82,7 +82,7 @@ private:
     void updateCombos();
     QStringList getFrameSizes(const QList<MltVideoProfile> &currentStd, const QString &rate);
     void checkInterlace(const QList<MltVideoProfile> &currentStd, const QString &size, const QString &rate);
-    QList <MltVideoProfile> getList(VIDEOSTD std);
+    QList<MltVideoProfile> getList(VIDEOSTD std);
 
 private slots:
     /** @brief Open project profile management dialog. */

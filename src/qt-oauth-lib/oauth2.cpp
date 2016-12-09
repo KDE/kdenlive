@@ -238,7 +238,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
             QVariant data = doc.toVariant();
 
             if (data.canConvert(QVariant::Map)) {
-                QMap <QString, QVariant> map = data.toMap();
+                QMap<QString, QVariant> map = data.toMap();
 
                 if (map.contains(QStringLiteral("access_token"))) {
                     m_strAccessToken = map.value(QStringLiteral("access_token")).toString();

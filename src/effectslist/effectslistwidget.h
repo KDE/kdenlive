@@ -44,7 +44,7 @@ public:
     void updatePalette();
     void setRootOnCustomFolder();
     void resetRoot();
-    void createTopLevelItems(const QList <QTreeWidgetItem *> &list, int effectType);
+    void createTopLevelItems(const QList<QTreeWidgetItem *> &list, int effectType);
     void resetFavorites();
 
 protected:

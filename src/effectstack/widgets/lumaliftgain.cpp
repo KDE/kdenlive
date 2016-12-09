@@ -35,7 +35,7 @@ LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent) :
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);*/
 
-    QMap <QString, double> values;
+    QMap<QString, double> values;
     for (int i = 0; i < nodes.count(); ++i) {
         QDomElement pa = nodes.item(i).toElement();
         if (pa.tagName() != QLatin1String("parameter")) {
@@ -81,7 +81,7 @@ void LumaLiftGain::updateEffect(QDomElement &effect)
     QColor lift = m_lift->color();
     QColor gamma = m_gamma->color();
     QColor gain = m_gain->color();
-    QMap <QString, double> values;
+    QMap<QString, double> values;
     values.insert(QStringLiteral("lift_r"), lift.redF());
     values.insert(QStringLiteral("lift_g"), lift.greenF());
     values.insert(QStringLiteral("lift_b"), lift.blueF());

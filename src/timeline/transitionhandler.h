@@ -46,7 +46,7 @@ public:
     bool deleteTransition(const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml, bool refresh = true);
     void deleteTrackTransitions(int ix);
     bool moveTransition(const QString &type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
-    QList <TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
+    QList<TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
     void duplicateTransitionOnPlaylist(int in, int out, const QString &tag, const QDomElement &xml, int a_track, int b_track, Mlt::Field *field);
     /** @brief Get a transition with tag name. */
     Mlt::Transition *getTransition(const QString &name, int b_track, int a_track = -1, bool internalTransition = false) const;

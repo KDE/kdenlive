@@ -167,7 +167,7 @@ public:
     QColor getProducerColorProperty(const QString &key) const;
     double getDoubleProducerProperty(const QString &key) const;
 
-    QList < CommentedTime > commentedSnapMarkers() const;
+    QList< CommentedTime > commentedSnapMarkers() const;
     /** @brief Returns a list of all markers comments between in ant out frames. */
     QStringList markersText(GenTime in, GenTime out) const;
 
@@ -188,9 +188,9 @@ public:
      */
     const QString codec(bool audioCodec) const;
 
-    void addClipMarker(QList <CommentedTime> newMarkers, QUndoCommand *groupCommand);
+    void addClipMarker(QList<CommentedTime> newMarkers, QUndoCommand *groupCommand);
     bool deleteClipMarkers(QUndoCommand *groupCommand);
-    void addMarkers(QList <CommentedTime> &markers);
+    void addMarkers(QList<CommentedTime> &markers);
     /** @brief Add an effect to bin clip. */
     void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
     void updateEffect(const ProfileInfo &pInfo, QDomElement &effect, int ix, bool refreshStack);

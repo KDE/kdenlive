@@ -337,7 +337,7 @@ int KdenliveDoc::setSceneList()
 
 QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
 {
-    QList <TrackInfo> tracks;
+    QList<TrackInfo> tracks;
     // Tracks are added «backwards», so we need to reverse the track numbering
     // mbt 331: http://www.kdenlive.org/mantis/view.php?id=331
     // Better default names for tracks: Audio 1 etc. instead of blank numbers
@@ -368,7 +368,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
     return createEmptyDocument(tracks);
 }
 
-QDomDocument KdenliveDoc::createEmptyDocument(const QList <TrackInfo> &tracks)
+QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
 {
     // Creating new document
     QDomDocument doc;
@@ -763,7 +763,7 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
 void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
 {
     // Move proxies
-    QList <ClipController *> list = pCore->binController()->getControllerList();
+    QList<ClipController *> list = pCore->binController()->getControllerList();
     QList<QUrl> cacheUrls;
     for (int i = 0; i < list.count(); ++i) {
         ClipController *clip = list.at(i);
@@ -1589,7 +1589,7 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         }
 
         // Build actions for the info message (switch / cancel)
-        QList <QAction *> list;
+        QList<QAction *> list;
         QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch"), this);
         QVariantList params;
         connect(ac, &QAction::triggered, this, &KdenliveDoc::slotSwitchProfile);

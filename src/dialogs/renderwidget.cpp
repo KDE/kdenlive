@@ -392,7 +392,7 @@ void RenderWidget::slotCheckEndGuidePosition()
     }
 }
 
-void RenderWidget::setGuides(const QMap <double, QString> &guidesData, double duration)
+void RenderWidget::setGuides(const QMap<double, QString> &guidesData, double duration)
 {
     m_view.guide_start->clear();
     m_view.guide_end->clear();
@@ -938,7 +938,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile)
 {
     QTreeWidgetItem *item = 0;
     if (!profile.isEmpty()) {
-        QList <QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly | Qt::MatchRecursive);
+        QList<QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly | Qt::MatchRecursive);
         if (!items.isEmpty()) {
             item = items.first();
         }

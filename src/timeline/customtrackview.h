@@ -231,7 +231,7 @@ public:
     GenTime createGroupForSelectedItems(QList<QGraphicsItem *> &selection);
     void resetSelectionGroup(bool selectItems = true);
     /** @brief Returns all infos necessary to save guides. */
-    QMap <double, QString> guidesData() const;
+    QMap<double, QString> guidesData() const;
     /** @brief Reset scroll bar to 0. */
     void scrollToStart();
     /** @brief Returns a track index (in MLT values) from an y position in timeline. */
@@ -265,7 +265,7 @@ public:
     void switchTrackLock();
     void switchAllTrackLock();
     /** @brief Insert space in timeline. track = -1 means all tracks */
-    void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, const QList<ItemInfo> &excludeList = QList <ItemInfo>());
+    void insertTimelineSpace(GenTime startPos, GenTime duration, int track = -1, const QList<ItemInfo> &excludeList = QList<ItemInfo>());
     void trimMode(bool enable, int ripplePos = -1);
     /** @brief Returns a clip from timeline
     *  @param pos the end time position
@@ -321,7 +321,7 @@ public:
     * @param cutPos The absolute position of the cut */
     void razorGroup(AbstractGroupItem *group, GenTime cutPos);
     void reloadTrack(const ItemInfo &info, bool includeLastFrame);
-    GenTime groupSelectedItems(QList <QGraphicsItem *> selection = QList <QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
+    GenTime groupSelectedItems(QList<QGraphicsItem *> selection = QList<QGraphicsItem *>(), bool createNewGroup = false, bool selectNewGroup = false);
     void sortGuides();
     void initTools();
     AbstractToolManager *toolManager(AbstractToolManager::ToolManagerType trimType);
@@ -396,7 +396,7 @@ public slots:
     * @param selected The currently selected clip if any
     * @param offsetList The list of points that should also snap (for example when movin a clip, start and end points should snap
     * @param skipSelectedItems if true, the selected item start and end points will not be added to snap list */
-    void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
+    void updateSnapPoints(AbstractClipItem *selected, QList<GenTime> offsetList = QList<GenTime> (), bool skipSelectedItems = false);
 
     void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
     void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> data = QMap<QString, QString>());
@@ -409,7 +409,7 @@ public slots:
     /** @brief Export part of the playlist in an xml file */
     void exportTimelineSelection(QString path = QString());
     /** Remove zone from current track */
-    void extractZone(QPoint z, bool closeGap, const QList<ItemInfo> &excludedClips = QList <ItemInfo>(), QUndoCommand *masterCommand = Q_NULLPTR, int track = -1);
+    void extractZone(QPoint z, bool closeGap, const QList<ItemInfo> &excludedClips = QList<ItemInfo>(), QUndoCommand *masterCommand = Q_NULLPTR, int track = -1);
     /** @brief Select an item in timeline. */
     void slotSelectItem(AbstractClipItem *item);
     /** @brief Cycle through timeline trim modes */
@@ -458,11 +458,11 @@ private:
     QColor m_tipColor;
     QPen m_tipPen;
     QPoint m_clickEvent;
-    QList <CommentedTime> m_searchPoints;
-    QList <Guide *> m_guides;
+    QList<CommentedTime> m_searchPoints;
+    QList<Guide *> m_guides;
     QColor m_selectedTrackColor;
     QColor m_lockedTrackColor;
-    QMap <AbstractToolManager::ToolManagerType, AbstractToolManager *> m_toolManagers;
+    QMap<AbstractToolManager::ToolManagerType, AbstractToolManager *> m_toolManagers;
     AbstractToolManager *m_currentToolManager;
 
     /** @brief Returns a clip from timeline
@@ -498,8 +498,8 @@ private:
     QAction *m_disableClipAction;
     QAction *m_editGuide;
     QAction *m_deleteGuide;
-    QList <QAction *> m_audioActions;
-    QList <QAction *> m_avActions;
+    QList<QAction *> m_audioActions;
+    QList<QAction *> m_avActions;
     QActionGroup *m_clipTypeGroup;
     bool m_clipDrag;
 
@@ -523,7 +523,7 @@ private:
     void updatePositionEffects(ClipItem *item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *data, const QPoint &pos);
     bool canBePastedTo(const QList<ItemInfo> &infoList, int type) const;
-    bool canBePasted(const QList<AbstractClipItem *> &items, GenTime offset, int trackOffset, QList <AbstractClipItem *>excluded = QList <AbstractClipItem *>()) const;
+    bool canBePasted(const QList<AbstractClipItem *> &items, GenTime offset, int trackOffset, QList<AbstractClipItem *>excluded = QList<AbstractClipItem *>()) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
     /** Get available space for clip move (min and max free positions) */

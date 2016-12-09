@@ -34,7 +34,7 @@
 #include <QTreeWidget>
 #include <QtConcurrent>
 
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController *> &list, const QStringList &luma_list, QWidget *parent) :
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<ClipController *> &list, const QStringList &luma_list, QWidget *parent) :
     QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(Q_NULLPTR)

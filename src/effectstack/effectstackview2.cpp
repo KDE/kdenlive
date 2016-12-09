@@ -57,7 +57,7 @@ EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent) :
     m_transition(Q_NULLPTR)
 {
     m_effectMetaInfo.monitor = projectMonitor;
-    m_effects = QList <CollapsibleEffect *>();
+    m_effects = QList<CollapsibleEffect *>();
     setAcceptDrops(true);
     setLayout(&m_layout);
 
@@ -1149,7 +1149,7 @@ void EffectStackView2::slotUnGroup(CollapsibleGroup *group)
 
 void EffectStackView2::slotRenameGroup(CollapsibleGroup *group)
 {
-    QList <CollapsibleEffect *> effects = group->effects();
+    QList<CollapsibleEffect *> effects = group->effects();
     for (int i = 0; i < effects.count(); ++i) {
         QDomElement origin = effects.at(i)->effect();
         QDomElement changed = origin.cloneNode().toElement();

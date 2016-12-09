@@ -868,8 +868,8 @@ void ClipItem::paint(QPainter *painter,
         // draw markers
         //TODO:
         if (isEnabled()) {
-            QList < CommentedTime > markers = m_binClip->commentedSnapMarkers();
-            QList < CommentedTime >::Iterator it = markers.begin();
+            QList< CommentedTime > markers = m_binClip->commentedSnapMarkers();
+            QList< CommentedTime >::Iterator it = markers.begin();
             GenTime pos;
             double framepos;
             QBrush markerBrush(QColor(120, 120, 0, 140));
@@ -1055,9 +1055,9 @@ void ClipItem::resetFrameWidth(int width)
     update();
 }
 
-QList <GenTime> ClipItem::snapMarkers(const QList < GenTime > &markers) const
+QList<GenTime> ClipItem::snapMarkers(const QList< GenTime > &markers) const
 {
-    QList < GenTime > snaps;
+    QList< GenTime > snaps;
     GenTime pos;
 
     for (int i = 0; i < markers.size(); ++i) {
@@ -1073,13 +1073,13 @@ QList <GenTime> ClipItem::snapMarkers(const QList < GenTime > &markers) const
     return snaps;
 }
 
-QList <CommentedTime> ClipItem::commentedSnapMarkers() const
+QList<CommentedTime> ClipItem::commentedSnapMarkers() const
 {
-    QList < CommentedTime > snaps;
+    QList< CommentedTime > snaps;
     if (!m_binClip) {
         return snaps;
     }
-    QList < CommentedTime > markers = m_binClip->commentedSnapMarkers();
+    QList< CommentedTime > markers = m_binClip->commentedSnapMarkers();
     GenTime pos;
 
     for (int i = 0; i < markers.size(); ++i) {
@@ -1960,7 +1960,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, const ItemInfo &oldI
     bool keyFrameUpdated = false;
 
     const QStringList data = parameter.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
-    QMap <int, double> keyframes;
+    QMap<int, double> keyframes;
     foreach (const QString &keyframe, data) {
         int keyframepos = keyframe.section('=', 0, 0).toInt();
         // if keyframe was at clip start, update it

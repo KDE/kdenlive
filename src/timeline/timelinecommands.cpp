@@ -440,7 +440,7 @@ void EditTransitionCommand::redo()
     m_doIt = true;
 }
 
-GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo> &transitionInfos, bool group, bool doIt, QUndoCommand *parent) :
+GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList<ItemInfo> &clipInfos, const QList<ItemInfo> &transitionInfos, bool group, bool doIt, QUndoCommand *parent) :
     QUndoCommand(parent),
     m_view(view),
     m_clips(clipInfos),
@@ -468,7 +468,7 @@ void GroupClipsCommand::redo()
     m_doIt = true;
 }
 
-AddSpaceCommand::AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList <ItemInfo> &excludeList, bool doIt, QUndoCommand *parent, bool trackonly) :
+AddSpaceCommand::AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList<ItemInfo> &excludeList, bool doIt, QUndoCommand *parent, bool trackonly) :
     QUndoCommand(parent),
     m_view(view),
     m_spaceInfo(spaceInfo),
@@ -618,7 +618,7 @@ void MoveEffectCommand::redo()
     m_view->moveEffect(m_track, m_pos, m_oldindex, m_newindex);
 }
 
-MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> &startClip, const QList <ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand *parent) :
+MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList<ItemInfo> &startClip, const QList<ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand *parent) :
     QUndoCommand(parent),
     m_view(view),
     m_startClip(startClip),
@@ -720,7 +720,7 @@ void RazorTransitionCommand::redo()
 }
 
 /*
-RazorGroupCommand::RazorGroupCommand(CustomTrackView *view, QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent) :
+RazorGroupCommand::RazorGroupCommand(CustomTrackView *view, QList<ItemInfo> clips1, QList<ItemInfo> transitions1, QList<ItemInfo> clipsCut, QList<ItemInfo> transitionsCut, QList<ItemInfo> clips2, QList<ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_clips1(clips1),
@@ -763,7 +763,7 @@ void RebuildGroupCommand::redo()
     m_view->rebuildGroup(m_childTrack, m_childPos);
 }
 
-RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const QList <ItemInfo> &info, bool execute, bool refreshOnUndo, QUndoCommand *parent) :
+RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const QList<ItemInfo> &info, bool execute, bool refreshOnUndo, QUndoCommand *parent) :
     QUndoCommand(parent),
     m_view(view),
     m_info(info),
@@ -775,7 +775,7 @@ RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const QList 
 RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const ItemInfo &info, bool execute, bool refreshOnUndo, QUndoCommand *parent) :
     QUndoCommand(parent),
     m_view(view),
-    m_info(QList <ItemInfo>() << info),
+    m_info(QList<ItemInfo>() << info),
     m_exec(execute),
     m_execOnUndo(refreshOnUndo)
 {
@@ -797,7 +797,7 @@ void RefreshMonitorCommand::redo()
     m_exec = true;
 }
 
-void RefreshMonitorCommand::updateRange(const QList <ItemInfo> &info)
+void RefreshMonitorCommand::updateRange(const QList<ItemInfo> &info)
 {
     m_info.clear();
     m_info = info;

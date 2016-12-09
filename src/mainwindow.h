@@ -83,8 +83,8 @@ public:
     static EffectsList transitions;
 
     /** @brief Cache for luma files thumbnails. */
-    static QMap <QString, QImage> m_lumacache;
-    static QMap <QString, QStringList> m_lumaFiles;
+    static QMap<QString, QImage> m_lumacache;
+    static QMap<QString, QStringList> m_lumaFiles;
 
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action);
@@ -112,7 +112,7 @@ public:
     bool m_gpuAllowed;
     int m_exitCode;
     QMap<QString, KActionCategory *> kdenliveCategoryMap;
-    QList <QAction *> getExtraActions(const QString &name);
+    QList<QAction *> getExtraActions(const QString &name);
     /** @brief Returns true if docked widget is tabbed with another widget from its object name */
     bool isTabbedWith(QDockWidget *widget, const QString &otherWidget);
 
@@ -169,7 +169,7 @@ private:
     KSelectAction *m_compositeAction;
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
-    QList <QDockWidget *> m_gfxScopesList;
+    QList<QDockWidget *> m_gfxScopesList;
 
     KActionCategory *m_effectActions;
     KActionCategory *m_transitionActions;
@@ -193,7 +193,7 @@ private:
 
     RenderWidget *m_renderWidget;
     StatusBarMessageLabel *m_messageLabel;
-    QList <QAction *>m_transitions;
+    QList<QAction *>m_transitions;
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
     QAction *m_buttonShowMarkers;

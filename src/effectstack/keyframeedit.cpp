@@ -243,8 +243,8 @@ void KeyframeEdit::slotAddKeyframe(int pos)
         }
     }
     // Calculate new values
-    QList <double> previousValues;
-    QList <double> nextValues;
+    QList<double> previousValues;
+    QList<double> nextValues;
     int rowCount = keyframe_list->rowCount();
     // Insert new row
     keyframe_list->insertRow(newrow);

@@ -48,7 +48,7 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList <ClipController *> &list, const QStringList &luma_list, QWidget *parent = Q_NULLPTR);
+    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<ClipController *> &list, const QStringList &luma_list, QWidget *parent = Q_NULLPTR);
     // Constructor for extracting widget
     explicit ArchiveWidget(const QUrl &url, QWidget *parent = Q_NULLPTR);
     ~ArchiveWidget();
@@ -81,8 +81,8 @@ protected:
 private:
     KIO::filesize_t m_requestedSize;
     KIO::CopyJob *m_copyJob;
-    QMap <QUrl, QUrl> m_duplicateFiles;
-    QMap <QUrl, QUrl> m_replacementList;
+    QMap<QUrl, QUrl> m_duplicateFiles;
+    QMap<QUrl, QUrl> m_replacementList;
     QString m_name;
     QDomDocument m_doc;
     QTemporaryFile *m_temp;

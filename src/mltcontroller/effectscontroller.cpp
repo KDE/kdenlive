@@ -80,7 +80,7 @@ void EffectParameter::setValue(const QString &value)
     m_value = value;
 }
 
-EffectsParameterList::EffectsParameterList(): QList < EffectParameter >() {}
+EffectsParameterList::EffectsParameterList(): QList< EffectParameter >() {}
 
 bool EffectsParameterList::hasParam(const QString &name) const
 {

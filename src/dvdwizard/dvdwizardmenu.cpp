@@ -752,9 +752,9 @@ int DvdWizardMenu::menuMovieLength() const
     return m_movieLength;
 }
 
-QMap <QString, QRect> DvdWizardMenu::buttonsInfo(bool letterbox)
+QMap<QString, QRect> DvdWizardMenu::buttonsInfo(bool letterbox)
 {
-    QMap <QString, QRect> info;
+    QMap<QString, QRect> info;
     QList<QGraphicsItem *> list = m_scene->items();
     double ratiox = (double) m_finalSize.width() / m_width;
     double ratioy = 1;

@@ -82,7 +82,7 @@ public:
     QString getToolTip() const Q_DECL_OVERRIDE;
     bool rename(const QString &name, int column) Q_DECL_OVERRIDE;
     /** @brief Returns a list of all children and sub-children clips. */
-    QList <ProjectClip *> childClips();
+    QList<ProjectClip *> childClips();
 
 private:
     Bin *m_bin;

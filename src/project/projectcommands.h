@@ -90,13 +90,13 @@ private:
 class AddMarkerCommand : public QUndoCommand
 {
 public:
-    AddMarkerCommand(ProjectClip *clip, QList <CommentedTime> &oldMarkers, QList <CommentedTime> &newMarkers, QUndoCommand *parent = Q_NULLPTR);
+    AddMarkerCommand(ProjectClip *clip, QList<CommentedTime> &oldMarkers, QList<CommentedTime> &newMarkers, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
     ProjectClip *m_clip;
-    QList <CommentedTime> m_oldMarkers;
-    QList <CommentedTime> m_newMarkers;
+    QList<CommentedTime> m_oldMarkers;
+    QList<CommentedTime> m_newMarkers;
 };
 
 #endif

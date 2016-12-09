@@ -125,8 +125,8 @@ public:
 
     /** @brief Gets clip's marker times.
     * @return A list of the times. */
-    QList <GenTime> snapMarkers(const QList<GenTime> &markers) const;
-    QList <CommentedTime> commentedSnapMarkers() const;
+    QList<GenTime> snapMarkers(const QList<GenTime> &markers) const;
+    QList<CommentedTime> commentedSnapMarkers() const;
 
     /** @brief Gets the position of the fade in effect. */
     int fadeIn() const;
@@ -232,7 +232,7 @@ private:
     int m_strobe;
 
     EffectsList m_effectList;
-    QList <Transition *> m_transitionsList;
+    QList<Transition *> m_transitionsList;
     QMap<int, QPixmap> m_audioThumbCachePic;
     bool m_audioThumbReady;
     double m_framePixelWidth;

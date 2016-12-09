@@ -336,7 +336,7 @@ void KeyframeImport::updateDisplay()
     QPixmap pix(m_previewLabel->width(), m_previewLabel->height());
     pix.fill(Qt::transparent);
     QPainter *painter = new QPainter(&pix);
-    QList <QPoint> maximas;
+    QList<QPoint> maximas;
     int selectedtarget = m_sourceCombo->currentData().toInt();
     int profileWidth = m_profile.profileSize.width();
     int profileHeight = m_profile.profileSize.height();

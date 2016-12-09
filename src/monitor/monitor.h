@@ -98,7 +98,7 @@ public:
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */
     ClipController *currentController() const;
     /** @brief Add clip markers to the ruler and context menu */
-    void setMarkers(const QList <CommentedTime> &markers);
+    void setMarkers(const QList<CommentedTime> &markers);
     /** @brief Add timeline guides to the ruler and context menu */
     void setGuides(const QMap<double, QString> &guides);
     void reloadProducer(const QString &id);
@@ -256,7 +256,7 @@ private slots:
     void slotForceSize(QAction *a);
     void slotSeekToKeyFrame();
     /** @brief Display a non blocking error message to user **/
-    void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList <QAction *>());
+    void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
     void slotLockMonitor(bool lock);
     void slotAddEffect(const QDomElement &effect);
     void slotSwitchPlay();

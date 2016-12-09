@@ -280,7 +280,7 @@ void EffectsListView::filterList()
         m_removeAction->setText(i18n("Remove from favorites"));
 
         // Find favorites;
-        QList <QTreeWidgetItem *> favorites;
+        QList<QTreeWidgetItem *> favorites;
         for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
             QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
             for (int j = 0; j < folder->childCount(); ++j) {
@@ -306,7 +306,7 @@ void EffectsListView::filterList()
     }
     if (pos == EffectsList::EFFECT_GPU) {
         // Find favorites;
-        QList <QTreeWidgetItem *> favorites;
+        QList<QTreeWidgetItem *> favorites;
         for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
             QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
             for (int j = 0; j < folder->childCount(); ++j) {

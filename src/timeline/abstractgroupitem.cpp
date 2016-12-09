@@ -479,7 +479,7 @@ void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
-        QList <QGraphicsItem *>list = scene()->items(event->scenePos());
+        QList<QGraphicsItem *>list = scene()->items(event->scenePos());
         // only allow group move if we click over an item in the group
         foreach (const QGraphicsItem *item, list) {
             if (item->type() == TransitionWidget || item->type() == AVWidget) {
@@ -514,7 +514,7 @@ void AbstractGroupItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractGroupItem::resizeStart(int diff)
 {
-    QList <QGraphicsItem *> children = childItems();
+    QList<QGraphicsItem *> children = childItems();
     for (int i = 0; i < children.count(); ++i) {
         AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
         if (item && item->type() == AVWidget) {
@@ -526,7 +526,7 @@ void AbstractGroupItem::resizeStart(int diff)
 
 void AbstractGroupItem::resizeEnd(int diff)
 {
-    QList <QGraphicsItem *> children = childItems();
+    QList<QGraphicsItem *> children = childItems();
     for (int i = 0; i < children.count(); ++i) {
         AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
         if (item && item->type() == AVWidget) {
@@ -538,7 +538,7 @@ void AbstractGroupItem::resizeEnd(int diff)
 
 GenTime AbstractGroupItem::duration() const
 {
-    QList <QGraphicsItem *> children = childItems();
+    QList<QGraphicsItem *> children = childItems();
     GenTime start = GenTime(-1.0);
     GenTime end = GenTime();
     for (int i = 0; i < children.count(); ++i) {
@@ -561,7 +561,7 @@ GenTime AbstractGroupItem::duration() const
 
 GenTime AbstractGroupItem::startPos() const
 {
-    QList <QGraphicsItem *> children = childItems();
+    QList<QGraphicsItem *> children = childItems();
     GenTime start = GenTime(-1.0);
     for (int i = 0; i < children.count(); ++i) {
         if (children.at(i)->type() != GroupWidget) {
@@ -591,10 +591,10 @@ QGraphicsItem *AbstractGroupItem::otherClip(QGraphicsItem *item)
     }
 }
 
-QList <AbstractClipItem *> AbstractGroupItem::childClips() const
+QList<AbstractClipItem *> AbstractGroupItem::childClips() const
 {
-    QList <AbstractClipItem *> childClips;
-    QList <QGraphicsItem *>children = childItems();
+    QList<AbstractClipItem *> childClips;
+    QList<QGraphicsItem *>children = childItems();
     for (int i = 0; i < children.count(); ++i) {
         if (children.at(i)->type() != GroupWidget) {
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));

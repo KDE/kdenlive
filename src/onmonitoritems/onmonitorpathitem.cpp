@@ -125,7 +125,7 @@ void OnMonitorPathItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-QList <QPointF> OnMonitorPathItem::points() const
+QList<QPointF> OnMonitorPathItem::points() const
 {
     return m_points;
 }

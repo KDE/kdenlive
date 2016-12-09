@@ -29,7 +29,7 @@ class SplineItem : public QObject, public QGraphicsPathItem
     Q_OBJECT
 
 public:
-    explicit SplineItem(const QList <BPoint> &points, QGraphicsItem *parent = Q_NULLPTR, QGraphicsScene *scene = Q_NULLPTR);
+    explicit SplineItem(const QList<BPoint> &points, QGraphicsItem *parent = Q_NULLPTR, QGraphicsScene *scene = Q_NULLPTR);
 
     enum { Type = UserType + 10 };
 
@@ -38,8 +38,8 @@ public:
     bool editing() const;
     void initSpline(QGraphicsScene *scene, const QList< BPoint > &points);
     void updateSpline(bool editing = false);
-    QList <BPoint> getPoints() const;
-    void setPoints(const QList <BPoint> &points);
+    QList<BPoint> getPoints() const;
+    void setPoints(const QList<BPoint> &points);
 
     void removeChild(QGraphicsItem *child);
 

@@ -141,7 +141,7 @@ public:
      * @param videoOnlyProducer is the video only (without sound) replacement clip
      * @param newSlowMos the slowmotion producers required for replacement
      * @return list of in/out that were replaced */
-    QList <ItemInfo> replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, const QMap<QString, Mlt::Producer *> &newSlowMos);
+    QList<ItemInfo> replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, const QMap<QString, Mlt::Producer *> &newSlowMos);
     void updateEffects(const QString &id, Mlt::Producer *original);
     /** @brief replace an instance of a clip with another resource
      * @param t is the clip time in playlist
@@ -190,7 +190,7 @@ public:
     /** @brief Update producer properties on all instances of this clip. */
     void updateClipProperties(const QString &id, const QMap<QString, QString> &properties);
     /** @brief Returns a list of speed info for all slowmotion producer used on this track for an id. */
-    QList <SlowmoInfo> getSlowmotionInfos(const QString &id);
+    QList<SlowmoInfo> getSlowmotionInfos(const QString &id);
     /** @brief Returns the length of blank space from a position pos. */
     int spaceLength(int pos, bool fromBlankStart);
     /** @brief Dis/enable all effects on this track. */
@@ -207,7 +207,7 @@ public:
     bool enableTrackEffects(const QList<int> &effectIndexes, bool disable, bool remember = false);
     bool moveEffect(double start, int oldPos, int newPos);
     bool moveTrackEffect(int oldPos, int newPos);
-    QList <QPoint> visibleClips();
+    QList<QPoint> visibleClips();
     bool resize_in_out(int pos, int in, int out);
 
 signals:

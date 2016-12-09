@@ -92,7 +92,7 @@ private:
     Mlt::Geometry *m_geometry;
     QStringList m_extraGeometryNames;
     QStringList m_extraFactors;
-    QList <Mlt::Geometry *>m_extraGeometries;
+    QList<Mlt::Geometry *>m_extraGeometries;
     DragValue *m_spinX;
     DragValue *m_spinY;
     DragValue *m_spinWidth;

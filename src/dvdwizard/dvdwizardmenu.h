@@ -93,7 +93,7 @@ public:
     void createBackgroundImage(const QString &img1, bool letterbox);
     void createButtonImages(const QString &selected_image, const QString &highlighted_image, bool letterbox);
     void setTargets(const QStringList &list, const QStringList &targetlist);
-    QMap <QString, QRect> buttonsInfo(bool letterbox = false);
+    QMap<QString, QRect> buttonsInfo(bool letterbox = false);
     bool loopMovie() const;
     bool menuMovie() const;
     QString menuMoviePath() const;

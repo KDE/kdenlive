@@ -742,7 +742,7 @@ void ClipPropertiesController::slotComboValueChanged()
 void ClipPropertiesController::fillProperties()
 {
     m_clipProperties.clear();
-    QList <QStringList> propertyMap;
+    QList<QStringList> propertyMap;
 
     m_propertiesTree->setSortingEnabled(false);
 
@@ -871,7 +871,7 @@ void ClipPropertiesController::fillProperties()
 void ClipPropertiesController::slotFillMarkers()
 {
     m_markerTree->clear();
-    QList <CommentedTime> markers = m_controller->commentedSnapMarkers();
+    QList<CommentedTime> markers = m_controller->commentedSnapMarkers();
     for (int count = 0; count < markers.count(); ++count) {
         QString time = m_tc.getTimecode(markers.at(count).time());
         QStringList itemtext;
@@ -892,14 +892,14 @@ void ClipPropertiesController::slotSeekToMarker()
 
 void ClipPropertiesController::slotEditMarker()
 {
-    QList < CommentedTime > marks = m_controller->commentedSnapMarkers();
+    QList< CommentedTime > marks = m_controller->commentedSnapMarkers();
     int pos = m_markerTree->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) {
         return;
     }
     QPointer<MarkerDialog> d = new MarkerDialog(m_controller, marks.at(pos), m_tc, i18n("Edit Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        QList <CommentedTime> markers;
+        QList<CommentedTime> markers;
         markers << d->newMarker();
         emit addMarkers(m_id, markers);
     }
@@ -908,8 +908,8 @@ void ClipPropertiesController::slotEditMarker()
 
 void ClipPropertiesController::slotDeleteMarker()
 {
-    QList < CommentedTime > marks = m_controller->commentedSnapMarkers();
-    QList < CommentedTime > toDelete;
+    QList< CommentedTime > marks = m_controller->commentedSnapMarkers();
+    QList< CommentedTime > toDelete;
     for (int i = 0; i < marks.count(); ++i) {
         if (m_markerTree->topLevelItem(i)->isSelected()) {
             CommentedTime marker = marks.at(i);
@@ -926,7 +926,7 @@ void ClipPropertiesController::slotAddMarker()
     QPointer<MarkerDialog> d = new MarkerDialog(m_controller, marker,
             m_tc, i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        QList <CommentedTime> markers;
+        QList<CommentedTime> markers;
         markers << d->newMarker();
         emit addMarkers(m_id, markers);
     }

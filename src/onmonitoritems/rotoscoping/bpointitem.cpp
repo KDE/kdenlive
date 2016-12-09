@@ -97,7 +97,7 @@ void BPointItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
 int BPointItem::getSelection(const QPointF &pos)
 {
-    QList <qreal> d;
+    QList<qreal> d;
     d << QLineF(pos, m_point.h1).length() << QLineF(pos, m_point.p).length() << QLineF(pos, m_point.h2).length();
     // index of point nearest to pos
     int i = (d[1] < d[0] && d[1] < d[2]) ? 1 : (d[0] < d[2] ? 0 : 2);

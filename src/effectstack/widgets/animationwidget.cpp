@@ -1034,7 +1034,7 @@ void AnimationWidget::loadPresets(QString currentText)
         m_presetCombo->removeItem(0);
     }
     m_presetCombo->removeItem(0);
-    QMap <QString, QVariant> defaultEntry;
+    QMap<QString, QVariant> defaultEntry;
     QStringList paramNames = m_doubleWidgets.keys();
     for (int i = 0; i < paramNames.count(); i++) {
         defaultEntry.insert(paramNames.at(i), getDefaultKeyframes(m_inPoint, m_params.at(i).attribute(QStringLiteral("default"))));
@@ -1057,7 +1057,7 @@ void AnimationWidget::loadPreset(const QString &path)
     QStringList groups = confFile.groupList();
     foreach (const QString &grp, groups) {
         QMap<QString, QString> entries = KConfigGroup(&confFile, grp).entryMap();
-        QMap <QString, QVariant> variantEntries;
+        QMap<QString, QVariant> variantEntries;
         QMapIterator<QString, QString> i(entries);
         while (i.hasNext()) {
             i.next();

@@ -112,7 +112,7 @@ void JobManager::slotCheckJobProcess()
 {
     if (!m_jobThreads.futures().isEmpty()) {
         // Remove inactive threads
-        QList <QFuture<void> > futures = m_jobThreads.futures();
+        QList<QFuture<void> > futures = m_jobThreads.futures();
         m_jobThreads.clearFutures();
         for (int i = 0; i < futures.count(); ++i)
             if (!futures.at(i).isFinished()) {
@@ -232,7 +232,7 @@ void JobManager::slotProcessJobs()
     QTimer::singleShot(200, this, &JobManager::checkJobProcess);
 }
 
-QList <ProjectClip *> JobManager::filterClips(const QList <ProjectClip *> &clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
+QList<ProjectClip *> JobManager::filterClips(const QList<ProjectClip *> &clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
     //TODO: filter depending on clip type
     if (jobType == AbstractClipJob::TRANSCODEJOB || jobType == AbstractClipJob::CUTJOB) {
@@ -242,7 +242,7 @@ QList <ProjectClip *> JobManager::filterClips(const QList <ProjectClip *> &clips
     } else if (jobType == AbstractClipJob::PROXYJOB) {
         return ProxyJob::filterClips(clips);
     }
-    return QList <ProjectClip *> ();
+    return QList<ProjectClip *> ();
 }
 
 void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams, const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams)
@@ -255,7 +255,7 @@ void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, Q
 void JobManager::prepareJobs(const QList<ProjectClip *> &clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
     //TODO filter clips
-    QList <ProjectClip *> matching = filterClips(clips, jobType, params);
+    QList<ProjectClip *> matching = filterClips(clips, jobType, params);
     if (matching.isEmpty()) {
         m_bin->doDisplayMessage(i18n("No valid clip to process"), KMessageWidget::Information);
         return;

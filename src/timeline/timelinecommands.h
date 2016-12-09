@@ -220,14 +220,14 @@ private:
 class GroupClipsCommand : public QUndoCommand
 {
 public:
-    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> &clipInfos, const QList <ItemInfo> &transitionInfos, bool group, bool doIt = true, QUndoCommand *parent = Q_NULLPTR);
+    GroupClipsCommand(CustomTrackView *view, const QList<ItemInfo> &clipInfos, const QList<ItemInfo> &transitionInfos, bool group, bool doIt = true, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
 private:
     CustomTrackView *m_view;
-    const QList <ItemInfo> m_clips;
-    const QList <ItemInfo> m_transitions;
+    const QList<ItemInfo> m_clips;
+    const QList<ItemInfo> m_transitions;
     bool m_group;
     bool m_doIt;
 };
@@ -256,7 +256,7 @@ public:
 private:
     CustomTrackView *m_view;
     ItemInfo m_spaceInfo;
-    QList <ItemInfo> m_excludeList;
+    QList<ItemInfo> m_excludeList;
     bool m_doIt;
     bool m_trackOnly;
 };
@@ -308,13 +308,13 @@ private:
 class MoveGroupCommand : public QUndoCommand
 {
 public:
-    MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> &startClip, const QList <ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand *parent = Q_NULLPTR);
+    MoveGroupCommand(CustomTrackView *view, const QList<ItemInfo> &startClip, const QList<ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
     CustomTrackView *m_view;
-    const QList <ItemInfo> m_startClip;
-    const QList <ItemInfo> m_startTransition;
+    const QList<ItemInfo> m_startClip;
+    const QList<ItemInfo> m_startTransition;
     const GenTime m_offset;
     const int m_trackOffset;
     bool m_alreadyMoved;
@@ -367,17 +367,17 @@ private:
 class RazorGroupCommand : public QUndoCommand
 {
 public:
-    RazorGroupCommand(CustomTrackView *view, QList <ItemInfo> clips1, QList <ItemInfo> transitions1, QList <ItemInfo> clipsCut, QList <ItemInfo> transitionsCut, QList <ItemInfo> clips2, QList <ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent = Q_NULLPTR);
+    RazorGroupCommand(CustomTrackView *view, QList<ItemInfo> clips1, QList<ItemInfo> transitions1, QList<ItemInfo> clipsCut, QList<ItemInfo> transitionsCut, QList<ItemInfo> clips2, QList<ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent = Q_NULLPTR);
     virtual void undo();
     virtual void redo();
 private:
     CustomTrackView *m_view;
-    QList <ItemInfo> m_clips1;
-    QList <ItemInfo> m_transitions1;
-    QList <ItemInfo> m_clipsCut;
-    QList <ItemInfo> m_transitionsCut;
-    QList <ItemInfo> m_clips2;
-    QList <ItemInfo> m_transitions2;
+    QList<ItemInfo> m_clips1;
+    QList<ItemInfo> m_transitions1;
+    QList<ItemInfo> m_clipsCut;
+    QList<ItemInfo> m_transitionsCut;
+    QList<ItemInfo> m_clips2;
+    QList<ItemInfo> m_transitions2;
     GenTime m_cutPos;
 };
 */
@@ -400,10 +400,10 @@ public:
     RefreshMonitorCommand(CustomTrackView *view, const ItemInfo &info, bool execute, bool refreshOnUndo, QUndoCommand *parent = Q_NULLPTR);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
-    void updateRange(const QList <ItemInfo> &info);
+    void updateRange(const QList<ItemInfo> &info);
 private:
     CustomTrackView *m_view;
-    QList <ItemInfo> m_info;
+    QList<ItemInfo> m_info;
     bool m_exec;
     bool m_execOnUndo;
 };

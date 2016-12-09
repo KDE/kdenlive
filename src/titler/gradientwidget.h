@@ -47,7 +47,7 @@ public:
     QString gradientToString() const;
     static QLinearGradient gradientFromString(const QString &str, int width, int height);
     QMap<QString, QString> gradients() const;
-    QList <QIcon> icons() const;
+    QList<QIcon> icons() const;
     int selectedGradient() const;
 
 private:

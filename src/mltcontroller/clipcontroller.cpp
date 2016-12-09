@@ -45,7 +45,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer &prod
     , m_clipType(Unknown)
     , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
-    , m_snapMarkers(QList < CommentedTime >())
+    , m_snapMarkers(QList< CommentedTime >())
 {
     m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) {
@@ -81,7 +81,7 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
     , m_clipType(Unknown)
     , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
-    , m_snapMarkers(QList < CommentedTime >())
+    , m_snapMarkers(QList< CommentedTime >())
 {
 }
 
@@ -235,7 +235,7 @@ QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &pr
 {
     Mlt::Properties subProperties;
     subProperties.pass_values(*m_properties, prefix.toUtf8().constData());
-    QMap <QString, QString> subclipsData;
+    QMap<QString, QString> subclipsData;
     for (int i = 0; i < subProperties.count(); i++) {
         subclipsData.insert(withPrefix ? QString(prefix + subProperties.get_name(i)) : subProperties.get_name(i), subProperties.get(i));
     }
@@ -506,9 +506,9 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     return pixmap;
 }
 
-QList < GenTime > ClipController::snapMarkers() const
+QList< GenTime > ClipController::snapMarkers() const
 {
-    QList < GenTime > markers;
+    QList< GenTime > markers;
     for (int count = 0; count < m_snapMarkers.count(); ++count) {
         markers.append(m_snapMarkers.at(count).time());
     }
@@ -516,7 +516,7 @@ QList < GenTime > ClipController::snapMarkers() const
     return markers;
 }
 
-QList < CommentedTime > ClipController::commentedSnapMarkers() const
+QList< CommentedTime > ClipController::commentedSnapMarkers() const
 {
     return m_snapMarkers;
 }

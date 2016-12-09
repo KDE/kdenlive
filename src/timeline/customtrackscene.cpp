@@ -54,7 +54,7 @@ double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap)
     return GenTime(pos, m_timeline->fps()).frames(m_timeline->fps());
 }
 
-void CustomTrackScene::setSnapList(const QList <GenTime> &snaps)
+void CustomTrackScene::setSnapList(const QList<GenTime> &snaps)
 {
     m_snapPoints = snaps;
 }

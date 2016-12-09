@@ -619,7 +619,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     m_moveStarted = false;
     m_clickPoint = e->scenePos();
     m_resizeMode = m_possibleAction;
-    const QList <QGraphicsItem *> list = items(e->scenePos());
+    const QList<QGraphicsItem *> list = items(e->scenePos());
     QGraphicsItem *item = Q_NULLPTR;
     if (e->modifiers() != Qt::ControlModifier) {
         clearSelection();

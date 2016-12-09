@@ -80,7 +80,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     QTreeWidgetItem *misc = Q_NULLPTR;
     QTreeWidgetItem *audio = Q_NULLPTR;
     QTreeWidgetItem *custom = Q_NULLPTR;
-    QList <QTreeWidgetItem *> folders;
+    QList<QTreeWidgetItem *> folders;
 
     if (!categoryFile.isEmpty()) {
         QDomDocument doc;
@@ -501,7 +501,7 @@ void EffectsListWidget::resetRoot()
 {
     setRootIndex(indexFromItem(invisibleRootItem()));
 }
-void EffectsListWidget::createTopLevelItems(const QList <QTreeWidgetItem *> &list, int effectType)
+void EffectsListWidget::createTopLevelItems(const QList<QTreeWidgetItem *> &list, int effectType)
 {
     // Favorites is a pseudo-folder used to store items, not visible to end user, so don't i18n its name
     QTreeWidgetItem *misc = findFolder(QStringLiteral("TemporaryFolder"));

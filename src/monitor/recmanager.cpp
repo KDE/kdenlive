@@ -302,12 +302,12 @@ void RecManager::slotProcessStatus(QProcess::ProcessState status)
         m_device_selector->setEnabled(true);
         if (m_captureProcess) {
             if (m_captureProcess->exitStatus() == QProcess::CrashExit) {
-                emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList <QAction *>() << m_showLogAction);
+                emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
             } else {
                 if (true) {
                     int code = m_captureProcess->exitCode();
                     if (code != 0 && code != 255) {
-                        emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList <QAction *>() << m_showLogAction);
+                        emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
                     } else {
                         // Capture successfull, add clip to project
                         emit addClipToProject(m_captureFile);

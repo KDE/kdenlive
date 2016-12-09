@@ -89,8 +89,8 @@ private:
     Mlt::Properties m_animProperties;
     KSelectAction *m_selectType;
     QAction *m_endAttach;
-    QList <QDomElement> m_params;
-    QMap <QString, DoubleParameterWidget *> m_doubleWidgets;
+    QList<QDomElement> m_params;
+    QMap<QString, DoubleParameterWidget *> m_doubleWidgets;
     DragValue *m_spinX;
     DragValue *m_spinY;
     DragValue *m_spinWidth;

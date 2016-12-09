@@ -73,7 +73,7 @@ public:
      *  @param jobType the jobtype requested
      *  @param type the parameters for the job
      */
-    void prepareJobs(const QList <ProjectClip *> &clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList &params = QStringList());
+    void prepareJobs(const QList<ProjectClip *> &clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList &params = QStringList());
 
     /** @brief Filter a list of selected clips to keep only those that match the job type
      *  @param clips the list of selected clips
@@ -81,7 +81,7 @@ public:
      *  @param type the parameters for the job, might be relevant to filter clips
      *  @returns A QMap list (id, urls) of clip that match the job type
      */
-    QList <ProjectClip *> filterClips(const QList<ProjectClip *> &clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params);
+    QList<ProjectClip *> filterClips(const QList<ProjectClip *> &clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params);
 
     /** @brief Put the job in our queue.
      *  @param clip the clip to whom the job will be applied
@@ -112,7 +112,7 @@ private:
     /** @brief Mutex preventing thread issues. */
     QMutex m_jobMutex;
     /** @brief Holds a list of active jobs. */
-    QList <AbstractClipJob *> m_jobList;
+    QList<AbstractClipJob *> m_jobList;
     /** @brief Holds the threads running a job. */
     QFutureSynchronizer<void> m_jobThreads;
     /** @brief Set to true to trigger abortion of all jobs. */

@@ -394,7 +394,7 @@ public:
     ProjectClip *getBinClip(const QString &id);
 
     /** @brief Returns a list of selected clips  */
-    QList <ProjectClip *> selectedClips();
+    QList<ProjectClip *> selectedClips();
 
     /** @brief Start a job of selected type for a clip  */
     void startJob(const QString &id, AbstractClipJob::JOBTYPE type);
@@ -646,7 +646,7 @@ public slots:
     void abortAudioThumbs();
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
-    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList <QAction *>());
+    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>());
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
     /** @brief Select a clip in the Bin from its id. */

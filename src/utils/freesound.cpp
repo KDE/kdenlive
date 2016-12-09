@@ -99,7 +99,7 @@ void FreeSound::slotShowResults(KJob *job)
         QVariant data = doc.toVariant();
         QVariant sounds;
         if (data.canConvert(QVariant::Map)) {
-            QMap <QString, QVariant> map = data.toMap();
+            QMap<QString, QVariant> map = data.toMap();
             QMap<QString, QVariant>::const_iterator i = map.constBegin();
             while (i != map.constEnd()) {
 
@@ -111,10 +111,10 @@ void FreeSound::slotShowResults(KJob *job)
 
                     sounds = i.value();
                     if (sounds.canConvert(QVariant::List)) {
-                        QList <QVariant> soundsList = sounds.toList();
+                        QList<QVariant> soundsList = sounds.toList();
                         for (int j = 0; j < soundsList.count(); ++j) {
                             if (soundsList.at(j).canConvert(QVariant::Map)) {
-                                QMap <QString, QVariant> soundmap = soundsList.at(j).toMap();
+                                QMap<QString, QVariant> soundmap = soundsList.at(j).toMap();
 
                                 if (soundmap.contains(QStringLiteral("name"))) {
                                     QListWidgetItem *item = new   QListWidgetItem(soundmap.value(QStringLiteral("name")).toString(), m_listWidget);
@@ -197,7 +197,7 @@ void FreeSound::slotParseResults(KJob *job)
     QString html = QStringLiteral("<style type=\"text/css\">tr.cellone {background-color: %1;}</style>").arg(qApp->palette().alternateBase().color().name());
 
     if (data.canConvert(QVariant::Map)) {
-        QMap <QString, QVariant> info = data.toMap();
+        QMap<QString, QVariant> info = data.toMap();
 
         html += QLatin1String("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">");
 
@@ -230,7 +230,7 @@ void FreeSound::slotParseResults(KJob *job)
         }
 
         if (info.contains(QStringLiteral("previews"))) {
-            QMap <QString, QVariant> previews = info.value(QStringLiteral("previews")).toMap();
+            QMap<QString, QVariant> previews = info.value(QStringLiteral("previews")).toMap();
 
             if (previews.contains(QStringLiteral("preview-lq-mp3"))) {
                 m_metaInfo.insert(QStringLiteral("itemPreview"), previews.value(QStringLiteral("preview-lq-mp3")).toString());
@@ -244,7 +244,7 @@ void FreeSound::slotParseResults(KJob *job)
         }
 
         if (info.contains(QStringLiteral("images"))) {
-            QMap <QString, QVariant> images = info.value(QStringLiteral("images")).toMap();
+            QMap<QString, QVariant> images = info.value(QStringLiteral("images")).toMap();
 
             if (images.contains(QStringLiteral("waveform_m"))) {
                 m_metaInfo.insert(QStringLiteral("itemImage"), images.value(QStringLiteral("waveform_m")).toString());

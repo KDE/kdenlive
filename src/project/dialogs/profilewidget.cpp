@@ -124,7 +124,7 @@ void ProfileWidget::loadProfile(QString profile)
     m_listSDWide.clear();
     m_listCustom.clear();
     m_currentProfile = ProfilesDialog::getVideoProfile(profile);
-    QList <MltVideoProfile> list = ProfilesDialog::profilesList();
+    QList<MltVideoProfile> list = ProfilesDialog::profilesList();
     for (int i = 0; i < list.count(); i++) {
         MltVideoProfile prof = list.at(i);
         switch (prof.height) {
@@ -202,7 +202,7 @@ void ProfileWidget::loadProfile(QString profile)
     updateList();
 }
 
-QList <MltVideoProfile> ProfileWidget::getList(VIDEOSTD std)
+QList<MltVideoProfile> ProfileWidget::getList(VIDEOSTD std)
 {
     switch (std) {
     case Std4KDCI:
@@ -250,7 +250,7 @@ void ProfileWidget::updateList()
         currentFps = m_rate_list->currentText();
     }
     m_rate_list->clear();
-    QList <MltVideoProfile> currentStd = getList(std);
+    QList<MltVideoProfile> currentStd = getList(std);
     QStringList frameRates;
     QString text;
     for (int i = 0; i < currentStd.count(); i++) {
@@ -283,7 +283,7 @@ void ProfileWidget::updateList()
 void ProfileWidget::ratesUpdated()
 {
     VIDEOSTD std = (VIDEOSTD) m_standard->currentData().toInt();
-    QList <MltVideoProfile> currentStd = getList(std);
+    QList<MltVideoProfile> currentStd = getList(std);
     // insert all frame sizes related to frame rate
     m_customSize->clear();
     m_customSize->addItems(getFrameSizes(currentStd, m_rate_list->currentText()));
@@ -297,7 +297,7 @@ void ProfileWidget::ratesUpdated()
     updateDisplay();
 }
 
-QStringList ProfileWidget::getFrameSizes(const QList <MltVideoProfile> &currentStd, const QString &rate)
+QStringList ProfileWidget::getFrameSizes(const QList<MltVideoProfile> &currentStd, const QString &rate)
 {
     QStringList sizes;
     for (int i = 0; i < currentStd.count(); i++) {
@@ -327,7 +327,7 @@ void ProfileWidget::slotCheckInterlace()
     updateDisplay();
 }
 
-void ProfileWidget::checkInterlace(const QList <MltVideoProfile> &currentStd, const QString &size, const QString &rate)
+void ProfileWidget::checkInterlace(const QList<MltVideoProfile> &currentStd, const QString &size, const QString &rate)
 {
     bool allowInterlaced = false;
     bool allowProgressive = false;
@@ -401,8 +401,8 @@ const QString ProfileWidget::selectedProfile() const
 void ProfileWidget::updateDisplay()
 {
     VIDEOSTD std = (VIDEOSTD) m_standard->currentData().toInt();
-    QList <MltVideoProfile> currentStd = getList(std);
-    QList <MltVideoProfile> matching;
+    QList<MltVideoProfile> currentStd = getList(std);
+    QList<MltVideoProfile> matching;
     QString rate = m_rate_list->currentText();
     QString size = m_customSize->currentText();
     bool interlaced = m_interlaced->isChecked();
@@ -475,7 +475,7 @@ void ProfileWidget::updateDisplay()
 void ProfileWidget::selectProfile()
 {
     VIDEOSTD std = (VIDEOSTD) m_standard->currentData().toInt();
-    QList <MltVideoProfile> currentStd = getList(std);
+    QList<MltVideoProfile> currentStd = getList(std);
     QString rate = m_rate_list->currentText();
     QString size = m_customSize->currentText();
     QString display = m_display_list->currentText();

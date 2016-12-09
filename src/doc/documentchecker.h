@@ -67,7 +67,7 @@ private:
     void checkStatus();
     QMap<QString, QString> m_missingTitleImages;
     QMap<QString, QString> m_missingTitleFonts;
-    QList <QDomElement> m_missingClips;
+    QList<QDomElement> m_missingClips;
     QStringList m_missingFonts;
     QStringList m_safeImages;
     QStringList m_safeFonts;

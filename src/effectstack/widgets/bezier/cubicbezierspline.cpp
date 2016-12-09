@@ -90,7 +90,7 @@ int CubicBezierSpline::setPoint(int ix, const BPoint &point)
     return indexOf(point); // in case it changed
 }
 
-QList <BPoint> CubicBezierSpline::points() const
+QList<BPoint> CubicBezierSpline::points() const
 {
     return m_points;
 }

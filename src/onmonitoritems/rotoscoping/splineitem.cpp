@@ -101,9 +101,9 @@ void SplineItem::updateSpline(bool editing)
     }
 }
 
-QList <BPoint> SplineItem::getPoints() const
+QList<BPoint> SplineItem::getPoints() const
 {
-    QList <BPoint> points;
+    QList<BPoint> points;
     foreach (QGraphicsItem *child, childItems()) {
         points << qgraphicsitem_cast<BPointItem *>(child)->getPoint();
     }
@@ -173,7 +173,7 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
     } else {
         bool close = false;
-        QList <QGraphicsItem *> items = childItems();
+        QList<QGraphicsItem *> items = childItems();
         if (items.count() > 1) {
             BPointItem *bp = qgraphicsitem_cast<BPointItem *>(items.at(0));
             int selectionType = bp->getSelection(mapToItem(bp, event->pos()));
@@ -243,7 +243,7 @@ int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
     qreal diff = 10000, param = 0;
     BPoint p1, p2;
     int curveSegment = 0;
-    QList <QGraphicsItem *> items = childItems();
+    QList<QGraphicsItem *> items = childItems();
     for (int i = 0; i < items.count(); ++i) {
         int j = (i + 1) % items.count();
         p1 = qgraphicsitem_cast<BPointItem *>(items.at(i))->getPoint();

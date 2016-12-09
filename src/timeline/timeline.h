@@ -61,7 +61,7 @@ class Timeline : public QWidget, public Ui::TimeLine_UI
     Q_OBJECT
 
 public:
-    explicit Timeline(KdenliveDoc *doc, const QList <QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent = Q_NULLPTR);
+    explicit Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent = Q_NULLPTR);
     virtual ~ Timeline();
 
     /** @brief is multitrack view (split screen for tracks) enabled */
@@ -119,7 +119,7 @@ public:
      *  deprecated use string version with track name instead */
     TrackInfo getTrackInfo(int ix);
     void setTrackInfo(int trackIndex, const TrackInfo &info);
-    QList <TrackInfo> getTracksInfo();
+    QList<TrackInfo> getTracksInfo();
     QStringList getTrackNames();
     void addTrackEffect(int trackIndex, QDomElement effect, bool addToPlaylist = true);
     bool removeTrackEffect(int trackIndex, int effectIndex, const QDomElement &effect);
@@ -206,13 +206,13 @@ public slots:
 
 private:
     Mlt::Tractor *m_tractor;
-    QList <Track *> m_tracks;
+    QList<Track *> m_tracks;
     /** @brief number of special overlay tracks to preview effects */
     bool m_hasOverlayTrack;
     Mlt::Producer *m_overlayTrack;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
-    QList <QString> m_invalidProducers;
+    QList<QString> m_invalidProducers;
     double m_scale;
     QString m_editMode;
     CustomTrackScene *m_scene;
@@ -222,7 +222,7 @@ private:
     KdenliveDoc *m_doc;
     int m_verticalZoom;
     QString m_documentErrors;
-    QList <QAction *> m_trackActions;
+    QList<QAction *> m_trackActions;
     /** @brief sometimes grouped commands quickly send invalidate commands, so wait a little bit before processing*/
     PreviewManager *m_timelinePreview;
     bool m_usePreview;

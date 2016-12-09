@@ -472,12 +472,12 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
 }
 
 // static
-QList <MltVideoProfile> ProfilesDialog::profilesList()
+QList<MltVideoProfile> ProfilesDialog::profilesList()
 {
     // Check if the profile has a matching entry in existing ones
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
-    QList <MltVideoProfile> list;
+    QList<MltVideoProfile> list;
     // Check the Mlt profiles
     QDir mltDir(KdenliveSettings::mltpath());
     QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);

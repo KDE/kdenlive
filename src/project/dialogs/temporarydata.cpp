@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTreeWidget>
 #include <QPushButton>
 
-static QList <QColor> chartColors;
+static QList<QColor> chartColors;
 
 ChartWidget::ChartWidget(QWidget *parent) :
     QWidget(parent)

@@ -249,7 +249,7 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
     painter->restore();
 }
 
-void KeyframeView::drawKeyFrameChannels(const QRectF &br, int in, int out, QPainter *painter, const QList <QPoint> &maximas, int limitKeyframes, const QColor &textColor)
+void KeyframeView::drawKeyFrameChannels(const QRectF &br, int in, int out, QPainter *painter, const QList<QPoint> &maximas, int limitKeyframes, const QColor &textColor)
 {
     double frameFactor = (double)(out - in) / br.width();
     int offset = 1;
@@ -723,7 +723,7 @@ void KeyframeView::removeKeyframe(int frame)
     m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
 }
 
-QAction *KeyframeView::parseKeyframeActions(const QList <QAction *> &actions)
+QAction *KeyframeView::parseKeyframeActions(const QList<QAction *> &actions)
 {
 
     mlt_keyframe_type type = m_keyAnim.keyframe_type(activeKeyframe);
@@ -807,9 +807,9 @@ const QString KeyframeView::serialize(const QString &name, bool rectAnimation)
     return result.join(QStringLiteral(";"));
 }
 
-QList <QPoint> KeyframeView::loadKeyframes(const QString &data)
+QList<QPoint> KeyframeView::loadKeyframes(const QString &data)
 {
-    QList <QPoint> result;
+    QList<QPoint> result;
     m_keyframeType = NoKeyframe;
     m_inTimeline = QStringLiteral("imported");
     m_keyProperties.set(m_inTimeline.toUtf8().constData(), data.toUtf8().constData());

@@ -47,7 +47,7 @@ bool ResizeManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
         // Store start infos
         AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
         if (parent) {
-            QList <QGraphicsItem *> items = parent->childItems();
+            QList<QGraphicsItem *> items = parent->childItems();
             for (int i = 0; i < items.count(); ++i) {
                 if (items.at(i)->type() == AVWidget) {
                     AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
@@ -102,7 +102,7 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                     if (parent) {
                         QUndoCommand *resizeCommand = new QUndoCommand();
                         resizeCommand->setText(i18n("Resize group"));
-                        QList <QGraphicsItem *> items = parent->childItems();
+                        QList<QGraphicsItem *> items = parent->childItems();
                         GenTime min = parent->startPos();
                         GenTime max = min;
                         int itemcount = 0;
@@ -155,7 +155,7 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                         }
                     } else {
                         // Resized transition
-                        m_view->monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << dragItem->info(), true);
+                        m_view->monitorRefresh(QList<ItemInfo>() << m_dragItemInfo << dragItem->info(), true);
                     }
                     if (!dragItem) {
                         qCDebug(KDENLIVE_LOG) << " * * ** SOMETHING WRONG HERE: " << m_dragItemInfo.endPos.frames(m_view->fps());
@@ -170,7 +170,7 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                     if (parent) {
                         QUndoCommand *resizeCommand = new QUndoCommand();
                         resizeCommand->setText(i18n("Resize group"));
-                        QList <QGraphicsItem *> items = parent->childItems();
+                        QList<QGraphicsItem *> items = parent->childItems();
                         GenTime min = parent->startPos() + parent->duration();
                         GenTime max = min;
                         int itemcount = 0;
@@ -213,7 +213,7 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                             m_view->monitorRefresh(range, true);
                         }
                     } else {
-                        m_view->monitorRefresh(QList <ItemInfo>() << m_dragItemInfo << dragItem->info(), true);
+                        m_view->monitorRefresh(QList<ItemInfo>() << m_dragItemInfo << dragItem->info(), true);
                     }
                 }
             }

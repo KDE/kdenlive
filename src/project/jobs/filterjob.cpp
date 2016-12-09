@@ -33,14 +33,14 @@
 #include <mlt++/Mlt.h>
 
 // static
-QList <ProjectClip *> FilterJob::filterClips(const QList <ProjectClip *> &clips, const QStringList &params)
+QList<ProjectClip *> FilterJob::filterClips(const QList<ProjectClip *> &clips, const QStringList &params)
 {
     QString condition;
     if (params.count() > 3) {
         // there is a condition for this job, for example operate only on vcodec=mpeg1video
         condition = params.at(3);
     }
-    QList <ProjectClip *> result;
+    QList<ProjectClip *> result;
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *clip = clips.at(i);
         ClipType type = clip->clipType();
@@ -57,7 +57,7 @@ QList <ProjectClip *> FilterJob::filterClips(const QList <ProjectClip *> &clips,
     return result;
 }
 
-QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList <ProjectClip *> &clips, const QStringList &parameters)
+QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<ProjectClip *> &clips, const QStringList &parameters)
 {
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     QStringList sources;

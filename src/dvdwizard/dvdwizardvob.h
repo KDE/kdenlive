@@ -132,7 +132,7 @@ private:
     KMessageWidget *m_warnMessage;
     int m_duration;
     QProcess m_transcodeProcess;
-    QList <TranscodeJobInfo> m_transcodeQueue;
+    QList<TranscodeJobInfo> m_transcodeQueue;
     TranscodeJobInfo m_currentTranscoding;
     void showProfileError();
     void showError(const QString &error);

@@ -59,7 +59,7 @@ public:
 
 private:
     QMutex m_infoMutex;
-    QList <requestClipInfo> m_requestList;
+    QList<requestClipInfo> m_requestList;
     /** @brief The ids of the clips that are currently being loaded for info query */
     QStringList m_processingClipId;
     QFuture <void> m_infoThread;

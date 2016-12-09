@@ -60,7 +60,7 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
     //m_scene->cleanup();
 
     // TODO: port to qml monitor scene
-    /*m_item = new SplineItem(QList <BPoint>(), Q_NULLPTR, m_scene);
+    /*m_item = new SplineItem(QList<BPoint>(), Q_NULLPTR, m_scene);
     connect(m_item, SIGNAL(changed(bool)), this, SLOT(slotUpdateData(bool)));
     connect(m_scene, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
     */
@@ -93,7 +93,7 @@ void RotoWidget::slotSyncPosition(int relTimelinePos)
     slotPositionChanged(relTimelinePos, false);
 }
 
-void RotoWidget::slotUpdateData(int pos, const QList <BPoint> &spline)
+void RotoWidget::slotUpdateData(int pos, const QList<BPoint> &spline)
 {
     int width = m_monitor->render->frameRenderWidth();
     int height = m_monitor->render->renderHeight();
@@ -101,17 +101,17 @@ void RotoWidget::slotUpdateData(int pos, const QList <BPoint> &spline)
     /*
      * use the position of the on-monitor points to create a storable list
      */
-    QList <QVariant> vlist;
+    QList<QVariant> vlist;
     foreach (const BPoint &point, spline) {
-        QList <QVariant> pl;
+        QList<QVariant> pl;
         for (int i = 0; i < 3; ++i) {
-            pl << QVariant(QList <QVariant>() << QVariant(point[i].x() / width) << QVariant(point[i].y() / height));
+            pl << QVariant(QList<QVariant>() << QVariant(point[i].x() / width) << QVariant(point[i].y() / height));
         }
         vlist << QVariant(pl);
     }
 
     if (m_data.canConvert(QVariant::Map)) {
-        QMap <QString, QVariant> map = m_data.toMap();
+        QMap<QString, QVariant> map = m_data.toMap();
         // replace or insert at position
         // we have to fill with 0s to maintain the correct order
         map[QString::number((pos < 0 ? m_keyframeWidget->getPosition() : pos) + m_in).rightJustified(log10((double)m_out) + 1, '0')] = QVariant(vlist);
@@ -130,7 +130,7 @@ void RotoWidget::slotUpdateData(int pos, const QList <BPoint> &spline)
 
 void RotoWidget::slotUpdateDataPoints(const QVariantList &points, int pos)
 {
-    QList <BPoint> bPoints;
+    QList<BPoint> bPoints;
     for (int i = 0; i < points.size() / 3; i++) {
         BPoint b(points.at(3 * i).toPointF(), points.at(3 * i + 1).toPointF(), points.at(3 * i + 2).toPointF());
         bPoints << b;
@@ -155,12 +155,12 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
 
     pos += m_in;
 
-    QList <BPoint> p;
+    QList<BPoint> p;
     bool isKeyframe = false;
 
     if (m_data.canConvert(QVariant::Map)) {
-        QMap <QString, QVariant> map = m_data.toMap();
-        QMap <QString, QVariant>::const_iterator i = map.constBegin();
+        QMap<QString, QVariant> map = m_data.toMap();
+        QMap<QString, QVariant>::const_iterator i = map.constBegin();
         int keyframe1, keyframe2;
         keyframe1 = keyframe2 = i.key().toInt();
         // find keyframes next to pos
@@ -174,8 +174,8 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
              * in between two keyframes
              * -> interpolate
              */
-            QList <BPoint> p1 = getPoints(keyframe1);
-            QList <BPoint> p2 = getPoints(keyframe2);
+            QList<BPoint> p1 = getPoints(keyframe1);
+            QList<BPoint> p2 = getPoints(keyframe2);
             qreal relPos = (pos - keyframe1) / (qreal)(keyframe2 - keyframe1 + 1);
 
             // additionally points are ignored (same behavior as MLT filter)
@@ -227,12 +227,12 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
     }
 }
 
-QList <BPoint> RotoWidget::getPoints(int keyframe)
+QList<BPoint> RotoWidget::getPoints(int keyframe)
 {
     int width = m_monitor->render->frameRenderWidth();
     int height = m_monitor->render->renderHeight();
-    QList <BPoint> points;
-    QList <QVariant> data;
+    QList<BPoint> points;
+    QList<QVariant> data;
     if (keyframe >= 0) {
         data = m_data.toMap()[QString::number(keyframe).rightJustified(log10((double)m_out) + 1, '0')].toList();
     } else {
@@ -245,7 +245,7 @@ QList <BPoint> RotoWidget::getPoints(int keyframe)
     }
 
     foreach (const QVariant &bpoint, data) {
-        QList <QVariant> l = bpoint.toList();
+        QList<QVariant> l = bpoint.toList();
         BPoint p;
         for (int i = 0; i < 3; ++i) {
             p[i] = QPointF(l.at(i).toList().at(0).toDouble() * width, l.at(i).toList().at(1).toDouble() * height);
@@ -315,8 +315,8 @@ void RotoWidget::keyframeTimelineFullUpdate()
 {
     if (m_data.canConvert(QVariant::Map)) {
         QList<int> keyframes;
-        QMap <QString, QVariant> map = m_data.toMap();
-        QMap <QString, QVariant>::const_iterator i = map.constBegin();
+        QMap<QString, QVariant> map = m_data.toMap();
+        QMap<QString, QVariant>::const_iterator i = map.constBegin();
         while (i != map.constEnd()) {
             keyframes.append(i.key().toInt() - m_in);
             ++i;

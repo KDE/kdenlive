@@ -130,7 +130,7 @@ private:
     /** If in track mode: Info of the edited track to be able to access its duration. */
     TrackInfo m_trackInfo;
 
-    QList <CollapsibleEffect *> m_effects;
+    QList<CollapsibleEffect *> m_effects;
     EffectsList m_currentEffectList;
 
     QVBoxLayout m_layout;

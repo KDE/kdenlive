@@ -129,7 +129,7 @@ public:
     Mlt::Producer *cloneProducer(Mlt::Producer &original);
 
     ClipController *getController(const QString &id);
-    const QList <ClipController *> getControllerList() const;
+    const QList<ClipController *> getControllerList() const;
     void replaceBinPlaylistClip(const QString &id, Mlt::Producer &producer);
 
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
@@ -189,10 +189,10 @@ private:
     void duplicateFilters(Mlt::Producer original, Mlt::Producer clone);
 
     /** @brief This list holds all producer controllers for the playlist, indexed by id */
-    QMap <QString, ClipController *> m_clipList;
+    QMap<QString, ClipController *> m_clipList;
 
     /** @brief This list holds all extra controllers (slowmotion, video only, ... that are in timeline, indexed by id */
-    QMap <QString, Mlt::Producer *> m_extraClipList;
+    QMap<QString, Mlt::Producer *> m_extraClipList;
 
     /** @brief Stores MLT's xml playlist document root, useful to recover full urls */
     QString m_documentRoot;

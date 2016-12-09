@@ -196,7 +196,7 @@ void OnMonitorCornersItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
 QPointF OnMonitorCornersItem::getCentroid()
 {
-    QList <QPointF> p = sortedClockwise();
+    QList<QPointF> p = sortedClockwise();
 
     /*
      * See: http://local.wasp.uwa.edu.au/~pbourke/geometry/polyarea/
@@ -222,9 +222,9 @@ QPointF OnMonitorCornersItem::getCentroid()
     return QPointF(x, y);
 }
 
-QList <QPointF> OnMonitorCornersItem::sortedClockwise()
+QList<QPointF> OnMonitorCornersItem::sortedClockwise()
 {
-    QList <QPointF> points = polygon().toList();
+    QList<QPointF> points = polygon().toList();
     QPointF &a = points[0];
     QPointF &b = points[1];
     QPointF &c = points[2];

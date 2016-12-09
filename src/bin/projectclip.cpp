@@ -145,12 +145,12 @@ void ProjectClip::updateAudioThumbnail(const QVariantList &audioLevels)
     emit gotAudioData();
 }
 
-QList < CommentedTime > ProjectClip::commentedSnapMarkers() const
+QList< CommentedTime > ProjectClip::commentedSnapMarkers() const
 {
     if (m_controller) {
         return m_controller->commentedSnapMarkers();
     }
-    return QList < CommentedTime > ();
+    return QList< CommentedTime > ();
 }
 
 QStringList ProjectClip::markersText(GenTime in, GenTime out) const
@@ -785,12 +785,12 @@ bool ProjectClip::rename(const QString &name, int column)
     return edited;
 }
 
-void ProjectClip::addClipMarker(QList <CommentedTime> newMarkers, QUndoCommand *groupCommand)
+void ProjectClip::addClipMarker(QList<CommentedTime> newMarkers, QUndoCommand *groupCommand)
 {
     if (!m_controller) {
         return;
     }
-    QList <CommentedTime> oldMarkers;
+    QList<CommentedTime> oldMarkers;
     for (int i = 0; i < newMarkers.count(); ++i) {
         CommentedTime oldMarker = m_controller->markerAt(newMarkers.at(i).time());
         if (oldMarker == CommentedTime()) {
@@ -804,11 +804,11 @@ void ProjectClip::addClipMarker(QList <CommentedTime> newMarkers, QUndoCommand *
 
 bool ProjectClip::deleteClipMarkers(QUndoCommand *command)
 {
-    QList <CommentedTime> markers = commentedSnapMarkers();
+    QList<CommentedTime> markers = commentedSnapMarkers();
     if (markers.isEmpty()) {
         return false;
     }
-    QList <CommentedTime> newMarkers;
+    QList<CommentedTime> newMarkers;
     for (int i = 0; i < markers.size(); ++i) {
         CommentedTime marker = markers.at(i);
         marker.setMarkerType(-1);
@@ -818,7 +818,7 @@ bool ProjectClip::deleteClipMarkers(QUndoCommand *command)
     return true;
 }
 
-void ProjectClip::addMarkers(QList <CommentedTime> &markers)
+void ProjectClip::addMarkers(QList<CommentedTime> &markers)
 {
     if (!m_controller) {
         return;
@@ -1062,7 +1062,7 @@ void ProjectClip::slotCreateAudioThumbs()
     bool jobFinished = false;
     if (KdenliveSettings::ffmpegaudiothumbnails() && m_type != Playlist) {
         QStringList args;
-        QList <QTemporaryFile *> channelFiles;
+        QList<QTemporaryFile *> channelFiles;
         for (int i = 0; i < channels; i++) {
             QTemporaryFile *channelTmpfile = new QTemporaryFile;
             if (!channelTmpfile->open()) {
@@ -1129,8 +1129,8 @@ void ProjectClip::slotCreateAudioThumbs()
 
         if (!ffmpegError && audioThumbsProcess.exitStatus() != QProcess::CrashExit) {
             int dataSize = 0;
-            QList <const qint16 *> rawChannels;
-            QList <QByteArray> sourceChannels;
+            QList<const qint16 *> rawChannels;
+            QList<QByteArray> sourceChannels;
             QList<qint16> data2;
             for (int i = 0; i < channelFiles.count(); i++) {
                 channelFiles[i]->open();
@@ -1154,7 +1154,7 @@ void ProjectClip::slotCreateAudioThumbs()
                 sourceChannels << res;
             }
             int progress = 0;
-            QList <long> channelsData;
+            QList<long> channelsData;
             double offset = (double) dataSize / (2.0 * lengthInFrames);
             int intraOffset = 1;
             if (offset > 1000) {
