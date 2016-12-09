@@ -2723,7 +2723,7 @@ void RenderWidget::adjustSpeed(int speedIndex)
 void RenderWidget::checkCodecs()
 {
     Mlt::Profile p;
-    Mlt::Consumer *consumer = new Mlt::Consumer(p, "avformat");;
+    Mlt::Consumer *consumer = new Mlt::Consumer(p, "avformat");
     if (consumer) {
         consumer->set("vcodec", "list");
         consumer->set("acodec", "list");

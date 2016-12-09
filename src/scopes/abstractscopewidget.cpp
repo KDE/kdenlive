@@ -493,7 +493,7 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
         qCDebug(KDENLIVE_LOG) << "Trying to start a new background thread for " << m_widgetName
                               << ". New frames/updates: " << m_newBackgroundFrames << '/' << m_newBackgroundUpdates;
 #endif
-        prodBackgroundThread();;
+        prodBackgroundThread();
     }
 }
 

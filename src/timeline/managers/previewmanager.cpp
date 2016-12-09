@@ -130,6 +130,7 @@ void PreviewManager::loadChunks(const QStringList &previewChunks, QStringList di
     }
     if (!dirtyChunks.isEmpty()) {
         QList<int> list;
+        list.reserve(dirtyChunks.count());
         foreach (const QString &i, dirtyChunks) {
             list << i.toInt();
         }

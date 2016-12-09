@@ -115,7 +115,7 @@ public:
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-            int decoWidth = 2 * textMargin + r1.height() * 1.8;;
+            int decoWidth = 2 * textMargin + r1.height() * 1.8;
             r.setWidth(r1.height() * 1.8);
             // Draw thumbnail
             opt.icon.paint(painter, r);

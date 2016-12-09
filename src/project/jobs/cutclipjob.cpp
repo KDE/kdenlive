@@ -269,9 +269,9 @@ QList<ProjectClip *> CutClipJob::filterClips(const QList<ProjectClip *> &clips, 
 
 // static
 
-QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps, double originalFps, ProjectClip *clip)
+QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps, double originalFps, ProjectClip *clip)
 {
-    QHash <ProjectClip *, AbstractClipJob *> jobs;
+    QHash<ProjectClip *, AbstractClipJob *> jobs;
     if (!clip) {
         return jobs;
     }
@@ -349,9 +349,9 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fp
 }
 
 // static
-QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double fps, const QList<ProjectClip *> &clips, const QStringList &parameters)
+QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double fps, const QList<ProjectClip *> &clips, const QStringList &parameters)
 {
-    QHash <ProjectClip *, AbstractClipJob *> jobs;
+    QHash<ProjectClip *, AbstractClipJob *> jobs;
     QString params = parameters.at(0);
     QString desc;
     if (parameters.count() > 1) {
@@ -428,12 +428,12 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
 }
 
 // static
-QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps, const QList<ProjectClip *> &clips, const QStringList &parameters)
+QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps, const QList<ProjectClip *> &clips, const QStringList &parameters)
 {
     // Might be useful some day
     Q_UNUSED(parameters);
 
-    QHash <ProjectClip *, AbstractClipJob *> jobs;
+    QHash<ProjectClip *, AbstractClipJob *> jobs;
     foreach (ProjectClip *clip, clips) {
         QString source = clip->url().toLocalFile();
         QStringList jobParams;

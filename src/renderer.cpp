@@ -1590,7 +1590,7 @@ bool Render::getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force)
     Mlt::Consumer bm(profile, "decklink");
     int found_devices = 0;
     if (bm.is_valid()) {
-        bm.set("list_devices", 1);;
+        bm.set("list_devices", 1);
         found_devices = bm.get_int("devices");
     } else {
         KdenliveSettings::setDecklink_device_found(false);

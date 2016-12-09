@@ -33,7 +33,7 @@ class FilterJob
 
 public:
     static QList<ProjectClip *> filterClips(const QList<ProjectClip *> &clips, const QStringList &params);
-    static QHash <ProjectClip *, AbstractClipJob *> prepareJob(const QList<ProjectClip *> &clips, const QStringList &parameters);
+    static QHash<ProjectClip *, AbstractClipJob *> prepareJob(const QList<ProjectClip *> &clips, const QStringList &parameters);
 };
 
 #endif

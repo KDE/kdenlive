@@ -754,7 +754,7 @@ void StopmotionWidget::slotShowSelectedFrame()
 {
     QListWidgetItem *item = frame_list->currentItem();
     if (item) {
-        //int ix = item->data(Qt::UserRole).toInt();;
+        //int ix = item->data(Qt::UserRole).toInt();
         slotShowFrame(item->toolTip());
     }
 }

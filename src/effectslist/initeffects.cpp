@@ -452,7 +452,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     effects = doc.elementsByTagName(QStringLiteral("effect"));
     int i = effects.count();
     if (i == 0) {
-        qCDebug(KDENLIVE_LOG) << "+++++++++++++\nEffect broken: " << name << "\n+++++++++++";;
+        qCDebug(KDENLIVE_LOG) << "+++++++++++++\nEffect broken: " << name << "\n+++++++++++";
         return;
     }
 
@@ -919,7 +919,7 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
     effects = doc.elementsByTagName(QStringLiteral("transition"));
     int i = effects.count();
     if (i == 0) {
-        qCDebug(KDENLIVE_LOG) << "+++++++++++++Transition broken: " << name << "\n+++++++++++";;
+        qCDebug(KDENLIVE_LOG) << "+++++++++++++Transition broken: " << name << "\n+++++++++++";
         return;
     }
 

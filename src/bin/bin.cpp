@@ -2123,7 +2123,7 @@ void Bin::setupGeneratorMenu()
     m_menu->insertSeparator(m_deleteAction);
 }
 
-void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, const QHash <QString, QAction *> &actions)
+void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, const QHash<QString, QAction *> &actions)
 {
     // Setup actions
     QAction *first = m_toolbar->actions().at(0);

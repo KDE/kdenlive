@@ -260,7 +260,7 @@ void JobManager::prepareJobs(const QList<ProjectClip *> &clips, double fps, Abst
         m_bin->doDisplayMessage(i18n("No valid clip to process"), KMessageWidget::Information);
         return;
     }
-    QHash <ProjectClip *, AbstractClipJob *> jobs;
+    QHash<ProjectClip *, AbstractClipJob *> jobs;
     if (jobType == AbstractClipJob::TRANSCODEJOB) {
         jobs = CutClipJob::prepareTranscodeJob(fps, matching, params);
     } else if (jobType == AbstractClipJob::CUTJOB) {

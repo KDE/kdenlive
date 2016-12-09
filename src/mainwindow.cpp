@@ -1567,7 +1567,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_all_track_lock"), i18n("Toggle All Track Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(), Qt::CTRL + Qt::SHIFT + Qt::Key_L);
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(), Qt::SHIFT + Qt::Key_T);
 
-    QHash <QString, QAction *> actions;
+    QHash<QString, QAction *> actions;
     actions.insert(QStringLiteral("locate"), locateClip);
     actions.insert(QStringLiteral("reload"), reloadClip);
     actions.insert(QStringLiteral("duplicate"), duplicateClip);

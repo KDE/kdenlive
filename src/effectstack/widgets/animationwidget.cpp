@@ -804,7 +804,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     QAction *alignvcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
     connect(alignvcenter, &QAction::triggered, this, &AnimationWidget::slotCenterV);
     QAction *alignbottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
-    connect(alignbottom, &QAction::triggered, this, &AnimationWidget::slotMoveBottom);;
+    connect(alignbottom, &QAction::triggered, this, &AnimationWidget::slotMoveBottom);
 
     QHBoxLayout *alignLayout = new QHBoxLayout;
     alignLayout->setSpacing(0);

@@ -656,7 +656,7 @@ QColor TitleDocument::stringToColor(const QString &s)
     if (l.size() < 4) {
         return QColor();
     }
-    return QColor(l.at(0).toInt(), l.at(1).toInt(), l.at(2).toInt(), l.at(3).toInt());;
+    return QColor(l.at(0).toInt(), l.at(1).toInt(), l.at(2).toInt(), l.at(3).toInt());
 }
 
 QTransform TitleDocument::stringToTransform(const QString &s)

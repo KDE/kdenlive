@@ -97,7 +97,7 @@ void ColorPlaneExport::slotUpdateDisplays()
 
     switch (cbColorspace->itemData(cbColorspace->currentIndex()).toInt()) {
     case CPE_RGB_CURVE:
-        lblScaleNr->setText(QChar(0xb1) + QString::number(sliderScaling->value(), 'f', 2));;
+        lblScaleNr->setText(QChar(0xb1) + QString::number(sliderScaling->value(), 'f', 2));
         break;
     case CPE_HSV_HUESHIFT:
         lblScaleNr->setText(QString::number(sliderScaling->value()));

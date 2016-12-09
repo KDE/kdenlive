@@ -655,7 +655,7 @@ QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &f
         if (type == SlideShow) {
             return searchDir.absoluteFilePath(fileName);
         }
-        return searchDir.absoluteFilePath(filesAndDirs.at(0));;
+        return searchDir.absoluteFilePath(filesAndDirs.at(0));
     }
     searchDir.setNameFilters(QStringList());
     filesAndDirs = searchDir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);

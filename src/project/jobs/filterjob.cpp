@@ -57,9 +57,9 @@ QList<ProjectClip *> FilterJob::filterClips(const QList<ProjectClip *> &clips, c
     return result;
 }
 
-QHash <ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<ProjectClip *> &clips, const QStringList &parameters)
+QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<ProjectClip *> &clips, const QStringList &parameters)
 {
-    QHash <ProjectClip *, AbstractClipJob *> jobs;
+    QHash<ProjectClip *, AbstractClipJob *> jobs;
     QStringList sources;
     sources.reserve(clips.count());
     for (int i = 0; i < clips.count(); i++) {

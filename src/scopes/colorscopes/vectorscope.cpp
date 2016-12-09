@@ -70,7 +70,7 @@ Vectorscope::Vectorscope(QWidget *parent) :
 
     ///// Build context menu /////
 
-    m_menu->addSeparator()->setText(i18n("Tools"));;
+    m_menu->addSeparator()->setText(i18n("Tools"));
 
     m_aExportBackground = new QAction(i18n("Export background"), this);
     m_menu->addAction(m_aExportBackground);
