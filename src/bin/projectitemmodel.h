@@ -88,9 +88,9 @@ private:
 signals:
     //TODO
     void markersNeedUpdate(const QString &id, const QList<int> &);
-    void itemDropped(QStringList, const QModelIndex &);
+    void itemDropped(const QStringList &, const QModelIndex &);
     void itemDropped(const QList<QUrl> &, const QModelIndex &);
-    void effectDropped(QString, const QModelIndex &);
+    void effectDropped(const QString &, const QModelIndex &);
     void addClipCut(const QString &, int, int);
 };
 

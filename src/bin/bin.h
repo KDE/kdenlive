@@ -738,8 +738,8 @@ signals:
     void itemUpdated(AbstractProjectItem *);
     void producerReady(const QString &id);
     /** @brief Save folder info into MLT. */
-    void storeFolder(QString folderId, QString parentId, QString oldParentId, QString folderName);
-    void gotFilterJobResults(QString, int, int, stringMap, stringMap);
+    void storeFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
+    void gotFilterJobResults(const QString &, int, int, stringMap, stringMap);
     /** @brief The clip was changed and thumbnail needs a refresh. */
     void clipNeedsReload(const QString &, bool);
     /** @brief Trigger timecode format refresh where needed. */
