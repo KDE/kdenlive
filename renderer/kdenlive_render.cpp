@@ -48,13 +48,13 @@ int main(int argc, char **argv)
             usekuiserver = true;
             args.removeFirst();
         }
-        if (QString(args.at(0)).startsWith(QLatin1String("-pid:"))) {
-            pid = QString(args.at(0)).section(QLatin1Char(':'), 1).toInt();
+        if (args.at(0).startsWith(QLatin1String("-pid:"))) {
+            pid = args.at(0).section(QLatin1Char(':'), 1).toInt();
             args.removeFirst();
         }
 
-        if (QString(args.at(0)).startsWith(QLatin1String("-locale:"))) {
-            locale = QString(args.at(0)).section(QLatin1Char(':'), 1);
+        if (args.at(0).startsWith(QLatin1String("-locale:"))) {
+            locale = args.at(0).section(QLatin1Char(':'), 1);
             args.removeFirst();
         }
         if (args.at(0).startsWith(QLatin1String("in="))) {
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
             vpre = args.at(vprepos);
         }
         QStringList vprelist = vpre.remove(QStringLiteral("vpre=")).split(QLatin1Char(','));
-        if (vprelist.size() > 0) {
+        if (!vprelist.isEmpty()) {
             args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")), QStringLiteral("vpre=%1").arg(vprelist.at(0)));
         }
 
