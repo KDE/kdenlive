@@ -38,7 +38,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
     if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = QStringLiteral(MLT_DATADIR) + "/profiles/"; // build-time definition
     KdenliveSettings::setMltpath(basePath);
 
-    QString meltPath = basePath.section('/', 0, -3) + "/bin/melt";
+    QString meltPath = QDir::cleanPath(basePath).section('/', 0, -3) + "/bin/melt";
     if (!QFile::exists(meltPath)) meltPath = qgetenv("MLT_PREFIX") + "/bin/melt";
     if (!QFile::exists(meltPath)) meltPath = KdenliveSettings::rendererpath();
     if (!QFile::exists(meltPath)) meltPath = QStringLiteral(MLT_MELTBIN);
