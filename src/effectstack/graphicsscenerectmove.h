@@ -147,6 +147,7 @@ private:
     int m_gridSize;
     bool m_createdText;
     bool m_moveStarted;
+    bool m_pan;
 
 signals:
     void itemMoved();

@@ -131,6 +131,7 @@ signals:
     void showContextMenu(const QPoint);
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
+    void panView(QPoint diff);
 
 private:
     int m_id;
@@ -138,6 +139,7 @@ private:
     QRect m_effectRect;
     GLuint m_texture[3];
     QOpenGLShaderProgram* m_shader;
+    QPoint m_panStart;
     QPoint m_dragStart;
     Mlt::Filter* m_glslManager;
     Mlt::Consumer* m_consumer;

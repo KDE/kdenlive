@@ -572,40 +572,53 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 
 void GLWidget::mousePressEvent(QMouseEvent* event)
 {
-    QQuickView::mousePressEvent(event);
-    if (event->isAccepted()) return;
-    if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
+    if (rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier)) {
         event->ignore();
+        QQuickView::mousePressEvent(event);
         return;
     }
     if (event->button() & Qt::LeftButton) {
-        m_dragStart = event->pos();
+        if (event->modifiers() & Qt::ControlModifier) {
+            // Pan view
+            m_panStart = event->pos();
+            setCursor(Qt::ClosedHandCursor);
+            event->accept();
+        } else {
+            m_dragStart = event->pos();
+        }
     }
     else if (event->button() & Qt::RightButton) {
         emit showContextMenu(event->globalPos());
         event->accept();
     }
+    QQuickView::mousePressEvent(event);
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent* event)
 {
-    QQuickView::mouseMoveEvent(event);
-    if (event->isAccepted()) return;
-    if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
+    if (rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier)) {
         event->ignore();
+        QQuickView::mouseMoveEvent(event);
         return;
     }
-    if (event->isAccepted()) return;
 /*    if (event->modifiers() == Qt::ShiftModifier && m_producer) {
         emit seekTo(m_producer->get_length() *  event->x() / width());
         return;
     }*/
-    if (!(event->buttons() & Qt::LeftButton))
+    if (!(event->buttons() & Qt::LeftButton)) {
+        QQuickView::mouseMoveEvent(event);
         return;
+    }
     if (!m_dragStart.isNull() &&  (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
         m_dragStart = QPoint();
         emit startDrag();
     }
+    if (!m_panStart.isNull()) {
+        emit panView(m_panStart - event->pos());
+        m_panStart = event->pos();
+        event->accept();
+    }
+    QQuickView::mouseMoveEvent(event);
 }
 
 void GLWidget::keyPressEvent(QKeyEvent* event)
@@ -1119,17 +1132,16 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     QQuickView::mouseReleaseEvent(event);
-    if (m_dragStart.isNull() || event->isAccepted()) {
-        // we are dragging
+    if (m_dragStart.isNull() && m_panStart.isNull() && rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier)) {
+        event->ignore();
         return;
     }
-    if (rootObject() && rootObject()->objectName() != QLatin1String("root")) {
-        return;
-    }
-    m_dragStart = QPoint();
-    if (event->button() != Qt::RightButton) {
+    if (m_dragStart.isNull() && m_panStart.isNull() && event->button() & Qt::LeftButton) {
         emit monitorPlay();
     }
+    m_dragStart = QPoint();
+    m_panStart = QPoint();
+    setCursor(Qt::ArrowCursor);
 }
 
 void GLWidget::mouseDoubleClickEvent(QMouseEvent * event)
