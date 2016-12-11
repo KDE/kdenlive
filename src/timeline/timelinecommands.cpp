@@ -302,7 +302,6 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, con
 {
     QString effectName;
     QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
-    qCDebug(KDENLIVE_LOG) << "editing EFFECT; " << namenode.text();
     if (!namenode.isNull()) {
         effectName = i18n(namenode.text().toUtf8().constData());
     } else {

@@ -895,16 +895,21 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
 
     int pos = m_ruler->position() - m_offset;
+    mlt_keyframe_type type = m_selectType->isEnabled() ? (mlt_keyframe_type) m_selectType->currentAction()->data().toInt() : (mlt_keyframe_type) KdenliveSettings::defaultkeyframeinterp();
     if (m_animController.is_key(pos)) {
         // This is a keyframe
-        m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
-        emit parameterChanged();
+        type =  m_animController.keyframe_type(pos);
+        m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
+	emit parameterChanged();
     } else if (m_animController.key_count() <= 1) {
-        pos = m_animController.key_get_frame(0);
-        if (pos >= 0) {
-            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
-            emit parameterChanged();
-        }
+	  pos = m_animController.key_get_frame(0);
+	  if (pos >= 0) {
+              if (m_animController.is_key(pos)) {
+                  type =  m_animController.keyframe_type(pos);
+              }
+	      m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
+	      emit parameterChanged();
+	  }
     }
 }
 

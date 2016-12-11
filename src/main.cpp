@@ -68,10 +68,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
-    if (forceBreeze) {
-        QIcon::setThemeName(QStringLiteral("breeze"));
-    }
     // Create KAboutData
     KAboutData aboutData(QByteArray("kdenlive"),
                          i18n("Kdenlive"), KDENLIVE_VERSION,
@@ -100,12 +96,6 @@ int main(int argc, char *argv[])
     // Register about data
     KAboutData::setApplicationData(aboutData);
 
-#ifndef __MINGW32__
-    // Add rcc stored icons to the search path so that we always find our icons
-    KIconLoader *loader = KIconLoader::global();
-    loader->reconfigure(QStringLiteral("kdenlive"), QStringList() << QStringLiteral(":/pics"));
-#endif
-
     // Set app stuff from about data
     app.setApplicationDisplayName(aboutData.displayName());
     app.setOrganizationDomain(aboutData.organizationDomain());
@@ -133,6 +123,15 @@ int main(int argc, char *argv[])
 #else
     KCrash::setCrashHandler(KCrash::defaultCrashHandler);
 #endif
+
+    // Add rcc stored icons to the search path so that we always find our icons
+    KIconLoader *loader = KIconLoader::global();
+    loader->reconfigure("kdenlive", QStringList() << QStringLiteral(":/pics"));
+
+    bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
+    if (forceBreeze) {
+        QIcon::setThemeName("breeze");
+    }
 
     // see if we are starting with session management
     if (qApp->isSessionRestored()) {

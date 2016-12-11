@@ -1397,9 +1397,10 @@ void Timeline::checkTrackHeight(bool force)
     if (m_trackview->checkTrackHeight(force)) {
         m_doc->clipManager()->clearCache();
         m_ruler->updateFrameSize();
-        m_trackview->updateSceneFrameWidth();
         slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
         slotSetZone(m_doc->zone(), false);
+        m_ruler->setPixelPerMark(m_doc->zoom().x(), true);
+        m_trackview->updateSceneFrameWidth();
     }
 }
 
