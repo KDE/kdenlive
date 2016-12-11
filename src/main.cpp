@@ -118,11 +118,7 @@ int main(int argc, char *argv[])
     aboutData.processCommandLine(&parser);
     KDBusService programDBusService;
 
-#if KXMLGUI_VERSION_MINOR > 14 || KXMLGUI_VERSION_MAJOR > 5
     KCrash::initialize();
-#else
-    KCrash::setCrashHandler(KCrash::defaultCrashHandler);
-#endif
 
     // Add rcc stored icons to the search path so that we always find our icons
     KIconLoader *loader = KIconLoader::global();

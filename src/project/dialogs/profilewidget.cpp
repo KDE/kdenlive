@@ -28,9 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <KMessageWidget>
 
-#if KXMLGUI_VERSION_MINOR > 15 || KXMLGUI_VERSION_MAJOR > 5
 #include <KCollapsibleGroupBox>
-#endif
 
 ProfileWidget::ProfileWidget(QWidget *parent) :
     QWidget(parent)
@@ -71,17 +69,11 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
     m_detailsLayout->addWidget(m_color_list, 3, 1);
     m_detailsLayout->setColumnStretch(1, 10);
 
-#if KXMLGUI_VERSION_MINOR > 15 || KXMLGUI_VERSION_MAJOR > 5
     KCollapsibleGroupBox *details_box = new KCollapsibleGroupBox(this);
     details_box->setTitle(i18n("Details"));
     connect(this, &ProfileWidget::showDetails, details_box, &KCollapsibleGroupBox::expand);
     details_box->setLayout(m_detailsLayout);
     lay->addWidget(details_box, 3, 0, 1, 3);
-#else
-    QGroupBox *box = new QGroupBox(i18n("Details"), this);
-    box->setLayout(m_detailsLayout);
-    lay->addWidget(box, 3, 0, 1, 3);
-#endif
     m_errorMessage = new KMessageWidget(i18n("No matching profile found"), this);
     m_errorMessage->setMessageType(KMessageWidget::Warning);
     m_errorMessage->setCloseButtonVisible(false);
