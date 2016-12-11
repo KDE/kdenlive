@@ -271,6 +271,8 @@ private slots:
     void setOffsetY(int y);
     /** @brief Show/hide monitor zoom */
     void slotEnableSceneZoom(bool enable);
+    /** @brief Pan monitor view */
+    void panView(QPoint diff);
 
 public slots:
     void slotOpenDvdFile(const QString &);

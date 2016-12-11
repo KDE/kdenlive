@@ -152,6 +152,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Create QML OpenGL widget
     m_glMonitor = new GLWidget((int) id);
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
+    connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     QuickEventEater *leventEater = new QuickEventEater(this);
@@ -2197,3 +2198,14 @@ void Monitor::clearDisplay()
 {
     m_glMonitor->clear();
 }
+
+void Monitor::panView(QPoint diff)
+{
+    if (m_glMonitor->zoom() > 0.0f) {
+        // Only pan if scrollbars are visible
+        m_horizontalScroll->setValue(m_horizontalScroll->value() + diff.x());
+        m_verticalScroll->setValue(m_verticalScroll->value() + diff.y());
+    }
+}
+
+

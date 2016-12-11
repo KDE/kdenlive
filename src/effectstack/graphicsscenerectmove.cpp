@@ -472,7 +472,8 @@ GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
     m_possibleAction(NoResize),
     m_tool(TITLE_RECTANGLE),
     m_gridSize(20),
-    m_createdText(false)
+    m_createdText(false),
+    m_pan(false)
 {
     //grabMouse();
     m_zoom = 1.0;
@@ -600,7 +601,6 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     if (m_tool == TITLE_RECTANGLE && m_selectedItem) {
         setSelectedItem(m_selectedItem);
     }
-    QGraphicsScene::mouseReleaseEvent(e);
     if (m_createdText) {
         m_selectedItem->setSelected(true);
         MyTextItem *newText = static_cast<MyTextItem *>(m_selectedItem);
@@ -608,6 +608,15 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
         cur.select(QTextCursor::Document);
         newText->setTextCursor(cur);
         m_createdText = false;
+    }
+    if (e->modifiers() & Qt::ShiftModifier) {
+        e->accept();
+    } else {
+        QGraphicsScene::mouseReleaseEvent(e);
+    }
+    QList<QGraphicsView*> viewlist = views();
+    if (!viewlist.isEmpty()) {
+        viewlist.first()->setDragMode(QGraphicsView::RubberBandDrag);
     }
     emit actionFinished();
 }
@@ -621,43 +630,40 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     m_resizeMode = m_possibleAction;
     const QList<QGraphicsItem *> list = items(e->scenePos());
     QGraphicsItem *item = Q_NULLPTR;
-    if (e->modifiers() != Qt::ControlModifier) {
-        clearSelection();
-    }
-
     if (m_tool == TITLE_SELECT) {
-        foreach (QGraphicsItem *g, list) {
-            //qCDebug(KDENLIVE_LOG) << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
+        QList<QGraphicsView*> viewlist = views();
+        if (e->modifiers() & Qt::ControlModifier) {
+            m_selectedItem = NULL;
+            clearSelection();
+            if (!viewlist.isEmpty()) {
+                viewlist.first()->setDragMode(QGraphicsView::ScrollHandDrag);
+                e->ignore();
+                //QGraphicsScene::mousePressEvent(e);
+                return;
+            }
+        } else {
+            if (!viewlist.isEmpty()) {
+                viewlist.first()->setRubberBandSelectionMode(Qt::IntersectsItemShape);
+            }
+        }
+        QList<QGraphicsItem *> selected = selectedItems();
+        bool alreadySelected = false;
+        foreach(QGraphicsItem *g, list) {
+            //qDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
             // check is there is a selected item in list
             if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
                 continue;
             }
             if (g->zValue() > -1000/* && g->isSelected()*/) {
+                alreadySelected = g->isSelected();
                 g->setSelected(true);
                 item = g;
                 break;
             }
         }
-        if (item == Q_NULLPTR  || m_selectedItem != item) {
-            if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
-                // disable text editing
-                MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
-                t->textCursor().setPosition(0);
-                QTextBlock cur = t->textCursor().block();
-                t->setTextCursor(QTextCursor(cur));
-                t->setTextInteractionFlags(Qt::NoTextInteraction);
-            }
-        }
-        if (item == Q_NULLPTR  || !(item->flags() & QGraphicsItem::ItemIsSelectable)) {
-            m_selectedItem = Q_NULLPTR;
-            foreach (QGraphicsItem *g, list) {
-                if (g->zValue() > -1000) {
-                    item = g;
-                    break;
-                }
-            }
-        }
-        if (item != Q_NULLPTR && item->flags() & QGraphicsItem::ItemIsMovable) {
+        if (item == Q_NULLPTR || (e->modifiers() != Qt::ShiftModifier && !alreadySelected)) {
+            clearTextSelection();
+        } else if (item && item->flags() & QGraphicsItem::ItemIsMovable) {
             m_sceneClickPoint = e->scenePos();
             m_selectedItem = item;
             //qCDebug(KDENLIVE_LOG) << "/////////  ITEM TYPE: " << item->type();
@@ -724,7 +730,6 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
         m_createdText = true;
     }
     //qCDebug(KDENLIVE_LOG) << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
-
 }
 
 void GraphicsSceneRectMove::clearTextSelection()
@@ -757,7 +762,6 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             return;
         } else {
             m_moveStarted = true;
-            e->accept();
         }
     }
     if (m_selectedItem && (e->buttons() & Qt::LeftButton)) {

@@ -174,7 +174,11 @@ Item {
         }
 
         onPositionChanged: {
-            if (pressed && root.requestedKeyFrame != -1) {
+            if (!pressed) {
+                mouse.accepted = false
+                return
+            }
+            if (root.requestedKeyFrame != -1) {
                   isMoving = true
                   root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
                   root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
@@ -183,7 +187,7 @@ Item {
             }
         }
 
-        onClicked: {
+        onPressed: {
             if (mouse.button & Qt.MidButton) {
                 root.showToolbar = !root.showToolbar
                 toolBarChanged(root.showToolbar)
