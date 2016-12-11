@@ -26,7 +26,6 @@
      <file alias="linear.svg">../data/pics/breeze-light/lt_linear.svg</file>
      <file alias="discrete.svg">../data/pics/breeze-light/lt_discrete.svg</file>
      <file alias="smooth.svg">../data/pics/breeze-light/lt_smooth.svg</file>
-     <file alias="project-defaults.svg">../data/pics/breeze-light/lt_project-defaults.svg</file>
      <file alias="kdenlive.png">../data/icons/48-apps-kdenlive.png</file>
   </qresource>
 </RCC>

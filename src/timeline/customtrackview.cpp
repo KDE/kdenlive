@@ -919,7 +919,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     // context menu requested
     if (event->button() == Qt::RightButton) {
         // Check if we want keyframes context menu
-        if (!m_dragItem && !m_dragGuide) {
+        if (!m_dragGuide) {
             // check if there is a guide close to mouse click
             QList<QGraphicsItem *> guidesCollisionList = items(event->pos().x() - 5, event->pos().y(), 10, 2); // a rect of height < 2 does not always collide with the guide
             for (int i = 0; i < guidesCollisionList.count(); ++i) {
@@ -1372,6 +1372,16 @@ GenTime CustomTrackView::groupSelectedItems(QList <QGraphicsItem *> selection, b
 
 void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
 {
+    // Check if double click on guide
+    QList<QGraphicsItem *> collisionList = items(event->pos());
+    for (int i = 0; i < collisionList.count(); ++i) {
+        if (collisionList.at(i)->type() == GUIDEITEM) {
+            Guide *editGuide = static_cast<Guide*>(collisionList.at(i));
+            if (editGuide) slotEditGuide(editGuide->info());
+            event->accept();
+            return;
+        }
+    }
     if (m_dragItem && m_dragItem->keyframesCount() > 0) {
         // add keyframe
         GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos();// + m_dragItem->cropStart();
@@ -1392,12 +1402,6 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         emit clipItemSelected(item, item->selectedEffectIndex());
     } else if (m_dragItem && !m_dragItem->isItemLocked()) {
         editItemDuration();
-    } else {
-        QList<QGraphicsItem *> collisionList = items(event->pos());
-        if (collisionList.count() == 1 && collisionList.at(0)->type() == GUIDEITEM) {
-            Guide *editGuide = static_cast<Guide*>(collisionList.at(0));
-            if (editGuide) slotEditGuide(editGuide->info());
-        }
     }
 }
 
@@ -1566,7 +1570,7 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip)
     m_editGuide->setEnabled(m_dragGuide != NULL);
     m_markerMenu->clear();
     m_markerMenu->setEnabled(false);
-    if (clip == NULL) {
+    if (clip == NULL || m_dragGuide) {
         m_timelineContextMenu->popup(pos);
     } else if (isGroup) {
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);

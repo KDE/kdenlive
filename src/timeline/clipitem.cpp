@@ -566,7 +566,7 @@ void ClipItem::paint(QPainter *painter,
         textColor = palette.highlightedText().color();
         textBgColor = palette.highlight().color();
         framePen.setColor(textBgColor);
-        paintColor.setRed(qMin(paintColor.red() * 2, 255));
+        paintColor.setRed(qMin((int) (paintColor.red() * 1.5), 255));
     }
     else {
         textColor = palette.text().color();
