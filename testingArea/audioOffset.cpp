@@ -35,7 +35,7 @@ void printUsage(const char *path)
               << "\t\tfaster for large data (several minutes)." << std::endl
               << "\t--profile=<profile>\n\t\tUse the given profile for calculation (run: melt -query profiles)" << std::endl
               << "\t--no-images\n\t\tDo not save envelope and correlation images" << std::endl
-                 ;
+              ;
 }
 
 int main(int argc, char *argv[])
@@ -77,16 +77,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-
-
     std::string fileMain(args.at(0).toStdString());
     args.removeFirst();
     std::string fileSub = args.at(0).toStdString();
     args.removeFirst();
 
-
     qDebug() << "Unused arguments: " << args;
-
 
     if (argc > 2) {
         fileMain = argv[1];
@@ -98,11 +94,10 @@ int main(int argc, char *argv[])
     std::cout << "Trying to align (2)\n\t" << fileSub << "\nto fit on (1)\n\t" << fileMain
               << "\n, result will indicate by how much (2) has to be moved." << std::endl
               << "Profile used: " << profile << std::endl
-                 ;
+              ;
     if (useFFT) {
         std::cout << "Will use FFT based correlation." << std::endl;
     }
-
 
     // Initialize MLT
     Mlt::Factory::init(NULL);
@@ -121,7 +116,6 @@ int main(int argc, char *argv[])
         std::cout << fileSub << " is invalid." << std::endl;
         return 2;
     }
-
 
     // Build the audio envelopes for the correlation
     AudioEnvelope *envelopeMain = new AudioEnvelope(fileMain.c_str(), &prodMain);
@@ -144,35 +138,30 @@ int main(int argc, char *argv[])
               << "\trelative to " << fileMain << std::endl
               << "\tin a " << prodMain.get_fps() << " fps profile (" << profile << ")." << std::endl;
 
-
     if (saveImages) {
         QString outImg = QString::fromLatin1("envelope-main-%1.png")
-                .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+                         .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
         envelopeMain->drawEnvelope().save(outImg);
         std::cout << "Saved volume envelope as "
                   << QFileInfo(outImg).absoluteFilePath().toStdString()
                   << std::endl;
         outImg = QString::fromLatin1("envelope-sub-%1.png")
-                .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
         envelopeSub->drawEnvelope().save(outImg);
         std::cout << "Saved volume envelope as "
                   << QFileInfo(outImg).absoluteFilePath().toStdString()
                   << std::endl;
         outImg = QString::fromLatin1("correlation-%1.png")
-                .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
         corr.info(index)->toImage().save(outImg);
         std::cout << "Saved correlation image as "
                   << QFileInfo(outImg).absoluteFilePath().toStdString()
                   << std::endl;
     }
 
-
     //    Mlt::Factory::close();
-
 
     return 0;
 
 }
-
-
 

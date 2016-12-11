@@ -123,7 +123,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     curve->setCheckable(true);
     m_selectType->addAction(curve);
     m_selectType->setCurrentAction(linear);
-    connect(m_selectType, SIGNAL(triggered(QAction*)), this, SLOT(slotEditKeyframeType(QAction*)));
+    connect(m_selectType, SIGNAL(triggered(QAction *)), this, SLOT(slotEditKeyframeType(QAction *)));
 
     KSelectAction *defaultInterp = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Default interpolation"), this);
     discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
@@ -149,7 +149,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
         defaultInterp->setCurrentAction(linear);
         break;
     }
-    connect(defaultInterp, SIGNAL(triggered(QAction*)), this, SLOT(slotSetDefaultInterp(QAction*)));
+    connect(defaultInterp, SIGNAL(triggered(QAction *)), this, SLOT(slotSetDefaultInterp(QAction *)));
     m_selectType->setToolBarMode(KSelectAction::ComboBoxMode);
 
     m_endAttach = new QAction(i18n("Attach keyframe to end"), this);
@@ -900,16 +900,16 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
         // This is a keyframe
         type =  m_animController.keyframe_type(pos);
         m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-	emit parameterChanged();
+        emit parameterChanged();
     } else if (m_animController.key_count() <= 1) {
-	  pos = m_animController.key_get_frame(0);
-	  if (pos >= 0) {
-              if (m_animController.is_key(pos)) {
-                  type =  m_animController.keyframe_type(pos);
-              }
-	      m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-	      emit parameterChanged();
-	  }
+        pos = m_animController.key_get_frame(0);
+        if (pos >= 0) {
+            if (m_animController.is_key(pos)) {
+                type =  m_animController.keyframe_type(pos);
+            }
+            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
+            emit parameterChanged();
+        }
     }
 }
 

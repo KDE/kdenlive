@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #ifndef SAMPLEPLUGIN_H
 #define SAMPLEPLUGIN_H
 
@@ -37,7 +36,6 @@ public:
     QStringList generators(const QStringList &producers = QStringList()) const;
     QUrl generatedClip(const QString &renderer, const QString &generator, const QUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height);
 };
-
 
 #endif
 

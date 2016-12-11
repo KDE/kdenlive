@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ProducerQueue::ProducerQueue(BinController *controller) : QObject(controller)
     , m_binController(controller)
 {
-    connect(this, SIGNAL(multiStreamFound(QString,QList<int>,QList<int>,stringMap)), this, SLOT(slotMultiStreamProducerFound(QString,QList<int>,QList<int>,stringMap)));
+    connect(this, SIGNAL(multiStreamFound(QString, QList<int>, QList<int>, stringMap)), this, SLOT(slotMultiStreamProducerFound(QString, QList<int>, QList<int>, stringMap)));
     connect(this, &ProducerQueue::refreshTimelineProducer, m_binController, &BinController::replaceTimelineProducer);
 }
 

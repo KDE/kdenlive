@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "sampleplugin.h"
 #include "ui_countdown_ui.h"
 
@@ -30,18 +29,23 @@
 QStringList SamplePlugin::generators(const QStringList &producers) const
 {
     QStringList result;
-    if (producers.contains(QLatin1String("pango"))) result << i18n("Countdown");
-    if (producers.contains(QLatin1String("noise"))) result << i18n("Noise");
+    if (producers.contains(QLatin1String("pango"))) {
+        result << i18n("Countdown");
+    }
+    if (producers.contains(QLatin1String("noise"))) {
+        result << i18n("Noise");
+    }
     return result;
 }
-
 
 QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generator, const QUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int height)
 {
     QString prePath;
     if (generator == i18n("Noise")) {
         prePath = projectFolder.path() + QLatin1String("/noise");
-    } else prePath = projectFolder.path() + QLatin1String("/counter");
+    } else {
+        prePath = projectFolder.path() + QLatin1String("/counter");
+    }
     int ct = 0;
     QString counter = QString::number(ct).rightJustified(5, QLatin1Char('0'), false);
     while (QFile::exists(prePath + counter + QLatin1String(".mlt"))) {
@@ -66,7 +70,7 @@ QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
     QString clipFile = prePath + counter + QLatin1String(".mlt");
     view.path->setUrl(QUrl(clipFile));
     QUrl result;
-    
+
     if (d->exec() == QDialog::Accepted) {
         QProcess generatorProcess;
 
@@ -77,8 +81,7 @@ QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
         QStringList args;
         if (generator == i18n("Noise")) {
             args << QLatin1String("noise:") << QLatin1String("in=0") << QLatin1String("out=") + QString::number((int) fps * view.duration->value());
-        }
-        else {
+        } else {
             // Countdown producer
             for (int i = 0; i < view.duration->value(); ++i) {
                 // Create the producers
@@ -88,15 +91,14 @@ QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
             }
         }
 
-        args << QLatin1String("-consumer")<<QString::fromLatin1("xml:%1").arg(view.path->url().path());
+        args << QLatin1String("-consumer") << QString::fromLatin1("xml:%1").arg(view.path->url().path());
         generatorProcess.start(renderer, args);
         if (generatorProcess.waitForFinished()) {
             if (generatorProcess.exitStatus() == QProcess::CrashExit) {
                 //qDebug() << "/// Generator failed: ";
                 QString error = QString::fromLocal8Bit(generatorProcess.readAllStandardError());
                 KMessageBox::sorry(QApplication::activeWindow(), i18n("Failed to generate clip:\n%1", error), i18n("Generator Failed"));
-            }
-            else {
+            } else {
                 result = view.path->url();
             }
         } else {
@@ -110,5 +112,4 @@ QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
 }
 
 Q_EXPORT_PLUGIN2(kdenlive_sampleplugin, SamplePlugin)
-
 

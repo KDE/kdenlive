@@ -19,7 +19,6 @@
     Boston, MA 02110-1301, USA.
  ***************************************************************************/
 
-
 #ifndef MLTPREVIEW_H
 #define MLTPREVIEW_H
 
@@ -39,7 +38,7 @@ public:
 
 protected:
     static uint imageVariance(const QImage &image);
-    QImage getFrame(Mlt::Producer* producer, int framepos, int width, int height);
+    QImage getFrame(Mlt::Producer *producer, int framepos, int width, int height);
 };
 
 #endif

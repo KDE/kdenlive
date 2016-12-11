@@ -214,7 +214,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
 
     m_coreLister = new KCoreDirLister(this);
     m_coreLister->setDelayedMimeTypes(false);
-    connect(m_coreLister, SIGNAL(itemsAdded(QUrl,KFileItemList)), this, SLOT(slotItemsAdded(QUrl,KFileItemList)));
+    connect(m_coreLister, SIGNAL(itemsAdded(QUrl, KFileItemList)), this, SLOT(slotItemsAdded(QUrl, KFileItemList)));
     connect(m_coreLister, &KCoreDirLister::itemsDeleted, this, &LibraryWidget::slotItemsDeleted);
     connect(m_coreLister, SIGNAL(clear()), this, SLOT(slotClearAll()));
     m_coreLister->openUrl(QUrl::fromLocalFile(m_directory.absolutePath()));
@@ -415,7 +415,7 @@ void LibraryWidget::slotMoveData(const QList<QUrl> &urls, QString dest)
             // Dropped an external file, attempt to copy it to library
             KIO::FileCopyJob *copyJob = KIO::file_copy(url, QUrl::fromLocalFile(dir.absoluteFilePath(url.fileName())));
             connect(copyJob, &KJob::result, this, &LibraryWidget::slotDownloadFinished);
-            connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotDownloadProgress(KJob*,ulong)));
+            connect(copyJob, SIGNAL(percent(KJob *, ulong)), this, SLOT(slotDownloadProgress(KJob *, ulong)));
         } else {
             // Internal drag/drop
             dir.rename(url.path(), url.fileName());

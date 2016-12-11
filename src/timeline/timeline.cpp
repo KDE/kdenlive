@@ -160,7 +160,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_trackview->verticalScrollBar(), &QAbstractSlider::valueChanged, headers_area->verticalScrollBar(), &QAbstractSlider::setValue);
     connect(m_trackview, &CustomTrackView::tracksChanged, this, &Timeline::slotReloadTracks);
     connect(m_trackview, &CustomTrackView::updateTrackHeaders, this, &Timeline::slotRepaintTracks);
-    connect(m_trackview, SIGNAL(showTrackEffects(int,TrackInfo)), this, SIGNAL(showTrackEffects(int,TrackInfo)));
+    connect(m_trackview, SIGNAL(showTrackEffects(int, TrackInfo)), this, SIGNAL(showTrackEffects(int, TrackInfo)));
     connect(m_trackview, &CustomTrackView::updateTrackEffectState, this, &Timeline::slotUpdateTrackEffectState);
     transitionHandler = new TransitionHandler(m_tractor);
     connect(m_trackview, &CustomTrackView::cursorMoved, m_ruler, &CustomRuler::slotCursorMoved);
@@ -350,17 +350,17 @@ int Timeline::getTracks()
             tk->trackHeader->setSelectedIndex(m_trackview->selectedTrack());
             connect(tk->trackHeader, &HeaderTrack::switchTrackVideo, this, &Timeline::switchTrackVideo);
             connect(tk->trackHeader, &HeaderTrack::switchTrackAudio, this, &Timeline::switchTrackAudio);
-            connect(tk->trackHeader, SIGNAL(switchTrackLock(int,bool)), m_trackview, SLOT(slotSwitchTrackLock(int,bool)));
+            connect(tk->trackHeader, SIGNAL(switchTrackLock(int, bool)), m_trackview, SLOT(slotSwitchTrackLock(int, bool)));
             connect(tk->trackHeader, &HeaderTrack::selectTrack, m_trackview, &CustomTrackView::slotSelectTrack);
-            connect(tk->trackHeader, SIGNAL(renameTrack(int,QString)), this, SLOT(slotRenameTrack(int,QString)));
+            connect(tk->trackHeader, SIGNAL(renameTrack(int, QString)), this, SLOT(slotRenameTrack(int, QString)));
             connect(tk->trackHeader, &HeaderTrack::configTrack, this, &Timeline::configTrack);
-            connect(tk->trackHeader, SIGNAL(addTrackEffect(QDomElement,int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement,int)));
+            connect(tk->trackHeader, SIGNAL(addTrackEffect(QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement, int)));
             if (playlist.filter_count()) {
                 getEffects(playlist, Q_NULLPTR, i);
                 slotUpdateTrackEffectState(i);
             }
             connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration, Qt::DirectConnection);
-            connect(tk, SIGNAL(storeSlowMotion(QString,Mlt::Producer*)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString,Mlt::Producer*)));
+            connect(tk, SIGNAL(storeSlowMotion(QString, Mlt::Producer *)), m_doc->renderer(), SLOT(storeSlowmotionProducer(QString, Mlt::Producer *)));
         }
     }
     headers_area->setMinimumWidth(headerWidth);

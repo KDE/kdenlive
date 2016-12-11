@@ -617,8 +617,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             QUrl startJobDst = i.value();
             m_duplicateFiles.remove(startJobSrc);
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
-            connect(job, SIGNAL(result(KJob*)), this, SLOT(slotArchivingFinished(KJob*)));
-            connect(job, SIGNAL(processedSize(KJob*,qulonglong)), this, SLOT(slotArchivingProgress(KJob*,qulonglong)));
+            connect(job, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
+            connect(job, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
         }
         return true;
     }
@@ -637,8 +637,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.path()));
         }
         m_copyJob = KIO::copy(files, destUrl, KIO::HideProgressInfo);
-        connect(m_copyJob, SIGNAL(result(KJob*)), this, SLOT(slotArchivingFinished(KJob*)));
-        connect(m_copyJob, SIGNAL(processedSize(KJob*,qulonglong)), this, SLOT(slotArchivingProgress(KJob*,qulonglong)));
+        connect(m_copyJob, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
+        connect(m_copyJob, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
     }
     if (firstPass) {
         progressBar->setValue(0);

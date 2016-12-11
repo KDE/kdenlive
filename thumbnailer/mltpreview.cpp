@@ -24,18 +24,17 @@
 #include <QImage>
 #include <QVarLengthArray>
 
-
 #include <krandomsequence.h>
 #include <QDebug>
 #include <unistd.h>
 
-
 #define DBG_AREA
 
 extern "C" {
-Q_DECL_EXPORT ThumbCreator *new_creator() {
-    return new MltPreview;
-}
+    Q_DECL_EXPORT ThumbCreator *new_creator()
+    {
+        return new MltPreview;
+    }
 }
 
 MltPreview::MltPreview()
@@ -48,12 +47,10 @@ MltPreview::~MltPreview()
     Mlt::Factory::close();
 }
 
-
 bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 {
     Mlt::Profile *profile = new Mlt::Profile();
     Mlt::Producer *producer = new Mlt::Producer(*profile, path.toUtf8().data());
-
 
     if (producer->is_blank()) {
         delete producer;
@@ -64,17 +61,19 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
     uint variance = 10;
     int ct = 1;
     double ar = profile->dar();
-    if (ar == 0) ar = 1.0;
+    if (ar == 0) {
+        ar = 1.0;
+    }
     int wanted_width = width;
     int wanted_height = width / profile->dar();
     if (wanted_height > height) {
-	wanted_height = height;
-	wanted_width = height * ar;
+        wanted_height = height;
+        wanted_width = height * ar;
     }
 
     //img = getFrame(producer, frame, width, height);
     while (variance <= 40 && ct < 4) {
-        img = getFrame(producer, frame, wanted_width , wanted_height);
+        img = getFrame(producer, frame, wanted_width, wanted_height);
         variance = imageVariance(img);
         frame += 100 * ct;
         ct++;
@@ -100,7 +99,7 @@ QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int width, in
 
     mlt_image_format format = mlt_image_rgb24a;
 
-    const uchar* imagedata = frame->get_image(format, width, height);
+    const uchar *imagedata = frame->get_image(format, width, height);
     if (imagedata != Q_NULLPTR) {
         memcpy(mltImage.bits(), imagedata, width * height * 4);
         mltImage = mltImage.rgbSwapped();
@@ -110,29 +109,31 @@ QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int width, in
     return mltImage;
 }
 
-
 uint MltPreview::imageVariance(const QImage &image)
 {
-    if (image.isNull()) return 0;
+    if (image.isNull()) {
+        return 0;
+    }
     uint delta = 0;
     uint avg = 0;
     uint bytes = image.byteCount();
     uint STEPS = bytes / 2;
-    if (STEPS < 1) return 0;
+    if (STEPS < 1) {
+        return 0;
+    }
     QVarLengthArray<uchar> pivot(STEPS);
     qDebug() << "Using " << STEPS << " steps\n";
-    const uchar *bits=image.bits();
+    const uchar *bits = image.bits();
     // First pass: get pivots and taking average
-    for( uint i=0; i<STEPS ; i++ ){
+    for (uint i = 0; i < STEPS; i++) {
         pivot[i] = bits[2 * i];
-        avg+=pivot.at(i);
+        avg += pivot.at(i);
     }
-    avg=avg/STEPS;
+    avg = avg / STEPS;
     // Second Step: calculate delta (average?)
-    for (uint i=0; i<STEPS; ++i)
-    {
-        int curdelta=abs(int(avg - pivot.at(i)));
-        delta+=curdelta;
+    for (uint i = 0; i < STEPS; ++i) {
+        int curdelta = abs(int(avg - pivot.at(i)));
+        delta += curdelta;
     }
     return delta / STEPS;
 }
@@ -141,7 +142,4 @@ ThumbCreator::Flags MltPreview::flags() const
 {
     return None;
 }
-
-
-
 

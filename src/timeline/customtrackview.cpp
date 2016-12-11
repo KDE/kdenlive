@@ -1627,7 +1627,7 @@ void CustomTrackView::displayKeyframesMenu(QPoint pos, AbstractClipItem *clip)
         m_attachKeyframeToEnd = new QAction(i18n("Attach keyframe to end"), this);
         m_attachKeyframeToEnd->setCheckable(true);
         m_timelineContextKeyframeMenu->addAction(m_attachKeyframeToEnd);
-        connect(m_selectKeyframeType, SIGNAL(triggered(QAction*)), this, SLOT(slotEditKeyframeType(QAction*)));
+        connect(m_selectKeyframeType, SIGNAL(triggered(QAction *)), this, SLOT(slotEditKeyframeType(QAction *)));
         connect(m_attachKeyframeToEnd, &QAction::triggered, this, &CustomTrackView::slotAttachKeyframeToEnd);
     }
     m_attachKeyframeToEnd->setChecked(clip->isAttachedToEnd());

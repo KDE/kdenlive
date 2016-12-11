@@ -209,11 +209,11 @@ void JobManager::slotProcessJobs()
                 continue;
             }
         }
-        connect(job, SIGNAL(jobProgress(QString,int,int)), this, SIGNAL(processLog(QString,int,int)));
+        connect(job, SIGNAL(jobProgress(QString, int, int)), this, SIGNAL(processLog(QString, int, int)));
         connect(job, &AbstractClipJob::cancelRunningJob, m_bin, &Bin::slotCancelRunningJob);
 
         if (job->jobType == AbstractClipJob::MLTJOB || job->jobType == AbstractClipJob::ANALYSECLIPJOB) {
-            connect(job, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)));
+            connect(job, SIGNAL(gotFilterJobResults(QString, int, int, stringMap, stringMap)), this, SIGNAL(gotFilterJobResults(QString, int, int, stringMap, stringMap)));
         }
         job->startJob();
         if (job->status() == JobDone) {

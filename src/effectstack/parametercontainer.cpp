@@ -495,7 +495,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
                 PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->monitor->timecode());
                 posedit->setToolTip(comment);
-                connect(this, SIGNAL(updateRange(int,int)), posedit, SLOT(setRange(int,int)));
+                connect(this, SIGNAL(updateRange(int, int)), posedit, SLOT(setRange(int, int)));
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     posedit->setEnabled(false);
                     m_conditionalWidgets << posedit;

@@ -91,7 +91,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double s
             connect(&m_startThumbTimer, &QTimer::timeout, this, &ClipItem::slotGetStartThumb);
             m_endThumbTimer.setSingleShot(true);
             connect(&m_endThumbTimer, &QTimer::timeout, this, &ClipItem::slotGetEndThumb);
-            connect(m_binClip, SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
+            connect(m_binClip, SIGNAL(thumbReady(int, QImage)), this, SLOT(slotThumbReady(int, QImage)));
             if (generateThumbs && KdenliveSettings::videothumbnails()) {
                 QTimer::singleShot(0, this, &ClipItem::slotFetchThumbs);
             }

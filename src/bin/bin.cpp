@@ -373,14 +373,14 @@ Bin::Bin(QWidget *parent) :
 
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel);
-    connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex &, const
+    connect(m_itemModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex &, const
             QModelIndex &)));
     connect(m_itemModel, &QAbstractItemModel::rowsInserted, this, &Bin::rowsInserted);
     connect(m_itemModel, &QAbstractItemModel::rowsRemoved, this, &Bin::rowsRemoved);
     connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
-    connect(m_itemModel, SIGNAL(itemDropped(QStringList,QModelIndex)), this, SLOT(slotItemDropped(QStringList,QModelIndex)));
-    connect(m_itemModel, SIGNAL(itemDropped(QList<QUrl>,QModelIndex)), this, SLOT(slotItemDropped(QList<QUrl>,QModelIndex)));
-    connect(m_itemModel, SIGNAL(effectDropped(QString,QModelIndex)), this, SLOT(slotEffectDropped(QString,QModelIndex)));
+    connect(m_itemModel, SIGNAL(itemDropped(QStringList, QModelIndex)), this, SLOT(slotItemDropped(QStringList, QModelIndex)));
+    connect(m_itemModel, SIGNAL(itemDropped(QList<QUrl>, QModelIndex)), this, SLOT(slotItemDropped(QList<QUrl>, QModelIndex)));
+    connect(m_itemModel, SIGNAL(effectDropped(QString, QModelIndex)), this, SLOT(slotEffectDropped(QString, QModelIndex)));
     connect(m_itemModel, &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
     connect(m_itemModel, &ProjectItemModel::addClipCut, this, &Bin::slotAddClipCut);
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
@@ -427,7 +427,7 @@ Bin::Bin(QWidget *parent) :
     pCore->window()->actionCollection()->addAction(QStringLiteral("rename_folder"), m_renameFolderAction);
 
     listType->setToolBarMode(KSelectAction::MenuMode);
-    connect(listType, SIGNAL(triggered(QAction*)), this, SLOT(slotInitView(QAction*)));
+    connect(listType, SIGNAL(triggered(QAction *)), this, SLOT(slotInitView(QAction *)));
 
     // Settings menu
     QMenu *settingsMenu = new QMenu(i18n("Settings"), this);
@@ -493,9 +493,9 @@ Bin::Bin(QWidget *parent) :
     connect(m_infoMessage, &BinMessageWidget::messageClosing, this, &Bin::slotResetInfoMessage);
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
-    connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl,QString)), this, SLOT(slotQueryRemoval(QString,QUrl,QString)));
+    connect(this, SIGNAL(requesteInvalidRemoval(QString, QUrl, QString)), this, SLOT(slotQueryRemoval(QString, QUrl, QString)));
     connect(this, &Bin::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
-    connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
+    connect(this, SIGNAL(displayBinMessage(QString, KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString, KMessageWidget::MessageType)));
 }
 
 Bin::~Bin()
@@ -1008,7 +1008,7 @@ void Bin::setMonitor(Monitor *monitor)
     connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
     connect(m_monitor, SIGNAL(requestAudioThumb(QString)), this, SLOT(slotSendAudioThumb(QString)));
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
-    connect(m_monitor, SIGNAL(updateClipMarker(QString,QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+    connect(m_monitor, SIGNAL(updateClipMarker(QString, QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString, QList<CommentedTime>)));
     connect(this, &Bin::openClip, m_monitor, &Monitor::slotOpenClip);
 }
 
@@ -1060,7 +1060,7 @@ void Bin::setDocument(KdenliveDoc *project)
     setEnabled(true);
     blockSignals(false);
     m_proxyModel->selectionModel()->blockSignals(false);
-    connect(m_jobManager, SIGNAL(addClip(QString,int)), this, SLOT(slotAddUrl(QString,int)));
+    connect(m_jobManager, SIGNAL(addClip(QString, int)), this, SLOT(slotAddUrl(QString, int)));
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
     connect(m_jobManager, &JobManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
     connect(m_discardCurrentClipJobs, &QAction::triggered, m_jobManager, &JobManager::slotDiscardClipJobs);
@@ -1068,7 +1068,7 @@ void Bin::setDocument(KdenliveDoc *project)
     connect(m_discardPendingJobs, &QAction::triggered, m_jobManager, &JobManager::slotCancelPendingJobs);
     connect(m_jobManager, &JobManager::updateJobStatus, this, &Bin::slotUpdateJobStatus);
 
-    connect(m_jobManager, SIGNAL(gotFilterJobResults(QString,int,int,stringMap,stringMap)), this, SLOT(slotGotFilterJobResults(QString,int,int,stringMap,stringMap)));
+    connect(m_jobManager, SIGNAL(gotFilterJobResults(QString, int, int, stringMap, stringMap)), this, SLOT(slotGotFilterJobResults(QString, int, int, stringMap, stringMap)));
 
     //connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     //connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
@@ -1863,11 +1863,11 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
     connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
     connect(this, &Bin::refreshPanelMarkers, panel, &ClipPropertiesController::slotFillMarkers);
-    connect(panel, SIGNAL(updateClipProperties(QString,QMap<QString,QString>,QMap<QString,QString>)), this, SLOT(slotEditClipCommand(QString,QMap<QString,QString>,QMap<QString,QString>)));
+    connect(panel, SIGNAL(updateClipProperties(QString, QMap<QString, QString>, QMap<QString, QString>)), this, SLOT(slotEditClipCommand(QString, QMap<QString, QString>, QMap<QString, QString>)));
     connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
-    connect(panel, SIGNAL(addMarkers(QString,QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
+    connect(panel, SIGNAL(addMarkers(QString, QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString, QList<CommentedTime>)));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
-    connect(panel, SIGNAL(editAnalysis(QString,QString,QString)), this, SLOT(slotAddClipExtraData(QString,QString,QString)));
+    connect(panel, SIGNAL(editAnalysis(QString, QString, QString)), this, SLOT(slotAddClipExtraData(QString, QString, QString)));
 
     connect(panel, &ClipPropertiesController::loadMarkers, this, &Bin::slotLoadClipMarkers);
     connect(panel, &ClipPropertiesController::saveMarkers, this, &Bin::slotSaveClipMarkers);
