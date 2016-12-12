@@ -527,7 +527,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     m_previewGatherTimer.start();
 }
 
-void PreviewManager::reloadChunks(QList<int> chunks)
+void PreviewManager::reloadChunks(const QList<int> &chunks)
 {
     if (m_previewTrack == Q_NULLPTR) {
         return;

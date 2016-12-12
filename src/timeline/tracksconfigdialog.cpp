@@ -154,7 +154,7 @@ void TracksConfigDialog::setupOriginal(int selected)
         table->setItem(i, 1, item1);
         table->openPersistentEditor(item1);
 
-        QTableWidgetItem *item2 = new QTableWidgetItem(QLatin1String(""));
+        QTableWidgetItem *item2 = new QTableWidgetItem(QString());
         item2->setFlags(item2->flags() & ~Qt::ItemIsEditable);
         item2->setCheckState(info.isBlind ? Qt::Checked : Qt::Unchecked);
         if (info.type == AudioTrack) {
@@ -162,12 +162,12 @@ void TracksConfigDialog::setupOriginal(int selected)
         }
         table->setItem(i, 2, item2);
 
-        QTableWidgetItem *item3 = new QTableWidgetItem(QLatin1String(""));
+        QTableWidgetItem *item3 = new QTableWidgetItem(QString());
         item3->setFlags(item3->flags() & ~Qt::ItemIsEditable);
         item3->setCheckState(info.isMute ? Qt::Checked : Qt::Unchecked);
         table->setItem(i, 3, item3);
 
-        QTableWidgetItem *item4 = new QTableWidgetItem(QLatin1String(""));
+        QTableWidgetItem *item4 = new QTableWidgetItem(QString());
         item4->setFlags(item4->flags() & ~Qt::ItemIsEditable);
         item4->setCheckState(info.isLocked ? Qt::Checked : Qt::Unchecked);
         table->setItem(i, 4, item4);

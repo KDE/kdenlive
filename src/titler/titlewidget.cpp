@@ -532,7 +532,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     }
     //templateBox->setIconSize(QSize(60,60));
     templateBox->clear();
-    templateBox->addItem(QLatin1String(""));
+    templateBox->addItem(QString());
     foreach (const TitleTemplate &t, titletemplates) {
         templateBox->addItem(t.icon, t.name, t.file);
     }

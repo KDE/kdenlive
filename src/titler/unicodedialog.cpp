@@ -327,8 +327,8 @@ void UnicodeWidget::slotTextChanged(const QString &text)
         unicodeNumber->clear();
         clearOverviewChars();
         m_lastCursorPos = 0;
-        m_lastUnicodeNumber = QLatin1String("");
-        labelInfoText->setText(unicodeInfo(QLatin1String("")));
+        m_lastUnicodeNumber = QString();
+        labelInfoText->setText(unicodeInfo(QString()));
 
     } else {
 

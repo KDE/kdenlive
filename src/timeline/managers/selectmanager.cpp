@@ -167,7 +167,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
         ClipItem *item = static_cast <ClipItem *>(dragItem);
         // find existing video fade, if none then audio fade
 
-        int fadeIndex = item->hasEffect(QLatin1String(""), QStringLiteral("fade_from_black"));
+        int fadeIndex = item->hasEffect(QString(), QStringLiteral("fade_from_black"));
         int fadeIndex2 = item->hasEffect(QStringLiteral("volume"), QStringLiteral("fadein"));
         if (fadeIndex >= 0 && fadeIndex2 >= 0) {
             // We have 2 fadin effects, use currently selected or first one
@@ -201,7 +201,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
         } else if (item->fadeIn() != 0) {
             QDomElement effect;
             if (item->clipState() == PlaylistState::VideoOnly || (item->clipType() != Audio && item->clipState() != PlaylistState::AudioOnly && item->clipType() != Playlist)) {
-                effect = MainWindow::videoEffects.getEffectByTag(QLatin1String(""), QStringLiteral("fade_from_black")).cloneNode().toElement();
+                effect = MainWindow::videoEffects.getEffectByTag(QString(), QStringLiteral("fade_from_black")).cloneNode().toElement();
             } else {
                 effect = MainWindow::audioEffects.getEffectByTag(QStringLiteral("volume"), QStringLiteral("fadein")).cloneNode().toElement();
             }
@@ -213,7 +213,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
         ClipItem *item = static_cast <ClipItem *>(dragItem);
         // find existing video fade, if none then audio fade
 
-        int fadeIndex = item->hasEffect(QLatin1String(""), QStringLiteral("fade_to_black"));
+        int fadeIndex = item->hasEffect(QString(), QStringLiteral("fade_to_black"));
         int fadeIndex2 = item->hasEffect(QStringLiteral("volume"), QStringLiteral("fadeout"));
         if (fadeIndex >= 0 && fadeIndex2 >= 0) {
             // We have 2 fadin effects, use currently selected or first one
@@ -247,7 +247,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
         } else if (item->fadeOut() != 0) {
             QDomElement effect;
             if (item->clipState() == PlaylistState::VideoOnly || (item->clipType() != Audio && item->clipState() != PlaylistState::AudioOnly && item->clipType() != Playlist)) {
-                effect = MainWindow::videoEffects.getEffectByTag(QLatin1String(""), QStringLiteral("fade_to_black")).cloneNode().toElement();
+                effect = MainWindow::videoEffects.getEffectByTag(QString(), QStringLiteral("fade_to_black")).cloneNode().toElement();
             } else {
                 effect = MainWindow::audioEffects.getEffectByTag(QStringLiteral("volume"), QStringLiteral("fadeout")).cloneNode().toElement();
             }

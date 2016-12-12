@@ -66,9 +66,9 @@ ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent) :
     setAttribute(Qt::WA_DeleteOnClose);
 
     m_tmpThumbFile = new QTemporaryFile;
-    service_list->addItem(i18n("Freesound Audio Library"), FREESOUND);
-    service_list->addItem(i18n("Archive.org Video Library"), ARCHIVEORG);
-    service_list->addItem(i18n("Open Clip Art Graphic Library"), OPENCLIPART);
+    service_list->addItem(i18n("Freesound Audio Library"), AbstractService::FREESOUND);
+    service_list->addItem(i18n("Archive.org Video Library"), AbstractService::ARCHIVEORG);
+    service_list->addItem(i18n("Open Clip Art Graphic Library"), AbstractService::OPENCLIPART);
     setWindowTitle(i18n("Search Online Resources"));
     QPalette p = palette();
     p.setBrush(QPalette::Base, p.window());
@@ -377,7 +377,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     } else {
         path.append(m_currentService->getDefaultDownloadName(item));
 
-        if (m_currentService->serviceType == FREESOUND) {
+        if (m_currentService->serviceType == AbstractService::FREESOUND) {
 #ifdef QT5_USE_WEBKIT
             sFileExt = m_currentService->getExtension(search_results->currentItem());
 #else
@@ -388,7 +388,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
             }
             ext = "Audio (" + sFileExt + ");;All Files(*.*)";
 
-        } else if (m_currentService->serviceType == OPENCLIPART) {
+        } else if (m_currentService->serviceType == AbstractService::OPENCLIPART) {
             ext = "Images (" + m_currentService->getExtension(search_results->currentItem()) + ");;All Files(*.*)";
         } else {
             ext = "Video (" + m_currentService->getExtension(search_results->currentItem()) + ");;All Files(*.*)";
@@ -400,20 +400,20 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
         return;
     }
 
-    if (m_currentService->serviceType != FREESOUND) {
+    if (m_currentService->serviceType != AbstractService::FREESOUND) {
         saveUrl = QUrl::fromLocalFile(mSaveLocation);
     }
-    slotSetDescription(QLatin1String(""));
+    slotSetDescription(QString());
     button_import->setEnabled(false); // disable buttons while download runs. enabled in slotGotFile
 #ifdef QT5_USE_WEBKIT
-    if (m_currentService->serviceType == FREESOUND) { // open a dialog to authenticate with free sound and download the file
+    if (m_currentService->serviceType == AbstractService::FREESOUND) { // open a dialog to authenticate with free sound and download the file
         m_pOAuth2->obtainAccessToken();// when  job finished   ResourceWidget::slotAccessTokenReceived will be called
     } else { // not freesound - do file download via a KIO file copy job
         DoFileDownload(srcUrl, QUrl(saveUrl));
     }
 #else
     saveUrl = QUrl::fromLocalFile(mSaveLocation);
-    if (m_currentService->serviceType == FREESOUND) {
+    if (m_currentService->serviceType == AbstractService::FREESOUND) {
         // No OAuth, default to HQ preview
         srcUrl = QUrl(m_currentInfo.HQpreview);
     }
@@ -527,12 +527,12 @@ void ResourceWidget::slotChangeService()
     info_browser->clear();
     delete m_currentService;
     m_currentService = Q_NULLPTR;
-    SERVICETYPE service = (SERVICETYPE) service_list->itemData(service_list->currentIndex()).toInt();
-    if (service == FREESOUND) {
+    AbstractService::SERVICETYPE service = static_cast<AbstractService::SERVICETYPE>(service_list->itemData(service_list->currentIndex()).toInt());
+    if (service == AbstractService::FREESOUND) {
         m_currentService = new FreeSound(search_results);
-    } else if (service == OPENCLIPART) {
+    } else if (service == AbstractService::OPENCLIPART) {
         m_currentService = new OpenClipArt(search_results);
-    } else if (service == ARCHIVEORG) {
+    } else if (service == AbstractService::ARCHIVEORG) {
         m_currentService = new ArchiveOrg(search_results);
         connect(m_currentService, SIGNAL(gotPreview(QString)), this, SLOT(slotLoadPreview(QString)));
     } else {
@@ -759,7 +759,7 @@ void ResourceWidget::slotFreesoundAccessDenied()
 void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
 {
     //qCDebug(KDENLIVE_LOG) << "slotAccessTokenReceived: " <<sAccessToken;
-    if (sAccessToken != QLatin1String("")) {
+    if (sAccessToken != QString()) {
         // QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
 
         QNetworkRequest request;
@@ -768,7 +768,7 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
         // eg https://www.freesound.org/apiv2/sounds/39206/download/
         request.setRawHeader(QByteArray("Authorization"), QByteArray("Bearer").append(sAccessToken.toUtf8()));
 
-        m_meta = QLatin1String("");
+        m_meta = QString();
         m_desc = "<br><b>" +  i18n("Starting File Download") + "</b><br>";
         updateLayout();
 
@@ -777,7 +777,7 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
         connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &ResourceWidget::DownloadRequestFinished);
     } else {
 
-        m_meta = QLatin1String("");
+        m_meta = QString();
         m_desc = "<br><b>" +  i18n("Error Getting Access Token from Freesound.") + "</b>";
         m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection") + "</b>");
         updateLayout();

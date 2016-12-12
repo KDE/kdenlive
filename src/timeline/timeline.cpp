@@ -883,7 +883,7 @@ int Timeline::getLowestVideoTrack()
 
 void Timeline::updatePalette()
 {
-    headers_container->setStyleSheet(QLatin1String(""));
+    headers_container->setStyleSheet(QString());
     setPalette(qApp->palette());
     QPalette p = qApp->palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));

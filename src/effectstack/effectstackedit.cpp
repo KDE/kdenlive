@@ -60,7 +60,7 @@ EffectStackEdit::~EffectStackEdit()
 
 void EffectStackEdit::updatePalette()
 {
-    setStyleSheet(QLatin1String(""));
+    setStyleSheet(QString());
     setPalette(qApp->palette());
     setStyleSheet(EffectStackView2::getStyleSheet());
 }

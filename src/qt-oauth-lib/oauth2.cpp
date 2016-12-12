@@ -271,7 +271,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
                 } else {
 
                     ForgetAccessToken();
-                    emit accessTokenReceived(QLatin1String(""));//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
+                    emit accessTokenReceived(QString());//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
 
                 }
             }

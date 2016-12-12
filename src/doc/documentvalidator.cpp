@@ -1963,7 +1963,7 @@ bool DocumentValidator::checkMovit()
     }
     m_modified = true;
     QString scene = m_doc.toString();
-    scene.replace(QLatin1String("movit."), QLatin1String(""));
+    scene.replace(QLatin1String("movit."), QString());
     m_doc.setContent(scene);
     return true;
 }

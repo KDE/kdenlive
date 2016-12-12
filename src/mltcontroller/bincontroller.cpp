@@ -438,7 +438,7 @@ QString BinController::getProducerXML(Mlt::Producer &producer, bool includeMeta)
     Mlt::Consumer c(*producer.profile(), "xml", "string");
     Mlt::Service s(producer.get_service());
     if (!s.is_valid()) {
-        return QLatin1String("");
+        return QString();
     }
     int ignore = s.get_int("ignore_points");
     if (ignore) {

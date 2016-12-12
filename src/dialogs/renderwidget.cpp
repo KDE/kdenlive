@@ -1012,7 +1012,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             // construct the full file path
             filePath << dfi.absolutePath() << QDir::separator() << dfi.completeBaseName() + "_" <<
                      QString(trackNames.at(stemIdx)).replace(QLatin1String(" "), QLatin1String("_")) << QStringLiteral(".") << dfi.suffix();
-            dest = filePath.join(QLatin1String(""));
+            dest = filePath.join(QString());
         }
 
         // Check whether target file has an extension.

@@ -526,7 +526,7 @@ void EffectsListView::slotAutoExpand(const QString &text)
 void EffectsListView::updatePalette()
 {
     // We need to reset current stylesheet if we want to change the palette!
-    m_effectsList->setStyleSheet(QLatin1String(""));
+    m_effectsList->setStyleSheet(QString());
     m_effectsList->updatePalette();
     //m_effectsList->setStyleSheet(customStyleSheet());
 }

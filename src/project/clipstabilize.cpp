@@ -89,10 +89,10 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                     val[QStringLiteral("min")].toDouble(),
                     val[QStringLiteral("max")].toDouble(),
                     val[QStringLiteral("value")].toDouble(),/*default*/
-                    QLatin1String(""),/*comment*/
+                    QString(),/*comment*/
                     0/*id*/,
-                    QLatin1String(""),/*suffix*/
-                    val[QStringLiteral("decimals")] != QLatin1String("") ? val[QStringLiteral("decimals")].toInt() : 0,
+                    QString(),/*suffix*/
+                    val[QStringLiteral("decimals")] != QString() ? val[QStringLiteral("decimals")].toInt() : 0,
                     false,/*showRadioBtn*/
                     this);
             dbl->setObjectName(hi.key());

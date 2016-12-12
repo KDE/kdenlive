@@ -101,7 +101,7 @@ private:
     QList<int> m_waitingThumbs;
     QFuture <void> m_previewThread;
     /** @brief: After an undo/redo, if we have preview history, use it. */
-    void reloadChunks(QList<int> chunks);
+    void reloadChunks(const QList<int> &chunks);
 
 private slots:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */
