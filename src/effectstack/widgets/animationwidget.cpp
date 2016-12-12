@@ -436,8 +436,8 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
 void AnimationWidget::rebuildKeyframes()
 {
     // Fetch keyframes
-    QVector <int> keyframes;
-    QVector <int> types;
+    QVector<int> keyframes;
+    QVector<int> types;
     int frame;
     mlt_keyframe_type type;
     int count = m_animController.key_count();
