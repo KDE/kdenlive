@@ -36,7 +36,6 @@ const int idRole = Qt::UserRole + 9;
 const int licenseRole = Qt::UserRole + 10;
 const int descriptionRole = Qt::UserRole + 11;
 
-enum SERVICETYPE { NOSERVICE = 0, FREESOUND = 1, OPENCLIPART = 2, ARCHIVEORG = 3 };
 
 struct OnlineItemInfo {
     QString itemPreview;
@@ -57,6 +56,12 @@ class AbstractService : public QObject
     Q_OBJECT
 
 public:
+    enum SERVICETYPE {
+        NOSERVICE = 0,
+        FREESOUND = 1,
+        OPENCLIPART = 2,
+        ARCHIVEORG = 3 };
+
     explicit AbstractService(QListWidget *listWidget, QObject *parent = Q_NULLPTR);
     ~AbstractService();
     /** @brief Get file extension for currently selected item. */
