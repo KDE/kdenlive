@@ -58,8 +58,8 @@ private slots:
     void effectRotoChanged();
 
 signals:
-    void effectChanged(const QRect);
-    void effectPointsChanged(const QVariantList);
+    void effectChanged(const QRect &);
+    void effectPointsChanged(const QVariantList &);
 
 };
 

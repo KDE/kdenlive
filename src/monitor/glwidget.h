@@ -144,12 +144,12 @@ signals:
     void switchFullScreen(bool minimizeOnly = false);
     void mouseSeek(int eventDelta, int modifiers);
     void startDrag();
-    void analyseFrame(QImage);
+    void analyseFrame(const QImage&);
     void audioSamplesSignal(const audioShortVector &, int, int, int);
-    void showContextMenu(const QPoint);
+    void showContextMenu(const QPoint &);
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
-    void panView(QPoint diff);
+    void panView(const QPoint &diff);
 
 private:
     int m_id;

@@ -83,7 +83,7 @@ public slots:
     bool slotNewValue(int value);
 
 signals:
-    void zoneChanged(QPoint);
+    void zoneChanged(const QPoint &);
 };
 
 #endif

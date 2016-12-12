@@ -28,10 +28,6 @@ public:
 
     QImage calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode,
                              bool drawAxis, const WaveformGenerator::Rec rec, uint accelFactor = 1);
-
-//signals:
-    //void signalCalculationFinished(QImage image, const uint &ms);
-
 };
 
 #endif // WAVEFORMGENERATOR_H

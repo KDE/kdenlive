@@ -90,7 +90,7 @@ signals:
      * @param sAccessToken
      *
      */
-    void accessTokenReceived(QString sAccessToken);
+    void accessTokenReceived(const QString &sAccessToken);
 
     /**
      * @brief DownloadCanceled

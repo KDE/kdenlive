@@ -60,7 +60,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 signals:
-    void addEffect(QDomElement);
+    void addEffect(const QDomElement &);
 };
 
 class QuickMonitorEventEater : public QObject
