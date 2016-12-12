@@ -336,28 +336,28 @@ signals:
     void requestFrameForAnalysis(bool);
     /** @brief Request a zone extraction (ffmpeg transcoding). */
     void extractZone(const QString &id);
-    void effectChanged(const QRect);
-    void effectPointsChanged(QVariantList);
+    void effectChanged(const QRect &);
+    void effectPointsChanged(const QVariantList &);
     void addKeyframe();
     void deleteKeyframe();
     void seekToNextKeyframe();
     void seekToPreviousKeyframe();
     void seekToKeyframe(int);
-    void addClipToProject(QUrl);
+    void addClipToProject(const QUrl &);
     void showConfigDialog(int, int);
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
-    void addEffect(QDomElement);
-    void addMasterEffect(QString, QDomElement);
+    void addEffect(const QDomElement &);
+    void addMasterEffect(const QString &, const QDomElement &);
     void passKeyPress(QKeyEvent *);
     /** @brief Update the text of a clip marker. */
-    void updateClipMarker(QString, QList<CommentedTime>);
+    void updateClipMarker(const QString &, const QList<CommentedTime> &);
     /** @brief Update the text of a timeline guide. */
-    void updateGuide(int, QString);
+    void updateGuide(int, const QString &);
     /** @brief Enable / disable project monitor multitrack view (split view with one track in each quarter). */
     void multitrackView(bool);
-    void requestAudioThumb(QString);
-    void timeCodeUpdated(QString);
+    void requestAudioThumb(const QString &);
+    void timeCodeUpdated(const QString &);
     void addMarker();
     void deleteMarker(bool deleteGuide = true);
     void seekToPreviousSnap();

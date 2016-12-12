@@ -50,7 +50,7 @@ private slots:
     void slotAddEffect(QListWidgetItem *item);
 
 signals:
-    void addEffect(QDomElement);
+    void addEffect(const QDomElement &);
 
 };
 

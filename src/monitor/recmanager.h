@@ -92,7 +92,7 @@ private slots:
     void slotShowLog();
 
 signals:
-    void addClipToProject(QUrl);
+    void addClipToProject(const QUrl &);
     void warningMessage(QString, int timeout = 5000, QList<QAction *> actions = QList<QAction *>());
 };
 

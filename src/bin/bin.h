@@ -750,7 +750,7 @@ signals:
     void masterClipUpdated(ClipController *, Monitor *);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);
     void displayMessage(const QString &, int, MessageType);
-    void requesteInvalidRemoval(const QString &, QUrl, const QString &);
+    void requesteInvalidRemoval(const QString &, const QUrl &, const QString &);
     /** @brief Markers changed, refresh panel. */
     void refreshPanelMarkers();
     /** @brief Analysis data changed, refresh panel. */

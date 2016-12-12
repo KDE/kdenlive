@@ -258,8 +258,8 @@ signals:
     void refreshPropertiesPanel();
     void refreshAnalysisPanel();
     void refreshClipDisplay();
-    void thumbReady(int, QImage);
-    void thumbUpdated(QImage);
+    void thumbReady(int, const QImage &);
+    void thumbUpdated(const QImage &);
     void updateJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
     /** @brief Clip is ready, load properties. */
     void loadPropertiesPanel();

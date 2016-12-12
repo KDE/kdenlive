@@ -256,9 +256,9 @@ private slots:
     void slotSwitchCompare(bool enable);
 
 signals:
-    void removeEffectGroup(ClipItem *, int, const QDomDocument);
-    void removeEffect(ClipItem *, int, const QDomElement);
-    void removeMasterEffect(const QString &id, const QDomElement);
+    void removeEffectGroup(ClipItem *, int, const QDomDocument &);
+    void removeEffect(ClipItem *, int, const QDomElement &);
+    void removeMasterEffect(const QString &id, const QDomElement &);
     void addMasterEffect(const QString &id, const QDomElement &);
     /**  Parameters for an effect changed, update the filter in timeline */
     void updateEffect(ClipItem *, int, const QDomElement &, const QDomElement &, int, bool);
@@ -284,7 +284,7 @@ signals:
     void showComments(bool show);
     void startFilterJob(const ItemInfo &info, const QString &clipId, QMap<QString, QString> &, QMap<QString, QString> &, QMap<QString, QString> &);
     void addEffect(ClipItem *, const QDomElement &, int);
-    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString, QString> data = QMap<QString, QString>());
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, const QDomElement &, const QMap<QString, QString> &data = QMap<QString, QString>());
 };
 
 #endif

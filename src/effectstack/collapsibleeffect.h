@@ -157,7 +157,7 @@ signals:
     void unGroup(CollapsibleEffect *);
     void createRegion(int, const QUrl &);
     void deleteGroup(const QDomDocument &);
-    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString, QString> data = QMap<QString, QString>());
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &data = QMap<QString, QString>());
 };
 
 #endif

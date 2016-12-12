@@ -109,14 +109,14 @@ private:
     void fillProperties();
 
 signals:
-    void updateClipProperties(const QString &, QMap<QString, QString>, QMap<QString, QString>);
-    void modified(QColor);
+    void updateClipProperties(const QString &, const QMap<QString, QString> &, const QMap<QString, QString> &);
+    void modified(const QColor &);
     void modified(int);
     void updateTimeCodeFormat();
     /** @brief Seek clip monitor to a frame. */
     void seekToFrame(int);
     /** @brief Edit clip markers. */
-    void addMarkers(QString, QList<CommentedTime>);
+    void addMarkers(const QString &, const QList<CommentedTime> &);
     void loadMarkers(const QString &);
     void saveMarkers(const QString &);
     void editAnalysis(const QString &id, const QString &name, const QString &value);

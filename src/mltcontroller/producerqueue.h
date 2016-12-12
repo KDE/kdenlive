@@ -92,7 +92,7 @@ signals:
     /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QImage &, bool fromFile = false);
     /** @brief A proxy clip is missing, ask for creation. */
-    void requestProxy(QString);
+    void requestProxy(const QString &);
     void infoProcessingFinished();
     /** @brief First clip does not match profect profile, switch. */
     void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);

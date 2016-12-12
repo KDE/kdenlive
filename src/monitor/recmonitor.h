@@ -160,8 +160,8 @@ public slots:
 signals:
     void renderPosition(int);
     void durationChanged(int);
-    void addProjectClip(QUrl);
-    void addProjectClipList(QList<QUrl>);
+    void addProjectClip(const QUrl &);
+    void addProjectClipList(const QList<QUrl> &);
     void showConfigDialog(int, int);
 };
 

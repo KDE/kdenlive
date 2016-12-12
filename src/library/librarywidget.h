@@ -157,8 +157,8 @@ public slots:
     void slotUpdateThumb(const QString &path, const QPixmap &pix);
 
 signals:
-    void moveData(QList<QUrl>, QString);
-    void importSequence(QStringList, QString);
+    void moveData(const QList<QUrl> &, const QString &);
+    void importSequence(const QStringList &, const QString &);
 };
 
 class LibraryWidget : public QWidget
@@ -206,7 +206,7 @@ private:
     void showMessage(const QString &text, KMessageWidget::MessageType type = KMessageWidget::Warning);
 
 signals:
-    void addProjectClips(QList<QUrl>);
+    void addProjectClips(const QList<QUrl> &);
     void thumbReady(const QString &, const QString &);
 };
 

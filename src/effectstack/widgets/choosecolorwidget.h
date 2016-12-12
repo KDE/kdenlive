@@ -55,7 +55,7 @@ private slots:
 
 signals:
     /** @brief Emitted whenever a different color was chosen. */
-    void modified(QColor = QColor());
+    void modified(const QColor& = QColor());
     void displayMessage(const QString &, int);
     /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
     void disableCurrentFilter(bool);

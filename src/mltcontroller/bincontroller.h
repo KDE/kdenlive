@@ -204,8 +204,8 @@ private:
     void pasteEffects(const QString &id, Mlt::Producer &producer);
 
 signals:
-    void loadFolders(QMap<QString, QString>);
-    void loadThumb(QString, QImage, bool);
+    void loadFolders(const QMap<QString, QString> &);
+    void loadThumb(const QString &, const QImage&, bool);
     void createThumb(const QDomElement &, const QString &, int);
     void requestAudioThumb(const QString &);
     void abortAudioThumbs();
