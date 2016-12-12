@@ -19,6 +19,7 @@
 #include "KoIconUtils.h"
 
 #include <QIcon>
+#include <QPalette>
 #include <QApplication>
 #include "kdenlive_debug.h"
 
