@@ -2731,16 +2731,19 @@ void RenderWidget::checkCodecs()
         consumer->start();
         vcodecsList.clear();
         Mlt::Properties vcodecs((mlt_properties) consumer->get_data("vcodec"));
+        vcodecsList.reserve(vcodecs.count());
         for (int i = 0; i < vcodecs.count(); ++i) {
             vcodecsList << QString(vcodecs.get(i));
         }
         acodecsList.clear();
         Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
+        acodecsList.reserve(acodecs.count());
         for (int i = 0; i < acodecs.count(); ++i) {
             acodecsList << QString(acodecs.get(i));
         }
         supportedFormats.clear();
         Mlt::Properties formats((mlt_properties) consumer->get_data("f"));
+        supportedFormats.reserve(formats.count());
         for (int i = 0; i < formats.count(); ++i) {
             supportedFormats << QString(formats.get(i));
         }
