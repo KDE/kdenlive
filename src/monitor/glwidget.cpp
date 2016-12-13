@@ -1157,7 +1157,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
         event->ignore();
         return;
     }
-    if (m_dragStart.isNull() && m_panStart.isNull() && event->button() & Qt::LeftButton) {
+    if (!m_dragStart.isNull() && m_panStart.isNull() && event->button() & Qt::LeftButton) {
         emit monitorPlay();
     }
     m_dragStart = QPoint();
