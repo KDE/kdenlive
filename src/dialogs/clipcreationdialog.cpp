@@ -77,7 +77,7 @@ QStringList ClipCreationDialog::getExtensions()
 }
 
 //static
-void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement xml, const QStringList &groupInfo, Bin *bin)
+void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement &xml, const QStringList &groupInfo, Bin *bin)
 {
     //FIXME?
     Q_UNUSED(groupInfo)
