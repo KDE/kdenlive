@@ -20,7 +20,7 @@ mkdir build
 cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=/install/path
 make -j4
-sudo make install
+make install
 
 and then run
 /install/path/bin/kdenlive
