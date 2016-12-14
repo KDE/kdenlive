@@ -30,22 +30,27 @@ MltConnection::MltConnection(QObject* parent) :
 
 void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
 {
-    QString basePath = mltPath;
-    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = qgetenv("MLT_PROFILES_PATH");
-    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = qgetenv("MLT_DATA") + "/profiles/";
-    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = qgetenv("MLT_PREFIX") + "/share/mlt/profiles/";
-    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = KdenliveSettings::mltpath();
-    if (basePath.isEmpty() || !QFile::exists(basePath)) basePath = QStringLiteral(MLT_DATADIR) + "/profiles/"; // build-time definition
-    KdenliveSettings::setMltpath(basePath);
+    QString profilePath = mltPath;
+    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qgetenv("MLT_PROFILES_PATH");
+    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qgetenv("MLT_DATA") + "/profiles/";
+    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qgetenv("MLT_PREFIX") + "/share/mlt/profiles/";
+    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = KdenliveSettings::mltpath();
+    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = QStringLiteral(MLT_DATADIR) + "/profiles/"; // build-time definition
+    KdenliveSettings::setMltpath(profilePath);
 
-    QString meltPath = QDir::cleanPath(basePath).section('/', 0, -3) + "/bin/melt";
+#ifdef Q_OS_WIN
+    QString meltPath = QDir::cleanPath(profilePath).section('/', 0, -3) + "melt.exe";
+    if (!QFile::exists(meltPath)) meltPath = qgetenv("MLT_PREFIX") + "melt.exe";
+#else
+    QString meltPath = QDir::cleanPath(profilePath).section('/', 0, -3) + "/bin/melt";
     if (!QFile::exists(meltPath)) meltPath = qgetenv("MLT_PREFIX") + "/bin/melt";
+#endif
     if (!QFile::exists(meltPath)) meltPath = KdenliveSettings::rendererpath();
-    if (!QFile::exists(meltPath)) meltPath = QStringLiteral(MLT_MELTBIN);
     if (!QFile::exists(meltPath)) meltPath = QStandardPaths::findExecutable("melt");
+    if (!QFile::exists(meltPath)) meltPath = QStringLiteral(MLT_MELTBIN);
     KdenliveSettings::setRendererpath(meltPath);
 
-    if (KdenliveSettings::rendererpath().isEmpty()) {
+    if (meltPath.isEmpty()) {
         // Cannot find the MLT melt renderer, ask for location
         QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl(),
                 i18n("Cannot find the melt program required for rendering (part of MLT)"),
@@ -54,32 +59,37 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
             delete getUrl;
             ::exit(0);
         } else {
-            QUrl rendererPath = getUrl->selectedUrl();
+            meltPath = getUrl->selectedUrl().path();
             delete getUrl;
-            if (rendererPath.isEmpty()) {
+            if (meltPath.isEmpty()) {
                 ::exit(0);
             } else {
-                KdenliveSettings::setRendererpath(rendererPath.path());
+                KdenliveSettings::setRendererpath(meltPath);
             }
         }
     }
 
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
-    QDir mltDir(KdenliveSettings::mltpath());
-    QStringList profilesList = mltDir.entryList(profilesFilter, QDir::Files);
+    QStringList profilesList = QDir(profilePath).entryList(profilesFilter, QDir::Files);
     if (profilesList.isEmpty()) {
         // Cannot find MLT path, try finding melt
-        QString profilePath = KdenliveSettings::rendererpath();
-        if (!profilePath.isEmpty()) {
-            profilePath = profilePath.section('/', 0, -3);
-            KdenliveSettings::setMltpath(profilePath + "/share/mlt/profiles/");
-            mltDir = QDir(KdenliveSettings::mltpath());
-            profilesList = mltDir.entryList(profilesFilter, QDir::Files);
+        if (!meltPath.isEmpty()) {
+            if(meltPath.contains('/')) {
+#ifdef Q_OS_WIN
+            profilePath = meltPath.section('/', 0, -1) + "/share/mlt/profiles/";
+#else
+            profilePath = meltPath.section('/', 0, -2) + "/share/mlt/profiles/";
+#endif
+            } else {
+                profilePath = QDir::currentPath() + "/share/mlt/profiles/";
+            }
+            KdenliveSettings::setMltpath(profilePath);
+            profilesList = QDir(profilePath).entryList(profilesFilter, QDir::Files);
         }
         if (profilesList.isEmpty()) {
             // Cannot find the MLT profiles, ask for location
-            QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl::fromLocalFile(KdenliveSettings::mltpath()),
+            QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl::fromLocalFile(profilePath),
                                                                            i18n("Cannot find your MLT profiles, please give the path"),
                                                                            pCore->window());
             getUrl->urlRequester()->setMode(KFile::Directory);
@@ -87,25 +97,21 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
                 delete getUrl;
                 ::exit(0);
             } else {
-                QUrl mltPath = getUrl->selectedUrl();
+                profilePath = getUrl->selectedUrl().path();
                 delete getUrl;
                 if (mltPath.isEmpty()) {
                     ::exit(0);
                 } else {
-                    KdenliveSettings::setMltpath(mltPath.path() + QDir::separator());
-                    mltDir = QDir(KdenliveSettings::mltpath());
-                    profilesList = mltDir.entryList(profilesFilter, QDir::Files);
+                    KdenliveSettings::setMltpath(profilePath);
+                    profilesList = QDir(profilePath).entryList(profilesFilter, QDir::Files);
                 }
             }
         }
     }
-
-    //qDebug() << "RESULTING MLT PATH: " << KdenliveSettings::mltpath();
+    qDebug() << "MLT profiles path: " << KdenliveSettings::mltpath();
 
     // Parse again MLT profiles to build a list of available video formats
     if (profilesList.isEmpty()) {
         locateMeltAndProfilesPath();
     }
 }
-
-
