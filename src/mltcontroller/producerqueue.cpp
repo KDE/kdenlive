@@ -407,25 +407,27 @@ void ProducerQueue::processFileProperties()
         if (info.xml.hasAttribute(QStringLiteral("out"))) {
             clipOut = info.xml.attribute(QStringLiteral("out")).toInt();
         }
-
         // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
         if (type == Color || type == Text || type == TextTemplate || type == QText || type == Image || type == SlideShow) {
             int length;
             if (info.xml.hasAttribute(QStringLiteral("length"))) {
                 length = info.xml.attribute(QStringLiteral("length")).toInt();
-                clipOut = length - 1;
+                clipOut = qMax(1, length - 1);
             } else {
                 length = EffectsList::property(info.xml, QStringLiteral("length")).toInt();
-                clipOut = info.xml.attribute(QStringLiteral("out")).toInt() - info.xml.attribute(QStringLiteral("in")).toInt();
-                if (length < clipOut)
-                    length = clipOut + 1;
+                clipOut -= info.xml.attribute(QStringLiteral("in")).toInt();
+                if (length < clipOut) {
+                    length = clipOut == 1 ? 1 : clipOut + 1;
+                }
             }
             // Pass duration if it was forced
             if (info.xml.hasAttribute(QStringLiteral("duration"))) {
                 duration = info.xml.attribute(QStringLiteral("duration")).toInt();
                 if (length < duration) {
                     length = duration;
-                    if (clipOut > 0) clipOut = length - 1;
+                    if (clipOut > 0) {
+                        clipOut = length - 1;
+                    }
                 }
             }
             if (duration == 0) duration = length;
