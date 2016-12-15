@@ -114,8 +114,8 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &gr
         uint id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
-        prod.setAttribute(QStringLiteral("out"), doc->getFramePos(doc->timecode().getTimecode(t->gentime())) - 1);
-        QMap<QString, QString> properties;
+        prod.setAttribute(QStringLiteral("length"), doc->getFramePos(doc->timecode().getTimecode(t->gentime())));
+        QMap <QString, QString> properties;
         properties.insert(QStringLiteral("resource"), color);
         properties.insert(QStringLiteral("kdenlive:clipname"), dia_ui.clip_name->text());
         properties.insert(QStringLiteral("mlt_service"), QStringLiteral("color"));
@@ -437,7 +437,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         if (type.name().startsWith(QLatin1String("image/"))) {
             prod.setAttribute(QStringLiteral("type"), (int) Image);
             prod.setAttribute(QStringLiteral("in"), 0);
-            prod.setAttribute(QStringLiteral("out"), doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+            prod.setAttribute(QStringLiteral("length"), doc->getFramePos(KdenliveSettings::image_duration()));
             if (KdenliveSettings::autoimagetransparency()) {
                 properties.insert(QStringLiteral("kdenlive:transparency"), QStringLiteral("1"));
             }
