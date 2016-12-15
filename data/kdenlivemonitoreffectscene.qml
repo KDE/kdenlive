@@ -154,7 +154,7 @@ Item {
         property bool isMoving : false
         anchors.centerIn: root
         hoverEnabled: true
-        acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MidButton
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         readonly property bool containsMouse: {
@@ -188,10 +188,7 @@ Item {
         }
 
         onPressed: {
-            if (mouse.button & Qt.MidButton) {
-                root.showToolbar = !root.showToolbar
-                toolBarChanged(root.showToolbar)
-            } else {
+            if (mouse.button & Qt.LeftButton) {
                 if (root.requestedKeyFrame >= 0 && !isMoving) {
                     root.seekToKeyframe();
                 }

@@ -569,7 +569,7 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier)) {
+    if (rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) && !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
         QQuickView::mousePressEvent(event);
         return;
@@ -579,43 +579,47 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             // Pan view
             m_panStart = event->pos();
             setCursor(Qt::ClosedHandCursor);
-            event->accept();
         } else {
             m_dragStart = event->pos();
         }
     }
     else if (event->button() & Qt::RightButton) {
         emit showContextMenu(event->globalPos());
-        event->accept();
+    } else if (event->button() & Qt::MiddleButton) {
+        m_panStart = event->pos();
+        setCursor(Qt::ClosedHandCursor);
     }
+    event->accept();
     QQuickView::mousePressEvent(event);
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier)) {
+    if (rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) && !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
         QQuickView::mouseMoveEvent(event);
         return;
     }
-/*    if (event->modifiers() == Qt::ShiftModifier && m_producer) {
+    /*    if (event->modifiers() == Qt::ShiftModifier && m_producer) {
         emit seekTo(m_producer->get_length() *  event->x() / width());
         return;
     }*/
-    if (!(event->buttons() & Qt::LeftButton)) {
-        QQuickView::mouseMoveEvent(event);
-        return;
-    }
-    if (!m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
-        m_dragStart = QPoint();
-        emit startDrag();
-    }
+    QQuickView::mouseMoveEvent(event);
     if (!m_panStart.isNull()) {
         emit panView(m_panStart - event->pos());
         m_panStart = event->pos();
         event->accept();
+        QQuickView::mouseMoveEvent(event);
+        return;
     }
-    QQuickView::mouseMoveEvent(event);
+    if (!(event->buttons() & Qt::LeftButton)) {
+        QQuickView::mouseMoveEvent(event);
+        return;
+    }
+    if (!event->isAccepted() && !m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
+        m_dragStart = QPoint();
+        emit startDrag();
+    }
 }
 
 void GLWidget::keyPressEvent(QKeyEvent *event)
@@ -1157,7 +1161,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
         event->ignore();
         return;
     }
-    if (!m_dragStart.isNull() && m_panStart.isNull() && event->button() & Qt::LeftButton) {
+    if (!m_dragStart.isNull() && m_panStart.isNull() && event->button() & Qt::LeftButton && !event->isAccepted()) {
         emit monitorPlay();
     }
     m_dragStart = QPoint();

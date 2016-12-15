@@ -182,10 +182,6 @@ Item {
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         onClicked: {
-            if (mouse.button & Qt.MidButton) {
-                root.showToolbar = !root.showToolbar
-                toolBarChanged(root.showToolbar)
-            }
             if (!root.isDefined) {
                 if (mouse.button == Qt.RightButton) {
                     // close shape, define control points
