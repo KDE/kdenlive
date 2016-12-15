@@ -29,14 +29,6 @@ Item {
     signal editCurrentMarker()
     signal toolBarChanged(bool doAccept)
 
-    MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.MidButton
-        onClicked: {
-            root.showToolbar = !root.showToolbar
-            toolBarChanged(root.showToolbar)
-        }
-    }
     SceneToolBar {
         id: sceneToolBar
         anchors {

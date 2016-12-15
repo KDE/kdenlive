@@ -26,6 +26,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsRectItem>
 #include <QGraphicsSvgItem>
+#include <QScrollBar>
 #include <QGraphicsView>
 #include <QCursor>
 #include <QTextCursor>
@@ -576,6 +577,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
 
 void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
+    m_pan = false;
     if (m_tool == TITLE_RECTANGLE && m_selectedItem) setSelectedItem(m_selectedItem);
     if (m_createdText) {
         m_selectedItem->setSelected(true);
@@ -599,6 +601,17 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 
 void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
+    if (e->buttons() & Qt::MiddleButton) {
+        clearTextSelection();
+        QList<QGraphicsView*> viewlist = views();
+        if (!viewlist.isEmpty()) {
+            viewlist.first()->setDragMode(QGraphicsView::ScrollHandDrag);
+            m_pan = true;
+            e->accept();
+            QGraphicsScene::mousePressEvent(e);
+            return;
+        }
+    }
     int xPos = ((int) e->scenePos().x() / m_gridSize) * m_gridSize;
     int yPos = ((int) e->scenePos().y() / m_gridSize) * m_gridSize;
     m_moveStarted = false;
@@ -609,8 +622,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
     if (m_tool == TITLE_SELECT) {
         QList<QGraphicsView*> viewlist = views();
         if (e->modifiers() & Qt::ControlModifier) {
-            m_selectedItem = NULL;
-            clearSelection();
+            clearTextSelection();
             if (!viewlist.isEmpty()) {
                 viewlist.first()->setDragMode(QGraphicsView::ScrollHandDrag);
                 e->ignore();
@@ -723,14 +735,21 @@ void GraphicsSceneRectMove::clearTextSelection()
 
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
+    QList<QGraphicsView*> viewlist = views();
+    if (viewlist.isEmpty()) {
+        e->ignore();
+        return;
+    }
+    QGraphicsView *view = viewlist.first();
+    if (m_pan) {
+        QPoint diff = e->lastScreenPos() - e->screenPos();
+        view->horizontalScrollBar()->setValue(view->horizontalScrollBar()->value() + diff.x());
+        view->verticalScrollBar()->setValue(view->verticalScrollBar()->value() + diff.y());
+        e->accept();
+        QGraphicsScene::mouseMoveEvent(e);
+        return;
+    }
     if (e->buttons() != Qt::NoButton && !m_moveStarted) {
-        QList<QGraphicsView*> viewlist = views();
-        if (viewlist.isEmpty()) {
-            // invalid
-            e->accept();
-            return;
-        }
-        QGraphicsView *view = viewlist.at(0);
         if ((view->mapFromScene(e->scenePos()) - view->mapFromScene(m_clickPoint)).manhattanLength() < QApplication::startDragDistance()) {
             e->ignore();
             QGraphicsScene::mouseMoveEvent(e);
@@ -798,10 +817,6 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         }
         emit itemMoved();
     } else if (m_tool == TITLE_SELECT) {
-        QList<QGraphicsView*> viewlist = views();
-        QGraphicsView *view = NULL;
-        if (viewlist.size() > 0) view = viewlist[0];
-
         QPointF p = e->scenePos();
         p += QPoint(-2, -2);
         m_resizeMode = NoResize;

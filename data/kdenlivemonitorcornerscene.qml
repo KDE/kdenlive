@@ -159,13 +159,6 @@ Item {
             root.addKeyframe()
         }
 
-        onClicked: {
-            if (mouse.button & Qt.MidButton) {
-                root.showToolbar = !root.showToolbar
-                toolBarChanged(root.showToolbar)
-            }
-        }
-
         onPositionChanged: {
             if (root.iskeyframe == false) return;
             if (pressed && root.requestedKeyFrame >= 0) {

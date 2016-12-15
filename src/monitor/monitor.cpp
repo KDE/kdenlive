@@ -500,6 +500,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     switchAudioMonitor->setChecked(KdenliveSettings::monitoraudio() & m_id);
     m_configMenu->addAction(overlayAudio);
     m_configMenu->addAction(m_zoomVisibilityAction);
+    m_contextMenu->addAction(m_zoomVisibilityAction);
     // For some reason, the frame in QAbstracSpinBox (base class of TimeCodeDisplay) needs to be displayed once, then hidden
     // or it will never appear (supposed to appear on hover).
     m_timePos->setFrame(false);
@@ -2088,9 +2089,11 @@ void Monitor::clearDisplay()
 
 void Monitor::panView(QPoint diff)
 {
-    if (m_glMonitor->zoom() > 0.0f) {
-        // Only pan if scrollbars are visible
+    // Only pan if scrollbars are visible
+    if (m_horizontalScroll->isVisible()) {
         m_horizontalScroll->setValue(m_horizontalScroll->value() + diff.x());
+    }
+    if (m_verticalScroll->isVisible()) {
         m_verticalScroll->setValue(m_verticalScroll->value() + diff.y());
     }
 }

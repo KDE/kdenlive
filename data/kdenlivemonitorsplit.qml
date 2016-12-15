@@ -25,6 +25,7 @@ Item {
         anchors.centerIn: parent
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
+        acceptedButtons: Qt.LeftButton
         onPressed: {
             root.percentage = mouseX / width
             root.splitterPos = mouseX
