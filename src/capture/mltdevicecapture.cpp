@@ -352,10 +352,8 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
 
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "multi");
     if (m_mltConsumer == Q_NULLPTR || !m_mltConsumer->is_valid()) {
-        if (m_mltConsumer) {
-            delete m_mltConsumer;
-            m_mltConsumer = Q_NULLPTR;
-        }
+        delete m_mltConsumer;
+        m_mltConsumer = Q_NULLPTR;
         return false;
     }
 

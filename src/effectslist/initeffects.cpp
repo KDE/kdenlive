@@ -850,7 +850,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
             }
         }
         delete metadata;
-        metadata = 0;
+        metadata = Q_NULLPTR;
         // Add the transition to the global list.
         ////qCDebug(KDENLIVE_LOG) << ret.toString();
         transitions->append(ret.documentElement());
@@ -987,9 +987,7 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
         if (metadata && metadata->is_valid()) {
             version = metadata->get_double("version");
         }
-        if (metadata) {
-            delete metadata;
-        }
+        delete metadata;
 
         if (documentElement.hasAttribute(QStringLiteral("version"))) {
             // a specific version of the filter is required
