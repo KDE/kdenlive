@@ -846,6 +846,7 @@ void CustomTrackView::updateTimelineSelection()
 // virtual
 void CustomTrackView::mousePressEvent(QMouseEvent *event)
 {
+    emit activateDocumentMonitor();
     setFocus(Qt::MouseFocusReason);
     m_menuPosition = QPoint();
     if (m_moveOpMode == MoveOperation) {

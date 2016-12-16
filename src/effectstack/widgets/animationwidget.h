@@ -70,6 +70,8 @@ private:
     TimecodeDisplay *m_timePos;
     KDualAction *m_addKeyframe;
     QComboBox *m_presetCombo;
+    QAction *m_previous;
+    QAction *m_next;
     /** @brief True if effect is currently selected in stack */
     bool m_active;
     int m_clipPos;

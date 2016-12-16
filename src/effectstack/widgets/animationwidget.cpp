@@ -90,7 +90,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotPositionChanged()));
 
     // seek to previous
-    tb->addAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")), i18n("Previous keyframe"), this, SLOT(slotPrevious()));
+    m_previous = tb->addAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")), i18n("Previous keyframe"), this, SLOT(slotPrevious()));
 
     // Add/remove keyframe
     m_addKeyframe = new KDualAction(i18n("Add keyframe"), i18n("Remove keyframe"), this);
@@ -99,8 +99,8 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     connect(m_addKeyframe, SIGNAL(activeChangedByUser(bool)), this, SLOT(slotAddDeleteKeyframe(bool)));
     tb->addAction(m_addKeyframe);
 
-    // seek to previous
-    tb->addAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")), i18n("Next keyframe"), this, SLOT(slotNext()));
+    // seek to next
+    m_next = tb->addAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")), i18n("Next keyframe"), this, SLOT(slotNext()));
 
     // Preset combo
     m_presetCombo = new QComboBox(this);
@@ -259,6 +259,10 @@ void AnimationWidget::updateTimecodeFormat()
 void AnimationWidget::slotPrevious()
 {
     int previous = qMax(-m_offset, m_animController.previous_key(m_timePos->getValue() - m_offset - 1)) + m_offset;
+    if (previous == m_timePos->getValue() && previous > 0) {
+        // Make sure we can seek to effect start even if there is no keyframe
+        previous = 0;
+    }
     m_ruler->setActiveKeyframe(previous);
     slotPositionChanged(previous, true);
 }
@@ -498,6 +502,8 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
         updateRect(pos - m_offset);
     }
     updateSlider(pos - m_offset);
+    m_previous->setEnabled(pos > 0);
+    m_next->setEnabled(pos < (m_outPoint - m_inPoint - 1));
     if (seek) {
         emit seekToPos(pos);
     }
