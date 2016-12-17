@@ -1976,7 +1976,6 @@ void Timeline::loadPreviewRender()
 {
     QString chunks = m_doc->getDocumentProperty(QStringLiteral("previewchunks"));
     QString dirty = m_doc->getDocumentProperty(QStringLiteral("dirtypreviewchunks"));
-    QString ext = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
     m_disablePreview->blockSignals(true);
     m_disablePreview->setChecked(m_doc->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
     m_disablePreview->blockSignals(false);

@@ -861,7 +861,6 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
         } else {
 
             if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
-                QString sErrorText = reply->readAll();
 #ifdef QT5_USE_WEBKIT
                 m_pOAuth2->obtainNewAccessToken();
 #endif

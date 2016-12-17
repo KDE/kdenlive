@@ -2029,7 +2029,6 @@ void DocumentValidator::checkOrphanedProducers()
             }
             qCWarning(KDENLIVE_LOG) << " ///////// WARNING, FOUND UNKNOWN PRODUDER: " << id << " ----------------";
             // This producer is unknown to Bin
-            QString resource = EffectsList::property(prod, QStringLiteral("resource"));
             QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
             QString distinctiveTag(QStringLiteral("resource"));
             if (service == QLatin1String("kdenlivetitle")) {

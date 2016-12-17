@@ -433,7 +433,6 @@ QStringList DvdWizardVob::selectedUrls() const
 QStringList DvdWizardVob::durations() const
 {
     QStringList result;
-    QString path;
     int max = m_vobList->topLevelItemCount();
     int i = 0;
     if (m_view.use_intro->isChecked()) {
@@ -452,7 +451,6 @@ QStringList DvdWizardVob::durations() const
 QStringList DvdWizardVob::chapters() const
 {
     QStringList result;
-    QString path;
     int max = m_vobList->topLevelItemCount();
     int i = 0;
     if (m_view.use_intro->isChecked()) {

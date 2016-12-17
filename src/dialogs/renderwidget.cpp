@@ -644,7 +644,6 @@ void RenderWidget::slotCopyToFavorites()
     if (!item || !item->parent()) {
         return;
     }
-    QString currentGroup = item->parent()->text(0);
 
     QString params = item->data(0, ParamsRole).toString();
     QString extension = item->data(0, ExtensionRole).toString();
@@ -689,8 +688,6 @@ void RenderWidget::slotEditProfile()
     if (!item || !item->parent()) {
         return;
     }
-    QString currentGroup = item->parent()->text(0);
-
     QString params = item->data(0, ParamsRole).toString();
 
     Ui::SaveProfile_UI ui;
@@ -871,7 +868,6 @@ void RenderWidget::slotDeleteProfile(bool refresh)
         return;
     }
     QString currentProfile = item->text(0);
-    QString currentGroup = item->parent()->text(0);
 
     QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
     QDomDocument doc;
@@ -1218,7 +1214,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 
         // Check if the rendering profile is different from project profile,
         // in which case we need to use the producer_comsumer from MLT
-        const QString currentSize = QString::number(width) + 'x' + QString::number(height);
         QString subsize;
         if (std.startsWith(QLatin1String("s="))) {
             subsize = std.section(' ', 0, 0).toLower();
@@ -2038,7 +2033,6 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     QString renderer;
     QString params;
     QString standard;
-    QIcon icon;
 
     while (!groups.item(i).isNull()) {
         documentElement = groups.item(i).toElement();

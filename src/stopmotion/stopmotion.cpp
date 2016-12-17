@@ -614,7 +614,6 @@ void StopmotionWidget::sequenceNameChanged(const QString &name)
         button_addsequence->setEnabled(false);
     } else {
         // Check if we are editing an existing sequence
-        QString pattern = SlideshowClip::selectedPath(QUrl::fromLocalFile(getPathForFrame(0, sequence_name->currentText())), false, QString(), &m_filesList);
         m_sequenceFrame = m_filesList.isEmpty() ? 0 : SlideshowClip::getFrameNumberFromPath(QUrl::fromLocalFile(m_filesList.last())) + 1;
         if (!m_filesList.isEmpty()) {
             m_sequenceName = sequence_name->currentText();
