@@ -68,6 +68,14 @@ int main(int argc, char *argv[])
         }
     }
 
+    // Init DBus services
+    KDBusService programDBusService;
+
+    bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
+    if (forceBreeze) {
+        QIcon::setThemeName("breeze");
+    }
+
     // Create KAboutData
     KAboutData aboutData(QByteArray("kdenlive"),
                          i18n("Kdenlive"), KDENLIVE_VERSION,
@@ -96,6 +104,10 @@ int main(int argc, char *argv[])
     // Register about data
     KAboutData::setApplicationData(aboutData);
 
+    // Add rcc stored icons to the search path so that we always find our icons
+    KIconLoader *loader = KIconLoader::global();
+    loader->reconfigure("kdenlive", QStringList() << QStringLiteral(":/pics"));
+
     // Set app stuff from about data
     app.setApplicationDisplayName(aboutData.displayName());
     app.setOrganizationDomain(aboutData.organizationDomain());
@@ -116,22 +128,12 @@ int main(int argc, char *argv[])
     // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
-    KDBusService programDBusService;
 
 #if KXMLGUI_VERSION_MINOR > 14 || KXMLGUI_VERSION_MAJOR > 5
     KCrash::initialize();
 #else
     KCrash::setCrashHandler(KCrash::defaultCrashHandler);
 #endif
-
-    // Add rcc stored icons to the search path so that we always find our icons
-    KIconLoader *loader = KIconLoader::global();
-    loader->reconfigure("kdenlive", QStringList() << QStringLiteral(":/pics"));
-
-    bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
-    if (forceBreeze) {
-        QIcon::setThemeName("breeze");
-    }
 
     // see if we are starting with session management
     if (qApp->isSessionRestored()){
