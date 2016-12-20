@@ -36,7 +36,6 @@
   </mime-type>
   <mime-type type="application/x-kdenlivetitle">
     <comment>Kdenlive video title</comment>
-    <comment xml:lang="ast">Títulu de videu Kdenlive</comment>
     <comment xml:lang="bs">Kdenlive video naslov</comment>
     <comment xml:lang="ca">títol de vídeo del Kdenlive</comment>
     <comment xml:lang="ca@valencia">títol de vídeo del Kdenlive</comment>
