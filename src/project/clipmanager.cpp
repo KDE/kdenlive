@@ -102,7 +102,7 @@ void ClipManager::clearCache()
 void ClipManager::slotRequestThumbs(const QString &id, const QList<int> &frames)
 {
     m_thumbsMutex.lock();
-    foreach (int frame, frames) {
+    for (int frame : frames) {
         m_requestedThumbs.insertMulti(id, frame);
     }
     m_thumbsMutex.unlock();

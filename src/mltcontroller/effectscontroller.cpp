@@ -425,7 +425,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
     int max = newOut - newIn;
     QLocale locale;
     const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
-    foreach (const QString &keyframe, list) {
+    for (const QString &keyframe : list) {
         const int pos = keyframe.section('=', 0, 0).toInt() + offset;
         const QString newKey = QString::number(pos) + '=' + keyframe.section('=', 1);
         if (pos >= newOut) {

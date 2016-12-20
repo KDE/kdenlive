@@ -201,8 +201,8 @@ void EffectStackEdit::importKeyframes(const QString &keyframes)
 {
     QMap<QString, QString> data;
     if (keyframes.contains(QLatin1Char('\n'))) {
-        QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
-        foreach (const QString &param, params) {
+        const QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
+        for (const QString &param : params) {
             data.insert(param.section(QStringLiteral("="), 0, 0), param.section(QStringLiteral("="), 1));
         }
     } else {

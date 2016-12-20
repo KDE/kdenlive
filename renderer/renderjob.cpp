@@ -227,7 +227,7 @@ void RenderJob::initKdenliveDbusInterface()
     if (!ibus->isServiceRegistered(kdenliveId)) {
         kdenliveId.clear();
         const QStringList services = ibus->registeredServiceNames();
-        foreach (const QString &service, services) {
+        for (const QString &service : services) {
             if (!service.startsWith(QLatin1String("org.kde.kdenlive"))) {
                 continue;
             }

@@ -970,7 +970,7 @@ void RecMonitor::manageCapturedFiles()
     filters << capturename + '*' + extension;
     const QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
     QList<QUrl> capturedFiles;
-    foreach (const QString &name, result) {
+    for (const QString &name : result) {
         QUrl url = QUrl(dir.filePath(name));
         if (QFile::exists(url.path())) {
             KFileItem file(url);

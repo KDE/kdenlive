@@ -208,8 +208,8 @@ DeviceMap JogShuttle::enumerateDevices(const QString &devPath)
         return devs;
     }
 
-    QStringList fileList = devDir.entryList(QDir::System | QDir::Files);
-    foreach (const QString &fileName, fileList) {
+    const QStringList fileList = devDir.entryList(QDir::System | QDir::Files);
+    for (const QString &fileName : fileList) {
         QString devFullPath = devDir.absoluteFilePath(fileName);
         QString fileLink = JogShuttle::canonicalDevice(devFullPath);
         //qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileName);

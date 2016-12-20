@@ -39,18 +39,18 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
 
     // Project templates
     QDir dir(path);
-    QStringList templateFiles = dir.entryList(filter, QDir::Files);
-    foreach (const QString &fname, templateFiles) {
+    const QStringList templateFiles = dir.entryList(filter, QDir::Files);
+    for (const QString &fname : templateFiles) {
         m_view.template_list->comboBox()->addItem(fname, dir.absoluteFilePath(fname));
     }
 
     // System templates
-    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
+    const QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
 
-    foreach (const QString &folderpath, titleTemplates) {
+    for (const QString &folderpath : titleTemplates) {
         QDir folder(folderpath);
-        QStringList filesnames = folder.entryList(filter, QDir::Files);
-        foreach (const QString &fname, filesnames) {
+        const QStringList filesnames = folder.entryList(filter, QDir::Files);
+        for (const QString &fname : filesnames) {
             m_view.template_list->comboBox()->addItem(fname, folder.absoluteFilePath(fname));
         }
     }

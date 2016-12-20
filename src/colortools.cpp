@@ -325,7 +325,7 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
 }
 
 QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
-                                 const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, const bool &shear, const float offsetY)
+                                 const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear, const float offsetY)
 {
     Q_ASSERT(size.width() > 0);
     Q_ASSERT(size.height() > 0);

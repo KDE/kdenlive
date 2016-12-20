@@ -324,8 +324,8 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             continue;
         }
         if (clip->clipType() == SlideShow) {
-            QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
-            foreach (const QString &file, subfiles) {
+            const QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
+            for (const QString &file : subfiles) {
                 count++;
                 new QTreeWidgetItem(slideshows, QStringList() << file);
             }

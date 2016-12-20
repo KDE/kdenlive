@@ -1290,8 +1290,8 @@ void ProjectClip::updateFfmpegProgress()
         return;
     }
     QString result = callerProcess->readAllStandardOutput();
-    QStringList lines = result.split('\n');
-    foreach (const QString &data, lines) {
+    const QStringList lines = result.split('\n');
+    for (const QString &data : lines) {
         if (data.startsWith(QStringLiteral("out_time_ms"))) {
             long ms = data.section(QLatin1Char('='), 1).toLong();
             // Update clip progressbar

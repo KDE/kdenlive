@@ -80,7 +80,7 @@ public:
       shift the whole x axis vertically.
       */
     static QImage hsvCurvePlane(const QSize &size, const QColor &baseColor,
-                                const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, const bool &shear = false, const float offsetY = 0);
+                                const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear = false, const float offsetY = 0);
 
 signals:
     void signalYuvWheelCalculationFinished();
