@@ -152,7 +152,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
             QStringList values = map.value(name).split(QRegExp("[,:;x]"));
             QString neu;
             QTextStream txtNeu(&neu);
-            if (values.size() > 0) {
+            if (!values.isEmpty()) {
                 txtNeu << (int)values[0].toDouble();
             }
             int i = 0;

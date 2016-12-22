@@ -1054,7 +1054,7 @@ void ProjectClip::slotCreateAudioThumbs()
             audioLevels << qAlpha(p);
         }
     }
-    if (audioLevels.size() > 0) {
+    if (!audioLevels.isEmpty()) {
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
         updateAudioThumbnail(audioLevels);
         return;
@@ -1259,7 +1259,7 @@ void ProjectClip::slotCreateAudioThumbs()
         updateAudioThumbnail(audioLevels);
     }
 
-    if (!m_abortAudioThumb && audioLevels.size() > 0) {
+    if (!m_abortAudioThumb && !audioLevels.isEmpty()) {
         // Put into an image for caching.
         int count = audioLevels.size();
         QImage image(lrint((count + 3) / 4.0 / channels), channels, QImage::Format_ARGB32);

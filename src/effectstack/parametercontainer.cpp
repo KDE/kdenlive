@@ -636,7 +636,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 cval->setToolTip(comment);
                 cval->widgetComment->setHidden(true);
                 QString filter = pa.attribute(QStringLiteral("filter"));
-                if (filter.size() > 0) {
+                if (!filter.isEmpty()) {
                     cval->urlwidget->setFilter(filter);
                 }
                 m_valueItems[paramName] = cval;

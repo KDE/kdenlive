@@ -408,7 +408,7 @@ QImage AudioSpectrum::renderHUD(uint)
             m_lastFFTLock.acquire();
             // We need to test whether the mouse is inside the widget
             // because the position could already have changed in the meantime (-> crash)
-            if (m_lastFFT.size() > 0 && mouseX >= 0 && mouseX < m_innerScopeRect.width()) {
+            if (!m_lastFFT.isEmpty() && mouseX >= 0 && mouseX < m_innerScopeRect.width()) {
                 uint right = ((float) m_freqMax) / (m_freq / 2) * (m_lastFFT.size() - 1);
                 QVector<float> dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
 

@@ -200,7 +200,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
             QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
             QString neu;
             QTextStream txtNeu(&neu);
-            if (values.size() > 0) {
+            if (!values.isEmpty()) {
                 txtNeu << (int)values[0].toDouble();
             }
             for (int i = 0; i < separators.size() && i + 1 < values.size(); ++i) {

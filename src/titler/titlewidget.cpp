@@ -700,7 +700,7 @@ void TitleWidget::slotSelectTool()
     // Find out which toolbars need to be shown, depending on selected item
     TITLETOOL t = TITLE_SELECT;
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    if (l.size() > 0) {
+    if (!l.isEmpty()) {
         switch (l.at(0)->type()) {
         case TEXTITEM:
             t = TITLE_TEXT;
@@ -721,7 +721,7 @@ void TitleWidget::slotSelectTool()
     }
     showToolbars(t);
 
-    if (l.size() > 0) {
+    if (!l.isEmpty()) {
         updateCoordinates(l.at(0));
         updateDimension(l.at(0));
         updateRotZoom(l.at(0));
@@ -1055,7 +1055,7 @@ void TitleWidget::selectionChanged()
 
     l = graphicsView->scene()->selectedItems();
 
-    if (l.size() > 0) {
+    if (!l.isEmpty()) {
         buttonUnselectAll->setEnabled(true);
         // Enable all z index buttons if items selected.
         // We can selectively disable them later.
@@ -1595,8 +1595,8 @@ void TitleWidget::slotInsertUnicode()
 
 void TitleWidget::slotInsertUnicodeString(const QString &text)
 {
-    QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    if (l.size() > 0) {
+    const QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
+    if (!l.isEmpty()) {
         if (l.at(0)->type() == TEXTITEM) {
             MyTextItem *t = static_cast <MyTextItem *>(l.at(0));
             t->textCursor().insertText(text);
@@ -2371,8 +2371,8 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
 qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
 {
     qreal bound = maxBound ? -99 : 99;
-    QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    if (l.size() > 0) {
+    const QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
+    if (!l.isEmpty()) {
         QList<QGraphicsItem *> lItems;
         // Get items (all or intersecting only)
         if (intersectingOnly) {
@@ -2380,7 +2380,7 @@ qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
         } else {
             lItems = graphicsView->scene()->items();
         }
-        if (lItems.size() > 0) {
+        if (!lItems.isEmpty()) {
             int n = lItems.size();
             qreal z;
             if (maxBound) {
@@ -2440,7 +2440,7 @@ void TitleWidget::slotZIndexTop()
         }
     }
     // Update the z index value in the GUI
-    if (l.size() > 0) {
+    if (!l.isEmpty()) {
         updateDimension(l[0]);
     }
 }
@@ -2469,7 +2469,7 @@ void TitleWidget::slotZIndexBottom()
         }
     }
     // Update the z index value in the GUI
-    if (l.size() > 0) {
+    if (!l.isEmpty()) {
         updateDimension(l[0]);
     }
 }
@@ -2485,7 +2485,7 @@ void TitleWidget::slotSelectAll()
 void TitleWidget::selectItems(int itemType)
 {
     QList<QGraphicsItem *> l;
-    if (graphicsView->scene()->selectedItems().size() > 0) {
+    if (!graphicsView->scene()->selectedItems().isEmpty()) {
         l = graphicsView->scene()->selectedItems();
         for (int i = 0; i < l.size(); ++i) {
             if (l.at(i)->type() != itemType) {

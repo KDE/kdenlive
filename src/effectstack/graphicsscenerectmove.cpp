@@ -946,7 +946,7 @@ void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
     if (wheelEvent->modifiers() == Qt::ControlModifier) {
         QList<QGraphicsView *> viewlist = views();
         ////qCDebug(KDENLIVE_LOG) << wheelEvent->delta() << ' ' << zoom;
-        if (viewlist.size() > 0) {
+        if (!viewlist.isEmpty()) {
             if (wheelEvent->delta() > 0) {
                 emit sceneZoom(true);
             } else {
@@ -966,7 +966,7 @@ void GraphicsSceneRectMove::setScale(double s)
         return;
     }
     QList<QGraphicsView *> viewlist = views();
-    if (viewlist.size() > 0) {
+    if (!viewlist.isEmpty()) {
         viewlist[0]->scale(s, s);
         m_zoom = m_zoom * s;
     }
@@ -976,7 +976,7 @@ void GraphicsSceneRectMove::setScale(double s)
 void GraphicsSceneRectMove::setZoom(double s)
 {
     QList<QGraphicsView *> viewlist = views();
-    if (viewlist.size() > 0) {
+    if (!viewlist.isEmpty()) {
         viewlist[0]->resetTransform();
         viewlist[0]->scale(s, s);
         m_zoom = s;
