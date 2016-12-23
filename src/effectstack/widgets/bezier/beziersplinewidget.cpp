@@ -134,13 +134,32 @@ void BezierSplineWidget::slotShowPixmap(bool show)
     }
 }
 
-void BezierSplineWidget::slotUpdatePointEntries(const BPoint &p)
+void BezierSplineWidget::slotUpdatePointEntries(const BPoint &p, bool extremal)
 {
     blockSignals(true);
     if (p == BPoint()) {
         m_ui.widgetPoint->setEnabled(false);
     } else {
         m_ui.widgetPoint->setEnabled(true);
+        //disable irrelevant buttons if the point is extremal
+        m_pX->setEnabled(!extremal);
+        m_ui.buttonDeletePoint->setEnabled(!extremal);
+        m_ui.buttonLinkHandles->setEnabled(!extremal);
+        if(extremal && p.p.x() + 1e-4 >= 1.00){ //last point
+            m_h2X->setEnabled(false);
+            m_h2Y->setEnabled(false);
+        } else {
+            m_h2X->setEnabled(true);
+            m_h2Y->setEnabled(true);
+        }
+        if(extremal && p.p.x() <= 0.01){ //first point
+            m_h1X->setEnabled(false);
+            m_h1Y->setEnabled(false);
+        } else {
+            m_h1X->setEnabled(true);
+            m_h1Y->setEnabled(true);
+        }
+
         m_pX->blockSignals(true);
         m_pY->blockSignals(true);
         m_h1X->blockSignals(true);

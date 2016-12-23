@@ -72,6 +72,10 @@ protected:
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
+    /**
+       Utility function to check if current selected point is the first or the last
+     */
+    bool isCurrentPointExtremal();
 private:
     CubicBezierSpline m_spline;
     enum modes { ModeDrag, ModeNormal };
@@ -107,7 +111,10 @@ private:
 
 signals:
     void modified();
-    void currentPoint(const BPoint &p);
+    /**
+       Signal sent when the current point changes. The point is returned, as well as a flag that determines if the point is the first or last.
+     */
+    void currentPoint(const BPoint &p, bool extremal);
 };
 
 #endif

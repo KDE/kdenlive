@@ -59,7 +59,7 @@ void BezierSplineEditor::setSpline(const CubicBezierSpline &spline)
     m_spline = spline;
     m_currentPointIndex = -1;
     m_mode = ModeNormal;
-    emit currentPoint(BPoint());
+    emit currentPoint(BPoint(), true);
     emit modified();
     update();
 }
@@ -73,12 +73,20 @@ BPoint BezierSplineEditor::getCurrentPoint()
     }
 }
 
+bool BezierSplineEditor::isCurrentPointExtremal()
+{
+    return m_currentPointIndex == 0 ||
+        m_currentPointIndex == m_spline.points().size()-1;
+}
+
 void BezierSplineEditor::slotDeleteCurrentPoint()
 {
     if(m_currentPointIndex > 0 &&
        m_currentPointIndex < m_spline.points().size()-1) {
         m_spline.removePoint(m_currentPointIndex);
         m_currentPointIndex--;
+        emit currentPoint(m_spline.getPoint(m_currentPointIndex),
+                          isCurrentPointExtremal());
         update();
         emit modified();
     }
@@ -88,7 +96,8 @@ void BezierSplineEditor::updateCurrentPoint(const BPoint &p, bool final)
     if (m_currentPointIndex >= 0) {
         m_spline.setPoint(m_currentPointIndex, p);
         // during validation the point might have changed
-        emit currentPoint(m_spline.getPoint(m_currentPointIndex));
+        emit currentPoint(m_spline.getPoint(m_currentPointIndex),
+                          isCurrentPointExtremal());
         if (final) {
             emit modified();
         }
@@ -289,9 +298,10 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
         }
         update();
         if (m_currentPointIndex >= 0) {
-            emit currentPoint(m_spline.getPoint(m_currentPointIndex));
+            emit currentPoint(m_spline.getPoint(m_currentPointIndex),
+                              isCurrentPointExtremal());
         } else {
-            emit currentPoint(BPoint());
+            emit currentPoint(BPoint(), true);
         }
         emit modified();
         return;
@@ -327,7 +337,7 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
 
     m_mode = ModeDrag;
 
-    emit currentPoint(point);
+    emit currentPoint(point, isCurrentPointExtremal());
     update();
 }
 
@@ -452,7 +462,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
             }
         }
 
-        emit currentPoint(point);
+        emit currentPoint(point, isCurrentPointExtremal());
         if (KdenliveSettings::dragvalue_directupdate()) {
             emit modified();
         }
@@ -466,7 +476,7 @@ void BezierSplineEditor::mouseDoubleClickEvent(QMouseEvent * /*event*/)
         BPoint p = m_spline.getPoint(m_currentPointIndex);
         p.handlesLinked = !p.handlesLinked;
         m_spline.setPoint(m_currentPointIndex, p);
-        emit currentPoint(p);
+        emit currentPoint(p, isCurrentPointExtremal());
     }
 }
 

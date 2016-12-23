@@ -46,8 +46,11 @@ public:
     void setMode(CurveModes mode);
 
 private slots:
-    /** @brief Sets the spinboxes for modifying the selected point to @param p. */
-    void slotUpdatePointEntries(const BPoint &p);
+    /** @brief Sets the spinboxes for modifying the selected point to @param p.
+        @param p The point that we modify
+        @param extremal Whether this point is first/last of the spline or not.
+     */
+    void slotUpdatePointEntries(const BPoint &p, bool extremal);
 
     /** @brief Updates the spline if the current point's p was modified using the spinboxes.
      * @param value (optional) not used, necessary to be able to connect to DragValue's valueChanged.
