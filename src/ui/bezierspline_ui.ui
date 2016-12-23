@@ -86,7 +86,7 @@
       <item row="1" column="3">
        <widget class="QToolButton" name="buttonLinkHandles">
         <property name="toolTip">
-         <string>Link the handles' position.&lt;br /&gt;Results in a natural spline.</string>
+         <string>Link the handles' position for current point.&lt;br /&gt;Results in a natural spline.</string>
         </property>
         <property name="text">
          <string>...</string>
@@ -100,6 +100,19 @@
        </widget>
       </item>
       <item row="1" column="4">
+       <widget class="QToolButton" name="buttonDeletePoint">
+        <property name="toolTip">
+         <string>Delete current point</string>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
        <spacer name="horizontalSpacer_4">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -115,7 +128,7 @@
       <item row="1" column="1">
        <layout class="QHBoxLayout" name="layoutH1"/>
       </item>
-      <item row="1" column="5">
+      <item row="1" column="6">
        <layout class="QHBoxLayout" name="layoutH2"/>
       </item>
      </layout>
@@ -142,6 +155,9 @@
    </item>
    <item row="2" column="5">
     <widget class="QToolButton" name="buttonZoomIn">
+     <property name="toolTip">
+      <string>Zoom in</string>
+     </property>
      <property name="text">
       <string>...</string>
      </property>
@@ -152,6 +168,9 @@
    </item>
    <item row="2" column="6">
     <widget class="QToolButton" name="buttonZoomOut">
+     <property name="toolTip">
+      <string>Zoom out</string>
+     </property>
      <property name="text">
       <string>...</string>
      </property>

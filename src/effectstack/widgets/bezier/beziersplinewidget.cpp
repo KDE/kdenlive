@@ -40,6 +40,7 @@ BezierSplineWidget::BezierSplineWidget(const QString &spline, QWidget *parent) :
     layout->addWidget(widget);
 
     m_ui.buttonLinkHandles->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
+    m_ui.buttonDeletePoint->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
     m_ui.buttonZoomIn->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-in")));
     m_ui.buttonZoomOut->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-out")));
     m_ui.buttonGridChange->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-grid")));
@@ -85,6 +86,7 @@ BezierSplineWidget::BezierSplineWidget(const QString &spline, QWidget *parent) :
     connect(m_h2Y, &DragValue::valueChanged, this, &BezierSplineWidget::slotUpdatePointH2);
 
     connect(m_ui.buttonLinkHandles, &QAbstractButton::toggled, this, &BezierSplineWidget::slotSetHandlesLinked);
+    connect(m_ui.buttonDeletePoint, &QAbstractButton::clicked, &m_edit, &BezierSplineEditor::slotDeleteCurrentPoint);
     connect(m_ui.buttonZoomIn, &QAbstractButton::clicked, &m_edit, &BezierSplineEditor::slotZoomIn);
     connect(m_ui.buttonZoomOut, &QAbstractButton::clicked, &m_edit, &BezierSplineEditor::slotZoomOut);
     connect(m_ui.buttonGridChange, &QAbstractButton::clicked, this, &BezierSplineWidget::slotGridChange);

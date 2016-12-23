@@ -22,11 +22,15 @@
 // Qt includes.
 
 #include <QWidget>
-#include <QPixmap>
-#include <QMouseEvent>
-#include <QKeyEvent>
-#include <QEvent>
-#include <QPaintEvent>
+
+
+class QEvent;
+class QKeyEvent;
+class QMouseEvent;
+class QObject;
+class QPaintEvent;
+class QPixmap;
+class QResizeEvent;
 
 class QSpinBox;
 class KisCubicCurve;

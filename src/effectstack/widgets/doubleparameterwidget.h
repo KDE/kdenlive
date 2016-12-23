@@ -44,7 +44,7 @@ public:
     * @param min Minimum value
     * @param max maximum value
     * @param defaultValue Value used when using reset functionality
-    * @param comment A comment explaining the parameter. Will be shown for the tooltip.
+    * @param comment A comment explaining the parameter. Will be shown in a tooltip.
     * @param suffix (optional) Suffix to display in spinbox
     * @param parent (optional) Parent Widget */
     explicit DoubleParameterWidget(const QString &name, double value, double min,

@@ -73,6 +73,16 @@ BPoint BezierSplineEditor::getCurrentPoint()
     }
 }
 
+void BezierSplineEditor::slotDeleteCurrentPoint()
+{
+    if(m_currentPointIndex > 0 &&
+       m_currentPointIndex < m_spline.points().size()-1) {
+        m_spline.removePoint(m_currentPointIndex);
+        m_currentPointIndex--;
+        update();
+        emit modified();
+    }
+}
 void BezierSplineEditor::updateCurrentPoint(const BPoint &p, bool final)
 {
     if (m_currentPointIndex >= 0) {

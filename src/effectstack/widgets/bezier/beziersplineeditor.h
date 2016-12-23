@@ -55,7 +55,11 @@ public:
      * showAllHandles: Whether to show only handles for the selected point for all points. */
     void setShowAllHandles(bool show);
 
+
 public slots:
+    /** @brief Delete current spline point if it is not a extremal point (first or last)
+     */
+    void slotDeleteCurrentPoint();
     void slotZoomIn();
     void slotZoomOut();
 
