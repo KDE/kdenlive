@@ -28,7 +28,7 @@
 #include "definitions.h"
 #include "timecode.h"
 
-class PositionEdit;
+class PositionWidget;
 class QCheckBox;
 class QSpinBox;
 class KeyframeView;
@@ -49,9 +49,9 @@ private:
     QComboBox *m_dataCombo;
     QLabel *m_previewLabel;
     KeyframeView *m_keyframeView;
-    PositionEdit *m_inPoint;
-    PositionEdit *m_outPoint;
-    PositionEdit *m_offsetPoint;
+    PositionWidget *m_inPoint;
+    PositionWidget *m_outPoint;
+    PositionWidget *m_offsetPoint;
     QCheckBox *m_limitRange;
     QCheckBox *m_limitKeyframes;
     QSpinBox *m_limitNumber;

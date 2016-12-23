@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "keyframeedit.h"
-#include "effectstack/positionedit.h"
+#include "positionwidget.h"
 #include "doubleparameterwidget.h"
 #include "kdenlivesettings.h"
 #include "utils/KoIconUtils.h"
@@ -53,7 +53,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     connect(keyframe_list, &QTableWidget::currentCellChanged, this, &KeyframeEdit::rowClicked);
     connect(keyframe_list, &QTableWidget::cellChanged, this, &KeyframeEdit::slotGenerateParams);
 
-    m_position = new PositionEdit(i18n("Position"), 0, 0, 1, tc, widgetTable);
+    m_position = new PositionWidget(i18n("Position"), 0, 0, 1, tc, "", widgetTable);
     ((QGridLayout *)widgetTable->layout())->addWidget(m_position, 3, 0, 1, -1);
 
     m_slidersLayout = new QGridLayout(param_sliders);
@@ -71,7 +71,8 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     connect(button_add, &QAbstractButton::clicked, this, &KeyframeEdit::slotAddKeyframe);
     connect(buttonKeyframes, &QAbstractButton::clicked, this, &KeyframeEdit::slotKeyframeMode);
     connect(buttonResetKeyframe, &QAbstractButton::clicked, this, &KeyframeEdit::slotResetKeyframe);
-    connect(m_position, &PositionEdit::parameterChanged, this, &KeyframeEdit::slotAdjustKeyframePos);
+    connect(m_position, &PositionWidget::valueChanged,
+            [&](){slotAdjustKeyframePos(m_position->getPosition());});
 
     //connect(keyframe_list, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(slotSaveCurrentParam(QTreeWidgetItem*,int)));
 

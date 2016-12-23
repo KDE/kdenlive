@@ -19,7 +19,6 @@
 
 #include "parametercontainer.h"
 
-#include "positionedit.h"
 #include "dragvalue.h"
 
 #include "widgets/animationwidget.h"
@@ -35,6 +34,7 @@
 #include "widgets/kis_curve_widget.h"
 #include "widgets/listparamwidget.h"
 #include "widgets/lumaliftgain.h"
+#include "widgets/positionwidget.h"
 #include "widgets/selectivecolor.h"
 
 #include "kdenlivesettings.h"
@@ -403,14 +403,18 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(choosecolor, &ChooseColorWidget::disableCurrentFilter, this, &ParameterContainer::disableCurrentFilter);
             } else if (type == QLatin1String("position")) {
                 int pos = value.toInt();
-                if (effect.attribute(QStringLiteral("id")) == QLatin1String("fadein") || effect.attribute(QStringLiteral("id")) == QLatin1String("fade_from_black")) {
+                auto id = effect.attribute(QStringLiteral("id"));
+                if (id == QLatin1String("fadein") ||
+                    id == QLatin1String("fade_from_black")) {
                     pos = pos - m_in;
-                } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("fadeout") || effect.attribute(QStringLiteral("id")) == QLatin1String("fade_to_black")) {
+                } else if (id == QLatin1String("fadeout") ||
+                           id == QLatin1String("fade_to_black")) {
                     // fadeout position starts from clip end
                     pos = m_out - pos;
+                } else {
+                    qCDebug(KDENLIVE_LOG) << "Error: Invalid position effect id" << endl;
                 }
-                PositionEdit *posedit = new PositionEdit(paramName, pos, 0, m_out - m_in, m_metaInfo->monitor->timecode());
-                posedit->setToolTip(comment);
+                PositionWidget *posedit = new PositionWidget(paramName, pos, 0, m_out - m_in, m_metaInfo->monitor->timecode(), comment);
                 connect(this, SIGNAL(updateRange(int, int)), posedit, SLOT(setRange(int, int)));
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     posedit->setEnabled(false);
@@ -418,7 +422,8 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
                 m_vbox->addWidget(posedit);
                 m_valueItems[paramName + "position"] = posedit;
-                connect(posedit, &PositionEdit::parameterChanged, this, &ParameterContainer::slotCollectAllParameters);
+                connect(posedit, &PositionWidget::valueChanged,
+                        this,    &ParameterContainer::slotCollectAllParameters);
             } else if (type == QLatin1String("curve")) {
                 KisCurveWidget *curve = new KisCurveWidget(parent);
                 curve->setMaxPoints(pa.attribute(QStringLiteral("max")).toInt());
@@ -871,7 +876,7 @@ void ParameterContainer::updateTimecodeFormat()
             }
             break;
         } else if (type == QLatin1String("position")) {
-            PositionEdit *posi = static_cast<PositionEdit *>(m_valueItems[paramName + "position"]);
+            PositionWidget *posi = qobject_cast<PositionWidget *>(m_valueItems[paramName]);
             posi->updateTimecodeFormat();
             break;
         } else if (type == QLatin1String("roto-spline")) {
@@ -984,30 +989,34 @@ void ParameterContainer::slotCollectAllParameters()
                 namenode.item(i).toElement().setAttribute(QStringLiteral("value"), m_geometryWidget->getExtraValue(namenode.item(i).toElement().attribute(QStringLiteral("name"))));
             }
         } else if (type == QLatin1String("position")) {
-            PositionEdit *pedit = static_cast<PositionEdit *>(m_valueItems.value(paramName));
-            int pos = 0; if (pedit) {
+            PositionWidget *pedit = qobject_cast<PositionWidget *>(m_valueItems.value(paramName));
+            int pos = 0;
+            if (pedit) {
                 pos = pedit->getPosition();
             }
-            setValue = QString::number(pos);
-            if (m_effect.attribute(QStringLiteral("id")) == QLatin1String("fadein") || m_effect.attribute(QStringLiteral("id")) == QLatin1String("fade_from_black")) {
+            auto id = m_effect.attribute(QStringLiteral("id"));
+            auto effect_in = m_in;
+            auto effect_out = m_out;
+            if (id == QLatin1String("fadein") || id == QLatin1String("fade_from_black")) {
                 // Make sure duration is not longer than clip
                 /*if (pos > m_out) {
                     pos = m_out;
                     pedit->setPosition(pos);
                 }*/
-                EffectsList::setParameter(m_effect, QStringLiteral("in"), QString::number(m_in));
-                EffectsList::setParameter(m_effect, QStringLiteral("out"), QString::number(m_in + pos));
-                setValue.clear();
-            } else if (m_effect.attribute(QStringLiteral("id")) == QLatin1String("fadeout") || m_effect.attribute(QStringLiteral("id")) == QLatin1String("fade_to_black")) {
+                effect_out = m_in + pos;
+            } else if (id == QLatin1String("fadeout") ||
+                       id == QLatin1String("fade_to_black")) {
                 // Make sure duration is not longer than clip
                 /*if (pos > m_out) {
                     pos = m_out;
                     pedit->setPosition(pos);
                 }*/
-                EffectsList::setParameter(m_effect, QStringLiteral("in"), QString::number(m_out - pos));
-                EffectsList::setParameter(m_effect, QStringLiteral("out"), QString::number(m_out));
-                setValue.clear();
+                effect_in = m_out - pos;
             }
+            EffectsList::setParameter(m_effect, QStringLiteral("in"),
+                                      QString::number(effect_in));
+            EffectsList::setParameter(m_effect, QStringLiteral("out"),
+                                      QString::number(effect_out));
         } else if (type == QLatin1String("curve")) {
             KisCurveWidget *curve = static_cast<KisCurveWidget *>(m_valueItems.value(paramName));
             if (curve) {

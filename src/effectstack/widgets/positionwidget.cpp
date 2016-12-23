@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "positionedit.h"
+#include "positionwidget.h"
 
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
@@ -24,13 +24,16 @@
 #include <QSlider>
 #include <QHBoxLayout>
 
-PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const Timecode &tc, QWidget *parent) :
-    QWidget(parent)
+PositionWidget::PositionWidget(const QString &name, int pos, int min, int max,
+                           const Timecode &tc, const QString &comment,
+                           QWidget *parent) :
+    AbstractParamWidget(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
     QLabel *label = new QLabel(name, this);
-    m_slider = new QSlider(Qt::Horizontal);
-    m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
+    m_slider = new QSlider(Qt::Horizontal, this);
+    m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding,
+                                        QSizePolicy::Preferred));
     m_slider->setRange(min, max);
 
     m_display = new TimecodeDisplay(tc, this);
@@ -44,42 +47,42 @@ PositionEdit::PositionEdit(const QString &name, int pos, int min, int max, const
     m_slider->setValue(pos);
     m_display->setValue(pos);
     connect(m_slider, SIGNAL(valueChanged(int)), m_display, SLOT(setValue(int)));
-    connect(m_slider, &QAbstractSlider::valueChanged, this, &PositionEdit::parameterChanged);
-    connect(m_display, &TimecodeDisplay::timeCodeEditingFinished, this, &PositionEdit::slotUpdatePosition);
+    connect(m_slider, &QAbstractSlider::valueChanged,
+            this,     &PositionWidget::valueChanged);
+    connect(m_display, &TimecodeDisplay::timeCodeEditingFinished,
+            this,      &PositionWidget::slotUpdatePosition);
+
+    setToolTip(comment);
 }
 
-PositionEdit::~PositionEdit()
+PositionWidget::~PositionWidget()
 {
-    m_display->blockSignals(true);
-    m_slider->blockSignals(true);
-    delete m_slider;
-    delete m_display;
 }
 
-void PositionEdit::updateTimecodeFormat()
+void PositionWidget::updateTimecodeFormat()
 {
     m_display->slotUpdateTimeCodeFormat();
 }
 
-int PositionEdit::getPosition() const
+int PositionWidget::getPosition() const
 {
     return m_slider->value();
 }
 
-void PositionEdit::setPosition(int pos)
+void PositionWidget::setPosition(int pos)
 {
     m_slider->setValue(pos);
 }
 
-void PositionEdit::slotUpdatePosition()
+void PositionWidget::slotUpdatePosition()
 {
     m_slider->blockSignals(true);
     m_slider->setValue(m_display->getValue());
     m_slider->blockSignals(false);
-    emit parameterChanged(m_display->getValue());
+    emit valueChanged();
 }
 
-void PositionEdit::setRange(int min, int max, bool absolute)
+void PositionWidget::setRange(int min, int max, bool absolute)
 {
     if (absolute) {
         m_slider->setRange(min, max);
@@ -90,8 +93,13 @@ void PositionEdit::setRange(int min, int max, bool absolute)
     }
 }
 
-bool PositionEdit::isValid() const
+bool PositionWidget::isValid() const
 {
     return m_slider->minimum() != m_slider->maximum();
 }
 
+
+void PositionWidget::slotShowComment(bool show)
+{
+    Q_UNUSED(show);
+}

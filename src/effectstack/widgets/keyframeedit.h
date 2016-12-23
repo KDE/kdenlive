@@ -30,7 +30,7 @@
 #include <QAbstractItemView>
 #include <QSpinBox>
 
-class PositionEdit;
+class PositionWidget;
 
 class KeyItemDelegate: public QItemDelegate
 {
@@ -131,7 +131,7 @@ private:
     QList<QDomElement> m_params;
     Timecode m_timecode;
     QGridLayout *m_slidersLayout;
-    PositionEdit *m_position;
+    PositionWidget *m_position;
     bool m_keyframesTag;
 
 private slots:

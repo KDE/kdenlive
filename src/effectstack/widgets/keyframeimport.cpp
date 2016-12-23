@@ -33,7 +33,7 @@
 #include "klocalizedstring.h"
 
 #include "keyframeimport.h"
-#include "effectstack/positionedit.h"
+#include "effectstack/widgets/positionwidget.h"
 #include "timeline/keyframeview.h"
 
 KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo, const QMap<QString, QString> &data, const Timecode &tc, const QDomElement &xml, const ProfileInfo &profile, QWidget *parent) :
@@ -73,11 +73,17 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
     } else {
         reference = dstInfo;
     }
-    m_inPoint = new PositionEdit(i18n("In"), reference.cropStart.frames(tc.fps()), reference.cropStart.frames(tc.fps()), (reference.cropStart + reference.cropDuration).frames(tc.fps()), tc, this);
-    connect(m_inPoint, &PositionEdit::parameterChanged, this, &KeyframeImport::updateDisplay);
+    m_inPoint = new PositionWidget(i18n("In"), reference.cropStart.frames(tc.fps()),
+                                   reference.cropStart.frames(tc.fps()),
+                                   (reference.cropStart + reference.cropDuration).frames(tc.fps()),
+                                   tc, "", this);
+    connect(m_inPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_inPoint);
-    m_outPoint = new PositionEdit(i18n("Out"), (reference.cropStart + reference.cropDuration).frames(tc.fps()), reference.cropStart.frames(tc.fps()), (reference.cropStart + reference.cropDuration).frames(tc.fps()), tc, this);
-    connect(m_outPoint, &PositionEdit::parameterChanged, this, &KeyframeImport::updateDisplay);
+    m_outPoint = new PositionWidget(i18n("Out"),
+                                    (reference.cropStart + reference.cropDuration).frames(tc.fps()),
+                                    reference.cropStart.frames(tc.fps()), (reference.cropStart + reference.cropDuration).frames(tc.fps()),
+                                    tc, "", this);
+    connect(m_outPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_outPoint);
 
     // Check what kind of parameters are in our target
@@ -157,7 +163,7 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
     lay->addLayout(l1);
 
     // Output offset
-    m_offsetPoint = new PositionEdit(i18n("Offset"), 0, 0, dstInfo.cropDuration.frames(tc.fps()), tc, this);
+    m_offsetPoint = new PositionWidget(i18n("Offset"), 0, 0, dstInfo.cropDuration.frames(tc.fps()), tc, "", this);
     lay->addWidget(m_offsetPoint);
 
     // Source range

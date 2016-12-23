@@ -11,7 +11,6 @@ set(kdenlive_SRCS
   effectstack/keyframehelper.cpp
   effectstack/animkeyframeruler.cpp
   effectstack/parametercontainer.cpp
-  effectstack/positionedit.cpp
   effectstack/widgets/abstractparamwidget.h
   effectstack/widgets/animationwidget.cpp
   effectstack/widgets/boolparamwidget.cpp
@@ -28,6 +27,7 @@ set(kdenlive_SRCS
   effectstack/widgets/keyframeimport.cpp
   effectstack/widgets/listparamwidget.cpp
   effectstack/widgets/lumaliftgain.cpp
+  effectstack/widgets/positionwidget.cpp
   effectstack/widgets/selectivecolor.cpp
   PARENT_SCOPE)
 

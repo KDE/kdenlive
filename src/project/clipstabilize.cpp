@@ -21,7 +21,7 @@
 #include "clipstabilize.h"
 #include "effectstack/widgets/doubleparameterwidget.h"
 #include "effectstack/effectstackview2.h"
-#include "effectstack/positionedit.h"
+#include "effectstack/widgets/positionwidget.h"
 
 #include <mlt++/Mlt.h>
 #include "kdenlivesettings.h"
@@ -107,11 +107,12 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
             ch->setToolTip(val[QStringLiteral("tooltip")]);
             vbox->addWidget(ch);
         } else if (val[QStringLiteral("type")] == QLatin1String("position")) {
-            PositionEdit *posedit = new PositionEdit(hi.key(), 0, 0, out, m_tc, this);
+            PositionWidget *posedit = new PositionWidget(hi.key(), 0, 0, out, m_tc, "", this);
             posedit->setToolTip(val[QStringLiteral("tooltip")]);
             posedit->setObjectName(hi.key());
             vbox->addWidget(posedit);
-            connect(posedit, &PositionEdit::parameterChanged, this, &ClipStabilize::slotUpdateParams);
+            connect(posedit, &PositionWidget::valueChanged,
+                    this, &ClipStabilize::slotUpdateParams);
         }
     }
     adjustSize();
@@ -186,7 +187,7 @@ void ClipStabilize::slotUpdateParams()
                 QCheckBox *ch = (QCheckBox *)w;
                 m_ui_params[name][QStringLiteral("value")] = ch->checkState() == Qt::Checked ? "1" : "0";
             } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("position")) {
-                PositionEdit *pos = (PositionEdit *)w;
+                PositionWidget *pos = (PositionWidget *)w;
                 m_ui_params[name][QStringLiteral("value")] = QString::number(pos->getPosition());
             }
         }
