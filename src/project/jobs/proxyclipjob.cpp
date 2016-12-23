@@ -152,6 +152,12 @@ void ProxyJob::startJob()
         return;
     } else {
         m_isFfmpegJob = true;
+        if (KdenliveSettings::ffmpegpath().isEmpty()) {
+            //FFmpeg not detected, cannot process the Job
+            m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
+            setStatus(JobCrashed);
+            return;
+        }
         QStringList parameters;
         if (m_proxyParams.contains(QStringLiteral("-noautorotate"))) {
             // The noautorotate flag must be passed before input source

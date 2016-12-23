@@ -96,7 +96,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
     m_transcodeProcess.setProcessChannelMode(QProcess::MergedChannels);
     connect(&m_transcodeProcess, &QProcess::readyReadStandardOutput, this, &ClipTranscode::slotShowTranscodeInfo);
     connect(&m_transcodeProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &ClipTranscode::slotTranscodeFinished);
-    
+
     ffmpeg_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     adjustSize();
@@ -114,6 +114,12 @@ ClipTranscode::~ClipTranscode()
 void ClipTranscode::slotStartTransCode()
 {
     if (m_transcodeProcess.state() != QProcess::NotRunning) {
+        return;
+    }
+    if (KdenliveSettings::ffmpegpath().isEmpty()) {
+        //FFmpeg not detected, cannot process the Job
+        log_text->setPlainText(i18n("FFmpeg not found, please set path in Kdenlive's settings Environment"));
+        slotTranscodeFinished(1, QProcess::CrashExit);
         return;
     }
     m_duration = 0;
@@ -246,7 +252,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
         log_text->setVisible(true);
     }
     m_transcodeProcess.close();
-    
+
     //Refill url list in case user wants to transcode to another format
     if (urls_list->count() > 0) {
         m_urls.clear();
