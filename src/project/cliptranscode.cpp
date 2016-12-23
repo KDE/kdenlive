@@ -119,6 +119,12 @@ void ClipTranscode::slotStartTransCode()
     if (m_transcodeProcess.state() != QProcess::NotRunning) {
         return;
     }
+    if (KdenliveSettings::ffmpegpath().isEmpty()) {
+        //FFmpeg not detected, cannot process the Job
+        log_text->setPlainText(i18n("FFmpeg not found, please set path in Kdenlive's settings Environment"));
+        slotTranscodeFinished(1, QProcess::CrashExit);
+        return;
+    }
     m_duration = 0;
     m_destination.clear();
     m_infoMessage->animatedHide();

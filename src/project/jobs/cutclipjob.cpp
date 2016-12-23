@@ -72,6 +72,12 @@ void CutClipJob::startJob()
 {
     // Special case: playlist clips (.mlt or .kdenlive project files)
     if (clipType == AV || clipType == Audio || clipType == Video) {
+        if (KdenliveSettings::ffmpegpath().isEmpty()) {
+            //FFmpeg not detected, cannot process the Job
+            m_errorMessage = i18n("Cannot process job. FFmpeg not found, please set path in Kdenlive's settings Environment");
+            setStatus(JobCrashed);
+            return;
+        }
         QStringList parameters;
         QString exec;
         if (jobType == AbstractClipJob::ANALYSECLIPJOB) {
