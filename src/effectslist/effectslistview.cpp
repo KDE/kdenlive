@@ -55,8 +55,8 @@ bool MyTreeWidgetSearchLine::itemMatches(const QTreeWidgetItem *item, const QStr
         return true;
     }
     QString itemText = item->text(0);
-    itemText = itemText.normalized(QString::NormalizationForm_D).replace(QRegExp("[^a-zA-Z0-9\\s]"), QStringLiteral(""));
-    QString patt = pattern.normalized(QString::NormalizationForm_D).replace(QRegExp("[^a-zA-Z0-9\\s]"), QStringLiteral(""));
+    itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegExp("[^a-zA-Z0-9\\s]"));
+    QString patt = pattern.normalized(QString::NormalizationForm_D).remove(QRegExp("[^a-zA-Z0-9\\s]"));
     for (int i = 0; i < item->treeWidget()->columnCount(); i++) {
         if (item->treeWidget()->columnWidth(i) > 0 && itemText.indexOf(patt, 0, Qt::CaseInsensitive) >= 0) {
             return true;
