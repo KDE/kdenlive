@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <QCoreApplication>
 #include <QStringList>
+#include <QFileInfo>
 #include <QString>
 #include <QUrl>
 #include <QDebug>
@@ -70,12 +71,11 @@ int main(int argc, char **argv)
         QString player = args.takeFirst();
         QByteArray srcString = args.takeFirst().toUtf8();
         QUrl srcurl = QUrl::fromEncoded(srcString);
-        QString src = srcurl.path();
+        QString src = srcurl.toLocalFile();
         // The QUrl path() strips the consumer: protocol, so re-add it if necessary
         if (srcString.startsWith("consumer:"))
             src.prepend(QLatin1String("consumer:"));
-        QUrl desturl = QUrl::fromEncoded(args.takeFirst().toUtf8());
-        QString dest = desturl.path();
+        QString dest = QFileInfo(QUrl::fromEncoded(args.takeFirst().toUtf8()).toLocalFile()).absoluteFilePath();
         bool dualpass = false;
         bool doerase;
         QString vpre;

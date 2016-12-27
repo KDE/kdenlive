@@ -305,7 +305,11 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     header->resizeSection(0, size + 4);
 
     // Find path for Kdenlive renderer
+#ifdef Q_OS_WIN
+    m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render.exe");
+#else
     m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render");
+#endif
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
         if (m_renderer.isEmpty())
@@ -363,7 +367,7 @@ void RenderWidget::showInfoPanel()
 
 void RenderWidget::setDocumentPath(const QString &path)
 {
-    if (m_view.out_file->url().adjusted(QUrl::RemoveFilename).path() == QUrl::fromLocalFile(m_projectFolder).adjusted(QUrl::RemoveFilename).path()) {
+    if (m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile() == QUrl::fromLocalFile(m_projectFolder).adjusted(QUrl::RemoveFilename).toLocalFile()) {
         const QString fileName = m_view.out_file->url().fileName();
         m_view.out_file->setUrl(QUrl::fromLocalFile(path + fileName));
     }
@@ -942,12 +946,12 @@ void RenderWidget::slotPrepareExport(bool scriptExport, const QString scriptPath
         return;
     }
     QString chapterFile;
-    if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().path() + ".dvdchapter";
+    if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().toLocalFile() + ".dvdchapter";
 
     // mantisbt 1051
-    QDir dir;
-    if (!dir.mkpath(m_view.out_file->url().adjusted(QUrl::RemoveFilename).path())) {
-        KMessageBox::sorry(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", m_view.out_file->url().adjusted(QUrl::RemoveFilename).path()));
+    QDir dir(m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile());
+    if (!dir.exists() && !dir.mkpath(QStringLiteral("."))) {
+        KMessageBox::sorry(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile()));
         return;
     }
 
@@ -963,7 +967,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
     if (!item)
         return;
 
-    QString destBase = m_view.out_file->url().path().trimmed();
+    QString destBase = m_view.out_file->url().toLocalFile().trimmed();
     if (destBase.isEmpty())
         return;
 
@@ -1220,11 +1224,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
 
         if (resizeProfile && !KdenliveSettings::gpu_accel())
-            render_process_args << "consumer:" + (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
+            render_process_args << "consumer:" + (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
         else
-            render_process_args <<  (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : playlistPaths.at(stemIdx));
+            render_process_args <<  (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
 
-        render_process_args << (scriptExport ? "$TARGET_" + QString::number(stemIdx) : QUrl::fromLocalFile(dest).url());
+        render_process_args << (scriptExport ? "$TARGET_" + QString::number(stemIdx) : QUrl::fromLocalFile(dest).toEncoded());
         if (KdenliveSettings::gpu_accel()) {
                 render_process_args << QStringLiteral("glsl.=1");
         }
@@ -1528,7 +1532,7 @@ void RenderWidget::refreshView()
 QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 {
     if (!url.isValid()) url = QUrl::fromLocalFile(m_projectFolder);
-    QString directory = url.adjusted(QUrl::RemoveFilename).path();
+    QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
     QString filename = url.fileName();
     QString ext;
 
@@ -1687,6 +1691,10 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
 
     // Parse our xml profile
     QString exportFile = QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("export/profiles.xml"));
+    if (exportFile.isEmpty()) {
+        // Check local folder (non installed)
+        exportFile = qApp->applicationDirPath() + QStringLiteral("/data/kdenlive/export/profiles.xml");
+    }
     parseFile(exportFile, false);
 
     // Parse some MLT's profiles
@@ -2166,7 +2174,7 @@ void RenderWidget::parseScriptFiles()
         QString target;
         QString renderer;
         QString melt;
-        QFile file(scriptpath.path());
+        QFile file(scriptpath.toLocalFile());
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream stream(&file);
             while (!stream.atEnd()) {
@@ -2197,7 +2205,7 @@ void RenderWidget::parseScriptFiles()
         } else item->setIcon(0, QIcon::fromTheme(QStringLiteral("application-x-executable-script")));
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
         item->setData(1, Qt::UserRole, QUrl(QUrl::fromEncoded(target.toUtf8())).url(QUrl::PreferLocalFile));
-        item->setData(1, Qt::UserRole + 1, scriptpath.path());
+        item->setData(1, Qt::UserRole + 1, scriptpath.toLocalFile());
     }
     QTreeWidgetItem *script = m_view.scripts_list->topLevelItem(0);
     if (script) {
