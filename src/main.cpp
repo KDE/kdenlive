@@ -49,6 +49,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
 #endif
 
+#ifdef Q_OS_WIN
+    qputenv("KDE_FORK_SLAVES", "1");
+#endif
+
     // Init application
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
