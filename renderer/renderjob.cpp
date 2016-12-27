@@ -206,8 +206,7 @@ void RenderJob::start()
     initKdenliveDbusInterface();
 
     // Make sure the destination directory is writable
-    QString path = QUrl::fromLocalFile(m_dest).toString(QUrl::RemoveFilename | QUrl::RemoveScheme);
-    QFileInfo checkDestination(path);
+    QFileInfo checkDestination(QFileInfo(m_dest).absolutePath());
     if (!checkDestination.isWritable()) {
         slotIsOver(QProcess::NormalExit, false);
     }
@@ -308,7 +307,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
             QStringList args = m_player.split(QLatin1Char(' '));
             QString exec = args.takeFirst();
             // Decode url
-            QString url = QUrl::fromEncoded(args.takeLast().toUtf8()).path();
+            QString url = QUrl::fromEncoded(args.takeLast().toUtf8()).toLocalFile();
             args << url;
             QProcess::startDetached(exec, args);
         }

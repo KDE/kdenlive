@@ -56,7 +56,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer &prod
         if (proxy.length() > 2) {
             // This is a proxy producer, read original url from kdenlive property
             QString path = m_properties->get("kdenlive:originalurl");
-            if (!path.startsWith(QLatin1Char('/'))) {
+            if (QFileInfo(path).isRelative()) {
                 path.prepend(bincontroller->documentRoot());
             }
             m_url = QUrl::fromLocalFile(path);

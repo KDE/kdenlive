@@ -216,10 +216,10 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
     //QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
 
     new RenderingAdaptor(this);
-    pCore->initialize();
     MltConnection::locateMeltAndProfilesPath(MltPath);
     QString defaultProfile = KdenliveSettings::default_profile();
     KdenliveSettings::setCurrent_profile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
+    pCore->initialize();
 
     // If using a custom profile, make sure the file exists or fallback to default
     if (KdenliveSettings::current_profile().startsWith(QStringLiteral("/")) && !QFile::exists(KdenliveSettings::current_profile())) {
@@ -3403,7 +3403,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 delete getUrl;
                 return;
             }
-            scriptPath = getUrl->selectedUrl().path();
+            scriptPath = getUrl->selectedUrl().toLocalFile();
             delete getUrl;
         }
         QFile f(scriptPath);
@@ -3427,7 +3427,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     } else {
         out = (int) GenTime(project->projectDuration()).frames(project->fps()) - 2;
     }
-    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename).path());
+    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename).toLocalFile());
     if (!chapterFile.isEmpty()) {
         QDomDocument doc;
         QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
@@ -3599,7 +3599,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             plPath = plPath + "_" + QString(trackNames.at(i)).replace(QLatin1Char(' '), QLatin1Char('_'));
         }
         // add mlt suffix
-        plPath += mltSuffix;
+        if (!plPath.endsWith(mltSuffix)) {
+            plPath += mltSuffix;
+        }
         playlistPaths << plPath;
         qCDebug(KDENLIVE_LOG) << "playlistPath: " << plPath << endl;
 

@@ -93,7 +93,7 @@ bool DocumentChecker::hasErrorInClips()
                 EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"), documentid);
             }
             storageFolder = EffectsList::property(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"));
-            if (!storageFolder.isEmpty() && !!storageFolder.startsWith(QStringLiteral("/"))) {
+            if (!storageFolder.isEmpty() && QFileInfo(storageFolder).isRelative()) {
                 storageFolder.prepend(root);
             }
             if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && QFile::exists(m_url.adjusted(QUrl::RemoveFilename).path() + QStringLiteral("/") + documentid)) {
@@ -147,7 +147,7 @@ bool DocumentChecker::hasErrorInClips()
         if (resource.isEmpty()) {
             continue;
         }
-        if (!resource.startsWith(QLatin1Char('/'))) {
+        if (QFileInfo(resource).isRelative()) {
             resource.prepend(root);
         }
         if (service == QLatin1String("timewarp")) {
@@ -164,7 +164,7 @@ bool DocumentChecker::hasErrorInClips()
 
         QString proxy = EffectsList::property(e, QStringLiteral("kdenlive:proxy"));
         if (proxy.length() > 1) {
-            if (!proxy.startsWith(QLatin1Char('/'))) {
+            if (QFileInfo(proxy).isRelative()) {
                 proxy.prepend(root);
             }
             if (!QFile::exists(proxy)) {
@@ -184,7 +184,7 @@ bool DocumentChecker::hasErrorInClips()
                 }
             }
             QString original = EffectsList::property(e, QStringLiteral("kdenlive:originalurl"));
-            if (!original.startsWith(QLatin1Char('/'))) {
+            if (QFileInfo(original).isRelative()) {
                 original.prepend(root);
             }
             if (!QFile::exists(original)) {
@@ -346,7 +346,7 @@ bool DocumentChecker::hasErrorInClips()
             item->setText(1, imageResource);
         } else {
             item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
-            if (!resource.startsWith(QLatin1Char('/'))) {
+            if (QFileInfo(resource).isRelative()) {
                 resource.prepend(root);
             }
             item->setData(0, hashRole, EffectsList::property(e, QStringLiteral("kdenlive:file_hash")));
