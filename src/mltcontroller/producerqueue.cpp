@@ -183,7 +183,7 @@ void ProducerQueue::processFileProperties()
         if (!proxy.isEmpty()) {
             if (proxy == QLatin1String("-")) {
                 path = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:originalurl"));
-                if (!path.startsWith(QLatin1String("/"))) {
+                if (!path.startsWith(QLatin1Char('/'))) {
                     path.prepend(m_binController->documentRoot());
                 }
                 proxyProducer = false;
