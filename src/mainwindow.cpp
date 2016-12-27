@@ -3596,7 +3596,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         // add track number to path name
         if (stemExport) {
-            plPath = plPath + "_" + QString(trackNames.at(i)).replace(QLatin1String(" "), QLatin1String("_"));
+            plPath = plPath + "_" + QString(trackNames.at(i)).replace(QLatin1Char(' '), QLatin1Char('_'));
         }
         // add mlt suffix
         plPath += mltSuffix;

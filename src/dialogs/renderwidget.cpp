@@ -1007,7 +1007,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QStringList filePath;
             // construct the full file path
             filePath << dfi.absolutePath() << QDir::separator() << dfi.completeBaseName() + "_" <<
-                     QString(trackNames.at(stemIdx)).replace(QLatin1String(" "), QLatin1String("_")) << QStringLiteral(".") << dfi.suffix();
+                     QString(trackNames.at(stemIdx)).replace(QLatin1Char(' '), QLatin1Char('_')) << QStringLiteral(".") << dfi.suffix();
             dest = filePath.join(QString());
         }
 
