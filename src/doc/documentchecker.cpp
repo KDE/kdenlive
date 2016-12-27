@@ -181,7 +181,7 @@ bool DocumentChecker::hasErrorInClips()
                     missingProxies.append(e);
             }
             QString original = EffectsList::property(e, QStringLiteral("kdenlive:originalurl"));
-            if (QFileInfo(resource).isRelative()) {
+            if (QFileInfo(original).isRelative()) {
                 original.prepend(root);
             }
             if (!QFile::exists(original)) {
