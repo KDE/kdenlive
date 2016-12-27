@@ -884,7 +884,7 @@ void ProducerQueue::processProducerProperties(Mlt::Producer *prod, const QDomEle
             continue;
         }
         QString propertyName = props.at(i).toElement().attribute(QStringLiteral("name"));
-        if (!internalProperties.contains(propertyName) && !propertyName.startsWith(QLatin1String("_"))) {
+        if (!internalProperties.contains(propertyName) && !propertyName.startsWith(QLatin1Char('_'))) {
             value = props.at(i).firstChild().nodeValue();
             if (propertyName.startsWith(QLatin1String("kdenlive-force."))) {
                 // this is a special forced property, pass it
