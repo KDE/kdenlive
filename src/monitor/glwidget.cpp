@@ -109,6 +109,7 @@ GLWidget::GLWidget(int id, QObject *parent)
         mlt_properties_set_data(mlt_global_properties(), "glslManager", Q_NULLPTR, 0, Q_NULLPTR, Q_NULLPTR);
         emit gpuNotSupported();
     }
+    connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::createOffscreen);
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
 }
@@ -143,16 +144,17 @@ void GLWidget::updateAudioForAnalysis()
     }
 }
 
-void GLWidget::initializeGL()
+void GLWidget::createOffscreen()
 {
-    if (m_isInitialized || !isVisible() || !openglContext()) {
-        return;
-    }
     if (!m_offscreenSurface.isValid()) {
         m_offscreenSurface.setFormat(openglContext()->format());
         m_offscreenSurface.create();
-        openglContext()->makeCurrent(this);
     }
+}
+
+void GLWidget::initializeGL()
+{
+    if (m_isInitialized || !isVisible() || !openglContext()) return;
     initializeOpenGLFunctions();
     qCDebug(KDENLIVE_LOG) << "OpenGL vendor: " << QString::fromUtf8((const char *) glGetString(GL_VENDOR));
     qCDebug(KDENLIVE_LOG) << "OpenGL renderer: " << QString::fromUtf8((const char *) glGetString(GL_RENDERER));
