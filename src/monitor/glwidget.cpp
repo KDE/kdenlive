@@ -109,6 +109,7 @@ GLWidget::GLWidget(int id, QObject *parent)
         mlt_properties_set_data(mlt_global_properties(), "glslManager", NULL, 0, NULL, NULL);
         emit gpuNotSupported();
     }
+    connect(this, SIGNAL(sceneGraphInitialized()), SLOT(createOffscreen()));
     connect(this, SIGNAL(sceneGraphInitialized()), SLOT(initializeGL()), Qt::DirectConnection);
     connect(this, SIGNAL(beforeRendering()), SLOT(paintGL()), Qt::DirectConnection);
 }
@@ -142,14 +143,17 @@ void GLWidget::updateAudioForAnalysis()
 	m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 }
 
-void GLWidget::initializeGL()
+void GLWidget::createOffscreen()
 {
-    if (m_isInitialized || !isVisible() || !openglContext()) return;
     if (!m_offscreenSurface.isValid()) {
         m_offscreenSurface.setFormat(openglContext()->format());
         m_offscreenSurface.create();
-        openglContext()->makeCurrent(this);
     }
+}
+
+void GLWidget::initializeGL()
+{
+    if (m_isInitialized || !isVisible() || !openglContext()) return;
     initializeOpenGLFunctions();
     qDebug() << "OpenGL vendor: " << QString::fromUtf8((const char*) glGetString(GL_VENDOR));
     qDebug() << "OpenGL renderer: " << QString::fromUtf8((const char*) glGetString(GL_RENDERER));

@@ -182,6 +182,7 @@ private slots:
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
     void onFrameDisplayed(const SharedFrame &frame);
+    void createOffscreen();
 
 protected:
     void resizeEvent(QResizeEvent* event);
