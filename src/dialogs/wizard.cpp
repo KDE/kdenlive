@@ -357,7 +357,7 @@ void Wizard::checkMltComponents()
         delete filters;
         if (!hasFrei0r) {
             // Frei0r effects not found
-            m_warnings.append(QString("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommanded</li>"));
+            m_warnings.append(i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommanded</li>"));
         }
 
         // Check that we have the breeze icon theme installed
@@ -372,7 +372,7 @@ void Wizard::checkMltComponents()
         }
         if (!hasBreeze) {
             // Breeze icons not found
-            m_warnings.append(QString("<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides many icons used in Kdenlive. Install recommanded</li>"));
+            m_warnings.append(i18n("<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides many icons used in Kdenlive. Install recommanded</li>"));
         }
 
         Mlt::Properties *consumers = repository->consumers();
