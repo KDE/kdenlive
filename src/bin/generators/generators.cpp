@@ -111,7 +111,7 @@ Generators::~Generators()
 //static
 void Generators::getGenerators(const QStringList &producers, QMenu *menu)
 {
-    const QStringList generatorFolders = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("generators"), QStandardPaths::LocateDirectory);
+    const QStringList generatorFolders = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("generators"), QStandardPaths::LocateDirectory);
     const QStringList filters = QStringList() << QStringLiteral("*.xml");
     for (const QString &folder : generatorFolders) {
         QDir directory(folder);

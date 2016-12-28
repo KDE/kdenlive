@@ -260,10 +260,17 @@ bool ProfilesDialog::slotSaveProfile()
         saveProfile(path);
     } else {
         int i = 0;
+<<<<<<< da7a664e77e7579e995c524b4c63d1f37c1fb554
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/profiles/"));
         if (!dir.exists()) {
             dir.mkpath(QStringLiteral("."));
         }
+=======
+	QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
+	if (!dir.exists()) {
+	    dir.mkpath(QStringLiteral("."));
+	}
+>>>>>>> Use AppDataLocation instead of deprecated DataLocation, remove useless Windows hack
         QString customName = QStringLiteral("customprofile");
         QString profilePath =  dir.absoluteFilePath(customName + QString::number(i));
         while (QFile::exists(profilePath)) {
@@ -418,7 +425,7 @@ bool ProfilesDialog::existingProfileDescription(const QString &desc)
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QDir customDir(customProfiles.at(i));
         profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
@@ -453,7 +460,7 @@ QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
     }
 
     // Check custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QDir customDir(customProfiles.at(i));
         profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
@@ -490,7 +497,7 @@ QList<MltVideoProfile> ProfilesDialog::profilesList()
     }
 
     // Check custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QDir customDir(customProfiles.at(i));
         profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
@@ -525,7 +532,7 @@ QMap<QString, QString> ProfilesDialog::getProfilesInfo()
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QDir profileDir(customProfiles.at(i));
         profilesFiles = profileDir.entryList(profilesFilter, QDir::Files);
@@ -605,7 +612,7 @@ QMap<QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int 
     }
 
     // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
+    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profiles.size(); ++j) {
@@ -634,7 +641,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
 {
     if (profilePath.isEmpty()) {
         int i = 0;
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/profiles/"));
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
         if (!dir.exists()) {
             dir.mkpath(QStringLiteral("."));
         }

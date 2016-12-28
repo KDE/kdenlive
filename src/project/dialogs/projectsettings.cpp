@@ -693,8 +693,13 @@ void ProjectSettings::slotManagePreviewProfile()
 
 void ProjectSettings::loadProxyProfiles()
 {
+<<<<<<< da7a664e77e7579e995c524b4c63d1f37c1fb554
     // load proxy profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+=======
+   // load proxy profiles
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+>>>>>>> Use AppDataLocation instead of deprecated DataLocation, remove useless Windows hack
     KConfigGroup group(&conf, "proxy");
     QMap<QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
@@ -724,7 +729,7 @@ void ProjectSettings::loadProxyProfiles()
 void ProjectSettings::loadPreviewProfiles()
 {
     // load proxy profiles
-    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "timelinepreview");
     QMap<QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);

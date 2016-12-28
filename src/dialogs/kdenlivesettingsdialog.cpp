@@ -112,7 +112,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configEnv.libraryfolderurl->setMode(KFile::Directory);
     m_configEnv.libraryfolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_libraryfolder"));
     m_configEnv.libraryfolderurl->setEnabled(!KdenliveSettings::librarytodefaultfolder());
-    m_configEnv.kcfg_librarytodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/library"));
+    m_configEnv.kcfg_librarytodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
     connect(m_configEnv.kcfg_librarytodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableLibraryFolder);
 
     m_page2 = addPage(p2, i18n("Environment"));
@@ -901,7 +901,7 @@ void KdenliveSettingsDialog::slotCheckAudioBackend()
 
 void KdenliveSettingsDialog::loadTranscodeProfiles()
 {
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     m_configTranscode.profiles_list->blockSignals(true);
@@ -925,7 +925,7 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
 
 void KdenliveSettingsDialog::saveTranscodeProfiles()
 {
-    QString transcodeFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/kdenlivetranscodingrc";
+    QString transcodeFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/kdenlivetranscodingrc";
     KSharedConfigPtr config = KSharedConfig::openConfig(transcodeFile);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
@@ -1070,7 +1070,7 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
     m_configCapture.kcfg_v4l_format->blockSignals(true);
     m_configCapture.kcfg_v4l_format->clear();
 
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
     if (QFile::exists(vl4ProfilePath)) {
         m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
     }
@@ -1110,7 +1110,7 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
     m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(601));
     m_configCapture.p_progressive->setText(i18n("Progressive"));
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
     if (!dir.exists() || !dir.exists(QStringLiteral("video4linux"))) {
         saveCurrentV4lProfile();
     }
@@ -1118,7 +1118,7 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
 
 void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -1163,7 +1163,7 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
     profile.frame_rate_num = m_configCapture.p_fps->text().section('/', 0, 0).toInt();
     profile.frame_rate_den = m_configCapture.p_fps->text().section('/', 1, 1).toInt();
     profile.progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -1185,7 +1185,7 @@ void KdenliveSettingsDialog::slotManageEncodingProfile()
 
 void KdenliveSettingsDialog::loadEncodingProfiles()
 {
-    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
 
     // Load v4l profiles
     m_configCapture.kcfg_v4l_profile->blockSignals(true);
@@ -1366,7 +1366,7 @@ void KdenliveSettingsDialog::slotUpdatePreviewProfile(int ix)
 
 void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
 {
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
     QPointer<ProfilesDialog> w = new ProfilesDialog(vl4ProfilePath, true);
     if (w->exec() == QDialog::Accepted) {
         // save and update profile

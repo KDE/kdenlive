@@ -178,7 +178,7 @@ void CollapsibleGroup::slotSaveGroup()
     if (name.isEmpty()) {
         return;
     }
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/effects/");
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }

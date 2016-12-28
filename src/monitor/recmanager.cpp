@@ -368,7 +368,7 @@ void RecManager::slotVideoDeviceChanged(int)
 
 Mlt::Producer *RecManager::createV4lProducer()
 {
-    QString profilePath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/video4linux";
+    QString profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
     Mlt::Profile *vidProfile = new Mlt::Profile(profilePath.toUtf8().constData());
     Mlt::Producer *prod = Q_NULLPTR;
     if (m_recVideo->isChecked()) {

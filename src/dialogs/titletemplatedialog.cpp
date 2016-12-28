@@ -45,7 +45,7 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
     }
 
     // System templates
-    const QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
+    const QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
 
     for (const QString &folderpath : titleTemplates) {
         QDir folder(folderpath);

@@ -349,6 +349,7 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
                 playlist->close();
             }
         }
+        qDebug()<<" * *PROXY PATH: "<<path<<", "<<sourcePath;
         parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << params << QString::number(renderSize.width()) << QString::number(renderSize.height());
         ProxyJob *job = new ProxyJob(item->clipType(), id, parameters, playlist);
         jobs.insert(item, job);

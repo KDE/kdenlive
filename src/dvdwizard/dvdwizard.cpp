@@ -58,7 +58,7 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     , m_previousPage(0)
 {
     setWindowTitle(i18n("DVD Wizard"));
-    //setPixmap(QWizard::WatermarkPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "banner.png")));
+    //setPixmap(QWizard::WatermarkPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::AppDataLocation, "banner.png")));
     m_pageVob = new DvdWizardVob(this);
     m_pageVob->setTitle(i18n("Select Files For Your DVD"));
     addPage(m_pageVob);

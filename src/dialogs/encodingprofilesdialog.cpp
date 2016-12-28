@@ -45,7 +45,7 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget *parent)
     button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
     button_download->setIcon(KoIconUtils::themedIcon(QStringLiteral("download")));
 
-    m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
     connect(profile_list, &QListWidget::currentRowChanged, this, &EncodingProfilesDialog::slotShowParams);

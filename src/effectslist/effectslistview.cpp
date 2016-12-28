@@ -394,7 +394,7 @@ void EffectsListView::slotUpdateInfo()
 
 void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions)
 {
-    QString effectCategory = m_mode == EffectMode ? QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("kdenliveeffectscategory.rc")) : QString();
+    QString effectCategory = m_mode == EffectMode ? QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc")) : QString();
     m_effectsList->initList(effectsMenu, effectActions, effectCategory, m_mode == TransitionMode);
     filterList();
 }
@@ -445,7 +445,7 @@ void EffectsListView::slotRemoveEffect()
 
     QTreeWidgetItem *item = m_effectsList->currentItem();
     QString effectId = item->text(0);
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/effects/";
 
     QDir directory = QDir(path);
     QStringList filter;

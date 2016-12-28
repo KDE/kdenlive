@@ -1065,7 +1065,7 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
             if (MainWindow::customEffects.hasEffect(tag, id) == -1) {
                 QDomDocument doc;
                 doc.appendChild(doc.importNode(e, true));
-                QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
+                QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/effects";
                 path += id + ".xml";
                 if (!QFile::exists(path)) {
                     importedEffects << id;
@@ -1655,7 +1655,7 @@ void KdenliveDoc::selectPreviewProfile()
         setDocumentProperty(QStringLiteral("previewextension"), KdenliveSettings::previewextension());
         return;
     }
-    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "timelinepreview");
     QMap< QString, QString > values = group.entryMap();
     QMapIterator<QString, QString> i(values);

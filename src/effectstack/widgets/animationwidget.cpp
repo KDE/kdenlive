@@ -1037,7 +1037,7 @@ void AnimationWidget::slotReverseKeyframeType(bool reverse)
 void AnimationWidget::loadPresets(QString currentText)
 {
     m_presetCombo->blockSignals(true);
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/effects/presets/"));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
     if (currentText.isEmpty()) {
         currentText = m_presetCombo->currentText();
     }
@@ -1120,7 +1120,7 @@ void AnimationWidget::savePreset()
     if (d.exec() != QDialog::Accepted) {
         return;
     }
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/effects/presets/"));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -1143,7 +1143,7 @@ void AnimationWidget::deletePreset()
 {
     QString effectName = m_presetCombo->currentText();
     // try deleting as effect preset first
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/effects/presets/"));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
     KConfig confFile(dir.absoluteFilePath(m_effectId), KConfig::SimpleConfig);
     KConfigGroup grp(&confFile, effectName);
     if (grp.exists()) {

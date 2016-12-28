@@ -626,7 +626,7 @@ QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    QString res = QStandardPaths::locate(QStandardPaths::DataLocation, "lumas/" + fname);
+    QString res = QStandardPaths::locate(QStandardPaths::AppDataLocation, "lumas/" + fname);
     if (!res.isEmpty()) {
         return res;
     }
