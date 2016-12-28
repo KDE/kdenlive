@@ -1018,7 +1018,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         for (int i = 0; i < subProperties.count(); i++) {
             if (!magicL) {
                 magicL = new QTreeWidgetItem(tree, QStringList() << i18n("Magic Lantern") << QString());
-                QIcon icon(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("meta_magiclantern.png")));
+                QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
                 magicL->setIcon(0, icon);
                 magicL->setExpanded(true);
             }
@@ -1040,7 +1040,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     m_controller->setProperty("kdenlive:meta.magiclantern." + line.section(':', 0, 0).simplified(), line.section(':', 1).simplified());
                     if (!magicL) {
                         magicL = new QTreeWidgetItem(tree, QStringList() << i18n("Magic Lantern") << QString());
-                        QIcon icon(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("meta_magiclantern.png")));
+                        QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
                         magicL->setIcon(0, icon);
                         magicL->setExpanded(true);
                     }

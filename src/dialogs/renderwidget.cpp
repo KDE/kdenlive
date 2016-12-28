@@ -560,11 +560,11 @@ void RenderWidget::slotSaveProfile()
 
 bool RenderWidget::saveProfile(QDomElement newprofile)
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/");
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
-    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
+    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/customprofiles.xml";
     QDomDocument doc;
     QFile file(dir.absoluteFilePath(QStringLiteral("customprofiles.xml")));
     doc.setContent(&file, false);
@@ -739,7 +739,7 @@ void RenderWidget::slotEditProfile()
 
     if (d->exec() == QDialog::Accepted) {
         slotDeleteProfile(false);
-        QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
+        QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/customprofiles.xml";
         QDomDocument doc;
         QFile file(exportFile);
         doc.setContent(&file, false);
@@ -850,7 +850,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
     QString currentProfile = item->text(0);
     QString currentGroup = item->parent()->text(0);
 
-    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/customprofiles.xml";
+    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/customprofiles.xml";
     QDomDocument doc;
     QFile file(exportFile);
     doc.setContent(&file, false);
@@ -1034,7 +1034,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 
         QStringList overlayargs;
         if (m_view.tc_overlay->isChecked()) {
-            QString filterFile = QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("metadata.properties"));
+            QString filterFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("metadata.properties"));
             overlayargs << QStringLiteral("meta.attr.timecode=1") << "meta.attr.timecode.markup=#" + QString(m_view.tc_type->currentIndex() ? "frame" : "timecode");
             overlayargs << QStringLiteral("-attach") << QStringLiteral("data_feed:attr_check") << QStringLiteral("-attach");
             overlayargs << "data_show:" + filterFile << QStringLiteral("_loader=1") << QStringLiteral("dynamic=1");
@@ -1690,17 +1690,13 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     m_view.formats->clear();
 
     // Parse our xml profile
-    QString exportFile = QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("export/profiles.xml"));
-    if (exportFile.isEmpty()) {
-        // Check local folder (non installed)
-        exportFile = qApp->applicationDirPath() + QStringLiteral("/data/kdenlive/export/profiles.xml");
-    }
+    QString exportFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
     parseFile(exportFile, false);
 
     // Parse some MLT's profiles
     parseMltPresets();
 
-    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/";
+    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/";
     QDir directory(exportFolder);
     QStringList filter;
     filter << QStringLiteral("*.xml");

@@ -1708,7 +1708,7 @@ void DocumentValidator::updateEffects()
     // WARNING: order by findDirs will determine which js file to use (in case multiple scripts for the same filter exist)
     QMap <QString, QUrl> paths;
     QMap <QString, QScriptProgram> scripts;
-    QStringList directories = QStandardPaths::locateAll(QStandardPaths::DataLocation, "effects/update");
+    QStringList directories = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "effects/update");
     foreach (const QString &directoryName, directories) {
         QDir directory(directoryName);
         QStringList fileList = directory.entryList(QStringList() << "*.js", QDir::Files);

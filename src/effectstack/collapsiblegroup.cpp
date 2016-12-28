@@ -170,7 +170,7 @@ void CollapsibleGroup::slotSaveGroup()
 {
     QString name = QInputDialog::getText(this, i18n("Save Group"), i18n("Name for saved group: "), QLineEdit::Normal, m_title->text());
     if (name.isEmpty()) return;
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/effects/");
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }

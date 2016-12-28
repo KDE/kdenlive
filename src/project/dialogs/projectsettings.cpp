@@ -674,7 +674,7 @@ void ProjectSettings::slotManagePreviewProfile()
 void ProjectSettings::loadProxyProfiles()
 {
    // load proxy profiles
-    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "proxy");
     QMap <QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
@@ -704,7 +704,7 @@ void ProjectSettings::loadProxyProfiles()
 void ProjectSettings::loadPreviewProfiles()
 {
    // load proxy profiles
-    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::DataLocation);
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "timelinepreview");
     QMap <QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);

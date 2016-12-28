@@ -181,7 +181,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     // Library path
     QString path;
     if (KdenliveSettings::librarytodefaultfolder() || KdenliveSettings::libraryfolder().isEmpty()) {
-        path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/library");
+        path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library");
     } else {
         path = KdenliveSettings::libraryfolder();
     }
@@ -463,7 +463,7 @@ void LibraryWidget::slotUpdateLibraryPath()
     m_libraryTree->blockSignals(true);
     m_folders.clear();
     m_libraryTree->clear();
-    QString defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/library");
+    QString defaultPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library");
     if (KdenliveSettings::librarytodefaultfolder() || KdenliveSettings::libraryfolder().isEmpty()) {
         m_directory.setPath(defaultPath);
         if (!m_directory.exists()) {

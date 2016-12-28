@@ -273,7 +273,7 @@ void Wizard::slotUpdateCaptureParameters()
     m_capture.v4l_formats->blockSignals(true);
     m_capture.v4l_formats->clear();
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
     if (!dir.exists()) {
             dir.mkpath(QStringLiteral("."));
     }
@@ -446,8 +446,8 @@ void Wizard::checkMissingCodecs()
     bool replaceLibfaacCodec = false;
     if (!acodecsList.contains(QStringLiteral("aac")) && acodecsList.contains(QStringLiteral("libfaac"))) replaceLibfaacCodec = true;
     QStringList profilesList;
-    profilesList << QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("export/profiles.xml"));
-    QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/export/");
+    profilesList << QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
+    QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/");
     QStringList filter;
     filter << QStringLiteral("*.xml");
     QStringList fileList = directory.entryList(filter, QDir::Files);
@@ -793,7 +793,7 @@ void Wizard::slotSaveCaptureFormat()
     profile.frame_rate_num = format.at(3).toInt();
     profile.frame_rate_den = format.at(4).toInt();
     profile.progressive = 1;
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
     if (!dir.exists()) {
             dir.mkpath(QStringLiteral("."));
     }

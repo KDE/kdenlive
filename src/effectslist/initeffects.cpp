@@ -49,7 +49,7 @@ void initEffects::refreshLumas()
     QString defaultWipeLuma;
     MainWindow::m_lumaFiles.clear();
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     customLumas.append(QString(mlt_environment("MLT_DATA")) + "/lumas");
     foreach(const QString &folder, customLumas) {
         QDir topDir(folder);
@@ -73,7 +73,7 @@ void initEffects::refreshLumas()
     QStringList filters;
     filters << QStringLiteral("*.pgm") << QStringLiteral("*.png");
 
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     foreach(const QString & folder, customLumas) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
@@ -213,7 +213,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     refreshLumas();
 
     // Parse xml transition files
-    QStringList direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
+    QStringList direc = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
     // Iterate through effects directories to parse all XML files.
     for (more = direc.begin(); more != direc.end(); ++more) {
         QDir directory(*more);
@@ -227,7 +227,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     }
 
     // Remove blacklisted transitions from the list.
-    QFile file(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("blacklisted_transitions.txt")));
+    QFile file(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_transitions.txt")));
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
@@ -245,7 +245,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     // Remove blacklisted effects from the filters list.
     QStringList mltFiltersList = filtersList;
     QStringList mltBlackList;
-    QFile file2(QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("blacklisted_effects.txt")));
+    QFile file2(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_effects.txt")));
     if (file2.open(QIODevice::ReadOnly)) {
         QTextStream in(&file2);
         while (!in.atEnd()) {
@@ -326,7 +326,7 @@ bool initEffects::parseEffectFiles(Mlt::Repository* repository, const QString &l
     }
 
     // Set the directories to look into for effects.
-    direc = QStandardPaths::locateAll(QStandardPaths::DataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
+    direc = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
     // Iterate through effects directories to parse all XML files.
     for (more = direc.begin(); more != direc.end(); ++more) {
         QDir directory(*more);
@@ -388,7 +388,7 @@ void initEffects::parseCustomEffectsFile()
      * cannot be sure about it.
      */
     QMap<QString, QDomElement> effectsMap;
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/effects";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/effects";
     QDir directory = QDir(path);
     QStringList filter;
     filter << QStringLiteral("*.xml");
