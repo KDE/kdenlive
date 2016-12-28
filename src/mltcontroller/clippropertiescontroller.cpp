@@ -689,7 +689,7 @@ void ClipPropertiesController::slotValueChanged(double value)
     if (!box) {
         return;
     }
-    QString param = box->objectName().section(QStringLiteral("_"), 0, -2);
+    QString param = box->objectName().section(QLatin1Char('_'), 0, -2);
     QMap<QString, QString> properties;
     QLocale locale;
     properties.insert(param, locale.toString(value));
@@ -703,7 +703,7 @@ void ClipPropertiesController::slotValueChanged(int value)
     if (!box) {
         return;
     }
-    QString param = box->objectName().section(QStringLiteral("_"), 0, -2);
+    QString param = box->objectName().section(QLatin1Char('_'), 0, -2);
     QMap<QString, QString> properties;
     properties.insert(param, QString::number(value));
     emit updateClipProperties(m_id, m_originalProperties, properties);
@@ -732,7 +732,7 @@ void ClipPropertiesController::slotComboValueChanged()
     if (!box) {
         return;
     }
-    QString param = box->objectName().section(QStringLiteral("_"), 0, -2);
+    QString param = box->objectName().section(QLatin1Char('_'), 0, -2);
     QMap<QString, QString> properties;
     properties.insert(param, QString::number(box->currentData().toInt()));
     emit updateClipProperties(m_id, m_originalProperties, properties);

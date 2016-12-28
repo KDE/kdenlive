@@ -124,10 +124,10 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             continue;
         }
         QString id = producer->parent().get("id");
-        if (id.contains(QStringLiteral("_"))) {
+        if (id.contains(QLatin1Char('_'))) {
             // This is a track producer
-            QString mainId = id.section(QStringLiteral("_"), 0, 0);
-            QString track = id.section(QStringLiteral("_"), 1, 1);
+            QString mainId = id.section(QLatin1Char('_'), 0, 0);
+            //QString track = id.section(QStringLiteral("_"), 1, 1);
             if (m_clipList.contains(mainId)) {
                 // The controller for this track producer already exists
             } else {
@@ -361,7 +361,7 @@ Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
     QString videoId = id + "_video";
     if (!m_extraClipList.contains(videoId)) {
         // create clone
-        QString originalId = id.section(QStringLiteral("_"), 0, 0);
+        QString originalId = id.section(QLatin1Char('_'), 0, 0);
         Mlt::Producer *original = getBinProducer(originalId);
         Mlt::Producer *videoOnly = cloneProducer(*original);
         videoOnly->set("audio_index", -1);

@@ -491,7 +491,7 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
             // we are directly using original producer, no need to update effects
             continue;
 	}
-	else if (current.section(QStringLiteral("_"), 0, 0) == id) {
+    else if (current.section(QLatin1Char('_'), 0, 0) == id) {
             Clip(origin).replaceEffects(*original);
 	}
     }
@@ -515,7 +515,7 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
         // Don't clone producer for track if it has no audio
         return new Mlt::Producer(*parent);
     }
-    originalId = originalId.section(QStringLiteral("_"), 0, 0);
+    originalId = originalId.section(QLatin1Char('_'), 0, 0);
     QString idForTrack = originalId + QLatin1Char('_') + m_playlist.get("id");
     if (state == PlaylistState::AudioOnly) {
         idForTrack.append("_audio");

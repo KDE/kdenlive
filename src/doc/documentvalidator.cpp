@@ -1121,26 +1121,26 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (entryId.endsWith(QLatin1String("_audio"))) {
                 // Audio only producer
                 audioOnlyProducer = true;
-                entryId = entryId.section(QStringLiteral("_"), 0, -2);
+                entryId = entryId.section(QLatin1Char('_'), 0, -2);
             }
-            if (!entryId.contains(QStringLiteral("_"))) {
+            if (!entryId.contains(QLatin1Char('_'))) {
                 // not a track producer
                 playlistForId.insert(entryId, entry.parentNode().toElement().attribute(QStringLiteral("id")));
                 continue;
             }
             if (entryId.startsWith(QLatin1String("slowmotion:"))) {
                 // Check broken slowmotion producers (they should not be track aware)
-                QString newId = "slowmotion:" + entryId.section(QStringLiteral(":"), 1, 1).section(QStringLiteral("_"), 0, 0) + ":" + entryId.section(QStringLiteral(":"), 2);
+                QString newId = "slowmotion:" + entryId.section(QStringLiteral(":"), 1, 1).section(QLatin1Char('_'), 0, 0) + ":" + entryId.section(QStringLiteral(":"), 2);
                 trackRenaming.insert(entryId, newId);
                 entry.setAttribute(QStringLiteral("producer"), newId);
                 continue;
             }
-            QString track = entryId.section(QStringLiteral("_"), 1, 1);
+            QString track = entryId.section(QLatin1Char('_'), 1, 1);
             QString playlistId = entry.parentNode().toElement().attribute(QStringLiteral("id"));
             if (track == playlistId) {
                 continue;
             }
-            QString newId = entryId.section(QStringLiteral("_"), 0, 0) + "_" + playlistId;
+            QString newId = entryId.section(QLatin1Char('_'), 0, 0) + "_" + playlistId;
             if (audioOnlyProducer) {
                 newId.append("_audio");
                 trackRenaming.insert(entryId + "_audio", newId);
@@ -1175,13 +1175,13 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
             if (id.startsWith(QLatin1String("slowmotion"))) {
                 // No need to process slowmotion producers
-                QString slowmo = id.section(QStringLiteral(":"), 1, 1).section(QStringLiteral("_"), 0, 0);
+                QString slowmo = id.section(QStringLiteral(":"), 1, 1).section(QLatin1Char('_'), 0, 0);
                 if (!slowmotionIds.contains(slowmo)) {
                     slowmotionIds << slowmo;
                 }
                 continue;
             }
-            QString prodId = id.section(QStringLiteral("_"), 0, 0);
+            QString prodId = id.section(QLatin1Char('_'), 0, 0);
             if (ids.contains(prodId)) {
                 // Make sure we didn't create a duplicate
                 if (ids.contains(id)) {
@@ -1583,7 +1583,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (prod.isNull()) {
                 continue;
             }
-            QString id = prod.attribute(QStringLiteral("id")).section(QStringLiteral("_"), 0, 0);
+            QString id = prod.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
             if (id == QLatin1String("black")) {
                 EffectsList::setProperty(prod, QStringLiteral("set.test_audio"), QStringLiteral("0"));
                 break;
@@ -2018,7 +2018,7 @@ void DocumentValidator::checkOrphanedProducers()
         if (prod.isNull()) {
             continue;
         }
-        QString id = prod.attribute(QStringLiteral("id")).section(QStringLiteral("_"), 0, 0);
+        QString id = prod.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
         if (id.startsWith(QLatin1String("slowmotion")) || id == QLatin1String("black")) {
             continue;
         }
@@ -2038,7 +2038,7 @@ void DocumentValidator::checkOrphanedProducers()
             for (int j = 0; j < max; j++) {
                 // Search for a similar producer
                 QDomElement binProd = producers.at(j).toElement();
-                QString binId = binProd.attribute(QStringLiteral("id")).section(QStringLiteral("_"), 0, 0);
+                QString binId = binProd.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
                 if (service != QLatin1String("timewarp") && (binId.startsWith(QLatin1String("slowmotion")) || !binProducers.contains(binId))) {
                     continue;
                 }

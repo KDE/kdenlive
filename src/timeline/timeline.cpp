@@ -1651,7 +1651,7 @@ int Timeline::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndepen
         prod = m_doc->renderer()->getSlowmotionProducer(url);
     }
     QString id = originalProd->get("id");
-    id = id.section(QStringLiteral("_"), 0,  0);
+    id = id.section(QLatin1Char('_'), 0,  0);
     Mlt::Properties passProperties;
     Mlt::Properties original(originalProd->get_properties());
     passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
