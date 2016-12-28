@@ -1111,9 +1111,13 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
     m_configCapture.p_progressive->setText(i18n("Progressive"));
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
+<<<<<<< HEAD
     if (!dir.exists() || !dir.exists(QStringLiteral("video4linux"))) {
         saveCurrentV4lProfile();
     }
+=======
+    if (!dir.exists() || !dir.exists(QStringLiteral("video4linux"))) saveCurrentV4lProfile();
+>>>>>>> 16.12
 }
 
 void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
