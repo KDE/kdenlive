@@ -305,7 +305,7 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta)
         // We only have very basic infos, like id and url, pass them
         QDomElement prod = document.createElement(QStringLiteral("producer"));
         prod.setAttribute(QStringLiteral("id"), m_id);
-        EffectsList::setProperty(prod, QStringLiteral("resource"), m_temporaryUrl.path());
+        EffectsList::setProperty(prod, QStringLiteral("resource"), m_temporaryUrl.toLocalFile());
         if (m_type != Unknown) {
             prod.setAttribute(QStringLiteral("type"), (int) m_type);
         }
@@ -901,7 +901,7 @@ void ProjectClip::doExtractIntra()
         if (pos >= max) {
             pos = max - 1;
         }
-        const QString path = url().path() + '_' + QString::number(pos);
+        const QString path = url().toLocalFile() + '_' + QString::number(pos);
         QImage img = bin()->findCachedPixmap(path);
         if (!img.isNull()) {
             // Cache already contains image
@@ -955,7 +955,7 @@ void ProjectClip::doExtractImage()
         if (pos >= max) {
             pos = max - 1;
         }
-        const QString path = url().path() + '_' + QString::number(pos);
+        const QString path = url().toLocalFile() + '_' + QString::number(pos);
         QImage img = bin()->findCachedPixmap(path);
         if (!img.isNull()) {
             emit thumbReady(pos, img);
@@ -1073,10 +1073,14 @@ void ProjectClip::slotCreateAudioThumbs()
             channelTmpfile->close();
             channelFiles << channelTmpfile;
         }
-        args << QStringLiteral("-i") << QUrl::fromLocalFile(prod->get("resource")).path();
+        args << QStringLiteral("-i") << QUrl::fromLocalFile(prod->get("resource")).toLocalFile();
         // Output progress info
-        args << QStringLiteral("-progress") << QStringLiteral("/dev/stdout");
-
+        args << QStringLiteral("-progress");
+#ifdef Q_OS_WIN
+        args << QStringLiteral("-");
+#else
+        args << QStringLiteral("/dev/stdout");
+#endif
         bool isFFmpeg = KdenliveSettings::ffmpegpath().contains(QLatin1String("ffmpeg"));
 
         if (channels == 1) {
@@ -1382,7 +1386,7 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
 
 QImage ProjectClip::findCachedThumb(int pos)
 {
-    const QString path = url().path() + '_' + QString::number(pos);
+    const QString path = url().toLocalFile() + '_' + QString::number(pos);
     return bin()->findCachedPixmap(path);
 }
 
