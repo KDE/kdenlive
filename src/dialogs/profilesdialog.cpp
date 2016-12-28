@@ -260,17 +260,10 @@ bool ProfilesDialog::slotSaveProfile()
         saveProfile(path);
     } else {
         int i = 0;
-<<<<<<< da7a664e77e7579e995c524b4c63d1f37c1fb554
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QStringLiteral("/profiles/"));
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
         if (!dir.exists()) {
             dir.mkpath(QStringLiteral("."));
         }
-=======
-	QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
-	if (!dir.exists()) {
-	    dir.mkpath(QStringLiteral("."));
-	}
->>>>>>> Use AppDataLocation instead of deprecated DataLocation, remove useless Windows hack
         QString customName = QStringLiteral("customprofile");
         QString profilePath =  dir.absoluteFilePath(customName + QString::number(i));
         while (QFile::exists(profilePath)) {
