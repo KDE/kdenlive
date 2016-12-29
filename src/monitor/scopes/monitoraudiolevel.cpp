@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QPaintEvent>
 #include <QFont>
-#include <math.h>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 

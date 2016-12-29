@@ -135,7 +135,7 @@ public:
         DataDate,
         // Description for item (user editable)
         DataDescription,
-        // Number of occurences used in timeline
+        // Number of occurrences used in timeline
         UsageCount,
         // Empty if clip has no effect, icon otherwise
         IconOverlay,

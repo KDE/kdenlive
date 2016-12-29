@@ -35,11 +35,6 @@
 #include <xlocale.h>
 #endif
 
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
-
 // static
 void initEffects::refreshLumas()
 {

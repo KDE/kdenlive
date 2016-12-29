@@ -756,7 +756,7 @@ signals:
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);
     void openClip(ClipController *c, int in = -1, int out = -1);
-    /** @brief Fill context menu with occurences of this clip in timeline. */
+    /** @brief Fill context menu with occurrences of this clip in timeline. */
     void findInTimeline(const QString &);
     void clipNameChanged(const QString &);
     /** @brief A clip was updated, request panel update. */

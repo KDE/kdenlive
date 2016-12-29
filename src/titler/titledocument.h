@@ -50,7 +50,7 @@ public:
     QColor getBackgroundColor() const;
     int frameWidth() const;
     int frameHeight() const;
-    /** \brief Extract embeded images in project titles folder. */
+    /** \brief Extract embedded images in project titles folder. */
     static const QString extractBase64Image(const QString &titlePath, const QString &data);
 
     enum ItemOrigin {OriginXLeft = 0, OriginYTop = 1};

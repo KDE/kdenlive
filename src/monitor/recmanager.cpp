@@ -309,7 +309,7 @@ void RecManager::slotProcessStatus(QProcess::ProcessState status)
                     if (code != 0 && code != 255) {
                         emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
                     } else {
-                        // Capture successfull, add clip to project
+                        // Capture successful, add clip to project
                         emit addClipToProject(m_captureFile);
                     }
                 }

@@ -165,7 +165,7 @@ void DvdWizard::slotPageChanged(int page)
         if (m_previousPage == 0) {
             m_pageChapters->setVobFiles(m_pageVob->dvdFormat(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
         } else {
-            // For some reason, when comming from page 2, we need to trick the monitor or it disappears
+            // For some reason, when coming from page 2, we need to trick the monitor or it disappears
             m_pageChapters->createMonitor(m_pageVob->dvdFormat());
         }
         m_previousPage = 1;

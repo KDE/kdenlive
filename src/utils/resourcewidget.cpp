@@ -453,7 +453,7 @@ void ResourceWidget::DoFileDownload(const QUrl &srcUrl, const QUrl &saveUrl)
 void ResourceWidget::slotFreesoundUseHQPreview()
 {
 
-    mSaveLocation = mSaveLocation + ".mp3"; // HQ previews are .mp3 files - so append this to file name previously choosen
+    mSaveLocation = mSaveLocation + ".mp3"; // HQ previews are .mp3 files - so append this to file name previously chosen
     if (QFile::exists(mSaveLocation)) { // check that this newly created file name file does not already exist
         int ret = QMessageBox::warning(this, i18n("File Exists"),
                                        i18n("HQ preview files are all mp3 files. We have added .mp3 as a file extension to the destination file name you chose. However, there is an existing file of this name present. \n Do you want to overwrite the existing file?. ") + "\n" + mSaveLocation,
@@ -787,7 +787,7 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
  * @brief ResourceWidget::GetSaveFileNameAndPathS
  * @param path -  starting path where dialog will open on
  * @param ext - file exension filter to have in play on the dialog
- * @return  QString of the choosen path
+ * @return  QString of the chosen path
  * Prompts user to choose a file name and path as to where to save a file.
  * Returns a QString of the path and file name or empty string if user  cancels
  */

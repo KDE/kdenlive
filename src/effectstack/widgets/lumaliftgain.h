@@ -50,7 +50,7 @@ private:
     ColorWheel *m_gain;
 
 signals:
-    /** @brief Emitted whenever a different color was choosen. */
+    /** @brief Emitted whenever a different color was chosen. */
     void valueChanged();
 };
 

@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_colorclip_ui.h"
 #include "ui_qtextclip_ui.h"
 #include "timecodedisplay.h"
-#include "bin/bincommands.h"
 #include "titler/titlewidget.h"
 #include "titletemplatedialog.h"
 #include "project/dialogs/slideshowclip.h"
@@ -448,7 +447,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
                 txtfile.close();
                 prod.setAttribute(QStringLiteral("type"), (int) Text);
-                // extract embeded images
+                // extract embedded images
                 QDomNodeList items = txtdoc.elementsByTagName(QStringLiteral("content"));
                 for (int i = 0; i < items.count(); ++i) {
                     QDomElement content = items.item(i).toElement();

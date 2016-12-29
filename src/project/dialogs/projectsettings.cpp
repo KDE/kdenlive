@@ -24,7 +24,6 @@
 #include "doc/kdenlivedoc.h"
 #include "utils/KoIconUtils.h"
 #include "titler/titlewidget.h"
-#include "utils/KoIconUtils.h"
 #include "effectslist/effectslist.h"
 #include "dialogs/profilesdialog.h"
 #include "dialogs/encodingprofilesdialog.h"

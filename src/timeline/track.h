@@ -135,7 +135,7 @@ public:
     bool cut(qreal t);
     /** @brief prepends a dash to the clip's id to prepare for replacement */
     void replaceId(const QString &id);
-    /** @brief replace all occurences of a clip in the track with another resource
+    /** @brief replace all occurrences of a clip in the track with another resource
      * @param id is the clip id
      * @param original is the original replacement clip
      * @param videoOnlyProducer is the video only (without sound) replacement clip

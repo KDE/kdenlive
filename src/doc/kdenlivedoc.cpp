@@ -437,7 +437,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
 
     // create playlists
     int total = tracks.count();
-    // The lower video track will recieve composite transitions
+    // The lower video track will receive composite transitions
     int lowestVideoTrack = -1;
     for (int i = 0; i < total; ++i) {
         QDomElement playlist = doc.createElement(QStringLiteral("playlist"));

@@ -82,11 +82,11 @@ signals:
 
     /**
      * @brief accessDenied
-     * signal emited if the freesound has denied access to the application
+     * signal emitted if the freesound has denied access to the application
      */
     void accessDenied();
     /**
-     * @brief accessTokenReceived   emited when we have obtained an access token from freesound. \n Connected to ResourceWidget::slotAccessTokenReceived
+     * @brief accessTokenReceived   emitted when we have obtained an access token from freesound. \n Connected to ResourceWidget::slotAccessTokenReceived
      * @param sAccessToken
      *
      */

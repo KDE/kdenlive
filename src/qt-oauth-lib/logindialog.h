@@ -66,12 +66,12 @@ public:
 
 signals:
     /**
-     * @brief authCodeObtained - emited when freesound gives us an Authorisation code \n
+     * @brief authCodeObtained - emitted when freesound gives us an Authorisation code \n
      * Authorisation codes last 10mins and must be exchanged for an access token in that time
      */
     void authCodeObtained();
     /**
-     * @brief accessDenied -signal emmited if freesound denies acess - eg bad password or user has denied access to Kdenlive app.
+     * @brief accessDenied -signal emmited if freesound denies access - eg bad password or user has denied access to Kdenlive app.
      */
     void accessDenied();
     /**

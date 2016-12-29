@@ -29,7 +29,6 @@
 #include <QGraphicsItem>
 
 #include <QMouseEvent>
-#include <QGraphicsItem>
 
 #include "klocalizedstring.h"
 

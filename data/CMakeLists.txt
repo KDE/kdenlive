@@ -26,7 +26,7 @@ install(FILES
   timeline_vthumbs.png
   kdenliveeffectscategory.rc
   kdenlivetranscodingrc
-# Qml are now embeded as Qt resources from /src/uiresources.qrc
+# Qml are now embedded as Qt resources from /src/uiresources.qrc
 #  kdenlivemonitor.qml
 #  kdenliveclipmonitor.qml
 #  kdenlivemonitoreffectscene.qml
