@@ -72,6 +72,7 @@ void InvalidDialog::addClip(const QString &id, const QString &path)
 QStringList InvalidDialog::getIds() const
 {
     QStringList ids;
+    ids.reserve(m_clipList->count());
     for (int i = 0; i < m_clipList->count(); ++i) {
         ids << m_clipList->item(i)->data(Qt::UserRole).toString();
     }
