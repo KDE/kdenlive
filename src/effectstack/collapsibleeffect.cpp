@@ -117,7 +117,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
         //qCDebug(KDENLIVE_LOG)<<"// Could not create effect";
         return;
     }
-    QString effectname = i18n(namenode.text().toUtf8().data());
+    QString effectname = namenode.text().isEmpty() ? QString() : i18n(namenode.text().toUtf8().data());
     if (m_regionEffect) {
         effectname.append(':' + QUrl(EffectsList::parameter(m_effect, QStringLiteral("resource"))).fileName());
     }
