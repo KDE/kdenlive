@@ -335,22 +335,22 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             //allFiles.append(clip->fileURL().path());
             switch (clip->clipType()) {
             case Text:
-                new QTreeWidgetItem(texts, QStringList() << clip->clipUrl().path());
+                new QTreeWidgetItem(texts, QStringList() << clip->clipUrl().toLocalFile());
                 break;
             case Audio:
-                new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl().path());
+                new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl().toLocalFile());
                 break;
             case Image:
-                new QTreeWidgetItem(images, QStringList() << clip->clipUrl().path());
+                new QTreeWidgetItem(images, QStringList() << clip->clipUrl().toLocalFile());
                 break;
             case Playlist:
-                new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl().path());
+                new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl().toLocalFile());
                 break;
             case Unknown:
-                new QTreeWidgetItem(others, QStringList() << clip->clipUrl().path());
+                new QTreeWidgetItem(others, QStringList() << clip->clipUrl().toLocalFile());
                 break;
             default:
-                new QTreeWidgetItem(videos, QStringList() << clip->clipUrl().path());
+                new QTreeWidgetItem(videos, QStringList() << clip->clipUrl().toLocalFile());
                 break;
             }
             count++;
@@ -364,7 +364,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             }
             allFonts << fonts;
         } else if (clip->clipType() == Playlist) {
-            QStringList files = extractPlaylistUrls(clip->clipUrl().path());
+            QStringList files = extractPlaylistUrls(clip->clipUrl().toLocalFile());
             foreach(const QString & file, files) {
                 count++;
                 new QTreeWidgetItem(others, QStringList() << file);
@@ -551,10 +551,10 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
 QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
 {
     QStringList urls;
-    QString path = url.adjusted(QUrl::RemoveFilename).path();
-    QString ext = url.path().section('.', -1);
+    QString path = url.adjusted(QUrl::RemoveFilename).toLocalFile();
+    QString ext = url.toLocalFile().section('.', -1);
     QDir dir(path);
-    if (url.path().contains(QStringLiteral(".all."))) {
+    if (url.toLocalFile().contains(QStringLiteral(".all."))) {
         // this is a mime slideshow, like *.jpeg
         QStringList filters;
         filters << "*." + ext;
@@ -573,17 +573,17 @@ QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
         foreach(const QString & path, result) {
             if (rx.exactMatch(path)) count++;
         }
-        urls.append(url.path() + " (" + i18np("1 image found", "%1 images found", count) + ')');
+        urls.append(url.toLocalFile() + " (" + i18np("1 image found", "%1 images found", count) + ')');
     }
     return urls;
 }
 
 void ProjectSettings::slotExportToText()
 {
-    const QString savePath = QFileDialog::getSaveFileName(this, QString(), project_folder->url().path(), QStringLiteral("text/plain"));
+    const QString savePath = QFileDialog::getSaveFileName(this, QString(), project_folder->url().toLocalFile(), QStringLiteral("text/plain"));
     if (savePath.isEmpty()) return;
     QString data;
-    data.append(i18n("Project folder: %1",  project_folder->url().path()) + '\n');
+    data.append(i18n("Project folder: %1",  project_folder->url().toLocalFile()) + '\n');
     data.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + '\n');
     data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
@@ -739,7 +739,7 @@ void ProjectSettings::loadPreviewProfiles()
 const QString ProjectSettings::storageFolder() const
 {
     if (custom_folder->isChecked()) {
-        return project_folder->url().path();
+        return project_folder->url().toLocalFile();
     }
     return QString();
 }
