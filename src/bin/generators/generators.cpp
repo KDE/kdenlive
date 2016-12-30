@@ -176,9 +176,9 @@ QUrl Generators::getSavedClip(QString clipFolder)
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
     // Since Plasma 5.7 (release at same time as KF 5.23, 
     // the file dialog manages the overwrite check
-        if (QFile::exists(url.path())) {
+        if (QFile::exists(url.toLocalFile())) {
             if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
-                return getSavedClip(url.path());
+                return getSavedClip(url.toLocalFile());
             }
         }
 #endif
@@ -186,7 +186,7 @@ QUrl Generators::getSavedClip(QString clipFolder)
         m_producer->set("length", m_timePos->getValue());
         m_producer->set_in_and_out(0, m_timePos->getValue() - 1);
         trac.set_track(*m_producer, 0);
-        Mlt::Consumer c(*m_producer->profile(), "xml", url.path().toUtf8().constData());
+        Mlt::Consumer c(*m_producer->profile(), "xml", url.toLocalFile().toUtf8().constData());
         c.connect(trac);
         c.run();
         return url;
