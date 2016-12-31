@@ -331,7 +331,7 @@ bool ProjectManager::hasSelection() const
 bool ProjectManager::saveFileAs()
 {
     QFileDialog fd(pCore->window());
-    fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).path() : KdenliveSettings::defaultprojectfolder());
+    fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).toLocalFile() : KdenliveSettings::defaultprojectfolder());
     fd.setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlive"));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
@@ -372,7 +372,7 @@ bool ProjectManager::saveFile()
     if (m_project->url().isEmpty()) {
         return saveFileAs();
     } else {
-        bool result = saveFileAs(m_project->url().path());
+        bool result = saveFileAs(m_project->url().toLocalFile());
         m_project->m_autosave->resize(0);
         return result;
     }
@@ -389,7 +389,7 @@ void ProjectManager::openFile()
     if (!url.isValid()) {
         return;
     }
-    KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), url.adjusted(QUrl::RemoveFilename).path());
+    KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), url.adjusted(QUrl::RemoveFilename).toLocalFile());
     m_recentFilesAction->addUrl(url);
     saveRecentFiles();
     openFile(url);
@@ -475,7 +475,7 @@ void ProjectManager::openFile(const QUrl &url)
 
     /*if (!url.fileName().endsWith(".kdenlive")) {
         // This is not a Kdenlive project file, abort loading
-        KMessageBox::sorry(pCore->window(), i18n("File %1 is not a Kdenlive project file", url.path()));
+        KMessageBox::sorry(pCore->window(), i18n("File %1 is not a Kdenlive project file", url.toLocalFile()));
         if (m_startUrl.isValid()) {
             // we tried to open an invalid file from command line, init new project
             newFile(false);
@@ -494,7 +494,7 @@ void ProjectManager::openFile(const QUrl &url)
     if (checkForBackupFile(url)) {
         return;
     }
-    pCore->window()->slotGotProgressInfo(i18n("Opening file %1", url.path()), 100, InformationMessage);
+    pCore->window()->slotGotProgressInfo(i18n("Opening file %1", url.toLocalFile()), 100, InformationMessage);
     doOpenFile(url, Q_NULLPTR);
 }
 
@@ -572,7 +572,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), m_project->description()));
     if (!ok) {
         pCore->window()->m_timelineArea->setEnabled(false);
-        KMessageBox::sorry(pCore->window(), i18n("Cannot open file %1.\nProject is corrupted.", url.path()));
+        KMessageBox::sorry(pCore->window(), i18n("Cannot open file %1.\nProject is corrupted.", url.toLocalFile()));
         pCore->window()->slotGotProgressInfo(QString(), 100);
         newFile(false, true);
         return;
@@ -633,7 +633,7 @@ void ProjectManager::slotOpenBackup(const QUrl &url)
     QPointer<BackupWidget> dia = new BackupWidget(projectFile, projectFolder, projectId, pCore->window());
     if (dia->exec() == QDialog::Accepted) {
         QString requestedBackup = dia->selectedFile();
-        m_project->backupLastSavedVersion(projectFile.path());
+        m_project->backupLastSavedVersion(projectFile.toLocalFile());
         closeCurrentDocument(false);
         doOpenFile(QUrl::fromLocalFile(requestedBackup), Q_NULLPTR);
         if (m_project) {
@@ -804,7 +804,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
     if (job->error() == 0) {
         pCore->window()->slotGotProgressInfo(QString(), 100, InformationMessage);
         KIO::CopyJob *copyJob = static_cast<KIO::CopyJob *>(job);
-        QString newFolder = copyJob->destUrl().path();
+        QString newFolder = copyJob->destUrl().toLocalFile();
         // Check if project folder is inside document folder, in which case, paths will be relative
         QDir projectDir(m_project->url().toString(QUrl::RemoveFilename | QUrl::RemoveScheme));
         QDir srcDir(m_project->projectTempFolder());

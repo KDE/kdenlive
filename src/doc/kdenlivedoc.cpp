@@ -373,7 +373,6 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     // Creating new document
     QDomDocument doc;
     QDomElement mlt = doc.createElement(QStringLiteral("mlt"));
-    mlt.setAttribute(QStringLiteral("LC_NUMERIC"), QString());
     doc.appendChild(mlt);
 
     QDomElement blk = doc.createElement(QStringLiteral("producer"));
