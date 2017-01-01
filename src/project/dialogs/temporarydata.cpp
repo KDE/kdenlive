@@ -497,6 +497,7 @@ void TemporaryData::updateGlobalInfo()
     m_globalDirectories.clear();
     m_processingDirectory.clear();
     m_globalDirectories = m_globalDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    m_globalDelete->setEnabled(!m_globalDirectories.isEmpty());
     processglobalDirectories();
     m_listWidget->blockSignals(false);
 }
