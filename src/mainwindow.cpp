@@ -235,7 +235,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     m_timelineArea = new QTabWidget(this);
     //m_timelineArea->setTabReorderingEnabled(true);
     m_timelineArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    m_timelineArea->setMinimumHeight(200);
+    m_timelineArea->setMinimumHeight(100);
     // Hide tabbar
     QTabBar *bar = m_timelineArea->findChild<QTabBar *>();
     bar->setHidden(true);
@@ -1719,7 +1719,7 @@ void MainWindow::slotEditProjectSettings()
                 // Proceeed with move
                 QString documentId = QDir::cleanPath(project->getDocumentProperty(QStringLiteral("documentid")));
                 bool ok;
-                documentId.toLong(&ok);
+                documentId.toLongLong(&ok, 10);
                 if (!ok || documentId.isEmpty()) {
                     KMessageBox::sorry(this, i18n("Cannot perform operation, invalid document id: %1", documentId));
                 } else {
