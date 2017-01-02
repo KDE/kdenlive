@@ -1751,12 +1751,14 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
                 // Split scene is already active
                 return;
             }
-            m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
+            m_splitEffect = new Mlt::Filter(*profile(), "frei0r.alphagrad");
             if (m_splitEffect && m_splitEffect->is_valid()) {
                 m_splitEffect->set("0", 0.5); // 0 is the Clip left parameter
+                m_splitEffect->set("1", 0); // 1 is gradient width
+                m_splitEffect->set("2", -0.747); // 2 is tilt
             } else {
                 // frei0r.scal0tilt is not available
-                warningMessage(i18n("The scal0tilt filter is required for that feature, please install frei0r and restart Kdenlive"));
+                warningMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"));
                 return;
             }
             emit createSplitOverlay(m_splitEffect);
@@ -1800,12 +1802,14 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
 
 void Monitor::buildSplitEffect(Mlt::Producer *original, int pos)
 {
-    m_splitEffect = new Mlt::Filter(*profile(), "frei0r.scale0tilt");
+    m_splitEffect = new Mlt::Filter(*profile(), "frei0r.alphagrad");
     if (m_splitEffect && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5); // 0 is the Clip left parameter
+        m_splitEffect->set("1", 0); // 1 is gradient width
+        m_splitEffect->set("2", -0.747); // 2 is tilt        
     } else {
         // frei0r.scal0tilt is not available
-        warningMessage(i18n("The scal0tilt filter is required for that feature, please install frei0r and restart Kdenlive"));
+        warningMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"));
         return;
     }
     QString splitTransition = TransitionHandler::compositeTransition();
@@ -1942,7 +1946,7 @@ void Monitor::slotAdjustEffectCompare()
     if (m_qmlManager->sceneType() == MonitorSceneSplit) {
         // Adjust splitter pos
         QQuickItem *root = m_glMonitor->rootObject();
-        percent = (root->property("splitterPos").toInt() - r.left()) / (double) r.width();
+        percent = 0.5 - ((root->property("splitterPos").toInt() - r.left() - r.width() / 2.0) / (double) r.width() / 2.0) / 0.75;
         // Store real frame percentage for resize events
         root->setProperty("realpercent", percent);
     }
