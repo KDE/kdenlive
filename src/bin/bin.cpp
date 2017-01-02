@@ -794,6 +794,7 @@ void Bin::slotDeleteClip()
     ProjectSubClip *sub;
     QString subId;
     QPoint zone;
+    bool usedFolder = false;
     // check folders, remove child folders if there is any
     QList <ProjectFolder*> topFolders;
     foreach (const QModelIndex &ix, indexes) {
@@ -810,6 +811,9 @@ void Bin::slotDeleteClip()
 	}
         if (item->itemType() != AbstractProjectItem::FolderItem) continue;
 	ProjectFolder *current = static_cast<ProjectFolder*>(item);
+        if (!usedFolder && !current->isEmpty()) {
+            usedFolder = true;
+        }
 	if (topFolders.isEmpty()) {
 	    topFolders << current;
 	    continue;
@@ -842,7 +846,7 @@ void Bin::slotDeleteClip()
     foreach (const ProjectFolder *f, topFolders) {
 	foldersIds << f->clipId();
     }
-    
+    bool usedClips = false;
     QList <ProjectFolder*> topClips;
     // Check if clips are in already selected folders
     foreach (const QModelIndex &ix, indexes) {
@@ -857,7 +861,18 @@ void Bin::slotDeleteClip()
 		  break;
 	    }
 	}
-	if (!isChild) clipIds << current->clipId();
+	if (!isChild) {
+            if (!usedClips && current->refCount() > 0) {
+                usedClips = true;
+                
+            }
+            clipIds << current->clipId();
+        }
+    }
+    if (usedClips && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from timeline")) != KMessageBox::Continue)) {
+        return;
+    } else if (usedFolder && (KMessageBox::warningContinueCancel(this, i18n("This will delete all folder content")) != KMessageBox::Continue)) {
+        return;
     }
     m_doc->clipManager()->deleteProjectItems(clipIds, foldersIds, subClipIds);
 }
