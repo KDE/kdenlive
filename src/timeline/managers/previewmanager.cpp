@@ -60,7 +60,7 @@ bool PreviewManager::initialize()
     // Make sure our document id does not contain .. tricks
     bool ok;
     QString documentId = QDir::cleanPath(m_doc->getDocumentProperty(QStringLiteral("documentid")));
-    documentId.toLong(&ok);
+    documentId.toLongLong(&ok, 10);
     if (!ok || documentId.isEmpty()) {
         // Something is wrong, documentId should be a number (ms since epoch), abort
         m_doc->displayMessage(i18n("Wrong document ID, cannot create temporary folder"), ErrorMessage);
