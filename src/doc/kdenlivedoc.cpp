@@ -296,7 +296,7 @@ KdenliveDoc::~KdenliveDoc()
         // Document was never saved, delete cache folder
         QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
         bool ok;
-        documentId.toLong(&ok);
+        documentId.toLongLong(&ok, 10);
         if (ok && !documentId.isEmpty()) {
             QDir baseCache = getCacheDir(CacheBase, &ok);
             if (baseCache.dirName() == documentId && baseCache.entryList(QDir::Files).count() == 0) {
@@ -1667,7 +1667,7 @@ void KdenliveDoc::initCacheDirs()
     bool ok = false;
     QString kdenliveCacheDir;
     QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
-    documentId.toLong(&ok);
+    documentId.toLongLong(&ok, 10);
     if (m_projectFolder.isEmpty()) {
         kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
     } else {
@@ -1691,7 +1691,7 @@ QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
     QString basePath;
     QString kdenliveCacheDir;
     QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
-    documentId.toLong(ok);
+    documentId.toLongLong(ok, 10);
     if (m_projectFolder.isEmpty()) {
         kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
         if (!*ok || documentId.isEmpty() || kdenliveCacheDir.isEmpty()) {
