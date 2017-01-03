@@ -74,7 +74,7 @@ bool DocumentChecker::hasErrorInClips()
         if (!dir.exists()) {
             // Looks like project was moved, try recovering root from current project url
             m_rootReplacement.first = root;
-            root = m_url.adjusted(QUrl::RemoveFilename).path();
+            root = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
             baseElement.setAttribute(QStringLiteral("root"), root);
             m_rootReplacement.second = root;
         }
@@ -96,8 +96,8 @@ bool DocumentChecker::hasErrorInClips()
             if (!storageFolder.isEmpty() && QFileInfo(storageFolder).isRelative()) {
                 storageFolder.prepend(root);
             }
-            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && QFile::exists(m_url.adjusted(QUrl::RemoveFilename).path() + QStringLiteral("/") + documentid)) {
-                storageFolder = m_url.adjusted(QUrl::RemoveFilename).path();
+            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && QFile::exists(m_url.adjusted(QUrl::RemoveFilename).toLocalFile() + QStringLiteral("/") + documentid)) {
+                storageFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
                 EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"), storageFolder + QStringLiteral("/") + documentid);
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
             }
@@ -197,7 +197,7 @@ bool DocumentChecker::hasErrorInClips()
         // Check for slideshows
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
         if ((service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) && slideshow) {
-            resource = QUrl::fromLocalFile(resource).adjusted(QUrl::RemoveFilename).path();
+            resource = QUrl::fromLocalFile(resource).adjusted(QUrl::RemoveFilename).toLocalFile();
         }
         if (!QFile::exists(resource)) {
             // Missing clip found
@@ -231,7 +231,7 @@ bool DocumentChecker::hasErrorInClips()
     // Check existence of luma files
     foreach (const QString &lumafile, filesToCheck) {
         filePath = lumafile;
-        if (!filePath.startsWith('/')) {
+        if (QFileInfo(filePath).isRelative()) {
             filePath.prepend(root);
         }
         if (!QFile::exists(filePath)) {
@@ -532,7 +532,7 @@ void DocumentChecker::setProperty(const QDomElement &effect, const QString &name
 void DocumentChecker::slotSearchClips()
 {
     //QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).path();
+    QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
     QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), clipFolder);
     if (newpath.isEmpty()) {
         return;
@@ -724,13 +724,13 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     if (!url.isValid()) {
         return;
     }
-    item->setText(1, url.path());
+    item->setText(1, url.toLocalFile());
     ClipType type = (ClipType) item->data(0, clipTypeRole).toInt();
     bool fixed = false;
-    if (type == SlideShow && QFile::exists(url.adjusted(QUrl::RemoveFilename).path())) {
+    if (type == SlideShow && QFile::exists(url.adjusted(QUrl::RemoveFilename).toLocalFile())) {
         fixed = true;
     }
-    if (fixed || QFile::exists(url.path())) {
+    if (fixed || QFile::exists(url.toLocalFile())) {
         item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-ok")));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) {
