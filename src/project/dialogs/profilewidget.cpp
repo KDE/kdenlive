@@ -352,8 +352,12 @@ void ProfileWidget::checkInterlace(QList <MltVideoProfile> currentStd, const QSt
         else
             allowInterlaced = true;
     }
-    m_interlaced->setChecked(!m_currentProfile.progressive);
     m_interlaced->setEnabled(allowInterlaced && allowProgressive);
+    if (m_interlaced->isEnabled()) {
+        m_interlaced->setChecked(!m_currentProfile.progressive);
+    } else {
+        m_interlaced->setChecked(allowInterlaced);
+    }
 }
 
 ProfileWidget::VIDEOSTD ProfileWidget::getStandard(MltVideoProfile profile)
