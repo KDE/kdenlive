@@ -519,7 +519,9 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
                 url = url.section('?', 0, 0);
             }
             if (!url.isEmpty()) {
-                if (!url.startsWith('/')) url.prepend(root);
+                if (QFileInfo(url).isRelative()) {
+                    url.prepend(root);
+                }
                 if (url.section('.', 0, -2).endsWith(QLatin1String("/.all"))) {
                     // slideshow clip, extract image urls
                     urls << extractSlideshowUrls(QUrl(url));
@@ -538,7 +540,9 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
         QDomElement e = files.at(i).toElement();
         QString url = EffectsList::property(e, QStringLiteral("resource"));
         if (!url.isEmpty()) {
-            if (!url.startsWith('/')) url.prepend(root);
+            if (QFileInfo(url).isRelative()) {
+                url.prepend(root);
+            }
             urls << url;
         }
     }
