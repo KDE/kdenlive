@@ -1540,12 +1540,14 @@ void KdenliveDoc::slotSwitchProfile()
         return;
     }
     QVariantList data = action->data().toList();
-    //QString id = data.takeFirst().toString();
     if (!data.isEmpty()) {
         // we want a profile switch
-        m_profile = MltVideoProfile(data);
-        updateProjectProfile(true);
-        emit docModified(true);
+        MltVideoProfile profile = MltVideoProfile(data);
+        if (profile.isValid()) {
+            m_profile = profile;
+            updateProjectProfile(true);
+            emit docModified(true);
+        }
     }
 }
 
@@ -1592,12 +1594,9 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch"), this);
         QVariantList params;
         connect(ac, &QAction::triggered, this, &KdenliveDoc::slotSwitchProfile);
-        params << id << profile.toList();
+        params << profile.toList();
         ac->setData(params);
         QAction *ac2 = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
-        QVariantList params2;
-        params2 << id;
-        ac2->setData(params2);
         connect(ac2, &QAction::triggered, this, &KdenliveDoc::slotSwitchProfile);
         list << ac << ac2;
         pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile.descriptiveString()), KMessageWidget::Information, list);
