@@ -173,12 +173,17 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
     // GTK theme does not work well with Kdenlive, and does not support color theming, so avoid it
     QStringList availableStyles = QStyleFactory::keys();
     QString desktopStyle = QApplication::style()->objectName();
-    if (QString::compare(desktopStyle, QLatin1String("GTK+"), Qt::CaseInsensitive) == 0 && KdenliveSettings::widgetstyle().isEmpty()) {
-        if (availableStyles.contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
-            // Auto switch to Breeze theme
-            KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
-        } else if (availableStyles.contains(QStringLiteral("fusion"), Qt::CaseInsensitive)) {
-            KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
+    if (KdenliveSettings::widgetstyle().isEmpty()) {
+        // First run
+        QStringList incompatibleStyles;
+        incompatibleStyles << QStringLiteral("GTK+") << QStringLiteral("windowsvista") << QStringLiteral("windowsxp");
+        if (incompatibleStyles.contains(desktopStyle, Qt::CaseInsensitive)) {
+            if (availableStyles.contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
+                // Auto switch to Breeze theme
+                KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
+            } else if (availableStyles.contains(QStringLiteral("fusion"), Qt::CaseInsensitive)) {
+                KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
+            }
         }
     }
 
@@ -231,7 +236,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
     m_timelineArea = new QTabWidget(this);
     //m_timelineArea->setTabReorderingEnabled(true);
     m_timelineArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    m_timelineArea->setMinimumHeight(200);
+    m_timelineArea->setMinimumHeight(100);
     // Hide tabbar
     QTabBar *bar = m_timelineArea->findChild<QTabBar *>();
     bar->setHidden(true);

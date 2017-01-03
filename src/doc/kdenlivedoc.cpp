@@ -220,8 +220,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                 success = validator.isProject();
                 if (!success) {
                     // It is not a project file
-                    parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file", m_url.path()), 100);
-                    if (KMessageBox::warningContinueCancel(parent, i18n("File %1 is not a valid project file.\nDo you want to open a backup file?", m_url.path()), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
+                    parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file", m_url.toLocalFile()), 100);
+                    if (KMessageBox::warningContinueCancel(parent, i18n("File %1 is not a valid project file.\nDo you want to open a backup file?", m_url.toLocalFile()), i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
                         *openBackup = true;
                     }
                 } else {
@@ -564,7 +564,7 @@ void KdenliveDoc::slotAutoSave()
             qCDebug(KDENLIVE_LOG) << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         //qCDebug(KDENLIVE_LOG) << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        QDomDocument sceneList = xmlSceneList(m_render->sceneList(m_url.adjusted(QUrl::RemoveFilename).path()));
+        QDomDocument sceneList = xmlSceneList(m_render->sceneList(m_url.adjusted(QUrl::RemoveFilename).toLocalFile()));
         if (sceneList.isNull()) {
             //Make sure we don't save if scenelist is corrupted
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", m_autosave->fileName()));
@@ -754,7 +754,7 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
     }
     dir.mkdir(QStringLiteral("titles"));
     /*if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2?", m_projectFolder, url.path())) == KMessageBox::Yes) moveProjectData(url);*/
-    m_projectFolder = url.path();
+    m_projectFolder = url.toLocalFile();
 
     updateProjectFolderPlacesEntry();
 }
@@ -773,7 +773,7 @@ void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
                 QUrl newUrl = QUrl::fromLocalFile(dest + QStringLiteral("/titles/") + oldUrl.fileName());
                 KIO::Job *job = KIO::copy(oldUrl, newUrl);
                 if (job->exec()) {
-                    clip->setProperty(QStringLiteral("resource"), newUrl.path());
+                    clip->setProperty(QStringLiteral("resource"), newUrl.toLocalFile());
                 }
             }
             continue;
