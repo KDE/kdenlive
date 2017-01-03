@@ -178,12 +178,17 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     // GTK theme does not work well with Kdenlive, and does not support color theming, so avoid it
     QStringList availableStyles = QStyleFactory::keys();
     QString desktopStyle = QApplication::style()->objectName();
-    if (QString::compare(desktopStyle, QLatin1String("GTK+"), Qt::CaseInsensitive) == 0 && KdenliveSettings::widgetstyle().isEmpty()) {
-        if (availableStyles.contains(QLatin1String("breeze"), Qt::CaseInsensitive)) {
-            // Auto switch to Breeze theme
-            KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
-        } else if (availableStyles.contains(QLatin1String("fusion"), Qt::CaseInsensitive)) {
-            KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
+    if (KdenliveSettings::widgetstyle().isEmpty()) {
+        // First run
+        QStringList incompatibleStyles;
+        incompatibleStyles << QStringLiteral("GTK+") << QStringLiteral("windowsvista") << QStringLiteral("windowsxp");
+        if (incompatibleStyles.contains(desktopStyle, Qt::CaseInsensitive)) {
+            if (availableStyles.contains(QLatin1String("breeze"), Qt::CaseInsensitive)) {
+                // Auto switch to Breeze theme
+                KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
+            } else if (availableStyles.contains(QLatin1String("fusion"), Qt::CaseInsensitive)) {
+                KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
+            }
         }
     }
 
