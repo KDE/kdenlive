@@ -135,7 +135,7 @@ const QString MltVideoProfile::descriptiveString()
 {
     QString data = description;
     if (!data.isEmpty()) {
-        data.append(QStringLiteral(" "));
+        data.append(QLatin1Char(' '));
     }
     QString fps;
     if (frame_rate_num % frame_rate_den == 0) {

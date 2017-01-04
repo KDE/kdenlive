@@ -193,7 +193,7 @@ void CutClipJob::analyseLogInfo()
     int pos = log.indexOf(QStringLiteral("coded_picture_number"), 0);
     if (pos > -1) {
         log.remove(0, pos);
-        int frame = log.section(QStringLiteral(","), 0, 0).section(QStringLiteral(":"), 1).toInt();
+        int frame = log.section(QLatin1Char(','), 0, 0).section(QLatin1Char(':'), 1).toInt();
         if (frame > 0 && m_jobDuration > 0) {
             emit jobProgress(m_clipId, (int)(100.0 * frame / m_jobDuration), jobType);
         }

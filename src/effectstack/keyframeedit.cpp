@@ -139,7 +139,7 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
     } else {
         // Transitions take keyframes from the value param
         QString framesValue = e.attribute(QStringLiteral("value"));
-        if (!framesValue.contains(QStringLiteral("="))) {
+        if (!framesValue.contains(QLatin1Char('='))) {
             framesValue.prepend(QStringLiteral("0="));
         }
         frames = framesValue.split(';', QString::SkipEmptyParts);

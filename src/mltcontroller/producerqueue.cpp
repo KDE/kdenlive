@@ -574,7 +574,7 @@ void ProducerQueue::processFileProperties()
         if (mltService == QLatin1String("xml") || mltService == QLatin1String("consumer")) {
             // MLT playlist, create producer with blank profile to get real profile info
             if (path.startsWith(QLatin1String("consumer:"))) {
-                path = "xml:" + path.section(QStringLiteral(":"), 1);
+                path = "xml:" + path.section(QLatin1Char(':'), 1);
             }
             Mlt::Profile original_profile;
             Mlt::Producer *tmpProd = new Mlt::Producer(original_profile, 0, path.toUtf8().constData());
@@ -842,7 +842,7 @@ void ProducerQueue::abortOperations()
 ClipType ProducerQueue::getTypeForService(const QString &id, const QString &path) const
 {
     if (id.isEmpty()) {
-        QString ext = path.section(QStringLiteral("."), -1);
+        QString ext = path.section(QLatin1Char('.'), -1);
         if (ext == QLatin1String("mlt") || ext == QLatin1String("kdenlive")) {
             return Playlist;
         }

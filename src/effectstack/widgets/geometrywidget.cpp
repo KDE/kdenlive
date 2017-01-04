@@ -308,7 +308,7 @@ QString GeometryWidget::getValue() const
         return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
     }
     QString result = m_geometry->serialise();
-    if (result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"), 0, 0).contains(QStringLiteral("="))) {
+    if (result.contains(QLatin1Char(';')) && !result.section(QLatin1Char(';'), 0, 0).contains(QLatin1Char('='))) {
         result.prepend("0=");
     }
     return result;
@@ -328,7 +328,7 @@ QString GeometryWidget::offsetAnimation(int offset, bool useOffset)
     }
     m_useOffset = useOffset;
     QString result = geometry->serialise();
-    if (!m_fixedGeom && result.contains(QStringLiteral(";")) && !result.section(QStringLiteral(";"), 0, 0).contains(QStringLiteral("="))) {
+    if (!m_fixedGeom && result.contains(QLatin1Char(';')) && !result.section(QLatin1Char(';'), 0, 0).contains(QLatin1Char('='))) {
         result.prepend("0=");
     }
     m_geometry->parse(result.toUtf8().data(), m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
@@ -356,7 +356,7 @@ QString GeometryWidget::getExtraValue(const QString &name) const
 {
     int ix = m_extraGeometryNames.indexOf(name);
     QString val = m_extraGeometries.at(ix)->serialise();
-    if (!val.contains(QStringLiteral("="))) {
+    if (!val.contains(QLatin1Char('='))) {
         val = val.section('/', 0, 0);
     } else {
         QStringList list = val.split(';', QString::SkipEmptyParts);

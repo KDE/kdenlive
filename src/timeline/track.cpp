@@ -324,7 +324,7 @@ QList<Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
 	current.remove(0, 1);
 	if (current.startsWith("slowmotion:" + id + ":")) {
             Track::SlowmoInfo info;
-            info.readFromString(current.section(QStringLiteral(":"), 2), locale);
+            info.readFromString(current.section(QLatin1Char(':'), 2), locale);
             list << info;
         }
     }
@@ -373,7 +373,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
         Mlt::Producer *cut = Q_NULLPTR;
 	if (current.startsWith("slowmotion:" + id + ":")) {
 	      // Slowmotion producer, just update resource
-	      Mlt::Producer *slowProd = newSlowMos.value(current.section(QStringLiteral(":"), 2));
+          Mlt::Producer *slowProd = newSlowMos.value(current.section(QLatin1Char(':'), 2));
 	      if (!slowProd || !slowProd->is_valid()) {
 		    qCDebug(KDENLIVE_LOG)<<"/// WARNING, couldn't find replacement slowmo for "<<id;
 		    continue;
@@ -483,7 +483,7 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
 	Mlt::Producer origin = p->parent();
         QString current = origin.get("id");
 	if (current.startsWith(QLatin1String("slowmotion:"))) {
-            if (current.section(QStringLiteral(":"), 1, 1) == id) {
+            if (current.section(QLatin1Char(':'), 1, 1) == id) {
 		Clip(origin).replaceEffects(*original);
             }
 	}

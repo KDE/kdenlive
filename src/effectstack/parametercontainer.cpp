@@ -280,7 +280,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     lsval->list->addItem(i18n("None (Dissolve)"));
                     for (int i = 0; i < listitems.count(); ++i) {
                         QString entry = listitems.at(i);
-                        lsval->list->addItem(listitems.at(i).section(QStringLiteral("/"), -1), entry);
+                        lsval->list->addItem(listitems.at(i).section(QLatin1Char('/'), -1), entry);
                         if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
                             if (!MainWindow::m_lumacache.contains(entry)) {
                                 QImage pix(entry);

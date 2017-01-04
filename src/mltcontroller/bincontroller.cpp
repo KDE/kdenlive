@@ -149,8 +149,8 @@ void BinController::initializeBin(Mlt::Playlist playlist)
                 // fix MLT somehow adding root to color producer's resource (report upstream)
                 if (strcmp(producer->parent().get("mlt_service"), "color") == 0) {
                     QString color = producer->parent().get("resource");
-                    if (color.contains(QStringLiteral("/"))) {
-                        color = color.section(QStringLiteral("/"), -1, -1);
+                    if (color.contains(QLatin1Char('/'))) {
+                        color = color.section(QLatin1Char('/'), -1, -1);
                         producer->parent().set("resource", color.toUtf8().constData());
                     }
                 }
@@ -165,12 +165,12 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     QMap<QString, QString> markersData;
     for (int i = 0; i < markerProperties.count(); i++) {
         QString markerId = markerProperties.get_name(i);
-        QString controllerId = markerId.section(QStringLiteral(":"), 0, 0);
+        QString controllerId = markerId.section(QLatin1Char(':'), 0, 0);
         ClipController *ctrl = m_clipList.value(controllerId);
         if (!ctrl) {
             continue;
         }
-        ctrl->loadSnapMarker(markerId.section(QStringLiteral(":"), 1), markerProperties.get(i));
+        ctrl->loadSnapMarker(markerId.section(QLatin1Char(':'), 1), markerProperties.get(i));
     }
 }
 

@@ -2000,8 +2000,8 @@ void Timeline::updatePreviewSettings(const QString &profile)
     if (profile.isEmpty()) {
         return;
     }
-    QString params = profile.section(QStringLiteral(";"), 0, 0);
-    QString ext = profile.section(QStringLiteral(";"), 1, 1);
+    QString params = profile.section(QLatin1Char(';'), 0, 0);
+    QString ext = profile.section(QLatin1Char(';'), 1, 1);
     if (params != m_doc->getDocumentProperty(QStringLiteral("previewparameters")) || ext != m_doc->getDocumentProperty(QStringLiteral("previewextension"))) {
         // Timeline preview params changed, delete all existing previews.
         invalidateRange(ItemInfo());

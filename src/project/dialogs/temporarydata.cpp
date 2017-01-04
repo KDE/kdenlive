@@ -191,7 +191,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_currentPage->setLayout(m_grid);
     m_proxies = m_doc->getProxyHashList();
     for (int i = 0; i < m_proxies.count(); i++) {
-        m_proxies[i].append(QStringLiteral("*"));
+        m_proxies[i].append(QLatin1Char('*'));
     }
 
     if (currentProjectOnly) {

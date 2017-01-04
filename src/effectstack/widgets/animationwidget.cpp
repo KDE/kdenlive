@@ -233,7 +233,7 @@ QString AnimationWidget::getDefaultKeyframes(int start, const QString &defaultVa
 {
     QString keyframes = QString::number(start);
     if (linearOnly) {
-        keyframes.append(QStringLiteral("="));
+        keyframes.append(QLatin1Char('='));
     } else {
         switch (KdenliveSettings::defaultkeyframeinterp()) {
         case mlt_keyframe_discrete:
@@ -243,7 +243,7 @@ QString AnimationWidget::getDefaultKeyframes(int start, const QString &defaultVa
             keyframes.append(QStringLiteral("~="));
             break;
         default:
-            keyframes.append(QStringLiteral("="));
+            keyframes.append(QLatin1Char('='));
             break;
         }
     }

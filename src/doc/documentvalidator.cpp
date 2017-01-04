@@ -1130,7 +1130,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
             if (entryId.startsWith(QLatin1String("slowmotion:"))) {
                 // Check broken slowmotion producers (they should not be track aware)
-                QString newId = "slowmotion:" + entryId.section(QStringLiteral(":"), 1, 1).section(QLatin1Char('_'), 0, 0) + ":" + entryId.section(QStringLiteral(":"), 2);
+                QString newId = "slowmotion:" + entryId.section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0) + ":" + entryId.section(QLatin1Char(':'), 2);
                 trackRenaming.insert(entryId, newId);
                 entry.setAttribute(QStringLiteral("producer"), newId);
                 continue;
@@ -1175,7 +1175,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
             if (id.startsWith(QLatin1String("slowmotion"))) {
                 // No need to process slowmotion producers
-                QString slowmo = id.section(QStringLiteral(":"), 1, 1).section(QLatin1Char('_'), 0, 0);
+                QString slowmo = id.section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0);
                 if (!slowmotionIds.contains(slowmo)) {
                     slowmotionIds << slowmo;
                 }
@@ -1554,9 +1554,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     slowmoIds << id;
                     EffectsList::setProperty(prod, QStringLiteral("mlt_service"), QStringLiteral("timewarp"));
                     QString resource = EffectsList::property(prod, QStringLiteral("resource"));
-                    EffectsList::setProperty(prod, QStringLiteral("warp_resource"), resource.section(QStringLiteral("?"), 0, 0));
-                    EffectsList::setProperty(prod, QStringLiteral("warp_speed"), resource.section(QStringLiteral("?"), 1).section(QStringLiteral(":"), 0, 0));
-                    EffectsList::setProperty(prod, QStringLiteral("resource"), resource.section(QStringLiteral("?"), 1) + ":" + resource.section(QStringLiteral("?"), 0, 0));
+                    EffectsList::setProperty(prod, QStringLiteral("warp_resource"), resource.section(QLatin1Char('?'), 0, 0));
+                    EffectsList::setProperty(prod, QStringLiteral("warp_speed"), resource.section(QLatin1Char('?'), 1).section(QLatin1Char(':'), 0, 0));
+                    EffectsList::setProperty(prod, QStringLiteral("resource"), resource.section(QLatin1Char('?'), 1) + ":" + resource.section(QLatin1Char('?'), 0, 0));
                     EffectsList::setProperty(prod, QStringLiteral("audio_index"), QStringLiteral("-1"));
                 }
             }
@@ -1634,11 +1634,11 @@ void DocumentValidator::updateProducerInfo(const QDomElement &prod, const QDomEl
         QStringList zoneList = zoneData.split(QLatin1Char(';'));
         int ct = 1;
         foreach (const QString &data, zoneList) {
-            QString zoneName = data.section(QStringLiteral("-"), 2);
+            QString zoneName = data.section(QLatin1Char('-'), 2);
             if (zoneName.isEmpty()) {
                 zoneName = i18n("Zone %1", ct++);
             }
-            EffectsList::setProperty(prod, "kdenlive:clipzone." + zoneName, data.section(QStringLiteral("-"), 0, 0) + ";" + data.section(QStringLiteral("-"), 1, 1));
+            EffectsList::setProperty(prod, "kdenlive:clipzone." + zoneName, data.section(QLatin1Char('-'), 0, 0) + ";" + data.section(QLatin1Char('-'), 1, 1));
         }
     }
 }
@@ -1975,8 +1975,8 @@ QString DocumentValidator::factorizeGeomValue(const QString &value, double facto
     QLocale locale;
     for (int i = 0; i < vals.count(); i++) {
         QString s = vals.at(i);
-        QString key = s.section(QStringLiteral("="), 0, 0);
-        QString val = s.section(QStringLiteral("="), 1, 1);
+        QString key = s.section(QLatin1Char('='), 0, 0);
+        QString val = s.section(QLatin1Char('='), 1, 1);
         double v = locale.toDouble(val) / factor;
         result.append(key + "=" + locale.toString(v));
         if (i + 1 < vals.count()) {
@@ -2097,13 +2097,13 @@ void DocumentValidator::fixTitleProducerLocale(QDomElement &producer)
         QString y = pos.attribute(QStringLiteral("y"));
         if (x.contains(QLatin1Char(','))) {
             // x pos was saved in locale format, fix
-            x = x.section(QStringLiteral(","), 0, 0);
+            x = x.section(QLatin1Char(','), 0, 0);
             pos.setAttribute(QStringLiteral("x"), x);
             fixed = true;
         }
         if (y.contains(QLatin1Char(','))) {
             // x pos was saved in locale format, fix
-            y = y.section(QStringLiteral(","), 0, 0);
+            y = y.section(QLatin1Char(','), 0, 0);
             pos.setAttribute(QStringLiteral("y"), y);
             fixed = true;
         }
@@ -2115,13 +2115,13 @@ void DocumentValidator::fixTitleProducerLocale(QDomElement &producer)
         QString y = pos.attribute(QStringLiteral("textwidth"));
         if (x.contains(QLatin1Char(','))) {
             // x pos was saved in locale format, fix
-            x = x.section(QStringLiteral(","), 0, 0);
+            x = x.section(QLatin1Char(','), 0, 0);
             pos.setAttribute(QStringLiteral("font-outline"), x);
             fixed = true;
         }
         if (y.contains(QLatin1Char(','))) {
             // x pos was saved in locale format, fix
-            y = y.section(QStringLiteral(","), 0, 0);
+            y = y.section(QLatin1Char(','), 0, 0);
             pos.setAttribute(QStringLiteral("textwidth"), y);
             fixed = true;
         }

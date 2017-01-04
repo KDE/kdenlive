@@ -446,9 +446,9 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
                 // Move that keyframe to new end
                 QString separator = QStringLiteral("=");
                 if (pos.contains(QLatin1Char('~'))) {
-                    separator.prepend(QStringLiteral("~"));
+                    separator.prepend(QLatin1Char('~'));
                 } else if (pos.contains(QLatin1Char('|'))) {
-                    separator.prepend(QStringLiteral("|"));
+                    separator.prepend(QLatin1Char('|'));
                 }
                 values[i] = QString::number(duration) + separator + pos.section('=', 1);
                 pa.setAttribute(QStringLiteral("value"), values.join(QLatin1Char(';')));
@@ -492,9 +492,9 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
                 QString last = values.at(i);
                 QString separator = QStringLiteral("=");
                 if (last.contains(QLatin1Char('~'))) {
-                    separator.prepend(QStringLiteral("~"));
+                    separator.prepend(QLatin1Char('~'));
                 } else if (last.contains(QLatin1Char('|'))) {
-                    separator.prepend(QStringLiteral("|"));
+                    separator.prepend(QLatin1Char('|'));
                 }
                 last = QString::number(duration) + separator + last.section(QLatin1Char('='), 1);
                 values[i] = last;

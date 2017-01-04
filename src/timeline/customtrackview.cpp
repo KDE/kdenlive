@@ -8784,7 +8784,7 @@ void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString &geometry)
         return;
     }
     QMap<QString, QString> data;
-    data.insert(geometry.section(QStringLiteral("="), 0, 0), geometry.section(QStringLiteral("="), 1));
+    data.insert(geometry.section(QLatin1Char('='), 0, 0), geometry.section(QLatin1Char('='), 1));
     QDomElement currentEffect = clip->getEffectAtIndex(clip->selectedEffectIndex());
     if (currentEffect.isNull()) {
         emit displayMessage(i18n("No effect to import keyframes"), InformationMessage);

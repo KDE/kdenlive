@@ -155,7 +155,7 @@ bool DocumentChecker::hasErrorInClips()
             resource = EffectsList::property(e, QStringLiteral("warp_resource"));
         } else if (service == QLatin1String("framebuffer")) {
             //slowmotion clip, trim speed info
-            resource = resource.section(QStringLiteral("?"), 0, 0);
+            resource = resource.section(QLatin1Char('?'), 0, 0);
         }
         if (verifiedPaths.contains(resource)) {
             // Don't check same url twice (for example track producers)
@@ -237,18 +237,18 @@ bool DocumentChecker::hasErrorInClips()
         if (!QFile::exists(filePath)) {
             QString fixedLuma;
             // check if this was an old format luma, not in correct folder
-            fixedLuma = filePath.section(QStringLiteral("/"), 0, -2);
+            fixedLuma = filePath.section(QLatin1Char('/'), 0, -2);
             fixedLuma.append(hdProfile ? "/HD/" : "/PAL/");
-            fixedLuma.append(filePath.section(QStringLiteral("/"), -1));
+            fixedLuma.append(filePath.section(QLatin1Char('/'), -1));
             if (QFile::exists(fixedLuma)) {
                 // Auto replace pgm with png for lumas
                 autoFixLuma.insert(filePath, fixedLuma);
                 continue;
             }
             if (filePath.endsWith(QLatin1String(".pgm"))) {
-                fixedLuma = filePath.section(QStringLiteral("."), 0, -2) + ".png";
+                fixedLuma = filePath.section(QLatin1Char('.') , 0, -2) + ".png";
             } else if (filePath.endsWith(QLatin1String(".png"))) {
-                fixedLuma = filePath.section(QStringLiteral("."), 0, -2) + ".pgm";
+                fixedLuma = filePath.section(QLatin1Char('.'), 0, -2) + ".pgm";
             }
             if (!fixedLuma.isEmpty() && QFile::exists(fixedLuma)) {
                 // Auto replace pgm with png for lumas

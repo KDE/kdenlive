@@ -1466,7 +1466,7 @@ void KdenliveDoc::loadDocumentProperties()
             e = props.at(i).toElement();
             name = e.attribute(QStringLiteral("name"));
             if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
-                name = name.section(QStringLiteral("."), 1);
+                name = name.section(QLatin1Char('.'), 1);
                 if (name == QStringLiteral("storagefolder")) {
                     // Make sure we have an absolute path
                     QString value = e.firstChild().nodeValue();
@@ -1478,7 +1478,7 @@ void KdenliveDoc::loadDocumentProperties()
                     m_documentProperties.insert(name, e.firstChild().nodeValue());
                 }
             } else if (name.startsWith(QLatin1String("kdenlive:docmetadata."))) {
-                name = name.section(QStringLiteral("."), 1);
+                name = name.section(QLatin1Char('.'), 1);
                 m_documentMetadata.insert(name, e.firstChild().nodeValue());
             }
         }
@@ -1677,7 +1677,7 @@ void KdenliveDoc::selectPreviewProfile()
         foreach (const QString &arg, data) {
             if (arg.startsWith(QStringLiteral("r="))) {
                 rateFound = true;
-                double fps = arg.section(QStringLiteral("="), 1).toDouble();
+                double fps = arg.section(QLatin1Char('='), 1).toDouble();
                 if (fps > 0) {
                     if (qAbs((int)(m_render->fps() * 100) - (fps * 100)) <= 1) {
                         matchingProfiles << i.value();
@@ -1698,8 +1698,8 @@ void KdenliveDoc::selectPreviewProfile()
         bestMatch = fallBackProfiles.first();
     }
     if (!bestMatch.isEmpty()) {
-        setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(QStringLiteral(";"), 0, 0));
-        setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(QStringLiteral(";"), 1, 1));
+        setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(QLatin1Char(';'), 0, 0));
+        setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(QLatin1Char(';'), 1, 1));
     } else {
         setDocumentProperty(QStringLiteral("previewparameters"), QStringLiteral());
         setDocumentProperty(QStringLiteral("previewextension"), QStringLiteral());

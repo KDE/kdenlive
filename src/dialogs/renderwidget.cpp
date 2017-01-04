@@ -2550,7 +2550,7 @@ void RenderWidget::errorMessage(RenderError type, const QString &message)
         i.next();
         if (!i.value().isEmpty()) {
             if (!fullMessage.isEmpty()) {
-                fullMessage.append(QStringLiteral("\n"));
+                fullMessage.append(QLatin1Char('\n'));
             }
             fullMessage.append(i.value());
         }

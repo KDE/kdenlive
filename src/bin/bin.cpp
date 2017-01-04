@@ -2384,7 +2384,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
     moveCommand->setText(i18np("Move Clip", "Move Clips", ids.count()));
     QStringList folderIds;
     foreach (const QString &id, ids) {
-        if (id.contains(QStringLiteral("/"))) {
+        if (id.contains(QLatin1Char('/'))) {
             // trying to move clip zone, not allowed. Ignore
             continue;
         }
@@ -2916,7 +2916,7 @@ void Bin::loadSubClips(const QString &id, const QMap<QString, QString> &data)
     int maxFrame = clip->duration().frames(m_doc->fps()) - 1;
     while (i.hasNext()) {
         i.next();
-        if (!i.value().contains(QStringLiteral(";"))) {
+        if (!i.value().contains(QLatin1Char(';'))) {
             // Problem, the zone has no in/out points
             continue;
         }
@@ -3158,7 +3158,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
                 index++;
                 continue;
             }
-            if (!pos.contains(QStringLiteral("="))) {
+            if (!pos.contains(QLatin1Char('='))) {
                 continue;
             }
             int newPos = pos.section('=', 0, 0).toInt();

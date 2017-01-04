@@ -984,7 +984,7 @@ int KeyframeView::checkNegatives(const QString &data, int maxDuration)
     for (int i = 0; i < frames.count(); i++) {
         if (frames.at(i).startsWith(QLatin1String("-"))) {
             // We found a negative kfr
-            QString sub = frames.at(i).section(QStringLiteral("="), 0, 0);
+            QString sub = frames.at(i).section(QLatin1Char('='), 0, 0);
             if (!sub.at(sub.length() - 1).isDigit()) {
                 // discrete or smooth keyframe, we need to remove the tag (| or ~)
                 sub.chop(1);

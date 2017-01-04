@@ -58,7 +58,7 @@ void ProxyJob::startJob()
         QStringList params = m_proxyParams.split(QLatin1Char('-'), QString::SkipEmptyParts);
         double display_ratio;
         if (m_src.startsWith(QLatin1String("consumer:"))) {
-            display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(QStringLiteral(":"), 1));
+            display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(QLatin1Char(':'), 1));
         } else {
             display_ratio = KdenliveDoc::getDisplayRatio(m_src);
         }
