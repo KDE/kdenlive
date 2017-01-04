@@ -318,7 +318,7 @@ QList<Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
-	if (!current.startsWith(QLatin1String("#"))) {
+    if (!current.startsWith(QLatin1Char('#'))) {
 	    continue;
 	}
 	current.remove(0, 1);
@@ -366,7 +366,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
             replaced << cInfo;
             continue;
         }
-	if (!current.startsWith(QLatin1String("#"))) {
+    if (!current.startsWith(QLatin1Char('#'))) {
 	    continue;
 	}
 	current.remove(0, 1);

@@ -2388,7 +2388,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
             // trying to move clip zone, not allowed. Ignore
             continue;
         }
-        if (id.startsWith(QLatin1String("#"))) {
+        if (id.startsWith(QLatin1Char('#'))) {
             // moving a folder, keep it for later
             folderIds << id;
             continue;
