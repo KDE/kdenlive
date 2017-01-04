@@ -21,7 +21,7 @@
 
 #include<QList>
 #include<QVector>
-#include "curves/abstractcurve.h"
+#include "../abstractcurve.h"
 
 class QPointF;
 

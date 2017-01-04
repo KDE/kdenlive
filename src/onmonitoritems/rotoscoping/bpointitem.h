@@ -19,7 +19,7 @@
 #ifndef BPOINTITEM_H
 #define BPOINTITEM_H
 
-#include "effectstack/widgets/bezier/bpoint.h"
+#include "effectstack/widgets/curves/bezier/bpoint.h"
 
 #include <QAbstractGraphicsShapeItem>
 

@@ -1,4 +1,3 @@
-add_subdirectory(widgets/bezier)
 add_subdirectory(widgets/curves)
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
@@ -23,8 +22,6 @@ set(kdenlive_SRCS
   effectstack/widgets/draggablelabel.cpp
   effectstack/widgets/geometrywidget.cpp
   effectstack/widgets/keyframeedit.cpp
-  effectstack/widgets/kis_cubic_curve.cpp
-  effectstack/widgets/kis_curve_widget.cpp
   effectstack/widgets/keyframeimport.cpp
   effectstack/widgets/listparamwidget.cpp
   effectstack/widgets/lumaliftgain.cpp
