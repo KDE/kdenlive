@@ -27,15 +27,13 @@ static bool pointLessThan(const BPoint &a, const BPoint &b)
     return a.p.x() < b.p.x();
 }
 
-CubicBezierSpline::CubicBezierSpline(QObject *parent) :
-    QObject(parent)
+CubicBezierSpline::CubicBezierSpline()
 {
     m_points.append(BPoint(QPointF(0, 0), QPointF(0, 0), QPointF(.1, .1)));
     m_points.append(BPoint(QPointF(.9, .9), QPointF(1, 1), QPointF(1, 1)));
 }
 
-CubicBezierSpline::CubicBezierSpline(const CubicBezierSpline &spline, QObject *parent) :
-    QObject(parent)
+CubicBezierSpline::CubicBezierSpline(const CubicBezierSpline &spline)
 {
     m_points = spline.m_points;
 }
@@ -155,3 +153,13 @@ int CubicBezierSpline::indexOf(const BPoint &p)
     return -1;
 }
 
+
+int CubicBezierSpline::count() const
+{
+    return m_points.size();
+}
+
+QList<BPoint> CubicBezierSpline::getPoints() const
+{
+    return m_points;
+}

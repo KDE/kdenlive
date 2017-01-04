@@ -1,4 +1,5 @@
 add_subdirectory(widgets/bezier)
+add_subdirectory(widgets/curves)
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   effectstack/abstractcollapsiblewidget.cpp

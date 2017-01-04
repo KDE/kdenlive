@@ -21,9 +21,9 @@
 #include <QLineF>
 
 BPoint::BPoint() :
-    h1(QPointF(-1, -1)),
-    p(QPointF(-1, -1)),
-    h2(QPointF(-1, -1)),
+    h1(-1, -1),
+    p(-1, -1),
+    h2(-1, -1),
     handlesLinked(true)
 {
 }
@@ -48,9 +48,9 @@ const QPointF &BPoint::operator[](int i) const
 
 bool BPoint::operator==(const BPoint &point) const
 {
-    return      point.h1 == h1 &&
-                point.p  == p  &&
-                point.h2 == h2;
+    return point.h1 == h1 &&
+        point.p  == p  &&
+        point.h2 == h2;
 }
 
 void BPoint::setP(const QPointF &point, bool updateHandles)

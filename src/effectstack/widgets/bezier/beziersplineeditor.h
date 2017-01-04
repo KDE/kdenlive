@@ -19,11 +19,13 @@
 #ifndef BEZIERSPLINEEDITOR_H
 #define BEZIERSPLINEEDITOR_H
 
+#include "bpoint.h"
 #include "cubicbezierspline.h"
+#include "effectstack/widgets/curves/abstractcurvewidget.h"
 
 #include <QWidget>
 
-class BezierSplineEditor : public QWidget
+class BezierSplineEditor : public AbstractCurveWidget<CubicBezierSpline>
 {
     Q_OBJECT
 
@@ -31,37 +33,14 @@ public:
     explicit BezierSplineEditor(QWidget *parent = Q_NULLPTR);
     ~BezierSplineEditor();
 
-    CubicBezierSpline spline() const;
-    void setSpline(const CubicBezierSpline &spline);
-
-    /** @brief Returns the selected point or else BPoint. */
-    BPoint getCurrentPoint();
-
-    /** @brief Replaces current point with @param p (index stays the same).
-     * @param final (default = true) emit signal modified? */
-    void updateCurrentPoint(const BPoint &p, bool final = true);
-
-    /** @brief Number of lines used in grid. */
-    int gridLines() const;
-
-    /** @brief Sets the number of grid lines to draw (in one direction) to @param lines. */
-    void setGridLines(int lines);
-
-    /** @brief Sets the background pixmap to @param pixmap. */
-    void setPixmap(const QPixmap &pixmap);
 
     /** @brief Sets the property showAllHandles to @param show.
      *
-     * showAllHandles: Whether to show only handles for the selected point for all points. */
-    void setShowAllHandles(bool show);
-
-
-public slots:
-    /** @brief Delete current spline point if it is not a extremal point (first or last)
+     * showAllHandles: Whether to show only handles for the selected point for all points.
      */
-    void slotDeleteCurrentPoint();
-    void slotZoomIn();
-    void slotZoomOut();
+    void setShowAllHandles(bool show);
+    QList<BPoint> getPoints() const override ;
+public slots:
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
@@ -72,27 +51,11 @@ protected:
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
-    /**
-       Utility function to check if current selected point is the first or the last
-     */
-    bool isCurrentPointExtremal();
 private:
-    CubicBezierSpline m_spline;
-    enum modes { ModeDrag, ModeNormal };
     enum point_types { PTypeH1, PTypeP, PTypeH2 };
-    modes m_mode;
-    int m_zoomLevel;
-    int m_gridLines;
     /** Whether to show handles for all points or only for the selected one. */
     bool m_showAllHandles;
-    /** Background */
-    QPixmap m_pixmap;
-    /** A copy of m_pixmap but scaled to fit the size of the edit region */
-    QPixmap *m_pixmapCache;
-    /** Whether we have to regenerate the pixmap cache because the pixmap or the size of the edit region changed. */
-    bool m_pixmapIsDirty;
 
-    int m_currentPointIndex;
     point_types m_currentPointType;
     double m_grabOffsetX;
     double m_grabOffsetY;
@@ -109,12 +72,6 @@ private:
      * If no point is near enough -1 is returned. */
     int nearestPointInRange(const QPointF &p, int wWidth, int wHeight, point_types *sel);
 
-signals:
-    void modified();
-    /**
-       Signal sent when the current point changes. The point is returned, as well as a flag that determines if the point is the first or last.
-     */
-    void currentPoint(const BPoint &p, bool extremal);
 };
 
 #endif

@@ -1020,7 +1020,7 @@ void ParameterContainer::slotCollectAllParameters()
         } else if (type == QLatin1String("curve")) {
             KisCurveWidget *curve = static_cast<KisCurveWidget *>(m_valueItems.value(paramName));
             if (curve) {
-                QList<QPointF> points = curve->curve().points();
+                QList<QPointF> points = curve->getPoints();
                 QString number = pa.attribute(QStringLiteral("number"));
                 QString inName = pa.attribute(QStringLiteral("inpoints"));
                 QString outName = pa.attribute(QStringLiteral("outpoints"));

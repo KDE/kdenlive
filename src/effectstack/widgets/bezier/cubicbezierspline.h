@@ -20,18 +20,20 @@
 #define CUBICBEZIERSPLINE_H
 
 #include "bpoint.h"
+#include "effectstack/widgets/curves/abstractcurve.h"
 
 #include <QObject>
 #include <QString>
 #include <QList>
 
-class CubicBezierSpline : public QObject
+
+class CubicBezierSpline : public AbstractCurve<BPoint>
 {
-    Q_OBJECT
 
 public:
-    explicit CubicBezierSpline(QObject *parent = Q_NULLPTR);
-    CubicBezierSpline(const CubicBezierSpline &spline, QObject *parent = Q_NULLPTR);
+    typedef BPoint Point_t;
+    explicit CubicBezierSpline();
+    CubicBezierSpline(const CubicBezierSpline &spline );
     CubicBezierSpline &operator=(const CubicBezierSpline &spline);
 
     /** @brief Loads the points from the string @param spline.
@@ -40,24 +42,27 @@ public:
      * handles and points with a '#'
      * and the nodes with a '|'
      * So that you get: h1x;h1y#px;py#h2x;h2y|h1x;h1y#... */
-    void fromString(const QString &spline);
-    /** @brief Returns the points stoed in a string.
+    void fromString(const QString &spline) override;
+    /** @brief Returns the points stored in a string.
      *
      * x, y values have are separated with a ';'
      * handles and points with a '#'
      * and the nodes with a '|'
      * So that you get: h1x;h1y#px;py#h2x;h2y|h1x;h1y#... */
-    QString toString() const;
+    QString toString() const override;
 
     /** @brief Returns a list of the points defining the spline. */
     QList<BPoint> points() const;
 
+    /** @brief Returns the number of points in the spline.*/
+    int count() const;
+
     /** @brief Sets the point at index @param ix to @param point and returns its index (it might have changed during validation). */
-    int setPoint(int ix, const BPoint &point);
+    int setPoint(int ix, const BPoint &point) override;
     /** @brief Adds @param point and returns its index. */
-    int addPoint(const BPoint &point);
+    int addPoint(const BPoint &point) override;
     /** @brief Removes the point at @param ix. */
-    void removePoint(int ix);
+    void removePoint(int ix) override;
 
     /** @brief Returns the point at @param ix.
      * @param ix Index of the point
@@ -65,8 +70,9 @@ public:
      * @param normalisedHeight (default = 1) Will be multiplied will all y values to change the range from 0-1 into another one
      * @param invertHeight (default = false) true => y = 0 is at the very top
      */
-    BPoint getPoint(int ix, int normalisedWidth = 1, int normalisedHeight = 1, bool invertHeight = false);
+    BPoint getPoint(int ix, int normalisedWidth = 1, int normalisedHeight = 1, bool invertHeight = false) override;
 
+    QList<BPoint> getPoints() const;
 private:
     void validatePoints();
     void keepSorted();

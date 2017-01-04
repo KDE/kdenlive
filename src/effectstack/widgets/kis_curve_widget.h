@@ -23,6 +23,8 @@
 
 #include <QWidget>
 
+#include "effectstack/widgets/curves/abstractcurvewidget.h"
+#include "kis_cubic_curve.h"
 
 class QEvent;
 class QKeyEvent;
@@ -33,7 +35,6 @@ class QPixmap;
 class QResizeEvent;
 
 class QSpinBox;
-class KisCubicCurve;
 
 /**
  * KisCurveWidget is a widget that shows a single curve that can be edited
@@ -47,7 +48,7 @@ class KisCubicCurve;
  * response, color transformations, acceleration by time, aeroplane lift
  *by angle of attack.
  */
-class KisCurveWidget : public QWidget
+class KisCurveWidget : public AbstractCurveWidget<KisCubicCurve>
 {
     Q_OBJECT
 
@@ -57,7 +58,7 @@ public:
      * Create a new curve widget with a default curve, that is a straight
      * line from bottom-left to top-right.
      */
-    explicit KisCurveWidget(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = 0);
+    explicit KisCurveWidget(QWidget *parent = Q_NULLPTR);
 
     virtual ~KisCurveWidget();
 
@@ -66,23 +67,9 @@ public:
      */
     void reset(void);
 
-    /**
-     * Set a background pixmap. The background pixmap will be drawn under
-     * the grid and the curve.
-     *
-     * XXX: or is the pixmap what is drawn to the  left and bottom of the curve
-     * itself?
-     */
-    void setPixmap(const QPixmap &pix);
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
-signals:
-
-    /**
-     * Emitted whenever a control point has changed position.
-     */
-    void modified(void);
 
 protected slots:
     void inOutChanged(int);
@@ -96,21 +83,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
-
 public:
 
-    /**
-     * @return get a list with all defined points. If you want to know what the
-     * y value for a given x is on the curve defined by these points, use getCurveValue().
-     * @see getCurveValue
-     */
-    KisCubicCurve curve();
-
-    /**
-     * Replace the current curve with a curve specified by the curve defined by the control
-     * points in @param inlist.
-     */
-    void setCurve(const KisCubicCurve &inlist);
 
     /**
      * Connect/disconnect external spinboxes to the curve
@@ -126,12 +100,37 @@ public:
      */
     void addPointInTheMiddle();
 
-    void setMaxPoints(int max);
+    void setCurve(KisCubicCurve&& curve);
+
+    QList<QPointF> getPoints() const override;
 
 private:
+    double io2sp(int x) const;
+    int sp2io(double x) const;
+    bool jumpOverExistingPoints(QPointF &pt, int skipIndex);
+    void syncIOControls();
+    int nearestPointInRange(QPointF pt, int wWidth, int wHeight) const;
 
-    class Private;
-    Private *const d;
+    /* Dragging variables */
+    double m_grabOffsetX;
+    double m_grabOffsetY;
+    double m_grabOriginalX;
+    double m_grabOriginalY;
+    QPointF m_draggedAwayPoint;
+    int m_draggedAwayPointIndex;
+
+    bool m_readOnlyMode;
+    bool m_guideVisible;
+    QColor m_colorGuide;
+
+
+    /* In/Out controls */
+    QSpinBox *m_intIn;
+    QSpinBox *m_intOut;
+
+    /* Working range of them */
+    int m_inOutMin;
+    int m_inOutMax;
 
 };
 

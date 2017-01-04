@@ -20,12 +20,13 @@
 #define BEZIERSPLINEWIDGET_H
 
 #include "cubicbezierspline.h"
-#include "beziersplineeditor.h"
 #include "ui_bezierspline_ui.h"
 
 #include <QWidget>
 
 class DragValue;
+class BPoint;
+class BezierSplineEditor;
 
 class BezierSplineWidget : public QWidget
 {
@@ -44,6 +45,8 @@ public:
 
     /** @brief Sets the mode to @param mode and updates the editors background pixmap if necessary. */
     void setMode(CurveModes mode);
+
+
 
 private slots:
     /** @brief Sets the spinboxes for modifying the selected point to @param p.
@@ -84,7 +87,7 @@ private:
     DragValue *m_h1Y;
     DragValue *m_h2X;
     DragValue *m_h2Y;
-    BezierSplineEditor m_edit;
+    BezierSplineEditor *m_edit;
     CurveModes m_mode;
     bool m_showPixmap;
 

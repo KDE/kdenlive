@@ -395,12 +395,13 @@ void KisCubicCurve::setPoints(const QList<QPointF> &points)
     d->data->invalidate();
 }
 
-void KisCubicCurve::setPoint(int idx, const QPointF &point)
+int KisCubicCurve::setPoint(int idx, const QPointF &point)
 {
     d->data.detach();
     d->data->points[idx] = point;
     d->data->keepSorted();
     d->data->invalidate();
+    return idx;
 }
 
 int KisCubicCurve::addPoint(const QPointF &point)
@@ -450,3 +451,19 @@ void KisCubicCurve::fromString(const QString &string)
     setPoints(points);
 }
 
+
+int KisCubicCurve::count() const
+{
+    return d->data->points.size();
+}
+
+QPointF KisCubicCurve::getPoint(int ix, int normalisedWidth, int normalisedHeight, bool invertHeight)
+{
+    QPointF p = d->data->points.at(ix);
+    p.rx() *= normalisedWidth;
+    p.ry() *= normalisedHeight;
+    if (invertHeight) {
+        p.ry() = normalisedHeight - p.y();
+    }
+    return p;
+}

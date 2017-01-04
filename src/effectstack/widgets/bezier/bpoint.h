@@ -33,11 +33,11 @@ public:
     /** @brief Sets up according to the params. Linking detecting is done using autoSetLinked(). */
     BPoint(const QPointF &handle1, const QPointF &point, const QPointF &handle2);
 
+    bool operator==(const BPoint &point) const;
     /** @brief Returns h1 if i = 0, p if i = 1, h2 if i = 2. */
     QPointF &operator[](int i);
     /** @brief Returns h1 if i = 0, p if i = 1, h2 if i = 2. */
     const QPointF &operator[](int i) const;
-    bool operator==(const BPoint &point) const;
 
     /** @brief Sets p to @param point.
      * @param updateHandles (default = true) Whether to make sure the handles keep their position relative to p. */
@@ -55,15 +55,14 @@ public:
     /** @brief Sets handlesLinked to true if the handles are in a linked state (line through h1, p, h2) otherwise to false. */
     void autoSetLinked();
 
-    /** handle 1 */
+/** handle 1 */
     QPointF h1;
-    /** point */
+/** point */
     QPointF p;
-    /** handle 2 */
+/** handle 2 */
     QPointF h2;
-
     /** handles are linked to achieve a natural locking spline => PH1 = -r*PH2 ; a line can be drawn through h1, p, h2 */
-    bool handlesLinked;
+    bool handlesLinked; 
 };
 
 #endif
