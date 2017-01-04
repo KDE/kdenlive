@@ -514,7 +514,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
 
 void PreviewManager::reloadChunks(QList <int> chunks)
 {
-    if (m_previewTrack == NULL)
+    if (m_previewTrack == NULL || chunks.isEmpty())
         return;
     m_tractor->lock();
     foreach(int ix, chunks) {

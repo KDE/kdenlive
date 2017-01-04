@@ -624,6 +624,11 @@ void AnimationWidget::updateRect(int pos)
             }
         }
     }
+    double scale = qMin(m_spinWidth->value() / m_monitor->render->frameRenderWidth(), m_spinHeight->value() / m_monitor->render->renderHeight());
+    m_spinSize->blockSignals(true);
+    m_spinSize->setValue(100.0 * scale);
+    m_spinSize->blockSignals(false);
+    m_spinSize->setEnabled(enableEdit);
     m_spinX->setEnabled(enableEdit);
     m_spinY->setEnabled(enableEdit);
     m_spinWidth->setEnabled(enableEdit);
