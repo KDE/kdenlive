@@ -64,12 +64,12 @@ QString GradientWidget::gradientToString() const
 {
     QStringList result;
     result << color1->color().name(QColor::HexArgb) << color2->color().name(QColor::HexArgb) << QString::number(color1_pos->value()) << QString::number(color2_pos->value()) << QString::number(angle->value());
-    return result.join(QStringLiteral(";"));
+    return result.join(QLatin1Char(';'));
 }
 
 QLinearGradient GradientWidget::gradientFromString(const QString &str, int width, int height)
 {
-    QStringList values = str.split(QStringLiteral(";"));
+    QStringList values = str.split(QLatin1Char(';'));
     QLinearGradient gr;
     if (values.count() < 5) {
         // invalid gradient data

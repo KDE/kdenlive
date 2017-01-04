@@ -496,7 +496,7 @@ void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, i
                     newkfr.append(QString::number(pos) + '=' + e.attribute(QStringLiteral("default")));
                 }
             }
-            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
+            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QLatin1Char(';')));
         }
     }
 }
@@ -545,7 +545,7 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
                     }
                 }
             }
-            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
+            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QLatin1Char(';')));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
             QString kfr = e.attribute(QStringLiteral("value"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
@@ -558,7 +558,7 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
                     newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
                 }
             }
-            e.setAttribute(QStringLiteral("value"), newkfr.join(QStringLiteral(";")));
+            e.setAttribute(QStringLiteral("value"), newkfr.join(QLatin1Char(';')));
         }
     }
 
@@ -587,7 +587,7 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
                     newkfr.append(str);
                 }
             }
-            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QStringLiteral(";")));
+            e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QLatin1Char(';')));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
             QString kfr = e.attribute(QStringLiteral("value"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
@@ -597,7 +597,7 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
                     newkfr.append(str);
                 }
             }
-            e.setAttribute(QStringLiteral("value"), newkfr.join(QStringLiteral(";")));
+            e.setAttribute(QStringLiteral("value"), newkfr.join(QLatin1Char(';')));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             m_keyframeView.removeKeyframe(frame);
             // inserting a keyframe touches all animated params

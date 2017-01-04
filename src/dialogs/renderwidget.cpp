@@ -469,7 +469,7 @@ void RenderWidget::slotSaveProfile()
     QString customGroup;
     QStringList arguments = m_view.advanced_params->toPlainText().split(' ', QString::SkipEmptyParts);
     if (!arguments.isEmpty()) {
-        ui.parameters->setText(arguments.join(QStringLiteral(" ")));
+        ui.parameters->setText(arguments.join(QLatin1Char(' ')));
     }
     ui.profile_name->setFocus();
     QTreeWidgetItem *item = m_view.formats->currentItem();
@@ -487,7 +487,7 @@ void RenderWidget::slotSaveProfile()
             }
             if (item->data(0, BitratesRole).canConvert(QVariant::StringList) && item->data(0, BitratesRole).toStringList().count()) {
                 QStringList bitrates = item->data(0, BitratesRole).toStringList();
-                ui.vbitrates_list->setText(bitrates.join(QStringLiteral(",")));
+                ui.vbitrates_list->setText(bitrates.join(QLatin1Char(',')));
                 if (item->data(0, DefaultBitrateRole).canConvert(QVariant::String)) {
                     ui.default_vbitrate->setValue(item->data(0, DefaultBitrateRole).toInt());
                 }
@@ -505,7 +505,7 @@ void RenderWidget::slotSaveProfile()
             }
             if (item && item->data(0, AudioBitratesRole).canConvert(QVariant::StringList) && item->data(0, AudioBitratesRole).toStringList().count()) {
                 QStringList bitrates = item->data(0, AudioBitratesRole).toStringList();
-                ui.abitrates_list->setText(bitrates.join(QStringLiteral(",")));
+                ui.abitrates_list->setText(bitrates.join(QLatin1Char(',')));
                 if (item->data(0, DefaultAudioBitrateRole).canConvert(QVariant::String)) {
                     ui.default_abitrate->setValue(item->data(0, DefaultAudioBitrateRole).toInt());
                 }
@@ -662,23 +662,23 @@ void RenderWidget::slotCopyToFavorites()
     if (params.contains(QStringLiteral("%bitrate"))) {
         // profile has a variable bitrate
         profileElement.setAttribute(QStringLiteral("defaultbitrate"), item->data(0, DefaultBitrateRole).toString());
-        profileElement.setAttribute(QStringLiteral("bitrates"), item->data(0, BitratesRole).toStringList().join(QStringLiteral(",")));
+        profileElement.setAttribute(QStringLiteral("bitrates"), item->data(0, BitratesRole).toStringList().join(QLatin1Char(',')));
     } else if (params.contains(QStringLiteral("%quality"))) {
         profileElement.setAttribute(QStringLiteral("defaultquality"), item->data(0, DefaultBitrateRole).toString());
-        profileElement.setAttribute(QStringLiteral("qualities"), item->data(0, BitratesRole).toStringList().join(QStringLiteral(",")));
+        profileElement.setAttribute(QStringLiteral("qualities"), item->data(0, BitratesRole).toStringList().join(QLatin1Char(',')));
     }
     if (params.contains(QStringLiteral("%audiobitrate"))) {
         // profile has a variable bitrate
         profileElement.setAttribute(QStringLiteral("defaultaudiobitrate"), item->data(0, DefaultAudioBitrateRole).toString());
-        profileElement.setAttribute(QStringLiteral("audiobitrates"), item->data(0, AudioBitratesRole).toStringList().join(QStringLiteral(",")));
+        profileElement.setAttribute(QStringLiteral("audiobitrates"), item->data(0, AudioBitratesRole).toStringList().join(QLatin1Char(',')));
     } else if (params.contains(QStringLiteral("%audioquality"))) {
         // profile has a variable bitrate
         profileElement.setAttribute(QStringLiteral("defaultaudioquality"), item->data(0, DefaultAudioBitrateRole).toString());
-        profileElement.setAttribute(QStringLiteral("audioqualities"), item->data(0, AudioBitratesRole).toStringList().join(QStringLiteral(",")));
+        profileElement.setAttribute(QStringLiteral("audioqualities"), item->data(0, AudioBitratesRole).toStringList().join(QLatin1Char(',')));
     }
     if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
         // profile has a variable speed
-        profileElement.setAttribute(QStringLiteral("speeds"), item->data(0, SpeedsRole).toStringList().join(QStringLiteral(";")));
+        profileElement.setAttribute(QStringLiteral("speeds"), item->data(0, SpeedsRole).toStringList().join(QLatin1Char(';')));
     }
     doc.appendChild(profileElement);
     if (saveProfile(doc.documentElement())) {
@@ -718,7 +718,7 @@ void RenderWidget::slotEditProfile()
         }
         if (item->data(0, BitratesRole).canConvert(QVariant::StringList) && item->data(0, BitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(0, BitratesRole).toStringList();
-            ui.vbitrates_list->setText(bitrates.join(QStringLiteral(",")));
+            ui.vbitrates_list->setText(bitrates.join(QLatin1Char(',')));
             if (item->data(0, DefaultBitrateRole).canConvert(QVariant::String)) {
                 ui.default_vbitrate->setValue(item->data(0, DefaultBitrateRole).toInt());
             }
@@ -737,7 +737,7 @@ void RenderWidget::slotEditProfile()
         }
         if (item->data(0, AudioBitratesRole).canConvert(QVariant::StringList) && item->data(0, AudioBitratesRole).toStringList().count()) {
             QStringList bitrates = item->data(0, AudioBitratesRole).toStringList();
-            ui.abitrates_list->setText(bitrates.join(QStringLiteral(",")));
+            ui.abitrates_list->setText(bitrates.join(QLatin1Char(',')));
             if (item->data(0, DefaultAudioBitrateRole).canConvert(QVariant::String)) {
                 ui.default_abitrate->setValue(item->data(0, DefaultAudioBitrateRole).toInt());
             }
@@ -1154,7 +1154,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
 
         if (!overlayargs.isEmpty()) {
-            render_process_args << "preargs=" + overlayargs.join(QStringLiteral(" "));
+            render_process_args << "preargs=" + overlayargs.join(QLatin1Char(' '));
         }
 
         if (scriptExport) {
@@ -1169,7 +1169,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QMimeType mime = db.mimeTypeForFile(dest);
             KService::Ptr serv =  KMimeTypeTrader::self()->preferredService(mime.name());
             KIO::DesktopExecParser parser(*serv, QList<QUrl>() << QUrl::fromLocalFile(QUrl::toPercentEncoding(dest)));
-            render_process_args << parser.resultingArguments().join(QStringLiteral(" "));
+            render_process_args << parser.resultingArguments().join(QLatin1Char(' '));
         } else {
             render_process_args << QStringLiteral("-");
         }
@@ -1279,7 +1279,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 
             outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded() + '\"' << '\n';
             outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(dest).toEncoded() + '\"' << '\n';
-            outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(QStringLiteral(" ")) + '\"' << '\n';
+            outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(QLatin1Char(' ')) + '\"' << '\n';
             outStream << "$RENDERER $PARAMETERS_" << stemIdxStr << "\n\n";
 
             if (stemIdx == (stemCount - 1)) {
@@ -2489,7 +2489,7 @@ bool RenderWidget::startWaitingRenderJobs()
         if (item->status() == WAITINGJOB) {
             if (item->type() == DirectRenderType) {
                 // Add render process for item
-                const QString params = item->data(1, ParametersRole).toStringList().join(QStringLiteral(" "));
+                const QString params = item->data(1, ParametersRole).toStringList().join(QLatin1Char(' '));
                 outStream << m_renderer << ' ' << params << '\n';
             } else if (item->type() == ScriptRenderType) {
                 // Script item

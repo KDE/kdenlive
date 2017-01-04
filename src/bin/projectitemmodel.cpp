@@ -280,7 +280,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     }
     if (!list.isEmpty()) {
         QByteArray data;
-        data.append(list.join(QStringLiteral(";")).toUtf8());
+        data.append(list.join(QLatin1Char(';')).toUtf8());
         mimeData->setData(QStringLiteral("kdenlive/producerslist"),  data);
     }
     return mimeData;

@@ -189,7 +189,7 @@ QMap<QString, QString> DvdWizardChapters::chaptersData() const
     QMap<QString, QString> result;
     int max = m_view.vob_list->count();
     for (int i = 0; i < max; ++i) {
-        QString chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList().join(QStringLiteral(";"));
+        QString chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList().join(QLatin1Char(';'));
         result.insert(m_view.vob_list->itemText(i), chapters);
     }
     return result;
@@ -251,7 +251,7 @@ QDomElement DvdWizardChapters::toXml() const
     for (int i = 0; i < m_view.vob_list->count(); ++i) {
         QDomElement vob = doc.createElement(QStringLiteral("vob"));
         vob.setAttribute(QStringLiteral("file"), m_view.vob_list->itemText(i));
-        vob.setAttribute(QStringLiteral("chapters"), m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList().join(QStringLiteral(";")));
+        vob.setAttribute(QStringLiteral("chapters"), m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList().join(QLatin1Char(';')));
         xml.appendChild(vob);
     }
     return doc.documentElement();

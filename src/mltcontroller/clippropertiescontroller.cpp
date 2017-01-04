@@ -129,7 +129,7 @@ public:
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {
                     // Adjust unit for bitrate
-                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val / 1000) + QStringLiteral(" ") + i18nc("Kilobytes per seconds", "kb/s"));
+                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
                 } else {
                     new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val));
                 }
@@ -814,7 +814,7 @@ void ClipPropertiesController::fillProperties()
             snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", vindex);
             int bitrate = m_controller->int_property(property) / 1000;
             if (bitrate > 0) {
-                propertyMap.append(QStringList() << i18n("Video bitrate") << QString::number(bitrate) + QStringLiteral(" ") + i18nc("Kilobytes per seconds", "kb/s"));
+                propertyMap.append(QStringList() << i18n("Video bitrate") << QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
             }
 
             int scan = m_controller->int_property(QStringLiteral("meta.media.progressive"));
@@ -843,12 +843,12 @@ void ClipPropertiesController::fillProperties()
 
             snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", default_audio);
             int srate = m_controller->int_property(property);
-            propertyMap.append(QStringList() << i18n("Audio frequency") << QString::number(srate) + QStringLiteral(" ") + i18nc("Herz", "Hz"));
+            propertyMap.append(QStringList() << i18n("Audio frequency") << QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz"));
 
             snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", default_audio);
             int bitrate = m_controller->int_property(property) / 1000;
             if (bitrate > 0) {
-                propertyMap.append(QStringList() << i18n("Audio bitrate") << QString::number(bitrate) + QStringLiteral(" ") + i18nc("Kilobytes per seconds", "kb/s"));
+                propertyMap.append(QStringList() << i18n("Audio bitrate") << QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
             }
         }
     }

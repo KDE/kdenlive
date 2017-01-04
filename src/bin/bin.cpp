@@ -2948,7 +2948,7 @@ void Bin::addClipCut(const QString &id, int in, int out)
     }
     sub = new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
     QStringList markersComment = clip->markersText(GenTime(in, m_doc->fps()), GenTime(out, m_doc->fps()));
-    sub->setDescription(markersComment.join(QStringLiteral(";")));
+    sub->setDescription(markersComment.join(QLatin1Char(';')));
     QList<int> missingThumbs;
     missingThumbs << in;
     clip->slotExtractImage(missingThumbs);

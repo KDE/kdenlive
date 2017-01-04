@@ -180,11 +180,11 @@ void PreviewManager::disconnectTrack()
 bool PreviewManager::loadParams()
 {
     m_extension = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
-    m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QStringLiteral(" "), QString::SkipEmptyParts);
+    m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), QString::SkipEmptyParts);
 
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {
         m_doc->selectPreviewProfile();
-        m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QStringLiteral(" "), QString::SkipEmptyParts);
+        m_consumerParams = m_doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), QString::SkipEmptyParts);
         m_extension = m_doc->getDocumentProperty(QStringLiteral("previewextension"));
     }
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {

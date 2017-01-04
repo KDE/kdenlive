@@ -524,11 +524,11 @@ void Wizard::checkMissingCodecs()
         requiredVCodecs.removeAll(vcodecsList.at(i));
     }
     if (!requiredACodecs.isEmpty() || !requiredVCodecs.isEmpty()) {
-        QString missing = requiredACodecs.join(QStringLiteral(","));
+        QString missing = requiredACodecs.join(QLatin1Char(','));
         if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) {
             missing.append(',');
         }
-        missing.append(requiredVCodecs.join(QStringLiteral(",")));
+        missing.append(requiredVCodecs.join(QLatin1Char(',')));
         missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
         m_infos.append(QString("<li>%1</li>").arg(missing));
     }

@@ -1553,7 +1553,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
                         values[j] = pos + '=' + locale.toString(val);
                     }
                 }
-                parameters.addParam(e.attribute(QStringLiteral("name")), values.join(QStringLiteral(";")));
+                parameters.addParam(e.attribute(QStringLiteral("name")), values.join(QLatin1Char(';')));
                 /*parameters.addParam("max", e.attribute("max"));
                 parameters.addParam("min", e.attribute("min"));
                 parameters.addParam("factor", );*/

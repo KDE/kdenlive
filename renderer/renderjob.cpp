@@ -214,7 +214,7 @@ void RenderJob::start()
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
     m_renderProcess->start(m_prog, m_args);
-    m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QStringLiteral(" ")) << endl;
+    m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << endl;
 }
 
 void RenderJob::initKdenliveDbusInterface()

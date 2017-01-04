@@ -689,11 +689,11 @@ void KeyframeView::addDefaultKeyframe(ProfileInfo profile, int frame, mlt_keyfra
                 defaultVal = EffectsController::getStringRectEval(profile, defaultVal).simplified();
             }
             mlt_rect rect;
-            rect.x = locale.toDouble(defaultVal.section(QStringLiteral(" "), 0, 0));
-            rect.y = locale.toDouble(defaultVal.section(QStringLiteral(" "), 1, 1));
-            rect.w = locale.toDouble(defaultVal.section(QStringLiteral(" "), 2, 2));
-            rect.h = locale.toDouble(defaultVal.section(QStringLiteral(" "), 3, 3));
-            rect.o = defaultVal.count(QLatin1Char(' ')) > 3 ? locale.toDouble(defaultVal.section(QStringLiteral(" "), 4, 4)) : 1.0;
+            rect.x = locale.toDouble(defaultVal.section(QLatin1Char(' '), 0, 0));
+            rect.y = locale.toDouble(defaultVal.section(QLatin1Char(' '), 1, 1));
+            rect.w = locale.toDouble(defaultVal.section(QLatin1Char(' '), 2, 2));
+            rect.h = locale.toDouble(defaultVal.section(QLatin1Char(' '), 3, 3));
+            rect.o = defaultVal.count(QLatin1Char(' ')) > 3 ? locale.toDouble(defaultVal.section(QLatin1Char(' '), 4, 4)) : 1.0;
             m_keyProperties.anim_set(paramName.toUtf8().constData(), rect, frame - m_offset, duration - m_offset, type);
 
         } else {
@@ -804,7 +804,7 @@ const QString KeyframeView::serialize(const QString &name, bool rectAnimation)
     if (!name.isEmpty()) {
         m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
     }
-    return result.join(QStringLiteral(";"));
+    return result.join(QLatin1Char(';'));
 }
 
 QList<QPoint> KeyframeView::loadKeyframes(const QString &data)
@@ -980,7 +980,7 @@ void KeyframeView::setOffset(int frames)
 int KeyframeView::checkNegatives(const QString &data, int maxDuration)
 {
     int result = -2;
-    QStringList frames = data.split(QStringLiteral(";"));
+    QStringList frames = data.split(QLatin1Char(';'));
     for (int i = 0; i < frames.count(); i++) {
         if (frames.at(i).startsWith(QLatin1String("-"))) {
             // We found a negative kfr

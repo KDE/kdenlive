@@ -244,7 +244,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
                 QStringList effectParams = t->data(100).toStringList();
                 QString effectName = effectParams.takeFirst();
                 content.setAttribute(QStringLiteral("textwidth"), QString::number(t->sceneBoundingRect().width()));
-                content.setAttribute(effectName, effectParams.join(QStringLiteral(";")));
+                content.setAttribute(effectName, effectParams.join(QLatin1Char(';')));
             }
 
             // Only save when necessary.
@@ -258,7 +258,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
                 content.setAttribute(QStringLiteral("alignment"), (int) t->alignment());
             }
 
-            content.setAttribute(QStringLiteral("shadow"), t->shadowInfo().join(QStringLiteral(";")));
+            content.setAttribute(QStringLiteral("shadow"), t->shadowInfo().join(QLatin1Char(';')));
             break;
         default:
             continue;

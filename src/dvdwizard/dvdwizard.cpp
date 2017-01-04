@@ -647,7 +647,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap<QString
             // Add chapters
             QStringList chaptersList = m_pageChapters->chapters(i);
             if (!chaptersList.isEmpty()) {
-                vob.setAttribute(QStringLiteral("chapters"), chaptersList.join(QStringLiteral(",")));
+                vob.setAttribute(QStringLiteral("chapters"), chaptersList.join(QLatin1Char(',')));
             }
 
             pgc2.appendChild(vob);

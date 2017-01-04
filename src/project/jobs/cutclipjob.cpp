@@ -473,7 +473,7 @@ void CutClipJob::processAnalyseLog()
     foreach (int frm, frames) {
         sortedFrames << QString::number(frm);
     }
-    jobResults.insert(QStringLiteral("i-frame"), sortedFrames.join(QStringLiteral(";")));
+    jobResults.insert(QStringLiteral("i-frame"), sortedFrames.join(QLatin1Char(';')));
     QMap<QString, QString> extraInfo;
     extraInfo.insert(QStringLiteral("addmarkers"), QStringLiteral("3"));
     extraInfo.insert(QStringLiteral("key"), QStringLiteral("i-frame"));

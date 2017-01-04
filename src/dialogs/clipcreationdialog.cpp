@@ -492,7 +492,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin)
 {
     QList<QUrl> list;
-    QString allExtensions = getExtensions().join(QStringLiteral(" "));
+    QString allExtensions = getExtensions().join(QLatin1Char(' '));
     QString dialogFilter = allExtensions + "|" + i18n("All Supported Files") + "\n*|" + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
     b->setChecked(KdenliveSettings::autoimagesequence());

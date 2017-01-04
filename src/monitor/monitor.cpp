@@ -850,7 +850,7 @@ void Monitor::slotStartDrag()
     list.append(QString::number(p.x()));
     list.append(QString::number(p.y()));
     QByteArray data;
-    data.append(list.join(QStringLiteral(";")).toUtf8());
+    data.append(list.join(QLatin1Char(';')).toUtf8());
     mimeData->setData(QStringLiteral("kdenlive/clip"), data);
     drag->setMimeData(mimeData);
     /*QPixmap pix = m_currentClip->thumbnail();
@@ -893,7 +893,7 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y()));
         QByteArray data;
-        data.append(list.join(QStringLiteral(";")).toUtf8());
+        data.append(list.join(QLatin1Char(';')).toUtf8());
         mimeData->setData(QStringLiteral("kdenlive/clip"), data);
         drag->setMimeData(mimeData);
         drag->start(Qt::MoveAction);

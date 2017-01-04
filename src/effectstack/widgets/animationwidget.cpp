@@ -1012,7 +1012,7 @@ const QMap<QString, QString> AnimationWidget::getAnimation()
                 key.append(locale.toString(val));
                 result << key;
             }
-            animationResults.insert(i.key(), result.join(QStringLiteral(";")));
+            animationResults.insert(i.key(), result.join(QLatin1Char(';')));
         }
     }
     // restore original controller

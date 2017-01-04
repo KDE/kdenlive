@@ -263,7 +263,7 @@ void DvdWizardVob::slotCheckProfiles()
 void DvdWizardVob::slotAddVobList(QList<QUrl> list)
 {
     if (list.isEmpty()) {
-        QString allExtensions = ClipCreationDialog::getExtensions().join(QStringLiteral(" "));
+        QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
         QString dialogFilter = i18n("All Supported Files") + " (" + allExtensions + ");; " + i18n("MPEG Files") + " (*.mpeg *.mpg *.vob);; " + i18n("All Files") + " (*.*)";
         list = QFileDialog::getOpenFileUrls(this, i18n("Add new video file"), QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveDvdFolder"))), dialogFilter);
         if (!list.isEmpty()) {
@@ -384,7 +384,7 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
             for (int j = 0; j < chapters.count(); ++j) {
                 chaptersList.append(QString::number(chapters.at(j).toElement().attribute(QStringLiteral("time")).toInt()));
             }
-            item->setData(1, Qt::UserRole + 1, chaptersList.join(QStringLiteral(";")));
+            item->setData(1, Qt::UserRole + 1, chaptersList.join(QLatin1Char(';')));
         }
     } else { // Explicitly add a chapter at 00:00:00:00
         item->setData(1, Qt::UserRole + 1, "0");

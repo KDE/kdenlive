@@ -190,7 +190,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                             line--;
                             col = col - 2;
                             for (int j = 0; j < line && errorPos < playlist.length(); ++j) {
-                                errorPos = playlist.indexOf(QStringLiteral("\n"), errorPos);
+                                errorPos = playlist.indexOf(QLatin1Char('\n'), errorPos);
                                 errorPos++;
                             }
                             errorPos += col;
@@ -1665,10 +1665,10 @@ void KdenliveDoc::selectPreviewProfile()
         i.next();
         // Check for frame rate
         QString params = i.value();
-        QStringList data = i.value().split(QStringLiteral(" "));
+        QStringList data = i.value().split(QLatin1Char(' '));
         // Check for size mismatch
         if (params.contains(QStringLiteral("s="))) {
-            QString paramSize = params.section(QStringLiteral("s="), 1).section(QStringLiteral(" "), 0, 0);
+            QString paramSize = params.section(QStringLiteral("s="), 1).section(QLatin1Char(' '), 0, 0);
             if (paramSize != profileSize) {
                 continue;
             }

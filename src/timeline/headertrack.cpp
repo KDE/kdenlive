@@ -149,7 +149,7 @@ void HeaderTrack::updateEffectLabel(const QStringList &effects)
 {
     if (!effects.isEmpty()) {
         effect_label->setHidden(false);
-        effect_label->setToolTip(effects.join(QStringLiteral("/")));
+        effect_label->setToolTip(effects.join(QLatin1Char('/')));
     } else {
         effect_label->setHidden(true);
         effect_label->setToolTip(QString());

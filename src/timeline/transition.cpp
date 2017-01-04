@@ -451,7 +451,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
                     separator.prepend(QStringLiteral("|"));
                 }
                 values[i] = QString::number(duration) + separator + pos.section('=', 1);
-                pa.setAttribute(QStringLiteral("value"), values.join(QStringLiteral(";")));
+                pa.setAttribute(QStringLiteral("value"), values.join(QLatin1Char(';')));
                 return true;
             }
             ++i;
@@ -503,7 +503,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
                 }
             }
         }
-        pa.setAttribute(QStringLiteral("value"), values.join(QStringLiteral(";")));
+        pa.setAttribute(QStringLiteral("value"), values.join(QLatin1Char(';')));
     }
     return true;
 }

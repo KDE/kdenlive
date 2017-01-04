@@ -79,7 +79,7 @@ QString CubicBezierSpline::toString() const
                 locale.toString(p.p.x()), locale.toString(p.p.y()),
                 locale.toString(p.h2.x()), locale.toString(p.h2.y()));
     }
-    return spline.join(QStringLiteral("|"));
+    return spline.join(QLatin1Char('|'));
 }
 
 int CubicBezierSpline::setPoint(int ix, const BPoint &point)

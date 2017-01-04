@@ -91,8 +91,8 @@ void initEffects::refreshLumas()
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute(QStringLiteral("tag")) == QLatin1String("resource")) {
-            e.setAttribute(QStringLiteral("paramlistdisplay"), imagenamelist.join(QStringLiteral(",")));
-            e.setAttribute(QStringLiteral("paramlist"), imagefiles.join(QStringLiteral(";")));
+            e.setAttribute(QStringLiteral("paramlistdisplay"), imagenamelist.join(QLatin1Char(',')));
+            e.setAttribute(QStringLiteral("paramlist"), imagefiles.join(QLatin1Char(';')));
             break;
         }
     }
@@ -102,8 +102,8 @@ void initEffects::refreshLumas()
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute(QStringLiteral("tag")) == QLatin1String("luma")) {
-            e.setAttribute(QStringLiteral("paramlistdisplay"), imagenamelist.join(QStringLiteral(",")));
-            e.setAttribute(QStringLiteral("paramlist"), imagefiles.join(QStringLiteral(";")));
+            e.setAttribute(QStringLiteral("paramlistdisplay"), imagenamelist.join(QLatin1Char(',')));
+            e.setAttribute(QStringLiteral("paramlist"), imagefiles.join(QLatin1Char(';')));
             break;
         }
     }*/

@@ -44,7 +44,7 @@ QString EffectInfo::toString() const
         collapsedState += 2;
     }
     data << QString::number(collapsedState) << QString::number(groupIndex) << groupName;
-    return data.join(QStringLiteral("/"));
+    return data.join(QLatin1Char('/'));
 }
 
 void EffectInfo::fromString(const QString &value)
@@ -52,7 +52,7 @@ void EffectInfo::fromString(const QString &value)
     if (value.isEmpty()) {
         return;
     }
-    QStringList data = value.split(QStringLiteral("/"));
+    QStringList data = value.split(QLatin1Char('/'));
     isCollapsed = data.at(0).toInt() == 1 || data.at(0).toInt() == 3;
     groupIsCollapsed = data.at(0).toInt() >= 2;
     if (data.count() > 1) {
@@ -179,7 +179,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
                 values[j] = pos + '=' + locale.toString(val);
             }
             // //qCDebug(KDENLIVE_LOG) << "/ / / /SENDING KEYFR:" << values;
-            parameters.addParam(paramname, values.join(QStringLiteral(";")));
+            parameters.addParam(paramname, values.join(QLatin1Char(';')));
             /*parameters.addParam(e.attribute("name"), e.attribute("keyframes").replace(":", "="));
             parameters.addParam("max", e.attribute("max"));
             parameters.addParam("min", e.attribute("min"));
@@ -445,7 +445,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
         }
         result.append(newKey);
     }
-    return result.join(QStringLiteral(";"));
+    return result.join(QLatin1Char(';'));
 }
 
 EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, const QDomElement &effect)
@@ -483,7 +483,7 @@ EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, const
                         values[j] = pos + '=' + locale.toString(val);
                     }
                 }
-                parameters.addParam(e.attribute(QStringLiteral("name")), values.join(QStringLiteral(";")));
+                parameters.addParam(e.attribute(QStringLiteral("name")), values.join(QLatin1Char(';')));
                 /*parameters.addParam("max", e.attribute("max"));
                 parameters.addParam("min", e.attribute("min"));
                 parameters.addParam("factor", );*/
@@ -524,7 +524,7 @@ void EffectsController::offsetKeyframes(int in, const QDomElement &effect)
                 int pos = values.at(j).section('=', 0, 0).toInt() - in;
                 values[j] = QString::number(pos) + "=" + values.at(j).section('=', 1);
             }
-            e.setAttribute(QStringLiteral("keyframes"), values.join(QStringLiteral(";")));
+            e.setAttribute(QStringLiteral("keyframes"), values.join(QLatin1Char(';')));
         }
     }
 }

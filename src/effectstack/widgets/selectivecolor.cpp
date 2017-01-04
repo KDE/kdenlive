@@ -86,7 +86,7 @@ void SelectiveColor::updateValues()
     spin_yell->setValue(0);
     spin_mag->setValue(0);
     spin_cyan->setValue(0);
-    QStringList vals = values.at(1).split(QStringLiteral(" "));
+    QStringList vals = values.at(1).split(QLatin1Char(' '));
     switch (vals.count()) {
     case 4 :
         spin_black->setValue(vals.at(3).toDouble() * 100);

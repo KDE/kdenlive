@@ -215,8 +215,8 @@ QMap<QString, QString> Timeline::documentProperties()
     props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
     props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
     QPair <QStringList, QStringList> chunks = m_ruler->previewChunks();
-    props.insert(QStringLiteral("previewchunks"), chunks.first.join(QStringLiteral(",")));
-    props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QStringLiteral(",")));
+    props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
+    props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
     props.insert(QStringLiteral("disablepreview"), QString::number((int) m_disablePreview->isChecked()));
     return props;
 }
@@ -1243,7 +1243,7 @@ void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &valu
             }
             kfrs[l] = fr + '=' + QString::number((int)(val + offset));
         }
-        param.setAttribute(QStringLiteral("keyframes"), kfrs.join(QStringLiteral(";")));
+        param.setAttribute(QStringLiteral("keyframes"), kfrs.join(QLatin1Char(';')));
     } else if (type == QLatin1String("double") || type == QLatin1String("constant")) {
         param.setAttribute(QStringLiteral("value"), locale.toDouble(value) * fact + offset);
     } else {
@@ -1988,7 +1988,7 @@ void Timeline::loadPreviewRender()
             return;
         }
         m_timelinePreview->buildPreviewTrack();
-        m_timelinePreview->loadChunks(chunks.split(QStringLiteral(","), QString::SkipEmptyParts), dirty.split(QStringLiteral(","), QString::SkipEmptyParts), documentDate);
+        m_timelinePreview->loadChunks(chunks.split(QLatin1Char(','), QString::SkipEmptyParts), dirty.split(QLatin1Char(','), QString::SkipEmptyParts), documentDate);
         m_usePreview = true;
     } else {
         m_ruler->hidePreview(true);
