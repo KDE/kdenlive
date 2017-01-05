@@ -106,7 +106,8 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     backgroundAlpha->setMinimum(0);
     backgroundAlpha->setMaximum(255);
-    //backgroundAlpha->setDecimals(0);
+    bgAlphaSlider->setMinimum(0);
+    bgAlphaSlider->setMaximum(255);
     backgroundAlpha->setValue(0);
     backgroundAlpha->setToolTip(i18n("Background color opacity"));
 

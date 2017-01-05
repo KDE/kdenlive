@@ -55,6 +55,7 @@ private:
     QList<int> m_keyframes;
     int m_lineHeight;
     double m_scale;
+    int m_size;
 
     QColor m_colSelected;
     QColor m_colKeyframe;
