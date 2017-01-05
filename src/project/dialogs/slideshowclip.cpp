@@ -92,7 +92,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         if (url.fileName().startsWith(QLatin1String(".all."))) {
             // the image sequence is defined by mimetype
             m_view.method_mime->setChecked(true);
-            m_view.folder_url->setText(url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).path());
+            m_view.folder_url->setText(url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
             QString filter = url.fileName();
             QString ext = filter.section('.', -1);
             for (int i = 0; i < m_view.image_type->count(); ++i) {
@@ -105,7 +105,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
             // the image sequence is defined by pattern
             m_view.method_pattern->setChecked(true);
             m_view.image_type->setHidden(true);
-            m_view.pattern_url->setText(url.path());
+            m_view.pattern_url->setText(url.toLocalFile());
         }
     } else {
         m_view.method_mime->setChecked(KdenliveSettings::slideshowbymime());
@@ -224,7 +224,7 @@ void SlideshowClip::parseFolder()
 {
     m_view.icon_list->clear();
     bool isMime = m_view.method_mime->isChecked();
-    QString path = isMime ? m_view.folder_url->url().path() : m_view.pattern_url->url().adjusted(QUrl::RemoveFilename).path();
+    QString path = isMime ? m_view.folder_url->url().toLocalFile() : m_view.pattern_url->url().adjusted(QUrl::RemoveFilename).toLocalFile();
     QDir dir(path);
     if (path.isEmpty() || !dir.exists()) {
         m_count = 0;
@@ -246,7 +246,7 @@ void SlideshowClip::parseFolder()
     } else {
         int offset = 0;
         QString path = m_view.pattern_url->text();
-        QDir dir(QUrl(path).adjusted(QUrl::RemoveFilename).path());
+        QDir dir = QFileInfo(m_view.pattern_url->text()).absoluteDir();
         result = dir.entryList(QDir::Files);
         // find pattern
         if (path.contains('?')) {
@@ -254,10 +254,17 @@ void SlideshowClip::parseFolder()
             offset = path.section(':', -1).toInt();
             path = path.section('?', 0, 0);
         }
-        QString filter = QUrl::fromLocalFile(path).fileName();
+        QString filter = QFileInfo(path).fileName();
         QString ext = filter.section('.', -1);
-        filter = filter.section('%', 0, -2);
-        qCDebug(KDENLIVE_LOG) << " / /" << path << " / " << ext << " / " << filter;
+        if (filter.contains('%')) {
+            filter = filter.section('%', 0, -2);
+        } else {
+            filter = filter.section('.', 0, -2);
+            while (!filter.isEmpty() && filter.at(filter.count() - 1).isDigit()) {
+                filter.remove(filter.count() - 1, 1);
+            }
+        }
+        // qCDebug(KDENLIVE_LOG) << " / /" << path << " / " << ext << " / " << filter;
         QString regexp = '^' + filter + "\\d+\\." + ext + '$';
         QRegExp rx(regexp);
         QStringList entries;
@@ -277,7 +284,7 @@ void SlideshowClip::parseFolder()
         result = entries;
     }
     foreach (const QString &path, result) {
-        QListWidgetItem *item = new QListWidgetItem(unknownicon, QUrl(path).fileName());
+        QListWidgetItem *item = new QListWidgetItem(unknownicon, path);
         item->setData(Qt::UserRole, dir.filePath(path));
         m_view.icon_list->addItem(item);
     }
@@ -322,7 +329,7 @@ void SlideshowClip::slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix)
         QListWidgetItem *item = m_view.icon_list->item(i);
         if (item) {
             QString path = item->data(Qt::UserRole).toString();
-            if (path == fileItem.url().path()) {
+            if (path == fileItem.url().toLocalFile()) {
                 item->setIcon(QIcon(pix));
                 item->setData(Qt::UserRole, QString());
                 break;
@@ -363,7 +370,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
 {
     QString folder;
     if (isMime) {
-        folder = url.path();
+        folder = url.toLocalFile();
         if (!folder.endsWith(QDir::separator())) {
             folder.append(QDir::separator());
         }
@@ -374,7 +381,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
         dir.setNameFilters(filters);
         *list = dir.entryList(QDir::Files);
     } else {
-        folder = url.adjusted(QUrl::RemoveFilename).path();
+        folder = url.adjusted(QUrl::RemoveFilename).toLocalFile();
         QString filter = url.fileName();
         QString ext = '.' + filter.section('.', -1);
         filter = filter.section('.', 0, -2);
@@ -407,7 +414,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
             extension.append(QStringLiteral("?begin:%1").arg(firstFrame));
         }
     }
-    //qCDebug(KDENLIVE_LOG) << "// FOUND " << (*list).count() << " items for " << url.path();
+    //qCDebug(KDENLIVE_LOG) << "// FOUND " << (*list).count() << " items for " << url.toLocalFile();
     return  folder + extension;
 }
 

@@ -638,6 +638,7 @@ void AnimationWidget::updateRect(int pos)
             }
         }
     }
+    m_spinSize->setEnabled(enableEdit);
     m_spinX->setEnabled(enableEdit);
     m_spinY->setEnabled(enableEdit);
     m_spinWidth->setEnabled(enableEdit);

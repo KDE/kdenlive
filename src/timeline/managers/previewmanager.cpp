@@ -529,7 +529,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
 
 void PreviewManager::reloadChunks(const QList<int> &chunks)
 {
-    if (m_previewTrack == Q_NULLPTR) {
+    if (m_previewTrack == Q_NULLPTR || chunks.isEmpty()) {
         return;
     }
     m_tractor->lock();
