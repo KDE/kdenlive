@@ -163,3 +163,27 @@ QList<BPoint> CubicBezierSpline::getPoints() const
 {
     return m_points;
 }
+
+std::pair<int, BPoint::PointType> CubicBezierSpline::closestPoint(const QPointF& p) const
+{
+    double nearestDistanceSquared = 1e100;
+    BPoint::PointType selectedPoint = BPoint::PointType::P;
+    int nearestIndex = -1;
+    int i = 0;
+
+    // find out distance using the Pythagorean theorem
+    for(const auto& point : m_points) {
+        for (int j = 0; j < 3; ++j) {
+            double dx = point[j].x() - p.x();
+            double dy = point[j].y() - p.y();
+            double distanceSquared = dx * dx + dy * dy;
+            if (distanceSquared < nearestDistanceSquared) {
+                nearestIndex = i;
+                nearestDistanceSquared = distanceSquared;
+                selectedPoint = (BPoint::PointType)j;
+            }
+        }
+        ++i;
+    }
+    return {nearestIndex, selectedPoint};
+}

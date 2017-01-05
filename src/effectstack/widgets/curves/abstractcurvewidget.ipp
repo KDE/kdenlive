@@ -17,6 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <QMouseEvent>
+#include <QKeyEvent>
 
 template<typename Curve_t>
 AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent):
@@ -195,6 +197,44 @@ void AbstractCurveWidget<Curve_t>::slotDeleteCurrentPoint()
                           isCurrentPointExtremal());
         update();
         emit modified();
+        setCursor(Qt::ArrowCursor);
+        m_state = State_t::NORMAL;
     }
 }
 
+
+template<typename Curve_t>
+void AbstractCurveWidget<Curve_t>::resizeEvent(QResizeEvent *e)
+{
+    m_pixmapIsDirty = true;
+    QWidget::resizeEvent(e);
+}
+
+template<typename Curve_t>
+void AbstractCurveWidget<Curve_t>::leaveEvent(QEvent *event)
+{
+    QWidget::leaveEvent(event);
+}
+
+template<typename Curve_t>
+void AbstractCurveWidget<Curve_t>::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() != Qt::LeftButton) {
+        return;
+    }
+
+    setCursor(Qt::ArrowCursor);
+    m_state = State_t::NORMAL;
+
+    emit modified();
+}
+
+template<typename Curve_t>
+void AbstractCurveWidget<Curve_t>::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Delete || e->key() == Qt::Key_Backspace) {
+        slotDeleteCurrentPoint();
+    } else {
+        QWidget::keyPressEvent(e);
+    }
+}

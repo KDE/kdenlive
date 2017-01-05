@@ -72,6 +72,10 @@ public:
      */
     BPoint getPoint(int ix, int normalisedWidth = 1, int normalisedHeight = 1, bool invertHeight = false) override;
 
+    /** @brief Returns the closest point to @param p, represented by its index and type (center or handle)
+     */
+    std::pair<int, BPoint::PointType> closestPoint(const QPointF& p) const ;
+
     QList<BPoint> getPoints() const;
 private:
     void validatePoints();

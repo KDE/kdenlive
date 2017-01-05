@@ -28,7 +28,7 @@
 BezierSplineEditor::BezierSplineEditor(QWidget *parent) :
     AbstractCurveWidget(parent)
     , m_showAllHandles(true)
-    , m_currentPointType(PTypeP)
+    , m_currentPointType(BPoint::PointType::P)
     , m_grabOffsetX(0)
     , m_grabOffsetY(0)
 {
@@ -116,11 +116,6 @@ void BezierSplineEditor::paintEvent(QPaintEvent *event)
     }
 }
 
-void BezierSplineEditor::resizeEvent(QResizeEvent *event)
-{
-    m_pixmapIsDirty = true;
-    QWidget::resizeEvent(event);
-}
 
 void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
 {
@@ -134,24 +129,12 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
     double x = (event->pos().x() - offsetX) / (double)(wWidth);
     double y = 1.0 - (event->pos().y() - offsetY) / (double)(wHeight);
 
-    point_types selectedPoint;
+    BPoint::PointType selectedPoint;
     int closestPointIndex = nearestPointInRange(QPointF(x, y), wWidth, wHeight, &selectedPoint);
 
-    if (event->button() == Qt::RightButton && closestPointIndex > 0 && closestPointIndex < m_curve.count() - 1 && selectedPoint == PTypeP) {
-        m_curve.removePoint(closestPointIndex);
-        setCursor(Qt::ArrowCursor);
-        m_state = State_t::NORMAL;
-        if (closestPointIndex < m_currentPointIndex) {
-            --m_currentPointIndex;
-        }
-        update();
-        if (m_currentPointIndex >= 0) {
-            emit currentPoint(m_curve.getPoint(m_currentPointIndex),
-                              isCurrentPointExtremal());
-        } else {
-            emit currentPoint(BPoint(), true);
-        }
-        emit modified();
+    if (event->button() == Qt::RightButton && closestPointIndex > 0 && closestPointIndex < m_curve.count() - 1 && selectedPoint == BPoint::PointType::P) {
+        m_currentPointIndex = closestPointIndex;
+        slotDeleteCurrentPoint();
         return;
     } else if (event->button() != Qt::LeftButton) {
         return;
@@ -162,7 +145,7 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
             m_currentPointIndex = m_curve.addPoint(BPoint(QPointF(x - 0.05, y - 0.05),
                                                 QPointF(x, y),
                                                 QPointF(x + 0.05, y + 0.05)));
-            m_currentPointType = PTypeP;
+            m_currentPointType = BPoint::PointType::P;
         }
     } else {
         m_currentPointIndex = closestPointIndex;
@@ -191,17 +174,6 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
     update();
 }
 
-void BezierSplineEditor::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (event->button() != Qt::LeftButton) {
-        return;
-    }
-
-    setCursor(Qt::ArrowCursor);
-    m_state = State_t::NORMAL;
-
-    emit modified();
-}
 
 void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
 {
@@ -217,7 +189,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
 
     if (m_state == State_t::NORMAL) {
         // If no point is selected set the cursor shape if on top
-        point_types type;
+        BPoint::PointType type;
         int nearestPointIndex = nearestPointInRange(QPointF(x, y), wWidth, wHeight, &type);
 
         if (nearestPointIndex < 0) {
@@ -236,7 +208,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
         double rightX = 1.;
         BPoint point = m_curve.getPoint(m_currentPointIndex);
         switch (m_currentPointType) {
-        case PTypeH1:
+        case BPoint::PointType::H1:
             rightX = point.p.x();
             if (m_currentPointIndex == 0) {
                 leftX = -4;
@@ -248,7 +220,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
             point.setH1(QPointF(x, y));
             break;
 
-        case PTypeP:
+        case BPoint::PointType::P:
             if (m_currentPointIndex == 0) {
                 rightX = 0.0;
             } else if (m_currentPointIndex == m_curve.count() - 1) {
@@ -270,7 +242,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
             point.setP(QPointF(x, y), false);
             break;
 
-        case PTypeH2:
+        case BPoint::PointType::H2:
             leftX = point.p.x();
             if (m_currentPointIndex == m_curve.count() - 1) {
                 rightX = 5;
@@ -285,7 +257,7 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
         int index = m_currentPointIndex;
         m_currentPointIndex = m_curve.setPoint(m_currentPointIndex, point);
 
-        if (m_currentPointType == PTypeP) {
+        if (m_currentPointType == BPoint::PointType::P) {
             // we might have changed the handles of other points
             // try to restore
             if (index == m_currentPointIndex) {
@@ -330,37 +302,22 @@ void BezierSplineEditor::mouseDoubleClickEvent(QMouseEvent * /*event*/)
     }
 }
 
-void BezierSplineEditor::leaveEvent(QEvent *event)
+
+int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wHeight, BPoint::PointType *sel)
 {
-    QWidget::leaveEvent(event);
-}
 
-int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wHeight, BezierSplineEditor::point_types *sel)
-{
-    double nearestDistanceSquared = 1000;
-    point_types selectedPoint = PTypeP;
-    int nearestIndex = -1;
-    int i = 0;
+    auto nearest = m_curve.closestPoint(p);
+    int nearestIndex = nearest.first;
+    BPoint::PointType pointType = nearest.second;
 
-    double distanceSquared;
-    // find out distance using the Pythagorean theorem
-    foreach (const BPoint &point, m_curve.points()) {
-        for (int j = 0; j < 3; ++j) {
-            distanceSquared = pow(point[j].x() - p.x(), 2) + pow(point[j].y() - p.y(), 2);
-            if (distanceSquared < nearestDistanceSquared) {
-                nearestIndex = i;
-                nearestDistanceSquared = distanceSquared;
-                selectedPoint = (point_types)j;
-            }
-        }
-        ++i;
-    }
-
-    if (nearestIndex >= 0 && (nearestIndex == m_currentPointIndex || selectedPoint == PTypeP || m_showAllHandles)) {
+    if (nearestIndex >= 0 &&
+        (nearestIndex == m_currentPointIndex ||
+         pointType == BPoint::PointType::P ||
+         m_showAllHandles)) {
         // a point was found and it is not a hidden handle
         BPoint point = m_curve.getPoint(nearestIndex);
-        if (qAbs(p.x() - point[(int)selectedPoint].x()) * wWidth < 5 && qAbs(p.y() - point[(int)selectedPoint].y()) * wHeight < 5) {
-            *sel = selectedPoint;
+        if (qAbs(p.x() - point[(int)pointType].x()) * wWidth < 5 && qAbs(p.y() - point[(int)pointType].y()) * wHeight < 5) {
+            *sel = pointType;
             return nearestIndex;
         }
     }

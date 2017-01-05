@@ -123,6 +123,10 @@ public:
     void slotZoomOut();
 protected:
     void paintBackground(QPainter * p);
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
     /**
        Utility function to check if current selected point is the first or the last
     */

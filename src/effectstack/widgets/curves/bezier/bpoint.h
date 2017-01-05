@@ -28,6 +28,7 @@
 class BPoint
 {
 public:
+    enum class PointType{H1=0, P=1, H2=2};
     /** @brief Sets the point to -1, -1 to mark it as unusable (until point + handles have proper values) */
     BPoint();
     /** @brief Sets up according to the params. Linking detecting is done using autoSetLinked(). */

@@ -27,12 +27,10 @@
 #include "kis_cubic_curve.h"
 
 class QEvent;
-class QKeyEvent;
 class QMouseEvent;
 class QObject;
 class QPaintEvent;
 class QPixmap;
-class QResizeEvent;
 
 class QSpinBox;
 
@@ -76,13 +74,9 @@ protected slots:
 
 protected:
 
-    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 public:
 
 
@@ -119,7 +113,6 @@ private:
     QPointF m_draggedAwayPoint;
     int m_draggedAwayPointIndex;
 
-    bool m_readOnlyMode;
     bool m_guideVisible;
     QColor m_colorGuide;
 

@@ -45,18 +45,14 @@ public slots:
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    enum point_types { PTypeH1, PTypeP, PTypeH2 };
     /** Whether to show handles for all points or only for the selected one. */
     bool m_showAllHandles;
 
-    point_types m_currentPointType;
+    BPoint::PointType m_currentPointType;
     double m_grabOffsetX;
     double m_grabOffsetY;
     /** selected point before it was modified by dragging (at the time of the mouse press) */
@@ -70,7 +66,7 @@ private:
      * @param sel Is filled with the type of the closest point (h1, p, h2)
      *
      * If no point is near enough -1 is returned. */
-    int nearestPointInRange(const QPointF &p, int wWidth, int wHeight, point_types *sel);
+    int nearestPointInRange(const QPointF &p, int wWidth, int wHeight, BPoint::PointType *sel);
 
 };
 
