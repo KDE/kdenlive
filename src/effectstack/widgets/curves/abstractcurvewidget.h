@@ -23,7 +23,6 @@
 
 #include <QWidget>
 #include <memory>
-#include "abstractcurve.h"
 #include "bezier/bpoint.h"
 
 #include <QPainter>

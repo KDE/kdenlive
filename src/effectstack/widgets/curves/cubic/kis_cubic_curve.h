@@ -21,14 +21,13 @@
 
 #include<QList>
 #include<QVector>
-#include "../abstractcurve.h"
 
 class QPointF;
 
 /**
  * Hold the data for a cubic curve.
  */
-class KisCubicCurve : public AbstractCurve<QPointF>
+class KisCubicCurve
 {
 public:
     typedef QPointF Point_t;
@@ -43,23 +42,23 @@ public:
     qreal value(qreal x) const;
     QList<QPointF> points() const;
     void setPoints(const QList<QPointF> &points);
-    int setPoint(int idx, const QPointF &point) override;
+    int setPoint(int idx, const QPointF &point) ;
     /**
      * Add a point to the curve, the list of point is always sorted.
      * @return the index of the inserted point
      */
-    int addPoint(const QPointF &point) override;
-    void removePoint(int idx) override;
+    int addPoint(const QPointF &point) ;
+    void removePoint(int idx) ;
     /** @brief Returns the number of points on the curve
      */
-    virtual int count() const override;
+    int count() const ;
     /** @brief Returns the point at @param ix.
      * @param ix Index of the point
      * @param normalisedWidth (default = 1) Will be multiplied will all x values to change the range from 0-1 into another one
      * @param normalisedHeight (default = 1) Will be multiplied will all y values to change the range from 0-1 into another one
      * @param invertHeight (default = false) true => y = 0 is at the very top
      */
-    QPointF getPoint(int ix, int normalisedWidth = 1, int normalisedHeight = 1, bool invertHeight = false) override;
+    QPointF getPoint(int ix, int normalisedWidth = 1, int normalisedHeight = 1, bool invertHeight = false) ;
 public:
     QVector<quint16> uint16Transfer(int size = 256) const;
     QVector<qreal> floatTransfer(int size = 256) const;
@@ -72,6 +71,5 @@ private:
     Private *const d;
 };
 
-Q_DECLARE_METATYPE(KisCubicCurve);
 
 #endif

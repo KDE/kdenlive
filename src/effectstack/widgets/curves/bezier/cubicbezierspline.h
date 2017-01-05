@@ -20,14 +20,13 @@
 #define CUBICBEZIERSPLINE_H
 
 #include "bpoint.h"
-#include "effectstack/widgets/curves/abstractcurve.h"
 
 #include <QObject>
 #include <QString>
 #include <QList>
 
 
-class CubicBezierSpline : public AbstractCurve<BPoint>
+class CubicBezierSpline
 {
 
 public:
@@ -42,14 +41,14 @@ public:
      * handles and points with a '#'
      * and the nodes with a '|'
      * So that you get: h1x;h1y#px;py#h2x;h2y|h1x;h1y#... */
-    void fromString(const QString &spline) override;
+    void fromString(const QString &spline) ;
     /** @brief Returns the points stored in a string.
      *
      * x, y values have are separated with a ';'
      * handles and points with a '#'
      * and the nodes with a '|'
      * So that you get: h1x;h1y#px;py#h2x;h2y|h1x;h1y#... */
-    QString toString() const override;
+    QString toString() const ;
 
     /** @brief Returns a list of the points defining the spline. */
     QList<BPoint> points() const;
@@ -58,11 +57,11 @@ public:
     int count() const;
 
     /** @brief Sets the point at index @param ix to @param point and returns its index (it might have changed during validation). */
-    int setPoint(int ix, const BPoint &point) override;
+    int setPoint(int ix, const BPoint &point) ;
     /** @brief Adds @param point and returns its index. */
-    int addPoint(const BPoint &point) override;
+    int addPoint(const BPoint &point) ;
     /** @brief Removes the point at @param ix. */
-    void removePoint(int ix) override;
+    void removePoint(int ix) ;
 
     /** @brief Returns the point at @param ix.
      * @param ix Index of the point
@@ -70,7 +69,7 @@ public:
      * @param normalisedHeight (default = 1) Will be multiplied will all y values to change the range from 0-1 into another one
      * @param invertHeight (default = false) true => y = 0 is at the very top
      */
-    BPoint getPoint(int ix, int normalisedWidth = 1, int normalisedHeight = 1, bool invertHeight = false) override;
+    BPoint getPoint(int ix, int normalisedWidth = 1, int normalisedHeight = 1, bool invertHeight = false) ;
 
     /** @brief Returns the closest point to @param p, represented by its index and type (center or handle)
      */
