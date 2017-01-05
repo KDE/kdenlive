@@ -32,13 +32,7 @@ BezierSplineEditor::BezierSplineEditor(QWidget *parent) :
     , m_grabOffsetX(0)
     , m_grabOffsetY(0)
 {
-    m_state = State_t::NORMAL;
     m_curve = CubicBezierSpline();
-    setMouseTracking(true);
-    setAutoFillBackground(false);
-    setAttribute(Qt::WA_OpaquePaintEvent);
-    setMinimumSize(150, 150);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 BezierSplineEditor::~BezierSplineEditor()

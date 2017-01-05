@@ -122,6 +122,7 @@ public:
     void slotZoomOut();
 protected:
     void paintBackground(QPainter * p);
+    int heightForWidth(int w) const Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;

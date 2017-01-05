@@ -51,27 +51,17 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     : AbstractCurveWidget(parent)
 {
     setObjectName(QStringLiteral("KisCurveWidget"));
-    m_currentPointIndex = -1;
     m_guideVisible   = false;
-    m_pixmapIsDirty = true;
-    m_pixmapCache = Q_NULLPTR;
 
     m_intIn = Q_NULLPTR;
     m_intOut = Q_NULLPTR;
 
     m_maxPoints = -1;
 
-    setMouseTracking(true);
-    setAutoFillBackground(false);
-    setAttribute(Qt::WA_OpaquePaintEvent);
-    setMinimumSize(150, 150);
-    setMaximumSize(1000, 1000);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     update();
     emit modified();
 
-    setFocusPolicy(Qt::StrongFocus);
     m_grabOffsetX = 0;
     m_grabOffsetY = 0;
     m_grabOriginalX = 0;

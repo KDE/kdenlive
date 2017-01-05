@@ -29,8 +29,18 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent):
     , m_pixmapIsDirty(true)
     , m_currentPointIndex(-1)
     , m_maxPoints(1000000)
+    , m_state(State_t::NORMAL)
 
 {
+    setMouseTracking(true);
+    setAutoFillBackground(false);
+    setAttribute(Qt::WA_OpaquePaintEvent);
+    setMinimumSize(150, 150);
+    setMaximumSize(500, 500);
+    QSizePolicy sp(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    sp.setHeightForWidth(true); //force widget to have a height dependent on width;
+    setSizePolicy(sp);
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 template<typename Curve_t>
@@ -237,4 +247,10 @@ void AbstractCurveWidget<Curve_t>::keyPressEvent(QKeyEvent *e)
     } else {
         QWidget::keyPressEvent(e);
     }
+}
+
+template<typename Curve_t>
+int AbstractCurveWidget<Curve_t>::heightForWidth(int w) const
+{
+    return w;
 }
