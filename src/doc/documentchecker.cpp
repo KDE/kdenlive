@@ -74,7 +74,7 @@ bool DocumentChecker::hasErrorInClips()
         QDir dir(root);
         if (!dir.exists()) {
             // Looks like project was moved, try recovering root from current project url
-            m_rootReplacement.first = root;
+            m_rootReplacement.first = dir.absolutePath() + QDir::separator();
             root = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
             baseElement.setAttribute(QStringLiteral("root"), root);
             m_rootReplacement.second = root;
@@ -196,8 +196,9 @@ bool DocumentChecker::hasErrorInClips()
         // Check for slideshows
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
         if ((service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) && slideshow) {
-            resource = QUrl::fromLocalFile(resource).adjusted(QUrl::RemoveFilename).toLocalFile();
+            resource = QFileInfo(resource).absolutePath();
         }
+        qDebug()<<" * * *Checking resource: "<<resource;
         if (!QFile::exists(resource)) {
             // Missing clip found
             m_missingClips.append(e);
@@ -294,9 +295,9 @@ bool DocumentChecker::hasErrorInClips()
         QString clipType;
         ClipType type;
         int status = CLIPMISSING;
-        QString resource = EffectsList::property(e, "resource");
+	const QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
+        QString resource = service == QLatin1String("timewarp") ? EffectsList::property(e, "warp_resource") : EffectsList::property(e, "resource");
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
-	QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
 	if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") || service == QLatin1String("timewarp")) {
 	    clipType = i18n("Video clip");
             type = AV;
