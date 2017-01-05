@@ -20,6 +20,7 @@
 #include <QStringList>
 #include <QLocale>
 #include <QVector>
+#include <math.h>
 
 /** @brief For sorting a Bezier spline. Whether a is before b. */
 static bool pointLessThan(const BPoint &a, const BPoint &b)
@@ -104,6 +105,31 @@ int CubicBezierSpline::addPoint(const BPoint &point)
     keepSorted();
     validatePoints();
     return indexOf(point);
+}
+
+int CubicBezierSpline::addPoint(const QPointF &point)
+{
+    //Check if point is in range
+    if (point.x() < m_points[0].p.x() || point.x() > m_points.back().p.x()) {
+        return -1;
+    }
+    //first we find by dichotomy the previous and next points on the curve
+    int prev = 0, next = m_points.size() - 1;
+    while (prev < next - 1) {
+        int mid = (prev + next) / 2;
+        if (point.x() < m_points[mid].p.x()) {
+            next = mid;
+        } else {
+            prev = mid;
+        }
+    }
+
+    //compute vector between adjacent points
+    QPointF vec = m_points[next].p - m_points[prev].p;
+    //normalize
+    vec /= 10. * sqrt(vec.x() * vec.x() + vec.y() * vec.y());
+    //add resulting point
+    return addPoint(BPoint(point - vec, point, point + vec));
 }
 
 BPoint CubicBezierSpline::getPoint(int ix, int normalisedWidth, int normalisedHeight, bool invertHeight)

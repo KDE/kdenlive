@@ -142,9 +142,7 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
 
     if (closestPointIndex < 0) {
         if (m_curve.count() < m_maxPoints) {
-            m_currentPointIndex = m_curve.addPoint(BPoint(QPointF(x - 0.05, y - 0.05),
-                                                QPointF(x, y),
-                                                QPointF(x + 0.05, y + 0.05)));
+            m_currentPointIndex = m_curve.addPoint(QPointF(x, y));
             m_currentPointType = BPoint::PointType::P;
         }
     } else {

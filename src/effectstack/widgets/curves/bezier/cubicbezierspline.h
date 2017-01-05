@@ -60,6 +60,11 @@ public:
     int setPoint(int ix, const BPoint &point) ;
     /** @brief Adds @param point and returns its index. */
     int addPoint(const BPoint &point) ;
+    /** @brief Add a point based on a position @param point only
+        This will try to compute relevant handles based on neihbouring points
+        Return the index of the added point.
+    */
+    int addPoint(const QPointF &point);
     /** @brief Removes the point at @param ix. */
     void removePoint(int ix) ;
 
