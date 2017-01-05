@@ -41,9 +41,8 @@ SimpleTimelineWidget::SimpleTimelineWidget(QWidget *parent) :
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
-    m_colSelected = scheme.decoration(KColorScheme::HoverColor).color();
-    m_colKeyframe = scheme.foreground(KColorScheme::LinkText).color();
-    m_colKeyframeBg = scheme.shade(KColorScheme::MidShade);
+    m_colSelected = palette().highlight().color();
+    m_colKeyframe = scheme.foreground(KColorScheme::NormalText).color();
 }
 
 void SimpleTimelineWidget::setKeyframes(const QList<int> &keyframes)
@@ -281,9 +280,6 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent *event)
     m_scale = width() / (double)(m_duration);
     p.translate(0, m_lineHeight);
 
-    p.setPen(m_colKeyframe);
-    p.setBrush(m_colKeyframeBg);
-
     /*
      * keyframes
      */
@@ -294,14 +290,11 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent *event)
         tmp.translate(pos * m_scale, 0);
         if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
             p.setBrush(m_colSelected);
+        } else {
+            p.setBrush(m_colKeyframe);
         }
-
         p.drawConvexPolygon(tmp);
         p.drawLine(QLineF(0, -1, 0, 5).translated(pos * m_scale, 0));
-
-        if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
-            p.setBrush(m_colKeyframeBg);
-        }
     }
 
     p.setPen(palette().dark().color());
@@ -309,6 +302,7 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent *event)
     /*
      * Time-"line"
      */
+    p.setPen(m_colKeyframe);
     p.drawLine(0, 0, width(), 0);
 
     /*
@@ -316,7 +310,7 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent *event)
      */
     QPolygonF position = QPolygonF() << QPointF(0, 1) << QPointF(5, 6) << QPointF(-5, 6);
     position.translate(m_position * m_scale, 0);
-    p.setBrush(palette().dark().color());
+    p.setBrush(m_colKeyframe);
     p.drawConvexPolygon(position);
 }
 

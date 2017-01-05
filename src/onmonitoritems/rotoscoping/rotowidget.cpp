@@ -268,6 +268,7 @@ void RotoWidget::slotAddKeyframe(int pos)
         m_keyframeWidget->addKeyframe();
     }
     slotUpdateDataPoints(m_monitor->effectRoto(), pos);
+    slotPositionChanged(pos, false);
 }
 
 void RotoWidget::slotRemoveKeyframe(int pos)
