@@ -144,9 +144,6 @@ bool DocumentChecker::hasErrorInClips()
         }
         resource = EffectsList::property(e, QStringLiteral("resource"));
         if (resource.isEmpty()) continue;
-        if (QFileInfo(resource).isRelative()) {
-            resource.prepend(root);
-        }
         if (service == QLatin1String("timewarp")) {
             //slowmotion clip, trim speed info
             resource = EffectsList::property(e, QStringLiteral("warp_resource"));
@@ -154,6 +151,11 @@ bool DocumentChecker::hasErrorInClips()
         else if (service == QLatin1String("framebuffer")) {
             //slowmotion clip, trim speed info
             resource = resource.section(QStringLiteral("?"), 0, 0);
+        }
+
+        // Make sure to have absolute paths
+        if (QFileInfo(resource).isRelative()) {
+            resource.prepend(root);
         }
         if (verifiedPaths.contains(resource)) {
             // Don't check same url twice (for example track producers)
