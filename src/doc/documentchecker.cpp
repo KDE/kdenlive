@@ -147,15 +147,17 @@ bool DocumentChecker::hasErrorInClips()
         if (resource.isEmpty()) {
             continue;
         }
-        if (QFileInfo(resource).isRelative()) {
-            resource.prepend(root);
-        }
         if (service == QLatin1String("timewarp")) {
             //slowmotion clip, trim speed info
             resource = EffectsList::property(e, QStringLiteral("warp_resource"));
         } else if (service == QLatin1String("framebuffer")) {
             //slowmotion clip, trim speed info
             resource = resource.section(QLatin1Char('?'), 0, 0);
+        }
+
+        // Make sure to have absolute paths
+        if (QFileInfo(resource).isRelative()) {
+            resource.prepend(root);
         }
         if (verifiedPaths.contains(resource)) {
             // Don't check same url twice (for example track producers)
