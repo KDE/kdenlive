@@ -564,7 +564,7 @@ void KdenliveDoc::slotAutoSave()
             qCDebug(KDENLIVE_LOG) << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         //qCDebug(KDENLIVE_LOG) << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        QDomDocument sceneList = xmlSceneList(m_render->sceneList(m_url.adjusted(QUrl::RemoveFilename).toLocalFile()));
+        QDomDocument sceneList = xmlSceneList(m_render->sceneList(m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
         if (sceneList.isNull()) {
             //Make sure we don't save if scenelist is corrupted
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", m_autosave->fileName()));
@@ -1470,7 +1470,7 @@ void KdenliveDoc::loadDocumentProperties()
                 if (name == QStringLiteral("storagefolder")) {
                     // Make sure we have an absolute path
                     QString value = e.firstChild().nodeValue();
-                    if (!value.startsWith(QStringLiteral("/"))) {
+                    if (QFileInfo(value).isRelative()) {
                         value.prepend(root);
                     }
                     m_documentProperties.insert(name, value);
