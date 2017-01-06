@@ -144,8 +144,9 @@ void SelectiveColor::updateEffect(QDomElement &effect)
             continue;
         }
         QString paramName = pa.attribute(QStringLiteral("name"));
-        if (values.contains(paramName)) {
-            pa.setAttribute(QStringLiteral("value"), values.value(paramName));
+        const QString val = values.value(paramName);
+        if (!val.isEmpty()) {
+            pa.setAttribute(QStringLiteral("value"), val);
         } else if (paramName == QLatin1String("av.correction_method")) {
             pa.setAttribute(QStringLiteral("value"), relative->isChecked() ? QStringLiteral("1") : QStringLiteral("0"));
         }

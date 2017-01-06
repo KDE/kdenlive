@@ -808,8 +808,9 @@ void ParameterContainer::toggleSync(bool enable)
                     if (values.count() > 1) {
                         pa.setAttribute(QStringLiteral("intimeline"), m_animationWidget->isActive(paramName) ? "1" : "0");
                     }
-                    if (values.contains(paramName)) {
-                        pa.setAttribute(QStringLiteral("value"), values.value(paramName));
+                    const QString val = values.value(paramName);
+                    if (!val.isEmpty()) {
+                        pa.setAttribute(QStringLiteral("value"), val);
                     }
                 }
             }
@@ -842,8 +843,9 @@ void ParameterContainer::toggleSync(bool enable)
                     if (values.count() > 1) {
                         pa.setAttribute(QStringLiteral("intimeline"), m_animationWidget->isActive(paramName) ? "1" : "0");
                     }
-                    if (values.contains(paramName)) {
-                        pa.setAttribute(QStringLiteral("value"), values.value(paramName));
+                    const QString val = values.value(paramName);
+                    if (!val.isEmpty()) {
+                        pa.setAttribute(QStringLiteral("value"), val);
                     }
                 }
             }
@@ -997,8 +999,9 @@ void ParameterContainer::slotCollectAllParameters()
             if (values.count() > 1) {
                 pa.setAttribute(QStringLiteral("intimeline"), m_animationWidget->isActive(paramName) ? "1" : "0");
             }
-            if (values.contains(paramName)) {
-                pa.setAttribute(QStringLiteral("value"), values.value(paramName));
+            const QString val = values.value(paramName);
+            if (!val.isEmpty()) {
+                pa.setAttribute(QStringLiteral("value"), val);
             }
         }
     }
