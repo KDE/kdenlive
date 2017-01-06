@@ -75,11 +75,14 @@ bool DocumentChecker::hasErrorInClips()
         if (!dir.exists()) {
             // Looks like project was moved, try recovering root from current project url
             m_rootReplacement.first = dir.absolutePath() + QDir::separator();
-            root = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
+            root = m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
             baseElement.setAttribute(QStringLiteral("root"), root);
+            root = QDir::cleanPath(root) + QDir::separator();
             m_rootReplacement.second = root;
         }
-        root = QDir::cleanPath(root) + QDir::separator();
+        else {
+            root = QDir::cleanPath(root) + QDir::separator();
+        }
     }
     // Check if strorage folder for temp files exists
     QString storageFolder;

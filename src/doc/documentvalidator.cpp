@@ -65,7 +65,7 @@ bool DocumentValidator::validate(const double currentVersion)
     if (rootDir == QLatin1String("$CURRENTPATH")) {
         // The document was extracted from a Kdenlive archived project, fix root directory
         QString playlist = m_doc.toString();
-        playlist.replace(QLatin1String("$CURRENTPATH"), m_url.adjusted(QUrl::RemoveFilename).path());
+        playlist.replace(QLatin1String("$CURRENTPATH"), m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
         m_doc.setContent(playlist);
         mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
         kdenliveDoc = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
