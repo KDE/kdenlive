@@ -148,10 +148,12 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         m_view.slide_fade->setChecked(clip->getProducerIntProperty(QStringLiteral("fade")));
         m_view.luma_softness->setValue(clip->getProducerIntProperty(QStringLiteral("softness")));
         QString anim = clip->getProducerProperty(QStringLiteral("animation"));
-        if (!anim.isEmpty())
-            m_view.animation->setCurrentItem(anim);
-        else
+        if (!anim.isEmpty()) {
+            int ix = m_view.animation->findData(anim);
+            m_view.animation->setCurrentIndex(qMax(0, ix));
+        } else {
             m_view.animation->setCurrentIndex(0);
+        }
         int ttl = clip->getProducerIntProperty(QStringLiteral("ttl"));
         m_view.clip_duration->setText(tc.getTimecodeFromFrames(ttl));
         m_view.clip_duration_frames->setValue(ttl);
