@@ -71,10 +71,14 @@ void BinController::destroyBin()
 
 void BinController::setDocumentRoot(const QString &root)
 {
-    if (root.isEmpty())
+    if (root.isEmpty()) {
         m_documentRoot.clear();
-    else
-        m_documentRoot = root + QStringLiteral("/");
+    } else {
+        m_documentRoot = root;
+        if (!m_documentRoot.endsWith(QLatin1Char('/'))) {
+            m_documentRoot.append(QStringLiteral("/"));
+        }
+    }
 }
 
 const QString BinController::documentRoot() const
@@ -594,11 +598,11 @@ QMap <QString, QString> BinController::getProxies()
 	if (!prod->is_valid() || prod->is_blank()) continue;
         QString proxy = prod->parent().get("kdenlive:proxy");
 	if (proxy.length() > 2) {
-            if (!proxy.startsWith(QLatin1Char('/'))) {
+            if (QFileInfo(proxy).isRelative()) {
                 proxy.prepend(m_documentRoot);
             }
             QString sourceUrl(prod->parent().get("kdenlive:originalurl"));
-            if (!sourceUrl.startsWith(QLatin1Char('/'))) {
+            if (QFileInfo(sourceUrl).isRelative()) {
                 sourceUrl.prepend(m_documentRoot);
             }
 	    proxies.insert(proxy, sourceUrl);

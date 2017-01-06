@@ -145,7 +145,10 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         }
         if (KdenliveSettings::customprojectfolder()) {
             projectFolder = KdenliveSettings::defaultprojectfolder();
-            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + QStringLiteral("/") + documentId);
+            if (!projectFolder.endsWith(QLatin1Char('/'))) {
+                projectFolder.append(QStringLiteral("/"));
+            }
+            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
         }
     } else {
         QPointer<ProjectSettings> w = new ProjectSettings(NULL, QMap <QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
@@ -180,7 +183,10 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         }
         documentProperties.insert(QStringLiteral("proxyimageminsize"), QString::number(w->proxyImageMinSize()));
         if (!projectFolder.isEmpty()) {
-            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + QStringLiteral("/") + documentId);
+            if (!projectFolder.endsWith(QLatin1Char('/'))) {
+                projectFolder.append(QStringLiteral("/"));
+            }
+            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder +documentId);
         }
         documentMetadata = w->metadata();
         delete w;
