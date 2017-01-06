@@ -217,7 +217,7 @@ void KisCurveWidget::mousePressEvent(QMouseEvent *e)
     int closest_point_index = nearestPointInRange(QPointF(x, y), width(), height());
 
     if (e->button() == Qt::RightButton && closest_point_index > 0 && closest_point_index < m_curve.points().count() - 1) {
-        m_currentPointIndex = closestPointIndex;
+        m_currentPointIndex = closest_point_index;
         slotDeleteCurrentPoint();
     } else if (e->button() != Qt::LeftButton) {
         return;
