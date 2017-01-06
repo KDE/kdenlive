@@ -148,7 +148,8 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         m_view.luma_softness->setValue(clip->getProducerIntProperty(QStringLiteral("softness")));
         QString anim = clip->getProducerProperty(QStringLiteral("animation"));
         if (!anim.isEmpty()) {
-            m_view.animation->setCurrentItem(anim);
+            int ix = m_view.animation->findData(anim);
+            m_view.animation->setCurrentIndex(qMax(0, ix));
         } else {
             m_view.animation->setCurrentIndex(0);
         }
