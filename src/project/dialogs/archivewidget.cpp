@@ -707,7 +707,10 @@ bool ArchiveWidget::processProjectFile()
     }
 
     QDomElement mlt = m_doc.documentElement();
-    QString root = mlt.attribute(QStringLiteral("root")) + '/';
+    QString root = mlt.attribute(QStringLiteral("root"));
+    if (!root.isEmpty()) {
+        root.append(QStringLiteral("/"));
+    }
 
     // Adjust global settings
     QString basePath;

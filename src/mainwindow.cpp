@@ -3325,7 +3325,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     } else {
         out = (int) GenTime(project->projectDuration()).frames(project->fps()) - 2;
     }
-    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename).toLocalFile());
+    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
     if (!chapterFile.isEmpty()) {
         QDomDocument doc;
         QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
@@ -3398,7 +3398,10 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
     // Do we want proxy rendering
     if (project->useProxy() && !m_renderWidget->proxyRendering()) {
-        QString root = doc.documentElement().attribute(QStringLiteral("root")) + QStringLiteral("/");
+        QString root = doc.documentElement().attribute(QStringLiteral("root"));
+        if (!root.isEmpty()) {
+            root.append(QStringLiteral("/"));
+        }
 
         // replace proxy clips with originals
         //TODO
@@ -3431,7 +3434,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 suffix.clear();
             }
             if (!producerResource.isEmpty()) {
-                if (!producerResource.startsWith(QLatin1Char('/'))) {
+                if (QFileInfo(producerResource).isRelative()) {
                     producerResource.prepend(root);
                 }
                 if (proxies.contains(producerResource)) {
@@ -3648,7 +3651,7 @@ void MainWindow::slotArchiveProject()
     QList <ClipController*> list = pCore->binController()->getControllerList();
     KdenliveDoc *doc = pCore->projectManager()->current();
     pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
-    QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename).path()));
+    QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
     QPointer<ArchiveWidget> d = new ArchiveWidget(doc->url().fileName(), xmlDoc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
