@@ -134,6 +134,9 @@ void Core::initLocale()
 #else
     setlocale(LC_NUMERIC_MASK, NULL);
 #endif
+
+// localeconv()->decimal_point does not give reliable results on Windows
+#ifndef Q_OS_WIN
     char *separator = localeconv()->decimal_point;
     if (QString::fromUtf8(separator) != QChar(systemLocale.decimalPoint())) {
         //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
@@ -147,6 +150,7 @@ void Core::initLocale()
 #endif
         systemLocale = QLocale::c();
     }
+#endif
 
     systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     QLocale::setDefault(systemLocale);

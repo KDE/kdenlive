@@ -1395,6 +1395,9 @@ QMap <QString, QString> KdenliveDoc::documentProperties()
     }
     m_documentProperties.insert(QStringLiteral("profile"), profilePath());
     m_documentProperties.insert(QStringLiteral("position"), QString::number(m_render->seekPosition().frames(m_render->fps())));
+    if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
+        m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
+    }
     return m_documentProperties;
 }
 

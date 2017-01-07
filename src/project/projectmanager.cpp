@@ -138,6 +138,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     pCore->monitorManager()->resetDisplay();
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
+    documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     documentProperties.insert(QStringLiteral("documentid"), documentId);
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
