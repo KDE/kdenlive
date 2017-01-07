@@ -716,7 +716,7 @@ bool ArchiveWidget::processProjectFile()
 
     QDomElement mlt = m_doc.documentElement();
     QString root = mlt.attribute(QStringLiteral("root"));
-    if (!root.isEmpty()) {
+    if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
         root.append(QStringLiteral("/"));
     }
 

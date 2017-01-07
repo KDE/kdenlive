@@ -44,8 +44,6 @@
 
 #include <QStandardPaths>
 
-#define AMPTODBFS(x) pow(10,20.0/(x))
-
 DocumentValidator::DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl):
     m_doc(doc),
     m_url(documentUrl),
@@ -75,25 +73,87 @@ bool DocumentValidator::validate(const double currentVersion)
     QLocale documentLocale = QLocale::c();
 
     if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
-        // Set locale for the document
-#ifndef Q_OS_MAC
-        const QString newLocale = setlocale(LC_NUMERIC, mlt.attribute(QStringLiteral("LC_NUMERIC")).toUtf8().constData());
+        // Check document numeric separator (added in Kdenlive 16.12.1
+        QDomElement main_playlist = mlt.firstChildElement(QStringLiteral("playlist"));
+        QDomNodeList props = main_playlist.elementsByTagName(QStringLiteral("property"));
+        QChar numericalSeparator;
+        for (int i = 0; i < props.count(); ++i) {
+            QDomNode n = props.at(i);
+            if (n.toElement().attribute(QStringLiteral("name")) == QLatin1String("kdenlive:docproperties.decimalPoint")) {
+                QString sep = n.firstChild().nodeValue();
+                if (!sep.isEmpty()) {
+                    numericalSeparator = sep.at(0);
+                }
+                break;
+            }
+        }
+        bool error = false;
+        if (!numericalSeparator.isNull() && numericalSeparator != QLocale().decimalPoint()) {
+            qCDebug(KDENLIVE_LOG)<<" * ** LOCALE CHANGE REQUIRED: "<<numericalSeparator <<"!="<< QLocale().decimalPoint()<<" / "<<QLocale::system().decimalPoint();
+            // Change locale to match document
+            QString requestedLocale = mlt.attribute(QStringLiteral("LC_NUMERIC"));
+            documentLocale = QLocale(requestedLocale);
+#ifdef Q_OS_WIN
+            // Most locales don't work on windows, so use C whenever possible
+            if (numericalSeparator == QLatin1Char('.')) {
 #else
-        const QString newLocale = setlocale(LC_NUMERIC_MASK, mlt.attribute("LC_NUMERIC").toUtf8().constData());
+            if (numericalSeparator != documentLocale.decimalPoint() && numericalSeparator == QLatin1Char('.')) {
 #endif
-        documentLocale = QLocale(mlt.attribute(QStringLiteral("LC_NUMERIC")));
-
-        // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
-        // With some locales since C++ and Qt use a different database for locales
-        char *separator = localeconv()->decimal_point;
-        if (newLocale.isEmpty()) {
+                requestedLocale = QStringLiteral("C");
+                documentLocale = QLocale::c();
+            }
+#ifdef Q_OS_MAC
+            setlocale(LC_NUMERIC_MASK, requestedLocale.toUtf8().constData());
+#elifdef Q_OS_WIN
+            std::locale::global(std::locale(requestedLocale.toUtf8().constData()));
+#else
+            setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());
+#endif
+            if (numericalSeparator != documentLocale.decimalPoint()) {
+                // Parse installed locales to find one matching
+                const QList<QLocale> list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
+                QLocale matching;
+                foreach(const QLocale &loc, list) {
+                    if (loc.decimalPoint() == numericalSeparator) {
+                        matching = loc;
+                        qCDebug(KDENLIVE_LOG)<<"Warning, document locale: "<<mlt.attribute(QStringLiteral("LC_NUMERIC"))<<" is not available, using: "<<loc.name();
+#ifndef Q_OS_MAC
+                        setlocale(LC_NUMERIC, loc.name().toUtf8().constData());
+#else
+                        setlocale(LC_NUMERIC_MASK, loc.name().toUtf8().constData());
+#endif
+                        documentLocale = matching;
+                        break;
+                    }
+                }
+                error = numericalSeparator != documentLocale.decimalPoint();
+            }
+        } else if (numericalSeparator.isNull()) {
+            // Change locale to match document
+#ifndef Q_OS_MAC
+            const QString newloc = setlocale(LC_NUMERIC, mlt.attribute(QStringLiteral("LC_NUMERIC")).toUtf8().constData());
+#else
+            const QString newloc = setlocale(LC_NUMERIC_MASK, mlt.attribute("LC_NUMERIC").toUtf8().constData());
+#endif
+            documentLocale = QLocale(mlt.attribute(QStringLiteral("LC_NUMERIC")));
+            error = newloc.isEmpty();
+        } else {
+            // Document separator matching system separator
+            documentLocale = QLocale();
+        }
+        if (error) {
             // Requested locale not available, ask for install
             KMessageBox::sorry(QApplication::activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
         }
 
+        // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
+        // With some locales since C++ and Qt use a different database for locales
+        // localeconv()->decimal_point does not give reliable results on Windows
+#ifndef Q_OS_WIN
+        char *separator = localeconv()->decimal_point;
         if (QString::fromUtf8(separator) != QString(documentLocale.decimalPoint())) {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), separator, documentLocale.decimalPoint()));
-            //qCDebug(KDENLIVE_LOG)<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
+	    KMessageBox::sorry(QApplication::activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), documentLocale.decimalPoint(), separator));
+            //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
             // HACK: There is a locale conflict, so set locale to at least have correct decimal point
             if (strncmp(separator, ".", 1) == 0) {
                 documentLocale = QLocale::c();
@@ -101,8 +161,8 @@ bool DocumentValidator::validate(const double currentVersion)
                 documentLocale = QLocale(QStringLiteral("fr_FR.UTF-8"));
             }
         }
+#endif
     }
-
     documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
         // If loading an older MLT file without LC_NUMERIC, set locale to C which was previously the default
@@ -112,9 +172,11 @@ bool DocumentValidator::validate(const double currentVersion)
 #else
             setlocale(LC_NUMERIC_MASK, "C");
 #endif
-        }
-
+	}
         QLocale::setDefault(documentLocale);
+        if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("There is a locale conflict. The document uses a \"%1\" as numeric separator, but your computer is configured to use \"%2\". Change your computer settings or you might not be able to correctly open the project.", documentLocale.decimalPoint(), QLocale().decimalPoint()));
+        }
         // locale conversion might need to be redone
 #ifndef Q_OS_MAC
         initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, Q_NULLPTR));

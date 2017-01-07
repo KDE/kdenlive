@@ -508,7 +508,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     }
     file.close();
     QString root = doc.documentElement().attribute(QStringLiteral("root"));
-    if (!root.isEmpty() && !root.endsWith('/')) {
+    if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
         root.append('/');
     }
     QDomNodeList files = doc.elementsByTagName(QStringLiteral("producer"));

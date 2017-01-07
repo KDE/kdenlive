@@ -3508,7 +3508,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     // Do we want proxy rendering
     if (project->useProxy() && !m_renderWidget->proxyRendering()) {
         QString root = doc.documentElement().attribute(QStringLiteral("root"));
-        if (!root.isEmpty()) {
+        if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
             root.append(QStringLiteral("/"));
         }
 

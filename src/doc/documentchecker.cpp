@@ -85,6 +85,7 @@ bool DocumentChecker::hasErrorInClips()
     }
     // Check if strorage folder for temp files exists
     QString storageFolder;
+    QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
     for (int i = 0; i < playlists.count(); ++i) {
         if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QStringLiteral("main bin")) {
@@ -99,9 +100,9 @@ bool DocumentChecker::hasErrorInClips()
             if (!storageFolder.isEmpty() && QFileInfo(storageFolder).isRelative()) {
                 storageFolder.prepend(root);
             }
-            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && QFile::exists(m_url.adjusted(QUrl::RemoveFilename).toLocalFile() + QStringLiteral("/") + documentid)) {
-                storageFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
-                EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"), storageFolder + QStringLiteral("/") + documentid);
+            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists( documentid)) {
+                storageFolder = projectDir.absolutePath();
+                EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(documentid));
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
             }
             break;
