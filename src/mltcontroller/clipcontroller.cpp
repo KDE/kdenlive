@@ -308,9 +308,9 @@ const QString ClipController::getStringDuration()
     if (m_masterProducer) {
         int playtime = m_masterProducer->get_int("kdenlive:duration");
         if (playtime > 0) {
-            return QString(properties().frames_to_time(playtime, mlt_time_smpte));
+            return QString(m_properties->frames_to_time(playtime, mlt_time_smpte_df));
         }
-        return m_masterProducer->get_length_time(mlt_time_smpte);
+        return m_masterProducer->get_length_time(mlt_time_smpte_df);
     }
     return QString(i18n("Unknown"));
 }
