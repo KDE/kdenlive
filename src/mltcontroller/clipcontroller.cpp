@@ -402,7 +402,7 @@ QString ClipController::clipName() const
 {
     QString name = property(QStringLiteral("kdenlive:clipname"));
     if (!name.isEmpty()) return name;
-    return QFile(m_path).fileName();
+    return QFileInfo(m_path).fileName();
 }
 
 QString ClipController::description() const
