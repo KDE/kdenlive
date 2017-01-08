@@ -329,7 +329,7 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
             bin->gotProxy(id, path);
             continue;
         }
-        QString sourcePath = item->url().toLocalFile();
+        QString sourcePath = item->url();
         if (item->clipType() == Playlist) {
             // Special case: playlists use the special 'consumer' producer to support resizing
             sourcePath.prepend("consumer:");

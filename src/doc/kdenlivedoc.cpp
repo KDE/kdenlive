@@ -768,7 +768,7 @@ void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
         ClipController *clip = list.at(i);
         if (clip->clipType() == Text) {
             // the image for title clip must be moved
-            QUrl oldUrl = clip->clipUrl();
+            QUrl oldUrl = QUrl::fromLocalFile(clip->clipUrl());
             if (!oldUrl.isEmpty()) {
                 QUrl newUrl = QUrl::fromLocalFile(dest + QStringLiteral("/titles/") + oldUrl.fileName());
                 KIO::Job *job = KIO::copy(oldUrl, newUrl);
@@ -1366,7 +1366,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
                 }
                 if (!pCore->binController()->hasClip(item->clipId())) {
                     // Force clip reload
-                    newProps.insert(QStringLiteral("resource"), item->url().toLocalFile());
+                    newProps.insert(QStringLiteral("resource"), item->url());
                 }
             }
             new EditClipCommand(pCore->bin(), item->clipId(), oldProps, newProps, true, masterCommand);
@@ -1385,14 +1385,14 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
 }
 
 //TODO put all file watching stuff in own class
-void KdenliveDoc::watchFile(const QUrl &url)
+void KdenliveDoc::watchFile(const QString &url)
 {
-    m_fileWatcher.addFile(url.toLocalFile());
+    m_fileWatcher.addFile(url);
 }
 
 void KdenliveDoc::slotClipModified(const QString &path)
 {
-    QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(path));
+    QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(path));
     foreach (const QString &id, ids) {
         if (!m_modifiedClips.contains(id)) {
             pCore->bin()->setWaitingStatus(id);
@@ -1407,7 +1407,7 @@ void KdenliveDoc::slotClipModified(const QString &path)
 void KdenliveDoc::slotClipMissing(const QString &path)
 {
     qCDebug(KDENLIVE_LOG) << "// CLIP: " << path << " WAS MISSING";
-    QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(path));
+    QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(path));
     //TODO handle missing clips by replacing producer with an invalid producer
     /*foreach (const QString &id, ids) {
         emit missingClip(id);

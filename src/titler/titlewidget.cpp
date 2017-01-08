@@ -755,20 +755,20 @@ void TitleWidget::slotImageTool()
     }
     QUrl url = QUrl::fromLocalFile(dialog.selectedFiles().at(0));
     if (url.isValid()) {
-        KRecentDirs::add(QStringLiteral(":KdenliveImageFolder"), url.adjusted(QUrl::RemoveFilename).path());
-        if (url.path().endsWith(QLatin1String(".svg"))) {
+        KRecentDirs::add(QStringLiteral(":KdenliveImageFolder"), url.adjusted(QUrl::RemoveFilename).toLocalFile());
+        if (url.toLocalFile().endsWith(QLatin1String(".svg"))) {
             MySvgItem *svg = new MySvgItem(url.toLocalFile());
             svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
             svg->setZValue(m_count++);
-            svg->setData(Qt::UserRole, url.path());
+            svg->setData(Qt::UserRole, url.toLocalFile());
             m_scene->addNewItem(svg);
             prepareTools(svg);
         } else {
-            QPixmap pix(url.path());
+            QPixmap pix(url.toLocalFile());
             MyPixmapItem *image = new MyPixmapItem(pix);
             image->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
             image->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
-            image->setData(Qt::UserRole, url.path());
+            image->setData(Qt::UserRole, url.toLocalFile());
             image->setZValue(m_count++);
             m_scene->addNewItem(image);
             prepareTools(image);
@@ -1889,7 +1889,7 @@ void TitleWidget::loadTitle(QUrl url)
         }
         m_scene->clearTextSelection();
         QDomDocument doc;
-        QFile file(url.path());
+        QFile file(url.toLocalFile());
         doc.setContent(&file, false);
         file.close();
         setXml(doc);
@@ -1935,7 +1935,7 @@ void TitleWidget::saveTitle(QUrl url)
     }
     if (url.isValid()) {
         if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()), embed_image) == false) {
-            KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
+            KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
         }
     }
 }

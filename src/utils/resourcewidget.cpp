@@ -501,7 +501,7 @@ void ResourceWidget::slotGotFile(KJob *job)
         KIO::FileCopyJob *copyJob = static_cast<KIO::FileCopyJob *>(job);
         const QUrl filePath = copyJob->destUrl();
 
-        KMessageBox::information(this, i18n("Resource saved to ") + filePath.path(), i18n("Data Imported"));
+        KMessageBox::information(this, i18n("Resource saved to ") + filePath.toLocalFile(), i18n("Data Imported"));
         emit addClip(filePath, QStringList());
     }
 }

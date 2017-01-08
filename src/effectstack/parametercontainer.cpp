@@ -1190,7 +1190,7 @@ void ParameterContainer::slotCollectAllParameters()
         } else if (type == QLatin1String("url")) {
             KUrlRequester *req = static_cast<Urlval *>(m_valueItems.value(paramName))->urlwidget;
             if (req) {
-                setValue = req->url().path();
+                setValue = req->url().toLocalFile();
             }
         } else if (type == QLatin1String("keywords")) {
             Keywordval *val = static_cast<Keywordval *>(m_valueItems.value(paramName));

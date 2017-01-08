@@ -228,7 +228,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QStringList
 
     if (dia->exec() == QDialog::Accepted) {
         // Ready, create xml
-        KRecentDirs::add(QStringLiteral(":KdenliveSlideShowFolder"), QUrl::fromLocalFile(dia->selectedPath()).adjusted(QUrl::RemoveFilename).path());
+        KRecentDirs::add(QStringLiteral(":KdenliveSlideShowFolder"), QUrl::fromLocalFile(dia->selectedPath()).adjusted(QUrl::RemoveFilename).toLocalFile());
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
@@ -443,7 +443,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
             // opening a title file
             QDomDocument txtdoc(QStringLiteral("titledocument"));
-            QFile txtfile(file.path());
+            QFile txtfile(file.toLocalFile());
             if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
                 txtfile.close();
                 prod.setAttribute(QStringLiteral("type"), (int) Text);
@@ -533,7 +533,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
         KdenliveSettings::setAutoimagetransparency(c->isChecked());
         list = fileWidget->selectedUrls();
         if (!list.isEmpty()) {
-            KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.first().adjusted(QUrl::RemoveFilename).path());
+            KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.first().adjusted(QUrl::RemoveFilename).toLocalFile());
         }
         if (b->isChecked() && list.count() == 1) {
             // Check for image sequence

@@ -133,7 +133,7 @@ public:
     void replaceBinPlaylistClip(const QString &id, Mlt::Producer &producer);
 
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
-    const QStringList getBinIdsByResource(const QUrl &url) const;
+    const QStringList getBinIdsByResource(const QFileInfo &url) const;
     void replaceProducer(const QString &id, Mlt::Producer &producer);
     void storeMarker(const QString &markerId, const QString &markerHash);
     QMap<double, QString> takeGuidesData();

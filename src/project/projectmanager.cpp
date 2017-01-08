@@ -202,7 +202,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     // Set default target tracks to upper audio / lower video tracks
     m_trackView->audioTarget = projectTracks.y() > 0 ? projectTracks.y() : -1;
     m_trackView->videoTarget = projectTracks.x() > 0 ? projectTracks.y() + 1 : -1;
-    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand *)), Qt::DirectConnection);
+    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QString, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QString, QUndoCommand *)), Qt::DirectConnection);
 
     m_trackView->loadTimeline();
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());
@@ -563,7 +563,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->videoTarget = doc->getDocumentProperty(QStringLiteral("videotargettrack"), QStringLiteral("-1")).toInt();
     m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
-    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand *)), Qt::DirectConnection);
+    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QString, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QString, QUndoCommand *)), Qt::DirectConnection);
     pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));

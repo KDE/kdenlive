@@ -134,17 +134,17 @@ void ClipTranscode::slotStartTransCode()
     if (!m_urls.isEmpty() && urls_list->count() > 0) {
         // We are processing multiple clips
         source_url->setUrl(QUrl::fromLocalFile(m_urls.takeFirst()));
-        destination = dest_url->url().path() + QDir::separator() + source_url->url().fileName();
-        QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().path(), Qt::MatchExactly);
+        destination = QDir(dest_url->url().toLocalFile()).absoluteFilePath(source_url->url().fileName());
+        QList<QListWidgetItem *> matching = urls_list->findItems(source_url->url().toLocalFile(), Qt::MatchExactly);
         if (!matching.isEmpty()) {
             matching.at(0)->setFlags(Qt::ItemIsSelectable);
             urls_list->setCurrentItem(matching.at(0));
         }
     } else {
-        destination = dest_url->url().path().section('.', 0, -2);
+        destination = dest_url->url().toLocalFile().section('.', 0, -2);
     }
     QString extension = params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0);
-    QString s_url = source_url->url().path();
+    QString s_url = source_url->url().toLocalFile();
     parameters << QStringLiteral("-i") << s_url;
     if (QFile::exists(destination + extension)) {
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
@@ -236,7 +236,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
             if (urls_list->count() > 0) {
                 QString params = ffmpeg_params->toPlainText().simplified();
                 QString extension = params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0);
-                url = QUrl::fromLocalFile(dest_url->url().path() + QDir::separator() + source_url->url().fileName() + extension);
+                url = QUrl::fromLocalFile(dest_url->url().toLocalFile() + QDir::separator() + source_url->url().fileName() + extension);
             } else {
                 url = dest_url->url();
             }
@@ -276,7 +276,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
 
 void ClipTranscode::slotUpdateParams(int ix)
 {
-    QString fileName = source_url->url().path();
+    QString fileName = source_url->url().toLocalFile();
     if (ix != -1) {
         QString params = profile_list->itemData(ix).toString();
         ffmpeg_params->setPlainText(params.simplified());

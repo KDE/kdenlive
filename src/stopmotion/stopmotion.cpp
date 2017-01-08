@@ -436,7 +436,7 @@ void StopmotionWidget::parseExistingSequences()
 {
     sequence_name->clear();
     sequence_name->addItem(QString());
-    QDir dir(m_projectFolder.path());
+    QDir dir(m_projectFolder.toLocalFile());
     QStringList filters;
     filters << QStringLiteral("*_0000.png");
     //dir.setNameFilters(filters);
@@ -733,7 +733,7 @@ QString StopmotionWidget::getPathForFrame(int ix, QString seqName)
     if (seqName.isEmpty()) {
         seqName = m_sequenceName;
     }
-    return m_projectFolder.path() + QDir::separator() + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QStringLiteral(".png");
+    return m_projectFolder.toLocalFile() + QDir::separator() + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QStringLiteral(".png");
 }
 
 void StopmotionWidget::slotShowFrame(const QString &path)

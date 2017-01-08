@@ -48,7 +48,7 @@ public:
     QString proxyExtension() const;
     const QMap<QString, QString> metadata() const;
     static QStringList extractPlaylistUrls(const QString &path);
-    static QStringList extractSlideshowUrls(const QUrl &url);
+    static QStringList extractSlideshowUrls(const QString &url);
     const QString selectedPreview() const;
     const QString storageFolder() const;
 

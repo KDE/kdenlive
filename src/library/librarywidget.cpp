@@ -132,7 +132,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
     if (dropped) {
         dest = dropped->data(0, Qt::UserRole).toString();
         if (dropped->data(0, Qt::UserRole + 2).toInt() != LibraryItem::Folder) {
-            dest = QUrl::fromLocalFile(dest).adjusted(QUrl::RemoveFilename).path();
+            dest = QUrl::fromLocalFile(dest).adjusted(QUrl::RemoveFilename).toLocalFile();
         }
     }
     if (qMimeData->hasUrls()) {
@@ -411,14 +411,14 @@ void LibraryWidget::slotMoveData(const QList<QUrl> &urls, QString dest)
         return;
     }
     foreach (const QUrl &url, urls) {
-        if (!url.path().startsWith(m_directory.absolutePath())) {
+        if (!url.toLocalFile().startsWith(m_directory.absolutePath())) {
             // Dropped an external file, attempt to copy it to library
             KIO::FileCopyJob *copyJob = KIO::file_copy(url, QUrl::fromLocalFile(dir.absoluteFilePath(url.fileName())));
             connect(copyJob, &KJob::result, this, &LibraryWidget::slotDownloadFinished);
             connect(copyJob, SIGNAL(percent(KJob *, ulong)), this, SLOT(slotDownloadProgress(KJob *, ulong)));
         } else {
             // Internal drag/drop
-            dir.rename(url.path(), url.fileName());
+            dir.rename(url.toLocalFile(), url.fileName());
         }
     }
 }
@@ -451,7 +451,7 @@ void LibraryWidget::slotItemEdited(QTreeWidgetItem *item, int column)
         //item->setData(0, Qt::UserRole, dir.absoluteFilePath(item->text(0)));
     } else {
         QString oldPath = item->data(0, Qt::UserRole).toString();
-        QDir dir(QUrl::fromLocalFile(oldPath).adjusted(QUrl::RemoveFilename).path());
+        QDir dir(QUrl::fromLocalFile(oldPath).adjusted(QUrl::RemoveFilename).toLocalFile());
         dir.rename(oldPath, item->text(0));
         //item->setData(0, Qt::UserRole, dir.absoluteFilePath(item->text(0)));
     }
@@ -514,7 +514,7 @@ void LibraryWidget::slotUpdateLibraryPath()
 
 void LibraryWidget::slotGotPreview(const KFileItem &item, const QPixmap &pix)
 {
-    const QString path = item.url().path();
+    const QString path = item.url().toLocalFile();
     m_libraryTree->blockSignals(true);
     m_libraryTree->slotUpdateThumb(path, pix);
     m_libraryTree->blockSignals(false);
@@ -528,12 +528,12 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
         QUrl fileUrl = fitem.url();
         QString path;
         if (fitem.isDir()) {
-            path = fileUrl.path();
+            path = fileUrl.toLocalFile();
         } else {
-            path = fileUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).path();
+            path = fileUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
         }
         QTreeWidgetItem *matchingFolder = Q_NULLPTR;
-        if (path != m_directory.path()) {
+        if (path != m_directory.absolutePath()) {
             foreach (QTreeWidgetItem *folder, m_folders) {
                 if (folder->data(0, Qt::UserRole).toString() == path) {
                     // Found parent folder
@@ -563,7 +563,7 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
             }
             for (int i = 0; i < matchingFolder->childCount(); i++) {
                 QTreeWidgetItem *item = matchingFolder->child(i);
-                if (item->data(0, Qt::UserRole).toString() == fileUrl.path()) {
+                if (item->data(0, Qt::UserRole).toString() == fileUrl.toLocalFile()) {
                     // Found deleted item
                     delete item;
                     break;
@@ -583,9 +583,9 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         QString name = fileUrl.fileName();
         QTreeWidgetItem *treeItem;
         QTreeWidgetItem *parent = Q_NULLPTR;
-        if (url != QUrl::fromLocalFile(m_directory.path())) {
+        if (url != QUrl::fromLocalFile(m_directory.absolutePath())) {
             // not a top level item
-            QString directory = fileUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).path();
+            QString directory = fileUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
             foreach (QTreeWidgetItem *folder, m_folders) {
                 if (folder->data(0, Qt::UserRole).toString() == directory) {
                     // Found parent folder
@@ -599,7 +599,7 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         } else {
             treeItem = new QTreeWidgetItem(m_libraryTree, QStringList() << name);
         }
-        treeItem->setData(0, Qt::UserRole, fileUrl.path());
+        treeItem->setData(0, Qt::UserRole, fileUrl.toLocalFile());
         treeItem->setData(0, Qt::UserRole + 1, fitem.timeString());
         if (fitem.isDir()) {
             treeItem->setData(0, Qt::UserRole + 2, (int) LibraryItem::Folder);

@@ -115,27 +115,29 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
         ClipType t = clip->clipType();
         QString id = clip->clipId();
         if (t == SlideShow) {
-            QUrl slideUrl = clip->clipUrl();
             //TODO: Slideshow files
-            slideUrls.insert(id, slideUrl.toLocalFile());
-        } else if (t == Image) {
-            imageUrls.insert(id, clip->clipUrl().toLocalFile());
-        } else if (t == QText) {
+            slideUrls.insert(id, clip->clipUrl());
+        }
+        else if (t == Image) {
+            imageUrls.insert(id, clip->clipUrl());
+        }
+        else if (t == QText) {
             allFonts << clip->property(QStringLiteral("family"));
-        } else if (t == Text) {
+        }
+        else if (t == Text) {
             QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
             QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
             extraImageUrls << imagefiles;
             allFonts << fonts;
         } else if (t == Playlist) {
-            playlistUrls.insert(id, clip->clipUrl().toLocalFile());
-            QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl().toLocalFile());
+            playlistUrls.insert(id, clip->clipUrl());
+            QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl());
             otherUrls << files;
         } else if (!clip->clipUrl().isEmpty()) {
             if (t == Audio) {
-                audioUrls.insert(id, clip->clipUrl().toLocalFile());
+                audioUrls.insert(id, clip->clipUrl());
             } else {
-                videoUrls.insert(id, clip->clipUrl().toLocalFile());
+                videoUrls.insert(id, clip->clipUrl());
                 // Check if we have a proxy
                 QString proxy = clip->property(QStringLiteral("kdenlive:proxy"));
                 if (!proxy.isEmpty() && proxy != QLatin1String("-") && QFile::exists(proxy)) {

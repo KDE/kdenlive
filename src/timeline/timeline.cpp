@@ -568,7 +568,7 @@ void Timeline::parseDocument(const QDomDocument &doc)
     }
     if (mlt.hasAttribute(QStringLiteral("upgraded")) || mlt.hasAttribute(QStringLiteral("modified"))) {
         // Our document was upgraded, create a backup copy just in case
-        QString baseFile = m_doc->url().path().section(QStringLiteral(".kdenlive"), 0, 0);
+        QString baseFile = m_doc->url().toLocalFile().section(QStringLiteral(".kdenlive"), 0, 0);
         int ct = 0;
         QString backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
         while (QFile::exists(backupFile)) {
@@ -1979,7 +1979,7 @@ void Timeline::loadPreviewRender()
     m_disablePreview->blockSignals(true);
     m_disablePreview->setChecked(m_doc->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
     m_disablePreview->blockSignals(false);
-    QDateTime documentDate = QFileInfo(m_doc->url().path()).lastModified();
+    QDateTime documentDate = QFileInfo(m_doc->url().toLocalFile()).lastModified();
     if (!chunks.isEmpty() || !dirty.isEmpty()) {
         if (!m_timelinePreview) {
             initializePreview();

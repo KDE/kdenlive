@@ -161,7 +161,7 @@ QMap<QString, QString> ClipStabilize::consumerParams() const
 
 QString ClipStabilize::destination() const
 {
-    QString path = dest_url->url().path();
+    QString path = dest_url->url().toLocalFile();
     if (m_urls.count() > 1 && !path.endsWith(QDir::separator())) {
         path.append(QDir::separator());
     }
@@ -221,8 +221,8 @@ void ClipStabilize::fillParameters(QStringList lst)
 void ClipStabilize::slotValidate()
 {
     if (m_urls.count() == 1) {
-        if (QFile::exists(dest_url->url().path())) {
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", dest_url->url().path())) == KMessageBox::No) {
+        if (QFile::exists(dest_url->url().toLocalFile())) {
+            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", dest_url->url().toLocalFile())) == KMessageBox::No) {
                 return;
             }
         }

@@ -88,12 +88,12 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.clip_duration_frames->setHidden(true);
     m_view.luma_duration_frames->setHidden(true);
     if (clip) {
-        QUrl url = clip->url();
-        if (url.fileName().startsWith(QLatin1String(".all."))) {
+        QString url = clip->url();
+        if (QFileInfo(url).fileName().startsWith(QLatin1String(".all."))) {
             // the image sequence is defined by mimetype
             m_view.method_mime->setChecked(true);
-            m_view.folder_url->setText(url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
-            QString filter = url.fileName();
+            m_view.folder_url->setText(QFileInfo(url).absolutePath());
+            QString filter = QFileInfo(url).fileName();
             QString ext = filter.section('.', -1);
             for (int i = 0; i < m_view.image_type->count(); ++i) {
                 if (m_view.image_type->itemData(i).toString() == ext) {
@@ -104,8 +104,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         } else {
             // the image sequence is defined by pattern
             m_view.method_pattern->setChecked(true);
-            m_view.image_type->setHidden(true);
-            m_view.pattern_url->setText(url.toLocalFile());
+            m_view.pattern_url->setText(url);
         }
     } else {
         m_view.method_mime->setChecked(KdenliveSettings::slideshowbymime());

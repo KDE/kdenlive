@@ -612,7 +612,7 @@ signals:
     /** @brief Guides were changed, inform render widget*/
     void guidesUpdated();
     /** @brief Prepare importing and expand of a playlist clip */
-    void importPlaylistClips(const ItemInfo &info, const QUrl &url, QUndoCommand *expandCommand);
+    void importPlaylistClips(const ItemInfo &info, const QString &url, QUndoCommand *expandCommand);
     /** @brief Show a specific frame in clip monitor */
     void showClipFrame(const QString &id, int frame);
     /** @brief Select active keyframe in effect stack */

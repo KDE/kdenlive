@@ -840,7 +840,7 @@ void MainWindow::saveProperties(KConfigGroup &config)
     //TODO: fix session management
     if (qApp->isSavingSession() && pCore->projectManager()) {
         if (pCore->projectManager()->current() && !pCore->projectManager()->current()->url().isEmpty()) {
-            config.writeEntry("kdenlive_lastUrl", pCore->projectManager()->current()->url().path());
+            config.writeEntry("kdenlive_lastUrl", pCore->projectManager()->current()->url().toLocalFile());
         }
     }
 }
@@ -1853,7 +1853,7 @@ void MainWindow::setRenderingFinished(const QString &url, int status, const QStr
 void MainWindow::addProjectClip(const QString &url)
 {
     if (pCore->projectManager()->current()) {
-        QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(url));
+        QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(url));
         if (!ids.isEmpty()) {
             // Clip is already in project bin, abort
             return;
@@ -1865,7 +1865,7 @@ void MainWindow::addProjectClip(const QString &url)
 void MainWindow::addTimelineClip(const QString &url)
 {
     if (pCore->projectManager()->current()) {
-        QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(url));
+        QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(url));
         if (!ids.isEmpty()) {
             pCore->bin()->selectClipById(ids.first());
             slotInsertClipInsert();
