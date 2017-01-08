@@ -460,14 +460,14 @@ const QList <ClipController *> BinController::getControllerList() const
     return m_clipList.values();
 }
 
-const QStringList BinController::getBinIdsByResource(const QUrl &url) const
+const QStringList BinController::getBinIdsByResource(const QFileInfo &url) const
 {
     QStringList controllers;
     QMapIterator<QString, ClipController *> i(m_clipList);
     while (i.hasNext()) {
         i.next();
         ClipController *ctrl = i.value();
-        if (ctrl->clipUrl() == url) {
+        if (QFileInfo(ctrl->clipUrl()) == url) {
             controllers << i.key();
         }
     }

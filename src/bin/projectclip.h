@@ -100,7 +100,7 @@ public:
     bool hasUrl() const;
 
     /** @brief Returns the clip's url. */
-    QUrl url() const;
+    const QString url() const;
 
     /** @brief Returns whether this clip has a limited duration or whether it is resizable ad infinitum. */
     virtual bool hasLimitedDuration() const;
@@ -236,7 +236,7 @@ private:
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash() const;
     /** @brief Store clip url temporarily while the clip controller has not been created. */
-    QUrl m_temporaryUrl;
+    QString m_temporaryUrl;
     ClipType m_type;
     Mlt::Producer *m_thumbsProducer;
     QMutex m_producerMutex;

@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timeline/timeline.h"
 #include "timeline/effectmanager.h"
 
-#include <QUrl>
 #include <QDebug>
 #include <QPixmap>
 #include <QFileInfo>
@@ -53,18 +52,22 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer& prod
         return;
     }
     else {
+        m_service = m_properties->get("mlt_service");
         QString proxy = m_properties->get("kdenlive:proxy");
+        QString path = m_properties->get("resource");
         if (proxy.length() > 2) {
             // This is a proxy producer, read original url from kdenlive property
-            QString path = m_properties->get("kdenlive:originalurl");
+            path = m_properties->get("kdenlive:originalurl");
             if (QFileInfo(path).isRelative()) {
                 path.prepend(bincontroller->documentRoot());
             }
-            m_url = QUrl::fromLocalFile(path);
             m_usesProxy = true;
         }
-        else m_url = QUrl::fromLocalFile(m_properties->get("resource"));
-        m_service = m_properties->get("mlt_service");
+        else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && QFileInfo(path).isRelative()) {
+            path.prepend(bincontroller->documentRoot());
+        }
+        m_path = QFileInfo(path).absoluteFilePath();
+        qDebug()<<"* * *CREATED PROD: "<<path<<" = "<<m_path;
         getInfoForProducer();
     }
 }
@@ -109,16 +112,22 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
     if (!m_masterProducer->is_valid()) qDebug()<<"// WARNING, USING INVALID PRODUCER";
     else {
         QString proxy = m_properties->get("kdenlive:proxy");
+        m_service = m_properties->get("mlt_service");
+        QString path = m_properties->get("resource");
+        m_usesProxy = false;
         if (proxy.length() > 2) {
             // This is a proxy producer, read original url from kdenlive property
-            m_url = QUrl::fromLocalFile(m_properties->get("kdenlive:originalurl"));
+            path = m_properties->get("kdenlive:originalurl");
+            if (QFileInfo(path).isRelative()) {
+                path.prepend(m_binController->documentRoot());
+            }
             m_usesProxy = true;
         }
-        else {
-            m_url = QUrl::fromLocalFile(m_properties->get("resource"));
-            m_usesProxy = false;
+        else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && QFileInfo(path).isRelative()) {
+            path.prepend(m_binController->documentRoot());
         }
-        m_service = m_properties->get("mlt_service");
+        m_path = QFileInfo(path).absoluteFilePath();
+        qDebug()<<"* * *LODED PROD: "<<path<<" = "<<m_path;
         getInfoForProducer();
     }
 }
@@ -134,11 +143,11 @@ void ClipController::getProducerXML(QDomDocument& document, bool includeMeta)
 
 void ClipController::getInfoForProducer()
 {
-    date = QFileInfo(m_url.path()).lastModified();
+    date = QFileInfo(m_path).lastModified();
     m_audioIndex = -1;
     m_videoIndex = -1;
     // special case: playlist with a proxy clip have to be detected separately
-    if (m_usesProxy && m_url.path().endsWith(QStringLiteral(".mlt"))) {
+    if (m_usesProxy && m_path.endsWith(QStringLiteral(".mlt"))) {
         m_clipType = Playlist;
     } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
         m_audioIndex = int_property(QStringLiteral("audio_index"));
@@ -154,7 +163,7 @@ void ClipController::getInfoForProducer()
         }
     }
     else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
-        if (m_url.path().contains(QStringLiteral("%")) || m_url.path().contains(QStringLiteral("/.all."))) {
+        if (m_path.contains(QStringLiteral("%")) || m_path.contains(QStringLiteral("/.all."))) {
             m_clipType = SlideShow;
         }
         else {
@@ -167,7 +176,7 @@ void ClipController::getInfoForProducer()
         m_hasLimitedDuration = false;
     }
     else if (m_service == QLatin1String("kdenlivetitle")) {
-        if (!m_url.isEmpty()) {
+        if (!m_path.isEmpty()) {
             m_clipType = TextTemplate;
         } else {
             m_clipType = Text;
@@ -384,16 +393,16 @@ const QString ClipController::codec(bool audioCodec) const
     return m_properties->get(propertyName.toUtf8().constData());
 }
 
-QUrl ClipController::clipUrl() const
+const QString ClipController::clipUrl() const
 {
-    return m_url;
+    return m_path;
 }
 
 QString ClipController::clipName() const
 {
     QString name = property(QStringLiteral("kdenlive:clipname"));
     if (!name.isEmpty()) return name;
-    return m_url.fileName();
+    return QFile(m_path).fileName();
 }
 
 QString ClipController::description() const

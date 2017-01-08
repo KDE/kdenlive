@@ -335,22 +335,22 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             //allFiles.append(clip->fileURL().path());
             switch (clip->clipType()) {
             case Text:
-                new QTreeWidgetItem(texts, QStringList() << clip->clipUrl().toLocalFile());
+                new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
                 break;
             case Audio:
-                new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl().toLocalFile());
+                new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl());
                 break;
             case Image:
-                new QTreeWidgetItem(images, QStringList() << clip->clipUrl().toLocalFile());
+                new QTreeWidgetItem(images, QStringList() << clip->clipUrl());
                 break;
             case Playlist:
-                new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl().toLocalFile());
+                new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl());
                 break;
             case Unknown:
-                new QTreeWidgetItem(others, QStringList() << clip->clipUrl().toLocalFile());
+                new QTreeWidgetItem(others, QStringList() << clip->clipUrl());
                 break;
             default:
-                new QTreeWidgetItem(videos, QStringList() << clip->clipUrl().toLocalFile());
+                new QTreeWidgetItem(videos, QStringList() << clip->clipUrl());
                 break;
             }
             count++;
@@ -364,7 +364,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             }
             allFonts << fonts;
         } else if (clip->clipType() == Playlist) {
-            QStringList files = extractPlaylistUrls(clip->clipUrl().toLocalFile());
+            QStringList files = extractPlaylistUrls(clip->clipUrl());
             foreach(const QString & file, files) {
                 count++;
                 new QTreeWidgetItem(others, QStringList() << file);
@@ -526,7 +526,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
                 }
                 if (url.section('.', 0, -2).endsWith(QLatin1String("/.all"))) {
                     // slideshow clip, extract image urls
-                    urls << extractSlideshowUrls(QUrl(url));
+                    urls << extractSlideshowUrls(url);
                 } else urls << url;
                 if (url.endsWith(QLatin1String(".mlt")) || url.endsWith(QLatin1String(".kdenlive"))) {
                     //TODO: Do something to avoid infinite loops if 2 files reference themselves...
@@ -554,13 +554,13 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
 
 
 //static
-QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
+QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
 {
     QStringList urls;
-    QString path = url.adjusted(QUrl::RemoveFilename).toLocalFile();
-    QString ext = url.toLocalFile().section('.', -1);
+    QString path = QFileInfo(url).absolutePath();
+    QString ext = url.section('.', -1);
     QDir dir(path);
-    if (url.toLocalFile().contains(QStringLiteral(".all."))) {
+    if (url.contains(QStringLiteral(".all."))) {
         // this is a mime slideshow, like *.jpeg
         QStringList filters;
         filters << "*." + ext;
@@ -569,7 +569,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
         urls.append(path + filters.at(0) + " (" + i18np("1 image found", "%1 images found", result.count()) + ')');
     } else {
         // this is a pattern slideshow, like sequence%4d.jpg
-        QString filter = url.fileName();
+        QString filter = QFileInfo(url).fileName();
         QString ext = filter.section('.', -1);
         filter = filter.section('%', 0, -2);
         QString regexp = '^' + filter + "\\d+\\." + ext + '$';
@@ -579,7 +579,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QUrl &url)
         foreach(const QString & path, result) {
             if (rx.exactMatch(path)) count++;
         }
-        urls.append(url.toLocalFile() + " (" + i18np("1 image found", "%1 images found", count) + ')');
+        urls.append(url + " (" + i18np("1 image found", "%1 images found", count) + ')');
     }
     return urls;
 }

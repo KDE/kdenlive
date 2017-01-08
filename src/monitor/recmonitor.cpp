@@ -423,7 +423,7 @@ void RecMonitor::slotStopCapture()
         slotSetInfoMessage(i18n("Capture stopped"));
         m_isCapturing = false;
         m_recAction->setChecked(false);
-        if (m_addCapturedClip->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.path())) {
+        if (m_addCapturedClip->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.toLocalFile())) {
             emit addProjectClip(m_captureFile);
             m_captureFile.clear();
         }
@@ -594,11 +594,11 @@ void RecMonitor::slotRecord()
             else extension = KdenliveSettings::v4l_extension();
         }
         else if (device_selector->currentIndex() == BlackMagic) extension = KdenliveSettings::decklink_extension();
-        QString path = QUrl(m_capturePath).path() + QDir::separator() + "capture0000." + extension;
+        QString path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + "capture0000." + extension;
         int i = 1;
         while (QFile::exists(path)) {
             QString num = QString::number(i).rightJustified(4, '0', false);
-            path = QUrl(m_capturePath).path() + QDir::separator() + "capture" + num + '.' + extension;
+            path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + "capture" + num + '.' + extension;
             ++i;
         }
         m_captureFile = QUrl(path);
@@ -666,7 +666,7 @@ void RecMonitor::slotRecord()
             showPreview = m_previewSettings->isChecked();
             if (!rec_video->isChecked()) showPreview = false;
 
-            if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.path(), playlist, showPreview, isXml)) {
+            if (m_captureDevice->slotStartCapture(v4lparameters, m_captureFile.toLocalFile(), playlist, showPreview, isXml)) {
                 m_isCapturing = true;
                 m_recAction->setEnabled(false);
                 m_stopAction->setEnabled(true);
@@ -690,7 +690,7 @@ void RecMonitor::slotRecord()
 
             playlist = QStringLiteral("<producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">%1</property><property name=\"mlt_service\">decklink</property></producer>").arg(KdenliveSettings::decklink_capturedevice());
 
-            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.path(), QStringLiteral("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), m_previewSettings->isChecked(), false)) {
+            if (m_captureDevice->slotStartCapture(KdenliveSettings::decklink_parameters(), m_captureFile.toLocalFile(), QStringLiteral("decklink:%1").arg(KdenliveSettings::decklink_capturedevice()), m_previewSettings->isChecked(), false)) {
                 m_isCapturing = true;
                 slotSetInfoMessage(i18n("Capturing to %1", m_captureFile.fileName()));
                 m_recAction->setEnabled(false);
@@ -854,7 +854,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
     if (status == QProcess::NotRunning) {
         m_displayProcess->kill();
         if (m_isCapturing && device_selector->currentIndex() != Firewire)
-            if (m_addCapturedClip->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.path())) {
+            if (m_addCapturedClip->isChecked() && !m_captureFile.isEmpty() && QFile::exists(m_captureFile.toLocalFile())) {
                 emit addProjectClip(m_captureFile);
                 m_captureFile.clear();
             }
@@ -925,8 +925,8 @@ void RecMonitor::manageCapturedFiles()
     const QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
     QList<QUrl> capturedFiles;
     foreach(const QString & name, result) {
-        QUrl url = QUrl(dir.filePath(name));
-        if (QFile::exists(url.path())) {
+        QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(name));
+        if (QFile::exists(url.toLocalFile())) {
             KFileItem file(url);
             file.setDelayedMimeTypes(true);
             if (file.time(KFileItem::ModificationTime) > m_captureTime) {
@@ -934,9 +934,9 @@ void RecMonitor::manageCapturedFiles()
                 if (url.fileName().contains(':')) {
                     // Several dvgrab options (--timecode,...) use : in the file name, which is
                     // not supported by MLT, so rename them
-                    QString newUrl = url.adjusted(QUrl::RemoveFilename).path() + QDir::separator() + url.fileName().replace(':', '_');
-                    if (QFile::rename(url.path(), newUrl)) {
-                        url = QUrl(newUrl);
+                    QString newUrl = url.adjusted(QUrl::RemoveFilename).toLocalFile() + QDir::separator() + url.fileName().replace(':', '_');
+                    if (QFile::rename(url.toLocalFile(), newUrl)) {
+                        url = QUrl::fromLocalFile(newUrl);
                     }
 
                 }

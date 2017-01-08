@@ -69,7 +69,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString& mltPath)
             delete getUrl;
             ::exit(0);
         } else {
-            meltPath = getUrl->selectedUrl().path();
+            meltPath = getUrl->selectedUrl().toLocalFile();
             delete getUrl;
             if (meltPath.isEmpty()) {
                 ::exit(0);

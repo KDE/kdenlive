@@ -260,7 +260,7 @@ void DvdWizardVob::slotAddVobList(QList<QUrl> list)
         QString dialogFilter = i18n("All Supported Files") + " (" + allExtensions + ");; " + i18n("MPEG Files") + " (*.mpeg *.mpg *.vob);; " + i18n("All Files") + " (*.*)";
         list = QFileDialog::getOpenFileUrls(this, i18n("Add new video file"), QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveDvdFolder"))), dialogFilter);
         if (!list.isEmpty()) {
-            KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), list.at(0).adjusted(QUrl::RemoveFilename).path());
+            KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), list.at(0).adjusted(QUrl::RemoveFilename).toLocalFile());
         }
     }
     foreach(const QUrl &url, list) {
@@ -273,17 +273,17 @@ void DvdWizardVob::slotAddVobList(QList<QUrl> list)
 void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkFormats)
 {
     if (!url.isValid()) return;
-    QFile f(url.path());
+    QFile f(url.toLocalFile());
     qint64 fileSize = f.size();
 
     Mlt::Profile profile;
     profile.set_explicit(false);
-    QTreeWidgetItem *item = new QTreeWidgetItem(m_vobList, QStringList() << url.path() << QString() << KIO::convertSize(fileSize));
+    QTreeWidgetItem *item = new QTreeWidgetItem(m_vobList, QStringList() << url.toLocalFile() << QString() << KIO::convertSize(fileSize));
     item->setData(2, Qt::UserRole, fileSize);
     item->setData(0, Qt::DecorationRole, QIcon::fromTheme(QStringLiteral("video-x-generic")).pixmap(60, 45));
-    item->setToolTip(0, url.path());
+    item->setToolTip(0, url.toLocalFile());
 
-    QString resource = url.path();
+    QString resource = url.toLocalFile();
     resource.prepend("avformat:");
     Mlt::Producer *producer = new Mlt::Producer(profile, resource.toUtf8().data());
     if (producer && producer->is_valid() && !producer->is_blank()) {
@@ -353,9 +353,9 @@ void DvdWizardVob::slotAddVobFile(QUrl url, const QString &chapters, bool checkF
     if (chapters.isEmpty() == false) {
         item->setData(1, Qt::UserRole + 1, chapters);
     }
-    else if (QFile::exists(url.path() + ".dvdchapter")) {
+    else if (QFile::exists(url.toLocalFile() + ".dvdchapter")) {
         // insert chapters as children
-        QFile file(url.path() + ".dvdchapter");
+        QFile file(url.toLocalFile() + ".dvdchapter");
         if (file.open(QIODevice::ReadOnly)) {
             QDomDocument doc;
             if (doc.setContent(&file) == false) {
@@ -713,7 +713,7 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
     int max = m_vobList->topLevelItemCount();
     for (int i = 0; i < max; ++i) {
         QTreeWidgetItem *item = m_vobList->topLevelItem(i);
-        if (QUrl::fromLocalFile(item->text(0)).path() == src) {
+        if (QUrl::fromLocalFile(item->text(0)).toLocalFile() == src) {
             // Replace movie with transcoded version
             item->setText(0, transcoded);
 

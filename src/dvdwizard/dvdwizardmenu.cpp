@@ -471,7 +471,7 @@ void DvdWizardMenu::buildImage()
 
     if (m_view.background_list->currentIndex() == 1) {
         // image background
-        if (!pix.load(m_view.background_image->url().path())) {
+        if (!pix.load(m_view.background_image->url().toLocalFile())) {
             if (m_background->scene() != 0) m_scene->removeItem(m_background);
             return;
         }
@@ -482,7 +482,7 @@ void DvdWizardMenu::buildImage()
         QString profileName = DvdWizardVob::getDvdProfile(m_format);
         Mlt::Profile profile(profileName.toUtf8().constData());
         profile.set_explicit(true);
-        Mlt::Producer *producer = new Mlt::Producer(profile, m_view.background_image->url().path().toUtf8().constData());
+        Mlt::Producer *producer = new Mlt::Producer(profile, m_view.background_image->url().toLocalFile().toUtf8().constData());
         if (producer && producer->is_valid()) {
             pix = QPixmap::fromImage(KThumb::getFrame(producer, 0, m_width, m_height));
             m_movieLength = producer->get_length();
@@ -695,7 +695,7 @@ bool DvdWizardMenu::menuMovie() const
 
 QString DvdWizardMenu::menuMoviePath() const
 {
-    return m_view.background_image->url().path();
+    return m_view.background_image->url().toLocalFile();
 }
 
 int DvdWizardMenu::menuMovieLength() const
@@ -743,10 +743,10 @@ QDomElement DvdWizardMenu::toXml() const
         xml.setAttribute(QStringLiteral("background_color"), m_view.background_color->color().name());
     } else if (m_view.background_list->currentIndex() == 1) {
         // Image bg
-        xml.setAttribute(QStringLiteral("background_image"), m_view.background_image->url().path());
+        xml.setAttribute(QStringLiteral("background_image"), m_view.background_image->url().toLocalFile());
     } else {
         // Video bg
-        xml.setAttribute(QStringLiteral("background_video"), m_view.background_image->url().path());
+        xml.setAttribute(QStringLiteral("background_video"), m_view.background_image->url().toLocalFile());
     }
     xml.setAttribute(QStringLiteral("text_color"), m_view.text_color->color().name());
     xml.setAttribute(QStringLiteral("selected_color"), m_view.selected_color->color().name());

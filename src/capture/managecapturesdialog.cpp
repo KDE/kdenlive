@@ -48,8 +48,8 @@ ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget * p
         file.setDelayedMimeTypes(true);
         text << KIO::convertSize(file.size());
         QTreeWidgetItem *item = new QTreeWidgetItem(m_view.treeWidget, text);
-        item->setData(0, Qt::UserRole, url.path());
-        item->setToolTip(0, url.path());
+        item->setData(0, Qt::UserRole, url.toLocalFile());
+        item->setToolTip(0, url.toLocalFile());
         item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         item->setCheckState(0, Qt::Checked);
     }

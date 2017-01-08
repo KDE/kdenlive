@@ -1130,7 +1130,7 @@ void ParameterContainer::slotCollectAllParameters()
                 pa.setAttribute(QStringLiteral("intimeline"), QStringLiteral("0"));
         } else if (type == QLatin1String("url")) {
             KUrlRequester *req = static_cast<Urlval*>(m_valueItems.value(paramName))->urlwidget;
-            if (req) setValue = req->url().path();
+            if (req) setValue = req->url().toLocalFile();
         } else if (type == QLatin1String("keywords")) {
             Keywordval* val = static_cast<Keywordval*>(m_valueItems.value(paramName));
             if (val) {

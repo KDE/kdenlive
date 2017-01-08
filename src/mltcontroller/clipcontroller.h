@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <mlt++/Mlt.h>
 #include <QString>
 #include <QObject>
-#include <QUrl>
 #include <QMutex>
 #include <QDateTime>
 #include <QDir>
@@ -86,7 +85,7 @@ public:
     QString description() const;
 
     /** @brief Returns the clip's MLT resource */
-    QUrl clipUrl() const;
+    const QString clipUrl() const;
 
     /** @brief Returns the clip's type as defined in definitions.h */
     ClipType clipType() const;
@@ -204,7 +203,7 @@ private:
     bool m_usesProxy;
     AudioStreamInfo *m_audioInfo;
     QString m_service;
-    QUrl m_url;
+    QString m_path;
     int m_audioIndex;
     int m_videoIndex;
     ClipType m_clipType;

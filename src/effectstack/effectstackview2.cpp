@@ -944,7 +944,7 @@ void EffectStackView2::slotCreateRegion(int ix, QUrl url)
     QDomElement region = MainWindow::videoEffects.getEffectByTag(QStringLiteral("region"), QStringLiteral("region")).cloneNode().toElement();
     region.appendChild(region.ownerDocument().importNode(neweffect, true));
     region.setAttribute(QStringLiteral("kdenlive_ix"), ix);
-    EffectsList::setParameter(region, QStringLiteral("resource"), url.path());
+    EffectsList::setParameter(region, QStringLiteral("resource"), url.toLocalFile());
     if (m_status == TIMELINE_TRACK) {
         emit updateEffect(NULL, m_trackindex, oldeffect, region, ix,false);
     }

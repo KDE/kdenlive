@@ -257,7 +257,7 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, c
     QDomElement prod = doc.createElement(QStringLiteral("producer"));
     doc.appendChild(prod);
     prod.setAttribute(QStringLiteral("name"), titleName);
-    prod.setAttribute(QStringLiteral("resource"), path.path());
+    prod.setAttribute(QStringLiteral("resource"), path.toLocalFile());
     uint id = pCore->bin()->getFreeClipId();
     prod.setAttribute(QStringLiteral("id"), QString::number(id));
     if (!group.isEmpty()) {
@@ -270,7 +270,7 @@ void ClipManager::slotAddTextTemplateClip(QString titleName, const QUrl &path, c
 
     int duration = 0;
     QDomDocument titledoc;
-    QFile txtfile(path.path());
+    QFile txtfile(path.toLocalFile());
     if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
         if (titledoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
             duration = titledoc.documentElement().attribute(QStringLiteral("duration")).toInt();
@@ -376,7 +376,7 @@ void ClipManager::slotClipAvailable(const QString &path)
 bool ClipManager::isOnRemovableDevice(const QUrl &url)
 {
     //SolidVolumeInfo volume;
-    QString path = url.adjusted(QUrl::StripTrailingSlash).path();
+    QString path = url.adjusted(QUrl::StripTrailingSlash).toLocalFile();
     int volumeMatch = 0;
 
     //FIXME: Network shares! Here we get only the volume of the mount path...

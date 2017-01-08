@@ -6372,8 +6372,8 @@ void CustomTrackView::expandActiveClip()
         return;
     }
     ClipItem *clip = static_cast < ClipItem *>(item);
-    QUrl url = clip->binClip()->url();
-    if (clip->clipType() != Playlist || !url.isValid()) {
+    const QString url = clip->binClip()->url();
+    if (clip->clipType() != Playlist || !url.isEmpty()) {
         emit displayMessage(i18n("You must select a playlist clip for this action"), ErrorMessage);
         return;
     }
@@ -6896,7 +6896,7 @@ void CustomTrackView::setAudioAlignReference()
                 qWarning() << "couldn't load producer for clip " << clip->getBinId() << " on track " << clip->track();
                 return;
             }
-            AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), prod);
+            AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url(), prod);
             m_audioCorrelator = new AudioCorrelation(envelope);
             connect(m_audioCorrelator, SIGNAL(gotAudioAlignData(int,int,int)), this, SLOT(slotAlignClip(int,int,int)));
             connect(m_audioCorrelator, SIGNAL(displayMessage(QString,MessageType)), this, SIGNAL(displayMessage(QString,MessageType)));
@@ -6940,7 +6940,7 @@ void CustomTrackView::alignAudio()
                     qWarning() << "couldn't load producer for clip " << clip->getBinId() << " on track " << clip->track();
                     return;
                 }
-                AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url().path(), prod,
+                AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url(), prod,
                         info.cropStart.frames(m_document->fps()),
                         info.cropDuration.frames(m_document->fps()),
                         clip->track(),
@@ -7555,7 +7555,7 @@ QStringList CustomTrackView::extractTransitionsLumas()
             transitionXml = transitionitem->toXML();
             // luma files in transitions are in "resource" property
             QString luma = EffectsList::parameter(transitionXml, QStringLiteral("resource"));
-            if (!luma.isEmpty()) urls << QUrl(luma).path();
+            if (!luma.isEmpty()) urls << QUrl::fromLocalFile(luma).toLocalFile();
         }
     }
     urls.removeDuplicates();

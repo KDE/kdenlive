@@ -256,7 +256,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fp
 {
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     if (!clip) return jobs;
-    QString source = clip->url().toLocalFile();
+    QString source = clip->url();
     QPoint zone = clip->zone();
     QString ext = source.section('.', -1);
     QString dest = source.section('.', 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
@@ -287,7 +287,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fp
         delete d;
         return jobs;
     }
-    dest = ui.file_url->url().path();
+    dest = ui.file_url->url().toLocalFile();
     bool acceptPath = dest != source;
     if (acceptPath && QFileInfo(dest).size() > 0) {
         // destination file olready exists, overwrite?
@@ -301,7 +301,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fp
             delete d;
             return jobs;
         }
-        dest = ui.file_url->url().path();
+        dest = ui.file_url->url().toLocalFile();
         acceptPath = dest != source;
         if (acceptPath && QFileInfo(dest).size() > 0) {
             acceptPath = false;
@@ -336,7 +336,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
     QStringList sources;
     QStringList destinations;
     for (int i = 0; i < clips.count(); i++) {
-        QString source = clips.at(i)->url().toLocalFile();
+        QString source = clips.at(i)->url();
         sources << source;
         QString newFile = params.section(' ', -1).replace(QLatin1String("%1"), source);
         destinations << newFile;
@@ -380,7 +380,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double 
         if (clips.count() > 1) {
             dest = destinations.at(i);
         }
-        else dest = ui.file_url->url().path();
+        else dest = ui.file_url->url().toLocalFile();
         QStringList jobParams;
         jobParams << QString::number((int) AbstractClipJob::TRANSCODEJOB);
         jobParams << dest << src << QString() << QString();
@@ -403,7 +403,7 @@ QHash <ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fp
 
     QHash <ProjectClip *, AbstractClipJob *> jobs;
     foreach (ProjectClip *clip, clips) {
-        QString source = clip->url().toLocalFile();
+        QString source = clip->url();
         QStringList jobParams;
         int duration = clip->duration().frames(fps) * clip->getOriginalFps() / fps;
         jobParams << QString::number((int) AbstractClipJob::ANALYSECLIPJOB) << QString() << source << QString::number(duration);

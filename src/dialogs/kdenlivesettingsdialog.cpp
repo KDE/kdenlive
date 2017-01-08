@@ -707,12 +707,12 @@ void KdenliveSettingsDialog::updateSettings()
         updateCapturePath = true;
     }
 
-    if (m_configProject.projecturl->url().path() != KdenliveSettings::defaultprojectfolder()) {
-        KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().path());
+    if (m_configProject.projecturl->url().toLocalFile() != KdenliveSettings::defaultprojectfolder()) {
+        KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().toLocalFile());
     }
 
-    if (m_configEnv.capturefolderurl->url().path() != KdenliveSettings::capturefolder()) {
-        KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().path());
+    if (m_configEnv.capturefolderurl->url().toLocalFile() != KdenliveSettings::capturefolder()) {
+        KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().toLocalFile());
         updateCapturePath = true;
     }
 
@@ -722,8 +722,8 @@ void KdenliveSettingsDialog::updateSettings()
         updateLibrary = true;
     }
 
-    if (m_configEnv.libraryfolderurl->url().path() != KdenliveSettings::libraryfolder()) {
-        KdenliveSettings::setLibraryfolder(m_configEnv.libraryfolderurl->url().path());
+    if (m_configEnv.libraryfolderurl->url().toLocalFile() != KdenliveSettings::libraryfolder()) {
+        KdenliveSettings::setLibraryfolder(m_configEnv.libraryfolderurl->url().toLocalFile());
         if (!KdenliveSettings::librarytodefaultfolder()) {
             updateLibrary = true;
         }

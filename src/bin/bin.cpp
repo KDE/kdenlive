@@ -485,7 +485,7 @@ Bin::Bin(QWidget* parent) :
     connect(m_infoMessage, SIGNAL(messageClosing()), this, SLOT(slotResetInfoMessage()));
     //m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
-    connect(this, SIGNAL(requesteInvalidRemoval(QString,QUrl,QString)), this, SLOT(slotQueryRemoval(QString,QUrl,QString)));
+    connect(this, SIGNAL(requesteInvalidRemoval(QString,QString,QString)), this, SLOT(slotQueryRemoval(QString,QString,QString)));
     connect(this, &Bin::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
     connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
 }
@@ -761,7 +761,7 @@ void Bin::deleteClip(const QString &id)
     }
     m_jobManager->discardJobs(id);
     ClipType type = clip->clipType();
-    QString url = clip->url().toLocalFile();
+    QString url = clip->url();
     clip->setClipStatus(AbstractProjectItem::StatusDeleting);
     AbstractProjectItem *parent = clip->parent();
     parent->removeChild(clip);
@@ -890,7 +890,7 @@ void Bin::slotReloadClip()
 	    emit openClip(NULL);
             if (currentItem->clipType() == Playlist) {
                 //Check if a clip inside playlist is missing
-                QString path = currentItem->url().path();                
+                QString path = currentItem->url();
                 QFile f(path);
                 QDomDocument doc;
                 doc.setContent(&f, false);
@@ -933,7 +933,7 @@ void Bin::slotLocateClip()
         AbstractProjectItem *item = static_cast<AbstractProjectItem*>(m_proxyModel->mapToSource(ix).internalPointer());
         ProjectClip *currentItem = qobject_cast<ProjectClip*>(item);
         if (currentItem) {
-	  QUrl url = currentItem->url().adjusted(QUrl::RemoveFilename);
+	  QUrl url = QUrl::fromLocalFile(currentItem->url()).adjusted(QUrl::RemoveFilename);
 	  bool exists = QFile(url.toLocalFile()).exists();
 	  if (currentItem->hasUrl() && exists) {
 	    QDesktopServices::openUrl(url);
@@ -2564,7 +2564,7 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
         if (type.inherits(QStringLiteral("inode/directory"))) {
             // user dropped a folder, import its files
             clipsToAdd.removeAll(file);
-            QDir dir(file.path());
+            QDir dir(file.toLocalFile());
             QStringList result = dir.entryList(QDir::Files);
             QList <QUrl> folderFiles;
             foreach(const QString & path, result) {
@@ -2586,17 +2586,17 @@ void Bin::slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent)
     }
 }
 
-void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
+void Bin::slotExpandUrl(ItemInfo info, const QString &url, QUndoCommand *command)
 {
     QStringList folderInfo;
     // Create folder to hold imported clips
-    QString folderName = url.fileName().section(QLatin1Char('.'), 0, 0);
+    QString folderName = QFileInfo(url).fileName().section(QLatin1Char('.'), 0, 0);
     QString folderId = QString::number(getFreeFolderId());
     new AddBinFolderCommand(this, folderId, folderName.isEmpty() ? i18n("Folder") : folderName, m_rootFolder->clipId(), false, command);
 
     // Parse playlist clips
     QDomDocument doc;
-    QFile file(url.path());
+    QFile file(url);
     doc.setContent(&file, false);
     file.close();
     bool invalid = false;
@@ -2606,12 +2606,12 @@ void Bin::slotExpandUrl(ItemInfo info, QUrl url, QUndoCommand *command)
     QDomNodeList producers = doc.documentElement().elementsByTagName("producer");
     QDomNodeList tracks = doc.documentElement().elementsByTagName("track");
     if (invalid || producers.isEmpty()) {
-        doDisplayMessage(i18n("Playlist clip %1 is invalid.", url.fileName()), KMessageWidget::Warning);
+        doDisplayMessage(i18n("Playlist clip %1 is invalid.", QFileInfo(url).fileName()), KMessageWidget::Warning);
         delete command;
         return;
     }
     if (tracks.count() > pCore->projectManager()->currentTimeline()->visibleTracksCount() + 1) {
-        doDisplayMessage(i18n("Playlist clip %1 has too many tracks (%2) to be imported. Add new tracks to your project.", url.fileName(), tracks.count()), KMessageWidget::Warning);
+        doDisplayMessage(i18n("Playlist clip %1 has too many tracks (%2) to be imported. Add new tracks to your project.", QFileInfo(url).fileName(), tracks.count()), KMessageWidget::Warning);
         delete command;
         return;
     }
@@ -2868,7 +2868,7 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString&id, QMap <QStri
     if (!clip) return;
 
     QMap <QString, QString> producerParams = QMap <QString, QString> ();
-    producerParams.insert(QStringLiteral("producer"), clip->url().path());
+    producerParams.insert(QStringLiteral("producer"), clip->url());
     if (info.cropDuration != GenTime()) {
         producerParams.insert(QStringLiteral("in"), QString::number((int) info.cropStart.frames(m_doc->fps())));
         producerParams.insert(QStringLiteral("out"), QString::number((int) (info.cropStart + info.cropDuration).frames(m_doc->fps())));
@@ -2901,13 +2901,13 @@ void Bin::slotOpenClip()
             if (KdenliveSettings::defaultimageapp().isEmpty())
                 KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
             else
-                QProcess::startDetached(KdenliveSettings::defaultimageapp(), QStringList() << clip->url().path());
+                QProcess::startDetached(KdenliveSettings::defaultimageapp(), QStringList() << clip->url());
             break;
         case Audio:
             if (KdenliveSettings::defaultaudioapp().isEmpty())
                 KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
             else
-                QProcess::startDetached(KdenliveSettings::defaultaudioapp(), QStringList() << clip->url().path());
+                QProcess::startDetached(KdenliveSettings::defaultaudioapp(), QStringList() << clip->url());
             break;
         default:
             break;
@@ -3313,10 +3313,10 @@ void Bin::slotShowDescColumn(bool show)
     }
 }
 
-void Bin::slotQueryRemoval(const QString &id, QUrl url, const QString &errorMessage)
+void Bin::slotQueryRemoval(const QString &id, const QString &url, const QString &errorMessage)
 {
     if (m_invalidClipDialog) {
-        if (!url.isEmpty()) m_invalidClipDialog->addClip(id, url.toLocalFile());
+        if (!url.isEmpty()) m_invalidClipDialog->addClip(id, url);
         return;
     }
     QString message = i18n("Clip is invalid, will be removed from project.");
@@ -3324,7 +3324,7 @@ void Bin::slotQueryRemoval(const QString &id, QUrl url, const QString &errorMess
         message.append("\n" + errorMessage);
     }
     m_invalidClipDialog = new InvalidDialog(i18n("Invalid clip"), message, true, this);
-    m_invalidClipDialog->addClip(id, url.toLocalFile());
+    m_invalidClipDialog->addClip(id, url);
     int result = m_invalidClipDialog->exec();
     if (result == QDialog::Accepted) {
         QStringList ids = m_invalidClipDialog->getIds();
@@ -3372,7 +3372,8 @@ void Bin::updateTimelineProducers(const QString &id, QMap <QString, QString> pas
 
 void Bin::showSlideshowWidget(ProjectClip *clip)
 {
-    QString folder = clip->url().adjusted(QUrl::RemoveFilename).path();
+    QString folder = QFileInfo(clip->url()).absolutePath();
+    qDebug()<<" ** * CLIP ABS PATH: "<<clip->url()<<" = "<<folder;
     SlideshowClip *dia = new SlideshowClip(m_doc->timecode(), folder, clip, this);
     if (dia->exec() == QDialog::Accepted) {
         // edit clip properties

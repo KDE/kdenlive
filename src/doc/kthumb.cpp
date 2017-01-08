@@ -43,7 +43,7 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
     }
     QPixmap pix(width, height);
     if (!url.isValid()) return pix;
-    Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
+    Mlt::Producer *producer = new Mlt::Producer(profile, url.toLocalFile().toUtf8().constData());
     pix = QPixmap::fromImage(getFrame(producer, frame, width, height));
     delete producer;
     return pix;
