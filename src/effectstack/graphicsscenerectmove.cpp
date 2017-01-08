@@ -98,6 +98,12 @@ void MyTextItem::updateShadow(bool enabled, int blur, int xoffset, int yoffset, 
     update();
 }
 
+void MyTextItem::setTextColor(const QColor &col)
+{
+    setDefaultTextColor(col);
+    refreshFormat();
+}
+
 QStringList MyTextItem::shadowInfo() const
 {
     QStringList info;
@@ -125,24 +131,39 @@ void MyTextItem::setAlignment(Qt::Alignment alignment)
     setTextCursor(cursor);
 }
 
+void MyTextItem::refreshFormat()
+{
+    QString gradientData = data(TitleDocument::Gradient).toString();
+    QTextCursor cursor = textCursor();
+    QTextCharFormat cformat;
+    cursor.select(QTextCursor::Document);
+    int position = textCursor().position();
+
+    // Formatting can be lost on paste, since our QTextCursor gets overwritten, so re-apply all formatting here
+    QColor fgColor = defaultTextColor();
+    cformat.setForeground(fgColor);
+    cformat.setFont(font());
+
+    if (!gradientData.isEmpty()) {
+        QRectF rect = boundingRect();
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rect.width(), rect.height());
+        cformat.setForeground(QBrush(gr));
+    }
+
+    //Apply
+    cursor.mergeCharFormat(cformat);
+    // restore cursor position
+    cursor.clearSelection();
+    cursor.setPosition(position);
+    setTextCursor(cursor);
+}
+
 void MyTextItem::updateGeometry(int, int, int)
 {
     updateGeometry();
     // update gradient if necessary
-    QString gradientData = data(TitleDocument::Gradient).toString();
-    if (!gradientData.isEmpty()) {
-        QTextCursor cursor = textCursor(); 
-        QTextCharFormat cformat;
-        QRectF rect = boundingRect();
-        int position = textCursor().position();
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rect.width(), rect.height());
-        cursor.select(QTextCursor::Document);
-        cformat.setForeground(QBrush(gr));
-        cursor.mergeCharFormat(cformat);
-        cursor.clearSelection();
-        cursor.setPosition(position);           // restore cursor position
-        setTextCursor(cursor);
-    }
+    refreshFormat();
+
     QString text = toPlainText();
     m_path = QPainterPath();
     if (text.isEmpty()) {
@@ -700,10 +721,12 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         }
         QGraphicsScene::mousePressEvent(e);
     } else if (m_tool == TITLE_RECTANGLE) {
+        clearTextSelection();
         m_sceneClickPoint = QPointF(xPos, yPos);
         m_selectedItem = NULL;
         e->ignore();
     } else if (m_tool == TITLE_TEXT) {
+        clearTextSelection();
         MyTextItem *textItem = new MyTextItem(i18n("Text"), NULL);
         yPos = (((int) e->scenePos().y() - (int)(m_fontSize / 2)) / m_gridSize) * m_gridSize;
         textItem->setPos(xPos, yPos);

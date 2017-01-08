@@ -966,7 +966,7 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     tt->setFont(font);
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
-    tt->setDefaultTextColor(color);
+    tt->setTextColor(color);
     tt->document()->setDocumentMargin(0);
 
     QTextCursor cur(tt->document());
@@ -1652,7 +1652,7 @@ void TitleWidget::slotUpdateText()
         //  item->setTextCursor(cur);
         cur.clearSelection();
         item->setTextCursor(cur);
-        item->setDefaultTextColor(color);
+        item->setTextColor(color);
     }
 }
 
