@@ -1524,7 +1524,7 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
         return;
     }
     emit updateFps(fpsChanged);
-    if (fpsChanged) {
+    if (fpsChanged != 1.0) {
         pCore->bin()->reloadAllProducers();
     }
 }
@@ -1605,7 +1605,40 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile.descriptiveString()), KMessageWidget::Information, list);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
-        if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2))) == KMessageBox::Continue) {
+        // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
+        QString adjustMessage;
+        double fps = (double)profile.frame_rate_num / profile.frame_rate_den;
+        double fps_int;
+        double fps_frac = std::modf(fps, &fps_int);
+        if (fps_frac < 0.4) {
+            profile.frame_rate_num = (int) fps_int;
+            profile.frame_rate_den = 1;
+        } else {
+            // Check for 23.98, 29.97, 59.94
+            if (fps_int == 23.0) {
+                if (qAbs(fps - 23.98) < 0.01) {
+                    profile.frame_rate_num = 24000;
+                    profile.frame_rate_den = 1001;
+                }
+            } else if (fps_int == 29.0) {
+                if (qAbs(fps - 29.97) < 0.01) {
+                    profile.frame_rate_num = 30000;
+                    profile.frame_rate_den = 1001;
+                }
+            } else if (fps_int == 59.0) {
+                if (qAbs(fps - 59.94) < 0.01) {
+                    profile.frame_rate_num = 60000;
+                    profile.frame_rate_den = 1001;
+                }
+            } else {
+                // Unknown profile fps, warn user
+                adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
+            }
+        }
+        if ((double)profile.frame_rate_num / profile.frame_rate_den != fps) {
+            adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
+        }
+        if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2), adjustMessage)) == KMessageBox::Continue) {
             m_profile = profile;
             m_profile.description = QStringLiteral("%1x%2 %3fps").arg(profile.width).arg(profile.height).arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
             ProfilesDialog::saveProfile(m_profile);

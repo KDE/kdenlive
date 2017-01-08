@@ -448,6 +448,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                         cursor.setBlockFormat(format);
                         txt->setData(TitleDocument::LineSpacing, lineSpacing);
                     }
+                    txt->setTextColor(col);
                     cformat.setForeground(QBrush(col));
                     cursor.setCharFormat(cformat);
                     if (txtProperties.namedItem(QStringLiteral("gradient")).isNull() == false) {
