@@ -4,7 +4,8 @@ TargetDir=kdenlive/titles
 Uncompress=archive
 
 [KNewStuff3]
+Name=Kdenlive Title Templates
 ProvidersUrl=http://download.kde.org/ocs/providers.xml
-Categories=Kdenlive Template
+Categories=Kdenlive Title Templates
 TargetDir=kdenlive/titles
 Uncompress=archive

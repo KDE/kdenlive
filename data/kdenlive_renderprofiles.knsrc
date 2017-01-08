@@ -4,7 +4,8 @@ TargetDir=kdenlive/export
 Uncompress=archive
 
 [KNewStuff3]
+Name=Kdenlive Render Profiles
 ProvidersUrl=http://download.kde.org/ocs/providers.xml
-Categories=Kdenlive Profile
+Categories=Kdenlive Export Profiles
 TargetDir=kdenlive/export
 Uncompress=archive
