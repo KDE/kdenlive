@@ -1031,10 +1031,7 @@ void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
 
 const QString KdenliveDoc::getDocumentProperty(const QString &name, const QString &defaultValue) const
 {
-    if (m_documentProperties.contains(name)) {
-        return m_documentProperties.value(name);
-    }
-    return defaultValue;
+    return m_documentProperties.value(name, defaultValue);
 }
 
 QMap<QString, QString> KdenliveDoc::getRenderProperties() const
