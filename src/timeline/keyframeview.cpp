@@ -685,7 +685,7 @@ void KeyframeView::addDefaultKeyframe(ProfileInfo profile, int frame, mlt_keyfra
         if (info.max == info.min) {
             // this is probably an animated rect
             QString defaultVal = info.defaultValue;
-            if (defaultVal.contains('%')) {
+            if (defaultVal.contains(QLatin1Char('%'))) {
                 defaultVal = EffectsController::getStringRectEval(profile, defaultVal).simplified();
             }
             mlt_rect rect;

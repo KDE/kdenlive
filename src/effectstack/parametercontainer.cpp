@@ -239,12 +239,12 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 double min;
                 double max;
                 m_acceptDrops = true;
-                if (pa.attribute(QStringLiteral("min")).contains('%')) {
+                if (pa.attribute(QStringLiteral("min")).contains(QLatin1Char('%'))) {
                     min = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute(QStringLiteral("min")), m_metaInfo->frameSize);
                 } else {
                     min = locale.toDouble(pa.attribute(QStringLiteral("min")));
                 }
-                if (pa.attribute(QStringLiteral("max")).contains('%')) {
+                if (pa.attribute(QStringLiteral("max")).contains(QLatin1Char('%'))) {
                     max = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute(QStringLiteral("max")), m_metaInfo->frameSize);
                 } else {
                     max = locale.toDouble(pa.attribute(QStringLiteral("max")));
@@ -888,7 +888,7 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
 {
     wipeInfo info;
     // Convert old geometry values that used a comma as separator
-    if (value.contains(',')) {
+    if (value.contains(QLatin1Char(','))) {
         value.replace(',', '/');
     }
     QString start = value.section(';', 0, 0);

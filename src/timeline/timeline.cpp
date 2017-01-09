@@ -516,7 +516,7 @@ void Timeline::adjustDouble(QDomElement &e, const QString &value)
     QString factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1"));
     double offset = locale.toDouble(e.attribute(QStringLiteral("offset"), QStringLiteral("0")));
     double fact = 1;
-    if (factor.contains('%')) {
+    if (factor.contains(QLatin1Char('%'))) {
         fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
     } else {
         fact = locale.toDouble(factor);
@@ -1165,7 +1165,7 @@ QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement 
     QString endtag = e.attribute(QStringLiteral("endtag"), QStringLiteral("end"));
     double fact, offset = locale.toDouble(e.attribute(QStringLiteral("offset"), QStringLiteral("0")));
     QString factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1"));
-    if (factor.contains('%')) {
+    if (factor.contains(QLatin1Char('%'))) {
         fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
     } else {
         fact = locale.toDouble(factor);
@@ -1225,7 +1225,7 @@ void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &valu
     double offset = locale.toDouble(param.attribute(QStringLiteral("offset"), QStringLiteral("0")));
     double fact;
     QString factor = param.attribute(QStringLiteral("factor"), QStringLiteral("1"));
-    if (factor.contains('%')) {
+    if (factor.contains(QLatin1Char('%'))) {
         fact = EffectsController::getStringEval(info, factor);
     } else {
         fact = locale.toDouble(factor);
@@ -1442,7 +1442,7 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
         QDomElement e = params.item(i).toElement();
         const QString type = e.attribute(QStringLiteral("type"));
         // Check if this effect has a variable parameter
-        if (e.attribute(QStringLiteral("default")).contains('%')) {
+        if (e.attribute(QStringLiteral("default")).contains(QLatin1Char('%'))) {
             if (type == QLatin1String("animatedrect")) {
                 QString evaluatedValue = EffectsController::getStringRectEval(m_doc->getProfileInfo(), e.attribute(QStringLiteral("default")));
                 e.setAttribute(QStringLiteral("default"), evaluatedValue);

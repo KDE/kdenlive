@@ -202,7 +202,7 @@ bool DocumentValidator::validate(const double currentVersion)
             if (!ok) {
                 // Last try: replace comma with a dot
                 QString versionString = kdenliveDoc.attribute(QStringLiteral("version"));
-                if (versionString.contains(',')) {
+                if (versionString.contains(QLatin1Char(','))) {
                     versionString.replace(',', '.');
                 }
                 version = versionString.toDouble(&ok);

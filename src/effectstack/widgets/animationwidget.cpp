@@ -695,7 +695,7 @@ void AnimationWidget::addParameter(const QDomElement &e)
     }
     if (keyframes.isEmpty()) {
         keyframes = getDefaultKeyframes(m_inPoint, e.attribute(QStringLiteral("default")));
-        if (keyframes.contains('%')) {
+        if (keyframes.contains(QLatin1Char('%'))) {
             keyframes = EffectsController::getStringRectEval(m_monitor->profileInfo(), keyframes);
         }
     }

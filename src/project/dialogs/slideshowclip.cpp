@@ -256,7 +256,7 @@ void SlideshowClip::parseFolder()
         }
         QString filter = QFileInfo(path).fileName();
         QString ext = filter.section('.', -1);
-        if (filter.contains('%')) {
+        if (filter.contains(QLatin1Char('%'))) {
             filter = filter.section('%', 0, -2);
         } else {
             filter = filter.section('.', 0, -2);

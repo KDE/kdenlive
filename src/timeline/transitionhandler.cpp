@@ -145,7 +145,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
                 //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
             }
         }
-        if (e.attribute(QStringLiteral("namedesc")).contains(';')) {
+        if (e.attribute(QStringLiteral("namedesc")).contains(QLatin1Char(';'))) {
             //TODO: Deprecated, does not seem used anywhere...
             QString format = e.attribute(QStringLiteral("format"));
             QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);

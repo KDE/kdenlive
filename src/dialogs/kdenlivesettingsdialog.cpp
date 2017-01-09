@@ -912,7 +912,7 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
         i.next();
         QListWidgetItem *item = new QListWidgetItem(i.key());
         QString data = i.value();
-        if (data.contains(';')) {
+        if (data.contains(QLatin1Char(';'))) {
             item->setToolTip(data.section(';', 1, 1));
         }
         item->setData(Qt::UserRole, data);
@@ -1018,7 +1018,7 @@ void KdenliveSettingsDialog::slotSetTranscodeProfile()
     }
     m_configTranscode.profile_name->setText(item->text());
     QString data = item->data(Qt::UserRole).toString();
-    if (data.contains(';')) {
+    if (data.contains(QLatin1Char(';'))) {
         m_configTranscode.profile_description->setText(data.section(';', 1, 1));
         if (data.section(';', 2, 2) == QLatin1String("audio")) {
             m_configTranscode.profile_audioonly->setChecked(true);

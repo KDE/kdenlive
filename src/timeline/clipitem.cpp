@@ -1569,7 +1569,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
                 parameters.addParam(e.attribute(QStringLiteral("name")), e.attribute(QStringLiteral("value")));
             } else {
                 double fact;
-                if (e.attribute(QStringLiteral("factor")).contains('%')) {
+                if (e.attribute(QStringLiteral("factor")).contains(QLatin1Char('%'))) {
                     fact = EffectsController::getStringEval(info, e.attribute(QStringLiteral("factor")));
                 } else {
                     fact = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
