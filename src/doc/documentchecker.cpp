@@ -190,6 +190,11 @@ bool DocumentChecker::hasErrorInClips()
             if (QFileInfo(original).isRelative()) {
                 original.prepend(root);
             }
+            // Check for slideshows
+            bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QStringLiteral("?")) || original.contains(QStringLiteral("%"));
+            if (slideshow && !EffectsList::property(e, QStringLiteral("ttl")).isEmpty()) {
+                original = QFileInfo(original).absolutePath();
+            }
             if (!QFile::exists(original)) {
                 // clip has proxy but original clip is missing
                 missingSources.append(e);
@@ -202,7 +207,6 @@ bool DocumentChecker::hasErrorInClips()
         if ((service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) && slideshow) {
             resource = QFileInfo(resource).absolutePath();
         }
-        qDebug()<<" * * *Checking resource: "<<resource;
         if (!QFile::exists(resource)) {
             // Missing clip found
             m_missingClips.append(e);
