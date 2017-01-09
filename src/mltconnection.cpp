@@ -84,7 +84,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     if (profilesList.isEmpty()) {
         // Cannot find MLT path, try finding melt
         if (!meltPath.isEmpty()) {
-            if(meltPath.contains('/')) {
+            if(meltPath.contains(QLatin1Char('/'))) {
 #ifdef Q_OS_WIN
                 profilePath = meltPath.section('/', 0, -2) + "/share/mlt/profiles/";
 #else

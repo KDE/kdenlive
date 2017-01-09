@@ -334,7 +334,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
         versionCheck->start(QStringLiteral("dvgrab"), QStringList() << QStringLiteral("--version"));
         if (versionCheck->waitForFinished()) {
             QString version = QString(versionCheck->readAll()).simplified();
-            if (version.contains(' ')) {
+            if (version.contains(QLatin1Char(' '))) {
                 version = version.section(' ', -1);
             }
             dvgrabVersion = version.toDouble();

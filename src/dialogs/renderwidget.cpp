@@ -2295,11 +2295,11 @@ void RenderWidget::parseScriptFiles()
             continue;
         }
         item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
-        if (!renderer.isEmpty() && renderer.contains('/') && !QFile::exists(renderer)) {
+        if (!renderer.isEmpty() && renderer.contains(QLatin1Char('/')) && !QFile::exists(renderer)) {
             item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
             item->setToolTip(1, i18n("Script contains wrong command: %1", renderer));
             item->setData(0, Qt::UserRole, '1');
-        } else if (!melt.isEmpty() && melt.contains('/') && !QFile::exists(melt)) {
+        } else if (!melt.isEmpty() && melt.contains(QLatin1Char('/')) && !QFile::exists(melt)) {
             item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
             item->setToolTip(1, i18n("Script contains wrong command: %1", melt));
             item->setData(0, Qt::UserRole, '1');

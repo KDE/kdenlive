@@ -191,7 +191,7 @@ void DvdWizardVob::slotShowTranscodeInfo()
     } else if (log.contains(QStringLiteral("time="))) {
         int progress;
         QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(' ', 0, 0);
-        if (time.contains(':')) {
+        if (time.contains(QLatin1Char(':'))) {
             QStringList numbers = time.split(':');
             if (numbers.size() < 3) {
                 return;

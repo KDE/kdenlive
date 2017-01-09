@@ -977,7 +977,7 @@ void RecMonitor::manageCapturedFiles()
             file.setDelayedMimeTypes(true);
             if (file.time(KFileItem::ModificationTime) > m_captureTime) {
                 // The file was captured in the last batch
-                if (url.fileName().contains(':')) {
+                if (url.fileName().contains(QLatin1Char(':'))) {
                     // Several dvgrab options (--timecode,...) use : in the file name, which is
                     // not supported by MLT, so rename them
                     QString newUrl = url.adjusted(QUrl::RemoveFilename).toLocalFile() + QDir::separator() + url.fileName().replace(':', '_');

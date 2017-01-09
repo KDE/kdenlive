@@ -253,7 +253,7 @@ bool ProfilesDialog::slotSaveProfile()
     if (ix != -1) {
         // this profile name already exists
         const QString path = m_view.profiles_list->itemData(ix).toString();
-        if (!path.contains('/')) {
+        if (!path.contains(QLatin1Char('/'))) {
             KMessageBox::sorry(this, i18n("A profile with same name already exists in MLT's default profiles, please choose another description for your custom profile."));
             return false;
         }
@@ -297,7 +297,7 @@ void ProfilesDialog::slotDeleteProfile()
 {
     const QString path = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     bool success = false;
-    if (path.contains('/')) {
+    if (path.contains(QLatin1Char('/'))) {
         success = QFile::remove(path);
         fillList();
     }
@@ -335,7 +335,7 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
     profilesFilter << QStringLiteral("*");
     QString path;
     bool isCustom = false;
-    if (name.contains('/')) {
+    if (name.contains(QLatin1Char('/'))) {
         isCustom = true;
     }
     if (!isCustom) {
@@ -548,7 +548,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString &path
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
     QDir mltDir(KdenliveSettings::mltpath());
-    if (!path.contains('/')) {
+    if (!path.contains(QLatin1Char('/'))) {
         // This is an MLT profile
         KConfig confFile(mltDir.absoluteFilePath(path), KConfig::SimpleConfig);
         return confFile.entryMap();
@@ -673,7 +673,7 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     if (currentProfile.isEmpty()) {
         currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     }
-    m_isCustomProfile = currentProfile.contains('/');
+    m_isCustomProfile = currentProfile.contains(QLatin1Char('/'));
     m_view.button_create->setEnabled(true);
     m_view.button_delete->setEnabled(m_isCustomProfile);
     m_view.properties->setEnabled(m_isCustomProfile);

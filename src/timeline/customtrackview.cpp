@@ -1893,7 +1893,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             }
             ItemInfo info;
             info.startPos = start;
-            if (clipData.contains('/')) {
+            if (clipData.contains(QLatin1Char('/'))) {
                 // this is a clip zone, set in / out
                 int in = clipData.section('/', 1, 1).toInt();
                 int out = clipData.section('/', 2, 2).toInt();
@@ -1939,7 +1939,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             ProjectClip *clip = m_document->getBinClip(clipId);
             ItemInfo info;
             info.startPos = start;
-            if (clipData.contains('/')) {
+            if (clipData.contains(QLatin1Char('/'))) {
                 // this is a clip zone, set in / out
                 int in = clipData.section('/', 1, 1).toInt();
                 int out = clipData.section('/', 2, 2).toInt();

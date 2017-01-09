@@ -1094,7 +1094,7 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
         } else {
             item.frame(0);
         }
-        if (geom.contains('/')) {
+        if (geom.contains(QLatin1Char('/'))) {
             item.x(geom.section('/', 0, 0).toDouble());
             item.y(geom.section('/', 1, 1).section(':', 0, 0).toDouble());
         } else {

@@ -301,7 +301,7 @@ void ArchiveOrg::slotParseResults(KJob *job)
             thumbJob->setProperty("id", m_metaInfo.value(QStringLiteral("id")));
             connect(thumbJob, &KJob::result, this, &ArchiveOrg::slotParseThumbs);
         }
-        else if (!href.contains('/') && !href.endsWith(QLatin1String(".xml"))) {
+        else if (!href.contains(QLatin1Char('/')) && !href.endsWith(QLatin1String(".xml"))) {
             link = m_metaInfo.value(QStringLiteral("url")) + '/' + href;
             ct++;
             if (ct %2 == 0) {
@@ -368,7 +368,7 @@ void ArchiveOrg::slotParseThumbs(KJob* job)
     if (links.isEmpty()) return;
     for (int i = 0; i < links.count(); ++i) {
         QString href = links.at(i).toElement().attribute(QStringLiteral("href"));
-        if (!href.contains('/') && i >= links.count() / 2) {
+        if (!href.contains(QLatin1Char('/')) && i >= links.count() / 2) {
             QString thumbUrl = m_thumbsPath + href;
             if (m_metaInfo.value(QStringLiteral("id")) == job->property("id").toString())
                 emit gotThumb(thumbUrl);

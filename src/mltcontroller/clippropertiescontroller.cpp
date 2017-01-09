@@ -1051,7 +1051,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                 QTreeWidgetItem *magicL = Q_NULLPTR;
                 while (!file.atEnd()) {
                     QString line = file.readLine().simplified();
-                    if (line.startsWith('#') || line.isEmpty() || !line.contains(':')) {
+                    if (line.startsWith('#') || line.isEmpty() || !line.contains(QLatin1Char(':'))) {
                         continue;
                     }
                     if (line.startsWith(QLatin1String("CSV data"))) {
