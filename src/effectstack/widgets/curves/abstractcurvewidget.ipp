@@ -74,7 +74,18 @@ void AbstractCurveWidget<Curve_t>::paintBackground(QPainter *p)
         p->drawPixmap(0, 0, *m_pixmapCache);
     }
 
-    p->setPen(QPen(palette().mid().color(), 1, Qt::SolidLine));
+    //select color of the grid, depending on whether we have a palette or not
+    if (!m_pixmap.isNull()) {
+        p->setPen(QPen(palette().mid().color(), 1, Qt::SolidLine));
+    } else {
+        int h, s, l, a;
+        auto bg = palette().color(QPalette::Window);
+        bg.getHsl(&h, &s, &l, &a);
+        l = (l > 128) ? l - 30 : l + 30;
+        bg.setHsl(h, s, l, a);
+        p->setPen(QPen(bg, 1, Qt::SolidLine));
+    }
+
 
     /*
      * Borders
