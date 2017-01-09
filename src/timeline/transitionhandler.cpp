@@ -145,7 +145,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
                 //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
             }
         }
-        if (e.attribute(QStringLiteral("namedesc")).contains(';')) {
+        if (e.attribute(QStringLiteral("namedesc")).contains(QLatin1Char(';'))) {
             //TODO: Deprecated, does not seem used anywhere...
             QString format = e.attribute(QStringLiteral("format"));
             QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
@@ -206,7 +206,7 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
         }
         //else qCDebug(KDENLIVE_LOG) << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
 
-        if (nextservice == Q_NULLPTR) {
+        if (nextservice == nullptr) {
             break;
         }
         properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -229,9 +229,9 @@ void TransitionHandler::cloneProperties(Mlt::Properties &dest, Mlt::Properties &
     int i = 0;
     for (i = 0; i < count; i ++) {
         char *value = source.get(i);
-        if (value != Q_NULLPTR) {
+        if (value != nullptr) {
             char *name = source.get_name(i);
-            if (name != Q_NULLPTR && name[0] != '_') {
+            if (name != nullptr && name[0] != '_') {
                 dest.set(name, value);
             }
         }
@@ -306,7 +306,7 @@ void TransitionHandler::updateTransitionParams(const QString &type, int a_track,
             break;
         }
         nextservice = mlt_service_producer(nextservice);
-        if (nextservice == Q_NULLPTR) {
+        if (nextservice == nullptr) {
             break;
         }
         properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -344,7 +344,7 @@ bool TransitionHandler::deleteTransition(const QString &tag, int /*a_track*/, in
             break;
         }
         nextservice = mlt_service_producer(nextservice);
-        if (nextservice == Q_NULLPTR) {
+        if (nextservice == nullptr) {
             break;
         }
         properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -369,7 +369,7 @@ void TransitionHandler::deleteTrackTransitions(int ix)
         if (ix == currentTrack) {
             field->disconnect_service(transition);
         }
-        if (nextservice == Q_NULLPTR) {
+        if (nextservice == nullptr) {
             break;
         }
         type = mlt_service_identify(nextservice);
@@ -418,7 +418,7 @@ bool TransitionHandler::moveTransition(const QString &type, int startTrack, int 
             }
             break;
         }
-        if (nextservice == Q_NULLPTR) {
+        if (nextservice == nullptr) {
             break;
         }
         properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -535,7 +535,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
                     transition.set("split_disable", 1);
                 }
             }
-            if (nextservice == Q_NULLPTR) {
+            if (nextservice == nullptr) {
                 break;
             }
             type = mlt_service_identify(nextservice);
@@ -588,10 +588,10 @@ void TransitionHandler::enableMultiTrack(bool enable)
                 QString mlt_service = transition.get("mlt_service");
                 if (compositeService.contains(mlt_service) && transition.get_int("split_disable") == 1) {
                     transition.set("disable", 0);
-                    transition.set("split_disable", (char *) Q_NULLPTR);
+                    transition.set("split_disable", (char *) nullptr);
                 }
             }
-            if (nextservice == Q_NULLPTR) {
+            if (nextservice == nullptr) {
                 break;
             }
             type = mlt_service_identify(nextservice);

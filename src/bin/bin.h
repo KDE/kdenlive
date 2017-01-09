@@ -567,7 +567,7 @@ private slots:
     /** @brief Reset all text and log data from info message widget. */
     void slotResetInfoMessage();
     /** @brief Show dialog prompting for removal of invalid clips. */
-    void slotQueryRemoval(const QString &id, const QUrl &url, const QString &errorMessage);
+    void slotQueryRemoval(const QString &id, const QString &url, const QString &errorMessage);
     /** @brief Request display of current clip in monitor. */
     void slotOpenCurrent();
     void slotZoomView(bool zoomIn);
@@ -642,7 +642,7 @@ public slots:
     void slotEffectDropped(QString id, QDomElement);
     /** @brief Request current frame from project monitor. */
     void slotGetCurrentProjectImage(bool request);
-    void slotExpandUrl(const ItemInfo &info, const QUrl &url, QUndoCommand *command);
+    void slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command);
     void abortAudioThumbs();
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
@@ -750,7 +750,7 @@ signals:
     void masterClipUpdated(ClipController *, Monitor *);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);
     void displayMessage(const QString &, int, MessageType);
-    void requesteInvalidRemoval(const QString &, const QUrl &, const QString &);
+    void requesteInvalidRemoval(const QString &, const QString &, const QString &);
     /** @brief Markers changed, refresh panel. */
     void refreshPanelMarkers();
     /** @brief Analysis data changed, refresh panel. */

@@ -145,7 +145,7 @@ void GradientWidget::saveGradient(const QString &name)
     painter.fillRect(0, 0, pix.width(), pix.height(), QBrush(m_gradient));
     painter.end();
     QIcon icon(pix);
-    QListWidgetItem *item = Q_NULLPTR;
+    QListWidgetItem *item = nullptr;
     if (!name.isEmpty()) {
         item = gradient_list->currentItem();
         item->setIcon(icon);

@@ -45,7 +45,7 @@ LayoutManagement::LayoutManagement(QObject *parent) :
 void LayoutManagement::initializeLayouts()
 {
     QMenu *saveLayout = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("layout_save_as"), pCore->window()));
-    if (m_loadLayout == Q_NULLPTR || saveLayout == Q_NULLPTR) {
+    if (m_loadLayout == nullptr || saveLayout == nullptr) {
         return;
     }
     KSharedConfigPtr config = KSharedConfig::openConfig();

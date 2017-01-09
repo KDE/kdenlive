@@ -48,7 +48,7 @@ ProjectManager::ProjectManager(QObject *parent) :
     QObject(parent),
     m_project(0),
     m_trackView(0),
-    m_progressDialog(Q_NULLPTR)
+    m_progressDialog(nullptr)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-revert")));
@@ -134,6 +134,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     pCore->monitorManager()->resetDisplay();
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
+    documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     documentProperties.insert(QStringLiteral("documentid"), documentId);
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
@@ -141,10 +142,13 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         }
         if (KdenliveSettings::customprojectfolder()) {
             projectFolder = KdenliveSettings::defaultprojectfolder();
-            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + QStringLiteral("/") + documentId);
+            if (!projectFolder.endsWith(QLatin1Char('/'))) {
+                projectFolder.append(QStringLiteral("/"));
+            }
+            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
         }
     } else {
-        QPointer<ProjectSettings> w = new ProjectSettings(Q_NULLPTR, QMap<QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
+        QPointer<ProjectSettings> w = new ProjectSettings(nullptr, QMap<QString, QString> (), QStringList(), projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
         connect(w.data(), &ProjectSettings::refreshProfiles, pCore->window(), &MainWindow::slotRefreshProfiles);
         if (w->exec() != QDialog::Accepted) {
             delete w;
@@ -176,7 +180,10 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         }
         documentProperties.insert(QStringLiteral("proxyimageminsize"), QString::number(w->proxyImageMinSize()));
         if (!projectFolder.isEmpty()) {
-            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + QStringLiteral("/") + documentId);
+            if (!projectFolder.endsWith(QLatin1Char('/'))) {
+                projectFolder.append(QStringLiteral("/"));
+            }
+            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder +documentId);
         }
         documentMetadata = w->metadata();
         delete w;
@@ -195,7 +202,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     // Set default target tracks to upper audio / lower video tracks
     m_trackView->audioTarget = projectTracks.y() > 0 ? projectTracks.y() : -1;
     m_trackView->videoTarget = projectTracks.x() > 0 ? projectTracks.y() + 1 : -1;
-    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand *)), Qt::DirectConnection);
+    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QString, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QString, QUndoCommand *)), Qt::DirectConnection);
 
     m_trackView->loadTimeline();
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());
@@ -252,14 +259,14 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         if (m_project) {
             pCore->producerQueue()->abortOperations();
             pCore->bin()->abortOperations();
-            pCore->window()->slotTimelineClipSelected(Q_NULLPTR, false);
-            pCore->monitorManager()->clipMonitor()->slotOpenClip(Q_NULLPTR);
+            pCore->window()->slotTimelineClipSelected(nullptr, false);
+            pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
             pCore->window()->m_effectStack->clear();
-            pCore->window()->m_effectStack->transitionConfig()->slotTransitionItemSelected(Q_NULLPTR, 0, QPoint(), false);
+            pCore->window()->m_effectStack->transitionConfig()->slotTransitionItemSelected(nullptr, 0, QPoint(), false);
             delete m_trackView;
-            m_trackView = Q_NULLPTR;
+            m_trackView = nullptr;
             delete m_project;
-            m_project = Q_NULLPTR;
+            m_project = nullptr;
         }
         pCore->monitorManager()->setDocument(m_project);
     }
@@ -291,7 +298,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     // saved under file name
     // actual saving by KdenliveDoc::slotAutoSave() called by a timer 3 seconds after the document has been edited
     // This timer is set by KdenliveDoc::setModified()
-    if (m_project->m_autosave == Q_NULLPTR) {
+    if (m_project->m_autosave == nullptr) {
         // The temporary file is not opened or created until actually needed.
         // The file filename does not have to exist for KAutoSaveFile to be constructed (if it exists, it will not be touched).
         m_project->m_autosave = new KAutoSaveFile(url, this);
@@ -417,7 +424,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
 {
     // Check for autosave file that belong to the url we passed in.
     QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(url);
-    KAutoSaveFile *orphanedFile = Q_NULLPTR;
+    KAutoSaveFile *orphanedFile = nullptr;
     // Check if we can have a lock on one of the file,
     // meaning it is not handled by any Kdenlive instancce
     if (!staleFiles.isEmpty()) {
@@ -495,12 +502,12 @@ void ProjectManager::openFile(const QUrl &url)
         return;
     }
     pCore->window()->slotGotProgressInfo(i18n("Opening file %1", url.toLocalFile()), 100, InformationMessage);
-    doOpenFile(url, Q_NULLPTR);
+    doOpenFile(url, nullptr);
 }
 
 void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 {
-    Q_ASSERT(m_project == Q_NULLPTR);
+    Q_ASSERT(m_project == nullptr);
     if (!pCore->window()->m_timelineArea->isEnabled()) {
         return;
     }
@@ -509,7 +516,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     // Recreate stopmotion widget on document change
     if (pCore->window()->m_stopmotion) {
         delete pCore->window()->m_stopmotion;
-        pCore->window()->m_stopmotion = Q_NULLPTR;
+        pCore->window()->m_stopmotion = nullptr;
     }
     delete m_progressDialog;
     pCore->monitorManager()->resetDisplay();
@@ -522,7 +529,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     bool openBackup;
     m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack, KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(), QMap<QString, QString> (), QMap<QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
-    if (stale == Q_NULLPTR) {
+    if (stale == nullptr) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
     } else {
@@ -556,7 +563,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->videoTarget = doc->getDocumentProperty(QStringLiteral("videotargettrack"), QStringLiteral("-1")).toInt();
     m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
-    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QUrl, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QUrl, QUndoCommand *)), Qt::DirectConnection);
+    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QString, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QString, QUndoCommand *)), Qt::DirectConnection);
     pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
@@ -586,7 +593,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     }
     m_lastSave.start();
     delete m_progressDialog;
-    m_progressDialog = Q_NULLPTR;
+    m_progressDialog = nullptr;
 }
 
 void ProjectManager::slotRevert()
@@ -596,7 +603,7 @@ void ProjectManager::slotRevert()
     }
     QUrl url = m_project->url();
     if (closeCurrentDocument(false)) {
-        doOpenFile(url, Q_NULLPTR);
+        doOpenFile(url, nullptr);
     }
 }
 
@@ -634,7 +641,7 @@ void ProjectManager::slotOpenBackup(const QUrl &url)
         QString requestedBackup = dia->selectedFile();
         m_project->backupLastSavedVersion(projectFile.toLocalFile());
         closeCurrentDocument(false);
-        doOpenFile(QUrl::fromLocalFile(requestedBackup), Q_NULLPTR);
+        doOpenFile(QUrl::fromLocalFile(requestedBackup), nullptr);
         if (m_project) {
             m_project->setUrl(projectFile);
             m_project->setModified(true);

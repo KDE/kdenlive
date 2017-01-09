@@ -95,7 +95,7 @@ void MyLabel::paintEvent(QPaintEvent *event)
 
 StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent) :
     AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent),
-    m_captureDevice(Q_NULLPTR)
+    m_captureDevice(nullptr)
 {
 }
 
@@ -151,7 +151,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     QDialog(parent)
     , Ui::Stopmotion_UI()
     , m_projectFolder(projectFolder)
-    , m_captureDevice(Q_NULLPTR)
+    , m_captureDevice(nullptr)
     , m_sequenceFrame(0)
     , m_animatedIndex(-1)
     , m_animate(false)
@@ -345,7 +345,7 @@ StopmotionWidget::~StopmotionWidget()
     if (m_captureDevice) {
         m_captureDevice->stop();
         delete m_captureDevice;
-        m_captureDevice = Q_NULLPTR;
+        m_captureDevice = nullptr;
     }
 
     delete m_monitor;
@@ -423,7 +423,7 @@ void StopmotionWidget::slotUpdateDeviceHandler()
         m_bmCapture = new BmdCaptureHandler(m_layout);
         if (m_bmCapture) connect(m_bmCapture, SIGNAL(gotMessage(QString)), this, SLOT(slotGotHDMIMessage(QString)));
     }
-    live_button->setEnabled(m_bmCapture != Q_NULLPTR);
+    live_button->setEnabled(m_bmCapture != nullptr);
     m_layout->addWidget(m_frame_preview);*/
 }
 
@@ -436,7 +436,7 @@ void StopmotionWidget::parseExistingSequences()
 {
     sequence_name->clear();
     sequence_name->addItem(QString());
-    QDir dir(m_projectFolder.path());
+    QDir dir(m_projectFolder.toLocalFile());
     QStringList filters;
     filters << QStringLiteral("*_0000.png");
     //dir.setNameFilters(filters);
@@ -486,7 +486,7 @@ void StopmotionWidget::slotLive(bool isOn)
             resource = capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString();
         }
 
-        if (m_captureDevice == Q_NULLPTR) {
+        if (m_captureDevice == nullptr) {
             /*TODO:
             //m_captureDevice = new MltDeviceCapture(profilePath, m_monitor->videoSurface, this);
             m_captureDevice->sendFrameForAnalysis = KdenliveSettings::analyse_stopmotion();
@@ -520,7 +520,7 @@ void StopmotionWidget::slotLive(bool isOn)
             log_box->insertItem(-1, i18n("Stopped"));
             log_box->setCurrentIndex(0);
             //delete m_captureDevice;
-            //m_captureDevice = Q_NULLPTR;
+            //m_captureDevice = nullptr;
         }
     }
 
@@ -569,7 +569,7 @@ void StopmotionWidget::reloadOverlay()
 
 void StopmotionWidget::slotUpdateOverlay()
 {
-    if (m_captureDevice == Q_NULLPTR) {
+    if (m_captureDevice == nullptr) {
         return;
     }
 
@@ -631,7 +631,7 @@ void StopmotionWidget::sequenceNameChanged(const QString &name)
 
 void StopmotionWidget::slotCaptureFrame()
 {
-    if (m_captureDevice == Q_NULLPTR) {
+    if (m_captureDevice == nullptr) {
         return;
     }
     if (sequence_name->currentText().isEmpty()) {
@@ -733,7 +733,7 @@ QString StopmotionWidget::getPathForFrame(int ix, QString seqName)
     if (seqName.isEmpty()) {
         seqName = m_sequenceName;
     }
-    return m_projectFolder.path() + QDir::separator() + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QStringLiteral(".png");
+    return m_projectFolder.toLocalFile() + QDir::separator() + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QStringLiteral(".png");
 }
 
 void StopmotionWidget::slotShowFrame(const QString &path)
@@ -844,7 +844,7 @@ void StopmotionWidget::slotSeekFrame(bool forward)
 
 void StopmotionWidget::slotRemoveFrame()
 {
-    if (frame_list->currentItem() == Q_NULLPTR) {
+    if (frame_list->currentItem() == nullptr) {
         return;
     }
     QString path = frame_list->currentItem()->toolTip();

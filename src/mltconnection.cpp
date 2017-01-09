@@ -68,7 +68,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
             delete getUrl;
             ::exit(0);
         } else {
-            meltPath = getUrl->selectedUrl().path();
+            meltPath = getUrl->selectedUrl().toLocalFile();
             delete getUrl;
             if (meltPath.isEmpty()) {
                 ::exit(0);
@@ -84,7 +84,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     if (profilesList.isEmpty()) {
         // Cannot find MLT path, try finding melt
         if (!meltPath.isEmpty()) {
-            if(meltPath.contains('/')) {
+            if(meltPath.contains(QLatin1Char('/'))) {
 #ifdef Q_OS_WIN
                 profilePath = meltPath.section('/', 0, -2) + "/share/mlt/profiles/";
 #else

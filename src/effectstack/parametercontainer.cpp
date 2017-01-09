@@ -100,9 +100,9 @@ class Fontval: public QWidget, public Ui::Fontval_UI
 
 ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget *parent) :
     m_info(info),
-    m_keyframeEditor(Q_NULLPTR),
-    m_geometryWidget(Q_NULLPTR),
-    m_animationWidget(Q_NULLPTR),
+    m_keyframeEditor(nullptr),
+    m_geometryWidget(nullptr),
+    m_animationWidget(nullptr),
     m_metaInfo(metaInfo),
     m_effect(effect),
     m_acceptDrops(false),
@@ -195,12 +195,12 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 double min;
                 double max;
                 m_acceptDrops = true;
-                if (pa.attribute(QStringLiteral("min")).contains('%')) {
+                if (pa.attribute(QStringLiteral("min")).contains(QLatin1Char('%'))) {
                     min = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute(QStringLiteral("min")), m_metaInfo->frameSize);
                 } else {
                     min = locale.toDouble(pa.attribute(QStringLiteral("min")));
                 }
-                if (pa.attribute(QStringLiteral("max")).contains('%')) {
+                if (pa.attribute(QStringLiteral("max")).contains(QLatin1Char('%'))) {
                     max = EffectsController::getStringEval(m_metaInfo->monitor->profileInfo(), pa.attribute(QStringLiteral("max")), m_metaInfo->frameSize);
                 } else {
                     max = locale.toDouble(pa.attribute(QStringLiteral("max")));
@@ -357,7 +357,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
             } else if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
                 // keyframe editor widget
-                if (m_keyframeEditor == Q_NULLPTR) {
+                if (m_keyframeEditor == nullptr) {
                     KeyframeEdit *geo;
                     if (pa.attribute(QStringLiteral("widget")) == QLatin1String("corners")) {
                         // we want a corners-keyframe-widget
@@ -628,7 +628,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 m_conditionalWidgets << lab;
             } else {
                 delete toFillin;
-                toFillin = Q_NULLPTR;
+                toFillin = nullptr;
             }
 
             if (toFillin) {
@@ -808,7 +808,7 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
 {
     wipeInfo info;
     // Convert old geometry values that used a comma as separator
-    if (value.contains(',')) {
+    if (value.contains(QLatin1Char(','))) {
         value.replace(',', '/');
     }
     QString start = value.section(';', 0, 0);
@@ -1114,7 +1114,7 @@ void ParameterContainer::slotCollectAllParameters()
         } else if (type == QLatin1String("url")) {
             KUrlRequester *req = static_cast<Urlval *>(m_valueItems.value(paramName))->urlwidget;
             if (req) {
-                setValue = req->url().path();
+                setValue = req->url().toLocalFile();
             }
         } else if (type == QLatin1String("keywords")) {
             Keywordval *val = static_cast<Keywordval *>(m_valueItems.value(paramName));

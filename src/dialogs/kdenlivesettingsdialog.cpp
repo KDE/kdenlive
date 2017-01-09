@@ -334,7 +334,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
         versionCheck->start(QStringLiteral("dvgrab"), QStringList() << QStringLiteral("--version"));
         if (versionCheck->waitForFinished()) {
             QString version = QString(versionCheck->readAll()).simplified();
-            if (version.contains(' ')) {
+            if (version.contains(QLatin1Char(' '))) {
                 version = version.section(' ', -1);
             }
             dvgrabVersion = version.toDouble();
@@ -713,12 +713,12 @@ void KdenliveSettingsDialog::updateSettings()
         updateCapturePath = true;
     }
 
-    if (m_configProject.projecturl->url().path() != KdenliveSettings::defaultprojectfolder()) {
-        KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().path());
+    if (m_configProject.projecturl->url().toLocalFile() != KdenliveSettings::defaultprojectfolder()) {
+        KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().toLocalFile());
     }
 
-    if (m_configEnv.capturefolderurl->url().path() != KdenliveSettings::capturefolder()) {
-        KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().path());
+    if (m_configEnv.capturefolderurl->url().toLocalFile() != KdenliveSettings::capturefolder()) {
+        KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().toLocalFile());
         updateCapturePath = true;
     }
 
@@ -728,8 +728,8 @@ void KdenliveSettingsDialog::updateSettings()
         updateLibrary = true;
     }
 
-    if (m_configEnv.libraryfolderurl->url().path() != KdenliveSettings::libraryfolder()) {
-        KdenliveSettings::setLibraryfolder(m_configEnv.libraryfolderurl->url().path());
+    if (m_configEnv.libraryfolderurl->url().toLocalFile() != KdenliveSettings::libraryfolder()) {
+        KdenliveSettings::setLibraryfolder(m_configEnv.libraryfolderurl->url().toLocalFile());
         if (!KdenliveSettings::librarytodefaultfolder()) {
             updateLibrary = true;
         }
@@ -912,7 +912,7 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
         i.next();
         QListWidgetItem *item = new QListWidgetItem(i.key());
         QString data = i.value();
-        if (data.contains(';')) {
+        if (data.contains(QLatin1Char(';'))) {
             item->setToolTip(data.section(';', 1, 1));
         }
         item->setData(Qt::UserRole, data);
@@ -984,7 +984,7 @@ void KdenliveSettingsDialog::slotUpdateTranscodingProfile()
 void KdenliveSettingsDialog::slotDeleteTranscode()
 {
     QListWidgetItem *item = m_configTranscode.profiles_list->currentItem();
-    if (item == Q_NULLPTR) {
+    if (item == nullptr) {
         return;
     }
     delete item;
@@ -1018,7 +1018,7 @@ void KdenliveSettingsDialog::slotSetTranscodeProfile()
     }
     m_configTranscode.profile_name->setText(item->text());
     QString data = item->data(Qt::UserRole).toString();
-    if (data.contains(';')) {
+    if (data.contains(QLatin1Char(';'))) {
         m_configTranscode.profile_description->setText(data.section(';', 1, 1));
         if (data.section(';', 2, 2) == QLatin1String("audio")) {
             m_configTranscode.profile_audioonly->setChecked(true);

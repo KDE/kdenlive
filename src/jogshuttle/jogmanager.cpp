@@ -18,8 +18,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 JogManager::JogManager(QObject *parent) :
     QObject(parent),
-    m_shuttle(Q_NULLPTR),
-    m_shuttleAction(Q_NULLPTR)
+    m_shuttle(nullptr),
+    m_shuttleAction(nullptr)
 {
     slotConfigurationChanged();
 
@@ -29,9 +29,9 @@ JogManager::JogManager(QObject *parent) :
 void JogManager::slotConfigurationChanged()
 {
     delete m_shuttleAction;
-    m_shuttleAction = Q_NULLPTR;
+    m_shuttleAction = nullptr;
     delete m_shuttle;
-    m_shuttle = Q_NULLPTR;
+    m_shuttle = nullptr;
 
     if (KdenliveSettings::enableshuttle()) {
         m_shuttle = new JogShuttle(JogShuttle::canonicalDevice(KdenliveSettings::shuttledevice()));

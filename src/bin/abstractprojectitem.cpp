@@ -123,7 +123,7 @@ Bin *AbstractProjectItem::bin()
     if (m_parent) {
         return m_parent->bin();
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)

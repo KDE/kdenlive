@@ -47,12 +47,12 @@
 
 CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget *parent) :
     AbstractCollapsibleWidget(parent),
-    m_paramWidget(Q_NULLPTR),
+    m_paramWidget(nullptr),
     m_effect(effect),
     m_itemInfo(info),
     m_original_effect(original_effect),
     m_isMovable(true),
-    m_animation(Q_NULLPTR),
+    m_animation(nullptr),
     m_regionEffect(false)
 {
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
@@ -221,7 +221,7 @@ void CollapsibleEffect::slotCreateRegion()
     QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), QString(), clipFolder, dialogFilter);
     d->setFileMode(QFileDialog::ExistingFile);
     if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
-        KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), d->selectedUrls().first().adjusted(QUrl::RemoveFilename).path());
+        KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), d->selectedUrls().first().adjusted(QUrl::RemoveFilename).toLocalFile());
         emit createRegion(effectIndex(), d->selectedUrls().first());
     }
     delete d;
@@ -504,7 +504,7 @@ void CollapsibleEffect::updateWidget(const ItemInfo &info, const QDomElement &ef
 {
     // cleanup
     delete m_paramWidget;
-    m_paramWidget = Q_NULLPTR;
+    m_paramWidget = nullptr;
     m_effect = effect;
     setupWidget(info, metaInfo);
 }
@@ -530,7 +530,7 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
         return;
     }
     delete m_paramWidget;
-    m_paramWidget = Q_NULLPTR;
+    m_paramWidget = nullptr;
 
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
         m_regionEffect = true;

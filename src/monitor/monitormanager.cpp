@@ -36,10 +36,10 @@
 
 MonitorManager::MonitorManager(QObject *parent) :
     QObject(parent),
-    m_document(Q_NULLPTR),
-    m_clipMonitor(Q_NULLPTR),
-    m_projectMonitor(Q_NULLPTR),
-    m_activeMonitor(Q_NULLPTR)
+    m_document(nullptr),
+    m_clipMonitor(nullptr),
+    m_projectMonitor(nullptr),
+    m_activeMonitor(nullptr)
 {
     setupActions();
 }
@@ -86,7 +86,7 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
 
 AbstractMonitor *MonitorManager::monitor(Kdenlive::MonitorId monitorName)
 {
-    AbstractMonitor *monitor = Q_NULLPTR;
+    AbstractMonitor *monitor = nullptr;
     for (int i = 0; i < m_monitorsList.size(); ++i) {
         if (m_monitorsList[i]->id() == monitorName) {
             monitor = m_monitorsList.at(i);
@@ -117,7 +117,7 @@ void MonitorManager::lockMonitor(Kdenlive::MonitorId name, bool lock)
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh)
 {
-    if (m_clipMonitor == Q_NULLPTR || m_projectMonitor == Q_NULLPTR) {
+    if (m_clipMonitor == nullptr || m_projectMonitor == nullptr) {
         return false;
     }
     if (m_activeMonitor && m_activeMonitor->id() == name) {
@@ -127,7 +127,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         return false;
     }
     QMutexLocker locker(&m_switchMutex);
-    m_activeMonitor = Q_NULLPTR;
+    m_activeMonitor = nullptr;
     for (int i = 0; i < m_monitorsList.count(); ++i) {
         if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
@@ -153,7 +153,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         //updateAudioIcons();
     }
     emit checkColorScopes();
-    return (m_activeMonitor != Q_NULLPTR);
+    return (m_activeMonitor != nullptr);
 }
 
 void MonitorManager::resetDisplay()
@@ -326,7 +326,7 @@ AbstractRender *MonitorManager::activeRenderer()
     if (m_activeMonitor) {
         return m_activeMonitor->abstractRender();
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 void MonitorManager::slotSwitchFullscreen()
@@ -338,8 +338,8 @@ void MonitorManager::slotSwitchFullscreen()
 
 QString MonitorManager::getProjectFolder() const
 {
-    if (m_document == Q_NULLPTR) {
-        //qCDebug(KDENLIVE_LOG)<<" + + +Q_NULLPTR DOC!!";
+    if (m_document == nullptr) {
+        //qCDebug(KDENLIVE_LOG)<<" + + +nullptr DOC!!";
         return QString();
     }
     return m_document->projectDataFolder() + QDir::separator();

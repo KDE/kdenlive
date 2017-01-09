@@ -68,10 +68,10 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
     void *data = 0;
     void *copy = 0;
     int size = 0;
-    Mlt::Frame cloneFrame(mlt_frame_init(Q_NULLPTR));
+    Mlt::Frame cloneFrame(mlt_frame_init(nullptr));
     cloneFrame.inherit(d->f);
-    cloneFrame.set("_producer", d->f.get_data("_producer", size), 0, Q_NULLPTR, Q_NULLPTR);
-    cloneFrame.set("movit.convert", d->f.get_data("movit.convert", size), 0, Q_NULLPTR, Q_NULLPTR);
+    cloneFrame.set("_producer", d->f.get_data("_producer", size), 0, nullptr, nullptr);
+    cloneFrame.set("movit.convert", d->f.get_data("movit.convert", size), 0, nullptr, nullptr);
     cloneFrame.get_frame()->convert_image = d->f.get_frame()->convert_image;
     cloneFrame.get_frame()->convert_audio = d->f.get_frame()->convert_audio;
 

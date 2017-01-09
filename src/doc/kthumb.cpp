@@ -47,7 +47,7 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
     if (!url.isValid()) {
         return pix;
     }
-    Mlt::Producer *producer = new Mlt::Producer(profile, url.path().toUtf8().constData());
+    Mlt::Producer *producer = new Mlt::Producer(profile, url.toLocalFile().toUtf8().constData());
     pix = QPixmap::fromImage(getFrame(producer, frame, width, height));
     delete producer;
     return pix;
@@ -56,7 +56,7 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 //static
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height)
 {
-    if (producer == Q_NULLPTR || !producer->is_valid()) {
+    if (producer == nullptr || !producer->is_valid()) {
         QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::red).rgb());
         return p;
@@ -77,7 +77,7 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 //static
 QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
 {
-    if (frame == Q_NULLPTR || !frame->is_valid()) {
+    if (frame == nullptr || !frame->is_valid()) {
         QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::red).rgb());
         return p;

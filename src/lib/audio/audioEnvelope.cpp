@@ -18,7 +18,7 @@
 #include <cmath>
 
 AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length, int track, int startPos) :
-    m_envelope(Q_NULLPTR),
+    m_envelope(nullptr),
     m_offset(offset),
     m_length(length),
     m_track(track),
@@ -51,7 +51,7 @@ AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int of
 
 AudioEnvelope::~AudioEnvelope()
 {
-    if (m_envelope != Q_NULLPTR) {
+    if (m_envelope != nullptr) {
         delete[] m_envelope;
     }
     delete m_info;
@@ -60,7 +60,7 @@ AudioEnvelope::~AudioEnvelope()
 
 const qint64 *AudioEnvelope::envelope()
 {
-    if (m_envelope == Q_NULLPTR) {
+    if (m_envelope == nullptr) {
         loadEnvelope();
     }
     return m_envelope;
@@ -72,7 +72,7 @@ int AudioEnvelope::envelopeSize() const
 
 void AudioEnvelope::loadEnvelope()
 {
-    Q_ASSERT(m_envelope == Q_NULLPTR);
+    Q_ASSERT(m_envelope == nullptr);
 
     qCDebug(KDENLIVE_LOG) << "Loading envelope ...";
 
@@ -134,7 +134,7 @@ int AudioEnvelope::startPos() const
 
 void AudioEnvelope::normalizeEnvelope(bool /*clampTo0*/)
 {
-    if (m_envelope == Q_NULLPTR && !m_future.isRunning()) {
+    if (m_envelope == nullptr && !m_future.isRunning()) {
         m_future = QtConcurrent::run(this, &AudioEnvelope::loadEnvelope);
         m_watcher.setFuture(m_future);
     }
@@ -170,7 +170,7 @@ void AudioEnvelope::slotProcessEnveloppe()
 
 QImage AudioEnvelope::drawEnvelope()
 {
-    if (m_envelope == Q_NULLPTR) {
+    if (m_envelope == nullptr) {
         loadEnvelope();
     }
 
@@ -192,7 +192,7 @@ QImage AudioEnvelope::drawEnvelope()
 
 void AudioEnvelope::dumpInfo() const
 {
-    if (m_envelope == Q_NULLPTR) {
+    if (m_envelope == nullptr) {
         qCDebug(KDENLIVE_LOG) << "Envelope not generated, no information available.";
     } else {
         qCDebug(KDENLIVE_LOG) << "Envelope info"

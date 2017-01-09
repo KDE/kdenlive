@@ -50,7 +50,7 @@ bool SelectManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
     }
     // No item under click
     AbstractClipItem *dragItem = m_view->dragItem();
-    if (dragItem == Q_NULLPTR) {
+    if (dragItem == nullptr) {
         m_view->clearSelection(true);
         if (event->button() == Qt::LeftButton) {
             m_view->setOperationMode(Seek);
@@ -127,12 +127,12 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
             if (dragItem) {
                 dragItem->setMainSelectedClip(false);
             }
-            dragItem = Q_NULLPTR;
+            dragItem = nullptr;
         }
         event->accept();
         m_view->resetSelectionGroup();
         m_view->groupSelectedItems();
-        if (m_view->selectionGroup() == Q_NULLPTR && dragItem) {
+        if (m_view->selectionGroup() == nullptr && dragItem) {
             // Only 1 item selected
             if (dragItem->type() == AVWidget) {
                 dragItem->setMainSelectedClip(true);
@@ -149,12 +149,12 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
             if (dragItem) {
                 dragItem->setMainSelectedClip(false);
             }
-            dragItem = Q_NULLPTR;
+            dragItem = nullptr;
         }
         m_view->resetSelectionGroup();
         m_view->groupSelectedItems();
         AbstractGroupItem *selectionGroup = m_view->selectionGroup();
-        if (selectionGroup == Q_NULLPTR && dragItem) {
+        if (selectionGroup == nullptr && dragItem) {
             // Only 1 item selected
             if (dragItem->type() == AVWidget) {
                 dragItem->setMainSelectedClip(true);
@@ -319,7 +319,7 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
             }
             return;
         }
-        ClipItem *ci = Q_NULLPTR;
+        ClipItem *ci = nullptr;
         if (item->type() == AVWidget) {
             ci = static_cast <ClipItem *>(item);
         }

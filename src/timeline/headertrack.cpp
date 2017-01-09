@@ -41,7 +41,7 @@ HeaderTrack::HeaderTrack(const TrackInfo &info, const QList<QAction *> &actions,
     m_type(info.type),
     m_parentTrack(parent),
     m_isSelected(false),
-    m_switchVideo(Q_NULLPTR)
+    m_switchVideo(nullptr)
 {
     setupUi(this);
     setFocusPolicy(Qt::ClickFocus);
@@ -91,7 +91,7 @@ HeaderTrack::HeaderTrack(const TrackInfo &info, const QList<QAction *> &actions,
         m_tb->addAction(m_switchVideo);
     } else {
         setBackgroundRole(QPalette::AlternateBase);
-        m_switchVideo = Q_NULLPTR;
+        m_switchVideo = nullptr;
     }
 
     updateStatus(info);

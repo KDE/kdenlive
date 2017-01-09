@@ -42,7 +42,7 @@ bool GuideManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<Q
             m_view->setOperationMode(MoveGuide);
             // deselect all clips so that only the guide will move
             m_view->clearSelection();
-            m_view->updateSnapPoints(Q_NULLPTR);
+            m_view->updateSnapPoints(nullptr);
             return true;
         }
     }
@@ -65,12 +65,12 @@ void GuideManager::mouseRelease(QMouseEvent *, GenTime pos)
         m_commandStack->push(command);
         m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x(), m_view->fps()));
         m_view->guidesUpdated();
-        m_dragGuide = Q_NULLPTR;
+        m_dragGuide = nullptr;
         AbstractClipItem *dragItem = m_view->dragItem();
         if (dragItem) {
             dragItem->setMainSelectedClip(false);
         }
-        dragItem = Q_NULLPTR;
+        dragItem = nullptr;
         m_view->setOperationMode(None);
     }
     m_view->sortGuides();

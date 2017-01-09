@@ -88,7 +88,7 @@ CustomTrackScene *AbstractGroupItem::projectScene()
     if (scene()) {
         return static_cast <CustomTrackScene *>(scene());
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 QPainterPath AbstractGroupItem::clipGroupSpacerShape(const QPointF &offset) const
@@ -217,7 +217,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             setZValue(1);
         }
     }
-    CustomTrackScene *scene = Q_NULLPTR;
+    CustomTrackScene *scene = nullptr;
     if (change == ItemPositionChange && parentItem() == 0) {
         scene = projectScene();
     }
@@ -449,7 +449,7 @@ void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent *event)
     CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);
     QPointF dropPos = event->scenePos();
     QList<QGraphicsItem *> selection = scene()->items(dropPos);
-    AbstractClipItem *dropChild = Q_NULLPTR;
+    AbstractClipItem *dropChild = nullptr;
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == AVWidget) {
             dropChild = static_cast<AbstractClipItem *>(selection.at(i));
@@ -582,7 +582,7 @@ QGraphicsItem *AbstractGroupItem::otherClip(QGraphicsItem *item)
 {
     QList<QGraphicsItem *> children = childItems();
     if (children.isEmpty() || children.count() != 2) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     if (children.at(0) == item) {
         return children.at(1);

@@ -37,14 +37,14 @@
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<ClipController *> &list, const QStringList &luma_list, QWidget *parent) :
     QDialog(parent)
     , m_requestedSize(0)
-    , m_copyJob(Q_NULLPTR)
+    , m_copyJob(nullptr)
     , m_name(projectName.section('.', 0, -2))
     , m_doc(doc)
-    , m_temp(Q_NULLPTR)
+    , m_temp(nullptr)
     , m_abortArchive(false)
     , m_extractMode(false)
-    , m_progressTimer(Q_NULLPTR)
-    , m_extractArchive(Q_NULLPTR)
+    , m_progressTimer(nullptr)
+    , m_extractArchive(nullptr)
     , m_missingClips(0)
 {
     setAttribute(Qt::WA_DeleteOnClose);
@@ -115,27 +115,29 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
         ClipType t = clip->clipType();
         QString id = clip->clipId();
         if (t == SlideShow) {
-            QUrl slideUrl = clip->clipUrl();
             //TODO: Slideshow files
-            slideUrls.insert(id, slideUrl.toLocalFile());
-        } else if (t == Image) {
-            imageUrls.insert(id, clip->clipUrl().toLocalFile());
-        } else if (t == QText) {
+            slideUrls.insert(id, clip->clipUrl());
+        }
+        else if (t == Image) {
+            imageUrls.insert(id, clip->clipUrl());
+        }
+        else if (t == QText) {
             allFonts << clip->property(QStringLiteral("family"));
-        } else if (t == Text) {
+        }
+        else if (t == Text) {
             QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
             QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
             extraImageUrls << imagefiles;
             allFonts << fonts;
         } else if (t == Playlist) {
-            playlistUrls.insert(id, clip->clipUrl().toLocalFile());
-            QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl().toLocalFile());
+            playlistUrls.insert(id, clip->clipUrl());
+            QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl());
             otherUrls << files;
         } else if (!clip->clipUrl().isEmpty()) {
             if (t == Audio) {
-                audioUrls.insert(id, clip->clipUrl().toLocalFile());
+                audioUrls.insert(id, clip->clipUrl());
             } else {
-                videoUrls.insert(id, clip->clipUrl().toLocalFile());
+                videoUrls.insert(id, clip->clipUrl());
                 // Check if we have a proxy
                 QString proxy = clip->property(QStringLiteral("kdenlive:proxy"));
                 if (!proxy.isEmpty() && proxy != QLatin1String("-") && QFile::exists(proxy)) {
@@ -208,14 +210,14 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
 ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget *parent):
     QDialog(parent),
     m_requestedSize(0),
-    m_copyJob(Q_NULLPTR),
-    m_temp(Q_NULLPTR),
+    m_copyJob(nullptr),
+    m_temp(nullptr),
     m_abortArchive(false),
     m_extractMode(true),
     m_extractUrl(url),
-    m_extractArchive(Q_NULLPTR),
+    m_extractArchive(nullptr),
     m_missingClips(0),
-    m_infoMessage(Q_NULLPTR)
+    m_infoMessage(nullptr)
 {
     //setAttribute(Qt::WA_DeleteOnClose);
 
@@ -513,7 +515,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     }
     bool isArchive = compressed_archive->isChecked();
     if (!firstPass) {
-        m_copyJob = Q_NULLPTR;
+        m_copyJob = nullptr;
     } else {
         //starting archiving
         m_abortArchive = false;
@@ -602,7 +604,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
 
     if (items == 0) {
         // No clips to archive
-        slotArchivingFinished(Q_NULLPTR, true);
+        slotArchivingFinished(nullptr, true);
         return true;
     }
 
@@ -649,7 +651,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
 
 void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
 {
-    if (job == Q_NULLPTR || job->error() == 0) {
+    if (job == nullptr || job->error() == 0) {
         if (!finished && slotStartArchiving(false)) {
             // We still have files to archive
             return;
@@ -665,7 +667,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
             processProjectFile();
         }
     } else {
-        m_copyJob = Q_NULLPTR;
+        m_copyJob = nullptr;
         slotJobResult(false, i18n("There was an error while copying the files: %1", job->errorString()));
     }
     if (!compressed_archive->isChecked()) {
@@ -715,7 +717,10 @@ bool ArchiveWidget::processProjectFile()
     }
 
     QDomElement mlt = m_doc.documentElement();
-    QString root = mlt.attribute(QStringLiteral("root")) + '/';
+    QString root = mlt.attribute(QStringLiteral("root"));
+    if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
+        root.append(QStringLiteral("/"));
+    }
 
     // Adjust global settings
     QString basePath;
@@ -867,7 +872,7 @@ void ArchiveWidget::createArchive()
         archive.addLocalFile(m_temp->fileName(), m_name + ".kdenlive");
         result = archive.close();
         delete m_temp;
-        m_temp = Q_NULLPTR;
+        m_temp = nullptr;
     }
     emit archivingFinished(result);
 }
@@ -984,7 +989,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
     if (onlyProxy == Qt::Checked) {
         // Archive proxy clips
         QStringList proxyIdList;
-        QTreeWidgetItem *parentItem = Q_NULLPTR;
+        QTreeWidgetItem *parentItem = nullptr;
 
         // Build list of existing proxy ids
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {

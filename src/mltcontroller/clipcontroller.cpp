@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timeline/timeline.h"
 #include "timeline/effectmanager.h"
 
-#include <QUrl>
 #include "kdenlive_debug.h"
 #include <QPixmap>
 #include <QFileInfo>
@@ -39,7 +38,7 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer &prod
     , audioThumbCreated(false)
     , m_properties(new Mlt::Properties(producer.get_properties()))
     , m_usesProxy(false)
-    , m_audioInfo(Q_NULLPTR)
+    , m_audioInfo(nullptr)
     , m_audioIndex(0)
     , m_videoIndex(0)
     , m_clipType(Unknown)
@@ -52,19 +51,20 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer &prod
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
         return;
     } else {
+        m_service = m_properties->get("mlt_service");
         QString proxy = m_properties->get("kdenlive:proxy");
+        QString path = m_properties->get("resource");
         if (proxy.length() > 2) {
             // This is a proxy producer, read original url from kdenlive property
-            QString path = m_properties->get("kdenlive:originalurl");
+            path = m_properties->get("kdenlive:originalurl");
             if (QFileInfo(path).isRelative()) {
                 path.prepend(bincontroller->documentRoot());
             }
-            m_url = QUrl::fromLocalFile(path);
             m_usesProxy = true;
-        } else {
-            m_url = QUrl::fromLocalFile(m_properties->get("resource"));
+        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && QFileInfo(path).isRelative()) {
+            path.prepend(bincontroller->documentRoot());
         }
-        m_service = m_properties->get("mlt_service");
+        m_path = QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
     }
 }
@@ -72,10 +72,10 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer &prod
 ClipController::ClipController(BinController *bincontroller) : QObject()
     , selectedEffectIndex(1)
     , audioThumbCreated(false)
-    , m_masterProducer(Q_NULLPTR)
-    , m_properties(Q_NULLPTR)
+    , m_masterProducer(nullptr)
+    , m_properties(nullptr)
     , m_usesProxy(false)
-    , m_audioInfo(Q_NULLPTR)
+    , m_audioInfo(nullptr)
     , m_audioIndex(0)
     , m_videoIndex(0)
     , m_clipType(Unknown)
@@ -110,15 +110,20 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
         QString proxy = m_properties->get("kdenlive:proxy");
+        m_service = m_properties->get("mlt_service");
+        QString path = m_properties->get("resource");
+        m_usesProxy = false;
         if (proxy.length() > 2) {
             // This is a proxy producer, read original url from kdenlive property
-            m_url = QUrl::fromLocalFile(m_properties->get("kdenlive:originalurl"));
+            path = m_properties->get("kdenlive:originalurl");
+            if (QFileInfo(path).isRelative()) {
+                path.prepend(m_binController->documentRoot());
+            }
             m_usesProxy = true;
-        } else {
-            m_url = QUrl::fromLocalFile(m_properties->get("resource"));
-            m_usesProxy = false;
+        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && QFileInfo(path).isRelative()) {
+            path.prepend(m_binController->documentRoot());
         }
-        m_service = m_properties->get("mlt_service");
+        m_path = QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
     }
 }
@@ -135,11 +140,11 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)
 
 void ClipController::getInfoForProducer()
 {
-    date = QFileInfo(m_url.path()).lastModified();
+    date = QFileInfo(m_path).lastModified();
     m_audioIndex = -1;
     m_videoIndex = -1;
     // special case: playlist with a proxy clip have to be detected separately
-    if (m_usesProxy && m_url.path().endsWith(QStringLiteral(".mlt"))) {
+    if (m_usesProxy && m_path.endsWith(QStringLiteral(".mlt"))) {
         m_clipType = Playlist;
     } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
         m_audioIndex = int_property(QStringLiteral("audio_index"));
@@ -152,7 +157,7 @@ void ClipController::getInfoForProducer()
             m_clipType = AV;
         }
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
-        if (m_url.path().contains(QStringLiteral("%")) || m_url.path().contains(QStringLiteral("/.all."))) {
+        if (m_path.contains(QStringLiteral("%")) || m_path.contains(QStringLiteral("/.all."))) {
             m_clipType = SlideShow;
         } else {
             m_clipType = Image;
@@ -162,7 +167,7 @@ void ClipController::getInfoForProducer()
         m_clipType = Color;
         m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("kdenlivetitle")) {
-        if (!m_url.isEmpty()) {
+        if (!m_path.isEmpty()) {
             m_clipType = TextTemplate;
         } else {
             m_clipType = Text;
@@ -208,7 +213,7 @@ Mlt::Producer *ClipController::masterProducer()
 
 bool ClipController::isValid()
 {
-    if (m_masterProducer == Q_NULLPTR) {
+    if (m_masterProducer == nullptr) {
         return false;
     }
     return m_masterProducer->is_valid();
@@ -216,7 +221,7 @@ bool ClipController::isValid()
 
 const QString ClipController::clipId()
 {
-    if (m_masterProducer == Q_NULLPTR) {
+    if (m_masterProducer == nullptr) {
         return QString();
     }
     return property(QStringLiteral("id"));
@@ -308,9 +313,9 @@ const QString ClipController::getStringDuration()
     if (m_masterProducer) {
         int playtime = m_masterProducer->get_int("kdenlive:duration");
         if (playtime > 0) {
-            return QString(properties().frames_to_time(playtime, mlt_time_smpte));
+            return QString(m_properties->frames_to_time(playtime, mlt_time_smpte_df));
         }
-        return m_masterProducer->get_length_time(mlt_time_smpte);
+        return m_masterProducer->get_length_time(mlt_time_smpte_df);
     }
     return i18n("Unknown");
 }
@@ -400,9 +405,9 @@ const QString ClipController::codec(bool audioCodec) const
     return m_properties->get(propertyName.toUtf8().constData());
 }
 
-QUrl ClipController::clipUrl() const
+const QString ClipController::clipUrl() const
 {
-    return m_url;
+    return m_path;
 }
 
 QString ClipController::clipName() const
@@ -411,7 +416,7 @@ QString ClipController::clipName() const
     if (!name.isEmpty()) {
         return name;
     }
-    return m_url.fileName();
+    return QFileInfo(m_path).fileName();
 }
 
 QString ClipController::description() const
@@ -448,7 +453,7 @@ void ClipController::setProperty(const QString &name, const QString &value)
 {
     //TODO: also set property on all track producers
     if (value.isEmpty()) {
-        m_masterProducer->parent().set(name.toUtf8().constData(), (char *)Q_NULLPTR);
+        m_masterProducer->parent().set(name.toUtf8().constData(), (char *)nullptr);
     } else {
         m_masterProducer->parent().set(name.toUtf8().constData(), value.toUtf8().constData());
     }
@@ -457,7 +462,7 @@ void ClipController::setProperty(const QString &name, const QString &value)
 void ClipController::resetProperty(const QString &name)
 {
     //TODO: also set property on all track producers
-    m_masterProducer->parent().set(name.toUtf8().constData(), (char *)Q_NULLPTR);
+    m_masterProducer->parent().set(name.toUtf8().constData(), (char *)nullptr);
 }
 
 ClipType ClipController::clipType() const
@@ -470,7 +475,7 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     //int currentPosition = position();
     m_masterProducer->seek(framePosition);
     Mlt::Frame *frame = m_masterProducer->get_frame();
-    if (frame == Q_NULLPTR || !frame->is_valid()) {
+    if (frame == nullptr || !frame->is_valid()) {
         QPixmap p(width, height);
         p.fill(QColor(Qt::red).rgb());
         return p;
@@ -846,8 +851,8 @@ void ClipController::disableEffects(bool disable)
             // We want to re-enable effects
             int auto_disable = effect->get_int("auto_disable");
             if (auto_disable == 1) {
-                effect->set("disable", (char *) Q_NULLPTR);
-                effect->set("auto_disable", (char *) Q_NULLPTR);
+                effect->set("disable", (char *) nullptr);
+                effect->set("auto_disable", (char *) nullptr);
                 changed = true;
             }
         }

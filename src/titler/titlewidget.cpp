@@ -67,8 +67,8 @@ const int TYPEWRITEREFFECT = 3;
 TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent) :
     QDialog(parent),
     Ui::TitleWidget_UI(),
-    m_startViewport(Q_NULLPTR),
-    m_endViewport(Q_NULLPTR),
+    m_startViewport(nullptr),
+    m_endViewport(nullptr),
     m_render(render),
     m_count(0),
     m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
@@ -514,7 +514,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     if (url.isValid()) {
         loadTitle(url);
     } else {
-        prepareTools(Q_NULLPTR);
+        prepareTools(nullptr);
         slotTextTool();
         QTimer::singleShot(200, this, &TitleWidget::slotAdjustZoom);
     }
@@ -755,20 +755,20 @@ void TitleWidget::slotImageTool()
     }
     QUrl url = QUrl::fromLocalFile(dialog.selectedFiles().at(0));
     if (url.isValid()) {
-        KRecentDirs::add(QStringLiteral(":KdenliveImageFolder"), url.adjusted(QUrl::RemoveFilename).path());
-        if (url.path().endsWith(QLatin1String(".svg"))) {
+        KRecentDirs::add(QStringLiteral(":KdenliveImageFolder"), url.adjusted(QUrl::RemoveFilename).toLocalFile());
+        if (url.toLocalFile().endsWith(QLatin1String(".svg"))) {
             MySvgItem *svg = new MySvgItem(url.toLocalFile());
             svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
             svg->setZValue(m_count++);
-            svg->setData(Qt::UserRole, url.path());
+            svg->setData(Qt::UserRole, url.toLocalFile());
             m_scene->addNewItem(svg);
             prepareTools(svg);
         } else {
-            QPixmap pix(url.path());
+            QPixmap pix(url.toLocalFile());
             MyPixmapItem *image = new MyPixmapItem(pix);
             image->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
             image->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
-            image->setData(Qt::UserRole, url.path());
+            image->setData(Qt::UserRole, url.toLocalFile());
             image->setZValue(m_count++);
             m_scene->addNewItem(image);
             prepareTools(image);
@@ -979,7 +979,7 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     tt->setFont(font);
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
-    tt->setDefaultTextColor(color);
+    tt->setTextColor(color);
     tt->document()->setDocumentMargin(0);
 
     QTextCursor cur(tt->document());
@@ -1078,7 +1078,7 @@ void TitleWidget::selectionChanged()
     }
 
     if (l.size() == 0) {
-        prepareTools(Q_NULLPTR);
+        prepareTools(nullptr);
     } else if (l.size() == 1) {
         prepareTools(l.at(0));
     } else {
@@ -1098,7 +1098,7 @@ void TitleWidget::selectionChanged()
             prepareTools(l.at(0));
         } else {
             // Get the default toolset, but enable the property frame (x,y,w,h)
-            prepareTools(Q_NULLPTR);
+            prepareTools(nullptr);
             frame_properties->setEnabled(true);
 
             // Enable x/y/w/h if it makes sense.
@@ -1626,7 +1626,7 @@ void TitleWidget::slotUpdateText()
     int i;
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     for (i = 0; i < l.length(); ++i) {
-        MyTextItem *item = Q_NULLPTR;
+        MyTextItem *item = nullptr;
         if (l.at(i)->type() == TEXTITEM) {
             item = static_cast <MyTextItem *>(l.at(i));
         }
@@ -1676,7 +1676,7 @@ void TitleWidget::slotUpdateText()
         //  item->setTextCursor(cur);
         cur.clearSelection();
         item->setTextCursor(cur);
-        item->setDefaultTextColor(color);
+        item->setTextColor(color);
     }
 }
 
@@ -1889,7 +1889,7 @@ void TitleWidget::loadTitle(QUrl url)
         }
         m_scene->clearTextSelection();
         QDomDocument doc;
-        QFile file(url.path());
+        QFile file(url.toLocalFile());
         doc.setContent(&file, false);
         file.close();
         setXml(doc);
@@ -1935,7 +1935,7 @@ void TitleWidget::saveTitle(QUrl url)
     }
     if (url.isValid()) {
         if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()), embed_image) == false) {
-            KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
+            KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
         }
     }
 }
@@ -2562,8 +2562,8 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_w->blockSignals(true);
     value_h->blockSignals(true);
 
-    if (referenceItem == Q_NULLPTR) {
-        //qCDebug(KDENLIVE_LOG) << "Q_NULLPTR item.\n";
+    if (referenceItem == nullptr) {
+        //qCDebug(KDENLIVE_LOG) << "nullptr item.\n";
         effect_list->setCurrentIndex(0);
         origin_x_left->setChecked(false);
         origin_y_top->setChecked(false);
@@ -2828,7 +2828,7 @@ void TitleWidget::slotEditGradient()
     if (!caller) {
         return;
     }
-    QComboBox *combo = Q_NULLPTR;
+    QComboBox *combo = nullptr;
     if (caller == edit_gradient) {
         combo = gradients_combo;
     } else {
@@ -2935,7 +2935,7 @@ void TitleWidget::slotUpdateShadow()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     for (int i = 0; i < graphicsView->scene()->selectedItems().length(); ++i) {
-        MyTextItem *item = Q_NULLPTR;
+        MyTextItem *item = nullptr;
         if (l.at(i)->type() == TEXTITEM) {
             item = static_cast <MyTextItem *>(l.at(i));
         }

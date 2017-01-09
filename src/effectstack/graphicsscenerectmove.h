@@ -59,6 +59,7 @@ public:
     QStringList shadowInfo() const;
     void loadShadow(const QStringList &info);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt) Q_DECL_OVERRIDE;
+    void setTextColor(const QColor &col);
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
@@ -73,6 +74,7 @@ private:
     MyQGraphicsEffect *m_shadowEffect;
     void updateShadow();
     void blurShadow(QImage &image, int radius);
+    void refreshFormat();
 
 public slots:
     void updateGeometry(int, int, int);

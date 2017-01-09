@@ -132,7 +132,7 @@ QMap<QString, QStringList> MainWindow::m_lumaFiles;
 
 // determine the the default KDE style as defined BY THE USER
 // (as opposed to whatever style KDE considers default)
-static QString defaultStyle(const char *fallback = Q_NULLPTR)
+static QString defaultStyle(const char *fallback = nullptr)
 {
     KSharedConfigPtr kdeGlobals = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::NoGlobals);
     KConfigGroup cg(kdeGlobals, "KDE");
@@ -141,17 +141,17 @@ static QString defaultStyle(const char *fallback = Q_NULLPTR)
 
 MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad, QWidget *parent) :
     KXmlGuiWindow(parent),
-    m_timelineArea(Q_NULLPTR),
-    m_stopmotion(Q_NULLPTR),
-    m_effectStack(Q_NULLPTR),
+    m_timelineArea(nullptr),
+    m_stopmotion(nullptr),
+    m_effectStack(nullptr),
     m_exitCode(EXIT_SUCCESS),
-    m_effectList(Q_NULLPTR),
-    m_transitionList(Q_NULLPTR),
-    m_clipMonitor(Q_NULLPTR),
-    m_projectMonitor(Q_NULLPTR),
-    m_recMonitor(Q_NULLPTR),
-    m_renderWidget(Q_NULLPTR),
-    m_messageLabel(Q_NULLPTR),
+    m_effectList(nullptr),
+    m_transitionList(nullptr),
+    m_clipMonitor(nullptr),
+    m_projectMonitor(nullptr),
+    m_recMonitor(nullptr),
+    m_renderWidget(nullptr),
+    m_messageLabel(nullptr),
     m_themeInitialized(false),
     m_isDarkTheme(false)
 {
@@ -508,7 +508,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
     QMenu *monitorOverlay = static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
     connect(monitorOverlay, &QMenu::triggered, this, &MainWindow::slotSwitchMonitorOverlay);
 
-    m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, Q_NULLPTR, m_loopClip);
+    m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, nullptr, m_loopClip);
     m_clipMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
 
     QMenu *clipInTimeline = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
@@ -774,8 +774,8 @@ MainWindow::~MainWindow()
 {
     delete m_stopmotion;
     delete m_audioSpectrum;
-    m_effectStack->slotClipItemSelected(Q_NULLPTR, m_projectMonitor);
-    m_effectStack->slotTransitionItemSelected(Q_NULLPTR, 0, QPoint(), false);
+    m_effectStack->slotClipItemSelected(nullptr, m_projectMonitor);
+    m_effectStack->slotTransitionItemSelected(nullptr, 0, QPoint(), false);
     if (m_projectMonitor) {
         m_projectMonitor->stop();
     }
@@ -840,7 +840,7 @@ void MainWindow::saveProperties(KConfigGroup &config)
     //TODO: fix session management
     if (qApp->isSavingSession() && pCore->projectManager()) {
         if (pCore->projectManager()->current() && !pCore->projectManager()->current()->url().isEmpty()) {
-            config.writeEntry("kdenlive_lastUrl", pCore->projectManager()->current()->url().path());
+            config.writeEntry("kdenlive_lastUrl", pCore->projectManager()->current()->url().toLocalFile());
         }
     }
 }
@@ -865,7 +865,7 @@ void MainWindow::saveNewToolbarConfig()
     pCore->bin()->rebuildMenu();
     QMenu *monitorOverlay = static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
     if (monitorOverlay) {
-        m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, Q_NULLPTR, m_loopClip);
+        m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, nullptr, m_loopClip);
         m_clipMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
     }
 }
@@ -889,7 +889,7 @@ void MainWindow::slotFullScreen()
 void MainWindow::slotAddEffect(const QDomElement &effect)
 {
     if (effect.isNull()) {
-        qCDebug(KDENLIVE_LOG) << "--- ERROR, TRYING TO APPEND Q_NULLPTR EFFECT";
+        qCDebug(KDENLIVE_LOG) << "--- ERROR, TRYING TO APPEND nullptr EFFECT";
         return;
     }
     QDomElement effectToAdd = effect.cloneNode().toElement();
@@ -1853,7 +1853,7 @@ void MainWindow::setRenderingFinished(const QString &url, int status, const QStr
 void MainWindow::addProjectClip(const QString &url)
 {
     if (pCore->projectManager()->current()) {
-        QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(url));
+        QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(url));
         if (!ids.isEmpty()) {
             // Clip is already in project bin, abort
             return;
@@ -1865,7 +1865,7 @@ void MainWindow::addProjectClip(const QString &url)
 void MainWindow::addTimelineClip(const QString &url)
 {
     if (pCore->projectManager()->current()) {
-        QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(url));
+        QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(url));
         if (!ids.isEmpty()) {
             pCore->bin()->selectClipById(ids.first());
             slotInsertClipInsert();
@@ -2255,7 +2255,7 @@ void MainWindow::slotAddClipMarker()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
 
-    ClipController *clip = Q_NULLPTR;
+    ClipController *clip = nullptr;
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
@@ -2289,7 +2289,7 @@ void MainWindow::slotAddClipMarker()
 
 void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
 {
-    ClipController *clip = Q_NULLPTR;
+    ClipController *clip = nullptr;
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
@@ -2323,7 +2323,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
 
 void MainWindow::slotDeleteAllClipMarkers()
 {
-    ClipController *clip = Q_NULLPTR;
+    ClipController *clip = nullptr;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
@@ -2343,7 +2343,7 @@ void MainWindow::slotDeleteAllClipMarkers()
 
 void MainWindow::slotEditClipMarker()
 {
-    ClipController *clip = Q_NULLPTR;
+    ClipController *clip = nullptr;
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
@@ -3007,7 +3007,7 @@ void MainWindow::hideEvent(QHideEvent */*event*/)
     QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
     if (path.isEmpty()) {
         QString tmppath = pCore->projectManager()->current()->projectFolder().path() + QDir::separator();
-        if (baseClip == Q_NULLPTR) {
+        if (baseClip == nullptr) {
             tmppath.append("untitled.mlt");
         } else {
             tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + '-' + QString::number(zone.x()).rightJustified(4, '0') + ".mlt");
@@ -3212,7 +3212,7 @@ void MainWindow::loadDockActions()
 
 void MainWindow::buildDynamicActions()
 {
-    KActionCategory *ts = Q_NULLPTR;
+    KActionCategory *ts = nullptr;
     if (kdenliveCategoryMap.contains(QStringLiteral("clipjobs"))) {
         ts = kdenliveCategoryMap.take(QStringLiteral("clipjobs"));
         delete ts;
@@ -3299,7 +3299,7 @@ void MainWindow::buildDynamicActions()
     kdenliveCategoryMap.insert(QStringLiteral("audiotranscoderslist"), ats);
 
     // Populate View menu with show / hide actions for dock widgets
-    KActionCategory *guiActions = Q_NULLPTR;
+    KActionCategory *guiActions = nullptr;
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
         guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
         delete guiActions;
@@ -3388,7 +3388,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 {
     KdenliveDoc *project = pCore->projectManager()->current();
 
-    if (m_renderWidget == Q_NULLPTR) {
+    if (m_renderWidget == nullptr) {
         return;
     }
     QString playlistPath;
@@ -3432,7 +3432,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     } else {
         out = (int) GenTime(project->projectDuration()).frames(project->fps()) - 2;
     }
-    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename).toLocalFile());
+    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
     if (!chapterFile.isEmpty()) {
         QDomDocument doc;
         QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
@@ -3507,7 +3507,10 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
     // Do we want proxy rendering
     if (project->useProxy() && !m_renderWidget->proxyRendering()) {
-        QString root = doc.documentElement().attribute(QStringLiteral("root")) + QStringLiteral("/");
+        QString root = doc.documentElement().attribute(QStringLiteral("root"));
+        if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
+            root.append(QStringLiteral("/"));
+        }
 
         // replace proxy clips with originals
         //TODO
@@ -3540,7 +3543,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 suffix.clear();
             }
             if (!producerResource.isEmpty()) {
-                if (!producerResource.startsWith(QLatin1Char('/'))) {
+                if (QFileInfo(producerResource).isRelative()) {
                     producerResource.prepend(root);
                 }
                 if (proxies.contains(producerResource)) {
@@ -3697,7 +3700,7 @@ void MainWindow::slotSetMonitorGamma(int gamma)
 
 void MainWindow::slotInsertZoneToTree()
 {
-    if (!m_clipMonitor->isActive() || m_clipMonitor->currentController() == Q_NULLPTR) {
+    if (!m_clipMonitor->isActive() || m_clipMonitor->currentController() == nullptr) {
         return;
     }
     QPoint info = m_clipMonitor->getZoneInfo();
@@ -3706,7 +3709,7 @@ void MainWindow::slotInsertZoneToTree()
 
 void MainWindow::slotInsertZoneToTimeline()
 {
-    if (pCore->projectManager()->currentTimeline() == Q_NULLPTR || m_clipMonitor->currentController() == Q_NULLPTR) {
+    if (pCore->projectManager()->currentTimeline() == nullptr || m_clipMonitor->currentController() == nullptr) {
         return;
     }
     QPoint info = m_clipMonitor->getZoneInfo();
@@ -3736,7 +3739,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
 
 void MainWindow::slotOpenStopmotion()
 {
-    if (m_stopmotion == Q_NULLPTR) {
+    if (m_stopmotion == nullptr) {
         //m_stopmotion = new StopmotionWidget(pCore->monitorManager(), pCore->projectManager()->current()->projectFolder(), m_stopmotion_actions->actions(), this);
         //TODO
         //connect(m_stopmotion, SIGNAL(addOrUpdateSequence(QString)), m_projectList, SLOT(slotAddOrUpdateSequence(QString)));
@@ -3764,7 +3767,7 @@ void MainWindow::slotArchiveProject()
     QList<ClipController *> list = pCore->binController()->getControllerList();
     KdenliveDoc *doc = pCore->projectManager()->current();
     pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
-    QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename).path()));
+    QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
     QPointer<ArchiveWidget> d = new ArchiveWidget(doc->url().fileName(), xmlDoc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this);
     if (d->exec()) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);

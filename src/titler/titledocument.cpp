@@ -64,7 +64,7 @@ QByteArray fileToByteArray(const QString &filename)
 
 TitleDocument::TitleDocument()
 {
-    m_scene = Q_NULLPTR;
+    m_scene = nullptr;
     m_width = 0;
     m_height = 0;
 }
@@ -132,9 +132,9 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
     main.setAttribute(QStringLiteral("height"), m_height);
     // Save locale
 #ifndef Q_OS_MAC
-    const char *locale = setlocale(LC_NUMERIC, Q_NULLPTR);
+    const char *locale = setlocale(LC_NUMERIC, nullptr);
 #else
-    const char *locale = setlocale(LC_NUMERIC_MASK, Q_NULLPTR);
+    const char *locale = setlocale(LC_NUMERIC_MASK, nullptr);
 #endif
     main.setAttribute(QStringLiteral("LC_NUMERIC"), locale);
     doc.appendChild(main);
@@ -392,7 +392,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
     if (titles.size()) {
         QDomNodeList items = titles.item(0).childNodes();
         for (int i = 0; i < items.count(); ++i) {
-            QGraphicsItem *gitem = Q_NULLPTR;
+            QGraphicsItem *gitem = nullptr;
             QDomNode itemNode = items.item(i);
             //qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = itemNode.attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
@@ -424,7 +424,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     }
                     font.setLetterSpacing(QFont::AbsoluteSpacing, txtProperties.namedItem(QStringLiteral("letter-spacing")).nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem(QStringLiteral("font-color")).nodeValue()));
-                    MyTextItem *txt = new MyTextItem(itemNode.namedItem(QStringLiteral("content")).firstChild().nodeValue(), Q_NULLPTR);
+                    MyTextItem *txt = new MyTextItem(itemNode.namedItem(QStringLiteral("content")).firstChild().nodeValue(), nullptr);
                     m_scene->addItem(txt);
                     txt->setFont(font);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
@@ -448,6 +448,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                         cursor.setBlockFormat(format);
                         txt->setData(TitleDocument::LineSpacing, lineSpacing);
                     }
+                    txt->setTextColor(col);
                     cformat.setForeground(QBrush(col));
                     cursor.setCharFormat(cformat);
                     if (txtProperties.namedItem(QStringLiteral("gradient")).isNull() == false) {
@@ -541,7 +542,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                 } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsSvgItem")) {
                     QString url = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("url")).nodeValue();
                     QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
-                    QGraphicsSvgItem *rec = Q_NULLPTR;
+                    QGraphicsSvgItem *rec = nullptr;
                     if (base64.isEmpty()) {
                         rec = new MySvgItem(url);
                     } else {

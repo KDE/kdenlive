@@ -84,7 +84,7 @@ const double DOCUMENTVERSION = 0.95;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
     QObject(parent),
-    m_autosave(Q_NULLPTR),
+    m_autosave(nullptr),
     m_url(url),
     m_width(0),
     m_height(0),
@@ -155,7 +155,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
         systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
         QLocale::setDefault(systemLocale);
         // locale conversion might need to be redone
-        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, Q_NULLPTR));
+        initEffects::parseEffectFiles(pCore->binController()->mltRepository(), setlocale(LC_NUMERIC, nullptr));
     }
     *openBackup = false;
     if (url.isValid()) {
@@ -564,7 +564,7 @@ void KdenliveDoc::slotAutoSave()
             qCDebug(KDENLIVE_LOG) << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         //qCDebug(KDENLIVE_LOG) << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        QDomDocument sceneList = xmlSceneList(m_render->sceneList(m_url.adjusted(QUrl::RemoveFilename).toLocalFile()));
+        QDomDocument sceneList = xmlSceneList(m_render->sceneList(m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
         if (sceneList.isNull()) {
             //Make sure we don't save if scenelist is corrupted
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", m_autosave->fileName()));
@@ -768,7 +768,7 @@ void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
         ClipController *clip = list.at(i);
         if (clip->clipType() == Text) {
             // the image for title clip must be moved
-            QUrl oldUrl = clip->clipUrl();
+            QUrl oldUrl = QUrl::fromLocalFile(clip->clipUrl());
             if (!oldUrl.isEmpty()) {
                 QUrl newUrl = QUrl::fromLocalFile(dest + QStringLiteral("/titles/") + oldUrl.fileName());
                 KIO::Job *job = KIO::copy(oldUrl, newUrl);
@@ -1031,10 +1031,7 @@ void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
 
 const QString KdenliveDoc::getDocumentProperty(const QString &name, const QString &defaultValue) const
 {
-    if (m_documentProperties.contains(name)) {
-        return m_documentProperties.value(name);
-    }
-    return defaultValue;
+    return m_documentProperties.value(name, defaultValue);
 }
 
 QMap<QString, QString> KdenliveDoc::getRenderProperties() const
@@ -1306,7 +1303,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
         clipList = pCore->bin()->selectedClips();
     }
     bool hasParent = true;
-    if (masterCommand == Q_NULLPTR) {
+    if (masterCommand == nullptr) {
         masterCommand = new QUndoCommand();
         if (doProxy) {
             masterCommand->setText(i18np("Add proxy clip", "Add proxy clips", clipList.count()));
@@ -1366,7 +1363,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
                 }
                 if (!pCore->binController()->hasClip(item->clipId())) {
                     // Force clip reload
-                    newProps.insert(QStringLiteral("resource"), item->url().toLocalFile());
+                    newProps.insert(QStringLiteral("resource"), item->url());
                 }
             }
             new EditClipCommand(pCore->bin(), item->clipId(), oldProps, newProps, true, masterCommand);
@@ -1385,14 +1382,14 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
 }
 
 //TODO put all file watching stuff in own class
-void KdenliveDoc::watchFile(const QUrl &url)
+void KdenliveDoc::watchFile(const QString &url)
 {
-    m_fileWatcher.addFile(url.toLocalFile());
+    m_fileWatcher.addFile(url);
 }
 
 void KdenliveDoc::slotClipModified(const QString &path)
 {
-    QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(path));
+    QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(path));
     foreach (const QString &id, ids) {
         if (!m_modifiedClips.contains(id)) {
             pCore->bin()->setWaitingStatus(id);
@@ -1407,7 +1404,7 @@ void KdenliveDoc::slotClipModified(const QString &path)
 void KdenliveDoc::slotClipMissing(const QString &path)
 {
     qCDebug(KDENLIVE_LOG) << "// CLIP: " << path << " WAS MISSING";
-    QStringList ids = pCore->binController()->getBinIdsByResource(QUrl::fromLocalFile(path));
+    QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(path));
     //TODO handle missing clips by replacing producer with an invalid producer
     /*foreach (const QString &id, ids) {
         emit missingClip(id);
@@ -1443,6 +1440,9 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
     }
     m_documentProperties.insert(QStringLiteral("profile"), profilePath());
     m_documentProperties.insert(QStringLiteral("position"), QString::number(m_render->seekPosition().frames(m_render->fps())));
+    if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
+        m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
+    }
     return m_documentProperties;
 }
 
@@ -1470,7 +1470,7 @@ void KdenliveDoc::loadDocumentProperties()
                 if (name == QStringLiteral("storagefolder")) {
                     // Make sure we have an absolute path
                     QString value = e.firstChild().nodeValue();
-                    if (!value.startsWith(QStringLiteral("/"))) {
+                    if (QFileInfo(value).isRelative()) {
                         value.prepend(root);
                     }
                     m_documentProperties.insert(name, value);
@@ -1521,7 +1521,7 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
         return;
     }
     emit updateFps(fpsChanged);
-    if (fpsChanged) {
+    if (fpsChanged != 1.0) {
         pCore->bin()->reloadAllProducers();
     }
 }
@@ -1602,7 +1602,40 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile.descriptiveString()), KMessageWidget::Information, list);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
-        if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2))) == KMessageBox::Continue) {
+        // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
+        QString adjustMessage;
+        double fps = (double)profile.frame_rate_num / profile.frame_rate_den;
+        double fps_int;
+        double fps_frac = std::modf(fps, &fps_int);
+        if (fps_frac < 0.4) {
+            profile.frame_rate_num = (int) fps_int;
+            profile.frame_rate_den = 1;
+        } else {
+            // Check for 23.98, 29.97, 59.94
+            if (fps_int == 23.0) {
+                if (qAbs(fps - 23.98) < 0.01) {
+                    profile.frame_rate_num = 24000;
+                    profile.frame_rate_den = 1001;
+                }
+            } else if (fps_int == 29.0) {
+                if (qAbs(fps - 29.97) < 0.01) {
+                    profile.frame_rate_num = 30000;
+                    profile.frame_rate_den = 1001;
+                }
+            } else if (fps_int == 59.0) {
+                if (qAbs(fps - 59.94) < 0.01) {
+                    profile.frame_rate_num = 60000;
+                    profile.frame_rate_den = 1001;
+                }
+            } else {
+                // Unknown profile fps, warn user
+                adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
+            }
+        }
+        if ((double)profile.frame_rate_num / profile.frame_rate_den != fps) {
+            adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
+        }
+        if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2), adjustMessage)) == KMessageBox::Continue) {
             m_profile = profile;
             m_profile.description = QStringLiteral("%1x%2 %3fps").arg(profile.width).arg(profile.height).arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
             ProfilesDialog::saveProfile(m_profile);

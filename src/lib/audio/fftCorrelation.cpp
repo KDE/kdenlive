@@ -98,8 +98,8 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
         size = size << 1;
     }
 
-    kiss_fftr_cfg fftConfig = kiss_fftr_alloc(size, false, Q_NULLPTR, Q_NULLPTR);
-    kiss_fftr_cfg ifftConfig = kiss_fftr_alloc(size, true, Q_NULLPTR, Q_NULLPTR);
+    kiss_fftr_cfg fftConfig = kiss_fftr_alloc(size, false, nullptr, nullptr);
+    kiss_fftr_cfg ifftConfig = kiss_fftr_alloc(size, true, nullptr, nullptr);
     kiss_fft_cpx leftFFT[size / 2];
     kiss_fft_cpx rightFFT[size / 2];
     kiss_fft_cpx correlatedFFT[size / 2];

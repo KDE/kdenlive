@@ -36,7 +36,7 @@ const int margin = 5;
 KeyframeHelper::KeyframeHelper(QWidget *parent) :
     QWidget(parent)
     , frameLength(1)
-    , m_geom(Q_NULLPTR)
+    , m_geom(nullptr)
     , m_position(0)
     , m_scale(0)
     , m_movingKeyframe(false)
@@ -67,7 +67,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent *event)
     }
     int xPos = event->x() - margin;
     int headOffset = m_lineHeight / 1.5;
-    if (m_geom != Q_NULLPTR && (event->y() <= headOffset)) {
+    if (m_geom != nullptr && (event->y() <= headOffset)) {
         // check if we want to move a keyframe
         int mousePos = qMax((int)(xPos / m_scale), 0) + m_offset;
         Mlt::GeometryItem item;
@@ -91,7 +91,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent *event)
                         item2->frame(item.frame());
                         m_extraMovingItems.append(item2);
                     } else {
-                        m_extraMovingItems.append(Q_NULLPTR);
+                        m_extraMovingItems.append(nullptr);
                     }
                 }
                 m_dragStart = event->pos();
@@ -132,7 +132,7 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent *event)
             event->accept();
             return;
         }
-        if (m_geom != Q_NULLPTR && (event->y() < m_lineHeight)) {
+        if (m_geom != nullptr && (event->y() < m_lineHeight)) {
             // check if we want to move a keyframe
             Mlt::GeometryItem item;
             if (m_geom->next_key(&item, mousePos) == 0) {
@@ -191,7 +191,7 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent *event)
 
 void KeyframeHelper::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    if (m_geom != Q_NULLPTR && event->button() == Qt::LeftButton) {
+    if (m_geom != nullptr && event->button() == Qt::LeftButton) {
         // check if we want to move a keyframe
         int xPos = event->x() - margin;
         int mousePos = qMax((int)(xPos / m_scale - 5), 0) + m_offset;
@@ -259,7 +259,7 @@ void KeyframeHelper::paintEvent(QPaintEvent *e)
     p.setClipRect(clipRect);
     m_scale = (double)(width() - 2 * margin) / frameLength;
     int headOffset = m_lineHeight / 1.5;
-    if (m_geom != Q_NULLPTR) {
+    if (m_geom != nullptr) {
         int pos = m_offset;
         Mlt::GeometryItem item;
         while (true) {
@@ -326,7 +326,7 @@ int KeyframeHelper::value() const
 
 void KeyframeHelper::setValue(const int pos)
 {
-    if (pos == m_position || m_geom == Q_NULLPTR) {
+    if (pos == m_position || m_geom == nullptr) {
         return;
     }
     if (pos == m_seekPosition) {

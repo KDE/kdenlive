@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectFolder *parent) :
     AbstractProjectItem(AbstractProjectItem::FolderItem, id, parent)
-    , m_bin(Q_NULLPTR)
+    , m_bin(nullptr)
 {
     m_name = name;
     m_clipStatus = StatusReady;
@@ -43,7 +43,7 @@ ProjectFolder::ProjectFolder(Bin *bin) :
     , m_bin(bin)
 {
     m_name = QStringLiteral("root");
-    setParent(Q_NULLPTR);
+    setParent(nullptr);
 }
 
 ProjectFolder::~ProjectFolder()
@@ -54,7 +54,7 @@ void ProjectFolder::setCurrent(bool current, bool notify)
 {
     Q_UNUSED(notify)
     if (current) {
-        bin()->openProducer(Q_NULLPTR);
+        bin()->openProducer(nullptr);
     }
 }
 
@@ -66,7 +66,7 @@ ProjectClip *ProjectFolder::clip(const QString &id)
             return clip;
         }
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 QList<ProjectClip *> ProjectFolder::childClips()
@@ -99,13 +99,13 @@ ProjectFolder *ProjectFolder::folder(const QString &id)
             return folderItem;
         }
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 ProjectClip *ProjectFolder::clipAt(int index)
 {
     if (isEmpty()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     for (int i = 0; i < count(); ++i) {
         ProjectClip *clip = at(i)->clipAt(index);
@@ -113,7 +113,7 @@ ProjectClip *ProjectFolder::clipAt(int index)
             return clip;
         }
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 void ProjectFolder::disableEffects(bool disable)

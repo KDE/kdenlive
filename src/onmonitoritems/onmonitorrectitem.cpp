@@ -31,7 +31,7 @@ OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsIt
     , m_dar(dar)
     , m_mode(NoAction)
     , m_modified(false)
-    , m_view(Q_NULLPTR)
+    , m_view(nullptr)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 

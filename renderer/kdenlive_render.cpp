@@ -120,7 +120,7 @@ int main(int argc, char **argv)
             job->setLocale(locale);
         }
         job->start();
-        RenderJob *dualjob = Q_NULLPTR;
+        RenderJob *dualjob = nullptr;
         if (dualpass) {
             if (vprelist.size() > 1) {
                 args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")), QStringLiteral("vpre=%1").arg(vprelist.at(1)));

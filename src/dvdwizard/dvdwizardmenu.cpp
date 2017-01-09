@@ -155,8 +155,8 @@ QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
 
 DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     QWizardPage(parent),
-    m_color(Q_NULLPTR),
-    m_safeRect(Q_NULLPTR),
+    m_color(nullptr),
+    m_safeRect(nullptr),
     m_finalSize(720, 576),
     m_movieLength(-1)
 {
@@ -281,7 +281,7 @@ void DvdWizardMenu::slotEnableShadows(int enable)
                 shadow->setOffset(4, 4);
                 list.at(i)->setGraphicsEffect(shadow);
             } else {
-                list.at(i)->setGraphicsEffect(Q_NULLPTR);
+                list.at(i)->setGraphicsEffect(nullptr);
             }
         }
     }
@@ -500,7 +500,7 @@ void DvdWizardMenu::buildImage()
 
     if (m_view.background_list->currentIndex() == 1) {
         // image background
-        if (!pix.load(m_view.background_image->url().path())) {
+        if (!pix.load(m_view.background_image->url().toLocalFile())) {
             if (m_background->scene() != 0) {
                 m_scene->removeItem(m_background);
             }
@@ -513,7 +513,7 @@ void DvdWizardMenu::buildImage()
         QString profileName = DvdWizardVob::getDvdProfile(m_format);
         Mlt::Profile profile(profileName.toUtf8().constData());
         profile.set_explicit(true);
-        Mlt::Producer *producer = new Mlt::Producer(profile, m_view.background_image->url().path().toUtf8().constData());
+        Mlt::Producer *producer = new Mlt::Producer(profile, m_view.background_image->url().toLocalFile().toUtf8().constData());
         if (producer && producer->is_valid()) {
             pix = QPixmap::fromImage(KThumb::getFrame(producer, 0, m_width, m_height));
             m_movieLength = producer->get_length();
@@ -526,7 +526,7 @@ void DvdWizardMenu::buildImage()
 
 void DvdWizardMenu::buildButton()
 {
-    DvdButton *button = Q_NULLPTR;
+    DvdButton *button = nullptr;
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
@@ -534,7 +534,7 @@ void DvdWizardMenu::buildButton()
             break;
         }
     }
-    if (button == Q_NULLPTR) {
+    if (button == nullptr) {
         return;
     }
     button->setPlainText(m_view.play_text->text());
@@ -612,7 +612,7 @@ void DvdWizardMenu::updateUnderlineColor(QColor c)
 
 void DvdWizardMenu::updateColor(const QColor &c)
 {
-    DvdButton *button = Q_NULLPTR;
+    DvdButton *button = nullptr;
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
@@ -744,7 +744,7 @@ bool DvdWizardMenu::menuMovie() const
 
 QString DvdWizardMenu::menuMoviePath() const
 {
-    return m_view.background_image->url().path();
+    return m_view.background_image->url().toLocalFile();
 }
 
 int DvdWizardMenu::menuMovieLength() const
@@ -797,10 +797,10 @@ QDomElement DvdWizardMenu::toXml() const
         xml.setAttribute(QStringLiteral("background_color"), m_view.background_color->color().name());
     } else if (m_view.background_list->currentIndex() == 1) {
         // Image bg
-        xml.setAttribute(QStringLiteral("background_image"), m_view.background_image->url().path());
+        xml.setAttribute(QStringLiteral("background_image"), m_view.background_image->url().toLocalFile());
     } else {
         // Video bg
-        xml.setAttribute(QStringLiteral("background_video"), m_view.background_image->url().path());
+        xml.setAttribute(QStringLiteral("background_video"), m_view.background_image->url().toLocalFile());
     }
     xml.setAttribute(QStringLiteral("text_color"), m_view.text_color->color().name());
     xml.setAttribute(QStringLiteral("selected_color"), m_view.selected_color->color().name());

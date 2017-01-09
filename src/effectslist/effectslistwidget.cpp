@@ -77,9 +77,9 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         }
     }
 
-    QTreeWidgetItem *misc = Q_NULLPTR;
-    QTreeWidgetItem *audio = Q_NULLPTR;
-    QTreeWidgetItem *custom = Q_NULLPTR;
+    QTreeWidgetItem *misc = nullptr;
+    QTreeWidgetItem *audio = nullptr;
+    QTreeWidgetItem *custom = nullptr;
     QList<QTreeWidgetItem *> folders;
 
     if (!categoryFile.isEmpty()) {
@@ -117,7 +117,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         }
 
         misc = findFolder(i18n("Misc"));
-        if (misc == Q_NULLPTR) {
+        if (misc == nullptr) {
             misc = new QTreeWidgetItem((QTreeWidget *)0, QStringList(i18n("Misc")));
             misc->setData(0, TypeRole, QString::number((int) EffectsList::EFFECT_FOLDER));
             misc->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -125,7 +125,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         }
 
         audio = findFolder(i18n("Audio"));
-        if (audio == Q_NULLPTR) {
+        if (audio == nullptr) {
             audio = new QTreeWidgetItem((QTreeWidget *)0, QStringList(i18n("Audio")));
             audio->setData(0, TypeRole, QString::number((int) EffectsList::EFFECT_FOLDER));
             audio->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -133,7 +133,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         }
 
         custom = findFolder(i18nc("Folder Name", "Custom"));
-        if (custom == Q_NULLPTR) {
+        if (custom == nullptr) {
             custom = new QTreeWidgetItem((QTreeWidget *)0, QStringList(i18nc("Folder Name", "Custom")));
             custom->setData(0, TypeRole, QString::number((int) EffectsList::EFFECT_FOLDER));
             custom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -162,10 +162,10 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     sortByColumn(0, Qt::AscendingOrder);
 
     // populate effects menu
-    QMenu *sub1 = Q_NULLPTR;
-    QMenu *sub2 = Q_NULLPTR;
-    QMenu *sub3 = Q_NULLPTR;
-    QMenu *sub4 = Q_NULLPTR;
+    QMenu *sub1 = nullptr;
+    QMenu *sub2 = nullptr;
+    QMenu *sub3 = nullptr;
+    QMenu *sub4 = nullptr;
     for (int i = 0; i < topLevelItemCount(); ++i) {
         if (topLevelItem(i)->data(0, TypeRole) == EffectsList::TRANSITION_TYPE) {
             QTreeWidgetItem *item = topLevelItem(i);
@@ -250,7 +250,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QTreeWidgetIt
         if (effectInfo.isEmpty()) {
             continue;
         }
-        QTreeWidgetItem *parentItem = Q_NULLPTR;
+        QTreeWidgetItem *parentItem = nullptr;
 
         if (folders) {
             for (int i = 0; i < folders->count(); ++i) {
@@ -261,7 +261,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QTreeWidgetIt
                 }
             }
         }
-        if (parentItem == Q_NULLPTR) {
+        if (parentItem == nullptr) {
             parentItem = defaultFolder;
         }
 
@@ -283,7 +283,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QTreeWidgetIt
         }
         item->setData(0, IdRole, effectInfo);
         item->setToolTip(0, effectlist->getEffectInfo(effect));
-        if (parentItem == Q_NULLPTR) {
+        if (parentItem == nullptr) {
             addTopLevelItem(item);
         }
         if (item->text(0) == current) {
@@ -295,7 +295,7 @@ void EffectsListWidget::loadEffects(const EffectsList *effectlist, QTreeWidgetIt
 
 QTreeWidgetItem *EffectsListWidget::findFolder(const QString &name)
 {
-    QTreeWidgetItem *item = Q_NULLPTR;
+    QTreeWidgetItem *item = nullptr;
     QList<QTreeWidgetItem *> result = findItems(name, Qt::MatchExactly);
     if (!result.isEmpty()) {
         for (int j = 0; j < result.count(); ++j) {
@@ -505,7 +505,7 @@ void EffectsListWidget::createTopLevelItems(const QList<QTreeWidgetItem *> &list
 {
     // Favorites is a pseudo-folder used to store items, not visible to end user, so don't i18n its name
     QTreeWidgetItem *misc = findFolder(QStringLiteral("TemporaryFolder"));
-    if (misc == Q_NULLPTR) {
+    if (misc == nullptr) {
         misc = new QTreeWidgetItem(this, QStringList(QStringLiteral("TemporaryFolder")));
         misc->setData(0, TypeRole, QString::number((int) EffectsList::EFFECT_FOLDER));
         misc->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);

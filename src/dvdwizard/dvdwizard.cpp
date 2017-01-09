@@ -44,9 +44,9 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     , m_menuFile(QStringLiteral("XXXXXX.xml"))
     , m_menuVobFile(QStringLiteral("XXXXXX.mpg"))
     , m_letterboxMovie(QStringLiteral("XXXXXX.mpg"))
-    , m_dvdauthor(Q_NULLPTR)
-    , m_mkiso(Q_NULLPTR)
-    , m_vobitem(Q_NULLPTR)
+    , m_dvdauthor(nullptr)
+    , m_mkiso(nullptr)
+    , m_vobitem(nullptr)
     , m_selectedImage(QStringLiteral("XXXXXX.png"))
     , m_selectedLetterImage(QStringLiteral("XXXXXX.png"))
     , m_highlightedImage(QStringLiteral("XXXXXX.png"))
@@ -181,13 +181,13 @@ void DvdWizard::slotPageChanged(int page)
 void DvdWizard::generateDvd()
 {
     m_isoMessage->animatedHide();
-    QDir dir(m_status.tmp_folder->url().path() + "DVD/");
+    QDir dir(m_status.tmp_folder->url().toLocalFile() + "DVD/");
     if (!dir.exists()) {
         dir.mkpath(dir.absolutePath());
     }
     if (!dir.exists()) {
         // We failed creating tmp DVD directory
-        KMessageBox::sorry(this, i18n("Cannot create temporary directory %1", m_status.tmp_folder->url().path() + "DVD"));
+        KMessageBox::sorry(this, i18n("Cannot create temporary directory %1", m_status.tmp_folder->url().toLocalFile() + "DVD"));
         return;
     }
 
@@ -196,42 +196,42 @@ void DvdWizard::generateDvd()
     m_status.menu_file->clear();
     m_status.dvd_file->clear();
 
-    m_selectedImage.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.png"));
-    m_selectedLetterImage.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.png"));
-    m_highlightedImage.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.png"));
-    m_highlightedLetterImage.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.png"));
+    m_selectedImage.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.png"));
+    m_selectedLetterImage.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.png"));
+    m_highlightedImage.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.png"));
+    m_highlightedLetterImage.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.png"));
 
     m_selectedImage.open();
     m_selectedLetterImage.open();
     m_highlightedImage.open();
     m_highlightedLetterImage.open();
 
-    m_menuImageBackground.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.png"));
+    m_menuImageBackground.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.png"));
     m_menuImageBackground.setAutoRemove(false);
     m_menuImageBackground.open();
 
-    m_menuVideo.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.vob"));
+    m_menuVideo.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.vob"));
     m_menuVideo.open();
-    m_menuFinalVideo.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.vob"));
+    m_menuFinalVideo.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.vob"));
     m_menuFinalVideo.open();
 
     m_letterboxMovie.close();
-    m_letterboxMovie.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.mpg"));
+    m_letterboxMovie.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.mpg"));
     m_letterboxMovie.setAutoRemove(false);
     m_letterboxMovie.open();
 
     m_menuFile.close();
-    m_menuFile.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.xml"));
+    m_menuFile.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.xml"));
     m_menuFile.setAutoRemove(false);
     m_menuFile.open();
 
     m_menuVobFile.close();
-    m_menuVobFile.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.mpg"));
+    m_menuVobFile.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.mpg"));
     m_menuVobFile.setAutoRemove(false);
     m_menuVobFile.open();
 
     m_authorFile.close();
-    m_authorFile.setFileTemplate(m_status.tmp_folder->url().path() + QStringLiteral("XXXXXX.xml"));
+    m_authorFile.setFileTemplate(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("XXXXXX.xml"));
     m_authorFile.setAutoRemove(false);
     m_authorFile.open();
 
@@ -515,7 +515,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap<QString
     authitem->setIcon(QIcon::fromTheme(QStringLiteral("system-run")));
     QDomDocument dvddoc;
     QDomElement auth = dvddoc.createElement(QStringLiteral("dvdauthor"));
-    auth.setAttribute(QStringLiteral("dest"), m_status.tmp_folder->url().path() + "DVD");
+    auth.setAttribute(QStringLiteral("dest"), m_status.tmp_folder->url().toLocalFile() + "DVD");
     dvddoc.appendChild(auth);
     QDomElement vmgm = dvddoc.createElement(QStringLiteral("vmgm"));
     auth.appendChild(vmgm);
@@ -681,7 +681,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap<QString
         m_dvdauthor->blockSignals(true);
         m_dvdauthor->close();
         delete m_dvdauthor;
-        m_dvdauthor = Q_NULLPTR;
+        m_dvdauthor = nullptr;
     }
     m_creationLog.clear();
     m_dvdauthor = new QProcess(this);
@@ -756,7 +756,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
         authitem->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
         m_dvdauthor->close();
         delete m_dvdauthor;
-        m_dvdauthor = Q_NULLPTR;
+        m_dvdauthor = nullptr;
         m_status.button_start->setEnabled(true);
         m_status.button_abort->setEnabled(false);
         cleanup();
@@ -766,10 +766,10 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     m_creationLog.append(m_dvdauthor->readAllStandardError());
     m_dvdauthor->close();
     delete m_dvdauthor;
-    m_dvdauthor = Q_NULLPTR;
+    m_dvdauthor = nullptr;
 
     // Check if DVD structure has the necessary info
-    if (!QFile::exists(m_status.tmp_folder->url().path() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
+    if (!QFile::exists(m_status.tmp_folder->url().toLocalFile() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
         errorMessage(i18n("DVD structure broken"));
         m_status.error_log->append(m_creationLog + "<a name=\"result\" /><br /><strong>" + i18n("DVD structure broken"));
         m_status.error_log->scrollToAnchor(QStringLiteral("result"));
@@ -786,13 +786,13 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     }
     authitem->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok")));
     QStringList args;
-    args << QStringLiteral("-dvd-video") << QStringLiteral("-v") << QStringLiteral("-o") << m_status.iso_image->url().path() << m_status.tmp_folder->url().path() + QDir::separator() + "DVD";
+    args << QStringLiteral("-dvd-video") << QStringLiteral("-v") << QStringLiteral("-o") << m_status.iso_image->url().toLocalFile() << m_status.tmp_folder->url().toLocalFile() + QDir::separator() + "DVD";
 
     if (m_mkiso) {
         m_mkiso->blockSignals(true);
         m_mkiso->close();
         delete m_mkiso;
-        m_mkiso = Q_NULLPTR;
+        m_mkiso = nullptr;
     }
     m_mkiso = new QProcess(this);
     connect(m_mkiso, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsoFinished(int, QProcess::ExitStatus)));
@@ -832,7 +832,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
         m_status.dvd_file->setPlainText(m_authorFile.readAll());
         m_mkiso->close();
         delete m_mkiso;
-        m_mkiso = Q_NULLPTR;
+        m_mkiso = nullptr;
         cleanup();
         //qCDebug(KDENLIVE_LOG) << "Iso process crashed";
         isoitem->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
@@ -843,12 +843,12 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
 
     m_creationLog.append(m_mkiso->readAllStandardError());
     delete m_mkiso;
-    m_mkiso = Q_NULLPTR;
+    m_mkiso = nullptr;
     m_status.button_start->setEnabled(true);
     m_status.button_abort->setEnabled(false);
 
     // Check if DVD iso is ok
-    QFile iso(m_status.iso_image->url().path());
+    QFile iso(m_status.iso_image->url().toLocalFile());
     if (!iso.exists() || iso.size() == 0) {
         if (iso.exists()) {
             iso.remove();
@@ -865,23 +865,23 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     }
 
     isoitem->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok")));
-    //qCDebug(KDENLIVE_LOG) << "ISO IMAGE " << m_status.iso_image->url().path() << " Successfully created";
+    //qCDebug(KDENLIVE_LOG) << "ISO IMAGE " << m_status.iso_image->url().toLocalFile() << " Successfully created";
     cleanup();
     //qCDebug(KDENLIVE_LOG) << m_creationLog;
-    infoMessage(i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()));
+    infoMessage(i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().toLocalFile()));
 
-    m_status.error_log->append("<a name=\"result\" /><strong>" + i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()) + "</strong>");
+    m_status.error_log->append("<a name=\"result\" /><strong>" + i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().toLocalFile()) + "</strong>");
     m_status.error_log->scrollToAnchor(QStringLiteral("result"));
     m_status.button_preview->setEnabled(true);
     m_status.button_burn->setEnabled(true);
     m_status.error_box->setHidden(false);
-    //KMessageBox::information(this, i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().path()));
+    //KMessageBox::information(this, i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().toLocalFile()));
 
 }
 
 void DvdWizard::cleanup()
 {
-    QDir dir(m_status.tmp_folder->url().path() + QDir::separator() + "DVD");
+    QDir dir(m_status.tmp_folder->url().toLocalFile() + QDir::separator() + "DVD");
     // Try to make sure we delete the correct directory
     if (dir.exists() && dir.dirName() == QLatin1String("DVD")) {
         dir.removeRecursively();
@@ -902,7 +902,7 @@ void DvdWizard::slotPreview()
     if (exec.isEmpty()) {
         KMessageBox::sorry(this, i18n("Previewing requires one of these applications (%1)", programNames.join(",")));
     } else {
-        QProcess::startDetached(exec, QStringList() << "dvd://" + m_status.iso_image->url().path());
+        QProcess::startDetached(exec, QStringList() << "dvd://" + m_status.iso_image->url().toLocalFile());
     }
 }
 
@@ -912,9 +912,9 @@ void DvdWizard::slotBurn()
     QString exec = action->data().toString();
     QStringList args;
     if (exec.endsWith(QLatin1String("k3b"))) {
-        args << QStringLiteral("--image") << m_status.iso_image->url().path();
+        args << QStringLiteral("--image") << m_status.iso_image->url().toLocalFile();
     } else {
-        args << "--image=" + m_status.iso_image->url().path();
+        args << "--image=" + m_status.iso_image->url().toLocalFile();
     }
     QProcess::startDetached(exec, args);
 }
@@ -929,11 +929,11 @@ void DvdWizard::slotGenerate()
         m_status.job_progress->item(i)->setIcon(QIcon());
     }
     QString warnMessage;
-    if (QFile::exists(m_status.tmp_folder->url().path() + "DVD")) {
-        warnMessage.append(i18n("Folder %1 already exists. Overwrite?\n", m_status.tmp_folder->url().path() + "DVD"));
+    if (QFile::exists(m_status.tmp_folder->url().toLocalFile() + "DVD")) {
+        warnMessage.append(i18n("Folder %1 already exists. Overwrite?\n", m_status.tmp_folder->url().toLocalFile() + "DVD"));
     }
-    if (QFile::exists(m_status.iso_image->url().path())) {
-        warnMessage.append(i18n("Image file %1 already exists. Overwrite?", m_status.iso_image->url().path()));
+    if (QFile::exists(m_status.iso_image->url().toLocalFile())) {
+        warnMessage.append(i18n("Image file %1 already exists. Overwrite?", m_status.iso_image->url().toLocalFile()));
     }
 
     if (warnMessage.isEmpty() || KMessageBox::questionYesNo(this, warnMessage) == KMessageBox::Yes) {
@@ -966,7 +966,7 @@ void DvdWizard::slotSave()
     if (!url.isValid()) {
         return;
     }
-    KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), url.adjusted(QUrl::RemoveFilename).path());
+    KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), url.adjusted(QUrl::RemoveFilename).toLocalFile());
     if (currentId() == 0) {
         m_pageChapters->setVobFiles(m_pageVob->dvdFormat(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
     }
@@ -974,8 +974,8 @@ void DvdWizard::slotSave()
     QDomDocument doc;
     QDomElement dvdproject = doc.createElement(QStringLiteral("dvdproject"));
     dvdproject.setAttribute(QStringLiteral("profile"), m_pageVob->dvdProfile());
-    dvdproject.setAttribute(QStringLiteral("tmp_folder"), m_status.tmp_folder->url().path());
-    dvdproject.setAttribute(QStringLiteral("iso_image"), m_status.iso_image->url().path());
+    dvdproject.setAttribute(QStringLiteral("tmp_folder"), m_status.tmp_folder->url().toLocalFile());
+    dvdproject.setAttribute(QStringLiteral("iso_image"), m_status.iso_image->url().toLocalFile());
     dvdproject.setAttribute(QStringLiteral("intro_movie"), m_pageVob->introMovie());
 
     doc.appendChild(dvdproject);
@@ -988,16 +988,16 @@ void DvdWizard::slotSave()
         dvdproject.appendChild(doc.importNode(chaps, true));
     }
 
-    QFile file(url.path());
+    QFile file(url.toLocalFile());
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << url.path();
-        KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
+        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << url.toLocalFile();
+        KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
         return;
     }
 
     file.write(doc.toString().toUtf8());
     if (file.error() != QFile::NoError) {
-        KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
+        KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
     }
     file.close();
 }
@@ -1012,14 +1012,14 @@ void DvdWizard::slotLoad()
     if (!url.isValid()) {
         return;
     }
-    KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), url.adjusted(QUrl::RemoveFilename).path());
+    KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomDocument doc;
-    QFile file(url.path());
+    QFile file(url.toLocalFile());
     doc.setContent(&file, false);
     file.close();
     QDomElement dvdproject = doc.documentElement();
     if (dvdproject.tagName() != QLatin1String("dvdproject")) {
-        KMessageBox::error(this, i18n("File %1 is not a Kdenlive project file.", url.path()));
+        KMessageBox::error(this, i18n("File %1 is not a Kdenlive project file.", url.toLocalFile()));
         return;
     }
 

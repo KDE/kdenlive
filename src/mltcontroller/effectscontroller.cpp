@@ -211,7 +211,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
         } else {
             if (e.attribute(QStringLiteral("factor"), QStringLiteral("1")) != QLatin1String("1") || e.attribute(QStringLiteral("offset"), QStringLiteral("0")) != QLatin1String("0")) {
                 double fact;
-                if (e.attribute(QStringLiteral("factor")).contains('%')) {
+                if (e.attribute(QStringLiteral("factor")).contains(QLatin1Char('%'))) {
                     fact = getStringEval(info, e.attribute(QStringLiteral("factor")));
                 } else {
                     fact = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
@@ -261,7 +261,7 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
                 kfr = EffectsController::getStringRectEval(pInfo, kfr);
             }
             e.setAttribute(QStringLiteral("value"), kfr);
-        } else if (e.attribute(QStringLiteral("default")).contains('%')) {
+        } else if (e.attribute(QStringLiteral("default")).contains(QLatin1Char('%'))) {
             double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
             e.setAttribute(QStringLiteral("default"), evaluatedValue);
             if (e.hasAttribute(QStringLiteral("value"))) {
@@ -308,7 +308,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
                 kfr = EffectsController::getStringRectEval(pInfo, kfr);
             }
             e.setAttribute(QStringLiteral("value"), kfr);
-        } else if (e.attribute(QStringLiteral("default")).contains('%')) {
+        } else if (e.attribute(QStringLiteral("default")).contains(QLatin1Char('%'))) {
             double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
             e.setAttribute(QStringLiteral("default"), evaluatedValue);
             if (e.hasAttribute(QStringLiteral("value"))) {
@@ -500,7 +500,7 @@ EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, const
 
             } else {
                 double fact;
-                if (e.attribute(QStringLiteral("factor")).contains('%')) {
+                if (e.attribute(QStringLiteral("factor")).contains(QLatin1Char('%'))) {
                     fact = EffectsController::getStringEval(info, e.attribute(QStringLiteral("factor")));
                 } else {
                     fact = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));

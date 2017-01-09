@@ -87,20 +87,20 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
 {
     QImage mltImage(width, height, QImage::Format_ARGB32_Premultiplied);
-    if (producer == Q_NULLPTR) {
+    if (producer == nullptr) {
         return mltImage;
     }
 
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
-    if (frame == Q_NULLPTR) {
+    if (frame == nullptr) {
         return mltImage;
     }
 
     mlt_image_format format = mlt_image_rgb24a;
 
     const uchar *imagedata = frame->get_image(format, width, height);
-    if (imagedata != Q_NULLPTR) {
+    if (imagedata != nullptr) {
         memcpy(mltImage.bits(), imagedata, width * height * 4);
         mltImage = mltImage.rgbSwapped();
     }

@@ -33,7 +33,7 @@ SpacerManager::SpacerManager(CustomTrackView *view, DocUndoStack *commandStack) 
 bool SpacerManager::mousePress(QMouseEvent *event, const ItemInfo &info, const QList<QGraphicsItem *> &)
 {
     m_view->clearSelection();
-    m_view->updateClipTypeActions(Q_NULLPTR);
+    m_view->updateClipTypeActions(nullptr);
     m_view->setOperationMode(Spacer);
     m_dragMoved = false;
     m_clickPoint = event->pos();

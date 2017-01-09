@@ -343,7 +343,7 @@ RenderWidget::~RenderWidget()
 
 void RenderWidget::slotEditItem(QTreeWidgetItem *item)
 {
-    if (item->parent() == Q_NULLPTR) {
+    if (item->parent() == nullptr) {
         // This is a top level item - group - don't edit
         return;
     }
@@ -1082,9 +1082,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
             ;
 #ifndef Q_OS_MAC
-            const QString currentLocale = setlocale(LC_NUMERIC, Q_NULLPTR);
+            const QString currentLocale = setlocale(LC_NUMERIC, nullptr);
 #else
-            const QString currentLocale = setlocale(LC_NUMERIC_MASK, Q_NULLPTR);
+            const QString currentLocale = setlocale(LC_NUMERIC_MASK, nullptr);
 #endif
             render_process_args << QStringLiteral("-locale:%1").arg(currentLocale);
         }
@@ -1334,7 +1334,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         emit selectedRenderProfile(renderProps);
 
         // insert item in running jobs list
-        RenderJobItem *renderItem = Q_NULLPTR;
+        RenderJobItem *renderItem = nullptr;
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
         if (!existing.isEmpty()) {
             renderItem = static_cast<RenderJobItem *>(existing.at(0));
@@ -1344,7 +1344,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             }
             if (renderItem->type() != DirectRenderType) {
                 delete renderItem;
-                renderItem = Q_NULLPTR;
+                renderItem = nullptr;
             } else {
                 renderItem->setData(1, ProgressRole, 0);
                 renderItem->setStatus(WAITINGJOB);
@@ -1617,7 +1617,7 @@ void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
     QTreeWidgetItem *item = m_view.formats->currentItem();
-    if (!item || item->parent() == Q_NULLPTR) {
+    if (!item || item->parent() == nullptr) {
         // This is a category item, not a real profile
         m_view.buttonBox->setEnabled(false);
     } else {
@@ -1868,7 +1868,7 @@ QTreeWidgetItem *RenderWidget::loadFromMltPreset(const QString &groupName, const
     QString extension = group.readEntry("meta.preset.extension");
     QString note = group.readEntry("meta.preset.note");
     if (extension.isEmpty()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     QTreeWidgetItem *item = new QTreeWidgetItem(QStringList(profileName));
     item->setData(0, GroupRole, groupName);
@@ -1890,7 +1890,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     QDomElement profileElement;
     QString extension;
     QDomNodeList groups = doc.elementsByTagName(QStringLiteral("group"));
-    QTreeWidgetItem *item = Q_NULLPTR;
+    QTreeWidgetItem *item = nullptr;
     bool replaceVorbisCodec = false;
     if (acodecsList.contains(QStringLiteral("libvorbis"))) {
         replaceVorbisCodec = true;
@@ -2295,11 +2295,11 @@ void RenderWidget::parseScriptFiles()
             continue;
         }
         item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
-        if (!renderer.isEmpty() && renderer.contains('/') && !QFile::exists(renderer)) {
+        if (!renderer.isEmpty() && renderer.contains(QLatin1Char('/')) && !QFile::exists(renderer)) {
             item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
             item->setToolTip(1, i18n("Script contains wrong command: %1", renderer));
             item->setData(0, Qt::UserRole, '1');
-        } else if (!melt.isEmpty() && melt.contains('/') && !QFile::exists(melt)) {
+        } else if (!melt.isEmpty() && melt.contains(QLatin1Char('/')) && !QFile::exists(melt)) {
             item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
             item->setToolTip(1, i18n("Script contains wrong command: %1", melt));
             item->setData(0, Qt::UserRole, '1');
@@ -2320,7 +2320,7 @@ void RenderWidget::parseScriptFiles()
 void RenderWidget::slotCheckScript()
 {
     QTreeWidgetItem *current = m_view.scripts_list->currentItem();
-    if (current == Q_NULLPTR) {
+    if (current == nullptr) {
         return;
     }
     m_view.start_script->setEnabled(current->data(0, Qt::UserRole).toString().isEmpty());
@@ -2342,7 +2342,7 @@ void RenderWidget::slotStartScript()
         QString destination = item->data(1, Qt::UserRole).toString();
         QString path = item->data(1, Qt::UserRole + 1).toString();
         // Insert new job in queue
-        RenderJobItem *renderItem = Q_NULLPTR;
+        RenderJobItem *renderItem = nullptr;
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(destination, Qt::MatchExactly, 1);
         if (!existing.isEmpty()) {
             renderItem = static_cast<RenderJobItem *>(existing.at(0));
@@ -2351,7 +2351,7 @@ void RenderWidget::slotStartScript()
                 return;
             } else if (renderItem->type() != ScriptRenderType) {
                 delete renderItem;
-                renderItem = Q_NULLPTR;
+                renderItem = nullptr;
             }
         }
         if (!renderItem) {

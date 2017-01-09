@@ -710,7 +710,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
         QDomElement desc = ret.createElement(QStringLiteral("description"));
         ktrans.appendChild(tname);
         ktrans.appendChild(desc);
-        Mlt::Properties *metadata = Q_NULLPTR;
+        Mlt::Properties *metadata = nullptr;
         if (!customTransitions.contains(name)) {
             metadata = repository->metadata(transition_type, name.toUtf8().data());
         }
@@ -845,7 +845,7 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
             }
         }
         delete metadata;
-        metadata = Q_NULLPTR;
+        metadata = nullptr;
         // Add the transition to the global list.
         ////qCDebug(KDENLIVE_LOG) << ret.toString();
         transitions->append(ret.documentElement());

@@ -151,7 +151,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     , m_id(controller->clipId())
     , m_type(controller->clipType())
     , m_properties(controller->properties())
-    , m_textEdit(Q_NULLPTR)
+    , m_textEdit(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QVBoxLayout *lay = new QVBoxLayout;
@@ -622,7 +622,7 @@ void ClipPropertiesController::slotEnableForce(int state)
             TimecodeDisplay *timePos = findChild<TimecodeDisplay *>(param + "_value");
             timePos->setValue(m_properties.get_int("kdenlive:original_length"));
             slotDurationChanged(m_properties.get_int("kdenlive:original_length"));
-            m_properties.set("kdenlive:original_length", (char *) Q_NULLPTR);
+            m_properties.set("kdenlive:original_length", (char *) nullptr);
             return;
         } else if (param == QLatin1String("kdenlive:transparency")) {
             properties.insert(param, QString());
@@ -752,9 +752,9 @@ void ClipPropertiesController::fillProperties()
     QMimeDatabase mimeDatabase;
     QMimeType mimeType;
 
-    mimeType = mimeDatabase.mimeTypeForFile(m_controller->clipUrl().toLocalFile());
+    mimeType = mimeDatabase.mimeTypeForFile(m_controller->clipUrl());
     foreach (KFileMetaData::Extractor *plugin, metaDataCollection.fetchExtractors(mimeType.name())) {
-        ExtractionResult extractionResult(m_controller->clipUrl().toLocalFile(), mimeType.name(), m_propertiesTree);
+        ExtractionResult extractionResult(m_controller->clipUrl(), mimeType.name(), m_propertiesTree);
         plugin->extract(&extractionResult);
     }
 #endif
@@ -962,7 +962,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             }
         }
     } else if (KdenliveSettings::use_exiftool()) {
-        QString url = m_controller->clipUrl().path();
+        QString url = m_controller->clipUrl();
         //Check for Canon THM file
         url = url.section('.', 0, -2) + ".THM";
         if (QFile::exists(url)) {
@@ -974,7 +974,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             p.waitForFinished();
             QString res = p.readAllStandardOutput();
             m_controller->setProperty(QStringLiteral("kdenlive:exiftool"), 1);
-            QTreeWidgetItem *exif = Q_NULLPTR;
+            QTreeWidgetItem *exif = nullptr;
             QStringList list = res.split('\n');
             foreach (const QString &tagline, list) {
                 if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) {
@@ -997,14 +997,14 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             if (m_type == Image || m_controller->codec(false) == QLatin1String("h264")) {
                 QProcess p;
                 QStringList args;
-                args << QStringLiteral("-g") << QStringLiteral("-args") << m_controller->clipUrl().path();
+                args << QStringLiteral("-g") << QStringLiteral("-args") << m_controller->clipUrl();
                 p.start(QStringLiteral("exiftool"), args);
                 p.waitForFinished();
                 QString res = p.readAllStandardOutput();
                 if (m_type != Image) {
                     m_controller->setProperty(QStringLiteral("kdenlive:exiftool"), 1);
                 }
-                QTreeWidgetItem *exif = Q_NULLPTR;
+                QTreeWidgetItem *exif = nullptr;
                 QStringList list = res.split('\n');
                 foreach (const QString &tagline, list) {
                     if (m_type != Image && !tagline.startsWith(QLatin1String("-H264"))) {
@@ -1031,7 +1031,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
     if (magic == 1) {
         Mlt::Properties subProperties;
         subProperties.pass_values(m_properties, "kdenlive:meta.magiclantern.");
-        QTreeWidgetItem *magicL = Q_NULLPTR;
+        QTreeWidgetItem *magicL = nullptr;
         for (int i = 0; i < subProperties.count(); i++) {
             if (!magicL) {
                 magicL = new QTreeWidgetItem(tree, QStringList() << i18n("Magic Lantern") << QString());
@@ -1042,16 +1042,16 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             new QTreeWidgetItem(magicL, QStringList() << subProperties.get_name(i) << subProperties.get(i));
         }
     } else if (m_type != Image && KdenliveSettings::use_magicLantern()) {
-        QString url = m_controller->clipUrl().path();
+        QString url = m_controller->clipUrl();
         url = url.section('.', 0, -2) + ".LOG";
         if (QFile::exists(url)) {
             QFile file(url);
             if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                 m_controller->setProperty(QStringLiteral("kdenlive:magiclantern"), 1);
-                QTreeWidgetItem *magicL = Q_NULLPTR;
+                QTreeWidgetItem *magicL = nullptr;
                 while (!file.atEnd()) {
                     QString line = file.readLine().simplified();
-                    if (line.startsWith('#') || line.isEmpty() || !line.contains(':')) {
+                    if (line.startsWith('#') || line.isEmpty() || !line.contains(QLatin1Char(':'))) {
                         continue;
                     }
                     if (line.startsWith(QLatin1String("CSV data"))) {
@@ -1100,7 +1100,7 @@ void ClipPropertiesController::slotDeleteAnalysis()
 
 void ClipPropertiesController::slotSaveAnalysis()
 {
-    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), m_controller->clipUrl().adjusted(QUrl::RemoveFilename).path(), i18n("Text File (*.txt)"));
+    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }
@@ -1112,7 +1112,7 @@ void ClipPropertiesController::slotSaveAnalysis()
 
 void ClipPropertiesController::slotLoadAnalysis()
 {
-    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), m_controller->clipUrl().adjusted(QUrl::RemoveFilename).path(), i18n("Text File (*.txt)"));
+    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }

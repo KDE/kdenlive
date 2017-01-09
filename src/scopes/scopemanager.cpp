@@ -32,7 +32,7 @@
 
 ScopeManager::ScopeManager(QObject *parent) :
     QObject(parent),
-    m_lastConnectedRenderer(Q_NULLPTR)
+    m_lastConnectedRenderer(nullptr)
 {
     m_signalMapper = new QSignalMapper(this);
 
@@ -70,7 +70,7 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
         m_audioScopes.append(asd);
 
         connect(audioScope, &AbstractScopeWidget::requestAutoRefresh, this, &ScopeManager::slotCheckActiveScopes);
-        if (audioScopeWidget != Q_NULLPTR) {
+        if (audioScopeWidget != nullptr) {
             connect(audioScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
             connect(audioScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
         }
@@ -103,7 +103,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
         connect(colorScope, &AbstractScopeWidget::requestAutoRefresh, this, &ScopeManager::slotCheckActiveScopes);
         connect(colorScope, &AbstractGfxScopeWidget::signalFrameRequest, this, &ScopeManager::slotRequestFrame);
         connect(colorScope, &AbstractScopeWidget::signalScopeRenderingFinished, this, &ScopeManager::slotScopeReady);
-        if (colorScopeWidget != Q_NULLPTR) {
+        if (colorScopeWidget != nullptr) {
             connect(colorScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
             connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
         }
@@ -191,13 +191,13 @@ void ScopeManager::slotRequestFrame(const QString &widgetName)
 
 void ScopeManager::slotClearColorScopes()
 {
-    m_lastConnectedRenderer = Q_NULLPTR;
+    m_lastConnectedRenderer = nullptr;
 }
 
 void ScopeManager::slotUpdateActiveRenderer()
 {
     // Disconnect old connections
-    if (m_lastConnectedRenderer != Q_NULLPTR) {
+    if (m_lastConnectedRenderer != nullptr) {
 #ifdef DEBUG_SM
         qCDebug(KDENLIVE_LOG) << "Disconnected previous renderer: " << m_lastConnectedRenderer->id();
 #endif
@@ -207,11 +207,11 @@ void ScopeManager::slotUpdateActiveRenderer()
     m_lastConnectedRenderer = pCore->monitorManager()->activeRenderer();
     // DVD monitor shouldn't be monitored or will cause crash on deletion
     if (pCore->monitorManager()->isActive(Kdenlive::DvdMonitor)) {
-        m_lastConnectedRenderer = Q_NULLPTR;
+        m_lastConnectedRenderer = nullptr;
     }
 
     // Connect new renderer
-    if (m_lastConnectedRenderer != Q_NULLPTR) {
+    if (m_lastConnectedRenderer != nullptr) {
         connect(m_lastConnectedRenderer, &AbstractRender::frameUpdated,
                 this, &ScopeManager::slotDistributeFrame, Qt::UniqueConnection);
         connect(m_lastConnectedRenderer, &AbstractRender::audioSamplesSignal,
@@ -292,17 +292,17 @@ void ScopeManager::checkActiveColourScopes()
     // Notify monitors whether frames are still required
     Monitor *monitor;
     monitor = static_cast<Monitor *>(pCore->monitorManager()->monitor(Kdenlive::ProjectMonitor));
-    if (monitor != Q_NULLPTR) {
+    if (monitor != nullptr) {
         monitor->sendFrameForAnalysis(imageStillRequested);
     }
 
     monitor = static_cast<Monitor *>(pCore->monitorManager()->monitor(Kdenlive::ClipMonitor));
-    if (monitor != Q_NULLPTR) {
+    if (monitor != nullptr) {
         monitor->sendFrameForAnalysis(imageStillRequested);
     }
 
     RecMonitor *recMonitor = static_cast<RecMonitor *>(pCore->monitorManager()->monitor(Kdenlive::RecordMonitor));
-    if (recMonitor != Q_NULLPTR) {
+    if (recMonitor != nullptr) {
         recMonitor->analyseFrames(imageStillRequested);
     }
 }

@@ -63,7 +63,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
     QStringList sources;
     sources.reserve(clips.count());
     for (int i = 0; i < clips.count(); i++) {
-        sources << clips.at(i)->url().toLocalFile();
+        sources << clips.at(i)->url();
     }
     QString filterName = parameters.first();
     if (filterName == QLatin1String("timewarp")) {
@@ -83,7 +83,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
             QString speedString = QStringLiteral("timewarp:%1:").arg(locale.toString(d->speed() / 100));
             QDir destFolder;
             if (multipleSelection) {
-                destFolder = QDir(d->selectedUrl().path());
+                destFolder = QDir(d->selectedUrl().toLocalFile());
             }
             for (int i = 0; i < clips.count(); i++) {
                 QString prodstring = speedString + sources.at(i);
@@ -92,7 +92,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                 if (multipleSelection) {
                     destination = destFolder.absoluteFilePath(QUrl::fromLocalFile(sources.at(i)).fileName() + QStringLiteral(".mlt"));
                 } else {
-                    destination = d->selectedUrl().path();
+                    destination = d->selectedUrl().toLocalFile();
                 }
                 if (QFile::exists(destination)) {
                     if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", destination)) != KMessageBox::Yes) {
@@ -238,13 +238,13 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                     trffile = QUrl::fromLocalFile(destination + ".trf");
                 } else {
                     // Filter several clips, destination points to a folder
-                    QString mltfile = destination + clip->url().fileName() + ".mlt";
+                    QString mltfile = destination + QFileInfo(clip->url()).fileName() + ".mlt";
                     consumerParams.insert(QStringLiteral("consumer"), consumerName + ':' + mltfile);
                     trffile = QUrl::fromLocalFile(mltfile + ".trf");
                 }
                 consumerParams.insert(QStringLiteral("real_time"), QStringLiteral("-1"));
                 // Append a 'filename' parameter for saving vidstab data
-                filterParams.insert(QStringLiteral("filename"), trffile.path());
+                filterParams.insert(QStringLiteral("filename"), trffile.toLocalFile());
                 MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
                 job->setAddClipToProject(d->autoAddClip() ?  clip->parent()->clipId().toInt() : -100);
                 job->description = d->desc();

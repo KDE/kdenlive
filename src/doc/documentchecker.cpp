@@ -58,7 +58,7 @@ const int LUMAPLACEHOLDER = 12;
 enum TITLECLIPTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
 
 DocumentChecker::DocumentChecker(const QUrl &url, const QDomDocument &doc):
-    m_url(url), m_doc(doc), m_dialog(Q_NULLPTR)
+    m_url(url), m_doc(doc), m_dialog(nullptr)
 {
 }
 
@@ -74,14 +74,18 @@ bool DocumentChecker::hasErrorInClips()
         if (!dir.exists()) {
             // Looks like project was moved, try recovering root from current project url
             m_rootReplacement.first = dir.absolutePath() + QDir::separator();
-            root = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
+            root = m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
             baseElement.setAttribute(QStringLiteral("root"), root);
+            root = QDir::cleanPath(root) + QDir::separator();
             m_rootReplacement.second = root;
         }
-        root = QDir::cleanPath(root) + QDir::separator();
+        else {
+            root = QDir::cleanPath(root) + QDir::separator();
+        }
     }
     // Check if strorage folder for temp files exists
     QString storageFolder;
+    QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
     for (int i = 0; i < playlists.count(); ++i) {
         if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QStringLiteral("main bin")) {
@@ -96,9 +100,9 @@ bool DocumentChecker::hasErrorInClips()
             if (!storageFolder.isEmpty() && QFileInfo(storageFolder).isRelative()) {
                 storageFolder.prepend(root);
             }
-            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && QFile::exists(m_url.adjusted(QUrl::RemoveFilename).toLocalFile() + QStringLiteral("/") + documentid)) {
-                storageFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
-                EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"), storageFolder + QStringLiteral("/") + documentid);
+            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists( documentid)) {
+                storageFolder = projectDir.absolutePath();
+                EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(documentid));
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
             }
             break;

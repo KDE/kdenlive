@@ -43,8 +43,8 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_clipPos(clipPos),
     m_inPoint(0),
     m_outPoint(1),
-    m_previous(Q_NULLPTR),
-    m_geometry(Q_NULLPTR),
+    m_previous(nullptr),
+    m_geometry(nullptr),
     m_frameSize(info->frameSize),
     m_fixedGeom(false),
     m_singleKeyframe(false),
@@ -316,7 +316,7 @@ QString GeometryWidget::getValue() const
 
 QString GeometryWidget::offsetAnimation(int offset, bool useOffset)
 {
-    Mlt::Geometry *geometry = new Mlt::Geometry((char *)Q_NULLPTR, m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    Mlt::Geometry *geometry = new Mlt::Geometry((char *)nullptr, m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     Mlt::GeometryItem item;
     int pos = 0;
     int ix = 0;
@@ -1094,7 +1094,7 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
         } else {
             item.frame(0);
         }
-        if (geom.contains('/')) {
+        if (geom.contains(QLatin1Char('/'))) {
             item.x(geom.section('/', 0, 0).toDouble());
             item.y(geom.section('/', 1, 1).section(':', 0, 0).toDouble());
         } else {

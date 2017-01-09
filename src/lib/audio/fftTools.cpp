@@ -139,7 +139,7 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
 #ifdef DEBUG_FFTTOOLS
         qCDebug(KDENLIVE_LOG) << "Creating FFT configuration with size " << windowSize;
 #endif
-        myCfg = kiss_fftr_alloc(windowSize, false, Q_NULLPTR, Q_NULLPTR);
+        myCfg = kiss_fftr_alloc(windowSize, false, nullptr, nullptr);
         m_fftCfgs.insert(cfgSig, myCfg);
     }
 

@@ -144,7 +144,7 @@ public:
     /** @brief Get frame size of the renderer (profile)*/
     const QSize getRenderSize() const;
     /** @brief Add url to the file watcher so that we monitor changes */
-    void watchFile(const QUrl &url);
+    void watchFile(const QString &url);
     /** @brief Get all document properties that need to be saved */
     QMap<QString, QString> documentProperties();
     bool useProxy() const;

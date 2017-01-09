@@ -191,7 +191,7 @@ void ClipManager::slotGetThumbs()
 void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand)
 {
     // Create meta command
-    bool execute = deleteCommand == Q_NULLPTR;
+    bool execute = deleteCommand == nullptr;
     if (execute) {
         deleteCommand = new QUndoCommand();
     }
@@ -250,7 +250,7 @@ void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &
     QDomElement prod = doc.createElement(QStringLiteral("producer"));
     doc.appendChild(prod);
     prod.setAttribute(QStringLiteral("name"), titleName);
-    prod.setAttribute(QStringLiteral("resource"), path.path());
+    prod.setAttribute(QStringLiteral("resource"), path.toLocalFile());
     uint id = pCore->bin()->getFreeClipId();
     prod.setAttribute(QStringLiteral("id"), QString::number(id));
     if (!group.isEmpty()) {
@@ -263,7 +263,7 @@ void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &
 
     int duration = 0;
     QDomDocument titledoc;
-    QFile txtfile(path.path());
+    QFile txtfile(path.toLocalFile());
     if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
         if (titledoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
             duration = titledoc.documentElement().attribute(QStringLiteral("duration")).toInt();
@@ -351,7 +351,7 @@ void ClipManager::slotClipMissing(const QString &path)
     const QList<DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
-        if (clip != Q_NULLPTR) emit missingClip(clip->getId());
+        if (clip != nullptr) emit missingClip(clip->getId());
     }
 }
 
@@ -362,7 +362,7 @@ void ClipManager::slotClipAvailable(const QString &path)
     const QList<DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
-        if (clip != Q_NULLPTR) emit availableClip(clip->getId());
+        if (clip != nullptr) emit availableClip(clip->getId());
     }
 }
 */
@@ -370,7 +370,7 @@ void ClipManager::slotClipAvailable(const QString &path)
 bool ClipManager::isOnRemovableDevice(const QUrl &url)
 {
     //SolidVolumeInfo volume;
-    QString path = url.adjusted(QUrl::StripTrailingSlash).path();
+    QString path = url.adjusted(QUrl::StripTrailingSlash).toLocalFile();
     int volumeMatch = 0;
 
     //FIXME: Network shares! Here we get only the volume of the mount path...

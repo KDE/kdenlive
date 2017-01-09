@@ -46,8 +46,8 @@ ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget *pa
         file.setDelayedMimeTypes(true);
         text << KIO::convertSize(file.size());
         QTreeWidgetItem *item = new QTreeWidgetItem(m_view.treeWidget, text);
-        item->setData(0, Qt::UserRole, url.path());
-        item->setToolTip(0, url.path());
+        item->setData(0, Qt::UserRole, url.toLocalFile());
+        item->setToolTip(0, url.toLocalFile());
         item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         item->setCheckState(0, Qt::Checked);
     }
@@ -116,7 +116,7 @@ void ManageCapturesDialog::slotDeleteCurrent()
         qCDebug(KDENLIVE_LOG) << "// ERRor removing file " << item->data(0, Qt::UserRole).toString();
     }
     delete item;
-    item = Q_NULLPTR;
+    item = nullptr;
 }
 
 void ManageCapturesDialog::slotToggle()

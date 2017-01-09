@@ -47,7 +47,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ClipController *
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent)
     , m_abortAudioThumb(false)
     , m_controller(controller)
-    , m_thumbsProducer(Q_NULLPTR)
+    , m_thumbsProducer(nullptr)
 {
     m_clipStatus = StatusReady;
     m_name = m_controller->clipName();
@@ -72,9 +72,9 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ClipController *
 ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, ProjectFolder *parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
     , m_abortAudioThumb(false)
-    , m_controller(Q_NULLPTR)
+    , m_controller(nullptr)
     , m_type(Unknown)
-    , m_thumbsProducer(Q_NULLPTR)
+    , m_thumbsProducer(nullptr)
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
@@ -85,12 +85,12 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, Pro
             m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
         }
     }
-    m_temporaryUrl = QUrl::fromLocalFile(getXmlProperty(description, QStringLiteral("resource")));
+    m_temporaryUrl = getXmlProperty(description, QStringLiteral("resource"));
     QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
     if (!clipName.isEmpty()) {
         m_name = clipName;
-    } else if (m_temporaryUrl.isValid()) {
-        m_name = m_temporaryUrl.fileName();
+    } else if (!m_temporaryUrl.isEmpty()) {
+        m_name = QFileInfo(m_temporaryUrl).fileName();
     } else {
         m_name = i18n("Untitled");
     }
@@ -121,7 +121,7 @@ void ProjectClip::abortAudioThumbs()
 
 QString ProjectClip::getToolTip() const
 {
-    return url().toLocalFile();
+    return url();
 }
 
 QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &propertyName, const QString &defaultValue)
@@ -188,13 +188,13 @@ ProjectClip *ProjectClip::clip(const QString &id)
     if (id == m_id) {
         return this;
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 ProjectFolder *ProjectClip::folder(const QString &id)
 {
     Q_UNUSED(id)
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 void ProjectClip::disableEffects(bool disable)
@@ -212,7 +212,7 @@ ProjectSubClip *ProjectClip::getSubClip(int in, int out)
             return clip;
         }
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 QStringList ProjectClip::subClipIds() const
@@ -232,7 +232,7 @@ ProjectClip *ProjectClip::clipAt(int ix)
     if (ix == index()) {
         return this;
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 /*bool ProjectClip::isValid() const
@@ -243,12 +243,12 @@ ProjectClip *ProjectClip::clipAt(int ix)
 bool ProjectClip::hasUrl() const
 {
     if (m_controller && (m_type != Color) && (m_type != Unknown)) {
-        return (m_controller->clipUrl().isValid());
+        return (!m_controller->clipUrl().isEmpty());
     }
     return false;
 }
 
-QUrl ProjectClip::url() const
+const QString ProjectClip::url() const
 {
     if (m_controller) {
         return m_controller->clipUrl();
@@ -305,7 +305,7 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta)
         // We only have very basic infos, like id and url, pass them
         QDomElement prod = document.createElement(QStringLiteral("producer"));
         prod.setAttribute(QStringLiteral("id"), m_id);
-        EffectsList::setProperty(prod, QStringLiteral("resource"), m_temporaryUrl.toLocalFile());
+        EffectsList::setProperty(prod, QStringLiteral("resource"), m_temporaryUrl);
         if (m_type != Unknown) {
             prod.setAttribute(QStringLiteral("type"), (int) m_type);
         }
@@ -392,7 +392,7 @@ void ProjectClip::createAudioThumbs()
 Mlt::Producer *ProjectClip::originalProducer()
 {
     if (!m_controller) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     return &m_controller->originalProducer();
 }
@@ -404,11 +404,11 @@ Mlt::Producer *ProjectClip::thumbProducer()
         return m_thumbsProducer;
     }
     if (!m_controller || m_controller->clipType() == Unknown) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     Mlt::Producer prod = m_controller->originalProducer();
     if (!prod.is_valid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     Clip clip(prod);
     if (KdenliveSettings::gpu_accel()) {
@@ -430,7 +430,7 @@ ClipController *ProjectClip::controller()
 
 bool ProjectClip::isReady() const
 {
-    return m_controller != Q_NULLPTR && m_clipStatus == StatusReady;
+    return m_controller != nullptr && m_clipStatus == StatusReady;
 }
 
 /*void ProjectClip::setZone(const QPoint &zone)
@@ -548,7 +548,7 @@ const QString ProjectClip::getFileHash() const
     QByteArray fileHash;
     switch (m_type) {
     case SlideShow:
-        fileData = m_controller ? m_controller->clipUrl().toLocalFile().toUtf8() : m_temporaryUrl.toLocalFile().toUtf8();
+        fileData = m_controller ? m_controller->clipUrl().toUtf8() : m_temporaryUrl.toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     case Text:
@@ -564,7 +564,7 @@ const QString ProjectClip::getFileHash() const
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     default:
-        QFile file(m_controller ? m_controller->clipUrl().toLocalFile() : m_temporaryUrl.toLocalFile());
+        QFile file(m_controller ? m_controller->clipUrl() : m_temporaryUrl);
         if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
             /*
              * 1 MB = 1 second per 450 files (or faster)
@@ -656,7 +656,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             }
         } else {
             // A proxy was requested, make sure to keep original url
-            setProducerProperty(QStringLiteral("kdenlive:originalurl"), url().toLocalFile());
+            setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
             bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
         }
     } else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) || properties.contains(QStringLiteral("autorotate"))) {
@@ -863,7 +863,7 @@ QVariant ProjectClip::data(DataType type) const
 {
     switch (type) {
     case AbstractProjectItem::IconOverlay:
-        return m_controller != Q_NULLPTR ? (m_controller->hasEffects() ? QVariant("kdenlive-track_has_effect") : QVariant()) : QVariant();
+        return m_controller != nullptr ? (m_controller->hasEffects() ? QVariant("kdenlive-track_has_effect") : QVariant()) : QVariant();
         break;
     default:
         break;
@@ -888,7 +888,7 @@ void ProjectClip::slotQueryIntraThumbs(const QList<int> &frames)
 void ProjectClip::doExtractIntra()
 {
     Mlt::Producer *prod = thumbProducer();
-    if (prod == Q_NULLPTR || !prod->is_valid()) {
+    if (prod == nullptr || !prod->is_valid()) {
         return;
     }
     int fullWidth = 150 * prod->profile()->dar() + 0.5;
@@ -901,7 +901,7 @@ void ProjectClip::doExtractIntra()
         if (pos >= max) {
             pos = max - 1;
         }
-        const QString path = url().toLocalFile() + '_' + QString::number(pos);
+        const QString path = url() + '_' + QString::number(pos);
         QImage img = bin()->findCachedPixmap(path);
         if (!img.isNull()) {
             // Cache already contains image
@@ -937,7 +937,7 @@ void ProjectClip::slotExtractImage(const QList<int> &frames)
 void ProjectClip::doExtractImage()
 {
     Mlt::Producer *prod = thumbProducer();
-    if (prod == Q_NULLPTR || !prod->is_valid()) {
+    if (prod == nullptr || !prod->is_valid()) {
         return;
     }
     int frameWidth = 150 * prod->profile()->dar() + 0.5;
@@ -955,7 +955,7 @@ void ProjectClip::doExtractImage()
         if (pos >= max) {
             pos = max - 1;
         }
-        const QString path = url().toLocalFile() + '_' + QString::number(pos);
+        const QString path = url() + '_' + QString::number(pos);
         QImage img = bin()->findCachedPixmap(path);
         if (!img.isNull()) {
             emit thumbReady(pos, img);
@@ -1000,7 +1000,7 @@ void ProjectClip::discardAudioThumb()
 
 const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
 {
-    if (audioInfo == Q_NULLPTR) {
+    if (audioInfo == nullptr) {
         return QString();
     }
     int audioStream = audioInfo->ffmpeg_audio_index();
@@ -1372,7 +1372,7 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
     }
     Mlt::Profile *profile = m_controller->profile();
     Mlt::Geometry geometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
-    Mlt::Geometry newgeometry(Q_NULLPTR, duration().frames(profile->fps()), profile->width(), profile->height());
+    Mlt::Geometry newgeometry(nullptr, duration().frames(profile->fps()), profile->width(), profile->height());
     Mlt::GeometryItem item;
     int pos = 0;
     while (!geometry.next_key(&item, pos)) {
@@ -1386,7 +1386,7 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
 
 QImage ProjectClip::findCachedThumb(int pos)
 {
-    const QString path = url().toLocalFile() + '_' + QString::number(pos);
+    const QString path = url() + '_' + QString::number(pos);
     return bin()->findCachedPixmap(path);
 }
 

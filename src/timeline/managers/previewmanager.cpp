@@ -31,7 +31,7 @@ PreviewManager::PreviewManager(KdenliveDoc *doc, CustomRuler *ruler, Mlt::Tracto
     , m_doc(doc)
     , m_ruler(ruler)
     , m_tractor(tractor)
-    , m_previewTrack(Q_NULLPTR)
+    , m_previewTrack(nullptr)
     , m_initialized(false)
     , m_abortPreview(false)
 {
@@ -144,7 +144,7 @@ void PreviewManager::deletePreviewTrack()
     m_tractor->lock();
     disconnectTrack();
     delete m_previewTrack;
-    m_previewTrack = Q_NULLPTR;
+    m_previewTrack = nullptr;
     m_tractor->unlock();
 }
 
@@ -312,7 +312,7 @@ void PreviewManager::clearPreviewRange()
     abortPreview();
     QList<int> toProcess = m_ruler->getProcessedChunks();
     m_tractor->lock();
-    bool hasPreview = m_previewTrack != Q_NULLPTR;
+    bool hasPreview = m_previewTrack != nullptr;
     foreach (int ix, toProcess) {
         m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
         if (!hasPreview) {
@@ -358,7 +358,7 @@ void PreviewManager::addPreviewRange(bool add)
         m_previewGatherTimer.stop();
         abortPreview();
         m_tractor->lock();
-        bool hasPreview = m_previewTrack != Q_NULLPTR;
+        bool hasPreview = m_previewTrack != nullptr;
         foreach (int ix, toProcess) {
             m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
             if (!hasPreview) {
@@ -509,7 +509,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     m_previewGatherTimer.stop();
     abortPreview();
     m_tractor->lock();
-    bool hasPreview = m_previewTrack != Q_NULLPTR;
+    bool hasPreview = m_previewTrack != nullptr;
     for (int i = start; i <= end; i += chunkSize) {
         if (m_ruler->updatePreview(i, false) && hasPreview) {
             int ix = m_previewTrack->get_clip_index_at(i);
@@ -529,7 +529,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
 
 void PreviewManager::reloadChunks(const QList<int> &chunks)
 {
-    if (m_previewTrack == Q_NULLPTR || chunks.isEmpty()) {
+    if (m_previewTrack == nullptr || chunks.isEmpty()) {
         return;
     }
     m_tractor->lock();
@@ -551,7 +551,7 @@ void PreviewManager::reloadChunks(const QList<int> &chunks)
 
 void PreviewManager::gotPreviewRender(int frame, const QString &file, int progress)
 {
-    if (m_previewTrack == Q_NULLPTR) {
+    if (m_previewTrack == nullptr) {
         return;
     }
     if (file.isEmpty() || progress < 0) {

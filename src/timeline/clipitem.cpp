@@ -382,7 +382,7 @@ void ClipItem::refreshClip(bool checkDuration, bool forceResetThumbs)
 
 void ClipItem::slotFetchThumbs()
 {
-    if (scene() == Q_NULLPTR || m_clipType == Audio || m_clipType == Color) {
+    if (scene() == nullptr || m_clipType == Audio || m_clipType == Color) {
         return;
     }
     if (m_clipType == Image || m_clipType == Text || m_clipType == QText || m_clipType == TextTemplate) {
@@ -453,7 +453,7 @@ void ClipItem::slotSetEndThumb(const QImage &img)
 
 void ClipItem::slotThumbReady(int frame, const QImage &img)
 {
-    if (scene() == Q_NULLPTR) {
+    if (scene() == nullptr) {
         return;
     }
     if (m_startThumbRequested && frame == m_speedIndependantInfo.cropStart.frames(m_fps)) {
@@ -1239,7 +1239,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value)
             setZValue(2);
         }
     }
-    CustomTrackScene *scene = Q_NULLPTR;
+    CustomTrackScene *scene = nullptr;
     if (change == ItemPositionChange) {
         scene = projectScene();
     }
@@ -1569,7 +1569,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
                 parameters.addParam(e.attribute(QStringLiteral("name")), e.attribute(QStringLiteral("value")));
             } else {
                 double fact;
-                if (e.attribute(QStringLiteral("factor")).contains('%')) {
+                if (e.attribute(QStringLiteral("factor")).contains(QLatin1Char('%'))) {
                     fact = EffectsController::getStringEval(info, e.attribute(QStringLiteral("factor")));
                 } else {
                     fact = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
