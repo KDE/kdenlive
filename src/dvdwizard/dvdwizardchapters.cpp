@@ -22,7 +22,7 @@
 DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :
     QWizardPage(parent),
     m_format(format),
-    m_monitor(Q_NULLPTR),
+    m_monitor(nullptr),
     m_manager(manager)
 
 {
@@ -152,7 +152,7 @@ void DvdWizardChapters::slotGoToChapter()
 
 void DvdWizardChapters::createMonitor(DVDFORMAT format)
 {
-    if (m_monitor == Q_NULLPTR) {
+    if (m_monitor == nullptr) {
         //TODO: allow monitor with different profile for DVD
         QString profile = DvdWizardVob::getDvdProfile(format);
         m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager/*, profile*/, this);

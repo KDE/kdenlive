@@ -47,7 +47,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ClipController *
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, parent)
     , m_abortAudioThumb(false)
     , m_controller(controller)
-    , m_thumbsProducer(Q_NULLPTR)
+    , m_thumbsProducer(nullptr)
 {
     m_clipStatus = StatusReady;
     m_name = m_controller->clipName();
@@ -72,9 +72,9 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ClipController *
 ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, ProjectFolder *parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, description, parent)
     , m_abortAudioThumb(false)
-    , m_controller(Q_NULLPTR)
+    , m_controller(nullptr)
     , m_type(Unknown)
-    , m_thumbsProducer(Q_NULLPTR)
+    , m_thumbsProducer(nullptr)
 {
     Q_ASSERT(description.hasAttribute("id"));
     m_clipStatus = StatusWaiting;
@@ -188,13 +188,13 @@ ProjectClip *ProjectClip::clip(const QString &id)
     if (id == m_id) {
         return this;
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 ProjectFolder *ProjectClip::folder(const QString &id)
 {
     Q_UNUSED(id)
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 void ProjectClip::disableEffects(bool disable)
@@ -212,7 +212,7 @@ ProjectSubClip *ProjectClip::getSubClip(int in, int out)
             return clip;
         }
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 QStringList ProjectClip::subClipIds() const
@@ -232,7 +232,7 @@ ProjectClip *ProjectClip::clipAt(int ix)
     if (ix == index()) {
         return this;
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 /*bool ProjectClip::isValid() const
@@ -392,7 +392,7 @@ void ProjectClip::createAudioThumbs()
 Mlt::Producer *ProjectClip::originalProducer()
 {
     if (!m_controller) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     return &m_controller->originalProducer();
 }
@@ -404,11 +404,11 @@ Mlt::Producer *ProjectClip::thumbProducer()
         return m_thumbsProducer;
     }
     if (!m_controller || m_controller->clipType() == Unknown) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     Mlt::Producer prod = m_controller->originalProducer();
     if (!prod.is_valid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     Clip clip(prod);
     if (KdenliveSettings::gpu_accel()) {
@@ -430,7 +430,7 @@ ClipController *ProjectClip::controller()
 
 bool ProjectClip::isReady() const
 {
-    return m_controller != Q_NULLPTR && m_clipStatus == StatusReady;
+    return m_controller != nullptr && m_clipStatus == StatusReady;
 }
 
 /*void ProjectClip::setZone(const QPoint &zone)
@@ -863,7 +863,7 @@ QVariant ProjectClip::data(DataType type) const
 {
     switch (type) {
     case AbstractProjectItem::IconOverlay:
-        return m_controller != Q_NULLPTR ? (m_controller->hasEffects() ? QVariant("kdenlive-track_has_effect") : QVariant()) : QVariant();
+        return m_controller != nullptr ? (m_controller->hasEffects() ? QVariant("kdenlive-track_has_effect") : QVariant()) : QVariant();
         break;
     default:
         break;
@@ -888,7 +888,7 @@ void ProjectClip::slotQueryIntraThumbs(const QList<int> &frames)
 void ProjectClip::doExtractIntra()
 {
     Mlt::Producer *prod = thumbProducer();
-    if (prod == Q_NULLPTR || !prod->is_valid()) {
+    if (prod == nullptr || !prod->is_valid()) {
         return;
     }
     int fullWidth = 150 * prod->profile()->dar() + 0.5;
@@ -937,7 +937,7 @@ void ProjectClip::slotExtractImage(const QList<int> &frames)
 void ProjectClip::doExtractImage()
 {
     Mlt::Producer *prod = thumbProducer();
-    if (prod == Q_NULLPTR || !prod->is_valid()) {
+    if (prod == nullptr || !prod->is_valid()) {
         return;
     }
     int frameWidth = 150 * prod->profile()->dar() + 0.5;
@@ -1000,7 +1000,7 @@ void ProjectClip::discardAudioThumb()
 
 const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
 {
-    if (audioInfo == Q_NULLPTR) {
+    if (audioInfo == nullptr) {
         return QString();
     }
     int audioStream = audioInfo->ffmpeg_audio_index();
@@ -1372,7 +1372,7 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
     }
     Mlt::Profile *profile = m_controller->profile();
     Mlt::Geometry geometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
-    Mlt::Geometry newgeometry(Q_NULLPTR, duration().frames(profile->fps()), profile->width(), profile->height());
+    Mlt::Geometry newgeometry(nullptr, duration().frames(profile->fps()), profile->width(), profile->height());
     Mlt::GeometryItem item;
     int pos = 0;
     while (!geometry.next_key(&item, pos)) {

@@ -177,7 +177,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
             } else {
                 delete[] starttag;
                 delete[] endtag;
-                //qCDebug(KDENLIVE_LOG) << "filter is Q_NULLPTR";
+                //qCDebug(KDENLIVE_LOG) << "filter is nullptr";
                 m_producer.unlock();
                 return false;
             }
@@ -212,7 +212,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
                 } else {
                     delete[] starttag;
                     delete[] endtag;
-                    //qCDebug(KDENLIVE_LOG) << "filter is Q_NULLPTR";
+                    //qCDebug(KDENLIVE_LOG) << "filter is nullptr";
                     m_producer.unlock();
                     return false;
                 }
@@ -226,7 +226,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
         if (filter && filter->is_valid()) {
             filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
         } else {
-            //qCDebug(KDENLIVE_LOG) << "filter is Q_NULLPTR";
+            //qCDebug(KDENLIVE_LOG) << "filter is nullptr";
             m_producer.unlock();
             return false;
         }
@@ -327,8 +327,8 @@ bool EffectManager::editEffect(const EffectsParameterList &params, int duration,
             filter->set_in_and_out(m_producer.get_int("in"), m_producer.get_int("out"));
         } else {
             // Reset in/out properties
-            filter->set("in", (char *)Q_NULLPTR);
-            filter->set("out", (char *)Q_NULLPTR);
+            filter->set("in", (char *)nullptr);
+            filter->set("out", (char *)nullptr);
         }
     }
 
@@ -387,8 +387,8 @@ bool EffectManager::enableEffects(const QList<int> &effectIndexes, bool disable,
                     filter->set("auto_disable", 1);
                     filter->set("disable", (int) disable);
                 } else if (!disable && filter->get_int("auto_disable") == 1) {
-                    filter->set("disable", (char *) Q_NULLPTR);
-                    filter->set("auto_disable", (char *) Q_NULLPTR);
+                    filter->set("disable", (char *) nullptr);
+                    filter->set("auto_disable", (char *) nullptr);
                 }
             } else {
                 filter->set("disable", (int) disable);

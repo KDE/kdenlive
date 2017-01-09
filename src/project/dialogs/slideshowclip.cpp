@@ -34,7 +34,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     QDialog(parent),
     m_count(0),
     m_timecode(tc),
-    m_thumbJob(Q_NULLPTR)
+    m_thumbJob(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
@@ -203,7 +203,7 @@ void SlideshowClip::slotEnableThumbs(int state)
         if (m_thumbJob) {
             disconnect(m_thumbJob, &KIO::PreviewJob::gotPreview, this, &SlideshowClip::slotSetPixmap);
             m_thumbJob->kill();
-            m_thumbJob = Q_NULLPTR;
+            m_thumbJob = nullptr;
         }
     }
 

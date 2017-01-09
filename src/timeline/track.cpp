@@ -33,7 +33,7 @@
 Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, int height, QWidget *parent) :
     effectsList(EffectsList(true)),
     type(type),
-    trackHeader(Q_NULLPTR),
+    trackHeader(nullptr),
     m_index(index),
     m_playlist(playlist)
 {
@@ -72,8 +72,8 @@ qreal Track::length() {
 // basic clip operations
 bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, PlaylistState::ClipState state, bool duplicate, TimelineMode::EditMode mode)
 {
-    Mlt::Producer *cut = Q_NULLPTR;
-    if (parent == Q_NULLPTR || !parent->is_valid()) {
+    Mlt::Producer *cut = nullptr;
+    if (parent == nullptr || !parent->is_valid()) {
         return false;
     }
     if (state == PlaylistState::Disabled) {
@@ -190,7 +190,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
     int index = m_playlist.get_clip_index_at(startFrame);
     int length = frame(dt);
     QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(index));
-    if (clip == Q_NULLPTR || clip->is_blank()) {
+    if (clip == nullptr || clip->is_blank()) {
         qWarning("Can't resize clip at %f", t);
 	m_playlist.unlock();
         return false;
@@ -344,8 +344,8 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
         idForVideoTrack = idForTrack + "_video";
         idForTrack.append(QLatin1Char('_') + m_playlist.get("id"));
     }
-    Mlt::Producer *trackProducer = Q_NULLPTR;
-    Mlt::Producer *audioTrackProducer = Q_NULLPTR;
+    Mlt::Producer *trackProducer = nullptr;
+    Mlt::Producer *audioTrackProducer = nullptr;
     QList<ItemInfo> replaced;
     Mlt::ClipInfo *info = new Mlt::ClipInfo();
     for (int i = 0; i < m_playlist.count(); i++) {
@@ -370,7 +370,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
 	    continue;
 	}
 	current.remove(0, 1);
-        Mlt::Producer *cut = Q_NULLPTR;
+        Mlt::Producer *cut = nullptr;
 	if (current.startsWith("slowmotion:" + id + ":")) {
 	      // Slowmotion producer, just update resource
           Mlt::Producer *slowProd = newSlowMos.value(current.section(QLatin1Char(':'), 2));
@@ -395,14 +395,14 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
 	}
         else if (!cut && current == idForTrack) {
             // Use duplicate
-            if (trackProducer == Q_NULLPTR) {
+            if (trackProducer == nullptr) {
                 trackProducer = Clip(*original).clone();
                 trackProducer->set("id", idForTrack.toUtf8().constData());
             }
             cut = trackProducer->cut(p->get_in(), p->get_out());
         }
         else if (!cut && current == idForAudioTrack) {
-            if (audioTrackProducer == Q_NULLPTR) {
+            if (audioTrackProducer == nullptr) {
                 audioTrackProducer = clipProducer(original, PlaylistState::AudioOnly, true);
             }
             cut = audioTrackProducer->cut(p->get_in(), p->get_out());
@@ -443,7 +443,7 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     if (state == PlaylistState::Disabled) {
         QScopedPointer<Mlt::Producer> prodCopy(Clip(*prod).clone());
         // Reset id to let MLT give a new one
-        prodCopy->set("id", (char*)Q_NULLPTR);
+        prodCopy->set("id", (char*)nullptr);
         prodCopy->set("video_index", -1);
         prodCopy->set("audio_index", -1);
         prodCopy->set("kdenlive:binid", prod->get("id"));
@@ -651,7 +651,7 @@ Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QStri
     Mlt::Producer *prod = new Mlt::Producer(*m_playlist.profile(), 0, ("timewarp:" + url).toUtf8().constData());
     if (!prod->is_valid()) {
 	qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
-	return Q_NULLPTR;
+	return nullptr;
     }
     QString producerid = "slowmotion:" + id + ':' + info.toString(locale);
     prod->set("id", producerid.toUtf8().constData());
@@ -686,7 +686,7 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
     int clipLength = m_playlist.clip_length(clipIndex);
     m_playlist.lock();
     QScopedPointer<Mlt::Producer> original(m_playlist.get_clip(clipIndex));
-    if (original == Q_NULLPTR) {
+    if (original == nullptr) {
         qCDebug(KDENLIVE_LOG)<<"// No clip to apply effect";
         m_playlist.unlock();
         return -1;
@@ -722,7 +722,7 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
 	if (speed != 1.0 || strobe > 1) {
 	    if (!prod || !prod->is_valid()) {
 		prod = buildSlowMoProducer(passProps, url, id, slowInfo);
-                if (prod == Q_NULLPTR) {
+                if (prod == nullptr) {
                     // error, abort
                     qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
                     m_playlist.unlock();
@@ -759,7 +759,7 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
 	
 	    if (!prod || !prod->is_valid()) {
 		prod = buildSlowMoProducer(passProps, url, id, slowInfo);
-                if (prod == Q_NULLPTR) {
+                if (prod == nullptr) {
                     // error, abort
                     qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
                     m_playlist.unlock();
@@ -785,7 +785,7 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
     } else if (serv == QLatin1String("timewarp")) {
         if (!prod || !prod->is_valid()) {
             prod = buildSlowMoProducer(passProps, url, id, slowInfo);
-            if (prod == Q_NULLPTR) {
+            if (prod == nullptr) {
                 // error, abort
                 qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
                 m_playlist.unlock();
@@ -863,7 +863,7 @@ void Track::disableEffects(bool disable)
     // Disable timeline clip effects
     for (int i = 0; i < m_playlist.count(); i++) {
         QScopedPointer<Mlt::Producer> original(m_playlist.get_clip(i));
-        if (original == Q_NULLPTR || !original->is_valid() || original->is_blank()) {
+        if (original == nullptr || !original->is_valid() || original->is_blank()) {
             // invalid clip
             continue;
         }

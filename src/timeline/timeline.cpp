@@ -72,11 +72,11 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     , videoTarget(-1)
     , audioTarget(-1)
     , m_hasOverlayTrack(false)
-    , m_overlayTrack(Q_NULLPTR)
+    , m_overlayTrack(nullptr)
     , m_scale(1.0)
     , m_doc(doc)
     , m_verticalZoom(1)
-    , m_timelinePreview(Q_NULLPTR)
+    , m_timelinePreview(nullptr)
     , m_usePreview(false)
 {
     m_trackActions << actions;
@@ -224,7 +224,7 @@ QMap<QString, QString> Timeline::documentProperties()
 Track *Timeline::track(int i)
 {
     if (i < 0 || i >= m_tracks.count()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     return m_tracks.at(i);
 }
@@ -321,7 +321,7 @@ int Timeline::getTracks()
         Mlt::Playlist playlist(*track);
         int trackduration = 0;
         int audio = 0;
-        Track *tk = Q_NULLPTR;
+        Track *tk = nullptr;
         if (!isBackgroundBlackTrack) {
             audio = playlist.get_int("kdenlive:audio_track");
             tk = new Track(i, m_trackActions, playlist, audio == 1 ? AudioTrack : VideoTrack, height, this);
@@ -356,7 +356,7 @@ int Timeline::getTracks()
             connect(tk->trackHeader, &HeaderTrack::configTrack, this, &Timeline::configTrack);
             connect(tk->trackHeader, SIGNAL(addTrackEffect(QDomElement, int)), m_trackview, SLOT(slotAddTrackEffect(QDomElement, int)));
             if (playlist.filter_count()) {
-                getEffects(playlist, Q_NULLPTR, i);
+                getEffects(playlist, nullptr, i);
                 slotUpdateTrackEffectState(i);
             }
             connect(tk, &Track::newTrackDuration, this, &Timeline::checkDuration, Qt::DirectConnection);
@@ -410,7 +410,7 @@ void Timeline::getTransitions()
         transitionInfo.endPos = GenTime(prop.get_int("out") + 1, fps);
         transitionInfo.track = b_track;
         // When adding composite transition, check if it is a wipe transition
-        if (prop.get("kdenlive_id") == Q_NULLPTR && QString(prop.get("mlt_service")) == QLatin1String("composite") && isSlide(prop.get("geometry"))) {
+        if (prop.get("kdenlive_id") == nullptr && QString(prop.get("mlt_service")) == QLatin1String("composite") && isSlide(prop.get("geometry"))) {
             prop.set("kdenlive_id", "slide");
         }
         QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
@@ -675,8 +675,8 @@ TrackInfo Timeline::getTrackInfo(int ix)
         return info;
     }
     Track *tk = track(ix);
-    if (tk == Q_NULLPTR) {
-        qCWarning(KDENLIVE_LOG) << "/// ARGH, requesting Q_NULLPTR track: " << ix << " - MAX is: " << m_tracks.count();
+    if (tk == nullptr) {
+        qCWarning(KDENLIVE_LOG) << "/// ARGH, requesting nullptr track: " << ix << " - MAX is: " << m_tracks.count();
         // Let it crash to find wrong calls
         TrackInfo info;
         return info;
@@ -687,7 +687,7 @@ TrackInfo Timeline::getTrackInfo(int ix)
 bool Timeline::isLastClip(const ItemInfo &info)
 {
     Track *tk = track(info.track);
-    if (tk == Q_NULLPTR) {
+    if (tk == nullptr) {
         return true;
     }
     return tk->isLastClip(info.endPos.seconds());
@@ -724,7 +724,7 @@ QStringList Timeline::getTrackNames()
 void Timeline::lockTrack(int ix, bool lock)
 {
     Track *tk = track(ix);
-    if (tk == Q_NULLPTR) {
+    if (tk == nullptr) {
         qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
         return;
     }
@@ -734,7 +734,7 @@ void Timeline::lockTrack(int ix, bool lock)
 bool Timeline::isTrackLocked(int ix)
 {
     Track *tk = track(ix);
-    if (tk == Q_NULLPTR) {
+    if (tk == nullptr) {
         qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
         return false;
     }
@@ -791,7 +791,7 @@ void Timeline::switchTrackAudio(int ix, bool hide)
 void Timeline::doSwitchTrackVideo(int ix, bool hide)
 {
     Track *tk = track(ix);
-    if (tk == Q_NULLPTR) {
+    if (tk == nullptr) {
         qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
         return;
     }
@@ -842,7 +842,7 @@ void Timeline::refreshTractor()
 void Timeline::doSwitchTrackAudio(int ix, bool mute)
 {
     Track *tk = track(ix);
-    if (tk == Q_NULLPTR) {
+    if (tk == nullptr) {
         qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
         return;
     }
@@ -1051,13 +1051,13 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         id = id.section('_', 0, 0);
         ProjectClip *binclip = m_doc->getBinClip(id);
         PlaylistState::ClipState originalState = PlaylistState::Original;
-        if (binclip == Q_NULLPTR) {
+        if (binclip == nullptr) {
             // Is this a disabled clip
             id = info->producer->get("kdenlive:binid");
             binclip = m_doc->getBinClip(id);
             originalState = (PlaylistState::ClipState) info->producer->get_int("kdenlive:clipstate");
         }
-        if (binclip == Q_NULLPTR) {
+        if (binclip == nullptr) {
             // Warning, unknown clip found, timeline corruption!!
             //TODO: fix this
             qCDebug(KDENLIVE_LOG) << "* * * * *UNKNOWN CLIP, WE ARE DEAD: " << id;
@@ -1108,7 +1108,7 @@ void Timeline::loadGuides(const QMap<double, QString> &guidesData)
 
 void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track)
 {
-    int effectNb = clip == Q_NULLPTR ? 0 : clip->effectsCount();
+    int effectNb = clip == nullptr ? 0 : clip->effectsCount();
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         QDomElement clipeffect = getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
@@ -1745,7 +1745,7 @@ void Timeline::connectOverlayTrack(bool enable)
         if (m_hasOverlayTrack) {
             m_tractor->insert_track(*m_overlayTrack, tracksCount() + 1);
             delete m_overlayTrack;
-            m_overlayTrack = Q_NULLPTR;
+            m_overlayTrack = nullptr;
         }
     } else {
         if (m_usePreview) {
@@ -2035,7 +2035,7 @@ void Timeline::initializePreview()
                 m_usePreview = false;
             }
             delete m_timelinePreview;
-            m_timelinePreview = Q_NULLPTR;
+            m_timelinePreview = nullptr;
         }
     } else {
         m_timelinePreview = new PreviewManager(m_doc, m_ruler, m_tractor);
@@ -2043,16 +2043,16 @@ void Timeline::initializePreview()
             //TODO warn user
             m_ruler->hidePreview(true);
             delete m_timelinePreview;
-            m_timelinePreview = Q_NULLPTR;
+            m_timelinePreview = nullptr;
         } else {
             m_ruler->hidePreview(false);
         }
     }
     QAction *previewRender = m_doc->getAction(QStringLiteral("prerender_timeline_zone"));
     if (previewRender) {
-        previewRender->setEnabled(m_timelinePreview != Q_NULLPTR);
+        previewRender->setEnabled(m_timelinePreview != nullptr);
     }
-    m_disablePreview->setEnabled(m_timelinePreview != Q_NULLPTR);
+    m_disablePreview->setEnabled(m_timelinePreview != nullptr);
     m_disablePreview->blockSignals(true);
     m_disablePreview->setChecked(false);
     m_disablePreview->blockSignals(false);

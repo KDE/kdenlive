@@ -489,7 +489,7 @@ QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
 }
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
     QGraphicsScene(parent),
-    m_selectedItem(Q_NULLPTR),
+    m_selectedItem(nullptr),
     m_resizeMode(NoResize),
     m_possibleAction(NoResize),
     m_tool(TITLE_RECTANGLE),
@@ -533,7 +533,7 @@ void GraphicsSceneRectMove::setTool(TITLETOOL tool)
 
 void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
 {
-    if (m_selectedItem == Q_NULLPTR || !(m_selectedItem->flags() & QGraphicsItem::ItemIsMovable)) {
+    if (m_selectedItem == nullptr || !(m_selectedItem->flags() & QGraphicsItem::ItemIsMovable)) {
         QGraphicsScene::keyPressEvent(keyEvent);
         return;
     }
@@ -582,7 +582,7 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
             removeItem(qgi);
             delete qgi;
         }
-        m_selectedItem = Q_NULLPTR;
+        m_selectedItem = nullptr;
         emit selectionChanged();
         break;
     default:
@@ -596,7 +596,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
     m_resizeMode = NoResize;
-    m_selectedItem = Q_NULLPTR;
+    m_selectedItem = nullptr;
 
     // http://www.kdenlive.org/mantis/view.php?id=1035
     QList<QGraphicsItem *> i = items(QRectF(p, QSizeF(4, 4)).toRect());
@@ -663,7 +663,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     m_clickPoint = e->scenePos();
     m_resizeMode = m_possibleAction;
     const QList<QGraphicsItem *> list = items(e->scenePos());
-    QGraphicsItem *item = Q_NULLPTR;
+    QGraphicsItem *item = nullptr;
     if (m_tool == TITLE_SELECT) {
         QList<QGraphicsView*> viewlist = views();
         if (e->modifiers() & Qt::ControlModifier) {
@@ -694,7 +694,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
                 break;
             }
         }
-        if (item == Q_NULLPTR || (e->modifiers() != Qt::ShiftModifier && !alreadySelected)) {
+        if (item == nullptr || (e->modifiers() != Qt::ShiftModifier && !alreadySelected)) {
             clearTextSelection();
         } else if (item && item->flags() & QGraphicsItem::ItemIsMovable) {
             m_sceneClickPoint = e->scenePos();
@@ -748,11 +748,11 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     } else if (m_tool == TITLE_RECTANGLE) {
         clearTextSelection();
         m_sceneClickPoint = QPointF(xPos, yPos);
-        m_selectedItem = Q_NULLPTR;
+        m_selectedItem = nullptr;
         e->ignore();
     } else if (m_tool == TITLE_TEXT) {
         clearTextSelection();
-        MyTextItem *textItem = new MyTextItem(i18n("Text"), Q_NULLPTR);
+        MyTextItem *textItem = new MyTextItem(i18n("Text"), nullptr);
         yPos = (((int) e->scenePos().y() - (int)(m_fontSize / 2)) / m_gridSize) * m_gridSize;
         textItem->setPos(xPos, yPos);
         addItem(textItem);
@@ -777,7 +777,7 @@ void GraphicsSceneRectMove::clearTextSelection()
         t->setTextCursor(QTextCursor(cur));
         t->setTextInteractionFlags(Qt::NoTextInteraction);
     }
-    m_selectedItem = Q_NULLPTR;
+    m_selectedItem = nullptr;
     clearSelection();
 }
 
@@ -884,7 +884,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 itemFound = true;
                 break;
             } else if (g->type() == QGraphicsRectItem::Type && g->zValue() > -1000) {
-                if (view == Q_NULLPTR) {
+                if (view == nullptr) {
                     continue;
                 }
                 QRectF r1 = ((const QGraphicsRectItem *)g)->rect().normalized();
@@ -946,7 +946,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         }
         QGraphicsScene::mouseMoveEvent(e);
     } else if (m_tool == TITLE_RECTANGLE && e->buttons() & Qt::LeftButton) {
-        if (m_selectedItem == Q_NULLPTR) {
+        if (m_selectedItem == nullptr) {
             // create new rect item
             QRectF r(0, 0, e->scenePos().x() - m_sceneClickPoint.x(), e->scenePos().y() - m_sceneClickPoint.y());
             r = r.normalized();

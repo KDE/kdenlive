@@ -32,7 +32,7 @@
 #include <klocalizedstring.h>
 
 RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(RazorType, view, commandStack)
-    , m_cutLine(Q_NULLPTR)
+    , m_cutLine(nullptr)
 {
     QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
     m_cursor = QCursor(razorIcon.pixmap(32, 32));
@@ -83,13 +83,13 @@ void RazorManager::buildCutLine(double trackHeight)
 void RazorManager::leaveEvent()
 {
     delete m_cutLine;
-    m_cutLine = Q_NULLPTR;
+    m_cutLine = nullptr;
 }
 
 void RazorManager::closeTool()
 {
     delete m_cutLine;
-    m_cutLine = Q_NULLPTR;
+    m_cutLine = nullptr;
 }
 
 bool RazorManager::mouseMove(QMouseEvent *, int pos, int track)

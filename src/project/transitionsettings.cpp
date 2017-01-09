@@ -33,7 +33,7 @@
 
 TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) :
     QWidget(parent),
-    m_usedTransition(Q_NULLPTR),
+    m_usedTransition(nullptr),
     m_autoTrackTransition(0)
 {
     setupUi(this);
@@ -200,7 +200,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
 
 void TransitionSettings::slotTransitionTrackChanged()
 {
-    if (m_usedTransition == Q_NULLPTR) {
+    if (m_usedTransition == nullptr) {
         return;
     }
     int ix = 0;
@@ -220,12 +220,12 @@ void TransitionSettings::slotTransitionTrackChanged()
 
 void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack, const QPoint &p, bool update)
 {
-    setEnabled(t != Q_NULLPTR);
+    setEnabled(t != nullptr);
     m_effectEdit->setFrameSize(p);
     m_autoTrackTransition = nextTrack;
     disconnect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos);
     if (t == m_usedTransition) {
-        if (t == Q_NULLPTR) {
+        if (t == nullptr) {
             return;
         }
         if (update) {
@@ -276,7 +276,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
         }
     } else {
         // null transition selected
-        m_usedTransition = Q_NULLPTR;
+        m_usedTransition = nullptr;
         ItemInfo info;
         m_effectEdit->transferParamDesc(QDomElement(), info, false);
         m_effectEdit->monitor()->slotShowEffectScene(MonitorSceneDefault);

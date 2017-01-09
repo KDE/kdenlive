@@ -289,7 +289,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
 void ProjectItemModel::onAboutToAddItem(AbstractProjectItem *item)
 {
     AbstractProjectItem *parentItem = item->parent();
-    if (parentItem == Q_NULLPTR) {
+    if (parentItem == nullptr) {
         return;
     }
     QModelIndex parentIndex;
@@ -308,7 +308,7 @@ void ProjectItemModel::onItemAdded(AbstractProjectItem *item)
 void ProjectItemModel::onAboutToRemoveItem(AbstractProjectItem *item)
 {
     AbstractProjectItem *parentItem = item->parent();
-    if (parentItem == Q_NULLPTR) {
+    if (parentItem == nullptr) {
         return;
     }
     QModelIndex parentIndex;
@@ -331,7 +331,7 @@ void ProjectItemModel::onItemUpdated(AbstractProjectItem *item)
         return;
     }
     AbstractProjectItem *parentItem = item->parent();
-    if (parentItem == Q_NULLPTR) {
+    if (parentItem == nullptr) {
         return;
     }
     QModelIndex parentIndex;

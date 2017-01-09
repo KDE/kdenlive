@@ -65,12 +65,12 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     , m_attachedToEnd(-2)
     , m_xml(xml)
     , m_effectId(effectId)
-    , m_spinX(Q_NULLPTR)
-    , m_spinY(Q_NULLPTR)
-    , m_spinWidth(Q_NULLPTR)
-    , m_spinHeight(Q_NULLPTR)
-    , m_spinSize(Q_NULLPTR)
-    , m_spinOpacity(Q_NULLPTR)
+    , m_spinX(nullptr)
+    , m_spinY(nullptr)
+    , m_spinWidth(nullptr)
+    , m_spinHeight(nullptr)
+    , m_spinSize(nullptr)
+    , m_spinOpacity(nullptr)
     , m_offset(effectIn - min)
 {
     setAcceptDrops(true);
@@ -204,7 +204,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
 
     // Prepare property
     mlt_profile profile = m_monitor->profile()->get_profile();
-    m_animProperties.set("_profile", profile, 0, Q_NULLPTR, Q_NULLPTR);
+    m_animProperties.set("_profile", profile, 0, nullptr, nullptr);
 
     // Display keyframe parameter
     addParameter(xml);

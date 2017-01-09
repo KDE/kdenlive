@@ -44,9 +44,9 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     , m_menuFile(QStringLiteral("XXXXXX.xml"))
     , m_menuVobFile(QStringLiteral("XXXXXX.mpg"))
     , m_letterboxMovie(QStringLiteral("XXXXXX.mpg"))
-    , m_dvdauthor(Q_NULLPTR)
-    , m_mkiso(Q_NULLPTR)
-    , m_vobitem(Q_NULLPTR)
+    , m_dvdauthor(nullptr)
+    , m_mkiso(nullptr)
+    , m_vobitem(nullptr)
     , m_selectedImage(QStringLiteral("XXXXXX.png"))
     , m_selectedLetterImage(QStringLiteral("XXXXXX.png"))
     , m_highlightedImage(QStringLiteral("XXXXXX.png"))
@@ -681,7 +681,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap<QString
         m_dvdauthor->blockSignals(true);
         m_dvdauthor->close();
         delete m_dvdauthor;
-        m_dvdauthor = Q_NULLPTR;
+        m_dvdauthor = nullptr;
     }
     m_creationLog.clear();
     m_dvdauthor = new QProcess(this);
@@ -756,7 +756,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
         authitem->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
         m_dvdauthor->close();
         delete m_dvdauthor;
-        m_dvdauthor = Q_NULLPTR;
+        m_dvdauthor = nullptr;
         m_status.button_start->setEnabled(true);
         m_status.button_abort->setEnabled(false);
         cleanup();
@@ -766,7 +766,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     m_creationLog.append(m_dvdauthor->readAllStandardError());
     m_dvdauthor->close();
     delete m_dvdauthor;
-    m_dvdauthor = Q_NULLPTR;
+    m_dvdauthor = nullptr;
 
     // Check if DVD structure has the necessary info
     if (!QFile::exists(m_status.tmp_folder->url().toLocalFile() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
@@ -792,7 +792,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
         m_mkiso->blockSignals(true);
         m_mkiso->close();
         delete m_mkiso;
-        m_mkiso = Q_NULLPTR;
+        m_mkiso = nullptr;
     }
     m_mkiso = new QProcess(this);
     connect(m_mkiso, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsoFinished(int, QProcess::ExitStatus)));
@@ -832,7 +832,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
         m_status.dvd_file->setPlainText(m_authorFile.readAll());
         m_mkiso->close();
         delete m_mkiso;
-        m_mkiso = Q_NULLPTR;
+        m_mkiso = nullptr;
         cleanup();
         //qCDebug(KDENLIVE_LOG) << "Iso process crashed";
         isoitem->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
@@ -843,7 +843,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
 
     m_creationLog.append(m_mkiso->readAllStandardError());
     delete m_mkiso;
-    m_mkiso = Q_NULLPTR;
+    m_mkiso = nullptr;
     m_status.button_start->setEnabled(true);
     m_status.button_abort->setEnabled(false);
 

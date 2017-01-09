@@ -254,7 +254,7 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
             setZValue(4);
         }
     }
-    CustomTrackScene *scene = Q_NULLPTR;
+    CustomTrackScene *scene = nullptr;
     if (change == ItemPositionChange) {
         scene = projectScene();
     }

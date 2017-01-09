@@ -191,7 +191,7 @@ void ClipManager::slotGetThumbs()
 void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand)
 {
     // Create meta command
-    bool execute = deleteCommand == Q_NULLPTR;
+    bool execute = deleteCommand == nullptr;
     if (execute) {
         deleteCommand = new QUndoCommand();
     }
@@ -351,7 +351,7 @@ void ClipManager::slotClipMissing(const QString &path)
     const QList<DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
-        if (clip != Q_NULLPTR) emit missingClip(clip->getId());
+        if (clip != nullptr) emit missingClip(clip->getId());
     }
 }
 
@@ -362,7 +362,7 @@ void ClipManager::slotClipAvailable(const QString &path)
     const QList<DocClipBase *> list = getClipByResource(path);
     for (int i = 0; i < list.count(); ++i) {
         DocClipBase *clip = list.at(i);
-        if (clip != Q_NULLPTR) emit availableClip(clip->getId());
+        if (clip != nullptr) emit availableClip(clip->getId());
     }
 }
 */

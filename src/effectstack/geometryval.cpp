@@ -33,9 +33,9 @@
 Geometryval::Geometryval(const Mlt::Profile *profile, const Timecode &t, const QPoint &frame_size, int startPoint, QWidget *parent) :
     QWidget(parent),
     m_profile(profile),
-    m_paramRect(Q_NULLPTR),
-    m_geom(Q_NULLPTR),
-    m_path(Q_NULLPTR),
+    m_paramRect(nullptr),
+    m_geom(nullptr),
+    m_path(nullptr),
     m_fixedMode(false),
     m_frameSize(frame_size),
     m_startPoint(startPoint),
@@ -417,7 +417,7 @@ void Geometryval::setupParam(const QDomElement &par, int minFrame, int maxFrame)
         /*QDomDocument doc;
         doc.appendChild(doc.importNode(par, true));
         //qCDebug(KDENLIVE_LOG) << "IMPORTED TRANS: " << doc.toString();*/
-        if (m_path == Q_NULLPTR) {
+        if (m_path == nullptr) {
             m_path = new QGraphicsPathItem();
             m_path->setPen(QPen(Qt::red));
             m_scene->addItem(m_path);

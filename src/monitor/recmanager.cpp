@@ -40,9 +40,9 @@
 RecManager::RecManager(Monitor *parent) :
     QObject(parent)
     , m_monitor(parent)
-    , m_captureProcess(Q_NULLPTR)
+    , m_captureProcess(nullptr)
     , m_recToolbar(new QToolBar(parent))
-    , m_screenCombo(Q_NULLPTR)
+    , m_screenCombo(nullptr)
 {
     m_playAction = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);
@@ -316,7 +316,7 @@ void RecManager::slotProcessStatus(QProcess::ProcessState status)
             }
         }
         delete m_captureProcess;
-        m_captureProcess = Q_NULLPTR;
+        m_captureProcess = nullptr;
     }
 }
 
@@ -356,7 +356,7 @@ void RecManager::slotVideoDeviceChanged(int)
         m_monitorManager->clearScopeSource();
         m_captureDevice->stop();
         delete m_captureDevice;
-        m_captureDevice = Q_NULLPTR;
+        m_captureDevice = nullptr;
     }
 
     // The m_videoBox container has to be shown once before the MLT consumer is build, or preview will fail
@@ -370,11 +370,11 @@ Mlt::Producer *RecManager::createV4lProducer()
 {
     QString profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
     Mlt::Profile *vidProfile = new Mlt::Profile(profilePath.toUtf8().constData());
-    Mlt::Producer *prod = Q_NULLPTR;
+    Mlt::Producer *prod = nullptr;
     if (m_recVideo->isChecked()) {
         prod = new Mlt::Producer(*vidProfile, QStringLiteral("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
         if (!prod || !prod->is_valid()) {
-            return Q_NULLPTR;
+            return nullptr;
         }
         prod->set("width", vidProfile->width());
         prod->set("height", vidProfile->height());
@@ -412,7 +412,7 @@ void RecManager::slotPreview(bool preview)
                 emit warningMessage(i18n("Capture crashed, please check your parameters"));
             }
         } else {
-            m_monitor->slotOpenClip(Q_NULLPTR);
+            m_monitor->slotOpenClip(nullptr);
         }
     }
 

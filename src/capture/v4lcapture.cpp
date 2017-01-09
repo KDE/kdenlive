@@ -48,11 +48,11 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     }
     struct v4l2_capability cap;
 
-    char *devName = Q_NULLPTR;
+    char *devName = nullptr;
     int captureEnabled = 1;
     if (ioctl(fd, VIDIOC_QUERYCAP, &cap) < 0) {
         fprintf(stderr, "Cannot get capabilities.");
-        //return Q_NULLPTR;
+        //return nullptr;
     } else {
         devName = strdup((char *) cap.card);
         if (!(cap.capabilities & V4L2_CAP_VIDEO_CAPTURE)) {
@@ -124,7 +124,7 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     free(src);
 
     QStringList result;
-    if (devName == Q_NULLPTR) {
+    if (devName == nullptr) {
         return result;
     }
     QString deviceName(devName);

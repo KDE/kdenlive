@@ -84,7 +84,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_offset(QPoint(0, 0))
     , m_shareContext(0)
     , m_audioWaveDisplayed(false)
-    , m_fbo(Q_NULLPTR)
+    , m_fbo(nullptr)
 {
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
@@ -106,7 +106,7 @@ GLWidget::GLWidget(int id, QObject *parent)
         m_glslManager = 0;
         KdenliveSettings::setGpu_accel(false);
         // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-        mlt_properties_set_data(mlt_global_properties(), "glslManager", Q_NULLPTR, 0, Q_NULLPTR, Q_NULLPTR);
+        mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
         emit gpuNotSupported();
     }
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::createOffscreen);
@@ -169,7 +169,7 @@ void GLWidget::initializeGL()
         m_glslManager = 0;
         KdenliveSettings::setGpu_accel(false);
         // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-        mlt_properties_set_data(mlt_global_properties(), "glslManager", Q_NULLPTR, 0, Q_NULLPTR, Q_NULLPTR);
+        mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
         emit gpuNotSupported();
     }
     createShader();
@@ -679,7 +679,7 @@ void GLWidget::startGlsl()
             delete m_glslManager;
             m_glslManager = 0;
             // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-            mlt_properties_set_data(mlt_global_properties(), "glslManager", Q_NULLPTR, 0, Q_NULLPTR, Q_NULLPTR);
+            mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
             emit gpuNotSupported();
         } else {
             emit started();
@@ -970,7 +970,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             delete m_consumer;
         }
         // Force rtaudio backend for movit, because with SDL it crashes on stop/start
-        //QString audioBackend = m_glslManager == Q_NULLPTR ? KdenliveSettings::audiobackend() : QStringLiteral("rtaudio");
+        //QString audioBackend = m_glslManager == nullptr ? KdenliveSettings::audiobackend() : QStringLiteral("rtaudio");
         QString audioBackend = KdenliveSettings::audiobackend();
         if (serviceName.isEmpty() || serviceName != audioBackend) {
             m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, audioBackend.toUtf8().constData());
@@ -981,7 +981,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
                 serviceName = QStringLiteral("sdl_audio");
             }
             delete m_consumer;
-            m_consumer = Q_NULLPTR;
+            m_consumer = nullptr;
             setProperty("mlt_service", serviceName);
         }
         m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, serviceName.toLatin1().constData());

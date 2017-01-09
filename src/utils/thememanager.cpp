@@ -66,8 +66,8 @@ public:
 
     Private()
         : defaultThemeName(i18nc("default theme name", "Default")),
-          themeMenuActionGroup(Q_NULLPTR),
-          themeMenuAction(Q_NULLPTR)
+          themeMenuActionGroup(nullptr),
+          themeMenuAction(nullptr)
     {
     }
 

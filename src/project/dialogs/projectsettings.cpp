@@ -217,7 +217,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     add_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
     delete_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
 
-    if (doc != Q_NULLPTR) {
+    if (doc != nullptr) {
         slotUpdateFiles();
         connect(delete_unused, &QAbstractButton::clicked, this, &ProjectSettings::slotDeleteUnused);
     } else {

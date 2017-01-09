@@ -74,7 +74,7 @@ public:
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
     explicit MainWindow(const QString &MltPath = QString(),
-                        const QUrl &Url = QUrl(), const QString &clipsToLoad = QString(), QWidget *parent = Q_NULLPTR);
+                        const QUrl &Url = QUrl(), const QString &clipsToLoad = QString(), QWidget *parent = nullptr);
     virtual ~MainWindow();
 
     static EffectsList videoEffects;

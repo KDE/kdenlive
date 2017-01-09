@@ -56,10 +56,10 @@
 
 ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent) :
     QDialog(parent),
-    m_pOAuth2(Q_NULLPTR),
+    m_pOAuth2(nullptr),
     m_folder(folder),
-    m_currentService(Q_NULLPTR),
-    m_movie(Q_NULLPTR)
+    m_currentService(nullptr),
+    m_movie(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -177,7 +177,7 @@ void ResourceWidget::slotStartSearch(int page)
 void ResourceWidget::slotUpdateCurrentSound()
 {
     if (!m_autoPlay->isChecked()) {
-        m_currentService->stopItemPreview(Q_NULLPTR);
+        m_currentService->stopItemPreview(nullptr);
         button_preview->setText(i18n("Preview"));
     }
     item_license->clear();
@@ -526,7 +526,7 @@ void ResourceWidget::slotChangeService()
 {
     info_browser->clear();
     delete m_currentService;
-    m_currentService = Q_NULLPTR;
+    m_currentService = nullptr;
     AbstractService::SERVICETYPE service = static_cast<AbstractService::SERVICETYPE>(service_list->itemData(service_list->currentIndex()).toInt());
     if (service == AbstractService::FREESOUND) {
         m_currentService = new FreeSound(search_results);

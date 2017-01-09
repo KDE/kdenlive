@@ -67,8 +67,8 @@ const int TYPEWRITEREFFECT = 3;
 TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent) :
     QDialog(parent),
     Ui::TitleWidget_UI(),
-    m_startViewport(Q_NULLPTR),
-    m_endViewport(Q_NULLPTR),
+    m_startViewport(nullptr),
+    m_endViewport(nullptr),
     m_render(render),
     m_count(0),
     m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
@@ -514,7 +514,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     if (url.isValid()) {
         loadTitle(url);
     } else {
-        prepareTools(Q_NULLPTR);
+        prepareTools(nullptr);
         slotTextTool();
         QTimer::singleShot(200, this, &TitleWidget::slotAdjustZoom);
     }
@@ -1078,7 +1078,7 @@ void TitleWidget::selectionChanged()
     }
 
     if (l.size() == 0) {
-        prepareTools(Q_NULLPTR);
+        prepareTools(nullptr);
     } else if (l.size() == 1) {
         prepareTools(l.at(0));
     } else {
@@ -1098,7 +1098,7 @@ void TitleWidget::selectionChanged()
             prepareTools(l.at(0));
         } else {
             // Get the default toolset, but enable the property frame (x,y,w,h)
-            prepareTools(Q_NULLPTR);
+            prepareTools(nullptr);
             frame_properties->setEnabled(true);
 
             // Enable x/y/w/h if it makes sense.
@@ -1626,7 +1626,7 @@ void TitleWidget::slotUpdateText()
     int i;
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     for (i = 0; i < l.length(); ++i) {
-        MyTextItem *item = Q_NULLPTR;
+        MyTextItem *item = nullptr;
         if (l.at(i)->type() == TEXTITEM) {
             item = static_cast <MyTextItem *>(l.at(i));
         }
@@ -2562,8 +2562,8 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_w->blockSignals(true);
     value_h->blockSignals(true);
 
-    if (referenceItem == Q_NULLPTR) {
-        //qCDebug(KDENLIVE_LOG) << "Q_NULLPTR item.\n";
+    if (referenceItem == nullptr) {
+        //qCDebug(KDENLIVE_LOG) << "nullptr item.\n";
         effect_list->setCurrentIndex(0);
         origin_x_left->setChecked(false);
         origin_y_top->setChecked(false);
@@ -2828,7 +2828,7 @@ void TitleWidget::slotEditGradient()
     if (!caller) {
         return;
     }
-    QComboBox *combo = Q_NULLPTR;
+    QComboBox *combo = nullptr;
     if (caller == edit_gradient) {
         combo = gradients_combo;
     } else {
@@ -2935,7 +2935,7 @@ void TitleWidget::slotUpdateShadow()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     for (int i = 0; i < graphicsView->scene()->selectedItems().length(); ++i) {
-        MyTextItem *item = Q_NULLPTR;
+        MyTextItem *item = nullptr;
         if (l.at(i)->type() == TEXTITEM) {
             item = static_cast <MyTextItem *>(l.at(i));
         }

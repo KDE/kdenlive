@@ -28,11 +28,11 @@
 #include <mlt++/MltPlaylist.h>
 
 TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(TrimType, view, commandStack)
-    , m_firstClip(Q_NULLPTR)
-    , m_secondClip(Q_NULLPTR)
+    , m_firstClip(nullptr)
+    , m_secondClip(nullptr)
     , m_trimMode(NormalTrim)
     , m_rippleIndex(0)
-    , m_trimPlaylist(Q_NULLPTR)
+    , m_trimPlaylist(nullptr)
     , trimChanged(false)
 {
 }
@@ -128,7 +128,7 @@ void TrimManager::renderSeekRequest(int diff)
     int out = cInfo->frame_out;
     qCDebug(KDENLIVE_LOG) << "* * *RESITE CLIP FIRST IN: " << in << "-" << out << ", " << cInfo->start << ", " << cInfo->length;
     delete cInfo;
-    ClipItem *clipToRipple = Q_NULLPTR;
+    ClipItem *clipToRipple = nullptr;
     if (m_view->operationMode() == RippleStart) {
         in -= diff;
         clipToRipple = m_secondClip;
@@ -183,7 +183,7 @@ void TrimManager::endTrim()
     }
     if (m_view->operationMode() == RippleStart || m_view->operationMode() == RippleEnd) {
         delete m_trimPlaylist;
-        m_trimPlaylist = Q_NULLPTR;
+        m_trimPlaylist = nullptr;
         if (m_view->operationMode() == RippleStart) {
             m_view->finishRipple(m_secondClip, m_secondInfo, (m_secondInfo.endPos - m_secondClip->endPos()).frames(m_view->fps()), true);
         } else {

@@ -399,7 +399,7 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
 void DvdWizardVob::slotDeleteVobFile()
 {
     QTreeWidgetItem *item = m_vobList->currentItem();
-    if (item == Q_NULLPTR) {
+    if (item == nullptr) {
         return;
     }
     delete item;
@@ -512,7 +512,7 @@ void DvdWizardVob::slotCheckVobList()
     int max = m_vobList->topLevelItemCount();
     QTreeWidgetItem *item = m_vobList->currentItem();
     bool hasItem = true;
-    if (item == Q_NULLPTR) {
+    if (item == nullptr) {
         hasItem = false;
     }
     m_view.button_delete->setEnabled(hasItem);
@@ -543,7 +543,7 @@ void DvdWizardVob::slotCheckVobList()
 void DvdWizardVob::slotItemUp()
 {
     QTreeWidgetItem *item = m_vobList->currentItem();
-    if (item == Q_NULLPTR) {
+    if (item == nullptr) {
         return;
     }
     int index = m_vobList->indexOfTopLevelItem(item);
@@ -557,7 +557,7 @@ void DvdWizardVob::slotItemDown()
 {
     int max = m_vobList->topLevelItemCount();
     QTreeWidgetItem *item = m_vobList->currentItem();
-    if (item == Q_NULLPTR) {
+    if (item == nullptr) {
         return;
     }
     int index = m_vobList->indexOfTopLevelItem(item);

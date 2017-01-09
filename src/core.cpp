@@ -24,16 +24,16 @@ the Free Software Foundation, either version 3 of the License, or
 #include <xlocale.h>
 #endif
 
-Core *Core::m_self = Q_NULLPTR;
+Core *Core::m_self = nullptr;
 
 Core::Core(MainWindow *mainWindow) :
     m_mainWindow(mainWindow)
-    , m_projectManager(Q_NULLPTR)
-    , m_monitorManager(Q_NULLPTR)
-    , m_binController(Q_NULLPTR)
-    , m_producerQueue(Q_NULLPTR)
-    , m_binWidget(Q_NULLPTR)
-    , m_library(Q_NULLPTR)
+    , m_projectManager(nullptr)
+    , m_monitorManager(nullptr)
+    , m_binController(nullptr)
+    , m_producerQueue(nullptr)
+    , m_binWidget(nullptr)
+    , m_library(nullptr)
 {
     connect(qApp, &QCoreApplication::aboutToQuit, this, &QObject::deleteLater);
 }
@@ -128,9 +128,9 @@ void Core::initLocale()
 {
     QLocale systemLocale = QLocale();
 #ifndef Q_OS_MAC
-    setlocale(LC_NUMERIC, Q_NULLPTR);
+    setlocale(LC_NUMERIC, nullptr);
 #else
-    setlocale(LC_NUMERIC_MASK, Q_NULLPTR);
+    setlocale(LC_NUMERIC_MASK, nullptr);
 #endif
 
 // localeconv()->decimal_point does not give reliable results on Windows

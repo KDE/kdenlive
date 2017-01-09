@@ -116,7 +116,7 @@ void ManageCapturesDialog::slotDeleteCurrent()
         qCDebug(KDENLIVE_LOG) << "// ERRor removing file " << item->data(0, Qt::UserRole).toString();
     }
     delete item;
-    item = Q_NULLPTR;
+    item = nullptr;
 }
 
 void ManageCapturesDialog::slotToggle()

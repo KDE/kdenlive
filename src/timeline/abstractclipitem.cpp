@@ -292,7 +292,7 @@ CustomTrackScene *AbstractClipItem::projectScene()
     if (scene()) {
         return static_cast <CustomTrackScene *>(scene());
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 void AbstractClipItem::setItemLocked(bool locked)
@@ -302,7 +302,7 @@ void AbstractClipItem::setItemLocked(bool locked)
     }
 
     // Allow move only if not in a group
-    if (locked || parentItem() == Q_NULLPTR) {
+    if (locked || parentItem() == nullptr) {
         setFlag(QGraphicsItem::ItemIsMovable, !locked);
     }
     setFlag(QGraphicsItem::ItemIsSelectable, !locked);

@@ -984,7 +984,7 @@ void KdenliveSettingsDialog::slotUpdateTranscodingProfile()
 void KdenliveSettingsDialog::slotDeleteTranscode()
 {
     QListWidgetItem *item = m_configTranscode.profiles_list->currentItem();
-    if (item == Q_NULLPTR) {
+    if (item == nullptr) {
         return;
     }
     delete item;

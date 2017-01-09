@@ -30,7 +30,7 @@ BezierSplineEditor::BezierSplineEditor(QWidget *parent) :
     , m_zoomLevel(0)
     , m_gridLines(3)
     , m_showAllHandles(true)
-    , m_pixmapCache(Q_NULLPTR)
+    , m_pixmapCache(nullptr)
     , m_pixmapIsDirty(true)
     , m_currentPointIndex(-1)
     , m_currentPointType(PTypeP)

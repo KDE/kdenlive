@@ -28,7 +28,7 @@
 class MyValidator : public QValidator
 {
 public:
-    explicit MyValidator(QObject *parent = Q_NULLPTR);
+    explicit MyValidator(QObject *parent = nullptr);
     void fixup(QString &str) const Q_DECL_OVERRIDE;
     QValidator::State validate(QString &str, int &pos) const Q_DECL_OVERRIDE;
 };
@@ -49,7 +49,7 @@ public:
     /** @brief Constructor for the widget, sets value to 0.
     * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
     * @param parent parent Widget */
-    explicit TimecodeDisplay(const Timecode &t, QWidget *parent = Q_NULLPTR);
+    explicit TimecodeDisplay(const Timecode &t, QWidget *parent = nullptr);
 
     /** @brief Returns the minimum value, which can be entered.
     * default is 0 */

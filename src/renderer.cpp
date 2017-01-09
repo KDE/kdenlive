@@ -58,15 +58,15 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     showFrameSemaphore(1),
     externalConsumer(false),
     m_name(rendererName),
-    m_mltConsumer(Q_NULLPTR),
-    m_mltProducer(Q_NULLPTR),
-    m_showFrameEvent(Q_NULLPTR),
-    m_pauseEvent(Q_NULLPTR),
+    m_mltConsumer(nullptr),
+    m_mltProducer(nullptr),
+    m_showFrameEvent(nullptr),
+    m_pauseEvent(nullptr),
     m_binController(binController),
     m_qmlView(qmlView),
     m_isZoneMode(false),
     m_isLoopMode(false),
-    m_blackClip(Q_NULLPTR),
+    m_blackClip(nullptr),
     m_isActive(false),
     m_isRefreshing(false)
 {
@@ -216,7 +216,7 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
         pix.fill(Qt::black);
         return pix;
     }
-    Mlt::Frame *frame = Q_NULLPTR;
+    Mlt::Frame *frame = nullptr;
     if (KdenliveSettings::gpu_accel()) {
         QString service = m_mltProducer->get("mlt_service");
         //TODO: create duplicate prod from xml data
@@ -320,7 +320,7 @@ bool Render::updateProducer(Mlt::Producer *producer)
             }
         }
         delete m_mltProducer;
-        m_mltProducer = Q_NULLPTR;
+        m_mltProducer = nullptr;
     }
     if (m_mltConsumer) {
         if (!m_mltConsumer->is_stopped()) {
@@ -361,7 +361,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
             }
         }
         delete m_mltProducer;
-        m_mltProducer = Q_NULLPTR;
+        m_mltProducer = nullptr;
     }
     if (m_mltConsumer) {
         if (!m_mltConsumer->is_stopped()) {
@@ -410,13 +410,13 @@ void Render::startConsumer()
         if (m_showFrameEvent) {
             delete m_showFrameEvent;
         }
-        m_showFrameEvent = Q_NULLPTR;
+        m_showFrameEvent = nullptr;
         if (m_pauseEvent) {
             delete m_pauseEvent;
         }
-        m_pauseEvent = Q_NULLPTR;
+        m_pauseEvent = nullptr;
         delete m_mltConsumer;
-        m_mltConsumer = Q_NULLPTR;
+        m_mltConsumer = nullptr;
         return;
     }
     m_isRefreshing = true;
@@ -451,7 +451,7 @@ int Render::setSceneList(QString playlist, int position)
             m_mltConsumer->stop();
         }
     } else {
-        qCWarning(KDENLIVE_LOG) << "///////  ERROR, TRYING TO USE Q_NULLPTR MLT CONSUMER";
+        qCWarning(KDENLIVE_LOG) << "///////  ERROR, TRYING TO USE nullptr MLT CONSUMER";
         error = -1;
     }
 
@@ -461,7 +461,7 @@ int Render::setSceneList(QString playlist, int position)
         m_slowmotionProducers.clear();
 
         delete m_mltProducer;
-        m_mltProducer = Q_NULLPTR;
+        m_mltProducer = nullptr;
         emit stopped();
     }
     m_binController->destroyBin();
@@ -1124,7 +1124,7 @@ Mlt::Producer *Render::getTrackProducer(const QString &id, int track, bool, bool
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
         qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
-        return Q_NULLPTR;
+        return nullptr;
     }
     Mlt::Tractor tractor(service);
     // WARNING: Kdenlive's track numbering is 0 for top track, while in MLT 0 is black track and 1 is the bottom track so we MUST reverse track number
@@ -1139,7 +1139,7 @@ Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const Q
     //TODO: find a better way to check if a producer is already inserted in a track ?
     QString trackName = trackPlaylist.get("id");
     QString clipIdWithTrack = clipId + "_" + trackName;
-    Mlt::Producer *prod = Q_NULLPTR;
+    Mlt::Producer *prod = nullptr;
     for (int i = 0; i < trackPlaylist.count(); i++) {
         if (trackPlaylist.is_blank(i)) {
             continue;
@@ -1152,7 +1152,7 @@ Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const Q
             break;
         }
     }
-    if (prod == Q_NULLPTR) {
+    if (prod == nullptr) {
         prod = m_binController->getBinProducer(clipId);
     }
     return prod;
@@ -1162,7 +1162,7 @@ Mlt::Tractor *Render::lockService()
 {
     // we are going to replace some clips, purge consumer
     if (!m_mltProducer) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
@@ -1170,7 +1170,7 @@ Mlt::Tractor *Render::lockService()
     }
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     service.lock();
     return new Mlt::Tractor(service);
@@ -1200,7 +1200,7 @@ void Render::mltInsertSpace(const QMap<int, int> &trackClipStartList, const QMap
         return;
     }
     Mlt::Producer parentProd(m_mltProducer->parent());
-    if (parentProd.get_producer() == Q_NULLPTR) {
+    if (parentProd.get_producer() == nullptr) {
         //qCDebug(KDENLIVE_LOG) << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
         return;
     }
@@ -1262,7 +1262,7 @@ void Render::mltInsertSpace(const QMap<int, int> &trackClipStartList, const QMap
                 }
             }
             nextservice = mlt_service_producer(nextservice);
-            if (nextservice == Q_NULLPTR) {
+            if (nextservice == nullptr) {
                 break;
             }
             properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -1329,7 +1329,7 @@ void Render::mltInsertSpace(const QMap<int, int> &trackClipStartList, const QMap
                 }
             }
             nextservice = mlt_service_producer(nextservice);
-            if (nextservice == Q_NULLPTR) {
+            if (nextservice == nullptr) {
                 break;
             }
             properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -1357,8 +1357,8 @@ bool Render::mltResizeClipCrop(const ItemInfo &info, GenTime newCropStart)
     service.lock();
     int clipIndex = trackPlaylist.get_clip_index_at(info.startPos.frames(m_fps));
     QScopedPointer<Mlt::Producer> clip(trackPlaylist.get_clip(clipIndex));
-    if (clip == Q_NULLPTR) {
-        //qCDebug(KDENLIVE_LOG) << "////////  ERROR RSIZING Q_NULLPTR CLIP!!!!!!!!!!!";
+    if (clip == nullptr) {
+        //qCDebug(KDENLIVE_LOG) << "////////  ERROR RSIZING nullptr CLIP!!!!!!!!!!!";
         service.unlock();
         return false;
     }
@@ -1411,9 +1411,9 @@ void Render::cloneProperties(Mlt::Properties &dest, Mlt::Properties &source)
     int i = 0;
     for (i = 0; i < count; i ++) {
         char *value = source.get(i);
-        if (value != Q_NULLPTR) {
+        if (value != nullptr) {
             char *name = source.get_name(i);
-            if (name != Q_NULLPTR && name[0] != '_') {
+            if (name != nullptr && name[0] != '_') {
                 dest.set(name, value);
             }
         }
@@ -1422,7 +1422,7 @@ void Render::cloneProperties(Mlt::Properties &dest, Mlt::Properties &source)
 
 void Render::fillSlowMotionProducers()
 {
-    if (m_mltProducer == Q_NULLPTR) {
+    if (m_mltProducer == nullptr) {
         return;
     }
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -1689,7 +1689,7 @@ Mlt::Producer *Render::getSlowmotionProducer(const QString &url)
     if (m_slowmotionProducers.contains(url)) {
         return m_slowmotionProducers.value(url);
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 void Render::updateSlowMotionProducers(const QString &id, const QMap<QString, QString> &passProperties)
