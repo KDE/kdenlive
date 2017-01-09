@@ -358,18 +358,3 @@ QList<QPointF> KisCurveWidget::getPoints() const
     return m_curve.points();
 }
 
-ColorTools::ColorsRGB KisCurveWidget::modeToColorsRGB(CurveModes mode)
-{
-    switch(mode){
-    case CurveModes::Red:
-        return ColorTools::ColorsRGB::R;
-    case CurveModes::Green:
-        return ColorTools::ColorsRGB::G;
-    case CurveModes::Blue:
-        return ColorTools::ColorsRGB::B;
-    case CurveModes::Luma:
-    default:
-        return ColorTools::ColorsRGB::Luma;
-    }
-    return ColorTools::ColorsRGB::Luma;
-}

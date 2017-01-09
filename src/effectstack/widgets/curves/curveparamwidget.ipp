@@ -230,8 +230,30 @@ void CurveParamWidget<CurveWidget_t>::slotGridChange()
     KdenliveSettings::setBezier_gridlines(m_edit->gridLines());
 }
 
-template<>
-void CurveParamWidget<BezierSplineEditor>::slotShowPixmap(bool show)
+template<typename CurveWidget_t>
+ColorTools::ColorsRGB CurveParamWidget<CurveWidget_t>::modeToColorsRGB(CurveModes mode)
+{
+    switch(mode){
+    case CurveModes::Red:
+        return ColorTools::ColorsRGB::R;
+    case CurveModes::Green:
+        return ColorTools::ColorsRGB::G;
+    case CurveModes::Blue:
+        return ColorTools::ColorsRGB::B;
+    case CurveModes::Luma:
+        return ColorTools::ColorsRGB::Luma;
+    case CurveModes::Alpha:
+        return ColorTools::ColorsRGB::A;
+    case CurveModes::RGB:
+    case CurveModes::Hue:
+    case CurveModes::Saturation:
+    default:
+        return ColorTools::ColorsRGB::RGB;
+    }
+    return ColorTools::ColorsRGB::RGB;
+}
+template<typename CurveWidget_t>
+void CurveParamWidget<CurveWidget_t>::slotShowPixmap(bool show)
 {
     m_showPixmap = show;
     KdenliveSettings::setBezier_showpixmap(show);
@@ -241,21 +263,9 @@ void CurveParamWidget<BezierSplineEditor>::slotShowPixmap(bool show)
         } else if (m_mode == CurveModes::Saturation) {
             m_edit->setPixmap(QPixmap());
         } else {
-            auto color = BezierSplineEditor::modeToColorsRGB(m_mode);
+            auto color = modeToColorsRGB(m_mode);
             m_edit->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit->size(), color, 1, palette().background().color().rgb())));
         }
-    } else {
-        m_edit->setPixmap(QPixmap());
-    }
-}
-template<typename CurveWidget_t>
-void CurveParamWidget<CurveWidget_t>::slotShowPixmap(bool show)
-{
-    m_showPixmap = show;
-    KdenliveSettings::setBezier_showpixmap(show);
-    if (show) {
-        auto color = CurveWidget_t::modeToColorsRGB(m_mode);
-        m_edit->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit->size(), color, 1, palette().background().color().rgb())));
     } else {
         m_edit->setPixmap(QPixmap());
     }

@@ -37,7 +37,14 @@ public:
     virtual ~CurveParamWidget(){};
     CurveParamWidget(const QString &spline, QWidget *parent);
 
-    using CurveModes = typename CurveWidget_t::CurveModes;
+    enum class CurveModes { Red = 0,
+            Green = 1,
+            Blue = 2,
+            Luma = 3,
+            Alpha = 4,
+            RGB = 5,
+            Hue = 6,
+            Saturation = 7 };
     /** @brief sets the mode of the curve. This affects the background that is displayed.
      *  The list of available modes depends on the CurveWidget that we have
      */
@@ -69,6 +76,10 @@ protected:
     void slotUpdatePointH2(double /*value*/, bool final);
     void slotSetHandlesLinked(bool linked);
     void slotShowAllHandles(bool show);
+    /** @brief Helper function to convert a mode to the corresponding ColorsRGB value.
+        This avoids using potentially non consistent intermediate cast to int
+    */
+    static ColorTools::ColorsRGB modeToColorsRGB(CurveModes mode);
 public:
     /** @brief Toggle the comments on or off
      */

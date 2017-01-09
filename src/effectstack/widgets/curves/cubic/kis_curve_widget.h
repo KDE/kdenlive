@@ -53,7 +53,6 @@ class KisCurveWidget : public AbstractCurveWidget<KisCubicCurve>
 
 public:
     typedef QPointF Point_t;
-    enum class CurveModes { Red = 0, Green = 1, Blue = 2, Luma = 3};
 
     /**
      * Create a new curve widget with a default curve, that is a straight
@@ -88,10 +87,6 @@ public:
 
     QList<QPointF> getPoints() const override;
 
-    /** @brief Helper function to convert a mode to the corresponding ColorsRGB value.
-        This avoids using potentially non consistent intermediate cast to int
-    */
-    static ColorTools::ColorsRGB modeToColorsRGB(CurveModes mode);
 
 private:
     double io2sp(int x) const;

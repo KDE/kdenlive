@@ -788,7 +788,11 @@ void ParameterContainer::meetDependency(const QString &name, const QString &type
         Widget_t *curve = static_cast<Widget_t *>(m_valueItems[name]);
         if (curve) {
             QLocale locale;
-            curve->setMode((Widget_t::CurveModes)((int)(locale.toDouble(value) + 0.5)));
+            double mode = locale.toDouble(value);
+            if (mode < 1.) {
+                mode *= 10; //hack to deal with new versions of the effect that set mode in [0,1]
+            }
+            curve->setMode((Widget_t::CurveModes)int(mode + 0.5));
         }
     } else if (type == QLatin1String("bezier_spline")) {
         using Widget_t = CurveParamWidget<BezierSplineEditor>;
