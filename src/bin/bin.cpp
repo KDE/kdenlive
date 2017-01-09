@@ -3247,9 +3247,9 @@ void Bin::showTitleWidget(ProjectClip *clip)
         if (dia_ui.duration() != clip->duration().frames(m_doc->fps())) {
             // duration changed, we need to update duration
             newprops.insert(QStringLiteral("out"), QString::number(dia_ui.duration() - 1));
-            int currentLength = clip->getProducerIntProperty(QStringLiteral("length"));
-            if (currentLength <= dia_ui.duration()) {
-                newprops.insert(QStringLiteral("length"), QString::number(dia_ui.duration()));
+            int currentLength = clip->getProducerIntProperty(QStringLiteral("kdenlive:duration"));
+            if (currentLength != dia_ui.duration()) {
+                newprops.insert(QStringLiteral("kdenlive:duration"), QString::number(dia_ui.duration()));
             }
         }
         // trigger producer reload
@@ -3379,7 +3379,7 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
         // edit clip properties
         QMap <QString, QString> properties;
         properties.insert(QStringLiteral("out"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
-        properties.insert(QStringLiteral("length"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
+        properties.insert(QStringLiteral("kdenlive:duration"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
         properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
         properties.insert(QStringLiteral("ttl"), QString::number(m_doc->getFramePos(dia->clipDuration())));
         properties.insert(QStringLiteral("loop"), QString::number(dia->loop()));
@@ -3392,7 +3392,7 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
 
         QMap <QString, QString> oldProperties;
         oldProperties.insert(QStringLiteral("out"), clip->getProducerProperty(QStringLiteral("out")));
-        oldProperties.insert(QStringLiteral("length"), clip->getProducerProperty(QStringLiteral("length")));
+        oldProperties.insert(QStringLiteral("kdenlive:duration"), clip->getProducerProperty(QStringLiteral("kdenlive:duration")));
         oldProperties.insert(QStringLiteral("kdenlive:clipname"), clip->name());
         oldProperties.insert(QStringLiteral("ttl"), clip->getProducerProperty(QStringLiteral("ttl")));
         oldProperties.insert(QStringLiteral("loop"), clip->getProducerProperty(QStringLiteral("loop")));

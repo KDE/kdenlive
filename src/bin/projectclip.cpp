@@ -358,8 +358,9 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
             }
         }
     }
-    if (m_controller)
+    if (m_controller) {
         m_duration = m_controller->getStringDuration();
+    }
     m_clipStatus = StatusReady;
     if (!hasProxy()) bin()->emitRefreshPanel(m_id);
     bin()->emitItemUpdated(this);
