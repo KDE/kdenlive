@@ -313,7 +313,7 @@ bool DocumentChecker::hasErrorInClips()
                 clipType = i18n("Image clip");
                 type = Image;
             }
-	} else if (service == QLatin1String("mlt")) {
+	} else if (service == QLatin1String("mlt") || service == QLatin1String("xml")) {
 	    clipType = i18n("Playlist clip");
             type = Playlist;
 	} else if (e.tagName() == "missingtitle") {
