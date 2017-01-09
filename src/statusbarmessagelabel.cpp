@@ -213,7 +213,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     }
 
     QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
-    const char *iconName = 0;
+    const char *iconName = nullptr;
     if (m_animation.state() == QAbstractAnimation::Running) {
         m_animation.stop();
     }
@@ -259,7 +259,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         break;
     }
 
-    if (iconName == 0) {
+    if (iconName == nullptr) {
         m_pixmap->setVisible(false);
     } else {
         m_pixmap->setPixmap(SmallIcon(iconName));

@@ -41,7 +41,7 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
 {
     setZValue(4);
     m_info.cropDuration = info.endPos - info.startPos;
-    if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, 0, QApplication::activeWindow())) {
+    if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, nullptr, QApplication::activeWindow())) {
         // animation disabled
         setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
     } else {

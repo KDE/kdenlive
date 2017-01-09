@@ -437,7 +437,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_frameBorder->setPen(framepen);
     m_frameBorder->setZValue(1000);
     m_frameBorder->setBrush(Qt::transparent);
-    m_frameBorder->setFlags(0);
+    m_frameBorder->setFlags(nullptr);
     m_frameBorder->setData(-1, -1);
     graphicsView->scene()->addItem(m_frameBorder);
 
@@ -446,18 +446,18 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     QGraphicsRectItem *safe1 = new QGraphicsRectItem(QRectF(m_frameWidth * 0.05, m_frameHeight * 0.05, m_frameWidth * 0.9, m_frameHeight * 0.9), m_frameBorder);
     safe1->setBrush(Qt::transparent);
     safe1->setPen(framepen);
-    safe1->setFlags(0);
+    safe1->setFlags(nullptr);
     safe1->setData(-1, -1);
     QGraphicsRectItem *safe2 = new QGraphicsRectItem(QRectF(m_frameWidth * 0.1, m_frameHeight * 0.1, m_frameWidth * 0.8, m_frameHeight * 0.8), m_frameBorder);
     safe2->setBrush(Qt::transparent);
     safe2->setPen(framepen);
-    safe2->setFlags(0);
+    safe2->setFlags(nullptr);
     safe2->setData(-1, -1);
 
     m_frameBackground = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     m_frameBackground->setZValue(-1100);
     m_frameBackground->setBrush(Qt::transparent);
-    m_frameBackground->setFlags(0);
+    m_frameBackground->setFlags(nullptr);
     graphicsView->scene()->addItem(m_frameBackground);
 
     m_frameImage = new QGraphicsPixmapItem();
@@ -465,7 +465,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     qtrans.scale(2.0, 2.0);
     m_frameImage->setTransform(qtrans);
     m_frameImage->setZValue(-1200);
-    m_frameImage->setFlags(0);
+    m_frameImage->setFlags(nullptr);
     displayBackgroundFrame();
     graphicsView->scene()->addItem(m_frameImage);
 
@@ -880,8 +880,8 @@ void TitleWidget::initAnimation()
     m_startViewport->setZValue(-1000);
     m_endViewport->setZValue(-1000);
 
-    m_startViewport->setFlags(0);
-    m_endViewport->setFlags(0);
+    m_startViewport->setFlags(nullptr);
+    m_endViewport->setFlags(nullptr);
 
     graphicsView->scene()->addItem(m_startViewport);
     graphicsView->scene()->addItem(m_endViewport);
@@ -2161,7 +2161,7 @@ void TitleWidget::slotAnimStart(bool anim)
     } else {
         m_startViewport->setZValue(-1000);
         m_startViewport->setBrush(QBrush());
-        m_startViewport->setFlags(0);
+        m_startViewport->setFlags(nullptr);
         if (!anim_end->isChecked()) {
             deleteAnimInfoText();
         }
@@ -2210,7 +2210,7 @@ void TitleWidget::slotAnimEnd(bool anim)
     } else {
         m_endViewport->setZValue(-1000);
         m_endViewport->setBrush(QBrush());
-        m_endViewport->setFlags(0);
+        m_endViewport->setFlags(nullptr);
         if (!anim_start->isChecked()) {
             deleteAnimInfoText();
         }

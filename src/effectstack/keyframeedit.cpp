@@ -96,7 +96,7 @@ KeyframeEdit::~KeyframeEdit()
     keyframe_list->blockSignals(true);
     keyframe_list->clear();
     QLayoutItem *child;
-    while ((child = m_slidersLayout->takeAt(0)) != 0) {
+    while ((child = m_slidersLayout->takeAt(0)) != nullptr) {
         QWidget *wid = child->widget();
         delete child;
         delete wid;

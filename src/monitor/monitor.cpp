@@ -334,7 +334,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addSeparator();
     int tm = 0;
     int bm = 0;
-    m_toolbar->getContentsMargins(0, &tm, 0, &bm);
+    m_toolbar->getContentsMargins(nullptr, &tm, nullptr, &bm);
     m_audioMeterWidget = new MonitorAudioLevel(m_glMonitor->profile(), m_toolbar->height() - tm - bm, this);
     m_toolbar->addWidget(m_audioMeterWidget);
     if (!m_audioMeterWidget->isValid) {

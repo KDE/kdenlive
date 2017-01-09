@@ -648,7 +648,7 @@ void Track::updateClipProperties(const QString &id, const QMap<QString, QString>
 Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QString &url, const QString &id, Track::SlowmoInfo info)
 {
     QLocale locale;
-    Mlt::Producer *prod = new Mlt::Producer(*m_playlist.profile(), 0, ("timewarp:" + url).toUtf8().constData());
+    Mlt::Producer *prod = new Mlt::Producer(*m_playlist.profile(), nullptr, ("timewarp:" + url).toUtf8().constData());
     if (!prod->is_valid()) {
 	qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
 	return nullptr;

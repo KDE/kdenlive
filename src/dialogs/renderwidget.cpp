@@ -587,7 +587,7 @@ bool RenderWidget::saveProfile(QDomElement newprofile)
         profiles.setAttribute(QStringLiteral("version"), 1);
         doc.appendChild(profiles);
     }
-    int version = profiles.attribute(QStringLiteral("version"), 0).toInt();
+    int version = profiles.attribute(QStringLiteral("version"), nullptr).toInt();
     if (version < 1) {
         doc.clear();
         profiles = doc.createElement(QStringLiteral("profiles"));
@@ -770,7 +770,7 @@ void RenderWidget::slotEditProfile()
             doc.appendChild(profiles);
         }
 
-        int version = profiles.attribute(QStringLiteral("version"), 0).toInt();
+        int version = profiles.attribute(QStringLiteral("version"), nullptr).toInt();
         if (version < 1) {
             doc.clear();
             profiles = doc.createElement(QStringLiteral("profiles"));
@@ -936,7 +936,7 @@ void RenderWidget::updateButtons()
 
 void RenderWidget::focusFirstVisibleItem(const QString &profile)
 {
-    QTreeWidgetItem *item = 0;
+    QTreeWidgetItem *item = nullptr;
     if (!profile.isEmpty()) {
         QList<QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly | Qt::MatchRecursive);
         if (!items.isEmpty()) {
@@ -1902,7 +1902,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
     if (editable || groups.isEmpty()) {
         QDomElement profiles = doc.documentElement();
-        if (editable && profiles.attribute(QStringLiteral("version"), 0).toInt() < 1) {
+        if (editable && profiles.attribute(QStringLiteral("version"), nullptr).toInt() < 1) {
             // this is an old profile version, update it
             QDomDocument newdoc;
             QDomElement newprofiles = newdoc.createElement(QStringLiteral("profiles"));
@@ -1983,7 +1983,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
             // Check if item with same name already exists and replace it,
             // allowing to override default profiles
-            QTreeWidgetItem *item  = 0;
+            QTreeWidgetItem *item  = nullptr;
             for (int j = 0; j < groupItem->childCount(); ++j) {
                 if (groupItem->child(j)->text(0) == profileName) {
                     item = groupItem->child(j);
@@ -2478,7 +2478,7 @@ bool RenderWidget::startWaitingRenderJobs()
     QFile file(autoscriptFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << autoscriptFile;
-        KMessageBox::error(0, i18n("Cannot write to file %1", autoscriptFile));
+        KMessageBox::error(nullptr, i18n("Cannot write to file %1", autoscriptFile));
         return false;
     }
 
@@ -2501,7 +2501,7 @@ bool RenderWidget::startWaitingRenderJobs()
     // erase itself when rendering is finished
     outStream << "rm " << autoscriptFile << '\n' << '\n';
     if (file.error() != QFile::NoError) {
-        KMessageBox::error(0, i18n("Cannot write to file %1", autoscriptFile));
+        KMessageBox::error(nullptr, i18n("Cannot write to file %1", autoscriptFile));
         file.close();
         m_blockProcessing = false;
         return false;

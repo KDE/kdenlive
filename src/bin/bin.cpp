@@ -267,7 +267,7 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
         setText(i18np("%1 job", "%1 jobs", jobCount));
         setToolTip(i18np("%1 pending job", "%1 pending jobs", jobCount));
 
-        if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this)) {
             setFixedWidth(sizeHint().width());
             m_action->setVisible(true);
             return;
@@ -288,7 +288,7 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
             m_timeLine->start();
         }
     } else {
-        if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this)) {
             setFixedWidth(0);
             m_action->setVisible(false);
             return;
@@ -566,11 +566,11 @@ void Bin::abortOperations()
         }
     }
     delete m_rootFolder;
-    m_rootFolder = NULL;
+    m_rootFolder = nullptr;
     delete m_itemView;
-    m_itemView = NULL;
+    m_itemView = nullptr;
     delete m_jobManager;
-    m_jobManager = NULL;
+    m_jobManager = nullptr;
     blockSignals(false);
 }
 
@@ -1868,7 +1868,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
     }
     m_propertiesPanel->setProperty("clipId", clip->clipId());
     QVBoxLayout *lay = static_cast<QVBoxLayout *>(m_propertiesPanel->layout());
-    if (lay == 0) {
+    if (lay == nullptr) {
         lay = new QVBoxLayout(m_propertiesPanel);
         m_propertiesPanel->setLayout(lay);
     }
@@ -2341,7 +2341,7 @@ bool Bin::hasPendingJob(const QString &id, AbstractClipJob::JOBTYPE type)
 void Bin::slotCreateProjectClip()
 {
     QAction *act = qobject_cast<QAction *>(sender());
-    if (act == 0) {
+    if (act == nullptr) {
         // Cannot access triggering action, something is wrong
         qCDebug(KDENLIVE_LOG) << "// Error in clip creation action";
         return;
@@ -2842,7 +2842,7 @@ void Bin::slotStartClipJob(bool enable)
     Q_UNUSED(enable)
 
     QAction *act = qobject_cast<QAction *>(sender());
-    if (act == 0) {
+    if (act == nullptr) {
         // Cannot access triggering action, something is wrong
         qCDebug(KDENLIVE_LOG) << "// Error in clip job action";
         return;

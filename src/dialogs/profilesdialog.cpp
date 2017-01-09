@@ -647,13 +647,13 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
     }
     QFile file(profilePath);
     if (!file.open(QIODevice::WriteOnly)) {
-        KMessageBox::sorry(0, i18n("Cannot open file %1", profilePath));
+        KMessageBox::sorry(nullptr, i18n("Cannot open file %1", profilePath));
         return;
     }
     QTextStream out(&file);
     out << "description=" << profile.description << '\n' << "frame_rate_num=" << profile.frame_rate_num << '\n' << "frame_rate_den=" << profile.frame_rate_den << '\n' << "width=" << profile.width << '\n' << "height=" << profile.height << '\n' << "progressive=" << profile.progressive << '\n' << "sample_aspect_num=" << profile.sample_aspect_num << '\n' << "sample_aspect_den=" << profile.sample_aspect_den << '\n' << "display_aspect_num=" << profile.display_aspect_num << '\n' << "display_aspect_den=" << profile.display_aspect_den << '\n' << "colorspace=" << profile.colorspace << '\n';
     if (file.error() != QFile::NoError) {
-        KMessageBox::error(0, i18n("Cannot write to file %1", profilePath));
+        KMessageBox::error(nullptr, i18n("Cannot write to file %1", profilePath));
     }
     file.close();
     profile.path = profilePath;

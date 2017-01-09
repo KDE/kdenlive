@@ -292,7 +292,7 @@ int Timeline::getTracks()
     m_tracks.clear();
     QVBoxLayout *headerLayout = qobject_cast< QVBoxLayout * >(headers_container->layout());
     QLayoutItem *child;
-    while ((child = headerLayout->takeAt(0)) != 0) {
+    while ((child = headerLayout->takeAt(0)) != nullptr) {
         delete child;
     }
     int clipsCount = 0;

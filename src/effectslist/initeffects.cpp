@@ -675,7 +675,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository *repository, 
         }
     }
     delete metadata;
-    metadata = 0;
+    metadata = nullptr;
     /*QString outstr;
      QTextStream str(&outstr);
      ret.save(str, 2);

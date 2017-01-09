@@ -347,7 +347,7 @@ void RotoWidget::setupTrackingListen(const ItemInfo &info)
         // TODO: track effects
         return;
     }
-    Mlt::Producer *clip = NULL;
+    Mlt::Producer *clip = nullptr;
     if (info.track == 0) {
         clip = m_monitor->render->getProducer();
     } else {

@@ -3900,7 +3900,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
         QWidget *bar = dock->titleBarWidget();
         if (dock->isFloating()) {
             if (bar) {
-                dock->setTitleBarWidget(0);
+                dock->setTitleBarWidget(nullptr);
                 delete bar;
             }
             continue;
@@ -3908,7 +3908,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
         QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
         if (docked.isEmpty()) {
             if (bar) {
-                dock->setTitleBarWidget(0);
+                dock->setTitleBarWidget(nullptr);
                 delete bar;
             }
             continue;
@@ -3923,7 +3923,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
         }
         if (!hasVisibleDockSibling) {
             if (bar) {
-                dock->setTitleBarWidget(0);
+                dock->setTitleBarWidget(nullptr);
                 delete bar;
             }
             continue;

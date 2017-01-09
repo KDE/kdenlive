@@ -48,13 +48,13 @@
 class NoEditDelegate: public QStyledItemDelegate
 {
 public:
-    NoEditDelegate(QObject *parent = 0): QStyledItemDelegate(parent) {}
+    NoEditDelegate(QObject *parent = nullptr): QStyledItemDelegate(parent) {}
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
     {
         Q_UNUSED(parent);
         Q_UNUSED(option);
         Q_UNUSED(index);
-        return 0;
+        return nullptr;
     }
 };
 

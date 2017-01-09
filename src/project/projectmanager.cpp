@@ -46,8 +46,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 ProjectManager::ProjectManager(QObject *parent) :
     QObject(parent),
-    m_project(0),
-    m_trackView(0),
+    m_project(nullptr),
+    m_trackView(nullptr),
     m_progressDialog(nullptr)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
@@ -443,7 +443,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
     }
 
     if (orphanedFile) {
-        if (KMessageBox::questionYesNo(0,
+        if (KMessageBox::questionYesNo(nullptr,
                                        i18n("Auto-saved files exist. Do you want to recover them now?"),
                                        i18n("File Recovery"),
                                        KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {
@@ -522,7 +522,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     pCore->monitorManager()->resetDisplay();
     m_progressDialog = new QProgressDialog(pCore->window());
     m_progressDialog->setWindowTitle(i18n("Loading project"));
-    m_progressDialog->setCancelButton(0);
+    m_progressDialog->setCancelButton(nullptr);
     m_progressDialog->setLabelText(i18n("Loading project"));
     m_progressDialog->setMaximum(0);
     m_progressDialog->show();
