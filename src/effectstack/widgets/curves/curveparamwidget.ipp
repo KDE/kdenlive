@@ -103,7 +103,9 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(const QString &spline, QWidget
 
     //construct and fill layout
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(m_edit);
+    QHBoxLayout *edit_layout = new QHBoxLayout(this);
+    edit_layout->addWidget(m_edit);
+    layout->addLayout(edit_layout);
     QWidget *widget = new QWidget(this);
     m_ui.setupUi(widget);
     layout->addWidget(widget);
