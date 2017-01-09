@@ -152,6 +152,8 @@ protected:
 
     State_t m_state;
     Curve_t m_curve;
+
+    double m_grabRadius;
 };
 
 #include "abstractcurvewidget.ipp"

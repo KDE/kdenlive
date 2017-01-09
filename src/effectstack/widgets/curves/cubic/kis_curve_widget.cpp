@@ -312,8 +312,9 @@ int KisCurveWidget::nearestPointInRange(QPointF pt, int wWidth, int wHeight) con
     }
 
     if (nearestIndex >= 0) {
-        if (fabs(pt.x() - m_curve.points().at(nearestIndex).x()) * (wWidth - 1) < 5 &&
-                fabs(pt.y() - m_curve.points().at(nearestIndex).y()) * (wHeight - 1) < 5) {
+        double dx = (pt.x() - m_curve.points().at(nearestIndex).x()) * wWidth;
+        double dy = (pt.y() - m_curve.points().at(nearestIndex).y()) * wHeight;
+        if (dx * dx + dy * dy <= m_grabRadius * m_grabRadius) {
             return nearestIndex;
         }
     }

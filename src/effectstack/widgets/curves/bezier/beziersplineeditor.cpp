@@ -309,7 +309,9 @@ int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wH
          m_showAllHandles)) {
         // a point was found and it is not a hidden handle
         BPoint point = m_curve.getPoint(nearestIndex);
-        if (qAbs(p.x() - point[(int)pointType].x()) * wWidth < 5 && qAbs(p.y() - point[(int)pointType].y()) * wHeight < 5) {
+        double dx = (p.x() - point[(int)pointType].x()) * wWidth;
+        double dy = (p.y() - point[(int)pointType].y()) * wHeight;
+        if (dx * dx + dy * dy <= m_grabRadius * m_grabRadius) {
             *sel = pointType;
             return nearestIndex;
         }

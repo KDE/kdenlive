@@ -30,7 +30,7 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent):
     , m_currentPointIndex(-1)
     , m_maxPoints(1000000)
     , m_state(State_t::NORMAL)
-
+    , m_grabRadius(10)
 {
     setMouseTracking(true);
     setAutoFillBackground(false);
