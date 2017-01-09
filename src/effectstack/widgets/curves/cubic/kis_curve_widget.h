@@ -25,6 +25,7 @@
 
 #include "effectstack/widgets/curves/abstractcurvewidget.h"
 #include "kis_cubic_curve.h"
+#include "colortools.h"
 
 class QEvent;
 class QMouseEvent;
@@ -51,6 +52,8 @@ class KisCurveWidget : public AbstractCurveWidget<KisCubicCurve>
     Q_OBJECT
 
 public:
+    typedef QPointF Point_t;
+    enum class CurveModes { Red = 0, Green = 1, Blue = 2, Luma = 3};
 
     /**
      * Create a new curve widget with a default curve, that is a straight
@@ -60,17 +63,10 @@ public:
 
     virtual ~KisCurveWidget();
 
-    /**
-     * Reset the curve to the default shape
-     */
-    void reset(void);
 
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
-
-protected slots:
-    void inOutChanged(int);
 
 protected:
 
@@ -80,12 +76,6 @@ protected:
 public:
 
 
-    /**
-     * Connect/disconnect external spinboxes to the curve
-     * @min/@max - is the range for their values
-     */
-    void setupInOutControls(QSpinBox *in, QSpinBox *out, int min, int max);
-    void dropInOutControls();
 
     /**
      * Handy function that creates new point in the middle
@@ -98,11 +88,15 @@ public:
 
     QList<QPointF> getPoints() const override;
 
+    /** @brief Helper function to convert a mode to the corresponding ColorsRGB value.
+        This avoids using potentially non consistent intermediate cast to int
+    */
+    static ColorTools::ColorsRGB modeToColorsRGB(CurveModes mode);
+
 private:
     double io2sp(int x) const;
     int sp2io(double x) const;
     bool jumpOverExistingPoints(QPointF &pt, int skipIndex);
-    void syncIOControls();
     int nearestPointInRange(QPointF pt, int wWidth, int wHeight) const;
 
     /* Dragging variables */
@@ -117,9 +111,6 @@ private:
     QColor m_colorGuide;
 
 
-    /* In/Out controls */
-    QSpinBox *m_intIn;
-    QSpinBox *m_intOut;
 
     /* Working range of them */
     int m_inOutMin;

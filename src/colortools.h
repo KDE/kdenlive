@@ -24,7 +24,10 @@ class ColorTools : public QObject
 public:
     explicit ColorTools(QObject *parent = Q_NULLPTR);
 
-    enum ColorsRGB { COL_R, COL_G, COL_B, COL_A, COL_Luma, COL_RGB };
+    //enum ColorsRGB { COL_R, COL_G, COL_B, COL_Luma, COL_A, COL_RGB };
+    enum class ColorsRGB{
+        R,G,B,Luma,A,RGB
+            };
 
     enum ComponentsHSV { COM_H, COM_S, COM_V };
 

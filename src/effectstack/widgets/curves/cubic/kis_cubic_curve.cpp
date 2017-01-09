@@ -428,7 +428,7 @@ QString KisCubicCurve::toString() const
     foreach (const QPointF &pair, d->data->points) {
         sCurve += locale.toString(pair.x());
         sCurve += '/';
-        sCurve += QString::number(pair.y());
+        sCurve += locale.toString(pair.y());
         sCurve += ';';
     }
     return sCurve;

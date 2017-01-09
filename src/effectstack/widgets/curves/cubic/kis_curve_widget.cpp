@@ -20,7 +20,7 @@
 // Local includes.
 
 #include "kis_curve_widget.h"
-
+#include "kdenlivesettings.h"
 // C++ includes.
 
 #include <cmath>
@@ -53,14 +53,7 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     setObjectName(QStringLiteral("KisCurveWidget"));
     m_guideVisible   = false;
 
-    m_intIn = Q_NULLPTR;
-    m_intOut = Q_NULLPTR;
-
     m_maxPoints = -1;
-
-
-    update();
-    emit modified();
 
     m_grabOffsetX = 0;
     m_grabOffsetY = 0;
@@ -70,13 +63,11 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     m_guideVisible = 0;
     m_pixmapIsDirty = 0;
     m_pixmapCache = NULL;
-    m_intIn = NULL;
-    m_intOut = NULL;
-    m_inOutMin = 0;
-    m_inOutMax = 0;
     m_maxPoints = 0;
     m_curve = KisCubicCurve();
-    connect(this, &KisCurveWidget::modified, this, &KisCurveWidget::syncIOControls);
+    update();
+    emit modified();
+
 }
 
 KisCurveWidget::~KisCurveWidget()
@@ -88,64 +79,6 @@ QSize KisCurveWidget::sizeHint() const
     return QSize(500, 500);
 }
 
-void KisCurveWidget::setupInOutControls(QSpinBox *in, QSpinBox *out, int min, int max)
-{
-    m_intIn = in;
-    m_intOut = out;
-
-    if (!m_intIn || !m_intOut) {
-        return;
-    }
-
-    m_inOutMin = min;
-    m_inOutMax = max;
-
-    m_intIn->setRange(m_inOutMin, m_inOutMax);
-    m_intOut->setRange(m_inOutMin, m_inOutMax);
-
-    connect(m_intIn, SIGNAL(valueChanged(int)), this, SLOT(inOutChanged(int)));
-    connect(m_intOut, SIGNAL(valueChanged(int)), this, SLOT(inOutChanged(int)));
-    syncIOControls();
-
-}
-
-void KisCurveWidget::inOutChanged(int)
-{
-    QPointF pt;
-
-    Q_ASSERT(m_currentPointIndex >= 0);
-
-    pt.setX(io2sp(m_intIn->value()));
-    pt.setY(io2sp(m_intOut->value()));
-
-    if (jumpOverExistingPoints(pt, m_currentPointIndex)) {
-        m_curve.setPoint(m_currentPointIndex, pt);
-        m_currentPointIndex = m_curve.points().indexOf(pt);
-    } else {
-        pt = m_curve.points().at(m_currentPointIndex);
-    }
-
-    m_intIn->blockSignals(true);
-    m_intOut->blockSignals(true);
-
-    m_intIn->setValue(sp2io(pt.x()));
-    m_intOut->setValue(sp2io(pt.y()));
-
-    m_intIn->blockSignals(false);
-    m_intOut->blockSignals(false);
-
-    update();
-    emit modified();
-}
-
-void KisCurveWidget::reset(void)
-{
-    m_currentPointIndex = -1;
-    m_guideVisible = false;
-
-    update();
-    emit modified();
-}
 
 
 
@@ -159,9 +92,6 @@ void KisCurveWidget::addPointInTheMiddle()
 
     m_currentPointIndex = m_curve.addPoint(pt);
 
-    if (m_intIn) {
-        m_intIn->setFocus(Qt::TabFocusReason);
-    }
     update();
     emit modified();
 }
@@ -240,13 +170,15 @@ void KisCurveWidget::mousePressEvent(QMouseEvent *e)
     m_grabOriginalY = m_curve.points().at(m_currentPointIndex).y();
     m_grabOffsetX = m_curve.points().at(m_currentPointIndex).x() - x;
     m_grabOffsetY = m_curve.points().at(m_currentPointIndex).y() - y;
-    m_curve.setPoint(m_currentPointIndex, QPointF(x + m_grabOffsetX, y + m_grabOffsetY));
+    QPointF point(x + m_grabOffsetX, y + m_grabOffsetY);
+    m_curve.setPoint(m_currentPointIndex, point);
 
     m_draggedAwayPointIndex = -1;
     m_state = State_t::DRAG;
 
     update();
     emit modified();
+    emit currentPoint(point, isCurrentPointExtremal());
 }
 
 void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
@@ -315,8 +247,9 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
 
         x = bounds(x, leftX, rightX);
         y = bounds(y, 0., 1.);
+        QPointF point(x, y);
 
-        m_curve.setPoint(m_currentPointIndex, QPointF(x, y));
+        m_curve.setPoint(m_currentPointIndex, point);
 
         if (removePoint && m_curve.points().count() > 2) {
             m_draggedAwayPoint = m_curve.points().at(m_currentPointIndex);
@@ -326,7 +259,10 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
         }
 
         update();
-        emit modified();
+        emit currentPoint(point, isCurrentPointExtremal());
+        if (KdenliveSettings::dragvalue_directupdate()) {
+            emit modified();
+        }
     }
 }
 
@@ -386,30 +322,30 @@ int KisCurveWidget::nearestPointInRange(QPointF pt, int wWidth, int wHeight) con
 }
 
 
-void KisCurveWidget::syncIOControls()
-{
-    if (!m_intIn || !m_intOut) {
-        return;
-    }
+// void KisCurveWidget::syncIOControls()
+// {
+//     if (!m_intIn || !m_intOut) {
+//         return;
+//     }
 
-    bool somethingSelected = (m_currentPointIndex >= 0);
+//     bool somethingSelected = (m_currentPointIndex >= 0);
 
-    m_intIn->setEnabled(somethingSelected);
-    m_intOut->setEnabled(somethingSelected);
+//     m_intIn->setEnabled(somethingSelected);
+//     m_intOut->setEnabled(somethingSelected);
 
-    if (m_currentPointIndex >= 0) {
-        m_intIn->blockSignals(true);
-        m_intOut->blockSignals(true);
+//     if (m_currentPointIndex >= 0) {
+//         m_intIn->blockSignals(true);
+//         m_intOut->blockSignals(true);
 
-        m_intIn->setValue(sp2io(m_curve.points().at(m_currentPointIndex).x()));
-        m_intOut->setValue(sp2io(m_curve.points().at(m_currentPointIndex).y()));
+//         m_intIn->setValue(sp2io(m_curve.points().at(m_currentPointIndex).x()));
+//         m_intOut->setValue(sp2io(m_curve.points().at(m_currentPointIndex).y()));
 
-        m_intIn->blockSignals(false);
-        m_intOut->blockSignals(false);
-    } else {
-        /*FIXME: Ideally, these controls should hide away now */
-    }
-}
+//         m_intIn->blockSignals(false);
+//         m_intOut->blockSignals(false);
+//     } else {
+//         /*FIXME: Ideally, these controls should hide away now */
+//     }
+// }
 void KisCurveWidget::setCurve(KisCubicCurve&& curve)
 {
     m_curve = std::move(curve);
@@ -420,4 +356,20 @@ void KisCurveWidget::setCurve(KisCubicCurve&& curve)
 QList<QPointF> KisCurveWidget::getPoints() const
 {
     return m_curve.points();
+}
+
+ColorTools::ColorsRGB KisCurveWidget::modeToColorsRGB(CurveModes mode)
+{
+    switch(mode){
+    case CurveModes::Red:
+        return ColorTools::ColorsRGB::R;
+    case CurveModes::Green:
+        return ColorTools::ColorsRGB::G;
+    case CurveModes::Blue:
+        return ColorTools::ColorsRGB::B;
+    case CurveModes::Luma:
+    default:
+        return ColorTools::ColorsRGB::Luma;
+    }
+    return ColorTools::ColorsRGB::Luma;
 }

@@ -22,6 +22,7 @@
 #include "bpoint.h"
 #include "cubicbezierspline.h"
 #include "effectstack/widgets/curves/abstractcurvewidget.h"
+#include "colortools.h"
 
 #include <QWidget>
 
@@ -30,6 +31,15 @@ class BezierSplineEditor : public AbstractCurveWidget<CubicBezierSpline>
     Q_OBJECT
 
 public:
+    typedef BPoint Point_t;
+    enum class CurveModes { Red = 0,
+                            Green = 1,
+                            Blue = 2,
+                            Luma = 3,
+                            Alpha = 4,
+                            RGB = 5,
+                            Hue = 6,
+                            Saturation = 7 };
     explicit BezierSplineEditor(QWidget *parent = Q_NULLPTR);
     ~BezierSplineEditor();
 
@@ -40,6 +50,11 @@ public:
      */
     void setShowAllHandles(bool show);
     QList<BPoint> getPoints() const override ;
+
+    /** @brief Helper function to convert a mode to the corresponding ColorsRGB value.
+        This avoids using potentially non consistent intermediate cast to int
+    */
+    static ColorTools::ColorsRGB modeToColorsRGB(CurveModes mode);
 public slots:
 
 protected:

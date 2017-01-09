@@ -196,13 +196,13 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB 
                 dcol = (double)255 * (dy - (dy - dx) * (1 - scaling));
             }
 
-            if (color == ColorTools::COL_R) {
+            if (color == ColorTools::ColorsRGB::R) {
                 plane.setPixel(x, (h - y - 1), qRgb(dcol, dval, dval));
-            } else if (color == ColorTools::COL_G) {
+            } else if (color == ColorTools::ColorsRGB::G) {
                 plane.setPixel(x, (h - y - 1), qRgb(dval, dcol, dval));
-            } else if (color == ColorTools::COL_B) {
+            } else if (color == ColorTools::ColorsRGB::B) {
                 plane.setPixel(x, (h - y - 1), qRgb(dval, dval, dcol));
-            } else if (color == ColorTools::COL_A) {
+            } else if (color == ColorTools::ColorsRGB::A) {
                 plane.setPixel(x, (h - y - 1), qRgb(dcol / 255. * qRed(background), dcol / 255. * qGreen(background), dcol / 255. * qBlue(background)));
             } else {
                 plane.setPixel(x, (h - y - 1), qRgb(dcol, dcol, dcol));

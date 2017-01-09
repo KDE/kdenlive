@@ -56,6 +56,9 @@ public:
     /** @brief Sets handlesLinked to true if the handles are in a linked state (line through h1, p, h2) otherwise to false. */
     void autoSetLinked();
 
+    /** @brief Toggles the link of the handles to @param linked*/
+    void setHandlesLinked(bool linked);
+
 /** handle 1 */
     QPointF h1;
 /** point */

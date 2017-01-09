@@ -92,3 +92,12 @@ void BPoint::autoSetLinked()
     qreal angle = QLineF(h1, p).angleTo(QLineF(p, h2));
     handlesLinked = angle < 1e-3 || qRound(angle) == 360;
 }
+
+void BPoint::setHandlesLinked(bool linked)
+{
+    handlesLinked = linked;
+    if (linked) {
+        //we force recomputing one of the handles
+        setH1(h1);
+    }
+}

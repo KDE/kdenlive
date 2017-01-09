@@ -163,6 +163,7 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
     m_state = State_t::DRAG;
 
     emit currentPoint(point, isCurrentPointExtremal());
+    emit modified();
     update();
 }
 
@@ -331,4 +332,26 @@ void BezierSplineEditor::setShowAllHandles(bool show)
 QList<BPoint> BezierSplineEditor::getPoints() const
 {
     return m_curve.getPoints();
+}
+
+ColorTools::ColorsRGB BezierSplineEditor::modeToColorsRGB(CurveModes mode)
+{
+    switch(mode){
+    case CurveModes::Red:
+        return ColorTools::ColorsRGB::R;
+    case CurveModes::Green:
+        return ColorTools::ColorsRGB::G;
+    case CurveModes::Blue:
+        return ColorTools::ColorsRGB::B;
+    case CurveModes::Luma:
+        return ColorTools::ColorsRGB::Luma;
+    case CurveModes::Alpha:
+        return ColorTools::ColorsRGB::A;
+    case CurveModes::RGB:
+    case CurveModes::Hue:
+    case CurveModes::Saturation:
+    default:
+        return ColorTools::ColorsRGB::RGB;
+    }
+    return ColorTools::ColorsRGB::RGB;
 }

@@ -2,7 +2,6 @@ set(kdenlive_SRCS
   ${kdenlive_SRCS}
   effectstack/widgets/curves/abstractcurvewidget.h
   effectstack/widgets/curves/bezier/beziersplineeditor.cpp
-  effectstack/widgets/curves/bezier/beziersplinewidget.cpp
   effectstack/widgets/curves/bezier/bpoint.cpp
   effectstack/widgets/curves/bezier/cubicbezierspline.cpp
   effectstack/widgets/curves/cubic/kis_curve_widget.cpp

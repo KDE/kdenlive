@@ -22,7 +22,8 @@
 #include "dragvalue.h"
 
 #include "widgets/animationwidget.h"
-#include "widgets/curves/bezier/beziersplinewidget.h"
+#include "widgets/curves/bezier/beziersplineeditor.h"
+#include "widgets/curves/curveparamwidget.h"
 #include "widgets/boolparamwidget.h"
 #include "widgets/choosecolorwidget.h"
 #include "widgets/cornerswidget.h"
@@ -425,8 +426,6 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(posedit, &PositionWidget::valueChanged,
                         this,    &ParameterContainer::slotCollectAllParameters);
             } else if (type == QLatin1String("curve")) {
-                KisCurveWidget *curve = new KisCurveWidget(parent);
-                curve->setMaxPoints(pa.attribute(QStringLiteral("max")).toInt());
                 QList<QPointF> points;
                 int number;
                 double version = 0;
@@ -450,24 +449,16 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     out.replace(QLatin1String("%i"), QString::number(j));
                     points << QPointF(locale.toDouble(EffectsList::parameter(e, in)), locale.toDouble(EffectsList::parameter(e, out)));
                 }
+                QString curve_value = "";
                 if (!points.isEmpty()) {
-                    curve->setCurve(KisCubicCurve(points));
+                    curve_value = KisCubicCurve(points).toString();
                 }
-                MySpinBox *spinin = new MySpinBox();
-                spinin->setRange(0, 1000);
-                MySpinBox *spinout = new MySpinBox();
-                spinout->setRange(0, 1000);
-                curve->setupInOutControls(spinin, spinout, 0, 1000);
-                if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
-                    curve->setEnabled(false);
-                    spinin->setEnabled(false);
-                    spinout->setEnabled(false);
-                }
+                using Widget_t = CurveParamWidget<KisCurveWidget>;
+                Widget_t *curve = new Widget_t(curve_value,parent);
+                curve->setMaxPoints(pa.attribute(QStringLiteral("max")).toInt());
                 m_vbox->addWidget(curve);
-                m_vbox->addWidget(spinin);
-                m_vbox->addWidget(spinout);
-
-                connect(curve, &KisCurveWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
+                connect(curve, &Widget_t::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
+                connect(this, &ParameterContainer::showComments, curve, &Widget_t::slotShowComment);
                 m_valueItems[paramName] = curve;
 
                 QString depends = pa.attribute(QStringLiteral("depends"));
@@ -475,11 +466,13 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     meetDependency(paramName, type, EffectsList::parameter(e, depends));
                 }
             } else if (type == QLatin1String("bezier_spline")) {
-                BezierSplineWidget *widget = new BezierSplineWidget(value, parent);
+                // BezierSplineWidget *widget = new BezierSplineWidget(value, parent);
+                using Widget_t = CurveParamWidget<BezierSplineEditor>;
+                Widget_t *widget = new Widget_t(value,parent);
                 stretch = false;
                 m_vbox->addWidget(widget);
                 m_valueItems[paramName] = widget;
-                connect(widget, &BezierSplineWidget::modified, this, &ParameterContainer::slotCollectAllParameters);
+                connect(widget, &Widget_t::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
                 QString depends = pa.attribute(QStringLiteral("depends"));
                 if (!depends.isEmpty()) {
                     meetDependency(paramName, type, EffectsList::parameter(e, depends));
@@ -791,16 +784,18 @@ void ParameterContainer::toggleSync(bool enable)
 void ParameterContainer::meetDependency(const QString &name, const QString &type, const QString &value)
 {
     if (type == QLatin1String("curve")) {
-        KisCurveWidget *curve = static_cast<KisCurveWidget *>(m_valueItems[name]);
+        using Widget_t = CurveParamWidget<KisCurveWidget>;
+        Widget_t *curve = static_cast<Widget_t *>(m_valueItems[name]);
         if (curve) {
-            const int color = value.toInt();
-            curve->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(curve->size(), (ColorTools::ColorsRGB)(color == 3 ? 4 : color), 0.8)));
+            QLocale locale;
+            curve->setMode((Widget_t::CurveModes)((int)(locale.toDouble(value) + 0.5)));
         }
     } else if (type == QLatin1String("bezier_spline")) {
-        BezierSplineWidget *widget = static_cast<BezierSplineWidget *>(m_valueItems[name]);
+        using Widget_t = CurveParamWidget<BezierSplineEditor>;
+        Widget_t *widget = static_cast<Widget_t *>(m_valueItems[name]);
         if (widget) {
             QLocale locale;
-            widget->setMode((BezierSplineWidget::CurveModes)((int)(locale.toDouble(value) * 10 + 0.5)));
+            widget->setMode((Widget_t::CurveModes)((int)(locale.toDouble(value) * 10 + 0.5)));
         }
     }
 }
@@ -1018,7 +1013,9 @@ void ParameterContainer::slotCollectAllParameters()
             EffectsList::setParameter(m_effect, QStringLiteral("out"),
                                       QString::number(effect_out));
         } else if (type == QLatin1String("curve")) {
-            KisCurveWidget *curve = static_cast<KisCurveWidget *>(m_valueItems.value(paramName));
+            using Widget_t = CurveParamWidget<KisCurveWidget>;
+            Widget_t *curve = static_cast<Widget_t *>(m_valueItems.value(paramName));
+            // KisCurveWidget *curve = static_cast<KisCurveWidget *>(m_valueItems.value(paramName));
             if (curve) {
                 QList<QPointF> points = curve->getPoints();
                 QString number = pa.attribute(QStringLiteral("number"));
@@ -1050,9 +1047,10 @@ void ParameterContainer::slotCollectAllParameters()
                 meetDependency(paramName, type, EffectsList::parameter(m_effect, depends));
             }
         } else if (type == QLatin1String("bezier_spline")) {
-            BezierSplineWidget *widget = static_cast<BezierSplineWidget *>(m_valueItems.value(paramName));
+            using Widget_t = CurveParamWidget<BezierSplineEditor>;
+            Widget_t *widget = static_cast<Widget_t *>(m_valueItems.value(paramName));
             if (widget) {
-                setValue = widget->spline();
+                setValue = widget->toString();
             }
             QString depends = pa.attribute(QStringLiteral("depends"));
             if (!depends.isEmpty()) {

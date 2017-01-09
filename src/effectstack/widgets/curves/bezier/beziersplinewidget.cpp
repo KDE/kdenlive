@@ -96,8 +96,9 @@ BezierSplineWidget::BezierSplineWidget(const QString &spline, QWidget *parent) :
 
     m_edit->setGridLines(KdenliveSettings::bezier_gridlines());
     m_ui.buttonShowPixmap->setChecked(KdenliveSettings::bezier_showpixmap());
-    slotShowPixmap(m_ui.buttonShowPixmap->isChecked());
     m_ui.buttonShowAllHandles->setChecked(KdenliveSettings::bezier_showallhandles());
+    slotShowPixmap(m_ui.buttonShowPixmap->isChecked());
+
 }
 
 QString BezierSplineWidget::spline() const

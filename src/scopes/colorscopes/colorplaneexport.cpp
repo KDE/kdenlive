@@ -231,10 +231,10 @@ void ColorPlaneExport::slotColormodeChanged()
         enableCbVariant(true);
         sliderScaling->setRange(1, 255);
         sliderScaling->setValue(255);
-        cbVariant->addItem(i18n("Red"), QVariant(ColorTools::COL_R));
-        cbVariant->addItem(i18n("Green"), QVariant(ColorTools::COL_G));
-        cbVariant->addItem(i18n("Blue"), QVariant(ColorTools::COL_B));
-        cbVariant->addItem(i18n("Luma"), QVariant(ColorTools::COL_Luma));
+        cbVariant->addItem(i18n("Red"), QVariant((int)ColorTools::ColorsRGB::R));
+        cbVariant->addItem(i18n("Green"), QVariant((int)ColorTools::ColorsRGB::G));
+        cbVariant->addItem(i18n("Blue"), QVariant((int)ColorTools::ColorsRGB::B));
+        cbVariant->addItem(i18n("Luma"), QVariant((int)ColorTools::ColorsRGB::Luma));
         break;
     case CPE_HSV_HUESHIFT:
         enableSliderScaling(true);
@@ -259,10 +259,10 @@ void ColorPlaneExport::slotColormodeChanged()
         enableSliderScaling(false);
         enableSliderColor(false);
         enableCbVariant(true);
-        cbVariant->addItem(i18n("Red"), QVariant(ColorTools::COL_R));
-        cbVariant->addItem(i18n("Green"), QVariant(ColorTools::COL_G));
-        cbVariant->addItem(i18n("Blue"), QVariant(ColorTools::COL_B));
-        cbVariant->addItem(i18n("Luma"), QVariant(ColorTools::COL_Luma));
+        cbVariant->addItem(i18n("Red"), QVariant((int)ColorTools::ColorsRGB::R));
+        cbVariant->addItem(i18n("Green"), QVariant((int)ColorTools::ColorsRGB::G));
+        cbVariant->addItem(i18n("Blue"), QVariant((int)ColorTools::ColorsRGB::B));
+        cbVariant->addItem(i18n("Luma"), QVariant((int)ColorTools::ColorsRGB::Luma));
         break;
     }
     this->update();

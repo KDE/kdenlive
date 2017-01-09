@@ -152,7 +152,16 @@ void AbstractCurveWidget<Curve_t>::setFromString(const QString & str)
 {
     m_curve.fromString(str);
     m_currentPointIndex = -1;
-    //m_mode = ModeNormal;
+    emit currentPoint(Point_t(), true);
+    emit modified();
+    update();
+}
+
+template<typename Curve_t>
+void AbstractCurveWidget<Curve_t>::reset()
+{
+    setFromString(Curve_t().toString());
+    m_currentPointIndex = -1;
     emit currentPoint(Point_t(), true);
     emit modified();
     update();

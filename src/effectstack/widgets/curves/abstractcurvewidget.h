@@ -60,6 +60,7 @@ public slots:
     virtual void slotDeleteCurrentPoint() = 0;
     virtual void slotZoomIn() = 0;
     virtual void slotZoomOut() = 0;
+    virtual void reset() = 0;
 };
 
 /** @brief Base class of all the widgets representing a curve of points
@@ -99,6 +100,10 @@ public:
     /** @brief Constructs the curve from @param string
      */
     void setFromString(const QString &string);
+
+    /** @brief Resets the curve to an empty one
+     */
+    void reset();
 
     /** @brief Returns a string corresponding to the curve
      */
