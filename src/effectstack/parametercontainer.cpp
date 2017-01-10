@@ -381,7 +381,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     m_keyframeEditor = geo;
                     connect(geo, &KeyframeEdit::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
                     connect(geo, &KeyframeEdit::seekToPos, this, &ParameterContainer::seekTimeline);
-                    connect(this, &ParameterContainer::showComments, geo, &KeyframeEdit::showComments);
+                    connect(this, &ParameterContainer::showComments, geo, &KeyframeEdit::slotShowComment);
                 } else {
                     // we already have a keyframe editor, so just add another column for the new param
                     m_keyframeEditor->addParameter(pa);
