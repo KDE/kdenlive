@@ -90,9 +90,7 @@ void AbstractCurveWidget<Curve_t>::paintBackground(QPainter *p)
     /*
      * Borders
      */
-    if (m_zoomLevel != 0) {
-        p->drawRect(0, 0, m_wWidth, m_wHeight);
-    }
+    p->drawRect(0, 0, m_wWidth, m_wHeight);
 
     /*
      * Grid
