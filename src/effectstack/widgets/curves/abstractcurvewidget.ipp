@@ -19,6 +19,7 @@
 
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QResizeEvent>
 
 template<typename Curve_t>
 AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent):
@@ -236,6 +237,7 @@ void AbstractCurveWidget<Curve_t>::resizeEvent(QResizeEvent *e)
 {
     m_pixmapIsDirty = true;
     QWidget::resizeEvent(e);
+    emit resized(this->size());
 }
 
 template<typename Curve_t>

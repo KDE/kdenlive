@@ -28,6 +28,9 @@
 
 
 
+template<typename CurveWidget_t>
+class ValueLabel;
+
 /** @brief Class representing a curve and some additional controls
  */
 template<typename CurveWidget_t>
@@ -63,6 +66,10 @@ public:
      */
     void setMaxPoints(int max);
 
+    /** @brief Helper function to convert a mode to the corresponding ColorsRGB value.
+        This avoids using potentially non consistent intermediate cast to int
+    */
+    static ColorTools::ColorsRGB modeToColorsRGB(CurveModes mode);
 protected:
     void deleteIrrelevantItems();
     void setupLayoutPoint();
@@ -76,10 +83,6 @@ protected:
     void slotUpdatePointH2(double /*value*/, bool final);
     void slotSetHandlesLinked(bool linked);
     void slotShowAllHandles(bool show);
-    /** @brief Helper function to convert a mode to the corresponding ColorsRGB value.
-        This avoids using potentially non consistent intermediate cast to int
-    */
-    static ColorTools::ColorsRGB modeToColorsRGB(CurveModes mode);
 public:
     /** @brief Toggle the comments on or off
      */
@@ -95,6 +98,8 @@ private:
     CurveWidget_t *m_edit;
     CurveModes m_mode;
     bool m_showPixmap;
+
+    ValueLabel<CurveWidget_t> *m_leftParam, *m_bottomParam;
 
 };
 

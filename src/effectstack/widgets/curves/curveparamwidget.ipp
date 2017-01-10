@@ -24,6 +24,62 @@
 #include "colortools.h"
 #include "bezier/beziersplineeditor.h"
 #include "cubic/kis_curve_widget.h"
+
+
+/*@brief this label is a pixmap corresponding to a legend of the axis*/
+template<typename CurveWidget_t>
+class ValueLabel : public QLabel
+{
+public:
+    /**@brief Creates the widget
+       @param isVert This parameter is true if the widget is vertical
+       @param mode This is the original mode
+       @param parent Parent of the widget
+    */
+    ValueLabel(bool isVert, typename CurveParamWidget<CurveWidget_t>::CurveModes mode, QWidget *parent) : QLabel(parent), m_mode(mode), m_isVert(isVert)  {}
+
+public slots:
+    void slotResize(const QSize &s)
+    {
+        if (m_isVert) {
+            setMinimumSize(10, s.height());
+            setMaximumSize(10, s.height());
+        } else {
+            setMinimumSize(s.height(), 10);
+            setMaximumSize(s.height(), 10);
+        }
+        createPixmap();
+    }
+    void setMode(typename CurveParamWidget<CurveWidget_t>::CurveModes m)
+    {
+        m_mode = m;
+        createPixmap();
+    }
+private:
+    using CurveModes = typename CurveParamWidget<CurveWidget_t>::CurveModes;
+    void createPixmap()
+    {
+        QTransform t;
+        QSize s = size();
+        if (!m_isVert) {
+            t.rotate(90);
+            s.setHeight(size().width());
+            s.setWidth(size().height());
+        }
+        if (m_mode == CurveModes::Hue) {
+            setPixmap(QPixmap::fromImage(ColorTools::hsvCurvePlane(s, QColor::fromHsv(200, 200, 200), ColorTools::COM_H, ColorTools::COM_H)).transformed(t));
+        } else if (m_mode == CurveModes::Saturation) {
+            setPixmap(QPixmap());
+        } else {
+            auto color = CurveParamWidget<CurveWidget_t>::modeToColorsRGB(m_mode);
+            setPixmap(QPixmap::fromImage(ColorTools::rgbCurveLine(s, color, palette().background().color().rgb())).transformed(t));
+        }
+    }
+
+    typename CurveParamWidget<CurveWidget_t>::CurveModes m_mode;
+    bool m_isVert;
+};
+
 template<>
 void CurveParamWidget<KisCurveWidget>::slotUpdatePointP(double, bool final)
 {
@@ -103,9 +159,30 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(const QString &spline, QWidget
 
     //construct and fill layout
     QVBoxLayout *layout = new QVBoxLayout(this);
-    QHBoxLayout *edit_layout = new QHBoxLayout(this);
-    edit_layout->addWidget(m_edit);
-    layout->addLayout(edit_layout);
+
+    //grid layout containing the curve and the optional param values
+    QGridLayout *curve_layout = new QGridLayout(this);
+    curve_layout->addWidget(m_edit, 0, 1);
+
+    m_leftParam = new ValueLabel<CurveWidget_t>(true, m_mode, this);
+    m_leftParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
+    m_leftParam->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    connect(m_edit, &CurveWidget_t::resized, m_leftParam, &ValueLabel<CurveWidget_t>::slotResize);
+    curve_layout->addWidget(m_leftParam, 0, 0);
+
+    m_bottomParam = new ValueLabel<CurveWidget_t>(false, m_mode, this);
+    m_bottomParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
+    m_bottomParam->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    connect(m_edit, &CurveWidget_t::resized, m_bottomParam, &ValueLabel<CurveWidget_t>::slotResize);
+    curve_layout->addWidget(m_bottomParam, 1, 1);
+
+
+    //horizontal layout to make sure that everything is centered
+    QHBoxLayout *horiz_layout = new QHBoxLayout(this);
+    horiz_layout->addLayout(curve_layout);
+
+
+    layout->addLayout(horiz_layout);
     QWidget *widget = new QWidget(this);
     m_ui.setupUi(widget);
     layout->addWidget(widget);
@@ -220,6 +297,8 @@ void CurveParamWidget<CurveWidget_t>::setMode(CurveModes mode)
         if (m_showPixmap) {
             slotShowPixmap(true);
         }
+        m_leftParam->setMode(mode);
+        m_bottomParam->setMode(mode);
     }
 }
 

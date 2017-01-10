@@ -53,6 +53,7 @@ signals:
     */
     void currentPoint(const QPointF &p, bool extremal);
     void currentPoint(const BPoint &p, bool extremal);
+    void resized(const QSize &s);
 
 public slots:
     /** @brief Delete current spline point if it is not a extremal point (first or last)

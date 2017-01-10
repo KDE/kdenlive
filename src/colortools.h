@@ -58,6 +58,11 @@ public:
       when also using the Luma component for the curves display but might not represent the actual color change!
      */
     static QImage rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color, float scaling = 1, const QRgb &background = QRgb());
+
+    /**
+       Same as the plane except that we vary only the vertical dimension
+    */
+    static QImage rgbCurveLine(const QSize &size, const ColorTools::ColorsRGB &color, const QRgb &background);
     /**
       @brief Draws a YPbPr plane with Pb on the x axis and Pr on the y axis.
       Y is the Y value to use.

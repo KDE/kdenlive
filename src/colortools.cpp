@@ -213,6 +213,45 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB 
     return plane;
 }
 
+QImage ColorTools::rgbCurveLine(const QSize &size, const ColorTools::ColorsRGB &color, const QRgb &background)
+{
+
+    QImage plane(size, QImage::Format_ARGB32);
+    if (size.width() == 0 || size.height() == 0) {
+        qCritical("ERROR: Size of the color line must not be 0!");
+        return plane;
+    }
+
+    const int w = size.width();
+    const int h = size.height();
+
+    double dcol;
+    double dy;
+
+    for (int x = 0; x < w; ++x) {
+
+        for (int y = 0; y < h; ++y) {
+            dy = (double)y / (h - 1);
+
+            dcol = (double)255 * dy;
+
+            if (color == ColorTools::ColorsRGB::R) {
+                plane.setPixel(x, (h - y - 1), qRgb(dcol, 0, 0));
+            } else if (color == ColorTools::ColorsRGB::G) {
+                plane.setPixel(x, (h - y - 1), qRgb(0, dcol, 0));
+            } else if (color == ColorTools::ColorsRGB::B) {
+                plane.setPixel(x, (h - y - 1), qRgb(0, 0, dcol));
+            } else if (color == ColorTools::ColorsRGB::A) {
+                plane.setPixel(x, (h - y - 1), qRgb(dcol / 255. * qRed(background), dcol / 255. * qGreen(background), dcol / 255. * qBlue(background)));
+            } else {
+                plane.setPixel(x, (h - y - 1), qRgb(dcol, dcol, dcol));
+            }
+
+        }
+    }
+    return plane;
+}
+
 QImage ColorTools::yPbPrColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &circleOnly)
 {
 
