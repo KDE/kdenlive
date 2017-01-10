@@ -39,7 +39,7 @@ public:
         @param comment Optional string containing the comment associated to the parameter
         @param parent Parent widget
     */
-    ListParamWidget(const QString& name, const QString& comment = "", QWidget *parent = Q_NULLPTR);
+    ListParamWidget(const QString& name, const QString& comment = QString(), QWidget *parent = Q_NULLPTR);
 
     /** @brief Set the index of the current displayed element
         @param index Integer holding the index of the target element (0-indexed)
