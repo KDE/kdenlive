@@ -72,8 +72,13 @@ int main(int argc, char **argv)
         QString profile = args.takeFirst();
         QString rendermodule = args.takeFirst();
         QString player = args.takeFirst();
-        QByteArray srcString = args.takeFirst().toUtf8();
-        QUrl srcurl = QUrl::fromEncoded(srcString);
+        QString srcString = args.takeFirst();
+        QUrl srcurl;
+        if (srcString.startsWith(QLatin1String("consumer:"))) {
+            srcurl = QUrl::fromEncoded(srcString.section(QStringLiteral(":"), 1).toUtf8().constData());
+        } else {
+            srcurl = QUrl::fromEncoded(srcString.toUtf8().constData());
+        }
         QString src = srcurl.toLocalFile();
         // The QUrl path() strips the consumer: protocol, so re-add it if necessary
         if (srcString.startsWith("consumer:")) {

@@ -193,6 +193,11 @@ bool DocumentChecker::hasErrorInClips()
             if (QFileInfo(original).isRelative()) {
                 original.prepend(root);
             }
+            // Check for slideshows
+            bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QStringLiteral("?")) || original.contains(QStringLiteral("%"));
+            if (slideshow && !EffectsList::property(e, QStringLiteral("ttl")).isEmpty()) {
+                original = QFileInfo(original).absolutePath();
+            }
             if (!QFile::exists(original)) {
                 // clip has proxy but original clip is missing
                 missingSources.append(e);
@@ -205,7 +210,6 @@ bool DocumentChecker::hasErrorInClips()
         if ((service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) && slideshow) {
             resource = QFileInfo(resource).absolutePath();
         }
-        qDebug()<<" * * *Checking resource: "<<resource;
         if (!QFile::exists(resource)) {
             // Missing clip found
             m_missingClips.append(e);
@@ -317,7 +321,7 @@ bool DocumentChecker::hasErrorInClips()
                 clipType = i18n("Image clip");
                 type = Image;
             }
-        } else if (service == QLatin1String("mlt")) {
+        } else if (service == QLatin1String("mlt") || service == QLatin1String("xml")) {
             clipType = i18n("Playlist clip");
             type = Playlist;
         } else if (e.tagName() == QLatin1String("missingtitle")) {
