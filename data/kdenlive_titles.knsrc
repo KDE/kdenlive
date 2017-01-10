@@ -5,6 +5,13 @@ Uncompress=archive
 
 [KNewStuff3]
 Name=Kdenlive Title Templates
+Name[ca]=Plantilles de títol del Kdenlive
+Name[ca@valencia]=Plantilles de títol del Kdenlive
+Name[nl]=Titelsjablonen van Kdenlive
+Name[pt]=Perfis de Títulos do Kdenlive
+Name[sv]=Kdenlive-titelmallar
+Name[uk]=Шаблони титрів Kdenlive
+Name[x-test]=xxKdenlive Title Templatesxx
 ProvidersUrl=http://download.kde.org/ocs/providers.xml
 Categories=Kdenlive Title Templates
 TargetDir=kdenlive/titles

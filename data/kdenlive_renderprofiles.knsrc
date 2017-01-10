@@ -5,6 +5,13 @@ Uncompress=archive
 
 [KNewStuff3]
 Name=Kdenlive Render Profiles
+Name[ca]=Perfils de renderització del Kdenlive
+Name[ca@valencia]=Perfils de renderització del Kdenlive
+Name[nl]=Renderprofielen van Kdenlive
+Name[pt]=Perfis de Visualização do Kdenlive
+Name[sv]=Kdenlive-återgivningsprofiler
+Name[uk]=Профілі обробки Kdenlive
+Name[x-test]=xxKdenlive Render Profilesxx
 ProvidersUrl=http://download.kde.org/ocs/providers.xml
 Categories=Kdenlive Export Profiles
 TargetDir=kdenlive/export
