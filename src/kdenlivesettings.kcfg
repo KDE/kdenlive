@@ -639,7 +639,7 @@
 
     <entry name="bezier_showpixmap" type="Bool">
       <label>Should a background indicating the changes caused by curve manipulation be shown.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
 
     <entry name="bezier_showallhandles" type="Bool">
