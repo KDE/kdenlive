@@ -36,20 +36,19 @@ public:
        @param mode This is the original mode
        @param parent Parent of the widget
     */
-    ValueLabel(bool isVert, typename CurveParamWidget<CurveWidget_t>::CurveModes mode, QWidget *parent) : QLabel(parent), m_mode(mode), m_isVert(isVert)  {}
+    ValueLabel(bool isVert, typename CurveParamWidget<CurveWidget_t>::CurveModes mode, QWidget *parent) : QLabel(parent), m_mode(mode), m_isVert(isVert)  {
+        if (m_isVert) {
+            setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+            setMaximumSize(10, 500);
+            setFixedWidth(10);
+        } else {
+            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+            setFixedHeight(10);
+        }
+        setScaledContents(true);
+    }
 
 public slots:
-    void slotResize(const QSize &s)
-    {
-        if (m_isVert) {
-            setMinimumSize(10, s.height());
-            setMaximumSize(10, s.height());
-        } else {
-            setMinimumSize(s.height(), 10);
-            setMaximumSize(s.height(), 10);
-        }
-        createPixmap();
-    }
     void setMode(typename CurveParamWidget<CurveWidget_t>::CurveModes m)
     {
         m_mode = m;
@@ -161,24 +160,21 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(const QString &spline, QWidget
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     //grid layout containing the curve and the optional param values
-    QGridLayout *curve_layout = new QGridLayout(this);
+    QGridLayout *curve_layout = new QGridLayout();
     curve_layout->addWidget(m_edit, 0, 1);
 
     m_leftParam = new ValueLabel<CurveWidget_t>(true, m_mode, this);
     m_leftParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
     m_leftParam->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    connect(m_edit, &CurveWidget_t::resized, m_leftParam, &ValueLabel<CurveWidget_t>::slotResize);
     curve_layout->addWidget(m_leftParam, 0, 0);
 
     m_bottomParam = new ValueLabel<CurveWidget_t>(false, m_mode, this);
     m_bottomParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
-    m_bottomParam->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    connect(m_edit, &CurveWidget_t::resized, m_bottomParam, &ValueLabel<CurveWidget_t>::slotResize);
+    m_bottomParam->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     curve_layout->addWidget(m_bottomParam, 1, 1);
 
-
     //horizontal layout to make sure that everything is centered
-    QHBoxLayout *horiz_layout = new QHBoxLayout(this);
+    QHBoxLayout *horiz_layout = new QHBoxLayout;
     horiz_layout->addLayout(curve_layout);
 
 

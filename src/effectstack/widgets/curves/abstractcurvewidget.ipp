@@ -38,7 +38,7 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent):
     setAttribute(Qt::WA_OpaquePaintEvent);
     setMinimumSize(150, 150);
     setMaximumSize(500, 500);
-    QSizePolicy sp(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::Preferred);
     sp.setHeightForWidth(true); //force widget to have a height dependent on width;
     setSizePolicy(sp);
     setFocusPolicy(Qt::StrongFocus);
@@ -237,7 +237,6 @@ void AbstractCurveWidget<Curve_t>::resizeEvent(QResizeEvent *e)
 {
     m_pixmapIsDirty = true;
     QWidget::resizeEvent(e);
-    emit resized(this->size());
 }
 
 template<typename Curve_t>
