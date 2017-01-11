@@ -29,6 +29,7 @@
 
 
 SpacerManager::SpacerManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(SpacerType, view, commandStack)
+    , m_track(0)
     , m_dragMoved(false)
 {
 }
