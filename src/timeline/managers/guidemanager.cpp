@@ -26,6 +26,7 @@
 #include <QGraphicsItem>
 
 GuideManager::GuideManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(GuideType, view, commandStack)
+    , m_dragGuide(nullptr)
 {
 }
 

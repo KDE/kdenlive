@@ -495,6 +495,7 @@ GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
     m_tool(TITLE_RECTANGLE),
     m_gridSize(20),
     m_createdText(false),
+    m_moveStarted(false),
     m_pan(false)
 {
     //grabMouse();

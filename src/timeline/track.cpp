@@ -435,6 +435,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
     }
     delete trackProducer;
     delete info;
+    delete audioTrackProducer;
     return replaced;
 }
 

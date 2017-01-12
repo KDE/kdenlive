@@ -34,6 +34,7 @@ TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : Ab
     , m_rippleIndex(0)
     , m_trimPlaylist(nullptr)
     , trimChanged(false)
+    , m_render(nullptr)
 {
 }
 

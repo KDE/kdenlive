@@ -86,11 +86,11 @@ int main(int argc, char *argv[])
                          i18n("Kdenlive"), KDENLIVE_VERSION,
                          i18n("An open source video editor."),
                          KAboutLicense::GPL,
-                         i18n("Copyright © 2007–2016 Kdenlive authors"),
+                         i18n("Copyright © 2007–2017 Kdenlive authors"),
                          i18n("Please report bugs to http://bugs.kde.org"),
                          QStringLiteral("https://kdenlive.org"));
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
-    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("Interim maintainer, KF5 port, bugs fixing, minor functions, profiles updates, etc."), QStringLiteral("vpinon@april.org"));
+    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("Interim maintainer, Windows cross-build, KF5 port, bugs fixing, minor functions, profiles updates, etc."), QStringLiteral("vpinon@april.org"));
     aboutData.addAuthor(i18n("Laurent Montel"), i18n("Bugs fixing, clean up code, optimization etc."), QStringLiteral("montel@kde.org"));
     aboutData.addAuthor(i18n("Marco Gittler"), i18n("MLT transitions and effects, timeline, audio thumbs"), QStringLiteral("g.marco@freenet.de"));
     aboutData.addAuthor(i18n("Dan Dennedy"), i18n("Bug fixing, etc."), QStringLiteral("dan@dennedy.org"));
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Nara Oliveira and Farid Abdelnour | Estúdio Gunga"), i18n("Kdenlive 16.08 icon"));
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
-    aboutData.setOtherText(i18n("Using MLT version %1", mlt_version_get_string()));
+    aboutData.setOtherText(i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
 
     // Register about data
     KAboutData::setApplicationData(aboutData);
