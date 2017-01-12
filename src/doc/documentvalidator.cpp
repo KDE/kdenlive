@@ -1617,6 +1617,23 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
     }
+    if (version < 0.96) {
+        // Check image sequences with buggy begin frame number
+        QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
+        int max = producers.count();
+        for (int i = 0; i < max; ++i) {
+            QDomElement prod = producers.at(i).toElement();
+            if (prod.isNull()) continue;
+            const QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
+            if (service == QLatin1String("pixbuf") || service == QLatin1String("qimage")) {
+                QString resource = EffectsList::property(prod, QStringLiteral("resource"));
+                if (resource.contains(QStringLiteral("?begin:"))) {
+                    resource.replace(QStringLiteral("?begin:"), QStringLiteral("?begin="));
+                    EffectsList::setProperty(prod, "resource", resource.toUtf8().constData());
+                }
+            }
+        }
+    }
 
     m_modified = true;
     return true;

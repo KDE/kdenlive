@@ -244,7 +244,12 @@ void SlideshowClip::parseFolder()
         // find pattern
         if (path.contains('?')) {
             // New MLT syntax
-            offset = path.section(':', -1).toInt();
+            if (path.section('?',1).contains(QLatin1Char(':'))) {
+                // Old deprecated format
+                offset = path.section(':', -1).toInt();
+            } else {
+                offset = path.section('=', -1).toInt();
+            }
             path = path.section('?', 0, 0);
         }
         QString filter = QFileInfo(path).fileName();
@@ -398,7 +403,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
             }
         }
         extension = filter + "%0" + QString::number(precision) + 'd' + ext;
-	if (firstFrame > 0) extension.append(QStringLiteral("?begin:%1").arg(firstFrame));
+	if (firstFrame > 0) extension.append(QStringLiteral("?begin=%1").arg(firstFrame));
     }
     //qDebug() << "// FOUND " << (*list).count() << " items for " << url.toLocalFile();
     return  folder + extension;
