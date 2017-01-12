@@ -757,7 +757,7 @@ GenTime CustomTrackView::createGroupForSelectedItems(QList<QGraphicsItem *> &sel
     scene()->addItem(m_selectionGroup);
 
     for (int i = 0; i < selection.count(); ++i) {
-        if (selection.at(i)->parentItem() == 0 && (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget)) {
+        if (selection.at(i)->parentItem() == nullptr && (selection.at(i)->type() == AVWidget || selection.at(i)->type() == TransitionWidget)) {
             AbstractClipItem *item = static_cast<AbstractClipItem *>(selection.at(i));
             if (item->isItemLocked()) {
                 continue;
@@ -1314,7 +1314,7 @@ void CustomTrackView::resetSelectionGroup(bool selectItems)
         scene()->destroyItemGroup(m_selectionGroup);
         m_selectionGroup = nullptr;
         for (int i = 0; i < children.count(); ++i) {
-            if (children.at(i)->parentItem() == 0) {
+            if (children.at(i)->parentItem() == nullptr) {
                 if ((children.at(i)->type() == AVWidget || children.at(i)->type() == TransitionWidget)) {
                     if (!static_cast <AbstractClipItem *>(children.at(i))->isItemLocked()) {
                         children.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -7862,7 +7862,7 @@ void CustomTrackView::updateProjectFps()
         }
     }
     for (int i = 0; i < itemList.count(); ++i) {
-        if (itemList.at(i)->parentItem() == 0 && (itemList.at(i)->type() == AVWidget || itemList.at(i)->type() == TransitionWidget)) {
+        if (itemList.at(i)->parentItem() == nullptr && (itemList.at(i)->type() == AVWidget || itemList.at(i)->type() == TransitionWidget)) {
             AbstractClipItem *clip = static_cast <AbstractClipItem *>(itemList.at(i));
             clip->updateFps(m_document->fps());
             m_scene->addItem(clip);
@@ -8420,7 +8420,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
             continue;
         }
         processedUrls << wrapUrl;
-        Mlt::Producer *slowProd = new Mlt::Producer(*prod->profile(), 0, wrapUrl.toUtf8().constData());
+        Mlt::Producer *slowProd = new Mlt::Producer(*prod->profile(), nullptr, wrapUrl.toUtf8().constData());
         if (!slowProd->is_valid()) {
             qCDebug(KDENLIVE_LOG) << "++++ FAILED TO CREATE SLOWMO PROD";
             continue;

@@ -46,7 +46,7 @@ Core::~Core()
     delete m_projectManager;
     delete m_binController;
     delete m_monitorManager;
-    m_self = 0;
+    m_self = nullptr;
 }
 
 void Core::build(MainWindow *mainWindow)

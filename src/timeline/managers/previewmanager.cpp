@@ -536,7 +536,7 @@ void PreviewManager::reloadChunks(const QList<int> &chunks)
     foreach (int ix, chunks) {
         if (m_previewTrack->is_blank_at(ix)) {
             const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
-            Mlt::Producer prod(*m_tractor->profile(), 0, fileName.toUtf8().constData());
+            Mlt::Producer prod(*m_tractor->profile(), nullptr, fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
@@ -563,7 +563,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     }
     m_tractor->lock();
     if (m_previewTrack->is_blank_at(frame)) {
-        Mlt::Producer prod(*m_tractor->profile(), 0, file.toUtf8().constData());
+        Mlt::Producer prod(*m_tractor->profile(), nullptr, file.toUtf8().constData());
         if (prod.is_valid()) {
             m_ruler->updatePreview(frame, true, true);
             prod.set("mlt_service", "avformat-novalidate");

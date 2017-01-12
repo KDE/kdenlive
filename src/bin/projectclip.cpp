@@ -376,7 +376,7 @@ bool ProjectClip::setProducer(ClipController *controller, bool replaceProducer)
     }
     bin()->emitItemUpdated(this);
     // Make sure we have a hash for this clip
-    hash();
+    getFileHash();
     createAudioThumbs();
     return isNewProducer;
 }

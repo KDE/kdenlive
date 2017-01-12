@@ -20,7 +20,7 @@
 class FrameData : public QSharedData
 {
 public:
-    FrameData() : f((mlt_frame)0) {};
+    FrameData() : f((mlt_frame)nullptr) {};
     explicit FrameData(Mlt::Frame &frame) : f(frame) {};
     ~FrameData() {};
 
@@ -30,7 +30,7 @@ private:
 };
 
 SharedFrame::SharedFrame()
-    : d(0)
+    : d(nullptr)
 {
 }
 
@@ -65,8 +65,8 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
     // It could be added to mlt_frame as an alternative to:
     //     mlt_frame mlt_frame_clone( mlt_frame self, int is_deep );
     // It could also be added to Mlt::Frame as a const function.
-    void *data = 0;
-    void *copy = 0;
+    void *data = nullptr;
+    void *copy = nullptr;
     int size = 0;
     Mlt::Frame cloneFrame(mlt_frame_init(nullptr));
     cloneFrame.inherit(d->f);
@@ -99,7 +99,7 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
             size = mlt_image_format_size(get_image_format(),
                                          get_image_width(),
                                          get_image_height(),
-                                         0);
+                                         nullptr);
         }
         copy = mlt_pool_alloc(size);
         memcpy(copy, data, size);

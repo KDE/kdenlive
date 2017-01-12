@@ -447,7 +447,7 @@ void DvdWizardMenu::checkBackgroundType(int ix)
         m_view.background_color->setVisible(true);
         m_view.background_image->setVisible(false);
         m_view.loop_movie->setVisible(false);
-        if (m_background->scene() != 0) {
+        if (m_background->scene() != nullptr) {
             m_scene->removeItem(m_background);
         }
     } else {
@@ -456,12 +456,12 @@ void DvdWizardMenu::checkBackgroundType(int ix)
         if (ix == 1) {
             m_view.background_image->clear();
             m_view.background_image->setFilter(QStringLiteral("*"));
-            if (m_background->scene() != 0) {
+            if (m_background->scene() != nullptr) {
                 m_scene->removeItem(m_background);
             }
             m_view.loop_movie->setVisible(false);
         } else {
-            if (m_background->scene() != 0) {
+            if (m_background->scene() != nullptr) {
                 m_scene->removeItem(m_background);
             }
             m_view.background_image->clear();
@@ -491,7 +491,7 @@ void DvdWizardMenu::buildImage()
 {
     emit completeChanged();
     if (m_view.background_image->url().isEmpty()) {
-        if (m_background->scene() != 0) {
+        if (m_background->scene() != nullptr) {
             m_scene->removeItem(m_background);
         }
         return;
@@ -501,7 +501,7 @@ void DvdWizardMenu::buildImage()
     if (m_view.background_list->currentIndex() == 1) {
         // image background
         if (!pix.load(m_view.background_image->url().toLocalFile())) {
-            if (m_background->scene() != 0) {
+            if (m_background->scene() != nullptr) {
                 m_scene->removeItem(m_background);
             }
             return;
@@ -636,13 +636,13 @@ void DvdWizardMenu::createButtonImages(const QString &selected_image, const QStr
             int letterboxHeight = m_height / factor;
             target = QRectF(0, (m_finalSize.height() - letterboxHeight) / 2, m_finalSize.width(), letterboxHeight);
         }
-        if (m_safeRect->scene() != 0) {
+        if (m_safeRect->scene() != nullptr) {
             m_scene->removeItem(m_safeRect);
         }
-        if (m_color->scene() != 0) {
+        if (m_color->scene() != nullptr) {
             m_scene->removeItem(m_color);
         }
-        if (m_background->scene() != 0) {
+        if (m_background->scene() != nullptr) {
             m_scene->removeItem(m_background);
         }
         prepareUnderLines();
@@ -684,7 +684,7 @@ void DvdWizardMenu::createBackgroundImage(const QString &img1, bool letterbox)
     Q_UNUSED(letterbox)
 
     m_scene->clearSelection();
-    if (m_safeRect->scene() != 0) {
+    if (m_safeRect->scene() != nullptr) {
         m_scene->removeItem(m_safeRect);
     }
     bool showBg = false;
@@ -704,10 +704,10 @@ void DvdWizardMenu::createBackgroundImage(const QString &img1, bool letterbox)
 
     if (menuMovie()) {
         showBg = true;
-        if (m_background->scene() != 0) {
+        if (m_background->scene() != nullptr) {
             m_scene->removeItem(m_background);
         }
-        if (m_color->scene() != 0) {
+        if (m_color->scene() != nullptr) {
             m_scene->removeItem(m_color);
         }
         img.fill(Qt::transparent);

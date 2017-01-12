@@ -385,7 +385,10 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
                 // No duplication required
                 cut = original->cut(p->get_in(), p->get_out());
             }
-            else {
+            else if (!idForTrack.contains(QStringLiteral("_")) && idForTrack == current.section(QStringLiteral("_"), 0, 0)) {
+                // Unproxying a slideshow
+                cut = original->cut(p->get_in(), p->get_out());
+            } else {
 		continue;
 	    }
         }
@@ -393,11 +396,13 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
 	        // No audio - no duplication required
                 cut = original->cut(p->get_in(), p->get_out());
 	}
-        else if (!cut && current == idForTrack) {
+        else if (!cut && ((current == idForTrack) || (!current.contains(QStringLiteral("_")) && current == idForTrack.section(QStringLiteral("_"), 0, 0)))) {
             // Use duplicate
             if (trackProducer == nullptr) {
-                trackProducer = Clip(*original).clone();
-                trackProducer->set("id", idForTrack.toUtf8().constData());
+                if (idForTrack.contains(QStringLiteral("_"))) {
+                    trackProducer = Clip(*original).clone();
+                    trackProducer->set("id", idForTrack.toUtf8().constData());
+                }
             }
             cut = trackProducer->cut(p->get_in(), p->get_out());
         }
@@ -648,7 +653,7 @@ void Track::updateClipProperties(const QString &id, const QMap<QString, QString>
 Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QString &url, const QString &id, Track::SlowmoInfo info)
 {
     QLocale locale;
-    Mlt::Producer *prod = new Mlt::Producer(*m_playlist.profile(), 0, ("timewarp:" + url).toUtf8().constData());
+    Mlt::Producer *prod = new Mlt::Producer(*m_playlist.profile(), nullptr, ("timewarp:" + url).toUtf8().constData());
     if (!prod->is_valid()) {
 	qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
 	return nullptr;

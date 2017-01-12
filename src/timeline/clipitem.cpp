@@ -51,7 +51,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double s
     m_startPix(QPixmap()),
     m_endPix(QPixmap()),
     m_hasThumbs(false),
-    m_timeLine(0),
+    m_timeLine(nullptr),
     m_startThumbRequested(false),
     m_endThumbRequested(false),
     //m_hover(false),
@@ -555,7 +555,7 @@ QString ClipItem::clipName() const
 
 void ClipItem::flashClip()
 {
-    if (m_timeLine == 0) {
+    if (m_timeLine == nullptr) {
         m_timeLine = new QTimeLine(500, this);
         m_timeLine->setUpdateInterval(80);
         m_timeLine->setCurveShape(QTimeLine::EaseInOutCurve);

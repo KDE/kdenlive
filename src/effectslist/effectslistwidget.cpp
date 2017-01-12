@@ -106,7 +106,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             if (item) {
                 item->setData(0, IdRole, groups.at(i).toElement().attribute(QStringLiteral("list")));
             } else {
-                item = new QTreeWidgetItem((QTreeWidget *)0, QStringList(folderNames.at(i)));
+                item = new QTreeWidgetItem((QTreeWidget *)nullptr, QStringList(folderNames.at(i)));
                 item->setData(0, TypeRole, QString::number((int) EffectsList::EFFECT_FOLDER));
                 item->setData(0, IdRole, groups.at(i).toElement().attribute(QStringLiteral("list")));
                 item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -118,7 +118,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
         misc = findFolder(i18n("Misc"));
         if (misc == nullptr) {
-            misc = new QTreeWidgetItem((QTreeWidget *)0, QStringList(i18n("Misc")));
+            misc = new QTreeWidgetItem((QTreeWidget *)nullptr, QStringList(i18n("Misc")));
             misc->setData(0, TypeRole, QString::number((int) EffectsList::EFFECT_FOLDER));
             misc->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             insertTopLevelItem(0, misc);
@@ -126,7 +126,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
         audio = findFolder(i18n("Audio"));
         if (audio == nullptr) {
-            audio = new QTreeWidgetItem((QTreeWidget *)0, QStringList(i18n("Audio")));
+            audio = new QTreeWidgetItem((QTreeWidget *)nullptr, QStringList(i18n("Audio")));
             audio->setData(0, TypeRole, QString::number((int) EffectsList::EFFECT_FOLDER));
             audio->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             insertTopLevelItem(0, audio);
@@ -134,7 +134,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
 
         custom = findFolder(i18nc("Folder Name", "Custom"));
         if (custom == nullptr) {
-            custom = new QTreeWidgetItem((QTreeWidget *)0, QStringList(i18nc("Folder Name", "Custom")));
+            custom = new QTreeWidgetItem((QTreeWidget *)nullptr, QStringList(i18nc("Folder Name", "Custom")));
             custom->setData(0, TypeRole, QString::number((int) EffectsList::EFFECT_FOLDER));
             custom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             insertTopLevelItem(0, custom);
@@ -147,7 +147,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
     } else {
         loadEffects(&MainWindow::videoEffects, misc, &folders, EffectsList::EFFECT_VIDEO, current, &found);
         loadEffects(&MainWindow::audioEffects, audio, &folders, EffectsList::EFFECT_AUDIO, current, &found);
-        loadEffects(&MainWindow::customEffects, custom, static_cast<QList<QTreeWidgetItem *> *>(0), EffectsList::EFFECT_CUSTOM, current, &found);
+        loadEffects(&MainWindow::customEffects, custom, static_cast<QList<QTreeWidgetItem *> *>(nullptr), EffectsList::EFFECT_CUSTOM, current, &found);
         if (!found && !currentFolder.isEmpty()) {
             // previously selected effect was removed, focus on its parent folder
             for (int i = 0; i < topLevelItemCount(); ++i) {

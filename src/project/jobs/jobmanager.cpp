@@ -301,7 +301,7 @@ void JobManager::launchJob(ProjectClip *clip, AbstractClipJob *job, bool runQueu
 void JobManager::slotDiscardClipJobs()
 {
     QAction *act = qobject_cast<QAction *>(sender());
-    if (act == 0) {
+    if (act == nullptr) {
         // Cannot access triggering action, something is wrong
         qCDebug(KDENLIVE_LOG) << "// Error in job action";
         return;

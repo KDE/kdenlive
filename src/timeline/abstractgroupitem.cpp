@@ -218,7 +218,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         }
     }
     CustomTrackScene *scene = nullptr;
-    if (change == ItemPositionChange && parentItem() == 0) {
+    if (change == ItemPositionChange && parentItem() == nullptr) {
         scene = projectScene();
     }
     if (scene) {

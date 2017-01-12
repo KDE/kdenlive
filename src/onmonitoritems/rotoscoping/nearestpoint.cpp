@@ -134,7 +134,7 @@ Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut)
     /* Find distances for candidate points  */
     for (i = 0; i < n_solutions; ++i) {
         p = Bezier(V, DEGREE, t_candidate[i],
-                   (Point2 *)NULL, (Point2 *)NULL);
+                   (Point2 *)nullptr, (Point2 *)nullptr);
         new_dist = V2SquaredLength(V2Sub(&P, &p, &v));
         if (new_dist < dist) {
             dist = new_dist;
@@ -151,7 +151,7 @@ Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut)
     /*  Return the point on the curve at parameter value t */
     //     printf("t : %4.12f\n", t);
     *tOut = t;
-    return (Bezier(V, DEGREE, t, (Point2 *)NULL, (Point2 *)NULL));
+    return (Bezier(V, DEGREE, t, (Point2 *)nullptr, (Point2 *)nullptr));
 }
 
 /*
@@ -481,12 +481,12 @@ static Point2 Bezier(Point2 *V, int degree, double t, Point2 *Left, Point2 *Righ
         }
     }
 
-    if (Left != NULL) {
+    if (Left != nullptr) {
         for (j = 0; j <= degree; ++j) {
             Left[j]  = Vtemp[j][0];
         }
     }
-    if (Right != NULL) {
+    if (Right != nullptr) {
         for (j = 0; j <= degree; ++j) {
             Right[j] = Vtemp[degree - j][j];
         }

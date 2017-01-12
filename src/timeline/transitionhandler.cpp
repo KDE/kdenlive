@@ -451,7 +451,7 @@ Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_tra
         }
         service.reset(service->producer());
     }
-    return 0;
+    return nullptr;
 }
 
 Mlt::Transition *TransitionHandler::getTrackTransition(const QStringList &names, int b_track, int a_track) const
@@ -470,7 +470,7 @@ Mlt::Transition *TransitionHandler::getTrackTransition(const QStringList &names,
         }
         service.reset(service->producer());
     }
-    return 0;
+    return nullptr;
 }
 
 void TransitionHandler::duplicateTransitionOnPlaylist(int in, int out, const QString &tag, const QDomElement &xml, int a_track, int b_track, Mlt::Field *field)

@@ -214,13 +214,13 @@ void ProducerQueue::processFileProperties()
         }
         if (type == Color) {
             path.prepend("color:");
-            producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
+            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == Text || type == TextTemplate) {
             path.prepend("kdenlivetitle:");
-            producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
+            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == QText) {
             path.prepend("qtext:");
-            producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
+            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == Playlist && !proxyProducer) {
             //TODO: "xml" seems to corrupt project fps if different, and "consumer" crashed on audio transition
             Mlt::Profile *xmlProfile = new Mlt::Profile();
@@ -250,9 +250,9 @@ void ProducerQueue::processFileProperties()
                 continue;
             }
             m_binController->profile()->set_explicit(true);
-            producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
+            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == SlideShow) {
-            producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
+            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (!url.isValid()) {
             //WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
@@ -270,7 +270,7 @@ void ProducerQueue::processFileProperties()
             mlt.appendChild(tractor);
             producer = new Mlt::Producer(*m_binController->profile(), "xml-string", doc.toString().toUtf8().constData());
         } else {
-            producer = new Mlt::Producer(*m_binController->profile(), 0, path.toUtf8().constData());
+            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
             if (producer->is_valid() && info.xml.hasAttribute(QStringLiteral("checkProfile")) && producer->get_int("video_index") > -1) {
                 // Check if clip profile matches
                 QString service = producer->get("mlt_service");
@@ -577,7 +577,7 @@ void ProducerQueue::processFileProperties()
                 path = "xml:" + path.section(QLatin1Char(':'), 1);
             }
             Mlt::Profile original_profile;
-            Mlt::Producer *tmpProd = new Mlt::Producer(original_profile, 0, path.toUtf8().constData());
+            Mlt::Producer *tmpProd = new Mlt::Producer(original_profile, nullptr, path.toUtf8().constData());
             original_profile.set_explicit(true);
             filePropertyMap[QStringLiteral("progressive")] = QString::number(original_profile.progressive());
             filePropertyMap[QStringLiteral("colorspace")] = QString::number(original_profile.colorspace());
@@ -588,7 +588,7 @@ void ProducerQueue::processFileProperties()
                 // Warning, MLT detects an incorrect length in producer consumer when producer's fps != project's fps
                 //TODO: report bug to MLT
                 delete tmpProd;
-                tmpProd = new Mlt::Producer(original_profile, 0, path.toUtf8().constData());
+                tmpProd = new Mlt::Producer(original_profile, nullptr, path.toUtf8().constData());
                 int originalLength = tmpProd->get_length();
                 int fixedLength = (int)(originalLength * m_binController->profile()->fps() / originalFps);
                 producer->set("length", fixedLength);

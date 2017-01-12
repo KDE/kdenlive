@@ -52,7 +52,7 @@
 
 #ifndef Q_OS_WIN
 typedef GLenum(*ClientWaitSync_fp)(GLsync sync, GLbitfield flags, GLuint64 timeout);
-static ClientWaitSync_fp ClientWaitSync = 0;
+static ClientWaitSync_fp ClientWaitSync = nullptr;
 #endif
 
 using namespace Mlt;
@@ -61,19 +61,19 @@ GLWidget::GLWidget(int id, QObject *parent)
     : QQuickView((QWindow *) parent)
     , sendFrameForAnalysis(false)
     , m_id(id)
-    , m_shader(0)
-    , m_glslManager(0)
-    , m_consumer(0)
-    , m_producer(0)
+    , m_shader(nullptr)
+    , m_glslManager(nullptr)
+    , m_consumer(nullptr)
+    , m_producer(nullptr)
     , m_initSem(0)
     , m_analyseSem(1)
     , m_isInitialized(false)
-    , m_threadStartEvent(0)
-    , m_threadStopEvent(0)
-    , m_threadCreateEvent(0)
-    , m_threadJoinEvent(0)
-    , m_displayEvent(0)
-    , m_frameRenderer(0)
+    , m_threadStartEvent(nullptr)
+    , m_threadStopEvent(nullptr)
+    , m_threadCreateEvent(nullptr)
+    , m_threadJoinEvent(nullptr)
+    , m_displayEvent(nullptr)
+    , m_frameRenderer(nullptr)
     , m_projectionLocation(0)
     , m_modelViewLocation(0)
     , m_vertexLocation(0)
@@ -82,7 +82,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_zoom(1.0f)
     , m_openGLSync(false)
     , m_offset(QPoint(0, 0))
-    , m_shareContext(0)
+    , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
     , m_fbo(nullptr)
 {
@@ -103,7 +103,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     }
     if ((m_glslManager && !m_glslManager->is_valid())) {
         delete m_glslManager;
-        m_glslManager = 0;
+        m_glslManager = nullptr;
         KdenliveSettings::setGpu_accel(false);
         // Need to destroy MLT global reference to prevent filters from trying to use GPU.
         mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
@@ -166,7 +166,7 @@ void GLWidget::initializeGL()
 
     if (m_glslManager && openglContext()->isOpenGLES()) {
         delete m_glslManager;
-        m_glslManager = 0;
+        m_glslManager = nullptr;
         KdenliveSettings::setGpu_accel(false);
         // Need to destroy MLT global reference to prevent filters from trying to use GPU.
         mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
@@ -186,7 +186,7 @@ void GLWidget::initializeGL()
                 qCDebug(KDENLIVE_LOG) << "  / / // NO GL SYNC, ERROR";
                 emit gpuNotSupported();
                 delete m_glslManager;
-                m_glslManager = 0;
+                m_glslManager = nullptr;
             }
         }
     }
@@ -677,7 +677,7 @@ void GLWidget::startGlsl()
         m_glslManager->fire_event("init glsl");
         if (!m_glslManager->get_int("glsl_supported")) {
             delete m_glslManager;
-            m_glslManager = 0;
+            m_glslManager = nullptr;
             // Need to destroy MLT global reference to prevent filters from trying to use GPU.
             mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
             emit gpuNotSupported();
@@ -880,9 +880,9 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         }
         m_consumer = new Mlt::FilteredConsumer(*profile, "multi");
         delete m_threadStartEvent;
-        m_threadStartEvent = 0;
+        m_threadStartEvent = nullptr;
         delete m_threadStopEvent;
-        m_threadStopEvent = 0;
+        m_threadStopEvent = nullptr;
 
         delete m_threadCreateEvent;
         delete m_threadJoinEvent;
@@ -986,9 +986,9 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         }
         m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, serviceName.toLatin1().constData());
         delete m_threadStartEvent;
-        m_threadStartEvent = 0;
+        m_threadStartEvent = nullptr;
         delete m_threadStopEvent;
-        m_threadStopEvent = 0;
+        m_threadStopEvent = nullptr;
 
         delete m_threadCreateEvent;
         delete m_threadJoinEvent;
@@ -1267,10 +1267,10 @@ void GLWidget::on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 }
 
 RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContext *context, QSurface *surface)
-    : QThread(0)
+    : QThread(nullptr)
     , m_function(function)
     , m_data(data)
-    , m_context(0)
+    , m_context(nullptr)
     , m_surface(surface)
 {
     if (context) {
@@ -1300,11 +1300,11 @@ void RenderThread::run()
 }
 
 FrameRenderer::FrameRenderer(QOpenGLContext *shareContext, QSurface *surface)
-    : QThread(0)
+    : QThread(nullptr)
     , m_semaphore(3)
-    , m_context(0)
+    , m_context(nullptr)
     , m_surface(surface)
-    , m_gl32(0)
+    , m_gl32(nullptr)
     , sendAudioForAnalysis(false)
 {
     Q_ASSERT(shareContext);

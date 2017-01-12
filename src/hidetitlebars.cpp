@@ -45,7 +45,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
         if (show) {
             if (dock->isFloating()) {
                 if (bar) {
-                    dock->setTitleBarWidget(0);
+                    dock->setTitleBarWidget(nullptr);
                     delete bar;
                 }
                 continue;
@@ -55,7 +55,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
             QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
             if (docked.isEmpty()) {
                 if (bar) {
-                    dock->setTitleBarWidget(0);
+                    dock->setTitleBarWidget(nullptr);
                     delete bar;
                 }
                 continue;
@@ -70,7 +70,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
                 }
                 if (!hasVisibleDockSibling) {
                     if (bar) {
-                        dock->setTitleBarWidget(0);
+                        dock->setTitleBarWidget(nullptr);
                         delete bar;
                     }
                     continue;

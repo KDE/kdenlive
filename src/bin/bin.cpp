@@ -267,7 +267,7 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
         setText(i18np("%1 job", "%1 jobs", jobCount));
         setToolTip(i18np("%1 pending job", "%1 pending jobs", jobCount));
 
-        if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this)) {
             setFixedWidth(sizeHint().width());
             m_action->setVisible(true);
             return;
@@ -288,7 +288,7 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
             m_timeLine->start();
         }
     } else {
-        if (style()->styleHint(QStyle::SH_Widget_Animate, 0, this)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this)) {
             setFixedWidth(0);
             m_action->setVisible(false);
             return;
@@ -566,11 +566,11 @@ void Bin::abortOperations()
         }
     }
     delete m_rootFolder;
-    m_rootFolder = NULL;
+    m_rootFolder = nullptr;
     delete m_itemView;
-    m_itemView = NULL;
+    m_itemView = nullptr;
     delete m_jobManager;
-    m_jobManager = NULL;
+    m_jobManager = nullptr;
     blockSignals(false);
 }
 
@@ -1868,7 +1868,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
     }
     m_propertiesPanel->setProperty("clipId", clip->clipId());
     QVBoxLayout *lay = static_cast<QVBoxLayout *>(m_propertiesPanel->layout());
-    if (lay == 0) {
+    if (lay == nullptr) {
         lay = new QVBoxLayout(m_propertiesPanel);
         m_propertiesPanel->setLayout(lay);
     }
@@ -2341,7 +2341,7 @@ bool Bin::hasPendingJob(const QString &id, AbstractClipJob::JOBTYPE type)
 void Bin::slotCreateProjectClip()
 {
     QAction *act = qobject_cast<QAction *>(sender());
-    if (act == 0) {
+    if (act == nullptr) {
         // Cannot access triggering action, something is wrong
         qCDebug(KDENLIVE_LOG) << "// Error in clip creation action";
         return;
@@ -2842,7 +2842,7 @@ void Bin::slotStartClipJob(bool enable)
     Q_UNUSED(enable)
 
     QAction *act = qobject_cast<QAction *>(sender());
-    if (act == 0) {
+    if (act == nullptr) {
         // Cannot access triggering action, something is wrong
         qCDebug(KDENLIVE_LOG) << "// Error in clip job action";
         return;
@@ -3413,9 +3413,9 @@ void Bin::showTitleWidget(ProjectClip *clip)
         if (dia_ui.duration() != clip->duration().frames(m_doc->fps())) {
             // duration changed, we need to update duration
             newprops.insert(QStringLiteral("out"), QString::number(dia_ui.duration() - 1));
-            int currentLength = clip->getProducerIntProperty(QStringLiteral("length"));
-            if (currentLength <= dia_ui.duration()) {
-                newprops.insert(QStringLiteral("length"), QString::number(dia_ui.duration()));
+            int currentLength = clip->getProducerIntProperty(QStringLiteral("kdenlive:duration"));
+            if (currentLength != dia_ui.duration()) {
+                newprops.insert(QStringLiteral("kdenlive:duration"), QString::number(dia_ui.duration()));
             }
         }
         // trigger producer reload
@@ -3555,7 +3555,7 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
         // edit clip properties
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("out"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
-        properties.insert(QStringLiteral("length"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
+        properties.insert(QStringLiteral("kdenlive:duration"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
         properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
         properties.insert(QStringLiteral("ttl"), QString::number(m_doc->getFramePos(dia->clipDuration())));
         properties.insert(QStringLiteral("loop"), QString::number(dia->loop()));
@@ -3568,7 +3568,7 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
 
         QMap<QString, QString> oldProperties;
         oldProperties.insert(QStringLiteral("out"), clip->getProducerProperty(QStringLiteral("out")));
-        oldProperties.insert(QStringLiteral("length"), clip->getProducerProperty(QStringLiteral("length")));
+        oldProperties.insert(QStringLiteral("kdenlive:duration"), clip->getProducerProperty(QStringLiteral("kdenlive:duration")));
         oldProperties.insert(QStringLiteral("kdenlive:clipname"), clip->name());
         oldProperties.insert(QStringLiteral("ttl"), clip->getProducerProperty(QStringLiteral("ttl")));
         oldProperties.insert(QStringLiteral("loop"), clip->getProducerProperty(QStringLiteral("loop")));

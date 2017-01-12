@@ -94,7 +94,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
         return;
     }
     ItemInfo info = dragItem->info();
-    if (dragItem->parentItem() == 0) {
+    if (dragItem->parentItem() == nullptr) {
         // we are moving one clip, easy
         if (dragItem->type() == AVWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
             ClipItem *item = static_cast <ClipItem *>(dragItem);
