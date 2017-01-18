@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include <memory>
+#include <unordered_map>
 #include <QVector>
 #include <mlt++/MltTractor.h>
 
@@ -38,11 +39,16 @@ protected:
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */
     void registerTrack(std::unique_ptr<TrackModel>&& track, int pos = -1);
+
+    /* @brief Deregister and destruct the track with given id.
+     */
+    void deregisterTrack(int id);
 private:
     Mlt::Tractor m_tractor;
     QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex
 
-    // QList<std::unique_ptr<TrackModel>> m_allTracks;
     std::list<std::unique_ptr<TrackModel>> m_allTracks;
+
+    std::unordered_map<int, std::list<std::unique_ptr<TrackModel>>::iterator> m_iteratorTable; //this logs the iterator associated which each track id. This allows easy access of a track based on its id.
 
 };

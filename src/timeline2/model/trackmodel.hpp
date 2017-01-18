@@ -35,17 +35,19 @@ class TrackModel
 
 public:
     TrackModel() = delete;
+
+    friend class TimelineModel;
 private:
     /* This constructor is private, call the static construct instead */
     TrackModel(std::weak_ptr<TimelineModel> parent);
 public:
-    /* @brief Creates a track, which reference itself to the parent
+    /* @brief Creates a track, which references itself to the parent
      */
     static void construct(std::weak_ptr<TimelineModel> parent);
 
-    /* @brief The destructor. It notifies the parent of the destruction
+    /* @brief The destructor. It asks the parent to be deleted
      */
-    ~TrackModel();
+    void destruct();
 
     /* Perform a resize operation on a clip. Returns true if the operation succeeded*/
     bool requestClipResize(QSharedPointer<ClipModel> caller, int newSize);
@@ -60,14 +62,22 @@ public:
      */
     operator Mlt::Producer&(){ return m_playlist;}
 
+protected:
+    /*@brief Returns the (unique) construction id of the track*/
+    int getId() const;
+
 public slots:
     /*Delete the current track and all its associated clips */
     void slotDelete();
 
 private:
     std::weak_ptr<TimelineModel> m_parent;
+    int m_id; //this is the creation id of the track, used for book-keeping
     Mlt::Playlist m_playlist;
 
+
     std::vector<std::unique_ptr<ClipModel>> m_allClips;
+
+    static int next_id; //next valid id to assign
 
 };

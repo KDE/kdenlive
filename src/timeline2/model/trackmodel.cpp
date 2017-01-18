@@ -24,8 +24,12 @@
 #include "clipmodel.hpp"
 #include <QDebug>
 
+
+int TrackModel::next_id = 0;
+
 TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent) :
     m_parent(parent)
+    , m_id(TrackModel::next_id++)
 {
 }
 
@@ -37,4 +41,20 @@ void TrackModel::construct(std::weak_ptr<TimelineModel> parent)
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
     }
+}
+
+void TrackModel::destruct()
+{
+    if (auto ptr = m_parent.lock()) {
+        // ptr->deregisterTrack(m_id);
+    } else {
+        qDebug() << "Error : destruction of track failed because parent timeline is not available anymore";
+        Q_ASSERT(false);
+    }
+
+}
+
+int TrackModel::getId() const
+{
+    return m_id;
 }

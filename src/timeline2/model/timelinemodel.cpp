@@ -22,6 +22,7 @@
 
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
+#include "clipmodel.hpp"
 
 #include <mlt++/MltTractor.h>
 
@@ -34,6 +35,7 @@ TimelineModel::TimelineModel() :
 
 void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
 {
+    int id = track->getId();
     if (pos == -1) {
         pos = m_allTracks.size();
     }
@@ -42,9 +44,20 @@ void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
     Q_ASSERT(error == 0); //we might need better error handling...
 
     // we now insert in the list
-    auto it = m_allTracks.begin();
-    std::advance(it, pos);
-    m_allTracks.insert(it, std::move(track));
-
+    auto posIt = m_allTracks.begin();
+    std::advance(posIt, pos);
+    auto it = m_allTracks.insert(posIt, std::move(track));
+    //it now contains the iterator to the inserted element, we store it
+    Q_ASSERT(m_iteratorTable.count(id) == 0); //check that id is not used (shouldn't happen)
+    m_iteratorTable[id] = it;
 }
 
+
+void TimelineModel::deregisterTrack(int id)
+{
+    auto it = m_iteratorTable[id]; //iterator to the element
+    m_iteratorTable.erase(id);
+    int index = std::distance(m_allTracks.begin(), it);
+    m_tractor.remove_track(index);
+    m_allTracks.erase(it);
+}
