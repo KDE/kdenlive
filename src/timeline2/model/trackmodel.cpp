@@ -21,8 +21,20 @@
 
 #include "trackmodel.hpp"
 #include "timelinemodel.hpp"
+#include "clipmodel.hpp"
+#include <QDebug>
 
-TrackModel::TrackModel(QSharedPointer<TimelineModel> parent)
+TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent) :
+    m_parent(parent)
 {
-    parent->registerTrack(QSharedPointer<TrackModel>(this));
+}
+
+void TrackModel::construct(std::weak_ptr<TimelineModel> parent)
+{
+    if (auto ptr = parent.lock()) {
+        ptr->registerTrack(std::unique_ptr<TrackModel>(new TrackModel(parent)));
+    } else {
+        qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
+        Q_ASSERT(false);
+    }
 }

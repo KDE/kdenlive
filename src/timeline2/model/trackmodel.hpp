@@ -19,8 +19,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#include <memory>
 #include <QSharedPointer>
-#include <QSet>
+#include <vector>
 #include <mlt++/MltPlaylist.h>
 
 class TimelineModel;
@@ -34,9 +35,17 @@ class TrackModel
 
 public:
     TrackModel() = delete;
+private:
+    /* This constructor is private, call the static construct instead */
+    TrackModel(std::weak_ptr<TimelineModel> parent);
+public:
     /* @brief Creates a track, which reference itself to the parent
      */
-    TrackModel(QSharedPointer<TimelineModel> parent);
+    static void construct(std::weak_ptr<TimelineModel> parent);
+
+    /* @brief The destructor. It notifies the parent of the destruction
+     */
+    ~TrackModel();
 
     /* Perform a resize operation on a clip. Returns true if the operation succeeded*/
     bool requestClipResize(QSharedPointer<ClipModel> caller, int newSize);
@@ -56,8 +65,9 @@ public slots:
     void slotDelete();
 
 private:
+    std::weak_ptr<TimelineModel> m_parent;
     Mlt::Playlist m_playlist;
 
-    QSet<QSharedPointer<ClipModel>> m_allClips;
+    std::vector<std::unique_ptr<ClipModel>> m_allClips;
 
 };

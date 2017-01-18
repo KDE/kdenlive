@@ -32,13 +32,19 @@ TimelineModel::TimelineModel() :
 }
 
 
-void TimelineModel::registerTrack(QSharedPointer<TrackModel> track, int pos)
+void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
 {
     if (pos == -1) {
         pos = m_allTracks.size();
     }
+    //effective insertion (MLT operation)
     int error = m_tractor.insert_track(*track ,pos);
     Q_ASSERT(error == 0); //we might need better error handling...
-    m_allTracks.insert(pos - 1, track); //the -1 comes from the fact that melts insert before pos and Qt::QList inserts after.
+
+    // we now insert in the list
+    auto it = m_allTracks.begin();
+    std::advance(it, pos);
+    m_allTracks.insert(it, std::move(track));
+
 }
 

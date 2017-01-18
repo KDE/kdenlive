@@ -19,7 +19,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include <QSharedPointer>
+#include <memory>
 #include <QVector>
 #include <mlt++/MltTractor.h>
 
@@ -37,11 +37,12 @@ protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */
-    void registerTrack(QSharedPointer<TrackModel> track, int pos = -1);
+    void registerTrack(std::unique_ptr<TrackModel>&& track, int pos = -1);
 private:
     Mlt::Tractor m_tractor;
     QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex
 
-    QList<QSharedPointer<TrackModel>> m_allTracks;
+    // QList<std::unique_ptr<TrackModel>> m_allTracks;
+    std::list<std::unique_ptr<TrackModel>> m_allTracks;
 
 };
