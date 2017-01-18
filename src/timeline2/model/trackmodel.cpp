@@ -33,14 +33,17 @@ TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent) :
 {
 }
 
-void TrackModel::construct(std::weak_ptr<TimelineModel> parent)
+int TrackModel::construct(std::weak_ptr<TimelineModel> parent)
 {
+    std::unique_ptr<TrackModel> track(new TrackModel(parent));
+    int id = track->m_id;
     if (auto ptr = parent.lock()) {
-        ptr->registerTrack(std::unique_ptr<TrackModel>(new TrackModel(parent)));
+        ptr->registerTrack(std::move(track));
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
     }
+    return id;
 }
 
 void TrackModel::destruct()

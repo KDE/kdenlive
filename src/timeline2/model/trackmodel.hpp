@@ -42,8 +42,9 @@ private:
     TrackModel(std::weak_ptr<TimelineModel> parent);
 public:
     /* @brief Creates a track, which references itself to the parent
+       Returns the (unique) id of the created track
      */
-    static void construct(std::weak_ptr<TimelineModel> parent);
+    static int construct(std::weak_ptr<TimelineModel> parent);
 
     /* @brief The destructor. It asks the parent to be deleted
      */
