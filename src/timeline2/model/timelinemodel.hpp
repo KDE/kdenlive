@@ -37,7 +37,7 @@ public:
     friend class TrackModel;
 
     /* @brief returns the number of tracks */
-    int getTrackNumber();
+    int getTracksNumber();
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.

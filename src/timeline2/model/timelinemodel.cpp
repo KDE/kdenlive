@@ -33,7 +33,7 @@ TimelineModel::TimelineModel() :
 }
 
 
-int TimelineModel::getTrackNumber()
+int TimelineModel::getTracksNumber()
 {
     int count = m_tractor.count();
     Q_ASSERT(count >= 0);
