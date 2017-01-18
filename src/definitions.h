@@ -79,7 +79,7 @@ enum ClipState {
     Disabled = 3
 };
 
-};
+}
 
 namespace TimelineMode
 {
@@ -88,7 +88,7 @@ enum EditMode {
     OverwriteEdit = 1,
     InsertEdit = 2
 };
-};
+}
 
 enum ClipType {
     Unknown = 0,
