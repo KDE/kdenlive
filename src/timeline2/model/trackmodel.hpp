@@ -43,8 +43,9 @@ private:
 public:
     /* @brief Creates a track, which references itself to the parent
        Returns the (unique) id of the created track
+       @param pos is the optional position of the track. If left to -1, it will be added at the end
      */
-    static int construct(std::weak_ptr<TimelineModel> parent);
+    static int construct(std::weak_ptr<TimelineModel> parent, int pos = -1);
 
     /* @brief The destructor. It asks the parent to be deleted
      */
