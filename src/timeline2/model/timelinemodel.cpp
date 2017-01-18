@@ -33,11 +33,19 @@ TimelineModel::TimelineModel() :
 }
 
 
+int TimelineModel::getTrackNumber()
+{
+    int count = m_tractor.count();
+    Q_ASSERT(count >= 0);
+    Q_ASSERT(count == static_cast<int>(m_allTracks.size()));
+    return count;
+}
+
 void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
 {
     int id = track->getId();
     if (pos == -1) {
-        pos = m_allTracks.size();
+        pos = static_cast<int>(m_allTracks.size());
     }
     //effective insertion (MLT operation)
     int error = m_tractor.insert_track(*track ,pos);
@@ -57,7 +65,7 @@ void TimelineModel::deregisterTrack(int id)
 {
     auto it = m_iteratorTable[id]; //iterator to the element
     m_iteratorTable.erase(id);
-    int index = std::distance(m_allTracks.begin(), it);
-    m_tractor.remove_track(index);
+    auto index = std::distance(m_allTracks.begin(), it);
+    m_tractor.remove_track(static_cast<int>(index));
     m_allTracks.erase(it);
 }

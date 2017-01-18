@@ -119,6 +119,7 @@ endif()
 ecm_optional_add_subdirectory(po)
 add_subdirectory(renderer)
 add_subdirectory(src)
+add_subdirectory(tests)
 add_subdirectory(thumbnailer)
 #add_subdirectory(testingArea)
 
