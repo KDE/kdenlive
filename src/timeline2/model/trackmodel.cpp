@@ -19,45 +19,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include <QSharedPointer>
-#include <QSet>
-#include <mlt++/MltPlaylist.h>
+#include "trackmodel.hpp"
+#include "timelinemodel.hpp"
 
-class TimelineModel;
-class ClipModel;
-
-/* @brief This class represents a Track object, as viewed by the backend.
-   In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
-*/
-class TrackModel
+TrackModel::TrackModel(QSharedPointer<TimelineModel> parent)
 {
-
-public:
-    TrackModel() = delete;
-    /* @brief Creates a track, which reference itself to the parent
-     */
-    TrackModel(QSharedPointer<TimelineModel> parent);
-
-    /* Perform a resize operation on a clip. Returns true if the operation succeeded*/
-    bool requestClipResize(QSharedPointer<ClipModel> caller, int newSize);
-
-    /* Perform a move operation on a clip. Returns true if the operation succeeded*/
-    bool requestClipMove(QSharedPointer<ClipModel> caller, int newPosition);
-
-    /* Perform a split at the requested position */
-    bool splitClip(QSharedPointer<ClipModel> caller, int position);
-
-    /* Implicit conversion operator to access the underlying producer
-     */
-    operator Mlt::Producer&(){ return m_playlist;}
-
-public slots:
-    /*Delete the current track and all its associated clips */
-    void slotDelete();
-
-private:
-    Mlt::Playlist m_playlist;
-
-    QSet<QSharedPointer<ClipModel>> m_allClips;
-
-};
+    parent->registerTrack(QSharedPointer<TrackModel>(this));
+}

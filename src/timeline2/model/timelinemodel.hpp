@@ -20,7 +20,10 @@
  ***************************************************************************/
 
 #include <QSharedPointer>
+#include <QVector>
+#include <mlt++/MltTractor.h>
 
+class TrackModel;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
@@ -28,10 +31,17 @@
 class TimelineModel
 {
     TimelineModel();
+
+    friend class TrackModel;
+protected:
+    /* @brief Register a new track. This is a call-back meant to be called from TrackModel
+       @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
+     */
+    void registerTrack(QSharedPointer<TrackModel> track, int pos = -1);
 private:
     Mlt::Tractor m_tractor;
     QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex
 
-    QSet<QSharedPointer<TrackModel>> m_allTracks;
+    QList<QSharedPointer<TrackModel>> m_allTracks;
 
 };
