@@ -8,17 +8,28 @@
 
 
 
-TEST_CASE("Basic creation of a track", "[TrackModel]")
+TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
     std::shared_ptr<TimelineModel> timeline = std::make_shared<TimelineModel>();
 
-    TrackModel::construct(timeline);
+    int id1 = TrackModel::construct(timeline);
+    REQUIRE(timeline->getTracksNumber() == 1);
 
-    REQUIRE(timeline->getTrackNumber() == 1);
+    int id2 = TrackModel::construct(timeline);
+    REQUIRE(timeline->getTracksNumber() == 2);
 
-    TrackModel::construct(timeline);
+    int id3 = TrackModel::construct(timeline);
+    REQUIRE(timeline->getTracksNumber() == 3);
 
-    REQUIRE(timeline->getTrackNumber() == 2);
+    // Test deletion
+    timeline->deleteTrackById(id1);
+    REQUIRE(timeline->getTracksNumber() == 2);
+
+    timeline->deleteTrackById(id2);
+    REQUIRE(timeline->getTracksNumber() == 1);
+
+    timeline->deleteTrackById(id3);
+    REQUIRE(timeline->getTracksNumber() == 0);
 }
 
 

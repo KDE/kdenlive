@@ -29,7 +29,6 @@
 TimelineModel::TimelineModel() :
     m_tractor()
 {
-
 }
 
 
@@ -41,12 +40,23 @@ int TimelineModel::getTracksNumber()
     return count;
 }
 
+void TimelineModel::deleteTrackById(int id)
+{
+    Q_ASSERT(m_iteratorTable.count(id) > 0);
+    auto it = m_iteratorTable[id];
+    (*it)->destruct();
+}
+
+
 void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
 {
     int id = track->getId();
     if (pos == -1) {
         pos = static_cast<int>(m_allTracks.size());
     }
+    Q_ASSERT(pos >= 0);
+    Q_ASSERT(pos <= static_cast<int>(m_allTracks.size()));
+ 
     //effective insertion (MLT operation)
     int error = m_tractor.insert_track(*track ,pos);
     Q_ASSERT(error == 0); //we might need better error handling...
@@ -64,8 +74,8 @@ void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
 void TimelineModel::deregisterTrack(int id)
 {
     auto it = m_iteratorTable[id]; //iterator to the element
-    m_iteratorTable.erase(id);
-    auto index = std::distance(m_allTracks.begin(), it);
-    m_tractor.remove_track(static_cast<int>(index));
-    m_allTracks.erase(it);
+    m_iteratorTable.erase(id);  //clean table
+    auto index = std::distance(m_allTracks.begin(), it); //compute index in list
+    m_tractor.remove_track(static_cast<int>(index)); //melt operation
+    m_allTracks.erase(it);  //actual deletion of object
 }
