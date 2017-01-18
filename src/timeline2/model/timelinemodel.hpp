@@ -36,6 +36,8 @@ public:
 
     friend class TrackModel;
 
+    ~TimelineModel();
+
     /* @brief returns the number of tracks */
     int getTracksNumber();
 

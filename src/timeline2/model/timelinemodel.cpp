@@ -31,6 +31,13 @@ TimelineModel::TimelineModel() :
 {
 }
 
+TimelineModel::~TimelineModel()
+{
+    for(auto tracks : m_iteratorTable) {
+        deleteTrackById(tracks.first);
+    }
+}
+
 
 int TimelineModel::getTracksNumber()
 {
