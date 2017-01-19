@@ -21,10 +21,12 @@
 
 #include <memory>
 #include <unordered_map>
+#include <unordered_set>
 #include <QVector>
 #include <mlt++/MltTractor.h>
 
 class TrackModel;
+class ClipModel;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
@@ -35,11 +37,15 @@ public:
     TimelineModel();
 
     friend class TrackModel;
+    friend class ClipModel;
 
     ~TimelineModel();
 
     /* @brief returns the number of tracks */
     int getTracksNumber();
+
+    /* @brief returns the number of clips */
+    int getClipsNumber();
 
     /* @brief Delete track based on its id */
     void deleteTrackById(int id);
@@ -48,6 +54,10 @@ protected:
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */
     void registerTrack(std::unique_ptr<TrackModel>&& track, int pos = -1);
+
+    /* @brief Register a new track. This is a call-back meant to be called from ClipModel
+    */
+    void registerClip(std::shared_ptr<ClipModel> clip);
 
     /* @brief Deregister and destruct the track with given id.
      */
@@ -60,4 +70,5 @@ private:
 
     std::unordered_map<int, std::list<std::unique_ptr<TrackModel>>::iterator> m_iteratorTable; //this logs the iterator associated which each track id. This allows easy access of a track based on its id.
 
+    std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips; //the keys are the clip id, and the values are the corresponding pointers
 };

@@ -77,9 +77,6 @@ private:
     int m_id; //this is the creation id of the track, used for book-keeping
     Mlt::Playlist m_playlist;
 
-
-    std::vector<std::unique_ptr<ClipModel>> m_allClips;
-
     static int next_id; //next valid id to assign
 
 };

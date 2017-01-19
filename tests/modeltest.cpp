@@ -5,6 +5,9 @@
 #include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/clipmodel.hpp"
 
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltFactory.h>
+#include <mlt++/MltProfile.h>
 
 
 
@@ -33,3 +36,17 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 }
 
 
+
+TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
+{
+    std::shared_ptr<TimelineModel> timeline = std::make_shared<TimelineModel>();
+
+    Mlt::Factory::init( NULL );
+    Mlt::Profile profile;
+
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "test");
+
+    REQUIRE(timeline->getClipsNumber() == 0);
+    int id1 = ClipModel::construct(timeline, producer);
+    REQUIRE(timeline->getClipsNumber() == 1);
+}

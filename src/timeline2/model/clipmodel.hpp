@@ -19,21 +19,38 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include <QSharedPointer>
+#include <memory>
+#include <QObject>
 
+namespace Mlt{
+    class Producer;
+}
+class TimelineModel;
 
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
 */
-class ClipModel
+class ClipModel : public QObject
 {
+    Q_OBJECT
     ClipModel() = delete;
 
-    /* Creates a clip attached to the given track
-    */
-    ClipModel(QSharedPointer<TrackModel> parent);
+public:
+    /* This constructor is not meant to be called, call the static construct instead */
+    ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod);
 
-public slots:
+
+    /* @brief Creates a clip, which references itself to the parent timeline
+       Returns the (unique) id of the created clip
+       @param parent is a pointer to the timeline
+       @param producer is the producer to be inserted
+    */
+    static int construct(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod);
+
+    /* @brief returns (unique) id of current clip
+     */
+    int getId() const;
+public:
 
     /* This is called whenever a resize of the clip is issued
        If the resize is accepted, it should send back a signal to the QML interface.
@@ -60,7 +77,10 @@ signals:
     void signalPositionChanged(int);
 
 private:
-    Mlt::Producer m_producer;
-    QSharedPointer<TimelineModel> m_timeline;
+    std::weak_ptr<TimelineModel> m_parent;
+    int m_id; //this is the creation id of the clip, used for book-keeping
+
+    std::weak_ptr<Mlt::Producer> m_producer;
+    static int next_id; //next valid id to assign
 
 };

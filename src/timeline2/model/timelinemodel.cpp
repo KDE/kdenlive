@@ -46,6 +46,10 @@ int TimelineModel::getTracksNumber()
     Q_ASSERT(count == static_cast<int>(m_allTracks.size()));
     return count;
 }
+int TimelineModel::getClipsNumber()
+{
+    return m_allClips.size();
+}
 
 void TimelineModel::deleteTrackById(int id)
 {
@@ -77,6 +81,12 @@ void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
     m_iteratorTable[id] = it;
 }
 
+void TimelineModel::registerClip(std::shared_ptr<ClipModel> clip)
+{
+    int id = clip->getId();
+    Q_ASSERT(m_allClips.count(id) == 0);
+    m_allClips[id] = clip;
+}
 
 void TimelineModel::deregisterTrack(int id)
 {
