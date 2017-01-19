@@ -54,7 +54,6 @@ void TrackModel::destruct()
         qDebug() << "Error : destruction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
     }
-
 }
 
 int TrackModel::getId() const

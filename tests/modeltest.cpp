@@ -45,8 +45,23 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     Mlt::Profile profile;
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "test");
+    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "test2");
 
     REQUIRE(timeline->getClipsNumber() == 0);
     int id1 = ClipModel::construct(timeline, producer);
     REQUIRE(timeline->getClipsNumber() == 1);
+
+    int id2 = ClipModel::construct(timeline, producer2);
+    REQUIRE(timeline->getClipsNumber() == 2);
+
+    int id3 = ClipModel::construct(timeline, producer);
+    REQUIRE(timeline->getClipsNumber() == 3);
+
+    // Test deletion
+    timeline->deleteClipById(id2);
+    REQUIRE(timeline->getClipsNumber() == 2);
+    timeline->deleteClipById(id3);
+    REQUIRE(timeline->getClipsNumber() == 1);
+    timeline->deleteClipById(id1);
+    REQUIRE(timeline->getClipsNumber() == 0);
 }

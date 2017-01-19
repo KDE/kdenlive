@@ -49,6 +49,9 @@ public:
 
     /* @brief Delete track based on its id */
     void deleteTrackById(int id);
+
+    /* @brief Delete clipq based on its id */
+    void deleteClipById(int id);
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
@@ -62,6 +65,10 @@ protected:
     /* @brief Deregister and destruct the track with given id.
      */
     void deregisterTrack(int id);
+
+    /* @brief Deregister and destruct the clip with given id.
+     */
+    void deregisterClip(int id);
 private:
     Mlt::Tractor m_tractor;
     QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex

@@ -58,6 +58,11 @@ void TimelineModel::deleteTrackById(int id)
     (*it)->destruct();
 }
 
+void TimelineModel::deleteClipById(int id)
+{
+    Q_ASSERT(m_allClips.count(id) > 0);
+    m_allClips[id]->destruct();
+}
 
 void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
 {
@@ -95,4 +100,11 @@ void TimelineModel::deregisterTrack(int id)
     auto index = std::distance(m_allTracks.begin(), it); //compute index in list
     m_tractor.remove_track(static_cast<int>(index)); //melt operation
     m_allTracks.erase(it);  //actual deletion of object
+}
+
+void TimelineModel::deregisterClip(int id)
+{
+    //TODO send deletion order to the track containing the clip
+    Q_ASSERT(m_allClips.count(id) > 0);
+    m_allClips.erase(id);
 }
