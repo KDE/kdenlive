@@ -48,6 +48,16 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
         return pix;
     }
     Mlt::Producer *producer = new Mlt::Producer(profile, url.toLocalFile().toUtf8().constData());
+    if (KdenliveSettings::gpu_accel()) {
+        QString service = producer->get("mlt_service");
+        QString res = producer->get("resource");
+        delete producer;
+        producer = new Mlt::Producer(profile, service.toUtf8().constData(), res.toUtf8().constData());
+        Mlt::Filter scaler(profile, "swscale");
+        Mlt::Filter converter(profile, "avcolor_space");
+        producer->attach(scaler);
+        producer->attach(converter);
+    }
     pix = QPixmap::fromImage(getFrame(producer, frame, width, height));
     delete producer;
     return pix;
