@@ -82,7 +82,6 @@ private:
     int m_max;
 };
 
-class DoubleParameterWidget;
 class KeyframeEdit : public AbstractParamWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
@@ -134,7 +133,6 @@ private:
     QGridLayout *m_slidersLayout;
     PositionWidget *m_position;
     bool m_keyframesTag;
-    DoubleParameterWidget *m_doubleparam;
 
 private slots:
     void slotDeleteKeyframe();
@@ -159,6 +157,7 @@ private slots:
 signals:
     void valueChanged();
     void seekToPos(int);
+    void showComments(bool show);
 };
 
 #endif
