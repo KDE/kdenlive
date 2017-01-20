@@ -299,7 +299,19 @@ void ProducerQueue::processFileProperties()
                 } else if (service.contains(QStringLiteral("avformat"))) {
                     Mlt::Profile *blankProfile = new Mlt::Profile();
                     blankProfile->set_explicit(false);
-                    blankProfile->from_producer(*producer);
+                    if (KdenliveSettings::gpu_accel()) {
+                        Clip clp(*producer);
+                        Mlt::Producer *glProd = clp.softClone(ClipController::getPassPropertiesList());
+                        Mlt::Filter scaler(*m_binController->profile(), "swscale");
+                        Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
+                        glProd->attach(scaler);
+                        glProd->attach(converter);
+                        blankProfile->from_producer(*glProd);
+                        delete glProd;
+                    }
+                    else {
+                        blankProfile->from_producer(*producer);
+                    }
                     MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*blankProfile);
                     MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_binController->profile());
                     clipProfile.adjustWidth();
