@@ -16,23 +16,23 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     std::shared_ptr<TimelineModel> timeline = std::make_shared<TimelineModel>();
 
     int id1 = TrackModel::construct(timeline);
-    REQUIRE(timeline->getTracksNumber() == 1);
+    REQUIRE(timeline->getTracksCount() == 1);
 
     int id2 = TrackModel::construct(timeline);
-    REQUIRE(timeline->getTracksNumber() == 2);
+    REQUIRE(timeline->getTracksCount() == 2);
 
     int id3 = TrackModel::construct(timeline);
-    REQUIRE(timeline->getTracksNumber() == 3);
+    REQUIRE(timeline->getTracksCount() == 3);
 
     // Test deletion
     timeline->deleteTrackById(id1);
-    REQUIRE(timeline->getTracksNumber() == 2);
+    REQUIRE(timeline->getTracksCount() == 2);
 
     timeline->deleteTrackById(id2);
-    REQUIRE(timeline->getTracksNumber() == 1);
+    REQUIRE(timeline->getTracksCount() == 1);
 
     timeline->deleteTrackById(id3);
-    REQUIRE(timeline->getTracksNumber() == 0);
+    REQUIRE(timeline->getTracksCount() == 0);
 }
 
 
@@ -47,21 +47,21 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "test");
     std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "test2");
 
-    REQUIRE(timeline->getClipsNumber() == 0);
+    REQUIRE(timeline->getClipsCount() == 0);
     int id1 = ClipModel::construct(timeline, producer);
-    REQUIRE(timeline->getClipsNumber() == 1);
+    REQUIRE(timeline->getClipsCount() == 1);
 
     int id2 = ClipModel::construct(timeline, producer2);
-    REQUIRE(timeline->getClipsNumber() == 2);
+    REQUIRE(timeline->getClipsCount() == 2);
 
     int id3 = ClipModel::construct(timeline, producer);
-    REQUIRE(timeline->getClipsNumber() == 3);
+    REQUIRE(timeline->getClipsCount() == 3);
 
     // Test deletion
     timeline->deleteClipById(id2);
-    REQUIRE(timeline->getClipsNumber() == 2);
+    REQUIRE(timeline->getClipsCount() == 2);
     timeline->deleteClipById(id3);
-    REQUIRE(timeline->getClipsNumber() == 1);
+    REQUIRE(timeline->getClipsCount() == 1);
     timeline->deleteClipById(id1);
-    REQUIRE(timeline->getClipsNumber() == 0);
+    REQUIRE(timeline->getClipsCount() == 0);
 }

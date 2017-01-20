@@ -42,10 +42,10 @@ public:
     ~TimelineModel();
 
     /* @brief returns the number of tracks */
-    int getTracksNumber();
+    int getTracksCount();
 
     /* @brief returns the number of clips */
-    int getClipsNumber();
+    int getClipsCount() const;
 
     /* @brief Delete track based on its id */
     void deleteTrackById(int id);

@@ -38,17 +38,17 @@ TimelineModel::~TimelineModel()
     }
 }
 
-
-int TimelineModel::getTracksNumber()
+int TimelineModel::getTracksCount()
 {
     int count = m_tractor.count();
     Q_ASSERT(count >= 0);
     Q_ASSERT(count == static_cast<int>(m_allTracks.size()));
     return count;
 }
-int TimelineModel::getClipsNumber()
+
+int TimelineModel::getClipsCount() const
 {
-    return m_allClips.size();
+    return static_cast<int>(m_allClips.size());
 }
 
 void TimelineModel::deleteTrackById(int id)
