@@ -1345,7 +1345,6 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
     if (render == NULL) {
         return;
     }
-    bool sameClip = controller == m_controller && controller != NULL;
     m_controller = controller;
     if (!m_glMonitor->isVisible()) {
         // Don't load clip if monitor is not active (disabled)
@@ -1357,11 +1356,9 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 	      return;
 	}
         updateMarkers();
-        if (!sameClip) {
-            // Loading new clip, stop if playing
-            if (m_playAction->isActive()) {
-                m_playAction->setActive(false);
-            }
+        // Loading new clip / zone, stop if playing
+        if (m_playAction->isActive()) {
+            m_playAction->setActive(false);
         }
         render->setProducer(m_controller->masterProducer(), in, isActive());
 	if (out > -1) {
