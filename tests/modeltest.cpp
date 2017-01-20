@@ -65,3 +65,37 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     timeline->deleteClipById(id1);
     REQUIRE(timeline->getClipsCount() == 0);
 }
+
+TEST_CASE("Insert a clip in a track and change track", "[ClipModel]")
+{
+    std::shared_ptr<TimelineModel> timeline = std::make_shared<TimelineModel>();
+
+    Mlt::Factory::init( NULL );
+    Mlt::Profile profile;
+
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "../tests/small.mp4");
+    REQUIRE(producer->is_valid());
+    int cid1 = ClipModel::construct(timeline, producer);
+    int tid1 = TrackModel::construct(timeline);
+    int tid2 = TrackModel::construct(timeline);
+
+    REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+    REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+
+    REQUIRE(timeline->getClipTrackId(cid1) == -1);
+    REQUIRE(timeline->getClipPosition(cid1) == -1);
+
+    int pos = 10;
+    REQUIRE(timeline->requestClipChangeTrack(cid1, tid1, pos));
+    REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+    REQUIRE(timeline->getClipPosition(cid1) == pos);
+    REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+    REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+
+    pos = 1;
+    REQUIRE(timeline->requestClipChangeTrack(cid1, tid2, pos));
+    REQUIRE(timeline->getClipTrackId(cid1) == tid2);
+    REQUIRE(timeline->getClipPosition(cid1) == pos);
+    REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+    REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+}

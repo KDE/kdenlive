@@ -52,6 +52,29 @@ public:
 
     /* @brief Delete clipq based on its id */
     void deleteClipById(int id);
+
+    /* @brief Returns the id of the track containing clip (-1 if it is not inserted)
+       @param cid Id of the clip to test
+     */
+    int getClipTrackId(int cid) const;
+
+    /* @brief Returns the position of clip (-1 if it is not inserted)
+       @param cid Id of the clip to test
+    */
+    int getClipPosition(int cid) const;
+
+    /* @brief Returns the number of clips in a given track
+       @param tid Id of the track to test
+    */
+    int getTrackClipsCount(int tid) const;
+
+    /* @brief Change the track in which the clip is included
+       Returns true on success. If it fails, nothing is modified.
+       @param cid is the ID of the clip
+       @param tid is the ID of the target track
+       @param position is the position where we want to insert
+    */
+    bool requestClipChangeTrack(int cid, int tid, int position);
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
@@ -69,6 +92,11 @@ protected:
     /* @brief Deregister and destruct the clip with given id.
      */
     void deregisterClip(int id);
+
+    /* @brief Helper function to get a pointer to the track, given its id
+     */
+    std::unique_ptr<TrackModel>& getTrackById(int tid);
+    const std::unique_ptr<TrackModel>& getTrackById_const(int tid) const;
 private:
     Mlt::Tractor m_tractor;
     QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex

@@ -51,6 +51,11 @@ int TimelineModel::getClipsCount() const
     return static_cast<int>(m_allClips.size());
 }
 
+int TimelineModel::getTrackClipsCount(int tid) const
+{
+    return getTrackById_const(tid)->getClipsCount();
+}
+
 void TimelineModel::deleteTrackById(int id)
 {
     Q_ASSERT(m_iteratorTable.count(id) > 0);
@@ -64,6 +69,38 @@ void TimelineModel::deleteClipById(int id)
     m_allClips[id]->destruct();
 }
 
+int TimelineModel::getClipTrackId(int cid) const
+{
+    Q_ASSERT(m_allClips.count(cid) > 0);
+    const auto clip = m_allClips.at(cid);
+    return clip->getCurrentTrackId();
+}
+
+int TimelineModel::getClipPosition(int cid) const
+{
+    Q_ASSERT(m_allClips.count(cid) > 0);
+    const auto clip = m_allClips.at(cid);
+    return clip->getPosition();
+}
+
+bool TimelineModel::requestClipChangeTrack(int cid, int tid, int position)
+{
+    Q_ASSERT(m_allClips.count(cid) > 0);
+    bool ok = true;
+    int old_tid = m_allClips[cid]->getCurrentTrackId();
+    if (old_tid != -1) {
+        ok = getTrackById(old_tid)->requestClipDeletion(cid);
+        if (!ok) {
+            return false;
+        }
+    }
+    ok = getTrackById(tid)->requestClipInsertion(m_allClips[cid], position);
+    if (ok) {
+        m_allClips[cid]->setCurrentTrackId(tid);
+    }
+    return ok;
+}
+
 void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
 {
     int id = track->getId();
@@ -72,7 +109,7 @@ void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
     }
     Q_ASSERT(pos >= 0);
     Q_ASSERT(pos <= static_cast<int>(m_allTracks.size()));
- 
+
     //effective insertion (MLT operation)
     int error = m_tractor.insert_track(*track ,pos);
     Q_ASSERT(error == 0); //we might need better error handling...
@@ -107,4 +144,16 @@ void TimelineModel::deregisterClip(int id)
     //TODO send deletion order to the track containing the clip
     Q_ASSERT(m_allClips.count(id) > 0);
     m_allClips.erase(id);
+}
+
+std::unique_ptr<TrackModel>& TimelineModel::getTrackById(int tid)
+{
+    Q_ASSERT(m_iteratorTable.count(tid) > 0);
+    return *m_iteratorTable[tid];
+}
+
+const std::unique_ptr<TrackModel>& TimelineModel::getTrackById_const(int tid) const
+{
+    Q_ASSERT(m_iteratorTable.count(tid) > 0);
+    return *m_iteratorTable.at(tid);
 }

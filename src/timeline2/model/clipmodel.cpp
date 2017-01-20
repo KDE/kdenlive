@@ -28,11 +28,13 @@ int ClipModel::next_id = 0;
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod) :
     m_parent(parent)
     , m_id(ClipModel::next_id++)
+    , m_position(-1)
+    , m_currentTrackId(-1)
     , m_producer(prod)
 {
 }
 
-int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod)
+int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod)
 {
     std::shared_ptr<ClipModel> clip = std::make_shared<ClipModel>(parent, prod);
     int id = clip->m_id;
@@ -59,4 +61,29 @@ void ClipModel::destruct()
 int ClipModel::getId() const
 {
     return m_id;
+}
+
+int ClipModel::getCurrentTrackId() const
+{
+    return m_currentTrackId;
+}
+
+int ClipModel::getPosition() const
+{
+    return m_position;
+}
+
+int ClipModel::getPlaytime()
+{
+    return m_producer->get_playtime();
+}
+
+void ClipModel::setPosition(int pos)
+{
+    m_position = pos;
+}
+
+void ClipModel::setCurrentTrackId(int tid)
+{
+    m_currentTrackId = tid;
 }

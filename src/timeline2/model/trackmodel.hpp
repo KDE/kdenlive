@@ -21,7 +21,7 @@
 
 #include <memory>
 #include <QSharedPointer>
-#include <vector>
+#include <unordered_map>
 #include <mlt++/MltPlaylist.h>
 
 class TimelineModel;
@@ -51,6 +51,22 @@ public:
      */
     void destruct();
 
+    /* @brief returns the number of clips */
+    int getClipsCount() const;
+
+    /* @brief Performs an insertion of the given clip.
+       Returns true if the operation succeeded, and otherwise, the track is not modified.
+       @param clip is a shared pointer to the clip
+       @param position is the position where to insert the clip
+    */
+    bool requestClipInsertion(std::shared_ptr<ClipModel> clip, int position);
+
+    /* @brief Performs an deletion of the given clip.
+       Returns true if the operation succeeded, and otherwise, the track is not modified.
+       @param cid is the id of the clip
+    */
+    bool requestClipDeletion(int cid);
+
     /* Perform a resize operation on a clip. Returns true if the operation succeeded*/
     bool requestClipResize(QSharedPointer<ClipModel> caller, int newSize);
 
@@ -78,5 +94,8 @@ private:
     Mlt::Playlist m_playlist;
 
     static int next_id; //next valid id to assign
+
+
+    std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips;
 
 };

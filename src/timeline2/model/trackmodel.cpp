@@ -53,6 +53,61 @@ void TrackModel::destruct()
     }
 }
 
+int TrackModel::getClipsCount() const
+{
+    return static_cast<int>(m_allClips.size());
+}
+
+bool TrackModel::requestClipInsertion(std::shared_ptr<ClipModel> clip, int position)
+{
+    bool ok = true;
+    // Find out the clip id at position
+    int target_clip = m_playlist.get_clip_index_at(position);
+    int count = m_playlist.count();
+
+    if (target_clip >= count) {
+        //In that case, we append after
+        int index = m_playlist.insert_at(position, *clip, 1);
+        ok = ok && (index != -1);
+    } else {
+        if (m_playlist.is_blank(target_clip)) {
+            int blank_start = m_playlist.clip_start(target_clip);
+            int blank_length = m_playlist.clip_length(target_clip);
+            int length = clip->getPlaytime();
+            if (blank_start + blank_length >= position + length) {
+                int index = m_playlist.insert_at(position, *clip, 1);
+                ok = ok && (index != -1);
+            } else {
+                ok = false;
+            }
+        } else {
+            ok = false;
+        }
+    }
+    if (ok) {
+        m_allClips[clip->getId()] = clip;
+        clip->setPosition(position);
+        return true;
+    }
+    return false;
+}
+
+bool TrackModel::requestClipDeletion(int cid)
+{
+    Q_ASSERT(m_allClips.count(cid) > 0);
+    //Find index of clip
+    int clip_position = m_allClips[cid]->getPosition();
+    int target_clip = m_playlist.get_clip_index_at(clip_position);
+    Q_ASSERT(target_clip < m_playlist.count());
+    auto prod = m_playlist.replace_with_blank(target_clip);
+    if (prod != nullptr) {
+        m_allClips.erase(cid);
+        return true;
+    }
+    return false;
+}
+
+
 int TrackModel::getId() const
 {
     return m_id;

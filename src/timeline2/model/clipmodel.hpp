@@ -26,6 +26,7 @@ namespace Mlt{
     class Producer;
 }
 class TimelineModel;
+class TrackModel;
 
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
@@ -45,7 +46,7 @@ public:
        @param parent is a pointer to the timeline
        @param producer is the producer to be inserted
     */
-    static int construct(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod);
+    static int construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod);
 
     /* @brief The destructor. It asks the parent to be deleted
      */
@@ -54,6 +55,22 @@ public:
     /* @brief returns (unique) id of current clip
      */
     int getId() const;
+
+    /* @brief returns the length of the clip on the timeline
+     */
+    int getPlaytime();
+    /* @brief returns the id of the track in which this clips is inserted (-1 if none)
+     */
+    int getCurrentTrackId() const;
+    /* @brief returns the current position of the clip (-1 if not inserted)
+     */
+    int getPosition() const;
+
+    friend class TrackModel;
+    friend class TimelineModel;
+    /* Implicit conversion operator to access the underlying producer
+     */
+    operator Mlt::Producer&(){ return *m_producer;}
 public:
 
     /* This is called whenever a resize of the clip is issued
@@ -80,11 +97,25 @@ signals:
     void signalSizeChanged(int);
     void signalPositionChanged(int);
 
+protected:
+    /* Updates the stored position of the clip
+      This function is meant to be called by the trackmodel, not directly by the user.
+      If you whish to actually move the clip, use the requestMove slot.
+    */
+    void setPosition(int position);
+    /* Updates the stored track id of the clip
+       This function is meant to be called by the timeline, not directly by the user.
+       If you whish to actually change the track the clip, use the slot in the timeline
+       slot.
+    */
+    void setCurrentTrackId(int tid);
 private:
     std::weak_ptr<TimelineModel> m_parent;
     int m_id; //this is the creation id of the clip, used for book-keeping
+    int m_position;
+    int m_currentTrackId;
 
-    std::weak_ptr<Mlt::Producer> m_producer;
+    std::shared_ptr<Mlt::Producer> m_producer;
     static int next_id; //next valid id to assign
 
 };
