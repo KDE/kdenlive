@@ -1004,9 +1004,9 @@ void Monitor::slotExtractCurrentFrameToProject()
     slotExtractCurrentFrame(QString(), true);
 }
 
-void Monitor::slotExtractCurrentFrame(QString path, bool addToProject)
+void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
 {
-    if (addToProject && QFileInfo(path).fileName().isEmpty()) {
+    if (addToProject && QFileInfo(frameName).fileName().isEmpty()) {
         // convenience: when extracting an image to be added to the project,
         // suggest a suitable image file name. In the project monitor, this
         // suggestion bases on the project file name; in the clip monitor,
@@ -1022,7 +1022,7 @@ void Monitor::slotExtractCurrentFrame(QString path, bool addToProject)
                                      + QStringLiteral("-f")
                                      + QString::number(render->seekFramePosition())
                                      + ".png";
-        path = QFileInfo(path, suggestedImageName).absoluteFilePath();
+        frameName = QFileInfo(frameName, suggestedImageName).fileName();
     }
 
     QString framesFolder = KRecentDirs::dir(QStringLiteral(":KdenliveFramesFolder"));
@@ -1033,7 +1033,7 @@ void Monitor::slotExtractCurrentFrame(QString path, bool addToProject)
     fs->setMimeTypeFilters(QStringList() << QStringLiteral("image/png"));
     fs->setAcceptMode(QFileDialog::AcceptSave);
     fs->setDefaultSuffix(QStringLiteral("png"));
-    fs->selectFile(path);
+    fs->selectFile(frameName);
     if (fs->exec()) {
         if (!fs->selectedFiles().isEmpty()) {
             QUrl savePath = fs->selectedUrls().first();

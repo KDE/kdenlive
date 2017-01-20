@@ -6802,7 +6802,7 @@ void CustomTrackView::expandActiveClip()
     }
     ClipItem *clip = static_cast < ClipItem *>(item);
     const QString url = clip->binClip()->url();
-    if (clip->clipType() != Playlist || !url.isEmpty()) {
+    if (clip->clipType() != Playlist || url.isEmpty()) {
         emit displayMessage(i18n("You must select a playlist clip for this action"), ErrorMessage);
         return;
     }
