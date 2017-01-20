@@ -50,9 +50,6 @@ void TrackModel::destruct()
 {
     if (auto ptr = m_parent.lock()) {
         ptr->deregisterTrack(m_id);
-    } else {
-        qDebug() << "Error : destruction of track failed because parent timeline is not available anymore";
-        Q_ASSERT(false);
     }
 }
 
