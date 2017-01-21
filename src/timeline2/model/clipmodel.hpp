@@ -116,6 +116,5 @@ private:
     int m_currentTrackId;
 
     std::shared_ptr<Mlt::Producer> m_producer;
-    static int next_id; //next valid id to assign
 
 };

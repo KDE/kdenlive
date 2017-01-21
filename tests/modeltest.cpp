@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include <memory>
+#include <random>
 #define private public
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
@@ -9,6 +10,7 @@
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltProfile.h>
 
+std::default_random_engine g(42);
 
 
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
@@ -98,4 +100,40 @@ TEST_CASE("Insert a clip in a track and change track", "[ClipModel]")
     REQUIRE(timeline->getClipPosition(cid1) == pos);
     REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
     REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+}
+
+TEST_CASE("Check id unicity", "[ClipModel]")
+{
+    std::shared_ptr<TimelineModel> timeline = std::make_shared<TimelineModel>();
+
+    Mlt::Factory::init( NULL );
+    Mlt::Profile profile;
+
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "../tests/small.mp4");
+    REQUIRE(producer->is_valid());
+
+    std::vector<int> track_ids;
+    std::unordered_set<int> all_ids;
+
+    std::bernoulli_distribution coin(0.5);
+
+    const int nbr = 20;
+
+    for (int i = 0; i < nbr; i++) {
+        if (coin(g)) {
+            int tid = TrackModel::construct(timeline);
+            REQUIRE(all_ids.count(tid) == 0);
+            all_ids.insert(tid);
+            track_ids.push_back(tid);
+            REQUIRE(timeline->getTracksCount() == track_ids.size());
+        } else {
+            int cid = ClipModel::construct(timeline, producer);
+            REQUIRE(all_ids.count(cid) == 0);
+            all_ids.insert(cid);
+            REQUIRE(timeline->getClipsCount() == all_ids.size() - track_ids.size());
+        }
+    }
+
+    REQUIRE(all_ids.size() == nbr);
+    REQUIRE(all_ids.size() != track_ids.size());
 }

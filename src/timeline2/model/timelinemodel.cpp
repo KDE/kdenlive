@@ -26,6 +26,8 @@
 
 #include <mlt++/MltTractor.h>
 
+int TimelineModel::next_id = 0;
+
 TimelineModel::TimelineModel() :
     m_tractor()
 {

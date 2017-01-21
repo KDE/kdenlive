@@ -23,11 +23,10 @@
 #include <mlt++/MltProducer.h>
 #include <QDebug>
 
-int ClipModel::next_id = 0;
 
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod) :
     m_parent(parent)
-    , m_id(ClipModel::next_id++)
+    , m_id(TimelineModel::next_id++)
     , m_position(-1)
     , m_currentTrackId(-1)
     , m_producer(prod)

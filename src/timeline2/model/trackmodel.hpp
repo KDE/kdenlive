@@ -93,7 +93,6 @@ private:
     int m_id; //this is the creation id of the track, used for book-keeping
     Mlt::Playlist m_playlist;
 
-    static int next_id; //next valid id to assign
 
 
     std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips;

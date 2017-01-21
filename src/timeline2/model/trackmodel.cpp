@@ -25,11 +25,10 @@
 #include <QDebug>
 
 
-int TrackModel::next_id = 0;
 
 TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent) :
     m_parent(parent)
-    , m_id(TrackModel::next_id++)
+    , m_id(TimelineModel::next_id++)
 {
 }
 
