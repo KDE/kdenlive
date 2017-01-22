@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include <unordered_set>
+#include <iostream>
 #define private public
 #define protected public
 #include "timeline2/model/groupsmodel.hpp"
@@ -277,4 +278,55 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
         REQUIRE(groups.getLeaves(gid2) == all_g2);
         REQUIRE(groups.getLeaves(gid3) == g3);
     }
+}
+
+TEST_CASE("Orphan groups deletion", "[GroupsModel]")
+{
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
+    GroupsModel groups(timeline);
+
+    for (int i = 0; i < 4; i++) {
+        groups.createGroupItem(i);
+    }
+
+    auto g1 = std::unordered_set<int>({0,1});
+    int gid1 = groups.groupItems(g1);
+
+    auto g2 = std::unordered_set<int>({2,3});
+    int gid2 = groups.groupItems(g2);
+
+    auto g3 = std::unordered_set<int>({0,3});
+    int gid3 = groups.groupItems(g3);
+
+    REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({0,1,2,3}));
+
+    groups.destructGroupItem(0,true);
+
+    REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({1,2,3}));
+
+    SECTION("Normal deletion") {
+        groups.destructGroupItem(1,false);
+
+        REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({gid1,2,3}));
+
+        groups.destructGroupItem(gid1,true);
+
+        REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({2,3}));
+    }
+
+    SECTION("Cascade deletion") {
+        groups.destructGroupItem(1,true);
+
+        REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({2,3}));
+
+        groups.destructGroupItem(2,true);
+
+        REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({3}));
+
+        REQUIRE(groups.m_downLink.count(gid3) > 0);
+        groups.destructGroupItem(3,true);
+        REQUIRE(groups.m_downLink.count(gid3) == 0);
+        REQUIRE(groups.m_downLink.size() == 0);
+    }
+
 }

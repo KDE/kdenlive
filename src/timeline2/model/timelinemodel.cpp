@@ -171,7 +171,7 @@ void TimelineModel::deregisterClip(int id)
     //TODO send deletion order to the track containing the clip
     Q_ASSERT(m_allClips.count(id) > 0);
     m_allClips.erase(id);
-    m_groups->destructGroupItem(id);
+    m_groups->destructGroupItem(id, true);
 }
 
 void TimelineModel::deregisterGroup(int id)

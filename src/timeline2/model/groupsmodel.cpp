@@ -75,14 +75,24 @@ void GroupsModel::createGroupItem(int id)
     m_downLink[id] = std::unordered_set<int>();
 }
 
-void GroupsModel::destructGroupItem(int id)
+void GroupsModel::destructGroupItem(int id, bool deleteOrphan)
 {
+    int parent = m_upLink[id];
     removeFromGroup(id);
     for (int child : m_downLink[id]) {
         m_upLink[child] = -1;
     }
     m_downLink.erase(id);
     m_upLink.erase(id);
+    if (parent != -1 && m_downLink[parent].size() == 0 && deleteOrphan) {
+        if (auto ptr = m_parent.lock()) {
+            ptr->deregisterGroup(parent);
+        } else {
+            qDebug() << "Impossible to destruct item because the timeline is not available anymore";
+            Q_ASSERT(false);
+        }
+        destructGroupItem(parent, true);
+    }
 }
 
 int GroupsModel::getRootId(int id) const

@@ -55,9 +55,10 @@ public:
     /* @brief Destruct a groupItem in the hierarchy.
        All its children will become their own roots
        @param id id of the groupitem
+       @param deleteOrphan If this parameter is true, we recursively delete any group that become empty following the destruction
     */
+    void destructGroupItem(int id, bool deleteOrphan = false);
 
-    void destructGroupItem(int id);
     /* @brief Get the overall father of a given groupItem
        @param id id of the groupitem
     */
