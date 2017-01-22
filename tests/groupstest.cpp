@@ -186,6 +186,12 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 
     for (int i = 0; i < 10; i++) {
         groups.createGroupItem(i);
+        //the following call shouldn't do anything, but we test that behaviour too.
+        groups.ungroupItem(i);
+        REQUIRE(groups.getRootId(i) == i);
+        REQUIRE(groups.isLeaf(i));
+        REQUIRE(groups.getLeaves(i).size() == 1);
+        REQUIRE(groups.getSubtree(i).size() == 1);
     }
 
     auto g1 = std::unordered_set<int>({4,6,7,9});

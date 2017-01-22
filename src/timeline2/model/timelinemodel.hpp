@@ -85,6 +85,18 @@ public:
        @param position is the position where we want to insert
     */
     bool requestClipChangeTrack(int cid, int tid, int position);
+
+    /* @brief Group together a set of ids
+       Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
+       @param ids Set of ids to group
+    */
+    void groupClips(std::unordered_set<int>&& ids);
+
+    /* @brief Destruct the topmost group containing clip
+       @param id of the clip to degroup (all clips belonging to the same group will be ungrouped as well)
+    */
+    void ungroupClip(int id);
+
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.

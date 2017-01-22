@@ -53,6 +53,10 @@ int GroupsModel::groupItems(const std::unordered_set<int>& ids)
 void GroupsModel::ungroupItem(int id)
 {
     int gid = getRootId(id);
+    if (gid == id) {
+        //element is not part of a group
+        return;
+    }
     if (auto ptr = m_parent.lock()) {
         ptr->deregisterGroup(gid);
     } else {
@@ -61,6 +65,24 @@ void GroupsModel::ungroupItem(int id)
     }
 
     destructGroupItem(gid);
+}
+
+void GroupsModel::createGroupItem(int id)
+{
+    Q_ASSERT(m_upLink.count(id) == 0);
+    Q_ASSERT(m_downLink.count(id) == 0);
+    m_upLink[id] = -1;
+    m_downLink[id] = std::unordered_set<int>();
+}
+
+void GroupsModel::destructGroupItem(int id)
+{
+    removeFromGroup(id);
+    for (int child : m_downLink[id]) {
+        m_upLink[child] = -1;
+    }
+    m_downLink.erase(id);
+    m_upLink.erase(id);
 }
 
 int GroupsModel::getRootId(int id) const
@@ -112,24 +134,6 @@ std::unordered_set<int> GroupsModel::getLeaves(int id) const
         }
     }
     return result;
-}
-
-void GroupsModel::createGroupItem(int id)
-{
-    Q_ASSERT(m_upLink.count(id) == 0);
-    Q_ASSERT(m_downLink.count(id) == 0);
-    m_upLink[id] = -1;
-    m_downLink[id] = std::unordered_set<int>();
-}
-
-void GroupsModel::destructGroupItem(int id)
-{
-    removeFromGroup(id);
-    for (int child : m_downLink[id]) {
-        m_upLink[child] = -1;
-    }
-    m_downLink.erase(id);
-    m_upLink.erase(id);
 }
 
 void GroupsModel::setGroup(int id, int groupId)

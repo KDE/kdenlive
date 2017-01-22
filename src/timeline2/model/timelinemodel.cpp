@@ -111,6 +111,16 @@ bool TimelineModel::requestClipChangeTrack(int cid, int tid, int position)
     return ok;
 }
 
+void TimelineModel::groupClips(std::unordered_set<int>&& ids)
+{
+    m_groups->groupItems(std::forward<std::unordered_set<int>>(ids));
+}
+
+void TimelineModel::ungroupClip(int id)
+{
+    m_groups->ungroupItem(id);
+}
+
 void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
 {
     int id = track->getId();
@@ -138,6 +148,7 @@ void TimelineModel::registerClip(std::shared_ptr<ClipModel> clip)
     int id = clip->getId();
     Q_ASSERT(m_allClips.count(id) == 0);
     m_allClips[id] = clip;
+    m_groups->createGroupItem(id);
 }
 
 void TimelineModel::registerGroup(int groupId)
@@ -160,6 +171,7 @@ void TimelineModel::deregisterClip(int id)
     //TODO send deletion order to the track containing the clip
     Q_ASSERT(m_allClips.count(id) > 0);
     m_allClips.erase(id);
+    m_groups->destructGroupItem(id);
 }
 
 void TimelineModel::deregisterGroup(int id)

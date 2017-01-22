@@ -42,10 +42,22 @@ public:
     int groupItems(const std::unordered_set<int>& ids);
 
     /* Deletes the topmost group containing given element
+       Note that if the element is not in a group, then it will not be touched.
        @param id id of the groupitem
      */
     void ungroupItem(int id);
 
+    /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
+       @param id id of the groupItem
+    */
+    void createGroupItem(int id);
+
+    /* @brief Destruct a groupItem in the hierarchy.
+       All its children will become their own roots
+       @param id id of the groupitem
+    */
+
+    void destructGroupItem(int id);
     /* @brief Get the overall father of a given groupItem
        @param id id of the groupitem
     */
@@ -68,16 +80,6 @@ public:
     std::unordered_set<int> getLeaves(int id) const;
 
 protected:
-    /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
-       @param id id of the groupItem
-    */
-    void createGroupItem(int id);
-
-    /* @brief Destruct a groupItem in the hierarchy.
-       All its children will become their own roots
-       @param id id of the groupitem
-    */
-    void destructGroupItem(int id);
 
     /* @brief change the group of a given item
        @param id of the groupItem
