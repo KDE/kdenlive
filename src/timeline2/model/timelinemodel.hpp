@@ -27,6 +27,7 @@
 
 class TrackModel;
 class ClipModel;
+class GroupsModel;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
@@ -46,6 +47,7 @@ protected:
 public:
     friend class TrackModel;
     friend class ClipModel;
+    friend class GroupsModel;
 
     ~TimelineModel();
 
@@ -93,6 +95,10 @@ protected:
     */
     void registerClip(std::shared_ptr<ClipModel> clip);
 
+    /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
+     */
+    void registerGroup(int groupId);
+
     /* @brief Deregister and destruct the track with given id.
      */
     void deregisterTrack(int id);
@@ -100,6 +106,10 @@ protected:
     /* @brief Deregister and destruct the clip with given id.
      */
     void deregisterClip(int id);
+
+    /* @brief Deregister a group with given id
+     */
+    void deregisterGroup(int id);
 
     /* @brief Helper function to get a pointer to the track, given its id
      */
@@ -116,4 +126,9 @@ private:
     std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips; //the keys are the clip id, and the values are the corresponding pointers
 
     static int next_id;//next valid id to assign
+
+    std::unique_ptr<GroupsModel> m_groups;
+
+    std::unordered_set<int> m_allGroups; //ids of all the groups
+
 };

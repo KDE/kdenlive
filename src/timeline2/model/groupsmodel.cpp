@@ -20,35 +20,52 @@
  ***************************************************************************/
 
 #include "groupsmodel.hpp"
-#include <assert.h>
+#include "timelinemodel.hpp"
+#include <QDebug>
 #include <queue>
 
-GroupsModel::GroupsModel()
+GroupsModel::GroupsModel(std::weak_ptr<TimelineModel> parent) :
+    m_parent(parent)
 {
 }
 
-
-void GroupsModel::createGroupItem(int id)
+int GroupsModel::groupItems(const std::unordered_set<int>& ids)
 {
-    assert(m_upLink.count(id) == 0);
-    assert(m_downLink.count(id) == 0);
-    m_upLink[id] = -1;
-    m_downLink[id] = std::unordered_set<int>();
-}
-
-void GroupsModel::destructGroupItem(int id)
-{
-    removeFromGroup(id);
-    for (int child : m_downLink[id]) {
-        m_upLink[child] = -1;
+    Q_ASSERT(ids.size()>0);
+    if (ids.size() == 1) {
+        return *(ids.begin());
     }
-    m_downLink.erase(id);
-    m_upLink.erase(id);
+    int gid = TimelineModel::next_id++;
+    createGroupItem(gid);
+
+    if (auto ptr = m_parent.lock()) {
+        ptr->registerGroup(gid);
+    } else {
+        qDebug() << "Impossible to create group because the timeline is not available anymore";
+        Q_ASSERT(false);
+    }
+    for (int id : ids) {
+        setGroup(getRootId(id), gid);
+    }
+    return gid;
+}
+
+void GroupsModel::ungroupItem(int id)
+{
+    int gid = getRootId(id);
+    if (auto ptr = m_parent.lock()) {
+        ptr->deregisterGroup(gid);
+    } else {
+        qDebug() << "Impossible to ungroup item because the timeline is not available anymore";
+        Q_ASSERT(false);
+    }
+
+    destructGroupItem(gid);
 }
 
 int GroupsModel::getRootId(int id) const
 {
-    assert(m_upLink.count(id) > 0);
+    Q_ASSERT(m_upLink.count(id) > 0);
     int father = m_upLink.at(id);
     if (father == -1) {
         return id;
@@ -58,6 +75,7 @@ int GroupsModel::getRootId(int id) const
 
 bool GroupsModel::isLeaf(int id) const
 {
+    Q_ASSERT(m_downLink.count(id) > 0);
     return m_downLink.at(id).size() == 0;
 }
 
@@ -96,10 +114,28 @@ std::unordered_set<int> GroupsModel::getLeaves(int id) const
     return result;
 }
 
+void GroupsModel::createGroupItem(int id)
+{
+    Q_ASSERT(m_upLink.count(id) == 0);
+    Q_ASSERT(m_downLink.count(id) == 0);
+    m_upLink[id] = -1;
+    m_downLink[id] = std::unordered_set<int>();
+}
+
+void GroupsModel::destructGroupItem(int id)
+{
+    removeFromGroup(id);
+    for (int child : m_downLink[id]) {
+        m_upLink[child] = -1;
+    }
+    m_downLink.erase(id);
+    m_upLink.erase(id);
+}
+
 void GroupsModel::setGroup(int id, int groupId)
 {
-    assert(m_upLink.count(id) > 0);
-    assert(m_downLink.count(groupId) > 0);
+    Q_ASSERT(m_upLink.count(id) > 0);
+    Q_ASSERT(m_downLink.count(groupId) > 0);
     removeFromGroup(id);
     m_upLink[id] = groupId;
     m_downLink[groupId].insert(id);
@@ -107,8 +143,8 @@ void GroupsModel::setGroup(int id, int groupId)
 
 void GroupsModel::removeFromGroup(int id)
 {
-    assert(m_upLink.count(id) > 0);
-    assert(m_downLink.count(id) > 0);
+    Q_ASSERT(m_upLink.count(id) > 0);
+    Q_ASSERT(m_downLink.count(id) > 0);
     int parent = m_upLink[id];
     if (parent != -1) {
         m_downLink[parent].erase(id);

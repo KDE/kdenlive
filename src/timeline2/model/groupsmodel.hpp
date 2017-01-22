@@ -21,7 +21,9 @@
 
 #include <unordered_map>
 #include <unordered_set>
+#include <memory>
 
+class TimelineModel;
 
 /* @brief This class represents the group hiearchy. This is basically a tree structure
    In this class, we consider that a groupItem is either a clip or a group
@@ -29,18 +31,20 @@
 class GroupsModel
 {
 public:
-    GroupsModel();
+    GroupsModel() = delete;
+    GroupsModel(std::weak_ptr<TimelineModel> parent);
 
-    /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
-       @param id id of the groupItem
+    /* @brief Create a group that contains all the given items and returns the id of the created group.
+       Note that if an item is already part of a group, its topmost group will be considered instead and added in the newly created group.
+       If only one id is provided, no group is created.
+       @param ids set containing the items to group.
     */
-    void createGroupItem(int id);
+    int groupItems(const std::unordered_set<int>& ids);
 
-    /* @brief Destruct a groupItem in the hierarchy.
-       All its children will become their own roots
+    /* Deletes the topmost group containing given element
        @param id id of the groupitem
-    */
-    void destructGroupItem(int id);
+     */
+    void ungroupItem(int id);
 
     /* @brief Get the overall father of a given groupItem
        @param id id of the groupitem
@@ -63,6 +67,18 @@ public:
     */
     std::unordered_set<int> getLeaves(int id) const;
 
+protected:
+    /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
+       @param id id of the groupItem
+    */
+    void createGroupItem(int id);
+
+    /* @brief Destruct a groupItem in the hierarchy.
+       All its children will become their own roots
+       @param id id of the groupitem
+    */
+    void destructGroupItem(int id);
+
     /* @brief change the group of a given item
        @param id of the groupItem
        @param groupId id of the group to assign it to
@@ -74,6 +90,9 @@ public:
     */
     void removeFromGroup(int id);
 private:
+
+    std::weak_ptr<TimelineModel> m_parent;
+
     std::unordered_map<int, int> m_upLink; //edges toward parent
     std::unordered_map<int, std::unordered_set<int>> m_downLink; //edges toward children
 

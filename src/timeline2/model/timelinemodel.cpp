@@ -23,6 +23,7 @@
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
+#include "groupsmodel.hpp"
 
 #include <mlt++/MltTractor.h>
 
@@ -36,6 +37,7 @@ TimelineModel::TimelineModel() :
 std::shared_ptr<TimelineModel> TimelineModel::construct()
 {
     std::shared_ptr<TimelineModel> ptr(new TimelineModel());
+    ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
     return ptr;
 }
 
@@ -138,6 +140,12 @@ void TimelineModel::registerClip(std::shared_ptr<ClipModel> clip)
     m_allClips[id] = clip;
 }
 
+void TimelineModel::registerGroup(int groupId)
+{
+    Q_ASSERT(m_allGroups.count(groupId) == 0);
+    m_allGroups.insert(groupId);
+}
+
 void TimelineModel::deregisterTrack(int id)
 {
     auto it = m_iteratorTable[id]; //iterator to the element
@@ -152,6 +160,12 @@ void TimelineModel::deregisterClip(int id)
     //TODO send deletion order to the track containing the clip
     Q_ASSERT(m_allClips.count(id) > 0);
     m_allClips.erase(id);
+}
+
+void TimelineModel::deregisterGroup(int id)
+{
+    Q_ASSERT(m_allGroups.count(id) > 0);
+    m_allGroups.erase(id);
 }
 
 std::unique_ptr<TrackModel>& TimelineModel::getTrackById(int tid)
