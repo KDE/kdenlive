@@ -93,19 +93,19 @@ int TimelineModel::getClipPosition(int cid) const
     return clip->getPosition();
 }
 
-bool TimelineModel::requestClipChangeTrack(int cid, int tid, int position)
+bool TimelineModel::requestClipChangeTrack(int cid, int tid, int position, bool dry)
 {
     Q_ASSERT(m_allClips.count(cid) > 0);
     bool ok = true;
     int old_tid = m_allClips[cid]->getCurrentTrackId();
     if (old_tid != -1) {
-        ok = getTrackById(old_tid)->requestClipDeletion(cid);
+        ok = getTrackById(old_tid)->requestClipDeletion(cid, dry);
         if (!ok) {
             return false;
         }
     }
-    ok = getTrackById(tid)->requestClipInsertion(m_allClips[cid], position);
-    if (ok) {
+    ok = getTrackById(tid)->requestClipInsertion(m_allClips[cid], position, dry);
+    if (ok && !dry) {
         m_allClips[cid]->setCurrentTrackId(tid);
     }
     return ok;

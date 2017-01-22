@@ -73,6 +73,10 @@ public:
     /* Implicit conversion operator to access the underlying producer
      */
     operator Mlt::Producer&(){ return *m_producer;}
+
+    /* Returns true if the underlying producer is valid
+     */
+    bool isValid();
 public:
 
     /* This is called whenever a resize of the clip is issued

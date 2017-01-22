@@ -83,8 +83,9 @@ public:
        @param cid is the ID of the clip
        @param tid is the ID of the target track
        @param position is the position where we want to insert
+       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
-    bool requestClipChangeTrack(int cid, int tid, int position);
+    bool requestClipChangeTrack(int cid, int tid, int position, bool dry = false);
 
     /* @brief Group together a set of ids
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.

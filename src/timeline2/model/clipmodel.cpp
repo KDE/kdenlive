@@ -72,6 +72,11 @@ int ClipModel::getPosition() const
     return m_position;
 }
 
+bool ClipModel::isValid()
+{
+    return m_producer->is_valid();
+}
+
 int ClipModel::getPlaytime()
 {
     return m_producer->get_playtime();

@@ -58,14 +58,16 @@ public:
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        @param clip is a shared pointer to the clip
        @param position is the position where to insert the clip
+       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
-    bool requestClipInsertion(std::shared_ptr<ClipModel> clip, int position);
+    bool requestClipInsertion(std::shared_ptr<ClipModel> clip, int position, bool dry = false);
 
     /* @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        @param cid is the id of the clip
+       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
-    bool requestClipDeletion(int cid);
+    bool requestClipDeletion(int cid, bool dry = false);
 
     /* Perform a resize operation on a clip. Returns true if the operation succeeded*/
     bool requestClipResize(QSharedPointer<ClipModel> caller, int newSize);
