@@ -33,6 +33,12 @@ TimelineModel::TimelineModel() :
 {
 }
 
+std::shared_ptr<TimelineModel> TimelineModel::construct()
+{
+    std::shared_ptr<TimelineModel> ptr(new TimelineModel());
+    return ptr;
+}
+
 TimelineModel::~TimelineModel()
 {
     for(auto tracks : m_iteratorTable) {

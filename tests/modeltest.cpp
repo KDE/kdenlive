@@ -15,7 +15,7 @@ std::default_random_engine g(42);
 
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = std::make_shared<TimelineModel>();
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
 
     int id1 = TrackModel::construct(timeline);
     REQUIRE(timeline->getTracksCount() == 1);
@@ -41,7 +41,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = std::make_shared<TimelineModel>();
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -70,7 +70,7 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 
 TEST_CASE("Insert a clip in a track and change track", "[ClipModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = std::make_shared<TimelineModel>();
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -104,7 +104,7 @@ TEST_CASE("Insert a clip in a track and change track", "[ClipModel]")
 
 TEST_CASE("Check id unicity", "[ClipModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = std::make_shared<TimelineModel>();
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
