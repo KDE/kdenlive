@@ -11,9 +11,11 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -fexceptions")
 SET(Tests_SRCS
     TestMain.cpp
     modeltest.cpp
+    groupstest.cpp
     ../src/timeline2/model/trackmodel.cpp
     ../src/timeline2/model/timelinemodel.cpp
     ../src/timeline2/model/clipmodel.cpp
+    ../src/timeline2/model/groupsmodel.cpp
 )
 
 INCLUDE_DIRECTORIES(../src/)
