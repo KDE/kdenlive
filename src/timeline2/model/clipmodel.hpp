@@ -36,9 +36,11 @@ class ClipModel : public QObject
     Q_OBJECT
     ClipModel() = delete;
 
-public:
+protected:
     /* This constructor is not meant to be called, call the static construct instead */
     ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod);
+
+public:
 
 
     /* @brief Creates a clip, which references itself to the parent timeline

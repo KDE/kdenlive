@@ -35,7 +35,7 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Pro
 
 int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod)
 {
-    std::shared_ptr<ClipModel> clip = std::make_shared<ClipModel>(parent, prod);
+    std::shared_ptr<ClipModel> clip(new ClipModel(parent, prod));
     int id = clip->m_id;
     if (auto ptr = parent.lock()) {
         ptr->registerClip(clip);
