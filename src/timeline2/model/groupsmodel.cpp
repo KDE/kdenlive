@@ -35,7 +35,7 @@ int GroupsModel::groupItems(const std::unordered_set<int>& ids)
     if (ids.size() == 1) {
         return *(ids.begin());
     }
-    int gid = TimelineModel::next_id++;
+    int gid = TimelineModel::getNextId();
     createGroupItem(gid);
 
     if (auto ptr = m_parent.lock()) {

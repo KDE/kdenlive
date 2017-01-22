@@ -115,6 +115,10 @@ protected:
      */
     std::unique_ptr<TrackModel>& getTrackById(int tid);
     const std::unique_ptr<TrackModel>& getTrackById_const(int tid) const;
+
+    /* @brief Returns next valid unique id to create an object
+     */
+    static int getNextId();
 private:
     Mlt::Tractor m_tractor;
     QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex

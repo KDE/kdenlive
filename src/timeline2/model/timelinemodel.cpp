@@ -179,3 +179,8 @@ const std::unique_ptr<TrackModel>& TimelineModel::getTrackById_const(int tid) co
     Q_ASSERT(m_iteratorTable.count(tid) > 0);
     return *m_iteratorTable.at(tid);
 }
+
+int TimelineModel::getNextId()
+{
+    return TimelineModel::next_id++;
+}

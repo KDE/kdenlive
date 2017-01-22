@@ -28,7 +28,7 @@
 
 TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent) :
     m_parent(parent)
-    , m_id(TimelineModel::next_id++)
+    , m_id(TimelineModel::getNextId())
 {
 }
 

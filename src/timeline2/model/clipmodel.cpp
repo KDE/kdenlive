@@ -26,7 +26,7 @@
 
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod) :
     m_parent(parent)
-    , m_id(TimelineModel::next_id++)
+    , m_id(TimelineModel::getNextId())
     , m_position(-1)
     , m_currentTrackId(-1)
     , m_producer(prod)
