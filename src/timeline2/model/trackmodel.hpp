@@ -52,7 +52,7 @@ public:
     void destruct();
 
     /* @brief returns the number of clips */
-    int getClipsCount() const;
+    int getClipsCount();
 
     /* @brief Performs an insertion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.

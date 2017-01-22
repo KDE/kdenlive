@@ -52,9 +52,16 @@ void TrackModel::destruct()
     }
 }
 
-int TrackModel::getClipsCount() const
+int TrackModel::getClipsCount()
 {
-    return static_cast<int>(m_allClips.size());
+    int count = 0;
+    for (int i = 0; i < m_playlist.count(); i++) {
+        if (!m_playlist.is_blank(i)) {
+            count++;
+        }
+    }
+    Q_ASSERT(count == static_cast<int>(m_allClips.size()));
+    return count;
 }
 
 bool TrackModel::requestClipInsertion(std::shared_ptr<ClipModel> clip, int position, bool dry)
@@ -112,6 +119,7 @@ bool TrackModel::requestClipDeletion(int cid, bool dry)
     Q_ASSERT(target_clip < m_playlist.count());
     auto prod = m_playlist.replace_with_blank(target_clip);
     if (prod != nullptr) {
+        m_playlist.consolidate_blanks();
         m_allClips.erase(cid);
         return true;
     }

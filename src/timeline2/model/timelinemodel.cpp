@@ -95,6 +95,9 @@ int TimelineModel::getClipPosition(int cid) const
 
 bool TimelineModel::requestClipChangeTrack(int cid, int tid, int position, bool dry)
 {
+    if (!dry && !requestClipChangeTrack(cid, tid, position, true)) {
+        return false;
+    }
     Q_ASSERT(m_allClips.count(cid) > 0);
     bool ok = true;
     int old_tid = m_allClips[cid]->getCurrentTrackId();

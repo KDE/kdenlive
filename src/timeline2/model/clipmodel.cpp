@@ -43,6 +43,8 @@ int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Ml
         qDebug() << "Error : construction of clip failed because parent timeline is not available anymore";
         Q_ASSERT(false);
     }
+
+    prod.reset(prod->cut());
     return id;
 }
 

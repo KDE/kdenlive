@@ -88,6 +88,15 @@ TEST_CASE("Insert a clip in a track and change track", "[ClipModel]")
     REQUIRE(timeline->getClipPosition(cid1) == -1);
 
     int pos = 10;
+    //dry
+    REQUIRE(timeline->requestClipChangeTrack(cid1, tid1, pos,true));
+    REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+    REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+
+    REQUIRE(timeline->getClipTrackId(cid1) == -1);
+    REQUIRE(timeline->getClipPosition(cid1) == -1);
+
+    //real insert
     REQUIRE(timeline->requestClipChangeTrack(cid1, tid1, pos));
     REQUIRE(timeline->getClipTrackId(cid1) == tid1);
     REQUIRE(timeline->getClipPosition(cid1) == pos);
@@ -95,11 +104,54 @@ TEST_CASE("Insert a clip in a track and change track", "[ClipModel]")
     REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
 
     pos = 1;
+    //dry
+    REQUIRE(timeline->requestClipChangeTrack(cid1, tid2, pos,true));
+    REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+    REQUIRE(timeline->getClipPosition(cid1) == 10);
+    REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+    REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+    //real
     REQUIRE(timeline->requestClipChangeTrack(cid1, tid2, pos));
     REQUIRE(timeline->getClipTrackId(cid1) == tid2);
     REQUIRE(timeline->getClipPosition(cid1) == pos);
     REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
     REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+
+
+    // Check conflicts
+    int cid2 = ClipModel::construct(timeline, producer);
+    int pos2 = producer->get_playtime();
+    REQUIRE(timeline->requestClipChangeTrack(cid2, tid1, pos2));
+    REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+    REQUIRE(timeline->getClipPosition(cid2) == pos2);
+    REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+    REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+
+    REQUIRE_FALSE(timeline->requestClipChangeTrack(cid1, tid1, pos2 + 2, true));
+    REQUIRE_FALSE(timeline->requestClipChangeTrack(cid1, tid1, pos2 + 2));
+    REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+    REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+    REQUIRE(timeline->getClipTrackId(cid1) == tid2);
+    REQUIRE(timeline->getClipPosition(cid1) == pos);
+    REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+    REQUIRE(timeline->getClipPosition(cid2) == pos2);
+
+    REQUIRE_FALSE(timeline->requestClipChangeTrack(cid1, tid1, pos2 - 2, true));
+    REQUIRE_FALSE(timeline->requestClipChangeTrack(cid1, tid1, pos2 - 2));
+    REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+    REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+    REQUIRE(timeline->getClipTrackId(cid1) == tid2);
+    REQUIRE(timeline->getClipPosition(cid1) == pos);
+    REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+    REQUIRE(timeline->getClipPosition(cid2) == pos2);
+
+    REQUIRE(timeline->requestClipChangeTrack(cid1, tid1, 0));
+    REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+    REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+    REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+    REQUIRE(timeline->getClipPosition(cid1) == 0);
+    REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+    REQUIRE(timeline->getClipPosition(cid2) == pos2);
 }
 
 TEST_CASE("Check id unicity", "[ClipModel]")
