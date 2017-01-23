@@ -34,10 +34,14 @@ TimelineModel::TimelineModel() :
 {
 }
 
-std::shared_ptr<TimelineModel> TimelineModel::construct()
+std::shared_ptr<TimelineModel> TimelineModel::construct(bool populate)
 {
     std::shared_ptr<TimelineModel> ptr(new TimelineModel());
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
+    if (populate) {
+        TrackModel::construct(ptr);
+        TrackModel::construct(ptr);
+    }
     return ptr;
 }
 

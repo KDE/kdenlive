@@ -37,7 +37,7 @@ class TimelineModel
 public:
     /* @brief construct a timeline object and returns a pointer to the created object
      */
-    static std::shared_ptr<TimelineModel> construct();
+    static std::shared_ptr<TimelineModel> construct(bool populate = false);
 
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
