@@ -21,6 +21,7 @@ class BinController;
 class Bin;
 class LibraryWidget;
 class ProducerQueue;
+class TimelineWidget;
 
 #define pCore Core::self()
 
@@ -66,6 +67,8 @@ public:
     ProducerQueue *producerQueue();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
+    /** @brief Returns a pointer to the timeline. */
+    TimelineWidget *timeline();
 
 private:
     explicit Core(MainWindow *mainWindow);
@@ -81,6 +84,7 @@ private:
     ProducerQueue *m_producerQueue;
     Bin *m_binWidget;
     LibraryWidget *m_library;
+    TimelineWidget *m_timelineWidget;
 
 signals:
     void coreIsReady();

@@ -12,5 +12,12 @@
     <file alias="kdenlivemonitorripple.qml">../data/kdenlivemonitorripple.qml</file>
     <file alias="SceneToolBar.qml">../data/SceneToolBar.qml</file>
     <file alias="EffectToolBar.qml">../data/EffectToolBar.qml</file>
+    <file alias="timeline.qml">timeline2/view/qml/timeline.qml</file>
+    <file alias="TrackHead.qml">timeline2/view/qml/TrackHead.qml</file>
+    <file alias="Track.qml">timeline2/view/qml/Track.qml</file>
+    <file alias="Ruler.qml">timeline2/view/qml/Ruler.qml</file>
+    <file alias="Clip.qml">timeline2/view/qml/Clip.qml</file>
+    <file alias="Track.js">timeline2/view/qml/Track.js</file>
+    <file alias="Timeline.js">timeline2/view/qml/Timeline.js</file>
   </qresource>
 </RCC>

@@ -64,6 +64,7 @@
 #include "utils/thememanager.h"
 #include "utils/progressbutton.h"
 #include "effectslist/effectslistwidget.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include "utils/KoIconUtils.h"
 #include "project/dialogs/temporarydata.h"
@@ -274,6 +275,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
     setupActions();
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
+    QDockWidget *timelineDock = addDock(i18n("Timeline2"), QStringLiteral("timeline2"), pCore->timeline());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);

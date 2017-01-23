@@ -19,10 +19,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#ifndef TIMELINEMODEL_H
+#define TIMELINEMODEL_H
+
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
 #include <QVector>
+#include <QAbstractItemModel>
 #include <mlt++/MltTractor.h>
 
 class TrackModel;
@@ -32,8 +36,12 @@ class GroupsModel;
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
 */
-class TimelineModel
+class TimelineModel : public QAbstractItemModel
 {
+    Q_OBJECT
+    Q_PROPERTY(int trackHeight READ trackHeight WRITE setTrackHeight NOTIFY trackHeightChanged)
+    Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
+
 public:
     /* @brief construct a timeline object and returns a pointer to the created object
      */
@@ -50,9 +58,44 @@ public:
     friend class GroupsModel;
 
     ~TimelineModel();
+    /// Two level model: tracks and clips on track
+    enum {
+        NameRole = Qt::UserRole + 1,
+        ResourceRole,    /// clip only
+        ServiceRole,     /// clip only
+        IsBlankRole,     /// clip only
+        StartRole,       /// clip only
+        DurationRole,
+        InPointRole,     /// clip only
+        OutPointRole,    /// clip only
+        FramerateRole,   /// clip only
+        IsMuteRole,      /// track only
+        IsHiddenRole,    /// track only
+        IsAudioRole,
+        AudioLevelsRole, /// clip only
+        IsCompositeRole, /// track only
+        IsLockedRole,    /// track only
+        FadeInRole,      /// clip only
+        FadeOutRole,     /// clip only
+        IsTransitionRole,/// clip only
+        FileHashRole,    /// clip only
+        SpeedRole        /// clip only
+    };
+
+    int rowCount(const QModelIndex & parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+    QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex makeIndex(int trackIndex, int clipIndex) const;
+    QModelIndex parent(const QModelIndex &index) const;
+    int trackHeight() const;
+    void setTrackHeight(int height);
+    double scaleFactor() const;
+    void setScaleFactor(double scale);
 
     /* @brief returns the number of tracks */
-    int getTracksCount();
+    int getTracksCount() const;
 
     /* @brief returns the number of clips */
     int getClipsCount() const;
@@ -107,6 +150,8 @@ protected:
     /* @brief Register a new track. This is a call-back meant to be called from ClipModel
     */
     void registerClip(std::shared_ptr<ClipModel> clip);
+    
+    std::shared_ptr<ClipModel> getClip(int id);
 
     /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
      */
@@ -133,7 +178,7 @@ protected:
      */
     static int getNextId();
 private:
-    Mlt::Tractor m_tractor;
+    Mlt::Tractor *m_tractor;
     QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex
 
     std::list<std::unique_ptr<TrackModel>> m_allTracks;
@@ -148,4 +193,9 @@ private:
 
     std::unordered_set<int> m_allGroups; //ids of all the groups
 
+signals:
+    void trackHeightChanged();
+    void scaleFactorChanged();
 };
+
+#endif

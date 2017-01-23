@@ -117,6 +117,7 @@ int main(int argc, char *argv[])
     app.setApplicationDisplayName(aboutData.displayName());
     app.setOrganizationDomain(aboutData.organizationDomain());
     app.setApplicationVersion(aboutData.version());
+    app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 
     // Create command line parser with options
     QCommandLineParser parser;
