@@ -32,6 +32,7 @@ target_link_libraries(runTests
     ${MLT_LIBRARIES}
     ${MLTPP_LIBRARIES}
     ${CMAKE_DL_LIBS}
+    KF5::I18n
     ${CMAKE_THREAD_LIBS_INIT}
     )
 
