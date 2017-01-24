@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include "clipmodel.hpp"
 #include "timelinemodel.hpp"
+#include "trackmodel.hpp"
 #include <mlt++/MltProducer.h>
 #include <QDebug>
 
@@ -44,7 +45,6 @@ int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Ml
         Q_ASSERT(false);
     }
 
-    prod.reset(prod->cut());
     return id;
 }
 
@@ -77,6 +77,44 @@ int ClipModel::getPosition() const
 bool ClipModel::isValid()
 {
     return m_producer->is_valid();
+}
+
+bool ClipModel::slotRequestResize(int size, bool right, bool dry)
+{
+    if (!dry && !slotRequestResize(size, right, true)) {
+        return false;
+    }
+    if (size < 0 || size > m_producer->get_length()) {
+        return false;
+    }
+    int delta = getPlaytime() - size;
+    int in = m_producer->get_in();
+    int out = m_producer->get_out();
+    //check if there is enough space on the chosen side
+    if ((!right && in + delta < 0) || (right &&  out - delta >= m_producer->get_length())) {
+        return false;
+    }
+    if (right) {
+        out -= delta;
+    } else {
+        in += delta;
+    }
+
+    if (m_currentTrackId != -1) {
+        if (auto ptr = m_parent.lock()) {
+            bool ok = ptr->getTrackById(m_currentTrackId)->requestClipResize(m_id, in, out, right, dry);
+            if (!ok) {
+                return false;
+            }
+        } else {
+            qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
+            Q_ASSERT(false);
+        }
+    }
+    if (!dry) {
+        m_producer.reset(m_producer->cut(in, out));
+    }
+    return true;
 }
 
 int ClipModel::getPlaytime()

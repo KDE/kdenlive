@@ -79,11 +79,16 @@ public:
     bool isValid();
 public:
 
-    /* This is called whenever a resize of the clip is issued
+    /* @brief Performs a resize of the given clip.
+       Returns true if the operation succeeded, and otherwise nothing is modified
+       This is called whenever a resize of the clip is issued
        If the resize is accepted, it should send back a signal to the QML interface.
-       If a snap point is withing reach, the operation will be coerced to use it.
+       If a snap point is within reach, the operation will be coerced to use it.
+       @param size is the new size of the clip
+       @param right is true if we change the right side of the clip, false otherwise
+       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
-    void slotRequestResize(int newSize);
+    bool slotRequestResize(int size, bool right, bool dry = false);
 
     /* This is called whenever a move of the clip is issued
        If the move is accepted, it should send back a signal to the QML interface.

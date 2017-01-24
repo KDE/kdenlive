@@ -37,6 +37,7 @@ public:
     TrackModel() = delete;
 
     friend class TimelineModel;
+    friend class ClipModel;
 private:
     /* This constructor is private, call the static construct instead */
     TrackModel(std::weak_ptr<TimelineModel> parent);
@@ -69,8 +70,6 @@ public:
     */
     bool requestClipDeletion(int cid, bool dry = false);
 
-    /* Perform a resize operation on a clip. Returns true if the operation succeeded*/
-    bool requestClipResize(QSharedPointer<ClipModel> caller, int newSize);
 
     /* Perform a move operation on a clip. Returns true if the operation succeeded*/
     bool requestClipMove(QSharedPointer<ClipModel> caller, int newPosition);
@@ -83,9 +82,21 @@ public:
     operator Mlt::Producer&(){ return m_playlist;}
 
 protected:
+    /* @brief Performs a resize of the given clip.
+       Returns true if the operation succeeded, and otherwise nothing is modified
+       This method is protected because it shouldn't be called directly. Call the function in the clip instead.
+       @param cid is the id of the clip
+       @param in is the new starting on the clip
+       @param out is the new ending on the clip
+       @param right is true if we change the right side of the clip, false otherwise
+       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
+    */
+    bool requestClipResize(int cid, int in, int out, bool right, bool dry = false);
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;
 
+    /*@brief This is an helper function that test frame level consistancy with the MLT structures */
+    bool checkConsistency();
 public slots:
     /*Delete the current track and all its associated clips */
     void slotDelete();
