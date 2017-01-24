@@ -150,8 +150,6 @@ protected:
     /* @brief Register a new track. This is a call-back meant to be called from ClipModel
     */
     void registerClip(std::shared_ptr<ClipModel> clip);
-    
-    std::shared_ptr<ClipModel> getClip(int id);
 
     /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
      */

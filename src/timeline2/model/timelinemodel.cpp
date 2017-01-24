@@ -49,10 +49,7 @@ std::shared_ptr<TimelineModel> TimelineModel::construct(bool populate)
         Mlt::Profile profile;
         std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(profile,"color", "red"));
         int clipId = ClipModel::construct(ptr, prod);
-        // Not sure this is the right way to insert a clip...
-        std::shared_ptr<ClipModel> clip(ptr->getClip(clipId));
-        std::unique_ptr<TrackModel>& track(ptr->getTrackById(ix));
-        track->requestClipInsertion(clip, 100, false);
+        ptr->requestClipChangeTrack(clipId, ix, 100);
     }
     return ptr;
 }
@@ -345,13 +342,6 @@ void TimelineModel::registerClip(std::shared_ptr<ClipModel> clip)
     Q_ASSERT(m_allClips.count(id) == 0);
     m_allClips[id] = clip;
     m_groups->createGroupItem(id);
-}
-
-std::shared_ptr<ClipModel> TimelineModel::getClip(int id)
-{
-    // is there a cleaner way to get a clip to add it to a track?
-    Q_ASSERT(m_allClips.count(id) > 0);
-    return m_allClips[id];
 }
 
 void TimelineModel::registerGroup(int groupId)
