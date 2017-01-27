@@ -185,8 +185,7 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
                 return QString("service2");
                 break;
             case IsBlankRole:
-                return false;
-                //return playlist.is_blank(index.row());
+                return playlist.is_blank(index.row());
             case StartRole:
                 return info->start;
             case DurationRole:

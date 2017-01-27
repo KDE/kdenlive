@@ -56,18 +56,7 @@ Rectangle {
     signal trimmedOut(var clip)
 
     SystemPalette { id: activePalette }
-    gradient: Gradient {
-        GradientStop {
-            id: gradientStop
-            position: 0.00
-            color: Qt.lighter(getColor())
-        }
-        GradientStop {
-            id: gradientStop2
-            position: 1.0
-            color: getColor()
-        }
-    }
+    color: Qt.darker(getColor())
 
     border.color: selected? 'red' : 'black'
     border.width: isBlank? 0 : 1
@@ -144,7 +133,7 @@ Rectangle {
 
     Row {
         id: waveform
-        //visible: !isBlank && settings.timelineShowWaveforms
+        visible: !isBlank //&& settings.timelineShowWaveforms
         height: isAudio? parent.height : parent.height / 2
         anchors.left: parent.left
         anchors.bottom: parent.bottom
@@ -222,12 +211,8 @@ Rectangle {
             name: 'selectedBlank'
             when: clipRoot.selected && clipRoot.isBlank
             PropertyChanges {
-                target: gradientStop2
-                color: Qt.lighter(selectedTrackColor)
-            }
-            PropertyChanges {
-                target: gradientStop
-                color: Qt.darker(selectedTrackColor)
+                target: clipRoot
+                color: Qt.darker(getColor())
             }
         },
         State {
@@ -236,10 +221,7 @@ Rectangle {
             PropertyChanges {
                 target: clipRoot
                 z: 1
-            }
-            PropertyChanges {
-                target: gradientStop
-                color: Qt.darker(getColor())
+                color: getColor()
             }
         }
     ]
@@ -294,10 +276,10 @@ Rectangle {
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
             propagateComposedEvents: true
-            /*cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
+            cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
                 (fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active)? Qt.PointingHandCursor :
                 drag.active? Qt.ClosedHandCursor :
-                isBlank? Qt.ArrowCursor : Qt.OpenHandCursor*/
+                isBlank? Qt.ArrowCursor : Qt.OpenHandCursor
             onClicked: menu.show()
         }
     }

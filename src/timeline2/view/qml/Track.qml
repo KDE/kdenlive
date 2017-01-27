@@ -38,6 +38,7 @@ Rectangle {
     signal clipDraggedToTrack(var clip, int direction)
     signal checkSnap(var clip)
 
+    color: 'transparent'
 
     function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)
@@ -56,7 +57,6 @@ Rectangle {
         return repeater.itemAt(index)
     }
 
-    color: 'transparent'
     width: clipRow.width
 
     DelegateModel {
@@ -68,7 +68,7 @@ Rectangle {
             mltService: model.mlt_service
             inPoint: model.in
             outPoint: model.out
-            isBlank: false //model.blank
+            isBlank: model.blank
             isAudio: false //model.audio
             isTransition: false //model.isTransition
             audioLevels: false //model.audioLevels
