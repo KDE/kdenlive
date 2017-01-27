@@ -30,12 +30,14 @@ Rectangle {
     property bool isCurrentTrack: false
     property bool isLocked: false
     property var selection
+    height: parent.height
 
     signal clipClicked(var clip, var track)
     signal clipDragged(var clip, int x, int y)
     signal clipDropped(var clip)
     signal clipDraggedToTrack(var clip, int direction)
     signal checkSnap(var clip)
+
 
     function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)

@@ -9,12 +9,22 @@ import 'Timeline.js' as Logic
 Rectangle {
     id: root
     objectName: "timelineview"
-    
+
     SystemPalette { id: activePalette }
     color: activePalette.window
-    
+
     signal clipClicked()
-    
+
+    function zoomByWheel(wheel) {
+        if (wheel.modifiers & Qt.ControlModifier) {
+            //TODO
+            timeline.setScaleFactor(timeline.scaleFactor + 0.2 * wheel.angleDelta.y / 120);
+        } else {
+            scrollView.flickableItem.contentX += wheel.angleDelta.y
+        }
+        //Logic.scrollIfNeeded()
+    }
+
     property int headerWidth: 140
     property int currentTrack: 0
     property color selectedTrackColor: Qt.rgba(0.8, 0.8, 0, 0.3);
@@ -22,7 +32,39 @@ Rectangle {
     property bool stopScrolling: false
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
     //property alias ripple: toolbar.ripple
-    // default size, but scalable by user
+
+    onCurrentTrackChanged: timeline.selection = []
+
+    DropArea {
+        anchors.fill: parent
+        onEntered: {
+            if (drag.formats.indexOf('application/mlt+xml') >= 0)
+                drag.acceptProposedAction()
+        }
+        onExited: Logic.dropped()
+        onPositionChanged: {
+            if (drag.formats.indexOf('application/mlt+xml') >= 0)
+                Logic.dragging(drag, drag.text)
+        }
+        onDropped: {
+            if (drop.formats.indexOf('application/mlt+xml') >= 0) {
+                if (currentTrack >= 0) {
+                    Logic.acceptDrop(drop.getDataAsString('application/mlt+xml'))
+                    drop.acceptProposedAction()
+                }
+            }
+            Logic.dropped()
+        }
+    }
+    Menu {
+        id: menu
+        MenuItem {
+            text: qsTr('Add Audio Track')
+            shortcut: 'Ctrl+U'
+            onTriggered: timeline.addAudioTrack();
+        }
+    }
+
     Row {
         Column {
             z: 1
@@ -62,7 +104,8 @@ Rectangle {
                             isLocked: model.locked
                             isVideo: !model.audio
                             width: headerWidth
-                            height: Logic.trackHeight(model.audio)
+                            //height: Logic.trackHeight(model.audio)
+                            height: timeline.trackHeight[index]
                             selected: false
                             current: index === currentTrack
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
@@ -91,13 +134,13 @@ Rectangle {
             // This provides continuous scrubbing and scimming at the left/right edges.
             focus: true
             hoverEnabled: true
-            onClicked: timeline.position = (scrollView.flickableItem.contentX + mouse.x) / multitrack.scaleFactor
+            onClicked: timeline.position = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
             property bool scim: false
             onReleased: scim = false
             onExited: scim = false
             onPositionChanged: {
                 if (mouse.modifiers === Qt.ShiftModifier || mouse.buttons === Qt.LeftButton) {
-                    timeline.position = (scrollView.flickableItem.contentX + mouse.x) / multitrack.scaleFactor
+                    timeline.position = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                     scim = true
                 }
                 else
@@ -109,7 +152,7 @@ Rectangle {
                 repeat: true
                 running: parent.scim && parent.containsMouse
                          && (parent.mouseX < 50 || parent.mouseX > parent.width - 50)
-                         && (timeline.position * multitrack.scaleFactor >= 50)
+                         && (timeline.position * timeline.scaleFactor >= 50)
                 onTriggered: {
                     if (parent.mouseX < 50)
                         timeline.position -= 10
@@ -130,7 +173,7 @@ Rectangle {
                         id: ruler
                         width: tracksContainer.width
                         index: index
-                        timeScale: multitrack.scaleFactor
+                        timeScale: timeline.scaleFactor
                     }
                 }
                 ScrollView {
@@ -150,7 +193,8 @@ Rectangle {
                                 delegate: Rectangle {
                                     width: tracksContainer.width
                                     color: (index === currentTrack)? selectedTrackColor : (index % 2)? activePalette.alternateBase : activePalette.base
-                                    height: Logic.trackHeight(audio)
+                                    //height: Logic.trackHeight(audio)
+                                    height: timeline.trackHeight[index]
                                 }
                             }
                         }
@@ -223,10 +267,11 @@ Rectangle {
         Track {
             model: multitrack
             rootIndex: trackDelegateModel.modelIndex(index)
-            height: Logic.trackHeight(audio)
+            //height: Logic.trackHeight(audio)
+            height: timeline.trackHeight[index]
             isAudio: audio
             isCurrentTrack: currentTrack === index
-            timeScale: multitrack.scaleFactor
+            timeScale: timeline.scaleFactor
             selection: timeline.selection
             onClipClicked: {
                 currentTrack = track.DelegateModel.itemsIndex
@@ -251,7 +296,7 @@ Rectangle {
                 }
                 // Show distance moved as time in a "bubble" help.
                 var track = tracksRepeater.itemAt(clip.trackIndex)
-                var delta = Math.round((clip.x - clip.originalX) / multitrack.scaleFactor)
+                var delta = Math.round((clip.x - clip.originalX) / timeline.scaleFactor)
                 var s = timeline.timecode(Math.abs(delta))
                 // remove leading zeroes
                 if (s.substring(0, 3) === '00:')

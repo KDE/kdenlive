@@ -96,6 +96,6 @@ function acceptDrop(xml) {
 }
 
 function trackHeight(isAudio) {
-    return isAudio? Math.max(40, multitrack.trackHeight) : multitrack.trackHeight * 2
+    return isAudio? Math.max(40, timeline.trackHeight) : timeline.trackHeight * 2
 }
 

@@ -38,9 +38,6 @@ class GroupsModel;
 */
 class TimelineModel : public QAbstractItemModel
 {
-    Q_OBJECT
-    Q_PROPERTY(int trackHeight READ trackHeight WRITE setTrackHeight NOTIFY trackHeightChanged)
-    Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
 
 public:
     /* @brief construct a timeline object and returns a pointer to the created object
@@ -89,10 +86,6 @@ public:
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex makeIndex(int trackIndex, int clipIndex) const;
     QModelIndex parent(const QModelIndex &index) const;
-    int trackHeight() const;
-    void setTrackHeight(int height);
-    double scaleFactor() const;
-    void setScaleFactor(double scale);
 
     /* @brief returns the number of tracks */
     int getTracksCount() const;
@@ -191,9 +184,6 @@ private:
 
     std::unordered_set<int> m_allGroups; //ids of all the groups
 
-signals:
-    void trackHeightChanged();
-    void scaleFactorChanged();
 };
 
 #endif

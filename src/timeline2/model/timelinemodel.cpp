@@ -43,13 +43,16 @@ std::shared_ptr<TimelineModel> TimelineModel::construct(bool populate)
     std::shared_ptr<TimelineModel> ptr(new TimelineModel());
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
     if (populate) {
-        TrackModel::construct(ptr);
-        int ix = TrackModel::construct(ptr);
         // Testing: add a clip on first track
         Mlt::Profile profile;
         std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(profile,"color", "red"));
+        prod->set("length", 100);
+        int ix = TrackModel::construct(ptr);
+        int ix2 = TrackModel::construct(ptr);
         int clipId = ClipModel::construct(ptr, prod);
+        int clipId2 = ClipModel::construct(ptr, prod);
         ptr->requestClipChangeTrack(clipId, ix, 100);
+        ptr->requestClipChangeTrack(clipId2, ix2, 50);
     }
     return ptr;
 }
@@ -163,14 +166,20 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
     }
     if (index.parent().isValid()) {
         // Get data for a clip
-        switch (role) {
+        QScopedPointer<Mlt::Producer> track(m_tractor->track(index.internalId()));
+        if (track) {
+            Mlt::Playlist playlist((mlt_playlist) track->get_producer());
+            QScopedPointer<Mlt::ClipInfo> info(playlist.clip_info(index.row()));
+        if (info) switch (role) {
         //TODO
-        case NameRole: {
-                return QString("service");
-            }
+            case NameRole:
             case ResourceRole:
             case Qt::DisplayRole: {
-                return QString("resource");
+                QString result = QString::fromUtf8(info->resource);
+                if (result == "<producer>" && info->producer
+                        && info->producer->is_valid() && info->producer->get("mlt_service"))
+                    result = QString::fromUtf8(info->producer->get("mlt_service"));
+                return result;
             }
             case ServiceRole:
                 return QString("service2");
@@ -179,17 +188,18 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
                 return false;
                 //return playlist.is_blank(index.row());
             case StartRole:
-                return 50;
+                return info->start;
             case DurationRole:
-                return 100;
+                return info->frame_count;
             case InPointRole:
-                return 0;
+                return info->frame_in;
             case OutPointRole:
-                return 50;
+                return info->frame_out;
             case FramerateRole:
-                return 25;
+                return info->fps;
             default:
                 break;
+        }
         }
     } else {
         switch (role) {
@@ -216,27 +226,6 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-int TimelineModel::trackHeight() const
-{
-    //TODO
-    return 50;
-}
-
-void TimelineModel::setTrackHeight(int height)
-{
-    //TODO
-}
-
-double TimelineModel::scaleFactor() const
-{
-    //TODO
-    return 3.0;
-}
-
-void TimelineModel::setScaleFactor(double scale)
-{
-    //TODO
-}
 
 int TimelineModel::getTracksCount() const
 {

@@ -93,6 +93,7 @@ Rectangle {
         anchors {
             top: parent.top
             left: parent.left
+            bottom: parent.bottom
             margins: (trackHeadRoot.height < 50)? 0 : 4
         }
 
