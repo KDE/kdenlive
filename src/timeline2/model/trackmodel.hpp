@@ -81,6 +81,12 @@ public:
      */
     operator Mlt::Producer&(){ return m_playlist;}
 
+    /* Implicit conversion operator to access the underlying producer
+     */    
+    // TODO make protected
+    QVariant getProperty(const QString &name);
+    void setProperty(const QString &name, const QString &value);
+
 protected:
     /* @brief Performs a resize of the given clip.
        Returns true if the operation succeeded, and otherwise nothing is modified

@@ -206,6 +206,16 @@ int TrackModel::getId() const
     return m_id;
 }
 
+QVariant TrackModel::getProperty(const QString &name)
+{
+    return m_playlist.get(name.toUtf8().constData());
+}
+
+void TrackModel::setProperty(const QString &name, const QString &value)
+{
+    m_playlist.set(name.toUtf8().constData(), value.toUtf8().constData());
+}
+
 bool TrackModel::checkConsistency()
 {
     std::vector<std::pair<int, int> > clips; //clips stored by (position, id)

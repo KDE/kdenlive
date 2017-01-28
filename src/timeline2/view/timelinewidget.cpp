@@ -53,18 +53,6 @@ void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool 
     }
 }
 
-
-QList <int> TimelineWidget::trackHeight() const
-{
-    //TODO
-    return QList <int>() << 100 << 40 << 60;
-}
-
-void TimelineWidget::setTrackHeight(QList <int> heights)
-{
-    //TODO
-}
-
 double TimelineWidget::scaleFactor() const
 {
     //TODO

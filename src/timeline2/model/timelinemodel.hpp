@@ -72,6 +72,7 @@ public:
         AudioLevelsRole, /// clip only
         IsCompositeRole, /// track only
         IsLockedRole,    /// track only
+        HeightRole,      /// track only
         FadeInRole,      /// clip only
         FadeOutRole,     /// clip only
         IsTransitionRole,/// clip only

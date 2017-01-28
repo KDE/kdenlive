@@ -53,6 +53,8 @@ std::shared_ptr<TimelineModel> TimelineModel::construct(bool populate)
         int clipId2 = ClipModel::construct(ptr, prod);
         ptr->requestClipChangeTrack(clipId, ix, 100);
         ptr->requestClipChangeTrack(clipId2, ix2, 50);
+        ptr->getTrackById(ix)->setProperty("kdenlive:trackheight", "60");
+        ptr->getTrackById(ix2)->setProperty("kdenlive:trackheight", "140");
     }
     return ptr;
 }
@@ -156,6 +158,7 @@ QHash<int, QByteArray> TimelineModel::roleNames() const
     roles[IsTransitionRole] = "isTransition";
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
+    roles[HeightRole] = "trackHeight";
     return roles;
 }
 
@@ -215,6 +218,10 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
                 return false;
             case IsLockedRole:
                 return 0;
+            case HeightRole: {
+                int height = getTrackById_const(index.row())->getProperty("kdenlive:trackheight").toInt();
+                return (height > 0 ? height : 50);
+            }
             case IsCompositeRole: {
                 return Qt::Unchecked;
             }
