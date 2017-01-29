@@ -27,7 +27,7 @@ Rectangle {
 
     property int headerWidth: 140
     property int currentTrack: 0
-    property color selectedTrackColor: Qt.rgba(0.8, 0.8, 0, 0.3);
+    property color selectedTrackColor: activePalette.highlight //.rgba(0.8, 0.8, 0, 0.3);
     property alias trackCount: tracksRepeater.count
     property bool stopScrolling: false
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
@@ -108,6 +108,10 @@ Rectangle {
                             selected: false
                             current: index === currentTrack
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
+                            onMyTrackHeightChanged: {
+                                tracksRepeater.itemAt(index).height = myTrackHeight
+                                height = myTrackHeight
+                            }
                             onClicked: {
                                 currentTrack = index
                                 timeline.selectTrackHead(currentTrack)
@@ -180,7 +184,7 @@ Rectangle {
                     width: root.width - headerWidth
                     height: root.height - ruler.height
 
-                    Item {
+                    Rectangle {
                         width: tracksContainer.width + headerWidth
                         height: trackHeaders.height + 30 // 30 is padding
                         Column {
@@ -191,8 +195,10 @@ Rectangle {
                                 model: multitrack
                                 delegate: Rectangle {
                                     width: tracksContainer.width
+                                    //Layout.fillWidth: true
                                     color: (index === currentTrack)? selectedTrackColor : (index % 2)? activePalette.alternateBase : activePalette.base
-                                    height: model.trackHeight
+                                    opacity: 0.3
+                                    height: tracksRepeater.itemAt(index).height
                                 }
                             }
                         }

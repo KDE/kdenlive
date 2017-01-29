@@ -32,6 +32,8 @@ Rectangle {
     property bool isVideo
     property bool selected: false
     property bool current: false
+    property int myTrackHeight
+
     signal clicked()
 
     function pulseLockButton() {
@@ -87,18 +89,19 @@ Rectangle {
                 menu.popup()
         }
     }
-    Column {
+    ColumnLayout {
         id: trackHeadColumn
-        spacing: (trackHeadRoot.height < 50)? 0 : 6
+        spacing: 2
         anchors {
             top: parent.top
             left: parent.left
             bottom: parent.bottom
-            margins: (trackHeadRoot.height < 50)? 0 : 4
+            margins: 0
         }
 
         Rectangle {
-            color: 'red'
+            id: trackLabel
+            color: 'transparent'
             width: trackHeadRoot.width - trackHeadColumn.anchors.margins * 2
             radius: 2
             border.color: trackNameMouseArea.containsMouse? activePalette.shadow : 'transparent'
@@ -135,6 +138,7 @@ Rectangle {
         }
         RowLayout {
             spacing: 0
+            visible: (trackHeadRoot.height > trackLabel.height + muteButton.height + resizer.height + 8)
             CheckBox {
                 id: muteButton
                 checked: isMute
@@ -249,6 +253,51 @@ Rectangle {
                 onClicked: timeline.setTrackLock(index, !isLocked)
                 //Shotcut.ToolTip { text: qsTr('Lock track') }
             }
+        }
+        Rectangle {
+            color: "transparent"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+        }
+        Rectangle {
+        id: resizer
+        Layout.fillWidth: true
+        height: 5
+        color: 'red'
+        opacity: 0
+        Drag.active: trimInMouseArea.drag.active
+        Drag.proposedAction: Qt.MoveAction
+
+        MouseArea {
+            id: trimInMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.SizeVerCursor
+            drag.target: parent
+            drag.axis: Drag.YAxis
+            property double startY
+            property double originalY
+
+            onPressed: {
+                root.stopScrolling = true
+                startY = mapToItem(null, x, y).y
+                originalY = trackHeadRoot.height // reusing originalX to accumulate delta for bubble help
+            }
+            onReleased: {
+                root.stopScrolling = false
+                parent.opacity = 0
+            }
+            onEntered: parent.opacity = 0.5
+            onExited: parent.opacity = 0
+            onPositionChanged: {
+                if (mouse.buttons === Qt.LeftButton) {
+                    parent.opacity = 0.5
+                    var newHeight = originalY + (mapToItem(null, x, y).y - startY)
+                    newHeight =  Math.max(trackLabel.height + resizer.height + 4, newHeight)
+                    trackHeadRoot.myTrackHeight = newHeight
+                }
+            }
+        }
         }
     }
 }

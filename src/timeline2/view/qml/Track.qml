@@ -20,7 +20,7 @@ import QtQuick 2.0
 import QtQml.Models 2.1
 import 'Track.js' as Logic
 
-Rectangle {
+Column{
     id: trackRoot
     property alias model: trackModel.model
     property alias rootIndex: trackModel.rootIndex
@@ -32,13 +32,13 @@ Rectangle {
     property var selection
     height: parent.height
 
+    SystemPalette { id: activePalette }
+
     signal clipClicked(var clip, var track)
     signal clipDragged(var clip, int x, int y)
     signal clipDropped(var clip)
     signal clipDraggedToTrack(var clip, int direction)
     signal checkSnap(var clip)
-
-    color: 'transparent'
 
     function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)
@@ -201,5 +201,13 @@ Rectangle {
     Row {
         id: clipRow
         Repeater { id: repeater; model: trackModel }
+    }
+
+    Rectangle {
+        // Track bottom line
+        height: 1
+        width: timeline.duration * timeScale 
+        color: activePalette.text
+        opacity: 0.4
     }
 }

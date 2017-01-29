@@ -64,6 +64,11 @@ void TimelineWidget::setScaleFactor(double scale)
     //TODO
 }
 
+int TimelineWidget::duration() const
+{
+    return m_model->duration();
+}
+
 
 QList<int> TimelineWidget::selection() const
 {

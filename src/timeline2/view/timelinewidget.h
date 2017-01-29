@@ -31,6 +31,7 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
     Q_PROPERTY(QList<int> selection READ selection WRITE setSelection NOTIFY selectionChanged)
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
+    Q_PROPERTY(int duration READ duration)
 
 public:
     TimelineWidget(QWidget *parent = Q_NULLPTR);
@@ -40,6 +41,7 @@ public:
     Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
     Q_INVOKABLE double scaleFactor() const;
     Q_INVOKABLE void setScaleFactor(double scale);
+    int duration() const;
 
 public slots:
     void selectMultitrack();

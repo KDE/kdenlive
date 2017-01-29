@@ -384,3 +384,8 @@ int TimelineModel::getNextId()
 {
     return TimelineModel::next_id++;
 }
+
+int TimelineModel::duration() const
+{
+    return m_tractor->get_playtime();
+}
