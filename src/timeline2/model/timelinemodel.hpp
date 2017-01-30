@@ -38,6 +38,7 @@ class GroupsModel;
 */
 class TimelineModel : public QAbstractItemModel
 {
+Q_OBJECT
 
 public:
     /* @brief construct a timeline object and returns a pointer to the created object
@@ -87,6 +88,8 @@ public:
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex makeIndex(int trackIndex, int clipIndex) const;
     QModelIndex parent(const QModelIndex &index) const;
+    bool moveClip(int fromTrack, int toTrack, int clipIndex, int position);
+    Mlt::Tractor* tractor() const { return m_tractor; }
 
     /* @brief returns the number of tracks */
     int getTracksCount() const;

@@ -5,5 +5,6 @@ set(kdenlive_SRCS
   timeline2/model/clipmodel.cpp
   timeline2/model/groupsmodel.cpp
   timeline2/view/timelinewidget.cpp
+  timeline2/view/qml/timelineitems.cpp
   PARENT_SCOPE)
 

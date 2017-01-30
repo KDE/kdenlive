@@ -23,12 +23,13 @@ Rectangle {
     property int stepSize: 34
     property int index: 0
     property real timeScale: 1.0
+    property int fontUnit: root.baseUnit * 0.6
 
     SystemPalette { id: activePalette }
 
     id: rulerTop
     enabled: false
-    height: 24
+    height: root.baseUnit * 2
     color: activePalette.base
 
     Repeater {
@@ -44,12 +45,13 @@ Rectangle {
     Repeater {
         model: parent.width / stepSize / 4
         Label {
-            anchors.bottom: rulerTop.bottom
-            anchors.bottomMargin: 2
+            anchors.top: rulerTop.top
+            anchors.topMargin: 2
             color: activePalette.windowText
+            opacity: 0.8
             x: index * stepSize * 4 + 2
             text: timeline.timecode(index * stepSize * 4 / timeScale)
-            font.pointSize: 7.5
+            font.pointSize: fontUnit
         }
     }
 }

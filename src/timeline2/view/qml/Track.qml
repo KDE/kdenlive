@@ -77,7 +77,7 @@ Column{
             trackIndex: trackRoot.DelegateModel.itemsIndex
             fadeIn: 0 //model.fadeIn
             fadeOut: 0 //model.fadeOut
-            hash: model.hash
+            //hash: model.hash
             speed: 1 //model.speed
             selected: trackRoot.isCurrentTrack && trackRoot.selection.indexOf(index) !== -1
 
@@ -104,25 +104,26 @@ Column{
                     clip.x = clip.originalX
             }
             onDragged: {
-                if (toolbar.scrub) {
+                /*if (toolbar.scrub) {
                     root.stopScrolling = false
                     timeline.position = Math.round(clip.x / timeScale)
-                }
+                }*/
                 // Snap if Alt key is not down.
-                if (!(mouse.modifiers & Qt.AltModifier) && toolbar.snap)
+                if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap)
                     trackRoot.checkSnap(clip)
                 // Prevent dragging left of multitracks origin.
+                console.log("dragging clip x: ", clip.x)
                 clip.x = Math.max(0, clip.x)
                 var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
                 trackRoot.clipDragged(clip, mapped.x, mapped.y)
             }
             onTrimmingIn: {
                 var originalDelta = delta
-                if (!(mouse.modifiers & Qt.AltModifier) && toolbar.snap && !toolbar.ripple)
+                if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
                     delta = Logic.snapTrimIn(clip, delta)
                 if (delta != 0) {
                     if (timeline.trimClipIn(trackRoot.DelegateModel.itemsIndex,
-                                            clip.DelegateModel.itemsIndex, delta, toolbar.ripple)) {
+                                            clip.DelegateModel.itemsIndex, delta, timeline.ripple)) {
                         // Show amount trimmed as a time in a "bubble" help.
                         var s = timeline.timecode(Math.abs(clip.originalX))
                         s = '%1%2 = %3'.arg((clip.originalX < 0)? '-' : (clip.originalX > 0)? '+' : '')
@@ -144,11 +145,11 @@ Column{
             }
             onTrimmingOut: {
                 var originalDelta = delta
-                if (!(mouse.modifiers & Qt.AltModifier) && toolbar.snap && !toolbar.ripple)
+                if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
                     delta = Logic.snapTrimOut(clip, delta)
                 if (delta != 0) {
                     if (timeline.trimClipOut(trackRoot.DelegateModel.itemsIndex,
-                                             clip.DelegateModel.itemsIndex, delta, toolbar.ripple)) {
+                                             clip.DelegateModel.itemsIndex, delta, timeline.ripple)) {
                         // Show amount trimmed as a time in a "bubble" help.
                         var s = timeline.timecode(Math.abs(clip.originalX))
                         s = '%1%2 = %3'.arg((clip.originalX < 0)? '+' : (clip.originalX > 0)? '-' : '')
@@ -183,7 +184,7 @@ Column{
                         'isTransition': false,
                         'fadeIn': 0,
                         'fadeOut': 0,
-                        'hash': '',
+                        //'hash': '',
                         'speed': 1.0
                     })
                 }

@@ -46,7 +46,7 @@ function snapClip(clip, repeater) {
             }
         }
     }
-    if (!toolbar.scrub) {
+    if (!timeline.scrub) {
         var cursorX = scrollView.flickableItem.contentX + cursor.x
         if (clip.x > cursorX - SNAP && clip.x < cursorX + SNAP)
             // Snap around cursor/playhead.
@@ -127,7 +127,7 @@ function snapDrop(pos, repeater) {
             }
         }
     }
-    if (!toolbar.scrub) {
+    if (!timeline.scrub) {
         var cursorX = scrollView.flickableItem.contentX + cursor.x
         if (left > cursorX - SNAP && left < cursorX + SNAP)
             // Snap around cursor/playhead.

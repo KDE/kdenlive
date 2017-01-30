@@ -31,7 +31,11 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
     Q_PROPERTY(QList<int> selection READ selection WRITE setSelection NOTIFY selectionChanged)
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
-    Q_PROPERTY(int duration READ duration)
+    Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
+    Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
+    Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
+    Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
 
 public:
     TimelineWidget(QWidget *parent = Q_NULLPTR);
@@ -41,10 +45,18 @@ public:
     Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
     Q_INVOKABLE double scaleFactor() const;
     Q_INVOKABLE void setScaleFactor(double scale);
+    Q_INVOKABLE bool moveClip(int fromTrack, int toTrack, int clipIndex, int position);
     int duration() const;
+    int position() const { return m_position; }
+    void setPosition(int);
+    bool snap();
+    bool ripple();
+    bool scrub();
+    Q_INVOKABLE QString timecode(int frames);
 
 public slots:
     void selectMultitrack();
+    void onSeeked(int position);
 
 private:
     std::shared_ptr<TimelineModel> m_model;
@@ -53,6 +65,7 @@ private:
         int selectedTrack;
         bool isMultitrackSelected;
     };
+    int m_position;
     Selection m_selection;
     Selection m_savedSelection;
     void emitSelectedFromSelection();
@@ -62,6 +75,12 @@ signals:
     void selected(Mlt::Producer* producer);
     void trackHeightChanged();
     void scaleFactorChanged();
+    void durationChanged();
+    void positionChanged();
+    void snapChanged();
+    void rippleChanged();
+    void scrubChanged();
+    void seeked(int position);
 };
 
 #endif

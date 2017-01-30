@@ -36,6 +36,8 @@ static const quintptr NO_PARENT_ID = quintptr(-1);
 TimelineModel::TimelineModel() : QAbstractItemModel(), 
     m_tractor(new Mlt::Tractor())
 {
+    Mlt::Profile profile;
+    m_tractor->set_profile(profile);
 }
 
 std::shared_ptr<TimelineModel> TimelineModel::construct(bool populate)
@@ -276,6 +278,12 @@ int TimelineModel::getClipPosition(int cid) const
     Q_ASSERT(m_allClips.count(cid) > 0);
     const auto clip = m_allClips.at(cid);
     return clip->getPosition();
+}
+
+bool TimelineModel::moveClip(int fromTrack, int toTrack, int clipIndex, int position)
+{
+    // Get Clip id
+    return true;
 }
 
 bool TimelineModel::requestClipChangeTrack(int cid, int tid, int position, bool dry)

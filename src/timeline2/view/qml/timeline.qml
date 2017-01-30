@@ -1,7 +1,8 @@
-import QtQuick 2.2
+import QtQuick 2.7
 import QtQml.Models 2.1
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
+import Kdenlive.Controls 1.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.2
 import 'Timeline.js' as Logic
@@ -15,6 +16,11 @@ Rectangle {
 
     signal clipClicked()
 
+    FontMetrics {
+        id: fontMetrics
+        font.family: "Arial"
+    }
+
     function zoomByWheel(wheel) {
         if (wheel.modifiers & Qt.ControlModifier) {
             //TODO
@@ -26,6 +32,7 @@ Rectangle {
     }
 
     property int headerWidth: 140
+    property int baseUnit: fontMetrics.height * 0.8
     property int currentTrack: 0
     property color selectedTrackColor: activePalette.highlight //.rgba(0.8, 0.8, 0, 0.3);
     property alias trackCount: tracksRepeater.count
@@ -137,7 +144,10 @@ Rectangle {
             // This provides continuous scrubbing and scimming at the left/right edges.
             focus: true
             hoverEnabled: true
-            onClicked: timeline.position = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+            onClicked: {
+                console.log("Position changed: ",timeline.position)
+                timeline.position = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+            }
             property bool scim: false
             onReleased: scim = false
             onExited: scim = false
@@ -209,6 +219,54 @@ Rectangle {
                     }
                 }
             }
+            CornerSelectionShadow {
+                y: tracksRepeater.count ? tracksRepeater.itemAt(currentTrack).y + ruler.height - scrollView.flickableItem.contentY : 0
+                clip: timeline.selection.length ?
+                        tracksRepeater.itemAt(currentTrack).clipAt(timeline.selection[0]) : null
+                opacity: clip && clip.x + clip.width < scrollView.flickableItem.contentX ? 1 : 0
+            }
+
+            CornerSelectionShadow {
+                y: tracksRepeater.count ? tracksRepeater.itemAt(currentTrack).y + ruler.height - scrollView.flickableItem.contentY : 0
+                clip: timeline.selection.length ?
+                        tracksRepeater.itemAt(currentTrack).clipAt(timeline.selection[timeline.selection.length - 1]) : null
+                opacity: clip && clip.x > scrollView.flickableItem.contentX + scrollView.width ? 1 : 0
+                anchors.right: parent.right
+                mirrorGradient: true
+            }
+
+            Rectangle {
+                id: cursor
+                visible: timeline.position > -1
+                color: activePalette.text
+                width: 1
+                height: root.height - scrollView.__horizontalScrollBar.height
+                x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX
+                y: 0
+            }
+            TimelinePlayhead {
+                id: playhead
+                visible: timeline.position > -1
+                height: baseUnit * 0.8
+                width: baseUnit
+                y: ruler.height - height
+                x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX - (width / 2)
+            }
+        }
+    }
+    Rectangle {
+        id: dropTarget
+        height: multitrack.trackHeight
+        opacity: 0.5
+        visible: false
+        Text {
+            anchors.fill: parent
+            anchors.leftMargin: 100
+            text: timeline.ripple? qsTr('Insert') : qsTr('Overwrite')
+            style: Text.Outline
+            styleColor: 'white'
+            font.pixelSize: Math.min(Math.max(parent.height * 0.8, 15), 30)
+            verticalAlignment: Text.AlignVCenter
         }
     }
 
@@ -308,6 +366,7 @@ Rectangle {
                 bubbleHelp.show(x, track.y + height, s)
             }
             onClipDropped: {
+                console.log(" + + + ++ + DROPPED  + + + + + + +");
                 scrollTimer.running = false
                 bubbleHelp.hide()
             }
@@ -338,6 +397,36 @@ Rectangle {
                     }
                 }
             }
+        }
+    }
+    Connections {
+        target: timeline
+        onPositionChanged: if (!stopScrolling) Logic.scrollIfNeeded()
+        /*onDragging: Logic.dragging(pos, duration)
+        onDropped: Logic.dropped()
+        onDropAccepted: Logic.acceptDrop(xml)*/
+        onSelectionChanged: {
+            cornerstone.selected = timeline.isMultitrackSelected()
+            var selectedTrack = timeline.selectedTrack()
+            for (var i = 0; i < trackHeaderRepeater.count; i++)
+                trackHeaderRepeater.itemAt(i).selected = (i === selectedTrack)
+        }
+    }
+
+    // This provides continuous scrolling at the left/right edges.
+    Timer {
+        id: scrollTimer
+        interval: 25
+        repeat: true
+        triggeredOnStart: true
+        property var item
+        property bool backwards
+        onTriggered: {
+            var delta = backwards? -10 : 10
+            if (item) item.x += delta
+            scrollView.flickableItem.contentX += delta
+            if (scrollView.flickableItem.contentX <= 0)
+                stop()
         }
     }
 }

@@ -19,6 +19,7 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.0
 //import Shotcut.Controls 1.0
+import Kdenlive.Controls 1.0
 import QtGraphicalEffects 1.0
 import QtQml.Models 2.2
 import QtQuick.Window 2.2
@@ -284,7 +285,7 @@ Rectangle {
         }
     }
 
-    /*TimelineTriangle {
+    TimelineTriangle {
         id: fadeInTriangle
         visible: !isBlank && !isTransition
         width: parent.fadeIn * timeScale
@@ -365,9 +366,9 @@ Rectangle {
                 easing.type: Easing.InOutQuad
             }
         }
-    }*/
+    }
 
-    /*TimelineTriangle {
+    TimelineTriangle {
         id: fadeOutCanvas
         visible: !isBlank && !isTransition
         width: parent.fadeOut * timeScale
@@ -448,7 +449,7 @@ Rectangle {
                 easing.type: Easing.InOutQuad
             }
         }
-    }*/
+    }
 
     Rectangle {
         id: trimIn

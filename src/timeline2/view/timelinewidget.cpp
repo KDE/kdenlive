@@ -20,19 +20,23 @@
  ***************************************************************************/
 
 #include "timelinewidget.h"
+#include "qml/timelineitems.h"
 
 #include <QUrl>
 #include <QQuickItem>
 #include <QQmlContext>
 
 TimelineWidget::TimelineWidget(QWidget *parent)
-    : QQuickWidget(parent),
-    m_model(TimelineModel::construct(true))
+    : QQuickWidget(parent)
+    , m_model(TimelineModel::construct(true))
+    , m_position(0)
 {
+    registerTimelineItems();
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     rootContext()->setContextProperty("multitrack", &*m_model);
     rootContext()->setContextProperty("timeline", this);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
+    connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 
 void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool isMultitrack)
@@ -113,3 +117,67 @@ void TimelineWidget::selectMultitrack()
     QMetaObject::invokeMethod(rootObject(), "selectMultitrack");
     //emit selected(m_model.tractor());
 }
+
+bool TimelineWidget::snap()
+{
+    return true;
+}
+
+bool TimelineWidget::ripple()
+{
+    return false;
+}
+
+bool TimelineWidget::scrub()
+{
+    return false;
+}
+
+bool TimelineWidget::moveClip(int fromTrack, int toTrack, int clipIndex, int position)
+{
+    //TODO: only allow move when no overlap
+    //if (m_model.moveClipValid(fromTrack, toTrack, clipIndex, position)) {
+        /*if (fromTrack != toTrack)
+            // Workaround bug #326 moving clips between tracks stops allowing drag-n-drop
+            // into Timeline, which appeared with Qt 5.6 upgrade.
+            emit clipMoved(fromTrack, toTrack, clipIndex, position);
+        else*/
+            //onClipMoved(fromTrack, toTrack, clipIndex, position);
+        m_model->moveClip(fromTrack, toTrack, clipIndex, position);
+        return true;
+    /*} else if (m_model.addTransitionValid(fromTrack, toTrack, clipIndex, position)) {
+        MAIN.undoStack()->push(
+            new Timeline::AddTransitionCommand(m_model, fromTrack, clipIndex, position));
+        return true;
+    } else {
+        return false;
+    }*/
+}
+
+QString TimelineWidget::timecode(int frames)
+{
+    return m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
+}
+
+void TimelineWidget::setPosition(int position)
+{
+    if (!m_model->tractor()) return;
+    // Testing puspose only
+    m_position = position;
+    emit positionChanged();
+    return;
+
+    if (position <= m_model->tractor()->get_length()) {
+        //emit seeked(position);
+    } else {
+        m_position = m_model->tractor()->get_length();
+        emit positionChanged();
+    }
+}
+
+void TimelineWidget::onSeeked(int position)
+{
+    m_position = position;
+    emit positionChanged();
+}
+

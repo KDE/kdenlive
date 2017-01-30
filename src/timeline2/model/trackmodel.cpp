@@ -234,12 +234,12 @@ bool TrackModel::checkConsistency()
                 i--;
                 continue;
             } else {
-                Mlt::Producer prod(m_playlist.get_clip(index));
                 if (m_playlist.is_blank(index)) {
                     qDebug() << "ERROR: Found blank when clip was required at position " << i;
                     qDebug() << "Blank size" << m_playlist.clip_length(index);
                     return false;
                 }
+                Mlt::Producer prod(m_playlist.get_clip(index));
                 if (!prod.same_clip(*clip)) {
                     qDebug() << "ERROR: Wrong clip at position " << i;
                     return false;
@@ -254,3 +254,4 @@ bool TrackModel::checkConsistency()
     }
     return true;
 }
+
