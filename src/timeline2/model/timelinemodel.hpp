@@ -177,6 +177,14 @@ protected:
     /* @brief Returns next valid unique id to create an object
      */
     static int getNextId();
+
+    /* @brief Helper function that returns true if the given ID correspond to a clip
+     */
+    bool isClip(int id) const;
+
+    /* @brief Helper function that returns true if the given ID correspond to a track
+     */
+    bool isTrack(int id) const;
 private:
     Mlt::Tractor *m_tractor;
     QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex

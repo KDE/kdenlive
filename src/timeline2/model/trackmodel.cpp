@@ -29,6 +29,7 @@
 TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent) :
     m_parent(parent)
     , m_id(TimelineModel::getNextId())
+    , m_currentInsertionOrder(0)
 {
 }
 
@@ -61,6 +62,7 @@ int TrackModel::getClipsCount()
         }
     }
     Q_ASSERT(count == static_cast<int>(m_allClips.size()));
+    Q_ASSERT(count == static_cast<int>(m_clipsByInsertionOrder.size()));
     return count;
 }
 
@@ -103,6 +105,9 @@ bool TrackModel::requestClipInsertion(std::shared_ptr<ClipModel> clip, int posit
         }
     }
     m_allClips[clip->getId()] = clip;
+    m_insertionOrder[clip->getId()] = m_currentInsertionOrder;
+    m_clipsByInsertionOrder[m_currentInsertionOrder] = clip->getId();
+    m_currentInsertionOrder++;
     clip->setPosition(position);
     return true;
 }
@@ -122,6 +127,8 @@ bool TrackModel::requestClipDeletion(int cid, bool dry)
     if (prod != nullptr) {
         m_playlist.consolidate_blanks();
         m_allClips.erase(cid);
+        m_clipsByInsertionOrder.erase(m_insertionOrder[cid]);
+        m_insertionOrder.erase(cid);
         return true;
     }
     return false;
@@ -204,6 +211,16 @@ bool TrackModel::requestClipResize(int cid, int in, int out, bool right, bool dr
 int TrackModel::getId() const
 {
     return m_id;
+}
+
+int TrackModel::getClipByRow(int row) const
+{
+    if (row >= static_cast<int>(m_allClips.size())) {
+        return -1;
+    }
+    auto it = m_clipsByInsertionOrder.cbegin();
+    std::advance(it, row);
+    return (*it).second;
 }
 
 QVariant TrackModel::getProperty(const QString &name)

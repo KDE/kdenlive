@@ -98,8 +98,14 @@ protected:
        @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
     bool requestClipResize(int cid, int in, int out, bool right, bool dry = false);
+
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;
+
+    /*@brief This function is used only by the QAbstractItemModel
+      Given a row in the model, retrieves the corresponding clip id. If it does not exist, returns -1
+    */
+    int getClipByRow(int row) const;
 
     /*@brief This is an helper function that test frame level consistancy with the MLT structures */
     bool checkConsistency();
@@ -112,8 +118,13 @@ private:
     int m_id; //this is the creation id of the track, used for book-keeping
     Mlt::Playlist m_playlist;
 
+    int m_currentInsertionOrder;
 
 
     std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips;
+
+    std::map<int, int> m_clipsByInsertionOrder; //This map stores the order in which the clips were inserted. This implicitly gives the model Row of each clip since they remain sorted even after deletion. Note that it is important to keep an ordered data structure such has std::map (QMap is NOT ordered).
+
+    std::unordered_map<int, int> m_insertionOrder; //This is a reverse map of m_clipsByInsertionOrder. Note that order is not important thus we can use an unordered_map.
 
 };

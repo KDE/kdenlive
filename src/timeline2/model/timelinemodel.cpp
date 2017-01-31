@@ -31,9 +31,9 @@
 #include <mlt++/MltProfile.h>
 
 int TimelineModel::next_id = 0;
-static const quintptr NO_PARENT_ID = quintptr(-1);
 
-TimelineModel::TimelineModel() : QAbstractItemModel(), 
+TimelineModel::TimelineModel() :
+    QAbstractItemModel(),
     m_tractor(new Mlt::Tractor())
 {
     Mlt::Profile profile;
@@ -75,16 +75,17 @@ QModelIndex TimelineModel::index(int row, int column, const QModelIndex &parent)
 //    LOG_DEBUG() << __FUNCTION__ << row << column << parent;
     QModelIndex result;
     if (parent.isValid()) {
-        //TODO: do we need a separate index like shotcut?
-        int i = row; //m_trackList.at(parent.row()).mlt_index;
-        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
-        if (track) {
-            Mlt::Playlist playlist((mlt_playlist) track->get_producer());
-            if (row < playlist.count())
-                result = createIndex(row, column, parent.row());
+        int trackId = static_cast<int>(parent.internalId());
+        Q_ASSERT(isTrack(trackId));
+        int clipId = getTrackById_const(trackId)->getClipByRow(row);
+        if (clipId != -1) {
+            result = createIndex(row, 0, quintptr(clipId));
         }
     } else if (row < getTracksCount()) {
-        result = createIndex(row, column, NO_PARENT_ID);
+        auto it = m_allTracks.cbegin();
+        std::advance(it, row);
+        int trackId = (*it)->getId();
+        result = createIndex(row, column, quintptr(trackId));
     }
     return result;
 }
@@ -97,36 +98,31 @@ QModelIndex TimelineModel::makeIndex(int trackIndex, int clipIndex) const
 QModelIndex TimelineModel::parent(const QModelIndex &index) const
 {
 //    LOG_DEBUG() << __FUNCTION__ << index;
-    if (!index.isValid() || index.internalId() == NO_PARENT_ID)
+    const int id = static_cast<int>(index.internalId());
+    if (!index.isValid() || isTrack(id)) {
         return QModelIndex();
-    else
-        return createIndex(index.internalId(), 0, NO_PARENT_ID);
+    } else {
+        Q_ASSERT(isClip(id)); //if id is not a track it must be a clip.
+        const int trackId = getClipTrackId(id);
+        auto it = m_iteratorTable.at(trackId); //iterator to the element
+        decltype(m_allTracks.cbegin()) const_it(it);
+        int row = (int)std::distance(m_allTracks.cbegin(), const_it); //compute index in list
+        return createIndex(row, 0, quintptr(trackId));
+    }
 }
 
 
 int TimelineModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
     if (parent.isValid()) {
-        // return number of clip in a specific track
-        if (parent.internalId() != NO_PARENT_ID)
+        const int id = (int)parent.internalId();
+        if (isClip(id) || !isTrack(id)) {
+            //clips don't have children
+            //if it is not a track and not a clip, it is something invalid
             return 0;
-        QScopedPointer<Mlt::Producer> track(m_tractor->track(parent.row()));
-        if (track) {
-            Mlt::Playlist playlist((mlt_playlist) track->get_producer());
-            return playlist.count();
         }
-        return 0;
-        /*int i = m_trackList.at(parent.row()).mlt_index;
-        QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
-        if (track) {
-            Mlt::Playlist playlist(*track);
-            int n = playlist.count();
-//            LOG_DEBUG() << __FUNCTION__ << parent << i << n;
-            return n;
-        } else {
-            return 0;
-        }*/
+        // return number of clip in a specific track
+        return getTrackClipsCount(id);
     }
     return getTracksCount();
 }
@@ -169,49 +165,44 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
     if (!m_tractor || !index.isValid()) {
         return QVariant();
     }
-    if (index.parent().isValid()) {
+    const int id = (int)index.internalId();
+    if (isClip(id)) {
         // Get data for a clip
-        QScopedPointer<Mlt::Producer> track(m_tractor->track(index.internalId()));
-        if (track) {
-            Mlt::Playlist playlist((mlt_playlist) track->get_producer());
-            QScopedPointer<Mlt::ClipInfo> info(playlist.clip_info(index.row()));
-        if (info) switch (role) {
+        switch (role) {
         //TODO
-            case NameRole:
-            case ResourceRole:
-            case Qt::DisplayRole: {
-                QString result = QString::fromUtf8(info->resource);
-                if (result == "<producer>" && info->producer
-                        && info->producer->is_valid() && info->producer->get("mlt_service"))
-                    result = QString::fromUtf8(info->producer->get("mlt_service"));
-                return result;
-            }
-            case ServiceRole:
-                return QString("service2");
-                break;
-            case IsBlankRole:
-                return playlist.is_blank(index.row());
-            case StartRole:
-                return info->start;
-            case DurationRole:
-                return info->frame_count;
-            case InPointRole:
-                return info->frame_in;
-            case OutPointRole:
-                return info->frame_out;
-            case FramerateRole:
-                return info->fps;
-            default:
-                break;
+        case NameRole:
+        case ResourceRole:
+        case Qt::DisplayRole:{
+            QString result = QString::fromUtf8("clip name");
+            return result;
         }
+        case ServiceRole:
+            return QString("service2");
+            break;
+        case IsBlankRole: //probably useless
+            return false;
+        case StartRole:
+            return m_allClips.at(id)->getPosition();
+        case DurationRole:
+            return m_allClips.at(id)->getPlaytime();
+
+            //Are these really needed ??
+        case InPointRole:
+            return 0;
+        case OutPointRole:
+            return 1;
+        case FramerateRole:
+            return 25;
+        default:
+            break;
         }
-    } else {
+    } else if(isTrack(id)) {
         switch (role) {
             case NameRole:
             case Qt::DisplayRole:
                 return QString("Track %1").arg(getTrackById_const(index.row())->getId());
             case DurationRole:
-                return 100;
+                return m_tractor->get_playtime();
             case IsMuteRole:
                 return 0;
             case IsHiddenRole:
@@ -391,6 +382,16 @@ const std::unique_ptr<TrackModel>& TimelineModel::getTrackById_const(int tid) co
 int TimelineModel::getNextId()
 {
     return TimelineModel::next_id++;
+}
+
+bool TimelineModel::isClip(int id) const
+{
+    return m_allClips.count(id) > 0;
+}
+
+bool TimelineModel::isTrack(int id) const
+{
+    return m_iteratorTable.count(id) > 0;
 }
 
 int TimelineModel::duration() const
