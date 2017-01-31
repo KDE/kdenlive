@@ -330,6 +330,7 @@ Rectangle {
             model: multitrack
             rootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
+            width: timeline.duration * timeScale
             isAudio: audio
             isCurrentTrack: currentTrack === index
             timeScale: timeline.scaleFactor

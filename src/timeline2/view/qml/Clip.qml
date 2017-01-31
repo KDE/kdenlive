@@ -75,6 +75,7 @@ Rectangle {
         parent = track
         isAudio = track.isAudio
         height = track.height
+        y = track.y
         //generateWaveform()
     }
 

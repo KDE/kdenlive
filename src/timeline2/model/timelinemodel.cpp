@@ -49,6 +49,7 @@ std::shared_ptr<TimelineModel> TimelineModel::construct(bool populate)
         Mlt::Profile profile;
         std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(profile,"color", "red"));
         prod->set("length", 100);
+        prod->set("out", 99);
         int ix = TrackModel::construct(ptr);
         int ix2 = TrackModel::construct(ptr);
         int clipId = ClipModel::construct(ptr, prod);

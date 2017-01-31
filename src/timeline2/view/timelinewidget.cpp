@@ -36,7 +36,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     rootContext()->setContextProperty("multitrack", &*m_model);
     rootContext()->setContextProperty("timeline", this);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
-    connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
+    //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 
 void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool isMultitrack)

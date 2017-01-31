@@ -73,7 +73,8 @@ Column{
             isTransition: false //model.isTransition
             audioLevels: false //model.audioLevels
             width: model.duration * timeScale
-            height: trackRoot.height
+            height: parent.height
+            x: model.start * timeScale
             trackIndex: trackRoot.DelegateModel.itemsIndex
             fadeIn: 0 //model.fadeIn
             fadeOut: 0 //model.fadeOut
@@ -199,8 +200,9 @@ Column{
         }
     }
 
-    Row {
+    Item {
         id: clipRow
+        height: trackRoot.height
         Repeater { id: repeater; model: trackModel }
     }
 
