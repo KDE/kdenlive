@@ -76,7 +76,7 @@ QModelIndex TimelineModel::index(int row, int column, const QModelIndex &parent)
 //    LOG_DEBUG() << __FUNCTION__ << row << column << parent;
     QModelIndex result;
     if (parent.isValid()) {
-        int trackId = static_cast<int>(parent.internalId());
+        int trackId = int(parent.internalId());
         Q_ASSERT(isTrack(trackId));
         int clipId = getTrackById_const(trackId)->getClipByRow(row);
         if (clipId != -1) {
