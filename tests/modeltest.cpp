@@ -394,3 +394,97 @@ TEST_CASE("Check id unicity", "[ClipModel]")
     REQUIRE(all_ids.size() == nbr);
     REQUIRE(all_ids.size() != track_ids.size());
 }
+
+TEST_CASE("Undo and Redo", "[ClipModel]")
+{
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+
+    Mlt::Factory::init( NULL );
+    Mlt::Profile profile;
+
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "../tests/small.mp4");
+    REQUIRE(producer->is_valid());
+    int cid1 = ClipModel::construct(timeline, producer);
+    int tid1 = TrackModel::construct(timeline);
+    int tid2 = TrackModel::construct(timeline);
+    int cid2 = ClipModel::construct(timeline, producer);
+
+    int init_index = undoStack->index();
+
+    SECTION("Basic move undo") {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 5);
+        REQUIRE(undoStack->index() == init_index + 1);
+
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 0);
+        REQUIRE(undoStack->index() == init_index + 2);
+
+        undoStack->undo();
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 5);
+        REQUIRE(undoStack->index() == init_index + 1);
+
+        undoStack->redo();
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 0);
+        REQUIRE(undoStack->index() == init_index + 2);
+
+        undoStack->undo();
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 5);
+        REQUIRE(undoStack->index() == init_index + 1);
+
+        undoStack->undo();
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == -1);
+        REQUIRE(undoStack->index() == init_index);
+    }
+
+    int length = producer->get_playtime();
+    SECTION("Basic resize orphan clip undo") {
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == length);
+
+        REQUIRE(timeline->requestClipResize(cid2, length - 5, true));
+        REQUIRE(undoStack->index() == init_index + 1);
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() ==  length - 5);
+
+        REQUIRE(timeline->requestClipResize(cid2, length - 10, false));
+        REQUIRE(undoStack->index() == init_index + 2);
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() ==  length - 10);
+
+        REQUIRE_FALSE(timeline->requestClipResize(cid2, length, false));
+        REQUIRE(undoStack->index() == init_index + 2);
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() ==  length - 10);
+
+        undoStack->undo();
+        REQUIRE(undoStack->index() == init_index + 1);
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() ==  length - 5);
+
+        undoStack->redo();
+        REQUIRE(undoStack->index() == init_index + 2);
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() ==  length - 10);
+
+        undoStack->undo();
+        REQUIRE(undoStack->index() == init_index + 1);
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() ==  length - 5);
+
+        undoStack->undo();
+        REQUIRE(undoStack->index() == init_index);
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() ==  length);
+    }
+}

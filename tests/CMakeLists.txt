@@ -12,11 +12,12 @@ SET(Tests_SRCS
     TestMain.cpp
     modeltest.cpp
     groupstest.cpp
-    ../src/timeline2/model/trackmodel.cpp
-    ../src/timeline2/model/timelinemodel.cpp
+    ../src/doc/docundostack.cpp
     ../src/timeline2/model/clipmodel.cpp
     ../src/timeline2/model/groupsmodel.cpp
-    ../src/doc/docundostack.cpp
+    ../src/timeline2/model/timelinemodel.cpp
+    ../src/timeline2/model/trackmodel.cpp
+    ../src/timeline2/model/undohelper.cpp
 )
 
 INCLUDE_DIRECTORIES(../src/)

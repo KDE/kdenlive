@@ -34,6 +34,15 @@
 
 int TimelineModel::next_id = 0;
 
+#define PUSH_UNDO(undo, redo, text)                                     \
+    if (auto ptr = m_undoStack.lock()) {                                \
+        ptr->push(new FunctionalUndoCommand(undo, redo, text));         \
+    } else {                                                            \
+        qDebug() << "ERROR : unable to access undo stack";              \
+        Q_ASSERT(false);                                                \
+    }
+
+
 TimelineModel::TimelineModel(std::weak_ptr<DocUndoStack> undo_stack) :
     QAbstractItemModel(),
     m_tractor(new Mlt::Tractor()),
@@ -275,12 +284,10 @@ int TimelineModel::getClipPosition(int cid) const
     return clip->getPosition();
 }
 
-#include <QDebug>
 bool TimelineModel::requestClipMove(int cid, int tid, int position)
 {
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
-    qDebug() << "Requesting timeline clip move "<< cid<<tid<<position;
     Q_ASSERT(m_allClips.count(cid) > 0);
     bool ok = true;
     int old_tid = m_allClips[cid]->getCurrentTrackId();
@@ -291,7 +298,6 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position)
             return false;
         }
     }
-    qDebug() << "in timeline, deletion worked";
     ok = getTrackById(tid)->requestClipInsertion(m_allClips[cid], position, undo, redo);
     if (!ok) {
         Q_ASSERT(undo());
@@ -306,6 +312,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position)
         return true;
     };
     UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    PUSH_UNDO(undo, redo, i18n("Move clip"));
     return operation();
 }
 
@@ -313,7 +320,11 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right)
 {
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
-    return m_allClips[cid]->requestResize(size, right, undo, redo);
+    bool result = m_allClips[cid]->requestResize(size, right, undo, redo);
+    if (result) {
+        PUSH_UNDO(undo, redo, i18n("Resize clip"));
+    }
+    return result;
 }
 
 
