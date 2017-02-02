@@ -299,6 +299,12 @@ bool TimelineModel::requestClipChangeTrack(int cid, int tid, int position, bool 
     return ok;
 }
 
+bool TimelineModel::requestClipResize(int cid, int size, bool right, bool dry)
+{
+    return m_allClips[cid]->requestResize(size, right, dry);
+}
+
+
 void TimelineModel::groupClips(std::unordered_set<int>&& ids)
 {
     m_groups->groupItems(std::forward<std::unordered_set<int>>(ids));

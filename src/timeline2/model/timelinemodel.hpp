@@ -38,6 +38,9 @@ class GroupsModel;
 
    This class also serves to keep track of all objects. It holds pointers to all tracks and clips, and gives them unique IDs on creation. These Ids are used in any interactions with the objects and have nothing to do with Melt IDs.
 
+   This is the entry point for any modifications that has to be made on an element. The dataflow beyond this entry point may vary, for example when the user request a clip resize, the call is deferred to the clip itself, that check if there is enough data to extend by the requested amount, compute the new in and out, and then asks the track if there is enough room for extension. To avoid any confusion on which function to call first, rembember to always call the version in timeline.
+
+
    It derives from AbstractItemModel to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
    Our organization is as follows: at the top level, each row contains a track. These rows are in the same order as in the actual timeline.
    Then each of this row contains itself sub-rows that correspond to the clips. Here the order of these sub-rows is unrelated to the chronological order of the clips, but correspond to an insertion order in the track. This is because the order actually doesn't matter since the clips are rendered based on their positions rather than their row order. The insertion order in the track has been choosed because it is consistant with a valid ordering of the clips.
@@ -111,7 +114,7 @@ public:
     /* @brief Delete track based on its id */
     void deleteTrackById(int id);
 
-    /* @brief Delete clipq based on its id */
+    /* @brief Delete clip based on its id */
     void deleteClipById(int id);
 
     /* @brief Returns the id of the track containing clip (-1 if it is not inserted)
@@ -137,6 +140,15 @@ public:
        @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
     bool requestClipChangeTrack(int cid, int tid, int position, bool dry = false);
+
+    /* @brief Change the track in which the clip is included
+       Returns true on success. If it fails, nothing is modified.
+       @param cid is the ID of the clip
+       @param size is the new size of the clip
+       @param right is true if we change the right side of the clip, false otherwise
+       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
+    */
+    bool requestClipResize(int cid, int size, bool right, bool dry = false);
 
     /* @brief Group together a set of ids
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.

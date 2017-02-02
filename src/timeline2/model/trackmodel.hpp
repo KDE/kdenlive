@@ -55,8 +55,32 @@ public:
     /* @brief returns the number of clips */
     int getClipsCount();
 
+    /* Perform a split at the requested position */
+    bool splitClip(QSharedPointer<ClipModel> caller, int position);
+
+    /* Implicit conversion operator to access the underlying producer
+     */
+    operator Mlt::Producer&(){ return m_playlist;}
+
+    // TODO make protected
+    QVariant getProperty(const QString &name);
+    void setProperty(const QString &name, const QString &value);
+
+protected:
+    /* @brief Performs a resize of the given clip.
+       Returns true if the operation succeeded, and otherwise nothing is modified
+       This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
+       @param cid is the id of the clip
+       @param in is the new starting on the clip
+       @param out is the new ending on the clip
+       @param right is true if we change the right side of the clip, false otherwise
+       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
+    */
+    bool requestClipResize(int cid, int in, int out, bool right, bool dry = false);
+
     /* @brief Performs an insertion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
+       This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param clip is a shared pointer to the clip
        @param position is the position where to insert the clip
        @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
@@ -65,39 +89,11 @@ public:
 
     /* @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
+       This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param cid is the id of the clip
        @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
     bool requestClipDeletion(int cid, bool dry = false);
-
-
-    /* Perform a move operation on a clip. Returns true if the operation succeeded*/
-    bool requestClipMove(QSharedPointer<ClipModel> caller, int newPosition);
-
-    /* Perform a split at the requested position */
-    bool splitClip(QSharedPointer<ClipModel> caller, int position);
-
-    /* Implicit conversion operator to access the underlying producer
-     */
-    operator Mlt::Producer&(){ return m_playlist;}
-
-    /* Implicit conversion operator to access the underlying producer
-     */    
-    // TODO make protected
-    QVariant getProperty(const QString &name);
-    void setProperty(const QString &name, const QString &value);
-
-protected:
-    /* @brief Performs a resize of the given clip.
-       Returns true if the operation succeeded, and otherwise nothing is modified
-       This method is protected because it shouldn't be called directly. Call the function in the clip instead.
-       @param cid is the id of the clip
-       @param in is the new starting on the clip
-       @param out is the new ending on the clip
-       @param right is true if we change the right side of the clip, false otherwise
-       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
-    */
-    bool requestClipResize(int cid, int in, int out, bool right, bool dry = false);
 
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;

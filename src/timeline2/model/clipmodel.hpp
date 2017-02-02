@@ -77,38 +77,23 @@ public:
     /* Returns true if the underlying producer is valid
      */
     bool isValid();
-public:
+
+protected:
 
     /* @brief Performs a resize of the given clip.
        Returns true if the operation succeeded, and otherwise nothing is modified
-       This is called whenever a resize of the clip is issued
-       If the resize is accepted, it should send back a signal to the QML interface.
+       This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        If a snap point is within reach, the operation will be coerced to use it.
        @param size is the new size of the clip
        @param right is true if we change the right side of the clip, false otherwise
        @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
-    bool slotRequestResize(int size, bool right, bool dry = false);
-
-    /* This is called whenever a move of the clip is issued
-       If the move is accepted, it should send back a signal to the QML interface.
-       If a snap point is withing reach, the operation will be coerced to use it.
-    */
-    void slotRequestMove(int newPosition);
-
-    /* Delete the current clip
-    */
-    void slotDelete();
+    bool requestResize(int size, bool right, bool dry = false);
 
     /* Split the current clip at the given position
     */
     void slotSplit(int position);
 
-signals:
-    void signalSizeChanged(int);
-    void signalPositionChanged(int);
-
-protected:
     /* Updates the stored position of the clip
       This function is meant to be called by the trackmodel, not directly by the user.
       If you whish to actually move the clip, use the requestMove slot.

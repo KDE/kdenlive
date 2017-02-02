@@ -192,23 +192,23 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     }
 
     SECTION("Resize orphan clip"){
-        REQUIRE(timeline->m_allClips[cid2]->slotRequestResize(5, true, true));
+        REQUIRE(timeline->requestClipResize(cid2, 5, true, true));
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == length);
-        REQUIRE(timeline->m_allClips[cid2]->slotRequestResize(5, true));
+        REQUIRE(timeline->requestClipResize(cid2, 5, true));
         REQUIRE(producer->get_playtime() == length);
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == 5);
-        REQUIRE_FALSE(timeline->m_allClips[cid2]->slotRequestResize(10, false));
-        REQUIRE_FALSE(timeline->m_allClips[cid2]->slotRequestResize(length + 1, true));
+        REQUIRE_FALSE(timeline->requestClipResize(cid2, 10, false));
+        REQUIRE_FALSE(timeline->requestClipResize(cid2, length + 1, true));
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == 5);
-        REQUIRE_FALSE(timeline->m_allClips[cid2]->slotRequestResize(length + 1, true, true));
+        REQUIRE_FALSE(timeline->requestClipResize(cid2, length + 1, true, true));
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == 5);
-        REQUIRE(timeline->m_allClips[cid2]->slotRequestResize(2, false));
+        REQUIRE(timeline->requestClipResize(cid2, 2, false));
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == 2);
-        REQUIRE_FALSE(timeline->m_allClips[cid2]->slotRequestResize(length, true));
+        REQUIRE_FALSE(timeline->requestClipResize(cid2, length, true));
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == 2);
         CAPTURE(timeline->m_allClips[cid2]->m_producer->get_in());
-        REQUIRE_FALSE(timeline->m_allClips[cid2]->slotRequestResize(length - 2, true));
-        REQUIRE(timeline->m_allClips[cid2]->slotRequestResize(length - 3, true));
+        REQUIRE_FALSE(timeline->requestClipResize(cid2, length - 2, true));
+        REQUIRE(timeline->requestClipResize(cid2, length - 3, true));
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == length - 3);
     }
 
@@ -217,7 +217,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
 
-        REQUIRE(timeline->m_allClips[cid1]->slotRequestResize(5, true));
+        REQUIRE(timeline->requestClipResize(cid1, 5, true));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
         REQUIRE(timeline->m_allClips[cid1]->getPlaytime() == 5);
@@ -228,17 +228,17 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
         REQUIRE(producer->get_playtime() == length);
 
-        REQUIRE_FALSE(timeline->m_allClips[cid1]->slotRequestResize(6, true));
-        REQUIRE_FALSE(timeline->m_allClips[cid1]->slotRequestResize(6, false));
+        REQUIRE_FALSE(timeline->requestClipResize(cid1, 6, true));
+        REQUIRE_FALSE(timeline->requestClipResize(cid1, 6, false));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
 
-        REQUIRE(timeline->m_allClips[cid2]->slotRequestResize(length - 5, false));
+        REQUIRE(timeline->requestClipResize(cid2, length - 5, false));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
         REQUIRE(timeline->getClipPosition(cid2) == 10);
 
-        REQUIRE(timeline->m_allClips[cid1]->slotRequestResize(10, true));
+        REQUIRE(timeline->requestClipResize(cid1, 10, true));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
@@ -255,7 +255,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
 
-        REQUIRE(timeline->m_allClips[cid1]->slotRequestResize(5, false));
+        REQUIRE(timeline->requestClipResize(cid1, 5, false));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
 

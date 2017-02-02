@@ -79,9 +79,9 @@ bool ClipModel::isValid()
     return m_producer->is_valid();
 }
 
-bool ClipModel::slotRequestResize(int size, bool right, bool dry)
+bool ClipModel::requestResize(int size, bool right, bool dry)
 {
-    if (!dry && !slotRequestResize(size, right, true)) {
+    if (!dry && !requestResize(size, right, true)) {
         return false;
     }
     if (size < 0 || size > m_producer->get_length()) {
