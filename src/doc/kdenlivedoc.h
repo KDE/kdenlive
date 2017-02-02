@@ -25,6 +25,7 @@
 #ifndef KDENLIVEDOC_H
 #define KDENLIVEDOC_H
 
+#include <memory>
 #include <QtXml/qdom.h>
 #include <QMap>
 #include <QList>
@@ -35,7 +36,6 @@
 
 #include <kautosavefile.h>
 #include <KDirWatch>
-#include <QUndoStack>
 
 #include "gentime.h"
 #include "timecode.h"
@@ -54,22 +54,13 @@ class ClipController;
 class QTextEdit;
 class QUndoGroup;
 class QTimer;
-class QUndoGroup;
+class QUndoCommand;
+class DocUndoStack;
 
 namespace Mlt
 {
 class Profile;
 }
-
-class DocUndoStack: public QUndoStack
-{
-    Q_OBJECT
-public:
-    explicit DocUndoStack(QUndoGroup *parent = Q_NULLPTR);
-    void push(QUndoCommand *cmd);
-signals:
-    void invalidate();
-};
 
 class KdenliveDoc: public QObject
 {
@@ -86,7 +77,7 @@ public:
     KAutoSaveFile *m_autosave;
     Timecode timecode() const;
     QDomDocument toXml();
-    DocUndoStack *commandStack();
+    std::shared_ptr<DocUndoStack> commandStack();
     Render *renderer();
     ClipManager *clipManager();
     QString groupsXml() const;
@@ -192,7 +183,7 @@ private:
     Timecode m_timecode;
     Render *m_render;
     QTextEdit *m_notesWidget;
-    DocUndoStack *m_commandStack;
+    std::shared_ptr<DocUndoStack> m_commandStack;
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
     QString m_searchFolder;

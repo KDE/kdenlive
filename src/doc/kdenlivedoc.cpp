@@ -35,6 +35,7 @@
 #include "project/notesplugin.h"
 #include "project/dialogs/noteswidget.h"
 #include "core.h"
+#include "docundostack.hpp"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "utils/KoIconUtils.h"
@@ -67,19 +68,6 @@
 #include <xlocale.h>
 #endif
 
-DocUndoStack::DocUndoStack(QUndoGroup *parent) : QUndoStack(parent)
-{
-}
-
-//TODO: custom undostack everywhere do that
-void DocUndoStack::push(QUndoCommand *cmd)
-{
-    if (index() < count()) {
-        emit invalidate();
-    }
-    QUndoStack::push(cmd);
-}
-
 const double DOCUMENTVERSION = 0.95;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
@@ -94,7 +82,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     m_projectFolder(projectFolder)
 {
     // init m_profile struct
-    m_commandStack = new DocUndoStack(undoGroup);
+    m_commandStack = std::make_shared<DocUndoStack>(undoGroup);
     m_profile.frame_rate_num = 0;
     m_profile.frame_rate_den = 0;
     m_profile.width = 0;
@@ -109,8 +97,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     connect(m_clipManager, SIGNAL(displayMessage(QString, int)), parent, SLOT(slotGotProgressInfo(QString, int)));
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
-    connect(m_commandStack, &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
-    connect(m_commandStack, &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack);
+    connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
+    connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack);
     connect(m_render, &Render::setDocumentNotes, this, &KdenliveDoc::slotSetDocumentNotes);
     connect(pCore->producerQueue(), &ProducerQueue::switchProfile, this, &KdenliveDoc::switchProfile);
     //connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
@@ -302,7 +290,6 @@ KdenliveDoc::~KdenliveDoc()
             }
         }
     }
-    delete m_commandStack;
     //qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
     delete m_clipManager;
     //qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
@@ -826,7 +813,7 @@ double KdenliveDoc::dar() const
     return (double) m_profile.display_aspect_num / m_profile.display_aspect_den;
 }
 
-DocUndoStack *KdenliveDoc::commandStack()
+std::shared_ptr<DocUndoStack> KdenliveDoc::commandStack()
 {
     return m_commandStack;
 }
@@ -1521,7 +1508,7 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
         return;
     }
     emit updateFps(fpsChanged);
-    if (fpsChanged != 1.0) {
+    if (qAbs(fpsChanged - 1.0) < 1e-4) {
         pCore->bin()->reloadAllProducers();
     }
 }
@@ -1612,17 +1599,17 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
             profile.frame_rate_den = 1;
         } else {
             // Check for 23.98, 29.97, 59.94
-            if (fps_int == 23.0) {
+            if (qAbs(fps_int - 23.0) < 1e-5) {
                 if (qAbs(fps - 23.98) < 0.01) {
                     profile.frame_rate_num = 24000;
                     profile.frame_rate_den = 1001;
                 }
-            } else if (fps_int == 29.0) {
+            } else if (qAbs(fps_int - 29.0) < 1e-5) {
                 if (qAbs(fps - 29.97) < 0.01) {
                     profile.frame_rate_num = 30000;
                     profile.frame_rate_den = 1001;
                 }
-            } else if (fps_int == 59.0) {
+            } else if (qAbs(fps_int - 59.0) < 1e-5) {
                 if (qAbs(fps - 59.94) < 0.01) {
                     profile.frame_rate_num = 60000;
                     profile.frame_rate_den = 1001;
@@ -1632,7 +1619,7 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
                 adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
             }
         }
-        if ((double)profile.frame_rate_num / profile.frame_rate_den != fps) {
+        if (qAbs((double)profile.frame_rate_num / profile.frame_rate_den - fps) < 1e-4) {
             adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
         }
         if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2), adjustMessage)) == KMessageBox::Continue) {

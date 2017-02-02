@@ -39,7 +39,7 @@ class RazorManager : public AbstractToolManager
     Q_OBJECT
 
 public:
-    explicit RazorManager(CustomTrackView *view, DocUndoStack *commandStack = Q_NULLPTR);
+    explicit RazorManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack);
     bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
     bool mouseMove(QMouseEvent *event, int pos = 0, int track = -1) Q_DECL_OVERRIDE;
     void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) Q_DECL_OVERRIDE;

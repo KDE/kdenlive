@@ -24,6 +24,7 @@
 #include "timeline/abstractgroupitem.h"
 #include "timeline/timelinecommands.h"
 #include "utils/KoIconUtils.h"
+#include "doc/docundostack.hpp"
 
 #include <QMouseEvent>
 #include <QIcon>
@@ -31,7 +32,7 @@
 #include <QGraphicsLineItem>
 #include <klocalizedstring.h>
 
-RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(RazorType, view, commandStack)
+RazorManager::RazorManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(RazorType, view, commandStack)
     , m_cutLine(nullptr)
 {
     QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));

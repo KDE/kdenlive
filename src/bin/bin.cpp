@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "project/jobs/jobmanager.h"
 #include "monitor/monitor.h"
 #include "doc/kdenlivedoc.h"
+#include "doc/docundostack.hpp"
 #include "dialogs/clipcreationdialog.h"
 #include "ui_qtextclip_ui.h"
 #include "titler/titlewidget.h"

@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcreationdialog.h"
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
+#include "doc/docundostack.hpp"
 #include "bin/bin.h"
 #include "bin/bincommands.h"
 #include "bin/projectclip.h"

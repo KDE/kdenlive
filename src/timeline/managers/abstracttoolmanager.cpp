@@ -19,8 +19,9 @@
 
 #include "abstracttoolmanager.h"
 #include "timeline/customtrackview.h"
+#include "doc/docundostack.hpp"
 
-AbstractToolManager::AbstractToolManager(ToolManagerType type, CustomTrackView *view, DocUndoStack *commandStack) : QObject()
+AbstractToolManager::AbstractToolManager(ToolManagerType type, CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : QObject()
     , m_managerType(type)
     , m_view(view)
     , m_commandStack(commandStack)

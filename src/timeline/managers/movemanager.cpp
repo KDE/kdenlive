@@ -25,13 +25,14 @@
 #include "timeline/timelinecommands.h"
 #include "timeline/abstractgroupitem.h"
 #include "timeline/transitionhandler.h"
+#include "doc/docundostack.hpp"
 
 #include <KLocalizedString>
 #include <QScrollBar>
 #include <QFontMetrics>
 #include <QApplication>
 
-MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(MoveType, view, commandStack)
+MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(MoveType, view, commandStack)
     , m_transitionHandler(handler)
     , m_scrollOffset(0)
     , m_scrollTrigger(QFontMetrics(view->font()).averageCharWidth() * 3)

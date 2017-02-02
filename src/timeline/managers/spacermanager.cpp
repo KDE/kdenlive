@@ -25,7 +25,7 @@
 #include <QGraphicsItem>
 #include <QApplication>
 
-SpacerManager::SpacerManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(SpacerType, view, commandStack)
+SpacerManager::SpacerManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(SpacerType, view, commandStack)
     , m_track(0)
     , m_dragMoved(false)
 {

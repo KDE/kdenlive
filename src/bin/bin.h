@@ -64,7 +64,7 @@ class InvalidDialog;
 namespace Mlt
 {
 class Producer;
-};
+}
 
 class MyListView: public QListView
 {
@@ -170,7 +170,7 @@ public:
         double factor = (double) opt.decorationSize.height() / r1.height();
         int decoWidth = 2 * textMargin;
         int mid = 0;
-        if (factor != 0) {
+        if (qAbs(factor) < 1e-4) {
             decoWidth += opt.decorationSize.width() / factor;
         }
         if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
@@ -241,7 +241,7 @@ public:
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
                 double factor = (double) opt.decorationSize.height() / r1.height();
                 int decoWidth = 2 * textMargin;
-                if (factor != 0) {
+                if (qAbs(factor) < 1e-4) {
                     r.setWidth(opt.decorationSize.width() / factor);
                     // Draw thumbnail
                     opt.icon.paint(painter, r);
@@ -316,7 +316,7 @@ public:
                 // Folder or Folder Up items
                 double factor = (double) opt.decorationSize.height() / r1.height();
                 int decoWidth = 2 * textMargin;
-                if (factor != 0) {
+                if (qAbs(factor) < 1e-4) {
                     r.setWidth(opt.decorationSize.width() / factor);
                     // Draw thumbnail
                     opt.icon.paint(painter, r);

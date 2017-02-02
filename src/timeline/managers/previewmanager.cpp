@@ -21,6 +21,7 @@
 #include "../customruler.h"
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
+#include "doc/docundostack.hpp"
 
 #include <KLocalizedString>
 #include <QtConcurrent>

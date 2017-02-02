@@ -38,7 +38,7 @@ class TimelineWidget : public QQuickWidget
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
 
 public:
-    TimelineWidget(QWidget *parent = Q_NULLPTR);
+    TimelineWidget(std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
     void setSelection(QList<int> selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
     QList<int> selection() const;
     Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }

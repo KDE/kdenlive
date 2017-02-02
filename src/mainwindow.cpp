@@ -35,6 +35,7 @@
 #include "monitor/recmonitor.h"
 #include "monitor/monitormanager.h"
 #include "doc/kdenlivedoc.h"
+#include "doc/docundostack.hpp"
 #include "timeline/timeline.h"
 #include "timeline/track.h"
 #include "timeline/customtrackview.h"
@@ -2025,7 +2026,7 @@ void MainWindow::connectDocument()
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
     m_zoomSlider->setValue(project->zoom().x());
-    m_commandStack->setActiveStack(project->commandStack());
+    m_commandStack->setActiveStack(project->commandStack().get());
     KdenliveSettings::setProject_display_ratio(project->dar());
 
     setWindowTitle(project->description());

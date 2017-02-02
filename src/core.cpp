@@ -19,6 +19,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QCoreApplication>
 #include "kdenlive_debug.h"
 #include "timeline2/view/timelinewidget.h"
+#include "doc/kdenlivedoc.h"
+#include "doc/docundostack.hpp"
 
 #include <locale>
 #ifdef Q_OS_MAC
@@ -81,7 +83,7 @@ void Core::initialize()
 
     //TODO
     /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
-    m_timelineWidget = new TimelineWidget(m_mainWindow);
+    m_timelineWidget = new TimelineWidget(m_projectManager->current()->commandStack(), m_mainWindow);
     emit coreIsReady();
 }
 

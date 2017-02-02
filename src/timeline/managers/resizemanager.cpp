@@ -24,10 +24,11 @@
 #include "timeline/transition.h"
 #include "timeline/timelinecommands.h"
 #include "timeline/abstractgroupitem.h"
+#include "doc/docundostack.hpp"
 
 #include <KLocalizedString>
 
-ResizeManager::ResizeManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(ResizeType, view, commandStack)
+ResizeManager::ResizeManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(ResizeType, view, commandStack)
 {
 }
 

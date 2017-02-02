@@ -24,6 +24,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "timeline/timelinecommands.h"
+#include "doc/docundostack.hpp"
 
 #include <KLocalizedString>
 #include <QGraphicsItem>
@@ -32,7 +33,7 @@
 
 #include "klocalizedstring.h"
 
-SelectManager::SelectManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(SelectType, view, commandStack)
+SelectManager::SelectManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(SelectType, view, commandStack)
     , m_dragMoved(false)
 {
 }

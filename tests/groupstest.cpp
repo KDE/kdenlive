@@ -5,10 +5,12 @@
 #define protected public
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
+#include "doc/docundostack.hpp"
 
 TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
     GroupsModel groups(timeline);
 
     for (int i = 0; i < 10; i++) {
@@ -182,7 +184,8 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 
 TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
     GroupsModel groups(timeline);
 
     for (int i = 0; i < 10; i++) {
@@ -282,7 +285,8 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 
 TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
     GroupsModel groups(timeline);
 
     for (int i = 0; i < 4; i++) {

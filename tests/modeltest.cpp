@@ -6,6 +6,7 @@
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/clipmodel.hpp"
+#include "doc/docundostack.hpp"
 
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltFactory.h>
@@ -16,7 +17,8 @@ std::default_random_engine g(42);
 
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
     int id1 = TrackModel::construct(timeline);
     REQUIRE(timeline->getTracksCount() == 1);
@@ -42,7 +44,8 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -71,7 +74,8 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 
 TEST_CASE("Clip manipulation", "[ClipModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -356,7 +360,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
 TEST_CASE("Check id unicity", "[ClipModel]")
 {
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;

@@ -25,6 +25,8 @@
 #include "clipmodel.hpp"
 #include "groupsmodel.hpp"
 
+#include "doc/docundostack.hpp"
+
 #include <klocalizedstring.h>
 #include <QDebug>
 #include <mlt++/MltTractor.h>
@@ -32,17 +34,18 @@
 
 int TimelineModel::next_id = 0;
 
-TimelineModel::TimelineModel() :
+TimelineModel::TimelineModel(std::weak_ptr<DocUndoStack> undo_stack) :
     QAbstractItemModel(),
-    m_tractor(new Mlt::Tractor())
+    m_tractor(new Mlt::Tractor()),
+    m_undoStack(undo_stack)
 {
     Mlt::Profile profile;
     m_tractor->set_profile(profile);
 }
 
-std::shared_ptr<TimelineModel> TimelineModel::construct(bool populate)
+std::shared_ptr<TimelineModel> TimelineModel::construct(std::weak_ptr<DocUndoStack> undo_stack, bool populate)
 {
-    std::shared_ptr<TimelineModel> ptr(new TimelineModel());
+    std::shared_ptr<TimelineModel> ptr(new TimelineModel(undo_stack));
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
     if (populate) {
         // Testing: add a clip on first track

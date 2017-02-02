@@ -33,6 +33,7 @@
 class TrackModel;
 class ClipModel;
 class GroupsModel;
+class DocUndoStack;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications.
@@ -57,13 +58,14 @@ Q_OBJECT
 
 public:
     /* @brief construct a timeline object and returns a pointer to the created object
+       @param undo_stack is a weak pointer to the undo stack of the project
      */
-    static std::shared_ptr<TimelineModel> construct(bool populate = false);
+    static std::shared_ptr<TimelineModel> construct(std::weak_ptr<DocUndoStack> undo_stack, bool populate = false);
 
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel();
+    TimelineModel(std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     friend class TrackModel;
@@ -222,6 +224,8 @@ private:
     std::unique_ptr<GroupsModel> m_groups;
 
     std::unordered_set<int> m_allGroups; //ids of all the groups
+
+    std::weak_ptr<DocUndoStack> m_undoStack;
 
 };
 

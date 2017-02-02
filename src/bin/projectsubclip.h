@@ -31,7 +31,7 @@ class QDomElement;
 
 namespace Mlt
 {
-};
+}
 
 /**
  * @class ProjectSubClip

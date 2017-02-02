@@ -21,13 +21,14 @@
 #include "kdenlivesettings.h"
 #include "timeline/customtrackview.h"
 #include "timeline/clipitem.h"
+#include "doc/docundostack.hpp"
 #include "renderer.h"
 
 #include <KLocalizedString>
 #include <QStandardPaths>
 #include <mlt++/MltPlaylist.h>
 
-TrimManager::TrimManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(TrimType, view, commandStack)
+TrimManager::TrimManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(TrimType, view, commandStack)
     , m_firstClip(nullptr)
     , m_secondClip(nullptr)
     , m_trimMode(NormalTrim)

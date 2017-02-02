@@ -21,14 +21,15 @@
 
 #include "timelinewidget.h"
 #include "qml/timelineitems.h"
+#include "doc/docundostack.hpp"
 
 #include <QUrl>
 #include <QQuickItem>
 #include <QQmlContext>
 
-TimelineWidget::TimelineWidget(QWidget *parent)
+TimelineWidget::TimelineWidget(std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
-    , m_model(TimelineModel::construct(true))
+    , m_model(TimelineModel::construct(undoStack, true))
     , m_position(0)
 {
     registerTimelineItems();

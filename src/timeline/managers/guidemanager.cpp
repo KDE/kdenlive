@@ -21,11 +21,12 @@
 #include "timeline/customtrackview.h"
 #include "timeline/timelinecommands.h"
 #include "timeline/abstractclipitem.h"
+#include "doc/docundostack.hpp"
 
 #include <QMouseEvent>
 #include <QGraphicsItem>
 
-GuideManager::GuideManager(CustomTrackView *view, DocUndoStack *commandStack) : AbstractToolManager(GuideType, view, commandStack)
+GuideManager::GuideManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(GuideType, view, commandStack)
     , m_dragGuide(nullptr)
 {
 }

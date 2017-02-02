@@ -27,7 +27,7 @@ class Render;
 namespace Mlt
 {
 class Playlist;
-};
+}
 
 /**
  * @namespace TrimManager
@@ -39,7 +39,7 @@ class TrimManager : public AbstractToolManager
     Q_OBJECT
 
 public:
-    explicit TrimManager(CustomTrackView *view, DocUndoStack *commandStack = Q_NULLPTR);
+    explicit TrimManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack);
     bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
     bool mouseMove(QMouseEvent *event, int pos, int track = -1) Q_DECL_OVERRIDE;
     void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) Q_DECL_OVERRIDE;

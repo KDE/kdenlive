@@ -35,6 +35,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "doc/kdenlivedoc.h"
+#include "doc/docundostack.hpp"
 #include "utils/KoIconUtils.h"
 #include "project/clipmanager.h"
 #include "effectslist/initeffects.h"

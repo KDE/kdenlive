@@ -451,7 +451,7 @@ private:
     OperationType m_moveOpMode;
     AbstractClipItem *m_dragItem;
     Guide *m_dragGuide;
-    DocUndoStack *m_commandStack;
+    std::shared_ptr<DocUndoStack> m_commandStack;
     QGraphicsItem *m_visualTip;
     QGraphicsItemAnimation *m_keyProperties;
     QTimeLine *m_keyPropertiesTimer;

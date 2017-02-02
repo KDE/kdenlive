@@ -21,6 +21,7 @@
 #include "timeline.h"
 #include "track.h"
 #include "clipitem.h"
+#include "doc/docundostack.hpp"
 #include "timelinecommands.h"
 #include "transition.h"
 #include "markerdialog.h"

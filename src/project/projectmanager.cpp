@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
 #include "doc/kdenlivedoc.h"
+#include "doc/docundostack.hpp"
 #include "timeline/timeline.h"
 #include "project/dialogs/projectsettings.h"
 #include "timeline/customtrackview.h"
