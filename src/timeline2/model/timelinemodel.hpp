@@ -28,6 +28,7 @@
 #include <QVector>
 #include <QAbstractItemModel>
 #include <mlt++/MltTractor.h>
+#include "undohelper.hpp"
 
 class TrackModel;
 class ClipModel;
@@ -38,7 +39,7 @@ class GroupsModel;
 
    This class also serves to keep track of all objects. It holds pointers to all tracks and clips, and gives them unique IDs on creation. These Ids are used in any interactions with the objects and have nothing to do with Melt IDs.
 
-   This is the entry point for any modifications that has to be made on an element. The dataflow beyond this entry point may vary, for example when the user request a clip resize, the call is deferred to the clip itself, that check if there is enough data to extend by the requested amount, compute the new in and out, and then asks the track if there is enough room for extension. To avoid any confusion on which function to call first, rembember to always call the version in timeline.
+   This is the entry point for any modifications that has to be made on an element. The dataflow beyond this entry point may vary, for example when the user request a clip resize, the call is deferred to the clip itself, that check if there is enough data to extend by the requested amount, compute the new in and out, and then asks the track if there is enough room for extension. To avoid any confusion on which function to call first, rembember to always call the version in timeline. This is also required to generate the Undo/Redo operators
 
 
    It derives from AbstractItemModel to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
@@ -102,7 +103,6 @@ public:
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex makeIndex(int trackIndex, int clipIndex) const;
     QModelIndex parent(const QModelIndex &index) const;
-    bool moveClip(int fromTrack, int toTrack, int clipIndex, int position);
     Mlt::Tractor* tractor() const { return m_tractor; }
 
     /* @brief returns the number of tracks */
@@ -134,21 +134,20 @@ public:
 
     /* @brief Change the track in which the clip is included
        Returns true on success. If it fails, nothing is modified.
+       If the clip is not in inserted in a track yet, it gets inserted for the first time.
        @param cid is the ID of the clip
        @param tid is the ID of the target track
        @param position is the position where we want to insert
-       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
-    bool requestClipChangeTrack(int cid, int tid, int position, bool dry = false);
+    bool requestClipMove(int cid, int tid, int position);
 
-    /* @brief Change the track in which the clip is included
+    /* @brief Change the duration of a clip
        Returns true on success. If it fails, nothing is modified.
        @param cid is the ID of the clip
        @param size is the new size of the clip
        @param right is true if we change the right side of the clip, false otherwise
-       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
     */
-    bool requestClipResize(int cid, int size, bool right, bool dry = false);
+    bool requestClipResize(int cid, int size, bool right);
 
     /* @brief Group together a set of ids
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.

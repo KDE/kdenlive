@@ -133,25 +133,9 @@ bool TimelineWidget::scrub()
     return false;
 }
 
-bool TimelineWidget::moveClip(int fromTrack, int toTrack, int clipIndex, int position)
+bool TimelineWidget::moveClip(int /*fromTrack*/, int toTrack, int clipIndex, int position)
 {
-    //TODO: only allow move when no overlap
-    //if (m_model.moveClipValid(fromTrack, toTrack, clipIndex, position)) {
-        /*if (fromTrack != toTrack)
-            // Workaround bug #326 moving clips between tracks stops allowing drag-n-drop
-            // into Timeline, which appeared with Qt 5.6 upgrade.
-            emit clipMoved(fromTrack, toTrack, clipIndex, position);
-        else*/
-            //onClipMoved(fromTrack, toTrack, clipIndex, position);
-        m_model->moveClip(fromTrack, toTrack, clipIndex, position);
-        return true;
-    /*} else if (m_model.addTransitionValid(fromTrack, toTrack, clipIndex, position)) {
-        MAIN.undoStack()->push(
-            new Timeline::AddTransitionCommand(m_model, fromTrack, clipIndex, position));
-        return true;
-    } else {
-        return false;
-    }*/
+    return m_model->requestClipMove(clipIndex, toTrack, position);
 }
 
 QString TimelineWidget::timecode(int frames)

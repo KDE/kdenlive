@@ -54,8 +54,8 @@ std::shared_ptr<TimelineModel> TimelineModel::construct(bool populate)
         int ix2 = TrackModel::construct(ptr);
         int clipId = ClipModel::construct(ptr, prod);
         int clipId2 = ClipModel::construct(ptr, prod);
-        ptr->requestClipChangeTrack(clipId, ix, 100);
-        ptr->requestClipChangeTrack(clipId2, ix2, 50);
+        ptr->requestClipMove(clipId, ix, 100);
+        ptr->requestClipMove(clipId2, ix2, 50);
         ptr->getTrackById(ix)->setProperty("kdenlive:trackheight", "60");
         ptr->getTrackById(ix2)->setProperty("kdenlive:trackheight", "140");
     }
@@ -272,36 +272,45 @@ int TimelineModel::getClipPosition(int cid) const
     return clip->getPosition();
 }
 
-bool TimelineModel::moveClip(int fromTrack, int toTrack, int clipIndex, int position)
+#include <QDebug>
+bool TimelineModel::requestClipMove(int cid, int tid, int position)
 {
-    // Get Clip id
-    return true;
-}
-
-bool TimelineModel::requestClipChangeTrack(int cid, int tid, int position, bool dry)
-{
-    if (!dry && !requestClipChangeTrack(cid, tid, position, true)) {
-        return false;
-    }
+    std::function<bool (void)> undo = [](){return true;};
+    std::function<bool (void)> redo = [](){return true;};
+    qDebug() << "Requesting timeline clip move "<< cid<<tid<<position;
     Q_ASSERT(m_allClips.count(cid) > 0);
     bool ok = true;
     int old_tid = m_allClips[cid]->getCurrentTrackId();
     if (old_tid != -1) {
-        ok = getTrackById(old_tid)->requestClipDeletion(cid, dry);
+        ok = getTrackById(old_tid)->requestClipDeletion(cid, undo, redo);
         if (!ok) {
+            Q_ASSERT(undo());
             return false;
         }
     }
-    ok = getTrackById(tid)->requestClipInsertion(m_allClips[cid], position, dry);
-    if (ok && !dry) {
-        m_allClips[cid]->setCurrentTrackId(tid);
+    qDebug() << "in timeline, deletion worked";
+    ok = getTrackById(tid)->requestClipInsertion(m_allClips[cid], position, undo, redo);
+    if (!ok) {
+        Q_ASSERT(undo());
+        return false;
     }
-    return ok;
+    auto operation = [cid, tid, this]() {
+        m_allClips[cid]->setCurrentTrackId(tid);
+        return true;
+    };
+    auto reverse = [cid, old_tid, this]() {
+        m_allClips[cid]->setCurrentTrackId(old_tid);
+        return true;
+    };
+    UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    return operation();
 }
 
-bool TimelineModel::requestClipResize(int cid, int size, bool right, bool dry)
+bool TimelineModel::requestClipResize(int cid, int size, bool right)
 {
-    return m_allClips[cid]->requestResize(size, right, dry);
+    std::function<bool (void)> undo = [](){return true;};
+    std::function<bool (void)> redo = [](){return true;};
+    return m_allClips[cid]->requestResize(size, right, undo, redo);
 }
 
 

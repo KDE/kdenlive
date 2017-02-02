@@ -21,6 +21,7 @@
 #include "clipmodel.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
+#include "undohelper.hpp"
 #include <mlt++/MltProducer.h>
 #include <QDebug>
 
@@ -74,22 +75,25 @@ int ClipModel::getPosition() const
     return m_position;
 }
 
+std::pair<int, int> ClipModel::getInOut() const
+{
+    return {m_producer->get_in(), m_producer->get_out()};
+}
+
 bool ClipModel::isValid()
 {
     return m_producer->is_valid();
 }
 
-bool ClipModel::requestResize(int size, bool right, bool dry)
+bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
 {
-    if (!dry && !requestResize(size, right, true)) {
-        return false;
-    }
     if (size < 0 || size > m_producer->get_length()) {
         return false;
     }
     int delta = getPlaytime() - size;
     int in = m_producer->get_in();
     int out = m_producer->get_out();
+    int old_in = in, old_out = out;
     //check if there is enough space on the chosen side
     if ((!right && in + delta < 0) || (right &&  out - delta >= m_producer->get_length())) {
         return false;
@@ -102,7 +106,7 @@ bool ClipModel::requestResize(int size, bool right, bool dry)
 
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
-            bool ok = ptr->getTrackById(m_currentTrackId)->requestClipResize(m_id, in, out, right, dry);
+            bool ok = ptr->getTrackById(m_currentTrackId)->requestClipResize(m_id, in, out, right, undo, redo);
             if (!ok) {
                 return false;
             }
@@ -111,10 +115,16 @@ bool ClipModel::requestResize(int size, bool right, bool dry)
             Q_ASSERT(false);
         }
     }
-    if (!dry) {
+    auto operation = [this, in, out]() {
         m_producer.reset(m_producer->cut(in, out));
-    }
-    return true;
+        return true;
+    };
+    auto reverse = [this, old_in, old_out]() {
+        m_producer.reset(m_producer->cut(old_in, old_out));
+        return true;
+    };
+    UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    return operation();
 }
 
 int ClipModel::getPlaytime()

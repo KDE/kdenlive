@@ -23,6 +23,7 @@
 #include <QSharedPointer>
 #include <unordered_map>
 #include <mlt++/MltPlaylist.h>
+#include "undohelper.hpp"
 
 class TimelineModel;
 class ClipModel;
@@ -74,26 +75,35 @@ protected:
        @param in is the new starting on the clip
        @param out is the new ending on the clip
        @param right is true if we change the right side of the clip, false otherwise
-       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
+       @param undo Lambda function containing the current undo stack. Will be updated with current operation
+       @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipResize(int cid, int in, int out, bool right, bool dry = false);
+    bool requestClipResize(int cid, int in, int out, bool right, Fun& undo, Fun& redo);
+    /* @brief This function returns a lambda that performs the requested operation */
+    Fun requestClipResize_lambda(int cid, int in, int out, bool right);
 
     /* @brief Performs an insertion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param clip is a shared pointer to the clip
        @param position is the position where to insert the clip
-       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
+       @param undo Lambda function containing the current undo stack. Will be updated with current operation
+       @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(std::shared_ptr<ClipModel> clip, int position, bool dry = false);
+    bool requestClipInsertion(std::shared_ptr<ClipModel> clip, int position, Fun& undo, Fun& redo);
+    /* @brief This function returns a lambda that performs the requested operation */
+    Fun requestClipInsertion_lambda(std::shared_ptr<ClipModel> clip, int position);
 
     /* @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param cid is the id of the clip
-       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
+       @param undo Lambda function containing the current undo stack. Will be updated with current operation
+       @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipDeletion(int cid, bool dry = false);
+    bool requestClipDeletion(int cid, Fun& undo, Fun& redo);
+    /* @brief This function returns a lambda that performs the requested operation */
+    Fun requestClipDeletion_lambda(int cid);
 
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;

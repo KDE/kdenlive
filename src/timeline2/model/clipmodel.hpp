@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <QObject>
+#include "undohelper.hpp"
 
 namespace Mlt{
     class Producer;
@@ -31,9 +32,8 @@ class TrackModel;
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
 */
-class ClipModel : public QObject
+class ClipModel
 {
-    Q_OBJECT
     ClipModel() = delete;
 
 protected:
@@ -61,12 +61,18 @@ public:
     /* @brief returns the length of the clip on the timeline
      */
     int getPlaytime();
+
     /* @brief returns the id of the track in which this clips is inserted (-1 if none)
      */
     int getCurrentTrackId() const;
+
     /* @brief returns the current position of the clip (-1 if not inserted)
      */
     int getPosition() const;
+
+    /* @brief returns the in and out times of the clip
+     */
+    std::pair<int, int> getInOut() const;
 
     friend class TrackModel;
     friend class TimelineModel;
@@ -86,9 +92,10 @@ protected:
        If a snap point is within reach, the operation will be coerced to use it.
        @param size is the new size of the clip
        @param right is true if we change the right side of the clip, false otherwise
-       @param dry If this parameter is true, no action is actually executed, but we return true if it would be possible to do it.
+       @param undo Lambda function containing the current undo stack. Will be updated with current operation
+       @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestResize(int size, bool right, bool dry = false);
+    bool requestResize(int size, bool right, Fun& undo, Fun& redo);
 
     /* Split the current clip at the given position
     */
