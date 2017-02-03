@@ -68,18 +68,14 @@ public:
     void setProperty(const QString &name, const QString &value);
 
 protected:
-    /* @brief Performs a resize of the given clip.
-       Returns true if the operation succeeded, and otherwise nothing is modified
+    /* @brief Returns a lambda that performs a resize of the given clip.
+       The lamda returns true if the operation succeeded, and otherwise nothing is modified
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param cid is the id of the clip
        @param in is the new starting on the clip
        @param out is the new ending on the clip
        @param right is true if we change the right side of the clip, false otherwise
-       @param undo Lambda function containing the current undo stack. Will be updated with current operation
-       @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipResize(int cid, int in, int out, bool right, Fun& undo, Fun& redo);
-    /* @brief This function returns a lambda that performs the requested operation */
     Fun requestClipResize_lambda(int cid, int in, int out, bool right);
 
     /* @brief Performs an insertion of the given clip.

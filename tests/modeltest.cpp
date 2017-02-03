@@ -487,4 +487,54 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(undoStack->index() == init_index);
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() ==  length);
     }
+    SECTION("Basic resize inserted clip undo") {
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == length);
+
+        auto check = [&](int pos, int l) {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == l);
+            REQUIRE(timeline->getClipPosition(cid2) == pos);
+        };
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 5));
+        INFO("Test 1");
+        check(5, length);
+        REQUIRE(undoStack->index() == init_index + 1);
+
+        REQUIRE(timeline->requestClipResize(cid2, length - 5, true));
+        INFO("Test 2");
+        check(5, length - 5);
+        REQUIRE(undoStack->index() == init_index + 2);
+
+        REQUIRE(timeline->requestClipResize(cid2, length - 10, false));
+        INFO("Test 3");
+        check(10, length - 10);
+        REQUIRE(undoStack->index() == init_index + 3);
+
+        REQUIRE_FALSE(timeline->requestClipResize(cid2, length, false));
+        INFO("Test 4");
+        check(10, length - 10);
+        REQUIRE(undoStack->index() == init_index + 3);
+
+        undoStack->undo();
+        INFO("Test 5");
+        check(5, length - 5);
+        REQUIRE(undoStack->index() == init_index + 2);
+
+        undoStack->redo();
+        INFO("Test 6");
+        check(10, length - 10);
+        REQUIRE(undoStack->index() == init_index + 3);
+
+        undoStack->undo();
+        INFO("Test 7");
+        check(5, length - 5);
+        REQUIRE(undoStack->index() == init_index + 2);
+
+        undoStack->undo();
+        INFO("Test 8");
+        check(5, length);
+        REQUIRE(undoStack->index() == init_index + 1);
+    }
 }

@@ -207,7 +207,7 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
         }
         if (m_playlist.is_blank(blank)) {
             int blank_length = m_playlist.clip_length(blank);
-            if (blank_length >= m_allClips[cid]->getPlaytime()) {
+            if (blank_length + delta >= 0) {
                 return [blank_length, blank, right, cid, delta, this, in, out, target_clip](){
                     int target_clip_mutable = target_clip;
                     int err = 0;
@@ -231,21 +231,6 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
         }
     }
     return [](){return false;};
-}
-
-bool TrackModel::requestClipResize(int cid, int in, int out, bool right, Fun& undo, Fun& redo)
-{
-    //Find index of clip
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    std::pair<int, int> old_in_out = m_allClips[cid]->getInOut();
-
-    auto operation = requestClipResize_lambda(cid, in, out, right);
-    if (operation()) {
-        auto reverse = requestClipResize_lambda(cid, old_in_out.first, old_in_out.second, right);
-        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
-        return true;
-    }
-    return false;
 }
 
 int TrackModel::getId() const

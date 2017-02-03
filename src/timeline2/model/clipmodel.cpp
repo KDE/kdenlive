@@ -104,27 +104,40 @@ bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
         in += delta;
     }
 
+    std::function<bool (void)> track_operation = [](){return true;};
+    std::function<bool (void)> track_reverse = [](){return true;};
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
-            bool ok = ptr->getTrackById(m_currentTrackId)->requestClipResize(m_id, in, out, right, undo, redo);
-            if (!ok) {
-                return false;
-            }
+            track_operation = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, in, out, right);
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
         }
     }
-    auto operation = [this, in, out]() {
-        m_producer.reset(m_producer->cut(in, out));
-        return true;
+    auto operation = [this, in, out, track_operation]() {
+        if (track_operation()) {
+            m_producer.reset(m_producer->cut(in, out));
+            return true;
+        }
+        return false;
     };
-    auto reverse = [this, old_in, old_out]() {
-        m_producer.reset(m_producer->cut(old_in, old_out));
+    if (operation()) {
+        // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
+        auto ptr = m_parent.lock();
+        if (m_currentTrackId != -1 && ptr) {
+            track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
+        }
+        auto reverse = [this, old_in, old_out, track_reverse]() {
+            if (track_reverse()) {
+                m_producer.reset(m_producer->cut(old_in, old_out));
+                return true;
+            }
+            return false;
+        };
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
-    };
-    UPDATE_UNDO_REDO(operation, reverse, undo, redo);
-    return operation();
+    }
+    return false;
 }
 
 int ClipModel::getPlaytime()
