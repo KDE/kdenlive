@@ -118,7 +118,8 @@ public:
     void setZoom(double s);
     void setTool(TITLETOOL tool);
     TITLETOOL tool() const;
-    void clearTextSelection();
+    /** @brief Get out of text edit mode. If reset is true, we also unselect all items */
+    void clearTextSelection(bool reset = true);
     int gridSize() const;
     void addNewItem(QGraphicsItem *item);
 
