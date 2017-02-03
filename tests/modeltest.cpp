@@ -50,8 +50,12 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "test");
-    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "test2");
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "color", "green");
+    producer->set("length", 20);
+    producer->set("out", 19);
+    producer2->set("length", 20);
+    producer2->set("out", 19);
 
     REQUIRE(timeline->getClipsCount() == 0);
     int id1 = ClipModel::construct(timeline, producer);
@@ -80,12 +84,19 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "../tests/small.mp4");
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "color", "blue");
+    producer->set("length", 20);
+    producer->set("out", 19);
+    producer2->set("length", 20);
+    producer2->set("out", 19);
+
     REQUIRE(producer->is_valid());
+    REQUIRE(producer2->is_valid());
     int cid1 = ClipModel::construct(timeline, producer);
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
-    int cid2 = ClipModel::construct(timeline, producer);
+    int cid2 = ClipModel::construct(timeline, producer2);
 
     SECTION("Insert a clip in a track and change track") {
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
@@ -366,7 +377,10 @@ TEST_CASE("Check id unicity", "[ClipModel]")
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "../tests/small.mp4");
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    producer->set("length", 20);
+    producer->set("out", 19);
+
     REQUIRE(producer->is_valid());
 
     std::vector<int> track_ids;
@@ -403,12 +417,20 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "../tests/small.mp4");
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "color", "blue");
+    producer->set("length", 20);
+    producer->set("out", 19);
+    producer2->set("length", 20);
+    producer2->set("out", 19);
+
     REQUIRE(producer->is_valid());
+    REQUIRE(producer2->is_valid());
     int cid1 = ClipModel::construct(timeline, producer);
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
-    int cid2 = ClipModel::construct(timeline, producer);
+    int cid2 = ClipModel::construct(timeline, producer2);
+
 
     int init_index = undoStack->index();
 
