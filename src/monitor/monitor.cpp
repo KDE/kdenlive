@@ -520,8 +520,8 @@ void Monitor::slotForceSize(QAction *a)
     if (resizeType > 0) {
         // calculate size
         QRect r = QApplication::desktop()->screenGeometry();
-        profileWidth = m_glMonitor->profileSize().width() * resizeType / 100;
         profileHeight = m_glMonitor->profileSize().height() * resizeType / 100;
+        profileWidth = m_glMonitor->profile()->dar() * profileHeight;
         if (profileWidth > r.width() * 0.8 || profileHeight > r.height() * 0.7) {
             // reset action to free resize
             QList< QAction * > list = m_forceSize->actions ();

@@ -921,7 +921,7 @@ void ProjectClip::doExtractImage()
         frame->set("deinterlace_method", "onefield");
         frame->set("top_field_first", -1 );
 	if (frame && frame->is_valid()) {
-            img = KThumb::getFrame(frame, frameWidth, 150);
+            img = KThumb::getFrame(frame, frameWidth, 150, prod->profile()->sar() != 1);
             bin()->cachePixmap(path, img);
             emit thumbReady(pos, img);
         }

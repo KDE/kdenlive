@@ -640,7 +640,6 @@ void TransitionHandler::rebuildTransitions(int mode, QList <int> videoTracks, in
         if (mode == 1) {
             transition.set("valign", "middle");
             transition.set("halign", "centre");
-	    transition.set("aligned", 0);
             transition.set("fill", 1);
             transition.set("geometry", compositeGeometry.toUtf8().constData());
         }

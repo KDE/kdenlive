@@ -757,7 +757,9 @@ void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *
                 desc.appendChild(ret.createTextNode(i18n("A key-framable alpha-channel compositor for two frames.")));
                 paramList.append(quickParameterFill(ret, i18n("Geometry"), QStringLiteral("geometry"), QStringLiteral("geometry"), QStringLiteral("0%/0%:100%x100%:100"), QStringLiteral("-500;-500;-500;-500;0"), QStringLiteral("500;500;500;500;100")));
                 paramList.append(quickParameterFill(ret, i18n("Alpha Channel Operation"), QStringLiteral("operator"), QStringLiteral("list"), QStringLiteral("over"), QLatin1String(""), QLatin1String(""), QStringLiteral("over,and,or,xor"), i18n("Over,And,Or,Xor")));
-                paramList.append(quickParameterFill(ret, i18n("Align"), QStringLiteral("aligned"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
+                paramList.append(quickParameterFill(ret, i18n("Align"), QStringLiteral("aligned"), QStringLiteral("bool"), QStringLiteral("1"), QStringLiteral("0"), QStringLiteral("1")));
+                paramList.append(quickParameterFill(ret, i18n("Align"), QStringLiteral("valign"), QStringLiteral("fixed"), QStringLiteral("middle"), QStringLiteral("middle"), QStringLiteral("middle")));
+                paramList.append(quickParameterFill(ret, i18n("Align"), QStringLiteral("halign"), QStringLiteral("fixed"), QStringLiteral("centre"), QStringLiteral("centre"), QStringLiteral("centre")));
                 paramList.append(quickParameterFill(ret, i18n("Fill"), QStringLiteral("fill"), QStringLiteral("bool"), QStringLiteral("1"), QStringLiteral("0"), QStringLiteral("1")));
                 paramList.append(quickParameterFill(ret, i18n("Distort"), QStringLiteral("distort"), QStringLiteral("bool"), QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
                 paramList.append(quickParameterFill(ret, i18n("Wipe Method"), QStringLiteral("luma"), QStringLiteral("list"), QLatin1String(""), QLatin1String(""), QLatin1String(""), QStringLiteral("%lumaPaths"), QLatin1String("")));

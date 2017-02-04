@@ -82,17 +82,16 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 
 
 //static
-QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
+QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceRescale)
 {
     if (frame == NULL || !frame->is_valid()) {
         QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
-    int ow = width;
-    int oh = height;
+    int ow = forceRescale ? 0 : width;
+    int oh = forceRescale ? 0 : height;
     mlt_image_format format = mlt_image_rgb24a;
-    //frame->set("progressive", "1");
     ow += ow % 2;
     const uchar* imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
