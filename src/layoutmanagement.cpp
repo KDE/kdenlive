@@ -31,7 +31,7 @@ LayoutManagement::LayoutManagement(QObject* parent) :
         load->setData('_' + QString::number(i));
         layoutActions->addAction("load_layout" + QString::number(i), load);
         m_loadLayout->addAction(load);
-        QAction *save = new QAction(QIcon(), i18n("Save As Layout %1", i), this);
+        QAction *save = new QAction(QIcon(), i18n("Layout %1", i), this);
         save->setData('_' + QString::number(i));
         layoutActions->addAction("save_layout" + QString::number(i), save);
     }
@@ -66,7 +66,7 @@ void LayoutManagement::initializeLayouts()
                 }
                 for (int j = 0; j < saveActions.count(); ++j) {
                     if (saveActions.at(j)->data().toString().endsWith('_' + QString::number(i))) {
-                        saveActions[j]->setText(i18n("Save as %1", layoutName));
+                        saveActions[j]->setText(i18n("%1", layoutName));
                         saveActions[j]->setData(key);
                         break;
                     }
