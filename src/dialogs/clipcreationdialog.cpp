@@ -71,6 +71,22 @@ QStringList ClipCreationDialog::getExtensions()
             allExtensions.append(mime.globPatterns());
         }
     }
+    // process custom user extensions
+    QStringList customs = KdenliveSettings::addedExtensions().split(' ', QString::SkipEmptyParts);
+    if (!customs.isEmpty()) {
+        foreach(const QString &ext, customs) {
+            if (ext.startsWith(QLatin1String("*."))) {
+                allExtensions << ext;
+            } else if (ext.startsWith(QLatin1String("."))) {
+                allExtensions << QStringLiteral("*") + ext;
+            } else if (!ext.contains(QStringLiteral("."))) {
+                allExtensions << QStringLiteral("*.") + ext;
+            } else {
+                //Unrecognized format
+                qDebug()<<"Unrecognized custom format: "<<ext;
+            }
+        }
+    }
     allExtensions.removeDuplicates();
     return allExtensions;
 }
