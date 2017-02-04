@@ -16,6 +16,10 @@
       <label>Bin default zoom.</label>
       <default>4</default>
     </entry>
+    <entry name="addedExtensions" type="String">
+      <label>User added clip file extensions.</label>
+      <default></default>
+    </entry>
   </group>
 
   <group name="misc">
