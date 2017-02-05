@@ -347,7 +347,6 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
     Mlt::Producer *trackProducer = nullptr;
     Mlt::Producer *audioTrackProducer = nullptr;
     QList<ItemInfo> replaced;
-    Mlt::ClipInfo *info = new Mlt::ClipInfo();
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
@@ -358,10 +357,9 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
                 continue;
             }
             // master clip used, only notify for update
-            m_playlist.clip_info(i, info);
             ItemInfo cInfo;
-            cInfo.startPos = GenTime(info->start, fps());
-            cInfo.endPos = GenTime(info->start + info->frame_count, fps());
+            cInfo.startPos = GenTime(m_playlist.clip_start(i), fps());
+            cInfo.endPos = cInfo.startPos + GenTime(m_playlist.clip_length(i), fps());
             cInfo.track = m_index;
             replaced << cInfo;
             continue;
@@ -417,7 +415,9 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
         }
         if (cut) {
             Clip(*cut).addEffects(*p);
-            m_playlist.clip_info(i, info);
+            ItemInfo cInfo;
+            cInfo.startPos = GenTime(m_playlist.clip_start(i), fps());
+            cInfo.endPos = cInfo.startPos + GenTime(m_playlist.clip_length(i), fps());
             m_playlist.remove(i);
             m_playlist.insert(*cut, i);
             m_playlist.consolidate_blanks();
@@ -426,15 +426,11 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
                 // Video is hidden for this track, nothing visible
                 continue;
             }
-            ItemInfo cInfo;
-            cInfo.startPos = GenTime(info->start, fps());
-            cInfo.endPos = GenTime(info->start + info->frame_count, fps());
             cInfo.track = m_index;
             replaced << cInfo;
         }
     }
     delete trackProducer;
-    delete info;
     delete audioTrackProducer;
     return replaced;
 }
@@ -986,12 +982,12 @@ QList<QPoint> Track::visibleClips()
         return clips;
     }
     QPoint current;
-    Mlt::ClipInfo *info = new Mlt::ClipInfo();
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
 
         // get producer, check if it has video
-        m_playlist.clip_info(i, info);
+        // TODO: playlist::clip_info(i, info) crashes on MLT < 6.6.0, so use variant until MLT 6.6.x is required
+        QScopedPointer <Mlt::ClipInfo>info(m_playlist.clip_info(i));
         Mlt::Producer *clip = info->producer;
         QString service = clip->get("mlt_service");
         if (service.contains(QStringLiteral("avformat"))) {
@@ -1016,7 +1012,6 @@ QList<QPoint> Track::visibleClips()
     }
     if (!current.isNull())
         clips << current;
-    delete info;
     return clips;
 }
 

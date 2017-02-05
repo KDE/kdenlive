@@ -998,7 +998,6 @@ void Timeline::reloadTrack(const ItemInfo &info, bool includeLastFrame)
 int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, int end, bool updateReferences)
 {
     // parse track
-    Mlt::ClipInfo *info = new Mlt::ClipInfo();
     double fps = m_doc->fps();
     if (end == -1) {
         end = playlist.count();
@@ -1009,7 +1008,8 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         if (playlist.is_blank(i)) {
             continue;
         }
-        playlist.clip_info(i, info);
+        // TODO: playlist::clip_info(i, info) crashes on MLT < 6.6.0, so use variant until MLT 6.6.x is required
+        QScopedPointer <Mlt::ClipInfo>info(playlist.clip_info(i));
         Mlt::Producer *clip = info->cut;
         // Found a clip
         QString idString = info->producer->get("id");
@@ -1091,7 +1091,6 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         // parse clip effects
         getEffects(*clip, item);
     }
-    delete info;
     return playlist.get_length();
 }
 

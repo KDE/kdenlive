@@ -4585,6 +4585,8 @@ void CustomTrackView::cutSelectedClips(QList<QGraphicsItem *> itemList, GenTime 
             itemList << under;
         }
     }
+    QUndoCommand *command = new QUndoCommand;
+    command->setText(i18n("Razor clip"));
     for (int i = 0; i < itemList.count(); ++i) {
         if (!itemList.at(i)) {
             continue;
@@ -4597,8 +4599,7 @@ void CustomTrackView::cutSelectedClips(QList<QGraphicsItem *> itemList, GenTime 
                     groups << group;
                 }
             } else if (currentPos > item->startPos() && currentPos < item->endPos()) {
-                RazorClipCommand *command = new RazorClipCommand(this, item->info(), item->effectList(), currentPos);
-                m_commandStack->push(command);
+                new RazorClipCommand(this, item->info(), item->effectList(), currentPos, true, command);
             }
         } else if (itemList.at(i)->type() == GroupWidget && itemList.at(i) != m_selectionGroup) {
             AbstractGroupItem *group = static_cast<AbstractGroupItem *>(itemList.at(i));
@@ -4606,6 +4607,11 @@ void CustomTrackView::cutSelectedClips(QList<QGraphicsItem *> itemList, GenTime 
                 groups << group;
             }
         }
+    }
+    if (command->childCount() > 0) {
+        m_commandStack->push(command);
+    } else {
+        delete command;
     }
 
     for (int i = 0; i < groups.count(); ++i) {
