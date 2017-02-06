@@ -135,12 +135,18 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
 
 int GroupsModel::getRootId(int id) const
 {
-    Q_ASSERT(m_upLink.count(id) > 0);
-    int father = m_upLink.at(id);
-    if (father == -1) {
-        return id;
-    }
-    return getRootId(father);
+    std::unordered_set<int> seen; //we store visited ids to detect cycles
+    int father = -1;
+    do {
+        Q_ASSERT(m_upLink.count(id) > 0);
+        Q_ASSERT(seen.count(id) == 0);
+        seen.insert(id);
+        father = m_upLink.at(id);
+        if (father != -1) {
+            id = father;
+        }
+    } while(father != -1);
+    return id;
 }
 
 bool GroupsModel::isLeaf(int id) const
