@@ -91,12 +91,12 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     lumas->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     lumas->setData(0, Qt::UserRole, "lumas");
     lumas->setExpanded(false);
-    
+
     QTreeWidgetItem *proxies = new QTreeWidgetItem(files_list, QStringList() << i18n("Proxy clips"));
     proxies->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
     proxies->setData(0, Qt::UserRole, "proxy");
     proxies->setExpanded(false);
-    
+
     // process all files
     QStringList allFonts;
     QList <QUrl> fileUrls;
@@ -116,6 +116,9 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
         ClipController *clip = list.at(i);
         ClipType t = clip->clipType();
         QString id = clip->clipId();
+        if (t == Color) {
+            continue;
+        }
         if (t == SlideShow) {
             //TODO: Slideshow files
             slideUrls.insert(id, clip->clipUrl());
@@ -151,7 +154,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     generateItems(playlists, playlistUrls);
     generateItems(others, otherUrls);
     generateItems(proxies, proxyUrls);
-    
+
     allFonts.removeDuplicates();
 
     m_infoMessage = new KMessageWidget(this);
@@ -160,7 +163,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
-        
+
         // missing clips, warn user
     if (m_missingClips > 0) {
         QString infoText = i18np("You have %1 missing clip in your project.", "You have %1 missing clips in your project.", m_missingClips);
@@ -197,7 +200,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotStartArchiving()));
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    
+
     slotCheckSpace();
 }
 
@@ -223,7 +226,7 @@ ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget * parent):
     connect(m_progressTimer, SIGNAL(timeout()), this, SLOT(slotExtractProgress()));
     connect(this, SIGNAL(extractingFinished()), this, SLOT(slotExtractingFinished()));
     connect(this, SIGNAL(showMessage(QString,QString)), this, SLOT(slotDisplayMessage(QString,QString)));
-    
+
     compressed_archive->setHidden(true);
     proxy_only->setHidden(true);
     project_files->setHidden(true);
@@ -368,7 +371,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
                 m_requestedSize += totalSize;
-            }                    
+            }
         }
         else if (filesList.contains(fileName)) {
             // we have 2 files with same name
@@ -665,7 +668,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j)
-                files_list->topLevelItem(i)->child(j)->setDisabled(false);        
+                files_list->topLevelItem(i)->child(j)->setDisabled(false);
         }
     }
 }
@@ -795,6 +798,9 @@ bool ArchiveWidget::processProjectFile()
 
     QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + ".kdenlive";
     QFile file(path);
+    if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+        return false;
+    }
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qWarning() << "//////  ERROR writing to file: " << path;
         KMessageBox::error(this, i18n("Cannot write to file %1", path));
