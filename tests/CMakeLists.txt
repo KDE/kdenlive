@@ -30,7 +30,7 @@ include_directories(
     )
 ADD_EXECUTABLE(runTests ${Tests_SRCS})
 target_link_libraries(runTests Qt5::Core Qt5::Widgets)
-target_link_libraries(runTests 
+target_link_libraries(runTests
     ${MLT_LIBRARIES}
     ${MLTPP_LIBRARIES}
     ${CMAKE_DL_LIBS}

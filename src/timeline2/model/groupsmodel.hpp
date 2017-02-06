@@ -22,6 +22,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
+#include "undohelper.hpp"
 
 class TimelineModel;
 
@@ -38,14 +39,25 @@ public:
        Note that if an item is already part of a group, its topmost group will be considered instead and added in the newly created group.
        If only one id is provided, no group is created.
        @param ids set containing the items to group.
+       @param undo Lambda function containing the current undo stack. Will be updated with current operation
+       @param redo Lambda function containing the current redo queue. Will be updated with current operation
+       Returns the id of the new group, or -1 on error.
     */
-    int groupItems(const std::unordered_set<int>& ids);
+    int groupItems(const std::unordered_set<int>& ids, Fun &undo, Fun& redo);
+protected:
+    /* Lambda version */
+    Fun groupItems_lambda(int gid, const std::unordered_set<int>& ids);
 
+
+public:
     /* Deletes the topmost group containing given element
        Note that if the element is not in a group, then it will not be touched.
+       Return true on success
        @param id id of the groupitem
+       @param undo Lambda function containing the current undo stack. Will be updated with current operation
+       @param redo Lambda function containing the current redo queue. Will be updated with current operation
      */
-    void ungroupItem(int id);
+    bool ungroupItem(int id, Fun& undo, Fun& redo);
 
     /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
        @param id id of the groupItem
@@ -54,11 +66,18 @@ public:
 
     /* @brief Destruct a groupItem in the hierarchy.
        All its children will become their own roots
+       Return true on success
        @param id id of the groupitem
        @param deleteOrphan If this parameter is true, we recursively delete any group that become empty following the destruction
+       @param undo Lambda function containing the current undo stack. Will be updated with current operation
+       @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    void destructGroupItem(int id, bool deleteOrphan = false);
+    bool destructGroupItem(int id, bool deleteOrphan, Fun& undo, Fun& redo);
+protected:
+    /* Lambda version */
+    Fun destructGroupItem_lambda(int id, bool deleteOrphan);
 
+public:
     /* @brief Get the overall father of a given groupItem
        @param id id of the groupitem
     */
@@ -98,5 +117,7 @@ private:
 
     std::unordered_map<int, int> m_upLink; //edges toward parent
     std::unordered_map<int, std::unordered_set<int>> m_downLink; //edges toward children
+
+    std::unordered_set<int> m_groupIds; //this keeps track of "real" groups (non-leaf elements)
 
 };

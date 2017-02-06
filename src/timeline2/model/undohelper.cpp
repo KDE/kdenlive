@@ -44,6 +44,7 @@ void FunctionalUndoCommand::undo()
 void FunctionalUndoCommand::redo()
 {
     if (m_undone) {
+        qDebug() << "REDOING " <<text();
         bool res = m_redo();
         Q_ASSERT(res);
     }

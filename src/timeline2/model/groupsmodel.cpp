@@ -29,42 +29,61 @@ GroupsModel::GroupsModel(std::weak_ptr<TimelineModel> parent) :
 {
 }
 
-int GroupsModel::groupItems(const std::unordered_set<int>& ids)
+Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int>& ids)
+{
+    return [gid, ids, this](){
+        qDebug() << "grouping items in group"<<gid;
+        qDebug() << "Ids";
+        for(auto i : ids) qDebug() << i;
+        qDebug() << "roots";
+        for(auto i : ids) qDebug() << getRootId(i);
+        createGroupItem(gid);
+
+        Q_ASSERT(m_groupIds.count(gid) == 0);
+        m_groupIds.insert(gid);
+
+        if (auto ptr = m_parent.lock()) {
+            ptr->registerGroup(gid);
+        } else {
+            qDebug() << "Impossible to create group because the timeline is not available anymore";
+            Q_ASSERT(false);
+        }
+        std::unordered_set<int> roots;
+        std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()),
+                       [&](int id){return getRootId(id);});
+        for (int id : roots) {
+            setGroup(getRootId(id), gid);
+        }
+        return true;
+    };
+}
+
+int GroupsModel::groupItems(const std::unordered_set<int>& ids, Fun &undo, Fun &redo)
 {
     Q_ASSERT(ids.size()>0);
     if (ids.size() == 1) {
+        // We do not create a group with only one element. Instead, we return the id of that element
         return *(ids.begin());
     }
     int gid = TimelineModel::getNextId();
-    createGroupItem(gid);
-
-    if (auto ptr = m_parent.lock()) {
-        ptr->registerGroup(gid);
-    } else {
-        qDebug() << "Impossible to create group because the timeline is not available anymore";
-        Q_ASSERT(false);
+    auto operation = groupItems_lambda(gid, ids);
+    if (operation()) {
+        auto reverse = destructGroupItem_lambda(gid, false);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return gid;
     }
-    for (int id : ids) {
-        setGroup(getRootId(id), gid);
-    }
-    return gid;
+    return -1;
 }
 
-void GroupsModel::ungroupItem(int id)
+bool GroupsModel::ungroupItem(int id, Fun& undo, Fun& redo)
 {
     int gid = getRootId(id);
-    if (gid == id) {
+    if (m_groupIds.count(gid) == 0) {
         //element is not part of a group
-        return;
-    }
-    if (auto ptr = m_parent.lock()) {
-        ptr->deregisterGroup(gid);
-    } else {
-        qDebug() << "Impossible to ungroup item because the timeline is not available anymore";
-        Q_ASSERT(false);
+        return false;
     }
 
-    destructGroupItem(gid);
+    return destructGroupItem(gid, true, undo, redo);
 }
 
 void GroupsModel::createGroupItem(int id)
@@ -75,24 +94,43 @@ void GroupsModel::createGroupItem(int id)
     m_downLink[id] = std::unordered_set<int>();
 }
 
-void GroupsModel::destructGroupItem(int id, bool deleteOrphan)
+Fun GroupsModel::destructGroupItem_lambda(int id, bool deleteOrphan)
 {
-    int parent = m_upLink[id];
-    removeFromGroup(id);
-    for (int child : m_downLink[id]) {
-        m_upLink[child] = -1;
-    }
-    m_downLink.erase(id);
-    m_upLink.erase(id);
-    if (parent != -1 && m_downLink[parent].size() == 0 && deleteOrphan) {
-        if (auto ptr = m_parent.lock()) {
-            ptr->deregisterGroup(parent);
-        } else {
-            qDebug() << "Impossible to destruct item because the timeline is not available anymore";
-            Q_ASSERT(false);
+    return [this, id, deleteOrphan]() {
+        if (m_groupIds.count(id) > 0) {
+            if(auto ptr = m_parent.lock()) {
+                ptr->deregisterGroup(id);
+                m_groupIds.erase(id);
+            } else {
+                qDebug() << "Impossible to ungroup item because the timeline is not available anymore";
+                Q_ASSERT(false);
+            }
         }
-        destructGroupItem(parent, true);
+        removeFromGroup(id);
+        for (int child : m_downLink[id]) {
+            m_upLink[child] = -1;
+        }
+        m_downLink.erase(id);
+        m_upLink.erase(id);
+        return true;
+    };
+}
+
+bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo)
+{
+    Q_ASSERT(m_upLink.count(id) > 0);
+    int parent = m_upLink[id];
+    auto old_children = m_downLink[id];
+    auto operation = destructGroupItem_lambda(id, deleteOrphan);
+    if (operation()) {
+        auto reverse = groupItems_lambda(id, old_children);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        if (parent != -1 && m_downLink[parent].size() == 0 && deleteOrphan) {
+            return destructGroupItem(parent, true, undo, redo);
+        }
+        return true;
     }
+    return false;
 }
 
 int GroupsModel::getRootId(int id) const
@@ -150,6 +188,8 @@ void GroupsModel::setGroup(int id, int groupId)
 {
     Q_ASSERT(m_upLink.count(id) > 0);
     Q_ASSERT(m_downLink.count(groupId) > 0);
+    Q_ASSERT(id != groupId);
+    qDebug() << "Setting " << id <<"in group"<<groupId;
     removeFromGroup(id);
     m_upLink[id] = groupId;
     m_downLink[groupId].insert(id);
@@ -160,6 +200,7 @@ void GroupsModel::removeFromGroup(int id)
     Q_ASSERT(m_upLink.count(id) > 0);
     Q_ASSERT(m_downLink.count(id) > 0);
     int parent = m_upLink[id];
+    qDebug() << "removing " << id <<"from group hierarchy. Is parent is"<<parent;
     if (parent != -1) {
         m_downLink[parent].erase(id);
     }

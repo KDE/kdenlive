@@ -152,15 +152,17 @@ public:
     bool requestClipResize(int cid, int size, bool right);
 
     /* @brief Group together a set of ids
+       Returns true on success. If it fails, nothing is modified.
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
        @param ids Set of ids to group
     */
-    void groupClips(std::unordered_set<int>&& ids);
+    bool requestGroupClips(const std::unordered_set<int>& ids);
 
     /* @brief Destruct the topmost group containing clip
+       Returns true on success. If it fails, nothing is modified.
        @param id of the clip to degroup (all clips belonging to the same group will be ungrouped as well)
     */
-    void ungroupClip(int id);
+    bool requestUngroupClip(int id);
 
     /* @brief Get project duration
        Returns the duration in frames

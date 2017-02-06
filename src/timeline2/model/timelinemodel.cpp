@@ -328,14 +328,26 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right)
 }
 
 
-void TimelineModel::groupClips(std::unordered_set<int>&& ids)
+bool TimelineModel::requestGroupClips(const std::unordered_set<int>& ids)
 {
-    m_groups->groupItems(std::forward<std::unordered_set<int>>(ids));
+    std::function<bool (void)> undo = [](){return true;};
+    std::function<bool (void)> redo = [](){return true;};
+    int gid = m_groups->groupItems(ids, undo, redo);
+    if (gid != -1) {
+        PUSH_UNDO(undo, redo, i18n("Group clips"));
+    }
+    return (gid != -1);
 }
 
-void TimelineModel::ungroupClip(int id)
+bool TimelineModel::requestUngroupClip(int id)
 {
-    m_groups->ungroupItem(id);
+    std::function<bool (void)> undo = [](){return true;};
+    std::function<bool (void)> redo = [](){return true;};
+    bool result = m_groups->ungroupItem(id, undo, redo);
+    if (result) {
+        PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
+    }
+    return result;
 }
 
 void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
@@ -388,7 +400,10 @@ void TimelineModel::deregisterClip(int id)
     //TODO send deletion order to the track containing the clip
     Q_ASSERT(m_allClips.count(id) > 0);
     m_allClips.erase(id);
-    m_groups->destructGroupItem(id, true);
+    //TODO this is temporary while UNDO for clip deletion is not implemented
+    std::function<bool (void)> undo = [](){return true;};
+    std::function<bool (void)> redo = [](){return true;};
+    m_groups->destructGroupItem(id, true, undo, redo);
 }
 
 void TimelineModel::deregisterGroup(int id)
