@@ -86,17 +86,28 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
     std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "color", "blue");
+    std::shared_ptr<Mlt::Producer> producer3 = std::make_shared<Mlt::Producer>(profile, "color", "green");
+    std::shared_ptr<Mlt::Producer> producer4 = std::make_shared<Mlt::Producer>(profile, "color", "yellow");
     producer->set("length", 20);
     producer->set("out", 19);
     producer2->set("length", 20);
     producer2->set("out", 19);
+    producer3->set("length", 20);
+    producer3->set("out", 19);
+    producer4->set("length", 20);
+    producer4->set("out", 19);
 
     REQUIRE(producer->is_valid());
     REQUIRE(producer2->is_valid());
+    REQUIRE(producer3->is_valid());
+    REQUIRE(producer4->is_valid());
     int cid1 = ClipModel::construct(timeline, producer);
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
+    int tid3 = TrackModel::construct(timeline);
     int cid2 = ClipModel::construct(timeline, producer2);
+    int cid3 = ClipModel::construct(timeline, producer2);
+    int cid4 = ClipModel::construct(timeline, producer2);
 
     SECTION("Insert a clip in a track and change track") {
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
@@ -367,6 +378,124 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == length - 5);
         REQUIRE(timeline->getClipPosition(cid2) == 0);
     }
+
+    SECTION ("Group move") {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        REQUIRE(timeline->requestClipMove(cid2, tid1, length + 3));
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 2*length + 5));
+        REQUIRE(timeline->requestClipMove(cid4, tid2, 4));
+
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid3]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid4]->getCurrentTrackId() == tid2);
+        REQUIRE(timeline->getClipPosition(cid1) == 0);
+        REQUIRE(timeline->getClipPosition(cid2) == length + 3);
+        REQUIRE(timeline->getClipPosition(cid3) == 2*length + 5);
+        REQUIRE(timeline->getClipPosition(cid4) == 4);
+
+        //check that move is possible without groups
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 2*length + 3));
+        undoStack->undo();
+        //check that move is possible without groups
+        REQUIRE(timeline->requestClipMove(cid4, tid2, 9));
+        undoStack->undo();
+
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid3]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid4]->getCurrentTrackId() == tid2);
+        REQUIRE(timeline->getClipPosition(cid1) == 0);
+        REQUIRE(timeline->getClipPosition(cid2) == length + 3);
+        REQUIRE(timeline->getClipPosition(cid3) == 2*length + 5);
+        REQUIRE(timeline->getClipPosition(cid4) == 4);
+
+        //grouping
+        REQUIRE(timeline->requestGroupClips({cid1, cid3, cid4}));
+
+        //move left is now forbidden, because clip1 is at position 0
+        REQUIRE_FALSE(timeline->requestClipMove(cid3, tid1, 2*length + 3));
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid3]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid4]->getCurrentTrackId() == tid2);
+        REQUIRE(timeline->getClipPosition(cid1) == 0);
+        REQUIRE(timeline->getClipPosition(cid2) == length + 3);
+        REQUIRE(timeline->getClipPosition(cid3) == 2*length + 5);
+        REQUIRE(timeline->getClipPosition(cid4) == 4);
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+
+        //this move is impossible, because clip1 runs into clip2
+        REQUIRE_FALSE(timeline->requestClipMove(cid4, tid2, 9));
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid3]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->m_allClips[cid4]->getCurrentTrackId() == tid2);
+        REQUIRE(timeline->getClipPosition(cid1) == 0);
+        REQUIRE(timeline->getClipPosition(cid2) == length + 3);
+        REQUIRE(timeline->getClipPosition(cid3) == 2*length + 5);
+        REQUIRE(timeline->getClipPosition(cid4) == 4);
+
+        //this move is possible
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 2*length + 8));
+        auto state1 = [&](){
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid3) == 0);
+            REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->m_allClips[cid3]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->m_allClips[cid4]->getCurrentTrackId() == tid2);
+            REQUIRE(timeline->getClipPosition(cid1) == 3);
+            REQUIRE(timeline->getClipPosition(cid2) == length + 3);
+            REQUIRE(timeline->getClipPosition(cid3) == 2*length + 8);
+            REQUIRE(timeline->getClipPosition(cid4) == 7);
+        };
+        state1();
+
+        //this move is possible
+        REQUIRE(timeline->requestClipMove(cid1, tid2, 8));
+        auto state2 = [&]() {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+            REQUIRE(timeline->getTrackById(tid3)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 2);
+            REQUIRE(timeline->getTrackClipsCount(tid3) == 1);
+            REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid2);
+            REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->m_allClips[cid3]->getCurrentTrackId() == tid2);
+            REQUIRE(timeline->m_allClips[cid4]->getCurrentTrackId() == tid3);
+            REQUIRE(timeline->getClipPosition(cid1) == 8);
+            REQUIRE(timeline->getClipPosition(cid2) == length + 3);
+            REQUIRE(timeline->getClipPosition(cid3) == 2*length + 5 + 8);
+            REQUIRE(timeline->getClipPosition(cid4) == 4 + 8);
+        };
+        state2();
+
+        undoStack->undo();
+        state1();
+
+        undoStack->redo();
+        state2();
+
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 3));
+        state1();
+
+    }
 }
 
 TEST_CASE("Check id unicity", "[ClipModel]")
@@ -431,6 +560,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     int tid2 = TrackModel::construct(timeline);
     int cid2 = ClipModel::construct(timeline, producer2);
 
+    int length = producer->get_playtime();
 
     int init_index = undoStack->index();
 
@@ -470,6 +600,28 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
 
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 2*length));
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 2*length);
+        REQUIRE(undoStack->index() == init_index + 2);
+
+        undoStack->undo();
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 5);
+        REQUIRE(undoStack->index() == init_index + 1);
+
+        undoStack->redo();
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 2*length);
+        REQUIRE(undoStack->index() == init_index + 2);
+
+        undoStack->undo();
         undoStack->undo();
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
@@ -477,7 +629,6 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(undoStack->index() == init_index);
     }
 
-    int length = producer->get_playtime();
     SECTION("Basic resize orphan clip undo") {
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == length);
 

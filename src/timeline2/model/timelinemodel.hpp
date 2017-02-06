@@ -134,14 +134,26 @@ public:
     */
     int getTrackClipsCount(int tid) const;
 
-    /* @brief Change the track in which the clip is included
+    /* @brief Move a clip to a specific position
        Returns true on success. If it fails, nothing is modified.
        If the clip is not in inserted in a track yet, it gets inserted for the first time.
        @param cid is the ID of the clip
        @param tid is the ID of the target track
-       @param position is the position where we want to insert
+       @param position is the position where we want to move
     */
     bool requestClipMove(int cid, int tid, int position);
+protected:
+    /* Same function, but accumulates undo and redo, and doesn't check for group*/
+    bool requestClipMove(int cid, int tid, int position, Fun &undo, Fun &redo);
+public:
+
+    /* @brief Move a group to a specific position
+       Returns true on success. If it fails, nothing is modified.
+       If the clips in the group are not in inserted in a track yet, they get inserted for the first time.
+       @param delta_track is the delta applied to the track index
+       @param tid is the requested position change
+    */
+    bool requestGroupMove(int gid, int delta_track, int delta_pos);
 
     /* @brief Change the duration of a clip
        Returns true on success. If it fails, nothing is modified.

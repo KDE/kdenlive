@@ -79,6 +79,7 @@ protected:
 
 public:
     /* @brief Get the overall father of a given groupItem
+       If the element has no father, it is returned as is.
        @param id id of the groupitem
     */
     int getRootId(int id) const;
