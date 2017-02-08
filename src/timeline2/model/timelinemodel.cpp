@@ -108,6 +108,22 @@ QModelIndex TimelineModel::makeIndex(int trackIndex, int clipIndex) const
     return index(clipIndex, 0, index(trackIndex));
 }
 
+QModelIndex TimelineModel::makeClipIndexFromID(int cid) const
+{
+    Q_ASSERT(m_allClips.count(cid) > 0);
+    int tid = m_allClips.at(cid)->getCurrentTrackId();
+    return index(getTrackById_const(tid)->getRowfromClip(cid), 0, makeTrackIndexFromID(tid) );
+}
+
+QModelIndex TimelineModel::makeTrackIndexFromID(int tid) const
+{
+    // we retrieve iterator
+    Q_ASSERT(m_iteratorTable.count(tid) > 0);
+    auto it = m_iteratorTable.at(tid);
+    int ind = (int)std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it);
+    return index(ind);
+}
+
 QModelIndex TimelineModel::parent(const QModelIndex &index) const
 {
 //    LOG_DEBUG() << __FUNCTION__ << index;
@@ -199,6 +215,7 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
         case IsBlankRole: //probably useless
             return false;
         case StartRole:
+            qDebug() << "start query for clip "<<id<<"Value="<<m_allClips.at(id)->getPosition();
             return m_allClips.at(id)->getPosition();
         case DurationRole:
             return m_allClips.at(id)->getPlaytime();
@@ -296,12 +313,15 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
     bool ok = true;
     int old_tid = m_allClips[cid]->getCurrentTrackId();
     if (old_tid != -1) {
+        // int old_clip_index = getTrackById(old_tid)->getRowfromClip(cid);
         ok = getTrackById(old_tid)->requestClipDeletion(cid, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
+        // beginRemoveRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
+        // endRemoveRows();
     }
     ok = getTrackById(tid)->requestClipInsertion(m_allClips[cid], position, local_undo, local_redo);
     if (!ok) {
@@ -309,8 +329,13 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
         Q_ASSERT(undone);
         return false;
     }
+    // int new_clip_index = getTrackById(tid)->getRowfromClip(cid);
+    // beginInsertRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
+    // endInsertRows();
     auto operation = [cid, tid, this]() {
         m_allClips[cid]->setCurrentTrackId(tid);
+        // emit dataChanged(makeClipIndexFromID(cid),makeClipIndexFromID(cid));
+        emit dataChanged(makeTrackIndexFromID(tid),makeTrackIndexFromID(tid));
         return true;
     };
     auto reverse = [cid, old_tid, this]() {
@@ -318,6 +343,16 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
         return true;
     };
     UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+    if (old_tid != -1) {
+        local_undo = [local_undo, old_tid, cid, this]() {
+            bool v = local_undo();
+            //emit dataChanged(makeTrackIndexFromID(old_tid),makeTrackIndexFromID(old_tid));
+            emit dataChanged(QModelIndex(), QModelIndex());
+            qDebug()<<"DATA CHANGED SIGNAL";
+            qDebug()<<"Moved back"<<cid<<"to position"<<m_allClips[cid]->getPosition();
+            return v;
+        };
+    }
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return operation();
 }
@@ -325,6 +360,9 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
 bool TimelineModel::requestClipMove(int cid, int tid, int position, bool logUndo)
 {
     Q_ASSERT(m_allClips.count(cid) > 0);
+    if (m_allClips[cid]->getPosition() == position) {
+        return true;
+    }
     if (m_groups->getRootId(cid) != cid) {
         //element is in a group.
         int gid = m_groups->getRootId(cid);

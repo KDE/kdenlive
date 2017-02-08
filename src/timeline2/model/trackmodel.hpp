@@ -108,6 +108,10 @@ protected:
       Given a row in the model, retrieves the corresponding clip id. If it does not exist, returns -1
     */
     int getClipByRow(int row) const;
+    /*@brief This function is used only by the QAbstractItemModel
+      Given a clip ID, returns the row of the clip.
+    */
+    int getRowfromClip(int cid) const;
 
     /*@brief This is an helper function that test frame level consistancy with the MLT structures */
     bool checkConsistency();
@@ -126,7 +130,9 @@ private:
     std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips;
 
     std::map<int, int> m_clipsByInsertionOrder; //This map stores the order in which the clips were inserted. This implicitly gives the model Row of each clip since they remain sorted even after deletion. Note that it is important to keep an ordered data structure such has std::map (QMap is NOT ordered).
+    // Keys are insertion order and values are clip IDs.
 
     std::unordered_map<int, int> m_insertionOrder; //This is a reverse map of m_clipsByInsertionOrder. Note that order is not important thus we can use an unordered_map.
+    // Keys are clip Ids, value are insertion order
 
 };

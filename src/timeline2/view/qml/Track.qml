@@ -101,8 +101,14 @@ Column{
                     else
                         trackModel.items.remove(clipIndex, 1)
                 }
-                if (!timeline.moveClip(fromTrack, toTrack, clipIndex, frame))
+                if (!timeline.moveClip(fromTrack, toTrack, clipIndex, frame, false))
                     clip.x = clip.originalX
+                else {
+                    //TODO This hacky, find a better way...
+                    var oldFrame = Math.round(clip.originalX / timeScale)
+                    timeline.moveClip(fromTrack, toTrack, clipIndex, oldFrame, false)
+                    timeline.moveClip(fromTrack, toTrack, clipIndex, frame, true)
+                }
             }
             onDragged: {
                 var fromTrack = clip.originalTrackIndex

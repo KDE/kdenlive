@@ -80,7 +80,7 @@ Fun TrackModel::requestClipInsertion_lambda(std::shared_ptr<ClipModel> clip, int
     auto end_function = [clip, this, position]() {
         m_allClips[clip->getId()] = clip;  //store clip
         //update insertion order of the clip
-        m_insertionOrder[clip->getId()] = m_currentInsertionOrder; 
+        m_insertionOrder[clip->getId()] = m_currentInsertionOrder;
         m_clipsByInsertionOrder[m_currentInsertionOrder] = clip->getId();
         m_currentInsertionOrder++;
         //update clip position
@@ -246,6 +246,15 @@ int TrackModel::getClipByRow(int row) const
     auto it = m_clipsByInsertionOrder.cbegin();
     std::advance(it, row);
     return (*it).second;
+}
+
+int TrackModel::getRowfromClip(int cid) const
+{
+    Q_ASSERT(m_allClips.count(cid) > 0);
+    int order = m_insertionOrder.at(cid);
+    auto it = m_clipsByInsertionOrder.find(order);
+    Q_ASSERT(it != m_clipsByInsertionOrder.end());
+    return (int)std::distance(m_clipsByInsertionOrder.begin(), it);
 }
 
 QVariant TrackModel::getProperty(const QString &name)

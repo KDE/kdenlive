@@ -110,6 +110,10 @@ public:
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex makeIndex(int trackIndex, int clipIndex) const;
+    /* @brief Creates an index based on the ID of the clip*/
+    QModelIndex makeClipIndexFromID(int cid) const;
+    /* @brief Creates an index based on the ID of the track*/
+    QModelIndex makeTrackIndexFromID(int tid) const;
     QModelIndex parent(const QModelIndex &index) const;
     Mlt::Tractor* tractor() const { return m_tractor; }
 
