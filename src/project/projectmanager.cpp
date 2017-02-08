@@ -26,6 +26,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/dialogs/backupwidget.h"
 #include "project/notesplugin.h"
 #include "utils/KoIconUtils.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include <KActionCollection>
 #include <KRecentDirs>
@@ -105,6 +106,8 @@ void ProjectManager::slotLoadOnOpen()
         pCore->bin()->droppedUrls(urls);
     }
     m_loadClipsOnOpen.clear();
+    TimelineWidget *timelineWidget = new TimelineWidget(m_project->commandStack(), pCore->window());
+    pCore->addTimeline(timelineWidget, m_project->url().fileName());
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -228,15 +231,6 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
     m_trackView->projectView()->setFocus();
     m_lastSave.start();
-}
-
-std::shared_ptr<DocUndoStack> ProjectManager::commandStack()
-{
-    if (m_project) {
-        return m_project->commandStack();
-    }
-    //TODO: temporary hack to avoid startup crash. No KdenliveDoc exists on startup
-    return std::make_shared<DocUndoStack>(pCore->window()->m_commandStack);
 }
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)

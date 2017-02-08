@@ -18,7 +18,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "library/librarywidget.h"
 #include <QCoreApplication>
 #include "kdenlive_debug.h"
-#include "timeline2/view/timelinewidget.h"
 #include "doc/kdenlivedoc.h"
 #include "doc/docundostack.hpp"
 
@@ -80,11 +79,20 @@ void Core::initialize()
     connect(m_producerQueue, SIGNAL(addClip(QString, QMap<QString, QString>)), m_binWidget, SLOT(slotAddUrl(QString, QMap<QString, QString>)));
     connect(m_binController, SIGNAL(createThumb(QDomElement, QString, int)), m_producerQueue, SLOT(getFileProperties(QDomElement, QString, int)));
     connect(m_binWidget, &Bin::producerReady, m_producerQueue, &ProducerQueue::slotProcessingDone, Qt::DirectConnection);
-
+    m_timelineTab = new QTabWidget();
     //TODO
     /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
-    m_timelineWidget = new TimelineWidget(m_projectManager->commandStack(), m_mainWindow);
     emit coreIsReady();
+}
+
+QWidget *Core::timelineTabs()
+{
+    return m_timelineTab;
+}
+
+void Core::addTimeline(QWidget *timeline, const QString &name)
+{
+    m_timelineTab->addTab(timeline, name);
 }
 
 Core *Core::self()
@@ -125,11 +133,6 @@ ProducerQueue *Core::producerQueue()
 LibraryWidget *Core::library()
 {
     return m_library;
-}
-
-TimelineWidget *Core::timeline()
-{
-    return m_timelineWidget;
 }
 
 void Core::initLocale()

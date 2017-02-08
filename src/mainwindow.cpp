@@ -276,7 +276,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
     setupActions();
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
-    QDockWidget *timelineDock = addDock(i18n("Timeline2"), QStringLiteral("timeline2"), pCore->timeline());
+    QDockWidget *timelineDock = addDock(i18n("Timeline2"), QStringLiteral("timeline2"), pCore->timelineTabs());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);

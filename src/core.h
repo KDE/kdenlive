@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef CORE_H
 #define CORE_H
 
+#include <QTabWidget>
 #include <QObject>
 #include "kdenlivecore_export.h"
 
@@ -21,7 +22,6 @@ class BinController;
 class Bin;
 class LibraryWidget;
 class ProducerQueue;
-class TimelineWidget;
 
 #define pCore Core::self()
 
@@ -68,7 +68,9 @@ public:
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
     /** @brief Returns a pointer to the timeline. */
-    TimelineWidget *timeline();
+    QWidget *timelineTabs();
+    /** @brief Add a new timeline tab. */
+    void addTimeline(QWidget *timeline, const QString &name);
 
 private:
     explicit Core(MainWindow *mainWindow);
@@ -84,7 +86,7 @@ private:
     ProducerQueue *m_producerQueue;
     Bin *m_binWidget;
     LibraryWidget *m_library;
-    TimelineWidget *m_timelineWidget;
+    QTabWidget *m_timelineTab;
 
 signals:
     void coreIsReady();

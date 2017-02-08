@@ -70,8 +70,6 @@ public:
     void saveZone(const QStringList &info, const QDir &dir);
     /** @brief Move project data files to new url */
     void moveProjectData(const QString &src, const QString &dest);
-    /** @brief Returns current project's undo stack or new one if no project exists */
-    std::shared_ptr<DocUndoStack> commandStack();
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
