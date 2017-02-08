@@ -75,12 +75,14 @@ Column{
             width: model.duration * timeScale
             height: parent.height
             x: model.start * timeScale
+            modelStart: model.start
             trackIndex: trackRoot.DelegateModel.itemsIndex
             fadeIn: 0 //model.fadeIn
             fadeOut: 0 //model.fadeOut
             //hash: model.hash
             speed: 1 //model.speed
             selected: trackRoot.isCurrentTrack && trackRoot.selection.indexOf(index) !== -1
+
 
             onClicked: trackRoot.clipClicked(clip, trackRoot);
             onMoved: {

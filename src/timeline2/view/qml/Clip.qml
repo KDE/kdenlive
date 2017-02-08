@@ -29,6 +29,7 @@ Rectangle {
     property string clipName: ''
     property string clipResource: ''
     property string mltService: ''
+    property int modelStart: x
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -56,6 +57,10 @@ Rectangle {
     signal trimmingOut(var clip, real delta, var mouse)
     signal trimmedOut(var clip)
 
+    onModelStartChanged: {
+        console.log("MODEL START CHANGED !!!!!!", modelStart, clip, x);
+        x = modelStart * timeScale;
+    }
     SystemPalette { id: activePalette }
     color: Qt.darker(getColor())
 
