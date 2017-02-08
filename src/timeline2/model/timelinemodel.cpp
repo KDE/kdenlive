@@ -322,7 +322,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
     return operation();
 }
 
-bool TimelineModel::requestClipMove(int cid, int tid, int position)
+bool TimelineModel::requestClipMove(int cid, int tid, int position, bool logUndo)
 {
     Q_ASSERT(m_allClips.count(cid) > 0);
     if (m_groups->getRootId(cid) != cid) {
@@ -332,16 +332,17 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position)
         int delta_pos = position - m_allClips[cid]->getPosition();
         return requestGroupMove(gid, delta_track, delta_pos);
     }
+    qDebug()<<"clip move in model"<<cid<<tid<<position;
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
     bool res = requestClipMove(cid, tid, position, undo, redo);
-    if (res) {
+    if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
     return res;
 }
 
-bool TimelineModel::requestGroupMove(int gid, int delta_track, int delta_pos)
+bool TimelineModel::requestGroupMove(int gid, int delta_track, int delta_pos, bool logUndo)
 {
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
@@ -372,7 +373,9 @@ bool TimelineModel::requestGroupMove(int gid, int delta_track, int delta_pos)
             return false;
         }
     }
-    PUSH_UNDO(undo, redo, i18n("Move group"));
+    if (logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move group"));
+    }
     return true;
 }
 

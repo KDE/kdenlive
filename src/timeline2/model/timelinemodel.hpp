@@ -146,8 +146,9 @@ public:
        @param cid is the ID of the clip
        @param tid is the ID of the target track
        @param position is the position where we want to move
+       @param logUndo if set to true, an undo object is created
     */
-    bool requestClipMove(int cid, int tid, int position);
+    bool requestClipMove(int cid, int tid, int position, bool logUndo = true);
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipMove(int cid, int tid, int position, Fun &undo, Fun &redo);
@@ -158,8 +159,9 @@ public:
        If the clips in the group are not in inserted in a track yet, they get inserted for the first time.
        @param delta_track is the delta applied to the track index
        @param tid is the requested position change
+       @param logUndo if set to true, an undo object is created
     */
-    bool requestGroupMove(int gid, int delta_track, int delta_pos);
+    bool requestGroupMove(int gid, int delta_track, int delta_pos, bool logUndo = true);
 
     /* @brief Change the duration of a clip
        Returns true on success. If it fails, nothing is modified.
