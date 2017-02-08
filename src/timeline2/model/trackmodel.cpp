@@ -306,3 +306,16 @@ bool TrackModel::checkConsistency()
     return true;
 }
 
+bool TrackModel::allowClipMove(int cid, int position, int length)
+{
+    // Check position is blank or is in cid
+    int ix = m_playlist.get_clip_index_at(position);
+    int blankEnd = 0;
+    while (blankEnd < position + length && ix < m_playlist.count()) {
+        if (m_playlist.is_blank(ix) || getRowfromClip(cid) == ix) {
+            blankEnd = m_playlist.clip_start(++ix) - 1;
+        } else break;
+    }
+    // Return true if we are at playlist end or if there is enough space for the move
+    return (ix == m_playlist.count() - 1 || blankEnd >= position + length);
+}

@@ -84,7 +84,10 @@ Column{
             selected: trackRoot.isCurrentTrack && trackRoot.selection.indexOf(index) !== -1
 
 
-            onClicked: trackRoot.clipClicked(clip, trackRoot);
+            onClicked: {
+                trackRoot.clipClicked(clip, trackRoot);
+                clip.draggedX = clip.x
+            }
             onMoved: {
                 var fromTrack = clip.originalTrackIndex
                 var toTrack = clip.trackIndex
@@ -127,10 +130,13 @@ Column{
                 // Prevent dragging left of multitracks origin.
                 console.log("dragging clip x: ", clip.x)
                 clip.x = Math.max(0, clip.x)
-                if (!timeline.moveClip(fromTrack, toTrack, clipIndex, frame, false))
-                    clip.x = clip.originalX
+                if (!timeline.allowMoveClip(fromTrack, toTrack, clipIndex, frame, false)) {
+                    // Abort move
+                    clip.x = clip.draggedX
+                }
                 var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
                 trackRoot.clipDragged(clip, mapped.x, mapped.y)
+                clip.draggedX = clip.x
             }
             onTrimmingIn: {
                 var originalDelta = delta

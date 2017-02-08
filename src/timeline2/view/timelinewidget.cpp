@@ -139,6 +139,11 @@ bool TimelineWidget::moveClip(int /*fromTrack*/, int toTrack, int clipIndex, int
     return m_model->requestClipMove(clipIndex, toTrack, position, logUndo);
 }
 
+bool TimelineWidget::allowMoveClip(int /*fromTrack*/, int toTrack, int clipIndex, int position)
+{
+    return m_model->allowClipMove(clipIndex, toTrack, position);
+}
+
 QString TimelineWidget::timecode(int frames)
 {
     return m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);

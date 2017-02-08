@@ -43,6 +43,7 @@ Rectangle {
     property int originalTrackIndex: trackIndex
     property int originalClipIndex: index
     property int originalX: x
+    property int draggedX: x
     property bool selected: false
     property string hash: ''
     property double speed: 1.0

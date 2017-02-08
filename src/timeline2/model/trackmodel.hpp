@@ -63,6 +63,8 @@ public:
      */
     operator Mlt::Producer&(){ return m_playlist;}
 
+    bool allowClipMove(int cid, int position, int length);
+
     // TODO make protected
     QVariant getProperty(const QString &name);
     void setProperty(const QString &name, const QString &value);

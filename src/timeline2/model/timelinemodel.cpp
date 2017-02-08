@@ -60,14 +60,14 @@ std::shared_ptr<TimelineModel> TimelineModel::construct(std::weak_ptr<DocUndoSta
         // Testing: add a clip on first track
         Mlt::Profile profile;
         std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(profile,"color", "red"));
-        prod->set("length", 100);
-        prod->set("out", 99);
+        prod->set("length", 25);
+        prod->set("out", 24);
         int ix = TrackModel::construct(ptr);
         int ix2 = TrackModel::construct(ptr);
         int clipId = ClipModel::construct(ptr, prod);
         int clipId2 = ClipModel::construct(ptr, prod);
         ptr->requestClipMove(clipId, ix, 100, false);
-        ptr->requestClipMove(clipId2, ix2, 50, false);
+        ptr->requestClipMove(clipId2, ix, 50, false);
         ptr->getTrackById(ix)->setProperty("kdenlive:trackheight", "60");
         ptr->getTrackById(ix2)->setProperty("kdenlive:trackheight", "140");
     }
@@ -305,6 +305,11 @@ int TimelineModel::getClipPosition(int cid) const
     return clip->getPosition();
 }
 
+bool TimelineModel::allowClipMove(int cid, int tid, int position)
+{
+    int length = m_allClips[cid]->getPlaytime();
+    return getTrackById(tid)->allowClipMove(cid, position, length);
+}
 
 bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, Fun &redo)
 {

@@ -153,6 +153,7 @@ public:
        @param logUndo if set to true, an undo object is created
     */
     bool requestClipMove(int cid, int tid, int position, bool logUndo = true);
+    bool allowClipMove(int cid, int tid, int position);
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipMove(int cid, int tid, int position, Fun &undo, Fun &redo);
