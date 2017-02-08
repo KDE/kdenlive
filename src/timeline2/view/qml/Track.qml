@@ -86,7 +86,7 @@ Column{
             onMoved: {
                 var fromTrack = clip.originalTrackIndex
                 var toTrack = clip.trackIndex
-                var clipIndex = clip.originalClipIndex
+                var clipIndex = model.clipIndex
                 var frame = Math.round(clip.x / timeScale)
 
                 // Remove the placeholder inserted in onDraggedToTrack

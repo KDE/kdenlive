@@ -170,6 +170,7 @@ QHash<int, QByteArray> TimelineModel::roleNames() const
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
     roles[HeightRole] = "trackHeight";
+    roles[ClipIndex] = "clipIndex";
     return roles;
 }
 
@@ -183,6 +184,9 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
         // Get data for a clip
         switch (role) {
         //TODO
+        case ClipIndex:
+                return m_allClips.at(id)->getId();
+                break;
         case NameRole:
         case ResourceRole:
         case Qt::DisplayRole:{

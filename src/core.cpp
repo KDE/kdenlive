@@ -83,7 +83,7 @@ void Core::initialize()
 
     //TODO
     /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
-    m_timelineWidget = new TimelineWidget(m_projectManager->current()->commandStack(), m_mainWindow);
+    m_timelineWidget = new TimelineWidget(m_projectManager->commandStack(), m_mainWindow);
     emit coreIsReady();
 }
 

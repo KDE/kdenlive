@@ -226,6 +226,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
     MltConnection::locateMeltAndProfilesPath(MltPath);
     QString defaultProfile = KdenliveSettings::default_profile();
     KdenliveSettings::setCurrent_profile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
+    m_commandStack = new QUndoGroup(this);
     pCore->initialize();
 
     // If using a custom profile, make sure the file exists or fallback to default
@@ -234,7 +235,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
         KdenliveSettings::setCurrent_profile(QStringLiteral("atsc_1080p_25"));
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
     }
-    m_commandStack = new QUndoGroup(this);
     m_timelineArea = new QTabWidget(this);
     //m_timelineArea->setTabReorderingEnabled(true);
     m_timelineArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);

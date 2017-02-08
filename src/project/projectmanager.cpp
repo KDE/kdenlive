@@ -17,7 +17,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
 #include "doc/kdenlivedoc.h"
-#include "doc/docundostack.hpp"
 #include "timeline/timeline.h"
 #include "project/dialogs/projectsettings.h"
 #include "timeline/customtrackview.h"
@@ -229,6 +228,15 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
     m_trackView->projectView()->setFocus();
     m_lastSave.start();
+}
+
+std::shared_ptr<DocUndoStack> ProjectManager::commandStack()
+{
+    if (m_project) {
+        return m_project->commandStack();
+    }
+    //TODO: temporary hack to avoid startup crash. No KdenliveDoc exists on startup
+    return std::make_shared<DocUndoStack>(pCore->window()->m_commandStack);
 }
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)

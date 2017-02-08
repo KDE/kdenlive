@@ -18,6 +18,10 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+#ifndef DOCUNDOSTACK_H
+#define DOCUNDOSTACK_H
+
+
 #include <QUndoCommand>
 
 class QUndoGroup;
@@ -32,3 +36,5 @@ public:
 signals:
     void invalidate();
 };
+
+#endif
