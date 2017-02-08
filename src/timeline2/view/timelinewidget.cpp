@@ -134,9 +134,9 @@ bool TimelineWidget::scrub()
     return false;
 }
 
-bool TimelineWidget::moveClip(int /*fromTrack*/, int toTrack, int clipIndex, int position)
+bool TimelineWidget::moveClip(int /*fromTrack*/, int toTrack, int clipIndex, int position, bool logUndo)
 {
-    return m_model->requestClipMove(clipIndex, toTrack, position);
+    return m_model->requestClipMove(clipIndex, toTrack, position, logUndo);
 }
 
 QString TimelineWidget::timecode(int frames)

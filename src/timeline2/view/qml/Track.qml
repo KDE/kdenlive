@@ -105,6 +105,10 @@ Column{
                     clip.x = clip.originalX
             }
             onDragged: {
+                var fromTrack = clip.originalTrackIndex
+                var toTrack = clip.trackIndex
+                var clipIndex = model.clipIndex
+                var frame = Math.round(clip.x / timeScale)
                 /*if (toolbar.scrub) {
                     root.stopScrolling = false
                     timeline.position = Math.round(clip.x / timeScale)
@@ -115,6 +119,8 @@ Column{
                 // Prevent dragging left of multitracks origin.
                 console.log("dragging clip x: ", clip.x)
                 clip.x = Math.max(0, clip.x)
+                if (!timeline.moveClip(fromTrack, toTrack, clipIndex, frame, false))
+                    clip.x = clip.originalX
                 var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
                 trackRoot.clipDragged(clip, mapped.x, mapped.y)
             }
