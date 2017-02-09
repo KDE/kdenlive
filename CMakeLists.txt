@@ -24,7 +24,7 @@ set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_
 
 set(QT_MIN_VERSION 5.5.0)
 
-find_package(ECM 5.21.0 REQUIRED CONFIG)
+find_package(ECM 5.18.0 REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(FeatureSummary)
 include(ECMInstallIcons)
