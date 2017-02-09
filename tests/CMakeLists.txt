@@ -12,6 +12,7 @@ SET(Tests_SRCS
     TestMain.cpp
     modeltest.cpp
     groupstest.cpp
+    regressions.cpp
     ../src/doc/docundostack.cpp
     ../src/timeline2/model/clipmodel.cpp
     ../src/timeline2/model/groupsmodel.cpp

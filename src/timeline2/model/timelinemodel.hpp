@@ -108,14 +108,14 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
-    QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex makeIndex(int trackIndex, int clipIndex) const;
     /* @brief Creates an index based on the ID of the clip*/
     QModelIndex makeClipIndexFromID(int cid) const;
     /* @brief Creates an index based on the ID of the track*/
     QModelIndex makeTrackIndexFromID(int tid) const;
-    QModelIndex parent(const QModelIndex &index) const;
-    Mlt::Tractor* tractor() const { return m_tractor; }
+    QModelIndex parent(const QModelIndex &index) const override;
+    Mlt::Tractor* tractor() const { return m_tractor.get(); }
 
     /* @brief returns the number of tracks */
     int getTracksCount() const;
@@ -237,7 +237,7 @@ protected:
      */
     bool isTrack(int id) const;
 private:
-    Mlt::Tractor *m_tractor;
+    std::unique_ptr<Mlt::Tractor> m_tractor;
     QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex
 
     std::list<std::unique_ptr<TrackModel>> m_allTracks;

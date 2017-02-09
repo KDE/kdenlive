@@ -87,7 +87,7 @@ bool ClipModel::isValid()
 
 bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
 {
-    if (size < 0 || size > m_producer->get_length()) {
+    if (size <= 0 || size > m_producer->get_length()) {
         return false;
     }
     int delta = getPlaytime() - size;

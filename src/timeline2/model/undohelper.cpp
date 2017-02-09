@@ -35,7 +35,7 @@ FunctionalUndoCommand::FunctionalUndoCommand(const Fun& undo, const Fun& redo, Q
 
 void FunctionalUndoCommand::undo()
 {
-    qDebug() << "UNDOING " <<text();
+    // qDebug() << "UNDOING " <<text();
     m_undone = true;
     bool res = m_undo();
     Q_ASSERT(res);
@@ -44,7 +44,7 @@ void FunctionalUndoCommand::undo()
 void FunctionalUndoCommand::redo()
 {
     if (m_undone) {
-        qDebug() << "REDOING " <<text();
+        // qDebug() << "REDOING " <<text();
         bool res = m_redo();
         Q_ASSERT(res);
     }

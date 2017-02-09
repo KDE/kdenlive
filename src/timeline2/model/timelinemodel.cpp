@@ -350,9 +350,9 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
     if (old_tid != -1) {
         local_undo = [local_undo, old_tid, cid, this]() {
             bool v = local_undo();
-            qDebug()<<"DATA CHANGED SIGNAL";
+            //qDebug()<<"DATA CHANGED SIGNAL";
             emit dataChanged(makeClipIndexFromID(cid),makeClipIndexFromID(cid), {StartRole});
-            qDebug()<<"Moved back"<<cid<<"to position"<<m_allClips[cid]->getPosition();
+            //qDebug()<<"Moved back"<<cid<<"to position"<<m_allClips[cid]->getPosition();
             return v;
         };
     }
@@ -373,10 +373,10 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool logUndo
         int delta_pos = position - m_allClips[cid]->getPosition();
         return requestGroupMove(gid, delta_track, delta_pos);
     }
-    qDebug()<<"clip move in model"<<cid<<tid<<position;
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
     bool res = requestClipMove(cid, tid, position, undo, redo);
+    //qDebug()<<"clip move in model"<<cid<<tid<<position<<res;
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
@@ -425,6 +425,7 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right)
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
     bool result = m_allClips[cid]->requestResize(size, right, undo, redo);
+    // qDebug()<<"clip resize in model"<<cid<<size<<right<<result;
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Resize clip"));
     }

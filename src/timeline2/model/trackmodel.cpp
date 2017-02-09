@@ -139,6 +139,7 @@ Fun TrackModel::requestClipDeletion_lambda(int cid)
             m_allClips.erase(cid);
             m_clipsByInsertionOrder.erase(m_insertionOrder[cid]);
             m_insertionOrder.erase(cid);
+            delete prod;
             return true;
         }
         return false;
@@ -271,15 +272,16 @@ bool TrackModel::checkConsistency()
 {
     std::vector<std::pair<int, int> > clips; //clips stored by (position, id)
     for (const auto& c : m_allClips) {
-        if (c.second)
+        if (c.second) {
             clips.push_back({c.second->getPosition(), c.first});
+        }
     }
     std::sort(clips.begin(), clips.end());
     size_t current_clip = 0;
     for(int i = 0; i < m_playlist.get_playtime(); i++) {
-        auto clip = m_allClips[clips[current_clip].second];
         int index = m_playlist.get_clip_index_at(i);
         if (current_clip < clips.size() && i >= clips[current_clip].first) {
+            auto clip = m_allClips[clips[current_clip].second];
             if (i >= clips[current_clip].first + clip->getPlaytime()) {
                 current_clip++;
                 i--;
@@ -290,11 +292,14 @@ bool TrackModel::checkConsistency()
                     qDebug() << "Blank size" << m_playlist.clip_length(index);
                     return false;
                 }
-                Mlt::Producer prod(m_playlist.get_clip(index));
+                auto pr = m_playlist.get_clip(index);
+                Mlt::Producer prod(pr);
                 if (!prod.same_clip(*clip)) {
                     qDebug() << "ERROR: Wrong clip at position " << i;
+                    delete pr;
                     return false;
                 }
+                delete pr;
             }
         } else {
             if (!m_playlist.is_blank_at(i)) {
