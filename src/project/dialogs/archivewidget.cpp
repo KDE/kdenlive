@@ -114,6 +114,9 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
         ClipController *clip = list.at(i);
         ClipType t = clip->clipType();
         QString id = clip->clipId();
+        if (t == Color) {
+            continue;
+        }
         if (t == SlideShow) {
             //TODO: Slideshow files
             slideUrls.insert(id, clip->clipUrl());
@@ -827,6 +830,9 @@ bool ArchiveWidget::processProjectFile()
 
     QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + ".kdenlive";
     QFile file(path);
+    if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+        return false;
+    }
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
         KMessageBox::error(this, i18n("Cannot write to file %1", path));

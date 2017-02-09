@@ -272,12 +272,21 @@ bool Track::cut(qreal t)
         return false;
     }
     m_playlist.unlock();
-    QScopedPointer<Mlt::Producer> clip1(m_playlist.get_clip(index + 1));
-    QScopedPointer<Mlt::Producer> clip2(m_playlist.get_clip(index));
+    QScopedPointer<Mlt::Producer> clip1(m_playlist.get_clip(index));
+    QScopedPointer<Mlt::Producer> clip2(m_playlist.get_clip(index + 1));
     qCDebug(KDENLIVE_LOG)<<"CLIP CUT ID: "<<clip1->get("id")<<" / "<<clip1->parent().get("id");
-    Clip (*clip1).addEffects(*clip2, true);
+    Clip (*clip2).addEffects(*clip1, true);
+    for(int i = 0; i < clip1->filter_count(); ++i) {
+        QString effectId = clip1->filter(i)->get("kdenlive_id");
+        if (effectId == "fadeout" || effectId == "fade_to_black") {
+            Mlt::Filter *f = clip1->filter(i);
+            clip1->detach(*f);
+            delete f;
+            --i;
+        }
+    }
     // adjust filters in/out
-    Clip (*clip2).adjustEffectsLength();
+    Clip (*clip1).adjustEffectsLength();
     return true;
 }
 
