@@ -134,12 +134,12 @@ bool TimelineWidget::scrub()
     return false;
 }
 
-bool TimelineWidget::moveClip(int /*fromTrack*/, int toTrack, int clipIndex, int position, bool logUndo)
+bool TimelineWidget::moveClip(int toTrack, int clipIndex, int position, bool logUndo)
 {
     return m_model->requestClipMove(clipIndex, toTrack, position, logUndo);
 }
 
-bool TimelineWidget::allowMoveClip(int /*fromTrack*/, int toTrack, int clipIndex, int position)
+bool TimelineWidget::allowMoveClip(int toTrack, int clipIndex, int position)
 {
     return m_model->allowClipMove(clipIndex, toTrack, position);
 }

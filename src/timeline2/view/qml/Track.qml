@@ -91,17 +91,15 @@ Column{
                 clip.draggedX = clip.x
             }
             onMoved: {
-                var fromTrack = clip.originalTrackId
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
 
                 console.log("Asking move ",toTrack, cIndex, frame)
-                var val = timeline.moveClip(fromTrack, toTrack, cIndex, frame, true)
+                var val = timeline.moveClip(toTrack, cIndex, frame, true)
                 console.log("RESULT", val)
             }
             onDragged: {
-                var fromTrack = clip.originalTrackId
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
@@ -115,7 +113,7 @@ Column{
                 // Prevent dragging left of multitracks origin.
                 console.log("dragging clip x: ", clip.x, " ID: "<<clip.originalClipIndex)
                 clip.x = Math.max(0, clip.x)
-                if (!timeline.allowMoveClip(fromTrack, toTrack, cIndex, frame, false)) {
+                if (!timeline.allowMoveClip(toTrack, cIndex, frame, false)) {
                     // Abort move
                     clip.x = clip.draggedX
                 }
