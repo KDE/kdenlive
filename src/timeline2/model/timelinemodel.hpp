@@ -101,7 +101,7 @@ public:
         IsTransitionRole,/// clip only
         FileHashRole,    /// clip only
         SpeedRole,       /// clip only
-        ClipIndex       /// clip only
+        ItemIdRole
     };
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const Q_DECL_OVERRIDE;

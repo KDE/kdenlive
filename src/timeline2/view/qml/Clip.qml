@@ -39,9 +39,10 @@ Rectangle {
     property var audioLevels
     property int fadeIn: 0
     property int fadeOut: 0
-    property int trackIndex
-    property int originalTrackIndex: trackIndex
-    property int originalClipIndex
+    property int trackIndex //Index in track repeater
+    property int trackId: -42    //Id in the model
+    property int clipId     //Id of the clip in the model
+    property int originalTrackId: trackId
     property int originalX: x
     property int draggedX: x
     property bool selected: false
@@ -59,7 +60,7 @@ Rectangle {
     signal trimmedOut(var clip)
 
     onModelStartChanged: {
-        console.log("MODEL START CHANGED !!!!!!", modelStart, originalClipIndex, x);
+        console.log("MODEL START CHANGED !!!!!!", modelStart, clipId, x);
         x = modelStart * timeScale;
     }
     SystemPalette { id: activePalette }
@@ -252,7 +253,7 @@ Rectangle {
         onPressed: {
             root.stopScrolling = true
             originalX = parent.x
-            originalTrackIndex = trackIndex
+            originalTrackId = clipRoot.trackId
             startX = parent.x
             clipRoot.forceActiveFocus();
             clipRoot.clicked(clipRoot)
@@ -268,10 +269,10 @@ Rectangle {
             root.stopScrolling = false
             parent.y = 0
             var delta = parent.x - startX
-            if (Math.abs(delta) >= 1.0 || trackIndex !== originalTrackIndex) {
+            if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
                 parent.moved(clipRoot)
                 originalX = parent.x
-                originalTrackIndex = trackIndex
+                originalTrackId = trackId
             } else {
                 parent.dropped(clipRoot)
             }

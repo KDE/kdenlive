@@ -188,7 +188,7 @@ QHash<int, QByteArray> TimelineModel::roleNames() const
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
     roles[HeightRole] = "trackHeight";
-    roles[ClipIndex] = "clipIndex";
+    roles[ItemIdRole] = "item";
     return roles;
 }
 
@@ -198,14 +198,14 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     const int id = (int)index.internalId();
+    if (role == ItemIdRole) {
+        return id;
+    }
     //qDebug() << "DATA requested "<<index<<roleNames()[role];
     if (isClip(id)) {
         // Get data for a clip
         switch (role) {
         //TODO
-        case ClipIndex:
-                return id;
-                break;
         case NameRole:
         case ResourceRole:
         case Qt::DisplayRole:{
@@ -309,6 +309,11 @@ int TimelineModel::getClipPosition(int cid) const
 
 bool TimelineModel::allowClipMove(int cid, int tid, int position)
 {
+    qDebug()<<"Checking clip move"<<cid<<tid<<position;
+    if (!isClip(cid) || !isTrack(tid)) {
+        qDebug() << "ERROR : Invalid clip or track";
+        return false;
+    }
     int length = m_allClips[cid]->getPlaytime();
     return getTrackById(tid)->allowClipMove(cid, position, length);
 }

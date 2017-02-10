@@ -334,6 +334,7 @@ Rectangle {
             isAudio: audio
             isCurrentTrack: currentTrack === index
             timeScale: timeline.scaleFactor
+            trackId: item
             selection: timeline.selection
             onClipClicked: {
                 currentTrack = track.DelegateModel.itemsIndex
@@ -377,6 +378,7 @@ Rectangle {
                     var track = tracksRepeater.itemAt(i)
                     clip.reparent(track)
                     clip.trackIndex = track.DelegateModel.itemsIndex
+                    clip.trackId = track.trackId
                 }
             }
             onCheckSnap: {

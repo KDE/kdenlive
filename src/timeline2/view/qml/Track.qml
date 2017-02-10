@@ -30,6 +30,7 @@ Column{
     property bool isCurrentTrack: false
     property bool isLocked: false
     property var selection
+    property int trackId : -42
     height: parent.height
 
     SystemPalette { id: activePalette }
@@ -69,7 +70,7 @@ Column{
             inPoint: model.in
             outPoint: model.out
             isBlank: model.blank
-            originalClipIndex: model.clipIndex
+            clipId: model.item
             isAudio: false //model.audio
             isTransition: false //model.isTransition
             audioLevels: false //model.audioLevels
@@ -78,6 +79,7 @@ Column{
             x: model.start * timeScale
             modelStart: model.start
             trackIndex: trackRoot.DelegateModel.itemsIndex
+            trackId: trackRoot.trackId
             fadeIn: 0 //model.fadeIn
             fadeOut: 0 //model.fadeOut
             //hash: model.hash
@@ -90,9 +92,9 @@ Column{
                 clip.draggedX = clip.x
             }
             onMoved: {
-                var fromTrack = clip.originalTrackIndex
-                var toTrack = clip.trackIndex
-                var cIndex = clip.originalClipIndex
+                var fromTrack = clip.originalTrackId
+                var toTrack = clip.trackId
+                var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
 
                 // Remove the placeholder inserted in onDraggedToTrack
@@ -107,19 +109,24 @@ Column{
                     else
                         trackModel.items.remove(cIndex, 1)
                 }
+                console.log("Asking move ",toTrack, cIndex, frame)
+                var val = timeline.moveClip(fromTrack, toTrack, cIndex, frame, true)
+                console.log("RESULT", val)
+                /*
                 if (!timeline.moveClip(fromTrack, toTrack, cIndex, frame, false))
                     clip.x = clip.originalX
                 else {
                     //TODO This hacky, find a better way...
-                    var oldFrame = Math.round(clip.originalX / timeScale)
-                    timeline.moveClip(fromTrack, toTrack, cIndex, oldFrame, false)
+                    //var oldFrame = Math.round(clip.originalX / .timeScale)
+                   // timeline.moveClip(fromTrack, toTrack, cIndex, oldFrame, false)
                     timeline.moveClip(fromTrack, toTrack, cIndex, frame, true)
                 }
+                */
             }
             onDragged: {
-                var fromTrack = clip.originalTrackIndex
-                var toTrack = clip.trackIndex
-                var cIndex = clip.originalClipIndex
+                var fromTrack = clip.originalTrackId
+                var toTrack = clip.trackId
+                var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
                 /*if (toolbar.scrub) {
                     root.stopScrolling = false
