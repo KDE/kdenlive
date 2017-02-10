@@ -113,7 +113,7 @@ Column{
                 // Prevent dragging left of multitracks origin.
                 console.log("dragging clip x: ", clip.x, " ID: "<<clip.originalClipIndex)
                 clip.x = Math.max(0, clip.x)
-                if (!timeline.allowMoveClip(toTrack, cIndex, frame, false)) {
+                if (!timeline.allowMoveClip(toTrack, cIndex, frame)) {
                     // Abort move
                     clip.x = clip.draggedX
                 }

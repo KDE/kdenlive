@@ -374,11 +374,14 @@ Rectangle {
             }
             onClipDraggedToTrack: {
                 var i = clip.trackIndex + direction
+                var frame = Math.round(clip.x / timeScale)
                 if (i >= 0  && i < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(i)
-                    clip.reparent(track)
-                    clip.trackIndex = track.DelegateModel.itemsIndex
-                    clip.trackId = track.trackId
+                    if (timeline.allowMoveClip(track.trackId, clip.clipId, frame)) {
+                        clip.reparent(track)
+                        clip.trackIndex = track.DelegateModel.itemsIndex
+                        clip.trackId = track.trackId
+                    }
                 }
             }
             onCheckSnap: {
