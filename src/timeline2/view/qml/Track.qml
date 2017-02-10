@@ -69,6 +69,7 @@ Column{
             inPoint: model.in
             outPoint: model.out
             isBlank: model.blank
+            originalClipIndex: model.clipIndex
             isAudio: false //model.audio
             isTransition: false //model.isTransition
             audioLevels: false //model.audioLevels
@@ -91,7 +92,7 @@ Column{
             onMoved: {
                 var fromTrack = clip.originalTrackIndex
                 var toTrack = clip.trackIndex
-                var clipIndex = model.clipIndex
+                var cIndex = clip.originalClipIndex
                 var frame = Math.round(clip.x / timeScale)
 
                 // Remove the placeholder inserted in onDraggedToTrack
@@ -102,23 +103,23 @@ Column{
                         // call below to fail. This basically results in rejected operation
                         // to the user, but at least it prevents the timeline from becoming
                         // corrupt and out-of-sync with the model.
-                        trackModel.items.resolve(clipIndex, clipIndex + 1)
+                        trackModel.items.resolve(cIndex, cIndex + 1)
                     else
-                        trackModel.items.remove(clipIndex, 1)
+                        trackModel.items.remove(cIndex, 1)
                 }
-                if (!timeline.moveClip(fromTrack, toTrack, clipIndex, frame, false))
+                if (!timeline.moveClip(fromTrack, toTrack, cIndex, frame, false))
                     clip.x = clip.originalX
                 else {
                     //TODO This hacky, find a better way...
                     var oldFrame = Math.round(clip.originalX / timeScale)
-                    timeline.moveClip(fromTrack, toTrack, clipIndex, oldFrame, false)
-                    timeline.moveClip(fromTrack, toTrack, clipIndex, frame, true)
+                    timeline.moveClip(fromTrack, toTrack, cIndex, oldFrame, false)
+                    timeline.moveClip(fromTrack, toTrack, cIndex, frame, true)
                 }
             }
             onDragged: {
                 var fromTrack = clip.originalTrackIndex
                 var toTrack = clip.trackIndex
-                var clipIndex = model.clipIndex
+                var cIndex = clip.originalClipIndex
                 var frame = Math.round(clip.x / timeScale)
                 /*if (toolbar.scrub) {
                     root.stopScrolling = false
@@ -128,9 +129,9 @@ Column{
                 if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap)
                     trackRoot.checkSnap(clip)
                 // Prevent dragging left of multitracks origin.
-                console.log("dragging clip x: ", clip.x)
+                console.log("dragging clip x: ", clip.x, " ID: "<<clip.originalClipIndex)
                 clip.x = Math.max(0, clip.x)
-                if (!timeline.allowMoveClip(fromTrack, toTrack, clipIndex, frame, false)) {
+                if (!timeline.allowMoveClip(fromTrack, toTrack, cIndex, frame, false)) {
                     // Abort move
                     clip.x = clip.draggedX
                 }

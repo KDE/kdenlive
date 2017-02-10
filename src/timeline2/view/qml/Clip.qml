@@ -41,7 +41,7 @@ Rectangle {
     property int fadeOut: 0
     property int trackIndex
     property int originalTrackIndex: trackIndex
-    property int originalClipIndex: index
+    property int originalClipIndex
     property int originalX: x
     property int draggedX: x
     property bool selected: false
@@ -59,7 +59,7 @@ Rectangle {
     signal trimmedOut(var clip)
 
     onModelStartChanged: {
-        console.log("MODEL START CHANGED !!!!!!", modelStart, clip, x);
+        console.log("MODEL START CHANGED !!!!!!", modelStart, originalClipIndex, x);
         x = modelStart * timeScale;
     }
     SystemPalette { id: activePalette }
@@ -253,7 +253,6 @@ Rectangle {
             root.stopScrolling = true
             originalX = parent.x
             originalTrackIndex = trackIndex
-            originalClipIndex = index
             startX = parent.x
             clipRoot.forceActiveFocus();
             clipRoot.clicked(clipRoot)
