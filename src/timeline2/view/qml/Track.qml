@@ -26,7 +26,6 @@ Column{
     property alias rootIndex: trackModel.rootIndex
     property bool isAudio
     property real timeScale: 1.0
-    property bool placeHolderAdded: false
     property bool isCurrentTrack: false
     property bool isLocked: false
     property var selection
@@ -97,16 +96,6 @@ Column{
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
 
-                // Remove the placeholder inserted in onDraggedToTrack
-                if (placeHolderAdded) {
-                    placeHolderAdded = false
-                    if (fromTrack === toTrack)
-                        // XXX This is causing timeline to become undefined making function
-                        // call below to fail. This basically results in rejected operation
-                        // to the user, but at least it prevents the timeline from becoming
-                        // corrupt and out-of-sync with the model.
-                        trackModel.items.resolve(cIndex, cIndex + 1)
-                }
                 console.log("Asking move ",toTrack, cIndex, frame)
                 var val = timeline.moveClip(fromTrack, toTrack, cIndex, frame, true)
                 console.log("RESULT", val)
@@ -186,27 +175,6 @@ Column{
                 bubbleHelp.hide()
                 timeline.commitTrimCommand()
             }
-            onDraggedToTrack: {
-                if (!placeHolderAdded) {
-                    placeHolderAdded = true
-                    trackModel.items.insert(clip.DelegateModel.itemsIndex, {
-                        'name': '',
-                        'resource': '',
-                        'duration': clip.clipDuration,
-                        'mlt_service': '<producer',
-                        'in': 0,
-                        'out': clip.clipDuration - 1,
-                        'blank': true,
-                        'audio': false,
-                        'isTransition': false,
-                        'fadeIn': 0,
-                        'fadeOut': 0,
-                        //'hash': '',
-                        'speed': 1.0
-                    })
-                }
-            }
-            onDropped: placeHolderAdded = false
 
             Component.onCompleted: {
                 moved.connect(trackRoot.clipDropped)
