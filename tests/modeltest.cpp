@@ -120,6 +120,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         int pos = 10;
         //real insert
+        REQUIRE(timeline->allowClipMove(cid1, tid1, pos));
         REQUIRE(timeline->requestClipMove(cid1, tid1, pos));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -130,6 +131,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         pos = 1;
         //real
+        REQUIRE(timeline->allowClipMove(cid1, tid2, pos));
         REQUIRE(timeline->requestClipMove(cid1, tid2, pos));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -141,6 +143,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         // Check conflicts
         int pos2 = producer->get_playtime();
+        REQUIRE(timeline->allowClipMove(cid2, tid1, pos2));
         REQUIRE(timeline->requestClipMove(cid2, tid1, pos2));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -149,6 +152,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
 
+        REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, pos2 + 2));
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 + 2));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -159,6 +163,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
 
+        REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, pos2 - 2));
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 - 2));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -169,6 +174,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
 
+        REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -182,6 +188,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
     int length = producer->get_playtime();
     SECTION("Insert consecutive clips") {
+        REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -189,6 +196,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 0);
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
 
+        REQUIRE(timeline->allowClipMove(cid2, tid1, length));
         REQUIRE(timeline->requestClipMove(cid2, tid1, length));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -217,6 +225,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     }
 
     SECTION("Resize inserted clips"){
+        REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -227,6 +236,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->m_allClips[cid1]->getPlaytime() == 5);
         REQUIRE(timeline->getClipPosition(cid1) == 0);
 
+        REQUIRE(timeline->allowClipMove(cid2, tid1, 5));
         REQUIRE(timeline->requestClipMove(cid2, tid1, 5));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -249,11 +259,13 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     }
 
     SECTION("Change track of resized clips"){
+        REQUIRE(timeline->allowClipMove(cid2, tid1, 5));
         REQUIRE(timeline->requestClipMove(cid2, tid1, 5));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
 
+        REQUIRE(timeline->allowClipMove(cid1, tid2, 10));
         REQUIRE(timeline->requestClipMove(cid1, tid2, 10));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -263,6 +275,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
 
+        REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -271,6 +284,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     }
 
     SECTION("Clip Move"){
+        REQUIRE(timeline->allowClipMove(cid2, tid1, 5));
         REQUIRE(timeline->requestClipMove(cid2, tid1, 5));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -278,6 +292,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == 5);
 
+        REQUIRE(timeline->allowClipMove(cid1, tid1, 5 + length));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5 + length));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -287,6 +302,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 5 + length);
         REQUIRE(timeline->getClipPosition(cid2) == 5);
 
+        REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, 3 + length));
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, 3 + length));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -296,6 +312,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 5 + length);
         REQUIRE(timeline->getClipPosition(cid2) == 5);
 
+        REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -305,6 +322,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 5 + length);
         REQUIRE(timeline->getClipPosition(cid2) == 5);
 
+        REQUIRE(timeline->allowClipMove(cid2, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid2, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -314,6 +332,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 5 + length);
         REQUIRE(timeline->getClipPosition(cid2) == 0);
 
+        REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -323,6 +342,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 5 + length);
         REQUIRE(timeline->getClipPosition(cid2) == 0);
 
+        REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, length - 5));
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, length - 5));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -332,6 +352,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 5 + length);
         REQUIRE(timeline->getClipPosition(cid2) == 0);
 
+        REQUIRE(timeline->allowClipMove(cid1, tid1, length));
         REQUIRE(timeline->requestClipMove(cid1, tid1, length));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
@@ -347,6 +368,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == length);
         REQUIRE(timeline->getClipPosition(cid2) == 0);
 
+        REQUIRE(timeline->allowClipMove(cid1, tid1, length - 5));
         REQUIRE(timeline->requestClipMove(cid1, tid1, length - 5));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -363,6 +385,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == length - 5);
         REQUIRE(timeline->getClipPosition(cid2) == 5);
 
+        REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
@@ -370,6 +393,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == length - 5);
         REQUIRE(timeline->getClipPosition(cid2) == 5);
 
+        REQUIRE(timeline->allowClipMove(cid2, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid2, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
@@ -565,6 +589,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     int init_index = undoStack->index();
 
     SECTION("Basic move undo") {
+        REQUIRE(timeline->allowClipMove(cid1, tid1, 5));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
@@ -572,6 +597,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
 
+        REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
@@ -600,6 +626,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
 
+        REQUIRE(timeline->allowClipMove(cid1, tid1, 2*length));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 2*length));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
@@ -670,6 +697,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
             REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == l);
             REQUIRE(timeline->getClipPosition(cid2) == pos);
         };
+        REQUIRE(timeline->allowClipMove(cid2, tid1, 5));
         REQUIRE(timeline->requestClipMove(cid2, tid1, 5));
         INFO("Test 1");
         check(5, length);
