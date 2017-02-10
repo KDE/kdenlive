@@ -79,6 +79,7 @@ Fun TrackModel::requestClipInsertion_lambda(std::shared_ptr<ClipModel> clip, int
     //we create the function that has to be executed after the melt order. This is essentially book-keeping
     auto end_function = [clip, this, position]() {
         m_allClips[clip->getId()] = clip;  //store clip
+        qDebug() << "INSERTED CLIP "<<m_allClips[clip->getId()]->getPosition();
         //update insertion order of the clip
         m_insertionOrder[clip->getId()] = m_currentInsertionOrder;
         m_clipsByInsertionOrder[m_currentInsertionOrder] = clip->getId();
@@ -316,8 +317,11 @@ bool TrackModel::allowClipMove(int cid, int position, int length)
     // Check position is blank or is in cid
     int ix = m_playlist.get_clip_index_at(position);
     int blankEnd = 0;
-    int clip_position = m_allClips[cid]->getPosition();
-    int target_clip = m_playlist.get_clip_index_at(clip_position);
+    int target_clip = -1;
+    if (m_allClips.count(cid) > 0) { //check if the clip is in the track
+        int clip_position = m_allClips[cid]->getPosition();
+        target_clip = m_playlist.get_clip_index_at(clip_position);
+    }
     while (blankEnd < position + length && ix < m_playlist.count()) {
         if (m_playlist.is_blank(ix) || target_clip == ix) {
             blankEnd = m_playlist.clip_start(++ix) - 1;
