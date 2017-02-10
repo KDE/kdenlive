@@ -324,16 +324,15 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
     std::function<bool (void)> local_redo = [](){return true;};
     bool ok = true;
     int old_tid = m_allClips[cid]->getCurrentTrackId();
+    int old_clip_index = -1;
     if (old_tid != -1) {
-        int old_clip_index = getTrackById(old_tid)->getRowfromClip(cid);
-        beginRemoveRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
+        old_clip_index = getTrackById(old_tid)->getRowfromClip(cid);
         ok = getTrackById(old_tid)->requestClipDeletion(cid, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
-        endRemoveRows();
     }
     ok = getTrackById(tid)->requestClipInsertion(m_allClips[cid], position, local_undo, local_redo);
     if (!ok) {
@@ -342,29 +341,46 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
         return false;
     }
     int new_clip_index = getTrackById(tid)->getRowfromClip(cid);
-    beginInsertRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
-    endInsertRows();
-    auto operation = [cid, tid, this]() {
+    auto operation = [cid, tid, old_tid, old_clip_index, new_clip_index, this]() {
         m_allClips[cid]->setCurrentTrackId(tid);
-        QModelIndex modelIndex = makeClipIndexFromID(cid);
-        emit dataChanged(modelIndex, modelIndex, {StartRole});
+        if (tid == old_tid) {
+            QModelIndex modelIndex = makeClipIndexFromID(cid);
+            emit dataChanged(modelIndex, modelIndex, {StartRole});
+        } else {
+            if (old_tid != -1){
+                qDebug() << "Removed row "<<old_clip_index;
+                beginRemoveRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
+                endRemoveRows();
+            }
+            beginInsertRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
+            endInsertRows();
+        }
         return true;
     };
     auto reverse = [cid, old_tid, this]() {
         m_allClips[cid]->setCurrentTrackId(old_tid);
         return true;
     };
+    //push the operation and its reverse in the undo/redo
     UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-    if (old_tid != -1) {
-        local_undo = [local_undo, old_tid, cid, this]() {
-            bool v = local_undo();
-            //qDebug()<<"DATA CHANGED SIGNAL";
+    //We have to expend the local undo with the data modification signals. They have to be sent after the real operations occured in the model so that the GUI can query the correct new values
+    local_undo = [local_undo, tid, old_tid, cid, old_clip_index, new_clip_index, this]() {
+        bool v = local_undo();
+        //qDebug()<<"DATA CHANGED SIGNAL";
+        if (tid == old_tid) {
             QModelIndex modelIndex = makeClipIndexFromID(cid);
             emit dataChanged(modelIndex, modelIndex, {StartRole});
-            //qDebug()<<"Moved back"<<cid<<"to position"<<m_allClips[cid]->getPosition();
-            return v;
-        };
-    }
+        } else {
+            beginRemoveRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
+            endRemoveRows();
+            if (old_tid != -1) {
+                beginInsertRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
+                endInsertRows();
+            }
+        }
+        //qDebug()<<"Moved back"<<cid<<"to position"<<m_allClips[cid]->getPosition();
+        return v;
+    };
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return operation();
 }
@@ -382,10 +398,10 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool logUndo
         int delta_pos = position - m_allClips[cid]->getPosition();
         return requestGroupMove(gid, delta_track, delta_pos);
     }
+    qDebug()<<"clip move in model"<<cid<<tid<<position;
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
     bool res = requestClipMove(cid, tid, position, undo, redo);
-    //qDebug()<<"clip move in model"<<cid<<tid<<position<<res;
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }

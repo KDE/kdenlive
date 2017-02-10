@@ -30,7 +30,6 @@
 TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent) :
     m_parent(parent)
     , m_id(TimelineModel::getNextId())
-    , m_currentInsertionOrder(0)
 {
 }
 
@@ -63,7 +62,6 @@ int TrackModel::getClipsCount()
         }
     }
     Q_ASSERT(count == static_cast<int>(m_allClips.size()));
-    Q_ASSERT(count == static_cast<int>(m_clipsByInsertionOrder.size()));
     return count;
 }
 
@@ -80,10 +78,6 @@ Fun TrackModel::requestClipInsertion_lambda(std::shared_ptr<ClipModel> clip, int
     auto end_function = [clip, this, position]() {
         m_allClips[clip->getId()] = clip;  //store clip
         qDebug() << "INSERTED CLIP "<<m_allClips[clip->getId()]->getPosition();
-        //update insertion order of the clip
-        m_insertionOrder[clip->getId()] = m_currentInsertionOrder;
-        m_clipsByInsertionOrder[m_currentInsertionOrder] = clip->getId();
-        m_currentInsertionOrder++;
         //update clip position
         clip->setPosition(position);
         return true;
@@ -138,8 +132,6 @@ Fun TrackModel::requestClipDeletion_lambda(int cid)
         if (prod != nullptr) {
             m_playlist.consolidate_blanks();
             m_allClips.erase(cid);
-            m_clipsByInsertionOrder.erase(m_insertionOrder[cid]);
-            m_insertionOrder.erase(cid);
             delete prod;
             return true;
         }
@@ -245,18 +237,15 @@ int TrackModel::getClipByRow(int row) const
     if (row >= static_cast<int>(m_allClips.size())) {
         return -1;
     }
-    auto it = m_clipsByInsertionOrder.cbegin();
+    auto it = m_allClips.cbegin();
     std::advance(it, row);
-    return (*it).second;
+    return (*it).first;
 }
 
 int TrackModel::getRowfromClip(int cid) const
 {
     Q_ASSERT(m_allClips.count(cid) > 0);
-    int order = m_insertionOrder.at(cid);
-    auto it = m_clipsByInsertionOrder.find(order);
-    Q_ASSERT(it != m_clipsByInsertionOrder.end());
-    return (int)std::distance(m_clipsByInsertionOrder.begin(), it);
+    return (int)std::distance(m_allClips.begin(), m_allClips.find(cid));
 }
 
 QVariant TrackModel::getProperty(const QString &name)

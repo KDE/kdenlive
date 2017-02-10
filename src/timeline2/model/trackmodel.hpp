@@ -129,12 +129,8 @@ private:
     int m_currentInsertionOrder;
 
 
-    std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips;
+    std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
+                                                            ordered structure to store the clips, since we use their ids order as row order*/
 
-    std::map<int, int> m_clipsByInsertionOrder; //This map stores the order in which the clips were inserted. This implicitly gives the model Row of each clip since they remain sorted even after deletion. Note that it is important to keep an ordered data structure such has std::map (QMap is NOT ordered).
-    // Keys are insertion order and values are clip IDs.
-
-    std::unordered_map<int, int> m_insertionOrder; //This is a reverse map of m_clipsByInsertionOrder. Note that order is not important thus we can use an unordered_map.
-    // Keys are clip Ids, value are insertion order
 
 };

@@ -106,22 +106,10 @@ Column{
                         // to the user, but at least it prevents the timeline from becoming
                         // corrupt and out-of-sync with the model.
                         trackModel.items.resolve(cIndex, cIndex + 1)
-                    else
-                        trackModel.items.remove(cIndex, 1)
                 }
                 console.log("Asking move ",toTrack, cIndex, frame)
                 var val = timeline.moveClip(fromTrack, toTrack, cIndex, frame, true)
                 console.log("RESULT", val)
-                /*
-                if (!timeline.moveClip(fromTrack, toTrack, cIndex, frame, false))
-                    clip.x = clip.originalX
-                else {
-                    //TODO This hacky, find a better way...
-                    //var oldFrame = Math.round(clip.originalX / .timeScale)
-                   // timeline.moveClip(fromTrack, toTrack, cIndex, oldFrame, false)
-                    timeline.moveClip(fromTrack, toTrack, cIndex, frame, true)
-                }
-                */
             }
             onDragged: {
                 var fromTrack = clip.originalTrackId
