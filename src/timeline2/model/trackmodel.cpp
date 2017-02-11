@@ -313,8 +313,7 @@ bool TrackModel::allowClipMove(int cid, int position, int length)
     }
     while (blankEnd < position + length && ix < m_playlist.count()) {
         if (m_playlist.is_blank(ix) || target_clip == ix) {
-            blankEnd += m_playlist.clip_length(ix);
-            ix++;
+            blankEnd = m_playlist.clip_start(++ix) - 1;
         } else break;
     }
     // Return true if we are at playlist end or if there is enough space for the move
