@@ -60,7 +60,7 @@ std::shared_ptr<TimelineModel> TimelineModel::construct(std::weak_ptr<DocUndoSta
         // Testing: add a clip on first track
         Mlt::Profile profile;
         std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(profile,"color", "red"));
-        prod->set("length", 25);
+        prod->set("length", 200);
         prod->set("out", 24);
         int ix = TrackModel::construct(ptr);
         int ix2 = TrackModel::construct(ptr);
@@ -445,13 +445,25 @@ bool TimelineModel::requestGroupMove(int gid, int delta_track, int delta_pos, bo
     return true;
 }
 
+bool TimelineModel::trimClip(int cid, int delta, bool right, bool ripple)
+{
+    return requestClipResize(cid, m_allClips[cid]->getPlaytime() - delta, right);
+}
+
+
 bool TimelineModel::requestClipResize(int cid, int size, bool right)
 {
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
     bool result = m_allClips[cid]->requestResize(size, right, undo, redo);
-    // qDebug()<<"clip resize in model"<<cid<<size<<right<<result;
+    //qDebug()<<"clip resize in model"<<cid<<size<<right<<result;
     if (result) {
+        QModelIndex modelIndex = makeClipIndexFromID(cid);
+        if (right) {
+            emit dataChanged(modelIndex, modelIndex, {DurationRole});
+        } else {
+            emit dataChanged(modelIndex, modelIndex, {StartRole,DurationRole});
+        }
         PUSH_UNDO(undo, redo, i18n("Resize clip"));
     }
     return result;

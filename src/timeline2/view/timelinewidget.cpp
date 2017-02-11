@@ -144,6 +144,12 @@ bool TimelineWidget::allowMoveClip(int toTrack, int clipIndex, int position)
     return m_model->allowClipMove(clipIndex, toTrack, position);
 }
 
+bool TimelineWidget::trimClip(int clipIndex, int delta, bool right)
+{
+    return m_model->trimClip(clipIndex, delta, right);
+}
+
+
 QString TimelineWidget::timecode(int frames)
 {
     return m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
