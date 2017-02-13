@@ -34,6 +34,7 @@ class TrackModel;
 class ClipModel;
 class GroupsModel;
 class DocUndoStack;
+class BinController;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications.
@@ -65,12 +66,12 @@ public:
     /* @brief construct a timeline object and returns a pointer to the created object
        @param undo_stack is a weak pointer to the undo stack of the project
      */
-    static std::shared_ptr<TimelineModel> construct(std::weak_ptr<DocUndoStack> undo_stack, bool populate = false);
+    static std::shared_ptr<TimelineModel> construct(BinController *binController, std::weak_ptr<DocUndoStack> undo_stack, bool populate = false);
 
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineModel(BinController *binController, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     friend class TrackModel;
@@ -155,6 +156,7 @@ public:
     bool requestClipMove(int cid, int tid, int position, bool logUndo = true);
     
     bool trimClip(int cid, int delta, bool right, bool ripple = false);
+    void insertClip(std::shared_ptr<TimelineModel> tl, int track, int position, QString data);
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipMove(int cid, int tid, int position, Fun &undo, Fun &redo);
@@ -261,7 +263,9 @@ private:
     std::unordered_set<int> m_allGroups; //ids of all the groups
 
     std::weak_ptr<DocUndoStack> m_undoStack;
+    
+    BinController *m_binController;
 
 };
-
 #endif
+

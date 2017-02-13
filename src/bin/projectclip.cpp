@@ -272,6 +272,12 @@ GenTime ProjectClip::duration() const
     return GenTime();
 }
 
+int ProjectClip::frameDuration() const
+{
+    GenTime d = duration();
+    return d.frames(m_controller->profile()->fps());
+}
+
 void ProjectClip::reloadProducer(bool refreshOnly)
 {
     QDomDocument doc;

@@ -106,6 +106,7 @@ public:
 
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
+    int frameDuration() const;
 
     /** @brief Returns the original clip's fps. */
     double getOriginalFps() const;

@@ -27,9 +27,9 @@
 #include <QQuickItem>
 #include <QQmlContext>
 
-TimelineWidget::TimelineWidget(std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
+TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
-    , m_model(TimelineModel::construct(undoStack, true))
+    , m_model(TimelineModel::construct(binController, undoStack, true))
     , m_position(0)
 {
     registerTimelineItems();
@@ -147,6 +147,11 @@ bool TimelineWidget::allowMoveClip(int toTrack, int clipIndex, int position)
 bool TimelineWidget::trimClip(int clipIndex, int delta, bool right)
 {
     return m_model->trimClip(clipIndex, delta, right);
+}
+
+void TimelineWidget::insertClip(int track, int position, QString data)
+{
+    m_model->insertClip(m_model, track, position, data);
 }
 
 

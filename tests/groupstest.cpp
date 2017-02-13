@@ -14,7 +14,7 @@
 TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
     GroupsModel groups(timeline);
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
@@ -191,7 +191,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
     GroupsModel groups(timeline);
 
     std::function<bool (void)> undo = [](){return true;};
@@ -318,7 +318,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
     GroupsModel groups(timeline);
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
@@ -372,7 +372,7 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 TEST_CASE("Undo/redo", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
 

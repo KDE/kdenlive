@@ -262,6 +262,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     // Folder ids are represented like:  #2 (where 2 is the folder's id)
     QMimeData *mimeData = new QMimeData();
     QStringList list;
+    int duration = 0;
     for (int i = 0; i < indices.count(); i++) {
         QModelIndex ix = indices.at(i);
         if (!ix.isValid() || ix.column() != 0) {
@@ -271,6 +272,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {
             list << item->clipId();
+            duration += ((ProjectClip *)(item))->frameDuration();
         } else if (type == AbstractProjectItem::SubClipItem) {
             QPoint p = item->zone();
             list << item->clipId() + "/" + QString::number(p.x()) + "/" + QString::number(p.y());
@@ -282,6 +284,8 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         QByteArray data;
         data.append(list.join(QLatin1Char(';')).toUtf8());
         mimeData->setData(QStringLiteral("kdenlive/producerslist"),  data);
+        qDebug()<<"/// CLI DURATION: "<<duration;
+        mimeData->setText(QString::number(duration));
     }
     return mimeData;
 }

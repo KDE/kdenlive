@@ -26,6 +26,7 @@
 #include "groupsmodel.hpp"
 
 #include "doc/docundostack.hpp"
+#include "mltcontroller/bincontroller.h"
 
 #include <klocalizedstring.h>
 #include <QDebug>
@@ -43,18 +44,19 @@ int TimelineModel::next_id = 0;
     }
 
 
-TimelineModel::TimelineModel(std::weak_ptr<DocUndoStack> undo_stack) :
+TimelineModel::TimelineModel(BinController *binController, std::weak_ptr<DocUndoStack> undo_stack) :
     QAbstractItemModel(),
     m_tractor(new Mlt::Tractor()),
-    m_undoStack(undo_stack)
+    m_undoStack(undo_stack),
+    m_binController(binController)
 {
     Mlt::Profile profile;
     m_tractor->set_profile(profile);
 }
 
-std::shared_ptr<TimelineModel> TimelineModel::construct(std::weak_ptr<DocUndoStack> undo_stack, bool populate)
+std::shared_ptr<TimelineModel> TimelineModel::construct(BinController *binController, std::weak_ptr<DocUndoStack> undo_stack, bool populate)
 {
-    std::shared_ptr<TimelineModel> ptr(new TimelineModel(undo_stack));
+    std::shared_ptr<TimelineModel> ptr(new TimelineModel(binController, undo_stack));
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
     if (populate) {
         // Testing: add a clip on first track
@@ -584,4 +586,11 @@ bool TimelineModel::isTrack(int id) const
 int TimelineModel::duration() const
 {
     return m_tractor->get_playtime();
+}
+
+void TimelineModel::insertClip(std::shared_ptr<TimelineModel> tl, int track, int position, QString data)
+{
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(m_binController->getBinProducer(data)));
+    int clipId = ClipModel::construct(tl, prod);
+    requestClipMove(clipId, track, position, true);   
 }

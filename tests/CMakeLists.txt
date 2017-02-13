@@ -21,16 +21,17 @@ SET(Tests_SRCS
     ../src/timeline2/model/undohelper.cpp
 )
 
-INCLUDE_DIRECTORIES(../src/)
 include_directories(
     ${CMAKE_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/src
     ${MLT_INCLUDE_DIR}
     ${MLTPP_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    ../src
     )
 ADD_EXECUTABLE(runTests ${Tests_SRCS})
-target_link_libraries(runTests Qt5::Core Qt5::Widgets)
+target_link_libraries(runTests Qt5::Core Qt5::Widgets Qt5::Xml)
 target_link_libraries(runTests
     ${MLT_LIBRARIES}
     ${MLTPP_LIBRARIES}

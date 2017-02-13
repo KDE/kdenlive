@@ -19,6 +19,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#ifndef CLIPMODEL_H
+#define CLIPMODEL_H
+
 #include <memory>
 #include <QObject>
 #include "undohelper.hpp"
@@ -121,3 +124,5 @@ private:
     std::shared_ptr<Mlt::Producer> m_producer;
 
 };
+
+#endif

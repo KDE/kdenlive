@@ -19,6 +19,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#ifndef GROUPMODEL_H
+#define GROUPMODEL_H
+
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
@@ -122,3 +125,5 @@ private:
     std::unordered_set<int> m_groupIds; //this keeps track of "real" groups (non-leaf elements)
 
 };
+
+#endif

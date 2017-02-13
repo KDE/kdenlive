@@ -18,7 +18,7 @@ std::default_random_engine g(42);
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
 
     int id1 = TrackModel::construct(timeline);
     REQUIRE(timeline->getTracksCount() == 1);
@@ -45,7 +45,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -79,7 +79,7 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 TEST_CASE("Clip manipulation", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -525,7 +525,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 TEST_CASE("Check id unicity", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -565,7 +565,7 @@ TEST_CASE("Check id unicity", "[ClipModel]")
 TEST_CASE("Undo and Redo", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;

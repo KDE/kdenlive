@@ -8,4 +8,3 @@ set(kdenlive_SRCS
   timeline2/view/timelinewidget.cpp
   timeline2/view/qml/timelineitems.cpp
   PARENT_SCOPE)
-

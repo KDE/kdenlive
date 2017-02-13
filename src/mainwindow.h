@@ -36,6 +36,7 @@
 #include <KSelectAction>
 #include <KColorSchemeManager>
 
+#include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
 #include "effectslist/effectslist.h"
 #include "gentime.h"

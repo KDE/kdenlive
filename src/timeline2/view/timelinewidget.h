@@ -22,9 +22,9 @@
 #ifndef TIMELINEWIDGET_H
 #define TIMELINEWIDGET_H
 
-#include "../model/timelinemodel.hpp"
+#include "mltcontroller/bincontroller.h"
+#include "timeline2/model/timelinemodel.hpp"
 #include <QQuickWidget>
-
 
 class TimelineWidget : public QQuickWidget
 {
@@ -38,7 +38,7 @@ class TimelineWidget : public QQuickWidget
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
 
 public:
-    TimelineWidget(std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
+    TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
     void setSelection(QList<int> selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
     QList<int> selection() const;
     Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }
@@ -48,13 +48,14 @@ public:
     Q_INVOKABLE bool moveClip(int toTrack, int clipIndex, int position, bool logUndo = true);
     Q_INVOKABLE bool allowMoveClip(int toTrack, int clipIndex, int position);
     Q_INVOKABLE bool trimClip(int clipIndex, int delta, bool right);
-    int duration() const;
-    int position() const { return m_position; }
-    void setPosition(int);
-    bool snap();
-    bool ripple();
-    bool scrub();
+    Q_INVOKABLE int duration() const;
+    Q_INVOKABLE int position() const { return m_position; }
+    Q_INVOKABLE void setPosition(int);
+    Q_INVOKABLE bool snap();
+    Q_INVOKABLE bool ripple();
+    Q_INVOKABLE bool scrub();
     Q_INVOKABLE QString timecode(int frames);
+    Q_INVOKABLE void insertClip(int track, int position, QString xml);
 
 public slots:
     void selectMultitrack();

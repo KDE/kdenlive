@@ -92,7 +92,6 @@ kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 add_subdirectory(doc)
 add_subdirectory(project)
 add_subdirectory(timeline)
-add_subdirectory(timeline2)
 add_subdirectory(effectstack)
 add_subdirectory(dialogs)
 add_subdirectory(effectslist)
@@ -101,6 +100,7 @@ add_subdirectory(capture)
 add_subdirectory(dvdwizard)
 add_subdirectory(lib)
 add_subdirectory(monitor)
+add_subdirectory(timeline2)
 add_subdirectory(onmonitoritems)
 add_subdirectory(simplekeyframes)
 add_subdirectory(stopmotion)
@@ -252,7 +252,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
     )
-
 
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
 # to the components requested in find_package().

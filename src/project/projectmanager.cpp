@@ -106,7 +106,7 @@ void ProjectManager::slotLoadOnOpen()
         pCore->bin()->droppedUrls(urls);
     }
     m_loadClipsOnOpen.clear();
-    TimelineWidget *timelineWidget = new TimelineWidget(m_project->commandStack(), pCore->window());
+    TimelineWidget *timelineWidget = new TimelineWidget(pCore->binController(), m_project->commandStack(), pCore->window());
     pCore->addTimeline(timelineWidget, m_project->url().fileName());
 }
 

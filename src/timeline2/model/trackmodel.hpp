@@ -19,6 +19,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#ifndef TRACKMODEL_H
+#define TRACKMODEL_H
+
 #include <memory>
 #include <QSharedPointer>
 #include <unordered_map>
@@ -134,3 +137,5 @@ private:
 
 
 };
+
+#endif

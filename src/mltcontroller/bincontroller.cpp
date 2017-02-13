@@ -20,6 +20,7 @@
 #include "bincontroller.h"
 #include "clipcontroller.h"
 #include "kdenlivesettings.h"
+#include "kdenlive_debug.h"
 
 static const char *kPlaylistTrackId = "main bin";
 

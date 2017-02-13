@@ -17,7 +17,7 @@
  */
 
 function scrollIfNeeded() {
-    var x = timeline.position * multitrack.scaleFactor;
+    var x = timeline.position * timeline.scaleFactor;
     if (!scrollView) return;
     if (x > scrollView.flickableItem.contentX + scrollView.width - 50)
         scrollView.flickableItem.contentX = x - scrollView.width + 50;
@@ -28,10 +28,11 @@ function scrollIfNeeded() {
 }
 
 function dragging(pos, duration) {
+    console.log("clip duration:", duration)
     if (tracksRepeater.count > 0) {
-        var headerHeight = ruler.height + toolbar.height
+        var headerHeight = ruler.height
         dropTarget.x = pos.x
-        dropTarget.width = duration * multitrack.scaleFactor
+        dropTarget.width = duration * timeline.scaleFactor
 
         for (var i = 0; i < tracksRepeater.count; i++) {
             var trackY = tracksRepeater.itemAt(i).y + headerHeight - scrollView.flickableItem.contentY
@@ -71,11 +72,11 @@ function dragging(pos, duration) {
             scrollTimer.stop()
         }
 
-        if (toolbar.scrub) {
+        if (timeline.scrub) {
             timeline.position = Math.round(
-                (pos.x + scrollView.flickableItem.contentX - headerWidth) / multitrack.scaleFactor)
+                (pos.x + scrollView.flickableItem.contentX - headerWidth) / timeline.scaleFactor)
         }
-        if (toolbar.snap) {
+        if (timeline.snap) {
             for (i = 0; i < tracksRepeater.count; i++)
                 tracksRepeater.itemAt(i).snapDrop(pos)
         }
@@ -88,11 +89,12 @@ function dropped() {
 }
 
 function acceptDrop(xml) {
-    var position = Math.round((dropTarget.x + scrollView.flickableItem.contentX - headerWidth) / multitrack.scaleFactor)
-    if (toolbar.ripple)
+    var position = Math.round((dropTarget.x + scrollView.flickableItem.contentX - headerWidth) / timeline.scaleFactor)
+    timeline.insertClip(currentTrack, position, xml)
+    /*if (timeline.ripple)
         timeline.insert(currentTrack, position, xml)
     else
-        timeline.overwrite(currentTrack, position, xml)
+        timeline.overwrite(currentTrack, position, xml)*/
 }
 
 function trackHeight(isAudio) {

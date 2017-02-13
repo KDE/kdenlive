@@ -17,7 +17,7 @@ TEST_CASE("Regression") {
     auto repo = Mlt::Factory::init( NULL );
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
     TimelineModel::next_id = 0;
     undoStack->undo();
     undoStack->redo();
