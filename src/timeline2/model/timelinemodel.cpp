@@ -460,11 +460,13 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right)
     bool result = m_allClips[cid]->requestResize(size, right, undo, redo);
     //qDebug()<<"clip resize in model"<<cid<<size<<right<<result;
     if (result) {
-        QModelIndex modelIndex = makeClipIndexFromID(cid);
-        if (right) {
-            emit dataChanged(modelIndex, modelIndex, {DurationRole});
-        } else {
-            emit dataChanged(modelIndex, modelIndex, {StartRole,DurationRole});
+        if (getClipTrackId(cid) != -1) {
+            QModelIndex modelIndex = makeClipIndexFromID(cid);
+            if (right) {
+                emit dataChanged(modelIndex, modelIndex, {DurationRole});
+            } else {
+                emit dataChanged(modelIndex, modelIndex, {StartRole,DurationRole});
+            }
         }
         PUSH_UNDO(undo, redo, i18n("Resize clip"));
     }
