@@ -40,7 +40,13 @@ using Fun = std::function<bool (void)>;
         return operation() && v;                          \
     };
 
-
+/* @brief this macro executes an operation after a given lambda
+ */
+#define PUSH_LAMBDA(operation, lambda)                    \
+    lambda = [lambda, operation]() {                      \
+        bool v = lambda();                                \
+        return operation() && v;                          \
+    };
 
 #include <QUndoCommand>
 

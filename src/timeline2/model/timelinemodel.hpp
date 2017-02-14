@@ -150,7 +150,7 @@ public:
        @param cid is the ID of the clip
        @param tid is the ID of the target track
        @param position is the position where we want to move
-       @param test_only if set to false, the undo is not created and no signal is sent to qml
+       @param test_only if set to true, the undo is not created and no signal is sent to qml
     */
     bool requestClipMove(int cid, int tid, int position, bool test_only = false);
 protected:
@@ -158,7 +158,6 @@ protected:
     bool requestClipMove(int cid, int tid, int position, bool test_only, Fun &undo, Fun &redo);
 public:
 
-    bool trimClip(int cid, int delta, bool right, bool ripple = false);
 
     /* @brief Request clip insertion at given position.
        This action is undoable
@@ -184,8 +183,19 @@ public:
        @param cid is the ID of the clip
        @param size is the new size of the clip
        @param right is true if we change the right side of the clip, false otherwise
+       @param test_only if set to true, the undo is not created and no signal is sent to qml
     */
-    bool requestClipResize(int cid, int size, bool right);
+    bool requestClipResize(int cid, int size, bool right, bool test_only = false);
+
+    /* @brief Similar to requestClipResize but takes a delta instead of absolute size
+       Returns true on success. If it fails, nothing is modified.
+       @param cid is the ID of the clip
+       @param delta is the delta to be applied to the length of the clip
+       @param right is true if we change the right side of the clip, false otherwise
+       @param ripple TODO document this
+       @param test_only if set to true, the undo is not created and no signal is sent to qml
+     */
+    bool requestClipTrim(int cid, int delta, bool right, bool ripple = false, bool test_only = false);
 
     /* @brief Group together a set of ids
        Returns true on success. If it fails, nothing is modified.

@@ -390,12 +390,12 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool test_on
         int gid = m_groups->getRootId(cid);
         int delta_track = tid - m_allClips[cid]->getCurrentTrackId();
         int delta_pos = position - m_allClips[cid]->getPosition();
+        //TODO fix call to send test_only
         return requestGroupMove(gid, delta_track, delta_pos);
     }
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
     bool res = requestClipMove(cid, tid, position, test_only, undo, redo);
-    qDebug()<<"clip move in model"<<cid<<tid<<position<<res<<test_only;
     if (res && !test_only) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
@@ -462,19 +462,13 @@ bool TimelineModel::requestGroupMove(int gid, int delta_track, int delta_pos, bo
     return true;
 }
 
-bool TimelineModel::trimClip(int cid, int delta, bool right, bool ripple)
-{
-    return requestClipResize(cid, m_allClips[cid]->getPlaytime() - delta, right);
-}
 
 
-bool TimelineModel::requestClipResize(int cid, int size, bool right)
+bool TimelineModel::requestClipResize(int cid, int size, bool right, bool test_only)
 {
-    std::function<bool (void)> undo = [](){return true;};
-    std::function<bool (void)> redo = [](){return true;};
-    bool result = m_allClips[cid]->requestResize(size, right, undo, redo);
-    //qDebug()<<"clip resize in model"<<cid<<size<<right<<result;
-    if (result) {
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    Fun update_model = [cid, right, this]() {
         if (getClipTrackId(cid) != -1) {
             QModelIndex modelIndex = makeClipIndexFromID(cid);
             if (right) {
@@ -483,11 +477,24 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right)
                 emit dataChanged(modelIndex, modelIndex, {StartRole,DurationRole});
             }
         }
-        PUSH_UNDO(undo, redo, i18n("Resize clip"));
+        return true;
+    };
+    bool result = m_allClips[cid]->requestResize(size, right, undo, redo);
+    if (result) {
+        PUSH_LAMBDA(update_model, undo);
+        PUSH_LAMBDA(update_model, redo);
+        update_model();
+        if (!test_only) {
+            PUSH_UNDO(undo, redo, i18n("Resize clip"));
+        }
     }
     return result;
 }
 
+bool TimelineModel::requestClipTrim(int cid, int delta, bool right, bool ripple, bool test_only)
+{
+    return requestClipResize(cid, m_allClips[cid]->getPlaytime() - delta, right, test_only);
+}
 
 bool TimelineModel::requestGroupClips(const std::unordered_set<int>& ids)
 {

@@ -145,9 +145,14 @@ bool TimelineWidget::allowMoveClip(int toTrack, int clipIndex, int position)
     return m_model->requestClipMove(clipIndex, toTrack, position, true);
 }
 
-bool TimelineWidget::trimClip(int clipIndex, int delta, bool right)
+bool TimelineWidget::trimClip(int clipIndex, int delta, bool right, bool test_only)
 {
-    return m_model->trimClip(clipIndex, delta, right);
+    return m_model->requestClipTrim(clipIndex, delta, right, false, test_only);
+}
+
+bool TimelineWidget::resizeClip(int clipIndex, int duration, bool right, bool test_only)
+{
+    return m_model->requestClipResize(clipIndex, duration, right, test_only);
 }
 
 void TimelineWidget::insertClip(int track, int position, QString data)

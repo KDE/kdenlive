@@ -44,6 +44,8 @@ Rectangle {
     property int clipId     //Id of the clip in the model
     property int originalTrackId: trackId
     property int originalX: x
+    property int originalDuration: clipDuration
+    property int lastValidDuration: clipDuration
     property int draggedX: x
     property bool selected: false
     property string hash: ''
@@ -54,9 +56,9 @@ Rectangle {
     signal dragged(var clip, var mouse)
     signal dropped(var clip)
     signal draggedToTrack(var clip, int direction)
-    signal trimmingIn(var clip, real delta, var mouse)
+    signal trimmingIn(var clip, real newDuration, var mouse)
     signal trimmedIn(var clip)
-    signal trimmingOut(var clip, real delta, var mouse)
+    signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
 
     onModelStartChanged: {
@@ -483,6 +485,7 @@ Rectangle {
                 root.stopScrolling = true
                 startX = mapToItem(null, x, y).x
                 originalX = 0 // reusing originalX to accumulate delta for bubble help
+                clipRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
             }
             onReleased: {
@@ -495,12 +498,8 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     var newX = mapToItem(null, x, y).x
                     var delta = Math.round((newX - startX) / timeScale)
-                    if (Math.abs(delta) > 0) {
-                        if (clipDuration + originalX + delta > 0)
-                            originalX += delta
-                        clipRoot.trimmingIn(clipRoot, delta, mouse)
-                        startX = newX
-                    }
+                    var newDuration = clipRoot.clipDuration - delta
+                    clipRoot.trimmingIn(clipRoot, newDuration, mouse)
                 }
             }
             onEntered: parent.opacity = 0.5
@@ -526,12 +525,10 @@ Rectangle {
             cursorShape: Qt.SizeHorCursor
             drag.target: parent
             drag.axis: Drag.XAxis
-            property int duration
 
             onPressed: {
                 root.stopScrolling = true
-                duration = clipDuration
-                originalX = 0 // reusing originalX to accumulate delta for bubble help
+                clipRoot.originalDuration = clipDuration
                 parent.anchors.right = undefined
             }
             onReleased: {
@@ -542,13 +539,7 @@ Rectangle {
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var newDuration = Math.round((parent.x + parent.width) / timeScale)
-                    var delta = duration - newDuration
-                    if (Math.abs(delta) > 0) {
-                        if (clipDuration - originalX - delta > 0)
-                            originalX += delta
-                        clipRoot.trimmingOut(clipRoot, delta, mouse)
-                        duration = newDuration
-                    }
+                    clipRoot.trimmingOut(clipRoot, newDuration, mouse)
                 }
             }
             onEntered: parent.opacity = 0.5

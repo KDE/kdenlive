@@ -49,7 +49,8 @@ public:
     Q_INVOKABLE void setScaleFactor(double scale);
     Q_INVOKABLE bool moveClip(int toTrack, int clipIndex, int position, bool test_only = false);
     Q_INVOKABLE bool allowMoveClip(int toTrack, int clipIndex, int position);
-    Q_INVOKABLE bool trimClip(int clipIndex, int delta, bool right);
+    Q_INVOKABLE bool trimClip(int clipIndex, int delta, bool right, bool test_only = false);
+    Q_INVOKABLE bool resizeClip(int clipIndex, int duration, bool right, bool test_only = false);
     Q_INVOKABLE int duration() const;
     Q_INVOKABLE int position() const { return m_position; }
     Q_INVOKABLE void setPosition(int);

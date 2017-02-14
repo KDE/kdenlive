@@ -124,54 +124,42 @@ Column{
                 clip.draggedX = clip.x
             }
             onTrimmingIn: {
-                var originalDelta = delta
-                if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
-                    delta = Logic.snapTrimIn(clip, delta)
-                if (delta != 0) {
-                    if (timeline.trimClip(clip.clipId, delta, false)) {
-                        // Show amount trimmed as a time in a "bubble" help.
-                        var s = timeline.timecode(Math.abs(clip.originalX))
-                        s = '%1%2 = %3'.arg((clip.originalX < 0)? '-' : (clip.originalX > 0)? '+' : '')
-                                       .arg(s.substring(3))
-                                       .arg(timeline.timecode(clipDuration))
-                        bubbleHelp.show(clip.x, trackRoot.y + trackRoot.height, s)
-                    } else {
-                        clip.originalX -= originalDelta
-                    }
+                //if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
+                //    delta = Logic.snapTrimIn(clip, delta)
+                if (timeline.resizeClip(clip.clipId, newDuration, false, true)) {
+                    clip.lastValidDuration = newDuration
+                    // Show amount trimmed as a time in a "bubble" help.
+                    var delta = newDuration - clip.originalDuration
+                    var s = timeline.timecode(Math.abs(delta))
+                    s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
+                        .arg(s.substring(3))
+                        .arg(timeline.timecode(clipDuration))
+                    bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedIn: {
-                multitrack.notifyClipIn(trackRoot.DelegateModel.itemsIndex, clip.DelegateModel.itemsIndex)
-                // Notify out point of clip A changed when trimming to add a transition.
-                if (clip.DelegateModel.itemsIndex > 1 && repeater.itemAt(clip.DelegateModel.itemsIndex - 1).isTransition)
-                    multitrack.notifyClipOut(trackRoot.DelegateModel.itemsIndex, clip.DelegateModel.itemsIndex - 2)
                 bubbleHelp.hide()
-                timeline.commitTrimCommand()
+                timeline.resizeClip(clip.clipId, clip.originalDuration, false, true)
+                timeline.resizeClip(clip.clipId, clip.lastValidDuration, false, false)
             }
             onTrimmingOut: {
-                var originalDelta = delta
-                if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
-                    delta = Logic.snapTrimOut(clip, delta)
-                if (delta != 0) {
-                    if (timeline.trimClip(clip.clipId, delta, true)) {
-                        // Show amount trimmed as a time in a "bubble" help.
-                        var s = timeline.timecode(Math.abs(clip.originalX))
-                        s = '%1%2 = %3'.arg((clip.originalX < 0)? '+' : (clip.originalX > 0)? '-' : '')
-                                       .arg(s.substring(3))
-                                       .arg(timeline.timecode(clipDuration))
-                        bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
-                    } else {
-                        clip.originalX -= originalDelta
-                    }
+               // if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
+               //     delta = Logic.snapTrimOut(clip, delta)
+                if (timeline.resizeClip(clip.clipId, newDuration, true, true)) {
+                    clip.lastValidDuration = newDuration
+                    // Show amount trimmed as a time in a "bubble" help.
+                    var delta = newDuration - clip.originalDuration
+                    var s = timeline.timecode(Math.abs(delta))
+                    s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
+                        .arg(s.substring(3))
+                        .arg(timeline.timecode(clipDuration))
+                    bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedOut: {
-                multitrack.notifyClipOut(trackRoot.DelegateModel.itemsIndex, clip.DelegateModel.itemsIndex)
-                // Notify in point of clip B changed when trimming to add a transition.
-                if (clip.DelegateModel.itemsIndex + 2 < repeater.count && repeater.itemAt(clip.DelegateModel.itemsIndex + 1).isTransition)
-                    multitrack.notifyClipIn(trackRoot.DelegateModel.itemsIndex, clip.DelegateModel.itemsIndex + 2)
                 bubbleHelp.hide()
-                timeline.commitTrimCommand()
+                timeline.resizeClip(clip.clipId, clip.originalDuration, true, true)
+                timeline.resizeClip(clip.clipId, clip.lastValidDuration, true, false)
             }
 
             Component.onCompleted: {
