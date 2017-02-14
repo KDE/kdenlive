@@ -94,9 +94,11 @@ Column{
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
+                var origFrame = Math.round(clip.originalX / timeScale)
 
                 console.log("Asking move ",toTrack, cIndex, frame)
-                var val = timeline.moveClip(toTrack, cIndex, frame, true)
+                timeline.moveClip(clip.originalTrackId, cIndex, origFrame, true)
+                var val = timeline.moveClip(toTrack, cIndex, frame, false)
                 console.log("RESULT", val)
             }
             onDragged: {

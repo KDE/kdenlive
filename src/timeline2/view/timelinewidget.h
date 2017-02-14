@@ -47,7 +47,7 @@ public:
     Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
     Q_INVOKABLE double scaleFactor() const;
     Q_INVOKABLE void setScaleFactor(double scale);
-    Q_INVOKABLE bool moveClip(int toTrack, int clipIndex, int position, bool logUndo = true);
+    Q_INVOKABLE bool moveClip(int toTrack, int clipIndex, int position, bool test_only = false);
     Q_INVOKABLE bool allowMoveClip(int toTrack, int clipIndex, int position);
     Q_INVOKABLE bool trimClip(int clipIndex, int delta, bool right);
     Q_INVOKABLE int duration() const;
