@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
+#include "mlt_config.h"
 #include "mltconnection.h"
 #include "kdenlivesettings.h"
 #include "core.h"
@@ -38,7 +39,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qgetenv("MLT_PREFIX") + "/share/mlt/profiles/";
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = KdenliveSettings::mltpath();
     // build-time definition
-    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = QStringLiteral(MLT_DATADIR) + "/profiles/"; 
+    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty()) profilePath = QStringLiteral(MLT_DATADIR) + "/profiles/"; 
     KdenliveSettings::setMltpath(profilePath);
 
 #ifdef Q_OS_WIN
@@ -77,7 +78,10 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
             }
         }
     }
-
+    if (profilePath.isEmpty()) {
+        profilePath = QDir::cleanPath(meltPath).section('/', 0, -3) + "/share/mlt/profiles/";
+        KdenliveSettings::setMltpath(profilePath);
+    }
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
     QStringList profilesList = QDir(profilePath).entryList(profilesFilter, QDir::Files);
