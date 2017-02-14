@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include <memory>
 #include <random>
+#include <iostream>
 #define private public
 #define protected public
 #include "timeline2/model/trackmodel.hpp"
@@ -18,7 +19,7 @@ std::default_random_engine g(42);
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
     int id1 = TrackModel::construct(timeline);
     REQUIRE(timeline->getTracksCount() == 1);
@@ -45,7 +46,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -79,7 +80,7 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 TEST_CASE("Clip manipulation", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -525,7 +526,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 TEST_CASE("Check id unicity", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -565,7 +566,7 @@ TEST_CASE("Check id unicity", "[ClipModel]")
 TEST_CASE("Undo and Redo", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
     Mlt::Factory::init( NULL );
     Mlt::Profile profile;
@@ -737,5 +738,93 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         INFO("Test 8");
         check(5, length);
         REQUIRE(undoStack->index() == init_index + 1);
+    }
+    SECTION("Clip Insertion Undo") {
+        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(profile, "color", "red");
+        prod->set("length", 20);
+        prod->set("out", 19);
+
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        auto state1 = [&]() {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(undoStack->index() == init_index + 1);
+        };
+        state1();
+
+        int cid3;
+        REQUIRE_FALSE(timeline->requestClipInsert(prod, tid1, 5, cid3));
+        state1();
+
+        REQUIRE_FALSE(timeline->requestClipInsert(prod, tid1, 6, cid3));
+        state1();
+
+        REQUIRE(timeline->requestClipInsert(prod, tid1, 5 + length, cid3));
+        auto state2 = [&]() {
+            std::cout<<"consist"<<std::endl;
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+            REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->m_allClips[cid3]->getCurrentTrackId() == tid1);
+            std::cout<<"pos"<<std::endl;
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPosition(cid3) == 5 + length);
+            REQUIRE(undoStack->index() == init_index + 2);
+        };
+        state2();
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 10 + length));
+        auto state3 = [&]() {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+            REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->m_allClips[cid3]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPosition(cid3) == 10 + length);
+            REQUIRE(undoStack->index() == init_index + 3);
+        };
+        state3();
+
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 10));
+        auto state4 = [&]() {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+            REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->m_allClips[cid3]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 10);
+            REQUIRE(timeline->getClipPosition(cid3) == 10 + length);
+            REQUIRE(undoStack->index() == init_index + 4);
+        };
+        state4();
+
+        undoStack->undo();
+        state3();
+
+        undoStack->undo();
+        state2();
+
+        undoStack->undo();
+        state1();
+
+        std::cout<<"REDOING"<<std::endl;
+        undoStack->redo();
+        state2();
+
+        undoStack->redo();
+        state3();
+
+        undoStack->redo();
+        state4();
+
+        undoStack->undo();
+        state3();
+
+        undoStack->undo();
+        state2();
+
+        undoStack->undo();
+        state1();
     }
 }

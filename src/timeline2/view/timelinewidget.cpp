@@ -29,7 +29,8 @@
 
 TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
-    , m_model(TimelineModel::construct(binController, undoStack, true))
+    , m_binController(binController)
+    , m_model(TimelineModel::construct(undoStack, true))
     , m_position(0)
 {
     registerTimelineItems();
@@ -151,7 +152,9 @@ bool TimelineWidget::trimClip(int clipIndex, int delta, bool right)
 
 void TimelineWidget::insertClip(int track, int position, QString data)
 {
-    m_model->insertClip(m_model, track, position, data);
+    std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(m_binController->getBinProducer(data));
+    int id;
+    m_model->requestClipInsert(prod, track, position, id);
 }
 
 

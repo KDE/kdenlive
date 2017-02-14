@@ -34,7 +34,6 @@ class TrackModel;
 class ClipModel;
 class GroupsModel;
 class DocUndoStack;
-class BinController;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications.
@@ -58,7 +57,7 @@ class BinController;
    A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to. 
 
 */
-class TimelineModel : public QAbstractItemModel
+class TimelineModel : public QAbstractItemModel, public std::enable_shared_from_this<TimelineModel>
 {
 Q_OBJECT
 
@@ -66,12 +65,12 @@ public:
     /* @brief construct a timeline object and returns a pointer to the created object
        @param undo_stack is a weak pointer to the undo stack of the project
      */
-    static std::shared_ptr<TimelineModel> construct(BinController *binController, std::weak_ptr<DocUndoStack> undo_stack, bool populate = false);
+    static std::shared_ptr<TimelineModel> construct(std::weak_ptr<DocUndoStack> undo_stack, bool populate = false);
 
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(BinController *binController, std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineModel(std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     friend class TrackModel;
@@ -154,9 +153,18 @@ public:
        @param logUndo if set to true, an undo object is created
     */
     bool requestClipMove(int cid, int tid, int position, bool logUndo = true);
-    
+
     bool trimClip(int cid, int delta, bool right, bool ripple = false);
-    void insertClip(std::shared_ptr<TimelineModel> tl, int track, int position, QString data);
+
+    /* @brief Request clip insertion at given position.
+       This action is undoable
+       Returns true on success. If it fails, nothing is modified.
+       @param prod Producer of the element to insert
+       @param track Id of the track where to insert
+       @param Requested position
+       @param ID return parameter of the id of the inserted clip
+    */
+    bool requestClipInsert(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id);
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipMove(int cid, int tid, int position, Fun &undo, Fun &redo);
@@ -235,6 +243,9 @@ protected:
     std::unique_ptr<TrackModel>& getTrackById(int tid);
     const std::unique_ptr<TrackModel>& getTrackById_const(int tid) const;
 
+    /*@brief Helper function to get a pointer to a clip, given its id*/
+    std::shared_ptr<ClipModel> getClipPtr(int cid) const;
+
     /* @brief Returns next valid unique id to create an object
      */
     static int getNextId();
@@ -263,8 +274,6 @@ private:
     std::unordered_set<int> m_allGroups; //ids of all the groups
 
     std::weak_ptr<DocUndoStack> m_undoStack;
-    
-    BinController *m_binController;
 
 };
 #endif

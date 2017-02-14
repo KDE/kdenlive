@@ -86,14 +86,14 @@ protected:
     /* @brief Performs an insertion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
-       @param clip is a shared pointer to the clip
+       @param clip is the id of the clip
        @param position is the position where to insert the clip
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(std::shared_ptr<ClipModel> clip, int position, Fun& undo, Fun& redo);
+    bool requestClipInsertion(int cid, int position, Fun& undo, Fun& redo);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipInsertion_lambda(std::shared_ptr<ClipModel> clip, int position);
+    Fun requestClipInsertion_lambda(int cid, int position);
 
     /* @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.

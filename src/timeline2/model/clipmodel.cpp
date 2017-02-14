@@ -26,19 +26,19 @@
 #include <QDebug>
 
 
-ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod) :
+ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod, int id) :
     m_parent(parent)
-    , m_id(TimelineModel::getNextId())
+    , m_id(id == -1 ? TimelineModel::getNextId() : id)
     , m_position(-1)
     , m_currentTrackId(-1)
     , m_producer(prod)
 {
 }
 
-int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod)
+int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id)
 {
-    std::shared_ptr<ClipModel> clip(new ClipModel(parent, prod));
-    int id = clip->m_id;
+    std::shared_ptr<ClipModel> clip(new ClipModel(parent, prod, id));
+    id = clip->m_id;
     if (auto ptr = parent.lock()) {
         ptr->registerClip(clip);
     } else {

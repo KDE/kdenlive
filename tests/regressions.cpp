@@ -17,7 +17,7 @@ TEST_CASE("Regression") {
     auto repo = Mlt::Factory::init( NULL );
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(nullptr, undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
     TimelineModel::next_id = 0;
     undoStack->undo();
     undoStack->redo();
@@ -27,7 +27,7 @@ TEST_CASE("Regression") {
     producer0 ->set("length", 20);
     producer0 ->set("out", 19);
     ClipModel::construct(timeline, producer0 );
-    TrackModel::construct(timeline); 
+    TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     REQUIRE(timeline->requestClipMove(0,1 ,0 ));

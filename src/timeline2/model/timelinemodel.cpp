@@ -26,7 +26,6 @@
 #include "groupsmodel.hpp"
 
 #include "doc/docundostack.hpp"
-#include "mltcontroller/bincontroller.h"
 
 #include <klocalizedstring.h>
 #include <QDebug>
@@ -44,19 +43,18 @@ int TimelineModel::next_id = 0;
     }
 
 
-TimelineModel::TimelineModel(BinController *binController, std::weak_ptr<DocUndoStack> undo_stack) :
+TimelineModel::TimelineModel(std::weak_ptr<DocUndoStack> undo_stack) :
     QAbstractItemModel(),
     m_tractor(new Mlt::Tractor()),
-    m_undoStack(undo_stack),
-    m_binController(binController)
+    m_undoStack(undo_stack)
 {
     Mlt::Profile profile;
     m_tractor->set_profile(profile);
 }
 
-std::shared_ptr<TimelineModel> TimelineModel::construct(BinController *binController, std::weak_ptr<DocUndoStack> undo_stack, bool populate)
+std::shared_ptr<TimelineModel> TimelineModel::construct(std::weak_ptr<DocUndoStack> undo_stack, bool populate)
 {
-    std::shared_ptr<TimelineModel> ptr(new TimelineModel(binController, undo_stack));
+    std::shared_ptr<TimelineModel> ptr(new TimelineModel(undo_stack));
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
     if (populate) {
         // Testing: add a clip on first track
@@ -336,7 +334,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
             return false;
         }
     }
-    ok = getTrackById(tid)->requestClipInsertion(m_allClips[cid], position, local_undo, local_redo);
+    ok = getTrackById(tid)->requestClipInsertion(cid, position, local_undo, local_redo);
     if (!ok) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -383,8 +381,11 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, Fun &undo, F
         //qDebug()<<"Moved back"<<cid<<"to position"<<m_allClips[cid]->getPosition();
         return v;
     };
-    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-    return operation();
+    bool result = operation();
+    if (result) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    }
+    return result;
 }
 
 bool TimelineModel::requestClipMove(int cid, int tid, int position, bool logUndo)
@@ -408,6 +409,29 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool logUndo
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
     return res;
+}
+
+bool TimelineModel::requestClipInsert(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id)
+{
+    int clipId = TimelineModel::getNextId();
+    id = clipId;
+    Fun undo = [clipId, this](){
+        m_allClips[clipId]->destruct();
+        return true;
+    };
+    Fun redo = [clipId, prod, this](){
+        ClipModel::construct(shared_from_this(), prod, clipId);
+        return true;
+    };
+    redo();
+    bool res = requestClipMove(clipId, trackId, position, undo, redo);
+    if (!res) {
+        undo();
+        id = -1;
+        return false;
+    }
+    PUSH_UNDO(undo, redo, i18n("Insert Clip"));
+    return true;
 }
 
 bool TimelineModel::requestGroupMove(int gid, int delta_track, int delta_pos, bool logUndo)
@@ -543,12 +567,15 @@ void TimelineModel::deregisterTrack(int id)
 
 void TimelineModel::deregisterClip(int id)
 {
-    //TODO send deletion order to the track containing the clip
     Q_ASSERT(m_allClips.count(id) > 0);
-    m_allClips.erase(id);
     //TODO this is temporary while UNDO for clip deletion is not implemented
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
+    int tid = m_allClips[id]->getCurrentTrackId();
+    if (tid != -1) {
+        getTrackById(m_allClips[id]->getCurrentTrackId())->requestClipDeletion(id, undo, redo);
+    }
+    m_allClips.erase(id);
     m_groups->destructGroupItem(id, true, undo, redo);
 }
 
@@ -568,6 +595,12 @@ const std::unique_ptr<TrackModel>& TimelineModel::getTrackById_const(int tid) co
 {
     Q_ASSERT(m_iteratorTable.count(tid) > 0);
     return *m_iteratorTable.at(tid);
+}
+
+std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int cid) const
+{
+    Q_ASSERT(m_allClips.count(cid) > 0);
+    return m_allClips.at(cid);
 }
 
 int TimelineModel::getNextId()
@@ -590,9 +623,3 @@ int TimelineModel::duration() const
     return m_tractor->get_playtime();
 }
 
-void TimelineModel::insertClip(std::shared_ptr<TimelineModel> tl, int track, int position, QString data)
-{
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(m_binController->getBinProducer(data)));
-    int clipId = ClipModel::construct(tl, prod);
-    requestClipMove(clipId, track, position, true);   
-}

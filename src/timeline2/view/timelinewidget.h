@@ -26,6 +26,8 @@
 #include "timeline2/model/timelinemodel.hpp"
 #include <QQuickWidget>
 
+class BinController;
+
 class TimelineWidget : public QQuickWidget
 {
     Q_OBJECT
@@ -63,6 +65,7 @@ public slots:
 
 private:
     std::shared_ptr<TimelineModel> m_model;
+    BinController *m_binController;
     struct Selection {
         QList<int> selectedClips;
         int selectedTrack;

@@ -65,38 +65,57 @@ int TrackModel::getClipsCount()
     return count;
 }
 
-Fun TrackModel::requestClipInsertion_lambda(std::shared_ptr<ClipModel> clip, int position)
+Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
 {
-    if (!clip->isValid()) {
-        return [](){return false;};
-    }
     // Find out the clip id at position
     int target_clip = m_playlist.get_clip_index_at(position);
     int count = m_playlist.count();
 
     //we create the function that has to be executed after the melt order. This is essentially book-keeping
-    auto end_function = [clip, this, position]() {
-        m_allClips[clip->getId()] = clip;  //store clip
-        qDebug() << "INSERTED CLIP "<<m_allClips[clip->getId()]->getPosition();
-        //update clip position
-        clip->setPosition(position);
-        return true;
+    auto end_function = [cid, this, position]() {
+        if (auto ptr = m_parent.lock()) {
+            std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
+            m_allClips[clip->getId()] = clip;  //store clip
+            qDebug() << "INSERTED CLIP "<<m_allClips[clip->getId()]->getPosition();
+            //update clip position
+            clip->setPosition(position);
+            return true;
+        } else {
+            qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
+            return false;
+        }
     };
     if (target_clip >= count) {
         //In that case, we append after
-        return [this, position, clip, end_function]() {
-            int index = m_playlist.insert_at(position, *clip, 1);
-            return index != -1 && end_function();
+        return [this, position, cid, end_function]() {
+            if (auto ptr = m_parent.lock()) {
+                std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
+                int index = m_playlist.insert_at(position, *clip, 1);
+                return index != -1 && end_function();
+            } else {
+                qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
+                return false;
+            }
         };
     } else {
         if (m_playlist.is_blank(target_clip)) {
             int blank_start = m_playlist.clip_start(target_clip);
             int blank_length = m_playlist.clip_length(target_clip);
-            int length = clip->getPlaytime();
+            int length = -1;
+            if (auto ptr = m_parent.lock()) {
+                std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
+                length = clip->getPlaytime();
+            }
             if (blank_start + blank_length >= position + length) {
-                return [this, position, clip, end_function]() {
-                    int index = m_playlist.insert_at(position, *clip, 1);
-                    return index != -1 && end_function();
+                return [this, position, cid, end_function]() {
+                    if (auto ptr = m_parent.lock()) {
+                        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
+                        int index = m_playlist.insert_at(position, *clip, 1);
+                        return index != -1 && end_function();
+                    } else {
+                        qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
+                        return false;
+                    }
                 };
             }
         }
@@ -104,14 +123,9 @@ Fun TrackModel::requestClipInsertion_lambda(std::shared_ptr<ClipModel> clip, int
     return [](){return false;};
 }
 
-bool TrackModel::requestClipInsertion(std::shared_ptr<ClipModel> clip, int position, Fun& undo, Fun& redo)
+bool TrackModel::requestClipInsertion(int cid, int position, Fun& undo, Fun& redo)
 {
-    if (!clip->isValid()) {
-        return false;
-    }
-    int cid = clip->getId();
-
-    auto operation = requestClipInsertion_lambda(clip, position);
+    auto operation = requestClipInsertion_lambda(cid, position);
     if (operation()) {
         auto reverse = requestClipDeletion_lambda(cid);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -146,7 +160,7 @@ bool TrackModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
     int old_position = old_clip->getPosition();
     auto operation = requestClipDeletion_lambda(cid);
     if (operation()) {
-        auto reverse = requestClipInsertion_lambda(old_clip, old_position);
+        auto reverse = requestClipInsertion_lambda(cid, old_position);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }

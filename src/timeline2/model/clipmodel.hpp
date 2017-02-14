@@ -41,7 +41,7 @@ class ClipModel
 
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod);
+    ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod, int id = -1);
 
 public:
 
@@ -50,8 +50,9 @@ public:
        Returns the (unique) id of the created clip
        @param parent is a pointer to the timeline
        @param producer is the producer to be inserted
+       @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod);
+    static int construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id = -1);
 
     /* @brief The destructor. It asks the parent to be deleted
      */
