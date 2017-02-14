@@ -274,11 +274,15 @@ void TrackModel::setProperty(const QString &name, const QString &value)
 
 bool TrackModel::checkConsistency()
 {
+    auto ptr = m_parent.lock();
+    if (!ptr) {
+        return false;
+    }
     std::vector<std::pair<int, int> > clips; //clips stored by (position, id)
     for (const auto& c : m_allClips) {
-        if (c.second) {
-            clips.push_back({c.second->getPosition(), c.first});
-        }
+        Q_ASSERT(c.second);
+        Q_ASSERT(c.second.get() == ptr->getClipPtr(c.first).get());
+        clips.push_back({c.second->getPosition(), c.first});
     }
     std::sort(clips.begin(), clips.end());
     size_t current_clip = 0;
