@@ -8,7 +8,6 @@
 #include "timeline2/model/clipmodel.hpp"
 #include "doc/docundostack.hpp"
 #include <mlt++/MltProducer.h>
-#include <mlt++/MltFactory.h>
 #include <mlt++/MltProfile.h>
 
 TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
@@ -373,7 +372,6 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
-    Mlt::Factory::init( NULL );
     Mlt::Profile profile;
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");

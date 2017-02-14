@@ -10,11 +10,13 @@
 #include "doc/docundostack.hpp"
 
 #include <mlt++/MltProducer.h>
+#include <mlt++/MltRepository.h>
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltProfile.h>
 
 std::default_random_engine g(42);
 
+Mlt::Profile profile_model;
 
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
@@ -45,14 +47,13 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
+
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
-    Mlt::Factory::init( NULL );
-    Mlt::Profile profile;
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
-    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "color", "green");
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
+    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile_model, "color", "green");
     producer->set("length", 20);
     producer->set("out", 19);
     producer2->set("length", 20);
@@ -75,6 +76,7 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     REQUIRE(timeline->getClipsCount() == 1);
     timeline->deleteClipById(id1);
     REQUIRE(timeline->getClipsCount() == 0);
+
 }
 
 TEST_CASE("Clip manipulation", "[ClipModel]")
@@ -82,13 +84,11 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
-    Mlt::Factory::init( NULL );
-    Mlt::Profile profile;
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
-    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "color", "blue");
-    std::shared_ptr<Mlt::Producer> producer3 = std::make_shared<Mlt::Producer>(profile, "color", "green");
-    std::shared_ptr<Mlt::Producer> producer4 = std::make_shared<Mlt::Producer>(profile, "color", "yellow");
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
+    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile_model, "color", "blue");
+    std::shared_ptr<Mlt::Producer> producer3 = std::make_shared<Mlt::Producer>(profile_model, "color", "green");
+    std::shared_ptr<Mlt::Producer> producer4 = std::make_shared<Mlt::Producer>(profile_model, "color", "yellow");
     producer->set("length", 20);
     producer->set("out", 19);
     producer2->set("length", 20);
@@ -528,10 +528,7 @@ TEST_CASE("Check id unicity", "[ClipModel]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
-    Mlt::Factory::init( NULL );
-    Mlt::Profile profile;
-
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
     producer->set("length", 20);
     producer->set("out", 19);
 
@@ -568,11 +565,8 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
 
-    Mlt::Factory::init( NULL );
-    Mlt::Profile profile;
-
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
-    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "color", "blue");
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
+    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile_model, "color", "blue");
     producer->set("length", 20);
     producer->set("out", 19);
     producer2->set("length", 20);
@@ -740,7 +734,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(undoStack->index() == init_index + 1);
     }
     SECTION("Clip Insertion Undo") {
-        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(profile, "color", "red");
+        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
         prod->set("length", 20);
         prod->set("out", 19);
 

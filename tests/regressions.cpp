@@ -12,9 +12,9 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltProfile.h>
+#include <mlt++/MltRepository.h>
 
 TEST_CASE("Regression") {
-    auto repo = Mlt::Factory::init( NULL );
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
@@ -48,7 +48,7 @@ TEST_CASE("Regression") {
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     REQUIRE_FALSE(timeline->requestClipResize(0,0 ,false ));
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
-    TrackModel::construct(timeline); 
+    TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     undoStack->undo();
