@@ -665,7 +665,9 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
             }
             if (g->zValue() > -1000/* && g->isSelected()*/) {
                 alreadySelected = g->isSelected();
-                g->setSelected(true);
+                if (!alreadySelected) {
+                    g->setSelected(true);
+                }
                 item = g;
                 break;
             }
@@ -755,8 +757,8 @@ void GraphicsSceneRectMove::clearTextSelection(bool reset)
         t->setTextCursor(QTextCursor(cur));
         t->setTextInteractionFlags(Qt::NoTextInteraction);
     }
-    m_selectedItem = NULL;
-    if (reset) {
+    if (reset && m_selectedItem) {
+        m_selectedItem = NULL;
         clearSelection();
     }
 }
