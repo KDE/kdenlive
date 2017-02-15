@@ -29,7 +29,7 @@ namespace Mlt
 {
 class Profile;
 class Filter;
-};
+}
 
 class MonitorAudioLevel : public ScopeWidget
 {

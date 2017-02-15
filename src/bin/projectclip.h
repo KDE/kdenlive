@@ -42,7 +42,7 @@ namespace Mlt
 {
 class Producer;
 class Properties;
-};
+}
 
 /**
  * @class ProjectClip

@@ -259,7 +259,7 @@ void SlideshowClip::parseFolder()
             }
             path = path.section('?', 0, 0);
         }
-        QString filter = QFileInfo(path).fileName();
+        filter = QFileInfo(path).fileName();
         QString ext = filter.section('.', -1);
         if (filter.contains(QLatin1Char('%'))) {
             filter = filter.section('%', 0, -2);

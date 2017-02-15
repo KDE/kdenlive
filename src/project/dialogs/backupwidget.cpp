@@ -88,16 +88,16 @@ void BackupWidget::slotParseBackupFiles()
     QDir dir(m_projectFolder.toLocalFile() + QStringLiteral("/.backup"));
     if (dir.exists()) {
         dir.setNameFilters(filter);
-        QFileInfoList resultList = dir.entryInfoList(QDir::Files, QDir::Time);
-        for (int i = 0; i < resultList.count(); ++i) {
-            QString label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
+        QFileInfoList resultList2 = dir.entryInfoList(QDir::Files, QDir::Time);
+        for (int i = 0; i < resultList2.count(); ++i) {
+            QString label = resultList2.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
             if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
                 // Displaying all backup files, so add project name in the entries
-                label.prepend(resultList.at(i).fileName().section('-', 0, -7) + ".kdenlive - ");
+                label.prepend(resultList2.at(i).fileName().section('-', 0, -7) + ".kdenlive - ");
             }
             QListWidgetItem *item = new QListWidgetItem(label, backup_list);
-            item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
-            item->setToolTip(resultList.at(i).absoluteFilePath());
+            item->setData(Qt::UserRole, resultList2.at(i).absoluteFilePath());
+            item->setToolTip(resultList2.at(i).absoluteFilePath());
         }
     }
 

@@ -426,9 +426,7 @@ bool DocumentChecker::hasErrorInClips()
         // Tell Kdenlive to recreate proxy
         e.setAttribute(QStringLiteral("_replaceproxy"), QStringLiteral("1"));
         // Replace proxy url with real clip in MLT producers
-        QDomNodeList properties;
         QDomElement mltProd;
-        QDomElement property;
         int prodsCount = documentProducers.count();
         for (int j = 0; j < prodsCount; ++j) {
             mltProd = documentProducers.at(j).toElement();

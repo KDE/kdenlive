@@ -27,7 +27,7 @@ class Render;
 namespace Mlt
 {
 class Playlist;
-};
+}
 
 /**
  * @namespace TrimManager

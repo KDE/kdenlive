@@ -35,7 +35,7 @@ inline QIcon themedIcon(const QString &name)
         return QIcon(new KIconEngine(name, KIconLoader::global()));
     }
     return QIcon::fromTheme(name);
-};
+}
 #else
 /**
  * Load a themed icon using its base name. Use it in

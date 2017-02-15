@@ -64,7 +64,7 @@ class InvalidDialog;
 namespace Mlt
 {
 class Producer;
-};
+}
 
 class MyListView: public QListView
 {

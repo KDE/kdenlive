@@ -468,11 +468,11 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
             }
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
-            int ix = 0;
-            QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
+            int index2 = 0;
+            QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(index2) + '.' + fileName.section('.', -1);
             while (filesList.contains(newFileName)) {
-                ix ++;
-                newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
+                index2 ++;
+                newFileName = fileName.section('.', 0, -2) + '_' + QString::number(index2) + '.' + fileName.section('.', -1);
             }
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);
