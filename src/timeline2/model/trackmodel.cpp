@@ -56,9 +56,11 @@ void TrackModel::destruct()
 int TrackModel::getClipsCount()
 {
     int count = 0;
-    for (int i = 0; i < m_playlist.count(); i++) {
-        if (!m_playlist.is_blank(i)) {
-            count++;
+    for (int j = 0; j < 2; j++) {
+        for (int i = 0; i < m_playlists[j].count(); i++) {
+            if (!m_playlists[j].is_blank(i)) {
+                count++;
+            }
         }
     }
     Q_ASSERT(count == static_cast<int>(m_allClips.size()));
@@ -67,9 +69,10 @@ int TrackModel::getClipsCount()
 
 Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
 {
+    // By default, insertion occurs in topmost track
     // Find out the clip id at position
-    int target_clip = m_playlist.get_clip_index_at(position);
-    int count = m_playlist.count();
+    int target_clip = m_playlists[0].get_clip_index_at(position);
+    int count = m_playlists[0].count();
 
     //we create the function that has to be executed after the melt order. This is essentially book-keeping
     auto end_function = [cid, this, position]() {
@@ -85,12 +88,12 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
             return false;
         }
     };
-    if (target_clip >= count) {
-        //In that case, we append after
+    if (target_clip >= count && isBlankAt(position)) {
+        //In that case, we append after, in the first playlist
         return [this, position, cid, end_function]() {
             if (auto ptr = m_parent.lock()) {
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
-                int index = m_playlist.insert_at(position, *clip, 1);
+                int index = m_playlists[0].insert_at(position, *clip, 1);
                 return index != -1 && end_function();
             } else {
                 qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -98,19 +101,18 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
             }
         };
     } else {
-        if (m_playlist.is_blank(target_clip)) {
-            int blank_start = m_playlist.clip_start(target_clip);
-            int blank_length = m_playlist.clip_length(target_clip);
+        if (isBlankAt(position)) {
+            int blank_end = getBlankEnd(position);
             int length = -1;
             if (auto ptr = m_parent.lock()) {
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
                 length = clip->getPlaytime();
             }
-            if (blank_start + blank_length >= position + length) {
+            if (blank_end >= position + length) {
                 return [this, position, cid, end_function]() {
                     if (auto ptr = m_parent.lock()) {
                         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
-                        int index = m_playlist.insert_at(position, *clip, 1);
+                        int index = m_playlists[0].insert_at(position, *clip, 1);
                         return index != -1 && end_function();
                     } else {
                         qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -139,12 +141,14 @@ Fun TrackModel::requestClipDeletion_lambda(int cid)
     //Find index of clip
     int clip_position = m_allClips[cid]->getPosition();
     return [clip_position, cid, this]() {
-        int target_clip = m_playlist.get_clip_index_at(clip_position);
-        Q_ASSERT(target_clip < m_playlist.count());
-        Q_ASSERT(!m_playlist.is_blank(target_clip));
-        auto prod = m_playlist.replace_with_blank(target_clip);
+        auto clip_loc = getClipIndexAt(clip_position);
+        int target_track = clip_loc.first;
+        int target_clip = clip_loc.second;
+        Q_ASSERT(target_clip < m_playlists[target_track].count());
+        Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
+        auto prod = m_playlists[target_track].replace_with_blank(target_clip);
         if (prod != nullptr) {
-            m_playlist.consolidate_blanks();
+            m_playlists[target_track].consolidate_blanks();
             m_allClips.erase(cid);
             delete prod;
             return true;
@@ -170,8 +174,10 @@ bool TrackModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
 Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
 {
     int clip_position = m_allClips[cid]->getPosition();
-    int target_clip = m_playlist.get_clip_index_at(clip_position);
-    Q_ASSERT(target_clip < m_playlist.count());
+    auto clip_loc = getClipIndexAt(clip_position);
+    int target_track = clip_loc.first;
+    int target_clip = clip_loc.second;
+    Q_ASSERT(target_clip < m_playlists[target_track].count());
     int size = out - in + 1;
 
     int delta = m_allClips[cid]->getPlaytime() - size;
@@ -179,32 +185,34 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
         return [](){return true;};
     }
     if (delta > 0) { //we shrink clip
-        return [right, target_clip, clip_position, delta, in, out, cid, this](){
+        return [right, target_clip, target_track, clip_position, delta, in, out, cid, this](){
             int target_clip_mutable = target_clip;
             int blank_index = right ? (target_clip_mutable + 1) : target_clip_mutable;
             // insert blank to space that is going to be empty
             // The second is parameter is delta - 1 because this function expects an out time, which is basically size - 1
-            m_playlist.insert_blank(blank_index, delta - 1);
+            m_playlists[target_track].insert_blank(blank_index, delta - 1);
             if (!right) {
                 m_allClips[cid]->setPosition(clip_position + delta);
                 //Because we inserted blank before, the index of our clip has increased
                 target_clip_mutable++;
             }
-            int err = m_playlist.resize_clip(target_clip_mutable, in, out);
+            int err = m_playlists[target_track].resize_clip(target_clip_mutable, in, out);
             //make sure to do this after, to avoid messing the indexes
-            m_playlist.consolidate_blanks();
+            m_playlists[target_track].consolidate_blanks();
             return err == 0;
         };
     } else {
         int blank = -1;
+        int other_blank_end = getBlankEnd(clip_position, (target_track + 1) % 2);
         if (right) {
-            if (target_clip == m_playlist.count() - 1) {
+            if (target_clip == m_playlists[target_track].count() - 1 && other_blank_end >= out) {
                 //clip is last, it can always be extended
-                return [this, target_clip, in, out]() {
-                    int err = m_playlist.resize_clip(target_clip, in, out);
+                return [this, target_clip, target_track, in, out]() {
+                    int err = m_playlists[target_track].resize_clip(target_clip, in, out);
                     return err == 0;
                 };
             }
+
             blank = target_clip + 1;
         } else {
             if (target_clip == 0) {
@@ -213,25 +221,25 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
             }
             blank = target_clip - 1;
         }
-        if (m_playlist.is_blank(blank)) {
-            int blank_length = m_playlist.clip_length(blank);
-            if (blank_length + delta >= 0) {
-                return [blank_length, blank, right, cid, delta, this, in, out, target_clip](){
+        if (m_playlists[target_track].is_blank(blank)) {
+            int blank_length = m_playlists[target_track].clip_length(blank);
+            if (blank_length + delta >= 0 && other_blank_end >= out) {
+                return [blank_length, blank, right, cid, delta, this, in, out, target_clip, target_track](){
                     int target_clip_mutable = target_clip;
                     int err = 0;
                     if (blank_length + delta == 0) {
-                        err = m_playlist.remove(blank);
+                        err = m_playlists[target_track].remove(blank);
                         if (!right) {
                             target_clip_mutable--;
                         }
                     } else {
-                        err = m_playlist.resize_clip(blank, 0, blank_length + delta - 1);
+                        err = m_playlists[target_track].resize_clip(blank, 0, blank_length + delta - 1);
                     }
                     if (err == 0) {
-                        err = m_playlist.resize_clip(target_clip_mutable, in, out);
+                        err = m_playlists[target_track].resize_clip(target_clip_mutable, in, out);
                     }
                     if (!right && err == 0) {
-                        m_allClips[cid]->setPosition(m_playlist.clip_start(target_clip_mutable));
+                        m_allClips[cid]->setPosition(m_playlists[target_track].clip_start(target_clip_mutable));
                     }
                     return err == 0;
                 };
@@ -264,12 +272,12 @@ int TrackModel::getRowfromClip(int cid) const
 
 QVariant TrackModel::getProperty(const QString &name)
 {
-    return m_playlist.get(name.toUtf8().constData());
+    return m_track.get(name.toUtf8().constData());
 }
 
 void TrackModel::setProperty(const QString &name, const QString &value)
 {
-    m_playlist.set(name.toUtf8().constData(), value.toUtf8().constData());
+    m_track.set(name.toUtf8().constData(), value.toUtf8().constData());
 }
 
 bool TrackModel::checkConsistency()
@@ -286,8 +294,18 @@ bool TrackModel::checkConsistency()
     }
     std::sort(clips.begin(), clips.end());
     size_t current_clip = 0;
-    for(int i = 0; i < m_playlist.get_playtime(); i++) {
-        int index = m_playlist.get_clip_index_at(i);
+    int playtime = std::max(m_playlists[0].get_playtime(), m_playlists[1].get_playtime());
+    for(int i = 0; i < playtime; i++) {
+        int track, index;
+        if (isBlankAt(i)) {
+            track = 0;
+            index = m_playlists[0].get_clip_index_at(i);
+        } else {
+            auto clip_loc = getClipIndexAt(i);
+            track = clip_loc.first;
+            index = clip_loc.second;
+        }
+        Q_ASSERT(m_playlists[(track+1)%2].is_blank_at(i));
         if (current_clip < clips.size() && i >= clips[current_clip].first) {
             auto clip = m_allClips[clips[current_clip].second];
             if (i >= clips[current_clip].first + clip->getPlaytime()) {
@@ -295,12 +313,11 @@ bool TrackModel::checkConsistency()
                 i--;
                 continue;
             } else {
-                if (m_playlist.is_blank(index)) {
+                if (isBlankAt(i)) {
                     qDebug() << "ERROR: Found blank when clip was required at position " << i;
-                    qDebug() << "Blank size" << m_playlist.clip_length(index);
                     return false;
                 }
-                auto pr = m_playlist.get_clip(index);
+                auto pr = m_playlists[track].get_clip(index);
                 Mlt::Producer prod(pr);
                 if (!prod.same_clip(*clip)) {
                     qDebug() << "ERROR: Wrong clip at position " << i;
@@ -310,11 +327,49 @@ bool TrackModel::checkConsistency()
                 delete pr;
             }
         } else {
-            if (!m_playlist.is_blank_at(i)) {
+            if (!isBlankAt(i)) {
                 qDebug() << "ERROR: Found clip when blank was required at position " << i;
                 return false;
             }
         }
     }
     return true;
+}
+
+std::pair<int, int> TrackModel::getClipIndexAt(int position)
+{
+    for (int j = 0; j < 2; j++) {
+        if (! m_playlists[j].is_blank_at(position)) {
+            return {j, m_playlists[j].get_clip_index_at(position)};
+        }
+    }
+    Q_ASSERT(false);
+    return {-1,-1};
+}
+
+bool TrackModel::isBlankAt(int position)
+{
+    return m_playlists[0].is_blank_at(position) && m_playlists[1].is_blank_at(position);
+}
+
+int TrackModel::getBlankEnd(int position, int track)
+{
+    Q_ASSERT(m_playlists[track].is_blank_at(position));
+    int clip_index = m_playlists[track].get_clip_index_at(position);
+    int count = m_playlists[track].count();
+    if (clip_index < count) {
+        int blank_start = m_playlists[track].clip_start(clip_index);
+        int blank_length = m_playlists[track].clip_length(clip_index);
+        return blank_start + blank_length;
+    }
+    return INT_MAX;
+
+}
+int TrackModel::getBlankEnd(int position)
+{
+    int end = INT_MAX;
+    for (int j = 0; j < 2; j++) {
+        end = std::min(getBlankEnd(position, j), end);
+    }
+    return end;
 }

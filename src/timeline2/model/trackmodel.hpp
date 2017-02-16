@@ -26,6 +26,7 @@
 #include <QSharedPointer>
 #include <unordered_map>
 #include <mlt++/MltPlaylist.h>
+#include <mlt++/MltTractor.h>
 #include "undohelper.hpp"
 
 class TimelineModel;
@@ -64,7 +65,7 @@ public:
 
     /* Implicit conversion operator to access the underlying producer
      */
-    operator Mlt::Producer&(){ return m_playlist;}
+    operator Mlt::Producer&(){ return m_track;}
 
     // TODO make protected
     QVariant getProperty(const QString &name);
@@ -118,6 +119,19 @@ protected:
 
     /*@brief This is an helper function that test frame level consistancy with the MLT structures */
     bool checkConsistency();
+
+
+    /* @brief This is an helper function that returns the sub-playlist in which the clip is inserted, along with its index in the playlist
+     @param position the position of the target clip*/
+    std::pair<int, int> getClipIndexAt(int position);
+
+    /* @brief This is an helper function that checks in all playlists if the given position is a blank */
+    bool isBlankAt(int position);
+
+    /* @brief This is an helper function that returns the end of the blank that covers given position */
+    int getBlankEnd(int position);
+    /* Same, but we restrict to a specific track*/
+    int getBlankEnd(int position, int track);
 public slots:
     /*Delete the current track and all its associated clips */
     void slotDelete();
@@ -125,7 +139,10 @@ public slots:
 private:
     std::weak_ptr<TimelineModel> m_parent;
     int m_id; //this is the creation id of the track, used for book-keeping
-    Mlt::Playlist m_playlist;
+
+    // We fake two playlists to allow same track transitions.
+    Mlt::Tractor m_track;
+    Mlt::Playlist m_playlists[2];
 
     int m_currentInsertionOrder;
 
