@@ -50,7 +50,11 @@ class DocUndoStack;
 
    It derives from AbstractItemModel to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
    Our organization is as follows: at the top level, each row contains a track. These rows are in the same order as in the actual timeline.
-   Then each of this row contains itself sub-rows that correspond to the clips. Here the order of these sub-rows is unrelated to the chronological order of the clips, but correspond to an insertion order in the track. This is because the order actually doesn't matter since the clips are rendered based on their positions rather than their row order. The insertion order in the track has been choosed because it is consistant with a valid ordering of the clips.
+   Then each of this row contains itself sub-rows that correspond to the clips.
+   Here the order of these sub-rows is unrelated to the chronological order of the clips,
+   but correspond to their Id order. For example, if you have three clips, with ids 12, 45 and 150, they will receive row index 0,1 and 2.
+   This is because the order actually doesn't matter since the clips are rendered based on their positions rather than their row order.
+   The id order has been choosed because it is consistant with a valid ordering of the clips.
    The columns are never used, so the data is always in column 0
 
    An ModelIndex in the ItemModel consists of a row number, a column number, and a parent index. In our case, tracks have always an empty parent, and the clip have a track index as parent.
