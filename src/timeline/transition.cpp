@@ -559,11 +559,10 @@ void Transition::dropEvent(QGraphicsSceneDragDropEvent *event)
 
 bool Transition::checkKeyFrames(int width, int height, int previousDuration, int cutPos)
 {
-    bool clipEffectsModified = false;
     // go through all effects this clip has
     QDomDocument doc;
     doc.appendChild(doc.importNode(m_parameters, true));
-    clipEffectsModified = resizeGeometries(m_parameters, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
+    bool clipEffectsModified = resizeGeometries(m_parameters, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
     QString newAnimation = resizeAnimations(m_parameters, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
     if (!newAnimation.isEmpty()) {
         clipEffectsModified = true;
