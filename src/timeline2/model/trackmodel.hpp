@@ -33,6 +33,7 @@ class TimelineModel;
 class ClipModel;
 
 /* @brief This class represents a Track object, as viewed by the backend.
+   To allow same track transitions, a Track object corresponds to two Mlt::Playlist, between which we can switch when required by the transitions.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
 */
 class TrackModel
