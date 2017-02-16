@@ -97,8 +97,8 @@ Column{
                 var origFrame = Math.round(clip.originalX / timeScale)
 
                 console.log("Asking move ",toTrack, cIndex, frame)
-                timeline.moveClip(clip.originalTrackId, cIndex, origFrame, true)
-                var val = timeline.moveClip(toTrack, cIndex, frame, false)
+                timeline.moveClip(clip.originalTrackId, cIndex, origFrame, false)
+                var val = timeline.moveClip(toTrack, cIndex, frame, true)
                 console.log("RESULT", val)
             }
             onDragged: {
@@ -126,7 +126,7 @@ Column{
             onTrimmingIn: {
                 //if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
                 //    delta = Logic.snapTrimIn(clip, delta)
-                if (timeline.resizeClip(clip.clipId, newDuration, false, true)) {
+                if (timeline.resizeClip(clip.clipId, newDuration, false, false)) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
@@ -139,13 +139,13 @@ Column{
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                timeline.resizeClip(clip.clipId, clip.originalDuration, false, true)
-                timeline.resizeClip(clip.clipId, clip.lastValidDuration, false, false)
+                timeline.resizeClip(clip.clipId, clip.originalDuration, false, false)
+                timeline.resizeClip(clip.clipId, clip.lastValidDuration, false, true)
             }
             onTrimmingOut: {
                // if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
                //     delta = Logic.snapTrimOut(clip, delta)
-                if (timeline.resizeClip(clip.clipId, newDuration, true, true)) {
+                if (timeline.resizeClip(clip.clipId, newDuration, true, false)) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
@@ -158,8 +158,8 @@ Column{
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                timeline.resizeClip(clip.clipId, clip.originalDuration, true, true)
-                timeline.resizeClip(clip.clipId, clip.lastValidDuration, true, false)
+                timeline.resizeClip(clip.clipId, clip.originalDuration, true, false)
+                timeline.resizeClip(clip.clipId, clip.lastValidDuration, true, true)
             }
 
             Component.onCompleted: {

@@ -521,6 +521,53 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state1();
 
     }
+
+    SECTION("Group move to unavailable track") {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 10));
+        REQUIRE(timeline->requestClipMove(cid2, tid2, 12));
+        REQUIRE(timeline->requestGroupClips({cid1, cid2}));
+        auto state = [&]() {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+            REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == tid2);
+            REQUIRE(timeline->getClipPosition(cid1) == 10);
+            REQUIRE(timeline->getClipPosition(cid2) == 12);
+        };
+        state();
+
+        REQUIRE_FALSE(timeline->requestClipMove(cid2, tid1, 10));
+        state();
+        REQUIRE_FALSE(timeline->requestClipMove(cid2, tid1, 100));
+        state();
+        REQUIRE_FALSE(timeline->requestClipMove(cid1, tid3, 100));
+        state();
+    }
+
+    SECTION("Group move with non-consecutive track ids") {
+        int tid5 = TrackModel::construct(timeline);
+        int cid6 = ClipModel::construct(timeline, producer);
+        int tid6 = TrackModel::construct(timeline);
+        REQUIRE(tid5 + 1 != tid6);
+
+        REQUIRE(timeline->requestClipMove(cid1, tid5, 10));
+        REQUIRE(timeline->requestClipMove(cid2, tid5, length + 10));
+        REQUIRE(timeline->requestGroupClips({cid1, cid2}));
+        auto state = [&](int t) {
+            REQUIRE(timeline->getTrackById(t)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(t) == 2);
+            REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == t);
+            REQUIRE(timeline->m_allClips[cid2]->getCurrentTrackId() == t);
+            REQUIRE(timeline->getClipPosition(cid1) == 10);
+            REQUIRE(timeline->getClipPosition(cid2) == 10 + length);
+        };
+        state(tid5);
+        REQUIRE(timeline->requestClipMove(cid1, tid6, 10));
+        state(tid6);
+
+    }
 }
 
 TEST_CASE("Check id unicity", "[ClipModel]")

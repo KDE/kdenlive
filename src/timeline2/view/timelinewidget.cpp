@@ -135,24 +135,24 @@ bool TimelineWidget::scrub()
     return false;
 }
 
-bool TimelineWidget::moveClip(int toTrack, int clipIndex, int position, bool test_only)
+bool TimelineWidget::moveClip(int toTrack, int clipIndex, int position, bool logUndo)
 {
-    return m_model->requestClipMove(clipIndex, toTrack, position, test_only);
+    return m_model->requestClipMove(clipIndex, toTrack, position, logUndo, logUndo);
 }
 
 bool TimelineWidget::allowMoveClip(int toTrack, int clipIndex, int position)
 {
-    return m_model->requestClipMove(clipIndex, toTrack, position, true);
+    return m_model->requestClipMove(clipIndex, toTrack, position, false, false);
 }
 
-bool TimelineWidget::trimClip(int clipIndex, int delta, bool right, bool test_only)
+bool TimelineWidget::trimClip(int clipIndex, int delta, bool right, bool logUndo)
 {
-    return m_model->requestClipTrim(clipIndex, delta, right, false, test_only);
+    return m_model->requestClipTrim(clipIndex, delta, right, false, logUndo);
 }
 
-bool TimelineWidget::resizeClip(int clipIndex, int duration, bool right, bool test_only)
+bool TimelineWidget::resizeClip(int clipIndex, int duration, bool right, bool logUndo)
 {
-    return m_model->requestClipResize(clipIndex, duration, right, test_only);
+    return m_model->requestClipResize(clipIndex, duration, right, logUndo);
 }
 
 void TimelineWidget::insertClip(int track, int position, QString data)

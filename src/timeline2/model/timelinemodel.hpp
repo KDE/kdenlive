@@ -154,12 +154,13 @@ public:
        @param cid is the ID of the clip
        @param tid is the ID of the target track
        @param position is the position where we want to move
-       @param test_only if set to true, the undo is not created and no signal is sent to qml
+       @param updateView if set to false, no signal is sent to qml
+       @param logUndo if set to false, no undo object is stored
     */
-    bool requestClipMove(int cid, int tid, int position, bool test_only = false);
+    bool requestClipMove(int cid, int tid, int position, bool updateView = true, bool logUndo = true);
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
-    bool requestClipMove(int cid, int tid, int position, bool test_only, Fun &undo, Fun &redo);
+    bool requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo);
 public:
 
 
@@ -176,20 +177,23 @@ public:
     /* @brief Move a group to a specific position
        Returns true on success. If it fails, nothing is modified.
        If the clips in the group are not in inserted in a track yet, they get inserted for the first time.
+       @param cid is the id of the clip that triggers the group move
+       @param gid is the id of the group
        @param delta_track is the delta applied to the track index
-       @param tid is the requested position change
+       @param delta_pos is the requested position change
+       @param updateView if set to false, no signal is sent to qml for the clip cid
        @param logUndo if set to true, an undo object is created
     */
-    bool requestGroupMove(int gid, int delta_track, int delta_pos, bool logUndo = true);
+    bool requestGroupMove(int cid, int gid, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
 
     /* @brief Change the duration of a clip
        Returns true on success. If it fails, nothing is modified.
        @param cid is the ID of the clip
        @param size is the new size of the clip
        @param right is true if we change the right side of the clip, false otherwise
-       @param test_only if set to true, the undo is not created and no signal is sent to qml
+       @param logUndo if set to true, an undo object is created
     */
-    bool requestClipResize(int cid, int size, bool right, bool test_only = false);
+    bool requestClipResize(int cid, int size, bool right, bool logUndo = true);
 
     /* @brief Similar to requestClipResize but takes a delta instead of absolute size
        Returns true on success. If it fails, nothing is modified.

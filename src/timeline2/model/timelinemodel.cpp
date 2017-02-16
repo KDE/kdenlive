@@ -64,14 +64,19 @@ std::shared_ptr<TimelineModel> TimelineModel::construct(std::weak_ptr<DocUndoSta
         prod->set("out", 24);
         int ix = TrackModel::construct(ptr);
         int ix2 = TrackModel::construct(ptr);
+        int ix3 = TrackModel::construct(ptr);
         int clipId = ClipModel::construct(ptr, prod);
         int clipId2 = ClipModel::construct(ptr, prod);
         int clipId3 = ClipModel::construct(ptr, prod);
+        int clipId4 = ClipModel::construct(ptr, prod);
         ptr->requestClipMove(clipId, ix, 100, true);
         ptr->requestClipMove(clipId2, ix, 50, true);
         ptr->requestClipMove(clipId3, ix, 250, true);
+        ptr->requestClipMove(clipId4, ix2, 112, true);
         ptr->getTrackById(ix)->setProperty("kdenlive:trackheight", "60");
         ptr->getTrackById(ix2)->setProperty("kdenlive:trackheight", "140");
+        ptr->getTrackById(ix3)->setProperty("kdenlive:trackheight", "140");
+        ptr->requestGroupClips({clipId, clipId4});
     }
     return ptr;
 }
@@ -307,7 +312,7 @@ int TimelineModel::getClipPosition(int cid) const
     return clip->getPosition();
 }
 
-bool TimelineModel::requestClipMove(int cid, int tid, int position, bool test_only, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo)
 {
     std::function<bool (void)> local_undo = [](){return true;};
     std::function<bool (void)> local_redo = [](){return true;};
@@ -330,10 +335,11 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool test_on
         return false;
     }
     int new_clip_index = getTrackById(tid)->getRowfromClip(cid);
-    auto operation = [cid, tid, old_tid, old_clip_index, new_clip_index, test_only, this]() {
+    auto operation = [cid, tid, old_tid, old_clip_index, new_clip_index, updateView, this]() {
         m_allClips[cid]->setCurrentTrackId(tid);
-        if (!test_only) {
+        if (updateView) {
             if (tid == old_tid) {
+                qDebug() << "Data changed for clip"<<cid;
                 QModelIndex modelIndex = makeClipIndexFromID(cid);
                 emit dataChanged(modelIndex, modelIndex, {StartRole});
             } else {
@@ -342,6 +348,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool test_on
                     beginRemoveRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
                     endRemoveRows();
                 }
+                qDebug() << "inserted row "<<new_clip_index;
                 beginInsertRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
                 endInsertRows();
             }
@@ -355,9 +362,9 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool test_on
     //push the operation and its reverse in the undo/redo
     UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
     //We have to expend the local undo with the data modification signals. They have to be sent after the real operations occured in the model so that the GUI can query the correct new values
-    local_undo = [local_undo, tid, old_tid, cid, old_clip_index, new_clip_index, test_only, this]() {
+    local_undo = [local_undo, tid, old_tid, cid, old_clip_index, new_clip_index, updateView, this]() {
         bool v = local_undo();
-        if (!test_only) {
+        if (updateView) {
             if (tid == old_tid) {
                 QModelIndex modelIndex = makeClipIndexFromID(cid);
                 emit dataChanged(modelIndex, modelIndex, {StartRole});
@@ -379,7 +386,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool test_on
     return result;
 }
 
-bool TimelineModel::requestClipMove(int cid, int tid, int position, bool test_only)
+bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool updateView, bool logUndo)
 {
     Q_ASSERT(m_allClips.count(cid) > 0);
     if (m_allClips[cid]->getPosition() == position && m_allClips[cid]->getCurrentTrackId() == tid) {
@@ -388,16 +395,21 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool test_on
     if (m_groups->getRootId(cid) != cid) {
         //element is in a group.
         int gid = m_groups->getRootId(cid);
-        int delta_track = tid - m_allClips[cid]->getCurrentTrackId();
+        int current_tid = m_allClips[cid]->getCurrentTrackId();
+        int track_pos1 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[tid]);
+        int track_pos2 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[current_tid]);
+        int delta_track = track_pos1 - track_pos2;
         int delta_pos = position - m_allClips[cid]->getPosition();
-        //TODO fix call to send test_only
-        return requestGroupMove(gid, delta_track, delta_pos);
+        return requestGroupMove(cid, gid, delta_track, delta_pos, updateView, logUndo);
     }
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
-    bool res = requestClipMove(cid, tid, position, test_only, undo, redo);
-    if (res && !test_only) {
+    bool res = requestClipMove(cid, tid, position, updateView, undo, redo);
+    if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
+    }
+    for (const auto& ptr : m_allTracks) {
+        ptr->checkConsistency();
     }
     return res;
 }
@@ -425,7 +437,7 @@ bool TimelineModel::requestClipInsert(std::shared_ptr<Mlt::Producer> prod, int t
     return true;
 }
 
-bool TimelineModel::requestGroupMove(int gid, int delta_track, int delta_pos, bool logUndo)
+bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
@@ -439,17 +451,28 @@ bool TimelineModel::requestGroupMove(int gid, int delta_track, int delta_pos, bo
     std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_track, delta_pos, this](int cid1, int cid2){
             int tid1 = m_allClips[cid1]->getCurrentTrackId();
             int tid2 = m_allClips[cid2]->getCurrentTrackId();
+            int track_pos1 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[tid1]);
+            int track_pos2 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[tid2]);
             if (tid1 == tid2) {
                 int p1 = m_allClips[cid1]->getPosition();
                 int p2 = m_allClips[cid2]->getPosition();
                 return !(p1 <= p2) == !(delta_pos <= 0);
             }
-            return !(tid1 <= tid2) == !(delta_track <= 0);
+            return !(track_pos1 <= track_pos2) == !(delta_track <= 0);
         });
     for (int clip : sorted_clips) {
-        int target_track = m_allClips[clip]->getCurrentTrackId() + delta_track;
-        int target_position = m_allClips[clip]->getPosition() + delta_pos;
-        ok = requestClipMove(clip, target_track, target_position, false, undo, redo);
+        int current_track_id = m_allClips[clip]->getCurrentTrackId();
+        int current_track_position = (int)std::distance(m_allTracks.begin(), m_iteratorTable[current_track_id]);
+        int target_track_position = current_track_position + delta_track;
+        if (target_track_position >= 0 && target_track_position < (int)m_allTracks.size()) {
+            auto it = m_allTracks.cbegin();
+            std::advance(it, target_track_position);
+            int target_track = (*it)->getId();
+            int target_position = m_allClips[clip]->getPosition() + delta_pos;
+            ok = requestClipMove(clip, target_track, target_position, updateView || (clip != cid), undo, redo);
+        } else {
+            ok = false;
+        }
         if (!ok) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -464,7 +487,7 @@ bool TimelineModel::requestGroupMove(int gid, int delta_track, int delta_pos, bo
 
 
 
-bool TimelineModel::requestClipResize(int cid, int size, bool right, bool test_only)
+bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUndo)
 {
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
@@ -484,16 +507,16 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right, bool test_o
         PUSH_LAMBDA(update_model, undo);
         PUSH_LAMBDA(update_model, redo);
         update_model();
-        if (!test_only) {
+        if (logUndo) {
             PUSH_UNDO(undo, redo, i18n("Resize clip"));
         }
     }
     return result;
 }
 
-bool TimelineModel::requestClipTrim(int cid, int delta, bool right, bool ripple, bool test_only)
+bool TimelineModel::requestClipTrim(int cid, int delta, bool right, bool ripple, bool logUndo)
 {
-    return requestClipResize(cid, m_allClips[cid]->getPlaytime() - delta, right, test_only);
+    return requestClipResize(cid, m_allClips[cid]->getPlaytime() - delta, right, logUndo);
 }
 
 bool TimelineModel::requestGroupClips(const std::unordered_set<int>& ids)
