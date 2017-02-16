@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "clipcreationdialog.h"
+#include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 #include "bin/bin.h"
@@ -83,7 +84,7 @@ QStringList ClipCreationDialog::getExtensions()
                 allExtensions << QStringLiteral("*.") + ext;
             } else {
                 //Unrecognized format
-                qDebug()<<"Unrecognized custom format: "<<ext;
+                qCDebug(KDENLIVE_LOG)<<"Unrecognized custom format: "<<ext;
             }
         }
     }

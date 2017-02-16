@@ -121,7 +121,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
             }
         }
     }
-    qDebug() << "MLT profiles path: " << KdenliveSettings::mltpath();
+    qCDebug(KDENLIVE_LOG) << "MLT profiles path: " << KdenliveSettings::mltpath();
     // Parse again MLT profiles to build a list of available video formats
     if (profilesList.isEmpty()) {
         locateMeltAndProfilesPath();

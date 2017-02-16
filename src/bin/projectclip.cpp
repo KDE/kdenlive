@@ -1135,7 +1135,6 @@ void ProjectClip::slotCreateAudioThumbs()
             int dataSize = 0;
             QList<const qint16 *> rawChannels;
             QList<QByteArray> sourceChannels;
-            QList<qint16> data2;
             for (int i = 0; i < channelFiles.count(); i++) {
                 channelFiles[i]->open();
                 QByteArray res = channelFiles[i]->readAll();
@@ -1229,6 +1228,7 @@ void ProjectClip::slotCreateAudioThumbs()
         double framesPerSecond = audioProducer->get_fps();
         mlt_audio_format audioFormat = mlt_audio_s16;
         QStringList keys;
+        keys.reserve(channels);
         for (int i = 0; i < channels; i++) {
             keys << "meta.media.audio_level." + QString::number(i);
         }

@@ -20,6 +20,7 @@
 
 #include "proxyclipjob.h"
 #include "kdenlivesettings.h"
+#include "kdenlive_debug.h"
 #include "doc/kdenlivedoc.h"
 #include "bin/projectclip.h"
 #include "bin/bin.h"
@@ -349,7 +350,7 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
                 playlist->close();
             }
         }
-        qDebug()<<" * *PROXY PATH: "<<path<<", "<<sourcePath;
+        qCDebug(KDENLIVE_LOG)<<" * *PROXY PATH: "<<path<<", "<<sourcePath;
         parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << params << QString::number(renderSize.width()) << QString::number(renderSize.height());
         ProxyJob *job = new ProxyJob(item->clipType(), id, parameters, playlist);
         jobs.insert(item, job);

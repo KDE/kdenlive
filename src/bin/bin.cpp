@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "bin.h"
+#include "kdenlive_debug.h"
 #include "mainwindow.h"
 #include "projectitemmodel.h"
 #include "projectclip.h"
@@ -3549,7 +3550,7 @@ void Bin::updateTimelineProducers(const QString &id, const QMap<QString, QString
 void Bin::showSlideshowWidget(ProjectClip *clip)
 {
     QString folder = QFileInfo(clip->url()).absolutePath();
-    qDebug()<<" ** * CLIP ABS PATH: "<<clip->url()<<" = "<<folder;
+    qCDebug(KDENLIVE_LOG)<<" ** * CLIP ABS PATH: "<<clip->url()<<" = "<<folder;
     SlideshowClip *dia = new SlideshowClip(m_doc->timecode(), folder, clip, this);
     if (dia->exec() == QDialog::Accepted) {
         // edit clip properties
