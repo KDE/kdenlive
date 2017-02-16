@@ -17,6 +17,7 @@ SET(Tests_SRCS
     ../src/doc/docundostack.cpp
     ../src/timeline2/model/clipmodel.cpp
     ../src/timeline2/model/groupsmodel.cpp
+    ../src/timeline2/model/timelineitemmodel.cpp
     ../src/timeline2/model/timelinemodel.cpp
     ../src/timeline2/model/trackmodel.cpp
     ../src/timeline2/model/snapmodel.cpp

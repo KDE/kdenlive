@@ -43,6 +43,7 @@ public:
     TrackModel() = delete;
 
     friend class TimelineModel;
+    friend class TimelineItemModel;
     friend class ClipModel;
 private:
     /* This constructor is private, call the static construct instead */

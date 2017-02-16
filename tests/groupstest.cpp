@@ -5,6 +5,7 @@
 #define protected public
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/clipmodel.hpp"
 #include "doc/docundostack.hpp"
 #include <mlt++/MltProducer.h>
@@ -13,7 +14,7 @@
 TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
     GroupsModel groups(timeline);
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
@@ -190,7 +191,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
     GroupsModel groups(timeline);
 
     std::function<bool (void)> undo = [](){return true;};
@@ -317,7 +318,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
     GroupsModel groups(timeline);
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
@@ -371,7 +372,7 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 TEST_CASE("Undo/redo", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
     Mlt::Profile profile;
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");

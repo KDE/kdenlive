@@ -6,6 +6,7 @@
 #define protected public
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/clipmodel.hpp"
 #include "doc/docundostack.hpp"
 
@@ -17,7 +18,7 @@
 TEST_CASE("Regression") {
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
     TimelineModel::next_id = 0;
     undoStack->undo();
     undoStack->redo();

@@ -25,8 +25,6 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
-#include <QVector>
-#include <QAbstractItemModel>
 #include <mlt++/MltTractor.h>
 #include "undohelper.hpp"
 
@@ -48,7 +46,7 @@ class DocUndoStack;
    This kind of behaviour frees us from the burden of simulating the actions before actually applying theme. This is a good thing because this simulation step would be very sensitive to corruptions and small discrepancies, which we try to avoid at all cost.
 
 
-   It derives from AbstractItemModel to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
+   It derives from AbstractItemModel (indirectly through TimelineItemModel) to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
    Our organization is as follows: at the top level, each row contains a track. These rows are in the same order as in the actual timeline.
    Then each of this row contains itself sub-rows that correspond to the clips.
    Here the order of these sub-rows is unrelated to the chronological order of the clips,
@@ -61,15 +59,8 @@ class DocUndoStack;
    A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to. 
 
 */
-class TimelineModel : public QAbstractItemModel, public std::enable_shared_from_this<TimelineModel>
+class TimelineModel : public std::enable_shared_from_this<TimelineModel>
 {
-Q_OBJECT
-
-public:
-    /* @brief construct a timeline object and returns a pointer to the created object
-       @param undo_stack is a weak pointer to the undo stack of the project
-     */
-    static std::shared_ptr<TimelineModel> construct(std::weak_ptr<DocUndoStack> undo_stack, bool populate = false);
 
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
@@ -81,44 +72,7 @@ public:
     friend class ClipModel;
     friend class GroupsModel;
 
-    ~TimelineModel();
-    /// Two level model: tracks and clips on track
-    enum {
-        NameRole = Qt::UserRole + 1,
-        ResourceRole,    /// clip only
-        ServiceRole,     /// clip only
-        IsBlankRole,     /// clip only
-        StartRole,       /// clip only
-        DurationRole,
-        InPointRole,     /// clip only
-        OutPointRole,    /// clip only
-        FramerateRole,   /// clip only
-        IsMuteRole,      /// track only
-        IsHiddenRole,    /// track only
-        IsAudioRole,
-        AudioLevelsRole, /// clip only
-        IsCompositeRole, /// track only
-        IsLockedRole,    /// track only
-        HeightRole,      /// track only
-        FadeInRole,      /// clip only
-        FadeOutRole,     /// clip only
-        IsTransitionRole,/// clip only
-        FileHashRole,    /// clip only
-        SpeedRole,       /// clip only
-        ItemIdRole
-    };
-
-    int rowCount(const QModelIndex & parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
-    QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
-    QModelIndex makeIndex(int trackIndex, int clipIndex) const;
-    /* @brief Creates an index based on the ID of the clip*/
-    QModelIndex makeClipIndexFromID(int cid) const;
-    /* @brief Creates an index based on the ID of the track*/
-    QModelIndex makeTrackIndexFromID(int tid) const;
-    QModelIndex parent(const QModelIndex &index) const override;
+    virtual ~TimelineModel();
     Mlt::Tractor* tractor() const { return m_tractor.get(); }
 
     /* @brief returns the number of tracks */
@@ -268,9 +222,8 @@ protected:
     /* @brief Helper function that returns true if the given ID correspond to a track
      */
     bool isTrack(int id) const;
-private:
+protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
-    QVector<int> m_snapPoints; // this will be modified from a lot of different places, we will probably need a mutex
 
     std::list<std::unique_ptr<TrackModel>> m_allTracks;
 
@@ -286,6 +239,16 @@ private:
 
     std::weak_ptr<DocUndoStack> m_undoStack;
 
+
+    //what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
+protected:
+    virtual void _beginRemoveRows(const QModelIndex&, int , int) = 0;
+    virtual void _beginInsertRows(const QModelIndex&, int , int) = 0;
+    virtual void _endRemoveRows() = 0;
+    virtual void _endInsertRows() = 0;
+    virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration) = 0;
+    virtual QModelIndex makeClipIndexFromID(int) const = 0;
+    virtual QModelIndex makeTrackIndexFromID(int) const = 0;
 };
 #endif
 

@@ -30,7 +30,7 @@
 TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
     , m_binController(binController)
-    , m_model(TimelineModel::construct(undoStack, true))
+    , m_model(TimelineItemModel::construct(undoStack, true))
     , m_position(0)
 {
     registerTimelineItems();

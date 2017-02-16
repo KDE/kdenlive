@@ -23,7 +23,7 @@
 #define TIMELINEWIDGET_H
 
 #include "mltcontroller/bincontroller.h"
-#include "timeline2/model/timelinemodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include <QQuickWidget>
 
 class BinController;
@@ -65,7 +65,7 @@ public slots:
     void onSeeked(int position);
 
 private:
-    std::shared_ptr<TimelineModel> m_model;
+    std::shared_ptr<TimelineItemModel> m_model;
     BinController *m_binController;
     struct Selection {
         QList<int> selectedClips;

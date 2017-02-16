@@ -29,6 +29,7 @@
 
 #include <klocalizedstring.h>
 #include <QDebug>
+#include <QModelIndex>
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltProfile.h>
 
@@ -44,41 +45,11 @@ int TimelineModel::next_id = 0;
 
 
 TimelineModel::TimelineModel(std::weak_ptr<DocUndoStack> undo_stack) :
-    QAbstractItemModel(),
     m_tractor(new Mlt::Tractor()),
     m_undoStack(undo_stack)
 {
     Mlt::Profile profile;
     m_tractor->set_profile(profile);
-}
-
-std::shared_ptr<TimelineModel> TimelineModel::construct(std::weak_ptr<DocUndoStack> undo_stack, bool populate)
-{
-    std::shared_ptr<TimelineModel> ptr(new TimelineModel(undo_stack));
-    ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
-    if (populate) {
-        // Testing: add a clip on first track
-        Mlt::Profile profile;
-        std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(profile,"color", "red"));
-        prod->set("length", 200);
-        prod->set("out", 24);
-        int ix = TrackModel::construct(ptr);
-        int ix2 = TrackModel::construct(ptr);
-        int ix3 = TrackModel::construct(ptr);
-        int clipId = ClipModel::construct(ptr, prod);
-        int clipId2 = ClipModel::construct(ptr, prod);
-        int clipId3 = ClipModel::construct(ptr, prod);
-        int clipId4 = ClipModel::construct(ptr, prod);
-        ptr->requestClipMove(clipId, ix, 100, true);
-        ptr->requestClipMove(clipId2, ix, 50, true);
-        ptr->requestClipMove(clipId3, ix, 250, true);
-        ptr->requestClipMove(clipId4, ix2, 112, true);
-        ptr->getTrackById(ix)->setProperty("kdenlive:trackheight", "60");
-        ptr->getTrackById(ix2)->setProperty("kdenlive:trackheight", "140");
-        ptr->getTrackById(ix3)->setProperty("kdenlive:trackheight", "140");
-        ptr->requestGroupClips({clipId, clipId4});
-    }
-    return ptr;
 }
 
 TimelineModel::~TimelineModel()
@@ -88,183 +59,6 @@ TimelineModel::~TimelineModel()
     }
 }
 
-QModelIndex TimelineModel::index(int row, int column, const QModelIndex &parent) const
-{
-    if (column > 0)
-        return QModelIndex();
-//    LOG_DEBUG() << __FUNCTION__ << row << column << parent;
-    QModelIndex result;
-    if (parent.isValid()) {
-        int trackId = int(parent.internalId());
-        Q_ASSERT(isTrack(trackId));
-        int clipId = getTrackById_const(trackId)->getClipByRow(row);
-        if (clipId != -1) {
-            result = createIndex(row, 0, quintptr(clipId));
-        }
-    } else if (row < getTracksCount()) {
-        auto it = m_allTracks.cbegin();
-        std::advance(it, row);
-        int trackId = (*it)->getId();
-        result = createIndex(row, column, quintptr(trackId));
-    }
-    return result;
-}
-
-QModelIndex TimelineModel::makeIndex(int trackIndex, int clipIndex) const
-{
-    return index(clipIndex, 0, index(trackIndex));
-}
-
-QModelIndex TimelineModel::makeClipIndexFromID(int cid) const
-{
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    int tid = m_allClips.at(cid)->getCurrentTrackId();
-    return index(getTrackById_const(tid)->getRowfromClip(cid), 0, makeTrackIndexFromID(tid) );
-}
-
-QModelIndex TimelineModel::makeTrackIndexFromID(int tid) const
-{
-    // we retrieve iterator
-    Q_ASSERT(m_iteratorTable.count(tid) > 0);
-    auto it = m_iteratorTable.at(tid);
-    int ind = (int)std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it);
-    return index(ind);
-}
-
-QModelIndex TimelineModel::parent(const QModelIndex &index) const
-{
-//    LOG_DEBUG() << __FUNCTION__ << index;
-    const int id = static_cast<int>(index.internalId());
-    if (!index.isValid() || isTrack(id)) {
-        return QModelIndex();
-    } else {
-        Q_ASSERT(isClip(id)); //if id is not a track it must be a clip.
-        const int trackId = getClipTrackId(id);
-        auto it = m_iteratorTable.at(trackId); //iterator to the element
-        decltype(m_allTracks.cbegin()) const_it(it);
-        int row = (int)std::distance(m_allTracks.cbegin(), const_it); //compute index in list
-        return createIndex(row, 0, quintptr(trackId));
-    }
-}
-
-
-int TimelineModel::rowCount(const QModelIndex &parent) const
-{
-    if (parent.isValid()) {
-        const int id = (int)parent.internalId();
-        if (isClip(id) || !isTrack(id)) {
-            //clips don't have children
-            //if it is not a track and not a clip, it is something invalid
-            return 0;
-        }
-        // return number of clip in a specific track
-        return getTrackClipsCount(id);
-    }
-    return getTracksCount();
-}
-
-int TimelineModel::columnCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent);
-    return 1;
-}
-
-QHash<int, QByteArray> TimelineModel::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
-    roles[ResourceRole] = "resource";
-    roles[ServiceRole] = "mlt_service";
-    roles[IsBlankRole] = "blank";
-    roles[StartRole] = "start";
-    roles[DurationRole] = "duration";
-    roles[InPointRole] = "in";
-    roles[OutPointRole] = "out";
-    roles[FramerateRole] = "fps";
-    roles[IsMuteRole] = "mute";
-    roles[IsHiddenRole] = "hidden";
-    roles[IsAudioRole] = "audio";
-    roles[AudioLevelsRole] = "audioLevels";
-    roles[IsCompositeRole] = "composite";
-    roles[IsLockedRole] = "locked";
-    roles[FadeInRole] = "fadeIn";
-    roles[FadeOutRole] = "fadeOut";
-    roles[IsTransitionRole] = "isTransition";
-    roles[FileHashRole] = "hash";
-    roles[SpeedRole] = "speed";
-    roles[HeightRole] = "trackHeight";
-    roles[ItemIdRole] = "item";
-    return roles;
-}
-
-QVariant TimelineModel::data(const QModelIndex &index, int role) const
-{
-    if (!m_tractor || !index.isValid()) {
-        return QVariant();
-    }
-    const int id = (int)index.internalId();
-    if (role == ItemIdRole) {
-        return id;
-    }
-    //qDebug() << "DATA requested "<<index<<roleNames()[role];
-    if (isClip(id)) {
-        // Get data for a clip
-        switch (role) {
-        //TODO
-        case NameRole:
-        case ResourceRole:
-        case Qt::DisplayRole:{
-            QString result = QString::fromUtf8("clip name");
-            return result;
-        }
-        case ServiceRole:
-            return QString("service2");
-            break;
-        case IsBlankRole: //probably useless
-            return false;
-        case StartRole:
-            return m_allClips.at(id)->getPosition();
-        case DurationRole:
-            return m_allClips.at(id)->getPlaytime();
-
-            //Are these really needed ??
-        case InPointRole:
-            return 0;
-        case OutPointRole:
-            return 1;
-        case FramerateRole:
-            return 25;
-        default:
-            break;
-        }
-    } else if(isTrack(id)) {
-        switch (role) {
-            case NameRole:
-            case Qt::DisplayRole:
-                return QString("Track %1").arg(getTrackById_const(index.row())->getId());
-            case DurationRole:
-                return m_tractor->get_playtime();
-            case IsMuteRole:
-                return 0;
-            case IsHiddenRole:
-                return 0;
-            case IsAudioRole:
-                return false;
-            case IsLockedRole:
-                return 0;
-            case HeightRole: {
-                int height = getTrackById_const(index.row())->getProperty("kdenlive:trackheight").toInt();
-                return (height > 0 ? height : 50);
-            }
-            case IsCompositeRole: {
-                return Qt::Unchecked;
-            }
-            default:
-                break;
-        }
-    }
-    return QVariant();
-}
 
 
 int TimelineModel::getTracksCount() const
@@ -341,16 +135,16 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
             if (tid == old_tid) {
                 qDebug() << "Data changed for clip"<<cid;
                 QModelIndex modelIndex = makeClipIndexFromID(cid);
-                emit dataChanged(modelIndex, modelIndex, {StartRole});
+                notifyChange(modelIndex, modelIndex, true, false);
             } else {
                 if (old_tid != -1){
                     qDebug() << "Removed row "<<old_clip_index;
-                    beginRemoveRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
-                    endRemoveRows();
+                    _beginRemoveRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
+                    _endRemoveRows();
                 }
                 qDebug() << "inserted row "<<new_clip_index;
-                beginInsertRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
-                endInsertRows();
+                _beginInsertRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
+                _endInsertRows();
             }
         }
         return true;
@@ -367,13 +161,13 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
         if (updateView) {
             if (tid == old_tid) {
                 QModelIndex modelIndex = makeClipIndexFromID(cid);
-                emit dataChanged(modelIndex, modelIndex, {StartRole});
+                notifyChange(modelIndex, modelIndex, true, false);
             } else {
-                beginRemoveRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
-                endRemoveRows();
+                _beginRemoveRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
+                _endRemoveRows();
                 if (old_tid != -1) {
-                    beginInsertRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
-                    endInsertRows();
+                    _beginInsertRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
+                    _endInsertRows();
                 }
             }
         }
@@ -495,9 +289,9 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUnd
         if (getClipTrackId(cid) != -1) {
             QModelIndex modelIndex = makeClipIndexFromID(cid);
             if (right) {
-                emit dataChanged(modelIndex, modelIndex, {DurationRole});
+                notifyChange(modelIndex, modelIndex, false, true);
             } else {
-                emit dataChanged(modelIndex, modelIndex, {StartRole,DurationRole});
+                notifyChange(modelIndex, modelIndex, true, true);
             }
         }
         return true;
