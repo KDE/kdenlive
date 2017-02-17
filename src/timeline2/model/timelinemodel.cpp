@@ -350,17 +350,22 @@ bool TimelineModel::requestGroupDeletion(int cid)
         group_queue.pop();
         Q_ASSERT(isGroup(current_group));
         auto children = m_groups->getDirectChildren(current_group);
+        int one_child = -1; //we need the id on any of the indices of the elements of the group
         for(int c : children) {
             if (isClip(c)) {
                 all_clips.insert(c);
+                one_child = c;
             } else {
                 Q_ASSERT(isGroup(c));
-                bool res = m_groups->ungroupItem(c, undo, redo);
-                if (!res) {
-                    undo();
-                    return false;
-                }
+                one_child = c;
                 group_queue.push(c);
+            }
+        }
+        if (one_child != -1) {
+            bool res = m_groups->ungroupItem(one_child, undo, redo);
+            if (!res) {
+                undo();
+                return false;
             }
         }
     }

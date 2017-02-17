@@ -32,11 +32,6 @@ GroupsModel::GroupsModel(std::weak_ptr<TimelineModel> parent) :
 Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int>& ids)
 {
     return [gid, ids, this](){
-        qDebug() << "grouping items in group"<<gid;
-        qDebug() << "Ids";
-        for(auto i : ids) qDebug() << i;
-        qDebug() << "roots";
-        for(auto i : ids) qDebug() << getRootId(i);
         createGroupItem(gid);
 
         Q_ASSERT(m_groupIds.count(gid) == 0);
@@ -68,7 +63,7 @@ int GroupsModel::groupItems(const std::unordered_set<int>& ids, Fun &undo, Fun &
     int gid = TimelineModel::getNextId();
     auto operation = groupItems_lambda(gid, ids);
     if (operation()) {
-        auto reverse = destructGroupItem_lambda(gid, false);
+        auto reverse = destructGroupItem_lambda(gid);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return gid;
     }
@@ -94,9 +89,9 @@ void GroupsModel::createGroupItem(int id)
     m_downLink[id] = std::unordered_set<int>();
 }
 
-Fun GroupsModel::destructGroupItem_lambda(int id, bool deleteOrphan)
+Fun GroupsModel::destructGroupItem_lambda(int id)
 {
-    return [this, id, deleteOrphan]() {
+    return [this, id]() {
         if (m_groupIds.count(id) > 0) {
             if(auto ptr = m_parent.lock()) {
                 ptr->deregisterGroup(id);
@@ -121,7 +116,7 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
     Q_ASSERT(m_upLink.count(id) > 0);
     int parent = m_upLink[id];
     auto old_children = m_downLink[id];
-    auto operation = destructGroupItem_lambda(id, deleteOrphan);
+    auto operation = destructGroupItem_lambda(id);
     if (operation()) {
         auto reverse = groupItems_lambda(id, old_children);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -135,7 +130,7 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
 
 bool GroupsModel::destructGroupItem(int id)
 {
-    return destructGroupItem_lambda(id, false)();
+    return destructGroupItem_lambda(id)();
 }
 
 int GroupsModel::getRootId(int id) const
@@ -212,7 +207,6 @@ void GroupsModel::setGroup(int id, int groupId)
     Q_ASSERT(m_upLink.count(id) > 0);
     Q_ASSERT(m_downLink.count(groupId) > 0);
     Q_ASSERT(id != groupId);
-    qDebug() << "Setting " << id <<"in group"<<groupId;
     removeFromGroup(id);
     m_upLink[id] = groupId;
     m_downLink[groupId].insert(id);
@@ -223,7 +217,6 @@ void GroupsModel::removeFromGroup(int id)
     Q_ASSERT(m_upLink.count(id) > 0);
     Q_ASSERT(m_downLink.count(id) > 0);
     int parent = m_upLink[id];
-    qDebug() << "removing " << id <<"from group hierarchy. Is parent is"<<parent;
     if (parent != -1) {
         m_downLink[parent].erase(id);
     }

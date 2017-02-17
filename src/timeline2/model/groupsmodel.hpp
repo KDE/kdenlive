@@ -118,7 +118,7 @@ protected:
     */
     bool destructGroupItem(int id, bool deleteOrphan, Fun& undo, Fun& redo);
     /* Lambda version */
-    Fun destructGroupItem_lambda(int id, bool deleteOrphan);
+    Fun destructGroupItem_lambda(int id);
 
     /* @brief change the group of a given item
        @param id of the groupItem
