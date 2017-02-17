@@ -208,6 +208,38 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool update
     return res;
 }
 
+int TimelineModel::suggestClipMove(int cid, int tid, int position)
+{
+    Q_ASSERT(isClip(cid));
+    Q_ASSERT(isTrack(tid));
+    int currentPos = getClipPosition(cid);
+    int currentTrack = getClipTrackId(cid);
+    if (currentPos == position || currentTrack != tid) {
+        return position;
+    }
+    qDebug() << "Starting suggestion "<<cid << position << currentPos;
+    //we check if move is possible
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    bool possible = requestClipMove(cid, tid, position, false, undo, redo);
+    qDebug() << "Original move success" << possible;
+    if (possible) {
+        undo();
+        return position;
+    }
+    bool after = position > currentPos;
+    int blank_length = getTrackById(tid)->getBlankSizeNearClip(cid, after);
+    qDebug() << "Found blank" << blank_length;
+    if (blank_length < INT_MAX) {
+        if (after) {
+            return currentPos + blank_length;
+        } else {
+            return currentPos - blank_length;
+        }
+    }
+    return position;
+}
+
 bool TimelineModel::requestClipInsert(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id)
 {
     int clipId = TimelineModel::getNextId();

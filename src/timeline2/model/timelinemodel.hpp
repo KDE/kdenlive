@@ -117,6 +117,12 @@ protected:
     bool requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo);
 public:
 
+    /* @brief Given an intended move, try to suggest a more valid one
+       @param cid id of the clip to move
+       @param tid id of the target track
+       @param position target position of the clip
+     */
+    int suggestClipMove(int cid, int tid, int position);
 
     /* @brief Request clip insertion at given position.
        This action is undoable

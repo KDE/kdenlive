@@ -171,6 +171,41 @@ bool TrackModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
     return false;
 }
 
+int TrackModel::getBlankSizeNearClip(int cid, bool after)
+{
+    Q_ASSERT(m_allClips.count(cid) > 0);
+    int clip_position = m_allClips[cid]->getPosition();
+    auto clip_loc = getClipIndexAt(clip_position);
+    int track = clip_loc.first;
+    int index = clip_loc.second;
+    int other_index; //index in the other track
+    int other_track = (track+1)%2;
+    if (after) {
+        int first_pos = m_playlists[track].clip_start(index) + m_playlists[track].clip_length(index);
+        other_index = m_playlists[other_track].get_clip_index_at(first_pos);
+        index++;
+    } else {
+        int last_pos = m_playlists[track].clip_start(index) - 1;
+        other_index = m_playlists[other_track].get_clip_index_at(last_pos);
+        index--;
+    }
+    if (index < 0) return 0;
+    int length = INT_MAX;
+    if (index < m_playlists[track].count()) {
+        if (!m_playlists[track].is_blank(index)) {
+            return 0;
+        }
+        length = std::min(length, m_playlists[track].clip_length(index));
+    }
+    if (other_index < m_playlists[other_track].count()) {
+        if (!m_playlists[other_track].is_blank(other_index)) {
+            return 0;
+        }
+        length = std::min(length, m_playlists[other_track].clip_length(other_index));
+    }
+    return length;
+}
+
 Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
 {
     int clip_position = m_allClips[cid]->getPosition();

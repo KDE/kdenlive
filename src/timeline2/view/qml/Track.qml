@@ -104,20 +104,17 @@ Column{
             onDragged: {
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
-                var frame = Math.round(clip.x / timeScale)
-                /*if (toolbar.scrub) {
-                    root.stopScrolling = false
-                    timeline.position = Math.round(clip.x / timeScale)
-                }*/
-                // Snap if Alt key is not down.
-                if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap)
-                    trackRoot.checkSnap(clip)
-                // Prevent dragging left of multitracks origin.
-                console.log("dragging clip x: ", clip.x, " ID: "<<clip.originalClipIndex)
                 clip.x = Math.max(0, clip.x)
+                var frame = Math.round(clip.x / timeScale)
+
+                frame = timeline.suggestClipMove(toTrack, cIndex, frame);
+
+                //console.log("dragging clip x: ", clip.x, " ID: "<<clip.originalClipIndex)
                 if (!timeline.allowMoveClip(toTrack, cIndex, frame)) {
                     // Abort move
                     clip.x = clip.draggedX
+                } else {
+                    clip.x = frame * timeScale
                 }
                 var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
                 trackRoot.clipDragged(clip, mapped.x, mapped.y)

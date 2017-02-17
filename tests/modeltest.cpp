@@ -870,3 +870,45 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
     }
 }
+
+TEST_CASE("Snapping", "[Snapping]") {
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
+
+
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
+    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile_model, "color", "blue");
+    producer->set("length", 20);
+    producer->set("out", 19);
+    producer2->set("length", 20);
+    producer2->set("out", 19);
+
+    REQUIRE(producer->is_valid());
+    REQUIRE(producer2->is_valid());
+    int tid1 = TrackModel::construct(timeline);
+    int cid1 = ClipModel::construct(timeline, producer);
+    int tid2 = TrackModel::construct(timeline);
+    int cid2 = ClipModel::construct(timeline, producer2);
+
+    int length = timeline->m_allClips[cid1]->getPlaytime();
+    SECTION("getBlankSizeNearClip") {
+        REQUIRE(timeline->requestClipMove(cid1,tid1,0));
+
+        //before
+        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, false) == 0);
+        //after
+        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, true) == INT_MAX);
+        REQUIRE(timeline->requestClipMove(cid1,tid1,10));
+        //before
+        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, false) == 10);
+        //after
+        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, true) == INT_MAX);
+        REQUIRE(timeline->requestClipMove(cid2,tid1,25 + length));
+        //before
+        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, false) == 10);
+        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid2, false) == 15);
+        //after
+        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, true) == 15);
+        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid2, true) == INT_MAX);
+    }
+}

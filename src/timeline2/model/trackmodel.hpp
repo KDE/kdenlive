@@ -107,6 +107,12 @@ protected:
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int cid);
 
+    /* @brief Returns the size of the blank before or after the given clip
+       @param cid is the id of the clip
+       @param after is true if we query the blank after, false otherwise
+    */
+    int getBlankSizeNearClip(int cid, bool after);
+
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;
 

@@ -29,8 +29,8 @@
 
 TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
-    , m_binController(binController)
     , m_model(TimelineItemModel::construct(undoStack, true))
+    , m_binController(binController)
     , m_position(0)
 {
     registerTimelineItems();
@@ -145,6 +145,10 @@ bool TimelineWidget::allowMoveClip(int toTrack, int clipIndex, int position)
     return m_model->requestClipMove(clipIndex, toTrack, position, false, false);
 }
 
+int TimelineWidget::suggestClipMove(int toTrack, int clipIndex, int position)
+{
+    return m_model->suggestClipMove(clipIndex,toTrack,  position);
+}
 bool TimelineWidget::trimClip(int clipIndex, int delta, bool right, bool logUndo)
 {
     return m_model->requestClipTrim(clipIndex, delta, right, false, logUndo);
@@ -155,9 +159,9 @@ bool TimelineWidget::resizeClip(int clipIndex, int duration, bool right, bool lo
     return m_model->requestClipResize(clipIndex, duration, right, logUndo);
 }
 
-void TimelineWidget::insertClip(int track, int position, QString data)
+void TimelineWidget::insertClip(int track, int position, QString data_str)
 {
-    std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(m_binController->getBinProducer(data));
+    std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(m_binController->getBinProducer(data_str));
     int id;
     m_model->requestClipInsert(prod, track, position, id);
 }
