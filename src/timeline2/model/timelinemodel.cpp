@@ -236,7 +236,7 @@ int TimelineModel::suggestClipMove(int cid, int tid, int position)
     return position;
 }
 
-bool TimelineModel::requestClipInsert(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id)
+bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id)
 {
     int clipId = TimelineModel::getNextId();
     id = clipId;

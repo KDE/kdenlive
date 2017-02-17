@@ -797,13 +797,13 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
 
         int cid3;
-        REQUIRE_FALSE(timeline->requestClipInsert(prod, tid1, 5, cid3));
+        REQUIRE_FALSE(timeline->requestClipInsertion(prod, tid1, 5, cid3));
         state1();
 
-        REQUIRE_FALSE(timeline->requestClipInsert(prod, tid1, 6, cid3));
+        REQUIRE_FALSE(timeline->requestClipInsertion(prod, tid1, 6, cid3));
         state1();
 
-        REQUIRE(timeline->requestClipInsert(prod, tid1, 5 + length, cid3));
+        REQUIRE(timeline->requestClipInsertion(prod, tid1, 5 + length, cid3));
         auto state2 = [&]() {
             std::cout<<"consist"<<std::endl;
             REQUIRE(timeline->getTrackById(tid1)->checkConsistency());

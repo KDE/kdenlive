@@ -163,7 +163,7 @@ void TimelineWidget::insertClip(int track, int position, QString data_str)
 {
     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(m_binController->getBinProducer(data_str));
     int id;
-    m_model->requestClipInsert(prod, track, position, id);
+    m_model->requestClipInsertion(prod, track, position, id);
 }
 
 

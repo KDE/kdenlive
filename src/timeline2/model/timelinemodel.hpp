@@ -135,7 +135,7 @@ public:
        @param Requested position
        @param ID return parameter of the id of the inserted clip
     */
-    bool requestClipInsert(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id);
+    bool requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id);
 
     /* @brief Deletes the given clip from the timeline
        Returns true on success. If it fails, nothing is modified.
