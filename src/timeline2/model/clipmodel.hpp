@@ -54,10 +54,6 @@ public:
     */
     static int construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id = -1);
 
-    /* @brief The destructor. It asks the parent to be deleted
-     */
-    void destruct();
-
     /* @brief returns (unique) id of current clip
      */
     int getId() const;

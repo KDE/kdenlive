@@ -32,6 +32,7 @@
 #include <QModelIndex>
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltProfile.h>
+#include <queue>
 
 int TimelineModel::next_id = 0;
 
@@ -86,11 +87,6 @@ void TimelineModel::deleteTrackById(int id)
     (*it)->destruct();
 }
 
-void TimelineModel::deleteClipById(int id)
-{
-    Q_ASSERT(m_allClips.count(id) > 0);
-    m_allClips[id]->destruct();
-}
 
 int TimelineModel::getClipTrackId(int cid) const
 {
@@ -130,7 +126,6 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
     }
     int new_clip_index = getTrackById(tid)->getRowfromClip(cid);
     auto operation = [cid, tid, old_tid, old_clip_index, new_clip_index, updateView, this]() {
-        m_allClips[cid]->setCurrentTrackId(tid);
         if (updateView) {
             if (tid == old_tid) {
                 qDebug() << "Data changed for clip"<<cid;
@@ -149,10 +144,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
         }
         return true;
     };
-    auto reverse = [cid, old_tid, this]() {
-        m_allClips[cid]->setCurrentTrackId(old_tid);
-        return true;
-    };
+    auto reverse = []() {return true;};
     //push the operation and its reverse in the undo/redo
     UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
     //We have to expend the local undo with the data modification signals. They have to be sent after the real operations occured in the model so that the GUI can query the correct new values
@@ -186,7 +178,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool update
     if (m_allClips[cid]->getPosition() == position && m_allClips[cid]->getCurrentTrackId() == tid) {
         return true;
     }
-    if (m_groups->getRootId(cid) != cid) {
+    if (m_groups->isInGroup(cid)) {
         //element is in a group.
         int gid = m_groups->getRootId(cid);
         int current_tid = m_allClips[cid]->getCurrentTrackId();
@@ -201,9 +193,6 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool update
     bool res = requestClipMove(cid, tid, position, updateView, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
-    }
-    for (const auto& ptr : m_allTracks) {
-        ptr->checkConsistency();
     }
     return res;
 }
@@ -244,10 +233,7 @@ bool TimelineModel::requestClipInsert(std::shared_ptr<Mlt::Producer> prod, int t
 {
     int clipId = TimelineModel::getNextId();
     id = clipId;
-    Fun undo = [clipId, this](){
-        m_allClips[clipId]->destruct();
-        return true;
-    };
+    Fun undo = deregisterClip_lambda(clipId);
     Fun redo = [clipId, prod, this](){
         ClipModel::construct(shared_from_this(), prod, clipId);
         return true;
@@ -261,6 +247,46 @@ bool TimelineModel::requestClipInsert(std::shared_ptr<Mlt::Producer> prod, int t
     }
     PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     return true;
+}
+
+bool TimelineModel::requestClipDeletion(int cid)
+{
+    Q_ASSERT(isClip(cid));
+    if (m_groups->isInGroup(cid)) {
+        return requestGroupDeletion(cid);
+    }
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    bool res = requestClipDeletion(cid, undo, redo);
+    if (res) {
+        PUSH_UNDO(undo, redo, i18n("Delete Clip"));
+    }
+    return res;
+}
+
+bool TimelineModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
+{
+    int tid = getClipTrackId(cid);
+    if (tid != -1) {
+        bool res = getTrackById(tid)->requestClipDeletion(cid, undo, redo);
+        if (!res) {
+            undo();
+            return false;
+        }
+    }
+    auto operation = deregisterClip_lambda(cid);
+    auto clip = m_allClips[cid];
+    auto reverse = [cid, this, clip]() {
+        // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
+        registerClip(clip);
+        return true;
+    };
+    if (operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    undo();
+    return false;
 }
 
 bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delta_pos, bool updateView, bool logUndo)
@@ -311,6 +337,43 @@ bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delt
     return true;
 }
 
+bool TimelineModel::requestGroupDeletion(int cid)
+{
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    // we do a breadth first exploration of the group tree, ungroup (delete) every inner node, and then delete all the leaves.
+    std::queue<int> group_queue;
+    group_queue.push(m_groups->getRootId(cid));
+    std::unordered_set<int> all_clips;
+    while (!group_queue.empty()) {
+        int current_group = group_queue.front();
+        group_queue.pop();
+        Q_ASSERT(isGroup(current_group));
+        auto children = m_groups->getDirectChildren(current_group);
+        for(int c : children) {
+            if (isClip(c)) {
+                all_clips.insert(c);
+            } else {
+                Q_ASSERT(isGroup(c));
+                bool res = m_groups->ungroupItem(c, undo, redo);
+                if (!res) {
+                    undo();
+                    return false;
+                }
+                group_queue.push(c);
+            }
+        }
+    }
+    for(int clipId : all_clips) {
+        bool res = requestClipDeletion(clipId, undo, redo);
+        if (!res) {
+            undo();
+            return false;
+        }
+    }
+    PUSH_UNDO(undo, redo, i18n("Remove group"));
+    return true;
+}
 
 
 bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUndo)
@@ -412,18 +475,16 @@ void TimelineModel::deregisterTrack(int id)
     m_allTracks.erase(it);  //actual deletion of object
 }
 
-void TimelineModel::deregisterClip(int id)
+Fun TimelineModel::deregisterClip_lambda(int cid)
 {
-    Q_ASSERT(m_allClips.count(id) > 0);
-    //TODO this is temporary while UNDO for clip deletion is not implemented
-    std::function<bool (void)> undo = [](){return true;};
-    std::function<bool (void)> redo = [](){return true;};
-    int tid = m_allClips[id]->getCurrentTrackId();
-    if (tid != -1) {
-        getTrackById(m_allClips[id]->getCurrentTrackId())->requestClipDeletion(id, undo, redo);
-    }
-    m_allClips.erase(id);
-    m_groups->destructGroupItem(id, true, undo, redo);
+    return [this, cid]() {
+        Q_ASSERT(m_allClips.count(cid) > 0);
+        Q_ASSERT(getClipTrackId(cid) == -1); //clip must be deleted from its track at this point
+        Q_ASSERT(!m_groups->isInGroup(cid)); //clip must be ungrouped at this point
+        m_allClips.erase(cid);
+        m_groups->destructGroupItem(cid);
+        return true;
+    };
 }
 
 void TimelineModel::deregisterGroup(int id)
@@ -463,6 +524,11 @@ bool TimelineModel::isClip(int id) const
 bool TimelineModel::isTrack(int id) const
 {
     return m_iteratorTable.count(id) > 0;
+}
+
+bool TimelineModel::isGroup(int id) const
+{
+    return m_allGroups.count(id) > 0;
 }
 
 int TimelineModel::duration() const

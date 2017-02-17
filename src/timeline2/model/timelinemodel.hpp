@@ -84,9 +84,6 @@ public:
     /* @brief Delete track based on its id */
     void deleteTrackById(int id);
 
-    /* @brief Delete clip based on its id */
-    void deleteClipById(int id);
-
     /* @brief Returns the id of the track containing clip (-1 if it is not inserted)
        @param cid Id of the clip to test
      */
@@ -105,6 +102,7 @@ public:
     /* @brief Move a clip to a specific position
        Returns true on success. If it fails, nothing is modified.
        If the clip is not in inserted in a track yet, it gets inserted for the first time.
+       If the clip is in a group, the call is deferred to requestGroupMove
        @param cid is the ID of the clip
        @param tid is the ID of the target track
        @param position is the position where we want to move
@@ -134,6 +132,15 @@ public:
     */
     bool requestClipInsert(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id);
 
+    /* @brief Deletes the given clip from the timeline
+       Returns true on success. If it fails, nothing is modified.
+       If the clip is in a group, the call is deferred to requestGroupDeletion
+       @param cid is the ID of the clip
+    */
+    bool requestClipDeletion(int cid);
+    /* Same function, but accumulates undo and redo, and doesn't check for group*/
+    bool requestClipDeletion(int cid, Fun &undo, Fun &redo);
+
     /* @brief Move a group to a specific position
        Returns true on success. If it fails, nothing is modified.
        If the clips in the group are not in inserted in a track yet, they get inserted for the first time.
@@ -145,6 +152,13 @@ public:
        @param logUndo if set to true, an undo object is created
     */
     bool requestGroupMove(int cid, int gid, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
+
+    /* @brief Deletes all clips inside the group that contains the given clip.
+       Note that if their is a hierarchy of groups, all of them will be deleted.
+       Returns true on success. If it fails, nothing is modified.
+       @param cid is the id of the clip that triggers the group deletion
+    */
+    bool requestGroupDeletion(int cid);
 
     /* @brief Change the duration of a clip
        Returns true on success. If it fails, nothing is modified.
@@ -201,9 +215,10 @@ protected:
      */
     void deregisterTrack(int id);
 
-    /* @brief Deregister and destruct the clip with given id.
+    /* @brief Return a lambda that deregisters and destructs the clip with given id.
+       Note that the clip must already be deleted from its track and groups.
      */
-    void deregisterClip(int id);
+    Fun deregisterClip_lambda(int id);
 
     /* @brief Deregister a group with given id
      */
@@ -221,13 +236,17 @@ protected:
      */
     static int getNextId();
 
-    /* @brief Helper function that returns true if the given ID correspond to a clip
+    /* @brief Helper function that returns true if the given ID corresponds to a clip
      */
     bool isClip(int id) const;
 
-    /* @brief Helper function that returns true if the given ID correspond to a track
+    /* @brief Helper function that returns true if the given ID corresponds to a track
      */
     bool isTrack(int id) const;
+
+    /* @brief Helper function that returns true if the given ID corresponds to a track
+     */
+    bool isGroup(int id) const;
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
 

@@ -71,11 +71,11 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     REQUIRE(timeline->getClipsCount() == 3);
 
     // Test deletion
-    timeline->deleteClipById(id2);
+    REQUIRE(timeline->requestClipDeletion(id2));
     REQUIRE(timeline->getClipsCount() == 2);
-    timeline->deleteClipById(id3);
+    REQUIRE(timeline->requestClipDeletion(id3));
     REQUIRE(timeline->getClipsCount() == 1);
-    timeline->deleteClipById(id1);
+    REQUIRE(timeline->requestClipDeletion(id1));
     REQUIRE(timeline->getClipsCount() == 0);
 
 }
@@ -868,6 +868,35 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
         undoStack->undo();
         state1();
+    }
+
+
+    SECTION("Clip Deletion undo") {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        auto state1 = [&]() {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->m_allClips[cid1]->getCurrentTrackId() == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(undoStack->index() == init_index + 1);
+        };
+        state1();
+
+        int nbClips = timeline->getClipsCount();
+        REQUIRE(timeline->requestClipDeletion(cid1));
+        auto state2 = [&]() {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+            REQUIRE(timeline->getClipsCount() == nbClips - 1);
+            REQUIRE(undoStack->index() == init_index + 2);
+        };
+        state2();
+
+        undoStack->undo();
+        state1();
+
+        undoStack->redo();
+        state2();
     }
 }
 

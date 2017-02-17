@@ -133,6 +133,11 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
     return false;
 }
 
+bool GroupsModel::destructGroupItem(int id)
+{
+    return destructGroupItem_lambda(id, false)();
+}
+
 int GroupsModel::getRootId(int id) const
 {
     std::unordered_set<int> seen; //we store visited ids to detect cycles
@@ -153,6 +158,12 @@ bool GroupsModel::isLeaf(int id) const
 {
     Q_ASSERT(m_downLink.count(id) > 0);
     return m_downLink.at(id).size() == 0;
+}
+
+bool GroupsModel::isInGroup(int id) const
+{
+    Q_ASSERT(m_downLink.count(id) > 0);
+    return getRootId(id) != id;
 }
 
 std::unordered_set<int> GroupsModel::getSubtree(int id) const
@@ -188,6 +199,12 @@ std::unordered_set<int> GroupsModel::getLeaves(int id) const
         }
     }
     return result;
+}
+
+std::unordered_set<int> GroupsModel::getDirectChildren(int id) const
+{
+    Q_ASSERT(m_downLink.count(id) > 0);
+    return m_downLink.at(id);
 }
 
 void GroupsModel::setGroup(int id, int groupId)

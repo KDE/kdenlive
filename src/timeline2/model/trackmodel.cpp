@@ -80,8 +80,9 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
             std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
             m_allClips[clip->getId()] = clip;  //store clip
             qDebug() << "INSERTED CLIP "<<m_allClips[clip->getId()]->getPosition();
-            //update clip position
+            //update clip position and track
             clip->setPosition(position);
+            clip->setCurrentTrackId(getId());
             return true;
         } else {
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -149,6 +150,7 @@ Fun TrackModel::requestClipDeletion_lambda(int cid)
         auto prod = m_playlists[target_track].replace_with_blank(target_clip);
         if (prod != nullptr) {
             m_playlists[target_track].consolidate_blanks();
+            m_allClips[cid]->setCurrentTrackId(-1);
             m_allClips.erase(cid);
             delete prod;
             return true;

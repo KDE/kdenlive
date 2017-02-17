@@ -50,16 +50,6 @@ int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Ml
 }
 
 
-void ClipModel::destruct()
-{
-    if (auto ptr = m_parent.lock()) {
-        ptr->deregisterClip(m_id);
-    } else {
-        qDebug() << "Error : destruction of clip failed because parent timeline is not available anymore";
-        Q_ASSERT(false);
-    }
-}
-
 int ClipModel::getId() const
 {
     return m_id;

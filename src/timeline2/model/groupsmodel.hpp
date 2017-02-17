@@ -67,18 +67,11 @@ public:
     */
     void createGroupItem(int id);
 
-    /* @brief Destruct a groupItem in the hierarchy.
-       All its children will become their own roots
-       Return true on success
-       @param id id of the groupitem
-       @param deleteOrphan If this parameter is true, we recursively delete any group that become empty following the destruction
-       @param undo Lambda function containing the current undo stack. Will be updated with current operation
-       @param redo Lambda function containing the current redo queue. Will be updated with current operation
+    /* @brief Destruct a group item
+       Note that this public function expects that the given id is an orphan element.
+       @param id id of the groupItem
     */
-    bool destructGroupItem(int id, bool deleteOrphan, Fun& undo, Fun& redo);
-protected:
-    /* Lambda version */
-    Fun destructGroupItem_lambda(int id, bool deleteOrphan);
+    bool destructGroupItem(int id);
 
 public:
     /* @brief Get the overall father of a given groupItem
@@ -92,6 +85,11 @@ public:
     */
     bool isLeaf(int id) const;
 
+    /* @brief Returns true if the element is in a non-trivial group
+       @param id of the groupItem
+    */
+    bool isInGroup(int id) const;
+
     /* @brief Returns the id of all the descendant of given item (including item)
        @param id of the groupItem
     */
@@ -103,7 +101,24 @@ public:
     */
     std::unordered_set<int> getLeaves(int id) const;
 
+    /* @brief Gets direct children of a given group item
+       @param id of the groupItem
+     */
+    std::unordered_set<int> getDirectChildren(int id) const;
+
+
 protected:
+    /* @brief Destruct a groupItem in the hierarchy.
+       All its children will become their own roots
+       Return true on success
+       @param id id of the groupitem
+       @param deleteOrphan If this parameter is true, we recursively delete any group that become empty following the destruction
+       @param undo Lambda function containing the current undo stack. Will be updated with current operation
+       @param redo Lambda function containing the current redo queue. Will be updated with current operation
+    */
+    bool destructGroupItem(int id, bool deleteOrphan, Fun& undo, Fun& redo);
+    /* Lambda version */
+    Fun destructGroupItem_lambda(int id, bool deleteOrphan);
 
     /* @brief change the group of a given item
        @param id of the groupItem
