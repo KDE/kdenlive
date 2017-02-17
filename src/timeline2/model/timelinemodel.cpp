@@ -102,12 +102,19 @@ int TimelineModel::getClipPosition(int cid) const
     return clip->getPosition();
 }
 
+int TimelineModel::getClipPlaytime(int cid) const
+{
+    Q_ASSERT(m_allClips.count(cid) > 0);
+    const auto clip = m_allClips.at(cid);
+    return clip->getPlaytime();
+}
+
 bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo)
 {
     std::function<bool (void)> local_undo = [](){return true;};
     std::function<bool (void)> local_redo = [](){return true;};
     bool ok = true;
-    int old_tid = m_allClips[cid]->getCurrentTrackId();
+    int old_tid = getClipTrackId(cid);
     int old_clip_index = -1;
     if (old_tid != -1) {
         old_clip_index = getTrackById(old_tid)->getRowfromClip(cid);
@@ -175,13 +182,13 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
 bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool updateView, bool logUndo)
 {
     Q_ASSERT(m_allClips.count(cid) > 0);
-    if (m_allClips[cid]->getPosition() == position && m_allClips[cid]->getCurrentTrackId() == tid) {
+    if (m_allClips[cid]->getPosition() == position && getClipTrackId(cid) == tid) {
         return true;
     }
     if (m_groups->isInGroup(cid)) {
         //element is in a group.
         int gid = m_groups->getRootId(cid);
-        int current_tid = m_allClips[cid]->getCurrentTrackId();
+        int current_tid = getClipTrackId(cid);
         int track_pos1 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[tid]);
         int track_pos2 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[current_tid]);
         int delta_track = track_pos1 - track_pos2;
@@ -301,8 +308,8 @@ bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delt
     //If we move up, we move first the clips on the upper tracks (and conversely).
     //If we move left, we move first the leftmost clips (and conversely).
     std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_track, delta_pos, this](int cid1, int cid2){
-            int tid1 = m_allClips[cid1]->getCurrentTrackId();
-            int tid2 = m_allClips[cid2]->getCurrentTrackId();
+            int tid1 = getClipTrackId(cid1);
+            int tid2 = getClipTrackId(cid2);
             int track_pos1 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[tid1]);
             int track_pos2 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[tid2]);
             if (tid1 == tid2) {
@@ -313,7 +320,7 @@ bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delt
             return !(track_pos1 <= track_pos2) == !(delta_track <= 0);
         });
     for (int clip : sorted_clips) {
-        int current_track_id = m_allClips[clip]->getCurrentTrackId();
+        int current_track_id = getClipTrackId(clip);
         int current_track_position = (int)std::distance(m_allTracks.begin(), m_iteratorTable[current_track_id]);
         int target_track_position = current_track_position + delta_track;
         if (target_track_position >= 0 && target_track_position < (int)m_allTracks.size()) {

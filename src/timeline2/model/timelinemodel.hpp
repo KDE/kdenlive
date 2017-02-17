@@ -94,6 +94,11 @@ public:
     */
     int getClipPosition(int cid) const;
 
+    /* @brief Returns the duration of a clip
+       @param cid Id of the clip to test
+    */
+    int getClipPlaytime(int cid) const;
+
     /* @brief Returns the number of clips in a given track
        @param tid Id of the track to test
     */
