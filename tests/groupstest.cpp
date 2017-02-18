@@ -12,6 +12,7 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
+Mlt::Profile profile_group;
 TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -374,9 +375,8 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
-    Mlt::Profile profile;
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_group, "color", "red");
     producer->set("length", 20);
     producer->set("out", 19);
 
@@ -389,7 +389,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
     }
 
     int init_index = undoStack->index();
-/*    SECTION("Basic Creation") {
+    SECTION("Basic Creation") {
         auto check_roots = [&](int r1, int r2, int r3, int r4) {
             REQUIRE(timeline->m_groups->getRootId(clips[0]) == r1);
             REQUIRE(timeline->m_groups->getRootId(clips[1]) == r2);
@@ -475,7 +475,6 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
 
     }
 
-*/
 
     SECTION("Group deletion undo") {
         int tid1 = TrackModel::construct(timeline);
