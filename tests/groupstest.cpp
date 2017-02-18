@@ -387,6 +387,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
     for (int i = 0; i < 4; i++) {
         clips.push_back(ClipModel::construct(timeline, producer));
     }
+    int tid1 = TrackModel::construct(timeline);
 
     int init_index = undoStack->index();
     SECTION("Basic Creation") {
@@ -398,6 +399,13 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         };
         auto g1 = std::unordered_set<int>({clips[0],clips[1]});
         int gid1, gid2, gid3;
+        //this fails because clips are not inserted
+        REQUIRE_FALSE(timeline->requestClipsGroup(g1));
+
+        for (int i = 0; i < 4; i++) {
+            REQUIRE(timeline->requestClipMove(clips[i], tid1, i*length));
+        }
+        init_index = undoStack->index();
         REQUIRE(timeline->requestClipsGroup(g1));
         auto state1 = [&](){
             gid1 = timeline->m_groups->getRootId(clips[0]);

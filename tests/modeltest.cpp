@@ -531,7 +531,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state();
 
         //grouping
-        REQUIRE(timeline->requestClipsGroup({cid1, cid3, cid4}));
+        REQUIRE(timeline->requestClipsGroup({cid1, cid3}));
+        REQUIRE(timeline->requestClipsGroup({cid1, cid4}));
 
         //move left is now forbidden, because clip1 is at position 0
         REQUIRE_FALSE(timeline->requestClipMove(cid3, tid1, 2*length + 3));

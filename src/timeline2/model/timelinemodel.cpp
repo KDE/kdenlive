@@ -425,8 +425,17 @@ bool TimelineModel::requestClipTrim(int cid, int delta, bool right, bool ripple,
 
 bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
 {
-    std::function<bool (void)> undo = [](){return true;};
-    std::function<bool (void)> redo = [](){return true;};
+    for (int id : ids) {
+        if (isClip(id)) {
+            if (getClipTrackId(id) == -1) {
+                return false;
+            }
+        } else if (!isGroup(id)) {
+            return false;
+        }
+    }
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
     int gid = m_groups->groupItems(ids, undo, redo);
     if (gid != -1) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));

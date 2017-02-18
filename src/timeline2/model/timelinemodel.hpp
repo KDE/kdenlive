@@ -193,6 +193,7 @@ public:
     bool requestClipTrim(int cid, int delta, bool right, bool ripple = false, bool test_only = false);
 
     /* @brief Group together a set of ids
+       The ids are either a group ids or clip ids. The involved clip must already be inserted in a track
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
