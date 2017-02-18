@@ -398,7 +398,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         };
         auto g1 = std::unordered_set<int>({clips[0],clips[1]});
         int gid1, gid2, gid3;
-        REQUIRE(timeline->requestGroupClips(g1));
+        REQUIRE(timeline->requestClipsGroup(g1));
         auto state1 = [&](){
             gid1 = timeline->m_groups->getRootId(clips[0]);
             check_roots(gid1, gid1, clips[2], clips[3]);
@@ -410,7 +410,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         state1();
 
         auto g2 = std::unordered_set<int>({clips[2],clips[3]});
-        REQUIRE(timeline->requestGroupClips(g2));
+        REQUIRE(timeline->requestClipsGroup(g2));
         auto state2 = [&](){
             gid2 = timeline->m_groups->getRootId(clips[2]);
             check_roots(gid1, gid1, gid2, gid2);
@@ -424,7 +424,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         state2();
 
         auto g3 = std::unordered_set<int>({clips[0],clips[3]});
-        REQUIRE(timeline->requestGroupClips(g3));
+        REQUIRE(timeline->requestClipsGroup(g3));
         auto state3 = [&](){
             REQUIRE(undoStack->index() == init_index + 3);
             gid3 = timeline->m_groups->getRootId(clips[0]);
@@ -462,7 +462,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         INFO("Test 11");
         state2();
 
-        REQUIRE(timeline->requestGroupClips(g3));
+        REQUIRE(timeline->requestClipsGroup(g3));
         state3();
 
         undoStack->undo();
@@ -501,11 +501,11 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         state();
         auto g1 = std::unordered_set<int>({clips[0],clips[1]});
         int gid1, gid2, gid3;
-        REQUIRE(timeline->requestGroupClips(g1));
+        REQUIRE(timeline->requestClipsGroup(g1));
         auto g2 = std::unordered_set<int>({clips[2],clips[3]});
-        REQUIRE(timeline->requestGroupClips(g2));
+        REQUIRE(timeline->requestClipsGroup(g2));
         auto g3 = std::unordered_set<int>({clips[0],clips[3]});
-        REQUIRE(timeline->requestGroupClips(g3));
+        REQUIRE(timeline->requestClipsGroup(g3));
         state();
 
         for (int i = 0; i < 4; i++) {

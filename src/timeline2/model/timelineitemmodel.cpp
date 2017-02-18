@@ -59,7 +59,7 @@ std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(std::weak_ptr<Do
         ptr->getTrackById(ix)->setProperty("kdenlive:trackheight", "60");
         ptr->getTrackById(ix2)->setProperty("kdenlive:trackheight", "140");
         ptr->getTrackById(ix3)->setProperty("kdenlive:trackheight", "140");
-        ptr->requestGroupClips({clipId, clipId4});
+        ptr->requestClipsGroup({clipId, clipId4});
     }
     return ptr;
 }

@@ -531,7 +531,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state();
 
         //grouping
-        REQUIRE(timeline->requestGroupClips({cid1, cid3, cid4}));
+        REQUIRE(timeline->requestClipsGroup({cid1, cid3, cid4}));
 
         //move left is now forbidden, because clip1 is at position 0
         REQUIRE_FALSE(timeline->requestClipMove(cid3, tid1, 2*length + 3));
@@ -594,7 +594,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     SECTION("Group move to unavailable track") {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 10));
         REQUIRE(timeline->requestClipMove(cid2, tid2, 12));
-        REQUIRE(timeline->requestGroupClips({cid1, cid2}));
+        REQUIRE(timeline->requestClipsGroup({cid1, cid2}));
         auto state = [&]() {
             REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
             REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
@@ -623,7 +623,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         REQUIRE(timeline->requestClipMove(cid1, tid5, 10));
         REQUIRE(timeline->requestClipMove(cid2, tid5, length + 10));
-        REQUIRE(timeline->requestGroupClips({cid1, cid2}));
+        REQUIRE(timeline->requestClipsGroup({cid1, cid2}));
         auto state = [&](int t) {
             REQUIRE(timeline->getTrackById(t)->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(t) == 2);

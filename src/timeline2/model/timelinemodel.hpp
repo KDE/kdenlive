@@ -198,14 +198,14 @@ public:
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
        @param ids Set of ids to group
     */
-    bool requestGroupClips(const std::unordered_set<int>& ids);
+    bool requestClipsGroup(const std::unordered_set<int>& ids);
 
     /* @brief Destruct the topmost group containing clip
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param id of the clip to degroup (all clips belonging to the same group will be ungrouped as well)
     */
-    bool requestUngroupClip(int id);
+    bool requestClipUngroup(int id);
 
     /* @brief Create a track at given position
        This action is undoable

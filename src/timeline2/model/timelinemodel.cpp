@@ -423,7 +423,7 @@ bool TimelineModel::requestClipTrim(int cid, int delta, bool right, bool ripple,
     return requestClipResize(cid, m_allClips[cid]->getPlaytime() - delta, right, logUndo);
 }
 
-bool TimelineModel::requestGroupClips(const std::unordered_set<int>& ids)
+bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
 {
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
@@ -434,7 +434,7 @@ bool TimelineModel::requestGroupClips(const std::unordered_set<int>& ids)
     return (gid != -1);
 }
 
-bool TimelineModel::requestUngroupClip(int id)
+bool TimelineModel::requestClipUngroup(int id)
 {
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
