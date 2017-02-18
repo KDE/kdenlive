@@ -47,17 +47,14 @@ public:
     friend class ClipModel;
 private:
     /* This constructor is private, call the static construct instead */
-    TrackModel(std::weak_ptr<TimelineModel> parent);
+    TrackModel(std::weak_ptr<TimelineModel> parent, int id = -1);
 public:
     /* @brief Creates a track, which references itself to the parent
        Returns the (unique) id of the created track
+       @param id Requested id of the track. Automatic if id = -1
        @param pos is the optional position of the track. If left to -1, it will be added at the end
      */
-    static int construct(std::weak_ptr<TimelineModel> parent, int pos = -1);
-
-    /* @brief The destructor. It asks the parent to be deleted
-     */
-    void destruct();
+    static int construct(std::weak_ptr<TimelineModel> parent, int id = -1, int pos = -1);
 
     /* @brief returns the number of clips */
     int getClipsCount();

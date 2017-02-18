@@ -26,22 +26,37 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 
     int id1 = TrackModel::construct(timeline);
     REQUIRE(timeline->getTracksCount() == 1);
+    REQUIRE(timeline->getTrackPosition(id1) == 0);
 
     int id2 = TrackModel::construct(timeline);
     REQUIRE(timeline->getTracksCount() == 2);
+    REQUIRE(timeline->getTrackPosition(id2) == 1);
 
     int id3 = TrackModel::construct(timeline);
     REQUIRE(timeline->getTracksCount() == 3);
+    REQUIRE(timeline->getTrackPosition(id3) == 2);
+
+    int id4;
+    REQUIRE(timeline->requestTrackInsertion(1, id4));
+    REQUIRE(timeline->getTracksCount() == 4);
+    REQUIRE(timeline->getTrackPosition(id1) == 0);
+    REQUIRE(timeline->getTrackPosition(id4) == 1);
+    REQUIRE(timeline->getTrackPosition(id2) == 2);
+    REQUIRE(timeline->getTrackPosition(id3) == 3);
 
     // Test deletion
-    timeline->deleteTrackById(id1);
+    REQUIRE(timeline->requestTrackDeletion(id3));
+    REQUIRE(timeline->getTracksCount() == 3);
+
+    REQUIRE(timeline->requestTrackDeletion(id1));
     REQUIRE(timeline->getTracksCount() == 2);
 
-    timeline->deleteTrackById(id2);
+    REQUIRE(timeline->requestTrackDeletion(id4));
     REQUIRE(timeline->getTracksCount() == 1);
 
-    timeline->deleteTrackById(id3);
+    REQUIRE(timeline->requestTrackDeletion(id2));
     REQUIRE(timeline->getTracksCount() == 0);
+
 }
 
 
@@ -950,6 +965,67 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
         undoStack->redo();
         state2();
+    }
+
+    SECTION("Track insertion undo") {
+        int nb_tracks = timeline->getTracksCount();
+        std::map<int, int> orig_trackPositions, final_trackPositions;
+        for (const auto& it : timeline->m_iteratorTable) {
+            int track = it.first;
+            int pos = timeline->getTrackPosition(track);
+            orig_trackPositions[track] = pos;
+            if (pos >= 1) pos++;
+            final_trackPositions[track] = pos;
+        }
+        auto checkPositions = [&](const std::map<int,int>& pos) {
+            for (const auto& p : pos ) {
+                REQUIRE(timeline->getTrackPosition(p.first) == p.second);
+            }
+        };
+        checkPositions(orig_trackPositions);
+        int new_tid;
+        REQUIRE(timeline->requestTrackInsertion(1, new_tid));
+        checkPositions(final_trackPositions);
+
+        undoStack->undo();
+        checkPositions(orig_trackPositions);
+
+        undoStack->redo();
+        checkPositions(final_trackPositions);
+
+        undoStack->undo();
+        checkPositions(orig_trackPositions);
+    }
+
+
+    SECTION("Track deletion undo") {
+        int nb_clips = timeline->getClipsCount();
+        int nb_tracks = timeline->getTracksCount();
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        auto state1 = [&]() {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(undoStack->index() == init_index + 1);
+            REQUIRE(timeline->getClipsCount() == nb_clips);
+            REQUIRE(timeline->getTracksCount() == nb_tracks);
+        };
+        state1();
+
+        REQUIRE(timeline->requestTrackDeletion(tid1));
+        REQUIRE(timeline->getClipsCount() == nb_clips - 1);
+        REQUIRE(timeline->getTracksCount() == nb_tracks - 1);
+
+        undoStack->undo();
+        state1();
+
+        undoStack->redo();
+        REQUIRE(timeline->getClipsCount() == nb_clips - 1);
+        REQUIRE(timeline->getTracksCount() == nb_tracks - 1);
+
+        undoStack->undo();
+        state1();
     }
 }
 

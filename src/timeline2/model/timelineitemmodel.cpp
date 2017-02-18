@@ -66,9 +66,6 @@ std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(std::weak_ptr<Do
 
 TimelineItemModel::~TimelineItemModel()
 {
-    for(auto tracks : m_iteratorTable) {
-        deleteTrackById(tracks.first);
-    }
 }
 
 QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &parent) const

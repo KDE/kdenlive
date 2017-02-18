@@ -27,16 +27,16 @@
 
 
 
-TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent) :
+TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id) :
     m_parent(parent)
-    , m_id(TimelineModel::getNextId())
+    , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
 }
 
-int TrackModel::construct(std::weak_ptr<TimelineModel> parent, int pos)
+int TrackModel::construct(std::weak_ptr<TimelineModel> parent, int id, int pos)
 {
-    std::unique_ptr<TrackModel> track(new TrackModel(parent));
-    int id = track->m_id;
+    std::shared_ptr<TrackModel> track(new TrackModel(parent, id));
+    id = track->m_id;
     if (auto ptr = parent.lock()) {
         ptr->registerTrack(std::move(track), pos);
     } else {
@@ -44,13 +44,6 @@ int TrackModel::construct(std::weak_ptr<TimelineModel> parent, int pos)
         Q_ASSERT(false);
     }
     return id;
-}
-
-void TrackModel::destruct()
-{
-    if (auto ptr = m_parent.lock()) {
-        ptr->deregisterTrack(m_id);
-    }
 }
 
 int TrackModel::getClipsCount()

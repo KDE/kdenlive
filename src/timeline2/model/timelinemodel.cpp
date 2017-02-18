@@ -55,8 +55,12 @@ TimelineModel::TimelineModel(std::weak_ptr<DocUndoStack> undo_stack) :
 
 TimelineModel::~TimelineModel()
 {
+    std::vector<int> all_ids;
     for(auto tracks : m_iteratorTable) {
-        deleteTrackById(tracks.first);
+        all_ids.push_back(tracks.first);
+    }
+    for(auto tracks : all_ids) {
+        deregisterTrack_lambda(tracks)();
     }
 }
 
@@ -71,14 +75,6 @@ int TimelineModel::getTracksCount() const
 int TimelineModel::getClipsCount() const
 {
     return static_cast<int>(m_allClips.size());
-}
-
-
-void TimelineModel::deleteTrackById(int id)
-{
-    Q_ASSERT(m_iteratorTable.count(id) > 0);
-    auto it = m_iteratorTable[id];
-    (*it)->destruct();
 }
 
 
@@ -449,7 +445,64 @@ bool TimelineModel::requestUngroupClip(int id)
     return result;
 }
 
-void TimelineModel::registerTrack(std::unique_ptr<TrackModel>&& track, int pos)
+bool TimelineModel::requestTrackInsertion(int position, int &id)
+{
+    if (position == -1) {
+        position = (int)(m_allTracks.size());
+    }
+    if (position < 0 || position > (int)m_allTracks.size()) {
+        return false;
+    }
+    int trackId = TimelineModel::getNextId();
+    id = trackId;
+    Fun undo = deregisterTrack_lambda(trackId);
+    TrackModel::construct(shared_from_this(), trackId, position);
+    auto track = getTrackById(trackId);
+    Fun redo = [track, position, this](){
+        // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is sufficient to register it.
+        registerTrack(track, position);
+        return true;
+    };
+    PUSH_UNDO(undo, redo, i18n("Insert Track"));
+    return true;
+}
+
+bool TimelineModel::requestTrackDeletion(int tid)
+{
+    Q_ASSERT(isTrack(tid));
+    std::vector<int> clips_to_delete;
+    for(const auto& it : getTrackById(tid)->m_allClips) {
+        clips_to_delete.push_back(it.first);
+    }
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    for(int clip : clips_to_delete) {
+        bool res = requestClipDeletion(clip, undo, redo);
+        if (!res) {
+            bool u = undo();
+            Q_ASSERT(u);
+            return false;
+        }
+    }
+    int old_position = getTrackPosition(tid);
+    auto operation = deregisterTrack_lambda(tid);
+    std::shared_ptr<TrackModel> track = getTrackById(tid);
+    auto reverse = [this, track, old_position]() {
+        // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is sufficient to register it.
+        registerTrack(track, old_position);
+        return true;
+    };
+    if (operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        PUSH_UNDO(undo, redo, i18n("Delete Track"));
+        return true;
+    }
+    undo();
+    return false;
+
+}
+
+void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos)
 {
     int id = track->getId();
     if (pos == -1) {
@@ -485,13 +538,16 @@ void TimelineModel::registerGroup(int groupId)
     m_allGroups.insert(groupId);
 }
 
-void TimelineModel::deregisterTrack(int id)
+Fun TimelineModel::deregisterTrack_lambda(int id)
 {
-    auto it = m_iteratorTable[id]; //iterator to the element
-    auto index = getTrackPosition(id); //compute index in list
-    m_tractor->remove_track(static_cast<int>(index)); //melt operation
-    m_allTracks.erase(it);  //actual deletion of object
-    m_iteratorTable.erase(id);  //clean table
+    return [this, id]() {
+        auto it = m_iteratorTable[id]; //iterator to the element
+        auto index = getTrackPosition(id); //compute index in list
+        m_tractor->remove_track(static_cast<int>(index)); //melt operation
+        m_allTracks.erase(it);  //actual deletion of object
+        m_iteratorTable.erase(id);  //clean table
+        return true;
+    };
 }
 
 Fun TimelineModel::deregisterClip_lambda(int cid)
@@ -512,13 +568,13 @@ void TimelineModel::deregisterGroup(int id)
     m_allGroups.erase(id);
 }
 
-std::unique_ptr<TrackModel>& TimelineModel::getTrackById(int tid)
+std::shared_ptr<TrackModel> TimelineModel::getTrackById(int tid)
 {
     Q_ASSERT(m_iteratorTable.count(tid) > 0);
     return *m_iteratorTable[tid];
 }
 
-const std::unique_ptr<TrackModel>& TimelineModel::getTrackById_const(int tid) const
+const std::shared_ptr<TrackModel> TimelineModel::getTrackById_const(int tid) const
 {
     Q_ASSERT(m_iteratorTable.count(tid) > 0);
     return *m_iteratorTable.at(tid);

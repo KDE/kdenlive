@@ -81,9 +81,6 @@ public:
     /* @brief returns the number of clips */
     int getClipsCount() const;
 
-    /* @brief Delete track based on its id */
-    void deleteTrackById(int id);
-
     /* @brief Returns the id of the track containing clip (-1 if it is not inserted)
        @param cid Id of the clip to test
      */
@@ -110,6 +107,7 @@ public:
     int getTrackPosition(int tid) const;
 
     /* @brief Move a clip to a specific position
+       This action is undoable
        Returns true on success. If it fails, nothing is modified.
        If the clip is not in inserted in a track yet, it gets inserted for the first time.
        If the clip is in a group, the call is deferred to requestGroupMove
@@ -143,6 +141,7 @@ public:
     bool requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id);
 
     /* @brief Deletes the given clip from the timeline
+       This action is undoable
        Returns true on success. If it fails, nothing is modified.
        If the clip is in a group, the call is deferred to requestGroupDeletion
        @param cid is the ID of the clip
@@ -152,6 +151,7 @@ public:
     bool requestClipDeletion(int cid, Fun &undo, Fun &redo);
 
     /* @brief Move a group to a specific position
+       This action is undoable
        Returns true on success. If it fails, nothing is modified.
        If the clips in the group are not in inserted in a track yet, they get inserted for the first time.
        @param cid is the id of the clip that triggers the group move
@@ -164,6 +164,7 @@ public:
     bool requestGroupMove(int cid, int gid, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
 
     /* @brief Deletes all clips inside the group that contains the given clip.
+       This action is undoable
        Note that if their is a hierarchy of groups, all of them will be deleted.
        Returns true on success. If it fails, nothing is modified.
        @param cid is the id of the clip that triggers the group deletion
@@ -171,6 +172,7 @@ public:
     bool requestGroupDeletion(int cid);
 
     /* @brief Change the duration of a clip
+       This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param cid is the ID of the clip
        @param size is the new size of the clip
@@ -180,6 +182,7 @@ public:
     bool requestClipResize(int cid, int size, bool right, bool logUndo = true);
 
     /* @brief Similar to requestClipResize but takes a delta instead of absolute size
+       This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param cid is the ID of the clip
        @param delta is the delta to be applied to the length of the clip
@@ -190,6 +193,7 @@ public:
     bool requestClipTrim(int cid, int delta, bool right, bool ripple = false, bool test_only = false);
 
     /* @brief Group together a set of ids
+       This action is undoable
        Returns true on success. If it fails, nothing is modified.
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
        @param ids Set of ids to group
@@ -197,10 +201,27 @@ public:
     bool requestGroupClips(const std::unordered_set<int>& ids);
 
     /* @brief Destruct the topmost group containing clip
+       This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param id of the clip to degroup (all clips belonging to the same group will be ungrouped as well)
     */
     bool requestUngroupClip(int id);
+
+    /* @brief Create a track at given position
+       This action is undoable
+       Returns true on success. If it fails, nothing is modified.
+       @param Requested position (order). If set to -1, the track is inserted last.
+       @param id is a return parameter that holds the id of the resulting track (-1 on failure)
+    */
+    bool requestTrackInsertion(int pos, int& id);
+
+    /* @brief Delete track with given id
+       This also deletes all the clips contained in the track.
+       This action is undoable
+       Returns true on success. If it fails, nothing is modified.
+       @param tid id of the track to delete
+    */
+    bool requestTrackDeletion(int tid);
 
     /* @brief Get project duration
        Returns the duration in frames
@@ -211,7 +232,7 @@ protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */
-    void registerTrack(std::unique_ptr<TrackModel>&& track, int pos = -1);
+    void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1);
 
     /* @brief Register a new track. This is a call-back meant to be called from ClipModel
     */
@@ -223,7 +244,7 @@ protected:
 
     /* @brief Deregister and destruct the track with given id.
      */
-    void deregisterTrack(int id);
+    Fun deregisterTrack_lambda(int id);
 
     /* @brief Return a lambda that deregisters and destructs the clip with given id.
        Note that the clip must already be deleted from its track and groups.
@@ -236,8 +257,8 @@ protected:
 
     /* @brief Helper function to get a pointer to the track, given its id
      */
-    std::unique_ptr<TrackModel>& getTrackById(int tid);
-    const std::unique_ptr<TrackModel>& getTrackById_const(int tid) const;
+    std::shared_ptr<TrackModel> getTrackById(int tid);
+    const std::shared_ptr<TrackModel> getTrackById_const(int tid) const;
 
     /*@brief Helper function to get a pointer to a clip, given its id*/
     std::shared_ptr<ClipModel> getClipPtr(int cid) const;
@@ -260,9 +281,9 @@ protected:
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
 
-    std::list<std::unique_ptr<TrackModel>> m_allTracks;
+    std::list<std::shared_ptr<TrackModel>> m_allTracks;
 
-    std::unordered_map<int, std::list<std::unique_ptr<TrackModel>>::iterator> m_iteratorTable; //this logs the iterator associated which each track id. This allows easy access of a track based on its id.
+    std::unordered_map<int, std::list<std::shared_ptr<TrackModel>>::iterator> m_iteratorTable; //this logs the iterator associated which each track id. This allows easy access of a track based on its id.
 
     std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips; //the keys are the clip id, and the values are the corresponding pointers
 
