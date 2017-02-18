@@ -104,6 +104,11 @@ public:
     */
     int getTrackClipsCount(int tid) const;
 
+    /* @brief Returns the position of the track in the order of the tracks
+       @param tid Id of the track to test
+    */
+    int getTrackPosition(int tid) const;
+
     /* @brief Move a clip to a specific position
        Returns true on success. If it fails, nothing is modified.
        If the clip is not in inserted in a track yet, it gets inserted for the first time.

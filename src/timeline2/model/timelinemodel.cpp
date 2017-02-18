@@ -60,8 +60,6 @@ TimelineModel::~TimelineModel()
     }
 }
 
-
-
 int TimelineModel::getTracksCount() const
 {
     int count = m_tractor->count();
@@ -75,10 +73,6 @@ int TimelineModel::getClipsCount() const
     return static_cast<int>(m_allClips.size());
 }
 
-int TimelineModel::getTrackClipsCount(int tid) const
-{
-    return getTrackById_const(tid)->getClipsCount();
-}
 
 void TimelineModel::deleteTrackById(int id)
 {
@@ -107,6 +101,18 @@ int TimelineModel::getClipPlaytime(int cid) const
     Q_ASSERT(m_allClips.count(cid) > 0);
     const auto clip = m_allClips.at(cid);
     return clip->getPlaytime();
+}
+
+int TimelineModel::getTrackClipsCount(int tid) const
+{
+    return getTrackById_const(tid)->getClipsCount();
+}
+
+int TimelineModel::getTrackPosition(int tid) const
+{
+    Q_ASSERT(m_iteratorTable.count(tid) > 0);
+    auto it = m_allTracks.begin();
+    return (int)std::distance(it, (decltype(it))m_iteratorTable.at(tid));
 }
 
 bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo)
@@ -187,8 +193,8 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool update
         //element is in a group.
         int gid = m_groups->getRootId(cid);
         int current_tid = getClipTrackId(cid);
-        int track_pos1 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[tid]);
-        int track_pos2 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[current_tid]);
+        int track_pos1 = getTrackPosition(tid);
+        int track_pos2 = getTrackPosition(current_tid);
         int delta_track = track_pos1 - track_pos2;
         int delta_pos = position - m_allClips[cid]->getPosition();
         return requestGroupMove(cid, gid, delta_track, delta_pos, updateView, logUndo);
@@ -310,8 +316,8 @@ bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delt
     std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_track, delta_pos, this](int cid1, int cid2){
             int tid1 = getClipTrackId(cid1);
             int tid2 = getClipTrackId(cid2);
-            int track_pos1 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[tid1]);
-            int track_pos2 = (int)std::distance(m_allTracks.begin(), m_iteratorTable[tid2]);
+            int track_pos1 = getTrackPosition(tid1);
+            int track_pos2 = getTrackPosition(tid2);
             if (tid1 == tid2) {
                 int p1 = m_allClips[cid1]->getPosition();
                 int p2 = m_allClips[cid2]->getPosition();
@@ -321,9 +327,9 @@ bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delt
         });
     for (int clip : sorted_clips) {
         int current_track_id = getClipTrackId(clip);
-        int current_track_position = (int)std::distance(m_allTracks.begin(), m_iteratorTable[current_track_id]);
+        int current_track_position = getTrackPosition(current_track_id);
         int target_track_position = current_track_position + delta_track;
-        if (target_track_position >= 0 && target_track_position < (int)m_allTracks.size()) {
+        if (target_track_position >= 0 && target_track_position < getTracksCount()) {
             auto it = m_allTracks.cbegin();
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
@@ -482,10 +488,10 @@ void TimelineModel::registerGroup(int groupId)
 void TimelineModel::deregisterTrack(int id)
 {
     auto it = m_iteratorTable[id]; //iterator to the element
-    m_iteratorTable.erase(id);  //clean table
-    auto index = std::distance(m_allTracks.begin(), it); //compute index in list
+    auto index = getTrackPosition(id); //compute index in list
     m_tractor->remove_track(static_cast<int>(index)); //melt operation
     m_allTracks.erase(it);  //actual deletion of object
+    m_iteratorTable.erase(id);  //clean table
 }
 
 Fun TimelineModel::deregisterClip_lambda(int cid)
