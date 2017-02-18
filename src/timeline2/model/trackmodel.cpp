@@ -79,7 +79,6 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
         if (auto ptr = m_parent.lock()) {
             std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
             m_allClips[clip->getId()] = clip;  //store clip
-            qDebug() << "INSERTED CLIP "<<m_allClips[clip->getId()]->getPosition();
             //update clip position and track
             clip->setPosition(position);
             clip->setCurrentTrackId(getId());

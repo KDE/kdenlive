@@ -111,6 +111,7 @@ int TimelineModel::getClipPlaytime(int cid) const
 
 bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo)
 {
+    Q_ASSERT(isClip(cid));
     std::function<bool (void)> local_undo = [](){return true;};
     std::function<bool (void)> local_redo = [](){return true;};
     bool ok = true;
@@ -135,16 +136,13 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
     auto operation = [cid, tid, old_tid, old_clip_index, new_clip_index, updateView, this]() {
         if (updateView) {
             if (tid == old_tid) {
-                qDebug() << "Data changed for clip"<<cid;
                 QModelIndex modelIndex = makeClipIndexFromID(cid);
                 notifyChange(modelIndex, modelIndex, true, false);
             } else {
                 if (old_tid != -1){
-                    qDebug() << "Removed row "<<old_clip_index;
                     _beginRemoveRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
                     _endRemoveRows();
                 }
-                qDebug() << "inserted row "<<new_clip_index;
                 _beginInsertRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
                 _endInsertRows();
             }
@@ -241,14 +239,16 @@ bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, in
     int clipId = TimelineModel::getNextId();
     id = clipId;
     Fun undo = deregisterClip_lambda(clipId);
-    Fun redo = [clipId, prod, this](){
-        ClipModel::construct(shared_from_this(), prod, clipId);
+    ClipModel::construct(shared_from_this(), prod, clipId);
+    auto clip = m_allClips[clipId];
+    Fun redo = [clip, this](){
+        // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
+        registerClip(clip);
         return true;
     };
-    redo();
     bool res = requestClipMove(clipId, trackId, position, false, undo, redo);
     if (!res) {
-        undo();
+        Q_ASSERT(undo());
         id = -1;
         return false;
     }
@@ -283,7 +283,7 @@ bool TimelineModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
     }
     auto operation = deregisterClip_lambda(cid);
     auto clip = m_allClips[cid];
-    auto reverse = [cid, this, clip]() {
+    auto reverse = [this, clip]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
         registerClip(clip);
         return true;
@@ -390,6 +390,7 @@ bool TimelineModel::requestGroupDeletion(int cid)
 
 bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUndo)
 {
+    Q_ASSERT(isClip(cid));
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     Fun update_model = [cid, right, this]() {

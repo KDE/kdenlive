@@ -829,13 +829,14 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         };
         state3();
 
-        REQUIRE(timeline->requestClipMove(cid1, tid1, 10));
+        REQUIRE(timeline->requestClipResize(cid1, 1, true));
         auto state4 = [&]() {
             REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
             REQUIRE(timeline->getClipTrackId(cid3) == tid1);
-            REQUIRE(timeline->getClipPosition(cid1) == 10);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPlaytime(cid1) == 1);
             REQUIRE(timeline->getClipPosition(cid3) == 10 + length);
             REQUIRE(undoStack->index() == init_index + 4);
         };
