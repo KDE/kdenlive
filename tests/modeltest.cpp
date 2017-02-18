@@ -500,48 +500,31 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->requestClipMove(cid4, tid2, 9));
         undoStack->undo();
 
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
-        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
-        REQUIRE(timeline->getClipTrackId(cid2) == tid1);
-        REQUIRE(timeline->getClipTrackId(cid3) == tid1);
-        REQUIRE(timeline->getClipTrackId(cid4) == tid2);
-        REQUIRE(timeline->getClipPosition(cid1) == 0);
-        REQUIRE(timeline->getClipPosition(cid2) == length + 3);
-        REQUIRE(timeline->getClipPosition(cid3) == 2*length + 5);
-        REQUIRE(timeline->getClipPosition(cid4) == 4);
+        auto state = [&]() {
+            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid4) == tid2);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == length + 3);
+            REQUIRE(timeline->getClipPosition(cid3) == 2*length + 5);
+            REQUIRE(timeline->getClipPosition(cid4) == 4);
+        };
+        state();
 
         //grouping
         REQUIRE(timeline->requestGroupClips({cid1, cid3, cid4}));
 
         //move left is now forbidden, because clip1 is at position 0
         REQUIRE_FALSE(timeline->requestClipMove(cid3, tid1, 2*length + 3));
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
-        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
-        REQUIRE(timeline->getClipTrackId(cid2) == tid1);
-        REQUIRE(timeline->getClipTrackId(cid3) == tid1);
-        REQUIRE(timeline->getClipTrackId(cid4) == tid2);
-        REQUIRE(timeline->getClipPosition(cid1) == 0);
-        REQUIRE(timeline->getClipPosition(cid2) == length + 3);
-        REQUIRE(timeline->getClipPosition(cid3) == 2*length + 5);
-        REQUIRE(timeline->getClipPosition(cid4) == 4);
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        state();
 
         //this move is impossible, because clip1 runs into clip2
         REQUIRE_FALSE(timeline->requestClipMove(cid4, tid2, 9));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
-        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
-        REQUIRE(timeline->getClipTrackId(cid2) == tid1);
-        REQUIRE(timeline->getClipTrackId(cid3) == tid1);
-        REQUIRE(timeline->getClipTrackId(cid4) == tid2);
-        REQUIRE(timeline->getClipPosition(cid1) == 0);
-        REQUIRE(timeline->getClipPosition(cid2) == length + 3);
-        REQUIRE(timeline->getClipPosition(cid3) == 2*length + 5);
-        REQUIRE(timeline->getClipPosition(cid4) == 4);
+        state();
 
         //this move is possible
         REQUIRE(timeline->requestClipMove(cid3, tid1, 2*length + 8));
