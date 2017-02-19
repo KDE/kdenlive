@@ -540,4 +540,99 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         state();
     }
 
+
+    SECTION("Group creation and query from timeline") {
+        REQUIRE(timeline->requestClipMove(clips[0], tid1, 10));
+        REQUIRE(timeline->requestClipMove(clips[1], tid1, 10 + length));
+        REQUIRE(timeline->requestClipMove(clips[2], tid1, 15 + 2*length));
+        REQUIRE(timeline->requestClipMove(clips[3], tid1, 50 + 3*length));
+        auto state1 = [&]() {
+            REQUIRE(timeline->getGroupElements(clips[2]) == std::unordered_set<int>({clips[2]}));
+            REQUIRE(timeline->getGroupElements(clips[1]) == std::unordered_set<int>({clips[1]}));
+            REQUIRE(timeline->getGroupElements(clips[3]) == std::unordered_set<int>({clips[3]}));
+            REQUIRE(timeline->getGroupElements(clips[0]) == std::unordered_set<int>({clips[0]}));
+        };
+        state1();
+
+        auto g1 = std::unordered_set<int>({clips[0],clips[3]});
+        int gid1, gid2, gid3;
+        REQUIRE(timeline->requestClipsGroup(g1));
+        auto state2 = [&]() {
+            REQUIRE(timeline->getGroupElements(clips[0]) == g1);
+            REQUIRE(timeline->getGroupElements(clips[3]) == g1);
+            REQUIRE(timeline->getGroupElements(clips[2]) == std::unordered_set<int>({clips[2]}));
+            REQUIRE(timeline->getGroupElements(clips[1]) == std::unordered_set<int>({clips[1]}));
+        };
+        state2();
+
+        undoStack->undo();
+        state1();
+
+        undoStack->redo();
+        state2();
+
+        undoStack->undo();
+        state1();
+
+        undoStack->redo();
+        state2();
+
+        auto g2 = std::unordered_set<int>({clips[2],clips[1]});
+        REQUIRE(timeline->requestClipsGroup(g2));
+        auto state3 = [&]() {
+            REQUIRE(timeline->getGroupElements(clips[0]) == g1);
+            REQUIRE(timeline->getGroupElements(clips[3]) == g1);
+            REQUIRE(timeline->getGroupElements(clips[2]) == g2);
+            REQUIRE(timeline->getGroupElements(clips[1]) == g2);
+        };
+        state3();
+
+        undoStack->undo();
+        state2();
+
+        undoStack->redo();
+        state3();
+
+        auto g3 = std::unordered_set<int>({clips[0],clips[1]});
+        REQUIRE(timeline->requestClipsGroup(g3));
+        auto all_g = std::unordered_set<int>({clips[0],clips[1], clips[2], clips[3]});
+        auto state4 = [&]() {
+            REQUIRE(timeline->getGroupElements(clips[0]) == all_g);
+            REQUIRE(timeline->getGroupElements(clips[3]) == all_g);
+            REQUIRE(timeline->getGroupElements(clips[2]) == all_g);
+            REQUIRE(timeline->getGroupElements(clips[1]) == all_g);
+        };
+        state4();
+
+        undoStack->undo();
+        state3();
+
+        undoStack->redo();
+        state4();
+
+        REQUIRE(timeline->requestClipUngroup(clips[0]));
+        state3();
+
+        undoStack->undo();
+        state4();
+
+        REQUIRE(timeline->requestClipUngroup(clips[1]));
+        state3();
+
+        undoStack->undo();
+        state4();
+
+        undoStack->redo();
+        state3();
+
+        REQUIRE(timeline->requestClipUngroup(clips[0]));
+        REQUIRE(timeline->getGroupElements(clips[2]) == g2);
+        REQUIRE(timeline->getGroupElements(clips[1]) == g2);
+        REQUIRE(timeline->getGroupElements(clips[3]) == std::unordered_set<int>({clips[3]}));
+        REQUIRE(timeline->getGroupElements(clips[0]) == std::unordered_set<int>({clips[0]}));
+
+        REQUIRE(timeline->requestClipUngroup(clips[1]));
+        state1();
+    }
+
 }

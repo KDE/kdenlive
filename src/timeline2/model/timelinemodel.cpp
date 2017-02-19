@@ -631,3 +631,9 @@ int TimelineModel::duration() const
     return m_tractor->get_playtime();
 }
 
+
+std::unordered_set<int> TimelineModel::getGroupElements(int cid)
+{
+    int gid = m_groups->getRootId(cid);
+    return m_groups->getLeaves(gid);
+}
