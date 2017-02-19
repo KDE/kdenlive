@@ -207,6 +207,8 @@ public:
        @param id of the clip to degroup (all clips belonging to the same group will be ungrouped as well)
     */
     bool requestClipUngroup(int id);
+    /* Same function, but accumulates undo and redo*/
+    bool requestClipUngroup(int id, Fun& undo, Fun& redo);
 
     /* @brief Create a track at given position
        This action is undoable

@@ -445,13 +445,18 @@ bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
 
 bool TimelineModel::requestClipUngroup(int id)
 {
-    std::function<bool (void)> undo = [](){return true;};
-    std::function<bool (void)> redo = [](){return true;};
-    bool result = m_groups->ungroupItem(id, undo, redo);
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    bool result = requestClipUngroup(id, undo, redo);
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
     }
     return result;
+}
+
+bool TimelineModel::requestClipUngroup(int id, Fun& undo, Fun& redo)
+{
+    return m_groups->ungroupItem(id, undo, redo);
 }
 
 bool TimelineModel::requestTrackInsertion(int position, int &id)
@@ -486,7 +491,13 @@ bool TimelineModel::requestTrackDeletion(int tid)
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     for(int clip : clips_to_delete) {
-        bool res = requestClipDeletion(clip, undo, redo);
+        bool res = true;
+        while (res && m_groups->isInGroup(clip)) {
+            res = requestClipUngroup(clip, undo, redo);
+        }
+        if (res) {
+            res = requestClipDeletion(clip, undo, redo);
+        }
         if (!res) {
             bool u = undo();
             Q_ASSERT(u);

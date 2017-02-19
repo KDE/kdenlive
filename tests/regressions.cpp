@@ -68,7 +68,7 @@ TEST_CASE("Regression2") {
     undoStack->undo();
     undoStack->undo();
     undoStack->redo();
-    TrackModel::construct(timeline); 
+    TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     undoStack->undo();
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -84,7 +84,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     undoStack->redo();
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
-    TrackModel::construct(timeline); 
+    TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
@@ -97,7 +97,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
-        bool ok = timeline->requestClipMove(1,0 ,10 ); 
+        bool ok = timeline->requestClipMove(1,0 ,10 );
         REQUIRE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -114,7 +114,7 @@ TEST_CASE("Regression2") {
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
-    TrackModel::construct(timeline); 
+    TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
@@ -125,7 +125,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
-    TrackModel::construct(timeline); 
+    TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
@@ -139,7 +139,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        bool ok = timeline->requestClipMove(3,0 ,0 ); 
+        bool ok = timeline->requestClipMove(3,0 ,0 );
         REQUIRE_FALSE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -194,4 +194,162 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     undoStack->redo();
+}
+
+
+TEST_CASE("Regression 3")
+{
+    Mlt::Profile profile;
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(undoStack);
+    TimelineModel::next_id = 0;
+    int dummy_id;
+    std::shared_ptr<Mlt::Producer> producer0 = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    producer0->set("length", 20);
+    producer0->set("out", 19);
+    ClipModel::construct(timeline, producer0 );
+    {
+        bool ok = timeline->requestTrackInsertion(-1, dummy_id);
+        REQUIRE(ok);
+    }
+    TrackModel::construct(timeline);
+    TrackModel::construct(timeline);
+    std::shared_ptr<Mlt::Producer> producer1 = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    producer1->set("length", 20);
+    producer1->set("out", 19);
+    ClipModel::construct(timeline, producer1 );
+    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    producer2->set("length", 20);
+    producer2->set("out", 19);
+    ClipModel::construct(timeline, producer2 );
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    std::shared_ptr<Mlt::Producer> producer3 = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    producer3->set("length", 20);
+    producer3->set("out", 19);
+    ClipModel::construct(timeline, producer3 );
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    TrackModel::construct(timeline);
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    TrackModel::construct(timeline);
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    TrackModel::construct(timeline);
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    REQUIRE(timeline->getTrackById(9)->checkConsistency());
+    std::shared_ptr<Mlt::Producer> producer4 = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    producer4->set("length", 20);
+    producer4->set("out", 19);
+    ClipModel::construct(timeline, producer4 );
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    REQUIRE(timeline->getTrackById(9)->checkConsistency());
+    std::shared_ptr<Mlt::Producer> producer5 = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    producer5->set("length", 20);
+    producer5->set("out", 19);
+    ClipModel::construct(timeline, producer5 );
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    REQUIRE(timeline->getTrackById(9)->checkConsistency());
+    std::shared_ptr<Mlt::Producer> producer6 = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    producer6->set("length", 20);
+    producer6->set("out", 19);
+    ClipModel::construct(timeline, producer6 );
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    REQUIRE(timeline->getTrackById(9)->checkConsistency());
+    {
+        bool ok = timeline->requestClipMove(0,1 ,10 );
+        REQUIRE(ok);
+    }
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    REQUIRE(timeline->getTrackById(9)->checkConsistency());
+    {
+        bool ok = timeline->requestClipMove(4,2 ,12 );
+        REQUIRE(ok);
+    }
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    REQUIRE(timeline->getTrackById(9)->checkConsistency());
+    {
+        auto group = {4, 0};
+        bool ok = timeline->requestClipsGroup(group);
+        REQUIRE(ok);
+    }
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    REQUIRE(timeline->getTrackById(9)->checkConsistency());
+    {
+        bool ok = timeline->requestClipMove(4,1 ,10 );
+        REQUIRE_FALSE(ok);
+    }
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    REQUIRE(timeline->getTrackById(9)->checkConsistency());
+    {
+        bool ok = timeline->requestClipMove(4,1 ,100 );
+        REQUIRE_FALSE(ok);
+    }
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE(timeline->getTrackById(2)->checkConsistency());
+    REQUIRE(timeline->getTrackById(3)->checkConsistency());
+    REQUIRE(timeline->getTrackById(7)->checkConsistency());
+    REQUIRE(timeline->getTrackById(8)->checkConsistency());
+    REQUIRE(timeline->getTrackById(9)->checkConsistency());
+    {
+        bool ok = timeline->requestClipMove(0,3 ,100 );
+        REQUIRE(ok);
+    }
+    std::shared_ptr<Mlt::Producer> producer7 = std::make_shared<Mlt::Producer>(profile, "color", "red");
+    producer7->set("length", 20);
+    producer7->set("out", 19);
+    ClipModel::construct(timeline, producer7 );
+    {
+        bool ok = timeline->requestTrackInsertion(-1, dummy_id);
+        REQUIRE(ok);
+    }
+    undoStack->undo();
+    {
+        bool ok = timeline->requestClipMove(0,1 ,5 );
+        REQUIRE(ok);
+    }
+    {
+        bool ok = timeline->requestTrackDeletion(1);
+        REQUIRE(ok);
+    }
 }
