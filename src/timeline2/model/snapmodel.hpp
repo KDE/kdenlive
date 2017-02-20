@@ -23,6 +23,7 @@
 #define SNAPMODEL_H
 
 #include <map>
+#include <vector>
 
 /** @brief This class represents the snap points of the timeline.
     Basically, one can add or remove snap points, and query the closest snap point to a given location
@@ -43,8 +44,21 @@ public:
     /* @brief Retrieves closest point. Returns -1 if there is no snappoint available */
     int getClosestPoint(int position);
 
+    /* @brief Ignores the given positions until unIgnore() is called
+       You can make several call to this before unIgnoring
+       Note that you cannot remove ignored points.
+       @param points list of point to ignore
+     */
+    void ignore(const std::vector<int>& pts);
+
+    /* @brief Revert ignoring
+     */
+    void unIgnore();
+
 private:
     std::map<int, int> m_snaps; //This represents the snappoints internally. The keys are the positions and the values are the number of elements at this position. Note that it is important that the datastructure is ordered. QMap is NOT ordered, and therefore not suitable.
+
+    std::vector<std::pair<int, int> > m_ignore;
 };
 
 #endif

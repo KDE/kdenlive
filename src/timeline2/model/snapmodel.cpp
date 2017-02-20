@@ -66,3 +66,24 @@ int SnapModel::getClosestPoint(int position)
     return (int)next;
 }
 
+void SnapModel::ignore(const std::vector<int>& pts)
+{
+    for (int pt : pts) {
+        auto it = m_snaps.find(pt);
+        if (it != m_snaps.end()) {
+            m_ignore.push_back(*it);
+            m_snaps.erase(it);
+        }
+    }
+}
+
+void SnapModel::unIgnore()
+{
+    for (const auto& pt : m_ignore) {
+        if (m_snaps.count(pt.first) == 0) {
+            m_snaps[pt.first] = 0;
+        }
+        m_snaps[pt.first] += pt.second;
+    }
+    m_ignore.clear();
+}
