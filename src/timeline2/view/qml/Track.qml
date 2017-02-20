@@ -125,6 +125,7 @@ Column{
                 //    delta = Logic.snapTrimIn(clip, delta)
                 if (timeline.resizeClip(clip.clipId, newDuration, false, false)) {
                     clip.lastValidDuration = newDuration
+                    clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
                     var s = timeline.timecode(Math.abs(delta))
