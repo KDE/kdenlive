@@ -32,6 +32,7 @@ class TrackModel;
 class ClipModel;
 class GroupsModel;
 class DocUndoStack;
+class SnapModel;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications.
@@ -299,6 +300,7 @@ protected:
     static int next_id;//next valid id to assign
 
     std::unique_ptr<GroupsModel> m_groups;
+    std::unique_ptr<SnapModel> m_snaps;
 
     std::unordered_set<int> m_allGroups; //ids of all the groups
 

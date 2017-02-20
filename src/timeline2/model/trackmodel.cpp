@@ -22,6 +22,7 @@
 #include "trackmodel.hpp"
 #include "timelinemodel.hpp"
 #include "clipmodel.hpp"
+#include "snapmodel.hpp"
 #include <QDebug>
 
 
@@ -75,6 +76,10 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
             //update clip position and track
             clip->setPosition(position);
             clip->setCurrentTrackId(getId());
+            int new_in = clip->getPosition();
+            int new_out = new_in + clip->getPlaytime() - 1;
+            ptr->m_snaps->addPoint(new_in);
+            ptr->m_snaps->addPoint(new_out);
             return true;
         } else {
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -133,7 +138,9 @@ Fun TrackModel::requestClipDeletion_lambda(int cid)
 {
     //Find index of clip
     int clip_position = m_allClips[cid]->getPosition();
-    return [clip_position, cid, this]() {
+    int old_in = clip_position;
+    int old_out = old_in + m_allClips[cid]->getPlaytime() - 1;
+    return [clip_position, cid, old_in, old_out, this]() {
         auto clip_loc = getClipIndexAt(clip_position);
         int target_track = clip_loc.first;
         int target_clip = clip_loc.second;
@@ -145,6 +152,10 @@ Fun TrackModel::requestClipDeletion_lambda(int cid)
             m_allClips[cid]->setCurrentTrackId(-1);
             m_allClips.erase(cid);
             delete prod;
+            if (auto ptr = m_parent.lock()) {
+                ptr->m_snaps->removePoint(old_in);
+                ptr->m_snaps->removePoint(old_out);
+            }
             return true;
         }
         return false;
@@ -203,18 +214,32 @@ int TrackModel::getBlankSizeNearClip(int cid, bool after)
 Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
 {
     int clip_position = m_allClips[cid]->getPosition();
+    int old_in = clip_position;
+    int old_out = old_in + m_allClips[cid]->getPlaytime() - 1;
     auto clip_loc = getClipIndexAt(clip_position);
     int target_track = clip_loc.first;
     int target_clip = clip_loc.second;
     Q_ASSERT(target_clip < m_playlists[target_track].count());
     int size = out - in + 1;
 
+    auto update_snaps = [old_in, old_out, this](int new_in, int new_out) {
+        if (auto ptr = m_parent.lock()) {
+            ptr->m_snaps->removePoint(old_in);
+            ptr->m_snaps->removePoint(old_out);
+            ptr->m_snaps->addPoint(new_in);
+            ptr->m_snaps->addPoint(new_out);
+        } else {
+            qDebug() << "Error : clip resize failed because parent timeline is not available anymore";
+            Q_ASSERT(false);
+        }
+    };
+
     int delta = m_allClips[cid]->getPlaytime() - size;
     if (delta == 0) {
         return [](){return true;};
     }
     if (delta > 0) { //we shrink clip
-        return [right, target_clip, target_track, clip_position, delta, in, out, cid, this](){
+        return [right, target_clip, target_track, clip_position, delta, in, out, cid, update_snaps, this](){
             int target_clip_mutable = target_clip;
             int blank_index = right ? (target_clip_mutable + 1) : target_clip_mutable;
             // insert blank to space that is going to be empty
@@ -228,6 +253,9 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
             int err = m_playlists[target_track].resize_clip(target_clip_mutable, in, out);
             //make sure to do this after, to avoid messing the indexes
             m_playlists[target_track].consolidate_blanks();
+            if (err == 0) {
+                update_snaps(m_allClips[cid]->getPosition(), m_allClips[cid]->getPosition() + out - in);
+            }
             return err == 0;
         };
     } else {
@@ -236,8 +264,11 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
         if (right) {
             if (target_clip == m_playlists[target_track].count() - 1 && other_blank_end >= out) {
                 //clip is last, it can always be extended
-                return [this, target_clip, target_track, in, out]() {
+                return [this, target_clip, target_track, in, out, update_snaps, cid]() {
                     int err = m_playlists[target_track].resize_clip(target_clip, in, out);
+                    if (err == 0) {
+                        update_snaps(m_allClips[cid]->getPosition(), m_allClips[cid]->getPosition() + out - in);
+                    }
                     return err == 0;
                 };
             }
@@ -253,7 +284,7 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
         if (m_playlists[target_track].is_blank(blank)) {
             int blank_length = m_playlists[target_track].clip_length(blank);
             if (blank_length + delta >= 0 && other_blank_end >= out) {
-                return [blank_length, blank, right, cid, delta, this, in, out, target_clip, target_track](){
+                return [blank_length, blank, right, cid, delta, update_snaps, this, in, out, target_clip, target_track](){
                     int target_clip_mutable = target_clip;
                     int err = 0;
                     if (blank_length + delta == 0) {
@@ -269,6 +300,9 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
                     }
                     if (!right && err == 0) {
                         m_allClips[cid]->setPosition(m_playlists[target_track].clip_start(target_clip_mutable));
+                    }
+                    if (err == 0) {
+                        update_snaps(m_allClips[cid]->getPosition(), m_allClips[cid]->getPosition() + out - in);
                     }
                     return err == 0;
                 };

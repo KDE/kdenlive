@@ -24,6 +24,7 @@
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
 #include "groupsmodel.hpp"
+#include "snapmodel.hpp"
 
 #include "doc/docundostack.hpp"
 
@@ -47,6 +48,7 @@ int TimelineModel::next_id = 0;
 
 TimelineModel::TimelineModel(std::weak_ptr<DocUndoStack> undo_stack) :
     m_tractor(new Mlt::Tractor()),
+    m_snaps(new SnapModel()),
     m_undoStack(undo_stack)
 {
     Mlt::Profile profile;
