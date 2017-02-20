@@ -509,7 +509,7 @@ int Render::setSceneList(QString playlist, int position)
         QString retain = QStringLiteral("xml_retain %1").arg(m_binController->binPlaylistId());
         tractor.set(retain.toUtf8().constData(), m_binController->service(), 0);
         //if (!m_binController->hasClip("black")) m_binController->addClipToBin("black", *m_blackClip);
-        m_qmlView->setProducer(m_mltProducer);
+        //m_qmlView->setProducer(m_mltProducer);
         m_mltConsumer = m_qmlView->consumer();
     }
 

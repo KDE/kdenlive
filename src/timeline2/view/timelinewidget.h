@@ -60,10 +60,15 @@ public:
     Q_INVOKABLE bool scrub();
     Q_INVOKABLE QString timecode(int frames);
     Q_INVOKABLE void insertClip(int track, int position, QString xml);
+    static void onTractorChange(mlt_multitrack, TimelineWidget *self);
+    Mlt::Producer *producer();
 
 public slots:
     void selectMultitrack();
     void onSeeked(int position);
+
+private slots:
+    void updateDuration();
 
 private:
     std::shared_ptr<TimelineItemModel> m_model;

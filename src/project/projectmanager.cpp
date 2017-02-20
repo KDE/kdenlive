@@ -108,6 +108,9 @@ void ProjectManager::slotLoadOnOpen()
     m_loadClipsOnOpen.clear();
     TimelineWidget *timelineWidget = new TimelineWidget(pCore->binController(), m_project->commandStack(), pCore->window());
     pCore->addTimeline(timelineWidget, m_project->url().fileName());
+    connect(timelineWidget, &TimelineWidget::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timelineWidget, &TimelineWidget::onSeeked, Qt::DirectConnection);
+    pCore->monitorManager()->projectMonitor()->setProducer(timelineWidget->producer());
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)

@@ -119,6 +119,7 @@ public:
        @param logUndo if set to false, no undo object is stored
     */
     bool requestClipMove(int cid, int tid, int position, bool updateView = true, bool logUndo = true);
+
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo);

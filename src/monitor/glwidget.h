@@ -113,6 +113,8 @@ public:
     void setAudioThumb(int channels = 0, const QVariantList &audioCache = QList<QVariant>());
     int droppedFrames() const;
     void resetDrops();
+    void seek(int pos);
+    bool checkFrameNumber(int pos);
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -150,6 +152,7 @@ signals:
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
     void panView(const QPoint &diff);
+    void seekPosition(int);
 
 private:
     int m_id;
@@ -162,6 +165,7 @@ private:
     Mlt::Filter *m_glslManager;
     Mlt::Consumer *m_consumer;
     Mlt::Producer *m_producer;
+    int m_requestedSeekPosition;
     QSemaphore m_initSem;
     QSemaphore m_analyseSem;
     bool m_isInitialized;

@@ -153,6 +153,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_glMonitor = new GLWidget((int) id);
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
+    connect(m_glMonitor, &GLWidget::seekPosition, this, &Monitor::seekPosition, Qt::DirectConnection);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     QuickEventEater *leventEater = new QuickEventEater(this);
@@ -1740,7 +1741,7 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
     m_monitorManager->frameDisplayed(frame);
     int position = frame.get_position();
     seekCursor(position);
-    if (!render->checkFrameNumber(position)) {
+    if (!m_glMonitor->checkFrameNumber(position)) {
         m_playAction->setActive(false);
     } else if (position >= m_length) {
         m_playAction->setActive(false);
@@ -2213,4 +2214,13 @@ void Monitor::panView(QPoint diff)
     }
 }
 
+void Monitor::requestSeek(int pos)
+{
+    m_glMonitor->seek(pos);
+}
+
+void Monitor::setProducer(Mlt::Producer *producer)
+{
+    m_glMonitor->setProducer(producer);
+}
 

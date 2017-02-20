@@ -57,6 +57,8 @@ static ClientWaitSync_fp ClientWaitSync = nullptr;
 
 using namespace Mlt;
 
+#define SEEK_INACTIVE (-1)
+
 GLWidget::GLWidget(int id, QObject *parent)
     : QQuickView((QWindow *) parent)
     , sendFrameForAnalysis(false)
@@ -65,6 +67,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_glslManager(nullptr)
     , m_consumer(nullptr)
     , m_producer(nullptr)
+    , m_requestedSeekPosition(SEEK_INACTIVE)
     , m_initSem(0)
     , m_analyseSem(1)
     , m_isInitialized(false)
@@ -563,6 +566,60 @@ void GLWidget::wheelEvent(QWheelEvent *event)
     }
     emit mouseSeek(event->delta(), (int) event->modifiers());
     event->accept();
+}
+
+void GLWidget::seek(int pos)
+{
+    // Testing puspose only
+    if (m_requestedSeekPosition == SEEK_INACTIVE) {
+        m_requestedSeekPosition = pos;
+        if (m_producer->get_speed() != 0) {
+            m_consumer->purge();
+        }
+        m_producer->seek(pos);
+        if (m_consumer->is_stopped()) {
+            m_consumer->start();
+        }
+        m_consumer->set("refresh", 1);
+    } else {
+        m_requestedSeekPosition = pos;
+    }
+}
+
+bool GLWidget::checkFrameNumber(int pos)
+{
+    emit seekPosition(pos);
+    if (pos == m_requestedSeekPosition) {
+        m_requestedSeekPosition = SEEK_INACTIVE;
+    }
+    if (m_requestedSeekPosition != SEEK_INACTIVE) {
+        double speed = m_producer->get_speed();
+        m_producer->set_speed(0);
+        m_producer->seek(m_requestedSeekPosition);
+        if (speed == 0) {
+            m_consumer->set("refresh", 1);
+        } else {
+            m_producer->set_speed(speed);
+        }
+    } else {
+        if (m_producer->get_speed() == 0) {
+            m_consumer->purge();
+        } /*else if (m_isZoneMode) {
+            if (pos >= m_producer->get_int("out") - 1) {
+                if (m_isLoopMode) {
+                    m_consumer->purge();
+                    m_producer->seek((int)(m_loopStart.frames(m_fps)));
+                    m_producer->set_speed(1.0);
+                    m_consumer->set("refresh", 1);
+                } else {
+                    if (m_producer->get_speed() == 0) {
+                        return false;
+                    }
+                }
+            }
+        }*/
+    }
+    return true;
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)

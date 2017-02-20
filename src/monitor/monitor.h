@@ -152,6 +152,7 @@ public:
     void clearDisplay();
     /** @brief Seeks timeline without refreshing if monitor is not active **/
     void silentSeek(int pos);
+    void setProducer(Mlt::Producer *producer);
 
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -325,9 +326,12 @@ public slots:
     void slotGetCurrentImage(bool request);
     /** @brief Enable/disable display of monitor's audio levels widget */
     void slotSwitchAudioMonitor();
+    /** @brief Request seeking */
+    void requestSeek(int pos);
 
 signals:
     void renderPosition(int);
+    void seekPosition(int);
     void durationChanged(int);
     void refreshClipThumbnail(const QString &);
     void zoneUpdated(const QPoint &);

@@ -38,7 +38,18 @@ TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUn
     rootContext()->setContextProperty("multitrack", &*m_model);
     rootContext()->setContextProperty("timeline", this);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
+    //m_model->tractor()->multitrack()->listen("producer-changed", this, (mlt_listener) TimelineWidget::onTractorChange);
+    m_model->tractor()->refresh();
+    Mlt::Producer service(m_model->tractor()->parent().get_producer());
+    qDebug()<<"TL SERVIE: "<<service.get("mlt_type")<<" / "<<service.get("mlt_service");
+    qDebug()<<"*** BUILDING TIMELINE LENGTH: "<<service.get("length");
     //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
+}
+
+void TimelineWidget::onTractorChange(mlt_multitrack, TimelineWidget *self)
+{
+    qDebug()<<" * * ** * *DURATUION CHANGED";
+    self->updateDuration();
 }
 
 void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool isMultitrack)
@@ -75,6 +86,10 @@ int TimelineWidget::duration() const
     return m_model->duration();
 }
 
+void TimelineWidget::updateDuration()
+{
+    rootObject()->setProperty("duration", m_model->duration());
+}
 
 QList<int> TimelineWidget::selection() const
 {
@@ -174,18 +189,7 @@ QString TimelineWidget::timecode(int frames)
 
 void TimelineWidget::setPosition(int position)
 {
-    if (!m_model->tractor()) return;
-    // Testing puspose only
-    m_position = position;
-    emit positionChanged();
-    return;
-
-    if (position <= m_model->tractor()->get_length()) {
-        //emit seeked(position);
-    } else {
-        m_position = m_model->tractor()->get_length();
-        emit positionChanged();
-    }
+    emit seeked(position);
 }
 
 void TimelineWidget::onSeeked(int position)
@@ -193,4 +197,12 @@ void TimelineWidget::onSeeked(int position)
     m_position = position;
     emit positionChanged();
 }
+
+Mlt::Producer *TimelineWidget::producer()
+{
+    Mlt::Producer *prod = new Mlt::Producer(m_model->tractor()->get_producer());
+    qDebug()<<"*** TIMELINE LENGTH: "<<prod->get_playtime()<<" / "<<m_model->tractor()->get_length();
+    return prod;
+}
+
 

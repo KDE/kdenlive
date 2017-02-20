@@ -37,6 +37,7 @@ Rectangle {
     property color selectedTrackColor: activePalette.highlight //.rgba(0.8, 0.8, 0, 0.3);
     property alias trackCount: tracksRepeater.count
     property bool stopScrolling: false
+    property int seekPos: 0
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
     //property alias ripple: toolbar.ripple
 
@@ -146,14 +147,16 @@ Rectangle {
             hoverEnabled: true
             onClicked: {
                 console.log("Position changed: ",timeline.position)
-                timeline.position = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                root.seekPos = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                timeline.position = root.seekPos
             }
             property bool scim: false
             onReleased: scim = false
             onExited: scim = false
             onPositionChanged: {
                 if (mouse.modifiers === Qt.ShiftModifier || mouse.buttons === Qt.LeftButton) {
-                    timeline.position = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                    root.seekPos = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                    timeline.position = root.seekPos
                     scim = true
                 }
                 else
@@ -168,9 +171,10 @@ Rectangle {
                          && (timeline.position * timeline.scaleFactor >= 50)
                 onTriggered: {
                     if (parent.mouseX < 50)
-                        timeline.position -= 10
+                        root.seekPos = timeline.position - 10
                     else
-                        timeline.position += 10
+                        root.seekPos = timeline.position + 10
+                    timeline.position = root.seekPos
                 }
             }
 
@@ -184,7 +188,7 @@ Rectangle {
 
                     Ruler {
                         id: ruler
-                        width: tracksContainer.width
+                        width: parent.width
                         index: index
                         timeScale: timeline.scaleFactor
                     }
@@ -242,6 +246,16 @@ Rectangle {
                 width: 1
                 height: root.height - scrollView.__horizontalScrollBar.height
                 x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX
+                y: 0
+            }
+            Rectangle {
+                id: seekCursor
+                visible: timeline.position != root.seekPos
+                color: activePalette.highlight
+                width: 4
+                height: ruler.height
+                opacity: 0.5
+                x: root.seekPos * timeline.scaleFactor - scrollView.flickableItem.contentX
                 y: 0
             }
             TimelinePlayhead {
