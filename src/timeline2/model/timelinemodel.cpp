@@ -392,9 +392,39 @@ bool TimelineModel::requestGroupDeletion(int cid)
 }
 
 
-bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUndo)
+bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUndo, bool snapping)
 {
     Q_ASSERT(isClip(cid));
+    if (snapping) {
+        Fun temp_undo = [](){return true;};
+        Fun temp_redo = [](){return true;};
+        int in = getClipPosition(cid);
+        int out = in + getClipPlaytime(cid) - 1;
+        m_snaps->ignore({in,out});
+        int proposed_size = -1;
+        if (right) {
+            int target_pos = in + size - 1;
+            int snapped_pos = m_snaps->getClosestPoint(target_pos);
+            //TODO Make the number of frames adjustable
+            if (snapped_pos != -1 && qAbs(target_pos - snapped_pos) <= 10) {
+                proposed_size = snapped_pos - in;
+            }
+        } else {
+            int target_pos = out + 1 - size;
+            int snapped_pos = m_snaps->getClosestPoint(target_pos);
+            //TODO Make the number of frames adjustable
+            if (snapped_pos != -1 && qAbs(target_pos - snapped_pos) <= 10) {
+                proposed_size = out + 2 - snapped_pos;
+            }
+        }
+        m_snaps->unIgnore();
+        if (proposed_size != -1) {
+            if (m_allClips[cid]->requestResize(proposed_size, right, temp_undo, temp_redo)) {
+                temp_undo(); //undo temp move
+                size = proposed_size;
+            }
+        }
+    }
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     Fun update_model = [cid, right, this]() {

@@ -179,8 +179,9 @@ public:
        @param size is the new size of the clip
        @param right is true if we change the right side of the clip, false otherwise
        @param logUndo if set to true, an undo object is created
+       @param snap if set to true, the resize order will be coerced to use the snapping grid
     */
-    bool requestClipResize(int cid, int size, bool right, bool logUndo = true);
+    bool requestClipResize(int cid, int size, bool right, bool logUndo = true, bool snap = false);
 
     /* @brief Similar to requestClipResize but takes a delta instead of absolute size
        This action is undoable

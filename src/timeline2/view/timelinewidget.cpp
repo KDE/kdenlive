@@ -156,7 +156,7 @@ bool TimelineWidget::trimClip(int clipIndex, int delta, bool right, bool logUndo
 
 bool TimelineWidget::resizeClip(int clipIndex, int duration, bool right, bool logUndo)
 {
-    return m_model->requestClipResize(clipIndex, duration, right, logUndo);
+    return m_model->requestClipResize(clipIndex, duration, right, logUndo, true);
 }
 
 void TimelineWidget::insertClip(int track, int position, QString data_str)
