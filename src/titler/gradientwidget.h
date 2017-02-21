@@ -42,7 +42,7 @@ public:
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    explicit GradientWidget(const QMap<QString, QString> &gradients = QMap<QString, QString>(), int ix = 0, QWidget *parent = Q_NULLPTR);
+    explicit GradientWidget(const QMap<QString, QString> &gradients = QMap<QString, QString>(), int ix = 0, QWidget *parent = nullptr);
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     QString gradientToString() const;
     static QLinearGradient gradientFromString(const QString &str, int width, int height);

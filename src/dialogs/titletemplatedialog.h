@@ -29,7 +29,7 @@ class TitleTemplateDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit TitleTemplateDialog(const QString &folder, QWidget *parent = Q_NULLPTR);
+    explicit TitleTemplateDialog(const QString &folder, QWidget *parent = nullptr);
     QString selectedTemplate() const;
     QString selectedText() const;
 

@@ -30,14 +30,14 @@ class OnMonitorRectItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem *parent = Q_NULLPTR);
+    OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem *parent = nullptr);
 
     /** @brief Gets The action mode for the area @param pos +- 4.
      * e.g. pos(0,0) returns ResizeTopLeft */
     rectActions getMode(const QPointF &pos);
 
     /** @brief Reimplemented to draw the handles. */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;

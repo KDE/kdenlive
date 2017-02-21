@@ -65,7 +65,7 @@ public:
             if mouse tracking is enabled.
       \see signalMousePositionChanged(): Emitted when mouse tracking is enabled
       */
-    explicit AbstractScopeWidget(bool trackMouse = false, QWidget *parent = Q_NULLPTR);
+    explicit AbstractScopeWidget(bool trackMouse = false, QWidget *parent = nullptr);
     virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
 
     enum RescaleDirection { North, Northeast, East, Southeast };

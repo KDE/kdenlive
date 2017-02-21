@@ -31,9 +31,9 @@ class ProfilesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ProfilesDialog(const QString &profileDescription = QString(), QWidget *parent = Q_NULLPTR);
+    explicit ProfilesDialog(const QString &profileDescription = QString(), QWidget *parent = nullptr);
     /** @brief Using this constructor, the dialog only allows editing one profile. */
-    explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = Q_NULLPTR);
+    explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = nullptr);
 
     void fillList(const QString &selectedProfile = QString());
     static QMap< QString, QString > getSettingsFromFile(const QString &path);

@@ -41,7 +41,7 @@ public:
      * @param parent (optional) Parent Widget */
     explicit PositionWidget(const QString &name, int pos, int min, int max,
                           const Timecode &tc, const QString &comment = QString(),
-                          QWidget *parent = Q_NULLPTR);
+                          QWidget *parent = nullptr);
     ~PositionWidget();
     /** @brief get current position
      */

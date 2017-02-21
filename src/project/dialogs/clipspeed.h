@@ -33,7 +33,7 @@ class ClipSpeed : public QDialog
     Q_OBJECT
 
 public:
-    explicit ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent = Q_NULLPTR);
+    explicit ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent = nullptr);
     QUrl selectedUrl() const;
     double speed() const;
 

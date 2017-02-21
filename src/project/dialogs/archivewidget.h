@@ -48,9 +48,9 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<ClipController *> &list, const QStringList &luma_list, QWidget *parent = Q_NULLPTR);
+    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<ClipController *> &list, const QStringList &luma_list, QWidget *parent = nullptr);
     // Constructor for extracting widget
-    explicit ArchiveWidget(const QUrl &url, QWidget *parent = Q_NULLPTR);
+    explicit ArchiveWidget(const QUrl &url, QWidget *parent = nullptr);
     ~ArchiveWidget();
 
     QString extractedProjectFile() const;
@@ -58,7 +58,7 @@ public:
 private slots:
     void slotCheckSpace();
     bool slotStartArchiving(bool firstPass = true);
-    void slotArchivingFinished(KJob *job = Q_NULLPTR, bool finished = false);
+    void slotArchivingFinished(KJob *job = nullptr, bool finished = false);
     void slotArchivingProgress(KJob *, qulonglong);
     void done(int r) Q_DECL_OVERRIDE;
     bool closeAccepted();

@@ -36,7 +36,7 @@ class ScopeManager : public QObject
         bool singleFrameRequested;
         GfxScopeData()
         {
-            scope = Q_NULLPTR;
+            scope = nullptr;
             singleFrameRequested = false;
         }
     };
@@ -46,24 +46,24 @@ class ScopeManager : public QObject
         bool singleFrameRequested;
         AudioScopeData()
         {
-            scope = Q_NULLPTR;
+            scope = nullptr;
             singleFrameRequested = false;
         }
     };
 
 public:
-    explicit ScopeManager(QObject *parent = Q_NULLPTR);
+    explicit ScopeManager(QObject *parent = nullptr);
 
     /**
       Adds a scope and sets up signal/slot connections to ensure that the scope
       receives data when required.
       \see addScope(AbstractGfxScopeWidget, QDockWidget)
       */
-    bool addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *audioScopeWidget = Q_NULLPTR);
+    bool addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *audioScopeWidget = nullptr);
     /**
       \see addScope(AbstractAudioScopeWidget, QDockWidget)
       */
-    bool addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *colorScopeWidget = Q_NULLPTR);
+    bool addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *colorScopeWidget = nullptr);
 
 private:
     QList<AudioScopeData> m_audioScopes;

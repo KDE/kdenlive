@@ -70,7 +70,7 @@ class MyListView: public QListView
 {
     Q_OBJECT
 public:
-    explicit MyListView(QWidget *parent = Q_NULLPTR);
+    explicit MyListView(QWidget *parent = nullptr);
 
 protected:
     void focusInEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
@@ -83,7 +83,7 @@ class MyTreeView: public QTreeView
     Q_OBJECT
     Q_PROPERTY(bool editing READ isEditing WRITE setEditing)
 public:
-    explicit MyTreeView(QWidget *parent = Q_NULLPTR);
+    explicit MyTreeView(QWidget *parent = nullptr);
     void setEditing(bool edit);
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -109,8 +109,8 @@ class BinMessageWidget: public KMessageWidget
 {
     Q_OBJECT
 public:
-    explicit BinMessageWidget(QWidget *parent = Q_NULLPTR);
-    BinMessageWidget(const QString &text, QWidget *parent = Q_NULLPTR);
+    explicit BinMessageWidget(QWidget *parent = nullptr);
+    BinMessageWidget(const QString &text, QWidget *parent = nullptr);
 
 protected:
     bool event(QEvent *ev) Q_DECL_OVERRIDE;
@@ -123,7 +123,7 @@ class SmallJobLabel: public QPushButton
 {
     Q_OBJECT
 public:
-    explicit SmallJobLabel(QWidget *parent = Q_NULLPTR);
+    explicit SmallJobLabel(QWidget *parent = nullptr);
     static const QString getStyleSheet(const QPalette &p);
     void setAction(QAction *action);
 private:
@@ -152,7 +152,7 @@ private slots:
 class BinItemDelegate: public QStyledItemDelegate
 {
 public:
-    explicit BinItemDelegate(QObject *parent = Q_NULLPTR): QStyledItemDelegate(parent)
+    explicit BinItemDelegate(QObject *parent = nullptr): QStyledItemDelegate(parent)
     {
     }
 
@@ -337,7 +337,7 @@ class LineEventEater : public QObject
 {
     Q_OBJECT
 public:
-    explicit LineEventEater(QObject *parent = Q_NULLPTR);
+    explicit LineEventEater(QObject *parent = nullptr);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
@@ -360,7 +360,7 @@ class Bin : public QWidget
     enum BinViewType {BinTreeView, BinIconView };
 
 public:
-    explicit Bin(QWidget *parent = Q_NULLPTR);
+    explicit Bin(QWidget *parent = nullptr);
     ~Bin();
 
     bool isLoading;
@@ -541,7 +541,7 @@ private slots:
     void slotShowDescColumn(bool show);
 
     /** @brief Setup the bin view type (icon view, tree view, ...).
-    * @param action The action whose data defines the view type or Q_NULLPTR to keep default view */
+    * @param action The action whose data defines the view type or nullptr to keep default view */
     void slotInitView(QAction *action);
 
     /** @brief Update status for clip jobs  */
@@ -622,7 +622,7 @@ public slots:
     void slotAddClipCut(const QString &id, int in, int out);
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
-    void slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMarker, QUndoCommand *groupCommand = Q_NULLPTR);
+    void slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMarker, QUndoCommand *groupCommand = nullptr);
     void slotLoadClipMarkers(const QString &id);
     void slotSaveClipMarkers(const QString &id);
     void slotDuplicateClip();
@@ -634,7 +634,7 @@ public slots:
     /** @brief Abort audio thumbnail for clip with id */
     void slotAbortAudioThumb(const QString &id, long duration);
     /** @brief Add extra data to a clip. */
-    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = Q_NULLPTR);
+    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = nullptr);
     void slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel);
     /** @brief Pass some important properties to timeline track producers. */
     void updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties);

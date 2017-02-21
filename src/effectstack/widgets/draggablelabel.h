@@ -31,7 +31,7 @@ class DraggableLabel : public QLabel
 {
     Q_OBJECT
 public:
-    explicit DraggableLabel(const QString &text, QWidget *parent = Q_NULLPTR);
+    explicit DraggableLabel(const QString &text, QWidget *parent = nullptr);
 protected:
     void mousePressEvent(QMouseEvent *ev);
     void mouseReleaseEvent(QMouseEvent *ev);

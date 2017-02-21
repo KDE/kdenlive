@@ -54,7 +54,7 @@ class QuickEventEater : public QObject
 {
     Q_OBJECT
 public:
-    explicit QuickEventEater(QObject *parent = Q_NULLPTR);
+    explicit QuickEventEater(QObject *parent = nullptr);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
@@ -81,13 +81,13 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
-    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = Q_NULLPTR);
+    Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender() Q_DECL_OVERRIDE;
     void resetProfile(const MltVideoProfile &profile);
     void setCustomProfile(const QString &profile, const Timecode &tc);
-    void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = Q_NULLPTR, QAction *loopClip = Q_NULLPTR);
+    void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
     const QString sceneList(const QString &root);
     const QString activeClipId();
     GenTime position();
@@ -211,7 +211,7 @@ private:
     /** Selected clip/transition in timeline. Used for looping it. */
     AbstractClipItem *m_selectedClip;
     /** true if selected clip is transition, false = selected clip is clip.
-     *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = Q_NULLPTR. */
+     *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = nullptr. */
     bool m_loopClipTransition;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;

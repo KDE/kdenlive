@@ -33,7 +33,7 @@ class OnMonitorPathItem : public QObject, public QGraphicsPathItem
 {
     Q_OBJECT
 public:
-    explicit OnMonitorPathItem(QGraphicsItem *parent = Q_NULLPTR);
+    explicit OnMonitorPathItem(QGraphicsItem *parent = nullptr);
     void setPoints(Mlt::Geometry *geometry);
     void getMode(const QPointF &pos);
     void rebuildShape();
@@ -41,7 +41,7 @@ public:
     QPainterPath shape() const Q_DECL_OVERRIDE;
 
     /** @brief Reimplemented to draw the handles. */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 
 protected:

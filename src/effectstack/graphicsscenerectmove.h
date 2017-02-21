@@ -32,7 +32,7 @@ enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IM
 class MyQGraphicsEffect: public QGraphicsEffect
 {
 public:
-    explicit MyQGraphicsEffect(QObject *parent = Q_NULLPTR);
+    explicit MyQGraphicsEffect(QObject *parent = nullptr);
     void setOffset(int xOffset, int yOffset, int blur);
     void setShadow(const QImage &image);
 protected:
@@ -48,7 +48,7 @@ class MyTextItem: public QGraphicsTextItem
 {
     Q_OBJECT
 public:
-    MyTextItem(const QString &, QGraphicsItem *parent = Q_NULLPTR);
+    MyTextItem(const QString &, QGraphicsItem *parent = nullptr);
     void setAlignment(Qt::Alignment alignment);
     /** @brief returns an extended bounding containing shadow */
     QRectF boundingRect() const Q_DECL_OVERRIDE;
@@ -84,7 +84,7 @@ public slots:
 class MyRectItem: public QGraphicsRectItem
 {
 public:
-    explicit MyRectItem(QGraphicsItem *parent = Q_NULLPTR);
+    explicit MyRectItem(QGraphicsItem *parent = nullptr);
     void setRect(const QRectF &rectangle);
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
@@ -95,7 +95,7 @@ private:
 class MyPixmapItem: public QGraphicsPixmapItem
 {
 public:
-    MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent = Q_NULLPTR);
+    MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent = nullptr);
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 };
@@ -103,7 +103,7 @@ protected:
 class MySvgItem: public QGraphicsSvgItem
 {
 public:
-    MySvgItem(const QString &fileName = QString(), QGraphicsItem *parent = Q_NULLPTR);
+    MySvgItem(const QString &fileName = QString(), QGraphicsItem *parent = nullptr);
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 };
@@ -112,7 +112,7 @@ class GraphicsSceneRectMove: public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit GraphicsSceneRectMove(QObject *parent = Q_NULLPTR);
+    explicit GraphicsSceneRectMove(QObject *parent = nullptr);
     void setSelectedItem(QGraphicsItem *item);
     void setScale(double s);
     void setZoom(double s);

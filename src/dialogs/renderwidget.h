@@ -111,7 +111,7 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget *parent = Q_NULLPTR);
+    explicit RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget *parent = nullptr);
     virtual ~RenderWidget();
     void setGuides(const QMap<double, QString> &guidesData, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());

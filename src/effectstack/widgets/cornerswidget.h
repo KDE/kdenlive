@@ -35,7 +35,7 @@ public:
      * @param isEffect true if used in an effect, false if used in a transition
      * @param factor Factor by which the parameters differ from the range 0-1
      * @param parent (optional) Parent widget */
-    explicit CornersWidget(Monitor *monitor, const QDomElement &e, int minFrame, int maxFrame, int pos, const Timecode &tc, int activeKeyframe, QWidget *parent = Q_NULLPTR);
+    explicit CornersWidget(Monitor *monitor, const QDomElement &e, int minFrame, int maxFrame, int pos, const Timecode &tc, int activeKeyframe, QWidget *parent = nullptr);
     virtual ~CornersWidget();
 
     void addParameter(const QDomElement &e, int activeKeyframe = -1) Q_DECL_OVERRIDE;

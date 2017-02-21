@@ -30,7 +30,7 @@ class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
     Q_OBJECT
 
 public:
-    explicit ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget *parent = Q_NULLPTR);
+    explicit ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget *parent = nullptr);
     ~ClipStabilize();
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;

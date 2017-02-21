@@ -34,7 +34,7 @@ class EffectStackEdit : public QScrollArea
 {
     Q_OBJECT
 public:
-    explicit EffectStackEdit(Monitor *monitor, QWidget *parent = Q_NULLPTR);
+    explicit EffectStackEdit(Monitor *monitor, QWidget *parent = nullptr);
     ~EffectStackEdit();
     static QMap<QString, QImage> iconCache;
     /** @brief Sets attribute @param name to @param value.

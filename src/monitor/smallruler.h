@@ -37,7 +37,7 @@ class SmallRuler : public QWidget
     };
 
 public:
-    explicit SmallRuler(Monitor *manager, Render *render, QWidget *parent = Q_NULLPTR);
+    explicit SmallRuler(Monitor *manager, Render *render, QWidget *parent = nullptr);
     void adjustScale(int maximum, int offset);
     void setZone(int start, int end);
     void setZoneStart();

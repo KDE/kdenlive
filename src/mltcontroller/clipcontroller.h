@@ -51,7 +51,7 @@ public:
      * @param bincontroller reference to the bincontroller
      * @param producer producer to create reference to
      */
-    explicit ClipController(BinController *bincontroller, Mlt::Producer &producer, QObject *parent = Q_NULLPTR);
+    explicit ClipController(BinController *bincontroller, Mlt::Producer &producer, QObject *parent = nullptr);
     /**
      * @brief Constructor used when opening a document and encountering a
      * track producer before the master producer. The masterProducer MUST be set afterwards

@@ -52,7 +52,7 @@ public:
                                    const QString &comment, int id,
                                    const QString &suffix = QString(),
                                    int decimals = 0, bool showRadiobutton = false,
-                                   QWidget *parent = Q_NULLPTR);
+                                   QWidget *parent = nullptr);
     ~DoubleParameterWidget();
 
     /** @brief The factor by which real param value is multiplicated to give the slider value. */

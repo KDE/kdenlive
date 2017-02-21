@@ -44,7 +44,7 @@ public:
     * @param timecode Timecode needed by timecode display widget
     * @param clipPos Position of the clip in timeline
     * @param parent (optional) Parent widget */
-    explicit GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget *parent = Q_NULLPTR);
+    explicit GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget *parent = nullptr);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
     QString getValue() const;

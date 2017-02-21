@@ -35,7 +35,7 @@ public:
     static const int TypeRole = Qt::UserRole;
     static const int IdRole = TypeRole + 1;
 
-    explicit EffectsListWidget(QWidget *parent = Q_NULLPTR);
+    explicit EffectsListWidget(QWidget *parent = nullptr);
     virtual ~EffectsListWidget();
     const QDomElement currentEffect() const;
     QString currentInfo() const;

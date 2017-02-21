@@ -57,7 +57,7 @@ class RecManager : public QObject
     };
 
 public:
-    explicit RecManager(Monitor *parent = Q_NULLPTR);
+    explicit RecManager(Monitor *parent = nullptr);
     ~RecManager();
     QToolBar *toolbar() const;
     void stopCapture();

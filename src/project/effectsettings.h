@@ -34,7 +34,7 @@ class ElidedCheckBox : public QCheckBox
     Q_OBJECT
 
 public:
-    explicit ElidedCheckBox(QWidget *parent = Q_NULLPTR);
+    explicit ElidedCheckBox(QWidget *parent = nullptr);
     void setBoxText(const QString &text);
     void updateText(int width);
     int currentWidth() const;
@@ -51,7 +51,7 @@ class EffectSettings : public QWidget
     Q_OBJECT
 
 public:
-    explicit EffectSettings(QWidget *parent = Q_NULLPTR);
+    explicit EffectSettings(QWidget *parent = nullptr);
 
     ElidedCheckBox *checkAll;
     QScrollArea *container;

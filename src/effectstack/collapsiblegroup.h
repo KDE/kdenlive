@@ -33,7 +33,7 @@ class MyEditableLabel : public QLineEdit
 {
     Q_OBJECT
 public:
-    explicit MyEditableLabel(QWidget *parent = Q_NULLPTR);
+    explicit MyEditableLabel(QWidget *parent = nullptr);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
@@ -50,7 +50,7 @@ class CollapsibleGroup : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget *parent = Q_NULLPTR);
+    CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget *parent = nullptr);
     ~CollapsibleGroup();
     void updateTimecodeFormat();
     void setActive(bool activate) Q_DECL_OVERRIDE;

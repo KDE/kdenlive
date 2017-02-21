@@ -26,7 +26,7 @@ class JogManager : public QObject
     Q_OBJECT
 
 public:
-    explicit JogManager(QObject *parent = Q_NULLPTR);
+    explicit JogManager(QObject *parent = nullptr);
 
 private slots:
     void slotDoAction(const QString &actionName);

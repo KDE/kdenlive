@@ -28,14 +28,14 @@ class OnMonitorCornersItem : public QObject, public QGraphicsPolygonItem
 {
     Q_OBJECT
 public:
-    explicit OnMonitorCornersItem(QGraphicsItem *parent = Q_NULLPTR);
+    explicit OnMonitorCornersItem(QGraphicsItem *parent = nullptr);
 
     enum cornersActions { Corner, Move, MoveSide, NoAction };
     /** @brief Gets The action mode for the area @param pos +- 4. */
     cornersActions getMode(const QPointF &pos, int *corner);
 
     /** @brief Reimplemented to draw the handles. */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;

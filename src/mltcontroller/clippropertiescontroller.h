@@ -36,7 +36,7 @@ class QLabel;
 class AnalysisTree : public QTreeWidget
 {
 public:
-    explicit AnalysisTree(QWidget *parent = Q_NULLPTR);
+    explicit AnalysisTree(QWidget *parent = nullptr);
 
 protected:
     QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;

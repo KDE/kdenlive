@@ -39,7 +39,7 @@ class AudioSpectrum : public AbstractAudioScopeWidget
     Q_OBJECT
 
 public:
-    explicit AudioSpectrum(QWidget *parent = Q_NULLPTR);
+    explicit AudioSpectrum(QWidget *parent = nullptr);
     ~AudioSpectrum();
 
     // Implemented virtual methods

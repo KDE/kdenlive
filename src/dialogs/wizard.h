@@ -35,7 +35,7 @@ class KMessageWidget;
 class MyWizardPage : public QWizardPage
 {
 public:
-    explicit MyWizardPage(QWidget *parent = Q_NULLPTR);
+    explicit MyWizardPage(QWidget *parent = nullptr);
     void setComplete(bool complete);
     bool isComplete() const Q_DECL_OVERRIDE;
     bool m_isComplete;
@@ -45,7 +45,7 @@ class Wizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit Wizard(bool autoClose, QWidget *parent = Q_NULLPTR);
+    explicit Wizard(bool autoClose, QWidget *parent = nullptr);
     void installExtraMimes(const QString &baseName, const QStringList &globs);
     void runUpdateMimeDatabase();
     void adjustSettings();

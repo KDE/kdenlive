@@ -51,7 +51,7 @@ public:
         AnimatedKeyframe
     };
 
-    explicit KeyframeView(int handleSize, QObject *parent = Q_NULLPTR);
+    explicit KeyframeView(int handleSize, QObject *parent = nullptr);
     virtual ~KeyframeView();
 
     /** The position of the currently active keyframe */

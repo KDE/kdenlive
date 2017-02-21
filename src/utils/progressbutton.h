@@ -39,7 +39,7 @@ class ProgressButton: public QToolButton
     Q_PROPERTY(int progress READ progress WRITE setProgress)
     Q_OBJECT
 public:
-    explicit ProgressButton(const QString &text, double max = 100, QWidget *parent = Q_NULLPTR);
+    explicit ProgressButton(const QString &text, double max = 100, QWidget *parent = nullptr);
     ~ProgressButton();
     int progress() const;
     void setProgress(int);

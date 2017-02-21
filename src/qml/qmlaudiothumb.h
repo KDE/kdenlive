@@ -31,7 +31,7 @@ class QmlAudioThumb : public QQuickPaintedItem
 {
     Q_OBJECT
 public:
-    explicit QmlAudioThumb(QQuickItem *parent = Q_NULLPTR);
+    explicit QmlAudioThumb(QQuickItem *parent = nullptr);
     void setImage(const QImage &img);
     void paint(QPainter *painter) Q_DECL_OVERRIDE;
 private:

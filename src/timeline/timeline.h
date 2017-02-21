@@ -50,7 +50,7 @@ class ScrollEventEater : public QObject
 {
     Q_OBJECT
 public:
-    explicit ScrollEventEater(QObject *parent = Q_NULLPTR);
+    explicit ScrollEventEater(QObject *parent = nullptr);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
@@ -61,7 +61,7 @@ class Timeline : public QWidget, public Ui::TimeLine_UI
     Q_OBJECT
 
 public:
-    explicit Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent = Q_NULLPTR);
+    explicit Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent = nullptr);
     virtual ~ Timeline();
 
     /** @brief is multitrack view (split screen for tracks) enabled */

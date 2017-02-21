@@ -57,7 +57,7 @@ class QToolBar;
 class LibraryItemDelegate: public QStyledItemDelegate
 {
 public:
-    explicit LibraryItemDelegate(QObject *parent = Q_NULLPTR): QStyledItemDelegate(parent)
+    explicit LibraryItemDelegate(QObject *parent = nullptr): QStyledItemDelegate(parent)
     {
     }
 
@@ -144,7 +144,7 @@ class LibraryTree : public QTreeWidget
 {
     Q_OBJECT
 public:
-    explicit LibraryTree(QWidget *parent = Q_NULLPTR);
+    explicit LibraryTree(QWidget *parent = nullptr);
 
 protected:
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
@@ -166,7 +166,7 @@ class LibraryWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LibraryWidget(ProjectManager *m_manager, QWidget *parent = Q_NULLPTR);
+    explicit LibraryWidget(ProjectManager *m_manager, QWidget *parent = nullptr);
     void setupActions(const QList<QAction *> &list);
 
 public slots:

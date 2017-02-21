@@ -51,7 +51,7 @@ public:
     /** @brief Track constructor
      * @param playlist is the MLT object used for monitor/render
      * @param fps is the read speed (frames per seconds) */
-    explicit Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, int height, QWidget *parent = Q_NULLPTR);
+    explicit Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, int height, QWidget *parent = nullptr);
     ~Track();
 
     struct SlowmoInfo {
