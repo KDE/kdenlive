@@ -250,7 +250,7 @@ bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, in
         registerClip(clip);
         return true;
     };
-    bool res = requestClipMove(clipId, trackId, position, false, undo, redo);
+    bool res = requestClipMove(clipId, trackId, position, true, undo, redo);
     if (!res) {
         Q_ASSERT(undo());
         id = -1;
