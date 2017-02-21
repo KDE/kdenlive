@@ -309,6 +309,9 @@ protected:
 
     std::weak_ptr<DocUndoStack> m_undoStack;
 
+private:
+    // The black track producer. It's length / out should always be adjusted to the projects's length
+    Mlt::Producer *m_blackClip;
 
     //what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

@@ -51,6 +51,13 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_snaps(new SnapModel()),
     m_undoStack(undo_stack)
 {
+    // Create black background track
+    m_blackClip = new Mlt::Producer(*profile,"color:black");
+    m_blackClip->set("id", "black");
+    m_blackClip->set("mlt_type", "producer");
+    m_blackClip->set("aspect_ratio", 1);
+    m_blackClip->set("set.test_audio", 0);
+    m_tractor->insert_track(*m_blackClip, 0);
 }
 
 TimelineModel::~TimelineModel()
@@ -68,8 +75,9 @@ int TimelineModel::getTracksCount() const
 {
     int count = m_tractor->count();
     Q_ASSERT(count >= 0);
-    Q_ASSERT(count == static_cast<int>(m_allTracks.size()));
-    return count;
+    // don't count the black background track
+    Q_ASSERT(count -1 == static_cast<int>(m_allTracks.size()));
+    return count - 1;
 }
 
 int TimelineModel::getClipsCount() const
@@ -561,8 +569,8 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos)
     Q_ASSERT(pos >= 0);
     Q_ASSERT(pos <= static_cast<int>(m_allTracks.size()));
 
-    //effective insertion (MLT operation)
-    int error = m_tractor->insert_track(*track ,pos);
+    //effective insertion (MLT operation), add 1 to account for black background track
+    int error = m_tractor->insert_track(*track ,pos + 1);
     Q_ASSERT(error == 0); //we might need better error handling...
 
     // we now insert in the list
@@ -593,7 +601,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id)
     return [this, id]() {
         auto it = m_iteratorTable[id]; //iterator to the element
         auto index = getTrackPosition(id); //compute index in list
-        m_tractor->remove_track(static_cast<int>(index)); //melt operation
+        m_tractor->remove_track(static_cast<int>(index + 1)); //melt operation, add 1 to account for black background track
         m_allTracks.erase(it);  //actual deletion of object
         m_iteratorTable.erase(id);  //clean table
         return true;
