@@ -38,6 +38,7 @@ Rectangle {
     property alias trackCount: tracksRepeater.count
     property bool stopScrolling: false
     property int seekPos: 0
+    property int duration: 0
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
     //property alias ripple: toolbar.ripple
 
@@ -89,7 +90,9 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton
-                    onClicked: timeline.selectMultitrack()
+                    onClicked: {
+                        timeline.selectMultitrack()
+                    }
                 }
             }
             Flickable {
@@ -145,10 +148,15 @@ Rectangle {
             // This provides continuous scrubbing and scimming at the left/right edges.
             focus: true
             hoverEnabled: true
+            acceptedButtons: Qt.RightButton | Qt.LeftButton
             onClicked: {
-                console.log("Position changed: ",timeline.position)
-                root.seekPos = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
-                timeline.position = root.seekPos
+                if (mouse.button & Qt.RightButton) {
+                    menu.show()
+                } else {
+                    console.log("Position changed: ",timeline.position)
+                    root.seekPos = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                    timeline.position = root.seekPos
+                }
             }
             property bool scim: false
             onReleased: scim = false
@@ -188,7 +196,7 @@ Rectangle {
 
                     Ruler {
                         id: ruler
-                        width: parent.width
+                        width: root.duration
                         index: index
                         timeScale: timeline.scaleFactor
                     }
@@ -197,10 +205,12 @@ Rectangle {
                     id: scrollView
                     width: root.width - headerWidth
                     height: root.height - ruler.height
-
+                    // Click and drag should seek, not scroll the timeline view
+                    flickableItem.interactive: false
                     Rectangle {
-                        width: tracksContainer.width + headerWidth
-                        height: trackHeaders.height + 30 // 30 is padding
+                        width: root.duration + headerWidth
+                        height: trackHeaders.height
+                        color: activePalette.window
                         Column {
                             // These make the striped background for the tracks.
                             // It is important that these are not part of the track visual hierarchy;
@@ -208,7 +218,7 @@ Rectangle {
                             Repeater {
                                 model: multitrack
                                 delegate: Rectangle {
-                                    width: tracksContainer.width
+                                    width: root.duration
                                     //Layout.fillWidth: true
                                     color: (index === currentTrack)? selectedTrackColor : (index % 2)? activePalette.alternateBase : activePalette.base
                                     opacity: 0.3

@@ -66,7 +66,7 @@ class TimelineModel : public std::enable_shared_from_this<TimelineModel>
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     friend class TrackModel;
@@ -119,6 +119,7 @@ public:
        @param logUndo if set to false, no undo object is stored
     */
     bool requestClipMove(int cid, int tid, int position, bool updateView = true, bool logUndo = true);
+    Mlt::Profile *profile();
 
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/

@@ -46,13 +46,11 @@ int TimelineModel::next_id = 0;
     }
 
 
-TimelineModel::TimelineModel(std::weak_ptr<DocUndoStack> undo_stack) :
-    m_tractor(new Mlt::Tractor()),
+TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
+    m_tractor(new Mlt::Tractor(*profile)),
     m_snaps(new SnapModel()),
     m_undoStack(undo_stack)
 {
-    Mlt::Profile profile;
-    m_tractor->set_profile(profile);
 }
 
 TimelineModel::~TimelineModel()
@@ -668,4 +666,9 @@ std::unordered_set<int> TimelineModel::getGroupElements(int cid)
 {
     int gid = m_groups->getRootId(cid);
     return m_groups->getLeaves(gid);
+}
+
+Mlt::Profile *TimelineModel::profile()
+{
+    return m_tractor->profile();
 }

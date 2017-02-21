@@ -110,6 +110,7 @@ void ProjectManager::slotLoadOnOpen()
     pCore->addTimeline(timelineWidget, m_project->url().fileName());
     connect(timelineWidget, &TimelineWidget::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timelineWidget, &TimelineWidget::onSeeked, Qt::DirectConnection);
+    connect(timelineWidget, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
     pCore->monitorManager()->projectMonitor()->setProducer(timelineWidget->producer());
 }
 

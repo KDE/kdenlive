@@ -60,8 +60,10 @@ public:
     Q_INVOKABLE bool scrub();
     Q_INVOKABLE QString timecode(int frames);
     Q_INVOKABLE void insertClip(int track, int position, QString xml);
-    static void onTractorChange(mlt_multitrack, TimelineWidget *self);
     Mlt::Producer *producer();
+
+protected:
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
     void selectMultitrack();
@@ -94,6 +96,7 @@ signals:
     void rippleChanged();
     void scrubChanged();
     void seeked(int position);
+    void focusProjectMonitor();
 };
 
 #endif

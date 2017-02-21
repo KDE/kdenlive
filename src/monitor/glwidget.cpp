@@ -1059,6 +1059,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         // Connect the producer to the consumer - tell it to "run" later
         if (m_producer) {
             m_consumer->connect(*m_producer);
+            m_producer->set_speed(0.0);
         }
         if (m_glslManager) {
             if (!m_threadStartEvent) {

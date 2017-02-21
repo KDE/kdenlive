@@ -29,7 +29,7 @@
 
 TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
-    , m_model(TimelineItemModel::construct(undoStack, true))
+    , m_model(TimelineItemModel::construct(binController->profile(), undoStack, true))
     , m_binController(binController)
     , m_position(0)
 {
@@ -38,18 +38,9 @@ TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUn
     rootContext()->setContextProperty("multitrack", &*m_model);
     rootContext()->setContextProperty("timeline", this);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
-    //m_model->tractor()->multitrack()->listen("producer-changed", this, (mlt_listener) TimelineWidget::onTractorChange);
-    m_model->tractor()->refresh();
     Mlt::Producer service(m_model->tractor()->parent().get_producer());
-    qDebug()<<"TL SERVIE: "<<service.get("mlt_type")<<" / "<<service.get("mlt_service");
-    qDebug()<<"*** BUILDING TIMELINE LENGTH: "<<service.get("length");
+    updateDuration();
     //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
-}
-
-void TimelineWidget::onTractorChange(mlt_multitrack, TimelineWidget *self)
-{
-    qDebug()<<" * * ** * *DURATUION CHANGED";
-    self->updateDuration();
 }
 
 void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool isMultitrack)
@@ -88,7 +79,7 @@ int TimelineWidget::duration() const
 
 void TimelineWidget::updateDuration()
 {
-    rootObject()->setProperty("duration", m_model->duration());
+    rootObject()->setProperty("duration", m_model->duration() * scaleFactor());
 }
 
 QList<int> TimelineWidget::selection() const
@@ -200,9 +191,13 @@ void TimelineWidget::onSeeked(int position)
 
 Mlt::Producer *TimelineWidget::producer()
 {
-    Mlt::Producer *prod = new Mlt::Producer(m_model->tractor()->get_producer());
+    Mlt::Producer *prod = new Mlt::Producer(m_model->tractor());
     qDebug()<<"*** TIMELINE LENGTH: "<<prod->get_playtime()<<" / "<<m_model->tractor()->get_length();
     return prod;
 }
 
-
+void TimelineWidget::mousePressEvent(QMouseEvent *event)
+{
+    emit focusProjectMonitor();
+    QQuickWidget::mousePressEvent(event);
+}

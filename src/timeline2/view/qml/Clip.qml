@@ -238,13 +238,6 @@ Rectangle {
     ]
 
     MouseArea {
-        anchors.fill: parent
-        enabled: isBlank
-        acceptedButtons: Qt.RightButton
-        onClicked: menu.show()
-    }
-
-    MouseArea {
         id: mouseArea
         anchors.fill: parent
         enabled: !isBlank

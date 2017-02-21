@@ -29,20 +29,19 @@
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltProfile.h>
 
-TimelineItemModel::TimelineItemModel(std::weak_ptr<DocUndoStack> undo_stack) :
+TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
     QAbstractItemModel()
-    , TimelineModel(undo_stack)
+    , TimelineModel(profile, undo_stack)
 {
 }
 
-std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(std::weak_ptr<DocUndoStack> undo_stack, bool populate)
+std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, bool populate)
 {
-    std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(undo_stack));
+    std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(profile, undo_stack));
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
     if (populate) {
         // Testing: add a clip on first track
-        Mlt::Profile profile;
-        std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(profile,"color", "red"));
+        std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*profile,"color:red"));
         prod->set("length", 200);
         prod->set("out", 24);
         int ix = TrackModel::construct(ptr);

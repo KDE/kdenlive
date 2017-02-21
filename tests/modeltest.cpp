@@ -22,7 +22,7 @@ Mlt::Profile profile_model;
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
 
     int id1 = TrackModel::construct(timeline);
     REQUIRE(timeline->getTracksCount() == 1);
@@ -93,7 +93,7 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
 
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
 
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
@@ -126,7 +126,7 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 TEST_CASE("Clip manipulation", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
 
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
@@ -643,7 +643,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 TEST_CASE("Check id unicity", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
     producer->set("length", 20);
@@ -680,7 +680,7 @@ TEST_CASE("Check id unicity", "[ClipModel]")
 TEST_CASE("Undo and Redo", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
     std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile_model, "color", "blue");
@@ -1035,7 +1035,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
 TEST_CASE("Snapping", "[Snapping]") {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
 
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");

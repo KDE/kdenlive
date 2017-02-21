@@ -32,6 +32,10 @@ TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id) :
     m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
+    auto ptr = parent.lock();
+    m_track.set_profile(*(ptr->profile()));
+    m_playlists[0].set_profile(*(ptr->profile()));
+    m_playlists[1].set_profile(*(ptr->profile()));
     m_track.insert_track(m_playlists[0], 0);
     m_track.insert_track(m_playlists[1], 1);
 }

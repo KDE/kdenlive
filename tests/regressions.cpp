@@ -18,7 +18,7 @@
 TEST_CASE("Regression") {
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
     TimelineModel::next_id = 0;
     undoStack->undo();
     undoStack->redo();
@@ -62,7 +62,7 @@ TEST_CASE("Regression") {
 TEST_CASE("Regression2") {
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
     TimelineModel::next_id = 0;
     int dummy_id;
     undoStack->undo();
@@ -201,7 +201,7 @@ TEST_CASE("Regression 3")
 {
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(undoStack);
+    std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
     TimelineModel::next_id = 0;
     int dummy_id;
     std::shared_ptr<Mlt::Producer> producer0 = std::make_shared<Mlt::Producer>(profile, "color", "red");
