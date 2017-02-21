@@ -41,6 +41,7 @@ class TrackModel
 
 public:
     TrackModel() = delete;
+    ~TrackModel();
 
     friend class TimelineModel;
     friend class TimelineItemModel;

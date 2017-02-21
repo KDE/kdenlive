@@ -32,6 +32,14 @@ TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id) :
     m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
+    m_track.insert_track(m_playlists[0], 0);
+    m_track.insert_track(m_playlists[1], 1);
+}
+
+TrackModel::~TrackModel()
+{
+    m_track.remove_track(1);
+    m_track.remove_track(0);
 }
 
 int TrackModel::construct(std::weak_ptr<TimelineModel> parent, int id, int pos)
