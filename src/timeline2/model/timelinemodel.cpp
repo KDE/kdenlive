@@ -49,9 +49,9 @@ int TimelineModel::next_id = 0;
 TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
     m_tractor(new Mlt::Tractor(*profile)),
     m_snaps(new SnapModel()),
-    m_blackClip(new Mlt::Producer(*profile,"color:black")),
     m_undoStack(undo_stack),
-    m_profile(profile)
+    m_profile(profile),
+    m_blackClip(new Mlt::Producer(*profile,"color:black"))
 {
     // Create black background track
     m_blackClip->set("id", "black");
@@ -63,6 +63,8 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
 
 TimelineModel::~TimelineModel()
 {
+    //Remove black background
+    m_tractor->remove_track(0);
     std::vector<int> all_ids;
     for(auto tracks : m_iteratorTable) {
         all_ids.push_back(tracks.first);
