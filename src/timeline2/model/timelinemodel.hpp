@@ -75,6 +75,7 @@ public:
 
     virtual ~TimelineModel();
     Mlt::Tractor* tractor() const { return m_tractor.get(); }
+    std::shared_ptr<Mlt::Profile> getProfile();
 
     /* @brief returns the number of tracks */
     int getTracksCount() const;
@@ -119,7 +120,6 @@ public:
        @param logUndo if set to false, no undo object is stored
     */
     bool requestClipMove(int cid, int tid, int position, bool updateView = true, bool logUndo = true);
-    Mlt::Profile *profile();
 
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
@@ -309,9 +309,10 @@ protected:
 
     std::weak_ptr<DocUndoStack> m_undoStack;
 
-private:
+    std::shared_ptr<Mlt::Profile> m_profile;
+
     // The black track producer. It's length / out should always be adjusted to the projects's length
-    Mlt::Producer *m_blackClip;
+    std::unique_ptr<Mlt::Producer> m_blackClip;
 
     //what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

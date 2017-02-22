@@ -49,10 +49,11 @@ int TimelineModel::next_id = 0;
 TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
     m_tractor(new Mlt::Tractor(*profile)),
     m_snaps(new SnapModel()),
-    m_undoStack(undo_stack)
+    m_blackClip(new Mlt::Producer(*profile,"color:black")),
+    m_undoStack(undo_stack),
+    m_profile(profile)
 {
     // Create black background track
-    m_blackClip = new Mlt::Producer(*profile,"color:black");
     m_blackClip->set("id", "black");
     m_blackClip->set("mlt_type", "producer");
     m_blackClip->set("aspect_ratio", 1);
@@ -676,7 +677,7 @@ std::unordered_set<int> TimelineModel::getGroupElements(int cid)
     return m_groups->getLeaves(gid);
 }
 
-Mlt::Profile *TimelineModel::profile()
+std::shared_ptr<Mlt::Profile> TimelineModel::getProfile()
 {
-    return m_tractor->profile();
+    return m_profile;
 }

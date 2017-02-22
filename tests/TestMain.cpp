@@ -8,7 +8,7 @@ Write your tests in a file with a name corresponding to what you're testing */
 
 int main( int argc, char* argv[] )
 {
-    auto repo = Mlt::Factory::init( NULL );
+    std::unique_ptr<Mlt::Repository> repo (Mlt::Factory::init( NULL ));
 
     int result = Catch::Session().run( argc, argv );
 

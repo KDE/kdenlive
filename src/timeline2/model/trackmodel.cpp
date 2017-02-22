@@ -23,6 +23,7 @@
 #include "timelinemodel.hpp"
 #include "clipmodel.hpp"
 #include "snapmodel.hpp"
+#include <mlt++/MltProfile.h>
 #include <QDebug>
 
 
@@ -32,12 +33,17 @@ TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id) :
     m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
-    auto ptr = parent.lock();
-    m_track.set_profile(*(ptr->profile()));
-    m_playlists[0].set_profile(*(ptr->profile()));
-    m_playlists[1].set_profile(*(ptr->profile()));
-    m_track.insert_track(m_playlists[0], 0);
-    m_track.insert_track(m_playlists[1], 1);
+    if (auto ptr = parent.lock()) {
+        m_profile = ptr->getProfile();
+        m_track.set_profile(*ptr->getProfile().get());
+        m_playlists[0].set_profile(*ptr->getProfile().get());
+        m_playlists[1].set_profile(*ptr->getProfile().get());
+        m_track.insert_track(m_playlists[0], 0);
+        m_track.insert_track(m_playlists[1], 1);
+    } else {
+        qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
+        Q_ASSERT(false);
+    }
 }
 
 TrackModel::~TrackModel()
