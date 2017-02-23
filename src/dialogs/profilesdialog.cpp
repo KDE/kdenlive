@@ -724,8 +724,7 @@ int ProfilesDialog::getColorspaceFromDescription(const QString &description)
     //TODO: should the descriptions be translated?
     if (description == QLatin1String("SMPTE240M")) {
         return 240;
-    }
-    if (description == QLatin1String("ITU-R 709")) {
+    } else if (description == QLatin1String("ITU-R 709")) {
         return 709;
     }
     return 601;

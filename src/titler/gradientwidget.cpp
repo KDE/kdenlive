@@ -177,9 +177,6 @@ QStringList GradientWidget::getNames() const
 void GradientWidget::deleteGradient()
 {
     QListWidgetItem *item = gradient_list->currentItem();
-    if (!item) {
-        return;
-    }
     delete item;
 }
 

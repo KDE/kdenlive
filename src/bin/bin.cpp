@@ -152,7 +152,7 @@ void MyTreeView::keyPressEvent(QKeyEvent *event)
     QTreeView::keyPressEvent(event);
 }
 
-bool MyTreeView::isEditing()
+bool MyTreeView::isEditing() const
 {
     return m_editing;
 }
@@ -792,11 +792,11 @@ void Bin::deleteClip(const QString &id)
 
 ProjectClip *Bin::getFirstSelectedClip()
 {
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     if (indexes.isEmpty()) {
         return nullptr;
     }
-    foreach (const QModelIndex &ix, indexes) {
+    for (const QModelIndex &ix : indexes) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
         ProjectClip *clip = qobject_cast<ProjectClip *>(item);
         if (clip) {
@@ -808,15 +808,15 @@ ProjectClip *Bin::getFirstSelectedClip()
 
 void Bin::slotDeleteClip()
 {
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     QStringList clipIds;
     QStringList subClipIds;
     QStringList foldersIds;
-    ProjectSubClip *sub;
+    ProjectSubClip *sub = nullptr;
     QPoint zone;
     bool usedFolder = false;
     // check folders, remove child folders if there is any
     QList<ProjectFolder *> topFolders;
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     foreach (const QModelIndex &ix, indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
@@ -910,7 +910,7 @@ void Bin::slotDeleteClip()
 
 void Bin::slotReloadClip()
 {
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     foreach (const QModelIndex &ix, indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
@@ -1021,7 +1021,7 @@ void Bin::setMonitor(Monitor *monitor)
     connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
     connect(m_monitor, SIGNAL(requestAudioThumb(QString)), this, SLOT(slotSendAudioThumb(QString)));
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
-    connect(m_monitor, SIGNAL(updateClipMarker(QString, QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString, QList<CommentedTime>)));
+    connect(m_monitor, SIGNAL(updateClipMarker(QString,QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
     connect(this, &Bin::openClip, m_monitor, &Monitor::slotOpenClip);
 }
 
@@ -1093,8 +1093,7 @@ void Bin::setDocument(KdenliveDoc *project)
 
 void Bin::slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data)
 {
-    QList<QUrl>urls;
-    urls << QUrl::fromLocalFile(url);
+    const QList<QUrl> urls = QList<QUrl>() << QUrl::fromLocalFile(url);
     QStringList folderInfo;
     if (folderId >= 0) {
         QModelIndex ix = getIndexForId(QString::number(folderId), true);
@@ -1109,9 +1108,8 @@ void Bin::slotAddUrl(const QString &url, int folderId, const QMap<QString, QStri
 
 void Bin::slotAddUrl(const QString &url, const QMap<QString, QString> &data)
 {
-    QList<QUrl>urls;
-    urls << QUrl::fromLocalFile(url);
-    QStringList folderInfo = getFolderInfo();
+    const QList<QUrl> urls = QList<QUrl>() << QUrl::fromLocalFile(url);
+    const QStringList folderInfo = getFolderInfo();
     ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, data);
 }
 
@@ -1317,7 +1315,7 @@ void Bin::removeFolder(const QString &id, QUndoCommand *deleteCommand)
     // Check parent item
     ProjectFolder *folder = m_rootFolder->folder(id);
     AbstractProjectItem *parent = folder->parent();
-    if (folder->count() > 0) {
+    if (!folder->isEmpty()) {
         // Folder has clips inside, warn user
         if (KMessageBox::warningContinueCancel(this, i18np("Folder contains a clip, delete anyways ?", "Folder contains %1 clips, delete anyways ?", folder->count())) != KMessageBox::Continue) {
             return;
@@ -1878,7 +1876,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
     connect(this, &Bin::refreshPanelMarkers, panel, &ClipPropertiesController::slotFillMarkers);
     connect(panel, SIGNAL(updateClipProperties(QString, QMap<QString, QString>, QMap<QString, QString>)), this, SLOT(slotEditClipCommand(QString, QMap<QString, QString>, QMap<QString, QString>)));
     connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
-    connect(panel, SIGNAL(addMarkers(QString, QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString, QList<CommentedTime>)));
+    connect(panel, SIGNAL(addMarkers(QString,QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
     connect(panel, SIGNAL(editAnalysis(QString, QString, QString)), this, SLOT(slotAddClipExtraData(QString, QString, QString)));
 
@@ -2325,11 +2323,10 @@ void Bin::slotStartCutJob(const QString &id)
 
 void Bin::startJob(const QString &id, AbstractClipJob::JOBTYPE type)
 {
-    QList<ProjectClip *> clips;
     ProjectClip *clip = getBinClip(id);
     if (clip && !hasPendingJob(id, type)) {
         // Launch job
-        clips << clip;
+        const QList<ProjectClip *> clips = {clip};
         m_jobManager->prepareJobs(clips, m_doc->fps(), type);
     }
 }
@@ -2677,7 +2674,6 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
 
 void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command)
 {
-    QStringList folderInfo;
     // Create folder to hold imported clips
     QString folderName = QFileInfo(url).fileName().section(QLatin1Char('.'), 0, 0);
     QString folderId = QString::number(getFreeFolderId());
@@ -3208,7 +3204,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     }
     cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
     //TODO KF5 how to add custom cbox to Qfiledialog
-    QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Load Clip Markers"), m_doc->projectDataFolder());
+    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Load Clip Markers"), m_doc->projectDataFolder()));
     fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) {
@@ -3219,7 +3215,6 @@ void Bin::slotLoadClipMarkers(const QString &id)
     if (!selection.isEmpty()) {
         url = selection.first();
     }
-    delete fd;
 
     //QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
     if (url.isEmpty()) {
@@ -3301,7 +3296,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
         }
         cbox->setCurrentIndex(0);
         //TODO KF5 how to add custom cbox to Qfiledialog
-        QPointer<QFileDialog> fd = new QFileDialog(this, i18n("Save Clip Markers"), m_doc->projectDataFolder());
+        QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Save Clip Markers"), m_doc->projectDataFolder()));
         fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
         fd->setFileMode(QFileDialog::AnyFile);
         fd->setAcceptMode(QFileDialog::AcceptSave);
@@ -3313,7 +3308,6 @@ void Bin::slotSaveClipMarkers(const QString &id)
         if (!selection.isEmpty()) {
             url = selection.first();
         }
-        delete fd;
         //QString url = KFileDialog::getSaveFileName(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
         if (url.isEmpty()) {
             return;
@@ -3498,8 +3492,8 @@ void Bin::slotQueryRemoval(const QString &id, const QString &url, const QString 
     m_invalidClipDialog->addClip(id, url);
     int result = m_invalidClipDialog->exec();
     if (result == QDialog::Accepted) {
-        QStringList ids = m_invalidClipDialog->getIds();
-        foreach (const QString &i, ids) {
+        const QStringList ids = m_invalidClipDialog->getIds();
+        for (const QString &i : ids) {
             deleteClip(i);
         }
     }
@@ -3581,6 +3575,7 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
         oldProperties.insert(QStringLiteral("animation"), clip->getProducerProperty(QStringLiteral("animation")));
         slotEditClipCommand(clip->clipId(), oldProperties, properties);
     }
+    delete dia;
 }
 
 void Bin::slotDisableEffects(bool disable)
@@ -3720,8 +3715,8 @@ void Bin::slotMessageActionTriggered()
 
 void Bin::resetUsageCount()
 {
-    QList<ProjectClip *> clipList = m_rootFolder->childClips();
-    foreach (ProjectClip *clip, clipList) {
+    const QList<ProjectClip *> clipList = m_rootFolder->childClips();
+    for (ProjectClip *clip : clipList) {
         clip->setRefCount(0);
     }
 }

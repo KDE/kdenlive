@@ -99,7 +99,7 @@ private:
     QPoint m_startPos;
     bool m_editing;
     bool performDrag();
-    bool isEditing();
+    bool isEditing() const;
 
 signals:
     void focusView();
