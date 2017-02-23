@@ -667,6 +667,11 @@ Timeline *ProjectManager::currentTimeline()
     return m_trackView;
 }
 
+TimelineWidget *ProjectManager::currentTimelineWidget()
+{
+    return m_timelineWidget;
+}
+
 KRecentFilesAction *ProjectManager::recentFilesAction()
 {
     return m_recentFilesAction;
@@ -850,6 +855,8 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
         connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, m_timelineWidget, &TimelineWidget::onSeeked, Qt::DirectConnection);
         connect(m_timelineWidget, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
         pCore->monitorManager()->projectMonitor()->setProducer(m_timelineWidget->producer());
+        connect(m_timelineWidget, &TimelineWidget::zoomIn, pCore->window(), &MainWindow::slotZoomIn);
+        connect(m_timelineWidget, &TimelineWidget::zoomOut, pCore->window(), &MainWindow::slotZoomOut);
     }
     qDebug() << "FILLING TIMELINEWIDGET";
     m_timelineWidget->buildFromMelt(tractor);

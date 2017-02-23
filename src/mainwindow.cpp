@@ -2753,7 +2753,9 @@ void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->slotChangeZoom(value, -1, zoomOnMouse);
     }
-
+    if (pCore->projectManager()->currentTimelineWidget()) {
+        pCore->projectManager()->currentTimelineWidget()->slotChangeZoom(value, zoomOnMouse);
+    }
     m_zoomOut->setEnabled(value < m_zoomSlider->maximum());
     m_zoomIn->setEnabled(value > m_zoomSlider->minimum());
     slotUpdateZoomSliderToolTip(value);

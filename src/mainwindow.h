@@ -267,6 +267,10 @@ public slots:
     void slotRefreshProfiles();
     void updateDockTitleBars(bool isTopLevel = true);
     void configureToolbars() Q_DECL_OVERRIDE;
+    /** @brief Decreases the timeline zoom level by 1. */
+    void slotZoomIn(bool zoomOnMouse = false);
+    /** @brief Increases the timeline zoom level by 1. */
+    void slotZoomOut(bool zoomOnMouse = false);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -297,10 +301,6 @@ private slots:
     *
     * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
     void slotSetZoom(int value, bool zoomOnMouse = false);
-    /** @brief Decreases the timeline zoom level by 1. */
-    void slotZoomIn(bool zoomOnMouse = false);
-    /** @brief Increases the timeline zoom level by 1. */
-    void slotZoomOut(bool zoomOnMouse = false);
     /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();
     /** @brief Updates the zoom slider tooltip to fit @param zoomlevel. */

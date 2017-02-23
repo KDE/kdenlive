@@ -66,10 +66,12 @@ public:
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
     void selectMultitrack();
     void onSeeked(int position);
+    void slotChangeZoom(int value, bool zoomOnMouse);
 
 private slots:
     void updateDuration();
@@ -83,8 +85,10 @@ private:
         bool isMultitrackSelected;
     };
     int m_position;
+    double m_scale;
     Selection m_selection;
     Selection m_savedSelection;
+    static const int comboScale[];
     void emitSelectedFromSelection();
 
 signals:
@@ -99,6 +103,8 @@ signals:
     void scrubChanged();
     void seeked(int position);
     void focusProjectMonitor();
+    void zoomIn(bool zoomOnMouse);
+    void zoomOut(bool zoomOnMouse);
 };
 
 #endif

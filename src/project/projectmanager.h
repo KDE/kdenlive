@@ -53,6 +53,7 @@ public:
     /** @brief Returns a pointer to the currently opened project. A project should always be open. */
     KdenliveDoc *current();
     Timeline *currentTimeline();
+    TimelineWidget *currentTimelineWidget();
 
     /** @brief Store command line args for later opening. */
     void init(const QUrl &projectUrl, const QString &clipList);

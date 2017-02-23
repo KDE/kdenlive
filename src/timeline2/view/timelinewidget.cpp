@@ -28,11 +28,14 @@
 #include <QQuickItem>
 #include <QQmlContext>
 
+const int TimelineWidget::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
+
 TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
     , m_model(TimelineItemModel::construct(binController->profile(), undoStack, true))
     , m_binController(binController)
     , m_position(0)
+    , m_scale(3.0)
 {
     registerTimelineItems();
     setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -64,13 +67,13 @@ void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool 
 
 double TimelineWidget::scaleFactor() const
 {
-    //TODO
-    return 3.0;
+    return m_scale;
 }
 
 void TimelineWidget::setScaleFactor(double scale)
 {
-    //TODO
+    m_scale = scale;
+    emit scaleFactorChanged();
 }
 
 int TimelineWidget::duration() const
@@ -212,4 +215,22 @@ void TimelineWidget::buildFromMelt(Mlt::Tractor tractor)
 void TimelineWidget::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
 {
     m_model->setUndoStack(undo_stack);
+}
+
+void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
+{
+    setScaleFactor(100.0 / comboScale[value]);
+}
+
+void TimelineWidget::wheelEvent(QWheelEvent *event)
+{
+    if (event->modifiers() & Qt::ControlModifier) {
+        if (event->delta() > 0) {
+                emit zoomIn(true);
+            } else {
+                emit zoomOut(true);
+            }
+    } else {
+        QQuickWidget::wheelEvent(event);
+    }
 }

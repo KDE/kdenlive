@@ -22,7 +22,7 @@ import QtQuick.Controls 1.0
 Rectangle {
     property int stepSize: 34
     property int index: 0
-    property real timeScale: 1.0
+    property real timeScale: timeline.scaleFactor
     property int fontUnit: root.baseUnit * 0.6
 
     SystemPalette { id: activePalette }
