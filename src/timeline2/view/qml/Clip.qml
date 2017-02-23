@@ -26,6 +26,7 @@ import QtQuick.Window 2.2
 
 Rectangle {
     id: clipRoot
+    property real timeScale: 1.0
     property string clipName: ''
     property string clipResource: ''
     property string mltService: ''
@@ -65,6 +66,11 @@ Rectangle {
         console.log("MODEL START CHANGED !!!!!!", modelStart, clipId, x);
         x = modelStart * timeScale;
     }
+    onTimeScaleChanged: {
+        console.log("SCALE CHANGED !!!!!!", timeScale)
+        x = modelStart * timeScale;
+    }
+
     SystemPalette { id: activePalette }
     color: Qt.darker(getColor())
 

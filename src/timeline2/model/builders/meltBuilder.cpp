@@ -41,7 +41,7 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
     QSet<QString> reserved_names {QLatin1String("playlistmain"),  QLatin1String("timeline_preview"), QLatin1String("overlay_track"), QLatin1String("black_track")};
 
     bool ok = true;
-    qDebug() << "Trying to construct"<<tractor.count()<<"tracks.";
+    qDebug() << "//////////////////////\nTrying to construct"<<tractor.count()<<"tracks.\n////////////////////////////////7";
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
         QString playlist_name = track->get("id");
@@ -63,6 +63,7 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
         }
         case playlist_type: {
             //that is a single track
+            qDebug()<<"Adding track: "<<track->get("id");
             int tid;
             ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
             Mlt::Playlist local_playlist(*track.get());

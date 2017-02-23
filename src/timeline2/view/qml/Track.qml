@@ -59,9 +59,15 @@ Column{
 
     width: clipRow.width
 
+    MouseArea {
+        acceptedButtons: Qt.NoButton
+        onWheel: zoomByWheel(wheel)
+    }
+
     DelegateModel {
         id: trackModel
         Clip {
+            timeScale: timeline.scaleFactor
             clipName: model.name
             clipResource: model.resource
             clipDuration: model.duration
@@ -75,8 +81,8 @@ Column{
             audioLevels: false //model.audioLevels
             width: model.duration * timeScale
             height: parent.height
-            x: model.start * timeScale
             modelStart: model.start
+            x: modelStart * timeScale
             trackIndex: trackRoot.DelegateModel.itemsIndex
             trackId: trackRoot.trackId
             fadeIn: 0 //model.fadeIn
@@ -84,7 +90,6 @@ Column{
             //hash: model.hash
             speed: 1 //model.speed
             selected: trackRoot.isCurrentTrack && trackRoot.selection.indexOf(index) !== -1
-
 
             onClicked: {
                 trackRoot.clipClicked(clip, trackRoot);

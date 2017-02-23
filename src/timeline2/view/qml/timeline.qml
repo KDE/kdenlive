@@ -149,6 +149,10 @@ Rectangle {
             focus: true
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton
+            onWheel: {
+                root.seekPos += (wheel.angleDelta.y > 0 ? 1 : -1)
+                timeline.position = root.seekPos
+            }
             onClicked: {
                 if (mouse.button & Qt.RightButton) {
                     menu.show()
@@ -354,10 +358,10 @@ Rectangle {
             model: multitrack
             rootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
+            timeScale: timeline.scaleFactor
             width: timeline.duration * timeScale
             isAudio: audio
             isCurrentTrack: currentTrack === index
-            timeScale: timeline.scaleFactor
             trackId: item
             selection: timeline.selection
             onClipClicked: {
