@@ -1565,7 +1565,7 @@ void TitleWidget::textChanged(MyTextItem *i)
     updateDimension(i);
 
     if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
-        if (!i->toPlainText().isEmpty()) {
+        if (!i->document()->isEmpty()) {
             updatePosition(i);
         } else {
             /*
@@ -2604,7 +2604,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         if (referenceItem->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
             MyTextItem *i = static_cast <MyTextItem *>(referenceItem);
-            if (!i->toPlainText().isEmpty()) {
+            if (!i->document()->isEmpty()) {
                 // We have an existing text item selected
                 if (!i->data(100).isNull()) {
                     // Item has an effect

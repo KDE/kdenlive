@@ -557,8 +557,9 @@ void RenderWidget::slotSaveProfile()
             profileElement.setAttribute(QStringLiteral("defaultaudioquality"), QString::number(ui.default_abitrate->value()));
             profileElement.setAttribute(QStringLiteral("audioqualities"), ui.abitrates_list->text());
         }
-        if (!ui.speeds_list->toPlainText().isEmpty()) {
-            profileElement.setAttribute(QStringLiteral("speeds"), ui.speeds_list->toPlainText().replace('\n', ';').simplified());
+        QString speeds_list_str = ui.speeds_list->toPlainText();
+        if (!speeds_list_str.isEmpty()) {
+            profileElement.setAttribute(QStringLiteral("speeds"), speeds_list_str.replace('\n', ';').simplified());
         }
 
         doc.appendChild(profileElement);
@@ -827,9 +828,10 @@ void RenderWidget::slotEditProfile()
             profileElement.setAttribute(QStringLiteral("audioqualities"), ui.abitrates_list->text());
         }
 
-        if (!ui.speeds_list->toPlainText().isEmpty()) {
+        QString speeds_list_str = ui.speeds_list->toPlainText();
+        if (!speeds_list_str.isEmpty()) {
             // profile has a variable speed
-            profileElement.setAttribute(QStringLiteral("speeds"), ui.speeds_list->toPlainText().replace('\n', ';').simplified());
+            profileElement.setAttribute(QStringLiteral("speeds"), speeds_list_str.replace('\n', ';').simplified());
         }
 
         profiles.appendChild(profileElement);
