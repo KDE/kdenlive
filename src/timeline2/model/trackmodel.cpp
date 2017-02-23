@@ -25,6 +25,7 @@
 #include "snapmodel.hpp"
 #include <mlt++/MltProfile.h>
 #include <QDebug>
+#include <QModelIndex>
 
 
 
@@ -79,7 +80,7 @@ int TrackModel::getClipsCount()
     return count;
 }
 
-Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
+Fun TrackModel::requestClipInsertion_lambda(int cid, int position, bool updateView)
 {
     // By default, insertion occurs in topmost track
     // Find out the clip id at position
@@ -87,7 +88,7 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
     int count = m_playlists[0].count();
 
     //we create the function that has to be executed after the melt order. This is essentially book-keeping
-    auto end_function = [cid, this, position]() {
+    auto end_function = [cid, this, position, updateView]() {
         if (auto ptr = m_parent.lock()) {
             std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
             m_allClips[clip->getId()] = clip;  //store clip
@@ -98,6 +99,11 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
             int new_out = new_in + clip->getPlaytime() - 1;
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
+            if (updateView) {
+                int clip_index = getRowfromClip(clip->getId());
+                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(getId()), clip_index, clip_index);
+                ptr->_endInsertRows();
+            }
             return true;
         } else {
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -141,25 +147,33 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position)
     return [](){return false;};
 }
 
-bool TrackModel::requestClipInsertion(int cid, int position, Fun& undo, Fun& redo)
+bool TrackModel::requestClipInsertion(int cid, int position, bool updateView, Fun& undo, Fun& redo)
 {
-    auto operation = requestClipInsertion_lambda(cid, position);
+    auto operation = requestClipInsertion_lambda(cid, position, updateView);
     if (operation()) {
-        auto reverse = requestClipDeletion_lambda(cid);
+        auto reverse = requestClipDeletion_lambda(cid, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
     return false;
 }
 
-Fun TrackModel::requestClipDeletion_lambda(int cid)
+Fun TrackModel::requestClipDeletion_lambda(int cid, bool updateView)
 {
     //Find index of clip
     int clip_position = m_allClips[cid]->getPosition();
     int old_in = clip_position;
     int old_out = old_in + m_allClips[cid]->getPlaytime() - 1;
-    return [clip_position, cid, old_in, old_out, this]() {
+    return [clip_position, cid, old_in, old_out, updateView, this]() {
+        qDebug() << "Deleting clip"<<cid;
         auto clip_loc = getClipIndexAt(clip_position);
+        int old_clip_index = getRowfromClip(cid);
+        if (updateView) {
+            qDebug() << "REMOVE ROW CLIP id="<< cid << "track "<<getId();
+            auto ptr = m_parent.lock();
+            ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
+            ptr->_endRemoveRows();
+        }
         int target_track = clip_loc.first;
         int target_clip = clip_loc.second;
         Q_ASSERT(target_clip < m_playlists[target_track].count());
@@ -173,6 +187,7 @@ Fun TrackModel::requestClipDeletion_lambda(int cid)
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
+                qDebug() << "update" <<updateView;
             }
             return true;
         }
@@ -180,14 +195,14 @@ Fun TrackModel::requestClipDeletion_lambda(int cid)
     };
 }
 
-bool TrackModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
+bool TrackModel::requestClipDeletion(int cid, bool updateView, Fun& undo, Fun& redo)
 {
     Q_ASSERT(m_allClips.count(cid) > 0);
     auto old_clip = m_allClips[cid];
     int old_position = old_clip->getPosition();
-    auto operation = requestClipDeletion_lambda(cid);
+    auto operation = requestClipDeletion_lambda(cid, updateView);
     if (operation()) {
-        auto reverse = requestClipInsertion_lambda(cid, old_position);
+        auto reverse = requestClipInsertion_lambda(cid, old_position, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }

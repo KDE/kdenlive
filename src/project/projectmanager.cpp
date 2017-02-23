@@ -49,7 +49,8 @@ ProjectManager::ProjectManager(QObject *parent) :
     QObject(parent),
     m_project(nullptr),
     m_trackView(nullptr),
-    m_progressDialog(nullptr)
+    m_progressDialog(nullptr),
+     m_timelineWidgetLoaded(false)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-revert")));
@@ -106,12 +107,6 @@ void ProjectManager::slotLoadOnOpen()
         pCore->bin()->droppedUrls(urls);
     }
     m_loadClipsOnOpen.clear();
-    TimelineWidget *timelineWidget = new TimelineWidget(pCore->binController(), m_project->commandStack(), pCore->window());
-    pCore->addTimeline(timelineWidget, m_project->url().fileName());
-    connect(timelineWidget, &TimelineWidget::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timelineWidget, &TimelineWidget::onSeeked, Qt::DirectConnection);
-    connect(timelineWidget, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
-    pCore->monitorManager()->projectMonitor()->setProducer(timelineWidget->producer());
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -205,6 +200,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QList<QAction *> rulerActions;
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
+    //TODO Delete this
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), rulerActions, &ok, pCore->window());
     // Set default target tracks to upper audio / lower video tracks
     m_trackView->audioTarget = projectTracks.y() > 0 ? projectTracks.y() : -1;
@@ -213,7 +209,11 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
 
     m_trackView->loadTimeline();
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());
+    //END of things to delete
     m_project = doc;
+    Mlt::Service s(doc->renderer()->getProducer()->parent().get_service());
+    Mlt::Tractor t(s);
+    updateTimeline(t);
     if (!ok) {
         // MLT is broken
         //pCore->window()->m_timelineArea->setEnabled(false);
@@ -581,6 +581,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
             disableEffects->blockSignals(false);
         }
     }
+    Mlt::Service s(doc->renderer()->getProducer()->parent().get_service());
+    Mlt::Tractor t(s);
+    updateTimeline(t);
+
     emit docOpened(m_project);
 
     pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), m_project->description()));
@@ -833,4 +837,21 @@ void ProjectManager::slotMoveFinished(KJob *job)
     } else {
         KMessageBox::sorry(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
     }
+}
+
+
+void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
+    if (!m_timelineWidgetLoaded) {
+        m_timelineWidgetLoaded = true;
+        qDebug() << "CONSTRUCTING TIMELINEWIDGET";
+        m_timelineWidget = new TimelineWidget(pCore->binController(), m_project->commandStack(), pCore->window());
+        pCore->addTimeline(m_timelineWidget, m_project->url().fileName());
+        connect(m_timelineWidget, &TimelineWidget::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
+        connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, m_timelineWidget, &TimelineWidget::onSeeked, Qt::DirectConnection);
+        connect(m_timelineWidget, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
+        pCore->monitorManager()->projectMonitor()->setProducer(m_timelineWidget->producer());
+    }
+    qDebug() << "FILLING TIMELINEWIDGET";
+    m_timelineWidget->buildFromMelt(tractor);
+    m_timelineWidget->setUndoStack(m_project->commandStack());
 }

@@ -62,6 +62,8 @@ public:
     Q_INVOKABLE void insertClip(int track, int position, QString xml);
     Mlt::Producer *producer();
 
+    void buildFromMelt(Mlt::Tractor tractor);
+    void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 

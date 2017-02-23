@@ -23,6 +23,7 @@
 #define TIMELINEMODEL_H
 
 #include <memory>
+#include <vector>
 #include <unordered_map>
 #include <unordered_set>
 #include <mlt++/MltTractor.h>
@@ -142,6 +143,8 @@ public:
        @param ID return parameter of the id of the inserted clip
     */
     bool requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id);
+    /* Same function, but accumulates undo and redo*/
+    bool requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id, Fun& undo, Fun& redo);
 
     /* @brief Deletes the given clip from the timeline
        This action is undoable
@@ -221,6 +224,8 @@ public:
        @param id is a return parameter that holds the id of the resulting track (-1 on failure)
     */
     bool requestTrackInsertion(int pos, int& id);
+    /* Same function, but accumulates undo and redo*/
+    bool requestTrackInsertion(int pos, int& id, Fun& undo, Fun& redo);
 
     /* @brief Delete track with given id
        This also deletes all the clips contained in the track.
@@ -229,6 +234,8 @@ public:
        @param tid id of the track to delete
     */
     bool requestTrackDeletion(int tid);
+    /* Same function, but accumulates undo and redo*/
+    bool requestTrackDeletion(int tid, Fun& undo, Fun& redo);
 
     /* @brief Get project duration
        Returns the duration in frames
@@ -240,6 +247,14 @@ public:
        @param cid id of the clip to test
     */
     std::unordered_set<int> getGroupElements(int cid);
+
+    /* @brief Removes all the elements on the timeline (tracks and clips)
+     */
+    bool requestReset(Fun& undo, Fun& redo);
+    /* @brief Updates the current the pointer to the current undo_stack
+       Must be called for example when the doc change
+    */
+    void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -256,8 +271,9 @@ protected:
     void registerGroup(int groupId);
 
     /* @brief Deregister and destruct the track with given id.
+       @parame updateView Whether to send updates to the model. Must be false when called from a constructor/destructor
      */
-    Fun deregisterTrack_lambda(int id);
+    Fun deregisterTrack_lambda(int id, bool updateView = false);
 
     /* @brief Return a lambda that deregisters and destructs the clip with given id.
        Note that the clip must already be deleted from its track and groups.
@@ -323,6 +339,7 @@ protected:
     virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration) = 0;
     virtual QModelIndex makeClipIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
+    virtual void _resetView() = 0;
 };
 #endif
 

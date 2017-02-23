@@ -87,23 +87,25 @@ protected:
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param clip is the id of the clip
        @param position is the position where to insert the clip
+       @param updateView whether we send update to the view
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(int cid, int position, Fun& undo, Fun& redo);
+    bool requestClipInsertion(int cid, int position, bool updateView,  Fun& undo, Fun& redo);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipInsertion_lambda(int cid, int position);
+    Fun requestClipInsertion_lambda(int cid, int position, bool updateView);
 
     /* @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param cid is the id of the clip
+       @param updateView whether we send update to the view
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipDeletion(int cid, Fun& undo, Fun& redo);
+    bool requestClipDeletion(int cid, bool updateView, Fun& undo, Fun& redo);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipDeletion_lambda(int cid);
+    Fun requestClipDeletion_lambda(int cid, bool updateView);
 
     /* @brief Returns the size of the blank before or after the given clip
        @param cid is the id of the clip

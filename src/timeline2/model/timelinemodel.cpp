@@ -54,7 +54,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_blackClip(new Mlt::Producer(*profile,"color:black"))
 {
     // Create black background track
-    m_blackClip->set("id", "black");
+    m_blackClip->set("id", "black_track");
     m_blackClip->set("mlt_type", "producer");
     m_blackClip->set("aspect_ratio", 1);
     m_blackClip->set("set.test_audio", 0);
@@ -70,7 +70,7 @@ TimelineModel::~TimelineModel()
         all_ids.push_back(tracks.first);
     }
     for(auto tracks : all_ids) {
-        deregisterTrack_lambda(tracks)();
+        deregisterTrack_lambda(tracks, false)();
     }
 }
 
@@ -132,14 +132,14 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
     int old_clip_index = -1;
     if (old_tid != -1) {
         old_clip_index = getTrackById(old_tid)->getRowfromClip(cid);
-        ok = getTrackById(old_tid)->requestClipDeletion(cid, local_undo, local_redo);
+        ok = getTrackById(old_tid)->requestClipDeletion(cid, updateView, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = getTrackById(tid)->requestClipInsertion(cid, position, local_undo, local_redo);
+    ok = getTrackById(tid)->requestClipInsertion(cid, position, updateView, local_undo, local_redo);
     if (!ok) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -147,8 +147,11 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
     }
     int new_clip_index = getTrackById(tid)->getRowfromClip(cid);
     auto operation = [cid, tid, old_tid, old_clip_index, new_clip_index, updateView, this]() {
+        /*
+        qDebug()<<"Clip move : updateView"<<updateView<<". We are in track #"<<getTrackPosition(tid);
         if (updateView) {
             if (tid == old_tid) {
+                qDebug()<<"NOTIFY CHANGE";
                 QModelIndex modelIndex = makeClipIndexFromID(cid);
                 notifyChange(modelIndex, modelIndex, true, false);
             } else {
@@ -156,10 +159,12 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
                     _beginRemoveRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
                     _endRemoveRows();
                 }
+                qDebug()<<"INSERT ROW";
                 _beginInsertRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
                 _endInsertRows();
             }
         }
+        */
         return true;
     };
     auto reverse = []() {return true;};
@@ -168,6 +173,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
     //We have to expend the local undo with the data modification signals. They have to be sent after the real operations occured in the model so that the GUI can query the correct new values
     local_undo = [local_undo, tid, old_tid, cid, old_clip_index, new_clip_index, updateView, this]() {
         bool v = local_undo();
+        /*
         if (updateView) {
             if (tid == old_tid) {
                 QModelIndex modelIndex = makeClipIndexFromID(cid);
@@ -181,6 +187,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
                 }
             }
         }
+        */
         return v;
     };
     bool result = operation();
@@ -249,23 +256,34 @@ int TimelineModel::suggestClipMove(int cid, int tid, int position)
 
 bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id)
 {
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    bool result = requestClipInsertion(prod, trackId, position, id, undo, redo);
+    if (result) {
+        PUSH_UNDO(undo, redo, i18n("Insert Clip"));
+    }
+    return result;
+}
+
+bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id, Fun& undo, Fun& redo)
+{
     int clipId = TimelineModel::getNextId();
     id = clipId;
-    Fun undo = deregisterClip_lambda(clipId);
+    Fun local_undo = deregisterClip_lambda(clipId);
     ClipModel::construct(shared_from_this(), prod, clipId);
     auto clip = m_allClips[clipId];
-    Fun redo = [clip, this](){
+    Fun local_redo = [clip, this](){
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
         registerClip(clip);
         return true;
     };
-    bool res = requestClipMove(clipId, trackId, position, true, undo, redo);
+    bool res = requestClipMove(clipId, trackId, position, true, local_undo, local_redo);
     if (!res) {
         Q_ASSERT(undo());
         id = -1;
         return false;
     }
-    PUSH_UNDO(undo, redo, i18n("Insert Clip"));
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
 
@@ -286,9 +304,10 @@ bool TimelineModel::requestClipDeletion(int cid)
 
 bool TimelineModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
 {
+    qDebug() << "deleting clip "<<cid;
     int tid = getClipTrackId(cid);
     if (tid != -1) {
-        bool res = getTrackById(tid)->requestClipDeletion(cid, undo, redo);
+        bool res = getTrackById(tid)->requestClipDeletion(cid, true, undo, redo);
         if (!res) {
             undo();
             return false;
@@ -502,6 +521,17 @@ bool TimelineModel::requestClipUngroup(int id, Fun& undo, Fun& redo)
 
 bool TimelineModel::requestTrackInsertion(int position, int &id)
 {
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    bool result = requestTrackInsertion(position, id, undo, redo);
+    if (result) {
+        PUSH_UNDO(undo, redo, i18n("Insert Track"));
+    }
+    return result;
+}
+
+bool TimelineModel::requestTrackInsertion(int position, int &id, Fun& undo, Fun& redo)
+{
     if (position == -1) {
         position = (int)(m_allTracks.size());
     }
@@ -510,43 +540,55 @@ bool TimelineModel::requestTrackInsertion(int position, int &id)
     }
     int trackId = TimelineModel::getNextId();
     id = trackId;
-    Fun undo = deregisterTrack_lambda(trackId);
+    Fun local_undo = deregisterTrack_lambda(trackId);
     TrackModel::construct(shared_from_this(), trackId, position);
     auto track = getTrackById(trackId);
-    Fun redo = [track, position, this](){
+    Fun local_redo = [track, position, this](){
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is sufficient to register it.
         registerTrack(track, position);
         return true;
     };
-    PUSH_UNDO(undo, redo, i18n("Insert Track"));
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
 
 bool TimelineModel::requestTrackDeletion(int tid)
+{
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    bool result = requestTrackDeletion(tid, undo, redo);
+    if (result) {
+        PUSH_UNDO(undo, redo, i18n("Delete Track"));
+    }
+    return result;
+}
+
+bool TimelineModel::requestTrackDeletion(int tid, Fun& undo, Fun& redo)
 {
     Q_ASSERT(isTrack(tid));
     std::vector<int> clips_to_delete;
     for(const auto& it : getTrackById(tid)->m_allClips) {
         clips_to_delete.push_back(it.first);
     }
-    Fun undo = [](){return true;};
-    Fun redo = [](){return true;};
+    qDebug() << "Deleting track "<<tid<<"with "<<clips_to_delete.size()<<" to delete";
+    Fun local_undo = [](){return true;};
+    Fun local_redo = [](){return true;};
     for(int clip : clips_to_delete) {
         bool res = true;
         while (res && m_groups->isInGroup(clip)) {
-            res = requestClipUngroup(clip, undo, redo);
+            res = requestClipUngroup(clip, local_undo, local_redo);
         }
         if (res) {
-            res = requestClipDeletion(clip, undo, redo);
+            res = requestClipDeletion(clip, local_undo, local_redo);
         }
         if (!res) {
-            bool u = undo();
+            bool u = local_undo();
             Q_ASSERT(u);
             return false;
         }
     }
     int old_position = getTrackPosition(tid);
-    auto operation = deregisterTrack_lambda(tid);
+    auto operation = deregisterTrack_lambda(tid, true);
     std::shared_ptr<TrackModel> track = getTrackById(tid);
     auto reverse = [this, track, old_position]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is sufficient to register it.
@@ -554,11 +596,11 @@ bool TimelineModel::requestTrackDeletion(int tid)
         return true;
     };
     if (operation()) {
-        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
-        PUSH_UNDO(undo, redo, i18n("Delete Track"));
+        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
-    undo();
+    local_undo();
     return false;
 
 }
@@ -583,6 +625,8 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos)
     //it now contains the iterator to the inserted element, we store it
     Q_ASSERT(m_iteratorTable.count(id) == 0); //check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
+    qDebug()<<"Resetting model";
+    _resetView();
 }
 
 void TimelineModel::registerClip(std::shared_ptr<ClipModel> clip)
@@ -599,12 +643,18 @@ void TimelineModel::registerGroup(int groupId)
     m_allGroups.insert(groupId);
 }
 
-Fun TimelineModel::deregisterTrack_lambda(int id)
+Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 {
-    return [this, id]() {
+    return [this, id, updateView]() {
         auto it = m_iteratorTable[id]; //iterator to the element
-        auto index = getTrackPosition(id); //compute index in list
+        int index = getTrackPosition(id); //compute index in list
+        if (updateView) {
+            QModelIndex root;
+            qDebug() << "Reseting view";
+            _resetView();
+        }
         m_tractor->remove_track(static_cast<int>(index + 1)); //melt operation, add 1 to account for black background track
+        //send update to the model
         m_allTracks.erase(it);  //actual deletion of object
         m_iteratorTable.erase(id);  //clean table
         return true;
@@ -682,4 +732,23 @@ std::unordered_set<int> TimelineModel::getGroupElements(int cid)
 std::shared_ptr<Mlt::Profile> TimelineModel::getProfile()
 {
     return m_profile;
+}
+
+bool TimelineModel::requestReset(Fun& undo, Fun& redo)
+{
+    std::vector<int> all_ids;
+    for (const auto& track : m_iteratorTable) {
+        all_ids.push_back(track.first);
+    }
+    qDebug() << "RESET : "<<all_ids.size();
+    bool ok = true;
+    for (int tid : all_ids) {
+        ok = ok && requestTrackDeletion(tid, undo, redo);
+    }
+    return ok;
+}
+
+void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
+{
+    m_undoStack = undo_stack;
 }

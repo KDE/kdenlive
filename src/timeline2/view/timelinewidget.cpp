@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "timelinewidget.h"
+#include "../model/builders/meltBuilder.hpp"
 #include "qml/timelineitems.h"
 #include "doc/docundostack.hpp"
 
@@ -200,4 +201,15 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {
     emit focusProjectMonitor();
     QQuickWidget::mousePressEvent(event);
+}
+
+void TimelineWidget::buildFromMelt(Mlt::Tractor tractor)
+{
+    qDebug() << "REQUESTING BUILD FROM MELT";
+    constructTimelineFromMelt(m_model, tractor);
+}
+
+void TimelineWidget::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
+{
+    m_model->setUndoStack(undo_stack);
 }

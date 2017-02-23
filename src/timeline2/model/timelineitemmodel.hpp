@@ -104,6 +104,7 @@ public:
     virtual void _beginInsertRows(const QModelIndex&, int , int) override;
     virtual void _endRemoveRows() override;
     virtual void _endInsertRows() override;
+    virtual void _resetView() override;
 };
 #endif
 

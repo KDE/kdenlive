@@ -28,6 +28,7 @@
 #include "doc/docundostack.hpp"
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltProfile.h>
+#include <QDebug>
 
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
     QAbstractItemModel()
@@ -71,7 +72,7 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
 {
     if (column > 0)
         return QModelIndex();
-//    LOG_DEBUG() << __FUNCTION__ << row << column << parent;
+    // qDebug() << "TimelineItemModel::index" << row << column << parent;
     QModelIndex result;
     if (parent.isValid()) {
         int trackId = int(parent.internalId());
@@ -80,7 +81,7 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
         if (clipId != -1) {
             result = createIndex(row, 0, quintptr(clipId));
         }
-    } else if (row < getTracksCount()) {
+    } else if (row < getTracksCount() && row >= 0) {
         auto it = m_allTracks.cbegin();
         std::advance(it, row);
         int trackId = (*it)->getId();
@@ -112,18 +113,21 @@ QModelIndex TimelineItemModel::makeTrackIndexFromID(int tid) const
 
 QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
 {
-//    LOG_DEBUG() << __FUNCTION__ << index;
+    // qDebug() << "TimelineItemModel::parent"<< index;
+    if (index == QModelIndex()) {
+        return index;
+    }
     const int id = static_cast<int>(index.internalId());
     if (!index.isValid() || isTrack(id)) {
         return QModelIndex();
-    } else {
-        Q_ASSERT(isClip(id)); //if id is not a track it must be a clip.
+    } else if(isClip(id)) {
         const int trackId = getClipTrackId(id);
         auto it = m_iteratorTable.at(trackId); //iterator to the element
         decltype(m_allTracks.cbegin()) const_it(it);
         int row = (int)std::distance(m_allTracks.cbegin(), const_it); //compute index in list
         return createIndex(row, 0, quintptr(trackId));
     }
+    return QModelIndex();
 }
 
 
@@ -178,14 +182,15 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
 
 QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
 {
+    // qDebug() << "DATA requested "<<index<<roleNames()[role];
     if (!m_tractor || !index.isValid()) {
+        // qDebug() << "DATA abort. Index validity="<<index.isValid();
         return QVariant();
     }
     const int id = (int)index.internalId();
     if (role == ItemIdRole) {
         return id;
     }
-    //qDebug() << "DATA requested "<<index<<roleNames()[role];
     if (isClip(id)) {
         // Get data for a clip
         switch (role) {
@@ -220,10 +225,12 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         switch (role) {
             case NameRole:
             case Qt::DisplayRole:
-                return QString("Track %1").arg(getTrackById_const(index.row())->getId());
+                return QString("Track %1").arg(id);
             case DurationRole:
+                // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
                 return m_tractor->get_playtime();
             case IsMuteRole:
+                // qDebug() << "DATA yielding mute" << 0;
                 return 0;
             case IsHiddenRole:
                 return 0;
@@ -232,7 +239,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             case IsLockedRole:
                 return 0;
             case HeightRole: {
-                int height = getTrackById_const(index.row())->getProperty("kdenlive:trackheight").toInt();
+                int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
+                // qDebug() << "DATA yielding height" << height;
                 return (height > 0 ? height : 50);
             }
             case IsCompositeRole: {
@@ -260,17 +268,27 @@ void TimelineItemModel::notifyChange(const QModelIndex& topleft, const QModelInd
 
 void TimelineItemModel::_beginRemoveRows(const QModelIndex& i, int j, int k)
 {
+    // qDebug()<<"FORWARDING beginRemoveRows"<<i<<j<<k;
     beginRemoveRows(i, j, k);
 }
 void TimelineItemModel::_beginInsertRows(const QModelIndex& i, int j, int k)
 {
+    // qDebug()<<"FORWARDING beginInsertRows"<<i<<j<<k;
     beginInsertRows(i, j, k);
 }
 void TimelineItemModel::_endRemoveRows()
 {
+    // qDebug()<<"FORWARDING endRemoveRows";
     endRemoveRows();
 }
 void TimelineItemModel::_endInsertRows()
 {
+    // qDebug()<<"FORWARDING endinsertRows";
     endInsertRows();
+}
+
+void TimelineItemModel::_resetView()
+{
+    beginResetModel();
+    endResetModel();
 }

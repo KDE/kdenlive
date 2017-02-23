@@ -28,6 +28,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 class Project;
 class KdenliveDoc;
+class TimelineWidget;
 class NotesPlugin;
 class QAction;
 class QUrl;
@@ -136,6 +137,10 @@ signals:
     void docOpened(KdenliveDoc *document);
 //     void projectOpened(Project *project);
 
+
+protected:
+    void updateTimeline(Mlt::Tractor tractor);
+
 private:
     /** @brief Checks that the Kdenlive mime type is correctly installed.
     * @param open If set to true, this will return the mimetype allowed for file opening (adds .tar.gz format)
@@ -145,7 +150,9 @@ private:
     bool checkForBackupFile(const QUrl &url);
 
     KdenliveDoc *m_project;
-    Timeline *m_trackView;
+    Timeline *m_trackView; //TODO delete this
+    TimelineWidget *m_timelineWidget;
+    bool m_timelineWidgetLoaded;
     QTime m_lastSave;
     QTimer m_autoSaveTimer;
     QUrl m_startUrl;
