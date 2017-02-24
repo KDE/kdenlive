@@ -8975,7 +8975,7 @@ void CustomTrackView::switchTrimMode(TrimMode mode)
         if (cursor == info.startPos) {
             // Start trim at clip start
             mgr->setTrimMode(mode, info, true);
-        } else if (cursor == info.startPos) {
+        } else if (cursor == info.endPos) {
             // Start trim at clip end
             mgr->setTrimMode(mode, info, false);
         } else {
