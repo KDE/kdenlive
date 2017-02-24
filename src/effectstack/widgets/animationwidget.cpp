@@ -1067,8 +1067,8 @@ void AnimationWidget::loadPresets(QString currentText)
 void AnimationWidget::loadPreset(const QString &path)
 {
     KConfig confFile(path, KConfig::SimpleConfig);
-    QStringList groups = confFile.groupList();
-    foreach (const QString &grp, groups) {
+    const QStringList groups = confFile.groupList();
+    for (const QString &grp : groups) {
         QMap<QString, QString> entries = KConfigGroup(&confFile, grp).entryMap();
         QMap<QString, QVariant> variantEntries;
         QMapIterator<QString, QString> i(entries);

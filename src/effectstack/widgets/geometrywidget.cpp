@@ -359,11 +359,11 @@ QString GeometryWidget::getExtraValue(const QString &name) const
     if (!val.contains(QLatin1Char('='))) {
         val = val.section('/', 0, 0);
     } else {
-        QStringList list = val.split(';', QString::SkipEmptyParts);
+        QStringList list = val.split(QLatin1Char(';'), QString::SkipEmptyParts);
         val.clear();
-        val.append(list.takeFirst().section('/', 0, 0));
+        val.append(list.takeFirst().section(QLatin1Char('/'), 0, 0));
         foreach (const QString &value, list) {
-            val.append(';' + value.section('/', 0, 0));
+            val.append(QLatin1Char(';') + value.section(QLatin1Char('/'), 0, 0));
         }
     }
     return val;

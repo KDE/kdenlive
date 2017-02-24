@@ -47,10 +47,10 @@ void EffectBasket::slotReloadBasket()
 
 QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> list) const
 {
-    QDomDocument doc;
     if (list.isEmpty()) {
         return new QMimeData;
     }
+    QDomDocument doc;
     QListWidgetItem *item = list.at(0);
     int type = item->data(EffectsListWidget::TypeRole).toInt();
     QStringList info = item->data(EffectsListWidget::IdRole).toStringList();

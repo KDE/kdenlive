@@ -60,6 +60,7 @@ LibraryTree::LibraryTree(QWidget *parent) : QTreeWidget(parent)
 QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
     QList<QUrl> urls;
+    urls.reserve(list.count());
     foreach (QTreeWidgetItem *item, list) {
         urls << QUrl::fromLocalFile(item->data(0, Qt::UserRole).toString());
     }

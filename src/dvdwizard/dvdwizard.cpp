@@ -247,7 +247,7 @@ void DvdWizard::generateDvd()
         m_pageMenu->createBackgroundImage(m_menuImageBackground.fileName(), false);
         images->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok")));
         connect(&m_menuJob, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessMenuStatus(int, QProcess::ExitStatus)));
-        ////qCDebug(KDENLIVE_LOG) << "/// STARTING MLT VOB CREATION: "<<m_selectedImage.fileName()<<m_menuImageBackground.fileName();
+        //qCDebug(KDENLIVE_LOG) << "/// STARTING MLT VOB CREATION: "<<m_selectedImage.fileName()<<m_menuImageBackground.fileName();
         if (!m_pageMenu->menuMovie()) {
             // create menu vob file
             m_vobitem =  m_status.job_progress->item(1);
@@ -284,7 +284,7 @@ void DvdWizard::generateDvd()
             args << QStringLiteral("-transition") << QStringLiteral("composite") << QStringLiteral("always_active=1");
             args << QStringLiteral("-consumer") << "avformat:" + m_menuFinalVideo.fileName() << QStringLiteral("properties=DVD");
             m_menuJob.start(KdenliveSettings::rendererpath(), args);
-            ////qCDebug(KDENLIVE_LOG)<<"// STARTING MENU JOB, image: "<<m_menuImageBackground.fileName()<<"\n-------------";
+            //qCDebug(KDENLIVE_LOG)<<"// STARTING MENU JOB, image: "<<m_menuImageBackground.fileName()<<"\n-------------";
         }
     } else {
         processDvdauthor();
@@ -360,11 +360,11 @@ void DvdWizard::processSpumux()
     }
     data.close();
 
-    ////qCDebug(KDENLIVE_LOG) << " SPUMUX DATA: " << doc.toString();
+    //qCDebug(KDENLIVE_LOG) << " SPUMUX DATA: " << doc.toString();
 
     QStringList args;
     args << QStringLiteral("-s") << QStringLiteral("0") << m_menuFile.fileName();
-    ////qCDebug(KDENLIVE_LOG) << "SPM ARGS: " << args << m_menuVideo.fileName() << m_menuVobFile.fileName();
+    //qCDebug(KDENLIVE_LOG) << "SPM ARGS: " << args << m_menuVideo.fileName() << m_menuVobFile.fileName();
 
     QProcess spumux;
     QString menuMovieUrl;
@@ -470,7 +470,7 @@ void DvdWizard::processSpumux()
         args.clear();
         args << QStringLiteral("-s") << QStringLiteral("1") << m_menuFile.fileName();
         spumux.start(QStringLiteral("spumux"), args);
-        ////qCDebug(KDENLIVE_LOG) << "SPM ARGS LETTERBOX: " << args << m_menuVideo.fileName() << m_letterboxMovie.fileName();
+        //qCDebug(KDENLIVE_LOG) << "SPM ARGS LETTERBOX: " << args << m_menuVideo.fileName() << m_letterboxMovie.fileName();
         if (spumux.waitForFinished()) {
             m_status.error_log->append(spumux.readAllStandardError());
             if (spumux.exitStatus() == QProcess::CrashExit) {
@@ -890,10 +890,9 @@ void DvdWizard::cleanup()
 
 void DvdWizard::slotPreview()
 {
-    QStringList programNames;
-    programNames << QStringLiteral("xine") << QStringLiteral("vlc");
+    const QStringList programNames = { QStringLiteral("xine"), QStringLiteral("vlc")};
     QString exec;
-    foreach (const QString &prog, programNames) {
+    for (const QString &prog : programNames) {
         exec = QStandardPaths::findExecutable(prog);
         if (!exec.isEmpty()) {
             break;

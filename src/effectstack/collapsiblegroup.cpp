@@ -157,6 +157,7 @@ void CollapsibleGroup::slotDeleteGroup()
 void CollapsibleGroup::slotEffectUp()
 {
     QList<int> indexes;
+    indexes.reserve(m_subWidgets.count());
     for (int i = 0; i < m_subWidgets.count(); ++i) {
         indexes << m_subWidgets.at(i)->effectIndex();
     }
@@ -166,6 +167,7 @@ void CollapsibleGroup::slotEffectUp()
 void CollapsibleGroup::slotEffectDown()
 {
     QList<int> indexes;
+    indexes.reserve(m_subWidgets.count());
     for (int i = 0; i < m_subWidgets.count(); ++i) {
         indexes << m_subWidgets.at(i)->effectIndex();
     }
@@ -183,9 +185,11 @@ void CollapsibleGroup::slotSaveGroup()
         dir.mkpath(QStringLiteral("."));
     }
 
-    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) {
+    if (dir.exists(name + ".xml")) {
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) {
             return;
         }
+    }
 
     QDomDocument doc = effectsData();
     QDomElement base = doc.documentElement();

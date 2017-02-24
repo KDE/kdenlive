@@ -363,9 +363,7 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
         // Cannot load movie, reject
         showError(i18n("The clip %1 is invalid.", url.fileName()));
     }
-    if (producer) {
-        delete producer;
-    }
+    delete producer;
 
     if (chapters.isEmpty() == false) {
         item->setData(1, Qt::UserRole + 1, chapters);

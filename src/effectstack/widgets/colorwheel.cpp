@@ -136,10 +136,10 @@ void ColorWheel::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     if (m_wheelRegion.contains(m_lastPoint) && m_isInWheel) {
-        QColor color = colorForPoint(m_lastPoint);
+        const QColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     } else if (m_sliderRegion.contains(m_lastPoint) && m_isInSquare) {
-        QColor color = colorForPoint(m_lastPoint);
+        const QColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     }
 }

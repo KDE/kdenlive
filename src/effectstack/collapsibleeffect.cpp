@@ -380,8 +380,8 @@ void CollapsibleEffect::slotSaveEffect()
     }
 
     if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) {
-            return;
-        }
+        return;
+    }
 
     QDomDocument doc;
     QDomElement effect = m_effect.cloneNode().toElement();

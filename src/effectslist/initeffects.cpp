@@ -900,11 +900,11 @@ QDomElement initEffects::quickParameterFill(QDomDocument &doc, const QString &na
 // static
 void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions)
 {
-    QDomDocument doc;
     QFile file(name);
     if (!file.open(QIODevice::ReadOnly)) {
         return;
     }
+    QDomDocument doc;
     QTextStream out(&file);
     QString fileContent = out.readAll();
     file.close();

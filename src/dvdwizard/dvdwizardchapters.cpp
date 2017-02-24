@@ -114,9 +114,10 @@ void DvdWizardChapters::slotAddChapter()
 
 void DvdWizardChapters::updateMonitorMarkers()
 {
-    QStringList chapters = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
+    const QStringList chapters = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
     QList<CommentedTime> markers;
-    foreach (const QString &frame, chapters) {
+    markers.reserve(chapters.count());
+    for (const QString &frame : chapters) {
         markers << CommentedTime(GenTime(frame.toInt(), m_tc.fps()), QString());
     }
     m_monitor->setMarkers(markers);

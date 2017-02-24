@@ -44,19 +44,23 @@ void DvdScene::setProfile(int width, int height)
     m_height = height;
     setSceneRect(0, 0, m_width, m_height);
 }
+
 int DvdScene::gridSize() const
 {
     return m_gridSize;
 }
+
 void DvdScene::setGridSize(int gridSize)
 {
     m_gridSize = gridSize;
 }
+
 void DvdScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     QGraphicsScene::mouseReleaseEvent(mouseEvent);
     emit sceneChanged();
 }
+
 void DvdScene::drawForeground(QPainter *painter, const QRectF &rect)
 {
     // draw the grid if needed
