@@ -235,12 +235,10 @@ void ArchiveOrg::slotParseResults(KJob *job)
                                 if (k.key() == QLatin1String("format")) {
                                     //   qCDebug(KDENLIVE_LOG)<<"Format: "<<k.value().toString();
                                     format = k.value().toString();
-                                }
-                                if (k.key() == QLatin1String("size")) {
+                                } else if (k.key() == QLatin1String("size")) {
                                     fileSize =  QLocale::system().toString(k.value().toInt() / 1024);
                                     //  qCDebug(KDENLIVE_LOG)<<" fileSize: "<<k.value().toInt()/1024;
-                                }
-                                if (k.key() == QLatin1String("length")) {
+                                } else if (k.key() == QLatin1String("length")) {
                                     minsLong =  QString::number(k.value().toFloat() / 60, 'f', 1);
                                 }
 

@@ -84,7 +84,6 @@ void FreeSound::slotShowResults(KJob *job)
 {
     if (job->error() != 0) {
         qCDebug(KDENLIVE_LOG) << job->errorString();
-
     } else {
         m_listWidget->blockSignals(true);// stop the listWidget from emiting signals.Ie clicking on the list while we are busy here will do nothing
         KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
@@ -94,7 +93,6 @@ void FreeSound::slotShowResults(KJob *job)
         if (jsonError.error != QJsonParseError::NoError) {
             // There was an error parsing data
             KMessageBox::sorry(m_listWidget, jsonError.errorString(), i18n("Error Loading Data"));
-
         }
         QVariant data = doc.toVariant();
         QVariant sounds;
@@ -117,7 +115,7 @@ void FreeSound::slotShowResults(KJob *job)
                                 QMap<QString, QVariant> soundmap = soundsList.at(j).toMap();
 
                                 if (soundmap.contains(QStringLiteral("name"))) {
-                                    QListWidgetItem *item = new   QListWidgetItem(soundmap.value(QStringLiteral("name")).toString(), m_listWidget);
+                                    QListWidgetItem *item = new QListWidgetItem(soundmap.value(QStringLiteral("name")).toString(), m_listWidget);
 
                                     QVariant vid = soundmap.value(QStringLiteral("id"));
                                     item->setData(idRole, vid);
@@ -307,14 +305,12 @@ void FreeSound::stopItemPreview(QListWidgetItem * /*item*/)
  */
 QString FreeSound::getExtension(QListWidgetItem *item)
 {
-    QString sExt;
-    QString sItem;
     if (!item) {
         return QString();
     } else {
-        sItem = item->text();
+        QString sItem = item->text();
         if (sItem.contains(QLatin1String("."))) {
-            sExt = sItem.section('.', -1);
+            const QString sExt = sItem.section('.', -1);
             return QStringLiteral("*.") + sExt;
         } else {
             return QString();    // return null if file name has no dots - ie no extension

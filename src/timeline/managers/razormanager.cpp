@@ -40,11 +40,11 @@ RazorManager::RazorManager(CustomTrackView *view, DocUndoStack *commandStack) : 
 
 bool RazorManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<QGraphicsItem *> &)
 {
-    QList<QGraphicsItem *> items;
     AbstractClipItem *dragItem = m_view->dragItem();
     if (!dragItem) {
         return false;
     }
+    QList<QGraphicsItem *> items;
     if (dragItem->parentItem()) {
         items << dragItem->parentItem()->childItems();
     } else {

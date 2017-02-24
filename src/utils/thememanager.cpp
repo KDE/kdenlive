@@ -172,10 +172,10 @@ void ThemeManager::populateThemeMenu()
     QStringList schemeFiles;
     //const QStringList schemeFiles = KGlobal::dirs()->findAllResources("data", "color-schemes/*.colors", KStandardDirs::NoDuplicates);
     const QStringList colors = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("color-schemes"), QStandardPaths::LocateDirectory);
-    foreach (const QString &folder, colors) {
+    for (const QString &folder : colors) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
-        foreach (const QString &fname, filesnames) {
+        for (const QString &fname : filesnames) {
             schemeFiles << directory.absoluteFilePath(fname);
         }
     }

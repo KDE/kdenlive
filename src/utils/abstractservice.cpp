@@ -42,8 +42,7 @@ void AbstractService::slotStartSearch(const QString &, int)
 
 OnlineItemInfo AbstractService::displayItemDetails(QListWidgetItem */*item*/)
 {
-    OnlineItemInfo info;
-    return info;
+    return {};
 }
 
 bool AbstractService::startItemPreview(QListWidgetItem *)

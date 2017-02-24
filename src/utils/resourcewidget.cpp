@@ -138,8 +138,7 @@ void ResourceWidget::loadConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "ResourceWidget");
-    QList<int> size;
-    size << 100 << 400;
+    const QList<int> size = {100, 400};
     splitter->setSizes(resourceConfig.readEntry("mainSplitter", size));
 }
 /**
@@ -625,17 +624,11 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
         licenseName = QStringLiteral("Attribution-NonCommercial");
     } else if (licenseUrl.contains(QStringLiteral("/by-nc-nd/"))) {
         licenseName = QStringLiteral("Attribution-NonCommercial-NoDerivs");
-    }
-
-    else if (licenseUrl.contains(QLatin1String("/publicdomain/zero/"))) {
+    } else if (licenseUrl.contains(QLatin1String("/publicdomain/zero/"))) {
         licenseName = QStringLiteral("Creative Commons 0");
-    } else if (licenseUrl.endsWith(QLatin1String("/publicdomain")) || licenseUrl.contains(QLatin1String("openclipart.org/share")))
-
-    {
+    } else if (licenseUrl.endsWith(QLatin1String("/publicdomain")) || licenseUrl.contains(QLatin1String("openclipart.org/share"))) {
         licenseName = QStringLiteral("Public Domain");
-    }
-
-    else {
+    } else {
         licenseName = i18n("Unknown");
     }
     item_license->setText(licenseName);
@@ -759,7 +752,7 @@ void ResourceWidget::slotFreesoundAccessDenied()
 void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
 {
     //qCDebug(KDENLIVE_LOG) << "slotAccessTokenReceived: " <<sAccessToken;
-    if (sAccessToken != QString()) {
+    if (!sAccessToken.isEmpty()) {
         // QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
 
         QNetworkRequest request;
