@@ -1831,10 +1831,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         QList<int> lockedTracks;
         bool allowAudioOnly = false;
         if (KdenliveSettings::splitaudio()) {
-            if (clip) {
-                if (clip->clipType() == Audio) {
-                    allowAudioOnly = true;
-                }
+            if (clip->clipType() == Audio) {
+                allowAudioOnly = true;
             }
         }
         for (int i = 1; i < m_timeline->tracksCount(); ++i) {
