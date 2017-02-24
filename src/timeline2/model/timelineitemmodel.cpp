@@ -130,6 +130,10 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
     return QModelIndex();
 }
 
+bool TimelineItemModel::availableSpace(int tid, int pos, int duration) const
+{
+    return (getTrackById_const(tid)->getBlankEnd(pos) > pos + duration);
+}
 
 int TimelineItemModel::rowCount(const QModelIndex &parent) const
 {

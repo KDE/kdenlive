@@ -234,3 +234,8 @@ void TimelineWidget::wheelEvent(QWheelEvent *event)
         QQuickWidget::wheelEvent(event);
     }
 }
+
+bool TimelineWidget::availableSpace(int trackId, int pos, int duration)
+{
+    return m_model->availableSpace(trackId, pos, duration);
+}

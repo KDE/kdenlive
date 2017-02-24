@@ -45,10 +45,20 @@ Rectangle {
     onCurrentTrackChanged: timeline.selection = []
 
     DropArea {
-        anchors.fill: parent
+        width: root.width - headerWidth
+        height: root.height - ruler.height
+        y: ruler.height
+        x: headerWidth
+        property int track: 0
         onEntered: {
-            if (drag.formats.indexOf('kdenlive/producerslist') >= 0)
-                drag.acceptProposedAction()
+            if (drag.formats.indexOf('kdenlive/producerslist') >= 0) {
+                track = Logic.getTrackFromPos(drag.y)
+                if (track >= 0 && timeline.availableSpace(track, drag.x / timeline.scaleFactor, drag.text)) {
+                    drag.acceptProposedAction()
+                } else {
+                    drag.accepted = false
+                }
+            }
         }
         onExited: Logic.dropped()
         onPositionChanged: {

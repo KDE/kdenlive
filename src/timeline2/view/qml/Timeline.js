@@ -27,21 +27,34 @@ function scrollIfNeeded() {
         scrollView.flickableItem.contentX = x - 50;
 }
 
+function getTrackFromPos(pos) {
+    if (tracksRepeater.count > 0) {
+        for (var i = 0; i < tracksRepeater.count; i++) {
+            var trackY = tracksRepeater.itemAt(i).y - scrollView.flickableItem.contentY
+            var trackH = tracksRepeater.itemAt(i).height
+            if (pos >= trackY && pos < trackY + trackH) {
+                return tracksRepeater.itemAt(i).trackId
+            }
+        }
+    }
+    return -1
+}
+
 function dragging(pos, duration) {
     console.log("clip duration:", duration)
     if (tracksRepeater.count > 0) {
         var headerHeight = ruler.height
-        dropTarget.x = pos.x
+        dropTarget.x = pos.x + headerWidth
         dropTarget.width = duration * timeline.scaleFactor
 
         for (var i = 0; i < tracksRepeater.count; i++) {
-            var trackY = tracksRepeater.itemAt(i).y + headerHeight - scrollView.flickableItem.contentY
+            var trackY = tracksRepeater.itemAt(i).y - scrollView.flickableItem.contentY
             var trackH = tracksRepeater.itemAt(i).height
             if (pos.y >= trackY && pos.y < trackY + trackH) {
                 currentTrack = i
-                if (pos.x > headerWidth) {
+                if (pos.x > 0) {
                     dropTarget.height = trackH
-                    dropTarget.y = trackY
+                    dropTarget.y = trackY + headerHeight
                     if (dropTarget.y < headerHeight) {
                         dropTarget.height -= headerHeight - dropTarget.y
                         dropTarget.y = headerHeight
@@ -51,15 +64,15 @@ function dragging(pos, duration) {
                 break
             }
         }
-        if (i === tracksRepeater.count || pos.x <= headerWidth)
+        if (i === tracksRepeater.count || pos.x <= 0)
             dropTarget.visible = false
 
         // Scroll tracks if at edges.
-        if (pos.x > headerWidth + scrollView.width - 50) {
+        if (pos.x > scrollView.width - 50) {
             // Right edge
             scrollTimer.backwards = false
             scrollTimer.start()
-        } else if (pos.x >= headerWidth && pos.x < headerWidth + 50) {
+        } else if (pos.x >= 0 && pos.x < 50) {
             // Left edge
             if (scrollView.flickableItem.contentX < 50) {
                 scrollTimer.stop()
@@ -74,7 +87,7 @@ function dragging(pos, duration) {
 
         if (timeline.scrub) {
             timeline.position = Math.round(
-                (pos.x + scrollView.flickableItem.contentX - headerWidth) / timeline.scaleFactor)
+                (pos.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
         }
         if (timeline.snap) {
             for (i = 0; i < tracksRepeater.count; i++)

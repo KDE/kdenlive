@@ -60,6 +60,7 @@ public:
     Q_INVOKABLE bool scrub();
     Q_INVOKABLE QString timecode(int frames);
     Q_INVOKABLE void insertClip(int track, int position, QString xml);
+    Q_INVOKABLE bool availableSpace(int trackId, int pos, int duration);
     Mlt::Producer *producer();
 
     void buildFromMelt(Mlt::Tractor tractor);

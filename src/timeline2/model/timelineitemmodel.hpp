@@ -98,6 +98,8 @@ public:
     /* @brief Creates an index based on the ID of the track*/
     QModelIndex makeTrackIndexFromID(int tid) const override;
     QModelIndex parent(const QModelIndex &index) const override;
+    /* @brief Returns true if track tid is blank from pos to pos + duration*/
+    bool availableSpace(int tid, int pos, int duration) const;
 
     void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration) override;
 

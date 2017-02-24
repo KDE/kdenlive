@@ -449,7 +449,10 @@ bool TrackModel::isBlankAt(int position)
 
 int TrackModel::getBlankEnd(int position, int track)
 {
-    Q_ASSERT(m_playlists[track].is_blank_at(position));
+    //Q_ASSERT(m_playlists[track].is_blank_at(position));
+    if (!m_playlists[track].is_blank_at(position)) {
+        return position;
+    }
     int clip_index = m_playlists[track].get_clip_index_at(position);
     int count = m_playlists[track].count();
     if (clip_index < count) {

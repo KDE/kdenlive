@@ -140,6 +140,7 @@ protected:
     int getBlankEnd(int position);
     /* Same, but we restrict to a specific track*/
     int getBlankEnd(int position, int track);
+
 public slots:
     /*Delete the current track and all its associated clips */
     void slotDelete();
