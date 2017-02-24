@@ -26,7 +26,7 @@ Rectangle {
             //TODO
             timeline.setScaleFactor(timeline.scaleFactor + 0.2 * wheel.angleDelta.y / 120);
         } else {
-            scrollView.flickableItem.contentX += wheel.angleDelta.y
+            scrollView.flickableItem.contentX = Math.max(0, scrollView.flickableItem.contentX + wheel.angleDelta.y)
         }
         //Logic.scrollIfNeeded()
     }
@@ -432,6 +432,14 @@ Rectangle {
                 }
             }
         }
+    }
+    MouseArea {
+        width: root.width - headerWidth
+        height: root.height - ruler.height
+        y: ruler.height
+        x: headerWidth
+        acceptedButtons: Qt.NoButton
+        onWheel: zoomByWheel(wheel)
     }
     Connections {
         target: timeline

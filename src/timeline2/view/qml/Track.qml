@@ -59,11 +59,6 @@ Column{
 
     width: clipRow.width
 
-    MouseArea {
-        acceptedButtons: Qt.NoButton
-        onWheel: zoomByWheel(wheel)
-    }
-
     DelegateModel {
         id: trackModel
         Clip {
