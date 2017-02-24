@@ -532,8 +532,8 @@ void Monitor::slotForceSize(QAction *a)
     if (resizeType > 0) {
         // calculate size
         QRect r = QApplication::desktop()->screenGeometry();
-        profileWidth = m_glMonitor->profileSize().width() * resizeType / 100;
         profileHeight = m_glMonitor->profileSize().height() * resizeType / 100;
+        profileWidth = m_glMonitor->profile()->dar() * profileHeight;
         if (profileWidth > r.width() * 0.8 || profileHeight > r.height() * 0.7) {
             // reset action to free resize
             QList< QAction * > list = m_forceSize->actions();
@@ -1005,9 +1005,9 @@ void Monitor::slotExtractCurrentFrameToProject()
     slotExtractCurrentFrame(QString(), true);
 }
 
-void Monitor::slotExtractCurrentFrame(QString path, bool addToProject)
+void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
 {
-    if (addToProject && QFileInfo(path).fileName().isEmpty()) {
+    if (addToProject && QFileInfo(frameName).fileName().isEmpty()) {
         // convenience: when extracting an image to be added to the project,
         // suggest a suitable image file name. In the project monitor, this
         // suggestion bases on the project file name; in the clip monitor,
@@ -1023,7 +1023,7 @@ void Monitor::slotExtractCurrentFrame(QString path, bool addToProject)
                                      + QStringLiteral("-f")
                                      + QString::number(render->seekFramePosition())
                                      + ".png";
-        path = QFileInfo(path, suggestedImageName).absoluteFilePath();
+        frameName = QFileInfo(frameName, suggestedImageName).fileName();
     }
 
     QString framesFolder = KRecentDirs::dir(QStringLiteral(":KdenliveFramesFolder"));
@@ -1034,7 +1034,7 @@ void Monitor::slotExtractCurrentFrame(QString path, bool addToProject)
     fs->setMimeTypeFilters(QStringList() << QStringLiteral("image/png"));
     fs->setAcceptMode(QFileDialog::AcceptSave);
     fs->setDefaultSuffix(QStringLiteral("png"));
-    fs->selectFile(path);
+    fs->selectFile(frameName);
     if (fs->exec()) {
         if (!fs->selectedFiles().isEmpty()) {
             QUrl savePath = fs->selectedUrls().first();
@@ -1414,7 +1414,6 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
     if (render == nullptr) {
         return;
     }
-    bool sameClip = controller == m_controller && controller != nullptr;
     m_controller = controller;
     if (!m_glMonitor->isVisible()) {
         // Don't load clip if monitor is not active (disabled)
@@ -1426,11 +1425,9 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
             return;
         }
         updateMarkers();
-        if (!sameClip) {
-            // Loading new clip, stop if playing
-            if (m_playAction->isActive()) {
-                m_playAction->setActive(false);
-            }
+        // Loading new clip / zone, stop if playing
+        if (m_playAction->isActive()) {
+            m_playAction->setActive(false);
         }
         render->setProducer(m_controller->masterProducer(), in, isActive());
         if (out > -1) {

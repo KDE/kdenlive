@@ -24,6 +24,7 @@
 #include "utils/KoIconUtils.h"
 #include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
+#include "clipcreationdialog.h"
 #include "renderer.h"
 
 #ifdef USE_V4L
@@ -114,6 +115,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configEnv.libraryfolderurl->setEnabled(!KdenliveSettings::librarytodefaultfolder());
     m_configEnv.kcfg_librarytodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
     connect(m_configEnv.kcfg_librarytodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableLibraryFolder);
+
+    // Mime types
+    QStringList mimes = ClipCreationDialog::getExtensions();
+    qSort(mimes);
+    m_configEnv.supportedmimes->setPlainText(mimes.join(QStringLiteral(" ")));
 
     m_page2 = addPage(p2, i18n("Environment"));
     m_page2->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-x-executable-script")));
@@ -874,6 +880,15 @@ void KdenliveSettingsDialog::updateSettings()
         } else {
             m_configSdl.kcfg_gpu_accel->setChecked(KdenliveSettings::gpu_accel());
         }
+    }
+
+    // Mimes
+    if (m_configEnv.kcfg_addedExtensions->text() != KdenliveSettings::addedExtensions()) {
+        // Update list
+        KdenliveSettings::setAddedExtensions(m_configEnv.kcfg_addedExtensions->text());
+        QStringList mimes = ClipCreationDialog::getExtensions();
+        qSort(mimes);
+        m_configEnv.supportedmimes->setPlainText(mimes.join(QStringLiteral(" ")));
     }
 
     KConfigDialog::settingsChangedSlot();

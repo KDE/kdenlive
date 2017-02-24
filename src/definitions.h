@@ -216,7 +216,7 @@ struct requestClipInfo {
     int imageHeight;
     bool replaceProducer;
 
-    bool operator==(const requestClipInfo &a)
+    bool operator==(const requestClipInfo &a) const
     {
         return clipId == a.clipId;
     }
@@ -251,7 +251,7 @@ public:
         }
         return (pos <= endPos && pos >= startPos);
     }
-    bool operator==(const ItemInfo &a)
+    bool operator==(const ItemInfo &a) const
     {
         return startPos == a.startPos && endPos == a.endPos && track == a.track && cropStart == a.cropStart;
     }

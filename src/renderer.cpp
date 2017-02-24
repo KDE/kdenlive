@@ -396,7 +396,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     if (isActive) {
         startConsumer();
     }
-    emit durationChanged(m_mltProducer->get_playtime() - 1, m_mltProducer->get_in());
+    emit durationChanged(m_mltProducer->get_length() - 1, m_mltProducer->get_in());
     position = m_mltProducer->position();
     emit rendererPosition(position);
     return true;

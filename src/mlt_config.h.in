@@ -1,0 +1,9 @@
+#ifndef MLT_CONFIG_H
+#define MLT_CONFIG_H
+
+// define your version_libinterface
+#define MLT_DATADIR "@MLT_DATADIR@"
+#define MLT_MELTBIN "@MLT_MELTBIN@"
+
+
+#endif // MLT_CONFIG_H

@@ -680,7 +680,6 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
                 viewlist.first()->setRubberBandSelectionMode(Qt::IntersectsItemShape);
             }
         }
-        QList<QGraphicsItem *> selected = selectedItems();
         bool alreadySelected = false;
         foreach(QGraphicsItem *g, list) {
             //qDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
@@ -697,7 +696,10 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
         }
         if (item == nullptr || (e->modifiers() != Qt::ShiftModifier && !alreadySelected)) {
             clearTextSelection();
-        } else if (item && item->flags() & QGraphicsItem::ItemIsMovable) {
+        } else if (e->modifiers() & Qt::ShiftModifier) {
+            clearTextSelection(false);
+        }
+        if (item && item->flags() & QGraphicsItem::ItemIsMovable) {
             m_sceneClickPoint = e->scenePos();
             m_selectedItem = item;
             //qCDebug(KDENLIVE_LOG) << "/////////  ITEM TYPE: " << item->type();
@@ -768,7 +770,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     //qCDebug(KDENLIVE_LOG) << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
 }
 
-void GraphicsSceneRectMove::clearTextSelection()
+void GraphicsSceneRectMove::clearTextSelection(bool reset)
 {
     if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
         // disable text editing
@@ -780,6 +782,9 @@ void GraphicsSceneRectMove::clearTextSelection()
     }
     m_selectedItem = nullptr;
     clearSelection();
+    if (reset) {
+        clearSelection();
+    }
 }
 
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
@@ -801,7 +806,6 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
     if (e->buttons() != Qt::NoButton && !m_moveStarted) {
         if ((view->mapFromScene(e->scenePos()) - view->mapFromScene(m_clickPoint)).manhattanLength() < QApplication::startDragDistance()) {
             e->ignore();
-            QGraphicsScene::mouseMoveEvent(e);
             return;
         } else {
             m_moveStarted = true;

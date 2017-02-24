@@ -114,6 +114,9 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
         ClipController *clip = list.at(i);
         ClipType t = clip->clipType();
         QString id = clip->clipId();
+        if (t == Color) {
+            continue;
+        }
         if (t == SlideShow) {
             //TODO: Slideshow files
             slideUrls.insert(id, clip->clipUrl());
@@ -465,11 +468,11 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
             }
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
-            int ix = 0;
-            QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
+            int index2 = 0;
+            QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(index2) + '.' + fileName.section('.', -1);
             while (filesList.contains(newFileName)) {
-                ix ++;
-                newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
+                index2 ++;
+                newFileName = fileName.section('.', 0, -2) + '_' + QString::number(index2) + '.' + fileName.section('.', -1);
             }
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);
@@ -827,6 +830,9 @@ bool ArchiveWidget::processProjectFile()
 
     QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + ".kdenlive";
     QFile file(path);
+    if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+        return false;
+    }
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
         KMessageBox::error(this, i18n("Cannot write to file %1", path));

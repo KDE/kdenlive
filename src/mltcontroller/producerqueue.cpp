@@ -134,6 +134,7 @@ void ProducerQueue::processFileProperties()
     requestClipInfo info;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    bool forceThumbScale = m_binController->profile()->sar() != 1;
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
@@ -162,7 +163,7 @@ void ProducerQueue::processFileProperties()
             Mlt::Frame *frame = prod->get_frame();
             if (frame && frame->is_valid()) {
                 int fullWidth = info.imageHeight * m_binController->profile()->dar() + 0.5;
-                QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                 emit replyGetImage(info.clipId, img);
             }
             delete frame;
@@ -298,7 +299,19 @@ void ProducerQueue::processFileProperties()
                 } else if (service.contains(QStringLiteral("avformat"))) {
                     Mlt::Profile *blankProfile = new Mlt::Profile();
                     blankProfile->set_explicit(false);
-                    blankProfile->from_producer(*producer);
+                    if (KdenliveSettings::gpu_accel()) {
+                        Clip clp(*producer);
+                        Mlt::Producer *glProd = clp.softClone(ClipController::getPassPropertiesList());
+                        Mlt::Filter scaler(*m_binController->profile(), "swscale");
+                        Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
+                        glProd->attach(scaler);
+                        glProd->attach(converter);
+                        blankProfile->from_producer(*glProd);
+                        delete glProd;
+                    }
+                    else {
+                        blankProfile->from_producer(*producer);
+                    }
                     MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*blankProfile);
                     MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_binController->profile());
                     clipProfile.adjustWidth();
@@ -478,7 +491,7 @@ void ProducerQueue::processFileProperties()
                     }
                     frame = producer->get_frame();
                     if (frame && frame->is_valid()) {
-                        img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                        img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                         emit replyGetImage(info.clipId, img);
                     }
                 }
@@ -671,7 +684,7 @@ void ProducerQueue::processFileProperties()
                     img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
                     delete glProd;
                 } else {
-                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                 }
                 emit replyGetImage(info.clipId, img);
             } else {
@@ -718,7 +731,7 @@ void ProducerQueue::processFileProperties()
                     } else {
                         tmpProd = producer;
                     }
-                    QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                    QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                     if (frameNumber == -1) {
                         // No user specipied frame, look for best one
                         int variance = KThumb::imageVariance(img);
@@ -728,7 +741,7 @@ void ProducerQueue::processFileProperties()
                             frameNumber =  duration > 100 ? 100 : duration / 2;
                             tmpProd->seek(frameNumber);
                             frame = tmpProd->get_frame();
-                            img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                            img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                         }
                     }
                     if (KdenliveSettings::gpu_accel()) {

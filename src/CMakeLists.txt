@@ -15,7 +15,6 @@ else()
         PURPOSE "")
 endif()
 
-
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wcast-qual -Wcast-align -Wfloat-equal -Wpointer-arith")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat")
@@ -36,7 +35,6 @@ execute_process(
     RESULT_VARIABLE MLT_DATADIR_failed)
 if (NOT MLT_DATADIR_failed)
     string(REGEX REPLACE "[\r\n]" "" MLT_DATADIR "${MLT_DATADIR}")
-    add_definitions(-DMLT_DATADIR=\"${MLT_DATADIR}\")
 endif()
 
 execute_process(
@@ -45,8 +43,10 @@ execute_process(
     RESULT_VARIABLE MLT_MELTBIN_failed)
 if (NOT MLT_MELTBIN_failed)
     string(REGEX REPLACE "[\r\n]" "" MLT_MELTBIN "${MLT_MELTBIN}")
-    add_definitions(-DMLT_MELTBIN=\"${MLT_MELTBIN}\")
 endif()
+
+configure_file( mlt_config.h.in ${CMAKE_BINARY_DIR}/generated/mlt_config.h )
+include_directories( ${CMAKE_BINARY_DIR}/generated/ ) # Make sure it can be included...
 
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 

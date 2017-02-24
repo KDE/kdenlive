@@ -48,6 +48,16 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
         return pix;
     }
     Mlt::Producer *producer = new Mlt::Producer(profile, url.toLocalFile().toUtf8().constData());
+    if (KdenliveSettings::gpu_accel()) {
+        QString service = producer->get("mlt_service");
+        QString res = producer->get("resource");
+        delete producer;
+        producer = new Mlt::Producer(profile, service.toUtf8().constData(), res.toUtf8().constData());
+        Mlt::Filter scaler(profile, "swscale");
+        Mlt::Filter converter(profile, "avcolor_space");
+        producer->attach(scaler);
+        producer->attach(converter);
+    }
     pix = QPixmap::fromImage(getFrame(producer, frame, width, height));
     delete producer;
     return pix;
@@ -75,17 +85,16 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 }
 
 //static
-QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height)
+QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceRescale)
 {
     if (frame == nullptr || !frame->is_valid()) {
         QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
-    int ow = width;
-    int oh = height;
+    int ow = forceRescale ? 0 : width;
+    int oh = forceRescale ? 0 : height;
     mlt_image_format format = mlt_image_rgb24a;
-    //frame->set("progressive", "1");
     ow += ow % 2;
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
