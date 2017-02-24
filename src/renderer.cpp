@@ -1686,10 +1686,7 @@ bool Render::storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bo
 
 Mlt::Producer *Render::getSlowmotionProducer(const QString &url)
 {
-    if (m_slowmotionProducers.contains(url)) {
-        return m_slowmotionProducers.value(url);
-    }
-    return nullptr;
+    return m_slowmotionProducers.value(url);
 }
 
 void Render::updateSlowMotionProducers(const QString &id, const QMap<QString, QString> &passProperties)

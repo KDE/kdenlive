@@ -115,7 +115,7 @@ static const char version[] = KDENLIVE_VERSION;
 namespace Mlt
 {
 class Producer;
-};
+}
 
 EffectsList MainWindow::videoEffects;
 EffectsList MainWindow::audioEffects;
