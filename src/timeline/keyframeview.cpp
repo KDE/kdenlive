@@ -163,10 +163,9 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
         path.moveTo(br.x(), br.bottom());
         path.lineTo(br.x(), start.y());
         path.lineTo(start);
-        int currentFrame;
         painter->setPen(paramName == m_inTimeline ? QColor(Qt::white) : Qt::NoPen);
         for (int i = 0; i < drawAnim.key_count(); ++i) {
-            currentFrame = drawAnim.key_get_frame(i);
+            int currentFrame = drawAnim.key_get_frame(i);
             if (currentFrame < firstKF) {
                 continue;
             }

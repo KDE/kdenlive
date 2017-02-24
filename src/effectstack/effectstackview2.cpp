@@ -285,7 +285,6 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Moni
         m_effectMetaInfo.monitor = m;
         m_currentEffectList = info.effectsList;
         m_trackInfo = info;
-        m_clipref = nullptr;
         m_masterclipref = nullptr;
         QString trackName = info.trackName.isEmpty() ? QString::number(ix) : info.trackName;
         m_effect->setLabel(i18n("Effects for track %1", trackName), trackName);

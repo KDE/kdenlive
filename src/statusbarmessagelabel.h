@@ -70,7 +70,7 @@ struct StatusBarMessageItem {
     StatusBarMessageItem(const QString &text = QString(), MessageType type = DefaultMessage, int timeoutMS = 0) :
         text(text), type(type), timeoutMillis(timeoutMS), confirmed(false) {}
 
-    bool operator ==(const StatusBarMessageItem &other)
+    bool operator ==(const StatusBarMessageItem &other) const
     {
         return type == other.type && text == other.text;
     }
