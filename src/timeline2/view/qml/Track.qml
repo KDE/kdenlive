@@ -78,6 +78,7 @@ Column{
             height: parent.height
             modelStart: model.start
             x: modelStart * timeScale
+            borderColor: (model.grouped > 0 ? 'yellow' : 'black')
             trackIndex: trackRoot.DelegateModel.itemsIndex
             trackId: trackRoot.trackId
             fadeIn: 0 //model.fadeIn

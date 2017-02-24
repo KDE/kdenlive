@@ -164,6 +164,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[InPointRole] = "in";
     roles[OutPointRole] = "out";
     roles[FramerateRole] = "fps";
+    roles[GroupedRole] = "grouped";
     roles[IsMuteRole] = "mute";
     roles[IsHiddenRole] = "hidden";
     roles[IsAudioRole] = "audio";
@@ -210,7 +211,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return m_allClips.at(id)->getPosition();
         case DurationRole:
             return m_allClips.at(id)->getPlaytime();
-
+        case GroupedRole:
+            return m_groups->isInGroup(id);
             //Are these really needed ??
         case InPointRole:
             return 0;

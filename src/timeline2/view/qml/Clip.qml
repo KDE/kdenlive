@@ -51,6 +51,7 @@ Rectangle {
     property bool selected: false
     property string hash: ''
     property double speed: 1.0
+    property color borderColor: 'black'
 
     signal clicked(var clip)
     signal moved(var clip)
@@ -74,7 +75,7 @@ Rectangle {
     SystemPalette { id: activePalette }
     color: Qt.darker(getColor())
 
-    border.color: selected? 'red' : 'black'
+    border.color: selected? 'red' : borderColor
     border.width: isBlank? 0 : 1
     clip: true
     Drag.active: mouseArea.drag.active

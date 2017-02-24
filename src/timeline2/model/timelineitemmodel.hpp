@@ -71,6 +71,7 @@ public:
         InPointRole,     /// clip only
         OutPointRole,    /// clip only
         FramerateRole,   /// clip only
+        GroupedRole,     /// clip only
         IsMuteRole,      /// track only
         IsHiddenRole,    /// track only
         IsAudioRole,
