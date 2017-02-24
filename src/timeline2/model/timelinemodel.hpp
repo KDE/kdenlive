@@ -76,7 +76,7 @@ public:
 
     virtual ~TimelineModel();
     Mlt::Tractor* tractor() const { return m_tractor.get(); }
-    std::shared_ptr<Mlt::Profile> getProfile();
+    Mlt::Profile *getProfile();
 
     /* @brief returns the number of tracks */
     int getTracksCount() const;
@@ -325,7 +325,7 @@ protected:
 
     std::weak_ptr<DocUndoStack> m_undoStack;
 
-    std::shared_ptr<Mlt::Profile> m_profile;
+    Mlt::Profile *m_profile;
 
     // The black track producer. It's length / out should always be adjusted to the projects's length
     std::unique_ptr<Mlt::Producer> m_blackClip;

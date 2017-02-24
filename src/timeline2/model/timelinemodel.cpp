@@ -729,7 +729,7 @@ std::unordered_set<int> TimelineModel::getGroupElements(int cid)
     return m_groups->getLeaves(gid);
 }
 
-std::shared_ptr<Mlt::Profile> TimelineModel::getProfile()
+Mlt::Profile *TimelineModel::getProfile()
 {
     return m_profile;
 }

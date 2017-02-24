@@ -35,10 +35,9 @@ TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id) :
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
     if (auto ptr = parent.lock()) {
-        m_profile = ptr->getProfile();
-        m_track.set_profile(*ptr->getProfile().get());
-        m_playlists[0].set_profile(*ptr->getProfile().get());
-        m_playlists[1].set_profile(*ptr->getProfile().get());
+        m_track.set_profile(*ptr->getProfile());
+        m_playlists[0].set_profile(*ptr->getProfile());
+        m_playlists[1].set_profile(*ptr->getProfile());
         m_track.insert_track(m_playlists[0], 0);
         m_track.insert_track(m_playlists[1], 1);
     } else {
