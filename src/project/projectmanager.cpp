@@ -769,11 +769,7 @@ QString ProjectManager::getDefaultProjectFormat()
 {
     // On first run, lets use an HD1080p profile with fps related to timezone country. Then, when the first video is added to a project, if it does not match our profile, propose a new default.
     QTimeZone zone;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     zone = QTimeZone::systemTimeZone();
-#else
-    zone = QTimeZone(QTimeZone::systemTimeZoneId());
-#endif
 
     QList<int> ntscCountries;
     ntscCountries << QLocale::Canada << QLocale::Chile << QLocale::CostaRica << QLocale::Cuba << QLocale::DominicanRepublic << QLocale::Ecuador;

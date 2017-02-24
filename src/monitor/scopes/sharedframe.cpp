@@ -20,9 +20,9 @@
 class FrameData : public QSharedData
 {
 public:
-    FrameData() : f((mlt_frame)nullptr) {};
-    explicit FrameData(Mlt::Frame &frame) : f(frame) {};
-    ~FrameData() {};
+    FrameData() : f((mlt_frame)nullptr) {}
+    explicit FrameData(Mlt::Frame &frame) : f(frame) {}
+    ~FrameData() {}
 
     Mlt::Frame f;
 private:

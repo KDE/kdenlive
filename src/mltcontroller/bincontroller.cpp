@@ -165,7 +165,6 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     // Load markers
     Mlt::Properties markerProperties;
     markerProperties.pass_values(playlistProps, "kdenlive:marker.");
-    QMap<QString, QString> markersData;
     for (int i = 0; i < markerProperties.count(); i++) {
         QString markerId = markerProperties.get_name(i);
         QString controllerId = markerId.section(QLatin1Char(':'), 0, 0);

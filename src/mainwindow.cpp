@@ -249,9 +249,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
 
     /// Add Widgets
     setDockOptions(dockOptions() | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
-#endif
     setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition) KdenliveSettings::tabposition());
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     m_timelineToolBarContainer = new QWidget(this);
@@ -3893,7 +3891,6 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
     if (!KdenliveSettings::showtitlebars() || !isTopLevel) {
         return;
     }
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget *dock = docks.at(i);
@@ -3932,7 +3929,6 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
             dock->setTitleBarWidget(new QWidget);
         }
     }
-#endif
 }
 
 void MainWindow::slotToggleAutoPreview(bool enable)

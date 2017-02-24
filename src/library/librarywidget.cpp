@@ -294,8 +294,7 @@ void LibraryWidget::slotAddToProject()
     if (!current) {
         return;
     }
-    QList<QUrl> list;
-    list << QUrl::fromLocalFile(current->data(0, Qt::UserRole).toString());
+    const QList<QUrl> list = {QUrl::fromLocalFile(current->data(0, Qt::UserRole).toString())};
     emit addProjectClips(list);
 }
 
