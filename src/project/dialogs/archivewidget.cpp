@@ -382,11 +382,11 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             }
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
-            int ix = 0;
-            QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(ix) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
+            int i = 0;
+            QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(i) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
             while (filesList.contains(newFileName)) {
-                ix ++;
-                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(ix) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
+                i ++;
+                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(i) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
             }
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);
@@ -687,7 +687,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
 
 void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
 {
-    progressBar->setValue((int) 100 * size / m_requestedSize);
+    progressBar->setValue(100 * size / m_requestedSize);
 }
 
 bool ArchiveWidget::processProjectFile()

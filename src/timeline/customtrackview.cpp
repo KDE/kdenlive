@@ -1697,10 +1697,10 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip)
                 int offset = (item->startPos() - item->cropStart()).frames(m_document->fps());
                 if (!markers.isEmpty()) {
                     for (int i = 0; i < markers.count(); ++i) {
-                        int pos = (int) markers.at(i).time().frames(m_document->timecode().fps());
+                        int frame = (int) markers.at(i).time().frames(m_document->timecode().fps());
                         QString position = m_document->timecode().getTimecode(markers.at(i).time()) + QLatin1Char(' ') + markers.at(i).comment();
                         QAction *go = m_markerMenu->addAction(position);
-                        go->setData(pos + offset);
+                        go->setData(frame + offset);
                     }
                 }
                 m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
@@ -1785,9 +1785,9 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
     selectClip(true, false);
 }
 
-bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
+bool CustomTrackView::insertDropClips(const QMimeData *mimeData, const QPoint &pos)
 {
-    m_clipDrag = data->hasFormat(QStringLiteral("kdenlive/clip")) || data->hasFormat(QStringLiteral("kdenlive/producerslist"));
+    m_clipDrag = mimeData->hasFormat(QStringLiteral("kdenlive/clip")) || mimeData->hasFormat(QStringLiteral("kdenlive/producerslist"));
     // This is not a clip drag, maybe effect or other...
     if (!m_clipDrag) {
         return false;
@@ -1804,8 +1804,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
     if (track <= 0 || track > m_timeline->tracksCount() - 1 || m_timeline->getTrackInfo(track).isLocked) {
         return true;
     }
-    if (data->hasFormat(QStringLiteral("kdenlive/clip"))) {
-        QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';'));
+    if (mimeData->hasFormat(QStringLiteral("kdenlive/clip"))) {
+        QStringList list = QString(mimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';'));
         ProjectClip *clip = m_document->getBinClip(list.at(0));
         if (clip == nullptr) {
             //qCDebug(KDENLIVE_LOG) << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
@@ -1858,8 +1858,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         m_selectionGroup->setPos(framePos);
         scene()->addItem(m_selectionGroup);
         m_selectionGroup->setSelected(true);
-    } else if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
-        QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
+    } else if (mimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
+        QStringList ids = QString(mimeData->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
         QList<GenTime> offsetList;
         QList<ItemInfo> infoList;
         GenTime start = GenTime((int)(framePos.x() + 0.5), m_document->fps());
@@ -3049,9 +3049,9 @@ void CustomTrackView::slotAddTransitionToSelectedClips(const QDomElement &transi
                 QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
                 QList<QGraphicsItem *> selection = m_scene->items(r);
                 bool transitionAccepted = true;
-                for (int i = 0; i < selection.count(); ++i) {
-                    if (selection.at(i)->type() == TransitionWidget) {
-                        Transition *tr = static_cast <Transition *>(selection.at(i));
+                for (int j = 0; j < selection.count(); ++j) {
+                    if (selection.at(j)->type() == TransitionWidget) {
+                        Transition *tr = static_cast <Transition *>(selection.at(j));
                         if (tr->startPos() - info.startPos > GenTime(5, m_document->fps())) {
                             if (tr->startPos() < info.endPos) {
                                 info.endPos = tr->startPos();
@@ -4016,9 +4016,9 @@ void CustomTrackView::slotRemoveSpace(bool multiTrack)
     }
     createGroupForSelectedItems(selection);
     QList<AbstractClipItem *> items;
-    foreach (QGraphicsItem *item, selection) {
-        if (item->type() == AVWidget || item->type() == TransitionWidget) {
-            items << (AbstractClipItem *) item;
+    foreach (QGraphicsItem *i, selection) {
+        if (i->type() == AVWidget || i->type() == TransitionWidget) {
+            items << (AbstractClipItem *) i;
         }
     }
     GenTime timeOffset(-length, m_document->fps());
@@ -4763,8 +4763,8 @@ void CustomTrackView::groupClips(bool group, QList<QGraphicsItem *> itemList, bo
                 new GroupClipsCommand(this, clipInfos, transitionInfos, group, doIt, metaCommand);
                 m_commandStack->push(metaCommand);
             } else {
-                GroupClipsCommand *command = new GroupClipsCommand(this, clipInfos, transitionInfos, group, doIt);
-                m_commandStack->push(command);
+                GroupClipsCommand *groupCommand = new GroupClipsCommand(this, clipInfos, transitionInfos, group, doIt);
+                m_commandStack->push(groupCommand);
             }
         }
         if (!doIt) {
@@ -5343,8 +5343,8 @@ void CustomTrackView::moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> start
                 }
                 m_timeline->track(info.track)->add(info.startPos.seconds(), prod, info.cropStart.seconds(), (info.cropStart + info.cropDuration).seconds(), clip->clipState(), true, m_scene->editMode());
 
-                for (int i = 0; i < clip->effectsCount(); ++i) {
-                    m_timeline->track(info.track)->addEffect(info.startPos.seconds(), EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(i)));
+                for (int j = 0; j < clip->effectsCount(); ++j) {
+                    m_timeline->track(info.track)->addEffect(info.startPos.seconds(), EffectsController::getEffectArgs(m_document->getProfileInfo(), clip->effect(j)));
                 }
             } else if (item->type() == TransitionWidget) {
                 Transition *tr = static_cast <Transition *>(item);
@@ -5720,14 +5720,14 @@ void CustomTrackView::prepareResizeClipEnd(AbstractClipItem *item, const ItemInf
         } else {
             // Check transition keyframes
             QDomElement old = transition->toXML();
-            ItemInfo info = transition->info();
-            if (transition->updateKeyframes(oldInfo, info)) {
+            ItemInfo newInfo = transition->info();
+            if (transition->updateKeyframes(oldInfo, newInfo)) {
                 QDomElement xml = transition->toXML();
                 m_timeline->transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(), xml.attribute(QStringLiteral("transition_atrack")).toInt(), transition->startPos(), transition->endPos(), xml);
                 new EditTransitionCommand(this, transition->track(), transition->startPos(), old, xml, false, command);
             }
-            updateTransitionWidget(transition, info);
-            new MoveTransitionCommand(this, oldInfo, info, false, true, command);
+            updateTransitionWidget(transition, newInfo);
+            new MoveTransitionCommand(this, oldInfo, newInfo, false, true, command);
         }
     }
     if (item->parentItem() && item->parentItem() != m_selectionGroup) {
@@ -5959,7 +5959,7 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList<GenTime
 
     // add guides
     for (int i = 0; i < m_guides.count(); ++i) {
-        GenTime pos = m_guides.at(i)->position();
+        pos = m_guides.at(i)->position();
         if (!snaps.contains(pos)) {
             snaps.append(pos);
         }
@@ -6061,11 +6061,11 @@ void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
 
 QMap<double, QString> CustomTrackView::guidesData() const
 {
-    QMap<double, QString> data;
+    QMap<double, QString> gData;
     for (int i = 0; i < m_guides.count(); ++i) {
-        data.insert(m_guides.at(i)->position().seconds(), m_guides.at(i)->label());
+        gData.insert(m_guides.at(i)->position().seconds(), m_guides.at(i)->label());
     }
-    return data;
+    return gData;
 }
 
 void CustomTrackView::editGuide(const GenTime &oldPos, const GenTime &pos, const QString &comment)
@@ -6301,7 +6301,7 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale, bool zo
     if (zoomOnMouse) {
         // Zoom on mouse position
         centerOn(QPointF(lastMousePos, verticalPos));
-        int diff = scaleFactor * (getMousePos() - lastMousePos);
+        diff = scaleFactor * (getMousePos() - lastMousePos);
         horizontalScrollBar()->setValue(horizontalScrollBar()->value() - diff);
     } else {
         centerOn(QPointF(cursorPos(), verticalPos));
@@ -7556,9 +7556,9 @@ bool CustomTrackView::doSplitAudio(const GenTime &pos, int track, int destTrack,
                 }
 
                 // re-add audio effects
-                for (int i = 0; i < effects.count(); ++i) {
-                    if (effects.at(i).attribute(QStringLiteral("type")) == QLatin1String("audio")) {
-                        addEffect(track, pos, effects.at(i));
+                for (int j = 0; j < effects.count(); ++j) {
+                    if (effects.at(j).attribute(QStringLiteral("type")) == QLatin1String("audio")) {
+                        addEffect(track, pos, effects.at(j));
                     }
                 }
 
@@ -7818,9 +7818,9 @@ void CustomTrackView::reloadTransitionLumas()
             transitionitem = static_cast <Transition *>(itemList.at(i));
             transitionXml = transitionitem->toXML();
             if (transitionXml.attribute(QStringLiteral("id")) == QLatin1String("luma") && transitionXml.attribute(QStringLiteral("tag")) == QLatin1String("luma")) {
-                QDomNodeList params = transitionXml.elementsByTagName(QStringLiteral("parameter"));
-                for (int i = 0; i < params.count(); ++i) {
-                    QDomElement e = params.item(i).toElement();
+                params = transitionXml.elementsByTagName(QStringLiteral("parameter"));
+                for (int j = 0; j < params.count(); ++j) {
+                    QDomElement e = params.item(j).toElement();
                     if (e.attribute(QStringLiteral("tag")) == QLatin1String("resource")) {
                         e.setAttribute(QStringLiteral("paramlistdisplay"), lumaNames);
                         e.setAttribute(QStringLiteral("paramlist"), lumaFiles);
@@ -7829,9 +7829,9 @@ void CustomTrackView::reloadTransitionLumas()
                 }
             }
             if (transitionXml.attribute(QStringLiteral("id")) == QLatin1String("composite") && transitionXml.attribute(QStringLiteral("tag")) == QLatin1String("composite")) {
-                QDomNodeList params = transitionXml.elementsByTagName(QStringLiteral("parameter"));
-                for (int i = 0; i < params.count(); ++i) {
-                    QDomElement e = params.item(i).toElement();
+                params = transitionXml.elementsByTagName(QStringLiteral("parameter"));
+                for (int j = 0; j < params.count(); ++j) {
+                    QDomElement e = params.item(j).toElement();
                     if (e.attribute(QStringLiteral("tag")) == QLatin1String("luma")) {
                         e.setAttribute(QStringLiteral("paramlistdisplay"), lumaNames);
                         e.setAttribute(QStringLiteral("paramlist"), lumaFiles);
@@ -8355,11 +8355,11 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
     }
 }
 
-void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> data)
+void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> keyframes)
 {
     ClipItem *item = nullptr;
     ItemInfo srcInfo;
-    if (data.isEmpty()) {
+    if (keyframes.isEmpty()) {
         if (type == TransitionWidget) {
             // We want to import keyframes to a transition
             if (!m_selectionGroup) {
@@ -8385,13 +8385,13 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, const ItemI
             emit displayMessage(i18n("No clip found"), ErrorMessage);
             return;
         }
-        data = item->binClip()->analysisData();
+        keyframes = item->binClip()->analysisData();
     }
-    if (data.isEmpty()) {
+    if (keyframes.isEmpty()) {
         emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
         return;
     }
-    QPointer<KeyframeImport>import = new KeyframeImport(srcInfo, info, data, m_document->timecode(), xml, m_document->getProfileInfo(), this);
+    QPointer<KeyframeImport>import = new KeyframeImport(srcInfo, info, keyframes, m_document->timecode(), xml, m_document->getProfileInfo(), this);
     if (import->exec() != QDialog::Accepted) {
         delete import;
         return;
@@ -8768,9 +8768,9 @@ void CustomTrackView::dropTransitionGeometry(Transition *trans, const QString &g
         updateTimelineSelection();
     }
     emit transitionItemSelected(trans);
-    QMap<QString, QString> data;
-    data.insert(i18n("Dropped Geometry"), geometry);
-    slotImportClipKeyframes(TransitionWidget, trans->info(), trans->toXML(), data);
+    QMap<QString, QString> keyframes;
+    keyframes.insert(i18n("Dropped Geometry"), geometry);
+    slotImportClipKeyframes(TransitionWidget, trans->info(), trans->toXML(), keyframes);
 }
 
 void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString &geometry)
@@ -8787,14 +8787,14 @@ void CustomTrackView::dropClipGeometry(ClipItem *clip, const QString &geometry)
         emit displayMessage(i18n("No keyframes to import"), InformationMessage);
         return;
     }
-    QMap<QString, QString> data;
-    data.insert(geometry.section(QLatin1Char('='), 0, 0), geometry.section(QLatin1Char('='), 1));
+    QMap<QString, QString> keyframes;
+    keyframes.insert(geometry.section(QLatin1Char('='), 0, 0), geometry.section(QLatin1Char('='), 1));
     QDomElement currentEffect = clip->getEffectAtIndex(clip->selectedEffectIndex());
     if (currentEffect.isNull()) {
         emit displayMessage(i18n("No effect to import keyframes"), InformationMessage);
         return;
     }
-    slotImportClipKeyframes(AVWidget, clip->info(), currentEffect.cloneNode().toElement(), data);
+    slotImportClipKeyframes(AVWidget, clip->info(), currentEffect.cloneNode().toElement(), keyframes);
 }
 
 void CustomTrackView::breakLockedGroups(const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transitionsToMove, QUndoCommand *masterCommand, bool doIt)

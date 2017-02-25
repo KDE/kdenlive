@@ -218,7 +218,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
 
                 // in and out
                 int in = 0;
-                int out = -1;
+                out = -1;
                 ProjectClip *clip = clips.at(i);
                 if (extraParams.contains(QStringLiteral("zoneonly"))) {
                     // Analyse clip zone only, remove in / out and replace with zone

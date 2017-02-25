@@ -516,10 +516,10 @@ void CollapsibleEffect::updateFrameInfo()
     }
 }
 
-void CollapsibleEffect::setActiveKeyframe(int frame)
+void CollapsibleEffect::setActiveKeyframe(int kf)
 {
     if (m_paramWidget) {
-        m_paramWidget->setActiveKeyframe(frame);
+        m_paramWidget->setActiveKeyframe(kf);
     }
 }
 
@@ -634,18 +634,18 @@ void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
     frame->setStyleSheet(frame->styleSheet());
 }
 
-void CollapsibleEffect::importKeyframes(const QString &keyframes)
+void CollapsibleEffect::importKeyframes(const QString &kf)
 {
-    QMap<QString, QString> data;
-    if (keyframes.contains(QLatin1Char('\n'))) {
-        const QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
+    QMap<QString, QString> keyframes;
+    if (kf.contains(QLatin1Char('\n'))) {
+        const QStringList params = kf.split(QLatin1Char('\n'), QString::SkipEmptyParts);
         for (const QString &param : params) {
-            data.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
+            keyframes.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
         }
     } else {
-        data.insert(keyframes.section(QLatin1Char('='), 0, 0), keyframes.section(QLatin1Char('='), 1));
+        keyframes.insert(kf.section(QLatin1Char('='), 0, 0), kf.section(QLatin1Char('='), 1));
     }
-    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), data);
+    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), keyframes);
 }
 
 void CollapsibleEffect::dropEvent(QDropEvent *event)
@@ -740,9 +740,9 @@ void CollapsibleEffect::setRange(int inPoint, int outPoint)
     m_paramWidget->setRange(inPoint, outPoint);
 }
 
-void CollapsibleEffect::setKeyframes(const QString &tag, const QString &data)
+void CollapsibleEffect::setKeyframes(const QString &tag, const QString &keyframes)
 {
-    m_paramWidget->setKeyframes(tag, data);
+    m_paramWidget->setKeyframes(tag, keyframes);
 }
 
 bool CollapsibleEffect::isMovable() const

@@ -535,9 +535,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         QDomAttr a = attrs.item(j).toAttr();
                         if (!a.isNull()) {
                             //qCDebug(KDENLIVE_LOG) << " FILTER; adding :" << a.name() << ':' << a.value();
-                            QDomElement e = m_doc.createElement(QStringLiteral("property"));
+                            e = m_doc.createElement(QStringLiteral("property"));
                             e.setAttribute(QStringLiteral("name"), a.name());
-                            QDomText value = m_doc.createTextNode(a.value());
+                            value = m_doc.createTextNode(a.value());
                             e.appendChild(value);
                             filt.appendChild(e);
 
@@ -1121,9 +1121,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList markers = m_doc.elementsByTagName(QStringLiteral("marker"));
         for (int i = 0; i < markers.count(); ++i) {
             QDomElement marker = markers.at(i).toElement();
-            QDomElement prop = m_doc.createElement(QStringLiteral("property"));
+            prop = m_doc.createElement(QStringLiteral("property"));
             prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:marker.") + marker.attribute(QStringLiteral("id")) + QLatin1Char(':') + marker.attribute(QStringLiteral("time")));
-            QDomText val = m_doc.createTextNode(marker.attribute(QStringLiteral("type")) + QLatin1Char(':') + marker.attribute(QStringLiteral("comment")));
+            val = m_doc.createTextNode(marker.attribute(QStringLiteral("type")) + QLatin1Char(':') + marker.attribute(QStringLiteral("comment")));
             prop.appendChild(val);
             main_playlist.appendChild(prop);
         }
@@ -1132,9 +1132,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList guides = m_doc.elementsByTagName(QStringLiteral("guide"));
         for (int i = 0; i < guides.count(); ++i) {
             QDomElement guide = guides.at(i).toElement();
-            QDomElement prop = m_doc.createElement(QStringLiteral("property"));
+            prop = m_doc.createElement(QStringLiteral("property"));
             prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:guide.") + guide.attribute(QStringLiteral("time")));
-            QDomText val = m_doc.createTextNode(guide.attribute(QStringLiteral("comment")));
+            val = m_doc.createTextNode(guide.attribute(QStringLiteral("comment")));
             prop.appendChild(val);
             main_playlist.appendChild(prop);
         }
@@ -1143,9 +1143,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList folders = m_doc.elementsByTagName(QStringLiteral("folder"));
         for (int i = 0; i < folders.count(); ++i) {
             QDomElement folder = folders.at(i).toElement();
-            QDomElement prop = m_doc.createElement(QStringLiteral("property"));
+            prop = m_doc.createElement(QStringLiteral("property"));
             prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:folder.-1.") + folder.attribute(QStringLiteral("id")));
-            QDomText val = m_doc.createTextNode(folder.attribute(QStringLiteral("name")));
+            val = m_doc.createTextNode(folder.attribute(QStringLiteral("name")));
             prop.appendChild(val);
             main_playlist.appendChild(prop);
         }
@@ -1334,26 +1334,26 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 originalProd.removeAttribute(QStringLiteral("cutzones"));
 
                 int type = prod.attribute(QStringLiteral("type")).toInt();
-                QString mlt_service;
+                QString mltService;
                 switch (type) {
                 case 4:
-                    mlt_service = QStringLiteral("colour");
+                    mltService = QStringLiteral("colour");
                     break;
                 case 5:
                 case 7:
-                    mlt_service = QStringLiteral("qimage");
+                    mltService = QStringLiteral("qimage");
                     break;
                 case 6:
-                    mlt_service = QStringLiteral("kdenlivetitle");
+                    mltService = QStringLiteral("kdenlivetitle");
                     break;
                 case 9:
-                    mlt_service = QStringLiteral("xml");
+                    mltService = QStringLiteral("xml");
                     break;
                 default:
-                    mlt_service = QStringLiteral("avformat");
+                    mltService = QStringLiteral("avformat");
                     break;
                 }
-                EffectsList::setProperty(originalProd, QStringLiteral("mlt_service"), mlt_service);
+                EffectsList::setProperty(originalProd, QStringLiteral("mlt_service"), mltService);
                 EffectsList::setProperty(originalProd, QStringLiteral("mlt_type"), QStringLiteral("producer"));
                 QDomElement entry = m_doc.createElement(QStringLiteral("entry"));
                 entry.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
@@ -1382,9 +1382,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 if (mltprod.attribute(QStringLiteral("id")) == id) {
                     if (!folder.isEmpty()) {
                         // We have found our producer, set folder info
-                        QDomElement prop = m_doc.createElement(QStringLiteral("property"));
+                        prop = m_doc.createElement(QStringLiteral("property"));
                         prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:folderid"));
-                        QDomText val = m_doc.createTextNode(folder);
+                        val = m_doc.createTextNode(folder);
                         prop.appendChild(val);
                         mltprod.appendChild(prop);
                     }
@@ -1407,9 +1407,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         original.setAttribute(QStringLiteral("in"), 0);
                         original.setAttribute(QStringLiteral("out"), prod.attribute(QStringLiteral("duration")).toInt() - 1);
                         original.setAttribute(QStringLiteral("id"), id);
-                        QDomElement prop = m_doc.createElement(QStringLiteral("property"));
+                        prop = m_doc.createElement(QStringLiteral("property"));
                         prop.setAttribute(QStringLiteral("name"), QStringLiteral("resource"));
-                        QDomText val = m_doc.createTextNode(prod.attribute(QStringLiteral("resource")));
+                        val = m_doc.createTextNode(prod.attribute(QStringLiteral("resource")));
                         prop.appendChild(val);
                         original.appendChild(prop);
                         QDomElement prop2 = m_doc.createElement(QStringLiteral("property"));
@@ -1503,7 +1503,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
 
         // Remove deprecated Kdenlive extra info from xml doc before sending it to MLT
-        QDomElement infoXml = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
+        infoXml = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
         if (!infoXml.isNull()) {
             mlt.removeChild(infoXml);
         }
@@ -2117,7 +2117,7 @@ void DocumentValidator::checkOrphanedProducers()
             for (int j = 0; j < max; j++) {
                 // Search for a similar producer
                 QDomElement binProd = producers.at(j).toElement();
-                QString binId = binProd.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
+                binId = binProd.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
                 if (service != QLatin1String("timewarp") && (binId.startsWith(QLatin1String("slowmotion")) || !binProducers.contains(binId))) {
                     continue;
                 }

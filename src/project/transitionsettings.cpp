@@ -63,11 +63,11 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) :
     }
     ix = 0;
     foreach (const QStringList &value, transitionsList) {
-        QStringList data = value;
-        if (!data.isEmpty()) {
-            data.removeLast();
+        QStringList list = value;
+        if (!list.isEmpty()) {
+            list.removeLast();
         }
-        transitionList->addItem(value.at(0), data);
+        transitionList->addItem(value.at(0), list);
         transitionList->setItemData(ix, MainWindow::transitions.getInfoFromIndex(value.last().toInt()), Qt::ToolTipRole);
         ++ix;
     }
@@ -77,9 +77,9 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) :
     connect(m_effectEdit, &EffectStackEdit::parameterChanged, this, &TransitionSettings::slotUpdateEffectParams);
 }
 
-void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, const QMap<QString, QString> &data)
+void TransitionSettings::prepareImportClipKeyframes(GraphicsRectItem, const QMap<QString, QString> &keyframes)
 {
-    emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), m_usedTransition->toXML(), data);
+    emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), m_usedTransition->toXML(), keyframes);
 }
 
 void TransitionSettings::refreshIcons()
@@ -120,9 +120,9 @@ void TransitionSettings::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
         QString itemData = QString::fromLatin1(event->mimeData()->data(QStringLiteral("kdenlive/geometry")));
-        QMap<QString, QString> data;
-        data.insert(i18n("Geometry"), itemData);
-        emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), m_usedTransition->toXML(), data);
+        QMap<QString, QString> keyframes;
+        keyframes.insert(i18n("Geometry"), itemData);
+        emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), m_usedTransition->toXML(), keyframes);
     }
 }
 
@@ -338,9 +338,9 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
     }
 }
 
-void TransitionSettings::setKeyframes(const QString &tag, const QString &data)
+void TransitionSettings::setKeyframes(const QString &tag, const QString &keyframes)
 {
-    m_effectEdit->setKeyframes(tag, data);
+    m_effectEdit->setKeyframes(tag, keyframes);
 }
 
 void TransitionSettings::updatePalette()

@@ -573,14 +573,14 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
     } else {
         // this is a pattern slideshow, like sequence%4d.jpg
         QString filter = QFileInfo(url).fileName();
-        QString ext = filter.section(QLatin1Char('.'), -1);
+        ext = filter.section(QLatin1Char('.'), -1);
         filter = filter.section(QLatin1Char('%'), 0, -2);
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         QRegExp rx(regexp);
         int count = 0;
         const QStringList result = dir.entryList(QDir::Files);
-        for (const QString &path : result) {
-            if (rx.exactMatch(path)) {
+        for (const QString &p: result) {
+            if (rx.exactMatch(p)) {
                 count++;
             }
         }
@@ -595,15 +595,15 @@ void ProjectSettings::slotExportToText()
     if (savePath.isEmpty()) {
         return;
     }
-    QString data;
-    data.append(i18n("Project folder: %1",  project_folder->url().toLocalFile()) + QLatin1Char('\n'));
-    data.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + QLatin1Char('\n'));
-    data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + QStringLiteral("\n\n"));
+    QString text;
+    text.append(i18n("Project folder: %1",  project_folder->url().toLocalFile()) + '\n');
+    text.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + '\n');
+    text.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() > 0) {
-            data.append(QLatin1Char('\n') + files_list->topLevelItem(i)->text(0) + QStringLiteral(":\n\n"));
+            text.append('\n' + files_list->topLevelItem(i)->text(0) + ":\n\n");
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
-                data.append(files_list->topLevelItem(i)->child(j)->text(0) + QLatin1Char('\n'));
+                text.append(files_list->topLevelItem(i)->child(j)->text(0) + '\n');
             }
         }
     }
@@ -616,7 +616,7 @@ void ProjectSettings::slotExportToText()
     if (!xmlf.open(QIODevice::WriteOnly)) {
         return;
     }
-    xmlf.write(data.toUtf8());
+    xmlf.write(text.toUtf8());
     if (xmlf.error() != QFile::NoError) {
         xmlf.close();
         return;

@@ -84,10 +84,10 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
         QMapIterator<QString, QString> i(profiles);
         while (i.hasNext()) {
             i.next();
-            QStringList data = i.value().split(QLatin1Char(';'));
-            profile_list->addItem(i.key(), data.at(0));
-            if (data.count() > 1) {
-                profile_list->setItemData(profile_list->count() - 1, data.at(1), Qt::UserRole + 1);
+            QStringList list = i.value().split(QLatin1Char(';'));
+            profile_list->addItem(i.key(), list.at(0));
+            if (list.count() > 1) {
+                profile_list->setItemData(profile_list->count() - 1, list.at(1), Qt::UserRole + 1);
             }
         }
         connect(profile_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateParams(int)));
@@ -188,8 +188,8 @@ void ClipTranscode::slotShowTranscodeInfo()
     QString log = QString::fromLatin1(m_transcodeProcess.readAll());
     if (m_duration == 0) {
         if (log.contains(QStringLiteral("Duration:"))) {
-            QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
-            QStringList numbers = data.split(QLatin1Char(':'));
+            QString duration = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+            QStringList numbers = duration.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
                 return;
             }

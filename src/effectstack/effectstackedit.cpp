@@ -181,12 +181,12 @@ MonitorSceneType EffectStackEdit::needsMonitorEffectScene() const
     return m_paramWidget->needsMonitorEffectScene();
 }
 
-void EffectStackEdit::setKeyframes(const QString &tag, const QString &data)
+void EffectStackEdit::setKeyframes(const QString &tag, const QString &keyframes)
 {
     if (!m_paramWidget) {
         return;
     }
-    m_paramWidget->setKeyframes(tag, data);
+    m_paramWidget->setKeyframes(tag, keyframes);
 }
 
 bool EffectStackEdit::doesAcceptDrops() const
@@ -197,16 +197,16 @@ bool EffectStackEdit::doesAcceptDrops() const
     return m_paramWidget->doesAcceptDrops();
 }
 
-void EffectStackEdit::importKeyframes(const QString &keyframes)
+void EffectStackEdit::importKeyframes(const QString &kf)
 {
-    QMap<QString, QString> data;
-    if (keyframes.contains(QLatin1Char('\n'))) {
-        const QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
+    QMap<QString, QString> keyframes;
+    if (kf.contains(QLatin1Char('\n'))) {
+        const QStringList params = kf.split(QLatin1Char('\n'), QString::SkipEmptyParts);
         for (const QString &param : params) {
-            data.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
+            keyframes.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
         }
     } else {
-        data.insert(keyframes.section(QLatin1Char('='), 0, 0), keyframes.section(QLatin1Char('='), 1));
+        keyframes.insert(kf.section(QLatin1Char('='), 0, 0), kf.section(QLatin1Char('='), 1));
     }
-    emit importClipKeyframes(TransitionWidget, data);
+    emit importClipKeyframes(TransitionWidget, keyframes);
 }

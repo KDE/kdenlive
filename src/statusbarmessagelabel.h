@@ -67,8 +67,8 @@ struct StatusBarMessageItem {
         return (type == MltError && !confirmed);
     }
 
-    StatusBarMessageItem(const QString &text = QString(), MessageType type = DefaultMessage, int timeoutMS = 0) :
-        text(text), type(type), timeoutMillis(timeoutMS), confirmed(false) {}
+    StatusBarMessageItem(const QString &messageText = QString(), MessageType messageType = DefaultMessage, int timeoutMS = 0) :
+        text(messageText), type(messageType), timeoutMillis(timeoutMS), confirmed(false) {}
 
     bool operator ==(const StatusBarMessageItem &other) const
     {

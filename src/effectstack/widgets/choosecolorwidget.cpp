@@ -30,7 +30,7 @@ static QColor stringToColor(QString strColor)
 {
     bool ok = false;
     QColor color("black");
-    int intval = 0;
+    uint intval = 0;
     if (strColor.startsWith(QLatin1String("0x"))) {
         if (strColor.length() == 10) {
             // 0xRRGGBBAA

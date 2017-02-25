@@ -251,7 +251,7 @@ void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &
     doc.appendChild(prod);
     prod.setAttribute(QStringLiteral("name"), titleName);
     prod.setAttribute(QStringLiteral("resource"), path.toLocalFile());
-    uint id = pCore->bin()->getFreeClipId();
+    int id = pCore->bin()->getFreeClipId();
     prod.setAttribute(QStringLiteral("id"), QString::number(id));
     if (!group.isEmpty()) {
         prod.setAttribute(QStringLiteral("groupname"), group);

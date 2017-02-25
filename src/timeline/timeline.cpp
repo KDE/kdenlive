@@ -1207,8 +1207,8 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
         //get effect parameters (prefixed by subfilter name)
         QDomNodeList params = subclipeffect.elementsByTagName(QStringLiteral("parameter"));
         ProfileInfo info = m_doc->getProfileInfo();
-        for (int i = 0; i < params.count(); ++i) {
-            QDomElement param = params.item(i).toElement();
+        for (int j = 0; j < params.count(); ++j) {
+            QDomElement param = params.item(j).toElement();
             setParam(info, param, effect->get((name + QLatin1Char('.') + param.attribute(QStringLiteral("name"))).toUtf8().constData()));
         }
         currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));

@@ -155,13 +155,13 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
             if (!values.isEmpty()) {
                 txtNeu << (int)values[0].toDouble();
             }
-            int i = 0;
-            for (i = 0; i < separators.size() && i + 1 < values.size(); ++i) {
-                txtNeu << separators[i];
-                txtNeu << (int)(values[i + 1].toDouble());
+            int j = 0;
+            for (j = 0; j < separators.size() && j + 1 < values.size(); ++j) {
+                txtNeu << separators[j];
+                txtNeu << (int)(values[j + 1].toDouble());
             }
-            if (i < separators.size()) {
-                txtNeu << separators[i];
+            if (j < separators.size()) {
+                txtNeu << separators[j];
             }
             map[name] = neu;
         }
@@ -462,8 +462,7 @@ Mlt::Transition *TransitionHandler::getTrackTransition(const QStringList &names,
             Mlt::Transition t((mlt_transition) service->get_service());
             int internal = t.get_int("internal_added");
             if (internal >= 200) {
-                QString service = t.get("mlt_service");
-                if (names.contains(service) && t.get_b_track() == b_track && (a_track == -1 || t.get_a_track() == a_track)) {
+                if (names.contains(t.get("mlt_service")) && t.get_b_track() == b_track && (a_track == -1 || t.get_a_track() == a_track)) {
                     return new Mlt::Transition(t);
                 }
             }
@@ -521,7 +520,6 @@ void TransitionHandler::enableMultiTrack(bool enable)
     field->lock();
     if (enable) {
         // disable track composition (frei0r.cairoblend)
-        QScopedPointer<Mlt::Field> field(m_tractor->field());
         mlt_service nextservice = mlt_service_get_producer(field->get_service());
         mlt_service_type type = mlt_service_identify(nextservice);
         while (type == transition_type) {
@@ -529,8 +527,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
             nextservice = mlt_service_producer(nextservice);
             int added = transition.get_int("internal_added");
             if (added == 237) {
-                QString mlt_service = transition.get("mlt_service");
-                if (compositeService.contains(mlt_service) && transition.get_int("disable") == 0) {
+                if (compositeService.contains(transition.get("mlt_service")) && transition.get_int("disable") == 0) {
                     transition.set("disable", 1);
                     transition.set("split_disable", 1);
                 }
@@ -574,7 +571,6 @@ void TransitionHandler::enableMultiTrack(bool enable)
             }
         }
     } else {
-        QScopedPointer<Mlt::Field> field(m_tractor->field());
         mlt_service nextservice = mlt_service_get_producer(field->get_service());
         mlt_service_type type = mlt_service_identify(nextservice);
         while (type == transition_type) {
@@ -585,8 +581,7 @@ void TransitionHandler::enableMultiTrack(bool enable)
                 field->disconnect_service(transition);
             } else if (added == 237) {
                 // re-enable track compositing
-                QString mlt_service = transition.get("mlt_service");
-                if (compositeService.contains(mlt_service) && transition.get_int("split_disable") == 1) {
+                if (compositeService.contains(transition.get("mlt_service")) && transition.get_int("split_disable") == 1) {
                     transition.set("disable", 0);
                     transition.set("split_disable", (char *) nullptr);
                 }
@@ -629,12 +624,12 @@ void TransitionHandler::rebuildTransitions(int mode, const QList<int> &videoTrac
             Mlt::Transition t((mlt_transition) service->get_service());
             int internal = t.get_int("internal_added");
             if (internal == 237) {
-                QString service = t.get("mlt_service");
-                if (service == QLatin1String("mix")) {
+                QString serviceName = t.get("mlt_service");
+                if (serviceName == QLatin1String("mix")) {
                     field->disconnect_service(t);
-                } else if (compositeService.contains(service)) {
+                } else if (compositeService.contains(serviceName)) {
                     if (mode < 0) {
-                        mode = service == QLatin1String("composite") ? 1 : 2;
+                        mode = serviceName == QLatin1String("composite") ? 1 : 2;
                     }
                     field->disconnect_service(t);
                 }

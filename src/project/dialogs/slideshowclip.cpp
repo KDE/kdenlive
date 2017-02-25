@@ -245,8 +245,8 @@ void SlideshowClip::parseFolder()
         result = dir.entryList(QDir::Files);
     } else {
         int offset = 0;
-        QString path = m_view.pattern_url->text();
-        QDir dir = QFileInfo(m_view.pattern_url->text()).absoluteDir();
+        path = m_view.pattern_url->text();
+        dir = QFileInfo(m_view.pattern_url->text()).absoluteDir();
         result = dir.entryList(QDir::Files);
         // find pattern
         if (path.contains(QLatin1Char('?'))) {
@@ -274,23 +274,24 @@ void SlideshowClip::parseFolder()
         QRegExp rx(regexp);
         QStringList entries;
         int ix;
-        foreach (const QString &path, result) {
-            if (rx.exactMatch(path)) {
+        foreach (const QString &p, result) {
+            if (rx.exactMatch(p)) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
-                    ix = path.section(filter, 1).section(QLatin1Char('.'), 0, 0).toInt();
+                    ix = p.section(filter, 1).section(QLatin1Char('.'), 0, 0).toInt();
+                    ix = p.section(filter, 1).section('.', 0, 0).toInt();
                     if (ix < offset) {
                         continue;
                     }
                 }
-                entries << path;
+                entries << p;
             }
         }
         result = entries;
     }
-    foreach (const QString &path, result) {
-        QListWidgetItem *item = new QListWidgetItem(unknownicon, path);
-        item->setData(Qt::UserRole, dir.filePath(path));
+    foreach (const QString &p, result) {
+        QListWidgetItem *item = new QListWidgetItem(unknownicon, p);
+        item->setData(Qt::UserRole, dir.filePath(p));
         m_view.icon_list->addItem(item);
     }
     m_count = m_view.icon_list->count();

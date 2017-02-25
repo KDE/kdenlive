@@ -30,9 +30,9 @@
 #include "kdenlive_debug.h"
 #include <math.h>
 
-Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, int height, QWidget *parent) :
+Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType trackType, int height, QWidget *parent) :
     effectsList(EffectsList(true)),
-    type(type),
+    type(trackType),
     trackHeader(nullptr),
     m_index(index),
     m_playlist(playlist)
@@ -646,10 +646,10 @@ void Track::updateClipProperties(const QString &id, const QMap<QString, QString>
         QString current = p->parent().get("id");
         QStringList processed;
         if (!processed.contains(current) && (current == idForTrack || current == idForAudioTrack || current == idForVideoTrack)) {
-            QMapIterator<QString, QString> i(properties);
-            while (i.hasNext()) {
-                i.next();
-                p->parent().set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+            QMapIterator<QString, QString> j(properties);
+            while (j.hasNext()) {
+                j.next();
+                p->parent().set(j.key().toUtf8().constData(), j.value().toUtf8().constData());
             }
             processed << current;
         }

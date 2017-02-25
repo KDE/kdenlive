@@ -124,7 +124,7 @@ bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
     bool success = doAddFilter(params, duration);
     // re-add following filters
     for (int i = 0; i < filtersList.count(); ++i) {
-        Mlt::Filter *filter = filtersList.at(i);
+        filter = filtersList.at(i);
         if (updateIndex) {
             filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
         }

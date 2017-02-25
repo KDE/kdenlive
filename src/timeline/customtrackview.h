@@ -399,7 +399,7 @@ public slots:
     void updateSnapPoints(AbstractClipItem *selected, QList<GenTime> offsetList = QList<GenTime> (), bool skipSelectedItems = false);
 
     void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
-    void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> data = QMap<QString, QString>());
+    void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> keyframes = QMap<QString, QString>());
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
@@ -521,7 +521,7 @@ private:
     ClipItem *m_audioAlignmentReference;
 
     void updatePositionEffects(ClipItem *item, const ItemInfo &info, bool standalone = true);
-    bool insertDropClips(const QMimeData *data, const QPoint &pos);
+    bool insertDropClips(const QMimeData *mimeData, const QPoint &pos);
     bool canBePastedTo(const QList<ItemInfo> &infoList, int type) const;
     bool canBePasted(const QList<AbstractClipItem *> &items, GenTime offset, int trackOffset, QList<AbstractClipItem *>excluded = QList<AbstractClipItem *>()) const;
     ClipItem *getClipUnderCursor() const;

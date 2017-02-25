@@ -65,12 +65,12 @@ private slots:
     void slotRenderPos(int pos);
     void slotSeekTimeline(int pos);
     void slotCheckMonitorPosition(int renderPos);
-    void prepareImportClipKeyframes(GraphicsRectItem, const QMap<QString, QString> &data);
+    void prepareImportClipKeyframes(GraphicsRectItem, const QMap<QString, QString> &keyframes);
 
 signals:
     void transitionUpdated(Transition *, const QDomElement &);
     void seekTimeline(int);
-    void importClipKeyframes(GraphicsRectItem, const ItemInfo &, const QDomElement &, const QMap<QString, QString> &data = QMap<QString, QString>());
+    void importClipKeyframes(GraphicsRectItem, const ItemInfo &, const QDomElement &, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
 };
 
 #endif

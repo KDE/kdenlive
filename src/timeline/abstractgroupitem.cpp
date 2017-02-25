@@ -339,7 +339,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         }
         if (!collidingItems.isEmpty()) {
             bool forwardMove = xpos > start.x();
-            int offset = 0;
+            offset = 0;
             for (int i = 0; i < collidingItems.count(); ++i) {
                 QGraphicsItem *collision = collidingItems.at(i);
                 if (collision->type() == AVWidget) {
@@ -399,7 +399,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             return newPos;
         } else {
             bool forwardMove = xpos > start.x();
-            int offset = 0;
+            offset = 0;
             for (int i = 0; i < collidingItems.count(); ++i) {
                 QGraphicsItem *collision = collidingItems.at(i);
                 if (collision->type() == TransitionWidget) {
