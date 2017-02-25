@@ -286,7 +286,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     QString ext = source.section(QLatin1Char('.'), -1);
     QString dest = source.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(zone.x()) + QLatin1Char('.') + ext;
 
-    if (originalFps == 0) {
+    if (originalFps < 1e-6) {
         originalFps = fps;
     }
     // if clip and project have different frame rate, adjust in and out

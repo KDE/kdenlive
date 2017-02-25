@@ -61,7 +61,7 @@ void ClipSpeed::slotUpdateSlider(double speed)
     m_view.speedSlider->blockSignals(true);
     m_view.speedSlider->setValue((int) speed);
     m_view.speedSlider->blockSignals(false);
-    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(speed != 0.0);
+    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(qAbs(speed) > 1e-6);
 }
 
 void ClipSpeed::slotUpdateSpeed(int speed)

@@ -63,7 +63,7 @@ void ProxyJob::startJob()
         } else {
             display_ratio = KdenliveDoc::getDisplayRatio(m_src);
         }
-        if (display_ratio == 0) {
+        if (display_ratio < 1e-6) {
             display_ratio = 1;
         }
 
