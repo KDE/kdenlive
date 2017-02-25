@@ -85,7 +85,7 @@ Column{
             fadeOut: 0 //model.fadeOut
             //hash: model.hash
             speed: 1 //model.speed
-            selected: trackRoot.isCurrentTrack && trackRoot.selection.indexOf(index) !== -1
+            selected: trackRoot.isCurrentTrack && trackRoot.selection.indexOf(clipId) !== -1
 
             onClicked: {
                 trackRoot.clipClicked(clip, trackRoot);
@@ -98,8 +98,8 @@ Column{
                 var origFrame = Math.round(clip.originalX / timeScale)
 
                 console.log("Asking move ",toTrack, cIndex, frame)
-                timeline.moveClip(clip.originalTrackId, cIndex, origFrame, false)
-                var val = timeline.moveClip(toTrack, cIndex, frame, true)
+                timeline.moveClip(cIndex, clip.originalTrackId, origFrame, false)
+                var val = timeline.moveClip(cIndex, toTrack, frame, true)
                 console.log("RESULT", val)
             }
             onDragged: {
@@ -108,10 +108,10 @@ Column{
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
 
-                frame = timeline.suggestClipMove(toTrack, cIndex, frame);
+                frame = timeline.suggestClipMove(cIndex, toTrack, frame);
 
                 //console.log("dragging clip x: ", clip.x, " ID: "<<clip.originalClipIndex)
-                if (!timeline.allowMoveClip(toTrack, cIndex, frame)) {
+                if (!timeline.allowMoveClip(cIndex, toTrack, frame)) {
                     // Abort move
                     clip.x = clip.draggedX
                 } else {

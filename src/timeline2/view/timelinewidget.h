@@ -31,9 +31,17 @@ class BinController;
 class TimelineWidget : public QQuickWidget
 {
     Q_OBJECT
+    /* @brief holds a list of currently selected clips (list of clipId's)
+     */
     Q_PROPERTY(QList<int> selection READ selection WRITE setSelection NOTIFY selectionChanged)
+    /* @brief holds the timeline zoom factor
+     */
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
+    /* @brief holds the current project duration
+     */
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
+    /* @brief holds the current timeline position
+     */
     Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
@@ -41,29 +49,90 @@ class TimelineWidget : public QQuickWidget
 
 public:
     TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
+    /* @brief Sets the list of currently selected clips
+       @param selection is the list of id's
+       @param trackIndex is current clip's track
+       @param isMultitrack is true if we want to select the whole tractor (currently unused)
+     */
     void setSelection(QList<int> selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
+    /* @brief Get the list of currenly selected clip id's
+     */
     QList<int> selection() const;
     Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }
     Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
+    /* @brief returns current timeline's zoom factor
+     */
     Q_INVOKABLE double scaleFactor() const;
+    /* @brief set current timeline's zoom factor
+     */
     Q_INVOKABLE void setScaleFactor(double scale);
-    Q_INVOKABLE bool moveClip(int toTrack, int clipIndex, int position, bool logUndo = true);
-    Q_INVOKABLE bool allowMoveClip(int toTrack, int clipIndex, int position);
-    Q_INVOKABLE int suggestClipMove(int toTrack, int clipIndex, int position);
-    Q_INVOKABLE bool trimClip(int clipIndex, int delta, bool right, bool logUndo = true);
-    Q_INVOKABLE bool resizeClip(int clipIndex, int duration, bool right, bool logUndo = true);
+    /* @brief requests a clip move
+       @param cid is the clip's id
+       @param tid is the destination track
+       @param position is the requested position on track
+       @param logUndo is true if the operation should be stored in the undo stack
+     */
+    Q_INVOKABLE bool moveClip(int cid, int tid, int position, bool logUndo = true);
+    /* @brief Ask if a clip move should be allowed (enough blank space on track)
+       @param cid is the clip's id
+       @param tid is the destination track
+       @param position is the requested position on track
+     */
+    Q_INVOKABLE bool allowMoveClip(int cid, int tid, int position);
+        /* @brief Ask if a clip move should be allowed (enough blank space on track), without using clip id
+       @param tid is the destination track
+       @param position is the requested position on track
+       @param duration is the clip's duration
+     */
+    Q_INVOKABLE bool allowMove(int tid, int position, int duration);
+    /* @brief Request best appropriate move (accounting snap / other clips)
+       @param cid is the clip's id
+       @param tid is the destination track
+       @param position is the requested position on track
+     */
+    Q_INVOKABLE int suggestClipMove(int cid, int tid, int position);
+    /* @brief Request a clip resize based on a length offset
+       @param cid is the clip's id
+       @param delta is the offset compared to original length
+       @param right is true if resizing the end of the clip (false when resizing start)
+       @param logUndo is true if the operation should be stored in the undo stack
+     */
+    Q_INVOKABLE bool trimClip(int cid, int delta, bool right, bool logUndo = true);
+    /* @brief Request a clip resize
+       @param cid is the clip's id
+       @param duration is the new clip's duration
+       @param right is true if resizing the end of the clip (false when resizing start)
+       @param logUndo is true if the operation should be stored in the undo stack
+     */
+    Q_INVOKABLE bool resizeClip(int cid, int duration, bool right, bool logUndo = true);
+    /* @brief Returns the project's duration (tractor)
+     */
     Q_INVOKABLE int duration() const;
+    /* @brief Returns the current cursor position (frame currently displayed by MLT)
+     */
     Q_INVOKABLE int position() const { return m_position; }
-    Q_INVOKABLE void setPosition(int);
+    /* @brief Request a seek operation
+       @param position is the desired new timeline position
+     */
+    Q_INVOKABLE void setPosition(int position);
     Q_INVOKABLE bool snap();
     Q_INVOKABLE bool ripple();
     Q_INVOKABLE bool scrub();
     Q_INVOKABLE QString timecode(int frames);
-    Q_INVOKABLE void insertClip(int track, int position, QString xml);
-    Q_INVOKABLE bool availableSpace(int trackId, int pos, int duration);
+    /* @brief Request inserting a new clip in timeline (dragged from bin or monitor)
+       @param tid is the destination track
+       @param position is the timeline position
+       @param xml is the data describing the dropped clip
+     */
+    Q_INVOKABLE void insertClip(int tid, int position, QString xml);
+    /* @brief Returns the current tractor's producer, useful fo control seeking, playing, etc
+     */
     Mlt::Producer *producer();
-
+    /* @brief Load a new project from a tractor
+     */
     void buildFromMelt(Mlt::Tractor tractor);
+    /* @brief Define the undo stack for this timeline
+     */
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -104,7 +173,13 @@ signals:
     void scrubChanged();
     void seeked(int position);
     void focusProjectMonitor();
+    /* @brief Requests a zoom in for timeline
+       @param zoomOnMouse is set to true if we want to center zoom on mouse, otherwise we center on timeline cursor position
+     */
     void zoomIn(bool zoomOnMouse);
+    /* @brief Requests a zoom out for timeline
+       @param zoomOnMouse is set to true if we want to center zoom on mouse, otherwise we center on timeline cursor position
+     */
     void zoomOut(bool zoomOnMouse);
 };
 

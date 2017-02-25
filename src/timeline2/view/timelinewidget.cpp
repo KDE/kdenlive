@@ -49,6 +49,7 @@ TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUn
 
 void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool isMultitrack)
 {
+    qDebug()<<"* * *SETTING DELECTION: "<<newSelection;
     if (newSelection != selection()
             || trackIndex != m_selection.selectedTrack
             || isMultitrack != m_selection.isMultitrackSelected) {
@@ -145,35 +146,40 @@ bool TimelineWidget::scrub()
     return false;
 }
 
-bool TimelineWidget::moveClip(int toTrack, int clipIndex, int position, bool logUndo)
+bool TimelineWidget::moveClip(int cid, int tid, int position, bool logUndo)
 {
-    return m_model->requestClipMove(clipIndex, toTrack, position, logUndo, logUndo);
+    return m_model->requestClipMove(cid, tid, position, logUndo, logUndo);
 }
 
-bool TimelineWidget::allowMoveClip(int toTrack, int clipIndex, int position)
+bool TimelineWidget::allowMoveClip(int cid, int tid, int position)
 {
-    return m_model->requestClipMove(clipIndex, toTrack, position, false, false);
+    return m_model->requestClipMove(cid, tid, position, false, false);
 }
 
-int TimelineWidget::suggestClipMove(int toTrack, int clipIndex, int position)
+bool TimelineWidget::allowMove(int tid, int position, int duration)
 {
-    return m_model->suggestClipMove(clipIndex,toTrack,  position);
-}
-bool TimelineWidget::trimClip(int clipIndex, int delta, bool right, bool logUndo)
-{
-    return m_model->requestClipTrim(clipIndex, delta, right, false, logUndo);
+    return m_model->availableSpace(tid, position, duration);
 }
 
-bool TimelineWidget::resizeClip(int clipIndex, int duration, bool right, bool logUndo)
+int TimelineWidget::suggestClipMove(int cid, int tid, int position)
 {
-    return m_model->requestClipResize(clipIndex, duration, right, logUndo, true);
+    return m_model->suggestClipMove(cid, tid, position);
+}
+bool TimelineWidget::trimClip(int cid, int delta, bool right, bool logUndo)
+{
+    return m_model->requestClipTrim(cid, delta, right, false, logUndo);
 }
 
-void TimelineWidget::insertClip(int track, int position, QString data_str)
+bool TimelineWidget::resizeClip(int cid, int duration, bool right, bool logUndo)
+{
+    return m_model->requestClipResize(cid, duration, right, logUndo, true);
+}
+
+void TimelineWidget::insertClip(int tid, int position, QString data_str)
 {
     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(m_binController->getBinProducer(data_str));
     int id;
-    m_model->requestClipInsertion(prod, track, position, id);
+    m_model->requestClipInsertion(prod, tid, position, id);
 }
 
 
@@ -235,7 +241,3 @@ void TimelineWidget::wheelEvent(QWheelEvent *event)
     }
 }
 
-bool TimelineWidget::availableSpace(int trackId, int pos, int duration)
-{
-    return m_model->availableSpace(trackId, pos, duration);
-}

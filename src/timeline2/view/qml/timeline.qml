@@ -376,7 +376,7 @@ Rectangle {
             selection: timeline.selection
             onClipClicked: {
                 currentTrack = track.DelegateModel.itemsIndex
-                timeline.selection = [ clip.DelegateModel.itemsIndex ];
+                timeline.selection = [ clip.clipId ];
                 root.clipClicked()
             }
             onClipDragged: {
@@ -415,7 +415,7 @@ Rectangle {
                 var frame = Math.round(clip.x / timeScale)
                 if (i >= 0  && i < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(i)
-                    if (timeline.allowMoveClip(track.trackId, clip.clipId, frame)) {
+                    if (timeline.allowMoveClip(clip.clipId, track.trackId, frame)) {
                         clip.reparent(track)
                         clip.trackIndex = track.DelegateModel.itemsIndex
                         clip.trackId = track.trackId
