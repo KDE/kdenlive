@@ -189,7 +189,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                             int errorPos = 0;
                             line--;
                             col = col - 2;
-                            for (int j = 0; j < line && errorPos < playlist.length(); ++j) {
+                            for (int k = 0; k < line && errorPos < playlist.length(); ++k) {
                                 errorPos = playlist.indexOf(QLatin1Char('\n'), errorPos);
                                 errorPos++;
                             }
@@ -439,7 +439,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     // The lower video track will receive composite transitions
     int lowestVideoTrack = -1;
     for (int i = 0; i < total; ++i) {
-        QDomElement playlist = doc.createElement(QStringLiteral("playlist"));
+        playlist = doc.createElement(QStringLiteral("playlist"));
         playlist.setAttribute(QStringLiteral("id"), QStringLiteral("playlist") + QString::number(i + 1));
         playlist.setAttribute(QStringLiteral("kdenlive:track_name"), tracks.at(i).trackName);
         if (tracks.at(i).type == AudioTrack) {
@@ -479,7 +479,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
             QDomElement transition = doc.createElement(QStringLiteral("transition"));
             transition.setAttribute(QStringLiteral("always_active"), QStringLiteral("1"));
 
-            QDomElement property = doc.createElement(QStringLiteral("property"));
+            property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
             value = doc.createTextNode(QStringLiteral("mix"));
             property.appendChild(value);
@@ -487,7 +487,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
 
             property = doc.createElement(QStringLiteral("property"));
             property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-            QDomText value = doc.createTextNode(QStringLiteral("0"));
+            value = doc.createTextNode(QStringLiteral("0"));
             property.appendChild(value);
             transition.appendChild(property);
 
@@ -1521,7 +1521,7 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
         return;
     }
     emit updateFps(fpsChanged);
-    if (fpsChanged != 1.0) {
+    if (qAbs(fpsChanged - 1.0) > 1e-6) {
         pCore->bin()->reloadAllProducers();
     }
 }
@@ -1605,34 +1605,22 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
         QString adjustMessage;
         double fps = (double)profile.frame_rate_num / profile.frame_rate_den;
-        double fps_int;
-        double fps_frac = std::modf(fps, &fps_int);
-        if (fps_frac < 0.4) {
-            profile.frame_rate_num = (int) fps_int;
+        if (fps - ((int)fps) < 0.4) {
+            profile.frame_rate_num = fps;
             profile.frame_rate_den = 1;
+        } else if (qAbs(fps - 23.98) < 0.01) {
+            profile.frame_rate_num = 24000;
+            profile.frame_rate_den = 1001;
+        } else if (qAbs(fps - 29.97) < 0.01) {
+            profile.frame_rate_num = 30000;
+            profile.frame_rate_den = 1001;
+        } else if (qAbs(fps - 59.94) < 0.01) {
+            profile.frame_rate_num = 60000;
+            profile.frame_rate_den = 1001;
         } else {
-            // Check for 23.98, 29.97, 59.94
-            if (fps_int == 23.0) {
-                if (qAbs(fps - 23.98) < 0.01) {
-                    profile.frame_rate_num = 24000;
-                    profile.frame_rate_den = 1001;
-                }
-            } else if (fps_int == 29.0) {
-                if (qAbs(fps - 29.97) < 0.01) {
-                    profile.frame_rate_num = 30000;
-                    profile.frame_rate_den = 1001;
-                }
-            } else if (fps_int == 59.0) {
-                if (qAbs(fps - 59.94) < 0.01) {
-                    profile.frame_rate_num = 60000;
-                    profile.frame_rate_den = 1001;
-                }
-            } else {
-                // Unknown profile fps, warn user
-                adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
-            }
+            adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
         }
-        if ((double)profile.frame_rate_num / profile.frame_rate_den != fps) {
+        if (qAbs((double)profile.frame_rate_num / profile.frame_rate_den - fps) > 0.01) {
             adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
         }
         if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile.width, profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2), adjustMessage)) == KMessageBox::Continue) {
