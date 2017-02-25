@@ -308,7 +308,7 @@ bool DocumentChecker::hasErrorInClips()
         ClipType type;
         int status = CLIPMISSING;
 	const QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
-        QString resource = service == QLatin1String("timewarp") ? EffectsList::property(e, QStringLiteral("warp_resource")) : EffectsList::property(e, QStringLiteral("resource"));
+        resource = service == QLatin1String("timewarp") ? EffectsList::property(e, QStringLiteral("warp_resource")) : EffectsList::property(e, QStringLiteral("resource"));
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
 	if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") || service == QLatin1String("timewarp")) {
 	    clipType = i18n("Video clip");
@@ -381,9 +381,8 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, statusRole, CLIPPLACEHOLDER);
         item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
         item->setToolTip(1, e.attribute(QStringLiteral("name")));
-        QString ft = e.attribute(QStringLiteral("resource"));
-        QString newft = QFontInfo(QFont(ft)).family();
-        item->setText(1, i18n("%1 will be replaced by %2", ft, newft));
+        QString newft = QFontInfo(QFont(font)).family();
+        item->setText(1, i18n("%1 will be replaced by %2", font, newft));
         item->setData(0, typeRole, CLIPMISSING);
     }
 
@@ -443,7 +442,7 @@ bool DocumentChecker::hasErrorInClips()
             if (parentId == id) {
                 // Hit, we must replace url
                 QString suffix;
-                QString resource = EffectsList::property(mltProd, QStringLiteral("resource"));
+                resource = EffectsList::property(mltProd, QStringLiteral("resource"));
                 if (slowmotion) {
                     suffix = QLatin1Char('?') + resource.section(QLatin1Char('?'), -1);
                 }
