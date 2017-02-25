@@ -53,7 +53,7 @@ Rectangle {
         onEntered: {
             if (drag.formats.indexOf('kdenlive/producerslist') >= 0) {
                 track = Logic.getTrackFromPos(drag.y)
-                if (track >= 0 && timeline.availableSpace(track, drag.x / timeline.scaleFactor, drag.text)) {
+                if (track >= 0 && timeline.allowMove(track, drag.x / timeline.scaleFactor, drag.text)) {
                     drag.acceptProposedAction()
                 } else {
                     drag.accepted = false
