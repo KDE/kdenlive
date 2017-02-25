@@ -30,6 +30,8 @@
 
 const int TimelineWidget::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
+int TimelineWidget::m_duration = 0;
+
 TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
     , m_model(TimelineItemModel::construct(binController->profile(), undoStack, true))
@@ -42,9 +44,15 @@ TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUn
     rootContext()->setContextProperty("multitrack", &*m_model);
     rootContext()->setContextProperty("timeline", this);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
-    Mlt::Producer service(m_model->tractor()->parent().get_producer());
-    updateDuration();
+    m_model->tractor()->listen("producer-changed", this, (mlt_listener) tractorChanged);
     //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
+}
+
+void TimelineWidget::tractorChanged(mlt_multitrack mtk, void *self)
+{
+    TimelineWidget *me = (TimelineWidget*) (self);
+    if (me)
+        me->checkDuration();
 }
 
 void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool isMultitrack)
@@ -79,12 +87,16 @@ void TimelineWidget::setScaleFactor(double scale)
 
 int TimelineWidget::duration() const
 {
-    return m_model->duration();
+    return m_duration;
 }
 
-void TimelineWidget::updateDuration()
+void TimelineWidget::checkDuration()
 {
-    rootObject()->setProperty("duration", m_model->duration() * scaleFactor());
+    int currentLength = m_model->duration();
+    if (currentLength != m_duration) {
+        m_duration = currentLength;
+        emit durationChanged();
+    }
 }
 
 QList<int> TimelineWidget::selection() const

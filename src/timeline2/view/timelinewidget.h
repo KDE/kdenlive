@@ -134,6 +134,7 @@ public:
     /* @brief Define the undo stack for this timeline
      */
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
+
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -142,9 +143,6 @@ public slots:
     void selectMultitrack();
     void onSeeked(int position);
     void slotChangeZoom(int value, bool zoomOnMouse);
-
-private slots:
-    void updateDuration();
 
 private:
     std::shared_ptr<TimelineItemModel> m_model;
@@ -159,7 +157,10 @@ private:
     Selection m_selection;
     Selection m_savedSelection;
     static const int comboScale[];
+    static int m_duration;
     void emitSelectedFromSelection();
+    void checkDuration();
+    static void tractorChanged(mlt_multitrack mtk, void *self);
 
 signals:
     void selectionChanged();

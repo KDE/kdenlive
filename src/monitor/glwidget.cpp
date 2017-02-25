@@ -1560,3 +1560,46 @@ void GLWidget::refreshSceneLayout()
     rootObject()->setProperty("scalex", (double) m_rect.width() / m_monitorProfile->width() * m_zoom);
     rootObject()->setProperty("scaley", (double) m_rect.width() / (((double) m_monitorProfile->height() * m_monitorProfile->dar() / m_monitorProfile->width())) / m_monitorProfile->width() * m_zoom);
 }
+
+void GLWidget::switchPlay(bool play, double speed)
+{
+    //QMutexLocker locker(&m_mutex);
+    m_requestedSeekPosition = SEEK_INACTIVE;
+    if (!m_producer || !m_consumer) {
+        return;
+    }
+    /*if (m_isZoneMode) {
+        resetZoneMode();
+    }*/
+    if (play) {
+        double currentSpeed = m_producer->get_speed();
+        /*if (m_name == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out()) {
+            m_producer->seek(0);
+        }*/
+        if (m_consumer->get_int("real_time") != realTime()) {
+            m_consumer->set("real_time", realTime());
+            m_consumer->set("buffer", 25);
+            m_consumer->set("prefill", 1);
+            // Changes to real_time require a consumer restart if running.
+            if (!m_consumer->is_stopped()) {
+                m_consumer->stop();
+            }
+        }
+        if (currentSpeed == 0) {
+            m_consumer->start();
+            m_consumer->set("refresh", 1);
+        } else {
+            m_consumer->purge();
+        }
+        m_producer->set_speed(speed);
+    } else {
+        m_consumer->set("refresh", 0);
+        m_consumer->purge();
+        m_producer->set_speed(0.0);
+        m_consumer->stop();
+        m_consumer->set("buffer", 0);
+        m_consumer->set("prefill", 0);
+        m_consumer->set("real_time", -1);
+        m_producer->seek(m_consumer->position() + 1);
+    }
+}

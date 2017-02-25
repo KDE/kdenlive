@@ -598,13 +598,18 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->setDuration(m_trackView->duration());
 
     pCore->window()->slotGotProgressInfo(QString(), 100);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_trackView->duration() - 1);
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_timelineWidget->duration() - 1);
     if (openBackup) {
         slotOpenBackup(url);
     }
     m_lastSave.start();
     delete m_progressDialog;
     m_progressDialog = nullptr;
+}
+
+void ProjectManager::adjustProjectDuration()
+{
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_timelineWidget->duration() - 1);
 }
 
 void ProjectManager::slotRevert()
@@ -857,6 +862,7 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
         pCore->monitorManager()->projectMonitor()->setProducer(m_timelineWidget->producer());
         connect(m_timelineWidget, &TimelineWidget::zoomIn, pCore->window(), &MainWindow::slotZoomIn);
         connect(m_timelineWidget, &TimelineWidget::zoomOut, pCore->window(), &MainWindow::slotZoomOut);
+        connect(m_timelineWidget, &TimelineWidget::durationChanged, this, &ProjectManager::adjustProjectDuration);
     }
     qDebug() << "FILLING TIMELINEWIDGET";
     m_timelineWidget->buildFromMelt(tractor);

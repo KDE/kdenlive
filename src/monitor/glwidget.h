@@ -129,6 +129,7 @@ public slots:
     void slotZoomScene(double value);
     void initializeGL();
     void releaseAnalyse();
+    void switchPlay(bool play, double speed = 1.0);
 
 signals:
     void frameDisplayed(const SharedFrame &frame);

@@ -38,7 +38,7 @@ Rectangle {
     property alias trackCount: tracksRepeater.count
     property bool stopScrolling: false
     property int seekPos: 0
-    property int duration: 0
+    property int duration: timeline.duration
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
     //property alias ripple: toolbar.ripple
 
@@ -369,7 +369,7 @@ Rectangle {
             rootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
             timeScale: timeline.scaleFactor
-            width: timeline.duration * timeScale
+            width: root.duration * timeScale
             isAudio: audio
             isCurrentTrack: currentTrack === index
             trackId: item

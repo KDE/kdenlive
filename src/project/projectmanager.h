@@ -133,6 +133,8 @@ private slots:
     /** @brief Report progress of folder move operation. */
     void slotMoveProgress(KJob *, unsigned long progress);
     void slotMoveFinished(KJob *job);
+    /** @brief Project's duration changed, adjust monitor, etc. */
+    void adjustProjectDuration();
 
 signals:
     void docOpened(KdenliveDoc *document);

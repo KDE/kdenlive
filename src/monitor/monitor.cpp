@@ -1193,7 +1193,7 @@ void Monitor::slotRewind(double speed)
                 speed = -8;
             }
     }
-    render->switchPlay(true, speed);
+    m_glMonitor->switchPlay(true, speed);
     m_playAction->setActive(true);
 }
 
@@ -1218,7 +1218,7 @@ void Monitor::slotForward(double speed)
                 speed = 8;
             }
     }
-    render->switchPlay(true, speed);
+    m_glMonitor->switchPlay(true, speed);
     m_playAction->setActive(true);
 }
 
@@ -1321,37 +1321,31 @@ void Monitor::refreshMonitorIfActive()
 
 void Monitor::pause()
 {
-    if (!m_playAction->isActive() || render == nullptr) {
+    if (!m_playAction->isActive()) {
         return;
     }
     slotActivateMonitor();
-    render->switchPlay(false);
+    m_glMonitor->switchPlay(false);
     m_playAction->setActive(false);
 }
 
 void Monitor::switchPlay(bool play)
 {
     m_playAction->setActive(play);
-    render->switchPlay(play);
+    m_glMonitor->switchPlay(play);
 }
 
 void Monitor::slotSwitchPlay()
 {
-    if (render == nullptr) {
-        return;
-    }
     slotActivateMonitor();
-    render->switchPlay(m_playAction->isActive());
+    m_glMonitor->switchPlay(m_playAction->isActive());
 }
 
 void Monitor::slotPlay()
 {
-    if (render == nullptr) {
-        return;
-    }
     slotActivateMonitor();
     m_playAction->setActive(!m_playAction->isActive());
-    render->switchPlay(m_playAction->isActive());
+    m_glMonitor->switchPlay(m_playAction->isActive());
     m_ruler->refreshRuler();
 }
 
