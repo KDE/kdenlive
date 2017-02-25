@@ -302,6 +302,195 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
     }
 }
 
+/**
+ * @class BinItemDelegate
+ * @brief This class is responsible for drawing items in the QTreeView.
+ */
+
+class BinItemDelegate: public QStyledItemDelegate
+{
+public:
+    explicit BinItemDelegate(QObject *parent = nullptr): QStyledItemDelegate(parent)
+    {
+    }
+
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
+        if (index.column() != 0) {
+            return QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+        }
+        QStyleOptionViewItem opt = option;
+        initStyleOption(&opt, index);
+        QRect r1 = option.rect;
+        QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+        int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        double factor = (double) opt.decorationSize.height() / r1.height();
+        int decoWidth = 2 * textMargin;
+        int mid = 0;
+        if (factor > 0) {
+            decoWidth += opt.decorationSize.width() / factor;
+        }
+        if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
+            mid = (int)((r1.height() / 2));
+        }
+        r1.adjust(decoWidth, 0, 0, -mid);
+        QFont ft = option.font;
+        ft.setBold(true);
+        QFontMetricsF fm(ft);
+        QRect r2 = fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString()).toRect();
+        editor->setGeometry(r2);
+    }
+
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
+        QSize hint = QStyledItemDelegate::sizeHint(option, index);
+        QString text = index.data(AbstractProjectItem::DataName).toString();
+        QRectF r = option.rect;
+        QFont ft = option.font;
+        ft.setBold(true);
+        QFontMetricsF fm(ft);
+        QStyle *style = option.widget ? option.widget->style() : QApplication::style();
+        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+        int width = fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin;
+        hint.setWidth(width);
+        int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        if (type == AbstractProjectItem::FolderItem || type == AbstractProjectItem::FolderUpItem) {
+            return QSize(hint.width(), qMin(option.fontMetrics.lineSpacing() + 4, hint.height()));
+        }
+        if (type == AbstractProjectItem::ClipItem) {
+            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
+        }
+        if (type == AbstractProjectItem::SubClipItem) {
+            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMin(hint.height(), (int)(option.decorationSize.height() / 1.5))));
+        }
+        QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
+        QString line1 = index.data(Qt::DisplayRole).toString();
+        QString line2 = index.data(Qt::UserRole).toString();
+
+        int textW = qMax(option.fontMetrics.width(line1), option.fontMetrics.width(line2));
+        QSize iconSize = icon.actualSize(option.decorationSize);
+        return QSize(qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4);
+    }
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    {
+        if (index.column() == 0 && !index.data().isNull()) {
+            QRect r1 = option.rect;
+            painter->save();
+            painter->setClipRect(r1);
+            QStyleOptionViewItem opt(option);
+            initStyleOption(&opt, index);
+            int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+            //QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
+
+            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+            if (option.state & QStyle::State_Selected) {
+                painter->setPen(option.palette.highlightedText().color());
+            } else {
+                painter->setPen(option.palette.text().color());
+            }
+            QRect r = r1;
+            QFont font = painter->font();
+            font.setBold(true);
+            painter->setFont(font);
+            if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
+                double factor = (double) opt.decorationSize.height() / r1.height();
+                int decoWidth = 2 * textMargin;
+                if (factor > 0) {
+                    r.setWidth(opt.decorationSize.width() / factor);
+                    // Draw thumbnail
+                    opt.icon.paint(painter, r);
+                    decoWidth += r.width();
+                }
+                int mid = (int)((r1.height() / 2));
+                r1.adjust(decoWidth, 0, 0, -mid);
+                QRect r2 = option.rect;
+                r2.adjust(decoWidth, mid, 0, 0);
+                QRectF bounding;
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
+                font.setBold(false);
+                painter->setFont(font);
+                QString subText = index.data(AbstractProjectItem::DataDuration).toString();
+                if (!subText.isEmpty()) {
+                    r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
+                    QColor subTextColor = painter->pen().color();
+                    subTextColor.setAlphaF(.5);
+                    painter->setPen(subTextColor);
+                    painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
+                    // Draw usage counter
+                    int usage = index.data(AbstractProjectItem::UsageCount).toInt();
+                    if (usage > 0) {
+                        bounding.moveLeft(bounding.right() + (2 * textMargin));
+                        QString us = QString().sprintf("[%d]", usage);
+                        painter->drawText(bounding, Qt::AlignLeft | Qt::AlignTop, us, &bounding);
+                    }
+                }
+                if (type == AbstractProjectItem::ClipItem) {
+                    // Overlay icon if necessary
+                    QVariant v = index.data(AbstractProjectItem::IconOverlay);
+                    if (!v.isNull()) {
+                        QIcon reload = QIcon::fromTheme(v.toString());
+                        r.setTop(r.bottom() - bounding.height());
+                        r.setWidth(bounding.height());
+                        reload.paint(painter, r);
+                    }
+
+                    int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
+                    if (jobProgress > 0 || jobProgress == JobWaiting) {
+                        // Draw job progress bar
+                        int progressWidth = option.fontMetrics.averageCharWidth() * 8;
+                        int progressHeight = option.fontMetrics.ascent() / 4;
+                        QRect progress(r1.x() + 1, opt.rect.bottom() - progressHeight - 2, progressWidth, progressHeight);
+                        painter->setPen(Qt::NoPen);
+                        painter->setBrush(Qt::darkGray);
+                        if (jobProgress > 0) {
+                            painter->drawRoundedRect(progress, 2, 2);
+                            painter->setBrush(option.state & QStyle::State_Selected ? option.palette.text() : option.palette.highlight());
+                            progress.setWidth((progressWidth - 2) * jobProgress / 100);
+                            painter->drawRoundedRect(progress, 2, 2);
+                        } else if (jobProgress == JobWaiting) {
+                            // Draw kind of a pause icon
+                            progress.setWidth(3);
+                            painter->drawRect(progress);
+                            progress.moveLeft(progress.right() + 3);
+                            painter->drawRect(progress);
+                        }
+                    } else if (jobProgress == JobCrashed) {
+                        QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
+                        if (!jobText.isEmpty()) {
+                            QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                            painter->setPen(Qt::NoPen);
+                            painter->setBrush(option.palette.highlight());
+                            painter->drawRoundedRect(txtBounding, 2, 2);
+                            painter->setPen(option.palette.highlightedText().color());
+                            painter->drawText(txtBounding, Qt::AlignCenter, jobText);
+                        }
+                    }
+                }
+            } else {
+                // Folder or Folder Up items
+                double factor = (double) opt.decorationSize.height() / r1.height();
+                int decoWidth = 2 * textMargin;
+                if (factor > 0) {
+                    r.setWidth(opt.decorationSize.width() / factor);
+                    // Draw thumbnail
+                    opt.icon.paint(painter, r);
+                    decoWidth += r.width();
+                }
+                r1.adjust(decoWidth, 0, 0, 0);
+                QRectF bounding;
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
+            }
+            painter->restore();
+        } else {
+            QStyledItemDelegate::paint(painter, option, index);
+        }
+    }
+};
+
 LineEventEater::LineEventEater(QObject *parent) : QObject(parent)
 {
 }
