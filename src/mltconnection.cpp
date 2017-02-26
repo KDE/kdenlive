@@ -62,15 +62,13 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 
     if (meltPath.isEmpty()) {
         // Cannot find the MLT melt renderer, ask for location
-        QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl(),
-                i18n("Cannot find the melt program required for rendering (part of MLT)"),
-                pCore->window());
+        QScopedPointer<KUrlRequesterDialog> getUrl(new KUrlRequesterDialog(QUrl(),
+                                                                     i18n("Cannot find the melt program required for rendering (part of MLT)"),
+                                                                     pCore->window()));
         if (getUrl->exec() == QDialog::Rejected) {
-            delete getUrl;
             ::exit(0);
         } else {
             meltPath = getUrl->selectedUrl().toLocalFile();
-            delete getUrl;
             if (meltPath.isEmpty()) {
                 ::exit(0);
             } else {
@@ -102,16 +100,14 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         }
         if (profilesList.isEmpty()) {
             // Cannot find the MLT profiles, ask for location
-            QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl::fromLocalFile(profilePath),
-                                                                           i18n("Cannot find your MLT profiles, please give the path"),
-                                                                           pCore->window());
+            QScopedPointer<KUrlRequesterDialog> getUrl(new KUrlRequesterDialog(QUrl::fromLocalFile(profilePath),
+                                                                               i18n("Cannot find your MLT profiles, please give the path"),
+                                                                               pCore->window()));
             getUrl->urlRequester()->setMode(KFile::Directory);
             if (getUrl->exec() == QDialog::Rejected) {
-                delete getUrl;
                 ::exit(0);
             } else {
                 profilePath = getUrl->selectedUrl().toLocalFile();
-                delete getUrl;
                 if (mltPath.isEmpty()) {
                     ::exit(0);
                 } else {
