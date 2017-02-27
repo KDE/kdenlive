@@ -40,7 +40,6 @@ class Profile;
  * @class BinController
  * @brief This is where MLT's project clips (the bin clips) are managed
  *
- * This is also where the Mlt::Factory is first initialized.
  * The project profile, used to build the monitors renderers is stored here
  */
 
@@ -141,9 +140,6 @@ public:
     /** @brief A Bin clip effect was changed, update track producers */
     void updateTrackProducer(const QString &id);
 
-    /** @brief Returns MLT's Repository data */
-    Mlt::Repository *mltRepository();
-
     /** @brief Load thumbnails for all producers */
     void checkThumbnails(const QDir &thumbFolder);
 
@@ -181,9 +177,6 @@ private:
 
     /** @brief The current MLT profile's filename */
     QString m_activeProfile;
-
-    /** @brief The MLT repository, useful for filter/producer requests */
-    Mlt::Repository *m_repository;
 
     /** @brief Can be used to copy filters from a clip to another */
     void duplicateFilters(Mlt::Producer original, Mlt::Producer clone);

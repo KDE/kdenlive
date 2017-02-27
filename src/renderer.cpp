@@ -34,6 +34,7 @@
 #include "monitor/glwidget.h"
 #include "mltcontroller/clipcontroller.h"
 #include "timeline/transitionhandler.h"
+#include "core.h"
 #include <mlt++/Mlt.h>
 
 #include "kdenlive_debug.h"
@@ -1631,7 +1632,7 @@ bool Render::checkX11Grab()
 double Render::getMltVersionInfo(const QString &tag)
 {
     double version = 0;
-    Mlt::Properties *metadata = m_binController->mltRepository()->metadata(producer_type, tag.toUtf8().data());
+    Mlt::Properties *metadata = pCore->getMltRepository()->metadata(producer_type, tag.toUtf8().data());
     if (metadata && metadata->is_valid()) {
         version = metadata->get_double("version");
     }

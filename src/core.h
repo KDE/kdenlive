@@ -25,6 +25,11 @@ class LibraryWidget;
 class ProducerQueue;
 class MltConnection;
 
+namespace Mlt
+{
+    class Repository;
+}
+
 #define EXIT_RESTART (42)
 #define pCore Core::self()
 
@@ -77,6 +82,9 @@ public:
     ProducerQueue *producerQueue();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
+
+    /** @brief Returns a pointer to MLT's repository */
+    std::unique_ptr<Mlt::Repository>& getMltRepository();
 
 private:
     explicit Core();
