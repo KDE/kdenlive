@@ -26,8 +26,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 Core *Core::m_self = nullptr;
 
-Core::Core(MainWindow *mainWindow) :
-    m_mainWindow(mainWindow)
+Core::Core() :
+    m_mainWindow(nullptr)
     , m_projectManager(nullptr)
     , m_monitorManager(nullptr)
     , m_binController(nullptr)
@@ -49,14 +49,33 @@ Core::~Core()
     m_self = nullptr;
 }
 
-void Core::build(MainWindow *mainWindow)
+void Core::build(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
-    m_self = new Core(mainWindow);
+    m_self = new Core();
     m_self->initLocale();
+
+    qRegisterMetaType<audioShortVector> ("audioShortVector");
+    qRegisterMetaType< QVector<double> > ("QVector<double>");
+    qRegisterMetaType<MessageType> ("MessageType");
+    qRegisterMetaType<stringMap> ("stringMap");
+    qRegisterMetaType<audioByteArray> ("audioByteArray");
+    qRegisterMetaType< QVector<int> > ();
+    qRegisterMetaType<QDomElement> ("QDomElement");
+    qRegisterMetaType<requestClipInfo> ("requestClipInfo");
+    qRegisterMetaType<MltVideoProfile> ("MltVideoProfile");
+
+    m_self->initialize();
+    m_self->m_mainWindow->init(MltPath, Url, clipsToLoad);
+    if (qApp->isSessionRestored()) {
+        //NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
+        m_self->m_mainWindow->restore(1, false);
+    }
+    m_self->m_mainWindow->show();
 }
 
 void Core::initialize()
 {
+    m_mainWindow = new MainWindow();
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin();
     m_binController = new BinController();
@@ -81,7 +100,6 @@ void Core::initialize()
     //TODO
     /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
 
-    emit coreIsReady();
 }
 
 Core *Core::self()

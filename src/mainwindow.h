@@ -57,7 +57,6 @@ class Render;
 class Transition;
 class KIconLoader;
 
-#define EXIT_RESTART (42)
 
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
@@ -65,6 +64,7 @@ class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 
 public:
 
+    explicit MainWindow(QWidget *parent = nullptr);
     /** @brief Initialises the main window.
      * @param MltPath (optional) path to MLT environment
      * @param Url (optional) file to open
@@ -73,8 +73,7 @@ public:
      * If Url is present, it will be opened, otherwhise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    explicit MainWindow(const QString &MltPath = QString(),
-                        const QUrl &Url = QUrl(), const QString &clipsToLoad = QString(), QWidget *parent = nullptr);
+    void init(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad);
     virtual ~MainWindow();
 
     static EffectsList videoEffects;

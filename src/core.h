@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define CORE_H
 
 #include <QObject>
+#include <QUrl>
 #include "kdenlivecore_export.h"
 
 class MainWindow;
@@ -22,6 +23,7 @@ class Bin;
 class LibraryWidget;
 class ProducerQueue;
 
+#define EXIT_RESTART (42)
 #define pCore Core::self()
 
 /**
@@ -37,13 +39,23 @@ class /*KDENLIVECORE_EXPORT*/ Core : public QObject
     Q_OBJECT
 
 public:
+    Core(const Core&) = delete;
+    Core& operator=( const Core& ) = delete;
+    Core(Core&&) = delete;
+    Core& operator=(Core&&) = delete;
+
     virtual ~Core();
 
     /**
-     * @brief Constructs the singleton object and the managers.
-     * @param mainWindow pointer to MainWindow
-     */
-    static void build(MainWindow *mainWindow);
+     * @brief Constructs the application
+     * @param MltPath (optional) path to MLT environment
+     * @param Url (optional) file to open
+     * @param clipsToLoad (optional) a comma separated list of clips to import in project
+     *
+     * If Url is present, it will be opened, otherwhise, if openlastproject is
+     * set, latest project will be opened. If no file is open after trying this,
+     * a default new file will be created. */
+    static void build(const QString &MltPath = QString(), const QUrl &Url = QUrl(), const QString &clipsToLoad = QString());
 
     /** @brief Returns a pointer to the singleton object. */
     static Core *self();
@@ -68,7 +80,7 @@ public:
     LibraryWidget *library();
 
 private:
-    explicit Core(MainWindow *mainWindow);
+    explicit Core();
     static Core *m_self;
 
     /** @brief Makes sure Qt's locale and system locale settings match. */

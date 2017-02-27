@@ -139,7 +139,7 @@ static QString defaultStyle(const char *fallback = nullptr)
     return cg.readEntry("widgetStyle", fallback);
 }
 
-MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad, QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
     KXmlGuiWindow(parent),
     m_timelineArea(nullptr),
     m_stopmotion(nullptr),
@@ -155,16 +155,10 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
     m_themeInitialized(false),
     m_isDarkTheme(false)
 {
-    qRegisterMetaType<audioShortVector> ("audioShortVector");
-    qRegisterMetaType< QVector<double> > ("QVector<double>");
-    qRegisterMetaType<MessageType> ("MessageType");
-    qRegisterMetaType<stringMap> ("stringMap");
-    qRegisterMetaType<audioByteArray> ("audioByteArray");
-    qRegisterMetaType< QVector<int> > ();
-    qRegisterMetaType<QDomElement> ("QDomElement");
-    qRegisterMetaType<requestClipInfo> ("requestClipInfo");
-    qRegisterMetaType<MltVideoProfile> ("MltVideoProfile");
-    Core::build(this);
+}
+
+void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
+{
 
     // Widget themes for non KDE users
     KActionMenu *stylesAction = new KActionMenu(i18n("Style"), this);
@@ -224,7 +218,6 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
     MltConnection::locateMeltAndProfilesPath(MltPath);
     QString defaultProfile = KdenliveSettings::default_profile();
     KdenliveSettings::setCurrent_profile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
-    pCore->initialize();
 
     // If using a custom profile, make sure the file exists or fallback to default
     if (KdenliveSettings::current_profile().startsWith(QStringLiteral("/")) && !QFile::exists(KdenliveSettings::current_profile())) {
@@ -249,7 +242,9 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
 
     /// Add Widgets
     setDockOptions(dockOptions() | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
+#endif
     setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition) KdenliveSettings::tabposition());
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     m_timelineToolBarContainer = new QWidget(this);
@@ -3891,6 +3886,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
     if (!KdenliveSettings::showtitlebars() || !isTopLevel) {
         return;
     }
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget *dock = docks.at(i);
@@ -3929,6 +3925,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
             dock->setTitleBarWidget(new QWidget);
         }
     }
+#endif
 }
 
 void MainWindow::slotToggleAutoPreview(bool enable)
