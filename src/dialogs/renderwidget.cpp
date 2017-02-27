@@ -1031,7 +1031,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         if (imageSequences.contains(extension)) {
             // format string for counter?
             if (!QRegExp(".*%[0-9]*d.*").exactMatch(dest)) {
-                dest = dest.section('.', 0, -2) + "_%05d." + extension;
+                dest = dest.section(QLatin1Char('.'), 0, -2) + "_%05d." + extension;
             }
         }
 
@@ -1096,16 +1096,16 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         // Check for fps change
         double forcedfps = 0;
         if (std.startsWith(QLatin1String("r="))) {
-            QString sub = std.section(' ', 0, 0).toLower();
-            sub = sub.section('=', 1, 1);
+            QString sub = std.section(QLatin1Char(' '), 0, 0).toLower();
+            sub = sub.section(QLatin1Char('='), 1, 1);
             forcedfps = sub.toDouble();
         } else if (std.contains(QStringLiteral(" r="))) {
             QString sub = std.section(QStringLiteral(" r="), 1, 1);
-            sub = sub.section(' ', 0, 0).toLower();
+            sub = sub.section(QLatin1Char(' '), 0, 0).toLower();
             forcedfps = sub.toDouble();
         } else if (std.contains(QStringLiteral("mlt_profile="))) {
             QString sub = std.section(QStringLiteral("mlt_profile="), 1, 1);
-            sub = sub.section(' ', 0, 0).toLower();
+            sub = sub.section(QLatin1Char(' '), 0, 0).toLower();
             MltVideoProfile destinationProfile = ProfilesDialog::getVideoProfile(sub);
             forcedfps = (double) destinationProfile.frame_rate_num / destinationProfile.frame_rate_den;
         }
@@ -1222,11 +1222,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         // in which case we need to use the producer_comsumer from MLT
         QString subsize;
         if (std.startsWith(QLatin1String("s="))) {
-            subsize = std.section(' ', 0, 0).toLower();
-            subsize = subsize.section('=', 1, 1);
+            subsize = std.section(QLatin1Char(' '), 0, 0).toLower();
+            subsize = subsize.section(QLatin1Char('='), 1, 1);
         } else if (std.contains(QStringLiteral(" s="))) {
             subsize = std.section(QStringLiteral(" s="), 1, 1);
-            subsize = subsize.section(' ', 0, 0).toLower();
+            subsize = subsize.section(QLatin1Char(' '), 0, 0).toLower();
         } else if (m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
             subsize = QStringLiteral(" s=%1x%2").arg(width).arg(height);
             // Add current size parameter
@@ -1249,8 +1249,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         sEngine.globalObject().setProperty(QStringLiteral("passes"), static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
 
         for (int i = 0; i < paramsList.count(); ++i) {
-            QString paramName = paramsList.at(i).section('=', 0, -2);
-            QString paramValue = paramsList.at(i).section('=', -1);
+            QString paramName = paramsList.at(i).section(QLatin1Char('='), 0, -2);
+            QString paramValue = paramsList.at(i).section(QLatin1Char('='), -1);
             // If the profiles do not match we need to use the consumer tag
             if (paramName == QLatin1String("mlt_profile") && paramValue != m_profile.path) {
                 resizeProfile = true;
@@ -1368,7 +1368,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                     //TODO: probably not valid anymore (no more MLT profiles in args)
                     // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
                     QString prof = renderArgs.section(QStringLiteral("mlt_profile="), 1, 1);
-                    prof = prof.section(' ', 0, 0);
+                    prof = prof.section(QLatin1Char(' '), 0, 0);
                     qCDebug(KDENLIVE_LOG) << "// render profile: " << prof;
                     renderItem->setMetadata(prof);
                 }
@@ -1505,7 +1505,7 @@ void RenderWidget::refreshView()
             std = item->data(0, ParamsRole).toString();
             // Make sure the selected profile uses the same frame rate as project profile
             if (std.contains(QStringLiteral("mlt_profile="))) {
-                QString profile = std.section(QStringLiteral("mlt_profile="), 1, 1).section(' ', 0, 0);
+                QString profile = std.section(QStringLiteral("mlt_profile="), 1, 1).section(QLatin1Char(' '), 0, 0);
                 MltVideoProfile p = ProfilesDialog::getVideoProfile(profile);
                 if (p.frame_rate_den > 0) {
                     double profile_rate = (double) p.frame_rate_num / p.frame_rate_den;
@@ -1527,7 +1527,7 @@ void RenderWidget::refreshView()
                     format = std.section(QStringLiteral(" f="), 1, 1);
                 }
                 if (!format.isEmpty()) {
-                    format = format.section(' ', 0, 0).toLower();
+                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
                     if (!supportedFormats.contains(format)) {
                         item->setData(0, ErrorRole, i18n("Unsupported video format: %1", format));
                         item->setIcon(0, brokenIcon);
@@ -1544,7 +1544,7 @@ void RenderWidget::refreshView()
                     format = std.section(QStringLiteral(" acodec="), 1, 1);
                 }
                 if (!format.isEmpty()) {
-                    format = format.section(' ', 0, 0).toLower();
+                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
                     if (!acodecsList.contains(format)) {
                         item->setData(0, ErrorRole, i18n("Unsupported audio codec: %1", format));
                         item->setIcon(0, brokenIcon);
@@ -1561,7 +1561,7 @@ void RenderWidget::refreshView()
                     format = std.section(QStringLiteral(" vcodec="), 1, 1);
                 }
                 if (!format.isEmpty()) {
-                    format = format.section(' ', 0, 0).toLower();
+                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
                     if (!vcodecsList.contains(format)) {
                         item->setData(0, ErrorRole, i18n("Unsupported video codec: %1", format));
                         item->setIcon(0, brokenIcon);
@@ -2525,7 +2525,7 @@ QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &
     if (projectName.isEmpty()) {
         fileName = i18n("script");
     } else {
-        fileName = projectName.fileName().section('.', 0, -2) + '_';
+        fileName = projectName.fileName().section(QLatin1Char('.'), 0, -2) + '_';
     }
     while (path.isEmpty() || QFile::exists(path)) {
         ++ix;

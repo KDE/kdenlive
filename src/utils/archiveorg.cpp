@@ -346,7 +346,7 @@ QString ArchiveOrg::getExtension(QListWidgetItem *item)
     if (!item) {
         return QString();
     }
-    return QStringLiteral("*.") + item->text().section('.', -1);
+    return QStringLiteral("*.") + item->text().section(QLatin1Char('.'), -1);
 }
 
 QString ArchiveOrg::getDefaultDownloadName(QListWidgetItem *item)

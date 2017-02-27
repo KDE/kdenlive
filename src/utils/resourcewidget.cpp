@@ -371,7 +371,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     }
     if (!originalUrl.isEmpty()) {
         path.append(QUrl(originalUrl).fileName());
-        ext = "*." + QUrl(originalUrl).fileName().section('.', -1);
+        ext = "*." + QUrl(originalUrl).fileName().section(QLatin1Char('.'), -1);
         m_currentInfo.itemDownload = originalUrl;
     } else {
         path.append(m_currentService->getDefaultDownloadName(item));
@@ -380,7 +380,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
 #ifdef QT5_USE_WEBKIT
             sFileExt = m_currentService->getExtension(search_results->currentItem());
 #else
-            sFileExt = QStringLiteral("*.") + m_currentInfo.HQpreview.section('.', -1);
+            sFileExt = QStringLiteral("*.") + m_currentInfo.HQpreview.section(QLatin1Char('.'), -1);
 #endif
             if (sFileExt.isEmpty()) {
                 sFileExt = QStringLiteral("*.") + m_currentInfo.fileType;    // if the file name had no extension then use the file type freesound says it is.

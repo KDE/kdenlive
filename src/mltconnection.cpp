@@ -43,7 +43,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     KdenliveSettings::setMltpath(profilePath);
 
 #ifdef Q_OS_WIN
-    QString meltPath = QDir::cleanPath(profilePath).section('/', 0, -3) + "melt.exe";
+    QString meltPath = QDir::cleanPath(profilePath).section(QLatin1Char('/'), 0, -3) + "melt.exe";
     if (!QFile::exists(meltPath) || profilePath.isEmpty()) {
         QString env = qgetenv("MLT_PREFIX");
         if (env.isEmpty()) {
@@ -52,7 +52,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         meltPath = env + "melt.exe";
     }
 #else
-    QString meltPath = QDir::cleanPath(profilePath).section('/', 0, -3) + "/bin/melt";
+    QString meltPath = QDir::cleanPath(profilePath).section(QLatin1Char('/'), 0, -3) + "/bin/melt";
     if (!QFile::exists(meltPath)) meltPath = qgetenv("MLT_PREFIX") + "/bin/melt";
 #endif
     if (!QFile::exists(meltPath)) meltPath = KdenliveSettings::rendererpath();
@@ -79,7 +79,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         }
     }
     if (profilePath.isEmpty()) {
-        profilePath = QDir::cleanPath(meltPath).section('/', 0, -3) + "/share/mlt/profiles/";
+        profilePath = QDir::cleanPath(meltPath).section(QLatin1Char('/'), 0, -3) + "/share/mlt/profiles/";
         KdenliveSettings::setMltpath(profilePath);
     }
     QStringList profilesFilter;
@@ -90,9 +90,9 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         if (!meltPath.isEmpty()) {
             if(meltPath.contains(QLatin1Char('/'))) {
 #ifdef Q_OS_WIN
-                profilePath = meltPath.section('/', 0, -2) + "/share/mlt/profiles/";
+                profilePath = meltPath.section(QLatin1Char('/'), 0, -2) + "/share/mlt/profiles/";
 #else
-                profilePath = meltPath.section('/', 0, -2) + "/share/mlt/profiles/";
+                profilePath = meltPath.section(QLatin1Char('/'), 0, -2) + "/share/mlt/profiles/";
 #endif
             } else {
                 profilePath = qApp->applicationDirPath() + "/share/mlt/profiles/";

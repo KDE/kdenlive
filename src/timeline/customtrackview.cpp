@@ -1883,7 +1883,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         bool allowAudioOnly = false;
         for (int i = 0; i < ids.size(); ++i) {
             QString clipData = ids.at(i);
-            QString clipId = clipData.section('/', 0, 0);
+            QString clipId = clipData.section(QLatin1Char('/'), 0, 0);
             ProjectClip *clip = m_document->getBinClip(clipId);
             if (!clip || !clip->isReady()) {
                 emit displayMessage(i18n("Clip not ready"), ErrorMessage);
@@ -1893,8 +1893,8 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
             info.startPos = start;
             if (clipData.contains(QLatin1Char('/'))) {
                 // this is a clip zone, set in / out
-                int in = clipData.section('/', 1, 1).toInt();
-                int out = clipData.section('/', 2, 2).toInt();
+                int in = clipData.section(QLatin1Char('/'), 1, 1).toInt();
+                int out = clipData.section(QLatin1Char('/'), 2, 2).toInt();
                 info.cropStart = GenTime(in, m_document->fps());
                 info.cropDuration = GenTime(out - in + 1, m_document->fps());
             } else {
@@ -1933,14 +1933,14 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         start = GenTime();
         for (int i = 0; i < ids.size(); ++i) {
             QString clipData = ids.at(i);
-            QString clipId = clipData.section('/', 0, 0);
+            QString clipId = clipData.section(QLatin1Char('/'), 0, 0);
             ProjectClip *clip = m_document->getBinClip(clipId);
             ItemInfo info;
             info.startPos = start;
             if (clipData.contains(QLatin1Char('/'))) {
                 // this is a clip zone, set in / out
-                int in = clipData.section('/', 1, 1).toInt();
-                int out = clipData.section('/', 2, 2).toInt();
+                int in = clipData.section(QLatin1Char('/'), 1, 1).toInt();
+                int out = clipData.section(QLatin1Char('/'), 2, 2).toInt();
                 info.cropStart = GenTime(in, m_document->fps());
                 info.cropDuration = GenTime(out - in + 1, m_document->fps());
             } else {

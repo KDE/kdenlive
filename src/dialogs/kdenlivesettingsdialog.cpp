@@ -341,7 +341,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
         if (versionCheck->waitForFinished()) {
             QString version = QString(versionCheck->readAll()).simplified();
             if (version.contains(QLatin1Char(' '))) {
-                version = version.section(' ', -1);
+                version = version.section(QLatin1Char(' '), -1);
             }
             dvgrabVersion = version.toDouble();
 
@@ -514,11 +514,11 @@ void KdenliveSettingsDialog::initDevices()
             while (!line.isNull()) {
                 if (line.contains(QStringLiteral("playback"))) {
                     deviceId = line.section(':', 0, 0);
-                    m_configSdl.kcfg_audio_device->addItem(line.section(':', 1, 1), "plughw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
+                    m_configSdl.kcfg_audio_device->addItem(line.section(':', 1, 1), "plughw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + ',' + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 if (line.contains(QStringLiteral("capture"))) {
                     deviceId = line.section(':', 0, 0);
-                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(':', 1, 1).simplified(), "hw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
+                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(':', 1, 1).simplified(), "hw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + ',' + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 line = stream.readLine();
             }
@@ -567,8 +567,8 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
     for (const QString &data : lines) {
         ////qCDebug(KDENLIVE_LOG) << "// READING LINE: " << data;
         if (!data.startsWith(' ') && data.count(':') > 1) {
-            QString card = data.section(':', 0, 0).section(' ', -1);
-            QString device = data.section(':', 1, 1).section(' ', -1);
+            QString card = data.section(':', 0, 0).section(QLatin1Char(' '), -1);
+            QString device = data.section(':', 1, 1).section(QLatin1Char(' '), -1);
             m_configSdl.kcfg_audio_device->addItem(data.section(':', -1).simplified(), "plughw:" + card + ',' + device);
             m_configCapture.kcfg_v4l_alsadevice->addItem(data.section(':', -1).simplified(), "hw:" + card + ',' + device);
         }
@@ -765,35 +765,35 @@ void KdenliveSettingsDialog::updateSettings()
     // Check encoding profiles
     // FFmpeg
     QString data = m_configCapture.kcfg_v4l_profile->itemData(m_configCapture.kcfg_v4l_profile->currentIndex()).toString();
-    if (!data.isEmpty() && (data.section(';', 0, 0) != KdenliveSettings::v4l_parameters() || data.section(';', 1, 1) != KdenliveSettings::v4l_extension())) {
-        KdenliveSettings::setV4l_parameters(data.section(';', 0, 0));
-        KdenliveSettings::setV4l_extension(data.section(';', 1, 1));
+    if (!data.isEmpty() && (data.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::v4l_parameters() || data.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::v4l_extension())) {
+        KdenliveSettings::setV4l_parameters(data.section(QLatin1Char(';'), 0, 0));
+        KdenliveSettings::setV4l_extension(data.section(QLatin1Char(';'), 1, 1));
     }
     // screengrab
     data = m_configCapture.kcfg_grab_profile->itemData(m_configCapture.kcfg_grab_profile->currentIndex()).toString();
-    if (!data.isEmpty() && (data.section(';', 0, 0) != KdenliveSettings::grab_parameters() || data.section(';', 1, 1) != KdenliveSettings::grab_extension())) {
-        KdenliveSettings::setGrab_parameters(data.section(';', 0, 0));
-        KdenliveSettings::setGrab_extension(data.section(';', 1, 1));
+    if (!data.isEmpty() && (data.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::grab_parameters() || data.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::grab_extension())) {
+        KdenliveSettings::setGrab_parameters(data.section(QLatin1Char(';'), 0, 0));
+        KdenliveSettings::setGrab_extension(data.section(QLatin1Char(';'), 1, 1));
     }
 
     // decklink
     data = m_configCapture.kcfg_decklink_profile->itemData(m_configCapture.kcfg_decklink_profile->currentIndex()).toString();
-    if (!data.isEmpty() && (data.section(';', 0, 0) != KdenliveSettings::decklink_parameters() || data.section(';', 1, 1) != KdenliveSettings::decklink_extension())) {
-        KdenliveSettings::setDecklink_parameters(data.section(';', 0, 0));
-        KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
+    if (!data.isEmpty() && (data.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::decklink_parameters() || data.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::decklink_extension())) {
+        KdenliveSettings::setDecklink_parameters(data.section(QLatin1Char(';'), 0, 0));
+        KdenliveSettings::setDecklink_extension(data.section(QLatin1Char(';'), 1, 1));
     }
     // proxies
     data = m_configProject.kcfg_proxy_profile->itemData(m_configProject.kcfg_proxy_profile->currentIndex()).toString();
-    if (!data.isEmpty() && (data.section(';', 0, 0) != KdenliveSettings::proxyparams() || data.section(';', 1, 1) != KdenliveSettings::proxyextension())) {
-        KdenliveSettings::setProxyparams(data.section(';', 0, 0));
-        KdenliveSettings::setProxyextension(data.section(';', 1, 1));
+    if (!data.isEmpty() && (data.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::proxyparams() || data.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::proxyextension())) {
+        KdenliveSettings::setProxyparams(data.section(QLatin1Char(';'), 0, 0));
+        KdenliveSettings::setProxyextension(data.section(QLatin1Char(';'), 1, 1));
     }
 
     // timeline preview
     data = m_configProject.kcfg_preview_profile->itemData(m_configProject.kcfg_preview_profile->currentIndex()).toString();
-    if (!data.isEmpty() && (data.section(';', 0, 0) != KdenliveSettings::previewparams() || data.section(';', 1, 1) != KdenliveSettings::previewextension())) {
-        KdenliveSettings::setPreviewparams(data.section(';', 0, 0));
-        KdenliveSettings::setPreviewextension(data.section(';', 1, 1));
+    if (!data.isEmpty() && (data.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::previewparams() || data.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::previewextension())) {
+        KdenliveSettings::setPreviewparams(data.section(QLatin1Char(';'), 0, 0));
+        KdenliveSettings::setPreviewextension(data.section(QLatin1Char(';'), 1, 1));
     }
 
     if (updateCapturePath) {
@@ -928,7 +928,7 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
         QListWidgetItem *item = new QListWidgetItem(i.key());
         QString data = i.value();
         if (data.contains(QLatin1Char(';'))) {
-            item->setToolTip(data.section(';', 1, 1));
+            item->setToolTip(data.section(QLatin1Char(';'), 1, 1));
         }
         item->setData(Qt::UserRole, data);
         m_configTranscode.profiles_list->addItem(item);
@@ -1034,14 +1034,14 @@ void KdenliveSettingsDialog::slotSetTranscodeProfile()
     m_configTranscode.profile_name->setText(item->text());
     QString data = item->data(Qt::UserRole).toString();
     if (data.contains(QLatin1Char(';'))) {
-        m_configTranscode.profile_description->setText(data.section(';', 1, 1));
-        if (data.section(';', 2, 2) == QLatin1String("audio")) {
+        m_configTranscode.profile_description->setText(data.section(QLatin1Char(';'), 1, 1));
+        if (data.section(QLatin1Char(';'), 2, 2) == QLatin1String("audio")) {
             m_configTranscode.profile_audioonly->setChecked(true);
         }
-        data = data.section(';', 0, 0).simplified();
+        data = data.section(QLatin1Char(';'), 0, 0).simplified();
     }
-    m_configTranscode.profile_extension->setText(data.section('.', -1));
-    m_configTranscode.profile_parameters->setPlainText(data.section(' ', 0, -2));
+    m_configTranscode.profile_extension->setText(data.section(QLatin1Char('.'), -1));
+    m_configTranscode.profile_parameters->setPlainText(data.section(QLatin1Char(' '), 0, -2));
     m_configTranscode.profile_box->setEnabled(true);
 }
 
@@ -1099,10 +1099,10 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
-            itemSize = sizes.at(j).section('=', 0, 0);
-            itemRates = sizes.at(j).section('=', 1, 1).split(',', QString::SkipEmptyParts);
+            itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
+            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(',', QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                m_configCapture.kcfg_v4l_format->addItem('[' + format + "] " + itemSize + " (" + itemRates.at(k) + ')', QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
+                m_configCapture.kcfg_v4l_format->addItem('[' + format + "] " + itemSize + " (" + itemRates.at(k) + ')', QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
             }
         }
     }
@@ -1171,12 +1171,12 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
     profile.colorspace = ProfilesDialog::getColorspaceFromDescription(m_configCapture.p_colorspace->text());
     profile.width = m_configCapture.p_size->text().section('x', 0, 0).toInt();
     profile.height = m_configCapture.p_size->text().section('x', 1, 1).toInt();
-    profile.sample_aspect_num = m_configCapture.p_aspect->text().section('/', 0, 0).toInt();
-    profile.sample_aspect_den = m_configCapture.p_aspect->text().section('/', 1, 1).toInt();
-    profile.display_aspect_num = m_configCapture.p_display->text().section('/', 0, 0).toInt();
-    profile.display_aspect_den = m_configCapture.p_display->text().section('/', 1, 1).toInt();
-    profile.frame_rate_num = m_configCapture.p_fps->text().section('/', 0, 0).toInt();
-    profile.frame_rate_den = m_configCapture.p_fps->text().section('/', 1, 1).toInt();
+    profile.sample_aspect_num = m_configCapture.p_aspect->text().section(QLatin1Char('/'), 0, 0).toInt();
+    profile.sample_aspect_den = m_configCapture.p_aspect->text().section(QLatin1Char('/'), 1, 1).toInt();
+    profile.display_aspect_num = m_configCapture.p_display->text().section(QLatin1Char('/'), 0, 0).toInt();
+    profile.display_aspect_den = m_configCapture.p_display->text().section(QLatin1Char('/'), 1, 1).toInt();
+    profile.frame_rate_num = m_configCapture.p_fps->text().section(QLatin1Char('/'), 0, 0).toInt();
+    profile.frame_rate_den = m_configCapture.p_fps->text().section(QLatin1Char('/'), 1, 1).toInt();
     profile.progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
     if (!dir.exists()) {
@@ -1278,7 +1278,7 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     if (data.isEmpty()) {
         m_configProject.previewparams->clear();
     } else {
-        m_configProject.previewparams->setPlainText(data.section(';', 0, 0));
+        m_configProject.previewparams->setPlainText(data.section(QLatin1Char(';'), 0, 0));
     }
 
     // Load Proxy profiles
@@ -1302,7 +1302,7 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     if (data.isEmpty()) {
         m_configProject.proxyparams->clear();
     } else {
-        m_configProject.proxyparams->setPlainText(data.section(';', 0, 0));
+        m_configProject.proxyparams->setPlainText(data.section(QLatin1Char(';'), 0, 0));
     }
 }
 
@@ -1317,7 +1317,7 @@ void KdenliveSettingsDialog::slotUpdateDecklinkProfile(int ix)
     if (data.isEmpty()) {
         return;
     }
-    m_configCapture.decklink_parameters->setPlainText(data.section(';', 0, 0));
+    m_configCapture.decklink_parameters->setPlainText(data.section(QLatin1Char(';'), 0, 0));
     //
 }
 
@@ -1332,7 +1332,7 @@ void KdenliveSettingsDialog::slotUpdateV4lProfile(int ix)
     if (data.isEmpty()) {
         return;
     }
-    m_configCapture.v4l_parameters->setPlainText(data.section(';', 0, 0));
+    m_configCapture.v4l_parameters->setPlainText(data.section(QLatin1Char(';'), 0, 0));
     //
 }
 
@@ -1347,7 +1347,7 @@ void KdenliveSettingsDialog::slotUpdateGrabProfile(int ix)
     if (data.isEmpty()) {
         return;
     }
-    m_configCapture.grab_parameters->setPlainText(data.section(';', 0, 0));
+    m_configCapture.grab_parameters->setPlainText(data.section(QLatin1Char(';'), 0, 0));
     //
 }
 
@@ -1362,7 +1362,7 @@ void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
     if (data.isEmpty()) {
         return;
     }
-    m_configProject.proxyparams->setPlainText(data.section(';', 0, 0));
+    m_configProject.proxyparams->setPlainText(data.section(QLatin1Char(';'), 0, 0));
 }
 
 void KdenliveSettingsDialog::slotUpdatePreviewProfile(int ix)
@@ -1376,7 +1376,7 @@ void KdenliveSettingsDialog::slotUpdatePreviewProfile(int ix)
     if (data.isEmpty()) {
         return;
     }
-    m_configProject.previewparams->setPlainText(data.section(';', 0, 0));
+    m_configProject.previewparams->setPlainText(data.section(QLatin1Char(';'), 0, 0));
 }
 
 void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()

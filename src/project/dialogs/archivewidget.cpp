@@ -38,7 +38,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(nullptr)
-    , m_name(projectName.section('.', 0, -2))
+    , m_name(projectName.section(QLatin1Char('.'), 0, -2))
     , m_doc(doc)
     , m_temp(nullptr)
     , m_abortArchive(false)
@@ -346,7 +346,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 // mimetype slideshow (for example *.png)
                 QStringList filters;
                 // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-                filters << "*." + slideUrl.fileName().section('.', -1);
+                filters << "*." + slideUrl.fileName().section(QLatin1Char('.'), -1);
                 dir.setNameFilters(filters);
                 QFileInfoList resultList = dir.entryInfoList(QDir::Files);
                 QStringList slideImages;
@@ -362,7 +362,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 // pattern url (like clip%.3d.png)
                 QStringList result = dir.entryList(QDir::Files);
                 QString filter = slideUrl.fileName();
-                QString ext = filter.section('.', -1);
+                QString ext = filter.section(QLatin1Char('.'), -1);
                 filter = filter.section('%', 0, -2);
                 QString regexp = '^' + filter + "\\d+\\." + ext + '$';
                 QRegExp rx(regexp);
@@ -385,10 +385,10 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
             int ix = 0;
-            QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
+            QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(ix) + '.' + fileName.section(QLatin1Char('.'), -1);
             while (filesList.contains(newFileName)) {
                 ix ++;
-                newFileName = fileName.section('.', 0, -2) + '_' + QString::number(ix) + '.' + fileName.section('.', -1);
+                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(ix) + '.' + fileName.section(QLatin1Char('.'), -1);
             }
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);
@@ -430,7 +430,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 // mimetype slideshow (for example *.png)
                 QStringList filters;
                 // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-                filters << "*." + slideUrl.fileName().section('.', -1);
+                filters << "*." + slideUrl.fileName().section(QLatin1Char('.'), -1);
                 dir.setNameFilters(filters);
                 QFileInfoList resultList = dir.entryInfoList(QDir::Files);
                 QStringList slideImages;
@@ -446,7 +446,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 // pattern url (like clip%.3d.png)
                 QStringList result = dir.entryList(QDir::Files);
                 QString filter = slideUrl.fileName();
-                QString ext = filter.section('.', -1);
+                QString ext = filter.section(QLatin1Char('.'), -1);
                 filter = filter.section('%', 0, -2);
                 QString regexp = '^' + filter + "\\d+\\." + ext + '$';
                 QRegExp rx(regexp);
@@ -469,10 +469,10 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
             int index2 = 0;
-            QString newFileName = fileName.section('.', 0, -2) + '_' + QString::number(index2) + '.' + fileName.section('.', -1);
+            QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(index2) + '.' + fileName.section(QLatin1Char('.'), -1);
             while (filesList.contains(newFileName)) {
                 index2 ++;
-                newFileName = fileName.section('.', 0, -2) + '_' + QString::number(index2) + '.' + fileName.section('.', -1);
+                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(index2) + '.' + fileName.section(QLatin1Char('.'), -1);
             }
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);

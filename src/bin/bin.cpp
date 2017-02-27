@@ -3159,7 +3159,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
             if (!pos.contains(QLatin1Char('='))) {
                 continue;
             }
-            int newPos = pos.section('=', 0, 0).toInt();
+            int newPos = pos.section(QLatin1Char('='), 0, 0).toInt();
             // Don't use scenes shorter than 1 second
             if (newPos - cutPos < 24) {
                 continue;
@@ -3773,7 +3773,7 @@ QDir Bin::getCacheDir(CacheType type, bool *ok) const
 
 bool Bin::addClip(QDomElement elem, const QString &clipId)
 {
-    const QString producerId = clipId.section('_', 0, 0);
+    const QString producerId = clipId.section(QLatin1Char('_'), 0, 0);
     elem.setAttribute(QStringLiteral("id"), producerId);
     if ((KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && isEmpty()) {
         elem.setAttribute(QStringLiteral("checkProfile"), 1);

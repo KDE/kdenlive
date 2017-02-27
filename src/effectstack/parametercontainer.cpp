@@ -811,8 +811,8 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
     if (value.contains(QLatin1Char(','))) {
         value.replace(',', '/');
     }
-    QString start = value.section(';', 0, 0);
-    QString end = value.section(';', 1, 1).section('=', 1, 1);
+    QString start = value.section(QLatin1Char(';'), 0, 0);
+    QString end = value.section(QLatin1Char(';'), 1, 1).section(QLatin1Char('='), 1, 1);
     if (start.startsWith(QLatin1String("-100%/0"))) {
         info.start = LEFT;
     } else if (start.startsWith(QLatin1String("100%/0"))) {
@@ -1242,7 +1242,7 @@ void ParameterContainer::slotStartFilterJobAction()
             for (int i = 0; i < filterList.size(); ++i) {
                 param = filterList.at(i);
                 if (param != QLatin1String("%params")) {
-                    filterParams.insert(param.section('=', 0, 0), param.section('=', 1));
+                    filterParams.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
                 }
             }
             if (filterattributes.contains(QStringLiteral("%params"))) {
@@ -1260,7 +1260,7 @@ void ParameterContainer::slotStartFilterJobAction()
             for (int i = 0; i < consumerList.size(); ++i) {
                 param = consumerList.at(i);
                 if (param != QLatin1String("%params")) {
-                    consumerParams.insert(param.section('=', 0, 0), param.section('=', 1));
+                    consumerParams.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
                 }
             }
 

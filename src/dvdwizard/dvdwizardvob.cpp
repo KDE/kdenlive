@@ -176,8 +176,8 @@ void DvdWizardVob::slotShowTranscodeInfo()
     QString log = QString(m_transcodeProcess.readAll());
     if (m_duration == 0) {
         if (log.contains(QStringLiteral("Duration:"))) {
-            QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(',', 0, 0).simplified();
-            QStringList numbers = data.split(':');
+            QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+            QStringList numbers = data.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
                 return;
             }
@@ -190,9 +190,9 @@ void DvdWizardVob::slotShowTranscodeInfo()
         }
     } else if (log.contains(QStringLiteral("time="))) {
         int progress;
-        QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(' ', 0, 0);
+        QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
         if (time.contains(QLatin1Char(':'))) {
-            QStringList numbers = time.split(':');
+            QStringList numbers = time.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
                 return;
             }
@@ -219,7 +219,7 @@ void DvdWizardVob::slotAbortTranscode()
 void DvdWizardVob::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
-        slotTranscodedClip(m_currentTranscoding.filename, m_currentTranscoding.filename + m_currentTranscoding.params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0));
+        slotTranscodedClip(m_currentTranscoding.filename, m_currentTranscoding.filename + m_currentTranscoding.params.section(QStringLiteral("%1"), 1, 1).section(QLatin1Char(' '), 0, 0));
         if (!m_transcodeQueue.isEmpty()) {
             m_transcodeProcess.close();
             processTranscoding();
@@ -693,7 +693,7 @@ void DvdWizardVob::slotTranscodeFiles()
             }
             TranscodeJobInfo jobInfo;
             jobInfo.filename = item->text(0);
-            jobInfo.params = params.section(';', 0, 0);
+            jobInfo.params = params.section(QLatin1Char(';'), 0, 0);
             jobInfo.postParams = postParams;
             m_transcodeQueue << jobInfo;
         }
@@ -710,7 +710,7 @@ void DvdWizardVob::processTranscoding()
     QStringList parameters;
     QStringList postParams = m_currentTranscoding.postParams;
     QString params = m_currentTranscoding.params;
-    QString extension = params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0);
+    QString extension = params.section(QStringLiteral("%1"), 1, 1).section(QLatin1Char(' '), 0, 0);
     parameters << QStringLiteral("-i") << m_currentTranscoding.filename;
     if (QFile::exists(m_currentTranscoding.filename + extension)) {
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", m_currentTranscoding.filename + extension)) == KMessageBox::No) {

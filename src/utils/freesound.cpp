@@ -310,7 +310,7 @@ QString FreeSound::getExtension(QListWidgetItem *item)
     } else {
         QString sItem = item->text();
         if (sItem.contains(QLatin1String("."))) {
-            const QString sExt = sItem.section('.', -1);
+            const QString sExt = sItem.section(QLatin1Char('.'), -1);
             return QStringLiteral("*.") + sExt;
         } else {
             return QString();    // return null if file name has no dots - ie no extension

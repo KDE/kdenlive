@@ -471,8 +471,8 @@ void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, i
             QStringList newkfr;
             bool added = false;
             foreach (const QString &str, keyframes) {
-                int kpos = str.section('=', 0, 0).toInt();
-                double newval = locale.toDouble(str.section('=', 1, 1));
+                int kpos = str.section(QLatin1Char('='), 0, 0).toInt();
+                double newval = locale.toDouble(str.section(QLatin1Char('='), 1, 1));
                 if (kpos < pos) {
                     newkfr.append(str);
                 } else if (!added) {
@@ -534,14 +534,14 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
             foreach (const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != oldpos) {
+                if (str.section(QLatin1Char('='), 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
                     newpos = qBound(start, newpos, end);
                     if (i == m_visibleParam) {
                         newkfr.append(QString::number(newpos) + '=' + locale.toString(value));
                     } else {
-                        newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
+                        newkfr.append(QString::number(newpos) + '=' + str.section(QLatin1Char('='), 1, 1));
                     }
                 }
             }
@@ -551,11 +551,11 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
             for (const QString &str : keyframes) {
-                if (str.section('=', 0, 0).toInt() != oldpos) {
+                if (str.section(QLatin1Char('='), 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
                     newpos = qBound(0, newpos, end);
-                    newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
+                    newkfr.append(QString::number(newpos) + '=' + str.section(QLatin1Char('='), 1, 1));
                 }
             }
             e.setAttribute(QStringLiteral("value"), newkfr.join(QLatin1Char(';')));
@@ -583,7 +583,7 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
             for (const QString &str : keyframes) {
-                if (str.section('=', 0, 0).toInt() != frame) {
+                if (str.section(QLatin1Char('='), 0, 0).toInt() != frame) {
                     newkfr.append(str);
                 }
             }
@@ -593,7 +593,7 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
             foreach (const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != frame) {
+                if (str.section(QLatin1Char('='), 0, 0).toInt() != frame) {
                     newkfr.append(str);
                 }
             }

@@ -205,7 +205,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 
     QMap<QString, QString>::const_iterator meta = metadata.constBegin();
     while (meta != metadata.constEnd()) {
-        item = new QTreeWidgetItem(metadata_list, QStringList() << meta.key().section('.', 2, 2));
+        item = new QTreeWidgetItem(metadata_list, QStringList() << meta.key().section(QLatin1Char('.'), 2, 2));
         item->setData(0, Qt::UserRole, meta.key());
         item->setText(1, meta.value());
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -484,13 +484,13 @@ int ProjectSettings::proxyImageMinSize() const
 QString ProjectSettings::proxyParams() const
 {
     QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
-    return params.section(';', 0, 0);
+    return params.section(QLatin1Char(';'), 0, 0);
 }
 
 QString ProjectSettings::proxyExtension() const
 {
     QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
-    return params.section(';', 1, 1);
+    return params.section(QLatin1Char(';'), 1, 1);
 }
 
 //static
@@ -520,13 +520,13 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
             if (type == QLatin1String("timewarp")) {
                 url = EffectsList::property(e, QStringLiteral("warp_resource"));
             } else if (type == QLatin1String("framebuffer")) {
-                url = url.section('?', 0, 0);
+                url = url.section(QLatin1Char('?'), 0, 0);
             }
             if (!url.isEmpty()) {
                 if (QFileInfo(url).isRelative()) {
                     url.prepend(root);
                 }
-                if (url.section('.', 0, -2).endsWith(QLatin1String("/.all"))) {
+                if (url.section(QLatin1Char('.'), 0, -2).endsWith(QLatin1String("/.all"))) {
                     // slideshow clip, extract image urls
                     urls << extractSlideshowUrls(url);
                 } else {
@@ -561,7 +561,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
 {
     QStringList urls;
     QString path = QFileInfo(url).absolutePath();
-    QString ext = url.section('.', -1);
+    QString ext = url.section(QLatin1Char('.'), -1);
     QDir dir(path);
     if (url.contains(QStringLiteral(".all."))) {
         // this is a mime slideshow, like *.jpeg
@@ -573,7 +573,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
     } else {
         // this is a pattern slideshow, like sequence%4d.jpg
         QString filter = QFileInfo(url).fileName();
-        QString ext = filter.section('.', -1);
+        QString ext = filter.section(QLatin1Char('.'), -1);
         filter = filter.section('%', 0, -2);
         QString regexp = '^' + filter + "\\d+\\." + ext + '$';
         QRegExp rx(regexp);
@@ -629,13 +629,13 @@ void ProjectSettings::slotExportToText()
 void ProjectSettings::slotUpdateProxyParams()
 {
     QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
-    proxyparams->setPlainText(params.section(';', 0, 0));
+    proxyparams->setPlainText(params.section(QLatin1Char(';'), 0, 0));
 }
 
 void ProjectSettings::slotUpdatePreviewParams()
 {
     QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
-    previewparams->setPlainText(params.section(';', 0, 0));
+    previewparams->setPlainText(params.section(QLatin1Char(';'), 0, 0));
 }
 
 const QMap<QString, QString> ProjectSettings::metadata() const
@@ -702,8 +702,8 @@ void ProjectSettings::loadProxyProfiles()
     while (k.hasNext()) {
         k.next();
         if (!k.key().isEmpty()) {
-            QString params = k.value().section(';', 0, 0);
-            QString extension = k.value().section(';', 1, 1);
+            QString params = k.value().section(QLatin1Char(';'), 0, 0);
+            QString extension = k.value().section(QLatin1Char(';'), 1, 1);
             if (ix == -1 && ((params == m_proxyparameters && extension == m_proxyextension) || (m_proxyparameters.isEmpty() || m_proxyextension.isEmpty()))) {
                 // this is the current profile
                 ix = proxy_profile->count();
@@ -714,7 +714,7 @@ void ProjectSettings::loadProxyProfiles()
     if (ix == -1) {
         // Current project proxy settings not found
         ix = proxy_profile->count();
-        proxy_profile->addItem(i18n("Current Settings"), QString(m_proxyparameters + ';' + m_proxyextension));
+        proxy_profile->addItem(i18n("Current Settings"), QString(m_proxyparameters + QLatin1Char(';') + m_proxyextension));
     }
     proxy_profile->setCurrentIndex(ix);
     slotUpdateProxyParams();
@@ -732,8 +732,8 @@ void ProjectSettings::loadPreviewProfiles()
     while (k.hasNext()) {
         k.next();
         if (!k.key().isEmpty()) {
-            QString params = k.value().section(';', 0, 0);
-            QString extension = k.value().section(';', 1, 1);
+            QString params = k.value().section(QLatin1Char(';'), 0, 0);
+            QString extension = k.value().section(QLatin1Char(';'), 1, 1);
             if (ix == -1 && (params == m_previewparams && extension == m_previewextension)) {
                 // this is the current profile
                 ix = preview_profile->count();
@@ -748,7 +748,7 @@ void ProjectSettings::loadPreviewProfiles()
             // Leave empty, will be automatically detected
             preview_profile->addItem(i18n("Auto"));
         } else {
-            preview_profile->addItem(i18n("Current Settings"), QString(m_previewparams + ';' + m_previewextension));
+            preview_profile->addItem(i18n("Current Settings"), QString(m_previewparams + QLatin1Char(';') + m_previewextension));
         }
     }
     preview_profile->setCurrentIndex(ix);

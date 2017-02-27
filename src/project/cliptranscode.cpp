@@ -46,8 +46,8 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     if (m_urls.count() == 1) {
-        QString fileName = m_urls.first(); //.section('.', 0, -1);
-        QString newFile = params.section(' ', -1).replace(QLatin1String("%1"), fileName);
+        QString fileName = m_urls.first(); //.section(QLatin1Char('.'), 0, -1);
+        QString newFile = params.section(QLatin1Char(' '), -1).replace(QLatin1String("%1"), fileName);
         QUrl dest = QUrl::fromLocalFile(newFile);
         source_url->setUrl(QUrl::fromLocalFile(m_urls.first()));
         dest_url->setMode(KFile::File);
@@ -84,7 +84,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
         QMapIterator<QString, QString> i(profiles);
         while (i.hasNext()) {
             i.next();
-            QStringList data = i.value().split(';');
+            QStringList data = i.value().split(QLatin1Char(';'));
             profile_list->addItem(i.key(), data.at(0));
             if (data.count() > 1) {
                 profile_list->setItemData(profile_list->count() - 1, data.at(1), Qt::UserRole + 1);
@@ -141,9 +141,9 @@ void ClipTranscode::slotStartTransCode()
             urls_list->setCurrentItem(matching.at(0));
         }
     } else {
-        destination = dest_url->url().toLocalFile().section('.', 0, -2);
+        destination = dest_url->url().toLocalFile().section(QLatin1Char('.'), 0, -2);
     }
-    QString extension = params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0);
+    QString extension = params.section(QStringLiteral("%1"), 1, 1).section(QLatin1Char(' '), 0, 0);
     QString s_url = source_url->url().toLocalFile();
     parameters << QStringLiteral("-i") << s_url;
     if (QFile::exists(destination + extension)) {
@@ -160,7 +160,7 @@ void ClipTranscode::slotStartTransCode()
     }
 
     bool replaceVfParams = false;
-    const QStringList splitted = params.split(' ');
+    const QStringList splitted = params.split(QLatin1Char(' '));
     for (QString s : splitted) {
         if (replaceVfParams) {
             parameters << m_postParams.at(1);
@@ -188,8 +188,8 @@ void ClipTranscode::slotShowTranscodeInfo()
     QString log = QString(m_transcodeProcess.readAll());
     if (m_duration == 0) {
         if (log.contains(QStringLiteral("Duration:"))) {
-            QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(',', 0, 0).simplified();
-            QStringList numbers = data.split(':');
+            QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+            QStringList numbers = data.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
                 return;
             }
@@ -202,9 +202,9 @@ void ClipTranscode::slotShowTranscodeInfo()
         }
     } else if (log.contains(QStringLiteral("time="))) {
         int progress;
-        QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(' ', 0, 0);
+        QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
         if (time.contains(QLatin1Char(':'))) {
-            QStringList numbers = time.split(':');
+            QStringList numbers = time.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
                 return;
             }
@@ -235,7 +235,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
             QUrl url;
             if (urls_list->count() > 0) {
                 QString params = ffmpeg_params->toPlainText().simplified();
-                QString extension = params.section(QStringLiteral("%1"), 1, 1).section(' ', 0, 0);
+                QString extension = params.section(QStringLiteral("%1"), 1, 1).section(QLatin1Char(' '), 0, 0);
                 url = QUrl::fromLocalFile(dest_url->url().toLocalFile() + QDir::separator() + source_url->url().fileName() + extension);
             } else {
                 url = dest_url->url();
@@ -289,7 +289,7 @@ void ClipTranscode::slotUpdateParams(int ix)
         }
     }
     if (urls_list->count() == 0) {
-        QString newFile = ffmpeg_params->toPlainText().simplified().section(' ', -1).replace(QLatin1String("%1"), fileName);
+        QString newFile = ffmpeg_params->toPlainText().simplified().section(QLatin1Char(' '), -1).replace(QLatin1String("%1"), fileName);
         dest_url->setUrl(QUrl::fromLocalFile(newFile));
     }
 

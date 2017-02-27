@@ -1548,8 +1548,8 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
                 double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
                 if (factor != 1 || offset != 0) {
                     for (int j = 0; j < values.count(); ++j) {
-                        QString pos = values.at(j).section('=', 0, 0);
-                        double val = (locale.toDouble(values.at(j).section('=', 1, 1)) - offset) / factor;
+                        QString pos = values.at(j).section(QLatin1Char('='), 0, 0);
+                        double val = (locale.toDouble(values.at(j).section(QLatin1Char('='), 1, 1)) - offset) / factor;
                         values[j] = pos + '=' + locale.toString(val);
                     }
                 }
@@ -1962,13 +1962,13 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, const ItemInfo &oldI
     const QStringList data = parameter.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
     QMap<int, double> keyframes;
     foreach (const QString &keyframe, data) {
-        int keyframepos = keyframe.section('=', 0, 0).toInt();
+        int keyframepos = keyframe.section(QLatin1Char('='), 0, 0).toInt();
         // if keyframe was at clip start, update it
         if (keyframepos == oldin) {
             keyframepos = in;
             keyFrameUpdated = true;
         }
-        keyframes[keyframepos] = locale.toDouble(keyframe.section('=', 1, 1));
+        keyframes[keyframepos] = locale.toDouble(keyframe.section(QLatin1Char('='), 1, 1));
     }
 
     QMap<int, double>::iterator i = keyframes.end();

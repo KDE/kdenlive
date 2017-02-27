@@ -357,7 +357,7 @@ QString GeometryWidget::getExtraValue(const QString &name) const
     int ix = m_extraGeometryNames.indexOf(name);
     QString val = m_extraGeometries.at(ix)->serialise();
     if (!val.contains(QLatin1Char('='))) {
-        val = val.section('/', 0, 0);
+        val = val.section(QLatin1Char('/'), 0, 0);
     } else {
         QStringList list = val.split(QLatin1Char(';'), QString::SkipEmptyParts);
         val.clear();
@@ -1089,14 +1089,14 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
     for (int i = 0; i < list.count(); i += offset) {
         QString geom = list.at(i);
         if (geom.contains('=')) {
-            item.frame(geom.section('=', 0, 0).toInt());
-            geom = geom.section('=', 1);
+            item.frame(geom.section(QLatin1Char('='), 0, 0).toInt());
+            geom = geom.section(QLatin1Char('='), 1);
         } else {
             item.frame(0);
         }
         if (geom.contains(QLatin1Char('/'))) {
-            item.x(geom.section('/', 0, 0).toDouble());
-            item.y(geom.section('/', 1, 1).section(':', 0, 0).toDouble());
+            item.x(geom.section(QLatin1Char('/'), 0, 0).toDouble());
+            item.y(geom.section(QLatin1Char('/'), 1, 1).section(':', 0, 0).toDouble());
         } else {
             item.x(0);
             item.y(0);

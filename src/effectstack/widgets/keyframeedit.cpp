@@ -147,13 +147,13 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
         m_keyframesTag = false;
     }
     for (int i = 0; i < frames.count(); ++i) {
-        int frame = frames.at(i).section('=', 0, 0).toInt();
+        int frame = frames.at(i).section(QLatin1Char('='), 0, 0).toInt();
         bool found = false;
         int j;
         for (j = 0; j < keyframe_list->rowCount(); ++j) {
             int currentPos = getPos(j);
             if (frame == currentPos) {
-                keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section('=', 1, 1)));
+                keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section(QLatin1Char('='), 1, 1)));
                 found = true;
                 break;
             } else if (currentPos > frame) {
@@ -163,7 +163,7 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
         if (!found) {
             keyframe_list->insertRow(j);
             keyframe_list->setVerticalHeaderItem(j, new QTableWidgetItem(getPosString(frame)));
-            keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section('=', 1, 1)));
+            keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section(QLatin1Char('='), 1, 1)));
             keyframe_list->resizeRowToContents(j);
         }
         if ((activeKeyframe > -1) && (activeKeyframe == frame)) {

@@ -94,7 +94,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
             m_view.method_mime->setChecked(true);
             m_view.folder_url->setText(QFileInfo(url).absolutePath());
             QString filter = QFileInfo(url).fileName();
-            QString ext = filter.section('.', -1);
+            QString ext = filter.section(QLatin1Char('.'), -1);
             for (int i = 0; i < m_view.image_type->count(); ++i) {
                 if (m_view.image_type->itemData(i).toString() == ext) {
                     m_view.image_type->setCurrentIndex(i);
@@ -131,7 +131,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
 
     // Check for MLT lumas
     QString profilePath = KdenliveSettings::mltpath();
-    QString folder = profilePath.section('/', 0, -3);
+    QString folder = profilePath.section(QLatin1Char('/'), 0, -3);
     folder.append("/lumas/PAL"); // TODO: cleanup the PAL / NTSC mess in luma files
     QDir lumafolder(folder);
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
@@ -249,22 +249,22 @@ void SlideshowClip::parseFolder()
         QDir dir = QFileInfo(m_view.pattern_url->text()).absoluteDir();
         result = dir.entryList(QDir::Files);
         // find pattern
-        if (path.contains('?')) {
+        if (path.contains(QLatin1Char('?'))) {
             // New MLT syntax
-            if (path.section('?',1).contains(QLatin1Char(':'))) {
+            if (path.section(QLatin1Char('?'),1).contains(QLatin1Char(':'))) {
                 // Old deprecated format
                 offset = path.section(':', -1).toInt();
             } else {
-                offset = path.section('=', -1).toInt();
+                offset = path.section(QLatin1Char('='), -1).toInt();
             }
-            path = path.section('?', 0, 0);
+            path = path.section(QLatin1Char('?'), 0, 0);
         }
         filter = QFileInfo(path).fileName();
-        QString ext = filter.section('.', -1);
+        QString ext = filter.section(QLatin1Char('.'), -1);
         if (filter.contains(QLatin1Char('%'))) {
             filter = filter.section('%', 0, -2);
         } else {
-            filter = filter.section('.', 0, -2);
+            filter = filter.section(QLatin1Char('.'), 0, -2);
             while (!filter.isEmpty() && filter.at(filter.count() - 1).isDigit()) {
                 filter.remove(filter.count() - 1, 1);
             }
@@ -278,7 +278,7 @@ void SlideshowClip::parseFolder()
             if (rx.exactMatch(path)) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
-                    ix = path.section(filter, 1).section('.', 0, 0).toInt();
+                    ix = path.section(filter, 1).section(QLatin1Char('.'), 0, 0).toInt();
                     if (ix < offset) {
                         continue;
                     }
@@ -362,7 +362,7 @@ QString SlideshowClip::selectedPath()
 int SlideshowClip::getFrameNumberFromPath(const QUrl &path)
 {
     QString filter = path.fileName();
-    filter = filter.section('.', 0, -2);
+    filter = filter.section(QLatin1Char('.'), 0, -2);
     int ix = filter.size() - 1;
     while (ix >= 0 && filter.at(ix).isDigit()) {
         ix--;
@@ -382,14 +382,14 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
         // Check how many files we have
         QDir dir(folder);
         QStringList filters;
-        filters << "*." + extension.section('.', -1);
+        filters << "*." + extension.section(QLatin1Char('.'), -1);
         dir.setNameFilters(filters);
         *list = dir.entryList(QDir::Files);
     } else {
         folder = url.adjusted(QUrl::RemoveFilename).toLocalFile();
         QString filter = url.fileName();
-        QString ext = '.' + filter.section('.', -1);
-        filter = filter.section('.', 0, -2);
+        QString ext = '.' + filter.section(QLatin1Char('.'), -1);
+        filter = filter.section(QLatin1Char('.'), 0, -2);
         int fullSize = filter.size();
         QString firstFrameData = filter;
 

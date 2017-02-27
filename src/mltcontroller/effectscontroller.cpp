@@ -174,8 +174,8 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
             double factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
             double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
             for (int j = 0; j < values.count(); ++j) {
-                QString pos = values.at(j).section('=', 0, 0);
-                double val = (values.at(j).section('=', 1, 1).toDouble() - offset) / factor;
+                QString pos = values.at(j).section(QLatin1Char('='), 0, 0);
+                double val = (values.at(j).section(QLatin1Char('='), 1, 1).toDouble() - offset) / factor;
                 values[j] = pos + '=' + locale.toString(val);
             }
             // //qCDebug(KDENLIVE_LOG) << "/ / / /SENDING KEYFR:" << values;
@@ -426,8 +426,8 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
     QLocale locale;
     const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
     for (const QString &keyframe : list) {
-        const int pos = keyframe.section('=', 0, 0).toInt() + offset;
-        const QString newKey = QString::number(pos) + '=' + keyframe.section('=', 1);
+        const int pos = keyframe.section(QLatin1Char('='), 0, 0).toInt() + offset;
+        const QString newKey = QString::number(pos) + '=' + keyframe.section(QLatin1Char('='), 1);
         if (pos >= newOut) {
             if (pos == newOut) {
                 result.append(newKey);
@@ -478,8 +478,8 @@ EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, const
                 double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
                 if (factor != 1 || offset != 0) {
                     for (int j = 0; j < values.count(); ++j) {
-                        QString pos = values.at(j).section('=', 0, 0);
-                        double val = (locale.toDouble(values.at(j).section('=', 1, 1)) - offset) / factor;
+                        QString pos = values.at(j).section(QLatin1Char('='), 0, 0);
+                        double val = (locale.toDouble(values.at(j).section(QLatin1Char('='), 1, 1)) - offset) / factor;
                         values[j] = pos + '=' + locale.toString(val);
                     }
                 }
@@ -521,8 +521,8 @@ void EffectsController::offsetKeyframes(int in, const QDomElement &effect)
         if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
             QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
             for (int j = 0; j < values.count(); ++j) {
-                int pos = values.at(j).section('=', 0, 0).toInt() - in;
-                values[j] = QString::number(pos) + "=" + values.at(j).section('=', 1);
+                int pos = values.at(j).section(QLatin1Char('='), 0, 0).toInt() - in;
+                values[j] = QString::number(pos) + "=" + values.at(j).section(QLatin1Char('='), 1);
             }
             e.setAttribute(QStringLiteral("keyframes"), values.join(QLatin1Char(';')));
         }

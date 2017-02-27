@@ -1031,10 +1031,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 EffectsList::setProperty(effect, QStringLiteral("mlt_service"), info.at(0));
                 EffectsList::removeProperty(effect, QStringLiteral("src"));
                 for (int j = 1; j < info.size(); ++j) {
-                    QString value = EffectsList::property(effect, info.at(j).section('=', 0, 0));
+                    QString value = EffectsList::property(effect, info.at(j).section(QLatin1Char('='), 0, 0));
                     if (!value.isEmpty()) {
                         // update parameter name
-                        EffectsList::renameProperty(effect, info.at(j).section('=', 0, 0), info.at(j).section('=', 1, 1));
+                        EffectsList::renameProperty(effect, info.at(j).section(QLatin1Char('='), 0, 0), info.at(j).section(QLatin1Char('='), 1, 1));
                     }
                 }
             }

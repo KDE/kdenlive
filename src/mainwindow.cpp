@@ -617,8 +617,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
         if (i.hasNext()) {
             i.next();
             QString data = i.value();
-            KdenliveSettings::setProxyparams(data.section(';', 0, 0));
-            KdenliveSettings::setProxyextension(data.section(';', 1, 1));
+            KdenliveSettings::setProxyparams(data.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setProxyextension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
     if (KdenliveSettings::v4l_parameters().isEmpty() || KdenliveSettings::v4l_extension().isEmpty()) {
@@ -628,8 +628,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
         if (i.hasNext()) {
             i.next();
             QString data = i.value();
-            KdenliveSettings::setV4l_parameters(data.section(';', 0, 0));
-            KdenliveSettings::setV4l_extension(data.section(';', 1, 1));
+            KdenliveSettings::setV4l_parameters(data.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setV4l_extension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
     if (KdenliveSettings::grab_parameters().isEmpty() || KdenliveSettings::grab_extension().isEmpty()) {
@@ -639,8 +639,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
         if (i.hasNext()) {
             i.next();
             QString data = i.value();
-            KdenliveSettings::setGrab_parameters(data.section(';', 0, 0));
-            KdenliveSettings::setGrab_extension(data.section(';', 1, 1));
+            KdenliveSettings::setGrab_parameters(data.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setGrab_extension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
     if (KdenliveSettings::decklink_parameters().isEmpty() || KdenliveSettings::decklink_extension().isEmpty()) {
@@ -650,8 +650,8 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString &c
         if (i.hasNext()) {
             i.next();
             QString data = i.value();
-            KdenliveSettings::setDecklink_parameters(data.section(';', 0, 0));
-            KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
+            KdenliveSettings::setDecklink_parameters(data.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setDecklink_extension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
     pCore->projectManager()->init(Url, clipsToLoad);
@@ -3535,8 +3535,8 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             }
             if (producerService == QLatin1String("framebuffer")) {
                 // slowmotion producer
-                suffix = '?' + producerResource.section('?', 1);
-                producerResource = producerResource.section('?', 0, 0);
+                suffix = '?' + producerResource.section(QLatin1Char('?'), 1);
+                producerResource = producerResource.section(QLatin1Char('?'), 0, 0);
             } else {
                 suffix.clear();
             }

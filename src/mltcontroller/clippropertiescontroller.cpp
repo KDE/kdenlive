@@ -964,7 +964,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
     } else if (KdenliveSettings::use_exiftool()) {
         QString url = m_controller->clipUrl();
         //Check for Canon THM file
-        url = url.section('.', 0, -2) + ".THM";
+        url = url.section(QLatin1Char('.'), 0, -2) + ".THM";
         if (QFile::exists(url)) {
             // Read the exif metadata embedded in the THM file
             QProcess p;
@@ -984,13 +984,13 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                 if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
                     continue;
                 }
-                if (!tag.section('=', 0, 0).isEmpty() && !tag.section('=', 1).simplified().isEmpty()) {
+                if (!tag.section(QLatin1Char('='), 0, 0).isEmpty() && !tag.section(QLatin1Char('='), 1).simplified().isEmpty()) {
                     if (!exif) {
                         exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
                         exif->setExpanded(true);
                     }
-                    m_controller->setProperty("kdenlive:meta.exiftool." + tag.section('=', 0, 0), tag.section('=', 1).simplified());
-                    new QTreeWidgetItem(exif, QStringList() << tag.section('=', 0, 0) << tag.section('=', 1).simplified());
+                    m_controller->setProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified());
+                    new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
                 }
             }
         } else {
@@ -1020,9 +1020,9 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     }
                     if (m_type != Image) {
                         // Do not store image exif metadata in project file, would be too much noise
-                        m_controller->setProperty("kdenlive:meta.exiftool." + tag.section('=', 0, 0), tag.section('=', 1).simplified());
+                        m_controller->setProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified());
                     }
-                    new QTreeWidgetItem(exif, QStringList() << tag.section('=', 0, 0) << tag.section('=', 1).simplified());
+                    new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
                 }
             }
         }
@@ -1043,7 +1043,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         }
     } else if (m_type != Image && KdenliveSettings::use_magicLantern()) {
         QString url = m_controller->clipUrl();
-        url = url.section('.', 0, -2) + ".LOG";
+        url = url.section(QLatin1Char('.'), 0, -2) + ".LOG";
         if (QFile::exists(url)) {
             QFile file(url);
             if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {

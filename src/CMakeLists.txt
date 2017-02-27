@@ -85,6 +85,8 @@ set_package_properties(QtScript PROPERTIES
 #    TRUE
 #  )
 #endif(APPLE)
+#add_definitions( -DQT_NO_CAST_FROM_ASCII )
+#add_definitions( -DQT_NO_CAST_TO_ASCII )
 
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)

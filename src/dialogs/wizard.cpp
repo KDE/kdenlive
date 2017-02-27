@@ -293,12 +293,12 @@ void Wizard::slotUpdateCaptureParameters()
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
-            itemSize = sizes.at(j).section('=', 0, 0);
-            itemRates = sizes.at(j).section('=', 1, 1).split(',', QString::SkipEmptyParts);
+            itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
+            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(',', QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
                 QString formatDescription = '[' + format + "] " + itemSize + " (" + itemRates.at(k) + ')';
                 if (m_capture.v4l_formats->findText(formatDescription) == -1) {
-                    m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
+                    m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
                 }
             }
         }
@@ -490,7 +490,7 @@ void Wizard::checkMissingCodecs()
                 format = std.section(QStringLiteral(" acodec="), 1, 1);
             }
             if (!format.isEmpty()) {
-                requiredACodecs << format.section(' ', 0, 0).toLower();
+                requiredACodecs << format.section(QLatin1Char(' '), 0, 0).toLower();
             }
             format.clear();
             if (std.startsWith(QLatin1String("vcodec="))) {
@@ -499,7 +499,7 @@ void Wizard::checkMissingCodecs()
                 format = std.section(QStringLiteral(" vcodec="), 1, 1);
             }
             if (!format.isEmpty()) {
-                requiredVCodecs << format.section(' ', 0, 0).toLower();
+                requiredVCodecs << format.section(QLatin1Char(' '), 0, 0).toLower();
             }
         }
     }
@@ -825,7 +825,7 @@ void Wizard::slotOpenManual()
 
 void Wizard::slotShowWebInfos()
 {
-    KRun::runUrl(QUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(' ', 0, 0)), QStringLiteral("text/html"), this);
+    KRun::runUrl(QUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(QLatin1Char(' '), 0, 0)), QStringLiteral("text/html"), this);
 }
 
 void Wizard::slotSaveCaptureFormat()

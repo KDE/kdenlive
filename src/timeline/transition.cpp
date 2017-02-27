@@ -450,7 +450,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
                 } else if (pos.contains(QLatin1Char('|'))) {
                     separator.prepend(QLatin1Char('|'));
                 }
-                values[i] = QString::number(duration) + separator + pos.section('=', 1);
+                values[i] = QString::number(duration) + separator + pos.section(QLatin1Char('='), 1);
                 pa.setAttribute(QStringLiteral("value"), values.join(QLatin1Char(';')));
                 return true;
             }

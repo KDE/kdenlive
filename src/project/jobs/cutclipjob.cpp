@@ -283,8 +283,8 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     }
     QString source = clip->url();
     QPoint zone = clip->zone();
-    QString ext = source.section('.', -1);
-    QString dest = source.section('.', 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
+    QString ext = source.section(QLatin1Char('.'), -1);
+    QString dest = source.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
 
     if (originalFps == 0) {
         originalFps = fps;
@@ -372,7 +372,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     for (int i = 0; i < clips.count(); i++) {
         QString source = clips.at(i)->url();
         sources << source;
-        QString newFile = params.section(' ', -1).replace(QLatin1String("%1"), source);
+        QString newFile = params.section(QLatin1Char(' '), -1).replace(QLatin1String("%1"), source);
         destinations << newFile;
         if (QFile::exists(newFile)) {
             existingFiles << newFile;
@@ -400,7 +400,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     connect(ui.button_more, &QAbstractButton::toggled, ui.extra_params, &QWidget::setVisible);
     ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
-    ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
+    ui.extra_params->setPlainText(params.simplified().section(QLatin1Char(' '), 0, -2));
     QString mess = desc;
     mess.append(' ' + i18np("(%1 clip)", "(%1 clips)", clips.count()));
     ui.info_label->setText(mess);

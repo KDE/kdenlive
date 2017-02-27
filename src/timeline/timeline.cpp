@@ -497,8 +497,8 @@ bool Timeline::isSlide(QString geometry)
     geometry.replace(QChar(','), QChar(':'), Qt::CaseInsensitive);
     geometry.replace(QChar('/'), QChar(':'), Qt::CaseInsensitive);
 
-    QString start = geometry.section('=', 0, 0).section(':', 0, -2) + ':';
-    start.append(geometry.section('=', 1, 1).section(':', 0, -2));
+    QString start = geometry.section(QLatin1Char('='), 0, 0).section(':', 0, -2) + ':';
+    start.append(geometry.section(QLatin1Char('='), 1, 1).section(':', 0, -2));
     QStringList numbers = start.split(':', QString::SkipEmptyParts);
     for (int i = 0; i < numbers.size(); ++i) {
         int checkNumber = qAbs(numbers.at(i).toInt());
@@ -1048,7 +1048,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
                 delete parentProd;
             }
         }
-        id = id.section('_', 0, 0);
+        id = id.section(QLatin1Char('_'), 0, 0);
         ProjectClip *binclip = m_doc->getBinClip(id);
         PlaylistState::ClipState originalState = PlaylistState::Original;
         if (binclip == nullptr) {
@@ -1234,8 +1234,8 @@ void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &valu
     if (type == QLatin1String("simplekeyframe")) {
         QStringList kfrs = value.split(';');
         for (int l = 0; l < kfrs.count(); ++l) {
-            QString fr = kfrs.at(l).section('=', 0, 0);
-            double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
+            QString fr = kfrs.at(l).section(QLatin1Char('='), 0, 0);
+            double val = locale.toDouble(kfrs.at(l).section(QLatin1Char('='), 1, 1));
             if (fact != 1) {
                 // Add 0.5 since we are converting to integer below so that 0.8 is converted to 1 and not 0
                 val = val * fact + 0.5;

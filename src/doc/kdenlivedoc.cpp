@@ -707,7 +707,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     file.close();
     cleanupBackupFiles();
     QFileInfo info(file);
-    QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
+    QString fileName = QUrl::fromLocalFile(path).fileName().section(QLatin1Char('.'), 0, -2);
     fileName.append('-' + m_documentProperties.value(QStringLiteral("documentid")));
     fileName.append(info.lastModified().toString(QStringLiteral("-yyyy-MM-dd-hh-mm")));
     fileName.append(".kdenlive.png");
@@ -1173,7 +1173,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     }
     QFile file(path);
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
-    QString fileName = QUrl::fromLocalFile(path).fileName().section('.', 0, -2);
+    QString fileName = QUrl::fromLocalFile(path).fileName().section(QLatin1Char('.'), 0, -2);
     QFileInfo info(file);
     fileName.append('-' + m_documentProperties.value(QStringLiteral("documentid")));
     fileName.append(info.lastModified().toString(QStringLiteral("-yyyy-MM-dd-hh-mm")));
@@ -1191,7 +1191,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
 void KdenliveDoc::cleanupBackupFiles()
 {
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
-    QString projectFile = url().fileName().section('.', 0, -2);
+    QString projectFile = url().fileName().section(QLatin1Char('.'), 0, -2);
     projectFile.append('-' + m_documentProperties.value(QStringLiteral("documentid")));
     projectFile.append("-??");
     projectFile.append("??");

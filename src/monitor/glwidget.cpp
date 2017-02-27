@@ -917,8 +917,8 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         //m_consumer->set("1.terminate_on_pause", 0);// was commented out. restoring it  fixes mantis#3415 - FFmpeg recording freezes
         QStringList paramList = params.split(' ', QString::SkipEmptyParts);
         for (int i = 0; i < paramList.count(); ++i) {
-            QString key = "1." + paramList.at(i).section('=', 0, 0);
-            QString value = paramList.at(i).section('=', 1, 1);
+            QString key = "1." + paramList.at(i).section(QLatin1Char('='), 0, 0);
+            QString value = paramList.at(i).section(QLatin1Char('='), 1, 1);
             if (value == QLatin1String("%threads")) {
                 value = QString::number(QThread::idealThreadCount());
             }
