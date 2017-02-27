@@ -128,3 +128,20 @@ int ProfileModel::colorspace() const
     return m_profile->colorspace();
 }
 
+
+bool ProfileModel::operator==(const ProfileModel &other) const
+{
+    if (!description().isEmpty() && other.description()  == description()) {
+        return true;
+    }
+    int fps = frame_rate_num() * 100 / frame_rate_den();
+    int sar = sample_aspect_num() * 100 / sample_aspect_den();
+    int dar = display_aspect_num() * 100 / display_aspect_den();
+    return      other.frame_rate_num() * 100 / other.frame_rate_den() == fps &&
+        other.width() == width() &&
+        other.height() == height() &&
+        other.progressive() == progressive() &&
+        other.sample_aspect_num() * 100 / other.sample_aspect_den() == sar &&
+        other.display_aspect_num() * 100 / other.display_aspect_den() == dar &&
+        other.colorspace() == colorspace();
+}

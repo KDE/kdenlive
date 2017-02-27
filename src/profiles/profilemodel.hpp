@@ -62,6 +62,10 @@ public:
     int is_explicit() const;
     int colorspace() const;
 
+    /* @brief overload of comparison operators */
+    bool operator==(const ProfileModel &other) const;
+    bool operator!=(const ProfileModel &other) const;
+
 protected:
     QString m_path;
     bool m_invalid;
