@@ -101,7 +101,7 @@ public:
     /* @brief Returns true if track tid is blank from pos to pos + duration*/
     bool availableSpace(int tid, int pos, int duration) const;
 
-    void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration) override;
+    void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) override;
 
     virtual void _beginRemoveRows(const QModelIndex&, int , int) override;
     virtual void _beginInsertRows(const QModelIndex&, int , int) override;

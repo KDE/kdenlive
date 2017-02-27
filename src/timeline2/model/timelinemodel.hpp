@@ -336,7 +336,7 @@ protected:
     virtual void _beginInsertRows(const QModelIndex&, int , int) = 0;
     virtual void _endRemoveRows() = 0;
     virtual void _endInsertRows() = 0;
-    virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration) = 0;
+    virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) = 0;
     virtual QModelIndex makeClipIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;

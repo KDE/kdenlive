@@ -65,9 +65,24 @@ int ClipModel::getPosition() const
     return m_position;
 }
 
+const QString ClipModel::getProperty(const QString &name) const
+{
+    return QString::fromUtf8(m_producer->get(name.toUtf8().constData()));
+}
+
 std::pair<int, int> ClipModel::getInOut() const
 {
     return {m_producer->get_in(), m_producer->get_out()};
+}
+
+int ClipModel::getIn() const
+{
+    return m_producer->get_in();
+}
+
+int ClipModel::getOut() const
+{
+    return m_producer->get_out();
 }
 
 bool ClipModel::isValid()

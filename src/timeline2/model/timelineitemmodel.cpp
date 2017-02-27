@@ -197,31 +197,37 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         return id;
     }
     if (isClip(id)) {
+        std::shared_ptr<ClipModel>clip = m_allClips.at(id);
         // Get data for a clip
         switch (role) {
         //TODO
         case NameRole:
-        case ResourceRole:
         case Qt::DisplayRole:{
             QString result = QString::fromUtf8("clip name");
             return result;
         }
+        case ResourceRole: {
+            QString result = clip->getProperty("resource");
+            if (result == QLatin1String("<producer>")) {
+                result = clip->getProperty("mlt_service");
+            }
+            return result;
+        }
         case ServiceRole:
-            return QString("service2");
+            return clip->getProperty("mlt_service");
             break;
         case IsBlankRole: //probably useless
             return false;
         case StartRole:
-            return m_allClips.at(id)->getPosition();
+            return clip->getPosition();
         case DurationRole:
-            return m_allClips.at(id)->getPlaytime();
+            return clip->getPlaytime();
         case GroupedRole:
             return m_groups->isInGroup(id);
-            //Are these really needed ??
         case InPointRole:
-            return 0;
+            return clip->getIn();
         case OutPointRole:
-            return 1;
+            return clip->getOut();
         case FramerateRole:
             return 25;
         default:
@@ -260,14 +266,20 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
 }
 
 
-void TimelineItemModel::notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration)
+void TimelineItemModel::notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb)
 {
     QVector<int> roles;
     if (start) {
         roles.push_back(StartRole);
+        if (updateThumb) {
+            roles.push_back(InPointRole);
+        }
     }
     if (duration) {
         roles.push_back(DurationRole);
+        if (updateThumb) {
+            roles.push_back(OutPointRole);
+        }
     }
     emit dataChanged(topleft, bottomright, roles);
 }

@@ -455,13 +455,13 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUnd
     }
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    Fun update_model = [cid, right, this]() {
+    Fun update_model = [cid, right, logUndo, this]() {
         if (getClipTrackId(cid) != -1) {
             QModelIndex modelIndex = makeClipIndexFromID(cid);
             if (right) {
-                notifyChange(modelIndex, modelIndex, false, true);
+                notifyChange(modelIndex, modelIndex, false, true, logUndo);
             } else {
-                notifyChange(modelIndex, modelIndex, true, true);
+                notifyChange(modelIndex, modelIndex, true, true, logUndo);
             }
         }
         return true;

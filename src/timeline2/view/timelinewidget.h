@@ -134,6 +134,9 @@ public:
     /* @brief Define the undo stack for this timeline
      */
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
+    /* @brief Do we want to display video thumbnails
+     */
+    Q_INVOKABLE bool showThumbnails() const;
 
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;

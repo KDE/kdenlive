@@ -70,9 +70,15 @@ public:
      */
     int getPosition() const;
 
+    /* @brief returns a property of the current clip
+     */
+    const QString getProperty(const QString &name) const;
+
     /* @brief returns the in and out times of the clip
      */
     std::pair<int, int> getInOut() const;
+    int getIn() const;
+    int getOut() const;
 
     friend class TrackModel;
     friend class TimelineModel;

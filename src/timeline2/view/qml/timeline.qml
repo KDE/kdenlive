@@ -225,6 +225,11 @@ Rectangle {
                         width: root.duration + headerWidth
                         height: trackHeaders.height
                         color: activePalette.window
+                        MouseArea {
+                            anchors.fill: parent
+                            acceptedButtons: Qt.NoButton
+                            onWheel: zoomByWheel(wheel)
+                        }
                         Column {
                             // These make the striped background for the tracks.
                             // It is important that these are not part of the track visual hierarchy;
@@ -374,6 +379,9 @@ Rectangle {
             isCurrentTrack: currentTrack === index
             trackId: item
             selection: timeline.selection
+            onTimeScaleChanged: {
+                scrollView.flickableItem.contentX = Math.max(0, root.seekPos * timeline.scaleFactor - (scrollView.width / 2))
+            }
             onClipClicked: {
                 currentTrack = track.DelegateModel.itemsIndex
                 timeline.selection = [ clip.clipId ];
@@ -443,14 +451,7 @@ Rectangle {
             }
         }
     }
-    MouseArea {
-        width: root.width - headerWidth
-        height: root.height - ruler.height
-        y: ruler.height
-        x: headerWidth
-        acceptedButtons: Qt.NoButton
-        onWheel: zoomByWheel(wheel)
-    }
+
     Connections {
         target: timeline
         onPositionChanged: if (!stopScrolling) Logic.scrollIfNeeded()

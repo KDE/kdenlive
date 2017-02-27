@@ -49,7 +49,7 @@ Rectangle {
     property int lastValidDuration: clipDuration
     property int draggedX: x
     property bool selected: false
-    property string hash: ''
+    property string hash: 'ccc' //TODO
     property double speed: 1.0
     property color borderColor: 'black'
 
@@ -113,15 +113,15 @@ Rectangle {
 
     //onAudioLevelsChanged: generateWaveform()
 
-    /*Image {
+    Image {
         id: outThumbnail
-        //visible: settings.timelineShowThumbnails
+        visible: timeline.showThumbnails()
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.topMargin: parent.border.width
         anchors.rightMargin: parent.border.width + 1
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: parent.height / 2
+        anchors.bottomMargin: parent.border.width + 1
         width: height * 16.0/9.0
         fillMode: Image.PreserveAspectFit
         source: imagePath(outPoint)
@@ -129,16 +129,17 @@ Rectangle {
 
     Image {
         id: inThumbnail
-        //visible: settings.timelineShowThumbnails
+        visible: timeline.showThumbnails()
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.topMargin: parent.border.width
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: parent.height / 2
+        anchors.bottomMargin: parent.border.width + 1
+        anchors.leftMargin: parent.border.width
         width: height * 16.0/9.0
         fillMode: Image.PreserveAspectFit
         source: imagePath(inPoint)
-    }*/
+    }
 
     /*TimelineTransition {
         visible: isTransition

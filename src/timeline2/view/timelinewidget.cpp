@@ -23,10 +23,15 @@
 #include "../model/builders/meltBuilder.hpp"
 #include "qml/timelineitems.h"
 #include "doc/docundostack.hpp"
+#include "kdenlivesettings.h"
+#include "core.h"
+#include "qmltypes/thumbnailprovider.h"
+#include "bin/bin.h"
 
-#include <QUrl>
+// #include <QUrl>
 #include <QQuickItem>
 #include <QQmlContext>
+#include <QQmlEngine>
 
 const int TimelineWidget::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
@@ -45,6 +50,7 @@ TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUn
     rootContext()->setContextProperty("timeline", this);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     m_model->tractor()->listen("producer-changed", this, (mlt_listener) tractorChanged);
+    engine()->addImageProvider(QString("thumbnail"), new ThumbnailProvider);
     //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 
@@ -251,5 +257,10 @@ void TimelineWidget::wheelEvent(QWheelEvent *event)
     } else {
         QQuickWidget::wheelEvent(event);
     }
+}
+
+bool TimelineWidget::showThumbnails() const
+{
+    return KdenliveSettings::videothumbnails();
 }
 

@@ -85,6 +85,21 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 }
 
 //static
+QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int displayWidth, int height)
+{
+    if (!producer.is_valid()) {
+        QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+        p.fill(QColor(Qt::red).rgb());
+        return p;
+    }
+    producer.seek(framepos);
+    Mlt::Frame *frame = producer.get_frame();
+    const QImage p = getFrame(frame, displayWidth, height);
+    delete frame;
+    return p;
+}
+
+//static
 QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceRescale)
 {
     if (frame == nullptr || !frame->is_valid()) {
@@ -106,10 +121,6 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceResc
                 image = image.scaled(width, height);
             }
             return image;
-            /*p.fill(QColor(100, 100, 100, 70));
-            QPainter painter(&p);
-            painter.drawImage(p.rect(), image);
-            painter.end();*/
         }
     }
     QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
