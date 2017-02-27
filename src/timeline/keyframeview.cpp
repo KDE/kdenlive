@@ -131,6 +131,7 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
 
     int cnt = m_keyProperties.count();
     QStringList paramNames;
+    paramNames.reserve(cnt);
     for (int i = 0; i < cnt; i++) {
         paramNames << m_keyProperties.get_name(i);
     }
