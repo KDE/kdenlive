@@ -1669,10 +1669,10 @@ void MainWindow::slotEditProjectSettings()
     KdenliveDoc *project = pCore->projectManager()->current();
     QPoint p = pCore->projectManager()->currentTimeline()->getTracksCount();
 
-    QPointer<ProjectSettings> w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectTempFolder(), true, !project->isModified(), this);
-    connect(w.data(), &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
+    ProjectSettings* w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectTempFolder(), true, !project->isModified(), this);
+    connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
     connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
-    connect(w.data(), &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
+    connect(w, &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();

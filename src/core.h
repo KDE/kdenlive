@@ -104,7 +104,7 @@ private:
     Bin *m_binWidget;
     LibraryWidget *m_library;
 
-    std::shared_ptr<MltConnection> m_mltConnection;
+    std::unique_ptr<MltConnection> m_mltConnection;
 
 signals:
     void coreIsReady();

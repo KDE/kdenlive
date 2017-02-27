@@ -78,7 +78,7 @@ void Core::build(const QString &MltPath, const QUrl &Url, const QString &clipsTo
 
 void Core::initialize(const QString &mltPath)
 {
-    m_mltConnection = std::make_shared<MltConnection>(mltPath);
+    m_mltConnection = std::unique_ptr<MltConnection>(new MltConnection(mltPath));
     m_mainWindow = new MainWindow();
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin();
