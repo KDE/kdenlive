@@ -19,7 +19,9 @@
  ***************************************************************************/
 
 #include <config-kdenlive.h>
-#include "mainwindow.h"
+#include "core.h"
+
+#include <mlt++/Mlt.h>
 
 #include "kxmlgui_version.h"
 
@@ -31,6 +33,7 @@
 
 #include "kdenlive_debug.h"
 #include <QUrl> //new
+#include <QDir>
 #include <QApplication>
 #include <klocalizedstring.h>
 #include <QCommandLineParser>
@@ -137,27 +140,17 @@ int main(int argc, char *argv[])
 
     KCrash::initialize();
 
-    // see if we are starting with session management
-    if (qApp->isSessionRestored()) {
-        int n = 1;
-        while (KMainWindow::canBeRestored(n)) {
-            (new MainWindow())->restore(n);
-            n++;
-        }
-    } else {
-        QString clipsToLoad = parser.value(QStringLiteral("i"));
-        QString mltPath = parser.value(QStringLiteral("mlt-path"));
-        QUrl url;
-        if (parser.positionalArguments().count()) {
-            url = QUrl::fromLocalFile(parser.positionalArguments().at(0));
-            // Make sure we get an absolute URL so that we can autosave correctly
-            QString currentPath = QDir::currentPath();
-            QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
-            url = startup.resolved(url);
-        }
-        MainWindow *window = new MainWindow(mltPath, url, clipsToLoad);
-        window->show();
+    QString clipsToLoad = parser.value(QStringLiteral("i"));
+    QString mltPath = parser.value(QStringLiteral("mlt-path"));
+    QUrl url;
+    if (parser.positionalArguments().count()) {
+        url = QUrl::fromLocalFile(parser.positionalArguments().at(0));
+        // Make sure we get an absolute URL so that we can autosave correctly
+        QString currentPath = QDir::currentPath();
+        QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
+        url = startup.resolved(url);
     }
+    Core::build(mltPath, url, clipsToLoad);
     int result = app.exec();
 
     if (EXIT_RESTART == result) {
