@@ -110,7 +110,7 @@ private:
     LibraryWidget *m_library;
     QTabWidget *m_timelineTab;
 
-    std::shared_ptr<MltConnection> m_mltConnection;
+    std::unique_ptr<MltConnection> m_mltConnection;
 
 signals:
     void coreIsReady();
