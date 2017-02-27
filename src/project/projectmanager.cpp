@@ -96,7 +96,7 @@ void ProjectManager::slotLoadOnOpen()
     }
 
     if (!m_loadClipsOnOpen.isEmpty() && m_project) {
-        const QStringList list = m_loadClipsOnOpen.split(',');
+        const QStringList list = m_loadClipsOnOpen.split(QLatin1Char(','));
         QList<QUrl> urls;
         urls.reserve(list.count());
         for (const QString &path : list) {
@@ -363,7 +363,7 @@ bool ProjectManager::saveFileAs()
     bool ok = false;
     QDir cacheDir = m_project->getCacheDir(CacheBase, &ok);
     if (ok) {
-        QFile file(cacheDir.absoluteFilePath(QUrl::toPercentEncoding("." + outputFile)));
+        QFile file(cacheDir.absoluteFilePath(QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral(".") + outputFile))));
         file.open(QIODevice::ReadWrite | QIODevice::Text);
         file.close();
     }
@@ -612,7 +612,7 @@ QString ProjectManager::getMimeType(bool open)
 {
     QString mimetype = i18n("Kdenlive project (*.kdenlive)");
     if (open) {
-        mimetype.append(";;" + i18n("Archived project (*.tar.gz)"));
+        mimetype.append(QStringLiteral(";;") + i18n("Archived project (*.tar.gz)"));
     }
     return mimetype;
 }

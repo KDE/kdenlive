@@ -46,7 +46,7 @@ ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out, const QStri
     setParent(parent);
     m_duration = timecode;
     // Save subclip in MLT
-    parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + ";" +  QString::number(out));
+    parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') +  QString::number(out));
     connect(parent, &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
 }
 

@@ -59,46 +59,44 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
     videos->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
-    videos->setData(0, Qt::UserRole, "videos");
+    videos->setData(0, Qt::UserRole, QStringLiteral("videos"));
     videos->setExpanded(false);
     QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
     sounds->setIcon(0, QIcon::fromTheme(QStringLiteral("audio-x-generic")));
-    sounds->setData(0, Qt::UserRole, "sounds");
+    sounds->setData(0, Qt::UserRole, QStringLiteral("sounds"));
     sounds->setExpanded(false);
     QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
     images->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
-    images->setData(0, Qt::UserRole, "images");
+    images->setData(0, Qt::UserRole, QStringLiteral("images"));
     images->setExpanded(false);
     QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
     slideshows->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
-    slideshows->setData(0, Qt::UserRole, "slideshows");
+    slideshows->setData(0, Qt::UserRole, QStringLiteral("slideshows"));
     slideshows->setExpanded(false);
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
     texts->setIcon(0, QIcon::fromTheme(QStringLiteral("text-plain")));
-    texts->setData(0, Qt::UserRole, "texts");
+    texts->setData(0, Qt::UserRole, QStringLiteral("texts"));
     texts->setExpanded(false);
     QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
     playlists->setIcon(0, QIcon::fromTheme(QStringLiteral("video-mlt-playlist")));
-    playlists->setData(0, Qt::UserRole, "playlist");
+    playlists->setData(0, Qt::UserRole, QStringLiteral("playlist"));
     playlists->setExpanded(false);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
     others->setIcon(0, QIcon::fromTheme(QStringLiteral("unknown")));
-    others->setData(0, Qt::UserRole, "others");
+    others->setData(0, Qt::UserRole, QStringLiteral("others"));
     others->setExpanded(false);
     QTreeWidgetItem *lumas = new QTreeWidgetItem(files_list, QStringList() << i18n("Luma files"));
     lumas->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
-    lumas->setData(0, Qt::UserRole, "lumas");
+    lumas->setData(0, Qt::UserRole, QStringLiteral("lumas"));
     lumas->setExpanded(false);
 
     QTreeWidgetItem *proxies = new QTreeWidgetItem(files_list, QStringList() << i18n("Proxy clips"));
     proxies->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
-    proxies->setData(0, Qt::UserRole, "proxy");
+    proxies->setData(0, Qt::UserRole, QStringLiteral("proxy"));
     proxies->setExpanded(false);
 
     // process all files
     QStringList allFonts;
-    QList<QUrl> fileUrls;
-    QStringList fileNames;
     QStringList extraImageUrls;
     QStringList otherUrls;
     generateItems(lumas, luma_list);
@@ -194,13 +192,13 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             } else {
                 total += items;
             }
-            parentItem->setText(0, files_list->topLevelItem(i)->text(0) + ' ' + i18np("(%1 item)", "(%1 items)", items));
+            parentItem->setText(0, files_list->topLevelItem(i)->text(0) + QLatin1Char(' ') + i18np("(%1 item)", "(%1 items)", items));
         }
     }
     if (m_name.isEmpty()) {
         m_name = i18n("Untitled");
     }
-    compressed_archive->setText(compressed_archive->text() + " (" + m_name + ".tar.gz)");
+    compressed_archive->setText(compressed_archive->text() + QStringLiteral(" (") + m_name + QStringLiteral(".tar.gz)"));
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
     connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartArchiving);
@@ -346,7 +344,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 // mimetype slideshow (for example *.png)
                 QStringList filters;
                 // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-                filters << "*." + slideUrl.fileName().section(QLatin1Char('.'), -1);
+                filters << QStringLiteral("*.") + slideUrl.fileName().section(QLatin1Char('.'), -1);
                 dir.setNameFilters(filters);
                 QFileInfoList resultList = dir.entryInfoList(QDir::Files);
                 QStringList slideImages;
@@ -363,13 +361,13 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 QStringList result = dir.entryList(QDir::Files);
                 QString filter = slideUrl.fileName();
                 QString ext = filter.section(QLatin1Char('.'), -1);
-                filter = filter.section('%', 0, -2);
-                QString regexp = '^' + filter + "\\d+\\." + ext + '$';
+                filter = filter.section(QLatin1Char('%'), 0, -2);
+                QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
                 QRegExp rx(regexp);
                 QStringList slideImages;
                 QString directory = dir.absolutePath();
-                if (!directory.endsWith('/')) {
-                    directory.append('/');
+                if (!directory.endsWith(QLatin1Char('/'))) {
+                    directory.append(QLatin1Char('/'));
                 }
                 qint64 totalSize = 0;
                 foreach (const QString &path, result) {
@@ -385,10 +383,10 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
             int ix = 0;
-            QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(ix) + '.' + fileName.section(QLatin1Char('.'), -1);
+            QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(ix) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
             while (filesList.contains(newFileName)) {
                 ix ++;
-                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(ix) + '.' + fileName.section(QLatin1Char('.'), -1);
+                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(ix) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
             }
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);
@@ -430,7 +428,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 // mimetype slideshow (for example *.png)
                 QStringList filters;
                 // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-                filters << "*." + slideUrl.fileName().section(QLatin1Char('.'), -1);
+                filters << QStringLiteral("*.") + slideUrl.fileName().section(QLatin1Char('.'), -1);
                 dir.setNameFilters(filters);
                 QFileInfoList resultList = dir.entryInfoList(QDir::Files);
                 QStringList slideImages;
@@ -447,14 +445,14 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 QStringList result = dir.entryList(QDir::Files);
                 QString filter = slideUrl.fileName();
                 QString ext = filter.section(QLatin1Char('.'), -1);
-                filter = filter.section('%', 0, -2);
-                QString regexp = '^' + filter + "\\d+\\." + ext + '$';
+                filter = filter.section(QLatin1Char('%'), 0, -2);
+                QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
                 QRegExp rx(regexp);
                 QStringList slideImages;
                 qint64 totalSize = 0;
                 QString directory = dir.absolutePath();
-                if (!directory.endsWith('/')) {
-                    directory.append('/');
+                if (!directory.endsWith(QLatin1Char('/'))) {
+                    directory.append(QLatin1Char('/'));
                 }
                 foreach (const QString &path, result) {
                     if (rx.exactMatch(path)) {
@@ -469,10 +467,10 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
             int index2 = 0;
-            QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(index2) + '.' + fileName.section(QLatin1Char('.'), -1);
+            QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(index2) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
             while (filesList.contains(newFileName)) {
                 index2 ++;
-                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(index2) + '.' + fileName.section(QLatin1Char('.'), -1);
+                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(index2) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
             }
             fileName = newFileName;
             item->setData(0, Qt::UserRole, fileName);
@@ -548,7 +546,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         }
         if (parentItem->childCount() > 0) {
             if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows")) {
-                QUrl slideFolder = QUrl::fromLocalFile(archive_url->url().toLocalFile() + "/slideshows");
+                QUrl slideFolder = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QStringLiteral("/slideshows"));
                 if (isArchive) {
                     m_foldersList.append(QStringLiteral("slideshows"));
                 } else {
@@ -563,8 +561,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             }
             files_list->setCurrentItem(parentItem);
             parentItem->setExpanded(true);
-            destPath = parentItem->data(0, Qt::UserRole).toString() + '/';
-            destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + "/" + destPath);
+            destPath = parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/');
+            destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QLatin1Char('/') + destPath);
             QTreeWidgetItem *item;
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
@@ -574,7 +572,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                 // Special case: slideshows
                 items++;
                 if (isSlideshow) {
-                    destPath += item->data(0, Qt::UserRole).toString() + '/';
+                    destPath += item->data(0, Qt::UserRole).toString() + QLatin1Char('/');
                     destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QDir::separator() + destPath);
                     QStringList srcFiles = item->data(0, Qt::UserRole + 1).toStringList();
                     for (int k = 0; k < srcFiles.count(); ++k) {
@@ -594,7 +592,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                     if (isArchive) {
                         m_filesList.insert(item->text(0), destPath + item->data(0, Qt::UserRole).toString());
                     } else {
-                        m_duplicateFiles.insert(QUrl::fromLocalFile(item->text(0)), QUrl::fromLocalFile(destUrl.toLocalFile() + "/" + item->data(0, Qt::UserRole).toString()));
+                        m_duplicateFiles.insert(QUrl::fromLocalFile(item->text(0)), QUrl::fromLocalFile(destUrl.toLocalFile() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString()));
                     }
                 }
             }
@@ -708,11 +706,11 @@ bool ArchiveWidget::processProjectFile()
                 QUrl src = QUrl::fromLocalFile(item->text(0));
                 QUrl dest = destUrl;
                 if (isSlideshow) {
-                    dest = QUrl::fromLocalFile(destUrl.toLocalFile() + QDir::separator() + item->data(0, Qt::UserRole).toString() + "/" + src.fileName());
+                    dest = QUrl::fromLocalFile(destUrl.toLocalFile() + QDir::separator() + item->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
                 } else if (item->data(0, Qt::UserRole).isNull()) {
                     dest = QUrl::fromLocalFile(destUrl.toLocalFile() + QDir::separator() + src.fileName());
                 } else {
-                    dest = QUrl::fromLocalFile(destUrl.toLocalFile() + "/" + item->data(0, Qt::UserRole).toString());
+                    dest = QUrl::fromLocalFile(destUrl.toLocalFile() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 }
                 m_replacementList.insert(src, dest);
             }
@@ -812,8 +810,8 @@ bool ArchiveWidget::processProjectFile()
         QString endString(QStringLiteral("\""));
         endString.append(basePath);
         playList.replace(startString, endString);
-        startString = '>' + archive_url->url().adjusted(QUrl::StripTrailingSlash).toLocalFile();
-        endString = '>' + basePath;
+        startString = QLatin1Char('>') + archive_url->url().adjusted(QUrl::StripTrailingSlash).toLocalFile();
+        endString = QLatin1Char('>') + basePath;
         playList.replace(startString, endString);
     }
 
@@ -828,7 +826,7 @@ bool ArchiveWidget::processProjectFile()
         return true;
     }
 
-    QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + ".kdenlive";
+    QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
     QFile file(path);
     if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
         return false;
@@ -854,7 +852,7 @@ void ArchiveWidget::createArchive()
     QFileInfo dirInfo(archive_url->url().toLocalFile());
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
-    KTar archive(archive_url->url().toLocalFile() + QDir::separator() + m_name + ".tar.gz", QStringLiteral("application/x-gzip"));
+    KTar archive(archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".tar.gz"), QStringLiteral("application/x-gzip"));
     archive.open(QIODevice::WriteOnly);
 
     // Create folders
@@ -875,7 +873,7 @@ void ArchiveWidget::createArchive()
     // Add project file
     bool result = false;
     if (m_temp) {
-        archive.addLocalFile(m_temp->fileName(), m_name + ".kdenlive");
+        archive.addLocalFile(m_temp->fileName(), m_name + QStringLiteral(".kdenlive"));
         result = archive.close();
         delete m_temp;
         m_temp = nullptr;
@@ -1063,7 +1061,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
                 itemsCount ++;
             }
         }
-        parentItem->setText(0, parentItem->text(0).section('(', 0, 0) + i18np("(%1 item)", "(%1 items)", itemsCount));
+        parentItem->setText(0, parentItem->text(0).section(QLatin1Char('('), 0, 0) + i18np("(%1 item)", "(%1 items)", itemsCount));
     }
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     slotCheckSpace();

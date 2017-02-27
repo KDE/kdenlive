@@ -99,7 +99,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                         continue;
                     }
                 }
-                consumerParams.insert(QStringLiteral("consumer"), "xml:" + destination);
+                consumerParams.insert(QStringLiteral("consumer"), QStringLiteral("xml:") + destination);
                 ProjectClip *clip = clips.at(i);
                 MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
                 job->description = i18n("Reverse clip");
@@ -234,13 +234,13 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                 QString consumerName = d->consumerParams().value(QStringLiteral("consumer"));
                 if (clips.count() == 1) {
                     // We only have one clip, destination points to the final url
-                    consumerParams.insert(QStringLiteral("consumer"), consumerName + ':' + destination);
-                    trffile = QUrl::fromLocalFile(destination + ".trf");
+                    consumerParams.insert(QStringLiteral("consumer"), consumerName + QLatin1Char(':') + destination);
+                    trffile = QUrl::fromLocalFile(destination + QStringLiteral(".trf"));
                 } else {
                     // Filter several clips, destination points to a folder
-                    QString mltfile = destination + QFileInfo(clip->url()).fileName() + ".mlt";
-                    consumerParams.insert(QStringLiteral("consumer"), consumerName + ':' + mltfile);
-                    trffile = QUrl::fromLocalFile(mltfile + ".trf");
+                    QString mltfile = destination + QFileInfo(clip->url()).fileName() + QStringLiteral(".mlt");
+                    consumerParams.insert(QStringLiteral("consumer"), consumerName + QLatin1Char(':') + mltfile);
+                    trffile = QUrl::fromLocalFile(mltfile + QStringLiteral(".trf"));
                 }
                 consumerParams.insert(QStringLiteral("real_time"), QStringLiteral("-1"));
                 // Append a 'filename' parameter for saving vidstab data

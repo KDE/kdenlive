@@ -216,7 +216,7 @@ bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int c
         clipEffectsModified = resizeGeometries(effect, width, height, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
         QString newAnimation = resizeAnimations(effect, previousDuration, cutPos == -1 ? 0 : cutPos, cropDuration().frames(m_fps) - 1, cropStart().frames(m_fps));
         if (!newAnimation.isEmpty()) {
-            //setKeyframes(ix, newAnimation.split(';', QString::SkipEmptyParts));
+            //setKeyframes(ix, newAnimation.split(QLatin1Char(';'), QString::SkipEmptyParts));
             clipEffectsModified = true;
         }
         if (clipEffectsModified) {
@@ -549,7 +549,7 @@ QString ClipItem::clipName() const
     if (m_speed == 1.0) {
         return m_binClip->name();
     } else {
-        return m_binClip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + '%';
+        return m_binClip->name() + QStringLiteral(" - ") + QString::number(m_speed * 100, 'f', 0) + QLatin1Char('%');
     }
 }
 
@@ -891,7 +891,7 @@ void ClipItem::paint(QPainter *painter,
                         framepos = rect().x() + pos.frames(m_fps);
                         const QRectF r1(framepos + 0.04, rect().height() / 3, rect().width() - framepos - 2, rect().height() / 2);
                         const QRectF r2 = transformation.mapRect(r1);
-                        const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
+                        const QRectF txtBounding3 = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, QLatin1Char(' ') + (*it).comment() + QLatin1Char(' '));
                         painter->setBrush(markerBrush);
                         pen.setStyle(Qt::SolidLine);
                         painter->setPen(pen);
@@ -1543,14 +1543,14 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
                     needInOutSync = true;
                 }
             } else if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
-                QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+                QStringList values = e.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
                 double factor = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
                 double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
                 if (factor != 1 || offset != 0) {
                     for (int j = 0; j < values.count(); ++j) {
                         QString pos = values.at(j).section(QLatin1Char('='), 0, 0);
                         double val = (locale.toDouble(values.at(j).section(QLatin1Char('='), 1, 1)) - offset) / factor;
-                        values[j] = pos + '=' + locale.toString(val);
+                        values[j] = pos + QLatin1Char('=') + locale.toString(val);
                     }
                 }
                 parameters.addParam(e.attribute(QStringLiteral("name")), values.join(QLatin1Char(';')));
@@ -1959,7 +1959,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, const ItemInfo &oldI
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     bool keyFrameUpdated = false;
 
-    const QStringList data = parameter.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+    const QStringList data = parameter.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
     QMap<int, double> keyframes;
     foreach (const QString &keyframe, data) {
         int keyframepos = keyframe.section(QLatin1Char('='), 0, 0).toInt();
@@ -2026,7 +2026,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, const ItemInfo &oldI
         QString newkfr;
         QMap<int, double>::const_iterator k = keyframes.constBegin();
         while (k != keyframes.constEnd()) {
-            newkfr.append(QString::number(k.key()) + '=' + QString::number(qRound(k.value())) + ';');
+            newkfr.append(QString::number(k.key()) + QLatin1Char('=') + QString::number(qRound(k.value())) + QLatin1Char(';'));
             ++k;
         }
         parameter.setAttribute(QStringLiteral("keyframes"), newkfr);

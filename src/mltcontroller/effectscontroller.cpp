@@ -170,13 +170,13 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
         if (e.attribute(QStringLiteral("type")) == QLatin1String("animated")) {
             parameters.addParam(paramname, e.attribute(QStringLiteral("value")));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
-            QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+            QStringList values = e.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
             double factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
             double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
             for (int j = 0; j < values.count(); ++j) {
                 QString pos = values.at(j).section(QLatin1Char('='), 0, 0);
                 double val = (values.at(j).section(QLatin1Char('='), 1, 1).toDouble() - offset) / factor;
-                values[j] = pos + '=' + locale.toString(val);
+                values[j] = pos + QLatin1Char('=') + locale.toString(val);
             }
             // //qCDebug(KDENLIVE_LOG) << "/ / / /SENDING KEYFR:" << values;
             parameters.addParam(paramname, values.join(QLatin1Char(';')));
@@ -197,7 +197,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
             //TODO: Deprecated, does not seem used anywhere...
             QString format = e.attribute(QStringLiteral("format"));
             QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
-            QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp("[,:;x]"));
+            QStringList values = e.attribute(QStringLiteral("value")).split(QRegExp(QStringLiteral("[,:;x]")));
             QString neu;
             QTextStream txtNeu(&neu);
             if (!values.isEmpty()) {
@@ -335,7 +335,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
         if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
             if (e.attribute(QStringLiteral("keyframes")).isEmpty()) {
                 // Effect has a keyframe type parameter, we need to set the values
-                e.setAttribute(QStringLiteral("keyframes"), QString::number((int) info.cropStart.frames(fps)) + '=' + e.attribute(QStringLiteral("default")));
+                e.setAttribute(QStringLiteral("keyframes"), QString::number((int) info.cropStart.frames(fps)) + QLatin1Char('=') + e.attribute(QStringLiteral("default")));
             } else {
                 // adjust keyframes to this clip
                 QString adjusted = adjustKeyframes(e.attribute(QStringLiteral("keyframes")), offset, info.cropStart.frames(fps), (info.cropStart + info.cropDuration).frames(fps) - 1, pInfo);
@@ -427,7 +427,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
     const QStringList list = keyframes.split(QLatin1Char(';'), QString::SkipEmptyParts);
     for (const QString &keyframe : list) {
         const int pos = keyframe.section(QLatin1Char('='), 0, 0).toInt() + offset;
-        const QString newKey = QString::number(pos) + '=' + keyframe.section(QLatin1Char('='), 1);
+        const QString newKey = QString::number(pos) + QLatin1Char('=') + keyframe.section(QLatin1Char('='), 1);
         if (pos >= newOut) {
             if (pos == newOut) {
                 result.append(newKey);
@@ -438,7 +438,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
                 geom.parse(keyframes.toUtf8().data(), newOut, pInfo.profileSize.rwidth(), pInfo.profileSize.rheight());
                 Mlt::GeometryItem item;
                 geom.fetch(&item, framePos);
-                const QString lastKey = QString::number(newIn + max) + '=' + locale.toString(item.x());
+                const QString lastKey = QString::number(newIn + max) + QLatin1Char('=') + locale.toString(item.x());
                 result.append(lastKey);
             }
             break;
@@ -473,14 +473,14 @@ EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, const
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
             if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
-                QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+                QStringList values = e.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
                 double factor = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
                 double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
                 if (factor != 1 || offset != 0) {
                     for (int j = 0; j < values.count(); ++j) {
                         QString pos = values.at(j).section(QLatin1Char('='), 0, 0);
                         double val = (locale.toDouble(values.at(j).section(QLatin1Char('='), 1, 1)) - offset) / factor;
-                        values[j] = pos + '=' + locale.toString(val);
+                        values[j] = pos + QLatin1Char('=') + locale.toString(val);
                     }
                 }
                 parameters.addParam(e.attribute(QStringLiteral("name")), values.join(QLatin1Char(';')));
@@ -519,10 +519,10 @@ void EffectsController::offsetKeyframes(int in, const QDomElement &effect)
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
-            QStringList values = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+            QStringList values = e.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
             for (int j = 0; j < values.count(); ++j) {
                 int pos = values.at(j).section(QLatin1Char('='), 0, 0).toInt() - in;
-                values[j] = QString::number(pos) + "=" + values.at(j).section(QLatin1Char('='), 1);
+                values[j] = QString::number(pos) + QLatin1Char('=') + values.at(j).section(QLatin1Char('='), 1);
             }
             e.setAttribute(QStringLiteral("keyframes"), values.join(QLatin1Char(';')));
         }

@@ -414,8 +414,8 @@ void RenderWidget::setGuides(const QMap<double, QString> &guidesData, double dur
         i.next();
         GenTime pos = GenTime(i.key());
         const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
-        m_view.guide_start->addItem(i.value() + '/' + guidePos, i.key());
-        m_view.guide_end->addItem(i.value() + '/' + guidePos, i.key());
+        m_view.guide_start->addItem(i.value() + QLatin1Char('/') + guidePos, i.key());
+        m_view.guide_end->addItem(i.value() + QLatin1Char('/') + guidePos, i.key());
     }
     if (!guidesData.isEmpty()) {
         m_view.guide_end->addItem(i18n("End"), QString::number(duration));
@@ -1030,7 +1030,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         imageSequences << QStringLiteral("jpg") << QStringLiteral("png") << QStringLiteral("bmp") << QStringLiteral("dpx") << QStringLiteral("ppm") << QStringLiteral("tga") << QStringLiteral("tif");
         if (imageSequences.contains(extension)) {
             // format string for counter?
-            if (!QRegExp(".*%[0-9]*d.*").exactMatch(dest)) {
+            if (!QRegExp(QStringLiteral(".*%[0-9]*d.*")).exactMatch(dest)) {
                 dest = dest.section(QLatin1Char('.'), 0, -2) + "_%05d." + extension;
             }
         }
@@ -1245,7 +1245,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         sEngine.globalObject().setProperty(QStringLiteral("quality"), m_view.video->value());
         sEngine.globalObject().setProperty(QStringLiteral("audiobitrate"), m_view.audio->value());
         sEngine.globalObject().setProperty(QStringLiteral("audioquality"), m_view.audio->value());
-        sEngine.globalObject().setProperty(QStringLiteral("dar"), '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
+        sEngine.globalObject().setProperty(QStringLiteral("dar"), '@' + QString::number(m_profile.display_aspect_num) + QLatin1Char('/') + QString::number(m_profile.display_aspect_den));
         sEngine.globalObject().setProperty(QStringLiteral("passes"), static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
 
         for (int i = 0; i < paramsList.count(); ++i) {
@@ -1258,7 +1258,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             // evaluate expression
             if (paramValue.startsWith('%')) {
                 paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
-                paramsList[i] = paramName + '=' + paramValue;
+                paramsList[i] = paramName + QLatin1Char('=') + paramValue;
             }
             sEngine.globalObject().setProperty(paramName.toUtf8().constData(), paramValue);
         }
@@ -1821,7 +1821,7 @@ void RenderWidget::parseMltPresets()
                 } else if (!acodec.isEmpty()) {
                     profileName.append(acodec);
                 }
-                profileName.append(")");
+                profileName.append(QLatin1Char(')'));
             }
             QTreeWidgetItem *item = new QTreeWidgetItem(QStringList(profileName));
             item->setData(0, ExtensionRole, extension);
@@ -2011,7 +2011,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
                 item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
             }
             if (profile.hasAttribute(QStringLiteral("speeds"))) {
-                item->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(';', QString::SkipEmptyParts));
+                item->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
             }
             if (profile.hasAttribute(QStringLiteral("url"))) {
                 item->setData(0, ExtraRole, profile.attribute(QStringLiteral("url")));
@@ -2097,7 +2097,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
                 item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
             }
             if (profileElement.hasAttribute(QStringLiteral("speeds"))) {
-                item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(';', QString::SkipEmptyParts));
+                item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
             }
             if (profileElement.hasAttribute(QStringLiteral("url"))) {
                 item->setData(0, ExtraRole, profileElement.attribute(QStringLiteral("url")));

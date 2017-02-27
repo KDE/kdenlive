@@ -230,7 +230,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
         exitCode = 1;
     }
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
-        log_text->setHtml(log_text->toPlainText() + "<br /><b>" + i18n("Transcoding finished."));
+        log_text->setHtml(log_text->toPlainText() + QStringLiteral("<br /><b>") + i18n("Transcoding finished."));
         if (auto_add->isChecked() || m_automaticMode) {
             QUrl url;
             if (urls_list->count() > 0) {

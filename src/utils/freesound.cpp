@@ -282,7 +282,7 @@ bool FreeSound::startItemPreview(QListWidgetItem *item)
         if (m_previewProcess->state() != QProcess::NotRunning) {
             m_previewProcess->close();
         }
-        qCDebug(KDENLIVE_LOG) << KdenliveSettings::ffplaypath() + " " +  url  + " -nodisp -autoexit";
+        qCDebug(KDENLIVE_LOG) << KdenliveSettings::ffplaypath() + QLatin1Char(' ') +  url  + " -nodisp -autoexit";
         m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << QStringLiteral("-nodisp") << QStringLiteral("-autoexit"));
 
     }

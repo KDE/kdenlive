@@ -216,7 +216,7 @@ void Transition::paint(QPainter *painter,
         framePen.setColor(brush().color().darker());
     }
 
-    const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
+    const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, QLatin1Char(' ') + text + ' ');
     painter->setBrush(framePen.color());
     painter->setPen(framePen.color());
     painter->drawRoundedRect(txtBounding, 3, 3);
@@ -431,7 +431,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
     }
     int duration = newInfo.cropDuration.frames(m_fps) - 1;
     int oldEnd = oldInfo.cropDuration.frames(m_fps) - 1;
-    QStringList values = keyframes.split(';');
+    QStringList values = keyframes.split(QLatin1Char(';'));
     int frame;
     int i = 0;
     if (oldEnd < duration) {

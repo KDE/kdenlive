@@ -312,7 +312,7 @@ void Track::replaceId(const QString &id)
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
-	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack || current.startsWith("slowmotion:" + id + ":")) {
+	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack || current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
 	    current.prepend("#");
 	    p->parent().set("id", current.toUtf8().constData());
 	}
@@ -331,7 +331,7 @@ QList<Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
 	    continue;
 	}
 	current.remove(0, 1);
-	if (current.startsWith("slowmotion:" + id + ":")) {
+	if (current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
             Track::SlowmoInfo info;
             info.readFromString(current.section(QLatin1Char(':'), 2), locale);
             list << info;
@@ -378,7 +378,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
 	}
 	current.remove(0, 1);
         Mlt::Producer *cut = nullptr;
-	if (current.startsWith("slowmotion:" + id + ":")) {
+	if (current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
 	      // Slowmotion producer, just update resource
           Mlt::Producer *slowProd = newSlowMos.value(current.section(QLatin1Char(':'), 2));
 	      if (!slowProd || !slowProd->is_valid()) {
@@ -664,7 +664,7 @@ Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QStri
 	qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
 	return nullptr;
     }
-    QString producerid = "slowmotion:" + id + ':' + info.toString(locale);
+    QString producerid = "slowmotion:" + id + QLatin1Char(':') + info.toString(locale);
     prod->set("id", producerid.toUtf8().constData());
 
     // copy producer props

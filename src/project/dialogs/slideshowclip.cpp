@@ -55,23 +55,23 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     connect(m_view.luma_fade, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableLumaFile);
 
     //WARNING: keep in sync with project/clipproperties.cpp
-    m_view.image_type->addItem(QStringLiteral("JPG (*.jpg)"), "jpg");
-    m_view.image_type->addItem(QStringLiteral("JPEG (*.jpeg)"), "jpeg");
-    m_view.image_type->addItem(QStringLiteral("PNG (*.png)"), "png");
-    m_view.image_type->addItem(QStringLiteral("SVG (*.svg)"), "svg");
-    m_view.image_type->addItem(QStringLiteral("BMP (*.bmp)"), "bmp");
-    m_view.image_type->addItem(QStringLiteral("GIF (*.gif)"), "gif");
-    m_view.image_type->addItem(QStringLiteral("TGA (*.tga)"), "tga");
-    m_view.image_type->addItem(QStringLiteral("TIF (*.tif)"), "tif");
-    m_view.image_type->addItem(QStringLiteral("TIFF (*.tiff)"), "tiff");
-    m_view.image_type->addItem(QStringLiteral("Open EXR (*.exr)"), "exr");
+    m_view.image_type->addItem(QStringLiteral("JPG (*.jpg)"), QStringLiteral("jpg"));
+    m_view.image_type->addItem(QStringLiteral("JPEG (*.jpeg)"), QStringLiteral("jpeg"));
+    m_view.image_type->addItem(QStringLiteral("PNG (*.png)"), QStringLiteral("png"));
+    m_view.image_type->addItem(QStringLiteral("SVG (*.svg)"), QStringLiteral("svg"));
+    m_view.image_type->addItem(QStringLiteral("BMP (*.bmp)"), QStringLiteral("bmp"));
+    m_view.image_type->addItem(QStringLiteral("GIF (*.gif)"), QStringLiteral("gif"));
+    m_view.image_type->addItem(QStringLiteral("TGA (*.tga)"), QStringLiteral("tga"));
+    m_view.image_type->addItem(QStringLiteral("TIF (*.tif)"), QStringLiteral("tif"));
+    m_view.image_type->addItem(QStringLiteral("TIFF (*.tiff)"), QStringLiteral("tiff"));
+    m_view.image_type->addItem(QStringLiteral("Open EXR (*.exr)"), QStringLiteral("exr"));
     m_view.animation->addItem(i18n("None"), QString());
-    m_view.animation->addItem(i18n("Pan"), "Pan");
-    m_view.animation->addItem(i18n("Pan, low-pass"), "Pan, low-pass");
-    m_view.animation->addItem(i18n("Pan and zoom"), "Pan and zoom");
-    m_view.animation->addItem(i18n("Pan and zoom, low-pass"), "Pan and zoom, low-pass");
-    m_view.animation->addItem(i18n("Zoom"), "Zoom");
-    m_view.animation->addItem(i18n("Zoom, low-pass"), "Zoom, low-pass");
+    m_view.animation->addItem(i18n("Pan"), QStringLiteral("Pan"));
+    m_view.animation->addItem(i18n("Pan, low-pass"), QStringLiteral("Pan, low-pass"));
+    m_view.animation->addItem(i18n("Pan and zoom"), QStringLiteral("Pan and zoom"));
+    m_view.animation->addItem(i18n("Pan and zoom, low-pass"), QStringLiteral("Pan and zoom, low-pass"));
+    m_view.animation->addItem(i18n("Zoom"), QStringLiteral("Zoom"));
+    m_view.animation->addItem(i18n("Zoom, low-pass"), QStringLiteral("Zoom, low-pass"));
 
     m_view.clip_duration->setInputMask(m_timecode.mask());
     m_view.luma_duration->setInputMask(m_timecode.mask());
@@ -132,7 +132,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     // Check for MLT lumas
     QString profilePath = KdenliveSettings::mltpath();
     QString folder = profilePath.section(QLatin1Char('/'), 0, -3);
-    folder.append("/lumas/PAL"); // TODO: cleanup the PAL / NTSC mess in luma files
+    folder.append(QStringLiteral("/lumas/PAL")); // TODO: cleanup the PAL / NTSC mess in luma files
     QDir lumafolder(folder);
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
     foreach (const QString &fname, filesnames) {
@@ -240,7 +240,7 @@ void SlideshowClip::parseFolder()
     if (isMime) {
         // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
         filter = m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
-        filters << "*." + filter;
+        filters << QStringLiteral("*.") + filter;
         dir.setNameFilters(filters);
         result = dir.entryList(QDir::Files);
     } else {
@@ -253,7 +253,7 @@ void SlideshowClip::parseFolder()
             // New MLT syntax
             if (path.section(QLatin1Char('?'),1).contains(QLatin1Char(':'))) {
                 // Old deprecated format
-                offset = path.section(':', -1).toInt();
+                offset = path.section(QLatin1Char(':'), -1).toInt();
             } else {
                 offset = path.section(QLatin1Char('='), -1).toInt();
             }
@@ -262,7 +262,7 @@ void SlideshowClip::parseFolder()
         filter = QFileInfo(path).fileName();
         QString ext = filter.section(QLatin1Char('.'), -1);
         if (filter.contains(QLatin1Char('%'))) {
-            filter = filter.section('%', 0, -2);
+            filter = filter.section(QLatin1Char('%'), 0, -2);
         } else {
             filter = filter.section(QLatin1Char('.'), 0, -2);
             while (!filter.isEmpty() && filter.at(filter.count() - 1).isDigit()) {
@@ -270,7 +270,7 @@ void SlideshowClip::parseFolder()
             }
         }
         // qCDebug(KDENLIVE_LOG) << " / /" << path << " / " << ext << " / " << filter;
-        QString regexp = '^' + filter + "\\d+\\." + ext + '$';
+        QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         QRegExp rx(regexp);
         QStringList entries;
         int ix;
@@ -352,7 +352,7 @@ QString SlideshowClip::selectedPath()
     } else {
         url = m_view.pattern_url->url();
     }
-    QString path = selectedPath(url, m_view.method_mime->isChecked(), ".all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
+    QString path = selectedPath(url, m_view.method_mime->isChecked(), QStringLiteral(".all.") + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
     m_count = list.count();
     //qCDebug(KDENLIVE_LOG)<<"// SELECTED PATH: "<<path;
     return path;
@@ -382,13 +382,13 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
         // Check how many files we have
         QDir dir(folder);
         QStringList filters;
-        filters << "*." + extension.section(QLatin1Char('.'), -1);
+        filters << QStringLiteral("*.") + extension.section(QLatin1Char('.'), -1);
         dir.setNameFilters(filters);
         *list = dir.entryList(QDir::Files);
     } else {
         folder = url.adjusted(QUrl::RemoveFilename).toLocalFile();
         QString filter = url.fileName();
-        QString ext = '.' + filter.section(QLatin1Char('.'), -1);
+        QString ext = QLatin1Char('.') + filter.section(QLatin1Char('.'), -1);
         filter = filter.section(QLatin1Char('.'), 0, -2);
         int fullSize = filter.size();
         QString firstFrameData = filter;
@@ -406,7 +406,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
         QString path;
         int gap = 0;
         for (int i = firstFrame; gap < 100; ++i) {
-            path = filter + QString::number(i).rightJustified(precision, '0', false) + ext;
+            path = filter + QString::number(i).rightJustified(precision, QLatin1Char('0'), false) + ext;
             if (dir.exists(path)) {
                 (*list).append(folder + path);
                 gap = 0;
@@ -414,7 +414,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
                 gap++;
             }
         }
-        extension = filter + "%0" + QString::number(precision) + 'd' + ext;
+        extension = filter + QStringLiteral("%0") + QString::number(precision) + QLatin1Char('d') + ext;
         if (firstFrame > 0) {
             extension.append(QStringLiteral("?begin=%1").arg(firstFrame));
         }

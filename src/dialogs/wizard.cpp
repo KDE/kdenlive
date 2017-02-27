@@ -289,14 +289,14 @@ void Wizard::slotUpdateCaptureParameters()
     QString pixelFormat;
     QStringList itemRates;
     for (int i = 0; i < pixelformats.count(); ++i) {
-        QString format = pixelformats.at(i).section(':', 0, 0);
+        QString format = pixelformats.at(i).section(QLatin1Char(':'), 0, 0);
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(',', QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                QString formatDescription = '[' + format + "] " + itemSize + " (" + itemRates.at(k) + ')';
+                QString formatDescription = '[' + format + "] " + itemSize + " (" + itemRates.at(k) + QLatin1Char(')');
                 if (m_capture.v4l_formats->findText(formatDescription) == -1) {
                     m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
                 }

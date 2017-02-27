@@ -1068,7 +1068,7 @@ void GeometryWidget::slotResetPreviousKeyframes()
 
 void GeometryWidget::importKeyframes(const QString &data, int maximum)
 {
-    QStringList list = data.split(';', QString::SkipEmptyParts);
+    QStringList list = data.split(QLatin1Char(';'), QString::SkipEmptyParts);
     if (list.isEmpty()) {
         return;
     }
@@ -1096,14 +1096,14 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
         }
         if (geom.contains(QLatin1Char('/'))) {
             item.x(geom.section(QLatin1Char('/'), 0, 0).toDouble());
-            item.y(geom.section(QLatin1Char('/'), 1, 1).section(':', 0, 0).toDouble());
+            item.y(geom.section(QLatin1Char('/'), 1, 1).section(QLatin1Char(':'), 0, 0).toDouble());
         } else {
             item.x(0);
             item.y(0);
         }
         if (geom.contains('x')) {
-            item.w(geom.section('x', 0, 0).section(':', 1, 1).toDouble());
-            item.h(geom.section('x', 1, 1).section(':', 0, 0).toDouble());
+            item.w(geom.section('x', 0, 0).section(QLatin1Char(':'), 1, 1).toDouble());
+            item.h(geom.section('x', 1, 1).section(QLatin1Char(':'), 0, 0).toDouble());
         } else {
             item.w(screenSize.x());
             item.h(screenSize.y());

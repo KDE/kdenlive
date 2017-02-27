@@ -473,7 +473,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
 
                     if (!txtProperties.namedItem(QStringLiteral("shadow")).isNull()) {
                         QString info = txtProperties.namedItem(QStringLiteral("shadow")).nodeValue();
-                        txt->loadShadow(info.split(';'));
+                        txt->loadShadow(info.split(QLatin1Char(';')));
                     }
 
                     // Effects

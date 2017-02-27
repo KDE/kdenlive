@@ -394,7 +394,7 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
             if (dup && dup->is_valid()) {
                 for (int i = 0; i < filter->count(); ++i) {
                     QString paramName = filter->get_name(i);
-                    if (paramName.at(0) != '_') {
+                    if (paramName.at(0) != QLatin1Char('_')) {
                         dup->set(filter->get_name(i), filter->get(i));
                     }
                 }
@@ -495,7 +495,7 @@ void BinController::checkThumbnails(const QDir &thumbFolder)
         }
         bool foundFile = false;
         if (!ctrl->getClipHash().isEmpty()) {
-            QImage img(thumbFolder.absoluteFilePath(ctrl->getClipHash() + ".png"));
+            QImage img(thumbFolder.absoluteFilePath(ctrl->getClipHash() + QStringLiteral(".png")));
             if (!img.isNull()) {
                 emit loadThumb(ctrl->clipId(), img, true);
                 foundFile = true;

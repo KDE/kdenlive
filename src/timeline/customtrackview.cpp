@@ -1698,7 +1698,7 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip)
                 if (!markers.isEmpty()) {
                     for (int i = 0; i < markers.count(); ++i) {
                         int pos = (int) markers.at(i).time().frames(m_document->timecode().fps());
-                        QString position = m_document->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();
+                        QString position = m_document->timecode().getTimecode(markers.at(i).time()) + QLatin1Char(' ') + markers.at(i).comment();
                         QAction *go = m_markerMenu->addAction(position);
                         go->setData(pos + offset);
                     }
@@ -1805,7 +1805,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         return true;
     }
     if (data->hasFormat(QStringLiteral("kdenlive/clip"))) {
-        QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(';');
+        QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';'));
         ProjectClip *clip = m_document->getBinClip(list.at(0));
         if (clip == nullptr) {
             //qCDebug(KDENLIVE_LOG) << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
@@ -1859,7 +1859,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *data, const QPoint &pos)
         scene()->addItem(m_selectionGroup);
         m_selectionGroup->setSelected(true);
     } else if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
-        QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(';');
+        QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
         QList<GenTime> offsetList;
         QList<ItemInfo> infoList;
         GenTime start = GenTime((int)(framePos.x() + 0.5), m_document->fps());
@@ -4901,14 +4901,14 @@ void CustomTrackView::addClip(const QString &clipId, const  ItemInfo &info, cons
     if (speed != 1.0) {
         prod = m_document->renderer()->getBinProducer(clipId);
         QString url = QString::fromUtf8(prod->get("resource"));
-        //url.append('?' + locale.toString(speed));
+        //url.append(QLatin1Char('?') + locale.toString(speed));
         Track::SlowmoInfo slowInfo;
         slowInfo.speed = speed;
         slowInfo.strobe = strobe;
         slowInfo.state = state;
         Mlt::Producer *copy = m_document->renderer()->getSlowmotionProducer(slowInfo.toString(locale) + url);
         if (copy == nullptr) {
-            url.prepend(locale.toString(speed) + ":");
+            url.prepend(locale.toString(speed) + QLatin1Char(':'));
             Mlt::Properties passProperties;
             Mlt::Properties original(prod->get_properties());
             passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
@@ -6053,7 +6053,7 @@ void CustomTrackView::buildGuidesMenu(QMenu *goMenu) const
     goMenu->clear();
     double fps = m_document->fps();
     for (int i = 0; i < m_guides.count(); ++i) {
-        QAction *act = goMenu->addAction(m_guides.at(i)->label() + '/' + Timecode::getStringTimecode(m_guides.at(i)->position().frames(fps), fps));
+        QAction *act = goMenu->addAction(m_guides.at(i)->label() + QLatin1Char('/') + Timecode::getStringTimecode(m_guides.at(i)->position().frames(fps), fps));
         act->setData(m_guides.at(i)->position().frames(m_document->fps()));
     }
     goMenu->setEnabled(!m_guides.isEmpty());
@@ -6966,8 +6966,8 @@ void CustomTrackView::slotUpdateAllThumbs()
                 } else {
                     QString startThumb = thumbsFolder.absoluteFilePath(item->getBinHash() + "#");
                     QString endThumb = startThumb;
-                    startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
-                    endThumb.append(QString::number((int)(item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
+                    startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + QStringLiteral(".png"));
+                    endThumb.append(QString::number((int)(item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + QStringLiteral(".png"));
                     if (QFile::exists(startThumb)) {
                         QPixmap pix(startThumb);
                         if (pix.isNull()) {
@@ -7009,8 +7009,8 @@ void CustomTrackView::saveThumbnails()
                 } else {
                     QString startThumb = thumbsFolder.absoluteFilePath(item->getBinHash() + '#');
                     QString endThumb = startThumb;
-                    startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + ".png");
-                    endThumb.append(QString::number((int)(item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + ".png");
+                    startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + QStringLiteral(".png"));
+                    endThumb.append(QString::number((int)(item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + QStringLiteral(".png"));
                     if (!QFile::exists(startThumb)) {
                         item->startThumb().save(startThumb);
                     }
@@ -7720,7 +7720,7 @@ void CustomTrackView::doChangeClipType(const ItemInfo &info, PlaylistState::Clip
         Mlt::Producer *copy = m_document->renderer()->getSlowmotionProducer(slowmoInfo.toString(locale) + url);
         if (copy == nullptr) {
             // create mute slowmo producer
-            url.prepend(locale.toString(speed) + ":");
+            url.prepend(locale.toString(speed) + QLatin1Char(':'));
             Mlt::Properties passProperties;
             Mlt::Properties original(prod->get_properties());
             passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
@@ -8418,7 +8418,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
     for (int i = 0; i < allSlows.count(); i++) {
         // find out speed and strobe values
         Track::SlowmoInfo info = allSlows.at(i);
-        QString wrapUrl = QStringLiteral("timewarp:") + locale.toString(info.speed) + ':' + url;
+        QString wrapUrl = QStringLiteral("timewarp:") + locale.toString(info.speed) + QLatin1Char(':') + url;
         // build slowmo producer
         if (processedUrls.contains(wrapUrl)) {
             continue;
@@ -8430,7 +8430,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
             continue;
         }
         //if (strobe > 1) slowProd->set("strobe", strobe);
-        QString producerid = "slowmotion:" + id + ':' + info.toString(locale);
+        QString producerid = "slowmotion:" + id + QLatin1Char(':') + info.toString(locale);
         slowProd->set("id", producerid.toUtf8().constData());
         newSlowMos.insert(info.toString(locale), slowProd);
     }

@@ -513,12 +513,12 @@ void KdenliveSettingsDialog::initDevices()
             QString deviceId;
             while (!line.isNull()) {
                 if (line.contains(QStringLiteral("playback"))) {
-                    deviceId = line.section(':', 0, 0);
-                    m_configSdl.kcfg_audio_device->addItem(line.section(':', 1, 1), "plughw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + ',' + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
+                    deviceId = line.section(QLatin1Char(':'), 0, 0);
+                    m_configSdl.kcfg_audio_device->addItem(line.section(QLatin1Char(':'), 1, 1), "plughw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + ',' + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 if (line.contains(QStringLiteral("capture"))) {
-                    deviceId = line.section(':', 0, 0);
-                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(':', 1, 1).simplified(), "hw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + ',' + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
+                    deviceId = line.section(QLatin1Char(':'), 0, 0);
+                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(QLatin1Char(':'), 1, 1).simplified(), "hw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + ',' + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 line = stream.readLine();
             }
@@ -567,10 +567,10 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
     for (const QString &data : lines) {
         ////qCDebug(KDENLIVE_LOG) << "// READING LINE: " << data;
         if (!data.startsWith(' ') && data.count(':') > 1) {
-            QString card = data.section(':', 0, 0).section(QLatin1Char(' '), -1);
-            QString device = data.section(':', 1, 1).section(QLatin1Char(' '), -1);
-            m_configSdl.kcfg_audio_device->addItem(data.section(':', -1).simplified(), "plughw:" + card + ',' + device);
-            m_configCapture.kcfg_v4l_alsadevice->addItem(data.section(':', -1).simplified(), "hw:" + card + ',' + device);
+            QString card = data.section(QLatin1Char(':'), 0, 0).section(QLatin1Char(' '), -1);
+            QString device = data.section(QLatin1Char(':'), 1, 1).section(QLatin1Char(' '), -1);
+            m_configSdl.kcfg_audio_device->addItem(data.section(QLatin1Char(':'), -1).simplified(), "plughw:" + card + ',' + device);
+            m_configCapture.kcfg_v4l_alsadevice->addItem(data.section(QLatin1Char(':'), -1).simplified(), "hw:" + card + ',' + device);
         }
     }
 }
@@ -1095,14 +1095,14 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
     QString pixelFormat;
     QStringList itemRates;
     for (int i = 0; i < pixelformats.count(); ++i) {
-        QString format = pixelformats.at(i).section(':', 0, 0);
+        QString format = pixelformats.at(i).section(QLatin1Char(':'), 0, 0);
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(',', QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                m_configCapture.kcfg_v4l_format->addItem('[' + format + "] " + itemSize + " (" + itemRates.at(k) + ')', QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
+                m_configCapture.kcfg_v4l_format->addItem('[' + format + "] " + itemSize + " (" + itemRates.at(k) + QLatin1Char(')'), QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
             }
         }
     }
@@ -1119,9 +1119,9 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
         return;
     }
     m_configCapture.p_size->setText(info.at(1) + 'x' + info.at(2));
-    m_configCapture.p_fps->setText(info.at(3) + '/' + info.at(4));
+    m_configCapture.p_fps->setText(info.at(3) + QLatin1Char('/') + info.at(4));
     m_configCapture.p_aspect->setText(QStringLiteral("1/1"));
-    m_configCapture.p_display->setText(info.at(1) + '/' + info.at(2));
+    m_configCapture.p_display->setText(info.at(1) + QLatin1Char('/') + info.at(2));
     m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(601));
     m_configCapture.p_progressive->setText(i18n("Progressive"));
 
@@ -1155,9 +1155,9 @@ void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
         prof = ProfilesDialog::getVideoProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
     }
     m_configCapture.p_size->setText(QString::number(prof.width) + 'x' + QString::number(prof.height));
-    m_configCapture.p_fps->setText(QString::number(prof.frame_rate_num) + '/' + QString::number(prof.frame_rate_den));
-    m_configCapture.p_aspect->setText(QString::number(prof.sample_aspect_num) + '/' + QString::number(prof.sample_aspect_den));
-    m_configCapture.p_display->setText(QString::number(prof.display_aspect_num) + '/' + QString::number(prof.display_aspect_den));
+    m_configCapture.p_fps->setText(QString::number(prof.frame_rate_num) + QLatin1Char('/') + QString::number(prof.frame_rate_den));
+    m_configCapture.p_aspect->setText(QString::number(prof.sample_aspect_num) + QLatin1Char('/') + QString::number(prof.sample_aspect_den));
+    m_configCapture.p_display->setText(QString::number(prof.display_aspect_num) + QLatin1Char('/') + QString::number(prof.display_aspect_den));
     m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(prof.colorspace));
     if (prof.progressive) {
         m_configCapture.p_progressive->setText(i18n("Progressive"));

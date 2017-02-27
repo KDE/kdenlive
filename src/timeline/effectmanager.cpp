@@ -144,7 +144,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
     ////qCDebug(KDENLIVE_LOG) << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     QString kfr = params.paramValue(QStringLiteral("keyframes"));
     if (!kfr.isEmpty()) {
-        QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
+        QStringList keyFrames = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
         char *starttag = qstrdup(params.paramValue(QStringLiteral("starttag"), QStringLiteral("start")).toUtf8().constData());
         char *endtag = qstrdup(params.paramValue(QStringLiteral("endtag"), QStringLiteral("end")).toUtf8().constData());
         ////qCDebug(KDENLIVE_LOG) << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
@@ -251,7 +251,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
             params.removeParam(QStringLiteral("region"));
 
             for (int j = 0; j < params.count(); ++j) {
-                effectArgs.append(' ' + params.at(j).value());
+                effectArgs.append(QLatin1Char(' ') + params.at(j).value());
             }
             ////qCDebug(KDENLIVE_LOG) << "SOX EFFECTS: " << effectArgs.simplified();
             filter->set("effect", effectArgs.simplified().toUtf8().constData());

@@ -215,7 +215,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_playAction->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")));
     m_playAction->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("media-playback-pause")));
 
-    QString strippedTooltip = m_playAction->toolTip().remove(QRegExp("\\s\\(.*\\)"));
+    QString strippedTooltip = m_playAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
     // append shortcut if it exists for action
     if (originalPlayAction->shortcut() == QKeySequence(0)) {
         m_playAction->setToolTip(strippedTooltip);
@@ -590,7 +590,7 @@ void Monitor::updateMarkers()
         if (!markers.isEmpty()) {
             for (int i = 0; i < markers.count(); ++i) {
                 int pos = (int) markers.at(i).time().frames(m_monitorManager->timecode().fps());
-                QString position = m_monitorManager->timecode().getTimecode(markers.at(i).time()) + ' ' + markers.at(i).comment();
+                QString position = m_monitorManager->timecode().getTimecode(markers.at(i).time()) + QLatin1Char(' ') + markers.at(i).comment();
                 QAction *go = m_markerMenu->addAction(position);
                 go->setData(pos);
             }
@@ -611,7 +611,7 @@ void Monitor::setGuides(const QMap<double, QString> &guides)
         CommentedTime timeGuide(GenTime(i.key()), i.value());
         guidesList << timeGuide;
         int pos = (int) timeGuide.time().frames(m_monitorManager->timecode().fps());
-        QString position = m_monitorManager->timecode().getTimecode(timeGuide.time()) + ' ' + timeGuide.comment();
+        QString position = m_monitorManager->timecode().getTimecode(timeGuide.time()) + QLatin1Char(' ') + timeGuide.comment();
         QAction *go = m_markerMenu->addAction(position);
         go->setData(pos);
     }
@@ -1021,7 +1021,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                                               ).completeBaseName()
                                      + QStringLiteral("-f")
                                      + QString::number(render->seekFramePosition())
-                                     + ".png";
+                                     + QStringLiteral(".png");
         frameName = QFileInfo(frameName, suggestedImageName).fileName();
     }
 
@@ -1790,7 +1790,7 @@ QString Monitor::getMarkerThumb(GenTime pos)
         return QString();
     }
     if (!m_controller->getClipHash().isEmpty()) {
-        QString url = m_monitorManager->getCacheFolder(CacheThumbs).absoluteFilePath(m_controller->getClipHash() + '#' + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + ".png");
+        QString url = m_monitorManager->getCacheFolder(CacheThumbs).absoluteFilePath(m_controller->getClipHash() + '#' + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + QStringLiteral(".png"));
         if (QFile::exists(url)) {
             return url;
         }

@@ -509,7 +509,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     file.close();
     QString root = doc.documentElement().attribute(QStringLiteral("root"));
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
-        root.append('/');
+        root.append(QLatin1Char('/'));
     }
     QDomNodeList files = doc.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < files.count(); ++i) {
@@ -566,16 +566,16 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
     if (url.contains(QStringLiteral(".all."))) {
         // this is a mime slideshow, like *.jpeg
         QStringList filters;
-        filters << "*." + ext;
+        filters << QStringLiteral("*.") + ext;
         dir.setNameFilters(filters);
         QStringList result = dir.entryList(QDir::Files);
-        urls.append(path + filters.at(0) + " (" + i18np("1 image found", "%1 images found", result.count()) + ')');
+        urls.append(path + filters.at(0) + QStringLiteral(" (") + i18np("1 image found", "%1 images found", result.count()) + QLatin1Char(')'));
     } else {
         // this is a pattern slideshow, like sequence%4d.jpg
         QString filter = QFileInfo(url).fileName();
         QString ext = filter.section(QLatin1Char('.'), -1);
-        filter = filter.section('%', 0, -2);
-        QString regexp = '^' + filter + "\\d+\\." + ext + '$';
+        filter = filter.section(QLatin1Char('%'), 0, -2);
+        QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         QRegExp rx(regexp);
         int count = 0;
         const QStringList result = dir.entryList(QDir::Files);
@@ -584,7 +584,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
                 count++;
             }
         }
-        urls.append(url + " (" + i18np("1 image found", "%1 images found", count) + ')');
+        urls.append(url + QStringLiteral(" (") + i18np("1 image found", "%1 images found", count) + QLatin1Char(')'));
     }
     return urls;
 }
@@ -596,14 +596,14 @@ void ProjectSettings::slotExportToText()
         return;
     }
     QString data;
-    data.append(i18n("Project folder: %1",  project_folder->url().toLocalFile()) + '\n');
-    data.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + '\n');
-    data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
+    data.append(i18n("Project folder: %1",  project_folder->url().toLocalFile()) + QLatin1Char('\n'));
+    data.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + QLatin1Char('\n'));
+    data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + QStringLiteral("\n\n"));
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() > 0) {
-            data.append('\n' + files_list->topLevelItem(i)->text(0) + ":\n\n");
+            data.append(QLatin1Char('\n') + files_list->topLevelItem(i)->text(0) + QStringLiteral(":\n\n"));
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
-                data.append(files_list->topLevelItem(i)->child(j)->text(0) + '\n');
+                data.append(files_list->topLevelItem(i)->child(j)->text(0) + QLatin1Char('\n'));
             }
         }
     }
@@ -647,7 +647,7 @@ const QMap<QString, QString> ProjectSettings::metadata() const
             // Insert metadata entry
             QString key = item->data(0, Qt::UserRole).toString();
             if (key.isEmpty()) {
-                key = "meta.attr." + item->text(0).simplified() + ".markup";
+                key = QStringLiteral("meta.attr.") + item->text(0).simplified() + QStringLiteral(".markup");
             }
             QString value = item->text(1);
             metadata.insert(key, value);

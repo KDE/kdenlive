@@ -46,7 +46,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
 
     if (m_urls.count() == 1) {
         QString newFile = m_urls.first();
-        newFile.append(".mlt");
+        newFile.append(QStringLiteral(".mlt"));
         dest_url->setMode(KFile::File);
         dest_url->setUrl(QUrl(newFile));
     } else {
@@ -107,7 +107,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
             ch->setToolTip(val[QStringLiteral("tooltip")]);
             vbox->addWidget(ch);
         } else if (val[QStringLiteral("type")] == QLatin1String("position")) {
-            PositionWidget *posedit = new PositionWidget(hi.key(), 0, 0, out, m_tc, "", this);
+            PositionWidget *posedit = new PositionWidget(hi.key(), 0, 0, out, m_tc, QString(), this);
             posedit->setToolTip(val[QStringLiteral("tooltip")]);
             posedit->setObjectName(hi.key());
             vbox->addWidget(posedit);
@@ -185,7 +185,7 @@ void ClipStabilize::slotUpdateParams()
                 m_ui_params[name][QStringLiteral("value")] = QString::number((double)(dbl->getValue()));
             } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("bool")) {
                 QCheckBox *ch = (QCheckBox *)w;
-                m_ui_params[name][QStringLiteral("value")] = ch->checkState() == Qt::Checked ? "1" : "0";
+                m_ui_params[name][QStringLiteral("value")] = ch->checkState() == Qt::Checked ? QStringLiteral("1") : QStringLiteral("0");
             } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("position")) {
                 PositionWidget *pos = (PositionWidget *)w;
                 m_ui_params[name][QStringLiteral("value")] = QString::number(pos->getPosition());
@@ -205,7 +205,7 @@ void ClipStabilize::fillParameters(QStringList lst)
     m_ui_params.clear();
     while (!lst.isEmpty()) {
         QString vallist = lst.takeFirst();
-        QStringList cont = vallist.split(',');
+        QStringList cont = vallist.split(QLatin1Char(','));
         QString name = cont.takeFirst();
         while (!cont.isEmpty()) {
             QString valname = cont.takeFirst();
@@ -231,8 +231,8 @@ void ClipStabilize::slotValidate()
         QDir folder(dest_url->url().toLocalFile());
         QStringList existingFiles;
         foreach (const QString &path, m_urls) {
-            if (folder.exists(path + ".mlt")) {
-                existingFiles.append(folder.absoluteFilePath(path + ".mlt"));
+            if (folder.exists(path + QStringLiteral(".mlt"))) {
+                existingFiles.append(folder.absoluteFilePath(path + QStringLiteral(".mlt")));
             }
         }
         if (!existingFiles.isEmpty()) {

@@ -413,7 +413,7 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         KActionCollection *coll = collections.at(i);
         foreach (QAction *tempAction, coll->actions()) {
             // find the shortcut pattern and delete (note the preceding space in the RegEx)
-            QString strippedTooltip = tempAction->toolTip().remove(QRegExp("\\s\\(.*\\)"));
+            QString strippedTooltip = tempAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
             // append shortcut if it exists for action
             if (tempAction->shortcut() == QKeySequence(0)) {
                 tempAction->setToolTip(strippedTooltip);
@@ -3272,7 +3272,7 @@ void MainWindow::buildDynamicActions()
         i.next();
         QStringList data;
         data << QString::number((int) AbstractClipJob::TRANSCODEJOB);
-        data << i.value().split(';');
+        data << i.value().split(QLatin1Char(';'));
         QAction *a = new QAction(i.key(), m_extraFactory->actionCollection());
         a->setData(data);
         if (data.count() > 1) {
@@ -3522,14 +3522,14 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             }
             if (producerService == QLatin1String("timewarp")) {
                 // slowmotion producer
-                prefix = producerResource.section(':', 0, 0) + ":";
-                producerResource = producerResource.section(':', 1);
+                prefix = producerResource.section(QLatin1Char(':'), 0, 0) + QLatin1Char(':');
+                producerResource = producerResource.section(QLatin1Char(':'), 1);
             } else {
                 prefix.clear();
             }
             if (producerService == QLatin1String("framebuffer")) {
                 // slowmotion producer
-                suffix = '?' + producerResource.section(QLatin1Char('?'), 1);
+                suffix = QLatin1Char('?') + producerResource.section(QLatin1Char('?'), 1);
                 producerResource = producerResource.section(QLatin1Char('?'), 0, 0);
             } else {
                 suffix.clear();
@@ -3596,7 +3596,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         // add track number to path name
         if (stemExport) {
-            plPath = plPath + "_" + QString(trackNames.at(i)).replace(QLatin1Char(' '), QLatin1Char('_'));
+            plPath = plPath + QLatin1Char('_') + QString(trackNames.at(i)).replace(QLatin1Char(' '), QLatin1Char('_'));
         }
         // add mlt suffix
         if (!plPath.endsWith(mltSuffix)) {

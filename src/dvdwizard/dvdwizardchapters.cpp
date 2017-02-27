@@ -177,7 +177,7 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     m_view.vob_list->clear();
     for (int i = 0; i < movies.count(); ++i) {
         m_view.vob_list->addItem(movies.at(i), durations.at(i));
-        m_view.vob_list->setItemData(i, chapters.at(i).split(';'), Qt::UserRole + 1);
+        m_view.vob_list->setItemData(i, chapters.at(i).split(QLatin1Char(';')), Qt::UserRole + 1);
     }
     m_view.vob_list->blockSignals(false);
     if (m_view.chapters_box->checkState() == Qt::Checked) {

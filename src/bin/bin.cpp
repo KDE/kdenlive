@@ -829,7 +829,7 @@ void Bin::slotDeleteClip()
             QString subId = item->clipId();
             sub = static_cast<ProjectSubClip *>(item);
             zone = sub->zone();
-            subId.append(":" + QString::number(zone.x()) + ":" + QString::number(zone.y()));
+            subId.append(":" + QString::number(zone.x()) + QLatin1Char(':') + QString::number(zone.y()));
             subClipIds << subId;
             continue;
         }
@@ -1912,7 +1912,7 @@ void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile
         // Save thumbnail for later reuse
         bool ok = false;
         if (!fromFile) {
-            img.save(m_doc->getCacheDir(CacheThumbs, &ok).absoluteFilePath(clip->hash() + ".png"));
+            img.save(m_doc->getCacheDir(CacheThumbs, &ok).absoluteFilePath(clip->hash() + QStringLiteral(".png")));
         }
     }
 }
@@ -2831,7 +2831,7 @@ void Bin::renameSubClip(const QString &id, const QString &newName, const QString
     }
     sub->setName(newName);
     clip->setProducerProperty("kdenlive:clipzone." + oldName, QString());
-    clip->setProducerProperty("kdenlive:clipzone." + newName, QString::number(in) + ";" +  QString::number(out));
+    clip->setProducerProperty("kdenlive:clipzone." + newName, QString::number(in) + QLatin1Char(';') +  QString::number(out));
     emit itemUpdated(sub);
 }
 
@@ -3099,7 +3099,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
     QString label = filterInfo.value(QStringLiteral("label"));
     QString key = filterInfo.value(QStringLiteral("key"));
     int offset = filterInfo.value(QStringLiteral("offset")).toInt();
-    QStringList value = results.value(key).split(';', QString::SkipEmptyParts);
+    QStringList value = results.value(key).split(QLatin1Char(';'), QString::SkipEmptyParts);
     //qCDebug(KDENLIVE_LOG)<<"// RESULT; "<<key<<" = "<<value;
     if (filterInfo.contains(QStringLiteral("resultmessage"))) {
         QString mess = filterInfo.value(QStringLiteral("resultmessage"));

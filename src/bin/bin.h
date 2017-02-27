@@ -303,7 +303,7 @@ public:
                     } else if (jobProgress == JobCrashed) {
                         QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
                         if (!jobText.isEmpty()) {
-                            QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                            QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, QLatin1Char(' ') + jobText + QLatin1Char(' '));
                             painter->setPen(Qt::NoPen);
                             painter->setBrush(option.palette.highlight());
                             painter->drawRoundedRect(txtBounding, 2, 2);

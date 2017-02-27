@@ -294,13 +294,13 @@ void ArchiveOrg::slotParseResults(KJob *job)
         qCDebug(KDENLIVE_LOG)<<"ArchiveOrg::slotParseResults"<< href;
         if (href.endsWith(QLatin1String(".thumbs/"))) {
             // sub folder contains image thumbs, display one.
-            m_thumbsPath = m_metaInfo.value(QStringLiteral("url")) + '/' + href;
+            m_thumbsPath = m_metaInfo.value(QStringLiteral("url")) + QLatin1Char('/') + href;
             KJob* thumbJob = KIO::storedGet( QUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
             thumbJob->setProperty("id", m_metaInfo.value(QStringLiteral("id")));
             connect(thumbJob, &KJob::result, this, &ArchiveOrg::slotParseThumbs);
         }
         else if (!href.contains(QLatin1Char('/')) && !href.endsWith(QLatin1String(".xml"))) {
-            link = m_metaInfo.value(QStringLiteral("url")) + '/' + href;
+            link = m_metaInfo.value(QStringLiteral("url")) + QLatin1Char('/') + href;
             ct++;
             if (ct %2 == 0) {
                 html += QLatin1String("<tr class=\"cellone\">");

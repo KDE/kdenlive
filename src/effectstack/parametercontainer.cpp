@@ -249,7 +249,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                         lswid->setCurrentIndex(listitems.indexOf(value) + 1);
                     }
                 } else {
-                    listitems = items.split(';');
+                    listitems = items.split(QLatin1Char(';'));
                     if (listitems.count() == 1) {
                         // probably custom effect created before change to ';' as separator
                         listitems = pa.attribute(QStringLiteral("paramlist")).split(',');
@@ -573,8 +573,8 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 QStringList keywordlist;
                 QStringList keyworddisplaylist;
                 if (!klistelem.isNull()) {
-                    keywordlist = klistelem.text().split(';');
-                    keyworddisplaylist = i18n(kdisplaylistelem.text().toUtf8().data()).split(';');
+                    keywordlist = klistelem.text().split(QLatin1Char(';'));
+                    keyworddisplaylist = i18n(kdisplaylistelem.text().toUtf8().data()).split(QLatin1Char(';'));
                 }
                 if (keyworddisplaylist.count() != keywordlist.count()) {
                     keyworddisplaylist = keywordlist;
@@ -826,7 +826,7 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
     }
 
     if (start.count(':') == 2) {
-        info.startTransparency = start.section(':', -1).toInt();
+        info.startTransparency = start.section(QLatin1Char(':'), -1).toInt();
     } else {
         info.startTransparency = 100;
     }
@@ -844,7 +844,7 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
     }
 
     if (end.count(':') == 2) {
-        info.endTransparency = end.section(':', -1).toInt();
+        info.endTransparency = end.section(QLatin1Char(':'), -1).toInt();
     } else {
         info.endTransparency = 100;
     }

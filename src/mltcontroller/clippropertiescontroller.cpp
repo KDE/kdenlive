@@ -980,7 +980,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                 if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) {
                     continue;
                 }
-                QString tag = tagline.section(':', 1).simplified();
+                QString tag = tagline.section(QLatin1Char(':'), 1).simplified();
                 if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
                     continue;
                 }
@@ -1010,7 +1010,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     if (m_type != Image && !tagline.startsWith(QLatin1String("-H264"))) {
                         continue;
                     }
-                    QString tag = tagline.section(':', 1);
+                    QString tag = tagline.section(QLatin1Char(':'), 1);
                     if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
                         continue;
                     }
@@ -1057,14 +1057,14 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     if (line.startsWith(QLatin1String("CSV data"))) {
                         break;
                     }
-                    m_controller->setProperty("kdenlive:meta.magiclantern." + line.section(':', 0, 0).simplified(), line.section(':', 1).simplified());
+                    m_controller->setProperty("kdenlive:meta.magiclantern." + line.section(QLatin1Char(':'), 0, 0).simplified(), line.section(QLatin1Char(':'), 1).simplified());
                     if (!magicL) {
                         magicL = new QTreeWidgetItem(tree, QStringList() << i18n("Magic Lantern") << QString());
                         QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
                         magicL->setIcon(0, icon);
                         magicL->setExpanded(true);
                     }
-                    new QTreeWidgetItem(magicL, QStringList() << line.section(':', 0, 0).simplified() << line.section(':', 1).simplified());
+                    new QTreeWidgetItem(magicL, QStringList() << line.section(QLatin1Char(':'), 0, 0).simplified() << line.section(QLatin1Char(':'), 1).simplified());
                 }
             }
         }

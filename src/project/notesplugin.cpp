@@ -46,7 +46,7 @@ void NotesPlugin::slotInsertTimecode()
 {
     int frames = pCore->monitorManager()->projectMonitor()->render->seekPosition().frames(pCore->projectManager()->current()->fps());
     QString position = pCore->projectManager()->current()->timecode().getTimecodeFromFrames(frames);
-    m_widget->insertHtml("<a href=\"" + QString::number(frames) + "\">" + position + "</a> ");
+    m_widget->insertHtml(QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + position + QStringLiteral("</a> "));
 }
 
 NotesWidget *NotesPlugin::widget()

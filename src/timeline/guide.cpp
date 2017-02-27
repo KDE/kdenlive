@@ -51,7 +51,7 @@ Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, do
     setZValue(999);
     setAcceptHoverEvents(true);
     const QFontMetrics metric = m_view->fontMetrics();
-    m_width = metric.width(' ' + m_label + ' ') + 2;
+    m_width = metric.width(QLatin1Char(' ') + m_label + ' ') + 2;
     prepareGeometryChange();
 }
 
@@ -78,7 +78,7 @@ void Guide::updateGuide(const GenTime &newPos, const QString &comment)
         m_label = comment;
         setToolTip(m_label);
         const QFontMetrics metric = m_view->fontMetrics();
-        m_width = metric.width(' ' + m_label + ' ') + 2;
+        m_width = metric.width(QLatin1Char(' ') + m_label + QLatin1Char(' ')) + 2;
         prepareGeometryChange();
     }
 }

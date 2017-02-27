@@ -140,9 +140,9 @@ void LibraryTree::dropEvent(QDropEvent *event)
         QList<QUrl> urls = qMimeData->urls();
         emit moveData(urls, dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/clip"))) {
-        emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(';'), dest);
+        emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';')), dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
-        QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(';');
+        QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
         foreach (const QString &data, list) {
             if (data.startsWith(QLatin1Char('#'))) {
                 // Bin folder, not supported yet

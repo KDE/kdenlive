@@ -87,7 +87,7 @@ void Clip::addEffects(Mlt::Service &service, bool skipFades)
                         // Effect in/out must be synced with clip in/out
                         copy->set_in_and_out(m_producer.get_in(), m_producer.get_out());
                     }
-                    if (paramName.at(0) != '_') {
+                    if (paramName.at(0) != QLatin1Char('_')) {
                         copy->set(effect->get_name(i), effect->get(i));
                     }
                 }

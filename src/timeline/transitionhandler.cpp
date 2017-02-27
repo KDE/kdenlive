@@ -133,11 +133,11 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
         double offset = e.attribute(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
         if (factor != 1 || offset != 0) {
             if (e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
-                QStringList values = map.value(name).split(';', QString::SkipEmptyParts);
+                QStringList values = map.value(name).split(QLatin1Char(';'), QString::SkipEmptyParts);
                 for (int j = 0; j < values.count(); ++j) {
                     QString pos = values.at(j).section(QLatin1Char('='), 0, 0);
                     double val = (values.at(j).section(QLatin1Char('='), 1, 1).toDouble() - offset) / factor;
-                    values[j] = pos + '=' + locale.toString(val);
+                    values[j] = pos + QLatin1Char('=') + locale.toString(val);
                 }
                 map[name] = values.join(QLatin1Char(';'));
             } else if (e.attribute(QStringLiteral("type")) != QLatin1String("addedgeometry")) {
@@ -149,7 +149,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
             //TODO: Deprecated, does not seem used anywhere...
             QString format = e.attribute(QStringLiteral("format"));
             QStringList separators = format.split(QStringLiteral("%d"), QString::SkipEmptyParts);
-            QStringList values = map.value(name).split(QRegExp("[,:;x]"));
+            QStringList values = map.value(name).split(QRegExp(QStringLiteral("[,:;x]")));
             QString neu;
             QTextStream txtNeu(&neu);
             if (!values.isEmpty()) {
@@ -231,7 +231,7 @@ void TransitionHandler::cloneProperties(Mlt::Properties &dest, Mlt::Properties &
         char *value = source.get(i);
         if (value != nullptr) {
             char *name = source.get_name(i);
-            if (name != nullptr && name[0] != '_') {
+            if (name != nullptr && name[0] != QLatin1Char('_')) {
                 dest.set(name, value);
             }
         }

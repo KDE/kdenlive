@@ -197,7 +197,7 @@ void CommentedTime::setMarkerType(int t)
 
 QString CommentedTime::hash() const
 {
-    return QString::number(type) + ":" + (c.isEmpty() ? i18n("Marker") : c);
+    return QString::number(type) + QLatin1Char(':') + (c.isEmpty() ? i18n("Marker") : c);
 }
 
 int CommentedTime::markerType() const

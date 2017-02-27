@@ -183,7 +183,7 @@ void ColorWheel::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawImage(0, 0, m_image);
     //painter.drawRect(0, 0, width(), height());
-    painter.drawText(m_margin, wheelSize() + m_unitSize - m_margin, m_name + " " + getParamValues());
+    painter.drawText(m_margin, wheelSize() + m_unitSize - m_margin, m_name + QLatin1Char(' ') + getParamValues());
     drawWheelDot(painter);
     drawSliderBar(painter);
 //    style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);

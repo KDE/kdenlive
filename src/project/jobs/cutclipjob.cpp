@@ -284,7 +284,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     QString source = clip->url();
     QPoint zone = clip->zone();
     QString ext = source.section(QLatin1Char('.'), -1);
-    QString dest = source.section(QLatin1Char('.'), 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
+    QString dest = source.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(zone.x()) + QLatin1Char('.') + ext;
 
     if (originalFps == 0) {
         originalFps = fps;
@@ -323,7 +323,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     while (!acceptPath) {
         // Do not allow to save over original clip
         if (dest == source) {
-            ui.info_label->setText("<b>" + i18n("You cannot overwrite original clip.") + "</b><br>" + mess);
+            ui.info_label->setText(QStringLiteral("<b>") + i18n("You cannot overwrite original clip.") + QStringLiteral("</b><br>") + mess);
         } else if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Overwrite file %1", dest)) == KMessageBox::Yes) {
             break;
         }
@@ -402,7 +402,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
     ui.extra_params->setPlainText(params.simplified().section(QLatin1Char(' '), 0, -2));
     QString mess = desc;
-    mess.append(' ' + i18np("(%1 clip)", "(%1 clips)", clips.count()));
+    mess.append(QLatin1Char(' ') + i18np("(%1 clip)", "(%1 clips)", clips.count()));
     ui.info_label->setText(mess);
     if (d->exec() != QDialog::Accepted) {
         delete d;

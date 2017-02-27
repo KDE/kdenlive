@@ -333,13 +333,14 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
         QString sourcePath = item->url();
         if (item->clipType() == Playlist) {
             // Special case: playlists use the special 'consumer' producer to support resizing
-            sourcePath.prepend("consumer:");
+            sourcePath.prepend(QStringLiteral("consumer:"));
         }
         QStringList parameters;
         QTemporaryFile *playlist = nullptr;
         if (item->clipType() == SlideShow) {
             // we save a temporary .mlt clip for rendering
             QDomDocument doc;
+            //TODO FIXME what we will do with xml ?
             QDomElement xml = item->toXml(doc, false);
             playlist = new QTemporaryFile();
             playlist->setFileTemplate(playlist->fileTemplate() + QStringLiteral(".mlt"));

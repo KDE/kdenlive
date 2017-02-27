@@ -901,7 +901,7 @@ void ProjectClip::doExtractIntra()
         if (pos >= max) {
             pos = max - 1;
         }
-        const QString path = url() + '_' + QString::number(pos);
+        const QString path = url() + QLatin1Char('_') + QString::number(pos);
         QImage img = bin()->findCachedPixmap(path);
         if (!img.isNull()) {
             // Cache already contains image
@@ -948,14 +948,14 @@ void ProjectClip::doExtractImage()
         m_thumbMutex.lock();
         int pos = m_requestedThumbs.takeFirst();
         m_thumbMutex.unlock();
-        if (ok && thumbFolder.exists(hash() + '#' + QString::number(pos) + ".png")) {
-            emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + ".png")));
+        if (ok && thumbFolder.exists(hash() + '#' + QString::number(pos) + QStringLiteral(".png"))) {
+            emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + QStringLiteral(".png"))));
             continue;
         }
         if (pos >= max) {
             pos = max - 1;
         }
-        const QString path = url() + '_' + QString::number(pos);
+        const QString path = url() + QLatin1Char('_') + QString::number(pos);
         QImage img = bin()->findCachedPixmap(path);
         if (!img.isNull()) {
             emit thumbReady(pos, img);
@@ -1012,7 +1012,7 @@ const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
     QDir thumbFolder = bin()->getCacheDir(CacheAudio, &ok);
     QString audioPath = thumbFolder.absoluteFilePath(clipHash);
     if (audioStream > 0) {
-        audioPath.append("_" + QString::number(audioInfo->audio_index()));
+        audioPath.append(QLatin1Char('_') + QString::number(audioInfo->audio_index()));
     }
     int roundedFps = (int) m_controller->profile()->fps();
     audioPath.append(QStringLiteral("_%1_audio.png").arg(roundedFps));
@@ -1351,7 +1351,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
                     previous = m_controller->property("kdenlive:clipanalysis." + name + QString::number(i));
                 }
                 return QStringList() << QString("kdenlive:clipanalysis." + name + QString::number(i)) << geometryWithOffset(data, offset);
-                //m_controller->setProperty("kdenlive:clipanalysis." + name + ' ' + QString::number(i), geometryWithOffset(data, offset));
+                //m_controller->setProperty("kdenlive:clipanalysis." + name + QLatin1Char(' ') + QString::number(i), geometryWithOffset(data, offset));
             }
         } else {
             return QStringList() << QString("kdenlive:clipanalysis." + name) << geometryWithOffset(data, offset);
@@ -1386,7 +1386,7 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
 
 QImage ProjectClip::findCachedThumb(int pos)
 {
-    const QString path = url() + '_' + QString::number(pos);
+    const QString path = url() + QLatin1Char('_') + QString::number(pos);
     return bin()->findCachedPixmap(path);
 }
 

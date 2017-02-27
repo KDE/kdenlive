@@ -366,8 +366,8 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     QString path = m_folder;
     QString ext;
     QString sFileExt;
-    if (!path.endsWith('/')) {
-        path.append('/');
+    if (!path.endsWith(QLatin1Char('/'))) {
+        path.append(QLatin1Char('/'));
     }
     if (!originalUrl.isEmpty()) {
         path.append(QUrl(originalUrl).fileName());
