@@ -215,7 +215,6 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
     //QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
 
     new RenderingAdaptor(this);
-    MltConnection::locateMeltAndProfilesPath(MltPath);
     QString defaultProfile = KdenliveSettings::default_profile();
     KdenliveSettings::setCurrent_profile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
 

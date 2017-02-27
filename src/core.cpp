@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "project/projectmanager.h"
 #include "monitor/monitormanager.h"
+#include "mltconnection.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/producerqueue.h"
 #include "bin/bin.h"
@@ -64,7 +65,7 @@ void Core::build(const QString &MltPath, const QUrl &Url, const QString &clipsTo
     qRegisterMetaType<requestClipInfo> ("requestClipInfo");
     qRegisterMetaType<MltVideoProfile> ("MltVideoProfile");
 
-    m_self->initialize();
+    m_self->initialize(MltPath);
     m_self->m_mainWindow->init(MltPath, Url, clipsToLoad);
     if (qApp->isSessionRestored()) {
         //NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
@@ -73,8 +74,9 @@ void Core::build(const QString &MltPath, const QUrl &Url, const QString &clipsTo
     m_self->m_mainWindow->show();
 }
 
-void Core::initialize()
+void Core::initialize(const QString &mltPath)
 {
+    m_mltConnection = std::make_shared<MltConnection>(mltPath);
     m_mainWindow = new MainWindow();
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin();

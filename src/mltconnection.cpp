@@ -22,10 +22,15 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QStandardPaths>
 #include "kdenlive_debug.h"
 
-MltConnection::MltConnection(QObject *parent) :
-    QObject(parent)
+int MltConnection::instanceCounter = 0;
+MltConnection::MltConnection(const QString &mltPath)
 {
-
+    MltConnection::instanceCounter++;
+    if (MltConnection::instanceCounter > 1) {
+        qDebug() << "DEBUG: Warning : trying to open a second mlt connection";
+        return;
+    }
+    locateMeltAndProfilesPath(mltPath);
 }
 
 void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
