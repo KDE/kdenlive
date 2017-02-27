@@ -41,7 +41,6 @@ public:
     static MltVideoProfile getVideoProfileFromXml(const QDomElement &element);
     static MltVideoProfile getVideoProfile(const QString &name);
     static MltVideoProfile getVideoProfile(Mlt::Profile &profile);
-    static QMap<QString, QString> getProfilesInfo();
     static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
     /** @brief Check if a given profile has a profile file describing it */
     static QString existingProfile(const MltVideoProfile &profile);

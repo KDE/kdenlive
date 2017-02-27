@@ -27,6 +27,7 @@
 
 #include <QTreeWidgetItem>
 #include <QString>
+#include <QHash>
 
 const int MAXCLIPDURATION = 15000;
 
@@ -342,5 +343,18 @@ private:
 
 QDebug operator << (QDebug qd, const ItemInfo &info);
 QDebug operator << (QDebug qd, const MltVideoProfile &profile);
+
+//we provide hash function for qstring
+namespace std {
+    template <>
+    struct hash<QString>
+    {
+        std::size_t operator()(const QString& k) const
+        {
+            return qHash(k);
+        }
+    };
+
+}
 
 #endif

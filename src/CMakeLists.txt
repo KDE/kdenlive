@@ -111,6 +111,7 @@ add_subdirectory(onmonitoritems/rotoscoping)
 add_subdirectory(mltcontroller)
 add_subdirectory(bin)
 add_subdirectory(qml)
+add_subdirectory(profiles)
 
 if (Qt5WebKitWidgets_FOUND)
     add_subdirectory(qt-oauth-lib)
