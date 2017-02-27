@@ -22,6 +22,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "doc/kdenlivedoc.h"
 #include "doc/docundostack.hpp"
 
+#include <mlt++/MltRepository.h>
+
 #include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
@@ -186,3 +188,8 @@ void Core::initLocale()
     QLocale::setDefault(systemLocale);
 }
 
+
+std::unique_ptr<Mlt::Repository>& Core::getMltRepository()
+{
+    return m_mltConnection->getMltRepository();
+}

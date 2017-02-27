@@ -21,6 +21,7 @@
 #include <QDomDocument>
 #include <QStringList>
 #include <QMap>
+#include <memory>
 #include <mlt++/Mlt.h>
 
 /**Init the MLT effects
@@ -41,9 +42,9 @@ public:
      * It checks for all available effects and transitions, removes blacklisted
      * ones, calls fillTransitionsList() and parseEffectFile() to fill the lists
      * (with sorted, unique items) and then fills the global lists. */
-    static bool parseEffectFiles(Mlt::Repository *repository, const QString &locale = QString());
+    static bool parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository, const QString &locale = QString());
     static void refreshLumas();
-    static QDomDocument createDescriptionFromMlt(Mlt::Repository *repository, const QString &type, const QString &name);
+    static QDomDocument createDescriptionFromMlt(std::unique_ptr<Mlt::Repository> &repository, const QString &type, const QString &name);
     static QDomDocument getUsedCustomEffects(const QMap<QString, QString> &effectids);
 
     /** @brief Fills the transitions list.
@@ -54,7 +55,7 @@ public:
      * It creates an element for each transition, asking to MLT for information
      * when possible, using default parameters otherwise. It also adds some
      * "virtual" transition, and removes those not implemented. */
-    static void fillTransitionsList(Mlt::Repository *repository, EffectsList *transitions, QStringList names);
+    static void fillTransitionsList(std::unique_ptr<Mlt::Repository> &repository, EffectsList *transitions, QStringList names);
 
     /** @brief Creates an element describing a transition parameter.
      * @param doc document containing the transition element
@@ -87,8 +88,8 @@ public:
                                 EffectsList *videoEffectList,
                                 const QString &name, const QStringList &filtersList,
                                 const QStringList &producersList,
-                                Mlt::Repository *repository, const QMap<QString, QString> &effectDescriptions);
-    static void parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions);
+                                std::unique_ptr<Mlt::Repository> &repository, const QMap<QString, QString> &effectDescriptions);
+    static void parseTransitionFile(EffectsList *transitionList, const QString &name, std::unique_ptr<Mlt::Repository> &repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions);
 
     /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();

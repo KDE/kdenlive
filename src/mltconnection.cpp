@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KUrlRequesterDialog>
 #include <klocalizedstring.h>
 
+
 #include <QFile>
 #include <QStandardPaths>
 #include "kdenlive_debug.h"
@@ -30,6 +31,10 @@ MltConnection::MltConnection(const QString &mltPath)
         qDebug() << "DEBUG: Warning : trying to open a second mlt connection";
         return;
     }
+    // Disable VDPAU that crashes in multithread environment.
+    //TODO: make configurable
+    setenv("MLT_NO_VDPAU", "1", 1);
+    m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
     locateMeltAndProfilesPath(mltPath);
 }
 
@@ -128,3 +133,8 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         locateMeltAndProfilesPath();
     }
 }
+
+std::unique_ptr<Mlt::Repository>& MltConnection::getMltRepository()
+{
+    return m_repository;
+};

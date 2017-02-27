@@ -28,10 +28,6 @@ BinController::BinController(const QString &profileName) :
     QObject()
 {
     m_binPlaylist = nullptr;
-    // Disable VDPAU that crashes in multithread environment.
-    //TODO: make configurable
-    setenv("MLT_NO_VDPAU", "1", 1);
-    m_repository = Mlt::Factory::init();
     //resetProfile(profileName.isEmpty() ? KdenliveSettings::current_profile() : profileName);
 }
 
@@ -40,10 +36,6 @@ BinController::~BinController()
     destroyBin();
 }
 
-Mlt::Repository *BinController::mltRepository()
-{
-    return m_repository;
-}
 
 Mlt::Profile *BinController::profile()
 {

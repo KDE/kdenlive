@@ -235,7 +235,7 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
     QTabBar *bar = m_timelineArea->findChild<QTabBar *>();
     bar->setHidden(true);
 
-    m_gpuAllowed = initEffects::parseEffectFiles(pCore->binController()->mltRepository());
+    m_gpuAllowed = initEffects::parseEffectFiles(pCore->getMltRepository());
     //initEffects::parseCustomEffectsFile();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence(QStringLiteral("Esc")), this);

@@ -11,12 +11,17 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef MLTCONNECTION_H
 #define MLTCONNECTION_H
 
-#include <QObject>
+#include <memory>
+#include <QString>
+
+namespace Mlt {
+    class Repository;
+ }
 
 /**
  * @class MltConnection
  * @brief Initializes MLT and provides access to its API
- *
+ * This is where the Mlt Factory is initialized
  */
 
 class MltConnection
@@ -27,6 +32,9 @@ public:
         This constructor should be called only once
      */
     MltConnection(const QString &mltPath);
+
+    /* @brief Returns a pointer to the MLT Repository*/
+    std::unique_ptr<Mlt::Repository>& getMltRepository();
 
 protected:
 
@@ -39,6 +47,10 @@ protected:
     void locateMeltAndProfilesPath(const QString &mltPath = QString());
 
     static int instanceCounter;
+
+    /** @brief The MLT repository, useful for filter/producer requests */
+    std::unique_ptr<Mlt::Repository> m_repository;
+
 };
 
 #endif

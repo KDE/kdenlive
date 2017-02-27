@@ -26,6 +26,11 @@ class LibraryWidget;
 class ProducerQueue;
 class MltConnection;
 
+namespace Mlt
+{
+    class Repository;
+}
+
 #define EXIT_RESTART (42)
 #define pCore Core::self()
 
@@ -82,6 +87,9 @@ public:
     QWidget *timelineTabs();
     /** @brief Add a new timeline tab. */
     void addTimeline(QWidget *timeline, const QString &name);
+
+    /** @brief Returns a pointer to MLT's repository */
+    std::unique_ptr<Mlt::Repository>& getMltRepository();
 
 private:
     explicit Core();

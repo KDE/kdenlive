@@ -128,7 +128,7 @@ QDomDocument initEffects::getUsedCustomEffects(const QMap<QString, QString> &eff
 }
 
 //static
-bool initEffects::parseEffectFiles(Mlt::Repository *repository, const QString &locale)
+bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository, const QString &locale)
 {
     bool movit = false;
     QStringList::Iterator more;
@@ -434,7 +434,7 @@ void initEffects::parseCustomEffectsFile()
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, const QStringList &filtersList, const QStringList &producersList, Mlt::Repository *repository, const QMap<QString, QString> &effectDescriptions)
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name, const QStringList &filtersList, const QStringList &producersList, std::unique_ptr<Mlt::Repository> &repository, const QMap<QString, QString> &effectDescriptions)
 {
     QDomDocument doc;
     QFile file(name);
@@ -550,7 +550,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     }
 }
 
-QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository *repository, const QString & /*type*/, const QString &filtername)
+QDomDocument initEffects::createDescriptionFromMlt(std::unique_ptr<Mlt::Repository> &repository, const QString & /*type*/, const QString &filtername)
 {
 
     QDomDocument ret;
@@ -683,7 +683,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository *repository, 
     return ret;
 }
 
-void initEffects::fillTransitionsList(Mlt::Repository *repository, EffectsList *transitions, QStringList names)
+void initEffects::fillTransitionsList(std::unique_ptr<Mlt::Repository> &repository, EffectsList *transitions, QStringList names)
 {
     // Remove transitions that are not implemented.
     int pos = names.indexOf(QStringLiteral("mix"));
@@ -898,7 +898,7 @@ QDomElement initEffects::quickParameterFill(QDomDocument &doc, const QString &na
 }
 
 // static
-void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, Mlt::Repository *repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions)
+void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, std::unique_ptr<Mlt::Repository> &repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions)
 {
     QDomDocument doc;
     QFile file(name);
