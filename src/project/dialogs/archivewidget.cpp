@@ -333,7 +333,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
     QString fileName;
     int ix = 0;
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
-    foreach (const QString &file, items) {
+    for (const QString &file : items) {
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         fileName = QUrl::fromLocalFile(file).fileName();
         if (isSlideshow) {

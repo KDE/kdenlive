@@ -160,8 +160,8 @@ void ClipTranscode::slotStartTransCode()
     }
 
     bool replaceVfParams = false;
-    QStringList splitted = params.split(' ');
-    foreach (QString s, splitted) {
+    const QStringList splitted = params.split(' ');
+    for (QString s : splitted) {
         if (replaceVfParams) {
             parameters << m_postParams.at(1);
             replaceVfParams = false;

@@ -520,8 +520,8 @@ int Render::setSceneList(QString playlist, int position)
     emit durationChanged(m_mltProducer->get_playtime() - 1);
 
     // Fill bin
-    QStringList ids = m_binController->getClipIds();
-    foreach (const QString &id, ids) {
+    const QStringList ids = m_binController->getClipIds();
+    for (const QString &id : ids) {
         if (id == QLatin1String("black")) {
             continue;
         }

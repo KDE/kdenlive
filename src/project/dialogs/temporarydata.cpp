@@ -228,9 +228,9 @@ void TemporaryData::updateDataInfo()
     preview = m_doc->getCacheDir(CacheProxy, &ok);
     if (ok) {
         preview.setNameFilters(m_proxies);
-        QFileInfoList fList = preview.entryInfoList();
+        const QFileInfoList fList = preview.entryInfoList();
         qint64 size = 0;
-        foreach (const QFileInfo &info, fList) {
+        for (const QFileInfo &info : fList) {
             size += info.size();
         }
         gotProxySize(size);

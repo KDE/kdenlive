@@ -354,16 +354,16 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             count++;
         }
         if (clip->clipType() == Text) {
-            QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
-            QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
-            foreach (const QString &file, imagefiles) {
+            const QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
+            const QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
+            for (const QString &file : imagefiles) {
                 count++;
                 new QTreeWidgetItem(images, QStringList() << file);
             }
             allFonts << fonts;
         } else if (clip->clipType() == Playlist) {
-            QStringList files = extractPlaylistUrls(clip->clipUrl());
-            foreach (const QString &file, files) {
+            const QStringList files = extractPlaylistUrls(clip->clipUrl());
+            for (const QString &file : files) {
                 count++;
                 new QTreeWidgetItem(others, QStringList() << file);
             }
@@ -578,8 +578,8 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
         QString regexp = '^' + filter + "\\d+\\." + ext + '$';
         QRegExp rx(regexp);
         int count = 0;
-        QStringList result = dir.entryList(QDir::Files);
-        foreach (const QString &path, result) {
+        const QStringList result = dir.entryList(QDir::Files);
+        for (const QString &path : result) {
             if (rx.exactMatch(path)) {
                 count++;
             }

@@ -96,9 +96,10 @@ void ProjectManager::slotLoadOnOpen()
     }
 
     if (!m_loadClipsOnOpen.isEmpty() && m_project) {
-        QStringList list = m_loadClipsOnOpen.split(',');
+        const QStringList list = m_loadClipsOnOpen.split(',');
         QList<QUrl> urls;
-        foreach (const QString &path, list) {
+        urls.reserve(list.count());
+        for (const QString &path : list) {
             //qCDebug(KDENLIVE_LOG) << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }

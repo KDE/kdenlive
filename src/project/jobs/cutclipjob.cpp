@@ -440,7 +440,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps
     Q_UNUSED(parameters);
 
     QHash<ProjectClip *, AbstractClipJob *> jobs;
-    foreach (ProjectClip *clip, clips) {
+    for (ProjectClip *clip : clips) {
         QString source = clip->url();
         QStringList jobParams;
         int duration = clip->duration().frames(fps) * clip->getOriginalFps() / fps;
@@ -458,9 +458,9 @@ void CutClipJob::processAnalyseLog()
         qCDebug(KDENLIVE_LOG) << "+ + + + +CORRUPTED JSON DOC";
     }
     QJsonObject jsonObject = doc.object();
-    QJsonArray jsonArray = jsonObject[QStringLiteral("frames")].toArray();
+    const QJsonArray jsonArray = jsonObject[QStringLiteral("frames")].toArray();
     QList<int> frames;
-    foreach (const QJsonValue &value, jsonArray) {
+    for (const QJsonValue &value : jsonArray) {
         QJsonObject obj = value.toObject();
         if (obj[QStringLiteral("pict_type")].toString() != QLatin1String("I")) {
             continue;

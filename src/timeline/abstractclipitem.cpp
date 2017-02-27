@@ -550,7 +550,7 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
             QString kfr = e.attribute(QStringLiteral("value"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach (const QString &str, keyframes) {
+            for (const QString &str : keyframes) {
                 if (str.section('=', 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
@@ -582,7 +582,7 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
             QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach (const QString &str, keyframes) {
+            for (const QString &str : keyframes) {
                 if (str.section('=', 0, 0).toInt() != frame) {
                     newkfr.append(str);
                 }
