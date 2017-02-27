@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef CORE_H
 #define CORE_H
 
+#include <memory>
 #include <QTabWidget>
 #include <QObject>
 #include <QUrl>
@@ -23,6 +24,7 @@ class BinController;
 class Bin;
 class LibraryWidget;
 class ProducerQueue;
+class MltConnection;
 
 #define EXIT_RESTART (42)
 #define pCore Core::self()
@@ -61,9 +63,6 @@ public:
     /** @brief Returns a pointer to the singleton object. */
     static Core *self();
 
-    /** @brief Builds all necessary parts. */
-    void initialize();
-
     /** @brief Returns a pointer to the main window. */
     MainWindow *window();
 
@@ -88,6 +87,9 @@ private:
     explicit Core();
     static Core *m_self;
 
+    /** @brief Builds all necessary parts. */
+    void initialize(const QString &mltPath);
+
     /** @brief Makes sure Qt's locale and system locale settings match. */
     void initLocale();
 
@@ -99,6 +101,8 @@ private:
     Bin *m_binWidget;
     LibraryWidget *m_library;
     QTabWidget *m_timelineTab;
+
+    std::shared_ptr<MltConnection> m_mltConnection;
 
 signals:
     void coreIsReady();

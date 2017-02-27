@@ -17,15 +17,18 @@ the Free Software Foundation, either version 3 of the License, or
  * @class MltConnection
  * @brief Initializes MLT and provides access to its API
  *
- * WIP…
  */
 
-class MltConnection : public QObject
+class MltConnection
 {
-    Q_OBJECT
 
 public:
-    explicit MltConnection(QObject *parent = nullptr);
+    /** @brief Open connection to the MLT framework
+        This constructor should be called only once
+     */
+    MltConnection(const QString &mltPath);
+
+protected:
 
     /** @brief Locates the MLT environment.
      * @param mltPath (optional) path to MLT environment
@@ -33,7 +36,9 @@ public:
      * It tries to set the paths of the MLT profiles and renderer, using
      * mltPath, MLT_PREFIX, searching for the binary `melt`, or asking to the
      * user. It doesn't fill any list of profiles, while its name suggests so. */
-    static void locateMeltAndProfilesPath(const QString &mltPath = QString());
+    void locateMeltAndProfilesPath(const QString &mltPath = QString());
+
+    static int instanceCounter;
 };
 
 #endif
