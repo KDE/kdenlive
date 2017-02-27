@@ -367,9 +367,9 @@ void Wizard::checkMltComponents()
         }
 
         // Check that we have the breeze icon theme installed
-        QStringList iconPaths = QIcon::themeSearchPaths();
+        const QStringList iconPaths = QIcon::themeSearchPaths();
         bool hasBreeze = false;
-        foreach (const QString &path, iconPaths) {
+        for (const QString &path : iconPaths) {
             QDir dir(path);
             if (dir.exists(QStringLiteral("breeze"))) {
                 hasBreeze = true;
@@ -464,8 +464,8 @@ void Wizard::checkMissingCodecs()
     QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/");
     QStringList filter;
     filter << QStringLiteral("*.xml");
-    QStringList fileList = directory.entryList(filter, QDir::Files);
-    foreach (const QString &filename, fileList) {
+    const QStringList fileList = directory.entryList(filter, QDir::Files);
+    for (const QString &filename : fileList) {
         profilesList << directory.absoluteFilePath(filename);
     }
 

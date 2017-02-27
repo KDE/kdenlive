@@ -911,7 +911,7 @@ void Bin::slotDeleteClip()
 void Bin::slotReloadClip()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    foreach (const QModelIndex &ix, indexes) {
+    for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
@@ -956,8 +956,8 @@ void Bin::slotReloadClip()
 
 void Bin::slotLocateClip()
 {
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    foreach (const QModelIndex &ix, indexes) {
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
@@ -981,8 +981,8 @@ void Bin::slotLocateClip()
 
 void Bin::slotDuplicateClip()
 {
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    foreach (const QModelIndex &ix, indexes) {
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
@@ -1501,9 +1501,9 @@ void Bin::autoSelect()
 QList<ProjectClip *> Bin::selectedClips()
 {
     //TODO: handle clips inside folders
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     QList<ProjectClip *> list;
-    foreach (const QModelIndex &ix, indexes) {
+    for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
@@ -2651,9 +2651,10 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
             // user dropped a folder, import its files
             clipsToAdd.removeAll(file);
             QDir dir(file.toLocalFile());
-            QStringList result = dir.entryList(QDir::Files);
+            const QStringList result = dir.entryList(QDir::Files);
             QList<QUrl> folderFiles;
-            foreach (const QString &path, result) {
+            folderFiles.reserve(result.count());
+            for (const QString &path : result) {
                 folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
             }
             if (!folderFiles.isEmpty()) {
@@ -3601,8 +3602,8 @@ void Bin::setBinEffectsDisabledStatus(bool disabled)
 
 void Bin::slotRenameFolder()
 {
-    QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    foreach (const QModelIndex &ix, indexes) {
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }

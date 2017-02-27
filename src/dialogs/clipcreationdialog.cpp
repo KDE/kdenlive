@@ -73,9 +73,9 @@ QStringList ClipCreationDialog::getExtensions()
         }
     }
     // process custom user extensions
-    QStringList customs = KdenliveSettings::addedExtensions().split(' ', QString::SkipEmptyParts);
+    const QStringList customs = KdenliveSettings::addedExtensions().split(' ', QString::SkipEmptyParts);
     if (!customs.isEmpty()) {
-        foreach(const QString &ext, customs) {
+        for (const QString &ext : customs) {
             if (ext.startsWith(QLatin1String("*."))) {
                 allExtensions << ext;
             } else if (ext.startsWith(QLatin1String("."))) {

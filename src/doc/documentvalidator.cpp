@@ -113,7 +113,7 @@ bool DocumentValidator::validate(const double currentVersion)
                 // Parse installed locales to find one matching
                 const QList<QLocale> list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
                 QLocale matching;
-                foreach(const QLocale &loc, list) {
+                for (const QLocale &loc : list) {
                     if (loc.decimalPoint() == numericalSeparator) {
                         matching = loc;
                         qCDebug(KDENLIVE_LOG)<<"Warning, document locale: "<<mlt.attribute(QStringLiteral("LC_NUMERIC"))<<" is not available, using: "<<loc.name();

@@ -1832,7 +1832,7 @@ void Monitor::warningMessage(const QString &text, int timeout, const QList<QActi
 {
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     m_infoMessage->setText(text);
-    foreach (QAction *action, actions) {
+    for (QAction *action : actions) {
         m_infoMessage->addAction(action);
     }
     m_infoMessage->setCloseButtonVisible(true);

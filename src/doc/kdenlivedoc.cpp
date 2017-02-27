@@ -1389,8 +1389,8 @@ void KdenliveDoc::watchFile(const QString &url)
 
 void KdenliveDoc::slotClipModified(const QString &path)
 {
-    QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(path));
-    foreach (const QString &id, ids) {
+    const QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(path));
+    for (const QString &id : ids) {
         if (!m_modifiedClips.contains(id)) {
             pCore->bin()->setWaitingStatus(id);
         }

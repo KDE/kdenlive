@@ -1802,8 +1802,8 @@ void RenderWidget::parseMltPresets()
             groupItem->setExpanded(true);
         }
 
-        QStringList profiles = root.entryList(QDir::Files, QDir::Name);
-        foreach (const QString &prof, profiles) {
+        const QStringList profiles = root.entryList(QDir::Files, QDir::Name);
+        for (const QString &prof : profiles) {
             KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig);
             KConfigGroup group = config.group(QByteArray());
             QString vcodec = group.readEntry("vcodec");
