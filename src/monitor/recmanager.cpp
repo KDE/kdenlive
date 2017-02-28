@@ -269,11 +269,11 @@ void RecManager::slotRecord(bool record)
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
         captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
-        captureSize.append('+' + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
+        captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
     } else {
         // Region capture
         captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + QLatin1Char('x') + QString::number(KdenliveSettings::grab_height());
-        captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') + QString::number(KdenliveSettings::grab_offsety()));
+        captureSize.append(QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') + QString::number(KdenliveSettings::grab_offsety()));
     }
     // fps
     captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());

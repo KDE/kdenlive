@@ -7007,7 +7007,7 @@ void CustomTrackView::saveThumbnails()
                         item->startThumb().save(thumb);
                     }
                 } else {
-                    QString startThumb = thumbsFolder.absoluteFilePath(item->getBinHash() + '#');
+                    QString startThumb = thumbsFolder.absoluteFilePath(item->getBinHash() + QLatin1Char('#'));
                     QString endThumb = startThumb;
                     startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + QStringLiteral(".png"));
                     endThumb.append(QString::number((int)(item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + QStringLiteral(".png"));

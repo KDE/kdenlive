@@ -306,7 +306,7 @@ void ArchiveOrg::slotParseResults(KJob *job)
                 html += QLatin1String("<tr class=\"cellone\">");
             }
             else html += QLatin1String("<tr>");
-            html += "<td>" + QUrl(link).fileName() + QStringLiteral("</td><td><a href=\"%1\">%2</a></td><td><a href=\"%3\">%4</a></td></tr>").arg(link).arg(i18n("Preview")).arg(link + "_import").arg(i18n("Import"));
+            html += QStringLiteral("<td>") + QUrl(link).fileName() + QStringLiteral("</td><td><a href=\"%1\">%2</a></td><td><a href=\"%3\">%4</a></td></tr>").arg(link).arg(i18n("Preview")).arg(link + "_import").arg(i18n("Import"));
         }
     }
     html += QLatin1String("</table>");

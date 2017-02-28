@@ -756,11 +756,11 @@ void RecMonitor::slotRecord()
             if (KdenliveSettings::grab_capture_type() == 0) {
                 // Full screen capture
                 m_captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
-                captureSize.append('+' + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
+                captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
             } else {
                 // Region capture
                 m_captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + QLatin1Char('x') + QString::number(KdenliveSettings::grab_height());
-                captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char('.') + QString::number(KdenliveSettings::grab_offsetx()));
+                captureSize.append(QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char('.') + QString::number(KdenliveSettings::grab_offsetx()));
             }
             // fps
             m_captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
@@ -1037,7 +1037,7 @@ void RecMonitor::slotReadProcessInfo()
     if (device_selector->currentIndex() == ScreenBag) {
         m_error.append(data + QLatin1Char('\n'));
     } else if (device_selector->currentIndex() == Firewire) {
-        data = data.section('"', 2, 2).simplified();
+        data = data.section(QLatin1Char('"'), 2, 2).simplified();
         m_dvinfo.setText(data.left(11));
         m_dvinfo.updateGeometry();
     }

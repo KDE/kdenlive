@@ -1442,7 +1442,7 @@ void RenderWidget::startRendering(RenderJobItem *item)
         }
     } else if (item->type() == ScriptRenderType) {
         // Script item
-        if (QProcess::startDetached('"' + item->data(1, ParametersRole).toString() + '"') == false) {
+        if (QProcess::startDetached(QLatin1Char('"') + item->data(1, ParametersRole).toString() + QLatin1Char('"')) == false) {
             item->setStatus(FAILEDJOB);
         }
     }
@@ -2282,13 +2282,13 @@ void RenderWidget::parseScriptFiles()
                 QString line = stream.readLine();
                 if (line.startsWith(QLatin1String("TARGET_0="))) {
                     target = line.section(QStringLiteral("TARGET_0=\""), 1);
-                    target = target.section('"', 0, 0);
+                    target = target.section(QLatin1Char('"'), 0, 0);
                 } else if (line.startsWith(QLatin1String("RENDERER="))) {
                     renderer = line.section(QStringLiteral("RENDERER=\""), 1);
-                    renderer = renderer.section('"', 0, 0);
+                    renderer = renderer.section(QLatin1Char('"'), 0, 0);
                 } else if (line.startsWith(QLatin1String("MELT="))) {
                     melt = line.section(QStringLiteral("MELT=\""), 1);
-                    melt = melt.section('"', 0, 0);
+                    melt = melt.section(QLatin1Char('"'), 0, 0);
                 }
             }
             file.close();
