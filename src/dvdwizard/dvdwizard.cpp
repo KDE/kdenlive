@@ -181,7 +181,7 @@ void DvdWizard::slotPageChanged(int page)
 void DvdWizard::generateDvd()
 {
     m_isoMessage->animatedHide();
-    QDir dir(m_status.tmp_folder->url().toLocalFile() + "DVD/");
+    QDir dir(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("DVD/"));
     if (!dir.exists()) {
         dir.mkpath(dir.absolutePath());
     }
@@ -870,7 +870,9 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     //qCDebug(KDENLIVE_LOG) << m_creationLog;
     infoMessage(i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().toLocalFile()));
 
-    m_status.error_log->append("<a name=\"result\" /><strong>" + i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().toLocalFile()) + "</strong>");
+    m_status.error_log->append(QStringLiteral("<a name=\"result\" /><strong>")
+                               + i18n("DVD ISO image %1 successfully created.", m_status.iso_image->url().toLocalFile())
+                               + QStringLiteral("</strong>"));
     m_status.error_log->scrollToAnchor(QStringLiteral("result"));
     m_status.button_preview->setEnabled(true);
     m_status.button_burn->setEnabled(true);

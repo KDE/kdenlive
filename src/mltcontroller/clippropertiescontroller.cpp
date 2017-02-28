@@ -763,7 +763,7 @@ void ClipPropertiesController::fillProperties()
     if (m_type == Image) {
         int width = m_controller->int_property(QStringLiteral("meta.media.width"));
         int height = m_controller->int_property(QStringLiteral("meta.media.height"));
-        propertyMap.append(QStringList() << i18n("Image size") << QString::number(width) + "x" + QString::number(height));
+        propertyMap.append(QStringList() << i18n("Image size") << QString::number(width) + QLatin1Char('x') + QString::number(height));
     }
     if (m_type == AV || m_type == Video || m_type == Audio) {
         int vindex = m_controller->int_property(QStringLiteral("video_index"));
@@ -797,7 +797,7 @@ void ClipPropertiesController::fillProperties()
             }
             int width = m_controller->int_property(QStringLiteral("meta.media.width"));
             int height = m_controller->int_property(QStringLiteral("meta.media.height"));
-            propertyMap.append(QStringList() << i18n("Frame size") << QString::number(width) + "x" + QString::number(height));
+            propertyMap.append(QStringList() << i18n("Frame size") << QString::number(width) + QLatin1Char('x') + QString::number(height));
 
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             QString fpsValue = m_controller->property(property);

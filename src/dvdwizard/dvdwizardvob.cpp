@@ -367,9 +367,9 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
 
     if (chapters.isEmpty() == false) {
         item->setData(1, Qt::UserRole + 1, chapters);
-    } else if (QFile::exists(url.toLocalFile() + ".dvdchapter")) {
+    } else if (QFile::exists(url.toLocalFile() + QStringLiteral(".dvdchapter"))) {
         // insert chapters as children
-        QFile file(url.toLocalFile() + ".dvdchapter");
+        QFile file(url.toLocalFile() + QStringLiteral(".dvdchapter"));
         if (file.open(QIODevice::ReadOnly)) {
             QDomDocument doc;
             if (doc.setContent(&file) == false) {

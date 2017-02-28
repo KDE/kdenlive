@@ -455,7 +455,8 @@ void ResourceWidget::slotFreesoundUseHQPreview()
     mSaveLocation = mSaveLocation + QStringLiteral(".mp3"); // HQ previews are .mp3 files - so append this to file name previously chosen
     if (QFile::exists(mSaveLocation)) { // check that this newly created file name file does not already exist
         int ret = QMessageBox::warning(this, i18n("File Exists"),
-                                       i18n("HQ preview files are all mp3 files. We have added .mp3 as a file extension to the destination file name you chose. However, there is an existing file of this name present. \n Do you want to overwrite the existing file?. ") + "\n" + mSaveLocation,
+                                       i18n("HQ preview files are all mp3 files. We have added .mp3 as a file extension to the destination file name you chose. However, there is an existing file of this name present. \n Do you want to overwrite the existing file?. ")
+                                       + QStringLiteral("\n") + mSaveLocation,
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
         if (ret == QMessageBox::No) {

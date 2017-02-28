@@ -971,7 +971,7 @@ void RenderWidget::slotPrepareExport(bool scriptExport, const QString &scriptPat
     }
     QString chapterFile;
     if (m_view.create_chapter->isChecked()) {
-        chapterFile = m_view.out_file->url().toLocalFile() + ".dvdchapter";
+        chapterFile = m_view.out_file->url().toLocalFile() + QStringLiteral(".dvdchapter");
     }
 
     // mantisbt 1051
