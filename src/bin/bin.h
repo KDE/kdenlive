@@ -530,6 +530,7 @@ public:
     const QStringList getFolderInfo(const QModelIndex &selectedIx = QModelIndex());
     /** @brief Save a clip zone as MLT playlist */
     void saveZone(const QStringList &info, const QDir &dir);
+    QVariantList audioFrameCache(const QString &id);
 
 private slots:
     void slotAddClip();

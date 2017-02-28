@@ -3825,3 +3825,13 @@ void Bin::saveZone(const QStringList &info, const QDir &dir)
         clip->controller()->saveZone(zone, dir);
     }
 }
+
+QVariantList Bin::audioFrameCache(const QString &id)
+{
+    ProjectClip *clip = getBinClip(id);
+    if (clip && clip->controller()) {
+        return clip->audioFrameCache;
+    } else {
+        return QVariantList();
+    }
+}

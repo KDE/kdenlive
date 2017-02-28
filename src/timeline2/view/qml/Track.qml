@@ -74,7 +74,7 @@ Column{
             binId: model.binId
             isAudio: false //model.audio
             isTransition: false //model.isTransition
-            audioLevels: false //model.audioLevels
+            audioLevels: model.audioLevels
             width: model.duration * timeScale
             height: parent.height
             modelStart: model.start

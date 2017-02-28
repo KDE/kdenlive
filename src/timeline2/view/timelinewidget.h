@@ -138,6 +138,9 @@ public:
     /* @brief Do we want to display video thumbnails
      */
     Q_INVOKABLE bool showThumbnails() const;
+    /* @brief Do we want to display audio thumbnails
+     */
+    Q_INVOKABLE bool showWaveforms() const;
 
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;

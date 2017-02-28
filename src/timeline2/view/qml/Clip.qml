@@ -93,16 +93,16 @@ Rectangle {
         isAudio = track.isAudio
         height = track.height
         y = track.y
-        //generateWaveform()
+        generateWaveform()
     }
 
-    /*function generateWaveform() {
+    function generateWaveform() {
         // This is needed to make the model have the correct count.
         // Model as a property expression is not working in all cases.
         waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
         for (var i = 0; i < waveformRepeater.count; i++)
             waveformRepeater.itemAt(0).update()
-    }*/
+    }
 
     function imagePath(time) {
         if (isAudio || isBlank || isTransition) {
@@ -112,7 +112,7 @@ Rectangle {
         }
     }
 
-    //onAudioLevelsChanged: generateWaveform()
+    onAudioLevelsChanged: generateWaveform()
 
     Image {
         id: outThumbnail
@@ -155,7 +155,7 @@ Rectangle {
 
     Row {
         id: waveform
-        visible: !isBlank //&& settings.timelineShowWaveforms
+        visible: timeline.showWaveforms()
         height: isAudio? parent.height : parent.height / 2
         anchors.left: parent.left
         anchors.bottom: parent.bottom
@@ -164,18 +164,18 @@ Rectangle {
         property int maxWidth: 10000
         property int innerWidth: clipRoot.width - clipRoot.border.width * 2
 
-        /*Repeater {
+        Repeater {
             id: waveformRepeater
             TimelineWaveform {
                 width: Math.min(waveform.innerWidth, waveform.maxWidth)
                 height: waveform.height
-                fillColor: getColor()
+                fillColor: 'red'
                 property int channels: 2
                 inPoint: Math.round((clipRoot.inPoint + index * waveform.maxWidth / timeScale) * speed) * channels
                 outPoint: inPoint + Math.round(width / timeScale * speed) * channels
                 levels: audioLevels
             }
-        }*/
+        }
     }
 
     Rectangle {
