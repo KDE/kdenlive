@@ -1102,7 +1102,7 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                m_configCapture.kcfg_v4l_format->addItem('[' + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')'), QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
+                m_configCapture.kcfg_v4l_format->addItem(QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')'), QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
             }
         }
     }

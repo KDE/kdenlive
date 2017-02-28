@@ -572,7 +572,7 @@ void RenderWidget::slotSaveProfile()
 
 bool RenderWidget::saveProfile(QDomElement newprofile)
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -1764,7 +1764,7 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     // Parse some MLT's profiles
     parseMltPresets();
 
-    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/";
+    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/");
     QDir directory(exportFolder);
     QStringList filter;
     filter << QStringLiteral("*.xml");

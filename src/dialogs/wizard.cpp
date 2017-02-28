@@ -296,7 +296,7 @@ void Wizard::slotUpdateCaptureParameters()
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                QString formatDescription = '[' + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
+                QString formatDescription = QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
                 if (m_capture.v4l_formats->findText(formatDescription) == -1) {
                     m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
                 }
@@ -461,7 +461,7 @@ void Wizard::checkMissingCodecs()
     }
     QStringList profilesList;
     profilesList << QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
-    QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/");
+    QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/"));
     QStringList filter;
     filter << QStringLiteral("*.xml");
     const QStringList fileList = directory.entryList(filter, QDir::Files);
@@ -672,7 +672,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
         if (!mimeDir.exists()) {
             mimeDir.mkpath(QStringLiteral("."));
         }
-        QString packageFileName = mimeDir.absoluteFilePath(mimefile + ".xml");
+        QString packageFileName = mimeDir.absoluteFilePath(mimefile + QStringLiteral(".xml"));
         //qCDebug(KDENLIVE_LOG) << "INSTALLING NEW MIME TO: " << packageFileName;
         QFile packageFile(packageFileName);
         if (!packageFile.open(QIODevice::WriteOnly)) {

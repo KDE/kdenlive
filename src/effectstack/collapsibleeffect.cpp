@@ -379,7 +379,7 @@ void CollapsibleEffect::slotSaveEffect()
         dir.mkpath(QStringLiteral("."));
     }
 
-    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) {
+    if (dir.exists(name + QStringLiteral(".xml"))) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
         return;
     }
 
@@ -404,7 +404,7 @@ void CollapsibleEffect::slotSaveEffect()
     effectprops.setAttribute(QStringLiteral("id"), name);
     effectprops.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
 
-    QFile file(dir.absoluteFilePath(name + ".xml"));
+    QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
         out << doc.toString();

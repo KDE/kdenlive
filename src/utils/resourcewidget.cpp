@@ -771,8 +771,8 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
     } else {
 
         m_meta = QString();
-        m_desc = "<br><b>" +  i18n("Error Getting Access Token from Freesound.") + "</b>";
-        m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection") + "</b>");
+        m_desc = "<br><b>" +  i18n("Error Getting Access Token from Freesound.") + QStringLiteral("</b>");
+        m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection") + QStringLiteral("</b>"));
         updateLayout();
     }
 }
@@ -862,7 +862,7 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
                 m_pOAuth2->ForgetAccessToken();
 #endif
                 m_desc.append(QStringLiteral("<br>") + i18n("Error Downloading File. Error code: ") + reply->error() + QStringLiteral("<br>"));
-                m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection") + "</b>");
+                m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection") + QStringLiteral("</b>"));
                 updateLayout();
 
             }

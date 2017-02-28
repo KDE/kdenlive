@@ -165,12 +165,12 @@ void ColorWheel::resizeEvent(QResizeEvent *event)
 QString ColorWheel::getParamValues()
 {
     if (m_id == QLatin1String("gamma")) {
-        return QString::number(m_color.redF() * 2, 'g', 2) + "," + QString::number(m_color.greenF() * 2, 'g', 2) + "," + QString::number(m_color.blueF() * 2, 'g', 2);
+        return QString::number(m_color.redF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF() * 2, 'g', 2);
     } else if (m_id == QLatin1String("gain")) {
-        return QString::number(m_color.redF() * 4, 'g', 2) + "," + QString::number(m_color.greenF() * 4, 'g', 2) + "," + QString::number(m_color.blueF() * 4, 'g', 2);
+        return QString::number(m_color.redF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF() * 4, 'g', 2);
     }
     // default (lift)
-    return QString::number(m_color.redF(), 'g', 2) + "," + QString::number(m_color.greenF(), 'g', 2) + "," + QString::number(m_color.blueF(), 'g', 2);
+    return QString::number(m_color.redF(), 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF(), 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF(), 'g', 2);
 
 }
 

@@ -2924,7 +2924,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
             QString track = pCore->projectManager()->currentTimeline()->getTrackInfo(matching.at(i).track).trackName;
             QString start = pCore->projectManager()->current()->timecode().getTimecode(matching.at(i).startPos);
             int j = 0;
-            QAction *a = new QAction(track + ": " + start, inTimelineMenu);
+            QAction *a = new QAction(track + QStringLiteral(": ") + start, inTimelineMenu);
             a->setData(QStringList() << track << start);
             connect(a, &QAction::triggered, this, &MainWindow::slotSelectClipInTimeline);
             while (j < actionList.count()) {
