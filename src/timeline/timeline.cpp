@@ -488,18 +488,18 @@ void Timeline::getTransitions()
 // static
 bool Timeline::isSlide(QString geometry)
 {
-    if (geometry.count(';') != 1) {
+    if (geometry.count(QLatin1Char(';')) != 1) {
         return false;
     }
 
-    geometry.remove(QChar('%'), Qt::CaseInsensitive);
-    geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
-    geometry.replace(QChar(','), QChar(':'), Qt::CaseInsensitive);
-    geometry.replace(QChar('/'), QChar(':'), Qt::CaseInsensitive);
+    geometry.remove(QLatin1Char('%'), Qt::CaseInsensitive);
+    geometry.replace(QLatin1Char('x'), QLatin1Char(':'), Qt::CaseInsensitive);
+    geometry.replace(QLatin1Char(','), QLatin1Char(':'), Qt::CaseInsensitive);
+    geometry.replace(QLatin1Char('/'), QLatin1Char(':'), Qt::CaseInsensitive);
 
-    QString start = geometry.section(QLatin1Char('='), 0, 0).section(QLatin1Char(':'), 0, -2) + ':';
+    QString start = geometry.section(QLatin1Char('='), 0, 0).section(QLatin1Char(':'), 0, -2) + QLatin1Char(':');
     start.append(geometry.section(QLatin1Char('='), 1, 1).section(QLatin1Char(':'), 0, -2));
-    QStringList numbers = start.split(':', QString::SkipEmptyParts);
+    QStringList numbers = start.split(QLatin1Char(':'), QString::SkipEmptyParts);
     for (int i = 0; i < numbers.size(); ++i) {
         int checkNumber = qAbs(numbers.at(i).toInt());
         if (checkNumber != 0 && checkNumber != 100) {
@@ -570,10 +570,10 @@ void Timeline::parseDocument(const QDomDocument &doc)
         // Our document was upgraded, create a backup copy just in case
         QString baseFile = m_doc->url().toLocalFile().section(QStringLiteral(".kdenlive"), 0, 0);
         int ct = 0;
-        QString backupFile = baseFile + "_backup" + QString::number(ct) + QStringLiteral(".kdenlive");
+        QString backupFile = baseFile + QStringLiteral("_backup") + QString::number(ct) + QStringLiteral(".kdenlive");
         while (QFile::exists(backupFile)) {
             ct++;
-            backupFile = baseFile + "_backup" + QString::number(ct) + QStringLiteral(".kdenlive");
+            backupFile = baseFile + QStringLiteral("_backup") + QString::number(ct) + QStringLiteral(".kdenlive");
         }
         QString message;
         if (mlt.hasAttribute(QStringLiteral("upgraded"))) {
@@ -1189,13 +1189,13 @@ QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement 
 void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
 {
     for (int i = 0;; ++i) {
-        QString name = "filter" + QString::number(i);
+        QString name = QStringLiteral("filter") + QString::number(i);
         if (!effect->get(name.toUtf8().constData())) {
             break;
         }
         //identify effect
-        QString tag = effect->get(name.append(".tag").toUtf8().constData());
-        QString id = effect->get(name.append(".kdenlive_id").toUtf8().constData());
+        QString tag = effect->get(name.append(QStringLiteral(".tag")).toUtf8().constData());
+        QString id = effect->get(name.append(QLatin1String(".kdenlive_id")).toUtf8().constData());
         QDomElement subclipeffect = getEffectByTag(tag, id);
         if (subclipeffect.isNull()) {
             qCWarning(KDENLIVE_LOG) << "Region sub-effect not found";
@@ -1209,7 +1209,7 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
         ProfileInfo info = m_doc->getProfileInfo();
         for (int i = 0; i < params.count(); ++i) {
             QDomElement param = params.item(i).toElement();
-            setParam(info, param, effect->get((name + "." + param.attribute(QStringLiteral("name"))).toUtf8().constData()));
+            setParam(info, param, effect->get((name + QLatin1Char('.') + param.attribute(QStringLiteral("name"))).toUtf8().constData()));
         }
         currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
     }
@@ -1451,7 +1451,7 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
             } else {
                 double evaluatedValue = EffectsController::getStringEval(m_doc->getProfileInfo(), e.attribute(QStringLiteral("default")));
                 e.setAttribute(QStringLiteral("default"), evaluatedValue);
-                if (!e.hasAttribute(QStringLiteral("value")) || e.attribute(QStringLiteral("value")).startsWith('%')) {
+                if (!e.hasAttribute(QStringLiteral("value")) || e.attribute(QStringLiteral("value")).startsWith(QLatin1Char('%'))) {
                     e.setAttribute(QStringLiteral("value"), evaluatedValue);
                 }
             }

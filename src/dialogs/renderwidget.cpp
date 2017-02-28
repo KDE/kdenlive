@@ -1056,8 +1056,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             }
             QTextStream outStream(&file);
             outStream << "#! /bin/sh" << '\n' << '\n';
-            outStream << "RENDERER=" << '\"' + m_renderer + '\"' << '\n';
-            outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + '\"' << "\n\n";
+            outStream << "RENDERER=" << '\"' + m_renderer + QLatin1Char('\"') << '\n';
+            outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + QLatin1Char('\"') << "\n\n";
         }
 
         QStringList overlayargs;
@@ -1256,7 +1256,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                 resizeProfile = true;
             }
             // evaluate expression
-            if (paramValue.startsWith('%')) {
+            if (paramValue.startsWith(QLatin1Char('%'))) {
                 paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
                 paramsList[i] = paramName + QLatin1Char('=') + paramValue;
             }
@@ -1279,9 +1279,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QTextStream outStream(&file);
             QString stemIdxStr(QString::number(stemIdx));
 
-            outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded() + '\"' << '\n';
-            outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(dest).toEncoded() + '\"' << '\n';
-            outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(QLatin1Char(' ')) + '\"' << '\n';
+            outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded() + QLatin1Char('\"') << '\n';
+            outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(dest).toEncoded() + QLatin1Char('\"') << '\n';
+            outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(QLatin1Char(' ')) + QLatin1Char('\"') << '\n';
             outStream << "$RENDERER $PARAMETERS_" << stemIdxStr << "\n\n";
 
             if (stemIdx == (stemCount - 1)) {
@@ -2525,7 +2525,7 @@ QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &
     if (projectName.isEmpty()) {
         fileName = i18n("script");
     } else {
-        fileName = projectName.fileName().section(QLatin1Char('.'), 0, -2) + '_';
+        fileName = projectName.fileName().section(QLatin1Char('.'), 0, -2) + QLatin1Char('_');
     }
     while (path.isEmpty() || QFile::exists(path)) {
         ++ix;

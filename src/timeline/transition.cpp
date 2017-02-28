@@ -216,7 +216,7 @@ void Transition::paint(QPainter *painter,
         framePen.setColor(brush().color().darker());
     }
 
-    const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, QLatin1Char(' ') + text + ' ');
+    const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, QLatin1Char(' ') + text + QLatin1Char(' '));
     painter->setBrush(framePen.color());
     painter->setPen(framePen.color());
     painter->drawRoundedRect(txtBounding, 3, 3);

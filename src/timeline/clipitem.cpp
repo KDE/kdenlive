@@ -1933,7 +1933,7 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo
                 }
                 QByteArray value = param.attribute(QStringLiteral("value")).toLatin1();
                 if (adjustRotoDuration(&value, cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1)) {
-                    param.setAttribute(QStringLiteral("value"), QString(value));
+                    param.setAttribute(QStringLiteral("value"), QString::fromLatin1(value));
                 }
             }
         }

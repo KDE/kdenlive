@@ -514,11 +514,11 @@ void KdenliveSettingsDialog::initDevices()
             while (!line.isNull()) {
                 if (line.contains(QStringLiteral("playback"))) {
                     deviceId = line.section(QLatin1Char(':'), 0, 0);
-                    m_configSdl.kcfg_audio_device->addItem(line.section(QLatin1Char(':'), 1, 1), "plughw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + ',' + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
+                    m_configSdl.kcfg_audio_device->addItem(line.section(QLatin1Char(':'), 1, 1), "plughw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + QLatin1Char(',') + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 if (line.contains(QStringLiteral("capture"))) {
                     deviceId = line.section(QLatin1Char(':'), 0, 0);
-                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(QLatin1Char(':'), 1, 1).simplified(), "hw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + ',' + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
+                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(QLatin1Char(':'), 1, 1).simplified(), "hw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + QLatin1Char(',') + QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 line = stream.readLine();
             }
@@ -569,8 +569,8 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
         if (!data.startsWith(' ') && data.count(':') > 1) {
             QString card = data.section(QLatin1Char(':'), 0, 0).section(QLatin1Char(' '), -1);
             QString device = data.section(QLatin1Char(':'), 1, 1).section(QLatin1Char(' '), -1);
-            m_configSdl.kcfg_audio_device->addItem(data.section(QLatin1Char(':'), -1).simplified(), "plughw:" + card + ',' + device);
-            m_configCapture.kcfg_v4l_alsadevice->addItem(data.section(QLatin1Char(':'), -1).simplified(), "hw:" + card + ',' + device);
+            m_configSdl.kcfg_audio_device->addItem(data.section(QLatin1Char(':'), -1).simplified(), "plughw:" + card + QLatin1Char(',') + device);
+            m_configCapture.kcfg_v4l_alsadevice->addItem(data.section(QLatin1Char(':'), -1).simplified(), "hw:" + card + QLatin1Char(',') + device);
         }
     }
 }
@@ -1118,7 +1118,7 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
         loadCurrentV4lProfileInfo();
         return;
     }
-    m_configCapture.p_size->setText(info.at(1) + 'x' + info.at(2));
+    m_configCapture.p_size->setText(info.at(1) + QLatin1Char('x') + info.at(2));
     m_configCapture.p_fps->setText(info.at(3) + QLatin1Char('/') + info.at(4));
     m_configCapture.p_aspect->setText(QStringLiteral("1/1"));
     m_configCapture.p_display->setText(info.at(1) + QLatin1Char('/') + info.at(2));
@@ -1154,7 +1154,7 @@ void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
     } else {
         prof = ProfilesDialog::getVideoProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
     }
-    m_configCapture.p_size->setText(QString::number(prof.width) + 'x' + QString::number(prof.height));
+    m_configCapture.p_size->setText(QString::number(prof.width) + QLatin1Char('x') + QString::number(prof.height));
     m_configCapture.p_fps->setText(QString::number(prof.frame_rate_num) + QLatin1Char('/') + QString::number(prof.frame_rate_den));
     m_configCapture.p_aspect->setText(QString::number(prof.sample_aspect_num) + QLatin1Char('/') + QString::number(prof.sample_aspect_den));
     m_configCapture.p_display->setText(QString::number(prof.display_aspect_num) + QLatin1Char('/') + QString::number(prof.display_aspect_den));

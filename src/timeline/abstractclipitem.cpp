@@ -631,7 +631,7 @@ bool AbstractClipItem::resizeGeometries(QDomElement effect, int width, int heigh
         if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
             geom = e.attribute(QStringLiteral("value"));
             Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
-            e.setAttribute(QStringLiteral("value"), geometry.serialise(start, start + duration));
+            e.setAttribute(QStringLiteral("value"), QString::fromLatin1(geometry.serialise(start, start + duration)));
             modified = true;
         }
     }

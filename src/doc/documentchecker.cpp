@@ -704,7 +704,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
                 }
                 file.close();
                 fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-                if (QString(fileHash.toHex()) == matchHash) {
+                if (QString::fromLatin1(fileHash.toHex()) == matchHash) {
                     return file.fileName();
                 }
             }

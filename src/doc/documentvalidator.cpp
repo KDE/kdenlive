@@ -131,7 +131,7 @@ bool DocumentValidator::validate(const double currentVersion)
         } else if (numericalSeparator.isNull()) {
             // Change locale to match document
 #ifndef Q_OS_MAC
-            const QString newloc = setlocale(LC_NUMERIC, mlt.attribute(QStringLiteral("LC_NUMERIC")).toUtf8().constData());
+            const QString newloc = QString::fromLatin1(setlocale(LC_NUMERIC, mlt.attribute(QStringLiteral("LC_NUMERIC")).toUtf8().constData()));
 #else
             const QString newloc = setlocale(LC_NUMERIC_MASK, mlt.attribute("LC_NUMERIC").toUtf8().constData());
 #endif
@@ -179,9 +179,9 @@ bool DocumentValidator::validate(const double currentVersion)
         }
         // locale conversion might need to be redone
 #ifndef Q_OS_MAC
-        initEffects::parseEffectFiles(pCore->getMltRepository(), setlocale(LC_NUMERIC, nullptr));
+        initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
 #else
-        initEffects::parseEffectFiles(pCore->getMltRepository(), setlocale(LC_NUMERIC_MASK, nullptr));
+        initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC_MASK, nullptr)));
 #endif
     }
     double version = -1;
@@ -1091,7 +1091,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     item.frame(out);
                     g->insert(item);
                     g->remove(out + 1);
-                    EffectsList::setProperty(trans, QStringLiteral("geometry"), g->serialise());
+                    EffectsList::setProperty(trans, QStringLiteral("geometry"), QString::fromLatin1(g->serialise()));
                 }
             }
             delete g;

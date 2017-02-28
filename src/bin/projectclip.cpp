@@ -948,8 +948,8 @@ void ProjectClip::doExtractImage()
         m_thumbMutex.lock();
         int pos = m_requestedThumbs.takeFirst();
         m_thumbMutex.unlock();
-        if (ok && thumbFolder.exists(hash() + '#' + QString::number(pos) + QStringLiteral(".png"))) {
-            emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + '#' + QString::number(pos) + QStringLiteral(".png"))));
+        if (ok && thumbFolder.exists(hash() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".png"))) {
+            emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".png"))));
             continue;
         }
         if (pos >= max) {

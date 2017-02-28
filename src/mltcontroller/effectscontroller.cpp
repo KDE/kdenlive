@@ -265,7 +265,7 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
             double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
             e.setAttribute(QStringLiteral("default"), evaluatedValue);
             if (e.hasAttribute(QStringLiteral("value"))) {
-                if (e.attribute(QStringLiteral("value")).startsWith('%')) {
+                if (e.attribute(QStringLiteral("value")).startsWith(QLatin1Char('%'))) {
                     e.setAttribute(QStringLiteral("value"), evaluatedValue);
                 }
             } else {
@@ -312,7 +312,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
             double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
             e.setAttribute(QStringLiteral("default"), evaluatedValue);
             if (e.hasAttribute(QStringLiteral("value"))) {
-                if (e.attribute(QStringLiteral("value")).startsWith('%')) {
+                if (e.attribute(QStringLiteral("value")).startsWith(QLatin1Char('%'))) {
                     e.setAttribute(QStringLiteral("value"), evaluatedValue);
                 }
             } else {

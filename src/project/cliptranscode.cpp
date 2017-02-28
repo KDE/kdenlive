@@ -185,7 +185,7 @@ void ClipTranscode::slotStartTransCode()
 
 void ClipTranscode::slotShowTranscodeInfo()
 {
-    QString log = QString(m_transcodeProcess.readAll());
+    QString log = QString::fromLatin1(m_transcodeProcess.readAll());
     if (m_duration == 0) {
         if (log.contains(QStringLiteral("Duration:"))) {
             QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();

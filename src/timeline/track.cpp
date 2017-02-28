@@ -313,7 +313,7 @@ void Track::replaceId(const QString &id)
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
 	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack || current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
-	    current.prepend("#");
+        current.prepend(QLatin1Char('#'));
 	    p->parent().set("id", current.toUtf8().constData());
 	}
     }
@@ -724,7 +724,7 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
     } else {
         url = QString::fromUtf8(clipparent.get("resource"));
     }
-    url.prepend(locale.toString(speed) + ':');
+    url.prepend(locale.toString(speed) + QLatin1Char(':'));
     Track::SlowmoInfo slowInfo;
     slowInfo.speed = speed;
     slowInfo.strobe = strobe;

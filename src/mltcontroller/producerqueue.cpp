@@ -688,7 +688,7 @@ void ProducerQueue::processFileProperties()
                 }
                 emit replyGetImage(info.clipId, img);
             } else {
-                filePropertyMap[QStringLiteral("frame_size")] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
+                filePropertyMap[QStringLiteral("frame_size")] = QString::number(frame->get_int("width")) + QLatin1Char('x') + QString::number(frame->get_int("height"));
                 int af = frame->get_int("audio_frequency");
                 int ac = frame->get_int("audio_channels");
                 // keep for compatibility with MLT <= 0.8.6

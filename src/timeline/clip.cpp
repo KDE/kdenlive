@@ -74,7 +74,7 @@ void Clip::addEffects(Mlt::Service &service, bool skipFades)
         QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         // Only duplicate Kdenlive filters, and skip the fade in effects
         if (effect->is_valid()) {
-            QString effectId = effect->get("kdenlive_id");
+            QString effectId = QString::fromLatin1(effect->get("kdenlive_id"));
             if (effectId.isEmpty() || (skipFades && (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")))) {
                 continue;
             }
@@ -82,8 +82,8 @@ void Clip::addEffects(Mlt::Service &service, bool skipFades)
             Mlt::Filter *copy = new Mlt::Filter(*effect->profile(), effect->get("mlt_service"));
             if (copy && copy->is_valid()) {
                 for (int i = 0; i < effect->count(); ++i) {
-                    QString paramName = effect->get_name(i);
-                    if (paramName == QLatin1String("kdenlive:sync_in_out") && QString(effect->get(i)) == QLatin1String("1")) {
+                    QString paramName = QString::fromLatin1(effect->get_name(i));
+                    if (paramName == QLatin1String("kdenlive:sync_in_out") && QString::fromLatin1(effect->get(i)) == QLatin1String("1")) {
                         // Effect in/out must be synced with clip in/out
                         copy->set_in_and_out(m_producer.get_in(), m_producer.get_out());
                     }
@@ -104,7 +104,7 @@ void Clip::replaceEffects(Mlt::Service &service)
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
-        QString ix = filter->get("kdenlive_ix");
+        QString ix = QString::fromLatin1(filter->get("kdenlive_ix"));
         if (!ix.isEmpty()) {
             if (m_producer.detach(*filter) == 0) {
             } else {
@@ -125,7 +125,7 @@ void Clip::deleteEffects()
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
-        QString ix = filter->get("kdenlive_ix");
+        QString ix = QString::fromLatin1(filter->get("kdenlive_ix"));
         if (!ix.isEmpty()) {
             if (m_producer.detach(*filter) == 0) {
             } else {
@@ -144,7 +144,7 @@ void Clip::disableEffects(bool disable)
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter) {
-        QString ix = filter->get("kdenlive_ix");
+        QString ix = QString::fromLatin1(filter->get("kdenlive_ix"));
         if (!ix.isEmpty()) {
             if (disable && filter->get_int("disable") == 0) {
                 filter->set("disable", 1);
@@ -192,8 +192,8 @@ Mlt::Producer *Clip::clone()
 
 Mlt::Producer *Clip::softClone(const char *list)
 {
-    QString service = m_producer.get("mlt_service");
-    QString resource = m_producer.get("resource");
+    QString service = QString::fromLatin1(m_producer.get("mlt_service"));
+    QString resource = QString::fromLatin1(m_producer.get("resource"));
     Mlt::Producer *clone = new Mlt::Producer(*m_producer.profile(), service.toUtf8().constData(), resource.toUtf8().constData());
     Mlt::Properties original(m_producer.get_properties());
     Mlt::Properties cloneProps(clone->get_properties());

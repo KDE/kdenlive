@@ -119,7 +119,7 @@ void TransitionSettings::dragEnterEvent(QDragEnterEvent *event)
 void TransitionSettings::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
-        QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
+        QString itemData = QString::fromLatin1(event->mimeData()->data(QStringLiteral("kdenlive/geometry")));
         QMap<QString, QString> data;
         data.insert(i18n("Geometry"), itemData);
         emit importClipKeyframes(TransitionWidget, m_usedTransition->info(), m_usedTransition->toXML(), data);

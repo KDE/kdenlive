@@ -295,7 +295,7 @@ bool EffectManager::editEffect(const EffectsParameterList &params, int duration,
         return success;
     }
     ct = 0;
-    QString ser = filter->get("mlt_service");
+    QString ser = QString::fromLatin1(filter->get("mlt_service"));
     QList<Mlt::Filter *> filtersList;
     m_producer.lock();
     if (ser != tag) {

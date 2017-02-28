@@ -789,13 +789,13 @@ const QString KeyframeView::serialize(const QString &name, bool rectAnimation)
         key = QString::number(pos);
         switch (type) {
         case mlt_keyframe_discrete:
-            key.append("|=");
+            key.append(QStringLiteral("|="));
             break;
         case mlt_keyframe_smooth:
-            key.append("~=");
+            key.append(QStringLiteral("~="));
             break;
         default:
-            key.append("=");
+            key.append(QStringLiteral("="));
             break;
         }
         key.append(locale.toString(val));

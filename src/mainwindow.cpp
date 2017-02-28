@@ -2273,7 +2273,7 @@ void MainWindow::slotAddClipMarker()
         pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
-            project->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(project->fps())), d->markerImage());
+            project->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(project->fps())), d->markerImage());
         }
     }
     delete d;
@@ -2367,7 +2367,7 @@ void MainWindow::slotEditClipMarker()
         pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
-            pCore->projectManager()->current()->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(pCore->projectManager()->current()->fps())), d->markerImage());
+            pCore->projectManager()->current()->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->projectManager()->current()->fps())), d->markerImage());
         }
         if (d->newMarker().time() != pos) {
             // remove old marker

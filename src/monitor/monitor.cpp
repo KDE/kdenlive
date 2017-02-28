@@ -1790,7 +1790,7 @@ QString Monitor::getMarkerThumb(GenTime pos)
         return QString();
     }
     if (!m_controller->getClipHash().isEmpty()) {
-        QString url = m_monitorManager->getCacheFolder(CacheThumbs).absoluteFilePath(m_controller->getClipHash() + '#' + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + QStringLiteral(".png"));
+        QString url = m_monitorManager->getCacheFolder(CacheThumbs).absoluteFilePath(m_controller->getClipHash() + QLatin1Char('#') + QString::number((int) pos.frames(m_monitorManager->timecode().fps())) + QStringLiteral(".png"));
         if (QFile::exists(url)) {
             return url;
         }

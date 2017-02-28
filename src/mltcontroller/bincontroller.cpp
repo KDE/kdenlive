@@ -200,10 +200,10 @@ void BinController::slotStoreFolder(const QString &folderId, const QString &pare
 {
     if (!oldParentId.isEmpty()) {
         // Folder was moved, remove old reference
-        QString oldPropertyName = "kdenlive:folder." + oldParentId + "." + folderId;
+        QString oldPropertyName = "kdenlive:folder." + oldParentId + QLatin1Char('.') + folderId;
         m_binPlaylist->set(oldPropertyName.toUtf8().constData(), (char *) nullptr);
     }
-    QString propertyName = "kdenlive:folder." + parentId + "." + folderId;
+    QString propertyName = "kdenlive:folder." + parentId + QLatin1Char('.') + folderId;
     if (folderName.isEmpty()) {
         // Remove this folder info
         m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) nullptr);

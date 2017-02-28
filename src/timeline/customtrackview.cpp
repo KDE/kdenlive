@@ -6955,7 +6955,7 @@ void CustomTrackView::slotUpdateAllThumbs()
             if (item && item->isEnabled() && item->clipType() != Color && item->clipType() != Audio) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == Image || item->clipType() == Text) {
-                    QString thumb = thumbsFolder.absoluteFilePath(item->getBinHash() + "#0.png");
+                    QString thumb = thumbsFolder.absoluteFilePath(item->getBinHash() + QStringLiteral("#0.png"));
                     if (ok && QFile::exists(thumb)) {
                         QPixmap pix(thumb);
                         if (pix.isNull()) {
@@ -6964,7 +6964,7 @@ void CustomTrackView::slotUpdateAllThumbs()
                         item->slotSetStartThumb(pix);
                     }
                 } else {
-                    QString startThumb = thumbsFolder.absoluteFilePath(item->getBinHash() + "#");
+                    QString startThumb = thumbsFolder.absoluteFilePath(item->getBinHash() + QLatin1Char('#'));
                     QString endThumb = startThumb;
                     startThumb.append(QString::number((int) item->speedIndependantCropStart().frames(m_document->fps())) + QStringLiteral(".png"));
                     endThumb.append(QString::number((int)(item->speedIndependantCropStart() + item->speedIndependantCropDuration()).frames(m_document->fps()) - 1) + QStringLiteral(".png"));
@@ -8430,7 +8430,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
             continue;
         }
         //if (strobe > 1) slowProd->set("strobe", strobe);
-        QString producerid = "slowmotion:" + id + QLatin1Char(':') + info.toString(locale);
+        QString producerid = QStringLiteral("slowmotion:") + id + QLatin1Char(':') + info.toString(locale);
         slowProd->set("id", producerid.toUtf8().constData());
         newSlowMos.insert(info.toString(locale), slowProd);
     }

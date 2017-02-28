@@ -755,11 +755,11 @@ void RecMonitor::slotRecord()
             captureSize = QStringLiteral(":0.0");
             if (KdenliveSettings::grab_capture_type() == 0) {
                 // Full screen capture
-                m_captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + 'x' + QString::number(screenSize.height());
+                m_captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
                 captureSize.append('+' + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
             } else {
                 // Region capture
-                m_captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
+                m_captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + QLatin1Char('x') + QString::number(KdenliveSettings::grab_height());
                 captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char('.') + QString::number(KdenliveSettings::grab_offsetx()));
             }
             // fps
@@ -873,7 +873,7 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     int height = rect.height();
     if (width % 2 != 0) width--;
     if (height % 2 != 0) height--;
-    QString args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(width) + 'x' + QString::number(height)).replace("%offset", "+" + QString::number(rect.x()) + ',' + QString::number(rect.y()));
+    QString args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(width) + QLatin1Char('x') + QString::number(height)).replace("%offset", "+" + QString::number(rect.x()) + QLatin1Char(',') + QString::number(rect.y()));
     if (KdenliveSettings::screengrabenableaudio()) {
         // also capture audio
         if (KdenliveSettings::useosscapture()) m_captureArgs << KdenliveSettings::screengrabosscapture().simplified().split(' ');
@@ -967,7 +967,7 @@ void RecMonitor::manageCapturedFiles()
     if (capturename.isEmpty()) {
         capturename = QStringLiteral("capture");
     }
-    filters << capturename + '*' + extension;
+    filters << capturename + QLatin1Char('*') + extension;
     const QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
     QList<QUrl> capturedFiles;
     for (const QString &name : result) {
