@@ -251,7 +251,7 @@ void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
     emit prepareTimelineReplacement(id);
     producer.set("id", id.toUtf8().constData());
     // Remove video only producer
-    QString videoId = id + "_video";
+    QString videoId = id + QStringLiteral("_video");
     if (m_extraClipList.contains(videoId)) {
         m_extraClipList.remove(videoId);
     }
@@ -352,7 +352,7 @@ Mlt::Producer *BinController::getBinProducer(const QString &id)
 
 Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
 {
-    QString videoId = id + "_video";
+    QString videoId = id + QStringLiteral("_video");
     if (!m_extraClipList.contains(videoId)) {
         // create clone
         QString originalId = id.section(QLatin1Char('_'), 0, 0);

@@ -418,7 +418,7 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
             if (tempAction->shortcut() == QKeySequence(0)) {
                 tempAction->setToolTip(strippedTooltip);
             } else {
-                tempAction->setToolTip(strippedTooltip + " (" + tempAction->shortcut().toString() + ")");
+                tempAction->setToolTip(strippedTooltip + QStringLiteral(" (") + tempAction->shortcut().toString() + ")");
             }
         }
     }
@@ -1902,7 +1902,7 @@ void MainWindow::slotUpdateMousePosition(int pos)
     if (pCore->projectManager()->current()) {
         switch (m_timeFormatButton->currentItem()) {
         case 0:
-            m_timeFormatButton->setText(pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pos) + " / " + pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pCore->projectManager()->currentTimeline()->duration()));
+            m_timeFormatButton->setText(pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pos) + QStringLiteral(" / ") + pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pCore->projectManager()->currentTimeline()->duration()));
             break;
         default:
             m_timeFormatButton->setText(QStringLiteral("%1 / %2").arg(pos, 6, 10, QLatin1Char('0')).arg(pCore->projectManager()->currentTimeline()->duration(), 6, 10, QLatin1Char('0')));
@@ -3217,7 +3217,7 @@ void MainWindow::buildDynamicActions()
     foreach (const QString &stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
         filter = Mlt::Factory::filter(profile, (char *)stab.toUtf8().constData());
         if (filter && filter->is_valid()) {
-            QAction *action = new QAction(i18n("Stabilize") + " (" + stab + ")", m_extraFactory->actionCollection());
+            QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + ")", m_extraFactory->actionCollection());
             action->setData(QStringList() << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << stab);
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);

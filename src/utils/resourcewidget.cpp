@@ -385,12 +385,12 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
             if (sFileExt.isEmpty()) {
                 sFileExt = QStringLiteral("*.") + m_currentInfo.fileType;    // if the file name had no extension then use the file type freesound says it is.
             }
-            ext = "Audio (" + sFileExt + ");;All Files(*.*)";
+            ext = "Audio (" + sFileExt + QStringLiteral(");;All Files(*.*)");
 
         } else if (m_currentService->serviceType == AbstractService::OPENCLIPART) {
-            ext = "Images (" + m_currentService->getExtension(search_results->currentItem()) + ");;All Files(*.*)";
+            ext = "Images (" + m_currentService->getExtension(search_results->currentItem()) + QStringLiteral(");;All Files(*.*)");
         } else {
-            ext = "Video (" + m_currentService->getExtension(search_results->currentItem()) + ");;All Files(*.*)";
+            ext = "Video (" + m_currentService->getExtension(search_results->currentItem()) + QStringLiteral(");;All Files(*.*)");
         }
     }
     QUrl srcUrl(m_currentInfo.itemDownload);

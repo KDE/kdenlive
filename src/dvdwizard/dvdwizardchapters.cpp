@@ -235,7 +235,7 @@ QStringList DvdWizardChapters::selectedTargets() const
         }
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
         for (int j = 0; j < chapters.count(); ++j) {
-            result.append("jump title " + QString::number(i + 1).rightJustified(2, '0') + " chapter " + QString::number(j + 1).rightJustified(2, '0'));
+            result.append(QStringLiteral("jump title ") + QString::number(i + 1).rightJustified(2, '0') + QStringLiteral(" chapter ") + QString::number(j + 1).rightJustified(2, '0'));
         }
     }
     return result;

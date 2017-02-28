@@ -249,7 +249,7 @@ void ArchiveOrg::slotParseResults(KJob *job)
 
                         if (format != QLatin1String("Animated GIF") && format != QLatin1String("Metadata") && format != QLatin1String("Archive BitTorrent") && format != QLatin1String("Thumbnail") && format != QLatin1String("JSON") && format != QLatin1String("JPEG") && format != QLatin1String("JPEG Thumb") && format != QLatin1String("PNG") && format != QLatin1String("Video Index")) {
                             // the a href url has the tag _import added at the end. This tag is removed by ResourceWidget::slotOpenLink before being used to download the file
-                            html += "<tr><td>" + format + " (" + fileSize + "kb " + minsLong + "min) " + QStringLiteral("</td><td><a href=\"%1\">%2</a></td></tr>").arg(sDownloadUrl + "_import", i18n("Import"));
+                            html += "<tr><td>" + format + QStringLiteral(" (") + fileSize + "kb " + minsLong + "min) " + QStringLiteral("</td><td><a href=\"%1\">%2</a></td></tr>").arg(sDownloadUrl + "_import", i18n("Import"));
                         }
                         //if (format==QLatin1String("Animated GIF"))// widget does not run through the frames of the animated gif
                         if (format == QLatin1String("Thumbnail") && !bThumbNailFound) {

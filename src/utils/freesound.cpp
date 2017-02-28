@@ -201,23 +201,23 @@ void FreeSound::slotParseResults(KJob *job)
 
         if (info.contains(QStringLiteral("duration"))) {
             html += QLatin1String("<tr>");
-            html += "<td>" + i18n("Duration (s)") + "</td><td>" + QString::number(info.value(QStringLiteral("duration")).toDouble()) + "</td></tr>";
+            html += "<td>" + i18n("Duration (s)") + QStringLiteral("</td><td>") + QString::number(info.value(QStringLiteral("duration")).toDouble()) + "</td></tr>";
             m_metaInfo.remove(i18n("Duration"));
             m_metaInfo.insert(i18n("Duration"),  info.value(QStringLiteral("duration")).toString());
         }
 
         if (info.contains(QStringLiteral("samplerate"))) {
             html += QLatin1String("<tr class=\"cellone\">");
-            html += "<td>" + i18n("Samplerate") + "</td><td>" + QString::number(info.value(QStringLiteral("samplerate")).toDouble()) + "</td></tr>";
+            html += "<td>" + i18n("Samplerate") + QStringLiteral("</td><td>") + QString::number(info.value(QStringLiteral("samplerate")).toDouble()) + "</td></tr>";
         }
         if (info.contains(QStringLiteral("channels"))) {
             html += QLatin1String("<tr>");
-            html += "<td>" + i18n("Channels") + "</td><td>" + QString::number(info.value(QStringLiteral("channels")).toInt()) + "</td></tr>";
+            html += "<td>" + i18n("Channels") + QStringLiteral("</td><td>") + QString::number(info.value(QStringLiteral("channels")).toInt()) + "</td></tr>";
         }
         if (info.contains(QStringLiteral("filesize"))) {
             html += QLatin1String("<tr class=\"cellone\">");
             KIO::filesize_t fSize = info.value(QStringLiteral("filesize")).toDouble();
-            html += "<td>" + i18n("File size") + "</td><td>" + KIO::convertSize(fSize) + "</td></tr>";
+            html += "<td>" + i18n("File size") + QStringLiteral("</td><td>") + KIO::convertSize(fSize) + "</td></tr>";
         }
         if (info.contains(QStringLiteral("license"))) {
             m_metaInfo.insert(QStringLiteral("license"), info.value(QStringLiteral("license")).toString());
@@ -282,7 +282,7 @@ bool FreeSound::startItemPreview(QListWidgetItem *item)
         if (m_previewProcess->state() != QProcess::NotRunning) {
             m_previewProcess->close();
         }
-        qCDebug(KDENLIVE_LOG) << KdenliveSettings::ffplaypath() + QLatin1Char(' ') +  url  + " -nodisp -autoexit";
+        qCDebug(KDENLIVE_LOG) << KdenliveSettings::ffplaypath() + QLatin1Char(' ') +  url  + QStringLiteral(" -nodisp -autoexit");
         m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << QStringLiteral("-nodisp") << QStringLiteral("-autoexit"));
 
     }

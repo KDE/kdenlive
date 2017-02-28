@@ -296,7 +296,7 @@ void Wizard::slotUpdateCaptureParameters()
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(',', QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                QString formatDescription = '[' + format + "] " + itemSize + " (" + itemRates.at(k) + QLatin1Char(')');
+                QString formatDescription = '[' + format + "] " + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
                 if (m_capture.v4l_formats->findText(formatDescription) == -1) {
                     m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
                 }
@@ -756,7 +756,9 @@ void Wizard::slotCheckStandard()
         QListWidgetItem *item = m_standard.profiles_list->item(i);
 
         QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(item->data(Qt::UserRole).toString());
-        const QString infoString = ("<strong>" + i18n("Frame size:") + " </strong>%1x%2<br /><strong>" + i18n("Frame rate:") + " </strong>%3/%4<br /><strong>" + i18n("Pixel aspect ratio:") + "</strong>%5/%6<br /><strong>" + i18n("Display aspect ratio:") + " </strong>%7/%8").arg(values.value(QStringLiteral("width")), values.value(QStringLiteral("height")), values.value(QStringLiteral("frame_rate_num")), values.value(QStringLiteral("frame_rate_den")), values.value(QStringLiteral("sample_aspect_num")), values.value(QStringLiteral("sample_aspect_den")), values.value(QStringLiteral("display_aspect_num")), values.value(QStringLiteral("display_aspect_den")));
+        const QString infoString = ("<strong>" + i18n("Frame size:") + QStringLiteral(" </strong>%1x%2<br /><strong>") + i18n("Frame rate:") + QStringLiteral(" </strong>%3/%4<br /><strong>")
+                                    + i18n("Pixel aspect ratio:") + QStringLiteral("</strong>%5/%6<br /><strong>") + i18n("Display aspect ratio:")
+                                    + QStringLiteral(" </strong>%7/%8")).arg(values.value(QStringLiteral("width")), values.value(QStringLiteral("height")), values.value(QStringLiteral("frame_rate_num")), values.value(QStringLiteral("frame_rate_den")), values.value(QStringLiteral("sample_aspect_num")), values.value(QStringLiteral("sample_aspect_den")), values.value(QStringLiteral("display_aspect_num")), values.value(QStringLiteral("display_aspect_den")));
         item->setToolTip(infoString);
     }
 

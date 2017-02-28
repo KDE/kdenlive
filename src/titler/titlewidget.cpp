@@ -735,7 +735,7 @@ void TitleWidget::slotImageTool()
 {
     QList<QByteArray> supported = QImageReader::supportedImageFormats();
     QStringList mimeTypeFilters;
-    QString allExtensions = i18n("All Images") + " (";
+    QString allExtensions = i18n("All Images") + QStringLiteral(" (");
     foreach (const QByteArray &mimeType, supported) {
         mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + "( *." + QString(mimeType) + ")");
         allExtensions.append("*." + mimeType + QLatin1Char(' '));
@@ -2531,7 +2531,7 @@ void TitleWidget::slotSelectNone()
 
 QString TitleWidget::getTooltipWithShortcut(const QString &text, QAction *button)
 {
-    return text + "  <b>" + button->shortcut().toString() + "</b>";
+    return text + QStringLiteral("  <b>") + button->shortcut().toString() + QStringLiteral("</b>");
 }
 
 void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
