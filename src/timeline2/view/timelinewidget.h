@@ -27,6 +27,7 @@
 #include <QQuickWidget>
 
 class BinController;
+class ThumbnailProvider;
 
 class TimelineWidget : public QQuickWidget
 {
@@ -159,6 +160,7 @@ private:
     double m_scale;
     Selection m_selection;
     Selection m_savedSelection;
+    ThumbnailProvider *m_thumbnailer;
     static const int comboScale[];
     static int m_duration;
     void emitSelectedFromSelection();

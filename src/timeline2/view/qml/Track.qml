@@ -71,6 +71,7 @@ Column{
             outPoint: model.out
             isBlank: model.blank
             clipId: model.item
+            binId: model.binId
             isAudio: false //model.audio
             isTransition: false //model.isTransition
             audioLevels: false //model.audioLevels

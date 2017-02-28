@@ -162,6 +162,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[NameRole] = "name";
     roles[ResourceRole] = "resource";
     roles[ServiceRole] = "mlt_service";
+    roles[BinIdRole] = "binId";
     roles[IsBlankRole] = "blank";
     roles[StartRole] = "start";
     roles[DurationRole] = "duration";
@@ -213,6 +214,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             }
             return result;
         }
+        case BinIdRole:
+            return clip->getProperty("kdenlive:id").toInt();
         case ServiceRole:
             return clip->getProperty("mlt_service");
             break;

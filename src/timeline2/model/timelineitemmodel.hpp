@@ -67,6 +67,7 @@ public:
         ServiceRole,     /// clip only
         IsBlankRole,     /// clip only
         StartRole,       /// clip only
+        BinIdRole,       /// clip only
         DurationRole,
         InPointRole,     /// clip only
         OutPointRole,    /// clip only

@@ -518,6 +518,7 @@ void ProducerQueue::processFileProperties()
         }
         // We are not replacing an existing producer, so set the id
         producer->set("id", info.clipId.toUtf8().constData());
+        producer->set("kdenlive:id", info.clipId.toUtf8().constData());
         stringMap filePropertyMap;
         stringMap metadataPropertyMap;
         char property[200];

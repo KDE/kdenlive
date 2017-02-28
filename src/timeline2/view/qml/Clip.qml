@@ -40,6 +40,7 @@ Rectangle {
     property var audioLevels
     property int fadeIn: 0
     property int fadeOut: 0
+    property int binId: 0
     property int trackIndex //Index in track repeater
     property int trackId: -42    //Id in the model
     property int clipId     //Id of the clip in the model
@@ -107,7 +108,7 @@ Rectangle {
         if (isAudio || isBlank || isTransition) {
             return ''
         } else {
-            return 'image://thumbnail/' + hash + '/' + mltService + '/' + clipResource + '#' + time
+            return 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#' + time
         }
     }
 
@@ -124,6 +125,7 @@ Rectangle {
         anchors.bottomMargin: parent.border.width + 1
         width: height * 16.0/9.0
         fillMode: Image.PreserveAspectFit
+        asynchronous: true
         source: imagePath(outPoint)
     }
 
@@ -138,6 +140,7 @@ Rectangle {
         anchors.leftMargin: parent.border.width
         width: height * 16.0/9.0
         fillMode: Image.PreserveAspectFit
+        asynchronous: true
         source: imagePath(inPoint)
     }
 

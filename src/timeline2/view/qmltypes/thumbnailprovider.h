@@ -23,6 +23,7 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 #include <KImageCache>
+#include <QCache>
 
 class ThumbnailProvider : public QQuickImageProvider
 {
@@ -30,13 +31,15 @@ public:
     explicit ThumbnailProvider();
     virtual ~ThumbnailProvider();
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
+    void resetProject();
 
 private:
     QString cacheKey(Mlt::Properties& properties, const QString& service,
                      const QString& resource, const QString& hash, int frameNumber);
-    QImage makeThumbnail(Mlt::Producer&, int frameNumber, const QSize& requestedSize);
+    QImage makeThumbnail(Mlt::Producer *, int frameNumber, const QSize& requestedSize);
     Mlt::Profile m_profile;
     KImageCache *m_cache;
+    QCache <int, Mlt::Producer> m_producers;
 };
 
 #endif // THUMBNAILPROVIDER_H

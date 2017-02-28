@@ -18,12 +18,12 @@
 
 #include "thumbnailprovider.h"
 #include "core.h"
-#include "doc/kthumb.h"
 
 #include <QQuickImageProvider>
 #include <QCryptographicHash>
 #include <QDebug>
 #include <mlt++/MltProfile.h>
+#include <mlt++/MltFilter.h>
 
 ThumbnailProvider::ThumbnailProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
@@ -33,11 +33,21 @@ ThumbnailProvider::ThumbnailProvider()
     m_cache = new KImageCache(QStringLiteral("kdenlive-timeline-thumbs"), 10000000);
     m_cache->clear();
     m_cache->setEvictionPolicy(KSharedDataCache::EvictOldest);
+    //TODO: get profile from current active project
+    m_profile.set_height(180);
+    m_profile.set_width(320);
+    m_producers.setMaxCost(6);
 }
 
 ThumbnailProvider::~ThumbnailProvider()
 {
     delete m_cache;
+}
+
+void ThumbnailProvider::resetProject()
+{
+    m_producers.clear();
+    m_cache->clear();
 }
 
 QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
@@ -46,32 +56,41 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
 
     // id is [hash]/mlt_service/resource#frameNumber
     int index = id.lastIndexOf('#');
-
     if (index != -1) {
-        QString hash = id.section('/', 0, 0);
+        int hash = id.section('/', 0, 0).toInt();
         QString service = id.section('/', 1, 1);
         QString resource = id.section('/', 2);
         int frameNumber = id.mid(index + 1).toInt();
-        Mlt::Properties properties;
 
-        // Scale the frameNumber to ThumbnailProvider profile's fps.
         //TODO: get profile from pCore
         //frameNumber = qRound(frameNumber / pCore->profile().fps() * m_profile.fps());
 
-        qDebug()<<"--------- REQUESTED FRAME: "<<frameNumber;
         resource = resource.left(resource.lastIndexOf('#'));
-        properties.set("_profile", m_profile.get_profile(), 0);
+        //properties.set("_profile", m_profile.get_profile(), 0);
 
         //QString key = cacheKey(properties, service, resource, hash, frameNumber);
         //result = getCachedThumbnail(key);
-        const QString key = hash + QString::number(frameNumber);
+        const QString key = QString::number(hash) + "#" + QString::number(frameNumber);
         if (!m_cache->findImage(key, &result)) {
             if (service == "avformat-novalidate")
                 service = "avformat";
             else if (service.startsWith("xml"))
                 service = "xml-nogl";
-            Mlt::Producer producer(m_profile, service.toUtf8().constData(), resource.toUtf8().constData());
-            if (producer.is_valid()) {
+            Mlt::Producer *producer = NULL;
+            if (m_producers.contains(hash)) {
+                producer = m_producers.object(hash);
+            } else {
+                producer = new Mlt::Producer(m_profile, service.toUtf8().constData(), resource.toUtf8().constData());
+                Mlt::Filter scaler(m_profile, "swscale");
+                Mlt::Filter padder(m_profile, "resize");
+                Mlt::Filter converter(m_profile, "avcolor_space");
+                producer->attach(scaler);
+                producer->attach(padder);
+                producer->attach(converter);
+                m_producers.insert(hash, producer);
+            }
+            if (producer && producer->is_valid()) {
+                //result = KThumb::getFrame(producer, frameNumber, 0, 0);
                 result = makeThumbnail(producer, frameNumber, requestedSize);
                 m_cache->insertImage(key, result);
             } else {
@@ -106,21 +125,19 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties& properties, const QString& 
     return key;
 }
 
-QImage ThumbnailProvider::makeThumbnail(Mlt::Producer &producer, int frameNumber, const QSize& requestedSize)
+QImage ThumbnailProvider::makeThumbnail(Mlt::Producer *producer, int frameNumber, const QSize& requestedSize)
 {
-    Mlt::Filter scaler(m_profile, "swscale");
-    Mlt::Filter padder(m_profile, "resize");
-    Mlt::Filter converter(m_profile, "avcolor_space");
-    int height = 100;
-    int width = 100 * m_profile.dar();
-
-    if (!requestedSize.isEmpty()) {
-        width = requestedSize.width();
-        height = requestedSize.height();
+    producer->seek(frameNumber);
+    Mlt::Frame *frame = producer->get_frame();
+    mlt_image_format format = mlt_image_rgb24a;
+    int ow = 0;
+    int oh = 0;
+    QImage result;
+    const uchar *imagedata = frame->get_image(format, ow, oh);
+    if (imagedata) {
+        result = QImage(ow, oh, QImage::Format_RGBA8888);
+        memcpy(result.bits(), imagedata, ow * oh * 4);
     }
-
-    producer.attach(scaler);
-    producer.attach(padder);
-    producer.attach(converter);
-    return KThumb::getFrame(producer, frameNumber, width, height);
+    delete frame;
+    return result;
 }

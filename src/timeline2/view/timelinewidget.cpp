@@ -50,7 +50,8 @@ TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUn
     rootContext()->setContextProperty("timeline", this);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     m_model->tractor()->listen("producer-changed", this, (mlt_listener) tractorChanged);
-    engine()->addImageProvider(QString("thumbnail"), new ThumbnailProvider);
+    m_thumbnailer = new ThumbnailProvider;
+    engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
     //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 
@@ -233,6 +234,7 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 void TimelineWidget::buildFromMelt(Mlt::Tractor tractor)
 {
     qDebug() << "REQUESTING BUILD FROM MELT";
+    m_thumbnailer->resetProject();
     constructTimelineFromMelt(m_model, tractor);
 }
 
