@@ -545,7 +545,7 @@ void RecMonitor::slotStartPreview(bool play)
         m_discAction->setEnabled(true);
         break;
     case Video4Linux:
-        path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
+        path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
         producer = getV4lXmlPlaylist(profile, &isXml);
@@ -663,7 +663,7 @@ void RecMonitor::slotRecord()
             if (rec_video->isChecked()) {
                 slotActivateMonitor();
             }
-            path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
+            path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
             buildMltDevice(path);
             playlist = getV4lXmlPlaylist(profile, &isXml);

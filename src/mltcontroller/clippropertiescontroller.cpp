@@ -619,7 +619,7 @@ void ClipPropertiesController::slotEnableForce(int state)
         // The force property was disable, remove it / reset default if necessary
         if (param == QLatin1String("force_duration")) {
             // special case, reset original duration
-            TimecodeDisplay *timePos = findChild<TimecodeDisplay *>(param + "_value");
+            TimecodeDisplay *timePos = findChild<TimecodeDisplay *>(param + QStringLiteral("_value"));
             timePos->setValue(m_properties.get_int("kdenlive:original_length"));
             slotDurationChanged(m_properties.get_int("kdenlive:original_length"));
             m_properties.set("kdenlive:original_length", (char *) nullptr);
@@ -644,19 +644,19 @@ void ClipPropertiesController::slotEnableForce(int state)
                 m_properties.set("kdenlive:original_length", kdenlive_duration > 0 ? kdenlive_duration : m_properties.get_int("length"));
             }
         } else if (param == QLatin1String("force_fps")) {
-            QDoubleSpinBox *spin = findChild<QDoubleSpinBox *>(param + "_value");
+            QDoubleSpinBox *spin = findChild<QDoubleSpinBox *>(param + QStringLiteral("_value"));
             if (!spin) {
                 return;
             }
             properties.insert(param, locale.toString(spin->value()));
         } else if (param == QLatin1String("threads")) {
-            QSpinBox *spin = findChild<QSpinBox *>(param + "_value");
+            QSpinBox *spin = findChild<QSpinBox *>(param + QStringLiteral("_value"));
             if (!spin) {
                 return;
             }
             properties.insert(param, QString::number(spin->value()));
         } else if (param == QLatin1String("force_colorspace")  || param == QLatin1String("force_progressive") || param == QLatin1String("force_tff")) {
-            QComboBox *combo = findChild<QComboBox *>(param + "_value");
+            QComboBox *combo = findChild<QComboBox *>(param + QStringLiteral("_value"));
             if (!combo) {
                 return;
             }

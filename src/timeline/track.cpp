@@ -304,7 +304,7 @@ void Track::lockTrack(bool locked)
 
 void Track::replaceId(const QString &id)
 {
-    QString idForAudioTrack = id + QLatin1Char('_') + m_playlist.get("id") + "_audio";
+    QString idForAudioTrack = id + QLatin1Char('_') + m_playlist.get("id") + QStringLiteral("_audio");
     QString idForVideoTrack = id + QStringLiteral("_video");
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
     //TODO: slowmotion
@@ -349,7 +349,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
     int tkState = state();
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
-        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
+        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + QStringLiteral("_audio");
         idForVideoTrack = idForTrack + QStringLiteral("_video");
         idForTrack.append(QLatin1Char('_') + m_playlist.get("id"));
     }
@@ -483,7 +483,7 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
     QString idForTrack = original->parent().get("id");
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
-        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
+        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + QStringLiteral("_audio");
         idForVideoTrack = idForTrack + QStringLiteral("_video");
         idForTrack.append(QLatin1Char('_') + m_playlist.get("id"));
     }
@@ -637,7 +637,7 @@ void Track::updateClipProperties(const QString &id, const QMap<QString, QString>
 {
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
     QString idForVideoTrack = id + QStringLiteral("_video");
-    QString idForAudioTrack = idForTrack + "_audio";
+    QString idForAudioTrack = idForTrack + QStringLiteral("_audio");
     // slowmotion producers are updated in renderer
 
     for (int i = 0; i < m_playlist.count(); i++) {

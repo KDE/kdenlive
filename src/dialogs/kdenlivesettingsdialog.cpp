@@ -1085,7 +1085,7 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
     m_configCapture.kcfg_v4l_format->blockSignals(true);
     m_configCapture.kcfg_v4l_format->clear();
 
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
     if (QFile::exists(vl4ProfilePath)) {
         m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
     }
@@ -1381,7 +1381,7 @@ void KdenliveSettingsDialog::slotUpdatePreviewProfile(int ix)
 
 void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
 {
-    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
+    QString vl4ProfilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
     QPointer<ProfilesDialog> w = new ProfilesDialog(vl4ProfilePath, true);
     if (w->exec() == QDialog::Accepted) {
         // save and update profile
