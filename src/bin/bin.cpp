@@ -971,7 +971,7 @@ void Bin::slotLocateClip()
                 qCDebug(KDENLIVE_LOG) << "  / / " + url.toString();
             } else {
                 if(!exists) {
-                    emitMessage(i18n("Couldn't locate ") + QString(" (" + url.toString() + ")"), 100, ErrorMessage);
+                    emitMessage(i18n("Couldn't locate ") + QString(" (" + url.toString() + QLatin1Char(')')), 100, ErrorMessage);
                 }
                 return;
             }

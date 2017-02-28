@@ -271,10 +271,10 @@ void LibraryWidget::slotAddToLibrary()
     if (name.isEmpty() || !ok) {
         return;
     }
-    if (m_directory.exists(name + ".mlt")) {
+    if (m_directory.exists(name + QStringLiteral(".mlt"))) {
         //TODO: warn and ask for overwrite / rename
     }
-    QString fullPath = m_directory.absoluteFilePath(name + ".mlt");
+    QString fullPath = m_directory.absoluteFilePath(name + QStringLiteral(".mlt"));
     m_manager->slotSaveSelection(fullPath);
 }
 

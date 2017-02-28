@@ -737,7 +737,7 @@ void TitleWidget::slotImageTool()
     QStringList mimeTypeFilters;
     QString allExtensions = i18n("All Images") + QStringLiteral(" (");
     foreach (const QByteArray &mimeType, supported) {
-        mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + "( *." + QString(mimeType) + ")");
+        mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + "( *." + QString(mimeType) + QLatin1Char(')'));
         allExtensions.append("*." + mimeType + QLatin1Char(' '));
     }
     mimeTypeFilters.sort();

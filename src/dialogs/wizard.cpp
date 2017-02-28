@@ -123,7 +123,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     }
     if (!m_errors.isEmpty()) {
         KMessageWidget *errorLabel = new KMessageWidget(this);
-        errorLabel->setText("<ul>" + m_errors + "</ul>");
+        errorLabel->setText(QStringLiteral("<ul>") + m_errors + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Error);
         errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
@@ -141,7 +141,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     }
     if (!m_warnings.isEmpty()) {
         KMessageWidget *errorLabel = new KMessageWidget(this);
-        errorLabel->setText("<ul>" + m_warnings + "</ul>");
+        errorLabel->setText(QStringLiteral("<ul>") + m_warnings + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Warning);
         errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
@@ -150,7 +150,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     }
     if (!m_infos.isEmpty()) {
         KMessageWidget *errorLabel = new KMessageWidget(this);
-        errorLabel->setText("<ul>" + m_infos + "</ul>");
+        errorLabel->setText(QStringLiteral("<ul>") + m_infos + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Information);
         errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
@@ -275,7 +275,7 @@ void Wizard::slotUpdateCaptureParameters()
     m_capture.v4l_formats->blockSignals(true);
     m_capture.v4l_formats->clear();
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -294,9 +294,9 @@ void Wizard::slotUpdateCaptureParameters()
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
-            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(',', QString::SkipEmptyParts);
+            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                QString formatDescription = '[' + format + "] " + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
+                QString formatDescription = '[' + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
                 if (m_capture.v4l_formats->findText(formatDescription) == -1) {
                     m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
                 }
@@ -848,7 +848,7 @@ void Wizard::slotSaveCaptureFormat()
     profile.frame_rate_num = format.at(3).toInt();
     profile.frame_rate_den = format.at(4).toInt();
     profile.progressive = 1;
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }

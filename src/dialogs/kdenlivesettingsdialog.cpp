@@ -1100,9 +1100,9 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
-            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(',', QString::SkipEmptyParts);
+            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                m_configCapture.kcfg_v4l_format->addItem('[' + format + "] " + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')'), QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
+                m_configCapture.kcfg_v4l_format->addItem('[' + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')'), QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
             }
         }
     }
@@ -1125,7 +1125,7 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
     m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(601));
     m_configCapture.p_progressive->setText(i18n("Progressive"));
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists() || !dir.exists(QStringLiteral("video4linux"))) {
         saveCurrentV4lProfile();
     }
@@ -1133,7 +1133,7 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
 
 void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -1178,7 +1178,7 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
     profile.frame_rate_num = m_configCapture.p_fps->text().section(QLatin1Char('/'), 0, 0).toInt();
     profile.frame_rate_den = m_configCapture.p_fps->text().section(QLatin1Char('/'), 1, 1).toInt();
     profile.progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }

@@ -840,14 +840,14 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
                 KMessageBox::information(this, i18n("Resource saved to ") + mSaveLocation, i18n("Data Imported"));
                 emit addClip(QUrl(mSaveLocation), QStringList());// MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
 
-                m_desc.append("<br>" + i18n("Saved file to") + "<br>");
+                m_desc.append(QStringLiteral("<br>") + i18n("Saved file to") + QStringLiteral("<br>"));
                 m_desc.append(mSaveLocation);
                 updateLayout();
             } else {
 #ifdef QT5_USE_WEBKIT
                 m_pOAuth2->ForgetAccessToken();
 #endif
-                m_desc.append("<br>" + i18n("Error Saving File"));
+                m_desc.append(QStringLiteral("<br>") + i18n("Error Saving File"));
                 updateLayout();
 
             }
@@ -861,7 +861,7 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
 #ifdef QT5_USE_WEBKIT
                 m_pOAuth2->ForgetAccessToken();
 #endif
-                m_desc.append("<br>" + i18n("Error Downloading File. Error code: ") + reply->error() + "<br>");
+                m_desc.append(QStringLiteral("<br>") + i18n("Error Downloading File. Error code: ") + reply->error() + QStringLiteral("<br>"));
                 m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection") + "</b>");
                 updateLayout();
 

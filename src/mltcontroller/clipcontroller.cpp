@@ -864,7 +864,7 @@ void ClipController::disableEffects(bool disable)
 
 void ClipController::saveZone(QPoint zone, const QDir &dir)
 {
-    QString path = QString(clipName() + QLatin1Char('_') + QString::number(zone.x()) + ".mlt");
+    QString path = QString(clipName() + QLatin1Char('_') + QString::number(zone.x()) + QStringLiteral(".mlt"));
     if (dir.exists(path)) {
         //TODO ask for overwrite
     }

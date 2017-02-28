@@ -756,7 +756,7 @@ void RenderWidget::slotEditProfile()
 
     if (d->exec() == QDialog::Accepted) {
         slotDeleteProfile(false);
-        QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/customprofiles.xml";
+        QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
         doc.setContent(&file, false);
@@ -875,7 +875,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
     }
     QString currentProfile = item->text(0);
 
-    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/customprofiles.xml";
+    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/customprofiles.xml");
     QDomDocument doc;
     QFile file(exportFile);
     doc.setContent(&file, false);
@@ -1012,7 +1012,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QFileInfo dfi(dest);
             QStringList filePath;
             // construct the full file path
-            filePath << dfi.absolutePath() << QDir::separator() << dfi.completeBaseName() + "_" <<
+            filePath << dfi.absolutePath() << QDir::separator() << dfi.completeBaseName() + QLatin1Char('_') <<
                      QString(trackNames.at(stemIdx)).replace(QLatin1Char(' '), QLatin1Char('_')) << QStringLiteral(".") << dfi.suffix();
             dest = filePath.join(QString());
         }
@@ -1775,8 +1775,8 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     foreach (const QString &filename, fileList) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
-    if (QFile::exists(exportFolder + "customprofiles.xml")) {
-        parseFile(exportFolder + "customprofiles.xml", true);
+    if (QFile::exists(exportFolder + QStringLiteral("customprofiles.xml"))) {
+        parseFile(exportFolder + QStringLiteral("customprofiles.xml"), true);
     }
 
     focusFirstVisibleItem(selectedProfile);
@@ -2001,14 +2001,14 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(0, StandardRole, standard);
             item->setData(0, ParamsRole, params);
             if (params.contains(QLatin1String("%quality"))) {
-                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(',', QString::SkipEmptyParts));
+                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%bitrate"))) {
-                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(',', QString::SkipEmptyParts));
+                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (params.contains(QLatin1String("%audioquality"))) {
-                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(',', QString::SkipEmptyParts));
+                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%audiobitrate"))) {
-                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
+                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (profile.hasAttribute(QStringLiteral("speeds"))) {
                 item->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
@@ -2087,14 +2087,14 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(0, StandardRole, standard);
             item->setData(0, ParamsRole, params);
             if (params.contains(QLatin1String("%quality"))) {
-                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(',', QString::SkipEmptyParts));
+                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%bitrate"))) {
-                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(',', QString::SkipEmptyParts));
+                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (params.contains(QLatin1String("%audioquality"))) {
-                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audioqualities")).split(',', QString::SkipEmptyParts));
+                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%audiobitrate"))) {
-                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
+                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (profileElement.hasAttribute(QStringLiteral("speeds"))) {
                 item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
@@ -2376,7 +2376,7 @@ void RenderWidget::slotDeleteScript()
     if (item) {
         QString path = item->data(1, Qt::UserRole + 1).toString();
         bool success = true;
-        success &= QFile::remove(path + ".mlt");
+        success &= QFile::remove(path + QStringLiteral(".mlt"));
         success &= QFile::remove(path);
         if (!success) {
             qCWarning(KDENLIVE_LOG) << "// Error removing script or playlist: " << path << ", " << path << ".mlt";

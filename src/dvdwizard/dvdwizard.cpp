@@ -593,7 +593,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap<QString
         for (int i = 0; i < buttons.count(); ++i) {
             QDomElement button = dvddoc.createElement(QStringLiteral("button"));
             button.setAttribute(QStringLiteral("name"), 'b' + QString::number(i));
-            nametext = dvddoc.createTextNode('{' + buttonsTarget.at(i) + ";}");
+            nametext = dvddoc.createTextNode(QLatin1Char('{') + buttonsTarget.at(i) + QStringLiteral(";}"));
             button.appendChild(nametext);
             pgc.appendChild(button);
         }
@@ -657,7 +657,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap<QString
                 if (i == voburls.count() - 1) {
                     call = dvddoc.createTextNode(QStringLiteral("{g1 = 0; call menu;}"));
                 } else {
-                    call = dvddoc.createTextNode("{if ( g1 eq 999 ) { call menu; } jump title " + QString::number(i + 2).rightJustified(2, '0') + ";}");
+                    call = dvddoc.createTextNode("{if ( g1 eq 999 ) { call menu; } jump title " + QString::number(i + 2).rightJustified(2, '0') + QStringLiteral(";}"));
                 }
                 post.appendChild(call);
                 pgc2.appendChild(post);
@@ -854,7 +854,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
             iso.remove();
         }
         errorMessage(i18n("DVD ISO is broken"));
-        m_status.error_log->append(m_creationLog + "<br /><a name=\"result\" /><strong>" + i18n("DVD ISO is broken") + "</strong>");
+        m_status.error_log->append(m_creationLog + QStringLiteral("<br /><a name=\"result\" /><strong>") + i18n("DVD ISO is broken") + QStringLiteral("</strong>"));
         m_status.error_log->scrollToAnchor(QStringLiteral("result"));
         m_status.error_box->setHidden(false);
         m_status.menu_file->setPlainText(m_menuFile.readAll());

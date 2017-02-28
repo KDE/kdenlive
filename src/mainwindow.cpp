@@ -418,7 +418,7 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
             if (tempAction->shortcut() == QKeySequence(0)) {
                 tempAction->setToolTip(strippedTooltip);
             } else {
-                tempAction->setToolTip(strippedTooltip + QStringLiteral(" (") + tempAction->shortcut().toString() + ")");
+                tempAction->setToolTip(strippedTooltip + QStringLiteral(" (") + tempAction->shortcut().toString() + QLatin1Char(')'));
             }
         }
     }
@@ -3002,7 +3002,7 @@ void MainWindow::hideEvent(QHideEvent */*event*/)
         if (baseClip == nullptr) {
             tmppath.append("untitled.mlt");
         } else {
-            tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + '-' + QString::number(zone.x()).rightJustified(4, '0') + ".mlt");
+            tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + '-' + QString::number(zone.x()).rightJustified(4, '0') + QStringLiteral(".mlt"));
         }
         path = QUrl(tmppath);
     }
@@ -3217,7 +3217,7 @@ void MainWindow::buildDynamicActions()
     foreach (const QString &stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
         filter = Mlt::Factory::filter(profile, (char *)stab.toUtf8().constData());
         if (filter && filter->is_valid()) {
-            QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + ")", m_extraFactory->actionCollection());
+            QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
             action->setData(QStringList() << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << stab);
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
