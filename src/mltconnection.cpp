@@ -53,13 +53,13 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     KdenliveSettings::setMltpath(profilePath);
 
 #ifdef Q_OS_WIN
-    QString meltPath = QDir::cleanPath(profilePath).section(QLatin1Char('/'), 0, -3) + "melt.exe";
+    QString meltPath = QDir::cleanPath(profilePath).section(QLatin1Char('/'), 0, -3) + QStringLiteral("melt.exe");
     if (!QFile::exists(meltPath) || profilePath.isEmpty()) {
         QString env = qgetenv("MLT_PREFIX");
         if (env.isEmpty()) {
             env = qApp->applicationDirPath() + QStringLiteral("/");
         }
-        meltPath = env + "melt.exe";
+        meltPath = env + QStringLiteral("melt.exe");
     }
 #else
     QString meltPath = QDir::cleanPath(profilePath).section(QLatin1Char('/'), 0, -3) + QStringLiteral("/bin/melt");
@@ -137,4 +137,4 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 std::unique_ptr<Mlt::Repository>& MltConnection::getMltRepository()
 {
     return m_repository;
-};
+}

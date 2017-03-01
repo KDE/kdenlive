@@ -7002,7 +7002,7 @@ void CustomTrackView::saveThumbnails()
             if (item->clipType() != Color && item->clipType() != Audio) {
                 // Check if we have a cached thumbnail
                 if (item->clipType() == Image || item->clipType() == Text || item->clipType() == Audio) {
-                    QString thumb = thumbsFolder.absoluteFilePath(item->getBinHash() + "#0.png");
+                    QString thumb = thumbsFolder.absoluteFilePath(item->getBinHash() + QStringLiteral("#0.png"));
                     if (!QFile::exists(thumb)) {
                         item->startThumb().save(thumb);
                     }

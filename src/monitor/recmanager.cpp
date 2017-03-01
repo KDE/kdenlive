@@ -189,7 +189,7 @@ void RecManager::slotRecord(bool record)
                     if (cutPosition > -1) {
                         endParam.remove(0, cutPosition);
                     }
-                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + "an=1 " + endParam).simplified();
+                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + QStringLiteral("an=1 ") + endParam).simplified();
                 }
             }
             Mlt::Producer *prod = createV4lProducer();

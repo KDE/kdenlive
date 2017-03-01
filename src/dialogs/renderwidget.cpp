@@ -1031,7 +1031,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         if (imageSequences.contains(extension)) {
             // format string for counter?
             if (!QRegExp(QStringLiteral(".*%[0-9]*d.*")).exactMatch(dest)) {
-                dest = dest.section(QLatin1Char('.'), 0, -2) + "_%05d." + extension;
+                dest = dest.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
             }
         }
 
@@ -1662,7 +1662,7 @@ void RenderWidget::refreshParams()
 //         else path = path.left(pos) + extension;
 //         m_view.out_file->setUrl(QUrl(path));
 //     } else {
-//         m_view.out_file->setUrl(QUrl(QDir::homePath() + "/untitled." + extension));
+//         m_view.out_file->setUrl(QUrl(QDir::homePath() + QStringLiteral("/untitled.") + extension));
 //     }
     m_view.out_file->setFilter("*." + extension);
     QString edit = item->data(0, EditableRole).toString();
@@ -2517,7 +2517,7 @@ bool RenderWidget::startWaitingRenderJobs()
 QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &prefix)
 {
     int ix = 0;
-    QString scriptsFolder = m_projectFolder + "scripts/";
+    QString scriptsFolder = m_projectFolder + QStringLiteral("scripts/");
     QDir dir(m_projectFolder);
     dir.mkdir(QStringLiteral("scripts"));
     QString path;
@@ -2529,7 +2529,7 @@ QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &
     }
     while (path.isEmpty() || QFile::exists(path)) {
         ++ix;
-        path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+        path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + QStringLiteral(".sh");
     }
     return path;
 }

@@ -630,11 +630,11 @@ void RecMonitor::slotRecord()
         } else if (device_selector->currentIndex() == BlackMagic) {
             extension = KdenliveSettings::decklink_extension();
         }
-        QString path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + "capture0000." + extension;
+        QString path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + QStringLiteral("capture0000.") + extension;
         int i = 1;
         while (QFile::exists(path)) {
             QString num = QString::number(i).rightJustified(4, '0', false);
-            path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + "capture" + num + QLatin1Char('.') + extension;
+            path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + QStringLiteral("capture") + num + QLatin1Char('.') + extension;
             ++i;
         }
         m_captureFile = QUrl(path);
@@ -699,7 +699,7 @@ void RecMonitor::slotRecord()
                     if (cutPosition > -1) {
                         endParam.remove(0, cutPosition);
                     }
-                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + "an=1 " + endParam).simplified();
+                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + QStringLiteral("an=1 ") + endParam).simplified();
                 }
             }
 

@@ -964,7 +964,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
     } else if (KdenliveSettings::use_exiftool()) {
         QString url = m_controller->clipUrl();
         //Check for Canon THM file
-        url = url.section(QLatin1Char('.'), 0, -2) + ".THM";
+        url = url.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".THM");
         if (QFile::exists(url)) {
             // Read the exif metadata embedded in the THM file
             QProcess p;
@@ -1043,7 +1043,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         }
     } else if (m_type != Image && KdenliveSettings::use_magicLantern()) {
         QString url = m_controller->clipUrl();
-        url = url.section(QLatin1Char('.'), 0, -2) + ".LOG";
+        url = url.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".LOG");
         if (QFile::exists(url)) {
             QFile file(url);
             if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {

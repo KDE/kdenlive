@@ -82,7 +82,7 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     m_status.error_box->setHidden(true);
     m_status.tmp_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::currenttmpfolder()));
     m_status.tmp_folder->setMode(KFile::Directory | KFile::ExistingOnly);
-    m_status.iso_image->setUrl(QUrl::fromLocalFile(QDir::homePath() + "/untitled.iso"));
+    m_status.iso_image->setUrl(QUrl::fromLocalFile(QDir::homePath() + QStringLiteral("/untitled.iso")));
     m_status.iso_image->setFilter(QStringLiteral("*.iso"));
     m_status.iso_image->setMode(KFile::File);
 
@@ -769,9 +769,9 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     m_dvdauthor = nullptr;
 
     // Check if DVD structure has the necessary info
-    if (!QFile::exists(m_status.tmp_folder->url().toLocalFile() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
+    if (!QFile::exists(m_status.tmp_folder->url().toLocalFile() + QStringLiteral("/DVD/VIDEO_TS/VIDEO_TS.IFO"))) {
         errorMessage(i18n("DVD structure broken"));
-        m_status.error_log->append(m_creationLog + "<a name=\"result\" /><br /><strong>" + i18n("DVD structure broken"));
+        m_status.error_log->append(m_creationLog + QStringLiteral("<a name=\"result\" /><br /><strong>") + i18n("DVD structure broken"));
         m_status.error_log->scrollToAnchor(QStringLiteral("result"));
         m_status.error_box->setHidden(false);
         m_status.menu_file->setPlainText(m_menuFile.readAll());

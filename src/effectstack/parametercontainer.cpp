@@ -344,7 +344,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     m_geometryWidget->setupParam(pa, minFrame, maxFrame);
                 }
                 m_vbox->addWidget(m_geometryWidget);
-                m_valueItems[paramName+"geometry"] = m_geometryWidget;
+                m_valueItems[paramName+QStringLiteral("geometry")] = m_geometryWidget;
                 connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
@@ -377,7 +377,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                         m_conditionalWidgets << geo;
                     }
                     m_vbox->addWidget(geo);
-                    m_valueItems[paramName + "keyframe"] = geo;
+                    m_valueItems[paramName + QStringLiteral("keyframe")] = geo;
                     m_keyframeEditor = geo;
                     connect(geo, &KeyframeEdit::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
                     connect(geo, &KeyframeEdit::seekToPos, this, &ParameterContainer::seekTimeline);
@@ -422,7 +422,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     m_conditionalWidgets << posedit;
                 }
                 m_vbox->addWidget(posedit);
-                m_valueItems[paramName + "position"] = posedit;
+                m_valueItems[paramName + QStringLiteral("position")] = posedit;
                 connect(posedit, &PositionWidget::valueChanged,
                         this,    &ParameterContainer::slotCollectAllParameters);
             } else if (type == QLatin1String("curve")) {
@@ -1184,7 +1184,7 @@ QString ParameterContainer::getWipeString(wipeInfo info)
         break;
     }
     end.append(':' + QString::number(info.endTransparency));
-    return QString(start + ";-1=" + end);
+    return QString(start + QStringLiteral(";-1=") + end);
 }
 
 void ParameterContainer::updateParameter(const QString &key, const QString &value)

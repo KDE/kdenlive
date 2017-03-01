@@ -76,7 +76,7 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, Pro
     , m_type(Unknown)
     , m_thumbsProducer(nullptr)
 {
-    Q_ASSERT(description.hasAttribute("id"));
+    Q_ASSERT(description.hasAttribute(QStringLiteral("id")));
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
     if (description.hasAttribute(QStringLiteral("type"))) {

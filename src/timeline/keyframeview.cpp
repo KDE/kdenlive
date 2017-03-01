@@ -532,7 +532,7 @@ int KeyframeView::mouseOverKeyFrames(const QRectF &br, QPointF pos, double scale
         if ((pos - p).manhattanLength() <= m_handleSize / 2) {
             //TODO
             /*setToolTip(QLatin1Char('[') + QString::number((GenTime(key, m_fps) - cropStart()).seconds(), 'f', 2)
-                       + i18n("seconds") + ", " + QString::number(value, 'f', 1) + ']');*/
+                       + i18n("seconds") + QStringLiteral(", ") + QString::number(value, 'f', 1) + ']');*/
             activeKeyframe = key;
             if (previousEdit != activeKeyframe) {
                 updateKeyframes();

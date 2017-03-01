@@ -172,7 +172,7 @@ OnlineItemInfo ArchiveOrg::displayItemDetails(QListWidgetItem *item)
     m_metaInfo.insert(QStringLiteral("url"), info.itemDownload);
     m_metaInfo.insert(QStringLiteral("id"), info.itemId);
 
-    QString extraInfoUrl = item->data(infoUrl).toString() + "&output=json";
+    QString extraInfoUrl = item->data(infoUrl).toString() + QStringLiteral("&output=json");
     if (!extraInfoUrl.isEmpty()) {
         KJob *resolveJob = KIO::storedGet(QUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo);
         resolveJob->setProperty("id", info.itemId);
@@ -249,11 +249,13 @@ void ArchiveOrg::slotParseResults(KJob *job)
 
                         if (format != QLatin1String("Animated GIF") && format != QLatin1String("Metadata") && format != QLatin1String("Archive BitTorrent") && format != QLatin1String("Thumbnail") && format != QLatin1String("JSON") && format != QLatin1String("JPEG") && format != QLatin1String("JPEG Thumb") && format != QLatin1String("PNG") && format != QLatin1String("Video Index")) {
                             // the a href url has the tag _import added at the end. This tag is removed by ResourceWidget::slotOpenLink before being used to download the file
-                            html += QStringLiteral("<tr><td>") + format + QStringLiteral(" (") + fileSize + "kb " + minsLong + "min) " + QStringLiteral("</td><td><a href=\"%1\">%2</a></td></tr>").arg(sDownloadUrl + "_import", i18n("Import"));
+                            html += QStringLiteral("<tr><td>") + format + QStringLiteral(" (") + fileSize
+                                    + QStringLiteral("kb ") + minsLong + QStringLiteral("min) ")
+                                    + QStringLiteral("</td><td><a href=\"%1\">%2</a></td></tr>").arg(sDownloadUrl + QStringLiteral("_import"), i18n("Import"));
                         }
                         //if (format==QLatin1String("Animated GIF"))// widget does not run through the frames of the animated gif
                         if (format == QLatin1String("Thumbnail") && !bThumbNailFound) {
-                            sThumbUrl = "https://archive.org/download/" + m_metaInfo.value(QStringLiteral("id")) + j.key();
+                            sThumbUrl = QStringLiteral("https://archive.org/download/") + m_metaInfo.value(QStringLiteral("id")) + j.key();
                             //m_metaInfo.insert(QStringLiteral("preview"), sPreviewUrl);
                             //  qCDebug(KDENLIVE_LOG)<<" sPreviewUrl: "<<sPreviewUrl;
                             bThumbNailFound = true;
