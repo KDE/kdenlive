@@ -389,7 +389,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
     }
 
     int maxZValue = 0;
-    if (titles.size()) {
+    if (!titles.isEmpty()) {
         QDomNodeList items = titles.item(0).childNodes();
         for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *gitem = nullptr;
@@ -473,7 +473,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
 
                     if (!txtProperties.namedItem(QStringLiteral("shadow")).isNull()) {
                         QString info = txtProperties.namedItem(QStringLiteral("shadow")).nodeValue();
-                        txt->loadShadow(info.split(';'));
+                        txt->loadShadow(info.split(QLatin1Char(';')));
                     }
 
                     // Effects

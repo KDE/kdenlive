@@ -30,7 +30,7 @@ class TimelineSearch : public QObject
     Q_OBJECT
 
 public:
-    explicit TimelineSearch(QObject *parent = Q_NULLPTR);
+    explicit TimelineSearch(QObject *parent = nullptr);
 
 private slots:
     void slotInitSearch();

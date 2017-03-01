@@ -20,6 +20,7 @@
 
 #include "proxyclipjob.h"
 #include "kdenlivesettings.h"
+#include "kdenlive_debug.h"
 #include "doc/kdenlivedoc.h"
 #include "bin/projectclip.h"
 #include "bin/bin.h"
@@ -62,7 +63,7 @@ void ProxyJob::startJob()
         } else {
             display_ratio = KdenliveDoc::getDisplayRatio(m_src);
         }
-        if (display_ratio == 0) {
+        if (display_ratio < 1e-6) {
             display_ratio = 1;
         }
 
@@ -332,13 +333,14 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
         QString sourcePath = item->url();
         if (item->clipType() == Playlist) {
             // Special case: playlists use the special 'consumer' producer to support resizing
-            sourcePath.prepend("consumer:");
+            sourcePath.prepend(QStringLiteral("consumer:"));
         }
         QStringList parameters;
         QTemporaryFile *playlist = nullptr;
         if (item->clipType() == SlideShow) {
             // we save a temporary .mlt clip for rendering
             QDomDocument doc;
+            //TODO FIXME what we will do with xml ?
             QDomElement xml = item->toXml(doc, false);
             playlist = new QTemporaryFile();
             playlist->setFileTemplate(playlist->fileTemplate() + QStringLiteral(".mlt"));
@@ -349,7 +351,7 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
                 playlist->close();
             }
         }
-        qDebug()<<" * *PROXY PATH: "<<path<<", "<<sourcePath;
+        qCDebug(KDENLIVE_LOG)<<" * *PROXY PATH: "<<path<<", "<<sourcePath;
         parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << params << QString::number(renderSize.width()) << QString::number(renderSize.height());
         ProxyJob *job = new ProxyJob(item->clipType(), id, parameters, playlist);
         jobs.insert(item, job);

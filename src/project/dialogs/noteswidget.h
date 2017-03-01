@@ -32,7 +32,7 @@ class NotesWidget : public QTextEdit
 {
     Q_OBJECT
 public:
-    explicit NotesWidget(QWidget *parent = Q_NULLPTR);
+    explicit NotesWidget(QWidget *parent = nullptr);
     ~NotesWidget();
 
 protected:

@@ -285,7 +285,6 @@ void EffectStackView2::slotTrackItemSelected(int ix, const TrackInfo &info, Moni
         m_effectMetaInfo.monitor = m;
         m_currentEffectList = info.effectsList;
         m_trackInfo = info;
-        m_clipref = nullptr;
         m_masterclipref = nullptr;
         QString trackName = info.trackName.isEmpty() ? QString::number(ix) : info.trackName;
         m_effect->setLabel(i18n("Effects for track %1", trackName), trackName);
@@ -593,9 +592,7 @@ void EffectStackView2::startDrag()
     QDrag *drag = new QDrag(this);
     drag->setPixmap(pixmap);
     QMimeData *mime = new QMimeData;
-    QByteArray data;
-    data.append(doc.toString().toUtf8());
-    mime->setData(QStringLiteral("kdenlive/effectslist"), data);
+    mime->setData(QStringLiteral("kdenlive/effectslist"), doc.toString().toUtf8());
 
     // Assign ownership of the QMimeData object to the QDrag object.
     drag->setMimeData(mime);
@@ -1228,11 +1225,11 @@ void EffectStackView2::dropEvent(QDropEvent *event)
     processDroppedEffect(doc.documentElement(), event);
 }
 
-void EffectStackView2::setKeyframes(const QString &tag, const QString &data)
+void EffectStackView2::setKeyframes(const QString &tag, const QString &keyframes)
 {
     for (int i = 0; i < m_effects.count(); ++i) {
         if (m_effects.at(i)->isActive()) {
-            m_effects.at(i)->setKeyframes(tag, data);
+            m_effects.at(i)->setKeyframes(tag, keyframes);
             break;
         }
     }

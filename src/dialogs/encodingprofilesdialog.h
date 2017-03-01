@@ -30,7 +30,7 @@ class EncodingProfilesDialog : public QDialog, Ui::ManageEncodingProfile_UI
     Q_OBJECT
 
 public:
-    explicit EncodingProfilesDialog(int profileType, QWidget *parent = Q_NULLPTR);
+    explicit EncodingProfilesDialog(int profileType, QWidget *parent = nullptr);
     ~EncodingProfilesDialog();
 
 private slots:

@@ -31,7 +31,7 @@ class Vectorscope : public AbstractGfxScopeWidget
     Q_OBJECT
 
 public:
-    explicit Vectorscope(QWidget *parent = Q_NULLPTR);
+    explicit Vectorscope(QWidget *parent = nullptr);
     ~Vectorscope();
 
     QString widgetName() const Q_DECL_OVERRIDE;

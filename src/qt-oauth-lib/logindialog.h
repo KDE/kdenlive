@@ -58,7 +58,7 @@ class LoginDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit LoginDialog(QWidget *parent = Q_NULLPTR);
+    explicit LoginDialog(QWidget *parent = nullptr);
     ~LoginDialog();
     void setLoginUrl(const QUrl &url);
 

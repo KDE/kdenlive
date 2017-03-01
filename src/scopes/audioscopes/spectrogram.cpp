@@ -320,7 +320,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         bool newDataAvailable = newData > 0;
 
 #ifdef DEBUG_SPECTROGRAM
-        qCDebug(KDENLIVE_LOG) << "New data for " << widgetName() << ": " << newDataAvailable << " (" << newData << " units)";
+        qCDebug(KDENLIVE_LOG) << "New data for " << widgetName() << ": " << newDataAvailable << QStringLiteral(" (") << newData << " units)";
 #endif
 
         QTime start = QTime::currentTime();

@@ -33,7 +33,7 @@ class CustomLabel : public QProgressBar
 {
     Q_OBJECT
 public:
-    explicit CustomLabel(const QString &label, bool showSlider = true, int range = 1000, QWidget *parent = Q_NULLPTR);
+    explicit CustomLabel(const QString &label, bool showSlider = true, int range = 1000, QWidget *parent = nullptr);
     void setProgressValue(double value);
     void setStep(double step);
 
@@ -83,7 +83,7 @@ public:
     * @param suffix The suffix that will be displayed in the spinbox (for example '%')
     * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
     */
-    explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1, const QString &suffix = QString(), bool showSlider = true, QWidget *parent = Q_NULLPTR);
+    explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1, const QString &suffix = QString(), bool showSlider = true, QWidget *parent = nullptr);
     virtual ~DragValue();
 
     /** @brief Returns the precision = number of decimals */

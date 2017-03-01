@@ -30,9 +30,9 @@
 #include "kdenlive_debug.h"
 #include <math.h>
 
-Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType type, int height, QWidget *parent) :
+Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType trackType, int height, QWidget *parent) :
     effectsList(EffectsList(true)),
-    type(type),
+    type(trackType),
     trackHeader(nullptr),
     m_index(index),
     m_playlist(playlist)
@@ -304,16 +304,16 @@ void Track::lockTrack(bool locked)
 
 void Track::replaceId(const QString &id)
 {
-    QString idForAudioTrack = id + QLatin1Char('_') + m_playlist.get("id") + "_audio";
-    QString idForVideoTrack = id + "_video";
+    QString idForAudioTrack = id + QLatin1Char('_') + m_playlist.get("id") + QStringLiteral("_audio");
+    QString idForVideoTrack = id + QStringLiteral("_video");
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
     //TODO: slowmotion
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
-	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack || current.startsWith("slowmotion:" + id + ":")) {
-	    current.prepend("#");
+	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack || current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
+        current.prepend(QLatin1Char('#'));
 	    p->parent().set("id", current.toUtf8().constData());
 	}
     }
@@ -331,7 +331,7 @@ QList<Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
 	    continue;
 	}
 	current.remove(0, 1);
-	if (current.startsWith("slowmotion:" + id + ":")) {
+	if (current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
             Track::SlowmoInfo info;
             info.readFromString(current.section(QLatin1Char(':'), 2), locale);
             list << info;
@@ -349,8 +349,8 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
     int tkState = state();
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
-        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
-        idForVideoTrack = idForTrack + "_video";
+        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + QStringLiteral("_audio");
+        idForVideoTrack = idForTrack + QStringLiteral("_video");
         idForTrack.append(QLatin1Char('_') + m_playlist.get("id"));
     }
     Mlt::Producer *trackProducer = nullptr;
@@ -378,7 +378,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
 	}
 	current.remove(0, 1);
         Mlt::Producer *cut = nullptr;
-	if (current.startsWith("slowmotion:" + id + ":")) {
+	if (current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
 	      // Slowmotion producer, just update resource
           Mlt::Producer *slowProd = newSlowMos.value(current.section(QLatin1Char(':'), 2));
 	      if (!slowProd || !slowProd->is_valid()) {
@@ -483,8 +483,8 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
     QString idForTrack = original->parent().get("id");
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
-        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + "_audio";
-        idForVideoTrack = idForTrack + "_video";
+        idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + QStringLiteral("_audio");
+        idForVideoTrack = idForTrack + QStringLiteral("_video");
         idForTrack.append(QLatin1Char('_') + m_playlist.get("id"));
     }
 
@@ -636,8 +636,8 @@ int Track::getBlankLength(int pos, bool fromBlankStart)
 void Track::updateClipProperties(const QString &id, const QMap<QString, QString> &properties)
 {
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
-    QString idForVideoTrack = id + "_video";
-    QString idForAudioTrack = idForTrack + "_audio";
+    QString idForVideoTrack = id + QStringLiteral("_video");
+    QString idForAudioTrack = idForTrack + QStringLiteral("_audio");
     // slowmotion producers are updated in renderer
 
     for (int i = 0; i < m_playlist.count(); i++) {
@@ -646,10 +646,10 @@ void Track::updateClipProperties(const QString &id, const QMap<QString, QString>
         QString current = p->parent().get("id");
         QStringList processed;
         if (!processed.contains(current) && (current == idForTrack || current == idForAudioTrack || current == idForVideoTrack)) {
-            QMapIterator<QString, QString> i(properties);
-            while (i.hasNext()) {
-                i.next();
-                p->parent().set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+            QMapIterator<QString, QString> j(properties);
+            while (j.hasNext()) {
+                j.next();
+                p->parent().set(j.key().toUtf8().constData(), j.value().toUtf8().constData());
             }
             processed << current;
         }
@@ -664,7 +664,7 @@ Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QStri
 	qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
 	return nullptr;
     }
-    QString producerid = "slowmotion:" + id + ':' + info.toString(locale);
+    QString producerid = "slowmotion:" + id + QLatin1Char(':') + info.toString(locale);
     prod->set("id", producerid.toUtf8().constData());
 
     // copy producer props
@@ -724,7 +724,7 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
     } else {
         url = QString::fromUtf8(clipparent.get("resource"));
     }
-    url.prepend(locale.toString(speed) + ':');
+    url.prepend(locale.toString(speed) + QLatin1Char(':'));
     Track::SlowmoInfo slowInfo;
     slowInfo.speed = speed;
     slowInfo.strobe = strobe;

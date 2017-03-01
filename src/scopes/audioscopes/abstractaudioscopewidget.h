@@ -27,7 +27,7 @@ class AbstractAudioScopeWidget : public AbstractScopeWidget
 {
     Q_OBJECT
 public:
-    explicit AbstractAudioScopeWidget(bool trackMouse = false, QWidget *parent = Q_NULLPTR);
+    explicit AbstractAudioScopeWidget(bool trackMouse = false, QWidget *parent = nullptr);
     virtual ~AbstractAudioScopeWidget();
 
 public slots:

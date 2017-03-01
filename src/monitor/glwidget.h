@@ -55,7 +55,7 @@ class GLWidget : public QQuickView, protected QOpenGLFunctions
     Q_PROPERTY(QPoint offset READ offset NOTIFY offsetChanged)
 
 public:
-    GLWidget(int id, QObject *parent = Q_NULLPTR);
+    GLWidget(int id, QObject *parent = nullptr);
     ~GLWidget();
 
     void createThread(RenderThread **thread, thread_function_t function, void *data);
@@ -66,7 +66,7 @@ public:
     int setProducer(Mlt::Producer *producer);
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    int reconfigure(Mlt::Profile *profile = Q_NULLPTR);
+    int reconfigure(Mlt::Profile *profile = nullptr);
 
     int displayWidth() const
     {

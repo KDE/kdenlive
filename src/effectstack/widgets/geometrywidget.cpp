@@ -357,13 +357,13 @@ QString GeometryWidget::getExtraValue(const QString &name) const
     int ix = m_extraGeometryNames.indexOf(name);
     QString val = m_extraGeometries.at(ix)->serialise();
     if (!val.contains(QLatin1Char('='))) {
-        val = val.section('/', 0, 0);
+        val = val.section(QLatin1Char('/'), 0, 0);
     } else {
-        QStringList list = val.split(';', QString::SkipEmptyParts);
+        QStringList list = val.split(QLatin1Char(';'), QString::SkipEmptyParts);
         val.clear();
-        val.append(list.takeFirst().section('/', 0, 0));
+        val.append(list.takeFirst().section(QLatin1Char('/'), 0, 0));
         foreach (const QString &value, list) {
-            val.append(';' + value.section('/', 0, 0));
+            val.append(QLatin1Char(';') + value.section(QLatin1Char('/'), 0, 0));
         }
     }
     return val;
@@ -1068,7 +1068,7 @@ void GeometryWidget::slotResetPreviousKeyframes()
 
 void GeometryWidget::importKeyframes(const QString &data, int maximum)
 {
-    QStringList list = data.split(';', QString::SkipEmptyParts);
+    QStringList list = data.split(QLatin1Char(';'), QString::SkipEmptyParts);
     if (list.isEmpty()) {
         return;
     }
@@ -1089,21 +1089,21 @@ void GeometryWidget::importKeyframes(const QString &data, int maximum)
     for (int i = 0; i < list.count(); i += offset) {
         QString geom = list.at(i);
         if (geom.contains('=')) {
-            item.frame(geom.section('=', 0, 0).toInt());
-            geom = geom.section('=', 1);
+            item.frame(geom.section(QLatin1Char('='), 0, 0).toInt());
+            geom = geom.section(QLatin1Char('='), 1);
         } else {
             item.frame(0);
         }
         if (geom.contains(QLatin1Char('/'))) {
-            item.x(geom.section('/', 0, 0).toDouble());
-            item.y(geom.section('/', 1, 1).section(':', 0, 0).toDouble());
+            item.x(geom.section(QLatin1Char('/'), 0, 0).toDouble());
+            item.y(geom.section(QLatin1Char('/'), 1, 1).section(QLatin1Char(':'), 0, 0).toDouble());
         } else {
             item.x(0);
             item.y(0);
         }
         if (geom.contains('x')) {
-            item.w(geom.section('x', 0, 0).section(':', 1, 1).toDouble());
-            item.h(geom.section('x', 1, 1).section(':', 0, 0).toDouble());
+            item.w(geom.section('x', 0, 0).section(QLatin1Char(':'), 1, 1).toDouble());
+            item.h(geom.section('x', 1, 1).section(QLatin1Char(':'), 0, 0).toDouble());
         } else {
             item.w(screenSize.x());
             item.h(screenSize.y());

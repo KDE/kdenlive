@@ -53,7 +53,7 @@ class RecMonitor : public AbstractMonitor, public Ui::RecMonitor_UI
     Q_OBJECT
 
 public:
-    explicit RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent = Q_NULLPTR);
+    explicit RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent = nullptr);
     ~RecMonitor();
 
     AbstractRender *abstractRender() Q_DECL_OVERRIDE;

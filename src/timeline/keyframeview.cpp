@@ -131,6 +131,7 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
 
     int cnt = m_keyProperties.count();
     QStringList paramNames;
+    paramNames.reserve(cnt);
     for (int i = 0; i < cnt; i++) {
         paramNames << m_keyProperties.get_name(i);
     }
@@ -163,10 +164,9 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
         path.moveTo(br.x(), br.bottom());
         path.lineTo(br.x(), start.y());
         path.lineTo(start);
-        int currentFrame;
         painter->setPen(paramName == m_inTimeline ? QColor(Qt::white) : Qt::NoPen);
         for (int i = 0; i < drawAnim.key_count(); ++i) {
-            currentFrame = drawAnim.key_get_frame(i);
+            int currentFrame = drawAnim.key_get_frame(i);
             if (currentFrame < firstKF) {
                 continue;
             }
@@ -531,8 +531,8 @@ int KeyframeView::mouseOverKeyFrames(const QRectF &br, QPointF pos, double scale
         }
         if ((pos - p).manhattanLength() <= m_handleSize / 2) {
             //TODO
-            /*setToolTip('[' + QString::number((GenTime(key, m_fps) - cropStart()).seconds(), 'f', 2)
-                       + i18n("seconds") + ", " + QString::number(value, 'f', 1) + ']');*/
+            /*setToolTip(QLatin1Char('[') + QString::number((GenTime(key, m_fps) - cropStart()).seconds(), 'f', 2)
+                       + i18n("seconds") + QStringLiteral(", ") + QString::number(value, 'f', 1) + ']');*/
             activeKeyframe = key;
             if (previousEdit != activeKeyframe) {
                 updateKeyframes();
@@ -789,13 +789,13 @@ const QString KeyframeView::serialize(const QString &name, bool rectAnimation)
         key = QString::number(pos);
         switch (type) {
         case mlt_keyframe_discrete:
-            key.append("|=");
+            key.append(QStringLiteral("|="));
             break;
         case mlt_keyframe_smooth:
-            key.append("~=");
+            key.append(QStringLiteral("~="));
             break;
         default:
-            key.append("=");
+            key.append(QStringLiteral("="));
             break;
         }
         key.append(locale.toString(val));

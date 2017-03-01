@@ -40,9 +40,9 @@ static const QString BUTTON_PREFIX(QStringLiteral("button"));
 QStringList JogShuttleConfig::actionMap(const QString &actionsConfig)
 {
     QStringList actionMap;
-    QStringList mappings = actionsConfig.split(DELIMITER);
+    const QStringList mappings = actionsConfig.split(DELIMITER);
 
-    foreach (const QString &mapping, mappings) {
+    for (const QString &mapping : mappings) {
         QStringList parts = mapping.split(KEY_VALUE_SEP);
         if (parts.size() != 2) {
             fprintf(stderr, "Invalid button configuration: %s", mapping.toLatin1().constData());

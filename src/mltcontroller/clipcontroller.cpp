@@ -293,7 +293,7 @@ Mlt::Producer *ClipController::getTrackProducer(const QString &trackName, Playli
         return new Mlt::Producer(m_masterProducer->parent());
     }
     QString clipWithTrackId = clipId();
-    clipWithTrackId.append("_" + trackName);
+    clipWithTrackId.append(QLatin1Char('_') + trackName);
 
     //TODO handle audio / video only producers and framebuffer
     if (clipState == PlaylistState::AudioOnly) {
@@ -545,7 +545,7 @@ void ClipController::addSnapMarker(const CommentedTime &marker)
     }
     m_snapMarkers.append(marker);
     QLocale locale;
-    QString markerId = clipId() + ":" + locale.toString(marker.time().seconds());
+    QString markerId = clipId() + QLatin1Char(':') + locale.toString(marker.time().seconds());
     m_binController->storeMarker(markerId, marker.hash());
     qSort(m_snapMarkers);
 }
@@ -560,7 +560,7 @@ void ClipController::editSnapMarker(const GenTime &time, const QString &comment)
     }
     m_snapMarkers[ix].setComment(comment);
     QLocale locale;
-    QString markerId = clipId() + ":" + locale.toString(time.seconds());
+    QString markerId = clipId() + QLatin1Char(':') + locale.toString(time.seconds());
     m_binController->storeMarker(markerId, QString());
 }
 
@@ -575,7 +575,7 @@ QString ClipController::deleteSnapMarker(const GenTime &time)
     QString result = m_snapMarkers.at(ix).comment();
     m_snapMarkers.removeAt(ix);
     QLocale locale;
-    QString markerId = clipId() + ":" + locale.toString(time.seconds());
+    QString markerId = clipId() + QLatin1Char(':') + locale.toString(time.seconds());
     m_binController->storeMarker(markerId, QString());
     return result;
 }
@@ -864,7 +864,7 @@ void ClipController::disableEffects(bool disable)
 
 void ClipController::saveZone(QPoint zone, const QDir &dir)
 {
-    QString path = QString(clipName() + "_" + QString::number(zone.x()) + ".mlt");
+    QString path = QString(clipName() + QLatin1Char('_') + QString::number(zone.x()) + QStringLiteral(".mlt"));
     if (dir.exists(path)) {
         //TODO ask for overwrite
     }

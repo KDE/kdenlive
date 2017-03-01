@@ -114,9 +114,10 @@ void DvdWizardChapters::slotAddChapter()
 
 void DvdWizardChapters::updateMonitorMarkers()
 {
-    QStringList chapters = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
+    const QStringList chapters = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
     QList<CommentedTime> markers;
-    foreach (const QString &frame, chapters) {
+    markers.reserve(chapters.count());
+    for (const QString &frame : chapters) {
         markers << CommentedTime(GenTime(frame.toInt(), m_tc.fps()), QString());
     }
     m_monitor->setMarkers(markers);
@@ -176,7 +177,7 @@ void DvdWizardChapters::setVobFiles(DVDFORMAT format, const QStringList &movies,
     m_view.vob_list->clear();
     for (int i = 0; i < movies.count(); ++i) {
         m_view.vob_list->addItem(movies.at(i), durations.at(i));
-        m_view.vob_list->setItemData(i, chapters.at(i).split(';'), Qt::UserRole + 1);
+        m_view.vob_list->setItemData(i, chapters.at(i).split(QLatin1Char(';')), Qt::UserRole + 1);
     }
     m_view.vob_list->blockSignals(false);
     if (m_view.chapters_box->checkState() == Qt::Checked) {
@@ -234,7 +235,7 @@ QStringList DvdWizardChapters::selectedTargets() const
         }
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
         for (int j = 0; j < chapters.count(); ++j) {
-            result.append("jump title " + QString::number(i + 1).rightJustified(2, '0') + " chapter " + QString::number(j + 1).rightJustified(2, '0'));
+            result.append(QStringLiteral("jump title ") + QString::number(i + 1).rightJustified(2, '0') + QStringLiteral(" chapter ") + QString::number(j + 1).rightJustified(2, '0'));
         }
     }
     return result;

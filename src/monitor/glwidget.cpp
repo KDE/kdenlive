@@ -157,9 +157,7 @@ void GLWidget::initializeGL()
     initializeOpenGLFunctions();
     qCDebug(KDENLIVE_LOG) << "OpenGL vendor: " << QString::fromUtf8((const char *) glGetString(GL_VENDOR));
     qCDebug(KDENLIVE_LOG) << "OpenGL renderer: " << QString::fromUtf8((const char *) glGetString(GL_RENDERER));
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     qCDebug(KDENLIVE_LOG) << "OpenGL Threaded: " << openglContext()->supportsThreadedOpenGL();
-#endif
     qCDebug(KDENLIVE_LOG) << "OpenGL ARG_SYNC: " << openglContext()->hasExtension("GL_ARB_sync");
     qCDebug(KDENLIVE_LOG) << "OpenGL OpenGLES: " << openglContext()->isOpenGLES();
 
@@ -207,15 +205,11 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     if (KdenliveSettings::gpu_accel() || openglContext()->supportsThreadedOpenGL()) {
         connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
     } else {
         connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
     }
-#else
-    connect(m_frameRenderer, SIGNAL(frameDisplayed(SharedFrame)), SLOT(onFrameDisplayed(SharedFrame)), Qt::QueuedConnection);
-#endif
 
     connect(m_frameRenderer, &FrameRenderer::audioSamplesSignal, this, &GLWidget::audioSamplesSignal, Qt::QueuedConnection);
     connect(this, &GLWidget::textureUpdated, this, &GLWidget::update, Qt::QueuedConnection);
@@ -414,7 +408,6 @@ void GLWidget::paintGL()
     f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     if (!(m_glslManager || openglContext()->supportsThreadedOpenGL())) {
         m_mutex.lock();
         if (!m_sharedFrame.is_valid()) {
@@ -424,7 +417,6 @@ void GLWidget::paintGL()
         uploadTextures(openglContext(), m_sharedFrame, m_texture);
         m_mutex.unlock();
     }
-#endif
 
     // Bind textures.
     for (int i = 0; i < 3; ++i) {
@@ -982,8 +974,8 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         //m_consumer->set("1.terminate_on_pause", 0);// was commented out. restoring it  fixes mantis#3415 - FFmpeg recording freezes
         QStringList paramList = params.split(' ', QString::SkipEmptyParts);
         for (int i = 0; i < paramList.count(); ++i) {
-            QString key = "1." + paramList.at(i).section('=', 0, 0);
-            QString value = paramList.at(i).section('=', 1, 1);
+            QString key = "1." + paramList.at(i).section(QLatin1Char('='), 0, 0);
+            QString value = paramList.at(i).section(QLatin1Char('='), 1, 1);
             if (value == QLatin1String("%threads")) {
                 value = QString::number(QThread::idealThreadCount());
             }
@@ -1364,7 +1356,6 @@ FrameRenderer::FrameRenderer(QOpenGLContext *shareContext, QSurface *surface)
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
     m_displayTexture[0] = m_displayTexture[1] = m_displayTexture[2] = 0;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     if (KdenliveSettings::gpu_accel() || shareContext->supportsThreadedOpenGL()) {
         m_context = new QOpenGLContext;
         m_context->setFormat(shareContext->format());
@@ -1372,7 +1363,6 @@ FrameRenderer::FrameRenderer(QOpenGLContext *shareContext, QSurface *surface)
         m_context->create();
         m_context->moveToThread(this);
     }
-#endif
     setObjectName(QStringLiteral("FrameRenderer"));
     moveToThread(this);
     start();

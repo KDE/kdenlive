@@ -49,7 +49,7 @@ class ResourceWidget : public QDialog, public Ui::FreeSound_UI
     Q_OBJECT
 
 public:
-    explicit ResourceWidget(const QString &folder, QWidget *parent = Q_NULLPTR);
+    explicit ResourceWidget(const QString &folder, QWidget *parent = nullptr);
     ~ResourceWidget();
 
 private slots:

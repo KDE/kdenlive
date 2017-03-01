@@ -467,19 +467,19 @@ void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, i
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")
                    || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
             bool added = false;
             foreach (const QString &str, keyframes) {
-                int kpos = str.section('=', 0, 0).toInt();
-                double newval = locale.toDouble(str.section('=', 1, 1));
+                int kpos = str.section(QLatin1Char('='), 0, 0).toInt();
+                double newval = locale.toDouble(str.section(QLatin1Char('='), 1, 1));
                 if (kpos < pos) {
                     newkfr.append(str);
                 } else if (!added) {
                     if (i == m_visibleParam) {
-                        newkfr.append(QString::number(pos) + '=' + QString::number((int)val));
+                        newkfr.append(QString::number(pos) + QLatin1Char('=') + QString::number((int)val));
                     } else {
-                        newkfr.append(QString::number(pos) + '=' + locale.toString(newval));
+                        newkfr.append(QString::number(pos) + QLatin1Char('=') + locale.toString(newval));
                     }
                     if (kpos > pos) {
                         newkfr.append(str);
@@ -491,9 +491,9 @@ void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, i
             }
             if (!added) {
                 if (i == m_visibleParam) {
-                    newkfr.append(QString::number(pos) + '=' + QString::number((int)val));
+                    newkfr.append(QString::number(pos) + QLatin1Char('=') + QString::number((int)val));
                 } else {
-                    newkfr.append(QString::number(pos) + '=' + e.attribute(QStringLiteral("default")));
+                    newkfr.append(QString::number(pos) + QLatin1Char('=') + e.attribute(QStringLiteral("default")));
                 }
             }
             e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QLatin1Char(';')));
@@ -531,31 +531,31 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
             }
         } else if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
             foreach (const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != oldpos) {
+                if (str.section(QLatin1Char('='), 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
                     newpos = qBound(start, newpos, end);
                     if (i == m_visibleParam) {
-                        newkfr.append(QString::number(newpos) + '=' + locale.toString(value));
+                        newkfr.append(QString::number(newpos) + QLatin1Char('=') + locale.toString(value));
                     } else {
-                        newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
+                        newkfr.append(QString::number(newpos) + QLatin1Char('=') + str.section(QLatin1Char('='), 1, 1));
                     }
                 }
             }
             e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QLatin1Char(';')));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
             QString kfr = e.attribute(QStringLiteral("value"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach (const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != oldpos) {
+            for (const QString &str : keyframes) {
+                if (str.section(QLatin1Char('='), 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
                     newpos = qBound(0, newpos, end);
-                    newkfr.append(QString::number(newpos) + '=' + str.section('=', 1, 1));
+                    newkfr.append(QString::number(newpos) + QLatin1Char('=') + str.section(QLatin1Char('='), 1, 1));
                 }
             }
             e.setAttribute(QStringLiteral("value"), newkfr.join(QLatin1Char(';')));
@@ -580,20 +580,20 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
         }
         if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach (const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != frame) {
+            for (const QString &str : keyframes) {
+                if (str.section(QLatin1Char('='), 0, 0).toInt() != frame) {
                     newkfr.append(str);
                 }
             }
             e.setAttribute(QStringLiteral("keyframes"), newkfr.join(QLatin1Char(';')));
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
             QString kfr = e.attribute(QStringLiteral("value"));
-            const QStringList keyframes = kfr.split(';', QString::SkipEmptyParts);
+            const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
             foreach (const QString &str, keyframes) {
-                if (str.section('=', 0, 0).toInt() != frame) {
+                if (str.section(QLatin1Char('='), 0, 0).toInt() != frame) {
                     newkfr.append(str);
                 }
             }
@@ -631,7 +631,7 @@ bool AbstractClipItem::resizeGeometries(QDomElement effect, int width, int heigh
         if (!e.isNull() && e.attribute(QStringLiteral("type")) == QLatin1String("geometry")) {
             geom = e.attribute(QStringLiteral("value"));
             Mlt::Geometry geometry(geom.toUtf8().data(), previousDuration, width, height);
-            e.setAttribute(QStringLiteral("value"), geometry.serialise(start, start + duration));
+            e.setAttribute(QStringLiteral("value"), QString::fromLatin1(geometry.serialise(start, start + duration)));
             modified = true;
         }
     }

@@ -114,7 +114,7 @@ bool PreviewManager::buildPreviewTrack()
 
 void PreviewManager::loadChunks(const QStringList &previewChunks, QStringList dirtyChunks, const QDateTime &documentDate)
 {
-    foreach (const QString &frame, previewChunks) {
+    for (const QString &frame : previewChunks) {
         const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(frame).arg(m_extension));
         QFile file(fileName);
         if (file.exists()) {
@@ -435,9 +435,9 @@ void PreviewManager::doPreviewRender(const QString &scene)
         // Build rendering process
         QStringList args;
         args << scene;
-        args << "in=" + QString::number(i);
-        args << "out=" + QString::number(i + chunkSize - 1);
-        args << QStringLiteral("-consumer") << "avformat:" + m_cacheDir.absoluteFilePath(fileName);
+        args << QStringLiteral("in=") + QString::number(i);
+        args << QStringLiteral("out=") + QString::number(i + chunkSize - 1);
+        args << QStringLiteral("-consumer") << QStringLiteral("avformat:") + m_cacheDir.absoluteFilePath(fileName);
         args << m_consumerParams;
         QProcess previewProcess;
         connect(this, &PreviewManager::abortPreview, &previewProcess, &QProcess::kill, Qt::DirectConnection);
@@ -558,7 +558,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     if (file.isEmpty() || progress < 0) {
         m_doc->previewProgress(progress);
         if (progress < 0) {
-            m_doc->displayMessage(i18n("Preview rendering failed, check your parameters. %1Show details...%2", QString("<a href=\"" + QUrl::toPercentEncoding(file) + "\">"), QStringLiteral("</a>")), MltError);
+            m_doc->displayMessage(i18n("Preview rendering failed, check your parameters. %1Show details...%2", QString("<a href=\"" + QString::fromLatin1(QUrl::toPercentEncoding(file)) + QStringLiteral("\">")), QStringLiteral("</a>")), MltError);
         }
         return;
     }

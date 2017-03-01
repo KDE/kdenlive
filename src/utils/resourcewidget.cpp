@@ -138,8 +138,7 @@ void ResourceWidget::loadConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "ResourceWidget");
-    QList<int> size;
-    size << 100 << 400;
+    const QList<int> size = {100, 400};
     splitter->setSizes(resourceConfig.readEntry("mainSplitter", size));
 }
 /**
@@ -215,11 +214,11 @@ void ResourceWidget::slotUpdateCurrentSound()
         } else {
             title.append(i18n("Author"));
         }
-        title.append("</a><br />");
+        title.append(QStringLiteral("</a><br />"));
     } else if (!m_currentInfo.author.isEmpty()) {
-        title.append(m_currentInfo.author + "<br />");
+        title.append(m_currentInfo.author + QStringLiteral("<br />"));
     } else {
-        title.append("<br />");
+        title.append(QStringLiteral("<br />"));
     }
 
     slotSetTitle(title);// updates the m_title var with the new HTML. Calls updateLayout()
@@ -367,12 +366,12 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     QString path = m_folder;
     QString ext;
     QString sFileExt;
-    if (!path.endsWith('/')) {
-        path.append('/');
+    if (!path.endsWith(QLatin1Char('/'))) {
+        path.append(QLatin1Char('/'));
     }
     if (!originalUrl.isEmpty()) {
         path.append(QUrl(originalUrl).fileName());
-        ext = "*." + QUrl(originalUrl).fileName().section('.', -1);
+        ext = "*." + QUrl(originalUrl).fileName().section(QLatin1Char('.'), -1);
         m_currentInfo.itemDownload = originalUrl;
     } else {
         path.append(m_currentService->getDefaultDownloadName(item));
@@ -381,17 +380,17 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
 #ifdef QT5_USE_WEBKIT
             sFileExt = m_currentService->getExtension(search_results->currentItem());
 #else
-            sFileExt = QStringLiteral("*.") + m_currentInfo.HQpreview.section('.', -1);
+            sFileExt = QStringLiteral("*.") + m_currentInfo.HQpreview.section(QLatin1Char('.'), -1);
 #endif
             if (sFileExt.isEmpty()) {
                 sFileExt = QStringLiteral("*.") + m_currentInfo.fileType;    // if the file name had no extension then use the file type freesound says it is.
             }
-            ext = "Audio (" + sFileExt + ");;All Files(*.*)";
+            ext = "Audio (" + sFileExt + QStringLiteral(");;All Files(*.*)");
 
         } else if (m_currentService->serviceType == AbstractService::OPENCLIPART) {
-            ext = "Images (" + m_currentService->getExtension(search_results->currentItem()) + ");;All Files(*.*)";
+            ext = "Images (" + m_currentService->getExtension(search_results->currentItem()) + QStringLiteral(");;All Files(*.*)");
         } else {
-            ext = "Video (" + m_currentService->getExtension(search_results->currentItem()) + ");;All Files(*.*)";
+            ext = "Video (" + m_currentService->getExtension(search_results->currentItem()) + QStringLiteral(");;All Files(*.*)");
         }
     }
     QUrl srcUrl(m_currentInfo.itemDownload);
@@ -453,10 +452,11 @@ void ResourceWidget::DoFileDownload(const QUrl &srcUrl, const QUrl &saveUrl)
 void ResourceWidget::slotFreesoundUseHQPreview()
 {
 
-    mSaveLocation = mSaveLocation + ".mp3"; // HQ previews are .mp3 files - so append this to file name previously chosen
+    mSaveLocation = mSaveLocation + QStringLiteral(".mp3"); // HQ previews are .mp3 files - so append this to file name previously chosen
     if (QFile::exists(mSaveLocation)) { // check that this newly created file name file does not already exist
         int ret = QMessageBox::warning(this, i18n("File Exists"),
-                                       i18n("HQ preview files are all mp3 files. We have added .mp3 as a file extension to the destination file name you chose. However, there is an existing file of this name present. \n Do you want to overwrite the existing file?. ") + "\n" + mSaveLocation,
+                                       i18n("HQ preview files are all mp3 files. We have added .mp3 as a file extension to the destination file name you chose. However, there is an existing file of this name present. \n Do you want to overwrite the existing file?. ")
+                                       + QStringLiteral("\n") + mSaveLocation,
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
         if (ret == QMessageBox::No) {
@@ -464,8 +464,7 @@ void ResourceWidget::slotFreesoundUseHQPreview()
             return;
         }
     }
-    QUrl saveUrl;
-    saveUrl = QUrl::fromLocalFile(mSaveLocation);
+    const QUrl saveUrl = QUrl::fromLocalFile(mSaveLocation);
     QUrl srcUrl(m_currentInfo.HQpreview);
     DoFileDownload(srcUrl,  saveUrl);
 
@@ -488,11 +487,10 @@ void ResourceWidget::slotFreesoundCanceled()
 void ResourceWidget::slotGotFile(KJob *job)
 
 {
-    QString errTxt;
     button_import->setEnabled(true);
     if (job->error()) {
 
-        errTxt  = job->errorString();
+        const QString errTxt  = job->errorString();
         KMessageBox::sorry(this, errTxt, i18n("Error Loading Data"));
 
         qCDebug(KDENLIVE_LOG) << "//file import job errored: " << errTxt;
@@ -611,6 +609,7 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
 {
     QString licenseName;
 
+    //TODO translate them ?
     if (licenseUrl.contains(QStringLiteral("/sampling+/"))) {
         licenseName = QStringLiteral("Sampling+");
     } else if (licenseUrl.contains(QStringLiteral("/by/"))) {
@@ -625,17 +624,11 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
         licenseName = QStringLiteral("Attribution-NonCommercial");
     } else if (licenseUrl.contains(QStringLiteral("/by-nc-nd/"))) {
         licenseName = QStringLiteral("Attribution-NonCommercial-NoDerivs");
-    }
-
-    else if (licenseUrl.contains(QLatin1String("/publicdomain/zero/"))) {
+    } else if (licenseUrl.contains(QLatin1String("/publicdomain/zero/"))) {
         licenseName = QStringLiteral("Creative Commons 0");
-    } else if (licenseUrl.endsWith(QLatin1String("/publicdomain")) || licenseUrl.contains(QLatin1String("openclipart.org/share")))
-
-    {
+    } else if (licenseUrl.endsWith(QLatin1String("/publicdomain")) || licenseUrl.contains(QLatin1String("openclipart.org/share"))) {
         licenseName = QStringLiteral("Public Domain");
-    }
-
-    else {
+    } else {
         licenseName = i18n("Unknown");
     }
     item_license->setText(licenseName);
@@ -745,7 +738,9 @@ void  ResourceWidget::slotPreviewFinished()
 void ResourceWidget::slotFreesoundAccessDenied()
 {
     button_import->setEnabled(true);
-    info_browser->setHtml("<html>"  + i18n("Access Denied from Freesound.  Have you authorised the Kdenlive application on your freesound account?") + "</html>");
+    info_browser->setHtml(QStringLiteral("<html>")
+                          + i18n("Access Denied from Freesound.  Have you authorised the Kdenlive application on your freesound account?")
+                          + QStringLiteral("</html>"));
 }
 
 /**
@@ -759,7 +754,7 @@ void ResourceWidget::slotFreesoundAccessDenied()
 void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
 {
     //qCDebug(KDENLIVE_LOG) << "slotAccessTokenReceived: " <<sAccessToken;
-    if (sAccessToken != QString()) {
+    if (!sAccessToken.isEmpty()) {
         // QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
 
         QNetworkRequest request;
@@ -769,7 +764,7 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
         request.setRawHeader(QByteArray("Authorization"), QByteArray("Bearer").append(sAccessToken.toUtf8()));
 
         m_meta = QString();
-        m_desc = "<br><b>" +  i18n("Starting File Download") + "</b><br>";
+        m_desc = QStringLiteral("<br><b>") +  i18n("Starting File Download") + QStringLiteral("</b><br>");
         updateLayout();
 
         QNetworkReply *reply2 = m_networkAccessManager->get(request);
@@ -778,8 +773,8 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
     } else {
 
         m_meta = QString();
-        m_desc = "<br><b>" +  i18n("Error Getting Access Token from Freesound.") + "</b>";
-        m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection") + "</b>");
+        m_desc = QStringLiteral("<br><b>") +  i18n("Error Getting Access Token from Freesound.") + QStringLiteral("</b>");
+        m_desc.append(QStringLiteral("<br><b>") +  i18n("Try importing again to obtain a new freesound connection") + QStringLiteral("</b>"));
         updateLayout();
     }
 }
@@ -847,14 +842,14 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
                 KMessageBox::information(this, i18n("Resource saved to ") + mSaveLocation, i18n("Data Imported"));
                 emit addClip(QUrl(mSaveLocation), QStringList());// MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
 
-                m_desc.append("<br>" + i18n("Saved file to") + "<br>");
+                m_desc.append(QStringLiteral("<br>") + i18n("Saved file to") + QStringLiteral("<br>"));
                 m_desc.append(mSaveLocation);
                 updateLayout();
             } else {
 #ifdef QT5_USE_WEBKIT
                 m_pOAuth2->ForgetAccessToken();
 #endif
-                m_desc.append("<br>" + i18n("Error Saving File"));
+                m_desc.append(QStringLiteral("<br>") + i18n("Error Saving File"));
                 updateLayout();
 
             }
@@ -868,8 +863,8 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
 #ifdef QT5_USE_WEBKIT
                 m_pOAuth2->ForgetAccessToken();
 #endif
-                m_desc.append("<br>" + i18n("Error Downloading File. Error code: ") + reply->error() + "<br>");
-                m_desc.append("<br><b>" +  i18n("Try importing again to obtain a new freesound connection") + "</b>");
+                m_desc.append(QStringLiteral("<br>") + i18n("Error Downloading File. Error code: ") + reply->error() + QStringLiteral("<br>"));
+                m_desc.append(QStringLiteral("<br><b>") +  i18n("Try importing again to obtain a new freesound connection") + QStringLiteral("</b>"));
                 updateLayout();
 
             }

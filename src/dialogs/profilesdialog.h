@@ -31,9 +31,9 @@ class ProfilesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ProfilesDialog(const QString &profileDescription = QString(), QWidget *parent = Q_NULLPTR);
+    explicit ProfilesDialog(const QString &profileDescription = QString(), QWidget *parent = nullptr);
     /** @brief Using this constructor, the dialog only allows editing one profile. */
-    explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = Q_NULLPTR);
+    explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = nullptr);
 
     void fillList(const QString &selectedProfile = QString());
     static QMap< QString, QString > getSettingsFromFile(const QString &path);
@@ -41,7 +41,6 @@ public:
     static MltVideoProfile getVideoProfileFromXml(const QDomElement &element);
     static MltVideoProfile getVideoProfile(const QString &name);
     static MltVideoProfile getVideoProfile(Mlt::Profile &profile);
-    static QMap<QString, QString> getProfilesInfo();
     static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
     /** @brief Check if a given profile has a profile file describing it */
     static QString existingProfile(const MltVideoProfile &profile);

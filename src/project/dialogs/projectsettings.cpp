@@ -205,7 +205,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 
     QMap<QString, QString>::const_iterator meta = metadata.constBegin();
     while (meta != metadata.constEnd()) {
-        item = new QTreeWidgetItem(metadata_list, QStringList() << meta.key().section('.', 2, 2));
+        item = new QTreeWidgetItem(metadata_list, QStringList() << meta.key().section(QLatin1Char('.'), 2, 2));
         item->setData(0, Qt::UserRole, meta.key());
         item->setText(1, meta.value());
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -354,16 +354,16 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             count++;
         }
         if (clip->clipType() == Text) {
-            QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
-            QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
-            foreach (const QString &file, imagefiles) {
+            const QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
+            const QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
+            for (const QString &file : imagefiles) {
                 count++;
                 new QTreeWidgetItem(images, QStringList() << file);
             }
             allFonts << fonts;
         } else if (clip->clipType() == Playlist) {
-            QStringList files = extractPlaylistUrls(clip->clipUrl());
-            foreach (const QString &file, files) {
+            const QStringList files = extractPlaylistUrls(clip->clipUrl());
+            for (const QString &file : files) {
                 count++;
                 new QTreeWidgetItem(others, QStringList() << file);
             }
@@ -484,13 +484,13 @@ int ProjectSettings::proxyImageMinSize() const
 QString ProjectSettings::proxyParams() const
 {
     QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
-    return params.section(';', 0, 0);
+    return params.section(QLatin1Char(';'), 0, 0);
 }
 
 QString ProjectSettings::proxyExtension() const
 {
     QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
-    return params.section(';', 1, 1);
+    return params.section(QLatin1Char(';'), 1, 1);
 }
 
 //static
@@ -509,7 +509,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     file.close();
     QString root = doc.documentElement().attribute(QStringLiteral("root"));
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
-        root.append('/');
+        root.append(QLatin1Char('/'));
     }
     QDomNodeList files = doc.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < files.count(); ++i) {
@@ -520,13 +520,13 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
             if (type == QLatin1String("timewarp")) {
                 url = EffectsList::property(e, QStringLiteral("warp_resource"));
             } else if (type == QLatin1String("framebuffer")) {
-                url = url.section('?', 0, 0);
+                url = url.section(QLatin1Char('?'), 0, 0);
             }
             if (!url.isEmpty()) {
                 if (QFileInfo(url).isRelative()) {
                     url.prepend(root);
                 }
-                if (url.section('.', 0, -2).endsWith(QLatin1String("/.all"))) {
+                if (url.section(QLatin1Char('.'), 0, -2).endsWith(QLatin1String("/.all"))) {
                     // slideshow clip, extract image urls
                     urls << extractSlideshowUrls(url);
                 } else {
@@ -561,30 +561,30 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
 {
     QStringList urls;
     QString path = QFileInfo(url).absolutePath();
-    QString ext = url.section('.', -1);
+    QString ext = url.section(QLatin1Char('.'), -1);
     QDir dir(path);
     if (url.contains(QStringLiteral(".all."))) {
         // this is a mime slideshow, like *.jpeg
         QStringList filters;
-        filters << "*." + ext;
+        filters << QStringLiteral("*.") + ext;
         dir.setNameFilters(filters);
         QStringList result = dir.entryList(QDir::Files);
-        urls.append(path + filters.at(0) + " (" + i18np("1 image found", "%1 images found", result.count()) + ')');
+        urls.append(path + filters.at(0) + QStringLiteral(" (") + i18np("1 image found", "%1 images found", result.count()) + QLatin1Char(')'));
     } else {
         // this is a pattern slideshow, like sequence%4d.jpg
         QString filter = QFileInfo(url).fileName();
-        QString ext = filter.section('.', -1);
-        filter = filter.section('%', 0, -2);
-        QString regexp = '^' + filter + "\\d+\\." + ext + '$';
+        ext = filter.section(QLatin1Char('.'), -1);
+        filter = filter.section(QLatin1Char('%'), 0, -2);
+        QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         QRegExp rx(regexp);
         int count = 0;
-        QStringList result = dir.entryList(QDir::Files);
-        foreach (const QString &path, result) {
-            if (rx.exactMatch(path)) {
+        const QStringList result = dir.entryList(QDir::Files);
+        for (const QString &p: result) {
+            if (rx.exactMatch(p)) {
                 count++;
             }
         }
-        urls.append(url + " (" + i18np("1 image found", "%1 images found", count) + ')');
+        urls.append(url + QStringLiteral(" (") + i18np("1 image found", "%1 images found", count) + QLatin1Char(')'));
     }
     return urls;
 }
@@ -595,15 +595,15 @@ void ProjectSettings::slotExportToText()
     if (savePath.isEmpty()) {
         return;
     }
-    QString data;
-    data.append(i18n("Project folder: %1",  project_folder->url().toLocalFile()) + '\n');
-    data.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + '\n');
-    data.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
+    QString text;
+    text.append(i18n("Project folder: %1",  project_folder->url().toLocalFile()) + '\n');
+    text.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + '\n');
+    text.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() > 0) {
-            data.append('\n' + files_list->topLevelItem(i)->text(0) + ":\n\n");
+            text.append('\n' + files_list->topLevelItem(i)->text(0) + ":\n\n");
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
-                data.append(files_list->topLevelItem(i)->child(j)->text(0) + '\n');
+                text.append(files_list->topLevelItem(i)->child(j)->text(0) + '\n');
             }
         }
     }
@@ -616,7 +616,7 @@ void ProjectSettings::slotExportToText()
     if (!xmlf.open(QIODevice::WriteOnly)) {
         return;
     }
-    xmlf.write(data.toUtf8());
+    xmlf.write(text.toUtf8());
     if (xmlf.error() != QFile::NoError) {
         xmlf.close();
         return;
@@ -629,13 +629,13 @@ void ProjectSettings::slotExportToText()
 void ProjectSettings::slotUpdateProxyParams()
 {
     QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
-    proxyparams->setPlainText(params.section(';', 0, 0));
+    proxyparams->setPlainText(params.section(QLatin1Char(';'), 0, 0));
 }
 
 void ProjectSettings::slotUpdatePreviewParams()
 {
     QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
-    previewparams->setPlainText(params.section(';', 0, 0));
+    previewparams->setPlainText(params.section(QLatin1Char(';'), 0, 0));
 }
 
 const QMap<QString, QString> ProjectSettings::metadata() const
@@ -647,7 +647,7 @@ const QMap<QString, QString> ProjectSettings::metadata() const
             // Insert metadata entry
             QString key = item->data(0, Qt::UserRole).toString();
             if (key.isEmpty()) {
-                key = "meta.attr." + item->text(0).simplified() + ".markup";
+                key = QStringLiteral("meta.attr.") + item->text(0).simplified() + QStringLiteral(".markup");
             }
             QString value = item->text(1);
             metadata.insert(key, value);
@@ -702,8 +702,8 @@ void ProjectSettings::loadProxyProfiles()
     while (k.hasNext()) {
         k.next();
         if (!k.key().isEmpty()) {
-            QString params = k.value().section(';', 0, 0);
-            QString extension = k.value().section(';', 1, 1);
+            QString params = k.value().section(QLatin1Char(';'), 0, 0);
+            QString extension = k.value().section(QLatin1Char(';'), 1, 1);
             if (ix == -1 && ((params == m_proxyparameters && extension == m_proxyextension) || (m_proxyparameters.isEmpty() || m_proxyextension.isEmpty()))) {
                 // this is the current profile
                 ix = proxy_profile->count();
@@ -714,7 +714,7 @@ void ProjectSettings::loadProxyProfiles()
     if (ix == -1) {
         // Current project proxy settings not found
         ix = proxy_profile->count();
-        proxy_profile->addItem(i18n("Current Settings"), QString(m_proxyparameters + ';' + m_proxyextension));
+        proxy_profile->addItem(i18n("Current Settings"), QString(m_proxyparameters + QLatin1Char(';') + m_proxyextension));
     }
     proxy_profile->setCurrentIndex(ix);
     slotUpdateProxyParams();
@@ -732,8 +732,8 @@ void ProjectSettings::loadPreviewProfiles()
     while (k.hasNext()) {
         k.next();
         if (!k.key().isEmpty()) {
-            QString params = k.value().section(';', 0, 0);
-            QString extension = k.value().section(';', 1, 1);
+            QString params = k.value().section(QLatin1Char(';'), 0, 0);
+            QString extension = k.value().section(QLatin1Char(';'), 1, 1);
             if (ix == -1 && (params == m_previewparams && extension == m_previewextension)) {
                 // this is the current profile
                 ix = preview_profile->count();
@@ -748,7 +748,7 @@ void ProjectSettings::loadPreviewProfiles()
             // Leave empty, will be automatically detected
             preview_profile->addItem(i18n("Auto"));
         } else {
-            preview_profile->addItem(i18n("Current Settings"), QString(m_previewparams + ';' + m_previewextension));
+            preview_profile->addItem(i18n("Current Settings"), QString(m_previewparams + QLatin1Char(';') + m_previewextension));
         }
     }
     preview_profile->setCurrentIndex(ix);

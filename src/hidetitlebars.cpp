@@ -50,7 +50,6 @@ void HideTitleBars::slotShowTitleBars(bool show)
                 }
                 continue;
             }
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
             // Since Qt 5.6 we only display title bar in non tabbed dockwidgets
             QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
             if (docked.isEmpty()) {
@@ -79,12 +78,6 @@ void HideTitleBars::slotShowTitleBars(bool show)
             if (!bar) {
                 dock->setTitleBarWidget(new QWidget);
             }
-#else
-            if (bar) {
-                dock->setTitleBarWidget(0);
-                delete bar;
-            }
-#endif
         } else {
             if (!dock->isFloating() && !bar) {
                 dock->setTitleBarWidget(new QWidget);

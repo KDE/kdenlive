@@ -113,7 +113,7 @@ bool DocumentValidator::validate(const double currentVersion)
                 // Parse installed locales to find one matching
                 const QList<QLocale> list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
                 QLocale matching;
-                foreach(const QLocale &loc, list) {
+                for (const QLocale &loc : list) {
                     if (loc.decimalPoint() == numericalSeparator) {
                         matching = loc;
                         qCDebug(KDENLIVE_LOG)<<"Warning, document locale: "<<mlt.attribute(QStringLiteral("LC_NUMERIC"))<<" is not available, using: "<<loc.name();
@@ -131,7 +131,7 @@ bool DocumentValidator::validate(const double currentVersion)
         } else if (numericalSeparator.isNull()) {
             // Change locale to match document
 #ifndef Q_OS_MAC
-            const QString newloc = setlocale(LC_NUMERIC, mlt.attribute(QStringLiteral("LC_NUMERIC")).toUtf8().constData());
+            const QString newloc = QString::fromLatin1(setlocale(LC_NUMERIC, mlt.attribute(QStringLiteral("LC_NUMERIC")).toUtf8().constData()));
 #else
             const QString newloc = setlocale(LC_NUMERIC_MASK, mlt.attribute("LC_NUMERIC").toUtf8().constData());
 #endif
@@ -143,7 +143,7 @@ bool DocumentValidator::validate(const double currentVersion)
         }
         if (error) {
             // Requested locale not available, ask for install
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute("LC_NUMERIC")));
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. Until then, Kdenlive might not be able to correctly open the document.", mlt.attribute(QStringLiteral("LC_NUMERIC"))));
         }
 
         // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
@@ -152,7 +152,7 @@ bool DocumentValidator::validate(const double currentVersion)
 #ifndef Q_OS_WIN
         char *separator = localeconv()->decimal_point;
         if (QString::fromUtf8(separator) != QString(documentLocale.decimalPoint())) {
-	    KMessageBox::sorry(QApplication::activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute("LC_NUMERIC"), documentLocale.decimalPoint(), separator));
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.", mlt.attribute(QStringLiteral("LC_NUMERIC")), documentLocale.decimalPoint(), separator));
             //qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
             // HACK: There is a locale conflict, so set locale to at least have correct decimal point
             if (strncmp(separator, ".", 1) == 0) {
@@ -179,9 +179,9 @@ bool DocumentValidator::validate(const double currentVersion)
         }
         // locale conversion might need to be redone
 #ifndef Q_OS_MAC
-        initEffects::parseEffectFiles(pCore->getMltRepository(), setlocale(LC_NUMERIC, nullptr));
+        initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
 #else
-        initEffects::parseEffectFiles(pCore->getMltRepository(), setlocale(LC_NUMERIC_MASK, nullptr));
+        initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC_MASK, nullptr)));
 #endif
     }
     double version = -1;
@@ -203,7 +203,7 @@ bool DocumentValidator::validate(const double currentVersion)
                 // Last try: replace comma with a dot
                 QString versionString = kdenliveDoc.attribute(QStringLiteral("version"));
                 if (versionString.contains(QLatin1Char(','))) {
-                    versionString.replace(',', '.');
+                    versionString.replace(QLatin1Char(','), QLatin1Char('.'));
                 }
                 version = versionString.toDouble(&ok);
                 if (!ok) {
@@ -404,10 +404,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomNodeList kdenlivetracks = m_doc.elementsByTagName(QStringLiteral("kdenlivetrack"));
             for (int i = 0; i < kdenlivetracks.count(); ++i) {
                 blank_playlist = m_doc.createElement(QStringLiteral("playlist"));
-                blank_playlist.setAttribute(QStringLiteral("id"), "playlist" + QString::number(i));
+                blank_playlist.setAttribute(QStringLiteral("id"), QStringLiteral("playlist") + QString::number(i));
                 westley.insertBefore(blank_playlist, QDomNode());
                 blank_track = m_doc.createElement(QStringLiteral("track"));
-                blank_track.setAttribute(QStringLiteral("producer"), "playlist" + QString::number(i));
+                blank_track.setAttribute(QStringLiteral("producer"), QStringLiteral("playlist") + QString::number(i));
                 blank_tractor.appendChild(blank_track);
                 if (kdenlivetracks.at(i).toElement().attribute(QStringLiteral("cliptype")) == QLatin1String("Sound")) {
                     blank_playlist.setAttribute(QStringLiteral("hide"), QStringLiteral("video"));
@@ -535,9 +535,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         QDomAttr a = attrs.item(j).toAttr();
                         if (!a.isNull()) {
                             //qCDebug(KDENLIVE_LOG) << " FILTER; adding :" << a.name() << ':' << a.value();
-                            QDomElement e = m_doc.createElement(QStringLiteral("property"));
+                            e = m_doc.createElement(QStringLiteral("property"));
                             e.setAttribute(QStringLiteral("name"), a.name());
-                            QDomText value = m_doc.createTextNode(a.value());
+                            value = m_doc.createTextNode(a.value());
                             e.appendChild(value);
                             filt.appendChild(e);
 
@@ -586,7 +586,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement prod = producers.at(i).toElement();
             if (prod.attribute(QStringLiteral("mlt_service")) == QLatin1String("framebuffer")) {
                 QString slowmotionprod = prod.attribute(QStringLiteral("resource"));
-                slowmotionprod.replace(':', '?');
+                slowmotionprod.replace(QLatin1Char(':'), QLatin1Char('?'));
                 //qCDebug(KDENLIVE_LOG) << "// FOUND WRONG SLOWMO, new: " << slowmotionprod;
                 prod.setAttribute(QStringLiteral("resource"), slowmotionprod);
             }
@@ -668,7 +668,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                                 content.setAttribute(QStringLiteral("brushcolor"), colorToString(c));
                                 QString rect = QStringLiteral("0,0,");
                                 rect.append(ob.attribute(QStringLiteral("width")));
-                                rect.append(",");
+                                rect.append(QLatin1String(","));
                                 rect.append(ob.attribute(QStringLiteral("height")));
                                 content.setAttribute(QStringLiteral("rect"), rect);
                                 item.appendChild(position);
@@ -851,7 +851,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     ////qCDebug(KDENLIVE_LOG) << "ready to set additional <avfile />'s attributes (id =" << id << ')';
                     kproducer.setAttribute(QStringLiteral("channels"), avfile.attribute(QStringLiteral("channels")));
                     kproducer.setAttribute(QStringLiteral("duration"), avfile.attribute(QStringLiteral("duration")));
-                    kproducer.setAttribute(QStringLiteral("frame_size"), avfile.attribute(QStringLiteral("width")) + 'x' + avfile.attribute(QStringLiteral("height")));
+                    kproducer.setAttribute(QStringLiteral("frame_size"), avfile.attribute(QStringLiteral("width")) + QLatin1Char('x') + avfile.attribute(QStringLiteral("height")));
                     kproducer.setAttribute(QStringLiteral("frequency"), avfile.attribute(QStringLiteral("frequency")));
                     if (kproducer.attribute(QStringLiteral("description")).isEmpty() && !avfile.attribute(QStringLiteral("description")).isEmpty()) {
                         kproducer.setAttribute(QStringLiteral("description"), avfile.attribute(QStringLiteral("description")));
@@ -871,9 +871,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomElement track = tracks.at(i).toElement();
                 if (track.attribute(QStringLiteral("producer")) != QLatin1String("black_track")) {
                     if (track.attribute(QStringLiteral("hide")) == QLatin1String("video")) {
-                        tracksOrder.append('a');
+                        tracksOrder.append(QLatin1Char('a'));
                     } else {
-                        tracksOrder.append('v');
+                        tracksOrder.append(QLatin1Char('v'));
                     }
                 }
             }
@@ -881,7 +881,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomElement tracksinfo = m_doc.createElement(QStringLiteral("tracksinfo"));
         for (int i = 0; i < tracksOrder.size(); ++i) {
             QDomElement trackinfo = m_doc.createElement(QStringLiteral("trackinfo"));
-            if (tracksOrder.data()[i] == 'a') {
+            if (tracksOrder.data()[i] == QLatin1Char('a')) {
                 trackinfo.setAttribute(QStringLiteral("type"), QStringLiteral("audio"));
                 trackinfo.setAttribute(QStringLiteral("blind"), true);
             } else {
@@ -1031,10 +1031,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 EffectsList::setProperty(effect, QStringLiteral("mlt_service"), info.at(0));
                 EffectsList::removeProperty(effect, QStringLiteral("src"));
                 for (int j = 1; j < info.size(); ++j) {
-                    QString value = EffectsList::property(effect, info.at(j).section('=', 0, 0));
+                    QString value = EffectsList::property(effect, info.at(j).section(QLatin1Char('='), 0, 0));
                     if (!value.isEmpty()) {
                         // update parameter name
-                        EffectsList::renameProperty(effect, info.at(j).section('=', 0, 0), info.at(j).section('=', 1, 1));
+                        EffectsList::renameProperty(effect, info.at(j).section(QLatin1Char('='), 0, 0), info.at(j).section(QLatin1Char('='), 1, 1));
                     }
                 }
             }
@@ -1091,7 +1091,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     item.frame(out);
                     g->insert(item);
                     g->remove(out + 1);
-                    EffectsList::setProperty(trans, QStringLiteral("geometry"), g->serialise());
+                    EffectsList::setProperty(trans, QStringLiteral("geometry"), QString::fromLatin1(g->serialise()));
                 }
             }
             delete g;
@@ -1121,9 +1121,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList markers = m_doc.elementsByTagName(QStringLiteral("marker"));
         for (int i = 0; i < markers.count(); ++i) {
             QDomElement marker = markers.at(i).toElement();
-            QDomElement prop = m_doc.createElement(QStringLiteral("property"));
-            prop.setAttribute(QStringLiteral("name"), "kdenlive:marker." + marker.attribute(QStringLiteral("id")) + ":" + marker.attribute(QStringLiteral("time")));
-            QDomText val = m_doc.createTextNode(marker.attribute(QStringLiteral("type")) + ":" + marker.attribute(QStringLiteral("comment")));
+            prop = m_doc.createElement(QStringLiteral("property"));
+            prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:marker.") + marker.attribute(QStringLiteral("id")) + QLatin1Char(':') + marker.attribute(QStringLiteral("time")));
+            val = m_doc.createTextNode(marker.attribute(QStringLiteral("type")) + QLatin1Char(':') + marker.attribute(QStringLiteral("comment")));
             prop.appendChild(val);
             main_playlist.appendChild(prop);
         }
@@ -1132,9 +1132,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList guides = m_doc.elementsByTagName(QStringLiteral("guide"));
         for (int i = 0; i < guides.count(); ++i) {
             QDomElement guide = guides.at(i).toElement();
-            QDomElement prop = m_doc.createElement(QStringLiteral("property"));
-            prop.setAttribute(QStringLiteral("name"), "kdenlive:guide." + guide.attribute(QStringLiteral("time")));
-            QDomText val = m_doc.createTextNode(guide.attribute(QStringLiteral("comment")));
+            prop = m_doc.createElement(QStringLiteral("property"));
+            prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:guide.") + guide.attribute(QStringLiteral("time")));
+            val = m_doc.createTextNode(guide.attribute(QStringLiteral("comment")));
             prop.appendChild(val);
             main_playlist.appendChild(prop);
         }
@@ -1143,9 +1143,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList folders = m_doc.elementsByTagName(QStringLiteral("folder"));
         for (int i = 0; i < folders.count(); ++i) {
             QDomElement folder = folders.at(i).toElement();
-            QDomElement prop = m_doc.createElement(QStringLiteral("property"));
-            prop.setAttribute(QStringLiteral("name"), "kdenlive:folder.-1." + folder.attribute(QStringLiteral("id")));
-            QDomText val = m_doc.createTextNode(folder.attribute(QStringLiteral("name")));
+            prop = m_doc.createElement(QStringLiteral("property"));
+            prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:folder.-1.") + folder.attribute(QStringLiteral("id")));
+            val = m_doc.createTextNode(folder.attribute(QStringLiteral("name")));
             prop.appendChild(val);
             main_playlist.appendChild(prop);
         }
@@ -1192,7 +1192,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
             if (entryId.startsWith(QLatin1String("slowmotion:"))) {
                 // Check broken slowmotion producers (they should not be track aware)
-                QString newId = "slowmotion:" + entryId.section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0) + ":" + entryId.section(QLatin1Char(':'), 2);
+                QString newId = QStringLiteral("slowmotion:") + entryId.section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0) + QLatin1Char(':') + entryId.section(QLatin1Char(':'), 2);
                 trackRenaming.insert(entryId, newId);
                 entry.setAttribute(QStringLiteral("producer"), newId);
                 continue;
@@ -1202,10 +1202,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (track == playlistId) {
                 continue;
             }
-            QString newId = entryId.section(QLatin1Char('_'), 0, 0) + "_" + playlistId;
+            QString newId = entryId.section(QLatin1Char('_'), 0, 0) + QLatin1Char('_') + playlistId;
             if (audioOnlyProducer) {
-                newId.append("_audio");
-                trackRenaming.insert(entryId + "_audio", newId);
+                newId.append(QStringLiteral("_audio"));
+                trackRenaming.insert(entryId + QStringLiteral("_audio"), newId);
             } else {
                 trackRenaming.insert(entryId, newId);
             }
@@ -1252,7 +1252,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     int a_ix = EffectsList::property(prod, QStringLiteral("audio_index")).toInt();
                     if (service == QLatin1String("xml") || service == QLatin1String("consumer") || (service.contains(QStringLiteral("avformat")) && a_ix != -1)) {
                         // This should be a track producer, rename
-                        QString newId = id + "_" + playlistForId.value(id);
+                        QString newId = id + QLatin1Char('_') + playlistForId.value(id);
                         prod.setAttribute(QStringLiteral("id"), newId);
                         for (int j = 0; j < entries.count(); j++) {
                             QDomElement entry = entries.at(j).toElement();
@@ -1334,26 +1334,26 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 originalProd.removeAttribute(QStringLiteral("cutzones"));
 
                 int type = prod.attribute(QStringLiteral("type")).toInt();
-                QString mlt_service;
+                QString mltService;
                 switch (type) {
                 case 4:
-                    mlt_service = QStringLiteral("colour");
+                    mltService = QStringLiteral("colour");
                     break;
                 case 5:
                 case 7:
-                    mlt_service = QStringLiteral("qimage");
+                    mltService = QStringLiteral("qimage");
                     break;
                 case 6:
-                    mlt_service = QStringLiteral("kdenlivetitle");
+                    mltService = QStringLiteral("kdenlivetitle");
                     break;
                 case 9:
-                    mlt_service = QStringLiteral("xml");
+                    mltService = QStringLiteral("xml");
                     break;
                 default:
-                    mlt_service = QStringLiteral("avformat");
+                    mltService = QStringLiteral("avformat");
                     break;
                 }
-                EffectsList::setProperty(originalProd, QStringLiteral("mlt_service"), mlt_service);
+                EffectsList::setProperty(originalProd, QStringLiteral("mlt_service"), mltService);
                 EffectsList::setProperty(originalProd, QStringLiteral("mlt_type"), QStringLiteral("producer"));
                 QDomElement entry = m_doc.createElement(QStringLiteral("entry"));
                 entry.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
@@ -1382,9 +1382,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 if (mltprod.attribute(QStringLiteral("id")) == id) {
                     if (!folder.isEmpty()) {
                         // We have found our producer, set folder info
-                        QDomElement prop = m_doc.createElement(QStringLiteral("property"));
+                        prop = m_doc.createElement(QStringLiteral("property"));
                         prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:folderid"));
-                        QDomText val = m_doc.createTextNode(folder);
+                        val = m_doc.createTextNode(folder);
                         prop.appendChild(val);
                         mltprod.appendChild(prop);
                     }
@@ -1407,9 +1407,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         original.setAttribute(QStringLiteral("in"), 0);
                         original.setAttribute(QStringLiteral("out"), prod.attribute(QStringLiteral("duration")).toInt() - 1);
                         original.setAttribute(QStringLiteral("id"), id);
-                        QDomElement prop = m_doc.createElement(QStringLiteral("property"));
+                        prop = m_doc.createElement(QStringLiteral("property"));
                         prop.setAttribute(QStringLiteral("name"), QStringLiteral("resource"));
-                        QDomText val = m_doc.createTextNode(prod.attribute(QStringLiteral("resource")));
+                        val = m_doc.createTextNode(prod.attribute(QStringLiteral("resource")));
                         prop.appendChild(val);
                         original.appendChild(prop);
                         QDomElement prop2 = m_doc.createElement(QStringLiteral("property"));
@@ -1503,7 +1503,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
 
         // Remove deprecated Kdenlive extra info from xml doc before sending it to MLT
-        QDomElement infoXml = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
+        infoXml = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
         if (!infoXml.isNull()) {
             mlt.removeChild(infoXml);
         }
@@ -1584,12 +1584,12 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             } else {
                                 v = log10(v) * 20;
                             }
-                            parsedValues << QString::number(l.key()) + "=" + locale.toString(v);
+                            parsedValues << QString::number(l.key()) + QLatin1Char('=') + locale.toString(v);
                         }
                     } else {
                         while (l.hasNext()) {
                             l.next();
-                            parsedValues << QString::number(l.key()) + "=" + locale.toString(l.value());
+                            parsedValues << QString::number(l.key()) + QLatin1Char('=') + locale.toString(l.value());
                         }
                     }
                     EffectsList::setProperty(eff, conversionParams.at(2), parsedValues.join(QLatin1Char(';')));
@@ -1612,13 +1612,13 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
                 if (service == QLatin1String("framebuffer")) {
                     // convert to new timewarp producer
-                    prod.setAttribute(QStringLiteral("id"), id + ":1");
+                    prod.setAttribute(QStringLiteral("id"), id + QStringLiteral(":1"));
                     slowmoIds << id;
                     EffectsList::setProperty(prod, QStringLiteral("mlt_service"), QStringLiteral("timewarp"));
                     QString resource = EffectsList::property(prod, QStringLiteral("resource"));
                     EffectsList::setProperty(prod, QStringLiteral("warp_resource"), resource.section(QLatin1Char('?'), 0, 0));
                     EffectsList::setProperty(prod, QStringLiteral("warp_speed"), resource.section(QLatin1Char('?'), 1).section(QLatin1Char(':'), 0, 0));
-                    EffectsList::setProperty(prod, QStringLiteral("resource"), resource.section(QLatin1Char('?'), 1) + ":" + resource.section(QLatin1Char('?'), 0, 0));
+                    EffectsList::setProperty(prod, QStringLiteral("resource"), resource.section(QLatin1Char('?'), 1) + QLatin1Char(':') + resource.section(QLatin1Char('?'), 0, 0));
                     EffectsList::setProperty(prod, QStringLiteral("audio_index"), QStringLiteral("-1"));
                 }
             }
@@ -1630,7 +1630,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomElement prod = producers.at(i).toElement();
                 QString entryId = prod.attribute(QStringLiteral("producer"));
                 if (slowmoIds.contains(entryId)) {
-                    prod.setAttribute(QStringLiteral("producer"), entryId + ":1");
+                    prod.setAttribute(QStringLiteral("producer"), entryId + QStringLiteral(":1"));
                 }
             }
         }
@@ -1664,7 +1664,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QString resource = EffectsList::property(prod, QStringLiteral("resource"));
                 if (resource.contains(QStringLiteral("?begin:"))) {
                     resource.replace(QStringLiteral("?begin:"), QStringLiteral("?begin="));
-                    EffectsList::setProperty(prod, "resource", resource.toUtf8().constData());
+                    EffectsList::setProperty(prod, QStringLiteral("resource"), resource);
                 }
             }
         }
@@ -1717,7 +1717,7 @@ void DocumentValidator::updateProducerInfo(const QDomElement &prod, const QDomEl
             if (zoneName.isEmpty()) {
                 zoneName = i18n("Zone %1", ct++);
             }
-            EffectsList::setProperty(prod, "kdenlive:clipzone." + zoneName, data.section(QLatin1Char('-'), 0, 0) + ";" + data.section(QLatin1Char('-'), 1, 1));
+            EffectsList::setProperty(prod, QStringLiteral("kdenlive:clipzone.") + zoneName, data.section(QLatin1Char('-'), 0, 0) + QLatin1Char(';') + data.section(QLatin1Char('-'), 1, 1));
         }
     }
 }
@@ -2057,9 +2057,9 @@ QString DocumentValidator::factorizeGeomValue(const QString &value, double facto
         QString key = s.section(QLatin1Char('='), 0, 0);
         QString val = s.section(QLatin1Char('='), 1, 1);
         double v = locale.toDouble(val) / factor;
-        result.append(key + "=" + locale.toString(v));
+        result.append(key + QLatin1Char('=') + locale.toString(v));
         if (i + 1 < vals.count()) {
-            result.append(";");
+            result.append(QLatin1Char(';'));
         }
     }
     return result;
@@ -2117,7 +2117,7 @@ void DocumentValidator::checkOrphanedProducers()
             for (int j = 0; j < max; j++) {
                 // Search for a similar producer
                 QDomElement binProd = producers.at(j).toElement();
-                QString binId = binProd.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
+                binId = binProd.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
                 if (service != QLatin1String("timewarp") && (binId.startsWith(QLatin1String("slowmotion")) || !binProducers.contains(binId))) {
                     continue;
                 }
@@ -2139,7 +2139,7 @@ void DocumentValidator::checkOrphanedProducers()
                             if (service.contains(QStringLiteral("avformat")) || service == QLatin1String("xml") || service == QLatin1String("consumer")) {
                                 // We must use track producer, find track for this entry
                                 QString trackPlaylist = entry.parentNode().toElement().attribute(QStringLiteral("id"));
-                                entryId.append("_" + trackPlaylist);
+                                entryId.append(QLatin1Char('_') + trackPlaylist);
                             }
                             if (!allProducers.contains(entryId)) {
                                 // The track producer does not exist, create a clone for it

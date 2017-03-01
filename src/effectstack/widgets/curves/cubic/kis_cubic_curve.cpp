@@ -436,15 +436,15 @@ QString KisCubicCurve::toString() const
 
 void KisCubicCurve::fromString(const QString &string)
 {
-    QStringList data = string.split(';');
+    QStringList data = string.split(QLatin1Char(';'));
 
     QList<QPointF> points;
     QLocale locale;
     foreach (const QString &pair, data) {
         if (pair.indexOf('/') > -1) {
             QPointF p;
-            p.rx() = locale.toDouble(pair.section('/', 0, 0));
-            p.ry() = locale.toDouble(pair.section('/', 1, 1));
+            p.rx() = locale.toDouble(pair.section(QLatin1Char('/'), 0, 0));
+            p.ry() = locale.toDouble(pair.section(QLatin1Char('/'), 1, 1));
             points.append(p);
         }
     }

@@ -157,6 +157,7 @@ void CollapsibleGroup::slotDeleteGroup()
 void CollapsibleGroup::slotEffectUp()
 {
     QList<int> indexes;
+    indexes.reserve(m_subWidgets.count());
     for (int i = 0; i < m_subWidgets.count(); ++i) {
         indexes << m_subWidgets.at(i)->effectIndex();
     }
@@ -166,6 +167,7 @@ void CollapsibleGroup::slotEffectUp()
 void CollapsibleGroup::slotEffectDown()
 {
     QList<int> indexes;
+    indexes.reserve(m_subWidgets.count());
     for (int i = 0; i < m_subWidgets.count(); ++i) {
         indexes << m_subWidgets.at(i)->effectIndex();
     }
@@ -178,14 +180,16 @@ void CollapsibleGroup::slotSaveGroup()
     if (name.isEmpty()) {
         return;
     }
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/effects/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
 
-    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) {
+    if (dir.exists(name + QStringLiteral(".xml"))) {
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
             return;
         }
+    }
 
     QDomDocument doc = effectsData();
     QDomElement base = doc.documentElement();
@@ -207,7 +211,7 @@ void CollapsibleGroup::slotSaveGroup()
     base.setAttribute(QStringLiteral("id"), name);
     base.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
 
-    QFile file(dir.absoluteFilePath(name + ".xml"));
+    QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
         out << doc.toString();

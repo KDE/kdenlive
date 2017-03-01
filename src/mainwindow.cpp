@@ -117,7 +117,7 @@ static const char version[] = KDENLIVE_VERSION;
 namespace Mlt
 {
 class Producer;
-};
+}
 
 EffectsList MainWindow::videoEffects;
 EffectsList MainWindow::audioEffects;
@@ -416,12 +416,12 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         KActionCollection *coll = collections.at(i);
         foreach (QAction *tempAction, coll->actions()) {
             // find the shortcut pattern and delete (note the preceding space in the RegEx)
-            QString strippedTooltip = tempAction->toolTip().remove(QRegExp("\\s\\(.*\\)"));
+            QString strippedTooltip = tempAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
             // append shortcut if it exists for action
             if (tempAction->shortcut() == QKeySequence(0)) {
                 tempAction->setToolTip(strippedTooltip);
             } else {
-                tempAction->setToolTip(strippedTooltip + " (" + tempAction->shortcut().toString() + ")");
+                tempAction->setToolTip(strippedTooltip + QStringLiteral(" (") + tempAction->shortcut().toString() + QLatin1Char(')'));
             }
         }
     }
@@ -614,8 +614,8 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         if (i.hasNext()) {
             i.next();
             QString data = i.value();
-            KdenliveSettings::setProxyparams(data.section(';', 0, 0));
-            KdenliveSettings::setProxyextension(data.section(';', 1, 1));
+            KdenliveSettings::setProxyparams(data.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setProxyextension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
     if (KdenliveSettings::v4l_parameters().isEmpty() || KdenliveSettings::v4l_extension().isEmpty()) {
@@ -625,8 +625,8 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         if (i.hasNext()) {
             i.next();
             QString data = i.value();
-            KdenliveSettings::setV4l_parameters(data.section(';', 0, 0));
-            KdenliveSettings::setV4l_extension(data.section(';', 1, 1));
+            KdenliveSettings::setV4l_parameters(data.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setV4l_extension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
     if (KdenliveSettings::grab_parameters().isEmpty() || KdenliveSettings::grab_extension().isEmpty()) {
@@ -636,8 +636,8 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         if (i.hasNext()) {
             i.next();
             QString data = i.value();
-            KdenliveSettings::setGrab_parameters(data.section(';', 0, 0));
-            KdenliveSettings::setGrab_extension(data.section(';', 1, 1));
+            KdenliveSettings::setGrab_parameters(data.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setGrab_extension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
     if (KdenliveSettings::decklink_parameters().isEmpty() || KdenliveSettings::decklink_extension().isEmpty()) {
@@ -647,8 +647,8 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         if (i.hasNext()) {
             i.next();
             QString data = i.value();
-            KdenliveSettings::setDecklink_parameters(data.section(';', 0, 0));
-            KdenliveSettings::setDecklink_extension(data.section(';', 1, 1));
+            KdenliveSettings::setDecklink_parameters(data.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setDecklink_extension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
     pCore->projectManager()->init(Url, clipsToLoad);
@@ -1672,10 +1672,10 @@ void MainWindow::slotEditProjectSettings()
     KdenliveDoc *project = pCore->projectManager()->current();
     QPoint p = pCore->projectManager()->currentTimeline()->getTracksCount();
 
-    QPointer<ProjectSettings> w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectTempFolder(), true, !project->isModified(), this);
-    connect(w.data(), &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
+    ProjectSettings* w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), p.x(), p.y(), project->projectTempFolder(), true, !project->isModified(), this);
+    connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
     connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
-    connect(w.data(), &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
+    connect(w, &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
@@ -1905,7 +1905,7 @@ void MainWindow::slotUpdateMousePosition(int pos)
     if (pCore->projectManager()->current()) {
         switch (m_timeFormatButton->currentItem()) {
         case 0:
-            m_timeFormatButton->setText(pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pos) + " / " + pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pCore->projectManager()->currentTimeline()->duration()));
+            m_timeFormatButton->setText(pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pos) + QStringLiteral(" / ") + pCore->projectManager()->current()->timecode().getTimecodeFromFrames(pCore->projectManager()->currentTimeline()->duration()));
             break;
         default:
             m_timeFormatButton->setText(QStringLiteral("%1 / %2").arg(pos, 6, 10, QLatin1Char('0')).arg(pCore->projectManager()->currentTimeline()->duration(), 6, 10, QLatin1Char('0')));
@@ -2276,7 +2276,7 @@ void MainWindow::slotAddClipMarker()
         pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
-            project->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(project->fps())), d->markerImage());
+            project->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(project->fps())), d->markerImage());
         }
     }
     delete d;
@@ -2370,7 +2370,7 @@ void MainWindow::slotEditClipMarker()
         pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
-            pCore->projectManager()->current()->cacheImage(hash + '#' + QString::number(d->newMarker().time().frames(pCore->projectManager()->current()->fps())), d->markerImage());
+            pCore->projectManager()->current()->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->projectManager()->current()->fps())), d->markerImage());
         }
         if (d->newMarker().time() != pos) {
             // remove old marker
@@ -2929,7 +2929,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
             QString track = pCore->projectManager()->currentTimeline()->getTrackInfo(matching.at(i).track).trackName;
             QString start = pCore->projectManager()->current()->timecode().getTimecode(matching.at(i).startPos);
             int j = 0;
-            QAction *a = new QAction(track + ": " + start, inTimelineMenu);
+            QAction *a = new QAction(track + QStringLiteral(": ") + start, inTimelineMenu);
             a->setData(QStringList() << track << start);
             connect(a, &QAction::triggered, this, &MainWindow::slotSelectClipInTimeline);
             while (j < actionList.count()) {
@@ -3007,7 +3007,7 @@ void MainWindow::hideEvent(QHideEvent */*event*/)
         if (baseClip == nullptr) {
             tmppath.append("untitled.mlt");
         } else {
-            tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + '-' + QString::number(zone.x()).rightJustified(4, '0') + ".mlt");
+            tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + '-' + QString::number(zone.x()).rightJustified(4, '0') + QStringLiteral(".mlt"));
         }
         path = QUrl(tmppath);
     }
@@ -3222,7 +3222,7 @@ void MainWindow::buildDynamicActions()
     foreach (const QString &stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
         filter = Mlt::Factory::filter(profile, (char *)stab.toUtf8().constData());
         if (filter && filter->is_valid()) {
-            QAction *action = new QAction(i18n("Stabilize") + " (" + stab + ")", m_extraFactory->actionCollection());
+            QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
             action->setData(QStringList() << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << stab);
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
@@ -3277,7 +3277,7 @@ void MainWindow::buildDynamicActions()
         i.next();
         QStringList data;
         data << QString::number((int) AbstractClipJob::TRANSCODEJOB);
-        data << i.value().split(';');
+        data << i.value().split(QLatin1Char(';'));
         QAction *a = new QAction(i.key(), m_extraFactory->actionCollection());
         a->setData(data);
         if (data.count() > 1) {
@@ -3353,7 +3353,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
 void MainWindow::slotTranscodeClip()
 {
     QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
-    const QString dialogFilter =  i18n("All Supported Files") + '(' + allExtensions + ");;" + i18n("All Files") + "(*)";
+    const QString dialogFilter =  i18n("All Supported Files") + QLatin1Char('(') + allExtensions + QStringLiteral(");;") + i18n("All Files") + QStringLiteral("(*)");
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     QStringList urls = QFileDialog::getOpenFileNames(this, i18n("Files to transcode"), clipFolder, dialogFilter);
     if (urls.isEmpty()) {
@@ -3527,15 +3527,15 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
             }
             if (producerService == QLatin1String("timewarp")) {
                 // slowmotion producer
-                prefix = producerResource.section(':', 0, 0) + ":";
-                producerResource = producerResource.section(':', 1);
+                prefix = producerResource.section(QLatin1Char(':'), 0, 0) + QLatin1Char(':');
+                producerResource = producerResource.section(QLatin1Char(':'), 1);
             } else {
                 prefix.clear();
             }
             if (producerService == QLatin1String("framebuffer")) {
                 // slowmotion producer
-                suffix = '?' + producerResource.section('?', 1);
-                producerResource = producerResource.section('?', 0, 0);
+                suffix = QLatin1Char('?') + producerResource.section(QLatin1Char('?'), 1);
+                producerResource = producerResource.section(QLatin1Char('?'), 0, 0);
             } else {
                 suffix.clear();
             }
@@ -3601,7 +3601,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
         // add track number to path name
         if (stemExport) {
-            plPath = plPath + "_" + QString(trackNames.at(i)).replace(QLatin1Char(' '), QLatin1Char('_'));
+            plPath = plPath + QLatin1Char('_') + QString(trackNames.at(i)).replace(QLatin1Char(' '), QLatin1Char('_'));
         }
         // add mlt suffix
         if (!plPath.endsWith(mltSuffix)) {

@@ -45,7 +45,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString &rend
     m_jobUiserver(nullptr),
     m_kdenliveinterface(nullptr),
     m_usekuiserver(usekuiserver),
-    m_logfile(dest + ".txt"),
+    m_logfile(dest + QStringLiteral(".txt")),
     m_erase(erase),
     m_seconds(0),
     m_frame(0),

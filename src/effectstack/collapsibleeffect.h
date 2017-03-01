@@ -42,7 +42,7 @@ class CollapsibleEffect : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget *parent = Q_NULLPTR);
+    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget *parent = nullptr);
     ~CollapsibleEffect();
     QLabel *title;
 
@@ -78,11 +78,11 @@ public:
     /** @brief Set clip in / out points. */
     void setRange(int inPoint, int outPoint);
     /** @brief Import keyframes from a clip's data. */
-    void setKeyframes(const QString &tag, const QString &data);
+    void setKeyframes(const QString &tag, const QString &keyframes);
     /** @brief Pass frame size info (dar, etc). */
     void updateFrameInfo();
     /** @brief Select active keyframe. */
-    void setActiveKeyframe(int frame);
+    void setActiveKeyframe(int kf);
     /** @brief Returns true if effect can be moved (false for speed effect). */
     bool isMovable() const;
 
@@ -157,7 +157,7 @@ signals:
     void unGroup(CollapsibleEffect *);
     void createRegion(int, const QUrl &);
     void deleteGroup(const QDomDocument &);
-    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &data = QMap<QString, QString>());
+    void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
 };
 
 #endif

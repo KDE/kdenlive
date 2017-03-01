@@ -110,7 +110,7 @@ bool SelectManager::mouseMove(QMouseEvent *event, int, int)
         double value = dragItem->mapFromScene(m_view->mapToScene(event->pos()).toPoint()).y();
         dragItem->updateKeyFramePos(keyFramePos.frames(m_view->fps()), value);
         QString position = m_view->timecode().getDisplayTimecodeFromFrames(dragItem->selectedKeyFramePos(), KdenliveSettings::frametimecode());
-        m_view->displayMessage(position + " : " + QString::number(dragItem->editedKeyFrameValue()), InformationMessage);
+        m_view->displayMessage(position + QStringLiteral(" : ") + QString::number(dragItem->editedKeyFrameValue()), InformationMessage);
         event->accept();
         return true;
     }

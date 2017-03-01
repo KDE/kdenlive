@@ -40,7 +40,7 @@ class KdenliveSettingsDialog : public KConfigDialog
     Q_OBJECT
 
 public:
-    KdenliveSettingsDialog(const QMap<QString, QString> &mappable_actions, bool gpuAllowed, QWidget *parent = Q_NULLPTR);
+    KdenliveSettingsDialog(const QMap<QString, QString> &mappable_actions, bool gpuAllowed, QWidget *parent = nullptr);
     ~KdenliveSettingsDialog();
     void showPage(int page, int option);
     void checkProfile();

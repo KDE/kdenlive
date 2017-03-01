@@ -233,15 +233,15 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                         listitems = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
                     }
                     lswid->addItem(i18n("None (Dissolve)"));
-                    for (int i = 0; i < listitems.count(); ++i) {
-                        QString entry = listitems.at(i);
-                        lswid->addItem(listitems.at(i).section(QStringLiteral("/"), -1), entry);
+                    for (int j = 0; j < listitems.count(); ++j) {
+                        QString entry = listitems.at(j);
+                        lswid->addItem(listitems.at(j).section(QStringLiteral("/"), -1), entry);
                         if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
                             if (!MainWindow::m_lumacache.contains(entry)) {
                                 QImage pix(entry);
                                 MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
                             }
-                            lswid->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                            lswid->setItemIcon(j + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                         }
                     }
                     lswid->setCurrentText(pa.attribute(QStringLiteral("default")));
@@ -249,7 +249,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                         lswid->setCurrentIndex(listitems.indexOf(value) + 1);
                     }
                 } else {
-                    listitems = items.split(';');
+                    listitems = items.split(QLatin1Char(';'));
                     if (listitems.count() == 1) {
                         // probably custom effect created before change to ';' as separator
                         listitems = pa.attribute(QStringLiteral("paramlist")).split(',');
@@ -264,8 +264,8 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     if (listitemsdisplay.count() != listitems.count()) {
                         listitemsdisplay = listitems;
                     }
-                    for (int i = 0; i < listitems.count(); ++i) {
-                        lswid->addItem(listitemsdisplay.at(i), listitems.at(i));
+                    for (int j = 0; j < listitems.count(); ++j) {
+                        lswid->addItem(listitemsdisplay.at(j), listitems.at(j));
                     }
                     if (!value.isEmpty() && listitems.contains(value)) {
                         lswid->setCurrentIndex(listitems.indexOf(value));
@@ -344,7 +344,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     m_geometryWidget->setupParam(pa, minFrame, maxFrame);
                 }
                 m_vbox->addWidget(m_geometryWidget);
-                m_valueItems[paramName+"geometry"] = m_geometryWidget;
+                m_valueItems[paramName+QStringLiteral("geometry")] = m_geometryWidget;
                 connect(m_geometryWidget, SIGNAL(seekToPos(int)), this, SIGNAL(seekTimeline(int)));
                 connect(m_geometryWidget, SIGNAL(importClipKeyframes()), this, SIGNAL(importClipKeyframes()));
                 connect(this, SIGNAL(syncEffectsPos(int)), m_geometryWidget, SLOT(slotSyncPosition(int)));
@@ -377,7 +377,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                         m_conditionalWidgets << geo;
                     }
                     m_vbox->addWidget(geo);
-                    m_valueItems[paramName + "keyframe"] = geo;
+                    m_valueItems[paramName + QStringLiteral("keyframe")] = geo;
                     m_keyframeEditor = geo;
                     connect(geo, &KeyframeEdit::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
                     connect(geo, &KeyframeEdit::seekToPos, this, &ParameterContainer::seekTimeline);
@@ -422,16 +422,16 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     m_conditionalWidgets << posedit;
                 }
                 m_vbox->addWidget(posedit);
-                m_valueItems[paramName + "position"] = posedit;
+                m_valueItems[paramName + QStringLiteral("position")] = posedit;
                 connect(posedit, &PositionWidget::valueChanged,
                         this,    &ParameterContainer::slotCollectAllParameters);
             } else if (type == QLatin1String("curve")) {
                 QList<QPointF> points;
                 int number;
                 double version = 0;
-                QDomElement namenode = effect.firstChildElement(QStringLiteral("version"));
-                if (!namenode.isNull()) {
-                    version = locale.toDouble(namenode.text());
+                QDomElement versionnode = effect.firstChildElement(QStringLiteral("version"));
+                if (!versionnode.isNull()) {
+                    version = locale.toDouble(versionnode.text());
                 }
                 if (version > 0.2) {
                     // Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
@@ -573,14 +573,14 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 QStringList keywordlist;
                 QStringList keyworddisplaylist;
                 if (!klistelem.isNull()) {
-                    keywordlist = klistelem.text().split(';');
-                    keyworddisplaylist = i18n(kdisplaylistelem.text().toUtf8().data()).split(';');
+                    keywordlist = klistelem.text().split(QLatin1Char(';'));
+                    keyworddisplaylist = i18n(kdisplaylistelem.text().toUtf8().data()).split(QLatin1Char(';'));
                 }
                 if (keyworddisplaylist.count() != keywordlist.count()) {
                     keyworddisplaylist = keywordlist;
                 }
-                for (int i = 0; i < keywordlist.count(); ++i) {
-                    kval->comboboxwidget->addItem(keyworddisplaylist.at(i), keywordlist.at(i));
+                for (int j = 0; j < keywordlist.count(); ++j) {
+                    kval->comboboxwidget->addItem(keyworddisplaylist.at(j), keywordlist.at(j));
                 }
                 // Add disabled user prompt at index 0
                 kval->comboboxwidget->insertItem(0, i18n("<select a keyword>"), "");
@@ -811,8 +811,8 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
     if (value.contains(QLatin1Char(','))) {
         value.replace(',', '/');
     }
-    QString start = value.section(';', 0, 0);
-    QString end = value.section(';', 1, 1).section('=', 1, 1);
+    QString start = value.section(QLatin1Char(';'), 0, 0);
+    QString end = value.section(QLatin1Char(';'), 1, 1).section(QLatin1Char('='), 1, 1);
     if (start.startsWith(QLatin1String("-100%/0"))) {
         info.start = LEFT;
     } else if (start.startsWith(QLatin1String("100%/0"))) {
@@ -826,7 +826,7 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
     }
 
     if (start.count(':') == 2) {
-        info.startTransparency = start.section(':', -1).toInt();
+        info.startTransparency = start.section(QLatin1Char(':'), -1).toInt();
     } else {
         info.startTransparency = 100;
     }
@@ -844,7 +844,7 @@ wipeInfo ParameterContainer::getWipeInfo(QString value)
     }
 
     if (end.count(':') == 2) {
-        info.endTransparency = end.section(':', -1).toInt();
+        info.endTransparency = end.section(QLatin1Char(':'), -1).toInt();
     } else {
         info.endTransparency = 100;
     }
@@ -1028,9 +1028,9 @@ void ParameterContainer::slotCollectAllParameters()
                 int off = pa.attribute(QStringLiteral("min")).toInt();
                 int end = pa.attribute(QStringLiteral("max")).toInt();
                 double version = 0;
-                QDomElement namenode = m_effect.firstChildElement(QStringLiteral("version"));
-                if (!namenode.isNull()) {
-                    version = locale.toDouble(namenode.text());
+                QDomElement versionnode = m_effect.firstChildElement(QStringLiteral("version"));
+                if (!versionnode.isNull()) {
+                    version = locale.toDouble(versionnode.text());
                 }
                 if (version > 0.2) {
                     EffectsList::setParameter(m_effect, number, locale.toString(points.count() / 10.));
@@ -1184,7 +1184,7 @@ QString ParameterContainer::getWipeString(wipeInfo info)
         break;
     }
     end.append(':' + QString::number(info.endTransparency));
-    return QString(start + ";-1=" + end);
+    return QString(start + QStringLiteral(";-1=") + end);
 }
 
 void ParameterContainer::updateParameter(const QString &key, const QString &value)
@@ -1239,10 +1239,10 @@ void ParameterContainer::slotStartFilterJobAction()
             // Fill filter params
             QStringList filterList = filterattributes.split(' ');
             QString param;
-            for (int i = 0; i < filterList.size(); ++i) {
-                param = filterList.at(i);
+            for (int j = 0; j < filterList.size(); ++j) {
+                param = filterList.at(j);
                 if (param != QLatin1String("%params")) {
-                    filterParams.insert(param.section('=', 0, 0), param.section('=', 1));
+                    filterParams.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
                 }
             }
             if (filterattributes.contains(QStringLiteral("%params"))) {
@@ -1257,10 +1257,10 @@ void ParameterContainer::slotStartFilterJobAction()
             // Fill consumer params
             QString consumerattributes = pa.attribute(QStringLiteral("consumerparams"));
             QStringList consumerList = consumerattributes.split(' ');
-            for (int i = 0; i < consumerList.size(); ++i) {
-                param = consumerList.at(i);
+            for (int j = 0; j < consumerList.size(); ++j) {
+                param = consumerList.at(j);
                 if (param != QLatin1String("%params")) {
-                    consumerParams.insert(param.section('=', 0, 0), param.section('=', 1));
+                    consumerParams.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
                 }
             }
 

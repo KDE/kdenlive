@@ -46,7 +46,7 @@ public:
     static void correlate(const qint64 *envMain, int sizeMain,
                           const qint64 *envSub, int sizeSub,
                           qint64 *correlation,
-                          qint64 *out_max = Q_NULLPTR);
+                          qint64 *out_max = nullptr);
 private:
     AudioEnvelope *m_mainTrackEnvelope;
 

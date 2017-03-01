@@ -36,7 +36,7 @@ class DvdScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit DvdScene(QObject *parent = Q_NULLPTR);
+    explicit DvdScene(QObject *parent = nullptr);
     void setProfile(int width, int height);
     int gridSize() const;
     void setGridSize(int gridSize);
@@ -55,7 +55,7 @@ class DvdButtonUnderline : public QGraphicsRectItem
 {
 
 public:
-    explicit DvdButtonUnderline(const QRectF &rect, QGraphicsItem *parent = Q_NULLPTR) : QGraphicsRectItem(rect, parent) {}
+    explicit DvdButtonUnderline(const QRectF &rect, QGraphicsItem *parent = nullptr) : QGraphicsRectItem(rect, parent) {}
 
     int type() const Q_DECL_OVERRIDE
     {
@@ -87,7 +87,7 @@ class DvdWizardMenu : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardMenu(DVDFORMAT format, QWidget *parent = Q_NULLPTR);
+    explicit DvdWizardMenu(DVDFORMAT format, QWidget *parent = nullptr);
     virtual ~DvdWizardMenu();
     bool createMenu() const;
     void createBackgroundImage(const QString &img1, bool letterbox);

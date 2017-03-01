@@ -27,6 +27,7 @@
 
 #include <QTreeWidgetItem>
 #include <QString>
+#include <QHash>
 
 const int MAXCLIPDURATION = 15000;
 
@@ -314,7 +315,7 @@ public:
 
     QString comment() const;
     GenTime time() const;
-    /** @brief Returns a string containing infos needed to store marker info. string equals marker type + ":" + marker comment */
+    /** @brief Returns a string containing infos needed to store marker info. string equals marker type + QLatin1Char(':') + marker comment */
     QString hash() const;
     void setComment(const QString &comm);
     void setMarkerType(int t);
@@ -342,5 +343,18 @@ private:
 
 QDebug operator << (QDebug qd, const ItemInfo &info);
 QDebug operator << (QDebug qd, const MltVideoProfile &profile);
+
+//we provide hash function for qstring
+namespace std {
+    template <>
+    struct hash<QString>
+    {
+        std::size_t operator()(const QString& k) const
+        {
+            return qHash(k);
+        }
+    };
+
+}
 
 #endif

@@ -469,9 +469,9 @@ void AnimationWidget::updateToolbar()
     }
     if (m_animController.is_key(pos)) {
         QList<QAction *> types = m_selectType->actions();
-        for (int i = 0; i < types.count(); i++) {
-            if (types.at(i)->data().toInt() == (int) m_animController.keyframe_type(pos)) {
-                m_selectType->setCurrentAction(types.at(i));
+        for (int j = 0; j < types.count(); j++) {
+            if (types.at(j)->data().toInt() == (int) m_animController.keyframe_type(pos)) {
+                m_selectType->setCurrentAction(types.at(j));
                 break;
             }
         }
@@ -562,9 +562,9 @@ void AnimationWidget::updateSlider(int pos)
                 m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
                 mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
                 QList<QAction *> types = m_selectType->actions();
-                for (int i = 0; i < types.count(); i++) {
-                    if ((mlt_keyframe_type) types.at(i)->data().toInt() == currentType) {
-                        m_selectType->setCurrentAction(types.at(i));
+                for (int j = 0; j < types.count(); j++) {
+                    if ((mlt_keyframe_type) types.at(j)->data().toInt() == currentType) {
+                        m_selectType->setCurrentAction(types.at(j));
                         break;
                     }
                 }
@@ -1067,8 +1067,8 @@ void AnimationWidget::loadPresets(QString currentText)
 void AnimationWidget::loadPreset(const QString &path)
 {
     KConfig confFile(path, KConfig::SimpleConfig);
-    QStringList groups = confFile.groupList();
-    foreach (const QString &grp, groups) {
+    const QStringList groups = confFile.groupList();
+    for (const QString &grp : groups) {
         QMap<QString, QString> entries = KConfigGroup(&confFile, grp).entryMap();
         QMap<QString, QVariant> variantEntries;
         QMapIterator<QString, QString> i(entries);

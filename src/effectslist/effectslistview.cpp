@@ -55,8 +55,8 @@ bool MyTreeWidgetSearchLine::itemMatches(const QTreeWidgetItem *item, const QStr
         return true;
     }
     QString itemText = item->text(0);
-    itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegExp("[^a-zA-Z0-9\\s]"));
-    QString patt = pattern.normalized(QString::NormalizationForm_D).remove(QRegExp("[^a-zA-Z0-9\\s]"));
+    itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
+    QString patt = pattern.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
     for (int i = 0; i < item->treeWidget()->columnCount(); i++) {
         if (item->treeWidget()->columnWidth(i) > 0 && itemText.indexOf(patt, 0, Qt::CaseInsensitive) >= 0) {
             return true;
@@ -445,14 +445,14 @@ void EffectsListView::slotRemoveEffect()
 
     QTreeWidgetItem *item = m_effectsList->currentItem();
     QString effectId = item->text(0);
-    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/effects/";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/");
 
     QDir directory = QDir(path);
     QStringList filter;
     filter << QStringLiteral("*.xml");
     const QStringList fileList = directory.entryList(filter, QDir::Files);
     QString itemName;
-    foreach (const QString &filename, fileList) {
+    for (const QString &filename : fileList) {
         itemName = directory.absoluteFilePath(filename);
         QDomDocument doc;
         QFile file(itemName);

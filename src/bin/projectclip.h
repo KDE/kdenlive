@@ -71,14 +71,14 @@ public:
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
     //virtual void hash() = 0;
 
-    /** @brief Returns this if @param id matches the clip's id or Q_NULLPTR otherwise. */
+    /** @brief Returns this if @param id matches the clip's id or nullptr otherwise. */
     ProjectClip *clip(const QString &id) Q_DECL_OVERRIDE;
 
     ProjectFolder *folder(const QString &id) Q_DECL_OVERRIDE;
 
     ProjectSubClip *getSubClip(int in, int out);
 
-    /** @brief Returns this if @param ix matches the clip's index or Q_NULLPTR otherwise. */
+    /** @brief Returns this if @param ix matches the clip's index or nullptr otherwise. */
     ProjectClip *clipAt(int ix) Q_DECL_OVERRIDE;
 
     /** @brief Recursively disable/enable bin effects. */

@@ -44,7 +44,7 @@ void initEffects::refreshLumas()
     MainWindow::m_lumaFiles.clear();
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
-    customLumas.append(QString(mlt_environment("MLT_DATA")) + "/lumas");
+    customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
     foreach (const QString &folder, customLumas) {
         QDir topDir(folder);
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
@@ -394,7 +394,7 @@ void initEffects::parseCustomEffectsFile()
      * cannot be sure about it.
      */
     QMap<QString, QDomElement> effectsMap;
-    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/effects";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects");
     QDir directory = QDir(path);
     QStringList filter;
     filter << QStringLiteral("*.xml");
@@ -854,16 +854,26 @@ void initEffects::fillTransitionsList(std::unique_ptr<Mlt::Repository> &reposito
     }
 
     // Add some virtual transitions.
-    QString slidetrans = "<ktransition tag=\"composite\" id=\"slide\"><name>" + i18n("Slide") + "</name><description>" + i18n("Slide image from one side to another.") + "</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>" + i18n("Direction") + "</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>" + i18n("Align") + "</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>" + i18n("Force Progressive Rendering") + "</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>" + i18n("Force Deinterlace Overlay") + "</name></parameter><parameter tag=\"invert\" default=\"0\" type=\"bool\" name=\"invert\" ><name>" + i18nc("@property: means that the image is inverted", "Invert") + "</name></parameter></ktransition>";
+    QString slidetrans = QStringLiteral("<ktransition tag=\"composite\" id=\"slide\"><name>") + i18n("Slide") +
+            QStringLiteral("</name><description>") + i18n("Slide image from one side to another.")
+            + QStringLiteral("</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>")
+            + i18n("Direction") + QStringLiteral("</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>")
+            + i18n("Align") + QStringLiteral("</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>")
+            + i18n("Force Progressive Rendering") + QStringLiteral("</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>")
+            + i18n("Force Deinterlace Overlay") + QStringLiteral("</name></parameter><parameter tag=\"invert\" default=\"0\" type=\"bool\" name=\"invert\" ><name>")
+            + i18nc("@property: means that the image is inverted", "Invert") + QStringLiteral("</name></parameter></ktransition>");
     QDomDocument ret;
     ret.setContent(slidetrans);
     transitions->append(ret.documentElement());
 
-    QString dissolve = "<ktransition tag=\"luma\" id=\"dissolve\"><name>" + i18n("Dissolve") + "</name><description>" + i18n("Fade out one video while fading in the other video.") + "</description><parameter tag=\"reverse\" default=\"0\" type=\"bool\" name=\"reverse\" ><name>" + i18n("Reverse") + "</name></parameter></ktransition>";
+    QString dissolve = QStringLiteral("<ktransition tag=\"luma\" id=\"dissolve\"><name>")
+            + i18n("Dissolve") + QStringLiteral("</name><description>") + i18n("Fade out one video while fading in the other video.")
+            + QStringLiteral("</description><parameter tag=\"reverse\" default=\"0\" type=\"bool\" name=\"reverse\" ><name>")
+            + i18n("Reverse") + QStringLiteral("</name></parameter></ktransition>");
     ret.setContent(dissolve);
     transitions->append(ret.documentElement());
 
-    /*QString alphatrans = "<ktransition tag=\"composite\" id=\"alphatransparency\" ><name>" + i18n("Alpha Transparency") + "</name><description>" + i18n("Make alpha channel transparent.") + "</description><parameter tag=\"geometry\" type=\"fixed\" default=\"0%,0%:100%x100%\" name=\"geometry\"><name>" + i18n("Direction") + "</name></parameter><parameter tag=\"fill\" default=\"0\" type=\"bool\" name=\"fill\" ><name>" + i18n("Rescale") + "</name></parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>" + i18n("Align") + "</name></parameter></ktransition>";
+    /*QString alphatrans = "<ktransition tag=\"composite\" id=\"alphatransparency\" ><name>" + i18n("Alpha Transparency") + QStringLiteral("</name><description>") + i18n("Make alpha channel transparent.") + "</description><parameter tag=\"geometry\" type=\"fixed\" default=\"0%,0%:100%x100%\" name=\"geometry\"><name>" + i18n("Direction") + "</name></parameter><parameter tag=\"fill\" default=\"0\" type=\"bool\" name=\"fill\" ><name>" + i18n("Rescale") + "</name></parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>" + i18n("Align") + "</name></parameter></ktransition>";
     ret.setContent(alphatrans);
     transitions->append(ret.documentElement());*/
 }
@@ -900,11 +910,11 @@ QDomElement initEffects::quickParameterFill(QDomDocument &doc, const QString &na
 // static
 void initEffects::parseTransitionFile(EffectsList *transitionList, const QString &name, std::unique_ptr<Mlt::Repository> &repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions)
 {
-    QDomDocument doc;
     QFile file(name);
     if (!file.open(QIODevice::ReadOnly)) {
         return;
     }
+    QDomDocument doc;
     QTextStream out(&file);
     QString fileContent = out.readAll();
     file.close();

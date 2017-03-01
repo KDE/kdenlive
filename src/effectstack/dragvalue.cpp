@@ -398,7 +398,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     //m_precision(pow(10, precision)),
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    setFormat(' ' + label);
+    setFormat(QLatin1Char(' ') + label);
     setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::PointingHandCursor);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -408,7 +408,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
         setRange(0, range);
         QSize sh;
         const QFontMetrics &fm = fontMetrics();
-        sh.setWidth(fm.width(' ' + label + ' '));
+        sh.setWidth(fm.width(QLatin1Char(' ') + label + QLatin1Char(' ')));
         setMaximumWidth(sh.width());
         setObjectName(QStringLiteral("dragOnly"));
     }

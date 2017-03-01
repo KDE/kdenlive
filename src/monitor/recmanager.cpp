@@ -154,7 +154,7 @@ void RecManager::slotRecord(bool record)
             int i = 1;
             while (QFile::exists(path)) {
                 QString num = QString::number(i).rightJustified(4, '0', false);
-                path = captureFolder.absoluteFilePath("capture" + num + '.' + extension);
+                path = captureFolder.absoluteFilePath("capture" + num + QLatin1Char('.') + extension);
                 ++i;
             }
 
@@ -189,7 +189,7 @@ void RecManager::slotRecord(bool record)
                     if (cutPosition > -1) {
                         endParam.remove(0, cutPosition);
                     }
-                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + "an=1 " + endParam).simplified();
+                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + QStringLiteral("an=1 ") + endParam).simplified();
                 }
             }
             Mlt::Producer *prod = createV4lProducer();
@@ -246,7 +246,7 @@ void RecManager::slotRecord(bool record)
     int i = 1;
     while (QFile::exists(path)) {
         QString num = QString::number(i).rightJustified(4, '0', false);
-        path = captureFolder.absoluteFilePath("capture" + num + '.' + extension);
+        path = captureFolder.absoluteFilePath("capture" + num + QLatin1Char('.') + extension);
         ++i;
     }
     m_captureFile = QUrl::fromLocalFile(path);
@@ -268,12 +268,12 @@ void RecManager::slotRecord(bool record)
     captureSize = QStringLiteral(":0.0");
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
-        captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + 'x' + QString::number(screenSize.height());
-        captureSize.append('+' + QString::number(screenSize.left()) + '.' + QString::number(screenSize.top()));
+        captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
+        captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
     } else {
         // Region capture
-        captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
-        captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + ',' + QString::number(KdenliveSettings::grab_offsety()));
+        captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + QLatin1Char('x') + QString::number(KdenliveSettings::grab_height());
+        captureSize.append(QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') + QString::number(KdenliveSettings::grab_offsety()));
     }
     // fps
     captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
@@ -323,7 +323,7 @@ void RecManager::slotProcessStatus(QProcess::ProcessState status)
 void RecManager::slotReadProcessInfo()
 {
     QString data = m_captureProcess->readAllStandardError().simplified();
-    m_recError.append(data + '\n');
+    m_recError.append(data + QLatin1Char('\n'));
 }
 
 void RecManager::slotVideoDeviceChanged(int)
@@ -368,7 +368,7 @@ void RecManager::slotVideoDeviceChanged(int)
 
 Mlt::Producer *RecManager::createV4lProducer()
 {
-    QString profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
+    QString profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
     Mlt::Profile *vidProfile = new Mlt::Profile(profilePath.toUtf8().constData());
     Mlt::Producer *prod = nullptr;
     if (m_recVideo->isChecked()) {

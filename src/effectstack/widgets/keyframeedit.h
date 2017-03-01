@@ -36,7 +36,7 @@ class KeyItemDelegate: public QItemDelegate
 {
     Q_OBJECT
 public:
-    KeyItemDelegate(int min, int max, QAbstractItemView *parent = Q_NULLPTR)
+    KeyItemDelegate(int min, int max, QAbstractItemView *parent = nullptr)
         : QItemDelegate(parent), m_min(min), m_max(max)
     {
     }
@@ -86,7 +86,7 @@ class KeyframeEdit : public AbstractParamWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget *parent = Q_NULLPTR);
+    explicit KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget *parent = nullptr);
     virtual ~KeyframeEdit();
     virtual void addParameter(const QDomElement &e, int activeKeyframe = -1);
     const QString getValue(const QString &name);

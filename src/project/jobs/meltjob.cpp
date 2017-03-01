@@ -117,7 +117,7 @@ void MeltJob::startJob()
         m_profile->from_producer(*producer);
         m_profile->set_explicit(true);
     }
-    if (m_profile->fps() != fps || producerProfile) {
+    if (qAbs(m_profile->fps() - fps) > 0.01 || producerProfile) {
         // Reload producer
         delete producer;
         // Force same fps as projec profile or the resulting .mlt will not load in our project

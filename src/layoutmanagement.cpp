@@ -58,7 +58,7 @@ void LayoutManagement::initializeLayouts()
         foreach (const QString &key, entries) {
             if (key.endsWith(QStringLiteral("_%1").arg(i))) {
                 // Found previously saved layout
-                QString layoutName = key.section('_', 0, -2);
+                QString layoutName = key.section(QLatin1Char('_'), 0, -2);
                 for (int j = 0; j < loadActions.count(); ++j) {
                     if (loadActions.at(j)->data().toString().endsWith('_' + QString::number(i))) {
                         loadActions[j]->setText(layoutName);
@@ -98,10 +98,10 @@ void LayoutManagement::slotLoadLayout(QAction *action)
 void LayoutManagement::slotSaveLayout(QAction *action)
 {
     QString originallayoutName = action->data().toString();
-    int layoutId = originallayoutName.section('_', -1).toInt();
+    int layoutId = originallayoutName.section(QLatin1Char('_'), -1).toInt();
 
     QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal,
-                         originallayoutName.section('_', 0, -2));
+                         originallayoutName.section(QLatin1Char('_'), 0, -2));
     if (layoutName.isEmpty()) {
         return;
     }

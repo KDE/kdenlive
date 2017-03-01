@@ -123,7 +123,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     }
     if (!m_errors.isEmpty()) {
         KMessageWidget *errorLabel = new KMessageWidget(this);
-        errorLabel->setText("<ul>" + m_errors + "</ul>");
+        errorLabel->setText(QStringLiteral("<ul>") + m_errors + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Error);
         errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
@@ -141,7 +141,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     }
     if (!m_warnings.isEmpty()) {
         KMessageWidget *errorLabel = new KMessageWidget(this);
-        errorLabel->setText("<ul>" + m_warnings + "</ul>");
+        errorLabel->setText(QStringLiteral("<ul>") + m_warnings + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Warning);
         errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
@@ -150,7 +150,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     }
     if (!m_infos.isEmpty()) {
         KMessageWidget *errorLabel = new KMessageWidget(this);
-        errorLabel->setText("<ul>" + m_infos + "</ul>");
+        errorLabel->setText(QStringLiteral("<ul>") + m_infos + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Information);
         errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
@@ -275,7 +275,7 @@ void Wizard::slotUpdateCaptureParameters()
     m_capture.v4l_formats->blockSignals(true);
     m_capture.v4l_formats->clear();
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -289,16 +289,16 @@ void Wizard::slotUpdateCaptureParameters()
     QString pixelFormat;
     QStringList itemRates;
     for (int i = 0; i < pixelformats.count(); ++i) {
-        QString format = pixelformats.at(i).section(':', 0, 0);
+        QString format = pixelformats.at(i).section(QLatin1Char(':'), 0, 0);
         QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
-            itemSize = sizes.at(j).section('=', 0, 0);
-            itemRates = sizes.at(j).section('=', 1, 1).split(',', QString::SkipEmptyParts);
+            itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
+            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                QString formatDescription = '[' + format + "] " + itemSize + " (" + itemRates.at(k) + ')';
+                QString formatDescription = QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
                 if (m_capture.v4l_formats->findText(formatDescription) == -1) {
-                    m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section('/', 0, 0) << itemRates.at(k).section('/', 1, 1));
+                    m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
                 }
             }
         }
@@ -367,9 +367,9 @@ void Wizard::checkMltComponents()
         }
 
         // Check that we have the breeze icon theme installed
-        QStringList iconPaths = QIcon::themeSearchPaths();
+        const QStringList iconPaths = QIcon::themeSearchPaths();
         bool hasBreeze = false;
-        foreach (const QString &path, iconPaths) {
+        for (const QString &path : iconPaths) {
             QDir dir(path);
             if (dir.exists(QStringLiteral("breeze"))) {
                 hasBreeze = true;
@@ -461,11 +461,11 @@ void Wizard::checkMissingCodecs()
     }
     QStringList profilesList;
     profilesList << QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
-    QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/");
+    QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/"));
     QStringList filter;
     filter << QStringLiteral("*.xml");
-    QStringList fileList = directory.entryList(filter, QDir::Files);
-    foreach (const QString &filename, fileList) {
+    const QStringList fileList = directory.entryList(filter, QDir::Files);
+    for (const QString &filename : fileList) {
         profilesList << directory.absoluteFilePath(filename);
     }
 
@@ -490,7 +490,7 @@ void Wizard::checkMissingCodecs()
                 format = std.section(QStringLiteral(" acodec="), 1, 1);
             }
             if (!format.isEmpty()) {
-                requiredACodecs << format.section(' ', 0, 0).toLower();
+                requiredACodecs << format.section(QLatin1Char(' '), 0, 0).toLower();
             }
             format.clear();
             if (std.startsWith(QLatin1String("vcodec="))) {
@@ -499,7 +499,7 @@ void Wizard::checkMissingCodecs()
                 format = std.section(QStringLiteral(" vcodec="), 1, 1);
             }
             if (!format.isEmpty()) {
-                requiredVCodecs << format.section(' ', 0, 0).toLower();
+                requiredVCodecs << format.section(QLatin1Char(' '), 0, 0).toLower();
             }
         }
     }
@@ -672,7 +672,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
         if (!mimeDir.exists()) {
             mimeDir.mkpath(QStringLiteral("."));
         }
-        QString packageFileName = mimeDir.absoluteFilePath(mimefile + ".xml");
+        QString packageFileName = mimeDir.absoluteFilePath(mimefile + QStringLiteral(".xml"));
         //qCDebug(KDENLIVE_LOG) << "INSTALLING NEW MIME TO: " << packageFileName;
         QFile packageFile(packageFileName);
         if (!packageFile.open(QIODevice::WriteOnly)) {
@@ -756,7 +756,9 @@ void Wizard::slotCheckStandard()
         QListWidgetItem *item = m_standard.profiles_list->item(i);
 
         QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(item->data(Qt::UserRole).toString());
-        const QString infoString = ("<strong>" + i18n("Frame size:") + " </strong>%1x%2<br /><strong>" + i18n("Frame rate:") + " </strong>%3/%4<br /><strong>" + i18n("Pixel aspect ratio:") + "</strong>%5/%6<br /><strong>" + i18n("Display aspect ratio:") + " </strong>%7/%8").arg(values.value(QStringLiteral("width")), values.value(QStringLiteral("height")), values.value(QStringLiteral("frame_rate_num")), values.value(QStringLiteral("frame_rate_den")), values.value(QStringLiteral("sample_aspect_num")), values.value(QStringLiteral("sample_aspect_den")), values.value(QStringLiteral("display_aspect_num")), values.value(QStringLiteral("display_aspect_den")));
+        const QString infoString = ("<strong>" + i18n("Frame size:") + QStringLiteral(" </strong>%1x%2<br /><strong>") + i18n("Frame rate:") + QStringLiteral(" </strong>%3/%4<br /><strong>")
+                                    + i18n("Pixel aspect ratio:") + QStringLiteral("</strong>%5/%6<br /><strong>") + i18n("Display aspect ratio:")
+                                    + QStringLiteral(" </strong>%7/%8")).arg(values.value(QStringLiteral("width")), values.value(QStringLiteral("height")), values.value(QStringLiteral("frame_rate_num")), values.value(QStringLiteral("frame_rate_den")), values.value(QStringLiteral("sample_aspect_num")), values.value(QStringLiteral("sample_aspect_den")), values.value(QStringLiteral("display_aspect_num")), values.value(QStringLiteral("display_aspect_den")));
         item->setToolTip(infoString);
     }
 
@@ -825,7 +827,7 @@ void Wizard::slotOpenManual()
 
 void Wizard::slotShowWebInfos()
 {
-    KRun::runUrl(QUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(' ', 0, 0)), QStringLiteral("text/html"), this);
+    KRun::runUrl(QUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(QLatin1Char(' '), 0, 0)), QStringLiteral("text/html"), this);
 }
 
 void Wizard::slotSaveCaptureFormat()
@@ -846,7 +848,7 @@ void Wizard::slotSaveCaptureFormat()
     profile.frame_rate_num = format.at(3).toInt();
     profile.frame_rate_den = format.at(4).toInt();
     profile.progressive = 1;
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }

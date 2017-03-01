@@ -39,7 +39,7 @@ class ProfileWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ProfileWidget(QWidget *parent = Q_NULLPTR);
+    explicit ProfileWidget(QWidget *parent = nullptr);
     ~ProfileWidget();
     void loadProfile(QString profile);
     const QString selectedProfile() const;

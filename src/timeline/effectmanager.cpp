@@ -124,7 +124,7 @@ bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
     bool success = doAddFilter(params, duration);
     // re-add following filters
     for (int i = 0; i < filtersList.count(); ++i) {
-        Mlt::Filter *filter = filtersList.at(i);
+        filter = filtersList.at(i);
         if (updateIndex) {
             filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
         }
@@ -144,7 +144,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
     ////qCDebug(KDENLIVE_LOG) << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     QString kfr = params.paramValue(QStringLiteral("keyframes"));
     if (!kfr.isEmpty()) {
-        QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
+        QStringList keyFrames = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
         char *starttag = qstrdup(params.paramValue(QStringLiteral("starttag"), QStringLiteral("start")).toUtf8().constData());
         char *endtag = qstrdup(params.paramValue(QStringLiteral("endtag"), QStringLiteral("end")).toUtf8().constData());
         ////qCDebug(KDENLIVE_LOG) << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
@@ -164,8 +164,8 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
             Mlt::Filter *filter = new Mlt::Filter(*m_producer.profile(), qstrdup(tag.toUtf8().constData()));
             if (filter && filter->is_valid()) {
                 filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
-                int x1 = keyFrames.at(0).section('=', 0, 0).toInt();
-                double y1 = keyFrames.at(0).section('=', 1, 1).toDouble();
+                int x1 = keyFrames.at(0).section(QLatin1Char('='), 0, 0).toInt();
+                double y1 = keyFrames.at(0).section(QLatin1Char('='), 1, 1).toDouble();
                 for (int j = 0; j < params.count(); ++j) {
                     filter->set(params.at(j).name().toUtf8().constData(), params.at(j).value().toUtf8().constData());
                 }
@@ -185,10 +185,10 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
                 Mlt::Filter *filter = new Mlt::Filter(*m_producer.profile(), qstrdup(tag.toUtf8().constData()));
                 if (filter && filter->is_valid()) {
                     filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
-                    int x1 = keyFrames.at(i).section('=', 0, 0).toInt();
-                    double y1 = keyFrames.at(i).section('=', 1, 1).toDouble();
-                    int x2 = keyFrames.at(i + 1).section('=', 0, 0).toInt();
-                    double y2 = keyFrames.at(i + 1).section('=', 1, 1).toDouble();
+                    int x1 = keyFrames.at(i).section(QLatin1Char('='), 0, 0).toInt();
+                    double y1 = keyFrames.at(i).section(QLatin1Char('='), 1, 1).toDouble();
+                    int x2 = keyFrames.at(i + 1).section(QLatin1Char('='), 0, 0).toInt();
+                    double y2 = keyFrames.at(i + 1).section(QLatin1Char('='), 1, 1).toDouble();
                     if (x2 == -1) {
                         x2 = duration;
                     }
@@ -242,7 +242,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
         }
 
         if (tag == QLatin1String("sox")) {
-            QString effectArgs = params.paramValue(QStringLiteral("id")).section('_', 1);
+            QString effectArgs = params.paramValue(QStringLiteral("id")).section(QLatin1Char('_'), 1);
 
             params.removeParam(QStringLiteral("id"));
             params.removeParam(QStringLiteral("kdenlive_ix"));
@@ -251,7 +251,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
             params.removeParam(QStringLiteral("region"));
 
             for (int j = 0; j < params.count(); ++j) {
-                effectArgs.append(' ' + params.at(j).value());
+                effectArgs.append(QLatin1Char(' ') + params.at(j).value());
             }
             ////qCDebug(KDENLIVE_LOG) << "SOX EFFECTS: " << effectArgs.simplified();
             filter->set("effect", effectArgs.simplified().toUtf8().constData());
@@ -295,7 +295,7 @@ bool EffectManager::editEffect(const EffectsParameterList &params, int duration,
         return success;
     }
     ct = 0;
-    QString ser = filter->get("mlt_service");
+    QString ser = QString::fromLatin1(filter->get("mlt_service"));
     QList<Mlt::Filter *> filtersList;
     m_producer.lock();
     if (ser != tag) {

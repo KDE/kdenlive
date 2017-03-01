@@ -20,6 +20,7 @@
 #include "profilesdialog.h"
 #include "kdenlivesettings.h"
 #include "utils/KoIconUtils.h"
+#include "profiles/profilerepository.hpp"
 
 #include <KMessageBox>
 #include <KMessageWidget>
@@ -35,6 +36,10 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     m_profileIsModified(false),
     m_isCustomProfile(false)
 {
+
+    //ask profile repository for a refresh
+    ProfileRepository::get()->refresh();
+
     m_view.setupUi(this);
 
     // Add message widget
@@ -157,13 +162,11 @@ void ProfilesDialog::slotProfileEdited()
 
 void ProfilesDialog::fillList(const QString &selectedProfile)
 {
-    // List the Mlt profiles
     m_view.profiles_list->clear();
-    QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
-    QMapIterator<QString, QString> i(profilesInfo);
-    while (i.hasNext()) {
-        i.next();
-        m_view.profiles_list->addItem(i.value(), i.key());
+    // Retrieve the list from the repository
+    QVector<QPair<QString, QString> > profiles = ProfileRepository::get()->getAllProfiles();
+    for (const auto & p : profiles) {
+        m_view.profiles_list->addItem(p.first, p.second);
     }
 
     if (!KdenliveSettings::default_profile().isEmpty()) {
@@ -490,6 +493,9 @@ QList<MltVideoProfile> ProfilesDialog::profilesList()
     }
 
     // Check custom profiles
+    qDebug() << "searching custom in "<<QStandardPaths::AppDataLocation;
+    qDebug() << "name" << QStandardPaths::displayName(QStandardPaths::AppDataLocation);
+    qDebug() << "loc" << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
     QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
     for (int i = 0; i < customProfiles.size(); ++i) {
         QDir customDir(customProfiles.at(i));
@@ -506,39 +512,6 @@ QList<MltVideoProfile> ProfilesDialog::profilesList()
     return list;
 }
 
-// static
-QMap<QString, QString> ProfilesDialog::getProfilesInfo()
-{
-    QMap<QString, QString> result;
-    QStringList profilesFilter;
-    profilesFilter << QStringLiteral("*");
-
-    // List the Mlt profiles
-    QDir mltDir(KdenliveSettings::mltpath());
-    QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
-    for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
-        QString desc = confFile.entryMap().value(QStringLiteral("description"));
-        if (!desc.isEmpty()) {
-            result.insert(profilesFiles.at(i), desc);
-        }
-    }
-
-    // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
-    for (int i = 0; i < customProfiles.size(); ++i) {
-        QDir profileDir(customProfiles.at(i));
-        profilesFiles = profileDir.entryList(profilesFilter, QDir::Files);
-        for (int j = 0; j < profilesFiles.size(); ++j) {
-            KConfig confFile(profileDir.absoluteFilePath(profilesFiles.at(j)), KConfig::SimpleConfig);
-            QString desc = confFile.entryMap().value(QStringLiteral("description"));
-            if (!desc.isEmpty()) {
-                result.insert(profileDir.absoluteFilePath(profilesFiles.at(j)), desc);
-            }
-        }
-    }
-    return result;
-}
 
 // static
 QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString &path)
@@ -724,8 +697,7 @@ int ProfilesDialog::getColorspaceFromDescription(const QString &description)
     //TODO: should the descriptions be translated?
     if (description == QLatin1String("SMPTE240M")) {
         return 240;
-    }
-    if (description == QLatin1String("ITU-R 709")) {
+    } else if (description == QLatin1String("ITU-R 709")) {
         return 709;
     }
     return 601;

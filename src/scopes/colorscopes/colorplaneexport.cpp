@@ -157,7 +157,7 @@ void ColorPlaneExport::slotExportPlane()
 #endif
     if (!lower.endsWith(QLatin1String(".png")) && !lower.endsWith(QLatin1String(".jpg")) && !lower.endsWith(QLatin1String(".tif")) && !lower.endsWith(QLatin1String(".tiff"))) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", EXTENSION_PNG)) == KMessageBox::Yes) {
-            kurlrequester->setUrl(QUrl(kurlrequester->text() + ".png"));
+            kurlrequester->setUrl(QUrl(kurlrequester->text() + QStringLiteral(".png")));
         }
     }
     QImage img;

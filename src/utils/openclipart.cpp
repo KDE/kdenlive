@@ -115,7 +115,7 @@ QString OpenClipArt::getExtension(QListWidgetItem *item)
         return QString();
     }
     QString url = item->data(downloadRole).toString();
-    return QStringLiteral("*.") + url.section('.', -1);
+    return QStringLiteral("*.") + url.section(QLatin1Char('.'), -1);
 }
 
 QString OpenClipArt::getDefaultDownloadName(QListWidgetItem *item)
@@ -125,7 +125,7 @@ QString OpenClipArt::getDefaultDownloadName(QListWidgetItem *item)
     }
     QString url = item->data(downloadRole).toString();
     QString path = item->text();
-    path.append('.' + url.section('.', -1));
+    path.append('.' + url.section(QLatin1Char('.'), -1));
     return path;
 }
 

@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "clipcreationdialog.h"
+#include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
 #include "doc/docundostack.hpp"
@@ -73,9 +74,9 @@ QStringList ClipCreationDialog::getExtensions()
         }
     }
     // process custom user extensions
-    QStringList customs = KdenliveSettings::addedExtensions().split(' ', QString::SkipEmptyParts);
+    const QStringList customs = KdenliveSettings::addedExtensions().split(' ', QString::SkipEmptyParts);
     if (!customs.isEmpty()) {
-        foreach(const QString &ext, customs) {
+        for (const QString &ext : customs) {
             if (ext.startsWith(QLatin1String("*."))) {
                 allExtensions << ext;
             } else if (ext.startsWith(QLatin1String("."))) {
@@ -84,7 +85,7 @@ QStringList ClipCreationDialog::getExtensions()
                 allExtensions << QStringLiteral("*.") + ext;
             } else {
                 //Unrecognized format
-                qDebug()<<"Unrecognized custom format: "<<ext;
+                qCDebug(KDENLIVE_LOG)<<"Unrecognized custom format: "<<ext;
             }
         }
     }
@@ -510,7 +511,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
 {
     QList<QUrl> list;
     QString allExtensions = getExtensions().join(QLatin1Char(' '));
-    QString dialogFilter = allExtensions + "|" + i18n("All Supported Files") + "\n*|" + i18n("All Files");
+    QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
     b->setChecked(KdenliveSettings::autoimagesequence());
     QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));

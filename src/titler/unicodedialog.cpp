@@ -235,7 +235,7 @@ void UnicodeWidget::updateOverviewChars(uint unicode)
 
     for (i = 1; i <= 4; ++i) {
         if (unicode > i && !controlCharacter(unicode - i)) {
-            left = ' ' + left;
+            left = QLatin1Char(' ') + left;
             left = QChar(unicode - i) + left;
         }
     }

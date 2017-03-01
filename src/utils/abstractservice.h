@@ -62,7 +62,7 @@ public:
         OPENCLIPART = 2,
         ARCHIVEORG = 3 };
 
-    explicit AbstractService(QListWidget *listWidget, QObject *parent = Q_NULLPTR);
+    explicit AbstractService(QListWidget *listWidget, QObject *parent = nullptr);
     ~AbstractService();
     /** @brief Get file extension for currently selected item. */
     virtual QString getExtension(QListWidgetItem *item);

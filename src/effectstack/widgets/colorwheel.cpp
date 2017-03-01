@@ -136,10 +136,10 @@ void ColorWheel::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     if (m_wheelRegion.contains(m_lastPoint) && m_isInWheel) {
-        QColor color = colorForPoint(m_lastPoint);
+        const QColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     } else if (m_sliderRegion.contains(m_lastPoint) && m_isInSquare) {
-        QColor color = colorForPoint(m_lastPoint);
+        const QColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     }
 }
@@ -165,12 +165,12 @@ void ColorWheel::resizeEvent(QResizeEvent *event)
 QString ColorWheel::getParamValues()
 {
     if (m_id == QLatin1String("gamma")) {
-        return QString::number(m_color.redF() * 2, 'g', 2) + "," + QString::number(m_color.greenF() * 2, 'g', 2) + "," + QString::number(m_color.blueF() * 2, 'g', 2);
+        return QString::number(m_color.redF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF() * 2, 'g', 2);
     } else if (m_id == QLatin1String("gain")) {
-        return QString::number(m_color.redF() * 4, 'g', 2) + "," + QString::number(m_color.greenF() * 4, 'g', 2) + "," + QString::number(m_color.blueF() * 4, 'g', 2);
+        return QString::number(m_color.redF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF() * 4, 'g', 2);
     }
     // default (lift)
-    return QString::number(m_color.redF(), 'g', 2) + "," + QString::number(m_color.greenF(), 'g', 2) + "," + QString::number(m_color.blueF(), 'g', 2);
+    return QString::number(m_color.redF(), 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF(), 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF(), 'g', 2);
 
 }
 
@@ -183,7 +183,7 @@ void ColorWheel::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawImage(0, 0, m_image);
     //painter.drawRect(0, 0, width(), height());
-    painter.drawText(m_margin, wheelSize() + m_unitSize - m_margin, m_name + " " + getParamValues());
+    painter.drawText(m_margin, wheelSize() + m_unitSize - m_margin, m_name + QLatin1Char(' ') + getParamValues());
     drawWheelDot(painter);
     drawSliderBar(painter);
 //    style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);

@@ -65,7 +65,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 
     QToolButton *button = new QToolButton(this);
     button->setIcon(KoIconUtils::themedIcon(QStringLiteral("color-picker")));
-    button->setToolTip("<p>" + i18n("Pick a color on the screen. By pressing the mouse button and then moving your mouse you can select a section of the screen from which to get an average color.") + "</p>");
+    button->setToolTip(QStringLiteral("<p>") + i18n("Pick a color on the screen. By pressing the mouse button and then moving your mouse you can select a section of the screen from which to get an average color.") + QStringLiteral("</p>"));
     button->setAutoRaise(true);
     connect(button, &QAbstractButton::clicked, this, &ColorPickerWidget::slotSetupEventFilter);
 

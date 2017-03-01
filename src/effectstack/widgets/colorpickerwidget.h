@@ -32,7 +32,7 @@ class MyFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit MyFrame(QWidget *parent = Q_NULLPTR);
+    explicit MyFrame(QWidget *parent = nullptr);
 
 protected:
     void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
@@ -55,7 +55,7 @@ class ColorPickerWidget : public QWidget
 
 public:
     /** @brief Sets up the widget. */
-    explicit ColorPickerWidget(QWidget *parent = Q_NULLPTR);
+    explicit ColorPickerWidget(QWidget *parent = nullptr);
     /** @brief Makes sure the event filter is removed. */
     virtual ~ColorPickerWidget();
 

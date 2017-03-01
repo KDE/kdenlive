@@ -135,7 +135,7 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
     QStringList frames;
     if (e.hasAttribute(QStringLiteral("keyframes"))) {
         // Effects have keyframes in a "keyframe" attribute, not sure why
-        frames = e.attribute(QStringLiteral("keyframes")).split(';', QString::SkipEmptyParts);
+        frames = e.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
         m_keyframesTag = true;
     } else {
         // Transitions take keyframes from the value param
@@ -143,17 +143,17 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
         if (!framesValue.contains(QLatin1Char('='))) {
             framesValue.prepend(QStringLiteral("0="));
         }
-        frames = framesValue.split(';', QString::SkipEmptyParts);
+        frames = framesValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
         m_keyframesTag = false;
     }
     for (int i = 0; i < frames.count(); ++i) {
-        int frame = frames.at(i).section('=', 0, 0).toInt();
+        int frame = frames.at(i).section(QLatin1Char('='), 0, 0).toInt();
         bool found = false;
         int j;
         for (j = 0; j < keyframe_list->rowCount(); ++j) {
             int currentPos = getPos(j);
             if (frame == currentPos) {
-                keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section('=', 1, 1)));
+                keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section(QLatin1Char('='), 1, 1)));
                 found = true;
                 break;
             } else if (currentPos > frame) {
@@ -163,7 +163,7 @@ void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
         if (!found) {
             keyframe_list->insertRow(j);
             keyframe_list->setVerticalHeaderItem(j, new QTableWidgetItem(getPosString(frame)));
-            keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section('=', 1, 1)));
+            keyframe_list->setItem(j, columnId, new QTableWidgetItem(frames.at(i).section(QLatin1Char('='), 1, 1)));
             keyframe_list->resizeRowToContents(j);
         }
         if ((activeKeyframe > -1) && (activeKeyframe == frame)) {
@@ -326,7 +326,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             QString keyframes;
             for (int i = 0; i < keyframe_list->rowCount(); ++i) {
                 if (keyframe_list->item(i, col)) {
-                    keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, col)->text() + ';');
+                    keyframes.append(QString::number(getPos(i)) + QLatin1Char('=') + keyframe_list->item(i, col)->text() + QLatin1Char(';'));
                 }
             }
             m_params[col].setAttribute(getTag(), keyframes);
@@ -371,7 +371,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
     QString keyframes;
     for (int i = 0; i < keyframe_list->rowCount(); ++i) {
         if (keyframe_list->item(i, column)) {
-            keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, column)->text() + ';');
+            keyframes.append(QString::number(getPos(i)) + QLatin1Char('=') + keyframe_list->item(i, column)->text() + QLatin1Char(';'));
         }
     }
     m_params[column].setAttribute(getTag(), keyframes);
@@ -390,7 +390,7 @@ void KeyframeEdit::generateAllParams()
         QString keyframes;
         for (int i = 0; i < keyframe_list->rowCount(); ++i) {
             if (keyframe_list->item(i, col)) {
-                keyframes.append(QString::number(getPos(i)) + '=' + keyframe_list->item(i, col)->text() + ';');
+                keyframes.append(QString::number(getPos(i)) + QLatin1Char('=') + keyframe_list->item(i, col)->text() + QLatin1Char(';'));
             }
         }
         m_params[col].setAttribute(getTag(), keyframes);

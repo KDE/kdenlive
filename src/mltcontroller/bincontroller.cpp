@@ -158,7 +158,6 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     // Load markers
     Mlt::Properties markerProperties;
     markerProperties.pass_values(playlistProps, "kdenlive:marker.");
-    QMap<QString, QString> markersData;
     for (int i = 0; i < markerProperties.count(); i++) {
         QString markerId = markerProperties.get_name(i);
         QString controllerId = markerId.section(QLatin1Char(':'), 0, 0);
@@ -202,10 +201,10 @@ void BinController::slotStoreFolder(const QString &folderId, const QString &pare
 {
     if (!oldParentId.isEmpty()) {
         // Folder was moved, remove old reference
-        QString oldPropertyName = "kdenlive:folder." + oldParentId + "." + folderId;
+        QString oldPropertyName = "kdenlive:folder." + oldParentId + QLatin1Char('.') + folderId;
         m_binPlaylist->set(oldPropertyName.toUtf8().constData(), (char *) nullptr);
     }
-    QString propertyName = "kdenlive:folder." + parentId + "." + folderId;
+    QString propertyName = "kdenlive:folder." + parentId + QLatin1Char('.') + folderId;
     if (folderName.isEmpty()) {
         // Remove this folder info
         m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) nullptr);
@@ -253,7 +252,7 @@ void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
     emit prepareTimelineReplacement(id);
     producer.set("id", id.toUtf8().constData());
     // Remove video only producer
-    QString videoId = id + "_video";
+    QString videoId = id + QStringLiteral("_video");
     if (m_extraClipList.contains(videoId)) {
         m_extraClipList.remove(videoId);
     }
@@ -354,7 +353,7 @@ Mlt::Producer *BinController::getBinProducer(const QString &id)
 
 Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
 {
-    QString videoId = id + "_video";
+    QString videoId = id + QStringLiteral("_video");
     if (!m_extraClipList.contains(videoId)) {
         // create clone
         QString originalId = id.section(QLatin1Char('_'), 0, 0);
@@ -396,7 +395,7 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
             if (dup && dup->is_valid()) {
                 for (int i = 0; i < filter->count(); ++i) {
                     QString paramName = filter->get_name(i);
-                    if (paramName.at(0) != '_') {
+                    if (paramName.at(0) != QLatin1Char('_')) {
                         dup->set(filter->get_name(i), filter->get(i));
                     }
                 }
@@ -497,7 +496,7 @@ void BinController::checkThumbnails(const QDir &thumbFolder)
         }
         bool foundFile = false;
         if (!ctrl->getClipHash().isEmpty()) {
-            QImage img(thumbFolder.absoluteFilePath(ctrl->getClipHash() + ".png"));
+            QImage img(thumbFolder.absoluteFilePath(ctrl->getClipHash() + QStringLiteral(".png")));
             if (!img.isNull()) {
                 emit loadThumb(ctrl->clipId(), img, true);
                 foundFile = true;

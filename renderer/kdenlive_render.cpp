@@ -81,7 +81,7 @@ int main(int argc, char **argv)
         }
         QString src = srcurl.toLocalFile();
         // The QUrl path() strips the consumer: protocol, so re-add it if necessary
-        if (srcString.startsWith("consumer:")) {
+        if (srcString.startsWith(QStringLiteral("consumer:"))) {
             src.prepend(QLatin1String("consumer:"));
         }
         QString dest = QFileInfo(QUrl::fromEncoded(args.takeFirst().toUtf8()).toLocalFile()).absoluteFilePath();

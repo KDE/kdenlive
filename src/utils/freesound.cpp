@@ -84,7 +84,6 @@ void FreeSound::slotShowResults(KJob *job)
 {
     if (job->error() != 0) {
         qCDebug(KDENLIVE_LOG) << job->errorString();
-
     } else {
         m_listWidget->blockSignals(true);// stop the listWidget from emiting signals.Ie clicking on the list while we are busy here will do nothing
         KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
@@ -94,7 +93,6 @@ void FreeSound::slotShowResults(KJob *job)
         if (jsonError.error != QJsonParseError::NoError) {
             // There was an error parsing data
             KMessageBox::sorry(m_listWidget, jsonError.errorString(), i18n("Error Loading Data"));
-
         }
         QVariant data = doc.toVariant();
         QVariant sounds;
@@ -117,7 +115,7 @@ void FreeSound::slotShowResults(KJob *job)
                                 QMap<QString, QVariant> soundmap = soundsList.at(j).toMap();
 
                                 if (soundmap.contains(QStringLiteral("name"))) {
-                                    QListWidgetItem *item = new   QListWidgetItem(soundmap.value(QStringLiteral("name")).toString(), m_listWidget);
+                                    QListWidgetItem *item = new QListWidgetItem(soundmap.value(QStringLiteral("name")).toString(), m_listWidget);
 
                                     QVariant vid = soundmap.value(QStringLiteral("id"));
                                     item->setData(idRole, vid);
@@ -125,9 +123,9 @@ void FreeSound::slotShowResults(KJob *job)
                                     QVariant authorInfo = soundmap.value(QStringLiteral("username"));
                                     item->setData(authorRole, authorInfo);
 
-                                    item->setData(authorUrl, "http://freesound.org/people/" + soundmap.value(QStringLiteral("username")).toString());
+                                    item->setData(authorUrl, QStringLiteral("http://freesound.org/people/") + soundmap.value(QStringLiteral("username")).toString());
                                     item->setData(licenseRole, soundmap.value(QStringLiteral("license")));
-                                    item->setData(infoData, "http://www.freesound.org/apiv2/sounds/" + vid.toString() + "/?format=json&token=" + OAuth2_strClientSecret);
+                                    item->setData(infoData, QStringLiteral("http://www.freesound.org/apiv2/sounds/") + vid.toString() + QStringLiteral("/?format=json&token=") + OAuth2_strClientSecret);
                                 }
                             }
                         }
@@ -203,23 +201,23 @@ void FreeSound::slotParseResults(KJob *job)
 
         if (info.contains(QStringLiteral("duration"))) {
             html += QLatin1String("<tr>");
-            html += "<td>" + i18n("Duration (s)") + "</td><td>" + QString::number(info.value(QStringLiteral("duration")).toDouble()) + "</td></tr>";
+            html += QStringLiteral("<td>") + i18n("Duration (s)") + QStringLiteral("</td><td>") + QString::number(info.value(QStringLiteral("duration")).toDouble()) + QStringLiteral("</td></tr>");
             m_metaInfo.remove(i18n("Duration"));
             m_metaInfo.insert(i18n("Duration"),  info.value(QStringLiteral("duration")).toString());
         }
 
         if (info.contains(QStringLiteral("samplerate"))) {
             html += QLatin1String("<tr class=\"cellone\">");
-            html += "<td>" + i18n("Samplerate") + "</td><td>" + QString::number(info.value(QStringLiteral("samplerate")).toDouble()) + "</td></tr>";
+            html += QStringLiteral("<td>") + i18n("Samplerate") + QStringLiteral("</td><td>") + QString::number(info.value(QStringLiteral("samplerate")).toDouble()) + QStringLiteral("</td></tr>");
         }
         if (info.contains(QStringLiteral("channels"))) {
             html += QLatin1String("<tr>");
-            html += "<td>" + i18n("Channels") + "</td><td>" + QString::number(info.value(QStringLiteral("channels")).toInt()) + "</td></tr>";
+            html += QStringLiteral("<td>") + i18n("Channels") + QStringLiteral("</td><td>") + QString::number(info.value(QStringLiteral("channels")).toInt()) + QStringLiteral("</td></tr>");
         }
         if (info.contains(QStringLiteral("filesize"))) {
             html += QLatin1String("<tr class=\"cellone\">");
             KIO::filesize_t fSize = info.value(QStringLiteral("filesize")).toDouble();
-            html += "<td>" + i18n("File size") + "</td><td>" + KIO::convertSize(fSize) + "</td></tr>";
+            html += QStringLiteral("<td>") + i18n("File size") + QStringLiteral("</td><td>") + KIO::convertSize(fSize) + QStringLiteral("</td></tr>");
         }
         if (info.contains(QStringLiteral("license"))) {
             m_metaInfo.insert(QStringLiteral("license"), info.value(QStringLiteral("license")).toString());
@@ -284,7 +282,7 @@ bool FreeSound::startItemPreview(QListWidgetItem *item)
         if (m_previewProcess->state() != QProcess::NotRunning) {
             m_previewProcess->close();
         }
-        qCDebug(KDENLIVE_LOG) << KdenliveSettings::ffplaypath() + " " +  url  + " -nodisp -autoexit";
+        qCDebug(KDENLIVE_LOG) << KdenliveSettings::ffplaypath() + QLatin1Char(' ') +  url  + QStringLiteral(" -nodisp -autoexit");
         m_previewProcess->start(KdenliveSettings::ffplaypath(), QStringList() << url << QStringLiteral("-nodisp") << QStringLiteral("-autoexit"));
 
     }
@@ -307,14 +305,12 @@ void FreeSound::stopItemPreview(QListWidgetItem * /*item*/)
  */
 QString FreeSound::getExtension(QListWidgetItem *item)
 {
-    QString sExt;
-    QString sItem;
     if (!item) {
         return QString();
     } else {
-        sItem = item->text();
+        QString sItem = item->text();
         if (sItem.contains(QLatin1String("."))) {
-            sExt = sItem.section('.', -1);
+            const QString sExt = sItem.section(QLatin1Char('.'), -1);
             return QStringLiteral("*.") + sExt;
         } else {
             return QString();    // return null if file name has no dots - ie no extension

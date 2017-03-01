@@ -33,7 +33,7 @@ class SlideshowClip : public QDialog
     Q_OBJECT
 
 public:
-    explicit SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip *clip = Q_NULLPTR, QWidget *parent = Q_NULLPTR);
+    explicit SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip *clip = nullptr, QWidget *parent = nullptr);
     virtual ~ SlideshowClip();
     /** return selected path for slideshow in MLT format */
     QString selectedPath();

@@ -35,7 +35,7 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
     m_view.setupUi(this);
     // Get the list of existing templates
     const QStringList filter = { QStringLiteral("*.kdenlivetitle") };
-    const QString path = folder + "/titles/";
+    const QString path = folder + QStringLiteral("/titles/");
 
     // Project templates
     QDir dir(path);

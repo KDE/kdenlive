@@ -106,7 +106,7 @@ class DvdWizardVob : public QWizardPage
     Q_OBJECT
 
 public:
-    explicit DvdWizardVob(QWidget *parent = Q_NULLPTR);
+    explicit DvdWizardVob(QWidget *parent = nullptr);
     virtual ~DvdWizardVob();
     QStringList selectedUrls() const;
     void setUrl(const QString &url);

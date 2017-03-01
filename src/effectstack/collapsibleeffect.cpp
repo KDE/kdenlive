@@ -213,7 +213,7 @@ void CollapsibleEffect::slotCreateGroup()
 void CollapsibleEffect::slotCreateRegion()
 {
     QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
-    const QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files") + "\n* " + QLatin1Char('|') + i18n("All Files");
+    const QString dialogFilter = allExtensions + QLatin1Char(' ') + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n* ") + QLatin1Char('|') + i18n("All Files");
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
@@ -374,14 +374,14 @@ void CollapsibleEffect::slotSaveEffect()
     if (name.isEmpty()) {
         return;
     }
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/effects/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
 
-    if (dir.exists(name + ".xml")) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + ".xml")) == KMessageBox::No) {
-            return;
-        }
+    if (dir.exists(name + QStringLiteral(".xml"))) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
+        return;
+    }
 
     QDomDocument doc;
     QDomElement effect = m_effect.cloneNode().toElement();
@@ -404,7 +404,7 @@ void CollapsibleEffect::slotSaveEffect()
     effectprops.setAttribute(QStringLiteral("id"), name);
     effectprops.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
 
-    QFile file(dir.absoluteFilePath(name + ".xml"));
+    QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
         out << doc.toString();
@@ -516,10 +516,10 @@ void CollapsibleEffect::updateFrameInfo()
     }
 }
 
-void CollapsibleEffect::setActiveKeyframe(int frame)
+void CollapsibleEffect::setActiveKeyframe(int kf)
 {
     if (m_paramWidget) {
-        m_paramWidget->setActiveKeyframe(frame);
+        m_paramWidget->setActiveKeyframe(kf);
     }
 }
 
@@ -634,18 +634,18 @@ void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
     frame->setStyleSheet(frame->styleSheet());
 }
 
-void CollapsibleEffect::importKeyframes(const QString &keyframes)
+void CollapsibleEffect::importKeyframes(const QString &kf)
 {
-    QMap<QString, QString> data;
-    if (keyframes.contains(QLatin1Char('\n'))) {
-        const QStringList params = keyframes.split(QLatin1Char('\n'), QString::SkipEmptyParts);
+    QMap<QString, QString> keyframes;
+    if (kf.contains(QLatin1Char('\n'))) {
+        const QStringList params = kf.split(QLatin1Char('\n'), QString::SkipEmptyParts);
         for (const QString &param : params) {
-            data.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
+            keyframes.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
         }
     } else {
-        data.insert(keyframes.section(QLatin1Char('='), 0, 0), keyframes.section(QLatin1Char('='), 1));
+        keyframes.insert(kf.section(QLatin1Char('='), 0, 0), kf.section(QLatin1Char('='), 1));
     }
-    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), data);
+    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), keyframes);
 }
 
 void CollapsibleEffect::dropEvent(QDropEvent *event)
@@ -740,9 +740,9 @@ void CollapsibleEffect::setRange(int inPoint, int outPoint)
     m_paramWidget->setRange(inPoint, outPoint);
 }
 
-void CollapsibleEffect::setKeyframes(const QString &tag, const QString &data)
+void CollapsibleEffect::setKeyframes(const QString &tag, const QString &keyframes)
 {
-    m_paramWidget->setKeyframes(tag, data);
+    m_paramWidget->setKeyframes(tag, keyframes);
 }
 
 bool CollapsibleEffect::isMovable() const

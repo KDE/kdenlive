@@ -34,23 +34,23 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, co
     if (!projectUrl.isValid()) {
         // No url, means we opened the backup dialog from an empty project
         info_label->setText(i18n("Showing all backup files in folder"));
-        m_projectWildcard = '*';
+        m_projectWildcard = QLatin1Char('*');
     } else {
         info_label->setText(i18n("Showing backup files for %1", projectUrl.fileName()));
-        m_projectWildcard = projectUrl.fileName().section('.', 0, -2);
+        m_projectWildcard = projectUrl.fileName().section(QLatin1Char('.'), 0, -2);
         if (!projectId.isEmpty()) {
-            m_projectWildcard.append('-' + projectId);
+            m_projectWildcard.append(QLatin1Char('-') + projectId);
         } else {
             // No project id, it was lost, add wildcard
-            m_projectWildcard.append('*');
+            m_projectWildcard.append(QLatin1Char('*'));
         }
     }
-    m_projectWildcard.append("-??");
-    m_projectWildcard.append("??");
-    m_projectWildcard.append("-??");
-    m_projectWildcard.append("-??");
-    m_projectWildcard.append("-??");
-    m_projectWildcard.append("-??.kdenlive");
+    m_projectWildcard.append(QStringLiteral("-??"));
+    m_projectWildcard.append(QStringLiteral("??"));
+    m_projectWildcard.append(QStringLiteral("-??"));
+    m_projectWildcard.append(QStringLiteral("-??"));
+    m_projectWildcard.append(QStringLiteral("-??"));
+    m_projectWildcard.append(QStringLiteral("-??.kdenlive"));
 
     slotParseBackupFiles();
     connect(backup_list, &QListWidget::currentRowChanged, this, &BackupWidget::slotDisplayBackupPreview);
@@ -77,7 +77,7 @@ void BackupWidget::slotParseBackupFiles()
         QString label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
         if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
             // Displaying all backup files, so add project name in the entries
-            label.prepend(resultList.at(i).fileName().section('-', 0, -7) + ".kdenlive - ");
+            label.prepend(resultList.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));
         }
         QListWidgetItem *item = new QListWidgetItem(label, backup_list);
         item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
@@ -93,7 +93,7 @@ void BackupWidget::slotParseBackupFiles()
             QString label = resultList2.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
             if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
                 // Displaying all backup files, so add project name in the entries
-                label.prepend(resultList2.at(i).fileName().section('-', 0, -7) + ".kdenlive - ");
+                label.prepend(resultList2.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));
             }
             QListWidgetItem *item = new QListWidgetItem(label, backup_list);
             item->setData(Qt::UserRole, resultList2.at(i).absoluteFilePath());
@@ -111,7 +111,7 @@ void BackupWidget::slotDisplayBackupPreview()
         return;
     }
     const QString path = backup_list->currentItem()->data(Qt::UserRole).toString();
-    QPixmap pix(path + ".png");
+    QPixmap pix(path + QStringLiteral(".png"));
     backup_preview->setPixmap(pix);
 }
 

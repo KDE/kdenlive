@@ -307,7 +307,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     // Create MLT producer data
     if (capture_device->itemData(capture_device->currentIndex()) == "v4l") {
         // Capture using a video4linux device
-        profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
+        profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
     } else {
         // Decklink capture
         profilePath = KdenliveSettings::current_profile();
@@ -443,7 +443,7 @@ void StopmotionWidget::parseExistingSequences()
     QStringList sequences = dir.entryList(filters, QDir::Files, QDir::Name);
     ////qCDebug(KDENLIVE_LOG)<<"PF: "<<<<", sm: "<<sequences;
     foreach (const QString &sequencename, sequences) {
-        sequence_name->addItem(sequencename.section('_', 0, -2));
+        sequence_name->addItem(sequencename.section(QLatin1Char('_'), 0, -2));
     }
 }
 
@@ -473,7 +473,7 @@ void StopmotionWidget::slotLive(bool isOn)
         // Create MLT producer data
         if (capture_device->itemData(capture_device->currentIndex()) == "v4l") {
             // Capture using a video4linux device
-            profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
+            profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(profilePath);
             service = QStringLiteral("avformat-novalidate");
             QString devicePath = capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString();
@@ -887,18 +887,19 @@ const QString StopmotionWidget::createProducer(const MltVideoProfile &profile, c
 {
     Q_UNUSED(profile)
 
-    QString playlist = "<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">" + resource + "</property><property name=\"mlt_service\">" + service + "</property></producer>";
+    QString playlist = QStringLiteral("<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">")
+            + resource + QStringLiteral("</property><property name=\"mlt_service\">") + service + QStringLiteral("</property></producer>");
 
     // overlay track
-    playlist.append("<playlist id=\"playlist0\"></playlist>");
+    playlist.append(QStringLiteral("<playlist id=\"playlist0\"></playlist>"));
 
     // video4linux track
-    playlist.append("<playlist id=\"playlist1\"><entry producer=\"producer0\" in=\"0\" out=\"99999\"/></playlist>");
+    playlist.append(QStringLiteral("<playlist id=\"playlist1\"><entry producer=\"producer0\" in=\"0\" out=\"99999\"/></playlist>"));
 
-    playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"99999\">");
-    playlist.append("<track producer=\"playlist0\"/>");
-    playlist.append("<track producer=\"playlist1\"/>");
-    playlist.append("</tractor></mlt>");
+    playlist.append(QStringLiteral("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"99999\">"));
+    playlist.append(QStringLiteral("<track producer=\"playlist0\"/>"));
+    playlist.append(QStringLiteral("<track producer=\"playlist1\"/>"));
+    playlist.append(QStringLiteral("</tractor></mlt>"));
 
     return playlist;
 }

@@ -26,7 +26,7 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent):
     __dummy_AbstractCurveWidget(parent)
     , m_zoomLevel(0)
     , m_gridLines(3)
-    , m_pixmapCache(Q_NULLPTR)
+    , m_pixmapCache(nullptr)
     , m_pixmapIsDirty(true)
     , m_currentPointIndex(-1)
     , m_maxPoints(1000000)

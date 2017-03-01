@@ -288,8 +288,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(true);
         capturefile = m_capturePath;
-        if (!capturefile.endsWith('/')) {
-            capturefile.append('/');
+        if (!capturefile.endsWith(QLatin1Char('/'))) {
+            capturefile.append(QLatin1Char('/'));
         }
         capturename = KdenliveSettings::decklink_filename();
         capturename.append("xxx.");
@@ -315,8 +315,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
         } else {
             // Show capture info
             capturefile = m_capturePath;
-            if (!capturefile.endsWith('/')) {
-                capturefile.append('/');
+            if (!capturefile.endsWith(QLatin1Char('/'))) {
+                capturefile.append(QLatin1Char('/'));
             }
             capturename = KdenliveSettings::dvgrabfilename();
             if (capturename.isEmpty()) {
@@ -545,7 +545,7 @@ void RecMonitor::slotStartPreview(bool play)
         m_discAction->setEnabled(true);
         break;
     case Video4Linux:
-        path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
+        path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
         buildMltDevice(path);
         profile = ProfilesDialog::getVideoProfile(path);
         producer = getV4lXmlPlaylist(profile, &isXml);
@@ -630,11 +630,11 @@ void RecMonitor::slotRecord()
         } else if (device_selector->currentIndex() == BlackMagic) {
             extension = KdenliveSettings::decklink_extension();
         }
-        QString path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + "capture0000." + extension;
+        QString path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + QStringLiteral("capture0000.") + extension;
         int i = 1;
         while (QFile::exists(path)) {
             QString num = QString::number(i).rightJustified(4, '0', false);
-            path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + "capture" + num + '.' + extension;
+            path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + QStringLiteral("capture") + num + QLatin1Char('.') + extension;
             ++i;
         }
         m_captureFile = QUrl(path);
@@ -663,7 +663,7 @@ void RecMonitor::slotRecord()
             if (rec_video->isChecked()) {
                 slotActivateMonitor();
             }
-            path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/profiles/video4linux";
+            path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
             profile = ProfilesDialog::getVideoProfile(path);
             buildMltDevice(path);
             playlist = getV4lXmlPlaylist(profile, &isXml);
@@ -699,7 +699,7 @@ void RecMonitor::slotRecord()
                     if (cutPosition > -1) {
                         endParam.remove(0, cutPosition);
                     }
-                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + "an=1 " + endParam).simplified();
+                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + QStringLiteral("an=1 ") + endParam).simplified();
                 }
             }
 
@@ -755,12 +755,12 @@ void RecMonitor::slotRecord()
             captureSize = QStringLiteral(":0.0");
             if (KdenliveSettings::grab_capture_type() == 0) {
                 // Full screen capture
-                m_captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + 'x' + QString::number(screenSize.height());
-                captureSize.append('+' + QString::number(screenSize.left()) + '.' + QString::number(screenSize.top()));
+                m_captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
+                captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
             } else {
                 // Region capture
-                m_captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + 'x' + QString::number(KdenliveSettings::grab_height());
-                captureSize.append('+' + QString::number(KdenliveSettings::grab_offsetx()) + '.' + QString::number(KdenliveSettings::grab_offsetx()));
+                m_captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + QLatin1Char('x') + QString::number(KdenliveSettings::grab_height());
+                captureSize.append(QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char('.') + QString::number(KdenliveSettings::grab_offsetx()));
             }
             // fps
             m_captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
@@ -873,7 +873,7 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     int height = rect.height();
     if (width % 2 != 0) width--;
     if (height % 2 != 0) height--;
-    QString args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(width) + 'x' + QString::number(height)).replace("%offset", "+" + QString::number(rect.x()) + ',' + QString::number(rect.y()));
+    QString args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(width) + QLatin1Char('x') + QString::number(height)).replace("%offset", "+" + QString::number(rect.x()) + QLatin1Char(',') + QString::number(rect.y()));
     if (KdenliveSettings::screengrabenableaudio()) {
         // also capture audio
         if (KdenliveSettings::useosscapture()) m_captureArgs << KdenliveSettings::screengrabosscapture().simplified().split(' ');
@@ -967,7 +967,7 @@ void RecMonitor::manageCapturedFiles()
     if (capturename.isEmpty()) {
         capturename = QStringLiteral("capture");
     }
-    filters << capturename + '*' + extension;
+    filters << capturename + QLatin1Char('*') + extension;
     const QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
     QList<QUrl> capturedFiles;
     for (const QString &name : result) {
@@ -980,7 +980,7 @@ void RecMonitor::manageCapturedFiles()
                 if (url.fileName().contains(QLatin1Char(':'))) {
                     // Several dvgrab options (--timecode,...) use : in the file name, which is
                     // not supported by MLT, so rename them
-                    QString newUrl = url.adjusted(QUrl::RemoveFilename).toLocalFile() + QDir::separator() + url.fileName().replace(':', '_');
+                    QString newUrl = url.adjusted(QUrl::RemoveFilename).toLocalFile() + QDir::separator() + url.fileName().replace(QLatin1Char(':'), '_');
                     if (QFile::rename(url.toLocalFile(), newUrl)) {
                         url = QUrl::fromLocalFile(newUrl);
                     }
@@ -1035,9 +1035,9 @@ void RecMonitor::slotReadProcessInfo()
 {
     QString data = m_captureProcess->readAllStandardError().simplified();
     if (device_selector->currentIndex() == ScreenBag) {
-        m_error.append(data + '\n');
+        m_error.append(data + QLatin1Char('\n'));
     } else if (device_selector->currentIndex() == Firewire) {
-        data = data.section('"', 2, 2).simplified();
+        data = data.section(QLatin1Char('"'), 2, 2).simplified();
         m_dvinfo.setText(data.left(11));
         m_dvinfo.updateGeometry();
     }

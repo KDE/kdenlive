@@ -381,25 +381,25 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_buttonCursor = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
-    m_buttonCursor->setToolTip(i18n("Selection Tool") + ' ' + m_buttonCursor->shortcut().toString());
+    m_buttonCursor->setToolTip(i18n("Selection Tool") + QLatin1Char(' ') + m_buttonCursor->shortcut().toString());
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("insert-text")), i18n("Add Text"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
-    m_buttonText->setToolTip(i18n("Add Text") + ' ' + m_buttonText->shortcut().toString());
+    m_buttonText->setToolTip(i18n("Add Text") + QLatin1Char(' ') + m_buttonText->shortcut().toString());
     connect(m_buttonText, &QAction::triggered, this, &TitleWidget::slotTextTool);
 
     m_buttonRect = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-rect")), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
-    m_buttonRect->setToolTip(i18n("Add Rectangle") + ' ' + m_buttonRect->shortcut().toString());
+    m_buttonRect->setToolTip(i18n("Add Rectangle") + QLatin1Char(' ') + m_buttonRect->shortcut().toString());
     connect(m_buttonRect, &QAction::triggered, this, &TitleWidget::slotRectTool);
 
     m_buttonImage = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("insert-image")), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
-    m_buttonImage->setToolTip(i18n("Add Image") + ' ' + m_buttonImage->shortcut().toString());
+    m_buttonImage->setToolTip(i18n("Add Image") + QLatin1Char(' ') + m_buttonImage->shortcut().toString());
     connect(m_buttonImage, &QAction::triggered, this, &TitleWidget::slotImageTool);
 
     m_toolbar->addSeparator();
@@ -407,13 +407,13 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_buttonLoad = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-open")), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
-    m_buttonLoad->setToolTip(i18n("Open Document") + ' ' + m_buttonLoad->shortcut().toString());
+    m_buttonLoad->setToolTip(i18n("Open Document") + QLatin1Char(' ') + m_buttonLoad->shortcut().toString());
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
     m_buttonSave = m_toolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save-as")), i18n("Save As"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
-    m_buttonSave->setToolTip(i18n("Save As") + ' ' + m_buttonSave->shortcut().toString());
+    m_buttonSave->setToolTip(i18n("Save As") + QLatin1Char(' ') + m_buttonSave->shortcut().toString());
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
     layout->addWidget(m_toolbar);
@@ -735,13 +735,13 @@ void TitleWidget::slotImageTool()
 {
     QList<QByteArray> supported = QImageReader::supportedImageFormats();
     QStringList mimeTypeFilters;
-    QString allExtensions = i18n("All Images") + " (";
+    QString allExtensions = i18n("All Images") + QStringLiteral(" (");
     foreach (const QByteArray &mimeType, supported) {
-        mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + "( *." + QString(mimeType) + ")");
-        allExtensions.append("*." + mimeType + " ");
+        mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + QStringLiteral("( *.") + QString(mimeType) + QLatin1Char(')'));
+        allExtensions.append("*." + mimeType + QLatin1Char(' '));
     }
     mimeTypeFilters.sort();
-    allExtensions.append(")");
+    allExtensions.append(QLatin1Char(')'));
     mimeTypeFilters.prepend(allExtensions);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveImageFolder"));
     if (clipFolder.isEmpty()) {
@@ -1565,7 +1565,7 @@ void TitleWidget::textChanged(MyTextItem *i)
     updateDimension(i);
 
     if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
-        if (!i->toPlainText().isEmpty()) {
+        if (!i->document()->isEmpty()) {
             updatePosition(i);
         } else {
             /*
@@ -2333,7 +2333,7 @@ void TitleWidget::slotAddEffect(int /*ix*/)
                 break;
             case TYPEWRITEREFFECT:
                 if (item->type() == TEXTITEM) {
-                    QStringList effdata = QStringList() << QStringLiteral("typewriter") << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
+                    QStringList effdata = QStringList() << QStringLiteral("typewriter") << QString::number(typewriter_delay->value()) + QLatin1Char(';') + QString::number(typewriter_start->value());
                     item->setData(100, effdata);
                 }
                 break;
@@ -2364,7 +2364,7 @@ void TitleWidget::slotEditTypewriter(int /*ix*/)
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        QStringList effdata = QStringList() << QStringLiteral("typewriter") << QString::number(typewriter_delay->value()) + ';' + QString::number(typewriter_start->value());
+        QStringList effdata = QStringList() << QStringLiteral("typewriter") << QString::number(typewriter_delay->value()) + QLatin1Char(';') + QString::number(typewriter_start->value());
         l[0]->setData(100, effdata);
     }
 }
@@ -2531,7 +2531,7 @@ void TitleWidget::slotSelectNone()
 
 QString TitleWidget::getTooltipWithShortcut(const QString &text, QAction *button)
 {
-    return text + "  <b>" + button->shortcut().toString() + "</b>";
+    return text + QStringLiteral("  <b>") + button->shortcut().toString() + QStringLiteral("</b>");
 }
 
 void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
@@ -2604,14 +2604,14 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         if (referenceItem->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
             MyTextItem *i = static_cast <MyTextItem *>(referenceItem);
-            if (!i->toPlainText().isEmpty()) {
+            if (!i->document()->isEmpty()) {
                 // We have an existing text item selected
                 if (!i->data(100).isNull()) {
                     // Item has an effect
                     QStringList effdata = i->data(100).toStringList();
                     QString effectName = effdata.takeFirst();
                     if (effectName == QLatin1String("typewriter")) {
-                        QStringList params = effdata.at(0).split(';');
+                        QStringList params = effdata.at(0).split(QLatin1Char(';'));
                         typewriter_delay->setValue(params.at(0).toInt());
                         typewriter_start->setValue(params.at(1).toInt());
                         effect_list->setCurrentIndex(effect_list->findData((int) TYPEWRITEREFFECT));

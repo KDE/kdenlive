@@ -46,7 +46,7 @@ class MonitorManager;
 {
     Q_OBJECT
 public:
-    EqualizerWidget(QWidget *parent = Q_NULLPTR);
+    EqualizerWidget(QWidget *parent = nullptr);
 
 };*/
 
@@ -54,7 +54,7 @@ class AudioGraphWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AudioGraphWidget(QWidget *parent = Q_NULLPTR);
+    explicit AudioGraphWidget(QWidget *parent = nullptr);
     void drawBackground();
 
 public slots:
@@ -79,7 +79,7 @@ class AudioGraphSpectrum : public ScopeWidget
 {
     Q_OBJECT
 public:
-    AudioGraphSpectrum(MonitorManager *manager, QWidget *parent = Q_NULLPTR);
+    AudioGraphSpectrum(MonitorManager *manager, QWidget *parent = nullptr);
     virtual ~AudioGraphSpectrum();
 
 private:

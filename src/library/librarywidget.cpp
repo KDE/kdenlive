@@ -60,6 +60,7 @@ LibraryTree::LibraryTree(QWidget *parent) : QTreeWidget(parent)
 QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
     QList<QUrl> urls;
+    urls.reserve(list.count());
     foreach (QTreeWidgetItem *item, list) {
         urls << QUrl::fromLocalFile(item->data(0, Qt::UserRole).toString());
     }
@@ -139,9 +140,9 @@ void LibraryTree::dropEvent(QDropEvent *event)
         QList<QUrl> urls = qMimeData->urls();
         emit moveData(urls, dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/clip"))) {
-        emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(';'), dest);
+        emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';')), dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
-        QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(';');
+        QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
         foreach (const QString &data, list) {
             if (data.startsWith(QLatin1Char('#'))) {
                 // Bin folder, not supported yet
@@ -270,10 +271,10 @@ void LibraryWidget::slotAddToLibrary()
     if (name.isEmpty() || !ok) {
         return;
     }
-    if (m_directory.exists(name + ".mlt")) {
+    if (m_directory.exists(name + QStringLiteral(".mlt"))) {
         //TODO: warn and ask for overwrite / rename
     }
-    QString fullPath = m_directory.absoluteFilePath(name + ".mlt");
+    QString fullPath = m_directory.absoluteFilePath(name + QStringLiteral(".mlt"));
     m_manager->slotSaveSelection(fullPath);
 }
 
@@ -293,8 +294,7 @@ void LibraryWidget::slotAddToProject()
     if (!current) {
         return;
     }
-    QList<QUrl> list;
-    list << QUrl::fromLocalFile(current->data(0, Qt::UserRole).toString());
+    const QList<QUrl> list = {QUrl::fromLocalFile(current->data(0, Qt::UserRole).toString())};
     emit addProjectClips(list);
 }
 

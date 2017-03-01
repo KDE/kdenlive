@@ -521,8 +521,8 @@ int Render::setSceneList(QString playlist, int position)
     emit durationChanged(m_mltProducer->get_playtime() - 1);
 
     // Fill bin
-    QStringList ids = m_binController->getClipIds();
-    foreach (const QString &id, ids) {
+    const QStringList ids = m_binController->getClipIds();
+    for (const QString &id : ids) {
         if (id == QLatin1String("black")) {
             continue;
         }
@@ -1139,7 +1139,7 @@ Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const Q
 {
     //TODO: find a better way to check if a producer is already inserted in a track ?
     QString trackName = trackPlaylist.get("id");
-    QString clipIdWithTrack = clipId + "_" + trackName;
+    QString clipIdWithTrack = clipId + QLatin1Char('_') + trackName;
     Mlt::Producer *prod = nullptr;
     for (int i = 0; i < trackPlaylist.count(); i++) {
         if (trackPlaylist.is_blank(i)) {
@@ -1414,7 +1414,7 @@ void Render::cloneProperties(Mlt::Properties &dest, Mlt::Properties &source)
         char *value = source.get(i);
         if (value != nullptr) {
             char *name = source.get_name(i);
-            if (name != nullptr && name[0] != '_') {
+            if (name != nullptr && name[0] != QLatin1Char('_')) {
                 dest.set(name, value);
             }
         }
@@ -1687,10 +1687,7 @@ bool Render::storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bo
 
 Mlt::Producer *Render::getSlowmotionProducer(const QString &url)
 {
-    if (m_slowmotionProducers.contains(url)) {
-        return m_slowmotionProducers.value(url);
-    }
-    return nullptr;
+    return m_slowmotionProducers.value(url);
 }
 
 void Render::updateSlowMotionProducers(const QString &id, const QMap<QString, QString> &passProperties)
@@ -1701,7 +1698,7 @@ void Render::updateSlowMotionProducers(const QString &id, const QMap<QString, QS
         i.next();
         prod = i.value();
         QString currentId = prod->get("id");
-        if (currentId.startsWith("slowmotion:" + id + ":")) {
+        if (currentId.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
             QMapIterator<QString, QString> j(passProperties);
             while (j.hasNext()) {
                 j.next();

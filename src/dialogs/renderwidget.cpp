@@ -414,8 +414,8 @@ void RenderWidget::setGuides(const QMap<double, QString> &guidesData, double dur
         i.next();
         GenTime pos = GenTime(i.key());
         const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
-        m_view.guide_start->addItem(i.value() + '/' + guidePos, i.key());
-        m_view.guide_end->addItem(i.value() + '/' + guidePos, i.key());
+        m_view.guide_start->addItem(i.value() + QLatin1Char('/') + guidePos, i.key());
+        m_view.guide_end->addItem(i.value() + QLatin1Char('/') + guidePos, i.key());
     }
     if (!guidesData.isEmpty()) {
         m_view.guide_end->addItem(i18n("End"), QString::number(duration));
@@ -557,8 +557,9 @@ void RenderWidget::slotSaveProfile()
             profileElement.setAttribute(QStringLiteral("defaultaudioquality"), QString::number(ui.default_abitrate->value()));
             profileElement.setAttribute(QStringLiteral("audioqualities"), ui.abitrates_list->text());
         }
-        if (!ui.speeds_list->toPlainText().isEmpty()) {
-            profileElement.setAttribute(QStringLiteral("speeds"), ui.speeds_list->toPlainText().replace('\n', ';').simplified());
+        QString speeds_list_str = ui.speeds_list->toPlainText();
+        if (!speeds_list_str.isEmpty()) {
+            profileElement.setAttribute(QStringLiteral("speeds"), speeds_list_str.replace('\n', ';').simplified());
         }
 
         doc.appendChild(profileElement);
@@ -571,7 +572,7 @@ void RenderWidget::slotSaveProfile()
 
 bool RenderWidget::saveProfile(QDomElement newprofile)
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -755,7 +756,7 @@ void RenderWidget::slotEditProfile()
 
     if (d->exec() == QDialog::Accepted) {
         slotDeleteProfile(false);
-        QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/customprofiles.xml";
+        QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
         doc.setContent(&file, false);
@@ -827,9 +828,10 @@ void RenderWidget::slotEditProfile()
             profileElement.setAttribute(QStringLiteral("audioqualities"), ui.abitrates_list->text());
         }
 
-        if (!ui.speeds_list->toPlainText().isEmpty()) {
+        QString speeds_list_str = ui.speeds_list->toPlainText();
+        if (!speeds_list_str.isEmpty()) {
             // profile has a variable speed
-            profileElement.setAttribute(QStringLiteral("speeds"), ui.speeds_list->toPlainText().replace('\n', ';').simplified());
+            profileElement.setAttribute(QStringLiteral("speeds"), speeds_list_str.replace('\n', ';').simplified());
         }
 
         profiles.appendChild(profileElement);
@@ -873,7 +875,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
     }
     QString currentProfile = item->text(0);
 
-    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/customprofiles.xml";
+    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/customprofiles.xml");
     QDomDocument doc;
     QFile file(exportFile);
     doc.setContent(&file, false);
@@ -969,7 +971,7 @@ void RenderWidget::slotPrepareExport(bool scriptExport, const QString &scriptPat
     }
     QString chapterFile;
     if (m_view.create_chapter->isChecked()) {
-        chapterFile = m_view.out_file->url().toLocalFile() + ".dvdchapter";
+        chapterFile = m_view.out_file->url().toLocalFile() + QStringLiteral(".dvdchapter");
     }
 
     // mantisbt 1051
@@ -1010,7 +1012,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QFileInfo dfi(dest);
             QStringList filePath;
             // construct the full file path
-            filePath << dfi.absolutePath() << QDir::separator() << dfi.completeBaseName() + "_" <<
+            filePath << dfi.absolutePath() << QDir::separator() << dfi.completeBaseName() + QLatin1Char('_') <<
                      QString(trackNames.at(stemIdx)).replace(QLatin1Char(' '), QLatin1Char('_')) << QStringLiteral(".") << dfi.suffix();
             dest = filePath.join(QString());
         }
@@ -1028,8 +1030,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         imageSequences << QStringLiteral("jpg") << QStringLiteral("png") << QStringLiteral("bmp") << QStringLiteral("dpx") << QStringLiteral("ppm") << QStringLiteral("tga") << QStringLiteral("tif");
         if (imageSequences.contains(extension)) {
             // format string for counter?
-            if (!QRegExp(".*%[0-9]*d.*").exactMatch(dest)) {
-                dest = dest.section('.', 0, -2) + "_%05d." + extension;
+            if (!QRegExp(QStringLiteral(".*%[0-9]*d.*")).exactMatch(dest)) {
+                dest = dest.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
             }
         }
 
@@ -1054,8 +1056,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             }
             QTextStream outStream(&file);
             outStream << "#! /bin/sh" << '\n' << '\n';
-            outStream << "RENDERER=" << '\"' + m_renderer + '\"' << '\n';
-            outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + '\"' << "\n\n";
+            outStream << "RENDERER=" << '\"' + m_renderer + QLatin1Char('\"') << '\n';
+            outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + QLatin1Char('\"') << "\n\n";
         }
 
         QStringList overlayargs;
@@ -1094,16 +1096,16 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         // Check for fps change
         double forcedfps = 0;
         if (std.startsWith(QLatin1String("r="))) {
-            QString sub = std.section(' ', 0, 0).toLower();
-            sub = sub.section('=', 1, 1);
+            QString sub = std.section(QLatin1Char(' '), 0, 0).toLower();
+            sub = sub.section(QLatin1Char('='), 1, 1);
             forcedfps = sub.toDouble();
         } else if (std.contains(QStringLiteral(" r="))) {
             QString sub = std.section(QStringLiteral(" r="), 1, 1);
-            sub = sub.section(' ', 0, 0).toLower();
+            sub = sub.section(QLatin1Char(' '), 0, 0).toLower();
             forcedfps = sub.toDouble();
         } else if (std.contains(QStringLiteral("mlt_profile="))) {
             QString sub = std.section(QStringLiteral("mlt_profile="), 1, 1);
-            sub = sub.section(' ', 0, 0).toLower();
+            sub = sub.section(QLatin1Char(' '), 0, 0).toLower();
             MltVideoProfile destinationProfile = ProfilesDialog::getVideoProfile(sub);
             forcedfps = (double) destinationProfile.frame_rate_num / destinationProfile.frame_rate_den;
         }
@@ -1220,11 +1222,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         // in which case we need to use the producer_comsumer from MLT
         QString subsize;
         if (std.startsWith(QLatin1String("s="))) {
-            subsize = std.section(' ', 0, 0).toLower();
-            subsize = subsize.section('=', 1, 1);
+            subsize = std.section(QLatin1Char(' '), 0, 0).toLower();
+            subsize = subsize.section(QLatin1Char('='), 1, 1);
         } else if (std.contains(QStringLiteral(" s="))) {
             subsize = std.section(QStringLiteral(" s="), 1, 1);
-            subsize = subsize.section(' ', 0, 0).toLower();
+            subsize = subsize.section(QLatin1Char(' '), 0, 0).toLower();
         } else if (m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
             subsize = QStringLiteral(" s=%1x%2").arg(width).arg(height);
             // Add current size parameter
@@ -1243,20 +1245,20 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         sEngine.globalObject().setProperty(QStringLiteral("quality"), m_view.video->value());
         sEngine.globalObject().setProperty(QStringLiteral("audiobitrate"), m_view.audio->value());
         sEngine.globalObject().setProperty(QStringLiteral("audioquality"), m_view.audio->value());
-        sEngine.globalObject().setProperty(QStringLiteral("dar"), '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
+        sEngine.globalObject().setProperty(QStringLiteral("dar"), '@' + QString::number(m_profile.display_aspect_num) + QLatin1Char('/') + QString::number(m_profile.display_aspect_den));
         sEngine.globalObject().setProperty(QStringLiteral("passes"), static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
 
         for (int i = 0; i < paramsList.count(); ++i) {
-            QString paramName = paramsList.at(i).section('=', 0, -2);
-            QString paramValue = paramsList.at(i).section('=', -1);
+            QString paramName = paramsList.at(i).section(QLatin1Char('='), 0, -2);
+            QString paramValue = paramsList.at(i).section(QLatin1Char('='), -1);
             // If the profiles do not match we need to use the consumer tag
             if (paramName == QLatin1String("mlt_profile") && paramValue != m_profile.path) {
                 resizeProfile = true;
             }
             // evaluate expression
-            if (paramValue.startsWith('%')) {
+            if (paramValue.startsWith(QLatin1Char('%'))) {
                 paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
-                paramsList[i] = paramName + '=' + paramValue;
+                paramsList[i] = paramName + QLatin1Char('=') + paramValue;
             }
             sEngine.globalObject().setProperty(paramName.toUtf8().constData(), paramValue);
         }
@@ -1277,9 +1279,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QTextStream outStream(&file);
             QString stemIdxStr(QString::number(stemIdx));
 
-            outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded() + '\"' << '\n';
-            outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(dest).toEncoded() + '\"' << '\n';
-            outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(QLatin1Char(' ')) + '\"' << '\n';
+            outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded() + QLatin1Char('\"') << '\n';
+            outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(dest).toEncoded() + QLatin1Char('\"') << '\n';
+            outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(QLatin1Char(' ')) + QLatin1Char('\"') << '\n';
             outStream << "$RENDERER $PARAMETERS_" << stemIdxStr << "\n\n";
 
             if (stemIdx == (stemCount - 1)) {
@@ -1366,7 +1368,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                     //TODO: probably not valid anymore (no more MLT profiles in args)
                     // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
                     QString prof = renderArgs.section(QStringLiteral("mlt_profile="), 1, 1);
-                    prof = prof.section(' ', 0, 0);
+                    prof = prof.section(QLatin1Char(' '), 0, 0);
                     qCDebug(KDENLIVE_LOG) << "// render profile: " << prof;
                     renderItem->setMetadata(prof);
                 }
@@ -1440,7 +1442,7 @@ void RenderWidget::startRendering(RenderJobItem *item)
         }
     } else if (item->type() == ScriptRenderType) {
         // Script item
-        if (QProcess::startDetached('"' + item->data(1, ParametersRole).toString() + '"') == false) {
+        if (QProcess::startDetached(QLatin1Char('"') + item->data(1, ParametersRole).toString() + QLatin1Char('"')) == false) {
             item->setStatus(FAILEDJOB);
         }
     }
@@ -1503,7 +1505,7 @@ void RenderWidget::refreshView()
             std = item->data(0, ParamsRole).toString();
             // Make sure the selected profile uses the same frame rate as project profile
             if (std.contains(QStringLiteral("mlt_profile="))) {
-                QString profile = std.section(QStringLiteral("mlt_profile="), 1, 1).section(' ', 0, 0);
+                QString profile = std.section(QStringLiteral("mlt_profile="), 1, 1).section(QLatin1Char(' '), 0, 0);
                 MltVideoProfile p = ProfilesDialog::getVideoProfile(profile);
                 if (p.frame_rate_den > 0) {
                     double profile_rate = (double) p.frame_rate_num / p.frame_rate_den;
@@ -1525,7 +1527,7 @@ void RenderWidget::refreshView()
                     format = std.section(QStringLiteral(" f="), 1, 1);
                 }
                 if (!format.isEmpty()) {
-                    format = format.section(' ', 0, 0).toLower();
+                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
                     if (!supportedFormats.contains(format)) {
                         item->setData(0, ErrorRole, i18n("Unsupported video format: %1", format));
                         item->setIcon(0, brokenIcon);
@@ -1542,7 +1544,7 @@ void RenderWidget::refreshView()
                     format = std.section(QStringLiteral(" acodec="), 1, 1);
                 }
                 if (!format.isEmpty()) {
-                    format = format.section(' ', 0, 0).toLower();
+                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
                     if (!acodecsList.contains(format)) {
                         item->setData(0, ErrorRole, i18n("Unsupported audio codec: %1", format));
                         item->setIcon(0, brokenIcon);
@@ -1559,7 +1561,7 @@ void RenderWidget::refreshView()
                     format = std.section(QStringLiteral(" vcodec="), 1, 1);
                 }
                 if (!format.isEmpty()) {
-                    format = format.section(' ', 0, 0).toLower();
+                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
                     if (!vcodecsList.contains(format)) {
                         item->setData(0, ErrorRole, i18n("Unsupported video codec: %1", format));
                         item->setIcon(0, brokenIcon);
@@ -1660,7 +1662,7 @@ void RenderWidget::refreshParams()
 //         else path = path.left(pos) + extension;
 //         m_view.out_file->setUrl(QUrl(path));
 //     } else {
-//         m_view.out_file->setUrl(QUrl(QDir::homePath() + "/untitled." + extension));
+//         m_view.out_file->setUrl(QUrl(QDir::homePath() + QStringLiteral("/untitled.") + extension));
 //     }
     m_view.out_file->setFilter("*." + extension);
     QString edit = item->data(0, EditableRole).toString();
@@ -1762,7 +1764,7 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     // Parse some MLT's profiles
     parseMltPresets();
 
-    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/export/";
+    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/");
     QDir directory(exportFolder);
     QStringList filter;
     filter << QStringLiteral("*.xml");
@@ -1773,8 +1775,8 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     foreach (const QString &filename, fileList) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
-    if (QFile::exists(exportFolder + "customprofiles.xml")) {
-        parseFile(exportFolder + "customprofiles.xml", true);
+    if (QFile::exists(exportFolder + QStringLiteral("customprofiles.xml"))) {
+        parseFile(exportFolder + QStringLiteral("customprofiles.xml"), true);
     }
 
     focusFirstVisibleItem(selectedProfile);
@@ -1800,8 +1802,8 @@ void RenderWidget::parseMltPresets()
             groupItem->setExpanded(true);
         }
 
-        QStringList profiles = root.entryList(QDir::Files, QDir::Name);
-        foreach (const QString &prof, profiles) {
+        const QStringList profiles = root.entryList(QDir::Files, QDir::Name);
+        for (const QString &prof : profiles) {
             KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig);
             KConfigGroup group = config.group(QByteArray());
             QString vcodec = group.readEntry("vcodec");
@@ -1819,7 +1821,7 @@ void RenderWidget::parseMltPresets()
                 } else if (!acodec.isEmpty()) {
                     profileName.append(acodec);
                 }
-                profileName.append(")");
+                profileName.append(QLatin1Char(')'));
             }
             QTreeWidgetItem *item = new QTreeWidgetItem(QStringList(profileName));
             item->setData(0, ExtensionRole, extension);
@@ -1999,17 +2001,17 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(0, StandardRole, standard);
             item->setData(0, ParamsRole, params);
             if (params.contains(QLatin1String("%quality"))) {
-                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(',', QString::SkipEmptyParts));
+                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%bitrate"))) {
-                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(',', QString::SkipEmptyParts));
+                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (params.contains(QLatin1String("%audioquality"))) {
-                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(',', QString::SkipEmptyParts));
+                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%audiobitrate"))) {
-                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
+                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (profile.hasAttribute(QStringLiteral("speeds"))) {
-                item->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(';', QString::SkipEmptyParts));
+                item->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
             }
             if (profile.hasAttribute(QStringLiteral("url"))) {
                 item->setData(0, ExtraRole, profile.attribute(QStringLiteral("url")));
@@ -2085,17 +2087,17 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(0, StandardRole, standard);
             item->setData(0, ParamsRole, params);
             if (params.contains(QLatin1String("%quality"))) {
-                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(',', QString::SkipEmptyParts));
+                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%bitrate"))) {
-                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(',', QString::SkipEmptyParts));
+                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (params.contains(QLatin1String("%audioquality"))) {
-                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audioqualities")).split(',', QString::SkipEmptyParts));
+                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%audiobitrate"))) {
-                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(',', QString::SkipEmptyParts));
+                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (profileElement.hasAttribute(QStringLiteral("speeds"))) {
-                item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(';', QString::SkipEmptyParts));
+                item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
             }
             if (profileElement.hasAttribute(QStringLiteral("url"))) {
                 item->setData(0, ExtraRole, profileElement.attribute(QStringLiteral("url")));
@@ -2280,13 +2282,13 @@ void RenderWidget::parseScriptFiles()
                 QString line = stream.readLine();
                 if (line.startsWith(QLatin1String("TARGET_0="))) {
                     target = line.section(QStringLiteral("TARGET_0=\""), 1);
-                    target = target.section('"', 0, 0);
+                    target = target.section(QLatin1Char('"'), 0, 0);
                 } else if (line.startsWith(QLatin1String("RENDERER="))) {
                     renderer = line.section(QStringLiteral("RENDERER=\""), 1);
-                    renderer = renderer.section('"', 0, 0);
+                    renderer = renderer.section(QLatin1Char('"'), 0, 0);
                 } else if (line.startsWith(QLatin1String("MELT="))) {
                     melt = line.section(QStringLiteral("MELT=\""), 1);
-                    melt = melt.section('"', 0, 0);
+                    melt = melt.section(QLatin1Char('"'), 0, 0);
                 }
             }
             file.close();
@@ -2374,7 +2376,7 @@ void RenderWidget::slotDeleteScript()
     if (item) {
         QString path = item->data(1, Qt::UserRole + 1).toString();
         bool success = true;
-        success &= QFile::remove(path + ".mlt");
+        success &= QFile::remove(path + QStringLiteral(".mlt"));
         success &= QFile::remove(path);
         if (!success) {
             qCWarning(KDENLIVE_LOG) << "// Error removing script or playlist: " << path << ", " << path << ".mlt";
@@ -2515,7 +2517,7 @@ bool RenderWidget::startWaitingRenderJobs()
 QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &prefix)
 {
     int ix = 0;
-    QString scriptsFolder = m_projectFolder + "scripts/";
+    QString scriptsFolder = m_projectFolder + QStringLiteral("scripts/");
     QDir dir(m_projectFolder);
     dir.mkdir(QStringLiteral("scripts"));
     QString path;
@@ -2523,11 +2525,11 @@ QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &
     if (projectName.isEmpty()) {
         fileName = i18n("script");
     } else {
-        fileName = projectName.fileName().section('.', 0, -2) + '_';
+        fileName = projectName.fileName().section(QLatin1Char('.'), 0, -2) + QLatin1Char('_');
     }
     while (path.isEmpty() || QFile::exists(path)) {
         ++ix;
-        path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+        path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + QStringLiteral(".sh");
     }
     return path;
 }

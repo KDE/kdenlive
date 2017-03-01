@@ -48,7 +48,7 @@ class Generators : public QDialog
     Q_OBJECT
 
 public:
-    explicit Generators(Monitor *monitor, const QString &path, QWidget *parent = Q_NULLPTR);
+    explicit Generators(Monitor *monitor, const QString &path, QWidget *parent = nullptr);
     virtual ~Generators();
 
     static void getGenerators(const QStringList &producers, QMenu *menu);

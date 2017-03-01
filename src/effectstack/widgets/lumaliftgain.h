@@ -40,7 +40,7 @@ public:
     * @param text (optional) What the color will be used for
     * @param color (optional) initial color
     * @param alphaEnabled (optional) Should transparent colors be enabled */
-    explicit LumaLiftGain(const QDomNodeList &nodes, QWidget *parent = Q_NULLPTR);
+    explicit LumaLiftGain(const QDomNodeList &nodes, QWidget *parent = nullptr);
     void updateEffect(QDomElement &effect);
 
 private:

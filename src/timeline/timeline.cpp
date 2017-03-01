@@ -417,11 +417,11 @@ void Timeline::getTransitions()
         QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
         //check invalid parameters
         if (a_track > m_tractor->count() - 1) {
-            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), a_track, m_tractor->count() - 1) + '\n');
+            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), a_track, m_tractor->count() - 1) + QLatin1Char('\n'));
             prop.set("a_track", m_tractor->count() - 1);
         }
         if (b_track > m_tractor->count() - 1) {
-            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), b_track, m_tractor->count() - 1) + '\n');
+            m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), b_track, m_tractor->count() - 1) + QLatin1Char('\n'));
             prop.set("b_track", m_tractor->count() - 1);
         }
         if (a_track == b_track || b_track <= 0
@@ -430,7 +430,7 @@ void Timeline::getTransitions()
                 //|| !m_trackview->canBePastedTo(transitionInfo, TransitionWidget)
            ) {
             // invalid transition, remove it
-            m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
+            m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + QLatin1Char('\n'));
             mlt_service broken = service;
             service = mlt_service_producer(service);
             mlt_field_disconnect_service(field->get_field(), broken);
@@ -448,7 +448,7 @@ void Timeline::getTransitions()
                 }
             }
             if (!transitionAccepted) {
-                m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + '\n');
+                m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + QLatin1Char('\n'));
                 mlt_service broken = service;
                 service = mlt_service_producer(service);
                 mlt_field_disconnect_service(field->get_field(), broken);
@@ -489,18 +489,18 @@ void Timeline::getTransitions()
 // static
 bool Timeline::isSlide(QString geometry)
 {
-    if (geometry.count(';') != 1) {
+    if (geometry.count(QLatin1Char(';')) != 1) {
         return false;
     }
 
-    geometry.remove(QChar('%'), Qt::CaseInsensitive);
-    geometry.replace(QChar('x'), QChar(':'), Qt::CaseInsensitive);
-    geometry.replace(QChar(','), QChar(':'), Qt::CaseInsensitive);
-    geometry.replace(QChar('/'), QChar(':'), Qt::CaseInsensitive);
+    geometry.remove(QLatin1Char('%'), Qt::CaseInsensitive);
+    geometry.replace(QLatin1Char('x'), QLatin1Char(':'), Qt::CaseInsensitive);
+    geometry.replace(QLatin1Char(','), QLatin1Char(':'), Qt::CaseInsensitive);
+    geometry.replace(QLatin1Char('/'), QLatin1Char(':'), Qt::CaseInsensitive);
 
-    QString start = geometry.section('=', 0, 0).section(':', 0, -2) + ':';
-    start.append(geometry.section('=', 1, 1).section(':', 0, -2));
-    QStringList numbers = start.split(':', QString::SkipEmptyParts);
+    QString start = geometry.section(QLatin1Char('='), 0, 0).section(QLatin1Char(':'), 0, -2) + QLatin1Char(':');
+    start.append(geometry.section(QLatin1Char('='), 1, 1).section(QLatin1Char(':'), 0, -2));
+    QStringList numbers = start.split(QLatin1Char(':'), QString::SkipEmptyParts);
     for (int i = 0; i < numbers.size(); ++i) {
         int checkNumber = qAbs(numbers.at(i).toInt());
         if (checkNumber != 0 && checkNumber != 100) {
@@ -531,7 +531,7 @@ void Timeline::adjustDouble(QDomElement &e, const QString &value)
         for (int j = 0; j < keys.count(); ++j) {
             QString pos = keys.at(j).section(QLatin1Char('='), 0, 0);
             double val = locale.toDouble(keys.at(j).section(QLatin1Char('='), 1, 1)) * fact + offset;
-            keys[j] = pos + '=' + locale.toString(val);
+            keys[j] = pos + QLatin1Char('=') + locale.toString(val);
         }
         e.setAttribute(QStringLiteral("value"), keys.join(QLatin1Char(';')));
     } else {
@@ -571,10 +571,10 @@ void Timeline::parseDocument(const QDomDocument &doc)
         // Our document was upgraded, create a backup copy just in case
         QString baseFile = m_doc->url().toLocalFile().section(QStringLiteral(".kdenlive"), 0, 0);
         int ct = 0;
-        QString backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
+        QString backupFile = baseFile + QStringLiteral("_backup") + QString::number(ct) + QStringLiteral(".kdenlive");
         while (QFile::exists(backupFile)) {
             ct++;
-            backupFile = baseFile + "_backup" + QString::number(ct) + ".kdenlive";
+            backupFile = baseFile + QStringLiteral("_backup") + QString::number(ct) + QStringLiteral(".kdenlive");
         }
         QString message;
         if (mlt.hasAttribute(QStringLiteral("upgraded"))) {
@@ -1035,13 +1035,13 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             hasSpeedEffect = true;
             QLocale locale;
             locale.setNumberOptions(QLocale::OmitGroupSeparator);
-            id = idString.section(':', 1, 1);
-            slowInfo.speed = locale.toDouble(idString.section(':', 2, 2));
-            slowInfo.strobe = idString.section(':', 3, 3).toInt();
+            id = idString.section(QLatin1Char(':'), 1, 1);
+            slowInfo.speed = locale.toDouble(idString.section(QLatin1Char(':'), 2, 2));
+            slowInfo.strobe = idString.section(QLatin1Char(':'), 3, 3).toInt();
             if (slowInfo.strobe == 0) {
                 slowInfo.strobe = 1;
             }
-            slowInfo.state = (PlaylistState::ClipState) idString.section(':', 4, 4).toInt();
+            slowInfo.state = (PlaylistState::ClipState) idString.section(QLatin1Char(':'), 4, 4).toInt();
             // Slowmotion producer, store it for reuse
             Mlt::Producer *parentProd = new Mlt::Producer(clip->parent());
             QString url = parentProd->get("warp_resource");
@@ -1049,7 +1049,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
                 delete parentProd;
             }
         }
-        id = id.section('_', 0, 0);
+        id = id.section(QLatin1Char('_'), 0, 0);
         ProjectClip *binclip = m_doc->getBinClip(id);
         PlaylistState::ClipState originalState = PlaylistState::Original;
         if (binclip == nullptr) {
@@ -1173,14 +1173,14 @@ QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement 
     // retrieve keyframes
     QScopedPointer<Mlt::Filter> effect(service.filter(ix));
     int effectNb = effect->get_int("kdenlive_ix");
-    QString keyframes = QString::number(effect->get_in()) + '=' + locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + ';';
+    QString keyframes = QString::number(effect->get_in()) + QLatin1Char('=') + locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + QLatin1Char(';');
     for (; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> eff2(service.filter(ix));
         if (eff2->get_int("kdenlive_ix") != effectNb) {
             break;
         }
         if (eff2->get_in() < eff2->get_out()) {
-            keyframes.append(QString::number(eff2->get_out()) + '=' + locale.toString(offset + fact * eff2->get_double(endtag.toUtf8().constData())) + ';');
+            keyframes.append(QString::number(eff2->get_out()) + QLatin1Char('=') + locale.toString(offset + fact * eff2->get_double(endtag.toUtf8().constData())) + QLatin1Char(';'));
         }
     }
     --ix;
@@ -1190,13 +1190,13 @@ QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement 
 void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
 {
     for (int i = 0;; ++i) {
-        QString name = "filter" + QString::number(i);
+        QString name = QStringLiteral("filter") + QString::number(i);
         if (!effect->get(name.toUtf8().constData())) {
             break;
         }
         //identify effect
-        QString tag = effect->get(name.append(".tag").toUtf8().constData());
-        QString id = effect->get(name.append(".kdenlive_id").toUtf8().constData());
+        QString tag = effect->get(name.append(QStringLiteral(".tag")).toUtf8().constData());
+        QString id = effect->get(name.append(QLatin1String(".kdenlive_id")).toUtf8().constData());
         QDomElement subclipeffect = getEffectByTag(tag, id);
         if (subclipeffect.isNull()) {
             qCWarning(KDENLIVE_LOG) << "Region sub-effect not found";
@@ -1208,9 +1208,9 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
         //get effect parameters (prefixed by subfilter name)
         QDomNodeList params = subclipeffect.elementsByTagName(QStringLiteral("parameter"));
         ProfileInfo info = m_doc->getProfileInfo();
-        for (int i = 0; i < params.count(); ++i) {
-            QDomElement param = params.item(i).toElement();
-            setParam(info, param, effect->get((name + "." + param.attribute(QStringLiteral("name"))).toUtf8().constData()));
+        for (int j = 0; j < params.count(); ++j) {
+            QDomElement param = params.item(j).toElement();
+            setParam(info, param, effect->get((name + QLatin1Char('.') + param.attribute(QStringLiteral("name"))).toUtf8().constData()));
         }
         currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
     }
@@ -1233,15 +1233,15 @@ void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &valu
     //adjust parameter if necessary
     QString type = param.attribute(QStringLiteral("type"));
     if (type == QLatin1String("simplekeyframe")) {
-        QStringList kfrs = value.split(';');
+        QStringList kfrs = value.split(QLatin1Char(';'));
         for (int l = 0; l < kfrs.count(); ++l) {
-            QString fr = kfrs.at(l).section('=', 0, 0);
-            double val = locale.toDouble(kfrs.at(l).section('=', 1, 1));
+            QString fr = kfrs.at(l).section(QLatin1Char('='), 0, 0);
+            double val = locale.toDouble(kfrs.at(l).section(QLatin1Char('='), 1, 1));
             if (fact != 1) {
                 // Add 0.5 since we are converting to integer below so that 0.8 is converted to 1 and not 0
                 val = val * fact + 0.5;
             }
-            kfrs[l] = fr + '=' + QString::number((int)(val + offset));
+            kfrs[l] = fr + QLatin1Char('=') + QString::number((int)(val + offset));
         }
         param.setAttribute(QStringLiteral("keyframes"), kfrs.join(QLatin1Char(';')));
     } else if (type == QLatin1String("double") || type == QLatin1String("constant")) {
@@ -1452,7 +1452,7 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
             } else {
                 double evaluatedValue = EffectsController::getStringEval(m_doc->getProfileInfo(), e.attribute(QStringLiteral("default")));
                 e.setAttribute(QStringLiteral("default"), evaluatedValue);
-                if (!e.hasAttribute(QStringLiteral("value")) || e.attribute(QStringLiteral("value")).startsWith('%')) {
+                if (!e.hasAttribute(QStringLiteral("value")) || e.attribute(QStringLiteral("value")).startsWith(QLatin1Char('%'))) {
                     e.setAttribute(QStringLiteral("value"), evaluatedValue);
                 }
             }
@@ -1462,7 +1462,7 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
             QString def = e.attribute(QStringLiteral("default"));
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute(QStringLiteral("keyframes")).isEmpty()) {
-                e.setAttribute(QStringLiteral("keyframes"), "0:" + def + ';');
+                e.setAttribute(QStringLiteral("keyframes"), "0:" + def + QLatin1Char(';'));
                 //qCDebug(KDENLIVE_LOG) << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
                 //break;
             }
@@ -2017,8 +2017,8 @@ void Timeline::invalidateTrack(int ix)
         return;
     }
     Track *tk = track(ix);
-    QList<QPoint> visibleRange = tk->visibleClips();
-    foreach (const QPoint &p, visibleRange) {
+    const QList<QPoint> visibleRange = tk->visibleClips();
+    for (const QPoint &p : visibleRange) {
         m_timelinePreview->invalidatePreview(p.x(), p.y());
     }
 }

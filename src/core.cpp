@@ -24,6 +24,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <mlt++/MltRepository.h>
 
+#include <mlt++/MltRepository.h>
+
 #include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
@@ -80,7 +82,7 @@ void Core::build(const QString &MltPath, const QUrl &Url, const QString &clipsTo
 
 void Core::initialize(const QString &mltPath)
 {
-    m_mltConnection = std::make_shared<MltConnection>(mltPath);
+    m_mltConnection = std::unique_ptr<MltConnection>(new MltConnection(mltPath));
     m_mainWindow = new MainWindow();
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin();
@@ -105,7 +107,6 @@ void Core::initialize(const QString &mltPath)
     m_timelineTab = new QTabWidget();
     //TODO
     /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
-
 }
 
 QWidget *Core::timelineTabs()

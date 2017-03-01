@@ -165,7 +165,7 @@ QImage Waveform::renderHUD(uint)
                     }
 
                     davinci.drawLine(x, y, x, scopeRect().height() - m_paddingBottom);
-                    davinci.drawText(valX, scopeRect().height() - 5, QVariant(clipX).toString() + " px");
+                    davinci.drawText(valX, scopeRect().height() - 5, QVariant(clipX).toString() + QStringLiteral(" px"));
                 }
             }
         }

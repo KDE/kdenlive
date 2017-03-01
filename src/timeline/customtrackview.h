@@ -49,7 +49,7 @@ class CustomTrackView : public QGraphicsView
     Q_OBJECT
 
 public:
-    CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTrackScene *projectscene, QWidget *parent = Q_NULLPTR);
+    CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTrackScene *projectscene, QWidget *parent = nullptr);
     virtual ~ CustomTrackView();
 
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -65,10 +65,10 @@ public:
     /**
       Move the clip at \c start to \c end.
 
-      If \c out_actualEnd is not Q_NULLPTR, it will be set to the position the clip really ended up at.
+      If \c out_actualEnd is not nullptr, it will be set to the position the clip really ended up at.
       For example, attempting to move a clip to t = -1 s will actually move it to t = 0 s.
       */
-    bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, bool alreadyMoved, ItemInfo *out_actualEnd = Q_NULLPTR);
+    bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, bool alreadyMoved, ItemInfo *out_actualEnd = nullptr);
     void moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool reverseMove);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
@@ -87,7 +87,7 @@ public:
     void slotAddEffectToCurrentItem(const QDomElement &effect);
     /** @brief Add effect to a clip or selection */
     void slotAddEffect(const QDomElement &effect, const GenTime &pos, int track);
-    void slotAddGroupEffect(const QDomElement &effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = Q_NULLPTR);
+    void slotAddGroupEffect(const QDomElement &effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = nullptr);
     void addEffect(int track, GenTime pos, const QDomElement &effect);
     void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
     void updateEffect(int track, GenTime pos, const QDomElement &insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false, bool refreshMonitor = true);
@@ -147,12 +147,12 @@ public:
     *
     * Makes sure no clip on track to lock is selected. */
     void lockTrack(int ix, bool lock, bool requestUpdate = true);
-    void groupClips(bool group = true, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), bool forceLock = false, QUndoCommand *command = Q_NULLPTR, bool doIt = true);
+    void groupClips(bool group = true, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), bool forceLock = false, QUndoCommand *command = nullptr, bool doIt = true);
     void doGroupClips(const QList<ItemInfo> &clipInfos, const QList<ItemInfo> &transitionInfos, bool group);
     void loadGroups(const QDomNodeList &groups);
 
     /** @brief Creates SplitAudioCommands for selected clips. */
-    void splitAudio(bool warn = true, const ItemInfo &info = ItemInfo(), int destTrack = -1, QUndoCommand *masterCommand = Q_NULLPTR);
+    void splitAudio(bool warn = true, const ItemInfo &info = ItemInfo(), int destTrack = -1, QUndoCommand *masterCommand = nullptr);
 
     /// Define which clip to take as reference for automatic audio alignment
     void setAudioAlignReference();
@@ -248,7 +248,7 @@ public:
     int getNextVideoTrack(int track);
     /** @brief returns id of clip under cursor and set pos to cursor position in clip,
      *  zone gets in/out points */
-    const QString getClipUnderCursor(int *pos, QPoint *zone = Q_NULLPTR) const;
+    const QString getClipUnderCursor(int *pos, QPoint *zone = nullptr) const;
     /** @brief returns displayable timecode info */
     QString getDisplayTimecode(const GenTime &time) const;
     QString getDisplayTimecodeFromFrames(int frames) const;
@@ -282,7 +282,7 @@ public:
     * @param pos New startPos
     * @param check (optional, default = false) Whether to check for collisions
     * @param command (optional) Will be used as parent command (for undo history) */
-    void prepareResizeClipStart(AbstractClipItem *item, const ItemInfo &oldInfo, int pos, bool check = false, QUndoCommand *command = Q_NULLPTR);
+    void prepareResizeClipStart(AbstractClipItem *item, const ItemInfo &oldInfo, int pos, bool check = false, QUndoCommand *command = nullptr);
 
     /** @brief Takes care of updating effects and attached transitions during a resize from end.
     * @param item Item to resize
@@ -290,7 +290,7 @@ public:
     * @param pos New endPos
     * @param check (optional, default = false) Whether to check for collisions
     * @param command (optional) Will be used as parent command (for undo history) */
-    void prepareResizeClipEnd(AbstractClipItem *item, const ItemInfo &oldInfo, int pos, bool check = false, QUndoCommand *command = Q_NULLPTR);
+    void prepareResizeClipEnd(AbstractClipItem *item, const ItemInfo &oldInfo, int pos, bool check = false, QUndoCommand *command = nullptr);
     AbstractClipItem *dragItem();
     /** @brief Cut clips in all non locked tracks. */
     void cutTimeline(int cutPos, const QList<ItemInfo> &excludedClips, const QList<ItemInfo> &excludedTransitions, QUndoCommand *masterCommand, int track = -1);
@@ -336,7 +336,7 @@ public slots:
     void setCursorPos(int pos);
     void moveCursorPos(int delta);
     void slotDeleteEffectGroup(ClipItem *clip, int track, const QDomDocument &doc, bool affectGroup = true);
-    void slotDeleteEffect(ClipItem *clip, int track, const QDomElement &effect, bool affectGroup = true, QUndoCommand *parentCommand = Q_NULLPTR);
+    void slotDeleteEffect(ClipItem *clip, int track, const QDomElement &effect, bool affectGroup = true, QUndoCommand *parentCommand = nullptr);
     void slotChangeEffectState(ClipItem *clip, int track, QList<int> effectIndexes, bool disable);
     void slotChangeEffectPosition(ClipItem *clip, int track, const QList<int> &currentPos, int newPos);
     void slotUpdateClipEffect(ClipItem *clip, int track, const QDomElement &oldeffect, const QDomElement &effect, int ix, bool refreshEffectStack = true);
@@ -399,7 +399,7 @@ public slots:
     void updateSnapPoints(AbstractClipItem *selected, QList<GenTime> offsetList = QList<GenTime> (), bool skipSelectedItems = false);
 
     void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
-    void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> data = QMap<QString, QString>());
+    void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> keyframes = QMap<QString, QString>());
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
@@ -409,7 +409,7 @@ public slots:
     /** @brief Export part of the playlist in an xml file */
     void exportTimelineSelection(QString path = QString());
     /** Remove zone from current track */
-    void extractZone(QPoint z, bool closeGap, const QList<ItemInfo> &excludedClips = QList<ItemInfo>(), QUndoCommand *masterCommand = Q_NULLPTR, int track = -1);
+    void extractZone(QPoint z, bool closeGap, const QList<ItemInfo> &excludedClips = QList<ItemInfo>(), QUndoCommand *masterCommand = nullptr, int track = -1);
     /** @brief Select an item in timeline. */
     void slotSelectItem(AbstractClipItem *item);
     /** @brief Cycle through timeline trim modes */
@@ -521,7 +521,7 @@ private:
     ClipItem *m_audioAlignmentReference;
 
     void updatePositionEffects(ClipItem *item, const ItemInfo &info, bool standalone = true);
-    bool insertDropClips(const QMimeData *data, const QPoint &pos);
+    bool insertDropClips(const QMimeData *mimeData, const QPoint &pos);
     bool canBePastedTo(const QList<ItemInfo> &infoList, int type) const;
     bool canBePasted(const QList<AbstractClipItem *> &items, GenTime offset, int trackOffset, QList<AbstractClipItem *>excluded = QList<AbstractClipItem *>()) const;
     ClipItem *getClipUnderCursor() const;

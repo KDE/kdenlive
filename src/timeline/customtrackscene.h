@@ -40,7 +40,7 @@ class CustomTrackScene : public QGraphicsScene
     Q_OBJECT
 
 public:
-    explicit CustomTrackScene(Timeline *timeline, QObject *parent = Q_NULLPTR);
+    explicit CustomTrackScene(Timeline *timeline, QObject *parent = nullptr);
     ~CustomTrackScene();
     void setSnapList(const QList<GenTime> &snaps);
     GenTime previousSnapPoint(const GenTime &pos) const;

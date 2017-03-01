@@ -98,9 +98,10 @@ void ProjectManager::slotLoadOnOpen()
     }
 
     if (!m_loadClipsOnOpen.isEmpty() && m_project) {
-        QStringList list = m_loadClipsOnOpen.split(',');
+        const QStringList list = m_loadClipsOnOpen.split(QLatin1Char(','));
         QList<QUrl> urls;
-        foreach (const QString &path, list) {
+        urls.reserve(list.count());
+        for (const QString &path : list) {
             //qCDebug(KDENLIVE_LOG) << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
@@ -369,7 +370,7 @@ bool ProjectManager::saveFileAs()
     bool ok = false;
     QDir cacheDir = m_project->getCacheDir(CacheBase, &ok);
     if (ok) {
-        QFile file(cacheDir.absoluteFilePath(QUrl::toPercentEncoding("." + outputFile)));
+        QFile file(cacheDir.absoluteFilePath(QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral(".") + outputFile))));
         file.open(QIODevice::ReadWrite | QIODevice::Text);
         file.close();
     }
@@ -627,7 +628,7 @@ QString ProjectManager::getMimeType(bool open)
 {
     QString mimetype = i18n("Kdenlive project (*.kdenlive)");
     if (open) {
-        mimetype.append(";;" + i18n("Archived project (*.tar.gz)"));
+        mimetype.append(QStringLiteral(";;") + i18n("Archived project (*.tar.gz)"));
     }
     return mimetype;
 }
@@ -790,11 +791,7 @@ QString ProjectManager::getDefaultProjectFormat()
 {
     // On first run, lets use an HD1080p profile with fps related to timezone country. Then, when the first video is added to a project, if it does not match our profile, propose a new default.
     QTimeZone zone;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     zone = QTimeZone::systemTimeZone();
-#else
-    zone = QTimeZone(QTimeZone::systemTimeZoneId());
-#endif
 
     QList<int> ntscCountries;
     ntscCountries << QLocale::Canada << QLocale::Chile << QLocale::CostaRica << QLocale::Cuba << QLocale::DominicanRepublic << QLocale::Ecuador;

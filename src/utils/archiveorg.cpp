@@ -172,7 +172,7 @@ OnlineItemInfo ArchiveOrg::displayItemDetails(QListWidgetItem *item)
     m_metaInfo.insert(QStringLiteral("url"), info.itemDownload);
     m_metaInfo.insert(QStringLiteral("id"), info.itemId);
 
-    QString extraInfoUrl = item->data(infoUrl).toString() + "&output=json";
+    QString extraInfoUrl = item->data(infoUrl).toString() + QStringLiteral("&output=json");
     if (!extraInfoUrl.isEmpty()) {
         KJob *resolveJob = KIO::storedGet(QUrl(extraInfoUrl), KIO::NoReload, KIO::HideProgressInfo);
         resolveJob->setProperty("id", info.itemId);
@@ -235,12 +235,10 @@ void ArchiveOrg::slotParseResults(KJob *job)
                                 if (k.key() == QLatin1String("format")) {
                                     //   qCDebug(KDENLIVE_LOG)<<"Format: "<<k.value().toString();
                                     format = k.value().toString();
-                                }
-                                if (k.key() == QLatin1String("size")) {
+                                } else if (k.key() == QLatin1String("size")) {
                                     fileSize =  QLocale::system().toString(k.value().toInt() / 1024);
                                     //  qCDebug(KDENLIVE_LOG)<<" fileSize: "<<k.value().toInt()/1024;
-                                }
-                                if (k.key() == QLatin1String("length")) {
+                                } else if (k.key() == QLatin1String("length")) {
                                     minsLong =  QString::number(k.value().toFloat() / 60, 'f', 1);
                                 }
 
@@ -251,18 +249,19 @@ void ArchiveOrg::slotParseResults(KJob *job)
 
                         if (format != QLatin1String("Animated GIF") && format != QLatin1String("Metadata") && format != QLatin1String("Archive BitTorrent") && format != QLatin1String("Thumbnail") && format != QLatin1String("JSON") && format != QLatin1String("JPEG") && format != QLatin1String("JPEG Thumb") && format != QLatin1String("PNG") && format != QLatin1String("Video Index")) {
                             // the a href url has the tag _import added at the end. This tag is removed by ResourceWidget::slotOpenLink before being used to download the file
-                            html += "<tr><td>" + format + " (" + fileSize + "kb " + minsLong + "min) " + QStringLiteral("</td><td><a href=\"%1\">%2</a></td></tr>").arg(sDownloadUrl + "_import", i18n("Import"));
+                            html += QStringLiteral("<tr><td>") + format + QStringLiteral(" (") + fileSize
+                                    + QStringLiteral("kb ") + minsLong + QStringLiteral("min) ")
+                                    + QStringLiteral("</td><td><a href=\"%1\">%2</a></td></tr>").arg(sDownloadUrl + QStringLiteral("_import"), i18n("Import"));
                         }
                         //if (format==QLatin1String("Animated GIF"))// widget does not run through the frames of the animated gif
                         if (format == QLatin1String("Thumbnail") && !bThumbNailFound) {
-                            sThumbUrl = "https://archive.org/download/" + m_metaInfo.value(QStringLiteral("id")) + j.key();
+                            sThumbUrl = QStringLiteral("https://archive.org/download/") + m_metaInfo.value(QStringLiteral("id")) + j.key();
                             //m_metaInfo.insert(QStringLiteral("preview"), sPreviewUrl);
                             //  qCDebug(KDENLIVE_LOG)<<" sPreviewUrl: "<<sPreviewUrl;
                             bThumbNailFound = true;
                             emit gotThumb(sThumbUrl);
                         }
                         if (format == QLatin1String("Animated GIF")) //
-
                         {
                             sPreviewUrl = "https://archive.org/download/" + m_metaInfo.value(QStringLiteral("id")) + j.key();
                             m_metaInfo.insert(QStringLiteral("preview"), sPreviewUrl);
@@ -296,19 +295,19 @@ void ArchiveOrg::slotParseResults(KJob *job)
         qCDebug(KDENLIVE_LOG)<<"ArchiveOrg::slotParseResults"<< href;
         if (href.endsWith(QLatin1String(".thumbs/"))) {
             // sub folder contains image thumbs, display one.
-            m_thumbsPath = m_metaInfo.value(QStringLiteral("url")) + '/' + href;
+            m_thumbsPath = m_metaInfo.value(QStringLiteral("url")) + QLatin1Char('/') + href;
             KJob* thumbJob = KIO::storedGet( QUrl(m_thumbsPath), KIO::NoReload, KIO::HideProgressInfo );
             thumbJob->setProperty("id", m_metaInfo.value(QStringLiteral("id")));
             connect(thumbJob, &KJob::result, this, &ArchiveOrg::slotParseThumbs);
         }
         else if (!href.contains(QLatin1Char('/')) && !href.endsWith(QLatin1String(".xml"))) {
-            link = m_metaInfo.value(QStringLiteral("url")) + '/' + href;
+            link = m_metaInfo.value(QStringLiteral("url")) + QLatin1Char('/') + href;
             ct++;
             if (ct %2 == 0) {
                 html += QLatin1String("<tr class=\"cellone\">");
             }
             else html += QLatin1String("<tr>");
-            html += "<td>" + QUrl(link).fileName() + QStringLiteral("</td><td><a href=\"%1\">%2</a></td><td><a href=\"%3\">%4</a></td></tr>").arg(link).arg(i18n("Preview")).arg(link + "_import").arg(i18n("Import"));
+            html += QStringLiteral("<td>") + QUrl(link).fileName() + QStringLiteral("</td><td><a href=\"%1\">%2</a></td><td><a href=\"%3\">%4</a></td></tr>").arg(link).arg(i18n("Preview")).arg(link + "_import").arg(i18n("Import"));
         }
     }
     html += QLatin1String("</table>");
@@ -348,7 +347,7 @@ QString ArchiveOrg::getExtension(QListWidgetItem *item)
     if (!item) {
         return QString();
     }
-    return QStringLiteral("*.") + item->text().section('.', -1);
+    return QStringLiteral("*.") + item->text().section(QLatin1Char('.'), -1);
 }
 
 QString ArchiveOrg::getDefaultDownloadName(QListWidgetItem *item)

@@ -29,7 +29,7 @@ class Bin;
 class AddBinFolderCommand : public QUndoCommand
 {
 public:
-    explicit AddBinFolderCommand(Bin *bin, const QString &id, const QString &name, const QString &parentId, bool remove = false, QUndoCommand *parent = Q_NULLPTR);
+    explicit AddBinFolderCommand(Bin *bin, const QString &id, const QString &name, const QString &parentId, bool remove = false, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -43,7 +43,7 @@ private:
 class MoveBinClipCommand : public QUndoCommand
 {
 public:
-    explicit MoveBinClipCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent = Q_NULLPTR);
+    explicit MoveBinClipCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -56,7 +56,7 @@ private:
 class MoveBinFolderCommand : public QUndoCommand
 {
 public:
-    explicit MoveBinFolderCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent = Q_NULLPTR);
+    explicit MoveBinFolderCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -69,7 +69,7 @@ private:
 class RenameBinFolderCommand : public QUndoCommand
 {
 public:
-    explicit RenameBinFolderCommand(Bin *bin, const QString &folderId, const QString &newName, const QString &oldName, QUndoCommand *parent = Q_NULLPTR);
+    explicit RenameBinFolderCommand(Bin *bin, const QString &folderId, const QString &newName, const QString &oldName, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -82,7 +82,7 @@ private:
 class AddBinEffectCommand : public QUndoCommand
 {
 public:
-    explicit AddBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &effect, QUndoCommand *parent = Q_NULLPTR);
+    explicit AddBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &effect, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -94,7 +94,7 @@ private:
 class RemoveBinEffectCommand : public QUndoCommand
 {
 public:
-    explicit RemoveBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &effect, QUndoCommand *parent = Q_NULLPTR);
+    explicit RemoveBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &effect, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -106,7 +106,7 @@ private:
 class UpdateBinEffectCommand : public QUndoCommand
 {
 public:
-    explicit UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect, QDomElement &newEffect, int ix, QUndoCommand *parent = Q_NULLPTR);
+    explicit UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect, QDomElement &newEffect, int ix, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -121,7 +121,7 @@ private:
 class ChangeMasterEffectStateCommand : public QUndoCommand
 {
 public:
-    ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList<int> &effectIndexes, bool disable, QUndoCommand *parent = Q_NULLPTR);
+    ChangeMasterEffectStateCommand(Bin *bin, const QString &clipId, const QList<int> &effectIndexes, bool disable, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -135,7 +135,7 @@ private:
 class MoveBinEffectCommand : public QUndoCommand
 {
 public:
-    explicit MoveBinEffectCommand(Bin *bin, const QString &clipId, const QList<int> &oldPos, int newPos, QUndoCommand *parent = Q_NULLPTR);
+    explicit MoveBinEffectCommand(Bin *bin, const QString &clipId, const QList<int> &oldPos, int newPos, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -148,7 +148,7 @@ private:
 class RenameBinSubClipCommand : public QUndoCommand
 {
 public:
-    explicit RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out, QUndoCommand *parent = Q_NULLPTR);
+    explicit RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -163,7 +163,7 @@ private:
 class AddBinClipCutCommand : public QUndoCommand
 {
 public:
-    explicit AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent = Q_NULLPTR);
+    explicit AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -177,7 +177,7 @@ private:
 class EditClipCommand : public QUndoCommand
 {
 public:
-    EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt, QUndoCommand *parent = Q_NULLPTR);
+    EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -196,7 +196,7 @@ private:
 class AddClipCommand : public QUndoCommand
 {
 public:
-    AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand *parent = Q_NULLPTR);
+    AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:

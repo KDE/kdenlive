@@ -32,7 +32,7 @@ class BezierSplineEditor : public AbstractCurveWidget<CubicBezierSpline>
 
 public:
     typedef BPoint Point_t;
-    explicit BezierSplineEditor(QWidget *parent = Q_NULLPTR);
+    explicit BezierSplineEditor(QWidget *parent = nullptr);
     ~BezierSplineEditor();
 
 

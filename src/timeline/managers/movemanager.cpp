@@ -187,7 +187,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                                 }
                                 m_view->adjustTimelineTransitions(m_view->sceneEditMode(), startTransition, moveCommand);
                                 if (startTransition->updateKeyframes(startTrInfo, newStartTrInfo)) {
-                                    QDomElement old = startTransition->toXML();
+                                    old = startTransition->toXML();
                                     QDomElement xml = startTransition->toXML();
                                     m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
                                 }
@@ -340,12 +340,11 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                 continue;
             }
             AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
-            ItemInfo info = item->info();
             if (item->type() == AVWidget) {
-                clipsToMove.append(info);
+                clipsToMove.append(item->info());
                 updatedClipsToMove << item->info();
             } else {
-                transitionsToMove.append(info);
+                transitionsToMove.append(item->info());
                 updatedTransitionsToMove << item->info();
             }
         }

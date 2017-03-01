@@ -283,10 +283,10 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     }
     QString source = clip->url();
     QPoint zone = clip->zone();
-    QString ext = source.section('.', -1);
-    QString dest = source.section('.', 0, -2) + '_' + QString::number(zone.x()) + '.' + ext;
+    QString ext = source.section(QLatin1Char('.'), -1);
+    QString dest = source.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(zone.x()) + QLatin1Char('.') + ext;
 
-    if (originalFps == 0) {
+    if (originalFps < 1e-6) {
         originalFps = fps;
     }
     // if clip and project have different frame rate, adjust in and out
@@ -323,7 +323,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     while (!acceptPath) {
         // Do not allow to save over original clip
         if (dest == source) {
-            ui.info_label->setText("<b>" + i18n("You cannot overwrite original clip.") + "</b><br>" + mess);
+            ui.info_label->setText(QStringLiteral("<b>") + i18n("You cannot overwrite original clip.") + QStringLiteral("</b><br>") + mess);
         } else if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Overwrite file %1", dest)) == KMessageBox::Yes) {
             break;
         }
@@ -372,7 +372,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     for (int i = 0; i < clips.count(); i++) {
         QString source = clips.at(i)->url();
         sources << source;
-        QString newFile = params.section(' ', -1).replace(QLatin1String("%1"), source);
+        QString newFile = params.section(QLatin1Char(' '), -1).replace(QLatin1String("%1"), source);
         destinations << newFile;
         if (QFile::exists(newFile)) {
             existingFiles << newFile;
@@ -400,9 +400,9 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     connect(ui.button_more, &QAbstractButton::toggled, ui.extra_params, &QWidget::setVisible);
     ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
-    ui.extra_params->setPlainText(params.simplified().section(' ', 0, -2));
+    ui.extra_params->setPlainText(params.simplified().section(QLatin1Char(' '), 0, -2));
     QString mess = desc;
-    mess.append(' ' + i18np("(%1 clip)", "(%1 clips)", clips.count()));
+    mess.append(QLatin1Char(' ') + i18np("(%1 clip)", "(%1 clips)", clips.count()));
     ui.info_label->setText(mess);
     if (d->exec() != QDialog::Accepted) {
         delete d;
@@ -440,7 +440,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps
     Q_UNUSED(parameters);
 
     QHash<ProjectClip *, AbstractClipJob *> jobs;
-    foreach (ProjectClip *clip, clips) {
+    for (ProjectClip *clip : clips) {
         QString source = clip->url();
         QStringList jobParams;
         int duration = clip->duration().frames(fps) * clip->getOriginalFps() / fps;
@@ -458,9 +458,9 @@ void CutClipJob::processAnalyseLog()
         qCDebug(KDENLIVE_LOG) << "+ + + + +CORRUPTED JSON DOC";
     }
     QJsonObject jsonObject = doc.object();
-    QJsonArray jsonArray = jsonObject[QStringLiteral("frames")].toArray();
+    const QJsonArray jsonArray = jsonObject[QStringLiteral("frames")].toArray();
     QList<int> frames;
-    foreach (const QJsonValue &value, jsonArray) {
+    for (const QJsonValue &value : jsonArray) {
         QJsonObject obj = value.toObject();
         if (obj[QStringLiteral("pict_type")].toString() != QLatin1String("I")) {
             continue;

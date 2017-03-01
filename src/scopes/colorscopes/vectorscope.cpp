@@ -500,7 +500,7 @@ void Vectorscope::slotGainChanged(int newval)
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_gain = 1 + (float)newval / 10;
-    ui->lblGain->setText(locale.toString(m_gain, 'f', 1) + 'x');
+    ui->lblGain->setText(locale.toString(m_gain, 'f', 1) + QLatin1Char('x'));
     forceUpdateScope();
 }
 

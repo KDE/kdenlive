@@ -34,7 +34,7 @@ class EffectStackEdit : public QScrollArea
 {
     Q_OBJECT
 public:
-    explicit EffectStackEdit(Monitor *monitor, QWidget *parent = Q_NULLPTR);
+    explicit EffectStackEdit(Monitor *monitor, QWidget *parent = nullptr);
     ~EffectStackEdit();
     static QMap<QString, QImage> iconCache;
     /** @brief Sets attribute @param name to @param value.
@@ -52,7 +52,7 @@ public:
     /** @brief Returns type of monitor scene requested by this transition. */
     MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set keyframes for this transition. */
-    void setKeyframes(const QString &tag, const QString &data);
+    void setKeyframes(const QString &tag, const QString &keyframes);
     void updatePalette();
     /** @brief Emit geometry settings. */
     void initEffectScene(int pos);
@@ -72,7 +72,7 @@ public slots:
 
 private slots:
     /** @brief Import keyframes for the transition. */
-    void importKeyframes(const QString &keyframes);
+    void importKeyframes(const QString &kf);
 
 signals:
     void parameterChanged(const QDomElement &, const QDomElement &, int);
@@ -86,7 +86,7 @@ signals:
     void effectStateChanged(bool enabled);
     /** @brief Start an MLT filter job on this clip. */
     void startFilterJob(QMap<QString, QString> &, QMap<QString, QString> &, QMap<QString, QString> &);
-    void importClipKeyframes(GraphicsRectItem = AVWidget, const QMap<QString, QString> &data = QMap<QString, QString>());
+    void importClipKeyframes(GraphicsRectItem = AVWidget, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
 };
 
 #endif

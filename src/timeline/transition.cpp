@@ -216,7 +216,7 @@ void Transition::paint(QPainter *painter,
         framePen.setColor(brush().color().darker());
     }
 
-    const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
+    const QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, QLatin1Char(' ') + text + QLatin1Char(' '));
     painter->setBrush(framePen.color());
     painter->setPen(framePen.color());
     painter->drawRoundedRect(txtBounding, 3, 3);
@@ -431,7 +431,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
     }
     int duration = newInfo.cropDuration.frames(m_fps) - 1;
     int oldEnd = oldInfo.cropDuration.frames(m_fps) - 1;
-    QStringList values = keyframes.split(';');
+    QStringList values = keyframes.split(QLatin1Char(';'));
     int frame;
     int i = 0;
     if (oldEnd < duration) {
@@ -450,7 +450,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
                 } else if (pos.contains(QLatin1Char('|'))) {
                     separator.prepend(QLatin1Char('|'));
                 }
-                values[i] = QString::number(duration) + separator + pos.section('=', 1);
+                values[i] = QString::number(duration) + separator + pos.section(QLatin1Char('='), 1);
                 pa.setAttribute(QStringLiteral("value"), values.join(QLatin1Char(';')));
                 return true;
             }

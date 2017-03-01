@@ -60,7 +60,7 @@ public slots:
      */
     virtual void slotShowComment(bool){
         qDebug()<<"DEBUG: show_comment not correctly overriden";
-    };
+    }
 
 };
 

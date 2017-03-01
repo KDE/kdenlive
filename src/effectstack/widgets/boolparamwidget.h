@@ -41,7 +41,7 @@ public:
         @param checked Boolean indicating wether the checkbox should initially be checked
         @param parent Parent widget
     */
-    BoolParamWidget(const QString& name, const QString& comment = QString(), bool checked = false, QWidget *parent = Q_NULLPTR);
+    BoolParamWidget(const QString& name, const QString& comment = QString(), bool checked = false, QWidget *parent = nullptr);
 
 
     /** @brief Returns the current value of the parameter
