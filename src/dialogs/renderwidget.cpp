@@ -23,6 +23,8 @@
 #include "timecode.h"
 #include "dialogs/profilesdialog.h"
 #include "utils/KoIconUtils.h"
+#include "profiles/profilerepository.hpp"
+#include "profiles/profilemodel.hpp"
 
 #include "klocalizedstring.h"
 #include <KMessageBox>
@@ -146,7 +148,7 @@ const QString RenderJobItem::metadata() const
     return m_data;
 }
 
-RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget *parent) :
+RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const QString &profile, QWidget *parent) :
     QDialog(parent),
     m_projectFolder(projectfolder),
     m_profile(profile),
@@ -408,7 +410,7 @@ void RenderWidget::setGuides(const QMap<double, QString> &guidesData, double dur
         m_view.render_guide->setEnabled(false);
         m_view.create_chapter->setEnabled(false);
     }
-    double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
+    double fps = ProfileRepository::get()->getProfile(m_profile)->fps();
     QMapIterator<double, QString> i(guidesData);
     while (i.hasNext()) {
         i.next();
@@ -1106,48 +1108,48 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         } else if (std.contains(QStringLiteral("mlt_profile="))) {
             QString sub = std.section(QStringLiteral("mlt_profile="), 1, 1);
             sub = sub.section(QLatin1Char(' '), 0, 0).toLower();
-            MltVideoProfile destinationProfile = ProfilesDialog::getVideoProfile(sub);
-            forcedfps = (double) destinationProfile.frame_rate_num / destinationProfile.frame_rate_den;
+            forcedfps = ProfileRepository::get()->getProfile(sub)->fps();
         }
 
         bool resizeProfile = false;
+        std::unique_ptr<ProfileModel>& profile = ProfileRepository::get()->getProfile(m_profile);
         if (renderArgs.contains(QLatin1String("%dv_standard"))) {
             QString std;
-            if (fmod((double)m_profile.frame_rate_num / m_profile.frame_rate_den, 30.01) > 27) {
+            if (fmod((double)profile->frame_rate_num() / profile->frame_rate_den(), 30.01) > 27) {
                 std = QStringLiteral("ntsc");
-                if (!(m_profile.frame_rate_num == 30000 && m_profile.frame_rate_den == 1001)) {
+                if (!(profile->frame_rate_num() == 30000 && profile->frame_rate_den() == 1001)) {
                     forcedfps = 30000.0 / 1001;
                 }
-                if (!(m_profile.width == 720 && m_profile.height == 480)) {
+                if (!(profile->width() == 720 && profile->height() == 480)) {
                     resizeProfile = true;
                 }
             } else {
                 std = QStringLiteral("pal");
-                if (!(m_profile.frame_rate_num == 25 && m_profile.frame_rate_den == 1)) {
+                if (!(profile->frame_rate_num() == 25 && profile->frame_rate_den() == 1)) {
                     forcedfps = 25;
                 }
-                if (!(m_profile.width == 720 && m_profile.height == 576)) {
+                if (!(profile->width() == 720 && profile->height() == 576)) {
                     resizeProfile = true;
                 }
             }
 
-            if ((double) m_profile.display_aspect_num / m_profile.display_aspect_den > 1.5) {
+            if ((double) profile->display_aspect_num() / profile->display_aspect_den() > 1.5) {
                 std += QLatin1String("_wide");
             }
             renderArgs.replace(QLatin1String("%dv_standard"), std);
         }
 
         // If there is an fps change, we need to use the producer consumer AND update the in/out points
-        if (forcedfps > 0 && qAbs((int) 100 * forcedfps - ((int) 100 * m_profile.frame_rate_num / m_profile.frame_rate_den)) > 2) {
+        if (forcedfps > 0 && qAbs((int) 100 * forcedfps - ((int) 100 * profile->frame_rate_num() / profile->frame_rate_den())) > 2) {
             resizeProfile = true;
-            double ratio = m_profile.frame_rate_num / m_profile.frame_rate_den / forcedfps;
+            double ratio = profile->frame_rate_num() / profile->frame_rate_den() / forcedfps;
             if (ratio > 0) {
                 zoneIn /= ratio;
                 zoneOut /= ratio;
             }
         }
         if (m_view.render_guide->isChecked()) {
-            double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
+            double fps = profile->fps();
             double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
             double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
             render_process_args << "in=" + QString::number((int) GenTime(guideStart).frames(fps)) << "out=" + QString::number((int) GenTime(guideEnd).frames(fps));
@@ -1165,7 +1167,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             render_process_args << KdenliveSettings::rendererpath();
         }
 
-        render_process_args << m_profile.path << item->data(0, RenderRole).toString();
+        render_process_args << profile->path() << item->data(0, RenderRole).toString();
         if (!scriptExport && m_view.play_after->isChecked()) {
             QMimeDatabase db;
             QMimeType mime = db.mimeTypeForFile(dest);
@@ -1196,8 +1198,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             width = m_view.rescale_width->value();
             height = m_view.rescale_height->value();
         } else {
-            width = m_profile.width;
-            height = m_profile.height;
+            width = profile->width();
+            height = profile->height();
         }
 
         // Adjust scanning
@@ -1234,7 +1236,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
         // Check if we need to embed the playlist into the producer consumer
         // That is required if PAR != 1
-        if (m_profile.sample_aspect_num != m_profile.sample_aspect_den && subsize.isEmpty()) {
+        if (profile->sample_aspect_num() != profile->sample_aspect_den() && subsize.isEmpty()) {
             resizeProfile = true;
         }
 
@@ -1245,14 +1247,14 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         sEngine.globalObject().setProperty(QStringLiteral("quality"), m_view.video->value());
         sEngine.globalObject().setProperty(QStringLiteral("audiobitrate"), m_view.audio->value());
         sEngine.globalObject().setProperty(QStringLiteral("audioquality"), m_view.audio->value());
-        sEngine.globalObject().setProperty(QStringLiteral("dar"), '@' + QString::number(m_profile.display_aspect_num) + QLatin1Char('/') + QString::number(m_profile.display_aspect_den));
+        sEngine.globalObject().setProperty(QStringLiteral("dar"), '@' + QString::number(profile->display_aspect_num()) + QLatin1Char('/') + QString::number(profile->display_aspect_den()));
         sEngine.globalObject().setProperty(QStringLiteral("passes"), static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
 
         for (int i = 0; i < paramsList.count(); ++i) {
             QString paramName = paramsList.at(i).section(QLatin1Char('='), 0, -2);
             QString paramValue = paramsList.at(i).section(QLatin1Char('='), -1);
             // If the profiles do not match we need to use the consumer tag
-            if (paramName == QLatin1String("mlt_profile") && paramValue != m_profile.path) {
+            if (paramName == QLatin1String("mlt_profile") && paramValue != profile->path()) {
                 resizeProfile = true;
             }
             // evaluate expression
@@ -1461,7 +1463,7 @@ int RenderWidget::waitingJobsCount() const
     return count;
 }
 
-void RenderWidget::setProfile(const MltVideoProfile &profile)
+void RenderWidget::setProfile(const QString &profile)
 {
     m_view.scanning_list->setCurrentIndex(0);
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
@@ -1485,30 +1487,33 @@ void RenderWidget::refreshView()
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
-    double project_framerate = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
+
+    //We borrow a reference to the profile's pointer to query it more easily
+    std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(m_profile);
+    double project_framerate = (double) profile->frame_rate_num() / profile->frame_rate_den();
     for (int i = 0; i < m_view.formats->topLevelItemCount(); ++i) {
         QTreeWidgetItem *group = m_view.formats->topLevelItem(i);
         for (int j = 0; j < group->childCount(); ++j) {
             QTreeWidgetItem *item = group->child(j);
             QString std = item->data(0, StandardRole).toString();
             if (std.isEmpty()
-                    || (std.contains(QStringLiteral("PAL"), Qt::CaseInsensitive) && m_profile.frame_rate_num == 25 && m_profile.frame_rate_den == 1)
-                    || (std.contains(QStringLiteral("NTSC"), Qt::CaseInsensitive) && m_profile.frame_rate_num == 30000 && m_profile.frame_rate_den == 1001)
+                || (std.contains(QStringLiteral("PAL"), Qt::CaseInsensitive) && profile->frame_rate_num() == 25 && profile->frame_rate_den() == 1)
+                || (std.contains(QStringLiteral("NTSC"), Qt::CaseInsensitive) && profile->frame_rate_num() == 30000 && profile->frame_rate_den() == 1001)
                ) {
                 // Standard OK
             } else {
-                item->setData(0, ErrorRole, i18n("Standard (%1) not compatible with project profile (%2)", std, (double) m_profile.frame_rate_num / m_profile.frame_rate_den));
+                item->setData(0, ErrorRole, i18n("Standard (%1) not compatible with project profile (%2)", std, project_framerate));
                 item->setIcon(0, brokenIcon);
                 item->setForeground(0, disabled);
                 continue;
             }
-            std = item->data(0, ParamsRole).toString();
+            QString params = item->data(0, ParamsRole).toString();
             // Make sure the selected profile uses the same frame rate as project profile
-            if (std.contains(QStringLiteral("mlt_profile="))) {
-                QString profile = std.section(QStringLiteral("mlt_profile="), 1, 1).section(QLatin1Char(' '), 0, 0);
-                MltVideoProfile p = ProfilesDialog::getVideoProfile(profile);
-                if (p.frame_rate_den > 0) {
-                    double profile_rate = (double) p.frame_rate_num / p.frame_rate_den;
+            if (params.contains(QStringLiteral("mlt_profile="))) {
+                QString profile_str = params.section(QStringLiteral("mlt_profile="), 1, 1).section(QLatin1Char(' '), 0, 0);
+                std::unique_ptr<ProfileModel>& target_profile = ProfileRepository::get()->getProfile(profile_str);
+                if (target_profile->frame_rate_den() > 0) {
+                    double profile_rate = (double) target_profile->frame_rate_num() / target_profile->frame_rate_den();
                     if ((int)(1000.0 * profile_rate) != (int)(1000.0 * project_framerate)) {
                         item->setData(0, ErrorRole, i18n("Frame rate (%1) not compatible with project profile (%2)", profile_rate, project_framerate));
                         item->setIcon(0, brokenIcon);
@@ -1521,10 +1526,10 @@ void RenderWidget::refreshView()
             // Make sure the selected profile uses an installed avformat codec / format
             if (!supportedFormats.isEmpty()) {
                 QString format;
-                if (std.startsWith(QLatin1String("f="))) {
-                    format = std.section(QStringLiteral("f="), 1, 1);
-                } else if (std.contains(QStringLiteral(" f="))) {
-                    format = std.section(QStringLiteral(" f="), 1, 1);
+                if (params.startsWith(QLatin1String("f="))) {
+                    format = params.section(QStringLiteral("f="), 1, 1);
+                } else if (params.contains(QStringLiteral(" f="))) {
+                    format = params.section(QStringLiteral(" f="), 1, 1);
                 }
                 if (!format.isEmpty()) {
                     format = format.section(QLatin1Char(' '), 0, 0).toLower();
@@ -1538,10 +1543,10 @@ void RenderWidget::refreshView()
             }
             if (!acodecsList.isEmpty()) {
                 QString format;
-                if (std.startsWith(QLatin1String("acodec="))) {
-                    format = std.section(QStringLiteral("acodec="), 1, 1);
-                } else if (std.contains(QStringLiteral(" acodec="))) {
-                    format = std.section(QStringLiteral(" acodec="), 1, 1);
+                if (params.startsWith(QLatin1String("acodec="))) {
+                    format = params.section(QStringLiteral("acodec="), 1, 1);
+                } else if (params.contains(QStringLiteral(" acodec="))) {
+                    format = params.section(QStringLiteral(" acodec="), 1, 1);
                 }
                 if (!format.isEmpty()) {
                     format = format.section(QLatin1Char(' '), 0, 0).toLower();
@@ -1555,10 +1560,10 @@ void RenderWidget::refreshView()
             }
             if (!vcodecsList.isEmpty()) {
                 QString format;
-                if (std.startsWith(QLatin1String("vcodec="))) {
-                    format = std.section(QStringLiteral("vcodec="), 1, 1);
-                } else if (std.contains(QStringLiteral(" vcodec="))) {
-                    format = std.section(QStringLiteral(" vcodec="), 1, 1);
+                if (params.startsWith(QLatin1String("vcodec="))) {
+                    format = params.section(QStringLiteral("vcodec="), 1, 1);
+                } else if (params.contains(QStringLiteral(" vcodec="))) {
+                    format = params.section(QStringLiteral(" vcodec="), 1, 1);
                 }
                 if (!format.isEmpty()) {
                     format = format.section(QLatin1Char(' '), 0, 0).toLower();
@@ -1570,7 +1575,7 @@ void RenderWidget::refreshView()
                     }
                 }
             }
-            if (std.contains(QStringLiteral(" profile=")) || std.startsWith(QLatin1String("profile="))) {
+            if (params.contains(QStringLiteral(" profile=")) || params.startsWith(QLatin1String("profile="))) {
                 // changed in MLT commit d8a3a5c9190646aae72048f71a39ee7446a3bd45
                 // (http://www.mltframework.org/gitweb/mlt.git?p=mltframework.org/mlt.git;a=commit;h=d8a3a5c9190646aae72048f71a39ee7446a3bd45)
                 item->setData(0, ErrorRole, i18n("This render profile uses a 'profile' parameter.<br />Unless you know what you are doing you will probably have to change it to 'mlt_profile'."));
@@ -2584,7 +2589,8 @@ void RenderWidget::slotUpdateRescaleWidth(int val)
         return;
     }
     m_view.rescale_height->blockSignals(true);
-    m_view.rescale_height->setValue(val * m_profile.height / m_profile.width);
+    std::unique_ptr<ProfileModel>& profile = ProfileRepository::get()->getProfile(m_profile);
+    m_view.rescale_height->setValue(val * profile->height() / profile->width());
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_height->value());
     m_view.rescale_height->blockSignals(false);
 }
@@ -2596,7 +2602,8 @@ void RenderWidget::slotUpdateRescaleHeight(int val)
         return;
     }
     m_view.rescale_width->blockSignals(true);
-    m_view.rescale_width->setValue(val * m_profile.width / m_profile.height);
+    std::unique_ptr<ProfileModel>& profile = ProfileRepository::get()->getProfile(m_profile);
+    m_view.rescale_width->setValue(val * profile->width() / profile->height());
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
     m_view.rescale_width->blockSignals(false);
 }

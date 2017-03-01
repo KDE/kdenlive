@@ -1793,13 +1793,13 @@ void MainWindow::slotRenderProject()
         MltVideoProfile profile;
         if (project) {
             profile = project->mltProfile();
-            m_renderWidget = new RenderWidget(projectfolder, project->useProxy(), profile, this);
+            m_renderWidget = new RenderWidget(projectfolder, project->useProxy(), profile.path, this);
             connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
             connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
             connect(m_renderWidget, &RenderWidget::prepareRenderingData, this, &MainWindow::slotPrepareRendering);
             connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
             connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
-            m_renderWidget->setProfile(project->mltProfile());
+            m_renderWidget->setProfile(project->mltProfile().path);
             m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
@@ -2009,7 +2009,7 @@ void MainWindow::connectDocument()
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
     if (m_renderWidget) {
         slotCheckRenderStatus();
-        m_renderWidget->setProfile(project->mltProfile());
+        m_renderWidget->setProfile(project->mltProfile().path);
         m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
         m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
         m_renderWidget->setRenderProfile(project->getRenderProperties());

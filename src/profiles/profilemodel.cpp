@@ -145,3 +145,8 @@ bool ProfileModel::operator==(const ProfileModel &other) const
         other.display_aspect_num() * 100 / other.display_aspect_den() == dar &&
         other.colorspace() == colorspace();
 }
+
+QString ProfileModel::path() const
+{
+    return m_path;
+}

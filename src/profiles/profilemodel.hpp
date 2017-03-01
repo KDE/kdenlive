@@ -61,6 +61,7 @@ public:
     double dar() const;
     int is_explicit() const;
     int colorspace() const;
+    QString path() const;
 
     /* @brief overload of comparison operators */
     bool operator==(const ProfileModel &other) const;

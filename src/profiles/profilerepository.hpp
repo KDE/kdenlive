@@ -31,7 +31,7 @@
 
 
 /** @brief This class is used to read all the profiles available to the user (MLT defaults one and Custom ones).
- * You can then query profiles based on their description
+ * You can then query profiles based on their paths
  * Note that this class is a Singleton, with Mutex protections to allow concurrent access.
  */
 
@@ -51,6 +51,10 @@ public:
 
     /* @brief Returns a list of all the pairs (description, path) of all the profiles loaded */
     QVector<QPair<QString, QString> > getAllProfiles();
+
+    /* @brief Returns a profile model given the profile's @param path
+     */
+    std::unique_ptr<ProfileModel> &getProfile(const QString& path);
 protected:
     // Constructor is protected because class is a Singleton
     ProfileRepository();

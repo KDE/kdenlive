@@ -111,11 +111,11 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit RenderWidget(const QString &projectfolder, bool enableProxy, const MltVideoProfile &profile, QWidget *parent = nullptr);
+    explicit RenderWidget(const QString &projectfolder, bool enableProxy, const QString &profile, QWidget *parent = nullptr);
     virtual ~RenderWidget();
     void setGuides(const QMap<double, QString> &guidesData, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());
-    void setProfile(const MltVideoProfile &profile);
+    void setProfile(const QString &profile);
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void setDocumentPath(const QString &path);
@@ -201,7 +201,7 @@ private slots:
 private:
     Ui::RenderWidget_UI m_view;
     QString m_projectFolder;
-    MltVideoProfile m_profile;
+    QString m_profile;
     RenderViewDelegate *m_scriptsDelegate;
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
