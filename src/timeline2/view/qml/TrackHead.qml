@@ -86,7 +86,7 @@ Rectangle {
             parent.clicked()
             nameEdit.visible = false
             if (mouse.button == Qt.RightButton)
-                menu.popup()
+                headerMenu.popup()
         }
     }
     ColumnLayout {

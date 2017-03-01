@@ -201,6 +201,11 @@ void TimelineWidget::insertClip(int tid, int position, QString data_str)
     m_model->requestClipInsertion(prod, tid, position, id);
 }
 
+void TimelineWidget::removeClip(int cid)
+{
+    qDebug()<<"DELTE CLIP: "<<cid;
+    m_model->requestClipDeletion(cid);
+}
 
 QString TimelineWidget::timecode(int frames)
 {
@@ -269,4 +274,14 @@ bool TimelineWidget::showThumbnails() const
 bool TimelineWidget::showWaveforms() const
 {
     return KdenliveSettings::audiothumbnails();
+}
+
+void TimelineWidget::addTrack(int tid)
+{
+    qDebug()<<"Adding track: "<<tid;
+}
+
+void TimelineWidget::deleteTrack(int tid)
+{
+    qDebug()<<"Deleting track: "<<tid;
 }

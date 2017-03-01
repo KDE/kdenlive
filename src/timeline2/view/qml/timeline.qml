@@ -83,6 +83,19 @@ Rectangle {
             onTriggered: timeline.addAudioTrack();
         }
     }
+    Menu {
+        id: headerMenu
+        MenuItem {
+            text: qsTr('Add Track')
+            shortcut: 'Ctrl+U'
+            onTriggered: timeline.addTrack(currentTrack);
+        }
+        MenuItem {
+            text: qsTr('Delete Track')
+            //shortcut: 'Ctrl+U'
+            onTriggered: timeline.deleteTrack(currentTrack);
+        }
+    }
 
     Row {
         Column {
@@ -165,7 +178,7 @@ Rectangle {
             }
             onClicked: {
                 if (mouse.button & Qt.RightButton) {
-                    menu.show()
+                    menu.popup()
                 } else {
                     console.log("Position changed: ",timeline.position)
                     root.seekPos = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor

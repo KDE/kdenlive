@@ -551,11 +551,11 @@ Rectangle {
     Menu {
         id: menu
         function show() {
-            mergeItem.visible = timeline.mergeClipWithNext(trackIndex, index, true)
+            //mergeItem.visible = timeline.mergeClipWithNext(trackIndex, index, true)
             popup()
         }
         MenuItem {
-            visible: !isBlank && !isTransition
+            visible: true // !isBlank && !isTransition
             text: qsTr('Cut')
             onTriggered: {
                 if (!trackRoot.isLocked) {
@@ -567,7 +567,7 @@ Rectangle {
             }
         }
         MenuItem {
-            visible: !isBlank && !isTransition
+            visible: true //!isBlank && !isTransition
             text: qsTr('Copy')
             onTriggered: timeline.copyClip(trackIndex, index)
         }
@@ -576,18 +576,19 @@ Rectangle {
         }
         MenuItem {
             text: qsTr('Remove')
-            onTriggered: timeline.remove(trackIndex, index)
+            shortcut: StandardKey.Delete
+            onTriggered: timeline.removeClip(clipRoot.clipId)
         }
         MenuItem {
-            visible: !isBlank
+            visible: true //!isBlank
             text: qsTr('Lift')
             onTriggered: timeline.lift(trackIndex, index)
         }
         MenuSeparator {
-            visible: !isBlank && !isTransition
+            visible: true //!isBlank && !isTransition
         }
         MenuItem {
-            visible: !isBlank && !isTransition
+            visible: true //!isBlank && !isTransition
             text: qsTr('Split At Playhead (S)')
             onTriggered: timeline.splitClip(trackIndex, index)
         }
@@ -601,12 +602,12 @@ Rectangle {
             text: qsTr('Rebuild Audio Waveform')
             onTriggered: timeline.remakeAudioLevels(trackIndex, index)
         }
-        onPopupVisibleChanged: {
+        /*onPopupVisibleChanged: {
             if (visible && application.OS !== 'OS X' && __popupGeometry.height > 0) {
                 // Try to fix menu running off screen. This only works intermittently.
                 menu.__yOffset = Math.min(0, Screen.height - (__popupGeometry.y + __popupGeometry.height + 40))
                 menu.__xOffset = Math.min(0, Screen.width - (__popupGeometry.x + __popupGeometry.width))
             }
-        }
+        }*/
     }
 }

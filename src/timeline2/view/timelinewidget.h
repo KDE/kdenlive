@@ -126,6 +126,7 @@ public:
        @param xml is the data describing the dropped clip
      */
     Q_INVOKABLE void insertClip(int tid, int position, QString xml);
+    Q_INVOKABLE void removeClip(int cid);
     /* @brief Returns the current tractor's producer, useful fo control seeking, playing, etc
      */
     Mlt::Producer *producer();
@@ -141,7 +142,12 @@ public:
     /* @brief Do we want to display audio thumbnails
      */
     Q_INVOKABLE bool showWaveforms() const;
-
+    /* @brief Insert a timeline track
+     */
+    Q_INVOKABLE void addTrack(int tid);
+    /* @brief Remove a timeline track
+     */
+    Q_INVOKABLE void deleteTrack(int tid);
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
