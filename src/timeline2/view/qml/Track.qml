@@ -34,7 +34,7 @@ Column{
 
     SystemPalette { id: activePalette }
 
-    signal clipClicked(var clip, var track)
+    signal clipClicked(var clip, var track, int shiftClick)
     signal clipDragged(var clip, int x, int y)
     signal clipDropped(var clip)
     signal clipDraggedToTrack(var clip, int direction)
@@ -86,10 +86,11 @@ Column{
             fadeOut: 0 //model.fadeOut
             //hash: model.hash
             speed: 1 //model.speed
-            selected: trackRoot.isCurrentTrack && trackRoot.selection.indexOf(clipId) !== -1
+            selected: /*trackRoot.isCurrentTrack &&*/ trackRoot.selection.indexOf(clipId) !== -1
 
             onClicked: {
-                trackRoot.clipClicked(clip, trackRoot);
+                console.log("Clip clicked",clip.clipId)
+                trackRoot.clipClicked(clip, trackRoot, shiftClick);
                 clip.draggedX = clip.x
             }
             onMoved: {
@@ -174,13 +175,5 @@ Column{
         id: clipRow
         height: trackRoot.height
         Repeater { id: repeater; model: trackModel }
-    }
-
-    Rectangle {
-        // Track bottom line
-        height: 1
-        width: timeline.duration * timeScale 
-        color: activePalette.text
-        opacity: 0.4
     }
 }

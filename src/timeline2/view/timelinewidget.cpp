@@ -28,18 +28,21 @@
 #include "qmltypes/thumbnailprovider.h"
 #include "bin/bin.h"
 
+#include <KActionCollection>
 // #include <QUrl>
 #include <QQuickItem>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QAction>
 
 const int TimelineWidget::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
 int TimelineWidget::m_duration = 0;
 
-TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
+TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
     , m_model(TimelineItemModel::construct(binController->profile(), undoStack, true))
+    , m_actionCollection(actionCollection)
     , m_binController(binController)
     , m_position(0)
     , m_scale(3.0)
@@ -52,6 +55,7 @@ TimelineWidget::TimelineWidget(BinController *binController, std::weak_ptr<DocUn
     m_model->tractor()->listen("producer-changed", this, (mlt_listener) tractorChanged);
     m_thumbnailer = new ThumbnailProvider;
     engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
+    setFocusPolicy(Qt::StrongFocus);
     //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 
@@ -64,7 +68,6 @@ void TimelineWidget::tractorChanged(mlt_multitrack mtk, void *self)
 
 void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool isMultitrack)
 {
-    qDebug()<<"* * *SETTING DELECTION: "<<newSelection;
     if (newSelection != selection()
             || trackIndex != m_selection.selectedTrack
             || isMultitrack != m_selection.isMultitrackSelected) {
@@ -79,6 +82,20 @@ void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool 
         else
             emit selected(0);
     }
+}
+
+void TimelineWidget::addSelection(int newSelection)
+{
+    if (m_selection.selectedClips.contains(newSelection)) {
+        return;
+    }
+    m_selection.selectedClips << newSelection;
+    emit selectionChanged();
+
+    if (!m_selection.selectedClips.isEmpty())
+        emitSelectedFromSelection();
+    else
+        emit selected(0);
 }
 
 double TimelineWidget::scaleFactor() const
@@ -201,10 +218,23 @@ void TimelineWidget::insertClip(int tid, int position, QString data_str)
     m_model->requestClipInsertion(prod, tid, position, id);
 }
 
-void TimelineWidget::removeClip(int cid)
+void TimelineWidget::deleteSelectedClips()
 {
-    qDebug()<<"DELTE CLIP: "<<cid;
-    m_model->requestClipDeletion(cid);
+    if (m_selection.selectedClips.isEmpty()) {
+        qDebug()<<" * * *NO selection, aborting";
+        return;
+    }
+    foreach(int cid, m_selection.selectedClips) {
+        m_model->requestClipDeletion(cid);
+    }
+}
+
+void TimelineWidget::triggerAction(const QString &name)
+{
+    QAction *action = m_actionCollection->action(name);
+    if (action) {
+        action->trigger();
+    }
 }
 
 QString TimelineWidget::timecode(int frames)

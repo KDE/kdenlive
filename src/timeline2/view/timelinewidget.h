@@ -28,6 +28,7 @@
 
 class BinController;
 class ThumbnailProvider;
+class KActionCollection;
 
 class TimelineWidget : public QQuickWidget
 {
@@ -49,7 +50,7 @@ class TimelineWidget : public QQuickWidget
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
 
 public:
-    TimelineWidget(BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
+    TimelineWidget(KActionCollection *actionCollection, BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
     /* @brief Sets the list of currently selected clips
        @param selection is the list of id's
        @param trackIndex is current clip's track
@@ -61,6 +62,9 @@ public:
     QList<int> selection() const;
     Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }
     Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
+    /* @brief Add a clip id to current selection
+     */
+    Q_INVOKABLE void addSelection(int newSelection);
     /* @brief returns current timeline's zoom factor
      */
     Q_INVOKABLE double scaleFactor() const;
@@ -126,7 +130,10 @@ public:
        @param xml is the data describing the dropped clip
      */
     Q_INVOKABLE void insertClip(int tid, int position, QString xml);
-    Q_INVOKABLE void removeClip(int cid);
+    void deleteSelectedClips();
+
+    Q_INVOKABLE void triggerAction(const QString &name);
+
     /* @brief Returns the current tractor's producer, useful fo control seeking, playing, etc
      */
     Mlt::Producer *producer();
@@ -159,6 +166,7 @@ public slots:
 
 private:
     std::shared_ptr<TimelineItemModel> m_model;
+    KActionCollection *m_actionCollection;
     BinController *m_binController;
     struct Selection {
         QList<int> selectedClips;

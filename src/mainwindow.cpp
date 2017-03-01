@@ -2240,8 +2240,8 @@ void MainWindow::slotDeleteItem()
         }
 
         // effect stack has no focus
-        if (pCore->projectManager()->currentTimeline()) {
-            pCore->projectManager()->currentTimeline()->projectView()->deleteSelectedClips();
+        if (pCore->projectManager()->currentTimelineWidget()) {
+            pCore->projectManager()->currentTimelineWidget()->deleteSelectedClips();
         }
     }
 }

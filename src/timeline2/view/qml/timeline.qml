@@ -42,7 +42,7 @@ Rectangle {
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
     //property alias ripple: toolbar.ripple
 
-    onCurrentTrackChanged: timeline.selection = []
+    //onCurrentTrackChanged: timeline.selection = []
 
     DropArea {
         width: root.width - headerWidth
@@ -189,7 +189,7 @@ Rectangle {
             onReleased: scim = false
             onExited: scim = false
             onPositionChanged: {
-                if (mouse.modifiers === Qt.ShiftModifier || mouse.buttons === Qt.LeftButton) {
+                if (/*mouse.modifiers === Qt.ShiftModifier ||*/ mouse.buttons === Qt.LeftButton) {
                     root.seekPos = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                     timeline.position = root.seekPos
                     scim = true
@@ -265,7 +265,7 @@ Rectangle {
                     }
                 }
             }
-            CornerSelectionShadow {
+            /*CornerSelectionShadow {
                 y: tracksRepeater.count ? tracksRepeater.itemAt(currentTrack).y + ruler.height - scrollView.flickableItem.contentY : 0
                 clip: timeline.selection.length ?
                         tracksRepeater.itemAt(currentTrack).clipAt(timeline.selection[0]) : null
@@ -279,7 +279,7 @@ Rectangle {
                 opacity: clip && clip.x > scrollView.flickableItem.contentX + scrollView.width ? 1 : 0
                 anchors.right: parent.right
                 mirrorGradient: true
-            }
+            }*/
 
             Rectangle {
                 id: cursor
@@ -397,8 +397,12 @@ Rectangle {
             }
             onClipClicked: {
                 currentTrack = track.DelegateModel.itemsIndex
-                timeline.selection = [ clip.clipId ];
-                root.clipClicked()
+                if (shiftClick === 1) {
+                    timeline.addSelection(clip.clipId)
+                } else {
+                    timeline.selection = [ clip.clipId ]
+                }
+                //root.clipClicked()
             }
             onClipDragged: {
                 // This provides continuous scrolling at the left/right edges.

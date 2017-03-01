@@ -54,7 +54,7 @@ Rectangle {
     property double speed: 1.0
     property color borderColor: 'black'
 
-    signal clicked(var clip)
+    signal clicked(var clip, int shiftClick)
     signal moved(var clip)
     signal dragged(var clip, var mouse)
     signal dropped(var clip)
@@ -77,14 +77,21 @@ Rectangle {
     color: Qt.darker(getColor())
 
     border.color: selected? 'red' : borderColor
-    border.width: isBlank? 0 : 1
+    border.width: 1.5
     clip: true
     Drag.active: mouseArea.drag.active
     Drag.proposedAction: Qt.MoveAction
     opacity: Drag.active? 0.5 : 1.0
 
     function getColor() {
-        return isBlank? 'transparent' : isTransition? 'mediumpurple' : isAudio? 'darkseagreen' : 'blue'
+        if (mltService === 'color') {
+            //console.log('clip color', clipResource, " / ", '#' + clipResource.substring(2, 8))
+            if (clipResource.length == 10) {
+                // 0xRRGGBBAA
+                return '#' + clipResource.substring(2, 8)
+            }
+        }
+        return isTransition? 'mediumpurple' : isAudio? 'darkseagreen' : 'blue'
         //root.shotcutBlue
     }
 
@@ -116,7 +123,7 @@ Rectangle {
 
     Image {
         id: outThumbnail
-        visible: timeline.showThumbnails()
+        visible: timeline.showThumbnails() && mltService != 'color'
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.topMargin: parent.border.width
@@ -131,7 +138,7 @@ Rectangle {
 
     Image {
         id: inThumbnail
-        visible: timeline.showThumbnails()
+        visible: timeline.showThumbnails() && mltService != 'color'
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.topMargin: parent.border.width
@@ -188,7 +195,7 @@ Rectangle {
         anchors.leftMargin: parent.border.width
         anchors.bottomMargin: waveform.height * 0.9
         color: Qt.darker(parent.color)
-        opacity: 0.7
+        opacity: 0.4
     }
 
     Rectangle {
@@ -214,7 +221,7 @@ Rectangle {
             top: parent.top
             left: parent.left
             topMargin: parent.border.width + 1
-            leftMargin: parent.border.width
+            leftMargin: parent.border.width + 1
                 // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
         }
         color: 'black'
@@ -262,7 +269,7 @@ Rectangle {
             originalTrackId = clipRoot.trackId
             startX = parent.x
             clipRoot.forceActiveFocus();
-            clipRoot.clicked(clipRoot)
+            clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
         }
         onPositionChanged: {
             if (mouse.y < 0 && trackIndex > 0)
@@ -283,7 +290,7 @@ Rectangle {
                 parent.dropped(clipRoot)
             }
         }
-        onDoubleClicked: timeline.position = clipRoot.x / multitrack.scaleFactor
+        onDoubleClicked: timeline.position = clipRoot.x / timeline.scaleFactor
         onWheel: zoomByWheel(wheel)
 
         MouseArea {
@@ -294,6 +301,13 @@ Rectangle {
                 (fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active)? Qt.PointingHandCursor :
                 drag.active? Qt.ClosedHandCursor :
                 isBlank? Qt.ArrowCursor : Qt.OpenHandCursor
+            onPressed: {
+                root.stopScrolling = true
+                clipRoot.forceActiveFocus();
+                if (!clipRoot.selected) {
+                    clipRoot.clicked(clipRoot, false)
+                }
+            }
             onClicked: menu.show()
         }
     }
@@ -576,8 +590,7 @@ Rectangle {
         }
         MenuItem {
             text: qsTr('Remove')
-            shortcut: StandardKey.Delete
-            onTriggered: timeline.removeClip(clipRoot.clipId)
+            onTriggered: timeline.triggerAction('delete_timeline_clip')
         }
         MenuItem {
             visible: true //!isBlank
