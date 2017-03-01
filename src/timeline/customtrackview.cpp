@@ -5959,13 +5959,13 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList<GenTime
 
     // add guides
     for (int i = 0; i < m_guides.count(); ++i) {
-        pos = m_guides.at(i)->position();
-        if (!snaps.contains(pos)) {
-            snaps.append(pos);
+        GenTime cur_pos = m_guides.at(i)->position();
+        if (!snaps.contains(cur_pos)) {
+            snaps.append(cur_pos);
         }
         if (!offsetList.isEmpty()) {
             for (int j = 0; j < offsetList.size(); ++j) {
-                GenTime offset = pos - offsetList.at(j);
+                GenTime offset = cur_pos - offsetList.at(j);
                 if (!snaps.contains(offset)) {
                     snaps.append(offset);
                 }
@@ -6301,8 +6301,8 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale, bool zo
     if (zoomOnMouse) {
         // Zoom on mouse position
         centerOn(QPointF(lastMousePos, verticalPos));
-        diff = scaleFactor * (getMousePos() - lastMousePos);
-        horizontalScrollBar()->setValue(horizontalScrollBar()->value() - diff);
+        int cur_diff = scaleFactor * (getMousePos() - lastMousePos);
+        horizontalScrollBar()->setValue(horizontalScrollBar()->value() - cur_diff);
     } else {
         centerOn(QPointF(cursorPos(), verticalPos));
     }
@@ -7800,9 +7800,9 @@ void CustomTrackView::reloadTransitionLumas()
     QString lumaNames;
     QString lumaFiles;
     QDomElement lumaTransition = MainWindow::transitions.getEffectByTag(QStringLiteral("luma"), QStringLiteral("luma"));
-    QDomNodeList params = lumaTransition.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
+    QDomNodeList params_list = lumaTransition.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < params_list.count(); ++i) {
+        QDomElement e = params_list.item(i).toElement();
         if (e.attribute(QStringLiteral("tag")) == QLatin1String("resource")) {
             lumaNames = e.attribute(QStringLiteral("paramlistdisplay"));
             lumaFiles = e.attribute(QStringLiteral("paramlist"));
@@ -7818,7 +7818,7 @@ void CustomTrackView::reloadTransitionLumas()
             transitionitem = static_cast <Transition *>(itemList.at(i));
             transitionXml = transitionitem->toXML();
             if (transitionXml.attribute(QStringLiteral("id")) == QLatin1String("luma") && transitionXml.attribute(QStringLiteral("tag")) == QLatin1String("luma")) {
-                params = transitionXml.elementsByTagName(QStringLiteral("parameter"));
+                QDomNodeList params = transitionXml.elementsByTagName(QStringLiteral("parameter"));
                 for (int j = 0; j < params.count(); ++j) {
                     QDomElement e = params.item(j).toElement();
                     if (e.attribute(QStringLiteral("tag")) == QLatin1String("resource")) {
@@ -7829,7 +7829,7 @@ void CustomTrackView::reloadTransitionLumas()
                 }
             }
             if (transitionXml.attribute(QStringLiteral("id")) == QLatin1String("composite") && transitionXml.attribute(QStringLiteral("tag")) == QLatin1String("composite")) {
-                params = transitionXml.elementsByTagName(QStringLiteral("parameter"));
+                QDomNodeList params = transitionXml.elementsByTagName(QStringLiteral("parameter"));
                 for (int j = 0; j < params.count(); ++j) {
                     QDomElement e = params.item(j).toElement();
                     if (e.attribute(QStringLiteral("tag")) == QLatin1String("luma")) {

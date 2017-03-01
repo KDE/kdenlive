@@ -124,11 +124,11 @@ bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
     bool success = doAddFilter(params, duration);
     // re-add following filters
     for (int i = 0; i < filtersList.count(); ++i) {
-        filter = filtersList.at(i);
+        Mlt::Filter *cur_filter = filtersList.at(i);
         if (updateIndex) {
-            filter->set("kdenlive_ix", filter->get_int("kdenlive_ix") + 1);
+            cur_filter->set("kdenlive_ix", cur_filter->get_int("kdenlive_ix") + 1);
         }
-        m_producer.attach(*filter);
+        m_producer.attach(*cur_filter);
     }
     m_producer.unlock();
     qDeleteAll(filters);
