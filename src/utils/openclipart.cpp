@@ -46,7 +46,7 @@ void OpenClipArt::slotStartSearch(const QString &searchText, int page)
     QString uri = QStringLiteral("http://openclipart.org/api/search/?query=");
     uri.append(searchText);
     if (page > 1) {
-        uri.append("&page=" + QString::number(page));
+        uri.append(QStringLiteral("&page=") + QString::number(page));
     }
 
     KJob *resolveJob = KIO::storedGet(QUrl(uri), KIO::NoReload, KIO::HideProgressInfo);

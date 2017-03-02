@@ -292,7 +292,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
             capturefile.append(QLatin1Char('/'));
         }
         capturename = KdenliveSettings::decklink_filename();
-        capturename.append("xxx.");
+        capturename.append(QStringLiteral("xxx."));
         capturename.append(KdenliveSettings::decklink_extension());
         capturefile.append(capturename);
         video_frame->setPixmap(mergeSideBySide(QIcon::fromTheme(QStringLiteral("camera-photo")).pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress play button\nto start preview.\nFiles will be saved in:\n%1", capturefile)));
@@ -335,7 +335,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
                 extension = QStringLiteral(".m2t");
                 break;
             }
-            capturename.append("xxx" + extension);
+            capturename.append(QStringLiteral("xxx") + extension);
             capturefile.append(capturename);
             video_frame->setPixmap(mergeSideBySide(QIcon::fromTheme(QStringLiteral("network-connect")).pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress connect button\nto initialize connection\nFiles will be saved in:\n%1", capturefile)));
         }
@@ -765,7 +765,7 @@ void RecMonitor::slotRecord()
             // fps
             m_captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
             if (KdenliveSettings::grab_hide_mouse()) {
-                captureSize.append("+nomouse");
+                captureSize.append(QStringLiteral("+nomouse"));
             }
             m_captureArgs << QStringLiteral("-i") << captureSize;
             if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
@@ -846,9 +846,9 @@ const QString RecMonitor::getV4lXmlPlaylist(const MltVideoProfile &profile, bool
 
         playlist.append(QStringLiteral("<producer id=\"producer1\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"resource\">alsa:%1?channels=%2</property><property name=\"audio_index\">0</property><property name=\"video_index\">-1</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist1\"><entry producer=\"producer1\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()));
 
-        playlist.append("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"999999\">");
-        playlist.append("<track producer=\"playlist0\"/><track producer=\"playlist1\"/>");
-        playlist.append("</tractor></mlt>");
+        playlist.append(QStringLiteral("<tractor id=\"tractor0\" title=\"video0\" global_feed=\"1\" in=\"0\" out=\"999999\">"));
+        playlist.append(QStringLiteral("<track producer=\"playlist0\"/><track producer=\"playlist1\"/>"));
+        playlist.append(QStringLiteral("</tractor></mlt>"));
     } else if (rec_audio->isChecked()) {
         // Audio only recording
         *isXml = false;

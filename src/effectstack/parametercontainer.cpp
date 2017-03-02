@@ -932,13 +932,13 @@ void ParameterContainer::slotCollectAllParameters()
         QString type = pa.attribute(QStringLiteral("type"));
         QString paramName = na.isNull() ? pa.attribute(QStringLiteral("name")) : i18n(na.text().toUtf8().data());
         if (type == QLatin1String("complex")) {
-            paramName.append("complex");
+            paramName.append(QStringLiteral("complex"));
         } else if (type == QLatin1String("position")) {
-            paramName.append("position");
+            paramName.append(QStringLiteral("position"));
         } else if (type == QLatin1String("geometry")) {
-            paramName.append("geometry");
+            paramName.append(QStringLiteral("geometry"));
         } else if (type == QLatin1String("keyframe")) {
-            paramName.append("keyframe");
+            paramName.append(QStringLiteral("keyframe"));
         } else if (type == QLatin1String("animated")) {
             continue;
         }

@@ -529,7 +529,7 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
     originalId = originalId.section(QLatin1Char('_'), 0, 0);
     QString idForTrack = originalId + QLatin1Char('_') + m_playlist.get("id");
     if (state == PlaylistState::AudioOnly) {
-        idForTrack.append("_audio");
+        idForTrack.append(QStringLiteral("_audio"));
     }
     if (!forceCreation) {
         for (int i = 0; i < m_playlist.count(); i++) {

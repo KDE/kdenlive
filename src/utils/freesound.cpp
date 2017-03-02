@@ -67,10 +67,10 @@ void FreeSound::slotStartSearch(const QString &searchText, int page)
     QString uri = QStringLiteral("https://www.freesound.org/apiv2/search/text/?format=json&query=");
     uri.append(searchText);
     if (page > 1) {
-        uri.append("&page=" + QString::number(page));
+        uri.append(QStringLiteral("&page=") + QString::number(page));
     }
 
-    uri.append("&token="  + OAuth2_strClientSecret);
+    uri.append(QStringLiteral("&token=")  + OAuth2_strClientSecret);
     //  qCDebug(KDENLIVE_LOG)<<uri;
     KIO::StoredTransferJob *resolveJob = KIO::storedGet(QUrl(uri), KIO::NoReload, KIO::HideProgressInfo);
     connect(resolveJob, &KIO::StoredTransferJob::result, this, &FreeSound::slotShowResults);

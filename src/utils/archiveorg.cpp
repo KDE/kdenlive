@@ -59,16 +59,16 @@ void ArchiveOrg::slotStartSearch(const QString &searchText, int page)
     m_listWidget->clear();
     QString uri = QStringLiteral("https://www.archive.org/advancedsearch.php?q=%28");
     uri.append(searchText);
-    uri.append("%29+AND+mediatype%3A%28movies%29");
-    uri.append("&fl%5B%5D=creator&fl%5B%5D=description&fl%5B%5D=identifier&fl%5B%5D=licenseurl&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=30");//&callback=callback&save=yes"
+    uri.append(QStringLiteral("%29+AND+mediatype%3A%28movies%29"));
+    uri.append(QStringLiteral("&fl%5B%5D=creator&fl%5B%5D=description&fl%5B%5D=identifier&fl%5B%5D=licenseurl&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=30"));//&callback=callback&save=yes"
 
-    uri.append("&mediatype=movies");//MovingImage");
+    uri.append(QStringLiteral("&mediatype=movies"));//MovingImage");
 
     if (page > 1) {
-        uri.append("&page=" + QString::number(page));
+        uri.append(QStringLiteral("&page=") + QString::number(page));
     }
 
-    uri.append("&output=json");
+    uri.append(QStringLiteral("&output=json"));
 
     //  qCDebug(KDENLIVE_LOG)<<"ArchiveOrg URL: "<< uri;
     KJob *resolveJob = KIO::storedGet(QUrl(uri), KIO::NoReload, KIO::HideProgressInfo);

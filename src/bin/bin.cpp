@@ -1018,7 +1018,7 @@ void Bin::slotDeleteClip()
             QString subId = item->clipId();
             sub = static_cast<ProjectSubClip *>(item);
             zone = sub->zone();
-            subId.append(":" + QString::number(zone.x()) + QLatin1Char(':') + QString::number(zone.y()));
+            subId.append(QLatin1Char(':') + QString::number(zone.x()) + QLatin1Char(':') + QString::number(zone.y()));
             subClipIds << subId;
             continue;
         }

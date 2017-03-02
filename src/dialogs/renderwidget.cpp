@@ -1204,14 +1204,14 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 
         // Adjust scanning
         if (m_view.scanning_list->currentIndex() == 1) {
-            renderArgs.append(" progressive=1");
+            renderArgs.append(QStringLiteral(" progressive=1"));
         } else if (m_view.scanning_list->currentIndex() == 2) {
-            renderArgs.append(" progressive=0");
+            renderArgs.append(QStringLiteral(" progressive=0"));
         }
 
         // disable audio if requested
         if (!exportAudio) {
-            renderArgs.append(" an=1 ");
+            renderArgs.append(QStringLiteral(" an=1 "));
         }
 
         // Set the thread counts

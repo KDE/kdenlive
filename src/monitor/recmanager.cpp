@@ -278,11 +278,11 @@ void RecManager::slotRecord(bool record)
     // fps
     captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
     if (KdenliveSettings::grab_hide_mouse()) {
-        captureSize.append("+nomouse");
+        captureSize.append(QStringLiteral("+nomouse"));
     }
     captureArgs << QStringLiteral("-i") << captureSize;
     if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
-        captureArgs << KdenliveSettings::grab_parameters().simplified().split(' ');
+        captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
     }
     captureArgs << path;
 

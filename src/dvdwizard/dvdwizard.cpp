@@ -398,7 +398,7 @@ void DvdWizard::processSpumux()
         //qCDebug(KDENLIVE_LOG) << "/// RENDERING SPUMUX MENU timed out";
         errorMessage(i18n("Rendering job timed out"));
         spuitem->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
-        m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Menu job timed out"));
+        m_status.error_log->append(QStringLiteral("<a name=\"result\" /><br /><strong>") + i18n("Menu job timed out"));
         m_status.error_log->scrollToAnchor(QStringLiteral("result"));
         m_status.error_box->setHidden(false);
         m_status.menu_file->setPlainText(m_menuFile.readAll());
@@ -489,7 +489,7 @@ void DvdWizard::processSpumux()
             //qCDebug(KDENLIVE_LOG) << "/// RENDERING SPUMUX MENU timed out";
             errorMessage(i18n("Rendering job timed out"));
             spuitem->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
-            m_status.error_log->append("<a name=\"result\" /><br /><strong>" + i18n("Menu job timed out"));
+            m_status.error_log->append(QStringLiteral("<a name=\"result\" /><br /><strong>") + i18n("Menu job timed out"));
             m_status.error_log->scrollToAnchor(QStringLiteral("result"));
             m_status.error_box->setHidden(false);
             m_status.menu_file->setPlainText(m_menuFile.readAll());
@@ -745,7 +745,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     if (status == QProcess::CrashExit || exitCode != 0) {
         errorMessage(i18n("DVDAuthor process crashed"));
         QString result(m_dvdauthor->readAllStandardError());
-        result.append("<a name=\"result\" /><br /><strong>");
+        result.append(QStringLiteral("<a name=\"result\" /><br /><strong>"));
         result.append(i18n("DVDAuthor process crashed.</strong><br />"));
         m_status.error_log->append(result);
         m_status.error_log->scrollToAnchor(QStringLiteral("result"));
@@ -823,7 +823,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
     if (status == QProcess::CrashExit || exitCode != 0) {
         errorMessage(i18n("ISO creation process crashed."));
         QString result(m_mkiso->readAllStandardError());
-        result.append("<a name=\"result\" /><br /><strong>");
+        result.append(QStringLiteral("<a name=\"result\" /><br /><strong>"));
         result.append(i18n("ISO creation process crashed."));
         m_status.error_log->append(result);
         m_status.error_log->scrollToAnchor(QStringLiteral("result"));
