@@ -782,7 +782,7 @@ QMap<QString, QRect> DvdWizardMenu::buttonsInfo(bool letterbox)
             }
             QString command = button->command();
             if (button->backMenu()) {
-                command.prepend("g1 = 999;");
+                command.prepend(QStringLiteral("g1 = 999;"));
             }
             info.insertMulti(command, adjustedRect);
         }

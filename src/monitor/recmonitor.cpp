@@ -769,7 +769,7 @@ void RecMonitor::slotRecord()
             }
             m_captureArgs << QStringLiteral("-i") << captureSize;
             if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
-                m_captureArgs << KdenliveSettings::grab_parameters().simplified().split(' ');
+                m_captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
             }
             m_captureArgs << path;
 

@@ -1237,7 +1237,7 @@ void ParameterContainer::slotStartFilterJobAction()
             }
 
             // Fill filter params
-            QStringList filterList = filterattributes.split(' ');
+            QStringList filterList = filterattributes.split(QLatin1Char(' '));
             QString param;
             for (int j = 0; j < filterList.size(); ++j) {
                 param = filterList.at(j);
@@ -1256,7 +1256,7 @@ void ParameterContainer::slotStartFilterJobAction()
             }
             // Fill consumer params
             QString consumerattributes = pa.attribute(QStringLiteral("consumerparams"));
-            QStringList consumerList = consumerattributes.split(' ');
+            QStringList consumerList = consumerattributes.split(QLatin1Char(' '));
             for (int j = 0; j < consumerList.size(); ++j) {
                 param = consumerList.at(j);
                 if (param != QLatin1String("%params")) {

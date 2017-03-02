@@ -293,7 +293,7 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
     item->setToolTip(0, url.toLocalFile());
 
     QString resource = url.toLocalFile();
-    resource.prepend("avformat:");
+    resource.prepend(QStringLiteral("avformat:"));
     Mlt::Producer *producer = new Mlt::Producer(profile, resource.toUtf8().data());
     if (producer && producer->is_valid() && !producer->is_blank()) {
         double fps = profile.fps();
@@ -722,7 +722,7 @@ void DvdWizardVob::processTranscoding()
     }
 
     bool replaceVfParams = false;
-    QStringList splitted = params.split(' ');
+    QStringList splitted = params.split(QLatin1Char(' '));
     foreach (QString s, splitted) {
         if (replaceVfParams) {
             parameters << postParams.at(1);
@@ -766,7 +766,7 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
             item->setToolTip(0, transcoded);
 
             QString resource = transcoded;
-            resource.prepend("avformat:");
+            resource.prepend(QStringLiteral("avformat:"));
             Mlt::Producer *producer = new Mlt::Producer(profile, resource.toUtf8().data());
             if (producer && producer->is_valid() && !producer->is_blank()) {
                 double fps = profile.fps();

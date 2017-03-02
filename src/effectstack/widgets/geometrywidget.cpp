@@ -309,7 +309,7 @@ QString GeometryWidget::getValue() const
     }
     QString result = m_geometry->serialise();
     if (result.contains(QLatin1Char(';')) && !result.section(QLatin1Char(';'), 0, 0).contains(QLatin1Char('='))) {
-        result.prepend("0=");
+        result.prepend(QStringLiteral("0="));
     }
     return result;
 }
@@ -329,7 +329,7 @@ QString GeometryWidget::offsetAnimation(int offset, bool useOffset)
     m_useOffset = useOffset;
     QString result = geometry->serialise();
     if (!m_fixedGeom && result.contains(QLatin1Char(';')) && !result.section(QLatin1Char(';'), 0, 0).contains(QLatin1Char('='))) {
-        result.prepend("0=");
+        result.prepend(QStringLiteral("0="));
     }
     m_geometry->parse(result.toUtf8().data(), m_outPoint, m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
     m_timeline->setKeyGeometry(m_geometry, m_inPoint, m_outPoint, m_useOffset);
