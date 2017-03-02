@@ -753,3 +753,33 @@ void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
 {
     m_undoStack = undo_stack;
 }
+
+int TimelineModel::requestBestSnapPos(int pos, int length)
+{
+    int snapped_start = m_snaps->getClosestPoint(pos);
+    int snapped_end = m_snaps->getClosestPoint(pos + length);
+    int startDiff = qAbs(pos - snapped_start);
+    int endDiff = qAbs(pos + length - snapped_end);
+    if (startDiff < endDiff && snapped_start >= 0) {
+        // snap to start
+        if (startDiff < 10) {
+            return snapped_start;
+        }
+    } else {
+        // snap to end
+        if (endDiff < 10 && snapped_end >= 0) {
+            return snapped_end - length;
+        }
+    }
+    return -1;
+}
+
+int TimelineModel::requestNextSnapPos(int pos)
+{
+    return m_snaps->getNextPoint(pos);
+}
+
+int TimelineModel::requestPreviousSnapPos(int pos)
+{
+    return m_snaps->getPreviousPoint(pos);
+}

@@ -256,6 +256,23 @@ public:
     */
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
 
+    /* @brief Requests the best snapped position for a clip
+       @param pos is the clip's requested position
+       @param length is the clip's duration
+       @returns best snap position or -1 if no snap point is near
+     */
+    int requestBestSnapPos(int pos, int length);
+
+    /* @brief Requests the next snapped point
+       @param pos is the current position
+     */
+    int requestNextSnapPos(int pos);
+
+    /* @brief Requests the previous snapped point
+       @param pos is the current position
+     */
+    int requestPreviousSnapPos(int pos);
+
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.

@@ -44,6 +44,12 @@ public:
     /* @brief Retrieves closest point. Returns -1 if there is no snappoint available */
     int getClosestPoint(int position);
 
+    /* @brief Retrieves next snap point. Returns position if there is no snappoint available */
+    int getNextPoint(int position);
+
+    /* @brief Retrieves previous snap point. Returns 0 if there is no snappoint available */
+    int getPreviousPoint(int position);
+
     /* @brief Ignores the given positions until unIgnore() is called
        You can make several call to this before unIgnoring
        Note that you cannot remove ignored points.

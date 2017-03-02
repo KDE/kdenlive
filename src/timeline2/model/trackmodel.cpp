@@ -95,7 +95,7 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position, bool updateVi
             clip->setPosition(position);
             clip->setCurrentTrackId(getId());
             int new_in = clip->getPosition();
-            int new_out = new_in + clip->getPlaytime() - 1;
+            int new_out = new_in + clip->getPlaytime();
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             if (updateView) {
@@ -185,7 +185,7 @@ Fun TrackModel::requestClipDeletion_lambda(int cid, bool updateView)
             delete prod;
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
-                ptr->m_snaps->removePoint(old_out);
+                ptr->m_snaps->removePoint(old_out + 1);
                 qDebug() << "update" <<updateView;
             }
             return true;

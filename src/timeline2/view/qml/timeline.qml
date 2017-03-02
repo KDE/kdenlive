@@ -49,11 +49,11 @@ Rectangle {
         height: root.height - ruler.height
         y: ruler.height
         x: headerWidth
-        property int track: 0
         onEntered: {
             if (drag.formats.indexOf('kdenlive/producerslist') >= 0) {
-                track = Logic.getTrackFromPos(drag.y)
-                if (track >= 0 && timeline.allowMove(track, drag.x / timeline.scaleFactor, drag.text)) {
+                var track = Logic.getTrackFromPos(drag.y)
+                var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                if (track >= 0 && timeline.allowMove(track, frame, drag.text)) {
                     drag.acceptProposedAction()
                 } else {
                     drag.accepted = false
@@ -315,7 +315,7 @@ Rectangle {
         height: multitrack.trackHeight
         opacity: 0.5
         visible: false
-        Text {
+        /*Text {
             anchors.fill: parent
             anchors.leftMargin: 100
             text: timeline.ripple? qsTr('Insert') : qsTr('Overwrite')
@@ -323,7 +323,7 @@ Rectangle {
             styleColor: 'white'
             font.pixelSize: Math.min(Math.max(parent.height * 0.8, 15), 30)
             verticalAlignment: Text.AlignVCenter
-        }
+        }*/
     }
 
     Rectangle {

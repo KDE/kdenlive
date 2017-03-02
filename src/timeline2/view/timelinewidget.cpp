@@ -315,3 +315,19 @@ void TimelineWidget::deleteTrack(int tid)
 {
     qDebug()<<"Deleting track: "<<tid;
 }
+
+int TimelineWidget::requestBestSnapPos(int pos, int duration)
+{
+    return m_model->requestBestSnapPos(pos, duration);
+}
+
+void TimelineWidget::gotoNextSnap()
+{
+    setPosition(m_model->requestNextSnapPos(m_position));
+}
+
+void TimelineWidget::gotoPreviousSnap()
+{
+    setPosition(m_model->requestPreviousSnapPos(m_position));
+}
+

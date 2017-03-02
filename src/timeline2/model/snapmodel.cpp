@@ -66,6 +66,33 @@ int SnapModel::getClosestPoint(int position)
     return (int)next;
 }
 
+int SnapModel::getNextPoint(int position)
+{
+    if (m_snaps.size() == 0) {
+        return position;
+    }
+    auto it = m_snaps.lower_bound(position + 1);
+    long long int next = position;
+    if (it != m_snaps.end()) {
+        next = (*it).first;
+    }
+    return (int)next;
+}
+
+int SnapModel::getPreviousPoint(int position)
+{
+    if (m_snaps.size() == 0) {
+        return 0;
+    }
+    auto it = m_snaps.lower_bound(position);
+    long long int prev = 0;
+    if (it != m_snaps.begin()) {
+        --it;
+        prev = (*it).first;
+    }
+    return (int)prev;
+}
+
 void SnapModel::ignore(const std::vector<int>& pts)
 {
     for (int pt : pts) {

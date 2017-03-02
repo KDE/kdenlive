@@ -2813,8 +2813,8 @@ void MainWindow::slotActivateTransitionView(Transition *transition)
 void MainWindow::slotSnapRewind()
 {
     if (m_projectMonitor->isActive()) {
-        if (pCore->projectManager()->currentTimeline()) {
-            pCore->projectManager()->currentTimeline()->projectView()->slotSeekToPreviousSnap();
+        if (pCore->projectManager()->currentTimelineWidget()) {
+            pCore->projectManager()->currentTimelineWidget()->gotoPreviousSnap();
         }
     } else  {
         m_clipMonitor->slotSeekToPreviousSnap();
@@ -2824,8 +2824,8 @@ void MainWindow::slotSnapRewind()
 void MainWindow::slotSnapForward()
 {
     if (m_projectMonitor->isActive()) {
-        if (pCore->projectManager()->currentTimeline()) {
-            pCore->projectManager()->currentTimeline()->projectView()->slotSeekToNextSnap();
+        if (pCore->projectManager()->currentTimelineWidget()) {
+            pCore->projectManager()->currentTimelineWidget()->gotoNextSnap();
         }
     } else {
         m_clipMonitor->slotSeekToNextSnap();

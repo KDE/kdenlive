@@ -41,8 +41,10 @@ function getTrackFromPos(pos) {
 }
 
 function dragging(pos, duration) {
-    console.log("clip duration:", duration)
+    console.log("clip drag pos:", pos.x)
     if (tracksRepeater.count > 0) {
+        var oldPosX = dropTarget.x
+        var oldPosY = dropTarget.y
         var headerHeight = ruler.height
         dropTarget.x = pos.x + headerWidth
         dropTarget.width = duration * timeline.scaleFactor
@@ -66,7 +68,7 @@ function dragging(pos, duration) {
         }
         if (i === tracksRepeater.count || pos.x <= 0)
             dropTarget.visible = false
-
+        console.log("clip drag pos2:", dropTarget.x)
         // Scroll tracks if at edges.
         if (pos.x > scrollView.width - 50) {
             // Right edge
@@ -90,8 +92,16 @@ function dragging(pos, duration) {
                 (pos.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
         }
         if (timeline.snap) {
-            for (i = 0; i < tracksRepeater.count; i++)
-                tracksRepeater.itemAt(i).snapDrop(pos)
+            var frame = Math.round((pos.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+            var snapped = timeline.requestBestSnapPos(frame, duration)
+            if (snapped > 0) {
+                dropTarget.x = snapped * timeline.scaleFactor - scrollView.flickableItem.contentX + headerWidth;
+            }
+        }
+        var frame = Math.round((dropTarget.x - headerWidth + scrollView.flickableItem.contentX ) / timeline.scaleFactor)
+        if (!timeline.allowMove(currentTrack, frame, duration)) {
+            dropTarget.x = oldPosX
+            dropTarget.y = oldPosY
         }
     }
 }

@@ -132,6 +132,8 @@ public:
     Q_INVOKABLE void insertClip(int tid, int position, QString xml);
     void deleteSelectedClips();
 
+    Q_INVOKABLE int requestBestSnapPos(int pos, int duration);
+
     Q_INVOKABLE void triggerAction(const QString &name);
 
     /* @brief Returns the current tractor's producer, useful fo control seeking, playing, etc
@@ -155,6 +157,9 @@ public:
     /* @brief Remove a timeline track
      */
     Q_INVOKABLE void deleteTrack(int tid);
+
+    void gotoNextSnap();
+    void gotoPreviousSnap();
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
