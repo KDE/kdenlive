@@ -439,16 +439,16 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     // The lower video track will receive composite transitions
     int lowestVideoTrack = -1;
     for (int i = 0; i < total; ++i) {
-        playlist = doc.createElement(QStringLiteral("playlist"));
-        playlist.setAttribute(QStringLiteral("id"), QStringLiteral("playlist") + QString::number(i + 1));
-        playlist.setAttribute(QStringLiteral("kdenlive:track_name"), tracks.at(i).trackName);
+        QDomElement cur_playlist = doc.createElement(QStringLiteral("playlist"));
+        cur_playlist.setAttribute(QStringLiteral("id"), QStringLiteral("playlist") + QString::number(i + 1));
+        cur_playlist.setAttribute(QStringLiteral("kdenlive:track_name"), tracks.at(i).trackName);
         if (tracks.at(i).type == AudioTrack) {
-            playlist.setAttribute(QStringLiteral("kdenlive:audio_track"), 1);
+            cur_playlist.setAttribute(QStringLiteral("kdenlive:audio_track"), 1);
         } else if (lowestVideoTrack == -1) {
             // Register first video track
             lowestVideoTrack = i + 1;
         }
-        mlt.appendChild(playlist);
+        mlt.appendChild(cur_playlist);
     }
     QString compositeService = TransitionHandler::compositeTransition();
     QDomElement track0 = doc.createElement(QStringLiteral("track"));
@@ -479,60 +479,60 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
             QDomElement transition = doc.createElement(QStringLiteral("transition"));
             transition.setAttribute(QStringLiteral("always_active"), QStringLiteral("1"));
 
-            property = doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
+            QDomElement cur_property = doc.createElement(QStringLiteral("property"));
+            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
             value = doc.createTextNode(QStringLiteral("mix"));
-            property.appendChild(value);
-            transition.appendChild(property);
+            cur_property.appendChild(value);
+            transition.appendChild(cur_property);
 
-            property = doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
+            cur_property = doc.createElement(QStringLiteral("property"));
+            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
             value = doc.createTextNode(QStringLiteral("0"));
-            property.appendChild(value);
-            transition.appendChild(property);
+            cur_property.appendChild(value);
+            transition.appendChild(cur_property);
 
-            property = doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
+            cur_property = doc.createElement(QStringLiteral("property"));
+            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
             value = doc.createTextNode(QString::number(i));
-            property.appendChild(value);
-            transition.appendChild(property);
+            cur_property.appendChild(value);
+            transition.appendChild(cur_property);
 
-            property = doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"), QStringLiteral("combine"));
+            cur_property = doc.createElement(QStringLiteral("property"));
+            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("combine"));
             value = doc.createTextNode(QStringLiteral("1"));
-            property.appendChild(value);
-            transition.appendChild(property);
+            cur_property.appendChild(value);
+            transition.appendChild(cur_property);
 
-            property = doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
+            cur_property = doc.createElement(QStringLiteral("property"));
+            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
             value = doc.createTextNode(QStringLiteral("237"));
-            property.appendChild(value);
-            transition.appendChild(property);
+            cur_property.appendChild(value);
+            transition.appendChild(cur_property);
 
             tractor.appendChild(transition);
         }
         if (i > 0 && tracks.at(i - 1).type == VideoTrack) {
             // Only add composite transition if both tracks are video
             QDomElement transition = doc.createElement(QStringLiteral("transition"));
-            property = doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
-            property.appendChild(doc.createTextNode(compositeService));
-            transition.appendChild(property);
+            QDomElement cur_property = doc.createElement(QStringLiteral("property"));
+            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
+            cur_property.appendChild(doc.createTextNode(compositeService));
+            transition.appendChild(cur_property);
 
-            property = doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-            property.appendChild(doc.createTextNode(QString::number(0)));
-            transition.appendChild(property);
+            cur_property = doc.createElement(QStringLiteral("property"));
+            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
+            cur_property.appendChild(doc.createTextNode(QString::number(0)));
+            transition.appendChild(cur_property);
 
-            property = doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
-            property.appendChild(doc.createTextNode(QString::number(i)));
-            transition.appendChild(property);
+            cur_property = doc.createElement(QStringLiteral("property"));
+            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
+            cur_property.appendChild(doc.createTextNode(QString::number(i)));
+            transition.appendChild(cur_property);
 
-            property = doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
-            property.appendChild(doc.createTextNode(QStringLiteral("237")));
-            transition.appendChild(property);
+            cur_property = doc.createElement(QStringLiteral("property"));
+            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
+            cur_property.appendChild(doc.createTextNode(QStringLiteral("237")));
+            transition.appendChild(cur_property);
 
             tractor.appendChild(transition);
         }
