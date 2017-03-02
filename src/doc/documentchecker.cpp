@@ -64,8 +64,6 @@ DocumentChecker::DocumentChecker(const QUrl &url, const QDomDocument &doc):
 
 bool DocumentChecker::hasErrorInClips()
 {
-    QDomElement e;
-    QString resource;
     int max;
     QDomElement baseElement = m_doc.documentElement();
     QString root = baseElement.attribute(QStringLiteral("root"));
@@ -129,7 +127,7 @@ bool DocumentChecker::hasErrorInClips()
     QStringList serviceToCheck;
     serviceToCheck << QStringLiteral("kdenlivetitle") << QStringLiteral("qimage") << QStringLiteral("pixbuf") << QStringLiteral("timewarp") << QStringLiteral("framebuffer") << QStringLiteral("xml");
     for (int i = 0; i < max; ++i) {
-        e = documentProducers.item(i).toElement();
+        QDomElement e = documentProducers.item(i).toElement();
         QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
         if (!service.startsWith(QLatin1String("avformat")) && !serviceToCheck.contains(service)) {
             continue;
@@ -147,7 +145,7 @@ bool DocumentChecker::hasErrorInClips()
             checkMissingImagesAndFonts(images, fonts, e.attribute(QStringLiteral("id")), e.attribute(QStringLiteral("name")));
             continue;
         }
-        resource = EffectsList::property(e, QStringLiteral("resource"));
+        QString resource = EffectsList::property(e, QStringLiteral("resource"));
         if (resource.isEmpty()) {
             continue;
         }
@@ -303,15 +301,15 @@ bool DocumentChecker::hasErrorInClips()
     max = m_missingClips.count();
     m_missingProxyIds.clear();
     for (int i = 0; i < max; ++i) {
-        e = m_missingClips.at(i).toElement();
+        QDomElement e = m_missingClips.at(i).toElement();
         QString clipType;
         ClipType type;
         int status = CLIPMISSING;
-	const QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
-        resource = service == QLatin1String("timewarp") ? EffectsList::property(e, QStringLiteral("warp_resource")) : EffectsList::property(e, QStringLiteral("resource"));
+        const QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
+        QString resource = service == QLatin1String("timewarp") ? EffectsList::property(e, QStringLiteral("warp_resource")) : EffectsList::property(e, QStringLiteral("resource"));
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
-	if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") || service == QLatin1String("timewarp")) {
-	    clipType = i18n("Video clip");
+        if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") || service == QLatin1String("timewarp")) {
+            clipType = i18n("Video clip");
             type = AV;
         } else if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
             if (slideshow) {
@@ -375,7 +373,8 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
-    foreach (const QString &font, m_missingFonts) {
+    //TODO the following loop is disabled because m_missingFonts is cleared (line 124), but not filled, that looks suspicious
+    /*foreach (const QString &font, m_missingFonts) {
         QString clipType = i18n("Title Font");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPPLACEHOLDER);
@@ -384,7 +383,7 @@ bool DocumentChecker::hasErrorInClips()
         QString newft = QFontInfo(QFont(font)).family();
         item->setText(1, i18n("%1 will be replaced by %2", font, newft));
         item->setData(0, typeRole, CLIPMISSING);
-    }
+        }*/
 
     if (!m_missingClips.isEmpty()) {
         m_ui.infoLabel->setText(i18n("The project file contains missing clips or files"));
@@ -418,7 +417,7 @@ bool DocumentChecker::hasErrorInClips()
     }
 
     for (int i = 0; i < max; ++i) {
-        e = missingProxies.at(i).toElement();
+        QDomElement e = missingProxies.at(i).toElement();
         QString realPath = EffectsList::property(e, QStringLiteral("kdenlive:originalurl"));
         QString id = e.attribute(QStringLiteral("id"));
         m_missingProxyIds << id;
@@ -442,7 +441,7 @@ bool DocumentChecker::hasErrorInClips()
             if (parentId == id) {
                 // Hit, we must replace url
                 QString suffix;
-                resource = EffectsList::property(mltProd, QStringLiteral("resource"));
+                QString resource = EffectsList::property(mltProd, QStringLiteral("resource"));
                 if (slowmotion) {
                     suffix = QLatin1Char('?') + resource.section(QLatin1Char('?'), -1);
                 }
@@ -470,7 +469,7 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, statusRole, SOURCEMISSING);
         item->setToolTip(0, i18n("Missing source clip"));
         for (int i = 0; i < max; ++i) {
-            e = missingSources.at(i).toElement();
+            QDomElement e = missingSources.at(i).toElement();
             QString realPath = EffectsList::property(e, QStringLiteral("kdenlive:originalurl"));
             QString id = e.attribute(QStringLiteral("id"));
             // Tell Kdenlive the source is missing

@@ -97,3 +97,15 @@ QVector<QPair<QString, QString> > ProfileRepository::getAllProfiles()
     qSort(list);
     return list;
 }
+
+std::unique_ptr<ProfileModel> & ProfileRepository::getProfile(const QString& path)
+{
+    QReadLocker locker(&m_mutex);
+
+    if (m_profiles.count(path) == 0) {
+        qCWarning(KDENLIVE_LOG) << "//// WARNING: profile not found: "<<path<<". Returning default profile instead.";
+        return getProfile(KdenliveSettings::default_profile());
+    }
+
+    return m_profiles.at(path);
+}

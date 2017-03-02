@@ -561,10 +561,10 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
 {
     QStringList urls;
     QString path = QFileInfo(url).absolutePath();
-    QString ext = url.section(QLatin1Char('.'), -1);
     QDir dir(path);
     if (url.contains(QStringLiteral(".all."))) {
         // this is a mime slideshow, like *.jpeg
+        QString ext = url.section(QLatin1Char('.'), -1);
         QStringList filters;
         filters << QStringLiteral("*.") + ext;
         dir.setNameFilters(filters);
@@ -573,7 +573,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
     } else {
         // this is a pattern slideshow, like sequence%4d.jpg
         QString filter = QFileInfo(url).fileName();
-        ext = filter.section(QLatin1Char('.'), -1);
+        QString ext = filter.section(QLatin1Char('.'), -1);
         filter = filter.section(QLatin1Char('%'), 0, -2);
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         QRegExp rx(regexp);

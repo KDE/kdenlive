@@ -245,21 +245,21 @@ void SlideshowClip::parseFolder()
         result = dir.entryList(QDir::Files);
     } else {
         int offset = 0;
-        path = m_view.pattern_url->text();
-        dir = QFileInfo(m_view.pattern_url->text()).absoluteDir();
-        result = dir.entryList(QDir::Files);
+        QString path_pattern = m_view.pattern_url->text();
+        QDir abs_dir = QFileInfo(m_view.pattern_url->text()).absoluteDir();
+        result = abs_dir.entryList(QDir::Files);
         // find pattern
-        if (path.contains(QLatin1Char('?'))) {
+        if (path_pattern.contains(QLatin1Char('?'))) {
             // New MLT syntax
-            if (path.section(QLatin1Char('?'),1).contains(QLatin1Char(':'))) {
+            if (path_pattern.section(QLatin1Char('?'),1).contains(QLatin1Char(':'))) {
                 // Old deprecated format
-                offset = path.section(QLatin1Char(':'), -1).toInt();
+                offset = path_pattern.section(QLatin1Char(':'), -1).toInt();
             } else {
-                offset = path.section(QLatin1Char('='), -1).toInt();
+                offset = path_pattern.section(QLatin1Char('='), -1).toInt();
             }
-            path = path.section(QLatin1Char('?'), 0, 0);
+            path_pattern = path_pattern.section(QLatin1Char('?'), 0, 0);
         }
-        filter = QFileInfo(path).fileName();
+        filter = QFileInfo(path_pattern).fileName();
         QString ext = filter.section(QLatin1Char('.'), -1);
         if (filter.contains(QLatin1Char('%'))) {
             filter = filter.section(QLatin1Char('%'), 0, -2);
@@ -269,7 +269,7 @@ void SlideshowClip::parseFolder()
                 filter.remove(filter.count() - 1, 1);
             }
         }
-        // qCDebug(KDENLIVE_LOG) << " / /" << path << " / " << ext << " / " << filter;
+        // qCDebug(KDENLIVE_LOG) << " / /" << path_pattern << " / " << ext << " / " << filter;
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         QRegExp rx(regexp);
         QStringList entries;

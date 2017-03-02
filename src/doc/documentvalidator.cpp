@@ -535,11 +535,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         QDomAttr a = attrs.item(j).toAttr();
                         if (!a.isNull()) {
                             //qCDebug(KDENLIVE_LOG) << " FILTER; adding :" << a.name() << ':' << a.value();
-                            e = m_doc.createElement(QStringLiteral("property"));
-                            e.setAttribute(QStringLiteral("name"), a.name());
-                            value = m_doc.createTextNode(a.value());
-                            e.appendChild(value);
-                            filt.appendChild(e);
+                            auto property = m_doc.createElement(QStringLiteral("property"));
+                            property.setAttribute(QStringLiteral("name"), a.name());
+                            auto property_value = m_doc.createTextNode(a.value());
+                            property.appendChild(property_value);
+                            filt.appendChild(property);
 
                         }
                     }
@@ -1121,33 +1121,33 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList markers = m_doc.elementsByTagName(QStringLiteral("marker"));
         for (int i = 0; i < markers.count(); ++i) {
             QDomElement marker = markers.at(i).toElement();
-            prop = m_doc.createElement(QStringLiteral("property"));
-            prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:marker.") + marker.attribute(QStringLiteral("id")) + QLatin1Char(':') + marker.attribute(QStringLiteral("time")));
-            val = m_doc.createTextNode(marker.attribute(QStringLiteral("type")) + QLatin1Char(':') + marker.attribute(QStringLiteral("comment")));
-            prop.appendChild(val);
-            main_playlist.appendChild(prop);
+            QDomElement property = m_doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:marker.") + marker.attribute(QStringLiteral("id")) + QLatin1Char(':') + marker.attribute(QStringLiteral("time")));
+            QDomText val_node = m_doc.createTextNode(marker.attribute(QStringLiteral("type")) + QLatin1Char(':') + marker.attribute(QStringLiteral("comment")));
+            property.appendChild(val_node);
+            main_playlist.appendChild(property);
         }
 
         // Move guides
         QDomNodeList guides = m_doc.elementsByTagName(QStringLiteral("guide"));
         for (int i = 0; i < guides.count(); ++i) {
             QDomElement guide = guides.at(i).toElement();
-            prop = m_doc.createElement(QStringLiteral("property"));
-            prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:guide.") + guide.attribute(QStringLiteral("time")));
-            val = m_doc.createTextNode(guide.attribute(QStringLiteral("comment")));
-            prop.appendChild(val);
-            main_playlist.appendChild(prop);
+            QDomElement property = m_doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:guide.") + guide.attribute(QStringLiteral("time")));
+            QDomText val_node = m_doc.createTextNode(guide.attribute(QStringLiteral("comment")));
+            property.appendChild(val_node);
+            main_playlist.appendChild(property);
         }
 
         // Move folders
         QDomNodeList folders = m_doc.elementsByTagName(QStringLiteral("folder"));
         for (int i = 0; i < folders.count(); ++i) {
             QDomElement folder = folders.at(i).toElement();
-            prop = m_doc.createElement(QStringLiteral("property"));
-            prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:folder.-1.") + folder.attribute(QStringLiteral("id")));
-            val = m_doc.createTextNode(folder.attribute(QStringLiteral("name")));
-            prop.appendChild(val);
-            main_playlist.appendChild(prop);
+            QDomElement property = m_doc.createElement(QStringLiteral("property"));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:folder.-1.") + folder.attribute(QStringLiteral("id")));
+            QDomText val_node = m_doc.createTextNode(folder.attribute(QStringLiteral("name")));
+            property.appendChild(val_node);
+            main_playlist.appendChild(property);
         }
 
         QDomNode mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
@@ -1382,11 +1382,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 if (mltprod.attribute(QStringLiteral("id")) == id) {
                     if (!folder.isEmpty()) {
                         // We have found our producer, set folder info
-                        prop = m_doc.createElement(QStringLiteral("property"));
-                        prop.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:folderid"));
-                        val = m_doc.createTextNode(folder);
-                        prop.appendChild(val);
-                        mltprod.appendChild(prop);
+                        QDomElement property = m_doc.createElement(QStringLiteral("property"));
+                        property.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:folderid"));
+                        QDomText val_node = m_doc.createTextNode(folder);
+                        property.appendChild(val_node);
+                        mltprod.appendChild(property);
                     }
                     break;
                 }
@@ -1407,11 +1407,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         original.setAttribute(QStringLiteral("in"), 0);
                         original.setAttribute(QStringLiteral("out"), prod.attribute(QStringLiteral("duration")).toInt() - 1);
                         original.setAttribute(QStringLiteral("id"), id);
-                        prop = m_doc.createElement(QStringLiteral("property"));
-                        prop.setAttribute(QStringLiteral("name"), QStringLiteral("resource"));
-                        val = m_doc.createTextNode(prod.attribute(QStringLiteral("resource")));
-                        prop.appendChild(val);
-                        original.appendChild(prop);
+                        QDomElement property = m_doc.createElement(QStringLiteral("property"));
+                        property.setAttribute(QStringLiteral("name"), QStringLiteral("resource"));
+                        QDomText val_node = m_doc.createTextNode(prod.attribute(QStringLiteral("resource")));
+                        property.appendChild(val_node);
+                        original.appendChild(property);
                         QDomElement prop2 = m_doc.createElement(QStringLiteral("property"));
                         prop2.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
                         QDomText val2 = m_doc.createTextNode(QStringLiteral("avformat"));
@@ -1503,9 +1503,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
 
         // Remove deprecated Kdenlive extra info from xml doc before sending it to MLT
-        infoXml = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
-        if (!infoXml.isNull()) {
-            mlt.removeChild(infoXml);
+        QDomElement docXml = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
+        if (!docXml.isNull()) {
+            mlt.removeChild(docXml);
         }
     }
 

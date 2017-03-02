@@ -217,17 +217,17 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                 // Set clip specific infos
 
                 // in and out
-                int in = 0;
-                out = -1;
+                int clip_in = 0;
+                int clip_out = -1;
                 ProjectClip *clip = clips.at(i);
                 if (extraParams.contains(QStringLiteral("zoneonly"))) {
                     // Analyse clip zone only, remove in / out and replace with zone
                     QPoint zone = clip->zone();
-                    in = zone.x();
-                    out = zone.y();
+                    clip_in = zone.x();
+                    clip_out = zone.y();
                 }
-                producerParams.insert(QStringLiteral("in"), QString::number(in));
-                producerParams.insert(QStringLiteral("out"), QString::number(out));
+                producerParams.insert(QStringLiteral("in"), QString::number(clip_in));
+                producerParams.insert(QStringLiteral("out"), QString::number(clip_out));
                 producerParams.insert(QStringLiteral("producer"), sources.at(i));
 
                 // Consumer
