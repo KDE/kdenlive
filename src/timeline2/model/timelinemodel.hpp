@@ -259,9 +259,10 @@ public:
     /* @brief Requests the best snapped position for a clip
        @param pos is the clip's requested position
        @param length is the clip's duration
+       @param pts snap points to ignore (for example currently moved clip)
        @returns best snap position or -1 if no snap point is near
      */
-    int requestBestSnapPos(int pos, int length);
+    int requestBestSnapPos(int pos, int length, const std::vector<int> pts = std::vector<int>());
 
     /* @brief Requests the next snapped point
        @param pos is the current position

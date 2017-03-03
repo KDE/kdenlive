@@ -231,6 +231,10 @@ int TimelineModel::suggestClipMove(int cid, int tid, int position)
     if (currentPos == position || currentTrack != tid) {
         return position;
     }
+    int snapped = requestBestSnapPos(position, m_allClips[cid]->getPlaytime());
+    if (snapped >= 0) {
+        position = snapped;
+    }
     qDebug() << "Starting suggestion "<<cid << position << currentPos;
     //we check if move is possible
     Fun undo = [](){return true;};
@@ -754,10 +758,14 @@ void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
     m_undoStack = undo_stack;
 }
 
-int TimelineModel::requestBestSnapPos(int pos, int length)
+int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> pts)
 {
+    if (pts.size() > 0) {
+        m_snaps->ignore(pts);
+    }
     int snapped_start = m_snaps->getClosestPoint(pos);
     int snapped_end = m_snaps->getClosestPoint(pos + length);
+    m_snaps->unIgnore();
     int startDiff = qAbs(pos - snapped_start);
     int endDiff = qAbs(pos + length - snapped_end);
     if (startDiff < endDiff && snapped_start >= 0) {
