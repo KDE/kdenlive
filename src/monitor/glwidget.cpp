@@ -1593,3 +1593,8 @@ void GLWidget::switchPlay(bool play, double speed)
         m_producer->seek(m_consumer->position() + 1);
     }
 }
+
+int GLWidget::getCurrentPos() const
+{
+    return m_requestedSeekPosition == SEEK_INACTIVE ? m_consumer->position() : m_requestedSeekPosition;
+}

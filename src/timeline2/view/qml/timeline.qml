@@ -32,7 +32,7 @@ Rectangle {
     }
 
     property int headerWidth: 140
-    property int baseUnit: fontMetrics.height * 0.8
+    property int baseUnit: fontMetrics.height * 0.6
     property int currentTrack: 0
     property color selectedTrackColor: activePalette.highlight //.rgba(0.8, 0.8, 0, 0.3);
     property alias trackCount: tracksRepeater.count
@@ -303,7 +303,7 @@ Rectangle {
             TimelinePlayhead {
                 id: playhead
                 visible: timeline.position > -1
-                height: baseUnit * 0.8
+                height: baseUnit
                 width: baseUnit
                 y: ruler.height - height
                 x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX - (width / 2)
@@ -329,13 +329,13 @@ Rectangle {
     Rectangle {
         id: bubbleHelp
         property alias text: bubbleHelpLabel.text
-        //color: application.toolTipBaseColor
+        color: activePalette.window //application.toolTipBaseColor
         width: bubbleHelpLabel.width + 8
         height: bubbleHelpLabel.height + 8
         radius: 4
         states: [
             State { name: 'invisible'; PropertyChanges { target: bubbleHelp; opacity: 0} },
-            State { name: 'visible'; PropertyChanges { target: bubbleHelp; opacity: 1} }
+            State { name: 'visible'; PropertyChanges { target: bubbleHelp; opacity: 0.8} }
         ]
         state: 'invisible'
         transitions: [
@@ -352,8 +352,9 @@ Rectangle {
         ]
         Label {
             id: bubbleHelpLabel
-            //color: application.toolTipTextColor
+            color: activePalette.text //application.toolTipTextColor
             anchors.centerIn: parent
+            font.pixelSize: root.baseUnit
         }
         function show(x, y, text) {
             bubbleHelp.x = x + tracksArea.x - scrollView.flickableItem.contentX - bubbleHelpLabel.width
@@ -367,7 +368,7 @@ Rectangle {
             bubbleHelp.opacity = 0
         }
     }
-    DropShadow {
+    /*DropShadow {
         source: bubbleHelp
         anchors.fill: bubbleHelp
         opacity: bubbleHelp.opacity
@@ -377,7 +378,7 @@ Rectangle {
         color: '#80000000'
         transparentBorder: true
         fast: true
-    }
+    }*/
 
     DelegateModel {
         id: trackDelegateModel

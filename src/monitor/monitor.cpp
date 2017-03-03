@@ -1225,14 +1225,14 @@ void Monitor::slotForward(double speed)
 void Monitor::slotRewindOneFrame(int diff)
 {
     slotActivateMonitor();
-    render->seekToFrameDiff(-diff);
+    emit seekTimeline(m_glMonitor->getCurrentPos() - diff);
     m_ruler->update();
 }
 
 void Monitor::slotForwardOneFrame(int diff)
 {
     slotActivateMonitor();
-    render->seekToFrameDiff(diff);
+    emit seekTimeline(m_glMonitor->getCurrentPos() + diff);
     m_ruler->update();
 }
 

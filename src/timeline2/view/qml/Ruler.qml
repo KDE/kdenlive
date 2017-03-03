@@ -23,13 +23,13 @@ Rectangle {
     property int stepSize: 34
     property int index: 0
     property real timeScale: timeline.scaleFactor
-    property int fontUnit: root.baseUnit * 0.6
+    property int fontUnit: root.baseUnit
 
     SystemPalette { id: activePalette }
 
     id: rulerTop
     enabled: false
-    height: root.baseUnit * 2
+    height: root.baseUnit * 2.5
     color: activePalette.base
 
     Repeater {
@@ -51,7 +51,7 @@ Rectangle {
             opacity: 0.8
             x: index * stepSize * 4 + 2
             text: timeline.timecode(index * stepSize * 4 / timeScale)
-            font.pointSize: fontUnit
+            font.pixelSize: fontUnit
         }
     }
 }

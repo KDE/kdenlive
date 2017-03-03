@@ -18,7 +18,7 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.0
+import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.3
 //import Shotcut.Controls 1.0 as Shotcut
 
@@ -91,12 +91,12 @@ Rectangle {
     }
     ColumnLayout {
         id: trackHeadColumn
-        spacing: 2
+        spacing: 0
         anchors {
             top: parent.top
             left: parent.left
             bottom: parent.bottom
-            margins: 0
+            margins: 2
         }
 
         Rectangle {
@@ -120,6 +120,7 @@ Rectangle {
                 text: trackName
                 color: activePalette.windowText
                 elide: Qt.ElideRight
+                font.pixelSize: root.baseUnit * 1.5
                 x: 4
                 y: 3
                 width: parent.width - 8
@@ -129,6 +130,9 @@ Rectangle {
                 visible: false
                 width: trackHeadRoot.width - trackHeadColumn.anchors.margins * 2
                 text: trackName
+                style: TextFieldStyle {
+                    font.pixelSize: root.baseUnit * 1.5
+                }
                 onAccepted: {
                     timeline.setTrackName(index, text)
                     visible = false
@@ -137,121 +141,37 @@ Rectangle {
             }
         }
         RowLayout {
-            spacing: 0
-            visible: (trackHeadRoot.height > trackLabel.height + muteButton.height + resizer.height + 8)
-            CheckBox {
+            spacing: 6
+            visible: (trackHeadRoot.height > trackLabel.height + muteButton.height + resizer.height + 4)
+            ToolButton {
                 id: muteButton
-                checked: isMute
-                style: CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 2
-                        color: isMute? activePalette.highlight : trackHeadRoot.color
-                        border.color: activePalette.shadow
-                        border.width: 1
-                        Text {
-                            id: muteText
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: qsTr('M', 'Mute')
-                            color: isMute? activePalette.highlightedText : activePalette.windowText
-                        }
-                    }
-                }
+                implicitWidth: 20
+                implicitHeight: 20
+                iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
+                iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svg' : 'qrc:///pics/kdenlive-show-audio.svg'
                 onClicked: timeline.toggleTrackMute(index)
-                //Shotcut.ToolTip { text: qsTr('Mute') }
+                tooltip: isMute? qsTr('Unmute') : qsTr('Mute')
             }
 
-            CheckBox {
+            ToolButton {
                 id: hideButton
-                checked: isHidden
                 visible: isVideo
-                style: CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 2
-                        color: isHidden? activePalette.highlight : trackHeadRoot.color
-                        border.color: activePalette.shadow
-                        border.width: 1
-                        Text {
-                            id: hideText
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: qsTr('H', 'Hide')
-                            color: isHidden? activePalette.highlightedText : activePalette.windowText
-                        }
-                    }
-                }
+                implicitWidth: 20
+                implicitHeight: 20
+                iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
+                iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svg' : 'qrc:///pics/kdenlive-show-video.svg'
                 onClicked: timeline.toggleTrackHidden(index)
-                //Shotcut.ToolTip { text: qsTr('Hide') }
+                tooltip: isHidden? qsTr('Show') : qsTr('Hide')
             }
 
-            CheckBox {
-                id: compositeButton
-                visible: isVideo
-                checked: isComposite
-                style: CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 2
-                        color: isComposite? activePalette.highlight : trackHeadRoot.color
-                        border.color: activePalette.shadow
-                        border.width: 1
-                        Text {
-                            id: compositeText
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: qsTr('C', 'Composite')
-                            color: isComposite? activePalette.highlightedText : activePalette.windowText
-                        }
-                    }
-                }
-                onClicked: timeline.setTrackComposite(index, checkedState)
-                //Shotcut.ToolTip { text: qsTr('Composite') }
-            }
-
-            CheckBox {
+            ToolButton {
                 id: lockButton
-                checked: isLocked
-                style: CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 2
-                        color: isLocked ? activePalette.highlight : trackHeadRoot.color
-                        border.color: activePalette.shadow
-                        border.width: 1
-                        Text {
-                            id: lockText
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: qsTr('L', 'Lock')
-                            color: isLocked ? activePalette.highlightedText : activePalette.windowText
-                        }
-                    }
-                }
-                SequentialAnimation {
-                    id: lockButtonAnim
-                    loops: 2
-                    NumberAnimation {
-                        target: lockButton
-                        property: "scale"
-                        to: 1.8
-                        duration: 200
-                    }
-                    NumberAnimation {
-                        target: lockButton
-                        property: "scale"
-                        to: 1
-                        duration: 200
-                    }
-                }
-
+                implicitWidth: 20
+                implicitHeight: 20
+                iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
+                iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
                 onClicked: timeline.setTrackLock(index, !isLocked)
-                //Shotcut.ToolTip { text: qsTr('Lock track') }
+                tooltip: isLocked? qsTr('Unlock track') : qsTr('Lock track')
             }
         }
         Rectangle {

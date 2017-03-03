@@ -260,7 +260,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             case HeightRole: {
                 int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
                 // qDebug() << "DATA yielding height" << height;
-                return (height > 0 ? height : 50);
+                return (height > 0 ? height : 60);
             }
             case IsCompositeRole: {
                 return Qt::Unchecked;

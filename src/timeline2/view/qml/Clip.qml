@@ -216,7 +216,7 @@ Rectangle {
         id: label
         text: clipName
         visible: !isBlank && !isTransition
-        font.pointSize: 8
+        font.pixelSize: root.baseUnit
         anchors {
             top: parent.top
             left: parent.left

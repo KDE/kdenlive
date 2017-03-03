@@ -168,6 +168,7 @@ public slots:
     void selectMultitrack();
     void onSeeked(int position);
     void slotChangeZoom(int value, bool zoomOnMouse);
+    void seek(int position);
 
 private:
     std::shared_ptr<TimelineItemModel> m_model;

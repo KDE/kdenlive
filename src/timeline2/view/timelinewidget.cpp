@@ -239,7 +239,13 @@ void TimelineWidget::triggerAction(const QString &name)
 
 QString TimelineWidget::timecode(int frames)
 {
-    return m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
+    return KdenliveSettings::frametimecode() ? QString::number(frames) : m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
+}
+
+void TimelineWidget::seek(int position)
+{
+    rootObject()->setProperty("seekPos", position);
+    emit seeked(position);
 }
 
 void TimelineWidget::setPosition(int position)
@@ -323,11 +329,11 @@ int TimelineWidget::requestBestSnapPos(int pos, int duration)
 
 void TimelineWidget::gotoNextSnap()
 {
-    setPosition(m_model->requestNextSnapPos(m_position));
+    seek(m_model->requestNextSnapPos(m_position));
 }
 
 void TimelineWidget::gotoPreviousSnap()
 {
-    setPosition(m_model->requestPreviousSnapPos(m_position));
+    seek(m_model->requestPreviousSnapPos(m_position));
 }
 

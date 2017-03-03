@@ -115,6 +115,8 @@ public:
     void resetDrops();
     void seek(int pos);
     bool checkFrameNumber(int pos);
+    /** @brief Return current timeline position */
+    int getCurrentPos() const;
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;

@@ -853,6 +853,7 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
         qDebug() << "CONSTRUCTING TIMELINEWIDGET";
         m_timelineWidget = new TimelineWidget(pCore->window()->actionCollection(), pCore->binController(), m_project->commandStack(), pCore->window());
         pCore->addTimeline(m_timelineWidget, m_project->url().fileName());
+        connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, m_timelineWidget, &TimelineWidget::seek, Qt::DirectConnection);
         connect(m_timelineWidget, &TimelineWidget::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
         connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, m_timelineWidget, &TimelineWidget::onSeeked, Qt::DirectConnection);
         connect(m_timelineWidget, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
