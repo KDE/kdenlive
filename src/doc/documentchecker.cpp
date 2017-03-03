@@ -373,17 +373,15 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
-    //TODO the following loop is disabled because m_missingFonts is cleared (line 124), but not filled, that looks suspicious
-    /*foreach (const QString &font, m_missingFonts) {
+    foreach (const QString &font, m_missingFonts) {
         QString clipType = i18n("Title Font");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPPLACEHOLDER);
         item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
-        item->setToolTip(1, e.attribute(QStringLiteral("name")));
         QString newft = QFontInfo(QFont(font)).family();
         item->setText(1, i18n("%1 will be replaced by %2", font, newft));
         item->setData(0, typeRole, CLIPMISSING);
-        }*/
+    }
 
     if (!m_missingClips.isEmpty()) {
         m_ui.infoLabel->setText(i18n("The project file contains missing clips or files"));
