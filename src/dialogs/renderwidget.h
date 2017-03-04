@@ -139,7 +139,7 @@ public:
         ProfileError = 1,
         ProxyWarning = 2
     };
-    
+
     /** @brief Display warning message in render widget. */
     void errorMessage(RenderError type, const QString &message);
 
