@@ -558,7 +558,7 @@ private slots:
     void slotItemDropped(QStringList ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl>&urls, const QModelIndex &parent);
     void slotEffectDropped(QString effect, const QModelIndex &parent);
-    void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix);
+    void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix, bool refreshStack = false);
     void slotChangeEffectState(QString id, QList<int> indexes, bool disable);
     void slotItemEdited(QModelIndex,QModelIndex,QVector<int>);
     void slotAddUrl(QString url, int folderId, QMap <QString, QString> data = QMap <QString, QString>());

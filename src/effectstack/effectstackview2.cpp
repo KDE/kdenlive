@@ -929,7 +929,7 @@ void EffectStackView2::slotResetEffect(int ix)
             emit updateEffect(m_clipref, -1, old, dom, ix,true);
         } else if (m_status == MASTER_CLIP) {
             m_masterclipref->initEffect(m_effectMetaInfo.monitor->profileInfo(), dom);
-            emit updateMasterEffect(m_masterclipref->clipId(), old, dom, ix);
+            emit updateMasterEffect(m_masterclipref->clipId(), old, dom, ix,true);
         }
     }
 

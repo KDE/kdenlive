@@ -332,7 +332,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     connect(pCore->bin(), SIGNAL(masterClipSelected(ClipController *, Monitor *)), m_effectStack, SLOT(slotMasterClipItemSelected(ClipController *, Monitor *)));
     connect(pCore->bin(), SIGNAL(masterClipUpdated(ClipController *, Monitor *)), m_effectStack, SLOT(slotRefreshMasterClipEffects(ClipController *, Monitor *)));
     connect(m_effectStack, SIGNAL(addMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString,QDomElement)));
-    connect(m_effectStack, SIGNAL(updateMasterEffect(QString,QDomElement,QDomElement,int)), pCore->bin(), SLOT(slotUpdateEffect(QString,QDomElement,QDomElement,int)));
+    connect(m_effectStack, SIGNAL(updateMasterEffect(QString,QDomElement,QDomElement,int,bool)), pCore->bin(), SLOT(slotUpdateEffect(QString,QDomElement,QDomElement,int,bool)));
     connect(m_effectStack, SIGNAL(changeMasterEffectState(QString,QList<int>,bool)), pCore->bin(), SLOT(slotChangeEffectState(QString,QList<int>,bool)));
     connect(m_effectStack, SIGNAL(removeMasterEffect(QString,QDomElement)), pCore->bin(), SLOT(slotDeleteEffect(QString,QDomElement)));
     connect(m_effectStack, SIGNAL(changeEffectPosition(QString,const QList <int>,int)), pCore->bin(), SLOT(slotMoveEffect(QString,const QList <int>,int)));

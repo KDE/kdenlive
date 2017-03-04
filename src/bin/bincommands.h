@@ -109,7 +109,7 @@ private:
 class UpdateBinEffectCommand : public QUndoCommand
 {
 public:
-    explicit UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect, QDomElement &newEffect, int ix, QUndoCommand *parent = 0);
+    explicit UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect, QDomElement &newEffect, int ix, bool refreshStack, QUndoCommand *parent = 0);
     void undo();
     void redo();
 private:
