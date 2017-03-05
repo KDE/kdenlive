@@ -667,7 +667,12 @@ void DvdWizardMenu::createBackgroundImage(const QString &img1, bool letterbox)
     QPainter p(&img);
     p.setRenderHints(QPainter::Antialiasing, true);
     p.setRenderHints(QPainter::TextAntialiasing, true);
+    // set image grid to "1" to ensure we don't display dots all over
+    // the image when rendering
+    int oldSize = m_scene->gridSize();
+    m_scene->setGridSize(1);
     m_scene->render(&p, QRectF(0, 0, img.width(), img.height()));
+    m_scene->setGridSize(oldSize);
     //m_scene->render(&p, target, source, Qt::IgnoreAspectRatio);
     p.end();
     img.save(img1);
