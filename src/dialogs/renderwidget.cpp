@@ -286,6 +286,11 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     //m_view.splitter->setStretchFactor(0, 2);
 
     m_view.out_file->setMode(KFile::File);
+
+#if KXMLGUI_VERSION_MINOR > 32 || KXMLGUI_VERSION_MAJOR > 5
+    m_view.out_file->setAcceptMode(QFileDialog::AcceptSave);
+#endif
+
     m_view.out_file->setFocusPolicy(Qt::ClickFocus);
 
     m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
