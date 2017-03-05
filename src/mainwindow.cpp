@@ -130,7 +130,7 @@ QMap<QString, QStringList> MainWindow::m_lumaFiles;
     return a.first < b.first;
 }*/
 
-// determine the the default KDE style as defined BY THE USER
+// determine the default KDE style as defined BY THE USER
 // (as opposed to whatever style KDE considers default)
 static QString defaultStyle(const char *fallback = nullptr)
 {

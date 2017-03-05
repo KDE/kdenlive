@@ -144,7 +144,7 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
     }
 
     // Get the window function from the cache
-    // (except for a rectangular window; nothing to to there.
+    // (except for a rectangular window; nothing to do there).
     QVector<float> window;
     float windowScaleFactor = 1;
     if (windowType != FFTTools::Window_Rect) {
