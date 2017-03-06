@@ -7210,8 +7210,9 @@ void CustomTrackView::monitorRefresh(QList <ItemInfo> range, bool invalidateRang
         if (invalidateRange)
             m_timeline->invalidateRange(range.at(i));
     }
-    if (refreshMonitor)
+    if (refreshMonitor) {
         m_document->renderer()->doRefresh();
+    }
 }
 
 void CustomTrackView::monitorRefresh(ItemInfo range, bool invalidateRange)
@@ -7938,8 +7939,9 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
 	Mlt::Producer *sprod = i.value();
 	m_document->renderer()->storeSlowmotionProducer(i.key() + url, sprod, true);
     }
-    if (!toUpdate.isEmpty())
-        monitorRefresh(toUpdate, true);
+    if (!toUpdate.isEmpty()) {
+        QMetaObject::invokeMethod(this, "monitorRefresh", Qt::QueuedConnection, Q_ARG(QList <ItemInfo>, toUpdate), Q_ARG(bool, true));
+    }
     m_timeline->refreshTractor();
 }
 

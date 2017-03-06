@@ -165,6 +165,7 @@ MainWindow::MainWindow(const QString &MltPath, const QUrl &Url, const QString & 
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
     qRegisterMetaType< QVector <int> > ();
+    qRegisterMetaType< QList<ItemInfo> > ("QList<ItemInfo>");
     qRegisterMetaType<QDomElement> ("QDomElement");
     qRegisterMetaType<requestClipInfo> ("requestClipInfo");
     qRegisterMetaType<MltVideoProfile> ("MltVideoProfile");

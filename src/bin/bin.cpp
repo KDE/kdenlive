@@ -864,7 +864,6 @@ void Bin::slotDeleteClip()
 	if (!isChild) {
             if (!usedClips && current->refCount() > 0) {
                 usedClips = true;
-                
             }
             clipIds << current->clipId();
         }
@@ -910,7 +909,7 @@ void Bin::slotReloadClip()
                         }
                     }
                 }
-            }            
+            }
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
             qDebug()<<"*****************\n"<<doc.toString()<<"\n******************";
@@ -1951,7 +1950,9 @@ void Bin::slotProducerReady(requestClipInfo info, ClipController *controller)
                     m_doc->slotProxyCurrentItem(true, QList <ProjectClip *>() << clip);
                 }
             }
-        } else emit producerReady(info.clipId);
+        } else {
+            emit producerReady(info.clipId);
+        }
         QString currentClip = m_monitor->activeClipId();
         if (currentClip.isEmpty()) {
             //No clip displayed in monitor, check if item is selected

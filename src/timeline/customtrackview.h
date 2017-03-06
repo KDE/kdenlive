@@ -216,8 +216,6 @@ public:
     /** @brief Returns last requested seeking pos, or current cursor position. */
     int seekPosition() const;
 
-    /** @brief Trigger a monitor refresh. */
-    void monitorRefresh(QList <ItemInfo> range, bool invalidateRange = false);
     void monitorRefresh(bool invalidateRange = false);
     /** @brief Trigger a monitor refresh if timeline cursor is inside range. */
     void monitorRefresh(ItemInfo range, bool invalidateRange = false);
@@ -350,6 +348,8 @@ public slots:
     void slotTransitionUpdated(Transition *, QDomElement);
     void slotSwitchTrackLock(int ix, bool enable, bool applyToAll = false);
     void slotUpdateClip(const QString &clipId, bool reload = true);
+    /** @brief Trigger a monitor refresh. */
+    void monitorRefresh(QList <ItemInfo> range, bool invalidateRange = false);
 
     bool addGuide(const GenTime &pos, const QString &comment, bool loadingProject = false);
 
