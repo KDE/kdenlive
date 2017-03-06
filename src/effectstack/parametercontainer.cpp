@@ -282,7 +282,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
                 m_vbox->addWidget(lswid);
             } else if (type == QLatin1String("bool")) {
-                bool checked = (value == QLatin1String("0"));
+                bool checked = (value == QLatin1String("1"));
                 BoolParamWidget *bwid = new BoolParamWidget(paramName, comment, checked, parent);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     bwid->setEnabled(false);
