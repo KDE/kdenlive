@@ -23,6 +23,8 @@
 
 #include "clip.h"
 #include <mlt++/Mlt.h>
+#include <QDomDocument>
+#include <QDebug>
 
 Clip::Clip(Mlt::Producer &producer) : QObject(),
     m_producer(producer)
@@ -168,9 +170,6 @@ const QByteArray Clip::xml()
     if (ignore) {
         s.set("ignore_points", 0);
     }
-    if (s.get_int("ignore_points")) {
-        s.set("ignore_points", 0);
-    }
     c.connect(s);
     c.set("time_format", "frames");
     c.set("no_meta", 1);
@@ -186,12 +185,17 @@ const QByteArray Clip::xml()
 
 Mlt::Producer *Clip::clone()
 {
-    QString service = QString::fromLatin1(m_producer.get("mlt_service"));
-    QString resource = QString::fromLatin1(m_producer.get("resource"));
-    Mlt::Producer *clone = new Mlt::Producer(*m_producer.profile(), service.toUtf8().constData(), resource.toUtf8().constData());
-    Mlt::Properties original(m_producer.get_properties());
-    Mlt::Properties cloneProps(clone->get_properties());
-    cloneProps.inherit(original);
+    QByteArray prodXml = xml();
+    //HACK: currently the MLT xml producer, when parsing a <profile>, does change the global profile accordingly.
+    // causing crash on threaded calls. To avoid this, we discard the profile info from our xml
+    QDomDocument doc;
+    doc.setContent(prodXml, true);
+    QDomNodeList profiles = doc.documentElement().elementsByTagName("profile");
+    if (!profiles.isEmpty()) {
+        QDomNode profile = profiles.item(0);
+        doc.documentElement().removeChild(profile);
+    }
+    Mlt::Producer *clone = new Mlt::Producer(*m_producer.profile(), "xml-string", doc.toByteArray().constData());
     return clone;
 }
 

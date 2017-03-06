@@ -20,6 +20,7 @@
 #include "bincontroller.h"
 #include "clipcontroller.h"
 #include "kdenlivesettings.h"
+#include "timeline/clip.h"
 
 static const char *kPlaylistTrackId = "main bin";
 
@@ -331,12 +332,8 @@ bool BinController::removeBinClip(const QString &id)
 
 Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
 {
-    QString service = QString::fromLatin1(original.get("mlt_service"));
-    QString resource = QString::fromLatin1(original.get("resource"));
-    Mlt::Producer *clone = new Mlt::Producer(*original.profile(), service.toUtf8().constData(), resource.toUtf8().constData());
-    Mlt::Properties originalProps(original.get_properties());
-    Mlt::Properties cloneProps(clone->get_properties());
-    cloneProps.inherit(originalProps);
+    Clip clp(original);
+    Mlt::Producer *clone = clp.clone();
     return clone;
 }
 
