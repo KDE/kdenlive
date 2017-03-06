@@ -2613,7 +2613,7 @@ void Bin::slotEffectDropped(QString id, QDomElement effect)
     m_doc->commandStack()->push(command);
 }
 
-void Bin::slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix)
+void Bin::slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix, bool refreshStack)
 {
     if (id.isEmpty()) {
         id = m_monitor->activeClipId();
@@ -2621,7 +2621,7 @@ void Bin::slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEff
     if (id.isEmpty()) {
         return;
     }
-    UpdateBinEffectCommand *command = new UpdateBinEffectCommand(this, id, oldEffect, newEffect, ix);
+    UpdateBinEffectCommand *command = new UpdateBinEffectCommand(this, id, oldEffect, newEffect, ix, refreshStack);
     m_doc->commandStack()->push(command);
 }
 

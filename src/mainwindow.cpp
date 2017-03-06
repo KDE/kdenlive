@@ -316,16 +316,18 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     m_effectStack = new EffectStackView2(m_projectMonitor, this);
+
     connect(m_effectStack, &EffectStackView2::startFilterJob, pCore->bin(), &Bin::slotStartFilterJob);
     connect(pCore->bin(), &Bin::masterClipSelected, m_effectStack, &EffectStackView2::slotMasterClipItemSelected);
     connect(pCore->bin(), &Bin::masterClipUpdated, m_effectStack, &EffectStackView2::slotRefreshMasterClipEffects);
     connect(m_effectStack, SIGNAL(addMasterEffect(QString, QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString, QDomElement)));
-    connect(m_effectStack, SIGNAL(updateMasterEffect(QString, QDomElement, QDomElement, int)), pCore->bin(), SLOT(slotUpdateEffect(QString, QDomElement, QDomElement, int)));
+    connect(m_effectStack, SIGNAL(updateMasterEffect(QString,QDomElement,QDomElement,int,bool)), pCore->bin(), SLOT(slotUpdateEffect(QString,QDomElement,QDomElement,int,bool)));
     connect(m_effectStack, SIGNAL(changeMasterEffectState(QString, QList<int>, bool)), pCore->bin(), SLOT(slotChangeEffectState(QString, QList<int>, bool)));
     connect(m_effectStack, &EffectStackView2::removeMasterEffect, pCore->bin(), &Bin::slotDeleteEffect);
     connect(m_effectStack, SIGNAL(changeEffectPosition(QString, QList<int>, int)), pCore->bin(), SLOT(slotMoveEffect(QString, QList<int>, int)));
     connect(m_effectStack, &EffectStackView2::reloadEffects, this, &MainWindow::slotReloadEffects);
     connect(m_effectStack, SIGNAL(displayMessage(QString, int)), m_messageLabel, SLOT(setProgressMessage(QString, int)));
+
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);
 
     m_effectList = new EffectsListView();

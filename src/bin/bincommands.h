@@ -106,7 +106,7 @@ private:
 class UpdateBinEffectCommand : public QUndoCommand
 {
 public:
-    explicit UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect, QDomElement &newEffect, int ix, QUndoCommand *parent = nullptr);
+    explicit UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect, QDomElement &newEffect, int ix, bool refreshStack, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:

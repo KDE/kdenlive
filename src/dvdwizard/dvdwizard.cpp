@@ -1027,18 +1027,18 @@ void DvdWizard::slotLoad()
     QString profile = dvdproject.attribute(QStringLiteral("profile"));
     m_pageVob->setProfile(profile);
     m_pageVob->clear();
-    m_status.tmp_folder->setUrl(QUrl(dvdproject.attribute(QStringLiteral("tmp_folder"))));
-    m_status.iso_image->setUrl(QUrl(dvdproject.attribute(QStringLiteral("iso_image"))));
+    m_status.tmp_folder->setUrl(QUrl::fromLocalFile(dvdproject.attribute(QStringLiteral("tmp_folder"))));
+    m_status.iso_image->setUrl(QUrl::fromLocalFile(dvdproject.attribute(QStringLiteral("iso_image"))));
     QString intro = dvdproject.attribute(QStringLiteral("intro_movie"));
     if (!intro.isEmpty()) {
-        m_pageVob->slotAddVobFile(QUrl(intro));
+        m_pageVob->slotAddVobFile(QUrl::fromLocalFile(intro));
         m_pageVob->setUseIntroMovie(true);
     }
 
     QDomNodeList vobs = doc.elementsByTagName(QStringLiteral("vob"));
     for (int i = 0; i < vobs.count(); ++i) {
         QDomElement e = vobs.at(i).toElement();
-        m_pageVob->slotAddVobFile(QUrl(e.attribute(QStringLiteral("file"))), e.attribute(QStringLiteral("chapters")));
+        m_pageVob->slotAddVobFile(QUrl::fromLocalFile(e.attribute(QStringLiteral("file"))), e.attribute(QStringLiteral("chapters")));
     }
     m_pageMenu->loadXml(m_pageVob->dvdFormat(), dvdproject.firstChildElement(QStringLiteral("menu")));
 }

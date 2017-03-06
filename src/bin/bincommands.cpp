@@ -154,14 +154,14 @@ void RemoveBinEffectCommand::redo()
     m_bin->removeEffect(m_clipId, m_effect);
 }
 
-UpdateBinEffectCommand::UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect,  QDomElement &newEffect, int ix, QUndoCommand *parent) :
+UpdateBinEffectCommand::UpdateBinEffectCommand(Bin *bin, const QString &clipId, QDomElement &oldEffect,  QDomElement &newEffect, int ix, bool refreshStack, QUndoCommand *parent) :
     QUndoCommand(parent),
     m_bin(bin),
     m_clipId(clipId),
     m_oldEffect(oldEffect),
     m_newEffect(newEffect),
     m_ix(ix),
-    m_refreshStack(false)
+    m_refreshStack(refreshStack)
 {
     setText(i18n("Edit Bin Effect"));
 }

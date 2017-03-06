@@ -285,6 +285,11 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     //m_view.splitter->setStretchFactor(0, 2);
 
     m_view.out_file->setMode(KFile::File);
+
+#if KXMLGUI_VERSION_MINOR > 32 || KXMLGUI_VERSION_MAJOR > 5
+    m_view.out_file->setAcceptMode(QFileDialog::AcceptSave);
+#endif
+
     m_view.out_file->setFocusPolicy(Qt::ClickFocus);
 
     m_jobsDelegate = new RenderViewDelegate(this);
@@ -2135,13 +2140,12 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
         slotCheckJob();
     } else {
         QDateTime startTime = item->data(1, TimeRole).toDateTime();
-        int days = startTime.daysTo(QDateTime::currentDateTime());
-        double elapsedTime = days * 86400 + startTime.addDays(days).secsTo(QDateTime::currentDateTime());
+        qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
         quint32 remaining = elapsedTime * (100.0 - progress) / progress;
+        int days = remaining / 86400;
         int remainingSecs = remaining % 86400;
-        days = remaining / 86400;
-        QTime when = QTime(0, 0, 0, 0);
-        when = when.addSecs(remainingSecs);
+        QTime when = QTime ( 0, 0, 0, 0 ) ;
+        when = when.addSecs (remainingSecs) ;
         QString est = (days > 0) ? i18np("%1 day ", "%1 days ", days) : QString();
         est.append(when.toString(QStringLiteral("hh:mm:ss")));
         QString t = i18n("Remaining time %1", est);
@@ -2165,10 +2169,11 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         // Job finished successfully
         item->setStatus(FINISHEDJOB);
         QDateTime startTime = item->data(1, TimeRole).toDateTime();
-        int days = startTime.daysTo(QDateTime::currentDateTime());
-        int elapsedTime = startTime.addDays(days).secsTo(QDateTime::currentDateTime());
-        QTime when = QTime(0, 0, 0, 0);
-        when = when.addSecs(elapsedTime);
+        qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
+        int days = elapsedTime / 86400;
+        elapsedTime -= (days * 86400);
+        QTime when = QTime ( 0, 0, 0, 0 ) ;
+        when = when.addSecs (elapsedTime) ;
         QString est = (days > 0) ? i18np("%1 day ", "%1 days ", days) : QString();
         est.append(when.toString(QStringLiteral("hh:mm:ss")));
         QString t = i18n("Rendering finished in %1", est);

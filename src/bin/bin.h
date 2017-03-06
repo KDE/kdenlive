@@ -370,11 +370,12 @@ private slots:
     void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
     void slotEffectDropped(const QString &effect, const QModelIndex &parent);
-    void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix);
+    void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix, bool refreshStack = false);
     void slotChangeEffectState(QString id, const QList<int> &indexes, bool disable);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     void slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data = QMap<QString, QString>());
     void slotAddUrl(const QString &url, const QMap<QString, QString> &data = QMap<QString, QString>());
+
     void slotPrepareJobsMenu();
     void slotShowJobLog();
     /** @brief process clip job result. */
