@@ -175,9 +175,15 @@ const QByteArray Clip::xml()
     return c.get("string");
 }
 
-Mlt::Producer *Clip::clone() {
-    Mlt::Producer *prod = new Mlt::Producer(*m_producer.profile(), "xml-string", xml().constData());
-    return prod;
+Mlt::Producer *Clip::clone()
+{
+    QString service = QString::fromLatin1(m_producer.get("mlt_service"));
+    QString resource = QString::fromLatin1(m_producer.get("resource"));
+    Mlt::Producer *clone = new Mlt::Producer(*m_producer.profile(), service.toUtf8().constData(), resource.toUtf8().constData());
+    Mlt::Properties original(m_producer.get_properties());
+    Mlt::Properties cloneProps(clone->get_properties());
+    cloneProps.inherit(original);
+    return clone;
 }
 
 Mlt::Producer *Clip::softClone(const char*list) {
