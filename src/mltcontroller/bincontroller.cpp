@@ -341,8 +341,12 @@ bool BinController::removeBinClip(const QString &id)
 
 Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
 {
-    QString xml = getProducerXML(original);
-    Mlt::Producer *clone = new Mlt::Producer(*original.profile(), "xml-string", xml.toUtf8().constData());
+    QString service = QString::fromLatin1(original.get("mlt_service"));
+    QString resource = QString::fromLatin1(original.get("resource"));
+    Mlt::Producer *clone = new Mlt::Producer(*original.profile(), service.toUtf8().constData(), resource.toUtf8().constData());
+    Mlt::Properties original_props(original.get_properties());
+    Mlt::Properties cloneProps(clone->get_properties());
+    cloneProps.inherit(original_props);
     return clone;
 }
 
