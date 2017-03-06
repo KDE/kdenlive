@@ -10,15 +10,20 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "core.h"
 #include "mainwindow.h"
+#include "kdenlivesettings.h"
 #include "project/projectmanager.h"
 #include "monitor/monitormanager.h"
 #include "mltconnection.h"
+#include "profiles/profilerepository.hpp"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/producerqueue.h"
 #include "bin/bin.h"
 #include "library/librarywidget.h"
-#include <QCoreApplication>
 #include "kdenlive_debug.h"
+
+#include <QCoreApplication>
+#include <KMessageBox>
+#include <QInputDialog>
 
 #include <mlt++/MltRepository.h>
 
@@ -80,6 +85,43 @@ void Core::initialize(const QString &mltPath)
 {
     m_mltConnection = std::unique_ptr<MltConnection>(new MltConnection(mltPath));
     m_mainWindow = new MainWindow();
+
+    //loads the profile from disk
+    ProfileRepository::get()->refresh();
+
+    //load default profile and ask user to select one if not found.
+    m_profile = KdenliveSettings::default_profile();
+    if (m_profile.isEmpty() || !ProfileRepository::get()->profileExists(m_profile)) {
+        KMessageBox::sorry(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
+
+        //TODO this simple widget should be improved and probably use profileWidget
+        //we get the list of profiles
+        QVector<QPair<QString, QString>> all_profiles = ProfileRepository::get()->getAllProfiles();
+        QStringList all_descriptions;
+        for (const auto& profile : all_profiles) {
+            all_descriptions << profile.first;
+        }
+
+        //ask the user
+        bool ok;
+        QString item = QInputDialog::getItem(m_mainWindow, i18n("Select Default Profile"),
+                                             i18n("Profile:"), all_descriptions, 0, false, &ok);
+        if (ok) {
+            ok = false;
+            for (const auto& profile : all_profiles) {
+                if (profile.first == item) {
+                    m_profile = profile.second;
+                    ok = true;
+                }
+            }
+        }
+        if (!ok) {
+            KMessageBox::error(m_mainWindow, i18n("The given profile is invalid. We default to the profile \"dv_pal\", but you can change this from Kdenlive's settings panel"));
+            m_profile = "dv_pal";
+        }
+        KdenliveSettings::setDefault_profile(m_profile);
+    }
+
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin();
     m_binController = new BinController();
