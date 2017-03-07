@@ -28,11 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QWidget>
 
 class KMessageWidget;
+class QTextEdit;
+class ProfileTreeModel;
+class ProfileFilter;
+class TreeView;
 
 /**
  * @class ProfileWidget
- * @brief Provides options to adjust CMYK factor of a color range.
- * @author Jean-Baptiste Mardelle
+ * @brief Provides interface to choose and filter profiles
+ * @author Jean-Baptiste Mardelle, Nicolas Carion
  */
 
 class ProfileWidget : public QWidget
@@ -41,62 +45,47 @@ class ProfileWidget : public QWidget
 public:
     explicit ProfileWidget(QWidget *parent = nullptr);
     ~ProfileWidget();
-    void loadProfile(QString profile);
+    void loadProfile(const QString& profile);
     const QString selectedProfile() const;
 
-    enum class VideoStd {
-        FourK,
-        FourKWide,
-        FourKDCI,
-        TwoK,
-        FHD,
-        HD,
-        SD,
-        SDWide,
-        Custom
-    };
-    Q_ENUM(VideoStd);
 private:
     /** @brief currently selected's profile path */
-    MltVideoProfile m_currentProfile;
+    QString m_currentProfile;
+    QString m_lastValidProfile;
     void slotUpdateInfoDisplay();
-    QList<MltVideoProfile> m_list4KDCI;
-    QList<MltVideoProfile> m_list4KWide;
-    QList<MltVideoProfile> m_list4K;
-    QList<MltVideoProfile> m_list2K;
-    QList<MltVideoProfile> m_listFHD;
-    QList<MltVideoProfile> m_listHD;
-    QList<MltVideoProfile> m_listSD;
-    QList<MltVideoProfile> m_listSDWide;
-    QList<MltVideoProfile> m_listCustom;
-    QComboBox *m_standard;
-    QComboBox *m_rate_list;
-    QCheckBox *m_interlaced;
-    QLabel *m_customSizeLabel;
-    QComboBox *m_customSize;
-    QComboBox *m_display_list;
-    QComboBox *m_sample_list;
-    QComboBox *m_color_list;
-    QGridLayout *m_detailsLayout;
-    KMessageWidget *m_errorMessage;
 
-    VideoStd getStandard(const MltVideoProfile &profile);
-    void updateCombos();
-    QStringList getFrameSizes(const QList<MltVideoProfile> &currentStd, const QString &rate);
-    void checkInterlace(const QList<MltVideoProfile> &currentStd, const QString &size, const QString &rate);
-    QList<MltVideoProfile> getList(VideoStd std);
+    QCheckBox *m_enableScanning;
+    QLabel *m_labelScanning;
+    QButtonGroup *m_widScanning;
+    QPushButton *m_but1Scanning;
+    QPushButton *m_but2Scanning;
 
-private slots:
+    QCheckBox *m_enableFps;
+    QLabel *m_labelFps;
+    QComboBox *m_widFps;
+
+
+    QTreeView *m_treeView;
+    ProfileTreeModel *m_treeModel;
+    ProfileFilter* m_filter;
+
+    QTextEdit *m_descriptionPanel;
+
     /** @brief Open project profile management dialog. */
     void slotEditProfiles();
-    void updateList();
-    void updateDisplay();
-    void slotCheckInterlace();
-    void ratesUpdated();
-    void selectProfile();
 
-signals:
-    void showDetails();
+    /** @brief Manage a change in the selection */
+    void slotChangeSelection(const QModelIndex &current, const QModelIndex &previous);
+    /* @brief Fill the description of the profile.
+       @param profile_path is the path to the profile
+    */
+    void fillDescriptionPanel(const QString& profile_path);
+
+    /** @brief Select the profile with given path. Returns true on success */
+    bool trySelectProfile(const QString& profile);
+
+    /** @brief Slot to be called whenever filtering changes */
+    void slotFilterChanged();
 };
 
 #endif

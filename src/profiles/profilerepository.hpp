@@ -59,6 +59,14 @@ public:
     /* @brief Returns true if the given profile exists in repository
      */
     bool profileExists(const QString& path);
+
+    /** @brief Get the descriptive text for given colorspace code (defined by MLT)
+     *  @param colorspace An int as defined in mlt_profile.h
+     *  @return The string description */
+    static QString getColorspaceDescription(int colorspace);
+
+    /** @brief Returns all the possible fps of the profiles in the repository*/
+    QVector<double> getAllFps();
 protected:
     // Constructor is protected because class is a Singleton
     ProfileRepository();

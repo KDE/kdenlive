@@ -23,9 +23,11 @@
 #include "profilemodel.hpp"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
+#include <algorithm>
 #include <QDir>
 #include <QStandardPaths>
 #include <mlt++/MltProfile.h>
+#include <KLocalizedString>
 
 
 std::unique_ptr<ProfileRepository> ProfileRepository::instance;
@@ -94,7 +96,7 @@ QVector<QPair<QString, QString> > ProfileRepository::getAllProfiles()
     for (const auto& profile : m_profiles) {
         list.push_back({profile.second->description(), profile.first});
     }
-    qSort(list);
+    std::sort(list.begin(), list.end());
     return list;
 }
 
@@ -114,4 +116,31 @@ bool ProfileRepository::profileExists(const QString& path)
 {
     QReadLocker locker(&m_mutex);
     return m_profiles.count(path) != 0;
+}
+
+//static
+QString ProfileRepository::getColorspaceDescription(int colorspace)
+{
+    //TODO: should the descriptions be translated?
+    switch (colorspace) {
+    case 601:
+        return QStringLiteral("ITU-R 601");
+    case 709:
+        return QStringLiteral("ITU-R 709");
+    case 240:
+        return QStringLiteral("SMPTE240M");
+    default:
+        return i18n("Unknown");
+    }
+}
+
+QVector<double> ProfileRepository::getAllFps()
+{
+    QVector<double> res;
+    for (const auto& ptr : m_profiles) {
+        res.push_back(ptr.second->fps());
+    }
+    std::sort(res.begin(), res.end());
+    res.erase(std::unique(res.begin(), res.end()), res.end());
+    return res;
 }
