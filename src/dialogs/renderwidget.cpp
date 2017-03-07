@@ -33,6 +33,7 @@
 #include <KNotification>
 #include <KMimeTypeTrader>
 #include <KIO/DesktopExecParser>
+#include <knotifications_version.h>
 
 #include <qglobal.h>
 #include <qstring.h>
@@ -2179,8 +2180,12 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         QString t = i18n("Rendering finished in %1", est);
         item->setData(1, Qt::UserRole, t);
         QString notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
-        //WARNING: notification below does not seem to work
-        KNotification::event(QStringLiteral("RenderFinished"), notif, QPixmap(), this);
+        KNotification *notify = new KNotification(QStringLiteral("RenderFinished"));
+        notify->setText(notif);
+#if KNOTIFICATIONS_VERSION >= QT_VERSION_CHECK(5, 29, 0)
+        notify->setUrls({QUrl::fromLocalFile(dest)});
+#endif
+        notify->sendEvent();
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == QLatin1String("dvd")) {
             emit openDvdWizard(item->text(1));
