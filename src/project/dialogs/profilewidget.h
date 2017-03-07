@@ -43,6 +43,19 @@ public:
     ~ProfileWidget();
     void loadProfile(QString profile);
     const QString selectedProfile() const;
+
+    enum class VideoStd {
+        FourK,
+        FourKWide,
+        FourKDCI,
+        TwoK,
+        FHD,
+        HD,
+        SD,
+        SDWide,
+        Custom
+    };
+    Q_ENUM(VideoStd);
 private:
     /** @brief currently selected's profile path */
     MltVideoProfile m_currentProfile;
@@ -67,22 +80,11 @@ private:
     QGridLayout *m_detailsLayout;
     KMessageWidget *m_errorMessage;
 
-    enum VIDEOSTD {
-        Std4K = 0,
-        Std4KWide,
-        Std4KDCI,
-        Std2K,
-        StdFHD,
-        StdHD,
-        StdSD,
-        StdSDWide,
-        StdCustom
-    };
-    VIDEOSTD getStandard(const MltVideoProfile &profile);
+    VideoStd getStandard(const MltVideoProfile &profile);
     void updateCombos();
     QStringList getFrameSizes(const QList<MltVideoProfile> &currentStd, const QString &rate);
     void checkInterlace(const QList<MltVideoProfile> &currentStd, const QString &size, const QString &rate);
-    QList<MltVideoProfile> getList(VIDEOSTD std);
+    QList<MltVideoProfile> getList(VideoStd std);
 
 private slots:
     /** @brief Open project profile management dialog. */
