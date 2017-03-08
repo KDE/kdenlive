@@ -486,7 +486,7 @@ QImage Vectorscope::renderBackground(uint)
     // Draw realtime factor (number of skipped pixels)
     if (m_aRealtime->isChecked()) {
         davinci.setPen(penThin);
-        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height() - 15), QVariant(m_accelFactorScope).toString().append("x"));
+        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height() - 15), QVariant(m_accelFactorScope).toString().append(QStringLiteral("x")));
     }
 
     emit signalBackgroundRenderingFinished(start.elapsed(), 1);

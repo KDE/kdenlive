@@ -109,3 +109,9 @@ std::unique_ptr<ProfileModel> & ProfileRepository::getProfile(const QString& pat
 
     return m_profiles.at(path);
 }
+
+bool ProfileRepository::profileExists(const QString& path)
+{
+    QReadLocker locker(&m_mutex);
+    return m_profiles.count(path) != 0;
+}

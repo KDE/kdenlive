@@ -214,13 +214,13 @@ void ProducerQueue::processFileProperties()
             type = getTypeForService(ProjectClip::getXmlProperty(info.xml, QStringLiteral("mlt_service")), path);
         }
         if (type == Color) {
-            path.prepend("color:");
+            path.prepend(QStringLiteral("color:"));
             producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == Text || type == TextTemplate) {
-            path.prepend("kdenlivetitle:");
+            path.prepend(QStringLiteral("kdenlivetitle:"));
             producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == QText) {
-            path.prepend("qtext:");
+            path.prepend(QStringLiteral("qtext:"));
             producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == Playlist && !proxyProducer) {
             //TODO: "xml" seems to corrupt project fps if different, and "consumer" crashed on audio transition
@@ -242,9 +242,9 @@ void ProducerQueue::processFileProperties()
             if (clipProfile.isCompatible(projectProfile)) {
                 // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
                 // Beware that "consumer" currently crashes on audio mixes!
-                path.prepend("xml:");
+                path.prepend(QStringLiteral("xml:"));
             } else {
-                path.prepend("consumer:");
+                path.prepend(QStringLiteral("consumer:"));
                 // This is currently crashing so I guess we'd better reject it for now
                 m_processingClipId.removeAll(info.clipId);
                 emit removeInvalidClip(info.clipId, info.replaceProducer, i18n("Cannot import playlists with different profile."));
@@ -508,7 +508,7 @@ void ProducerQueue::processFileProperties()
                 QDomElement e = props.at(i).toElement();
                 QString name = e.attribute(QStringLiteral("name"));
                 if (name.startsWith(QLatin1String("meta."))) {
-                    name.prepend("kdenlive:");
+                    name.prepend(QStringLiteral("kdenlive:"));
                     producer->set(name.toUtf8().constData(), e.firstChild().nodeValue().toUtf8().constData());
                 }
             }

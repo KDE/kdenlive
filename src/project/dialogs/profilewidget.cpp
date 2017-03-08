@@ -162,63 +162,63 @@ void ProfileWidget::loadProfile(QString profile)
         }
     }
     if (!m_list4KDCI.isEmpty()) {
-        m_standard->addItem(i18n("4K DCI 2160"), Std4KDCI);
+        m_standard->addItem(i18n("4K DCI 2160"), QVariant::fromValue(VideoStd::FourKDCI));
     }
     if (!m_list4KWide.isEmpty()) {
-        m_standard->addItem(i18n("4K UHD Wide 2160"), Std4KWide);
+        m_standard->addItem(i18n("4K UHD Wide 2160"), QVariant::fromValue(VideoStd::FourKWide));
     }
     if (!m_list4K.isEmpty()) {
-        m_standard->addItem(i18n("4K UHD 2160"), Std4K);
+        m_standard->addItem(i18n("4K UHD 2160"), QVariant::fromValue(VideoStd::FourK));
     }
     if (!m_list2K.isEmpty()) {
-        m_standard->addItem(i18n("2.5K QHD 1440"), Std2K);
+        m_standard->addItem(i18n("2.5K QHD 1440"), QVariant::fromValue(VideoStd::TwoK));
     }
     if (!m_listFHD.isEmpty()) {
-        m_standard->addItem(i18n("Full HD 1080"), StdFHD);
+        m_standard->addItem(i18n("Full HD 1080"), QVariant::fromValue(VideoStd::FHD));
     }
     if (!m_listHD.isEmpty()) {
-        m_standard->addItem(i18n("HD 720"), StdHD);
+        m_standard->addItem(i18n("HD 720"), QVariant::fromValue(VideoStd::HD));
     }
     if (!m_listSD.isEmpty()) {
-        m_standard->addItem(i18n("SD/DVD"), StdSD);
+        m_standard->addItem(i18n("SD/DVD"), QVariant::fromValue(VideoStd::SD));
     }
     if (!m_listSDWide.isEmpty()) {
-        m_standard->addItem(i18n("SD/DVD Widescreen"), StdSDWide);
+        m_standard->addItem(i18n("SD/DVD Widescreen"), QVariant::fromValue(VideoStd::SDWide));
     }
     if (!m_listCustom.isEmpty()) {
-        m_standard->addItem(i18n("Custom"), StdCustom);
+        m_standard->addItem(i18n("Custom"), QVariant::fromValue(VideoStd::Custom));
     }
     m_standard->blockSignals(false);
-    VIDEOSTD std = getStandard(m_currentProfile);
-    m_standard->setCurrentIndex(m_standard->findData(std));
+    VideoStd std = getStandard(m_currentProfile);
+    m_standard->setCurrentIndex(m_standard->findData(QVariant::fromValue(std)));
     updateList();
 }
 
-QList<MltVideoProfile> ProfileWidget::getList(VIDEOSTD std)
+QList<MltVideoProfile> ProfileWidget::getList(VideoStd std)
 {
     switch (std) {
-    case Std4KDCI:
+    case VideoStd::FourKDCI:
         return m_list4KDCI;
         break;
-    case Std4KWide:
+    case VideoStd::FourKWide:
         return m_list4KWide;
         break;
-    case Std4K:
+    case VideoStd::FourK:
         return m_list4K;
         break;
-    case Std2K:
+    case VideoStd::TwoK:
         return m_list2K;
         break;
-    case StdFHD:
+    case VideoStd::FHD:
         return m_listFHD;
         break;
-    case StdHD:
+    case VideoStd::HD:
         return m_listHD;
         break;
-    case StdSD:
+    case VideoStd::SD:
         return m_listSD;
         break;
-    case StdSDWide:
+    case VideoStd::SDWide:
         return m_listSDWide;
         break;
     default:
@@ -230,7 +230,7 @@ QList<MltVideoProfile> ProfileWidget::getList(VIDEOSTD std)
 void ProfileWidget::updateList()
 {
     m_rate_list->blockSignals(true);
-    VIDEOSTD std = (VIDEOSTD) m_standard->currentData().toInt();
+    VideoStd std = m_standard->currentData().value<VideoStd>();
     QString currentFps;
     if (m_rate_list->count() == 0) {
         if (m_currentProfile.frame_rate_num % m_currentProfile.frame_rate_den == 0) {
@@ -266,7 +266,7 @@ void ProfileWidget::updateList()
     m_rate_list->blockSignals(false);
     int ix = m_rate_list->findText(currentFps);
     m_rate_list->setCurrentIndex(ix > -1 ? ix : 0);
-    if (std == StdCustom) {
+    if (std == VideoStd::Custom) {
         emit showDetails();
     }
     ratesUpdated();
@@ -274,12 +274,12 @@ void ProfileWidget::updateList()
 
 void ProfileWidget::ratesUpdated()
 {
-    VIDEOSTD std = (VIDEOSTD) m_standard->currentData().toInt();
+    VideoStd std = m_standard->currentData().value<VideoStd>();
     QList<MltVideoProfile> currentStd = getList(std);
     // insert all frame sizes related to frame rate
     m_customSize->clear();
     m_customSize->addItems(getFrameSizes(currentStd, m_rate_list->currentText()));
-    if (std == StdCustom) {
+    if (std == VideoStd::Custom) {
         int ix = m_customSize->findText(QStringLiteral("%1x%2").arg(m_currentProfile.width).arg(m_currentProfile.height));
         if (ix > 0) {
             m_customSize->setCurrentIndex(ix);
@@ -314,7 +314,7 @@ QStringList ProfileWidget::getFrameSizes(const QList<MltVideoProfile> &currentSt
 
 void ProfileWidget::slotCheckInterlace()
 {
-    VIDEOSTD std = (VIDEOSTD) m_standard->currentData().toInt();
+    VideoStd std = m_standard->currentData().value<VideoStd>();
     checkInterlace(getList(std), m_customSize->currentText(), m_rate_list->currentText());
     updateDisplay();
 }
@@ -352,39 +352,39 @@ void ProfileWidget::checkInterlace(const QList<MltVideoProfile> &currentStd, con
     }
 }
 
-ProfileWidget::VIDEOSTD ProfileWidget::getStandard(const MltVideoProfile &profile)
+ProfileWidget::VideoStd ProfileWidget::getStandard(const MltVideoProfile &profile)
 {
     switch (profile.height) {
     case 2160:
-        return Std4K;
+        return VideoStd::FourK;
         break;
     case 1440:
-        return Std2K;
+        return VideoStd::TwoK;
         break;
     case 1080:
         if (profile.width != 1920) {
-            return StdCustom;
+            return VideoStd::Custom;
         } else {
-            return StdFHD;
+            return VideoStd::FHD;
         }
         break;
     case 720:
-        return StdHD;
+        return VideoStd::HD;
         break;
     case 576:
     case 480:
         if (profile.width != 720) {
-            return StdCustom;
+            return VideoStd::Custom;
         } else if (profile.display_aspect_num == 4) {
-            return StdSD;
+            return VideoStd::SD;
         } else if (profile.display_aspect_num == 16) {
-            return StdSDWide;
+            return VideoStd::SDWide;
         } else {
-            return StdCustom;
+            return VideoStd::Custom;
         }
         break;
     default:
-        return StdCustom;
+        return VideoStd::Custom;
         break;
     }
 }
@@ -396,7 +396,7 @@ const QString ProfileWidget::selectedProfile() const
 
 void ProfileWidget::updateDisplay()
 {
-    VIDEOSTD std = (VIDEOSTD) m_standard->currentData().toInt();
+    VideoStd std = m_standard->currentData().value<VideoStd>();
     QList<MltVideoProfile> currentStd = getList(std);
     QList<MltVideoProfile> matching;
     QString rate = m_rate_list->currentText();
@@ -470,7 +470,7 @@ void ProfileWidget::updateDisplay()
 
 void ProfileWidget::selectProfile()
 {
-    VIDEOSTD std = (VIDEOSTD) m_standard->currentData().toInt();
+    VideoStd std = m_standard->currentData().value<VideoStd>();
     QList<MltVideoProfile> currentStd = getList(std);
     QString rate = m_rate_list->currentText();
     QString size = m_customSize->currentText();

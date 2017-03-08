@@ -229,7 +229,7 @@ QStringList DvdWizardChapters::selectedTargets() const
     int max = m_view.vob_list->count();
     for (int i = 0; i < max; ++i) {
         // rightJustified: fill with 0s to make menus with more than 9 buttons work (now up to 99 buttons possible)
-        result.append("jump title " + QString::number(i + 1).rightJustified(2, '0'));
+        result.append(QStringLiteral("jump title ") + QString::number(i + 1).rightJustified(2, '0'));
         if (!m_view.chapters_box->isChecked()) {
             continue;
         }

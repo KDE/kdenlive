@@ -1028,7 +1028,16 @@ QMap<QString, QString> KdenliveDoc::getRenderProperties() const
     while (i.hasNext()) {
         i.next();
         if (i.key().startsWith(QLatin1String("render"))) {
-            renderProperties.insert(i.key(), i.value());
+            if (i.key() == QLatin1String("renderurl")) {
+                // Check that we have a full path
+                QString value = i.value();
+                if (QFileInfo(value).isRelative()) {
+                    value.prepend(pCore->binController()->documentRoot());
+                }
+                renderProperties.insert(i.key(), value);
+            } else {
+                renderProperties.insert(i.key(), i.value());
+            }
         }
     }
     return renderProperties;

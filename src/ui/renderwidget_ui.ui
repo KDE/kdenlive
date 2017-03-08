@@ -59,11 +59,8 @@
             </item>
             <item>
              <widget class="KUrlRequester" name="out_file">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+              <property name="mode">
+               <set>KFile::File|KFile::LocalOnly</set>
               </property>
              </widget>
             </item>
@@ -951,15 +948,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QWidget</extends>
+   <header>kurlrequester.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

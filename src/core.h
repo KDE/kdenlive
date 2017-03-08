@@ -112,6 +112,8 @@ private:
 
     std::unique_ptr<MltConnection> m_mltConnection;
 
+    QString m_profile;
+
 signals:
     void coreIsReady();
     void updateLibraryPath();

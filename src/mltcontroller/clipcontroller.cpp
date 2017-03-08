@@ -297,9 +297,9 @@ Mlt::Producer *ClipController::getTrackProducer(const QString &trackName, Playli
 
     //TODO handle audio / video only producers and framebuffer
     if (clipState == PlaylistState::AudioOnly) {
-        clipWithTrackId.append("_audio");
+        clipWithTrackId.append(QStringLiteral("_audio"));
     } else if (clipState == PlaylistState::VideoOnly) {
-        clipWithTrackId.append("_video");
+        clipWithTrackId.append(QStringLiteral("_video"));
     }
 
     Mlt::Producer *clone = m_binController->cloneProducer(*m_masterProducer);

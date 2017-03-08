@@ -1453,7 +1453,7 @@ void Render::fillSlowMotionProducers()
                     QString url = QString::fromUtf8(nprod->get("resource"));
                     int strobe = nprod->get_int("strobe");
                     if (strobe > 1) {
-                        url.append("&strobe=" + QString::number(strobe));
+                        url.append(QStringLiteral("&strobe=") + QString::number(strobe));
                     }
                     if (!m_slowmotionProducers.contains(url)) {
                         m_slowmotionProducers.insert(url, nprod);

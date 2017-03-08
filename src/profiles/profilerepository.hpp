@@ -55,6 +55,10 @@ public:
     /* @brief Returns a profile model given the profile's @param path
      */
     std::unique_ptr<ProfileModel> &getProfile(const QString& path);
+
+    /* @brief Returns true if the given profile exists in repository
+     */
+    bool profileExists(const QString& path);
 protected:
     // Constructor is protected because class is a Singleton
     ProfileRepository();

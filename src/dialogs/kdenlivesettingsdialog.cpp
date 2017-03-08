@@ -990,7 +990,7 @@ void KdenliveSettingsDialog::slotUpdateTranscodingProfile()
         data.append(m_configTranscode.profile_description->text());
     }
     if (m_configTranscode.profile_audioonly->isChecked()) {
-        data.append(";audio");
+        data.append(QStringLiteral(";audio"));
     }
     item->setData(Qt::UserRole, data);
     slotDialogModified();

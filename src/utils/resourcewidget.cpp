@@ -205,7 +205,7 @@ void ResourceWidget::slotUpdateCurrentSound()
     if (!m_currentInfo.infoUrl.isEmpty()) {
         title += QStringLiteral(" (<a href=\"%1\">%2</a>)").arg(m_currentInfo.infoUrl, i18nc("the url link pointing to a web page", "link"));
     }
-    title.append("</h3>");
+    title.append(QStringLiteral("</h3>"));
 
     if (!m_currentInfo.authorUrl.isEmpty()) {
         title += QStringLiteral("<a href=\"%1\">").arg(m_currentInfo.authorUrl);
@@ -813,7 +813,7 @@ QString ResourceWidget::GetSaveFileNameAndPathS(const QString &path, const QStri
  */
 void ResourceWidget::slotReadyRead()
 {
-    m_desc.append(".");
+    m_desc.append(QLatin1Char('.'));
     updateLayout();
 }
 /**

@@ -282,7 +282,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
                 m_vbox->addWidget(lswid);
             } else if (type == QLatin1String("bool")) {
-                bool checked = (value == QLatin1String("0"));
+                bool checked = (value == QLatin1String("1"));
                 BoolParamWidget *bwid = new BoolParamWidget(paramName, comment, checked, parent);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     bwid->setEnabled(false);
@@ -932,13 +932,13 @@ void ParameterContainer::slotCollectAllParameters()
         QString type = pa.attribute(QStringLiteral("type"));
         QString paramName = na.isNull() ? pa.attribute(QStringLiteral("name")) : i18n(na.text().toUtf8().data());
         if (type == QLatin1String("complex")) {
-            paramName.append("complex");
+            paramName.append(QStringLiteral("complex"));
         } else if (type == QLatin1String("position")) {
-            paramName.append("position");
+            paramName.append(QStringLiteral("position"));
         } else if (type == QLatin1String("geometry")) {
-            paramName.append("geometry");
+            paramName.append(QStringLiteral("geometry"));
         } else if (type == QLatin1String("keyframe")) {
-            paramName.append("keyframe");
+            paramName.append(QStringLiteral("keyframe"));
         } else if (type == QLatin1String("animated")) {
             continue;
         }
@@ -1237,7 +1237,7 @@ void ParameterContainer::slotStartFilterJobAction()
             }
 
             // Fill filter params
-            QStringList filterList = filterattributes.split(' ');
+            QStringList filterList = filterattributes.split(QLatin1Char(' '));
             QString param;
             for (int j = 0; j < filterList.size(); ++j) {
                 param = filterList.at(j);
@@ -1256,7 +1256,7 @@ void ParameterContainer::slotStartFilterJobAction()
             }
             // Fill consumer params
             QString consumerattributes = pa.attribute(QStringLiteral("consumerparams"));
-            QStringList consumerList = consumerattributes.split(' ');
+            QStringList consumerList = consumerattributes.split(QLatin1Char(' '));
             for (int j = 0; j < consumerList.size(); ++j) {
                 param = consumerList.at(j);
                 if (param != QLatin1String("%params")) {

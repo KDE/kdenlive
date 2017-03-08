@@ -228,8 +228,8 @@ void SmallRuler::mouseMoveEvent(QMouseEvent *event)
                 // We are on a marker
                 QString markerxt = m_monitor->getMarkerThumb(m_markers.at(i).time());
                 if (!markerxt.isEmpty()) {
-                    markerxt.prepend("<img src=\"");
-                    markerxt.append("\"><p align=\"center\">");
+                    markerxt.prepend(QStringLiteral("<img src=\""));
+                    markerxt.append(QStringLiteral("\"><p align=\"center\">"));
                 }
                 markerxt.append(m_markers.at(i).comment());
                 setToolTip(markerxt);
