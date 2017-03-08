@@ -37,7 +37,7 @@ Column{
     signal clipClicked(var clip, var track, int shiftClick)
     signal clipDragged(var clip, int x, int y)
     signal clipDropped(var clip)
-    signal clipDraggedToTrack(var clip, int direction)
+    signal clipDraggedToTrack(var clip, int pos)
     signal checkSnap(var clip)
 
     function redrawWaveforms() {

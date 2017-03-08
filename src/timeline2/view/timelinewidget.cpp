@@ -307,6 +307,11 @@ bool TimelineWidget::showThumbnails() const
     return KdenliveSettings::videothumbnails();
 }
 
+bool TimelineWidget::showAudioThumbnails() const
+{
+    return KdenliveSettings::audiothumbnails();
+}
+
 bool TimelineWidget::showWaveforms() const
 {
     return KdenliveSettings::audiothumbnails();

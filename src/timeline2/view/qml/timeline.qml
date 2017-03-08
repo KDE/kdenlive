@@ -441,10 +441,18 @@ Rectangle {
                 bubbleHelp.hide()
             }
             onClipDraggedToTrack: {
-                var i = clip.trackIndex + direction
+                var y = pos - ruler.height
+                for (var i = 0; i < tracksRepeater.count; i++) {
+                    var trackY = tracksRepeater.itemAt(i).y - scrollView.flickableItem.contentY
+                    var trackH = tracksRepeater.itemAt(i).height
+                    if (y >= trackY && y < trackY + trackH) {
+                        currentTrack = i
+                        break;
+                    }
+                }
                 var frame = Math.round(clip.x / timeScale)
-                if (i >= 0  && i < tracksRepeater.count) {
-                    var track = tracksRepeater.itemAt(i)
+                if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
+                    var track = tracksRepeater.itemAt(currentTrack)
                     if (timeline.allowMoveClip(clip.clipId, track.trackId, frame)) {
                         clip.reparent(track)
                         clip.trackIndex = track.DelegateModel.itemsIndex

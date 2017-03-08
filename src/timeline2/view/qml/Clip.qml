@@ -58,7 +58,7 @@ Rectangle {
     signal moved(var clip)
     signal dragged(var clip, var mouse)
     signal dropped(var clip)
-    signal draggedToTrack(var clip, int direction)
+    signal draggedToTrack(var clip, int pos)
     signal trimmingIn(var clip, real newDuration, var mouse)
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse)
@@ -123,7 +123,7 @@ Rectangle {
 
     Image {
         id: outThumbnail
-        visible: timeline.showThumbnails() && mltService != 'color'
+        visible: timeline.showThumbnails && mltService != 'color'
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.topMargin: parent.border.width
@@ -138,7 +138,7 @@ Rectangle {
 
     Image {
         id: inThumbnail
-        visible: timeline.showThumbnails() && mltService != 'color'
+        visible: timeline.showThumbnails && mltService != 'color'
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.topMargin: parent.border.width
@@ -162,7 +162,7 @@ Rectangle {
 
     Row {
         id: waveform
-        visible: timeline.showWaveforms()
+        visible: timeline.showAudioThumbnails
         height: isAudio? parent.height : parent.height / 2
         anchors.left: parent.left
         anchors.bottom: parent.bottom
@@ -188,7 +188,7 @@ Rectangle {
     Rectangle {
         // audio peak line
         width: parent.width - parent.border.width * 2
-        visible: !isBlank && !isTransition
+        visible: timeline.showAudioThumbnails
         height: 1
         anchors.left: parent.left
         anchors.bottom: parent.bottom
@@ -272,11 +272,11 @@ Rectangle {
             clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
         }
         onPositionChanged: {
-            if (mouse.y < 0 && trackIndex > 0)
-                parent.draggedToTrack(clipRoot, -1)
-            else if (mouse.y > height && (trackIndex + 1) < root.trackCount)
-                parent.draggedToTrack(clipRoot, 1)
-            parent.dragged(clipRoot, mouse)
+            if (mouse.y < 0 || mouse.y > height) {
+                parent.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y)
+            } else {
+                parent.dragged(clipRoot, mouse)
+            }
         }
         onReleased: {
             root.stopScrolling = false

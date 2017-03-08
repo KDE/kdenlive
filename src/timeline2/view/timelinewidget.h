@@ -48,6 +48,8 @@ class TimelineWidget : public QQuickWidget
     Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
+    Q_PROPERTY(bool showThumbnails READ showThumbnails NOTIFY showThumbnailsChanged)
+    Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
 
 public:
     TimelineWidget(KActionCollection *actionCollection, BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
@@ -147,7 +149,8 @@ public:
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
     /* @brief Do we want to display video thumbnails
      */
-    Q_INVOKABLE bool showThumbnails() const;
+    bool showThumbnails() const;
+    bool showAudioThumbnails() const;
     /* @brief Do we want to display audio thumbnails
      */
     Q_INVOKABLE bool showWaveforms() const;
@@ -197,6 +200,8 @@ signals:
     void scaleFactorChanged();
     void durationChanged();
     void positionChanged();
+    void showThumbnailsChanged();
+    void showAudioThumbnailsChanged();
     void snapChanged();
     void rippleChanged();
     void scrubChanged();

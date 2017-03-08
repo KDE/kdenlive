@@ -2186,8 +2186,8 @@ void MainWindow::slotSwitchSplitAudio(bool enable)
 void MainWindow::slotSwitchVideoThumbs()
 {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotUpdateAllThumbs();
+    if (pCore->projectManager()->currentTimelineWidget()) {
+        pCore->projectManager()->currentTimelineWidget()->showThumbnailsChanged();
     }
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
 }
@@ -2197,8 +2197,7 @@ void MainWindow::slotSwitchAudioThumbs()
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
     pCore->binController()->checkAudioThumbs();
     if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->refresh();
-        pCore->projectManager()->currentTimeline()->projectView()->checkAutoScroll();
+        pCore->projectManager()->currentTimelineWidget()->showAudioThumbnailsChanged();
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }
