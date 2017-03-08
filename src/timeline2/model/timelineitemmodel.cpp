@@ -279,6 +279,10 @@ void TimelineItemModel::setTrackProperty(int tid, const QString &name, const QSt
     if (name == QLatin1String("kdenlive:locked_track")) {
         roles.push_back(IsLockedRole);
     }
+    if (name == QLatin1String("hide")) {
+        roles.push_back(IsMuteRole);
+        roles.push_back(IsHiddenRole);
+    }
     if (!roles.isEmpty()) {
         qDebug()<<" * ** TRACK: "<<tid<<", "<<name<<" = "<<value;
         QModelIndex ix = makeTrackIndexFromID(tid);

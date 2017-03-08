@@ -148,7 +148,7 @@ Rectangle {
                 implicitHeight: 20
                 iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
                 iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
-                onClicked: timeline.toggleTrackMute(index)
+                onClicked: multitrack.setTrackProperty(index, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
                 tooltip: isMute? qsTr('Unmute') : qsTr('Mute')
             }
 
@@ -159,7 +159,7 @@ Rectangle {
                 implicitHeight: 20
                 iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
                 iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
-                onClicked: timeline.toggleTrackHidden(index)
+                onClicked: multitrack.setTrackProperty(index, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
                 tooltip: isHidden? qsTr('Show') : qsTr('Hide')
             }
 

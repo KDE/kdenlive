@@ -224,7 +224,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_playAction->setToolTip(strippedTooltip + QStringLiteral(" (") + originalPlayAction->shortcut().toString() + QLatin1Char(')'));
     }
     m_playMenu->addAction(m_playAction);
-    connect(m_playAction, &QAction::triggered, this, &Monitor::slotSwitchPlay);
+    connect(m_playAction, &QAction::triggered, this, &Monitor::slotPlay);
 
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
