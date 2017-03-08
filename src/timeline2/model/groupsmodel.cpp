@@ -20,11 +20,12 @@
  ***************************************************************************/
 
 #include "groupsmodel.hpp"
-#include "timelinemodel.hpp"
+#include "timelineitemmodel.hpp"
 #include <QDebug>
+#include <QModelIndex>
 #include <queue>
 
-GroupsModel::GroupsModel(std::weak_ptr<TimelineModel> parent) :
+GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent) :
     m_parent(parent)
 {
 }
@@ -37,7 +38,8 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int>& ids)
         Q_ASSERT(m_groupIds.count(gid) == 0);
         m_groupIds.insert(gid);
 
-        if (auto ptr = m_parent.lock()) {
+        auto ptr = m_parent.lock();
+        if (ptr) {
             ptr->registerGroup(gid);
         } else {
             qDebug() << "Impossible to create group because the timeline is not available anymore";
@@ -48,6 +50,8 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int>& ids)
                        [&](int id){return getRootId(id);});
         for (int id : roots) {
             setGroup(getRootId(id), gid);
+            QModelIndex ix = ptr->makeClipIndexFromID(id);
+            ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
         }
         return true;
     };
@@ -92,8 +96,9 @@ void GroupsModel::createGroupItem(int id)
 Fun GroupsModel::destructGroupItem_lambda(int id)
 {
     return [this, id]() {
+        auto ptr = m_parent.lock();
         if (m_groupIds.count(id) > 0) {
-            if(auto ptr = m_parent.lock()) {
+            if(ptr) {
                 ptr->deregisterGroup(id);
                 m_groupIds.erase(id);
             } else {
@@ -104,6 +109,8 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
         removeFromGroup(id);
         for (int child : m_downLink[id]) {
             m_upLink[child] = -1;
+            QModelIndex ix = ptr->makeClipIndexFromID(child);
+            ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
         }
         m_downLink.erase(id);
         m_upLink.erase(id);

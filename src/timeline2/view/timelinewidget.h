@@ -160,6 +160,8 @@ public:
     /* @brief Remove a timeline track
      */
     Q_INVOKABLE void deleteTrack(int tid);
+    Q_INVOKABLE void groupSelection();
+    Q_INVOKABLE void unGroupSelection(int cid);
 
     void gotoNextSnap();
     void gotoPreviousSnap();

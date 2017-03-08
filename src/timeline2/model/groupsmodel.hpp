@@ -27,7 +27,7 @@
 #include <memory>
 #include "undohelper.hpp"
 
-class TimelineModel;
+class TimelineItemModel;
 
 /* @brief This class represents the group hiearchy. This is basically a tree structure
    In this class, we consider that a groupItem is either a clip or a group
@@ -36,7 +36,7 @@ class GroupsModel
 {
 public:
     GroupsModel() = delete;
-    GroupsModel(std::weak_ptr<TimelineModel> parent);
+    GroupsModel(std::weak_ptr<TimelineItemModel> parent);
 
     /* @brief Create a group that contains all the given items and returns the id of the created group.
        Note that if an item is already part of a group, its topmost group will be considered instead and added in the newly created group.
@@ -132,7 +132,7 @@ protected:
     void removeFromGroup(int id);
 private:
 
-    std::weak_ptr<TimelineModel> m_parent;
+    std::weak_ptr<TimelineItemModel> m_parent;
 
     std::unordered_map<int, int> m_upLink; //edges toward parent
     std::unordered_map<int, std::unordered_set<int>> m_downLink; //edges toward children

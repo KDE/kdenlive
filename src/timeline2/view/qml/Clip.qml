@@ -37,6 +37,7 @@ Rectangle {
     property bool isBlank: false
     property bool isAudio: false
     property bool isTransition: false
+    property bool grouped: false
     property var audioLevels
     property int fadeIn: 0
     property int fadeOut: 0
@@ -580,6 +581,17 @@ Rectangle {
                 }
             }
         }
+        MenuItem {
+            visible: !grouped && trackRoot.selection.length > 1
+            text: qsTr('Group')
+            onTriggered: timeline.groupSelection()
+        }
+        MenuItem {
+            visible: grouped
+            text: qsTr('Ungroup')
+            onTriggered: timeline.unGroupSelection(clipId)
+        }
+
         MenuItem {
             visible: true //!isBlank && !isTransition
             text: qsTr('Copy')

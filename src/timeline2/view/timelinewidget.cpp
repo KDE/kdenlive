@@ -342,3 +342,16 @@ void TimelineWidget::gotoPreviousSnap()
     seek(m_model->requestPreviousSnapPos(m_position));
 }
 
+void TimelineWidget::groupSelection()
+{
+    std::unordered_set<int> clips;
+    foreach(int id, m_selection.selectedClips) {
+        clips.insert(id);
+    }
+    m_model->requestClipsGroup(clips);
+}
+
+void TimelineWidget::unGroupSelection(int cid)
+{
+    m_model->requestClipUngroup(cid);
+}

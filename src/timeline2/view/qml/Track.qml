@@ -79,6 +79,7 @@ Column{
             height: parent.height
             modelStart: model.start
             x: modelStart * timeScale
+            grouped: model.grouped
             borderColor: (model.grouped > 0 ? 'yellow' : 'black')
             trackIndex: trackRoot.DelegateModel.itemsIndex
             trackId: trackRoot.trackId
@@ -86,7 +87,7 @@ Column{
             fadeOut: 0 //model.fadeOut
             //hash: model.hash
             speed: 1 //model.speed
-            selected: /*trackRoot.isCurrentTrack &&*/ trackRoot.selection.indexOf(clipId) !== -1
+            selected: trackRoot.selection.indexOf(clipId) !== -1
 
             onClicked: {
                 console.log("Clip clicked",clip.clipId)
