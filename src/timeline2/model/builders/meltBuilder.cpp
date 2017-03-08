@@ -23,6 +23,7 @@
 #include "../undohelper.hpp"
 #include "../timelineitemmodel.hpp"
 #include "../timelinemodel.hpp"
+#include "../trackmodel.hpp"
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltProducer.h>
 #include <QDebug>
@@ -68,6 +69,10 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
             ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
             Mlt::Playlist local_playlist(*track.get());
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, undo, redo);
+            QString trackName = local_playlist.get("kdenlive:track_name");
+            if (!trackName.isEmpty()) {
+                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:track_name"), trackName.toUtf8().constData());
+            }
             break;
         }
         default:

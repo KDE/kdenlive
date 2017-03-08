@@ -143,12 +143,15 @@ Rectangle {
                             current: index === currentTrack
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
                             onMyTrackHeightChanged: {
+                                model.trackHeight = myTrackHeight
+                                trackBaseRepeater.itemAt(index).height = myTrackHeight
                                 tracksRepeater.itemAt(index).height = myTrackHeight
                                 height = myTrackHeight
                             }
                             onClicked: {
                                 currentTrack = index
-                                timeline.selectTrackHead(currentTrack)
+                                console.log('track name: ',index, ' = ', model.name)
+                                //timeline.selectTrackHead(currentTrack)
                             }
                     }
                 }
@@ -249,12 +252,13 @@ Rectangle {
                             // otherwise, the clips will be obscured by the Track's background.
                             Repeater {
                                 model: multitrack
+                                id: trackBaseRepeater
                                 delegate: Rectangle {
                                     width: root.duration
                                     //Layout.fillWidth: true
                                     color: (index === currentTrack)? selectedTrackColor : (index % 2)? activePalette.alternateBase : activePalette.base
                                     opacity: 0.3
-                                    height: tracksRepeater.itemAt(index).height
+                                    height: model.trackHeight //.itemAt(index).height
                                 }
                             }
                         }
@@ -453,8 +457,10 @@ Rectangle {
                     tracksRepeater.itemAt(i).snapClip(clip)
             }
             Image {
-                anchors.fill: parent
-                source: "qrc:///icons/light/16x16/track-locked.png"
+                anchors.right: parent.right
+                anchors.left: parent.left
+                height: parent.height
+                source: "qrc:///pics/kdenlive-lock.svgz"
                 fillMode: Image.Tile
                 opacity: parent.isLocked
                 visible: opacity

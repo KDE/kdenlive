@@ -24,7 +24,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     id: trackHeadRoot
-    property string trackName: 'Hello'
+    property string trackName
     property bool isMute
     property bool isHidden
     property int isComposite
@@ -92,19 +92,16 @@ Rectangle {
     ColumnLayout {
         id: trackHeadColumn
         spacing: 0
-        anchors {
-            top: parent.top
-            left: parent.left
-            bottom: parent.bottom
-            margins: 2
-        }
+        anchors.fill: parent
+        anchors.leftMargin: 2
+        anchors.topMargin: 2
 
         Rectangle {
             id: trackLabel
             color: 'transparent'
-            width: trackHeadRoot.width - trackHeadColumn.anchors.margins * 2
+            width: trackHeadRoot.width - 4
             radius: 2
-            border.color: trackNameMouseArea.containsMouse? activePalette.shadow : 'transparent'
+            border.color: trackNameMouseArea.containsMouse? (trackHeadRoot.current? activePalette.shadow : activePalette.highlight) : 'transparent'
             height: nameEdit.height
             MouseArea {
                 id: trackNameMouseArea
@@ -118,17 +115,18 @@ Rectangle {
             }
             Label {
                 text: trackName
+                anchors.left: parent.left
+                anchors.leftMargin: 4
                 color: activePalette.windowText
                 elide: Qt.ElideRight
+                antialiasing: true
                 font.pixelSize: root.baseUnit * 1.5
-                x: 4
-                y: 3
-                width: parent.width - 8
+                //width: trackLabel.width - 8
             }
             TextField {
                 id: nameEdit
                 visible: false
-                width: trackHeadRoot.width - trackHeadColumn.anchors.margins * 2
+                width: parent.width
                 text: trackName
                 style: TextFieldStyle {
                     font.pixelSize: root.baseUnit * 1.5
@@ -143,12 +141,13 @@ Rectangle {
         RowLayout {
             spacing: 6
             visible: (trackHeadRoot.height > trackLabel.height + muteButton.height + resizer.height + 4)
+            Layout.leftMargin: 2
             ToolButton {
                 id: muteButton
                 implicitWidth: 20
                 implicitHeight: 20
                 iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
-                iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svg' : 'qrc:///pics/kdenlive-show-audio.svg'
+                iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
                 onClicked: timeline.toggleTrackMute(index)
                 tooltip: isMute? qsTr('Unmute') : qsTr('Mute')
             }
@@ -159,7 +158,7 @@ Rectangle {
                 implicitWidth: 20
                 implicitHeight: 20
                 iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
-                iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svg' : 'qrc:///pics/kdenlive-show-video.svg'
+                iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
                 onClicked: timeline.toggleTrackHidden(index)
                 tooltip: isHidden? qsTr('Show') : qsTr('Hide')
             }
@@ -169,8 +168,8 @@ Rectangle {
                 implicitWidth: 20
                 implicitHeight: 20
                 iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
-                iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
-                onClicked: timeline.setTrackLock(index, !isLocked)
+                iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svgz' : 'qrc:///pics/kdenlive-unlock.svgz'
+                onClicked: multitrack.setTrackProperty(index, "kdenlive:locked_track", isLocked ? '0' : '1')
                 tooltip: isLocked? qsTr('Unlock track') : qsTr('Lock track')
             }
         }

@@ -41,7 +41,7 @@ int TimelineWidget::m_duration = 0;
 
 TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
-    , m_model(TimelineItemModel::construct(binController->profile(), undoStack, true))
+    , m_model(TimelineItemModel::construct(binController->profile(), undoStack, false))
     , m_actionCollection(actionCollection)
     , m_binController(binController)
     , m_position(0)

@@ -27,5 +27,13 @@
         <file alias="discrete.svg">../data/pics/breeze-light/lt_discrete.svg</file>
         <file alias="smooth.svg">../data/pics/breeze-light/lt_smooth.svg</file>
         <file alias="kdenlive.png">../data/icons/48-apps-kdenlive.png</file>
+        <file alias="kdenlive-lock.svgz">../data/pics/breeze-light/lt_kdenlive-lock.svgz</file>
+        <file alias="kdenlive-unlock.svgz">../data/pics/breeze-light/lt_kdenlive-unlock.svgz</file>
+        <file alias="kdenlive-lock.svgz">../data/pics/breeze-light/lt_kdenlive-lock.svgz</file>
+        <file alias="kdenlive-unlock.svgz">../data/pics/breeze-light/lt_kdenlive-unlock.svgz</file>
+        <file alias="kdenlive-hide-video.svgz">../data/pics/breeze-light/lt_kdenlive-hide-video.svgz</file>
+        <file alias="kdenlive-show-video.svgz">../data/pics/breeze-light/lt_kdenlive-show-video.svgz</file>
+        <file alias="kdenlive-show-audio.svgz">../data/pics/breeze-light/lt_kdenlive-show-audio.svgz</file>
+        <file alias="kdenlive-hide-audio.svgz">../data/pics/breeze-light/lt_kdenlive-hide-audio.svgz</file>
     </qresource>
 </RCC>

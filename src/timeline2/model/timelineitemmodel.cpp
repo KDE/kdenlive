@@ -244,19 +244,19 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         switch (role) {
             case NameRole:
             case Qt::DisplayRole:
-                return QString("Track %1").arg(id);
+                return getTrackById_const(id)->getProperty("kdenlive:track_name").toString();
             case DurationRole:
                 // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
                 return m_tractor->get_playtime();
             case IsMuteRole:
                 // qDebug() << "DATA yielding mute" << 0;
-                return 0;
+                return getTrackById_const(id)->getProperty("hide").toInt() & 2;
             case IsHiddenRole:
-                return 0;
+                return getTrackById_const(id)->getProperty("hide").toInt() & 1;
             case IsAudioRole:
                 return false;
             case IsLockedRole:
-                return 0;
+                return getTrackById_const(id)->getProperty("kdenlive:locked_track").toInt() == 1;
             case HeightRole: {
                 int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
                 // qDebug() << "DATA yielding height" << height;
@@ -272,6 +272,19 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+void TimelineItemModel::setTrackProperty(int tid, const QString &name, const QString &value)
+{
+    getTrackById(tid)->setProperty(name, value);
+    QVector<int> roles;
+    if (name == QLatin1String("kdenlive:locked_track")) {
+        roles.push_back(IsLockedRole);
+    }
+    if (!roles.isEmpty()) {
+        qDebug()<<" * ** TRACK: "<<tid<<", "<<name<<" = "<<value;
+        QModelIndex ix = makeTrackIndexFromID(tid);
+        emit dataChanged(ix, ix, roles);
+    }
+}
 
 void TimelineItemModel::notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb)
 {

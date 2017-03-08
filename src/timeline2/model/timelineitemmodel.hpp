@@ -101,7 +101,7 @@ public:
     QModelIndex parent(const QModelIndex &index) const override;
     /* @brief Returns true if track tid is blank from pos to pos + duration*/
     bool availableSpace(int tid, int pos, int duration) const;
-
+    Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
     void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) override;
 
     virtual void _beginRemoveRows(const QModelIndex&, int , int) override;
