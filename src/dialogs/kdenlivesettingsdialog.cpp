@@ -80,6 +80,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configProject.profile_box->setLayout(vbox);
     // Select profile
     m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile());
+    connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("project-defaults")));
     connect(m_configProject.kcfg_generateproxy, &QAbstractButton::toggled, m_configProject.kcfg_proxyminsize, &QWidget::setEnabled);
     m_configProject.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
@@ -698,10 +699,23 @@ void KdenliveSettingsDialog::updateWidgets()
 #endif /* USE_JOGSHUTTLE */
 }
 
+void KdenliveSettingsDialog::accept()
+{
+    if (m_pw->selectedProfile().isEmpty()) {
+        KMessageBox::error(this, i18n("Please select a video profile"));
+        return;
+    }
+    KConfigDialog::accept();
+}
+
 void KdenliveSettingsDialog::updateSettings()
 {
     // Save changes to settings (for example when user pressed "Apply" or "Ok")
     // //qCDebug(KDENLIVE_LOG) << "// // // KCONFIG UPDATE called";
+    if (m_pw->selectedProfile().isEmpty()) {
+        KMessageBox::error(this, i18n("Please select a video profile"));
+        return;
+    }
     KdenliveSettings::setDefault_profile(m_pw->selectedProfile());
 
     bool resetProfile = false;

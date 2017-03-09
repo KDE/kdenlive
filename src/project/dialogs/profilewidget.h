@@ -52,6 +52,7 @@ private:
     /** @brief currently selected's profile path */
     QString m_currentProfile;
     QString m_lastValidProfile;
+    QString m_originalProfile;
     void slotUpdateInfoDisplay();
 
     QCheckBox *m_enableScanning;
@@ -86,6 +87,10 @@ private:
 
     /** @brief Slot to be called whenever filtering changes */
     void slotFilterChanged();
+
+signals:
+    void profileChanged();
+
 };
 
 #endif

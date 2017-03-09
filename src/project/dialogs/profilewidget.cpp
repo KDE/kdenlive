@@ -41,6 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ProfileWidget::ProfileWidget(QWidget *parent) :
     QWidget(parent)
 {
+    m_originalProfile = QStringLiteral("invalid");
+
     QVBoxLayout *lay = new QVBoxLayout;
 
     QHBoxLayout *labelLay = new QHBoxLayout;
@@ -180,7 +182,7 @@ void ProfileWidget::loadProfile(const QString& profile)
 {
     auto index = m_treeModel->findProfile(profile);
     if (index.isValid()) {
-        m_currentProfile = m_lastValidProfile = profile;
+        m_originalProfile = m_currentProfile = m_lastValidProfile = profile;
         trySelectProfile(profile);
     }
 }
@@ -234,6 +236,9 @@ void ProfileWidget::slotChangeSelection(const QModelIndex &current, const QModel
     if (!m_currentProfile.isEmpty()) {
         m_lastValidProfile = m_currentProfile;
     }
+    if (m_originalProfile != m_currentProfile) {
+        emit profileChanged();
+    }
     fillDescriptionPanel(m_currentProfile);
 }
 
@@ -265,6 +270,7 @@ void ProfileWidget::slotFilterChanged()
         if (!trySelectProfile(m_lastValidProfile)) {
             //Everything fails, we don't have any profile
             m_currentProfile = QString();
+            emit profileChanged();
             fillDescriptionPanel(QString());
         }
     }
