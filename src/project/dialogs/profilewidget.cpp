@@ -181,12 +181,7 @@ void ProfileWidget::loadProfile(const QString& profile)
     auto index = m_treeModel->findProfile(profile);
     if (index.isValid()) {
         m_currentProfile = m_lastValidProfile = profile;
-        //expand corresponding category
-        auto parent = m_treeModel->parent(index);
-        m_treeView->expand(m_filter->mapFromSource(parent));
-        // select profile
-        QItemSelectionModel *selection = m_treeView->selectionModel();
-        selection->select(m_filter->mapFromSource(index), QItemSelectionModel::Select);
+        trySelectProfile(profile);
     }
 }
 
@@ -246,11 +241,14 @@ bool ProfileWidget::trySelectProfile(const QString& profile)
 {
     auto index = m_treeModel->findProfile(profile);
     if (index.isValid()) {
-        // check if element is still visible
+        // check if element is visible
         if (m_filter->isVisible(index)) {
             //reselect
             QItemSelectionModel *selection = m_treeView->selectionModel();
             selection->select(m_filter->mapFromSource(index), QItemSelectionModel::Select);
+            //expand corresponding category
+            auto parent = m_treeModel->parent(index);
+            m_treeView->expand(m_filter->mapFromSource(parent));
             return true;
         } else {
             return false;
