@@ -48,12 +48,9 @@ void ProfileRepository::refresh()
 {
     QWriteLocker locker(&m_mutex);
 
-    m_profiles.clear();
-
     //Helper function to check a profile and print debug info
     auto check_profile = [&](std::unique_ptr<ProfileModel>& profile, const QString& file) {
         if (m_profiles.count(file) > 0) {
-            qCWarning(KDENLIVE_LOG) << "//// Duplicate profile found: "<<file<<". Ignoring.";
             return false;
         }
         if (!profile->is_valid()) {
@@ -76,7 +73,6 @@ void ProfileRepository::refresh()
         }
     }
 
-    qDebug() << "all profiles "<<profilesFiles;
     //Iterate through files
     for (const auto& file : profilesFiles) {
         std::unique_ptr<ProfileModel> profile(new ProfileModel(file));
