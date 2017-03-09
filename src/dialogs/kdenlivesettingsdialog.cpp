@@ -120,7 +120,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     // Mime types
     QStringList mimes = ClipCreationDialog::getExtensions();
     qSort(mimes);
-    m_configEnv.supportedmimes->setPlainText(mimes.join(QStringLiteral(" ")));
+    m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
 
     m_page2 = addPage(p2, i18n("Environment"));
     m_page2->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-x-executable-script")));
@@ -902,7 +902,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setAddedExtensions(m_configEnv.kcfg_addedExtensions->text());
         QStringList mimes = ClipCreationDialog::getExtensions();
         qSort(mimes);
-        m_configEnv.supportedmimes->setPlainText(mimes.join(QStringLiteral(" ")));
+        m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
     }
 
     KConfigDialog::settingsChangedSlot();

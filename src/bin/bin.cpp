@@ -2924,9 +2924,9 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
                 || mltService == QLatin1String("kdenlivetitle")
                 || mltService == QLatin1String("color")
                 || mltService == QLatin1String("colour")) {
-            hash = mltService + QStringLiteral(":")
-                   + EffectsList::property(prod, QStringLiteral("kdenlive:clipname")) + QStringLiteral(":")
-                   + EffectsList::property(prod, QStringLiteral("kdenlive:folderid")) + QStringLiteral(":");
+            hash = mltService + QLatin1Char(':')
+                   + EffectsList::property(prod, QStringLiteral("kdenlive:clipname")) + QLatin1Char(':')
+                   + EffectsList::property(prod, QStringLiteral("kdenlive:folderid")) + QLatin1Char(':');
             if (mltService == QLatin1String("kdenlivetitle")) {
                 // Calculate hash based on title contents.
                 hash.append(QString(QCryptographicHash::hash(EffectsList::property(prod, QStringLiteral("xmldata")).toUtf8(),

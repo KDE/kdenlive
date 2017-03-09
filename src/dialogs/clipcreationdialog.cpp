@@ -80,7 +80,7 @@ QStringList ClipCreationDialog::getExtensions()
                 allExtensions << ext;
             } else if (ext.startsWith(QLatin1String("."))) {
                 allExtensions << QStringLiteral("*") + ext;
-            } else if (!ext.contains(QStringLiteral("."))) {
+            } else if (!ext.contains(QLatin1Char('.'))) {
                 allExtensions << QStringLiteral("*.") + ext;
             } else {
                 //Unrecognized format

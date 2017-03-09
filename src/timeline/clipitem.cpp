@@ -1827,7 +1827,7 @@ void ClipItem::setState(PlaylistState::ClipState state)
     } else {
         if (m_clipType == Color) {
             QString colour = m_binClip->getProducerProperty(QStringLiteral("colour"));
-            colour = colour.replace(0, 2, QStringLiteral("#"));
+            colour = colour.replace(0, 2, QLatin1Char('#'));
             m_baseColor = QColor(colour.left(7));
         } else if (m_clipType == Audio) {
             m_baseColor = QColor(141, 215, 166);

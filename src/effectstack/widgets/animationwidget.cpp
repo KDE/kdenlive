@@ -1498,7 +1498,7 @@ void AnimationWidget::slotCopyKeyframes()
     QMapIterator<QString, QString> i(anims);
     while (i.hasNext()) {
         i.next();
-        result.append(i.key() + QStringLiteral("=") + i.value() + QLatin1Char('\n'));
+        result.append(i.key() + QLatin1Char('=') + i.value() + QLatin1Char('\n'));
     }
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(result);

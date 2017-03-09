@@ -235,7 +235,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     lswid->addItem(i18n("None (Dissolve)"));
                     for (int j = 0; j < listitems.count(); ++j) {
                         QString entry = listitems.at(j);
-                        lswid->addItem(listitems.at(j).section(QStringLiteral("/"), -1), entry);
+                        lswid->addItem(listitems.at(j).section(QLatin1Char('/'), -1), entry);
                         if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
                             if (!MainWindow::m_lumacache.contains(entry)) {
                                 QImage pix(entry);
@@ -689,7 +689,7 @@ void ParameterContainer::makeDrag(const QString &name)
     if (value.isEmpty()) {
         return;
     }
-    value.prepend(name + QStringLiteral("="));
+    value.prepend(name + QLatin1Char('='));
     QDrag *dr = new QDrag(qApp);
     // The data to be transferred by the drag and drop operation is contained in a QMimeData object
     QMimeData *mimeData = new QMimeData;

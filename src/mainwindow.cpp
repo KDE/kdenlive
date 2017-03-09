@@ -219,7 +219,7 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
     KdenliveSettings::setCurrent_profile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
 
     // If using a custom profile, make sure the file exists or fallback to default
-    if (KdenliveSettings::current_profile().startsWith(QStringLiteral("/")) && !QFile::exists(KdenliveSettings::current_profile())) {
+    if (KdenliveSettings::current_profile().startsWith(QLatin1Char('/')) && !QFile::exists(KdenliveSettings::current_profile())) {
         KMessageBox::sorry(this, i18n("Cannot find your default profile, switching to ATSC 1080p 25"));
         KdenliveSettings::setCurrent_profile(QStringLiteral("atsc_1080p_25"));
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
@@ -3503,7 +3503,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     if (project->useProxy() && !m_renderWidget->proxyRendering()) {
         QString root = doc.documentElement().attribute(QStringLiteral("root"));
         if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
-            root.append(QStringLiteral("/"));
+            root.append(QLatin1Char('/'));
         }
 
         // replace proxy clips with originals

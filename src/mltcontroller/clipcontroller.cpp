@@ -157,7 +157,7 @@ void ClipController::getInfoForProducer()
             m_clipType = AV;
         }
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
-        if (m_path.contains(QStringLiteral("%")) || m_path.contains(QStringLiteral("/.all."))) {
+        if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all."))) {
             m_clipType = SlideShow;
         } else {
             m_clipType = Image;

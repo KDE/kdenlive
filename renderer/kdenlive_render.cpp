@@ -75,7 +75,7 @@ int main(int argc, char **argv)
         QString srcString = args.takeFirst();
         QUrl srcurl;
         if (srcString.startsWith(QLatin1String("consumer:"))) {
-            srcurl = QUrl::fromEncoded(srcString.section(QStringLiteral(":"), 1).toUtf8().constData());
+            srcurl = QUrl::fromEncoded(srcString.section(QLatin1Char(':'), 1).toUtf8().constData());
         } else {
             srcurl = QUrl::fromEncoded(srcString.toUtf8().constData());
         }

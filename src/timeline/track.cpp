@@ -392,7 +392,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
                 // No duplication required
                 cut = original->cut(p->get_in(), p->get_out());
             }
-            else if (!idForTrack.contains(QStringLiteral("_")) && idForTrack == current.section(QStringLiteral("_"), 0, 0)) {
+            else if (!idForTrack.contains(QLatin1Char('_')) && idForTrack == current.section(QLatin1Char('_'), 0, 0)) {
                 // Unproxying a slideshow
                 cut = original->cut(p->get_in(), p->get_out());
             } else {
@@ -403,10 +403,10 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
 	        // No audio - no duplication required
                 cut = original->cut(p->get_in(), p->get_out());
 	}
-        else if (!cut && ((current == idForTrack) || (!current.contains(QStringLiteral("_")) && current == idForTrack.section(QStringLiteral("_"), 0, 0)))) {
+        else if (!cut && ((current == idForTrack) || (!current.contains(QLatin1Char('_')) && current == idForTrack.section(QLatin1Char('_'), 0, 0)))) {
             // Use duplicate
             if (trackProducer == nullptr) {
-                if (idForTrack.contains(QStringLiteral("_"))) {
+                if (idForTrack.contains(QLatin1Char('_'))) {
                     trackProducer = Clip(*original).clone();
                     trackProducer->set("id", idForTrack.toUtf8().constData());
                 }

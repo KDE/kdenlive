@@ -41,7 +41,7 @@ static QColor stringToColor(QString strColor)
                          (intval) & 0xff);          // a
         } else {
             // 0xRRGGBB, 0xRGB
-            color.setNamedColor(strColor.replace(0, 2, QStringLiteral("#")));
+            color.setNamedColor(strColor.replace(0, 2, QLatin1Char('#')));
         }
     } else {
         if (strColor.length() == 9) {
