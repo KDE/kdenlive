@@ -50,8 +50,10 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int>& ids)
                        [&](int id){return getRootId(id);});
         for (int id : roots) {
             setGroup(getRootId(id), gid);
-            QModelIndex ix = ptr->makeClipIndexFromID(id);
-            ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
+            if (ptr->isClip(id)) {
+                QModelIndex ix = ptr->makeClipIndexFromID(id);
+                ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
+            }
         }
         return true;
     };
@@ -109,8 +111,10 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
         removeFromGroup(id);
         for (int child : m_downLink[id]) {
             m_upLink[child] = -1;
-            QModelIndex ix = ptr->makeClipIndexFromID(child);
-            ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
+            if (ptr->isClip(child)) {
+                QModelIndex ix = ptr->makeClipIndexFromID(child);
+                ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
+            }
         }
         m_downLink.erase(id);
         m_upLink.erase(id);
