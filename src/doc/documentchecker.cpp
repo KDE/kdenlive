@@ -192,7 +192,7 @@ bool DocumentChecker::hasErrorInClips()
                 original.prepend(root);
             }
             // Check for slideshows
-            bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QStringLiteral("?")) || original.contains(QStringLiteral("%"));
+            bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QLatin1Char('?')) || original.contains(QLatin1Char('%'));
             if (slideshow && !EffectsList::property(e, QStringLiteral("ttl")).isEmpty()) {
                 original = QFileInfo(original).absolutePath();
             }
@@ -204,7 +204,7 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         // Check for slideshows
-        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
+        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
         if ((service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) && slideshow) {
             resource = QFileInfo(resource).absolutePath();
         }
@@ -307,7 +307,7 @@ bool DocumentChecker::hasErrorInClips()
         int status = CLIPMISSING;
         const QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
         QString resource = service == QLatin1String("timewarp") ? EffectsList::property(e, QStringLiteral("warp_resource")) : EffectsList::property(e, QStringLiteral("resource"));
-        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("?")) || resource.contains(QStringLiteral("%"));
+        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
         if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") || service == QLatin1String("timewarp")) {
             clipType = i18n("Video clip");
             type = AV;
@@ -645,7 +645,7 @@ QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &f
     QStringList filters;
     if (type == SlideShow) {
         if (fileName.contains(QLatin1Char('%'))) {
-            filters << fileName.section(QLatin1Char('%'), 0, -2) + QStringLiteral("*");
+            filters << fileName.section(QLatin1Char('%'), 0, -2) + QLatin1Char('*');
         } else {
             return QString();
         }

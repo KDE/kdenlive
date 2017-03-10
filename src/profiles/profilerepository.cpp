@@ -23,9 +23,11 @@
 #include "profilemodel.hpp"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
+#include <algorithm>
 #include <QDir>
 #include <QStandardPaths>
 #include <mlt++/MltProfile.h>
+#include <KLocalizedString>
 
 
 std::unique_ptr<ProfileRepository> ProfileRepository::instance;
@@ -46,12 +48,9 @@ void ProfileRepository::refresh()
 {
     QWriteLocker locker(&m_mutex);
 
-    m_profiles.clear();
-
     //Helper function to check a profile and print debug info
     auto check_profile = [&](std::unique_ptr<ProfileModel>& profile, const QString& file) {
         if (m_profiles.count(file) > 0) {
-            qCWarning(KDENLIVE_LOG) << "//// Duplicate profile found: "<<file<<". Ignoring.";
             return false;
         }
         if (!profile->is_valid()) {
@@ -74,7 +73,6 @@ void ProfileRepository::refresh()
         }
     }
 
-    qDebug() << "all profiles "<<profilesFiles;
     //Iterate through files
     for (const auto& file : profilesFiles) {
         std::unique_ptr<ProfileModel> profile(new ProfileModel(file));
@@ -94,7 +92,7 @@ QVector<QPair<QString, QString> > ProfileRepository::getAllProfiles()
     for (const auto& profile : m_profiles) {
         list.push_back({profile.second->description(), profile.first});
     }
-    qSort(list);
+    std::sort(list.begin(), list.end());
     return list;
 }
 
@@ -114,4 +112,31 @@ bool ProfileRepository::profileExists(const QString& path)
 {
     QReadLocker locker(&m_mutex);
     return m_profiles.count(path) != 0;
+}
+
+//static
+QString ProfileRepository::getColorspaceDescription(int colorspace)
+{
+    //TODO: should the descriptions be translated?
+    switch (colorspace) {
+    case 601:
+        return QStringLiteral("ITU-R 601");
+    case 709:
+        return QStringLiteral("ITU-R 709");
+    case 240:
+        return QStringLiteral("SMPTE240M");
+    default:
+        return i18n("Unknown");
+    }
+}
+
+QVector<double> ProfileRepository::getAllFps()
+{
+    QVector<double> res;
+    for (const auto& ptr : m_profiles) {
+        res.push_back(ptr.second->fps());
+    }
+    std::sort(res.begin(), res.end());
+    res.erase(std::unique(res.begin(), res.end()), res.end());
+    return res;
 }

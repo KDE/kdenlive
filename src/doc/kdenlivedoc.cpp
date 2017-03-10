@@ -1315,7 +1315,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
     if (!ok) {
         // Error
     }
-    QString extension = QStringLiteral(".") + getDocumentProperty(QStringLiteral("proxyextension"));
+    QString extension = QLatin1Char('.') + getDocumentProperty(QStringLiteral("proxyextension"));
     QString params = getDocumentProperty(QStringLiteral("proxyparams"));
     if (params.contains(QStringLiteral("-s "))) {
         QString proxySize = params.section(QStringLiteral("-s "), 1).section(QStringLiteral("x"), 0, 0);
@@ -1431,7 +1431,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
     m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));
     if (!m_projectFolder.isEmpty()) {
-        m_documentProperties.insert(QStringLiteral("storagefolder"), m_projectFolder + QStringLiteral("/") +
+        m_documentProperties.insert(QStringLiteral("storagefolder"), m_projectFolder + QLatin1Char('/') +
                                     m_documentProperties.value(QStringLiteral("documentid")));
     }
     m_documentProperties.insert(QStringLiteral("profile"), profilePath());
@@ -1786,7 +1786,7 @@ QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
         // Use specified folder to store all files
         kdenliveCacheDir = m_projectFolder;
     }
-    basePath = kdenliveCacheDir + QStringLiteral("/") + documentId;
+    basePath = kdenliveCacheDir + QLatin1Char('/') + documentId;
     switch (type) {
     case SystemCacheRoot:
         return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);

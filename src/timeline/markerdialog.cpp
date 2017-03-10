@@ -77,7 +77,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
             //p = m_clip->pixmap(m_in->getValue(), width, height);
             break;
         case Color:
-            colour = colour.replace(0, 2, QStringLiteral("#"));
+            colour = colour.replace(0, 2, QLatin1Char('#'));
             p.fill(QColor(colour.left(7)));
             break;
         //UNKNOWN, AUDIO, VIRTUAL:

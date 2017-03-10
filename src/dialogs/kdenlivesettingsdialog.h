@@ -46,9 +46,10 @@ public:
     void checkProfile();
 
 protected slots:
-    void updateSettings() Q_DECL_OVERRIDE;
-    void updateWidgets() Q_DECL_OVERRIDE;
-    bool hasChanged() Q_DECL_OVERRIDE;
+    void updateSettings() override;
+    void updateWidgets() override;
+    bool hasChanged() override;
+    void accept() override;
 
 private slots:
     void slotCheckShuttle(int state = 0);

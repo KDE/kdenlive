@@ -19,63 +19,41 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef PROFILEMODEL_H
-#define PROFILEMODEL_H
+#ifndef PROFILETREEMODEL_H
+#define PROFILETREEMODEL_H
 
-#include <memory>
-#include <QString>
+#include <QAbstractItemModel>
 
-
-/** @brief This is a wrapper around Mlt::Profile to be used by the rest of kdenlive.
- *  It has implicit conversion to Mlt::Profile so you can use it directly in calls to Mlt backend.
- *
+/* @brief This class represents a profile hierarchy to be displayed as a tree
  */
+class ProfileItem;
+class ProfileModel;
+class ProfileTreeModel : public QAbstractItemModel
+  {
+      Q_OBJECT
 
-namespace Mlt{
-    class Profile;
-}
+  public:
+      explicit ProfileTreeModel(QObject *parent = 0);
+      ~ProfileTreeModel();
 
-class ProfileModel
-{
+      QVariant data(const QModelIndex &index, int role) const override;
+      //This is reimplemented to prevent selection of the categories
+      Qt::ItemFlags flags(const QModelIndex &index) const override;
+      QVariant headerData(int section, Qt::Orientation orientation,
+                          int role = Qt::DisplayRole) const override;
+      QModelIndex index(int row, int column,
+                        const QModelIndex &parent = QModelIndex()) const override;
+      QModelIndex parent(const QModelIndex &index) const override;
+      int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+      int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
-public:
-    ProfileModel() = delete;
+      /*@brief Given a valid QModelIndex, this function retrieves the corresponding profile's path. Returns the empty string if something went wrong */
+      static QString getProfile(const QModelIndex& index);
 
-    /* @brief Constructs a profile using the path to the profile description
-     */
-    ProfileModel(const QString& path);
-
-    bool is_valid( ) const;
-    QString description() const;
-    int frame_rate_num() const;
-    int frame_rate_den() const;
-    double fps() const;
-    int width() const;
-    int height() const;
-    bool progressive() const;
-    int sample_aspect_num() const;
-    int sample_aspect_den() const;
-    double sar() const;
-    int display_aspect_num() const;
-    int display_aspect_den() const;
-    double dar() const;
-    int is_explicit() const;
-    int colorspace() const;
-    QString colorspaceDescription() const;
-    QString path() const;
-
-    /* @brief overload of comparison operators */
-    bool operator==(const ProfileModel &other) const;
-    bool operator!=(const ProfileModel &other) const;
-
-protected:
-    QString m_path;
-    bool m_invalid;
-    QString m_description;
-
-    std::unique_ptr<Mlt::Profile> m_profile;
-
+      /** @brief This function returns the model index corresponding to a given @param profile path */
+      QModelIndex findProfile(const QString& profile);
+  private:
+      ProfileItem *rootItem;
 };
-
 
 #endif

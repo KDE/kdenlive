@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2016  Jean-Baptiste Mardelle <jb@kdenlive.org>
+Copyright (C) 2017  Nicolas Carion
 This file is part of Kdenlive. See www.kdenlive.org.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "profilewidget.h"
+#include "profiles/tree/profiletreemodel.hpp"
+#include "profiles/tree/profilefilter.hpp"
+#include "profiles/profilerepository.hpp"
+#include "profiles/profilemodel.hpp"
 #include "utils/KoIconUtils.h"
 #include "kxmlgui_version.h"
 
@@ -27,504 +32,246 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QComboBox>
 #include <KLocalizedString>
 #include <KMessageWidget>
+#include <QTextEdit>
 
 #include <KCollapsibleGroupBox>
+
+
 
 ProfileWidget::ProfileWidget(QWidget *parent) :
     QWidget(parent)
 {
-    QGridLayout *lay = new QGridLayout;
-    QLabel *lab = new QLabel(i18n("Resolution"), this);
-    lay->addWidget(lab, 0, 0);
-    lab = new QLabel(i18n("Frame Rate"), this);
-    lay->addWidget(lab, 1, 0);
-    m_standard = new QComboBox;
-    lay->addWidget(m_standard, 0, 1);
+    m_originalProfile = QStringLiteral("invalid");
+
+    QVBoxLayout *lay = new QVBoxLayout;
+
+    QHBoxLayout *labelLay = new QHBoxLayout;
+    QLabel *title = new QLabel(i18n("Select the profile (preset) of the project"),this);
+    labelLay->addWidget(title);
+    labelLay->addStretch(1);
+
     QToolButton *manage_profiles = new QToolButton(this);
-    lay->addWidget(manage_profiles, 0, 2);
-    m_rate_list = new QComboBox;
-    lay->addWidget(m_rate_list, 1, 1, 1, 2);
-    lab = new QLabel(i18n("Scanning"), this);
-    lay->addWidget(lab, 2, 0);
-    m_interlaced = new QCheckBox(i18n("Interlaced"), this);
-    lay->addWidget(m_interlaced, 2, 1, 1, 2);
-    lay->setColumnStretch(1, 10);
-
-    m_customSizeLabel = new QLabel(i18n("Frame Size"), this);
-    m_customSize = new QComboBox;
-    m_display_list = new QComboBox;
-    QLabel *displayLab = new QLabel(i18n("Display Ratio"), this);
-    m_sample_list = new QComboBox;
-    QLabel *sampleLab = new QLabel(i18n("Sample Ratio"), this);
-    m_color_list = new QComboBox;
-    QLabel *colorLab = new QLabel(i18n("Color Space"), this);
-    m_detailsLayout = new QGridLayout;
-    m_detailsLayout->addWidget(m_customSizeLabel, 0, 0);
-    m_detailsLayout->addWidget(m_customSize, 0, 1);
-    m_detailsLayout->addWidget(displayLab, 1, 0);
-    m_detailsLayout->addWidget(m_display_list, 1, 1);
-    m_detailsLayout->addWidget(sampleLab, 2, 0);
-    m_detailsLayout->addWidget(m_sample_list, 2, 1);
-    m_detailsLayout->addWidget(colorLab, 3, 0);
-    m_detailsLayout->addWidget(m_color_list, 3, 1);
-    m_detailsLayout->setColumnStretch(1, 10);
-
-    KCollapsibleGroupBox *details_box = new KCollapsibleGroupBox(this);
-    details_box->setTitle(i18n("Details"));
-    connect(this, &ProfileWidget::showDetails, details_box, &KCollapsibleGroupBox::expand);
-    details_box->setLayout(m_detailsLayout);
-    lay->addWidget(details_box, 3, 0, 1, 3);
-    m_errorMessage = new KMessageWidget(i18n("No matching profile found"), this);
-    m_errorMessage->setMessageType(KMessageWidget::Warning);
-    m_errorMessage->setCloseButtonVisible(false);
-    lay->addWidget(m_errorMessage, 4, 0, 1, 3);
-    m_errorMessage->hide();
-    setLayout(lay);
+    labelLay->addWidget(manage_profiles);
     manage_profiles->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     manage_profiles->setToolTip(i18n("Manage project profiles"));
     connect(manage_profiles, &QAbstractButton::clicked, this, &ProfileWidget::slotEditProfiles);
-    connect(m_standard, SIGNAL(activated(int)), this, SLOT(updateList()));
-    connect(m_rate_list, SIGNAL(activated(int)), this, SLOT(ratesUpdated()));
-    connect(m_customSize, SIGNAL(activated(int)), this, SLOT(slotCheckInterlace()));
-    connect(m_interlaced, &QAbstractButton::clicked, this, &ProfileWidget::updateDisplay);
-    connect(m_display_list, SIGNAL(activated(int)), this, SLOT(selectProfile()));
-    connect(m_sample_list, SIGNAL(activated(int)), this, SLOT(selectProfile()));
-    connect(m_color_list, SIGNAL(activated(int)), this, SLOT(selectProfile()));
+    lay->addLayout(labelLay);
+
+
+    QHBoxLayout *profileLay = new QHBoxLayout;
+
+    m_treeView = new QTreeView(this);
+    m_treeView->setMinimumSize(QSize(400, 400));
+    m_treeModel = new ProfileTreeModel(this);
+    m_filter = new ProfileFilter(this);
+    m_filter->setSourceModel(m_treeModel);
+    m_treeView->setModel(m_filter);
+    for (int i = 1; i < m_treeModel->columnCount(); ++i) {
+        m_treeView->hideColumn(i);
+    }
+    m_treeView->header()->hide();
+    QItemSelectionModel *selectionModel = m_treeView->selectionModel();
+    connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &ProfileWidget::slotChangeSelection);
+    connect(selectionModel, &QItemSelectionModel::selectionChanged,
+            [&](const QItemSelection &selected, const QItemSelection &deselected){
+                QModelIndex current, old;
+                if (!selected.indexes().isEmpty()) {
+                    current = selected.indexes().front();
+                }
+                if (!deselected.indexes().isEmpty()) {
+                    old = deselected.indexes().front();
+                }
+                slotChangeSelection(current, old);
+            });
+    profileLay->addWidget(m_treeView, 8);
+
+    m_descriptionPanel = new QTextEdit(this);
+    m_descriptionPanel->setReadOnly(true);
+    profileLay->addWidget(m_descriptionPanel, 10);
+
+    lay->addLayout(profileLay);
+
+    QGridLayout* filterLayout = new QGridLayout;
+    filterLayout->setColumnStretch(0, 1);
+    filterLayout->setColumnStretch(1, 10);
+    filterLayout->setColumnStretch(2, 10);
+
+    m_enableScanning = new QCheckBox(this);
+    m_labelScanning = new QLabel(i18n("Scanning"), this);
+    m_labelScanning->setEnabled(false);
+
+    m_widScanning = new QButtonGroup(this);
+    QHBoxLayout* buttonLayout = new QHBoxLayout;
+    m_but1Scanning = new QPushButton(i18n("Interlaced"));
+    m_but1Scanning->setEnabled(false);
+    m_but1Scanning->setCheckable(true);
+    m_but1Scanning->setChecked(true);
+    buttonLayout->addWidget(m_but1Scanning);
+    m_widScanning->addButton(m_but1Scanning);
+    m_widScanning->setId(m_but1Scanning, 0);
+    m_but2Scanning = new QPushButton(i18n("Progressive"));
+    m_but2Scanning->setEnabled(false);
+    m_but2Scanning->setCheckable(true);
+    m_but2Scanning->setChecked(false);
+    buttonLayout->addWidget(m_but2Scanning);
+    m_widScanning->addButton(m_but2Scanning);
+    m_widScanning->setId(m_but2Scanning, 1);
+
+    buttonLayout->setSpacing(0);
+    buttonLayout->setContentsMargins(0,0,0,0);
+
+    auto updateScanning = [&]() {
+        m_labelScanning->setEnabled(m_enableScanning->isChecked());
+        m_but1Scanning->setEnabled(m_enableScanning->isChecked());
+        m_but2Scanning->setEnabled(m_enableScanning->isChecked());
+        m_filter->setFilterInterlaced(m_enableScanning->isChecked(),
+                                      m_widScanning->checkedId() == 0);
+        slotFilterChanged();
+    };
+    connect(m_enableScanning, &QCheckBox::toggled, updateScanning);
+    connect(m_widScanning, static_cast<void (QButtonGroup::*)(int,bool)>(&QButtonGroup::buttonToggled), updateScanning);
+
+    filterLayout->addWidget(m_enableScanning, 0, 0);
+    filterLayout->addWidget(m_labelScanning, 0, 1);
+    filterLayout->addLayout(buttonLayout, 0, 2);
+
+    m_enableFps = new QCheckBox(this);
+    m_labelFps = new QLabel(i18n("Fps"), this);
+    m_labelFps->setEnabled(false);
+
+    m_widFps = new QComboBox(this);
+    m_widFps->setEnabled(false);
+    auto all_fps = ProfileRepository::get()->getAllFps();
+
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+
+    for (double fps : all_fps) {
+        m_widFps->addItem(locale.toString(fps), fps);
+    }
+
+    auto updateFps = [&]() {
+        m_labelFps->setEnabled(m_enableFps->isChecked());
+        m_widFps->setEnabled(m_enableFps->isChecked());
+        m_filter->setFilterFps(m_enableFps->isChecked(),
+                               m_widFps->currentData().toDouble());
+        slotFilterChanged();
+    };
+    connect(m_enableFps, &QCheckBox::toggled, updateFps);
+    connect(m_widFps, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateFps);
+
+    filterLayout->addWidget(m_enableFps, 1, 0);
+    filterLayout->addWidget(m_labelFps, 1, 1);
+    filterLayout->addWidget(m_widFps, 1, 2);
+
+
+    KCollapsibleGroupBox *filter_box = new KCollapsibleGroupBox(this);
+    filter_box->setTitle(i18n("Filter profiles"));
+    filter_box->setLayout(filterLayout);
+    lay->addWidget(filter_box);
+
+
+    setLayout(lay);
 }
 
 ProfileWidget::~ProfileWidget()
 {
 }
 
-void ProfileWidget::loadProfile(QString profile)
+void ProfileWidget::loadProfile(const QString& profile)
 {
-    if (profile.isEmpty()) {
-        profile = KdenliveSettings::current_profile();
-        if (profile.isEmpty()) {
-            profile = QStringLiteral("dv_pal");
-        }
-    }
-    m_standard->blockSignals(true);
-    m_standard->clear();
-    m_list4K.clear();
-    m_list4KWide.clear();
-    m_list4KDCI.clear();
-    m_list2K.clear();
-    m_listFHD.clear();
-    m_listHD.clear();
-    m_listSD.clear();
-    m_listSDWide.clear();
-    m_listCustom.clear();
-    m_currentProfile = ProfilesDialog::getVideoProfile(profile);
-    QList<MltVideoProfile> list = ProfilesDialog::profilesList();
-    for (int i = 0; i < list.count(); i++) {
-        MltVideoProfile prof = list.at(i);
-        switch (prof.height) {
-        case 2160:
-            if (prof.width == 3840) {
-                m_list4K.append(prof);
-            } else if (prof.width == 5120) {
-                m_list4KWide.append(prof);
-            } else if (prof.width == 4096) {
-                m_list4KDCI.append(prof);
-            } else {
-                m_listCustom.append(prof);
-            }
-            break;
-        case 1440:
-            m_list2K.append(prof);
-            break;
-        case 1080:
-            if (prof.width == 1920) {
-                m_listFHD.append(prof);
-            } else {
-                m_listCustom.append(prof);
-            }
-            break;
-        case 720:
-            m_listHD.append(prof);
-            break;
-        case 576:
-        case 480:
-            if (prof.width != 720) {
-                m_listCustom.append(prof);
-            } else if (prof.display_aspect_num == 4) {
-                m_listSD.append(prof);
-            } else if (prof.display_aspect_num == 16) {
-                m_listSDWide.append(prof);
-            } else {
-                m_listCustom.append(prof);
-            }
-            break;
-        default:
-            m_listCustom.append(prof);
-            break;
-        }
-    }
-    if (!m_list4KDCI.isEmpty()) {
-        m_standard->addItem(i18n("4K DCI 2160"), QVariant::fromValue(VideoStd::FourKDCI));
-    }
-    if (!m_list4KWide.isEmpty()) {
-        m_standard->addItem(i18n("4K UHD Wide 2160"), QVariant::fromValue(VideoStd::FourKWide));
-    }
-    if (!m_list4K.isEmpty()) {
-        m_standard->addItem(i18n("4K UHD 2160"), QVariant::fromValue(VideoStd::FourK));
-    }
-    if (!m_list2K.isEmpty()) {
-        m_standard->addItem(i18n("2.5K QHD 1440"), QVariant::fromValue(VideoStd::TwoK));
-    }
-    if (!m_listFHD.isEmpty()) {
-        m_standard->addItem(i18n("Full HD 1080"), QVariant::fromValue(VideoStd::FHD));
-    }
-    if (!m_listHD.isEmpty()) {
-        m_standard->addItem(i18n("HD 720"), QVariant::fromValue(VideoStd::HD));
-    }
-    if (!m_listSD.isEmpty()) {
-        m_standard->addItem(i18n("SD/DVD"), QVariant::fromValue(VideoStd::SD));
-    }
-    if (!m_listSDWide.isEmpty()) {
-        m_standard->addItem(i18n("SD/DVD Widescreen"), QVariant::fromValue(VideoStd::SDWide));
-    }
-    if (!m_listCustom.isEmpty()) {
-        m_standard->addItem(i18n("Custom"), QVariant::fromValue(VideoStd::Custom));
-    }
-    m_standard->blockSignals(false);
-    VideoStd std = getStandard(m_currentProfile);
-    m_standard->setCurrentIndex(m_standard->findData(QVariant::fromValue(std)));
-    updateList();
-}
-
-QList<MltVideoProfile> ProfileWidget::getList(VideoStd std)
-{
-    switch (std) {
-    case VideoStd::FourKDCI:
-        return m_list4KDCI;
-        break;
-    case VideoStd::FourKWide:
-        return m_list4KWide;
-        break;
-    case VideoStd::FourK:
-        return m_list4K;
-        break;
-    case VideoStd::TwoK:
-        return m_list2K;
-        break;
-    case VideoStd::FHD:
-        return m_listFHD;
-        break;
-    case VideoStd::HD:
-        return m_listHD;
-        break;
-    case VideoStd::SD:
-        return m_listSD;
-        break;
-    case VideoStd::SDWide:
-        return m_listSDWide;
-        break;
-    default:
-        return m_listCustom;
-        break;
-    }
-}
-
-void ProfileWidget::updateList()
-{
-    m_rate_list->blockSignals(true);
-    VideoStd std = m_standard->currentData().value<VideoStd>();
-    QString currentFps;
-    if (m_rate_list->count() == 0) {
-        if (m_currentProfile.frame_rate_num % m_currentProfile.frame_rate_den == 0) {
-            currentFps = QString::number(m_currentProfile.frame_rate_num / m_currentProfile.frame_rate_den);
-        } else {
-            currentFps = QString::number((double)m_currentProfile.frame_rate_num / m_currentProfile.frame_rate_den, 'f', 2);
-        }
-    } else {
-        currentFps = m_rate_list->currentText();
-    }
-    m_rate_list->clear();
-    QList<MltVideoProfile> currentStd = getList(std);
-    QStringList frameRates;
-    QString text;
-    for (int i = 0; i < currentStd.count(); i++) {
-        MltVideoProfile prof = currentStd.at(i);
-        if (prof.frame_rate_num % prof.frame_rate_den == 0) {
-            text = QString::number(prof.frame_rate_num / prof.frame_rate_den);
-        } else {
-            text = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
-        }
-        if (!frameRates.contains(text)) {
-            frameRates << text;
-        }
-    }
-    if (frameRates.isEmpty()) {
-        m_rate_list->setEnabled(false);
-        return;
-    }
-    m_rate_list->setEnabled(true);
-    qSort(frameRates);
-    m_rate_list->addItems(frameRates);
-    m_rate_list->blockSignals(false);
-    int ix = m_rate_list->findText(currentFps);
-    m_rate_list->setCurrentIndex(ix > -1 ? ix : 0);
-    if (std == VideoStd::Custom) {
-        emit showDetails();
-    }
-    ratesUpdated();
-}
-
-void ProfileWidget::ratesUpdated()
-{
-    VideoStd std = m_standard->currentData().value<VideoStd>();
-    QList<MltVideoProfile> currentStd = getList(std);
-    // insert all frame sizes related to frame rate
-    m_customSize->clear();
-    m_customSize->addItems(getFrameSizes(currentStd, m_rate_list->currentText()));
-    if (std == VideoStd::Custom) {
-        int ix = m_customSize->findText(QStringLiteral("%1x%2").arg(m_currentProfile.width).arg(m_currentProfile.height));
-        if (ix > 0) {
-            m_customSize->setCurrentIndex(ix);
-        }
-    }
-    checkInterlace(currentStd, m_customSize->currentText(), m_rate_list->currentText());
-    updateDisplay();
-}
-
-QStringList ProfileWidget::getFrameSizes(const QList<MltVideoProfile> &currentStd, const QString &rate)
-{
-    QStringList sizes;
-    for (int i = 0; i < currentStd.count(); i++) {
-        MltVideoProfile prof = currentStd.at(i);
-        QString fps;
-        if (prof.frame_rate_num % prof.frame_rate_den == 0) {
-            fps = QString::number(prof.frame_rate_num / prof.frame_rate_den);
-        } else {
-            fps = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
-        }
-        if (fps != rate) {
-            continue;
-        }
-        QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
-        if (!sizes.contains(res)) {
-            sizes << res;
-        }
-    }
-    qSort(sizes);
-    return sizes;
-}
-
-void ProfileWidget::slotCheckInterlace()
-{
-    VideoStd std = m_standard->currentData().value<VideoStd>();
-    checkInterlace(getList(std), m_customSize->currentText(), m_rate_list->currentText());
-    updateDisplay();
-}
-
-void ProfileWidget::checkInterlace(const QList<MltVideoProfile> &currentStd, const QString &size, const QString &rate)
-{
-    bool allowInterlaced = false;
-    bool allowProgressive = false;
-    for (int i = 0; i < currentStd.count(); i++) {
-        MltVideoProfile prof = currentStd.at(i);
-        QString fps;
-        if (prof.frame_rate_num % prof.frame_rate_den == 0) {
-            fps = QString::number(prof.frame_rate_num / prof.frame_rate_den);
-        } else {
-            fps = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
-        }
-        if (fps != rate) {
-            continue;
-        }
-        QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
-        if (res != size) {
-            continue;
-        }
-        if (prof.progressive) {
-            allowProgressive = true;
-        } else {
-            allowInterlaced = true;
-        }
-    }
-    m_interlaced->setEnabled(allowInterlaced && allowProgressive);
-    if (m_interlaced->isEnabled()) {
-        m_interlaced->setChecked(!m_currentProfile.progressive);
-    } else {
-        m_interlaced->setChecked(allowInterlaced);
-    }
-}
-
-ProfileWidget::VideoStd ProfileWidget::getStandard(const MltVideoProfile &profile)
-{
-    switch (profile.height) {
-    case 2160:
-        return VideoStd::FourK;
-        break;
-    case 1440:
-        return VideoStd::TwoK;
-        break;
-    case 1080:
-        if (profile.width != 1920) {
-            return VideoStd::Custom;
-        } else {
-            return VideoStd::FHD;
-        }
-        break;
-    case 720:
-        return VideoStd::HD;
-        break;
-    case 576:
-    case 480:
-        if (profile.width != 720) {
-            return VideoStd::Custom;
-        } else if (profile.display_aspect_num == 4) {
-            return VideoStd::SD;
-        } else if (profile.display_aspect_num == 16) {
-            return VideoStd::SDWide;
-        } else {
-            return VideoStd::Custom;
-        }
-        break;
-    default:
-        return VideoStd::Custom;
-        break;
+    auto index = m_treeModel->findProfile(profile);
+    if (index.isValid()) {
+        m_originalProfile = m_currentProfile = m_lastValidProfile = profile;
+        trySelectProfile(profile);
     }
 }
 
 const QString ProfileWidget::selectedProfile() const
 {
-    return m_currentProfile.path;
-}
-
-void ProfileWidget::updateDisplay()
-{
-    VideoStd std = m_standard->currentData().value<VideoStd>();
-    QList<MltVideoProfile> currentStd = getList(std);
-    QList<MltVideoProfile> matching;
-    QString rate = m_rate_list->currentText();
-    QString size = m_customSize->currentText();
-    bool interlaced = m_interlaced->isChecked();
-    for (int i = 0; i < currentStd.count(); i++) {
-        MltVideoProfile prof = currentStd.at(i);
-        QString fps;
-        if (prof.frame_rate_num % prof.frame_rate_den == 0) {
-            fps = QString::number(prof.frame_rate_num / prof.frame_rate_den);
-        } else {
-            fps = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
-        }
-        if (fps != rate) {
-            continue;
-        }
-        QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
-        if (res != size) {
-            continue;
-        }
-        if (prof.progressive == interlaced) {
-            continue;
-        }
-        // Profile matches current properties
-        matching << prof;
-    }
-    m_display_list->clear();
-    m_sample_list->clear();
-    m_color_list->clear();
-    if (matching.isEmpty()) {
-        m_errorMessage->animatedShow();
-        return;
-    }
-    if (!m_errorMessage->isHidden()) {
-        m_errorMessage->animatedHide();
-    }
-    const int matchingCount(matching.count());
-    QStringList displays;
-    displays.reserve(matchingCount);
-    QStringList samples;
-    samples.reserve(matchingCount);
-    QStringList colors;
-    colors.reserve(matchingCount);
-    bool foundMatching = false;
-    for (int i = 0; i < matchingCount; i++) {
-        MltVideoProfile prof = matching.at(i);
-        if (prof == m_currentProfile) {
-            foundMatching = true;
-        }
-        displays << QStringLiteral("%1:%2").arg(prof.display_aspect_num).arg(prof.display_aspect_den);
-        samples << QStringLiteral("%1:%2").arg(prof.sample_aspect_num).arg(prof.sample_aspect_den);
-        colors << ProfilesDialog::getColorspaceDescription(prof.colorspace);
-    }
-    if (!foundMatching) {
-        m_currentProfile = matching.first();
-    }
-    displays.removeDuplicates();
-    samples.removeDuplicates();
-    colors.removeDuplicates();
-    qSort(displays);
-    qSort(samples);
-    qSort(colors);
-    m_display_list->addItems(displays);
-    m_sample_list->addItems(samples);
-    m_color_list->addItems(colors);
-
-    m_display_list->setCurrentText(QStringLiteral("%1:%2").arg(m_currentProfile.display_aspect_num).arg(m_currentProfile.display_aspect_den));
-    m_sample_list->setCurrentText(QStringLiteral("%1:%2").arg(m_currentProfile.sample_aspect_num).arg(m_currentProfile.sample_aspect_den));
-    m_color_list->setCurrentText(ProfilesDialog::getColorspaceDescription(m_currentProfile.colorspace));
-}
-
-void ProfileWidget::selectProfile()
-{
-    VideoStd std = m_standard->currentData().value<VideoStd>();
-    QList<MltVideoProfile> currentStd = getList(std);
-    QString rate = m_rate_list->currentText();
-    QString size = m_customSize->currentText();
-    QString display = m_display_list->currentText();
-    QString sample = m_sample_list->currentText();
-    QString color = m_color_list->currentText();
-    bool interlaced = m_interlaced->isChecked();
-    bool found = false;
-    for (int i = 0; i < currentStd.count(); i++) {
-        MltVideoProfile prof = currentStd.at(i);
-        QString fps;
-        if (prof.frame_rate_num % prof.frame_rate_den == 0) {
-            fps = QString::number(prof.frame_rate_num / prof.frame_rate_den);
-        } else {
-            fps = QString::number((double)prof.frame_rate_num / prof.frame_rate_den, 'f', 2);
-        }
-        if (fps != rate) {
-            continue;
-        }
-        QString res = QStringLiteral("%1x%2").arg(prof.width).arg(prof.height);
-        if (res != size) {
-            continue;
-        }
-        if (prof.progressive == interlaced) {
-            continue;
-        }
-        res = QStringLiteral("%1:%2").arg(prof.display_aspect_num).arg(prof.display_aspect_den);
-        if (res != display) {
-            continue;
-        }
-        res = QStringLiteral("%1:%2").arg(prof.sample_aspect_num).arg(prof.sample_aspect_den);
-        if (res != sample) {
-            continue;
-        }
-        res = ProfilesDialog::getColorspaceDescription(prof.colorspace);
-        if (res != color) {
-            continue;
-        }
-        found = true;
-        m_currentProfile = prof;
-        break;
-    }
-    if (!found) {
-        m_errorMessage->animatedShow();
-    } else if (!m_errorMessage->isHidden()) {
-        m_errorMessage->animatedHide();
-    }
+    return m_currentProfile;
 }
 
 void ProfileWidget::slotEditProfiles()
 {
-    ProfilesDialog *w = new ProfilesDialog(m_currentProfile.path);
+    ProfilesDialog *w = new ProfilesDialog(m_currentProfile);
     w->exec();
-    loadProfile(m_currentProfile.path);
+    loadProfile(m_currentProfile);
     delete w;
 }
 
+
+void ProfileWidget::fillDescriptionPanel(const QString& profile_path)
+{
+    QString description;
+    if (profile_path.isEmpty()) {
+        description += i18n("No profile selected");
+    } else {
+        std::unique_ptr<ProfileModel> & profile = ProfileRepository::get()->getProfile(profile_path);
+
+        description += i18n("<h5>Video Settings</h5>");
+        description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3)</p>",profile->width(), profile->height(), profile->dar());
+        description += i18n("<p style='font-size:small'>Frame rate: %1 fps</p>",profile->fps());
+        description += i18n("<p style='font-size:small'>Pixel Aspect Ratio: %1</p>",profile->sar());
+        description += i18n("<p style='font-size:small'>Color Space: %1</p>",profile->colorspaceDescription());
+        QString interlaced = i18n("yes");
+        if (profile->progressive()) {
+            interlaced = i18n("no");
+        }
+        description += i18n("<p style='font-size:small'>Interlaced : %1</p>", interlaced);
+    }
+    m_descriptionPanel->setHtml(description);
+}
+
+void ProfileWidget::slotChangeSelection(const QModelIndex &current, const QModelIndex &previous)
+{
+    auto originalIndex = m_filter->mapToSource(current);
+    if (m_treeModel->parent(originalIndex) == QModelIndex()) {
+        //in that case, we have selected a category, which we don't want
+        QItemSelectionModel *selection = m_treeView->selectionModel();
+        selection->select(previous, QItemSelectionModel::Select);
+        return;
+    }
+    m_currentProfile = ProfileTreeModel::getProfile(originalIndex);
+    if (!m_currentProfile.isEmpty()) {
+        m_lastValidProfile = m_currentProfile;
+    }
+    if (m_originalProfile != m_currentProfile) {
+        emit profileChanged();
+    }
+    fillDescriptionPanel(m_currentProfile);
+}
+
+bool ProfileWidget::trySelectProfile(const QString& profile)
+{
+    auto index = m_treeModel->findProfile(profile);
+    if (index.isValid()) {
+        // check if element is visible
+        if (m_filter->isVisible(index)) {
+            //reselect
+            QItemSelectionModel *selection = m_treeView->selectionModel();
+            selection->select(m_filter->mapFromSource(index), QItemSelectionModel::Select);
+            //expand corresponding category
+            auto parent = m_treeModel->parent(index);
+            m_treeView->expand(m_filter->mapFromSource(parent));
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
+}
+
+void ProfileWidget::slotFilterChanged()
+{
+    //When filtering change, we must check if the current profile is still visible.
+    if (!trySelectProfile(m_currentProfile)) {
+        //we try to back-up the last valid profile
+        if (!trySelectProfile(m_lastValidProfile)) {
+            //Everything fails, we don't have any profile
+            m_currentProfile = QString();
+            emit profileChanged();
+            fillDescriptionPanel(QString());
+        }
+    }
+}

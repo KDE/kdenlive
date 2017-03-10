@@ -146,7 +146,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         if (KdenliveSettings::customprojectfolder()) {
             projectFolder = KdenliveSettings::defaultprojectfolder();
             if (!projectFolder.endsWith(QLatin1Char('/'))) {
-                projectFolder.append(QStringLiteral("/"));
+                projectFolder.append(QLatin1Char('/'));
             }
             documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
         }
@@ -184,7 +184,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         documentProperties.insert(QStringLiteral("proxyimageminsize"), QString::number(w->proxyImageMinSize()));
         if (!projectFolder.isEmpty()) {
             if (!projectFolder.endsWith(QLatin1Char('/'))) {
-                projectFolder.append(QStringLiteral("/"));
+                projectFolder.append(QLatin1Char('/'));
             }
             documentProperties.insert(QStringLiteral("storagefolder"), projectFolder +documentId);
         }

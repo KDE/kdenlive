@@ -62,16 +62,16 @@ public:
         {
             QStringList str;
             str << locale.toString(speed) << QString::number(strobe) << QString::number((int) state);
-            return str.join(QStringLiteral(":"));
+            return str.join(QLatin1Char(':'));
         }
         void readFromString(const QString &str, const QLocale &locale)
         {
-            speed = locale.toDouble(str.section(QStringLiteral(":"), 0, 0));
-            strobe = str.section(QStringLiteral(":"), 1, 1).toInt();
+            speed = locale.toDouble(str.section(QLatin1Char(':'), 0, 0));
+            strobe = str.section(QLatin1Char(':'), 1, 1).toInt();
             if (str.count(QLatin1Char(':')) == 1) {
                 state = PlaylistState::Original;
             } else {
-                state = (PlaylistState::ClipState) str.section(QStringLiteral(":"), 2, 2).toInt();
+                state = (PlaylistState::ClipState) str.section(QLatin1Char(':'), 2, 2).toInt();
             }
         }
     };

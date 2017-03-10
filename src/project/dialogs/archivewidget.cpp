@@ -720,7 +720,7 @@ bool ArchiveWidget::processProjectFile()
     QDomElement mlt = m_doc.documentElement();
     QString root = mlt.attribute(QStringLiteral("root"));
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
-        root.append(QStringLiteral("/"));
+        root.append(QLatin1Char('/'));
     }
 
     // Adjust global settings

@@ -63,7 +63,7 @@ void BinController::setDocumentRoot(const QString &root)
     } else {
         m_documentRoot = root;
         if (!m_documentRoot.endsWith(QLatin1Char('/'))) {
-            m_documentRoot.append(QStringLiteral("/"));
+            m_documentRoot.append(QLatin1Char('/'));
         }
     }
 }
