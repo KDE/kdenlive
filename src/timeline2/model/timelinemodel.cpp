@@ -145,56 +145,8 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
         Q_ASSERT(undone);
         return false;
     }
-    int new_clip_index = getTrackById(tid)->getRowfromClip(cid);
-    auto operation = [cid, tid, old_tid, old_clip_index, new_clip_index, updateView, this]() {
-        /*
-        qDebug()<<"Clip move : updateView"<<updateView<<". We are in track #"<<getTrackPosition(tid);
-        if (updateView) {
-            if (tid == old_tid) {
-                qDebug()<<"NOTIFY CHANGE";
-                QModelIndex modelIndex = makeClipIndexFromID(cid);
-                notifyChange(modelIndex, modelIndex, true, false);
-            } else {
-                if (old_tid != -1){
-                    _beginRemoveRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
-                    _endRemoveRows();
-                }
-                qDebug()<<"INSERT ROW";
-                _beginInsertRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
-                _endInsertRows();
-            }
-        }
-        */
-        return true;
-    };
-    auto reverse = []() {return true;};
-    //push the operation and its reverse in the undo/redo
-    UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-    //We have to expend the local undo with the data modification signals. They have to be sent after the real operations occured in the model so that the GUI can query the correct new values
-    local_undo = [local_undo, tid, old_tid, cid, old_clip_index, new_clip_index, updateView, this]() {
-        bool v = local_undo();
-        /*
-        if (updateView) {
-            if (tid == old_tid) {
-                QModelIndex modelIndex = makeClipIndexFromID(cid);
-                notifyChange(modelIndex, modelIndex, true, false);
-            } else {
-                _beginRemoveRows(makeTrackIndexFromID(tid), new_clip_index, new_clip_index);
-                _endRemoveRows();
-                if (old_tid != -1) {
-                    _beginInsertRows(makeTrackIndexFromID(old_tid), old_clip_index, old_clip_index);
-                    _endInsertRows();
-                }
-            }
-        }
-        */
-        return v;
-    };
-    bool result = operation();
-    if (result) {
-        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-    }
-    return result;
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
 }
 
 bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool updateView, bool logUndo)
@@ -308,7 +260,6 @@ bool TimelineModel::requestClipDeletion(int cid)
 
 bool TimelineModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
 {
-    qDebug() << "deleting clip "<<cid;
     int tid = getClipTrackId(cid);
     if (tid != -1) {
         bool res = getTrackById(tid)->requestClipDeletion(cid, true, undo, redo);
@@ -574,7 +525,6 @@ bool TimelineModel::requestTrackDeletion(int tid, Fun& undo, Fun& redo)
     for(const auto& it : getTrackById(tid)->m_allClips) {
         clips_to_delete.push_back(it.first);
     }
-    qDebug() << "Deleting track "<<tid<<"with "<<clips_to_delete.size()<<" to delete";
     Fun local_undo = [](){return true;};
     Fun local_redo = [](){return true;};
     for(int clip : clips_to_delete) {
@@ -629,7 +579,6 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos)
     //it now contains the iterator to the inserted element, we store it
     Q_ASSERT(m_iteratorTable.count(id) == 0); //check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
-    qDebug()<<"Resetting model";
     _resetView();
 }
 
@@ -654,7 +603,6 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
         int index = getTrackPosition(id); //compute index in list
         if (updateView) {
             QModelIndex root;
-            qDebug() << "Reseting view";
             _resetView();
         }
         m_tractor->remove_track(static_cast<int>(index + 1)); //melt operation, add 1 to account for black background track
@@ -744,7 +692,6 @@ bool TimelineModel::requestReset(Fun& undo, Fun& redo)
     for (const auto& track : m_iteratorTable) {
         all_ids.push_back(track.first);
     }
-    qDebug() << "RESET : "<<all_ids.size();
     bool ok = true;
     for (int tid : all_ids) {
         ok = ok && requestTrackDeletion(tid, undo, redo);

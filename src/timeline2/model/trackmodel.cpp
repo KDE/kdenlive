@@ -164,11 +164,9 @@ Fun TrackModel::requestClipDeletion_lambda(int cid, bool updateView)
     int old_in = clip_position;
     int old_out = old_in + m_allClips[cid]->getPlaytime() - 1;
     return [clip_position, cid, old_in, old_out, updateView, this]() {
-        qDebug() << "Deleting clip"<<cid;
         auto clip_loc = getClipIndexAt(clip_position);
         int old_clip_index = getRowfromClip(cid);
         if (updateView) {
-            qDebug() << "REMOVE ROW CLIP id="<< cid << "track "<<getId();
             auto ptr = m_parent.lock();
             ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
             ptr->_endRemoveRows();
@@ -188,7 +186,6 @@ Fun TrackModel::requestClipDeletion_lambda(int cid, bool updateView)
                     ptr->m_snaps->removePoint(old_in);
                     ptr->m_snaps->removePoint(old_out + 1);
                 }
-                qDebug() << "update" <<updateView;
             }
             return true;
         }
