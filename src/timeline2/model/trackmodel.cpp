@@ -369,7 +369,7 @@ int TrackModel::getRowfromClip(int cid) const
 
 QVariant TrackModel::getProperty(const QString &name)
 {
-    return m_track.get(name.toUtf8().constData());
+    return QVariant(m_track.get(name.toUtf8().constData()));
 }
 
 void TrackModel::setProperty(const QString &name, const QString &value)

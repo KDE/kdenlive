@@ -433,7 +433,7 @@ Rectangle {
                 if (s.substring(0, 3) === '00:')
                     s = s.substring(3)
                 s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
-                bubbleHelp.show(x, track.y + height, s)
+                bubbleHelp.show(x, track.y + height/2, s)
             }
             onClipDropped: {
                 console.log(" + + + ++ + DROPPED  + + + + + + +");

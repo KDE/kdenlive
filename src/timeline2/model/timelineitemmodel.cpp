@@ -243,8 +243,10 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
     } else if(isTrack(id)) {
         switch (role) {
             case NameRole:
-            case Qt::DisplayRole:
-                return getTrackById_const(id)->getProperty("kdenlive:track_name").toString();
+            case Qt::DisplayRole: {
+                QString tName = getTrackById_const(id)->getProperty("kdenlive:track_name").toString();
+                return tName;
+            }
             case DurationRole:
                 // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
                 return m_tractor->get_playtime();
@@ -276,10 +278,11 @@ void TimelineItemModel::setTrackProperty(int tid, const QString &name, const QSt
 {
     getTrackById(tid)->setProperty(name, value);
     QVector<int> roles;
-    if (name == QLatin1String("kdenlive:locked_track")) {
+    if (name == QLatin1String("kdenlive:track_name")) {
+        roles.push_back(NameRole);
+    } else if (name == QLatin1String("kdenlive:locked_track")) {
         roles.push_back(IsLockedRole);
-    }
-    if (name == QLatin1String("hide")) {
+    } else if (name == QLatin1String("hide")) {
         roles.push_back(IsMuteRole);
         roles.push_back(IsHiddenRole);
     }

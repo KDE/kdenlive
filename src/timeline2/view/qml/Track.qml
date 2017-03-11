@@ -80,7 +80,7 @@ Column{
             modelStart: model.start
             x: modelStart * timeScale
             grouped: model.grouped
-            borderColor: (model.grouped > 0 ? 'yellow' : 'black')
+            borderColor: (model.grouped ? 'yellow' : 'black')
             trackIndex: trackRoot.DelegateModel.itemsIndex
             trackId: trackRoot.trackId
             fadeIn: 0 //model.fadeIn
@@ -88,6 +88,19 @@ Column{
             //hash: model.hash
             speed: 1 //model.speed
             selected: trackRoot.selection.indexOf(clipId) !== -1
+
+            onGroupedChanged: {
+                console.log('Clip ', clipId, ' is grouped : ', grouped)
+                flashclip.start()
+            }
+
+            SequentialAnimation on color {
+                id: flashclip
+                loops: 2
+                running: false
+                ColorAnimation { from: Qt.darker(getColor()); to: "#ff3300"; duration: 100 }
+                ColorAnimation { from: "#ff3300"; to: Qt.darker(getColor()); duration: 100 }
+            }
 
             onClicked: {
                 console.log("Clip clicked",clip.clipId)
