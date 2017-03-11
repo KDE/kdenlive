@@ -82,6 +82,8 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
             result = createIndex(row, 0, quintptr(clipId));
         }
     } else if (row < getTracksCount() && row >= 0) {
+        //reverse
+        row = getTracksCount() - 1 - row;
         auto it = m_allTracks.cbegin();
         std::advance(it, row);
         int trackId = (*it)->getId();
@@ -108,6 +110,8 @@ QModelIndex TimelineItemModel::makeTrackIndexFromID(int tid) const
     Q_ASSERT(m_iteratorTable.count(tid) > 0);
     auto it = m_iteratorTable.at(tid);
     int ind = (int)std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it);
+    //reverse
+    ind = getTracksCount() - 1 - ind;
     return index(ind);
 }
 
@@ -122,10 +126,7 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
         return QModelIndex();
     } else if(isClip(id)) {
         const int trackId = getClipTrackId(id);
-        auto it = m_iteratorTable.at(trackId); //iterator to the element
-        decltype(m_allTracks.cbegin()) const_it(it);
-        int row = (int)std::distance(m_allTracks.cbegin(), const_it); //compute index in list
-        return createIndex(row, 0, quintptr(trackId));
+        return makeTrackIndexFromID(trackId);
     }
     return QModelIndex();
 }
