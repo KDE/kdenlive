@@ -18,7 +18,7 @@ if (POLICY CMP0053)
 endif()
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 6)
-set(MLT_MIN_MINOR_VERSION 2)
+set(MLT_MIN_MINOR_VERSION 4)
 set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
@@ -43,7 +43,7 @@ add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fsanitize=address -fno-omit-frame-pointer")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
 
