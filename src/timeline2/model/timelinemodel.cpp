@@ -129,9 +129,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
     std::function<bool (void)> local_redo = [](){return true;};
     bool ok = true;
     int old_tid = getClipTrackId(cid);
-    int old_clip_index = -1;
     if (old_tid != -1) {
-        old_clip_index = getTrackById(old_tid)->getRowfromClip(cid);
         ok = getTrackById(old_tid)->requestClipDeletion(cid, updateView, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();

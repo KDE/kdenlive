@@ -40,6 +40,7 @@ Rectangle {
     property int seekPos: 0
     property int duration: timeline.duration
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
+    property int clipBeingDroppedId: -1
     //property alias ripple: toolbar.ripple
 
     //onCurrentTrackChanged: timeline.selection = []
@@ -53,25 +54,29 @@ Rectangle {
             if (drag.formats.indexOf('kdenlive/producerslist') >= 0) {
                 var track = Logic.getTrackFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                if (track >= 0 && timeline.allowMove(track, frame, drag.text)) {
-                    drag.acceptProposedAction()
+                if (track >= 0) {
+                    //drag.acceptProposedAction()
+                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'))
                 } else {
                     drag.accepted = false
                 }
             }
         }
-        onExited: Logic.dropped()
+        onExited:{
+            Logic.dropped()
+            if (clipBeingDroppedId != -1) {
+                timeline.deleteClip(clipBeingDroppedId)
+            }
+            clipBeingDroppedId = -1
+        }
         onPositionChanged: {
-            if (drag.formats.indexOf('kdenlive/producerslist') >= 0)
-                Logic.dragging(drag, drag.text)
+            if (clipBeingDroppedId >= 0){
+                var track = Logic.getTrackFromPos(drag.y)
+                var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                timeline.moveClip(clipBeingDroppedId, track, frame, true)
+            }
         }
         onDropped: {
-            if (drop.formats.indexOf('kdenlive/producerslist') >= 0) {
-                if (currentTrack >= 0) {
-                    Logic.acceptDrop(drop.getDataAsString('kdenlive/producerslist'))
-                    drop.acceptProposedAction()
-                }
-            }
             Logic.dropped()
         }
     }

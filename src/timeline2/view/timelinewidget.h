@@ -86,12 +86,6 @@ public:
        @param position is the requested position on track
      */
     Q_INVOKABLE bool allowMoveClip(int cid, int tid, int position);
-        /* @brief Ask if a clip move should be allowed (enough blank space on track), without using clip id
-       @param tid is the destination track
-       @param position is the requested position on track
-       @param duration is the clip's duration
-     */
-    Q_INVOKABLE bool allowMove(int tid, int position, int duration);
     /* @brief Request best appropriate move (accounting snap / other clips)
        @param cid is the clip's id
        @param tid is the destination track
@@ -130,9 +124,17 @@ public:
        @param tid is the destination track
        @param position is the timeline position
        @param xml is the data describing the dropped clip
+       @return the id of the inserted clip
      */
-    Q_INVOKABLE void insertClip(int tid, int position, QString xml);
-    void deleteSelectedClips();
+    Q_INVOKABLE int insertClip(int tid, int position, QString xml);
+    /* @brief Request deletion of the currently selected clips
+     */
+    Q_INVOKABLE void deleteSelectedClips();
+
+    /* @brief Request deletion of the given clip
+       @param cid id of the clip to delete
+    */
+    Q_INVOKABLE void deleteClip(int cid);
 
     Q_INVOKABLE int requestBestSnapPos(int pos, int duration);
 

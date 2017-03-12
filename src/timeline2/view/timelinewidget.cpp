@@ -192,11 +192,6 @@ bool TimelineWidget::allowMoveClip(int cid, int tid, int position)
     return m_model->requestClipMove(cid, tid, position, false, false);
 }
 
-bool TimelineWidget::allowMove(int tid, int position, int duration)
-{
-    return m_model->availableSpace(tid, position, duration);
-}
-
 int TimelineWidget::suggestClipMove(int cid, int tid, int position)
 {
     return m_model->suggestClipMove(cid, tid, position);
@@ -211,11 +206,14 @@ bool TimelineWidget::resizeClip(int cid, int duration, bool right, bool logUndo)
     return m_model->requestClipResize(cid, duration, right, logUndo, true);
 }
 
-void TimelineWidget::insertClip(int tid, int position, QString data_str)
+int TimelineWidget::insertClip(int tid, int position, QString data_str)
 {
     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(m_binController->getBinProducer(data_str));
     int id;
-    m_model->requestClipInsertion(prod, tid, position, id);
+    if (!m_model->requestClipInsertion(prod, tid, position, id)) {
+        id = -1;
+    }
+    return id;
 }
 
 void TimelineWidget::deleteSelectedClips()
@@ -227,6 +225,11 @@ void TimelineWidget::deleteSelectedClips()
     foreach(int cid, m_selection.selectedClips) {
         m_model->requestClipDeletion(cid);
     }
+}
+
+void TimelineWidget::deleteClip(int cid)
+{
+    m_model->requestClipDeletion(cid);
 }
 
 void TimelineWidget::triggerAction(const QString &name)
