@@ -31,6 +31,25 @@ Rectangle {
         //Logic.scrollIfNeeded()
     }
 
+    function continuousScrolling(x) {
+        // This provides continuous scrolling at the left/right edges.
+        if (x > scrollView.flickableItem.contentX + scrollView.width - 50) {
+            scrollTimer.item = clip
+            scrollTimer.backwards = false
+            scrollTimer.start()
+        } else if (x < 50) {
+            scrollView.flickableItem.contentX = 0;
+            scrollTimer.stop()
+        } else if (x < scrollView.flickableItem.contentX + 50) {
+            scrollTimer.item = clip
+            scrollTimer.backwards = true
+            scrollTimer.start()
+        } else {
+            scrollTimer.stop()
+        }
+
+    }
+
     property int headerWidth: 140
     property int baseUnit: fontMetrics.height * 0.6
     property int currentTrack: 0
@@ -57,6 +76,7 @@ Rectangle {
                 if (track >= 0) {
                     //drag.acceptProposedAction()
                     clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'))
+                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {
                     drag.accepted = false
                 }
@@ -68,16 +88,20 @@ Rectangle {
                 timeline.deleteClip(clipBeingDroppedId)
             }
             clipBeingDroppedId = -1
+            scrollTimer.running = false
         }
         onPositionChanged: {
             if (clipBeingDroppedId >= 0){
                 var track = Logic.getTrackFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.moveClip(clipBeingDroppedId, track, frame, true)
+                continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+
             }
         }
         onDropped: {
             Logic.dropped()
+            scrollTimer.running = false
         }
     }
     Menu {
@@ -415,21 +439,7 @@ Rectangle {
                 //root.clipClicked()
             }
             onClipDragged: {
-                // This provides continuous scrolling at the left/right edges.
-                if (x > scrollView.flickableItem.contentX + scrollView.width - 50) {
-                    scrollTimer.item = clip
-                    scrollTimer.backwards = false
-                    scrollTimer.start()
-                } else if (x < 50) {
-                    scrollView.flickableItem.contentX = 0;
-                    scrollTimer.stop()
-                } else if (x < scrollView.flickableItem.contentX + 50) {
-                    scrollTimer.item = clip
-                    scrollTimer.backwards = true
-                    scrollTimer.start()
-                } else {
-                    scrollTimer.stop()
-                }
+                continuousScrolling(x)
                 // Show distance moved as time in a "bubble" help.
                 var track = tracksRepeater.itemAt(clip.trackIndex)
                 var delta = Math.round((clip.x - clip.originalX) / timeline.scaleFactor)
