@@ -28,6 +28,7 @@
 #include <unordered_set>
 #include <mlt++/MltTractor.h>
 #include "undohelper.hpp"
+#include <QReadWriteLock>
 
 class TrackModel;
 class ClipModel;
@@ -347,6 +348,8 @@ protected:
 
     // The black track producer. It's length / out should always be adjusted to the projects's length
     std::unique_ptr<Mlt::Producer> m_blackClip;
+
+    mutable QReadWriteLock m_lock; //This is a lock that ensures safety in case of concurrent access
 
     //what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

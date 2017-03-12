@@ -29,6 +29,7 @@
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltProfile.h>
 #include <QDebug>
+#include "macros.hpp"
 
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
     QAbstractItemModel()
@@ -70,6 +71,7 @@ TimelineItemModel::~TimelineItemModel()
 
 QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &parent) const
 {
+    READ_LOCK();
     if (column > 0)
         return QModelIndex();
     // qDebug() << "TimelineItemModel::index" << row << column << parent;
@@ -117,6 +119,7 @@ QModelIndex TimelineItemModel::makeTrackIndexFromID(int tid) const
 
 QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
 {
+    READ_LOCK();
     // qDebug() << "TimelineItemModel::parent"<< index;
     if (index == QModelIndex()) {
         return index;
@@ -134,6 +137,7 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
 
 int TimelineItemModel::rowCount(const QModelIndex &parent) const
 {
+    READ_LOCK();
     if (parent.isValid()) {
         const int id = (int)parent.internalId();
         if (isClip(id) || !isTrack(id)) {
@@ -185,6 +189,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
 
 QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
 {
+    READ_LOCK();
     // qDebug() << "DATA requested "<<index<<roleNames()[role];
     if (!m_tractor || !index.isValid()) {
         // qDebug() << "DATA abort. Index validity="<<index.isValid();

@@ -35,15 +35,10 @@
 #include <mlt++/MltProfile.h>
 #include <queue>
 
+#include "macros.hpp"
+
 int TimelineModel::next_id = 0;
 
-#define PUSH_UNDO(undo, redo, text)                                     \
-    if (auto ptr = m_undoStack.lock()) {                                \
-        ptr->push(new FunctionalUndoCommand(undo, redo, text));         \
-    } else {                                                            \
-        qDebug() << "ERROR : unable to access undo stack";              \
-        Q_ASSERT(false);                                                \
-    }
 
 
 TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
@@ -51,7 +46,8 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_snaps(new SnapModel()),
     m_undoStack(undo_stack),
     m_profile(profile),
-    m_blackClip(new Mlt::Producer(*profile,"color:black"))
+    m_blackClip(new Mlt::Producer(*profile,"color:black")),
+    m_lock(QReadWriteLock::Recursive)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
@@ -76,6 +72,7 @@ TimelineModel::~TimelineModel()
 
 int TimelineModel::getTracksCount() const
 {
+    READ_LOCK();
     int count = m_tractor->count();
     Q_ASSERT(count >= 0);
     // don't count the black background track
@@ -85,41 +82,53 @@ int TimelineModel::getTracksCount() const
 
 int TimelineModel::getClipsCount() const
 {
-    return static_cast<int>(m_allClips.size());
+    READ_LOCK();
+    int size = int(m_allClips.size());
+    return size;
 }
 
 
 int TimelineModel::getClipTrackId(int cid) const
 {
+    READ_LOCK();
     Q_ASSERT(m_allClips.count(cid) > 0);
     const auto clip = m_allClips.at(cid);
-    return clip->getCurrentTrackId();
+    int tid = clip->getCurrentTrackId();
+    return tid;
 }
 
 int TimelineModel::getClipPosition(int cid) const
 {
+    READ_LOCK();
     Q_ASSERT(m_allClips.count(cid) > 0);
     const auto clip = m_allClips.at(cid);
-    return clip->getPosition();
+    int pos = clip->getPosition();
+    return pos;
 }
 
 int TimelineModel::getClipPlaytime(int cid) const
 {
+    READ_LOCK();
     Q_ASSERT(m_allClips.count(cid) > 0);
     const auto clip = m_allClips.at(cid);
-    return clip->getPlaytime();
+    int playtime = clip->getPlaytime();
+    return playtime;
 }
 
 int TimelineModel::getTrackClipsCount(int tid) const
 {
-    return getTrackById_const(tid)->getClipsCount();
+    READ_LOCK();
+    int count = getTrackById_const(tid)->getClipsCount();
+    return count;
 }
 
 int TimelineModel::getTrackPosition(int tid) const
 {
+    READ_LOCK();
     Q_ASSERT(m_iteratorTable.count(tid) > 0);
     auto it = m_allTracks.begin();
-    return (int)std::distance(it, (decltype(it))m_iteratorTable.at(tid));
+    int pos = (int)std::distance(it, (decltype(it))m_iteratorTable.at(tid));
+    return pos;
 }
 
 bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo)
@@ -149,6 +158,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
 
 bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool updateView, bool logUndo)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(cid) > 0);
     if (m_allClips[cid]->getPosition() == position && getClipTrackId(cid) == tid) {
         return true;
@@ -174,6 +184,7 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool update
 
 int TimelineModel::suggestClipMove(int cid, int tid, int position)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(cid));
     Q_ASSERT(isTrack(tid));
     int currentPos = getClipPosition(cid);
@@ -210,6 +221,7 @@ int TimelineModel::suggestClipMove(int cid, int tid, int position)
 
 bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     bool result = requestClipInsertion(prod, trackId, position, id, undo, redo);
@@ -243,6 +255,7 @@ bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, in
 
 bool TimelineModel::requestClipDeletion(int cid)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(cid));
     if (m_groups->isInGroup(cid)) {
         return requestGroupDeletion(cid);
@@ -283,6 +296,7 @@ bool TimelineModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
 
 bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
+    QWriteLocker locker(&m_lock);
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
     Q_ASSERT(m_allGroups.count(gid) > 0);
@@ -331,6 +345,7 @@ bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delt
 
 bool TimelineModel::requestGroupDeletion(int cid)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     // we do a breadth first exploration of the group tree, ungroup (delete) every inner node, and then delete all the leaves.
@@ -375,6 +390,7 @@ bool TimelineModel::requestGroupDeletion(int cid)
 
 bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUndo, bool snapping)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(cid));
     if (snapping) {
         Fun temp_undo = [](){return true;};
@@ -438,6 +454,7 @@ bool TimelineModel::requestClipTrim(int cid, int delta, bool right, bool ripple,
 
 bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
 {
+    QWriteLocker locker(&m_lock);
     for (int id : ids) {
         if (isClip(id)) {
             if (getClipTrackId(id) == -1) {
@@ -458,6 +475,7 @@ bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
 
 bool TimelineModel::requestClipUngroup(int id)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     bool result = requestClipUngroup(id, undo, redo);
@@ -469,11 +487,13 @@ bool TimelineModel::requestClipUngroup(int id)
 
 bool TimelineModel::requestClipUngroup(int id, Fun& undo, Fun& redo)
 {
+    QWriteLocker locker(&m_lock);
     return m_groups->ungroupItem(id, undo, redo);
 }
 
 bool TimelineModel::requestTrackInsertion(int position, int &id)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     bool result = requestTrackInsertion(position, id, undo, redo);
@@ -507,6 +527,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, Fun& undo, Fun&
 
 bool TimelineModel::requestTrackDeletion(int tid)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     bool result = requestTrackDeletion(tid, undo, redo);
