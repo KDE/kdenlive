@@ -355,7 +355,7 @@ void TimelineWidget::gotoPreviousSnap()
 void TimelineWidget::groupSelection()
 {
     std::unordered_set<int> clips;
-    foreach(int id, m_selection.selectedClips) {
+    for(int id : m_selection.selectedClips) {
         clips.insert(id);
     }
     m_model->requestClipsGroup(clips);

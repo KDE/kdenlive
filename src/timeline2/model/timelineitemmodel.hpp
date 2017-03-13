@@ -23,7 +23,6 @@
 #define TIMELINEITEMMODEL_H
 
 #include <QAbstractItemModel>
-#include <QSortFilterProxyModel>
 #include "undohelper.hpp"
 #include "timelinemodel.hpp"
 
