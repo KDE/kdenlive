@@ -149,7 +149,7 @@ Rectangle {
             }
             Flickable {
                 // Non-slider scroll area for the track headers.
-                //contentY: scrollView.flickableItem.contentY
+                contentY: scrollView.flickableItem.contentY
                 width: headerWidth
                 height: trackHeaders.height
                 interactive: false
