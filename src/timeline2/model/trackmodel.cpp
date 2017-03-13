@@ -94,11 +94,11 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position, bool updateVi
             //update clip position and track
             clip->setPosition(position);
             clip->setCurrentTrackId(getId());
+            int new_in = clip->getPosition();
+            int new_out = new_in + clip->getPlaytime();
+            ptr->m_snaps->addPoint(new_in);
+            ptr->m_snaps->addPoint(new_out);
             if (updateView) {
-                int new_in = clip->getPosition();
-                int new_out = new_in + clip->getPlaytime();
-                ptr->m_snaps->addPoint(new_in);
-                ptr->m_snaps->addPoint(new_out);
                 int clip_index = getRowfromClip(clip->getId());
                 ptr->_beginInsertRows(ptr->makeTrackIndexFromID(getId()), clip_index, clip_index);
                 ptr->_endInsertRows();
@@ -182,10 +182,8 @@ Fun TrackModel::requestClipDeletion_lambda(int cid, bool updateView)
             m_allClips.erase(cid);
             delete prod;
             if (auto ptr = m_parent.lock()) {
-                if (updateView) {
-                    ptr->m_snaps->removePoint(old_in);
-                    ptr->m_snaps->removePoint(old_out + 1);
-                }
+                ptr->m_snaps->removePoint(old_in);
+                ptr->m_snaps->removePoint(old_out + 1);
             }
             return true;
         }

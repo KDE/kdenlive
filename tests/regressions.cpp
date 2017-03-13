@@ -353,3 +353,41 @@ TEST_CASE("Regression 3")
         REQUIRE(ok);
     }
 }
+
+TEST_CASE("Regression 4")
+{
+    Mlt::Profile profile;
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
+    TimelineModel::next_id = 0;
+    int dummy_id;
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    timeline->requestTrackInsertion(-1, dummy_id );
+    {
+        std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
+        producer->set("length", 62);
+        producer->set("out", 61);
+        timeline->requestClipInsertion(producer,10 ,453, dummy_id );
+    }
+    timeline->requestClipMove(11,10 ,453, true, true );
+    {
+        std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, "color", "red");
+        producer->set("length", 62);
+        producer->set("out", 61);
+        timeline->requestClipInsertion(producer,9 ,590, dummy_id );
+    }
+    timeline->requestClipResize(11,62 ,true, false, true );
+    timeline->requestClipResize(11,62 ,true, true, true );
+    timeline->requestClipMove(11,10 ,507, true, true );
+    timeline->requestClipMove(12,10 ,583, false, false );
+    timeline->requestClipMove(12,9 ,521, true, true );
+}
