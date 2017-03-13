@@ -170,6 +170,7 @@ Rectangle {
                             height: model.trackHeight
                             selected: false
                             current: index === currentTrack
+                            trackId: item
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
                             onMyTrackHeightChanged: {
                                 model.trackHeight = myTrackHeight

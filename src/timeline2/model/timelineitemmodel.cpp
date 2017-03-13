@@ -243,6 +243,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             break;
         }
     } else if(isTrack(id)) {
+        // qDebug() << "DATA REQUESTED FOR TRACK "<< id;
         switch (role) {
             case NameRole:
             case Qt::DisplayRole: {
@@ -289,8 +290,8 @@ void TimelineItemModel::setTrackProperty(int tid, const QString &name, const QSt
         roles.push_back(IsHiddenRole);
     }
     if (!roles.isEmpty()) {
-        qDebug()<<" * ** TRACK: "<<tid<<", "<<name<<" = "<<value;
         QModelIndex ix = makeTrackIndexFromID(tid);
+        qDebug()<<" * ** TRACK: "<<tid<<", "<<name<<" = "<<value << "index"<<ix;
         emit dataChanged(ix, ix, roles);
     }
 }

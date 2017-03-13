@@ -67,6 +67,7 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
             qDebug()<<"Adding track: "<<track->get("id");
             int tid;
             ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
+            timeline->setTrackProperty(tid, "kdenlive:trackheight", "100");
 #ifdef LOGGING
             timeline->m_logFile << "timeline->requestTrackInsertion(-1, dummy_id ); " <<std::endl;
 #endif
