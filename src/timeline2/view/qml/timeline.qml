@@ -71,7 +71,7 @@ Rectangle {
         x: headerWidth
         onEntered: {
             if (drag.formats.indexOf('kdenlive/producerslist') >= 0) {
-                var track = Logic.getTrackFromPos(drag.y)
+                var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 if (track >= 0) {
                     //drag.acceptProposedAction()
@@ -92,7 +92,7 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingDroppedId >= 0){
-                var track = Logic.getTrackFromPos(drag.y)
+                var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.moveClip(clipBeingDroppedId, track, frame, true)
                 continuousScrolling(drag.x + scrollView.flickableItem.contentX)
@@ -457,14 +457,7 @@ Rectangle {
             }
             onClipDraggedToTrack: {
                 var y = pos - ruler.height
-                for (var i = 0; i < tracksRepeater.count; i++) {
-                    var trackY = tracksRepeater.itemAt(i).y - scrollView.flickableItem.contentY
-                    var trackH = tracksRepeater.itemAt(i).height
-                    if (y >= trackY && y < trackY + trackH) {
-                        currentTrack = i
-                        break;
-                    }
-                }
+                currentTrack = Logic.getTrackIndexFromPos(y)
                 var frame = Math.round(clip.x / timeScale)
                 if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(currentTrack)

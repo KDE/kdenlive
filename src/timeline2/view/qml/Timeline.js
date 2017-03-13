@@ -27,19 +27,26 @@ function scrollIfNeeded() {
         scrollView.flickableItem.contentX = x - 50;
 }
 
-function getTrackFromPos(pos) {
+function getTrackIndexFromPos(pos) {
     if (tracksRepeater.count > 0) {
         for (var i = 0; i < tracksRepeater.count; i++) {
             var trackY = tracksRepeater.itemAt(i).y - scrollView.flickableItem.contentY
             var trackH = tracksRepeater.itemAt(i).height
             if (pos >= trackY && pos < trackY + trackH) {
-                return tracksRepeater.itemAt(i).trackId
+                return i
             }
         }
     }
     return -1
 }
 
+function getTrackIdFromPos(pos) {
+    var index = getTrackIndexFromPos(pos);
+    if (index != -1) {
+        return tracksRepeater.itemAt(index).trackId
+    }
+    return -1
+}
 
 function dropped() {
     dropTarget.visible = false
