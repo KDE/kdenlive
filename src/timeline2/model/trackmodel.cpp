@@ -95,7 +95,7 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position, bool updateVi
             clip->setPosition(position);
             clip->setCurrentTrackId(getId());
             int new_in = clip->getPosition();
-            int new_out = new_in + clip->getPlaytime();
+            int new_out = new_in + clip->getPlaytime() - 1;
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             if (updateView) {
@@ -183,7 +183,7 @@ Fun TrackModel::requestClipDeletion_lambda(int cid, bool updateView)
             delete prod;
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
-                ptr->m_snaps->removePoint(old_out + 1);
+                ptr->m_snaps->removePoint(old_out);
             }
             return true;
         }
@@ -254,9 +254,9 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
     auto update_snaps = [old_in, old_out, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
-            ptr->m_snaps->removePoint(old_out + 1);
+            ptr->m_snaps->removePoint(old_out);
             ptr->m_snaps->addPoint(new_in);
-            ptr->m_snaps->addPoint(new_out + 1);
+            ptr->m_snaps->addPoint(new_out);
         } else {
             qDebug() << "Error : clip resize failed because parent timeline is not available anymore";
             Q_ASSERT(false);

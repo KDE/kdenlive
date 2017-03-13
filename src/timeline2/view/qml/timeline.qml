@@ -60,6 +60,7 @@ Rectangle {
     property int duration: timeline.duration
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
     property int clipBeingDroppedId: -1
+    property int clipBeingMovedId: -1
     //property alias ripple: toolbar.ripple
 
     //onCurrentTrackChanged: timeline.selection = []
@@ -70,7 +71,7 @@ Rectangle {
         y: ruler.height
         x: headerWidth
         onEntered: {
-            if (drag.formats.indexOf('kdenlive/producerslist') >= 0) {
+            if (clipBeingMovedId == -1 && drag.formats.indexOf('kdenlive/producerslist') >= 0) {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 if (track >= 0) {
@@ -91,12 +92,17 @@ Rectangle {
             scrollTimer.running = false
         }
         onPositionChanged: {
-            if (clipBeingDroppedId >= 0){
+            if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                timeline.moveClip(clipBeingDroppedId, track, frame, true)
-                continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                if (clipBeingDroppedId >= 0){
+                    timeline.moveClip(clipBeingDroppedId, track, frame, true)
+                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
 
+                } else {
+                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'))
+                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                }
             }
         }
         onDropped: {
@@ -450,11 +456,13 @@ Rectangle {
                     s = s.substring(3)
                 s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
                 bubbleHelp.show(x, track.y + height/2, s)
+                clipBeingMovedId = clip.clipId
             }
             onClipDropped: {
                 console.log(" + + + ++ + DROPPED  + + + + + + +");
                 scrollTimer.running = false
                 bubbleHelp.hide()
+                clipBeingMovedId = -1
             }
             onClipDraggedToTrack: {
                 var y = pos - ruler.height

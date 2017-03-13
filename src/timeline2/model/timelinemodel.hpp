@@ -269,7 +269,7 @@ public:
        @param pts snap points to ignore (for example currently moved clip)
        @returns best snap position or -1 if no snap point is near
      */
-    int requestBestSnapPos(int pos, int length, const std::vector<int> pts = std::vector<int>());
+    int requestBestSnapPos(int pos, int length, const std::vector<int>& pts = std::vector<int>());
 
     /* @brief Requests the next snapped point
        @param pos is the current position

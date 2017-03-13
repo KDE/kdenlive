@@ -96,21 +96,15 @@ int SnapModel::getPreviousPoint(int position)
 void SnapModel::ignore(const std::vector<int>& pts)
 {
     for (int pt : pts) {
-        auto it = m_snaps.find(pt);
-        if (it != m_snaps.end()) {
-            m_ignore.push_back(*it);
-            m_snaps.erase(it);
-        }
+        removePoint(pt);
+        m_ignore.push_back(pt);
     }
 }
 
 void SnapModel::unIgnore()
 {
     for (const auto& pt : m_ignore) {
-        if (m_snaps.count(pt.first) == 0) {
-            m_snaps[pt.first] = 0;
-        }
-        m_snaps[pt.first] += pt.second;
+        addPoint(pt);
     }
     m_ignore.clear();
 }

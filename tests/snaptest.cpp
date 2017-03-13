@@ -77,6 +77,7 @@ TEST_CASE("Snap points model test", "[SnapModel]")
         REQUIRE(snap.getClosestPoint(10) == -1);
 
         snap.addPoint(10);
+        snap.addPoint(10);
         auto state = [&]() {
             REQUIRE(snap.getClosestPoint(0) == 10);
             REQUIRE(snap.getClosestPoint(10) == 10);
@@ -86,17 +87,9 @@ TEST_CASE("Snap points model test", "[SnapModel]")
         };
         state();
 
-        snap.ignore({0});
-        state();
-
         snap.ignore({10});
-        REQUIRE(snap.getClosestPoint(0) == -1);
-        REQUIRE(snap.getClosestPoint(10) == -1);
-        snap.unIgnore();
         state();
 
-        snap.addPoint(10);
-        state();
         snap.ignore({10});
         REQUIRE(snap.getClosestPoint(0) == -1);
         REQUIRE(snap.getClosestPoint(10) == -1);

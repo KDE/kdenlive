@@ -64,7 +64,7 @@ public:
 private:
     std::map<int, int> m_snaps; //This represents the snappoints internally. The keys are the positions and the values are the number of elements at this position. Note that it is important that the datastructure is ordered. QMap is NOT ordered, and therefore not suitable.
 
-    std::vector<std::pair<int, int> > m_ignore;
+    std::vector<int > m_ignore;
 };
 
 #endif

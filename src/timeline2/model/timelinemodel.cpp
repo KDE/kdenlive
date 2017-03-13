@@ -211,11 +211,30 @@ int TimelineModel::suggestClipMove(int cid, int tid, int position)
     if (currentPos == position || currentTrack != tid) {
         return position;
     }
-    int snapped = requestBestSnapPos(position, m_allClips[cid]->getPlaytime());
+
+    //For snapping, we must ignore all in/outs of the clips of the group being moved
+    std::vector<int> ignored_pts;
+    if (m_groups->isInGroup(cid)) {
+        int gid = m_groups->getRootId(cid);
+        auto all_clips = m_groups->getLeaves(gid);
+        for (int current_cid : all_clips) {
+            int in = getClipPosition(current_cid);
+            int out = in + getClipPlaytime(current_cid) - 1;
+            ignored_pts.push_back(in);
+            ignored_pts.push_back(out);
+        }
+    } else {
+        int in = getClipPosition(cid);
+        int out = in + getClipPlaytime(cid) - 1;
+        ignored_pts.push_back(in);
+        ignored_pts.push_back(out);
+    }
+
+    int snapped = requestBestSnapPos(position, m_allClips[cid]->getPlaytime(), ignored_pts);
+    qDebug() << "Starting suggestion "<<cid << position << currentPos << "snapped to "<<snapped;
     if (snapped >= 0) {
         position = snapped;
     }
-    qDebug() << "Starting suggestion "<<cid << position << currentPos;
     //we check if move is possible
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
@@ -775,7 +794,6 @@ bool TimelineModel::requestReset(Fun& undo, Fun& redo)
     for (int tid : all_ids) {
         ok = ok && requestTrackDeletion(tid, undo, redo);
     }
-    TimelineModel::next_id = 0;
     return ok;
 }
 
@@ -784,14 +802,16 @@ void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
     m_undoStack = undo_stack;
 }
 
-int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> pts)
+int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int>& pts)
 {
     if (pts.size() > 0) {
         m_snaps->ignore(pts);
     }
     int snapped_start = m_snaps->getClosestPoint(pos);
+    qDebug() << "snapping start suggestion" <<snapped_start;
     int snapped_end = m_snaps->getClosestPoint(pos + length);
     m_snaps->unIgnore();
+    
     int startDiff = qAbs(pos - snapped_start);
     int endDiff = qAbs(pos + length - snapped_end);
     if (startDiff < endDiff && snapped_start >= 0) {
