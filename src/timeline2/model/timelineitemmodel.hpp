@@ -23,6 +23,7 @@
 #define TIMELINEITEMMODEL_H
 
 #include <QAbstractItemModel>
+#include <QSortFilterProxyModel>
 #include "undohelper.hpp"
 #include "timelinemodel.hpp"
 
@@ -42,6 +43,7 @@
    A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to. 
 
 */
+
 class TimelineItemModel : public QAbstractItemModel, public TimelineModel
 {
 Q_OBJECT

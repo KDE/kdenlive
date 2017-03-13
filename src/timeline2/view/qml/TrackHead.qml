@@ -133,7 +133,7 @@ Rectangle {
                     font.pixelSize: root.baseUnit * 1.5
                 }
                 onAccepted: {
-                    multitrack.setTrackProperty(trackId, "kdenlive:track_name", text)
+                    controller.setTrackProperty(trackId, "kdenlive:track_name", text)
                     visible = false
                 }
                 onFocusChanged: visible = focus
@@ -149,7 +149,7 @@ Rectangle {
                 implicitHeight: 20
                 iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
                 iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
-                onClicked: multitrack.setTrackProperty(trackId, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
+                onClicked: controller.setTrackProperty(trackId, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
                 tooltip: isMute? qsTr('Unmute') : qsTr('Mute')
             }
 
@@ -160,7 +160,7 @@ Rectangle {
                 implicitHeight: 20
                 iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
                 iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
-                onClicked: multitrack.setTrackProperty(trackId, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
+                onClicked: controller.setTrackProperty(trackId, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
                 tooltip: isHidden? qsTr('Show') : qsTr('Hide')
             }
 
@@ -170,7 +170,7 @@ Rectangle {
                 implicitHeight: 20
                 iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
                 iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svgz' : 'qrc:///pics/kdenlive-unlock.svgz'
-                onClicked: multitrack.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
+                onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
                 tooltip: isLocked? qsTr('Unlock track') : qsTr('Lock track')
             }
         }

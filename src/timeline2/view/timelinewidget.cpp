@@ -34,6 +34,7 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QAction>
+#include <QSortFilterProxyModel>
 
 const int TimelineWidget::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
@@ -48,8 +49,14 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinControlle
     , m_scale(3.0)
 {
     registerTimelineItems();
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setSourceModel(m_model.get());
+    proxyModel->setSortRole(TimelineItemModel::ItemIdRole);
+    proxyModel->sort(0, Qt::DescendingOrder);
+
     setResizeMode(QQuickWidget::SizeRootObjectToView);
-    rootContext()->setContextProperty("multitrack", &*m_model);
+    rootContext()->setContextProperty("multitrack", proxyModel);
+    rootContext()->setContextProperty("controller", m_model.get());
     rootContext()->setContextProperty("timeline", this);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     m_model->tractor()->listen("producer-changed", this, (mlt_listener) tractorChanged);
