@@ -70,6 +70,7 @@ public:
         IsBlankRole,     /// clip only
         StartRole,       /// clip only
         BinIdRole,       /// clip only
+        MarkersRole,     /// clip only
         DurationRole,
         InPointRole,     /// clip only
         OutPointRole,    /// clip only

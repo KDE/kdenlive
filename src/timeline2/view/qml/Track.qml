@@ -65,6 +65,7 @@ Column{
             isAudio: false //model.audio
             isTransition: false //model.isTransition
             audioLevels: model.audioLevels
+            markers: model.markers
             width: model.duration * timeScale
             height: parent.height
             modelStart: model.start

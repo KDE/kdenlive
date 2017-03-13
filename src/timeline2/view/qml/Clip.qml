@@ -39,6 +39,7 @@ Rectangle {
     property bool isTransition: false
     property bool grouped: false
     property var audioLevels
+    property var markers : []
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
@@ -226,6 +227,45 @@ Rectangle {
                 // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
         }
         color: 'black'
+    }
+
+    Repeater {
+        model: markers.length / 2
+        delegate:
+        Item {
+            anchors.fill: parent
+        Rectangle {
+            id: markerBase
+            width: 1 // modelDa
+            height: parent.height
+            x: markers[2 * modelData - clipRoot.inPoint] * timeScale;
+            color: 'red'
+        }
+        Rectangle {
+            opacity: 0.7
+            x: markerBase.x
+            radius: 2
+            width: mlabel.width + 4
+            height: mlabel.height
+            anchors {
+                bottom: parent.verticalCenter
+            }
+            color: 'red'
+        }
+        Text {
+            id: mlabel
+            text: markers[2 * modelData + 1]
+            visible: !isBlank && !isTransition
+            font.pixelSize: root.baseUnit
+            x: markerBase.x
+            anchors {
+                bottom: parent.verticalCenter
+                topMargin: parent.border.width + 1
+                leftMargin: parent.border.width + 1
+            }
+            color: 'white'
+        }
+        }
     }
 
     states: [

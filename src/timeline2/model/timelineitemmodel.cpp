@@ -163,6 +163,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[IsBlankRole] = "blank";
     roles[StartRole] = "start";
     roles[DurationRole] = "duration";
+    roles[MarkersRole] = "markers";
     roles[InPointRole] = "in";
     roles[OutPointRole] = "out";
     roles[FramerateRole] = "fps";
@@ -223,6 +224,11 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return QVariant();
         case IsBlankRole: //probably useless
             return false;
+        case MarkersRole: {
+            QVariantList markersList;
+            markersList << QStringLiteral("10") << QStringLiteral("Marker 1") << QStringLiteral("50") << QStringLiteral("M2");
+            return markersList;
+        }
         case StartRole:
             return clip->getPosition();
         case DurationRole:
