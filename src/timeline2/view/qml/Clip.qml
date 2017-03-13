@@ -114,7 +114,7 @@ Rectangle {
     }
 
     function imagePath(time) {
-        if (isAudio || isBlank || isTransition) {
+        if (isAudio || isBlank || isTransition || mltService === 'color') {
             return ''
         } else {
             return 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#' + time
@@ -260,8 +260,8 @@ Rectangle {
             x: markerBase.x
             anchors {
                 bottom: parent.verticalCenter
-                topMargin: parent.border.width + 1
-                leftMargin: parent.border.width + 1
+                topMargin: 2
+                leftMargin: 2
             }
             color: 'white'
         }

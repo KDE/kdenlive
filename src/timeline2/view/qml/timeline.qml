@@ -70,8 +70,9 @@ Rectangle {
         height: root.height - ruler.height
         y: ruler.height
         x: headerWidth
+        keys: 'kdenlive/producerslist'
         onEntered: {
-            if (clipBeingMovedId == -1 && drag.formats.indexOf('kdenlive/producerslist') >= 0) {
+            if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 if (track >= 0) {
@@ -208,7 +209,6 @@ Rectangle {
             height: root.height
 
             // This provides continuous scrubbing and scimming at the left/right edges.
-            focus: true
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton
             onWheel: {
@@ -349,21 +349,6 @@ Rectangle {
                 x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX - (width / 2)
             }
         }
-    }
-    Rectangle {
-        id: dropTarget
-        height: multitrack.trackHeight
-        opacity: 0.5
-        visible: false
-        /*Text {
-            anchors.fill: parent
-            anchors.leftMargin: 100
-            text: timeline.ripple? qsTr('Insert') : qsTr('Overwrite')
-            style: Text.Outline
-            styleColor: 'white'
-            font.pixelSize: Math.min(Math.max(parent.height * 0.8, 15), 30)
-            verticalAlignment: Text.AlignVCenter
-        }*/
     }
 
     Rectangle {
