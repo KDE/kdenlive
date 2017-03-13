@@ -475,10 +475,6 @@ Rectangle {
                     }
                 }
             }
-            onCheckSnap: {
-                for (var i = 0; i < tracksRepeater.count; i++)
-                    tracksRepeater.itemAt(i).snapClip(clip)
-            }
             Image {
                 anchors.right: parent.right
                 anchors.left: parent.left

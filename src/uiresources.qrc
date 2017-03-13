@@ -19,7 +19,6 @@
     <file alias="Clip.qml">timeline2/view/qml/Clip.qml</file>
     <file alias="PulsingAnimation.qml">timeline2/view/qml/PulsingAnimation.qml</file>
     <file alias="CornerSelectionShadow.qml">timeline2/view/qml/CornerSelectionShadow.qml</file>
-    <file alias="Track.js">timeline2/view/qml/Track.js</file>
     <file alias="Timeline.js">timeline2/view/qml/Timeline.js</file>
   </qresource>
 </RCC>

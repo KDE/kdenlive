@@ -18,7 +18,6 @@
 
 import QtQuick 2.0
 import QtQml.Models 2.1
-import 'Track.js' as Logic
 
 Column{
     id: trackRoot
@@ -38,19 +37,10 @@ Column{
     signal clipDragged(var clip, int x, int y)
     signal clipDropped(var clip)
     signal clipDraggedToTrack(var clip, int pos)
-    signal checkSnap(var clip)
 
     function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)
             repeater.itemAt(i).generateWaveform()
-    }
-
-    function snapClip(clip) {
-        Logic.snapClip(clip, repeater)
-    }
-
-    function snapDrop(clip) {
-        Logic.snapDrop(clip, repeater)
     }
 
     function clipAt(index) {
@@ -138,8 +128,6 @@ Column{
                 clip.draggedX = clip.x
             }
             onTrimmingIn: {
-                //if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
-                //    delta = Logic.snapTrimIn(clip, delta)
                 if (timeline.resizeClip(clip.clipId, newDuration, false, false)) {
                     clip.lastValidDuration = newDuration
                     clip.originalX = clip.draggedX
@@ -158,8 +146,6 @@ Column{
                 timeline.resizeClip(clip.clipId, clip.lastValidDuration, false, true)
             }
             onTrimmingOut: {
-               // if (!(mouse.modifiers & Qt.AltModifier) && timeline.snap && !timeline.ripple)
-               //     delta = Logic.snapTrimOut(clip, delta)
                 if (timeline.resizeClip(clip.clipId, newDuration, true, false)) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
