@@ -67,6 +67,9 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
             qDebug()<<"Adding track: "<<track->get("id");
             int tid;
             ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
+#ifdef LOGGING
+            timeline->m_logFile << "timeline->requestTrackInsertion(-1, dummy_id ); " <<std::endl;
+#endif
             Mlt::Playlist local_playlist(*track.get());
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, undo, redo);
             QString trackName = local_playlist.get("kdenlive:track_name");

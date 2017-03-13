@@ -30,6 +30,12 @@
 #include "undohelper.hpp"
 #include <QReadWriteLock>
 
+
+#define LOGGING 1 //If set to 1, we log the actions requested to the timeline as a reproducer script
+#ifdef LOGGING
+#include <fstream>
+#endif
+
 class TrackModel;
 class ClipModel;
 class GroupsModel;
@@ -350,6 +356,8 @@ protected:
     std::unique_ptr<Mlt::Producer> m_blackClip;
 
     mutable QReadWriteLock m_lock; //This is a lock that ensures safety in case of concurrent access
+
+    std::ofstream m_logFile; //this is a temporary debug member to help reproduce issues
 
     //what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

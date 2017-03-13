@@ -34,6 +34,9 @@
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltProfile.h>
 #include <queue>
+#ifdef LOGGING
+#include <sstream>
+#endif
 
 #include "macros.hpp"
 
@@ -55,6 +58,16 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_blackClip->set("aspect_ratio", 1);
     m_blackClip->set("set.test_audio", 0);
     m_tractor->insert_track(*m_blackClip, 0);
+
+#ifdef LOGGING
+    m_logFile = std::ofstream("log.txt");
+    m_logFile << "TEST_CASE(\"Regression\") {"<<std::endl;
+    m_logFile << "Mlt::Profile profile;"<<std::endl;
+    m_logFile << "std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);" <<std::endl;
+    m_logFile << "std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);" <<std::endl;
+    m_logFile << "TimelineModel::next_id = 0;" <<std::endl;
+    m_logFile << "int dummy_id;" <<std::endl;
+#endif
 }
 
 TimelineModel::~TimelineModel()
@@ -158,6 +171,9 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
 
 bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool updateView, bool logUndo)
 {
+#ifdef LOGGING
+    m_logFile << "timeline->requestClipMove("<<cid<<","<<tid<<" ,"<<position<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(cid) > 0);
     if (m_allClips[cid]->getPosition() == position && getClipTrackId(cid) == tid) {
@@ -184,6 +200,9 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool update
 
 int TimelineModel::suggestClipMove(int cid, int tid, int position)
 {
+#ifdef LOGGING
+    m_logFile << "timeline->suggestClipMove("<<cid<<","<<tid<<" ,"<<position<<"); " <<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(cid));
     Q_ASSERT(isTrack(tid));
@@ -221,6 +240,13 @@ int TimelineModel::suggestClipMove(int cid, int tid, int position)
 
 bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id)
 {
+#ifdef LOGGING
+    m_logFile << "{" <<std::endl<< "std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, \"color\", \"red\");" << std::endl;
+    m_logFile << "producer->set(\"length\", "<<prod->get_playtime()<<");" << std::endl;
+    m_logFile << "producer->set(\"out\", "<<prod->get_playtime()-1<<");" << std::endl;
+    m_logFile << "timeline->requestClipInsertion(producer,"<<trackId<<" ,"<<position<<", dummy_id );" <<std::endl;
+    m_logFile<<"}"<<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
@@ -255,6 +281,9 @@ bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, in
 
 bool TimelineModel::requestClipDeletion(int cid)
 {
+#ifdef LOGGING
+    m_logFile << "timeline->requestClipDeletion("<<cid<<"); " <<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(cid));
     if (m_groups->isInGroup(cid)) {
@@ -296,6 +325,9 @@ bool TimelineModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
 
 bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
+#ifdef LOGGING
+    m_logFile << "timeline->requestGroupMove("<<cid<<","<<gid<<" ,"<<delta_track<<", "<<delta_pos<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
@@ -345,6 +377,9 @@ bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delt
 
 bool TimelineModel::requestGroupDeletion(int cid)
 {
+#ifdef LOGGING
+    m_logFile << "timeline->requestGroupDeletion("<<cid<<" ); " <<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
@@ -390,6 +425,9 @@ bool TimelineModel::requestGroupDeletion(int cid)
 
 bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUndo, bool snapping)
 {
+#ifdef LOGGING
+    m_logFile << "timeline->requestClipResize("<<cid<<","<<size<<" ,"<<(right ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<", "<<(snapping ? "true" : "false")<<" ); " <<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(cid));
     if (snapping) {
@@ -454,6 +492,20 @@ bool TimelineModel::requestClipTrim(int cid, int delta, bool right, bool ripple,
 
 bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
 {
+#ifdef LOGGING
+    std::stringstream group;
+    m_logFile << "{"<<std::endl;
+    m_logFile << "auto group = {";
+    bool deb = true;
+    for (int cid : ids) {
+        if(deb) deb = false;
+        else group << ", ";
+        group<<cid;
+    }
+    m_logFile << group.str() << "};" << std::endl;
+    m_logFile <<"timeline->requestClipsGroup(group);" <<std::endl;
+    m_logFile <<std::endl<< "}"<<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     for (int id : ids) {
         if (isClip(id)) {
@@ -475,6 +527,9 @@ bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
 
 bool TimelineModel::requestClipUngroup(int id)
 {
+#ifdef LOGGING
+    m_logFile << "timeline->requestClipUngroup("<<id<<" ); " <<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
@@ -487,12 +542,14 @@ bool TimelineModel::requestClipUngroup(int id)
 
 bool TimelineModel::requestClipUngroup(int id, Fun& undo, Fun& redo)
 {
-    QWriteLocker locker(&m_lock);
     return m_groups->ungroupItem(id, undo, redo);
 }
 
 bool TimelineModel::requestTrackInsertion(int position, int &id)
 {
+#ifdef LOGGING
+    m_logFile << "timeline->requestTrackInsertion("<<position<<", dummy_id ); " <<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
@@ -527,6 +584,9 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, Fun& undo, Fun&
 
 bool TimelineModel::requestTrackDeletion(int tid)
 {
+#ifdef LOGGING
+    m_logFile << "timeline->requestTrackDeletion("<<tid<<"); " <<std::endl;
+#endif
     QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};

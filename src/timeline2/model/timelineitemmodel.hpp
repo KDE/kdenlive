@@ -52,6 +52,7 @@ public:
      */
     static std::shared_ptr<TimelineItemModel> construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, bool populate = false);
 
+    friend bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt::Tractor mlt_timeline);
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
