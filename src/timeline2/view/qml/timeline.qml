@@ -295,7 +295,7 @@ Rectangle {
                                     //Layout.fillWidth: true
                                     color: (index === currentTrack)? selectedTrackColor : (index % 2)? activePalette.alternateBase : activePalette.base
                                     opacity: 0.3
-                                    height: model.trackHeight //.itemAt(index).height
+                                    height: model.trackHeight
                                 }
                             }
                         }

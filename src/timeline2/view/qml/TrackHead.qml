@@ -20,6 +20,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.0
 //import Shotcut.Controls 1.0 as Shotcut
 
 Rectangle {
@@ -76,9 +77,10 @@ Rectangle {
     transitions: [
         Transition {
             to: '*'
-            ColorAnimation { target: trackHeadRoot; duration: 100 }
+            ColorAnimation { target: trackHeadRoot; duration: 150 }
         }
     ]
+
 
     MouseArea {
         anchors.fill: parent
@@ -143,6 +145,58 @@ Rectangle {
             spacing: 6
             visible: (trackHeadRoot.height > trackLabel.height + muteButton.height + resizer.height + 4)
             Layout.leftMargin: 2
+            Rectangle {
+                id: trackLed
+                color: 'grey'
+                width: 14
+                height: 14
+                radius: 12
+                border.width: 1
+                InnerShadow {
+                    anchors.fill: parent
+                    cached: false
+                    horizontalOffset: -1
+                    verticalOffset: -1
+                    radius: 12
+                    samples: 10
+                    color: Qt.darker(parent.color)
+                    smooth: true
+                    source: parent
+                }
+                state: 'normalled'
+                states: [
+                    State {
+                        name: 'locked'
+                        when: trackHeadRoot.isLocked
+                        PropertyChanges {
+                            target: trackLed
+                            color: 'red'
+                        }
+                    },
+                    State {
+                        name: 'mute'
+                        when: trackHeadRoot.isMute || trackHeadRoot.isHidden
+                        PropertyChanges {
+                            target: trackLed
+                            color: 'orange'
+                        }
+                    },
+                    State {
+                        when: !trackHeadRoot.isLocked && !trackHeadRoot.isMute && !trackHeadRoot.isHidden
+                        name: 'normalled'
+                        PropertyChanges {
+                            target: trackLed
+                            color: trackHeadRoot.selected ? 'green' : 'grey'
+                        }
+                    }
+                ]
+                transitions: [
+                    Transition {
+                        to: '*'
+                        ColorAnimation { target: trackLed; duration: 300 }
+                    }
+                ]
+            }
             ToolButton {
                 id: muteButton
                 implicitWidth: 20
