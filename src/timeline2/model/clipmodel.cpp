@@ -121,7 +121,7 @@ bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     }
     auto operation = [this, in, out, track_operation]() {
         if (track_operation()) {
-            m_producer.reset(m_producer->cut(in, out));
+            m_producer->set_in_and_out(in, out);
             return true;
         }
         return false;
@@ -134,7 +134,7 @@ bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
         }
         auto reverse = [this, old_in, old_out, track_reverse]() {
             if (track_reverse()) {
-                m_producer.reset(m_producer->cut(old_in, old_out));
+                m_producer->set_in_and_out(old_in, old_out);
                 return true;
             }
             return false;

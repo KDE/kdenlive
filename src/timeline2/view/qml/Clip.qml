@@ -556,8 +556,10 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     clipRoot.draggedX = mapToItem(null, x, y).x
                     var delta = Math.round((draggedX - originalX) / timeScale)
-                    var newDuration = clipRoot.clipDuration - delta
-                    clipRoot.trimmingIn(clipRoot, newDuration, mouse)
+                    if (delta !== 0) {
+                        var newDuration = clipRoot.clipDuration - delta
+                        clipRoot.trimmingIn(clipRoot, newDuration, mouse)
+                    }
                 }
             }
             onEntered: parent.opacity = 0.5
