@@ -190,11 +190,11 @@ bool TimelineWidget::scrub()
 }
 
 
-int TimelineWidget::insertClip(int tid, int position, QString data_str)
+int TimelineWidget::insertClip(int tid, int position, QString data_str, bool logUndo)
 {
     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(m_binController->getBinProducer(data_str));
     int id;
-    if (!m_model->requestClipInsertion(prod, tid, position, id)) {
+    if (!m_model->requestClipInsertion(prod, tid, position, id, logUndo)) {
         id = -1;
     }
     return id;
@@ -209,11 +209,6 @@ void TimelineWidget::deleteSelectedClips()
     foreach(int cid, m_selection.selectedClips) {
         m_model->requestClipDeletion(cid);
     }
-}
-
-void TimelineWidget::deleteClip(int cid)
-{
-    m_model->requestClipDeletion(cid);
 }
 
 void TimelineWidget::triggerAction(const QString &name)
@@ -342,3 +337,4 @@ void TimelineWidget::unGroupSelection(int cid)
 {
     m_model->requestClipUngroup(cid);
 }
+

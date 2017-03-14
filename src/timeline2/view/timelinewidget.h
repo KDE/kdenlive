@@ -91,17 +91,13 @@ public:
        @param tid is the destination track
        @param position is the timeline position
        @param xml is the data describing the dropped clip
+       @param logUndo if set to false, no undo object is stored
        @return the id of the inserted clip
      */
-    Q_INVOKABLE int insertClip(int tid, int position, QString xml);
+    Q_INVOKABLE int insertClip(int tid, int position, QString xml, bool logUndo);
     /* @brief Request deletion of the currently selected clips
      */
     Q_INVOKABLE void deleteSelectedClips();
-
-    /* @brief Request deletion of the given clip
-       @param cid id of the clip to delete
-    */
-    Q_INVOKABLE void deleteClip(int cid);
 
     Q_INVOKABLE int requestBestSnapPos(int pos, int duration);
 

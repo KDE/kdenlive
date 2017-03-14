@@ -258,7 +258,7 @@ int TimelineModel::suggestClipMove(int cid, int tid, int position)
     return position;
 }
 
-bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id)
+bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id, bool logUndo)
 {
 #ifdef LOGGING
     m_logFile << "{" <<std::endl<< "std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, \"color\", \"red\");" << std::endl;
@@ -271,7 +271,7 @@ bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, in
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     bool result = requestClipInsertion(prod, trackId, position, id, undo, redo);
-    if (result) {
+    if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
     return result;
@@ -299,7 +299,7 @@ bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, in
     return true;
 }
 
-bool TimelineModel::requestClipDeletion(int cid)
+bool TimelineModel::requestClipDeletion(int cid, bool logUndo)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestClipDeletion("<<cid<<"); " <<std::endl;
@@ -312,7 +312,7 @@ bool TimelineModel::requestClipDeletion(int cid)
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     bool res = requestClipDeletion(cid, undo, redo);
-    if (res) {
+    if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Delete Clip"));
     }
     return res;

@@ -42,6 +42,7 @@ class ClipModel;
 class GroupsModel;
 class DocUndoStack;
 class SnapModel;
+class TimelineItemModel;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications.
@@ -96,12 +97,12 @@ public:
     /* @brief Returns the id of the track containing clip (-1 if it is not inserted)
        @param cid Id of the clip to test
      */
-    int getClipTrackId(int cid) const;
+    Q_INVOKABLE int getClipTrackId(int cid) const;
 
     /* @brief Returns the position of clip (-1 if it is not inserted)
        @param cid Id of the clip to test
     */
-    int getClipPosition(int cid) const;
+    Q_INVOKABLE int getClipPosition(int cid) const;
 
     /* @brief Returns the duration of a clip
        @param cid Id of the clip to test
@@ -150,8 +151,9 @@ public:
        @param track Id of the track where to insert
        @param Requested position
        @param ID return parameter of the id of the inserted clip
+       @param logUndo if set to false, no undo object is stored
     */
-    bool requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id);
+    bool requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id, Fun& undo, Fun& redo);
 
@@ -160,8 +162,9 @@ public:
        Returns true on success. If it fails, nothing is modified.
        If the clip is in a group, the call is deferred to requestGroupDeletion
        @param cid is the ID of the clip
+       @param logUndo if set to false, no undo object is stored
     */
-    bool requestClipDeletion(int cid);
+    Q_INVOKABLE bool requestClipDeletion(int cid, bool logUndo = true);
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipDeletion(int cid, Fun &undo, Fun &redo);
 

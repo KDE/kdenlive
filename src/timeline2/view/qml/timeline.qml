@@ -60,6 +60,9 @@ Rectangle {
     property int duration: timeline.duration
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
     property int clipBeingDroppedId: -1
+    property int clipBeingDroppedData
+    property int droppedPosition: -1
+    property int droppedTrack: -1
     property int clipBeingMovedId: -1
     //property alias ripple: toolbar.ripple
 
@@ -75,9 +78,11 @@ Rectangle {
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                droppedPosition = frame
                 if (track >= 0) {
                     //drag.acceptProposedAction()
-                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'))
+                    clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
+                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'), false)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {
                     drag.accepted = false
@@ -87,9 +92,11 @@ Rectangle {
         onExited:{
             Logic.dropped()
             if (clipBeingDroppedId != -1) {
-                timeline.deleteClip(clipBeingDroppedId)
+                controller.requestClipDeletion(clipBeingDroppedId, false)
             }
             clipBeingDroppedId = -1
+            droppedPosition = -1
+            droppedTrack = -1
             scrollTimer.running = false
         }
         onPositionChanged: {
@@ -107,7 +114,17 @@ Rectangle {
             }
         }
         onDropped: {
+            if (clipBeingDroppedId != -1) {
+                var frame = controller.getClipPosition(clipBeingDroppedId)
+                var track = controller.getClipTrackId(clipBeingDroppedId)
+                // we simulate insertion at the final position so that stored undo has correct value
+                controller.requestClipDeletion(clipBeingDroppedId, false)
+                timeline.insertClip(track, frame, clipBeingDroppedData, true)
+            }
             Logic.dropped()
+            clipBeingDroppedId = -1
+            droppedPosition = -1
+            droppedTrack = -1
             scrollTimer.running = false
         }
     }
