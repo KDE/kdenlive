@@ -45,6 +45,7 @@ int TimelineModel::next_id = 0;
 
 
 TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
+    QAbstractItemModel(),
     m_tractor(new Mlt::Tractor(*profile)),
     m_snaps(new SnapModel()),
     m_undoStack(undo_stack),

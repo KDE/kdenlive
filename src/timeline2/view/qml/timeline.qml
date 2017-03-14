@@ -97,7 +97,8 @@ Rectangle {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 if (clipBeingDroppedId >= 0){
-                    timeline.moveClip(clipBeingDroppedId, track, frame, true)
+                    frame = controller.suggestClipMove(cIndex, toTrack, frame);
+                    controller.requestClipMove(clipBeingDroppedId, track, frame, true, false)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
 
                 } else {
@@ -455,7 +456,7 @@ Rectangle {
                 var frame = Math.round(clip.x / timeScale)
                 if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(currentTrack)
-                    if (timeline.allowMoveClip(clip.clipId, track.trackId, frame)) {
+                    if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false)) {
                         clip.reparent(track)
                         clip.trackIndex = track.DelegateModel.itemsIndex
                         clip.trackId = track.trackId

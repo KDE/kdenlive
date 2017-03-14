@@ -32,8 +32,7 @@
 #include "macros.hpp"
 
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
-    QAbstractItemModel()
-    , TimelineModel(profile, undo_stack)
+    TimelineModel(profile, undo_stack)
 {
 }
 

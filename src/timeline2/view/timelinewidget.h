@@ -73,39 +73,6 @@ public:
     /* @brief set current timeline's zoom factor
      */
     Q_INVOKABLE void setScaleFactor(double scale);
-    /* @brief requests a clip move
-       @param cid is the clip's id
-       @param tid is the destination track
-       @param position is the requested position on track
-       @param logUndo is true if the operation should be stored in the undo stack
-     */
-    Q_INVOKABLE bool moveClip(int cid, int tid, int position, bool logUndo = true);
-    /* @brief Ask if a clip move should be allowed (enough blank space on track)
-       @param cid is the clip's id
-       @param tid is the destination track
-       @param position is the requested position on track
-     */
-    Q_INVOKABLE bool allowMoveClip(int cid, int tid, int position);
-    /* @brief Request best appropriate move (accounting snap / other clips)
-       @param cid is the clip's id
-       @param tid is the destination track
-       @param position is the requested position on track
-     */
-    Q_INVOKABLE int suggestClipMove(int cid, int tid, int position);
-    /* @brief Request a clip resize based on a length offset
-       @param cid is the clip's id
-       @param delta is the offset compared to original length
-       @param right is true if resizing the end of the clip (false when resizing start)
-       @param logUndo is true if the operation should be stored in the undo stack
-     */
-    Q_INVOKABLE bool trimClip(int cid, int delta, bool right, bool logUndo = true);
-    /* @brief Request a clip resize
-       @param cid is the clip's id
-       @param duration is the new clip's duration
-       @param right is true if resizing the end of the clip (false when resizing start)
-       @param logUndo is true if the operation should be stored in the undo stack
-     */
-    Q_INVOKABLE bool resizeClip(int cid, int duration, bool right, bool logUndo = true);
     /* @brief Returns the project's duration (tractor)
      */
     Q_INVOKABLE int duration() const;

@@ -22,7 +22,6 @@
 #ifndef TIMELINEITEMMODEL_H
 #define TIMELINEITEMMODEL_H
 
-#include <QAbstractItemModel>
 #include "undohelper.hpp"
 #include "timelinemodel.hpp"
 
@@ -43,7 +42,7 @@
 
 */
 
-class TimelineItemModel : public QAbstractItemModel, public TimelineModel
+class TimelineItemModel : public TimelineModel
 {
 Q_OBJECT
 

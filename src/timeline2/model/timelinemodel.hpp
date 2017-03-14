@@ -29,6 +29,7 @@
 #include <mlt++/MltTractor.h>
 #include "undohelper.hpp"
 #include <QReadWriteLock>
+#include <QAbstractItemModel>
 
 
 #define LOGGING 1 //If set to 1, we log the actions requested to the timeline as a reproducer script
@@ -68,8 +69,9 @@ class SnapModel;
    A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to. 
 
 */
-class TimelineModel : public std::enable_shared_from_this<TimelineModel>
+class TimelineModel : public QAbstractItemModel, public std::enable_shared_from_this<TimelineModel>
 {
+    Q_OBJECT
 
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
@@ -127,19 +129,19 @@ public:
        @param updateView if set to false, no signal is sent to qml
        @param logUndo if set to false, no undo object is stored
     */
-    bool requestClipMove(int cid, int tid, int position, bool updateView = true, bool logUndo = true);
+    Q_INVOKABLE bool requestClipMove(int cid, int tid, int position, bool updateView = true, bool logUndo = true);
 
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo);
 public:
 
-    /* @brief Given an intended move, try to suggest a more valid one
+    /* @brief Given an intended move, try to suggest a more valid one (accounting for snaps and missing UI calls)
        @param cid id of the clip to move
        @param tid id of the target track
        @param position target position of the clip
      */
-    int suggestClipMove(int cid, int tid, int position);
+    Q_INVOKABLE int suggestClipMove(int cid, int tid, int position);
 
     /* @brief Request clip insertion at given position.
        This action is undoable
@@ -193,7 +195,7 @@ public:
        @param logUndo if set to true, an undo object is created
        @param snap if set to true, the resize order will be coerced to use the snapping grid
     */
-    bool requestClipResize(int cid, int size, bool right, bool logUndo = true, bool snap = false);
+    Q_INVOKABLE bool requestClipResize(int cid, int size, bool right, bool logUndo = true, bool snap = false);
 
     /* @brief Similar to requestClipResize but takes a delta instead of absolute size
        This action is undoable

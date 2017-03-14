@@ -189,29 +189,6 @@ bool TimelineWidget::scrub()
     return false;
 }
 
-bool TimelineWidget::moveClip(int cid, int tid, int position, bool logUndo)
-{
-    return m_model->requestClipMove(cid, tid, position, logUndo, logUndo);
-}
-
-bool TimelineWidget::allowMoveClip(int cid, int tid, int position)
-{
-    return m_model->requestClipMove(cid, tid, position, false, false);
-}
-
-int TimelineWidget::suggestClipMove(int cid, int tid, int position)
-{
-    return m_model->suggestClipMove(cid, tid, position);
-}
-bool TimelineWidget::trimClip(int cid, int delta, bool right, bool logUndo)
-{
-    return m_model->requestClipTrim(cid, delta, right, false, logUndo);
-}
-
-bool TimelineWidget::resizeClip(int cid, int duration, bool right, bool logUndo)
-{
-    return m_model->requestClipResize(cid, duration, right, logUndo, true);
-}
 
 int TimelineWidget::insertClip(int tid, int position, QString data_str)
 {

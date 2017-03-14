@@ -98,27 +98,26 @@ Column{
                 trackRoot.clipClicked(clip, trackRoot, shiftClick);
                 clip.draggedX = clip.x
             }
-            onMoved: {
+            onMoved: { //called when the movement is finished
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
                 var origFrame = Math.round(clip.originalX / timeScale)
 
                 console.log("Asking move ",toTrack, cIndex, frame)
-                timeline.moveClip(cIndex, clip.originalTrackId, origFrame, false)
-                var val = timeline.moveClip(cIndex, toTrack, frame, true)
+                controller.requestClipMove(cIndex, clip.originalTrackId, origFrame, false, false)
+                var val = controller.requestClipMove(cIndex, toTrack, frame, true, true)
                 console.log("RESULT", val)
             }
-            onDragged: {
+            onDragged: { //called when the move is in process
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
 
-                frame = timeline.suggestClipMove(cIndex, toTrack, frame);
+                frame = controller.suggestClipMove(cIndex, toTrack, frame);
 
-                //console.log("dragging clip x: ", clip.x, " ID: "<<clip.originalClipIndex)
-                if (!timeline.allowMoveClip(cIndex, toTrack, frame)) {
+                if (!controller.requestClipMove(cIndex, toTrack, frame, false, false)) {
                     // Abort move
                     clip.x = clip.draggedX
                 } else {
@@ -129,7 +128,7 @@ Column{
                 clip.draggedX = clip.x
             }
             onTrimmingIn: {
-                if (timeline.resizeClip(clip.clipId, newDuration, false, false)) {
+                if (controller.requestClipResize(clip.clipId, newDuration, false, false, true)) {
                     clip.lastValidDuration = newDuration
                     clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
@@ -143,11 +142,11 @@ Column{
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                timeline.resizeClip(clip.clipId, clip.originalDuration, false, false)
-                timeline.resizeClip(clip.clipId, clip.lastValidDuration, false, true)
+                controller.requestClipResize(clip.clipId, clip.originalDuration, false, false, true)
+                controller.requestClipResize(clip.clipId, clip.lastValidDuration, false, true, true)
             }
             onTrimmingOut: {
-                if (timeline.resizeClip(clip.clipId, newDuration, true, false)) {
+                if (controller.requestClipResize(clip.clipId, newDuration, true, false, true)) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
@@ -160,8 +159,8 @@ Column{
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                timeline.resizeClip(clip.clipId, clip.originalDuration, true, false)
-                timeline.resizeClip(clip.clipId, clip.lastValidDuration, true, true)
+                controller.requestClipResize(clip.clipId, clip.originalDuration, true, false, true)
+                controller.requestClipResize(clip.clipId, clip.lastValidDuration, true, true, true)
             }
 
             Component.onCompleted: {
