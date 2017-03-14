@@ -99,6 +99,19 @@ Rectangle {
         anchors.leftMargin: 2
         anchors.topMargin: 2
 
+        RowLayout {
+            spacing: 6
+            Layout.leftMargin: 2
+            ToolButton {
+                id: expandButton
+                implicitWidth: 16
+                implicitHeight: 16
+                iconName: buttonBar.visible ? 'arrow-down' : 'arrow-right'
+                onClicked: {
+                    trackHeadRoot.myTrackHeight = buttonBar.visible ? nameEdit.height : '100'
+                }
+                tooltip: buttonBar.visible? qsTr('Minimize') : qsTr('Expand')
+            }
         Rectangle {
             id: trackLabel
             color: 'transparent'
@@ -141,8 +154,10 @@ Rectangle {
                 onFocusChanged: visible = focus
             }
         }
+        }
         RowLayout {
             spacing: 6
+            id: buttonBar
             visible: (trackHeadRoot.height > trackLabel.height + muteButton.height + resizer.height + 4)
             Layout.leftMargin: 2
             Rectangle {
