@@ -97,7 +97,6 @@ Rectangle {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 if (clipBeingDroppedId >= 0){
-                    frame = controller.suggestClipMove(cIndex, toTrack, frame);
                     controller.requestClipMove(clipBeingDroppedId, track, frame, true, false)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
 
