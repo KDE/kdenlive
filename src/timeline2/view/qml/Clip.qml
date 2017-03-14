@@ -238,7 +238,7 @@ Rectangle {
             id: markerBase
             width: 1 // modelDa
             height: parent.height
-            x: markers[2 * modelData - clipRoot.inPoint] * timeScale;
+            x: (markers[2 * modelData] - clipRoot.inPoint) * timeScale;
             color: 'red'
         }
         Rectangle {
