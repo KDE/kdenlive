@@ -49,7 +49,6 @@ function getTrackIdFromPos(pos) {
 }
 
 function dropped() {
-    dropTarget.visible = false
     scrollTimer.running = false
 }
 
