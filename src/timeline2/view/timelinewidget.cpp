@@ -29,6 +29,7 @@
 #include "bin/bin.h"
 
 #include <KActionCollection>
+#include <KDeclarative/KDeclarative>
 // #include <QUrl>
 #include <QQuickItem>
 #include <QQmlContext>
@@ -54,6 +55,10 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinControlle
     proxyModel->setSortRole(TimelineItemModel::ItemIdRole);
     proxyModel->sort(0, Qt::DescendingOrder);
 
+    KDeclarative::KDeclarative kdeclarative;
+    kdeclarative.setDeclarativeEngine(engine());
+    kdeclarative.initialize();
+    kdeclarative.setupBindings();
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     rootContext()->setContextProperty("multitrack", proxyModel);
     rootContext()->setContextProperty("controller", m_model.get());

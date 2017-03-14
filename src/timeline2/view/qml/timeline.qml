@@ -131,7 +131,7 @@ Rectangle {
     Menu {
         id: menu
         MenuItem {
-            text: qsTr('Add Audio Track')
+            text: i18n('Add Audio Track')
             shortcut: 'Ctrl+U'
             onTriggered: timeline.addAudioTrack();
         }
@@ -139,12 +139,12 @@ Rectangle {
     Menu {
         id: headerMenu
         MenuItem {
-            text: qsTr('Add Track')
+            text: i18n('Add Track')
             shortcut: 'Ctrl+U'
             onTriggered: timeline.addTrack(currentTrack);
         }
         MenuItem {
-            text: qsTr('Delete Track')
+            text: i18n('Delete Track')
             //shortcut: 'Ctrl+U'
             onTriggered: timeline.deleteTrack(currentTrack);
         }

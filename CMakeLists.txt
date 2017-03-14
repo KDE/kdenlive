@@ -90,9 +90,7 @@ else()
   set(KF5_ICON_COMPATIBILITY TRUE)
 endif()
 
-find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets 
-                            DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Crash
-                 OPTIONAL_COMPONENTS DocTools FileMetaData)
+find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Crash Declarative OPTIONAL_COMPONENTS DocTools FileMetaData)
 
 if (KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")

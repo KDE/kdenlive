@@ -110,7 +110,7 @@ Rectangle {
                 onClicked: {
                     trackHeadRoot.myTrackHeight = buttonBar.visible ? nameEdit.height : '100'
                 }
-                tooltip: buttonBar.visible? qsTr('Minimize') : qsTr('Expand')
+                tooltip: buttonBar.visible? i18n('Minimize') : i18n('Expand')
             }
         Rectangle {
             id: trackLabel
@@ -219,7 +219,7 @@ Rectangle {
                 iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
                 iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
                 onClicked: controller.setTrackProperty(trackId, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
-                tooltip: isMute? qsTr('Unmute') : qsTr('Mute')
+                tooltip: isMute? i18n('Unmute') : i18n('Mute')
             }
 
             ToolButton {
@@ -230,7 +230,7 @@ Rectangle {
                 iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
                 iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
                 onClicked: controller.setTrackProperty(trackId, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
-                tooltip: isHidden? qsTr('Show') : qsTr('Hide')
+                tooltip: isHidden? i18n('Show') : i18n('Hide')
             }
 
             ToolButton {
@@ -240,7 +240,7 @@ Rectangle {
                 iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
                 iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svgz' : 'qrc:///pics/kdenlive-unlock.svgz'
                 onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
-                tooltip: isLocked? qsTr('Unlock track') : qsTr('Lock track')
+                tooltip: isLocked? i18n('Unlock track') : i18n('Lock track')
             }
         }
         Rectangle {

@@ -614,7 +614,7 @@ Rectangle {
         }
         MenuItem {
             visible: true // !isBlank && !isTransition
-            text: qsTr('Cut')
+            text: i18n('Cut')
             onTriggered: {
                 if (!trackRoot.isLocked) {
                     timeline.copyClip(trackIndex, index)
@@ -626,30 +626,30 @@ Rectangle {
         }
         MenuItem {
             visible: !grouped && trackRoot.selection.length > 1
-            text: qsTr('Group')
+            text: i18n('Group')
             onTriggered: timeline.groupSelection()
         }
         MenuItem {
             visible: grouped
-            text: qsTr('Ungroup')
+            text: i18n('Ungroup')
             onTriggered: timeline.unGroupSelection(clipId)
         }
 
         MenuItem {
             visible: true //!isBlank && !isTransition
-            text: qsTr('Copy')
+            text: i18n('Copy')
             onTriggered: timeline.copyClip(trackIndex, index)
         }
         MenuSeparator {
             visible: !isBlank && !isTransition
         }
         MenuItem {
-            text: qsTr('Remove')
+            text: i18n('Remove')
             onTriggered: timeline.triggerAction('delete_timeline_clip')
         }
         MenuItem {
             visible: true //!isBlank
-            text: qsTr('Lift')
+            text: i18n('Lift')
             onTriggered: timeline.lift(trackIndex, index)
         }
         MenuSeparator {
@@ -657,17 +657,17 @@ Rectangle {
         }
         MenuItem {
             visible: true //!isBlank && !isTransition
-            text: qsTr('Split At Playhead (S)')
+            text: i18n('Split At Playhead (S)')
             onTriggered: timeline.splitClip(trackIndex, index)
         }
         MenuItem {
             id: mergeItem
-            text: qsTr('Merge with next clip')
+            text: i18n('Merge with next clip')
             onTriggered: timeline.mergeClipWithNext(trackIndex, index, false)
         }
         MenuItem {
             visible: !isBlank && !isTransition
-            text: qsTr('Rebuild Audio Waveform')
+            text: i18n('Rebuild Audio Waveform')
             onTriggered: timeline.remakeAudioLevels(trackIndex, index)
         }
         /*onPopupVisibleChanged: {
