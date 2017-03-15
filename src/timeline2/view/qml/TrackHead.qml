@@ -127,6 +127,7 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     nameEdit.visible = true
+                    nameEdit.focus = true
                     nameEdit.selectAll()
                 }
             }
@@ -148,11 +149,10 @@ Rectangle {
                 style: TextFieldStyle {
                     font.pixelSize: root.baseUnit * 1.5
                 }
-                onAccepted: {
+                onEditingFinished: {
                     controller.setTrackProperty(trackId, "kdenlive:track_name", text)
                     visible = false
                 }
-                onFocusChanged: visible = focus
             }
         }
         }
