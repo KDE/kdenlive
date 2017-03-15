@@ -82,7 +82,7 @@ Rectangle {
                 if (track >= 0) {
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
-                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'), false)
+                    clipBeingDroppedId = timeline.insertClip(track, frame, clipBeingDroppedData, false)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {
                     drag.accepted = false
@@ -108,7 +108,7 @@ Rectangle {
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
 
                 } else {
-                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'))
+                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'), false)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 }
             }
