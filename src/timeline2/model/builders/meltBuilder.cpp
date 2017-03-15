@@ -77,6 +77,11 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
             if (!trackName.isEmpty()) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:track_name"), trackName.toUtf8().constData());
             }
+            int audioTrack = local_playlist.get_int("kdenlive:audio_track");
+            if (audioTrack == 1) {
+                // This is an audio track
+                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
+            }
             break;
         }
         default:

@@ -29,6 +29,7 @@
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltProfile.h>
 #include <QDebug>
+#include <QFileInfo>
 #include "macros.hpp"
 
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
@@ -202,7 +203,15 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         //TODO
         case NameRole:
         case Qt::DisplayRole:{
-            QString result = QString::fromUtf8("clip name");
+            QString result = clip->getProperty("kdenlive:clipname");
+            if (result.isEmpty()) {
+                result = clip->getProperty("resource");
+                if (!result.isEmpty()) {
+                    result = QFileInfo(result).fileName();
+                } else {
+                    result = clip->getProperty("mlt_service");
+                }
+            }
             return result;
         }
         case ResourceRole: {
@@ -260,7 +269,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             case IsHiddenRole:
                 return getTrackById_const(id)->getProperty("hide").toInt() & 1;
             case IsAudioRole:
-                return false;
+                return getTrackById_const(id)->getProperty("kdenlive:audio_track").toInt() == 1;
             case IsLockedRole:
                 return getTrackById_const(id)->getProperty("kdenlive:locked_track").toInt() == 1;
             case HeightRole: {

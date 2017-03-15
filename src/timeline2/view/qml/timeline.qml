@@ -50,6 +50,17 @@ Rectangle {
 
     }
 
+    function getTrackColor(isAudio, index, header) {
+        var color = (index % 2)? Qt.darker(activePalette.alternateBase, 1.4) : activePalette.alternateBase
+        if (isAudio) {
+            color = Qt.tint(color, "#1000cc00")
+        }
+        if (header) {
+            color = Qt.lighter(color, 1.2)
+        }
+        return color
+    }
+
     property int headerWidth: 140
     property int baseUnit: fontMetrics.height * 0.6
     property int currentTrack: 0
@@ -189,7 +200,7 @@ Rectangle {
                             isHidden: model.hidden
                             isComposite: model.composite
                             isLocked: model.locked
-                            isVideo: !model.audio
+                            isAudio: model.audio
                             width: headerWidth
                             height: model.trackHeight
                             selected: false
@@ -309,8 +320,7 @@ Rectangle {
                                 delegate: Rectangle {
                                     width: root.duration
                                     //Layout.fillWidth: true
-                                    color: (index === currentTrack)? selectedTrackColor : (index % 2)? activePalette.alternateBase : activePalette.base
-                                    opacity: 0.3
+                                    color: (index === currentTrack)? selectedTrackColor : getTrackColor(tracksRepeater.itemAt(index).isAudio, index, false)
                                     height: model.trackHeight
                                 }
                             }

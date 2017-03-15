@@ -30,7 +30,7 @@ Rectangle {
     property bool isHidden
     property int isComposite
     property bool isLocked
-    property bool isVideo
+    property bool isAudio
     property bool selected: false
     property bool current: false
     property int myTrackHeight
@@ -54,7 +54,7 @@ Rectangle {
             when: trackHeadRoot.selected
             PropertyChanges {
                 target: trackHeadRoot
-                //color: isVideo? root.shotcutBlue : 'darkseagreen'
+                //color: isAudio? root.shotcutBlue : 'darkseagreen'
             }
         },
         State {
@@ -70,7 +70,7 @@ Rectangle {
             name: 'normal'
             PropertyChanges {
                 target: trackHeadRoot
-                color: (index % 2)? activePalette.alternateBase : activePalette.base
+                color: getTrackColor(isAudio, index, true)
             }
         }
     ]
@@ -224,7 +224,7 @@ Rectangle {
 
             ToolButton {
                 id: hideButton
-                visible: isVideo
+                visible: !isAudio
                 implicitWidth: 20
                 implicitHeight: 20
                 iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
