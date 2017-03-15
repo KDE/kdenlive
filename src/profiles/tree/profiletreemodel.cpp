@@ -23,100 +23,21 @@
 #include "utils/KoIconUtils.h"
 #include "../profilerepository.hpp"
 #include "../profilemodel.hpp"
+#include "abstractmodel/treeitem.hpp"
 #include <vector>
 #include <QVector>
 #include <array>
 #include <KLocalizedString>
 
 
-class ProfileItem
-{
-public:
-    explicit ProfileItem(const QList<QVariant> &data, ProfileItem *parentItem = nullptr);
-    ~ProfileItem();
-
-    ProfileItem* appendChild(const QList<QVariant> &data);
-
-    ProfileItem *child(int row);
-    int childCount() const;
-    int columnCount() const;
-    QVariant data(int column) const;
-    int row() const;
-    ProfileItem *parentItem();
-    int depth() const;
-
-private:
-    QList<ProfileItem*> m_childItems;
-    QList<QVariant> m_itemData;
-    ProfileItem *m_parentItem;
-    int m_depth;
-};
-ProfileItem::ProfileItem(const QList<QVariant> &data, ProfileItem *parent)
-{
-    m_parentItem = parent;
-    m_itemData = data;
-    m_depth = 0;
-}
-
-ProfileItem::~ProfileItem()
-{
-    qDeleteAll(m_childItems);
-}
-
-ProfileItem* ProfileItem::appendChild(const QList<QVariant> &data)
-{
-    ProfileItem *child = new ProfileItem(data, this);
-    child->m_depth = m_depth + 1;
-    m_childItems.append(child);
-    return child;
-}
-
-ProfileItem *ProfileItem::child(int row)
-{
-    return m_childItems.value(row);
-}
-
-int ProfileItem::childCount() const
-{
-    return m_childItems.count();
-}
-
-int ProfileItem::columnCount() const
-{
-    return m_itemData.count();
-}
-
-QVariant ProfileItem::data(int column) const
-{
-    return m_itemData.value(column);
-}
-
-ProfileItem *ProfileItem::parentItem()
-{
-    return m_parentItem;
-}
-
-int ProfileItem::row() const
-{
-    if (m_parentItem)
-        return m_parentItem->m_childItems.indexOf(const_cast<ProfileItem*>(this));
-
-    return 0;
-}
-
-int ProfileItem::depth() const
-{
-    return m_depth;
-}
-
 
 ProfileTreeModel::ProfileTreeModel(QObject *parent)
-    : QAbstractItemModel(parent)
+    : AbstractTreeModel(parent)
 {
     QList<QVariant> rootData;
     rootData << "Description" << "Path" << "Height" << "Width" << "display_aspect_num"
              << "display_aspect_den" <<  "sample_aspect_ratio" << "fps" << "colorspace";
-    rootItem = new ProfileItem(rootData);
+    rootItem = new TreeItem(rootData);
 
     ProfileRepository::get()->refresh();
     QVector<QPair<QString, QString> > profiles = ProfileRepository::get()->getAllProfiles();
@@ -129,7 +50,7 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
     };
 
     //We define the filters as a vector of pairs. The first element correspond to the tree item holding matching profiles, and the array correspond to the filter itself
-    std::vector<std::pair<ProfileItem*, std::array<QVariant, nbCrit> > > filters{
+    std::vector<std::pair<TreeItem*, std::array<QVariant, nbCrit> > > filters{
         {createCat(i18n("5K (Wide 2160)")), {{5120, 2160, -1}}},
         {createCat(i18n("4K UHD 2160")), {{3840, 2160, -1}}},
         {createCat(i18n("4K DCI 2160")), {{4096, 2160, -1}}},
@@ -182,18 +103,6 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
     }
 }
 
-ProfileTreeModel::~ProfileTreeModel()
-{
-    delete rootItem;
-}
-
-int ProfileTreeModel::columnCount(const QModelIndex &parent) const
-{
-    if (parent.isValid())
-        return static_cast<ProfileItem*>(parent.internalPointer())->columnCount();
-    else
-        return rootItem->columnCount();
-}
 
 QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
 {
@@ -201,7 +110,7 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    ProfileItem *item = static_cast<ProfileItem*>(index.internalPointer());
+    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
     if(role == Qt::DecorationRole) {
         if (item->depth() == 1) {
             return KoIconUtils::themedIcon(QStringLiteral("folder"));
@@ -216,82 +125,12 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
     return item->data(index.column());
 }
 
-Qt::ItemFlags ProfileTreeModel::flags(const QModelIndex &index) const
-{
-    const auto flags = QAbstractItemModel::flags(index);
-
-    if (index.isValid()) {
-        ProfileItem *item = static_cast<ProfileItem*>(index.internalPointer());
-        if (item->depth() == 1) {
-            return flags & ~Qt::ItemIsSelectable;
-        }
-    }
-    return flags;
-}
-
-QVariant ProfileTreeModel::headerData(int section, Qt::Orientation orientation,
-                               int role) const
-{
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return rootItem->data(section);
-
-    return QVariant();
-}
-
-QModelIndex ProfileTreeModel::index(int row, int column, const QModelIndex &parent)
-            const
-{
-    if (!hasIndex(row, column, parent))
-        return QModelIndex();
-
-    ProfileItem *parentItem;
-
-    if (!parent.isValid())
-        parentItem = rootItem;
-    else
-        parentItem = static_cast<ProfileItem*>(parent.internalPointer());
-
-    ProfileItem *childItem = parentItem->child(row);
-    if (childItem)
-        return createIndex(row, column, childItem);
-    else
-        return QModelIndex();
-}
-
-QModelIndex ProfileTreeModel::parent(const QModelIndex &index) const
-{
-    if (!index.isValid())
-        return QModelIndex();
-
-    ProfileItem *childItem = static_cast<ProfileItem*>(index.internalPointer());
-    ProfileItem *parentItem = childItem->parentItem();
-
-    if (parentItem == rootItem)
-        return QModelIndex();
-
-    return createIndex(parentItem->row(), 0, parentItem);
-}
-
-
-int ProfileTreeModel::rowCount(const QModelIndex &parent) const
-{
-    ProfileItem *parentItem;
-    if (parent.column() > 0)
-        return 0;
-
-    if (!parent.isValid())
-        parentItem = rootItem;
-    else
-        parentItem = static_cast<ProfileItem*>(parent.internalPointer());
-
-    return parentItem->childCount();
-}
 
 //static
 QString ProfileTreeModel::getProfile(const QModelIndex& index)
 {
     if (index.isValid()) {
-        ProfileItem *item = static_cast<ProfileItem*>(index.internalPointer());
+        TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
         if (item->depth() == 2) {
             return item->data(1).toString();
         }
@@ -304,10 +143,10 @@ QModelIndex ProfileTreeModel::findProfile(const QString& profile)
     // we iterate over categories
     for (int i = 0; i < rootItem->childCount(); ++i) {
         // we iterate over profiles of the category
-        ProfileItem *category = rootItem->child(i);
+        TreeItem *category = rootItem->child(i);
         for (int j = 0; j < category->childCount(); ++j) {
             // we retrieve profile path
-            ProfileItem* child = category->child(j);
+            TreeItem* child = category->child(j);
             QString path = child->data(1).toString();
             if (path == profile) {
                 return createIndex(j, 0, child);

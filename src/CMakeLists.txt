@@ -91,6 +91,7 @@ set_package_properties(QtScript PROPERTIES
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 
+add_subdirectory(abstractmodel)
 add_subdirectory(doc)
 add_subdirectory(project)
 add_subdirectory(timeline)
