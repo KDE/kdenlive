@@ -35,7 +35,8 @@ Rectangle {
     property bool current: false
     property int myTrackHeight
     property int trackId : -42
-
+    border.width: 1
+    border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
     signal clicked()
 
     function pulseLockButton() {
@@ -43,9 +44,9 @@ Rectangle {
     }
 
     SystemPalette { id: activePalette }
-    color: selected ? selectedTrackColor : (index % 2)? activePalette.alternateBase : activePalette.base
-    border.color: selected? 'red' : 'transparent'
-    border.width: selected? 1 : 0
+    color: selected ? selectedTrackColor : getTrackColor(isAudio, true)
+    //border.color: selected? 'red' : 'transparent'
+    //border.width: selected? 1 : 0
     clip: true
     state: 'normal'
     states: [
@@ -70,7 +71,7 @@ Rectangle {
             name: 'normal'
             PropertyChanges {
                 target: trackHeadRoot
-                color: getTrackColor(isAudio, index, true)
+                color: getTrackColor(isAudio, true)
             }
         }
     ]
@@ -244,6 +245,7 @@ Rectangle {
             }
         }
         Rectangle {
+            // Spacer
             color: "transparent"
             Layout.fillWidth: true
             Layout.fillHeight: true

@@ -50,21 +50,21 @@ Rectangle {
 
     }
 
-    function getTrackColor(isAudio, index, header) {
-        var color = (index % 2)? Qt.darker(activePalette.alternateBase, 1.4) : activePalette.alternateBase
-        if (isAudio) {
-            color = Qt.tint(color, "#1000cc00")
+    function getTrackColor(audio, header) {
+        var col = activePalette.alternateBase
+        if (audio) {
+            col = Qt.tint(col, "#1000cc00")
         }
         if (header) {
-            color = Qt.lighter(color, 1.2)
+            col = Qt.darker(col, 1.05)
         }
-        return color
+        return col
     }
 
     property int headerWidth: 140
     property int baseUnit: fontMetrics.height * 0.6
     property int currentTrack: 0
-    property color selectedTrackColor: activePalette.highlight //.rgba(0.8, 0.8, 0, 0.3);
+    property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
     property alias trackCount: tracksRepeater.count
     property bool stopScrolling: false
     property int seekPos: 0
@@ -191,6 +191,7 @@ Rectangle {
 
                 Column {
                     id: trackHeaders
+                    spacing: 0
                     Repeater {
                         id: trackHeaderRepeater
                         model: multitrack
@@ -220,14 +221,6 @@ Rectangle {
                             }
                     }
                 }
-            }
-            Rectangle {
-                    // thin dividing line between headers and tracks
-                    //color: activePalette.windowText
-                    width: 1
-                    x: parent.x + parent.width
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
             }
             }
         }
@@ -319,9 +312,11 @@ Rectangle {
                                 id: trackBaseRepeater
                                 delegate: Rectangle {
                                     width: root.duration
+                                    border.width: 1
+                                    border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
                                     //Layout.fillWidth: true
-                                    color: (index === currentTrack)? selectedTrackColor : getTrackColor(tracksRepeater.itemAt(index).isAudio, index, false)
                                     height: model.trackHeight
+                                    color: (index === currentTrack)? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)
                                 }
                             }
                         }
