@@ -115,6 +115,7 @@ add_subdirectory(mltcontroller)
 add_subdirectory(bin)
 add_subdirectory(qml)
 add_subdirectory(profiles)
+add_subdirectory(xml)
 
 if (Qt5WebKitWidgets_FOUND)
     add_subdirectory(qt-oauth-lib)

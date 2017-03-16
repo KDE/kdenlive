@@ -74,7 +74,9 @@ protected:
 
     struct EffectInfo
     {
-        QString name, description, author, version;
+        QString name, description, author, version_str;
+        double version;
+        QString custom_xml_path;
         EffectType type;
     };
 
@@ -87,6 +89,9 @@ protected:
     */
     static bool parseEffectFromMlt(const QString& effectId, EffectInfo & res);
 
+    /* @brief Retrieves additional info about effects from a custom XML file
+     */
+    void parseCustomEffectsFile(const QString& file_name);
     static std::unique_ptr<EffectsRepository> instance;
     static std::once_flag m_onceFlag; //flag to create the repository only once;
 
