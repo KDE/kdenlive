@@ -25,6 +25,7 @@
 #include <QIcon>
 #include <QPainter>
 #include <QFont>
+#include "utils/KoIconUtils.h"
 
 EffectIconProvider::EffectIconProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
@@ -35,10 +36,19 @@ QImage EffectIconProvider::requestImage(const QString &id, QSize *size, const QS
 {
     QImage result;
 
-    // id is [hash]/mlt_service/resource#frameNumber
+    if (id == QStringLiteral("root") || id.isEmpty()){
+        QPixmap pix(30,30);
+        return pix.toImage();
+    }
+
     if (EffectsRepository::get()->hasEffect(id)) {
-        QString name = EffectsRepository::get()->getEffectName(id);
-        result = makeIcon(id, name, requestedSize);
+        if (EffectsRepository::get()->getEffectType(id) == EffectType::Custom) {
+            QIcon folder_icon = KoIconUtils::themedIcon(QStringLiteral("folder"));
+            result = folder_icon.pixmap(30,30).toImage();
+        } else {
+            QString name = EffectsRepository::get()->getEffectName(id);
+            result = makeIcon(id, name, requestedSize);
+        }
         if (size) {
             *size = result.size();
         }
@@ -51,7 +61,6 @@ QImage EffectIconProvider::requestImage(const QString &id, QSize *size, const QS
 
 QImage EffectIconProvider::makeIcon(const QString &effectId, const QString &effectName, const QSize& size)
 {
-    qDebug() <<"Painting"<<effectName<<"size"<<size;
     QPixmap pix(30,30);
     if (effectName.isEmpty()) {
         pix.fill(Qt::red);
@@ -63,7 +72,6 @@ QImage EffectIconProvider::makeIcon(const QString &effectId, const QString &effe
     QString t = "#" + QString::number(hex, 16).toUpper().left(6);
     QColor col(t);
     bool isAudio = EffectsRepository::get()->getEffectType(effectId) == EffectType::Audio;
-    qDebug() <<"is audio"<<isAudio;
     if (isAudio) {
         pix.fill(Qt::transparent);
     } else {
