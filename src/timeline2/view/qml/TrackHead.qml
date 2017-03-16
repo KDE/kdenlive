@@ -237,44 +237,44 @@ Rectangle {
             Layout.fillHeight: true
         }
         Rectangle {
-        id: resizer
-        Layout.fillWidth: true
-        height: 5
-        color: 'red'
-        opacity: 0
-        Drag.active: trimInMouseArea.drag.active
-        Drag.proposedAction: Qt.MoveAction
+            id: resizer
+            Layout.fillWidth: true
+            height: 5
+            color: 'red'
+            opacity: 0
+            Drag.active: trimInMouseArea.drag.active
+            Drag.proposedAction: Qt.MoveAction
 
-        MouseArea {
-            id: trimInMouseArea
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.SizeVerCursor
-            drag.target: parent
-            drag.axis: Drag.YAxis
-            property double startY
-            property double originalY
+            MouseArea {
+                id: trimInMouseArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.SizeVerCursor
+                drag.target: parent
+                drag.axis: Drag.YAxis
+                property double startY
+                property double originalY
 
-            onPressed: {
-                root.stopScrolling = true
-                startY = mapToItem(null, x, y).y
-                originalY = trackHeadRoot.height // reusing originalX to accumulate delta for bubble help
-            }
-            onReleased: {
-                root.stopScrolling = false
-                parent.opacity = 0
-            }
-            onEntered: parent.opacity = 0.5
-            onExited: parent.opacity = 0
-            onPositionChanged: {
-                if (mouse.buttons === Qt.LeftButton) {
-                    parent.opacity = 0.5
-                    var newHeight = originalY + (mapToItem(null, x, y).y - startY)
-                    newHeight =  Math.max(trackLabel.height + resizer.height + 4, newHeight)
-                    trackHeadRoot.myTrackHeight = newHeight
+                onPressed: {
+                    root.stopScrolling = true
+                    startY = mapToItem(null, x, y).y
+                    originalY = trackHeadRoot.height // reusing originalX to accumulate delta for bubble help
+                }
+                onReleased: {
+                    root.stopScrolling = false
+                    parent.opacity = 0
+                }
+                onEntered: parent.opacity = 0.5
+                onExited: parent.opacity = 0
+                onPositionChanged: {
+                    if (mouse.buttons === Qt.LeftButton) {
+                        parent.opacity = 0.5
+                        var newHeight = originalY + (mapToItem(null, x, y).y - startY)
+                        newHeight =  Math.max(trackLabel.height + resizer.height + 4, newHeight)
+                        trackHeadRoot.myTrackHeight = newHeight
+                    }
                 }
             }
-        }
         }
     }
 }
