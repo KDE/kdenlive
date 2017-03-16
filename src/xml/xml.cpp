@@ -25,13 +25,33 @@
 //static
 QString Xml::getSubTagContent(const QDomElement& element, const QString& tagName)
 {
-    QDomNodeList nodeList = element.elementsByTagName(tagName);
+    QVector<QDomNode> nodeList = getDirectChildrenByTagName(element, tagName);
     if (!nodeList.isEmpty()) {
-        if (nodeList.count() > 1) {
-            qDebug() << "Warning: "<<element.tagName()<<"provides several "<<tagName<<". We keep only first one.";
+        if (nodeList.size() > 1) {
+            QString str;
+            QTextStream stream(&str);
+            element.save(stream,4);
+            qDebug() << "Warning: "<<str<<"provides several "<<tagName<<". We keep only first one.";
         }
-        QString content = nodeList.item(0).toElement().text();
+        QString content = nodeList.at(0).toElement().text();
         return content;
     }
     return QString();
+}
+
+
+QVector<QDomNode> Xml::getDirectChildrenByTagName(const QDomElement& element, const QString& tagName)
+{
+    auto children = element.childNodes();
+    QVector<QDomNode> result;
+    for (int i = 0; i < children.count(); ++i) {
+        if (children.item(i).isNull()) {
+            continue;
+        }
+        QDomElement child = children.item(i).toElement();
+        if (child.tagName() == tagName) {
+            result.push_back(child);
+        }
+    }
+    return result;
 }
