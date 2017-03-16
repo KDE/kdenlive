@@ -27,7 +27,8 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     id: listRoot
-
+    SystemPalette { id: activePalette }
+    color: activePalette.window
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -72,6 +73,7 @@ Rectangle {
                 //This is a spacer
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                color: "transparent"
             }
             ToolButton {
                 id: showDescription
@@ -163,6 +165,7 @@ Rectangle {
                 }
                 Text{
                     text: effectlist.getName(styleData.index)
+                    color: activePalette.windowText
                 }
             }
             TableViewColumn { role: "id"; title: "Name"; width: 200 }
