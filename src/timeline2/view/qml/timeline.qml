@@ -75,9 +75,14 @@ Rectangle {
     property int droppedPosition: -1
     property int droppedTrack: -1
     property int clipBeingMovedId: -1
+    property real timeScale: timeline.scaleFactor
     //property alias ripple: toolbar.ripple
 
     //onCurrentTrackChanged: timeline.selection = []
+    onTimeScaleChanged: {
+        scrollView.flickableItem.contentX = Math.max(0, root.seekPos * timeline.scaleFactor - (scrollView.width / 2))
+        ruler.adjustStepSize()
+    }
 
     DropArea {
         width: root.width - headerWidth
@@ -285,7 +290,6 @@ Rectangle {
                         id: ruler
                         width: root.duration
                         index: index
-                        timeScale: timeline.scaleFactor
                     }
                 }
                 ScrollView {
@@ -347,10 +351,11 @@ Rectangle {
                 id: cursor
                 visible: timeline.position > -1
                 color: activePalette.text
-                width: 1
-                height: root.height - scrollView.__horizontalScrollBar.height
+                width: Math.max(1, 1 * timeline.scaleFactor)
+                opacity: (width > 2) ? 0.5 : 1
+                height: root.height - scrollView.__horizontalScrollBar.height - ruler.height
                 x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX
-                y: 0
+                y: ruler.height
             }
             Rectangle {
                 id: seekCursor
@@ -366,7 +371,7 @@ Rectangle {
                 id: playhead
                 visible: timeline.position > -1
                 height: baseUnit
-                width: baseUnit
+                width: baseUnit * 1.5
                 y: ruler.height - height
                 x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX - (width / 2)
             }
@@ -434,15 +439,11 @@ Rectangle {
             model: multitrack
             rootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
-            timeScale: timeline.scaleFactor
             width: root.duration * timeScale
             isAudio: audio
             isCurrentTrack: currentTrack === index
             trackId: item
             selection: timeline.selection
-            onTimeScaleChanged: {
-                scrollView.flickableItem.contentX = Math.max(0, root.seekPos * timeline.scaleFactor - (scrollView.width / 2))
-            }
             onClipClicked: {
                 currentTrack = track.DelegateModel.itemsIndex
                 if (shiftClick === 1) {

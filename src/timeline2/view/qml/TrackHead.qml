@@ -133,7 +133,6 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 4
-                    color: activePalette.windowText
                     elide: Qt.ElideRight
                 }
                 TextField {

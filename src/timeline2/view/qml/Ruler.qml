@@ -17,40 +17,51 @@
  */
 
 import QtQuick 2.0
-import QtQuick.Controls 1.0
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 
 Rectangle {
-    property int stepSize: fontMetrics.tightBoundingRect('00:00:00:00').width / 3
+    property int labelSize: fontMetrics.tightBoundingRect('00:00:00:00').width
+    property int stepSize: stepSize
+    property int frameSize: stepSize
     property int index: 0
     property real timeScale: timeline.scaleFactor
     property real fontUnit: root.baseUnit * 0.9
 
-
     SystemPalette { id: activePalette }
+
+    function adjustStepSize() {
+        if (timeScale > 19) {
+            frameSize = timeScale
+            stepSize = timeScale > labelSize * 1.3 ? timeScale : Math.floor(labelSize/timeScale+1) * timeScale
+        } else {
+            frameSize = labelSize / 3
+            stepSize = labelSize * 4 / 3
+        }
+    }
 
     id: rulerTop
     enabled: false
     height: fontMetrics.font.pixelSize * 2
-    color: activePalette.base
+    color: activePalette.window
 
     Repeater {
-        model: parent.width / stepSize
+        model: parent.width / frameSize
         Rectangle {
             anchors.bottom: rulerTop.bottom
             height: (index % 4)? ((index % 2) ? 3 : 7) : 14
             width: 1
             color: activePalette.windowText
-            x: index * stepSize
+            x: index * frameSize
         }
     }
     Repeater {
-        model: parent.width / stepSize / 4
+        model: parent.width / stepSize
         Label {
             anchors.top: rulerTop.top
             anchors.topMargin: 2
-            color: activePalette.windowText
-            x: index * stepSize * 4 + 2
-            text: timeline.timecode(index * stepSize * 4 / timeScale)
+            x: index * stepSize + 2
+            text: timeline.timecode(index * stepSize / timeScale)
             font.pointSize: fontUnit
         }
     }

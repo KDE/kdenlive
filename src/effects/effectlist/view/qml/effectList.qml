@@ -163,9 +163,8 @@ Rectangle {
                     visible: styleData.value != "root"
                     source: 'image://effecticon/' + styleData.value
                 }
-                Text{
+                Label{
                     text: effectlist.getName(styleData.index)
-                    color: activePalette.windowText
                 }
             }
             TableViewColumn { role: "id"; title: "Name"; width: 200 }

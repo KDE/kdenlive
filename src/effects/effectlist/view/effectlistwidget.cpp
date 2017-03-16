@@ -45,6 +45,7 @@ EffectListWidget::EffectListWidget(QWidget *parent)
 
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     rootContext()->setContextProperty("effectlist", this);
+    rootContext()->setContextProperty("effectListModel", m_proxyModel);
 
     m_effectIconProvider.reset(new EffectIconProvider);
     engine()->addImageProvider(QStringLiteral("effecticon"), m_effectIconProvider.get());
