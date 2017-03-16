@@ -24,6 +24,7 @@
 #include "../model/effectfilter.hpp"
 #include "effects/effectsrepository.hpp"
 
+#include <KDeclarative/KDeclarative>
 #include <QStandardPaths>
 #include <QQmlContext>
 
@@ -37,9 +38,13 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     m_proxyModel = new EffectFilter(this);
     m_proxyModel->setSourceModel(m_model.get());
 
+    KDeclarative::KDeclarative kdeclarative;
+    kdeclarative.setDeclarativeEngine(engine());
+    kdeclarative.initialize();
+    kdeclarative.setupBindings();
+
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     rootContext()->setContextProperty("effectlist", this);
-    rootContext()->setContextProperty("effectListModel", m_proxyModel);
 
     m_effectIconProvider.reset(new EffectIconProvider);
     engine()->addImageProvider(QStringLiteral("effecticon"), m_effectIconProvider.get());
