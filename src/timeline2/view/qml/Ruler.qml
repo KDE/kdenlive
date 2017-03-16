@@ -20,16 +20,17 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 
 Rectangle {
-    property int stepSize: 34
+    property int stepSize: fontMetrics.tightBoundingRect('00:00:00:00').width / 3
     property int index: 0
     property real timeScale: timeline.scaleFactor
-    property int fontUnit: root.baseUnit
+    property real fontUnit: root.baseUnit * 0.9
+
 
     SystemPalette { id: activePalette }
 
     id: rulerTop
     enabled: false
-    height: root.baseUnit * 2.5
+    height: fontMetrics.font.pixelSize * 2
     color: activePalette.base
 
     Repeater {
@@ -48,10 +49,9 @@ Rectangle {
             anchors.top: rulerTop.top
             anchors.topMargin: 2
             color: activePalette.windowText
-            opacity: 0.8
             x: index * stepSize * 4 + 2
             text: timeline.timecode(index * stepSize * 4 / timeScale)
-            font.pixelSize: fontUnit
+            font.pointSize: fontUnit
         }
     }
 }

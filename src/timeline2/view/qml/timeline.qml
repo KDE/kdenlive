@@ -62,7 +62,7 @@ Rectangle {
     }
 
     property int headerWidth: 140
-    property int baseUnit: fontMetrics.height * 0.6
+    property real baseUnit: fontMetrics.font.pointSize
     property int currentTrack: 0
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
     property alias trackCount: tracksRepeater.count

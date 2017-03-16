@@ -101,63 +101,55 @@ Rectangle {
         anchors.topMargin: 2
 
         RowLayout {
-            spacing: 6
+            spacing: 0
             Layout.leftMargin: 2
             ToolButton {
                 id: expandButton
-                implicitWidth: 16
-                implicitHeight: 16
                 iconName: buttonBar.visible ? 'arrow-down' : 'arrow-right'
                 onClicked: {
                     trackHeadRoot.myTrackHeight = buttonBar.visible ? nameEdit.height : '100'
                 }
                 tooltip: buttonBar.visible? i18n('Minimize') : i18n('Expand')
             }
-        Rectangle {
-            id: trackLabel
-            color: 'transparent'
-            width: trackHeadRoot.width - 4
-            radius: 2
-            border.color: trackNameMouseArea.containsMouse? (trackHeadRoot.current? activePalette.shadow : activePalette.highlight) : 'transparent'
-            height: nameEdit.height
-            MouseArea {
-                id: trackNameMouseArea
-                height: parent.height
-                width: nameEdit.width
-                hoverEnabled: true
-                onClicked: {
-                    nameEdit.visible = true
-                    nameEdit.focus = true
-                    nameEdit.selectAll()
+            Rectangle {
+                id: trackLabel
+                color: 'transparent'
+                Layout.fillWidth: true
+                radius: 2
+                border.color: trackNameMouseArea.containsMouse? (trackHeadRoot.current? activePalette.shadow : activePalette.highlight) : 'transparent'
+                height: nameEdit.height
+                MouseArea {
+                    id: trackNameMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: {
+                        nameEdit.visible = true
+                        nameEdit.focus = true
+                        nameEdit.selectAll()
+                    }
+                }
+                Label {
+                    text: trackName
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 4
+                    color: activePalette.windowText
+                    elide: Qt.ElideRight
+                }
+                TextField {
+                    id: nameEdit
+                    visible: false
+                    width: parent.width
+                    text: trackName
+                    onEditingFinished: {
+                        controller.setTrackProperty(trackId, "kdenlive:track_name", text)
+                        visible = false
+                    }
                 }
             }
-            Label {
-                text: trackName
-                anchors.left: parent.left
-                anchors.leftMargin: 4
-                color: activePalette.windowText
-                elide: Qt.ElideRight
-                antialiasing: true
-                font.pixelSize: root.baseUnit * 1.5
-                //width: trackLabel.width - 8
-            }
-            TextField {
-                id: nameEdit
-                visible: false
-                width: parent.width
-                text: trackName
-                style: TextFieldStyle {
-                    font.pixelSize: root.baseUnit * 1.5
-                }
-                onEditingFinished: {
-                    controller.setTrackProperty(trackId, "kdenlive:track_name", text)
-                    visible = false
-                }
-            }
-        }
         }
         RowLayout {
-            spacing: 6
+            spacing: 0
             id: buttonBar
             visible: (trackHeadRoot.height > trackLabel.height + muteButton.height + resizer.height + 4)
             Layout.leftMargin: 2
@@ -166,7 +158,7 @@ Rectangle {
                 color: 'grey'
                 width: 14
                 height: 14
-                radius: 12
+                radius: 14
                 border.width: 1
                 InnerShadow {
                     anchors.fill: parent
@@ -215,8 +207,6 @@ Rectangle {
             }
             ToolButton {
                 id: muteButton
-                implicitWidth: 20
-                implicitHeight: 20
                 iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
                 iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
                 onClicked: controller.setTrackProperty(trackId, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
@@ -226,8 +216,6 @@ Rectangle {
             ToolButton {
                 id: hideButton
                 visible: !isAudio
-                implicitWidth: 20
-                implicitHeight: 20
                 iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
                 iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
                 onClicked: controller.setTrackProperty(trackId, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
@@ -236,8 +224,6 @@ Rectangle {
 
             ToolButton {
                 id: lockButton
-                implicitWidth: 20
-                implicitHeight: 20
                 iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
                 iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svgz' : 'qrc:///pics/kdenlive-unlock.svgz'
                 onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
