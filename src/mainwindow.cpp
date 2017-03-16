@@ -41,6 +41,7 @@
 #include "timeline/customtrackview.h"
 #include "effectslist/effectslistview.h"
 #include "effectslist/effectbasket.h"
+#include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effectstack/effectstackview2.h"
 #include "project/transitionsettings.h"
 #include "mltcontroller/bincontroller.h"
@@ -334,7 +335,10 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);
 
     m_effectList = new EffectsListView();
-    m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList);
+    //m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList);
+
+    auto effectList = new EffectListWidget(this);
+    m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), effectList);
 
     m_transitionList = new EffectsListView(EffectsListView::TransitionMode);
     m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList);
