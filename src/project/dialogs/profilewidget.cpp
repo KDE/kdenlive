@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <KMessageWidget>
 #include <QTextEdit>
+#include <QSplitter>
 
 #include <KCollapsibleGroupBox>
 
@@ -58,7 +59,7 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
     lay->addLayout(labelLay);
 
 
-    QHBoxLayout *profileLay = new QHBoxLayout;
+    QSplitter *profileSplitter = new QSplitter;
 
     m_treeView = new QTreeView(this);
     m_treeView->setMinimumSize(QSize(400, 400));
@@ -83,13 +84,15 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
                 }
                 slotChangeSelection(current, old);
             });
-    profileLay->addWidget(m_treeView, 8);
+    profileSplitter->addWidget(m_treeView);
 
     m_descriptionPanel = new QTextEdit(this);
     m_descriptionPanel->setReadOnly(true);
-    profileLay->addWidget(m_descriptionPanel, 10);
+    m_descriptionPanel->viewport()->setCursor(Qt::ArrowCursor);
+    m_descriptionPanel->viewport()->setBackgroundRole(QPalette::Mid);
+    profileSplitter->addWidget(m_descriptionPanel);
 
-    lay->addLayout(profileLay);
+    lay->addWidget(profileSplitter);
 
     QGridLayout* filterLayout = new QGridLayout;
     filterLayout->setColumnStretch(0, 1);
