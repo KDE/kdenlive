@@ -21,9 +21,9 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Rectangle {
-    property int labelSize: fontMetrics.tightBoundingRect('00:00:00:00').width
-    property int stepSize: stepSize
-    property int frameSize: stepSize
+    property int labelSize: fontMetrics.tightBoundingRect(timeline.timecode(36000)).width
+    property real stepSize: labelSize
+    property real frameSize: labelSize
     property int index: 0
     property real timeScale: timeline.scaleFactor
     property real fontUnit: root.baseUnit * 0.9
@@ -49,9 +49,10 @@ Rectangle {
         model: parent.width / frameSize
         Rectangle {
             anchors.bottom: rulerTop.bottom
-            height: (index % 4)? ((index % 2) ? 3 : 7) : 14
+            height: (index % 4)? ((index % 2) ? 3 : 7) : 12
             width: 1
             color: activePalette.windowText
+            opacity: 0.5
             x: index * frameSize
         }
     }
@@ -60,9 +61,10 @@ Rectangle {
         Label {
             anchors.top: rulerTop.top
             anchors.topMargin: 2
-            x: index * stepSize + 2
+            x: index * stepSize
             text: timeline.timecode(index * stepSize / timeScale)
             font.pointSize: fontUnit
+            color: activePalette.windowText
         }
     }
 }
