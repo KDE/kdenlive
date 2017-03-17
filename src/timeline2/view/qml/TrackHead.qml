@@ -88,6 +88,7 @@ Rectangle {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: {
             parent.clicked()
+            parent.forceActiveFocus()
             nameEdit.visible = false
             if (mouse.button == Qt.RightButton)
                 headerMenu.popup()
@@ -122,10 +123,14 @@ Rectangle {
                     id: trackNameMouseArea
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: {
+                    propagateComposedEvents: true
+                    onDoubleClicked: {
                         nameEdit.visible = true
                         nameEdit.focus = true
                         nameEdit.selectAll()
+                    }
+                    onClicked: {
+                        mouse.accepted = false
                     }
                 }
                 Label {
