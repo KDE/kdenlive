@@ -31,6 +31,7 @@
 
 class TimelineModel;
 class ClipModel;
+class TransitionModel;
 
 /* @brief This class represents a Track object, as viewed by the backend.
    To allow same track transitions, a Track object corresponds to two Mlt::Playlist, between which we can switch when required by the transitions.
@@ -59,6 +60,7 @@ public:
 
     /* @brief returns the number of clips */
     int getClipsCount();
+    int getTransitionsCount();
 
     /* Perform a split at the requested position */
     bool splitClip(QSharedPointer<ClipModel> caller, int position);
@@ -107,11 +109,16 @@ protected:
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int cid, bool updateView);
 
+    bool requestTransitionDeletion(int cid, bool updateView, Fun& undo, Fun& redo);
+    Fun requestTransitionDeletion_lambda(int cid, bool updateView);
+    Fun requestTransitionResize_lambda(int cid, int in, int out = -1);
+
     /* @brief Returns the size of the blank before or after the given clip
        @param cid is the id of the clip
        @param after is true if we query the blank after, false otherwise
     */
     int getBlankSizeNearClip(int cid, bool after);
+    int getBlankSizeNearTransition(int cid, bool after);
 
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;
@@ -124,6 +131,11 @@ protected:
       Given a clip ID, returns the row of the clip.
     */
     int getRowfromClip(int cid) const;
+
+    /*@brief This function is used only by the QAbstractItemModel
+      Given a transition ID, returns the row of the transition.
+    */
+    int getRowfromTransition(int tid) const;
 
     /*@brief This is an helper function that test frame level consistancy with the MLT structures */
     bool checkConsistency();
@@ -141,6 +153,10 @@ protected:
     /* Same, but we restrict to a specific track*/
     int getBlankEnd(int position, int track);
 
+    bool requestTransitionInsertion(int tid, int position, bool updateView,  Fun& undo, Fun& redo);
+    Fun requestTransitionInsertion_lambda(int tid, int position, bool updateView);
+    int getTransitionByRow(int row) const;
+
 public slots:
     /*Delete the current track and all its associated clips */
     void slotDelete();
@@ -157,6 +173,8 @@ private:
 
 
     std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
+                                                            ordered structure to store the clips, since we use their ids order as row order*/
+    std::map<int, std::shared_ptr<TransitionModel>> m_allTransitions; /*this is important to keep an
                                                             ordered structure to store the clips, since we use their ids order as row order*/
 
 };

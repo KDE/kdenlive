@@ -26,6 +26,7 @@
 #include "../trackmodel.hpp"
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltProducer.h>
+#include <mlt++/MltTransition.h>
 #include <QDebug>
 #include <QSet>
 
@@ -88,6 +89,26 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
             qDebug() << "ERROR: Unexpected item in the timeline";
         }
     }
+
+    // Loading transitions
+    QScopedPointer<Mlt::Service> service(tractor.producer());
+    while (service && service->is_valid()) {
+        if (service->type() == transition_type) {
+            Mlt::Transition t((mlt_transition) service->get_service());
+            int tid;
+            std::shared_ptr<Mlt::Transition> transition(new Mlt::Transition(t));
+            qDebug()<<"////////// BUILD TRANS ON TK: "<<t.get_b_track();
+            ok = timeline->requestTransitionInsertion(transition, t.get_b_track(), tid, undo, redo);
+            if (!ok) {
+                qDebug() << "ERROR : failed to insert transition in track "<<transition->get_b_track()<<", position"<<transition->get_in();
+                break;
+            } else {
+                qDebug() << "Inserted transition in track "<<transition->get_b_track()<<", position"<<transition->get_in();
+            }
+        }
+        service.reset(service->producer());
+    }
+
     if (!ok) {
         //TODO log error
         undo();

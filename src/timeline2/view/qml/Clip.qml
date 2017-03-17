@@ -93,7 +93,7 @@ Rectangle {
                 return '#' + clipResource.substring(2, 8)
             }
         }
-        return isTransition? 'mediumpurple' : isAudio? 'darkseagreen' : 'blue'
+        return isAudio? 'darkseagreen' : 'blue'
         //root.shotcutBlue
     }
 
@@ -114,7 +114,7 @@ Rectangle {
     }
 
     function imagePath(time) {
-        if (isAudio || isBlank || isTransition || mltService === 'color') {
+        if (isAudio || isBlank || mltService === 'color') {
             return ''
         } else {
             return 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#' + time
@@ -522,7 +522,7 @@ Rectangle {
 
     Rectangle {
         id: trimIn
-        enabled: !isBlank && !isTransition
+        enabled: !isBlank
         anchors.left: parent.left
         anchors.leftMargin: 0
         height: parent.height
@@ -568,7 +568,7 @@ Rectangle {
     }
     Rectangle {
         id: trimOut
-        enabled: !isBlank && !isTransition
+        enabled: !isBlank
         anchors.right: parent.right
         anchors.rightMargin: 0
         height: parent.height

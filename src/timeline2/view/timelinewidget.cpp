@@ -21,6 +21,7 @@
 
 #include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
+#include "../model/timelinetransitionmodel.hpp"
 #include "qml/timelineitems.h"
 #include "doc/docundostack.hpp"
 #include "kdenlivesettings.h"
@@ -63,7 +64,10 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinControlle
     rootContext()->setContextProperty("multitrack", proxyModel);
     rootContext()->setContextProperty("controller", m_model.get());
     rootContext()->setContextProperty("timeline", this);
+    m_transitionModel = new TimelineTransitionModel(&*m_model);
+    rootContext()->setContextProperty("transitionmodel", m_transitionModel);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
+
     m_model->tractor()->listen("producer-changed", this, (mlt_listener) tractorChanged);
     m_thumbnailer = new ThumbnailProvider;
     engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);

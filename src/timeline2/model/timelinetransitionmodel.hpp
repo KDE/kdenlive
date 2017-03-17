@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
+ *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,11 +19,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef TIMELINEITEMMODEL_H
-#define TIMELINEITEMMODEL_H
+#ifndef TIMELINETRANSITIONMODEL_H
+#define TIMELINETRANSITIONMODEL_H
 
+#include <QAbstractItemModel>
+#include <QIdentityProxyModel>
 #include "undohelper.hpp"
-#include "timelinemodel.hpp"
+#include "timelineitemmodel.hpp"
 
 
 /* @brief This class is the thin wrapper around the TimelineModel that provides interface for the QML.
@@ -41,8 +43,7 @@
    A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to. 
 
 */
-
-class TimelineItemModel : public TimelineModel
+class TimelineTransitionModel : public QIdentityProxyModel
 {
 Q_OBJECT
 
@@ -50,67 +51,17 @@ public:
     /* @brief construct a timeline object and returns a pointer to the created object
        @param undo_stack is a weak pointer to the undo stack of the project
      */
-    static std::shared_ptr<TimelineItemModel> construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, bool populate = false);
-
-    friend bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt::Tractor mlt_timeline);
-protected:
-    /* @brief this constructor should not be called. Call the static construct instead
-     */
-    TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineTransitionModel(TimelineItemModel *model, QObject *parent = nullptr);
 
 public:
 
-    ~TimelineItemModel();
-    /// Two level model: tracks and clips on track
-    enum {
-        NameRole = Qt::UserRole + 1,
-        ResourceRole,    /// clip only
-        ServiceRole,     /// clip only
-        IsBlankRole,     /// clip only
-        StartRole,       /// clip only
-        BinIdRole,       /// clip only
-        MarkersRole,     /// clip only
-        DurationRole,
-        InPointRole,     /// clip only
-        OutPointRole,    /// clip only
-        FramerateRole,   /// clip only
-        GroupedRole,     /// clip only
-        IsMuteRole,      /// track only
-        IsHiddenRole,    /// track only
-        IsAudioRole,
-        AudioLevelsRole, /// clip only
-        IsCompositeRole, /// track only
-        IsLockedRole,    /// track only
-        HeightRole,      /// track only
-        FadeInRole,      /// clip only
-        FadeOutRole,     /// clip only
-        IsTransitionRole,/// clip only
-        FileHashRole,    /// clip only
-        SpeedRole,       /// clip only
-        ItemIdRole
-    };
-
+    //~TimelineTransitionModel();
     int rowCount(const QModelIndex & parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    QHash<int, QByteArray> roleNames() const override;
-    QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
-    //QModelIndex makeIndex(int trackIndex, int clipIndex) const;
-    /* @brief Creates an index based on the ID of the clip*/
-    QModelIndex makeClipIndexFromID(int cid) const override;
-    /* @brief Creates an index based on the ID of the transition*/
-    QModelIndex makeTransitionIndexFromID(int tid) const;
-    /* @brief Creates an index based on the ID of the track*/
-    QModelIndex makeTrackIndexFromID(int tid, bool transition = false) const override;
+    QModelIndex index(int row, int column = 1, const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex &index) const override;
-    Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
-    void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) override;
-
-    virtual void _beginRemoveRows(const QModelIndex&, int , int) override;
-    virtual void _beginInsertRows(const QModelIndex&, int , int) override;
-    virtual void _endRemoveRows() override;
-    virtual void _endInsertRows() override;
-    virtual void _resetView() override;
+    QModelIndex mapToSource(const QModelIndex &proxyIndex) const override;
+    QModelIndex mapFromSource(const QModelIndex &proxyIndex) const override;
 };
 #endif
 

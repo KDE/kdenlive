@@ -22,8 +22,10 @@
 #include "trackmodel.hpp"
 #include "timelinemodel.hpp"
 #include "clipmodel.hpp"
+#include "transitionmodel.hpp"
 #include "snapmodel.hpp"
 #include <mlt++/MltProfile.h>
+#include <mlt++/MltTransition.h>
 #include <QDebug>
 #include <QModelIndex>
 
@@ -240,6 +242,15 @@ int TrackModel::getBlankSizeNearClip(int cid, bool after)
     return length;
 }
 
+int TrackModel::getBlankSizeNearTransition(int cid, bool after)
+{
+    //TODO
+    Q_ASSERT(m_allTransitions.count(cid) > 0);
+    int clip_position = m_allTransitions[cid]->getPosition();
+    int length = INT_MAX;
+    return length;
+}
+
 Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
 {
     int clip_position = m_allClips[cid]->getPosition();
@@ -362,6 +373,12 @@ int TrackModel::getRowfromClip(int cid) const
     return (int)std::distance(m_allClips.begin(), m_allClips.find(cid));
 }
 
+int TrackModel::getRowfromTransition(int tid) const
+{
+    Q_ASSERT(m_allTransitions.count(tid) > 0);
+    return (int)std::distance(m_allTransitions.begin(), m_allTransitions.find(tid));
+}
+
 QVariant TrackModel::getProperty(const QString &name)
 {
     return QVariant(m_track.get(name.toUtf8().constData()));
@@ -467,4 +484,146 @@ int TrackModel::getBlankEnd(int position)
         end = std::min(getBlankEnd(position, j), end);
     }
     return end;
+}
+
+Fun TrackModel::requestTransitionResize_lambda(int cid, int in, int out)
+{
+    int clip_position = m_allTransitions[cid]->getPosition();
+    int old_in = clip_position;
+    int old_out = old_in + m_allTransitions[cid]->getPlaytime() - 1;
+    if (out == -1) {
+        out = in + old_out - old_in;
+    }
+
+    auto update_snaps = [old_in, old_out, this](int new_in, int new_out) {
+        if (auto ptr = m_parent.lock()) {
+            ptr->m_snaps->removePoint(old_in);
+            ptr->m_snaps->removePoint(old_out);
+            ptr->m_snaps->addPoint(new_in);
+            ptr->m_snaps->addPoint(new_out);
+        } else {
+            qDebug() << "Error : Transition resize failed because parent timeline is not available anymore";
+            Q_ASSERT(false);
+        }
+    };
+
+    if (in == clip_position && (out == -1 || out == old_out)) {
+        return [](){return true;};
+    }
+
+    return [in, out, cid, update_snaps, this](){
+            m_allTransitions[cid]->setInOut(in, out);
+            update_snaps(m_allTransitions[cid]->getPosition(), m_allTransitions[cid]->getPosition() + out - in);
+            return true;
+    };
+}
+
+bool TrackModel::requestTransitionInsertion(int tid, int position, bool updateView, Fun& undo, Fun& redo)
+{
+    qDebug()<<"++++++++++++TRREQUEST INSERTION AT: "<<position;
+    auto operation = requestTransitionInsertion_lambda(tid, position, updateView);
+    if (operation()) {
+        auto reverse = requestTransitionDeletion_lambda(tid, updateView);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    return false;
+}
+
+bool TrackModel::requestTransitionDeletion(int cid, bool updateView, Fun& undo, Fun& redo)
+{
+    Q_ASSERT(m_allTransitions.count(cid) > 0);
+    auto old_transition = m_allTransitions[cid];
+    int old_position = old_transition->getPosition();
+    auto operation = requestTransitionDeletion_lambda(cid, updateView);
+    if (operation()) {
+        auto reverse = requestTransitionInsertion_lambda(cid, old_position, updateView);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    return false;
+}
+
+Fun TrackModel::requestTransitionDeletion_lambda(int cid, bool updateView)
+{
+    //Find index of clip
+    int clip_position = m_allTransitions[cid]->getPosition();
+    int old_in = clip_position;
+    int old_out = old_in + m_allTransitions[cid]->getPlaytime() - 1;
+    return [clip_position, cid, old_in, old_out, updateView, this]() {
+        int old_clip_index = getRowfromTransition(cid);
+        auto ptr = m_parent.lock();
+        if (updateView) {
+            ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId(), true), old_clip_index, old_clip_index);
+            ptr->_endRemoveRows();
+        }
+        int target_track = m_allTransitions[cid]->getCurrentTrackId();
+        if (ptr->removeTransition(target_track, clip_position)) {
+            m_allTransitions[cid]->setCurrentTrackId(-1);
+            m_allTransitions.erase(cid);
+            ptr->m_snaps->removePoint(old_in);
+            ptr->m_snaps->removePoint(old_out);
+            return true;
+        }
+        return false;
+    };
+}
+
+int TrackModel::getTransitionByRow(int row) const
+{
+    if (row >= static_cast<int>(m_allTransitions.size())) {
+        return -1;
+    }
+    auto it = m_allTransitions.cbegin();
+    std::advance(it, row);
+    return (*it).first;
+}
+
+int TrackModel::getTransitionsCount()
+{
+    return m_allTransitions.size();
+}
+
+Fun TrackModel::requestTransitionInsertion_lambda(int tid, int position, bool updateView)
+{
+    // By default, insertion occurs in topmost track
+
+    //we create the function that has to be executed after the melt order. This is essentially book-keeping
+    auto end_function = [tid, this, position, updateView]() {
+        if (auto ptr = m_parent.lock()) {
+            std::shared_ptr<TransitionModel> transition = ptr->getTransitionPtr(tid);
+            m_allTransitions[transition->getId()] = transition;  //store clip
+            //update clip position and track
+            transition->setCurrentTrackId(getId());
+            qDebug()<<"---SETTING TR POS: "<<position;
+            if (updateView) {
+                qDebug()<<"* * *ADDING TRANSITION ON TK: "<<transition->getCurrentTrackId();
+                int transition_index = getRowfromTransition(transition->getId());
+                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(transition->getCurrentTrackId(), true), transition_index, transition_index);
+                ptr->_endInsertRows();
+                qDebug()<<"* * *ADDING TRANSITION DONE TK: "<<transition->getCurrentTrackId();
+            }
+            int new_in = transition->getPosition();
+            int new_out = new_in + transition->getPlaytime() - 1;
+            ptr->m_snaps->addPoint(new_in);
+            ptr->m_snaps->addPoint(new_out);
+            return true;
+        } else {
+            qDebug() << "Error : Transition Insertion failed because timeline is not available anymore";
+            return false;
+        }
+    };
+
+    return [this, position, tid, end_function]() {
+        if (auto ptr = m_parent.lock()) {
+            std::shared_ptr<TransitionModel> transition = ptr->getTransitionPtr(tid);
+            (*transition).setPosition(position);
+            ptr->plantTransition(*transition, ((Mlt::Transition)*transition).get_a_track(), ((Mlt::Transition)*transition).get_b_track());
+            return end_function();
+        } else {
+            qDebug() << "Error : Transition Insertion failed because timeline is not available anymore";
+            return false;
+        }
+    };
+    return [](){return false;};
 }

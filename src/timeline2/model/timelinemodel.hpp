@@ -39,6 +39,7 @@
 
 class TrackModel;
 class ClipModel;
+class TransitionModel;
 class GroupsModel;
 class DocUndoStack;
 class SnapModel;
@@ -82,6 +83,7 @@ protected:
 public:
     friend class TrackModel;
     friend class ClipModel;
+    friend class TransitionModel;
     friend class GroupsModel;
 
     virtual ~TimelineModel();
@@ -113,6 +115,7 @@ public:
        @param tid Id of the track to test
     */
     int getTrackClipsCount(int tid) const;
+    int getTrackTransitionsCount(int tid) const;
 
     /* @brief Returns the position of the track in the order of the tracks
        @param tid Id of the track to test
@@ -132,9 +135,25 @@ public:
     */
     Q_INVOKABLE bool requestClipMove(int cid, int tid, int position, bool updateView = true, bool logUndo = true);
 
+    /* @brief Move a transition to a specific position
+       This action is undoable
+       Returns true on success. If it fails, nothing is modified.
+       If the clip is not in inserted in a track yet, it gets inserted for the first time.
+       If the clip is in a group, the call is deferred to requestGroupMove
+       @param transid is the ID of the transition
+       @param tid is the ID of the track
+    */
+    Q_INVOKABLE bool requestTransitionMove(int transid, int tid, int position, bool updateView = true, bool logUndo = true);
+
+    int getTransitionTrackId(int tid) const;
+    int getTransitionPosition(int tid) const;
+    int getTransitionPlaytime(int tid) const;
+    Q_INVOKABLE int suggestTransitionMove(int cid, int tid, int position);
+
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo);
+    bool requestTransitionMove(int transid, int tid, int position, bool updateView, Fun &undo, Fun &redo);
 public:
 
     /* @brief Given an intended move, try to suggest a more valid one (accounting for snaps and missing UI calls)
@@ -285,6 +304,13 @@ public:
        @param pos is the current position
      */
     int requestPreviousSnapPos(int pos);
+    /* @brief Create a transition
+       This action is undoable
+       Returns true on success. If it fails, nothing is modified.
+       @param trans the transition, containg all infos (position, track).
+       @param id is a return parameter that holds the id of the resulting transition (-1 on failure)
+    */
+    bool requestTransitionInsertion(std::shared_ptr<Mlt::Transition> trans, int tid, int &id, Fun& undo, Fun& redo);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -292,9 +318,13 @@ protected:
      */
     void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1);
 
-    /* @brief Register a new track. This is a call-back meant to be called from ClipModel
+    /* @brief Register a new clip. This is a call-back meant to be called from ClipModel
     */
     void registerClip(std::shared_ptr<ClipModel> clip);
+
+    /* @brief Register a new transition. This is a call-back meant to be called from TransitionModel
+    */
+    void registerTransition(std::shared_ptr<TransitionModel> transition);
 
     /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
      */
@@ -310,6 +340,10 @@ protected:
      */
     Fun deregisterClip_lambda(int id);
 
+    /* @brief Return a lambda that deregisters and destructs the transition with given id.
+     */
+    Fun deregisterTransition_lambda(int tid);
+
     /* @brief Deregister a group with given id
      */
     void deregisterGroup(int id);
@@ -322,6 +356,9 @@ protected:
     /*@brief Helper function to get a pointer to a clip, given its id*/
     std::shared_ptr<ClipModel> getClipPtr(int cid) const;
 
+    /*@brief Helper function to get a pointer to a transition, given its id*/
+    std::shared_ptr<TransitionModel> getTransitionPtr(int tid) const;
+
     /* @brief Returns next valid unique id to create an object
      */
     static int getNextId();
@@ -330,6 +367,10 @@ protected:
      */
     bool isClip(int id) const;
 
+    /* @brief Helper function that returns true if the given ID corresponds to a transition
+     */
+    bool isTransition(int id) const;
+
     /* @brief Helper function that returns true if the given ID corresponds to a track
      */
     bool isTrack(int id) const;
@@ -337,6 +378,10 @@ protected:
     /* @brief Helper function that returns true if the given ID corresponds to a track
      */
     bool isGroup(int id) const;
+
+    void plantTransition(Mlt::Transition &tr, int a_track, int b_track);
+    bool removeTransition(int tid, int pos);
+
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
 
@@ -345,6 +390,8 @@ protected:
     std::unordered_map<int, std::list<std::shared_ptr<TrackModel>>::iterator> m_iteratorTable; //this logs the iterator associated which each track id. This allows easy access of a track based on its id.
 
     std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips; //the keys are the clip id, and the values are the corresponding pointers
+
+    std::unordered_map<int, std::shared_ptr<TransitionModel>> m_allTransitions; //the keys are the transition id, and the values are the corresponding pointers
 
     static int next_id;//next valid id to assign
 
@@ -372,7 +419,8 @@ protected:
     virtual void _endInsertRows() = 0;
     virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) = 0;
     virtual QModelIndex makeClipIndexFromID(int) const = 0;
-    virtual QModelIndex makeTrackIndexFromID(int) const = 0;
+    virtual QModelIndex makeTransitionIndexFromID(int) const = 0;
+    virtual QModelIndex makeTrackIndexFromID(int, bool transition = false) const = 0;
     virtual void _resetView() = 0;
 };
 #endif

@@ -524,6 +524,31 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
             tractor.appendChild(transition);
         }
     }
+
+    //TODO: remove once qml transition works. This a transition to test the new timeline model view
+    QDomElement transition = doc.createElement(QStringLiteral("transition"));
+    transition.setAttribute(QStringLiteral("out"), QStringLiteral("400"));
+    QDomElement cur_property = doc.createElement(QStringLiteral("property"));
+    cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
+    cur_property.appendChild(doc.createTextNode("luma"));
+    transition.appendChild(cur_property);
+
+    cur_property = doc.createElement(QStringLiteral("property"));
+    cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
+    cur_property.appendChild(doc.createTextNode(QString::number(0)));
+    transition.appendChild(cur_property);
+
+    cur_property = doc.createElement(QStringLiteral("property"));
+    cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
+    cur_property.appendChild(doc.createTextNode(QString::number(3)));
+    transition.appendChild(cur_property);
+
+    cur_property = doc.createElement(QStringLiteral("property"));
+    cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
+    cur_property.appendChild(doc.createTextNode(QStringLiteral("237")));
+    transition.appendChild(cur_property);
+    tractor.appendChild(transition);
+
     mlt.appendChild(tractor);
     return doc;
 }
@@ -545,6 +570,8 @@ bool KdenliveDoc::autoGenerateImageProxy(int width) const
 
 void KdenliveDoc::slotAutoSave()
 {
+    //TODO: re-enable when qml timeline is ready
+    return;
     if (m_render && m_autosave) {
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
             // show error: could not open the autosave file

@@ -24,6 +24,7 @@
 
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
+#include "transitionmodel.hpp"
 #include "groupsmodel.hpp"
 #include "doc/docundostack.hpp"
 #include <mlt++/MltTractor.h>
@@ -72,10 +73,20 @@ TimelineItemModel::~TimelineItemModel()
 QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &parent) const
 {
     READ_LOCK();
-    if (column > 0)
-        return QModelIndex();
-    // qDebug() << "TimelineItemModel::index" << row << column << parent;
     QModelIndex result;
+    if (column > 0) {
+         if (parent.isValid()) {
+            int trackId = int(parent.internalId());
+            Q_ASSERT(isTrack(trackId));
+            int transId = getTrackById_const(trackId)->getTransitionByRow(row);
+            if (transId != -1) {
+                result = createIndex(row, 1, quintptr(transId));
+            } else {
+                //qDebug()<<"* * *CANNOT FIND TRANSITION IX : "<<transId;
+            }
+            return result;
+        }
+    }
     if (parent.isValid()) {
         int trackId = int(parent.internalId());
         Q_ASSERT(isTrack(trackId));
@@ -92,10 +103,10 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
     return result;
 }
 
-QModelIndex TimelineItemModel::makeIndex(int trackIndex, int clipIndex) const
+/*QModelIndex TimelineItemModel::makeIndex(int trackIndex, int clipIndex) const
 {
     return index(clipIndex, 0, index(trackIndex));
-}
+}*/
 
 QModelIndex TimelineItemModel::makeClipIndexFromID(int cid) const
 {
@@ -104,12 +115,22 @@ QModelIndex TimelineItemModel::makeClipIndexFromID(int cid) const
     return index(getTrackById_const(tid)->getRowfromClip(cid), 0, makeTrackIndexFromID(tid) );
 }
 
-QModelIndex TimelineItemModel::makeTrackIndexFromID(int tid) const
+QModelIndex TimelineItemModel::makeTransitionIndexFromID(int tid) const
+{
+    Q_ASSERT(m_allTransitions.count(tid) > 0);
+    int trid = m_allTransitions.at(tid)->getCurrentTrackId();
+    return index(getTrackById_const(trid)->getRowfromTransition(tid), 1, makeTrackIndexFromID(trid, true) );
+}
+
+QModelIndex TimelineItemModel::makeTrackIndexFromID(int tid, bool transition) const
 {
     // we retrieve iterator
     Q_ASSERT(m_iteratorTable.count(tid) > 0);
     auto it = m_iteratorTable.at(tid);
     int ind = (int)std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it);
+    if (transition) {
+        return index(ind, 1);
+    }
     return index(ind);
 }
 
@@ -126,6 +147,9 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
     } else if(isClip(id)) {
         const int trackId = getClipTrackId(id);
         return makeTrackIndexFromID(trackId);
+    } else if(isTransition(id)) {
+        const int trackId = getTransitionTrackId(id);
+        return makeTrackIndexFromID(trackId, true);
     }
     return QModelIndex();
 }
@@ -136,13 +160,13 @@ int TimelineItemModel::rowCount(const QModelIndex &parent) const
     READ_LOCK();
     if (parent.isValid()) {
         const int id = (int)parent.internalId();
-        if (isClip(id) || !isTrack(id)) {
+        if (isClip(id) || isTransition(id) || !isTrack(id)) {
             //clips don't have children
             //if it is not a track and not a clip, it is something invalid
             return 0;
         }
         // return number of clip in a specific track
-        return getTrackClipsCount(id);
+        return parent.column() == 0 ? getTrackClipsCount(id) : getTrackTransitionsCount(id);
     }
     return getTracksCount();
 }
@@ -187,7 +211,6 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
 QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
 {
     READ_LOCK();
-    // qDebug() << "DATA requested "<<index<<roleNames()[role];
     if (!m_tractor || !index.isValid()) {
         // qDebug() << "DATA abort. Index validity="<<index.isValid();
         return QVariant();
@@ -247,8 +270,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getIn();
         case OutPointRole:
             return clip->getOut();
-        case FramerateRole:
-            return 25;
+        case IsTransitionRole:
+            return false;
         default:
             break;
         }
@@ -283,6 +306,40 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             default:
                 break;
         }
+    } else if(isTransition(id)) {
+        std::shared_ptr<TransitionModel>trans = m_allTransitions.at(id);
+        switch (role) {
+            case NameRole:
+            case Qt::DisplayRole:
+            case ResourceRole:
+            case ServiceRole:
+                return trans->getProperty("mlt_service");
+                break;
+            case IsBlankRole: //probably useless
+                return false;
+            case StartRole:
+                return trans->getPosition();
+            case DurationRole:
+                return trans->getPlaytime();
+            case GroupedRole:
+                return false; //m_groups->isInGroup(id);
+            case InPointRole:
+                return 0;
+            case OutPointRole:
+                return 100;
+            case BinIdRole:
+                return 5;
+            case MarkersRole: {
+                QVariantList markersList;
+                return markersList;
+            }
+            case IsTransitionRole:
+                return true;
+            default:
+                break;
+        }
+    } else {
+        qDebug() << "UNKNOWN DATA requested "<<index<<roleNames()[role];
     }
     return QVariant();
 }
@@ -301,7 +358,6 @@ void TimelineItemModel::setTrackProperty(int tid, const QString &name, const QSt
     }
     if (!roles.isEmpty()) {
         QModelIndex ix = makeTrackIndexFromID(tid);
-        qDebug()<<" * ** TRACK: "<<tid<<", "<<name<<" = "<<value << "index"<<ix;
         emit dataChanged(ix, ix, roles);
     }
 }

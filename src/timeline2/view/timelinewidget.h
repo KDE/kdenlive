@@ -29,6 +29,7 @@
 class BinController;
 class ThumbnailProvider;
 class KActionCollection;
+class TimelineTransitionModel;
 
 class TimelineWidget : public QQuickWidget
 {
@@ -142,6 +143,7 @@ public slots:
 
 private:
     std::shared_ptr<TimelineItemModel> m_model;
+    TimelineTransitionModel *m_transitionModel;
     KActionCollection *m_actionCollection;
     BinController *m_binController;
     struct Selection {

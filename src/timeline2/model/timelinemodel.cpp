@@ -23,6 +23,7 @@
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
+#include "transitionmodel.hpp"
 #include "groupsmodel.hpp"
 #include "snapmodel.hpp"
 
@@ -33,6 +34,8 @@
 #include <QModelIndex>
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltProfile.h>
+#include <mlt++/MltTransition.h>
+#include <mlt++/MltField.h>
 #include <queue>
 #ifdef LOGGING
 #include <sstream>
@@ -247,6 +250,67 @@ int TimelineModel::suggestClipMove(int cid, int tid, int position)
     }
     bool after = position > currentPos;
     int blank_length = getTrackById(tid)->getBlankSizeNearClip(cid, after);
+    qDebug() << "Found blank" << blank_length;
+    if (blank_length < INT_MAX) {
+        if (after) {
+            return currentPos + blank_length;
+        } else {
+            return currentPos - blank_length;
+        }
+    }
+    return position;
+}
+
+int TimelineModel::suggestTransitionMove(int cid, int tid, int position)
+{
+#ifdef LOGGING
+    m_logFile << "timeline->suggestTransitionMove("<<cid<<","<<tid<<" ,"<<position<<"); " <<std::endl;
+#endif
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(isTransition(cid));
+    Q_ASSERT(isTrack(tid));
+    int currentPos = getTransitionPosition(cid);
+    int currentTrack = getTransitionTrackId(cid);
+    if (currentPos == position || currentTrack != tid) {
+        return position;
+    }
+
+    //For snapping, we must ignore all in/outs of the clips of the group being moved
+    std::vector<int> ignored_pts;
+    if (m_groups->isInGroup(cid)) {
+        int gid = m_groups->getRootId(cid);
+        auto all_clips = m_groups->getLeaves(gid);
+        for (int current_cid : all_clips) {
+            //TODO: fix for transition
+            int in = getClipPosition(current_cid);
+            int out = in + getClipPlaytime(current_cid) - 1;
+            ignored_pts.push_back(in);
+            ignored_pts.push_back(out);
+        }
+    } else {
+        int in = currentPos;
+        int out = in + getTransitionPlaytime(cid) - 1;
+        qDebug()<<" * ** IGNORING SNAP PTS: "<<in<<"-"<<out;
+        ignored_pts.push_back(in);
+        ignored_pts.push_back(out);
+    }
+
+    int snapped = requestBestSnapPos(position, m_allTransitions[cid]->getPlaytime(), ignored_pts);
+    qDebug() << "Starting suggestion "<<cid << position << currentPos << "snapped to "<<snapped;
+    if (snapped >= 0) {
+        position = snapped;
+    }
+    //we check if move is possible
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    bool possible = requestTransitionMove(cid, tid, position, false, undo, redo);
+    qDebug() << "Original move success" << possible;
+    if (possible) {
+        undo();
+        return position;
+    }
+    bool after = position > currentPos;
+    int blank_length = getTrackById(tid)->getBlankSizeNearTransition(cid, after);
     qDebug() << "Found blank" << blank_length;
     if (blank_length < INT_MAX) {
         if (after) {
@@ -748,6 +812,12 @@ std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int cid) const
     return m_allClips.at(cid);
 }
 
+std::shared_ptr<TransitionModel> TimelineModel::getTransitionPtr(int tid) const
+{
+    Q_ASSERT(m_allTransitions.count(tid) > 0);
+    return m_allTransitions.at(tid);
+}
+
 int TimelineModel::getNextId()
 {
     return TimelineModel::next_id++;
@@ -756,6 +826,11 @@ int TimelineModel::getNextId()
 bool TimelineModel::isClip(int id) const
 {
     return m_allClips.count(id) > 0;
+}
+
+bool TimelineModel::isTransition(int id) const
+{
+    return m_allTransitions.count(id) > 0;
 }
 
 bool TimelineModel::isTrack(int id) const
@@ -838,3 +913,227 @@ int TimelineModel::requestPreviousSnapPos(int pos)
 {
     return m_snaps->getPreviousPoint(pos);
 }
+
+void TimelineModel::registerTransition(std::shared_ptr<TransitionModel> transition)
+{
+    int id = transition->getId();
+    Q_ASSERT(m_allTransitions.count(id) == 0);
+    m_allTransitions[id] = transition;
+    m_groups->createGroupItem(id);
+}
+
+bool TimelineModel::requestTransitionInsertion(std::shared_ptr<Mlt::Transition> trans, int tid, int &id, Fun& undo, Fun& redo)
+{
+    int transitionId = TimelineModel::getNextId();
+    id = transitionId;
+    Fun local_undo = deregisterTransition_lambda(transitionId);
+    TransitionModel::construct(shared_from_this(), trans, transitionId);
+    auto transition = m_allTransitions[transitionId];
+    Fun local_redo = [transition, this](){
+        // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
+        registerTransition(transition);
+        return true;
+    };
+    bool res = requestTransitionMove(transitionId, tid, trans->get_in(), true, local_undo, local_redo);
+    if (!res) {
+        Q_ASSERT(undo());
+        id = -1;
+        return false;
+    }
+    _resetView();
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
+}
+
+Fun TimelineModel::deregisterTransition_lambda(int tid)
+{
+    return [this, tid]() {
+        Q_ASSERT(m_allTransitions.count(tid) > 0);
+        Q_ASSERT(!m_groups->isInGroup(tid)); //clip must be ungrouped at this point
+        m_allTransitions.erase(tid);
+        m_groups->destructGroupItem(tid);
+        return true;
+    };
+}
+
+int TimelineModel::getTransitionTrackId(int tid) const
+{
+    Q_ASSERT(m_allTransitions.count(tid) > 0);
+    const auto trans = m_allTransitions.at(tid);
+    return trans->getCurrentTrackId();
+}
+
+int TimelineModel::getTransitionPosition(int tid) const
+{
+    Q_ASSERT(m_allTransitions.count(tid) > 0);
+    const auto trans = m_allTransitions.at(tid);
+    return trans->getPosition();
+}
+
+int TimelineModel::getTransitionPlaytime(int tid) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allTransitions.count(tid) > 0);
+    const auto trans = m_allTransitions.at(tid);
+    int playtime = trans->getPlaytime();
+    return playtime;
+}
+
+int TimelineModel::getTrackTransitionsCount(int tid) const
+{
+    return getTrackById_const(tid)->getTransitionsCount();
+}
+
+bool TimelineModel::requestTransitionMove(int cid, int tid, int position,  bool updateView, bool logUndo)
+{
+#ifdef LOGGING
+    m_logFile << "timeline->requestTransitionMove("<<cid<<","<<tid<<" ,"<<position<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
+#endif
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_allTransitions.count(cid) > 0);
+    if (m_allTransitions[cid]->getPosition() == position && getTransitionTrackId(cid) == tid) {
+        return true;
+    }
+    if (m_groups->isInGroup(cid)) {
+        //element is in a group.
+        int gid = m_groups->getRootId(cid);
+        int current_tid = getTransitionTrackId(cid);
+        int track_pos1 = getTrackPosition(tid);
+        int track_pos2 = getTrackPosition(current_tid);
+        int delta_track = track_pos1 - track_pos2;
+        int delta_pos = position - m_allTransitions[cid]->getPosition();
+        return requestGroupMove(cid, gid, delta_track, delta_pos, updateView, logUndo);
+    }
+    std::function<bool (void)> undo = [](){return true;};
+    std::function<bool (void)> redo = [](){return true;};
+    bool res = requestTransitionMove(cid, tid, position, updateView, undo, redo);
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move transition"));
+    }
+    return res;
+}
+
+
+bool TimelineModel::requestTransitionMove(int transid, int tid, int position, bool updateView, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(isTransition(transid));
+    std::function<bool (void)> local_undo = [](){return true;};
+    std::function<bool (void)> local_redo = [](){return true;};
+    bool ok = true;
+    int old_tid = getTransitionTrackId(transid);
+    if (old_tid != -1) {
+        if (old_tid == tid) {
+            // Simply setting in/out is enough
+            local_undo = getTrackById(old_tid)->requestTransitionResize_lambda(transid, position);
+            if (!ok) {
+                qDebug()<<"------------\nFAILED TO RESIZE TRANS: "<<old_tid;
+                bool undone = local_undo();
+                Q_ASSERT(undone);
+                return false;
+            }
+            UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+            return true;
+        }
+        ok = getTrackById(old_tid)->requestTransitionDeletion(transid, updateView, local_undo, local_redo);
+        if (!ok) {
+            qDebug()<<"------------\nFAILED TO DELETE TRANS: "<<old_tid;
+            bool undone = local_undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    ok = getTrackById(tid)->requestTransitionInsertion(transid, position, updateView, local_undo, local_redo);
+    if (!ok) {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        return false;
+    }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
+}
+
+void TimelineModel::plantTransition(Mlt::Transition &tr, int a_track, int b_track)
+{
+    //qDebug()<<"* * PLANT TRANSITION: "<<tr.get("mlt_service")<<", TRACK: "<<a_track<<"x"<<b_track<<" ON POS: "<<tr.get_in();
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    mlt_service nextservice = mlt_service_get_producer(field.data()->get_service());
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString resource = mlt_properties_get(properties, "mlt_service");
+    QList<Mlt::Transition *> trList;
+    mlt_properties insertproperties = tr.get_properties();
+    QString insertresource = mlt_properties_get(insertproperties, "mlt_service");
+    bool isMixTransition = insertresource == QLatin1String("mix");
+
+    mlt_service_type mlt_type = mlt_service_identify(nextservice);
+    while (mlt_type == transition_type) {
+        Mlt::Transition transition((mlt_transition) nextservice);
+        nextservice = mlt_service_producer(nextservice);
+        int aTrack = transition.get_a_track();
+        int bTrack = transition.get_b_track();
+        int internal = transition.get_int("internal_added");
+        if ((isMixTransition || resource != QLatin1String("mix")) && (internal > 0 || aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
+            Mlt::Properties trans_props(transition.get_properties());
+            Mlt::Transition *cp = new Mlt::Transition(*m_tractor->profile(), transition.get("mlt_service"));
+            Mlt::Properties new_trans_props(cp->get_properties());
+            //new_trans_props.inherit(trans_props);
+            new_trans_props.inherit(trans_props);
+            trList.append(cp);
+            field->disconnect_service(transition);
+        }
+        //else qCDebug(KDENLIVE_LOG) << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
+
+        if (nextservice == nullptr) {
+            break;
+        }
+        properties = MLT_SERVICE_PROPERTIES(nextservice);
+        mlt_type = mlt_service_identify(nextservice);
+        resource = mlt_properties_get(properties, "mlt_service");
+    }
+    field->plant_transition(tr, a_track, b_track);
+
+    // re-add upper transitions
+    for (int i = trList.count() - 1; i >= 0; --i) {
+        ////qCDebug(KDENLIVE_LOG)<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
+        field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
+    }
+    qDeleteAll(trList);
+}
+
+bool TimelineModel::removeTransition(int tid, int pos)
+{
+    //qDebug()<<"* * * TRYING TO DELETE TRANSITION: "<<tid<<" / "<<pos;
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    field->lock();
+    mlt_service nextservice = mlt_service_get_producer(field->get_service());
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString resource = mlt_properties_get(properties, "mlt_service");
+    bool found = false;
+    ////qCDebug(KDENLIVE_LOG) << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
+
+    mlt_service_type mlt_type = mlt_service_identify(nextservice);
+    while (mlt_type == transition_type) {
+        mlt_transition tr = (mlt_transition) nextservice;
+        int currentTrack = mlt_transition_get_b_track(tr);
+        int currentATrack = mlt_transition_get_a_track(tr);
+        int currentIn = (int) mlt_transition_get_in(tr);
+        int currentOut = (int) mlt_transition_get_out(tr);
+        //qDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack<<" / "<<currentATrack;
+
+        if (tid == currentTrack && currentIn == pos) {
+            found = true;
+            mlt_field_disconnect_service(field->get_field(), nextservice);
+            break;
+        }
+        nextservice = mlt_service_producer(nextservice);
+        if (nextservice == nullptr) {
+            break;
+        }
+        properties = MLT_SERVICE_PROPERTIES(nextservice);
+        mlt_type = mlt_service_identify(nextservice);
+        resource = mlt_properties_get(properties, "mlt_service");
+    }
+    field->unlock();
+    return found;
+}
+

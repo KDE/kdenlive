@@ -299,7 +299,7 @@ Rectangle {
                     // Click and drag should seek, not scroll the timeline view
                     flickableItem.interactive: false
                     Rectangle {
-                        width: root.duration + headerWidth
+                        width: root.duration
                         height: trackHeaders.height
                         color: activePalette.window
                         MouseArea {
@@ -327,6 +327,10 @@ Rectangle {
                         Column {
                             id: tracksContainer
                             Repeater { id: tracksRepeater; model: trackDelegateModel }
+                        }
+                        Column {
+                            id: tracksTransitionContainer
+                            Repeater { id: transitionsRepeater; model: transitionDelegateModel }
                         }
                     }
                 }
@@ -504,6 +508,38 @@ Rectangle {
             }
         }
     }
+
+    DelegateModel {
+        id: transitionDelegateModel
+        model: transitionmodel
+        TransitionTrack {
+            model: transitionmodel
+            rootIndex: transitionDelegateModel.modelIndex(index)
+            height: tracksRepeater.itemAt(index).height
+            timeScale: timeline.scaleFactor
+            width: root.duration * timeScale
+            trackId: item
+            selection: timeline.selection
+            onTimeScaleChanged: {
+                scrollView.flickableItem.contentX = Math.max(0, root.seekPos * timeline.scaleFactor - (scrollView.width / 2))
+            }
+            onTransitionDraggedToTrack: {
+                console.log('Transition Dragged to Track')
+                var y = pos - ruler.height
+                currentTrack = Logic.getTrackIndexFromPos(y)
+                var frame = Math.round(clip.x / timeScale)
+                if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
+                    var track = tracksRepeater.itemAt(currentTrack)
+                    if (controller.requestTransitionMove(clip.clipId, track.trackId, frame, false, false)) {
+                        clip.reparent(track)
+                        clip.trackIndex = track.DelegateModel.itemsIndex
+                        clip.trackId = track.trackId
+                    }
+                }
+            }
+        }
+    }
+ 
 
     Connections {
         target: timeline

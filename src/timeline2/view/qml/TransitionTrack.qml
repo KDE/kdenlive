@@ -1,28 +1,32 @@
-/*
- * Copyright (c) 2013-2016 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+/***************************************************************************
+ *   Copyright (C) 2017 by Jean-Baptiste Mardelle                          *
+ *   This file is part of Kdenlive. See www.kdenlive.org.                  *
+ *   Based on work by Dan Dennedy <dan@dennedy.org> (Shotcut)              *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) version 3 or any later version accepted by the       *
+ *   membership of KDE e.V. (or its successor approved  by the membership  *
+ *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
+ *   version 3 of the license.                                             *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
 
 import QtQuick 2.0
 import QtQml.Models 2.1
 
 Column{
-    id: trackRoot
-    property alias model: trackModel.model
-    property alias rootIndex: trackModel.rootIndex
+    id: transitionTrackRoot
+    property alias model: transTackModel.model
+    property alias rootIndex: transTackModel.rootIndex
     property bool isAudio
     property real timeScale: 1.0
     property bool isCurrentTrack: false
@@ -36,22 +40,17 @@ Column{
     signal clipClicked(var clip, var track, int shiftClick)
     signal clipDragged(var clip, int x, int y)
     signal clipDropped(var clip)
-    signal clipDraggedToTrack(var clip, int pos)
-
-    function redrawWaveforms() {
-        for (var i = 0; i < repeater.count; i++)
-            repeater.itemAt(i).generateWaveform()
-    }
+    signal transitionDraggedToTrack(var clip, int pos)
 
     function clipAt(index) {
         return repeater.itemAt(index)
     }
 
-    width: clipRow.width
+    width: transitionRow.width
 
     DelegateModel {
-        id: trackModel
-        Clip {
+        id: transTackModel
+        MltTransition {
             timeScale: timeline.scaleFactor
             clipName: model.name
             clipResource: model.resource
@@ -63,25 +62,21 @@ Column{
             clipId: model.item
             binId: model.binId
             isAudio: false //model.audio
-            isTransition: model.isTransition
-            audioLevels: model.audioLevels
-            markers: model.markers
+            isTransition: true
             width: model.duration * timeScale
-            height: parent.height
+            height: parent.height / 2
             modelStart: model.start
             x: modelStart * timeScale
+            y: parent.height / 2
             grouped: model.grouped
             borderColor: (model.grouped ? 'yellow' : 'black')
-            trackIndex: trackRoot.DelegateModel.itemsIndex
-            trackId: trackRoot.trackId
-            fadeIn: 0 //model.fadeIn
-            fadeOut: 0 //model.fadeOut
-            //hash: model.hash
-            speed: 1 //model.speed
-            selected: trackRoot.selection.indexOf(clipId) !== -1
+            trackIndex: transitionTrackRoot.DelegateModel.itemsIndex
+            trackId: transitionTrackRoot.trackId
+            opacity: 0.6
+            selected: transitionTrackRoot.selection.indexOf(clipId) !== -1
 
             onGroupedChanged: {
-                console.log('Clip ', clipId, ' is grouped : ', grouped)
+                console.log('Transition ', clipId, ' is grouped : ', grouped)
                 flashclip.start()
             }
 
@@ -94,19 +89,20 @@ Column{
             }
 
             onClicked: {
-                console.log("Clip clicked",clip.clipId)
-                trackRoot.clipClicked(clip, trackRoot, shiftClick);
+                console.log("Transition clicked",clip.clipId)
+                transitionTrackRoot.clipClicked(clip, transitionTrackRoot, shiftClick);
                 clip.draggedX = clip.x
             }
             onMoved: { //called when the movement is finished
+                console.log("Transition released",clip.clipId)
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
                 var origFrame = Math.round(clip.originalX / timeScale)
 
                 console.log("Asking move ",toTrack, cIndex, frame)
-                controller.requestClipMove(cIndex, clip.originalTrackId, origFrame, false, false)
-                var val = controller.requestClipMove(cIndex, toTrack, frame, true, true)
+                controller.requestTransitionMove(cIndex, clip.originalTrackId, origFrame, false, false)
+                var val = controller.requestTransitionMove(cIndex, toTrack, frame, true, true)
                 console.log("RESULT", val)
             }
             onDragged: { //called when the move is in process
@@ -115,16 +111,16 @@ Column{
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
 
-                frame = controller.suggestClipMove(cIndex, toTrack, frame);
+                frame = controller.suggestTransitionMove(cIndex, toTrack, frame);
 
-                if (!controller.requestClipMove(cIndex, toTrack, frame, false, false)) {
+                if (!controller.requestTransitionMove(cIndex, toTrack, frame, false, false)) {
                     // Abort move
                     clip.x = clip.draggedX
                 } else {
                     clip.x = frame * timeScale
                 }
-                var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
-                trackRoot.clipDragged(clip, mapped.x, mapped.y)
+                var mapped = transitionTrackRoot.mapFromItem(clip, mouse.x, mouse.y)
+                transitionTrackRoot.clipDragged(clip, mapped.x, mapped.y)
                 clip.draggedX = clip.x
             }
             onTrimmingIn: {
@@ -137,7 +133,7 @@ Column{
                     s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
                         .arg(s.substring(3))
                         .arg(timeline.timecode(clipDuration))
-                    bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
+                    bubbleHelp.show(clip.x + clip.width, transitionTrackRoot.y + transitionTrackRoot.height, s)
                 }
             }
             onTrimmedIn: {
@@ -154,7 +150,7 @@ Column{
                     s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
                         .arg(s.substring(3))
                         .arg(timeline.timecode(clipDuration))
-                    bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
+                    bubbleHelp.show(clip.x + clip.width, transitionTrackRoot.y + transitionTrackRoot.height, s)
                 }
             }
             onTrimmedOut: {
@@ -164,17 +160,17 @@ Column{
             }
 
             Component.onCompleted: {
-                moved.connect(trackRoot.clipDropped)
-                dropped.connect(trackRoot.clipDropped)
-                draggedToTrack.connect(trackRoot.clipDraggedToTrack)
-                console.log('Showing CLIP item ', model.clipId, 'name', model.name, ' service: ',mltService)
+                moved.connect(transitionTrackRoot.clipDropped)
+                dropped.connect(transitionTrackRoot.clipDropped)
+                draggedToTrack.connect(transitionTrackRoot.transitionDraggedToTrack)
+                //console.log('Showing item ', model.item, 'name', model.name, ' service: ',mltService)
             }
         }
     }
 
     Item {
-        id: clipRow
-        height: trackRoot.height
-        Repeater { id: repeater; model: trackModel }
+        id: transitionRow
+        height: transitionTrackRoot.height
+        Repeater { id: repeater; model: transTackModel }
     }
 }

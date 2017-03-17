@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
+ *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,29 +19,29 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef CLIPMODEL_H
-#define CLIPMODEL_H
+#ifndef TRANSITIONMODEL_H
+#define TRANSITIONMODEL_H
 
 #include <memory>
 #include <QObject>
 #include "undohelper.hpp"
 
 namespace Mlt{
-    class Producer;
+    class Transition;
 }
 class TimelineModel;
 class TrackModel;
 
-/* @brief This class represents a Clip object, as viewed by the backend.
+/* @brief This class represents a Transition object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
 */
-class ClipModel
+class TransitionModel
 {
-    ClipModel() = delete;
+    TransitionModel() = delete;
 
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod, int id = -1);
+    TransitionModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Transition> prod, int id = -1);
 
 public:
 
@@ -52,15 +52,11 @@ public:
        @param producer is the producer to be inserted
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id = -1);
+    static int construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Transition> prod, int id = -1);
 
     /* @brief returns (unique) id of current clip
      */
     int getId() const;
-
-    /* @brief returns the length of the clip on the timeline
-     */
-    int getPlaytime() const;
 
     /* @brief returns the id of the track in which this clips is inserted (-1 if none)
      */
@@ -69,6 +65,8 @@ public:
     /* @brief returns the current position of the clip (-1 if not inserted)
      */
     int getPosition() const;
+
+    int getPlaytime() const;
 
     /* @brief returns a property of the current clip
      */
@@ -79,12 +77,13 @@ public:
     std::pair<int, int> getInOut() const;
     int getIn() const;
     int getOut() const;
+    void setInOut(int in, int out);
 
     friend class TrackModel;
     friend class TimelineModel;
     /* Implicit conversion operator to access the underlying producer
      */
-    operator Mlt::Producer&(){ return *m_producer;}
+    operator Mlt::Transition&(){ return *m_transition;}
 
     /* Returns true if the underlying producer is valid
      */
@@ -123,8 +122,7 @@ private:
     int m_id; //this is the creation id of the clip, used for book-keeping
     int m_position;
     int m_currentTrackId;
-
-    std::shared_ptr<Mlt::Producer> m_producer;
+    std::shared_ptr<Mlt::Transition> m_transition;
 
 };
 
