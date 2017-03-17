@@ -611,8 +611,14 @@ Bin::Bin(QWidget *parent) :
     disableEffects->setChecked(false);
     pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
 
+#if KXMLGUI_VERSION_MINOR > 24 || KXMLGUI_VERSION_MAJOR > 5
     m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), this);
     m_renameAction->setText(i18n("Rename"));
+#else
+    m_renameAction = new QAction(i18n("Rename"), this);
+    connect(m_renameAction, &QAction::triggered, this, &Bin::slotRenameItem);
+    m_renameAction->setShortcut(Qt::Key_F2);
+#endif
     m_renameAction->setData("rename");
     pCore->window()->actionCollection()->addAction(QStringLiteral("rename"), m_renameAction);
 
