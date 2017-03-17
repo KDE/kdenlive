@@ -8448,7 +8448,7 @@ void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
         m_document->renderer()->storeSlowmotionProducer(i.key() + url, sprod, true);
     }
     if (!toUpdate.isEmpty()) {
-        monitorRefresh(toUpdate, true);
+        QMetaObject::invokeMethod(this, "monitorRefresh", Qt::QueuedConnection, Q_ARG(QList <ItemInfo>, toUpdate), Q_ARG(bool, true));
     }
     m_timeline->refreshTractor();
 }

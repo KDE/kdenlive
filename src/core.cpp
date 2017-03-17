@@ -71,6 +71,7 @@ void Core::build(const QString &MltPath, const QUrl &Url, const QString &clipsTo
     qRegisterMetaType<MessageType> ("MessageType");
     qRegisterMetaType<stringMap> ("stringMap");
     qRegisterMetaType<audioByteArray> ("audioByteArray");
+    qRegisterMetaType< QList<ItemInfo> > ("QList<ItemInfo>");
     qRegisterMetaType< QVector<int> > ();
     qRegisterMetaType<QDomElement> ("QDomElement");
     qRegisterMetaType<requestClipInfo> ("requestClipInfo");
