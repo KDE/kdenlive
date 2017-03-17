@@ -391,8 +391,8 @@ private slots:
     void slotGotFocus();
     /** @brief Dis/Enable all bin effects. */
     void slotDisableEffects(bool disable);
-    /** @brief Rename a Bin Folder. */
-    void slotRenameFolder();
+    /** @brief Rename a Bin Item. */
+    void slotRenameItem();
     void slotCreateAudioThumbs();
     void doRefreshPanel(const QString &id);
     /** @brief Send audio thumb data to monitor for display. */
@@ -518,7 +518,7 @@ private:
     QAction *m_locateAction;
     QAction *m_proxyAction;
     QAction *m_deleteAction;
-    QAction *m_renameFolderAction;
+    QAction *m_renameAction;
     QMenu *m_jobsMenu;
     QAction *m_cancelJobs;
     QAction *m_discardCurrentClipJobs;

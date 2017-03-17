@@ -137,7 +137,7 @@ void MyTreeView::editorDestroyed(QObject *editor)
 
 void MyTreeView::keyPressEvent(QKeyEvent *event)
 {
-    if (isEditing() == true) {
+    if (isEditing()) {
         QTreeView::keyPressEvent(event);
         return;
     }
@@ -154,12 +154,12 @@ void MyTreeView::keyPressEvent(QKeyEvent *event)
 
 bool MyTreeView::isEditing() const
 {
-    return m_editing;
+    return state() == QAbstractItemView::EditingState;
 }
 
 void MyTreeView::setEditing(bool edit)
 {
-    m_editing = edit;
+    setState(edit ? QAbstractItemView::EditingState : QAbstractItemView::NoState);
 }
 
 bool MyTreeView::performDrag()
@@ -611,10 +611,10 @@ Bin::Bin(QWidget *parent) :
     disableEffects->setChecked(false);
     pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
 
-    m_renameFolderAction = new QAction(i18n("Rename Folder"), this);
-    connect(m_renameFolderAction, &QAction::triggered, this, &Bin::slotRenameFolder);
-    m_renameFolderAction->setData("rename_folder");
-    pCore->window()->actionCollection()->addAction(QStringLiteral("rename_folder"), m_renameFolderAction);
+    m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), this);
+    m_renameAction->setText(i18n("Rename"));
+    m_renameAction->setData("rename");
+    pCore->window()->actionCollection()->addAction(QStringLiteral("rename"), m_renameAction);
 
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, SIGNAL(triggered(QAction *)), this, SLOT(slotInitView(QAction *)));
@@ -1371,7 +1371,6 @@ QString Bin::slotAddFolder(const QString &folderName)
         if (id.isValid() && id2.isValid()) {
             m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
         }
-        m_itemView->setProperty("editing", true);
         m_itemView->edit(m_proxyModel->mapFromSource(ix));
     }
     return newId;
@@ -1894,7 +1893,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_editAction->setVisible(!isFolder);
     m_clipsActionsMenu->setEnabled(enableClipActions);
     m_extractAudioAction->setEnabled(enableClipActions);
-    m_renameFolderAction->setVisible(isFolder);
     m_openAction->setVisible(!isFolder);
     m_reloadAction->setVisible(!isFolder);
     m_duplicateAction->setVisible(!isFolder);
@@ -1908,6 +1906,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_locateAction->setVisible(!isFolder && (isImported));
 
     // Show menu
+    event->setAccepted(true);
     if (enableClipActions) {
         m_menu->exec(event->globalPos());
     } else {
@@ -1949,7 +1948,6 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
         IconRect.setSize(m_itemView->iconSize());
         if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) || !IconRect.contains(pos))) {
             // User clicked outside icon, trigger rename
-            m_itemView->setProperty("editing", true);
             m_itemView->edit(ix);
             return;
         }
@@ -2318,7 +2316,7 @@ void Bin::setupGeneratorMenu()
     }
     m_menu->addAction(m_editAction);
     m_menu->addAction(m_openAction);
-    m_menu->addAction(m_renameFolderAction);
+    m_menu->addAction(m_renameAction);
     m_menu->addAction(m_deleteAction);
     m_menu->insertSeparator(m_deleteAction);
 }
@@ -3789,20 +3787,16 @@ void Bin::setBinEffectsDisabledStatus(bool disabled)
     pCore->projectManager()->disableBinEffects(disabled);
 }
 
-void Bin::slotRenameFolder()
+void Bin::slotRenameItem()
 {
-    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedRows(0);
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid()) {
             continue;
         }
-        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-        ProjectFolder *currentItem = qobject_cast<ProjectFolder *>(item);
-        if (currentItem) {
-            m_itemView->setProperty("editing", true);
-            m_itemView->edit(ix);
-            return;
-        }
+        m_itemView->setCurrentIndex(ix);
+        m_itemView->edit(ix);
+        return;
     }
 }
 
