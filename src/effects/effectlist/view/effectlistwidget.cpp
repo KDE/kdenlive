@@ -57,3 +57,8 @@ QString EffectListWidget::getName(const QModelIndex& index) const
 {
     return m_model->getName(m_proxyModel->mapToSource(index));
 }
+
+QString EffectListWidget::getDescription(const QModelIndex& index) const
+{
+    return m_model->getDescription(m_proxyModel->mapToSource(index));
+}

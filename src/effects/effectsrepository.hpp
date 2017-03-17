@@ -65,6 +65,9 @@ public:
     /* @brief Return name of effect */
     QString getEffectName(const QString& effectId) const;
 
+    /* @brief Return description of effect */
+    QString getEffectDescription(const QString& effectId) const;
+
     /* @brief Check whether a given effect is favorite */
     bool isFavorite(const QString& effectId) const;
 

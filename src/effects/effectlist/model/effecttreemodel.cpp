@@ -113,6 +113,20 @@ QString EffectTreeModel::getName(const QModelIndex& index) const
     }
 }
 
+QString EffectTreeModel::getDescription(const QModelIndex& index) const
+{
+    if (!index.isValid()) {
+        return QString();
+    }
+    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    if (item->depth() == 1) {
+        return QString();
+    } else {
+        auto id = item->data(EffectTreeModel::idCol).toString();
+        return EffectsRepository::get()->getEffectDescription(id);
+    }
+}
+
 
 QVariant EffectTreeModel::data(const QModelIndex &index, int role) const
 {

@@ -254,6 +254,11 @@ QString EffectsRepository::getEffectName(const QString& effectId) const
     Q_ASSERT(m_effects.count(effectId) > 0);
     return m_effects.at(effectId).name;
 }
+QString EffectsRepository::getEffectDescription(const QString& effectId) const
+{
+    Q_ASSERT(m_effects.count(effectId) > 0);
+    return m_effects.at(effectId).description;
+}
 bool EffectsRepository::isFavorite(const QString& effectId) const
 {
     //TODO

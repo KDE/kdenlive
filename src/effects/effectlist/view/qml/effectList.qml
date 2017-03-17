@@ -134,6 +134,20 @@ Rectangle {
 
             TableViewColumn { role: "id"; title: "Name"; width: 200 }
             model: effectListModel
+            onClicked:{
+                effectDescription.text = effectlist.getDescription(index)
+            }
+        }
+        TextArea {
+            id: effectDescription
+            text: ""
+            visible: false
+            Layout.fillWidth: true
+            states: State {
+                name: "hasDescription"; when: effectDescription.text != ''
+                PropertyChanges { target: effectDescription; visible: true }
+            }
+
         }
     }
 }

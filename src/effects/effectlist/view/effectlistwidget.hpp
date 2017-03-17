@@ -40,6 +40,7 @@ public:
     EffectListWidget(QWidget *parent = Q_NULLPTR);
 
     Q_INVOKABLE QString getName(const QModelIndex& index) const;
+    Q_INVOKABLE QString getDescription(const QModelIndex& index) const;
 private:
     std::unique_ptr<EffectTreeModel> m_model;
     EffectFilter *m_proxyModel;
