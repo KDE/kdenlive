@@ -40,6 +40,7 @@ enum class EffectType {
     Custom
 };
 Q_DECLARE_METATYPE(EffectType)
+
 class AbstractEffectModel;
 
 class EffectsRepository

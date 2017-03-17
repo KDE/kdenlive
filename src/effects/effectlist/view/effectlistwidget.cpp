@@ -22,7 +22,6 @@
 #include "effectlistwidget.hpp"
 #include "../model/effecttreemodel.hpp"
 #include "../model/effectfilter.hpp"
-#include "effects/effectsrepository.hpp"
 
 #include <KDeclarative/KDeclarative>
 #include <QStandardPaths>
@@ -31,6 +30,7 @@
 EffectListWidget::EffectListWidget(QWidget *parent)
     : QQuickWidget(parent)
 {
+
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
     m_model.reset(new EffectTreeModel(effectCategory, this));
 
@@ -68,4 +68,17 @@ QString EffectListWidget::getDescription(const QModelIndex& index) const
 void EffectListWidget::setFilterName(const QString& pattern)
 {
     m_proxyModel->setFilterName(!pattern.isEmpty(), pattern);
+}
+
+void EffectListWidget::setFilterType(const QString& type)
+{
+    if (type == "video") {
+        m_proxyModel->setFilterType(true, EffectType::Video);
+    } else if (type == "audio") {
+        m_proxyModel->setFilterType(true, EffectType::Audio);
+    } else if (type == "custom") {
+        m_proxyModel->setFilterType(true, EffectType::Custom);
+    } else {
+        m_proxyModel->setFilterType(false, EffectType::Video);
+    }
 }

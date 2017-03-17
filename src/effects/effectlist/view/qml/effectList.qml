@@ -43,10 +43,12 @@ Rectangle {
                 implicitWidth: 40
                 implicitHeight: 40
                 iconName: "show-all-effects"
-                onClicked: console.log("show dshow-all-effects")
                 checkable:true
                 exclusiveGroup: filterGroup
                 tooltip: i18n('Show all effects')
+                onClicked: {
+                    effectlist.setFilterType("")
+                }
             }
             ToolButton {
                 id: showVideo
@@ -54,10 +56,12 @@ Rectangle {
                 implicitHeight: 40
                 iconName: "kdenlive-show-video"
                 iconSource: 'qrc:///pics/kdenlive-show-video.svgz'
-                onClicked: console.log("show dshow video")
                 checkable:true
                 exclusiveGroup: filterGroup
                 tooltip: i18n('Show all video effects')
+                onClicked: {
+                    effectlist.setFilterType("video")
+                }
             }
             ToolButton {
                 id: showAudio
@@ -65,10 +69,24 @@ Rectangle {
                 implicitHeight: 40
                 iconName: "kdenlive-show-audio"
                 iconSource: 'qrc:///pics/kdenlive-show-audio.svgz'
-                onClicked: console.log("show dshow audio")
                 checkable:true
                 exclusiveGroup: filterGroup
                 tooltip: i18n('Show all audio effects')
+                onClicked: {
+                    effectlist.setFilterType("audio")
+                }
+            }
+            ToolButton {
+                id: showCustom
+                implicitWidth: 40
+                implicitHeight: 40
+                iconName: "kdenlive-custom-effect"
+                checkable:true
+                exclusiveGroup: filterGroup
+                tooltip: i18n('Show all custom effects')
+                onClicked: {
+                    effectlist.setFilterType("custom")
+                }
             }
             Rectangle {
                 //This is a spacer
@@ -81,9 +99,14 @@ Rectangle {
                 implicitWidth: 40
                 implicitHeight: 40
                 iconName: "help-about"
-                onClicked: console.log("show description")
                 checkable:true
+                checked: true
                 tooltip: i18n('Show/hide description of the effects')
+                onCheckedChanged:{
+                    if (!checked) {
+                        effectDescription.visible = false
+                    }
+                }
             }
 
         }
@@ -154,8 +177,8 @@ Rectangle {
             visible: false
             Layout.fillWidth: true
             states: State {
-                name: "hasDescription"; when: effectDescription.text != ''
-                PropertyChanges { target: effectDescription; visible: true }
+                name: "hasDescription"; when: effectDescription.text != '' && showDescription.checked
+                PropertyChanges { target: effectDescription; visible: true}
             }
 
         }
