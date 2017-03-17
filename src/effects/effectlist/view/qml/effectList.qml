@@ -24,6 +24,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
+import QtQml.Models 2.2
 
 Rectangle {
     id: listRoot
@@ -114,7 +115,15 @@ Rectangle {
                     NumberAnimation { properties: "opacity" }
                 }
             ]
+            onTextChanged: {
+                effectlist.setFilterName(text)
+            }
         }
+        ItemSelectionModel {
+            id: sel
+            model: effectListModel
+        }
+
         TreeView {
             id: treeView
             Layout.fillHeight: true
@@ -134,6 +143,7 @@ Rectangle {
 
             TableViewColumn { role: "id"; title: "Name"; width: 200 }
             model: effectListModel
+            selection: sel
             onClicked:{
                 effectDescription.text = effectlist.getDescription(index)
             }
@@ -150,4 +160,5 @@ Rectangle {
 
         }
     }
+
 }

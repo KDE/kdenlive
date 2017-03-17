@@ -37,6 +37,8 @@ EffectListWidget::EffectListWidget(QWidget *parent)
 
     m_proxyModel = new EffectFilter(this);
     m_proxyModel->setSourceModel(m_model.get());
+    m_proxyModel->setSortRole(EffectTreeModel::NameRole);
+    m_proxyModel->sort(0, Qt::AscendingOrder);
 
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
@@ -61,4 +63,9 @@ QString EffectListWidget::getName(const QModelIndex& index) const
 QString EffectListWidget::getDescription(const QModelIndex& index) const
 {
     return m_model->getDescription(m_proxyModel->mapToSource(index));
+}
+
+void EffectListWidget::setFilterName(const QString& pattern)
+{
+    m_proxyModel->setFilterName(!pattern.isEmpty(), pattern);
 }

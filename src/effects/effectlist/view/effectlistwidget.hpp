@@ -41,6 +41,7 @@ public:
 
     Q_INVOKABLE QString getName(const QModelIndex& index) const;
     Q_INVOKABLE QString getDescription(const QModelIndex& index) const;
+    Q_INVOKABLE void setFilterName(const QString& pattern);
 private:
     std::unique_ptr<EffectTreeModel> m_model;
     EffectFilter *m_proxyModel;
