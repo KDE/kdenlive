@@ -40,7 +40,6 @@ EffectListWidget::EffectListWidget(QWidget *parent)
 
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.initialize();
     kdeclarative.setupBindings();
 
     setResizeMode(QQuickWidget::SizeRootObjectToView);

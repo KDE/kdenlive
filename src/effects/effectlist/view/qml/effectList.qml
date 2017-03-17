@@ -31,7 +31,7 @@ Rectangle {
     color: activePalette.window
     ColumnLayout {
         anchors.fill: parent
-        spacing: 0
+        spacing: 2
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: false
@@ -86,78 +86,42 @@ Rectangle {
             }
 
         }
-        /*FocusScope {
-            id: focusScope
-            width: 250; height: 28
-
-            BorderImage {
-                source: "images/lineedit-bg.png"
-                width: parent.width; height: parent.height
-                border { left: 4; top: 4; right: 4; bottom: 4 }
-            }
-
-            BorderImage {
-                source: "images/lineedit-bg-focus.png"
-                width: parent.width; height: parent.height
-                border { left: 4; top: 4; right: 4; bottom: 4 }
-                visible: parent.activeFocus ? true : false
-            }
-
-            Text {
-                id: typeSomething
-                anchors.fill: parent; anchors.leftMargin: 8
-                verticalAlignment: Text.AlignVCenter
-                text: "Type something..."
-                color: "gray"
-                font.italic: true
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: { focusScope.focus = true; textInput.openSoftwareInputPanel(); }
-            }
-
-            TextInput {
-                id: textInput
-                anchors { left: parent.left; leftMargin: 8; right: clear.left; rightMargin: 8; verticalCenter: parent.verticalCenter }
-                focus: true
-                selectByMouse: true
-            }
-
+        TextField {
+            id: searchInput
+            Layout.fillWidth:true
             Image {
                 id: clear
+                source: 'image://icon/edit-clear'
                 anchors { right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
-                source: "images/clear.png"
                 opacity: 0
-
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: { textInput.text = ''; focusScope.focus = true; textInput.openSoftwareInputPanel(); }
+                    onClicked: { searchInput.text = ''; searchInput.focus = true;  }
                 }
             }
-
             states: State {
-                name: "hasText"; when: textInput.text != ''
-                PropertyChanges { target: typeSomething; opacity: 0 }
+                name: "hasText"; when: searchInput.text != ''
                 PropertyChanges { target: clear; opacity: 1 }
             }
 
             transitions: [
                 Transition {
                     from: ""; to: "hasText"
-                    NumberAnimation { exclude: typeSomething; properties: "opacity" }
+                    NumberAnimation { properties: "opacity" }
                 },
                 Transition {
                     from: "hasText"; to: ""
                     NumberAnimation { properties: "opacity" }
                 }
             ]
-        } */
+        }
         TreeView {
+            id: treeView
             Layout.fillHeight: true
             Layout.fillWidth: true
             alternatingRowColors: false
             headerVisible: false
+            backgroundVisible:false
             itemDelegate: RowLayout {
                 Image{
                     visible: styleData.value != "root"
@@ -167,6 +131,7 @@ Rectangle {
                     text: effectlist.getName(styleData.index)
                 }
             }
+
             TableViewColumn { role: "id"; title: "Name"; width: 200 }
             model: effectListModel
         }
