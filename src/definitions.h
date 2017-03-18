@@ -136,14 +136,6 @@ enum MonitorSceneType {
     MonitorSceneRipple
 };
 
-enum TransitionType {
-    /** TRANSITIONTYPE: between 0-99: video trans, 100-199: video+audio trans, 200-299: audio trans */
-    LumaTransition = 0,
-    CompositeTransition = 1,
-    PipTransition = 2,
-    LumaFileTransition = 3,
-    MixTransition = 200
-};
 
 enum MessageType {
     DefaultMessage,

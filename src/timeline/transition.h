@@ -97,11 +97,6 @@ private:
 
     int m_transitionTrack;
 
-    /** @brief Returns the display name for a transition type. */
-    QString getTransitionName(const TransitionType &type);
-
-    /** @brief Returns the transition type for a given name. */
-    TransitionType getTransitionForName(const QString &type);
 };
 
 #endif

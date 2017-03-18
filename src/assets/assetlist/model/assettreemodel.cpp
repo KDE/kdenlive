@@ -21,6 +21,7 @@
 
 #include "assettreemodel.hpp"
 #include "effects/effectsrepository.hpp"
+#include "transitions/transitionsrepository.hpp"
 #include "abstractmodel/treeitem.hpp"
 
 int AssetTreeModel::nameCol = 0;
@@ -65,7 +66,13 @@ QString AssetTreeModel::getDescription(const QModelIndex& index) const
         return QString();
     } else {
         auto id = item->data(AssetTreeModel::idCol).toString();
-        return EffectsRepository::get()->getDescription(id);
+        if (EffectsRepository::get()->exists(id)){
+            return EffectsRepository::get()->getDescription(id);
+        }
+        if (TransitionsRepository::get()->exists(id)){
+            return TransitionsRepository::get()->getDescription(id);
+        }
+        return QString();
     }
 }
 

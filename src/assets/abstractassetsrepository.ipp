@@ -56,6 +56,7 @@ void AbstractAssetsRepository<AssetType>::init()
     for (int i = 0; i < max; ++i) {
         Info info;
         QString name = assets->get_name(i);
+        info.id = name;
         if (!m_blacklist.contains(name) && parseInfoFromMlt(name, info)) {
             m_assets[name] = info;
         } else {

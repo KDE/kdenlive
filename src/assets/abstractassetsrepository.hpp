@@ -66,6 +66,7 @@ public:
 protected:
     struct Info
     {
+        QString id;
         QString name, description, author, version_str;
         double version;
         QString custom_xml_path;

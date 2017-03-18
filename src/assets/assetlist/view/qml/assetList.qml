@@ -108,7 +108,7 @@ Rectangle {
                 iconName: "help-about"
                 checkable:true
                 checked: true
-                tooltip: i18n('Show/hide description of the ') + assetName()
+                tooltip: i18n('Show/hide description of the ') + assetType()
                 onCheckedChanged:{
                     if (!checked) {
                         assetDescription.visible = false

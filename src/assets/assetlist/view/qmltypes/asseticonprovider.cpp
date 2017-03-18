@@ -21,6 +21,7 @@
 
 #include "asseticonprovider.hpp"
 #include "effects/effectsrepository.hpp"
+#include "transitions/transitionsrepository.hpp"
 #include <QDebug>
 #include <QIcon>
 #include <QPainter>
@@ -53,6 +54,12 @@ QImage AssetIconProvider::requestImage(const QString &id, QSize *size, const QSi
         if (size) {
             *size = result.size();
         }
+    } else if (!m_effect && TransitionsRepository::get()->exists(id)) {
+        QString name = TransitionsRepository::get()->getName(id);
+        result = makeIcon(id, name, requestedSize);
+        if (size) {
+            *size = result.size();
+        }
     } else {
         qDebug() << "Asset not found "<<id;
     }
@@ -75,6 +82,9 @@ QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effec
     bool isAudio = false;
     if (m_effect) {
         isAudio = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+    } else {
+        auto type = TransitionsRepository::get()->getType(effectId);
+        isAudio = (type == TransitionType::AudioComposition) || (type == TransitionType::AudioTransition);
     }
     if (isAudio) {
         pix.fill(Qt::transparent);

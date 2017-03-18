@@ -42,6 +42,7 @@
 #include "effectslist/effectslistview.h"
 #include "effectslist/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
+#include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "effectstack/effectstackview2.h"
 #include "project/transitionsettings.h"
 #include "mltcontroller/bincontroller.h"
@@ -341,7 +342,10 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
     m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), effectList);
 
     m_transitionList = new EffectsListView(EffectsListView::TransitionMode);
-    m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList);
+    auto transitionList = new TransitionListWidget(this);
+    // m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList);
+
+    m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), transitionList);
 
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
