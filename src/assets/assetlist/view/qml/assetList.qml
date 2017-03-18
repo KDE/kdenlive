@@ -30,6 +30,10 @@ Rectangle {
     id: listRoot
     SystemPalette { id: activePalette }
     color: activePalette.window
+
+    function assetType(){
+        return isEffectList ? i18n("effects") : i18n("transitions");
+    }
     ColumnLayout {
         anchors.fill: parent
         spacing: 2
@@ -45,13 +49,14 @@ Rectangle {
                 iconName: "show-all-effects"
                 checkable:true
                 exclusiveGroup: filterGroup
-                tooltip: i18n('Show all effects')
+                tooltip: i18n('Show all ')+assetType()
                 onClicked: {
-                    effectlist.setFilterType("")
+                    assetlist.setFilterType("")
                 }
             }
             ToolButton {
                 id: showVideo
+                visible: isEffectList
                 implicitWidth: 40
                 implicitHeight: 40
                 iconName: "kdenlive-show-video"
@@ -60,11 +65,12 @@ Rectangle {
                 exclusiveGroup: filterGroup
                 tooltip: i18n('Show all video effects')
                 onClicked: {
-                    effectlist.setFilterType("video")
+                    assetlist.setFilterType("video")
                 }
             }
             ToolButton {
                 id: showAudio
+                visible: isEffectList
                 implicitWidth: 40
                 implicitHeight: 40
                 iconName: "kdenlive-show-audio"
@@ -73,11 +79,12 @@ Rectangle {
                 exclusiveGroup: filterGroup
                 tooltip: i18n('Show all audio effects')
                 onClicked: {
-                    effectlist.setFilterType("audio")
+                    assetlist.setFilterType("audio")
                 }
             }
             ToolButton {
                 id: showCustom
+                visible: isEffectList
                 implicitWidth: 40
                 implicitHeight: 40
                 iconName: "kdenlive-custom-effect"
@@ -85,7 +92,7 @@ Rectangle {
                 exclusiveGroup: filterGroup
                 tooltip: i18n('Show all custom effects')
                 onClicked: {
-                    effectlist.setFilterType("custom")
+                    assetlist.setFilterType("custom")
                 }
             }
             Rectangle {
@@ -101,10 +108,10 @@ Rectangle {
                 iconName: "help-about"
                 checkable:true
                 checked: true
-                tooltip: i18n('Show/hide description of the effects')
+                tooltip: i18n('Show/hide description of the ') + assetName()
                 onCheckedChanged:{
                     if (!checked) {
-                        effectDescription.visible = false
+                        assetDescription.visible = false
                     }
                 }
             }
@@ -139,12 +146,12 @@ Rectangle {
                 }
             ]
             onTextChanged: {
-                effectlist.setFilterName(text)
+                assetlist.setFilterName(text)
             }
         }
         ItemSelectionModel {
             id: sel
-            model: effectListModel
+            model: assetListModel
         }
 
         TreeView {
@@ -157,28 +164,28 @@ Rectangle {
             itemDelegate: RowLayout {
                 Image{
                     visible: styleData.value != "root"
-                    source: 'image://effecticon/' + styleData.value
+                    source: 'image://asseticon/' + styleData.value
                 }
                 Label{
-                    text: effectlist.getName(styleData.index)
+                    text: assetlist.getName(styleData.index)
                 }
             }
 
             TableViewColumn { role: "id"; title: "Name"; width: 200 }
-            model: effectListModel
+            model: assetListModel
             selection: sel
             onClicked:{
-                effectDescription.text = effectlist.getDescription(index)
+                assetDescription.text = assetlist.getDescription(index)
             }
         }
         TextArea {
-            id: effectDescription
+            id: assetDescription
             text: ""
             visible: false
             Layout.fillWidth: true
             states: State {
-                name: "hasDescription"; when: effectDescription.text != '' && showDescription.checked
-                PropertyChanges { target: effectDescription; visible: true}
+                name: "hasDescription"; when: assetDescription.text != '' && showDescription.checked
+                PropertyChanges { target: assetDescription; visible: true}
             }
 
         }

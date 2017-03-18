@@ -45,12 +45,13 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     kdeclarative.setupBindings();
 
     setResizeMode(QQuickWidget::SizeRootObjectToView);
-    rootContext()->setContextProperty("effectlist", this);
-    rootContext()->setContextProperty("effectListModel", m_proxyModel);
+    rootContext()->setContextProperty("assetlist", this);
+    rootContext()->setContextProperty("assetListModel", m_proxyModel);
+    rootContext()->setContextProperty("isEffectList", true);
 
     m_effectIconProvider.reset(new EffectIconProvider);
-    engine()->addImageProvider(QStringLiteral("effecticon"), m_effectIconProvider.get());
-    setSource(QUrl(QStringLiteral("qrc:/qml/effectList.qml")));
+    engine()->addImageProvider(QStringLiteral("asseticon"), m_effectIconProvider.get());
+    setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
     setFocusPolicy(Qt::StrongFocus);
 }
 
