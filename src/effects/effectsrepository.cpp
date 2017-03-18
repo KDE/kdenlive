@@ -38,69 +38,18 @@ std::unique_ptr<EffectsRepository> EffectsRepository::instance;
 std::once_flag EffectsRepository::m_onceFlag;
 
 EffectsRepository::EffectsRepository()
+    : AbstractAssetsRepository<EffectType>()
 {
-    // Warning: Mlt::Factory::init() resets the locale to the default system value, make sure we keep correct locale
-#ifndef Q_OS_MAC
-    setlocale(LC_NUMERIC, nullptr);
-#else
-    setlocale(LC_NUMERIC_MASK, nullptr);
-#endif
-
-    // Parse effects blacklist
-    parseBlackList();
-
-    // Retrieve the list of MLT's available effects.
-    QScopedPointer<Mlt::Properties> filters(pCore->getMltRepository()->filters());
-    int max = filters->count();
-    for (int i = 0; i < max; ++i) {
-        EffectInfo info;
-        QString name = filters->get_name(i);
-        if (!m_blacklist.contains(name) && parseEffectFromMlt(name, info)) {
-            m_effects[name] = info;
-        } else {
-            if (m_blacklist.contains(name)) {
-                qDebug() << name << "is blacklisted";
-            } else {
-                qDebug() << "WARNING : Fails to parse "<<name;
-            }
-        }
-    }
-
-    // We now parse custom effect xml
-    // Set the directories to look into for effects.
-    QStringList effect_dirs = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
-
-    for (const auto& dir : effect_dirs) {
-        QDir current_dir(dir);
-        QStringList filter;
-        filter << QStringLiteral("*.xml");
-        QStringList fileList = current_dir.entryList(filter, QDir::Files);
-        for (const auto& file : fileList) {
-            QString path = current_dir.absoluteFilePath(file);
-            parseCustomEffectsFile(path);
-        }
-    }
+    init();
 }
 
 
-void EffectsRepository::parseBlackList()
+Mlt::Properties* EffectsRepository::retrieveListFromMlt()
 {
-    QFile blacklist_file(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_effects.txt")));
-    if (blacklist_file.open(QIODevice::ReadOnly)) {
-        QTextStream stream(&blacklist_file);
-        QString line;
-        while (stream.readLineInto(&line)) {
-            line = line.simplified();
-            if (!line.isEmpty() && !line.startsWith('#')) {
-                m_blacklist.insert(line);
-            }
-        }
-        blacklist_file.close();
-    }
+    return pCore->getMltRepository()->filters();
 }
 
-//static
-bool EffectsRepository::parseEffectFromMlt(const QString& effectId, EffectInfo & res)
+bool EffectsRepository::parseInfoFromMlt(const QString& effectId, Info & res)
 {
     Mlt::Properties *metadata = pCore->getMltRepository()->metadata(filter_type, effectId.toLatin1().data());
     if (metadata && metadata->is_valid()) {
@@ -127,7 +76,7 @@ bool EffectsRepository::parseEffectFromMlt(const QString& effectId, EffectInfo &
 }
 
 
-void EffectsRepository::parseCustomEffectsFile(const QString& file_name)
+void EffectsRepository::parseCustomAssetFile(const QString& file_name)
 {
     QFile file(file_name);
     QDomDocument doc;
@@ -136,7 +85,7 @@ void EffectsRepository::parseCustomEffectsFile(const QString& file_name)
     QDomElement base = doc.documentElement();
     if (base.tagName() == QLatin1String("effectgroup")) {
         //in that case we have a custom effect
-        EffectInfo info;
+        Info info;
         info.custom_xml_path = file_name;
         info.type = EffectType::Custom;
         QString tag = base.attribute(QStringLiteral("tag"), QString());
@@ -144,10 +93,10 @@ void EffectsRepository::parseCustomEffectsFile(const QString& file_name)
 
         QString name = base.attribute(QStringLiteral("name"), QString());
         info.name = name;
-        if (m_effects.count(id) > 0) {
+        if (m_assets.count(id) > 0) {
             qDebug() << "Error: conflicting effect name"<<id;
         } else {
-            m_effects[id] = info;
+            m_assets[id] = info;
         }
         return;
     }
@@ -177,7 +126,7 @@ void EffectsRepository::parseCustomEffectsFile(const QString& file_name)
         QString tag = currentEffect.attribute(QStringLiteral("tag"), QString());
         QString id = currentEffect.hasAttribute(QStringLiteral("id")) ? currentEffect.attribute(QStringLiteral("id")) : tag;
 
-        if (!hasEffect(id)) {
+        if (!exists(id)) {
             qDebug() << "++++++ Unknown effect : " << id;
             continue;
         }
@@ -185,33 +134,33 @@ void EffectsRepository::parseCustomEffectsFile(const QString& file_name)
         //Check if there is a maximal version set
         if (currentEffect.hasAttribute(QStringLiteral("version"))) {
             // a specific version of the filter is required
-            if (locale.toDouble(currentEffect.attribute(QStringLiteral("version"))) > m_effects[id].version) {
+            if (locale.toDouble(currentEffect.attribute(QStringLiteral("version"))) > m_assets[id].version) {
                 continue;
             }
         }
 
-        m_effects[id].custom_xml_path = file_name;
+        m_assets[id].custom_xml_path = file_name;
 
         //Update description if the xml provide one
         QString description = Xml::getSubTagContent(currentEffect, QStringLiteral("description"));
         if (!description.isEmpty()) {
-            m_effects[id].description = description;
+            m_assets[id].description = description;
         }
 
         //Update name if the xml provide one
         QString name = Xml::getSubTagContent(currentEffect, QStringLiteral("name"));
         if (!name.isEmpty()) {
-            m_effects[id].name = name;
+            m_assets[id].name = name;
         }
 
         // Parse type information.
         QString type = currentEffect.attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("audio")) {
-            m_effects[id].type = EffectType::Audio;
+            m_assets[id].type = EffectType::Audio;
         } else if (type == QLatin1String("custom")) {
-            m_effects[id].type = EffectType::Custom;
+            m_assets[id].type = EffectType::Custom;
         } else {
-            m_effects[id].type = EffectType::Video;
+            m_assets[id].type = EffectType::Video;
         }
 
     }
@@ -224,43 +173,7 @@ std::unique_ptr<EffectsRepository> & EffectsRepository::get()
     return instance;
 }
 
-
-bool EffectsRepository::hasEffect(const QString& effectId) const
+QStringList EffectsRepository::assetDirs() const
 {
-    return m_effects.count(effectId) > 0;
-}
-
-QVector<QPair<QString,QString> > EffectsRepository::getEffectsNames() const
-{
-    QVector<QPair<QString,QString> > res;
-    res.reserve((int)m_effects.size());
-    for (const auto& effect : m_effects) {
-        res.push_back({effect.first, effect.second.name});
-    }
-    std::sort(res.begin(), res.end(), [](const decltype(res.front())& a, const decltype(res.front())& b){
-            return a.second < b.second;
-        });
-    return res;
-}
-
-EffectType EffectsRepository::getEffectType(const QString& effectId) const
-{
-    Q_ASSERT(m_effects.count(effectId) > 0);
-    return m_effects.at(effectId).type;
-}
-
-QString EffectsRepository::getEffectName(const QString& effectId) const
-{
-    Q_ASSERT(m_effects.count(effectId) > 0);
-    return m_effects.at(effectId).name;
-}
-QString EffectsRepository::getEffectDescription(const QString& effectId) const
-{
-    Q_ASSERT(m_effects.count(effectId) > 0);
-    return m_effects.at(effectId).description;
-}
-bool EffectsRepository::isFavorite(const QString& effectId) const
-{
-    //TODO
-    return true;
+    return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
 }

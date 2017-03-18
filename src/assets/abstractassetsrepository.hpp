@@ -19,8 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef EFFECTSREPOSITORY_H
-#define EFFECTSREPOSITORY_H
+#ifndef ASSETSREPOSITORY_H
+#define ASSETSREPOSITORY_H
 
 #include <memory>
 #include <mutex>
@@ -28,52 +28,72 @@
 #include <unordered_map>
 #include <QObject>
 #include "definitions.h"
-#include "assets/abstractassetsrepository.hpp"
+#include <mlt++/Mlt.h>
 
-/** @brief This class stores all the effects that can be added by the user.
- * You can query any effect based on its name.
- * Note that this class is a Singleton
+/** @brief This class is the base class for assets (transitions or effets) repositories
  */
 
-enum class EffectType {
-    Video,
-    Audio,
-    Custom
-};
-Q_DECLARE_METATYPE(EffectType)
 
-
-class EffectsRepository : public AbstractAssetsRepository<EffectType>
+template<typename AssetType>
+class AbstractAssetsRepository
 {
 
 public:
 
-    //Returns the instance of the Singleton
-    static std::unique_ptr<EffectsRepository>& get();
+    AbstractAssetsRepository();
+    virtual ~AbstractAssetsRepository(){};
+
+    /* @brief Returns true if a given asset exists
+     */
+    bool exists(const QString& assetId) const;
+
+    /* @brief Returns a vector of pair (effect id, effect name)
+     */
+    QVector<QPair<QString, QString> > getNames() const;
+
+    /* @brief Return type of effect */
+    AssetType getType(const QString& effectId) const;
+
+    /* @brief Return name of effect */
+    QString getName(const QString& effectId) const;
+
+    /* @brief Return description of effect */
+    QString getDescription(const QString& effectId) const;
+
+    /* @brief Check whether a given effect is favorite */
+    bool isFavorite(const QString& effectId) const;
 
 protected:
-    // Constructor is protected because class is a Singleton
-    EffectsRepository();
+    struct Info
+    {
+        QString name, description, author, version_str;
+        double version;
+        QString custom_xml_path;
+        AssetType type;
+    };
 
+    // Reads the blacklist file and populate appropriate structure
+    void parseBlackList(const QString& path);
 
-    /* Retrieves the list of all available effects from Mlt*/
-    Mlt::Properties* retrieveListFromMlt() override;
-    /* @brief Parse some info from a mlt effect (from the Mlt::Repository)
+    void init();
+    virtual Mlt::Properties* retrieveListFromMlt() = 0;
+    /* @brief Parse some info from a mlt structure
        @param res Datastructure to fill
        @return true on success
     */
-    bool parseInfoFromMlt(const QString& effectId, Info & res) override;
+    virtual bool parseInfoFromMlt(const QString& effectId, Info & res) = 0;
 
-    /* @brief Retrieves additional info about effects from a custom XML file
+    /* @brief Retrieves additional info about asset from a custom XML file
      */
-    void parseCustomAssetFile(const QString& file_name) override;
+    virtual void parseCustomAssetFile(const QString& file_name) = 0;
 
-    QStringList assetDirs() const override;
+    virtual QStringList assetDirs() const = 0;
+    std::unordered_map<QString, Info> m_assets;
 
-    static std::unique_ptr<EffectsRepository> instance;
-    static std::once_flag m_onceFlag; //flag to create the repository only once;
+    QSet<QString> m_blacklist;
 
 };
 
+#include "abstractassetsrepository.ipp"
 
 #endif

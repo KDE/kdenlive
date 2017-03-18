@@ -70,10 +70,10 @@ EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
     TreeItem *customCategory = rootItem->appendChild(QList<QVariant>{i18n("Custom")});
 
     //We parse effects
-    auto allEffects = EffectsRepository::get()->getEffectsNames();
+    auto allEffects = EffectsRepository::get()->getNames();
     for (const auto& effect : allEffects) {
         TreeItem *targetCategory = miscCategory;
-        EffectType type = EffectsRepository::get()->getEffectType(effect.first);
+        EffectType type = EffectsRepository::get()->getType(effect.first);
         if (effectCategory.contains(effect.first)) {
             targetCategory = effectCategory[effect.first];
         }
@@ -123,7 +123,7 @@ QString EffectTreeModel::getDescription(const QModelIndex& index) const
         return QString();
     } else {
         auto id = item->data(EffectTreeModel::idCol).toString();
-        return EffectsRepository::get()->getEffectDescription(id);
+        return EffectsRepository::get()->getDescription(id);
     }
 }
 

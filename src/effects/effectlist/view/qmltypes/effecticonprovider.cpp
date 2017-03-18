@@ -41,12 +41,12 @@ QImage EffectIconProvider::requestImage(const QString &id, QSize *size, const QS
         return pix.toImage();
     }
 
-    if (EffectsRepository::get()->hasEffect(id)) {
-        if (EffectsRepository::get()->getEffectType(id) == EffectType::Custom) {
+    if (EffectsRepository::get()->exists(id)) {
+        if (EffectsRepository::get()->getType(id) == EffectType::Custom) {
             QIcon folder_icon = KoIconUtils::themedIcon(QStringLiteral("folder"));
             result = folder_icon.pixmap(30,30).toImage();
         } else {
-            QString name = EffectsRepository::get()->getEffectName(id);
+            QString name = EffectsRepository::get()->getName(id);
             result = makeIcon(id, name, requestedSize);
         }
         if (size) {
@@ -71,7 +71,7 @@ QImage EffectIconProvider::makeIcon(const QString &effectId, const QString &effe
     uint hex = qHash(effectName);
     QString t = "#" + QString::number(hex, 16).toUpper().left(6);
     QColor col(t);
-    bool isAudio = EffectsRepository::get()->getEffectType(effectId) == EffectType::Audio;
+    bool isAudio = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
     if (isAudio) {
         pix.fill(Qt::transparent);
     } else {
