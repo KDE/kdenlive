@@ -24,63 +24,39 @@
 #include "../model/effectfilter.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
-#include <KDeclarative/KDeclarative>
 #include <QStandardPaths>
 #include <QQmlContext>
 
 EffectListWidget::EffectListWidget(QWidget *parent)
-    : QQuickWidget(parent)
+    : AssetListWidget(parent)
 {
 
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
     m_model.reset(new EffectTreeModel(effectCategory, this));
 
-
-    m_proxyModel = new EffectFilter(this);
+    m_proxyModel.reset(new EffectFilter(this));
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(EffectTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);
 
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.setupBindings();
-
-    setResizeMode(QQuickWidget::SizeRootObjectToView);
     rootContext()->setContextProperty("assetlist", this);
-    rootContext()->setContextProperty("assetListModel", m_proxyModel);
+    rootContext()->setContextProperty("assetListModel", m_proxyModel.get());
     rootContext()->setContextProperty("isEffectList", true);
 
     m_assetIconProvider.reset(new AssetIconProvider(true));
-    engine()->addImageProvider(QStringLiteral("asseticon"), m_assetIconProvider.get());
-    setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
-    setFocusPolicy(Qt::StrongFocus);
-}
 
-
-QString EffectListWidget::getName(const QModelIndex& index) const
-{
-    return m_model->getName(m_proxyModel->mapToSource(index));
-}
-
-QString EffectListWidget::getDescription(const QModelIndex& index) const
-{
-    return m_model->getDescription(m_proxyModel->mapToSource(index));
-}
-
-void EffectListWidget::setFilterName(const QString& pattern)
-{
-    m_proxyModel->setFilterName(!pattern.isEmpty(), pattern);
+    setup();
 }
 
 void EffectListWidget::setFilterType(const QString& type)
 {
     if (type == "video") {
-        m_proxyModel->setFilterType(true, EffectType::Video);
+        static_cast<EffectFilter*>(m_proxyModel.get())->setFilterType(true, EffectType::Video);
     } else if (type == "audio") {
-        m_proxyModel->setFilterType(true, EffectType::Audio);
+        static_cast<EffectFilter*>(m_proxyModel.get())->setFilterType(true, EffectType::Audio);
     } else if (type == "custom") {
-        m_proxyModel->setFilterType(true, EffectType::Custom);
+        static_cast<EffectFilter*>(m_proxyModel.get())->setFilterType(true, EffectType::Custom);
     } else {
-        m_proxyModel->setFilterType(false, EffectType::Video);
+        static_cast<EffectFilter*>(m_proxyModel.get())->setFilterType(false, EffectType::Video);
     }
 }

@@ -19,32 +19,42 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef EFFECTLISTWIDGET_H
-#define EFFECTLISTWIDGET_H
-
-#include <QQuickWidget>
-#include <memory>
-#include "effects/effectsrepository.hpp"
-#include "../model/effecttreemodel.hpp"
+#include "assetlistwidget.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
-#include "assets/assetlist/view/assetlistwidget.hpp"
 
-/* @brief This class is a widget that display the list of available effects
- */
+#include <KDeclarative/KDeclarative>
+#include <QStandardPaths>
+#include <QQmlContext>
 
-
-class EffectFilter;
-class EffectTreeModel;
-class EffectListWidget : public AssetListWidget
+AssetListWidget::AssetListWidget(QWidget *parent)
+    : QQuickWidget(parent)
 {
-    Q_OBJECT
+}
 
-public:
-    EffectListWidget(QWidget *parent = Q_NULLPTR);
+void AssetListWidget::setup()
+{
+    KDeclarative::KDeclarative kdeclarative;
+    kdeclarative.setDeclarativeEngine(engine());
+    kdeclarative.setupBindings();
 
-    Q_INVOKABLE void setFilterType(const QString& type);
-};
+    setResizeMode(QQuickWidget::SizeRootObjectToView);
+    engine()->addImageProvider(QStringLiteral("asseticon"), m_assetIconProvider.get());
+    setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
+    setFocusPolicy(Qt::StrongFocus);
+}
 
-#endif
+QString AssetListWidget::getName(const QModelIndex& index) const
+{
+    return m_model->getName(m_proxyModel->mapToSource(index));
+}
 
+QString AssetListWidget::getDescription(const QModelIndex& index) const
+{
+    return m_model->getDescription(m_proxyModel->mapToSource(index));
+}
+
+void AssetListWidget::setFilterName(const QString& pattern)
+{
+    m_proxyModel->setFilterName(!pattern.isEmpty(), pattern);
+}
 

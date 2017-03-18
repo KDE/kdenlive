@@ -19,30 +19,38 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef EFFECTLISTWIDGET_H
-#define EFFECTLISTWIDGET_H
+#ifndef ASSETLISTWIDGET_H
+#define ASSETLISTWIDGET_H
 
 #include <QQuickWidget>
 #include <memory>
 #include "effects/effectsrepository.hpp"
-#include "../model/effecttreemodel.hpp"
+#include "../model/assettreemodel.hpp"
+#include "../model/assetfilter.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
-#include "assets/assetlist/view/assetlistwidget.hpp"
 
-/* @brief This class is a widget that display the list of available effects
+/* @brief This class is a generic widget that display the list of available assets
  */
 
 
-class EffectFilter;
-class EffectTreeModel;
-class EffectListWidget : public AssetListWidget
+class AssetListWidget : public QQuickWidget
 {
     Q_OBJECT
 
 public:
-    EffectListWidget(QWidget *parent = Q_NULLPTR);
+    AssetListWidget(QWidget *parent = Q_NULLPTR);
 
-    Q_INVOKABLE void setFilterType(const QString& type);
+    Q_INVOKABLE QString getName(const QModelIndex& index) const;
+    Q_INVOKABLE QString getDescription(const QModelIndex& index) const;
+    Q_INVOKABLE void setFilterName(const QString& pattern);
+protected:
+    void setup();
+    std::unique_ptr<AssetTreeModel> m_model;
+    std::unique_ptr<AssetFilter> m_proxyModel;
+
+    std::unique_ptr<AssetIconProvider> m_assetIconProvider;
+
+signals:
 };
 
 #endif
