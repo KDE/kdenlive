@@ -22,11 +22,6 @@
 #ifndef EFFECTLISTWIDGET_H
 #define EFFECTLISTWIDGET_H
 
-#include <QQuickWidget>
-#include <memory>
-#include "effects/effectsrepository.hpp"
-#include "../model/effecttreemodel.hpp"
-#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 #include "assets/assetlist/view/assetlistwidget.hpp"
 
 /* @brief This class is a widget that display the list of available effects

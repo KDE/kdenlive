@@ -23,8 +23,6 @@
 #define ASSETTREEMODEL_H
 
 #include "abstractmodel/abstracttreemodel.hpp"
-#include <QHash>
-#include <QIcon>
 
 /* @brief This class represents an effect hierarchy to be displayed as a tree
  */

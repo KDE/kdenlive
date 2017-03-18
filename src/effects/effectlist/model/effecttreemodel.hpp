@@ -24,8 +24,6 @@
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
-#include <QHash>
-#include <QIcon>
 
 /* @brief This class represents an effect hierarchy to be displayed as a tree
  */
