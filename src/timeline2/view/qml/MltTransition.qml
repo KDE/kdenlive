@@ -310,7 +310,7 @@ Rectangle {
             visible: true // !isBlank && !isTransition
             text: i18n('Cut')
             onTriggered: {
-                if (!transitionTrackRoot.isLocked) {
+                if (!trackRoot.isLocked) {
                     timeline.copyClip(trackIndex, index)
                     timeline.remove(trackIndex, index)
                 } else {
@@ -319,7 +319,7 @@ Rectangle {
             }
         }
         MenuItem {
-            visible: !grouped && transitionTrackRoot.selection.length > 1
+            visible: !grouped && trackRoot.selection.length > 1
             text: i18n('Group')
             onTriggered: timeline.groupSelection()
         }

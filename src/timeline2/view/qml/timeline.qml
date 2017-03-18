@@ -489,6 +489,20 @@ Rectangle {
                     }
                 }
             }
+            onTransitionDraggedToTrack: {
+                console.log('Transition Dragged to Track')
+                var y = pos - ruler.height
+                currentTrack = Logic.getTrackIndexFromPos(y)
+                var frame = Math.round(transition.x / timeScale)
+                if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
+                    var track = tracksRepeater.itemAt(currentTrack)
+                    if (controller.requestTransitionMove(transition.transitionId, track.trackId, frame, false, false)) {
+                        transition.reparent(track)
+                        transition.trackIndex = track.DelegateModel.itemsIndex
+                        transition.trackId = track.trackId
+                    }
+                }
+            }
             Image {
                 anchors.right: parent.right
                 anchors.left: parent.left
@@ -509,7 +523,7 @@ Rectangle {
         }
     }
 
-    DelegateModel {
+    /*DelegateModel {
         id: transitionDelegateModel
         model: transitionmodel
         TransitionTrack {
@@ -538,7 +552,7 @@ Rectangle {
                 }
             }
         }
-    }
+    }*/
  
 
     Connections {

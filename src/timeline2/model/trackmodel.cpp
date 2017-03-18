@@ -376,7 +376,7 @@ int TrackModel::getRowfromClip(int cid) const
 int TrackModel::getRowfromTransition(int tid) const
 {
     Q_ASSERT(m_allTransitions.count(tid) > 0);
-    return (int)std::distance(m_allTransitions.begin(), m_allTransitions.find(tid));
+    return (int)m_allClips.size() + (int)std::distance(m_allTransitions.begin(), m_allTransitions.find(tid));
 }
 
 QVariant TrackModel::getProperty(const QString &name)
@@ -575,7 +575,7 @@ int TrackModel::getTransitionByRow(int row) const
         return -1;
     }
     auto it = m_allTransitions.cbegin();
-    std::advance(it, row);
+    std::advance(it, row - m_allClips.size());
     return (*it).first;
 }
 

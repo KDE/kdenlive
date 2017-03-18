@@ -93,6 +93,11 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
         int clipId = getTrackById_const(trackId)->getClipByRow(row);
         if (clipId != -1) {
             result = createIndex(row, 0, quintptr(clipId));
+        } else {
+            int transId = getTrackById_const(trackId)->getTransitionByRow(row);
+            if (transId != -1) {
+                result = createIndex(row, 1, quintptr(transId));
+            }
         }
     } else if (row < getTracksCount() && row >= 0) {
         auto it = m_allTracks.cbegin();
@@ -119,7 +124,7 @@ QModelIndex TimelineItemModel::makeTransitionIndexFromID(int tid) const
 {
     Q_ASSERT(m_allTransitions.count(tid) > 0);
     int trid = m_allTransitions.at(tid)->getCurrentTrackId();
-    return index(getTrackById_const(trid)->getRowfromTransition(tid), 1, makeTrackIndexFromID(trid, true) );
+    return index(getTrackById_const(trid)->getRowfromTransition(tid), 0, makeTrackIndexFromID(trid, true) );
 }
 
 QModelIndex TimelineItemModel::makeTrackIndexFromID(int tid, bool transition) const
@@ -166,7 +171,8 @@ int TimelineItemModel::rowCount(const QModelIndex &parent) const
             return 0;
         }
         // return number of clip in a specific track
-        return parent.column() == 0 ? getTrackClipsCount(id) : getTrackTransitionsCount(id);
+        //return parent.column() == 0 ? getTrackClipsCount(id) : getTrackTransitionsCount(id);
+        return getTrackClipsCount(id) + getTrackTransitionsCount(id);
     }
     return getTracksCount();
 }
@@ -219,6 +225,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
     if (role == ItemIdRole) {
         return id;
     }
+    //qDebug() << "REQUESTING DATA "<<roleNames()[role]<<index;
     if (isClip(id)) {
         std::shared_ptr<ClipModel>clip = m_allClips.at(id);
         // Get data for a clip
