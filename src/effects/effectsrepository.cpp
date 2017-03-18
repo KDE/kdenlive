@@ -22,17 +22,12 @@
 #include "effectsrepository.hpp"
 #include "core.h"
 #include "xml/xml.hpp"
-#include <QScopedPointer>
 #include <QFile>
 #include <QDir>
 #include <QStandardPaths>
 #include <QTextStream>
 
 #include <mlt++/Mlt.h>
-#include <locale>
-#ifdef Q_OS_MAC
-#include <xlocale.h>
-#endif
 
 std::unique_ptr<EffectsRepository> EffectsRepository::instance;
 std::once_flag EffectsRepository::m_onceFlag;
@@ -49,30 +44,9 @@ Mlt::Properties* EffectsRepository::retrieveListFromMlt()
     return pCore->getMltRepository()->filters();
 }
 
-bool EffectsRepository::parseInfoFromMlt(const QString& effectId, Info & res)
+Mlt::Properties* EffectsRepository::getMetadata(const QString& effectId)
 {
-    Mlt::Properties *metadata = pCore->getMltRepository()->metadata(filter_type, effectId.toLatin1().data());
-    if (metadata && metadata->is_valid()) {
-        if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
-
-            res.name = metadata->get("title");
-            res.name[0] = res.name[0].toUpper();
-
-            res.description = metadata->get("description");
-            res.author = metadata->get("creator");
-            res.version_str = metadata->get("version");
-            res.version = metadata->get_double("version");
-
-            res.type = EffectType::Video;
-
-            Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
-            if (QString(tags.get(0)) == QLatin1String("Audio")) {
-                res.type = EffectType::Audio;
-            }
-            return true;
-        }
-    }
-    return false;
+    return pCore->getMltRepository()->metadata(filter_type, effectId.toLatin1().data());
 }
 
 
@@ -114,44 +88,12 @@ void EffectsRepository::parseCustomAssetFile(const QString& file_name)
             continue;
         }
         QDomElement currentEffect = currentNode.toElement();
-        QLocale locale;
-
-        //We first deal with locale
-        if (currentEffect.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
-            // set a locale for that effect
-            locale = QLocale(currentEffect.attribute(QStringLiteral("LC_NUMERIC")));
-        }
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
-
-        QString tag = currentEffect.attribute(QStringLiteral("tag"), QString());
-        QString id = currentEffect.hasAttribute(QStringLiteral("id")) ? currentEffect.attribute(QStringLiteral("id")) : tag;
-
-        if (!exists(id)) {
-            qDebug() << "++++++ Unknown effect : " << id;
+        QString id = parseInfoFromXml(currentEffect);
+        if (id.isEmpty()) {
             continue;
         }
 
-        //Check if there is a maximal version set
-        if (currentEffect.hasAttribute(QStringLiteral("version"))) {
-            // a specific version of the filter is required
-            if (locale.toDouble(currentEffect.attribute(QStringLiteral("version"))) > m_assets[id].version) {
-                continue;
-            }
-        }
-
         m_assets[id].custom_xml_path = file_name;
-
-        //Update description if the xml provide one
-        QString description = Xml::getSubTagContent(currentEffect, QStringLiteral("description"));
-        if (!description.isEmpty()) {
-            m_assets[id].description = description;
-        }
-
-        //Update name if the xml provide one
-        QString name = Xml::getSubTagContent(currentEffect, QStringLiteral("name"));
-        if (!name.isEmpty()) {
-            m_assets[id].name = name;
-        }
 
         // Parse type information.
         QString type = currentEffect.attribute(QStringLiteral("type"), QString());
@@ -176,4 +118,14 @@ std::unique_ptr<EffectsRepository> & EffectsRepository::get()
 QStringList EffectsRepository::assetDirs() const
 {
     return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
+}
+
+void EffectsRepository::parseType(QScopedPointer<Mlt::Properties>& metadata, Info & res)
+{
+    res.type = EffectType::Video;
+
+    Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
+    if (QString(tags.get(0)) == QLatin1String("Audio")) {
+        res.type = EffectType::Audio;
+    }
 }

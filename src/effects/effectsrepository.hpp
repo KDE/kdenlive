@@ -58,17 +58,17 @@ protected:
 
     /* Retrieves the list of all available effects from Mlt*/
     Mlt::Properties* retrieveListFromMlt() override;
-    /* @brief Parse some info from a mlt effect (from the Mlt::Repository)
-       @param res Datastructure to fill
-       @return true on success
-    */
-    bool parseInfoFromMlt(const QString& effectId, Info & res) override;
 
     /* @brief Retrieves additional info about effects from a custom XML file
      */
     void parseCustomAssetFile(const QString& file_name) override;
 
     QStringList assetDirs() const override;
+
+    void parseType(QScopedPointer<Mlt::Properties>& metadata, Info & res) override;
+
+    /* @brief Returns the metadata associated with the given asset*/
+    Mlt::Properties* getMetadata(const QString& assetId) override;
 
     static std::unique_ptr<EffectsRepository> instance;
     static std::once_flag m_onceFlag; //flag to create the repository only once;

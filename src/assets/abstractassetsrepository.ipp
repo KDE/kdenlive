@@ -101,6 +101,27 @@ void AbstractAssetsRepository<AssetType>::parseBlackList(const QString& path)
     }
 }
 
+template<typename AssetType>
+bool AbstractAssetsRepository<AssetType>::parseInfoFromMlt(const QString& assetId, Info & res)
+{
+    QScopedPointer<Mlt::Properties> metadata(getMetadata(assetId));
+    if (metadata && metadata->is_valid()) {
+        if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
+
+            res.name = metadata->get("title");
+            res.name[0] = res.name[0].toUpper();
+
+            res.description = metadata->get("description");
+            res.author = metadata->get("creator");
+            res.version_str = metadata->get("version");
+            res.version = metadata->get_double("version");
+
+            parseType(metadata, res);
+            return true;
+        }
+    }
+    return false;
+}
 
 template<typename AssetType>
 bool AbstractAssetsRepository<AssetType>::exists(const QString& assetId) const
@@ -148,4 +169,45 @@ bool AbstractAssetsRepository<AssetType>::isFavorite(const QString& /*assetId*/)
 {
     //TODO
     return true;
+}
+
+template<typename AssetType>
+QString AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement& currentAsset)
+{
+    QLocale locale;
+
+    //We first deal with locale
+    if (currentAsset.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
+        // set a locale for that effect
+        locale = QLocale(currentAsset.attribute(QStringLiteral("LC_NUMERIC")));
+    }
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+
+    QString id = currentAsset.attribute(QStringLiteral("tag"), QString());
+
+    if (!exists(id)) {
+        qDebug() << "++++++ Unknown asset : " << id;
+        return "";
+    }
+
+    //Check if there is a maximal version set
+    if (currentAsset.hasAttribute(QStringLiteral("version"))) {
+        // a specific version of the filter is required
+        if (locale.toDouble(currentAsset.attribute(QStringLiteral("version"))) > m_assets[id].version) {
+            return "";
+        }
+    }
+
+    //Update description if the xml provide one
+    QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
+    if (!description.isEmpty()) {
+        m_assets[id].description = description;
+    }
+
+    //Update name if the xml provide one
+    QString name = Xml::getSubTagContent(currentAsset, QStringLiteral("name"));
+    if (!name.isEmpty()) {
+        m_assets[id].name = name;
+    }
+    return id;
 }

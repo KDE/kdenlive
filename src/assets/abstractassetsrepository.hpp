@@ -81,13 +81,26 @@ protected:
        @param res Datastructure to fill
        @return true on success
     */
-    virtual bool parseInfoFromMlt(const QString& effectId, Info & res) = 0;
+    bool parseInfoFromMlt(const QString& effectId, Info & res);
+
+    /* @brief Returns the metadata associated with the given asset*/
+    virtual Mlt::Properties* getMetadata(const QString& assetId) = 0;
+
+    /* @brief Parse one asset from its XML content and return id of the asset*/
+    QString parseInfoFromXml(const QDomElement& currentAsset);
+
+    /* @brief Figure what is the type of the asset based on its metadata and store it in res*/
+    virtual void parseType(QScopedPointer<Mlt::Properties>& metadata, Info & res) = 0;
 
     /* @brief Retrieves additional info about asset from a custom XML file
      */
     virtual void parseCustomAssetFile(const QString& file_name) = 0;
 
+    /* @brief Returns the path to custom XML description of the assets*/
     virtual QStringList assetDirs() const = 0;
+
+
+
     std::unordered_map<QString, Info> m_assets;
 
     QSet<QString> m_blacklist;
