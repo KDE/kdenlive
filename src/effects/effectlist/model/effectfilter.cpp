@@ -21,32 +21,13 @@
 
 #include "effectfilter.hpp"
 #include "effecttreemodel.hpp"
+#include "assets/assetlist/model/assettreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 
 EffectFilter::EffectFilter(QObject *parent)
-    : QSortFilterProxyModel(parent)
+    : AssetFilter(parent)
 {
-    m_name_enabled = m_type_enabled = false;
-}
-
-void EffectFilter::setFilterName(bool enabled, const QString& pattern)
-{
-    m_name_enabled = enabled;
-    m_name_value = pattern;
-    invalidateFilter();
-}
-
-
-bool EffectFilter::filterName(TreeItem* item) const
-{
-    if (!m_name_enabled) {
-        return true;
-    }
-    QString itemText = item->data(EffectTreeModel::nameCol).toString();
-    itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
-    QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
-
-    return itemText.contains(patt, Qt::CaseInsensitive);
+    m_type_enabled = false;
 }
 
 void EffectFilter::setFilterType(bool enabled, EffectType type)
@@ -62,29 +43,11 @@ bool EffectFilter::filterType(TreeItem* item) const
     if (!m_type_enabled) {
         return true;
     }
-    EffectType itemType = item->data(EffectTreeModel::typeCol).value<EffectType>();
+    EffectType itemType = item->data(AssetTreeModel::typeCol).value<EffectType>();
     return itemType == m_type_value;
 }
 
-bool EffectFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+bool EffectFilter::applyAll(TreeItem* item) const
 {
-    if (sourceParent == QModelIndex()) {
-        //In that case, we have a category. We hide it if it does not have children.
-        QModelIndex category = sourceModel()->index(sourceRow, 0, sourceParent);
-        bool accepted = false;
-        for (int i = 0; i < sourceModel()->rowCount(category) && !accepted; ++i) {
-            accepted = filterAcceptsRow(i, category);
-        }
-        return accepted;
-    }
-    QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
-    TreeItem *item = static_cast<TreeItem*>(row.internalPointer());
-
     return filterName(item) && filterType(item);
-}
-
-bool EffectFilter::isVisible(const QModelIndex &sourceIndex)
-{
-    auto parent = sourceModel()->parent(sourceIndex);
-    return filterAcceptsRow(sourceIndex.row(), parent);
 }

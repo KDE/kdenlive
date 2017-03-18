@@ -19,41 +19,40 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef EFFECTLISTWIDGET_H
-#define EFFECTLISTWIDGET_H
+#ifndef ASSETTREEMODEL_H
+#define ASSETTREEMODEL_H
 
-#include <QQuickWidget>
-#include <memory>
-#include "effects/effectsrepository.hpp"
-#include "../model/effecttreemodel.hpp"
-#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
+#include "abstractmodel/abstracttreemodel.hpp"
+#include <QHash>
+#include <QIcon>
 
-/* @brief This class is a widget that display the list of available effects
+/* @brief This class represents an effect hierarchy to be displayed as a tree
  */
-
-
-class EffectFilter;
-class EffectTreeModel;
-class EffectListWidget : public QQuickWidget
+class TreeItem;
+class AssetTreeModel : public AbstractTreeModel
 {
-    Q_OBJECT
 
 public:
-    EffectListWidget(QWidget *parent = Q_NULLPTR);
+    explicit AssetTreeModel(QObject *parent = 0);
 
-    Q_INVOKABLE QString getName(const QModelIndex& index) const;
-    Q_INVOKABLE QString getDescription(const QModelIndex& index) const;
-    Q_INVOKABLE void setFilterName(const QString& pattern);
-    Q_INVOKABLE void setFilterType(const QString& type);
-private:
-    std::unique_ptr<EffectTreeModel> m_model;
-    EffectFilter *m_proxyModel;
+    enum {
+        IdRole = Qt::UserRole + 1,
+        NameRole
+    };
 
-    std::unique_ptr<AssetIconProvider> m_assetIconProvider;
+    //Helper function to retrieve name
+    QString getName(const QModelIndex& index) const;
+    //Helper function to retrieve description
+    QString getDescription(const QModelIndex& index) const;
+    QHash<int, QByteArray> roleNames() const override;
+    QVariant data(const QModelIndex &index, int role) const override;
 
-signals:
+
+    // for convenience, we store the column of each data field
+    static int nameCol, idCol, favCol, typeCol;
+
+protected:
+
 };
 
 #endif
-
-

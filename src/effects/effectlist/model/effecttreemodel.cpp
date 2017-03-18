@@ -32,13 +32,8 @@
 
 #include <QDebug>
 
-int EffectTreeModel::nameCol = 0;
-int EffectTreeModel::idCol = 1;
-int EffectTreeModel::typeCol = 2;
-int EffectTreeModel::favCol = 3;
-
 EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
-    : AbstractTreeModel(parent)
+    : AssetTreeModel(parent)
 {
     QList<QVariant> rootData;
     rootData << "Name" << "ID" << "Type" << "isFav";
@@ -92,59 +87,3 @@ EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
     }
 }
 
-QHash<int, QByteArray> EffectTreeModel::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-    roles[IdRole] = "id";
-    roles[NameRole] = "name";
-    return roles;
-}
-
-QString EffectTreeModel::getName(const QModelIndex& index) const
-{
-    if (!index.isValid()) {
-        return QString();
-    }
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-    if (item->depth() == 1) {
-        return item->data(0).toString();
-    } else {
-        return item->data(EffectTreeModel::nameCol).toString();
-    }
-}
-
-QString EffectTreeModel::getDescription(const QModelIndex& index) const
-{
-    if (!index.isValid()) {
-        return QString();
-    }
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-    if (item->depth() == 1) {
-        return QString();
-    } else {
-        auto id = item->data(EffectTreeModel::idCol).toString();
-        return EffectsRepository::get()->getDescription(id);
-    }
-}
-
-
-QVariant EffectTreeModel::data(const QModelIndex &index, int role) const
-{
-    if (!index.isValid()) {
-        return QVariant();
-    }
-
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-    if(role == IdRole) {
-        if (item->depth() == 1) {
-            return "root";
-        } else {
-            return item->data(EffectTreeModel::idCol);
-        }
-    }
-
-    if (role != NameRole) {
-        return QVariant();
-    }
-    return item->data(index.column());
-}

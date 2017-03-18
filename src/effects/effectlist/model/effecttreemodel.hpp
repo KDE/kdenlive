@@ -23,34 +23,18 @@
 #define EFFECTTREEMODEL_H
 
 #include "abstractmodel/abstracttreemodel.hpp"
+#include "assets/assetlist/model/assettreemodel.hpp"
 #include <QHash>
 #include <QIcon>
 
 /* @brief This class represents an effect hierarchy to be displayed as a tree
  */
 class TreeItem;
-class EffectTreeModel : public AbstractTreeModel
+class EffectTreeModel : public AssetTreeModel
 {
-    Q_OBJECT
 
 public:
     explicit EffectTreeModel(const QString &categoryFile, QObject *parent = 0);
-
-    enum {
-        IdRole = Qt::UserRole + 1,
-        NameRole
-    };
-
-    //Helper function to retrieve name
-    QString getName(const QModelIndex& index) const;
-    //Helper function to retrieve description
-    QString getDescription(const QModelIndex& index) const;
-    QHash<int, QByteArray> roleNames() const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-
-
-    // for convenience, we store the column of each data field
-    static int nameCol, idCol, favCol, typeCol;
 
 protected:
 

@@ -19,41 +19,42 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef EFFECTLISTWIDGET_H
-#define EFFECTLISTWIDGET_H
+#ifndef ASSETFILTER_H
+#define ASSETFILTER_H
 
-#include <QQuickWidget>
+#include <QSortFilterProxyModel>
 #include <memory>
 #include "effects/effectsrepository.hpp"
-#include "../model/effecttreemodel.hpp"
-#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
-/* @brief This class is a widget that display the list of available effects
+/* @brief This class is used as a proxy model to filter an asset list based on given criterion (name, ...)
  */
-
-
-class EffectFilter;
-class EffectTreeModel;
-class EffectListWidget : public QQuickWidget
+class TreeItem;
+class AssetFilter : public QSortFilterProxyModel
 {
     Q_OBJECT
 
 public:
-    EffectListWidget(QWidget *parent = Q_NULLPTR);
+    AssetFilter(QObject *parent = nullptr);
 
-    Q_INVOKABLE QString getName(const QModelIndex& index) const;
-    Q_INVOKABLE QString getDescription(const QModelIndex& index) const;
-    Q_INVOKABLE void setFilterName(const QString& pattern);
-    Q_INVOKABLE void setFilterType(const QString& type);
-private:
-    std::unique_ptr<EffectTreeModel> m_model;
-    EffectFilter *m_proxyModel;
+    /* @brief Manage the name filter
+       @param enabled whether to enable this filter
+       @param pattern to match against effects' names
+    */
+    void setFilterName(bool enabled, const QString& pattern);
 
-    std::unique_ptr<AssetIconProvider> m_assetIconProvider;
+    /** @brief Returns true if the ModelIndex in the source model is visible after filtering
+     */
+    bool isVisible(const QModelIndex &sourceIndex);
 
-signals:
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+
+    bool filterName(TreeItem* item) const;
+    /* @brief Apply all filter and returns true if the object should be kept after filtering */
+    virtual bool applyAll(TreeItem *item) const;
+
+    bool m_name_enabled;
+    QString m_name_value;
 };
-
 #endif
-
-

@@ -24,23 +24,17 @@
 
 #include <QSortFilterProxyModel>
 #include <memory>
-#include "effects/effectsrepository.hpp"
+#include "assets/assetlist/model/assetfilter.hpp"
 
-class TreeItem;
-/* @brief This class is used as a proxy model to filter the effect tree based on given criterion (name, type)
+/* @brief This class is used as a proxy model to filter the effect tree based on given criterion (name, type).
+   It simply adds a filter of type
  */
-class EffectFilter : public QSortFilterProxyModel
+class EffectFilter : public AssetFilter
 {
     Q_OBJECT
 
 public:
     EffectFilter(QObject *parent = nullptr);
-
-    /* @brief Manage the name filter
-       @param enabled whether to enable this filter
-       @param pattern to match against effects' names
-    */
-    void setFilterName(bool enabled, const QString& pattern);
 
     /* @brief Manage the type filter
        @param enabled whether to enable this filter
@@ -48,19 +42,9 @@ public:
     */
     void setFilterType(bool enabled, EffectType type);
 
-    /** @brief Returns true if the ModelIndex in the source model is visible after filtering
-     */
-    bool isVisible(const QModelIndex &sourceIndex);
-
 protected:
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
-
-private:
-    bool filterName(TreeItem* item) const;
     bool filterType(TreeItem* item) const;
-
-    bool m_name_enabled;
-    QString m_name_value;
+    bool applyAll(TreeItem *item) const override;
 
     bool m_type_enabled;
     EffectType m_type_value;
