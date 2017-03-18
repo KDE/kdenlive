@@ -94,85 +94,53 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
 
     lay->addWidget(profileSplitter);
 
-    QGridLayout* filterLayout = new QGridLayout;
-    filterLayout->setColumnStretch(0, 1);
-    filterLayout->setColumnStretch(1, 10);
-    filterLayout->setColumnStretch(2, 10);
+    QHBoxLayout* filtersLayout = new QHBoxLayout;
 
-    m_enableScanning = new QCheckBox(this);
-    m_labelScanning = new QLabel(i18n("Scanning"), this);
-    m_labelScanning->setEnabled(false);
+    QLabel* fpsLabel = new QLabel(i18n("Fps"),this);
+    fpsFilt = new QComboBox(this);
+    fpsLabel->setBuddy(fpsFilt);
+    filtersLayout->addWidget(fpsLabel);
+    filtersLayout->addWidget(fpsFilt);
+    filtersLayout->addStretch();
 
-    m_widScanning = new QButtonGroup(this);
-    QHBoxLayout* buttonLayout = new QHBoxLayout;
-    m_but1Scanning = new QPushButton(i18n("Interlaced"));
-    m_but1Scanning->setEnabled(false);
-    m_but1Scanning->setCheckable(true);
-    m_but1Scanning->setChecked(true);
-    buttonLayout->addWidget(m_but1Scanning);
-    m_widScanning->addButton(m_but1Scanning);
-    m_widScanning->setId(m_but1Scanning, 0);
-    m_but2Scanning = new QPushButton(i18n("Progressive"));
-    m_but2Scanning->setEnabled(false);
-    m_but2Scanning->setCheckable(true);
-    m_but2Scanning->setChecked(false);
-    buttonLayout->addWidget(m_but2Scanning);
-    m_widScanning->addButton(m_but2Scanning);
-    m_widScanning->setId(m_but2Scanning, 1);
-
-    buttonLayout->setSpacing(0);
-    buttonLayout->setContentsMargins(0,0,0,0);
-
-    auto updateScanning = [&]() {
-        m_labelScanning->setEnabled(m_enableScanning->isChecked());
-        m_but1Scanning->setEnabled(m_enableScanning->isChecked());
-        m_but2Scanning->setEnabled(m_enableScanning->isChecked());
-        m_filter->setFilterInterlaced(m_enableScanning->isChecked(),
-                                      m_widScanning->checkedId() == 0);
-        slotFilterChanged();
-    };
-    connect(m_enableScanning, &QCheckBox::toggled, updateScanning);
-    connect(m_widScanning, static_cast<void (QButtonGroup::*)(int,bool)>(&QButtonGroup::buttonToggled), updateScanning);
-
-    filterLayout->addWidget(m_enableScanning, 0, 0);
-    filterLayout->addWidget(m_labelScanning, 0, 1);
-    filterLayout->addLayout(buttonLayout, 0, 2);
-
-    m_enableFps = new QCheckBox(this);
-    m_labelFps = new QLabel(i18n("Fps"), this);
-    m_labelFps->setEnabled(false);
-
-    m_widFps = new QComboBox(this);
-    m_widFps->setEnabled(false);
     auto all_fps = ProfileRepository::get()->getAllFps();
 
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
+    fpsFilt->addItem("Any", -1);
     for (double fps : all_fps) {
-        m_widFps->addItem(locale.toString(fps), fps);
+        fpsFilt->addItem(locale.toString(fps), fps);
     }
-
     auto updateFps = [&]() {
-        m_labelFps->setEnabled(m_enableFps->isChecked());
-        m_widFps->setEnabled(m_enableFps->isChecked());
-        m_filter->setFilterFps(m_enableFps->isChecked(),
-                               m_widFps->currentData().toDouble());
+        double current = fpsFilt->currentData().toDouble();
+        m_filter->setFilterFps(current > 0,
+                               current);
         slotFilterChanged();
     };
-    connect(m_enableFps, &QCheckBox::toggled, updateFps);
-    connect(m_widFps, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateFps);
-
-    filterLayout->addWidget(m_enableFps, 1, 0);
-    filterLayout->addWidget(m_labelFps, 1, 1);
-    filterLayout->addWidget(m_widFps, 1, 2);
+    connect(fpsFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateFps);
 
 
-    KCollapsibleGroupBox *filter_box = new KCollapsibleGroupBox(this);
-    filter_box->setTitle(i18n("Filter profiles"));
-    filter_box->setLayout(filterLayout);
-    lay->addWidget(filter_box);
+    QLabel* scanningLabel = new QLabel(i18n("Scanning"),this);
+    scanningFilt = new QComboBox(this);
+    scanningLabel->setBuddy(scanningFilt);
+    filtersLayout->addWidget(scanningLabel);
+    filtersLayout->addWidget(scanningFilt);
+    filtersLayout->addStretch();
 
+    scanningFilt->addItem("Any", -1);
+    scanningFilt->addItem("Interlaced", 0);
+    scanningFilt->addItem("Progressive", 1);
+
+    auto updateScanning = [&]() {
+        int current = scanningFilt->currentData().toInt();
+        m_filter->setFilterInterlaced(current != -1,
+                                      current == 0);
+        slotFilterChanged();
+    };
+    connect(scanningFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateScanning);
+
+    lay->addLayout(filtersLayout);
 
     setLayout(lay);
 }
