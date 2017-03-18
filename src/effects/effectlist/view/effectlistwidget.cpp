@@ -22,6 +22,7 @@
 #include "effectlistwidget.hpp"
 #include "../model/effecttreemodel.hpp"
 #include "../model/effectfilter.hpp"
+#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 #include <KDeclarative/KDeclarative>
 #include <QStandardPaths>
@@ -49,8 +50,8 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     rootContext()->setContextProperty("assetListModel", m_proxyModel);
     rootContext()->setContextProperty("isEffectList", true);
 
-    m_effectIconProvider.reset(new EffectIconProvider);
-    engine()->addImageProvider(QStringLiteral("asseticon"), m_effectIconProvider.get());
+    m_assetIconProvider.reset(new AssetIconProvider(true));
+    engine()->addImageProvider(QStringLiteral("asseticon"), m_assetIconProvider.get());
     setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
     setFocusPolicy(Qt::StrongFocus);
 }

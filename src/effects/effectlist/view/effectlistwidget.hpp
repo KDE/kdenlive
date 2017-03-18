@@ -24,8 +24,8 @@
 
 #include <QQuickWidget>
 #include <memory>
-#include "qmltypes/effecticonprovider.hpp"
 #include "effects/effectsrepository.hpp"
+#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 /* @brief This class is a widget that display the list of available effects
  */
@@ -48,7 +48,7 @@ private:
     std::unique_ptr<EffectTreeModel> m_model;
     EffectFilter *m_proxyModel;
 
-    std::unique_ptr<EffectIconProvider> m_effectIconProvider;
+    std::unique_ptr<AssetIconProvider> m_assetIconProvider;
 
 signals:
 };

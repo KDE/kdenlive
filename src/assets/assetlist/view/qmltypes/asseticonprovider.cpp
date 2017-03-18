@@ -19,7 +19,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "effecticonprovider.hpp"
+#include "asseticonprovider.hpp"
 #include "effects/effectsrepository.hpp"
 #include <QDebug>
 #include <QIcon>
@@ -27,12 +27,13 @@
 #include <QFont>
 #include "utils/KoIconUtils.h"
 
-EffectIconProvider::EffectIconProvider()
+AssetIconProvider::AssetIconProvider(bool effect)
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
 {
+    m_effect = effect;
 }
 
-QImage EffectIconProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
+QImage AssetIconProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QImage result;
 
@@ -41,7 +42,7 @@ QImage EffectIconProvider::requestImage(const QString &id, QSize *size, const QS
         return pix.toImage();
     }
 
-    if (EffectsRepository::get()->exists(id)) {
+    if (m_effect && EffectsRepository::get()->exists(id)) {
         if (EffectsRepository::get()->getType(id) == EffectType::Custom) {
             QIcon folder_icon = KoIconUtils::themedIcon(QStringLiteral("folder"));
             result = folder_icon.pixmap(30,30).toImage();
@@ -53,13 +54,13 @@ QImage EffectIconProvider::requestImage(const QString &id, QSize *size, const QS
             *size = result.size();
         }
     } else {
-        qDebug() << "Effect not found "<<id;
+        qDebug() << "Asset not found "<<id;
     }
     return result;
 }
 
 
-QImage EffectIconProvider::makeIcon(const QString &effectId, const QString &effectName, const QSize& size)
+QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effectName, const QSize& size)
 {
     QPixmap pix(30,30);
     if (effectName.isEmpty()) {
@@ -71,7 +72,10 @@ QImage EffectIconProvider::makeIcon(const QString &effectId, const QString &effe
     uint hex = qHash(effectName);
     QString t = "#" + QString::number(hex, 16).toUpper().left(6);
     QColor col(t);
-    bool isAudio = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+    bool isAudio = false;
+    if (m_effect) {
+        isAudio = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+    }
     if (isAudio) {
         pix.fill(Qt::transparent);
     } else {
