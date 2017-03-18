@@ -55,15 +55,8 @@ private:
     QString m_originalProfile;
     void slotUpdateInfoDisplay();
 
-    QCheckBox *m_enableScanning;
-    QLabel *m_labelScanning;
-    QButtonGroup *m_widScanning;
-    QPushButton *m_but1Scanning;
-    QPushButton *m_but2Scanning;
-
-    QCheckBox *m_enableFps;
-    QLabel *m_labelFps;
-    QComboBox *m_widFps;
+    QComboBox *fpsFilt;
+    QComboBox *scanningFilt;
 
 
     QTreeView *m_treeView;

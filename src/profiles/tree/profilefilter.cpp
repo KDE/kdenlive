@@ -27,6 +27,7 @@
 ProfileFilter::ProfileFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
 {
+    m_interlaced_enabled = m_fps_enabled = false;
 }
 
 void ProfileFilter::setFilterInterlaced(bool enabled, bool interlaced)
