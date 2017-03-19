@@ -84,6 +84,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_colorspaceLocation(0)
     , m_zoom(1.0f)
     , m_openGLSync(false)
+    , m_sendFrame(false)
     , m_offset(QPoint(0, 0))
     , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
@@ -483,7 +484,7 @@ void GLWidget::paintGL()
     f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error(f);
 
-    if (sendFrameForAnalysis && m_analyseSem.tryAcquire(1)) {
+    if (m_sendFrame && m_analyseSem.tryAcquire(1)) {
         // Render RGB frame for analysis
         int fullWidth = m_monitorProfile->width();
         int fullHeight = m_monitorProfile->height();
@@ -505,6 +506,7 @@ void GLWidget::paintGL()
         check_error(f);
         m_fbo->release();
         emit analyseFrame(m_fbo->toImage());
+        m_sendFrame = false;
     }
     // Cleanup
     m_shader->disableAttributeArray(m_vertexLocation);
@@ -1198,6 +1200,7 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
 {
     m_mutex.lock();
     m_sharedFrame = frame;
+    m_sendFrame = sendFrameForAnalysis;
     m_mutex.unlock();
     update();
 }
@@ -1271,6 +1274,7 @@ void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
     m_texture[0] = yName;
     m_texture[1] = uName;
     m_texture[2] = vName;
+    m_sendFrame = sendFrameForAnalysis;
     emit textureUpdated();
     //update();
 }

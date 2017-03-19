@@ -2134,3 +2134,12 @@ void Timeline::switchComposite(int mode)
     m_doc->renderer()->doRefresh();
     m_doc->setModified();
 }
+
+bool Timeline::hideClip(const QString &id, bool hide)
+{
+    bool trackHidden = false;
+    for (int i = 1; i < m_tracks.count(); i++) {
+        trackHidden |= track(i)->hideClip(m_trackview->seekPosition(), id, hide);
+    }
+    return trackHidden;
+}

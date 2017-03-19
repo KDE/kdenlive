@@ -154,8 +154,6 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         }
         m_activeMonitor->blockSignals(false);
         m_activeMonitor->start();
-        // why?
-        //updateAudioIcons();
     }
     emit checkColorScopes();
     return (m_activeMonitor != nullptr);

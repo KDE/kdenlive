@@ -1030,3 +1030,39 @@ bool Track::resize_in_out(int pos, int in, int out)
     m_playlist.resize_clip(ix, in, out);
     return true;
 }
+
+bool Track::hideClip(int pos, const QString &id, bool hide)
+{
+    int ix = m_playlist.get_clip_index_at(pos);
+    if (m_playlist.is_blank(ix)) {
+        return false;
+    }
+    QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(ix));
+    QString current = p->parent().get("id");
+    if (current == id) {
+        if (!hide) {
+            m_playlist.parent().set("hide", m_playlist.parent().get_int("_autohide"));
+            m_playlist.parent().set("_autohide", (char *) nullptr);
+            return true;
+        }
+        int currentState = m_playlist.parent().get_int("hide");
+        int newState;
+        switch (currentState) {
+            case 3:
+            case 1:
+                // Track is already blinded, nothing to do
+                return false;
+            case 2:
+                // Track is mutes, hide completely
+                newState = 3;
+                break;
+            default:
+                newState = 1;
+                break;
+        }
+        m_playlist.parent().set("hide", newState);
+        m_playlist.parent().set("_autohide", currentState);
+        return true;
+    }
+    return false;
+}

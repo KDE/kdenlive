@@ -187,6 +187,7 @@ private:
     int m_textureLocation[3];
     float m_zoom;
     bool m_openGLSync;
+    bool m_sendFrame;
     SharedFrame m_sharedFrame;
     QMutex m_mutex;
     QPoint m_offset;
