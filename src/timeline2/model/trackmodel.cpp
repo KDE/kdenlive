@@ -85,7 +85,7 @@ int TrackModel::getClipsCount()
     return count;
 }
 
-Fun TrackModel::requestClipInsertion_lambda(int cid, int position, bool updateView)
+Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updateView)
 {
     // By default, insertion occurs in topmost track
     // Find out the clip id at position
@@ -93,9 +93,9 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position, bool updateVi
     int count = m_playlists[0].count();
 
     //we create the function that has to be executed after the melt order. This is essentially book-keeping
-    auto end_function = [cid, this, position, updateView]() {
+    auto end_function = [clipId, this, position, updateView]() {
         if (auto ptr = m_parent.lock()) {
-            std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
+            std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
             m_allClips[clip->getId()] = clip;  //store clip
             //update clip position and track
             clip->setPosition(position);
@@ -117,9 +117,9 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position, bool updateVi
     };
     if (target_clip >= count && isBlankAt(position)) {
         //In that case, we append after, in the first playlist
-        return [this, position, cid, end_function]() {
+        return [this, position, clipId, end_function]() {
             if (auto ptr = m_parent.lock()) {
-                std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
+                std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                 int index = m_playlists[0].insert_at(position, *clip, 1);
                 return index != -1 && end_function();
             } else {
@@ -132,13 +132,13 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position, bool updateVi
             int blank_end = getBlankEnd(position);
             int length = -1;
             if (auto ptr = m_parent.lock()) {
-                std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
+                std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                 length = clip->getPlaytime();
             }
             if (blank_end >= position + length) {
-                return [this, position, cid, end_function]() {
+                return [this, position, clipId, end_function]() {
                     if (auto ptr = m_parent.lock()) {
-                        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
+                        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                         int index = m_playlists[0].insert_at(position, *clip, 1);
                         return index != -1 && end_function();
                     } else {
@@ -152,26 +152,26 @@ Fun TrackModel::requestClipInsertion_lambda(int cid, int position, bool updateVi
     return [](){return false;};
 }
 
-bool TrackModel::requestClipInsertion(int cid, int position, bool updateView, Fun& undo, Fun& redo)
+bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, Fun& undo, Fun& redo)
 {
-    auto operation = requestClipInsertion_lambda(cid, position, updateView);
+    auto operation = requestClipInsertion_lambda(clipId, position, updateView);
     if (operation()) {
-        auto reverse = requestClipDeletion_lambda(cid, updateView);
+        auto reverse = requestClipDeletion_lambda(clipId, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
     return false;
 }
 
-Fun TrackModel::requestClipDeletion_lambda(int cid, bool updateView)
+Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
 {
     //Find index of clip
-    int clip_position = m_allClips[cid]->getPosition();
+    int clip_position = m_allClips[clipId]->getPosition();
     int old_in = clip_position;
-    int old_out = old_in + m_allClips[cid]->getPlaytime() - 1;
-    return [clip_position, cid, old_in, old_out, updateView, this]() {
+    int old_out = old_in + m_allClips[clipId]->getPlaytime() - 1;
+    return [clip_position, clipId, old_in, old_out, updateView, this]() {
         auto clip_loc = getClipIndexAt(clip_position);
-        int old_clip_index = getRowfromClip(cid);
+        int old_clip_index = getRowfromClip(clipId);
         if (updateView) {
             auto ptr = m_parent.lock();
             ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
@@ -184,8 +184,8 @@ Fun TrackModel::requestClipDeletion_lambda(int cid, bool updateView)
         auto prod = m_playlists[target_track].replace_with_blank(target_clip);
         if (prod != nullptr) {
             m_playlists[target_track].consolidate_blanks();
-            m_allClips[cid]->setCurrentTrackId(-1);
-            m_allClips.erase(cid);
+            m_allClips[clipId]->setCurrentTrackId(-1);
+            m_allClips.erase(clipId);
             delete prod;
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
@@ -197,24 +197,24 @@ Fun TrackModel::requestClipDeletion_lambda(int cid, bool updateView)
     };
 }
 
-bool TrackModel::requestClipDeletion(int cid, bool updateView, Fun& undo, Fun& redo)
+bool TrackModel::requestClipDeletion(int clipId, bool updateView, Fun& undo, Fun& redo)
 {
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    auto old_clip = m_allClips[cid];
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    auto old_clip = m_allClips[clipId];
     int old_position = old_clip->getPosition();
-    auto operation = requestClipDeletion_lambda(cid, updateView);
+    auto operation = requestClipDeletion_lambda(clipId, updateView);
     if (operation()) {
-        auto reverse = requestClipInsertion_lambda(cid, old_position, updateView);
+        auto reverse = requestClipInsertion_lambda(clipId, old_position, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
     return false;
 }
 
-int TrackModel::getBlankSizeNearClip(int cid, bool after)
+int TrackModel::getBlankSizeNearClip(int clipId, bool after)
 {
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    int clip_position = m_allClips[cid]->getPosition();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    int clip_position = m_allClips[clipId]->getPosition();
     auto clip_loc = getClipIndexAt(clip_position);
     int track = clip_loc.first;
     int index = clip_loc.second;
@@ -246,20 +246,20 @@ int TrackModel::getBlankSizeNearClip(int cid, bool after)
     return length;
 }
 
-int TrackModel::getBlankSizeNearTransition(int cid, bool after)
+int TrackModel::getBlankSizeNearTransition(int compoId, bool after)
 {
     //TODO
-    Q_ASSERT(m_allTransitions.count(cid) > 0);
-    int clip_position = m_allTransitions[cid]->getPosition();
+    Q_ASSERT(m_allTransitions.count(compoId) > 0);
+    int clip_position = m_allTransitions[compoId]->getPosition();
     int length = INT_MAX;
     return length;
 }
 
-Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
+Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right)
 {
-    int clip_position = m_allClips[cid]->getPosition();
+    int clip_position = m_allClips[clipId]->getPosition();
     int old_in = clip_position;
-    int old_out = old_in + m_allClips[cid]->getPlaytime() - 1;
+    int old_out = old_in + m_allClips[clipId]->getPlaytime() - 1;
     auto clip_loc = getClipIndexAt(clip_position);
     int target_track = clip_loc.first;
     int target_clip = clip_loc.second;
@@ -278,19 +278,19 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
         }
     };
 
-    int delta = m_allClips[cid]->getPlaytime() - size;
+    int delta = m_allClips[clipId]->getPlaytime() - size;
     if (delta == 0) {
         return [](){return true;};
     }
     if (delta > 0) { //we shrink clip
-        return [right, target_clip, target_track, clip_position, delta, in, out, cid, update_snaps, this](){
+        return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, this](){
             int target_clip_mutable = target_clip;
             int blank_index = right ? (target_clip_mutable + 1) : target_clip_mutable;
             // insert blank to space that is going to be empty
             // The second is parameter is delta - 1 because this function expects an out time, which is basically size - 1
             m_playlists[target_track].insert_blank(blank_index, delta - 1);
             if (!right) {
-                m_allClips[cid]->setPosition(clip_position + delta);
+                m_allClips[clipId]->setPosition(clip_position + delta);
                 //Because we inserted blank before, the index of our clip has increased
                 target_clip_mutable++;
             }
@@ -298,7 +298,7 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
             //make sure to do this after, to avoid messing the indexes
             m_playlists[target_track].consolidate_blanks();
             if (err == 0) {
-                update_snaps(m_allClips[cid]->getPosition(), m_allClips[cid]->getPosition() + out - in);
+                update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in);
             }
             return err == 0;
         };
@@ -308,10 +308,10 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
         if (right) {
             if (target_clip == m_playlists[target_track].count() - 1 && other_blank_end >= out) {
                 //clip is last, it can always be extended
-                return [this, target_clip, target_track, in, out, update_snaps, cid]() {
+                return [this, target_clip, target_track, in, out, update_snaps, clipId]() {
                     int err = m_playlists[target_track].resize_clip(target_clip, in, out);
                     if (err == 0) {
-                        update_snaps(m_allClips[cid]->getPosition(), m_allClips[cid]->getPosition() + out - in);
+                        update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in);
                     }
                     return err == 0;
                 };
@@ -328,7 +328,7 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
         if (m_playlists[target_track].is_blank(blank)) {
             int blank_length = m_playlists[target_track].clip_length(blank);
             if (blank_length + delta >= 0 && other_blank_end >= out) {
-                return [blank_length, blank, right, cid, delta, update_snaps, this, in, out, target_clip, target_track](){
+                return [blank_length, blank, right, clipId, delta, update_snaps, this, in, out, target_clip, target_track](){
                     int target_clip_mutable = target_clip;
                     int err = 0;
                     if (blank_length + delta == 0) {
@@ -343,10 +343,10 @@ Fun TrackModel::requestClipResize_lambda(int cid, int in, int out, bool right)
                         err = m_playlists[target_track].resize_clip(target_clip_mutable, in, out);
                     }
                     if (!right && err == 0) {
-                        m_allClips[cid]->setPosition(m_playlists[target_track].clip_start(target_clip_mutable));
+                        m_allClips[clipId]->setPosition(m_playlists[target_track].clip_start(target_clip_mutable));
                     }
                     if (err == 0) {
-                        update_snaps(m_allClips[cid]->getPosition(), m_allClips[cid]->getPosition() + out - in);
+                        update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in);
                     }
                     return err == 0;
                 };
@@ -371,10 +371,10 @@ int TrackModel::getClipByRow(int row) const
     return (*it).first;
 }
 
-int TrackModel::getRowfromClip(int cid) const
+int TrackModel::getRowfromClip(int clipId) const
 {
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    return (int)std::distance(m_allClips.begin(), m_allClips.find(cid));
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    return (int)std::distance(m_allClips.begin(), m_allClips.find(clipId));
 }
 
 int TrackModel::getRowfromTransition(int tid) const
@@ -490,11 +490,11 @@ int TrackModel::getBlankEnd(int position)
     return end;
 }
 
-Fun TrackModel::requestTransitionResize_lambda(int cid, int in, int out)
+Fun TrackModel::requestTransitionResize_lambda(int compoId, int in, int out)
 {
-    int clip_position = m_allTransitions[cid]->getPosition();
+    int clip_position = m_allTransitions[compoId]->getPosition();
     int old_in = clip_position;
-    int old_out = old_in + m_allTransitions[cid]->getPlaytime() - 1;
+    int old_out = old_in + m_allTransitions[compoId]->getPlaytime() - 1;
     if (out == -1) {
         out = in + old_out - old_in;
     }
@@ -515,9 +515,9 @@ Fun TrackModel::requestTransitionResize_lambda(int cid, int in, int out)
         return [](){return true;};
     }
 
-    return [in, out, cid, update_snaps, this](){
-            m_allTransitions[cid]->setInOut(in, out);
-            update_snaps(m_allTransitions[cid]->getPosition(), m_allTransitions[cid]->getPosition() + out - in);
+    return [in, out, compoId, update_snaps, this](){
+            m_allTransitions[compoId]->setInOut(in, out);
+            update_snaps(m_allTransitions[compoId]->getPosition(), m_allTransitions[compoId]->getPosition() + out - in);
             return true;
     };
 }
@@ -534,37 +534,37 @@ bool TrackModel::requestTransitionInsertion(int tid, int position, bool updateVi
     return false;
 }
 
-bool TrackModel::requestTransitionDeletion(int cid, bool updateView, Fun& undo, Fun& redo)
+bool TrackModel::requestTransitionDeletion(int compoId, bool updateView, Fun& undo, Fun& redo)
 {
-    Q_ASSERT(m_allTransitions.count(cid) > 0);
-    auto old_transition = m_allTransitions[cid];
+    Q_ASSERT(m_allTransitions.count(compoId) > 0);
+    auto old_transition = m_allTransitions[compoId];
     int old_position = old_transition->getPosition();
-    auto operation = requestTransitionDeletion_lambda(cid, updateView);
+    auto operation = requestTransitionDeletion_lambda(compoId, updateView);
     if (operation()) {
-        auto reverse = requestTransitionInsertion_lambda(cid, old_position, updateView);
+        auto reverse = requestTransitionInsertion_lambda(compoId, old_position, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
     return false;
 }
 
-Fun TrackModel::requestTransitionDeletion_lambda(int cid, bool updateView)
+Fun TrackModel::requestTransitionDeletion_lambda(int compoId, bool updateView)
 {
     //Find index of clip
-    int clip_position = m_allTransitions[cid]->getPosition();
+    int clip_position = m_allTransitions[compoId]->getPosition();
     int old_in = clip_position;
-    int old_out = old_in + m_allTransitions[cid]->getPlaytime() - 1;
-    return [clip_position, cid, old_in, old_out, updateView, this]() {
-        int old_clip_index = getRowfromTransition(cid);
+    int old_out = old_in + m_allTransitions[compoId]->getPlaytime() - 1;
+    return [clip_position, compoId, old_in, old_out, updateView, this]() {
+        int old_clip_index = getRowfromTransition(compoId);
         auto ptr = m_parent.lock();
         if (updateView) {
             ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId(), true), old_clip_index, old_clip_index);
             ptr->_endRemoveRows();
         }
-        int target_track = m_allTransitions[cid]->getCurrentTrackId();
+        int target_track = m_allTransitions[compoId]->getCurrentTrackId();
         if (ptr->removeTransition(target_track, clip_position)) {
-            m_allTransitions[cid]->setCurrentTrackId(-1);
-            m_allTransitions.erase(cid);
+            m_allTransitions[compoId]->setCurrentTrackId(-1);
+            m_allTransitions.erase(compoId);
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out);
             return true;
@@ -585,17 +585,17 @@ int TrackModel::getTransitionByRow(int row) const
 
 int TrackModel::getTransitionsCount() const
 {
-    return m_allTransitions.size();
+    return (int)m_allTransitions.size();
 }
 
-Fun TrackModel::requestTransitionInsertion_lambda(int tid, int position, bool updateView)
+Fun TrackModel::requestTransitionInsertion_lambda(int compoId, int position, bool updateView)
 {
     // By default, insertion occurs in topmost track
 
     //we create the function that has to be executed after the melt order. This is essentially book-keeping
-    auto end_function = [tid, this, position, updateView]() {
+    auto end_function = [compoId, this, position, updateView]() {
         if (auto ptr = m_parent.lock()) {
-            std::shared_ptr<TransitionModel> transition = ptr->getTransitionPtr(tid);
+            std::shared_ptr<TransitionModel> transition = ptr->getTransitionPtr(compoId);
             m_allTransitions[transition->getId()] = transition;  //store clip
             //update clip position and track
             transition->setCurrentTrackId(getId());
@@ -618,9 +618,9 @@ Fun TrackModel::requestTransitionInsertion_lambda(int tid, int position, bool up
         }
     };
 
-    return [this, position, tid, end_function]() {
+    return [this, position, compoId, end_function]() {
         if (auto ptr = m_parent.lock()) {
-            std::shared_ptr<TransitionModel> transition = ptr->getTransitionPtr(tid);
+            std::shared_ptr<TransitionModel> transition = ptr->getTransitionPtr(compoId);
             (*transition).setPosition(position);
             ptr->plantTransition(*transition, ((Mlt::Transition)*transition).get_a_track(), ((Mlt::Transition)*transition).get_b_track());
             return end_function();

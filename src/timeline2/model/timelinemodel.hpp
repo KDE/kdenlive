@@ -97,43 +97,43 @@ public:
     int getClipsCount() const;
 
     /* @brief Returns the id of the track containing clip (-1 if it is not inserted)
-       @param cid Id of the clip to test
+       @param clipId Id of the clip to test
      */
-    Q_INVOKABLE int getClipTrackId(int cid) const;
+    Q_INVOKABLE int getClipTrackId(int clipId) const;
 
     /* @brief Returns the position of clip (-1 if it is not inserted)
-       @param cid Id of the clip to test
+       @param clipId Id of the clip to test
     */
-    Q_INVOKABLE int getClipPosition(int cid) const;
+    Q_INVOKABLE int getClipPosition(int clipId) const;
 
     /* @brief Returns the duration of a clip
-       @param cid Id of the clip to test
+       @param clipId Id of the clip to test
     */
-    int getClipPlaytime(int cid) const;
+    int getClipPlaytime(int clipId) const;
 
     /* @brief Returns the number of clips in a given track
-       @param tid Id of the track to test
+       @param trackId Id of the track to test
     */
-    int getTrackClipsCount(int tid) const;
-    int getTrackTransitionsCount(int tid) const;
+    int getTrackClipsCount(int trackId) const;
+    int getTrackTransitionsCount(int trackId) const;
 
     /* @brief Returns the position of the track in the order of the tracks
-       @param tid Id of the track to test
+       @param trackId Id of the track to test
     */
-    int getTrackPosition(int tid) const;
+    int getTrackPosition(int trackId) const;
 
     /* @brief Move a clip to a specific position
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        If the clip is not in inserted in a track yet, it gets inserted for the first time.
        If the clip is in a group, the call is deferred to requestGroupMove
-       @param cid is the ID of the clip
-       @param tid is the ID of the target track
+       @param clipId is the ID of the clip
+       @param trackId is the ID of the target track
        @param position is the position where we want to move
        @param updateView if set to false, no signal is sent to qml
        @param logUndo if set to false, no undo object is stored
     */
-    Q_INVOKABLE bool requestClipMove(int cid, int tid, int position, bool updateView = true, bool logUndo = true);
+    Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool updateView = true, bool logUndo = true);
 
     /* @brief Move a transition to a specific position
        This action is undoable
@@ -141,27 +141,27 @@ public:
        If the clip is not in inserted in a track yet, it gets inserted for the first time.
        If the clip is in a group, the call is deferred to requestGroupMove
        @param transid is the ID of the transition
-       @param tid is the ID of the track
+       @param trackId is the ID of the track
     */
-    Q_INVOKABLE bool requestTransitionMove(int transid, int tid, int position, bool updateView = true, bool logUndo = true);
+    Q_INVOKABLE bool requestTransitionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true);
 
-    int getTransitionTrackId(int tid) const;
-    int getTransitionPosition(int tid) const;
-    int getTransitionPlaytime(int tid) const;
-    Q_INVOKABLE int suggestTransitionMove(int cid, int tid, int position);
+    int getTransitionTrackId(int compoId) const;
+    int getTransitionPosition(int compoId) const;
+    int getTransitionPlaytime(int compoId) const;
+    Q_INVOKABLE int suggestTransitionMove(int compoId, int trackId, int position);
 
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
-    bool requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo);
-    bool requestTransitionMove(int transid, int tid, int position, bool updateView, Fun &undo, Fun &redo);
+    bool requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
+    bool requestTransitionMove(int transid, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
 public:
 
     /* @brief Given an intended move, try to suggest a more valid one (accounting for snaps and missing UI calls)
-       @param cid id of the clip to move
-       @param tid id of the target track
+       @param clipId id of the clip to move
+       @param trackId id of the target track
        @param position target position of the clip
      */
-    Q_INVOKABLE int suggestClipMove(int cid, int tid, int position);
+    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position);
 
     /* @brief Request clip insertion at given position.
        This action is undoable
@@ -180,55 +180,55 @@ public:
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        If the clip is in a group, the call is deferred to requestGroupDeletion
-       @param cid is the ID of the clip
+       @param clipId is the ID of the clip
        @param logUndo if set to false, no undo object is stored
     */
-    Q_INVOKABLE bool requestClipDeletion(int cid, bool logUndo = true);
+    Q_INVOKABLE bool requestClipDeletion(int clipId, bool logUndo = true);
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
-    bool requestClipDeletion(int cid, Fun &undo, Fun &redo);
+    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
 
     /* @brief Move a group to a specific position
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        If the clips in the group are not in inserted in a track yet, they get inserted for the first time.
-       @param cid is the id of the clip that triggers the group move
-       @param gid is the id of the group
+       @param clipId is the id of the clip that triggers the group move
+       @param groupId is the id of the group
        @param delta_track is the delta applied to the track index
        @param delta_pos is the requested position change
-       @param updateView if set to false, no signal is sent to qml for the clip cid
+       @param updateView if set to false, no signal is sent to qml for the clip clipId
        @param logUndo if set to true, an undo object is created
     */
-    bool requestGroupMove(int cid, int gid, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
+    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
 
     /* @brief Deletes all clips inside the group that contains the given clip.
        This action is undoable
        Note that if their is a hierarchy of groups, all of them will be deleted.
        Returns true on success. If it fails, nothing is modified.
-       @param cid is the id of the clip that triggers the group deletion
+       @param clipId is the id of the clip that triggers the group deletion
     */
-    bool requestGroupDeletion(int cid);
+    bool requestGroupDeletion(int clipId);
 
     /* @brief Change the duration of a clip
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
-       @param cid is the ID of the clip
+       @param clipId is the ID of the clip
        @param size is the new size of the clip
        @param right is true if we change the right side of the clip, false otherwise
        @param logUndo if set to true, an undo object is created
        @param snap if set to true, the resize order will be coerced to use the snapping grid
     */
-    Q_INVOKABLE bool requestClipResize(int cid, int size, bool right, bool logUndo = true, bool snap = false);
+    Q_INVOKABLE bool requestClipResize(int clipId, int size, bool right, bool logUndo = true, bool snap = false);
 
     /* @brief Similar to requestClipResize but takes a delta instead of absolute size
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
-       @param cid is the ID of the clip
+       @param clipId is the ID of the clip
        @param delta is the delta to be applied to the length of the clip
        @param right is true if we change the right side of the clip, false otherwise
        @param ripple TODO document this
        @param test_only if set to true, the undo is not created and no signal is sent to qml
      */
-    bool requestClipTrim(int cid, int delta, bool right, bool ripple = false, bool test_only = false);
+    bool requestClipTrim(int clipId, int delta, bool right, bool ripple = false, bool test_only = false);
 
     /* @brief Group together a set of ids
        The ids are either a group ids or clip ids. The involved clip must already be inserted in a track
@@ -262,11 +262,11 @@ public:
        This also deletes all the clips contained in the track.
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
-       @param tid id of the track to delete
+       @param trackId id of the track to delete
     */
-    bool requestTrackDeletion(int tid);
+    bool requestTrackDeletion(int trackId);
     /* Same function, but accumulates undo and redo*/
-    bool requestTrackDeletion(int tid, Fun& undo, Fun& redo);
+    bool requestTrackDeletion(int trackId, Fun& undo, Fun& redo);
 
     /* @brief Get project duration
        Returns the duration in frames
@@ -275,9 +275,9 @@ public:
 
     /* @brief Get all the elements of the same group as the given clip.
        If there is a group hierarchy, only the topmost group is considered.
-       @param cid id of the clip to test
+       @param clipId id of the clip to test
     */
-    std::unordered_set<int> getGroupElements(int cid);
+    std::unordered_set<int> getGroupElements(int clipId);
 
     /* @brief Removes all the elements on the timeline (tracks and clips)
      */
@@ -310,7 +310,7 @@ public:
        @param trans the transition, containg all infos (position, track).
        @param id is a return parameter that holds the id of the resulting transition (-1 on failure)
     */
-    bool requestTransitionInsertion(std::shared_ptr<Mlt::Transition> trans, int tid, int &id, Fun& undo, Fun& redo);
+    bool requestTransitionInsertion(std::shared_ptr<Mlt::Transition> trans, int trackId, int &id, Fun& undo, Fun& redo);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -342,7 +342,7 @@ protected:
 
     /* @brief Return a lambda that deregisters and destructs the transition with given id.
      */
-    Fun deregisterTransition_lambda(int tid);
+    Fun deregisterTransition_lambda(int compoId);
 
     /* @brief Deregister a group with given id
      */
@@ -350,14 +350,14 @@ protected:
 
     /* @brief Helper function to get a pointer to the track, given its id
      */
-    std::shared_ptr<TrackModel> getTrackById(int tid);
-    const std::shared_ptr<TrackModel> getTrackById_const(int tid) const;
+    std::shared_ptr<TrackModel> getTrackById(int trackId);
+    const std::shared_ptr<TrackModel> getTrackById_const(int trackId) const;
 
     /*@brief Helper function to get a pointer to a clip, given its id*/
-    std::shared_ptr<ClipModel> getClipPtr(int cid) const;
+    std::shared_ptr<ClipModel> getClipPtr(int clipId) const;
 
     /*@brief Helper function to get a pointer to a transition, given its id*/
-    std::shared_ptr<TransitionModel> getTransitionPtr(int tid) const;
+    std::shared_ptr<TransitionModel> getTransitionPtr(int compoId) const;
 
     /* @brief Returns next valid unique id to create an object
      */
@@ -380,7 +380,7 @@ protected:
     bool isGroup(int id) const;
 
     void plantTransition(Mlt::Transition &tr, int a_track, int b_track);
-    bool removeTransition(int tid, int pos);
+    bool removeTransition(int compoId, int pos);
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

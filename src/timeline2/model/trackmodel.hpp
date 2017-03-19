@@ -79,12 +79,12 @@ protected:
     /* @brief Returns a lambda that performs a resize of the given clip.
        The lamda returns true if the operation succeeded, and otherwise nothing is modified
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
-       @param cid is the id of the clip
+       @param clipId is the id of the clip
        @param in is the new starting on the clip
        @param out is the new ending on the clip
        @param right is true if we change the right side of the clip, false otherwise
     */
-    Fun requestClipResize_lambda(int cid, int in, int out, bool right);
+    Fun requestClipResize_lambda(int clipId, int in, int out, bool right);
 
     /* @brief Performs an insertion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
@@ -95,32 +95,32 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(int cid, int position, bool updateView,  Fun& undo, Fun& redo);
+    bool requestClipInsertion(int clipId, int position, bool updateView,  Fun& undo, Fun& redo);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipInsertion_lambda(int cid, int position, bool updateView);
+    Fun requestClipInsertion_lambda(int clipId, int position, bool updateView);
 
     /* @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
-       @param cid is the id of the clip
+       @param clipId is the id of the clip
        @param updateView whether we send update to the view
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipDeletion(int cid, bool updateView, Fun& undo, Fun& redo);
+    bool requestClipDeletion(int clipId, bool updateView, Fun& undo, Fun& redo);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipDeletion_lambda(int cid, bool updateView);
+    Fun requestClipDeletion_lambda(int clipId, bool updateView);
 
-    bool requestTransitionDeletion(int cid, bool updateView, Fun& undo, Fun& redo);
-    Fun requestTransitionDeletion_lambda(int cid, bool updateView);
-    Fun requestTransitionResize_lambda(int cid, int in, int out = -1);
+    bool requestTransitionDeletion(int compoId, bool updateView, Fun& undo, Fun& redo);
+    Fun requestTransitionDeletion_lambda(int compoId, bool updateView);
+    Fun requestTransitionResize_lambda(int compoId, int in, int out = -1);
 
     /* @brief Returns the size of the blank before or after the given clip
-       @param cid is the id of the clip
+       @param clipId is the id of the clip
        @param after is true if we query the blank after, false otherwise
     */
-    int getBlankSizeNearClip(int cid, bool after);
-    int getBlankSizeNearTransition(int cid, bool after);
+    int getBlankSizeNearClip(int clipId, bool after);
+    int getBlankSizeNearTransition(int compoId, bool after);
 
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;
@@ -129,15 +129,20 @@ protected:
       Given a row in the model, retrieves the corresponding clip id. If it does not exist, returns -1
     */
     int getClipByRow(int row) const;
+
+    /*@brief This function is used only by the QAbstractItemModel
+      Given a row in the model, retrieves the corresponding composition id. If it does not exist, returns -1
+    */
+    int getTransitionByRow(int row) const;
     /*@brief This function is used only by the QAbstractItemModel
       Given a clip ID, returns the row of the clip.
     */
-    int getRowfromClip(int cid) const;
+    int getRowfromClip(int clipId) const;
 
     /*@brief This function is used only by the QAbstractItemModel
       Given a transition ID, returns the row of the transition.
     */
-    int getRowfromTransition(int tid) const;
+    int getRowfromTransition(int compoId) const;
 
     /*@brief This is an helper function that test frame level consistancy with the MLT structures */
     bool checkConsistency();
@@ -157,7 +162,6 @@ protected:
 
     bool requestTransitionInsertion(int tid, int position, bool updateView,  Fun& undo, Fun& redo);
     Fun requestTransitionInsertion_lambda(int tid, int position, bool updateView);
-    int getTransitionByRow(int row) const;
 
 public slots:
     /*Delete the current track and all its associated clips */

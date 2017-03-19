@@ -105,65 +105,65 @@ int TimelineModel::getClipsCount() const
 }
 
 
-int TimelineModel::getClipTrackId(int cid) const
+int TimelineModel::getClipTrackId(int clipId) const
 {
     READ_LOCK();
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    const auto clip = m_allClips.at(cid);
-    int tid = clip->getCurrentTrackId();
-    return tid;
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    int trackId = clip->getCurrentTrackId();
+    return trackId;
 }
 
-int TimelineModel::getClipPosition(int cid) const
+int TimelineModel::getClipPosition(int clipId) const
 {
     READ_LOCK();
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    const auto clip = m_allClips.at(cid);
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
     int pos = clip->getPosition();
     return pos;
 }
 
-int TimelineModel::getClipPlaytime(int cid) const
+int TimelineModel::getClipPlaytime(int clipId) const
 {
     READ_LOCK();
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    const auto clip = m_allClips.at(cid);
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
     int playtime = clip->getPlaytime();
     return playtime;
 }
 
-int TimelineModel::getTrackClipsCount(int tid) const
+int TimelineModel::getTrackClipsCount(int trackId) const
 {
     READ_LOCK();
-    int count = getTrackById_const(tid)->getClipsCount();
+    int count = getTrackById_const(trackId)->getClipsCount();
     return count;
 }
 
-int TimelineModel::getTrackPosition(int tid) const
+int TimelineModel::getTrackPosition(int trackId) const
 {
     READ_LOCK();
-    Q_ASSERT(m_iteratorTable.count(tid) > 0);
+    Q_ASSERT(m_iteratorTable.count(trackId) > 0);
     auto it = m_allTracks.begin();
-    int pos = (int)std::distance(it, (decltype(it))m_iteratorTable.at(tid));
+    int pos = (int)std::distance(it, (decltype(it))m_iteratorTable.at(trackId));
     return pos;
 }
 
-bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateView, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
 {
-    Q_ASSERT(isClip(cid));
+    Q_ASSERT(isClip(clipId));
     std::function<bool (void)> local_undo = [](){return true;};
     std::function<bool (void)> local_redo = [](){return true;};
     bool ok = true;
-    int old_tid = getClipTrackId(cid);
-    if (old_tid != -1) {
-        ok = getTrackById(old_tid)->requestClipDeletion(cid, updateView, local_undo, local_redo);
+    int old_trackId = getClipTrackId(clipId);
+    if (old_trackId != -1) {
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = getTrackById(tid)->requestClipInsertion(cid, position, updateView, local_undo, local_redo);
+    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, local_undo, local_redo);
     if (!ok) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -173,83 +173,83 @@ bool TimelineModel::requestClipMove(int cid, int tid, int position, bool updateV
     return true;
 }
 
-bool TimelineModel::requestClipMove(int cid, int tid, int position,  bool updateView, bool logUndo)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position,  bool updateView, bool logUndo)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestClipMove("<<cid<<","<<tid<<" ,"<<position<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
+    m_logFile << "timeline->requestClipMove("<<clipId<<","<<trackId<<" ,"<<position<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    if (m_allClips[cid]->getPosition() == position && getClipTrackId(cid) == tid) {
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    if (m_allClips[clipId]->getPosition() == position && getClipTrackId(clipId) == trackId) {
         return true;
     }
-    if (m_groups->isInGroup(cid)) {
+    if (m_groups->isInGroup(clipId)) {
         //element is in a group.
-        int gid = m_groups->getRootId(cid);
-        int current_tid = getClipTrackId(cid);
-        int track_pos1 = getTrackPosition(tid);
-        int track_pos2 = getTrackPosition(current_tid);
+        int groupId = m_groups->getRootId(clipId);
+        int current_trackId = getClipTrackId(clipId);
+        int track_pos1 = getTrackPosition(trackId);
+        int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
-        int delta_pos = position - m_allClips[cid]->getPosition();
-        return requestGroupMove(cid, gid, delta_track, delta_pos, updateView, logUndo);
+        int delta_pos = position - m_allClips[clipId]->getPosition();
+        return requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
     }
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
-    bool res = requestClipMove(cid, tid, position, updateView, undo, redo);
+    bool res = requestClipMove(clipId, trackId, position, updateView, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
     return res;
 }
 
-int TimelineModel::suggestClipMove(int cid, int tid, int position)
+int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->suggestClipMove("<<cid<<","<<tid<<" ,"<<position<<"); " <<std::endl;
+    m_logFile << "timeline->suggestClipMove("<<clipId<<","<<trackId<<" ,"<<position<<"); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(isClip(cid));
-    Q_ASSERT(isTrack(tid));
-    int currentPos = getClipPosition(cid);
-    int currentTrack = getClipTrackId(cid);
-    if (currentPos == position || currentTrack != tid) {
+    Q_ASSERT(isClip(clipId));
+    Q_ASSERT(isTrack(trackId));
+    int currentPos = getClipPosition(clipId);
+    int currentTrack = getClipTrackId(clipId);
+    if (currentPos == position || currentTrack != trackId) {
         return position;
     }
 
     //For snapping, we must ignore all in/outs of the clips of the group being moved
     std::vector<int> ignored_pts;
-    if (m_groups->isInGroup(cid)) {
-        int gid = m_groups->getRootId(cid);
-        auto all_clips = m_groups->getLeaves(gid);
-        for (int current_cid : all_clips) {
-            int in = getClipPosition(current_cid);
-            int out = in + getClipPlaytime(current_cid) - 1;
+    if (m_groups->isInGroup(clipId)) {
+        int groupId = m_groups->getRootId(clipId);
+        auto all_clips = m_groups->getLeaves(groupId);
+        for (int current_clipId : all_clips) {
+            int in = getClipPosition(current_clipId);
+            int out = in + getClipPlaytime(current_clipId) - 1;
             ignored_pts.push_back(in);
             ignored_pts.push_back(out);
         }
     } else {
-        int in = getClipPosition(cid);
-        int out = in + getClipPlaytime(cid) - 1;
+        int in = getClipPosition(clipId);
+        int out = in + getClipPlaytime(clipId) - 1;
         ignored_pts.push_back(in);
         ignored_pts.push_back(out);
     }
 
-    int snapped = requestBestSnapPos(position, m_allClips[cid]->getPlaytime(), ignored_pts);
-    qDebug() << "Starting suggestion "<<cid << position << currentPos << "snapped to "<<snapped;
+    int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), ignored_pts);
+    qDebug() << "Starting suggestion "<<clipId << position << currentPos << "snapped to "<<snapped;
     if (snapped >= 0) {
         position = snapped;
     }
     //we check if move is possible
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    bool possible = requestClipMove(cid, tid, position, false, undo, redo);
+    bool possible = requestClipMove(clipId, trackId, position, false, undo, redo);
     qDebug() << "Original move success" << possible;
     if (possible) {
         undo();
         return position;
     }
     bool after = position > currentPos;
-    int blank_length = getTrackById(tid)->getBlankSizeNearClip(cid, after);
+    int blank_length = getTrackById(trackId)->getBlankSizeNearClip(clipId, after);
     qDebug() << "Found blank" << blank_length;
     if (blank_length < INT_MAX) {
         if (after) {
@@ -261,56 +261,56 @@ int TimelineModel::suggestClipMove(int cid, int tid, int position)
     return position;
 }
 
-int TimelineModel::suggestTransitionMove(int cid, int tid, int position)
+int TimelineModel::suggestTransitionMove(int compoId, int trackId, int position)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->suggestTransitionMove("<<cid<<","<<tid<<" ,"<<position<<"); " <<std::endl;
+    m_logFile << "timeline->suggestTransitionMove("<<compoId<<","<<trackId<<" ,"<<position<<"); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(isTransition(cid));
-    Q_ASSERT(isTrack(tid));
-    int currentPos = getTransitionPosition(cid);
-    int currentTrack = getTransitionTrackId(cid);
-    if (currentPos == position || currentTrack != tid) {
+    Q_ASSERT(isTransition(compoId));
+    Q_ASSERT(isTrack(trackId));
+    int currentPos = getTransitionPosition(compoId);
+    int currentTrack = getTransitionTrackId(compoId);
+    if (currentPos == position || currentTrack != trackId) {
         return position;
     }
 
     //For snapping, we must ignore all in/outs of the clips of the group being moved
     std::vector<int> ignored_pts;
-    if (m_groups->isInGroup(cid)) {
-        int gid = m_groups->getRootId(cid);
-        auto all_clips = m_groups->getLeaves(gid);
-        for (int current_cid : all_clips) {
+    if (m_groups->isInGroup(compoId)) {
+        int groupId = m_groups->getRootId(compoId);
+        auto all_clips = m_groups->getLeaves(groupId);
+        for (int current_compoId : all_clips) {
             //TODO: fix for transition
-            int in = getClipPosition(current_cid);
-            int out = in + getClipPlaytime(current_cid) - 1;
+            int in = getClipPosition(current_compoId);
+            int out = in + getClipPlaytime(current_compoId) - 1;
             ignored_pts.push_back(in);
             ignored_pts.push_back(out);
         }
     } else {
         int in = currentPos;
-        int out = in + getTransitionPlaytime(cid) - 1;
+        int out = in + getTransitionPlaytime(compoId) - 1;
         qDebug()<<" * ** IGNORING SNAP PTS: "<<in<<"-"<<out;
         ignored_pts.push_back(in);
         ignored_pts.push_back(out);
     }
 
-    int snapped = requestBestSnapPos(position, m_allTransitions[cid]->getPlaytime(), ignored_pts);
-    qDebug() << "Starting suggestion "<<cid << position << currentPos << "snapped to "<<snapped;
+    int snapped = requestBestSnapPos(position, m_allTransitions[compoId]->getPlaytime(), ignored_pts);
+    qDebug() << "Starting suggestion "<<compoId << position << currentPos << "snapped to "<<snapped;
     if (snapped >= 0) {
         position = snapped;
     }
     //we check if move is possible
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    bool possible = requestTransitionMove(cid, tid, position, false, undo, redo);
+    bool possible = requestTransitionMove(compoId, trackId, position, false, undo, redo);
     qDebug() << "Original move success" << possible;
     if (possible) {
         undo();
         return position;
     }
     bool after = position > currentPos;
-    int blank_length = getTrackById(tid)->getBlankSizeNearTransition(cid, after);
+    int blank_length = getTrackById(trackId)->getBlankSizeNearTransition(compoId, after);
     qDebug() << "Found blank" << blank_length;
     if (blank_length < INT_MAX) {
         if (after) {
@@ -363,37 +363,37 @@ bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, in
     return true;
 }
 
-bool TimelineModel::requestClipDeletion(int cid, bool logUndo)
+bool TimelineModel::requestClipDeletion(int clipId, bool logUndo)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestClipDeletion("<<cid<<"); " <<std::endl;
+    m_logFile << "timeline->requestClipDeletion("<<clipId<<"); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(isClip(cid));
-    if (m_groups->isInGroup(cid)) {
-        return requestGroupDeletion(cid);
+    Q_ASSERT(isClip(clipId));
+    if (m_groups->isInGroup(clipId)) {
+        return requestGroupDeletion(clipId);
     }
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    bool res = requestClipDeletion(cid, undo, redo);
+    bool res = requestClipDeletion(clipId, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Delete Clip"));
     }
     return res;
 }
 
-bool TimelineModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
+bool TimelineModel::requestClipDeletion(int clipId, Fun& undo, Fun& redo)
 {
-    int tid = getClipTrackId(cid);
-    if (tid != -1) {
-        bool res = getTrackById(tid)->requestClipDeletion(cid, true, undo, redo);
+    int trackId = getClipTrackId(clipId);
+    if (trackId != -1) {
+        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, undo, redo);
         if (!res) {
             undo();
             return false;
         }
     }
-    auto operation = deregisterClip_lambda(cid);
-    auto clip = m_allClips[cid];
+    auto operation = deregisterClip_lambda(clipId);
+    auto clip = m_allClips[clipId];
     auto reverse = [this, clip]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
         registerClip(clip);
@@ -407,29 +407,29 @@ bool TimelineModel::requestClipDeletion(int cid, Fun& undo, Fun& redo)
     return false;
 }
 
-bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delta_pos, bool updateView, bool logUndo)
+bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestGroupMove("<<cid<<","<<gid<<" ,"<<delta_track<<", "<<delta_pos<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
+    m_logFile << "timeline->requestGroupMove("<<clipId<<","<<groupId<<" ,"<<delta_track<<", "<<delta_pos<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
-    Q_ASSERT(m_allGroups.count(gid) > 0);
+    Q_ASSERT(m_allGroups.count(groupId) > 0);
     bool ok = true;
-    auto all_clips = m_groups->getLeaves(gid);
+    auto all_clips = m_groups->getLeaves(groupId);
     std::vector<int> sorted_clips(all_clips.begin(), all_clips.end());
     //we have to sort clip in an order that allows to do the move without self conflicts
     //If we move up, we move first the clips on the upper tracks (and conversely).
     //If we move left, we move first the leftmost clips (and conversely).
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_track, delta_pos, this](int cid1, int cid2){
-            int tid1 = getClipTrackId(cid1);
-            int tid2 = getClipTrackId(cid2);
-            int track_pos1 = getTrackPosition(tid1);
-            int track_pos2 = getTrackPosition(tid2);
-            if (tid1 == tid2) {
-                int p1 = m_allClips[cid1]->getPosition();
-                int p2 = m_allClips[cid2]->getPosition();
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_track, delta_pos, this](int clipId1, int clipId2){
+            int trackId1 = getClipTrackId(clipId1);
+            int trackId2 = getClipTrackId(clipId2);
+            int track_pos1 = getTrackPosition(trackId1);
+            int track_pos2 = getTrackPosition(trackId2);
+            if (trackId1 == trackId2) {
+                int p1 = m_allClips[clipId1]->getPosition();
+                int p2 = m_allClips[clipId2]->getPosition();
                 return !(p1 <= p2) == !(delta_pos <= 0);
             }
             return !(track_pos1 <= track_pos2) == !(delta_track <= 0);
@@ -443,7 +443,7 @@ bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delt
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
             int target_position = m_allClips[clip]->getPosition() + delta_pos;
-            ok = requestClipMove(clip, target_track, target_position, updateView || (clip != cid), undo, redo);
+            ok = requestClipMove(clip, target_track, target_position, updateView || (clip != clipId), undo, redo);
         } else {
             ok = false;
         }
@@ -459,17 +459,17 @@ bool TimelineModel::requestGroupMove(int cid, int gid, int delta_track, int delt
     return true;
 }
 
-bool TimelineModel::requestGroupDeletion(int cid)
+bool TimelineModel::requestGroupDeletion(int clipId)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestGroupDeletion("<<cid<<" ); " <<std::endl;
+    m_logFile << "timeline->requestGroupDeletion("<<clipId<<" ); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
     // we do a breadth first exploration of the group tree, ungroup (delete) every inner node, and then delete all the leaves.
     std::queue<int> group_queue;
-    group_queue.push(m_groups->getRootId(cid));
+    group_queue.push(m_groups->getRootId(clipId));
     std::unordered_set<int> all_clips;
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
@@ -507,18 +507,18 @@ bool TimelineModel::requestGroupDeletion(int cid)
 }
 
 
-bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUndo, bool snapping)
+bool TimelineModel::requestClipResize(int clipId, int size, bool right, bool logUndo, bool snapping)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestClipResize("<<cid<<","<<size<<" ,"<<(right ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<", "<<(snapping ? "true" : "false")<<" ); " <<std::endl;
+    m_logFile << "timeline->requestClipResize("<<clipId<<","<<size<<" ,"<<(right ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<", "<<(snapping ? "true" : "false")<<" ); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(isClip(cid));
+    Q_ASSERT(isClip(clipId));
     if (snapping) {
         Fun temp_undo = [](){return true;};
         Fun temp_redo = [](){return true;};
-        int in = getClipPosition(cid);
-        int out = in + getClipPlaytime(cid) - 1;
+        int in = getClipPosition(clipId);
+        int out = in + getClipPlaytime(clipId) - 1;
         m_snaps->ignore({in,out});
         int proposed_size = -1;
         if (right) {
@@ -538,7 +538,7 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUnd
         }
         m_snaps->unIgnore();
         if (proposed_size != -1) {
-            if (m_allClips[cid]->requestResize(proposed_size, right, temp_undo, temp_redo)) {
+            if (m_allClips[clipId]->requestResize(proposed_size, right, temp_undo, temp_redo)) {
                 temp_undo(); //undo temp move
                 size = proposed_size;
             }
@@ -546,9 +546,9 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUnd
     }
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    Fun update_model = [cid, right, logUndo, this]() {
-        if (getClipTrackId(cid) != -1) {
-            QModelIndex modelIndex = makeClipIndexFromID(cid);
+    Fun update_model = [clipId, right, logUndo, this]() {
+        if (getClipTrackId(clipId) != -1) {
+            QModelIndex modelIndex = makeClipIndexFromID(clipId);
             if (right) {
                 notifyChange(modelIndex, modelIndex, false, true, logUndo);
             } else {
@@ -557,7 +557,7 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUnd
         }
         return true;
     };
-    bool result = m_allClips[cid]->requestResize(size, right, undo, redo);
+    bool result = m_allClips[clipId]->requestResize(size, right, undo, redo);
     if (result) {
         PUSH_LAMBDA(update_model, undo);
         PUSH_LAMBDA(update_model, redo);
@@ -569,9 +569,9 @@ bool TimelineModel::requestClipResize(int cid, int size, bool right, bool logUnd
     return result;
 }
 
-bool TimelineModel::requestClipTrim(int cid, int delta, bool right, bool ripple, bool logUndo)
+bool TimelineModel::requestClipTrim(int clipId, int delta, bool right, bool ripple, bool logUndo)
 {
-    return requestClipResize(cid, m_allClips[cid]->getPlaytime() - delta, right, logUndo);
+    return requestClipResize(clipId, m_allClips[clipId]->getPlaytime() - delta, right, logUndo);
 }
 
 bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
@@ -581,10 +581,10 @@ bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
     m_logFile << "{"<<std::endl;
     m_logFile << "auto group = {";
     bool deb = true;
-    for (int cid : ids) {
+    for (int clipId : ids) {
         if(deb) deb = false;
         else group << ", ";
-        group<<cid;
+        group<<clipId;
     }
     m_logFile << group.str() << "};" << std::endl;
     m_logFile <<"timeline->requestClipsGroup(group);" <<std::endl;
@@ -602,11 +602,11 @@ bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
     }
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    int gid = m_groups->groupItems(ids, undo, redo);
-    if (gid != -1) {
+    int groupId = m_groups->groupItems(ids, undo, redo);
+    if (groupId != -1) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));
     }
-    return (gid != -1);
+    return (groupId != -1);
 }
 
 bool TimelineModel::requestClipUngroup(int id)
@@ -666,26 +666,26 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, Fun& undo, Fun&
     return true;
 }
 
-bool TimelineModel::requestTrackDeletion(int tid)
+bool TimelineModel::requestTrackDeletion(int trackId)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestTrackDeletion("<<tid<<"); " <<std::endl;
+    m_logFile << "timeline->requestTrackDeletion("<<trackId<<"); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    bool result = requestTrackDeletion(tid, undo, redo);
+    bool result = requestTrackDeletion(trackId, undo, redo);
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Delete Track"));
     }
     return result;
 }
 
-bool TimelineModel::requestTrackDeletion(int tid, Fun& undo, Fun& redo)
+bool TimelineModel::requestTrackDeletion(int trackId, Fun& undo, Fun& redo)
 {
-    Q_ASSERT(isTrack(tid));
+    Q_ASSERT(isTrack(trackId));
     std::vector<int> clips_to_delete;
-    for(const auto& it : getTrackById(tid)->m_allClips) {
+    for(const auto& it : getTrackById(trackId)->m_allClips) {
         clips_to_delete.push_back(it.first);
     }
     Fun local_undo = [](){return true;};
@@ -704,9 +704,9 @@ bool TimelineModel::requestTrackDeletion(int tid, Fun& undo, Fun& redo)
             return false;
         }
     }
-    int old_position = getTrackPosition(tid);
-    auto operation = deregisterTrack_lambda(tid, true);
-    std::shared_ptr<TrackModel> track = getTrackById(tid);
+    int old_position = getTrackPosition(trackId);
+    auto operation = deregisterTrack_lambda(trackId, true);
+    std::shared_ptr<TrackModel> track = getTrackById(trackId);
     auto reverse = [this, track, old_position]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is sufficient to register it.
         registerTrack(track, old_position);
@@ -776,14 +776,14 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
     };
 }
 
-Fun TimelineModel::deregisterClip_lambda(int cid)
+Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
-    return [this, cid]() {
-        Q_ASSERT(m_allClips.count(cid) > 0);
-        Q_ASSERT(getClipTrackId(cid) == -1); //clip must be deleted from its track at this point
-        Q_ASSERT(!m_groups->isInGroup(cid)); //clip must be ungrouped at this point
-        m_allClips.erase(cid);
-        m_groups->destructGroupItem(cid);
+    return [this, clipId]() {
+        Q_ASSERT(m_allClips.count(clipId) > 0);
+        Q_ASSERT(getClipTrackId(clipId) == -1); //clip must be deleted from its track at this point
+        Q_ASSERT(!m_groups->isInGroup(clipId)); //clip must be ungrouped at this point
+        m_allClips.erase(clipId);
+        m_groups->destructGroupItem(clipId);
         return true;
     };
 }
@@ -794,28 +794,28 @@ void TimelineModel::deregisterGroup(int id)
     m_allGroups.erase(id);
 }
 
-std::shared_ptr<TrackModel> TimelineModel::getTrackById(int tid)
+std::shared_ptr<TrackModel> TimelineModel::getTrackById(int trackId)
 {
-    Q_ASSERT(m_iteratorTable.count(tid) > 0);
-    return *m_iteratorTable[tid];
+    Q_ASSERT(m_iteratorTable.count(trackId) > 0);
+    return *m_iteratorTable[trackId];
 }
 
-const std::shared_ptr<TrackModel> TimelineModel::getTrackById_const(int tid) const
+const std::shared_ptr<TrackModel> TimelineModel::getTrackById_const(int trackId) const
 {
-    Q_ASSERT(m_iteratorTable.count(tid) > 0);
-    return *m_iteratorTable.at(tid);
+    Q_ASSERT(m_iteratorTable.count(trackId) > 0);
+    return *m_iteratorTable.at(trackId);
 }
 
-std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int cid) const
+std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int clipId) const
 {
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    return m_allClips.at(cid);
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    return m_allClips.at(clipId);
 }
 
-std::shared_ptr<TransitionModel> TimelineModel::getTransitionPtr(int tid) const
+std::shared_ptr<TransitionModel> TimelineModel::getTransitionPtr(int compoId) const
 {
-    Q_ASSERT(m_allTransitions.count(tid) > 0);
-    return m_allTransitions.at(tid);
+    Q_ASSERT(m_allTransitions.count(compoId) > 0);
+    return m_allTransitions.at(compoId);
 }
 
 int TimelineModel::getNextId()
@@ -849,10 +849,10 @@ int TimelineModel::duration() const
 }
 
 
-std::unordered_set<int> TimelineModel::getGroupElements(int cid)
+std::unordered_set<int> TimelineModel::getGroupElements(int clipId)
 {
-    int gid = m_groups->getRootId(cid);
-    return m_groups->getLeaves(gid);
+    int groupId = m_groups->getRootId(clipId);
+    return m_groups->getLeaves(groupId);
 }
 
 Mlt::Profile *TimelineModel::getProfile()
@@ -867,8 +867,8 @@ bool TimelineModel::requestReset(Fun& undo, Fun& redo)
         all_ids.push_back(track.first);
     }
     bool ok = true;
-    for (int tid : all_ids) {
-        ok = ok && requestTrackDeletion(tid, undo, redo);
+    for (int trackId : all_ids) {
+        ok = ok && requestTrackDeletion(trackId, undo, redo);
     }
     return ok;
 }
@@ -922,7 +922,7 @@ void TimelineModel::registerTransition(std::shared_ptr<TransitionModel> transiti
     m_groups->createGroupItem(id);
 }
 
-bool TimelineModel::requestTransitionInsertion(std::shared_ptr<Mlt::Transition> trans, int tid, int &id, Fun& undo, Fun& redo)
+bool TimelineModel::requestTransitionInsertion(std::shared_ptr<Mlt::Transition> trans, int trackId, int &id, Fun& undo, Fun& redo)
 {
     int transitionId = TimelineModel::getNextId();
     id = transitionId;
@@ -934,7 +934,7 @@ bool TimelineModel::requestTransitionInsertion(std::shared_ptr<Mlt::Transition> 
         registerTransition(transition);
         return true;
     };
-    bool res = requestTransitionMove(transitionId, tid, trans->get_in(), true, local_undo, local_redo);
+    bool res = requestTransitionMove(transitionId, trackId, trans->get_in(), true, local_undo, local_redo);
     if (!res) {
         Q_ASSERT(undo());
         id = -1;
@@ -945,68 +945,68 @@ bool TimelineModel::requestTransitionInsertion(std::shared_ptr<Mlt::Transition> 
     return true;
 }
 
-Fun TimelineModel::deregisterTransition_lambda(int tid)
+Fun TimelineModel::deregisterTransition_lambda(int compoId)
 {
-    return [this, tid]() {
-        Q_ASSERT(m_allTransitions.count(tid) > 0);
-        Q_ASSERT(!m_groups->isInGroup(tid)); //clip must be ungrouped at this point
-        m_allTransitions.erase(tid);
-        m_groups->destructGroupItem(tid);
+    return [this, compoId]() {
+        Q_ASSERT(m_allTransitions.count(compoId) > 0);
+        Q_ASSERT(!m_groups->isInGroup(compoId)); //clip must be ungrouped at this point
+        m_allTransitions.erase(compoId);
+        m_groups->destructGroupItem(compoId);
         return true;
     };
 }
 
-int TimelineModel::getTransitionTrackId(int tid) const
+int TimelineModel::getTransitionTrackId(int compoId) const
 {
-    Q_ASSERT(m_allTransitions.count(tid) > 0);
-    const auto trans = m_allTransitions.at(tid);
+    Q_ASSERT(m_allTransitions.count(compoId) > 0);
+    const auto trans = m_allTransitions.at(compoId);
     return trans->getCurrentTrackId();
 }
 
-int TimelineModel::getTransitionPosition(int tid) const
+int TimelineModel::getTransitionPosition(int compoId) const
 {
-    Q_ASSERT(m_allTransitions.count(tid) > 0);
-    const auto trans = m_allTransitions.at(tid);
+    Q_ASSERT(m_allTransitions.count(compoId) > 0);
+    const auto trans = m_allTransitions.at(compoId);
     return trans->getPosition();
 }
 
-int TimelineModel::getTransitionPlaytime(int tid) const
+int TimelineModel::getTransitionPlaytime(int compoId) const
 {
     READ_LOCK();
-    Q_ASSERT(m_allTransitions.count(tid) > 0);
-    const auto trans = m_allTransitions.at(tid);
+    Q_ASSERT(m_allTransitions.count(compoId) > 0);
+    const auto trans = m_allTransitions.at(compoId);
     int playtime = trans->getPlaytime();
     return playtime;
 }
 
-int TimelineModel::getTrackTransitionsCount(int tid) const
+int TimelineModel::getTrackTransitionsCount(int compoId) const
 {
-    return getTrackById_const(tid)->getTransitionsCount();
+    return getTrackById_const(compoId)->getTransitionsCount();
 }
 
-bool TimelineModel::requestTransitionMove(int cid, int tid, int position,  bool updateView, bool logUndo)
+bool TimelineModel::requestTransitionMove(int compoId, int trackId, int position,  bool updateView, bool logUndo)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestTransitionMove("<<cid<<","<<tid<<" ,"<<position<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
+    m_logFile << "timeline->requestTransitionMove("<<compoId<<","<<trackId<<" ,"<<position<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_allTransitions.count(cid) > 0);
-    if (m_allTransitions[cid]->getPosition() == position && getTransitionTrackId(cid) == tid) {
+    Q_ASSERT(m_allTransitions.count(compoId) > 0);
+    if (m_allTransitions[compoId]->getPosition() == position && getTransitionTrackId(compoId) == trackId) {
         return true;
     }
-    if (m_groups->isInGroup(cid)) {
+    if (m_groups->isInGroup(compoId)) {
         //element is in a group.
-        int gid = m_groups->getRootId(cid);
-        int current_tid = getTransitionTrackId(cid);
-        int track_pos1 = getTrackPosition(tid);
-        int track_pos2 = getTrackPosition(current_tid);
+        int groupId = m_groups->getRootId(compoId);
+        int current_trackId = getTransitionTrackId(compoId);
+        int track_pos1 = getTrackPosition(trackId);
+        int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
-        int delta_pos = position - m_allTransitions[cid]->getPosition();
-        return requestGroupMove(cid, gid, delta_track, delta_pos, updateView, logUndo);
+        int delta_pos = position - m_allTransitions[compoId]->getPosition();
+        return requestGroupMove(compoId, groupId, delta_track, delta_pos, updateView, logUndo);
     }
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
-    bool res = requestTransitionMove(cid, tid, position, updateView, undo, redo);
+    bool res = requestTransitionMove(compoId, trackId, position, updateView, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move transition"));
     }
@@ -1014,20 +1014,20 @@ bool TimelineModel::requestTransitionMove(int cid, int tid, int position,  bool 
 }
 
 
-bool TimelineModel::requestTransitionMove(int transid, int tid, int position, bool updateView, Fun &undo, Fun &redo)
+bool TimelineModel::requestTransitionMove(int compoId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(isTransition(transid));
+    Q_ASSERT(isTransition(compoId));
     std::function<bool (void)> local_undo = [](){return true;};
     std::function<bool (void)> local_redo = [](){return true;};
     bool ok = true;
-    int old_tid = getTransitionTrackId(transid);
-    if (old_tid != -1) {
-        if (old_tid == tid) {
+    int old_trackId = getTransitionTrackId(compoId);
+    if (old_trackId != -1) {
+        if (old_trackId == trackId) {
             // Simply setting in/out is enough
-            local_undo = getTrackById(old_tid)->requestTransitionResize_lambda(transid, position);
+            local_undo = getTrackById(old_trackId)->requestTransitionResize_lambda(compoId, position);
             if (!ok) {
-                qDebug()<<"------------\nFAILED TO RESIZE TRANS: "<<old_tid;
+                qDebug()<<"------------\nFAILED TO RESIZE TRANS: "<<old_trackId;
                 bool undone = local_undo();
                 Q_ASSERT(undone);
                 return false;
@@ -1035,15 +1035,15 @@ bool TimelineModel::requestTransitionMove(int transid, int tid, int position, bo
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
             return true;
         }
-        ok = getTrackById(old_tid)->requestTransitionDeletion(transid, updateView, local_undo, local_redo);
+        ok = getTrackById(old_trackId)->requestTransitionDeletion(compoId, updateView, local_undo, local_redo);
         if (!ok) {
-            qDebug()<<"------------\nFAILED TO DELETE TRANS: "<<old_tid;
+            qDebug()<<"------------\nFAILED TO DELETE TRANS: "<<old_trackId;
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = getTrackById(tid)->requestTransitionInsertion(transid, position, updateView, local_undo, local_redo);
+    ok = getTrackById(trackId)->requestTransitionInsertion(compoId, position, updateView, local_undo, local_redo);
     if (!ok) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -1100,9 +1100,9 @@ void TimelineModel::plantTransition(Mlt::Transition &tr, int a_track, int b_trac
     qDeleteAll(trList);
 }
 
-bool TimelineModel::removeTransition(int tid, int pos)
+bool TimelineModel::removeTransition(int compoId, int pos)
 {
-    //qDebug()<<"* * * TRYING TO DELETE TRANSITION: "<<tid<<" / "<<pos;
+    //qDebug()<<"* * * TRYING TO DELETE TRANSITION: "<<compoId<<" / "<<pos;
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
@@ -1120,7 +1120,7 @@ bool TimelineModel::removeTransition(int tid, int pos)
         int currentOut = (int) mlt_transition_get_out(tr);
         //qDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack<<" / "<<currentATrack;
 
-        if (tid == currentTrack && currentIn == pos) {
+        if (compoId == currentTrack && currentIn == pos) {
             found = true;
             mlt_field_disconnect_service(field->get_field(), nextservice);
             break;
