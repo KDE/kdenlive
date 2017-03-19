@@ -18,7 +18,6 @@
 
 import QtQuick 2.2
 import QtQuick.Controls 1.0
-//import Shotcut.Controls 1.0
 import Kdenlive.Controls 1.0
 import QtGraphicalEffects 1.0
 import QtQml.Models 2.2
@@ -73,6 +72,7 @@ Rectangle {
     onTimeScaleChanged: {
         console.log("SCALE CHANGED !!!!!!", timeScale)
         x = modelStart * timeScale;
+        width = clipDuration * timeScale;
     }
 
     SystemPalette { id: activePalette }

@@ -36,6 +36,7 @@ Column{
     signal clipClicked(var clip, var track, int shiftClick)
     signal clipDragged(var clip, int x, int y)
     signal clipDropped(var clip)
+    signal transitionDropped(var clip)
     signal clipDraggedToTrack(var clip, int pos)
     signal transitionDraggedToTrack(var transition, int pos)
 
@@ -55,6 +56,13 @@ Column{
         delegate: Item{
             property var itemModel : model
             Loader {
+                id: loader
+                Binding {
+                    target: loader.item
+                    property: "timeScale"
+                    value: trackRoot.timeScale
+                    when: loader.status == Loader.Ready
+                }
                /* property var model : parent.itemModel
                 property var model.name : modelName
                 property var model.resource : modelResource
@@ -89,7 +97,6 @@ Column{
                     }
                 }
                 onLoaded: {
-                    item.timeScale= timeline.scaleFactor
                     item.clipName= model.name
                     item.clipResource= model.resource
                     item.clipDuration= model.duration
@@ -108,7 +115,6 @@ Column{
                         item.fadeOut= 0 //model.fadeOut
                     }
                     item.width= model.duration * timeScale
-                    item.height= trackRoot.height
                     item.modelStart= model.start
                     item.x= model.start * timeScale
                     item.grouped= model.grouped
@@ -117,7 +123,7 @@ Column{
                     item.trackId= trackRoot.trackId
                     //hash= model.hash
                     item.speed= 1 //model.speed
-                    item.selected= trackRoot.selection.indexOf(clipId) !== -1
+                    item.selected= trackRoot.selection.indexOf(item.clipId) !== -1
                     console.log(width, height);
                 }
             }
@@ -133,6 +139,8 @@ Column{
     Component {
         id: clipDelegate
         Clip {
+            z: 10
+            height: trackRoot.height
             onGroupedChanged: {
                 console.log('Clip ', clipId, ' is grouped : ', grouped)
                 flashclip.start()
@@ -227,6 +235,9 @@ Column{
     Component {
         id: transitionDelegate
         MltTransition {
+            z: 20
+            y: trackRoot.height / 2
+            height: trackRoot.height / 2
             opacity: 0.6
             selected: trackRoot.selection.indexOf(clipId) !== -1
 
@@ -315,10 +326,10 @@ Column{
             }
 
             Component.onCompleted: {
-                moved.connect(trackRoot.clipDropped)
-                dropped.connect(trackRoot.clipDropped)
+                moved.connect(trackRoot.transitionDropped)
+                dropped.connect(trackRoot.transitionDropped)
                 draggedToTrack.connect(trackRoot.transitionDraggedToTrack)
-                //console.log('Showing item ', model.item, 'name', model.name, ' service: ',mltService)
+                // console.log('Showing item ', model.item, 'name', model.name, ' service: ',mltService)
             }
         }
     }

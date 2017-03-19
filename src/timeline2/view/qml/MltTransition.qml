@@ -70,6 +70,7 @@ Rectangle {
     onTimeScaleChanged: {
         console.log("SCALE CHANGED !!!!!!", timeScale)
         x = modelStart * timeScale;
+        width = clipDuration * timeScale;
     }
 
     SystemPalette { id: activePalette }

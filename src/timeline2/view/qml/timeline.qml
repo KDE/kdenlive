@@ -116,6 +116,7 @@ Rectangle {
             scrollTimer.running = false
         }
         onPositionChanged: {
+            console.log('======================== ON POS CHANGED ========================================')
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
@@ -328,10 +329,6 @@ Rectangle {
                             id: tracksContainer
                             Repeater { id: tracksRepeater; model: trackDelegateModel }
                         }
-                        Column {
-                            id: tracksTransitionContainer
-                            Repeater { id: transitionsRepeater; model: transitionDelegateModel }
-                        }
                     }
                 }
             }
@@ -443,6 +440,7 @@ Rectangle {
             model: multitrack
             rootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
+            timeScale: timeline.scaleFactor
             width: root.duration * timeScale
             isAudio: audio
             isCurrentTrack: currentTrack === index
@@ -475,6 +473,14 @@ Rectangle {
                 scrollTimer.running = false
                 bubbleHelp.hide()
                 clipBeingMovedId = -1
+            }
+            onTransitionDropped: {
+                console.log(" + + + ++ + TRANSITION DROPPED  + + + + + + +");
+                scrollTimer.running = false
+                bubbleHelp.hide()
+                clipBeingMovedId = -1
+                var track = tracksRepeater.itemAt(clip.trackIndex)
+                clip.y = track.height / 2
             }
             onClipDraggedToTrack: {
                 var y = pos - ruler.height
