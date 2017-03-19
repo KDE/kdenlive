@@ -60,7 +60,9 @@ public:
 
     /* @brief returns the number of clips */
     int getClipsCount();
-    int getTransitionsCount();
+
+    /* @brief returns the number of transitions */
+    int getTransitionsCount() const;
 
     /* Perform a split at the requested position */
     bool splitClip(QSharedPointer<ClipModel> caller, int position);

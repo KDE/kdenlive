@@ -69,6 +69,7 @@ int TrackModel::construct(std::weak_ptr<TimelineModel> parent, int id, int pos)
 
 int TrackModel::getClipsCount()
 {
+#ifdef QT_DEBUG
     int count = 0;
     for (int j = 0; j < 2; j++) {
         for (int i = 0; i < m_playlists[j].count(); i++) {
@@ -78,6 +79,9 @@ int TrackModel::getClipsCount()
         }
     }
     Q_ASSERT(count == static_cast<int>(m_allClips.size()));
+#else
+    int count = m_allClips.size();
+#endif
     return count;
 }
 
@@ -579,7 +583,7 @@ int TrackModel::getTransitionByRow(int row) const
     return (*it).first;
 }
 
-int TrackModel::getTransitionsCount()
+int TrackModel::getTransitionsCount() const
 {
     return m_allTransitions.size();
 }
