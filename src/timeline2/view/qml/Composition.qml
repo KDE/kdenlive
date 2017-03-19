@@ -27,7 +27,7 @@ import QtQml.Models 2.2
 import QtQuick.Window 2.2
 
 Rectangle {
-    id: transitionRoot
+    id: compositionRoot
     property real timeScale: 1.0
     property string clipName: ''
     property string clipResource: ''
@@ -38,7 +38,7 @@ Rectangle {
     property int clipDuration: 0
     property bool isBlank: false
     property bool isAudio: false
-    property bool isTransition: true
+    property bool isComposition: true
     property bool grouped: false
     property int binId: 0
     property int trackIndex //Index in track repeater
@@ -134,25 +134,25 @@ Rectangle {
     states: [
         State {
             name: 'normal'
-            when: !transitionRoot.selected
+            when: !compositionRoot.selected
             PropertyChanges {
-                target: transitionRoot
+                target: compositionRoot
                 z: 0
             }
         },
         State {
             name: 'selectedBlank'
-            when: transitionRoot.selected && transitionRoot.isBlank
+            when: compositionRoot.selected && compositionRoot.isBlank
             PropertyChanges {
-                target: transitionRoot
+                target: compositionRoot
                 color: Qt.darker(getColor())
             }
         },
         State {
             name: 'selected'
-            when: transitionRoot.selected
+            when: compositionRoot.selected
             PropertyChanges {
-                target: transitionRoot
+                target: compositionRoot
                 z: 1
                 color: getColor()
             }
@@ -171,31 +171,31 @@ Rectangle {
         onPressed: {
             root.stopScrolling = true
             originalX = parent.x
-            originalTrackId = transitionRoot.trackId
+            originalTrackId = compositionRoot.trackId
             startX = parent.x
-            transitionRoot.forceActiveFocus();
-            transitionRoot.clicked(transitionRoot, mouse.modifiers === Qt.ShiftModifier)
+            compositionRoot.forceActiveFocus();
+            compositionRoot.clicked(compositionRoot, mouse.modifiers === Qt.ShiftModifier)
         }
         onPositionChanged: {
             if (mouse.y < 0 || mouse.y > height) {
-                parent.draggedToTrack(transitionRoot, mapToItem(null, 0, mouse.y).y)
+                parent.draggedToTrack(compositionRoot, mapToItem(null, 0, mouse.y).y)
             } else {
-                parent.dragged(transitionRoot, mouse)
+                parent.dragged(compositionRoot, mouse)
             }
         }
         onReleased: {
             root.stopScrolling = false
-            parent.y = transitionRoot.parent.height / 2
+            parent.y = compositionRoot.parent.height / 2
             var delta = parent.x - startX
             if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
-                parent.moved(transitionRoot)
+                parent.moved(compositionRoot)
                 originalX = parent.x
                 originalTrackId = trackId
             } else {
-                parent.dropped(transitionRoot)
+                parent.dropped(compositionRoot)
             }
         }
-        onDoubleClicked: timeline.position = transitionRoot.x / timeline.scaleFactor
+        onDoubleClicked: timeline.position = compositionRoot.x / timeline.scaleFactor
         onWheel: zoomByWheel(wheel)
 
         MouseArea {
@@ -206,9 +206,9 @@ Rectangle {
                 drag.active? Qt.ClosedHandCursor : Qt.OpenHandCursor
             onPressed: {
                 root.stopScrolling = true
-                transitionRoot.forceActiveFocus();
-                if (!transitionRoot.selected) {
-                    transitionRoot.clicked(transitionRoot, false)
+                compositionRoot.forceActiveFocus();
+                if (!compositionRoot.selected) {
+                    compositionRoot.clicked(compositionRoot, false)
                 }
             }
             onClicked: menu.show()
@@ -237,23 +237,23 @@ Rectangle {
 
             onPressed: {
                 root.stopScrolling = true
-                transitionRoot.originalX = mapToItem(null, x, y).x
-                transitionRoot.originalDuration = clipDuration
+                compositionRoot.originalX = mapToItem(null, x, y).x
+                compositionRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
             }
             onReleased: {
                 root.stopScrolling = false
-                parent.anchors.left = transitionRoot.left
-                transitionRoot.trimmedIn(transitionRoot)
+                parent.anchors.left = compositionRoot.left
+                compositionRoot.trimmedIn(compositionRoot)
                 parent.opacity = 0
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    transitionRoot.draggedX = mapToItem(null, x, y).x
+                    compositionRoot.draggedX = mapToItem(null, x, y).x
                     var delta = Math.round((draggedX - originalX) / timeScale)
                     if (delta !== 0) {
-                        var newDuration = transitionRoot.clipDuration - delta
-                        transitionRoot.trimmingIn(transitionRoot, newDuration, mouse)
+                        var newDuration = compositionRoot.clipDuration - delta
+                        compositionRoot.trimmingIn(compositionRoot, newDuration, mouse)
                     }
                 }
             }
@@ -283,18 +283,18 @@ Rectangle {
 
             onPressed: {
                 root.stopScrolling = true
-                transitionRoot.originalDuration = clipDuration
+                compositionRoot.originalDuration = clipDuration
                 parent.anchors.right = undefined
             }
             onReleased: {
                 root.stopScrolling = false
-                parent.anchors.right = transitionRoot.right
-                transitionRoot.trimmedOut(transitionRoot)
+                parent.anchors.right = compositionRoot.right
+                compositionRoot.trimmedOut(compositionRoot)
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var newDuration = Math.round((parent.x + parent.width) / timeScale)
-                    transitionRoot.trimmingOut(transitionRoot, newDuration, mouse)
+                    compositionRoot.trimmingOut(compositionRoot, newDuration, mouse)
                 }
             }
             onEntered: parent.opacity = 0.5
@@ -308,7 +308,7 @@ Rectangle {
             popup()
         }
         MenuItem {
-            visible: true // !isBlank && !isTransition
+            visible: true // !isBlank && !isComposition
             text: i18n('Cut')
             onTriggered: {
                 if (!trackRoot.isLocked) {
@@ -331,12 +331,12 @@ Rectangle {
         }
 
         MenuItem {
-            visible: true //!isBlank && !isTransition
+            visible: true //!isBlank && !isComposition
             text: i18n('Copy')
             onTriggered: timeline.copyClip(trackIndex, index)
         }
         MenuSeparator {
-            visible: !isBlank && !isTransition
+            visible: !isBlank && !isComposition
         }
         MenuItem {
             text: i18n('Remove')
@@ -348,10 +348,10 @@ Rectangle {
             onTriggered: timeline.lift(trackIndex, index)
         }
         MenuSeparator {
-            visible: true //!isBlank && !isTransition
+            visible: true //!isBlank && !isComposition
         }
         MenuItem {
-            visible: true //!isBlank && !isTransition
+            visible: true //!isBlank && !isComposition
             text: i18n('Split At Playhead (S)')
             onTriggered: timeline.splitClip(trackIndex, index)
         }
@@ -361,7 +361,7 @@ Rectangle {
             onTriggered: timeline.mergeClipWithNext(trackIndex, index, false)
         }
         MenuItem {
-            visible: !isBlank && !isTransition
+            visible: !isBlank && !isComposition
             text: i18n('Rebuild Audio Waveform')
             onTriggered: timeline.remakeAudioLevels(trackIndex, index)
         }

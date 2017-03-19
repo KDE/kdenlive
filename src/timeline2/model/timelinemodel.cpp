@@ -23,7 +23,7 @@
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
-#include "transitionmodel.hpp"
+#include "compositionmodel.hpp"
 #include "groupsmodel.hpp"
 #include "snapmodel.hpp"
 
@@ -261,16 +261,16 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
     return position;
 }
 
-int TimelineModel::suggestTransitionMove(int compoId, int trackId, int position)
+int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->suggestTransitionMove("<<compoId<<","<<trackId<<" ,"<<position<<"); " <<std::endl;
+    m_logFile << "timeline->suggestCompositionMove("<<compoId<<","<<trackId<<" ,"<<position<<"); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(isTransition(compoId));
+    Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
-    int currentPos = getTransitionPosition(compoId);
-    int currentTrack = getTransitionTrackId(compoId);
+    int currentPos = getCompositionPosition(compoId);
+    int currentTrack = getCompositionTrackId(compoId);
     if (currentPos == position || currentTrack != trackId) {
         return position;
     }
@@ -281,7 +281,7 @@ int TimelineModel::suggestTransitionMove(int compoId, int trackId, int position)
         int groupId = m_groups->getRootId(compoId);
         auto all_clips = m_groups->getLeaves(groupId);
         for (int current_compoId : all_clips) {
-            //TODO: fix for transition
+            //TODO: fix for composition
             int in = getClipPosition(current_compoId);
             int out = in + getClipPlaytime(current_compoId) - 1;
             ignored_pts.push_back(in);
@@ -289,13 +289,13 @@ int TimelineModel::suggestTransitionMove(int compoId, int trackId, int position)
         }
     } else {
         int in = currentPos;
-        int out = in + getTransitionPlaytime(compoId) - 1;
+        int out = in + getCompositionPlaytime(compoId) - 1;
         qDebug()<<" * ** IGNORING SNAP PTS: "<<in<<"-"<<out;
         ignored_pts.push_back(in);
         ignored_pts.push_back(out);
     }
 
-    int snapped = requestBestSnapPos(position, m_allTransitions[compoId]->getPlaytime(), ignored_pts);
+    int snapped = requestBestSnapPos(position, m_allCompositions[compoId]->getPlaytime(), ignored_pts);
     qDebug() << "Starting suggestion "<<compoId << position << currentPos << "snapped to "<<snapped;
     if (snapped >= 0) {
         position = snapped;
@@ -303,14 +303,14 @@ int TimelineModel::suggestTransitionMove(int compoId, int trackId, int position)
     //we check if move is possible
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    bool possible = requestTransitionMove(compoId, trackId, position, false, undo, redo);
+    bool possible = requestCompositionMove(compoId, trackId, position, false, undo, redo);
     qDebug() << "Original move success" << possible;
     if (possible) {
         undo();
         return position;
     }
     bool after = position > currentPos;
-    int blank_length = getTrackById(trackId)->getBlankSizeNearTransition(compoId, after);
+    int blank_length = getTrackById(trackId)->getBlankSizeNearComposition(compoId, after);
     qDebug() << "Found blank" << blank_length;
     if (blank_length < INT_MAX) {
         if (after) {
@@ -495,8 +495,8 @@ bool TimelineModel::requestGroupDeletion(int clipId)
             }
         }
     }
-    for(int clipId : all_clips) {
-        bool res = requestClipDeletion(clipId, undo, redo);
+    for(int clip : all_clips) {
+        bool res = requestClipDeletion(clip, undo, redo);
         if (!res) {
             undo();
             return false;
@@ -812,10 +812,10 @@ std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int clipId) const
     return m_allClips.at(clipId);
 }
 
-std::shared_ptr<TransitionModel> TimelineModel::getTransitionPtr(int compoId) const
+std::shared_ptr<CompositionModel> TimelineModel::getCompositionPtr(int compoId) const
 {
-    Q_ASSERT(m_allTransitions.count(compoId) > 0);
-    return m_allTransitions.at(compoId);
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    return m_allCompositions.at(compoId);
 }
 
 int TimelineModel::getNextId()
@@ -828,9 +828,9 @@ bool TimelineModel::isClip(int id) const
     return m_allClips.count(id) > 0;
 }
 
-bool TimelineModel::isTransition(int id) const
+bool TimelineModel::isComposition(int id) const
 {
-    return m_allTransitions.count(id) > 0;
+    return m_allCompositions.count(id) > 0;
 }
 
 bool TimelineModel::isTrack(int id) const
@@ -914,27 +914,27 @@ int TimelineModel::requestPreviousSnapPos(int pos)
     return m_snaps->getPreviousPoint(pos);
 }
 
-void TimelineModel::registerTransition(std::shared_ptr<TransitionModel> transition)
+void TimelineModel::registerComposition(std::shared_ptr<CompositionModel> composition)
 {
-    int id = transition->getId();
-    Q_ASSERT(m_allTransitions.count(id) == 0);
-    m_allTransitions[id] = transition;
+    int id = composition->getId();
+    Q_ASSERT(m_allCompositions.count(id) == 0);
+    m_allCompositions[id] = composition;
     m_groups->createGroupItem(id);
 }
 
-bool TimelineModel::requestTransitionInsertion(std::shared_ptr<Mlt::Transition> trans, int trackId, int &id, Fun& undo, Fun& redo)
+bool TimelineModel::requestCompositionInsertion(std::shared_ptr<Mlt::Transition> trans, int trackId, int &id, Fun& undo, Fun& redo)
 {
-    int transitionId = TimelineModel::getNextId();
-    id = transitionId;
-    Fun local_undo = deregisterTransition_lambda(transitionId);
-    TransitionModel::construct(shared_from_this(), trans, transitionId);
-    auto transition = m_allTransitions[transitionId];
-    Fun local_redo = [transition, this](){
+    int compositionId = TimelineModel::getNextId();
+    id = compositionId;
+    Fun local_undo = deregisterComposition_lambda(compositionId);
+    CompositionModel::construct(shared_from_this(), trans, compositionId);
+    auto composition = m_allCompositions[compositionId];
+    Fun local_redo = [composition, this](){
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
-        registerTransition(transition);
+        registerComposition(composition);
         return true;
     };
-    bool res = requestTransitionMove(transitionId, trackId, trans->get_in(), true, local_undo, local_redo);
+    bool res = requestCompositionMove(compositionId, trackId, trans->get_in(), true, local_undo, local_redo);
     if (!res) {
         Q_ASSERT(undo());
         id = -1;
@@ -945,87 +945,87 @@ bool TimelineModel::requestTransitionInsertion(std::shared_ptr<Mlt::Transition> 
     return true;
 }
 
-Fun TimelineModel::deregisterTransition_lambda(int compoId)
+Fun TimelineModel::deregisterComposition_lambda(int compoId)
 {
     return [this, compoId]() {
-        Q_ASSERT(m_allTransitions.count(compoId) > 0);
+        Q_ASSERT(m_allCompositions.count(compoId) > 0);
         Q_ASSERT(!m_groups->isInGroup(compoId)); //clip must be ungrouped at this point
-        m_allTransitions.erase(compoId);
+        m_allCompositions.erase(compoId);
         m_groups->destructGroupItem(compoId);
         return true;
     };
 }
 
-int TimelineModel::getTransitionTrackId(int compoId) const
+int TimelineModel::getCompositionTrackId(int compoId) const
 {
-    Q_ASSERT(m_allTransitions.count(compoId) > 0);
-    const auto trans = m_allTransitions.at(compoId);
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    const auto trans = m_allCompositions.at(compoId);
     return trans->getCurrentTrackId();
 }
 
-int TimelineModel::getTransitionPosition(int compoId) const
+int TimelineModel::getCompositionPosition(int compoId) const
 {
-    Q_ASSERT(m_allTransitions.count(compoId) > 0);
-    const auto trans = m_allTransitions.at(compoId);
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    const auto trans = m_allCompositions.at(compoId);
     return trans->getPosition();
 }
 
-int TimelineModel::getTransitionPlaytime(int compoId) const
+int TimelineModel::getCompositionPlaytime(int compoId) const
 {
     READ_LOCK();
-    Q_ASSERT(m_allTransitions.count(compoId) > 0);
-    const auto trans = m_allTransitions.at(compoId);
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    const auto trans = m_allCompositions.at(compoId);
     int playtime = trans->getPlaytime();
     return playtime;
 }
 
-int TimelineModel::getTrackTransitionsCount(int compoId) const
+int TimelineModel::getTrackCompositionsCount(int compoId) const
 {
-    return getTrackById_const(compoId)->getTransitionsCount();
+    return getTrackById_const(compoId)->getCompositionsCount();
 }
 
-bool TimelineModel::requestTransitionMove(int compoId, int trackId, int position,  bool updateView, bool logUndo)
+bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position,  bool updateView, bool logUndo)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestTransitionMove("<<compoId<<","<<trackId<<" ,"<<position<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
+    m_logFile << "timeline->requestCompositionMove("<<compoId<<","<<trackId<<" ,"<<position<<", "<<(updateView ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<" ); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_allTransitions.count(compoId) > 0);
-    if (m_allTransitions[compoId]->getPosition() == position && getTransitionTrackId(compoId) == trackId) {
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    if (m_allCompositions[compoId]->getPosition() == position && getCompositionTrackId(compoId) == trackId) {
         return true;
     }
     if (m_groups->isInGroup(compoId)) {
         //element is in a group.
         int groupId = m_groups->getRootId(compoId);
-        int current_trackId = getTransitionTrackId(compoId);
+        int current_trackId = getCompositionTrackId(compoId);
         int track_pos1 = getTrackPosition(trackId);
         int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
-        int delta_pos = position - m_allTransitions[compoId]->getPosition();
+        int delta_pos = position - m_allCompositions[compoId]->getPosition();
         return requestGroupMove(compoId, groupId, delta_track, delta_pos, updateView, logUndo);
     }
     std::function<bool (void)> undo = [](){return true;};
     std::function<bool (void)> redo = [](){return true;};
-    bool res = requestTransitionMove(compoId, trackId, position, updateView, undo, redo);
+    bool res = requestCompositionMove(compoId, trackId, position, updateView, undo, redo);
     if (res && logUndo) {
-        PUSH_UNDO(undo, redo, i18n("Move transition"));
+        PUSH_UNDO(undo, redo, i18n("Move composition"));
     }
     return res;
 }
 
 
-bool TimelineModel::requestTransitionMove(int compoId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
+bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(isTransition(compoId));
+    Q_ASSERT(isComposition(compoId));
     std::function<bool (void)> local_undo = [](){return true;};
     std::function<bool (void)> local_redo = [](){return true;};
     bool ok = true;
-    int old_trackId = getTransitionTrackId(compoId);
+    int old_trackId = getCompositionTrackId(compoId);
     if (old_trackId != -1) {
         if (old_trackId == trackId) {
             // Simply setting in/out is enough
-            local_undo = getTrackById(old_trackId)->requestTransitionResize_lambda(compoId, position);
+            local_undo = getTrackById(old_trackId)->requestCompositionResize_lambda(compoId, position);
             if (!ok) {
                 qDebug()<<"------------\nFAILED TO RESIZE TRANS: "<<old_trackId;
                 bool undone = local_undo();
@@ -1035,7 +1035,7 @@ bool TimelineModel::requestTransitionMove(int compoId, int trackId, int position
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
             return true;
         }
-        ok = getTrackById(old_trackId)->requestTransitionDeletion(compoId, updateView, local_undo, local_redo);
+        ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, local_undo, local_redo);
         if (!ok) {
             qDebug()<<"------------\nFAILED TO DELETE TRANS: "<<old_trackId;
             bool undone = local_undo();
@@ -1043,7 +1043,7 @@ bool TimelineModel::requestTransitionMove(int compoId, int trackId, int position
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestTransitionInsertion(compoId, position, updateView, local_undo, local_redo);
+    ok = getTrackById(trackId)->requestCompositionInsertion(compoId, position, updateView, local_undo, local_redo);
     if (!ok) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -1053,9 +1053,9 @@ bool TimelineModel::requestTransitionMove(int compoId, int trackId, int position
     return true;
 }
 
-void TimelineModel::plantTransition(Mlt::Transition &tr, int a_track, int b_track)
+void TimelineModel::plantComposition(Mlt::Transition &tr, int a_track, int b_track)
 {
-    //qDebug()<<"* * PLANT TRANSITION: "<<tr.get("mlt_service")<<", TRACK: "<<a_track<<"x"<<b_track<<" ON POS: "<<tr.get_in();
+    //qDebug()<<"* * PLANT COMPOSITION: "<<tr.get("mlt_service")<<", TRACK: "<<a_track<<"x"<<b_track<<" ON POS: "<<tr.get_in();
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     mlt_service nextservice = mlt_service_get_producer(field.data()->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -1063,23 +1063,23 @@ void TimelineModel::plantTransition(Mlt::Transition &tr, int a_track, int b_trac
     QList<Mlt::Transition *> trList;
     mlt_properties insertproperties = tr.get_properties();
     QString insertresource = mlt_properties_get(insertproperties, "mlt_service");
-    bool isMixTransition = insertresource == QLatin1String("mix");
+    bool isMixComposition = insertresource == QLatin1String("mix");
 
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     while (mlt_type == transition_type) {
-        Mlt::Transition transition((mlt_transition) nextservice);
+        Mlt::Transition composition((mlt_transition) nextservice);
         nextservice = mlt_service_producer(nextservice);
-        int aTrack = transition.get_a_track();
-        int bTrack = transition.get_b_track();
-        int internal = transition.get_int("internal_added");
-        if ((isMixTransition || resource != QLatin1String("mix")) && (internal > 0 || aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
-            Mlt::Properties trans_props(transition.get_properties());
-            Mlt::Transition *cp = new Mlt::Transition(*m_tractor->profile(), transition.get("mlt_service"));
+        int aTrack = composition.get_a_track();
+        int bTrack = composition.get_b_track();
+        int internal = composition.get_int("internal_added");
+        if ((isMixComposition || resource != QLatin1String("mix")) && (internal > 0 || aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
+            Mlt::Properties trans_props(composition.get_properties());
+            Mlt::Transition *cp = new Mlt::Transition(*m_tractor->profile(), composition.get("mlt_service"));
             Mlt::Properties new_trans_props(cp->get_properties());
             //new_trans_props.inherit(trans_props);
             new_trans_props.inherit(trans_props);
             trList.append(cp);
-            field->disconnect_service(transition);
+            field->disconnect_service(composition);
         }
         //else qCDebug(KDENLIVE_LOG) << "// FOUND TRANS OK, "<<resource<< ", A_: " << aTrack << ", B_ "<<bTrack;
 
@@ -1092,7 +1092,7 @@ void TimelineModel::plantTransition(Mlt::Transition &tr, int a_track, int b_trac
     }
     field->plant_transition(tr, a_track, b_track);
 
-    // re-add upper transitions
+    // re-add upper compositions
     for (int i = trList.count() - 1; i >= 0; --i) {
         ////qCDebug(KDENLIVE_LOG)<< "REPLANT ON TK: "<<trList.at(i)->get_a_track()<<", "<<trList.at(i)->get_b_track();
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
@@ -1100,9 +1100,9 @@ void TimelineModel::plantTransition(Mlt::Transition &tr, int a_track, int b_trac
     qDeleteAll(trList);
 }
 
-bool TimelineModel::removeTransition(int compoId, int pos)
+bool TimelineModel::removeComposition(int compoId, int pos)
 {
-    //qDebug()<<"* * * TRYING TO DELETE TRANSITION: "<<compoId<<" / "<<pos;
+    //qDebug()<<"* * * TRYING TO DELETE COMPOSITION: "<<compoId<<" / "<<pos;
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
     mlt_service nextservice = mlt_service_get_producer(field->get_service());

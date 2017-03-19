@@ -474,8 +474,8 @@ Rectangle {
                 bubbleHelp.hide()
                 clipBeingMovedId = -1
             }
-            onTransitionDropped: {
-                console.log(" + + + ++ + TRANSITION DROPPED  + + + + + + +");
+            onCompositionDropped: {
+                console.log(" + + + ++ + COMPOSITION DROPPED  + + + + + + +");
                 scrollTimer.running = false
                 bubbleHelp.hide()
                 clipBeingMovedId = -1
@@ -495,17 +495,17 @@ Rectangle {
                     }
                 }
             }
-            onTransitionDraggedToTrack: {
-                console.log('Transition Dragged to Track')
+            onCompositionDraggedToTrack: {
+                console.log('Composition Dragged to Track')
                 var y = pos - ruler.height
                 currentTrack = Logic.getTrackIndexFromPos(y)
-                var frame = Math.round(transition.x / timeScale)
+                var frame = Math.round(composition.x / timeScale)
                 if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(currentTrack)
-                    if (controller.requestTransitionMove(transition.transitionId, track.trackId, frame, false, false)) {
-                        transition.reparent(track)
-                        transition.trackIndex = track.DelegateModel.itemsIndex
-                        transition.trackId = track.trackId
+                    if (controller.requestCompositionMove(composition.compositionId, track.trackId, frame, false, false)) {
+                        composition.reparent(track)
+                        composition.trackIndex = track.DelegateModel.itemsIndex
+                        composition.trackId = track.trackId
                     }
                 }
             }
@@ -529,37 +529,6 @@ Rectangle {
         }
     }
 
-    /*DelegateModel {
-        id: transitionDelegateModel
-        model: transitionmodel
-        TransitionTrack {
-            model: transitionmodel
-            rootIndex: transitionDelegateModel.modelIndex(index)
-            height: tracksRepeater.itemAt(index).height
-            timeScale: timeline.scaleFactor
-            width: root.duration * timeScale
-            trackId: item
-            selection: timeline.selection
-            onTimeScaleChanged: {
-                scrollView.flickableItem.contentX = Math.max(0, root.seekPos * timeline.scaleFactor - (scrollView.width / 2))
-            }
-            onTransitionDraggedToTrack: {
-                console.log('Transition Dragged to Track')
-                var y = pos - ruler.height
-                currentTrack = Logic.getTrackIndexFromPos(y)
-                var frame = Math.round(clip.x / timeScale)
-                if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
-                    var track = tracksRepeater.itemAt(currentTrack)
-                    if (controller.requestTransitionMove(clip.clipId, track.trackId, frame, false, false)) {
-                        clip.reparent(track)
-                        clip.trackIndex = track.DelegateModel.itemsIndex
-                        clip.trackId = track.trackId
-                    }
-                }
-            }
-        }
-    }*/
- 
 
     Connections {
         target: timeline

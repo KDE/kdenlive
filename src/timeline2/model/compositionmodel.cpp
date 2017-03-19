@@ -18,7 +18,7 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
-#include "transitionmodel.hpp"
+#include "compositionmodel.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include "undohelper.hpp"
@@ -26,23 +26,23 @@
 #include <QDebug>
 
 
-TransitionModel::TransitionModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Transition> trans, int id) :
+CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Transition> trans, int id) :
     m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
     , m_position(-1)
     , m_currentTrackId(-1)
-    , m_transition(trans)
+    , m_composition(trans)
 {
 }
 
-int TransitionModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Transition> trans, int id)
+int CompositionModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Transition> trans, int id)
 {
-    std::shared_ptr<TransitionModel> transition(new TransitionModel(parent, trans, id));
-    id = transition->m_id;
+    std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, trans, id));
+    id = composition->m_id;
     if (auto ptr = parent.lock()) {
-        ptr->registerTransition(transition);
+        ptr->registerComposition(composition);
     } else {
-        qDebug() << "Error : construction of transition failed because parent timeline is not available anymore";
+        qDebug() << "Error : construction of composition failed because parent timeline is not available anymore";
         Q_ASSERT(false);
     }
 
@@ -50,62 +50,62 @@ int TransitionModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_
 }
 
 
-int TransitionModel::getId() const
+int CompositionModel::getId() const
 {
     return m_id;
 }
 
-int TransitionModel::getCurrentTrackId() const
+int CompositionModel::getCurrentTrackId() const
 {
     return m_currentTrackId;
 }
 
-int TransitionModel::getPosition() const
+int CompositionModel::getPosition() const
 {
     return m_position;
 }
 
-int TransitionModel::getPlaytime() const
+int CompositionModel::getPlaytime() const
 {
-    return m_transition->get_length();
+    return m_composition->get_length();
 }
 
-const QString TransitionModel::getProperty(const QString &name) const
+const QString CompositionModel::getProperty(const QString &name) const
 {
-    return QString::fromUtf8(m_transition->get(name.toUtf8().constData()));
+    return QString::fromUtf8(m_composition->get(name.toUtf8().constData()));
 }
 
-std::pair<int, int> TransitionModel::getInOut() const
+std::pair<int, int> CompositionModel::getInOut() const
 {
-    return {m_transition->get_in(), m_transition->get_out()};
+    return {m_composition->get_in(), m_composition->get_out()};
 }
 
-int TransitionModel::getIn() const
+int CompositionModel::getIn() const
 {
-    return m_transition->get_in();
+    return m_composition->get_in();
 }
 
-int TransitionModel::getOut() const
+int CompositionModel::getOut() const
 {
-    return m_transition->get_out();
+    return m_composition->get_out();
 }
 
-bool TransitionModel::isValid()
+bool CompositionModel::isValid()
 {
-    return m_transition->is_valid();
+    return m_composition->is_valid();
 }
 
-bool TransitionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
+bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
 {
-    if (size <= 0 || size > m_transition->get_length()) {
+    if (size <= 0 || size > m_composition->get_length()) {
         return false;
     }
-    int delta = m_transition->get_length() - size;
-    int in = m_transition->get_in();
-    int out = m_transition->get_out();
+    int delta = m_composition->get_length() - size;
+    int in = m_composition->get_in();
+    int out = m_composition->get_out();
     int old_in = in, old_out = out;
     //check if there is enough space on the chosen side
-    if ((!right && in + delta < 0) || (right &&  out - delta >= m_transition->get_length())) {
+    if ((!right && in + delta < 0) || (right &&  out - delta >= m_composition->get_length())) {
         return false;
     }
     if (right) {
@@ -118,7 +118,7 @@ bool TransitionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     std::function<bool (void)> track_reverse = [](){return true;};
     /*if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
-            track_operation = ptr->requestTransitionResize_lambda(m_id, in, out, right);
+            track_operation = ptr->requestCompositionResize_lambda(m_id, in, out, right);
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
@@ -126,7 +126,7 @@ bool TransitionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     }
     auto operation = [this, in, out, track_operation]() {
         if (track_operation()) {
-            m_transition->set_in_and_out(in, out);
+            m_composition->set_in_and_out(in, out);
             return true;
         }
         return false;
@@ -135,11 +135,11 @@ bool TransitionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         auto ptr = m_parent.lock();
         if (m_currentTrackId != -1 && ptr) {
-            track_reverse = ptr->requestTransitionResize_lambda(m_id, old_in, old_out, right);
+            track_reverse = ptr->requestCompositionResize_lambda(m_id, old_in, old_out, right);
         }
         auto reverse = [this, old_in, old_out, track_reverse]() {
             if (track_reverse()) {
-                m_transition->set_in_and_out(old_in, old_out);
+                m_composition->set_in_and_out(old_in, old_out);
                 return true;
             }
             return false;
@@ -150,21 +150,21 @@ bool TransitionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     return false;
 }
 
-void TransitionModel::setPosition(int pos)
+void CompositionModel::setPosition(int pos)
 {
     m_position = pos;
-    int length = m_transition->get_length();
-    m_transition->set_in_and_out(pos, pos + length);
+    int length = m_composition->get_length();
+    m_composition->set_in_and_out(pos, pos + length);
 }
 
-void TransitionModel::setInOut(int in, int out)
+void CompositionModel::setInOut(int in, int out)
 {
     m_position = in;
-    m_transition->set_in_and_out(in, out);
+    m_composition->set_in_and_out(in, out);
 }
 
-void TransitionModel::setCurrentTrackId(int tid)
+void CompositionModel::setCurrentTrackId(int tid)
 {
     m_currentTrackId = tid;
-    //m_transition->set_tracks(m_transition->get_a_track(), tid);
+    //m_composition->set_tracks(m_composition->get_a_track(), tid);
 }

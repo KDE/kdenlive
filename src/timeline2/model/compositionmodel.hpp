@@ -19,8 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef TRANSITIONMODEL_H
-#define TRANSITIONMODEL_H
+#ifndef COMPOSITIONMODEL_H
+#define COMPOSITIONMODEL_H
 
 #include <memory>
 #include <QObject>
@@ -32,16 +32,16 @@ namespace Mlt{
 class TimelineModel;
 class TrackModel;
 
-/* @brief This class represents a Transition object, as viewed by the backend.
+/* @brief This class represents a Composition object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
 */
-class TransitionModel
+class CompositionModel
 {
-    TransitionModel() = delete;
+    CompositionModel() = delete;
 
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    TransitionModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Transition> prod, int id = -1);
+    CompositionModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Transition> prod, int id = -1);
 
 public:
 
@@ -83,7 +83,7 @@ public:
     friend class TimelineModel;
     /* Implicit conversion operator to access the underlying producer
      */
-    operator Mlt::Transition&(){ return *m_transition;}
+    operator Mlt::Transition&(){ return *m_composition;}
 
     /* Returns true if the underlying producer is valid
      */
@@ -119,10 +119,10 @@ protected:
     void setCurrentTrackId(int tid);
 private:
     std::weak_ptr<TimelineModel> m_parent;
-    int m_id; //this is the creation id of the clip, used for book-keeping
+    int m_id; //this is the creation id of the composition, used for book-keeping
     int m_position;
     int m_currentTrackId;
-    std::shared_ptr<Mlt::Transition> m_transition;
+    std::shared_ptr<Mlt::Transition> m_composition;
 
 };
 

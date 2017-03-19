@@ -31,7 +31,7 @@
 
 class TimelineModel;
 class ClipModel;
-class TransitionModel;
+class CompositionModel;
 
 /* @brief This class represents a Track object, as viewed by the backend.
    To allow same track transitions, a Track object corresponds to two Mlt::Playlist, between which we can switch when required by the transitions.
@@ -61,8 +61,8 @@ public:
     /* @brief returns the number of clips */
     int getClipsCount();
 
-    /* @brief returns the number of transitions */
-    int getTransitionsCount() const;
+    /* @brief returns the number of compositions */
+    int getCompositionsCount() const;
 
     /* Perform a split at the requested position */
     bool splitClip(QSharedPointer<ClipModel> caller, int position);
@@ -111,16 +111,16 @@ protected:
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView);
 
-    bool requestTransitionDeletion(int compoId, bool updateView, Fun& undo, Fun& redo);
-    Fun requestTransitionDeletion_lambda(int compoId, bool updateView);
-    Fun requestTransitionResize_lambda(int compoId, int in, int out = -1);
+    bool requestCompositionDeletion(int compoId, bool updateView, Fun& undo, Fun& redo);
+    Fun requestCompositionDeletion_lambda(int compoId, bool updateView);
+    Fun requestCompositionResize_lambda(int compoId, int in, int out = -1);
 
     /* @brief Returns the size of the blank before or after the given clip
        @param clipId is the id of the clip
        @param after is true if we query the blank after, false otherwise
     */
     int getBlankSizeNearClip(int clipId, bool after);
-    int getBlankSizeNearTransition(int compoId, bool after);
+    int getBlankSizeNearComposition(int compoId, bool after);
 
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;
@@ -133,16 +133,16 @@ protected:
     /*@brief This function is used only by the QAbstractItemModel
       Given a row in the model, retrieves the corresponding composition id. If it does not exist, returns -1
     */
-    int getTransitionByRow(int row) const;
+    int getCompositionByRow(int row) const;
     /*@brief This function is used only by the QAbstractItemModel
       Given a clip ID, returns the row of the clip.
     */
     int getRowfromClip(int clipId) const;
 
     /*@brief This function is used only by the QAbstractItemModel
-      Given a transition ID, returns the row of the transition.
+      Given a composition ID, returns the row of the composition.
     */
-    int getRowfromTransition(int compoId) const;
+    int getRowfromComposition(int compoId) const;
 
     /*@brief This is an helper function that test frame level consistancy with the MLT structures */
     bool checkConsistency();
@@ -160,8 +160,8 @@ protected:
     /* Same, but we restrict to a specific track*/
     int getBlankEnd(int position, int track);
 
-    bool requestTransitionInsertion(int tid, int position, bool updateView,  Fun& undo, Fun& redo);
-    Fun requestTransitionInsertion_lambda(int tid, int position, bool updateView);
+    bool requestCompositionInsertion(int tid, int position, bool updateView,  Fun& undo, Fun& redo);
+    Fun requestCompositionInsertion_lambda(int tid, int position, bool updateView);
 
 public slots:
     /*Delete the current track and all its associated clips */
@@ -180,8 +180,8 @@ private:
 
     std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
                                                             ordered structure to store the clips, since we use their ids order as row order*/
-    std::map<int, std::shared_ptr<TransitionModel>> m_allTransitions; /*this is important to keep an
-                                                            ordered structure to store the clips, since we use their ids order as row order*/
+    std::map<int, std::shared_ptr<CompositionModel>> m_allCompositions; /*this is important to keep an
+                                                                          ordered structure to store the clips, since we use their ids order as row order*/
 
 };
 

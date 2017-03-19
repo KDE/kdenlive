@@ -14,7 +14,7 @@
 #include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/clipmodel.hpp"
-#include "timeline2/model/transitionmodel.hpp"
+#include "timeline2/model/compositionmodel.hpp"
 
 std::default_random_engine g(42);
 

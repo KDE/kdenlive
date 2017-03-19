@@ -84,7 +84,7 @@ public:
         HeightRole,      /// track only
         FadeInRole,      /// clip only
         FadeOutRole,     /// clip only
-        IsTransitionRole,/// clip only
+        IsCompositionRole,/// clip only
         FileHashRole,    /// clip only
         SpeedRole,       /// clip only
         ItemIdRole
@@ -98,10 +98,10 @@ public:
     //QModelIndex makeIndex(int trackIndex, int clipIndex) const;
     /* @brief Creates an index based on the ID of the clip*/
     QModelIndex makeClipIndexFromID(int cid) const override;
-    /* @brief Creates an index based on the ID of the transition*/
-    QModelIndex makeTransitionIndexFromID(int tid) const;
+    /* @brief Creates an index based on the ID of the compoition*/
+    QModelIndex makeCompositionIndexFromID(int tid) const;
     /* @brief Creates an index based on the ID of the track*/
-    QModelIndex makeTrackIndexFromID(int tid, bool transition = false) const override;
+    QModelIndex makeTrackIndexFromID(int tid, bool composition = false) const override;
     QModelIndex parent(const QModelIndex &index) const override;
     Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
     void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) override;

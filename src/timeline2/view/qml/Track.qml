@@ -36,9 +36,9 @@ Column{
     signal clipClicked(var clip, var track, int shiftClick)
     signal clipDragged(var clip, int x, int y)
     signal clipDropped(var clip)
-    signal transitionDropped(var clip)
+    signal compositionDropped(var clip)
     signal clipDraggedToTrack(var clip, int pos)
-    signal transitionDraggedToTrack(var transition, int pos)
+    signal compositionDraggedToTrack(var composition, int pos)
 
     function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)
@@ -63,36 +63,10 @@ Column{
                     value: trackRoot.timeScale
                     when: loader.status == Loader.Ready
                 }
-               /* property var model : parent.itemModel
-                property var model.name : modelName
-                property var model.resource : modelResource
-                property var model.duration : modelDuration
-                property var modelMlt_service : model.mlt_service
-                property var modelIn : model.in
-                property var modelOut : model.out
-                property var modelBlank : model.blank
-                property var modelItem : model.item
-                property var modelBinId : model.binId
-                isAudio: false //model.audio
-                property var modelIsTransition : model.isTransition
-                property var modelAudioLevels : model.audioLevels
-                property var modelMarkers : model.markers
-                width: model.duration * timeScale
-                height: parent.height
-                modelStart: model.start
-                x: modelStart * timeScale
-                grouped: model.grouped
-                borderColor: (model.grouped ? 'yellow' : 'black')
-                trackIndex: trackRoot.DelegateModel.itemsIndex
-                */
-
                 sourceComponent: {
-                    if (model.isTransition) {
-                        console.log("========================= CREATING TRANSITION")
-                        return transitionDelegate
+                    if (model.isComposition) {
+                        return compositionDelegate
                     } else {
-                        console.log(model.item)
-                        console.log(model.start)
                         return clipDelegate
                     }
                 }
@@ -107,8 +81,8 @@ Column{
                     item.clipId= model.item
                     item.binId= model.binId
                     item.isAudio= false //model.audio
-                    item.isTransition= model.isTransition
-                    if (!model.isTransition) {
+                    item.isComposition= model.isComposition
+                    if (!model.isComposition) {
                         item.audioLevels= model.audioLevels
                         item.markers= model.markers
                         item.fadeIn= 0 //model.fadeIn
@@ -233,8 +207,8 @@ Column{
         }
     }
     Component {
-        id: transitionDelegate
-        MltTransition {
+        id: compositionDelegate
+        Composition {
             z: 20
             y: trackRoot.height / 2
             height: trackRoot.height / 2
@@ -242,7 +216,7 @@ Column{
             selected: trackRoot.selection.indexOf(clipId) !== -1
 
             onGroupedChanged: {
-                console.log('Transition ', clipId, ' is grouped : ', grouped)
+                console.log('Composition ', clipId, ' is grouped : ', grouped)
                 flashclip.start()
             }
 
@@ -255,20 +229,20 @@ Column{
             }
 
             onClicked: {
-                console.log("Transition clicked",clip.clipId)
+                console.log("Composition clicked",clip.clipId)
                 trackRoot.clipClicked(clip, trackRoot, shiftClick);
                 clip.draggedX = clip.x
             }
             onMoved: { //called when the movement is finished
-                console.log("Transition released",clip.clipId)
+                console.log("Composition released",clip.clipId)
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
                 var origFrame = Math.round(clip.originalX / timeScale)
 
                 console.log("Asking move ",toTrack, cIndex, frame)
-                controller.requestTransitionMove(cIndex, clip.originalTrackId, origFrame, false, false)
-                var val = controller.requestTransitionMove(cIndex, toTrack, frame, true, true)
+                controller.requestCompositionMove(cIndex, clip.originalTrackId, origFrame, false, false)
+                var val = controller.requestCompositionMove(cIndex, toTrack, frame, true, true)
                 console.log("RESULT", val)
             }
             onDragged: { //called when the move is in process
@@ -277,9 +251,9 @@ Column{
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
 
-                frame = controller.suggestTransitionMove(cIndex, toTrack, frame);
+                frame = controller.suggestCompositionMove(cIndex, toTrack, frame);
 
-                if (!controller.requestTransitionMove(cIndex, toTrack, frame, false, false)) {
+                if (!controller.requestCompositionMove(cIndex, toTrack, frame, false, false)) {
                     // Abort move
                     clip.x = clip.draggedX
                 } else {
@@ -326,9 +300,9 @@ Column{
             }
 
             Component.onCompleted: {
-                moved.connect(trackRoot.transitionDropped)
-                dropped.connect(trackRoot.transitionDropped)
-                draggedToTrack.connect(trackRoot.transitionDraggedToTrack)
+                moved.connect(trackRoot.compositionDropped)
+                dropped.connect(trackRoot.compositionDropped)
+                draggedToTrack.connect(trackRoot.compositionDraggedToTrack)
                 // console.log('Showing item ', model.item, 'name', model.name, ' service: ',mltService)
             }
         }

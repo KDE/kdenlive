@@ -24,7 +24,7 @@
 
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
-#include "transitionmodel.hpp"
+#include "compositionmodel.hpp"
 #include "groupsmodel.hpp"
 #include "doc/docundostack.hpp"
 #include <mlt++/MltTractor.h>

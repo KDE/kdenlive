@@ -90,20 +90,20 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
         }
     }
 
-    // Loading transitions
+    // Loading compositions
     QScopedPointer<Mlt::Service> service(tractor.producer());
     while (service && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition) service->get_service());
             int tid;
-            std::shared_ptr<Mlt::Transition> transition(new Mlt::Transition(t));
+            std::shared_ptr<Mlt::Transition> composition(new Mlt::Transition(t));
             qDebug()<<"////////// BUILD TRANS ON TK: "<<t.get_b_track();
-            ok = timeline->requestTransitionInsertion(transition, t.get_b_track(), tid, undo, redo);
+            ok = timeline->requestCompositionInsertion(composition, t.get_b_track(), tid, undo, redo);
             if (!ok) {
-                qDebug() << "ERROR : failed to insert transition in track "<<transition->get_b_track()<<", position"<<transition->get_in();
+                qDebug() << "ERROR : failed to insert composition in track "<<composition->get_b_track()<<", position"<<composition->get_in();
                 break;
             } else {
-                qDebug() << "Inserted transition in track "<<transition->get_b_track()<<", position"<<transition->get_in();
+                qDebug() << "Inserted composition in track "<<composition->get_b_track()<<", position"<<composition->get_in();
             }
         }
         service.reset(service->producer());

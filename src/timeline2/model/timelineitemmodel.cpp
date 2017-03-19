@@ -24,7 +24,7 @@
 
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
-#include "transitionmodel.hpp"
+#include "compositionmodel.hpp"
 #include "groupsmodel.hpp"
 #include "doc/docundostack.hpp"
 #include <mlt++/MltTractor.h>
@@ -78,11 +78,11 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
          if (parent.isValid()) {
             int trackId = int(parent.internalId());
             Q_ASSERT(isTrack(trackId));
-            int transId = getTrackById_const(trackId)->getTransitionByRow(row);
+            int transId = getTrackById_const(trackId)->getCompositionByRow(row);
             if (transId != -1) {
                 result = createIndex(row, 1, quintptr(transId));
             } else {
-                //qDebug()<<"* * *CANNOT FIND TRANSITION IX : "<<transId;
+                //qDebug()<<"* * *CANNOT FIND COMPOSITION IX : "<<transId;
             }
             return result;
         }
@@ -94,7 +94,7 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
         if (clipId != -1) {
             result = createIndex(row, 0, quintptr(clipId));
         } else {
-            int transId = getTrackById_const(trackId)->getTransitionByRow(row);
+            int transId = getTrackById_const(trackId)->getCompositionByRow(row);
             if (transId != -1) {
                 result = createIndex(row, 1, quintptr(transId));
             }
@@ -120,11 +120,11 @@ QModelIndex TimelineItemModel::makeClipIndexFromID(int cid) const
     return index(getTrackById_const(tid)->getRowfromClip(cid), 0, makeTrackIndexFromID(tid) );
 }
 
-QModelIndex TimelineItemModel::makeTransitionIndexFromID(int tid) const
+QModelIndex TimelineItemModel::makeCompositionIndexFromID(int tid) const
 {
-    Q_ASSERT(m_allTransitions.count(tid) > 0);
-    int trid = m_allTransitions.at(tid)->getCurrentTrackId();
-    return index(getTrackById_const(trid)->getRowfromTransition(tid), 0, makeTrackIndexFromID(trid, true) );
+    Q_ASSERT(m_allCompositions.count(tid) > 0);
+    int trid = m_allCompositions.at(tid)->getCurrentTrackId();
+    return index(getTrackById_const(trid)->getRowfromComposition(tid), 0, makeTrackIndexFromID(trid, true) );
 }
 
 QModelIndex TimelineItemModel::makeTrackIndexFromID(int tid, bool transition) const
@@ -152,8 +152,8 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
     } else if(isClip(id)) {
         const int trackId = getClipTrackId(id);
         return makeTrackIndexFromID(trackId);
-    } else if(isTransition(id)) {
-        const int trackId = getTransitionTrackId(id);
+    } else if(isComposition(id)) {
+        const int trackId = getCompositionTrackId(id);
         return makeTrackIndexFromID(trackId, true);
     }
     return QModelIndex();
@@ -165,14 +165,14 @@ int TimelineItemModel::rowCount(const QModelIndex &parent) const
     READ_LOCK();
     if (parent.isValid()) {
         const int id = (int)parent.internalId();
-        if (isClip(id) || isTransition(id) || !isTrack(id)) {
+        if (isClip(id) || isComposition(id) || !isTrack(id)) {
             //clips don't have children
             //if it is not a track and not a clip, it is something invalid
             return 0;
         }
         // return number of clip in a specific track
-        //return parent.column() == 0 ? getTrackClipsCount(id) : getTrackTransitionsCount(id);
-        return getTrackClipsCount(id) + getTrackTransitionsCount(id);
+        //return parent.column() == 0 ? getTrackClipsCount(id) : getTrackCompositionsCount(id);
+        return getTrackClipsCount(id) + getTrackCompositionsCount(id);
     }
     return getTracksCount();
 }
@@ -206,7 +206,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[IsLockedRole] = "locked";
     roles[FadeInRole] = "fadeIn";
     roles[FadeOutRole] = "fadeOut";
-    roles[IsTransitionRole] = "isTransition";
+    roles[IsCompositionRole] = "isComposition";
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
     roles[HeightRole] = "trackHeight";
@@ -277,7 +277,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getIn();
         case OutPointRole:
             return clip->getOut();
-        case IsTransitionRole:
+        case IsCompositionRole:
             return false;
         default:
             break;
@@ -313,21 +313,21 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             default:
                 break;
         }
-    } else if(isTransition(id)) {
-        std::shared_ptr<TransitionModel>trans = m_allTransitions.at(id);
+    } else if(isComposition(id)) {
+        std::shared_ptr<CompositionModel>compo = m_allCompositions.at(id);
         switch (role) {
             case NameRole:
             case Qt::DisplayRole:
             case ResourceRole:
             case ServiceRole:
-                return trans->getProperty("mlt_service");
+                return compo->getProperty("mlt_service");
                 break;
             case IsBlankRole: //probably useless
                 return false;
             case StartRole:
-                return trans->getPosition();
+                return compo->getPosition();
             case DurationRole:
-                return trans->getPlaytime();
+                return compo->getPlaytime();
             case GroupedRole:
                 return false; //m_groups->isInGroup(id);
             case InPointRole:
@@ -340,7 +340,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
                 QVariantList markersList;
                 return markersList;
             }
-            case IsTransitionRole:
+            case IsCompositionRole:
                 return true;
             default:
                 break;

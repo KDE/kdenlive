@@ -18,7 +18,7 @@
     <file alias="TransitionTrack.qml">timeline2/view/qml/TransitionTrack.qml</file>
     <file alias="Ruler.qml">timeline2/view/qml/Ruler.qml</file>
     <file alias="Clip.qml">timeline2/view/qml/Clip.qml</file>
-    <file alias="MltTransition.qml">timeline2/view/qml/MltTransition.qml</file>
+    <file alias="Composition.qml">timeline2/view/qml/Composition.qml</file>
     <file alias="PulsingAnimation.qml">timeline2/view/qml/PulsingAnimation.qml</file>
     <file alias="CornerSelectionShadow.qml">timeline2/view/qml/CornerSelectionShadow.qml</file>
     <file alias="Timeline.js">timeline2/view/qml/Timeline.js</file>

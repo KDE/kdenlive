@@ -22,7 +22,7 @@
 #include "trackmodel.hpp"
 #include "timelinemodel.hpp"
 #include "clipmodel.hpp"
-#include "transitionmodel.hpp"
+#include "compositionmodel.hpp"
 #include "snapmodel.hpp"
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTransition.h>
@@ -246,11 +246,11 @@ int TrackModel::getBlankSizeNearClip(int clipId, bool after)
     return length;
 }
 
-int TrackModel::getBlankSizeNearTransition(int compoId, bool after)
+int TrackModel::getBlankSizeNearComposition(int compoId, bool after)
 {
     //TODO
-    Q_ASSERT(m_allTransitions.count(compoId) > 0);
-    int clip_position = m_allTransitions[compoId]->getPosition();
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    int clip_position = m_allCompositions[compoId]->getPosition();
     int length = INT_MAX;
     return length;
 }
@@ -377,10 +377,10 @@ int TrackModel::getRowfromClip(int clipId) const
     return (int)std::distance(m_allClips.begin(), m_allClips.find(clipId));
 }
 
-int TrackModel::getRowfromTransition(int tid) const
+int TrackModel::getRowfromComposition(int tid) const
 {
-    Q_ASSERT(m_allTransitions.count(tid) > 0);
-    return (int)m_allClips.size() + (int)std::distance(m_allTransitions.begin(), m_allTransitions.find(tid));
+    Q_ASSERT(m_allCompositions.count(tid) > 0);
+    return (int)m_allClips.size() + (int)std::distance(m_allCompositions.begin(), m_allCompositions.find(tid));
 }
 
 QVariant TrackModel::getProperty(const QString &name)
@@ -490,11 +490,11 @@ int TrackModel::getBlankEnd(int position)
     return end;
 }
 
-Fun TrackModel::requestTransitionResize_lambda(int compoId, int in, int out)
+Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
 {
-    int clip_position = m_allTransitions[compoId]->getPosition();
+    int clip_position = m_allCompositions[compoId]->getPosition();
     int old_in = clip_position;
-    int old_out = old_in + m_allTransitions[compoId]->getPlaytime() - 1;
+    int old_out = old_in + m_allCompositions[compoId]->getPlaytime() - 1;
     if (out == -1) {
         out = in + old_out - old_in;
     }
@@ -506,7 +506,7 @@ Fun TrackModel::requestTransitionResize_lambda(int compoId, int in, int out)
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
         } else {
-            qDebug() << "Error : Transition resize failed because parent timeline is not available anymore";
+            qDebug() << "Error : Composition resize failed because parent timeline is not available anymore";
             Q_ASSERT(false);
         }
     };
@@ -516,55 +516,55 @@ Fun TrackModel::requestTransitionResize_lambda(int compoId, int in, int out)
     }
 
     return [in, out, compoId, update_snaps, this](){
-            m_allTransitions[compoId]->setInOut(in, out);
-            update_snaps(m_allTransitions[compoId]->getPosition(), m_allTransitions[compoId]->getPosition() + out - in);
+            m_allCompositions[compoId]->setInOut(in, out);
+            update_snaps(m_allCompositions[compoId]->getPosition(), m_allCompositions[compoId]->getPosition() + out - in);
             return true;
     };
 }
 
-bool TrackModel::requestTransitionInsertion(int tid, int position, bool updateView, Fun& undo, Fun& redo)
+bool TrackModel::requestCompositionInsertion(int tid, int position, bool updateView, Fun& undo, Fun& redo)
 {
     qDebug()<<"++++++++++++TRREQUEST INSERTION AT: "<<position;
-    auto operation = requestTransitionInsertion_lambda(tid, position, updateView);
+    auto operation = requestCompositionInsertion_lambda(tid, position, updateView);
     if (operation()) {
-        auto reverse = requestTransitionDeletion_lambda(tid, updateView);
+        auto reverse = requestCompositionDeletion_lambda(tid, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
     return false;
 }
 
-bool TrackModel::requestTransitionDeletion(int compoId, bool updateView, Fun& undo, Fun& redo)
+bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun& undo, Fun& redo)
 {
-    Q_ASSERT(m_allTransitions.count(compoId) > 0);
-    auto old_transition = m_allTransitions[compoId];
-    int old_position = old_transition->getPosition();
-    auto operation = requestTransitionDeletion_lambda(compoId, updateView);
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    auto old_composition = m_allCompositions[compoId];
+    int old_position = old_composition->getPosition();
+    auto operation = requestCompositionDeletion_lambda(compoId, updateView);
     if (operation()) {
-        auto reverse = requestTransitionInsertion_lambda(compoId, old_position, updateView);
+        auto reverse = requestCompositionInsertion_lambda(compoId, old_position, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
     return false;
 }
 
-Fun TrackModel::requestTransitionDeletion_lambda(int compoId, bool updateView)
+Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView)
 {
     //Find index of clip
-    int clip_position = m_allTransitions[compoId]->getPosition();
+    int clip_position = m_allCompositions[compoId]->getPosition();
     int old_in = clip_position;
-    int old_out = old_in + m_allTransitions[compoId]->getPlaytime() - 1;
+    int old_out = old_in + m_allCompositions[compoId]->getPlaytime() - 1;
     return [clip_position, compoId, old_in, old_out, updateView, this]() {
-        int old_clip_index = getRowfromTransition(compoId);
+        int old_clip_index = getRowfromComposition(compoId);
         auto ptr = m_parent.lock();
         if (updateView) {
             ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId(), true), old_clip_index, old_clip_index);
             ptr->_endRemoveRows();
         }
-        int target_track = m_allTransitions[compoId]->getCurrentTrackId();
-        if (ptr->removeTransition(target_track, clip_position)) {
-            m_allTransitions[compoId]->setCurrentTrackId(-1);
-            m_allTransitions.erase(compoId);
+        int target_track = m_allCompositions[compoId]->getCurrentTrackId();
+        if (ptr->removeComposition(target_track, clip_position)) {
+            m_allCompositions[compoId]->setCurrentTrackId(-1);
+            m_allCompositions.erase(compoId);
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out);
             return true;
@@ -573,59 +573,59 @@ Fun TrackModel::requestTransitionDeletion_lambda(int compoId, bool updateView)
     };
 }
 
-int TrackModel::getTransitionByRow(int row) const
+int TrackModel::getCompositionByRow(int row) const
 {
-    if (row >= static_cast<int>(m_allTransitions.size())) {
+    if (row >= static_cast<int>(m_allCompositions.size())) {
         return -1;
     }
-    auto it = m_allTransitions.cbegin();
+    auto it = m_allCompositions.cbegin();
     std::advance(it, row - m_allClips.size());
     return (*it).first;
 }
 
-int TrackModel::getTransitionsCount() const
+int TrackModel::getCompositionsCount() const
 {
-    return (int)m_allTransitions.size();
+    return (int)m_allCompositions.size();
 }
 
-Fun TrackModel::requestTransitionInsertion_lambda(int compoId, int position, bool updateView)
+Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bool updateView)
 {
     // By default, insertion occurs in topmost track
 
     //we create the function that has to be executed after the melt order. This is essentially book-keeping
     auto end_function = [compoId, this, position, updateView]() {
         if (auto ptr = m_parent.lock()) {
-            std::shared_ptr<TransitionModel> transition = ptr->getTransitionPtr(compoId);
-            m_allTransitions[transition->getId()] = transition;  //store clip
+            std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(compoId);
+            m_allCompositions[composition->getId()] = composition;  //store clip
             //update clip position and track
-            transition->setCurrentTrackId(getId());
+            composition->setCurrentTrackId(getId());
             qDebug()<<"---SETTING TR POS: "<<position;
             if (updateView) {
-                qDebug()<<"* * *ADDING TRANSITION ON TK: "<<transition->getCurrentTrackId();
-                int transition_index = getRowfromTransition(transition->getId());
-                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(transition->getCurrentTrackId(), true), transition_index, transition_index);
+                qDebug()<<"* * *ADDING COMPOSITION ON TK: "<<composition->getCurrentTrackId();
+                int composition_index = getRowfromComposition(composition->getId());
+                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(composition->getCurrentTrackId(), true), composition_index, composition_index);
                 ptr->_endInsertRows();
-                qDebug()<<"* * *ADDING TRANSITION DONE TK: "<<transition->getCurrentTrackId();
+                qDebug()<<"* * *ADDING COMPOSITION DONE TK: "<<composition->getCurrentTrackId();
             }
-            int new_in = transition->getPosition();
-            int new_out = new_in + transition->getPlaytime() - 1;
+            int new_in = composition->getPosition();
+            int new_out = new_in + composition->getPlaytime() - 1;
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             return true;
         } else {
-            qDebug() << "Error : Transition Insertion failed because timeline is not available anymore";
+            qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
             return false;
         }
     };
 
     return [this, position, compoId, end_function]() {
         if (auto ptr = m_parent.lock()) {
-            std::shared_ptr<TransitionModel> transition = ptr->getTransitionPtr(compoId);
-            (*transition).setPosition(position);
-            ptr->plantTransition(*transition, ((Mlt::Transition)*transition).get_a_track(), ((Mlt::Transition)*transition).get_b_track());
+            std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(compoId);
+            (*composition).setPosition(position);
+            ptr->plantComposition(*composition, ((Mlt::Transition)*composition).get_a_track(), ((Mlt::Transition)*composition).get_b_track());
             return end_function();
         } else {
-            qDebug() << "Error : Transition Insertion failed because timeline is not available anymore";
+            qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
             return false;
         }
     };
