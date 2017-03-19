@@ -33,11 +33,6 @@
       <default>1</default>
     </entry>
 
-    <entry name="crashrecovery" type="Bool">
-      <label>Auto save document in backup file on each change.</label>
-      <default>true</default>
-    </entry>
-
     <entry name="checkfirstprojectclip" type="Bool">
       <label>Check if document profile is same as first imported clip.</label>
       <default>false</default>
