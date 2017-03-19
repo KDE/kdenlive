@@ -168,6 +168,7 @@ Rectangle {
                 }
                 Label{
                     text: assetlist.getName(styleData.index)
+                    horizontalAlignment: Text.AlignLeft
                 }
             }
 
