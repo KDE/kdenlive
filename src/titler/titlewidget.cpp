@@ -19,6 +19,7 @@
 #include "gradientwidget.h"
 #include "kdenlivesettings.h"
 #include "doc/kthumb.h"
+#include "renderer.h"
 #include "KoSliderCombo.h"
 #include "utils/KoIconUtils.h"
 
@@ -69,11 +70,11 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     Ui::TitleWidget_UI(),
     m_startViewport(nullptr),
     m_endViewport(nullptr),
-    m_render(render),
     m_count(0),
     m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
     m_projectTitlePath(projectTitlePath),
-    m_tc(tc)
+    m_tc(tc),
+    m_fps(render->fps())
 {
     setupUi(this);
     setMinimumSize(200, 200);
@@ -855,7 +856,7 @@ void TitleWidget::displayBackgroundFrame()
         p2.end();
         m_frameImage->setPixmap(bg);
     } else {
-        emit requestBackgroundFrame(true);
+        emit requestBackgroundFrame(m_clipId, true);
     }
 }
 
@@ -863,7 +864,7 @@ void TitleWidget::slotGotBackground(const QImage &img)
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(r.width() / 2, r.height() / 2)));
-    emit requestBackgroundFrame(false);
+    emit requestBackgroundFrame(m_clipId, false);
 }
 
 void TitleWidget::initAnimation()
@@ -1953,12 +1954,13 @@ int TitleWidget::duration() const
     return m_tc.getFrameCount(title_duration->text());
 }
 
-void TitleWidget::setXml(const QDomDocument &doc)
+void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
 {
+    m_clipId = id;
     int duration;
     m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
     adjustFrameSize();
-    title_duration->setText(m_tc.getTimecode(GenTime(duration, m_render->fps())));
+    title_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
     /*if (doc.documentElement().hasAttribute("out")) {
     GenTime duration = GenTime(doc.documentElement().attribute("out").toDouble() / 1000.0);
     title_duration->setText(m_tc.getTimecode(duration));

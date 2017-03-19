@@ -20,13 +20,14 @@
 
 #include "ui_titlewidget_ui.h"
 #include "titler/titledocument.h"
-#include "renderer.h"
 #include "effectstack/graphicsscenerectmove.h"
 #include "titler/unicodedialog.h"
 #include "timecode.h"
 
 #include <QMap>
 #include <QSignalMapper>
+
+class Render;
 
 class TitleTemplate
 {
@@ -70,7 +71,7 @@ public:
     explicit TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent = nullptr);
     virtual ~TitleWidget();
     QDomDocument xml();
-    void setXml(const QDomDocument &doc);
+    void setXml(const QDomDocument &doc, const QString &id = QString());
 
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title
@@ -113,8 +114,20 @@ private:
     QGraphicsPixmapItem *m_frameImage;
     int m_frameWidth;
     int m_frameHeight;
-    Render *m_render;   // TODO Is NOT destroyed in the destructor. Deliberately?
     int m_count;
+    /** @brief Dialog for entering Unicode characters in text fields. */
+    UnicodeDialog *m_unicodeDialog;
+
+    /** @brief Project path for storing title documents. */
+    QString m_projectTitlePath;
+    Timecode m_tc;
+
+    /** @brief The project framerate. */
+    double m_fps;
+
+    /** @brief The bin id of the clip currently edited, can be empty if this is a new clip. */
+    QString m_clipId;
+
     QAction *m_buttonRect;
     QAction *m_buttonText;
     QAction *m_buttonImage;
@@ -132,13 +145,6 @@ private:
     QAction *m_selectRects;
     QAction *m_selectImages;
     QAction *m_unselectAll;
-
-    /** @brief Dialog for entering Unicode characters in text fields. */
-    UnicodeDialog *m_unicodeDialog;
-
-    /** @brief Project path for storing title documents. */
-    QString m_projectTitlePath;
-    Timecode m_tc;
     QString lastDocumentHash;
 
     // See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage.
@@ -351,7 +357,7 @@ private slots:
     void slotUpdateShadow();
 
 signals:
-    void requestBackgroundFrame(bool);
+    void requestBackgroundFrame(const QString &clipId, bool request);
 };
 
 #endif

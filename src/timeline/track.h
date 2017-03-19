@@ -209,6 +209,10 @@ public:
     bool moveTrackEffect(int oldPos, int newPos);
     QList<QPoint> visibleClips();
     bool resize_in_out(int pos, int in, int out);
+    /** @brief temporarily hide the track if it contains the clip id at position pos 
+     *  @returns true if the track was hidden
+     **/
+    bool hideClip(int pos, const QString &id, bool hide);
 
 signals:
     /** @brief notify track length change to update background

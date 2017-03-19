@@ -3573,8 +3573,11 @@ void Bin::deleteAllClipMarkers(const QString &id)
     }
 }
 
-void Bin::slotGetCurrentProjectImage(bool request)
+void Bin::slotGetCurrentProjectImage(const QString &clipId, bool request)
 {
+    if (!clipId.isEmpty()) {
+        (pCore->projectManager()->currentTimeline()->hideClip(clipId, request));
+    }
     pCore->monitorManager()->projectMonitor()->slotGetCurrentImage(request);
 }
 
@@ -3585,7 +3588,7 @@ void Bin::showTitleWidget(ProjectClip *clip)
     QDir titleFolder(m_doc->projectDataFolder() + QStringLiteral("/titles"));
     titleFolder.mkpath(QStringLiteral("."));
     TitleWidget dia_ui(QUrl(), m_doc->timecode(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor()->render, pCore->window());
-    connect(&dia_ui, &TitleWidget::requestBackgroundFrame, pCore->monitorManager()->projectMonitor(), &Monitor::slotGetCurrentImage);
+    connect(&dia_ui, &TitleWidget::requestBackgroundFrame, this, &Bin::slotGetCurrentProjectImage);
     QDomDocument doc;
     QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
     if (xmldata.isEmpty() && QFile::exists(path)) {
@@ -3595,7 +3598,7 @@ void Bin::showTitleWidget(ProjectClip *clip)
     } else {
         doc.setContent(xmldata);
     }
-    dia_ui.setXml(doc);
+    dia_ui.setXml(doc, clip->clipId());
     if (dia_ui.exec() == QDialog::Accepted) {
         QMap<QString, QString> newprops;
         newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());

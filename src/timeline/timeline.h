@@ -186,6 +186,10 @@ public:
     void startPreviewRender();
     /** @brief Toggle current project's compositing mode. */
     void switchComposite(int mode);
+    /** @brief Temporarily hide a clip if it is at cursor position so that we can extract an image. 
+     *  @returns true if a track was temporarily hidden
+    */
+    bool hideClip(const QString &id, bool hide);
 
 public slots:
     void slotDeleteClip(const QString &clipId, QUndoCommand *deleteCommand);

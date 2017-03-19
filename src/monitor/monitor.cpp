@@ -384,9 +384,9 @@ void Monitor::setOffsetY(int y)
 void Monitor::slotGetCurrentImage(bool request)
 {
     m_glMonitor->sendFrameForAnalysis = request;
+    m_monitorManager->activateMonitor(m_id, false);
+    refreshMonitorIfActive();
     if (request) {
-        m_monitorManager->activateMonitor(m_id, true);
-        refreshMonitorIfActive();
         // Update analysis state
         QTimer::singleShot(500, m_monitorManager, &MonitorManager::checkScopes);
     } else {
