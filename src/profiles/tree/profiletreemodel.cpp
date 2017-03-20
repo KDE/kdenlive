@@ -125,7 +125,6 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
     return item->data(index.column());
 }
 
-
 //static
 QString ProfileTreeModel::getProfile(const QModelIndex& index)
 {

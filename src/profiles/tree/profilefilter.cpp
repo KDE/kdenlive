@@ -69,7 +69,6 @@ bool ProfileFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePar
     }
     QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
     QString profile_path = ProfileTreeModel::getProfile(row);
-
     if (profile_path.isEmpty()) {
         return true;
     }

@@ -31,24 +31,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QLabel>
 #include <QComboBox>
 #include <KLocalizedString>
-#include <KMessageWidget>
 #include <QTextEdit>
 #include <QSplitter>
-
-#include <KCollapsibleGroupBox>
-
-
 
 ProfileWidget::ProfileWidget(QWidget *parent) :
     QWidget(parent)
 {
     m_originalProfile = QStringLiteral("invalid");
-
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     QVBoxLayout *lay = new QVBoxLayout;
 
     QHBoxLayout *labelLay = new QHBoxLayout;
-    QLabel *title = new QLabel(i18n("Select the profile (preset) of the project"),this);
-    labelLay->addWidget(title);
+    QLabel* fpsLabel = new QLabel(i18n("Fps"),this);
+    fpsFilt = new QComboBox(this);
+    fpsLabel->setBuddy(fpsFilt);
+    labelLay->addWidget(fpsLabel);
+    labelLay->addWidget(fpsFilt);
+
+    QLabel* scanningLabel = new QLabel(i18n("Scanning"),this);
+    scanningFilt = new QComboBox(this);
+    scanningLabel->setBuddy(scanningFilt);
+    labelLay->addWidget(scanningLabel);
+    labelLay->addWidget(scanningFilt);
     labelLay->addStretch(1);
 
     QToolButton *manage_profiles = new QToolButton(this);
@@ -62,7 +66,6 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
     QSplitter *profileSplitter = new QSplitter;
 
     m_treeView = new QTreeView(this);
-    m_treeView->setMinimumSize(QSize(400, 400));
     m_treeModel = new ProfileTreeModel(this);
     m_filter = new ProfileFilter(this);
     m_filter->setSourceModel(m_treeModel);
@@ -85,63 +88,55 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
                 slotChangeSelection(current, old);
             });
     profileSplitter->addWidget(m_treeView);
-
+    m_treeView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_descriptionPanel = new QTextEdit(this);
     m_descriptionPanel->setReadOnly(true);
     m_descriptionPanel->viewport()->setCursor(Qt::ArrowCursor);
     m_descriptionPanel->viewport()->setBackgroundRole(QPalette::Mid);
+    m_descriptionPanel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    m_descriptionPanel->setFrameStyle(QFrame::NoFrame);
     profileSplitter->addWidget(m_descriptionPanel);
 
     lay->addWidget(profileSplitter);
-
-    QHBoxLayout* filtersLayout = new QHBoxLayout;
-
-    QLabel* fpsLabel = new QLabel(i18n("Fps"),this);
-    fpsFilt = new QComboBox(this);
-    fpsLabel->setBuddy(fpsFilt);
-    filtersLayout->addWidget(fpsLabel);
-    filtersLayout->addWidget(fpsFilt);
-    filtersLayout->addStretch();
-
+    profileSplitter->setStretchFactor(0, 2);
+    profileSplitter->setStretchFactor(1, 1);
     auto all_fps = ProfileRepository::get()->getAllFps();
 
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-
     fpsFilt->addItem("Any", -1);
     for (double fps : all_fps) {
         fpsFilt->addItem(locale.toString(fps), fps);
     }
     auto updateFps = [&]() {
         double current = fpsFilt->currentData().toDouble();
+        KdenliveSettings::setProfile_fps_filter(fpsFilt->currentText());
         m_filter->setFilterFps(current > 0,
                                current);
         slotFilterChanged();
     };
     connect(fpsFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateFps);
-
-
-    QLabel* scanningLabel = new QLabel(i18n("Scanning"),this);
-    scanningFilt = new QComboBox(this);
-    scanningLabel->setBuddy(scanningFilt);
-    filtersLayout->addWidget(scanningLabel);
-    filtersLayout->addWidget(scanningFilt);
-    filtersLayout->addStretch();
-
+    int ix = fpsFilt->findText(KdenliveSettings::profile_fps_filter());
+    if (ix > -1) {
+        fpsFilt->setCurrentIndex(ix);
+    }
     scanningFilt->addItem("Any", -1);
     scanningFilt->addItem("Interlaced", 0);
     scanningFilt->addItem("Progressive", 1);
 
     auto updateScanning = [&]() {
         int current = scanningFilt->currentData().toInt();
+        KdenliveSettings::setProfile_scanning_filter(scanningFilt->currentText());
         m_filter->setFilterInterlaced(current != -1,
                                       current == 0);
         slotFilterChanged();
     };
     connect(scanningFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateScanning);
 
-    lay->addLayout(filtersLayout);
-
+    ix = scanningFilt->findText(KdenliveSettings::profile_scanning_filter());
+    if (ix > -1) {
+        scanningFilt->setCurrentIndex(ix);
+    }
     setLayout(lay);
 }
 
@@ -154,7 +149,11 @@ void ProfileWidget::loadProfile(const QString& profile)
     auto index = m_treeModel->findProfile(profile);
     if (index.isValid()) {
         m_originalProfile = m_currentProfile = m_lastValidProfile = profile;
-        trySelectProfile(profile);
+        if (!trySelectProfile(profile)) {
+            // When loading a profile, ensure it is visible so reset filters if necessary
+            fpsFilt->setCurrentIndex(0);
+            scanningFilt->setCurrentIndex(0);
+        }
     }
 }
 
@@ -181,15 +180,15 @@ void ProfileWidget::fillDescriptionPanel(const QString& profile_path)
         std::unique_ptr<ProfileModel> & profile = ProfileRepository::get()->getProfile(profile_path);
 
         description += i18n("<h5>Video Settings</h5>");
-        description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3)</p>",profile->width(), profile->height(), profile->dar());
-        description += i18n("<p style='font-size:small'>Frame rate: %1 fps</p>",profile->fps());
-        description += i18n("<p style='font-size:small'>Pixel Aspect Ratio: %1</p>",profile->sar());
-        description += i18n("<p style='font-size:small'>Color Space: %1</p>",profile->colorspaceDescription());
+        description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3:%4)<br/>",profile->width(), profile->height(), profile->display_aspect_num(), profile->display_aspect_den());
+        description += i18n("Frame rate: %1 fps<br/>",profile->fps());
+        description += i18n("Pixel Aspect Ratio: %1<br/>",profile->sar());
+        description += i18n("Color Space: %1<br/>",profile->colorspaceDescription());
         QString interlaced = i18n("yes");
         if (profile->progressive()) {
             interlaced = i18n("no");
         }
-        description += i18n("<p style='font-size:small'>Interlaced : %1</p>", interlaced);
+        description += i18n("Interlaced : %1</p>", interlaced);
     }
     m_descriptionPanel->setHtml(description);
 }
@@ -225,10 +224,12 @@ bool ProfileWidget::trySelectProfile(const QString& profile)
             //expand corresponding category
             auto parent = m_treeModel->parent(index);
             m_treeView->expand(m_filter->mapFromSource(parent));
+            m_treeView->scrollTo(m_filter->mapFromSource(index), QAbstractItemView::PositionAtCenter);
             return true;
         } else {
             return false;
         }
+    } else {
     }
     return false;
 }
