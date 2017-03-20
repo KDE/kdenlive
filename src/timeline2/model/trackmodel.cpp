@@ -558,7 +558,7 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView)
         int old_clip_index = getRowfromComposition(compoId);
         auto ptr = m_parent.lock();
         if (updateView) {
-            ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId(), true), old_clip_index, old_clip_index);
+            ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
             ptr->_endRemoveRows();
         }
         int target_track = m_allCompositions[compoId]->getCurrentTrackId();
@@ -603,7 +603,7 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
             if (updateView) {
                 qDebug()<<"* * *ADDING COMPOSITION ON TK: "<<composition->getCurrentTrackId();
                 int composition_index = getRowfromComposition(composition->getId());
-                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(composition->getCurrentTrackId(), true), composition_index, composition_index);
+                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(composition->getCurrentTrackId()), composition_index, composition_index);
                 ptr->_endInsertRows();
                 qDebug()<<"* * *ADDING COMPOSITION DONE TK: "<<composition->getCurrentTrackId();
             }

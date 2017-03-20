@@ -15,7 +15,6 @@
     <file alias="timeline.qml">timeline2/view/qml/timeline.qml</file>
     <file alias="TrackHead.qml">timeline2/view/qml/TrackHead.qml</file>
     <file alias="Track.qml">timeline2/view/qml/Track.qml</file>
-    <file alias="TransitionTrack.qml">timeline2/view/qml/TransitionTrack.qml</file>
     <file alias="Ruler.qml">timeline2/view/qml/Ruler.qml</file>
     <file alias="Clip.qml">timeline2/view/qml/Clip.qml</file>
     <file alias="Composition.qml">timeline2/view/qml/Composition.qml</file>

@@ -74,19 +74,6 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
 {
     READ_LOCK();
     QModelIndex result;
-    if (column > 0) {
-         if (parent.isValid()) {
-            int trackId = int(parent.internalId());
-            Q_ASSERT(isTrack(trackId));
-            int transId = getTrackById_const(trackId)->getCompositionByRow(row);
-            if (transId != -1) {
-                result = createIndex(row, 1, quintptr(transId));
-            } else {
-                //qDebug()<<"* * *CANNOT FIND COMPOSITION IX : "<<transId;
-            }
-            return result;
-        }
-    }
     if (parent.isValid()) {
         int trackId = int(parent.internalId());
         Q_ASSERT(isTrack(trackId));
@@ -94,9 +81,9 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
         if (clipId != -1) {
             result = createIndex(row, 0, quintptr(clipId));
         } else {
-            int transId = getTrackById_const(trackId)->getCompositionByRow(row);
-            if (transId != -1) {
-                result = createIndex(row, 1, quintptr(transId));
+            int compoId = getTrackById_const(trackId)->getCompositionByRow(row);
+            if (compoId != -1) {
+                result = createIndex(row, 0, quintptr(compoId));
             }
         }
     } else if (row < getTracksCount() && row >= 0) {
@@ -113,29 +100,26 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
     return index(clipIndex, 0, index(trackIndex));
 }*/
 
-QModelIndex TimelineItemModel::makeClipIndexFromID(int cid) const
+QModelIndex TimelineItemModel::makeClipIndexFromID(int clipId) const
 {
-    Q_ASSERT(m_allClips.count(cid) > 0);
-    int tid = m_allClips.at(cid)->getCurrentTrackId();
-    return index(getTrackById_const(tid)->getRowfromClip(cid), 0, makeTrackIndexFromID(tid) );
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    int trackId = m_allClips.at(clipId)->getCurrentTrackId();
+    return index(getTrackById_const(trackId)->getRowfromClip(clipId), 0, makeTrackIndexFromID(trackId) );
 }
 
-QModelIndex TimelineItemModel::makeCompositionIndexFromID(int tid) const
+QModelIndex TimelineItemModel::makeCompositionIndexFromID(int compoId) const
 {
-    Q_ASSERT(m_allCompositions.count(tid) > 0);
-    int trid = m_allCompositions.at(tid)->getCurrentTrackId();
-    return index(getTrackById_const(trid)->getRowfromComposition(tid), 0, makeTrackIndexFromID(trid, true) );
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    int trackId = m_allCompositions.at(compoId)->getCurrentTrackId();
+    return index(getTrackById_const(trackId)->getRowfromComposition(compoId), 0, makeTrackIndexFromID(trackId) );
 }
 
-QModelIndex TimelineItemModel::makeTrackIndexFromID(int tid, bool transition) const
+QModelIndex TimelineItemModel::makeTrackIndexFromID(int trackId) const
 {
     // we retrieve iterator
-    Q_ASSERT(m_iteratorTable.count(tid) > 0);
-    auto it = m_iteratorTable.at(tid);
+    Q_ASSERT(m_iteratorTable.count(trackId) > 0);
+    auto it = m_iteratorTable.at(trackId);
     int ind = (int)std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it);
-    if (transition) {
-        return index(ind, 1);
-    }
     return index(ind);
 }
 
@@ -154,7 +138,7 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
         return makeTrackIndexFromID(trackId);
     } else if(isComposition(id)) {
         const int trackId = getCompositionTrackId(id);
-        return makeTrackIndexFromID(trackId, true);
+        return makeTrackIndexFromID(trackId);
     }
     return QModelIndex();
 }
@@ -170,8 +154,6 @@ int TimelineItemModel::rowCount(const QModelIndex &parent) const
             //if it is not a track and not a clip, it is something invalid
             return 0;
         }
-        // return number of clip in a specific track
-        //return parent.column() == 0 ? getTrackClipsCount(id) : getTrackCompositionsCount(id);
         return getTrackClipsCount(id) + getTrackCompositionsCount(id);
     }
     return getTracksCount();
@@ -351,9 +333,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TimelineItemModel::setTrackProperty(int tid, const QString &name, const QString &value)
+void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const QString &value)
 {
-    getTrackById(tid)->setProperty(name, value);
+    getTrackById(trackId)->setProperty(name, value);
     QVector<int> roles;
     if (name == QLatin1String("kdenlive:track_name")) {
         roles.push_back(NameRole);
@@ -364,7 +346,7 @@ void TimelineItemModel::setTrackProperty(int tid, const QString &name, const QSt
         roles.push_back(IsHiddenRole);
     }
     if (!roles.isEmpty()) {
-        QModelIndex ix = makeTrackIndexFromID(tid);
+        QModelIndex ix = makeTrackIndexFromID(trackId);
         emit dataChanged(ix, ix, roles);
     }
 }

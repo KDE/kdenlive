@@ -420,7 +420,7 @@ protected:
     virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) = 0;
     virtual QModelIndex makeClipIndexFromID(int) const = 0;
     virtual QModelIndex makeCompositionIndexFromID(int) const = 0;
-    virtual QModelIndex makeTrackIndexFromID(int, bool composition = false) const = 0;
+    virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;
 };
 #endif

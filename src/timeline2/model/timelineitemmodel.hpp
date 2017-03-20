@@ -97,11 +97,11 @@ public:
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
     //QModelIndex makeIndex(int trackIndex, int clipIndex) const;
     /* @brief Creates an index based on the ID of the clip*/
-    QModelIndex makeClipIndexFromID(int cid) const override;
+    QModelIndex makeClipIndexFromID(int clipId) const override;
     /* @brief Creates an index based on the ID of the compoition*/
-    QModelIndex makeCompositionIndexFromID(int tid) const;
+    QModelIndex makeCompositionIndexFromID(int compoId) const;
     /* @brief Creates an index based on the ID of the track*/
-    QModelIndex makeTrackIndexFromID(int tid, bool composition = false) const override;
+    QModelIndex makeTrackIndexFromID(int trackId) const override;
     QModelIndex parent(const QModelIndex &index) const override;
     Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
     void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) override;
