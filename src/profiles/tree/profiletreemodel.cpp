@@ -266,8 +266,9 @@ QModelIndex ProfileTreeModel::parent(const QModelIndex &index) const
     ProfileItem *childItem = static_cast<ProfileItem*>(index.internalPointer());
     ProfileItem *parentItem = childItem->parentItem();
 
-    if (parentItem == rootItem)
+    if (parentItem == rootItem) {
         return QModelIndex();
+    }
 
     return createIndex(parentItem->row(), 0, parentItem);
 }

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>591</width>
-    <height>710</height>
+    <height>742</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,10 +27,13 @@
        <string>Settings</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="4" column="1">
-        <widget class="QCheckBox" name="video_thumbs">
-         <property name="text">
-          <string>Video</string>
+       <item row="2" column="0" colspan="4">
+        <widget class="QGroupBox" name="profile_box">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
         </widget>
        </item>
@@ -38,6 +41,13 @@
         <widget class="QCheckBox" name="audio_thumbs">
          <property name="text">
           <string>Audio</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="video_thumbs">
+         <property name="text">
+          <string>Video</string>
          </property>
         </widget>
        </item>
@@ -59,10 +69,10 @@
          </item>
         </layout>
        </item>
-       <item row="2" column="0" colspan="4">
-        <widget class="QGroupBox" name="profile_box">
-         <property name="title">
-          <string>Video Profile</string>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Thumbnails:</string>
          </property>
         </widget>
        </item>
@@ -110,17 +120,10 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Thumbnails:</string>
-         </property>
-        </widget>
-       </item>
        <item row="5" column="0" colspan="4">
         <widget class="QGroupBox" name="enable_proxy">
          <property name="title">
-          <string>Prox&amp;y clips</string>
+          <string>Pro&amp;xy clips</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -285,19 +288,6 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="4">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>559</width>
-           <height>38</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="4" column="3">
         <spacer name="horizontalSpacer">
          <property name="orientation">
@@ -321,7 +311,6 @@
       <zorder></zorder>
       <zorder>horizontalSpacer</zorder>
       <zorder>previewparams</zorder>
-      <zorder>verticalSpacer</zorder>
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -524,6 +513,11 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>KTreeWidgetSearchLine</class>
    <extends>QLineEdit</extends>
    <header>ktreewidgetsearchline.h</header>
@@ -533,11 +527,6 @@
    <extends>QWidget</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

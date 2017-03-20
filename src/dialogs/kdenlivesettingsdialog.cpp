@@ -78,6 +78,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_pw = new ProfileWidget(this);
     vbox->addWidget(m_pw);
     m_configProject.profile_box->setLayout(vbox);
+    m_configProject.profile_box->setTitle(i18n("Select the default profile (preset)"));
     // Select profile
     m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile());
     connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
