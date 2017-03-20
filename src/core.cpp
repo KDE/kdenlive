@@ -96,7 +96,11 @@ void Core::initialize(const QString &mltPath)
 
     //load default profile and ask user to select one if not found.
     m_profile = KdenliveSettings::default_profile();
-    if (m_profile.isEmpty() || !ProfileRepository::get()->profileExists(m_profile)) {
+    if (m_profile.isEmpty()) {
+        m_profile = ProjectManager::getDefaultProjectFormat();
+        KdenliveSettings::setDefault_profile(m_profile);
+    }
+    if (!ProfileRepository::get()->profileExists(m_profile)) {
         KMessageBox::sorry(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
 
         //TODO this simple widget should be improved and probably use profileWidget
