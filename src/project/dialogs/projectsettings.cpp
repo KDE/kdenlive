@@ -69,6 +69,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     m_pw = new ProfileWidget(this);
     vbox->addWidget(m_pw);
     profile_box->setLayout(vbox);
+    profile_box->setTitle(i18n("Select the profile (preset) of the project"));
 
     list_search->setTreeWidget(files_list);
     project_folder->setMode(KFile::Directory);

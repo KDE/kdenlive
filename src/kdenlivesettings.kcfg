@@ -102,6 +102,17 @@
       <label>Disable parameters when the effect is disabled.</label>
       <default>true</default>
     </entry>
+
+    <entry name="profile_fps_filter" type="String">
+      <label>Default fps filter for project profile.</label>
+      <default></default>
+    </entry>
+
+    <entry name="profile_scanning_filter" type="String">
+      <label>Default scanning filter for project profile.</label>
+      <default></default>
+    </entry>
+
   </group>
 
   <group name="project">
