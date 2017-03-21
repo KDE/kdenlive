@@ -21,7 +21,7 @@ namespace Mlt {
 /**
  * @class MltConnection
  * @brief Initializes MLT and provides access to its API
- * This is where the Mlt Factory is initialized
+ * This is where the Mlt Factory is initialized, as well as the producers
  */
 
 class MltConnection
@@ -45,6 +45,10 @@ protected:
      * mltPath, MLT_PREFIX, searching for the binary `melt`, or asking to the
      * user. It doesn't fill any list of profiles, while its name suggests so. */
     void locateMeltAndProfilesPath(const QString &mltPath = QString());
+
+    /** @brief Updates the list of available Lumas
+     */
+    void refreshLumas();
 
     static int instanceCounter;
 
