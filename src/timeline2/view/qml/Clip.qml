@@ -35,7 +35,7 @@ Rectangle {
     property int clipDuration: 0
     property bool isBlank: false
     property bool isAudio: false
-    property bool isTransition: false
+    property bool isComposition: false
     property bool grouped: false
     property var audioLevels
     property var markers : []
@@ -154,7 +154,7 @@ Rectangle {
     }
 
     /*TimelineTransition {
-        visible: isTransition
+        visible: isComposition
         anchors.fill: parent
         property var color: isAudio? 'darkseagreen' : 'blue'
         //root.shotcutBlue
@@ -203,7 +203,7 @@ Rectangle {
     Rectangle {
         // text background
         color: 'lightgray'
-        visible: !isBlank && !isTransition
+        visible: !isBlank && !isComposition
         opacity: 0.7
         anchors.top: parent.top
         anchors.left: parent.left
@@ -217,7 +217,7 @@ Rectangle {
     Text {
         id: label
         text: clipName
-        visible: !isBlank && !isTransition
+        visible: !isBlank && !isComposition
         font.pixelSize: root.baseUnit
         anchors {
             top: parent.top
@@ -255,7 +255,7 @@ Rectangle {
         Text {
             id: mlabel
             text: markers[2 * modelData + 1]
-            visible: !isBlank && !isTransition
+            visible: !isBlank && !isComposition
             font.pixelSize: root.baseUnit
             x: markerBase.x
             anchors {
@@ -356,7 +356,7 @@ Rectangle {
 
     TimelineTriangle {
         id: fadeInTriangle
-        visible: !isBlank && !isTransition
+        visible: !isBlank && !isComposition
         width: parent.fadeIn * timeScale
         height: parent.height - parent.border.width * 2
         anchors.left: parent.left
@@ -366,7 +366,7 @@ Rectangle {
     }
     Rectangle {
         id: fadeInControl
-        enabled: !isBlank && !isTransition
+        enabled: !isBlank && !isComposition
         anchors.left: fadeInTriangle.width > radius? undefined : fadeInTriangle.left
         anchors.horizontalCenter: fadeInTriangle.width > radius? fadeInTriangle.right : undefined
         anchors.top: fadeInTriangle.top
@@ -439,7 +439,7 @@ Rectangle {
 
     TimelineTriangle {
         id: fadeOutCanvas
-        visible: !isBlank && !isTransition
+        visible: !isBlank && !isComposition
         width: parent.fadeOut * timeScale
         height: parent.height - parent.border.width * 2
         anchors.right: parent.right
@@ -450,7 +450,7 @@ Rectangle {
     }
     Rectangle {
         id: fadeOutControl
-        enabled: !isBlank && !isTransition
+        enabled: !isBlank && !isComposition
         anchors.right: fadeOutCanvas.width > radius? undefined : fadeOutCanvas.right
         anchors.horizontalCenter: fadeOutCanvas.width > radius? fadeOutCanvas.left : undefined
         anchors.top: fadeOutCanvas.top
@@ -613,7 +613,7 @@ Rectangle {
             popup()
         }
         MenuItem {
-            visible: true // !isBlank && !isTransition
+            visible: true // !isBlank && !isComposition
             text: i18n('Cut')
             onTriggered: {
                 if (!trackRoot.isLocked) {
@@ -636,12 +636,12 @@ Rectangle {
         }
 
         MenuItem {
-            visible: true //!isBlank && !isTransition
+            visible: true //!isBlank && !isComposition
             text: i18n('Copy')
             onTriggered: timeline.copyClip(trackIndex, index)
         }
         MenuSeparator {
-            visible: !isBlank && !isTransition
+            visible: !isBlank && !isComposition
         }
         MenuItem {
             text: i18n('Remove')
@@ -653,10 +653,10 @@ Rectangle {
             onTriggered: timeline.lift(trackIndex, index)
         }
         MenuSeparator {
-            visible: true //!isBlank && !isTransition
+            visible: true //!isBlank && !isComposition
         }
         MenuItem {
-            visible: true //!isBlank && !isTransition
+            visible: true //!isBlank && !isComposition
             text: i18n('Split At Playhead (S)')
             onTriggered: timeline.splitClip(trackIndex, index)
         }
@@ -666,7 +666,7 @@ Rectangle {
             onTriggered: timeline.mergeClipWithNext(trackIndex, index, false)
         }
         MenuItem {
-            visible: !isBlank && !isTransition
+            visible: !isBlank && !isComposition
             text: i18n('Rebuild Audio Waveform')
             onTriggered: timeline.remakeAudioLevels(trackIndex, index)
         }
