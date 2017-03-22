@@ -104,6 +104,8 @@ private:
     DragValue *m_rotateY;
     DragValue *m_rotateZ;
     QPoint m_frameSize;
+    /** @brief Action switching between profile and source size. */
+    QAction *m_originalSize;
     /** @brief True if this is a fixed parameter (no kexframes allowed). */
     bool m_fixedGeom;
     /** @brief True if there is only one keyframe in this geometry. */
@@ -188,8 +190,10 @@ private slots:
     void slotShowPreviousKeyFrame(bool show);
     /** @brief Show / hide keyframe path in monitor scene. */
     void slotShowPath(bool show);
-    /** @brief Eduit center points for the geometry keyframes. */
+    /** @brief Edit center points for the geometry keyframes. */
     void slotUpdateCenters(const QVariantList &centers);
+    /** @brief Un/Lock aspect ratio for size in effect parameter. */
+    void slotLockRatio();
 
 signals:
     void seekToPos(int);
