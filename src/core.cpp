@@ -242,3 +242,10 @@ std::unique_ptr<Mlt::Repository>& Core::getMltRepository()
 {
     return m_mltConnection->getMltRepository();
 }
+
+std::unique_ptr<ProfileModel>& Core::getCurrentProfile() const
+{
+    //TODO store locally the profile and not in parameters
+    QString profile = KdenliveSettings::current_profile();
+    return ProfileRepository::get()->getProfile(profile);
+}

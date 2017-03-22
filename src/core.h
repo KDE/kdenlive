@@ -25,6 +25,7 @@ class Bin;
 class LibraryWidget;
 class ProducerQueue;
 class MltConnection;
+class ProfileModel;
 
 namespace Mlt
 {
@@ -90,6 +91,10 @@ public:
 
     /** @brief Returns a pointer to MLT's repository */
     std::unique_ptr<Mlt::Repository>& getMltRepository();
+
+
+    /** @brief Returns a pointer to the current profile */
+    std::unique_ptr<ProfileModel>& getCurrentProfile() const;
 
 private:
     explicit Core();
