@@ -1655,6 +1655,15 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
     }
 }
 
+void Monitor::setEffectSceneProperty(const QString &name, const QVariant &value)
+{
+    QQuickItem *root = m_glMonitor->rootObject();
+    if (!root) {
+        return;
+    }
+    root->setProperty(name.toUtf8().constData(), value);
+}
+
 QRect Monitor::effectRect() const
 {
     QQuickItem *root = m_glMonitor->rootObject();

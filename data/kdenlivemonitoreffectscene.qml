@@ -16,6 +16,7 @@ Item {
     property double scaley
     property double offsetx : 0
     property double offsety : 0
+    property double lockratio : -1
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
     onOffsetxChanged: canvas.requestPaint()
@@ -224,7 +225,7 @@ Item {
         color: "transparent"
         border.color: "#ffff0000"
         Rectangle {
-            id: "tlhandle"
+            id: tlhandle
             anchors {
             top: parent.top
             left: parent.left
@@ -249,10 +250,20 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
-                  framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
-                  framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
-                  framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
-                  framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
+                  if (root.lockratio > 0) {
+                      var delta = Math.max(mouseX - oldMouseX, mouseY - oldMouseY)
+                      var newwidth = framerect.width - delta
+                      var newheight = newwidth / root.lockratio
+                      framesize.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
+                      framesize.width = newwidth / root.scalex;
+                      framesize.y = (framerect.y + (framerect.height - newheight) - frame.y) / root.scaley;
+                      framesize.height = newheight / root.scaley;
+                  } else {
+                    framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
+                    framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
+                    framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
+                    framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
+                  }
                   root.effectChanged()
                 }
               }
@@ -273,7 +284,7 @@ Item {
             }
         }
         Rectangle {
-            id: "trhandle"
+            id: trhandle
             anchors {
             top: parent.top
             right: parent.right
@@ -298,9 +309,18 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
-                  framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
-                  framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
-                  framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
+                  if (root.lockratio > 0) {
+                      var delta = Math.max(oldMouseX - mouseX, mouseY - oldMouseY)
+                      var newheight = framerect.height - delta
+                      var newwidth = newheight * root.lockratio
+                      framesize.y = (framerect.y + (framerect.height - newheight) - frame.y) / root.scaley;
+                      framesize.width = newwidth / root.scalex;
+                      framesize.height = newheight / root.scaley;
+                  } else {
+                      framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
+                      framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
+                      framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
+                  }
                   root.effectChanged()
                 }
               }
@@ -310,7 +330,7 @@ Item {
             }
         }
         Rectangle {
-            id: "blhandle"
+            id: blhandle
             anchors {
             bottom: parent.bottom
             left: parent.left
@@ -335,9 +355,18 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
-                  framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
-                  framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
-                  framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
+                  if (root.lockratio > 0) {
+                      var delta = Math.max(mouseX - oldMouseX, oldMouseY - mouseY)
+                      var newwidth = framerect.width - delta
+                      var newheight = newwidth / root.lockratio
+                      framesize.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
+                      framesize.width = newwidth / root.scalex;
+                      framesize.height = newheight / root.scaley;
+                  } else {
+                    framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
+                    framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
+                    framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
+                  }
                   root.effectChanged()
                 }
               }
@@ -347,7 +376,7 @@ Item {
             }
         }
         Rectangle {
-            id: "brhandle"
+            id: brhandle
             anchors {
             bottom: parent.bottom
             right: parent.right
@@ -372,8 +401,16 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
-                  framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
-                  framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
+                   if (root.lockratio > 0) {
+                      var delta = Math.max(oldMouseX - mouseX, oldMouseY - mouseY)
+                      var newwidth = framerect.width - delta
+                      var newheight = newwidth / root.lockratio
+                      framesize.width = newwidth / root.scalex;
+                      framesize.height = newheight / root.scaley;
+                  } else {
+                    framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
+                    framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
+                  }
                   root.effectChanged()
                 }
               }

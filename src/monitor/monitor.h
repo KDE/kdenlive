@@ -121,6 +121,8 @@ public:
     int getZoneStart();
     int getZoneEnd();
     void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList());
+    /** @brief Set a property on the effect scene */
+    void setEffectSceneProperty(const QString &name, const QVariant &value);
     /** @brief Returns effective display size */
     QSize profileSize() const;
     QRect effectRect() const;
