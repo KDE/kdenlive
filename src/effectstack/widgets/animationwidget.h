@@ -96,6 +96,7 @@ private:
     DragValue *m_spinHeight;
     DragValue *m_spinSize;
     DragValue *m_spinOpacity;
+    QAction *m_originalSize;
     int m_offset;
     void parseKeyframes();
     void rebuildKeyframes();
@@ -160,6 +161,10 @@ private slots:
     void slotCenterV();
     /** @brief Moves the rect to the bottom frame border (y position = frame height - rect height). */
     void slotMoveBottom();
+    /** @brief Un/Lock aspect ratio for size in effect parameter. */
+    void slotLockRatio();
+    void slotAdjustRectHeight();
+    void slotAdjustRectWidth();
 
 signals:
     void seekToPos(int);
