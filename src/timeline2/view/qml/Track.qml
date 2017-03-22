@@ -63,6 +63,12 @@ Column{
                     value: trackRoot.timeScale
                     when: loader.status == Loader.Ready
                 }
+                Binding {
+                    target: loader.item
+                    property: "selected"
+                    value: trackRoot.selection.indexOf(loader.item.clipId) !== -1
+                    when: loader.status == Loader.Ready
+                }
                 sourceComponent: {
                     if (model.isComposition) {
                         return compositionDelegate
