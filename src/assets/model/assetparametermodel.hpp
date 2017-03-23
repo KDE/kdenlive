@@ -83,6 +83,13 @@ public:
      */
     void setParameter(const QString& name, const QString& value);
 
+    /* @brief Return all the parameters as pairs (parameter name, parameter value) */
+    QVector<QPair<QString, QVariant> > getAllParameters() const;
+
+    /* @brief Sets the value of a list of parameters
+       @param params contains the pairs (parameter name, parameter value)
+     */
+    void setParameters(const QVector<QPair<QString, QVariant> >& params);
 
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

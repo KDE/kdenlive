@@ -240,3 +240,24 @@ QString AssetParameterModel::getId() const
 {
     return m_assetId;
 }
+
+QVector<QPair<QString, QVariant> > AssetParameterModel::getAllParameters() const
+{
+    QVector<QPair<QString, QVariant> > res;
+    res.reserve(m_fixedParams.size() + m_params.size());
+    for (const auto& fixed : m_fixedParams) {
+        res.push_back(QPair<QString, QVariant>(fixed.first, fixed.second));
+    }
+
+    for (const auto& param : m_params) {
+        res.push_back(QPair<QString, QVariant>(param.first, param.second.value));
+    }
+    return res;
+}
+
+void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant> >& params)
+{
+    for (const auto& param : params) {
+        setParameter(param.first, param.second.toString());
+    }
+}
