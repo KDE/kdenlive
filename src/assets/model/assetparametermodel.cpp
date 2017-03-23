@@ -74,7 +74,10 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
             value = currentParameter.attribute(QStringLiteral("default"));
         }
         bool isFixed = (type == QLatin1String("fixed"));
-        setParameter(name, value, !isFixed);
+        if (isFixed) {
+            m_fixedParams[name] = value;
+        }
+        setParameter(name, value);
         if (isFixed) {
             //fixed parameters are not displayed so we don't store them.
             continue;
@@ -88,7 +91,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
     }
 }
 
-void AssetParameterModel::setParameter(const QString& name, const QString& value, bool store)
+void AssetParameterModel::setParameter(const QString& name, const QString& value)
 {
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
@@ -98,13 +101,17 @@ void AssetParameterModel::setParameter(const QString& name, const QString& value
     double doubleValue = locale.toDouble(value, &conversionSuccess);
     if (conversionSuccess) {
         m_asset->set(name.toLatin1().constData(), doubleValue);
-        if (store) {
+        if (m_fixedParams.count(name) == 0) {
             m_params[name].value = doubleValue;
+        } else {
+            m_fixedParams[name] = doubleValue;
         }
     } else {
         m_asset->set(name.toLatin1().constData(), value.toUtf8().constData());
-        if (store) {
+        if (m_fixedParams.count(name) == 0) {
             m_params[name].value = value;
+        } else {
+            m_fixedParams[name] = value;
         }
     }
 }

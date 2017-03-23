@@ -80,9 +80,8 @@ public:
     QString getId() const;
 
     /* @brief Set the parameter with given name to the given value
-       @param store: if this is true, then the value is also stored in m_params
      */
-    void setParameter(const QString& name, const QString& value, bool store = true);
+    void setParameter(const QString& name, const QString& value);
 
 
     QVariant data(const QModelIndex &index, int role) const override;
@@ -108,6 +107,7 @@ protected:
     QDomElement m_xml;
     QString m_assetId;
     std::unordered_map<QString, ParamRow > m_params; //Store all parameters by name
+    std::unordered_map<QString, QVariant > m_fixedParams; //We store values of fixed parameters aside
     QVector<QString> m_rows; // We store the params name in order of parsing
 
     std::unique_ptr<Mlt::Properties> m_asset;
