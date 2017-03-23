@@ -19,27 +19,33 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "assetparameterview.hpp"
-#include "transitions/view/transitionparameterview.hpp"
+import QtQuick 2.4
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Window 2.2
+import QtQuick.Layouts 1.3
+import QtQml.Models 2.2
 
-#include <QDebug>
-AssetParameterView::AssetParameterView(QWidget *parent)
-    : QWidget(parent)
-{
-    m_transitionProperties = new TransitionParameterView(this);
-    m_transitionProperties->setVisible(false);
-}
+Rectangle {
+    id: transitionRoot
+    SystemPalette { id: activePalette }
+    color: "red"//activePalette.window
+
+    ColumnLayout {
+        anchors.fill: parent
+
+        Label {
+            Layout.fillWidth:true
+            text: i18n("Properties of transition ") + transitionName
+        }
+        AssetView {
+            Layout.fillWidth:true
+            Layout.fillHeight:true
+            id: assetView
+            assetModel: paramModel
+        }
+
+    }
 
 
-
-void AssetParameterView::showTransitionParams(std::shared_ptr<AssetParameterModel> model)
-{
-    m_transitionProperties->setVisible(true);
-    m_transitionProperties->setModel(model);
-    qDebug() <<"====================================================================="
-             << "current size "<<m_transitionProperties->size() << size()
-             << m_transitionProperties->sizeHint();
-
-    //This is a hack, TODO fix it
-    m_transitionProperties->resize(QSize(400,400));
 }

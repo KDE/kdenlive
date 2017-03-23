@@ -19,27 +19,27 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "assetparameterview.hpp"
-#include "transitions/view/transitionparameterview.hpp"
+#ifndef TRANSITIONPARAMETERVIEW_H
+#define TRANSITIONPARAMETERVIEW_H
 
-#include <QDebug>
-AssetParameterView::AssetParameterView(QWidget *parent)
-    : QWidget(parent)
+#include <QQuickWidget>
+#include "assets/model/assetparametermodel.hpp"
+
+/* @brief This class is the view of the properties of a transition
+
+ */
+
+class TransitionParameterView : public QQuickWidget
 {
-    m_transitionProperties = new TransitionParameterView(this);
-    m_transitionProperties->setVisible(false);
-}
+    Q_OBJECT
 
+public:
+    TransitionParameterView(QWidget *parent = nullptr);
 
+    /* @brief Set the current model to be displayed */
+    void setModel(std::shared_ptr<AssetParameterModel> model);
+protected:
+    std::shared_ptr<AssetParameterModel> m_model;
+};
 
-void AssetParameterView::showTransitionParams(std::shared_ptr<AssetParameterModel> model)
-{
-    m_transitionProperties->setVisible(true);
-    m_transitionProperties->setModel(model);
-    qDebug() <<"====================================================================="
-             << "current size "<<m_transitionProperties->size() << size()
-             << m_transitionProperties->sizeHint();
-
-    //This is a hack, TODO fix it
-    m_transitionProperties->resize(QSize(400,400));
-}
+#endif

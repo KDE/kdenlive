@@ -19,27 +19,42 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "assetparameterview.hpp"
-#include "transitions/view/transitionparameterview.hpp"
+#include "transitionparameterview.hpp"
+#include "transitions/transitionsrepository.hpp"
 
-#include <QDebug>
-AssetParameterView::AssetParameterView(QWidget *parent)
-    : QWidget(parent)
+#include <KDeclarative/KDeclarative>
+#include <QQmlContext>
+
+#include <QStringListModel>
+
+TransitionParameterView::TransitionParameterView(QWidget *parent)
+    : QQuickWidget(parent)
 {
-    m_transitionProperties = new TransitionParameterView(this);
-    m_transitionProperties->setVisible(false);
+    KDeclarative::KDeclarative kdeclarative;
+    kdeclarative.setDeclarativeEngine(engine());
+    kdeclarative.setupBindings();
+
+    // Set void model for the moment
+    QStringListModel *model = new QStringListModel();
+    QStringList list;
+    list << "a" << "b" << "c"<<"s"<<"w";
+    model->setStringList(list);
+    rootContext()->setContextProperty("paramModel", model);
+    rootContext()->setContextProperty("transitionName", "");
+
+    setResizeMode(QQuickWidget::SizeRootObjectToView);
+    setSource(QUrl(QStringLiteral("qrc:/qml/transitionView.qml")));
+    setFocusPolicy(Qt::StrongFocus);
+
 }
 
 
 
-void AssetParameterView::showTransitionParams(std::shared_ptr<AssetParameterModel> model)
+void TransitionParameterView::setModel(std::shared_ptr<AssetParameterModel> model)
 {
-    m_transitionProperties->setVisible(true);
-    m_transitionProperties->setModel(model);
-    qDebug() <<"====================================================================="
-             << "current size "<<m_transitionProperties->size() << size()
-             << m_transitionProperties->sizeHint();
-
-    //This is a hack, TODO fix it
-    m_transitionProperties->resize(QSize(400,400));
+    m_model = model;
+    rootContext()->setContextProperty("paramModel", model.get());
+    QString transitionId = model->getId();
+    QString name = TransitionsRepository::get()->getName(transitionId);
+    rootContext()->setContextProperty("transitionName", name);
 }

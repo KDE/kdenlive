@@ -28,10 +28,12 @@ import QtQml.Models 2.2
 
 Rectangle {
     id: assetRoot
+    property var assetModel
     SystemPalette { id: activePalette }
-    color: activePalette.window
+    color: "blue"//activePalette.window
 
 
+    Label {text: "auieuaeuaieuaieuae"}
     ListView {
         anchors.fill: parent
         id: listView
@@ -39,7 +41,7 @@ Rectangle {
             text: display
         }
 
-        model: paramModel
+        model: assetModel
     }
 
 }

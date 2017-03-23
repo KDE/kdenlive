@@ -22,6 +22,7 @@
     <file alias="CornerSelectionShadow.qml">timeline2/view/qml/CornerSelectionShadow.qml</file>
     <file alias="Timeline.js">timeline2/view/qml/Timeline.js</file>
     <file alias="assetList.qml">assets/assetlist/view/qml/assetList.qml</file>
-    <file alias="assetView.qml">assets/view/qml/assetView.qml</file>
+    <file alias="AssetView.qml">assets/view/qml/AssetView.qml</file>
+    <file alias="transitionView.qml">transitions/view/qml/transitionView.qml</file>
   </qresource>
 </RCC>

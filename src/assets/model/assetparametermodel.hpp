@@ -63,7 +63,7 @@ class AssetParameterModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, QObject *parent = nullptr);
+    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent = nullptr);
     virtual ~AssetParameterModel();
     enum {
         NameRole = Qt::UserRole + 1,
@@ -76,15 +76,8 @@ public:
         DecimalsRole
     };
 
-    /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
-    static ParamType paramTypeFromStr(const QString & type);
-
-    /* @brief Helper function to get a double attribute from a dom element, given its name.
-       The function additionally parses following keywords:
-       - %width and %height that are replaced with profile's height and width.
-       If keywords are found, mathematical operations are supported. For example "%width -1" is a valid value.
-     */
-    static double parseDoubleAttribute(const QString& attribute, const QDomElement& element);
+    /* @brief Returns the id of the asset represented by this object */
+    QString getId() const;
 
     /* @brief Set the parameter with given name to the given value
        @param store: if this is true, then the value is also stored in m_params
@@ -96,6 +89,15 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 protected:
+    /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
+    static ParamType paramTypeFromStr(const QString & type);
+
+    /* @brief Helper function to get a double attribute from a dom element, given its name.
+       The function additionally parses following keywords:
+       - %width and %height that are replaced with profile's height and width.
+       If keywords are found, mathematical operations are supported. For example "%width -1" is a valid value.
+    */
+    static double parseDoubleAttribute(const QString& attribute, const QDomElement& element);
 
     struct ParamRow{
         ParamType type;
@@ -104,6 +106,7 @@ protected:
     };
 
     QDomElement m_xml;
+    QString m_assetId;
     std::unordered_map<QString, ParamRow > m_params; //Store all parameters by name
     QVector<QString> m_rows; // We store the params name in order of parsing
 

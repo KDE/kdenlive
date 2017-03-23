@@ -339,7 +339,7 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
     std::shared_ptr<AssetParameterModel> model = TransitionsRepository::get()->getTransition(QStringLiteral("composite"));
     AssetParameterView * propertiesWidget = new AssetParameterView(this);
 
-    propertiesWidget->setModel(model);
+    propertiesWidget->showTransitionParams(model);
 
     qDebug() << "===================================================== creating listview"
              << model->rowCount();

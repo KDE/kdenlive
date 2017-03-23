@@ -27,9 +27,10 @@
 #include "profiles/profilemodel.hpp"
 
 
-AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, QObject *parent)
+AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString& assetId, QObject *parent)
     : QAbstractListModel(parent)
     , m_xml(assetXml)
+    , m_assetId(assetId)
     , m_asset(asset)
 {
     Q_ASSERT(asset->is_valid());
@@ -226,4 +227,9 @@ double AssetParameterModel::parseDoubleAttribute(const QString& attribute, const
         return locale.toDouble(content);
     }
     return -1;
+}
+
+QString AssetParameterModel::getId() const
+{
+    return m_assetId;
 }

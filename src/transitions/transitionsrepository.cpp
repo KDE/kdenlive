@@ -135,5 +135,5 @@ std::shared_ptr<AssetParameterModel> TransitionsRepository::getTransition(const 
         NULL
         );
 
-    return std::make_shared<AssetParameterModel>(transition, getXml(transitionId));
+    return std::make_shared<AssetParameterModel>(transition, getXml(transitionId), transitionId);
 }

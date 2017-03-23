@@ -69,6 +69,7 @@ QImage AssetIconProvider::requestImage(const QString &id, QSize *size, const QSi
 
 QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effectName, const QSize& size)
 {
+    Q_UNUSED(size);
     QPixmap pix(30,30);
     if (effectName.isEmpty()) {
         pix.fill(Qt::red);
