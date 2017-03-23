@@ -28,10 +28,11 @@
 
 
 AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, QObject *parent)
-    : QAbstractItemModel(parent)
+    : QAbstractListModel(parent)
     , m_xml(assetXml)
     , m_asset(asset)
 {
+    Q_ASSERT(asset->is_valid());
     QDomNodeList nodeList = m_xml.elementsByTagName(QStringLiteral("parameter"));
 
     bool needsLocaleConversion = false;
@@ -71,8 +72,9 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         if (value.isNull()) {
             value = currentParameter.attribute(QStringLiteral("default"));
         }
-        setParameter(name, value);
-        if (type == QLatin1String("fixed")) {
+        bool isFixed = (type == QLatin1String("fixed"));
+        setParameter(name, value, !isFixed);
+        if (isFixed) {
             //fixed parameters are not displayed so we don't store them.
             continue;
         }
@@ -85,8 +87,9 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
     }
 }
 
-void AssetParameterModel::setParameter(const QString& name, const QString& value)
+void AssetParameterModel::setParameter(const QString& name, const QString& value, bool store)
 {
+    Q_ASSERT(m_asset->is_valid());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
@@ -94,10 +97,14 @@ void AssetParameterModel::setParameter(const QString& name, const QString& value
     double doubleValue = locale.toDouble(value, &conversionSuccess);
     if (conversionSuccess) {
         m_asset->set(name.toLatin1().constData(), doubleValue);
-        m_params[name].value = doubleValue;
+        if (store) {
+            m_params[name].value = doubleValue;
+        }
     } else {
         m_asset->set(name.toLatin1().constData(), value.toUtf8().constData());
-        m_params[name].value = value;
+        if (store) {
+            m_params[name].value = value;
+        }
     }
 }
 
@@ -105,20 +112,18 @@ AssetParameterModel::~AssetParameterModel()
 {
 }
 
-int AssetParameterModel::columnCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent);
-    return 1;
-}
-
 QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid()) {
+    if (index.row() < 0 || index.row() >= m_rows.size() || !index.isValid()) {
         return QVariant();
     }
     QString paramName = m_rows[index.row()];
     const QDomElement &element = m_params.at(paramName).xml;
     switch (role) {
+    case Qt::DisplayRole:
+    case Qt::EditRole:
+    case NameRole:
+        return paramName;
     case CommentRole:{
         QDomElement commentElem = element.firstChildElement(QStringLiteral("comment"));
         QString comment;
@@ -142,24 +147,13 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QModelIndex AssetParameterModel::index(int row, int column, const QModelIndex &parent)
-            const
-{
-    if (!hasIndex(row, column, parent))
-        return QModelIndex();
-    return createIndex(row, column);
-}
-
-QModelIndex AssetParameterModel::parent(const QModelIndex &index) const
-{
-    Q_UNUSED(index);
-    return QModelIndex();
-}
-
 
 int AssetParameterModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
+    qDebug() << "===================================================== Requested rowCount"
+             << parent << m_rows.size();
+    if (parent.isValid())
+        return 0;
     return m_rows.size();
 }
 

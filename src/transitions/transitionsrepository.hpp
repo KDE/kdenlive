@@ -26,6 +26,7 @@
 #include <mutex>
 #include "definitions.h"
 #include "assets/abstractassetsrepository.hpp"
+#include "assets/model/assetparametermodel.hpp"
 
 /** @brief This class stores all the transitions that can be added by the user.
  * You can query any transitions based on its name.
@@ -49,6 +50,11 @@ public:
     //Returns the instance of the Singleton
     static std::unique_ptr<TransitionsRepository>& get();
 
+    /* @brief Creates and return an instance of the parameterModel of a given transition.
+       The parameter @param parent corresponds to the parent of the created object
+    */
+    std::shared_ptr<AssetParameterModel> getTransition(const QString& transitionId) const;
+
 protected:
     // Constructor is protected because class is a Singleton
     TransitionsRepository();
@@ -61,7 +67,11 @@ protected:
      */
     void parseCustomAssetFile(const QString& file_name) override;
 
+    /* @brief Returns the paths where the custom transitions' descriptions are stored */
     QStringList assetDirs() const override;
+
+    /* @brief Returns the path to the transitions' blacklist*/
+    QString assetBlackListPath() const override;
 
     void parseType(QScopedPointer<Mlt::Properties>& metadata, Info & res) override;
 

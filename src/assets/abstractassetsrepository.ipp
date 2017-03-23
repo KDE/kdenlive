@@ -48,7 +48,7 @@ void AbstractAssetsRepository<AssetType>::init()
 #endif
 
     // Parse effects blacklist
-    parseBlackList(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_effects.txt")));
+    parseBlackList(assetBlackListPath());
 
     // Retrieve the list of MLT's available assets.
     QScopedPointer<Mlt::Properties> assets(retrieveListFromMlt());
@@ -211,4 +211,16 @@ QString AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement&
         m_assets[id].name = name;
     }
     return id;
+}
+
+template<typename AssetType>
+QDomElement AbstractAssetsRepository<AssetType>::getXml(const QString& assetId) const
+{
+    QString path = m_assets.at(assetId).custom_xml_path;
+    Q_ASSERT(!path.isEmpty());
+    QFile file(path);
+    QDomDocument doc;
+    doc.setContent(&file, false);
+    file.close();
+    return doc.documentElement();
 }

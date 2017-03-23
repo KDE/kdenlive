@@ -28,6 +28,8 @@
 #include <QTextStream>
 
 #include <mlt++/Mlt.h>
+#include "assets/model/assetparametermodel.hpp"
+#include "profiles/profilemodel.hpp"
 
 std::unique_ptr<TransitionsRepository> TransitionsRepository::instance;
 std::once_flag TransitionsRepository::m_onceFlag;
@@ -117,4 +119,21 @@ void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties>& metadata,
 QSet<QString> TransitionsRepository::getSingleTrackTransitions()
 {
     return {QStringLiteral("composite"),QStringLiteral("dissolve")};
+}
+
+QString TransitionsRepository::assetBlackListPath() const
+{
+    return QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_transitions.txt"));
+}
+
+std::shared_ptr<AssetParameterModel> TransitionsRepository::getTransition(const QString& transitionId) const
+{
+    // We create the Mlt element from its name
+    Mlt::Transition *transition = new Mlt::Transition(
+        pCore->getCurrentProfile()->profile(),
+        transitionId.toLatin1().constData(),
+        NULL
+        );
+
+    return std::make_shared<AssetParameterModel>(transition, getXml(transitionId));
 }

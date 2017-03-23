@@ -129,3 +129,8 @@ void EffectsRepository::parseType(QScopedPointer<Mlt::Properties>& metadata, Inf
         res.type = EffectType::Audio;
     }
 }
+
+QString EffectsRepository::assetBlackListPath() const
+{
+    return QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_effects.txt"));
+}

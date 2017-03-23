@@ -43,6 +43,8 @@
 #include "effectslist/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
+#include "transitions/transitionsrepository.hpp"
+#include "assets/view/assetparameterview.hpp"
 #include "effectstack/effectstackview2.h"
 #include "project/transitionsettings.h"
 #include "mltcontroller/bincontroller.h"
@@ -114,6 +116,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QScreen>
+
 
 static const char version[] = KDENLIVE_VERSION;
 namespace Mlt
@@ -333,7 +336,15 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
     connect(m_effectStack, &EffectStackView2::reloadEffects, this, &MainWindow::slotReloadEffects);
     connect(m_effectStack, SIGNAL(displayMessage(QString, int)), m_messageLabel, SLOT(setProgressMessage(QString, int)));
 
-    m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);
+    std::shared_ptr<AssetParameterModel> model = TransitionsRepository::get()->getTransition(QStringLiteral("composite"));
+    AssetParameterView * propertiesWidget = new AssetParameterView(this);
+
+    propertiesWidget->setModel(model);
+
+    qDebug() << "===================================================== creating listview"
+             << model->rowCount();
+    //m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);
+    m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), propertiesWidget);
 
     m_effectList = new EffectsListView();
     //m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList);

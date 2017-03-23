@@ -5,5 +5,6 @@ set(kdenlive_SRCS
   assets/assetlist/model/assetfilter.cpp
   assets/assetlist/model/assettreemodel.cpp
   assets/model/assetparametermodel.cpp
+  assets/view/assetparameterview.cpp
   PARENT_SCOPE)
 

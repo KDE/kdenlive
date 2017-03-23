@@ -19,64 +19,40 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef PROFILEMODEL_H
-#define PROFILEMODEL_H
-
-#include <memory>
+#include "assetparameterview.hpp"
+#include "../model/assetparametermodel.hpp"
 #include <QString>
-#include "mlt++/MltProfile.h"
+#include <QDebug>
+#include <QPushButton>
 
+#include <KDeclarative/KDeclarative>
+#include <QQmlContext>
 
-/** @brief This is a wrapper around Mlt::Profile to be used by the rest of kdenlive.
- *  It has implicit conversion to Mlt::Profile so you can use it directly in calls to Mlt backend.
- *
- */
+#include <QStringListModel>
 
-class ProfileModel
+AssetParameterView::AssetParameterView(QWidget *parent)
+    : QQuickWidget(parent)
 {
+    KDeclarative::KDeclarative kdeclarative;
+    kdeclarative.setDeclarativeEngine(engine());
+    kdeclarative.setupBindings();
 
-public:
-    ProfileModel() = delete;
+    setResizeMode(QQuickWidget::SizeRootObjectToView);
+    setSource(QUrl(QStringLiteral("qrc:/qml/assetView.qml")));
+    setFocusPolicy(Qt::StrongFocus);
 
-    /* @brief Constructs a profile using the path to the profile description
-     */
-    ProfileModel(const QString& path);
-
-    bool is_valid( ) const;
-    QString description() const;
-    int frame_rate_num() const;
-    int frame_rate_den() const;
-    double fps() const;
-    int width() const;
-    int height() const;
-    bool progressive() const;
-    int sample_aspect_num() const;
-    int sample_aspect_den() const;
-    double sar() const;
-    int display_aspect_num() const;
-    int display_aspect_den() const;
-    double dar() const;
-    int is_explicit() const;
-    int colorspace() const;
-    QString colorspaceDescription() const;
-    QString path() const;
-
-    /* @brief overload of comparison operators */
-    bool operator==(const ProfileModel &other) const;
-    bool operator!=(const ProfileModel &other) const;
+    // Set void model for the moment
+    QStringListModel *model = new QStringListModel();
+    QStringList list;
+    list << "a" << "b" << "c"<<"s"<<"w";
+    model->setStringList(list);
+    rootContext()->setContextProperty("paramModel", model);
+}
 
 
-    /* @brief get underlying profile. Use with caution*/
-   Mlt::Profile &profile() {return *m_profile.get();};
 
-protected:
-    QString m_path;
-    bool m_invalid;
-    QString m_description;
-
-    std::unique_ptr<Mlt::Profile> m_profile;
-
-};
-
-
-#endif
+void AssetParameterView::setModel(std::shared_ptr<AssetParameterModel> model)
+{
+    m_model = model;
+    rootContext()->setContextProperty("paramModel", model.get());
+}

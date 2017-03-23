@@ -32,7 +32,7 @@ class AbstractTreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    explicit AbstractTreeModel(QObject *parent = 0);
+    explicit AbstractTreeModel(QObject *parent = nullptr);
     virtual ~AbstractTreeModel();
 
     QVariant data(const QModelIndex &index, int role) const override;

@@ -19,64 +19,27 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef EFFECTSREPOSITORY_H
-#define EFFECTSREPOSITORY_H
+#ifndef ASSETPARAMETERVIEW_H
+#define ASSETPARAMETERVIEW_H
 
-#include <memory>
-#include <mutex>
-#include <QSet>
-#include <unordered_map>
-#include <QObject>
-#include "definitions.h"
-#include "assets/abstractassetsrepository.hpp"
+#include <QQuickWidget>
+#include "../model/assetparametermodel.hpp"
 
-/** @brief This class stores all the effects that can be added by the user.
- * You can query any effect based on its name.
- * Note that this class is a Singleton
+/* @brief This class is the view for a list of parameters.
+
  */
 
-enum class EffectType {
-    Video,
-    Audio,
-    Custom
-};
-Q_DECLARE_METATYPE(EffectType)
-
-
-class EffectsRepository : public AbstractAssetsRepository<EffectType>
+class AssetParameterView : public QQuickWidget
 {
+    Q_OBJECT
 
 public:
+    AssetParameterView(QWidget *parent = nullptr);
 
-    //Returns the instance of the Singleton
-    static std::unique_ptr<EffectsRepository>& get();
-
+    /* @brief Set the current model to be displayed */
+    void setModel(std::shared_ptr<AssetParameterModel> model);
 protected:
-    // Constructor is protected because class is a Singleton
-    EffectsRepository();
-
-
-    /* Retrieves the list of all available effects from Mlt*/
-    Mlt::Properties* retrieveListFromMlt() override;
-
-    /* @brief Retrieves additional info about effects from a custom XML file
-     */
-    void parseCustomAssetFile(const QString& file_name) override;
-
-    /* @brief Returns the path to the effects' blacklist*/
-    QString assetBlackListPath() const override;
-
-    QStringList assetDirs() const override;
-
-    void parseType(QScopedPointer<Mlt::Properties>& metadata, Info & res) override;
-
-    /* @brief Returns the metadata associated with the given asset*/
-    Mlt::Properties* getMetadata(const QString& assetId) override;
-
-    static std::unique_ptr<EffectsRepository> instance;
-    static std::once_flag m_onceFlag; //flag to create the repository only once;
-
+    std::shared_ptr<AssetParameterModel> m_model;
 };
-
 
 #endif

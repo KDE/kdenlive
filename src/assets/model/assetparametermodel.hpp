@@ -22,7 +22,7 @@
 #ifndef ASSETPARAMETERMODEL_H
 #define ASSETPARAMETERMODEL_H
 
-#include <QAbstractItemModel>
+#include <QAbstractListModel>
 #include <QDomElement>
 #include <unordered_map>
 #include "klocalizedstring.h"
@@ -30,6 +30,7 @@
 #include "definitions.h"
 
 #include <mlt++/MltProperties.h>
+#include <memory>
 
 /* @brief This class is the model for a list of parameters.
    The behaviour of a transition or an effect is typically  controlled by several parameters. This class exposes this parameters as a list that can be rendered using the relevant widgets.
@@ -57,12 +58,12 @@ enum class ParamType{
     Filterjob,
     Readonly
 };
-class AssetParameterModel : public QAbstractItemModel
+class AssetParameterModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, QObject *parent = 0);
+    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, QObject *parent = nullptr);
     virtual ~AssetParameterModel();
     enum {
         NameRole = Qt::UserRole + 1,
@@ -85,16 +86,14 @@ public:
      */
     static double parseDoubleAttribute(const QString& attribute, const QDomElement& element);
 
-    /* @brief Set the parameter with given name to the given value */
-    void setParameter(const QString& name, const QString& value);
+    /* @brief Set the parameter with given name to the given value
+       @param store: if this is true, then the value is also stored in m_params
+     */
+    void setParameter(const QString& name, const QString& value, bool store = true);
 
 
     QVariant data(const QModelIndex &index, int role) const override;
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex &index) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
 protected:
 

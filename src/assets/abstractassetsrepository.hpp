@@ -47,21 +47,24 @@ public:
      */
     bool exists(const QString& assetId) const;
 
-    /* @brief Returns a vector of pair (effect id, effect name)
+    /* @brief Returns a vector of pair (asset id, asset name)
      */
     QVector<QPair<QString, QString> > getNames() const;
 
-    /* @brief Return type of effect */
-    AssetType getType(const QString& effectId) const;
+    /* @brief Return type of asset */
+    AssetType getType(const QString& assetId) const;
 
-    /* @brief Return name of effect */
-    QString getName(const QString& effectId) const;
+    /* @brief Return name of asset */
+    QString getName(const QString& assetId) const;
 
-    /* @brief Return description of effect */
-    QString getDescription(const QString& effectId) const;
+    /* @brief Return description of asset */
+    QString getDescription(const QString& assetId) const;
 
-    /* @brief Check whether a given effect is favorite */
-    bool isFavorite(const QString& effectId) const;
+    /* @brief Check whether a given asset is favorite */
+    bool isFavorite(const QString& assetId) const;
+
+    /* @brief Returns a DomElement representing the asset's properties */
+    QDomElement getXml(const QString& assetId) const;
 
 protected:
     struct Info
@@ -99,6 +102,9 @@ protected:
 
     /* @brief Returns the path to custom XML description of the assets*/
     virtual QStringList assetDirs() const = 0;
+
+    /* @brief Returns the path to the assets' blacklist*/
+    virtual QString assetBlackListPath() const = 0;
 
 
 

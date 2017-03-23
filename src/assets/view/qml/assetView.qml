@@ -19,64 +19,27 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef PROFILEMODEL_H
-#define PROFILEMODEL_H
+import QtQuick 2.4
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Window 2.2
+import QtQuick.Layouts 1.3
+import QtQml.Models 2.2
 
-#include <memory>
-#include <QString>
-#include "mlt++/MltProfile.h"
-
-
-/** @brief This is a wrapper around Mlt::Profile to be used by the rest of kdenlive.
- *  It has implicit conversion to Mlt::Profile so you can use it directly in calls to Mlt backend.
- *
- */
-
-class ProfileModel
-{
-
-public:
-    ProfileModel() = delete;
-
-    /* @brief Constructs a profile using the path to the profile description
-     */
-    ProfileModel(const QString& path);
-
-    bool is_valid( ) const;
-    QString description() const;
-    int frame_rate_num() const;
-    int frame_rate_den() const;
-    double fps() const;
-    int width() const;
-    int height() const;
-    bool progressive() const;
-    int sample_aspect_num() const;
-    int sample_aspect_den() const;
-    double sar() const;
-    int display_aspect_num() const;
-    int display_aspect_den() const;
-    double dar() const;
-    int is_explicit() const;
-    int colorspace() const;
-    QString colorspaceDescription() const;
-    QString path() const;
-
-    /* @brief overload of comparison operators */
-    bool operator==(const ProfileModel &other) const;
-    bool operator!=(const ProfileModel &other) const;
+Rectangle {
+    id: assetRoot
+    SystemPalette { id: activePalette }
+    color: activePalette.window
 
 
-    /* @brief get underlying profile. Use with caution*/
-   Mlt::Profile &profile() {return *m_profile.get();};
+    ListView {
+        anchors.fill: parent
+        id: listView
+        delegate: Label{
+            text: display
+        }
 
-protected:
-    QString m_path;
-    bool m_invalid;
-    QString m_description;
+        model: paramModel
+    }
 
-    std::unique_ptr<Mlt::Profile> m_profile;
-
-};
-
-
-#endif
+}
