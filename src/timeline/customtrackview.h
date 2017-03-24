@@ -214,8 +214,6 @@ public:
     /** @brief Returns last requested seeking pos, or current cursor position. */
     int seekPosition() const;
 
-    /** @brief Trigger a monitor refresh. */
-    void monitorRefresh(const QList<ItemInfo> &range, bool invalidateRange = false);
     void monitorRefresh(bool invalidateRange = false);
     /** @brief Trigger a monitor refresh if timeline cursor is inside range. */
     void monitorRefresh(const ItemInfo &range, bool invalidateRange = false);
@@ -365,6 +363,8 @@ public slots:
     void slotUpdateAllThumbs();
     void slotCheckPositionScrolling();
     void slotInsertTrack(int ix);
+    /** @brief Trigger a monitor refresh. */
+    void monitorRefresh(const QList<ItemInfo> &range, bool invalidateRange = false);
 
     /** @brief Shows a dialog for selecting a track to delete.
     * @param ix Number of the track, which should be pre-selected in the dialog */

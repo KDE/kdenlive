@@ -63,10 +63,12 @@ bool DocumentValidator::validate(const double currentVersion)
     if (rootDir == QLatin1String("$CURRENTPATH")) {
         // The document was extracted from a Kdenlive archived project, fix root directory
         QString playlist = m_doc.toString();
-        playlist.replace(QLatin1String("$CURRENTPATH"), m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
+        playlist.replace(QLatin1String("$CURRENTPATH"), m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
         m_doc.setContent(playlist);
         mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
         kdenliveDoc = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
+    } else if (rootDir.isEmpty()) {
+        mlt.setAttribute(QStringLiteral("root"), m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
     }
 
     // Previous MLT / Kdenlive versions used C locale by default
