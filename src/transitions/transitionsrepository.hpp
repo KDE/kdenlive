@@ -50,10 +50,10 @@ public:
     //Returns the instance of the Singleton
     static std::unique_ptr<TransitionsRepository>& get();
 
-    /* @brief Creates and return an instance of the parameterModel of a given transition.
-       The parameter @param parent corresponds to the parent of the created object
+    /* @brief Creates and return an instance of a transition given its id.
+       A raw pointer is returned, the caller is responsible for memory management.
     */
-    std::shared_ptr<AssetParameterModel> getTransition(const QString& transitionId) const;
+    Mlt::Transition *getTransition(const QString& transitionId) const;
 
 protected:
     // Constructor is protected because class is a Singleton

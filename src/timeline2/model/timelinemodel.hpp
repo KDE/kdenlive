@@ -304,13 +304,20 @@ public:
        @param pos is the current position
      */
     int requestPreviousSnapPos(int pos);
-    /* @brief Create a composition
+
+    /* @brief Request composition insertion at given position.
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
-       @param trans the composition, containg all infos (position, track).
-       @param id is a return parameter that holds the id of the resulting composition (-1 on failure)
+       @param transitionId Identifier of the Mlt transition to insert (as given by repository)
+       @param track Id of the track where to insert
+       @param position Requested position
+       @param id return parameter of the id of the inserted composition
+       @param logUndo if set to false, no undo object is stored
     */
-    bool requestCompositionInsertion(std::shared_ptr<Mlt::Transition> trans, int trackId, int &id, Fun& undo, Fun& redo);
+    bool requestCompositionInsertion(const QString& transitionId, int trackId, int position, int &id, bool logUndo = true);
+    /* Same function, but accumulates undo and redo*/
+    bool requestCompositionInsertion(const QString& transitionId, int trackId, int position, int &id, Fun& undo, Fun& redo);
+
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel

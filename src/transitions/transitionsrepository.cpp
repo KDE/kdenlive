@@ -126,7 +126,7 @@ QString TransitionsRepository::assetBlackListPath() const
     return QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_transitions.txt"));
 }
 
-std::shared_ptr<AssetParameterModel> TransitionsRepository::getTransition(const QString& transitionId) const
+Mlt::Transition *TransitionsRepository::getTransition(const QString& transitionId) const
 {
     // We create the Mlt element from its name
     Mlt::Transition *transition = new Mlt::Transition(
@@ -134,6 +134,5 @@ std::shared_ptr<AssetParameterModel> TransitionsRepository::getTransition(const 
         transitionId.toLatin1().constData(),
         NULL
         );
-
-    return std::make_shared<AssetParameterModel>(transition, getXml(transitionId), transitionId);
+    return transition;
 }

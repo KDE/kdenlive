@@ -922,25 +922,39 @@ void TimelineModel::registerComposition(std::shared_ptr<CompositionModel> compos
     m_groups->createGroupItem(id);
 }
 
-bool TimelineModel::requestCompositionInsertion(std::shared_ptr<Mlt::Transition> trans, int trackId, int &id, Fun& undo, Fun& redo)
+bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int trackId, int position, int &id, bool logUndo)
+{
+#ifdef LOGGING
+    m_logFile << "timeline->requestCompositionInsertion(\"composite\","<<trackId<<" ,"<<position<<", dummy_id );" <<std::endl;
+#endif
+    QWriteLocker locker(&m_lock);
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    bool result = requestCompositionInsertion(transitionId, trackId, position, id, undo, redo);
+    if (result && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Insert Composition"));
+    }
+    return result;
+}
+
+bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int trackId, int position, int &id, Fun& undo, Fun& redo)
 {
     int compositionId = TimelineModel::getNextId();
     id = compositionId;
     Fun local_undo = deregisterComposition_lambda(compositionId);
-    CompositionModel::construct(shared_from_this(), trans, compositionId);
+    CompositionModel::construct(shared_from_this(), transitionId, compositionId);
     auto composition = m_allCompositions[compositionId];
     Fun local_redo = [composition, this](){
-        // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
+        // We capture a shared_ptr to the composition, which means that as long as this undo object lives, the composition object is not deleted. To insert it back it is sufficient to register it.
         registerComposition(composition);
         return true;
     };
-    bool res = requestCompositionMove(compositionId, trackId, trans->get_in(), true, local_undo, local_redo);
+    bool res = requestCompositionMove(compositionId, trackId, position, true, local_undo, local_redo);
     if (!res) {
         Q_ASSERT(undo());
         id = -1;
         return false;
     }
-    _resetView();
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
@@ -949,7 +963,7 @@ Fun TimelineModel::deregisterComposition_lambda(int compoId)
 {
     return [this, compoId]() {
         Q_ASSERT(m_allCompositions.count(compoId) > 0);
-        Q_ASSERT(!m_groups->isInGroup(compoId)); //clip must be ungrouped at this point
+        Q_ASSERT(!m_groups->isInGroup(compoId)); //composition must be ungrouped at this point
         m_allCompositions.erase(compoId);
         m_groups->destructGroupItem(compoId);
         return true;
