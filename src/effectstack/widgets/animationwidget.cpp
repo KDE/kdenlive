@@ -509,6 +509,18 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
     updateSlider(pos - m_offset);
     m_previous->setEnabled(pos > 0);
     m_next->setEnabled(pos < (m_outPoint - m_inPoint - 1));
+
+    // scene ratio lock
+    if (m_spinWidth && m_spinWidth->isEnabled()) {
+        double ratio = m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
+        bool lockRatio = m_spinHeight->value() == (int) (m_spinWidth->value() / ratio + 0.5);
+        qDebug()<<"CALCULATED: "<<m_spinHeight->value()<<" = "<<(int) (m_spinWidth->value() / ratio + 0.5);
+        m_lockRatio->blockSignals(true);
+        m_lockRatio->setChecked(lockRatio);
+        m_lockRatio->blockSignals(false);
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_lockRatio->isChecked() ? ratio : -1);
+    }
+
     if (seek) {
         emit seekToPos(pos);
     }
@@ -794,12 +806,11 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     horLayout->addWidget(m_spinWidth);
 
     // Lock ratio stuff
-    QAction *lockRatio = new QAction(KoIconUtils::themedIcon(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
-    lockRatio->setCheckable(true);
-    lockRatio->setChecked(KdenliveSettings::lock_ratio());
-    connect(lockRatio, &QAction::triggered, this, &AnimationWidget::slotLockRatio);
+    m_lockRatio = new QAction(KoIconUtils::themedIcon(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
+    m_lockRatio->setCheckable(true);
+    connect(m_lockRatio, &QAction::triggered, this, &AnimationWidget::slotLockRatio);
     QToolButton *ratioButton = new QToolButton;
-    ratioButton->setDefaultAction(lockRatio);
+    ratioButton->setDefaultAction(m_lockRatio);
     horLayout->addWidget(ratioButton);
 
     m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
@@ -1313,9 +1324,6 @@ void AnimationWidget::connectMonitor(bool activate)
                 m_originalSize->blockSignals(false);
             }
         }
-        if (KdenliveSettings::lock_ratio()) {
-            m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
-        }
     } else {
         disconnect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect);
         disconnect(m_monitor, &Monitor::effectPointsChanged, this, &AnimationWidget::slotUpdateCenters);
@@ -1447,7 +1455,7 @@ void AnimationWidget::slotAdjustToSource()
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
-    if (KdenliveSettings::lock_ratio()) {
+    if (m_lockRatio->isChecked()) {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     }
 }
@@ -1562,7 +1570,6 @@ void AnimationWidget::slotImportKeyframes()
 void AnimationWidget::slotLockRatio()
 {
     QAction *lockRatio = qobject_cast<QAction*> (QObject::sender());
-    KdenliveSettings::setLock_ratio(lockRatio->isChecked());
     if (lockRatio->isChecked()) {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     } else {
@@ -1572,7 +1579,7 @@ void AnimationWidget::slotLockRatio()
 
 void AnimationWidget::slotAdjustRectWidth()
 {
-    if (KdenliveSettings::lock_ratio()) {
+    if (m_lockRatio->isChecked()) {
         m_spinHeight->blockSignals(true);
         if (m_originalSize->isChecked()) {
             m_spinHeight->setValue((int) (m_spinWidth->value() * m_frameSize.y() / m_frameSize.x() + 0.5));
@@ -1586,7 +1593,7 @@ void AnimationWidget::slotAdjustRectWidth()
 
 void AnimationWidget::slotAdjustRectHeight()
 {
-    if (KdenliveSettings::lock_ratio()) {
+    if (m_lockRatio->isChecked()) {
         m_spinWidth->blockSignals(true);
         if (m_originalSize->isChecked()) {
             m_spinWidth->setValue((int) (m_spinHeight->value() * m_frameSize.x() / m_frameSize.y() + 0.5));

@@ -948,10 +948,4 @@
       <default>false</default>
     </entry>
   </group>
-  <group name="effects">
-      <entry name="lock_ratio" type="Bool">
-      <label>Lock size ratio in effects.</label>
-      <default>true</default>
-    </entry>
-  </group>
 </kcfg>

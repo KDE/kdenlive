@@ -255,9 +255,9 @@ Item {
                       var newwidth = framerect.width - delta
                       var newheight = newwidth / root.lockratio
                       framesize.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
-                      framesize.width = newwidth / root.scalex;
+                      framesize.width = Math.round(newwidth / root.scalex);
                       framesize.y = (framerect.y + (framerect.height - newheight) - frame.y) / root.scaley;
-                      framesize.height = newheight / root.scaley;
+                      framesize.height = Math.round(framesize.width / root.lockratio)
                   } else {
                     framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
                     framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
@@ -314,8 +314,8 @@ Item {
                       var newheight = framerect.height - delta
                       var newwidth = newheight * root.lockratio
                       framesize.y = (framerect.y + (framerect.height - newheight) - frame.y) / root.scaley;
-                      framesize.width = newwidth / root.scalex;
-                      framesize.height = newheight / root.scaley;
+                      framesize.width = Math.round(newwidth / root.scalex);
+                      framesize.height = Math.round(framesize.width / root.lockratio)
                   } else {
                       framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
                       framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
@@ -358,10 +358,9 @@ Item {
                   if (root.lockratio > 0) {
                       var delta = Math.max(mouseX - oldMouseX, oldMouseY - mouseY)
                       var newwidth = framerect.width - delta
-                      var newheight = newwidth / root.lockratio
                       framesize.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
-                      framesize.width = newwidth / root.scalex;
-                      framesize.height = newheight / root.scaley;
+                      framesize.width = Math.round(newwidth / root.scalex);
+                      framesize.height = Math.round(framesize.width / root.lockratio)
                   } else {
                     framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
                     framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
@@ -404,9 +403,8 @@ Item {
                    if (root.lockratio > 0) {
                       var delta = Math.max(oldMouseX - mouseX, oldMouseY - mouseY)
                       var newwidth = framerect.width - delta
-                      var newheight = newwidth / root.lockratio
-                      framesize.width = newwidth / root.scalex;
-                      framesize.height = newheight / root.scaley;
+                      framesize.width = Math.round(newwidth / root.scalex);
+                      framesize.height = Math.round(framesize.width / root.lockratio)
                   } else {
                     framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
                     framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;

@@ -106,6 +106,8 @@ private:
     QPoint m_frameSize;
     /** @brief Action switching between profile and source size. */
     QAction *m_originalSize;
+    /** @brief Action locking image ratio. */
+    QAction *m_lockRatio;
     /** @brief True if this is a fixed parameter (no kexframes allowed). */
     bool m_fixedGeom;
     /** @brief True if there is only one keyframe in this geometry. */
