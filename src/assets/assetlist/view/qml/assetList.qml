@@ -19,11 +19,11 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-import QtQuick 2.4
-import QtQuick.Controls 1.4
+import QtQuick 2.8
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 1.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2
-import QtQuick.Layouts 1.3
 import QtQml.Models 2.2
 
 Rectangle {
@@ -161,28 +161,68 @@ Rectangle {
             alternatingRowColors: false
             headerVisible: false
             backgroundVisible:false
-            itemDelegate: RowLayout {
-                Image{
-                    visible: styleData.value != "root"
-                    source: 'image://asseticon/' + styleData.value
+            itemDelegate:    Rectangle {
+                id: assetDelegate
+                // These anchors are important to allow "copy" dragging
+                anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+                anchors.right: parent ? parent.right : undefined
+                property bool isItem : styleData.value != "root"
+                width: text.implicitWidth + 20;
+                height: text.implicitHeight + 10
+                color:"transparent"
+
+                Drag.active: isItem ? dragArea.drag.active : false
+                Drag.dragType: Drag.Automatic
+                Drag.supportedActions: Qt.CopyAction
+                Drag.mimeData: {
+                    "text/plain": "Copied text"
                 }
-                Label{
-                    text: assetlist.getName(styleData.index)
-                    Layout.fillWidth: true
+
+                Row {
+                    anchors.fill:parent
+                    spacing: 2
+                    Image{
+                        visible: assetDelegate.isItem
+                        source: 'image://asseticon/' + styleData.value
+                    }
+                    Label {
+                        id: text
+                        text: assetlist.getName(styleData.index)
+                    }
+                }
+
+                MouseArea {
+                    id: dragArea
+                    anchors.fill: parent
+
+                    drag.target: parent
+                    onPressed: {
+                        if (isItem) {
+                            assetDescription.text = assetlist.getDescription(styleData.index)
+                            parent.grabToImage(function(result) {
+                                parent.Drag.imageSource = result.url
+                            })
+                        } else {
+                            if (treeView.isExpanded(styleData.index)) {
+                                treeView.collapse(styleData.index)
+                            } else {
+                                treeView.expand(styleData.index)
+                            }
+
+                        }
+                    }
                 }
             }
 
-            TableViewColumn { role: "id"; title: "Name"; width: 200 }
+            TableViewColumn { role: "id"; title: "Name"; width: 700 }
             model: assetListModel
             selection: sel
-            onClicked:{
-                assetDescription.text = assetlist.getDescription(index)
-            }
         }
         TextArea {
             id: assetDescription
             text: ""
             visible: false
+            readOnly: true
             Layout.fillWidth: true
             states: State {
                 name: "hasDescription"; when: assetDescription.text != '' && showDescription.checked
