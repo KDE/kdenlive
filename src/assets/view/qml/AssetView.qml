@@ -33,7 +33,6 @@ Rectangle {
     color: "blue"//activePalette.window
 
 
-    Label {text: "auieuaeuaieuaieuae"}
     ListView {
         anchors.fill: parent
         id: listView
