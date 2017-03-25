@@ -336,9 +336,9 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
     connect(m_effectStack, &EffectStackView2::reloadEffects, this, &MainWindow::slotReloadEffects);
     connect(m_effectStack, SIGNAL(displayMessage(QString, int)), m_messageLabel, SLOT(setProgressMessage(QString, int)));
 
-    auto trans = TransitionsRepository::get()->getTransition(QStringLiteral("composite"));
-    auto transxml = TransitionsRepository::get()->getXml(QStringLiteral("composite"));
-    std::shared_ptr<AssetParameterModel> model = std::make_shared<AssetParameterModel>(trans, transxml, QStringLiteral("composite"));
+    auto trans = TransitionsRepository::get()->getTransition(QStringLiteral("wipe"));
+    auto transxml = TransitionsRepository::get()->getXml(QStringLiteral("wipe"));
+    std::shared_ptr<AssetParameterModel> model = std::make_shared<AssetParameterModel>(trans, transxml, QStringLiteral("wipe"));
     AssetParameterView * propertiesWidget = new AssetParameterView(this);
 
     propertiesWidget->showTransitionParams(model);

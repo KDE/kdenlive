@@ -97,8 +97,8 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
             Mlt::Transition t((mlt_transition) service->get_service());
             int compoId;
             QString id(t.get("mlt_service"));
-            qDebug()<<"////////// BUILD TRANS ON TK: "<<t.get_b_track();
-            ok = timeline->requestCompositionInsertion(id, t.get_b_track(), t.get_in(), compoId, undo, redo);
+            qDebug()<<"////////// BUILD TRANS ON TK: "<<t.get_b_track() << "id: "<<id;
+            //ok = timeline->requestCompositionInsertion(id, t.get_b_track(), t.get_in(), compoId, undo, redo);
             if (!ok) {
                 qDebug() << "ERROR : failed to insert composition in track "<<t.get_b_track()<<", position"<<t.get_in();
                 break;

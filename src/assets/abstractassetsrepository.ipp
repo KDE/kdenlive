@@ -69,9 +69,14 @@ void AbstractAssetsRepository<AssetType>::init()
     }
 
     // We now parse custom effect xml
+
     // Set the directories to look into for effects.
     QStringList asset_dirs = assetDirs();
 
+    /* Parsing of custom xml works as follows: we parse all custom files.
+       Each of them contains a tag, which is the corresponding mlt asset, and an id that is the name of the asset. Note that several custom files can correspond to the same tag, and in that case they must have different ids. We do the parsing in a map from ids to parse info, and then we add them to the asset list, while discarding the bare version of each tag (the one with no file associated)
+    */
+    std::unordered_map<QString, Info> customAssets;
     for (const auto& dir : asset_dirs) {
         QDir current_dir(dir);
         QStringList filter;
@@ -79,7 +84,19 @@ void AbstractAssetsRepository<AssetType>::init()
         QStringList fileList = current_dir.entryList(filter, QDir::Files);
         for (const auto& file : fileList) {
             QString path = current_dir.absoluteFilePath(file);
-            parseCustomAssetFile(path);
+            parseCustomAssetFile(path, customAssets);
+        }
+    }
+
+    //We add the custom assets
+    for (const auto& custom : customAssets) {
+        if (m_assets.count(custom.second.mltId) > 0) {
+            m_assets.erase(custom.second.mltId);
+        }
+        if (m_assets.count(custom.first) == 0) {
+            m_assets[custom.first] = custom.second;
+        } else {
+            qDebug() << "Error: conflicting asset name "<< custom.first;
         }
     }
 
@@ -116,6 +133,7 @@ bool AbstractAssetsRepository<AssetType>::parseInfoFromMlt(const QString& assetI
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
             res.version = metadata->get_double("version");
+            res.id = res.mltId = assetId;
 
             parseType(metadata, res);
             return true;
@@ -173,7 +191,7 @@ bool AbstractAssetsRepository<AssetType>::isFavorite(const QString& /*assetId*/)
 }
 
 template<typename AssetType>
-QString AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement& currentAsset)
+bool AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement& currentAsset, Info & res) const
 {
     QLocale locale;
 
@@ -184,43 +202,50 @@ QString AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement&
     }
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
-    QString id = currentAsset.attribute(QStringLiteral("tag"), QString());
+    QString tag = currentAsset.attribute(QStringLiteral("tag"), QString());
 
-    if (!exists(id)) {
-        qDebug() << "++++++ Unknown asset : " << id;
-        return "";
+    QString id = currentAsset.attribute(QStringLiteral("id"), QString());
+    if (id.isEmpty()) {
+        id = tag;
+    }
+
+    if (!exists(tag)) {
+        qDebug() << "++++++ Unknown asset : " << tag;
+        return false;
     }
 
     //Check if there is a maximal version set
     if (currentAsset.hasAttribute(QStringLiteral("version"))) {
         // a specific version of the filter is required
-        if (locale.toDouble(currentAsset.attribute(QStringLiteral("version"))) > m_assets[id].version) {
-            return "";
+        if (locale.toDouble(currentAsset.attribute(QStringLiteral("version"))) > m_assets.at(tag).version) {
+            return false;
         }
     }
+
+    res = m_assets.at(tag);
+    res.id = id;
+    res.mltId = tag;
 
     //Update description if the xml provide one
     QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
     if (!description.isEmpty()) {
-        m_assets[id].description = description;
+        res.description = description;
     }
 
     //Update name if the xml provide one
     QString name = Xml::getSubTagContent(currentAsset, QStringLiteral("name"));
     if (!name.isEmpty()) {
-        m_assets[id].name = name;
+        res.name = name;
     }
-    return id;
+    return true;
 }
 
 template<typename AssetType>
 QDomElement AbstractAssetsRepository<AssetType>::getXml(const QString& assetId) const
 {
-    QString path = m_assets.at(assetId).custom_xml_path;
-    Q_ASSERT(!path.isEmpty());
-    QFile file(path);
-    QDomDocument doc;
-    doc.setContent(&file, false);
-    file.close();
-    return doc.documentElement();
+    if (m_assets.count(assetId) == 0) {
+        qDebug() << "Error : Requesting info on unknown transition "<<assetId;
+        return QDomElement();
+    }
+    return m_assets.at(assetId).xml;
 }

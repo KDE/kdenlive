@@ -50,7 +50,7 @@ Mlt::Properties* EffectsRepository::getMetadata(const QString& effectId)
 }
 
 
-void EffectsRepository::parseCustomAssetFile(const QString& file_name)
+void EffectsRepository::parseCustomAssetFile(const QString& file_name, std::unordered_map<QString, Info>& customAssets) const
 {
     QFile file(file_name);
     QDomDocument doc;
@@ -60,17 +60,19 @@ void EffectsRepository::parseCustomAssetFile(const QString& file_name)
     if (base.tagName() == QLatin1String("effectgroup")) {
         //in that case we have a custom effect
         Info info;
-        info.custom_xml_path = file_name;
+        info.xml = base;
         info.type = EffectType::Custom;
         QString tag = base.attribute(QStringLiteral("tag"), QString());
         QString id = base.hasAttribute(QStringLiteral("id")) ? base.attribute(QStringLiteral("id")) : tag;
 
         QString name = base.attribute(QStringLiteral("name"), QString());
         info.name = name;
-        if (m_assets.count(id) > 0) {
+        info.id = id;
+        info.mltId = tag;
+        if (customAssets.count(id) > 0) {
             qDebug() << "Error: conflicting effect name"<<id;
         } else {
-            m_assets[id] = info;
+            customAssets[id] = info;
         }
         return;
     }
@@ -88,22 +90,29 @@ void EffectsRepository::parseCustomAssetFile(const QString& file_name)
             continue;
         }
         QDomElement currentEffect = currentNode.toElement();
-        QString id = parseInfoFromXml(currentEffect);
-        if (id.isEmpty()) {
+        Info result;
+        bool ok = parseInfoFromXml(currentEffect, result);
+        if (!ok) {
             continue;
         }
 
-        m_assets[id].custom_xml_path = file_name;
+        if (customAssets.count(result.id) > 0) {
+            qDebug() << "Warning: duplicate custom definition of effect"<<result.id<<"found. Only last one will be considered";
+        }
+
+        result.xml = currentEffect;
 
         // Parse type information.
         QString type = currentEffect.attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("audio")) {
-            m_assets[id].type = EffectType::Audio;
+            result.type = EffectType::Audio;
         } else if (type == QLatin1String("custom")) {
-            m_assets[id].type = EffectType::Custom;
+            result.type = EffectType::Custom;
         } else {
-            m_assets[id].type = EffectType::Video;
+            result.type = EffectType::Video;
         }
+
+        customAssets[result.id] = result;
 
     }
 }

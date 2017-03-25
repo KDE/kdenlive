@@ -69,10 +69,11 @@ public:
 protected:
     struct Info
     {
-        QString id;
+        QString id; //identifier of the asset
+        QString mltId; //"tag" of the asset, that is the name of the mlt service
         QString name, description, author, version_str;
         double version;
-        QString custom_xml_path;
+        QDomElement xml;
         AssetType type;
     };
 
@@ -81,6 +82,7 @@ protected:
 
     void init();
     virtual Mlt::Properties* retrieveListFromMlt() = 0;
+
     /* @brief Parse some info from a mlt structure
        @param res Datastructure to fill
        @return true on success
@@ -90,15 +92,19 @@ protected:
     /* @brief Returns the metadata associated with the given asset*/
     virtual Mlt::Properties* getMetadata(const QString& assetId) = 0;
 
-    /* @brief Parse one asset from its XML content and return id of the asset*/
-    QString parseInfoFromXml(const QDomElement& currentAsset);
+    /* @brief Parse one asset from its XML content
+       @param res data structure to fill
+       @return true of success
+     */
+    bool parseInfoFromXml(const QDomElement& currentAsset, Info &res) const;
 
     /* @brief Figure what is the type of the asset based on its metadata and store it in res*/
     virtual void parseType(QScopedPointer<Mlt::Properties>& metadata, Info & res) = 0;
 
     /* @brief Retrieves additional info about asset from a custom XML file
+       The resulting assets are stored in customAssets
      */
-    virtual void parseCustomAssetFile(const QString& file_name) = 0;
+    virtual void parseCustomAssetFile(const QString& file_name, std::unordered_map<QString, Info>& customAssets) const = 0;
 
     /* @brief Returns the path to custom XML description of the assets*/
     virtual QStringList assetDirs() const = 0;

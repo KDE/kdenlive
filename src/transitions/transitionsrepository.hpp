@@ -64,8 +64,9 @@ protected:
     Mlt::Properties* retrieveListFromMlt() override;
 
     /* @brief Retrieves additional info about effects from a custom XML file
+       The resulting assets are stored in customAssets
      */
-    void parseCustomAssetFile(const QString& file_name) override;
+    void parseCustomAssetFile(const QString& file_name, std::unordered_map<QString, Info>& customAssets) const override;
 
     /* @brief Returns the paths where the custom transitions' descriptions are stored */
     QStringList assetDirs() const override;

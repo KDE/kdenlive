@@ -52,7 +52,7 @@ Mlt::Properties* TransitionsRepository::getMetadata(const QString& assetId)
     return pCore->getMltRepository()->metadata(transition_type, assetId.toLatin1().data());
 }
 
-void TransitionsRepository::parseCustomAssetFile(const QString& file_name)
+void TransitionsRepository::parseCustomAssetFile(const QString& file_name, std::unordered_map<QString, Info>& customAssets) const
 {
     QFile file(file_name);
     QDomDocument doc;
@@ -72,12 +72,18 @@ void TransitionsRepository::parseCustomAssetFile(const QString& file_name)
         if (currentNode.isNull()) {
             continue;
         }
-        auto id = parseInfoFromXml(currentNode.toElement());
-        if (id.isEmpty()) {
+        Info result;
+        bool ok = parseInfoFromXml(currentNode.toElement(), result);
+        if (!ok) {
             continue;
         }
 
-        m_assets[id].custom_xml_path = file_name;
+        if (customAssets.count(result.id) > 0) {
+            qDebug() << "Warning: duplicate custom definition of transition"<<result.id<<"found. Only last one will be considered";
+        }
+
+        result.xml = currentNode.toElement();
+        customAssets[result.id] = result;
     }
 }
 
@@ -128,10 +134,12 @@ QString TransitionsRepository::assetBlackListPath() const
 
 Mlt::Transition *TransitionsRepository::getTransition(const QString& transitionId) const
 {
+    Q_ASSERT(exists(transitionId));
+    QString service_name = m_assets.at(transitionId).mltId;
     // We create the Mlt element from its name
     Mlt::Transition *transition = new Mlt::Transition(
         pCore->getCurrentProfile()->profile(),
-        transitionId.toLatin1().constData(),
+        service_name.toLatin1().constData(),
         NULL
         );
     return transition;
