@@ -115,11 +115,11 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     REQUIRE(timeline->getClipsCount() == 3);
 
     // Test deletion
-    REQUIRE(timeline->requestClipDeletion(id2));
+    REQUIRE(timeline->requestItemDeletion(id2));
     REQUIRE(timeline->getClipsCount() == 2);
-    REQUIRE(timeline->requestClipDeletion(id3));
+    REQUIRE(timeline->requestItemDeletion(id3));
     REQUIRE(timeline->getClipsCount() == 1);
-    REQUIRE(timeline->requestClipDeletion(id1));
+    REQUIRE(timeline->requestItemDeletion(id1));
     REQUIRE(timeline->getClipsCount() == 0);
 
 }
@@ -953,7 +953,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
 
         int nbClips = timeline->getClipsCount();
-        REQUIRE(timeline->requestClipDeletion(cid1));
+        REQUIRE(timeline->requestItemDeletion(cid1));
         auto state2 = [&]() {
             REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 0);

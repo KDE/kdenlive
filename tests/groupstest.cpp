@@ -517,7 +517,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         state();
 
         for (int i = 0; i < 4; i++) {
-            REQUIRE(timeline->requestClipDeletion(clips[i]));
+            REQUIRE(timeline->requestItemDeletion(clips[i]));
             REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
             REQUIRE(timeline->getClipsCount() == 0);
             REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
