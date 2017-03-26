@@ -105,9 +105,38 @@ Rectangle {
                 }
             }
         }
+        onPositionChanged: {
+            console.log('======================== ON POS CHANGED ========================================')
+            if (clipBeingMovedId == -1) {
+                var track = Logic.getTrackIdFromPos(drag.y)
+                var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                if (clipBeingDroppedId >= 0){
+                    controller.requestCompositionMove(clipBeingDroppedId, track, frame, true, false)
+                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+
+                } else {
+                    clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
+                    clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
+                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                }
+            }
+        }
         onExited:{
             if (clipBeingDroppedId != -1) {
                 controller.requestCompositionDeletion(clipBeingDroppedId, false)
+            }
+            clipBeingDroppedId = -1
+            droppedPosition = -1
+            droppedTrack = -1
+            scrollTimer.running = false
+        }
+        onDropped: {
+            if (clipBeingDroppedId != -1) {
+                var frame = controller.getCompositionPosition(clipBeingDroppedId)
+                var track = controller.getCompositionTrackId(clipBeingDroppedId)
+                // we simulate insertion at the final position so that stored undo has correct value
+                controller.requestCompositionDeletion(clipBeingDroppedId, false)
+                timeline.insertComposition(track, frame, clipBeingDroppedData, true)
             }
             clipBeingDroppedId = -1
             droppedPosition = -1
@@ -137,7 +166,6 @@ Rectangle {
             }
         }
         onExited:{
-            Logic.dropped()
             if (clipBeingDroppedId != -1) {
                 controller.requestClipDeletion(clipBeingDroppedId, false)
             }
@@ -169,7 +197,6 @@ Rectangle {
                 controller.requestClipDeletion(clipBeingDroppedId, false)
                 timeline.insertClip(track, frame, clipBeingDroppedData, true)
             }
-            Logic.dropped()
             clipBeingDroppedId = -1
             droppedPosition = -1
             droppedTrack = -1
