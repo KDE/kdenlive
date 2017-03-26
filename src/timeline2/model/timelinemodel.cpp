@@ -104,6 +104,12 @@ int TimelineModel::getClipsCount() const
     return size;
 }
 
+int TimelineModel::getCompositionsCount() const
+{
+    READ_LOCK();
+    int size = int(m_allCompositions.size());
+    return size;
+}
 
 int TimelineModel::getClipTrackId(int clipId) const
 {
@@ -378,12 +384,15 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     bool res = false;
     if (isClip(itemId)) {
         res = requestClipDeletion(itemId, undo, redo);
-    } else if (isComposition(itemId)) {
-        int trackId = getCompositionTrackId(itemId);
-        res = getTrackById(trackId)->requestCompositionDeletion(itemId, true, undo, redo);
+    } else {
+        res = requestCompositionDeletion(itemId, undo, redo);
     }
     if (res && logUndo) {
-        PUSH_UNDO(undo, redo, i18n("Delete Clip"));
+        if (isClip(itemId)) {
+            PUSH_UNDO(undo, redo, i18n("Delete Clip"));
+        } else {
+            PUSH_UNDO(undo, redo, i18n("Delete Composition"));
+        }
     }
     return res;
 }
@@ -403,6 +412,30 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun& undo, Fun& redo)
     auto reverse = [this, clip]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
         registerClip(clip);
+        return true;
+    };
+    if (operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    undo();
+    return false;
+}
+bool TimelineModel::requestCompositionDeletion(int compositionId, Fun& undo, Fun& redo)
+{
+    int trackId = getCompositionTrackId(compositionId);
+    if (trackId != -1) {
+        bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, undo, redo);
+        if (!res) {
+            undo();
+            return false;
+        }
+    }
+    auto operation = deregisterComposition_lambda(compositionId);
+    auto composition = m_allCompositions[compositionId];
+    auto reverse = [this, composition]() {
+        // We capture a shared_ptr to the composition, which means that as long as this undo object lives, the composition object is not deleted. To insert it back it is sufficient to register it.
+        registerComposition(composition);
         return true;
     };
     if (operation()) {

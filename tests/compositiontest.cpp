@@ -38,4 +38,25 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     std::unique_ptr<Mlt::Transition> mlt_transition(TransitionsRepository::get()->getTransition(aCompo));
 
     REQUIRE(mlt_transition->is_valid());
+
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
+
+    REQUIRE(timeline->getCompositionsCount() == 0);
+    int id1 = CompositionModel::construct(timeline, aCompo);
+    REQUIRE(timeline->getCompositionsCount() == 1);
+
+    int id2 = CompositionModel::construct(timeline, aCompo);
+    REQUIRE(timeline->getCompositionsCount() == 2);
+
+    int id3 = CompositionModel::construct(timeline, aCompo);
+    REQUIRE(timeline->getCompositionsCount() == 3);
+
+    // Test deletion
+    REQUIRE(timeline->requestItemDeletion(id2));
+    REQUIRE(timeline->getCompositionsCount() == 2);
+    REQUIRE(timeline->requestItemDeletion(id3));
+    REQUIRE(timeline->getCompositionsCount() == 1);
+    REQUIRE(timeline->requestItemDeletion(id1));
+    REQUIRE(timeline->getCompositionsCount() == 0);
 }

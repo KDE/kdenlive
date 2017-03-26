@@ -17,5 +17,6 @@ int main( int argc, char* argv[] )
     // global clean-up...
     //delete repo;
 
+    Mlt::Factory::close();
     return ( result < 0xff ? result : 0xff );
 }

@@ -96,6 +96,9 @@ public:
     /* @brief returns the number of clips */
     int getClipsCount() const;
 
+    /* @brief returns the number of compositions */
+    int getCompositionsCount() const;
+
     /* @brief Returns the id of the track containing clip (-1 if it is not inserted)
        @param clipId Id of the clip to test
      */
@@ -176,16 +179,17 @@ public:
     /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id, Fun& undo, Fun& redo);
 
-    /* @brief Deletes the given clip from the timeline
+    /* @brief Deletes the given clip or composition from the timeline
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
-       If the clip is in a group, the call is deferred to requestGroupDeletion
-       @param clipId is the ID of the clip
+       If the clip/composition is in a group, the call is deferred to requestGroupDeletion
+       @param clipId is the ID of the clip/composition
        @param logUndo if set to false, no undo object is stored
     */
     Q_INVOKABLE bool requestItemDeletion(int clipId, bool logUndo = true);
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
+    bool requestCompositionDeletion(int compositionId, Fun& undo, Fun& redo);
 
     /* @brief Move a group to a specific position
        This action is undoable
