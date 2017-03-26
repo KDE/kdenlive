@@ -164,7 +164,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 }
 
-void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
+void MainWindow::init()
 {
 
     // Widget themes for non KDE users
@@ -674,8 +674,6 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
             KdenliveSettings::setDecklink_extension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
-    pCore->projectManager()->init(Url, clipsToLoad);
-    QTimer::singleShot(0, pCore->projectManager(), &ProjectManager::slotLoadOnOpen);
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
     connect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme, Qt::UniqueConnection);
 

@@ -64,7 +64,7 @@ public:
      * If Url is present, it will be opened, otherwhise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    static void build(const QString &MltPath = QString(), const QUrl &Url = QUrl(), const QString &clipsToLoad = QString());
+    static void build(const QString &MltPath = QString(), const QUrl &Url = QUrl());
 
     /** @brief Returns a pointer to the singleton object. */
     static Core *self();

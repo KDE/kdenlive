@@ -74,7 +74,7 @@ public:
      * If Url is present, it will be opened, otherwhise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    void init(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad);
+    void init();
     virtual ~MainWindow();
 
     static EffectsList videoEffects;

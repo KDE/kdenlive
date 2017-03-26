@@ -136,7 +136,6 @@ int main(int argc, char *argv[])
 
     parser.addOption(QCommandLineOption(QStringList() <<  QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config")));
     parser.addOption(QCommandLineOption(QStringList() <<  QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
-    parser.addOption(QCommandLineOption(QStringList() <<  QStringLiteral("i"), i18n("Comma separated list of clips to add"), QStringLiteral("clips")));
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Document to open"));
 
     // Parse command line
@@ -145,7 +144,6 @@ int main(int argc, char *argv[])
 
     KCrash::initialize();
 
-    QString clipsToLoad = parser.value(QStringLiteral("i"));
     QString mltPath = parser.value(QStringLiteral("mlt-path"));
     QUrl url;
     if (parser.positionalArguments().count()) {
@@ -155,7 +153,7 @@ int main(int argc, char *argv[])
         QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
         url = startup.resolved(url);
     }
-    Core::build(mltPath, url, clipsToLoad);
+    Core::build(mltPath, url);
     int result = app.exec();
 
     if (EXIT_RESTART == result) {

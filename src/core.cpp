@@ -61,7 +61,7 @@ Core::~Core()
     m_self = nullptr;
 }
 
-void Core::build(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
+void Core::build(const QString &MltPath, const QUrl &Url)
 {
     m_self = new Core();
     m_self->initLocale();
@@ -78,7 +78,9 @@ void Core::build(const QString &MltPath, const QUrl &Url, const QString &clipsTo
     qRegisterMetaType<MltVideoProfile> ("MltVideoProfile");
 
     m_self->initialize(MltPath);
-    m_self->m_mainWindow->init(MltPath, Url, clipsToLoad);
+    m_self->m_mainWindow->init();
+    pCore->projectManager()->init(Url, QString());
+    QTimer::singleShot(0, pCore->projectManager(), &ProjectManager::slotLoadOnOpen);
     if (qApp->isSessionRestored()) {
         //NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_self->m_mainWindow->restore(1, false);
