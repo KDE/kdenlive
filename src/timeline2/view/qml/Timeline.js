@@ -48,10 +48,6 @@ function getTrackIdFromPos(pos) {
     return -1
 }
 
-function dropped() {
-    scrollTimer.running = false
-}
-
 function acceptDrop(xml) {
     var position = Math.round((dropTarget.x + scrollView.flickableItem.contentX - headerWidth) / timeline.scaleFactor)
     timeline.insertClip(currentTrack, position, xml)

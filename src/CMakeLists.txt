@@ -130,7 +130,6 @@ list(APPEND kdenlive_SRCS
     definitions.cpp
     gentime.cpp
     doc/kthumb.cpp
-    main.cpp
     mainwindow.cpp
     renderer.cpp
     statusbarmessagelabel.cpp
@@ -241,10 +240,14 @@ qt5_add_dbus_adaptor(kdenlive_SRCS
     MainWindow
     )
 qt5_add_resources(kdenlive_SRCS icons.qrc ui/resources.qrc uiresources.qrc)
+add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS})
 add_executable(kdenlive
-    ${kdenlive_SRCS}
-    ${kdenlive_UIS}
-    )
+  main.cpp
+  )
+
+target_link_libraries(kdenlive
+    kdenliveLib
+)
 
 # To compile kiss_fft.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99")
@@ -265,7 +268,7 @@ include_directories(
 # to the components requested in find_package().
 #include(${QT_USE_FILE})
 
-target_link_libraries(kdenlive
+target_link_libraries(kdenliveLib
     KF5::WidgetsAddons
     KF5::Archive
     KF5::CoreAddons
@@ -296,15 +299,15 @@ message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 
 if (KF5_FILEMETADATA)
     add_definitions(-DKF5_USE_FILEMETADATA)
-    target_link_libraries(kdenlive KF5::FileMetaData)
+    target_link_libraries(kdenliveLib KF5::FileMetaData)
 endif()
 
-qt5_use_modules( kdenlive Script Widgets Concurrent Qml Quick QuickWidgets)
+qt5_use_modules( kdenliveLib Script Widgets Concurrent Qml Quick QuickWidgets)
 
 if (Qt5WebKitWidgets_FOUND)
     message(STATUS "Found Qt5 WebKitWidgets. You can use your Freesound.org credentials to download files")
     add_definitions(-DQT5_USE_WEBKIT)
-    target_link_libraries(kdenlive Qt5::WebKitWidgets)
+    target_link_libraries(kdenliveLib Qt5::WebKitWidgets)
 else()
     message(STATUS "Qt5 WebKitWidgets not found. You cannot use your Freesound.org credentials, only preview files can be downloaded from the Online Resources Widget")
 endif()
@@ -312,22 +315,22 @@ endif()
 
 if(Q_WS_X11)
     include_directories(${X11_Xlib_INCLUDE_PATH})
-    target_link_libraries(kdenlive ${X11_LIBRARIES})
+    target_link_libraries(kdenliveLib ${X11_LIBRARIES})
 endif(Q_WS_X11)
 
 if(SDL_FOUND)
-    target_link_libraries(kdenlive ${SDL_LIBRARY})
+    target_link_libraries(kdenliveLib ${SDL_LIBRARY})
 endif(SDL_FOUND)
 
 if(LIBV4L2_FOUND)
     include_directories(${LIBV4L2_INCLUDE_DIR})
-    target_link_libraries(kdenlive ${LIBV4L2_LIBRARY})
+    target_link_libraries(kdenliveLib ${LIBV4L2_LIBRARY})
     add_definitions(-DUSE_V4L)
 endif()
 
 if(BUILD_JogShuttle)
     add_definitions(-DUSE_JOGSHUTTLE)
-    target_link_libraries(kdenlive
+    target_link_libraries(kdenliveLib
         media_ctrl
         )
 endif()
