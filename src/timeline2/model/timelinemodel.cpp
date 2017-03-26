@@ -363,19 +363,25 @@ bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, in
     return true;
 }
 
-bool TimelineModel::requestClipDeletion(int clipId, bool logUndo)
+bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestClipDeletion("<<clipId<<"); " <<std::endl;
+    m_logFile << "timeline->requestItemDeletion("<<itemId<<"); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(isClip(clipId));
-    if (m_groups->isInGroup(clipId)) {
-        return requestGroupDeletion(clipId);
+    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    if (m_groups->isInGroup(itemId)) {
+        return requestGroupDeletion(itemId);
     }
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    bool res = requestClipDeletion(clipId, undo, redo);
+    bool res = false;
+    if (isClip(itemId)) {
+        res = requestClipDeletion(itemId, undo, redo);
+    } else if (isComposition(itemId)) {
+        int trackId = getCompositionTrackId(itemId);
+        res = getTrackById(trackId)->requestCompositionDeletion(itemId, true, undo, redo);
+    }
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Delete Clip"));
     }

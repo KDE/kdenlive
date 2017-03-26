@@ -222,7 +222,7 @@ void TimelineWidget::deleteSelectedClips()
         return;
     }
     foreach(int cid, m_selection.selectedClips) {
-        m_model->requestClipDeletion(cid);
+        m_model->requestItemDeletion(cid);
     }
 }
 

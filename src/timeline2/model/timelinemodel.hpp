@@ -183,7 +183,7 @@ public:
        @param clipId is the ID of the clip
        @param logUndo if set to false, no undo object is stored
     */
-    Q_INVOKABLE bool requestClipDeletion(int clipId, bool logUndo = true);
+    Q_INVOKABLE bool requestItemDeletion(int clipId, bool logUndo = true);
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
 
