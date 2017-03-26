@@ -145,9 +145,9 @@ public:
     */
     Q_INVOKABLE bool requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true);
 
-    int getCompositionTrackId(int compoId) const;
-    int getCompositionPosition(int compoId) const;
-    int getCompositionPlaytime(int compoId) const;
+    Q_INVOKABLE int getCompositionTrackId(int compoId) const;
+    Q_INVOKABLE int getCompositionPosition(int compoId) const;
+    Q_INVOKABLE int getCompositionPlaytime(int compoId) const;
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position);
 
 protected:

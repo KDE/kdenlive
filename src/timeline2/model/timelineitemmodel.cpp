@@ -193,6 +193,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[SpeedRole] = "speed";
     roles[HeightRole] = "trackHeight";
     roles[ItemIdRole] = "item";
+    roles[ItemATrack] = "a_track";
     return roles;
 }
 
@@ -318,6 +319,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
                 return 100;
             case BinIdRole:
                 return 5;
+            case ItemATrack:
+                return 2;
+                //return compo->getTargetTrack(); 
             case MarkersRole: {
                 QVariantList markersList;
                 return markersList;

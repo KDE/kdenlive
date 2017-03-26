@@ -87,6 +87,7 @@ public:
         IsCompositionRole,/// clip only
         FileHashRole,    /// clip only
         SpeedRole,       /// clip only
+        ItemATrack,      /// composition only
         ItemIdRole
     };
 

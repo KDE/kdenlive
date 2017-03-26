@@ -48,6 +48,13 @@ function getTrackIdFromPos(pos) {
     return -1
 }
 
+function getTrackYFromId(id) {
+    if (id >= 0 && id < tracksRepeater.count) {
+        return trackHeaderRepeater.itemAt(id).y - scrollView.flickableItem.contentY
+    }
+    return -1
+}
+
 function acceptDrop(xml) {
     var position = Math.round((dropTarget.x + scrollView.flickableItem.contentX - headerWidth) / timeline.scaleFactor)
     timeline.insertClip(currentTrack, position, xml)

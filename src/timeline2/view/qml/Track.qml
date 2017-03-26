@@ -69,6 +69,12 @@ Column{
                     value: trackRoot.selection.indexOf(loader.item.clipId) !== -1
                     when: loader.status == Loader.Ready
                 }
+                Binding {
+                    target: loader.item
+                    property: "a_track"
+                    value: loader.item.a_track
+                    when: loader.item.isComposition && loader.status == Loader.Ready
+                }
                 sourceComponent: {
                     if (model.isComposition) {
                         return compositionDelegate
@@ -93,6 +99,8 @@ Column{
                         item.markers= model.markers
                         item.fadeIn= 0 //model.fadeIn
                         item.fadeOut= 0 //model.fadeOut
+                    } else {
+                        item.a_track = model.a_track
                     }
                     item.width= model.duration * timeScale
                     item.modelStart= model.start

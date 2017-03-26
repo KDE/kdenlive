@@ -63,6 +63,10 @@ public:
      */
     int getCurrentTrackId() const;
 
+    /* @brief returns the target track for this compositon (a_track)
+     */
+    int getTargetTrack() const;
+
     /* @brief returns the current position of the composition (-1 if not inserted)
      */
     int getPosition() const;

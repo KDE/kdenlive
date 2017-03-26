@@ -49,6 +49,9 @@ Rectangle {
         }
 
     }
+    function getTrackYFromId(a_track) {
+        return Logic.getTrackYFromId(a_track)
+    }
 
     function getTrackColor(audio, header) {
         var col = activePalette.alternateBase
@@ -135,7 +138,7 @@ Rectangle {
                 var frame = controller.getCompositionPosition(clipBeingDroppedId)
                 var track = controller.getCompositionTrackId(clipBeingDroppedId)
                 // we simulate insertion at the final position so that stored undo has correct value
-                controller.requestCompositionDeletion(clipBeingDroppedId, false)
+                controller.requestItemDeletion(clipBeingDroppedId, false)
                 timeline.insertComposition(track, frame, clipBeingDroppedData, true)
             }
             clipBeingDroppedId = -1

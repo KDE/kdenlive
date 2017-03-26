@@ -43,12 +43,14 @@ Rectangle {
     property int binId: 0
     property int trackIndex //Index in track repeater
     property int trackId: -42    //Id in the model
+    property int a_track: -1
     property int clipId     //Id of the clip in the model
     property int originalTrackId: trackId
     property int originalX: x
     property int originalDuration: clipDuration
     property int lastValidDuration: clipDuration
     property int draggedX: x
+    property int a_trackPos: -1
     property bool selected: false
     property double speed: 1.0
     property color borderColor: 'black'
@@ -78,7 +80,7 @@ Rectangle {
 
     border.color: selected? 'red' : borderColor
     border.width: 1.5
-    clip: true
+    clip: false
     Drag.active: mouseArea.drag.active
     Drag.proposedAction: Qt.MoveAction
     opacity: Drag.active? 0.5 : 1.0
@@ -113,7 +115,7 @@ Rectangle {
         anchors.topMargin: parent.border.width
         anchors.leftMargin: parent.border.width
             // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
-        width: label.width + 2
+        width: Math.min(label.width + 2, parent.width - 2)
         height: label.height
     }
 
@@ -121,6 +123,8 @@ Rectangle {
         id: label
         text: clipName
         font.pixelSize: root.baseUnit
+        width: parent.width - 2
+        clip: true
         anchors {
             top: parent.top
             left: parent.left
@@ -129,6 +133,19 @@ Rectangle {
                 // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
         }
         color: 'black'
+    }
+
+    // target track
+    Rectangle {
+        width: parent.width
+        height: 5
+        color: 'red'
+        y: a_trackPos
+    }
+
+    onA_trackChanged: {
+        console.log('+++++++++++++++++++++\na_tk: ', a_trackPos, ' : ', a_track)
+        a_trackPos = root.getTrackYFromId(a_track)
     }
 
     states: [

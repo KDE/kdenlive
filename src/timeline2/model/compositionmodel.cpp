@@ -69,6 +69,11 @@ int CompositionModel::getPosition() const
     return m_position;
 }
 
+int CompositionModel::getTargetTrack() const
+{
+    return transition()->get_a_track();
+}
+
 int CompositionModel::getPlaytime() const
 {
     return transition()->get_length();
