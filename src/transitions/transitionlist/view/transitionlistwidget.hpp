@@ -34,6 +34,10 @@ class TransitionListWidget : public AssetListWidget
 
 public:
     TransitionListWidget(QWidget *parent = Q_NULLPTR);
+
+    /*@brief Return mime type used for drag and drop. It will be kdenlive/composition
+     or kdenlive/transition*/
+    Q_INVOKABLE QString getMimeType(const QString& assetId) const override;
 };
 
 #endif

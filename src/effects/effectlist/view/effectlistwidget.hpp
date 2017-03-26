@@ -38,6 +38,9 @@ public:
     EffectListWidget(QWidget *parent = Q_NULLPTR);
 
     Q_INVOKABLE void setFilterType(const QString& type);
+
+    /*@brief Return mime type used for drag and drop. It will be kdenlive/effect*/
+    Q_INVOKABLE QString getMimeType(const QString& assetId) const override;
 };
 
 #endif

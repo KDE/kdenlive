@@ -934,6 +934,7 @@ bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Composition"));
     }
+    _resetView();
     return result;
 }
 

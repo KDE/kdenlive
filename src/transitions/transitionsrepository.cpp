@@ -144,3 +144,9 @@ Mlt::Transition *TransitionsRepository::getTransition(const QString& transitionI
         );
     return transition;
 }
+
+bool TransitionsRepository::isComposition(const QString& transitionId) const
+{
+    auto type = getType(transitionId);
+    return type == TransitionType::AudioComposition || type == TransitionType::VideoComposition;
+}

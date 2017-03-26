@@ -22,6 +22,7 @@
 #include "transitionlistwidget.hpp"
 #include "../model/transitiontreemodel.hpp"
 #include "assets/assetlist/model/assetfilter.hpp"
+#include "transitions/transitionsrepository.hpp"
 
 #include <QQmlContext>
 
@@ -43,4 +44,13 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
     m_assetIconProvider.reset(new AssetIconProvider(false));
 
     setup();
+}
+
+QString TransitionListWidget::getMimeType(const QString& assetId) const
+{
+    if (TransitionsRepository::get()->isComposition(assetId)) {
+        return QStringLiteral("kdenlive/composition");
+    } else {
+        return QStringLiteral("kdenlive/transition");
+    }
 }

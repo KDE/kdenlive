@@ -40,6 +40,7 @@ int CompositionModel::construct(std::weak_ptr<TimelineModel> parent, const QStri
 {
     auto xml = TransitionsRepository::get()->getXml(transitionId);
     Mlt::Transition *transition = TransitionsRepository::get()->getTransition(transitionId);
+    transition->set_in_and_out(0,1000);
     std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, transition, id, xml, transitionId));
     id = composition->m_id;
     if (auto ptr = parent.lock()) {

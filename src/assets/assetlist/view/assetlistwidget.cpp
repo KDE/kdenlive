@@ -58,3 +58,10 @@ void AssetListWidget::setFilterName(const QString& pattern)
     m_proxyModel->setFilterName(!pattern.isEmpty(), pattern);
 }
 
+
+QVariantMap AssetListWidget::getMimeData(const QString &assetId) const
+{
+    QVariantMap mimeData;
+    mimeData.insert(getMimeType(assetId), assetId);
+    return mimeData;
+}

@@ -40,9 +40,20 @@ class AssetListWidget : public QQuickWidget
 public:
     AssetListWidget(QWidget *parent = Q_NULLPTR);
 
+    /* @brief Returns the name of the asset given its model index */
     Q_INVOKABLE QString getName(const QModelIndex& index) const;
+
+    /* @brief Returns the description of the asset given its model index */
     Q_INVOKABLE QString getDescription(const QModelIndex& index) const;
+
+    /* @brief Sets the pattern against which the assets' names are filtered */
     Q_INVOKABLE void setFilterName(const QString& pattern);
+
+    /*@brief Return mime type used for drag and drop. It can be kdenlive/effect,
+      kdenlive/composition or kdenlive/transition*/
+    virtual QString getMimeType(const QString& assetId) const = 0;
+
+    Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const;
 protected:
     void setup();
     std::unique_ptr<AssetTreeModel> m_model;

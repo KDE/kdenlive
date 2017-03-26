@@ -206,6 +206,15 @@ int TimelineWidget::insertClip(int tid, int position, QString data_str, bool log
     return id;
 }
 
+int TimelineWidget::insertComposition(int tid, int position, const QString& transitionId, bool logUndo)
+{
+    int id;
+    if (!m_model->requestCompositionInsertion(transitionId, tid, position, id, logUndo)) {
+        id = -1;
+    }
+    return id;
+}
+
 void TimelineWidget::deleteSelectedClips()
 {
     if (m_selection.selectedClips.isEmpty()) {

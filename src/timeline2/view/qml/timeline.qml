@@ -71,7 +71,7 @@ Rectangle {
     property int duration: timeline.duration
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
     property int clipBeingDroppedId: -1
-    property int clipBeingDroppedData
+    property string clipBeingDroppedData
     property int droppedPosition: -1
     property int droppedTrack: -1
     property int clipBeingMovedId: -1
@@ -84,7 +84,38 @@ Rectangle {
         ruler.adjustStepSize()
     }
 
-    DropArea {
+    DropArea { //Drop area for compositions
+        width: root.width - headerWidth
+        height: root.height - ruler.height
+        y: ruler.height
+        x: headerWidth
+        keys: 'kdenlive/composition'
+        onEntered: {
+            if (clipBeingMovedId == -1) {
+                var track = Logic.getTrackIdFromPos(drag.y)
+                var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                droppedPosition = frame
+                if (track >= 0) {
+                    clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
+                    clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
+                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                    drag.acceptProposedAction()
+                } else {
+                    drag.accepted = false
+                }
+            }
+        }
+        onExited:{
+            if (clipBeingDroppedId != -1) {
+                controller.requestCompositionDeletion(clipBeingDroppedId, false)
+            }
+            clipBeingDroppedId = -1
+            droppedPosition = -1
+            droppedTrack = -1
+            scrollTimer.running = false
+        }
+    }
+    DropArea { //Drop area for bin/clips
         width: root.width - headerWidth
         height: root.height - ruler.height
         y: ruler.height

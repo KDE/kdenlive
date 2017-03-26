@@ -60,3 +60,11 @@ void EffectListWidget::setFilterType(const QString& type)
         static_cast<EffectFilter*>(m_proxyModel.get())->setFilterType(false, EffectType::Video);
     }
 }
+
+
+
+QString EffectListWidget::getMimeType(const QString& assetId) const
+{
+    Q_UNUSED(assetId);
+    return QStringLiteral("kdenlive/effect");
+}

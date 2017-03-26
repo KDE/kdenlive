@@ -166,7 +166,9 @@ Rectangle {
                 // These anchors are important to allow "copy" dragging
                 anchors.verticalCenter: parent ? parent.verticalCenter : undefined
                 anchors.right: parent ? parent.right : undefined
-                property bool isItem : styleData.value != "root"
+                property bool isItem : styleData.value != "root" && styleData.value != ""
+                property string mimeType : isItem ? assetlist.getMimeType(styleData.value) : ""
+
                 width: text.implicitWidth + 20;
                 height: text.implicitHeight + 10
                 color:"transparent"
@@ -174,9 +176,10 @@ Rectangle {
                 Drag.active: isItem ? dragArea.drag.active : false
                 Drag.dragType: Drag.Automatic
                 Drag.supportedActions: Qt.CopyAction
-                Drag.mimeData: {
-                    "text/plain": "Copied text"
-                }
+                Drag.mimeData: isItem ? assetlist.getMimeData(styleData.value) : {}
+                Drag.keys:[
+                    isItem ? assetlist.getMimeType(styleData.value) : ""
+                ]
 
                 Row {
                     anchors.fill:parent
@@ -202,6 +205,7 @@ Rectangle {
                             parent.grabToImage(function(result) {
                                 parent.Drag.imageSource = result.url
                             })
+                            console.log(parent.Drag.keys)
                         } else {
                             if (treeView.isExpanded(styleData.index)) {
                                 treeView.collapse(styleData.index)

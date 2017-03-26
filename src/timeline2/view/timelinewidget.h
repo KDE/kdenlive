@@ -95,6 +95,16 @@ public:
        @return the id of the inserted clip
      */
     Q_INVOKABLE int insertClip(int tid, int position, QString xml, bool logUndo);
+
+    /* @brief Request inserting a new composition in timeline (dragged from compositions list)
+       @param tid is the destination track
+       @param position is the timeline position
+       @param transitionId is the data describing the dropped composition
+       @param logUndo if set to false, no undo object is stored
+       @return the id of the inserted composition
+    */
+    Q_INVOKABLE int insertComposition(int tid, int position, const QString& transitionId, bool logUndo);
+
     /* @brief Request deletion of the currently selected clips
      */
     Q_INVOKABLE void deleteSelectedClips();
