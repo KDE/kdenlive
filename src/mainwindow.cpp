@@ -798,7 +798,6 @@ MainWindow::~MainWindow()
     if (m_clipMonitor) {
         m_clipMonitor->stop();
     }
-    delete pCore;
     delete m_effectStack;
     delete m_projectMonitor;
     delete m_clipMonitor;
@@ -2128,7 +2127,7 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KdenliveSettingsDialog::doResetProfile, pCore->projectManager(), &ProjectManager::slotResetProfiles);
     connect(dialog, &KdenliveSettingsDialog::checkTabPosition, this, &MainWindow::slotCheckTabPosition);
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
-    connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore, &Core::updateLibraryPath);
+    connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
 
     if (m_recMonitor) {
         connect(dialog, &KdenliveSettingsDialog::updateCaptureFolder, this, &MainWindow::slotUpdateCaptureFolder);

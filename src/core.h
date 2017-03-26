@@ -67,7 +67,7 @@ public:
     static void build(const QString &MltPath = QString(), const QUrl &Url = QUrl());
 
     /** @brief Returns a pointer to the singleton object. */
-    static Core *self();
+    static std::unique_ptr<Core>& self();
 
     /** @brief Returns a pointer to the main window. */
     MainWindow *window();
@@ -98,7 +98,7 @@ public:
 
 private:
     explicit Core();
-    static Core *m_self;
+    static std::unique_ptr<Core> m_self;
 
     /** @brief Builds all necessary parts. */
     void initialize(const QString &mltPath);

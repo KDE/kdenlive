@@ -36,8 +36,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <xlocale.h>
 #endif
 
-Core *Core::m_self = nullptr;
-
+std::unique_ptr<Core> Core::m_self;
 Core::Core() :
     m_mainWindow(nullptr)
     , m_projectManager(nullptr)
@@ -58,12 +57,11 @@ Core::~Core()
     delete m_projectManager;
     delete m_binController;
     delete m_monitorManager;
-    m_self = nullptr;
 }
 
 void Core::build(const QString &MltPath, const QUrl &Url)
 {
-    m_self = new Core();
+    m_self.reset(new Core());
     m_self->initLocale();
 
     qRegisterMetaType<audioShortVector> ("audioShortVector");
@@ -169,7 +167,7 @@ void Core::addTimeline(QWidget *timeline, const QString &name)
     m_timelineTab->addTab(timeline, name);
 }
 
-Core *Core::self()
+std::unique_ptr<Core>& Core::self()
 {
     return m_self;
 }
