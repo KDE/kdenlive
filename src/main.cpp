@@ -153,7 +153,8 @@ int main(int argc, char *argv[])
         QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
         url = startup.resolved(url);
     }
-    Core::build(mltPath, url);
+    Core::build(mltPath);
+    pCore->initGUI(url);
     int result = app.exec();
 
     if (EXIT_RESTART == result) {

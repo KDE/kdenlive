@@ -56,15 +56,19 @@ public:
     virtual ~Core();
 
     /**
-     * @brief Constructs the application
+     * @brief Setup the basics of the application, in particular the connection
+     * with Mlt
      * @param MltPath (optional) path to MLT environment
+     */
+    static void build(const QString &MltPath = QString());
+
+    /**
+     * @brief Init the GUI part of the app and show the main window
      * @param Url (optional) file to open
-     * @param clipsToLoad (optional) a comma separated list of clips to import in project
-     *
      * If Url is present, it will be opened, otherwhise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    static void build(const QString &MltPath = QString(), const QUrl &Url = QUrl());
+    void initGUI(const QUrl &Url);
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core>& self();
@@ -99,9 +103,6 @@ public:
 private:
     explicit Core();
     static std::unique_ptr<Core> m_self;
-
-    /** @brief Builds all necessary parts. */
-    void initialize(const QString &mltPath);
 
     /** @brief Makes sure Qt's locale and system locale settings match. */
     void initLocale();

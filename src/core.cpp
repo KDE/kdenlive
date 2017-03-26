@@ -46,21 +46,26 @@ Core::Core() :
     , m_binWidget(nullptr)
     , m_library(nullptr)
 {
-    connect(qApp, &QCoreApplication::aboutToQuit, this, &QObject::deleteLater);
 }
 
 Core::~Core()
 {
-    m_monitorManager->stopActiveMonitor();
+    if (m_monitorManager) {
+        m_monitorManager->stopActiveMonitor();
+        delete m_monitorManager;
+    }
     delete m_producerQueue;
     delete m_binWidget;
     delete m_projectManager;
     delete m_binController;
-    delete m_monitorManager;
 }
 
-void Core::build(const QString &MltPath, const QUrl &Url)
+void Core::build(const QString &MltPath)
 {
+    if (m_self) {
+        qDebug() << "DEBUG: Warning : trying to create a second Core";
+        return;
+    }
     m_self.reset(new Core());
     m_self->initLocale();
 
@@ -75,31 +80,24 @@ void Core::build(const QString &MltPath, const QUrl &Url)
     qRegisterMetaType<requestClipInfo> ("requestClipInfo");
     qRegisterMetaType<MltVideoProfile> ("MltVideoProfile");
 
-    m_self->initialize(MltPath);
-    m_self->m_mainWindow->init();
-    pCore->projectManager()->init(Url, QString());
-    QTimer::singleShot(0, pCore->projectManager(), &ProjectManager::slotLoadOnOpen);
-    if (qApp->isSessionRestored()) {
-        //NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
-        m_self->m_mainWindow->restore(1, false);
+    // Open connection with Mlt
+    m_self->m_mltConnection = std::unique_ptr<MltConnection>(new MltConnection(MltPath));
+
+    //load the profile from disk
+    ProfileRepository::get()->refresh();
+    //load default profile
+    m_self->m_profile = KdenliveSettings::default_profile();
+    if (m_self->m_profile.isEmpty()) {
+        m_self->m_profile = ProjectManager::getDefaultProjectFormat();
+        KdenliveSettings::setDefault_profile(m_self->m_profile);
     }
-    m_self->m_mainWindow->show();
 }
 
-void Core::initialize(const QString &mltPath)
+void Core::initGUI(const QUrl &Url)
 {
-    m_mltConnection = std::unique_ptr<MltConnection>(new MltConnection(mltPath));
     m_mainWindow = new MainWindow();
 
-    //loads the profile from disk
-    ProfileRepository::get()->refresh();
 
-    //load default profile and ask user to select one if not found.
-    m_profile = KdenliveSettings::default_profile();
-    if (m_profile.isEmpty()) {
-        m_profile = ProjectManager::getDefaultProjectFormat();
-        KdenliveSettings::setDefault_profile(m_profile);
-    }
     if (!ProfileRepository::get()->profileExists(m_profile)) {
         KMessageBox::sorry(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
 
@@ -155,6 +153,15 @@ void Core::initialize(const QString &mltPath)
     m_timelineTab->setTabBarAutoHide(true);
     //TODO
     /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
+
+    m_mainWindow->init();
+    projectManager()->init(Url, QString());
+    QTimer::singleShot(0, pCore->projectManager(), &ProjectManager::slotLoadOnOpen);
+    if (qApp->isSessionRestored()) {
+        //NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
+        m_mainWindow->restore(1, false);
+    }
+    m_mainWindow->show();
 }
 
 QWidget *Core::timelineTabs()
@@ -169,6 +176,9 @@ void Core::addTimeline(QWidget *timeline, const QString &name)
 
 std::unique_ptr<Core>& Core::self()
 {
+    if (!m_self) {
+        qDebug() << "Error : Core has not been created";
+    }
     return m_self;
 }
 

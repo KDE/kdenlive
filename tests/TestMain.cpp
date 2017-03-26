@@ -3,12 +3,14 @@
 
 #include <mlt++/MltRepository.h>
 #include <mlt++/MltFactory.h>
+#include "core.h"
 /* This file is intended to remain empty.
 Write your tests in a file with a name corresponding to what you're testing */
 
 int main( int argc, char* argv[] )
 {
     std::unique_ptr<Mlt::Repository> repo (Mlt::Factory::init( NULL ));
+    Core::build();
 
     int result = Catch::Session().run( argc, argv );
 
