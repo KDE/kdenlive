@@ -239,10 +239,11 @@ qt5_add_dbus_adaptor(kdenlive_SRCS
     mainwindow.h
     MainWindow
     )
-qt5_add_resources(kdenlive_SRCS icons.qrc ui/resources.qrc uiresources.qrc)
+qt5_add_resources(kdenlive_extra_SRCS icons.qrc ui/resources.qrc uiresources.qrc)
 add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS})
 add_executable(kdenlive
   main.cpp
+  ${kdenlive_extra_SRCS}
   )
 
 target_link_libraries(kdenlive
