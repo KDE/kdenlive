@@ -30,6 +30,7 @@ Rectangle {
     property string clipResource: ''
     property string mltService: ''
     property int modelStart: x
+    property int scrollX: 0
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -71,6 +72,10 @@ Rectangle {
     }
     onTimeScaleChanged: {
         width = clipDuration * timeScale;
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
+    }
+    onScrollXChanged: {
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
 
     SystemPalette { id: activePalette }
@@ -201,29 +206,28 @@ Rectangle {
 
     Rectangle {
         // text background
+        id: labelRect
         color: 'lightgray'
         opacity: 0.7
         anchors.top: parent.top
-        anchors.left: parent.left
         anchors.topMargin: parent.border.width
         anchors.leftMargin: parent.border.width
             // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
         width: label.width + 2
         height: label.height
-    }
-
-    Text {
-        id: label
-        text: clipName
-        font.pixelSize: root.baseUnit
-        anchors {
-            top: parent.top
-            left: parent.left
-            topMargin: parent.border.width + 1
-            leftMargin: parent.border.width + 1
+        Text {
+            id: label
+            text: clipName
+            font.pixelSize: root.baseUnit
+            anchors {
+                top: parent.top
+                left: parent.left
+                topMargin: parent.border.width + 1
+                leftMargin: parent.border.width
                 // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
+            }
+            color: 'black'
         }
-        color: 'black'
     }
 
     Repeater {

@@ -560,7 +560,7 @@ Rectangle {
                 }
             }
             onCompositionDraggedToTrack: {
-                console.log('Composition Dragged to Track')
+                console.log('Composition Dragged to Track: ', pos)
                 var y = pos - ruler.height
                 currentTrack = Logic.getTrackIndexFromPos(y)
                 var frame = Math.round(composition.x / timeScale)

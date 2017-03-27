@@ -26,13 +26,15 @@ import QtGraphicalEffects 1.0
 import QtQml.Models 2.2
 import QtQuick.Window 2.2
 
-Rectangle {
+
+Item {
     id: compositionRoot
     property real timeScale: 1.0
     property string clipName: ''
     property string clipResource: ''
     property string mltService: ''
     property int modelStart: x
+    property int displayHeight: 0
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -40,6 +42,7 @@ Rectangle {
     property bool isComposition: true
     property bool grouped: false
     property int binId: 0
+    property int scrollX: 0
     property int trackHeight
     property int trackIndex //Index in track repeater
     property int trackId: -42    //Id in the model
@@ -53,6 +56,7 @@ Rectangle {
     property int a_trackPos: -1
     property bool selected: false
     property double speed: 1.0
+    property color color: displayRect.color
     property color borderColor: 'black'
     x: modelStart * timeScale
     width : clipDuration * timeScale;
@@ -76,82 +80,60 @@ Rectangle {
     }
     onTimeScaleChanged: {
         width = clipDuration * timeScale;
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
-
-    SystemPalette { id: activePalette }
-    color: Qt.darker(getColor())
-
-    border.color: selected? 'red' : borderColor
-    border.width: 1.5
-    clip: false
-    Drag.active: mouseArea.drag.active
-    Drag.proposedAction: Qt.MoveAction
-    opacity: Drag.active? 0.5 : 1.0
-
-    function getColor() {
-        if (mltService === 'color') {
-            //console.log('clip color', clipResource, " / ", '#' + clipResource.substring(2, 8))
-            if (clipResource.length == 10) {
-                // 0xRRGGBBAA
-                return '#' + clipResource.substring(2, 8)
-            }
-        }
-        return 'mediumpurple'
-        //root.shotcutBlue
+    onScrollXChanged: {
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
-
     function reparent(track) {
         parent = track
         isAudio = track.isAudio
-        height = track.height / 2
+        displayHeight = track.height / 2
         y = track.y + track.height / 2
-        generateWaveform()
     }
-
-
-    Rectangle {
-        // text background
-        color: 'lightgray'
-        opacity: 0.7
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.topMargin: parent.border.width
-        anchors.leftMargin: parent.border.width
-            // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
-        width: Math.min(label.width + 2, parent.width - 2)
-        height: label.height
-    }
-
-    Text {
-        id: label
-        text: clipName
-        font.pixelSize: root.baseUnit
-        width: parent.width - 2
-        clip: true
-        anchors {
-            top: parent.top
-            left: parent.left
-            topMargin: parent.border.width + 1
-            leftMargin: parent.border.width + 1
-                // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
-        }
-        color: 'black'
-    }
-
-    // target track
-    Rectangle {
-        width: parent.width
-        height: 8
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "mediumpurple" }
-            GradientStop { position: 1.0; color: "#00000000" }
-        }
-        y: a_trackPos
-    }
-
     onA_trackChanged: {
         a_trackPos = root.getTrackYFromId(a_track) - mapToItem(trackRoot, 0, 0).y - trackRoot.mapToItem(null, 0, 0).y + ruler.height
     }
+
+    SystemPalette { id: activePalette }
+    Rectangle {
+        id: displayRect
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.left: parent.left
+        height: displayHeight
+        color: Qt.darker('mediumpurple')
+        border.color: selected? 'red' : borderColor
+        border.width: 1.5
+        opacity: Drag.active? 0.5 : 1.0
+        clip: true
+
+        Rectangle {
+            // text background
+            id: labelRect
+            color: 'lightgray'
+            opacity: 0.7
+            anchors.top: parent.top
+            anchors.topMargin: parent.border.width
+            anchors.leftMargin: parent.border.width
+            // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
+            width: label.width + 2
+            height: label.height
+            Text {
+                id: label
+                text: clipName
+                font.pixelSize: root.baseUnit
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    topMargin: parent.border.width + 1
+                    leftMargin: parent.border.width
+                }
+                color: 'black'
+            }
+        }
+        Drag.active: mouseArea.drag.active
+        Drag.proposedAction: Qt.MoveAction
 
     states: [
         State {
@@ -168,7 +150,7 @@ Rectangle {
             PropertyChanges {
                 target: compositionRoot
                 z: 1
-                color: getColor()
+                color: 'mediumpurple'
             }
         }
     ]
@@ -177,35 +159,35 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
-        drag.target: parent
+        drag.target: compositionRoot
         drag.axis: Drag.XAxis
         property int startX
 
         onPressed: {
             root.stopScrolling = true
-            originalX = parent.x
+            originalX = compositionRoot.x
             originalTrackId = compositionRoot.trackId
-            startX = parent.x
+            startX = compositionRoot.x
             compositionRoot.forceActiveFocus();
             compositionRoot.clicked(compositionRoot, mouse.modifiers === Qt.ShiftModifier)
         }
         onPositionChanged: {
-            if (mouse.y < 0 || mouse.y > height) {
-                parent.draggedToTrack(compositionRoot, mapToItem(null, 0, mouse.y).y)
+            if (mouse.y < -compositionRoot.parent.height / 2 || mouse.y > height) {
+                compositionRoot.draggedToTrack(compositionRoot, mapToItem(null, 0, mouse.y).y)
             } else {
-                parent.dragged(compositionRoot, mouse)
+                compositionRoot.dragged(compositionRoot, mouse)
             }
         }
         onReleased: {
             root.stopScrolling = false
-            parent.y = compositionRoot.parent.height / 2
-            var delta = parent.x - startX
+            compositionRoot.y = compositionRoot.parent.height / 2
+            var delta = compositionRoot.x - startX
             if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
-                parent.moved(compositionRoot)
-                originalX = parent.x
+                compositionRoot.moved(compositionRoot)
+                originalX = compositionRoot.x
                 originalTrackId = trackId
             } else {
-                parent.dropped(compositionRoot)
+                compositionRoot.dropped(compositionRoot)
             }
         }
         onDoubleClicked: timeline.position = compositionRoot.x / timeline.scaleFactor
@@ -311,6 +293,17 @@ Rectangle {
             onEntered: parent.opacity = 0.5
             onExited: parent.opacity = 0
         }
+    }
+}
+    // target track
+    Rectangle {
+        width: parent.width
+        height: 8
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: selected ? 'red' : 'mediumpurple' }
+            GradientStop { position: 1.0; color: "#00000000" }
+        }
+        y: a_trackPos
     }
     Menu {
         id: menu

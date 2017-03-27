@@ -81,6 +81,12 @@ Column{
                     value: model.start
                     when: loader.status == Loader.Ready
                 }
+                Binding {
+                    target: loader.item
+                    property: "scrollX"
+                    value: scrollView.flickableItem.contentX
+                    when: loader.status == Loader.Ready
+                }
 
                 Binding {
                     target: loader.item
@@ -254,9 +260,8 @@ Column{
     Component {
         id: compositionDelegate
         Composition {
-            z: 20
             y: trackRoot.height / 2
-            height: trackRoot.height / 2
+            displayHeight: trackRoot.height / 2
             opacity: 0.6
             selected: trackRoot.selection.indexOf(clipId) !== -1
 
@@ -269,8 +274,8 @@ Column{
                 id: flashclip
                 loops: 2
                 running: false
-                ColorAnimation { from: Qt.darker(getColor()); to: "#ff3300"; duration: 100 }
-                ColorAnimation { from: "#ff3300"; to: Qt.darker(getColor()); duration: 100 }
+                ColorAnimation { from: Qt.darker('mediumpurple'); to: "#ff3300"; duration: 100 }
+                ColorAnimation { from: "#ff3300"; to: Qt.darker('mediumpurple'); duration: 100 }
             }
 
             onClicked: {
@@ -295,6 +300,7 @@ Column{
                 var cIndex = clip.clipId
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
+                console.log('compoit drag: ', frame)
 
                 frame = controller.suggestCompositionMove(cIndex, toTrack, frame);
 
