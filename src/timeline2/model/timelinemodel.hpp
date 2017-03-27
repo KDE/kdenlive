@@ -82,6 +82,7 @@ protected:
 
 public:
     friend class TrackModel;
+    template<typename T> friend class MoveableItem;
     friend class ClipModel;
     friend class CompositionModel;
     friend class GroupsModel;
@@ -100,9 +101,15 @@ public:
     int getCompositionsCount() const;
 
     /* @brief Returns the id of the track containing clip (-1 if it is not inserted)
-       @param clipId Id of the clip to test
-     */
+       @param clipId Id of the clip to test */
     Q_INVOKABLE int getClipTrackId(int clipId) const;
+
+    /* @brief Returns the id of the track containing composition (-1 if it is not inserted)
+       @param clipId Id of the composition to test */
+    Q_INVOKABLE int getCompositionTrackId(int compoId) const;
+
+    /* @brief Convenience function that calls either of the previous ones based on item type*/
+    int getItemTrackId(int itemId) const;
 
     /* @brief Returns the position of clip (-1 if it is not inserted)
        @param clipId Id of the clip to test
@@ -118,6 +125,10 @@ public:
        @param trackId Id of the track to test
     */
     int getTrackClipsCount(int trackId) const;
+
+    /* @brief Returns the number of compositions in a given track
+       @param trackId Id of the track to test
+    */
     int getTrackCompositionsCount(int trackId) const;
 
     /* @brief Returns the position of the track in the order of the tracks
@@ -148,7 +159,6 @@ public:
     */
     Q_INVOKABLE bool requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true);
 
-    Q_INVOKABLE int getCompositionTrackId(int compoId) const;
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
     Q_INVOKABLE int getCompositionPlaytime(int compoId) const;
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position);
@@ -212,16 +222,18 @@ public:
     */
     bool requestGroupDeletion(int clipId);
 
-    /* @brief Change the duration of a clip
+    /* @brief Change the duration of an item (clip or composition)
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
-       @param clipId is the ID of the clip
-       @param size is the new size of the clip
-       @param right is true if we change the right side of the clip, false otherwise
+       @param itemId is the ID of the item
+       @param size is the new size of the item
+       @param right is true if we change the right side of the item, false otherwise
        @param logUndo if set to true, an undo object is created
        @param snap if set to true, the resize order will be coerced to use the snapping grid
     */
-    Q_INVOKABLE bool requestClipResize(int clipId, int size, bool right, bool logUndo = true, bool snap = false);
+    Q_INVOKABLE bool requestItemResize(int itemId, int size, bool right, bool logUndo = true, bool snap = false);
+    /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
+    bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun& undo, Fun& redo);
 
     /* @brief Similar to requestClipResize but takes a delta instead of absolute size
        This action is undoable
@@ -315,12 +327,13 @@ public:
        @param transitionId Identifier of the Mlt transition to insert (as given by repository)
        @param track Id of the track where to insert
        @param position Requested position
+       @param length Requested initial length.
        @param id return parameter of the id of the inserted composition
        @param logUndo if set to false, no undo object is stored
     */
-    bool requestCompositionInsertion(const QString& transitionId, int trackId, int position, int &id, bool logUndo = true);
+    bool requestCompositionInsertion(const QString& transitionId, int trackId, int position, int length, int &id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestCompositionInsertion(const QString& transitionId, int trackId, int position, int &id, Fun& undo, Fun& redo);
+    bool requestCompositionInsertion(const QString& transitionId, int trackId, int position, int length, int &id, Fun& undo, Fun& redo);
 
 
 protected:

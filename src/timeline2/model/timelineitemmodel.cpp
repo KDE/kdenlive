@@ -29,6 +29,7 @@
 #include "doc/docundostack.hpp"
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltProfile.h>
+#include <mlt++/MltTransition.h>
 #include <QDebug>
 #include <QFileInfo>
 #include "macros.hpp"

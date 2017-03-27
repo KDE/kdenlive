@@ -25,6 +25,7 @@
 #include <memory>
 #include <QObject>
 #include "undohelper.hpp"
+#include "moveableItem.hpp"
 
 namespace Mlt{
     class Producer;
@@ -35,10 +36,13 @@ class TrackModel;
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
 */
-class ClipModel
+class ClipModel : public MoveableItem<Mlt::Producer>
 {
     ClipModel() = delete;
 
+    /* @brief returns the length of the item on the timeline
+     */
+    int getPlaytime() const override;
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
     ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod, int id = -1);
@@ -54,43 +58,13 @@ public:
     */
     static int construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id = -1);
 
-    /* @brief returns (unique) id of current clip
-     */
-    int getId() const;
-
-    /* @brief returns the length of the clip on the timeline
-     */
-    int getPlaytime() const;
-
-    /* @brief returns the id of the track in which this clips is inserted (-1 if none)
-     */
-    int getCurrentTrackId() const;
-
-    /* @brief returns the current position of the clip (-1 if not inserted)
-     */
-    int getPosition() const;
-
-    /* @brief returns a property of the current clip
-     */
-    const QString getProperty(const QString &name) const;
-
-    /* @brief returns the in and out times of the clip
-     */
-    std::pair<int, int> getInOut() const;
-    int getIn() const;
-    int getOut() const;
 
     friend class TrackModel;
     friend class TimelineModel;
-    /* Implicit conversion operator to access the underlying producer
-     */
-    operator Mlt::Producer&(){ return *m_producer;}
-
-    /* Returns true if the underlying producer is valid
-     */
-    bool isValid();
-
+    friend class TimelineItemModel;
 protected:
+
+    Mlt::Producer *service() const override;
 
     /* @brief Performs a resize of the given clip.
        Returns true if the operation succeeded, and otherwise nothing is modified
@@ -101,29 +75,9 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestResize(int size, bool right, Fun& undo, Fun& redo);
+    bool requestResize(int size, bool right, Fun& undo, Fun& redo) override;
 
-    /* Split the current clip at the given position
-    */
-    void slotSplit(int position);
-
-    /* Updates the stored position of the clip
-      This function is meant to be called by the trackmodel, not directly by the user.
-      If you whish to actually move the clip, use the requestMove slot.
-    */
-    void setPosition(int position);
-    /* Updates the stored track id of the clip
-       This function is meant to be called by the timeline, not directly by the user.
-       If you whish to actually change the track the clip, use the slot in the timeline
-       slot.
-    */
-    void setCurrentTrackId(int tid);
-private:
-    std::weak_ptr<TimelineModel> m_parent;
-    int m_id; //this is the creation id of the clip, used for book-keeping
-    int m_position;
-    int m_currentTrackId;
-
+protected:
     std::shared_ptr<Mlt::Producer> m_producer;
 
 };

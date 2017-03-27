@@ -26,6 +26,7 @@
 #include <QObject>
 #include "undohelper.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "moveableItem.hpp"
 
 namespace Mlt{
     class Transition;
@@ -36,7 +37,7 @@ class TrackModel;
 /* @brief This class represents a Composition object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
 */
-class CompositionModel : public AssetParameterModel
+class CompositionModel : public AssetParameterModel, public MoveableItem<Mlt::Transition>
 {
     CompositionModel() = delete;
 
@@ -45,8 +46,6 @@ protected:
     CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition* transition, int id, const QDomElement &transitionXml, const QString &transitionId);
 
 public:
-
-
     /* @brief Creates a composition, which then registers itself to the parent timeline
        Returns the (unique) id of the created composition
        @param parent is a pointer to the timeline
@@ -55,46 +54,14 @@ public:
     */
     static int construct(std::weak_ptr<TimelineModel> parent, const QString &transitionId, int id = -1);
 
-    /* @brief returns (unique) id of current composition
-     */
-    int getId() const;
-
-    /* @brief returns the id of the track in which this composition is inserted (-1 if none)
-     */
-    int getCurrentTrackId() const;
-
-    /* @brief returns the target track for this compositon (a_track)
-     */
-    int getTargetTrack() const;
-
-    /* @brief returns the current position of the composition (-1 if not inserted)
-     */
-    int getPosition() const;
-
-    int getPlaytime() const;
-
-    /* @brief returns a property of the current composition
-     */
-    const QString getProperty(const QString &name) const;
-
-    /* @brief returns the in and out times of the composition
-     */
-    std::pair<int, int> getInOut() const;
-    int getIn() const;
-    int getOut() const;
-    void setInOut(int in, int out);
-
     friend class TrackModel;
     friend class TimelineModel;
-    /* Implicit conversion operator to access the underlying producer
-     */
-    operator Mlt::Transition&(){ return *((Mlt::Transition*)m_asset.get());}
 
-    /* Returns true if the underlying producer is valid
+    /* @brief returns the length of the item on the timeline
      */
-    bool isValid();
-
+    int getPlaytime() const override;
 protected:
+    Mlt::Transition *service() const override;
 
     /* @brief Performs a resize of the given composition.
        Returns true if the operation succeeded, and otherwise nothing is modified
@@ -106,30 +73,6 @@ protected:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
     bool requestResize(int size, bool right, Fun& undo, Fun& redo);
-
-    /* Split the current composition at the given position
-    */
-    void slotSplit(int position);
-
-    /* Updates the stored position of the composition
-      This function is meant to be called by the trackmodel, not directly by the user.
-      If you whish to actually move the composition, use the requestMove slot.
-    */
-    void setPosition(int position);
-    /* Updates the stored track id of the composition
-       This function is meant to be called by the timeline, not directly by the user.
-       If you whish to actually change the track the composition, use the slot in the timeline
-       slot.
-    */
-    void setCurrentTrackId(int tid);
-
-    /* Helper function to downcast the pointer. Please only use for access, do NOT store this pointer (it would violate ownership)*/
-    Mlt::Transition* transition() const;
-private:
-    std::weak_ptr<TimelineModel> m_parent;
-    int m_id; //this is the creation id of the composition, used for book-keeping
-    int m_position;
-    int m_currentTrackId;
 
 };
 

@@ -29,10 +29,7 @@
 
 CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition* transition, int id, const QDomElement &transitionXml, const QString &transitionId) :
     AssetParameterModel(transition, transitionXml, transitionId)
-    , m_parent(parent)
-    , m_id(id == -1 ? TimelineModel::getNextId() : id)
-    , m_position(-1)
-    , m_currentTrackId(-1)
+    , MoveableItem<Mlt::Transition>(parent, id)
 {
 }
 
@@ -40,7 +37,6 @@ int CompositionModel::construct(std::weak_ptr<TimelineModel> parent, const QStri
 {
     auto xml = TransitionsRepository::get()->getXml(transitionId);
     Mlt::Transition *transition = TransitionsRepository::get()->getTransition(transitionId);
-    transition->set_in_and_out(0,1000);
     std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, transition, id, xml, transitionId));
     id = composition->m_id;
     if (auto ptr = parent.lock()) {
@@ -53,68 +49,17 @@ int CompositionModel::construct(std::weak_ptr<TimelineModel> parent, const QStri
     return id;
 }
 
-
-int CompositionModel::getId() const
-{
-    return m_id;
-}
-
-int CompositionModel::getCurrentTrackId() const
-{
-    return m_currentTrackId;
-}
-
-int CompositionModel::getPosition() const
-{
-    return m_position;
-}
-
-int CompositionModel::getTargetTrack() const
-{
-    return transition()->get_a_track();
-}
-
-int CompositionModel::getPlaytime() const
-{
-    return transition()->get_length();
-}
-
-const QString CompositionModel::getProperty(const QString &name) const
-{
-    return QString::fromUtf8(transition()->get(name.toUtf8().constData()));
-}
-
-std::pair<int, int> CompositionModel::getInOut() const
-{
-    return {transition()->get_in(), transition()->get_out()};
-}
-
-int CompositionModel::getIn() const
-{
-    return transition()->get_in();
-}
-
-int CompositionModel::getOut() const
-{
-    return transition()->get_out();
-}
-
-bool CompositionModel::isValid()
-{
-    return transition()->is_valid();
-}
-
 bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
 {
-    if (size <= 0 || size > transition()->get_length()) {
+    if (size <= 0 || size > service()->get_length()) {
         return false;
     }
-    int delta = transition()->get_length() - size;
-    int in = transition()->get_in();
-    int out = transition()->get_out();
+    int delta = service()->get_length() - size;
+    int in = service()->get_in();
+    int out = service()->get_out();
     int old_in = in, old_out = out;
     //check if there is enough space on the chosen side
-    if ((!right && in + delta < 0) || (right &&  out - delta >= transition()->get_length())) {
+    if ((!right && in + delta < 0) || (right &&  out - delta >= service()->get_length())) {
         return false;
     }
     if (right) {
@@ -135,7 +80,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     }
     auto operation = [this, in, out, track_operation]() {
         if (track_operation()) {
-            transition()->set_in_and_out(in, out);
+            service()->set_in_and_out(in, out);
             return true;
         }
         return false;
@@ -148,7 +93,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
         }
         auto reverse = [this, old_in, old_out, track_reverse]() {
             if (track_reverse()) {
-                transition()->set_in_and_out(old_in, old_out);
+                service()->set_in_and_out(old_in, old_out);
                 return true;
             }
             return false;
@@ -159,26 +104,13 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     return false;
 }
 
-void CompositionModel::setPosition(int pos)
-{
-    m_position = pos;
-    int length = transition()->get_length();
-    transition()->set_in_and_out(pos, pos + length);
-}
 
-void CompositionModel::setInOut(int in, int out)
-{
-    m_position = in;
-    transition()->set_in_and_out(in, out);
-}
-
-void CompositionModel::setCurrentTrackId(int tid)
-{
-    m_currentTrackId = tid;
-    //transition()->set_tracks(transition()->get_a_track(), tid);
-}
-
-Mlt::Transition* CompositionModel::transition() const
+Mlt::Transition* CompositionModel::service() const
 {
     return static_cast<Mlt::Transition*>(m_asset.get());
+}
+
+int CompositionModel::getPlaytime() const
+{
+    return service()->get_length();
 }

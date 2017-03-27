@@ -19,42 +19,81 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "transitionparameterview.hpp"
-#include "transitions/transitionsrepository.hpp"
-
-#include <KDeclarative/KDeclarative>
-#include <QQmlContext>
-
-#include <QStringListModel>
-
-TransitionParameterView::TransitionParameterView(QWidget *parent)
-    : QQuickWidget(parent)
+template<typename Service>
+MoveableItem<Service>::MoveableItem(std::weak_ptr<TimelineModel> parent, int id) :
+    m_parent(parent)
+    , m_id(id == -1 ? TimelineModel::getNextId() : id)
+    , m_position(-1)
+    , m_currentTrackId(-1)
 {
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.setupBindings();
-
-    // Set void model for the moment
-    QStringListModel *model = new QStringListModel();
-    QStringList list;
-    list << "a" << "b" << "c"<<"s"<<"w";
-    model->setStringList(list);
-    rootContext()->setContextProperty("paramModel", model);
-    rootContext()->setContextProperty("transitionName", "");
-
-    setResizeMode(QQuickWidget::SizeRootObjectToView);
-    setSource(QUrl(QStringLiteral("qrc:/qml/transitionView.qml")));
-    setFocusPolicy(Qt::StrongFocus);
-
 }
 
 
-
-void TransitionParameterView::setModel(std::shared_ptr<AssetParameterModel> model)
+template<typename Service>
+int MoveableItem<Service>::getId() const
 {
-    m_model = model;
-    rootContext()->setContextProperty("paramModel", model.get());
-    QString transitionId = model->getAssetId();
-    QString name = TransitionsRepository::get()->getName(transitionId);
-    rootContext()->setContextProperty("transitionName", name);
+    return m_id;
 }
+
+template<typename Service>
+int MoveableItem<Service>::getCurrentTrackId() const
+{
+    return m_currentTrackId;
+}
+
+template<typename Service>
+int MoveableItem<Service>::getPosition() const
+{
+    return m_position;
+}
+
+template<typename Service>
+const QString MoveableItem<Service>::getProperty(const QString &name) const
+{
+    return QString::fromUtf8(service()->get(name.toUtf8().constData()));
+}
+
+template<typename Service>
+std::pair<int, int> MoveableItem<Service>::getInOut() const
+{
+    return {getIn(), getOut()};
+}
+
+template<typename Service>
+int MoveableItem<Service>::getIn() const
+{
+    return service()->get_in();
+}
+
+template<typename Service>
+int MoveableItem<Service>::getOut() const
+{
+    return service()->get_out();
+}
+
+template<typename Service>
+bool MoveableItem<Service>::isValid()
+{
+    return service()->is_valid();
+}
+
+
+template<typename Service>
+void MoveableItem<Service>::setPosition(int pos)
+{
+    m_position = pos;
+}
+
+template<typename Service>
+void MoveableItem<Service>::setCurrentTrackId(int tid)
+{
+    m_currentTrackId = tid;
+}
+
+template<typename Service>
+void MoveableItem<Service>::setInOut(int in, int out)
+{
+    m_position = in;
+    service()->set_in_and_out(in, out);
+}
+

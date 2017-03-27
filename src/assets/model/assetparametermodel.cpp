@@ -236,7 +236,7 @@ double AssetParameterModel::parseDoubleAttribute(const QString& attribute, const
     return -1;
 }
 
-QString AssetParameterModel::getId() const
+QString AssetParameterModel::getAssetId() const
 {
     return m_assetId;
 }
@@ -244,7 +244,7 @@ QString AssetParameterModel::getId() const
 QVector<QPair<QString, QVariant> > AssetParameterModel::getAllParameters() const
 {
     QVector<QPair<QString, QVariant> > res;
-    res.reserve(m_fixedParams.size() + m_params.size());
+    res.reserve((int)m_fixedParams.size() + (int)m_params.size());
     for (const auto& fixed : m_fixedParams) {
         res.push_back(QPair<QString, QVariant>(fixed.first, fixed.second));
     }

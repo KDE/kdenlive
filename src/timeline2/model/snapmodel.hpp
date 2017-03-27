@@ -61,6 +61,15 @@ public:
      */
     void unIgnore();
 
+    /* @brief Propose a size for the item (clip, composition,...) being resized, based on the snap points.
+       @param in current inpoint of the item
+       @param out current outpoint of the item
+       @param size is the size requested before snapping
+       @param right true if we resize the right end of the item
+       @param maxSnapDist maximal number of frames we are allowed to snap to
+    */
+    int proposeSize(int in, int out, int size, bool right, int maxSnapDist);
+
 private:
     std::map<int, int> m_snaps; //This represents the snappoints internally. The keys are the positions and the values are the number of elements at this position. Note that it is important that the datastructure is ordered. QMap is NOT ordered, and therefore not suitable.
 

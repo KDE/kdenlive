@@ -33,7 +33,7 @@ TEST_CASE("Regression") {
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     REQUIRE(timeline->requestClipMove(0,1 ,0 ));
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
-    REQUIRE(timeline->requestClipResize(0,16 ,false ));
+    REQUIRE(timeline->requestItemResize(0,16 ,false ));
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     undoStack->undo();
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
@@ -47,7 +47,7 @@ TEST_CASE("Regression") {
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     undoStack->redo();
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
-    REQUIRE_FALSE(timeline->requestClipResize(0,0 ,false ));
+    REQUIRE_FALSE(timeline->requestItemResize(0,0 ,false ));
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
@@ -109,7 +109,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
-        bool ok = timeline->requestClipResize(3,0 ,false );
+        bool ok = timeline->requestItemResize(3,0 ,false );
         REQUIRE_FALSE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -131,7 +131,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        bool ok = timeline->requestClipResize(3,15 ,true );
+        bool ok = timeline->requestItemResize(3,15 ,true );
         REQUIRE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -147,7 +147,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        bool ok = timeline->requestClipResize(3,16 ,false );
+        bool ok = timeline->requestItemResize(3,16 ,false );
         REQUIRE_FALSE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -155,7 +155,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        bool ok = timeline->requestClipResize(3,16 ,true );
+        bool ok = timeline->requestItemResize(3,16 ,true );
         REQUIRE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -385,8 +385,8 @@ TEST_CASE("Regression 4")
         producer->set("out", 61);
         timeline->requestClipInsertion(producer,9 ,590, dummy_id );
     }
-    timeline->requestClipResize(11,62 ,true, false, true );
-    timeline->requestClipResize(11,62 ,true, true, true );
+    timeline->requestItemResize(11,62 ,true, false, true );
+    timeline->requestItemResize(11,62 ,true, true, true );
     timeline->requestClipMove(11,10 ,507, true, true );
     timeline->requestClipMove(12,10 ,583, false, false );
     timeline->requestClipMove(12,9 ,521, true, true );

@@ -120,6 +120,24 @@ int TimelineModel::getClipTrackId(int clipId) const
     return trackId;
 }
 
+int TimelineModel::getCompositionTrackId(int compoId) const
+{
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    const auto trans = m_allCompositions.at(compoId);
+    return trans->getCurrentTrackId();
+}
+
+
+int TimelineModel::getItemTrackId(int itemId) const
+{
+    READ_LOCK();
+    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    if (isComposition(itemId)) {
+        return getCompositionTrackId(itemId);
+    }
+    return getClipTrackId(itemId);
+}
+
 int TimelineModel::getClipPosition(int clipId) const
 {
     READ_LOCK();
@@ -361,7 +379,8 @@ bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, in
     };
     bool res = requestClipMove(clipId, trackId, position, true, local_undo, local_redo);
     if (!res) {
-        Q_ASSERT(undo());
+        bool undone = local_undo();
+        Q_ASSERT(undone);
         id = -1;
         return false;
     }
@@ -546,48 +565,55 @@ bool TimelineModel::requestGroupDeletion(int clipId)
 }
 
 
-bool TimelineModel::requestClipResize(int clipId, int size, bool right, bool logUndo, bool snapping)
+bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, bool snapping)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestClipResize("<<clipId<<","<<size<<" ,"<<(right ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<", "<<(snapping ? "true" : "false")<<" ); " <<std::endl;
+    m_logFile << "timeline->requestItemResize("<<itemId<<","<<size<<" ,"<<(right ? "true" : "false")<<", "<<(logUndo ? "true" : "false")<<", "<<(snapping ? "true" : "false")<<" ); " <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(isClip(clipId));
+    Q_ASSERT(isClip(itemId) || isComposition(itemId));
     if (snapping) {
         Fun temp_undo = [](){return true;};
         Fun temp_redo = [](){return true;};
-        int in = getClipPosition(clipId);
-        int out = in + getClipPlaytime(clipId) - 1;
-        m_snaps->ignore({in,out});
-        int proposed_size = -1;
-        if (right) {
-            int target_pos = in + size - 1;
-            int snapped_pos = m_snaps->getClosestPoint(target_pos);
-            //TODO Make the number of frames adjustable
-            if (snapped_pos != -1 && qAbs(target_pos - snapped_pos) <= 10) {
-                proposed_size = snapped_pos - in;
-            }
+        int in,out;
+        if (isClip(itemId)) {
+            in = getClipPosition(itemId);
+            out = in + getClipPlaytime(itemId) - 1;
         } else {
-            int target_pos = out + 1 - size;
-            int snapped_pos = m_snaps->getClosestPoint(target_pos);
-            //TODO Make the number of frames adjustable
-            if (snapped_pos != -1 && qAbs(target_pos - snapped_pos) <= 10) {
-                proposed_size = out + 2 - snapped_pos;
-            }
+            in = getCompositionPosition(itemId);
+            out = in + getCompositionPlaytime(itemId) - 1;
         }
-        m_snaps->unIgnore();
-        if (proposed_size != -1) {
-            if (m_allClips[clipId]->requestResize(proposed_size, right, temp_undo, temp_redo)) {
-                temp_undo(); //undo temp move
-                size = proposed_size;
-            }
+        //TODO Make the number of frames of snapping adjustable
+        int proposed_size = m_snaps->proposeSize(in, out, size, right, 10);
+        bool success = false;
+        if (isClip(itemId)) {
+            success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo);
+        } else {
+            success = m_allCompositions[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo);
+        }
+        if (success) {
+            temp_undo(); //undo temp move
+            size = proposed_size;
         }
     }
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    Fun update_model = [clipId, right, logUndo, this]() {
-        if (getClipTrackId(clipId) != -1) {
-            QModelIndex modelIndex = makeClipIndexFromID(clipId);
+    bool result = requestItemResize(itemId, size, right, logUndo, undo, redo);
+    if (result && logUndo) {
+        if (isClip(itemId)) {
+            PUSH_UNDO(undo, redo, i18n("Resize clip"));
+        } else {
+            PUSH_UNDO(undo, redo, i18n("Resize composition"));
+        }
+    }
+    return result;
+}
+
+bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun& undo, Fun& redo)
+{
+    Fun update_model = [itemId, right, logUndo, this]() {
+        if (getItemTrackId(itemId) != -1) {
+            QModelIndex modelIndex = isClip(itemId) ? makeClipIndexFromID(itemId) : makeCompositionIndexFromID(itemId);
             if (right) {
                 notifyChange(modelIndex, modelIndex, false, true, logUndo);
             } else {
@@ -596,21 +622,23 @@ bool TimelineModel::requestClipResize(int clipId, int size, bool right, bool log
         }
         return true;
     };
-    bool result = m_allClips[clipId]->requestResize(size, right, undo, redo);
+    bool result = false;
+    if (isClip(itemId)) {
+        m_allClips[itemId]->requestResize(size, right, undo, redo);
+    } else {
+        m_allCompositions[itemId]->requestResize(size, right, undo, redo);
+    }
     if (result) {
         PUSH_LAMBDA(update_model, undo);
         PUSH_LAMBDA(update_model, redo);
         update_model();
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, i18n("Resize clip"));
-        }
     }
     return result;
 }
 
 bool TimelineModel::requestClipTrim(int clipId, int delta, bool right, bool ripple, bool logUndo)
 {
-    return requestClipResize(clipId, m_allClips[clipId]->getPlaytime() - delta, right, logUndo);
+    return requestItemResize(clipId, m_allClips[clipId]->getPlaytime() - delta, right, logUndo);
 }
 
 bool TimelineModel::requestClipsGroup(const std::unordered_set<int>& ids)
@@ -961,15 +989,15 @@ void TimelineModel::registerComposition(std::shared_ptr<CompositionModel> compos
     m_groups->createGroupItem(id);
 }
 
-bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int trackId, int position, int &id, bool logUndo)
+bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int trackId, int position,int length, int &id, bool logUndo)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestCompositionInsertion(\"composite\","<<trackId<<" ,"<<position<<", dummy_id );" <<std::endl;
+    m_logFile << "timeline->requestCompositionInsertion(\"composite\","<<trackId<<" ,"<<position<<","<<length<<", dummy_id );" <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    bool result = requestCompositionInsertion(transitionId, trackId, position, id, undo, redo);
+    bool result = requestCompositionInsertion(transitionId, trackId, position, length, id, undo, redo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Composition"));
     }
@@ -977,7 +1005,7 @@ bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int
     return result;
 }
 
-bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int trackId, int position, int &id, Fun& undo, Fun& redo)
+bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int trackId, int position, int length, int &id, Fun& undo, Fun& redo)
 {
     int compositionId = TimelineModel::getNextId();
     id = compositionId;
@@ -990,14 +1018,19 @@ bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int
         return true;
     };
     bool res = requestCompositionMove(compositionId, trackId, position, true, local_undo, local_redo);
+    if (res) {
+        res = requestItemResize(compositionId, length, true, true, local_undo, local_redo);
+    }
     if (!res) {
-        Q_ASSERT(undo());
+        bool undone = local_undo();
+        Q_ASSERT(undone);
         id = -1;
         return false;
     }
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
+
 
 Fun TimelineModel::deregisterComposition_lambda(int compoId)
 {
@@ -1008,13 +1041,6 @@ Fun TimelineModel::deregisterComposition_lambda(int compoId)
         m_groups->destructGroupItem(compoId);
         return true;
     };
-}
-
-int TimelineModel::getCompositionTrackId(int compoId) const
-{
-    Q_ASSERT(m_allCompositions.count(compoId) > 0);
-    const auto trans = m_allCompositions.at(compoId);
-    return trans->getCurrentTrackId();
 }
 
 int TimelineModel::getCompositionPosition(int compoId) const

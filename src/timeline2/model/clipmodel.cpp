@@ -27,10 +27,7 @@
 
 
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod, int id) :
-    m_parent(parent)
-    , m_id(id == -1 ? TimelineModel::getNextId() : id)
-    , m_position(-1)
-    , m_currentTrackId(-1)
+    MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(prod)
 {
 }
@@ -50,45 +47,6 @@ int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Ml
 }
 
 
-int ClipModel::getId() const
-{
-    return m_id;
-}
-
-int ClipModel::getCurrentTrackId() const
-{
-    return m_currentTrackId;
-}
-
-int ClipModel::getPosition() const
-{
-    return m_position;
-}
-
-const QString ClipModel::getProperty(const QString &name) const
-{
-    return QString::fromUtf8(m_producer->get(name.toUtf8().constData()));
-}
-
-std::pair<int, int> ClipModel::getInOut() const
-{
-    return {m_producer->get_in(), m_producer->get_out()};
-}
-
-int ClipModel::getIn() const
-{
-    return m_producer->get_in();
-}
-
-int ClipModel::getOut() const
-{
-    return m_producer->get_out();
-}
-
-bool ClipModel::isValid()
-{
-    return m_producer->is_valid();
-}
 
 bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
 {
@@ -145,17 +103,12 @@ bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     return false;
 }
 
+Mlt::Producer* ClipModel::service() const
+{
+    return m_producer.get();
+}
+
 int ClipModel::getPlaytime() const
 {
     return m_producer->get_playtime();
-}
-
-void ClipModel::setPosition(int pos)
-{
-    m_position = pos;
-}
-
-void ClipModel::setCurrentTrackId(int tid)
-{
-    m_currentTrackId = tid;
 }

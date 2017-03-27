@@ -108,3 +108,24 @@ void SnapModel::unIgnore()
     }
     m_ignore.clear();
 }
+
+int SnapModel::proposeSize(int in, int out, int size, bool right, int maxSnapDist)
+{
+    ignore({in,out});
+    int proposed_size = -1;
+    if (right) {
+        int target_pos = in + size - 1;
+        int snapped_pos = getClosestPoint(target_pos);
+        if (snapped_pos != -1 && qAbs(target_pos - snapped_pos) <= maxSnapDist) {
+            proposed_size = snapped_pos - in;
+        }
+    } else {
+        int target_pos = out + 1 - size;
+        int snapped_pos = getClosestPoint(target_pos);
+        if (snapped_pos != -1 && qAbs(target_pos - snapped_pos) <= maxSnapDist) {
+            proposed_size = out + 2 - snapped_pos;
+        }
+    }
+    unIgnore();
+    return proposed_size;
+}

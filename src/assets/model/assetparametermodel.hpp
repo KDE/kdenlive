@@ -77,7 +77,7 @@ public:
     };
 
     /* @brief Returns the id of the asset represented by this object */
-    QString getId() const;
+    QString getAssetId() const;
 
     /* @brief Set the parameter with given name to the given value
      */
