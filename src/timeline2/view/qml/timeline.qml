@@ -566,7 +566,7 @@ Rectangle {
                 var frame = Math.round(composition.x / timeScale)
                 if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(currentTrack)
-                    if (controller.requestCompositionMove(composition.compositionId, track.trackId, frame, false, false)) {
+                    if (controller.requestCompositionMove(composition.clipId, track.trackId, frame, false, false)) {
                         composition.reparent(track)
                         composition.trackIndex = track.DelegateModel.itemsIndex
                         composition.trackId = track.trackId
