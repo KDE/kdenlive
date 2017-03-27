@@ -37,6 +37,7 @@ int CompositionModel::construct(std::weak_ptr<TimelineModel> parent, const QStri
 {
     auto xml = TransitionsRepository::get()->getXml(transitionId);
     Mlt::Transition *transition = TransitionsRepository::get()->getTransition(transitionId);
+    transition->set_in_and_out(0, 0);
     std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, transition, id, xml, transitionId));
     id = composition->m_id;
     if (auto ptr = parent.lock()) {
@@ -55,6 +56,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
         return false;
     }
     int delta = getPlaytime() - size;
+    qDebug() << "compo request resize "<<size<<right <<delta;
     int in = getIn();
     int out = getOut();
     int old_in = in, old_out = out;
@@ -70,17 +72,17 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
 
     std::function<bool (void)> track_operation = [](){return true;};
     std::function<bool (void)> track_reverse = [](){return true;};
-    /*if (m_currentTrackId != -1) {
+    if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
-            track_operation = ptr->requestCompositionResize_lambda(m_id, in, out, right);
+            track_operation = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, in, out);
         } else {
-            qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
+            qDebug() << "Error : Moving composition failed because parent timeline is not available anymore";
             Q_ASSERT(false);
         }
     }
-    auto operation = [this, in, out, track_operation]() {
+    Fun operation = [in, out, track_operation, this]() {
         if (track_operation()) {
-            service()->set_in_and_out(in, out);
+            setInOut(in, out);
             return true;
         }
         return false;
@@ -89,19 +91,19 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         auto ptr = m_parent.lock();
         if (m_currentTrackId != -1 && ptr) {
-            track_reverse = ptr->requestCompositionResize_lambda(m_id, old_in, old_out, right);
+            track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out);
         }
-        auto reverse = [this, old_in, old_out, track_reverse]() {
+        Fun reverse = [old_in, old_out, track_reverse, this]() {
             if (track_reverse()) {
-                service()->set_in_and_out(old_in, old_out);
+                setInOut(old_in, old_out);
                 return true;
             }
             return false;
         };
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
-    }*/
-    return true;
+    }
+    return false;
 }
 
 
@@ -112,5 +114,6 @@ Mlt::Transition* CompositionModel::service() const
 
 int CompositionModel::getPlaytime() const
 {
-    return service()->get_length();
+    qDebug() << "composition length"<<getIn()<<getOut();
+    return getOut() - getIn() + 1;
 }

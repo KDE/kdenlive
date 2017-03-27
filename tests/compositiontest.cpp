@@ -67,8 +67,12 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
 
     int tid1 = TrackModel::construct(timeline);
+    int cid2 = CompositionModel::construct(timeline, aCompo);
     int tid2 = TrackModel::construct(timeline);
     int tid3 = TrackModel::construct(timeline);
+    int cid1 = CompositionModel::construct(timeline, aCompo);
+    REQUIRE(timeline->getCompositionPlaytime(cid1) == 1);
+    REQUIRE(timeline->getCompositionPlaytime(cid2) == 1);
 
     SECTION("Insert a composition in a track and change track") {
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
@@ -76,76 +80,84 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 0);
 
-        int cid1 = CompositionModel::construct(timeline, aCompo);
+        REQUIRE(timeline->getCompositionPlaytime(cid1) == 1);
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == 1);
         REQUIRE(timeline->getCompositionTrackId(cid1) == -1);
         REQUIRE(timeline->getCompositionPosition(cid1) == -1);
 
         int pos = 10;
-        //real insert
-        // // REQUIRE(timeline->allowClipMove(cid1, tid1, pos));
         REQUIRE(timeline->requestCompositionMove(cid1, tid1, pos));
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid1);
         REQUIRE(timeline->getCompositionPosition(cid1) == pos);
+        REQUIRE(timeline->getCompositionPlaytime(cid1) == 1);
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 0);
-    }
-    /*
+
+
         pos = 1;
-        //real
-        // // REQUIRE(timeline->allowClipMove(cid1, tid2, pos));
-        REQUIRE(timeline->requestClipMove(cid1, tid2, pos));
+        REQUIRE(timeline->requestCompositionMove(cid1, tid2, pos));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
-        REQUIRE(timeline->getClipTrackId(cid1) == tid2);
-        REQUIRE(timeline->getClipPosition(cid1) == pos);
-        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+        REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
+        REQUIRE(timeline->getCompositionPosition(cid1) == pos);
+        REQUIRE(timeline->getCompositionPlaytime(cid1) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
 
+        REQUIRE(timeline->requestItemResize(cid1, 10, true));
+        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
+        REQUIRE(timeline->getCompositionPosition(cid1) == pos);
+        REQUIRE(timeline->getCompositionPlaytime(cid1) == 10);
+        REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
+
+        REQUIRE(timeline->requestItemResize(cid2, 10, true));
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == 10);
 
         // Check conflicts
-        int pos2 = producer->get_playtime();
-        // // REQUIRE(timeline->allowClipMove(cid2, tid1, pos2));
-        REQUIRE(timeline->requestClipMove(cid2, tid1, pos2));
+        int pos2 = timeline->getCompositionPlaytime(cid1);
+        REQUIRE(timeline->requestCompositionMove(cid2, tid1, pos2));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
-        REQUIRE(timeline->getClipTrackId(cid2) == tid1);
-        REQUIRE(timeline->getClipPosition(cid2) == pos2);
-        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        REQUIRE(timeline->getCompositionTrackId(cid2) == tid1);
+        REQUIRE(timeline->getCompositionPosition(cid2) == pos2);
+        REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
 
-        // // REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, pos2 + 2));
-        REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 + 2));
+        REQUIRE_FALSE(timeline->requestCompositionMove(cid1, tid1, pos2 + 2));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
-        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
-        REQUIRE(timeline->getClipTrackId(cid1) == tid2);
-        REQUIRE(timeline->getClipPosition(cid1) == pos);
-        REQUIRE(timeline->getClipTrackId(cid2) == tid1);
-        REQUIRE(timeline->getClipPosition(cid2) == pos2);
+        REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
+        REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
+        REQUIRE(timeline->getCompositionPosition(cid1) == pos);
+        REQUIRE(timeline->getCompositionTrackId(cid2) == tid1);
+        REQUIRE(timeline->getCompositionPosition(cid2) == pos2);
 
-        // // REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, pos2 - 2));
-        REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 - 2));
+        REQUIRE_FALSE(timeline->requestCompositionMove(cid1, tid1, pos2 - 2));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
-        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
-        REQUIRE(timeline->getClipTrackId(cid1) == tid2);
-        REQUIRE(timeline->getClipPosition(cid1) == pos);
-        REQUIRE(timeline->getClipTrackId(cid2) == tid1);
-        REQUIRE(timeline->getClipPosition(cid2) == pos2);
+        REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
+        REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
+        REQUIRE(timeline->getCompositionPosition(cid1) == pos);
+        REQUIRE(timeline->getCompositionTrackId(cid2) == tid1);
+        REQUIRE(timeline->getCompositionPosition(cid2) == pos2);
 
-        // // REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
-        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        REQUIRE(timeline->requestCompositionMove(cid1, tid1, 0));
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
-        REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
-        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
-        REQUIRE(timeline->getClipPosition(cid1) == 0);
-        REQUIRE(timeline->getClipTrackId(cid2) == tid1);
-        REQUIRE(timeline->getClipPosition(cid2) == pos2);
+        REQUIRE(timeline->getTrackCompositionsCount(tid2) == 0);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 2);
+        REQUIRE(timeline->getCompositionTrackId(cid1) == tid1);
+        REQUIRE(timeline->getCompositionPosition(cid1) == 0);
+        REQUIRE(timeline->getCompositionTrackId(cid2) == tid1);
+        REQUIRE(timeline->getCompositionPosition(cid2) == pos2);
     }
-    */
+
 }
 

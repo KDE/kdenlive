@@ -47,6 +47,7 @@ public:
     friend class TimelineModel;
     friend class TimelineItemModel;
     friend class ClipModel;
+    friend class CompositionModel;
 private:
     /* This constructor is private, call the static construct instead */
     TrackModel(std::weak_ptr<TimelineModel> parent, int id = -1);

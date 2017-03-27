@@ -624,9 +624,9 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     };
     bool result = false;
     if (isClip(itemId)) {
-        m_allClips[itemId]->requestResize(size, right, undo, redo);
+        result = m_allClips[itemId]->requestResize(size, right, undo, redo);
     } else {
-        m_allCompositions[itemId]->requestResize(size, right, undo, redo);
+        result = m_allCompositions[itemId]->requestResize(size, right, undo, redo);
     }
     if (result) {
         PUSH_LAMBDA(update_model, undo);

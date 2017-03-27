@@ -462,6 +462,41 @@ bool TrackModel::checkConsistency()
             }
         }
     }
+    // We now check compositions positions
+    if (m_allCompositions.size() != m_compoPos.size()) {
+        qDebug() << "Error: the number of compositions position doesn't match number of compositions";
+        return false;
+    }
+    for (const auto& compo : m_allCompositions) {
+        int pos = compo.second->getPosition();
+        if (m_compoPos.count(pos) == 0) {
+            qDebug() << "Error: the position of composition "<<compo.first<<" is not properly stored";
+            return false;
+        }
+        if (m_compoPos[pos] != compo.first) {
+            qDebug() << "Error: found composition"<<m_compoPos[pos]<<"instead of "<<compo.first<<"at position"<<pos;
+            return false;
+        }
+    }
+    for (auto it = m_compoPos.begin(); it != m_compoPos.end(); ++it) {
+        int compoId = it->second;
+        int cur_in = m_allCompositions[compoId]->getPosition();
+        Q_ASSERT(cur_in == it->first);
+        int cur_out = cur_in + m_allCompositions[compoId]->getPlaytime() - 1;
+        ++it;
+        if (it != m_compoPos.end()) {
+            int next_compoId = it->second;
+            int next_in = m_allCompositions[next_compoId]->getPosition();
+            int next_out = next_in + m_allCompositions[next_compoId]->getPlaytime() - 1;
+            if (next_in <= cur_out) {
+                qDebug()<<"Error: found collision between composition "
+                        << compoId << "[ "<<cur_in<<", "<<cur_out<<"] and "
+                        <<next_compoId << "[ "<<next_in<<", "<<next_out<<"]" ;
+                return false;
+            }
+        }
+        --it;
+    }
     return true;
 }
 
@@ -508,6 +543,7 @@ int TrackModel::getBlankEnd(int position)
 
 Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
 {
+    qDebug() << "compo resize "<<compoId<< in<< out;
     int compo_position = m_allCompositions[compoId]->getPosition();
     Q_ASSERT(m_compoPos.count(compo_position) > 0);
     Q_ASSERT(m_compoPos[compo_position] == compoId);
@@ -619,9 +655,6 @@ int TrackModel::getCompositionsCount() const
 
 Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bool updateView)
 {
-    // By default, insertion occurs in topmost track
-
-    //we create the function that has to be executed after the melt order. This is essentially book-keeping
     bool intersecting = true;
     if (auto ptr = m_parent.lock()) {
         intersecting = hasIntersectingComposition(position, position + ptr->getCompositionPlaytime(compoId) - 1);
