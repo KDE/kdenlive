@@ -248,10 +248,26 @@ int TrackModel::getBlankSizeNearClip(int clipId, bool after)
 
 int TrackModel::getBlankSizeNearComposition(int compoId, bool after)
 {
-    //TODO
     Q_ASSERT(m_allCompositions.count(compoId) > 0);
     int clip_position = m_allCompositions[compoId]->getPosition();
+    Q_ASSERT(m_compoPos.count(clip_position) > 0);
+    Q_ASSERT(m_compoPos[clip_position] == compoId);
+    auto it = m_compoPos.find(clip_position);
+    int clip_length = m_allCompositions[compoId]->getPlaytime();
     int length = INT_MAX;
+    if (after) {
+        ++it;
+        if (it != m_compoPos.end()) {
+            return it->first - clip_position - clip_length;
+        }
+    } else {
+        if (it != m_compoPos.begin()) {
+            --it;
+            return clip_position - it->first -m_allCompositions[it->second]->getPlaytime();
+        } else {
+            return clip_position;
+        }
+    }
     return length;
 }
 
@@ -492,8 +508,10 @@ int TrackModel::getBlankEnd(int position)
 
 Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
 {
-    int clip_position = m_allCompositions[compoId]->getPosition();
-    int old_in = clip_position;
+    int compo_position = m_allCompositions[compoId]->getPosition();
+    Q_ASSERT(m_compoPos.count(compo_position) > 0);
+    Q_ASSERT(m_compoPos[compo_position] == compoId);
+    int old_in = compo_position;
     int old_out = old_in + m_allCompositions[compoId]->getPlaytime() - 1;
     if (out == -1) {
         out = in + old_out - old_in;
@@ -511,23 +529,35 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
         }
     };
 
-    if (in == clip_position && (out == -1 || out == old_out)) {
+    if (in == compo_position && (out == -1 || out == old_out)) {
         return [](){return true;};
     }
 
+    //temporary remove of current compo to check collisions
+    m_compoPos.erase(compo_position);
+    bool intersecting = hasIntersectingComposition(in, out);
+    //put it back
+    m_compoPos[compo_position] = compoId;
+
+    if (intersecting) {
+        return [](){return false;};
+    }
+
     return [in, out, compoId, update_snaps, this](){
-            m_allCompositions[compoId]->setInOut(in, out);
-            update_snaps(m_allCompositions[compoId]->getPosition(), m_allCompositions[compoId]->getPosition() + out - in);
-            return true;
+        m_compoPos.erase(m_allCompositions[compoId]->getPosition());
+        m_allCompositions[compoId]->setInOut(in, out);
+        update_snaps(m_allCompositions[compoId]->getPosition(), m_allCompositions[compoId]->getPosition() + out - in);
+        m_compoPos[m_allCompositions[compoId]->getPosition()] = compoId;
+        return true;
     };
 }
 
-bool TrackModel::requestCompositionInsertion(int tid, int position, bool updateView, Fun& undo, Fun& redo)
+bool TrackModel::requestCompositionInsertion(int compoId, int position, bool updateView, Fun& undo, Fun& redo)
 {
     qDebug()<<"++++++++++++TRREQUEST INSERTION AT: "<<position;
-    auto operation = requestCompositionInsertion_lambda(tid, position, updateView);
+    auto operation = requestCompositionInsertion_lambda(compoId, position, updateView);
     if (operation()) {
-        auto reverse = requestCompositionDeletion_lambda(tid, updateView);
+        auto reverse = requestCompositionDeletion_lambda(compoId, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
@@ -539,6 +569,8 @@ bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun& u
     Q_ASSERT(m_allCompositions.count(compoId) > 0);
     auto old_composition = m_allCompositions[compoId];
     int old_position = old_composition->getPosition();
+    Q_ASSERT(m_compoPos.count(old_position) > 0);
+    Q_ASSERT(m_compoPos[old_position] == compoId);
     auto operation = requestCompositionDeletion_lambda(compoId, updateView);
     if (operation()) {
         auto reverse = requestCompositionInsertion_lambda(compoId, old_position, updateView);
@@ -561,25 +593,22 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView)
             ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
             ptr->_endRemoveRows();
         }
-        int target_track = m_allCompositions[compoId]->getCurrentTrackId();
-        if (ptr->removeComposition(target_track, clip_position)) {
-            m_allCompositions[compoId]->setCurrentTrackId(-1);
-            m_allCompositions.erase(compoId);
-            ptr->m_snaps->removePoint(old_in);
-            ptr->m_snaps->removePoint(old_out);
-            return true;
-        }
-        return false;
+        m_allCompositions[compoId]->setCurrentTrackId(-1);
+        m_allCompositions.erase(compoId);
+        m_compoPos.erase(old_in);
+        ptr->m_snaps->removePoint(old_in);
+        ptr->m_snaps->removePoint(old_out);
+        return true;
     };
 }
 
 int TrackModel::getCompositionByRow(int row) const
 {
-    if (row >= static_cast<int>(m_allCompositions.size())) {
+    if (row < (int)m_allClips.size()) {
         return -1;
     }
     auto it = m_allCompositions.cbegin();
-    std::advance(it, row - m_allClips.size());
+    std::advance(it, row - (int)m_allClips.size());
     return (*it).first;
 }
 
@@ -593,41 +622,61 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
     // By default, insertion occurs in topmost track
 
     //we create the function that has to be executed after the melt order. This is essentially book-keeping
-    auto end_function = [compoId, this, position, updateView]() {
-        if (auto ptr = m_parent.lock()) {
-            std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(compoId);
-            m_allCompositions[composition->getId()] = composition;  //store clip
-            //update clip position and track
-            composition->setCurrentTrackId(getId());
-            qDebug()<<"---SETTING TR POS: "<<position;
-            if (updateView) {
-                qDebug()<<"* * *ADDING COMPOSITION ON TK: "<<composition->getCurrentTrackId();
-                int composition_index = getRowfromComposition(composition->getId());
-                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(composition->getCurrentTrackId()), composition_index, composition_index);
-                ptr->_endInsertRows();
-                qDebug()<<"* * *ADDING COMPOSITION DONE TK: "<<composition->getCurrentTrackId();
+    bool intersecting = true;
+    if (auto ptr = m_parent.lock()) {
+        intersecting = hasIntersectingComposition(position, position + ptr->getCompositionPlaytime(compoId) - 1);
+    } else {
+        qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
+    }
+    if (!intersecting) {
+        return [compoId, this, position, updateView]() {
+            if (auto ptr = m_parent.lock()) {
+                std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(compoId);
+                m_allCompositions[composition->getId()] = composition;  //store clip
+                //update clip position and track
+                composition->setCurrentTrackId(getId());
+                int new_in = position;
+                int new_out = new_in + composition->getPlaytime() - 1;
+                composition->setInOut(new_in, new_out);
+                qDebug()<<"---SETTING TR POS: "<<position;
+                if (updateView) {
+                    qDebug()<<"* * *ADDING COMPOSITION ON TK: "<<composition->getCurrentTrackId();
+                    int composition_index = getRowfromComposition(composition->getId());
+                    ptr->_beginInsertRows(ptr->makeTrackIndexFromID(composition->getCurrentTrackId()), composition_index, composition_index);
+                    ptr->_endInsertRows();
+                    qDebug()<<"* * *ADDING COMPOSITION DONE TK: "<<composition->getCurrentTrackId();
+                }
+                ptr->m_snaps->addPoint(new_in);
+                ptr->m_snaps->addPoint(new_out);
+                m_compoPos[new_in] = composition->getId();
+                return true;
+            } else {
+                qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
+                return false;
             }
-            int new_in = composition->getPosition();
-            int new_out = new_in + composition->getPlaytime() - 1;
-            ptr->m_snaps->addPoint(new_in);
-            ptr->m_snaps->addPoint(new_out);
-            return true;
-        } else {
-            qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
-            return false;
-        }
-    };
-
-    return [this, position, compoId, end_function]() {
-        if (auto ptr = m_parent.lock()) {
-            std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(compoId);
-            (*composition).setPosition(position);
-            ptr->plantComposition(*composition, ((Mlt::Transition)*composition).get_a_track(), ((Mlt::Transition)*composition).get_b_track());
-            return end_function();
-        } else {
-            qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
-            return false;
-        }
-    };
+        };
+    }
     return [](){return false;};
+}
+
+bool TrackModel::hasIntersectingComposition(int in, int out) const
+{
+    auto it = m_compoPos.lower_bound(in);
+    if (it == m_compoPos.end()) {
+        //in that case the requested range is after the last compo
+        return false;
+    }
+    if (it->first <= out) {
+        //compo at it intersects
+        return true;
+    } else {
+        if (it == m_compoPos.begin()) {
+            return false;
+        } else {
+            --it;
+            int end = it->first + m_allCompositions.at(it->second)->getPlaytime() - 1;
+            return end >= in;
+        }
+    }
+    return false;
 }

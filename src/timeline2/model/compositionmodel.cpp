@@ -51,15 +51,15 @@ int CompositionModel::construct(std::weak_ptr<TimelineModel> parent, const QStri
 
 bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
 {
-    if (size <= 0 || size > service()->get_length()) {
+    if (size <= 0) {
         return false;
     }
-    int delta = service()->get_length() - size;
-    int in = service()->get_in();
-    int out = service()->get_out();
+    int delta = getPlaytime() - size;
+    int in = getIn();
+    int out = getOut();
     int old_in = in, old_out = out;
     //check if there is enough space on the chosen side
-    if ((!right && in + delta < 0) || (right &&  out - delta >= service()->get_length())) {
+    if ((!right && in + delta < 0)) {
         return false;
     }
     if (right) {
@@ -101,7 +101,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }*/
-    return false;
+    return true;
 }
 
 

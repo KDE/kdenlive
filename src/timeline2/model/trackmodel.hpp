@@ -111,6 +111,20 @@ protected:
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView);
 
+    /* @brief Performs an insertion of the given composition.
+       Returns true if the operation succeeded, and otherwise, the track is not modified.
+       This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
+       Note that in Mlt, the composition insertion logic is not really at the track level, but we use that level to do collision checking
+       @param compoId is the id of the composition
+       @param position is the position where to insert the composition
+       @param updateView whether we send update to the view
+       @param undo Lambda function containing the current undo stack. Will be updated with current operation
+       @param redo Lambda function containing the current redo queue. Will be updated with current operation
+    */
+    bool requestCompositionInsertion(int compoId, int position, bool updateView,  Fun& undo, Fun& redo);
+    /* @brief This function returns a lambda that performs the requested operation */
+    Fun requestCompositionInsertion_lambda(int compoId, int position, bool updateView);
+
     bool requestCompositionDeletion(int compoId, bool updateView, Fun& undo, Fun& redo);
     Fun requestCompositionDeletion_lambda(int compoId, bool updateView);
     Fun requestCompositionResize_lambda(int compoId, int in, int out = -1);
@@ -147,6 +161,8 @@ protected:
     /*@brief This is an helper function that test frame level consistancy with the MLT structures */
     bool checkConsistency();
 
+    /* @brief Returns true if we have a composition intersecting with the range [in,out]*/
+    bool hasIntersectingComposition(int in, int out) const;
 
     /* @brief This is an helper function that returns the sub-playlist in which the clip is inserted, along with its index in the playlist
      @param position the position of the target clip*/
@@ -159,9 +175,6 @@ protected:
     int getBlankEnd(int position);
     /* Same, but we restrict to a specific track*/
     int getBlankEnd(int position, int track);
-
-    bool requestCompositionInsertion(int tid, int position, bool updateView,  Fun& undo, Fun& redo);
-    Fun requestCompositionInsertion_lambda(int tid, int position, bool updateView);
 
 public slots:
     /*Delete the current track and all its associated clips */
@@ -182,6 +195,8 @@ private:
                                                             ordered structure to store the clips, since we use their ids order as row order*/
     std::map<int, std::shared_ptr<CompositionModel>> m_allCompositions; /*this is important to keep an
                                                                           ordered structure to store the clips, since we use their ids order as row order*/
+
+    std::map<int, int> m_compoPos; //We store the positions of the compositions. In Melt, the compositions are not inserted at the track level, but we keep those positions here to check for moves and resize
 
 };
 

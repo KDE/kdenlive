@@ -954,7 +954,7 @@ int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int
     qDebug() << "snapping start suggestion" <<snapped_start;
     int snapped_end = m_snaps->getClosestPoint(pos + length);
     m_snaps->unIgnore();
-    
+
     int startDiff = qAbs(pos - snapped_start);
     int endDiff = qAbs(pos + length - snapped_end);
     if (startDiff < endDiff && snapped_start >= 0) {
@@ -1103,21 +1103,8 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     bool ok = true;
     int old_trackId = getCompositionTrackId(compoId);
     if (old_trackId != -1) {
-        if (old_trackId == trackId) {
-            // Simply setting in/out is enough
-            local_undo = getTrackById(old_trackId)->requestCompositionResize_lambda(compoId, position);
-            if (!ok) {
-                qDebug()<<"------------\nFAILED TO RESIZE TRANS: "<<old_trackId;
-                bool undone = local_undo();
-                Q_ASSERT(undone);
-                return false;
-            }
-            UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-            return true;
-        }
         ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, local_undo, local_redo);
         if (!ok) {
-            qDebug()<<"------------\nFAILED TO DELETE TRANS: "<<old_trackId;
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
@@ -1216,4 +1203,3 @@ bool TimelineModel::removeComposition(int compoId, int pos)
     field->unlock();
     return found;
 }
-

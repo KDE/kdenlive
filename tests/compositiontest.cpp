@@ -60,7 +60,7 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     REQUIRE(timeline->requestItemDeletion(id1));
     REQUIRE(timeline->getCompositionsCount() == 0);
 }
-/*
+
 TEST_CASE("Composition manipulation", "[CompositionModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -73,23 +73,23 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     SECTION("Insert a composition in a track and change track") {
         REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
         REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
-        REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
+        REQUIRE(timeline->getTrackCompositionsCount(tid2) == 0);
 
+        int cid1 = CompositionModel::construct(timeline, aCompo);
         REQUIRE(timeline->getCompositionTrackId(cid1) == -1);
         REQUIRE(timeline->getCompositionPosition(cid1) == -1);
 
         int pos = 10;
         //real insert
         // // REQUIRE(timeline->allowClipMove(cid1, tid1, pos));
-        REQUIRE(timeline->requestClipMove(cid1, tid1, pos));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
-        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
-        REQUIRE(timeline->getClipPosition(cid1) == pos);
-        REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
-        REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
-
+        REQUIRE(timeline->requestCompositionMove(cid1, tid1, pos));
+        REQUIRE(timeline->getCompositionTrackId(cid1) == tid1);
+        REQUIRE(timeline->getCompositionPosition(cid1) == pos);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid2) == 0);
+    }
+    /*
         pos = 1;
         //real
         // // REQUIRE(timeline->allowClipMove(cid1, tid2, pos));
@@ -146,5 +146,6 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
     }
+    */
 }
-*/
+
