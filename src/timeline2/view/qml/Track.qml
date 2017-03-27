@@ -183,7 +183,7 @@ Column{
                 clip.draggedX = clip.x
             }
             onTrimmingIn: {
-                if (controller.requestClipResize(clip.clipId, newDuration, false, false, true)) {
+                if (controller.requestItemResize(clip.clipId, newDuration, false, false, true)) {
                     clip.lastValidDuration = newDuration
                     clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
@@ -197,11 +197,11 @@ Column{
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                controller.requestClipResize(clip.clipId, clip.originalDuration, false, false, true)
-                controller.requestClipResize(clip.clipId, clip.lastValidDuration, false, true, true)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, true)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, true)
             }
             onTrimmingOut: {
-                if (controller.requestClipResize(clip.clipId, newDuration, true, false, true)) {
+                if (controller.requestItemResize(clip.clipId, newDuration, true, false, true)) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
@@ -214,8 +214,8 @@ Column{
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                controller.requestClipResize(clip.clipId, clip.originalDuration, true, false, true)
-                controller.requestClipResize(clip.clipId, clip.lastValidDuration, true, true, true)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, true)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, true)
             }
 
             Component.onCompleted: {
@@ -284,7 +284,7 @@ Column{
                 clip.draggedX = clip.x
             }
             onTrimmingIn: {
-                if (controller.requestClipResize(clip.clipId, newDuration, false, false, true)) {
+                if (controller.requestItemResize(clip.clipId, newDuration, false, false, true)) {
                     clip.lastValidDuration = newDuration
                     clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
@@ -298,11 +298,11 @@ Column{
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                controller.requestClipResize(clip.clipId, clip.originalDuration, false, false, true)
-                controller.requestClipResize(clip.clipId, clip.lastValidDuration, false, true, true)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, true)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, true)
             }
             onTrimmingOut: {
-                if (controller.requestClipResize(clip.clipId, newDuration, true, false, true)) {
+                if (controller.requestItemResize(clip.clipId, newDuration, true, false, true)) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
@@ -315,8 +315,8 @@ Column{
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                controller.requestClipResize(clip.clipId, clip.originalDuration, true, false, true)
-                controller.requestClipResize(clip.clipId, clip.lastValidDuration, true, true, true)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, true)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, true)
             }
 
             Component.onCompleted: {
