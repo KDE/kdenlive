@@ -1098,19 +1098,42 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
-    std::function<bool (void)> local_undo = [](){return true;};
-    std::function<bool (void)> local_redo = [](){return true;};
+    Fun local_undo = [](){return true;};
+    Fun local_redo = [](){return true;};
     bool ok = true;
     int old_trackId = getCompositionTrackId(compoId);
+    int old_pos = getCompositionPosition(compoId);
     if (old_trackId != -1) {
-        ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, local_undo, local_redo);
+        Fun delete_operation = [this, compoId, old_pos]() {
+            return removeComposition(compoId, old_pos);
+        };
+        Fun delete_reverse = [this, compoId, old_trackId]() {
+            //TODO set the correct A_Track
+            return plantComposition(*m_allCompositions[compoId].get(), 2, old_trackId);
+        };
+        ok = delete_operation();
+        if (ok) {
+            UPDATE_UNDO_REDO(delete_operation, delete_reverse, local_undo, local_redo);
+            ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, local_undo, local_redo);
+        }
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestCompositionInsertion(compoId, position, updateView, local_undo, local_redo);
+    Fun insert_operation = [this, compoId, trackId]() {
+        //TODO set the correct A_Track
+        return plantComposition(*m_allCompositions[compoId].get(), 2, trackId);
+    };
+    Fun insert_reverse = [this, compoId, position]() {
+        return removeComposition(compoId, position);
+    };
+    ok = insert_operation();
+    if (ok) {
+        UPDATE_UNDO_REDO(insert_operation, insert_reverse, local_undo, local_redo);
+        ok = getTrackById(trackId)->requestCompositionInsertion(compoId, position, updateView, local_undo, local_redo);
+    }
     if (!ok) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -1120,8 +1143,10 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     return true;
 }
 
-void TimelineModel::plantComposition(Mlt::Transition &tr, int a_track, int b_track)
+bool TimelineModel::plantComposition(Mlt::Transition &tr, int a_track, int b_track)
 {
+    return true;
+    //TODO fix this
     //qDebug()<<"* * PLANT COMPOSITION: "<<tr.get("mlt_service")<<", TRACK: "<<a_track<<"x"<<b_track<<" ON POS: "<<tr.get_in();
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     mlt_service nextservice = mlt_service_get_producer(field.data()->get_service());
@@ -1165,18 +1190,21 @@ void TimelineModel::plantComposition(Mlt::Transition &tr, int a_track, int b_tra
         field->plant_transition(*trList.at(i), trList.at(i)->get_a_track(), trList.at(i)->get_b_track());
     }
     qDeleteAll(trList);
+    return true;
 }
 
 bool TimelineModel::removeComposition(int compoId, int pos)
 {
-    //qDebug()<<"* * * TRYING TO DELETE COMPOSITION: "<<compoId<<" / "<<pos;
+    return true;
+    //TODO fix this
+    qDebug()<<"* * * TRYING TO DELETE COMPOSITION: "<<compoId<<" / "<<pos;
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString resource = mlt_properties_get(properties, "mlt_service");
     bool found = false;
-    ////qCDebug(KDENLIVE_LOG) << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
+    //qCDebug(KDENLIVE_LOG) << " del trans pos: " << in.frames(25) << '-' << out.frames(25);
 
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     while (mlt_type == transition_type) {
@@ -1185,9 +1213,9 @@ bool TimelineModel::removeComposition(int compoId, int pos)
         int currentATrack = mlt_transition_get_a_track(tr);
         int currentIn = (int) mlt_transition_get_in(tr);
         int currentOut = (int) mlt_transition_get_out(tr);
-        //qDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack<<" / "<<currentATrack;
+        qDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack<<" / "<<currentATrack;
 
-        if (compoId == currentTrack && currentIn == pos) {
+        if (getCompositionTrackId(compoId) == currentTrack && currentIn == pos) {
             found = true;
             mlt_field_disconnect_service(field->get_field(), nextservice);
             break;

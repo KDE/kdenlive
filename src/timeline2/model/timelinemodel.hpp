@@ -403,7 +403,7 @@ protected:
      */
     bool isGroup(int id) const;
 
-    void plantComposition(Mlt::Transition &tr, int a_track, int b_track);
+    bool plantComposition(Mlt::Transition &tr, int a_track, int b_track);
     bool removeComposition(int compoId, int pos);
 
 protected:
