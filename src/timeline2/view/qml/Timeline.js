@@ -49,10 +49,11 @@ function getTrackIdFromPos(pos) {
 }
 
 function getTrackYFromId(id) {
-    if (id >= 0 && id < tracksRepeater.count) {
-        return trackHeaderRepeater.itemAt(id).y - scrollView.flickableItem.contentY
+    var result = - scrollView.flickableItem.contentY
+    for (var i = 0; i < id; i++) {
+        result += trackHeaderRepeater.itemAt(i).height
     }
-    return -1
+    return result
 }
 
 function acceptDrop(xml) {

@@ -41,6 +41,7 @@ Rectangle {
     property bool isComposition: true
     property bool grouped: false
     property int binId: 0
+    property int trackHeight
     property int trackIndex //Index in track repeater
     property int trackId: -42    //Id in the model
     property int a_track: -1
@@ -73,6 +74,9 @@ Rectangle {
         console.log("SCALE CHANGED !!!!!!", timeScale)
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
+    }
+    onTrackHeightChanged: {
+        a_trackPos = root.getTrackYFromId(a_track) - mapToItem(trackRoot, 0, 0).y - trackRoot.mapToItem(null, 0, 0).y + ruler.height
     }
 
     SystemPalette { id: activePalette }
@@ -138,14 +142,16 @@ Rectangle {
     // target track
     Rectangle {
         width: parent.width
-        height: 5
-        color: 'red'
+        height: 8
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "mediumpurple" }
+            GradientStop { position: 1.0; color: "#00000000" }
+        }
         y: a_trackPos
     }
 
     onA_trackChanged: {
-        console.log('+++++++++++++++++++++\na_tk: ', a_trackPos, ' : ', a_track)
-        a_trackPos = root.getTrackYFromId(a_track)
+        a_trackPos = root.getTrackYFromId(a_track) - mapToItem(trackRoot, 0, 0).y - trackRoot.mapToItem(null, 0, 0).y + ruler.height
     }
 
     states: [

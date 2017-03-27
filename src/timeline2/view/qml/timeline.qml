@@ -79,6 +79,7 @@ Rectangle {
     property int droppedTrack: -1
     property int clipBeingMovedId: -1
     property real timeScale: timeline.scaleFactor
+    property int trackHeight
     //property alias ripple: toolbar.ripple
 
     //onCurrentTrackChanged: timeline.selection = []
@@ -280,6 +281,8 @@ Rectangle {
                                 trackBaseRepeater.itemAt(index).height = myTrackHeight
                                 tracksRepeater.itemAt(index).height = myTrackHeight
                                 height = myTrackHeight
+                                // hack: change property to trigger transition adjustment
+                                root.trackHeight = root.trackHeight === 1 ? 0 : 1
                             }
                             onClicked: {
                                 currentTrack = index

@@ -75,6 +75,12 @@ Column{
                     value: loader.item.a_track
                     when: loader.item.isComposition && loader.status == Loader.Ready
                 }
+                Binding {
+                    target: loader.item
+                    property: "trackHeight"
+                    value: root.trackHeight
+                    when: loader.item.isComposition && loader.status == Loader.Ready
+                }
                 sourceComponent: {
                     if (model.isComposition) {
                         return compositionDelegate
