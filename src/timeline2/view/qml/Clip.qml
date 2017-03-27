@@ -54,6 +54,8 @@ Rectangle {
     property string hash: 'ccc' //TODO
     property double speed: 1.0
     property color borderColor: 'black'
+    x: modelStart * timeScale
+    width : clipDuration * timeScale;
 
     signal clicked(var clip, int shiftClick)
     signal moved(var clip)
@@ -65,13 +67,10 @@ Rectangle {
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
 
-    onModelStartChanged: {
-        console.log("MODEL START CHANGED !!!!!!", modelStart, clipId, x);
-        x = modelStart * timeScale;
+    onClipDurationChanged: {
+        width = clipDuration * timeScale;
     }
     onTimeScaleChanged: {
-        console.log("SCALE CHANGED !!!!!!", timeScale)
-        x = modelStart * timeScale;
         width = clipDuration * timeScale;
     }
 
@@ -114,7 +113,8 @@ Rectangle {
     }
 
     function imagePath(time) {
-        if (isAudio || isBlank || mltService === 'color') {
+        console.log('get clip thumb for sercvie: ', mltService)
+        if (isAudio || mltService === 'color' || mltService === '') {
             return ''
         } else {
             return 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#' + time
@@ -522,7 +522,6 @@ Rectangle {
 
     Rectangle {
         id: trimIn
-        enabled: !isBlank
         anchors.left: parent.left
         anchors.leftMargin: 0
         height: parent.height
@@ -542,7 +541,7 @@ Rectangle {
 
             onPressed: {
                 root.stopScrolling = true
-                clipRoot.originalX = mapToItem(null, x, y).x
+                clipRoot.originalX = clipRoot.x
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
             }
@@ -550,14 +549,12 @@ Rectangle {
                 root.stopScrolling = false
                 parent.anchors.left = clipRoot.left
                 clipRoot.trimmedIn(clipRoot)
-                parent.opacity = 0
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    clipRoot.draggedX = mapToItem(null, x, y).x
-                    var delta = Math.round((draggedX - originalX) / timeScale)
+                    var delta = Math.round((trimIn.x) / timeScale)
                     if (delta !== 0) {
-                        var newDuration = clipRoot.clipDuration - delta
+                        var newDuration =  clipDuration - delta
                         clipRoot.trimmingIn(clipRoot, newDuration, mouse)
                     }
                 }

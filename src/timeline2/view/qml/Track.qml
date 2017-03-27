@@ -71,15 +71,47 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "mltService"
+                    value: model.mlt_service
+                    when: loader.status == Loader.Ready
+                }
+                Binding {
+                    target: loader.item
+                    property: "modelStart"
+                    value: model.start
+                    when: loader.status == Loader.Ready
+                }
+
+                Binding {
+                    target: loader.item
                     property: "a_track"
-                    value: loader.item.a_track
-                    when: loader.item.isComposition && loader.status == Loader.Ready
+                    value: model.a_track
+                    when: loader.status == Loader.Ready && loader.item.isComposition
                 }
                 Binding {
                     target: loader.item
                     property: "trackHeight"
                     value: root.trackHeight
-                    when: loader.item.isComposition && loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item.isComposition
+                }
+
+                Binding {
+                    target: loader.item
+                    property: "clipDuration"
+                    value: model.duration
+                    when: loader.status == Loader.Ready
+                }
+                Binding {
+                    target: loader.item
+                    property: "inPoint"
+                    value: model.in
+                    when: loader.status == Loader.Ready
+                }
+                Binding {
+                    target: loader.item
+                    property: "outPoint"
+                    value: model.out
+                    when: loader.status == Loader.Ready
                 }
                 sourceComponent: {
                     if (model.isComposition) {
@@ -89,13 +121,9 @@ Column{
                     }
                 }
                 onLoaded: {
+                    console.log('loaded clip: ', model.start)
                     item.clipName= model.name
                     item.clipResource= model.resource
-                    item.clipDuration= model.duration
-                    item.mltService= model.mlt_service
-                    item.inPoint= model.in
-                    item.outPoint= model.out
-                    item.isBlank= model.blank
                     item.clipId= model.item
                     item.binId= model.binId
                     item.isAudio= false //model.audio
@@ -108,9 +136,6 @@ Column{
                     } else {
                         item.a_track = model.a_track
                     }
-                    item.width= model.duration * timeScale
-                    item.modelStart= model.start
-                    item.x= model.start * timeScale
                     item.grouped= model.grouped
                     item.borderColor= (model.grouped ? 'yellow' : 'black')
                     item.trackIndex= trackRoot.DelegateModel.itemsIndex

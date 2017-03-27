@@ -198,7 +198,7 @@ Rectangle {
                 var frame = controller.getClipPosition(clipBeingDroppedId)
                 var track = controller.getClipTrackId(clipBeingDroppedId)
                 // we simulate insertion at the final position so that stored undo has correct value
-                controller.requestClipDeletion(clipBeingDroppedId, false)
+                controller.requestItemDeletion(clipBeingDroppedId, false)
                 timeline.insertClip(track, frame, clipBeingDroppedData, true)
             }
             clipBeingDroppedId = -1
@@ -385,7 +385,7 @@ Rectangle {
                                     border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
                                     //Layout.fillWidth: true
                                     height: model.trackHeight
-                                    color: (index === currentTrack)? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)
+                                    color: tracksRepeater.itemAt(index) ? ((index === currentTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
                                 }
                             }
                         }
