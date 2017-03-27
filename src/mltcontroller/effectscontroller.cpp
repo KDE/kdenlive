@@ -271,10 +271,13 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
             } else {
                 e.setAttribute(QStringLiteral("value"), evaluatedValue);
             }
-        } else {
-            if (type == QLatin1String("animated") && !hasValue) {
+        } else  if (!hasValue) {
+            if (type == QLatin1String("animated")) {
                 e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(0, e.attribute(QStringLiteral("default"))));
-            } else if (!hasValue) {
+            } else if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
+                // Effect has a keyframe type parameter, we need to set the values
+                e.setAttribute(QStringLiteral("keyframes"), QStringLiteral("0=") + e.attribute(QStringLiteral("default")));
+            } else {
                 e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
             }
         }
