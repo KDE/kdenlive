@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.6
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.3
@@ -40,7 +40,7 @@ Rectangle {
     signal clicked()
 
     function pulseLockButton() {
-        lockButtonAnim.restart();
+        flashLock.restart();
     }
 
     SystemPalette { id: activePalette }
@@ -232,6 +232,23 @@ Rectangle {
                 iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svgz' : 'qrc:///pics/kdenlive-unlock.svgz'
                 onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
                 tooltip: isLocked? i18n('Unlock track') : i18n('Lock track')
+
+                 SequentialAnimation {
+                    id: flashLock
+                    loops: 1
+                    ScaleAnimator {
+                        target: lockButton
+                        from: 1
+                        to: 2
+                        duration: 500
+                    }
+                    ScaleAnimator {
+                        target: lockButton
+                        from: 2
+                        to: 1
+                        duration: 500
+                    }
+                 }
             }
         }
         Rectangle {

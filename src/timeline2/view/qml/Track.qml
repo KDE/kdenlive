@@ -300,7 +300,6 @@ Column{
                 var cIndex = clip.clipId
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
-                console.log('compoit drag: ', frame)
 
                 frame = controller.suggestCompositionMove(cIndex, toTrack, frame);
 

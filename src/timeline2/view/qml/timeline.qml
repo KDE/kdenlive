@@ -573,13 +573,14 @@ Rectangle {
                     }
                 }
             }
-            Image {
+            Rectangle {
                 anchors.right: parent.right
                 anchors.left: parent.left
                 height: parent.height
-                source: "qrc:///pics/kdenlive-lock.svgz"
-                fillMode: Image.Tile
+                //source: "qrc:///pics/kdenlive-lock.svgz"
+                //fillMode: Image.Tile
                 opacity: parent.isLocked
+                color: '#33ff3300'
                 visible: opacity
                 Behavior on opacity { NumberAnimation {} }
                 MouseArea {
