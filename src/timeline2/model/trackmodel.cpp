@@ -695,11 +695,10 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
 bool TrackModel::hasIntersectingComposition(int in, int out) const
 {
     auto it = m_compoPos.lower_bound(in);
-    if (it == m_compoPos.end()) {
-        //in that case the requested range is after the last compo
+    if (m_compoPos.size() == 0) {
         return false;
     }
-    if (it->first <= out) {
+    if (it != m_compoPos.end() && it->first <= out) {
         //compo at it intersects
         return true;
     } else {
