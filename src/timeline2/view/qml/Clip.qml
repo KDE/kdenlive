@@ -33,7 +33,6 @@ Rectangle {
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
-    property bool isBlank: false
     property bool isAudio: false
     property bool isComposition: false
     property bool grouped: false
@@ -203,7 +202,6 @@ Rectangle {
     Rectangle {
         // text background
         color: 'lightgray'
-        visible: !isBlank && !isComposition
         opacity: 0.7
         anchors.top: parent.top
         anchors.left: parent.left
@@ -217,7 +215,6 @@ Rectangle {
     Text {
         id: label
         text: clipName
-        visible: !isBlank && !isComposition
         font.pixelSize: root.baseUnit
         anchors {
             top: parent.top
@@ -255,7 +252,6 @@ Rectangle {
         Text {
             id: mlabel
             text: markers[2 * modelData + 1]
-            visible: !isBlank && !isComposition
             font.pixelSize: root.baseUnit
             x: markerBase.x
             anchors {
@@ -279,7 +275,7 @@ Rectangle {
         },
         State {
             name: 'selectedBlank'
-            when: clipRoot.selected && clipRoot.isBlank
+            when: clipRoot.selected
             PropertyChanges {
                 target: clipRoot
                 color: Qt.darker(getColor())
@@ -299,7 +295,6 @@ Rectangle {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        enabled: !isBlank
         acceptedButtons: Qt.LeftButton
         drag.target: parent
         drag.axis: Drag.XAxis
@@ -341,8 +336,7 @@ Rectangle {
             propagateComposedEvents: true
             cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
                 (fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active)? Qt.PointingHandCursor :
-                drag.active? Qt.ClosedHandCursor :
-                isBlank? Qt.ArrowCursor : Qt.OpenHandCursor
+                drag.active? Qt.ClosedHandCursor : Qt.OpenHandCursor
             onPressed: {
                 root.stopScrolling = true
                 clipRoot.forceActiveFocus();
@@ -356,7 +350,6 @@ Rectangle {
 
     TimelineTriangle {
         id: fadeInTriangle
-        visible: !isBlank && !isComposition
         width: parent.fadeIn * timeScale
         height: parent.height - parent.border.width * 2
         anchors.left: parent.left
@@ -366,7 +359,6 @@ Rectangle {
     }
     Rectangle {
         id: fadeInControl
-        enabled: !isBlank && !isComposition
         anchors.left: fadeInTriangle.width > radius? undefined : fadeInTriangle.left
         anchors.horizontalCenter: fadeInTriangle.width > radius? fadeInTriangle.right : undefined
         anchors.top: fadeInTriangle.top
@@ -439,7 +431,6 @@ Rectangle {
 
     TimelineTriangle {
         id: fadeOutCanvas
-        visible: !isBlank && !isComposition
         width: parent.fadeOut * timeScale
         height: parent.height - parent.border.width * 2
         anchors.right: parent.right
@@ -450,7 +441,6 @@ Rectangle {
     }
     Rectangle {
         id: fadeOutControl
-        enabled: !isBlank && !isComposition
         anchors.right: fadeOutCanvas.width > radius? undefined : fadeOutCanvas.right
         anchors.horizontalCenter: fadeOutCanvas.width > radius? fadeOutCanvas.left : undefined
         anchors.top: fadeOutCanvas.top
@@ -565,7 +555,6 @@ Rectangle {
     }
     Rectangle {
         id: trimOut
-        enabled: !isBlank
         anchors.right: parent.right
         anchors.rightMargin: 0
         height: parent.height
@@ -610,7 +599,7 @@ Rectangle {
             popup()
         }
         MenuItem {
-            visible: true // !isBlank && !isComposition
+            visible: true
             text: i18n('Cut')
             onTriggered: {
                 if (!trackRoot.isLocked) {
@@ -633,27 +622,27 @@ Rectangle {
         }
 
         MenuItem {
-            visible: true //!isBlank && !isComposition
+            visible: true
             text: i18n('Copy')
             onTriggered: timeline.copyClip(trackIndex, index)
         }
         MenuSeparator {
-            visible: !isBlank && !isComposition
+            visible: true
         }
         MenuItem {
             text: i18n('Remove')
             onTriggered: timeline.triggerAction('delete_timeline_clip')
         }
         MenuItem {
-            visible: true //!isBlank
+            visible: true 
             text: i18n('Lift')
             onTriggered: timeline.lift(trackIndex, index)
         }
         MenuSeparator {
-            visible: true //!isBlank && !isComposition
+            visible: true
         }
         MenuItem {
-            visible: true //!isBlank && !isComposition
+            visible: true
             text: i18n('Split At Playhead (S)')
             onTriggered: timeline.splitClip(trackIndex, index)
         }
@@ -663,7 +652,6 @@ Rectangle {
             onTriggered: timeline.mergeClipWithNext(trackIndex, index, false)
         }
         MenuItem {
-            visible: !isBlank && !isComposition
             text: i18n('Rebuild Audio Waveform')
             onTriggered: timeline.remakeAudioLevels(trackIndex, index)
         }

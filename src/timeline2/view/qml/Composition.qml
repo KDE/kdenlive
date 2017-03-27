@@ -36,7 +36,6 @@ Rectangle {
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
-    property bool isBlank: false
     property bool isAudio: false
     property bool isComposition: true
     property bool grouped: false
@@ -55,6 +54,8 @@ Rectangle {
     property bool selected: false
     property double speed: 1.0
     property color borderColor: 'black'
+    x: modelStart * timeScale
+    width : clipDuration * timeScale;
 
     signal clicked(var clip, int shiftClick)
     signal moved(var clip)
@@ -66,17 +67,15 @@ Rectangle {
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
 
-    onModelStartChanged: {
-        console.log("MODEL START CHANGED !!!!!!", modelStart, clipId, x);
-        x = modelStart * timeScale;
-    }
-    onTimeScaleChanged: {
-        console.log("SCALE CHANGED !!!!!!", timeScale)
-        x = modelStart * timeScale;
-        width = clipDuration * timeScale;
-    }
     onTrackHeightChanged: {
         a_trackPos = root.getTrackYFromId(a_track) - mapToItem(trackRoot, 0, 0).y - trackRoot.mapToItem(null, 0, 0).y + ruler.height
+    }
+
+    onClipDurationChanged: {
+        width = clipDuration * timeScale;
+    }
+    onTimeScaleChanged: {
+        width = clipDuration * timeScale;
     }
 
     SystemPalette { id: activePalette }
@@ -164,14 +163,6 @@ Rectangle {
             }
         },
         State {
-            name: 'selectedBlank'
-            when: compositionRoot.selected && compositionRoot.isBlank
-            PropertyChanges {
-                target: compositionRoot
-                color: Qt.darker(getColor())
-            }
-        },
-        State {
             name: 'selected'
             when: compositionRoot.selected
             PropertyChanges {
@@ -185,7 +176,6 @@ Rectangle {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        enabled: !isBlank
         acceptedButtons: Qt.LeftButton
         drag.target: parent
         drag.axis: Drag.XAxis
@@ -240,7 +230,6 @@ Rectangle {
 
     Rectangle {
         id: trimIn
-        enabled: !isBlank
         anchors.left: parent.left
         anchors.leftMargin: 0
         height: parent.height
@@ -286,7 +275,6 @@ Rectangle {
     }
     Rectangle {
         id: trimOut
-        enabled: !isBlank
         anchors.right: parent.right
         anchors.rightMargin: 0
         height: parent.height
@@ -331,7 +319,6 @@ Rectangle {
             popup()
         }
         MenuItem {
-            visible: true // !isBlank && !isComposition
             text: i18n('Cut')
             onTriggered: {
                 if (!trackRoot.isLocked) {
@@ -354,27 +341,27 @@ Rectangle {
         }
 
         MenuItem {
-            visible: true //!isBlank && !isComposition
+            visible: true
             text: i18n('Copy')
             onTriggered: timeline.copyClip(trackIndex, index)
         }
         MenuSeparator {
-            visible: !isBlank && !isComposition
+            visible: !isComposition
         }
         MenuItem {
             text: i18n('Remove')
             onTriggered: timeline.triggerAction('delete_timeline_clip')
         }
         MenuItem {
-            visible: true //!isBlank
+            visible: true
             text: i18n('Lift')
             onTriggered: timeline.lift(trackIndex, index)
         }
         MenuSeparator {
-            visible: true //!isBlank && !isComposition
+            visible: true
         }
         MenuItem {
-            visible: true //!isBlank && !isComposition
+            visible: true
             text: i18n('Split At Playhead (S)')
             onTriggered: timeline.splitClip(trackIndex, index)
         }
@@ -384,7 +371,7 @@ Rectangle {
             onTriggered: timeline.mergeClipWithNext(trackIndex, index, false)
         }
         MenuItem {
-            visible: !isBlank && !isComposition
+            visible: !isComposition
             text: i18n('Rebuild Audio Waveform')
             onTriggered: timeline.remakeAudioLevels(trackIndex, index)
         }
