@@ -92,7 +92,7 @@ Item {
         parent = track
         isAudio = track.isAudio
         displayHeight = track.height / 2
-        y = track.y + track.height / 2
+        y = track.height / 2
     }
     onA_trackChanged: {
         a_trackPos = root.getTrackYFromId(a_track) - mapToItem(trackRoot, 0, 0).y - trackRoot.mapToItem(null, 0, 0).y + ruler.height
@@ -175,7 +175,7 @@ Item {
             compositionRoot.clicked(compositionRoot, mouse.modifiers === Qt.ShiftModifier)
         }
         onPositionChanged: {
-            if (mouse.y < -compositionRoot.parent.height / 2 || mouse.y > height) {
+            if (mouse.y < -height || mouse.y > height) {
                 compositionRoot.draggedToTrack(compositionRoot, mapToItem(null, 0, mouse.y).y)
             } else {
                 compositionRoot.dragged(compositionRoot, mouse)
