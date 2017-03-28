@@ -135,11 +135,26 @@ public:
     /* @brief Remove a timeline track
      */
     Q_INVOKABLE void deleteTrack(int tid);
+    /* @brief Group selected items in timeline
+     */
     Q_INVOKABLE void groupSelection();
+    /* @brief Ungroup selected items in timeline
+     */
     Q_INVOKABLE void unGroupSelection(int cid);
 
+    /* @brief Seek to next snap point
+     */
     void gotoNextSnap();
+    /* @brief Seek to previous snap point
+     */
     void gotoPreviousSnap();
+    /* @brief Set current item's start point to cursor position
+     */
+    void setInPoint();
+    /* @brief Set current item's end point to cursor position
+     */
+    void setOutPoint();
+
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;

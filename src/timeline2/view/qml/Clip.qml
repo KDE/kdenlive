@@ -54,7 +54,6 @@ Rectangle {
     property string hash: 'ccc' //TODO
     property double speed: 1.0
     property color borderColor: 'black'
-    x: modelStart * timeScale
     width : clipDuration * timeScale;
 
     signal clicked(var clip, int shiftClick)
@@ -70,7 +69,12 @@ Rectangle {
     onClipDurationChanged: {
         width = clipDuration * timeScale;
     }
+    onModelStartChanged: {
+        x = modelStart * timeScale;
+    }
+
     onTimeScaleChanged: {
+        x = modelStart * timeScale;
         width = clipDuration * timeScale;
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }

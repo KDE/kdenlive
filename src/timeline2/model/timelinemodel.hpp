@@ -160,8 +160,8 @@ public:
     Q_INVOKABLE bool requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true);
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
-    Q_INVOKABLE int getCompositionPlaytime(int compoId) const;
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position);
+    int getCompositionPlaytime(int compoId) const;
 
 protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
@@ -232,6 +232,15 @@ public:
        @param snap if set to true, the resize order will be coerced to use the snapping grid
     */
     Q_INVOKABLE bool requestItemResize(int itemId, int size, bool right, bool logUndo = true, bool snap = false);
+    /* @brief Change the duration of an item (clip or composition)
+       This action is undoable
+       Returns true on success. If it fails, nothing is modified.
+       @param itemId is the ID of the item
+       @param position is the requested start or end position
+       @param resizeStart is true if we want to resize clip start, false to resize clip end
+    */
+    bool requestItemResizeToPos(int itemId, int position, bool right);
+
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun& undo, Fun& redo);
 

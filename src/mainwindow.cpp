@@ -3069,15 +3069,15 @@ void MainWindow::hideEvent(QHideEvent */*event*/)
 
 void MainWindow::slotResizeItemStart()
 {
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->setInPoint();
+    if (pCore->projectManager()->currentTimelineWidget()) {
+        pCore->projectManager()->currentTimelineWidget()->setInPoint();
     }
 }
 
 void MainWindow::slotResizeItemEnd()
 {
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->setOutPoint();
+    if (pCore->projectManager()->currentTimelineWidget()) {
+        pCore->projectManager()->currentTimelineWidget()->setOutPoint();
     }
 }
 

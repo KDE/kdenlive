@@ -58,8 +58,6 @@ Item {
     property double speed: 1.0
     property color color: displayRect.color
     property color borderColor: 'black'
-    x: modelStart * timeScale
-    width : clipDuration * timeScale;
 
     signal clicked(var clip, int shiftClick)
     signal moved(var clip)
@@ -75,10 +73,15 @@ Item {
         a_trackPos = root.getTrackYFromId(a_track) - mapToItem(trackRoot, 0, 0).y - trackRoot.mapToItem(null, 0, 0).y + ruler.height
     }
 
+    onModelStartChanged: {
+        x = modelStart * timeScale;
+    }
+
     onClipDurationChanged: {
         width = clipDuration * timeScale;
     }
     onTimeScaleChanged: {
+        x = modelStart * timeScale;
         width = clipDuration * timeScale;
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }

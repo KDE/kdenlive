@@ -353,3 +353,28 @@ void TimelineWidget::unGroupSelection(int cid)
     m_model->requestClipUngroup(cid);
 }
 
+void TimelineWidget::setInPoint()
+{
+    int cursorPos = rootObject()->property("seekPos").toInt();
+    if (cursorPos < 0) {
+        cursorPos = m_position;
+    }
+    if (!m_selection.selectedClips.isEmpty()) {
+        for(int id : m_selection.selectedClips) {
+            m_model->requestItemResizeToPos(id, cursorPos, false);
+        }
+    }
+}
+
+void TimelineWidget::setOutPoint()
+{
+    int cursorPos = rootObject()->property("seekPos").toInt();
+    if (cursorPos < 0) {
+        cursorPos = m_position;
+    }
+    if (!m_selection.selectedClips.isEmpty()) {
+        for(int id : m_selection.selectedClips) {
+            m_model->requestItemResizeToPos(id, cursorPos, true);
+        }
+    }
+}

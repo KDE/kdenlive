@@ -1231,3 +1231,38 @@ bool TimelineModel::removeComposition(int compoId, int pos)
     field->unlock();
     return found;
 }
+
+bool TimelineModel::requestItemResizeToPos(int itemId, int position, bool right)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    int in, out;
+    if (isClip(itemId)) {
+        in = getClipPosition(itemId);
+        out = in + getClipPlaytime(itemId) - 1;
+    } else {
+        in = getCompositionPosition(itemId);
+        out = in + getCompositionPlaytime(itemId) - 1;
+    }
+    int size = 0;
+    if (!right) {
+        if (position < out) {
+            size  = out - position;
+        }
+    } else {
+        if (position > in) {
+            size  = position - in;
+        }
+    }
+    Fun undo = [](){return true;};
+    Fun redo = [](){return true;};
+    bool result = requestItemResize(itemId, size, right, true, undo, redo);
+    if (result) {
+        if (isClip(itemId)) {
+            PUSH_UNDO(undo, redo, i18n("Resize clip"));
+        } else {
+            PUSH_UNDO(undo, redo, i18n("Resize composition"));
+        }
+    }
+    return result;
+}
