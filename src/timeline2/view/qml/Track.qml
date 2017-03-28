@@ -55,6 +55,7 @@ Column{
         id: trackModel
         delegate: Item{
             property var itemModel : model
+            z: model.isComposition ? 1 : 0
             Loader {
                 id: loader
                 Binding {
@@ -164,7 +165,6 @@ Column{
     Component {
         id: clipDelegate
         Clip {
-            z: 10
             height: trackRoot.height
             onGroupedChanged: {
                 console.log('Clip ', clipId, ' is grouped : ', grouped)
@@ -262,7 +262,7 @@ Column{
         Composition {
             y: trackRoot.height / 2
             displayHeight: trackRoot.height / 2
-            opacity: 0.6
+            opacity: 0.8
             selected: trackRoot.selection.indexOf(clipId) !== -1
 
             onGroupedChanged: {
