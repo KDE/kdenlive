@@ -137,7 +137,8 @@ public:
     enum RenderError {
         CompositeError = 0,
         ProfileError = 1,
-        ProxyWarning = 2
+        ProxyWarning = 2,
+        PlaybackError = 3
     };
 
     /** @brief Display warning message in render widget. */
