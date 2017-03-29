@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQml.Models 2.1
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.2
 import Kdenlive.Controls 1.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.2
@@ -213,11 +214,32 @@ Rectangle {
     }
     Menu {
         id: menu
+        property int clickedX
+        property int clickedY
         MenuItem {
             text: i18n('Add Audio Track')
             shortcut: 'Ctrl+U'
             onTriggered: timeline.addAudioTrack();
         }
+        AssetMenu {
+            title: i18n('Insert a composition...')
+            menuModel: transitionModel
+            onAssetSelected: {
+                var track = Logic.getTrackIdFromPos(menu.clickedY)
+                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                var id = timeline.insertComposition(track, frame, assetId, true)
+                if (id == -1) {
+                    compositionFail.open()
+                }
+            }
+        }
+    }
+    MessageDialog {
+        id: compositionFail
+        title: i18n("Timeline error")
+        icon: StandardIcon.Warning
+        text: i18n("Impossible to add a composition at that position. There might not be enough space")
+        standardButtons: StandardButton.Ok
     }
     Menu {
         id: headerMenu
@@ -312,6 +334,8 @@ Rectangle {
             }
             onClicked: {
                 if (mouse.button & Qt.RightButton) {
+                    menu.clickedX = mouse.x
+                    menu.clickedY = mouse.y
                     menu.popup()
                 } else {
                     console.log("Position changed: ",timeline.position)

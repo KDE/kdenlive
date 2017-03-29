@@ -25,8 +25,8 @@
 
 AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
+    , m_name_enabled(false)
 {
-    m_name_enabled  = false;
 }
 
 void AssetFilter::setFilterName(bool enabled, const QString& pattern)
@@ -51,7 +51,10 @@ bool AssetFilter::filterName(TreeItem* item) const
 
 bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
-    if (sourceParent == QModelIndex()) {
+    QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
+    TreeItem *item = static_cast<TreeItem*>(row.internalPointer());
+
+    if (item->data(AssetTreeModel::idCol) == QStringLiteral("root")) {
         //In that case, we have a category. We hide it if it does not have children.
         QModelIndex category = sourceModel()->index(sourceRow, 0, sourceParent);
         bool accepted = false;
@@ -60,9 +63,6 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
         }
         return accepted;
     }
-    QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
-    TreeItem *item = static_cast<TreeItem*>(row.internalPointer());
-
     return applyAll(item);
 }
 

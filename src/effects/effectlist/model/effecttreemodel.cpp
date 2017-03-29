@@ -53,7 +53,7 @@ EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
             QString groupName = i18n(groups.at(i).firstChild().firstChild().nodeValue().toUtf8().constData());
             QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), QString::SkipEmptyParts);
 
-            TreeItem *groupItem = rootItem->appendChild(QList<QVariant>{groupName});
+            TreeItem *groupItem = rootItem->appendChild(QList<QVariant>{groupName, QStringLiteral("root")});
             for (const QString& effect : list){
                 effectCategory[effect] = groupItem;
             }

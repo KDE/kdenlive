@@ -26,16 +26,19 @@
 
 #include <QDebug>
 
-TransitionTreeModel::TransitionTreeModel(QObject *parent)
+TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent)
     : AssetTreeModel(parent)
 {
     QList<QVariant> rootData;
     rootData << "Name" << "ID" << "Type" << "isFav";
     rootItem = new TreeItem(rootData);
 
-    //We create categories
-    TreeItem *compoCategory = rootItem->appendChild(QList<QVariant>{i18n("Compositions")});
-    TreeItem *transCategory = rootItem->appendChild(QList<QVariant>{i18n("Transitions")});
+    //We create categories, if requested
+    TreeItem *compoCategory, *transCategory;
+    if (!flat) {
+        compoCategory = rootItem->appendChild(QList<QVariant>{i18n("Compositions"), QStringLiteral("root")});
+        transCategory = rootItem->appendChild(QList<QVariant>{i18n("Transitions"), QStringLiteral("root")});
+    }
 
     //We parse transitions
     auto allTransitions = TransitionsRepository::get()->getNames();
@@ -44,6 +47,9 @@ TransitionTreeModel::TransitionTreeModel(QObject *parent)
         TransitionType type = TransitionsRepository::get()->getType(transition.first);
         if (type == TransitionType::AudioTransition || type == TransitionType::VideoTransition) {
             targetCategory = transCategory;
+        }
+        if (flat) {
+            targetCategory = rootItem;
         }
 
         // we create the data list corresponding to this transition

@@ -18,39 +18,28 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+import QtQuick 2.6
+import QtQuick.Controls 1.5
+import QtQuick.Window 2.2
+import QtQml.Models 2.2
 
-#include "transitionlistwidget.hpp"
-#include "../model/transitiontreemodel.hpp"
-#include "assets/assetlist/model/assetfilter.hpp"
-#include "transitions/transitionsrepository.hpp"
+Menu {
+    id: menuRoot
+    property alias menuModel: itemRepeater.model
 
-#include <QQmlContext>
+    signal assetSelected(string assetId)
 
-TransitionListWidget::TransitionListWidget(QWidget *parent)
-    : AssetListWidget(parent)
-{
-
-    m_model.reset(new TransitionTreeModel(false, this));
-
-    m_proxyModel.reset(new AssetFilter(this));
-    m_proxyModel->setSourceModel(m_model.get());
-    m_proxyModel->setSortRole(AssetTreeModel::NameRole);
-    m_proxyModel->sort(0, Qt::AscendingOrder);
-
-    rootContext()->setContextProperty("assetlist", this);
-    rootContext()->setContextProperty("assetListModel", m_proxyModel.get());
-    rootContext()->setContextProperty("isEffectList", false);
-
-    m_assetIconProvider.reset(new AssetIconProvider(false));
-
-    setup();
-}
-
-QString TransitionListWidget::getMimeType(const QString& assetId) const
-{
-    if (TransitionsRepository::get()->isComposition(assetId)) {
-        return QStringLiteral("kdenlive/composition");
-    } else {
-        return QStringLiteral("kdenlive/transition");
+    Instantiator {
+        id: itemRepeater
+        onObjectAdded: menuRoot.insertItem( index, object )
+        onObjectRemoved: menuRoot.removeItem( object )
+        delegate: MenuItem {
+            text: name
+            property string assetId: identifier
+            onTriggered: {
+                console.log(assetId)
+                menuRoot.assetSelected(assetId)
+            }
+        }
     }
 }

@@ -218,7 +218,7 @@ Rectangle {
                 }
             }
 
-            TableViewColumn { role: "id"; title: "Name"; width: 700 }
+            TableViewColumn { role: "identifier"; title: "Name"; width: 700 }
             model: assetListModel
             selection: sel
         }

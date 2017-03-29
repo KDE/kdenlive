@@ -24,5 +24,6 @@
     <file alias="assetList.qml">assets/assetlist/view/qml/assetList.qml</file>
     <file alias="AssetView.qml">assets/view/qml/AssetView.qml</file>
     <file alias="transitionView.qml">transitions/view/qml/transitionView.qml</file>
+    <file alias="AssetMenu.qml">timeline2/view/qml/AssetMenu.qml</file>
   </qresource>
 </RCC>

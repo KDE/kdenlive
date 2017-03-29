@@ -38,7 +38,7 @@ AssetTreeModel::AssetTreeModel(QObject *parent)
 QHash<int, QByteArray> AssetTreeModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[IdRole] = "id";
+    roles[IdRole] = "identifier";
     roles[NameRole] = "name";
     return roles;
 }
@@ -85,11 +85,7 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
 
     TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
     if(role == IdRole) {
-        if (item->depth() == 1) {
-            return "root";
-        } else {
-            return item->data(AssetTreeModel::idCol);
-        }
+        return item->data(AssetTreeModel::idCol);
     }
 
     if (role != NameRole) {

@@ -25,6 +25,8 @@
 #include "mltcontroller/bincontroller.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QQuickWidget>
+#include "assets/assetlist/model/assettreemodel.hpp"
+#include "assets/assetlist/model/assetfilter.hpp"
 
 class BinController;
 class ThumbnailProvider;
@@ -184,6 +186,8 @@ private:
     void emitSelectedFromSelection();
     void checkDuration();
     static void tractorChanged(mlt_multitrack mtk, void *self);
+    std::unique_ptr<AssetTreeModel> m_transitionModel;
+    std::unique_ptr<AssetFilter> m_transitionProxyModel;
 
 signals:
     void selectionChanged();

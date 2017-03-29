@@ -32,7 +32,8 @@ class TransitionTreeModel : public AssetTreeModel
 {
 
 public:
-    explicit TransitionTreeModel(QObject *parent = 0);
+    //if flat = true, then the categories are not created
+    explicit TransitionTreeModel(bool flat = false, QObject *parent = 0);
 
 protected:
 

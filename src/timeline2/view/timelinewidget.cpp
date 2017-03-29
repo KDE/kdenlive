@@ -27,6 +27,7 @@
 #include "core.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "bin/bin.h"
+#include "transitions/transitionlist/model/transitiontreemodel.hpp"
 
 #include <KActionCollection>
 #include <KDeclarative/KDeclarative>
@@ -55,6 +56,13 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinControlle
     proxyModel->setSortRole(TimelineItemModel::ItemIdRole);
     proxyModel->sort(0, Qt::DescendingOrder);
 
+    m_transitionModel.reset(new TransitionTreeModel(true, this));
+
+    m_transitionProxyModel.reset(new AssetFilter(this));
+    m_transitionProxyModel->setSourceModel(m_transitionModel.get());
+    m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
+    m_transitionProxyModel->sort(0, Qt::AscendingOrder);
+
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.initialize();
@@ -63,6 +71,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinControlle
     rootContext()->setContextProperty("multitrack", proxyModel);
     rootContext()->setContextProperty("controller", m_model.get());
     rootContext()->setContextProperty("timeline", this);
+    rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
 
     m_model->tractor()->listen("producer-changed", this, (mlt_listener) tractorChanged);
