@@ -30,6 +30,7 @@
 CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition* transition, int id, const QDomElement &transitionXml, const QString &transitionId) :
     AssetParameterModel(transition, transitionXml, transitionId)
     , MoveableItem<Mlt::Transition>(parent, id)
+    , m_atrack(-1)
 {
 }
 
@@ -114,6 +115,16 @@ Mlt::Transition* CompositionModel::service() const
 
 int CompositionModel::getPlaytime() const
 {
-    qDebug() << "composition length"<<getIn()<<getOut();
     return getOut() - getIn() + 1;
+}
+
+int CompositionModel::getATrack() const
+{
+    return m_atrack;
+}
+
+void CompositionModel::setATrack(int trackId)
+{
+    Q_ASSERT(trackId != getCurrentTrackId()); //can't compose with same track
+    m_atrack = trackId;
 }

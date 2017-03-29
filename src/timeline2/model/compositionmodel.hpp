@@ -60,6 +60,14 @@ public:
     /* @brief returns the length of the item on the timeline
      */
     int getPlaytime() const override;
+
+    /* @brief Returns the id of the second track involved in the composition (a_track in mlt's vocabulary, the b_track beeing the track where the composition is inserted)
+       Important: this function returns a kdenlive id, you cannot use it directly in Mlt functions. Use timelinemodel::getTrackPosition to retrieve mlt's index
+     */
+    int getATrack() const;
+
+    /* @brief Sets the id of the second track involved in the composition*/
+    void setATrack(int trackId);
 protected:
     Mlt::Transition *service() const override;
 
@@ -73,6 +81,9 @@ protected:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
     bool requestResize(int size, bool right, Fun& undo, Fun& redo);
+
+
+    int m_atrack;
 
 };
 

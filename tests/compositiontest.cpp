@@ -71,12 +71,12 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     int tid2 = TrackModel::construct(timeline);
     int tid3 = TrackModel::construct(timeline);
     int cid1 = CompositionModel::construct(timeline, aCompo);
+
     REQUIRE(timeline->getCompositionPlaytime(cid1) == 1);
     REQUIRE(timeline->getCompositionPlaytime(cid2) == 1);
 
     SECTION("Insert a composition in a track and change track") {
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 0);
 
@@ -87,8 +87,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
 
         int pos = 10;
         REQUIRE(timeline->requestCompositionMove(cid1, tid1, pos));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid1);
         REQUIRE(timeline->getCompositionPosition(cid1) == pos);
         REQUIRE(timeline->getCompositionPlaytime(cid1) == 1);
@@ -98,8 +97,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
 
         pos = 1;
         REQUIRE(timeline->requestCompositionMove(cid1, tid2, pos));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
         REQUIRE(timeline->getCompositionPosition(cid1) == pos);
         REQUIRE(timeline->getCompositionPlaytime(cid1) == 1);
@@ -107,8 +105,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
 
         REQUIRE(timeline->requestItemResize(cid1, 10, true));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
         REQUIRE(timeline->getCompositionPosition(cid1) == pos);
         REQUIRE(timeline->getCompositionPlaytime(cid1) == 10);
@@ -116,21 +113,20 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
 
         REQUIRE(timeline->requestItemResize(cid2, 10, true));
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionPlaytime(cid2) == 10);
 
         // Check conflicts
         int pos2 = timeline->getCompositionPlaytime(cid1);
         REQUIRE(timeline->requestCompositionMove(cid2, tid1, pos2));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionTrackId(cid2) == tid1);
         REQUIRE(timeline->getCompositionPosition(cid2) == pos2);
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
 
         REQUIRE_FALSE(timeline->requestCompositionMove(cid1, tid1, pos2 + 2));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
@@ -139,8 +135,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getCompositionPosition(cid2) == pos2);
 
         REQUIRE_FALSE(timeline->requestCompositionMove(cid1, tid1, pos2 - 2));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
@@ -149,8 +144,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getCompositionPosition(cid2) == pos2);
 
         REQUIRE(timeline->requestCompositionMove(cid1, tid1, 0));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-        REQUIRE(timeline->getTrackById(tid2)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 0);
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 2);
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid1);

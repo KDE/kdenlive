@@ -136,6 +136,12 @@ public:
     */
     int getTrackPosition(int trackId) const;
 
+    /* @brief Returns the id of the track just below the given track in the order of the tracks
+       Return -1 if we give the last track
+       @param trackId Id of the track to test
+    */
+    int getNextTrackId(int trackId) const;
+
     /* @brief Move a clip to a specific position
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
@@ -412,8 +418,16 @@ protected:
      */
     bool isGroup(int id) const;
 
-    bool plantComposition(Mlt::Transition &tr, int a_track, int b_track);
-    bool removeComposition(int compoId, int pos);
+    /* @brief unplant and the replant all the compositions in the correct order
+       @param currentCompo is the id of a compo that have not yet been planted, if any. Otherwise send -1
+     */
+    bool replantCompositions(int currentCompo);
+
+    /* @brief Unplant the composition with given Id */
+    bool unplantComposition(int compoId);
+
+    /* @brief Debugging function that checks consistency with Mlt objects */
+    bool checkConsistency();
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
