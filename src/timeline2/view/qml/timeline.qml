@@ -95,13 +95,17 @@ Rectangle {
         x: headerWidth
         keys: 'kdenlive/composition'
         onEntered: {
+            console.log("Trying to drop composition")
             if (clipBeingMovedId == -1) {
+                console.log("No clip being moved")
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 droppedPosition = frame
                 if (track >= 0) {
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
+                    console.log("Trying to insert",track, frame, clipBeingDroppedData)
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
+                    console.log("id",clipBeingDroppedId)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                     drag.acceptProposedAction()
                 } else {

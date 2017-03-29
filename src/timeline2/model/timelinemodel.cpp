@@ -173,16 +173,32 @@ int TimelineModel::getTrackPosition(int trackId) const
     return pos;
 }
 
+int TimelineModel::getTrackMltIndex(int trackId) const
+{
+    READ_LOCK();
+    // Because of the black track that we insert in first position, the mlt index is the position + 1
+    return getTrackPosition(trackId) + 1;
+}
+
 int TimelineModel::getNextTrackId(int trackId) const
 {
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
     auto it = m_iteratorTable.at(trackId);
     ++it;
-    if (it != m_allTracks.end()) {
-        return (*it)->getId();
+    return (it != m_allTracks.end()) ? (*it)->getId() : -1;
+}
+
+int TimelineModel::getPreviousTrackId(int trackId) const
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    auto it = m_iteratorTable.at(trackId);
+    if (it == m_allTracks.begin()) {
+        return -1;
     }
-    return -1;
+    --it;
+    return (*it)->getId();
 }
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
@@ -343,7 +359,8 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     bool possible = requestCompositionMove(compoId, trackId, position, false, undo, redo);
     qDebug() << "Original move success" << possible;
     if (possible) {
-        undo();
+        bool undone = undo();
+        Q_ASSERT(undone);
         return position;
     }
     bool after = position > currentPos;
@@ -1020,6 +1037,7 @@ bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int
 
 bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int trackId, int position, int length, int &id, Fun& undo, Fun& redo)
 {
+    qDebug() << "Inserting compo track"<<trackId<<"pos"<<position<<"length"<<length;
     int compositionId = TimelineModel::getNextId();
     id = compositionId;
     Fun local_undo = deregisterComposition_lambda(compositionId);
@@ -1031,8 +1049,10 @@ bool TimelineModel::requestCompositionInsertion(const QString& transitionId, int
         return true;
     };
     bool res = requestCompositionMove(compositionId, trackId, position, true, local_undo, local_redo);
+    qDebug() << "trying to move"<<trackId<<"pos"<<position<<"succes "<<res;
     if (res) {
         res = requestItemResize(compositionId, length, true, true, local_undo, local_redo);
+        qDebug() << "trying to resize"<<compositionId<<"length"<<length<<"succes "<<res;
     }
     if (!res) {
         bool undone = local_undo();
@@ -1109,12 +1129,14 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
 
 bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
 {
+    qDebug() << "Requestiing composition move"<<trackId<<position;
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
-    int nextTrack = getNextTrackId(trackId);
-    if (nextTrack == -1){
+    int previousTrack = getPreviousTrackId(trackId);
+    if (previousTrack == -1){
         // it doesn't make sense to insert a composition on the last track
+        qDebug() << "Move failed because of last track";
         return false;
     }
     Fun local_undo = [](){return true;};
@@ -1133,23 +1155,27 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
             return replantCompositions(compoId);
         };
         ok = delete_operation();
+        if (!ok) qDebug() << "Move failed because of first delete operation";
+
         if (ok) {
             UPDATE_UNDO_REDO(delete_operation, delete_reverse, local_undo, local_redo);
             ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, local_undo, local_redo);
         }
         if (!ok) {
+            qDebug() << "Move failed because of first deletion request";
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
     ok = getTrackById(trackId)->requestCompositionInsertion(compoId, position, updateView, local_undo, local_redo);
+    if(!ok) qDebug() << "Move failed because of second insertion request";
     if (ok) {
         Fun insert_operation = [](){return true;};
         Fun insert_reverse = [](){return true;};
         if (old_trackId != trackId) {
-            insert_operation = [this, compoId, trackId, nextTrack]() {
-                m_allCompositions[compoId]->setATrack(nextTrack);
+            insert_operation = [this, compoId, trackId, previousTrack]() {
+                m_allCompositions[compoId]->setATrack(previousTrack);
                 return replantCompositions(compoId);
             };
             insert_reverse = [this, compoId]() {
@@ -1159,6 +1185,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
             };
         }
         ok = insert_operation();
+        if(!ok) qDebug() << "Move failed because of second insert operation";
         if (ok) {
             UPDATE_UNDO_REDO(insert_operation, insert_reverse, local_undo, local_redo);
         }
@@ -1172,19 +1199,6 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     return true;
 }
 
-typedef struct
-{
-    int size;
-    int count;
-    mlt_service *in;
-    mlt_service out;
-    int filter_count;
-    int filter_size;
-    mlt_filter *filters;
-    pthread_mutex_t mutex;
-}
-    mlt_service_base;
-
 bool TimelineModel::replantCompositions(int currentCompo)
 {
     // We ensure that the compositions are planted in a decreasing order of b_track.
@@ -1197,7 +1211,7 @@ bool TimelineModel::replantCompositions(int currentCompo)
             continue;
         }
         //Note: we need to retrieve the position of the track, that is its melt index.
-        int trackPos = getTrackPosition(trackId);
+        int trackPos = getTrackMltIndex(trackId);
         compos.push_back({trackPos, compo.first});
         if (compo.first != currentCompo) {
             unplantComposition(compo.first);
@@ -1212,8 +1226,9 @@ bool TimelineModel::replantCompositions(int currentCompo)
     for (const auto & compo : compos) {
         int aTrack = m_allCompositions[compo.second]->getATrack();
         Q_ASSERT(aTrack != -1);
-        aTrack = getTrackPosition(aTrack);
+        aTrack = getTrackMltIndex(aTrack);
         int ret = field->plant_transition(*m_allCompositions[compo.second].get(), aTrack , compo.first);
+        qDebug() << "Planting composition "<<compo.second<< "in "<<aTrack<<"/"<<compo.first<<"ret="<<ret;
         if (ret != 0) {
             return false;
         }
@@ -1223,8 +1238,10 @@ bool TimelineModel::replantCompositions(int currentCompo)
 
 bool TimelineModel::unplantComposition(int compoId)
 {
+    qDebug()<<"Unplanting"<<compoId;
     Mlt::Transition &transition = *m_allCompositions[compoId].get();
     m_tractor->field()->disconnect_service(transition);
+    //TODO This is probably wrong, because a track might have changed
     transition.disconnect_producer(transition.get_a_track());
     return true;
 }
@@ -1248,7 +1265,6 @@ bool TimelineModel::checkConsistency()
     }
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
-    bool found = false;
 
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_service_type mlt_type = mlt_service_identify(nextservice);

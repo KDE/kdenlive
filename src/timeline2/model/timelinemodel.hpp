@@ -136,11 +136,21 @@ public:
     */
     int getTrackPosition(int trackId) const;
 
+    /* @brief Returns the track's index in terms of mlt's internal representation
+     */
+    int getTrackMltIndex(int trackId) const;
+
     /* @brief Returns the id of the track just below the given track in the order of the tracks
        Return -1 if we give the last track
        @param trackId Id of the track to test
     */
     int getNextTrackId(int trackId) const;
+
+    /* @brief Returns the id of the track just above the given track in the order of the tracks
+       Return -1 if we give the last track
+       @param trackId Id of the track to test
+    */
+    int getPreviousTrackId(int trackId) const;
 
     /* @brief Move a clip to a specific position
        This action is undoable

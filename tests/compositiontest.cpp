@@ -66,6 +66,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
 
+    int tid0 = TrackModel::construct(timeline);
     int tid1 = TrackModel::construct(timeline);
     int cid2 = CompositionModel::construct(timeline, aCompo);
     int tid2 = TrackModel::construct(timeline);
