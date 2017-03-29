@@ -67,6 +67,9 @@ public:
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
     int reconfigure(Mlt::Profile *profile = nullptr);
+    /** @brief Get the current MLT producer playlist.
+     * @return A string describing the playlist */
+    const QString sceneList(const QString &root);
 
     int displayWidth() const
     {

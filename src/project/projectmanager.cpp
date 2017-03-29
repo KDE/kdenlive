@@ -714,6 +714,8 @@ void ProjectManager::slotAutoSave()
 
 QString ProjectManager::projectSceneList(const QString &outputFolder)
 {
+    //TODO: re-implement overlay and all
+    return pCore->monitorManager()->projectMonitor()->sceneList(outputFolder);
     bool multitrackEnabled = m_trackView->multitrackView;
     if (multitrackEnabled) {
         // Multitrack view was enabled, disable for auto save

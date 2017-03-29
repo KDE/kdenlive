@@ -1499,10 +1499,7 @@ void Monitor::resetProfile(const MltVideoProfile &profile)
 
 const QString Monitor::sceneList(const QString &root)
 {
-    if (render == nullptr) {
-        return QString();
-    }
-    return render->sceneList(root);
+    return m_glMonitor->sceneList(root);
 }
 
 void Monitor::setClipZone(const QPoint &pos)
