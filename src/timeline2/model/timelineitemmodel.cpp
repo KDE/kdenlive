@@ -321,8 +321,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             case BinIdRole:
                 return 5;
             case ItemATrack:
-                return 2;
-                //return compo->getTargetTrack(); 
+                return compo->getATrack();
             case MarkersRole: {
                 QVariantList markersList;
                 return markersList;
