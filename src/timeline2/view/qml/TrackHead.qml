@@ -275,6 +275,7 @@ Rectangle {
                 drag.axis: Drag.YAxis
                 property double startY
                 property double originalY
+                drag.smoothed: false
 
                 onPressed: {
                     root.stopScrolling = true

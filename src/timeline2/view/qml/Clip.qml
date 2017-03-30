@@ -535,6 +535,7 @@ Rectangle {
             cursorShape: Qt.SizeHorCursor
             drag.target: parent
             drag.axis: Drag.XAxis
+            drag.smoothed: false
 
             onPressed: {
                 root.stopScrolling = true
@@ -578,6 +579,7 @@ Rectangle {
             cursorShape: Qt.SizeHorCursor
             drag.target: parent
             drag.axis: Drag.XAxis
+            drag.smoothed: false
 
             onPressed: {
                 root.stopScrolling = true
