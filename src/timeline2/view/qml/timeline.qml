@@ -176,7 +176,7 @@ Rectangle {
         }
         onExited:{
             if (clipBeingDroppedId != -1) {
-                controller.requestClipDeletion(clipBeingDroppedId, false)
+                controller.requestItemDeletion(clipBeingDroppedId, false)
             }
             clipBeingDroppedId = -1
             droppedPosition = -1
