@@ -225,7 +225,7 @@ Rectangle {
             title: i18n('Insert a composition...')
             menuModel: transitionModel
             onAssetSelected: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY)
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
                 var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 var id = timeline.insertComposition(track, frame, assetId, true)
                 if (id == -1) {
