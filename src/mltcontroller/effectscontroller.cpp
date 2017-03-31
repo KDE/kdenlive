@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effectstack/widgets/animationwidget.h"
 
 #include "kdenlive_debug.h"
-#include <QScriptEngine>
 
 EffectInfo::EffectInfo()
 {
@@ -227,12 +226,13 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
 
 double EffectsController::getStringEval(const ProfileInfo &info, QString eval, const QPoint &frameSize)
 {
-    QScriptEngine sEngine;
-    sEngine.globalObject().setProperty(QStringLiteral("maxWidth"), info.profileSize.width() > frameSize.x() ? info.profileSize.width() : frameSize.x());
-    sEngine.globalObject().setProperty(QStringLiteral("maxHeight"), info.profileSize.height() > frameSize.y() ? info.profileSize.height() : frameSize.y());
-    sEngine.globalObject().setProperty(QStringLiteral("width"), info.profileSize.width());
-    sEngine.globalObject().setProperty(QStringLiteral("height"), info.profileSize.height());
-    return sEngine.evaluate(eval.remove('%')).toNumber();
+    eval.replace(QLatin1String("%maxWidth"),  QString::number(info.profileSize.width() > frameSize.x() ? info.profileSize.width() : frameSize.x()))
+        .replace(QLatin1String("%maxHeight"), QString::number(info.profileSize.height() > frameSize.y() ? info.profileSize.height() : frameSize.y()))
+        .replace(QLatin1String("%width"),     QString::number(info.profileSize.width()))
+        .replace(QLatin1String("%height"),    QString::number(info.profileSize.height()));
+    Mlt::Properties p;
+    p.set("eval", eval.toLatin1().constData());
+    return p.get_double("eval");
 }
 
 QString EffectsController::getStringRectEval(const ProfileInfo &info, QString eval)

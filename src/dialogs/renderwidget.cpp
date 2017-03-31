@@ -1268,14 +1268,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 
         QStringList paramsList = renderArgs.split(' ', QString::SkipEmptyParts);
 
-        QScriptEngine sEngine;
-        sEngine.globalObject().setProperty(QStringLiteral("bitrate"), m_view.video->value());
-        sEngine.globalObject().setProperty(QStringLiteral("quality"), m_view.video->value());
-        sEngine.globalObject().setProperty(QStringLiteral("audiobitrate"), m_view.audio->value());
-        sEngine.globalObject().setProperty(QStringLiteral("audioquality"), m_view.audio->value());
-        sEngine.globalObject().setProperty(QStringLiteral("dar"), '@' + QString::number(profile->display_aspect_num()) + QLatin1Char('/') + QString::number(profile->display_aspect_den()));
-        sEngine.globalObject().setProperty(QStringLiteral("passes"), static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
-
         for (int i = 0; i < paramsList.count(); ++i) {
             QString paramName = paramsList.at(i).section(QLatin1Char('='), 0, -2);
             QString paramValue = paramsList.at(i).section(QLatin1Char('='), -1);
@@ -1285,10 +1277,26 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             }
             // evaluate expression
             if (paramValue.startsWith(QLatin1Char('%'))) {
-                paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
+                if (paramValue.startsWith(QStringLiteral("%bitrate"))
+                 || paramValue == QStringLiteral("%quality")) {
+                    if (paramValue.contains("+'k'"))
+                        paramValue = QString::number(m_view.video->value()) + 'k';
+                    else
+                        paramValue = QString::number(m_view.video->value());
+                }
+                if (paramValue.startsWith(QStringLiteral("%audiobitrate"))
+                 || paramValue == QStringLiteral("%audioquality")) {
+                    if (paramValue.contains("+'k'"))
+                        paramValue = QString::number(m_view.audio->value()) + 'k';
+                    else
+                        paramValue = QString::number(m_view.audio->value());
+                }
+                if (paramValue == QStringLiteral("%dar"))
+                    paramValue =  '@' + QString::number(profile->display_aspect_num()) + QLatin1Char('/') + QString::number(profile->display_aspect_den());
+                if (paramValue == QStringLiteral("%passes"))
+                    paramValue = QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
                 paramsList[i] = paramName + QLatin1Char('=') + paramValue;
             }
-            sEngine.globalObject().setProperty(paramName.toUtf8().constData(), paramValue);
         }
 
         if (resizeProfile && !KdenliveSettings::gpu_accel()) {
