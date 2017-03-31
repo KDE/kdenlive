@@ -260,7 +260,6 @@ Column{
     Component {
         id: compositionDelegate
         Composition {
-            y: trackRoot.height / 2
             displayHeight: trackRoot.height / 2
             opacity: 0.8
             selected: trackRoot.selection.indexOf(clipId) !== -1

@@ -70,7 +70,7 @@ Item {
     signal trimmedOut(var clip)
 
     onTrackHeightChanged: {
-        a_trackPos = root.getTrackYFromId(a_track) - mapToItem(trackRoot, 0, 0).y - trackRoot.mapToItem(null, 0, 0).y + ruler.height
+        a_trackPos = root.getTrackYFromId(a_track) - trackRoot.mapToItem(null, 0, 0).y + ruler.height
     }
 
     onModelStartChanged: {
@@ -92,10 +92,9 @@ Item {
         parent = track
         isAudio = track.isAudio
         displayHeight = track.height / 2
-        y = track.height / 2
     }
     onA_trackChanged: {
-        a_trackPos = root.getTrackYFromId(a_track) - mapToItem(trackRoot, 0, 0).y - trackRoot.mapToItem(null, 0, 0).y + ruler.height
+        a_trackPos = root.getTrackYFromId(a_track) - trackRoot.mapToItem(null, 0, 0).y + ruler.height
     }
 
     SystemPalette { id: activePalette }
@@ -104,6 +103,7 @@ Item {
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.left: parent.left
+        anchors.topMargin: displayHeight
         height: displayHeight
         color: Qt.darker('mediumpurple')
         border.color: selected? 'red' : borderColor
