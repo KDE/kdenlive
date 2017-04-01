@@ -615,6 +615,9 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         }
         //TODO Make the number of frames of snapping adjustable
         int proposed_size = m_snaps->proposeSize(in, out, size, right, 10);
+        if (proposed_size < 0) {
+            proposed_size = size;
+        }
         bool success = false;
         if (isClip(itemId)) {
             success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo);

@@ -594,7 +594,9 @@ Rectangle {
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var newDuration = Math.round((parent.x + parent.width) / timeScale)
-                    clipRoot.trimmingOut(clipRoot, newDuration, mouse)
+                    if (newDuration != clipDuration) {
+                        clipRoot.trimmingOut(clipRoot, newDuration, mouse)
+                    }
                 }
             }
             onEntered: parent.opacity = 0.5

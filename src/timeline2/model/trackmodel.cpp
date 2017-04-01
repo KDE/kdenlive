@@ -325,6 +325,12 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             if (target_clip == m_playlists[target_track].count() - 1 && other_blank_end >= out) {
                 //clip is last, it can always be extended
                 return [this, target_clip, target_track, in, out, update_snaps, clipId]() {
+                    // color, image and title clips can have unlimited resize
+                    QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip));
+                    if (out > clip->get_length()) {
+                        clip->parent().set("length", out + 1);
+                        clip->set("length", out + 1);
+                    }
                     int err = m_playlists[target_track].resize_clip(target_clip, in, out);
                     if (err == 0) {
                         update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in);
