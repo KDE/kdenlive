@@ -74,18 +74,10 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinControlle
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
 
-    m_model->tractor()->listen("producer-changed", this, (mlt_listener) tractorChanged);
     m_thumbnailer = new ThumbnailProvider;
     engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
     setFocusPolicy(Qt::StrongFocus);
     //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
-}
-
-void TimelineWidget::tractorChanged(mlt_multitrack mtk, void *self)
-{
-    TimelineWidget *me = (TimelineWidget*) (self);
-    if (me)
-        me->checkDuration();
 }
 
 void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool isMultitrack)
@@ -283,6 +275,7 @@ void TimelineWidget::buildFromMelt(Mlt::Tractor tractor)
     qDebug() << "REQUESTING BUILD FROM MELT";
     m_thumbnailer->resetProject();
     constructTimelineFromMelt(m_model, tractor);
+    checkDuration();
 }
 
 void TimelineWidget::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)

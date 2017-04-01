@@ -185,7 +185,6 @@ private:
     static int m_duration;
     void emitSelectedFromSelection();
     void checkDuration();
-    static void tractorChanged(mlt_multitrack mtk, void *self);
     std::unique_ptr<AssetTreeModel> m_transitionModel;
     std::unique_ptr<AssetFilter> m_transitionProxyModel;
 
