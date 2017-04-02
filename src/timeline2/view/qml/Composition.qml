@@ -164,6 +164,7 @@ Item {
         acceptedButtons: Qt.LeftButton
         drag.target: compositionRoot
         drag.axis: Drag.XAxis
+        drag.smoothed: false
         property int startX
 
         onPressed: {
@@ -231,6 +232,7 @@ Item {
             cursorShape: Qt.SizeHorCursor
             drag.target: parent
             drag.axis: Drag.XAxis
+            drag.smoothed: false
 
             onPressed: {
                 root.stopScrolling = true
@@ -276,6 +278,7 @@ Item {
             cursorShape: Qt.SizeHorCursor
             drag.target: parent
             drag.axis: Drag.XAxis
+            drag.smoothed: false
 
             onPressed: {
                 root.stopScrolling = true

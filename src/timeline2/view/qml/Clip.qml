@@ -306,6 +306,7 @@ Rectangle {
         drag.target: parent
         drag.axis: Drag.XAxis
         property int startX
+        drag.smoothed: false
 
         onPressed: {
             root.stopScrolling = true
