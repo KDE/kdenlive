@@ -44,6 +44,7 @@ public:
     QString getDescription(const QModelIndex& index) const;
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
+    QList <QModelIndex> getChildrenIndexes();
 
 
     // for convenience, we store the column of each data field

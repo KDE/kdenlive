@@ -76,3 +76,4 @@ bool AssetFilter::applyAll(TreeItem* item) const
 {
     return filterName(item);
 }
+

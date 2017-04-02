@@ -34,6 +34,13 @@ Rectangle {
     function assetType(){
         return isEffectList ? i18n("effects") : i18n("transitions");
     }
+
+    function expandNodes(indexes)  {
+        for(var i = 0; i < indexes.length; i++) {
+            treeView.expand(indexes[i]);
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 2

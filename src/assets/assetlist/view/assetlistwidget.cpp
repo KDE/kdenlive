@@ -25,6 +25,7 @@
 #include <KDeclarative/KDeclarative>
 #include <QStandardPaths>
 #include <QQmlContext>
+#include <QQuickItem>
 
 AssetListWidget::AssetListWidget(QWidget *parent)
     : QQuickWidget(parent)
@@ -56,6 +57,13 @@ QString AssetListWidget::getDescription(const QModelIndex& index) const
 void AssetListWidget::setFilterName(const QString& pattern)
 {
     m_proxyModel->setFilterName(!pattern.isEmpty(), pattern);
+    if (!pattern.isEmpty()) {
+        QVariantList mapped;
+        foreach(const QModelIndex &ix, m_model->getChildrenIndexes()) {
+            mapped << m_proxyModel->mapFromSource(ix);
+        }
+        QMetaObject::invokeMethod(rootObject(), "expandNodes", Qt::QueuedConnection, Q_ARG(QVariant, mapped));
+    }
 }
 
 
@@ -65,3 +73,4 @@ QVariantMap AssetListWidget::getMimeData(const QString &assetId) const
     mimeData.insert(getMimeType(assetId), assetId);
     return mimeData;
 }
+

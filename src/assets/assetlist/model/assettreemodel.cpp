@@ -93,3 +93,14 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     }
     return item->data(index.column());
 }
+
+QList <QModelIndex> AssetTreeModel::getChildrenIndexes()
+{
+    QList <QModelIndex> indexes;
+    for(int i = 0; i != rootItem->childCount(); ++i) {
+        TreeItem *child = rootItem->child(i);
+        indexes << createIndex(i,0, child);
+    }
+
+    return indexes;
+}
