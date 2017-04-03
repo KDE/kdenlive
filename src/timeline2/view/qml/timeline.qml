@@ -381,7 +381,7 @@ Rectangle {
 
                     Ruler {
                         id: ruler
-                        width: root.duration
+                        width: root.duration * timeScale
                         index: index
                     }
                 }
@@ -392,7 +392,7 @@ Rectangle {
                     // Click and drag should seek, not scroll the timeline view
                     flickableItem.interactive: false
                     Rectangle {
-                        width: root.duration
+                        width: ruler.width
                         height: trackHeaders.height
                         color: activePalette.window
                         MouseArea {
@@ -408,7 +408,7 @@ Rectangle {
                                 model: multitrack
                                 id: trackBaseRepeater
                                 delegate: Rectangle {
-                                    width: root.duration
+                                    width: ruler.width
                                     border.width: 1
                                     border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
                                     //Layout.fillWidth: true

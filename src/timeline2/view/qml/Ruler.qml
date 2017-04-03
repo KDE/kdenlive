@@ -46,23 +46,25 @@ Rectangle {
     color: activePalette.window
 
     Repeater {
-        model: parent.width / frameSize
+        model: scrollView.width / frameSize + 2
         Rectangle {
+            property int realPos: scrollView.flickableItem.contentX / frameSize + index
+            x: realPos * frameSize
             anchors.bottom: rulerTop.bottom
-            height: (index % 4)? ((index % 2) ? 3 : 7) : 12
+            height: (realPos % 4)? ((realPos % 2) ? 3 : 7) : 12
             width: 1
             color: activePalette.windowText
             opacity: 0.5
-            x: index * frameSize
         }
     }
     Repeater {
-        model: parent.width / stepSize
+        model: scrollView.width / stepSize + 2
         Label {
+            property int realPos: scrollView.flickableItem.contentX / stepSize + index
             anchors.top: rulerTop.top
             anchors.topMargin: 2
-            x: index * stepSize
-            text: timeline.timecode(index * stepSize / timeScale)
+            x: realPos * stepSize
+            text: timeline.timecode(realPos * stepSize / timeScale)
             font.pointSize: fontUnit
             color: activePalette.windowText
         }
