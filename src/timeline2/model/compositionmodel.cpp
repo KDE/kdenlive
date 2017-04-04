@@ -61,14 +61,15 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     int in = getIn();
     int out = getOut();
     int old_in = in, old_out = out;
-    //check if there is enough space on the chosen side
-    if ((!right && in + delta < 0)) {
-        return false;
-    }
     if (right) {
         out -= delta;
     } else {
         in += delta;
+    }
+    //if the in becomes negative, we add the necessary length in out.
+    if (in < 0) {
+        out = out - in;
+        in = 0;
     }
 
     std::function<bool (void)> track_operation = [](){return true;};

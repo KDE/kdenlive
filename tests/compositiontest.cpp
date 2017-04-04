@@ -154,5 +154,85 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getCompositionPosition(cid2) == pos2);
     }
 
+    SECTION("Insert consecutive compositions") {
+        int length = 12;
+        REQUIRE(timeline->requestItemResize(cid1, length, true));
+        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->getCompositionPlaytime(cid1) == length);
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
+        REQUIRE(timeline->getTrackCompositionsCount(tid2) == 0);
+
+        REQUIRE(timeline->requestCompositionMove(cid1, tid1, 0));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getCompositionTrackId(cid1) == tid1);
+        REQUIRE(timeline->getCompositionPosition(cid1) == 0);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
+
+        REQUIRE(timeline->requestCompositionMove(cid2, tid1, length));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getCompositionTrackId(cid2) == tid1);
+        REQUIRE(timeline->getCompositionPosition(cid2) == length);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 2);
+    }
+
+    SECTION("Resize orphan clip"){
+        int length = 12;
+        REQUIRE(timeline->requestItemResize(cid1, length, true));
+        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->getCompositionPlaytime(cid1) == length);
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
+
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
+        REQUIRE(timeline->requestItemResize(cid2, 5, true));
+        auto inOut = std::pair<int,int>{0,4};
+        REQUIRE(timeline->m_allCompositions[cid2]->getInOut() == inOut );
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == 5);
+        REQUIRE(timeline->requestItemResize(cid2, 10, false));
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == 10);
+        REQUIRE(timeline->requestItemResize(cid2, length + 1, true));
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == length + 1);
+        REQUIRE(timeline->requestItemResize(cid2, 2, false));
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == 2);
+        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
+        REQUIRE(timeline->requestItemResize(cid2, length - 2, true));
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == length - 2);
+        REQUIRE(timeline->requestItemResize(cid2, length - 3, true));
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == length - 3);
+    }
+
+    SECTION("Resize inserted clips"){
+        int length = 12;
+        REQUIRE(timeline->requestItemResize(cid1, length, true));
+        REQUIRE(timeline->requestItemResize(cid2, length, true));
+
+        REQUIRE(timeline->requestCompositionMove(cid1, tid1, 0));
+        REQUIRE(timeline->checkConsistency());
+
+        REQUIRE(timeline->requestItemResize(cid1, 5, true));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getCompositionPlaytime(cid1) == 5);
+        REQUIRE(timeline->getCompositionPosition(cid1) == 0);
+
+        REQUIRE(timeline->requestCompositionMove(cid2, tid1, 5));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
+        REQUIRE(timeline->getCompositionPosition(cid2) == 5);
+
+        REQUIRE_FALSE(timeline->requestItemResize(cid1, 6, true));
+        REQUIRE_FALSE(timeline->requestItemResize(cid1, 6, false));
+        REQUIRE(timeline->checkConsistency());
+
+        REQUIRE(timeline->requestItemResize(cid2, length - 5, false));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getCompositionPosition(cid2) == 10);
+
+        REQUIRE(timeline->requestItemResize(cid1, 10, true));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 2);
+    }
+
 }
 

@@ -1231,7 +1231,7 @@ bool TimelineModel::replantCompositions(int currentCompo)
         Q_ASSERT(aTrack != -1);
         aTrack = getTrackMltIndex(aTrack);
         int ret = field->plant_transition(*m_allCompositions[compo.second].get(), aTrack , compo.first);
-        qDebug() << "Planting composition "<<compo.second<< "in "<<aTrack<<"/"<<compo.first<<"ret="<<ret;
+        qDebug() << "Planting composition "<<compo.second<< "in "<<aTrack<<"/"<<compo.first<<"IN = "<<m_allCompositions[compo.second]->getIn()<<"OUT = "<<m_allCompositions[compo.second]->getOut()<<"ret="<<ret;
         if (ret != 0) {
             return false;
         }
@@ -1244,8 +1244,7 @@ bool TimelineModel::unplantComposition(int compoId)
     qDebug()<<"Unplanting"<<compoId;
     Mlt::Transition &transition = *m_allCompositions[compoId].get();
     m_tractor->field()->disconnect_service(transition);
-    //TODO This is probably wrong, because a track might have changed
-    transition.disconnect_producer(transition.get_a_track());
+    transition.disconnect_all_producers();
     return true;
 }
 
@@ -1283,8 +1282,8 @@ bool TimelineModel::checkConsistency()
             int foundId = -1;
             //we iterate to try to find a matching compo
             for (int compoId : remaining_compo) {
-                if (getTrackPosition(getCompositionTrackId(compoId)) == currentTrack &&
-                    getTrackPosition(m_allCompositions[compoId]->getATrack()) == currentATrack &&
+                if (getTrackMltIndex(getCompositionTrackId(compoId)) == currentTrack &&
+                    getTrackMltIndex(m_allCompositions[compoId]->getATrack()) == currentATrack &&
                     m_allCompositions[compoId]->getIn() == currentIn &&
                     m_allCompositions[compoId]->getOut() == currentOut) {
                     foundId = compoId;
