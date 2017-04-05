@@ -116,8 +116,8 @@ void ThemeManager::setCurrentTheme(const QString &filename)
         return;
     }
     QString name = d->themeMap.key(filename, d->defaultThemeName);
-    QList<QAction *> list = d->themeMenuActionGroup->actions();
-    foreach (QAction *const action, list) {
+    const QList<QAction *> list = d->themeMenuActionGroup->actions();
+    for (QAction *const action : list) {
         if (action->text().remove('&') == name) {
             action->setChecked(true);
             //slotChangePalette();
@@ -227,9 +227,9 @@ void ThemeManager::slotConfigColors()
 
 void ThemeManager::updateCurrentKDEdefaultThemePreview()
 {
-    QList<QAction *> list = d->themeMenuActionGroup->actions();
+    const QList<QAction *> list = d->themeMenuActionGroup->actions();
 
-    foreach (QAction *const action, list) {
+    for (QAction *const action : list) {
         if (action->text().remove('&') == defaultThemeName()) {
             KSharedConfigPtr config = KSharedConfig::openConfig(d->themeMap.value(currentKDEdefaultTheme()));
             QIcon icon = createSchemePreviewIcon(config);

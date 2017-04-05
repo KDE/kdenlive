@@ -535,8 +535,8 @@ void Monitor::slotForceSize(QAction *a)
         profileWidth = m_glMonitor->profile()->dar() * profileHeight;
         if (profileWidth > r.width() * 0.8 || profileHeight > r.height() * 0.7) {
             // reset action to free resize
-            QList< QAction * > list = m_forceSize->actions();
-            foreach (QAction *ac, list) {
+            const QList< QAction * > list = m_forceSize->actions();
+            for (QAction *ac : list) {
                 if (ac->data().toInt() == m_forceSizeFactor) {
                     m_forceSize->setCurrentAction(ac);
                     break;
