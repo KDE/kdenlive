@@ -28,7 +28,6 @@
 #include <QTextStream>
 
 #include <mlt++/Mlt.h>
-#include "assets/model/assetparametermodel.hpp"
 #include "profiles/profilemodel.hpp"
 
 std::unique_ptr<TransitionsRepository> TransitionsRepository::instance;

@@ -4,5 +4,7 @@ set(kdenlive_SRCS
   effects/effectlist/view/effectlistwidget.cpp
   effects/effectlist/model/effecttreemodel.cpp
   effects/effectlist/model/effectfilter.cpp
+  effects/effectstack/model/effectitemmodel.cpp
+  effects/effectstack/model/effectstackmodel.cpp
   PARENT_SCOPE)
 

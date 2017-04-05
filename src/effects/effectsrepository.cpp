@@ -28,6 +28,7 @@
 #include <QTextStream>
 
 #include <mlt++/Mlt.h>
+#include "profiles/profilemodel.hpp"
 
 std::unique_ptr<EffectsRepository> EffectsRepository::instance;
 std::once_flag EffectsRepository::m_onceFlag;
@@ -142,4 +143,17 @@ void EffectsRepository::parseType(QScopedPointer<Mlt::Properties>& metadata, Inf
 QString EffectsRepository::assetBlackListPath() const
 {
     return QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_effects.txt"));
+}
+
+Mlt::Filter *EffectsRepository::getEffect(const QString& effectId) const
+{
+    Q_ASSERT(exists(effectId));
+    QString service_name = m_assets.at(effectId).mltId;
+    // We create the Mlt element from its name
+    Mlt::Filter *filter = new Mlt::Filter(
+        pCore->getCurrentProfile()->profile(),
+        service_name.toLatin1().constData(),
+        nullptr
+        );
+    return filter;
 }

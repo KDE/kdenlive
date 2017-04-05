@@ -32,6 +32,7 @@ namespace Mlt{
 }
 class TimelineModel;
 class TrackModel;
+class EffectStackModel;
 
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
@@ -45,7 +46,7 @@ class ClipModel : public MoveableItem<Mlt::Producer>
     int getPlaytime() const override;
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod, int id = -1);
+    ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id = -1);
 
 public:
 
@@ -79,6 +80,8 @@ protected:
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;
+
+    std::shared_ptr<EffectStackModel> m_effectStack;
 
 };
 

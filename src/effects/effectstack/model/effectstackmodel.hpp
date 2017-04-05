@@ -19,69 +19,35 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "treeitem.hpp"
+#ifndef EFFECTSTACKMODEL_H
+#define EFFECTSTACKMODEL_H
 
-TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent)
+#include "abstractmodel/abstracttreemodel.hpp"
+#include <memory>
+#include <mlt++/Mlt.h>
+
+/* @brief This class an effect stack as viewed by the back-end.
+   It is responsible for planting and managing effects into the producer it holds a pointer to.
+ */
+class TreeItem;
+class EffectStackModel : public AbstractTreeModel
 {
-    m_parentItem = parent;
-    m_itemData = data;
-    m_depth = 0;
-}
 
-TreeItem::~TreeItem()
-{
-    qDeleteAll(m_childItems);
-}
+public:
 
-TreeItem* TreeItem::appendChild(const QList<QVariant> &data)
-{
-    TreeItem *child = new TreeItem(data, this);
-    child->m_depth = m_depth + 1;
-    m_childItems.append(child);
-    return child;
-}
+    /* @brief Constructs an effect stack and returns a shared ptr to the constucted object
+       @param service is the mlt object on which we will plant the effects */
+    static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service);
 
-void TreeItem::appendChild(TreeItem *child)
-{
-    child->m_depth = m_depth + 1;
-    m_childItems.append(child);
-}
+    /* @brief Add an effect at the bottom of the stack */
+    void appendEffect(const QString& effectId);
 
-TreeItem *TreeItem::child(int row)
-{
-    return m_childItems.value(row);
-}
+    EffectStackModel(std::weak_ptr<Mlt::Service> service);
 
-int TreeItem::childCount() const
-{
-    return m_childItems.count();
-}
+protected:
 
-int TreeItem::columnCount() const
-{
-    return m_itemData.count();
-}
+    std::weak_ptr<Mlt::Service> m_service;
 
-QVariant TreeItem::data(int column) const
-{
-    return m_itemData.value(column);
-}
+};
 
-TreeItem *TreeItem::parentItem()
-{
-    return m_parentItem;
-}
-
-int TreeItem::row() const
-{
-    if (m_parentItem)
-        return m_parentItem->m_childItems.indexOf(const_cast<TreeItem*>(this));
-
-    return 0;
-}
-
-int TreeItem::depth() const
-{
-    return m_depth;
-}
-
+#endif

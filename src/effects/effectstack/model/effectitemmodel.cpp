@@ -19,69 +19,43 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "treeitem.hpp"
+#include "effectitemmodel.hpp"
+#include "effects/effectsrepository.hpp"
 
-TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent)
+
+EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId)
+    : TreeItem(data)
+    , AssetParameterModel(effect, xml, effectId)
 {
-    m_parentItem = parent;
-    m_itemData = data;
-    m_depth = 0;
 }
 
-TreeItem::~TreeItem()
+//static
+EffectItemModel* EffectItemModel::construct(const QString & effectId)
 {
-    qDeleteAll(m_childItems);
+    Q_ASSERT(EffectsRepository::get()->exists(effectId));
+    QDomElement xml = EffectsRepository::get()->getXml(effectId);
+
+    Mlt::Properties *effect = EffectsRepository::get()->getEffect(effectId);
+ 
+    QList<QVariant> data;
+    data << EffectsRepository::get()->getName(effectId)
+         << effectId;
+
+    return new EffectItemModel(data, effect, xml, effectId);
 }
 
-TreeItem* TreeItem::appendChild(const QList<QVariant> &data)
+void EffectItemModel::plant(std::weak_ptr<Mlt::Service> service)
 {
-    TreeItem *child = new TreeItem(data, this);
-    child->m_depth = m_depth + 1;
-    m_childItems.append(child);
-    return child;
+    if (auto ptr = service.lock()) {
+        int ret = ptr->attach(filter());
+        Q_ASSERT(ret == 0);
+    } else {
+        qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
+        Q_ASSERT(false);
+    }
 }
 
-void TreeItem::appendChild(TreeItem *child)
+Mlt::Filter& EffectItemModel::filter() const
 {
-    child->m_depth = m_depth + 1;
-    m_childItems.append(child);
+    return *static_cast<Mlt::Filter*>(m_asset.get());
 }
-
-TreeItem *TreeItem::child(int row)
-{
-    return m_childItems.value(row);
-}
-
-int TreeItem::childCount() const
-{
-    return m_childItems.count();
-}
-
-int TreeItem::columnCount() const
-{
-    return m_itemData.count();
-}
-
-QVariant TreeItem::data(int column) const
-{
-    return m_itemData.value(column);
-}
-
-TreeItem *TreeItem::parentItem()
-{
-    return m_parentItem;
-}
-
-int TreeItem::row() const
-{
-    if (m_parentItem)
-        return m_parentItem->m_childItems.indexOf(const_cast<TreeItem*>(this));
-
-    return 0;
-}
-
-int TreeItem::depth() const
-{
-    return m_depth;
-}
-

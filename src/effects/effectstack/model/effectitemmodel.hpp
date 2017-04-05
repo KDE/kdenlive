@@ -19,69 +19,32 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "treeitem.hpp"
+#ifndef EFFECTITEMMODEL_H
+#define EFFECTITEMMODEL_H
 
-TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent)
+#include "abstractmodel/treeitem.hpp"
+#include "assets/model/assetparametermodel.hpp"
+#include <mlt++/MltFilter.h>
+
+/* @brief This represents an effect of the effectstack
+ */
+class EffectItemModel : public TreeItem, public AssetParameterModel
 {
-    m_parentItem = parent;
-    m_itemData = data;
-    m_depth = 0;
-}
 
-TreeItem::~TreeItem()
-{
-    qDeleteAll(m_childItems);
-}
+public:
 
-TreeItem* TreeItem::appendChild(const QList<QVariant> &data)
-{
-    TreeItem *child = new TreeItem(data, this);
-    child->m_depth = m_depth + 1;
-    m_childItems.append(child);
-    return child;
-}
+    /* This construct an effect of the given id */
+    static EffectItemModel* construct(const QString & effectId);
 
-void TreeItem::appendChild(TreeItem *child)
-{
-    child->m_depth = m_depth + 1;
-    m_childItems.append(child);
-}
+    /* @brief This function plants the effect into the given service in last position
+     */
+    void plant(std::weak_ptr<Mlt::Service> service);
 
-TreeItem *TreeItem::child(int row)
-{
-    return m_childItems.value(row);
-}
+    Mlt::Filter &filter() const;
+protected:
+    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId);
 
-int TreeItem::childCount() const
-{
-    return m_childItems.count();
-}
 
-int TreeItem::columnCount() const
-{
-    return m_itemData.count();
-}
+};
 
-QVariant TreeItem::data(int column) const
-{
-    return m_itemData.value(column);
-}
-
-TreeItem *TreeItem::parentItem()
-{
-    return m_parentItem;
-}
-
-int TreeItem::row() const
-{
-    if (m_parentItem)
-        return m_parentItem->m_childItems.indexOf(const_cast<TreeItem*>(this));
-
-    return 0;
-}
-
-int TreeItem::depth() const
-{
-    return m_depth;
-}
-
+#endif

@@ -44,6 +44,11 @@ public:
     */
     TreeItem* appendChild(const QList<QVariant> &data);
 
+    /* @brief Appends an already created child
+       Useful for example if the child should be a subclass of TreeItem
+    */
+    void appendChild(TreeItem *child);
+
     /* @brief Retrieves a child of the current item
        @param row is the index of the child to retrieve
     */

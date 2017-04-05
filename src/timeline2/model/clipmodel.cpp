@@ -23,12 +23,14 @@
 #include "trackmodel.hpp"
 #include "undohelper.hpp"
 #include <mlt++/MltProducer.h>
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include <QDebug>
 
 
-ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::weak_ptr<Mlt::Producer> prod, int id) :
+ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id) :
     MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(prod)
+    , m_effectStack(EffectStackModel::construct(m_producer))
 {
 }
 

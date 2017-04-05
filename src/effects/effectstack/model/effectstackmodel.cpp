@@ -18,70 +18,25 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+#include "effectstackmodel.hpp"
+#include "effectitemmodel.hpp"
 
-#include "treeitem.hpp"
 
-TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent)
+EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service) :
+    AbstractTreeModel()
+    , m_service(service)
 {
-    m_parentItem = parent;
-    m_itemData = data;
-    m_depth = 0;
 }
 
-TreeItem::~TreeItem()
+std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service)
 {
-    qDeleteAll(m_childItems);
+    return std::make_shared<EffectStackModel>(service);
 }
 
-TreeItem* TreeItem::appendChild(const QList<QVariant> &data)
+
+void EffectStackModel::appendEffect(const QString& effectId)
 {
-    TreeItem *child = new TreeItem(data, this);
-    child->m_depth = m_depth + 1;
-    m_childItems.append(child);
-    return child;
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    rootItem->appendChild(EffectItemModel::construct(effectId));
+    endInsertRows();
 }
-
-void TreeItem::appendChild(TreeItem *child)
-{
-    child->m_depth = m_depth + 1;
-    m_childItems.append(child);
-}
-
-TreeItem *TreeItem::child(int row)
-{
-    return m_childItems.value(row);
-}
-
-int TreeItem::childCount() const
-{
-    return m_childItems.count();
-}
-
-int TreeItem::columnCount() const
-{
-    return m_itemData.count();
-}
-
-QVariant TreeItem::data(int column) const
-{
-    return m_itemData.value(column);
-}
-
-TreeItem *TreeItem::parentItem()
-{
-    return m_parentItem;
-}
-
-int TreeItem::row() const
-{
-    if (m_parentItem)
-        return m_parentItem->m_childItems.indexOf(const_cast<TreeItem*>(this));
-
-    return 0;
-}
-
-int TreeItem::depth() const
-{
-    return m_depth;
-}
-

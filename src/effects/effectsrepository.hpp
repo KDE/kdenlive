@@ -51,6 +51,9 @@ public:
     //Returns the instance of the Singleton
     static std::unique_ptr<EffectsRepository>& get();
 
+
+    /* @brief returns a fresh instance of the given effect */
+    Mlt::Filter *getEffect(const QString& effectId) const;
 protected:
     // Constructor is protected because class is a Singleton
     EffectsRepository();
