@@ -50,7 +50,10 @@ function getTrackIdFromPos(pos) {
 
 function getTrackYFromId(id) {
     var result = - scrollView.flickableItem.contentY
-    for (var i = 0; i < id; i++) {
+    for (var i = 0; i < trackHeaderRepeater.count; i++) {
+        if (trackHeaderRepeater.itemAt(i).trackId == id) {
+            break;
+        }
         result += trackHeaderRepeater.itemAt(i).height
     }
     return result
