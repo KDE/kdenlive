@@ -2925,6 +2925,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
         QString hash;
         QString mltService = EffectsList::property(prod, QStringLiteral("mlt_service"));
         if (mltService == QLatin1String("pixbuf")
+                || mltService == QLatin1String("qimage")
                 || mltService == QLatin1String("kdenlivetitle")
                 || mltService == QLatin1String("color")
                 || mltService == QLatin1String("colour")) {
@@ -2937,6 +2938,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
                                     QCryptographicHash::Md5
                                                             ).toHex()));
             } else if (mltService == QLatin1String("pixbuf")
+                       || mltService == QLatin1String("qimage")
                        || mltService == QLatin1String("color")
                        || mltService == QLatin1String("colour")) {
                 hash.append(EffectsList::property(prod, QStringLiteral("resource")));

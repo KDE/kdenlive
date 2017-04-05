@@ -30,10 +30,11 @@
 #include "definitions.h"
 #include "monitor/abstractmonitor.h"
 
-#include <mlt/framework/mlt_types.h>
-
 #include <QTimer>
 #include <QMutex>
+
+// include after QTimer to have C++ phtreads defined
+#include <mlt/framework/mlt_types.h>
 
 namespace Mlt
 {

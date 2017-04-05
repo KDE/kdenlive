@@ -9,6 +9,7 @@ Item {
     property string comment
     property string framenum
     property rect framesize
+    property rect adjustedFrame
     property point profile
     property point center
     property double zoom
@@ -241,23 +242,33 @@ Item {
               anchors.centerIn: parent
               hoverEnabled: true
               cursorShape: Qt.SizeFDiagCursor
-              onEntered: { tlhandle.color = '#ffff00'}
-              onExited: { tlhandle.color = '#ff0000'}
+              onEntered: { 
+                if (!pressed) {
+                  tlhandle.color = '#ffff00'
+                }
+              }
+              onExited: {
+                if (!pressed) {
+                  tlhandle.color = '#ff0000'
+                }
+              }
               onPressed: {
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
+                  tlhandle.color = '#ffff00'
               }
               onPositionChanged: {
                 if (pressed) {
                   if (root.lockratio > 0) {
                       var delta = Math.max(mouseX - oldMouseX, mouseY - oldMouseY)
                       var newwidth = framerect.width - delta
-                      var newheight = newwidth / root.lockratio
-                      framesize.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
-                      framesize.width = Math.round(newwidth / root.scalex);
-                      framesize.y = (framerect.y + (framerect.height - newheight) - frame.y) / root.scaley;
-                      framesize.height = Math.round(framesize.width / root.lockratio)
+                      adjustedFrame = framesize
+                      adjustedFrame.width = Math.round(newwidth / root.scalex);
+                      adjustedFrame.height = Math.round(adjustedFrame.width / root.lockratio)
+                      adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
+                      adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width;
+                      framesize = adjustedFrame
                   } else {
                     framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
                     framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
@@ -269,6 +280,7 @@ Item {
               }
               onReleased: {
                   effectsize.visible = false
+                  tlhandle.color = '#ff0000'
               }
             }
             Text {
@@ -300,22 +312,32 @@ Item {
               anchors.centerIn: parent
               hoverEnabled: true
               cursorShape: Qt.SizeBDiagCursor
-              onEntered: { trhandle.color = '#ffff00'}
-              onExited: { trhandle.color = '#ff0000'}
+              onEntered: {
+                if (!pressed) {
+                  trhandle.color = '#ffff00'
+                }
+              }
+              onExited: {
+                if (!pressed) {
+                  trhandle.color = '#ff0000'
+                }
+              }
               onPressed: {
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
+                  trhandle.color = '#ffff00'
               }
               onPositionChanged: {
                 if (pressed) {
                   if (root.lockratio > 0) {
                       var delta = Math.max(oldMouseX - mouseX, mouseY - oldMouseY)
-                      var newheight = framerect.height - delta
-                      var newwidth = newheight * root.lockratio
-                      framesize.y = (framerect.y + (framerect.height - newheight) - frame.y) / root.scaley;
-                      framesize.width = Math.round(newwidth / root.scalex);
-                      framesize.height = Math.round(framesize.width / root.lockratio)
+                      var newwidth = framerect.width - delta
+                      adjustedFrame = framesize
+                      adjustedFrame.width = Math.round(newwidth / root.scalex);
+                      adjustedFrame.height = Math.round(adjustedFrame.width / root.lockratio)
+                      adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
+                      framesize = adjustedFrame
                   } else {
                       framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
                       framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
@@ -326,6 +348,7 @@ Item {
               }
               onReleased: {
                   effectsize.visible = false
+                  trhandle.color = '#ff0000'
               }
             }
         }
@@ -346,12 +369,21 @@ Item {
               anchors.centerIn: parent
               hoverEnabled: true
               cursorShape: Qt.SizeBDiagCursor
-              onEntered: { blhandle.color = '#ffff00'}
-              onExited: { blhandle.color = '#ff0000'}
+              onEntered: {
+                if (!pressed) {
+                  blhandle.color = '#ffff00'
+                }
+              }
+              onExited: {
+                if (!pressed) {
+                  blhandle.color = '#ff0000'
+                }
+              }
               onPressed: {
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
+                  blhandle.color = '#ffff00'
               }
               onPositionChanged: {
                 if (pressed) {
@@ -371,6 +403,7 @@ Item {
               }
               onReleased: {
                   effectsize.visible = false
+                  blhandle.color = '#ff0000'
               }
             }
         }
@@ -391,12 +424,21 @@ Item {
               anchors.centerIn: parent
               hoverEnabled: true
               cursorShape: Qt.SizeFDiagCursor
-              onEntered: { brhandle.color = '#ffff00'}
-              onExited: { brhandle.color = '#ff0000'}
+              onEntered: {
+                if (!pressed) {
+                  brhandle.color = '#ffff00'
+                }
+              }
+              onExited: {
+                if (!pressed) {
+                  brhandle.color = '#ff0000'
+                }
+              }
               onPressed: {
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
+                  brhandle.color = '#ffff00'
               }
               onPositionChanged: {
                 if (pressed) {
@@ -414,6 +456,7 @@ Item {
               }
               onReleased: {
                   effectsize.visible = false
+                  brhandle.color = '#ff0000'
               }
             }
             Text {

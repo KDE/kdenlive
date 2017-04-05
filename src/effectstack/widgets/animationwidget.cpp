@@ -514,7 +514,6 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
     if (m_spinWidth && m_spinWidth->isEnabled()) {
         double ratio = m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
         bool lockRatio = m_spinHeight->value() == (int) (m_spinWidth->value() / ratio + 0.5);
-        qDebug()<<"CALCULATED: "<<m_spinHeight->value()<<" = "<<(int) (m_spinWidth->value() / ratio + 0.5);
         m_lockRatio->blockSignals(true);
         m_lockRatio->setChecked(lockRatio);
         m_lockRatio->blockSignals(false);
