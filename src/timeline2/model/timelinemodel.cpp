@@ -1147,16 +1147,20 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     bool ok = true;
     int old_trackId = getCompositionTrackId(compoId);
     if (old_trackId != -1) {
-        Fun delete_operation = [this, compoId]() {
-            bool res = unplantComposition(compoId);
-            if (res) m_allCompositions[compoId]->setATrack(-1);
-            return res;
-        };
-        int oldAtrack = m_allCompositions[compoId]->getATrack();
-        Fun delete_reverse = [this, compoId, old_trackId, oldAtrack]() {
-            m_allCompositions[compoId]->setATrack(oldAtrack);
-            return replantCompositions(compoId);
-        };
+        Fun delete_operation = [](){return true;};
+        Fun delete_reverse = [](){return true;};
+        if (old_trackId != trackId) {
+            delete_operation = [this, compoId]() {
+                bool res = unplantComposition(compoId);
+                if (res) m_allCompositions[compoId]->setATrack(-1);
+                return res;
+            };
+            int oldAtrack = m_allCompositions[compoId]->getATrack();
+            delete_reverse = [this, compoId, oldAtrack]() {
+                m_allCompositions[compoId]->setATrack(oldAtrack);
+                return replantCompositions(compoId);
+            };
+        }
         ok = delete_operation();
         if (!ok) qDebug() << "Move failed because of first delete operation";
 
@@ -1232,6 +1236,11 @@ bool TimelineModel::replantCompositions(int currentCompo)
         aTrack = getTrackMltIndex(aTrack);
         int ret = field->plant_transition(*m_allCompositions[compo.second].get(), aTrack , compo.first);
         qDebug() << "Planting composition "<<compo.second<< "in "<<aTrack<<"/"<<compo.first<<"IN = "<<m_allCompositions[compo.second]->getIn()<<"OUT = "<<m_allCompositions[compo.second]->getOut()<<"ret="<<ret;
+
+
+        Mlt::Transition &transition = *m_allCompositions[compo.second].get();
+        mlt_service consumer = mlt_service_consumer(transition.get_service());
+        Q_ASSERT(consumer != nullptr);
         if (ret != 0) {
             return false;
         }
@@ -1243,9 +1252,16 @@ bool TimelineModel::unplantComposition(int compoId)
 {
     qDebug()<<"Unplanting"<<compoId;
     Mlt::Transition &transition = *m_allCompositions[compoId].get();
+    mlt_service consumer = mlt_service_consumer(transition.get_service());
+    Q_ASSERT(consumer != nullptr);
     m_tractor->field()->disconnect_service(transition);
-    transition.disconnect_all_producers();
-    return true;
+    int ret = transition.disconnect_all_producers();
+
+    mlt_service nextservice = mlt_service_get_producer(transition.get_service());
+    //mlt_service consumer = mlt_service_consumer(transition.get_service());
+    Q_ASSERT(nextservice == NULL);
+    //Q_ASSERT(consumer == nullptr);
+    return ret != 0;
 }
 
 bool TimelineModel::checkConsistency()
@@ -1263,6 +1279,11 @@ bool TimelineModel::checkConsistency()
     for (const auto & compo : m_allCompositions) {
         if (getCompositionTrackId(compo.first) != -1 && m_allCompositions[compo.first]->getATrack() != -1) {
             remaining_compo.insert(compo.first);
+
+            //check validity of the consumer
+            Mlt::Transition &transition = *m_allCompositions[compo.first].get();
+            mlt_service consumer = mlt_service_consumer(transition.get_service());
+            Q_ASSERT(consumer != nullptr);
         }
     }
     QScopedPointer<Mlt::Field> field(m_tractor->field());
@@ -1279,6 +1300,7 @@ bool TimelineModel::checkConsistency()
             int currentIn = (int) mlt_transition_get_in(tr);
             int currentOut = (int) mlt_transition_get_out(tr);
 
+            qDebug() << "looking composition IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack<<" / "<<currentATrack;
             int foundId = -1;
             //we iterate to try to find a matching compo
             for (int compoId : remaining_compo) {
@@ -1294,6 +1316,8 @@ bool TimelineModel::checkConsistency()
                 qDebug() << "Error, we didn't find matching composition IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack<<" / "<<currentATrack;
                 field->unlock();
                 return false;
+            } else {
+                qDebug() << "Found";
             }
             remaining_compo.erase(foundId);
         }
