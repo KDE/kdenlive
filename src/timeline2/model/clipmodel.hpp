@@ -78,6 +78,10 @@ protected:
     */
     bool requestResize(int size, bool right, Fun& undo, Fun& redo) override;
 
+    /* @brief This function change the global (timeline-wise) enabled state of the effects
+    */
+    void setTimelineEffectsEnabled(bool enabled);
+
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;
 

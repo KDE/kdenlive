@@ -26,6 +26,8 @@
 EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId)
     : TreeItem(data)
     , AssetParameterModel(effect, xml, effectId)
+    , m_enabled(true)
+    , m_timelineEffectsEnabled(true)
 {
 }
 
@@ -58,4 +60,26 @@ void EffectItemModel::plant(std::weak_ptr<Mlt::Service> service)
 Mlt::Filter& EffectItemModel::filter() const
 {
     return *static_cast<Mlt::Filter*>(m_asset.get());
+}
+
+void EffectItemModel::setEnabled(bool enabled)
+{
+    m_enabled = enabled;
+    updateEnable();
+}
+
+void EffectItemModel::setTimelineEffectsEnabled(bool enabled)
+{
+    m_timelineEffectsEnabled = enabled;
+    updateEnable();
+}
+
+bool EffectItemModel::isEnabled() const
+{
+    return m_enabled && m_timelineEffectsEnabled;
+}
+
+void EffectItemModel::updateEnable()
+{
+    filter().set("disable", isEnabled() ? 0 : 1);
 }

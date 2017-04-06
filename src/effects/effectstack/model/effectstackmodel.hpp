@@ -44,9 +44,14 @@ public:
 
     EffectStackModel(std::weak_ptr<Mlt::Service> service);
 
-protected:
+    /* @brief This function change the global (timeline-wise) enabled state of the effects
+     */
+    void setTimelineEffectsEnabled(bool enabled);
 
+protected:
     std::weak_ptr<Mlt::Service> m_service;
+
+    bool m_timelineEffectsEnabled;
 
 };
 

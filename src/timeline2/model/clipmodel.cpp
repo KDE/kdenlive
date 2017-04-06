@@ -119,3 +119,8 @@ int ClipModel::getPlaytime() const
 {
     return m_producer->get_playtime();
 }
+
+void ClipModel::setTimelineEffectsEnabled(bool enabled)
+{
+    m_effectStack->setTimelineEffectsEnabled(enabled);
+}

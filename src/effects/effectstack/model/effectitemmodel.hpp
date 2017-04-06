@@ -40,9 +40,26 @@ public:
      */
     void plant(std::weak_ptr<Mlt::Service> service);
 
+    /* @brief This function change the individual enabled state of the effect */
+    void setEnabled(bool enabled);
+
+    /* @brief This function change the global (timeline-wise) enabled state of the effect */
+    void setTimelineEffectsEnabled(bool enabled);
+
+    /* @brief Returns whether the effect is enabled */
+    bool isEnabled() const;
+
     Mlt::Filter &filter() const;
+
 protected:
     EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId);
+
+    /* @brief Toogles the mlt effect according to the current activation state*/
+    void updateEnable();
+
+
+    bool m_enabled;
+    bool m_timelineEffectsEnabled;
 
 
 };

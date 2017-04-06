@@ -54,7 +54,8 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_undoStack(undo_stack),
     m_profile(profile),
     m_blackClip(new Mlt::Producer(*profile,"color:black")),
-    m_lock(QReadWriteLock::Recursive)
+    m_lock(QReadWriteLock::Recursive),
+    m_timelineEffectsEnabled(true)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
@@ -851,6 +852,7 @@ void TimelineModel::registerClip(std::shared_ptr<ClipModel> clip)
     Q_ASSERT(m_allClips.count(id) == 0);
     m_allClips[id] = clip;
     m_groups->createGroupItem(id);
+    clip->setTimelineEffectsEnabled(m_timelineEffectsEnabled);
 }
 
 void TimelineModel::registerGroup(int groupId)
@@ -1372,4 +1374,15 @@ bool TimelineModel::requestItemResizeToPos(int itemId, int position, bool right)
         }
     }
     return result;
+}
+
+void TimelineModel::setTimelineEffectsEnabled(bool enabled)
+{
+    m_timelineEffectsEnabled = enabled;
+    //propagate info to clips
+    for (const auto& clip : m_allClips) {
+        clip.second->setTimelineEffectsEnabled(enabled);
+    }
+
+    //TODO if we support track effects, they should be disabled here too
 }

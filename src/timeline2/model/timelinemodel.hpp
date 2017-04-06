@@ -360,6 +360,10 @@ public:
     /* Same function, but accumulates undo and redo*/
     bool requestCompositionInsertion(const QString& transitionId, int trackId, int position, int length, int &id, Fun& undo, Fun& redo);
 
+    /* @brief This function change the global (timeline-wise) enabled state of the effects
+       It disables/enables track and clip effects (recursively)
+     */
+    void setTimelineEffectsEnabled(bool enabled);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -467,6 +471,8 @@ protected:
     mutable QReadWriteLock m_lock; //This is a lock that ensures safety in case of concurrent access
 
     std::ofstream m_logFile; //this is a temporary debug member to help reproduce issues
+
+    bool m_timelineEffectsEnabled;
 
     //what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:
