@@ -160,7 +160,7 @@ void Render::seek(int time)
     time = qBound(0, time, m_mltProducer->get_length() - 1);
     if (requestedSeekPosition == SEEK_INACTIVE) {
         requestedSeekPosition = time;
-        if (m_mltProducer->get_speed() != 0) {
+        if (qAbs(m_mltProducer->get_speed()) > 1e-5) {
             m_mltConsumer->purge();
         }
         m_mltProducer->seek(time);
@@ -498,10 +498,10 @@ int Render::setSceneList(QString playlist, int position)
     Mlt::Tractor tractor(service);
     Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
     if (retainList.is_valid() && retainList.get_data(m_binController->binPlaylistId().toUtf8().constData())) {
-        Mlt::Playlist playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
-        if (playlist.is_valid() && playlist.type() == playlist_type) {
+        Mlt::Playlist local_playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
+        if (local_playlist.is_valid() && local_playlist.type() == playlist_type) {
             // Load bin clips
-            m_binController->initializeBin(playlist);
+            m_binController->initializeBin(local_playlist);
         }
     }
     // No Playlist found, create new one
@@ -531,7 +531,7 @@ int Render::setSceneList(QString playlist, int position)
         info.imageHeight = 0;
         info.clipId = id;
         info.replaceProducer = true;
-        emit gotFileProperties(info, m_binController->getController(id));
+        emit gotFileProperties(info, m_binController->getController(id).get());
     }
 
     ////qCDebug(KDENLIVE_LOG)<<"// SETSCN LST, POS: "<<position;
@@ -1154,7 +1154,7 @@ Mlt::Producer *Render::getProducerForTrack(Mlt::Playlist &trackPlaylist, const Q
         }
     }
     if (prod == nullptr) {
-        prod = m_binController->getBinProducer(clipId);
+        prod = m_binController->getBinProducer(clipId).get();
     }
     return prod;
 }
@@ -1642,11 +1642,13 @@ double Render::getMltVersionInfo(const QString &tag)
 
 Mlt::Producer *Render::getBinProducer(const QString &id)
 {
-    return m_binController->getBinProducer(id);
+    //TODO refac : delete this function
+    return m_binController->getBinProducer(id).get();
 }
 
 Mlt::Producer *Render::getBinVideoProducer(const QString &id)
 {
+    //TODO refac : delete this function
     return m_binController->getBinVideoProducer(id);
 }
 

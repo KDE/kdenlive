@@ -349,7 +349,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     if (!extraParams.isEmpty()) {
         jobParams << extraParams;
     }
-    CutClipJob *job = new CutClipJob(clip->clipType(), clip->clipId(), jobParams);
+    CutClipJob *job = new CutClipJob(clip->clipType(), clip->AbstractProjectItem::clipId(), jobParams);
     jobs.insert(clip, job);
     return jobs;
 }
@@ -424,9 +424,9 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
         jobParams << dest << src << QString() << QString();
         jobParams << QString::number((int) item->duration().frames(fps));
         // parent folder, or -100 if we don't want to add clip to project
-        jobParams << (KdenliveSettings::add_new_clip() ? item->parent()->clipId() : QString::number(-100));
+        jobParams << (KdenliveSettings::add_new_clip() ? item->parent()->AbstractProjectItem::clipId() : QString::number(-100));
         jobParams << params;
-        CutClipJob *job = new CutClipJob(item->clipType(), item->clipId(), jobParams);
+        CutClipJob *job = new CutClipJob(item->clipType(), item->AbstractProjectItem::clipId(), jobParams);
         jobs.insert(item, job);
     }
     delete d;
@@ -445,7 +445,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps
         QStringList jobParams;
         int duration = clip->duration().frames(fps) * clip->getOriginalFps() / fps;
         jobParams << QString::number((int) AbstractClipJob::ANALYSECLIPJOB) << QString() << source << QString::number(duration);
-        CutClipJob *job = new CutClipJob(clip->clipType(), clip->clipId(), jobParams);
+        CutClipJob *job = new CutClipJob(clip->clipType(), clip->AbstractProjectItem::clipId(), jobParams);
         jobs.insert(clip, job);
     }
     return jobs;

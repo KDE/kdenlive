@@ -43,10 +43,10 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    ProjectFolder(const QString &id, const QString &name, ProjectFolder *parent = 0);
+    ProjectFolder(const QString &id, const QString &name, ProjectItemModel* model, ProjectFolder *parent = 0);
 
     /** @brief Creates an empty root folder. */
-    explicit ProjectFolder(Bin *bin);
+    explicit ProjectFolder(ProjectItemModel* model);
 
     ~ProjectFolder();
 
@@ -74,9 +74,6 @@ public:
      */
     ProjectClip *clipAt(int index) Q_DECL_OVERRIDE;
 
-    /** @brief Returns a pointer to the bin model this folder belongs to. */
-    Bin *bin() Q_DECL_OVERRIDE;
-
     /** @brief Returns an xml description of the folder. */
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;
     QString getToolTip() const Q_DECL_OVERRIDE;
@@ -84,8 +81,6 @@ public:
     /** @brief Returns a list of all children and sub-children clips. */
     QList<ProjectClip *> childClips();
 
-private:
-    Bin *m_bin;
 };
 
 #endif

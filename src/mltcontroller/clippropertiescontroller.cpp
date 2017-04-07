@@ -922,7 +922,7 @@ void ClipPropertiesController::slotDeleteMarker()
 
 void ClipPropertiesController::slotAddMarker()
 {
-    CommentedTime marker(GenTime(m_controller->originalProducer().position(), m_tc.fps()), i18n("Marker"));
+    CommentedTime marker(GenTime(m_controller->originalProducer()->position(), m_tc.fps()), i18n("Marker"));
     QPointer<MarkerDialog> d = new MarkerDialog(m_controller, marker,
             m_tc, i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted) {

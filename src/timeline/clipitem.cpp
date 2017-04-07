@@ -963,7 +963,10 @@ void ClipItem::paint(QPainter *painter,
 
 const QString &ClipItem::getBinId() const
 {
+    /*
     return m_binClip->clipId();
+    */
+    return QString();
 }
 
 const QString ClipItem::getBinHash() const

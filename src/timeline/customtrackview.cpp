@@ -1668,6 +1668,7 @@ void CustomTrackView::slotEditKeyframeType(QAction *action)
 
 void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip)
 {
+    /*
     bool isGroup = clip != nullptr && clip->parentItem() && clip->parentItem()->type() == GroupWidget && clip->parentItem() != m_selectionGroup;
     m_deleteGuide->setEnabled(m_dragGuide != nullptr);
     m_editGuide->setEnabled(m_dragGuide != nullptr);
@@ -1713,6 +1714,7 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip)
             m_timelineContextTransitionMenu->exec(pos);
         }
     }
+    */
 }
 
 void CustomTrackView::activateMonitor()
@@ -5853,6 +5855,7 @@ double CustomTrackView::getSnapPointForPos(double pos)
 
 void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList<GenTime> offsetList, bool skipSelectedItems)
 {
+    /*
     QList<GenTime> snaps;
     if (selected && offsetList.isEmpty()) {
         offsetList.append(selected->cropDuration());
@@ -5989,6 +5992,7 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList<GenTime
     m_scene->setSnapList(snaps);
     //for (int i = 0; i < m_snapPoints.size(); ++i)
     //    //qCDebug(KDENLIVE_LOG) << "SNAP POINT: " << m_snapPoints.at(i).frames(25);
+    */
 }
 
 void CustomTrackView::slotSeekToPreviousSnap()
@@ -6398,6 +6402,7 @@ bool CustomTrackView::findNextString(const QString &text)
 
 void CustomTrackView::initSearchStrings()
 {
+    /*
     m_searchPoints.clear();
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); ++i) {
@@ -6420,6 +6425,7 @@ void CustomTrackView::initSearchStrings()
     }
 
     qSort(m_searchPoints);
+    */
 }
 
 void CustomTrackView::clearSearchStrings()

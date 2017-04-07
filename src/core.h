@@ -81,7 +81,7 @@ public:
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the project bin controller. */
-    BinController *binController();
+    std::shared_ptr<BinController> binController();
     /** @brief Returns a pointer to the project bin. */
     Bin *bin();
     /** @brief Returns a pointer to the producer queue. */
@@ -100,6 +100,12 @@ public:
     /** @brief Returns a pointer to the current profile */
     std::unique_ptr<ProfileModel>& getCurrentProfile() const;
 
+    /** @brief Returns Display Aspect Ratio of current profile */
+    int getCurrentDar() const;
+
+    /** @brief Returns frame rate of current profile */
+    int getCurrentFps() const;
+
 private:
     explicit Core();
     static std::unique_ptr<Core> m_self;
@@ -110,7 +116,7 @@ private:
     MainWindow *m_mainWindow;
     ProjectManager *m_projectManager;
     MonitorManager *m_monitorManager;
-    BinController *m_binController;
+    std::shared_ptr<BinController> m_binController;
     ProducerQueue *m_producerQueue;
     Bin *m_binWidget;
     LibraryWidget *m_library;

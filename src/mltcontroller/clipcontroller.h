@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CLIPCONTROLLER_H
 
 #include "definitions.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 
 #include <mlt++/Mlt.h>
 #include <QString>
@@ -35,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class QPixmap;
 class BinController;
 class AudioStreamInfo;
+class EffectStackModel;
 
 /**
  * @class ClipController
@@ -43,21 +45,34 @@ class AudioStreamInfo;
  * need to update or replace them
  */
 
-class ClipController : public QObject
+class ClipController
 {
 public:
     /**
+       @brief Constructs a clipController and returns a ptr to it.
+       * It also take care of registration to the BinController
+       * @param bincontroller reference to the bincontroller
+       * @param producer producer to create reference to
+       */
+    static std::shared_ptr<ClipController> construct(std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer);
+
+
+protected:
+    /**
      * @brief Constructor.
+     The constructor is protected because you should call the static Construct instead
      * @param bincontroller reference to the bincontroller
      * @param producer producer to create reference to
      */
-    explicit ClipController(BinController *bincontroller, Mlt::Producer &producer, QObject *parent = nullptr);
+    explicit ClipController(std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer);
     /**
      * @brief Constructor used when opening a document and encountering a
-     * track producer before the master producer. The masterProducer MUST be set afterwards
+     The constructor is protected because you should call the static Construct instead
      * @param bincontroller reference to the bincontroller
      */
-    explicit ClipController(BinController *bincontroller);
+    explicit ClipController(std::shared_ptr<BinController> bincontroller);
+
+public:
     virtual ~ClipController();
 
     /** @brief Returns true if the master producer is valid */
@@ -67,7 +82,7 @@ public:
     QDateTime date;
 
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
-    void updateProducer(const QString &id, Mlt::Producer *producer);
+    void updateProducer(std::shared_ptr<Mlt::Producer> producer);
 
     void getProducerXML(QDomDocument &document, bool includeMeta = false);
 
@@ -137,10 +152,8 @@ public:
     QString serviceName() const;
 
     /** @brief Returns the original master producer. */
-    Mlt::Producer &originalProducer();
+    std::shared_ptr<Mlt::Producer> originalProducer();
 
-    /** @brief Returns the current profile's display aspect ratio. */
-    double dar() const;
     /** @brief Holds index of currently selected master clip effect. */
     int selectedEffectIndex;
     /** @brief Get a clone of master producer for a specific track. Retrieve it if it already exists
@@ -149,7 +162,7 @@ public:
     Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString    &trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
 
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
-    void addMasterProducer(Mlt::Producer &producer);
+    void addMasterProducer(std::shared_ptr<Mlt::Producer> producer);
 
     QList< CommentedTime > commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime &currTime);
@@ -178,8 +191,7 @@ public:
     /** @brief Returns info about clip audio */
     AudioStreamInfo *audioInfo() const;
     /** @brief Returns true if audio thumbnails for this clip are cached */
-    bool audioThumbCreated;
-    Mlt::Profile *profile();
+    bool m_audioThumbCreated;
     /** @brief When replacing a producer, it is important that we keep some properties, for exemple force_ stuff and url for proxies
      * this method returns a list of properties that we want to keep when replacing a producer . */
     static const char *getPassPropertiesList(bool passLength = true);
@@ -196,8 +208,18 @@ public:
     /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
     void saveZone(QPoint zone, const QDir &dir);
 
-private:
-    Mlt::Producer *m_masterProducer;
+
+    /* @brief This is the producer that serves as a placeholder while a clip is being loaded. It is created in Core at startup */
+    static std::shared_ptr<Mlt::Producer> mediaUnavailable;
+
+    /** @brief Returns a ptr to the effetstack associated with this element */
+    std::shared_ptr<EffectStackModel> getEffectStack() const;
+
+    /** @brief Append an effect to this producer's effect list */
+    void addEffect(const QString& effectId);
+
+protected:
+    std::shared_ptr<Mlt::Producer> m_masterProducer;
     Mlt::Properties *m_properties;
     bool m_usesProxy;
     AudioStreamInfo *m_audioInfo;
@@ -207,12 +229,13 @@ private:
     int m_videoIndex;
     ClipType m_clipType;
     bool m_hasLimitedDuration;
-    BinController *m_binController;
+    std::weak_ptr<BinController> m_binController;
     /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList< CommentedTime > m_snapMarkers;
     QMutex m_effectMutex;
     void getInfoForProducer();
     //void rebuildEffectList(ProfileInfo info);
+    std::shared_ptr<EffectStackModel> m_effectStack;
 };
 
 #endif

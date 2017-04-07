@@ -26,6 +26,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include <mlt++/MltFilter.h>
 
+class EffectStackModel;
 /* @brief This represents an effect of the effectstack
  */
 class EffectItemModel : public TreeItem, public AssetParameterModel
@@ -33,8 +34,10 @@ class EffectItemModel : public TreeItem, public AssetParameterModel
 
 public:
 
-    /* This construct an effect of the given id */
-    static EffectItemModel* construct(const QString & effectId);
+    /* This construct an effect of the given id
+       @param is a ptr to the model this item belongs to. This is required to send update signals
+     */
+    static EffectItemModel* construct(const QString & effectId, EffectStackModel *stack);
 
     /* @brief This function plants the effect into the given service in last position
      */
@@ -52,7 +55,7 @@ public:
     Mlt::Filter &filter() const;
 
 protected:
-    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId);
+    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId, EffectStackModel *stack);
 
     /* @brief Toogles the mlt effect according to the current activation state*/
     void updateEnable();

@@ -21,15 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projectfolderup.h"
 #include "projectclip.h"
-#include "bin.h"
 #include "utils/KoIconUtils.h"
 
 #include <QDomElement>
 #include <KLocalizedString>
 
-ProjectFolderUp::ProjectFolderUp(AbstractProjectItem *parent) :
-    AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), parent)
-    , m_bin(nullptr)
+ProjectFolderUp::ProjectFolderUp(ProjectItemModel* model, AbstractProjectItem *parent) :
+    AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), model, parent)
 {
     m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("go-previous"));
     m_name = i18n("Back");
@@ -71,18 +69,6 @@ ProjectClip *ProjectFolderUp::clipAt(int index)
 
 void ProjectFolderUp::disableEffects(bool)
 {
-}
-
-Bin *ProjectFolderUp::bin()
-{
-    if (m_bin) {
-        return m_bin;
-    } else {
-        if (parent()) {
-            return parent()->bin();
-        }
-        return AbstractProjectItem::bin();
-    }
 }
 
 QDomElement ProjectFolderUp::toXml(QDomDocument &document, bool)

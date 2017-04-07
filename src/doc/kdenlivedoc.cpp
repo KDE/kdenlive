@@ -782,10 +782,10 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
 void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
 {
     // Move proxies
-    QList<ClipController *> list = pCore->binController()->getControllerList();
+    QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
     QList<QUrl> cacheUrls;
     for (int i = 0; i < list.count(); ++i) {
-        ClipController *clip = list.at(i);
+        std::shared_ptr<ClipController> clip = list.at(i);
         if (clip->clipType() == Text) {
             // the image for title clip must be moved
             QUrl oldUrl = QUrl::fromLocalFile(clip->clipUrl());
@@ -1002,11 +1002,6 @@ ProjectClip *KdenliveDoc::getBinClip(const QString &clipId)
 QStringList KdenliveDoc::getBinFolderClipIds(const QString &folderId) const
 {
     return pCore->bin()->getBinFolderClipIds(folderId);
-}
-
-ClipController *KdenliveDoc::getClipController(const QString &clipId)
-{
-    return pCore->binController()->getController(clipId);
 }
 
 void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path)
@@ -1368,10 +1363,10 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
         ClipType t = item->clipType();
         // Only allow proxy on some clip types
         if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist || t == SlideShow) && item->isReady()) {
-            if ((doProxy && !force && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->clipId()))) {
+            if ((doProxy && !force && item->hasProxy()) || (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->AbstractProjectItem::clipId()))) {
                 continue;
             }
-            if (pCore->producerQueue()->isProcessing(item->clipId())) {
+            if (pCore->producerQueue()->isProcessing(item->AbstractProjectItem::clipId())) {
                 continue;
             }
 
@@ -1390,12 +1385,12 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
                     // Revert to picture aspect ratio
                     newProps.insert(QStringLiteral("aspect_ratio"), QStringLiteral("1"));
                 }
-                if (!pCore->binController()->hasClip(item->clipId())) {
+                if (!pCore->binController()->hasClip(item->AbstractProjectItem::clipId())) {
                     // Force clip reload
                     newProps.insert(QStringLiteral("resource"), item->url());
                 }
             }
-            new EditClipCommand(pCore->bin(), item->clipId(), oldProps, newProps, true, masterCommand);
+            new EditClipCommand(pCore->bin(), item->AbstractProjectItem::clipId(), oldProps, newProps, true, masterCommand);
         } else {
             // Cannot proxy this clip type
             pCore->bin()->doDisplayMessage(i18n("Clip type does not support proxies"), KMessageWidget::Information);

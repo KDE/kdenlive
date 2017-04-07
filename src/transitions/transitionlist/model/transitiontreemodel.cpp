@@ -31,7 +31,7 @@ TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent)
 {
     QList<QVariant> rootData;
     rootData << "Name" << "ID" << "Type" << "isFav";
-    rootItem = new TreeItem(rootData);
+    rootItem = new TreeItem(rootData, static_cast<AbstractTreeModel*>(this));
 
     //We create categories, if requested
     TreeItem *compoCategory, *transCategory;

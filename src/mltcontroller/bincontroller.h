@@ -25,14 +25,14 @@
 #include <QString>
 #include <QStringList>
 #include <QDir>
+#include <memory>
 #include "definitions.h"
+#include "clipcontroller.h"
 
-class ClipController;
 
 namespace Mlt
 {
 class Playlist;
-class Producer;
 class Profile;
 }
 
@@ -43,7 +43,7 @@ class Profile;
  * The project profile, used to build the monitors renderers is stored here
  */
 
-class BinController : public QObject
+class BinController : public QObject, public std::enable_shared_from_this<BinController>
 {
     Q_OBJECT
 
@@ -55,19 +55,25 @@ public:
     Mlt::Profile *profile();
 
     /** @brief Returns the project's fps. */
+    //TODO Depracate: We should access profile's settings only through profilerepository
     double fps() const;
 
     /** @brief Returns the project's dar. */
+    //TODO Depracate: We should access profile's settings only through profilerepository
     double dar() const;
 
     /** @brief Returns the service for the Bin's playlist, used to make sure MLT will save it correctly in its XML. */
     mlt_service service();
 
+    friend class ClipController;
+protected:
     /** @brief Add a new clip producer to the project.
+        This is protected because it should be called only by the ClipController itself upon creation
      * @param id The clip's id
      * @param producer The MLT producer for this clip
      * */
-    void addClipToBin(const QString &id, ClipController *controller);
+    void addClipToBin(const QString &id, std::shared_ptr<ClipController> controller);
+public:
 
     /** @brief Store a timeline producer in clip list for later re-use
      * @param id The clip's id
@@ -115,7 +121,7 @@ public:
     // @param track The track on which the producer will be put. Setting a value of -1 will return the master clip contained in the bin playlist
     // @param clipState The state of the clip (if we need an audio only or video only producer).
     // @param speed If the clip has a speed effect (framebuffer producer), we indicate the speed here
-    Mlt::Producer *getBinProducer(const QString &id);
+    std::shared_ptr<Mlt::Producer> getBinProducer(const QString &id);
 
     /** @brief returns a video only (no audio) version of this producer  */
     Mlt::Producer *getBinVideoProducer(const QString &id);
@@ -123,7 +129,7 @@ public:
     /** @brief Returns the clip data as rendered by MLT's XML consumer, used to duplicate a clip
      * @param producer The clip's original producer
      */
-    QString getProducerXML(Mlt::Producer &producer, bool includeMeta = false);
+    static QString getProducerXML(std::shared_ptr<Mlt::Producer> producer, bool includeMeta = false);
 
     /** @brief Returns the clip data as rendered by MLT's XML consumer
      * @param id The clip's original id
@@ -133,13 +139,13 @@ public:
     int clipCount() const;
     Mlt::Producer *cloneProducer(Mlt::Producer &original);
 
-    ClipController *getController(const QString &id);
-    const QList<ClipController *> getControllerList() const;
-    void replaceBinPlaylistClip(const QString &id, Mlt::Producer &producer);
+    std::shared_ptr<ClipController> getController(const QString &id);
+    const QList<std::shared_ptr<ClipController> > getControllerList() const;
+    void replaceBinPlaylistClip(const QString &id, std::shared_ptr<Mlt::Producer> producer);
 
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
     const QStringList getBinIdsByResource(const QFileInfo &url) const;
-    void replaceProducer(const QString &id, Mlt::Producer &producer);
+    void replaceProducer(const QString &id, std::shared_ptr<Mlt::Producer> producer);
     void storeMarker(const QString &markerId, const QString &markerHash);
     QMap<double, QString> takeGuidesData();
 
@@ -179,7 +185,7 @@ public slots:
 
 private:
     /** @brief The MLT playlist holding our Producers */
-    Mlt::Playlist *m_binPlaylist;
+    std::unique_ptr<Mlt::Playlist> m_binPlaylist;
 
     /** @brief The current MLT profile's filename */
     QString m_activeProfile;
@@ -188,7 +194,7 @@ private:
     void duplicateFilters(Mlt::Producer original, Mlt::Producer clone);
 
     /** @brief This list holds all producer controllers for the playlist, indexed by id */
-    QMap<QString, ClipController *> m_clipList;
+    QMap<QString, std::shared_ptr<ClipController> > m_clipList;
 
     /** @brief This list holds all extra controllers (slowmotion, video only, ... that are in timeline, indexed by id */
     QMap<QString, Mlt::Producer *> m_extraClipList;
@@ -200,7 +206,7 @@ private:
     void removeBinPlaylistClip(const QString &id);
 
     /** @brief Duplicate effects from stored producer */
-    void pasteEffects(const QString &id, Mlt::Producer &producer);
+    void pasteEffects(const QString &id, std::shared_ptr<Mlt::Producer> producer);
 
 signals:
     void loadFolders(const QMap<QString, QString> &);

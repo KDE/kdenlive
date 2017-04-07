@@ -37,7 +37,7 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
     QList<QVariant> rootData;
     rootData << "Description" << "Path" << "Height" << "Width" << "display_aspect_num"
              << "display_aspect_den" <<  "sample_aspect_ratio" << "fps" << "colorspace";
-    rootItem = new TreeItem(rootData);
+    rootItem = new TreeItem(rootData, this);
 
     ProfileRepository::get()->refresh();
     QVector<QPair<QString, QString> > profiles = ProfileRepository::get()->getAllProfiles();

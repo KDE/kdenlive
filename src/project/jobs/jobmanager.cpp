@@ -247,7 +247,7 @@ QList<ProjectClip *> JobManager::filterClips(const QList<ProjectClip *> &clips, 
 
 void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams, const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams)
 {
-    MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
+    MeltJob *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
     job->description = i18n("Filter %1", extraParams.value(QStringLiteral("finalfilter")));
     launchJob(clip, job);
 }
@@ -286,7 +286,7 @@ void JobManager::prepareJobs(const QList<ProjectClip *> &clips, double fps, Abst
 
 void JobManager::launchJob(ProjectClip *clip, AbstractClipJob *job, bool runQueue)
 {
-    if (job->isExclusive() && hasPendingJob(clip->clipId(), job->jobType)) {
+    if (job->isExclusive() && hasPendingJob(clip->AbstractProjectItem::clipId(), job->jobType)) {
         delete job;
         return;
     }

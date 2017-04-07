@@ -37,7 +37,7 @@ EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
 {
     QList<QVariant> rootData;
     rootData << "Name" << "ID" << "Type" << "isFav";
-    rootItem = new TreeItem(rootData);
+    rootItem = new TreeItem(rootData, static_cast<AbstractTreeModel*>(this));
 
     QHash<QString, TreeItem*> effectCategory; //category in which each effect should land.
 

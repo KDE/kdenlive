@@ -34,7 +34,7 @@
 #include <QTreeWidget>
 #include <QtConcurrent>
 
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<ClipController *> &list, const QStringList &luma_list, QWidget *parent) :
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<std::shared_ptr<ClipController>> &list, const QStringList &luma_list, QWidget *parent) :
     QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(nullptr)
@@ -109,7 +109,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     QMap<QString, QString>proxyUrls;
 
     for (int i = 0; i < list.count(); ++i) {
-        ClipController *clip = list.at(i);
+        std::shared_ptr<ClipController> clip = list.at(i);
         ClipType t = clip->clipType();
         QString id = clip->clipId();
         if (t == Color) {
@@ -355,7 +355,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 }
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
-                m_requestedSize += totalSize;
+                m_requestedSize += (long long)totalSize;
             } else {
                 // pattern url (like clip%.3d.png)
                 QStringList result = dir.entryList(QDir::Files);
@@ -378,7 +378,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 }
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
-                m_requestedSize += totalSize;
+                m_requestedSize += (long long)totalSize;
             }
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
@@ -397,7 +397,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
             } else {
-                m_requestedSize += fileSize;
+                m_requestedSize += (long long)fileSize;
                 item->setData(0, Qt::UserRole + 3, fileSize);
             }
             filesList << fileName;
@@ -439,7 +439,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 }
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
-                m_requestedSize += totalSize;
+                m_requestedSize += (long long)totalSize;
             } else {
                 // pattern url (like clip%.3d.png)
                 QStringList result = dir.entryList(QDir::Files);
@@ -462,7 +462,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 }
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
-                m_requestedSize += totalSize;
+                m_requestedSize += (long long)totalSize;
             }
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
@@ -481,7 +481,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
             } else {
-                m_requestedSize += fileSize;
+                m_requestedSize += (long long)fileSize;
                 item->setData(0, Qt::UserRole + 3, fileSize);
             }
             filesList << fileName;
@@ -687,7 +687,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
 
 void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
 {
-    progressBar->setValue(100 * size / m_requestedSize);
+    progressBar->setValue(100 * (int)size / (int)m_requestedSize);
 }
 
 bool ArchiveWidget::processProjectFile()

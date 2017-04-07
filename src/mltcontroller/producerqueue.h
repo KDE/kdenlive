@@ -23,8 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCERQUEUE_H
 
 #include "definitions.h"
+#include "mltcontroller/bincontroller.h"
 
 #include <QMutex>
+#include <memory>
 #include <QFuture>
 
 class ClipController;
@@ -47,7 +49,7 @@ class ProducerQueue : public QObject
     Q_OBJECT
 
 public:
-    explicit ProducerQueue(BinController *controller);
+    explicit ProducerQueue(std::shared_ptr<BinController> controller);
     ~ProducerQueue();
 
     /** @brief Force processing of clip with selected id. */
@@ -63,7 +65,7 @@ private:
     /** @brief The ids of the clips that are currently being loaded for info query */
     QStringList m_processingClipId;
     QFuture <void> m_infoThread;
-    BinController *m_binController;
+    std::shared_ptr<BinController> m_binController;
     ClipType getTypeForService(const QString &id, const QString &path) const;
     /** @brief Pass xml values to an MLT producer at build time */
     void processProducerProperties(Mlt::Producer *prod, const QDomElement &xml);

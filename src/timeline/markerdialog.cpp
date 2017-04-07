@@ -22,6 +22,7 @@
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/clipcontroller.h"
+#include "core.h"
 
 #include <QWheelEvent>
 #include "kdenlive_debug.h"
@@ -56,7 +57,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
         m_in->setRange(0, m_clip->getPlaytime().frames(tc.fps()));
         m_previewTimer->setInterval(500);
         connect(m_previewTimer, &QTimer::timeout, this, &MarkerDialog::slotUpdateThumb);
-        m_dar = m_clip->dar();
+        m_dar = pCore->getCurrentDar();
         int width = Kdenlive::DefaultThumbHeight * m_dar;
         QPixmap p(width, Kdenlive::DefaultThumbHeight);
         p.fill(Qt::transparent);

@@ -229,7 +229,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
             oldProperties.insert(QStringLiteral("luma_file"), clip->getProducerProperty(QStringLiteral("luma_file")));
             oldProperties.insert(QStringLiteral("softness"), clip->getProducerProperty(QStringLiteral("softness")));
             oldProperties.insert(QStringLiteral("animation"), clip->getProducerProperty(QStringLiteral("animation")));
-            bin->slotEditClipCommand(clip->clipId(), oldProperties, properties);
+            bin->slotEditClipCommand(clip->AbstractProjectItem::clipId(), oldProperties, properties);
         } else {
             addXmlProperties(prod, properties);
             AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);

@@ -318,16 +318,6 @@ void MainWindow::init()
     //TODO REFAC: remove, this is just a hack to avoid floating parentless widget
     addDock("Properties_old", QStringLiteral("effect_stack2"), m_effectStack);
 
-    connect(m_effectStack, &EffectStackView2::startFilterJob, pCore->bin(), &Bin::slotStartFilterJob);
-    connect(pCore->bin(), &Bin::masterClipSelected, m_effectStack, &EffectStackView2::slotMasterClipItemSelected);
-    connect(pCore->bin(), &Bin::masterClipUpdated, m_effectStack, &EffectStackView2::slotRefreshMasterClipEffects);
-    connect(m_effectStack, SIGNAL(addMasterEffect(QString, QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString, QDomElement)));
-    connect(m_effectStack, SIGNAL(updateMasterEffect(QString,QDomElement,QDomElement,int,bool)), pCore->bin(), SLOT(slotUpdateEffect(QString,QDomElement,QDomElement,int,bool)));
-    connect(m_effectStack, SIGNAL(changeMasterEffectState(QString, QList<int>, bool)), pCore->bin(), SLOT(slotChangeEffectState(QString, QList<int>, bool)));
-    connect(m_effectStack, &EffectStackView2::removeMasterEffect, pCore->bin(), &Bin::slotDeleteEffect);
-    connect(m_effectStack, SIGNAL(changeEffectPosition(QString, QList<int>, int)), pCore->bin(), SLOT(slotMoveEffect(QString, QList<int>, int)));
-    connect(m_effectStack, &EffectStackView2::reloadEffects, this, &MainWindow::slotReloadEffects);
-    connect(m_effectStack, SIGNAL(displayMessage(QString, int)), m_messageLabel, SLOT(setProgressMessage(QString, int)));
 
     auto trans = TransitionsRepository::get()->getTransition(QStringLiteral("wipe"));
     auto transxml = TransitionsRepository::get()->getXml(QStringLiteral("wipe"));
@@ -910,7 +900,8 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
         pCore->projectManager()->currentTimeline()->projectView()->slotAddEffectToCurrentItem(effectToAdd);
         break;
     case MASTER_CLIP:
-        pCore->bin()->slotEffectDropped(QString(), effectToAdd);
+        //TODO refac reimplement this.
+        //pCore->bin()->slotEffectDropped(QString(), effectToAdd);
         break;
     default:
         // No clip selected
@@ -2276,7 +2267,7 @@ void MainWindow::slotAddClipMarker()
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
                 pos = GenTime((int)((m_projectMonitor->position() - item->startPos() + item->cropStart()).frames(project->fps()) * item->speed() + 0.5), project->fps());
-                clip = pCore->binController()->getController(item->getBinId());
+                clip = pCore->binController()->getController(item->getBinId()).get();
             }
         }
     } else {
@@ -2310,7 +2301,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
                 pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
-                clip = pCore->binController()->getController(item->getBinId());
+                clip = pCore->binController()->getController(item->getBinId()).get();
             }
         }
     } else {
@@ -2342,7 +2333,7 @@ void MainWindow::slotDeleteAllClipMarkers()
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
-                clip = pCore->binController()->getController(item->getBinId());
+                clip = pCore->binController()->getController(item->getBinId()).get();
             }
         }
     } else {
@@ -2364,7 +2355,7 @@ void MainWindow::slotEditClipMarker()
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
                 pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
-                clip = pCore->binController()->getController(item->getBinId());
+                clip = pCore->binController()->getController(item->getBinId()).get();
             }
         }
     } else {
@@ -3780,15 +3771,14 @@ void MainWindow::slotUpdateProxySettings()
 
 void MainWindow::slotArchiveProject()
 {
-    QList<ClipController *> list = pCore->binController()->getControllerList();
+    QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
     KdenliveDoc *doc = pCore->projectManager()->current();
     pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(), pCore->projectManager()->currentTimeline()->projectView()->guidesData());
     QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
-    QPointer<ArchiveWidget> d = new ArchiveWidget(doc->url().fileName(), xmlDoc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this);
+    QScopedPointer<ArchiveWidget> d(new ArchiveWidget(doc->url().fileName(), xmlDoc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this));
     if (d->exec()) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }
-    delete d;
 }
 
 void MainWindow::slotDownloadResources()

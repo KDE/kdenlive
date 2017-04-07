@@ -28,14 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dialogs/profilesdialog.h"
 #include "project/dialogs/slideshowclip.h"
 #include "timeline/clip.h"
+#include "core.h"
 
 #include <QtConcurrent>
 
-ProducerQueue::ProducerQueue(BinController *controller) : QObject(controller)
+ProducerQueue::ProducerQueue(std::shared_ptr<BinController> controller) : QObject(controller.get())
     , m_binController(controller)
 {
     connect(this, SIGNAL(multiStreamFound(QString, QList<int>, QList<int>, stringMap)), this, SLOT(slotMultiStreamProducerFound(QString, QList<int>, QList<int>, stringMap)));
-    connect(this, &ProducerQueue::refreshTimelineProducer, m_binController, &BinController::replaceTimelineProducer);
+    connect(this, &ProducerQueue::refreshTimelineProducer, m_binController.get(), &BinController::replaceTimelineProducer);
 }
 
 ProducerQueue::~ProducerQueue()
@@ -134,7 +135,7 @@ void ProducerQueue::processFileProperties()
     requestClipInfo info;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    bool forceThumbScale = m_binController->profile()->sar() != 1;
+    bool forceThumbScale = qAbs(m_binController->profile()->sar() - 1) > 1e-1;
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
@@ -208,36 +209,34 @@ void ProducerQueue::processFileProperties()
         }
         //qCDebug(KDENLIVE_LOG)<<" / / /CHECKING PRODUCER PATH: "<<path;
         QUrl url = QUrl::fromLocalFile(path);
-        Mlt::Producer *producer = nullptr;
+        std::shared_ptr<Mlt::Producer> producer;
         ClipType type = (ClipType)info.xml.attribute(QStringLiteral("type")).toInt();
         if (type == Unknown) {
             type = getTypeForService(ProjectClip::getXmlProperty(info.xml, QStringLiteral("mlt_service")), path);
         }
         if (type == Color) {
             path.prepend(QStringLiteral("color:"));
-            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == Text || type == TextTemplate) {
             path.prepend(QStringLiteral("kdenlivetitle:"));
-            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == QText) {
             path.prepend(QStringLiteral("qtext:"));
-            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == Playlist && !proxyProducer) {
             //TODO: "xml" seems to corrupt project fps if different, and "consumer" crashed on audio transition
             Mlt::Profile *xmlProfile = new Mlt::Profile();
             xmlProfile->set_explicit(false);
             MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_binController->profile());
             //path.prepend("consumer:");
-            producer = new Mlt::Producer(*xmlProfile, "xml", path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*xmlProfile, "xml", path.toUtf8().constData());
             if (!producer->is_valid()) {
-                delete producer;
                 delete xmlProfile;
                 m_processingClipId.removeAll(info.clipId);
                 emit removeInvalidClip(info.clipId, info.replaceProducer);
                 continue;
             }
             MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*xmlProfile);
-            delete producer;
             delete xmlProfile;
             if (clipProfile.isCompatible(projectProfile)) {
                 // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
@@ -251,9 +250,9 @@ void ProducerQueue::processFileProperties()
                 continue;
             }
             m_binController->profile()->set_explicit(true);
-            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == SlideShow) {
-            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (!url.isValid()) {
             //WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
@@ -269,9 +268,9 @@ void ProducerQueue::processFileProperties()
             track.setAttribute(QStringLiteral("producer"), QStringLiteral("playlist0"));
             tractor.appendChild(track);
             mlt.appendChild(tractor);
-            producer = new Mlt::Producer(*m_binController->profile(), "xml-string", doc.toString().toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), "xml-string", doc.toString().toUtf8().constData());
         } else {
-            producer = new Mlt::Producer(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
             if (producer->is_valid() && info.xml.hasAttribute(QStringLiteral("checkProfile")) && producer->get_int("video_index") > -1) {
                 // Check if clip profile matches
                 QString service = producer->get("mlt_service");
@@ -329,7 +328,7 @@ void ProducerQueue::processFileProperties()
                 }
             }
         }
-        if (producer == nullptr || producer->is_blank() || !producer->is_valid()) {
+        if (!producer || producer->is_blank() || !producer->is_valid()) {
             qCDebug(KDENLIVE_LOG) << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: " << path;
             m_processingClipId.removeAll(info.clipId);
             if (proxyProducer) {
@@ -338,11 +337,10 @@ void ProducerQueue::processFileProperties()
             } else {
                 emit removeInvalidClip(info.clipId, info.replaceProducer);
             }
-            delete producer;
             continue;
         }
         // Pass useful properties
-        processProducerProperties(producer, info.xml);
+        processProducerProperties(producer.get(), info.xml);
         QString clipName = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:clipname"));
         if (!clipName.isEmpty()) {
             producer->set("kdenlive:clipname", clipName.toUtf8().constData());
@@ -360,7 +358,6 @@ void ProducerQueue::processFileProperties()
                 qCDebug(KDENLIVE_LOG) << "/ // PROXY LENGTH MISMATCH, DELETE PRODUCER";
                 m_processingClipId.removeAll(info.clipId);
                 emit removeInvalidProxy(info.clipId, true);
-                delete producer;
                 continue;
             }
         }
@@ -512,7 +509,7 @@ void ProducerQueue::processFileProperties()
                     producer->set(name.toUtf8().constData(), e.firstChild().nodeValue().toUtf8().constData());
                 }
             }
-            m_binController->replaceProducer(info.clipId, *producer);
+            m_binController->replaceProducer(info.clipId, producer);
             emit gotFileProperties(info, nullptr);
             continue;
         }
@@ -598,7 +595,7 @@ void ProducerQueue::processFileProperties()
             filePropertyMap[QStringLiteral("fps")] = QString::number(original_profile.fps());
             filePropertyMap[QStringLiteral("aspect_ratio")] = QString::number(original_profile.sar());
             double originalFps = original_profile.fps();
-            if (originalFps > 0 && originalFps != m_binController->profile()->fps()) {
+            if (originalFps > 0 && qAbs(originalFps - pCore->getCurrentFps()) > 1e-4)  {
                 // Warning, MLT detects an incorrect length in producer consumer when producer's fps != project's fps
                 //TODO: report bug to MLT
                 delete tmpProd;
@@ -719,11 +716,11 @@ void ProducerQueue::processFileProperties()
                         filePropertyMap[QStringLiteral("type")] = QStringLiteral("video");
                     }
                     // Check if we are using GPU accel, then we need to use alternate producer
-                    Mlt::Producer *tmpProd = nullptr;
+                    std::shared_ptr<Mlt::Producer> tmpProd;
                     if (KdenliveSettings::gpu_accel()) {
                         delete frame;
                         Clip clp(*producer);
-                        tmpProd = clp.softClone(ClipController::getPassPropertiesList());
+                        tmpProd = std::shared_ptr<Mlt::Producer>(clp.softClone(ClipController::getPassPropertiesList()));
                         Mlt::Filter scaler(*m_binController->profile(), "swscale");
                         Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
                         tmpProd->attach(scaler);
@@ -735,7 +732,7 @@ void ProducerQueue::processFileProperties()
                     QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                     if (frameNumber == -1) {
                         // No user specipied frame, look for best one
-                        int variance = KThumb::imageVariance(img);
+                        int variance = (int)KThumb::imageVariance(img);
                         if (variance < 6) {
                             // Thumbnail is not interesting (for example all black, seek to fetch better thumb
                             delete frame;
@@ -744,9 +741,6 @@ void ProducerQueue::processFileProperties()
                             frame = tmpProd->get_frame();
                             img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                         }
-                    }
-                    if (KdenliveSettings::gpu_accel()) {
-                        delete tmpProd;
                     }
                     if (frameNumber > -1) {
                         filePropertyMap[QStringLiteral("thumbnailFrame")] = QString::number(frameNumber);
@@ -833,13 +827,12 @@ void ProducerQueue::processFileProperties()
         producer->seek(0);
         if (m_binController->hasClip(info.clipId)) {
             // If controller already exists, we just want to update the producer
-            m_binController->replaceProducer(info.clipId, *producer);
+            m_binController->replaceProducer(info.clipId, producer);
             emit gotFileProperties(info, nullptr);
         } else {
             // Create the controller
-            ClipController *controller = new ClipController(m_binController, *producer);
-            m_binController->addClipToBin(info.clipId, controller);
-            emit gotFileProperties(info, controller);
+            std::shared_ptr<ClipController> controller = ClipController::construct(m_binController, producer);
+            emit gotFileProperties(info, controller.get());
         }
         m_processingClipId.removeAll(info.clipId);
     }

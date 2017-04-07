@@ -26,17 +26,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/audio/audioStreamInfo.h"
 #include "timeline/timeline.h"
 #include "timeline/effectmanager.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
+#include "profiles/profilemodel.hpp"
 
 #include "kdenlive_debug.h"
+#include "core.h"
 #include <QPixmap>
 #include <QFileInfo>
 #include <KLocalizedString>
 
-ClipController::ClipController(BinController *bincontroller, Mlt::Producer &producer, QObject *parent)
-    : QObject(parent)
-    , selectedEffectIndex(1)
-    , audioThumbCreated(false)
-    , m_properties(new Mlt::Properties(producer.get_properties()))
+ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer) :
+    selectedEffectIndex(1)
+    , m_audioThumbCreated(false)
+    , m_masterProducer(producer)
+    , m_properties(new Mlt::Properties(producer->get_properties()))
     , m_usesProxy(false)
     , m_audioInfo(nullptr)
     , m_audioIndex(0)
@@ -46,7 +49,6 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer &prod
     , m_binController(bincontroller)
     , m_snapMarkers(QList< CommentedTime >())
 {
-    m_masterProducer = &producer;
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
         return;
@@ -69,10 +71,10 @@ ClipController::ClipController(BinController *bincontroller, Mlt::Producer &prod
     }
 }
 
-ClipController::ClipController(BinController *bincontroller) : QObject()
-    , selectedEffectIndex(1)
-    , audioThumbCreated(false)
-    , m_masterProducer(nullptr)
+ClipController::ClipController(std::shared_ptr<BinController> bincontroller) :
+    selectedEffectIndex(1)
+    , m_audioThumbCreated(false)
+    , m_masterProducer(ClipController::mediaUnavailable)
     , m_properties(nullptr)
     , m_usesProxy(false)
     , m_audioInfo(nullptr)
@@ -85,27 +87,37 @@ ClipController::ClipController(BinController *bincontroller) : QObject()
 {
 }
 
+
+//static
+std::shared_ptr<ClipController> ClipController::construct(std::shared_ptr<BinController> binController, std::shared_ptr<Mlt::Producer> producer)
+{
+    std::shared_ptr<ClipController> ptr = std::shared_ptr<ClipController>(new ClipController(binController, producer));
+    binController->addClipToBin(ptr->clipId(), ptr);
+    return ptr;
+}
+
 ClipController::~ClipController()
 {
     delete m_properties;
-    delete m_masterProducer;
     delete m_audioInfo;
 }
 
-double ClipController::dar() const
-{
-    return m_binController->dar();
-}
 
 AudioStreamInfo *ClipController::audioInfo() const
 {
     return m_audioInfo;
 }
 
-void ClipController::addMasterProducer(Mlt::Producer &producer)
+void ClipController::addMasterProducer(std::shared_ptr<Mlt::Producer> producer)
 {
-    m_properties = new Mlt::Properties(producer.get_properties());
-    m_masterProducer = &producer;
+    QString documentRoot;
+    if (auto ptr = m_binController.lock()) {
+        documentRoot = ptr->documentRoot();
+    } else {
+        qDebug() << "Error: impossible to add master producer because bincontroller is not available";
+    }
+    m_properties = new Mlt::Properties(producer->get_properties());
+    m_masterProducer = producer;
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
@@ -117,11 +129,11 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
             // This is a proxy producer, read original url from kdenlive property
             path = m_properties->get("kdenlive:originalurl");
             if (QFileInfo(path).isRelative()) {
-                path.prepend(m_binController->documentRoot());
+                path.prepend(documentRoot);
             }
             m_usesProxy = true;
         } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && QFileInfo(path).isRelative()) {
-            path.prepend(m_binController->documentRoot());
+            path.prepend(documentRoot);
         }
         m_path = QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
@@ -131,7 +143,7 @@ void ClipController::addMasterProducer(Mlt::Producer &producer)
 void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)
 {
     if (m_masterProducer) {
-        QString xml = m_binController->getProducerXML(*m_masterProducer, includeMeta);
+        QString xml = BinController::getProducerXML(m_masterProducer, includeMeta);
         document.setContent(xml);
     } else {
         qCDebug(KDENLIVE_LOG) << " + + ++ NO MASTER PROD";
@@ -183,7 +195,7 @@ void ClipController::getInfoForProducer()
         m_clipType = Unknown;
     }
     if (m_audioIndex > -1 || m_clipType == Playlist) {
-        m_audioInfo = new AudioStreamInfo(m_masterProducer, m_audioIndex);
+        m_audioInfo = new AudioStreamInfo(m_masterProducer.get(), m_audioIndex);
     }
 
     if (!m_hasLimitedDuration) {
@@ -201,9 +213,9 @@ bool ClipController::hasLimitedDuration() const
     return m_hasLimitedDuration;
 }
 
-Mlt::Producer &ClipController::originalProducer()
+std::shared_ptr<Mlt::Producer> ClipController::originalProducer()
 {
-    return *m_masterProducer;
+    return m_masterProducer;
 }
 
 Mlt::Producer *ClipController::masterProducer()
@@ -247,10 +259,9 @@ QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &pr
     return subclipsData;
 }
 
-void ClipController::updateProducer(const QString &id, Mlt::Producer *producer)
+void ClipController::updateProducer(std::shared_ptr<Mlt::Producer> producer)
 {
     //TODO replace all track producers
-    Q_UNUSED(id)
 
     Mlt::Properties passProperties;
     // Keep track of necessary properties
@@ -263,7 +274,6 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer *producer)
     }
     passProperties.pass_list(*m_properties, getPassPropertiesList(m_usesProxy));
     delete m_properties;
-    delete m_masterProducer;
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(producer->get_properties());
     // Pass properties from previous producer
@@ -282,6 +292,12 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer *producer)
 
 Mlt::Producer *ClipController::getTrackProducer(const QString &trackName, PlaylistState::ClipState clipState, double speed)
 {
+    //TODO Delete this
+    Q_UNUSED(speed);
+    Q_UNUSED(trackName);
+    Q_UNUSED(clipState);
+    return m_masterProducer.get();
+    /*
     //TODO
     Q_UNUSED(speed)
 
@@ -306,6 +322,7 @@ Mlt::Producer *ClipController::getTrackProducer(const QString &trackName, Playli
     clone->set("id", clipWithTrackId.toUtf8().constData());
     //m_binController->replaceBinPlaylistClip(clipWithTrackId, clone->parent());
     return clone;
+    */
 }
 
 const QString ClipController::getStringDuration()
@@ -322,11 +339,12 @@ const QString ClipController::getStringDuration()
 
 GenTime ClipController::getPlaytime() const
 {
+    double fps = pCore->getCurrentFps();
     if (!m_hasLimitedDuration) {
         int playtime = m_masterProducer->get_int("kdenlive:duration");
-        return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, m_binController->fps());
+        return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, fps);
     }
-    return GenTime(m_masterProducer->get_playtime(), m_binController->fps());
+    return GenTime(m_masterProducer->get_playtime(), fps);
 }
 
 QString ClipController::property(const QString &name) const
@@ -546,7 +564,8 @@ void ClipController::addSnapMarker(const CommentedTime &marker)
     m_snapMarkers.append(marker);
     QLocale locale;
     QString markerId = clipId() + QLatin1Char(':') + locale.toString(marker.time().seconds());
-    m_binController->storeMarker(markerId, marker.hash());
+    if (auto ptr = m_binController.lock())
+        ptr->storeMarker(markerId, marker.hash());
     qSort(m_snapMarkers);
 }
 
@@ -561,7 +580,8 @@ void ClipController::editSnapMarker(const GenTime &time, const QString &comment)
     m_snapMarkers[ix].setComment(comment);
     QLocale locale;
     QString markerId = clipId() + QLatin1Char(':') + locale.toString(time.seconds());
-    m_binController->storeMarker(markerId, QString());
+    if (auto ptr = m_binController.lock())
+        ptr->storeMarker(markerId, QString());
 }
 
 QString ClipController::deleteSnapMarker(const GenTime &time)
@@ -576,7 +596,8 @@ QString ClipController::deleteSnapMarker(const GenTime &time)
     m_snapMarkers.removeAt(ix);
     QLocale locale;
     QString markerId = clipId() + QLatin1Char(':') + locale.toString(time.seconds());
-    m_binController->storeMarker(markerId, QString());
+    if (auto ptr = m_binController.lock())
+        ptr->storeMarker(markerId, QString());
     return result;
 }
 
@@ -641,7 +662,7 @@ void ClipController::setZone(const QPoint &zone)
 QPoint ClipController::zone() const
 {
     int in = int_property(QStringLiteral("kdenlive:zone_in"));
-    int max = getPlaytime().frames(m_binController->fps()) - 1;
+    int max = getPlaytime().frames(pCore->getCurrentFps()) - 1;
     int out = qMin(int_property(QStringLiteral("kdenlive:zone_out")), max);
     if (out <= in) {
         out = max;
@@ -658,11 +679,6 @@ const QString ClipController::getClipHash() const
 Mlt::Properties &ClipController::properties()
 {
     return *m_properties;
-}
-
-Mlt::Profile *ClipController::profile()
-{
-    return m_binController->profile();
 }
 
 void ClipController::initEffect(const ProfileInfo &pInfo, QDomElement &xml)
@@ -698,8 +714,9 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
     xml.setAttribute(QStringLiteral("kdenlive_ix"), kdenlive_ix);
     EffectsParameterList params = EffectsController::getEffectArgs(pInfo, xml);
     EffectManager effect(service);
-    effect.addEffect(params, getPlaytime().frames(m_binController->fps()));
-    m_binController->updateTrackProducer(clipId());
+    effect.addEffect(params, getPlaytime().frames(pCore->getCurrentFps()));
+    if (auto ptr = m_binController.lock())
+        ptr->updateTrackProducer(clipId());
 }
 
 void ClipController::removeEffect(int effectIndex, bool delayRefresh)
@@ -709,7 +726,8 @@ void ClipController::removeEffect(int effectIndex, bool delayRefresh)
     EffectManager effect(service);
     effect.removeEffect(effectIndex, true);
     if (!delayRefresh) {
-        m_binController->updateTrackProducer(clipId());
+        if (auto ptr = m_binController.lock())
+            ptr->updateTrackProducer(clipId());
     }
 }
 
@@ -728,7 +746,8 @@ void ClipController::moveEffect(int oldPos, int newPos)
 
 void ClipController::reloadTrackProducers()
 {
-    m_binController->updateTrackProducer(clipId());
+    if (auto ptr = m_binController.lock())
+        ptr->updateTrackProducer(clipId());
 }
 
 int ClipController::effectsCount()
@@ -779,7 +798,8 @@ void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
             effect->set("disable", (int) disable);
         }
     }
-    m_binController->updateTrackProducer(clipId());
+    if (auto ptr = m_binController.lock())
+        ptr->updateTrackProducer(clipId());
 }
 
 void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix)
@@ -811,7 +831,8 @@ void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e
         }
         service.unlock();
     }
-    m_binController->updateTrackProducer(clipId());
+    if (auto ptr = m_binController.lock())
+        ptr->updateTrackProducer(clipId());
     //slotRefreshTracks();
 }
 
@@ -858,7 +879,8 @@ void ClipController::disableEffects(bool disable)
         }
     }
     if (changed) {
-        m_binController->updateTrackProducer(clipId());
+        if (auto ptr = m_binController.lock())
+            ptr->updateTrackProducer(clipId());
     }
 }
 
@@ -868,14 +890,23 @@ void ClipController::saveZone(QPoint zone, const QDir &dir)
     if (dir.exists(path)) {
         //TODO ask for overwrite
     }
-    Mlt::Consumer xmlConsumer(*profile(), ("xml:" + dir.absoluteFilePath(path)).toUtf8().constData());
+    Mlt::Consumer xmlConsumer(pCore->getCurrentProfile()->profile(), ("xml:" + dir.absoluteFilePath(path)).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     Mlt::Producer prod(m_masterProducer->get_producer());
     Mlt::Producer *prod2 = prod.cut(zone.x(), zone.y());
-    Mlt::Playlist list(*profile());
+    Mlt::Playlist list(pCore->getCurrentProfile()->profile());
     list.insert_at(0, *prod2, 0);
     //list.set("title", desc.toUtf8().constData());
     xmlConsumer.connect(list);
     xmlConsumer.run();
     delete prod2;
+}
+
+std::shared_ptr<EffectStackModel> ClipController::getEffectStack() const
+{
+    return m_effectStack;
+}
+void ClipController::addEffect(const QString& effectId)
+{
+    m_effectStack->appendEffect(effectId);
 }

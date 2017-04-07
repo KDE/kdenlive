@@ -20,6 +20,7 @@ the Free Software Foundation, either version 3 of the License, or
 class AudioStreamInfo
 {
 public:
+    //TODO make that access a shared ptr instead of raw
     AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex);
     ~AudioStreamInfo();
 

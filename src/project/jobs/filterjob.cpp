@@ -101,7 +101,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                 }
                 consumerParams.insert(QStringLiteral("consumer"), QStringLiteral("xml:") + destination);
                 ProjectClip *clip = clips.at(i);
-                MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
+                MeltJob *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
                 job->description = i18n("Reverse clip");
                 job->setAddClipToProject(1);
                 jobs.insert(clip, job);
@@ -193,7 +193,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
 
             // Destination
             // Since this job is only doing analysis, we have a null consumer and no destination
-            MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
+            MeltJob *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
             job->description = i18n("Auto split");
             jobs.insert(clip, job);
         }
@@ -245,8 +245,8 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                 consumerParams.insert(QStringLiteral("real_time"), QStringLiteral("-1"));
                 // Append a 'filename' parameter for saving vidstab data
                 filterParams.insert(QStringLiteral("filename"), trffile.toLocalFile());
-                MeltJob *job = new MeltJob(clip->clipType(), clip->clipId(), producerParams, filterParams, consumerParams, extraParams);
-                job->setAddClipToProject(d->autoAddClip() ?  clip->parent()->clipId().toInt() : -100);
+                MeltJob *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
+                job->setAddClipToProject(d->autoAddClip() ?  clip->parent()->AbstractProjectItem::clipId().toInt() : -100);
                 job->description = d->desc();
                 jobs.insert(clip, job);
             }

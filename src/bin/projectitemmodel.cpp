@@ -25,22 +25,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectclip.h"
 #include "projectsubclip.h"
 #include "projectfolder.h"
-#include "bin.h"
 
 #include <qvarlengtharray.h>
 #include <KLocalizedString>
 #include <QIcon>
 #include <QMimeData>
 
-ProjectItemModel::ProjectItemModel(Bin *bin) :
-    QAbstractItemModel(bin)
+ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent) :
+    AbstractTreeModel(parent)
     , m_bin(bin)
 {
-    connect(m_bin, &Bin::itemUpdated, this, &ProjectItemModel::onItemUpdated);
+    rootItem = new ProjectFolder(this);
 }
 
 ProjectItemModel::~ProjectItemModel()
 {
+    delete rootItem;
 }
 
 int ProjectItemModel::mapToColumn(int column) const
@@ -182,62 +182,13 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
-QModelIndex ProjectItemModel::index(int row, int column, const QModelIndex &parent) const
-{
-    if (!hasIndex(row, column, parent)) {
-        return QModelIndex();
-    }
-
-    AbstractProjectItem *parentItem;
-
-    if (parent.isValid()) {
-        parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
-    } else {
-        parentItem = m_bin->rootFolder();
-    }
-
-    AbstractProjectItem *childItem = parentItem->at(row);
-    return createIndex(row, column, childItem);
-}
-
-QModelIndex ProjectItemModel::parent(const QModelIndex &index) const
-{
-    if (!index.isValid()) {
-        return QModelIndex();
-    }
-
-    AbstractProjectItem *parentItem = static_cast<AbstractProjectItem *>(index.internalPointer())->parent();
-
-    if (!parentItem || parentItem == m_bin->rootFolder()) {
-        return QModelIndex();
-    }
-
-    return createIndex(parentItem->index(), 0, parentItem);
-}
-
-int ProjectItemModel::rowCount(const QModelIndex &parent) const
-{
-    // ?
-    /*if (parent.column() > 0) {
-        return 0;
-    }*/
-
-    AbstractProjectItem *parentItem;
-    if (parent.isValid()) {
-        parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
-    } else {
-        parentItem = m_bin->rootFolder();
-    }
-
-    return parentItem->count();
-}
 
 int ProjectItemModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) {
         return static_cast<AbstractProjectItem *>(parent.internalPointer())->supportedDataCount();
     } else {
-        return m_bin->rootFolder()->supportedDataCount();
+        return static_cast<ProjectFolder*>(rootItem)->supportedDataCount();
     }
 }
 
@@ -290,57 +241,58 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     return mimeData;
 }
 
-void ProjectItemModel::onAboutToAddItem(AbstractProjectItem *item)
-{
-    AbstractProjectItem *parentItem = item->parent();
-    if (parentItem == nullptr) {
-        return;
-    }
-    QModelIndex parentIndex;
-    if (parentItem != m_bin->rootFolder()) {
-        parentIndex = createIndex(parentItem->index(), 0, parentItem);
-    }
-    beginInsertRows(parentIndex, parentItem->count(), parentItem->count());
-}
-
-void ProjectItemModel::onItemAdded(AbstractProjectItem *item)
-{
-    Q_UNUSED(item)
-    endInsertRows();
-}
-
-void ProjectItemModel::onAboutToRemoveItem(AbstractProjectItem *item)
-{
-    AbstractProjectItem *parentItem = item->parent();
-    if (parentItem == nullptr) {
-        return;
-    }
-    QModelIndex parentIndex;
-    if (parentItem != m_bin->rootFolder()) {
-        parentIndex = createIndex(parentItem->index(), 0, parentItem);
-    }
-
-    beginRemoveRows(parentIndex, item->index(), item->index());
-}
-
-void ProjectItemModel::onItemRemoved(AbstractProjectItem *item)
-{
-    Q_UNUSED(item)
-    endRemoveRows();
-}
 
 void ProjectItemModel::onItemUpdated(AbstractProjectItem *item)
 {
-    if (!item || item->clipStatus() == AbstractProjectItem::StatusDeleting) {
-        return;
+    auto index = getIndexFromItem(static_cast<TreeItem*>(item));
+    emit dataChanged(index, index);
+}
+
+ProjectClip *ProjectItemModel::getClipByBinID(const QString& binId)
+{
+    return static_cast<AbstractProjectItem*>(rootItem)->clip(binId);
+}
+
+ProjectFolder *ProjectItemModel::getFolderByBinId(const QString& binId)
+{
+    return static_cast<AbstractProjectItem*>(rootItem)->folder(binId);
+}
+
+QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex& index) const
+{
+    QStringList noInfo;
+    noInfo << QString::number(-1);
+    noInfo << QString();
+    if (!index.isValid()) {
+        return noInfo;
     }
-    AbstractProjectItem *parentItem = item->parent();
-    if (parentItem == nullptr) {
-        return;
+
+    AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(index.internalPointer());
+    auto folder = currentItem->getEnclosingFolder(true);
+    if (!folder || folder == rootItem) {
+        return noInfo;
+    } else {
+        QStringList folderInfo;
+        folderInfo << currentItem->clipId();
+        folderInfo << currentItem->name();
+        return folderInfo;
     }
-    QModelIndex parentIndex;
-    if (parentItem != m_bin->rootFolder()) {
-        parentIndex = createIndex(parentItem->index(), 0, parentItem);
-    }
-    emit dataChanged(parentIndex, parentIndex);
+
+}
+
+void ProjectItemModel::clean()
+{
+    delete rootItem;
+    rootItem = new ProjectFolder(this);
+}
+
+
+ProjectFolder *ProjectItemModel::getRootFolder() const
+{
+    return static_cast<ProjectFolder*>(rootItem);
+}
+
+Bin *ProjectItemModel::bin() const
+{
+    return m_bin;
 }

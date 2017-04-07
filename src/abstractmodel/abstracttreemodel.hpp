@@ -35,6 +35,29 @@ public:
     explicit AbstractTreeModel(QObject *parent = nullptr);
     virtual ~AbstractTreeModel();
 
+    /* @brief Given an item from the hierarchy, construct the corresponding ModelIndex */
+    QModelIndex getIndexFromItem(TreeItem *item) const;
+
+    /* @brief Send the appropriate notification related to a row that we are appending
+       @param item is the parent item to which row is appended
+     */
+    void notifyRowAboutToAppend(TreeItem *item);
+
+    /* @brief Send the appropriate notification related to a row that we have appended
+    */
+    void notifyRowAppended();
+
+    /* @brief Send the appropriate notification related to a row that we are deleting
+       @param item is the parent of the row being deleted
+       @param row is the index of the row being deleted
+    */
+    void notifyRowAboutToDelete(TreeItem *item, int row);
+
+    /* @brief Send the appropriate notification related to a row that we have appended
+       @param item is the item to which row are appended
+    */
+    void notifyRowDeleted();
+
     QVariant data(const QModelIndex &index, int role) const override;
     //This is reimplemented to prevent selection of the categories
     Qt::ItemFlags flags(const QModelIndex &index) const override;

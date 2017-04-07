@@ -26,7 +26,7 @@
 AbstractTreeModel::AbstractTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-    rootItem = new TreeItem(QList<QVariant>());
+    rootItem = new TreeItem(QList<QVariant>(), this);
 }
 
 AbstractTreeModel::~AbstractTreeModel()
@@ -126,3 +126,32 @@ int AbstractTreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
+QModelIndex AbstractTreeModel::getIndexFromItem(TreeItem *item) const
+{
+    if (item == rootItem) {
+        return QModelIndex();
+    }
+    return index(item->row(), 0, getIndexFromItem(item->parentItem()));
+}
+
+void AbstractTreeModel::notifyRowAboutToAppend(TreeItem *item)
+{
+    auto index = getIndexFromItem(item);
+    beginInsertRows(index, item->childCount(), item->childCount());
+}
+
+void AbstractTreeModel::notifyRowAppended()
+{
+    endInsertRows();
+}
+
+void AbstractTreeModel::notifyRowAboutToDelete(TreeItem *item, int row)
+{
+    auto index = getIndexFromItem(item);
+    beginRemoveRows(index, row, row);
+}
+
+void AbstractTreeModel::notifyRowDeleted()
+{
+    endRemoveRows();
+}
