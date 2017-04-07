@@ -140,6 +140,7 @@ Column{
                         item.markers= model.markers
                         item.fadeIn= 0 //model.fadeIn
                         item.fadeOut= 0 //model.fadeOut
+                        item.hasAudio = model.hasAudio
                     } else {
                         item.a_track = model.a_track
                     }

@@ -327,7 +327,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 return [this, target_clip, target_track, in, out, update_snaps, clipId]() {
                     // color, image and title clips can have unlimited resize
                     QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip));
-                    if (out > clip->get_length()) {
+                    if (out >= clip->get_length()) {
                         clip->parent().set("length", out + 1);
                         clip->set("length", out + 1);
                     }
@@ -362,6 +362,11 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                         err = m_playlists[target_track].resize_clip(blank, 0, blank_length + delta - 1);
                     }
                     if (err == 0) {
+                        QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip));
+                        if (out >= clip->get_length()) {
+                            clip->parent().set("length", out + 1);
+                            clip->set("length", out + 1);
+                        }
                         err = m_playlists[target_track].resize_clip(target_clip_mutable, in, out);
                     }
                     if (!right && err == 0) {

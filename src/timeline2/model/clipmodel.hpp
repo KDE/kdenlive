@@ -81,6 +81,7 @@ protected:
     /* @brief This function change the global (timeline-wise) enabled state of the effects
     */
     void setTimelineEffectsEnabled(bool enabled);
+    bool hasAudio() const;
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;

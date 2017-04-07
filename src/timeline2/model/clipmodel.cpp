@@ -86,7 +86,12 @@ bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     }
     auto operation = [this, in, out, track_operation]() {
         if (track_operation()) {
-            m_producer->set_in_and_out(in < 0 ? 0 : in, in < 0 ? out - in : out);
+            int outPoint = in < 0 ? out - in : out;
+            if (outPoint >= m_producer->get_length()) {
+                m_producer->parent().set("length", outPoint + 1);
+                m_producer->set("length", outPoint + 1);
+            }
+            m_producer->set_in_and_out(in < 0 ? 0 : in, outPoint);
             return true;
         }
         return false;
@@ -123,4 +128,10 @@ int ClipModel::getPlaytime() const
 void ClipModel::setTimelineEffectsEnabled(bool enabled)
 {
     m_effectStack->setTimelineEffectsEnabled(enabled);
+}
+
+bool ClipModel::hasAudio() const
+{
+    QString service = getProperty("mlt_service");
+    return service.contains(QStringLiteral("avformat"));
 }

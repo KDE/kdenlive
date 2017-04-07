@@ -101,6 +101,7 @@ public:
         OutPointRole,    /// clip only
         FramerateRole,   /// clip only
         GroupedRole,     /// clip only
+        HasAudio,        /// clip only
         IsMuteRole,      /// track only
         IsHiddenRole,    /// track only
         IsAudioRole,

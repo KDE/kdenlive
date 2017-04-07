@@ -195,6 +195,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[HeightRole] = "trackHeight";
     roles[ItemIdRole] = "item";
     roles[ItemATrack] = "a_track";
+    roles[HasAudio] = "hasAudio";
     return roles;
 }
 
@@ -244,8 +245,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             //TODO: get data from bin clip when interface is ready
             //return QVariant::fromValue(pCore->bin()->audioFrameCache(clip->getProperty("kdenlive:id")));
             return QVariant();
-        case IsBlankRole: //probably useless
-            return false;
+        case HasAudio:
+            return clip->hasAudio();
         case MarkersRole: {
             QVariantList markersList;
             markersList << QStringLiteral("10") << QStringLiteral("Marker 1") << QStringLiteral("50") << QStringLiteral("M2");

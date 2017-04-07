@@ -51,6 +51,7 @@ Rectangle {
     property int lastValidDuration: clipDuration
     property int draggedX: x
     property bool selected: false
+    property bool hasAudio
     property string hash: 'ccc' //TODO
     property double speed: 1.0
     property color borderColor: 'black'
@@ -138,10 +139,6 @@ Rectangle {
             visible: timeline.showThumbnails && mltService != 'color'
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.topMargin: parent.border.width
-            anchors.rightMargin: parent.border.width + 1
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: parent.border.width + 1
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
@@ -153,10 +150,6 @@ Rectangle {
             visible: timeline.showThumbnails && mltService != 'color'
             anchors.left: parent.left
             anchors.top: parent.top
-            anchors.topMargin: parent.border.width
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: parent.border.width + 1
-            anchors.leftMargin: parent.border.width
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
@@ -165,11 +158,11 @@ Rectangle {
 
         Row {
             id: waveform
-            visible: timeline.showAudioThumbnails
+            visible: hasAudio && timeline.showAudioThumbnails
             height: isAudio? parent.height : parent.height / 2
             anchors.left: parent.left
+            anchors.right: parent.right
             anchors.bottom: parent.bottom
-            anchors.margins: parent.border.width
             opacity: 0.7
             property int maxWidth: 10000
             property int innerWidth: clipRoot.width - clipRoot.border.width * 2
@@ -190,14 +183,13 @@ Rectangle {
 
         Rectangle {
             // audio peak line
-            width: parent.width - parent.border.width * 2
-            visible: timeline.showAudioThumbnails
+            visible: hasAudio && timeline.showAudioThumbnails
             height: 1
             anchors.left: parent.left
+            anchors.right: parent.right
             anchors.bottom: parent.bottom
-            anchors.leftMargin: parent.border.width
             anchors.bottomMargin: waveform.height * 0.9
-            color: Qt.darker(parent.color)
+            color: Qt.darker(clipRoot.color)
             opacity: 0.4
         }
 
@@ -207,8 +199,6 @@ Rectangle {
             color: 'lightgray'
             opacity: 0.7
             anchors.top: parent.top
-            anchors.topMargin: parent.border.width
-            anchors.leftMargin: parent.border.width
                 // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
             width: label.width + 2
             height: label.height
@@ -219,8 +209,8 @@ Rectangle {
                 anchors {
                     top: parent.top
                     left: parent.left
-                    topMargin: parent.border.width + 1
-                    leftMargin: parent.border.width
+                    topMargin: 1
+                    leftMargin: 1
                     // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
                 }
                 color: 'black'
