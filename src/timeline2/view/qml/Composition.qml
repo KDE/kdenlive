@@ -184,7 +184,6 @@ Item {
         }
         onReleased: {
             root.stopScrolling = false
-            compositionRoot.y = compositionRoot.parent.height / 2
             var delta = compositionRoot.x - startX
             if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
                 compositionRoot.moved(compositionRoot)
@@ -304,12 +303,23 @@ Item {
     // target track
     Rectangle {
         width: parent.width
-        height: 8
         gradient: Gradient {
             GradientStop { position: 0.0; color: selected ? 'red' : 'mediumpurple' }
             GradientStop { position: 1.0; color: "#00000000" }
         }
         y: a_trackPos
+        height: clabel.height + 4
+        Text {
+            id: clabel
+            text: a_track
+            font.pixelSize: root.baseUnit
+            anchors {
+                top: parent.top
+                topMargin: 2
+                leftMargin: 2
+            }
+            color: 'white'
+        }
     }
     Menu {
         id: menu

@@ -87,6 +87,36 @@ public:
     friend class CompositionModel;
     friend class GroupsModel;
 
+    /// Two level model: tracks and clips on track
+    enum {
+        NameRole = Qt::UserRole + 1,
+        ResourceRole,    /// clip only
+        ServiceRole,     /// clip only
+        IsBlankRole,     /// clip only
+        StartRole,       /// clip only
+        BinIdRole,       /// clip only
+        MarkersRole,     /// clip only
+        DurationRole,
+        InPointRole,     /// clip only
+        OutPointRole,    /// clip only
+        FramerateRole,   /// clip only
+        GroupedRole,     /// clip only
+        IsMuteRole,      /// track only
+        IsHiddenRole,    /// track only
+        IsAudioRole,
+        AudioLevelsRole, /// clip only
+        IsCompositeRole, /// track only
+        IsLockedRole,    /// track only
+        HeightRole,      /// track only
+        FadeInRole,      /// clip only
+        FadeOutRole,     /// clip only
+        IsCompositionRole,/// clip only
+        FileHashRole,    /// clip only
+        SpeedRole,       /// clip only
+        ItemATrack,      /// composition only
+        ItemIdRole
+    };
+
     virtual ~TimelineModel();
     Mlt::Tractor* tractor() const { return m_tractor.get(); }
     Mlt::Profile *getProfile();
@@ -481,6 +511,7 @@ protected:
     virtual void _endRemoveRows() = 0;
     virtual void _endInsertRows() = 0;
     virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) = 0;
+    virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, QVector<int>) = 0;
     virtual QModelIndex makeClipIndexFromID(int) const = 0;
     virtual QModelIndex makeCompositionIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;

@@ -1134,7 +1134,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
 
 bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
 {
-    qDebug() << "Requestiing composition move"<<trackId<<position;
+    qDebug() << "Requesting composition move"<<trackId<<","<<position;
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
@@ -1247,6 +1247,10 @@ bool TimelineModel::replantCompositions(int currentCompo)
             return false;
         }
     }
+    QModelIndex modelIndex = makeCompositionIndexFromID(currentCompo);
+    QVector<int> roles;
+    roles.push_back(ItemATrack);
+    notifyChange(modelIndex, modelIndex, roles);
     return true;
 }
 

@@ -571,8 +571,6 @@ Rectangle {
                 scrollTimer.running = false
                 bubbleHelp.hide()
                 clipBeingMovedId = -1
-                var track = tracksRepeater.itemAt(clip.trackIndex)
-                clip.y = track.height / 2
             }
             onClipDraggedToTrack: {
                 var y = pos - ruler.height

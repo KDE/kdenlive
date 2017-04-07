@@ -61,36 +61,6 @@ protected:
 public:
 
     ~TimelineItemModel();
-    /// Two level model: tracks and clips on track
-    enum {
-        NameRole = Qt::UserRole + 1,
-        ResourceRole,    /// clip only
-        ServiceRole,     /// clip only
-        IsBlankRole,     /// clip only
-        StartRole,       /// clip only
-        BinIdRole,       /// clip only
-        MarkersRole,     /// clip only
-        DurationRole,
-        InPointRole,     /// clip only
-        OutPointRole,    /// clip only
-        FramerateRole,   /// clip only
-        GroupedRole,     /// clip only
-        IsMuteRole,      /// track only
-        IsHiddenRole,    /// track only
-        IsAudioRole,
-        AudioLevelsRole, /// clip only
-        IsCompositeRole, /// track only
-        IsLockedRole,    /// track only
-        HeightRole,      /// track only
-        FadeInRole,      /// clip only
-        FadeOutRole,     /// clip only
-        IsCompositionRole,/// clip only
-        FileHashRole,    /// clip only
-        SpeedRole,       /// clip only
-        ItemATrack,      /// composition only
-        ItemIdRole
-    };
-
     int rowCount(const QModelIndex & parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -106,6 +76,7 @@ public:
     QModelIndex parent(const QModelIndex &index) const override;
     Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
     void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) override;
+    void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, QVector<int> roles) override;
 
     virtual void _beginRemoveRows(const QModelIndex&, int , int) override;
     virtual void _beginInsertRows(const QModelIndex&, int , int) override;

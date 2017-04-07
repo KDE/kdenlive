@@ -373,6 +373,11 @@ void TimelineItemModel::notifyChange(const QModelIndex& topleft, const QModelInd
     emit dataChanged(topleft, bottomright, roles);
 }
 
+void TimelineItemModel::notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, QVector<int> roles)
+{
+    emit dataChanged(topleft, bottomright, roles);
+}
+
 void TimelineItemModel::_beginRemoveRows(const QModelIndex& i, int j, int k)
 {
     // qDebug()<<"FORWARDING beginRemoveRows"<<i<<j<<k;
