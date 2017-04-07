@@ -98,8 +98,8 @@ Rectangle {
         id: trackHeadColumn
         spacing: 0
         anchors.fill: parent
-        anchors.leftMargin: 2
-        anchors.topMargin: 2
+        anchors.leftMargin: 0
+        anchors.topMargin: 0
 
         RowLayout {
             spacing: 0
@@ -108,7 +108,7 @@ Rectangle {
                 id: expandButton
                 iconName: buttonBar.visible ? 'arrow-down' : 'arrow-right'
                 onClicked: {
-                    trackHeadRoot.myTrackHeight = buttonBar.visible ? nameEdit.height : '100'
+                    trackHeadRoot.myTrackHeight = buttonBar.visible ? nameEdit.height + 2 : '100'
                 }
                 tooltip: buttonBar.visible? i18n('Minimize') : i18n('Expand')
             }
@@ -117,7 +117,7 @@ Rectangle {
                 color: 'transparent'
                 Layout.fillWidth: true
                 radius: 2
-                border.color: trackNameMouseArea.containsMouse? (trackHeadRoot.current? activePalette.shadow : activePalette.highlight) : 'transparent'
+                border.color: trackNameMouseArea.containsMouse ? activePalette.highlight : 'transparent'
                 height: nameEdit.height
                 MouseArea {
                     id: trackNameMouseArea

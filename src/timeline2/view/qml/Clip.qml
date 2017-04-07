@@ -87,7 +87,6 @@ Rectangle {
 
     border.color: selected? 'red' : borderColor
     border.width: 1.5
-    clip: true
     Drag.active: mouseArea.drag.active
     Drag.proposedAction: Qt.MoveAction
     opacity: Drag.active? 0.5 : 1.0
@@ -129,145 +128,141 @@ Rectangle {
     }
 
     onAudioLevelsChanged: generateWaveform()
-
-    Image {
-        id: outThumbnail
-        visible: timeline.showThumbnails && mltService != 'color'
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.topMargin: parent.border.width
-        anchors.rightMargin: parent.border.width + 1
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: parent.border.width + 1
-        width: height * 16.0/9.0
-        fillMode: Image.PreserveAspectFit
-        asynchronous: true
-        source: imagePath(outPoint)
-    }
-
-    Image {
-        id: inThumbnail
-        visible: timeline.showThumbnails && mltService != 'color'
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.topMargin: parent.border.width
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: parent.border.width + 1
-        anchors.leftMargin: parent.border.width
-        width: height * 16.0/9.0
-        fillMode: Image.PreserveAspectFit
-        asynchronous: true
-        source: imagePath(inPoint)
-    }
-
-    /*TimelineTransition {
-        visible: isComposition
+    Item {
+        // Clipping container
         anchors.fill: parent
-        property var color: isAudio? 'darkseagreen' : 'blue'
-        //root.shotcutBlue
-        colorA: color
-        colorB: clipRoot.selected ? Qt.darker(color) : Qt.lighter(color)
-    }*/
+        anchors.margins:1.5
+        clip: true
+        Image {
+            id: outThumbnail
+            visible: timeline.showThumbnails && mltService != 'color'
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: parent.border.width
+            anchors.rightMargin: parent.border.width + 1
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: parent.border.width + 1
+            width: height * 16.0/9.0
+            fillMode: Image.PreserveAspectFit
+            asynchronous: true
+            source: imagePath(outPoint)
+        }
 
-    Row {
-        id: waveform
-        visible: timeline.showAudioThumbnails
-        height: isAudio? parent.height : parent.height / 2
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.margins: parent.border.width
-        opacity: 0.7
-        property int maxWidth: 10000
-        property int innerWidth: clipRoot.width - clipRoot.border.width * 2
+        Image {
+            id: inThumbnail
+            visible: timeline.showThumbnails && mltService != 'color'
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.topMargin: parent.border.width
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: parent.border.width + 1
+            anchors.leftMargin: parent.border.width
+            width: height * 16.0/9.0
+            fillMode: Image.PreserveAspectFit
+            asynchronous: true
+            source: imagePath(inPoint)
+        }
+
+        Row {
+            id: waveform
+            visible: timeline.showAudioThumbnails
+            height: isAudio? parent.height : parent.height / 2
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.margins: parent.border.width
+            opacity: 0.7
+            property int maxWidth: 10000
+            property int innerWidth: clipRoot.width - clipRoot.border.width * 2
+
+            Repeater {
+                id: waveformRepeater
+                TimelineWaveform {
+                    width: Math.min(waveform.innerWidth, waveform.maxWidth)
+                    height: waveform.height
+                    fillColor: 'red'
+                    property int channels: 2
+                    inPoint: Math.round((clipRoot.inPoint + index * waveform.maxWidth / timeScale) * speed) * channels
+                    outPoint: inPoint + Math.round(width / timeScale * speed) * channels
+                    levels: audioLevels
+                }
+            }
+        }
+
+        Rectangle {
+            // audio peak line
+            width: parent.width - parent.border.width * 2
+            visible: timeline.showAudioThumbnails
+            height: 1
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.leftMargin: parent.border.width
+            anchors.bottomMargin: waveform.height * 0.9
+            color: Qt.darker(parent.color)
+            opacity: 0.4
+        }
+
+        Rectangle {
+            // text background
+            id: labelRect
+            color: 'lightgray'
+            opacity: 0.7
+            anchors.top: parent.top
+            anchors.topMargin: parent.border.width
+            anchors.leftMargin: parent.border.width
+                // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
+            width: label.width + 2
+            height: label.height
+            Text {
+                id: label
+                text: clipName
+                font.pixelSize: root.baseUnit
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    topMargin: parent.border.width + 1
+                    leftMargin: parent.border.width
+                    // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
+                }
+                color: 'black'
+            }
+        }
 
         Repeater {
-            id: waveformRepeater
-            TimelineWaveform {
-                width: Math.min(waveform.innerWidth, waveform.maxWidth)
-                height: waveform.height
-                fillColor: 'red'
-                property int channels: 2
-                inPoint: Math.round((clipRoot.inPoint + index * waveform.maxWidth / timeScale) * speed) * channels
-                outPoint: inPoint + Math.round(width / timeScale * speed) * channels
-                levels: audioLevels
+            model: markers.length / 2
+            delegate:
+            Item {
+                anchors.fill: parent
+                Rectangle {
+                    id: markerBase
+                    width: 1 // modelDa
+                    height: parent.height
+                    x: (markers[2 * modelData] - clipRoot.inPoint) * timeScale;
+                    color: 'red'
+                }
+                Rectangle {
+                    opacity: 0.7
+                    x: markerBase.x
+                    radius: 2
+                    width: mlabel.width + 4
+                    height: mlabel.height
+                    anchors {
+                        bottom: parent.verticalCenter
+                    }
+                    color: 'red'
+                }
+                Text {
+                    id: mlabel
+                    text: markers[2 * modelData + 1]
+                    font.pixelSize: root.baseUnit
+                    x: markerBase.x
+                    anchors {
+                        bottom: parent.verticalCenter
+                        topMargin: 2
+                        leftMargin: 2
+                    }
+                    color: 'white'
+                }
             }
-        }
-    }
-
-    Rectangle {
-        // audio peak line
-        width: parent.width - parent.border.width * 2
-        visible: timeline.showAudioThumbnails
-        height: 1
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.leftMargin: parent.border.width
-        anchors.bottomMargin: waveform.height * 0.9
-        color: Qt.darker(parent.color)
-        opacity: 0.4
-    }
-
-    Rectangle {
-        // text background
-        id: labelRect
-        color: 'lightgray'
-        opacity: 0.7
-        anchors.top: parent.top
-        anchors.topMargin: parent.border.width
-        anchors.leftMargin: parent.border.width
-            // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
-        width: label.width + 2
-        height: label.height
-        Text {
-            id: label
-            text: clipName
-            font.pixelSize: root.baseUnit
-            anchors {
-                top: parent.top
-                left: parent.left
-                topMargin: parent.border.width + 1
-                leftMargin: parent.border.width
-                // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
-            }
-            color: 'black'
-        }
-    }
-
-    Repeater {
-        model: markers.length / 2
-        delegate:
-        Item {
-            anchors.fill: parent
-        Rectangle {
-            id: markerBase
-            width: 1 // modelDa
-            height: parent.height
-            x: (markers[2 * modelData] - clipRoot.inPoint) * timeScale;
-            color: 'red'
-        }
-        Rectangle {
-            opacity: 0.7
-            x: markerBase.x
-            radius: 2
-            width: mlabel.width + 4
-            height: mlabel.height
-            anchors {
-                bottom: parent.verticalCenter
-            }
-            color: 'red'
-        }
-        Text {
-            id: mlabel
-            text: markers[2 * modelData + 1]
-            font.pixelSize: root.baseUnit
-            x: markerBase.x
-            anchors {
-                bottom: parent.verticalCenter
-                topMargin: 2
-                leftMargin: 2
-            }
-            color: 'white'
-        }
         }
     }
 

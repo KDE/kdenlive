@@ -109,30 +109,35 @@ Item {
         border.color: selected? 'red' : borderColor
         border.width: 1.5
         opacity: Drag.active? 0.5 : 1.0
-        clip: true
+        Item {
+            // clipping container
+            anchors.fill: parent
+            anchors.margins:1.5
+            clip: true
 
-        Rectangle {
-            // text background
-            id: labelRect
-            color: 'lightgray'
-            opacity: 0.7
-            anchors.top: parent.top
-            anchors.topMargin: parent.border.width
-            anchors.leftMargin: parent.border.width
-            // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
-            width: label.width + 2
-            height: label.height
-            Text {
-                id: label
-                text: clipName
-                font.pixelSize: root.baseUnit
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    topMargin: parent.border.width + 1
-                    leftMargin: parent.border.width
+            Rectangle {
+                // text background
+                id: labelRect
+                color: 'lightgray'
+                opacity: 0.7
+                anchors.top: parent.top
+                anchors.topMargin: parent.border.width
+                anchors.leftMargin: parent.border.width
+                // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
+                width: label.width + 2
+                height: label.height
+                Text {
+                    id: label
+                    text: clipName
+                    font.pixelSize: root.baseUnit
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        topMargin: parent.border.width + 1
+                        leftMargin: parent.border.width
+                    }
+                    color: 'black'
                 }
-                color: 'black'
             }
         }
         Drag.active: mouseArea.drag.active
