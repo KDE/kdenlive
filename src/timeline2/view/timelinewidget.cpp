@@ -27,6 +27,7 @@
 #include "core.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "bin/bin.h"
+#include "profiles/profilemodel.hpp"
 #include "transitions/transitionlist/model/transitiontreemodel.hpp"
 
 #include <KActionCollection>
@@ -44,7 +45,7 @@ int TimelineWidget::m_duration = 0;
 
 TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
-    , m_model(TimelineItemModel::construct(binController->profile(), undoStack, false))
+    , m_model(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), undoStack, false))
     , m_actionCollection(actionCollection)
     , m_binController(binController)
     , m_position(0)

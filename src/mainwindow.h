@@ -102,8 +102,6 @@ public:
      */
     QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
-    // TODO make private again
-    QTabWidget *m_timelineArea;
     StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
     EffectStackView2 *m_effectStack;

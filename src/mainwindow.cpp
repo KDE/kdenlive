@@ -148,7 +148,6 @@ static QString defaultStyle(const char *fallback = nullptr)
 
 MainWindow::MainWindow(QWidget *parent) :
     KXmlGuiWindow(parent),
-    m_timelineArea(nullptr),
     m_stopmotion(nullptr),
     m_effectStack(nullptr),
     m_exitCode(EXIT_SUCCESS),
@@ -232,13 +231,6 @@ void MainWindow::init()
         KdenliveSettings::setCurrent_profile(QStringLiteral("atsc_1080p_25"));
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
     }
-    m_timelineArea = new QTabWidget(this);
-    //m_timelineArea->setTabReorderingEnabled(true);
-    m_timelineArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    m_timelineArea->setMinimumHeight(100);
-    // Hide tabbar
-    QTabBar *bar = m_timelineArea->findChild<QTabBar *>();
-    bar->setHidden(true);
 
     m_gpuAllowed = initEffects::parseEffectFiles(pCore->getMltRepository());
     //initEffects::parseCustomEffectsFile();
@@ -268,7 +260,7 @@ void MainWindow::init()
     fr->setMaximumHeight(1);
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
-    ctnLay->addWidget(m_timelineArea);
+    ctnLay->addWidget(pCore->timelineTabs());
     setCentralWidget(m_timelineToolBarContainer);
     setupActions();
 
@@ -715,8 +707,8 @@ void MainWindow::slotThemeChanged(const QString &theme)
     if (pCore->projectManager() && pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->updatePalette();
     }
-    if (m_timelineArea) {
-        m_timelineArea->setPalette(plt);
+    if (pCore->timelineTabs()) {
+        pCore->timelineTabs()->setPalette(plt);
     }
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5

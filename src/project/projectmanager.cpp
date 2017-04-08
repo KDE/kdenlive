@@ -118,7 +118,7 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
 
 void ProjectManager::newFile(bool showProjectSettings, bool force)
 {
-    if (!pCore->window()->m_timelineArea->isEnabled() && !force) {
+    if (!pCore->timelineTabs()->isEnabled() && !force) {
         return;
     }
     // fix mantis#3160
@@ -191,7 +191,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         documentMetadata = w->metadata();
         delete w;
     }
-    pCore->window()->m_timelineArea->setEnabled(true);
+    pCore->timelineTabs()->setEnabled(true);
     bool openBackup;
     m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
@@ -517,7 +517,7 @@ void ProjectManager::openFile(const QUrl &url)
 void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 {
     Q_ASSERT(m_project == nullptr);
-    if (!pCore->window()->m_timelineArea->isEnabled()) {
+    if (!pCore->timelineTabs()->isEnabled()) {
         return;
     }
     m_fileRevert->setEnabled(true);
@@ -857,7 +857,6 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
     if (!m_timelineWidgetLoaded) {
         m_timelineWidgetLoaded = true;
         qDebug() << "CONSTRUCTING TIMELINEWIDGET";
-        pCore->binController()->loadBinPlaylist(tractor);
         m_timelineWidget = new TimelineWidget(pCore->window()->actionCollection(), pCore->binController(), m_project->commandStack(), pCore->window());
         pCore->addTimeline(m_timelineWidget, m_project->url().fileName());
         connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, m_timelineWidget, &TimelineWidget::seek, Qt::DirectConnection);
@@ -870,6 +869,19 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
         connect(m_timelineWidget, &TimelineWidget::durationChanged, this, &ProjectManager::adjustProjectDuration);
     }
     qDebug() << "FILLING TIMELINEWIDGET";
+    pCore->binController()->loadBinPlaylist(tractor);
+    const QStringList ids = pCore->binController()->getClipIds();
+    for (const QString &id : ids) {
+        if (id == QLatin1String("black")) {
+            continue;
+        }
+        // pass basic info, the others (folder, etc) will be taken from the producer itself
+        requestClipInfo info;
+        info.imageHeight = 0;
+        info.clipId = id;
+        info.replaceProducer = true;
+        pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id));
+    }
     m_timelineWidget->buildFromMelt(tractor);
     pCore->binController()->setBinPlaylist(m_timelineWidget->tractor());
     m_timelineWidget->setUndoStack(m_project->commandStack());
