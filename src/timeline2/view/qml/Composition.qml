@@ -121,8 +121,6 @@ Item {
                 color: 'lightgray'
                 opacity: 0.7
                 anchors.top: parent.top
-                anchors.topMargin: parent.border.width
-                anchors.leftMargin: parent.border.width
                 // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
                 width: label.width + 2
                 height: label.height
@@ -133,8 +131,8 @@ Item {
                     anchors {
                         top: parent.top
                         left: parent.left
-                        topMargin: parent.border.width + 1
-                        leftMargin: parent.border.width
+                        topMargin: 1
+                        leftMargin: 1
                     }
                     color: 'black'
                 }

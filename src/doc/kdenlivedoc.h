@@ -69,6 +69,8 @@ public:
 
     KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = nullptr);
     ~KdenliveDoc();
+    /** @brief Get current document's producer. */
+    Mlt::Producer *getProjectProducer();
     QDomNodeList producersList();
     double fps() const;
     int width() const;

@@ -301,6 +301,11 @@ void TimelineWidget::wheelEvent(QWheelEvent *event)
     }
 }
 
+Mlt::Tractor *TimelineWidget::tractor()
+{
+    return m_model->tractor();
+}
+
 bool TimelineWidget::showThumbnails() const
 {
     return KdenliveSettings::videothumbnails();

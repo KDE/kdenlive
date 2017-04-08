@@ -156,6 +156,9 @@ public:
     /* @brief Set current item's end point to cursor position
      */
     void setOutPoint();
+    /* @brief Return the project's tractor
+     */
+    Mlt::Tractor *tractor();
 
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;

@@ -42,6 +42,7 @@
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/effectscontroller.h"
 #include "timeline/transitionhandler.h"
+#include "profiles/profilemodel.hpp"
 
 #include <KMessageBox>
 #include <klocalizedstring.h>
@@ -301,15 +302,20 @@ KdenliveDoc::~KdenliveDoc()
     }
 }
 
+Mlt::Producer *KdenliveDoc::getProjectProducer()
+{
+    return new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_document.toString().toUtf8().constData());
+}
+
 int KdenliveDoc::setSceneList()
 {
     //m_render->resetProfile(m_profile);
     pCore->bin()->isLoading = true;
     pCore->producerQueue()->abortOperations();
-    if (m_render->setSceneList(m_document.toString(), m_documentProperties.value(QStringLiteral("position")).toInt()) == -1) {
+    /*if (m_render->setSceneList(m_document.toString(), m_documentProperties.value(QStringLiteral("position")).toInt()) == -1) {
         // INVALID MLT Consumer, something is wrong
         return -1;
-    }
+    }*/
     pCore->bin()->isLoading = false;
 
     bool ok = false;

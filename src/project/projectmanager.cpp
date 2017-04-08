@@ -198,10 +198,10 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
-    QList<QAction *> rulerActions;
+    //TODO REFAC: Delete this
+    /*QList<QAction *> rulerActions;
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
-    //TODO Delete this
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), rulerActions, &ok, pCore->window());
     // Set default target tracks to upper audio / lower video tracks
     m_trackView->audioTarget = projectTracks.y() > 0 ? projectTracks.y() : -1;
@@ -209,19 +209,20 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QString, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QString, QUndoCommand *)), Qt::DirectConnection);
 
     m_trackView->loadTimeline();
-    pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());
+    pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());*/
     //END of things to delete
     m_project = doc;
-    Mlt::Service s(doc->renderer()->getProducer()->parent().get_service());
+    QScopedPointer<Mlt::Producer> prod(doc->getProjectProducer());
+    Mlt::Service s(*prod);
     Mlt::Tractor t(s);
     updateTimeline(t);
-    if (!ok) {
+    /*if (!ok) {
         // MLT is broken
         //pCore->window()->m_timelineArea->setEnabled(false);
         //pCore->window()->m_projectList->setEnabled(false);
         pCore->window()->slotPreferences(6);
         return;
-    }
+    }*/
     pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
@@ -234,7 +235,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     }
     emit docOpened(m_project);
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
-    m_trackView->projectView()->setFocus();
+    //m_trackView->projectView()->setFocus();
     m_lastSave.start();
 }
 
@@ -300,7 +301,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);
     // Save timeline thumbnails
-    m_trackView->projectView()->saveThumbnails();
+    //m_trackView->projectView()->saveThumbnails();
     m_project->setUrl(url);
     // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/
     // saved under file name
@@ -559,15 +560,15 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("clear_render_timeline_zone"));
-    bool ok;
+    /*bool ok;
     m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), rulerActions, &ok, pCore->window());
     connect(m_trackView, &Timeline::startLoadingBin, m_progressDialog, &QProgressDialog::setMaximum, Qt::DirectConnection);
     connect(m_trackView, &Timeline::resetUsageCount, pCore->bin(), &Bin::resetUsageCount, Qt::DirectConnection);
-    connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);
+    connect(m_trackView, &Timeline::loadingBin, m_progressDialog, &QProgressDialog::setValue, Qt::DirectConnection);*/
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
-    m_trackView->audioTarget = doc->getDocumentProperty(QStringLiteral("audiotargettrack"), QStringLiteral("-1")).toInt();
+    /*m_trackView->audioTarget = doc->getDocumentProperty(QStringLiteral("audiotargettrack"), QStringLiteral("-1")).toInt();
     m_trackView->videoTarget = doc->getDocumentProperty(QStringLiteral("videotargettrack"), QStringLiteral("-1")).toInt();
     m_trackView->loadTimeline();
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
@@ -581,14 +582,14 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
             disableEffects->setChecked(disabled);
             disableEffects->blockSignals(false);
         }
-    }
-    Mlt::Service s(doc->renderer()->getProducer()->parent().get_service());
+    }*/
+    Mlt::Service s(*doc->getProjectProducer());
     Mlt::Tractor t(s);
     updateTimeline(t);
 
     emit docOpened(m_project);
 
-    pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), m_project->description()));
+    /*pCore->window()->m_timelineArea->setCurrentIndex(pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), m_project->description()));
     if (!ok) {
         pCore->window()->m_timelineArea->setEnabled(false);
         KMessageBox::sorry(pCore->window(), i18n("Cannot open file %1.\nProject is corrupted.", url.toLocalFile()));
@@ -596,7 +597,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         newFile(false, true);
         return;
     }
-    m_trackView->setDuration(m_trackView->duration());
+    m_trackView->setDuration(m_trackView->duration());*/
 
     pCore->window()->slotGotProgressInfo(QString(), 100);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_timelineWidget->duration() - 1);
@@ -685,6 +686,8 @@ KRecentFilesAction *ProjectManager::recentFilesAction()
 
 void ProjectManager::slotStartAutoSave()
 {
+    //TODO REFAC: port to new timeline
+    return;
     if (m_lastSave.elapsed() > 300000) {
         // If the project was not saved in the last 5 minute, force save
         m_autoSaveTimer.stop();
@@ -733,7 +736,8 @@ QString ProjectManager::projectSceneList(const QString &outputFolder)
 
 void ProjectManager::prepareSave()
 {
-    pCore->binController()->saveDocumentProperties(m_trackView->documentProperties(), m_project->metadata(), m_trackView->projectView()->guidesData());
+    //TODO REFAC: save target tracks, preview chunks and guides
+    pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_project->metadata(), QMap<double, QString>()/*m_trackView->projectView()->guidesData()*/);
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), m_project->documentNotes());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:clipgroups"), m_project->groupsXml());
 }
@@ -853,6 +857,7 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
     if (!m_timelineWidgetLoaded) {
         m_timelineWidgetLoaded = true;
         qDebug() << "CONSTRUCTING TIMELINEWIDGET";
+        pCore->binController()->loadBinPlaylist(tractor);
         m_timelineWidget = new TimelineWidget(pCore->window()->actionCollection(), pCore->binController(), m_project->commandStack(), pCore->window());
         pCore->addTimeline(m_timelineWidget, m_project->url().fileName());
         connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, m_timelineWidget, &TimelineWidget::seek, Qt::DirectConnection);
@@ -866,5 +871,6 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
     }
     qDebug() << "FILLING TIMELINEWIDGET";
     m_timelineWidget->buildFromMelt(tractor);
+    pCore->binController()->setBinPlaylist(m_timelineWidget->tractor());
     m_timelineWidget->setUndoStack(m_project->commandStack());
 }

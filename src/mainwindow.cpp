@@ -1951,13 +1951,15 @@ void MainWindow::slotUpdateDocumentState(bool modified)
 void MainWindow::connectDocument()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
-    Timeline *trackView = pCore->projectManager()->currentTimeline();
     connect(project, &KdenliveDoc::startAutoSave, pCore->projectManager(), &ProjectManager::slotStartAutoSave);
     connect(project, &KdenliveDoc::reloadEffects, this, &MainWindow::slotReloadEffects);
     KdenliveSettings::setProject_fps(project->fps());
     m_clipMonitorDock->raise();
     m_effectStack->transitionConfig()->updateProjectFormat();
 
+    //TODO REFAC: reconnect to new timeline
+    /*
+    Timeline *trackView = pCore->projectManager()->currentTimeline();
     connect(trackView, &Timeline::configTrack, this, &MainWindow::slotConfigTrack);
     connect(trackView, &Timeline::updateTracksInfo, this, &MainWindow::slotUpdateTrackInfo);
     connect(trackView, &Timeline::mousePosition, this, &MainWindow::slotUpdateMousePosition);
@@ -1968,10 +1970,7 @@ void MainWindow::connectDocument()
     connect(m_projectMonitor, &Monitor::multitrackView, trackView, &Timeline::slotMultitrackView);
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
-    connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
-    connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
 
-    connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     connect(trackView->projectView(), &CustomTrackView::guidesUpdated, this, &MainWindow::slotGuidesUpdated);
     connect(trackView->projectView(), &CustomTrackView::loadMonitorScene, m_projectMonitor, &Monitor::slotShowEffectScene);
     connect(trackView->projectView(), &CustomTrackView::setQmlProperty, m_projectMonitor, &Monitor::setQmlProperty);
@@ -1994,11 +1993,11 @@ void MainWindow::connectDocument()
     connect(trackView, SIGNAL(displayMessage(QString, MessageType)), m_messageLabel, SLOT(setMessage(QString, MessageType)));
     connect(trackView->projectView(), SIGNAL(displayMessage(QString, MessageType)), m_messageLabel, SLOT(setMessage(QString, MessageType)));
     connect(pCore->bin(), &Bin::clipNameChanged, trackView->projectView(), &CustomTrackView::clipNameChanged);
-    connect(pCore->bin(), SIGNAL(displayMessage(QString, int, MessageType)), m_messageLabel, SLOT(setProgressMessage(QString, int, MessageType)));
 
     connect(trackView->projectView(), SIGNAL(showClipFrame(QString, int)), pCore->bin(), SLOT(selectClipById(QString, int)));
     connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
     connect(trackView->projectView(), &CustomTrackView::pauseMonitor, m_projectMonitor, &Monitor::pause, Qt::DirectConnection);
+
     connect(m_projectMonitor, &Monitor::addEffect, trackView->projectView(), &CustomTrackView::slotAddEffectToCurrentItem);
 
     connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition *, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition *)));
@@ -2030,10 +2029,17 @@ void MainWindow::connectDocument()
     connect(project, &KdenliveDoc::updateFps, trackView, &Timeline::updateProfile, Qt::DirectConnection);
     connect(trackView, &Timeline::zoneMoved, this, &MainWindow::slotZoneMoved);
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
+    */
+
+    connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
+    connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
+    connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
+    connect(pCore->bin(), SIGNAL(displayMessage(QString, int, MessageType)), m_messageLabel, SLOT(setProgressMessage(QString, int, MessageType)));
+
     if (m_renderWidget) {
         slotCheckRenderStatus();
         m_renderWidget->setProfile(project->mltProfile().path);
-        m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
+        //m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
         m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
@@ -2047,18 +2053,19 @@ void MainWindow::connectDocument()
     m_normalEditTool->setChecked(true);
     connect(m_projectMonitor, &Monitor::durationChanged, this, &MainWindow::slotUpdateProjectDuration);
     pCore->monitorManager()->setDocument(project);
-    trackView->updateProfile(1.0);
     if (m_recMonitor) {
         m_recMonitor->slotUpdateCaptureFolder(project->projectDataFolder() + QDir::separator());
     }
-    // Init document zone
-    m_projectMonitor->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
 
+    //TOD REFAC: fix
+    //trackView->updateProfile(1.0);
+    // Init document zone
+    //m_projectMonitor->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
     //Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
-    slotUpdateMousePosition(0);
+    //slotUpdateMousePosition(0);
 
     // Update guides info in render widget
-    slotGuidesUpdated();
+    //slotGuidesUpdated();
 
     // set tool to select tool
     setTrimMode(QStringLiteral());

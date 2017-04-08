@@ -128,8 +128,9 @@ void TransitionSettings::dropEvent(QDropEvent *event)
 
 void TransitionSettings::updateProjectFormat()
 {
-    m_tracks = pCore->projectManager()->currentTimeline()->getTracksInfo();
-    updateTrackList();
+    //TODO REFAC: get tracks list
+    //m_tracks = pCore->projectManager()->currentTimeline()->getTracksInfo();
+    //updateTrackList();
 }
 
 void TransitionSettings::updateTimecodeFormat()

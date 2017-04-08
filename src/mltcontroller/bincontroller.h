@@ -81,10 +81,16 @@ public:
     /** @brief Clear the bin's playlist */
     void destroyBin();
 
+    /** @brief Load the Bin's main playlist from an existing tractor */
+    void loadBinPlaylist(Mlt::Tractor &tractor);
+
     /** @brief Initialize the bin's playlist from MLT's data
      * @param playlist The MLT playlist containing our bin's clips
      */
     void initializeBin(Mlt::Playlist playlist);
+
+    /** @brief Pass the Bin's main playlist to the current project's tractor */
+    void setBinPlaylist(Mlt::Tractor *tractor);
 
     /** @brief If our bin's playlist does not exist, create a new one */
     void createIfNeeded(Mlt::Profile *profile);
