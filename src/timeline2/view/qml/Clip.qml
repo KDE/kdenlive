@@ -139,6 +139,7 @@ Rectangle {
             visible: timeline.showThumbnails && mltService != 'color'
             anchors.right: parent.right
             anchors.top: parent.top
+            anchors.bottom: parent.bottom
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
@@ -150,6 +151,7 @@ Rectangle {
             visible: timeline.showThumbnails && mltService != 'color'
             anchors.left: parent.left
             anchors.top: parent.top
+            anchors.bottom: parent.bottom
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
