@@ -131,6 +131,15 @@ bool constructTrackFromMelt(std::shared_ptr<TimelineItemModel> timeline, int tid
         }
         Mlt::Playlist playlist(*sub_track.get());
         constructTrackFromMelt(timeline, tid, playlist, undo, redo);
+        if (i == 0) {
+            // Pass track properties
+            int height = track.get_int("kdenlive:trackheight");
+            timeline->setTrackProperty(tid, "kdenlive:trackheight", height == 0 ? "100" : QString::number(height));
+            QString trackName = track.get("kdenlive:track_name");
+            if (!trackName.isEmpty()) {
+                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:track_name"), trackName.toUtf8().constData());
+            }
+        }
     }
     return true;
 }
