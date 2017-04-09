@@ -315,6 +315,8 @@ void MainWindow::init()
 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
     m_effectStack = new EffectStackView2(m_projectMonitor, this);
+    //TODO REFAC: remove, this is just a hack to avoid floating parentless widget
+    addDock("Properties_old", QStringLiteral("effect_stack2"), m_effectStack);
 
     connect(m_effectStack, &EffectStackView2::startFilterJob, pCore->bin(), &Bin::slotStartFilterJob);
     connect(pCore->bin(), &Bin::masterClipSelected, m_effectStack, &EffectStackView2::slotMasterClipItemSelected);

@@ -108,6 +108,11 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     return false;
 }
 
+const QString CompositionModel::getProperty(const QString &name) const
+{
+    return QString::fromUtf8(service()->get(name.toUtf8().constData()));
+}
+
 
 Mlt::Transition* CompositionModel::service() const
 {

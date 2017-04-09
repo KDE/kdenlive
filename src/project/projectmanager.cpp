@@ -882,7 +882,7 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
         info.replaceProducer = true;
         pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id));
     }
-    m_timelineWidget->buildFromMelt(tractor);
     pCore->binController()->setBinPlaylist(m_timelineWidget->tractor());
+    m_timelineWidget->buildFromMelt(tractor);
     m_timelineWidget->setUndoStack(m_project->commandStack());
 }

@@ -68,6 +68,11 @@ public:
 
     /* @brief Sets the id of the second track involved in the composition*/
     void setATrack(int trackId);
+
+    /* @brief returns a property of the current item
+     */
+    const QString getProperty(const QString &name) const override;
+
 protected:
     Mlt::Transition *service() const override;
 

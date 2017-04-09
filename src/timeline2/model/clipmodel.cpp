@@ -115,6 +115,14 @@ bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     return false;
 }
 
+const QString ClipModel::getProperty(const QString &name) const
+{
+    if (service()->parent().is_valid()) {
+        return QString::fromUtf8(service()->parent().get(name.toUtf8().constData()));
+    }
+    return QString::fromUtf8(service()->get(name.toUtf8().constData()));
+}
+
 Mlt::Producer* ClipModel::service() const
 {
     return m_producer.get();

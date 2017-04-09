@@ -59,6 +59,9 @@ public:
     */
     static int construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id = -1);
 
+    /* @brief returns a property of the clip, or from it's parent if it's a cut
+     */
+    const QString getProperty(const QString &name) const override;
 
     friend class TrackModel;
     friend class TimelineModel;

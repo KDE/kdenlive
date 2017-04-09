@@ -48,12 +48,6 @@ int MoveableItem<Service>::getPosition() const
 }
 
 template<typename Service>
-const QString MoveableItem<Service>::getProperty(const QString &name) const
-{
-    return QString::fromUtf8(service()->get(name.toUtf8().constData()));
-}
-
-template<typename Service>
 std::pair<int, int> MoveableItem<Service>::getInOut() const
 {
     return {getIn(), getOut()};

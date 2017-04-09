@@ -58,10 +58,6 @@ public:
      */
     int getPosition() const;
 
-    /* @brief returns a property of the current item
-     */
-    const QString getProperty(const QString &name) const;
-
     /* @brief returns the in and out times of the item
      */
     std::pair<int, int> getInOut() const;
@@ -78,6 +74,10 @@ public:
      */
     bool isValid();
 
+    /* @brief returns a property of the current item
+     */
+    virtual const QString getProperty(const QString &name) const = 0;
+
 protected:
 
     /* @brief Returns a pointer to the service. It may be used but do NOT store it*/
@@ -93,6 +93,7 @@ protected:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
     virtual bool requestResize(int size, bool right, Fun& undo, Fun& redo) = 0;
+
 
     /* Updates the stored position of the item
       This function is meant to be called by the trackmodel, not directly by the user.
