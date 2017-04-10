@@ -115,7 +115,7 @@ public:
 
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;
 
-    QVariant data(DataType type) const Q_DECL_OVERRIDE;
+    //QVariant getData(DataType type) const Q_DECL_OVERRIDE;
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);

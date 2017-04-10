@@ -66,7 +66,6 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel
     }
     // Make sure we have a hash for this clip
     hash();
-    setParent(parent);
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     static_cast<ProjectItemModel*>(m_model)->bin()->loadSubClips(id, getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
     connect(this, &ProjectClip::updateThumbProgress, static_cast<ProjectItemModel*>(m_model)->bin(), &Bin::doUpdateThumbsProgress);
@@ -99,7 +98,6 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, Pro
         m_name = i18n("Untitled");
     }
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
-    setParent(parent);
     connect(this, &ProjectClip::updateThumbProgress, static_cast<ProjectItemModel*>(m_model)->bin(), &Bin::doUpdateThumbsProgress);
 }
 
@@ -735,7 +733,7 @@ void ProjectClip::addMarkers(QList<CommentedTime> &markers)
 }
 
 
-QVariant ProjectClip::data(DataType type) const
+/*QVariant ProjectClip::getData(DataType type) const
 {
     switch (type) {
     case AbstractProjectItem::IconOverlay:
@@ -744,8 +742,8 @@ QVariant ProjectClip::data(DataType type) const
     default:
         break;
     }
-    return AbstractProjectItem::data(type);
-}
+    return AbstractProjectItem::getData(type);
+    }*/
 
 void ProjectClip::slotQueryIntraThumbs(const QList<int> &frames)
 {

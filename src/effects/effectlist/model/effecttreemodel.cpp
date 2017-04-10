@@ -80,7 +80,7 @@ EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
         // we create the data list corresponding to this profile
         QList<QVariant> data;
         bool isFav = EffectsRepository::get()->isFavorite(effect.first);
-        qDebug()<<effect.second << effect.first << "in "<<targetCategory->data(0).toString();
+        qDebug()<<effect.second << effect.first << "in "<<targetCategory->dataColumn(0).toString();
         data << effect.second << effect.first << QVariant::fromValue(type) << isFav;
 
         targetCategory->appendChild(data);

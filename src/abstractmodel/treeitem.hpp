@@ -74,7 +74,7 @@ public:
     /* @brief Return the content of a column
        @param column Index of the column to look-up
     */
-    QVariant data(int column) const;
+    QVariant dataColumn(int column) const;
 
     /* @brief Return the index of current item amongst father's children
        Returns -1 on error (eg: no parent set)

@@ -89,7 +89,7 @@ int TreeItem::columnCount() const
     return m_itemData.count();
 }
 
-QVariant TreeItem::data(int column) const
+QVariant TreeItem::dataColumn(int column) const
 {
     return m_itemData.value(column);
 }

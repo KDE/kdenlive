@@ -52,7 +52,7 @@ QVariant AbstractTreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-    return item->data(index.column());
+    return item->dataColumn(index.column());
 }
 
 Qt::ItemFlags AbstractTreeModel::flags(const QModelIndex &index) const
@@ -72,7 +72,7 @@ QVariant AbstractTreeModel::headerData(int section, Qt::Orientation orientation,
                                int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return rootItem->data(section);
+        return rootItem->dataColumn(section);
 
     return QVariant();
 }

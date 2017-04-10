@@ -35,14 +35,14 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectItem
     m_name = name;
     m_clipStatus = StatusReady;
     m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("folder"));
-    setParent(parent);
+    changeParent(parent);
 }
 
 ProjectFolder::ProjectFolder(ProjectItemModel* model) :
     AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1),  model)
 {
     m_name = QStringLiteral("root");
-    setParent(nullptr);
+    changeParent(nullptr);
 }
 
 ProjectFolder::~ProjectFolder()

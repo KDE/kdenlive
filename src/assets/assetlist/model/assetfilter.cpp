@@ -42,7 +42,7 @@ bool AssetFilter::filterName(TreeItem* item) const
     if (!m_name_enabled) {
         return true;
     }
-    QString itemText = item->data(AssetTreeModel::nameCol).toString();
+    QString itemText = item->dataColumn(AssetTreeModel::nameCol).toString();
     itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
     QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
 
@@ -54,7 +54,7 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
     QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
     TreeItem *item = static_cast<TreeItem*>(row.internalPointer());
 
-    if (item->data(AssetTreeModel::idCol) == QStringLiteral("root")) {
+    if (item->dataColumn(AssetTreeModel::idCol) == QStringLiteral("root")) {
         //In that case, we have a category. We hide it if it does not have children.
         QModelIndex category = sourceModel()->index(sourceRow, 0, sourceParent);
         bool accepted = false;

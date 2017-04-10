@@ -122,7 +122,7 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
     if (role != Qt::DisplayRole) {
         return QVariant();
     }
-    return item->data(index.column());
+    return item->dataColumn(index.column());
 }
 
 //static
@@ -131,7 +131,7 @@ QString ProfileTreeModel::getProfile(const QModelIndex& index)
     if (index.isValid()) {
         TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
         if (item->depth() == 2) {
-            return item->data(1).toString();
+            return item->dataColumn(1).toString();
         }
     }
     return QString();
@@ -146,7 +146,7 @@ QModelIndex ProfileTreeModel::findProfile(const QString& profile)
         for (int j = 0; j < category->childCount(); ++j) {
             // we retrieve profile path
             TreeItem* child = category->child(j);
-            QString path = child->data(1).toString();
+            QString path = child->dataColumn(1).toString();
             if (path == profile) {
                 return createIndex(j, 0, child);
             }

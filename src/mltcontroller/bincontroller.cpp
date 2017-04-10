@@ -43,7 +43,9 @@ Mlt::Profile *BinController::profile()
 
 void BinController::destroyBin()
 {
-    m_binPlaylist->clear();
+    if (m_binPlaylist) {
+        m_binPlaylist->clear();
+    }
     qDeleteAll(m_extraClipList);
     m_extraClipList.clear();
 

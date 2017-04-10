@@ -120,7 +120,7 @@ AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
     return m_itemType;
 }
 
-QVariant AbstractProjectItem::data(DataType type) const
+QVariant AbstractProjectItem::getData(DataType type) const
 {
     QVariant data;
     switch (type) {

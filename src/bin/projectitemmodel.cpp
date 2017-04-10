@@ -67,7 +67,9 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
     }
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-        return item->data(static_cast<AbstractProjectItem::DataType>(mapToColumn(index.column())));
+        auto type = static_cast<AbstractProjectItem::DataType>(mapToColumn(index.column()));
+        QVariant ret = item->getData(type);
+        return ret;
     }
     if (role == Qt::DecorationRole) {
         if (index.column() != 0) {
@@ -75,11 +77,11 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
         }
         // Data has to be returned as icon to allow the view to scale it
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-        QIcon icon = item->data(AbstractProjectItem::DataThumbnail).value<QIcon>();
+        QIcon icon = item->getData(AbstractProjectItem::DataThumbnail).value<QIcon>();
         return icon;
     } else {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-        return item->data((AbstractProjectItem::DataType) role);
+        return item->getData((AbstractProjectItem::DataType) role);
     }
 }
 

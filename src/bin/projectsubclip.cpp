@@ -44,7 +44,7 @@ ProjectSubClip::ProjectSubClip(ProjectClip *parent, ProjectItemModel* model, int
         m_name = name;
     }
     m_clipStatus = StatusReady;
-    setParent(parent);
+    changeParent(parent);
     m_duration = timecode;
     // Save subclip in MLT
     parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') +  QString::number(out));

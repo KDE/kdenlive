@@ -31,7 +31,7 @@ ProjectFolderUp::ProjectFolderUp(ProjectItemModel* model, AbstractProjectItem *p
 {
     m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("go-previous"));
     m_name = i18n("Back");
-    setParent(parent);
+    changeParent(parent);
 }
 
 ProjectFolderUp::~ProjectFolderUp()

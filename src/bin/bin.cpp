@@ -1302,7 +1302,7 @@ void Bin::createClip(const QDomElement &xml)
             }
         }
     }
-    new ProjectClip(xml, m_blankThumb, m_itemModel, parentFolder);
+    parentFolder->appendChild(new ProjectClip(xml, m_blankThumb, m_itemModel, parentFolder));
 }
 
 QString Bin::slotAddFolder(const QString &folderName)
@@ -2122,6 +2122,7 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
         //FIXME(style): constructor actually adds the new pointer to parent's children
         //TODO at this point, we shouldn't have a controller, but rather a bare producer
         ProjectClip *newClip = new ProjectClip(info.clipId, m_blankThumb, m_itemModel, controller->originalProducer(), parentFolder);
+        parentFolder->appendChild(newClip);
         emit producerReady(info.clipId);
         ClipType t = newClip->clipType();
         if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
