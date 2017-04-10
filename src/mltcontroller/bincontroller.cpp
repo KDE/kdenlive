@@ -198,7 +198,7 @@ void BinController::loadBinPlaylist(Mlt::Tractor &tractor)
     }
     // If no Playlist found, create new one
     if (!m_binPlaylist) {
-        m_binPlaylist = new Mlt::Playlist(*tractor.profile());
+        m_binPlaylist.reset(new Mlt::Playlist(*tractor.profile()));
         m_binPlaylist->set("id", kPlaylistTrackId);
     }
 }

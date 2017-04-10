@@ -216,7 +216,7 @@ QStringList ProjectClip::subClipIds() const
 
 ProjectClip *ProjectClip::clipAt(int ix)
 {
-    if (ix == index()) {
+    if (ix == row()) {
         return this;
     }
     return nullptr;

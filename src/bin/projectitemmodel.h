@@ -73,12 +73,6 @@ public:
     /** @brief Returns column names in case we want to use columns in QTreeView */
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
     /** @brief Mandatory reimplementation from QAbstractItemModel */
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    /** @brief Mandatory reimplementation from QAbstractItemModel */
-    QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
-    /** @brief Mandatory reimplementation from QAbstractItemModel */
-    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    /** @brief Mandatory reimplementation from QAbstractItemModel */
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     /** @brief Returns the mimetype used for Drag actions */
     QStringList mimeTypes() const Q_DECL_OVERRIDE;

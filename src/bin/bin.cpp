@@ -565,8 +565,6 @@ Bin::Bin(QWidget *parent) :
     m_proxyModel->setSourceModel(m_itemModel);
     connect(m_itemModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex &, const
             QModelIndex &)));
-    connect(m_itemModel, &QAbstractItemModel::rowsInserted, this, &Bin::rowsInserted);
-    connect(m_itemModel, &QAbstractItemModel::rowsRemoved, this, &Bin::rowsRemoved);
     connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
     connect(m_itemModel, SIGNAL(itemDropped(QStringList, QModelIndex)), this, SLOT(slotItemDropped(QStringList, QModelIndex)));
     connect(m_itemModel, SIGNAL(itemDropped(QList<QUrl>, QModelIndex)), this, SLOT(slotItemDropped(QList<QUrl>, QModelIndex)));

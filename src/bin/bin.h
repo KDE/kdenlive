@@ -349,8 +349,6 @@ private slots:
     /** @brief Update status for clip jobs  */
     void slotUpdateJobStatus(const QString &, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
     void slotSetIconSize(int size);
-    void rowsInserted(const QModelIndex &parent, int start, int end);
-    void rowsRemoved(const QModelIndex &parent, int start, int end);
     void selectProxyModel(const QModelIndex &id);
     void autoSelect();
     void slotSaveHeaders();

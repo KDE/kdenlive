@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFileInfo>
 #include <KLocalizedString>
 
+std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
 ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer) :
     selectedEffectIndex(1)
     , m_audioThumbCreated(false)

@@ -76,28 +76,6 @@ public:
 
     /** @brief Returns a pointer to the parent item (or NULL). */
     AbstractProjectItem *parent() const;
-    /** @brief Removes the item from its current parent and adds it as a child to @param parent. */
-    virtual void setParent(AbstractProjectItem *parent);
-
-    /**
-     * @brief Adds a new child item and notifies the bin model about it (before and after).
-     * @param child project item which should be added as a child
-     *
-     * This function is called by setParent.
-     */
-    virtual void addChild(AbstractProjectItem *child);
-
-    /**
-     * @brief Removes a child item and notifies the bin model about it (before and after).
-     * @param child project which sould be removed from the child list
-     *
-     * This function is called when a child's parent is changed through setParent
-     */
-    virtual void removeChild(AbstractProjectItem *child);
-
-    /** @brief Returns the index this item has in its parent's child list. */
-    //TODO : this is redudant with TreeItem::row()
-    int index() const;
 
     /** @brief Returns the type of this item (folder, clip, subclip, etc). */
     PROJECTITEMTYPE itemType() const;
