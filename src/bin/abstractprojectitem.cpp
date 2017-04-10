@@ -29,8 +29,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 
 AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, ProjectItemModel* model, AbstractProjectItem *parent) :
-    QObject()
-    , TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel*>(model), (TreeItem*)parent)
+    TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel*>(model), (TreeItem*)parent)
+    , m_name()
+    , m_description()
+    , m_thumbnail(QIcon())
+    , m_date()
     , m_id(id)
     , m_usage(0)
     , m_clipStatus(StatusReady)
@@ -42,8 +45,11 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 }
 
 AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description,ProjectItemModel* model,  AbstractProjectItem *parent) :
-    QObject()
-    , TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel*>(model), (TreeItem*)parent)
+    TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel*>(model), (TreeItem*)parent)
+    , m_name()
+    , m_description()
+    , m_thumbnail(QIcon())
+    , m_date()
     , m_id(description.attribute(QStringLiteral("id")))
     , m_usage(0)
     , m_clipStatus(StatusReady)

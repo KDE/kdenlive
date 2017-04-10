@@ -1302,7 +1302,8 @@ void Bin::createClip(const QDomElement &xml)
             }
         }
     }
-    parentFolder->appendChild(new ProjectClip(xml, m_blankThumb, m_itemModel, parentFolder));
+    ProjectClip* newClip = new ProjectClip(xml, m_blankThumb, m_itemModel, parentFolder);
+    parentFolder->appendChild(static_cast<TreeItem*>(newClip));
 }
 
 QString Bin::slotAddFolder(const QString &folderName)

@@ -30,7 +30,7 @@
  */
 
 class AbstractTreeModel;
-class TreeItem
+class TreeItem : public QObject
 {
 public:
     /* @brief Construct a TreeItem
