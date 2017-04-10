@@ -45,7 +45,6 @@
 #include <QProcess>
 #include <QDBusConnectionInterface>
 #include <QThread>
-#include <QScriptEngine>
 #include <QKeyEvent>
 #include <QTimer>
 #include <QStandardPaths>
@@ -92,7 +91,7 @@ enum JOBSTATUS {
     ABORTEDJOB
 };
 
-#ifdef _WIN32
+#ifdef Q_OS_WIN
 const QLatin1String ScriptFormat(".bat");
 QString ScriptSetVar(const QString name, const QString value) { return QString("set ") + name + "=" + value; }
 QString ScriptGetVar(const QString varName) { return QString('%') + varName + '%'; }
@@ -1073,7 +1072,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                 return;
             }
             QTextStream outStream(&file);
-#ifndef _WIN32
+#ifndef Q_OS_WIN
             outStream << "#! /bin/sh" << '\n' << '\n';
 #endif
             outStream << ScriptSetVar("RENDERER", m_renderer) << '\n';
@@ -1093,7 +1092,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         if (!scriptExport) {
             render_process_args << QStringLiteral("-erase");
         }
-#ifndef _WIN32
+#ifndef Q_OS_WIN
         if (KdenliveSettings::usekuiserver()) {
             render_process_args << QStringLiteral("-kuiserver");
         }
@@ -2305,13 +2304,12 @@ void RenderWidget::slotCLeanUpJobs()
 void RenderWidget::parseScriptFiles()
 {
     QStringList scriptsFilter;
-    scriptsFilter << QStringLiteral("*.sh");
+    scriptsFilter << QLatin1Char('*') + ScriptFormat;
     m_view.scripts_list->clear();
 
     QTreeWidgetItem *item;
     // List the project scripts
-    QDir directory(m_projectFolder);
-    directory.cd(QStringLiteral("scripts"));
+    QDir directory(m_projectFolder + QStringLiteral("scripts/"));
     QStringList scriptFiles = directory.entryList(scriptsFilter, QDir::Files);
     for (int i = 0; i < scriptFiles.size(); ++i) {
         QUrl scriptpath = QUrl::fromLocalFile(directory.absoluteFilePath(scriptFiles.at(i)));
@@ -2323,15 +2321,15 @@ void RenderWidget::parseScriptFiles()
             QTextStream stream(&file);
             while (!stream.atEnd()) {
                 QString line = stream.readLine();
-                if (line.startsWith(QLatin1String("TARGET_0="))) {
-                    target = line.section(QStringLiteral("TARGET_0=\""), 1);
-                    target = target.section(QLatin1Char('"'), 0, 0);
-                } else if (line.startsWith(QLatin1String("RENDERER="))) {
-                    renderer = line.section(QStringLiteral("RENDERER=\""), 1);
-                    renderer = renderer.section(QLatin1Char('"'), 0, 0);
-                } else if (line.startsWith(QLatin1String("MELT="))) {
-                    melt = line.section(QStringLiteral("MELT=\""), 1);
-                    melt = melt.section(QLatin1Char('"'), 0, 0);
+                if (line.contains(QLatin1String("TARGET_0="))) {
+                    target = line.section(QStringLiteral("TARGET_0="), 1);
+                    target = target.section(QLatin1Char('"'), 0, 0, QString::SectionSkipEmpty);
+                } else if (line.contains(QLatin1String("RENDERER="))) {
+                    renderer = line.section(QStringLiteral("RENDERER="), 1);
+                    renderer = renderer.section(QLatin1Char('"'), 0, 0, QString::SectionSkipEmpty);
+                } else if (line.contains(QLatin1String("MELT="))) {
+                    melt = line.section(QStringLiteral("MELT="), 1);
+                    melt = melt.section(QLatin1Char('"'), 0, 0, QString::SectionSkipEmpty);
                 }
             }
             file.close();
