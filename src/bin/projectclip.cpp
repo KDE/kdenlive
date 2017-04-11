@@ -409,45 +409,10 @@ void ProjectClip::setProducerProperty(const QString &name, const QString &data)
     ClipController::setProperty(name, data);
 }
 
-QMap<QString, QString> ProjectClip::currentProperties(const QMap<QString, QString> &props)
-{
-    QMap<QString, QString> currentProps;
-    QMap<QString, QString>::const_iterator i = props.constBegin();
-    while (i != props.constEnd()) {
-        currentProps.insert(i.key(), ClipController::property(i.key()));
-        ++i;
-    }
-    return currentProps;
-}
-
-QColor ProjectClip::getProducerColorProperty(const QString &key) const
-{
-    return color_property(key);
-}
-
-int ProjectClip::getProducerIntProperty(const QString &key) const
-{
-    return int_property(key);
-}
-
-qint64 ProjectClip::getProducerInt64Property(const QString &key) const
-{
-    return int64_property(key);
-}
-
-double ProjectClip::getDoubleProducerProperty(const QString &key) const
-{
-    return double_property(key);
-}
-
-QString ProjectClip::getProducerProperty(const QString &key) const
-{
-    return ClipController::property(key);
-}
 
 const QString ProjectClip::hash()
 {
-    QString clipHash = ClipController::property(QStringLiteral("kdenlive:file_hash"));
+    QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
     if (!clipHash.isEmpty()) {
         return clipHash;
     }
@@ -464,15 +429,15 @@ const QString ProjectClip::getFileHash()
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     case Text:
-        fileData = ClipController::property(QStringLiteral("xmldata")).toUtf8();
+        fileData = getProducerProperty(QStringLiteral("xmldata")).toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     case QText:
-        fileData = ClipController::property(QStringLiteral("text")).toUtf8();
+        fileData = getProducerProperty(QStringLiteral("text")).toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     case Color:
-        fileData = ClipController::property(QStringLiteral("resource")).toUtf8();
+        fileData = getProducerProperty(QStringLiteral("resource")).toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     default:
@@ -1182,7 +1147,7 @@ bool ProjectClip::isTransparent() const
     if (m_type == Text) {
         return true;
     }
-    if (m_type == Image && int_property(QStringLiteral("kdenlive:transparency")) == 1) {
+    if (m_type == Image && getProducerIntProperty(QStringLiteral("kdenlive:transparency")) == 1) {
         return true;
     }
     return false;
@@ -1195,7 +1160,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
         return QStringList() << QString("kdenlive:clipanalysis." + name) << QString();
         //m_controller->resetProperty("kdenlive:clipanalysis." + name);
     } else {
-        QString current = ClipController::property("kdenlive:clipanalysis." + name);
+        QString current = getProducerProperty("kdenlive:clipanalysis." + name);
         if (!current.isEmpty()) {
             if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
                 // Merge data
@@ -1215,10 +1180,10 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
             } else {
                 // Add data with another name
                 int i = 1;
-                QString previous = ClipController::property("kdenlive:clipanalysis." + name + QString::number(i));
+                QString previous = getProducerProperty("kdenlive:clipanalysis." + name + QString::number(i));
                 while (!previous.isEmpty()) {
                     ++i;
-                    previous = ClipController::property("kdenlive:clipanalysis." + name + QString::number(i));
+                    previous = getProducerProperty("kdenlive:clipanalysis." + name + QString::number(i));
                 }
                 return QStringList() << QString("kdenlive:clipanalysis." + name + QString::number(i)) << geometryWithOffset(data, offset);
                 //m_controller->setProperty("kdenlive:clipanalysis." + name + QLatin1Char(' ') + QString::number(i), geometryWithOffset(data, offset));

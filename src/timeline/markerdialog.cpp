@@ -61,7 +61,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
         int width = Kdenlive::DefaultThumbHeight * m_dar;
         QPixmap p(width, Kdenlive::DefaultThumbHeight);
         p.fill(Qt::transparent);
-        QString colour = clip->property(QStringLiteral("colour"));
+        QString colour = clip->getProducerProperty(QStringLiteral("colour"));
 
         switch (m_clip->clipType()) {
         case Video:

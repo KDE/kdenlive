@@ -798,7 +798,7 @@ void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
             }
             continue;
         }
-        QString proxy = clip->property(QStringLiteral("kdenlive:proxy"));
+        QString proxy = clip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
         if (proxy.length() > 2 && QFile::exists(proxy)) {
             QUrl pUrl = QUrl::fromLocalFile(proxy);
             if (!cacheUrls.contains(pUrl)) {

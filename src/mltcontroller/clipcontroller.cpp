@@ -160,8 +160,8 @@ void ClipController::getInfoForProducer()
     if (m_usesProxy && m_path.endsWith(QStringLiteral(".mlt"))) {
         m_clipType = Playlist;
     } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
-        m_audioIndex = int_property(QStringLiteral("audio_index"));
-        m_videoIndex = int_property(QStringLiteral("video_index"));
+        m_audioIndex = getProducerIntProperty(QStringLiteral("audio_index"));
+        m_videoIndex = getProducerIntProperty(QStringLiteral("video_index"));
         if (m_audioIndex == -1) {
             m_clipType = Video;
         } else if (m_videoIndex == -1) {
@@ -237,7 +237,7 @@ const QString ClipController::clipId()
     if (m_masterProducer == nullptr) {
         return QString();
     }
-    return property(QStringLiteral("id"));
+    return getProducerProperty(QStringLiteral("id"));
 }
 
 // static
@@ -348,7 +348,7 @@ GenTime ClipController::getPlaytime() const
     return GenTime(m_masterProducer->get_playtime(), fps);
 }
 
-QString ClipController::property(const QString &name) const
+QString ClipController::getProducerProperty(const QString &name) const
 {
     if (!m_properties) {
         return QString();
@@ -360,7 +360,7 @@ QString ClipController::property(const QString &name) const
     return QString(m_properties->get(name.toUtf8().constData()));
 }
 
-int ClipController::int_property(const QString &name) const
+int ClipController::getProducerIntProperty(const QString &name) const
 {
     if (!m_properties) {
         return 0;
@@ -372,7 +372,7 @@ int ClipController::int_property(const QString &name) const
     return m_properties->get_int(name.toUtf8().constData());
 }
 
-qint64 ClipController::int64_property(const QString &name) const
+qint64 ClipController::getProducerInt64Property(const QString &name) const
 {
     if (!m_properties) {
         return 0;
@@ -380,7 +380,7 @@ qint64 ClipController::int64_property(const QString &name) const
     return m_properties->get_int64(name.toUtf8().constData());
 }
 
-double ClipController::double_property(const QString &name) const
+double ClipController::getProducerDoubleProperty(const QString &name) const
 {
     if (!m_properties) {
         return 0;
@@ -388,13 +388,24 @@ double ClipController::double_property(const QString &name) const
     return m_properties->get_double(name.toUtf8().constData());
 }
 
-QColor ClipController::color_property(const QString &name) const
+QColor ClipController::getProducerColorProperty(const QString &name) const
 {
     if (!m_properties) {
         return QColor();
     }
     mlt_color color = m_properties->get_color(name.toUtf8().constData());
     return QColor::fromRgb(color.r, color.g, color.b);
+}
+
+QMap<QString, QString> ClipController::currentProperties(const QMap<QString, QString> &props)
+{
+    QMap<QString, QString> currentProps;
+    QMap<QString, QString>::const_iterator i = props.constBegin();
+    while (i != props.constEnd()) {
+        currentProps.insert(i.key(), getProducerProperty(i.key()));
+        ++i;
+    }
+    return currentProps;
 }
 
 double ClipController::originalFps() const
@@ -431,7 +442,7 @@ const QString ClipController::clipUrl() const
 
 QString ClipController::clipName() const
 {
-    QString name = property(QStringLiteral("kdenlive:clipname"));
+    QString name = getProducerProperty(QStringLiteral("kdenlive:clipname"));
     if (!name.isEmpty()) {
         return name;
     }
@@ -441,14 +452,14 @@ QString ClipController::clipName() const
 QString ClipController::description() const
 {
     if (m_clipType == TextTemplate) {
-        QString name = property(QStringLiteral("templatetext"));
+        QString name = getProducerProperty(QStringLiteral("templatetext"));
         return name;
     }
-    QString name = property(QStringLiteral("kdenlive:description"));
+    QString name = getProducerProperty(QStringLiteral("kdenlive:description"));
     if (!name.isEmpty()) {
         return name;
     }
-    return property(QStringLiteral("meta.attr.comment.markup"));
+    return getProducerProperty(QStringLiteral("meta.attr.comment.markup"));
 }
 
 QString ClipController::serviceName() const
@@ -662,9 +673,9 @@ void ClipController::setZone(const QPoint &zone)
 
 QPoint ClipController::zone() const
 {
-    int in = int_property(QStringLiteral("kdenlive:zone_in"));
+    int in = getProducerIntProperty(QStringLiteral("kdenlive:zone_in"));
     int max = getPlaytime().frames(pCore->getCurrentFps()) - 1;
-    int out = qMin(int_property(QStringLiteral("kdenlive:zone_out")), max);
+    int out = qMin(getProducerIntProperty(QStringLiteral("kdenlive:zone_out")), max);
     if (out <= in) {
         out = max;
     }
@@ -674,7 +685,7 @@ QPoint ClipController::zone() const
 
 const QString ClipController::getClipHash() const
 {
-    return property(QStringLiteral("kdenlive:file_hash"));
+    return getProducerProperty(QStringLiteral("kdenlive:file_hash"));
 }
 
 Mlt::Properties &ClipController::properties()
@@ -690,7 +701,7 @@ void ClipController::initEffect(const ProfileInfo &pInfo, QDomElement &xml)
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
     EffectsList eff = effectList();
-    EffectsController::initEffect(info, pInfo, eff, property(QStringLiteral("kdenlive:proxy")), xml);
+    EffectsController::initEffect(info, pInfo, eff, getProducerProperty(QStringLiteral("kdenlive:proxy")), xml);
 }
 
 void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
@@ -701,7 +712,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
     EffectsList eff = effectList();
-    EffectsController::initEffect(info, pInfo, eff, property(QStringLiteral("kdenlive:proxy")), xml);
+    EffectsController::initEffect(info, pInfo, eff, getProducerProperty(QStringLiteral("kdenlive:proxy")), xml);
     // Add effect to list and setup a kdenlive_ix value
     int kdenlive_ix = 0;
     for (int i = 0; i < service.filter_count(); ++i) {

@@ -2106,7 +2106,7 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
         }
     } else {
         // Clip not found, create it
-        QString groupId = controller->property(QStringLiteral("kdenlive:folderid"));
+        QString groupId = controller->getProducerProperty(QStringLiteral("kdenlive:folderid"));
         ProjectFolder *parentFolder;
         if (!groupId.isEmpty()) {
             parentFolder = m_itemModel->getFolderByBinId(groupId);

@@ -193,7 +193,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem *c, Monitor *m, bool reload
             m_effect->setLabel(i18n("Effects for %1", m_clipref->clipName()), m_clipref->clipName());
             int frameWidth = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.width"));
             int frameHeight = c->binClip()->getProducerIntProperty(QStringLiteral("meta.media.height"));
-            double factor = c->binClip()->getDoubleProducerProperty(QStringLiteral("aspect_ratio"));
+            double factor = c->binClip()->getProducerDoubleProperty(QStringLiteral("aspect_ratio"));
             m_effectMetaInfo.frameSize = QPoint(frameWidth, frameHeight);// (int)(frameWidth * factor + 0.5), frameHeight);
             m_effectMetaInfo.stretchFactor = factor;
         }
@@ -247,9 +247,9 @@ void EffectStackView2::slotMasterClipItemSelected(ClipController *c, Monitor *m)
         m_effectMetaInfo.monitor = m;
         if (m_masterclipref) {
             m_effect->setLabel(i18n("Bin effects for %1", m_masterclipref->clipName()), m_masterclipref->clipName());
-            int frameWidth = m_masterclipref->int_property(QStringLiteral("meta.media.width"));
-            int frameHeight = m_masterclipref->int_property(QStringLiteral("meta.media.height"));
-            double factor = m_masterclipref->double_property(QStringLiteral("aspect_ratio"));
+            int frameWidth = m_masterclipref->getProducerIntProperty(QStringLiteral("meta.media.width"));
+            int frameHeight = m_masterclipref->getProducerIntProperty(QStringLiteral("meta.media.height"));
+            double factor = m_masterclipref->getProducerDoubleProperty(QStringLiteral("aspect_ratio"));
             m_effectMetaInfo.frameSize = QPoint((int)(frameWidth * factor + 0.5), frameHeight);
         }
     }

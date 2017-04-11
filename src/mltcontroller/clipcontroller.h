@@ -126,11 +126,12 @@ public:
      * @brief Returns the value of a property.
      * @param name name o the property
      */
-    QString property(const QString &name) const;
-    int int_property(const QString &name) const;
-    qint64 int64_property(const QString &name) const;
-    double double_property(const QString &name) const;
-    QColor color_property(const QString &name) const;
+    QMap<QString, QString> currentProperties(const QMap<QString, QString> &props);
+    QString getProducerProperty(const QString &key) const;
+    int getProducerIntProperty(const QString &key) const;
+    qint64 getProducerInt64Property(const QString &key) const;
+    QColor getProducerColorProperty(const QString &key) const;
+    double getProducerDoubleProperty(const QString &key) const;
 
     double originalFps() const;
     QString videoCodecProperty(const QString &property) const;

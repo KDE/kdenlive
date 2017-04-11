@@ -355,8 +355,8 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             count++;
         }
         if (clip->clipType() == Text) {
-            const QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
-            const QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
+            const QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
             for (const QString &file : imagefiles) {
                 count++;
                 new QTreeWidgetItem(images, QStringList() << file);

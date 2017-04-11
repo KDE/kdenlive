@@ -123,11 +123,11 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             imageUrls.insert(id, clip->clipUrl());
         }
         else if (t == QText) {
-            allFonts << clip->property(QStringLiteral("family"));
+            allFonts << clip->getProducerProperty(QStringLiteral("family"));
         }
         else if (t == Text) {
-            QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
-            QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
+            QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
             extraImageUrls << imagefiles;
             allFonts << fonts;
         } else if (t == Playlist) {
@@ -140,7 +140,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
             } else {
                 videoUrls.insert(id, clip->clipUrl());
                 // Check if we have a proxy
-                QString proxy = clip->property(QStringLiteral("kdenlive:proxy"));
+                QString proxy = clip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
                 if (!proxy.isEmpty() && proxy != QLatin1String("-") && QFile::exists(proxy)) {
                     proxyUrls.insert(id, proxy);
                 }

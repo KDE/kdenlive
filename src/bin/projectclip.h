@@ -157,14 +157,6 @@ public:
     /** @brief Reset a property on the MLT producer (=delete the property). */
     void resetProducerProperty(const QString &name);
 
-    /** @brief Get a property from the MLT producer. */
-    QMap<QString, QString> currentProperties(const QMap<QString, QString> &props);
-    QString getProducerProperty(const QString &key) const;
-    int getProducerIntProperty(const QString &key) const;
-    qint64 getProducerInt64Property(const QString &key) const;
-    QColor getProducerColorProperty(const QString &key) const;
-    double getDoubleProducerProperty(const QString &key) const;
-
     /** @brief Returns a list of all markers comments between in ant out frames. */
     QStringList markersText(GenTime in, GenTime out) const;
 
