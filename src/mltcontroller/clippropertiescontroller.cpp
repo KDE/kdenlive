@@ -973,7 +973,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             p.start(QStringLiteral("exiftool"), args);
             p.waitForFinished();
             QString res = p.readAllStandardOutput();
-            m_controller->setProperty(QStringLiteral("kdenlive:exiftool"), 1);
+            m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
             QTreeWidgetItem *exif = nullptr;
             QStringList list = res.split('\n');
             foreach (const QString &tagline, list) {
@@ -989,7 +989,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                         exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
                         exif->setExpanded(true);
                     }
-                    m_controller->setProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified());
+                    m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified());
                     new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
                 }
             }
@@ -1002,7 +1002,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                 p.waitForFinished();
                 QString res = p.readAllStandardOutput();
                 if (m_type != Image) {
-                    m_controller->setProperty(QStringLiteral("kdenlive:exiftool"), 1);
+                    m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
                 }
                 QTreeWidgetItem *exif = nullptr;
                 QStringList list = res.split('\n');
@@ -1020,7 +1020,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     }
                     if (m_type != Image) {
                         // Do not store image exif metadata in project file, would be too much noise
-                        m_controller->setProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified());
+                        m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified());
                     }
                     new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
                 }
@@ -1047,7 +1047,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         if (QFile::exists(url)) {
             QFile file(url);
             if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                m_controller->setProperty(QStringLiteral("kdenlive:magiclantern"), 1);
+                m_controller->setProducerProperty(QStringLiteral("kdenlive:magiclantern"), 1);
                 QTreeWidgetItem *magicL = nullptr;
                 while (!file.atEnd()) {
                     QString line = file.readLine().simplified();
@@ -1057,7 +1057,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     if (line.startsWith(QLatin1String("CSV data"))) {
                         break;
                     }
-                    m_controller->setProperty("kdenlive:meta.magiclantern." + line.section(QLatin1Char(':'), 0, 0).simplified(), line.section(QLatin1Char(':'), 1).simplified());
+                    m_controller->setProducerProperty("kdenlive:meta.magiclantern." + line.section(QLatin1Char(':'), 0, 0).simplified(), line.section(QLatin1Char(':'), 1).simplified());
                     if (!magicL) {
                         magicL = new QTreeWidgetItem(tree, QStringList() << i18n("Magic Lantern") << QString());
                         QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));

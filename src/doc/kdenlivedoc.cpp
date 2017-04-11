@@ -793,7 +793,7 @@ void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
                 QUrl newUrl = QUrl::fromLocalFile(dest + QStringLiteral("/titles/") + oldUrl.fileName());
                 KIO::Job *job = KIO::copy(oldUrl, newUrl);
                 if (job->exec()) {
-                    clip->setProperty(QStringLiteral("resource"), newUrl.toLocalFile());
+                    clip->setProducerProperty(QStringLiteral("resource"), newUrl.toLocalFile());
                 }
             }
             continue;

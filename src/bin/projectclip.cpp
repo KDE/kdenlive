@@ -394,21 +394,6 @@ void ProjectClip::resetProducerProperty(const QString &name)
     resetProperty(name);
 }
 
-void ProjectClip::setProducerProperty(const QString &name, int data)
-{
-    ClipController::setProperty(name, data);
-}
-
-void ProjectClip::setProducerProperty(const QString &name, double data)
-{
-    ClipController::setProperty(name, data);
-}
-
-void ProjectClip::setProducerProperty(const QString &name, const QString &data)
-{
-    ClipController::setProperty(name, data);
-}
-
 
 const QString ProjectClip::hash()
 {
@@ -456,7 +441,7 @@ const QString ProjectClip::getFileHash()
                 fileData = file.readAll();
             }
             file.close();
-            ClipController::setProperty(QStringLiteral("kdenlive:file_size"), QString::number(file.size()));
+            ClipController::setProducerProperty(QStringLiteral("kdenlive:file_size"), QString::number(file.size()));
             fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         }
         break;
@@ -465,7 +450,7 @@ const QString ProjectClip::getFileHash()
         return QString();
     }
     QString result = fileHash.toHex();
-    ClipController::setProperty(QStringLiteral("kdenlive:file_hash"), result);
+    ClipController::setProducerProperty(QStringLiteral("kdenlive:file_hash"), result);
     return result;
 }
 
@@ -599,7 +584,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 void ProjectClip::updateParentInfo(const QString &folderid, const QString &foldername)
 {
     Q_UNUSED(foldername);
-    ClipController::setProperty(QStringLiteral("kdenlive:folderid"), folderid);
+    ClipController::setProducerProperty(QStringLiteral("kdenlive:folderid"), folderid);
 }
 
 bool ProjectClip::matches(const QString &condition)

@@ -148,12 +148,6 @@ public:
     /** @brief The clip hash created from the clip's resource. */
     const QString hash();
 
-    /** @brief Set a property on the MLT producer. */
-    void setProducerProperty(const QString &name, int data);
-    /** @brief Set a property on the MLT producer. */
-    void setProducerProperty(const QString &name, double data);
-    /** @brief Set a property on the MLT producer. */
-    void setProducerProperty(const QString &name, const QString &data);
     /** @brief Reset a property on the MLT producer (=delete the property). */
     void resetProducerProperty(const QString &name);
 

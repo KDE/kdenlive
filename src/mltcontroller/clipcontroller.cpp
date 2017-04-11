@@ -467,19 +467,19 @@ QString ClipController::serviceName() const
     return m_service;
 }
 
-void ClipController::setProperty(const QString &name, int value)
+void ClipController::setProducerProperty(const QString &name, int value)
 {
     //TODO: also set property on all track producers
     m_masterProducer->parent().set(name.toUtf8().constData(), value);
 }
 
-void ClipController::setProperty(const QString &name, double value)
+void ClipController::setProducerProperty(const QString &name, double value)
 {
     //TODO: also set property on all track producers
     m_masterProducer->parent().set(name.toUtf8().constData(), value);
 }
 
-void ClipController::setProperty(const QString &name, const QString &value)
+void ClipController::setProducerProperty(const QString &name, const QString &value)
 {
     //TODO: also set property on all track producers
     if (value.isEmpty()) {
@@ -667,8 +667,8 @@ CommentedTime ClipController::markerAt(const GenTime &t) const
 
 void ClipController::setZone(const QPoint &zone)
 {
-    setProperty(QStringLiteral("kdenlive:zone_in"), zone.x());
-    setProperty(QStringLiteral("kdenlive:zone_out"), zone.y());
+    setProducerProperty(QStringLiteral("kdenlive:zone_in"), zone.x());
+    setProducerProperty(QStringLiteral("kdenlive:zone_out"), zone.y());
 }
 
 QPoint ClipController::zone() const

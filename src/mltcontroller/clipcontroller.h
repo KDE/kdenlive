@@ -111,9 +111,9 @@ public:
      * @param name name of the property
      * @param value the new value
      */
-    void setProperty(const QString &name, const QString &value);
-    void setProperty(const QString &name, int value);
-    void setProperty(const QString &name, double value);
+    void setProducerProperty(const QString &name, const QString &value);
+    void setProducerProperty(const QString &name, int value);
+    void setProducerProperty(const QString &name, double value);
     void resetProperty(const QString &name);
 
     /**

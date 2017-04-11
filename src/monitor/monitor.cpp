@@ -983,7 +983,7 @@ void Monitor::slotSetThumbFrame()
     if (m_controller == nullptr) {
         return;
     }
-    m_controller->setProperty(QStringLiteral("kdenlive:thumbnailFrame"), (int) render->seekFramePosition());
+    m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), (int) render->seekFramePosition());
     emit refreshClipThumbnail(m_controller->clipId());
 }
 
