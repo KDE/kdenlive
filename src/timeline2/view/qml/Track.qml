@@ -133,10 +133,10 @@ Column{
                     item.clipResource= model.resource
                     item.clipId= model.item
                     item.binId= model.binId
-                    item.isAudio= model.audio
                     item.isComposition= model.isComposition
                     if (!model.isComposition) {
                         item.audioLevels= model.audioLevels
+                        item.isAudio= model.audio
                         item.markers= model.markers
                         item.fadeIn= 0 //model.fadeIn
                         item.fadeOut= 0 //model.fadeOut
