@@ -50,9 +50,9 @@ QString AssetTreeModel::getName(const QModelIndex& index) const
     }
     TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
     if (item->depth() == 1) {
-        return item->data(0).toString();
+        return item->dataColumn(0).toString();
     } else {
-        return item->data(AssetTreeModel::nameCol).toString();
+        return item->dataColumn(AssetTreeModel::nameCol).toString();
     }
 }
 
@@ -65,7 +65,7 @@ QString AssetTreeModel::getDescription(const QModelIndex& index) const
     if (item->depth() == 1) {
         return QString();
     } else {
-        auto id = item->data(AssetTreeModel::idCol).toString();
+        auto id = item->dataColumn(AssetTreeModel::idCol).toString();
         if (EffectsRepository::get()->exists(id)){
             return EffectsRepository::get()->getDescription(id);
         }
@@ -85,13 +85,13 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
 
     TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
     if(role == IdRole) {
-        return item->data(AssetTreeModel::idCol);
+        return item->dataColumn(AssetTreeModel::idCol);
     }
 
     if (role != NameRole) {
         return QVariant();
     }
-    return item->data(index.column());
+    return item->dataColumn(index.column());
 }
 
 QList <QModelIndex> AssetTreeModel::getChildrenIndexes()

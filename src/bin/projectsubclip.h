@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 #include "definitions.h"
+#include <memory>
 
 class ProjectFolder;
 class ProjectClip;
@@ -48,7 +49,7 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectSubClip(ProjectClip *parent, int in, int out, const QString &timecode, const QString &name = QString());
+    ProjectSubClip(ProjectClip *parent, ProjectItemModel* model, int in, int out, const QString &timecode, const QString &name = QString());
     virtual ~ProjectSubClip();
 
     ProjectClip *clip(const QString &id) Q_DECL_OVERRIDE;

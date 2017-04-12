@@ -28,7 +28,6 @@
 #include "assets/assetlist/model/assettreemodel.hpp"
 #include "assets/assetlist/model/assetfilter.hpp"
 
-class BinController;
 class ThumbnailProvider;
 class KActionCollection;
 
@@ -54,7 +53,7 @@ class TimelineWidget : public QQuickWidget
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
 
 public:
-    TimelineWidget(KActionCollection *actionCollection, BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
+    TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
     /* @brief Sets the list of currently selected clips
        @param selection is the list of id's
        @param trackIndex is current clip's track
@@ -173,7 +172,7 @@ public slots:
 private:
     std::shared_ptr<TimelineItemModel> m_model;
     KActionCollection *m_actionCollection;
-    BinController *m_binController;
+    std::shared_ptr<BinController> m_binController;
     struct Selection {
         QList<int> selectedClips;
         int selectedTrack;

@@ -26,7 +26,7 @@
 AbstractTreeModel::AbstractTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-    rootItem = new TreeItem(QList<QVariant>());
+    rootItem = new TreeItem(QList<QVariant>(), this);
 }
 
 AbstractTreeModel::~AbstractTreeModel()
@@ -52,7 +52,7 @@ QVariant AbstractTreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-    return item->data(index.column());
+    return item->dataColumn(index.column());
 }
 
 Qt::ItemFlags AbstractTreeModel::flags(const QModelIndex &index) const
@@ -72,7 +72,7 @@ QVariant AbstractTreeModel::headerData(int section, Qt::Orientation orientation,
                                int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return rootItem->data(section);
+        return rootItem->dataColumn(section);
 
     return QVariant();
 }
@@ -89,6 +89,7 @@ QModelIndex AbstractTreeModel::index(int row, int column, const QModelIndex &par
         parentItem = rootItem;
     else
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
+
 
     TreeItem *childItem = parentItem->child(row);
     if (childItem)
@@ -126,3 +127,32 @@ int AbstractTreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
+QModelIndex AbstractTreeModel::getIndexFromItem(TreeItem *item) const
+{
+    if (item == rootItem) {
+        return QModelIndex();
+    }
+    return index(item->row(), 0, getIndexFromItem(item->parentItem()));
+}
+
+void AbstractTreeModel::notifyRowAboutToAppend(TreeItem *item)
+{
+    auto index = getIndexFromItem(item);
+    beginInsertRows(index, item->childCount(), item->childCount());
+}
+
+void AbstractTreeModel::notifyRowAppended()
+{
+    endInsertRows();
+}
+
+void AbstractTreeModel::notifyRowAboutToDelete(TreeItem *item, int row)
+{
+    auto index = getIndexFromItem(item);
+    beginRemoveRows(index, row, row);
+}
+
+void AbstractTreeModel::notifyRowDeleted()
+{
+    endRemoveRows();
+}

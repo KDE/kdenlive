@@ -316,7 +316,7 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
     QString params = bin->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *item = clips.at(i);
-        QString id = item->clipId();
+        QString id = item->AbstractProjectItem::clipId();
         QString path = item->getProducerProperty(QStringLiteral("kdenlive:proxy"));
         if (path.isEmpty()) {
             item->setJobStatus(AbstractClipJob::PROXYJOB, JobCrashed, -1, i18n("Failed to create proxy, empty path."));

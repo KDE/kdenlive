@@ -25,15 +25,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 #include "definitions.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
+#include "mltcontroller/clipcontroller.h"
 
 #include <QUrl>
 #include <QMutex>
 #include <QFuture>
+#include <memory>
 
 class ProjectFolder;
 class AudioStreamInfo;
 class QDomElement;
-class ClipController;
 class ClipPropertiesController;
 class ProjectSubClip;
 class QUndoCommand;
@@ -50,7 +52,7 @@ class Properties;
  *
  */
 
-class ProjectClip : public AbstractProjectItem
+class ProjectClip : public AbstractProjectItem, public ClipController
 {
     Q_OBJECT
 
@@ -58,12 +60,12 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectClip(const QString &id, const QIcon &thumb, ClipController *controller, ProjectFolder *parent);
+    ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel* model, std::shared_ptr<Mlt::Producer> producer, ProjectFolder *parent);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "id" attribute and "resource" property are used
      */
-    ProjectClip(const QDomElement &description, const QIcon &thumb, ProjectFolder *parent);
+    ProjectClip(const QDomElement &description, const QIcon &thumb,ProjectItemModel* model,  ProjectFolder *parent);
     virtual ~ProjectClip();
 
     void reloadProducer(bool refreshOnly = false);
@@ -80,9 +82,6 @@ public:
 
     /** @brief Returns this if @param ix matches the clip's index or nullptr otherwise. */
     ProjectClip *clipAt(int ix) Q_DECL_OVERRIDE;
-
-    /** @brief Recursively disable/enable bin effects. */
-    void disableEffects(bool disable) Q_DECL_OVERRIDE;
 
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType clipType() const;
@@ -101,8 +100,6 @@ public:
     /** @brief Returns the clip's url. */
     const QString url() const;
 
-    /** @brief Returns whether this clip has a limited duration or whether it is resizable ad infinitum. */
-    virtual bool hasLimitedDuration() const;
 
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
@@ -118,7 +115,7 @@ public:
 
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;
 
-    QVariant data(DataType type) const Q_DECL_OVERRIDE;
+    //QVariant getData(DataType type) const Q_DECL_OVERRIDE;
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);
@@ -129,16 +126,16 @@ public:
      *  @param replaceProducer If true, we replace existing producer with this one
      *  @returns true if producer was changed
      * . */
-    bool setProducer(ClipController *controller, bool replaceProducer);
+    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer);
 
     /** @brief Returns true if this clip already has a producer. */
     bool isReady() const;
 
     /** @brief Returns this clip's producer. */
-    Mlt::Producer *originalProducer();
     Mlt::Producer *thumbProducer();
 
-    ClipController *controller();
+    /** @brief Recursively disable/enable bin effects. */
+    void disableEffects(bool disable) override;
 
     /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
     void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false);
@@ -160,15 +157,6 @@ public:
     /** @brief Reset a property on the MLT producer (=delete the property). */
     void resetProducerProperty(const QString &name);
 
-    /** @brief Get a property from the MLT producer. */
-    QMap<QString, QString> currentProperties(const QMap<QString, QString> &props);
-    QString getProducerProperty(const QString &key) const;
-    int getProducerIntProperty(const QString &key) const;
-    qint64 getProducerInt64Property(const QString &key) const;
-    QColor getProducerColorProperty(const QString &key) const;
-    double getDoubleProducerProperty(const QString &key) const;
-
-    QList< CommentedTime > commentedSnapMarkers() const;
     /** @brief Returns a list of all markers comments between in ant out frames. */
     QStringList markersText(GenTime in, GenTime out) const;
 
@@ -192,10 +180,6 @@ public:
     void addClipMarker(QList<CommentedTime> newMarkers, QUndoCommand *groupCommand);
     bool deleteClipMarkers(QUndoCommand *groupCommand);
     void addMarkers(QList<CommentedTime> &markers);
-    /** @brief Add an effect to bin clip. */
-    void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
-    void updateEffect(const ProfileInfo &pInfo, QDomElement &effect, int ix, bool refreshStack);
-    void removeEffect(int ix);
     /** @brief Create audio thumbnail for this clip. */
     void createAudioThumbs();
     /** @brief Returns the number of audio channels. */
@@ -231,10 +215,8 @@ public slots:
 
 private:
     bool m_abortAudioThumb;
-    /** @brief The Clip controller for this clip. */
-    ClipController *m_controller;
     /** @brief Generate and store file hash if not available. */
-    const QString getFileHash() const;
+    const QString getFileHash();
     /** @brief Store clip url temporarily while the clip controller has not been created. */
     QString m_temporaryUrl;
     ClipType m_type;

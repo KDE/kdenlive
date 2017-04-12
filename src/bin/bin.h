@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstractprojectitem.h"
 #include "timecode.h"
 
+#include "effects/effectstack/model/effectstackmodel.hpp"
+
 #include <KMessageWidget>
 
 #include <QWidget>
@@ -183,9 +185,6 @@ public:
     /** @brief Sets the document for the bin and initialize some stuff  */
     void setDocument(KdenliveDoc *project);
 
-    /** @brief Returns the root folder, which is the parent for all items in the view */
-    ProjectFolder *rootFolder();
-
     /** @brief Create a clip item from its xml description  */
     void createClip(const QDomElement &xml);
 
@@ -226,11 +225,6 @@ public:
     /** @brief Current producer has changed, refresh monitor and timeline*/
     void refreshClip(const QString &id);
 
-    /** @brief Some stuff used to notify the Item Model */
-    void emitAboutToAddItem(AbstractProjectItem *item);
-    void emitItemAdded(AbstractProjectItem *item);
-    void emitAboutToRemoveItem(AbstractProjectItem *item);
-    void emitItemRemoved(AbstractProjectItem *item);
     void setupMenu(QMenu *addMenu, QAction *defaultAction, const QHash<QString, QAction *> &actions);
 
     /** @brief The source file was modified, we will reload it soon, disable item in the meantime */
@@ -295,16 +289,8 @@ public:
     void deleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     /** @brief Delete all markers from @param id clip. */
     void deleteAllClipMarkers(const QString &id);
-    /** @brief Remove an effect from a bin clip. */
-    void removeEffect(const QString &id, const QDomElement &effect);
-    void moveEffect(const QString &id, const QList<int> &oldPos, const QList<int> &newPos);
-    /** @brief Add an effect to a bin clip. */
-    void addEffect(const QString &id, QDomElement &effect);
-    /** @brief Update a bin clip effect. */
-    void updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget);
-    void changeEffectState(const QString &id, const QList<int> &indexes, bool disable, bool refreshStack);
     /** @brief Edit an effect settings to a bin clip. */
-    void editMasterEffect(ClipController *ctl);
+    void editMasterEffect(AbstractProjectItem *clip);
     /** @brief An effect setting was changed, update stack if displayed. */
     void updateMasterEffect(ClipController *ctl);
     /** @brief Display a message about an operation in status bar. */
@@ -363,16 +349,12 @@ private slots:
     /** @brief Update status for clip jobs  */
     void slotUpdateJobStatus(const QString &, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
     void slotSetIconSize(int size);
-    void rowsInserted(const QModelIndex &parent, int start, int end);
-    void rowsRemoved(const QModelIndex &parent, int start, int end);
     void selectProxyModel(const QModelIndex &id);
     void autoSelect();
     void slotSaveHeaders();
     void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
     void slotEffectDropped(const QString &effect, const QModelIndex &parent);
-    void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix, bool refreshStack = false);
-    void slotChangeEffectState(QString id, const QList<int> &indexes, bool disable);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     void slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data = QMap<QString, QString>());
     void slotAddUrl(const QString &url, const QMap<QString, QString> &data = QMap<QString, QString>());
@@ -444,8 +426,6 @@ public slots:
     void slotSaveClipMarkers(const QString &id);
     void slotDuplicateClip();
     void slotLocateClip();
-    void slotDeleteEffect(const QString &id, QDomElement effect);
-    void slotMoveEffect(const QString &id, const QList<int> &currentPos, int newPos);
     /** @brief Request audio thumbnail for clip with id */
     void slotCreateAudioThumb(const QString &id);
     /** @brief Abort audio thumbnail for clip with id */
@@ -456,8 +436,8 @@ public slots:
     /** @brief Pass some important properties to timeline track producers. */
     void updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
-    void slotEffectDropped(QString id, QDomElement);
-    /** @brief Request current frame from project monitor. 
+    void slotEffectDropped(QString id, const QString& effectID);
+    /** @brief Request current frame from project monitor.
      *  @param clipId is the id of a clip we want to hide from screenshot
      *  @param request true to start capture process, false to end it. It is necessary to emit a false after image is received
     **/
@@ -482,7 +462,6 @@ protected:
 private:
     ProjectItemModel *m_itemModel;
     QAbstractItemView *m_itemView;
-    ProjectFolder *m_rootFolder;
     /** @brief An "Up" item that is inserted in bin when using icon view so that user can navigate up */
     ProjectFolderUp *m_folderUp;
     BinItemDelegate *m_binTreeViewDelegate;
@@ -565,9 +544,11 @@ signals:
     /** @brief Trigger timecode format refresh where needed. */
     void refreshTimeCode();
     /** @brief Request display of effect stack for a Bin clip. */
-    void masterClipSelected(ClipController *, Monitor *);
-    /** @brief Request updating of the effect stack if currently displayed. */
-    void masterClipUpdated(ClipController *, Monitor *);
+    void requestShowEffectStack(std::shared_ptr<EffectStackModel>);
+    /** @brief Request that the current effect stack is hidden */
+    void requestHideEffectStack();
+    /** @brief Request that the given clip is displayed in the clip monitor */
+    void requestClipShow(ProjectClip*);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);
     void displayMessage(const QString &, int, MessageType);
     void requesteInvalidRemoval(const QString &, const QString &, const QString &);

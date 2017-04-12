@@ -22,28 +22,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projectfolder.h"
 #include "projectclip.h"
+#include "projectitemmodel.h"
 #include "bin.h"
 #include "utils/KoIconUtils.h"
 
 #include <QDomElement>
 #include <KLocalizedString>
 
-ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectFolder *parent) :
-    AbstractProjectItem(AbstractProjectItem::FolderItem, id, parent)
-    , m_bin(nullptr)
+ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectItemModel* model, ProjectFolder *parent) :
+    AbstractProjectItem(AbstractProjectItem::FolderItem, id, model, parent)
 {
     m_name = name;
     m_clipStatus = StatusReady;
     m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("folder"));
-    setParent(parent);
+    changeParent(parent);
 }
 
-ProjectFolder::ProjectFolder(Bin *bin) :
-    AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1))
-    , m_bin(bin)
+ProjectFolder::ProjectFolder(ProjectItemModel* model) :
+    AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1),  model)
 {
     m_name = QStringLiteral("root");
-    setParent(nullptr);
+    changeParent(nullptr);
 }
 
 ProjectFolder::~ProjectFolder()
@@ -52,16 +51,14 @@ ProjectFolder::~ProjectFolder()
 
 void ProjectFolder::setCurrent(bool current, bool notify)
 {
-    Q_UNUSED(notify)
-    if (current) {
-        bin()->openProducer(nullptr);
-    }
+    Q_UNUSED(notify);
+    Q_UNUSED(current)
 }
 
 ProjectClip *ProjectFolder::clip(const QString &id)
 {
-    for (int i = 0; i < count(); ++i) {
-        ProjectClip *clip = at(i)->clip(id);
+    for (int i = 0; i < childCount(); ++i) {
+        ProjectClip *clip = static_cast<AbstractProjectItem*>(child(i))->clip(id);
         if (clip) {
             return clip;
         }
@@ -72,12 +69,12 @@ ProjectClip *ProjectFolder::clip(const QString &id)
 QList<ProjectClip *> ProjectFolder::childClips()
 {
     QList<ProjectClip *> allChildren;
-    for (int i = 0; i < count(); ++i) {
-        AbstractProjectItem *child = at(i);
-        if (child->itemType() == ClipItem) {
-            allChildren << static_cast<ProjectClip *>(child);
-        } else if (child->itemType() == FolderItem) {
-            allChildren << static_cast<ProjectFolder *>(child)->childClips();
+    for (int i = 0; i < childCount(); ++i) {
+        AbstractProjectItem *childItem = static_cast<AbstractProjectItem*>(child(i));
+        if (childItem->itemType() == ClipItem) {
+            allChildren << static_cast<ProjectClip *>(childItem);
+        } else if (childItem->itemType() == FolderItem) {
+            allChildren << static_cast<ProjectFolder *>(childItem)->childClips();
         }
     }
     return allChildren;
@@ -85,7 +82,7 @@ QList<ProjectClip *> ProjectFolder::childClips()
 
 QString ProjectFolder::getToolTip() const
 {
-    return i18np("%1 clip", "%1 clips", size());
+    return i18np("%1 clip", "%1 clips", childCount());
 }
 
 ProjectFolder *ProjectFolder::folder(const QString &id)
@@ -93,8 +90,8 @@ ProjectFolder *ProjectFolder::folder(const QString &id)
     if (m_id == id) {
         return this;
     }
-    for (int i = 0; i < count(); ++i) {
-        ProjectFolder *folderItem = at(i)->folder(id);
+    for (int i = 0; i < childCount(); ++i) {
+        ProjectFolder *folderItem = static_cast<AbstractProjectItem*>(child(i))->folder(id);
         if (folderItem) {
             return folderItem;
         }
@@ -104,11 +101,11 @@ ProjectFolder *ProjectFolder::folder(const QString &id)
 
 ProjectClip *ProjectFolder::clipAt(int index)
 {
-    if (isEmpty()) {
+    if (childCount() == 0) {
         return nullptr;
     }
-    for (int i = 0; i < count(); ++i) {
-        ProjectClip *clip = at(i)->clipAt(index);
+    for (int i = 0; i < childCount(); ++i) {
+        ProjectClip *clip = static_cast<AbstractProjectItem*>(child(i))->clipAt(index);
         if (clip) {
             return clip;
         }
@@ -118,30 +115,19 @@ ProjectClip *ProjectFolder::clipAt(int index)
 
 void ProjectFolder::disableEffects(bool disable)
 {
-    for (int i = 0; i < count(); ++i) {
-        AbstractProjectItem *item = at(i);
+    for (int i = 0; i < childCount(); ++i) {
+        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(child(i));
         item->disableEffects(disable);
     }
 }
 
-Bin *ProjectFolder::bin()
-{
-    if (m_bin) {
-        return m_bin;
-    } else {
-        if (parent()) {
-            return parent()->bin();
-        }
-        return AbstractProjectItem::bin();
-    }
-}
 
 QDomElement ProjectFolder::toXml(QDomDocument &document, bool)
 {
     QDomElement folder = document.createElement(QStringLiteral("folder"));
     folder.setAttribute(QStringLiteral("name"), name());
-    for (int i = 0; i < count(); ++i) {
-        folder.appendChild(at(i)->toXml(document));
+    for (int i = 0; i < childCount(); ++i) {
+        folder.appendChild(static_cast<AbstractProjectItem*>(child(i))->toXml(document));
     }
     return folder;
 }
@@ -153,7 +139,7 @@ bool ProjectFolder::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    bin()->renameFolderCommand(m_id, name, m_name);
+    static_cast<ProjectItemModel*>(m_model)->bin()->renameFolderCommand(m_id, name, m_name);
     return true;
 }
 

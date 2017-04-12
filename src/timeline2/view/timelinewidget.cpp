@@ -43,7 +43,7 @@ const int TimelineWidget::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 7
 
 int TimelineWidget::m_duration = 0;
 
-TimelineWidget::TimelineWidget(KActionCollection *actionCollection, BinController *binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
+TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
     , m_model(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), undoStack, false))
     , m_actionCollection(actionCollection)
@@ -200,7 +200,7 @@ bool TimelineWidget::scrub()
 
 int TimelineWidget::insertClip(int tid, int position, QString data_str, bool logUndo)
 {
-    std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(m_binController->getBinProducer(data_str));
+    std::shared_ptr<Mlt::Producer> prod = m_binController->getBinProducer(data_str);
     int id;
     if (!m_model->requestClipInsertion(prod, tid, position, id, logUndo)) {
         id = -1;

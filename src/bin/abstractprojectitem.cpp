@@ -21,15 +21,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "abstractprojectitem.h"
+#include "projectitemmodel.h"
 #include "bin.h"
 
 #include <QDomElement>
 #include <QVariant>
 #include <QPainter>
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem *parent) :
-    QObject()
-    , m_parent(parent)
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, ProjectItemModel* model, AbstractProjectItem *parent) :
+    TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel*>(model), (TreeItem*)parent)
+    , m_name()
+    , m_description()
+    , m_thumbnail(QIcon())
+    , m_date()
     , m_id(id)
     , m_usage(0)
     , m_clipStatus(StatusReady)
@@ -40,9 +44,12 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 {
 }
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, AbstractProjectItem *parent) :
-    QObject()
-    , m_parent(parent)
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description,ProjectItemModel* model,  AbstractProjectItem *parent) :
+    TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel*>(model), (TreeItem*)parent)
+    , m_name()
+    , m_description()
+    , m_thumbnail(QIcon())
+    , m_date()
     , m_id(description.attribute(QStringLiteral("id")))
     , m_usage(0)
     , m_clipStatus(StatusReady)
@@ -55,30 +62,25 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
 
 AbstractProjectItem::~AbstractProjectItem()
 {
-    while (!isEmpty()) {
-        AbstractProjectItem *child = takeFirst();
-        removeChild(child);
-        delete child;
-    }
 }
 
 bool AbstractProjectItem::operator==(const AbstractProjectItem *projectItem) const
 {
     // FIXME: only works for folders
-    bool equal = static_cast<const QList *const>(this) == static_cast<const QList *const>(projectItem);
-    equal &= m_parent == projectItem->parent();
+    bool equal = this->m_childItems == projectItem->m_childItems;
+    equal &= m_parentItem == projectItem->m_parentItem;
     return equal;
 }
 
 AbstractProjectItem *AbstractProjectItem::parent() const
 {
-    return m_parent;
+    return static_cast<AbstractProjectItem*>(m_parentItem);
 }
 
 void AbstractProjectItem::setRefCount(uint count)
 {
     m_usage = count;
-    bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel*>(m_model)->bin()->emitItemUpdated(this);
 }
 
 uint AbstractProjectItem::refCount() const
@@ -89,41 +91,18 @@ uint AbstractProjectItem::refCount() const
 void AbstractProjectItem::addRef()
 {
     m_usage++;
-    bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel*>(m_model)->bin()->emitItemUpdated(this);
 }
 
 void AbstractProjectItem::removeRef()
 {
     m_usage--;
-    bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel*>(m_model)->bin()->emitItemUpdated(this);
 }
 
 const QString &AbstractProjectItem::clipId() const
 {
     return m_id;
-}
-
-void AbstractProjectItem::setParent(AbstractProjectItem *parent)
-{
-    if (m_parent != parent) {
-        if (m_parent) {
-            m_parent->removeChild(this);
-        }
-        m_parent = parent;
-        QObject::setParent(m_parent);
-    }
-
-    if (m_parent && !m_parent->contains(this)) {
-        m_parent->addChild(this);
-    }
-}
-
-Bin *AbstractProjectItem::bin()
-{
-    if (m_parent) {
-        return m_parent->bin();
-    }
-    return nullptr;
 }
 
 QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
@@ -140,38 +119,14 @@ QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
     return pix;
 }
 
-void AbstractProjectItem::addChild(AbstractProjectItem *child)
-{
-    if (child && !contains(child)) {
-        bin()->emitAboutToAddItem(child);
-        append(child);
-        bin()->emitItemAdded(child);
-    }
-}
 
-void AbstractProjectItem::removeChild(AbstractProjectItem *child)
-{
-    if (child && contains(child)) {
-        bin()->emitAboutToRemoveItem(child);
-        removeAll(child);
-        bin()->emitItemRemoved(child);
-    }
-}
-
-int AbstractProjectItem::index() const
-{
-    if (m_parent) {
-        return m_parent->indexOf(const_cast<AbstractProjectItem *>(this));
-    }
-    return 0;
-}
 
 AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
 {
     return m_itemType;
 }
 
-QVariant AbstractProjectItem::data(DataType type) const
+QVariant AbstractProjectItem::getData(DataType type) const
 {
     QVariant data;
     switch (type) {
@@ -265,3 +220,14 @@ AbstractProjectItem::CLIPSTATUS AbstractProjectItem::clipStatus() const
     return m_clipStatus;
 }
 
+
+AbstractProjectItem *AbstractProjectItem::getEnclosingFolder(bool strict) const
+{
+    if (!strict && itemType() == AbstractProjectItem::FolderItem) {
+        return const_cast<AbstractProjectItem*>(this);
+    }
+    if (m_parentItem) {
+        return static_cast<AbstractProjectItem*>(m_parentItem)->getEnclosingFolder(false);
+    }
+    return nullptr;
+}

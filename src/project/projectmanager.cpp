@@ -880,7 +880,7 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor) {
         info.imageHeight = 0;
         info.clipId = id;
         info.replaceProducer = true;
-        pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id));
+        pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
     }
     pCore->binController()->setBinPlaylist(m_timelineWidget->tractor());
     m_timelineWidget->buildFromMelt(tractor);

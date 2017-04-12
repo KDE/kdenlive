@@ -37,11 +37,9 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
 
 void EffectStackModel::appendEffect(const QString& effectId)
 {
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    auto effect = EffectItemModel::construct(effectId);
+    auto effect = EffectItemModel::construct(effectId, this);
     effect->setTimelineEffectsEnabled(m_timelineEffectsEnabled);
     rootItem->appendChild(effect);
-    endInsertRows();
 }
 
 void EffectStackModel::setTimelineEffectsEnabled(bool enabled)

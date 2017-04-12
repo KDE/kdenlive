@@ -350,7 +350,8 @@ QString MonitorManager::getProjectFolder() const
 
 BinController *MonitorManager::binController()
 {
-    return pCore->binController();
+    //REFACTORING TODO delete this function
+    return pCore->binController().get();
 }
 
 Mlt::Profile *MonitorManager::profile()

@@ -90,7 +90,6 @@ public:
     ProjectClip *getBinClip(const QString &clipId);
     /** @brief Get a list of all clip ids that are inside a folder. */
     QStringList getBinFolderClipIds(const QString &folderId) const;
-    ClipController *getClipController(const QString &clipId);
 
     const QString &profilePath() const;
     /** @brief Returns current project profile. */

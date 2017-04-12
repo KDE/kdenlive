@@ -27,7 +27,6 @@ static const char *kPlaylistTrackId = "main bin";
 BinController::BinController(const QString &profileName) :
     QObject()
 {
-    m_binPlaylist = nullptr;
     //resetProfile(profileName.isEmpty() ? KdenliveSettings::current_profile() : profileName);
 }
 
@@ -46,13 +45,10 @@ void BinController::destroyBin()
 {
     if (m_binPlaylist) {
         m_binPlaylist->clear();
-        delete m_binPlaylist;
-        m_binPlaylist = nullptr;
     }
     qDeleteAll(m_extraClipList);
     m_extraClipList.clear();
 
-    qDeleteAll(m_clipList);
     m_clipList.clear();
 }
 
@@ -84,7 +80,7 @@ void BinController::loadExtraProducer(const QString &id, Mlt::Producer *prod)
 QStringList BinController::getProjectHashes()
 {
     QStringList hashes;
-    QMapIterator<QString, ClipController *> i(m_clipList);
+    QMapIterator<QString, std::shared_ptr<ClipController>> i(m_clipList);
     hashes.reserve(m_clipList.count());
     while (i.hasNext()) {
         i.next();
@@ -111,15 +107,15 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     emit setDocumentNotes(notes);
 
     // Fill Controller's list
-    m_binPlaylist = new Mlt::Playlist(playlist);
+    m_binPlaylist.reset(new Mlt::Playlist(playlist));
     m_binPlaylist->set("id", kPlaylistTrackId);
     int max = m_binPlaylist->count();
     for (int i = 0; i < max; i++) {
-        Mlt::Producer *producer = m_binPlaylist->get_clip(i);
+        std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(m_binPlaylist->get_clip(i)->parent()));
         if (producer->is_blank() || !producer->is_valid()) {
             continue;
         }
-        QString id = producer->parent().get("id");
+        QString id = producer->get("id");
         if (id.contains(QLatin1Char('_'))) {
             // This is a track producer
             QString mainId = id.section(QLatin1Char('_'), 0, 0);
@@ -128,29 +124,23 @@ void BinController::initializeBin(Mlt::Playlist playlist)
                 // The controller for this track producer already exists
             } else {
                 // Create empty controller for this track
-                ClipController *controller = new ClipController(this);
-                m_clipList.insert(mainId, controller);
+                ClipController::construct(shared_from_this(), ClipController::mediaUnavailable);
             }
-            delete producer;
         } else {
             //Controller was already added by a track producer, add master now
             if (m_clipList.contains(id)) {
-                ClipController *master = m_clipList.value(id);
-                if (master) {
-                    master->addMasterProducer(producer->parent());
-                }
+                m_clipList[id]->addMasterProducer(producer);
             } else {
                 // Controller has not been created yet
-                ClipController *controller = new ClipController(this, producer->parent());
                 // fix MLT somehow adding root to color producer's resource (report upstream)
-                if (strcmp(producer->parent().get("mlt_service"), "color") == 0) {
-                    QString color = producer->parent().get("resource");
+                if (strcmp(producer->get("mlt_service"), "color") == 0) {
+                    QString color = producer->get("resource");
                     if (color.contains(QLatin1Char('/'))) {
                         color = color.section(QLatin1Char('/'), -1, -1);
-                        producer->parent().set("resource", color.toUtf8().constData());
+                        producer->set("resource", color.toUtf8().constData());
                     }
                 }
-                m_clipList.insert(id, controller);
+                ClipController::construct(shared_from_this(), producer);
             }
         }
         emit loadingBin(i + 1);
@@ -161,11 +151,11 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     for (int i = 0; i < markerProperties.count(); i++) {
         QString markerId = markerProperties.get_name(i);
         QString controllerId = markerId.section(QLatin1Char(':'), 0, 0);
-        ClipController *ctrl = m_clipList.value(controllerId);
-        if (!ctrl) {
+        if (!m_clipList.contains(controllerId)) {
+            qDebug() << "Warning: receiving marker info for unavailable clip";
             continue;
         }
-        ctrl->loadSnapMarker(markerId.section(QLatin1Char(':'), 1), markerProperties.get(i));
+        m_clipList[controllerId]->loadSnapMarker(markerId.section(QLatin1Char(':'), 1), markerProperties.get(i));
     }
 }
 
@@ -190,10 +180,10 @@ QMap<double, QString> BinController::takeGuidesData()
 //TODO REFACTOR: DELETE
 void BinController::createIfNeeded(Mlt::Profile *profile)
 {
-    if (m_binPlaylist) {
+    if (m_binPlaylist.get()) {
         return;
     }
-    m_binPlaylist = new Mlt::Playlist(*profile);
+    m_binPlaylist.reset(new Mlt::Playlist(*profile));
     m_binPlaylist->set("id", kPlaylistTrackId);
 }
 
@@ -210,7 +200,7 @@ void BinController::loadBinPlaylist(Mlt::Tractor &tractor)
     }
     // If no Playlist found, create new one
     if (!m_binPlaylist) {
-        m_binPlaylist = new Mlt::Playlist(*tractor.profile());
+        m_binPlaylist.reset(new Mlt::Playlist(*tractor.profile()));
         m_binPlaylist->set("id", kPlaylistTrackId);
     }
 }
@@ -263,18 +253,18 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
-void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
+void BinController::replaceProducer(const QString &id, std::shared_ptr<Mlt::Producer> producer)
 {
-    ClipController *ctrl = m_clipList.value(id);
-    if (!ctrl) {
+    if (!m_clipList.contains(id)) {
         qCDebug(KDENLIVE_LOG) << " / // error controller not found, crashing";
         return;
     }
+    std::shared_ptr<ClipController> ctrl = m_clipList.value(id);
     pasteEffects(id, producer);
-    ctrl->updateProducer(id, &producer);
+    ctrl->updateProducer(producer);
     replaceBinPlaylistClip(id, producer);
     emit prepareTimelineReplacement(id);
-    producer.set("id", id.toUtf8().constData());
+    producer->set("id", id.toUtf8().constData());
     // Remove video only producer
     QString videoId = id + QStringLiteral("_video");
     if (m_extraClipList.contains(videoId)) {
@@ -284,7 +274,7 @@ void BinController::replaceProducer(const QString &id, Mlt::Producer &producer)
     emit replaceTimelineProducer(id);
 }
 
-void BinController::addClipToBin(const QString &id, ClipController *controller) // Mlt::Producer &producer)
+void BinController::addClipToBin(const QString &id, std::shared_ptr<ClipController> controller) // Mlt::Producer &producer)
 {
     /** Test: we can use filters on clips in the bin this way
     Mlt::Filter f(*m_mltProfile, "sepia");
@@ -295,6 +285,7 @@ void BinController::addClipToBin(const QString &id, ClipController *controller) 
 
     if (m_clipList.contains(id)) {
         // There is something wrong, we should not be recreating an existing controller!
+        qDebug() << "Error: creating bin clip with existing id";
         // we are replacing a producer
         //TODO: replace it in timeline
         /*ClipController *c2 = m_clipList.value(id);
@@ -306,20 +297,20 @@ void BinController::addClipToBin(const QString &id, ClipController *controller) 
     }
 }
 
-void BinController::replaceBinPlaylistClip(const QString &id, Mlt::Producer &producer)
+void BinController::replaceBinPlaylistClip(const QString &id, std::shared_ptr<Mlt::Producer> producer)
 {
     removeBinPlaylistClip(id);
-    m_binPlaylist->append(producer);
+    m_binPlaylist->append(*producer.get());
 }
 
-void BinController::pasteEffects(const QString &id, Mlt::Producer &producer)
+void BinController::pasteEffects(const QString &id, std::shared_ptr<Mlt::Producer> producer)
 {
     int size = m_binPlaylist->count();
     for (int i = 0; i < size; i++) {
         QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
         QString prodId = prod->parent().get("id");
         if (prodId == id) {
-            duplicateFilters(prod->parent(), producer);
+            duplicateFilters(prod->parent(), *producer.get());
             break;
         }
     }
@@ -349,8 +340,7 @@ bool BinController::removeBinClip(const QString &id)
         return false;
     }
     removeBinPlaylistClip(id);
-    ClipController *controller = m_clipList.take(id);
-    delete controller;
+    m_clipList.remove(id);
     return true;
 }
 
@@ -361,18 +351,14 @@ Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
     return clone;
 }
 
-Mlt::Producer *BinController::getBinProducer(const QString &id)
+std::shared_ptr<Mlt::Producer> BinController::getBinProducer(const QString &id)
 {
     // TODO: framebuffer speed clips
     if (!m_clipList.contains(id)) {
+        qDebug() << "ERROR: requesting invalid bin producer";
         return nullptr;
     }
-    ClipController *controller = m_clipList.value(id);
-    if (controller) {
-        return &controller->originalProducer();
-    } else {
-        return nullptr;
-    }
+    return m_clipList[id]->originalProducer();
 }
 
 Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
@@ -381,8 +367,8 @@ Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
     if (!m_extraClipList.contains(videoId)) {
         // create clone
         QString originalId = id.section(QLatin1Char('_'), 0, 0);
-        Mlt::Producer *original = getBinProducer(originalId);
-        Mlt::Producer *videoOnly = cloneProducer(*original);
+        std::shared_ptr<Mlt::Producer> original = getBinProducer(originalId);
+        Mlt::Producer *videoOnly = cloneProducer(*original.get());
         videoOnly->set("audio_index", -1);
         videoOnly->set("id", videoId.toUtf8().constData());
         m_extraClipList.insert(videoId, videoOnly);
@@ -437,11 +423,12 @@ QStringList BinController::getClipIds() const
 
 QString BinController::xmlFromId(const QString &id)
 {
-    ClipController *controller = m_clipList.value(id);
-    if (!controller) {
-        return nullptr;
+    if (!m_clipList.contains(id)) {
+        qDebug() << "Error: impossible to retrieve xml from unknown bin clip";
+        return QString();
     }
-    Mlt::Producer original = controller->originalProducer();
+    std::shared_ptr<ClipController> controller = m_clipList[id];
+    std::shared_ptr<Mlt::Producer> original = controller->originalProducer();
     QString xml = getProducerXML(original);
     QDomDocument mltData;
     mltData.setContent(xml);
@@ -452,10 +439,11 @@ QString BinController::xmlFromId(const QString &id)
     return str;
 }
 
-QString BinController::getProducerXML(Mlt::Producer &producer, bool includeMeta)
+//static
+QString BinController::getProducerXML(std::shared_ptr<Mlt::Producer> producer, bool includeMeta)
 {
-    Mlt::Consumer c(*producer.profile(), "xml", "string");
-    Mlt::Service s(producer.get_service());
+    Mlt::Consumer c(*producer->profile(), "xml", "string");
+    Mlt::Service s(producer->get_service());
     if (!s.is_valid()) {
         return QString();
     }
@@ -478,12 +466,16 @@ QString BinController::getProducerXML(Mlt::Producer &producer, bool includeMeta)
     return QString::fromUtf8(c.get("string"));
 }
 
-ClipController *BinController::getController(const QString &id)
+std::shared_ptr<ClipController> BinController::getController(const QString &id)
 {
+    if (!m_clipList.contains(id)) {
+        qDebug() << "Error: invalid bin clip requested"<<id;
+        Q_ASSERT(false);
+    }
     return m_clipList.value(id);
 }
 
-const QList<ClipController *> BinController::getControllerList() const
+const QList<std::shared_ptr<ClipController>> BinController::getControllerList() const
 {
     return m_clipList.values();
 }
@@ -491,10 +483,10 @@ const QList<ClipController *> BinController::getControllerList() const
 const QStringList BinController::getBinIdsByResource(const QFileInfo &url) const
 {
     QStringList controllers;
-    QMapIterator<QString, ClipController *> i(m_clipList);
+    QMapIterator<QString, std::shared_ptr<ClipController>> i(m_clipList);
     while (i.hasNext()) {
         i.next();
-        ClipController *ctrl = i.value();
+        auto ctrl = i.value();
         if (QFileInfo(ctrl->clipUrl()) == url) {
             controllers << i.key();
         }
@@ -510,10 +502,10 @@ void BinController::updateTrackProducer(const QString &id)
 void BinController::checkThumbnails(const QDir &thumbFolder)
 {
     // Parse all controllers and load thumbnails
-    QMapIterator<QString, ClipController *> i(m_clipList);
+    QMapIterator<QString, std::shared_ptr<ClipController>> i(m_clipList);
     while (i.hasNext()) {
         i.next();
-        ClipController *ctrl = i.value();
+        std::shared_ptr<ClipController> ctrl = i.value();
         if (ctrl->clipType() == Audio) {
             //no thumbnails for audio clip
             continue;
@@ -541,11 +533,11 @@ void BinController::checkThumbnails(const QDir &thumbFolder)
 
 void BinController::checkAudioThumbs()
 {
-    QMapIterator<QString, ClipController *> i(m_clipList);
+    QMapIterator<QString, std::shared_ptr<ClipController>> i(m_clipList);
     while (i.hasNext()) {
         i.next();
-        ClipController *ctrl = i.value();
-        if (!ctrl->audioThumbCreated) {
+        std::shared_ptr<ClipController> ctrl = i.value();
+        if (!ctrl->m_audioThumbCreated) {
             if (KdenliveSettings::audiothumbnails()) {
                 // We want audio thumbnails
                 emit requestAudioThumb(ctrl->clipId());

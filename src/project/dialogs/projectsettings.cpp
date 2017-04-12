@@ -281,7 +281,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     if (cacheOnly) {
         return;
     }
-    QList<ClipController *> list = pCore->binController()->getControllerList();
+    QList<std::shared_ptr<ClipController >> list = pCore->binController()->getControllerList();
     files_list->clear();
 
     // List all files that are used in the project. That also means:
@@ -318,7 +318,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     }
 
     for (int i = 0; i < list.count(); ++i) {
-        ClipController *clip = list.at(i);
+        std::shared_ptr<ClipController> clip = list.at(i);
         if (clip->clipType() == Color) {
             // ignore color clips in list, there is no real file
             continue;
@@ -355,8 +355,8 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             count++;
         }
         if (clip->clipType() == Text) {
-            const QStringList imagefiles = TitleWidget::extractImageList(clip->property(QStringLiteral("xmldata")));
-            const QStringList fonts = TitleWidget::extractFontList(clip->property(QStringLiteral("xmldata")));
+            const QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
             for (const QString &file : imagefiles) {
                 count++;
                 new QTreeWidgetItem(images, QStringList() << file);

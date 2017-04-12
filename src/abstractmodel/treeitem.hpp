@@ -29,15 +29,17 @@
 /* @brief This class is a generic class to represent items of a tree-like model
  */
 
-class TreeItem
+class AbstractTreeModel;
+class TreeItem : public QObject
 {
 public:
     /* @brief Construct a TreeItem
      @param data List of data elements (columns) of the created item
+     @param model Pointer to the model to which this elem belongs to
      @param parentItem address of the parent if the child is not orphan
     */
-    explicit TreeItem(const QList<QVariant> &data, TreeItem *parentItem = nullptr);
-    ~TreeItem();
+    explicit TreeItem(const QList<QVariant> &data, AbstractTreeModel* model, TreeItem *parentItem = nullptr);
+    virtual ~TreeItem();
 
     /* @brief Creates a child of the current item
        @param data: List of data elements (columns) to init the child with.
@@ -49,10 +51,19 @@ public:
     */
     void appendChild(TreeItem *child);
 
+    /* @brief Remove given child from children list. The parent of the child is updated
+       accordingly
+     */
+    void removeChild(TreeItem *child);
+
+    /* @brief Change the parent of the current item. Structures are modified accordingly
+     */
+    void changeParent(TreeItem *newParent);
+
     /* @brief Retrieves a child of the current item
        @param row is the index of the child to retrieve
     */
-    TreeItem *child(int row);
+    TreeItem *child(int row) const;
 
     /* @brief Return the number of children */
     int childCount() const;
@@ -63,9 +74,10 @@ public:
     /* @brief Return the content of a column
        @param column Index of the column to look-up
     */
-    QVariant data(int column) const;
+    QVariant dataColumn(int column) const;
 
     /* @brief Return the index of current item amongst father's children
+       Returns -1 on error (eg: no parent set)
      */
     int row() const;
 
@@ -76,10 +88,12 @@ public:
     /* @brief Return the depth of the current item*/
     int depth() const;
 
-private:
+protected:
     QList<TreeItem*> m_childItems;
     QList<QVariant> m_itemData;
     TreeItem *m_parentItem;
+
+    AbstractTreeModel *m_model;
     int m_depth;
 };
 

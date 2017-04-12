@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 class ProjectClip;
-class Bin;
 
 class ProjectFolderUp : public AbstractProjectItem
 {
@@ -42,7 +41,7 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    explicit ProjectFolderUp(AbstractProjectItem *parent);
+    explicit ProjectFolderUp(ProjectItemModel* model, AbstractProjectItem *parent);
 
     ~ProjectFolderUp();
 
@@ -69,9 +68,6 @@ public:
 
     /** @brief Recursively disable/enable bin effects. */
     void disableEffects(bool disable) Q_DECL_OVERRIDE;
-
-    /** @brief Returns a pointer to the bin model this folder belongs to. */
-    Bin *bin() Q_DECL_OVERRIDE;
 
     /** @brief Returns an xml description of the folder. */
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;

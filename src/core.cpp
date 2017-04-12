@@ -15,6 +15,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "monitor/monitormanager.h"
 #include "mltconnection.h"
 #include "profiles/profilerepository.hpp"
+#include "profiles/profilemodel.hpp"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/producerqueue.h"
 #include "bin/bin.h"
@@ -41,7 +42,6 @@ Core::Core() :
     m_mainWindow(nullptr)
     , m_projectManager(nullptr)
     , m_monitorManager(nullptr)
-    , m_binController(nullptr)
     , m_producerQueue(nullptr)
     , m_binWidget(nullptr)
     , m_library(nullptr)
@@ -57,7 +57,6 @@ Core::~Core()
     delete m_producerQueue;
     delete m_binWidget;
     delete m_projectManager;
-    delete m_binController;
 }
 
 void Core::build(const QString &MltPath)
@@ -91,6 +90,11 @@ void Core::build(const QString &MltPath)
         m_self->m_profile = ProjectManager::getDefaultProjectFormat();
         KdenliveSettings::setDefault_profile(m_self->m_profile);
     }
+
+    // Init producer shown for unavailable media
+    // TODO make it a more proper image
+    ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color", "blue");
+    ClipController::mediaUnavailable->set("length", 99999999);
 }
 
 void Core::initGUI(const QUrl &Url)
@@ -131,15 +135,15 @@ void Core::initGUI(const QUrl &Url)
 
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin();
-    m_binController = new BinController();
+    m_binController = std::make_shared<BinController>();
     m_library = new LibraryWidget(m_projectManager);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
-    connect(m_binWidget, SIGNAL(storeFolder(QString, QString, QString, QString)), m_binController, SLOT(slotStoreFolder(QString, QString, QString, QString)));
-    connect(m_binController, SIGNAL(loadFolders(QMap<QString, QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString, QString>)));
-    connect(m_binController, &BinController::requestAudioThumb, m_binWidget, &Bin::slotCreateAudioThumb);
-    connect(m_binController, &BinController::abortAudioThumbs, m_binWidget, &Bin::abortAudioThumbs);
-    connect(m_binController, SIGNAL(loadThumb(QString, QImage, bool)), m_binWidget, SLOT(slotThumbnailReady(QString, QImage, bool)));
+    connect(m_binWidget, SIGNAL(storeFolder(QString, QString, QString, QString)), m_binController.get(), SLOT(slotStoreFolder(QString, QString, QString, QString)));
+    connect(m_binController.get(), SIGNAL(loadFolders(QMap<QString, QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString, QString>)));
+    connect(m_binController.get(), &BinController::requestAudioThumb, m_binWidget, &Bin::slotCreateAudioThumb);
+    connect(m_binController.get(), &BinController::abortAudioThumbs, m_binWidget, &Bin::abortAudioThumbs);
+    connect(m_binController.get(), SIGNAL(loadThumb(QString, QImage, bool)), m_binWidget, SLOT(slotThumbnailReady(QString, QImage, bool)));
     m_monitorManager = new MonitorManager(this);
     // Producer queue, creating MLT::Producers on request
     m_producerQueue = new ProducerQueue(m_binController);
@@ -147,7 +151,7 @@ void Core::initGUI(const QUrl &Url)
     connect(m_producerQueue, &ProducerQueue::replyGetImage, m_binWidget, &Bin::slotThumbnailReady);
     connect(m_producerQueue, &ProducerQueue::removeInvalidClip, m_binWidget, &Bin::slotRemoveInvalidClip, Qt::DirectConnection);
     connect(m_producerQueue, SIGNAL(addClip(QString, QMap<QString, QString>)), m_binWidget, SLOT(slotAddUrl(QString, QMap<QString, QString>)));
-    connect(m_binController, SIGNAL(createThumb(QDomElement, QString, int)), m_producerQueue, SLOT(getFileProperties(QDomElement, QString, int)));
+    connect(m_binController.get(), SIGNAL(createThumb(QDomElement, QString, int)), m_producerQueue, SLOT(getFileProperties(QDomElement, QString, int)));
     connect(m_binWidget, &Bin::producerReady, m_producerQueue, &ProducerQueue::slotProcessingDone, Qt::DirectConnection);
     m_timelineTab = new QTabWidget();
     m_timelineTab->setTabBarAutoHide(true);
@@ -197,7 +201,7 @@ MonitorManager *Core::monitorManager()
     return m_monitorManager;
 }
 
-BinController *Core::binController()
+std::shared_ptr<BinController> Core::binController()
 {
     return m_binController;
 }
@@ -258,4 +262,14 @@ std::unique_ptr<ProfileModel>& Core::getCurrentProfile() const
     //TODO store locally the profile and not in parameters
     QString profile = KdenliveSettings::current_profile();
     return ProfileRepository::get()->getProfile(profile);
+}
+
+int Core::getCurrentDar() const
+{
+    return getCurrentProfile()->dar();
+}
+
+int Core::getCurrentFps() const
+{
+    return getCurrentProfile()->fps();
 }

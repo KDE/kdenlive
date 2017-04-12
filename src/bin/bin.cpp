@@ -519,7 +519,6 @@ Bin::Bin(QWidget *parent) :
     , isLoading(false)
     , m_itemModel(nullptr)
     , m_itemView(nullptr)
-    , m_rootFolder(nullptr)
     , m_folderUp(nullptr)
     , m_jobManager(nullptr)
     , m_doc(nullptr)
@@ -560,14 +559,12 @@ Bin::Bin(QWidget *parent) :
 
     setFocusPolicy(Qt::ClickFocus);
     // Build item view model
-    m_itemModel = new ProjectItemModel(this);
+    m_itemModel = new ProjectItemModel(this, this);
 
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel);
     connect(m_itemModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex &, const
             QModelIndex &)));
-    connect(m_itemModel, &QAbstractItemModel::rowsInserted, this, &Bin::rowsInserted);
-    connect(m_itemModel, &QAbstractItemModel::rowsRemoved, this, &Bin::rowsRemoved);
     connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
     connect(m_itemModel, SIGNAL(itemDropped(QStringList, QModelIndex)), this, SLOT(slotItemDropped(QStringList, QModelIndex)));
     connect(m_itemModel, SIGNAL(itemDropped(QList<QUrl>, QModelIndex)), this, SLOT(slotItemDropped(QList<QUrl>, QModelIndex)));
@@ -734,7 +731,7 @@ void Bin::requestAudioThumbs(const QString &id, long duration)
 
 void Bin::doUpdateThumbsProgress(long ms)
 {
-    int progress = (m_processedAudio + ms) * 100 / m_audioDuration;
+    int progress = int(((long)m_processedAudio + (long)ms) * 100 / (long)m_audioDuration);
     emitMessage(i18n("Creating audio thumbnails"), progress, ProcessingJobMessage);
 }
 
@@ -755,15 +752,6 @@ void Bin::abortOperations()
             delete w;
         }
     }
-    if (m_rootFolder) {
-        while (!m_rootFolder->isEmpty()) {
-            AbstractProjectItem *child = m_rootFolder->at(0);
-            m_rootFolder->removeChild(child);
-            delete child;
-        }
-    }
-    delete m_rootFolder;
-    m_rootFolder = nullptr;
     delete m_itemView;
     m_itemView = nullptr;
     delete m_jobManager;
@@ -777,14 +765,14 @@ void Bin::abortAudioThumbs()
         return;
     }
     if (!m_processingAudioThumb.isEmpty()) {
-        ProjectClip *clip = m_rootFolder->clip(m_processingAudioThumb);
+        ProjectClip *clip = m_itemModel->getClipByBinID(m_processingAudioThumb);
         if (clip) {
             clip->abortAudioThumbs();
         }
     }
     m_audioThumbMutex.lock();
     foreach (const QString &id, m_audioThumbsList) {
-        ProjectClip *clip = m_rootFolder->clip(id);
+        ProjectClip *clip = m_itemModel->getClipByBinID(id);
         if (clip) {
             clip->setJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
         }
@@ -805,10 +793,10 @@ void Bin::slotCreateAudioThumbs()
         m_processingAudioThumb = m_audioThumbsList.takeFirst();
         count++;
         m_audioThumbMutex.unlock();
-        ProjectClip *clip = m_rootFolder->clip(m_processingAudioThumb);
+        ProjectClip *clip = m_itemModel->getClipByBinID(m_processingAudioThumb);
         if (clip) {
             clip->slotCreateAudioThumbs();
-            m_processedAudio += clip->duration().ms();
+            m_processedAudio += (int)clip->duration().ms();
         }
     }
     m_audioThumbMutex.lock();
@@ -829,18 +817,13 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             QAbstractItemView *view = qobject_cast<QAbstractItemView *>(obj->parent());
             if (view) {
                 QModelIndex idx = view->indexAt(mouseEvent->pos());
-                ClipController *ctl = nullptr;
+                m_gainedFocus = false;
                 if (idx.isValid()) {
                     AbstractProjectItem *item = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(idx).internalPointer());
-                    if (item) {
-                        ProjectClip *clip = qobject_cast<ProjectClip *>(item);
-                        if (clip) {
-                            ctl = clip->controller();
-                        }
-                    }
+                    editMasterEffect(item);
+                } else {
+                    editMasterEffect(nullptr);
                 }
-                m_gainedFocus = false;
-                editMasterEffect(ctl);
             }
             // make sure we discard the focus indicator
             m_gainedFocus = false;
@@ -924,7 +907,6 @@ Monitor *Bin::monitor()
 
 const QStringList Bin::getFolderInfo(const QModelIndex &selectedIx)
 {
-    QStringList folderInfo;
     QModelIndexList indexes;
     if (selectedIx.isValid()) {
         indexes << selectedIx;
@@ -933,30 +915,21 @@ const QStringList Bin::getFolderInfo(const QModelIndex &selectedIx)
     }
     if (indexes.isEmpty()) {
         // return root folder info
+        QStringList folderInfo;
         folderInfo << QString::number(-1);
         folderInfo << QString();
         return folderInfo;
     }
     QModelIndex ix = indexes.first();
     if (ix.isValid() && (m_proxyModel->selectionModel()->isSelected(ix) || selectedIx.isValid())) {
-        AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-        while (currentItem->itemType() != AbstractProjectItem::FolderItem) {
-            currentItem = currentItem->parent();
-        }
-        if (currentItem == m_rootFolder) {
-            // clip was added to root folder, leave folder info empty
-            folderInfo << QString::number(-1);
-            folderInfo << QString();
-        } else {
-            folderInfo << currentItem->clipId();
-            folderInfo << currentItem->name();
-        }
+        return m_itemModel->getEnclosingFolderInfo(m_proxyModel->mapToSource(ix));
     } else {
         // return root folder info
+        QStringList folderInfo;
         folderInfo << QString::number(-1);
         folderInfo << QString();
+        return folderInfo;
     }
-    return folderInfo;
 }
 
 void Bin::slotAddClip()
@@ -971,7 +944,7 @@ void Bin::deleteClip(const QString &id)
     if (m_monitor->activeClipId() == id) {
         emit openClip(nullptr);
     }
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
         qCWarning(KDENLIVE_LOG) << "Cannot bin find clip to delete: " << id;
         return;
@@ -994,9 +967,11 @@ ProjectClip *Bin::getFirstSelectedClip()
     }
     for (const QModelIndex &ix : indexes) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-        ProjectClip *clip = qobject_cast<ProjectClip *>(item);
-        if (clip) {
-            return clip;
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            ProjectClip *clip = qobject_cast<ProjectClip *>(item);
+            if (clip) {
+                return clip;
+            }
         }
     }
     return nullptr;
@@ -1033,7 +1008,7 @@ void Bin::slotDeleteClip()
             continue;
         }
         ProjectFolder *current = static_cast<ProjectFolder *>(item);
-        if (!usedFolder && !current->isEmpty()) {
+        if (!usedFolder && current->childCount() != 0) {
             usedFolder = true;
         }
         if (topFolders.isEmpty()) {
@@ -1093,7 +1068,7 @@ void Bin::slotDeleteClip()
             if (!usedClips && current->refCount() > 0) {
                 usedClips = true;
             }
-            clipIds << current->clipId();
+            clipIds << current->AbstractProjectItem::clipId();
         }
     }
     if (usedClips && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from timeline")) != KMessageBox::Continue)) {
@@ -1144,7 +1119,7 @@ void Bin::slotReloadClip()
             if (!xml.isNull()) {
                 currentItem->setClipStatus(AbstractProjectItem::StatusWaiting);
                 // We need to set a temporary id before all outdated producers are replaced;
-                m_doc->getFileProperties(xml, currentItem->clipId(), 150, true);
+                m_doc->getFileProperties(xml, currentItem->AbstractProjectItem::clipId(), 150, true);
             }
         }
     }
@@ -1206,10 +1181,6 @@ void Bin::slotDuplicateClip()
     }
 }
 
-ProjectFolder *Bin::rootFolder()
-{
-    return m_rootFolder;
-}
 
 void Bin::setMonitor(Monitor *monitor)
 {
@@ -1248,14 +1219,7 @@ void Bin::setDocument(KdenliveDoc *project)
     setEnabled(false);
 
     // Cleanup previous project
-    if (m_rootFolder) {
-        while (!m_rootFolder->isEmpty()) {
-            AbstractProjectItem *child = m_rootFolder->at(0);
-            m_rootFolder->removeChild(child);
-            delete child;
-        }
-    }
-    delete m_rootFolder;
+    m_itemModel->clean();
     delete m_itemView;
     m_itemView = nullptr;
     delete m_jobManager;
@@ -1265,7 +1229,6 @@ void Bin::setDocument(KdenliveDoc *project)
     int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
     m_iconSize = QSize(iconHeight * m_doc->dar(), iconHeight);
     m_jobManager = new JobManager(this);
-    m_rootFolder = new ProjectFolder(this);
     setEnabled(true);
     blockSignals(false);
     m_proxyModel->selectionModel()->blockSignals(false);
@@ -1287,7 +1250,7 @@ void Bin::setDocument(KdenliveDoc *project)
     autoSelect();
 }
 
-void Bin::slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data)
+void Bin::slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &dataMap)
 {
     const QList<QUrl> urls = QList<QUrl>() << QUrl::fromLocalFile(url);
     QStringList folderInfo;
@@ -1299,27 +1262,23 @@ void Bin::slotAddUrl(const QString &url, int folderId, const QMap<QString, QStri
             folderInfo = getFolderInfo();
         }
     }
-    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, data);
+    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, dataMap);
 }
 
-void Bin::slotAddUrl(const QString &url, const QMap<QString, QString> &data)
+void Bin::slotAddUrl(const QString &url, const QMap<QString, QString> &dataMap)
 {
     const QList<QUrl> urls = QList<QUrl>() << QUrl::fromLocalFile(url);
     const QStringList folderInfo = getFolderInfo();
-    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, data);
+    ClipCreationDialog::createClipsCommand(m_doc, urls, folderInfo, this, dataMap);
 }
 
 void Bin::createClip(const QDomElement &xml)
 {
     // Check if clip should be in a folder
     QString groupId = ProjectClip::getXmlProperty(xml, QStringLiteral("kdenlive:folderid"));
-    ProjectFolder *parentFolder = m_rootFolder;
-    if (!groupId.isEmpty()) {
-        parentFolder = m_rootFolder->folder(groupId);
-        if (!parentFolder) {
-            // parent folder does not exist, put in root folder
-            parentFolder = m_rootFolder;
-        }
+    ProjectFolder *parentFolder = m_itemModel->getFolderByBinId(groupId);
+    if (!parentFolder) {
+        parentFolder = m_itemModel->getRootFolder();
     }
     QString path = EffectsList::property(xml, QStringLiteral("resource"));
     if (path.endsWith(QStringLiteral(".mlt")) || path.endsWith(QStringLiteral(".kdenlive"))) {
@@ -1343,22 +1302,18 @@ void Bin::createClip(const QDomElement &xml)
             }
         }
     }
-    new ProjectClip(xml, m_blankThumb, parentFolder);
+    ProjectClip* newClip = new ProjectClip(xml, m_blankThumb, m_itemModel, parentFolder);
+    parentFolder->appendChild(static_cast<TreeItem*>(newClip));
 }
 
 QString Bin::slotAddFolder(const QString &folderName)
 {
     // Check parent item
     QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
-    ProjectFolder *parentFolder  = m_rootFolder;
+    ProjectFolder *parentFolder  = m_itemModel->getRootFolder();
     if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-        while (currentItem->itemType() != AbstractProjectItem::FolderItem) {
-            currentItem = currentItem->parent();
-        }
-        if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
-            parentFolder = qobject_cast<ProjectFolder *>(currentItem);
-        }
+        parentFolder = static_cast<ProjectFolder*>(currentItem->getEnclosingFolder());
     }
     QString newId = QString::number(getFreeFolderId());
     AddBinFolderCommand *command = new AddBinFolderCommand(this, newId, folderName.isEmpty() ? i18n("Folder") : folderName, parentFolder->clipId());
@@ -1374,7 +1329,7 @@ QString Bin::slotAddFolder(const QString &folderName)
         m_proxyModel->selectionModel()->clearSelection();
         int row = ix.row();
         const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
-        const QModelIndex id2 = m_itemModel->index(row, m_rootFolder->supportedDataCount() - 1, ix.parent());
+        const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
         if (id.isValid() && id2.isValid()) {
             m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
         }
@@ -1416,7 +1371,7 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
         m_proxyModel->selectionModel()->clearSelection();
         int row = ix.row();
         const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
-        const QModelIndex id2 = m_itemModel->index(row, m_rootFolder->supportedDataCount() - 1, ix.parent());
+        const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
         if (id.isValid() && id2.isValid()) {
             m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
         }
@@ -1433,19 +1388,19 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
 
 void Bin::doAddFolder(const QString &id, const QString &name, const QString &parentId)
 {
-    ProjectFolder *parentFolder = m_rootFolder->folder(parentId);
+    ProjectFolder *parentFolder = m_itemModel->getFolderByBinId(parentId);
     if (!parentFolder) {
         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
         return;
     }
     //FIXME(style): constructor actually adds the new pointer to parent's children
-    new ProjectFolder(id, name, parentFolder);
+    new ProjectFolder(id, name, m_itemModel, parentFolder);
     emit storeFolder(id, parentId, QString(), name);
 }
 
 void Bin::renameFolder(const QString &id, const QString &name)
 {
-    ProjectFolder *folder = m_rootFolder->folder(id);
+    ProjectFolder *folder = m_itemModel->getFolderByBinId(id);
     if (!folder || !folder->parent()) {
         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
         return;
@@ -1466,18 +1421,18 @@ void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
         QString id = folderIds.takeFirst();
         QString parentId = id.section(QLatin1Char('.'), 0, 0);
         if (parentId == QLatin1String("-1")) {
-            parentFolder = m_rootFolder;
+            parentFolder = m_itemModel->getRootFolder();
         } else {
             // This is a sub-folder
-            parentFolder = m_rootFolder->folder(parentId);
-            if (parentFolder == m_rootFolder) {
+            parentFolder = m_itemModel->getFolderByBinId(parentId);
+            if (parentFolder->depth() == 0) { //check if this is root
                 // parent folder not yet created, create unnamed placeholder
-                parentFolder = new ProjectFolder(parentId, QString(), parentFolder);
+                parentFolder = new ProjectFolder(parentId, QString(), m_itemModel, parentFolder);
             } else if (parentFolder == nullptr) {
                 // Parent folder not yet created in hierarchy
                 if (iterations > maxIterations) {
                     // Give up, place folder in root
-                    parentFolder = new ProjectFolder(parentId, i18n("Folder"), m_rootFolder);
+                    parentFolder = new ProjectFolder(parentId, i18n("Folder"), m_itemModel, m_itemModel->getRootFolder());
                 } else {
                     // Try to process again at end of queue
                     folderIds.append(id);
@@ -1500,7 +1455,7 @@ void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
         } else {
             // Create new folder
             //FIXME(style): constructor actually adds the new pointer to parent's children
-            new ProjectFolder(folderId, foldersData.value(id), parentFolder);
+            new ProjectFolder(folderId, foldersData.value(id),m_itemModel,  parentFolder);
         }
     }
 }
@@ -1508,18 +1463,22 @@ void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
 void Bin::removeFolder(const QString &id, QUndoCommand *deleteCommand)
 {
     // Check parent item
-    ProjectFolder *folder = m_rootFolder->folder(id);
+    ProjectFolder *folder = m_itemModel->getFolderByBinId(id);
+    if (!folder || !folder->parent()) {
+        qCDebug(KDENLIVE_LOG) << "  / / ERROR when removing folder: folder is invalid or is root";
+        return;
+    }
     AbstractProjectItem *parent = folder->parent();
-    if (!folder->isEmpty()) {
+    if (folder->childCount() != 0) {
         // Folder has clips inside, warn user
-        if (KMessageBox::warningContinueCancel(this, i18np("Folder contains a clip, delete anyways ?", "Folder contains %1 clips, delete anyways ?", folder->count())) != KMessageBox::Continue) {
+        if (KMessageBox::warningContinueCancel(this, i18np("Folder contains a clip, delete anyways ?", "Folder contains %1 clips, delete anyways ?", folder->childCount())) != KMessageBox::Continue) {
             return;
         }
         QStringList clipIds;
         QStringList folderIds;
         // TODO: manage subclips
-        for (int i = 0; i < folder->count(); i++) {
-            AbstractProjectItem *child = folder->at(i);
+        for (int i = 0; i < folder->childCount(); i++) {
+            AbstractProjectItem *child = static_cast<AbstractProjectItem*>(folder->child(i));
             switch (child->itemType()) {
             case AbstractProjectItem::ClipItem:
                 clipIds << child->clipId();
@@ -1548,7 +1507,7 @@ void Bin::removeSubClip(const QString &id, QUndoCommand *deleteCommand)
 
 void Bin::doRemoveFolder(const QString &id)
 {
-    ProjectFolder *folder = m_rootFolder->folder(id);
+    ProjectFolder *folder = m_itemModel->getFolderByBinId(id);
     if (!folder) {
         qCDebug(KDENLIVE_LOG) << "  / / FOLDER not found";
         return;
@@ -1560,66 +1519,6 @@ void Bin::doRemoveFolder(const QString &id)
     delete folder;
 }
 
-void Bin::emitAboutToAddItem(AbstractProjectItem *item)
-{
-    m_itemModel->onAboutToAddItem(item);
-}
-
-void Bin::emitItemAdded(AbstractProjectItem *item)
-{
-    m_itemModel->onItemAdded(item);
-    if (!m_proxyModel->selectionModel()->hasSelection()) {
-        QModelIndex ix = getIndexForId(item->clipId(), item->itemType() == AbstractProjectItem::FolderItem);
-        int row = ix.row();
-        if (row < 0) {
-            row = item->index();
-        }
-        const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
-        const QModelIndex id2 = m_itemModel->index(row, m_rootFolder->supportedDataCount() - 1, ix.parent());
-        m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
-        selectProxyModel(m_proxyModel->mapFromSource(id));
-    }
-}
-
-void Bin::emitAboutToRemoveItem(AbstractProjectItem *item)
-{
-    QModelIndex ix = m_proxyModel->mapFromSource(getIndexForId(item->clipId(), item->itemType() == AbstractProjectItem::FolderItem));
-    m_itemModel->onAboutToRemoveItem(item);
-    int row = ix.row();
-    if (row > 0 && item->itemType() != AbstractProjectItem::SubClipItem) {
-        // Go one level up to select upper item (not on subclip because ix is the parent index for subclips)
-        row--;
-    }
-    if (!m_proxyModel->selectionModel()->hasSelection() || m_proxyModel->selectionModel()->isSelected(ix)) {
-        // we have to select item above deletion
-        QModelIndex id = m_proxyModel->index(row, 0, ix.parent());
-        QModelIndex id2 = m_proxyModel->index(row, m_rootFolder->supportedDataCount() - 1, ix.parent());
-        if (id.isValid() && id2.isValid()) {
-            m_proxyModel->selectionModel()->select(QItemSelection(id, id2), QItemSelectionModel::Select);
-        }
-    }
-}
-
-void Bin::emitItemRemoved(AbstractProjectItem *item)
-{
-    m_itemModel->onItemRemoved(item);
-}
-
-void Bin::rowsInserted(const QModelIndex &parent, int start, int end)
-{
-    Q_UNUSED(parent)
-    Q_UNUSED(start)
-    Q_UNUSED(end)
-    //Moved selection stuff to emitItemAdded otherwise selection is messaed up by sorting
-}
-
-void Bin::rowsRemoved(const QModelIndex &parent, int start, int end)
-{
-    Q_UNUSED(parent)
-    Q_UNUSED(start)
-    Q_UNUSED(end)
-    //Moved selection stuff to emitAboutToRemoveItem otherwise selection is messaed up by sorting
-}
 
 void Bin::selectProxyModel(const QModelIndex &id)
 {
@@ -1676,7 +1575,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         m_deleteAction->setEnabled(false);
         showClipProperties(nullptr);
         emit findInTimeline(QString());
-        emit masterClipSelected(nullptr, m_monitor);
+        emit requestClipShow(nullptr);
         // Display black bg in clip monitor
         emit openClip(nullptr);
     }
@@ -1745,7 +1644,7 @@ void Bin::slotInitView(QAction *action)
     switch (m_listType) {
     case BinIconView:
         m_itemView = new MyListView(this);
-        m_folderUp = new ProjectFolderUp(nullptr);
+        m_folderUp = new ProjectFolderUp(m_itemModel, nullptr);
         m_showDate->setEnabled(false);
         m_showDesc->setEnabled(false);
         break;
@@ -1846,14 +1745,14 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                     ProjectClip *clip = qobject_cast<ProjectClip *>(currentItem);
                     if (clip) {
                         m_proxyAction->blockSignals(true);
-                        emit findInTimeline(clip->clipId());
+                        emit findInTimeline(clip->AbstractProjectItem::clipId());
                         clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
                         m_proxyAction->setChecked(clip->hasProxy());
                         QList<QAction *> transcodeActions;
                         if (m_transcodeAction) {
                             transcodeActions = m_transcodeAction->actions();
                         }
-                        QStringList data;
+                        QStringList dataList;
                         QString condition;
                         audioCodec = clip->codec(true);
                         QString videoCodec = clip->codec(false);
@@ -1866,9 +1765,9 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                             noCodecInfo = true;
                         }
                         for (int i = 0; i < transcodeActions.count(); ++i) {
-                            data = transcodeActions.at(i)->data().toStringList();
-                            if (data.count() > 4) {
-                                condition = data.at(4);
+                            dataList = transcodeActions.at(i)->data().toStringList();
+                            if (dataList.count() > 4) {
+                                condition = dataList.at(4);
                                 if (condition.isEmpty()) {
                                     transcodeActions.at(i)->setEnabled(true);
                                     continue;
@@ -1926,7 +1825,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
 {
     AbstractProjectItem *item = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
     if (m_listType == BinIconView) {
-        if (item->count() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
+        if (item->childCount() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
             m_folderUp->setParent(item);
             m_itemView->setRootIndex(ix);
             return;
@@ -1934,7 +1833,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
         if (item == m_folderUp) {
             AbstractProjectItem *parentItem = item->parent();
             QModelIndex parent = getIndexForId(parentItem->parent()->clipId(), parentItem->parent()->itemType() == AbstractProjectItem::FolderItem);
-            if (parentItem->parent() != m_rootFolder) {
+            if (parentItem->parent() != m_itemModel->getRootFolder()) {
                 // We are entering a parent folder
                 m_folderUp->setParent(parentItem->parent());
             } else {
@@ -1944,7 +1843,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
             return;
         }
     } else {
-        if (item->count() > 0) {
+        if (item->childCount() > 0) {
             QTreeView *view = static_cast<QTreeView *>(m_itemView);
             view->setExpanded(ix, !view->isExpanded(ix));
             return;
@@ -2038,7 +1937,7 @@ void Bin::slotSwitchClipProperties(ProjectClip *clip)
 void Bin::doRefreshPanel(const QString &id)
 {
     ProjectClip *currentItem = getFirstSelectedClip();
-    if (currentItem && currentItem->clipId() == id) {
+    if (currentItem && currentItem->AbstractProjectItem::clipId() == id) {
         showClipProperties(currentItem, true);
     }
 }
@@ -2051,7 +1950,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
     }
     m_propertiesPanel->setEnabled(true);
     QString panelId = m_propertiesPanel->property("clipId").toString();
-    if (!forceRefresh && panelId == clip->clipId()) {
+    if (!forceRefresh && panelId == clip->AbstractProjectItem::clipId()) {
         // the properties panel is already displaying current clip, do nothing
         return;
     }
@@ -2059,7 +1958,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
     foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
         delete w;
     }
-    m_propertiesPanel->setProperty("clipId", clip->clipId());
+    m_propertiesPanel->setProperty("clipId", clip->AbstractProjectItem::clipId());
     QVBoxLayout *lay = static_cast<QVBoxLayout *>(m_propertiesPanel->layout());
     if (lay == nullptr) {
         lay = new QVBoxLayout(m_propertiesPanel);
@@ -2087,7 +1986,7 @@ void Bin::slotEditClipCommand(const QString &id, const QMap<QString, QString> &o
 
 void Bin::reloadClip(const QString &id)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
         return;
     }
@@ -2100,7 +1999,7 @@ void Bin::reloadClip(const QString &id)
 
 void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (clip) {
         clip->setThumbnail(img);
         // Save thumbnail for later reuse
@@ -2114,10 +2013,10 @@ void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile
 QStringList Bin::getBinFolderClipIds(const QString &id) const
 {
     QStringList ids;
-    ProjectFolder *folder = m_rootFolder->folder(id);
+    ProjectFolder *folder = m_itemModel->getFolderByBinId(id);
     if (folder) {
-        for (int i = 0; i < folder->count(); i++) {
-            AbstractProjectItem *child = folder->at(i);
+        for (int i = 0; i < folder->childCount(); i++) {
+            AbstractProjectItem *child = static_cast<AbstractProjectItem*>(folder->child(i));
             if (child->itemType() == AbstractProjectItem::ClipItem) {
                 ids << child->clipId();
             }
@@ -2130,16 +2029,16 @@ ProjectClip *Bin::getBinClip(const QString &id)
 {
     ProjectClip *clip = nullptr;
     if (id.contains(QLatin1Char('_'))) {
-        clip = m_rootFolder->clip(id.section(QLatin1Char('_'), 0, 0));
+        clip = m_itemModel->getClipByBinID(id.section(QLatin1Char('_'), 0, 0));
     } else if (!id.isEmpty()) {
-        clip = m_rootFolder->clip(id);
+        clip = m_itemModel->getClipByBinID(id);
     }
     return clip;
 }
 
 void Bin::setWaitingStatus(const QString &id)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (clip) {
         clip->setClipStatus(AbstractProjectItem::StatusWaiting);
     }
@@ -2149,7 +2048,7 @@ void Bin::slotRemoveInvalidClip(const QString &id, bool replace, const QString &
 {
     Q_UNUSED(replace)
 
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
         return;
     }
@@ -2158,9 +2057,10 @@ void Bin::slotRemoveInvalidClip(const QString &id, bool replace, const QString &
 
 void Bin::slotProducerReady(const requestClipInfo &info, ClipController *controller)
 {
-    ProjectClip *clip = m_rootFolder->clip(info.clipId);
+    //TODO this function should receive a bare producer
+    ProjectClip *clip = m_itemModel->getClipByBinID(info.clipId);
     if (clip) {
-        if (clip->setProducer(controller, info.replaceProducer) && !clip->hasProxy()) {
+        if (clip->setProducer(controller->originalProducer(), info.replaceProducer) && !clip->hasProxy()) {
             emit producerReady(info.clipId);
             // Check for file modifications
             ClipType t = clip->clipType();
@@ -2206,26 +2106,28 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
         }
     } else {
         // Clip not found, create it
-        QString groupId = controller->property(QStringLiteral("kdenlive:folderid"));
+        QString groupId = controller->getProducerProperty(QStringLiteral("kdenlive:folderid"));
         ProjectFolder *parentFolder;
         if (!groupId.isEmpty()) {
-            parentFolder = m_rootFolder->folder(groupId);
+            parentFolder = m_itemModel->getFolderByBinId(groupId);
             if (!parentFolder) {
                 // parent folder does not exist, put in root folder
-                parentFolder = m_rootFolder;
+                parentFolder = m_itemModel->getRootFolder();
             }
             if (groupId.toInt() >= m_folderCounter) {
                 m_folderCounter = groupId.toInt() + 1;
             }
         } else {
-            parentFolder = m_rootFolder;
+            parentFolder = m_itemModel->getRootFolder();
         }
         //FIXME(style): constructor actually adds the new pointer to parent's children
-        ProjectClip *clip = new ProjectClip(info.clipId, m_blankThumb, controller, parentFolder);
+        //TODO at this point, we shouldn't have a controller, but rather a bare producer
+        ProjectClip *newClip = new ProjectClip(info.clipId, m_blankThumb, m_itemModel, controller->originalProducer(), parentFolder);
+        parentFolder->appendChild(newClip);
         emit producerReady(info.clipId);
-        ClipType t = clip->clipType();
+        ClipType t = newClip->clipType();
         if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
-            m_doc->watchFile(clip->url());
+            m_doc->watchFile(newClip->url());
         }
         if (info.clipId.toInt() >= m_clipCounter) {
             m_clipCounter = info.clipId.toInt() + 1;
@@ -2237,7 +2139,7 @@ void Bin::slotOpenCurrent()
 {
     ProjectClip *currentItem = getFirstSelectedClip();
     if (currentItem) {
-        emit openClip(currentItem->controller());
+        emit openClip(static_cast<ClipController*>(currentItem));
     }
 }
 
@@ -2370,7 +2272,7 @@ const QSize Bin::getRenderSize()
 
 void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const QString &label, const QString &actionName, const QString &details)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (clip) {
         clip->setJobStatus((AbstractClipJob::JOBTYPE) jobType, (ClipJobStatus) status);
     }
@@ -2456,7 +2358,7 @@ void Bin::slotShowJobLog()
 
 void Bin::gotProxy(const QString &id, const QString &path)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (clip) {
         QDomDocument doc;
         clip->setProducerProperty(QStringLiteral("kdenlive:proxy"), path);
@@ -2566,11 +2468,9 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
     AbstractProjectItem *parentItem;
     if (parent.isValid()) {
         parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
-        while (parentItem->itemType() != AbstractProjectItem::FolderItem) {
-            parentItem = parentItem->parent();
-        }
+        parentItem = parentItem->getEnclosingFolder(false);
     } else {
-        parentItem = m_rootFolder;
+        parentItem = m_itemModel->getRootFolder();
     }
     QUndoCommand *moveCommand = new QUndoCommand();
     moveCommand->setText(i18np("Move Clip", "Move Clips", ids.count()));
@@ -2585,7 +2485,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
             folderIds << id;
             continue;
         }
-        ProjectClip *currentItem = m_rootFolder->clip(id);
+        ProjectClip *currentItem = m_itemModel->getClipByBinID(id);
         AbstractProjectItem *currentParent = currentItem->parent();
         if (currentParent != parentItem) {
             // Item was dropped on a different folder
@@ -2593,9 +2493,9 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
         }
     }
     if (!folderIds.isEmpty()) {
-        foreach (QString id, folderIds) {
+        for (QString id : folderIds) {
             id.remove(0, 1);
-            ProjectFolder *currentItem = m_rootFolder->folder(id);
+            ProjectFolder *currentItem = m_itemModel->getFolderByBinId(id);
             AbstractProjectItem *currentParent = currentItem->parent();
             if (currentParent != parentItem) {
                 // Item was dropped on a different folder
@@ -2606,7 +2506,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
     m_doc->commandStack()->push(moveCommand);
 }
 
-void Bin::slotEffectDropped(QString id, QDomElement effect)
+void Bin::slotEffectDropped(QString id, const QString& effectId)
 {
     if (id.isEmpty()) {
         id = m_monitor->activeClipId();
@@ -2614,33 +2514,12 @@ void Bin::slotEffectDropped(QString id, QDomElement effect)
     if (id.isEmpty()) {
         return;
     }
-    AddBinEffectCommand *command = new AddBinEffectCommand(this, id, effect);
-    m_doc->commandStack()->push(command);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
+    if (clip) {
+        clip->addEffect(effectId);
+    }
 }
 
-void Bin::slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix, bool refreshStack)
-{
-    if (id.isEmpty()) {
-        id = m_monitor->activeClipId();
-    }
-    if (id.isEmpty()) {
-        return;
-    }
-    UpdateBinEffectCommand *command = new UpdateBinEffectCommand(this, id, oldEffect, newEffect, ix, refreshStack);
-    m_doc->commandStack()->push(command);
-}
-
-void Bin::slotChangeEffectState(QString id, const QList<int> &indexes, bool disable)
-{
-    if (id.isEmpty()) {
-        id = m_monitor->activeClipId();
-    }
-    if (id.isEmpty()) {
-        return;
-    }
-    ChangeMasterEffectStateCommand *command = new ChangeMasterEffectStateCommand(this, id, indexes, disable);
-    m_doc->commandStack()->push(command);
-}
 
 void Bin::slotEffectDropped(const QString &effect, const QModelIndex &parent)
 {
@@ -2654,124 +2533,33 @@ void Bin::slotEffectDropped(const QString &effect, const QModelIndex &parent)
         m_proxyModel->selectionModel()->clearSelection();
         int row = parent.row();
         const QModelIndex id = m_itemModel->index(row, 0, parent.parent());
-        const QModelIndex id2 = m_itemModel->index(row, m_rootFolder->supportedDataCount() - 1, parent.parent());
+        const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, parent.parent());
         if (id.isValid() && id2.isValid()) {
             m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
         }
         parentItem->setCurrent(true);
-        QDomDocument doc;
-        doc.setContent(effect);
-        QDomElement e = doc.documentElement();
-        AddBinEffectCommand *command = new AddBinEffectCommand(this, parentItem->clipId(), e);
-        m_doc->commandStack()->push(command);
+        static_cast<ProjectClip*>(parentItem)->addEffect(effect);
     }
 }
 
-void Bin::slotDeleteEffect(const QString &id, QDomElement effect)
-{
-    RemoveBinEffectCommand *command = new RemoveBinEffectCommand(this, id, effect);
-    m_doc->commandStack()->push(command);
-}
 
-void Bin::slotMoveEffect(const QString &id, const QList<int> &currentPos, int newPos)
-{
-    MoveBinEffectCommand *command = new MoveBinEffectCommand(this, id, currentPos, newPos);
-    m_doc->commandStack()->push(command);
-}
 
-void Bin::moveEffect(const QString &id, const QList<int> &oldPos, const QList<int> &newPos)
+void Bin::editMasterEffect(AbstractProjectItem *clip)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
-    if (!clip) {
+    if (m_gainedFocus) {
+        // Widget just gained focus, updating stack is managed in the eventfilter event, not from item
         return;
     }
-    int new_position = newPos.at(0);
-    ClipController *ctrl = clip->controller();
-    int effectsCount = ctrl->effectsCount();
-    if (new_position > effectsCount) {
-        new_position = effectsCount;
-    }
-    int old_position = oldPos.at(0);
-    for (int i = 0; i < newPos.count(); ++i) {
-        if (old_position > new_position) {
-            // Moving up, we need to adjust index
-            old_position = oldPos.at(i);
-            new_position = newPos.at(i);
+    if (clip) {
+        if (clip->itemType() == AbstractProjectItem::ClipItem) {
+            emit requestShowEffectStack(static_cast<ProjectClip*>(clip)->getEffectStack());
+            return;
+        } else if (clip->itemType() == AbstractProjectItem::SubClipItem) {
+            emit requestShowEffectStack(static_cast<ProjectClip*>(clip->parentItem())->getEffectStack());
+            return;
         }
-        ctrl->moveEffect(old_position, new_position);
     }
-    emit masterClipUpdated(ctrl, m_monitor);
-    m_monitor->refreshMonitorIfActive();
-    ctrl->reloadTrackProducers();
-}
-
-void Bin::removeEffect(const QString &id, const QDomElement &effect)
-{
-    if (effect.isNull()) {
-        qCWarning(KDENLIVE_LOG) << " / /ERROR, trying to remove empty effect";
-        return;
-    }
-    ProjectClip *currentItem = m_rootFolder->clip(id);
-    if (!currentItem) {
-        return;
-    }
-    currentItem->removeEffect(effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
-    m_monitor->refreshMonitorIfActive();
-}
-
-void Bin::addEffect(const QString &id, QDomElement &effect)
-{
-    ProjectClip *currentItem = m_rootFolder->clip(id);
-    if (!currentItem) {
-        return;
-    }
-    currentItem->addEffect(m_monitor->profileInfo(), effect);
-    m_monitor->refreshMonitorIfActive();
-}
-
-void Bin::updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget)
-{
-    ProjectClip *currentItem = m_rootFolder->clip(id);
-    if (!currentItem) {
-        return;
-    }
-    currentItem->updateEffect(m_monitor->profileInfo(), effect, ix, refreshStackWidget);
-    m_monitor->refreshMonitorIfActive();
-}
-
-void Bin::changeEffectState(const QString &id, const QList<int> &indexes, bool disable, bool refreshStack)
-{
-    ProjectClip *currentItem = m_rootFolder->clip(id);
-    if (!currentItem) {
-        return;
-    }
-    ClipController *ctl = currentItem->controller();
-    if (!ctl) {
-        return;
-    }
-    ctl->changeEffectState(indexes, disable);
-    if (refreshStack) {
-        updateMasterEffect(ctl);
-    }
-    m_monitor->refreshMonitorIfActive();
-}
-
-void Bin::editMasterEffect(ClipController *ctl)
-{
-    if (m_gainedFocus) {
-        // Widget just gained focus, updating stack is managed in the eventfilter event, not from item
-        return;
-    }
-    emit masterClipSelected(ctl, m_monitor);
-}
-
-void Bin::updateMasterEffect(ClipController *ctl)
-{
-    if (m_gainedFocus) {
-        // Widget just gained focus, updating stack is managed in the eventfilter event, not from item
-        return;
-    }
-    emit masterClipUpdated(ctl, m_monitor);
+    emit requestHideEffectStack();
 }
 
 void Bin::slotGotFocus()
@@ -2781,12 +2569,12 @@ void Bin::slotGotFocus()
 
 void Bin::doMoveClip(const QString &id, const QString &newParentId)
 {
-    ProjectClip *currentItem = m_rootFolder->clip(id);
+    ProjectClip *currentItem = m_itemModel->getClipByBinID(id);
     if (!currentItem) {
         return;
     }
     AbstractProjectItem *currentParent = currentItem->parent();
-    ProjectFolder *newParent = m_rootFolder->folder(newParentId);
+    ProjectFolder *newParent = m_itemModel->getFolderByBinId(newParentId);
     currentParent->removeChild(currentItem);
     currentItem->setParent(newParent);
     currentItem->updateParentInfo(newParentId, newParent->name());
@@ -2794,9 +2582,9 @@ void Bin::doMoveClip(const QString &id, const QString &newParentId)
 
 void Bin::doMoveFolder(const QString &id, const QString &newParentId)
 {
-    ProjectFolder *currentItem = m_rootFolder->folder(id);
+    ProjectFolder *currentItem = m_itemModel->getFolderByBinId(id);
     AbstractProjectItem *currentParent = currentItem->parent();
-    ProjectFolder *newParent = m_rootFolder->folder(newParentId);
+    ProjectFolder *newParent = m_itemModel->getFolderByBinId(newParentId);
     currentParent->removeChild(currentItem);
     currentItem->setParent(newParent);
     emit storeFolder(id, newParent->clipId(), currentParent->clipId(), currentItem->name());
@@ -2831,7 +2619,7 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
         while (parentItem->itemType() != AbstractProjectItem::FolderItem) {
             parentItem = parentItem->parent();
         }
-        if (parentItem != m_rootFolder) {
+        if (parentItem != m_itemModel->getRootFolder()) {
             folderInfo << parentItem->clipId();
         }
     }
@@ -2872,7 +2660,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
     // Create folder to hold imported clips
     QString folderName = QFileInfo(url).fileName().section(QLatin1Char('.'), 0, 0);
     QString folderId = QString::number(getFreeFolderId());
-    new AddBinFolderCommand(this, folderId, folderName.isEmpty() ? i18n("Folder") : folderName, m_rootFolder->clipId(), false, command);
+    new AddBinFolderCommand(this, folderId, folderName.isEmpty() ? i18n("Folder") : folderName, m_itemModel->getRootFolder()->clipId(), false, command);
 
     // Parse playlist clips
     QDomDocument doc;
@@ -2996,7 +2784,7 @@ void Bin::slotItemEdited(const QModelIndex &ix, const QModelIndex &, const QVect
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(ix.internalPointer());
         ProjectClip *clip = qobject_cast<ProjectClip *>(item);
         if (clip) {
-            emit clipNameChanged(clip->clipId());
+            emit clipNameChanged(clip->AbstractProjectItem::clipId());
         }
     }
 }
@@ -3015,7 +2803,7 @@ void Bin::renameSubClipCommand(const QString &id, const QString &newName, const 
 
 void Bin::renameSubClip(const QString &id, const QString &newName, const QString &oldName, int in, int out)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
         return;
     }
@@ -3044,14 +2832,14 @@ void Bin::slotStartClipJob(bool enable)
 
 void Bin::startClipJob(const QStringList &params)
 {
-    QStringList data = params;
-    if (data.isEmpty()) {
+    QStringList paramData = params;
+    if (paramData.isEmpty()) {
         qCDebug(KDENLIVE_LOG) << "// Error in clip job action";
         return;
     }
-    AbstractClipJob::JOBTYPE jobType = (AbstractClipJob::JOBTYPE) data.takeFirst().toInt();
+    AbstractClipJob::JOBTYPE jobType = (AbstractClipJob::JOBTYPE) paramData.takeFirst().toInt();
     QList<ProjectClip *>clips = selectedClips();
-    m_jobManager->prepareJobs(clips, m_doc->fps(), jobType, data);
+    m_jobManager->prepareJobs(clips, m_doc->fps(), jobType, paramData);
 }
 
 void Bin::slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps)
@@ -3081,7 +2869,7 @@ void Bin::slotPrepareJobsMenu()
 {
     ProjectClip *item = getFirstSelectedClip();
     if (item) {
-        QString id = item->clipId();
+        QString id = item->AbstractProjectItem::clipId();
         m_discardCurrentClipJobs->setData(id);
         QStringList jobs = m_jobManager->getPendingJobs(id);
         m_discardCurrentClipJobs->setEnabled(!jobs.isEmpty());
@@ -3097,13 +2885,13 @@ void Bin::slotAddClipCut(const QString &id, int in, int out)
     m_doc->commandStack()->push(command);
 }
 
-void Bin::loadSubClips(const QString &id, const QMap<QString, QString> &data)
+void Bin::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap)
 {
     ProjectClip *clip = getBinClip(id);
     if (!clip) {
         return;
     }
-    QMapIterator<QString, QString> i(data);
+    QMapIterator<QString, QString> i(dataMap);
     QList<int> missingThumbs;
     int maxFrame = clip->duration().frames(m_doc->fps()) - 1;
     while (i.hasNext()) {
@@ -3118,7 +2906,7 @@ void Bin::loadSubClips(const QString &id, const QMap<QString, QString> &data)
             out = qMin(out, maxFrame);
         }
         missingThumbs << in;
-        new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()), i.key());
+        new ProjectSubClip(clip, m_itemModel, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()), i.key());
     }
     if (!missingThumbs.isEmpty()) {
         // generate missing subclip thumbnails
@@ -3138,7 +2926,7 @@ void Bin::addClipCut(const QString &id, int in, int out)
         // A subclip with same zone already exists
         return;
     }
-    sub = new ProjectSubClip(clip, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
+    sub = new ProjectSubClip(clip, m_itemModel, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
     QStringList markersComment = clip->markersText(GenTime(in, m_doc->fps()), GenTime(out, m_doc->fps()));
     sub->setDescription(markersComment.join(QLatin1Char(';')));
     QList<int> missingThumbs;
@@ -3241,11 +3029,11 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         }
         if (startPos == -1) {
             // Processing bin clip
-            ProjectClip *currentItem = m_rootFolder->clip(id);
+            ProjectClip *currentItem = m_itemModel->getClipByBinID(id);
             if (!currentItem) {
                 return;
             }
-            ClipController *ctl = currentItem->controller();
+            ClipController *ctl = static_cast<ClipController*>(currentItem);
             EffectsList list = ctl->effectList();
             QDomElement effect = list.effectById(filterInfo.value(QStringLiteral("finalfilter")));
             QDomDocument doc;
@@ -3260,7 +3048,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
                     ++i;
                 }
                 ctl->updateEffect(pCore->monitorManager()->projectMonitor()->profileInfo(), newEffect, effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
-                emit masterClipUpdated(ctl, m_monitor);
+                emit requestClipShow(currentItem);
                 // TODO use undo / redo for bin clip edit effect
                 /*EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true);
                 m_commandStack->push(command);
@@ -3336,7 +3124,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         int index = 1;
         bool simpleList = false;
         double sourceFps = clip->getOriginalFps();
-        if (sourceFps == 0) {
+        if (qAbs(sourceFps) < 1e-4) {
             sourceFps = m_doc->fps();
         }
         if (filterInfo.contains(QStringLiteral("simplelist"))) {
@@ -3422,9 +3210,9 @@ void Bin::slotLoadClipMarkers(const QString &id)
         emit displayBinMessage(i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()), KMessageWidget::Warning);
         return;
     }
-    QString data = QString::fromUtf8(file.readAll());
+    QString fileContent = QString::fromUtf8(file.readAll());
     file.close();
-    QStringList lines = data.split('\n', QString::SkipEmptyParts);
+    QStringList lines = fileContent.split('\n', QString::SkipEmptyParts);
     QStringList values;
     bool ok;
     QUndoCommand *command = new QUndoCommand();
@@ -3463,7 +3251,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
             //TODO: allow user to set a marker category
             CommentedTime marker1(GenTime(time1), markerText, category);
             markersList << marker1;
-            if (time2 > 0 && time2 != time1) {
+            if (time2 > 0 && qAbs(time2 - time1) < 1e-5) {
                 CommentedTime marker2(GenTime(time2), markerText, category);
                 markersList << marker2;
             }
@@ -3482,7 +3270,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
     }
     QList< CommentedTime > markers = clip->commentedSnapMarkers();
     if (!markers.isEmpty()) {
-        // Set  up categories
+        // St  up categories
         KComboBox *cbox = new KComboBox;
         cbox->insertItem(0, i18n("All categories"));
         for (int i = 0; i < 5; ++i) {
@@ -3508,7 +3296,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
             return;
         }
 
-        QString data;
+        QString markerData;
         int category = cbox->currentIndex() - 1;
         for (int i = 0; i < markers.count(); ++i) {
             if (category >= 0) {
@@ -3517,12 +3305,12 @@ void Bin::slotSaveClipMarkers(const QString &id)
                     continue;
                 }
             }
-            data.append(QString::number(markers.at(i).time().seconds()));
-            data.append("\t");
-            data.append(QString::number(markers.at(i).time().seconds()));
-            data.append("\t");
-            data.append(markers.at(i).comment());
-            data.append("\n");
+            markerData.append(QString::number(markers.at(i).time().seconds()));
+            markerData.append("\t");
+            markerData.append(QString::number(markers.at(i).time().seconds()));
+            markerData.append("\t");
+            markerData.append(markers.at(i).comment());
+            markerData.append("\n");
         }
         delete cbox;
 
@@ -3531,7 +3319,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
             emit displayBinMessage(i18n("Cannot open file %1", url), KMessageWidget::Error);
             return;
         }
-        file.write(data.toUtf8());
+        file.write(markerData.toUtf8());
         file.close();
     }
 }
@@ -3599,11 +3387,11 @@ void Bin::showTitleWidget(ProjectClip *clip)
     } else {
         doc.setContent(xmldata);
     }
-    dia_ui.setXml(doc, clip->clipId());
+    dia_ui.setXml(doc, clip->AbstractProjectItem::clipId());
     if (dia_ui.exec() == QDialog::Accepted) {
         QMap<QString, QString> newprops;
         newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
-        if (dia_ui.duration() != clip->duration().frames(m_doc->fps())) {
+        if (qAbs(dia_ui.duration() - clip->duration().frames(m_doc->fps())) > 1e-4) {
             // duration changed, we need to update duration
             newprops.insert(QStringLiteral("out"), QString::number(dia_ui.duration() - 1));
             int currentLength = clip->getProducerIntProperty(QStringLiteral("kdenlive:duration"));
@@ -3622,7 +3410,7 @@ void Bin::showTitleWidget(ProjectClip *clip)
                 newprops.insert(QStringLiteral("resource"), QString());
             }
         }
-        slotEditClipCommand(clip->clipId(), clip->currentProperties(newprops), newprops);
+        slotEditClipCommand(clip->AbstractProjectItem::clipId(), clip->currentProperties(newprops), newprops);
     }
 }
 
@@ -3642,7 +3430,7 @@ void Bin::emitMessage(const QString &text, int progress, MessageType type)
 
 void Bin::slotCreateAudioThumb(const QString &id)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
         return;
     }
@@ -3701,16 +3489,16 @@ void Bin::slotQueryRemoval(const QString &id, const QString &url, const QString 
 
 void Bin::slotRefreshClipThumbnail(const QString &id)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
         return;
     }
     clip->reloadProducer(true);
 }
 
-void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &data, QUndoCommand *groupCommand)
+void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &clipData, QUndoCommand *groupCommand)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
         return;
     }
@@ -3718,7 +3506,7 @@ void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QStr
     QMap<QString, QString> oldProps;
     oldProps.insert(key, oldValue);
     QMap<QString, QString> newProps;
-    newProps.insert(key, data);
+    newProps.insert(key, clipData);
     EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true, groupCommand);
     if (!groupCommand) {
         m_doc->commandStack()->push(command);
@@ -3727,7 +3515,7 @@ void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QStr
 
 void Bin::slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (clip) {
         clip->setProperties(properties, refreshPropertiesPanel);
     }
@@ -3771,14 +3559,14 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
         oldProperties.insert(QStringLiteral("luma_file"), clip->getProducerProperty(QStringLiteral("luma_file")));
         oldProperties.insert(QStringLiteral("softness"), clip->getProducerProperty(QStringLiteral("softness")));
         oldProperties.insert(QStringLiteral("animation"), clip->getProducerProperty(QStringLiteral("animation")));
-        slotEditClipCommand(clip->clipId(), oldProperties, properties);
+        slotEditClipCommand(clip->AbstractProjectItem::clipId(), oldProperties, properties);
     }
     delete dia;
 }
 
 void Bin::slotDisableEffects(bool disable)
 {
-    m_rootFolder->disableEffects(disable);
+    m_itemModel->getRootFolder()->disableEffects(disable);
     pCore->projectManager()->disableBinEffects(disable);
     m_monitor->refreshMonitorIfActive();
 }
@@ -3812,7 +3600,7 @@ void Bin::slotRenameItem()
 
 void Bin::refreshProxySettings()
 {
-    QList<ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_itemModel->getRootFolder()->childClips();
     QUndoCommand *masterCommand = new QUndoCommand();
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     if (!m_doc->useProxy()) {
@@ -3851,7 +3639,7 @@ void Bin::refreshProxySettings()
 QStringList Bin::getProxyHashList()
 {
     QStringList list;
-    QList<ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_itemModel->getRootFolder()->childClips();
     foreach (ProjectClip *clp, clipList) {
         if (clp->clipType() == AV || clp->clipType() == Video || clp->clipType() == Playlist) {
             list << clp->hash();
@@ -3862,7 +3650,7 @@ QStringList Bin::getProxyHashList()
 
 void Bin::slotSendAudioThumb(const QString &id)
 {
-    ProjectClip *clip = m_rootFolder->clip(id);
+    ProjectClip *clip = m_itemModel->getClipByBinID(id);
     if (clip && clip->audioThumbCreated()) {
         m_monitor->prepareAudioThumb(clip->audioChannels(), clip->audioFrameCache);
     } else {
@@ -3874,18 +3662,18 @@ void Bin::slotSendAudioThumb(const QString &id)
 bool Bin::isEmpty() const
 {
     // TODO: return true if we only have folders
-    if (m_clipCounter == 1 || m_rootFolder == nullptr) {
+    if (m_clipCounter == 1 || m_itemModel->getRootFolder() == nullptr) {
         return true;
     }
-    return m_rootFolder->isEmpty();
+    return m_itemModel->getRootFolder()->childCount() == 0;
 }
 
 void Bin::reloadAllProducers()
 {
-    if (m_rootFolder == nullptr || m_rootFolder->isEmpty() || !isEnabled()) {
+    if (m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0 || !isEnabled()) {
         return;
     }
-    QList<ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_itemModel->getRootFolder()->childClips();
     emit openClip(nullptr);
     foreach (ProjectClip *clip, clipList) {
         QDomDocument doc;
@@ -3897,7 +3685,7 @@ void Bin::reloadAllProducers()
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
-            m_doc->getFileProperties(xml, clip->clipId(), 150, true);
+            m_doc->getFileProperties(xml, clip->AbstractProjectItem::clipId(), 150, true);
         }
     }
 }
@@ -3909,7 +3697,7 @@ void Bin::slotMessageActionTriggered()
 
 void Bin::resetUsageCount()
 {
-    const QList<ProjectClip *> clipList = m_rootFolder->childClips();
+    const QList<ProjectClip *> clipList = m_itemModel->getRootFolder()->childClips();
     for (ProjectClip *clip : clipList) {
         clip->setRefCount(0);
     }
@@ -3917,12 +3705,12 @@ void Bin::resetUsageCount()
 
 void Bin::cleanup()
 {
-    QList<ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_itemModel->getRootFolder()->childClips();
     QStringList ids;
     QStringList subIds;
     foreach (ProjectClip *clip, clipList) {
         if (clip->refCount() == 0) {
-            ids << clip->clipId();
+            ids << clip->AbstractProjectItem::clipId();
             subIds << clip->subClipIds();
         }
     }
@@ -3933,7 +3721,7 @@ void Bin::cleanup()
 
 void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize)
 {
-    QList<ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_itemModel->getRootFolder()->childClips();
     foreach (ProjectClip *clip, clipList) {
         if (clip->refCount() == 0) {
             *unused += 1;
@@ -3978,7 +3766,7 @@ bool Bin::addClip(QDomElement elem, const QString &clipId)
 
 void Bin::rebuildProxies()
 {
-    QList<ProjectClip *> clipList = m_rootFolder->childClips();
+    QList<ProjectClip *> clipList = m_itemModel->getRootFolder()->childClips();
     QList<ProjectClip *> toProxy;
     foreach (ProjectClip *clp, clipList) {
         if (clp->hasProxy()) {
@@ -4009,16 +3797,16 @@ void Bin::saveZone(const QStringList &info, const QDir &dir)
         return;
     }
     ProjectClip *clip = getBinClip(info.first());
-    if (clip && clip->controller()) {
+    if (clip) {
         QPoint zone(info.at(1).toInt(), info.at(2).toInt());
-        clip->controller()->saveZone(zone, dir);
+        clip->saveZone(zone, dir);
     }
 }
 
 QVariantList Bin::audioFrameCache(const QString &id)
 {
     ProjectClip *clip = getBinClip(id);
-    if (clip && clip->controller()) {
+    if (clip) {
         return clip->audioFrameCache;
     } else {
         return QVariantList();

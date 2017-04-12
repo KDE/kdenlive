@@ -37,7 +37,7 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
     QList<QVariant> rootData;
     rootData << "Description" << "Path" << "Height" << "Width" << "display_aspect_num"
              << "display_aspect_den" <<  "sample_aspect_ratio" << "fps" << "colorspace";
-    rootItem = new TreeItem(rootData);
+    rootItem = new TreeItem(rootData, this);
 
     ProfileRepository::get()->refresh();
     QVector<QPair<QString, QString> > profiles = ProfileRepository::get()->getAllProfiles();
@@ -122,7 +122,7 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
     if (role != Qt::DisplayRole) {
         return QVariant();
     }
-    return item->data(index.column());
+    return item->dataColumn(index.column());
 }
 
 //static
@@ -131,7 +131,7 @@ QString ProfileTreeModel::getProfile(const QModelIndex& index)
     if (index.isValid()) {
         TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
         if (item->depth() == 2) {
-            return item->data(1).toString();
+            return item->dataColumn(1).toString();
         }
     }
     return QString();
@@ -146,7 +146,7 @@ QModelIndex ProfileTreeModel::findProfile(const QString& profile)
         for (int j = 0; j < category->childCount(); ++j) {
             // we retrieve profile path
             TreeItem* child = category->child(j);
-            QString path = child->data(1).toString();
+            QString path = child->dataColumn(1).toString();
             if (path == profile) {
                 return createIndex(j, 0, child);
             }

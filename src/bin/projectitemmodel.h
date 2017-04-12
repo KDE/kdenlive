@@ -23,10 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROJECTITEMMODEL_H
 #define PROJECTITEMMODEL_H
 
-#include <QAbstractItemModel>
 #include <QSize>
+#include "abstractmodel/abstracttreemodel.hpp"
 
 class AbstractProjectItem;
+class ProjectClip;
+class ProjectFolder;
 class Bin;
 
 /**
@@ -34,13 +36,33 @@ class Bin;
  * @brief Acts as an adaptor to be able to use BinModel with item views.
  */
 
-class ProjectItemModel : public QAbstractItemModel
+class ProjectItemModel : public AbstractTreeModel
 {
     Q_OBJECT
 
 public:
-    explicit ProjectItemModel(Bin *bin);
+    explicit ProjectItemModel(Bin* bin, QObject *parent);
     ~ProjectItemModel();
+
+    /** @brief Returns a clip from the hierarchy, given its id
+     */
+    ProjectClip *getClipByBinID(const QString& binId);
+
+    /** @brief Gets a folder by its id. If none is found, the root is returned
+     */
+    ProjectFolder *getFolderByBinId(const QString &binId);
+
+    /** @brief Returns some info about the folder containing the given index */
+    QStringList getEnclosingFolderInfo(const QModelIndex& index) const;
+
+    /** @brief Deletes all element and start a fresh model */
+    void clean();
+
+    /** @brief Convenience method to access root folder */
+    ProjectFolder *getRootFolder() const;
+
+    /** @brief Convenience method to acces the bin associated with this model*/
+    Bin *bin() const;
 
     /** @brief Returns item data depending on role requested */
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
@@ -51,12 +73,6 @@ public:
     /** @brief Returns column names in case we want to use columns in QTreeView */
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
     /** @brief Mandatory reimplementation from QAbstractItemModel */
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    /** @brief Mandatory reimplementation from QAbstractItemModel */
-    QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
-    /** @brief Mandatory reimplementation from QAbstractItemModel */
-    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    /** @brief Mandatory reimplementation from QAbstractItemModel */
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     /** @brief Returns the mimetype used for Drag actions */
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
@@ -64,14 +80,6 @@ public:
     QMimeData *mimeData(const QModelIndexList &indices) const Q_DECL_OVERRIDE;
     /** @brief Set size for thumbnails */
     void setIconSize(QSize s);
-    /** @brief Prepare some stuff before inserting a new item */
-    void onAboutToAddItem(AbstractProjectItem *item);
-    /** @brief Prepare some stuff after inserting a new item */
-    void onItemAdded(AbstractProjectItem *item);
-    /** @brief Prepare some stuff before removing a new item */
-    void onAboutToRemoveItem(AbstractProjectItem *item);
-    /** @brief Prepare some stuff after removing a new item */
-    void onItemRemoved(AbstractProjectItem *item);
     bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
     Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
 
@@ -80,10 +88,10 @@ public slots:
     void onItemUpdated(AbstractProjectItem *item);
 
 private:
-    /** @brief Reference to the project bin */
-    Bin *m_bin;
     /** @brief Return reference to column specific data */
     int mapToColumn(int column) const;
+
+    Bin *m_bin;
 
 signals:
     //TODO

@@ -43,7 +43,7 @@ bool EffectFilter::filterType(TreeItem* item) const
     if (!m_type_enabled) {
         return true;
     }
-    EffectType itemType = item->data(AssetTreeModel::typeCol).value<EffectType>();
+    EffectType itemType = item->dataColumn(AssetTreeModel::typeCol).value<EffectType>();
     return itemType == m_type_value;
 }
 

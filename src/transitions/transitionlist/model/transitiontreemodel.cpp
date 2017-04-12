@@ -31,7 +31,7 @@ TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent)
 {
     QList<QVariant> rootData;
     rootData << "Name" << "ID" << "Type" << "isFav";
-    rootItem = new TreeItem(rootData);
+    rootItem = new TreeItem(rootData, static_cast<AbstractTreeModel*>(this));
 
     //We create categories, if requested
     TreeItem *compoCategory, *transCategory;
@@ -55,7 +55,7 @@ TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent)
         // we create the data list corresponding to this transition
         QList<QVariant> data;
         bool isFav = TransitionsRepository::get()->isFavorite(transition.first);
-        qDebug()<<transition.second << transition.first << "in "<<targetCategory->data(0).toString();
+        qDebug()<<transition.second << transition.first << "in "<<targetCategory->dataColumn(0).toString();
         data << transition.second << transition.first << QVariant::fromValue(type) << isFav;
 
         targetCategory->appendChild(data);

@@ -20,12 +20,14 @@
  ***************************************************************************/
 
 #include "treeitem.hpp"
+#include "abstracttreemodel.hpp"
 
-TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent)
+TreeItem::TreeItem(const QList<QVariant> &data, AbstractTreeModel* model, TreeItem *parent)
 {
     m_parentItem = parent;
     m_itemData = data;
     m_depth = 0;
+    m_model = model;
 }
 
 TreeItem::~TreeItem()
@@ -35,19 +37,44 @@ TreeItem::~TreeItem()
 
 TreeItem* TreeItem::appendChild(const QList<QVariant> &data)
 {
-    TreeItem *child = new TreeItem(data, this);
+    m_model->notifyRowAboutToAppend(this);
+    TreeItem *child = new TreeItem(data, m_model, this);
     child->m_depth = m_depth + 1;
     m_childItems.append(child);
+    m_model->notifyRowAppended();
     return child;
 }
 
 void TreeItem::appendChild(TreeItem *child)
 {
+    m_model->notifyRowAboutToAppend(this);
     child->m_depth = m_depth + 1;
+    child->m_parentItem = this;
     m_childItems.append(child);
+    m_model->notifyRowAppended();
 }
 
-TreeItem *TreeItem::child(int row)
+void TreeItem::removeChild(TreeItem *child)
+{
+    m_model->notifyRowAboutToDelete(this, child->row());
+    bool success = m_childItems.removeAll(child);
+    Q_ASSERT(success);
+    child->m_depth = 0;
+    child->m_parentItem = nullptr;
+    m_model->notifyRowDeleted();
+}
+
+void TreeItem::changeParent(TreeItem *newParent)
+{
+    if (m_parentItem) {
+        m_parentItem->removeChild(this);
+    }
+    if (newParent) {
+        newParent->appendChild(this);
+    }
+}
+
+TreeItem *TreeItem::child(int row) const
 {
     return m_childItems.value(row);
 }
@@ -62,7 +89,7 @@ int TreeItem::columnCount() const
     return m_itemData.count();
 }
 
-QVariant TreeItem::data(int column) const
+QVariant TreeItem::dataColumn(int column) const
 {
     return m_itemData.value(column);
 }
@@ -77,7 +104,7 @@ int TreeItem::row() const
     if (m_parentItem)
         return m_parentItem->m_childItems.indexOf(const_cast<TreeItem*>(this));
 
-    return 0;
+    return -1;
 }
 
 int TreeItem::depth() const

@@ -1046,9 +1046,9 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
             // Create Qimage with frame
             QImage frame;
             // check if we are using a proxy
-            if (m_controller && !m_controller->property(QStringLiteral("kdenlive:proxy")).isEmpty() && m_controller->property(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
+            if (m_controller && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() && m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // using proxy, use original clip url to get frame
-                frame = render->extractFrame(render->seekFramePosition(), m_controller->property(QStringLiteral("kdenlive:originalurl")));
+                frame = render->extractFrame(render->seekFramePosition(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")));
             } else {
                 frame = render->extractFrame(render->seekFramePosition());
             }
