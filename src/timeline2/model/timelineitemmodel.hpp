@@ -50,7 +50,7 @@ public:
     /* @brief construct a timeline object and returns a pointer to the created object
        @param undo_stack is a weak pointer to the undo stack of the project
      */
-    static std::shared_ptr<TimelineItemModel> construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, bool populate = false);
+    static std::shared_ptr<TimelineItemModel> construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
     friend bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt::Tractor mlt_timeline);
 protected:

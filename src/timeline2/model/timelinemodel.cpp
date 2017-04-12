@@ -377,35 +377,32 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     return position;
 }
 
-bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id, bool logUndo)
+bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo)
 {
 #ifdef LOGGING
-    m_logFile << "{" <<std::endl<< "std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile, \"color\", \"red\");" << std::endl;
-    m_logFile << "producer->set(\"length\", "<<prod->get_playtime()<<");" << std::endl;
-    m_logFile << "producer->set(\"out\", "<<prod->get_playtime()-1<<");" << std::endl;
-    m_logFile << "timeline->requestClipInsertion(producer,"<<trackId<<" ,"<<position<<", dummy_id );" <<std::endl;
-    m_logFile<<"}"<<std::endl;
+    m_logFile << "timeline->requestClipInsertion("<<binClipId.toStdString()<<","<<trackId<<" ,"<<position<<", dummy_id );" <<std::endl;
 #endif
     QWriteLocker locker(&m_lock);
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
-    bool result = requestClipInsertion(prod, trackId, position, id, undo, redo);
+    bool result = requestClipInsertion(binClipId, trackId, position, id, undo, redo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
     return result;
 }
 
-bool TimelineModel::requestClipInsertion(std::shared_ptr<Mlt::Producer> prod, int trackId, int position, int &id, Fun& undo, Fun& redo)
+bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun& undo, Fun& redo)
 {
     int clipId = TimelineModel::getNextId();
     id = clipId;
     Fun local_undo = deregisterClip_lambda(clipId);
-    ClipModel::construct(shared_from_this(), prod, clipId);
+    ClipModel::construct(shared_from_this(), binClipId, clipId);
     auto clip = m_allClips[clipId];
     Fun local_redo = [clip, this](){
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
         registerClip(clip);
+        clip->refreshProducerFromBin();
         return true;
     };
     bool res = requestClipMove(clipId, trackId, position, true, local_undo, local_redo);
@@ -462,6 +459,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun& undo, Fun& redo)
     auto reverse = [this, clip]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is sufficient to register it.
         registerClip(clip);
+        clip->refreshProducerFromBin();
         return true;
     };
     if (operation()) {

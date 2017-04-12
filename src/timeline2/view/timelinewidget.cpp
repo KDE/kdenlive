@@ -45,7 +45,7 @@ int TimelineWidget::m_duration = 0;
 
 TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
     : QQuickWidget(parent)
-    , m_model(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), undoStack, false))
+    , m_model(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), undoStack))
     , m_actionCollection(actionCollection)
     , m_binController(binController)
     , m_position(0)
@@ -200,9 +200,8 @@ bool TimelineWidget::scrub()
 
 int TimelineWidget::insertClip(int tid, int position, QString data_str, bool logUndo)
 {
-    std::shared_ptr<Mlt::Producer> prod = m_binController->getBinProducer(data_str);
     int id;
-    if (!m_model->requestClipInsertion(prod, tid, position, id, logUndo)) {
+    if (!m_model->requestClipInsertion(data_str, tid, position, id, logUndo)) {
         id = -1;
     }
     return id;

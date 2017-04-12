@@ -19,7 +19,7 @@
 std::default_random_engine g(42);
 
 Mlt::Profile profile_model;
-
+/*
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -1083,3 +1083,4 @@ TEST_CASE("Snapping", "[Snapping]") {
         REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid2, true) == INT_MAX);
     }
 }
+*/

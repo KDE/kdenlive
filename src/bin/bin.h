@@ -526,8 +526,6 @@ private:
     void showClipProperties(ProjectClip *clip, bool forceRefresh = false);
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
-    /** @brief Get a Clip item from its id. */
-    AbstractProjectItem *getClipForId(const QString &id) const;
     ProjectClip *getFirstSelectedClip();
     void showTitleWidget(ProjectClip *clip);
     void showSlideshowWidget(ProjectClip *clip);

@@ -155,7 +155,9 @@ bool constructTrackFromMelt(std::shared_ptr<TimelineItemModel> timeline, int tid
         case unknown_type:
         case producer_type: {
             int cid;
-            bool ok = timeline->requestClipInsertion(clip, tid, position, cid, undo, redo);
+            //bool ok = timeline->requestClipInsertion(clip, tid, position, cid, undo, redo);
+            //TODO find bin clip id from here to create the timelineclip
+            bool ok = false;
             if (!ok) {
                 qDebug() << "ERROR : failed to insert clip in track"<<tid<<"position"<<position;
                 return false;

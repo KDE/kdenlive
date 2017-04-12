@@ -22,21 +22,28 @@
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include "undohelper.hpp"
+#include "core.h"
 #include <mlt++/MltProducer.h>
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "bin/projectclip.h"
+#include "bin/bin.h"
 #include <QDebug>
 
 
-ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id) :
+ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id) :
     MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(prod)
     , m_effectStack(EffectStackModel::construct(m_producer))
+    , m_binClipId(binClipId)
 {
 }
 
-int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id)
+int ClipModel::construct(std::weak_ptr<TimelineModel> parent, const QString &binClipId, int id)
 {
-    std::shared_ptr<ClipModel> clip(new ClipModel(parent, prod, id));
+    ProjectClip *binClip = pCore->bin()->getBinClip(binClipId);
+    std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
+    std::shared_ptr<Mlt::Producer> cutProducer(originalProducer->cut());
+    std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id));
     id = clip->m_id;
     if (auto ptr = parent.lock()) {
         ptr->registerClip(clip);
@@ -45,10 +52,17 @@ int ClipModel::construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Ml
         Q_ASSERT(false);
     }
 
+    binClip->registerTimelineClip(parent, id);
+
     return id;
 }
 
 
+ClipModel::~ClipModel()
+{
+    ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
+    binClip->deregisterTimelineClip(m_id);
+}
 
 bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
 {
@@ -156,5 +170,15 @@ bool ClipModel::isAudioOnly() const
 {
     QString service = getProperty("mlt_service");
     return service.contains(QStringLiteral("avformat")) && (getIntProperty(QStringLiteral("video_index")) == -1);
+}
+
+
+void ClipModel::refreshProducerFromBin()
+{
+    int in = getIn();
+    int out = getOut();
+    ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
+    m_producer.reset(originalProducer->cut(in, out));
 }
 

@@ -1221,3 +1221,10 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
     Q_ASSERT(m_registeredClips.count(clipId) == 0);
     m_registeredClips[clipId] = timeline;
 }
+
+
+void ProjectClip::deregisterTimelineClip(int clipId)
+{
+    Q_ASSERT(m_registeredClips.count(clipId) > 0);
+    m_registeredClips.erase(clipId);
+}

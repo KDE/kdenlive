@@ -14,7 +14,7 @@
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltRepository.h>
-
+/*
 TEST_CASE("Regression") {
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -391,3 +391,4 @@ TEST_CASE("Regression 4")
     timeline->requestClipMove(12,10 ,583, false, false );
     timeline->requestClipMove(12,9 ,521, true, true );
 }
+*/

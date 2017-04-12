@@ -13,6 +13,7 @@
 #include <mlt++/MltProfile.h>
 
 Mlt::Profile profile_group;
+/*
 TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -636,3 +637,4 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
     }
 
 }
+*/

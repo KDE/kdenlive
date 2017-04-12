@@ -201,6 +201,11 @@ protected:
      */
     void registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId);
 
+    /** @brief This is a call-back called by a ClipModel when it is deleted
+        @param clipId id of the deleted clip
+    */
+    void deregisterTimelineClip( int clipId);
+
 
 public slots:
     void updateAudioThumbnail(const QVariantList &audioLevels);

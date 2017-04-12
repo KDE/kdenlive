@@ -39,31 +39,10 @@ TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUnd
 {
 }
 
-std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, bool populate)
+std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
 {
     std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(profile, undo_stack));
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
-    if (populate) {
-        // Testing: add a clip on first track
-        std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*profile,"color:red"));
-        prod->set("length", 200);
-        prod->set("out", 24);
-        int ix = TrackModel::construct(ptr);
-        int ix2 = TrackModel::construct(ptr);
-        int ix3 = TrackModel::construct(ptr);
-        int clipId = ClipModel::construct(ptr, prod);
-        int clipId2 = ClipModel::construct(ptr, prod);
-        int clipId3 = ClipModel::construct(ptr, prod);
-        int clipId4 = ClipModel::construct(ptr, prod);
-        ptr->requestClipMove(clipId, ix, 100, true);
-        ptr->requestClipMove(clipId2, ix, 50, true);
-        ptr->requestClipMove(clipId3, ix, 250, true);
-        ptr->requestClipMove(clipId4, ix2, 112, true);
-        ptr->getTrackById(ix)->setProperty("kdenlive:trackheight", "60");
-        ptr->getTrackById(ix2)->setProperty("kdenlive:trackheight", "140");
-        ptr->getTrackById(ix3)->setProperty("kdenlive:trackheight", "140");
-        ptr->requestClipsGroup({clipId, clipId4});
-    }
     return ptr;
 }
 

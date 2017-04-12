@@ -33,6 +33,7 @@ namespace Mlt{
 class TimelineModel;
 class TrackModel;
 class EffectStackModel;
+class ProjectClip;
 
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
@@ -41,15 +42,12 @@ class ClipModel : public MoveableItem<Mlt::Producer>
 {
     ClipModel() = delete;
 
-    /* @brief returns the length of the item on the timeline
-     */
-    int getPlaytime() const override;
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id = -1);
+    ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id = -1);
 
 public:
-
+    ~ClipModel();
 
     /* @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
@@ -57,13 +55,16 @@ public:
        @param producer is the producer to be inserted
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, int id = -1);
+    static int construct(std::weak_ptr<TimelineModel> parent, const QString &binClipId, int id = -1);
 
     /* @brief returns a property of the clip, or from it's parent if it's a cut
      */
     const QString getProperty(const QString &name) const override;
     int getIntProperty(const QString &name) const;
 
+    /* @brief returns the length of the item on the timeline
+     */
+    int getPlaytime() const override;
     friend class TrackModel;
     friend class TimelineModel;
     friend class TimelineItemModel;
@@ -85,6 +86,10 @@ protected:
     /* @brief This function change the global (timeline-wise) enabled state of the effects
     */
     void setTimelineEffectsEnabled(bool enabled);
+
+    /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
+    void refreshProducerFromBin();
+
     bool hasAudio() const;
     bool isAudioOnly() const;
 
@@ -92,6 +97,8 @@ protected:
     std::shared_ptr<Mlt::Producer> m_producer;
 
     std::shared_ptr<EffectStackModel> m_effectStack;
+
+    QString m_binClipId; //This is the Id of the bin clip this clip corresponds to.
 
 };
 
