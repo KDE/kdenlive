@@ -206,6 +206,7 @@ void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringLi
     } else {
         deleteCommand->setText(i18np("Delete clip", "Delete clips", clipIds.count()));
     }
+    //TODO REFAC: delete clips from timeline
     if (pCore->projectManager()->currentTimeline()) {
         // Remove clips from timeline
         if (!clipIds.isEmpty()) {
@@ -213,9 +214,9 @@ void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringLi
                 pCore->projectManager()->currentTimeline()->slotDeleteClip(clipIds.at(i), deleteCommand);
             }
         }
-        // remove clips and folders from bin
-        doDeleteClips(clipIds, folderIds, subClipIds, deleteCommand, execute);
     }
+    // remove clips and folders from bin
+    doDeleteClips(clipIds, folderIds, subClipIds, deleteCommand, execute);
 }
 
 void ClipManager::doDeleteClips(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand, bool execute)
