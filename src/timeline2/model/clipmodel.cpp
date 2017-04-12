@@ -123,6 +123,14 @@ const QString ClipModel::getProperty(const QString &name) const
     return QString::fromUtf8(service()->get(name.toUtf8().constData()));
 }
 
+int ClipModel::getIntProperty(const QString &name) const
+{
+    if (service()->parent().is_valid()) {
+        return service()->parent().get_int(name.toUtf8().constData());
+    }
+    return service()->get_int(name.toUtf8().constData());
+}
+
 Mlt::Producer* ClipModel::service() const
 {
     return m_producer.get();
@@ -143,3 +151,10 @@ bool ClipModel::hasAudio() const
     QString service = getProperty("mlt_service");
     return service.contains(QStringLiteral("avformat"));
 }
+
+bool ClipModel::isAudioOnly() const
+{
+    QString service = getProperty("mlt_service");
+    return service.contains(QStringLiteral("avformat")) && (getIntProperty(QStringLiteral("video_index")) == -1);
+}
+

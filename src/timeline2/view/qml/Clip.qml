@@ -100,7 +100,7 @@ Rectangle {
                 return '#' + clipResource.substring(2, 8)
             }
         }
-        return isAudio? 'darkseagreen' : 'blue'
+        return isAudio? '#8cc6c0' : '#416e8c'
         //root.shotcutBlue
     }
 
@@ -136,7 +136,7 @@ Rectangle {
         clip: true
         Image {
             id: outThumbnail
-            visible: timeline.showThumbnails && mltService != 'color'
+            visible: timeline.showThumbnails && mltService != 'color' && !isAudio
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -148,7 +148,7 @@ Rectangle {
 
         Image {
             id: inThumbnail
-            visible: timeline.showThumbnails && mltService != 'color'
+            visible: timeline.showThumbnails && mltService != 'color' && !isAudio
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom

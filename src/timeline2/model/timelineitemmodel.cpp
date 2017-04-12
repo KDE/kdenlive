@@ -247,9 +247,11 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return QVariant();
         case HasAudio:
             return clip->hasAudio();
+        case IsAudioRole:
+            return clip->isAudioOnly();
         case MarkersRole: {
             QVariantList markersList;
-            markersList << QStringLiteral("10") << QStringLiteral("Marker 1") << QStringLiteral("50") << QStringLiteral("M2");
+            //markersList << QStringLiteral("10") << QStringLiteral("Marker 1") << QStringLiteral("50") << QStringLiteral("M2");
             return markersList;
         }
         case StartRole:

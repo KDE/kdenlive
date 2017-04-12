@@ -62,6 +62,7 @@ public:
     /* @brief returns a property of the clip, or from it's parent if it's a cut
      */
     const QString getProperty(const QString &name) const override;
+    int getIntProperty(const QString &name) const;
 
     friend class TrackModel;
     friend class TimelineModel;
@@ -85,6 +86,7 @@ protected:
     */
     void setTimelineEffectsEnabled(bool enabled);
     bool hasAudio() const;
+    bool isAudioOnly() const;
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;

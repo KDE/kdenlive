@@ -133,7 +133,7 @@ Column{
                     item.clipResource= model.resource
                     item.clipId= model.item
                     item.binId= model.binId
-                    item.isAudio= false //model.audio
+                    item.isAudio= model.audio
                     item.isComposition= model.isComposition
                     if (!model.isComposition) {
                         item.audioLevels= model.audioLevels
