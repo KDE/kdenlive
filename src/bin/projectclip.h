@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "mltcontroller/clipcontroller.h"
+#include "timeline2/model/timelinemodel.hpp"
 
 #include <QUrl>
 #include <QMutex>
@@ -148,9 +149,6 @@ public:
     /** @brief The clip hash created from the clip's resource. */
     const QString hash();
 
-    /** @brief Reset a property on the MLT producer (=delete the property). */
-    void resetProducerProperty(const QString &name);
-
     /** @brief Returns a list of all markers comments between in ant out frames. */
     QStringList markersText(GenTime in, GenTime out) const;
 
@@ -195,6 +193,15 @@ public:
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
     bool isSplittable() const;
 
+protected:
+    friend class ClipModel;
+    /** @brief This is a call-back called by a ClipModel when it is created
+        @param timeline ptr to the pointer in which this ClipModel is inserted
+        @param clipId id of the inserted clip
+     */
+    void registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId);
+
+
 public slots:
     void updateAudioThumbnail(const QVariantList &audioLevels);
     /** @brief Extract image thumbnails for timeline. */
@@ -226,6 +233,8 @@ private:
     const QString geometryWithOffset(const QString &data, int offset);
     void doExtractImage();
     void doExtractIntra();
+
+    std::map<int, std::weak_ptr<TimelineModel> > m_registeredClips;
 
 private slots:
     void updateFfmpegProgress();

@@ -114,7 +114,8 @@ public:
     void setProducerProperty(const QString &name, const QString &value);
     void setProducerProperty(const QString &name, int value);
     void setProducerProperty(const QString &name, double value);
-    void resetProperty(const QString &name);
+    /** @brief Reset a property on the MLT producer (=delete the property). */
+    void resetProducerProperty(const QString &name);
 
     /**
      * @brief Returns the list of all properties starting with prefix. For subclips, the list is of this type:

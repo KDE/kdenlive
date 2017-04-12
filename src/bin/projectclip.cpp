@@ -389,11 +389,6 @@ QPoint ProjectClip::zone() const
     return QPoint(x, y);
 }
 
-void ProjectClip::resetProducerProperty(const QString &name)
-{
-    resetProperty(name);
-}
-
 
 const QString ProjectClip::hash()
 {
@@ -1219,4 +1214,10 @@ bool ProjectClip::isSplittable() const
 void ProjectClip::disableEffects(bool disable)
 {
     ClipController::disableEffects(disable);
+}
+
+void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId)
+{
+    Q_ASSERT(m_registeredClips.count(clipId) == 0);
+    m_registeredClips[clipId] = timeline;
 }
