@@ -17,6 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <memory>
+
 #include "customtrackview.h"
 #include "timeline.h"
 #include "track.h"
@@ -7355,8 +7357,8 @@ void CustomTrackView::setAudioAlignReference()
                 qCWarning(KDENLIVE_LOG) << "couldn't load producer for clip " << clip->getBinId() << " on track " << clip->track();
                 return;
             }
-            AudioEnvelope *envelope = new AudioEnvelope(clip->binClip()->url(), prod);
-            m_audioCorrelator = new AudioCorrelation(envelope);
+            std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(clip->binClip()->url(), prod));
+            m_audioCorrelator = new AudioCorrelation(std::move(envelope));
             connect(m_audioCorrelator, &AudioCorrelation::gotAudioAlignData, this, &CustomTrackView::slotAlignClip);
             connect(m_audioCorrelator, &AudioCorrelation::displayMessage, this, &CustomTrackView::displayMessage);
             emit displayMessage(i18n("Processing audio, please wait."), ProcessingJobMessage);
