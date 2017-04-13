@@ -44,7 +44,7 @@ public:
 
     /**
       Adds a child envelope that will be aligned to the reference
-      envelope. This function returns immediately, the alinment
+      envelope. This function returns immediately, the alignment
       computation is done asynchronously. When done, the signal
       gotAudioAlignData will be emitted. Similarly to the main
       envelope, the computation of the envelope must not be started

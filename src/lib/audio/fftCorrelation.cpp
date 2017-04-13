@@ -61,7 +61,7 @@ void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
         }
     }
 
-    // One side needs to be reverted, since multiplication in frequency domain (fourier space)
+    // One side needs to be reversed, since multiplication in frequency domain (fourier space)
     // calculates the convolution: \sum l[x]r[N-x] and not the correlation: \sum l[x]r[x]
     for (int i = 0; i < leftSize; ++i) {
         leftF[i] = double(left[i]) / maxLeft;
@@ -100,9 +100,9 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
 
     kiss_fftr_cfg fftConfig = kiss_fftr_alloc(size, false, nullptr, nullptr);
     kiss_fftr_cfg ifftConfig = kiss_fftr_alloc(size, true, nullptr, nullptr);
-    kiss_fft_cpx leftFFT[size / 2];
-    kiss_fft_cpx rightFFT[size / 2];
-    kiss_fft_cpx correlatedFFT[size / 2];
+    kiss_fft_cpx leftFFT[size / 2 + 1];
+    kiss_fft_cpx rightFFT[size / 2 + 1];
+    kiss_fft_cpx correlatedFFT[size / 2 + 1];
 
     // Fill in the data into our new vectors with padding
     float *leftData = new float[size];
@@ -120,7 +120,7 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
     kiss_fftr(fftConfig, rightData, rightFFT);
 
     // Convolution in spacial domain is a multiplication in fourier domain. O(n).
-    for (int i = 0; i < size / 2; ++i) {
+    for (int i = 0; i < size / 2 + 1; ++i) {
         correlatedFFT[i].r = leftFFT[i].r * rightFFT[i].r - leftFFT[i].i * rightFFT[i].i;
         correlatedFFT[i].i = leftFFT[i].r * rightFFT[i].i + leftFFT[i].i * rightFFT[i].r;
     }
