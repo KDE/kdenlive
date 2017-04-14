@@ -65,6 +65,10 @@ public:
     /* @brief returns the length of the item on the timeline
      */
     int getPlaytime() const override;
+
+    /** @brief Returns the list of producers that can have limitless resizes */
+    static QStringList limitlessProducers();
+
     friend class TrackModel;
     friend class TimelineModel;
     friend class TimelineItemModel;
@@ -90,6 +94,10 @@ protected:
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
     void refreshProducerFromBin();
 
+    /** @brief Checks whether the current producers is limitless and set m_endlessResize acordingly */
+    void checkLimitless();
+
+
     bool hasAudio() const;
     bool isAudioOnly() const;
 
@@ -99,6 +107,8 @@ protected:
     std::shared_ptr<EffectStackModel> m_effectStack;
 
     QString m_binClipId; //This is the Id of the bin clip this clip corresponds to.
+
+    bool m_endlessResize; // Whether this clip can be freely resized
 
 };
 

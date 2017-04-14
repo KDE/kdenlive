@@ -208,6 +208,7 @@ private:
     /** @brief Duplicate effects from stored producer */
     void pasteEffects(const QString &id, std::shared_ptr<Mlt::Producer> producer);
 
+
 signals:
     void loadFolders(const QMap<QString, QString> &);
     void loadThumb(const QString &, const QImage&, bool);
