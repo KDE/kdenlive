@@ -1426,8 +1426,8 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
         return;
     }
-    // FIXME(style): constructor actually adds the new pointer to parent's children
-    new ProjectFolder(id, name, m_itemModel, parentFolder);
+    auto new_folder = new ProjectFolder(id, name, m_itemModel, parentFolder);
+    parentFolder->appendChild(new_folder);
     emit storeFolder(id, parentId, QString(), name);
 }
 
@@ -1460,12 +1460,16 @@ void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
             parentFolder = m_itemModel->getFolderByBinId(parentId);
             if (parentFolder->depth() == 0) { // check if this is root
                 // parent folder not yet created, create unnamed placeholder
-                parentFolder = new ProjectFolder(parentId, QString(), m_itemModel, parentFolder);
+                auto newFolder = new ProjectFolder(parentId, QString(), m_itemModel, parentFolder);
+                parentFolder->appendChild(newFolder);
+                parentFolder = newFolder;
             } else if (parentFolder == nullptr) {
                 // Parent folder not yet created in hierarchy
                 if (iterations > maxIterations) {
                     // Give up, place folder in root
-                    parentFolder = new ProjectFolder(parentId, i18n("Folder"), m_itemModel, m_itemModel->getRootFolder());
+                    auto newFolder = new ProjectFolder(parentId, i18n("Folder"), m_itemModel, m_itemModel->getRootFolder());
+                    parentFolder->appendChild(newFolder);
+                    parentFolder = newFolder;
                 } else {
                     // Try to process again at end of queue
                     folderIds.append(id);
@@ -1487,8 +1491,8 @@ void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
             placeHolder->setName(foldersData.value(id));
         } else {
             // Create new folder
-            // FIXME(style): constructor actually adds the new pointer to parent's children
-            new ProjectFolder(folderId, foldersData.value(id), m_itemModel, parentFolder);
+            auto newFolder = new ProjectFolder(folderId, foldersData.value(id), m_itemModel, parentFolder);
+            parentFolder->appendChild(newFolder);
         }
     }
 }
@@ -2156,7 +2160,6 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
         } else {
             parentFolder = m_itemModel->getRootFolder();
         }
-        // FIXME(style): constructor actually adds the new pointer to parent's children
         // TODO at this point, we shouldn't have a controller, but rather a bare producer
         ProjectClip *newClip = new ProjectClip(info.clipId, m_blankThumb, m_itemModel, controller->originalProducer(), parentFolder);
         parentFolder->appendChild(newClip);
