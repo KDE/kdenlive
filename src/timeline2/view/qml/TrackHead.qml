@@ -112,6 +112,62 @@ Rectangle {
                 }
                 tooltip: buttonBar.visible? i18n('Minimize') : i18n('Expand')
             }
+            Item {
+                width: nameEdit.height / 3
+                height: width
+                Rectangle {
+                    id: trackLed
+                    color: 'grey'
+                    anchors.fill: parent
+                    width: height
+                    radius: height
+                    border.width: 1
+                    state:  'normalled'
+                    states: [
+                        State {
+                            name: 'locked'
+                            when: trackHeadRoot.isLocked
+                            PropertyChanges {
+                                target: trackLed
+                                color: 'red'
+                            }
+                        },
+                        State {
+                            name: 'mute'
+                            when: trackHeadRoot.isMute || trackHeadRoot.isHidden
+                            PropertyChanges {
+                                target: trackLed
+                                color: 'orange'
+                            }
+                        },
+                        State {
+                            name: 'normalled'
+                            when: !trackHeadRoot.isLocked && !trackHeadRoot.isMute && !trackHeadRoot.isHidden
+                            PropertyChanges {
+                                target: trackLed
+                                color: trackHeadRoot.selected ? 'green' : 'grey'
+                            }
+                        }
+                    ]
+                    transitions: [
+                        Transition {
+                            to: '*'
+                            ColorAnimation { target: trackLed; duration: 300 }
+                        }
+                    ]
+                }
+                InnerShadow {
+                    // Led shadow
+                    anchors.fill: trackLed
+                    cached: false
+                    horizontalOffset: -2
+                    verticalOffset: -2
+                    radius: trackLed.height
+                    color: Qt.darker(trackLed.color)
+                    fast: true
+                    source: trackLed
+                }
+            }
             Rectangle {
                 id: trackLabel
                 color: 'transparent'
@@ -157,58 +213,6 @@ Rectangle {
             id: buttonBar
             visible: (trackHeadRoot.height > trackLabel.height + muteButton.height + resizer.height + 4)
             Layout.leftMargin: 2
-            Rectangle {
-                id: trackLed
-                color: 'grey'
-                width: 14
-                height: 14
-                radius: 14
-                border.width: 1
-                InnerShadow {
-                    anchors.fill: parent
-                    cached: false
-                    horizontalOffset: -1
-                    verticalOffset: -1
-                    radius: 12
-                    samples: 10
-                    color: Qt.darker(parent.color)
-                    smooth: true
-                    source: parent
-                }
-                state: 'normalled'
-                states: [
-                    State {
-                        name: 'locked'
-                        when: trackHeadRoot.isLocked
-                        PropertyChanges {
-                            target: trackLed
-                            color: 'red'
-                        }
-                    },
-                    State {
-                        name: 'mute'
-                        when: trackHeadRoot.isMute || trackHeadRoot.isHidden
-                        PropertyChanges {
-                            target: trackLed
-                            color: 'orange'
-                        }
-                    },
-                    State {
-                        when: !trackHeadRoot.isLocked && !trackHeadRoot.isMute && !trackHeadRoot.isHidden
-                        name: 'normalled'
-                        PropertyChanges {
-                            target: trackLed
-                            color: trackHeadRoot.selected ? 'green' : 'grey'
-                        }
-                    }
-                ]
-                transitions: [
-                    Transition {
-                        to: '*'
-                        ColorAnimation { target: trackLed; duration: 300 }
-                    }
-                ]
-            }
             ToolButton {
                 id: muteButton
                 iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
