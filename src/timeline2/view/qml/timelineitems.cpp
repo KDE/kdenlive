@@ -14,7 +14,7 @@ public:
     {
         setAntialiasing(QPainter::Antialiasing);
     }
-    void paint(QPainter *painter)
+    void paint(QPainter *painter) override
     {
         QPainterPath path;
         path.moveTo(0, 0);
@@ -26,7 +26,7 @@ public:
 
 class TimelinePlayhead : public QQuickPaintedItem
 {
-    void paint(QPainter *painter)
+    void paint(QPainter *painter) override
     {
         QPainterPath path;
         path.moveTo(width(), 0);
@@ -52,7 +52,7 @@ public:
         connect(this, SIGNAL(propertyChanged()), this, SLOT(update()));
     }
 
-    void paint(QPainter *painter)
+    void paint(QPainter *painter) override
     {
         QVariantList data = m_audioLevels.toList();
         if (data.isEmpty())
