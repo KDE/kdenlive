@@ -22,7 +22,9 @@
 const QSize Waveform::m_textWidth(35, 0);
 const int Waveform::m_paddingBottom(20);
 
-Waveform::Waveform(QWidget *parent) : AbstractGfxScopeWidget(true, parent), ui(nullptr)
+Waveform::Waveform(QWidget *parent)
+    : AbstractGfxScopeWidget(true, parent)
+    , ui(nullptr)
 {
     ui = new Ui::Waveform_UI();
     ui->setupUi(this);

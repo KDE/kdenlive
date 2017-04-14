@@ -21,7 +21,10 @@
 #include "effectstackmodel.hpp"
 #include "effectitemmodel.hpp"
 
-EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service) : AbstractTreeModel(), m_service(service), m_timelineEffectsEnabled(true)
+EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
+    : AbstractTreeModel()
+    , m_service(service)
+    , m_timelineEffectsEnabled(true)
 {
 }
 

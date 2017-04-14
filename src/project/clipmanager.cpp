@@ -50,7 +50,13 @@
 #include <QGraphicsItemGroup>
 #include <QtConcurrent>
 
-ClipManager::ClipManager(KdenliveDoc *doc) : QObject(), m_audioThumbsQueue(), m_doc(doc), m_abortThumb(false), m_closing(false), m_abortAudioThumb(false)
+ClipManager::ClipManager(KdenliveDoc *doc)
+    : QObject()
+    , m_audioThumbsQueue()
+    , m_doc(doc)
+    , m_abortThumb(false)
+    , m_closing(false)
+    , m_abortAudioThumb(false)
 {
     KImageCache::deleteCache(QStringLiteral("kdenlive-thumbs"));
     pixmapCache = new KImageCache(QStringLiteral("kdenlive-thumbs"), 10000000);

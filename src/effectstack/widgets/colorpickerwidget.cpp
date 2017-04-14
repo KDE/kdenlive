@@ -35,7 +35,8 @@
 #include <fixx11h.h>
 #endif
 
-MyFrame::MyFrame(QWidget *parent) : QFrame(parent)
+MyFrame::MyFrame(QWidget *parent)
+    : QFrame(parent)
 {
     setFrameStyle(QFrame::Box | QFrame::Plain);
     setWindowOpacity(0.5);
@@ -51,7 +52,9 @@ void MyFrame::hideEvent(QHideEvent *event)
     QTimer::singleShot(250, this, &MyFrame::getColor);
 }
 
-ColorPickerWidget::ColorPickerWidget(QWidget *parent) : QWidget(parent), m_filterActive(false)
+ColorPickerWidget::ColorPickerWidget(QWidget *parent)
+    : QWidget(parent)
+    , m_filterActive(false)
 {
 #ifdef Q_WS_X11
     m_image = nullptr;

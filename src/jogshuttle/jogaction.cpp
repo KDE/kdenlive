@@ -32,7 +32,9 @@ const double SPEEDS[] = {0.0, 1.0, 2.0, 4.0, 5.0, 8.0, 16.0, 60.0};
 const size_t SPEEDS_SIZE = sizeof(SPEEDS) / sizeof(double);
 
 JogShuttleAction::JogShuttleAction(const JogShuttle *jogShuttle, const QStringList &actionMap, QObject *parent)
-    : QObject(parent), m_jogShuttle(jogShuttle), m_actionMap(actionMap)
+    : QObject(parent)
+    , m_jogShuttle(jogShuttle)
+    , m_actionMap(actionMap)
 {
     // Add action map 0 used for stopping the monitor when the shuttle is in neutral position.
     if (m_actionMap.isEmpty()) {

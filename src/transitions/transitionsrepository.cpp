@@ -33,7 +33,8 @@
 std::unique_ptr<TransitionsRepository> TransitionsRepository::instance;
 std::once_flag TransitionsRepository::m_onceFlag;
 
-TransitionsRepository::TransitionsRepository() : AbstractAssetsRepository<TransitionType>()
+TransitionsRepository::TransitionsRepository()
+    : AbstractAssetsRepository<TransitionType>()
 {
     init();
 }

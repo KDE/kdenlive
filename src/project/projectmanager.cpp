@@ -46,7 +46,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTimeZone>
 
 ProjectManager::ProjectManager(QObject *parent)
-    : QObject(parent), m_project(nullptr), m_trackView(nullptr), m_progressDialog(nullptr), m_timelineWidgetLoaded(false)
+    : QObject(parent)
+    , m_project(nullptr)
+    , m_trackView(nullptr)
+    , m_progressDialog(nullptr)
+    , m_timelineWidgetLoaded(false)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-revert")));

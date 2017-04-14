@@ -28,7 +28,9 @@
 #include <QListWidget>
 #include <QMimeData>
 
-EffectBasket::EffectBasket(EffectsListView *effectList) : QListWidget(effectList), m_effectList(effectList)
+EffectBasket::EffectBasket(EffectsListView *effectList)
+    : QListWidget(effectList)
+    , m_effectList(effectList)
 {
     setFrameStyle(QFrame::NoFrame);
     setSelectionMode(QAbstractItemView::SingleSelection);

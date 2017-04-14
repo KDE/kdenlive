@@ -33,7 +33,8 @@
 std::unique_ptr<EffectsRepository> EffectsRepository::instance;
 std::once_flag EffectsRepository::m_onceFlag;
 
-EffectsRepository::EffectsRepository() : AbstractAssetsRepository<EffectType>()
+EffectsRepository::EffectsRepository()
+    : AbstractAssetsRepository<EffectType>()
 {
     init();
 }

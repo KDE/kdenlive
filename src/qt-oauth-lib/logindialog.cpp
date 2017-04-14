@@ -40,7 +40,9 @@
 #include "kdenlive_debug.h"
 #include <QWebView>
 
-LoginDialog::LoginDialog(QWidget *parent) : QDialog(parent), ui(new Ui::LoginDialog)
+LoginDialog::LoginDialog(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);

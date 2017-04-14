@@ -29,7 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDir>
 #include <QStandardPaths>
 
-TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent) : QDialog(parent)
+TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
+    : QDialog(parent)
 {
     m_view.setupUi(this);
     // Get the list of existing templates

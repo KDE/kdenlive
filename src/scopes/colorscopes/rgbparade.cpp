@@ -18,7 +18,8 @@
 #include <KConfigGroup>
 #include <KSharedConfig>
 
-RGBParade::RGBParade(QWidget *parent) : AbstractGfxScopeWidget(true, parent)
+RGBParade::RGBParade(QWidget *parent)
+    : AbstractGfxScopeWidget(true, parent)
 {
     ui = new Ui::RGBParade_UI();
     ui->setupUi(this);

@@ -20,11 +20,18 @@
 
 #include <QLineF>
 
-BPoint::BPoint() : h1(-1, -1), p(-1, -1), h2(-1, -1), handlesLinked(true)
+BPoint::BPoint()
+    : h1(-1, -1)
+    , p(-1, -1)
+    , h2(-1, -1)
+    , handlesLinked(true)
 {
 }
 
-BPoint::BPoint(const QPointF &handle1, const QPointF &point, const QPointF &handle2) : h1(handle1), p(point), h2(handle2)
+BPoint::BPoint(const QPointF &handle1, const QPointF &point, const QPointF &handle2)
+    : h1(handle1)
+    , p(point)
+    , h2(handle2)
 {
     autoSetLinked();
 }

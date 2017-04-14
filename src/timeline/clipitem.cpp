@@ -43,11 +43,23 @@
 static int FRAME_SIZE;
 
 ClipItem::ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs)
-    : AbstractClipItem(info, QRectF(), fps), m_binClip(clip), m_startFade(0), m_endFade(0), m_clipState(PlaylistState::Original),
-      m_originalClipState(PlaylistState::Original), m_startPix(QPixmap()), m_endPix(QPixmap()), m_hasThumbs(false), m_timeLine(nullptr),
-      m_startThumbRequested(false), m_endThumbRequested(false),
-      // m_hover(false),
-      m_speed(speed), m_strobe(strobe), m_framePixelWidth(0)
+    : AbstractClipItem(info, QRectF(), fps)
+    , m_binClip(clip)
+    , m_startFade(0)
+    , m_endFade(0)
+    , m_clipState(PlaylistState::Original)
+    , m_originalClipState(PlaylistState::Original)
+    , m_startPix(QPixmap())
+    , m_endPix(QPixmap())
+    , m_hasThumbs(false)
+    , m_timeLine(nullptr)
+    , m_startThumbRequested(false)
+    , m_endThumbRequested(false)
+    ,
+    // m_hover(false),
+    m_speed(speed)
+    , m_strobe(strobe)
+    , m_framePixelWidth(0)
 {
     setZValue(2);
     m_effectList = EffectsList(true);

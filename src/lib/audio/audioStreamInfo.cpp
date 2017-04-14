@@ -15,7 +15,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <cstdlib>
 
 AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex)
-    : m_audioStreamIndex(audioStreamIndex), m_ffmpegAudioIndex(0), m_samplingRate(48000), m_channels(2), m_bitRate(0)
+    : m_audioStreamIndex(audioStreamIndex)
+    , m_ffmpegAudioIndex(0)
+    , m_samplingRate(48000)
+    , m_channels(2)
+    , m_bitRate(0)
 {
     if (audioStreamIndex > -1) {
         QByteArray key;

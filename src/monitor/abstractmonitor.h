@@ -39,7 +39,10 @@ class AbstractRender : public QObject
          *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
          *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
         explicit AbstractRender(Kdenlive::MonitorId name, QWidget *parent = nullptr)
-        : QObject(parent), sendFrameForAnalysis(false), analyseAudio(false), m_id(name)
+        : QObject(parent)
+        , sendFrameForAnalysis(false)
+        , analyseAudio(false)
+        , m_id(name)
     {
     }
 

@@ -30,7 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class ClipController;
 
 ProjectSubClip::ProjectSubClip(ProjectClip *parent, ProjectItemModel *model, int in, int out, const QString &timecode, const QString &name)
-    : AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->AbstractProjectItem::clipId(), model, parent), m_masterClip(parent), m_in(in), m_out(out)
+    : AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->AbstractProjectItem::clipId(), model, parent)
+    , m_masterClip(parent)
+    , m_in(in)
+    , m_out(out)
 {
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);

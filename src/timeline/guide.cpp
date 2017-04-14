@@ -30,7 +30,11 @@
 #include <QStyleOptionGraphicsItem>
 
 Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, double height)
-    : QGraphicsLineItem(), m_position(pos), m_label(label), m_view(view), m_pen(QPen())
+    : QGraphicsLineItem()
+    , m_position(pos)
+    , m_label(label)
+    , m_view(view)
+    , m_pen(QPen())
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);

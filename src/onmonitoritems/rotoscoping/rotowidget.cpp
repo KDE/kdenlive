@@ -43,8 +43,11 @@ void tracking_finished(mlt_service *owner, RotoWidget *self, char *data)
 
 // TODO: port to new qml monitor edit
 RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget *parent)
-    : QWidget(parent), m_monitor(monitor), m_in(info.cropStart.frames(KdenliveSettings::project_fps())),
-      m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1), m_filter(nullptr)
+    : QWidget(parent)
+    , m_monitor(monitor)
+    , m_in(info.cropStart.frames(KdenliveSettings::project_fps()))
+    , m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1)
+    , m_filter(nullptr)
 {
     Q_UNUSED(data)
 

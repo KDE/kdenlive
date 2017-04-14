@@ -32,7 +32,9 @@
 #include "klocalizedstring.h"
 
 MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget *parent)
-    : QDialog(parent), m_clip(clip), m_dar(4.0 / 3.0)
+    : QDialog(parent)
+    , m_clip(clip)
+    , m_dar(4.0 / 3.0)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

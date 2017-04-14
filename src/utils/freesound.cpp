@@ -38,7 +38,9 @@
  * @param listWidget
  * @param parent
  */
-FreeSound::FreeSound(QListWidget *listWidget, QObject *parent) : AbstractService(listWidget, parent), m_previewProcess(new QProcess)
+FreeSound::FreeSound(QListWidget *listWidget, QObject *parent)
+    : AbstractService(listWidget, parent)
+    , m_previewProcess(new QProcess)
 {
     serviceType = FREESOUND;
     hasPreview = true;

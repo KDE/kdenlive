@@ -18,7 +18,8 @@
 
 const QString EXTENSION_PNG = QStringLiteral(".png");
 
-ColorPlaneExport::ColorPlaneExport(QWidget *parent) : QDialog(parent)
+ColorPlaneExport::ColorPlaneExport(QWidget *parent)
+    : QDialog(parent)
 {
     setupUi(this);
 

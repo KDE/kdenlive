@@ -28,7 +28,9 @@
 #include <QDir>
 #include <QFile>
 
-ProfileModel::ProfileModel(const QString &path) : m_path(path), m_invalid(false)
+ProfileModel::ProfileModel(const QString &path)
+    : m_path(path)
+    , m_invalid(false)
 {
     if (!QFile::exists(path) && path.contains(QLatin1Char('/'))) {
         qCWarning(KDENLIVE_LOG) << "WARNING, COULD NOT FIND PROFILE " << path << ". We will default to DV_PAL profile";

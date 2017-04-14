@@ -22,7 +22,8 @@
 #include "abstracttreemodel.hpp"
 #include "treeitem.hpp"
 
-AbstractTreeModel::AbstractTreeModel(QObject *parent) : QAbstractItemModel(parent)
+AbstractTreeModel::AbstractTreeModel(QObject *parent)
+    : QAbstractItemModel(parent)
 {
     rootItem = new TreeItem(QList<QVariant>(), this);
 }

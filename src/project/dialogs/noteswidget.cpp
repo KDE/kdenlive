@@ -24,7 +24,8 @@
 #include <QMouseEvent>
 #include <klocalizedstring.h>
 
-NotesWidget::NotesWidget(QWidget *parent) : QTextEdit(parent)
+NotesWidget::NotesWidget(QWidget *parent)
+    : QTextEdit(parent)
 {
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &NotesWidget::customContextMenuRequested, this, &NotesWidget::slotFillNotesMenu);

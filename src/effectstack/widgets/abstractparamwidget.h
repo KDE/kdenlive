@@ -35,7 +35,10 @@ class AbstractParamWidget : public QWidget
     Q_OBJECT
 public:
     AbstractParamWidget() = delete;
-    AbstractParamWidget(QWidget *w) : QWidget(w) {}
+    AbstractParamWidget(QWidget *w)
+        : QWidget(w)
+    {
+    }
     virtual ~AbstractParamWidget(){};
 
     /** @brief Factory method to construct a parameter widget given its xml representation

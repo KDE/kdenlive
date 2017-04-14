@@ -30,7 +30,10 @@
 #include <mlt++/MltProducer.h>
 
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id)
-    : MoveableItem<Mlt::Producer>(parent, id), m_producer(prod), m_effectStack(EffectStackModel::construct(m_producer)), m_binClipId(binClipId)
+    : MoveableItem<Mlt::Producer>(parent, id)
+    , m_producer(prod)
+    , m_effectStack(EffectStackModel::construct(m_producer))
+    , m_binClipId(binClipId)
 {
     checkLimitless();
 }

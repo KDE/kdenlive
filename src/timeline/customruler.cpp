@@ -58,8 +58,16 @@ static int bigMarkDistance;
 const int CustomRuler::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
 CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerActions, CustomTrackView *parent)
-    : QWidget(parent), m_timecode(tc), m_view(parent), m_duration(0), m_offset(0), m_hidePreview(true), m_headPosition(SEEK_INACTIVE), m_clickedGuide(-1),
-      m_rate(-1), m_mouseMove(NO_MOVE)
+    : QWidget(parent)
+    , m_timecode(tc)
+    , m_view(parent)
+    , m_duration(0)
+    , m_offset(0)
+    , m_hidePreview(true)
+    , m_headPosition(SEEK_INACTIVE)
+    , m_clickedGuide(-1)
+    , m_rate(-1)
+    , m_mouseMove(NO_MOVE)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QFontMetricsF fontMetrics(font());

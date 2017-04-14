@@ -28,7 +28,8 @@
 #include <QIcon>
 #include <QPainter>
 
-AssetIconProvider::AssetIconProvider(bool effect) : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
+AssetIconProvider::AssetIconProvider(bool effect)
+    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
 {
     m_effect = effect;
 }

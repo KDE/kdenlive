@@ -37,8 +37,18 @@
 #include <QVBoxLayout>
 
 GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget *parent)
-    : AbstractParamWidget(parent), m_monitor(info->monitor), m_timePos(new TimecodeDisplay(info->monitor->timecode())), m_clipPos(clipPos), m_inPoint(0),
-      m_outPoint(1), m_previous(nullptr), m_geometry(nullptr), m_frameSize(info->frameSize), m_fixedGeom(false), m_singleKeyframe(false), m_useOffset(useOffset)
+    : AbstractParamWidget(parent)
+    , m_monitor(info->monitor)
+    , m_timePos(new TimecodeDisplay(info->monitor->timecode()))
+    , m_clipPos(clipPos)
+    , m_inPoint(0)
+    , m_outPoint(1)
+    , m_previous(nullptr)
+    , m_geometry(nullptr)
+    , m_frameSize(info->frameSize)
+    , m_fixedGeom(false)
+    , m_singleKeyframe(false)
+    , m_useOffset(useOffset)
 {
     m_ui.setupUi(this);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);

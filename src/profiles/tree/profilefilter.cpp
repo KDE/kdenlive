@@ -24,7 +24,8 @@
 #include "../profilerepository.hpp"
 #include "profiletreemodel.hpp"
 
-ProfileFilter::ProfileFilter(QObject *parent) : QSortFilterProxyModel(parent)
+ProfileFilter::ProfileFilter(QObject *parent)
+    : QSortFilterProxyModel(parent)
 {
     m_interlaced_enabled = m_fps_enabled = false;
 }

@@ -35,7 +35,9 @@
 // For QDomNode debugging (output into files); leaving here as sample code.
 //#define DEBUG_ESE
 
-EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) : QScrollArea(parent), m_paramWidget(nullptr)
+EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent)
+    : QScrollArea(parent)
+    , m_paramWidget(nullptr)
 {
     m_baseWidget = new QWidget(this);
     m_metaInfo.monitor = monitor;

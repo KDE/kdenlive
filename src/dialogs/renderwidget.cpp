@@ -90,7 +90,9 @@ static QStringList acodecsList;
 static QStringList vcodecsList;
 static QStringList supportedFormats;
 
-RenderJobItem::RenderJobItem(QTreeWidget *parent, const QStringList &strings, int type) : QTreeWidgetItem(parent, strings, type), m_status(-1)
+RenderJobItem::RenderJobItem(QTreeWidget *parent, const QStringList &strings, int type)
+    : QTreeWidgetItem(parent, strings, type)
+    , m_status(-1)
 {
     setSizeHint(1, QSize(parent->columnWidth(1), parent->fontMetrics().height() * 3));
     setStatus(WAITINGJOB);
@@ -142,7 +144,10 @@ const QString RenderJobItem::metadata() const
 }
 
 RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const QString &profile, QWidget *parent)
-    : QDialog(parent), m_projectFolder(projectfolder), m_profile(profile), m_blockProcessing(false)
+    : QDialog(parent)
+    , m_projectFolder(projectfolder)
+    , m_profile(profile)
+    , m_blockProcessing(false)
 {
     m_view.setupUi(this);
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);

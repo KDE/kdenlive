@@ -39,8 +39,15 @@ static void consumer_gl_frame_show(mlt_consumer, MltDeviceCapture *self, mlt_fra
 }
 
 MltDeviceCapture::MltDeviceCapture(QString profile, /*VideoSurface *surface, */ QWidget *parent)
-    : AbstractRender(Kdenlive::RecordMonitor, parent), doCapture(0), processingImage(false), m_mltConsumer(nullptr), m_mltProducer(nullptr),
-      m_mltProfile(nullptr), m_showFrameEvent(nullptr), m_droppedFrames(0), m_livePreview(KdenliveSettings::enable_recording_preview())
+    : AbstractRender(Kdenlive::RecordMonitor, parent)
+    , doCapture(0)
+    , processingImage(false)
+    , m_mltConsumer(nullptr)
+    , m_mltProducer(nullptr)
+    , m_mltProfile(nullptr)
+    , m_showFrameEvent(nullptr)
+    , m_droppedFrames(0)
+    , m_livePreview(KdenliveSettings::enable_recording_preview())
 {
     analyseAudio = KdenliveSettings::monitor_audio();
     if (profile.isEmpty()) {

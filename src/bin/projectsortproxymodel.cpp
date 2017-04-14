@@ -24,7 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QItemSelectionModel>
 
-ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
+ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
+    : QSortFilterProxyModel(parent)
 {
     m_collator.setNumericMode(true);
     m_selection = new QItemSelectionModel(this);

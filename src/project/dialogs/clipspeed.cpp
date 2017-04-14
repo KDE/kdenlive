@@ -26,7 +26,8 @@
 #include <QStandardPaths>
 #include <klocalizedstring.h>
 
-ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent) : QDialog(parent)
+ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent)
+    : QDialog(parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);

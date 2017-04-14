@@ -36,7 +36,8 @@
 #include <QJsonObject>
 #include <QPointer>
 
-CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id)
+CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters)
+    : AbstractClipJob(CUTJOB, cType, id)
 {
     m_jobStatus = JobWaiting;
     jobType = (AbstractClipJob::JOBTYPE)parameters.at(0).toInt();

@@ -55,8 +55,10 @@
 #endif
 
 KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &mappable_actions, bool gpuAllowed, QWidget *parent)
-    : KConfigDialog(parent, QStringLiteral("settings"), KdenliveSettings::self()), m_modified(false), m_shuttleModified(false),
-      m_mappable_actions(mappable_actions)
+    : KConfigDialog(parent, QStringLiteral("settings"), KdenliveSettings::self())
+    , m_modified(false)
+    , m_shuttleModified(false)
+    , m_mappable_actions(mappable_actions)
 {
     KdenliveSettings::setV4l_format(0);
     QWidget *p1 = new QWidget;

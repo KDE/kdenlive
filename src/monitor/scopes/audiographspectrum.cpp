@@ -125,7 +125,8 @@ static inline double levelToDB(double dB)
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }*/
 
-AudioGraphWidget::AudioGraphWidget(QWidget *parent) : QWidget(parent)
+AudioGraphWidget::AudioGraphWidget(QWidget *parent)
+    : QWidget(parent)
 {
     m_dbLabels << -45 << -30 << -20 << -15 << -10 << -5 << -2 << 0;
     for (int i = FIRST_AUDIBLE_BAND_INDEX; i <= LAST_AUDIBLE_BAND_INDEX; i++) {
@@ -267,7 +268,9 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
     }
 }
 
-AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent) : ScopeWidget(parent), m_manager(manager)
+AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent)
+    : ScopeWidget(parent)
+    , m_manager(manager)
 {
     auto *lay = new QVBoxLayout(this);
     m_graphWidget = new AudioGraphWidget(this);

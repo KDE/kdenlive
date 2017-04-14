@@ -23,7 +23,9 @@
 #include "abstractmodel/treeitem.hpp"
 #include "assettreemodel.hpp"
 
-AssetFilter::AssetFilter(QObject *parent) : QSortFilterProxyModel(parent), m_name_enabled(false)
+AssetFilter::AssetFilter(QObject *parent)
+    : QSortFilterProxyModel(parent)
+    , m_name_enabled(false)
 {
 }
 

@@ -24,7 +24,8 @@
 
 static const char *kPlaylistTrackId = "main bin";
 
-BinController::BinController(const QString &profileName) : QObject()
+BinController::BinController(const QString &profileName)
+    : QObject()
 {
     // resetProfile(profileName.isEmpty() ? KdenliveSettings::current_profile() : profileName);
 }

@@ -31,7 +31,10 @@
 
 #include <QMimeData>
 
-TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) : QWidget(parent), m_usedTransition(nullptr), m_autoTrackTransition(0)
+TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent)
+    : QWidget(parent)
+    , m_usedTransition(nullptr)
+    , m_autoTrackTransition(0)
 {
     setupUi(this);
     auto *vbox1 = new QVBoxLayout(frame);

@@ -38,7 +38,10 @@
 
 KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo, const QMap<QString, QString> &data, const Timecode &tc, const QDomElement &xml,
                                const ProfileInfo &profile, QWidget *parent)
-    : QDialog(parent), m_xml(xml), m_profile(profile), m_supportsAnim(false)
+    : QDialog(parent)
+    , m_xml(xml)
+    , m_profile(profile)
+    , m_supportsAnim(false)
 {
     auto *lay = new QVBoxLayout(this);
     auto *l1 = new QHBoxLayout;

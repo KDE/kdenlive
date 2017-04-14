@@ -22,7 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "qmlaudiothumb.h"
 #include <QPainter>
 
-QmlAudioThumb::QmlAudioThumb(QQuickItem *parent) : QQuickPaintedItem(parent)
+QmlAudioThumb::QmlAudioThumb(QQuickItem *parent)
+    : QQuickPaintedItem(parent)
 {
 }
 

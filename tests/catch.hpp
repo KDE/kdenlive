@@ -521,12 +521,17 @@ namespace Catch {
 template <typename T> class Ptr
 {
 public:
-    Ptr() : m_p(CATCH_NULL) {}
-    Ptr(T *p) : m_p(p)
+    Ptr()
+        : m_p(CATCH_NULL)
+    {
+    }
+    Ptr(T *p)
+        : m_p(p)
     {
         if (m_p) m_p->addRef();
     }
-    Ptr(Ptr const &other) : m_p(other.m_p)
+    Ptr(Ptr const &other)
+        : m_p(other.m_p)
     {
         if (m_p) m_p->addRef();
     }
@@ -572,7 +577,10 @@ struct IShared : NonCopyable
 template <typename T = IShared> struct SharedImpl : T
 {
 
-    SharedImpl() : m_rc(0) {}
+    SharedImpl()
+        : m_rc(0)
+    {
+    }
 
     virtual void addRef() const { ++m_rc; }
     virtual void release() const
@@ -668,7 +676,10 @@ template <typename C> class MethodTestCase : public SharedImpl<ITestCase>
 {
 
 public:
-    MethodTestCase(void (C::*method)()) : m_method(method) {}
+    MethodTestCase(void (C::*method)())
+        : m_method(method)
+    {
+    }
 
     virtual void invoke() const
     {
@@ -686,7 +697,11 @@ typedef void (*TestFunction)();
 
 struct NameAndDesc
 {
-    NameAndDesc(const char *_name = "", const char *_description = "") : name(_name), description(_description) {}
+    NameAndDesc(const char *_name = "", const char *_description = "")
+        : name(_name)
+        , description(_description)
+    {
+    }
 
     const char *name;
     const char *description;
@@ -879,7 +894,10 @@ struct AssertionInfo
 
 struct AssertionResultData
 {
-    AssertionResultData() : resultType(ResultWas::Unknown) {}
+    AssertionResultData()
+        : resultType(ResultWas::Unknown)
+    {
+    }
 
     std::string reconstructedExpression;
     std::string message;
@@ -956,8 +974,14 @@ namespace Generic {
 template <typename ExpressionT> class Not : public MatcherImpl<Not<ExpressionT>, ExpressionT>
 {
 public:
-    explicit Not(Matcher<ExpressionT> const &matcher) : m_matcher(matcher.clone()) {}
-    Not(Not const &other) : m_matcher(other.m_matcher) {}
+    explicit Not(Matcher<ExpressionT> const &matcher)
+        : m_matcher(matcher.clone())
+    {
+    }
+    Not(Not const &other)
+        : m_matcher(other.m_matcher)
+    {
+    }
 
     virtual bool match(ExpressionT const &expr) const CATCH_OVERRIDE { return !m_matcher->match(expr); }
 
@@ -970,7 +994,10 @@ template <typename ExpressionT> class AllOf : public MatcherImpl<AllOf<Expressio
 {
 public:
     AllOf() {}
-    AllOf(AllOf const &other) : m_matchers(other.m_matchers) {}
+    AllOf(AllOf const &other)
+        : m_matchers(other.m_matchers)
+    {
+    }
 
     AllOf &add(Matcher<ExpressionT> const &matcher)
     {
@@ -1010,7 +1037,10 @@ template <typename ExpressionT> class AnyOf : public MatcherImpl<AnyOf<Expressio
 {
 public:
     AnyOf() {}
-    AnyOf(AnyOf const &other) : m_matchers(other.m_matchers) {}
+    AnyOf(AnyOf const &other)
+        : m_matchers(other.m_matchers)
+    {
+    }
 
     AnyOf &add(Matcher<ExpressionT> const &matcher)
     {
@@ -1082,7 +1112,11 @@ inline std::string makeString(const char *str)
 
 struct CasedString
 {
-    CasedString(std::string const &str, CaseSensitive::Choice caseSensitivity) : m_caseSensitivity(caseSensitivity), m_str(adjustString(str)) {}
+    CasedString(std::string const &str, CaseSensitive::Choice caseSensitivity)
+        : m_caseSensitivity(caseSensitivity)
+        , m_str(adjustString(str))
+    {
+    }
     std::string adjustString(std::string const &str) const { return m_caseSensitivity == CaseSensitive::No ? toLower(str) : str; }
     std::string toStringSuffix() const { return m_caseSensitivity == CaseSensitive::No ? " (case insensitive)" : ""; }
     CaseSensitive::Choice m_caseSensitivity;
@@ -1091,8 +1125,14 @@ struct CasedString
 
 struct Equals : MatcherImpl<Equals, std::string>
 {
-    Equals(std::string const &str, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes) : m_data(str, caseSensitivity) {}
-    Equals(Equals const &other) : m_data(other.m_data) {}
+    Equals(std::string const &str, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes)
+        : m_data(str, caseSensitivity)
+    {
+    }
+    Equals(Equals const &other)
+        : m_data(other.m_data)
+    {
+    }
 
     virtual ~Equals();
 
@@ -1108,8 +1148,14 @@ struct Equals : MatcherImpl<Equals, std::string>
 
 struct Contains : MatcherImpl<Contains, std::string>
 {
-    Contains(std::string const &substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes) : m_data(substr, caseSensitivity) {}
-    Contains(Contains const &other) : m_data(other.m_data) {}
+    Contains(std::string const &substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes)
+        : m_data(substr, caseSensitivity)
+    {
+    }
+    Contains(Contains const &other)
+        : m_data(other.m_data)
+    {
+    }
 
     virtual ~Contains();
 
@@ -1121,9 +1167,15 @@ struct Contains : MatcherImpl<Contains, std::string>
 
 struct StartsWith : MatcherImpl<StartsWith, std::string>
 {
-    StartsWith(std::string const &substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes) : m_data(substr, caseSensitivity) {}
+    StartsWith(std::string const &substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes)
+        : m_data(substr, caseSensitivity)
+    {
+    }
 
-    StartsWith(StartsWith const &other) : m_data(other.m_data) {}
+    StartsWith(StartsWith const &other)
+        : m_data(other.m_data)
+    {
+    }
 
     virtual ~StartsWith();
 
@@ -1135,8 +1187,14 @@ struct StartsWith : MatcherImpl<StartsWith, std::string>
 
 struct EndsWith : MatcherImpl<EndsWith, std::string>
 {
-    EndsWith(std::string const &substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes) : m_data(substr, caseSensitivity) {}
-    EndsWith(EndsWith const &other) : m_data(other.m_data) {}
+    EndsWith(std::string const &substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes)
+        : m_data(substr, caseSensitivity)
+    {
+    }
+    EndsWith(EndsWith const &other)
+        : m_data(other.m_data)
+    {
+    }
 
     virtual ~EndsWith();
 
@@ -1280,7 +1338,10 @@ private:
     AssertionResultData m_data;
     struct ExprComponents
     {
-        ExprComponents() : testFalse(false) {}
+        ExprComponents()
+            : testFalse(false)
+        {
+        }
         bool testFalse;
         std::string lhs, rhs, op;
     } m_exprComponents;
@@ -1837,7 +1898,11 @@ template <typename T> class ExpressionLhs
 #endif
 
 public:
-    ExpressionLhs(ResultBuilder &rb, T lhs) : m_rb(rb), m_lhs(lhs) {}
+    ExpressionLhs(ResultBuilder &rb, T lhs)
+        : m_rb(rb)
+        , m_lhs(lhs)
+    {
+    }
 #ifdef CATCH_CONFIG_CPP11_GENERATED_METHODS
     ExpressionLhs(ExpressionLhs const &) = default;
     ExpressionLhs(ExpressionLhs &&) = default;
@@ -1929,7 +1994,10 @@ private:
 
 struct MessageBuilder
 {
-    MessageBuilder(std::string const &macroName, SourceLineInfo const &lineInfo, ResultWas::OfType type) : m_info(macroName, lineInfo, type) {}
+    MessageBuilder(std::string const &macroName, SourceLineInfo const &lineInfo, ResultWas::OfType type)
+        : m_info(macroName, lineInfo, type)
+    {
+    }
 
     template <typename T> MessageBuilder &operator<<(T const &value)
     {
@@ -2191,7 +2259,12 @@ namespace Catch {
 
 struct Counts
 {
-    Counts() : passed(0), failed(0), failedButOk(0) {}
+    Counts()
+        : passed(0)
+        , failed(0)
+        , failedButOk(0)
+    {
+    }
 
     Counts operator-(Counts const &other) const
     {
@@ -2267,7 +2340,9 @@ struct SectionInfo
 struct SectionEndInfo
 {
     SectionEndInfo(SectionInfo const &_sectionInfo, Counts const &_prevAssertions, double _durationInSeconds)
-        : sectionInfo(_sectionInfo), prevAssertions(_prevAssertions), durationInSeconds(_durationInSeconds)
+        : sectionInfo(_sectionInfo)
+        , prevAssertions(_prevAssertions)
+        , durationInSeconds(_durationInSeconds)
     {
     }
 
@@ -2292,7 +2367,10 @@ namespace Catch {
 class Timer
 {
 public:
-    Timer() : m_ticks(0) {}
+    Timer()
+        : m_ticks(0)
+    {
+    }
     void start();
     unsigned int getElapsedMicroseconds() const;
     unsigned int getElapsedMilliseconds() const;
@@ -2356,7 +2434,11 @@ template <typename T> struct IGenerator
 template <typename T> class BetweenGenerator : public IGenerator<T>
 {
 public:
-    BetweenGenerator(T from, T to) : m_from(from), m_to(to) {}
+    BetweenGenerator(T from, T to)
+        : m_from(from)
+        , m_to(to)
+    {
+    }
 
     virtual T getValue(std::size_t index) const { return m_from + static_cast<int>(index); }
 
@@ -2385,10 +2467,18 @@ private:
 template <typename T> class CompositeGenerator
 {
 public:
-    CompositeGenerator() : m_totalSize(0) {}
+    CompositeGenerator()
+        : m_totalSize(0)
+    {
+    }
 
     // *** Move semantics, similar to auto_ptr ***
-    CompositeGenerator(CompositeGenerator &other) : m_fileInfo(other.m_fileInfo), m_totalSize(0) { move(other); }
+    CompositeGenerator(CompositeGenerator &other)
+        : m_fileInfo(other.m_fileInfo)
+        , m_totalSize(0)
+    {
+        move(other);
+    }
 
     CompositeGenerator &setFileInfo(const char *fileInfo)
     {
@@ -2569,7 +2659,10 @@ class ExceptionTranslatorRegistrar
     template <typename T> class ExceptionTranslator : public IExceptionTranslator
     {
     public:
-        ExceptionTranslator(std::string (*translateFunction)(T &)) : m_translateFunction(translateFunction) {}
+        ExceptionTranslator(std::string (*translateFunction)(T &))
+            : m_translateFunction(translateFunction)
+        {
+        }
 
         virtual std::string translate(ExceptionTranslators::const_iterator it, ExceptionTranslators::const_iterator itEnd) const CATCH_OVERRIDE
         {
@@ -2618,9 +2711,19 @@ namespace Detail {
 class Approx
 {
 public:
-    explicit Approx(double value) : m_epsilon(std::numeric_limits<float>::epsilon() * 100), m_scale(1.0), m_value(value) {}
+    explicit Approx(double value)
+        : m_epsilon(std::numeric_limits<float>::epsilon() * 100)
+        , m_scale(1.0)
+        , m_value(value)
+    {
+    }
 
-    Approx(Approx const &other) : m_epsilon(other.m_epsilon), m_scale(other.m_scale), m_value(other.m_value) {}
+    Approx(Approx const &other)
+        : m_epsilon(other.m_epsilon)
+        , m_scale(other.m_scale)
+        , m_value(other.m_value)
+    {
+    }
 
     static Approx custom() { return Approx(0); }
 
@@ -2697,7 +2800,11 @@ namespace Catch {
 
 struct TagAlias
 {
-    TagAlias(std::string _tag, SourceLineInfo _lineInfo) : tag(_tag), lineInfo(_lineInfo) {}
+    TagAlias(std::string _tag, SourceLineInfo _lineInfo)
+        : tag(_tag)
+        , lineInfo(_lineInfo)
+    {
+    }
 
     std::string tag;
     SourceLineInfo lineInfo;
@@ -2723,9 +2830,18 @@ namespace Catch {
 template <typename T> class Option
 {
 public:
-    Option() : nullableValue(CATCH_NULL) {}
-    Option(T const &_value) : nullableValue(new (storage) T(_value)) {}
-    Option(Option const &_other) : nullableValue(_other ? new (storage) T(*_other) : CATCH_NULL) {}
+    Option()
+        : nullableValue(CATCH_NULL)
+    {
+    }
+    Option(T const &_value)
+        : nullableValue(new (storage) T(_value))
+    {
+    }
+    Option(Option const &_other)
+        : nullableValue(_other ? new (storage) T(*_other) : CATCH_NULL)
+    {
+    }
 
     ~Option() { reset(); }
 
@@ -2885,7 +3001,11 @@ class OcMethod : public SharedImpl<ITestCase>
 {
 
 public:
-    OcMethod(Class cls, SEL sel) : m_cls(cls), m_sel(sel) {}
+    OcMethod(Class cls, SEL sel)
+        : m_cls(cls)
+        , m_sel(sel)
+    {
+    }
 
     virtual void invoke() const
     {
@@ -2956,8 +3076,14 @@ namespace NSStringMatchers {
 
 template <typename MatcherT> struct StringHolder : MatcherImpl<MatcherT, NSString *>
 {
-    StringHolder(NSString *substr) : m_substr([substr copy]) {}
-    StringHolder(StringHolder const &other) : m_substr([other.m_substr copy]) {}
+    StringHolder(NSString *substr)
+        : m_substr([substr copy])
+    {
+    }
+    StringHolder(StringHolder const &other)
+        : m_substr([other.m_substr copy])
+    {
+    }
     StringHolder() { arcSafeRelease(m_substr); }
 
     NSString *m_substr;
@@ -2965,7 +3091,10 @@ template <typename MatcherT> struct StringHolder : MatcherImpl<MatcherT, NSStrin
 
 struct Equals : StringHolder<Equals>
 {
-    Equals(NSString *substr) : StringHolder(substr) {}
+    Equals(NSString *substr)
+        : StringHolder(substr)
+    {
+    }
 
     virtual bool match(ExpressionType const &str) const { return (str != nil || m_substr == nil) && [str isEqualToString:m_substr]; }
 
@@ -2974,7 +3103,10 @@ struct Equals : StringHolder<Equals>
 
 struct Contains : StringHolder<Contains>
 {
-    Contains(NSString *substr) : StringHolder(substr) {}
+    Contains(NSString *substr)
+        : StringHolder(substr)
+    {
+    }
 
     virtual bool match(ExpressionType const &str) const { return (str != nil || m_substr == nil) && [str rangeOfString:m_substr].location != NSNotFound; }
 
@@ -2983,7 +3115,10 @@ struct Contains : StringHolder<Contains>
 
 struct StartsWith : StringHolder<StartsWith>
 {
-    StartsWith(NSString *substr) : StringHolder(substr) {}
+    StartsWith(NSString *substr)
+        : StringHolder(substr)
+    {
+    }
 
     virtual bool match(ExpressionType const &str) const { return (str != nil || m_substr == nil) && [str rangeOfString:m_substr].location == 0; }
 
@@ -2991,7 +3126,10 @@ struct StartsWith : StringHolder<StartsWith>
 };
 struct EndsWith : StringHolder<EndsWith>
 {
-    EndsWith(NSString *substr) : StringHolder(substr) {}
+    EndsWith(NSString *substr)
+        : StringHolder(substr)
+    {
+    }
 
     virtual bool match(ExpressionType const &str) const
     {
@@ -3085,7 +3223,9 @@ class WildcardPattern
 
 public:
     WildcardPattern(std::string const &pattern, CaseSensitive::Choice caseSensitivity)
-        : m_caseSensitivity(caseSensitivity), m_wildcard(NoWildcard), m_pattern(adjustCase(pattern))
+        : m_caseSensitivity(caseSensitivity)
+        , m_wildcard(NoWildcard)
+        , m_pattern(adjustCase(pattern))
     {
         if (startsWith(m_pattern, "*")) {
             m_pattern = m_pattern.substr(1);
@@ -3143,7 +3283,10 @@ class TestSpec
     class NamePattern : public Pattern
     {
     public:
-        NamePattern(std::string const &name) : m_wildcardPattern(toLower(name), CaseSensitive::No) {}
+        NamePattern(std::string const &name)
+            : m_wildcardPattern(toLower(name), CaseSensitive::No)
+        {
+        }
         virtual ~NamePattern();
         virtual bool matches(TestCaseInfo const &testCase) const { return m_wildcardPattern.matches(toLower(testCase.name)); }
     private:
@@ -3153,7 +3296,10 @@ class TestSpec
     class TagPattern : public Pattern
     {
     public:
-        TagPattern(std::string const &tag) : m_tag(toLower(tag)) {}
+        TagPattern(std::string const &tag)
+            : m_tag(toLower(tag))
+        {
+        }
         virtual ~TagPattern();
         virtual bool matches(TestCaseInfo const &testCase) const { return testCase.lcaseTags.find(m_tag) != testCase.lcaseTags.end(); }
     private:
@@ -3163,7 +3309,10 @@ class TestSpec
     class ExcludedPattern : public Pattern
     {
     public:
-        ExcludedPattern(Ptr<Pattern> const &underlyingPattern) : m_underlyingPattern(underlyingPattern) {}
+        ExcludedPattern(Ptr<Pattern> const &underlyingPattern)
+            : m_underlyingPattern(underlyingPattern)
+        {
+        }
         virtual ~ExcludedPattern();
         virtual bool matches(TestCaseInfo const &testCase) const { return !m_underlyingPattern->matches(testCase); }
     private:
@@ -3220,7 +3369,10 @@ class TestSpecParser
     ITagAliasRegistry const *m_tagAliases;
 
 public:
-    TestSpecParser(ITagAliasRegistry const &tagAliases) : m_tagAliases(&tagAliases) {}
+    TestSpecParser(ITagAliasRegistry const &tagAliases)
+        : m_tagAliases(&tagAliases)
+    {
+    }
 
     TestSpecParser &parse(std::string const &arg)
     {
@@ -3470,9 +3622,23 @@ struct ConfigData
 {
 
     ConfigData()
-        : listTests(false), listTags(false), listReporters(false), listTestNamesOnly(false), showSuccessfulTests(false), shouldDebugBreak(false),
-          noThrow(false), showHelp(false), showInvisibles(false), filenamesAsTags(false), abortAfter(-1), rngSeed(0), verbosity(Verbosity::Normal),
-          warnings(WarnAbout::Nothing), showDurations(ShowDurations::DefaultForReporter), runOrder(RunTests::InDeclarationOrder), useColour(UseColour::Auto)
+        : listTests(false)
+        , listTags(false)
+        , listReporters(false)
+        , listTestNamesOnly(false)
+        , showSuccessfulTests(false)
+        , shouldDebugBreak(false)
+        , noThrow(false)
+        , showHelp(false)
+        , showInvisibles(false)
+        , filenamesAsTags(false)
+        , abortAfter(-1)
+        , rngSeed(0)
+        , verbosity(Verbosity::Normal)
+        , warnings(WarnAbout::Nothing)
+        , showDurations(ShowDurations::DefaultForReporter)
+        , runOrder(RunTests::InDeclarationOrder)
+        , useColour(UseColour::Auto)
     {
     }
 
@@ -3515,7 +3681,9 @@ private:
 public:
     Config() {}
 
-    Config(ConfigData const &data) : m_data(data), m_stream(openStream())
+    Config(ConfigData const &data)
+        : m_data(data)
+        , m_stream(openStream())
     {
         if (!data.testsOrTags.empty()) {
             TestSpecParser parser(ITagAliasRegistry::get());
@@ -3636,7 +3804,13 @@ const unsigned int consoleWidth = 80;
 
 struct TextAttributes
 {
-    TextAttributes() : initialIndent(std::string::npos), indent(0), width(consoleWidth - 1), tabChar('\t') {}
+    TextAttributes()
+        : initialIndent(std::string::npos)
+        , indent(0)
+        , width(consoleWidth - 1)
+        , tabChar('\t')
+    {
+    }
 
     TextAttributes &setInitialIndent(std::size_t _value)
     {
@@ -3668,7 +3842,8 @@ struct TextAttributes
 class Text
 {
 public:
-    Text(std::string const &_str, TextAttributes const &_attr = TextAttributes()) : attr(_attr)
+    Text(std::string const &_str, TextAttributes const &_attr = TextAttributes())
+        : attr(_attr)
     {
         std::string wrappableChars = " [({.,/|\\-";
         std::size_t indent = _attr.initialIndent != std::string::npos ? _attr.initialIndent : _attr.indent;
@@ -4021,9 +4196,18 @@ template <typename ConfigT> struct IArgFunction
 template <typename ConfigT> class BoundArgFunction
 {
 public:
-    BoundArgFunction() : functionObj(CLARA_NULL) {}
-    BoundArgFunction(IArgFunction<ConfigT> *_functionObj) : functionObj(_functionObj) {}
-    BoundArgFunction(BoundArgFunction const &other) : functionObj(other.functionObj ? other.functionObj->clone() : CLARA_NULL) {}
+    BoundArgFunction()
+        : functionObj(CLARA_NULL)
+    {
+    }
+    BoundArgFunction(IArgFunction<ConfigT> *_functionObj)
+        : functionObj(_functionObj)
+    {
+    }
+    BoundArgFunction(BoundArgFunction const &other)
+        : functionObj(other.functionObj ? other.functionObj->clone() : CLARA_NULL)
+    {
+    }
     BoundArgFunction &operator=(BoundArgFunction const &other)
     {
         IArgFunction<ConfigT> *newFunctionObj = other.functionObj ? other.functionObj->clone() : CLARA_NULL;
@@ -4050,7 +4234,10 @@ template <typename C> struct NullBinder : IArgFunction<C>
 
 template <typename C, typename M> struct BoundDataMember : IArgFunction<C>
 {
-    BoundDataMember(M C::*_member) : member(_member) {}
+    BoundDataMember(M C::*_member)
+        : member(_member)
+    {
+    }
     virtual void set(C &p, std::string const &stringValue) const { convertInto(stringValue, p.*member); }
     virtual bool takesArg() const { return !IsBool<M>::value; }
     virtual IArgFunction<C> *clone() const { return new BoundDataMember(*this); }
@@ -4058,7 +4245,10 @@ template <typename C, typename M> struct BoundDataMember : IArgFunction<C>
 };
 template <typename C, typename M> struct BoundUnaryMethod : IArgFunction<C>
 {
-    BoundUnaryMethod(void (C::*_member)(M)) : member(_member) {}
+    BoundUnaryMethod(void (C::*_member)(M))
+        : member(_member)
+    {
+    }
     virtual void set(C &p, std::string const &stringValue) const
     {
         typename RemoveConstRef<M>::type value;
@@ -4071,7 +4261,10 @@ template <typename C, typename M> struct BoundUnaryMethod : IArgFunction<C>
 };
 template <typename C> struct BoundNullaryMethod : IArgFunction<C>
 {
-    BoundNullaryMethod(void (C::*_member)()) : member(_member) {}
+    BoundNullaryMethod(void (C::*_member)())
+        : member(_member)
+    {
+    }
     virtual void set(C &p, std::string const &stringValue) const
     {
         bool value;
@@ -4085,7 +4278,10 @@ template <typename C> struct BoundNullaryMethod : IArgFunction<C>
 
 template <typename C> struct BoundUnaryFunction : IArgFunction<C>
 {
-    BoundUnaryFunction(void (*_function)(C &)) : function(_function) {}
+    BoundUnaryFunction(void (*_function)(C &))
+        : function(_function)
+    {
+    }
     virtual void set(C &obj, std::string const &stringValue) const
     {
         bool value;
@@ -4099,7 +4295,10 @@ template <typename C> struct BoundUnaryFunction : IArgFunction<C>
 
 template <typename C, typename T> struct BoundBinaryFunction : IArgFunction<C>
 {
-    BoundBinaryFunction(void (*_function)(C &, T)) : function(_function) {}
+    BoundBinaryFunction(void (*_function)(C &, T))
+        : function(_function)
+    {
+    }
     virtual void set(C &obj, std::string const &stringValue) const
     {
         typename RemoveConstRef<T>::type value;
@@ -4133,12 +4332,21 @@ public:
     struct Token
     {
         enum Type { Positional, ShortOpt, LongOpt };
-        Token(Type _type, std::string const &_data) : type(_type), data(_data) {}
+        Token(Type _type, std::string const &_data)
+            : type(_type)
+            , data(_data)
+        {
+        }
         Type type;
         std::string data;
     };
 
-    Parser() : mode(None), from(0), inQuotes(false) {}
+    Parser()
+        : mode(None)
+        , from(0)
+        , inQuotes(false)
+    {
+    }
 
     void parseIntoTokens(std::vector<std::string> const &args, std::vector<Token> &tokens)
     {
@@ -4230,7 +4438,10 @@ public:
 template <typename ConfigT> struct CommonArgProperties
 {
     CommonArgProperties() {}
-    CommonArgProperties(Detail::BoundArgFunction<ConfigT> const &_boundField) : boundField(_boundField) {}
+    CommonArgProperties(Detail::BoundArgFunction<ConfigT> const &_boundField)
+        : boundField(_boundField)
+    {
+    }
 
     Detail::BoundArgFunction<ConfigT> boundField;
     std::string description;
@@ -4253,7 +4464,10 @@ struct OptionArgProperties
 };
 struct PositionalArgProperties
 {
-    PositionalArgProperties() : position(-1) {}
+    PositionalArgProperties()
+        : position(-1)
+    {
+    }
     int position; // -1 means non-positional (floating)
 
     bool isFixedPositional() const { return position != -1; }
@@ -4265,7 +4479,10 @@ template <typename ConfigT> class CommandLine
     struct Arg : CommonArgProperties<ConfigT>, OptionArgProperties, PositionalArgProperties
     {
         Arg() {}
-        Arg(Detail::BoundArgFunction<ConfigT> const &_boundField) : CommonArgProperties<ConfigT>(_boundField) {}
+        Arg(Detail::BoundArgFunction<ConfigT> const &_boundField)
+            : CommonArgProperties<ConfigT>(_boundField)
+        {
+        }
 
         using CommonArgProperties<ConfigT>::placeholder; // !TBD
 
@@ -4315,7 +4532,10 @@ template <typename ConfigT> class CommandLine
     class ArgBuilder
     {
     public:
-        ArgBuilder(Arg *arg) : m_arg(arg) {}
+        ArgBuilder(Arg *arg)
+            : m_arg(arg)
+        {
+        }
 
         // Bind a non-boolean data member (requires placeholder string)
         template <typename C, typename M> void bind(M C::*field, std::string const &placeholder)
@@ -4367,8 +4587,14 @@ template <typename ConfigT> class CommandLine
     class OptBuilder : public ArgBuilder
     {
     public:
-        OptBuilder(Arg *arg) : ArgBuilder(arg) {}
-        OptBuilder(OptBuilder &other) : ArgBuilder(other) {}
+        OptBuilder(Arg *arg)
+            : ArgBuilder(arg)
+        {
+        }
+        OptBuilder(OptBuilder &other)
+            : ArgBuilder(other)
+        {
+        }
 
         OptBuilder &operator[](std::string const &optName)
         {
@@ -4378,10 +4604,18 @@ template <typename ConfigT> class CommandLine
     };
 
 public:
-    CommandLine() : m_boundProcessName(new Detail::NullBinder<ConfigT>()), m_highestSpecifiedArgPosition(0), m_throwOnUnrecognisedTokens(false) {}
+    CommandLine()
+        : m_boundProcessName(new Detail::NullBinder<ConfigT>())
+        , m_highestSpecifiedArgPosition(0)
+        , m_throwOnUnrecognisedTokens(false)
+    {
+    }
     CommandLine(CommandLine const &other)
-        : m_boundProcessName(other.m_boundProcessName), m_options(other.m_options), m_positionalArgs(other.m_positionalArgs),
-          m_highestSpecifiedArgPosition(other.m_highestSpecifiedArgPosition), m_throwOnUnrecognisedTokens(other.m_throwOnUnrecognisedTokens)
+        : m_boundProcessName(other.m_boundProcessName)
+        , m_options(other.m_options)
+        , m_positionalArgs(other.m_positionalArgs)
+        , m_highestSpecifiedArgPosition(other.m_highestSpecifiedArgPosition)
+        , m_throwOnUnrecognisedTokens(other.m_throwOnUnrecognisedTokens)
     {
         if (other.m_floatingArg.get()) m_floatingArg.reset(new Arg(*other.m_floatingArg));
     }
@@ -4829,7 +5063,13 @@ const unsigned int consoleWidth = 80;
 
 struct TextAttributes
 {
-    TextAttributes() : initialIndent(std::string::npos), indent(0), width(consoleWidth - 1), tabChar('\t') {}
+    TextAttributes()
+        : initialIndent(std::string::npos)
+        , indent(0)
+        , width(consoleWidth - 1)
+        , tabChar('\t')
+    {
+    }
 
     TextAttributes &setInitialIndent(std::size_t _value)
     {
@@ -4861,7 +5101,8 @@ struct TextAttributes
 class Text
 {
 public:
-    Text(std::string const &_str, TextAttributes const &_attr = TextAttributes()) : attr(_attr)
+    Text(std::string const &_str, TextAttributes const &_attr = TextAttributes())
+        : attr(_attr)
     {
         std::string wrappableChars = " [({.,/|\\-";
         std::size_t indent = _attr.initialIndent != std::string::npos ? _attr.initialIndent : _attr.indent;
@@ -5027,9 +5268,17 @@ inline std::ostream &operator<<(std::ostream &os, Colour const &)
 namespace Catch {
 struct ReporterConfig
 {
-    explicit ReporterConfig(Ptr<IConfig const> const &_fullConfig) : m_stream(&_fullConfig->stream()), m_fullConfig(_fullConfig) {}
+    explicit ReporterConfig(Ptr<IConfig const> const &_fullConfig)
+        : m_stream(&_fullConfig->stream())
+        , m_fullConfig(_fullConfig)
+    {
+    }
 
-    ReporterConfig(Ptr<IConfig const> const &_fullConfig, std::ostream &_stream) : m_stream(&_stream), m_fullConfig(_fullConfig) {}
+    ReporterConfig(Ptr<IConfig const> const &_fullConfig, std::ostream &_stream)
+        : m_stream(&_stream)
+        , m_fullConfig(_fullConfig)
+    {
+    }
 
     std::ostream &stream() const { return *m_stream; }
     Ptr<IConfig const> fullConfig() const { return m_fullConfig; }
@@ -5041,14 +5290,20 @@ private:
 
 struct ReporterPreferences
 {
-    ReporterPreferences() : shouldRedirectStdOut(false) {}
+    ReporterPreferences()
+        : shouldRedirectStdOut(false)
+    {
+    }
 
     bool shouldRedirectStdOut;
 };
 
 template <typename T> struct LazyStat : Option<T>
 {
-    LazyStat() : used(false) {}
+    LazyStat()
+        : used(false)
+    {
+    }
     LazyStat &operator=(T const &_value)
     {
         Option<T>::operator=(_value);
@@ -5065,12 +5320,20 @@ template <typename T> struct LazyStat : Option<T>
 
 struct TestRunInfo
 {
-    TestRunInfo(std::string const &_name) : name(_name) {}
+    TestRunInfo(std::string const &_name)
+        : name(_name)
+    {
+    }
     std::string name;
 };
 struct GroupInfo
 {
-    GroupInfo(std::string const &_name, std::size_t _groupIndex, std::size_t _groupsCount) : name(_name), groupIndex(_groupIndex), groupsCounts(_groupsCount) {}
+    GroupInfo(std::string const &_name, std::size_t _groupIndex, std::size_t _groupsCount)
+        : name(_name)
+        , groupIndex(_groupIndex)
+        , groupsCounts(_groupsCount)
+    {
+    }
 
     std::string name;
     std::size_t groupIndex;
@@ -5080,7 +5343,9 @@ struct GroupInfo
 struct AssertionStats
 {
     AssertionStats(AssertionResult const &_assertionResult, std::vector<MessageInfo> const &_infoMessages, Totals const &_totals)
-        : assertionResult(_assertionResult), infoMessages(_infoMessages), totals(_totals)
+        : assertionResult(_assertionResult)
+        , infoMessages(_infoMessages)
+        , totals(_totals)
     {
         if (assertionResult.hasMessage()) {
             // Copy message into messages list.
@@ -5109,7 +5374,10 @@ struct AssertionStats
 struct SectionStats
 {
     SectionStats(SectionInfo const &_sectionInfo, Counts const &_assertions, double _durationInSeconds, bool _missingAssertions)
-        : sectionInfo(_sectionInfo), assertions(_assertions), durationInSeconds(_durationInSeconds), missingAssertions(_missingAssertions)
+        : sectionInfo(_sectionInfo)
+        , assertions(_assertions)
+        , durationInSeconds(_durationInSeconds)
+        , missingAssertions(_missingAssertions)
     {
     }
     virtual ~SectionStats();
@@ -5129,7 +5397,11 @@ struct SectionStats
 struct TestCaseStats
 {
     TestCaseStats(TestCaseInfo const &_testInfo, Totals const &_totals, std::string const &_stdOut, std::string const &_stdErr, bool _aborting)
-        : testInfo(_testInfo), totals(_totals), stdOut(_stdOut), stdErr(_stdErr), aborting(_aborting)
+        : testInfo(_testInfo)
+        , totals(_totals)
+        , stdOut(_stdOut)
+        , stdErr(_stdErr)
+        , aborting(_aborting)
     {
     }
     virtual ~TestCaseStats();
@@ -5150,8 +5422,17 @@ struct TestCaseStats
 
 struct TestGroupStats
 {
-    TestGroupStats(GroupInfo const &_groupInfo, Totals const &_totals, bool _aborting) : groupInfo(_groupInfo), totals(_totals), aborting(_aborting) {}
-    TestGroupStats(GroupInfo const &_groupInfo) : groupInfo(_groupInfo), aborting(false) {}
+    TestGroupStats(GroupInfo const &_groupInfo, Totals const &_totals, bool _aborting)
+        : groupInfo(_groupInfo)
+        , totals(_totals)
+        , aborting(_aborting)
+    {
+    }
+    TestGroupStats(GroupInfo const &_groupInfo)
+        : groupInfo(_groupInfo)
+        , aborting(false)
+    {
+    }
     virtual ~TestGroupStats();
 
 #ifdef CATCH_CONFIG_CPP11_GENERATED_METHODS
@@ -5168,11 +5449,21 @@ struct TestGroupStats
 
 struct TestRunStats
 {
-    TestRunStats(TestRunInfo const &_runInfo, Totals const &_totals, bool _aborting) : runInfo(_runInfo), totals(_totals), aborting(_aborting) {}
+    TestRunStats(TestRunInfo const &_runInfo, Totals const &_totals, bool _aborting)
+        : runInfo(_runInfo)
+        , totals(_totals)
+        , aborting(_aborting)
+    {
+    }
     virtual ~TestRunStats();
 
 #ifndef CATCH_CONFIG_CPP11_GENERATED_METHODS
-    TestRunStats(TestRunStats const &_other) : runInfo(_other.runInfo), totals(_other.totals), aborting(_other.aborting) {}
+    TestRunStats(TestRunStats const &_other)
+        : runInfo(_other.runInfo)
+        , totals(_other.totals)
+        , aborting(_other.aborting)
+    {
+    }
 #else
     TestRunStats(TestRunStats const &) = default;
     TestRunStats(TestRunStats &&) = default;
@@ -5298,7 +5589,10 @@ inline std::size_t listTestsNamesOnly(Config const &config)
 
 struct TagInfo
 {
-    TagInfo() : count(0) {}
+    TagInfo()
+        : count(0)
+    {
+    }
     void add(std::string const &spelling)
     {
         ++count;
@@ -5438,7 +5732,11 @@ public:
         return s_instance;
     }
 
-    TrackerContext() : m_currentTracker(CATCH_NULL), m_runState(NotStarted) {}
+    TrackerContext()
+        : m_currentTracker(CATCH_NULL)
+        , m_runState(NotStarted)
+    {
+    }
 
     ITracker &startRun();
 
@@ -5470,7 +5768,10 @@ protected:
         std::string m_name;
 
     public:
-        TrackerHasName(std::string const &name) : m_name(name) {}
+        TrackerHasName(std::string const &name)
+            : m_name(name)
+        {
+        }
         bool operator()(Ptr<ITracker> const &tracker) { return tracker->name() == m_name; }
     };
     typedef std::vector<Ptr<ITracker>> Children;
@@ -5481,7 +5782,13 @@ protected:
     CycleState m_runState;
 
 public:
-    TrackerBase(std::string const &name, TrackerContext &ctx, ITracker *parent) : m_name(name), m_ctx(ctx), m_parent(parent), m_runState(NotStarted) {}
+    TrackerBase(std::string const &name, TrackerContext &ctx, ITracker *parent)
+        : m_name(name)
+        , m_ctx(ctx)
+        , m_parent(parent)
+        , m_runState(NotStarted)
+    {
+    }
     virtual ~TrackerBase();
 
     virtual std::string name() const CATCH_OVERRIDE { return m_name; }
@@ -5571,7 +5878,10 @@ private:
 class SectionTracker : public TrackerBase
 {
 public:
-    SectionTracker(std::string const &name, TrackerContext &ctx, ITracker *parent) : TrackerBase(name, ctx, parent) {}
+    SectionTracker(std::string const &name, TrackerContext &ctx, ITracker *parent)
+        : TrackerBase(name, ctx, parent)
+    {
+    }
     virtual ~SectionTracker();
 
     virtual bool isSectionTracker() const CATCH_OVERRIDE { return true; }
@@ -5603,7 +5913,12 @@ class IndexTracker : public TrackerBase
     int m_index;
 
 public:
-    IndexTracker(std::string const &name, TrackerContext &ctx, ITracker *parent, int size) : TrackerBase(name, ctx, parent), m_size(size), m_index(-1) {}
+    IndexTracker(std::string const &name, TrackerContext &ctx, ITracker *parent, int size)
+        : TrackerBase(name, ctx, parent)
+        , m_size(size)
+        , m_index(-1)
+    {
+    }
     virtual ~IndexTracker();
 
     virtual bool isIndexTracker() const CATCH_OVERRIDE { return true; }
@@ -5717,7 +6032,8 @@ struct FatalConditionHandler
         fatal("<unknown signal>", -sig);
     }
 
-    FatalConditionHandler() : m_isSet(true)
+    FatalConditionHandler()
+        : m_isSet(true)
     {
         for (std::size_t i = 0; i < sizeof(signalDefs) / sizeof(SignalDefs); ++i)
             signal(signalDefs[i].id, handleSignal);
@@ -5748,7 +6064,10 @@ class StreamRedirect
 {
 
 public:
-    StreamRedirect(std::ostream &stream, std::string &targetString) : m_stream(stream), m_prevBuf(stream.rdbuf()), m_targetString(targetString)
+    StreamRedirect(std::ostream &stream, std::string &targetString)
+        : m_stream(stream)
+        , m_prevBuf(stream.rdbuf())
+        , m_targetString(targetString)
     {
         stream.rdbuf(m_oss.rdbuf());
     }
@@ -5776,7 +6095,11 @@ class RunContext : public IResultCapture, public IRunner
 
 public:
     explicit RunContext(Ptr<IConfig const> const &_config, Ptr<IStreamingReporter> const &reporter)
-        : m_runInfo(_config->name()), m_context(getCurrentMutableContext()), m_activeTestCase(CATCH_NULL), m_config(_config), m_reporter(reporter)
+        : m_runInfo(_config->name())
+        , m_context(getCurrentMutableContext())
+        , m_activeTestCase(CATCH_NULL)
+        , m_config(_config)
+        , m_reporter(reporter)
     {
         m_context.setRunner(this);
         m_context.setConfig(m_config);
@@ -6163,7 +6486,8 @@ public:
         enum DoWhat { Ignore, Fail };
     };
 
-    Session() : m_cli(makeCommandLineParser())
+    Session()
+        : m_cli(makeCommandLineParser())
     {
         if (alreadyInstantiated) {
             std::string msg = "Only one instance of Catch::Session can ever be used";
@@ -6348,7 +6672,11 @@ std::vector<TestCase> const &getAllTestCasesSorted(IConfig const &config)
 class TestRegistry : public ITestCaseRegistry
 {
 public:
-    TestRegistry() : m_currentSortOrder(RunTests::InDeclarationOrder), m_unnamedCount(0) {}
+    TestRegistry()
+        : m_currentSortOrder(RunTests::InDeclarationOrder)
+        , m_unnamedCount(0)
+    {
+    }
     virtual ~TestRegistry();
 
     virtual void registerTest(TestCase const &testCase)
@@ -6387,7 +6715,10 @@ private:
 class FreeFunctionTestCase : public SharedImpl<ITestCase>
 {
 public:
-    FreeFunctionTestCase(TestFunction fun) : m_fun(fun) {}
+    FreeFunctionTestCase(TestFunction fun)
+        : m_fun(fun)
+    {
+    }
 
     virtual void invoke() const { m_fun(); }
 
@@ -6588,7 +6919,8 @@ std::string translateActiveException()
 
 namespace Catch {
 
-NotImplementedException::NotImplementedException(SourceLineInfo const &lineInfo) : m_lineInfo(lineInfo)
+NotImplementedException::NotImplementedException(SourceLineInfo const &lineInfo)
+    : m_lineInfo(lineInfo)
 {
     std::ostringstream oss;
     oss << lineInfo << ": function ";
@@ -6672,7 +7004,9 @@ struct OutputDebugWriter
     void operator()(std::string const &str) { writeToDebugConsole(str); }
 };
 
-DebugOutStream::DebugOutStream() : m_streamBuf(new StreamBufImpl<OutputDebugWriter>()), m_os(m_streamBuf.get())
+DebugOutStream::DebugOutStream()
+    : m_streamBuf(new StreamBufImpl<OutputDebugWriter>())
+    , m_os(m_streamBuf.get())
 {
 }
 
@@ -6683,7 +7017,8 @@ std::ostream &DebugOutStream::stream() const
 
 // Store the streambuf from cout up-front because
 // cout may get redirected when running tests
-CoutStream::CoutStream() : m_os(Catch::cout().rdbuf())
+CoutStream::CoutStream()
+    : m_os(Catch::cout().rdbuf())
 {
 }
 
@@ -6709,7 +7044,12 @@ namespace Catch {
 class Context : public IMutableContext
 {
 
-    Context() : m_config(CATCH_NULL), m_runner(CATCH_NULL), m_resultCapture(CATCH_NULL) {}
+    Context()
+        : m_config(CATCH_NULL)
+        , m_runner(CATCH_NULL)
+        , m_resultCapture(CATCH_NULL)
+    {
+    }
     Context(Context const &);
     void operator=(Context const &);
 
@@ -6834,7 +7174,8 @@ namespace {
 class Win32ColourImpl : public IColourImpl
 {
 public:
-    Win32ColourImpl() : stdoutHandle(GetStdHandle(STD_OUTPUT_HANDLE))
+    Win32ColourImpl()
+        : stdoutHandle(GetStdHandle(STD_OUTPUT_HANDLE))
     {
         CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
         GetConsoleScreenBufferInfo(stdoutHandle, &csbiInfo);
@@ -6978,11 +7319,13 @@ static IColourImpl *platformColourInstance()
 
 namespace Catch {
 
-Colour::Colour(Code _colourCode) : m_moved(false)
+Colour::Colour(Code _colourCode)
+    : m_moved(false)
 {
     use(_colourCode);
 }
-Colour::Colour(Colour const &_other) : m_moved(false)
+Colour::Colour(Colour const &_other)
+    : m_moved(false)
 {
     const_cast<Colour &>(_other).m_moved = true;
 }
@@ -7011,7 +7354,11 @@ namespace Catch {
 struct GeneratorInfo : IGeneratorInfo
 {
 
-    GeneratorInfo(std::size_t size) : m_size(size), m_currentIndex(0) {}
+    GeneratorInfo(std::size_t size)
+        : m_size(size)
+        , m_currentIndex(0)
+    {
+    }
 
     bool moveNext()
     {
@@ -7077,7 +7424,10 @@ namespace Catch {
 
 AssertionInfo::AssertionInfo(std::string const &_macroName, SourceLineInfo const &_lineInfo, std::string const &_capturedExpression,
                              ResultDisposition::Flags _resultDisposition)
-    : macroName(_macroName), lineInfo(_lineInfo), capturedExpression(_capturedExpression), resultDisposition(_resultDisposition)
+    : macroName(_macroName)
+    , lineInfo(_lineInfo)
+    , capturedExpression(_capturedExpression)
+    , resultDisposition(_resultDisposition)
 {
 }
 
@@ -7085,7 +7435,9 @@ AssertionResult::AssertionResult()
 {
 }
 
-AssertionResult::AssertionResult(AssertionInfo const &info, AssertionResultData const &data) : m_info(info), m_resultData(data)
+AssertionResult::AssertionResult(AssertionInfo const &info, AssertionResultData const &data)
+    : m_info(info)
+    , m_resultData(data)
 {
 }
 
@@ -7256,14 +7608,24 @@ void setTags(TestCaseInfo &testCaseInfo, std::set<std::string> const &tags)
 
 TestCaseInfo::TestCaseInfo(std::string const &_name, std::string const &_className, std::string const &_description, std::set<std::string> const &_tags,
                            SourceLineInfo const &_lineInfo)
-    : name(_name), className(_className), description(_description), lineInfo(_lineInfo), properties(None)
+    : name(_name)
+    , className(_className)
+    , description(_description)
+    , lineInfo(_lineInfo)
+    , properties(None)
 {
     setTags(*this, _tags);
 }
 
 TestCaseInfo::TestCaseInfo(TestCaseInfo const &other)
-    : name(other.name), className(other.className), description(other.description), tags(other.tags), lcaseTags(other.lcaseTags),
-      tagsAsString(other.tagsAsString), lineInfo(other.lineInfo), properties(other.properties)
+    : name(other.name)
+    , className(other.className)
+    , description(other.description)
+    , tags(other.tags)
+    , lcaseTags(other.lcaseTags)
+    , tagsAsString(other.tagsAsString)
+    , lineInfo(other.lineInfo)
+    , properties(other.properties)
 {
 }
 
@@ -7284,11 +7646,15 @@ bool TestCaseInfo::expectedToFail() const
     return (properties & (ShouldFail)) != 0;
 }
 
-TestCase::TestCase(ITestCase *testCase, TestCaseInfo const &info) : TestCaseInfo(info), test(testCase)
+TestCase::TestCase(ITestCase *testCase, TestCaseInfo const &info)
+    : TestCaseInfo(info)
+    , test(testCase)
 {
 }
 
-TestCase::TestCase(TestCase const &other) : TestCaseInfo(other), test(other.test)
+TestCase::TestCase(TestCase const &other)
+    : TestCaseInfo(other)
+    , test(other.test)
 {
 }
 
@@ -7346,7 +7712,11 @@ TestCaseInfo const &TestCase::getTestCaseInfo() const
 namespace Catch {
 
 Version::Version(unsigned int _majorVersion, unsigned int _minorVersion, unsigned int _patchNumber, std::string const &_branchName, unsigned int _buildNumber)
-    : majorVersion(_majorVersion), minorVersion(_minorVersion), patchNumber(_patchNumber), branchName(_branchName), buildNumber(_buildNumber)
+    : majorVersion(_majorVersion)
+    , minorVersion(_minorVersion)
+    , patchNumber(_patchNumber)
+    , branchName(_branchName)
+    , buildNumber(_buildNumber)
 {
 }
 
@@ -7369,7 +7739,10 @@ Version libraryVersion(1, 6, 0, "", 0);
 namespace Catch {
 
 MessageInfo::MessageInfo(std::string const &_macroName, SourceLineInfo const &_lineInfo, ResultWas::OfType _type)
-    : macroName(_macroName), lineInfo(_lineInfo), type(_type), sequence(++globalCount)
+    : macroName(_macroName)
+    , lineInfo(_lineInfo)
+    , type(_type)
+    , sequence(++globalCount)
 {
 }
 
@@ -7378,12 +7751,14 @@ unsigned int MessageInfo::globalCount = 0;
 
 ////////////////////////////////////////////////////////////////////////////
 
-ScopedMessage::ScopedMessage(MessageBuilder const &builder) : m_info(builder.m_info)
+ScopedMessage::ScopedMessage(MessageBuilder const &builder)
+    : m_info(builder.m_info)
 {
     m_info.message = builder.m_stream.str();
     getResultCapture().pushScopedMessage(m_info);
 }
-ScopedMessage::ScopedMessage(ScopedMessage const &other) : m_info(other.m_info)
+ScopedMessage::ScopedMessage(ScopedMessage const &other)
+    : m_info(other.m_info)
 {
 }
 
@@ -7448,7 +7823,8 @@ private:
 }
 
 namespace Catch {
-LegacyReporterAdapter::LegacyReporterAdapter(Ptr<IReporter> const &legacyReporter) : m_legacyReporter(legacyReporter)
+LegacyReporterAdapter::LegacyReporterAdapter(Ptr<IReporter> const &legacyReporter)
+    : m_legacyReporter(legacyReporter)
 {
 }
 LegacyReporterAdapter::~LegacyReporterAdapter()
@@ -7640,7 +8016,9 @@ bool replaceInPlace(std::string &str, std::string const &replaceThis, std::strin
     return replaced;
 }
 
-pluralise::pluralise(std::size_t count, std::string const &label) : m_count(count), m_label(label)
+pluralise::pluralise(std::size_t count, std::string const &label)
+    : m_count(count)
+    , m_label(label)
 {
 }
 
@@ -7651,13 +8029,18 @@ std::ostream &operator<<(std::ostream &os, pluralise const &pluraliser)
     return os;
 }
 
-SourceLineInfo::SourceLineInfo() : line(0)
+SourceLineInfo::SourceLineInfo()
+    : line(0)
 {
 }
-SourceLineInfo::SourceLineInfo(char const *_file, std::size_t _line) : file(_file), line(_line)
+SourceLineInfo::SourceLineInfo(char const *_file, std::size_t _line)
+    : file(_file)
+    , line(_line)
 {
 }
-SourceLineInfo::SourceLineInfo(SourceLineInfo const &other) : file(other.file), line(other.line)
+SourceLineInfo::SourceLineInfo(SourceLineInfo const &other)
+    : file(other.file)
+    , line(other.line)
 {
 }
 bool SourceLineInfo::empty() const
@@ -7706,11 +8089,15 @@ void throwLogicError(std::string const &message, SourceLineInfo const &locationI
 namespace Catch {
 
 SectionInfo::SectionInfo(SourceLineInfo const &_lineInfo, std::string const &_name, std::string const &_description)
-    : name(_name), description(_description), lineInfo(_lineInfo)
+    : name(_name)
+    , description(_description)
+    , lineInfo(_lineInfo)
 {
 }
 
-Section::Section(SectionInfo const &info) : m_info(info), m_sectionIncluded(getResultCapture().sectionStarted(m_info, m_assertions))
+Section::Section(SectionInfo const &info)
+    : m_info(info)
+    , m_sectionIncluded(getResultCapture().sectionStarted(m_info, m_assertions))
 {
     m_timer.start();
 }
@@ -8049,8 +8436,9 @@ std::string capturedExpressionWithSecondArgument(std::string const &capturedExpr
 }
 ResultBuilder::ResultBuilder(char const *macroName, SourceLineInfo const &lineInfo, char const *capturedExpression, ResultDisposition::Flags resultDisposition,
                              char const *secondArg)
-    : m_assertionInfo(macroName, lineInfo, capturedExpressionWithSecondArgument(capturedExpression, secondArg), resultDisposition), m_shouldDebugBreak(false),
-      m_shouldThrow(false)
+    : m_assertionInfo(macroName, lineInfo, capturedExpressionWithSecondArgument(capturedExpression, secondArg), resultDisposition)
+    , m_shouldDebugBreak(false)
+    , m_shouldThrow(false)
 {
 }
 
@@ -8421,7 +8809,9 @@ namespace Catch {
 struct StreamingReporterBase : SharedImpl<IStreamingReporter>
 {
 
-    StreamingReporterBase(ReporterConfig const &_config) : m_config(_config.fullConfig()), stream(_config.stream())
+    StreamingReporterBase(ReporterConfig const &_config)
+        : m_config(_config.fullConfig())
+        , stream(_config.stream())
     {
         m_reporterPrefs.shouldRedirectStdOut = false;
     }
@@ -8469,7 +8859,10 @@ struct CumulativeReporterBase : SharedImpl<IStreamingReporter>
 {
     template <typename T, typename ChildNodeT> struct Node : SharedImpl<>
     {
-        explicit Node(T const &_value) : value(_value) {}
+        explicit Node(T const &_value)
+            : value(_value)
+        {
+        }
         virtual ~Node() {}
 
         typedef std::vector<Ptr<ChildNodeT>> ChildNodes;
@@ -8478,7 +8871,10 @@ struct CumulativeReporterBase : SharedImpl<IStreamingReporter>
     };
     struct SectionNode : SharedImpl<>
     {
-        explicit SectionNode(SectionStats const &_stats) : stats(_stats) {}
+        explicit SectionNode(SectionStats const &_stats)
+            : stats(_stats)
+        {
+        }
         virtual ~SectionNode();
 
         bool operator==(SectionNode const &other) const { return stats.sectionInfo.lineInfo == other.stats.sectionInfo.lineInfo; }
@@ -8495,8 +8891,14 @@ struct CumulativeReporterBase : SharedImpl<IStreamingReporter>
 
     struct BySectionInfo
     {
-        BySectionInfo(SectionInfo const &other) : m_other(other) {}
-        BySectionInfo(BySectionInfo const &other) : m_other(other.m_other) {}
+        BySectionInfo(SectionInfo const &other)
+            : m_other(other)
+        {
+        }
+        BySectionInfo(BySectionInfo const &other)
+            : m_other(other.m_other)
+        {
+        }
         bool operator()(Ptr<SectionNode> const &node) const { return node->stats.sectionInfo.lineInfo == m_other.lineInfo; }
     private:
         void operator=(BySectionInfo const &);
@@ -8507,7 +8909,9 @@ struct CumulativeReporterBase : SharedImpl<IStreamingReporter>
     typedef Node<TestGroupStats, TestCaseNode> TestGroupNode;
     typedef Node<TestRunStats, TestGroupNode> TestRunNode;
 
-    CumulativeReporterBase(ReporterConfig const &_config) : m_config(_config.fullConfig()), stream(_config.stream())
+    CumulativeReporterBase(ReporterConfig const &_config)
+        : m_config(_config.fullConfig())
+        , stream(_config.stream())
     {
         m_reporterPrefs.shouldRedirectStdOut = false;
     }
@@ -8613,7 +9017,10 @@ template <char C> char const *getLineOfChars()
 
 struct TestEventListenerBase : StreamingReporterBase
 {
-    TestEventListenerBase(ReporterConfig const &_config) : StreamingReporterBase(_config) {}
+    TestEventListenerBase(ReporterConfig const &_config)
+        : StreamingReporterBase(_config)
+    {
+    }
 
     virtual void assertionStarting(AssertionInfo const &) CATCH_OVERRIDE {}
     virtual bool assertionEnded(AssertionStats const &) CATCH_OVERRIDE { return false; }
@@ -8711,7 +9118,11 @@ class XmlEncode
 public:
     enum ForWhat { ForTextNodes, ForAttributes };
 
-    XmlEncode(std::string const &str, ForWhat forWhat = ForTextNodes) : m_str(str), m_forWhat(forWhat) {}
+    XmlEncode(std::string const &str, ForWhat forWhat = ForTextNodes)
+        : m_str(str)
+        , m_forWhat(forWhat)
+    {
+    }
 
     void encodeTo(std::ostream &os) const
     {
@@ -8772,9 +9183,16 @@ public:
     class ScopedElement
     {
     public:
-        ScopedElement(XmlWriter *writer) : m_writer(writer) {}
+        ScopedElement(XmlWriter *writer)
+            : m_writer(writer)
+        {
+        }
 
-        ScopedElement(ScopedElement const &other) : m_writer(other.m_writer) { other.m_writer = CATCH_NULL; }
+        ScopedElement(ScopedElement const &other)
+            : m_writer(other.m_writer)
+        {
+            other.m_writer = CATCH_NULL;
+        }
 
         ~ScopedElement()
         {
@@ -8797,7 +9215,10 @@ public:
         mutable XmlWriter *m_writer;
     };
 
-    XmlWriter() : m_tagIsOpen(false), m_needsNewline(false), m_os(&Catch::cout())
+    XmlWriter()
+        : m_tagIsOpen(false)
+        , m_needsNewline(false)
+        , m_os(&Catch::cout())
     {
         // We encode control characters, which requires
         // XML 1.1
@@ -8805,7 +9226,13 @@ public:
         *m_os << "<?xml version=\"1.1\" encoding=\"UTF-8\"?>\n";
     }
 
-    XmlWriter(std::ostream &os) : m_tagIsOpen(false), m_needsNewline(false), m_os(&os) { *m_os << "<?xml version=\"1.1\" encoding=\"UTF-8\"?>\n"; }
+    XmlWriter(std::ostream &os)
+        : m_tagIsOpen(false)
+        , m_needsNewline(false)
+        , m_os(&os)
+    {
+        *m_os << "<?xml version=\"1.1\" encoding=\"UTF-8\"?>\n";
+    }
 
     ~XmlWriter()
     {
@@ -8940,7 +9367,10 @@ namespace Catch {
 class XmlReporter : public StreamingReporterBase
 {
 public:
-    XmlReporter(ReporterConfig const &_config) : StreamingReporterBase(_config), m_xml(_config.stream()), m_sectionDepth(0)
+    XmlReporter(ReporterConfig const &_config)
+        : StreamingReporterBase(_config)
+        , m_xml(_config.stream())
+        , m_sectionDepth(0)
     {
         m_reporterPrefs.shouldRedirectStdOut = true;
     }
@@ -9113,7 +9543,12 @@ namespace Catch {
 class JunitReporter : public CumulativeReporterBase
 {
 public:
-    JunitReporter(ReporterConfig const &_config) : CumulativeReporterBase(_config), xml(_config.stream()) { m_reporterPrefs.shouldRedirectStdOut = true; }
+    JunitReporter(ReporterConfig const &_config)
+        : CumulativeReporterBase(_config)
+        , xml(_config.stream())
+    {
+        m_reporterPrefs.shouldRedirectStdOut = true;
+    }
 
     virtual ~JunitReporter() CATCH_OVERRIDE;
 
@@ -9295,7 +9730,11 @@ namespace Catch {
 
 struct ConsoleReporter : StreamingReporterBase
 {
-    ConsoleReporter(ReporterConfig const &_config) : StreamingReporterBase(_config), m_headerPrinted(false) {}
+    ConsoleReporter(ReporterConfig const &_config)
+        : StreamingReporterBase(_config)
+        , m_headerPrinted(false)
+    {
+    }
 
     virtual ~ConsoleReporter() CATCH_OVERRIDE;
     static std::string getDescription() { return "Reports test results as plain lines of text"; }
@@ -9380,8 +9819,13 @@ private:
 
     public:
         AssertionPrinter(std::ostream &_stream, AssertionStats const &_stats, bool _printInfoMessages)
-            : stream(_stream), stats(_stats), result(_stats.assertionResult), colour(Colour::None), message(result.getMessage()), messages(_stats.infoMessages),
-              printInfoMessages(_printInfoMessages)
+            : stream(_stream)
+            , stats(_stats)
+            , result(_stats.assertionResult)
+            , colour(Colour::None)
+            , message(result.getMessage())
+            , messages(_stats.infoMessages)
+            , printInfoMessages(_printInfoMessages)
         {
             switch (result.getResultType()) {
             case ResultWas::Ok:
@@ -9587,7 +10031,11 @@ private:
     struct SummaryColumn
     {
 
-        SummaryColumn(std::string const &_label, Colour::Code _colour) : label(_label), colour(_colour) {}
+        SummaryColumn(std::string const &_label, Colour::Code _colour)
+            : label(_label)
+            , colour(_colour)
+        {
+        }
         SummaryColumn addRow(std::size_t count)
         {
             std::ostringstream oss;
@@ -9702,7 +10150,10 @@ namespace Catch {
 struct CompactReporter : StreamingReporterBase
 {
 
-    CompactReporter(ReporterConfig const &_config) : StreamingReporterBase(_config) {}
+    CompactReporter(ReporterConfig const &_config)
+        : StreamingReporterBase(_config)
+    {
+    }
 
     virtual ~CompactReporter();
 
@@ -9752,8 +10203,12 @@ private:
 
     public:
         AssertionPrinter(std::ostream &_stream, AssertionStats const &_stats, bool _printInfoMessages)
-            : stream(_stream), stats(_stats), result(_stats.assertionResult), messages(_stats.infoMessages), itMessage(_stats.infoMessages.begin()),
-              printInfoMessages(_printInfoMessages)
+            : stream(_stream)
+            , stats(_stats)
+            , result(_stats.assertionResult)
+            , messages(_stats.infoMessages)
+            , itMessage(_stats.infoMessages.begin())
+            , printInfoMessages(_printInfoMessages)
         {
         }
 

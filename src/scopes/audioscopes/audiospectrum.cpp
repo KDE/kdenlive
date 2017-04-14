@@ -43,13 +43,20 @@
 #define MAX_OVM_COLOR 0.7
 
 AudioSpectrum::AudioSpectrum(QWidget *parent)
-    : AbstractAudioScopeWidget(true, parent), m_fftTools(), m_lastFFT(), m_lastFFTLock(1), m_peaks()
+    : AbstractAudioScopeWidget(true, parent)
+    , m_fftTools()
+    , m_lastFFT()
+    , m_lastFFTLock(1)
+    , m_peaks()
 #ifdef DEBUG_AUDIOSPEC
-      ,
-      m_timeTotal(0), m_showTotal(0)
+    , m_timeTotal(0)
+    , m_showTotal(0)
 #endif
-      ,
-      m_dBmin(-70), m_dBmax(0), m_freqMax(0), m_customFreq(false), colorizeFactor(0)
+    , m_dBmin(-70)
+    , m_dBmax(0)
+    , m_freqMax(0)
+    , m_customFreq(false)
+    , colorizeFactor(0)
 {
     ui = new Ui::AudioSpectrum_UI;
     ui->setupUi(this);

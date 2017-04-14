@@ -68,11 +68,35 @@ using namespace Mlt;
 #define SEEK_INACTIVE (-1)
 
 GLWidget::GLWidget(int id, QObject *parent)
-    : QQuickView((QWindow *)parent), sendFrameForAnalysis(false), m_id(id), m_shader(nullptr), m_glslManager(nullptr), m_consumer(nullptr), m_producer(nullptr),
-      m_requestedSeekPosition(SEEK_INACTIVE), m_initSem(0), m_analyseSem(1), m_isInitialized(false), m_threadStartEvent(nullptr), m_threadStopEvent(nullptr),
-      m_threadCreateEvent(nullptr), m_threadJoinEvent(nullptr), m_displayEvent(nullptr), m_frameRenderer(nullptr), m_projectionLocation(0),
-      m_modelViewLocation(0), m_vertexLocation(0), m_texCoordLocation(0), m_colorspaceLocation(0), m_zoom(1.0f), m_openGLSync(false), m_sendFrame(false),
-      m_offset(QPoint(0, 0)), m_shareContext(nullptr), m_audioWaveDisplayed(false), m_fbo(nullptr)
+    : QQuickView((QWindow *)parent)
+    , sendFrameForAnalysis(false)
+    , m_id(id)
+    , m_shader(nullptr)
+    , m_glslManager(nullptr)
+    , m_consumer(nullptr)
+    , m_producer(nullptr)
+    , m_requestedSeekPosition(SEEK_INACTIVE)
+    , m_initSem(0)
+    , m_analyseSem(1)
+    , m_isInitialized(false)
+    , m_threadStartEvent(nullptr)
+    , m_threadStopEvent(nullptr)
+    , m_threadCreateEvent(nullptr)
+    , m_threadJoinEvent(nullptr)
+    , m_displayEvent(nullptr)
+    , m_frameRenderer(nullptr)
+    , m_projectionLocation(0)
+    , m_modelViewLocation(0)
+    , m_vertexLocation(0)
+    , m_texCoordLocation(0)
+    , m_colorspaceLocation(0)
+    , m_zoom(1.0f)
+    , m_openGLSync(false)
+    , m_sendFrame(false)
+    , m_offset(QPoint(0, 0))
+    , m_shareContext(nullptr)
+    , m_audioWaveDisplayed(false)
+    , m_fbo(nullptr)
 {
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
@@ -1321,7 +1345,11 @@ void GLWidget::on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 }
 
 RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContext *context, QSurface *surface)
-    : QThread(nullptr), m_function(function), m_data(data), m_context(nullptr), m_surface(surface)
+    : QThread(nullptr)
+    , m_function(function)
+    , m_data(data)
+    , m_context(nullptr)
+    , m_surface(surface)
 {
     if (context) {
         m_context = new QOpenGLContext;
@@ -1350,7 +1378,12 @@ void RenderThread::run()
 }
 
 FrameRenderer::FrameRenderer(QOpenGLContext *shareContext, QSurface *surface)
-    : QThread(nullptr), m_semaphore(3), m_context(nullptr), m_surface(surface), m_gl32(nullptr), sendAudioForAnalysis(false)
+    : QThread(nullptr)
+    , m_semaphore(3)
+    , m_context(nullptr)
+    , m_surface(surface)
+    , m_gl32(nullptr)
+    , sendAudioForAnalysis(false)
 {
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;

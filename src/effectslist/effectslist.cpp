@@ -20,7 +20,8 @@
 
 #include <klocalizedstring.h>
 
-EffectsList::EffectsList(bool indexRequired) : m_useIndex(indexRequired)
+EffectsList::EffectsList(bool indexRequired)
+    : m_useIndex(indexRequired)
 {
     m_baseElement = createElement(QStringLiteral("list"));
     appendChild(m_baseElement);

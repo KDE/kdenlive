@@ -24,7 +24,10 @@
 
 #include <QQuickView>
 
-QmlManager::QmlManager(QQuickView *view) : QObject(view), m_view(view), m_sceneType(MonitorSceneNone)
+QmlManager::QmlManager(QQuickView *view)
+    : QObject(view)
+    , m_view(view)
+    , m_sceneType(MonitorSceneNone)
 {
 }
 

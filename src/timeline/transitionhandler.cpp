@@ -22,7 +22,9 @@
 #include "mainwindow.h"
 #include "mltcontroller/effectscontroller.h"
 
-TransitionHandler::TransitionHandler(Mlt::Tractor *tractor) : QObject(), m_tractor(tractor)
+TransitionHandler::TransitionHandler(Mlt::Tractor *tractor)
+    : QObject()
+    , m_tractor(tractor)
 {
 }
 

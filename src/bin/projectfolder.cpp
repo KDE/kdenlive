@@ -38,7 +38,8 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectItem
     changeParent(parent);
 }
 
-ProjectFolder::ProjectFolder(ProjectItemModel *model) : AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1), model)
+ProjectFolder::ProjectFolder(ProjectItemModel *model)
+    : AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1), model)
 {
     m_name = QStringLiteral("root");
     changeParent(nullptr);

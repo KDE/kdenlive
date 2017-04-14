@@ -57,7 +57,10 @@ class DvdButtonUnderline : public QGraphicsRectItem
 {
 
 public:
-    explicit DvdButtonUnderline(const QRectF &rect, QGraphicsItem *parent = nullptr) : QGraphicsRectItem(rect, parent) {}
+    explicit DvdButtonUnderline(const QRectF &rect, QGraphicsItem *parent = nullptr)
+        : QGraphicsRectItem(rect, parent)
+    {
+    }
 
     int type() const override
     {

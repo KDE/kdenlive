@@ -36,8 +36,17 @@
 
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<std::shared_ptr<ClipController>> &list,
                              const QStringList &luma_list, QWidget *parent)
-    : QDialog(parent), m_requestedSize(0), m_copyJob(nullptr), m_name(projectName.section(QLatin1Char('.'), 0, -2)), m_doc(doc), m_temp(nullptr),
-      m_abortArchive(false), m_extractMode(false), m_progressTimer(nullptr), m_extractArchive(nullptr), m_missingClips(0)
+    : QDialog(parent)
+    , m_requestedSize(0)
+    , m_copyJob(nullptr)
+    , m_name(projectName.section(QLatin1Char('.'), 0, -2))
+    , m_doc(doc)
+    , m_temp(nullptr)
+    , m_abortArchive(false)
+    , m_extractMode(false)
+    , m_progressTimer(nullptr)
+    , m_extractArchive(nullptr)
+    , m_missingClips(0)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
@@ -198,8 +207,16 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
 
 // Constructor for extract widget
 ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget *parent)
-    : QDialog(parent), m_requestedSize(0), m_copyJob(nullptr), m_temp(nullptr), m_abortArchive(false), m_extractMode(true), m_extractUrl(url),
-      m_extractArchive(nullptr), m_missingClips(0), m_infoMessage(nullptr)
+    : QDialog(parent)
+    , m_requestedSize(0)
+    , m_copyJob(nullptr)
+    , m_temp(nullptr)
+    , m_abortArchive(false)
+    , m_extractMode(true)
+    , m_extractUrl(url)
+    , m_extractArchive(nullptr)
+    , m_missingClips(0)
+    , m_infoMessage(nullptr)
 {
     // setAttribute(Qt::WA_DeleteOnClose);
 

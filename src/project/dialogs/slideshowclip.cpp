@@ -31,7 +31,10 @@
 #include <QStandardPaths>
 
 SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip *clip, QWidget *parent)
-    : QDialog(parent), m_count(0), m_timecode(tc), m_thumbJob(nullptr)
+    : QDialog(parent)
+    , m_count(0)
+    , m_timecode(tc)
+    , m_thumbJob(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);

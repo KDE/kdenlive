@@ -38,7 +38,13 @@ the Free Software Foundation, either version 3 of the License, or
 #endif
 
 std::unique_ptr<Core> Core::m_self;
-Core::Core() : m_mainWindow(nullptr), m_projectManager(nullptr), m_monitorManager(nullptr), m_producerQueue(nullptr), m_binWidget(nullptr), m_library(nullptr)
+Core::Core()
+    : m_mainWindow(nullptr)
+    , m_projectManager(nullptr)
+    , m_monitorManager(nullptr)
+    , m_producerQueue(nullptr)
+    , m_binWidget(nullptr)
+    , m_library(nullptr)
 {
 }
 

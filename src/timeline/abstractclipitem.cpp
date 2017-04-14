@@ -33,8 +33,14 @@
 #include <QPropertyAnimation>
 
 AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF &rect, double fps)
-    : QObject(), QGraphicsRectItem(rect), m_info(info), m_visibleParam(0), m_selectedEffect(-1), m_fps(fps), m_isMainSelectedClip(false),
-      m_keyframeView(QFontInfo(QApplication::font()).pixelSize() * 0.7, this)
+    : QObject()
+    , QGraphicsRectItem(rect)
+    , m_info(info)
+    , m_visibleParam(0)
+    , m_selectedEffect(-1)
+    , m_fps(fps)
+    , m_isMainSelectedClip(false)
+    , m_keyframeView(QFontInfo(QApplication::font()).pixelSize() * 0.7, this)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);

@@ -23,7 +23,12 @@
 #include <QObject>
 
 AbstractService::AbstractService(QListWidget *listWidget, QObject *parent)
-    : QObject(parent), hasPreview(false), hasMetadata(false), inlineDownload(false), serviceType(NOSERVICE), m_listWidget(listWidget)
+    : QObject(parent)
+    , hasPreview(false)
+    , hasMetadata(false)
+    , inlineDownload(false)
+    , serviceType(NOSERVICE)
+    , m_listWidget(listWidget)
 {
 }
 

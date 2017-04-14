@@ -25,7 +25,8 @@
 #include <klocalizedstring.h>
 
 BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget *parent)
-    : QDialog(parent), m_projectFolder(projectFolder)
+    : QDialog(parent)
+    , m_projectFolder(projectFolder)
 {
     setupUi(this);
     setWindowTitle(i18n("Restore Backup File"));

@@ -48,7 +48,10 @@
 class NoEditDelegate : public QStyledItemDelegate
 {
 public:
-    NoEditDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
+    NoEditDelegate(QObject *parent = nullptr)
+        : QStyledItemDelegate(parent)
+    {
+    }
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         Q_UNUSED(parent);
@@ -60,7 +63,9 @@ public:
 
 ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks,
                                  const QString & /*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent)
-    : QDialog(parent), m_savedProject(savedProject), m_lumas(lumas)
+    : QDialog(parent)
+    , m_savedProject(savedProject)
+    , m_lumas(lumas)
 {
     setupUi(this);
     tabWidget->setTabBarAutoHide(true);

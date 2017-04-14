@@ -41,7 +41,8 @@
 
 enum LibraryItem { PlayList, Clip, Folder };
 
-LibraryTree::LibraryTree(QWidget *parent) : QTreeWidget(parent)
+LibraryTree::LibraryTree(QWidget *parent)
+    : QTreeWidget(parent)
 {
     int size = QFontInfo(font()).pixelSize();
     setIconSize(QSize(size * 4, size * 2));
@@ -156,7 +157,10 @@ void LibraryTree::dropEvent(QDropEvent *event)
     event->accept();
 }
 
-LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget(parent), m_manager(manager), m_previewJob(nullptr)
+LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
+    : QWidget(parent)
+    , m_manager(manager)
+    , m_previewJob(nullptr)
 {
     auto *lay = new QVBoxLayout(this);
     m_libraryTree = new LibraryTree(this);

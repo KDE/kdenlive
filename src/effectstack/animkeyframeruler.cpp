@@ -36,8 +36,17 @@ const int margin = 5;
 #define SEEK_INACTIVE (-1)
 
 AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent)
-    : QWidget(parent), frameLength(max - min), m_position(0), m_scale(0), m_movingKeyframe(false), m_movingKeyframePos(-1),
-      m_movingKeyframeType(mlt_keyframe_linear), m_hoverKeyframe(-1), m_selectedKeyframe(-1), m_seekPosition(SEEK_INACTIVE), m_attachedToEnd(-2)
+    : QWidget(parent)
+    , frameLength(max - min)
+    , m_position(0)
+    , m_scale(0)
+    , m_movingKeyframe(false)
+    , m_movingKeyframePos(-1)
+    , m_movingKeyframeType(mlt_keyframe_linear)
+    , m_hoverKeyframe(-1)
+    , m_selectedKeyframe(-1)
+    , m_seekPosition(SEEK_INACTIVE)
+    , m_attachedToEnd(-2)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);

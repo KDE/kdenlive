@@ -26,7 +26,8 @@
 
 #include "klocalizedstring.h"
 
-TracksDelegate::TracksDelegate(QObject *parent) : QItemDelegate(parent)
+TracksDelegate::TracksDelegate(QObject *parent)
+    : QItemDelegate(parent)
 {
 }
 
@@ -63,7 +64,9 @@ void TracksDelegate::emitCommitData()
     emit commitData(qobject_cast<QWidget *>(sender()));
 }
 
-TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget *parent) : QDialog(parent), m_timeline(timeline)
+TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget *parent)
+    : QDialog(parent)
+    , m_timeline(timeline)
 {
     setupUi(this);
 

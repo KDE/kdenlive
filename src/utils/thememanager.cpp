@@ -62,7 +62,12 @@ Q_GLOBAL_STATIC(ThemeManagerCreator, creator)
 class ThemeManager::Private
 {
 public:
-    Private() : defaultThemeName(i18nc("default theme name", "Default")), themeMenuActionGroup(nullptr), themeMenuAction(nullptr) {}
+    Private()
+        : defaultThemeName(i18nc("default theme name", "Default"))
+        , themeMenuActionGroup(nullptr)
+        , themeMenuAction(nullptr)
+    {
+    }
 
     const QString defaultThemeName;
     QMap<QString, QString> themeMap; // map<theme name, theme config path>
@@ -71,7 +76,8 @@ public:
     KActionMenu *themeMenuAction;
 };
 
-ThemeManager::ThemeManager() : d(new Private)
+ThemeManager::ThemeManager()
+    : d(new Private)
 {
 }
 

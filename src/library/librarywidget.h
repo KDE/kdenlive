@@ -57,7 +57,10 @@ class QToolBar;
 class LibraryItemDelegate : public QStyledItemDelegate
 {
 public:
-    explicit LibraryItemDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
+    explicit LibraryItemDelegate(QObject *parent = nullptr)
+        : QStyledItemDelegate(parent)
+    {
+    }
 
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {

@@ -29,7 +29,8 @@ int AssetTreeModel::idCol = 1;
 int AssetTreeModel::typeCol = 2;
 int AssetTreeModel::favCol = 3;
 
-AssetTreeModel::AssetTreeModel(QObject *parent) : AbstractTreeModel(parent)
+AssetTreeModel::AssetTreeModel(QObject *parent)
+    : AbstractTreeModel(parent)
 {
 }
 

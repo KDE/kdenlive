@@ -21,7 +21,8 @@
 
 #include "boolparamwidget.h"
 
-BoolParamWidget::BoolParamWidget(const QString &name, const QString &comment, bool checked, QWidget *parent) : AbstractParamWidget(parent)
+BoolParamWidget::BoolParamWidget(const QString &name, const QString &comment, bool checked, QWidget *parent)
+    : AbstractParamWidget(parent)
 {
     setupUi(this);
 

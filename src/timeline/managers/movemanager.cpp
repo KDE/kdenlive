@@ -33,8 +33,11 @@
 #include <QScrollBar>
 
 MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
-    : AbstractToolManager(MoveType, view, commandStack), m_transitionHandler(handler), m_scrollOffset(0),
-      m_scrollTrigger(QFontMetrics(view->font()).averageCharWidth() * 3), m_dragMoved(false)
+    : AbstractToolManager(MoveType, view, commandStack)
+    , m_transitionHandler(handler)
+    , m_scrollOffset(0)
+    , m_scrollTrigger(QFontMetrics(view->font()).averageCharWidth() * 3)
+    , m_dragMoved(false)
 {
     connect(&m_scrollTimer, &QTimer::timeout, this, &MoveManager::slotCheckMouseScrolling);
     m_scrollTimer.setInterval(100);

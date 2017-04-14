@@ -34,7 +34,8 @@
 #include "klocalizedstring.h"
 
 SelectManager::SelectManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
-    : AbstractToolManager(SelectType, view, commandStack), m_dragMoved(false)
+    : AbstractToolManager(SelectType, view, commandStack)
+    , m_dragMoved(false)
 {
 }
 

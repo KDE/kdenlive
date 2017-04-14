@@ -30,7 +30,9 @@
 #include <QtCore/QDebug>
 #endif
 
-ScopeManager::ScopeManager(QObject *parent) : QObject(parent), m_lastConnectedRenderer(nullptr)
+ScopeManager::ScopeManager(QObject *parent)
+    : QObject(parent)
+    , m_lastConnectedRenderer(nullptr)
 {
     m_signalMapper = new QSignalMapper(this);
 

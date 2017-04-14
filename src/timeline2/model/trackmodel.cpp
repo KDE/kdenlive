@@ -29,7 +29,9 @@
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTransition.h>
 
-TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id) : m_parent(parent), m_id(id == -1 ? TimelineModel::getNextId() : id)
+TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id)
+    : m_parent(parent)
+    , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
     if (auto ptr = parent.lock()) {
         m_track.set_profile(*ptr->getProfile());

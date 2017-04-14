@@ -25,7 +25,8 @@
 #include <QModelIndex>
 #include <queue>
 
-GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent) : m_parent(parent)
+GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent)
+    : m_parent(parent)
 {
 }
 

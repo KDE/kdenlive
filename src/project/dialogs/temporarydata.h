@@ -62,7 +62,11 @@ private:
 class TreeWidgetItem : public QTreeWidgetItem
 {
 public:
-    TreeWidgetItem(QTreeWidget *parent) : QTreeWidgetItem(parent) {}
+    TreeWidgetItem(QTreeWidget *parent)
+        : QTreeWidgetItem(parent)
+    {
+    }
+
 private:
     bool operator<(const QTreeWidgetItem &other) const override
     {

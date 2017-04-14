@@ -26,11 +26,14 @@
 #include <QDomDocument>
 #include <mlt++/Mlt.h>
 
-Clip::Clip(Mlt::Producer &producer) : QObject(), m_producer(producer)
+Clip::Clip(Mlt::Producer &producer)
+    : QObject()
+    , m_producer(producer)
 {
 }
 
-Clip::Clip(Clip &other) : QObject()
+Clip::Clip(Clip &other)
+    : QObject()
 {
     m_producer = other.producer();
 }

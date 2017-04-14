@@ -29,7 +29,13 @@
 #include <QtConcurrent>
 
 PreviewManager::PreviewManager(KdenliveDoc *doc, CustomRuler *ruler, Mlt::Tractor *tractor)
-    : QObject(), m_doc(doc), m_ruler(ruler), m_tractor(tractor), m_previewTrack(nullptr), m_initialized(false), m_abortPreview(false)
+    : QObject()
+    , m_doc(doc)
+    , m_ruler(ruler)
+    , m_tractor(tractor)
+    , m_previewTrack(nullptr)
+    , m_initialized(false)
+    , m_abortPreview(false)
 {
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);

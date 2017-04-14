@@ -24,11 +24,14 @@
 #include "effectmanager.h"
 #include <mlt++/Mlt.h>
 
-EffectManager::EffectManager(Mlt::Service &producer, QObject *parent) : QObject(parent), m_producer(producer)
+EffectManager::EffectManager(Mlt::Service &producer, QObject *parent)
+    : QObject(parent)
+    , m_producer(producer)
 {
 }
 
-EffectManager::EffectManager(EffectManager &other) : QObject()
+EffectManager::EffectManager(EffectManager &other)
+    : QObject()
 {
     m_producer = other.producer();
 }

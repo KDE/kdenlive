@@ -32,7 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtConcurrent>
 
-ProducerQueue::ProducerQueue(std::shared_ptr<BinController> controller) : QObject(controller.get()), m_binController(controller)
+ProducerQueue::ProducerQueue(std::shared_ptr<BinController> controller)
+    : QObject(controller.get())
+    , m_binController(controller)
 {
     connect(this, SIGNAL(multiStreamFound(QString, QList<int>, QList<int>, stringMap)), this,
             SLOT(slotMultiStreamProducerFound(QString, QList<int>, QList<int>, stringMap)));

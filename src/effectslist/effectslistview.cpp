@@ -31,7 +31,8 @@
 #include <QMenu>
 #include <QStandardPaths>
 
-TreeEventEater::TreeEventEater(QObject *parent) : QObject(parent)
+TreeEventEater::TreeEventEater(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -45,7 +46,8 @@ bool TreeEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-MyTreeWidgetSearchLine::MyTreeWidgetSearchLine(QWidget *parent) : KTreeWidgetSearchLine(parent)
+MyTreeWidgetSearchLine::MyTreeWidgetSearchLine(QWidget *parent)
+    : KTreeWidgetSearchLine(parent)
 {
 }
 
@@ -65,7 +67,9 @@ bool MyTreeWidgetSearchLine::itemMatches(const QTreeWidgetItem *item, const QStr
     return false;
 }
 
-EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) : QWidget(parent), m_mode(mode)
+EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent)
+    : QWidget(parent)
+    , m_mode(mode)
 {
     setupUi(this);
     m_contextMenu = new QMenu(this);

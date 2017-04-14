@@ -38,9 +38,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
 ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer)
-    : selectedEffectIndex(1), m_audioThumbCreated(false), m_masterProducer(producer), m_properties(new Mlt::Properties(producer->get_properties())),
-      m_usesProxy(false), m_audioInfo(nullptr), m_audioIndex(0), m_videoIndex(0), m_clipType(Unknown), m_hasLimitedDuration(true),
-      m_binController(bincontroller), m_snapMarkers(QList<CommentedTime>())
+    : selectedEffectIndex(1)
+    , m_audioThumbCreated(false)
+    , m_masterProducer(producer)
+    , m_properties(new Mlt::Properties(producer->get_properties()))
+    , m_usesProxy(false)
+    , m_audioInfo(nullptr)
+    , m_audioIndex(0)
+    , m_videoIndex(0)
+    , m_clipType(Unknown)
+    , m_hasLimitedDuration(true)
+    , m_binController(bincontroller)
+    , m_snapMarkers(QList<CommentedTime>())
 {
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
@@ -64,9 +73,18 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std
 }
 
 ClipController::ClipController(std::shared_ptr<BinController> bincontroller)
-    : selectedEffectIndex(1), m_audioThumbCreated(false), m_masterProducer(ClipController::mediaUnavailable), m_properties(nullptr), m_usesProxy(false),
-      m_audioInfo(nullptr), m_audioIndex(0), m_videoIndex(0), m_clipType(Unknown), m_hasLimitedDuration(true), m_binController(bincontroller),
-      m_snapMarkers(QList<CommentedTime>())
+    : selectedEffectIndex(1)
+    , m_audioThumbCreated(false)
+    , m_masterProducer(ClipController::mediaUnavailable)
+    , m_properties(nullptr)
+    , m_usesProxy(false)
+    , m_audioInfo(nullptr)
+    , m_audioIndex(0)
+    , m_videoIndex(0)
+    , m_clipType(Unknown)
+    , m_hasLimitedDuration(true)
+    , m_binController(bincontroller)
+    , m_snapMarkers(QList<CommentedTime>())
 {
 }
 

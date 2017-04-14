@@ -25,7 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <klocalizedstring.h>
 
-ProgressButton::ProgressButton(const QString &text, double max, QWidget *parent) : QToolButton(parent), m_defaultAction(nullptr), m_max(max)
+ProgressButton::ProgressButton(const QString &text, double max, QWidget *parent)
+    : QToolButton(parent)
+    , m_defaultAction(nullptr)
+    , m_max(max)
 {
     setPopupMode(MenuButtonPopup);
     m_progress = width() - 6;

@@ -16,7 +16,8 @@
 #include <KConfigGroup>
 #include <KSharedConfig>
 
-Histogram::Histogram(QWidget *parent) : AbstractGfxScopeWidget(false, parent)
+Histogram::Histogram(QWidget *parent)
+    : AbstractGfxScopeWidget(false, parent)
 {
     ui = new Ui::Histogram_UI();
     ui->setupUi(this);

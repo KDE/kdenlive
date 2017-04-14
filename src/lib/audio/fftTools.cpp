@@ -24,7 +24,9 @@
 #include <fstream>
 #endif
 
-FFTTools::FFTTools() : m_fftCfgs(), m_windowFunctions()
+FFTTools::FFTTools()
+    : m_fftCfgs()
+    , m_windowFunctions()
 {
 }
 FFTTools::~FFTTools()

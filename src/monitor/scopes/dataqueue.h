@@ -94,7 +94,12 @@ private:
 
 template <class T>
 DataQueue<T>::DataQueue(int maxSize, OverflowMode mode)
-    : m_queue(), m_maxSize(maxSize), m_mode(mode), m_mutex(QMutex::NonRecursive), m_notEmptyCondition(), m_notFullCondition()
+    : m_queue()
+    , m_maxSize(maxSize)
+    , m_mode(mode)
+    , m_mutex(QMutex::NonRecursive)
+    , m_notEmptyCondition()
+    , m_notFullCondition()
 {
 }
 

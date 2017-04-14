@@ -31,7 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utils/KoIconUtils.h"
 
-GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, QWidget *parent) : QDialog(parent), Ui::GradientEdit_UI()
+GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, QWidget *parent)
+    : QDialog(parent)
+    , Ui::GradientEdit_UI()
 {
     setupUi(this);
     updatePreview();

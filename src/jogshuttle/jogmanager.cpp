@@ -16,7 +16,10 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-JogManager::JogManager(QObject *parent) : QObject(parent), m_shuttle(nullptr), m_shuttleAction(nullptr)
+JogManager::JogManager(QObject *parent)
+    : QObject(parent)
+    , m_shuttle(nullptr)
+    , m_shuttleAction(nullptr)
 {
     slotConfigurationChanged();
 

@@ -27,7 +27,11 @@
 #include <QHeaderView>
 
 KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget *parent)
-    : AbstractParamWidget(parent), m_min(minFrame), m_max(maxFrame), m_timecode(tc), m_keyframesTag(false)
+    : AbstractParamWidget(parent)
+    , m_min(minFrame)
+    , m_max(maxFrame)
+    , m_timecode(tc)
+    , m_keyframesTag(false)
 {
     setupUi(this);
     if (m_max == -1) {

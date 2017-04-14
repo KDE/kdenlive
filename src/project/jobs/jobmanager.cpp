@@ -39,7 +39,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageWidget>
 #include <klocalizedstring.h>
 
-JobManager::JobManager(Bin *bin) : QObject(), m_bin(bin), m_abortAllJobs(false)
+JobManager::JobManager(Bin *bin)
+    : QObject()
+    , m_bin(bin)
+    , m_abortAllJobs(false)
 {
     connect(this, &JobManager::processLog, this, &JobManager::slotProcessLog);
     connect(this, &JobManager::checkJobProcess, this, &JobManager::slotCheckJobProcess);

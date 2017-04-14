@@ -31,7 +31,10 @@
 #include <QDir>
 #include <QStandardPaths>
 
-ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *parent) : QDialog(parent), m_profileIsModified(false), m_isCustomProfile(false)
+ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *parent)
+    : QDialog(parent)
+    , m_profileIsModified(false)
+    , m_isCustomProfile(false)
 {
 
     // ask profile repository for a refresh
@@ -85,7 +88,10 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
 }
 
 ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent)
-    : QDialog(parent), m_profileIsModified(false), m_isCustomProfile(true), m_customProfilePath(profilePath)
+    : QDialog(parent)
+    , m_profileIsModified(false)
+    , m_isCustomProfile(true)
+    , m_customProfilePath(profilePath)
 {
     m_view.setupUi(this);
 

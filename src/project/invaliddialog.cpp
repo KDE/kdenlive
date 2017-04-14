@@ -31,7 +31,8 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 
-InvalidDialog::InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent) : QDialog(parent)
+InvalidDialog::InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent)
+    : QDialog(parent)
 {
     auto *mainLayout = new QVBoxLayout(this);
     setWindowTitle(caption);

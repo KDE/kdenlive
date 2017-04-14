@@ -28,7 +28,12 @@
 
 ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description,
                              const QStringList &folderInfo, bool automaticMode, QWidget *parent)
-    : QDialog(parent), m_urls(urls), m_folderInfo(folderInfo), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
+    : QDialog(parent)
+    , m_urls(urls)
+    , m_folderInfo(folderInfo)
+    , m_duration(0)
+    , m_automaticMode(automaticMode)
+    , m_postParams(postParams)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

@@ -43,7 +43,8 @@
 #include <QWheelEvent>
 #include <QtConcurrent>
 
-MyLabel::MyLabel(QWidget *parent) : QLabel(parent)
+MyLabel::MyLabel(QWidget *parent)
+    : QLabel(parent)
 {
 }
 
@@ -94,7 +95,8 @@ void MyLabel::paintEvent(QPaintEvent *event)
 }
 
 StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent)
-    : AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent), m_captureDevice(nullptr)
+    : AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent)
+    , m_captureDevice(nullptr)
 {
 }
 
@@ -147,8 +149,15 @@ void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, int /*fast*/)
 }
 
 StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList<QAction *> &actions, QWidget *parent)
-    : QDialog(parent), Ui::Stopmotion_UI(), m_projectFolder(projectFolder), m_captureDevice(nullptr), m_sequenceFrame(0), m_animatedIndex(-1), m_animate(false),
-      m_manager(manager), m_monitor(new StopmotionMonitor(manager, this))
+    : QDialog(parent)
+    , Ui::Stopmotion_UI()
+    , m_projectFolder(projectFolder)
+    , m_captureDevice(nullptr)
+    , m_sequenceFrame(0)
+    , m_animatedIndex(-1)
+    , m_animate(false)
+    , m_manager(manager)
+    , m_monitor(new StopmotionMonitor(manager, this))
 {
     // setAttribute(Qt::WA_DeleteOnClose);
     // HACK: the monitor widget is hidden, it is just used to control the capturedevice from monitormanager

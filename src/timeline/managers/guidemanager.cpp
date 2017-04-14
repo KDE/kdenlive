@@ -27,7 +27,8 @@
 #include <QMouseEvent>
 
 GuideManager::GuideManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
-    : AbstractToolManager(GuideType, view, commandStack), m_dragGuide(nullptr)
+    : AbstractToolManager(GuideType, view, commandStack)
+    , m_dragGuide(nullptr)
 {
 }
 

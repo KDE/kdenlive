@@ -33,8 +33,16 @@
 static int FONT_WIDTH;
 
 SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent)
-    : QWidget(parent), m_cursorFramePosition(0), m_maxval(2), m_offset(0), m_monitor(monitor), m_render(render), m_lastSeekPosition(SEEK_INACTIVE),
-      m_hoverZone(-1), m_activeControl(CONTROL_NONE), m_scale(1)
+    : QWidget(parent)
+    , m_cursorFramePosition(0)
+    , m_maxval(2)
+    , m_offset(0)
+    , m_monitor(monitor)
+    , m_render(render)
+    , m_lastSeekPosition(SEEK_INACTIVE)
+    , m_hoverZone(-1)
+    , m_activeControl(CONTROL_NONE)
+    , m_scale(1)
 {
     QFontMetricsF fontMetrics(font());
     // Define size variables

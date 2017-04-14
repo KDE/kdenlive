@@ -34,7 +34,8 @@
 #include <mlt++/MltTransition.h>
 #include <utility>
 
-TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) : TimelineModel(profile, undo_stack)
+TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
+    : TimelineModel(profile, undo_stack)
 {
 }
 

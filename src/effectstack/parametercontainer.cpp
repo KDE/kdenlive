@@ -62,7 +62,8 @@
 #include <QMimeData>
 #include <QString>
 
-MySpinBox::MySpinBox(QWidget *parent) : QSpinBox(parent)
+MySpinBox::MySpinBox(QWidget *parent)
+    : QSpinBox(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
 }
@@ -96,8 +97,15 @@ class Fontval : public QWidget, public Ui::Fontval_UI
 };
 
 ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo &info, EffectMetaInfo *metaInfo, QWidget *parent)
-    : m_info(info), m_keyframeEditor(nullptr), m_geometryWidget(nullptr), m_animationWidget(nullptr), m_metaInfo(metaInfo), m_effect(effect),
-      m_acceptDrops(false), m_monitorEffectScene(MonitorSceneDefault), m_conditionParameter(false)
+    : m_info(info)
+    , m_keyframeEditor(nullptr)
+    , m_geometryWidget(nullptr)
+    , m_animationWidget(nullptr)
+    , m_metaInfo(metaInfo)
+    , m_effect(effect)
+    , m_acceptDrops(false)
+    , m_monitorEffectScene(MonitorSceneDefault)
+    , m_conditionParameter(false)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);

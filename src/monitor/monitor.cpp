@@ -63,7 +63,8 @@
 
 #define SEEK_INACTIVE (-1)
 
-QuickEventEater::QuickEventEater(QObject *parent) : QObject(parent)
+QuickEventEater::QuickEventEater(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -104,7 +105,8 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-QuickMonitorEventEater::QuickMonitorEventEater(QWidget *parent) : QObject(parent)
+QuickMonitorEventEater::QuickMonitorEventEater(QWidget *parent)
+    : QObject(parent)
 {
 }
 
@@ -121,10 +123,24 @@ bool QuickMonitorEventEater::eventFilter(QObject *obj, QEvent *event)
 }
 
 Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent)
-    : AbstractMonitor(id, manager, parent), render(nullptr), m_controller(nullptr), m_glMonitor(nullptr), m_splitEffect(nullptr), m_splitProducer(nullptr),
-      m_length(2), m_dragStarted(false), m_recManager(nullptr), m_loopClipAction(nullptr), m_sceneVisibilityAction(nullptr), m_multitrackView(nullptr),
-      m_contextMenu(nullptr), m_selectedClip(nullptr), m_loopClipTransition(true), m_editMarker(nullptr), m_forceSizeFactor(0),
-      m_lastMonitorSceneType(MonitorSceneDefault)
+    : AbstractMonitor(id, manager, parent)
+    , render(nullptr)
+    , m_controller(nullptr)
+    , m_glMonitor(nullptr)
+    , m_splitEffect(nullptr)
+    , m_splitProducer(nullptr)
+    , m_length(2)
+    , m_dragStarted(false)
+    , m_recManager(nullptr)
+    , m_loopClipAction(nullptr)
+    , m_sceneVisibilityAction(nullptr)
+    , m_multitrackView(nullptr)
+    , m_contextMenu(nullptr)
+    , m_selectedClip(nullptr)
+    , m_loopClipTransition(true)
+    , m_editMarker(nullptr)
+    , m_forceSizeFactor(0)
+    , m_lastMonitorSceneType(MonitorSceneDefault)
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);

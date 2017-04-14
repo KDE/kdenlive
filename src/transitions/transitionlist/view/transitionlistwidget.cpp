@@ -26,7 +26,8 @@
 
 #include <QQmlContext>
 
-TransitionListWidget::TransitionListWidget(QWidget *parent) : AssetListWidget(parent)
+TransitionListWidget::TransitionListWidget(QWidget *parent)
+    : AssetListWidget(parent)
 {
 
     m_model.reset(new TransitionTreeModel(false, this));

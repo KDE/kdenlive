@@ -46,7 +46,8 @@
 
 // static bool pointLessThan(const QPointF &a, const QPointF &b);
 
-KisCurveWidget::KisCurveWidget(QWidget *parent) : AbstractCurveWidget(parent)
+KisCurveWidget::KisCurveWidget(QWidget *parent)
+    : AbstractCurveWidget(parent)
 {
     setObjectName(QStringLiteral("KisCurveWidget"));
     m_guideVisible = false;

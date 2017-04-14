@@ -48,14 +48,30 @@ QDebug operator<<(QDebug qd, const MltVideoProfile &profile)
 }
 
 MltVideoProfile::MltVideoProfile()
-    : frame_rate_num(0), frame_rate_den(0), width(0), height(0), progressive(0), sample_aspect_num(0), sample_aspect_den(0), display_aspect_num(0),
-      display_aspect_den(0), colorspace(0)
+    : frame_rate_num(0)
+    , frame_rate_den(0)
+    , width(0)
+    , height(0)
+    , progressive(0)
+    , sample_aspect_num(0)
+    , sample_aspect_den(0)
+    , display_aspect_num(0)
+    , display_aspect_den(0)
+    , colorspace(0)
 {
 }
 
 MltVideoProfile::MltVideoProfile(const QVariantList &params)
-    : frame_rate_num(0), frame_rate_den(0), width(0), height(0), progressive(0), sample_aspect_num(0), sample_aspect_den(0), display_aspect_num(0),
-      display_aspect_den(0), colorspace(0)
+    : frame_rate_num(0)
+    , frame_rate_den(0)
+    , width(0)
+    , height(0)
+    , progressive(0)
+    , sample_aspect_num(0)
+    , sample_aspect_den(0)
+    , display_aspect_num(0)
+    , display_aspect_den(0)
+    , colorspace(0)
 {
     if (params.count() != 12) {
         qWarning("Trying to build a profile with incorrect param numbers");
@@ -147,16 +163,23 @@ bool MltVideoProfile::operator!=(const MltVideoProfile &other) const
     return !(*this == other);
 }
 
-CommentedTime::CommentedTime() : t(GenTime(0)), type(0)
+CommentedTime::CommentedTime()
+    : t(GenTime(0))
+    , type(0)
 {
 }
 
-CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int markerType) : t(time), c(comment), type(markerType)
+CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int markerType)
+    : t(time)
+    , c(comment)
+    , type(markerType)
 {
 }
 
 CommentedTime::CommentedTime(const QString &hash, const GenTime &time)
-    : t(time), c(hash.section(QLatin1Char(':'), 1)), type(hash.section(QLatin1Char(':'), 0, 0).toInt())
+    : t(time)
+    , c(hash.section(QLatin1Char(':'), 1))
+    , type(hash.section(QLatin1Char(':'), 0, 0).toInt())
 {
 }
 

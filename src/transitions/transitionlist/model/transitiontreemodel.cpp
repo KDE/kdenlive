@@ -26,7 +26,8 @@
 
 #include <QDebug>
 
-TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent) : AssetTreeModel(parent)
+TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent)
+    : AssetTreeModel(parent)
 {
     QList<QVariant> rootData;
     rootData << "Name"

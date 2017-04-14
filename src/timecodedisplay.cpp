@@ -27,7 +27,8 @@
 
 #include <KColorScheme>
 
-MyValidator::MyValidator(QObject *parent) : QValidator(parent)
+MyValidator::MyValidator(QObject *parent)
+    : QValidator(parent)
 {
 }
 
@@ -45,7 +46,12 @@ QValidator::State MyValidator::validate(QString &str, int &) const
 }
 
 TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
-    : QAbstractSpinBox(parent), m_timecode(t), m_frametimecode(false), m_minimum(0), m_maximum(-1), m_value(0)
+    : QAbstractSpinBox(parent)
+    , m_timecode(t)
+    , m_frametimecode(false)
+    , m_minimum(0)
+    , m_maximum(-1)
+    , m_value(0)
 {
     QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     lineEdit()->setFont(ft);

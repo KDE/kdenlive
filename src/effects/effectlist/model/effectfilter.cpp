@@ -24,7 +24,8 @@
 #include "assets/assetlist/model/assettreemodel.hpp"
 #include "effecttreemodel.hpp"
 
-EffectFilter::EffectFilter(QObject *parent) : AssetFilter(parent)
+EffectFilter::EffectFilter(QObject *parent)
+    : AssetFilter(parent)
 {
     m_type_enabled = false;
 }

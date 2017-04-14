@@ -31,7 +31,9 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-AbstractGroupItem::AbstractGroupItem(double /* fps */) : QObject(), QGraphicsItemGroup()
+AbstractGroupItem::AbstractGroupItem(double /* fps */)
+    : QObject()
+    , QGraphicsItemGroup()
 {
     setZValue(1);
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);

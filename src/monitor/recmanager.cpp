@@ -38,7 +38,11 @@
 #include <QToolBar>
 
 RecManager::RecManager(Monitor *parent)
-    : QObject(parent), m_monitor(parent), m_captureProcess(nullptr), m_recToolbar(new QToolBar(parent)), m_screenCombo(nullptr)
+    : QObject(parent)
+    , m_monitor(parent)
+    , m_captureProcess(nullptr)
+    , m_recToolbar(new QToolBar(parent))
+    , m_screenCombo(nullptr)
 {
     m_playAction = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);

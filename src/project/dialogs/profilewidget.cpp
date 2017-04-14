@@ -34,7 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSplitter>
 #include <QTextEdit>
 
-ProfileWidget::ProfileWidget(QWidget *parent) : QWidget(parent)
+ProfileWidget::ProfileWidget(QWidget *parent)
+    : QWidget(parent)
 {
     m_originalProfile = QStringLiteral("invalid");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);

@@ -23,7 +23,8 @@
 const int MAX_LENGTH_HEX = 4;
 const uint MAX_UNICODE_V1 = 65535;
 
-UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent) : QDialog(parent)
+UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent)
+    : QDialog(parent)
 {
     setWindowTitle(i18n("Details"));
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
@@ -52,7 +53,10 @@ void UnicodeDialog::slotAccept()
 
 /// CONSTRUCTORS/DECONSTRUCTORS
 
-UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent) : QWidget(parent), inputMethod(inputMeth), m_lastCursorPos(0)
+UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent)
+    : QWidget(parent)
+    , inputMethod(inputMeth)
+    , m_lastCursorPos(0)
 {
     setupUi(this);
     readChoices();

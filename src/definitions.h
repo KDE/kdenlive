@@ -123,7 +123,15 @@ public:
     bool isLocked;
     int duration;
     EffectsList effectsList;
-    TrackInfo() : type(VideoTrack), isMute(0), isBlind(0), isLocked(0), duration(0), effectsList(true) {}
+    TrackInfo()
+        : type(VideoTrack)
+        , isMute(0)
+        , isBlind(0)
+        , isLocked(0)
+        , duration(0)
+        , effectsList(true)
+    {
+    }
 };
 
 struct ProfileInfo
@@ -159,7 +167,10 @@ public:
     GenTime cropDuration;
     /** Track number */
     int track;
-    ItemInfo() : track(0) {}
+    ItemInfo()
+        : track(0)
+    {
+    }
     bool isValid() const { return startPos != endPos; }
     bool contains(GenTime pos) const
     {
@@ -184,7 +195,12 @@ public:
     int a_track;
     /** Does the user request for a special a_track */
     bool forceTrack;
-    TransitionInfo() : b_track(0), a_track(0), forceTrack(0) {}
+    TransitionInfo()
+        : b_track(0)
+        , a_track(0)
+        , forceTrack(0)
+    {
+    }
 };
 
 class MltVideoProfile

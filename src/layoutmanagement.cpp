@@ -20,7 +20,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
 
-LayoutManagement::LayoutManagement(QObject *parent) : QObject(parent)
+LayoutManagement::LayoutManagement(QObject *parent)
+    : QObject(parent)
 {
     // Prepare layout actions
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());

@@ -18,7 +18,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "klocalizedstring.h"
 
-NotesPlugin::NotesPlugin(ProjectManager *projectManager) : QObject(projectManager)
+NotesPlugin::NotesPlugin(ProjectManager *projectManager)
+    : QObject(projectManager)
 {
     m_widget = new NotesWidget();
     connect(m_widget, &NotesWidget::insertNotesTimecode, this, &NotesPlugin::slotInsertTimecode);

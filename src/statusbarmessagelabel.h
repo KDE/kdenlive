@@ -66,7 +66,10 @@ struct StatusBarMessageItem
     bool needsConfirmation() const { return (type == MltError && !confirmed); }
 
     StatusBarMessageItem(const QString &messageText = QString(), MessageType messageType = DefaultMessage, int timeoutMS = 0)
-        : text(messageText), type(messageType), timeoutMillis(timeoutMS), confirmed(false)
+        : text(messageText)
+        , type(messageType)
+        , timeoutMillis(timeoutMS)
+        , confirmed(false)
     {
     }
 

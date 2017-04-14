@@ -17,7 +17,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <cmath>
 #include <iostream>
 
-AudioCorrelation::AudioCorrelation(AudioEnvelope *mainTrackEnvelope) : m_mainTrackEnvelope(mainTrackEnvelope)
+AudioCorrelation::AudioCorrelation(AudioEnvelope *mainTrackEnvelope)
+    : m_mainTrackEnvelope(mainTrackEnvelope)
 {
     m_mainTrackEnvelope->normalizeEnvelope();
     connect(m_mainTrackEnvelope, &AudioEnvelope::envelopeReady, this, &AudioCorrelation::slotAnnounceEnvelope);

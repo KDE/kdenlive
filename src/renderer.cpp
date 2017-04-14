@@ -53,9 +53,23 @@
 #define SEEK_INACTIVE (-1)
 
 Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, GLWidget *qmlView, QWidget *parent)
-    : AbstractRender(rendererName, parent), byPassSeek(false), requestedSeekPosition(SEEK_INACTIVE), showFrameSemaphore(1), externalConsumer(false),
-      m_name(rendererName), m_mltConsumer(nullptr), m_mltProducer(nullptr), m_showFrameEvent(nullptr), m_pauseEvent(nullptr), m_binController(binController),
-      m_qmlView(qmlView), m_isZoneMode(false), m_isLoopMode(false), m_blackClip(nullptr), m_isActive(false), m_isRefreshing(false)
+    : AbstractRender(rendererName, parent)
+    , byPassSeek(false)
+    , requestedSeekPosition(SEEK_INACTIVE)
+    , showFrameSemaphore(1)
+    , externalConsumer(false)
+    , m_name(rendererName)
+    , m_mltConsumer(nullptr)
+    , m_mltProducer(nullptr)
+    , m_showFrameEvent(nullptr)
+    , m_pauseEvent(nullptr)
+    , m_binController(binController)
+    , m_qmlView(qmlView)
+    , m_isZoneMode(false)
+    , m_isLoopMode(false)
+    , m_blackClip(nullptr)
+    , m_isActive(false)
+    , m_isRefreshing(false)
 {
     qRegisterMetaType<stringMap>("stringMap");
     analyseAudio = KdenliveSettings::monitor_audio();

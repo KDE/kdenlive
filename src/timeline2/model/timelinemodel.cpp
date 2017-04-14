@@ -46,8 +46,14 @@
 int TimelineModel::next_id = 0;
 
 TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
-    : QAbstractItemModel(), m_tractor(new Mlt::Tractor(*profile)), m_snaps(new SnapModel()), m_undoStack(undo_stack), m_profile(profile),
-      m_blackClip(new Mlt::Producer(*profile, "color:black")), m_lock(QReadWriteLock::Recursive), m_timelineEffectsEnabled(true)
+    : QAbstractItemModel()
+    , m_tractor(new Mlt::Tractor(*profile))
+    , m_snaps(new SnapModel())
+    , m_undoStack(undo_stack)
+    , m_profile(profile)
+    , m_blackClip(new Mlt::Producer(*profile, "color:black"))
+    , m_lock(QReadWriteLock::Recursive)
+    , m_timelineEffectsEnabled(true)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");

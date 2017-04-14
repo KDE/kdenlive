@@ -39,7 +39,10 @@ class __dummy_AbstractCurveWidget : public QWidget
 {
     Q_OBJECT
 public:
-    __dummy_AbstractCurveWidget(QWidget *parent) : QWidget(parent) {}
+    __dummy_AbstractCurveWidget(QWidget *parent)
+        : QWidget(parent)
+    {
+    }
 
 signals:
     /**

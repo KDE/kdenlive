@@ -20,8 +20,14 @@
 class FrameData : public QSharedData
 {
 public:
-    FrameData() : f((mlt_frame) nullptr) {}
-    explicit FrameData(Mlt::Frame &frame) : f(frame) {}
+    FrameData()
+        : f((mlt_frame) nullptr)
+    {
+    }
+    explicit FrameData(Mlt::Frame &frame)
+        : f(frame)
+    {
+    }
     ~FrameData() {}
 
     Mlt::Frame f;
@@ -30,15 +36,18 @@ private:
     Q_DISABLE_COPY(FrameData)
 };
 
-SharedFrame::SharedFrame() : d(nullptr)
+SharedFrame::SharedFrame()
+    : d(nullptr)
 {
 }
 
-SharedFrame::SharedFrame(Mlt::Frame &frame) : d(new FrameData(frame))
+SharedFrame::SharedFrame(Mlt::Frame &frame)
+    : d(new FrameData(frame))
 {
 }
 
-SharedFrame::SharedFrame(const SharedFrame &other) : d(other.d)
+SharedFrame::SharedFrame(const SharedFrame &other)
+    : d(other.d)
 {
 }
 

@@ -31,7 +31,8 @@
 #include <QTimer>
 #include <QTreeWidgetItem>
 
-ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget *parent) : QDialog(parent)
+ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget *parent)
+    : QDialog(parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);

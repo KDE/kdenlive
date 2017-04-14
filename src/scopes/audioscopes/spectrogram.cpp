@@ -35,8 +35,15 @@
 #define MIN_FREQ_VALUE 1000
 
 Spectrogram::Spectrogram(QWidget *parent)
-    : AbstractAudioScopeWidget(true, parent), m_fftTools(), m_fftHistory(), m_fftHistoryImg(), m_dBmin(-70), m_dBmax(0), m_freqMax(0), m_customFreq(false),
-      m_parameterChanged(false)
+    : AbstractAudioScopeWidget(true, parent)
+    , m_fftTools()
+    , m_fftHistory()
+    , m_fftHistoryImg()
+    , m_dBmin(-70)
+    , m_dBmax(0)
+    , m_freqMax(0)
+    , m_customFreq(false)
+    , m_parameterChanged(false)
 {
     ui = new Ui::Spectrogram_UI;
     ui->setupUi(this);

@@ -25,7 +25,10 @@
 #include <QWheelEvent>
 
 ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget *parent)
-    : QDialog(parent), m_clip(clip), m_min(min), m_max(max)
+    : QDialog(parent)
+    , m_clip(clip)
+    , m_min(min)
+    , m_max(max)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

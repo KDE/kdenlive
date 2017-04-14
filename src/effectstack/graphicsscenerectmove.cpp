@@ -37,7 +37,11 @@
 #include <QTextDocument>
 #include <utility>
 
-MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent) : QGraphicsEffect(parent), m_xOffset(0), m_yOffset(0), m_blur(0)
+MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent)
+    : QGraphicsEffect(parent)
+    , m_xOffset(0)
+    , m_yOffset(0)
+    , m_blur(0)
 {
 }
 
@@ -61,7 +65,9 @@ void MyQGraphicsEffect::draw(QPainter *painter)
     drawSource(painter);
 }
 
-MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent) : QGraphicsTextItem(txt, parent), m_alignment(Qt::AlignLeft)
+MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
+    : QGraphicsTextItem(txt, parent)
+    , m_alignment(Qt::AlignLeft)
 {
     setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -406,7 +412,8 @@ void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
     delete click; // don't forget to delete the event
 }
 
-MyRectItem::MyRectItem(QGraphicsItem *parent) : QGraphicsRectItem(parent)
+MyRectItem::MyRectItem(QGraphicsItem *parent)
+    : QGraphicsRectItem(parent)
 {
     setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -438,7 +445,8 @@ QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value
     return QGraphicsItem::itemChange(change, value);
 }
 
-MyPixmapItem::MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent) : QGraphicsPixmapItem(pixmap, parent)
+MyPixmapItem::MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent)
+    : QGraphicsPixmapItem(pixmap, parent)
 {
     setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -460,7 +468,8 @@ QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &val
     return QGraphicsItem::itemChange(change, value);
 }
 
-MySvgItem::MySvgItem(const QString &fileName, QGraphicsItem *parent) : QGraphicsSvgItem(fileName, parent)
+MySvgItem::MySvgItem(const QString &fileName, QGraphicsItem *parent)
+    : QGraphicsSvgItem(fileName, parent)
 {
     setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -482,8 +491,15 @@ QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
     return QGraphicsItem::itemChange(change, value);
 }
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent)
-    : QGraphicsScene(parent), m_selectedItem(nullptr), m_resizeMode(NoResize), m_possibleAction(NoResize), m_tool(TITLE_RECTANGLE), m_gridSize(20),
-      m_createdText(false), m_moveStarted(false), m_pan(false)
+    : QGraphicsScene(parent)
+    , m_selectedItem(nullptr)
+    , m_resizeMode(NoResize)
+    , m_possibleAction(NoResize)
+    , m_tool(TITLE_RECTANGLE)
+    , m_gridSize(20)
+    , m_createdText(false)
+    , m_moveStarted(false)
+    , m_pan(false)
 {
     // grabMouse();
     m_zoom = 1.0;

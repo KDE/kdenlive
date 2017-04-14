@@ -26,7 +26,11 @@
 #include <QPainter>
 
 BezierSplineEditor::BezierSplineEditor(QWidget *parent)
-    : AbstractCurveWidget(parent), m_showAllHandles(true), m_currentPointType(BPoint::PointType::P), m_grabOffsetX(0), m_grabOffsetY(0)
+    : AbstractCurveWidget(parent)
+    , m_showAllHandles(true)
+    , m_currentPointType(BPoint::PointType::P)
+    , m_grabOffsetX(0)
+    , m_grabOffsetY(0)
 {
     m_curve = CubicBezierSpline();
 }

@@ -24,7 +24,9 @@
 #include <QApplication>
 #include <QMouseEvent>
 
-DraggableLabel::DraggableLabel(const QString &text, QWidget *parent) : QLabel(text, parent), m_dragStarted(false)
+DraggableLabel::DraggableLabel(const QString &text, QWidget *parent)
+    : QLabel(text, parent)
+    , m_dragStarted(false)
 {
     setContextMenuPolicy(Qt::NoContextMenu);
     setToolTip(i18n("Click to copy data to clipboard"));

@@ -34,9 +34,18 @@ static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_p
 
 MeltJob::MeltJob(ClipType cType, const QString &id, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams,
                  const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams)
-    : AbstractClipJob(MLTJOB, cType, id), addClipToProject(0), m_consumer(nullptr), m_producer(nullptr), m_profile(nullptr), m_filter(nullptr),
-      m_showFrameEvent(nullptr), m_producerParams(producerParams), m_filterParams(filterParams), m_consumerParams(consumerParams), m_length(0),
-      m_extra(extraParams)
+    : AbstractClipJob(MLTJOB, cType, id)
+    , addClipToProject(0)
+    , m_consumer(nullptr)
+    , m_producer(nullptr)
+    , m_profile(nullptr)
+    , m_filter(nullptr)
+    , m_showFrameEvent(nullptr)
+    , m_producerParams(producerParams)
+    , m_filterParams(filterParams)
+    , m_consumerParams(consumerParams)
+    , m_length(0)
+    , m_extra(extraParams)
 {
     m_jobStatus = JobWaiting;
     description = i18n("Processing clip");

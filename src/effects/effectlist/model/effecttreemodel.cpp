@@ -31,7 +31,8 @@
 
 #include <QDebug>
 
-EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent) : AssetTreeModel(parent)
+EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
+    : AssetTreeModel(parent)
 {
     QList<QVariant> rootData;
     rootData << "Name"

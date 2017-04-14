@@ -41,7 +41,8 @@
 #include <QTreeWidgetItem>
 #include <unistd.h>
 
-DvdTreeWidget::DvdTreeWidget(QWidget *parent) : QTreeWidget(parent)
+DvdTreeWidget::DvdTreeWidget(QWidget *parent)
+    : QTreeWidget(parent)
 {
     setAcceptDrops(true);
 }
@@ -73,7 +74,10 @@ void DvdTreeWidget::dropEvent(QDropEvent *event)
     emit addClips(clips);
 }
 
-DvdWizardVob::DvdWizardVob(QWidget *parent) : QWizardPage(parent), m_installCheck(true), m_duration(0)
+DvdWizardVob::DvdWizardVob(QWidget *parent)
+    : QWizardPage(parent)
+    , m_installCheck(true)
+    , m_duration(0)
 {
     m_view.setupUi(this);
     m_view.button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));

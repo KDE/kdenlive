@@ -33,7 +33,8 @@
 #include <klocalizedstring.h>
 
 RazorManager::RazorManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
-    : AbstractToolManager(RazorType, view, commandStack), m_cutLine(nullptr)
+    : AbstractToolManager(RazorType, view, commandStack)
+    , m_cutLine(nullptr)
 {
     QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
     m_cursor = QCursor(razorIcon.pixmap(32, 32));

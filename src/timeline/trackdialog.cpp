@@ -24,7 +24,8 @@
 
 #include <QIcon>
 
-TrackDialog::TrackDialog(Timeline *timeline, QWidget *parent) : QDialog(parent)
+TrackDialog::TrackDialog(Timeline *timeline, QWidget *parent)
+    : QDialog(parent)
 {
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));

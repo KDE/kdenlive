@@ -27,7 +27,10 @@
 #include <QString>
 
 AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent)
-    : QAbstractListModel(parent), m_xml(assetXml), m_assetId(assetId), m_asset(asset)
+    : QAbstractListModel(parent)
+    , m_xml(assetXml)
+    , m_assetId(assetId)
+    , m_asset(asset)
 {
     Q_ASSERT(asset->is_valid());
     QDomNodeList nodeList = m_xml.elementsByTagName(QStringLiteral("parameter"));

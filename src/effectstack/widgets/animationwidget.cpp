@@ -55,9 +55,25 @@
 
 AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,
                                  QWidget *parent)
-    : AbstractParamWidget(parent), m_monitor(info->monitor), m_frameSize(info->frameSize), m_timePos(new TimecodeDisplay(info->monitor->timecode(), this)),
-      m_active(false), m_clipPos(clipPos), m_inPoint(min), m_outPoint(max + 1), m_editedKeyframe(-1), m_attachedToEnd(-2), m_xml(xml), m_effectId(effectId),
-      m_spinX(nullptr), m_spinY(nullptr), m_spinWidth(nullptr), m_spinHeight(nullptr), m_spinSize(nullptr), m_spinOpacity(nullptr), m_offset(effectIn - min)
+    : AbstractParamWidget(parent)
+    , m_monitor(info->monitor)
+    , m_frameSize(info->frameSize)
+    , m_timePos(new TimecodeDisplay(info->monitor->timecode(), this))
+    , m_active(false)
+    , m_clipPos(clipPos)
+    , m_inPoint(min)
+    , m_outPoint(max + 1)
+    , m_editedKeyframe(-1)
+    , m_attachedToEnd(-2)
+    , m_xml(xml)
+    , m_effectId(effectId)
+    , m_spinX(nullptr)
+    , m_spinY(nullptr)
+    , m_spinWidth(nullptr)
+    , m_spinHeight(nullptr)
+    , m_spinSize(nullptr)
+    , m_spinOpacity(nullptr)
+    , m_offset(effectIn - min)
 {
     setAcceptDrops(true);
     auto *vbox2 = new QVBoxLayout(this);

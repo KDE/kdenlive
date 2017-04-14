@@ -24,7 +24,8 @@
 
 #include <math.h>
 
-AudioSignal::AudioSignal(QWidget *parent) : AbstractAudioScopeWidget(false, parent)
+AudioSignal::AudioSignal(QWidget *parent)
+    : AbstractAudioScopeWidget(false, parent)
 {
     setMinimumHeight(10);
     setMinimumWidth(10);

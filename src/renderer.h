@@ -72,7 +72,11 @@ class Event;
 class MltErrorEvent : public QEvent
 {
 public:
-    explicit MltErrorEvent(const QString &message) : QEvent(QEvent::User), m_message(message) {}
+    explicit MltErrorEvent(const QString &message)
+        : QEvent(QEvent::User)
+        , m_message(message)
+    {
+    }
 
     QString message() const { return m_message; }
 

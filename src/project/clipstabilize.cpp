@@ -30,7 +30,10 @@
 #include <mlt++/Mlt.h>
 
 ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget *parent)
-    : QDialog(parent), m_filtername(filterName), m_urls(urls), vbox(nullptr)
+    : QDialog(parent)
+    , m_filtername(filterName)
+    , m_urls(urls)
+    , vbox(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

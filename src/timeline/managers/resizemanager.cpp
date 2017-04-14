@@ -28,7 +28,8 @@
 
 #include <KLocalizedString>
 
-ResizeManager::ResizeManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(ResizeType, view, commandStack)
+ResizeManager::ResizeManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
+    : AbstractToolManager(ResizeType, view, commandStack)
 {
 }
 

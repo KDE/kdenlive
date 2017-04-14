@@ -25,7 +25,9 @@
 #include <QGraphicsView>
 #include <QPainter>
 
-BPointItem::BPointItem(const BPoint &point, QGraphicsItem *parent) : QAbstractGraphicsShapeItem(parent), m_selection(-1)
+BPointItem::BPointItem(const BPoint &point, QGraphicsItem *parent)
+    : QAbstractGraphicsShapeItem(parent)
+    , m_selection(-1)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 

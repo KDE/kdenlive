@@ -15,7 +15,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include <klocalizedstring.h>
 
-HideTitleBars::HideTitleBars(QObject *parent) : QObject(parent)
+HideTitleBars::HideTitleBars(QObject *parent)
+    : QObject(parent)
 {
     m_switchAction = new QAction(i18n("Show Title Bars"), this);
     m_switchAction->setCheckable(true);

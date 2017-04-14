@@ -24,7 +24,10 @@
 #include "effectstackmodel.hpp"
 
 EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId, EffectStackModel *stack)
-    : TreeItem(data, static_cast<AbstractTreeModel *>(stack)), AssetParameterModel(effect, xml, effectId), m_enabled(true), m_timelineEffectsEnabled(true)
+    : TreeItem(data, static_cast<AbstractTreeModel *>(stack))
+    , AssetParameterModel(effect, xml, effectId)
+    , m_enabled(true)
+    , m_timelineEffectsEnabled(true)
 {
 }
 

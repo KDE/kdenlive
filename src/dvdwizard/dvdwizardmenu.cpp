@@ -31,7 +31,11 @@
 
 enum { DvdButtonItem = QGraphicsItem::UserType + 1, DvdButtonUnderlineItem = QGraphicsItem::UserType + 2 };
 
-DvdScene::DvdScene(QObject *parent) : QGraphicsScene(parent), m_width(0), m_height(0), m_gridSize(1)
+DvdScene::DvdScene(QObject *parent)
+    : QGraphicsScene(parent)
+    , m_width(0)
+    , m_height(0)
+    , m_gridSize(1)
 {
 }
 void DvdScene::setProfile(int width, int height)
@@ -78,7 +82,11 @@ void DvdScene::drawForeground(QPainter *painter, const QRectF &rect)
     painter->drawPoints(points.data(), points.size());
 }
 
-DvdButton::DvdButton(const QString &text) : QGraphicsTextItem(text), m_target(0), m_command(QStringLiteral("jump title 1")), m_backToMenu(false)
+DvdButton::DvdButton(const QString &text)
+    : QGraphicsTextItem(text)
+    , m_target(0)
+    , m_command(QStringLiteral("jump title 1"))
+    , m_backToMenu(false)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -150,7 +158,11 @@ QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
 }
 
 DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent)
-    : QWizardPage(parent), m_color(nullptr), m_safeRect(nullptr), m_finalSize(720, 576), m_movieLength(-1)
+    : QWizardPage(parent)
+    , m_color(nullptr)
+    , m_safeRect(nullptr)
+    , m_finalSize(720, 576)
+    , m_movieLength(-1)
 {
     m_view.setupUi(this);
     m_view.play_text->setText(i18n("Play"));

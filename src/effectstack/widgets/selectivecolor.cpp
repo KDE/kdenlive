@@ -24,7 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KLocalizedString>
 
-SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget *parent) : QWidget(parent)
+SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget *parent)
+    : QWidget(parent)
 {
     setupUi(this);
     QDomNodeList namenode = effect.elementsByTagName(QStringLiteral("parameter"));

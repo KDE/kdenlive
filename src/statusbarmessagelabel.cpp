@@ -39,7 +39,8 @@
 #include <QPushButton>
 #include <QTextEdit>
 
-FlashLabel::FlashLabel(QWidget *parent) : QWidget(parent)
+FlashLabel::FlashLabel(QWidget *parent)
+    : QWidget(parent)
 {
     setAutoFillBackground(true);
 }
@@ -61,7 +62,10 @@ QColor FlashLabel::color() const
     return palette().window().color();
 }
 
-StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent) : FlashLabel(parent), m_minTextHeight(-1), m_queueSemaphore(1)
+StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
+    : FlashLabel(parent)
+    , m_minTextHeight(-1)
+    , m_queueSemaphore(1)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
     auto *lay = new QHBoxLayout(this);

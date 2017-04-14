@@ -37,7 +37,8 @@
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
-MyEditableLabel::MyEditableLabel(QWidget *parent) : QLineEdit(parent)
+MyEditableLabel::MyEditableLabel(QWidget *parent)
+    : QLineEdit(parent)
 {
     setFrame(false);
     setReadOnly(true);
@@ -51,7 +52,8 @@ void MyEditableLabel::mouseDoubleClickEvent(QMouseEvent *e)
     e->accept();
 }
 
-CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget *parent) : AbstractCollapsibleWidget(parent)
+CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget *parent)
+    : AbstractCollapsibleWidget(parent)
 {
     m_info.groupIndex = ix;
     m_subWidgets = QList<CollapsibleEffect *>();

@@ -51,7 +51,10 @@ void deCasteljau(BPoint *p1, BPoint *p2, BPoint *res, double t)
     p2->h1 = cd;
 }
 
-SplineItem::SplineItem(const QList<BPoint> &points, QGraphicsItem *parent, QGraphicsScene *scene) : QGraphicsPathItem(parent), m_closed(true), m_editing(false)
+SplineItem::SplineItem(const QList<BPoint> &points, QGraphicsItem *parent, QGraphicsScene *scene)
+    : QGraphicsPathItem(parent)
+    , m_closed(true)
+    , m_editing(false)
 {
     QPen framepen(Qt::SolidLine);
     framepen.setColor(Qt::yellow);

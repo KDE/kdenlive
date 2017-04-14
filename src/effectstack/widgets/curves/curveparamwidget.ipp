@@ -35,7 +35,10 @@ public:
        @param mode This is the original mode
        @param parent Parent of the widget
     */
-    ValueLabel(bool isVert, typename CurveParamWidget<CurveWidget_t>::CurveModes mode, QWidget *parent) : QLabel(parent), m_mode(mode), m_isVert(isVert)
+    ValueLabel(bool isVert, typename CurveParamWidget<CurveWidget_t>::CurveModes mode, QWidget *parent)
+        : QLabel(parent)
+        , m_mode(mode)
+        , m_isVert(isVert)
     {
         if (m_isVert) {
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
@@ -132,7 +135,9 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotShow
 }
 template <typename CurveWidget_t>
 CurveParamWidget<CurveWidget_t>::CurveParamWidget(const QString &spline, QWidget *parent)
-    : AbstractParamWidget(parent), m_mode(CurveModes::Luma), m_showPixmap(KdenliveSettings::bezier_showpixmap())
+    : AbstractParamWidget(parent)
+    , m_mode(CurveModes::Luma)
+    , m_showPixmap(KdenliveSettings::bezier_showpixmap())
 {
     // construct curve editor
     m_edit = new CurveWidget_t(this);

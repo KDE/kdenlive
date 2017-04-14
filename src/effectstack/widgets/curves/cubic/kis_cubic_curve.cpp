@@ -113,8 +113,19 @@ protected:
     int m_intervals;
 
 public:
-    KisCubicSpline() : m_begin(0), m_end(0), m_intervals(0) {}
-    explicit KisCubicSpline(const QList<T_point> &a) : m_begin(0), m_end(0), m_intervals(0) { createSpline(a); }
+    KisCubicSpline()
+        : m_begin(0)
+        , m_end(0)
+        , m_intervals(0)
+    {
+    }
+    explicit KisCubicSpline(const QList<T_point> &a)
+        : m_begin(0)
+        , m_end(0)
+        , m_intervals(0)
+    {
+        createSpline(a);
+    }
 
     /**
      * Create new spline and precalculate some values
@@ -223,7 +234,8 @@ static bool pointLessThan(const QPointF &a, const QPointF &b)
 struct KisCubicCurve::Data : public QSharedData
 {
     Data() { init(); }
-    Data(const Data &data) : QSharedData()
+    Data(const Data &data)
+        : QSharedData()
     {
         init();
         points = data.points;
@@ -303,7 +315,8 @@ struct KisCubicCurve::Private
     QSharedDataPointer<Data> data;
 };
 
-KisCubicCurve::KisCubicCurve() : d(new Private)
+KisCubicCurve::KisCubicCurve()
+    : d(new Private)
 {
     d->data = new Data;
     QPointF p;
@@ -315,14 +328,16 @@ KisCubicCurve::KisCubicCurve() : d(new Private)
     d->data->points.append(p);
 }
 
-KisCubicCurve::KisCubicCurve(const QList<QPointF> &points) : d(new Private)
+KisCubicCurve::KisCubicCurve(const QList<QPointF> &points)
+    : d(new Private)
 {
     d->data = new Data;
     d->data->points = points;
     d->data->keepSorted();
 }
 
-KisCubicCurve::KisCubicCurve(const KisCubicCurve &curve) : d(new Private(*curve.d))
+KisCubicCurve::KisCubicCurve(const KisCubicCurve &curve)
+    : d(new Private(*curve.d))
 {
 }
 

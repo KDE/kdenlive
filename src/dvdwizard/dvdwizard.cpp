@@ -39,11 +39,23 @@
 #include <QTimer>
 
 DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *parent)
-    : QWizard(parent), m_authorFile(QStringLiteral("XXXXXX.xml")), m_menuFile(QStringLiteral("XXXXXX.xml")), m_menuVobFile(QStringLiteral("XXXXXX.mpg")),
-      m_letterboxMovie(QStringLiteral("XXXXXX.mpg")), m_dvdauthor(nullptr), m_mkiso(nullptr), m_vobitem(nullptr), m_selectedImage(QStringLiteral("XXXXXX.png")),
-      m_selectedLetterImage(QStringLiteral("XXXXXX.png")), m_highlightedImage(QStringLiteral("XXXXXX.png")),
-      m_highlightedLetterImage(QStringLiteral("XXXXXX.png")), m_menuVideo(QStringLiteral("XXXXXX.vob")), m_menuFinalVideo(QStringLiteral("XXXXXX.vob")),
-      m_menuImageBackground(QStringLiteral("XXXXXX.png")), m_burnMenu(new QMenu(parent)), m_previousPage(0)
+    : QWizard(parent)
+    , m_authorFile(QStringLiteral("XXXXXX.xml"))
+    , m_menuFile(QStringLiteral("XXXXXX.xml"))
+    , m_menuVobFile(QStringLiteral("XXXXXX.mpg"))
+    , m_letterboxMovie(QStringLiteral("XXXXXX.mpg"))
+    , m_dvdauthor(nullptr)
+    , m_mkiso(nullptr)
+    , m_vobitem(nullptr)
+    , m_selectedImage(QStringLiteral("XXXXXX.png"))
+    , m_selectedLetterImage(QStringLiteral("XXXXXX.png"))
+    , m_highlightedImage(QStringLiteral("XXXXXX.png"))
+    , m_highlightedLetterImage(QStringLiteral("XXXXXX.png"))
+    , m_menuVideo(QStringLiteral("XXXXXX.vob"))
+    , m_menuFinalVideo(QStringLiteral("XXXXXX.vob"))
+    , m_menuImageBackground(QStringLiteral("XXXXXX.png"))
+    , m_burnMenu(new QMenu(parent))
+    , m_previousPage(0)
 {
     setWindowTitle(i18n("DVD Wizard"));
     // setPixmap(QWizard::WatermarkPixmap, QPixmap(QStandardPaths::locate(QStandardPaths::AppDataLocation, "banner.png")));

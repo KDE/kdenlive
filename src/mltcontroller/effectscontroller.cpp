@@ -63,7 +63,9 @@ void EffectInfo::fromString(const QString &value)
     }
 }
 
-EffectParameter::EffectParameter(const QString &name, const QString &value) : m_name(name), m_value(value)
+EffectParameter::EffectParameter(const QString &name, const QString &value)
+    : m_name(name)
+    , m_value(value)
 {
 }
 
@@ -82,7 +84,8 @@ void EffectParameter::setValue(const QString &value)
     m_value = value;
 }
 
-EffectsParameterList::EffectsParameterList() : QList<EffectParameter>()
+EffectsParameterList::EffectsParameterList()
+    : QList<EffectParameter>()
 {
 }
 

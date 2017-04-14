@@ -22,7 +22,10 @@
 #include "timeline/customtrackview.h"
 
 AbstractToolManager::AbstractToolManager(ToolManagerType type, CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
-    : QObject(), m_managerType(type), m_view(view), m_commandStack(commandStack)
+    : QObject()
+    , m_managerType(type)
+    , m_view(view)
+    , m_commandStack(commandStack)
 {
 }
 

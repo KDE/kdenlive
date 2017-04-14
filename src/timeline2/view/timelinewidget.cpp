@@ -46,8 +46,12 @@ int TimelineWidget::m_duration = 0;
 
 TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack,
                                QWidget *parent)
-    : QQuickWidget(parent), m_model(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), undoStack)), m_actionCollection(actionCollection),
-      m_binController(binController), m_position(0), m_scale(3.0)
+    : QQuickWidget(parent)
+    , m_model(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), undoStack))
+    , m_actionCollection(actionCollection)
+    , m_binController(binController)
+    , m_position(0)
+    , m_scale(3.0)
 {
     registerTimelineItems();
     auto *proxyModel = new QSortFilterProxyModel(this);

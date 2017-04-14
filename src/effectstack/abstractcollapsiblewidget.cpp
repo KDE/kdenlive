@@ -19,7 +19,8 @@
 
 #include "abstractcollapsiblewidget.h"
 
-AbstractCollapsibleWidget::AbstractCollapsibleWidget(QWidget *parent) : QWidget(parent)
+AbstractCollapsibleWidget::AbstractCollapsibleWidget(QWidget *parent)
+    : QWidget(parent)
 {
     setupUi(this);
 }

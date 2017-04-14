@@ -22,7 +22,14 @@
 #include <qmath.h>
 
 ColorWheel::ColorWheel(const QString &id, const QString &name, const QColor &color, QWidget *parent)
-    : QWidget(parent), m_id(id), m_isMouseDown(false), m_margin(5), m_color(color), m_isInWheel(false), m_isInSquare(false), m_name(name)
+    : QWidget(parent)
+    , m_id(id)
+    , m_isMouseDown(false)
+    , m_margin(5)
+    , m_color(color)
+    , m_isInWheel(false)
+    , m_isInSquare(false)
+    , m_name(name)
 {
     QFontInfo info(font());
     m_unitSize = info.pixelSize();

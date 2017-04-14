@@ -27,7 +27,8 @@
 #include <QQuickItem>
 #include <QStandardPaths>
 
-AssetListWidget::AssetListWidget(QWidget *parent) : QQuickWidget(parent)
+AssetListWidget::AssetListWidget(QWidget *parent)
+    : QQuickWidget(parent)
 {
 }
 

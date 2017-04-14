@@ -42,7 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static QList<QColor> chartColors;
 
-ChartWidget::ChartWidget(QWidget *parent) : QWidget(parent)
+ChartWidget::ChartWidget(QWidget *parent)
+    : QWidget(parent)
 {
     QFontMetrics ft(font());
     int minHeight = ft.height() * 6;
@@ -80,7 +81,10 @@ void ChartWidget::paintEvent(QPaintEvent *event)
 }
 
 TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget *parent)
-    : QWidget(parent), m_doc(doc), m_globalPage(nullptr), m_globalDelete(nullptr)
+    : QWidget(parent)
+    , m_doc(doc)
+    , m_globalPage(nullptr)
+    , m_globalDelete(nullptr)
 {
     chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue) << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
     mCurrentSizes << 0 << 0 << 0 << 0;

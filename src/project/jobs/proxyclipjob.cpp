@@ -30,7 +30,9 @@
 #include <klocalizedstring.h>
 
 ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList &parameters, QTemporaryFile *playlist)
-    : AbstractClipJob(PROXYJOB, cType, id), m_jobDuration(0), m_isFfmpegJob(true)
+    : AbstractClipJob(PROXYJOB, cType, id)
+    , m_jobDuration(0)
+    , m_isFfmpegJob(true)
 {
     m_jobStatus = JobWaiting;
     description = i18n("proxy");

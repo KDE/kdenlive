@@ -31,7 +31,11 @@
 class MediaCtrlEvent : public QEvent
 {
 public:
-    MediaCtrlEvent(QEvent::Type type, int value) : QEvent(type), m_value(value) {}
+    MediaCtrlEvent(QEvent::Type type, int value)
+        : QEvent(type)
+        , m_value(value)
+    {
+    }
 
     int value() { return m_value; }
 

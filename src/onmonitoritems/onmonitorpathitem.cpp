@@ -29,7 +29,11 @@
 
 #include <mlt++/Mlt.h>
 
-OnMonitorPathItem::OnMonitorPathItem(QGraphicsItem *parent) : QGraphicsPathItem(parent), m_modified(false), m_view(nullptr), m_activePoint(-1)
+OnMonitorPathItem::OnMonitorPathItem(QGraphicsItem *parent)
+    : QGraphicsPathItem(parent)
+    , m_modified(false)
+    , m_view(nullptr)
+    , m_activePoint(-1)
 {
     setFlags(QGraphicsItem::ItemIsMovable);
 

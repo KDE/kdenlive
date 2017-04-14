@@ -28,8 +28,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mltcontroller/effectscontroller.h"
 
 KeyframeView::KeyframeView(int handleSize, QObject *parent)
-    : QObject(parent), activeKeyframe(-1), originalKeyframe(-1), attachToEnd(-2), duration(0), m_keyframeType(KEYFRAMETYPE::NoKeyframe), m_keyframeDefault(0),
-      m_keyframeMin(0), m_keyframeMax(1), m_keyframeFactor(1), m_handleSize(handleSize), m_useOffset(false), m_offset(0)
+    : QObject(parent)
+    , activeKeyframe(-1)
+    , originalKeyframe(-1)
+    , attachToEnd(-2)
+    , duration(0)
+    , m_keyframeType(KEYFRAMETYPE::NoKeyframe)
+    , m_keyframeDefault(0)
+    , m_keyframeMin(0)
+    , m_keyframeMax(1)
+    , m_keyframeFactor(1)
+    , m_handleSize(handleSize)
+    , m_useOffset(false)
+    , m_offset(0)
 {
 }
 

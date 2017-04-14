@@ -31,7 +31,11 @@
 #include <math.h>
 
 Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType trackType, int height, QWidget *parent)
-    : effectsList(EffectsList(true)), type(trackType), trackHeader(nullptr), m_index(index), m_playlist(playlist)
+    : effectsList(EffectsList(true))
+    , type(trackType)
+    , trackHeader(nullptr)
+    , m_index(index)
+    , m_playlist(playlist)
 {
     QString playlist_name = playlist.get("id");
     if (playlist_name != QLatin1String("black_track")) {

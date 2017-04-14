@@ -33,7 +33,9 @@
 #include <KMessageBox>
 #include <kio/storedtransferjob.h>
 
-ArchiveOrg::ArchiveOrg(QListWidget *listWidget, QObject *parent) : AbstractService(listWidget, parent), m_previewProcess(new QProcess)
+ArchiveOrg::ArchiveOrg(QListWidget *listWidget, QObject *parent)
+    : AbstractService(listWidget, parent)
+    , m_previewProcess(new QProcess)
 {
     serviceType = ARCHIVEORG;
     hasPreview = false; // has no downloadable preview as such. We are automatically displaying the animated gif as a preview.

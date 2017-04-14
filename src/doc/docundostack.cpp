@@ -23,7 +23,8 @@
 #include <QUndoCommand>
 #include <QUndoGroup>
 
-DocUndoStack::DocUndoStack(QUndoGroup *parent) : QUndoStack(parent)
+DocUndoStack::DocUndoStack(QUndoGroup *parent)
+    : QUndoStack(parent)
 {
 }
 

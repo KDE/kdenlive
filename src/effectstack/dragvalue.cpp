@@ -38,7 +38,14 @@
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,
                      QWidget *parent)
-    : QWidget(parent), m_maximum(max), m_minimum(min), m_decimals(decimals), m_default(defaultValue), m_id(id), m_intEdit(nullptr), m_doubleEdit(nullptr)
+    : QWidget(parent)
+    , m_maximum(max)
+    , m_minimum(min)
+    , m_decimals(decimals)
+    , m_default(defaultValue)
+    , m_id(id)
+    , m_intEdit(nullptr)
+    , m_doubleEdit(nullptr)
 {
     if (showSlider) {
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -383,7 +390,10 @@ void DragValue::setInTimelineProperty(bool intimeline)
 }
 
 CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidget *parent)
-    : QProgressBar(parent), m_dragMode(false), m_showSlider(showSlider), m_step(10.0)
+    : QProgressBar(parent)
+    , m_dragMode(false)
+    , m_showSlider(showSlider)
+    , m_step(10.0)
 // m_precision(pow(10, precision)),
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));

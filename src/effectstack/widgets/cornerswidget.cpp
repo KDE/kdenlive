@@ -34,7 +34,9 @@ inline int lerp(const int a, const int b, double t)
 
 CornersWidget::CornersWidget(Monitor *monitor, const QDomElement &e, int minFrame, int maxFrame, int pos, const Timecode &tc, int activeKeyframe,
                              QWidget *parent)
-    : KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent), m_monitor(monitor), m_pos(pos)
+    : KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent)
+    , m_monitor(monitor)
+    , m_pos(pos)
 {
     m_monitor->slotShowEffectScene(MonitorSceneCorners);
     connect(m_monitor, &Monitor::effectPointsChanged, this, &CornersWidget::slotUpdateGeometry);

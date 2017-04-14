@@ -47,8 +47,14 @@
 
 CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo,
                                      bool canMoveUp, bool lastEffect, QWidget *parent)
-    : AbstractCollapsibleWidget(parent), m_paramWidget(nullptr), m_effect(effect), m_itemInfo(info), m_original_effect(original_effect), m_isMovable(true),
-      m_animation(nullptr), m_regionEffect(false)
+    : AbstractCollapsibleWidget(parent)
+    , m_paramWidget(nullptr)
+    , m_effect(effect)
+    , m_itemInfo(info)
+    , m_original_effect(original_effect)
+    , m_isMovable(true)
+    , m_animation(nullptr)
+    , m_regionEffect(false)
 {
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
         m_regionEffect = true;

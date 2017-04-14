@@ -21,7 +21,8 @@
 
 #include "listparamwidget.h"
 
-ListParamWidget::ListParamWidget(const QString &name, const QString &comment, QWidget *parent) : AbstractParamWidget(parent)
+ListParamWidget::ListParamWidget(const QString &name, const QString &comment, QWidget *parent)
+    : AbstractParamWidget(parent)
 {
     setupUi(this);
 

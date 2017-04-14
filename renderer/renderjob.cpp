@@ -34,8 +34,21 @@ public:
 
 RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString &renderer, const QString &profile, const QString &rendermodule,
                      const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out)
-    : QObject(), m_scenelist(scenelist), m_dest(dest), m_progress(0), m_prog(renderer), m_player(player), m_jobUiserver(nullptr), m_kdenliveinterface(nullptr),
-      m_usekuiserver(usekuiserver), m_logfile(dest + QStringLiteral(".txt")), m_erase(erase), m_seconds(0), m_frame(0), m_pid(pid), m_dualpass(false)
+    : QObject()
+    , m_scenelist(scenelist)
+    , m_dest(dest)
+    , m_progress(0)
+    , m_prog(renderer)
+    , m_player(player)
+    , m_jobUiserver(nullptr)
+    , m_kdenliveinterface(nullptr)
+    , m_usekuiserver(usekuiserver)
+    , m_logfile(dest + QStringLiteral(".txt"))
+    , m_erase(erase)
+    , m_seconds(0)
+    , m_frame(0)
+    , m_pid(pid)
+    , m_dualpass(false)
 {
     m_renderProcess = new QProcess;
     m_renderProcess->setReadChannel(QProcess::StandardError);

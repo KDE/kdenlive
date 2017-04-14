@@ -28,7 +28,8 @@
 #include <QMimeData>
 #include <QStandardPaths>
 
-EffectsListWidget::EffectsListWidget(QWidget *parent) : QTreeWidget(parent)
+EffectsListWidget::EffectsListWidget(QWidget *parent)
+    : QTreeWidget(parent)
 {
     setColumnCount(1);
     setDragEnabled(true);

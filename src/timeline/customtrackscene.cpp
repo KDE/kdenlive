@@ -21,7 +21,11 @@
 #include "timeline.h"
 
 CustomTrackScene::CustomTrackScene(Timeline *timeline, QObject *parent)
-    : QGraphicsScene(parent), isZooming(false), m_timeline(timeline), m_scale(1.0, 1.0), m_editMode(TimelineMode::NormalEdit)
+    : QGraphicsScene(parent)
+    , isZooming(false)
+    , m_timeline(timeline)
+    , m_scale(1.0, 1.0)
+    , m_editMode(TimelineMode::NormalEdit)
 {
 }
 

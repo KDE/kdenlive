@@ -44,7 +44,10 @@
 
 #include <QStandardPaths>
 
-DocumentValidator::DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl) : m_doc(doc), m_url(documentUrl), m_modified(false)
+DocumentValidator::DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl)
+    : m_doc(doc)
+    , m_url(documentUrl)
+    , m_modified(false)
 {
 }
 

@@ -49,8 +49,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel *model, std::shared_ptr<Mlt::Producer> producer, ProjectFolder *parent)
-    : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model, parent), ClipController(pCore->binController(), producer), m_abortAudioThumb(false),
-      m_thumbsProducer(nullptr)
+    : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model, parent)
+    , ClipController(pCore->binController(), producer)
+    , m_abortAudioThumb(false)
+    , m_thumbsProducer(nullptr)
 {
     m_clipStatus = StatusReady;
     m_name = clipName();
@@ -72,8 +74,11 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel
 }
 
 ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, ProjectItemModel *model, ProjectFolder *parent)
-    : AbstractProjectItem(AbstractProjectItem::ClipItem, description, model, parent), ClipController(pCore->binController(), ClipController::mediaUnavailable),
-      m_abortAudioThumb(false), m_type(Unknown), m_thumbsProducer(nullptr)
+    : AbstractProjectItem(AbstractProjectItem::ClipItem, description, model, parent)
+    , ClipController(pCore->binController(), ClipController::mediaUnavailable)
+    , m_abortAudioThumb(false)
+    , m_type(Unknown)
+    , m_thumbsProducer(nullptr)
 {
     Q_ASSERT(description.hasAttribute(QStringLiteral("id")));
     m_clipStatus = StatusWaiting;

@@ -70,7 +70,8 @@ class MyDropButton : public QToolButton
     Q_OBJECT
 
 public:
-    explicit MyDropButton(QWidget *parent = nullptr) : QToolButton(parent)
+    explicit MyDropButton(QWidget *parent = nullptr)
+        : QToolButton(parent)
     {
         setAcceptDrops(true);
         setAutoExclusive(true);

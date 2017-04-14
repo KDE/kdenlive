@@ -43,8 +43,18 @@
 #include <QScrollBar>
 
 EffectStackView2::EffectStackView2(Monitor *projectMonitor, QWidget *parent)
-    : QWidget(parent), m_clipref(nullptr), m_masterclipref(nullptr), m_status(EMPTY), m_stateStatus(NORMALSTATUS), m_trackindex(-1), m_draggedEffect(nullptr),
-      m_draggedGroup(nullptr), m_groupIndex(0), m_monitorSceneWanted(MonitorSceneDefault), m_trackInfo(), m_transition(nullptr)
+    : QWidget(parent)
+    , m_clipref(nullptr)
+    , m_masterclipref(nullptr)
+    , m_status(EMPTY)
+    , m_stateStatus(NORMALSTATUS)
+    , m_trackindex(-1)
+    , m_draggedEffect(nullptr)
+    , m_draggedGroup(nullptr)
+    , m_groupIndex(0)
+    , m_monitorSceneWanted(MonitorSceneDefault)
+    , m_trackInfo()
+    , m_transition(nullptr)
 {
     m_effectMetaInfo.monitor = projectMonitor;
     m_effects = QList<CollapsibleEffect *>();

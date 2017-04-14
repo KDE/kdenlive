@@ -29,7 +29,8 @@
 #include <array>
 #include <vector>
 
-ProfileTreeModel::ProfileTreeModel(QObject *parent) : AbstractTreeModel(parent)
+ProfileTreeModel::ProfileTreeModel(QObject *parent)
+    : AbstractTreeModel(parent)
 {
     QList<QVariant> rootData;
     rootData << "Description"

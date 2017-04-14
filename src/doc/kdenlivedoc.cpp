@@ -74,8 +74,15 @@ const double DOCUMENTVERSION = 0.96;
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName,
                          const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render,
                          NotesPlugin *notes, bool *openBackup, MainWindow *parent)
-    : QObject(parent), m_autosave(nullptr), m_url(url), m_width(0), m_height(0), m_render(render), m_notesWidget(notes->widget()), m_modified(false),
-      m_projectFolder(projectFolder)
+    : QObject(parent)
+    , m_autosave(nullptr)
+    , m_url(url)
+    , m_width(0)
+    , m_height(0)
+    , m_render(render)
+    , m_notesWidget(notes->widget())
+    , m_modified(false)
+    , m_projectFolder(projectFolder)
 {
     // init m_profile struct
     m_commandStack = std::make_shared<DocUndoStack>(undoGroup);

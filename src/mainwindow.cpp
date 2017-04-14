@@ -145,9 +145,19 @@ static QString defaultStyle(const char *fallback = nullptr)
 }
 
 MainWindow::MainWindow(QWidget *parent)
-    : KXmlGuiWindow(parent), m_stopmotion(nullptr), m_effectStack(nullptr), m_exitCode(EXIT_SUCCESS), m_effectList(nullptr), m_transitionList(nullptr),
-      m_clipMonitor(nullptr), m_projectMonitor(nullptr), m_recMonitor(nullptr), m_renderWidget(nullptr), m_messageLabel(nullptr), m_themeInitialized(false),
-      m_isDarkTheme(false)
+    : KXmlGuiWindow(parent)
+    , m_stopmotion(nullptr)
+    , m_effectStack(nullptr)
+    , m_exitCode(EXIT_SUCCESS)
+    , m_effectList(nullptr)
+    , m_transitionList(nullptr)
+    , m_clipMonitor(nullptr)
+    , m_projectMonitor(nullptr)
+    , m_recMonitor(nullptr)
+    , m_renderWidget(nullptr)
+    , m_messageLabel(nullptr)
+    , m_themeInitialized(false)
+    , m_isDarkTheme(false)
 {
 }
 

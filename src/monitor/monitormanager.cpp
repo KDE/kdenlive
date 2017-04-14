@@ -35,7 +35,11 @@
 #include <QObject>
 
 MonitorManager::MonitorManager(QObject *parent)
-    : QObject(parent), m_document(nullptr), m_clipMonitor(nullptr), m_projectMonitor(nullptr), m_activeMonitor(nullptr)
+    : QObject(parent)
+    , m_document(nullptr)
+    , m_clipMonitor(nullptr)
+    , m_projectMonitor(nullptr)
+    , m_activeMonitor(nullptr)
 {
     setupActions();
 }

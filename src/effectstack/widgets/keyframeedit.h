@@ -36,7 +36,12 @@ class KeyItemDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
-    KeyItemDelegate(int min, int max, QAbstractItemView *parent = nullptr) : QItemDelegate(parent), m_min(min), m_max(max) {}
+    KeyItemDelegate(int min, int max, QAbstractItemView *parent = nullptr)
+        : QItemDelegate(parent)
+        , m_min(min)
+        , m_max(max)
+    {
+    }
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {

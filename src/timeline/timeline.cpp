@@ -51,7 +51,8 @@
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
-ScrollEventEater::ScrollEventEater(QObject *parent) : QObject(parent)
+ScrollEventEater::ScrollEventEater(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -68,8 +69,17 @@ bool ScrollEventEater::eventFilter(QObject *obj, QEvent *event)
 }
 
 Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent)
-    : QWidget(parent), multitrackView(false), videoTarget(-1), audioTarget(-1), m_hasOverlayTrack(false), m_overlayTrack(nullptr), m_scale(1.0), m_doc(doc),
-      m_verticalZoom(1), m_timelinePreview(nullptr), m_usePreview(false)
+    : QWidget(parent)
+    , multitrackView(false)
+    , videoTarget(-1)
+    , audioTarget(-1)
+    , m_hasOverlayTrack(false)
+    , m_overlayTrack(nullptr)
+    , m_scale(1.0)
+    , m_doc(doc)
+    , m_verticalZoom(1)
+    , m_timelinePreview(nullptr)
+    , m_usePreview(false)
 {
     m_trackActions << actions;
     setupUi(this);

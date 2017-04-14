@@ -34,7 +34,10 @@
 #include <klocalizedstring.h>
 
 Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params, bool automaticTransition)
-    : AbstractClipItem(info, QRectF(), fps), m_forceTransitionTrack(false), m_automaticTransition(automaticTransition), m_transitionTrack(transitiontrack)
+    : AbstractClipItem(info, QRectF(), fps)
+    , m_forceTransitionTrack(false)
+    , m_automaticTransition(automaticTransition)
+    , m_transitionTrack(transitiontrack)
 {
     setZValue(4);
     m_info.cropDuration = info.endPos - info.startPos;

@@ -34,8 +34,16 @@ const int margin = 5;
 #define SEEK_INACTIVE (-1)
 
 KeyframeHelper::KeyframeHelper(QWidget *parent)
-    : QWidget(parent), frameLength(1), m_geom(nullptr), m_position(0), m_scale(0), m_movingKeyframe(false), m_movingItem(), m_hoverKeyframe(-1),
-      m_seekPosition(SEEK_INACTIVE), m_offset(0)
+    : QWidget(parent)
+    , frameLength(1)
+    , m_geom(nullptr)
+    , m_position(0)
+    , m_scale(0)
+    , m_movingKeyframe(false)
+    , m_movingItem()
+    , m_hoverKeyframe(-1)
+    , m_seekPosition(SEEK_INACTIVE)
+    , m_offset(0)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);

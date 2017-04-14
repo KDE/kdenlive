@@ -27,7 +27,11 @@
 #include <QStyleOptionGraphicsItem>
 
 OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem *parent)
-    : QGraphicsRectItem(rect, parent), m_dar(dar), m_mode(NoAction), m_modified(false), m_view(nullptr)
+    : QGraphicsRectItem(rect, parent)
+    , m_dar(dar)
+    , m_mode(NoAction)
+    , m_modified(false)
+    , m_view(nullptr)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 

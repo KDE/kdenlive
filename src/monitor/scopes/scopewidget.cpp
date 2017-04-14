@@ -21,8 +21,13 @@
 #include <QtConcurrent/QtConcurrent>
 
 ScopeWidget::ScopeWidget(QWidget *parent)
-    : QWidget(parent), m_queue(3, DataQueue<SharedFrame>::OverflowModeDiscardOldest), m_future(), m_refreshPending(false), m_mutex(QMutex::NonRecursive),
-      m_forceRefresh(false), m_size(0, 0)
+    : QWidget(parent)
+    , m_queue(3, DataQueue<SharedFrame>::OverflowModeDiscardOldest)
+    , m_future()
+    , m_refreshPending(false)
+    , m_mutex(QMutex::NonRecursive)
+    , m_forceRefresh(false)
+    , m_size(0, 0)
 {
     // qCDebug(KDENLIVE_LOG) << "begin" << m_future.isFinished();
     // qCDebug(KDENLIVE_LOG) << "end";

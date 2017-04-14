@@ -37,7 +37,11 @@
 #include <KRecentDirs>
 
 Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
-    : QDialog(parent), m_producer(nullptr), m_timePos(nullptr), m_container(nullptr), m_preview(nullptr)
+    : QDialog(parent)
+    , m_producer(nullptr)
+    , m_timePos(nullptr)
+    , m_container(nullptr)
+    , m_preview(nullptr)
 {
     QFile file(path);
     QDomDocument doc;

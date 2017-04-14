@@ -30,7 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QToolButton>
 #include <QVBoxLayout>
 
-ElidedCheckBox::ElidedCheckBox(QWidget *parent) : QCheckBox(parent)
+ElidedCheckBox::ElidedCheckBox(QWidget *parent)
+    : QCheckBox(parent)
 {
 }
 
@@ -66,7 +67,8 @@ void ElidedCheckBox::resizeEvent(QResizeEvent *event)
     QCheckBox::resizeEvent(event);
 }
 
-EffectSettings::EffectSettings(QWidget *parent) : QWidget(parent)
+EffectSettings::EffectSettings(QWidget *parent)
+    : QWidget(parent)
 {
     auto *vbox1 = new QVBoxLayout(this);
     vbox1->setContentsMargins(0, 0, 0, 0);

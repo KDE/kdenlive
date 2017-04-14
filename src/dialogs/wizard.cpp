@@ -55,7 +55,9 @@ static const char kdenlive_version[] = KDENLIVE_VERSION;
 static QStringList acodecsList;
 static QStringList vcodecsList;
 
-MyWizardPage::MyWizardPage(QWidget *parent) : QWizardPage(parent), m_isComplete(false)
+MyWizardPage::MyWizardPage(QWidget *parent)
+    : QWizardPage(parent)
+    , m_isComplete(false)
 {
 }
 
@@ -69,7 +71,10 @@ bool MyWizardPage::isComplete() const
     return m_isComplete;
 }
 
-Wizard::Wizard(bool autoClose, QWidget *parent) : QWizard(parent), m_systemCheckIsOk(false), m_brokenModule(false)
+Wizard::Wizard(bool autoClose, QWidget *parent)
+    : QWizard(parent)
+    , m_systemCheckIsOk(false)
+    , m_brokenModule(false)
 {
     // Check color theme
     ThemeManager::instance()->initDarkTheme();

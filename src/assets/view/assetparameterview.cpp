@@ -24,7 +24,8 @@
 
 #include <QDebug>
 #include <utility>
-AssetParameterView::AssetParameterView(QWidget *parent) : QWidget(parent)
+AssetParameterView::AssetParameterView(QWidget *parent)
+    : QWidget(parent)
 {
     m_transitionProperties = new TransitionParameterView(this);
     m_transitionProperties->setVisible(false);

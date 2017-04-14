@@ -25,7 +25,8 @@
 
 #include <kio/job.h>
 
-OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent) : AbstractService(listWidget, parent)
+OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent)
+    : AbstractService(listWidget, parent)
 {
     serviceType = OPENCLIPART;
 }

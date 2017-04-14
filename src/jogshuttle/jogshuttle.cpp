@@ -39,7 +39,10 @@ const QEvent::Type MediaCtrlEvent::Key = (QEvent::Type)QEvent::registerEventType
 const QEvent::Type MediaCtrlEvent::Jog = (QEvent::Type)QEvent::registerEventType();
 const QEvent::Type MediaCtrlEvent::Shuttle = (QEvent::Type)QEvent::registerEventType();
 
-ShuttleThread::ShuttleThread(const QString &device, QObject *parent) : m_device(device), m_parent(parent), m_isRunning(false)
+ShuttleThread::ShuttleThread(const QString &device, QObject *parent)
+    : m_device(device)
+    , m_parent(parent)
+    , m_isRunning(false)
 {
 }
 
@@ -137,7 +140,9 @@ void ShuttleThread::jog(const media_ctrl_event &ev)
     QApplication::postEvent(m_parent, new MediaCtrlEvent(MediaCtrlEvent::Jog, ev.value));
 }
 
-JogShuttle::JogShuttle(const QString &device, QObject *parent) : QObject(parent), m_shuttleProcess(device, this)
+JogShuttle::JogShuttle(const QString &device, QObject *parent)
+    : QObject(parent)
+    , m_shuttleProcess(device, this)
 {
     m_shuttleProcess.start();
 }

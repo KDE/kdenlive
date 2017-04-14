@@ -57,7 +57,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QVBoxLayout>
 
-AnalysisTree::AnalysisTree(QWidget *parent) : QTreeWidget(parent)
+AnalysisTree::AnalysisTree(QWidget *parent)
+    : QTreeWidget(parent)
 {
     setRootIsDecorated(false);
     setColumnCount(2);
@@ -85,7 +86,8 @@ class ExtractionResult : public KFileMetaData::ExtractionResult
 {
 public:
     ExtractionResult(const QString &filename, const QString &mimetype, QTreeWidget *tree)
-        : KFileMetaData::ExtractionResult(filename, mimetype, KFileMetaData::ExtractionResult::ExtractMetaData), m_tree(tree)
+        : KFileMetaData::ExtractionResult(filename, mimetype, KFileMetaData::ExtractionResult::ExtractMetaData)
+        , m_tree(tree)
     {
     }
 
@@ -149,8 +151,13 @@ private:
 #endif
 
 ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipController *controller, QWidget *parent)
-    : QWidget(parent), m_controller(controller), m_tc(tc), m_id(controller->clipId()), m_type(controller->clipType()), m_properties(controller->properties()),
-      m_textEdit(nullptr)
+    : QWidget(parent)
+    , m_controller(controller)
+    , m_tc(tc)
+    , m_id(controller->clipId())
+    , m_type(controller->clipType())
+    , m_properties(controller->properties())
+    , m_textEdit(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     auto *lay = new QVBoxLayout;

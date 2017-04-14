@@ -55,7 +55,11 @@
 #endif
 
 ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent)
-    : QDialog(parent), m_pOAuth2(nullptr), m_folder(folder), m_currentService(nullptr), m_movie(nullptr)
+    : QDialog(parent)
+    , m_pOAuth2(nullptr)
+    , m_folder(folder)
+    , m_currentService(nullptr)
+    , m_movie(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

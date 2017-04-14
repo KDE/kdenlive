@@ -18,7 +18,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "klocalizedstring.h"
 #include <QStatusBar>
 
-TimelineSearch::TimelineSearch(QObject *parent) : QObject(parent)
+TimelineSearch::TimelineSearch(QObject *parent)
+    : QObject(parent)
 {
     connect(&m_searchTimer, &QTimer::timeout, this, &TimelineSearch::slotEndSearch);
     m_searchTimer.setSingleShot(true);

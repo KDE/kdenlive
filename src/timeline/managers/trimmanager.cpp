@@ -29,8 +29,14 @@
 #include <mlt++/MltPlaylist.h>
 
 TrimManager::TrimManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
-    : AbstractToolManager(TrimType, view, commandStack), m_firstClip(nullptr), m_secondClip(nullptr), m_trimMode(NormalTrim), m_rippleIndex(0),
-      m_trimPlaylist(nullptr), trimChanged(false), m_render(nullptr)
+    : AbstractToolManager(TrimType, view, commandStack)
+    , m_firstClip(nullptr)
+    , m_secondClip(nullptr)
+    , m_trimMode(NormalTrim)
+    , m_rippleIndex(0)
+    , m_trimPlaylist(nullptr)
+    , trimChanged(false)
+    , m_render(nullptr)
 {
 }
 

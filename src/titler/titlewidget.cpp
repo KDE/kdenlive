@@ -66,8 +66,15 @@ const int SHADOWEFFECT = 2;
 const int TYPEWRITEREFFECT = 3;
 
 TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent)
-    : QDialog(parent), Ui::TitleWidget_UI(), m_startViewport(nullptr), m_endViewport(nullptr), m_count(0),
-      m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)), m_projectTitlePath(projectTitlePath), m_tc(tc), m_fps(render->fps())
+    : QDialog(parent)
+    , Ui::TitleWidget_UI()
+    , m_startViewport(nullptr)
+    , m_endViewport(nullptr)
+    , m_count(0)
+    , m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex))
+    , m_projectTitlePath(projectTitlePath)
+    , m_tc(tc)
+    , m_fps(render->fps())
 {
     setupUi(this);
     setMinimumSize(200, 200);

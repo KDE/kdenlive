@@ -27,7 +27,8 @@
 static const double GAMMA_FACTOR = 2.0;
 static const double GAIN_FACTOR = 4.0;
 
-LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent) : QWidget(parent)
+LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent)
+    : QWidget(parent)
 {
     auto *flowLayout = new FlowLayout(this, 2, 2, 2);
     /*QVBoxLayout *layout = new QVBoxLayout(this);

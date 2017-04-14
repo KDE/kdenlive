@@ -31,7 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMimeData>
 #include <qvarlengtharray.h>
 
-ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent) : AbstractTreeModel(parent), m_bin(bin)
+ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent)
+    : AbstractTreeModel(parent)
+    , m_bin(bin)
 {
     rootItem = new ProjectFolder(this);
 }

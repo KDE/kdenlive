@@ -27,7 +27,8 @@
 
 #include <QStringListModel>
 
-TransitionParameterView::TransitionParameterView(QWidget *parent) : QQuickWidget(parent)
+TransitionParameterView::TransitionParameterView(QWidget *parent)
+    : QQuickWidget(parent)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());

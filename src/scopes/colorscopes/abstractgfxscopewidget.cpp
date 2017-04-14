@@ -20,7 +20,8 @@
 #ifdef DEBUG_AGSW
 #endif
 
-AbstractGfxScopeWidget::AbstractGfxScopeWidget(bool trackMouse, QWidget *parent) : AbstractScopeWidget(trackMouse, parent)
+AbstractGfxScopeWidget::AbstractGfxScopeWidget(bool trackMouse, QWidget *parent)
+    : AbstractScopeWidget(trackMouse, parent)
 {
 }
 

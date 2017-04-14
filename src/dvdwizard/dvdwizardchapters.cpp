@@ -20,7 +20,10 @@
 #include "dvdwizardchapters.h"
 
 DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent)
-    : QWizardPage(parent), m_format(format), m_monitor(nullptr), m_manager(manager)
+    : QWizardPage(parent)
+    , m_format(format)
+    , m_monitor(nullptr)
+    , m_manager(manager)
 
 {
     m_view.setupUi(this);

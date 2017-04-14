@@ -21,7 +21,10 @@
 
 template <typename Service>
 MoveableItem<Service>::MoveableItem(std::weak_ptr<TimelineModel> parent, int id)
-    : m_parent(parent), m_id(id == -1 ? TimelineModel::getNextId() : id), m_position(-1), m_currentTrackId(-1)
+    : m_parent(parent)
+    , m_id(id == -1 ? TimelineModel::getNextId() : id)
+    , m_position(-1)
+    , m_currentTrackId(-1)
 {
 }
 

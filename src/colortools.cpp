@@ -18,7 +18,8 @@
 #include "kdenlive_debug.h"
 #endif
 
-ColorTools::ColorTools(QObject *parent) : QObject(parent)
+ColorTools::ColorTools(QObject *parent)
+    : QObject(parent)
 {
 }
 

@@ -26,7 +26,8 @@
 #include <mlt++/MltProfile.h>
 
 ThumbnailProvider::ThumbnailProvider()
-    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading), m_profile("atsc_720p_60")
+    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
+    , m_profile("atsc_720p_60")
 {
     KImageCache::deleteCache(QStringLiteral("kdenlive-timeline-thumbs"));
     m_cache = new KImageCache(QStringLiteral("kdenlive-timeline-thumbs"), 10000000);

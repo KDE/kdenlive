@@ -27,7 +27,9 @@
 
 #include "klocalizedstring.h"
 
-SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget *parent) : QDialog(parent), m_in(tc)
+SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget *parent)
+    : QDialog(parent)
+    , m_in(tc)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

@@ -23,7 +23,10 @@
 #include <QDebug>
 
 FunctionalUndoCommand::FunctionalUndoCommand(const Fun &undo, const Fun &redo, QString text, QUndoCommand *parent)
-    : QUndoCommand(parent), m_undo(undo), m_redo(redo), m_undone(false)
+    : QUndoCommand(parent)
+    , m_undo(undo)
+    , m_redo(redo)
+    , m_undone(false)
 {
     setText(text);
 }

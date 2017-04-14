@@ -46,7 +46,12 @@
 #include <QStandardPaths>
 
 RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidget *parent)
-    : AbstractMonitor(name, manager, parent), m_isCapturing(false), m_didCapture(false), m_isPlaying(false), m_captureDevice(nullptr), m_analyse(false)
+    : AbstractMonitor(name, manager, parent)
+    , m_isCapturing(false)
+    , m_didCapture(false)
+    , m_isPlaying(false)
+    , m_captureDevice(nullptr)
+    , m_analyse(false)
 {
     setupUi(this);
 

@@ -69,7 +69,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVBoxLayout>
 #include <QtConcurrent>
 
-MyListView::MyListView(QWidget *parent) : QListView(parent)
+MyListView::MyListView(QWidget *parent)
+    : QListView(parent)
 {
     setViewMode(QListView::IconMode);
     setMovement(QListView::Static);
@@ -89,7 +90,8 @@ void MyListView::focusInEvent(QFocusEvent *event)
     }
 }
 
-MyTreeView::MyTreeView(QWidget *parent) : QTreeView(parent)
+MyTreeView::MyTreeView(QWidget *parent)
+    : QTreeView(parent)
 {
     setEditing(false);
 }
@@ -203,10 +205,12 @@ bool MyTreeView::performDrag()
     return true;
 }
 
-BinMessageWidget::BinMessageWidget(QWidget *parent) : KMessageWidget(parent)
+BinMessageWidget::BinMessageWidget(QWidget *parent)
+    : KMessageWidget(parent)
 {
 }
-BinMessageWidget::BinMessageWidget(const QString &text, QWidget *parent) : KMessageWidget(text, parent)
+BinMessageWidget::BinMessageWidget(const QString &text, QWidget *parent)
+    : KMessageWidget(text, parent)
 {
 }
 
@@ -218,7 +222,9 @@ bool BinMessageWidget::event(QEvent *ev)
     return KMessageWidget::event(ev);
 }
 
-SmallJobLabel::SmallJobLabel(QWidget *parent) : QPushButton(parent), m_action(nullptr)
+SmallJobLabel::SmallJobLabel(QWidget *parent)
+    : QPushButton(parent)
+    , m_action(nullptr)
 {
     setFixedWidth(0);
     setFlat(true);
@@ -328,7 +334,10 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
 class BinItemDelegate : public QStyledItemDelegate
 {
 public:
-    explicit BinItemDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
+    explicit BinItemDelegate(QObject *parent = nullptr)
+        : QStyledItemDelegate(parent)
+    {
+    }
 
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
@@ -507,7 +516,8 @@ public:
     }
 };
 
-LineEventEater::LineEventEater(QObject *parent) : QObject(parent)
+LineEventEater::LineEventEater(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -530,10 +540,25 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
 }
 
 Bin::Bin(QWidget *parent)
-    : QWidget(parent), isLoading(false), m_itemModel(nullptr), m_itemView(nullptr), m_folderUp(nullptr), m_jobManager(nullptr), m_doc(nullptr),
-      m_extractAudioAction(nullptr), m_transcodeAction(nullptr), m_clipsActionsMenu(nullptr), m_inTimelineAction(nullptr),
-      m_listType((BinViewType)KdenliveSettings::binMode()), m_iconSize(160, 90), m_propertiesPanel(nullptr), m_blankThumb(), m_invalidClipDialog(nullptr),
-      m_gainedFocus(false), m_audioDuration(0), m_processedAudio(0)
+    : QWidget(parent)
+    , isLoading(false)
+    , m_itemModel(nullptr)
+    , m_itemView(nullptr)
+    , m_folderUp(nullptr)
+    , m_jobManager(nullptr)
+    , m_doc(nullptr)
+    , m_extractAudioAction(nullptr)
+    , m_transcodeAction(nullptr)
+    , m_clipsActionsMenu(nullptr)
+    , m_inTimelineAction(nullptr)
+    , m_listType((BinViewType)KdenliveSettings::binMode())
+    , m_iconSize(160, 90)
+    , m_propertiesPanel(nullptr)
+    , m_blankThumb()
+    , m_invalidClipDialog(nullptr)
+    , m_gainedFocus(false)
+    , m_audioDuration(0)
+    , m_processedAudio(0)
 {
     m_layout = new QVBoxLayout(this);
 

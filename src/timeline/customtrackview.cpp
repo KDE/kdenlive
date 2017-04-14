@@ -79,13 +79,44 @@ bool sortGuidesList(const Guide *g1, const Guide *g2)
 }
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTrackScene *projectscene, QWidget *parent)
-    : QGraphicsView(projectscene, parent), m_tracksHeight(KdenliveSettings::trackheight()), m_projectDuration(0), m_cursorPos(0), m_cursorOffset(0),
-      m_document(doc), m_timeline(timeline), m_scene(projectscene), m_cursorLine(nullptr), m_operationMode(None), m_moveOpMode(None), m_dragItem(nullptr),
-      m_dragGuide(nullptr), m_visualTip(nullptr), m_keyProperties(nullptr), m_currentToolManager(nullptr), m_autoScroll(KdenliveSettings::autoscroll()),
-      m_timelineContextMenu(nullptr), m_timelineContextClipMenu(nullptr), m_timelineContextTransitionMenu(nullptr), m_timelineContextKeyframeMenu(nullptr),
-      m_selectKeyframeType(nullptr), m_markerMenu(nullptr), m_autoTransition(nullptr), m_pasteEffectsAction(nullptr), m_ungroupAction(nullptr),
-      m_editGuide(nullptr), m_deleteGuide(nullptr), m_clipTypeGroup(nullptr), m_clipDrag(false), m_findIndex(0), m_tool(SelectTool), m_copiedItems(),
-      m_menuPosition(), m_selectionGroup(nullptr), m_selectedTrack(1), m_audioCorrelator(nullptr), m_audioAlignmentReference(nullptr)
+    : QGraphicsView(projectscene, parent)
+    , m_tracksHeight(KdenliveSettings::trackheight())
+    , m_projectDuration(0)
+    , m_cursorPos(0)
+    , m_cursorOffset(0)
+    , m_document(doc)
+    , m_timeline(timeline)
+    , m_scene(projectscene)
+    , m_cursorLine(nullptr)
+    , m_operationMode(None)
+    , m_moveOpMode(None)
+    , m_dragItem(nullptr)
+    , m_dragGuide(nullptr)
+    , m_visualTip(nullptr)
+    , m_keyProperties(nullptr)
+    , m_currentToolManager(nullptr)
+    , m_autoScroll(KdenliveSettings::autoscroll())
+    , m_timelineContextMenu(nullptr)
+    , m_timelineContextClipMenu(nullptr)
+    , m_timelineContextTransitionMenu(nullptr)
+    , m_timelineContextKeyframeMenu(nullptr)
+    , m_selectKeyframeType(nullptr)
+    , m_markerMenu(nullptr)
+    , m_autoTransition(nullptr)
+    , m_pasteEffectsAction(nullptr)
+    , m_ungroupAction(nullptr)
+    , m_editGuide(nullptr)
+    , m_deleteGuide(nullptr)
+    , m_clipTypeGroup(nullptr)
+    , m_clipDrag(false)
+    , m_findIndex(0)
+    , m_tool(SelectTool)
+    , m_copiedItems()
+    , m_menuPosition()
+    , m_selectionGroup(nullptr)
+    , m_selectedTrack(1)
+    , m_audioCorrelator(nullptr)
+    , m_audioAlignmentReference(nullptr)
 {
     if (doc) {
         m_commandStack = doc->commandStack();

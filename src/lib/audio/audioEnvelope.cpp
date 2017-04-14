@@ -18,8 +18,17 @@
 #include <cmath>
 
 AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length, int track, int startPos)
-    : m_envelope(nullptr), m_offset(offset), m_length(length), m_track(track), m_startpos(startPos), m_envelopeSize(producer->get_length()), m_envelopeMax(0),
-      m_envelopeMean(0), m_envelopeStdDev(0), m_envelopeStdDevCalculated(false), m_envelopeIsNormalized(false)
+    : m_envelope(nullptr)
+    , m_offset(offset)
+    , m_length(length)
+    , m_track(track)
+    , m_startpos(startPos)
+    , m_envelopeSize(producer->get_length())
+    , m_envelopeMax(0)
+    , m_envelopeMean(0)
+    , m_envelopeStdDev(0)
+    , m_envelopeStdDevCalculated(false)
+    , m_envelopeIsNormalized(false)
 {
     // make a copy of the producer to avoid audio playback issues
     QString path = QString::fromUtf8(producer->get("resource"));

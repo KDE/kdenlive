@@ -36,7 +36,12 @@
 #include <QWidget>
 
 HeaderTrack::HeaderTrack(const TrackInfo &info, const QList<QAction *> &actions, Track *parent, int height, QWidget *parentWidget)
-    : QWidget(parentWidget), isTarget(false), m_type(info.type), m_parentTrack(parent), m_isSelected(false), m_switchVideo(nullptr)
+    : QWidget(parentWidget)
+    , isTarget(false)
+    , m_type(info.type)
+    , m_parentTrack(parent)
+    , m_isSelected(false)
+    , m_switchVideo(nullptr)
 {
     setupUi(this);
     setFocusPolicy(Qt::ClickFocus);
