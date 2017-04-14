@@ -98,16 +98,16 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
         size = size << 1;
     }
 
-    kiss_fftr_cfg fftConfig = kiss_fftr_alloc(size, false, nullptr, nullptr);
-    kiss_fftr_cfg ifftConfig = kiss_fftr_alloc(size, true, nullptr, nullptr);
+    kiss_fftr_cfg fftConfig = kiss_fftr_alloc(size, 0, nullptr, nullptr);
+    kiss_fftr_cfg ifftConfig = kiss_fftr_alloc(size, 1, nullptr, nullptr);
     kiss_fft_cpx leftFFT[size / 2];
     kiss_fft_cpx rightFFT[size / 2];
     kiss_fft_cpx correlatedFFT[size / 2];
 
     // Fill in the data into our new vectors with padding
-    float *leftData = new float[size];
-    float *rightData = new float[size];
-    float *convolved = new float[size];
+    auto *leftData = new float[size];
+    auto *rightData = new float[size];
+    auto *convolved = new float[size];
 
     std::fill(leftData, leftData + size, 0);
     std::fill(rightData, rightData + size, 0);

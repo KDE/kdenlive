@@ -289,7 +289,7 @@ void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &
 AbstractGroupItem *ClipManager::createGroup()
 {
     QMutexLocker lock(&m_groupsMutex);
-    AbstractGroupItem *group = new AbstractGroupItem(m_doc->fps());
+    auto *group = new AbstractGroupItem(m_doc->fps());
     m_groupsList.append(group);
     return group;
 }
@@ -387,7 +387,7 @@ bool ClipManager::isOnRemovableDevice(const QUrl &url)
         }
     }
 
-    return volumeMatch;
+    return volumeMatch != 0;
 }
 
 void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type)

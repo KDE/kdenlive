@@ -76,7 +76,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
                 service = "avformat";
             else if (service.startsWith("xml"))
                 service = "xml-nogl";
-            Mlt::Producer *producer = NULL;
+            Mlt::Producer *producer = nullptr;
             if (m_producers.contains(hash)) {
                 producer = m_producers.object(hash);
             } else {
@@ -89,7 +89,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
                 producer->attach(converter);
                 m_producers.insert(hash, producer);
             }
-            if (producer && producer->is_valid()) {
+            if ((producer != nullptr) && producer->is_valid()) {
                 //result = KThumb::getFrame(producer, frameNumber, 0, 0);
                 result = makeThumbnail(producer, frameNumber, requestedSize);
                 m_cache->insertImage(key, result);

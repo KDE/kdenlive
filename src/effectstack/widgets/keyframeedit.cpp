@@ -198,7 +198,7 @@ void KeyframeEdit::slotDeleteKeyframe()
 
     bool disable = keyframe_list->rowCount() < 2;
     button_delete->setEnabled(!disable);
-    disable &= getPos(0) == m_min;
+    disable &= static_cast<int>(getPos(0) == m_min);
     widgetTable->setHidden(disable);
     buttonKeyframes->setHidden(!disable);
 }
@@ -380,7 +380,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
 
 const QString KeyframeEdit::getTag() const
 {
-    QString tag = m_keyframesTag == true ? QStringLiteral("keyframes") : QStringLiteral("value");
+    QString tag = m_keyframesTag ? QStringLiteral("keyframes") : QStringLiteral("value");
     return tag;
 }
 
@@ -473,7 +473,7 @@ void KeyframeEdit::slotAdjustKeyframeValue(double value)
         }
         double val = doubleparam->getValue();
         QTableWidgetItem *nitem = keyframe_list->item(item->row(), col);
-        if (nitem && nitem->text().toDouble() != val) {
+        if ((nitem != nullptr) && nitem->text().toDouble() != val) {
             nitem->setText(QString::number(val));
         }
     }
@@ -488,18 +488,18 @@ int KeyframeEdit::getPos(int row)
     }
     if (KdenliveSettings::frametimecode()) {
         return keyframe_list->verticalHeaderItem(row)->text().toInt();
-    } else {
+    } 
         return m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row)->text());
-    }
+    
 }
 
 QString KeyframeEdit::getPosString(int pos)
 {
     if (KdenliveSettings::frametimecode()) {
         return QString::number(pos);
-    } else {
+    } 
         return m_timecode.getTimecodeFromFrames(pos);
-    }
+    
 }
 
 void KeyframeEdit::slotSetSeeking(bool seek)

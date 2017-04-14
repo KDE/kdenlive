@@ -237,7 +237,7 @@ QList<ProjectClip *> JobManager::filterClips(const QList<ProjectClip *> &clips, 
     //TODO: filter depending on clip type
     if (jobType == AbstractClipJob::TRANSCODEJOB || jobType == AbstractClipJob::CUTJOB) {
         return CutClipJob::filterClips(clips, params);
-    } else if (jobType == AbstractClipJob::FILTERCLIPJOB) {
+    } if (jobType == AbstractClipJob::FILTERCLIPJOB) {
         return FilterJob::filterClips(clips, params);
     } else if (jobType == AbstractClipJob::PROXYJOB) {
         return ProxyJob::filterClips(clips);
@@ -247,7 +247,7 @@ QList<ProjectClip *> JobManager::filterClips(const QList<ProjectClip *> &clips, 
 
 void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams, const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams)
 {
-    MeltJob *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
+    auto *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
     job->description = i18n("Filter %1", extraParams.value(QStringLiteral("finalfilter")));
     launchJob(clip, job);
 }

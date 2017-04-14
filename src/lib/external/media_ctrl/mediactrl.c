@@ -246,7 +246,7 @@ void translate_contour_hid_event(struct media_ctrl *ctrl, struct input_event *ev
 			//printf("Jog: %06ld (%d)\n", ctrl->jogpos, me->value);
      		}
 		return;
-	} else if (ev->type == EV_KEY) {
+	} if (ev->type == EV_KEY) {
 		int index;
 		struct media_ctrl_key *key = media_ctrl_get_key(ctrl, ev->code, &index);
 		if ( key == NULL ) return;
@@ -280,7 +280,7 @@ void translate_compliant(struct media_ctrl *ctrl, struct input_event *ev, struct
 			//printf("Jog: %06ld (%d)\n", ctrl->jogpos, me->value);
      	}
 		return;
-	} else if (ev->type == EV_ABS) {
+	} if (ev->type == EV_ABS) {
 		// printf("ABS\n" );
 		if  ( ev->code == 0x1c || ev->code == ABS_THROTTLE ) {
 			//printf("ABS_MISC\n" );
@@ -388,9 +388,9 @@ int probe_device(struct media_ctrl *mc)
 			mc->lastval = -1;
 			mc->last_jog_time = 0;
 			return 1;
-		} else {
+		} 
 			//mc->device = NULL;
-		}
+		
 	
 	} while ( supported_devices[++i].vendor != 0 );
 			
@@ -411,10 +411,10 @@ void find_first_device(struct media_ctrl *mc)
 			mc->eventno = i;
 			if( probe_device(mc) ) {
 				return;
-			} else {		
+			} 		
 				close(fd);
 				mc->fd = -1;
-			}
+			
 		}
 	}
 }
@@ -446,10 +446,10 @@ void media_ctrl_open_dev(struct media_ctrl *mc, const char *devname)
         //mc->eventno = i;
         if( probe_device(mc) ) {
             return;
-        } else {
+        } 
             close(fd);
             mc->fd = -1;
-        }
+        
     }
 }
 

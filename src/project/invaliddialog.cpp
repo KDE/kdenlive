@@ -34,7 +34,7 @@
 InvalidDialog::InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent)
     : QDialog(parent)
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    auto *mainLayout = new QVBoxLayout(this);
     setWindowTitle(caption);
     // Info only means users can only click on ok
     QDialogButtonBox *buttonBox;
@@ -64,7 +64,7 @@ InvalidDialog::~InvalidDialog()
 
 void InvalidDialog::addClip(const QString &id, const QString &path)
 {
-    QListWidgetItem *item = new QListWidgetItem(path);
+    auto *item = new QListWidgetItem(path);
     item->setData(Qt::UserRole, id);
     m_clipList->addItem(item);
 }

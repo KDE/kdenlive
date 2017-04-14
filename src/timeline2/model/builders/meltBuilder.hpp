@@ -29,7 +29,7 @@ class TimelineItemModel;
 /** @brief This function can be used to construct a TimelineModel object from a Mlt object hierarchy
  */
 
-bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt::Tractor mlt_timeline);
+bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, Mlt::Tractor mlt_timeline);
 
 
 #endif

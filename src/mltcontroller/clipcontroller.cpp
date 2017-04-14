@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPixmap>
 #include <QFileInfo>
 #include <KLocalizedString>
+#include <utility>
 
 std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
 ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer) :
@@ -53,7 +54,7 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
         return;
-    } else {
+    } 
         m_service = m_properties->get("mlt_service");
         QString proxy = m_properties->get("kdenlive:proxy");
         QString path = m_properties->get("resource");
@@ -69,7 +70,7 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std
         }
         m_path = QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
-    }
+    
 }
 
 ClipController::ClipController(std::shared_ptr<BinController> bincontroller) :
@@ -90,9 +91,9 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller) :
 
 
 //static
-std::shared_ptr<ClipController> ClipController::construct(std::shared_ptr<BinController> binController, std::shared_ptr<Mlt::Producer> producer)
+std::shared_ptr<ClipController> ClipController::construct(const std::shared_ptr<BinController>& binController, std::shared_ptr<Mlt::Producer> producer)
 {
-    std::shared_ptr<ClipController> ptr = std::shared_ptr<ClipController>(new ClipController(binController, producer));
+    std::shared_ptr<ClipController> ptr(new ClipController(binController, std::move(producer)));
     binController->addClipToBin(ptr->clipId(), ptr);
     return ptr;
 }
@@ -109,7 +110,7 @@ AudioStreamInfo *ClipController::audioInfo() const
     return m_audioInfo;
 }
 
-void ClipController::addMasterProducer(std::shared_ptr<Mlt::Producer> producer)
+void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer>& producer)
 {
     QString documentRoot;
     if (auto ptr = m_binController.lock()) {
@@ -260,7 +261,7 @@ QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &pr
     return subclipsData;
 }
 
-void ClipController::updateProducer(std::shared_ptr<Mlt::Producer> producer)
+void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer>& producer)
 {
     //TODO replace all track producers
 
@@ -428,7 +429,7 @@ QString ClipController::videoCodecProperty(const QString &property) const
 
 const QString ClipController::codec(bool audioCodec) const
 {
-    if (!m_properties || (m_clipType != AV && m_clipType != Video && m_clipType != Audio)) {
+    if ((m_properties == nullptr) || (m_clipType != AV && m_clipType != Video && m_clipType != Audio)) {
         return QString();
     }
     QString propertyName = QStringLiteral("meta.media.%1.codec.name").arg(audioCodec ? m_audioIndex : m_videoIndex);
@@ -806,7 +807,7 @@ void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {
         QScopedPointer<Mlt::Filter> effect(service.filter(i));
-        if (effect && effect->is_valid() && indexes.contains(effect->get_int("kdenlive_ix"))) {
+        if ((effect != nullptr) && effect->is_valid() && indexes.contains(effect->get_int("kdenlive_ix"))) {
             effect->set("disable", (int) disable);
         }
     }

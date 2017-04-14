@@ -236,7 +236,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent *event)
                 }
             }
             return;
-        } else if (m_moveCursor == RULER_START) {
+        } if (m_moveCursor == RULER_START) {
             m_zoneStart = qMin(pos, m_zoneEnd);
         } else if (m_moveCursor == RULER_END) {
             m_zoneEnd = qMax(pos, m_zoneStart);

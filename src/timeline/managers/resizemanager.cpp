@@ -44,7 +44,7 @@ bool ResizeManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
     }
     m_view->setOperationMode(m_view->prepareMode());
     m_startInfos.clear();
-    if (dragItem->type() == AVWidget && dragItem->parentItem()) {
+    if (dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
         // Store start infos
         AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
         if (parent) {
@@ -63,9 +63,9 @@ bool ResizeManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
 bool ResizeManager::mouseMove(QMouseEvent *event, int pos, int)
 {
     double snappedPos = m_view->getSnapPointForPos(pos);
-    if (event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton != 0u) {
         AbstractClipItem *dragItem = m_view->dragItem();
-        if (!(m_controlModifier & Qt::ControlModifier) && dragItem->type() == AVWidget && dragItem->parentItem()) {
+        if (!(m_controlModifier & Qt::ControlModifier) && dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
             AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
             if (parent) {
                 if (m_view->operationMode() == ResizeStart) {
@@ -98,10 +98,10 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
         if (m_view->operationMode() == ResizeStart) {
             if (dragItem->startPos() != m_dragItemInfo.startPos) {
                 // resize start
-                if (/*!(m_controlModifier & Qt::ControlModifier) &&*/ dragItem->type() == AVWidget && dragItem->parentItem()) {
+                if (/*!(m_controlModifier & Qt::ControlModifier) &&*/ dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
                     if (parent) {
-                        QUndoCommand *resizeCommand = new QUndoCommand();
+                        auto *resizeCommand = new QUndoCommand();
                         resizeCommand->setText(i18n("Resize group"));
                         QList<QGraphicsItem *> items = parent->childItems();
                         GenTime min = parent->startPos();
@@ -109,11 +109,11 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                         int itemcount = 0;
                         for (int i = 0; i < items.count(); ++i) {
                             AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
-                            if (item && item->type() == AVWidget) {
+                            if ((item != nullptr) && item->type() == AVWidget) {
                                 ItemInfo info = m_startInfos.at(itemcount);
                                 m_view->prepareResizeClipStart(item, info, item->startPos().frames(m_view->fps()), false, resizeCommand);
                                 ClipItem *cp = qobject_cast<ClipItem *>(item);
-                                if (cp && cp->hasVisibleVideo()) {
+                                if ((cp != nullptr) && cp->hasVisibleVideo()) {
                                     min = qMin(min, item->startPos());
                                     max = qMax(max, item->startPos());
                                 }
@@ -166,10 +166,10 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
         } else if (m_view->operationMode() == ResizeEnd) {
             dragItem->setProperty("resizingEnd", QVariant());
             if (dragItem->endPos() != m_dragItemInfo.endPos) {
-                if (!(m_controlModifier & Qt::ControlModifier)  && dragItem->type() == AVWidget && dragItem->parentItem()) {
+                if (!(m_controlModifier & Qt::ControlModifier)  && dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
                     if (parent) {
-                        QUndoCommand *resizeCommand = new QUndoCommand();
+                        auto *resizeCommand = new QUndoCommand();
                         resizeCommand->setText(i18n("Resize group"));
                         QList<QGraphicsItem *> items = parent->childItems();
                         GenTime min = parent->startPos() + parent->duration();
@@ -177,11 +177,11 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
                         int itemcount = 0;
                         for (int i = 0; i < items.count(); ++i) {
                             AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
-                            if (item && item->type() == AVWidget) {
+                            if ((item != nullptr) && item->type() == AVWidget) {
                                 ItemInfo info = m_startInfos.at(itemcount);
                                 m_view->prepareResizeClipEnd(item, info, item->endPos().frames(m_view->fps()), false, resizeCommand);
                                 ClipItem *cp = qobject_cast<ClipItem *>(item);
-                                if (cp && cp->hasVisibleVideo()) {
+                                if ((cp != nullptr) && cp->hasVisibleVideo()) {
                                     min = qMin(min, item->endPos());
                                     max = qMax(max, item->endPos());
                                 }

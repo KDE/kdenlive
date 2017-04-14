@@ -64,7 +64,7 @@ QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
     foreach (QTreeWidgetItem *item, list) {
         urls << QUrl::fromLocalFile(item->data(0, Qt::UserRole).toString());
     }
-    QMimeData *mime = new QMimeData;
+    auto *mime = new QMimeData;
     mime->setUrls(urls);
     return mime;
 }
@@ -164,7 +164,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget
     , m_manager(manager)
     , m_previewJob(nullptr)
 {
-    QVBoxLayout *lay = new QVBoxLayout(this);
+    auto *lay = new QVBoxLayout(this);
     m_libraryTree = new LibraryTree(this);
     m_libraryTree->setColumnCount(1);
     m_libraryTree->setHeaderHidden(true);
@@ -441,7 +441,7 @@ void LibraryWidget::slotSaveSequence(const QStringList &info, QString dest)
 
 void LibraryWidget::slotItemEdited(QTreeWidgetItem *item, int column)
 {
-    if (!item || column != 0) {
+    if ((item == nullptr) || column != 0) {
         return;
     }
     if (item->data(0, Qt::UserRole + 2).toInt() == LibraryItem::Folder) {

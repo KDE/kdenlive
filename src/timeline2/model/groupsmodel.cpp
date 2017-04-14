@@ -61,7 +61,7 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int>& ids)
 
 int GroupsModel::groupItems(const std::unordered_set<int>& ids, Fun &undo, Fun &redo)
 {
-    Q_ASSERT(ids.size()>0);
+    Q_ASSERT(!ids.empty());
     if (ids.size() == 1) {
         // We do not create a group with only one element. Instead, we return the id of that element
         return *(ids.begin());
@@ -131,7 +131,7 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
     if (operation()) {
         auto reverse = groupItems_lambda(id, old_children);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
-        if (parent != -1 && m_downLink[parent].size() == 0 && deleteOrphan) {
+        if (parent != -1 && m_downLink[parent].empty() && deleteOrphan) {
             return destructGroupItem(parent, true, undo, redo);
         }
         return true;
@@ -163,7 +163,7 @@ int GroupsModel::getRootId(int id) const
 bool GroupsModel::isLeaf(int id) const
 {
     Q_ASSERT(m_downLink.count(id) > 0);
-    return m_downLink.at(id).size() == 0;
+    return m_downLink.at(id).empty();
 }
 
 bool GroupsModel::isInGroup(int id) const
@@ -200,7 +200,7 @@ std::unordered_set<int> GroupsModel::getLeaves(int id) const
         for (const int& child : m_downLink.at(current)) {
             queue.push(child);
         }
-        if (m_downLink.at(current).size() == 0) {
+        if (m_downLink.at(current).empty()) {
             result.insert(current);
         }
     }

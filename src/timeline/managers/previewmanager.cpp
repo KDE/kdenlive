@@ -488,7 +488,7 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     bool ok;
     foreach (const QString &dir, dirs) {
-        if (dir.toInt(&ok) >= ix && ok == true) {
+        if (dir.toInt(&ok) >= ix && ok) {
             QDir tmp = m_undoDir;
             if (tmp.cd(dir)) {
                 tmp.removeRecursively();

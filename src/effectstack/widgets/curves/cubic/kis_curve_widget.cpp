@@ -61,7 +61,7 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     m_grabOriginalY = 0;
     m_draggedAwayPointIndex = 0;
     m_pixmapIsDirty = 0;
-    m_pixmapCache = NULL;
+    m_pixmapCache = nullptr;
     m_maxPoints = 0;
     m_curve = KisCubicCurve();
     update();

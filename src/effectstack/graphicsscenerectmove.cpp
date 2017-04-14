@@ -35,6 +35,7 @@
 #include <QApplication>
 #include <QTextBlock>
 #include <QTextDocument>
+#include <utility>
 
 MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent) :
     QGraphicsEffect(parent)
@@ -88,7 +89,7 @@ void MyTextItem::updateShadow(bool enabled, int blur, int xoffset, int yoffset, 
 {
     m_shadowOffset = QPoint(xoffset, yoffset);
     m_shadowBlur = blur;
-    m_shadowColor = color;
+    m_shadowColor = std::move(color);
     m_shadowEffect->setEnabled(enabled);
     m_shadowEffect->setOffset(xoffset, yoffset, blur);
     if (enabled) {
@@ -106,7 +107,7 @@ void MyTextItem::setTextColor(const QColor &col)
 QStringList MyTextItem::shadowInfo() const
 {
     QStringList info;
-    info << QString::number(m_shadowEffect->isEnabled()) << m_shadowColor.name(QColor::HexArgb) << QString::number(m_shadowBlur) << QString::number(m_shadowOffset.x()) << QString::number(m_shadowOffset.y());
+    info << QString::number(static_cast<int>(m_shadowEffect->isEnabled())) << m_shadowColor.name(QColor::HexArgb) << QString::number(m_shadowBlur) << QString::number(m_shadowOffset.x()) << QString::number(m_shadowOffset.y());
     return info;
 }
 
@@ -115,7 +116,7 @@ void MyTextItem::loadShadow(const QStringList &info)
     if (info.count() < 5) {
         return;
     }
-    updateShadow((info.at(0).toInt() == true), info.at(2).toInt(), info.at(3).toInt(), info.at(4).toInt(), QColor(info.at(1)));
+    updateShadow((static_cast<bool>(info.at(0).toInt())), info.at(2).toInt(), info.at(3).toInt(), info.at(4).toInt(), QColor(info.at(1)));
 }
 
 void MyTextItem::setAlignment(Qt::Alignment alignment)
@@ -207,7 +208,7 @@ void MyTextItem::updateGeometry(int, int, int)
 
 void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
 {
-    if (textInteractionFlags() & Qt::TextEditable) {
+    if (textInteractionFlags() & Qt::TextEditable != 0) {
         QGraphicsTextItem::paint(painter, option, w);
     } else {
         painter->setRenderHint(QPainter::Antialiasing);
@@ -333,7 +334,7 @@ void MyTextItem::updateGeometry()
     setAlignment(m_alignment);
     QPointF topRight = boundingRect().topRight();
 
-    if (m_alignment & Qt::AlignRight) {
+    if (m_alignment & Qt::AlignRight != 0) {
         setPos(pos() + (topRightPrev - topRight));
     }
 }
@@ -367,9 +368,9 @@ QRectF MyTextItem::boundingRect() const
 
 QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionChange && scene()) {
+    if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
-        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove *> (scene())) {
+        if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<GraphicsSceneRectMove *> (scene()) != nullptr)) {
             GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *> (scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
@@ -377,8 +378,8 @@ QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value
             newPos = QPoint(xV, yV);
         }
         return newPos;
-    } else if (change == QGraphicsItem::ItemSelectedHasChanged) {
-        if (value.toBool() == false) {
+    } if (change == QGraphicsItem::ItemSelectedHasChanged) {
+        if (!value.toBool()) {
             // Make sure to deselect text when item loses focus
             QTextCursor cur(document());
             cur.clearSelection();
@@ -402,7 +403,7 @@ void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
     setFocus(Qt::MouseFocusReason);
     // 2. send a single click to this QGraphicsTextItem (this will set the cursor to the mouse position):
     // create a new mouse event with the same parameters as evt
-    QGraphicsSceneMouseEvent *click = new QGraphicsSceneMouseEvent(QEvent::GraphicsSceneMousePress);
+    auto *click = new QGraphicsSceneMouseEvent(QEvent::GraphicsSceneMousePress);
     click->setButton(evt->button());
     click->setPos(evt->pos());
     QGraphicsTextItem::mousePressEvent(click);
@@ -428,9 +429,9 @@ void MyRectItem::setRect(const QRectF &rectangle)
 
 QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionChange && scene()) {
+    if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
-        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove *> (scene())) {
+        if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<GraphicsSceneRectMove *> (scene()) != nullptr)) {
             GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *> (scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
@@ -451,9 +452,9 @@ MyPixmapItem::MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent) :
 
 QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionChange && scene()) {
+    if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
-        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove *> (scene())) {
+        if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<GraphicsSceneRectMove *> (scene()) != nullptr)) {
             GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *> (scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
@@ -474,9 +475,9 @@ MySvgItem::MySvgItem(const QString &fileName, QGraphicsItem *parent) :
 
 QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionChange && scene()) {
+    if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
-        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<GraphicsSceneRectMove *> (scene())) {
+        if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<GraphicsSceneRectMove *> (scene()) != nullptr)) {
             GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *> (scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
@@ -540,13 +541,13 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
     }
     if (m_selectedItem->type() == QGraphicsTextItem::Type) {
         MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
-        if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
+        if (t->textInteractionFlags() & Qt::TextEditorInteraction != 0) {
             QGraphicsScene::keyPressEvent(keyEvent);
             return;
         }
     }
     int diff = m_gridSize;
-    if (keyEvent->modifiers() & Qt::ControlModifier) {
+    if (keyEvent->modifiers() & Qt::ControlModifier != 0u) {
         diff = m_gridSize * 5;
     }
     switch (keyEvent->key()) {
@@ -611,7 +612,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
         g = i.at(ix);
         ix++;
     }
-    if (g && g->type() == QGraphicsTextItem::Type && g->flags() & QGraphicsItem::ItemIsSelectable) {
+    if ((g != nullptr) && g->type() == QGraphicsTextItem::Type && (g->flags() & QGraphicsItem::ItemIsSelectable != 0)) {
         m_selectedItem = g;
     } else {
         emit doubleClickEvent();
@@ -622,7 +623,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
 void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
     m_pan = false;
-    if (m_tool == TITLE_RECTANGLE && m_selectedItem) {
+    if (m_tool == TITLE_RECTANGLE && (m_selectedItem != nullptr)) {
         setSelectedItem(m_selectedItem);
     }
     if (m_createdText) {
@@ -633,7 +634,7 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
         newText->setTextCursor(cur);
         m_createdText = false;
     }
-    if (e->modifiers() & Qt::ShiftModifier) {
+    if (e->modifiers() & Qt::ShiftModifier != 0u) {
         e->accept();
     } else {
         QGraphicsScene::mouseReleaseEvent(e);
@@ -647,7 +648,7 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 
 void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
-    if (e->buttons() & Qt::MiddleButton) {
+    if (e->buttons() & Qt::MiddleButton != 0u) {
         clearTextSelection();
         QList<QGraphicsView*> viewlist = views();
         if (!viewlist.isEmpty()) {
@@ -667,7 +668,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     QGraphicsItem *item = nullptr;
     if (m_tool == TITLE_SELECT) {
         QList<QGraphicsView*> viewlist = views();
-        if (e->modifiers() & Qt::ControlModifier) {
+        if (e->modifiers() & Qt::ControlModifier != 0u) {
             clearTextSelection();
             if (!viewlist.isEmpty()) {
                 viewlist.first()->setDragMode(QGraphicsView::ScrollHandDrag);
@@ -698,10 +699,10 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
         }
         if (item == nullptr || (e->modifiers() != Qt::ShiftModifier && !alreadySelected)) {
             clearTextSelection();
-        } else if (e->modifiers() & Qt::ShiftModifier) {
+        } else if (e->modifiers() & Qt::ShiftModifier != 0u) {
             clearTextSelection(false);
         }
-        if (item && item->flags() & QGraphicsItem::ItemIsMovable) {
+        if ((item != nullptr) && (item->flags() & QGraphicsItem::ItemIsMovable != 0)) {
             m_sceneClickPoint = e->scenePos();
             m_selectedItem = item;
             //qCDebug(KDENLIVE_LOG) << "/////////  ITEM TYPE: " << item->type();
@@ -774,7 +775,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
 
 void GraphicsSceneRectMove::clearTextSelection(bool reset)
 {
-    if (m_selectedItem && m_selectedItem->type() == QGraphicsTextItem::Type) {
+    if ((m_selectedItem != nullptr) && m_selectedItem->type() == QGraphicsTextItem::Type) {
         // disable text editing
         MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
         t->textCursor().setPosition(0);
@@ -808,11 +809,11 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         if ((view->mapFromScene(e->scenePos()) - view->mapFromScene(m_clickPoint)).manhattanLength() < QApplication::startDragDistance()) {
             e->ignore();
             return;
-        } else {
+        } 
             m_moveStarted = true;
-        }
+        
     }
-    if (m_selectedItem && (e->buttons() & Qt::LeftButton)) {
+    if ((m_selectedItem != nullptr) && ((e->buttons() & Qt::LeftButton) != 0u)) {
         if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsSvgItem::Type || m_selectedItem->type() == QGraphicsPixmapItem::Type) {
             QRectF newrect;
             if (m_selectedItem->type() == QGraphicsRectItem::Type) {
@@ -866,7 +867,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             QGraphicsScene::mouseMoveEvent(e);
         } else if (m_selectedItem->type() == QGraphicsTextItem::Type) {
             MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
-            if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
+            if (t->textInteractionFlags() & Qt::TextEditorInteraction != 0) {
                 QGraphicsScene::mouseMoveEvent(e);
                 return;
             }
@@ -951,12 +952,12 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             setCursor(Qt::ArrowCursor);
         }
         QGraphicsScene::mouseMoveEvent(e);
-    } else if (m_tool == TITLE_RECTANGLE && e->buttons() & Qt::LeftButton) {
+    } else if (m_tool == TITLE_RECTANGLE && (e->buttons() & Qt::LeftButton != 0u)) {
         if (m_selectedItem == nullptr) {
             // create new rect item
             QRectF r(0, 0, e->scenePos().x() - m_sceneClickPoint.x(), e->scenePos().y() - m_sceneClickPoint.y());
             r = r.normalized();
-            MyRectItem *rect = new MyRectItem();
+            auto *rect = new MyRectItem();
             rect->setRect(QRectF(0, 0, r.width(), r.height()));
             addItem(rect);
             m_selectedItem = rect;
@@ -991,7 +992,7 @@ void GraphicsSceneRectMove::setScale(double s)
 {
     if (m_zoom < 1.0 / 7.0 && s < 1.0) {
         return;
-    } else if (m_zoom > 10.0 / 7.9 && s > 1.0) {
+    } if (m_zoom > 10.0 / 7.9 && s > 1.0) {
         return;
     }
     QList<QGraphicsView *> viewlist = views();

@@ -29,7 +29,7 @@ PositionWidget::PositionWidget(const QString &name, int pos, int min, int max,
                            QWidget *parent) :
     AbstractParamWidget(parent)
 {
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    auto *layout = new QHBoxLayout(this);
     QLabel *label = new QLabel(name, this);
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding,

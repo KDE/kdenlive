@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 
     QString mltPath = parser.value(QStringLiteral("mlt-path"));
     QUrl url;
-    if (parser.positionalArguments().count()) {
+    if (parser.positionalArguments().count() != 0) {
         url = QUrl::fromLocalFile(parser.positionalArguments().at(0));
         // Make sure we get an absolute URL so that we can autosave correctly
         QString currentPath = QDir::currentPath();
@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 
     if (EXIT_RESTART == result) {
         qCDebug(KDENLIVE_LOG) << "restarting app";
-        QProcess *restart = new QProcess;
+        auto *restart = new QProcess;
         restart->start(app.applicationFilePath(), QStringList());
         restart->waitForReadyRead();
         restart->waitForFinished(1000);

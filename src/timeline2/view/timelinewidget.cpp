@@ -38,6 +38,7 @@
 #include <QQmlEngine>
 #include <QAction>
 #include <QSortFilterProxyModel>
+#include <utility>
 
 const int TimelineWidget::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
@@ -52,7 +53,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     , m_scale(3.0)
 {
     registerTimelineItems();
-    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
+    auto *proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(m_model.get());
     proxyModel->setSortRole(TimelineItemModel::ItemIdRole);
     proxyModel->sort(0, Qt::DescendingOrder);
@@ -81,7 +82,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 
-void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool isMultitrack)
+void TimelineWidget::setSelection(const QList<int>& newSelection, int trackIndex, bool isMultitrack)
 {
     if (newSelection != selection()
             || trackIndex != m_selection.selectedTrack
@@ -95,7 +96,7 @@ void TimelineWidget::setSelection(QList<int> newSelection, int trackIndex, bool 
         if (!m_selection.selectedClips.isEmpty())
             emitSelectedFromSelection();
         else
-            emit selected(0);
+            emit selected(nullptr);
     }
 }
 
@@ -110,7 +111,7 @@ void TimelineWidget::addSelection(int newSelection)
     if (!m_selection.selectedClips.isEmpty())
         emitSelectedFromSelection();
     else
-        emit selected(0);
+        emit selected(nullptr);
 }
 
 double TimelineWidget::scaleFactor() const
@@ -198,7 +199,7 @@ bool TimelineWidget::scrub()
 }
 
 
-int TimelineWidget::insertClip(int tid, int position, QString data_str, bool logUndo)
+int TimelineWidget::insertClip(int tid, int position, const QString& data_str, bool logUndo)
 {
     int id;
     if (!m_model->requestClipInsertion(data_str, tid, position, id, logUndo)) {
@@ -259,7 +260,7 @@ void TimelineWidget::onSeeked(int position)
 
 Mlt::Producer *TimelineWidget::producer()
 {
-    Mlt::Producer *prod = new Mlt::Producer(m_model->tractor());
+    auto *prod = new Mlt::Producer(m_model->tractor());
     qDebug()<<"*** TIMELINE LENGTH: "<<prod->get_playtime()<<" / "<<m_model->tractor()->get_length();
     return prod;
 }
@@ -280,7 +281,7 @@ void TimelineWidget::buildFromMelt(Mlt::Tractor tractor)
 
 void TimelineWidget::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
 {
-    m_model->setUndoStack(undo_stack);
+    m_model->setUndoStack(std::move(undo_stack));
 }
 
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
@@ -290,7 +291,7 @@ void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
 
 void TimelineWidget::wheelEvent(QWheelEvent *event)
 {
-    if (event->modifiers() & Qt::ControlModifier) {
+    if (event->modifiers() & Qt::ControlModifier != 0u) {
         if (event->delta() > 0) {
                 emit zoomIn(true);
             } else {

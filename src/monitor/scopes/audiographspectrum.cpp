@@ -268,7 +268,7 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
 AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent) : ScopeWidget(parent)
     , m_manager(manager)
 {
-    QVBoxLayout *lay = new QVBoxLayout(this);
+    auto *lay = new QVBoxLayout(this);
     m_graphWidget = new AudioGraphWidget(this);
     lay->addWidget(m_graphWidget);
 
@@ -280,7 +280,7 @@ AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent)
     m_filter = new Mlt::Filter(*(m_manager->projectMonitor()->profile()), "fft");
     if (!m_filter->is_valid()) {
         KdenliveSettings::setEnableaudiospectrum(false);
-        KMessageWidget *mw = new KMessageWidget(this);
+        auto *mw = new KMessageWidget(this);
         mw->setCloseButtonVisible(false);
         mw->setWordWrap(true);
         mw->setMessageType(KMessageWidget::Information);

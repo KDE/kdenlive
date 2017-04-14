@@ -217,7 +217,7 @@ DeviceMap JogShuttle::enumerateDevices(const QString &devPath)
 
         media_ctrl mc;
         media_ctrl_open_dev(&mc, (char *)fileLink.toUtf8().data());
-        if (mc.fd > 0 && mc.device) {
+        if (mc.fd > 0 && (mc.device != nullptr)) {
             devs.insert(QString(mc.device->name), devFullPath);
             qCDebug(KDENLIVE_LOG) <<  QStringLiteral(" [keys-count=%1] ").arg(media_ctrl_get_keys_count(&mc));
         }
@@ -234,7 +234,7 @@ int JogShuttle::keysCount(const QString &devPath)
 
     QString fileLink = canonicalDevice(devPath);
     media_ctrl_open_dev(&mc, (char *)fileLink.toUtf8().data());
-    if (mc.fd > 0 && mc.device) {
+    if (mc.fd > 0 && (mc.device != nullptr)) {
         keysCount = media_ctrl_get_keys_count(&mc);
     }
 

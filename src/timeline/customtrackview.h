@@ -396,7 +396,7 @@ public slots:
     * @param selected The currently selected clip if any
     * @param offsetList The list of points that should also snap (for example when movin a clip, start and end points should snap
     * @param skipSelectedItems if true, the selected item start and end points will not be added to snap list */
-    void updateSnapPoints(AbstractClipItem *selected, QList<GenTime> offsetList = QList<GenTime> (), bool skipSelectedItems = false);
+    void updateSnapPoints(AbstractClipItem *selected, const QList<GenTime>& offsetList = QList<GenTime> (), bool skipSelectedItems = false);
 
     void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
     void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> keyframes = QMap<QString, QString>());

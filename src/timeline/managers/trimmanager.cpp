@@ -46,7 +46,7 @@ bool TrimManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<QG
 
 bool TrimManager::mouseMove(QMouseEvent *event, int pos, int)
 {
-    if (event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton != 0u) {
         if (!m_firstInfo.isValid() || !m_secondInfo.isValid()) {
             return false;
         }
@@ -81,7 +81,7 @@ bool TrimManager::enterTrimMode(const ItemInfo &info, bool trimStart)
             m_firstClip = m_view->getClipItemAtEnd(info.endPos, info.track);
             m_secondClip = m_view->getClipItemAtStart(info.endPos, info.track);
         }
-        if (!m_firstClip || !m_secondClip) {
+        if ((m_firstClip == nullptr) || (m_secondClip == nullptr)) {
             m_view->displayMessage(i18n("Could not find necessary clips to perform rolling trim"), InformationMessage);
             m_view->setOperationMode(None);
             m_firstInfo = ItemInfo();
@@ -195,7 +195,7 @@ void TrimManager::endTrim()
         return;
     }
     if (m_view->operationMode() == RollingStart || m_view->operationMode() == RollingEnd) {
-        QUndoCommand *command = new QUndoCommand;
+        auto *command = new QUndoCommand;
         command->setText(i18n("Rolling Edit"));
         if (m_firstClip->endPos() < m_firstInfo.endPos) {
             m_view->prepareResizeClipEnd(m_firstClip, m_firstInfo, m_firstClip->startPos().frames(m_view->fps()), false, command);

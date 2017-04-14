@@ -302,10 +302,10 @@ QImage Spectrogram::renderHUD(uint)
 
         emit signalHUDRenderingFinished(start.elapsed(), 1);
         return hud;
-    } else {
+    } 
         emit signalHUDRenderingFinished(0, 1);
         return QImage();
-    }
+    
 }
 QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, const int freq,
                                      const int num_channels, const int num_samples, const int newData)
@@ -387,7 +387,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         }
 
         y = 0;
-        if (newData || m_parameterChanged) {
+        if ((newData != 0) || m_parameterChanged) {
             m_parameterChanged = false;
             bool peak = false;
 
@@ -445,10 +445,10 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         emit signalScopeRenderingFinished(start.elapsed(), 1);
         return spectrum;
-    } else {
+    } 
         emit signalScopeRenderingFinished(0, 1);
         return QImage();
-    }
+    
 }
 QImage Spectrogram::renderBackground(uint)
 {

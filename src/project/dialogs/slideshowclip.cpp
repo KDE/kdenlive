@@ -141,9 +141,9 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     }
 
     if (clip) {
-        m_view.slide_loop->setChecked(clip->getProducerIntProperty(QStringLiteral("loop")));
-        m_view.slide_crop->setChecked(clip->getProducerIntProperty(QStringLiteral("crop")));
-        m_view.slide_fade->setChecked(clip->getProducerIntProperty(QStringLiteral("fade")));
+        m_view.slide_loop->setChecked(clip->getProducerIntProperty(QStringLiteral("loop")) != 0);
+        m_view.slide_crop->setChecked(clip->getProducerIntProperty(QStringLiteral("crop")) != 0);
+        m_view.slide_fade->setChecked(clip->getProducerIntProperty(QStringLiteral("fade")) != 0);
         m_view.luma_softness->setValue(clip->getProducerIntProperty(QStringLiteral("softness")));
         QString anim = clip->getProducerProperty(QStringLiteral("animation"));
         if (!anim.isEmpty()) {
@@ -290,7 +290,7 @@ void SlideshowClip::parseFolder()
         result = entries;
     }
     foreach (const QString &p, result) {
-        QListWidgetItem *item = new QListWidgetItem(unknownicon, p);
+        auto *item = new QListWidgetItem(unknownicon, p);
         item->setData(Qt::UserRole, dir.filePath(p));
         m_view.icon_list->addItem(item);
     }

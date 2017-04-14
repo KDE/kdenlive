@@ -97,7 +97,7 @@ void ProjectManager::slotLoadOnOpen()
         newFile(false);
     }
 
-    if (!m_loadClipsOnOpen.isEmpty() && m_project) {
+    if (!m_loadClipsOnOpen.isEmpty() && (m_project != nullptr)) {
         const QStringList list = m_loadClipsOnOpen.split(QLatin1Char(','));
         QList<QUrl> urls;
         urls.reserve(list.count());
@@ -241,7 +241,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
 {
-    if (m_project && m_project->isModified() && saveChanges) {
+    if ((m_project != nullptr) && m_project->isModified() && saveChanges) {
         QString message;
         if (m_project->url().fileName().isEmpty()) {
             message = i18n("Save changes to document?");
@@ -252,7 +252,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         switch (KMessageBox::warningYesNoCancel(pCore->window(), message)) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
-            if (saveFile() == false) {
+            if (!saveFile()) {
                 return false;
             }
             break;
@@ -296,7 +296,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
             scene.replace(i.key(), i.value());
         }
     }
-    if (m_project->saveSceneList(outputFileName, scene) == false) {
+    if (!m_project->saveSceneList(outputFileName, scene)) {
         return false;
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);
@@ -387,11 +387,11 @@ bool ProjectManager::saveFile()
     }
     if (m_project->url().isEmpty()) {
         return saveFileAs();
-    } else {
+    } 
         bool result = saveFileAs(m_project->url().toLocalFile());
         m_project->m_autosave->resize(0);
         return result;
-    }
+    
 }
 
 void ProjectManager::openFile()
@@ -458,13 +458,13 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
                                        KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {
             doOpenFile(url, orphanedFile);
             return true;
-        } else {
+        } 
             // remove the stale files
             foreach (KAutoSaveFile *stale, staleFiles) {
                 stale->open(QIODevice::ReadWrite);
                 delete stale;
             }
-        }
+        
         return false;
     }
     return false;
@@ -499,7 +499,7 @@ void ProjectManager::openFile(const QUrl &url)
         return;
     }*/
 
-    if (m_project && m_project->url() == url) {
+    if ((m_project != nullptr) && m_project->url() == url) {
         return;
     }
 

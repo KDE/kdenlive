@@ -41,10 +41,7 @@ bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
         return true;
     }
     //accept if any of the children is accepted on it's own merits
-    if (hasAcceptedChildren(sourceRow, sourceParent)) {
-        return true;
-    }
-    return false;
+    return hasAcceptedChildren(sourceRow, sourceParent);
 }
 
 bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow,

@@ -183,7 +183,7 @@ void SmallRuler::prepareZoneUpdate()
 void SmallRuler::mouseMoveEvent(QMouseEvent *event)
 {
     const int pos = event->x() / m_scale + m_offset;
-    if (event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton != 0u) {
         if (m_activeControl == CONTROL_NONE) {
             return;
         }
@@ -216,13 +216,13 @@ void SmallRuler::mouseMoveEvent(QMouseEvent *event)
                 update();
             }
             return;
-        } else {
+        } 
             if (m_hoverZone != -1) {
                 setCursor(Qt::ArrowCursor);
                 m_hoverZone = -1;
                 update();
             }
-        }
+        
         for (int i = 0; i < m_markers.count(); ++i) {
             if (qAbs((pos - m_markers.at(i).time().frames(m_monitor->fps())) * m_scale) < 4) {
                 // We are on a marker

@@ -30,7 +30,7 @@ static const double GAIN_FACTOR = 4.0;
 LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent) :
     QWidget(parent)
 {
-    FlowLayout *flowLayout = new FlowLayout(this, 2, 2, 2);
+    auto *flowLayout = new FlowLayout(this, 2, 2, 2);
     /*QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);*/

@@ -309,7 +309,7 @@ void HeaderTrack::updateLed()
     } else if (isTarget && KdenliveSettings::splitaudio()) {
         kled->setColor(Qt::darkGreen);
         kled->setToolTip(i18n("Target track"));
-    } else if (m_switchAudio->isActive() || (m_switchVideo && m_switchVideo->isActive())) {
+    } else if (m_switchAudio->isActive() || ((m_switchVideo != nullptr) && m_switchVideo->isActive())) {
         kled->setColor(0xffcc00);
         kled->setToolTip(m_switchAudio->isActive() ? i18n("Muted track") : i18n("Blind track"));
     } else {

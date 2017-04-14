@@ -75,7 +75,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     , m_offset(effectIn - min)
 {
     setAcceptDrops(true);
-    QVBoxLayout *vbox2 = new QVBoxLayout(this);
+    auto *vbox2 = new QVBoxLayout(this);
 
     // Keyframe ruler
     m_ruler = new AnimKeyframeRuler(min, max, this);
@@ -83,7 +83,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     connect(m_ruler, &AnimKeyframeRuler::removeKeyframe, this, &AnimationWidget::slotDeleteKeyframe);
     vbox2->addWidget(m_ruler);
     vbox2->setContentsMargins(0, 0, 0, 0);
-    QToolBar *tb = new QToolBar(this);
+    auto *tb = new QToolBar(this);
     vbox2->addWidget(tb);
     setLayout(vbox2);
     connect(m_ruler, &AnimKeyframeRuler::requestSeek, this, &AnimationWidget::seekToPos);
@@ -178,7 +178,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     QAction *delPreset = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete preset"), this);
     connect(delPreset, &QAction::triggered, this, &AnimationWidget::deletePreset);
 
-    QMenu *container = new QMenu;
+    auto *container = new QMenu;
     tb->addAction(m_selectType);
     container->addAction(m_endAttach);
     container->addSeparator();
@@ -190,7 +190,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     container->addAction(delPreset);
     container->addAction(defaultInterp);
 
-    QToolButton *menuButton = new QToolButton;
+    auto *menuButton = new QToolButton;
     menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
     menuButton->setToolTip(i18n("Options"));
     menuButton->setMenu(container);
@@ -413,7 +413,7 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
 {
     bool isKey;
     mlt_keyframe_type type;
-    if (m_animController.get_item(oldPos - m_offset, isKey, type)) {
+    if (m_animController.get_item(oldPos - m_offset, isKey, type) != 0) {
         qCDebug(KDENLIVE_LOG) << "////////ERROR NO KFR";
         return;
     }
@@ -425,7 +425,7 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
     }
     QStringList paramNames = m_doubleWidgets.keys();
     for (int i = 0; i < paramNames.count(); i++) {
-        QString param = paramNames.at(i);
+        const QString& param = paramNames.at(i);
         m_animController = m_animProperties.get_animation(param.toUtf8().constData());
         double val = m_animProperties.anim_get_double(param.toUtf8().constData(), oldPos - m_offset, m_outPoint);
         m_animController.remove(oldPos - m_offset);
@@ -451,7 +451,7 @@ void AnimationWidget::rebuildKeyframes()
     mlt_keyframe_type type;
     int count = m_animController.key_count();
     for (int i = 0; i < count; i++) {
-        if (!m_animController.key_get(i, frame, type)) {
+        if (m_animController.key_get(i, frame, type) == 0) {
             frame += m_offset;
             if (frame >= 0) {
                 keyframes << frame;
@@ -482,14 +482,14 @@ void AnimationWidget::updateToolbar()
         m_selectType->setEnabled(m_animController.key_count() > 1);
         m_addKeyframe->setActive(true);
         m_addKeyframe->setEnabled(m_animController.key_count() > 1);
-        if (m_doubleWidgets.value(m_inTimeline)) {
+        if (m_doubleWidgets.value(m_inTimeline) != nullptr) {
             m_doubleWidgets.value(m_inTimeline)->enableEdit(true);
         }
     } else {
         m_selectType->setEnabled(false);
         m_addKeyframe->setActive(false);
         m_addKeyframe->setEnabled(true);
-        if (m_doubleWidgets.value(m_inTimeline)) {
+        if (m_doubleWidgets.value(m_inTimeline) != nullptr) {
             m_doubleWidgets.value(m_inTimeline)->enableEdit(false);
         }
     }
@@ -780,7 +780,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
         comment = i18n(commentElem.text().toUtf8().data());
     }
 
-    QHBoxLayout *horLayout = new QHBoxLayout;
+    auto *horLayout = new QHBoxLayout;
     m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, this);
     connect(m_spinX, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinX);
@@ -798,7 +798,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     lockRatio->setCheckable(true);
     lockRatio->setChecked(KdenliveSettings::lock_ratio());
     connect(lockRatio, &QAction::triggered, this, &AnimationWidget::slotLockRatio);
-    QToolButton *ratioButton = new QToolButton;
+    auto *ratioButton = new QToolButton;
     ratioButton->setDefaultAction(lockRatio);
     horLayout->addWidget(ratioButton);
 
@@ -807,7 +807,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     horLayout->addWidget(m_spinHeight);
     horLayout->addStretch(10);
 
-    QHBoxLayout *horLayout2 = new QHBoxLayout;
+    auto *horLayout2 = new QHBoxLayout;
     m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, this);
     m_spinSize->setStep(10);
     connect(m_spinSize, &DragValue::valueChanged, this, &AnimationWidget::slotResize);
@@ -842,9 +842,9 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     QAction *alignbottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
     connect(alignbottom, &QAction::triggered, this, &AnimationWidget::slotMoveBottom);
 
-    QHBoxLayout *alignLayout = new QHBoxLayout;
+    auto *alignLayout = new QHBoxLayout;
     alignLayout->setSpacing(0);
-    QToolButton *alignButton = new QToolButton;
+    auto *alignButton = new QToolButton;
     alignButton->setDefaultAction(alignleft);
     alignButton->setAutoRaise(true);
     alignLayout->addWidget(alignButton);
@@ -911,7 +911,7 @@ void AnimationWidget::slotUpdateVisibleParameter(bool display)
         if (slider->objectName() == m_inTimeline) {
             return;
         }
-        if (m_doubleWidgets.value(m_inTimeline)) {
+        if (m_doubleWidgets.value(m_inTimeline) != nullptr) {
             m_doubleWidgets.value(m_inTimeline)->setChecked(false);
         }
         m_inTimeline = slider->objectName();
@@ -1153,7 +1153,7 @@ void AnimationWidget::savePreset()
 {
     QDialog d(this);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Save);
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     d.setLayout(l);
     QLineEdit effectName(&d);
     effectName.setPlaceholderText(i18n("Enter preset name"));
@@ -1385,7 +1385,7 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
     QLocale locale;
     m_animController = m_animProperties.get_animation(tag.toUtf8().constData());
     for (int i = 0; i < paramNames.count(); i++) {
-        QString currentParam = paramNames.at(i);
+        const QString& currentParam = paramNames.at(i);
         if (currentParam == tag) {
             continue;
         }

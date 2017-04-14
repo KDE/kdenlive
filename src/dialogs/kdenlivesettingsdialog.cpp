@@ -74,7 +74,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
     m_page8 = addPage(p8, i18n("Project Defaults"));
-    QVBoxLayout *vbox = new QVBoxLayout;
+    auto *vbox = new QVBoxLayout;
     m_pw = new ProfileWidget(this);
     vbox->addWidget(m_pw);
     m_configProject.profile_box->setLayout(vbox);
@@ -167,7 +167,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     connect(m_configShuttle.toolBtnReload, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadShuttleDevices);
 
-    slotCheckShuttle(KdenliveSettings::enableshuttle());
+    slotCheckShuttle(static_cast<int>(KdenliveSettings::enableshuttle()));
     m_configShuttle.shuttledisabled->hide();
 
     // Store the button pointers into an array for easier handling them in the other functions.
@@ -337,7 +337,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
 
     if (!KdenliveSettings::dvgrab_path().isEmpty()) {
         double dvgrabVersion = 0;
-        QProcess *versionCheck = new QProcess;
+        auto *versionCheck = new QProcess;
         versionCheck->setProcessChannelMode(QProcess::MergedChannels);
         versionCheck->start(QStringLiteral("dvgrab"), QStringList() << QStringLiteral("--version"));
         if (versionCheck->waitForFinished()) {
@@ -632,7 +632,7 @@ void KdenliveSettingsDialog::slotEditImageApplication()
 void KdenliveSettingsDialog::slotCheckShuttle(int state)
 {
 #ifdef USE_JOGSHUTTLE
-    m_configShuttle.config_group->setEnabled(state);
+    m_configShuttle.config_group->setEnabled(state != 0);
     m_configShuttle.shuttledevicelist->clear();
 
     QStringList devNames = KdenliveSettings::shuttledevicenames();
@@ -645,7 +645,7 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
         m_configShuttle.shuttledevicelist->addItem(
             devNames.at(i), devPaths.at(i));
     }
-    if (state) {
+    if (state != 0) {
         setupJogshuttleBtns(m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString());
     }
 #endif /* USE_JOGSHUTTLE */
@@ -841,7 +841,7 @@ void KdenliveSettingsDialog::updateSettings()
             KdenliveSettings::setAudiodevicename(value);
             resetProfile = true;
         }
-    } else if (KdenliveSettings::audiodevicename().isEmpty() == false) {
+    } else if (!KdenliveSettings::audiodevicename().isEmpty()) {
         KdenliveSettings::setAudiodevicename(QString());
         resetProfile = true;
     }
@@ -940,7 +940,7 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
         i.next();
-        QListWidgetItem *item = new QListWidgetItem(i.key());
+        auto *item = new QListWidgetItem(i.key());
         QString data = i.value();
         if (data.contains(QLatin1Char(';'))) {
             item->setToolTip(data.section(QLatin1Char(';'), 1, 1));

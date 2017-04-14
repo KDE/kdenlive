@@ -68,7 +68,7 @@ rectActions OnMonitorRectItem::getMode(const QPointF &pos)
     // Check for collisions between the mouse and the borders
     if (mouseArea.contains(pol.at(0))) {
         return ResizeTopLeft;
-    } else if (mouseArea.contains(pol.at(2))) {
+    } if (mouseArea.contains(pol.at(2))) {
         return ResizeBottomRight;
     } else if (mouseArea.contains(pol.at(1))) {
         return ResizeTopRight;
@@ -105,7 +105,7 @@ void OnMonitorRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
      *   return;
     }*/
 
-    if (event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton != 0u) {
         QRectF r = rect().normalized();
         QPointF p = pos();
         QPointF mousePos = event->scenePos();
@@ -289,11 +289,11 @@ bool OnMonitorRectItem::getView()
         return true;
     }
 
-    if (scene() && !scene()->views().isEmpty()) {
+    if ((scene() != nullptr) && !scene()->views().isEmpty()) {
         m_view = scene()->views().first();
         return true;
-    } else {
+    } 
         return false;
-    }
+    
 }
 

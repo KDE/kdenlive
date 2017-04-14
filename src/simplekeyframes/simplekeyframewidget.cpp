@@ -31,7 +31,7 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWid
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    QGridLayout *l = new QGridLayout(this);
+    auto *l = new QGridLayout(this);
 
     m_timeline = new SimpleTimelineWidget(this);
     m_timeline->setDuration(duration);

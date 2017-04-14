@@ -54,7 +54,7 @@ public:
        * @param bincontroller reference to the bincontroller
        * @param producer producer to create reference to
        */
-    static std::shared_ptr<ClipController> construct(std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer);
+    static std::shared_ptr<ClipController> construct(const std::shared_ptr<BinController>& bincontroller, std::shared_ptr<Mlt::Producer> producer);
 
 
 protected:
@@ -82,7 +82,7 @@ public:
     QDateTime date;
 
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
-    void updateProducer(std::shared_ptr<Mlt::Producer> producer);
+    void updateProducer(const std::shared_ptr<Mlt::Producer>& producer);
 
     void getProducerXML(QDomDocument &document, bool includeMeta = false);
 
@@ -164,7 +164,7 @@ public:
     Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString    &trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
 
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
-    void addMasterProducer(std::shared_ptr<Mlt::Producer> producer);
+    void addMasterProducer(const std::shared_ptr<Mlt::Producer>& producer);
 
     QList< CommentedTime > commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime &currTime);

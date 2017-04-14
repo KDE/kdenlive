@@ -37,7 +37,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) :
     m_autoTrackTransition(0)
 {
     setupUi(this);
-    QVBoxLayout *vbox1 = new QVBoxLayout(frame);
+    auto *vbox1 = new QVBoxLayout(frame);
     m_effectEdit = new EffectStackEdit(monitor, frame);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
@@ -170,7 +170,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
         pCore->projectManager()->currentTimeline()->transitionHandler->initTransition(newTransition);
         slotUpdateEffectParams(e, newTransition);
         m_effectEdit->transferParamDesc(newTransition, m_usedTransition->info(), false);
-        if (m_effectEdit->needsMonitorEffectScene()) {
+        if (m_effectEdit->needsMonitorEffectScene() != 0u) {
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     } else if (!updateCurrent) {
@@ -192,7 +192,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
                 m_effectEdit->transferParamDesc(m_usedTransition->toXML(), m_usedTransition->info(), false);
             }
         }
-        if (m_effectEdit->needsMonitorEffectScene()) {
+        if (m_effectEdit->needsMonitorEffectScene() != 0u) {
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     }
@@ -244,12 +244,12 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
             m_transitionStart = t->startPos();
             slotTransitionChanged(false, true);
         }
-        if (m_effectEdit->needsMonitorEffectScene()) {
+        if (m_effectEdit->needsMonitorEffectScene() != 0u) {
             slotRenderPos(m_effectEdit->monitor()->position().frames(KdenliveSettings::project_fps()));
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
         return;
-    } else if (update) {
+    } if (update) {
         return;
     }
     if (t) {
@@ -271,7 +271,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
             slotTransitionChanged(false, false);
             transitionList->blockSignals(false);
         }
-        if (m_effectEdit->needsMonitorEffectScene()) {
+        if (m_effectEdit->needsMonitorEffectScene() != 0u) {
             slotRenderPos(m_effectEdit->monitor()->position().frames(KdenliveSettings::project_fps()));
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
@@ -297,7 +297,7 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, con
 
 void TransitionSettings::raiseWindow(QWidget *dock)
 {
-    if (dock && m_usedTransition) {
+    if ((dock != nullptr) && (m_usedTransition != nullptr)) {
         dock->raise();
     }
 }

@@ -67,7 +67,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent) :
     m_queueSemaphore(1)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
-    QHBoxLayout *lay = new QHBoxLayout(this);
+    auto *lay = new QHBoxLayout(this);
     m_pixmap = new QLabel(this);
     m_pixmap->setAlignment(Qt::AlignCenter);
     m_label = new QLabel(this);
@@ -151,7 +151,7 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
             m_messageQueue.push_front(item);
 
             // In case we are already displaying an error message, add a little delay
-            int delay = 800 * (m_currentMessage.type == ErrorMessage || m_currentMessage.type == MltError);
+            int delay = 800 * static_cast<int>(m_currentMessage.type == ErrorMessage || m_currentMessage.type == MltError);
             m_queueTimer.start(delay);
         } else {
 
@@ -207,7 +207,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         if (!m_currentMessage.needsConfirmation()) {
             // If we only have the default message left to show in the queue,
             // keep the current one for a little longer.
-            m_queueTimer.start(m_currentMessage.timeoutMillis + 4000 * (m_messageQueue.at(0).type == DefaultMessage));
+            m_queueTimer.start(m_currentMessage.timeoutMillis + 4000 * static_cast<int>(m_messageQueue.at(0).type == DefaultMessage));
 
         }
     }
@@ -286,13 +286,13 @@ void StatusBarMessageLabel::slotShowJobLog(const QString &text)
     QDialog d(this);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     QWidget *mainWidget = new QWidget(this);
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     QTextEdit t(&d);
     t.insertPlainText(QUrl::fromPercentEncoding(text.toUtf8()));
     t.setReadOnly(true);
     l->addWidget(&t);
     mainWidget->setLayout(l);
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    auto *mainLayout = new QVBoxLayout;
     d.setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     mainLayout->addWidget(buttonBox);

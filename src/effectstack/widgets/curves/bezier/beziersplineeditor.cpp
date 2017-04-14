@@ -130,7 +130,7 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
         m_currentPointIndex = closestPointIndex;
         slotDeleteCurrentPoint();
         return;
-    } else if (event->button() != Qt::LeftButton) {
+    } if (event->button() != Qt::LeftButton) {
         return;
     }
 

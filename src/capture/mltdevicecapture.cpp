@@ -78,7 +78,7 @@ bool MltDeviceCapture::buildConsumer(const QString &profileName)
     char *tmp = qstrdup(m_activeProfile.toUtf8().constData());
     qputenv("MLT_PROFILE", tmp);
     m_mltProfile = new Mlt::Profile(tmp);
-    m_mltProfile->set_explicit(true);
+    m_mltProfile->set_explicit(1);
     delete[] tmp;
 
     QString videoDriver = KdenliveSettings::videodrivername();
@@ -186,7 +186,7 @@ void MltDeviceCapture::stop()
         m_mltProducer = nullptr;
     }
     // For some reason, the consumer seems to be deleted by previous stuff when in playlist mode
-    if (!isPlaylist && m_mltConsumer) {
+    if (!isPlaylist && (m_mltConsumer != nullptr)) {
         delete m_mltConsumer;
     }
     m_mltConsumer = nullptr;
@@ -226,7 +226,7 @@ void MltDeviceCapture::showFrame(Mlt::Frame &frame)
     memcpy(qimage.scanLine(0), image, width * height * 3);
     emit showImageSignal(qimage);
 
-    if (sendFrameForAnalysis && frame.get_frame()->convert_image) {
+    if (sendFrameForAnalysis && (frame.get_frame()->convert_image != nullptr)) {
         emit frameUpdated(qimage.rgbSwapped());
     }
 }
@@ -358,7 +358,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     }
 
     // Create multi consumer setup
-    Mlt::Properties *renderProps = new Mlt::Properties;
+    auto *renderProps = new Mlt::Properties;
     renderProps->set("mlt_service", "avformat");
     renderProps->set("target", path.toUtf8().constData());
     renderProps->set("real_time", -KdenliveSettings::mltthreads());
@@ -383,7 +383,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
 
     if (m_livePreview) {
         // user wants live preview
-        Mlt::Properties *previewProps = new Mlt::Properties;
+        auto *previewProps = new Mlt::Properties;
         QString videoDriver = KdenliveSettings::videodrivername();
         if (!videoDriver.isEmpty()) {
             if (videoDriver == QLatin1String("x11_noaccel")) {
@@ -488,7 +488,7 @@ void MltDeviceCapture::setOverlay(const QString &path)
 
     // Add overlay clip
     char *tmp = qstrdup(path.toUtf8().constData());
-    Mlt::Producer *clip = new Mlt::Producer(*m_mltProfile, "loader", tmp);
+    auto *clip = new Mlt::Producer(*m_mltProfile, "loader", tmp);
     delete[] tmp;
     clip->set_in_and_out(0, 99999);
     trackPlaylist.insert_at(0, clip, 1);
@@ -501,7 +501,7 @@ void MltDeviceCapture::setOverlay(const QString &path)
     if (mlt_type != QLatin1String("transition")) {
         // transition does not exist, add it
         Mlt::Field *field = tractor.field();
-        Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "composite");
+        auto *transition = new Mlt::Transition(*m_mltProfile, "composite");
         transition->set_in_and_out(0, 0);
         transition->set("geometry", "0/0:100%x100%:70");
         transition->set("fill", 1);
@@ -530,7 +530,7 @@ void MltDeviceCapture::setOverlayEffect(const QString &tag, const QStringList &p
     // delete previous effects
     Mlt::Filter *filter;
     filter = trackService.filter(0);
-    if (filter && !tag.isEmpty()) {
+    if ((filter != nullptr) && !tag.isEmpty()) {
         QString currentService = filter->get("mlt_service");
         if (currentService == tag) {
             // Effect is already there
@@ -538,7 +538,7 @@ void MltDeviceCapture::setOverlayEffect(const QString &tag, const QStringList &p
             return;
         }
     }
-    while (filter) {
+    while (filter != nullptr) {
         trackService.detach(*filter);
         delete filter;
         filter = trackService.filter(0);
@@ -552,7 +552,7 @@ void MltDeviceCapture::setOverlayEffect(const QString &tag, const QStringList &p
     char *tmp = qstrdup(tag.toUtf8().constData());
     filter = new Mlt::Filter(*m_mltProfile, tmp);
     delete[] tmp;
-    if (filter && filter->is_valid()) {
+    if ((filter != nullptr) && filter->is_valid()) {
         for (int j = 0; j < parameters.count(); ++j) {
             filter->set(parameters.at(j).section(QLatin1Char('='), 0, 0).toUtf8().constData(), parameters.at(j).section(QLatin1Char('='), 1, 1).toUtf8().constData());
         }
@@ -577,7 +577,7 @@ void MltDeviceCapture::mirror(bool activate)
     // delete previous effects
     Mlt::Filter *filter;
     filter = trackService.filter(0);
-    while (filter) {
+    while (filter != nullptr) {
         trackService.detach(*filter);
         delete filter;
         filter = trackService.filter(0);
@@ -589,7 +589,7 @@ void MltDeviceCapture::mirror(bool activate)
     }
 
     filter = new Mlt::Filter(*m_mltProfile, "mirror");
-    if (filter && filter->is_valid()) {
+    if ((filter != nullptr) && filter->is_valid()) {
         filter->set("mirror", "flip");
         trackService.attach(*filter);
     }

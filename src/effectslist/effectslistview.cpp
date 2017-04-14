@@ -74,14 +74,14 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     m_effectsList = new EffectsListWidget();
     m_search_effect = new MyTreeWidgetSearchLine();
     //m_effectsList->setStyleSheet(customStyleSheet());
-    QVBoxLayout *lyr = new QVBoxLayout(effectlistframe);
+    auto *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_search_effect);
     lyr->addWidget(m_effectsList);
     lyr->setContentsMargins(0, 0, 0, 0);
     m_search_effect->setTreeWidget(m_effectsList);
     m_search_effect->setToolTip(i18n("Search in effects list"));
 
-    TreeEventEater *leventEater = new TreeEventEater(this);
+    auto *leventEater = new TreeEventEater(this);
     m_search_effect->installEventFilter(leventEater);
     connect(leventEater, &TreeEventEater::clearSearchLine, m_search_effect, &QLineEdit::clear);
 
@@ -276,7 +276,7 @@ void EffectsListView::filterList()
             m_search_effect->updateSearch(currentSearch);
         }
         return;
-    } else if (pos == EffectsList::EFFECT_FAVORITES) {
+    } if (pos == EffectsList::EFFECT_FAVORITES) {
         m_removeAction->setText(i18n("Remove from favorites"));
 
         // Find favorites;
@@ -377,7 +377,7 @@ void EffectsListView::slotEffectSelected()
 {
     QDomElement effect = m_effectsList->currentEffect();
     QTreeWidgetItem *item = m_effectsList->currentItem();
-    if (item && m_effectsList->indexOfTopLevelItem(item) != -1) {
+    if ((item != nullptr) && m_effectsList->indexOfTopLevelItem(item) != -1) {
         item->setExpanded(!item->isExpanded());
     }
     if (!effect.isNull()) {
@@ -492,7 +492,7 @@ void EffectsListView::slotAutoExpand(const QString &text)
     QTreeWidgetItem *curr = m_effectsList->currentItem();
     m_search_effect->updateSearch();
     bool selected = false;
-    if (curr && !curr->isHidden()) {
+    if ((curr != nullptr) && !curr->isHidden()) {
         selected = true;
     }
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
@@ -501,7 +501,7 @@ void EffectsListView::slotAutoExpand(const QString &text)
         /*if (folder->isHidden())
             continue;*/
         if (text.isEmpty()) {
-            if (curr && curr->parent() == folder) {
+            if ((curr != nullptr) && curr->parent() == folder) {
                 expandFolder = true;
             }
         } else {

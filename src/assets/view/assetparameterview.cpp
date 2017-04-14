@@ -23,6 +23,7 @@
 #include "transitions/view/transitionparameterview.hpp"
 
 #include <QDebug>
+#include <utility>
 AssetParameterView::AssetParameterView(QWidget *parent)
     : QWidget(parent)
 {
@@ -35,7 +36,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
 void AssetParameterView::showTransitionParams(std::shared_ptr<AssetParameterModel> model)
 {
     m_transitionProperties->setVisible(true);
-    m_transitionProperties->setModel(model);
+    m_transitionProperties->setModel(std::move(model));
     qDebug() <<"====================================================================="
              << "current size "<<m_transitionProperties->size() << size()
              << m_transitionProperties->sizeHint();

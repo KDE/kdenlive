@@ -113,7 +113,7 @@ void AbstractClipItem::closeAnimation()
     }
     setEnabled(false);
     setFlag(QGraphicsItem::ItemIsSelectable, false);
-    if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, nullptr, QApplication::activeWindow())) {
+    if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, nullptr, QApplication::activeWindow()) != 0) {
         // animation disabled
         deleteLater();
         return;
@@ -133,7 +133,7 @@ void AbstractClipItem::closeAnimation()
     closeAnimation->setEasingCurve(QEasingCurve::InQuad);
     closeAnimation2->setStartValue(1.0);
     closeAnimation2->setEndValue(0.0);
-    QParallelAnimationGroup *group = new QParallelAnimationGroup;
+    auto *group = new QParallelAnimationGroup;
     connect(group, &QAbstractAnimation::finished, this, &QObject::deleteLater);
     group->addAnimation(closeAnimation);
     group->addAnimation(closeAnimation2);
@@ -253,7 +253,7 @@ void AbstractClipItem::resizeEnd(int posx, bool /*emitChange*/)
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == type() && item->pos().x() > pos().x()) {
                 GenTime diff = static_cast<AbstractClipItem *>(item)->startPos() - startPos();
-                if (fixItem == false || diff < m_info.cropDuration) {
+                if (!fixItem || diff < m_info.cropDuration) {
                     fixItem = true;
                     m_info.cropDuration = diff;
                 }
@@ -316,7 +316,7 @@ bool AbstractClipItem::isItemLocked() const
 // virtual
 void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->modifiers() & Qt::ShiftModifier) {
+    if (event->modifiers() & Qt::ShiftModifier != 0u) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -327,7 +327,7 @@ void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 // virtual
 void AbstractClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->modifiers() & Qt::ControlModifier) {
+    if (event->modifiers() & Qt::ControlModifier != 0u) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -337,7 +337,7 @@ void AbstractClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->buttons() !=  Qt::LeftButton || event->modifiers() & Qt::ControlModifier) {
+    if (event->buttons() !=  Qt::LeftButton || (event->modifiers() & Qt::ControlModifier != 0u)) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -377,7 +377,7 @@ bool AbstractClipItem::isMainSelectedClip()
 int AbstractClipItem::trackForPos(int position)
 {
     int track = 1;
-    if (!scene() || scene()->views().isEmpty()) {
+    if ((scene() == nullptr) || scene()->views().isEmpty()) {
         return track;
     }
     CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);
@@ -390,7 +390,7 @@ int AbstractClipItem::trackForPos(int position)
 int AbstractClipItem::posForTrack(int track)
 {
     int pos = 0;
-    if (!scene() || scene()->views().isEmpty()) {
+    if ((scene() == nullptr) || scene()->views().isEmpty()) {
         return pos;
     }
     CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);

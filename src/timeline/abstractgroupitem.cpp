@@ -57,7 +57,7 @@ int AbstractGroupItem::track() const
             continue;
         }
         AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
-        if (item && (topTrack == -1 || topTrack < item->track())) {
+        if ((item != nullptr) && (topTrack == -1 || topTrack < item->track())) {
             topTrack = item->track();
         }
     }
@@ -184,7 +184,7 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
 int AbstractGroupItem::trackForPos(int position)
 {
     int track = 1;
-    if (!scene() || scene()->views().isEmpty()) {
+    if ((scene() == nullptr) || scene()->views().isEmpty()) {
         return track;
     }
     CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);
@@ -197,7 +197,7 @@ int AbstractGroupItem::trackForPos(int position)
 int AbstractGroupItem::posForTrack(int track)
 {
     int pos = 0;
-    if (!scene() || scene()->views().isEmpty()) {
+    if ((scene() == nullptr) || scene()->views().isEmpty()) {
         return pos;
     }
     CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views()[0]);
@@ -397,7 +397,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         }
         if (collidingItems.isEmpty()) {
             return newPos;
-        } else {
+        } 
             bool forwardMove = xpos > start.x();
             int cur_offset = 0;
             for (int i = 0; i < collidingItems.count(); ++i) {
@@ -432,7 +432,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                         return pos();
                     }
             }
-        }
+        
         return newPos;
     }
     return QGraphicsItemGroup::itemChange(change, value);
@@ -475,7 +475,7 @@ void AbstractGroupItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 // virtual
 void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->modifiers() & Qt::ShiftModifier) {
+    if (event->modifiers() & Qt::ShiftModifier != 0u) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -494,7 +494,7 @@ void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 // virtual
 void AbstractGroupItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->modifiers() & Qt::ControlModifier) {
+    if (event->modifiers() & Qt::ControlModifier != 0u) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -504,7 +504,7 @@ void AbstractGroupItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractGroupItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->buttons() !=  Qt::LeftButton || event->modifiers() & Qt::ControlModifier) {
+    if (event->buttons() !=  Qt::LeftButton || (event->modifiers() & Qt::ControlModifier != 0u)) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -517,7 +517,7 @@ void AbstractGroupItem::resizeStart(int diff)
     QList<QGraphicsItem *> children = childItems();
     for (int i = 0; i < children.count(); ++i) {
         AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
-        if (item && item->type() == AVWidget) {
+        if ((item != nullptr) && item->type() == AVWidget) {
             item->resizeStart(diff);
         }
     }
@@ -529,7 +529,7 @@ void AbstractGroupItem::resizeEnd(int diff)
     QList<QGraphicsItem *> children = childItems();
     for (int i = 0; i < children.count(); ++i) {
         AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
-        if (item && item->type() == AVWidget) {
+        if ((item != nullptr) && item->type() == AVWidget) {
             item->resizeEnd(diff);
         }
     }
@@ -586,9 +586,9 @@ QGraphicsItem *AbstractGroupItem::otherClip(QGraphicsItem *item)
     }
     if (children.at(0) == item) {
         return children.at(1);
-    } else {
+    } 
         return children.at(0);
-    }
+    
 }
 
 QList<AbstractClipItem *> AbstractGroupItem::childClips() const

@@ -51,14 +51,14 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
     if (base.tagName() == QLatin1String("generator")) {
         QString generatorTag = base.attribute(QStringLiteral("tag"));
         setWindowTitle(base.firstChildElement(QStringLiteral("name")).text());
-        QVBoxLayout *lay = new QVBoxLayout(this);
+        auto *lay = new QVBoxLayout(this);
         m_preview = new QLabel;
         m_preview->setMinimumSize(1, 1);
         lay->addWidget(m_preview);
         m_producer = new Mlt::Producer(*monitor->profile(), generatorTag.toUtf8().constData());
         m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, monitor->profile()->width(), monitor->profile()->height()));
         m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
-        QHBoxLayout *hlay = new QHBoxLayout;
+        auto *hlay = new QHBoxLayout;
         hlay->addWidget(new QLabel(i18n("Duration")));
         m_timePos = new TimecodeDisplay(monitor->timecode(), this);
         if (base.hasAttribute(QStringLiteral("updateonduration"))) {

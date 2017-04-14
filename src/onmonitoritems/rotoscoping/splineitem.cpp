@@ -86,7 +86,7 @@ void SplineItem::updateSpline(bool editing)
     QPainterPath path(qgraphicsitem_cast<BPointItem *>(childItems().at(0))->getPoint().p);
 
     BPoint p1, p2;
-    for (int i = 0; i < childItems().count() - !m_closed; ++i) {
+    for (int i = 0; i < childItems().count() - static_cast<int>(!m_closed); ++i) {
         int j = (i + 1) % childItems().count();
         p1 = qgraphicsitem_cast<BPointItem *>(childItems().at(i))->getPoint();
         p2 = qgraphicsitem_cast<BPointItem *>(childItems().at(j))->getPoint();
@@ -116,7 +116,7 @@ void SplineItem::setPoints(const QList< BPoint > &points)
         m_closed = false;
         grabMouse();
         return;
-    } else if (!m_closed) {
+    } if (!m_closed) {
         ungrabMouse();
         m_closed = true;
     }
@@ -167,7 +167,7 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
             i1->setPoint(p1);
             i2->setPoint(p2);
-            BPointItem *i = new BPointItem(p, this);
+            auto *i = new BPointItem(p, this);
             i->stackBefore(i2);
             updateSpline();
         }
@@ -201,7 +201,7 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
         } else if (event->modifiers() == Qt::NoModifier) {
             BPoint p;
             p.p = p.h1 = p.h2 = event->scenePos();
-            if (items.count()) {
+            if (items.count() != 0) {
                 BPointItem *i = qgraphicsitem_cast<BPointItem *>(items.last());
                 BPoint prev = i->getPoint();
                 prev.h2 = QLineF(prev.p, p.p).pointAt(.2);

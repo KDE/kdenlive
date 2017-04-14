@@ -55,7 +55,7 @@ public:
        @param producer is the producer to be inserted
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(std::weak_ptr<TimelineModel> parent, const QString &binClipId, int id = -1);
+    static int construct(const std::weak_ptr<TimelineModel>& parent, const QString &binClipId, int id = -1);
 
     /* @brief returns a property of the clip, or from it's parent if it's a cut
      */

@@ -248,7 +248,7 @@ static int FindRoots(Point2 *w, int degree, double *t, int depth)
             t[0] = (w[0].x + w[W_DEGREE].x) / 2.0;
             return 1;
         }
-        if (ControlPolygonFlatEnough(w, degree)) {
+        if (ControlPolygonFlatEnough(w, degree) != 0) {
             t[0] = ComputeXIntercept(w, degree);
             return 1;
         }

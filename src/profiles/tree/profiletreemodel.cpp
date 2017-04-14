@@ -69,10 +69,10 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
     filtLambdas[1] = [](QVariant height, std::unique_ptr<ProfileModel>& ptr){
         if (height.canConvert<int>()) {
             return height.toInt()==-1 || ptr->height() == height.toInt();
-        } else {
+        } 
             QPair<int, int> valid_values = height.value<QPair<int, int>>();
             return ptr->height() == valid_values.first || ptr->height() == valid_values.second;
-        }};
+        };
     filtLambdas[2] = [](QVariant display_aspect_num, std::unique_ptr<ProfileModel>& ptr){return display_aspect_num==-1 || ptr->display_aspect_num() == display_aspect_num;};
 
 
@@ -114,9 +114,9 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
     if(role == Qt::DecorationRole) {
         if (item->depth() == 1) {
             return KoIconUtils::themedIcon(QStringLiteral("folder"));
-        } else {
+        } 
             return KoIconUtils::themedIcon(QStringLiteral("file"));
-        }
+        
     }
 
     if (role != Qt::DisplayRole) {

@@ -60,10 +60,10 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
     m_image = nullptr;
 #endif
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    QToolButton *button = new QToolButton(this);
+    auto *button = new QToolButton(this);
     button->setIcon(KoIconUtils::themedIcon(QStringLiteral("color-picker")));
     button->setToolTip(QStringLiteral("<p>") + i18n("Pick a color on the screen. By pressing the mouse button and then moving your mouse you can select a section of the screen from which to get an average color.") + QStringLiteral("</p>"));
     button->setAutoRaise(true);
@@ -251,9 +251,9 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
             QPixmap pm = currentScreen->grabWindow(0, p.x(), p.y(), 1, 1);
             QImage i = pm.toImage();
             return i.pixel(0, 0);
-        } else {
+        } 
             return qRgb(0, 0, 0);
-        }
+        
     } else {
         return m_image.pixel(p.x(), p.y());
     }

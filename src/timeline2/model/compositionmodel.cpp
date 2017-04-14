@@ -34,7 +34,7 @@ CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Tra
 {
 }
 
-int CompositionModel::construct(std::weak_ptr<TimelineModel> parent, const QString &transitionId, int id)
+int CompositionModel::construct(const std::weak_ptr<TimelineModel>& parent, const QString &transitionId, int id)
 {
     auto xml = TransitionsRepository::get()->getXml(transitionId);
     Mlt::Transition *transition = TransitionsRepository::get()->getTransition(transitionId);

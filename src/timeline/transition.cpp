@@ -41,7 +41,7 @@ Transition::Transition(const ItemInfo &info, int transitiontrack, double fps, co
 {
     setZValue(4);
     m_info.cropDuration = info.endPos - info.startPos;
-    if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, nullptr, QApplication::activeWindow())) {
+    if (QApplication::style()->styleHint(QStyle::SH_Widget_Animate, nullptr, QApplication::activeWindow()) != 0) {
         // animation disabled
         setRect(0, 0, m_info.cropDuration.frames(fps) - 0.02, (qreal) itemHeight());
     } else {
@@ -209,7 +209,7 @@ void Transition::paint(QPainter *painter,
     const QString text = m_name + (m_forceTransitionTrack ? QStringLiteral("|>") : QString());
 
     // Draw clip name
-    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
+    if (isSelected() || ((parentItem() != nullptr) && parentItem()->isSelected())) {
         framePen.setColor(scene()->palette().highlight().color());
         framePen.setColor(Qt::red);
     } else {
@@ -358,7 +358,7 @@ OperationType Transition::operationMode(const QPointF &pos, Qt::KeyboardModifier
     QRectF rect = sceneBoundingRect();
     if (qAbs((int)(pos.x())) < maximumOffset) {
         return ResizeStart;
-    } else if (qAbs((int)(pos.x() - (rect.width()))) < maximumOffset) {
+    } if (qAbs((int)(pos.x() - (rect.width()))) < maximumOffset) {
         return ResizeEnd;
     }
     return MoveOperation;
@@ -384,8 +384,8 @@ QDomElement Transition::toXML()
     m_parameters.setAttribute(QStringLiteral("transition_btrack"), m_transitionTrack);
     m_parameters.setAttribute(QStringLiteral("start"), startPos().frames(m_fps));
     m_parameters.setAttribute(QStringLiteral("end"), endPos().frames(m_fps));
-    m_parameters.setAttribute(QStringLiteral("force_track"), m_forceTransitionTrack);
-    m_parameters.setAttribute(QStringLiteral("automatic"), m_automaticTransition);
+    m_parameters.setAttribute(QStringLiteral("force_track"), static_cast<int>(m_forceTransitionTrack));
+    m_parameters.setAttribute(QStringLiteral("automatic"), static_cast<int>(m_automaticTransition));
     /*QDomNodeList namenode = m_parameters.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < namenode.count() ; ++i) {
         QDomElement pa = namenode.item(i).toElement();
@@ -457,7 +457,7 @@ bool Transition::updateKeyframes(const ItemInfo &oldInfo, const ItemInfo &newInf
             ++i;
         }
         return false;
-    } else if (oldEnd > duration) {
+    } if (oldEnd > duration) {
         // Transition was shortened, check for out of bounds keyframes
         foreach (const QString &pos, values) {
             if (!pos.contains(QLatin1Char('='))) {
@@ -544,7 +544,7 @@ void Transition::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 //virtual
 void Transition::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
-    if (scene() && !scene()->views().isEmpty()) {
+    if ((scene() != nullptr) && !scene()->views().isEmpty()) {
         if (m_selectionTimer.isActive()) {
             m_selectionTimer.stop();
         }

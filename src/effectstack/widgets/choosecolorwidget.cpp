@@ -87,14 +87,14 @@ static QString colorToString(const QColor &color, bool alpha)
 ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, const QString &comment, bool alphaEnabled, QWidget *parent) :
         AbstractParamWidget(parent)
 {
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
     QLabel *label = new QLabel(text, this);
 
     QWidget *rightSide = new QWidget(this);
-    QHBoxLayout *rightSideLayout = new QHBoxLayout(rightSide);
+    auto *rightSideLayout = new QHBoxLayout(rightSide);
     rightSideLayout->setContentsMargins(0, 0, 0, 0);
     rightSideLayout->setSpacing(0);
 
@@ -103,7 +103,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
         m_button->setAlphaChannelEnabled(alphaEnabled);
     }
 //     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    ColorPickerWidget *picker = new ColorPickerWidget(rightSide);
+    auto *picker = new ColorPickerWidget(rightSide);
 
     layout->addWidget(label, 1);
     layout->addWidget(rightSide, 1);

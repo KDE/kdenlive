@@ -117,7 +117,7 @@ void RazorManager::mouseRelease(QMouseEvent *, GenTime pos)
 //static
 void RazorManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, int eventPos, OperationType &operationMode, bool &abort)
 {
-    if (item && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {
+    if ((item != nullptr) && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {
         // razor tool over a clip, display current frame in monitor
         if (event->modifiers() == Qt::ShiftModifier && item->type() == AVWidget) {
             ClipItem *clip = static_cast <ClipItem *>(item);

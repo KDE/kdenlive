@@ -79,7 +79,7 @@ void BackupWidget::slotParseBackupFiles()
             // Displaying all backup files, so add project name in the entries
             label.prepend(resultList.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));
         }
-        QListWidgetItem *item = new QListWidgetItem(label, backup_list);
+        auto *item = new QListWidgetItem(label, backup_list);
         item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
         item->setToolTip(resultList.at(i).absoluteFilePath());
     }
@@ -95,7 +95,7 @@ void BackupWidget::slotParseBackupFiles()
                 // Displaying all backup files, so add project name in the entries
                 label.prepend(resultList2.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));
             }
-            QListWidgetItem *item = new QListWidgetItem(label, backup_list);
+            auto *item = new QListWidgetItem(label, backup_list);
             item->setData(Qt::UserRole, resultList2.at(i).absoluteFilePath());
             item->setToolTip(resultList2.at(i).absoluteFilePath());
         }

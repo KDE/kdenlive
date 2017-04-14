@@ -191,7 +191,7 @@ void BinController::loadBinPlaylist(Mlt::Tractor &tractor)
 {
     destroyBin();
     Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
-    if (retainList.is_valid() && retainList.get_data(binPlaylistId().toUtf8().constData())) {
+    if (retainList.is_valid() && (retainList.get_data(binPlaylistId().toUtf8().constData()) != nullptr)) {
         Mlt::Playlist playlist((mlt_playlist) retainList.get_data(binPlaylistId().toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             // Load bin clips
@@ -253,7 +253,7 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
-void BinController::replaceProducer(const QString &id, std::shared_ptr<Mlt::Producer> producer)
+void BinController::replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer>& producer)
 {
     if (!m_clipList.contains(id)) {
         qCDebug(KDENLIVE_LOG) << " / // error controller not found, crashing";
@@ -274,7 +274,7 @@ void BinController::replaceProducer(const QString &id, std::shared_ptr<Mlt::Prod
     emit replaceTimelineProducer(id);
 }
 
-void BinController::addClipToBin(const QString &id, std::shared_ptr<ClipController> controller) // Mlt::Producer &producer)
+void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController>& controller) // Mlt::Producer &producer)
 {
     /** Test: we can use filters on clips in the bin this way
     Mlt::Filter f(*m_mltProfile, "sepia");
@@ -297,13 +297,13 @@ void BinController::addClipToBin(const QString &id, std::shared_ptr<ClipControll
     }
 }
 
-void BinController::replaceBinPlaylistClip(const QString &id, std::shared_ptr<Mlt::Producer> producer)
+void BinController::replaceBinPlaylistClip(const QString &id, const std::shared_ptr<Mlt::Producer>& producer)
 {
     removeBinPlaylistClip(id);
     m_binPlaylist->append(*producer.get());
 }
 
-void BinController::pasteEffects(const QString &id, std::shared_ptr<Mlt::Producer> producer)
+void BinController::pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer>& producer)
 {
     int size = m_binPlaylist->count();
     for (int i = 0; i < size; i++) {
@@ -401,8 +401,8 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
             }
             // looks like there is no easy way to duplicate a filter,
             // so we will create a new one and duplicate its properties
-            Mlt::Filter *dup = new Mlt::Filter(*original.profile(), filter->get("mlt_service"));
-            if (dup && dup->is_valid()) {
+            auto *dup = new Mlt::Filter(*original.profile(), filter->get("mlt_service"));
+            if ((dup != nullptr) && dup->is_valid()) {
                 for (int i = 0; i < filter->count(); ++i) {
                     QString paramName = filter->get_name(i);
                     if (paramName.at(0) != QLatin1Char('_')) {
@@ -440,7 +440,7 @@ QString BinController::xmlFromId(const QString &id)
 }
 
 //static
-QString BinController::getProducerXML(std::shared_ptr<Mlt::Producer> producer, bool includeMeta)
+QString BinController::getProducerXML(const std::shared_ptr<Mlt::Producer>& producer, bool includeMeta)
 {
     Mlt::Consumer c(*producer->profile(), "xml", "string");
     Mlt::Service s(producer->get_service());
@@ -448,7 +448,7 @@ QString BinController::getProducerXML(std::shared_ptr<Mlt::Producer> producer, b
         return QString();
     }
     int ignore = s.get_int("ignore_points");
-    if (ignore) {
+    if (ignore != 0) {
         s.set("ignore_points", 0);
     }
     c.set("time_format", "frames");
@@ -460,7 +460,7 @@ QString BinController::getProducerXML(std::shared_ptr<Mlt::Producer> producer, b
     c.set("root", "/");
     c.connect(s);
     c.start();
-    if (ignore) {
+    if (ignore != 0) {
         s.set("ignore_points", ignore);
     }
     return QString::fromUtf8(c.get("string"));

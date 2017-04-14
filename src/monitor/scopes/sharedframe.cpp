@@ -76,8 +76,8 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
     cloneFrame.get_frame()->convert_audio = d->f.get_frame()->convert_audio;
 
     data = d->f.get_data("audio", size);
-    if (audio && data) {
-        if (!size) {
+    if (audio && (data != nullptr)) {
+        if (size == 0) {
             size = mlt_audio_format_size(get_audio_format(),
                                          get_audio_samples(),
                                          get_audio_channels());
@@ -94,8 +94,8 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
     }
 
     data = d->f.get_data("image", size);
-    if (image && data) {
-        if (!size) {
+    if (image && (data != nullptr)) {
+        if (size == 0) {
             size = mlt_image_format_size(get_image_format(),
                                          get_image_width(),
                                          get_image_height(),
@@ -112,8 +112,8 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
     }
 
     data = d->f.get_data("alpha", size);
-    if (alpha && data) {
-        if (!size) {
+    if (alpha && (data != nullptr)) {
+        if (size == 0) {
             size = get_image_width() * get_image_height();
         }
         copy = mlt_pool_alloc(size);

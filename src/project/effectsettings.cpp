@@ -70,12 +70,12 @@ void ElidedCheckBox::resizeEvent(QResizeEvent *event)
 EffectSettings::EffectSettings(QWidget *parent) :
     QWidget(parent)
 {
-    QVBoxLayout *vbox1 = new QVBoxLayout(this);
+    auto *vbox1 = new QVBoxLayout(this);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
     checkAll = new ElidedCheckBox(this);
     checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    QHBoxLayout *hbox = new QHBoxLayout;
+    auto *hbox = new QHBoxLayout;
     hbox->addWidget(checkAll);
     effectCompare = new QToolButton(this);
     effectCompare->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-effect")));

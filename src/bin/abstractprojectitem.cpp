@@ -68,7 +68,7 @@ bool AbstractProjectItem::operator==(const AbstractProjectItem *projectItem) con
 {
     // FIXME: only works for folders
     bool equal = this->m_childItems == projectItem->m_childItems;
-    equal &= m_parentItem == projectItem->m_parentItem;
+    equal &= static_cast<int>(m_parentItem == projectItem->m_parentItem);
     return equal;
 }
 

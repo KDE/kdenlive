@@ -120,7 +120,7 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
 
     const uint numSamples = audioFrame.size() / numChannels;
 
-    if (windowSize & 1 || windowSize < 2) {
+    if (((windowSize & 1) != 0u) || windowSize < 2) {
         return;
     }
 
@@ -139,7 +139,7 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
 #ifdef DEBUG_FFTTOOLS
         qCDebug(KDENLIVE_LOG) << "Creating FFT configuration with size " << windowSize;
 #endif
-        myCfg = kiss_fftr_alloc(windowSize, false, nullptr, nullptr);
+        myCfg = kiss_fftr_alloc(windowSize, 0, nullptr, nullptr);
         m_fftCfgs.insert(cfgSig, myCfg);
     }
 

@@ -118,15 +118,15 @@ const QString Timecode::mask(const GenTime &t) const
     if (t < GenTime()) {
         if (m_dropFrameTimecode) {
             return QStringLiteral("#99:99:99,99");
-        } else {
+        } 
             return QStringLiteral("#99:99:99:99");
-        }
+        
     }
     if (m_dropFrameTimecode) {
         return QStringLiteral("99:99:99,99");
-    } else {
+    } 
         return QStringLiteral("99:99:99:99");
-    }
+    
 }
 
 QString Timecode::reformatSeparators(QString duration) const

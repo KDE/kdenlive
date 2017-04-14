@@ -47,7 +47,7 @@ EffectItemModel* EffectItemModel::construct(const QString & effectId, EffectStac
     return new EffectItemModel(data, effect, xml, effectId, stack);
 }
 
-void EffectItemModel::plant(std::weak_ptr<Mlt::Service> service)
+void EffectItemModel::plant(const std::weak_ptr<Mlt::Service>& service)
 {
     if (auto ptr = service.lock()) {
         int ret = ptr->attach(filter());

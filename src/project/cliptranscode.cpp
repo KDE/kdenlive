@@ -250,7 +250,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
             m_transcodeProcess.close();
             slotStartTransCode();
             return;
-        } else if (auto_close->isChecked()) {
+        } if (auto_close->isChecked()) {
             accept();
         } else {
             m_infoMessage->setMessageType(KMessageWidget::Positive);

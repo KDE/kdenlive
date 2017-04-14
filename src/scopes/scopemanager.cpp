@@ -49,15 +49,15 @@ ScopeManager::ScopeManager(QObject *parent) :
 bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *audioScopeWidget)
 {
     bool added = false;
-    int exists = false;
+    int exists = 0;
     // Only add the scope if it does not exist yet in the list
     for (int i = 0; i < m_audioScopes.size(); ++i) {
         if (m_audioScopes[i].scope == audioScope) {
-            exists = true;
+            exists = 1;
             break;
         }
     }
-    if (!exists) {
+    if (exists == 0) {
         // Add scope to the list, set up signal/slot connections
 #ifdef DEBUG_SM
         qCDebug(KDENLIVE_LOG) << "Adding scope to scope manager: " << audioScope->widgetName();
@@ -82,14 +82,14 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
 bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *colorScopeWidget)
 {
     bool added = false;
-    int exists = false;
+    int exists = 0;
     for (int i = 0; i < m_colorScopes.size(); ++i) {
         if (m_colorScopes[i].scope == colorScope) {
-            exists = true;
+            exists = 1;
             break;
         }
     }
-    if (!exists) {
+    if (exists == 0) {
 #ifdef DEBUG_SM
         qCDebug(KDENLIVE_LOG) << "Adding scope to scope manager: " << colorScope->widgetName();
 #endif

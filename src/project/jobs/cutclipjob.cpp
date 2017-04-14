@@ -149,16 +149,15 @@ void CutClipJob::startJob()
         }
         delete m_jobProcess;
         return;
-    } else {
+    } 
         m_errorMessage = i18n("Cannot process this clip type.");
-    }
+    
     setStatus(JobCrashed);
-    return;
 }
 
 void CutClipJob::processLogInfo()
 {
-    if (!m_jobProcess || m_jobDuration == 0 || m_jobStatus == JobAborted) {
+    if ((m_jobProcess == nullptr) || m_jobDuration == 0 || m_jobStatus == JobAborted) {
         return;
     }
     QString log = QString::fromUtf8(m_jobProcess->readAll());
@@ -185,7 +184,7 @@ void CutClipJob::processLogInfo()
 
 void CutClipJob::analyseLogInfo()
 {
-    if (!m_jobProcess || m_jobStatus == JobAborted) {
+    if ((m_jobProcess == nullptr) || m_jobStatus == JobAborted) {
         return;
     }
     QString log = QString::fromUtf8(m_jobProcess->readAll());
@@ -349,7 +348,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     if (!extraParams.isEmpty()) {
         jobParams << extraParams;
     }
-    CutClipJob *job = new CutClipJob(clip->clipType(), clip->AbstractProjectItem::clipId(), jobParams);
+    auto *job = new CutClipJob(clip->clipType(), clip->AbstractProjectItem::clipId(), jobParams);
     jobs.insert(clip, job);
     return jobs;
 }
@@ -412,7 +411,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *item = clips.at(i);
-        QString src = sources.at(i);
+        const QString& src = sources.at(i);
         QString dest;
         if (clips.count() > 1) {
             dest = destinations.at(i);
@@ -426,7 +425,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
         // parent folder, or -100 if we don't want to add clip to project
         jobParams << (KdenliveSettings::add_new_clip() ? item->parent()->AbstractProjectItem::clipId() : QString::number(-100));
         jobParams << params;
-        CutClipJob *job = new CutClipJob(item->clipType(), item->AbstractProjectItem::clipId(), jobParams);
+        auto *job = new CutClipJob(item->clipType(), item->AbstractProjectItem::clipId(), jobParams);
         jobs.insert(item, job);
     }
     delete d;
@@ -445,7 +444,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps
         QStringList jobParams;
         int duration = clip->duration().frames(fps) * clip->getOriginalFps() / fps;
         jobParams << QString::number((int) AbstractClipJob::ANALYSECLIPJOB) << QString() << source << QString::number(duration);
-        CutClipJob *job = new CutClipJob(clip->clipType(), clip->AbstractProjectItem::clipId(), jobParams);
+        auto *job = new CutClipJob(clip->clipType(), clip->AbstractProjectItem::clipId(), jobParams);
         jobs.insert(clip, job);
     }
     return jobs;

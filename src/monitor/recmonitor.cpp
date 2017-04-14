@@ -58,13 +58,13 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     device_selector->setCurrentIndex(KdenliveSettings::defaultcapture());
     connect(device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
     // Video widget holder
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     l->setContentsMargins(0, 0, 0, 0);
     l->setSpacing(0);
     video_frame->setLayout(l);
 
-    QToolBar *toolbar = new QToolBar(this);
-    QHBoxLayout *hlayout = new QHBoxLayout;
+    auto *toolbar = new QToolBar(this);
+    auto *hlayout = new QHBoxLayout;
     hlayout->setContentsMargins(0, 0, 0, 0);
     m_playIcon = QIcon::fromTheme(QStringLiteral("media-playback-start"));
     m_pauseIcon = QIcon::fromTheme(QStringLiteral("media-playback-pause"));
@@ -89,7 +89,7 @@ RecMonitor::RecMonitor(Kdenlive::MonitorId name, MonitorManager *manager, QWidge
     m_recAction->setCheckable(true);
 
     rec_options->setIcon(QIcon::fromTheme(QStringLiteral("system-run")));
-    QMenu *menu = new QMenu(this);
+    auto *menu = new QMenu(this);
     m_addCapturedClip = new QAction(i18n("Add Captured File to Project"), this);
     m_addCapturedClip->setCheckable(true);
     m_addCapturedClip->setChecked(true);
@@ -607,7 +607,7 @@ void RecMonitor::slotRecord()
         // User stopped capture
         slotStopCapture();
         return;
-    } else if (device_selector->currentIndex() == Firewire) {
+    } if (device_selector->currentIndex() == Firewire) {
         m_isCapturing = true;
         m_didCapture = true;
         m_captureProcess->write("c\n", 3);
@@ -840,7 +840,7 @@ const QString RecMonitor::getV4lXmlPlaylist(const MltVideoProfile &profile, bool
     if (rec_video->isChecked() && rec_audio->isChecked()) {
         // We want to capture audio and video, use xml playlist
         *isXml = true;
-        playlist = QStringLiteral("<mlt title=\"capture\" LC_NUMERIC=\"C\"><profile description=\"v4l\" width=\"%1\" height=\"%2\" progressive=\"%3\" sample_aspect_num=\"%4\" sample_aspect_den=\"%5\" display_aspect_num=\"%6\" display_aspect_den=\"%7\" frame_rate_num=\"%8\" frame_rate_den=\"%9\" colorspace=\"%10\"/>").arg(profile.width).arg(profile.height).arg(profile.progressive).arg(profile.sample_aspect_num).arg(profile.sample_aspect_den).arg(profile.display_aspect_num).arg(profile.display_aspect_den).arg(profile.frame_rate_num).arg(profile.frame_rate_den).arg(profile.colorspace);
+        playlist = QStringLiteral("<mlt title=\"capture\" LC_NUMERIC=\"C\"><profile description=\"v4l\" width=\"%1\" height=\"%2\" progressive=\"%3\" sample_aspect_num=\"%4\" sample_aspect_den=\"%5\" display_aspect_num=\"%6\" display_aspect_den=\"%7\" frame_rate_num=\"%8\" frame_rate_den=\"%9\" colorspace=\"%10\"/>").arg(profile.width).arg(profile.height).arg(static_cast<int>(profile.progressive)).arg(profile.sample_aspect_num).arg(profile.sample_aspect_den).arg(profile.display_aspect_num).arg(profile.display_aspect_den).arg(profile.frame_rate_num).arg(profile.frame_rate_den).arg(profile.colorspace);
 
         playlist.append(QStringLiteral("<producer id=\"producer0\" in=\"0\" out=\"999999\"><property name=\"mlt_type\">producer</property><property name=\"length\">1000000</property><property name=\"eof\">loop</property><property name=\"resource\">video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4</property><property name=\"mlt_service\">avformat-novalidate</property></producer><playlist id=\"playlist0\"><entry producer=\"producer0\" in=\"0\" out=\"999999\"/></playlist>").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den));
 
@@ -939,7 +939,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
         // update free space info
         slotUpdateFreeSpace();
     } else {
-        if (device_selector->currentIndex()) {
+        if (device_selector->currentIndex() != 0) {
             m_stopAction->setEnabled(true);
         }
         device_selector->setEnabled(false);

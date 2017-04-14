@@ -55,7 +55,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     setContextMenuPolicy(Qt::CustomContextMenu);
     setFocusPolicy(Qt::StrongFocus);
 
-    QHBoxLayout *l = new QHBoxLayout;
+    auto *l = new QHBoxLayout;
     l->setSpacing(0);
     l->setContentsMargins(0, 0, 0, 0);
     m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
@@ -154,16 +154,16 @@ DragValue::~DragValue()
 bool DragValue::hasEditFocus() const
 {
     QWidget *fWidget = QApplication::focusWidget();
-    return (fWidget && fWidget->parentWidget() == this);
+    return ((fWidget != nullptr) && fWidget->parentWidget() == this);
 }
 
 int DragValue::spinSize()
 {
     if (m_intEdit) {
         return m_intEdit->sizeHint().width();
-    } else {
+    } 
         return m_doubleEdit->sizeHint().width();
-    }
+    
 }
 
 void DragValue::setSpinSize(int width)
@@ -199,9 +199,9 @@ qreal DragValue::value() const
 {
     if (m_intEdit) {
         return m_intEdit->value();
-    } else {
+    } 
         return m_doubleEdit->value();
-    }
+    
 }
 
 void DragValue::setMaximum(qreal max)

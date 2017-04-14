@@ -72,7 +72,7 @@ protected:
      * @param id The clip's id
      * @param producer The MLT producer for this clip
      * */
-    void addClipToBin(const QString &id, std::shared_ptr<ClipController> controller);
+    void addClipToBin(const QString &id, const std::shared_ptr<ClipController>& controller);
 public:
 
     /** @brief Store a timeline producer in clip list for later re-use
@@ -129,7 +129,7 @@ public:
     /** @brief Returns the clip data as rendered by MLT's XML consumer, used to duplicate a clip
      * @param producer The clip's original producer
      */
-    static QString getProducerXML(std::shared_ptr<Mlt::Producer> producer, bool includeMeta = false);
+    static QString getProducerXML(const std::shared_ptr<Mlt::Producer>& producer, bool includeMeta = false);
 
     /** @brief Returns the clip data as rendered by MLT's XML consumer
      * @param id The clip's original id
@@ -141,11 +141,11 @@ public:
 
     std::shared_ptr<ClipController> getController(const QString &id);
     const QList<std::shared_ptr<ClipController> > getControllerList() const;
-    void replaceBinPlaylistClip(const QString &id, std::shared_ptr<Mlt::Producer> producer);
+    void replaceBinPlaylistClip(const QString &id, const std::shared_ptr<Mlt::Producer>& producer);
 
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
     const QStringList getBinIdsByResource(const QFileInfo &url) const;
-    void replaceProducer(const QString &id, std::shared_ptr<Mlt::Producer> producer);
+    void replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer>& producer);
     void storeMarker(const QString &markerId, const QString &markerHash);
     QMap<double, QString> takeGuidesData();
 
@@ -206,7 +206,7 @@ private:
     void removeBinPlaylistClip(const QString &id);
 
     /** @brief Duplicate effects from stored producer */
-    void pasteEffects(const QString &id, std::shared_ptr<Mlt::Producer> producer);
+    void pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer>& producer);
 
 
 signals:

@@ -79,7 +79,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
                 dock->setTitleBarWidget(new QWidget);
             }
         } else {
-            if (!dock->isFloating() && !bar) {
+            if (!dock->isFloating() && (bar == nullptr)) {
                 dock->setTitleBarWidget(new QWidget);
             }
         }

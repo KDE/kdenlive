@@ -404,11 +404,11 @@ protected:
 
     /* @brief Register a new clip. This is a call-back meant to be called from ClipModel
     */
-    void registerClip(std::shared_ptr<ClipModel> clip);
+    void registerClip(const std::shared_ptr<ClipModel>& clip);
 
     /* @brief Register a new composition. This is a call-back meant to be called from CompositionModel
     */
-    void registerComposition(std::shared_ptr<CompositionModel> composition);
+    void registerComposition(const std::shared_ptr<CompositionModel>& composition);
 
     /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
      */

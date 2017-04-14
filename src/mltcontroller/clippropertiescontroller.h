@@ -68,7 +68,7 @@ public slots:
     void slotFillAnalysisData();
 
 private slots:
-    void slotColorModified(QColor newcolor);
+    void slotColorModified(const QColor& newcolor);
     void slotDurationChanged(int duration);
     void slotEnableForce(int state);
     void slotValueChanged(double);

@@ -37,7 +37,7 @@ AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int of
     }
     m_producer = new Mlt::Producer(*(producer->profile()), path.toUtf8().constData());
     connect(&m_watcher, &QFutureWatcherBase::finished, this, &AudioEnvelope::slotProcessEnveloppe);
-    if (!m_producer || !m_producer->is_valid()) {
+    if ((m_producer == nullptr) || !m_producer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// Cannot create envelope for producer: " << path;
     }
     m_info = new AudioInfo(m_producer);

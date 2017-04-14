@@ -137,7 +137,7 @@ void Render::finishProfileReset()
 
 void Render::seek(const GenTime &time)
 {
-    if (!m_mltProducer || !m_isActive) {
+    if ((m_mltProducer == nullptr) || !m_isActive) {
         return;
     }
     int pos = time.frames(m_fps);
@@ -206,13 +206,13 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
                 QImage img = KThumb::getFrame(producer, frame_position, width, height);
                 delete producer;
                 return img;
-            } else {
+            } 
                 delete producer;
-            }
+            
         }
     }
 
-    if (!m_mltProducer || !path.isEmpty()) {
+    if ((m_mltProducer == nullptr) || !path.isEmpty()) {
         QImage pix(width, height, QImage::Format_RGB32);
         pix.fill(Qt::black);
         return pix;
@@ -249,11 +249,7 @@ int Render::getLength()
 bool Render::isValid(const QUrl &url)
 {
     Mlt::Producer producer(*m_qmlView->profile(), url.toLocalFile().toUtf8().constData());
-    if (producer.is_blank()) {
-        return false;
-    }
-
-    return true;
+    return !producer.is_blank();
 }
 
 double Render::dar() const
@@ -328,7 +324,7 @@ bool Render::updateProducer(Mlt::Producer *producer)
             m_mltConsumer->stop();
         }
     }
-    if (!producer || !producer->is_valid()) {
+    if ((producer == nullptr) || !producer->is_valid()) {
         return false;
     }
     m_fps = producer->get_fps();
@@ -347,7 +343,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     QMutexLocker locker(&m_mutex);
     QString currentId;
     int consumerPosition = 0;
-    if (!producer && m_mltProducer && m_mltProducer->parent().get("id") == QLatin1String("black")) {
+    if ((producer == nullptr) && (m_mltProducer != nullptr) && m_mltProducer->parent().get("id") == QLatin1String("black")) {
         // Black clip already displayed no need to refresh
         return true;
     }
@@ -372,7 +368,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
         consumerPosition = m_mltConsumer->position();
     }
     blockSignals(true);
-    if (!producer || !producer->is_valid()) {
+    if ((producer == nullptr) || !producer->is_valid()) {
         producer = m_blackClip->cut(0, 1);
     }
 
@@ -471,7 +467,7 @@ int Render::setSceneList(QString playlist, int position)
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_mltProducer = new Mlt::Producer(*m_qmlView->profile(), "xml-string", playlist.toUtf8().constData());
     //m_mltProducer = new Mlt::Producer(*m_qmlView->profile(), "xml-nogl-string", playlist.toUtf8().constData());
-    if (!m_mltProducer || !m_mltProducer->is_valid()) {
+    if ((m_mltProducer == nullptr) || !m_mltProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << " WARNING - - - - -INVALID PLAYLIST: " << playlist.toUtf8().constData();
         m_mltProducer = m_blackClip->cut(0, 1);
         error = -1;
@@ -497,7 +493,7 @@ int Render::setSceneList(QString playlist, int position)
     blockSignals(false);
     Mlt::Tractor tractor(service);
     Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
-    if (retainList.is_valid() && retainList.get_data(m_binController->binPlaylistId().toUtf8().constData())) {
+    if (retainList.is_valid() && (retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()) != nullptr)) {
         Mlt::Playlist local_playlist((mlt_playlist) retainList.get_data(m_binController->binPlaylistId().toUtf8().constData()));
         if (local_playlist.is_valid() && local_playlist.type() == playlist_type) {
             // Load bin clips
@@ -631,7 +627,7 @@ double Render::fps() const
 
 int Render::volume() const
 {
-    if (!m_mltConsumer || !m_mltProducer) {
+    if ((m_mltConsumer == nullptr) || (m_mltProducer == nullptr)) {
         return -1;
     }
     if (m_mltConsumer->get("mlt_service") == QStringLiteral("multi")) {
@@ -725,7 +721,7 @@ void Render::switchPlay(bool play, double speed)
 {
     QMutexLocker locker(&m_mutex);
     requestedSeekPosition = SEEK_INACTIVE;
-    if (!m_mltProducer || !m_mltConsumer || !m_isActive) {
+    if ((m_mltProducer == nullptr) || (m_mltConsumer == nullptr) || !m_isActive) {
         return;
     }
     if (m_isZoneMode) {
@@ -768,7 +764,7 @@ void Render::switchPlay(bool play, double speed)
 void Render::play(double speed)
 {
     requestedSeekPosition = SEEK_INACTIVE;
-    if (!m_mltProducer || !m_isActive) {
+    if ((m_mltProducer == nullptr) || !m_isActive) {
         return;
     }
     double current_speed = m_mltProducer->get_speed();
@@ -798,7 +794,7 @@ void Render::play(double speed)
 void Render::play(const GenTime &startTime)
 {
     requestedSeekPosition = SEEK_INACTIVE;
-    if (!m_mltProducer || !m_mltConsumer || !m_isActive) {
+    if ((m_mltProducer == nullptr) || (m_mltConsumer == nullptr) || !m_isActive) {
         return;
     }
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
@@ -810,7 +806,7 @@ void Render::play(const GenTime &startTime)
 void Render::loopZone(const GenTime &startTime, const GenTime &stopTime)
 {
     requestedSeekPosition = SEEK_INACTIVE;
-    if (!m_mltProducer || !m_mltConsumer || !m_isActive) {
+    if ((m_mltProducer == nullptr) || (m_mltConsumer == nullptr) || !m_isActive) {
         return;
     }
     //m_mltProducer->set("eof", "loop");
@@ -822,7 +818,7 @@ void Render::loopZone(const GenTime &startTime, const GenTime &stopTime)
 bool Render::playZone(const GenTime &startTime, const GenTime &stopTime)
 {
     requestedSeekPosition = SEEK_INACTIVE;
-    if (!m_mltProducer || !m_mltConsumer || !m_isActive) {
+    if ((m_mltProducer == nullptr) || (m_mltConsumer == nullptr) || !m_isActive) {
         return false;
     }
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
@@ -851,7 +847,7 @@ void Render::resetZoneMode()
 
 void Render::seekToFrame(int pos)
 {
-    if (!m_mltProducer || !m_isActive) {
+    if ((m_mltProducer == nullptr) || !m_isActive) {
         return;
     }
     pos = qBound(0, pos - m_mltProducer->get_in(), m_mltProducer->get_length() - 1);
@@ -864,7 +860,7 @@ void Render::seekToFrameDiff(int diff)
         emit renderSeek(diff);
         return;
     }
-    if (!m_mltProducer || !m_isActive) {
+    if ((m_mltProducer == nullptr) || !m_isActive) {
         return;
     }
     if (requestedSeekPosition == SEEK_INACTIVE) {
@@ -876,7 +872,7 @@ void Render::seekToFrameDiff(int diff)
 
 void Render::doRefresh()
 {
-    if (m_mltProducer && (playSpeed() == 0) && m_isActive) {
+    if ((m_mltProducer != nullptr) && (playSpeed() == 0) && m_isActive) {
         if (m_isRefreshing) {
             m_refreshTimer.start();
         } else {
@@ -888,7 +884,7 @@ void Render::doRefresh()
 void Render::refresh()
 {
     m_refreshTimer.stop();
-    if (!m_mltProducer || !m_isActive) {
+    if ((m_mltProducer == nullptr) || !m_isActive) {
         return;
     }
     QMutexLocker locker(&m_mutex);
@@ -907,7 +903,7 @@ void Render::setDropFrames(bool drop)
     QMutexLocker locker(&m_mutex);
     if (m_mltConsumer) {
         int dropFrames = m_qmlView->realTime();
-        if (drop == false) {
+        if (!drop) {
             dropFrames = -dropFrames;
         }
         //m_mltConsumer->stop();
@@ -934,7 +930,7 @@ void Render::setConsumerProperty(const QString &name, const QString &value)
 
 bool Render::isPlaying() const
 {
-    if (!m_mltConsumer || m_mltConsumer->is_stopped()) {
+    if ((m_mltConsumer == nullptr) || m_mltConsumer->is_stopped()) {
         return false;
     }
     return playSpeed() != 0;
@@ -952,14 +948,14 @@ GenTime Render::seekPosition() const
 {
     if (m_mltConsumer) {
         return GenTime((int) m_mltConsumer->position(), m_fps);
-    } else {
+    } 
         return GenTime();
-    }
+    
 }
 
 int Render::seekFramePosition() const
 {
-    if (m_mltProducer && m_mltProducer->get_speed() == 0) {
+    if ((m_mltProducer != nullptr) && m_mltProducer->get_speed() == 0) {
         return (int) m_mltProducer->position();
     }
     if (m_mltConsumer) {
@@ -1445,7 +1441,7 @@ void Render::fillSlowMotionProducers()
         int clipNb = trackPlaylist.count();
         for (int i = 0; i < clipNb; ++i) {
             QScopedPointer<Mlt::Producer> c(trackPlaylist.get_clip(i));
-            Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
+            auto *nprod = new Mlt::Producer(c->get_parent());
             if (nprod) {
                 QString id = nprod->parent().get("id");
                 if (id.startsWith(QLatin1String("slowmotion:")) && !nprod->is_blank()) {
@@ -1633,7 +1629,7 @@ double Render::getMltVersionInfo(const QString &tag)
 {
     double version = 0;
     Mlt::Properties *metadata = pCore->getMltRepository()->metadata(producer_type, tag.toUtf8().data());
-    if (metadata && metadata->is_valid()) {
+    if ((metadata != nullptr) && metadata->is_valid()) {
         version = metadata->get_double("version");
     }
     delete metadata;
@@ -1678,7 +1674,7 @@ bool Render::storeSlowmotionProducer(const QString &url, Mlt::Producer *prod, bo
     if (!m_slowmotionProducers.contains(url)) {
         m_slowmotionProducers.insert(url, prod);
         return true;
-    } else if (replace) {
+    } if (replace) {
         Mlt::Producer *old = m_slowmotionProducers.take(url);
         delete old;
         m_slowmotionProducers.insert(url, prod);

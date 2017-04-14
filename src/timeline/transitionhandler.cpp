@@ -197,7 +197,7 @@ void TransitionHandler::plantTransition(Mlt::Field *field, Mlt::Transition &tr, 
         int internal = transition.get_int("internal_added");
         if ((isMixTransition || resource != QLatin1String("mix")) && (internal > 0 || aTrack < a_track || (aTrack == a_track && bTrack > b_track))) {
             Mlt::Properties trans_props(transition.get_properties());
-            Mlt::Transition *cp = new Mlt::Transition(*m_tractor->profile(), transition.get("mlt_service"));
+            auto *cp = new Mlt::Transition(*m_tractor->profile(), transition.get("mlt_service"));
             Mlt::Properties new_trans_props(cp->get_properties());
             //new_trans_props.inherit(trans_props);
             cloneProperties(new_trans_props, trans_props);
@@ -433,7 +433,7 @@ bool TransitionHandler::moveTransition(const QString &type, int startTrack, int 
 Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_track, int a_track, bool internalTransition) const
 {
     QScopedPointer<Mlt::Service> service(m_tractor->field());
-    while (service && service->is_valid()) {
+    while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition) service->get_service());
             if (name == t.get("mlt_service") && t.get_b_track() == b_track) {
@@ -457,7 +457,7 @@ Mlt::Transition *TransitionHandler::getTransition(const QString &name, int b_tra
 Mlt::Transition *TransitionHandler::getTrackTransition(const QStringList &names, int b_track, int a_track) const
 {
     QScopedPointer<Mlt::Service> service(m_tractor->field());
-    while (service && service->is_valid()) {
+    while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition) service->get_service());
             int internal = t.get_int("internal_added");
@@ -619,7 +619,7 @@ void TransitionHandler::rebuildTransitions(int mode, const QList<int> &videoTrac
     Mlt::Field *field = m_tractor->field();
     field->lock();
     // Get the list of composite transitions
-    while (service && service->is_valid()) {
+    while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition) service->get_service());
             int internal = t.get_int("internal_added");

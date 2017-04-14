@@ -139,7 +139,7 @@ Mlt::Transition *TransitionsRepository::getTransition(const QString& transitionI
     Mlt::Transition *transition = new Mlt::Transition(
         pCore->getCurrentProfile()->profile(),
         service_name.toLatin1().constData(),
-        NULL
+        nullptr
         );
     return transition;
 }

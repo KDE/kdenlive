@@ -193,7 +193,7 @@ void RecManager::slotRecord(bool record)
                 }
             }
             Mlt::Producer *prod = createV4lProducer();
-            if (prod && prod->is_valid()) {
+            if ((prod != nullptr) && prod->is_valid()) {
                 m_monitor->startCapture(v4lparameters, path, prod);
                 m_captureFile = QUrl::fromLocalFile(path);
             } else {
@@ -373,7 +373,7 @@ Mlt::Producer *RecManager::createV4lProducer()
     Mlt::Producer *prod = nullptr;
     if (m_recVideo->isChecked()) {
         prod = new Mlt::Producer(*vidProfile, QStringLiteral("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
-        if (!prod || !prod->is_valid()) {
+        if ((prod == nullptr) || !prod->is_valid()) {
             return nullptr;
         }
         prod->set("width", vidProfile->width());
@@ -384,13 +384,13 @@ Mlt::Producer *RecManager::createV4lProducer()
         p->set("audio_ix", ui->v4lAudioComboBox->currentIndex());*/
         prod->set("force_seekable", 0);
     }
-    if (m_recAudio->isChecked() && prod && prod->is_valid()) {
+    if (m_recAudio->isChecked() && (prod != nullptr) && prod->is_valid()) {
         // Add audio track
         Mlt::Producer *audio = new Mlt::Producer(*vidProfile, QStringLiteral("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()).toUtf8().constData());
         audio->set("mlt_service", "avformat-novalidate");
         audio->set("audio_index", 0);
         audio->set("video_index", -1);
-        Mlt::Tractor *tractor = new Mlt::Tractor(*vidProfile);
+        auto *tractor = new Mlt::Tractor(*vidProfile);
         tractor->set_track(*prod, 0);
         delete prod;
         tractor->set_track(*audio, 1);
@@ -406,7 +406,7 @@ void RecManager::slotPreview(bool preview)
     if (m_device_selector->currentData().toInt() == Video4Linux) {
         if (preview) {
             Mlt::Producer *prod = createV4lProducer();
-            if (prod && prod->is_valid()) {
+            if ((prod != nullptr) && prod->is_valid()) {
                 m_monitor->updateClipProducer(prod);
             } else {
                 emit warningMessage(i18n("Capture crashed, please check your parameters"));

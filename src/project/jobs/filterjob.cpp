@@ -65,7 +65,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
     for (int i = 0; i < clips.count(); i++) {
         sources << clips.at(i)->url();
     }
-    QString filterName = parameters.first();
+    const QString& filterName = parameters.first();
     if (filterName == QLatin1String("timewarp")) {
         QMap<QString, QString> producerParams = QMap<QString, QString> ();
         QMap<QString, QString> filterParams = QMap<QString, QString> ();
@@ -101,7 +101,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                 }
                 consumerParams.insert(QStringLiteral("consumer"), QStringLiteral("xml:") + destination);
                 ProjectClip *clip = clips.at(i);
-                MeltJob *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
+                auto *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
                 job->description = i18n("Reverse clip");
                 job->setAddClipToProject(1);
                 jobs.insert(clip, job);
@@ -109,7 +109,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
         }
         delete d;
         return jobs;
-    } else if (filterName == QLatin1String("motion_est")) {
+    } if (filterName == QLatin1String("motion_est")) {
         // Show config dialog
         QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
         Ui::SceneCutDialog_UI ui;
@@ -193,7 +193,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
 
             // Destination
             // Since this job is only doing analysis, we have a null consumer and no destination
-            MeltJob *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
+            auto *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
             job->description = i18n("Auto split");
             jobs.insert(clip, job);
         }
@@ -245,7 +245,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                 consumerParams.insert(QStringLiteral("real_time"), QStringLiteral("-1"));
                 // Append a 'filename' parameter for saving vidstab data
                 filterParams.insert(QStringLiteral("filename"), trffile.toLocalFile());
-                MeltJob *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
+                auto *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
                 job->setAddClipToProject(d->autoAddClip() ?  clip->parent()->AbstractProjectItem::clipId().toInt() : -100);
                 job->description = d->desc();
                 jobs.insert(clip, job);

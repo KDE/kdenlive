@@ -39,6 +39,7 @@
 #include <queue>
 #ifdef LOGGING
 #include <sstream>
+#include <utility>
 #endif
 
 #include "macros.hpp"
@@ -308,9 +309,9 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
     if (blank_length < INT_MAX) {
         if (after) {
             return currentPos + blank_length;
-        } else {
+        } 
             return currentPos - blank_length;
-        }
+        
     }
     return position;
 }
@@ -370,9 +371,9 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     if (blank_length < INT_MAX) {
         if (after) {
             return currentPos + blank_length;
-        } else {
+        } 
             return currentPos - blank_length;
-        }
+        
     }
     return position;
 }
@@ -844,7 +845,7 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos)
     _resetView();
 }
 
-void TimelineModel::registerClip(std::shared_ptr<ClipModel> clip)
+void TimelineModel::registerClip(const std::shared_ptr<ClipModel>& clip)
 {
     int id = clip->getId();
     Q_ASSERT(m_allClips.count(id) == 0);
@@ -975,12 +976,12 @@ bool TimelineModel::requestReset(Fun& undo, Fun& redo)
 
 void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
 {
-    m_undoStack = undo_stack;
+    m_undoStack = std::move(undo_stack);
 }
 
 int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int>& pts)
 {
-    if (pts.size() > 0) {
+    if (!pts.empty()) {
         m_snaps->ignore(pts);
     }
     int snapped_start = m_snaps->getClosestPoint(pos);
@@ -1014,7 +1015,7 @@ int TimelineModel::requestPreviousSnapPos(int pos)
     return m_snaps->getPreviousPoint(pos);
 }
 
-void TimelineModel::registerComposition(std::shared_ptr<CompositionModel> composition)
+void TimelineModel::registerComposition(const std::shared_ptr<CompositionModel>& composition)
 {
     int id = composition->getId();
     Q_ASSERT(m_allCompositions.count(id) == 0);
@@ -1263,7 +1264,7 @@ bool TimelineModel::unplantComposition(int compoId)
 
     mlt_service nextservice = mlt_service_get_producer(transition.get_service());
     //mlt_service consumer = mlt_service_consumer(transition.get_service());
-    Q_ASSERT(nextservice == NULL);
+    Q_ASSERT(nextservice == nullptr);
     //Q_ASSERT(consumer == nullptr);
     return ret != 0;
 }
@@ -1320,9 +1321,9 @@ bool TimelineModel::checkConsistency()
                 qDebug() << "Error, we didn't find matching composition IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack<<" / "<<currentATrack;
                 field->unlock();
                 return false;
-            } else {
+            } 
                 qDebug() << "Found";
-            }
+            
             remaining_compo.erase(foundId);
         }
         nextservice = mlt_service_producer(nextservice);
@@ -1333,7 +1334,7 @@ bool TimelineModel::checkConsistency()
     }
     field->unlock();
 
-    if (remaining_compo.size() != 0) {
+    if (!remaining_compo.empty()) {
         qDebug() << "Error: We found less compositions than expected. Compositions that have not been found:";
         for (int compoId : remaining_compo) {
             qDebug () << compoId;

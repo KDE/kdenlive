@@ -236,7 +236,7 @@ void GradientWidget::loadGradients(QMap<QString, QString> gradients)
         painter.fillRect(0, 0, pix.width(), pix.height(), QBrush(gr));
         painter.end();
         QIcon icon(pix);
-        QListWidgetItem *item = new QListWidgetItem(icon, k.key(), gradient_list);
+        auto *item = new QListWidgetItem(icon, k.key(), gradient_list);
         item->setData(Qt::UserRole, k.value());
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     }

@@ -148,9 +148,9 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
     }
     if (unscaled && size.width() >= component.width()) {
         return component;
-    } else {
+    } 
         return component.scaled(size, Qt::IgnoreAspectRatio, Qt::FastTransformation);
-    }
+    
 }
 
 void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect,

@@ -59,7 +59,7 @@ public:
        @param trackIndex is current clip's track
        @param isMultitrack is true if we want to select the whole tractor (currently unused)
      */
-    void setSelection(QList<int> selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
+    void setSelection(const QList<int>& selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
     /* @brief Get the list of currenly selected clip id's
      */
     QList<int> selection() const;
@@ -95,7 +95,7 @@ public:
        @param logUndo if set to false, no undo object is stored
        @return the id of the inserted clip
      */
-    Q_INVOKABLE int insertClip(int tid, int position, QString xml, bool logUndo);
+    Q_INVOKABLE int insertClip(int tid, int position, const QString& xml, bool logUndo);
 
     /* @brief Request inserting a new composition in timeline (dragged from compositions list)
        @param tid is the destination track

@@ -180,7 +180,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
         dia_ui.font->setCurrentFont(QFont(titleConfig.readEntry(QStringLiteral("font_family"))));
         dia_ui.fontSize->setValue(titleConfig.readEntry(QStringLiteral("font_pixel_size")).toInt());
         dia_ui.weight->setValue(titleConfig.readEntry(QStringLiteral("font_weight")).toInt());
-        dia_ui.italic->setChecked(titleConfig.readEntry(QStringLiteral("font_italic")).toInt());
+        dia_ui.italic->setChecked(titleConfig.readEntry(QStringLiteral("font_italic")).toInt() != 0);
         dia_ui.duration->setText(titleConfig.readEntry(QStringLiteral("title_duration")));
     }
     if (dia->exec() == QDialog::Accepted) {
@@ -257,9 +257,9 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QStringList
         properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
         properties.insert(QStringLiteral("resource"), dia->selectedPath());
         properties.insert(QStringLiteral("ttl"), QString::number(doc->getFramePos(dia->clipDuration())));
-        properties.insert(QStringLiteral("loop"), QString::number(dia->loop()));
-        properties.insert(QStringLiteral("crop"), QString::number(dia->crop()));
-        properties.insert(QStringLiteral("fade"), QString::number(dia->fade()));
+        properties.insert(QStringLiteral("loop"), QString::number(static_cast<int>(dia->loop())));
+        properties.insert(QStringLiteral("crop"), QString::number(static_cast<int>(dia->crop())));
+        properties.insert(QStringLiteral("fade"), QString::number(static_cast<int>(dia->fade())));
         properties.insert(QStringLiteral("luma_duration"), QString::number(doc->getFramePos(dia->lumaDuration())));
         properties.insert(QStringLiteral("luma_file"), dia->lumaFile());
         properties.insert(QStringLiteral("softness"), QString::number(dia->softness()));
@@ -374,7 +374,7 @@ void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap<QString, Q
 
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin, const QMap<QString, QString> &data)
 {
-    QUndoCommand *addClips = new QUndoCommand();
+    auto *addClips = new QUndoCommand();
 
     //TODO: check files on removable volume
     /*listRemovableVolumes();
@@ -518,7 +518,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
     c->setChecked(KdenliveSettings::autoimagetransparency());
     QFrame *f = new QFrame();
     f->setFrameShape(QFrame::NoFrame);
-    QHBoxLayout *l = new QHBoxLayout;
+    auto *l = new QHBoxLayout;
     l->addWidget(b);
     l->addWidget(c);
     l->addStretch(5);
@@ -529,7 +529,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
     }
     QDialog *dlg = new QDialog((QWidget *) doc->parent());
     KFileWidget *fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), dlg);
-    QVBoxLayout *layout = new QVBoxLayout;
+    auto *layout = new QVBoxLayout;
     layout->addWidget(fileWidget);
     fileWidget->setCustomWidget(f);
     fileWidget->okButton()->show();
@@ -543,7 +543,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
     QWindow *handle = dlg->windowHandle();
-    if (handle && conf->hasGroup("FileDialogSize")) {
+    if ((handle != nullptr) && conf->hasGroup("FileDialogSize")) {
         KWindowConfig::restoreWindowSize(handle, conf->group("FileDialogSize"));
         dlg->resize(handle->size());
     }
@@ -555,7 +555,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
         }
         if (b->isChecked() && list.count() == 1) {
             // Check for image sequence
-            QUrl url = list.at(0);
+            const QUrl& url = list.at(0);
             QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
             if (fileName.at(fileName.size() - 1).isDigit()) {
                 KFileItem item(url);
@@ -582,9 +582,9 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                         properties.insert(QStringLiteral("resource"), pattern);
                         properties.insert(QStringLiteral("kdenlive:clipname"), fileName);
                         properties.insert(QStringLiteral("ttl"), QString::number(doc->getFramePos(duration)));
-                        properties.insert(QStringLiteral("loop"), QString::number(false));
-                        properties.insert(QStringLiteral("crop"), QString::number(false));
-                        properties.insert(QStringLiteral("fade"), QString::number(false));
+                        properties.insert(QStringLiteral("loop"), QString::number(0));
+                        properties.insert(QStringLiteral("crop"), QString::number(0));
+                        properties.insert(QStringLiteral("fade"), QString::number(0));
                         properties.insert(QStringLiteral("luma_duration"), QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps()))))));
                         if (!groupInfo.isEmpty()) {
                             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));

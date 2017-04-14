@@ -51,7 +51,7 @@
 #endif
 
 #ifndef Q_OS_WIN
-typedef GLenum(*ClientWaitSync_fp)(GLsync sync, GLbitfield flags, GLuint64 timeout);
+using ClientWaitSync_fp = GLenum (*)(GLsync, GLbitfield, GLuint64);
 static ClientWaitSync_fp ClientWaitSync = nullptr;
 #endif
 
@@ -105,7 +105,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     if (KdenliveSettings::gpu_accel()) {
         m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
     }
-    if ((m_glslManager && !m_glslManager->is_valid())) {
+    if (((m_glslManager != nullptr) && !m_glslManager->is_valid())) {
         delete m_glslManager;
         m_glslManager = nullptr;
         KdenliveSettings::setGpu_accel(false);
@@ -149,7 +149,7 @@ void GLWidget::updateAudioForAnalysis()
 
 void GLWidget::initializeGL()
 {
-    if (m_isInitialized || !isVisible() || !openglContext()) return;
+    if (m_isInitialized || !isVisible() || (openglContext() == nullptr)) return;
     if (!m_offscreenSurface.isValid()) {
         m_offscreenSurface.setFormat(openglContext()->format());
         m_offscreenSurface.create();
@@ -162,7 +162,7 @@ void GLWidget::initializeGL()
     qCDebug(KDENLIVE_LOG) << "OpenGL ARG_SYNC: " << openglContext()->hasExtension("GL_ARB_sync");
     qCDebug(KDENLIVE_LOG) << "OpenGL OpenGLES: " << openglContext()->isOpenGLES();
 
-    if (m_glslManager && openglContext()->isOpenGLES()) {
+    if ((m_glslManager != nullptr) && openglContext()->isOpenGLES()) {
         delete m_glslManager;
         m_glslManager = nullptr;
         KdenliveSettings::setGpu_accel(false);
@@ -176,7 +176,7 @@ void GLWidget::initializeGL()
     // getProcAddress is not working for me on Windows.
     if (KdenliveSettings::gpu_accel()) {
         m_openGLSync = false;
-        if (m_glslManager && openglContext()->hasExtension("GL_ARB_sync")) {
+        if ((m_glslManager != nullptr) && openglContext()->hasExtension("GL_ARB_sync")) {
             ClientWaitSync = (ClientWaitSync_fp) openglContext()->getProcAddress("glClientWaitSync");
             if (ClientWaitSync) {
                 m_openGLSync = true;
@@ -329,7 +329,7 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
     QOpenGLFunctions *f = context->functions();
 
     // Upload each plane of YUV to a texture.
-    if (texture[0]) {
+    if (texture[0] != 0u) {
         f->glDeleteTextures(3, texture);
     }
     check_error(f);
@@ -392,7 +392,7 @@ void GLWidget::releaseAnalyse()
 
 void GLWidget::paintGL()
 {
-    if (m_glslManager && !m_texture[0]) {
+    if ((m_glslManager != nullptr) && (m_texture[0] == 0u)) {
         return;
     }
     QOpenGLFunctions *f = openglContext()->functions();
@@ -409,7 +409,7 @@ void GLWidget::paintGL()
     f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
-    if (!(m_glslManager || openglContext()->supportsThreadedOpenGL())) {
+    if (!((m_glslManager != nullptr) || openglContext()->supportsThreadedOpenGL())) {
         m_mutex.lock();
         if (!m_sharedFrame.is_valid()) {
             m_mutex.unlock();
@@ -421,7 +421,7 @@ void GLWidget::paintGL()
 
     // Bind textures.
     for (int i = 0; i < 3; ++i) {
-        if (m_texture[i]) {
+        if (m_texture[i] != 0u) {
             f->glActiveTexture(GL_TEXTURE0 + i);
             f->glBindTexture(GL_TEXTURE_2D, m_texture[i]);
             check_error(f);
@@ -448,7 +448,7 @@ void GLWidget::paintGL()
     // Set model view.
     QMatrix4x4 modelView;
     if (m_zoom != 1.0) {
-        if (offset().x() || offset().y())
+        if ((offset().x() != 0) || (offset().y() != 0))
             modelView.translate(-offset().x() * devicePixelRatio(),
                                 offset().y() * devicePixelRatio());
         modelView.scale(zoom(), zoom());
@@ -488,7 +488,7 @@ void GLWidget::paintGL()
         // Render RGB frame for analysis
         int fullWidth = m_monitorProfile->width();
         int fullHeight = m_monitorProfile->height();
-        if (!m_fbo || m_fbo->size() != QSize(fullWidth, fullHeight)) {
+        if ((m_fbo == nullptr) || m_fbo->size() != QSize(fullWidth, fullHeight)) {
             delete m_fbo;
             QOpenGLFramebufferObjectFormat fmt;
             fmt.setSamples(1);
@@ -513,7 +513,7 @@ void GLWidget::paintGL()
     m_shader->disableAttributeArray(m_texCoordLocation);
     m_shader->release();
     for (int i = 0; i < 3; ++i) {
-        if (m_texture[i]) {
+        if (m_texture[i] != 0u) {
             f->glActiveTexture(GL_TEXTURE0 + i);
             f->glBindTexture(GL_TEXTURE_2D, 0);
             check_error(f);
@@ -538,7 +538,7 @@ void GLWidget::slotZoomScene(double value)
 
 void GLWidget::wheelEvent(QWheelEvent *event)
 {
-    if (event->modifiers() & Qt::ControlModifier && event->modifiers() & Qt::ShiftModifier) {
+    if ((event->modifiers() & Qt::ControlModifier != 0u) && (event->modifiers() & Qt::ShiftModifier != 0u)) {
         if (event->delta() > 0) {
             if (m_zoom == 1.0f) {
                 setZoom(2.0f);
@@ -618,13 +618,13 @@ bool GLWidget::checkFrameNumber(int pos)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) && !(event->buttons() & Qt::MiddleButton)) {
+    if ((rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) && !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
         QQuickView::mousePressEvent(event);
         return;
     }
-    if (event->button() & Qt::LeftButton) {
-        if (event->modifiers() & Qt::ControlModifier) {
+    if ((event->button() & Qt::LeftButton) != 0u) {
+        if (event->modifiers() & Qt::ControlModifier != 0u) {
             // Pan view
             m_panStart = event->pos();
             setCursor(Qt::ClosedHandCursor);
@@ -632,9 +632,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             m_dragStart = event->pos();
         }
     }
-    else if (event->button() & Qt::RightButton) {
+    else if ((event->button() & Qt::RightButton) != 0u) {
         emit showContextMenu(event->globalPos());
-    } else if (event->button() & Qt::MiddleButton) {
+    } else if ((event->button() & Qt::MiddleButton) != 0u) {
         m_panStart = event->pos();
         setCursor(Qt::ClosedHandCursor);
     }
@@ -644,7 +644,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) && !(event->buttons() & Qt::MiddleButton)) {
+    if ((rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) && !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
         QQuickView::mouseMoveEvent(event);
         return;
@@ -722,7 +722,7 @@ void GLWidget::startGlsl()
     if (m_glslManager) {
         //clearFrameRenderer();
         m_glslManager->fire_event("init glsl");
-        if (!m_glslManager->get_int("glsl_supported")) {
+        if (m_glslManager->get_int("glsl_supported") == 0) {
             delete m_glslManager;
             m_glslManager = nullptr;
             // Need to destroy MLT global reference to prevent filters from trying to use GPU.
@@ -776,8 +776,8 @@ static void onThreadStopped(mlt_properties owner, GLWidget *self)
 void GLWidget::slotSwitchAudioOverlay(bool enable)
 {
     KdenliveSettings::setDisplayAudioOverlay(enable);
-    if (m_audioWaveDisplayed && enable == false) {
-        if (m_producer && m_producer->get_int("video_index") != -1) {
+    if (m_audioWaveDisplayed && !enable) {
+        if ((m_producer != nullptr) && m_producer->get_int("video_index") != -1) {
             // We have a video producer, disable filter
             removeAudioOverlay();
         }
@@ -793,7 +793,7 @@ int GLWidget::setProducer(Mlt::Producer *producer)
     m_producer = producer;
     if (m_producer) {
         error = reconfigure();
-        if (!error) {
+        if (error == 0) {
             // The profile display aspect ratio may have changed.
             resizeGL(width(), height());
         }
@@ -814,7 +814,7 @@ int GLWidget::setProducer(Mlt::Producer *producer)
                 adjustAudioOverlay(true);
             }
         }
-    } else if (m_audioWaveDisplayed && m_consumer) {
+    } else if (m_audioWaveDisplayed && (m_consumer != nullptr)) {
         // This is not an audio clip, hide wave
         if (KdenliveSettings::displayAudioOverlay()) {
             adjustAudioOverlay(m_producer->get_int("video_index") == -1);
@@ -871,7 +871,7 @@ void GLWidget::removeAudioOverlay()
     // move all effects to the correct producer
     int ct = 0;
     Mlt::Filter *filter = sourceService.filter(ct);
-    while (filter) {
+    while (filter != nullptr) {
         QString srv = filter->get("mlt_service");
         if (srv == QLatin1String("audiowaveform")) {
             sourceService.detach(*filter);
@@ -891,7 +891,7 @@ void GLWidget::adjustAudioOverlay(bool isAudio)
     // move all effects to the correct producer
     int ct = 0;
     Mlt::Filter *filter = sourceService.filter(ct);
-    while (filter) {
+    while (filter != nullptr) {
         QString srv = filter->get("mlt_service");
         if (srv == QLatin1String("audiowaveform")) {
             if (isAudio) {
@@ -919,7 +919,7 @@ void GLWidget::stopCapture()
 int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile)
 {
     QString serviceName = property("mlt_service").toString();
-    if (!m_consumer || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") != 0) {
+    if ((m_consumer == nullptr) || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") != 0) {
         if (m_consumer) {
             m_consumer->purge();
             m_consumer->stop();
@@ -997,9 +997,9 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         m_consumer->connect(*m_producer);
         m_consumer->start();
         return 0;
-    } else {
+    } 
         return -1;
-    }
+    
 }
 
 int GLWidget::reconfigure(Mlt::Profile *profile)
@@ -1010,7 +1010,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
     if (profile) {
         reloadProfile(*profile);
     }
-    if (!m_consumer || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") == 0) {
+    if ((m_consumer == nullptr) || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") == 0) {
         if (m_consumer) {
             m_consumer->purge();
             m_consumer->stop();
@@ -1131,7 +1131,7 @@ Mlt::Profile *GLWidget::profile()
 
 void GLWidget::resetProfile(const MltVideoProfile &profile)
 {
-    if (m_consumer && !m_consumer->is_stopped()) {
+    if ((m_consumer != nullptr) && !m_consumer->is_stopped()) {
         m_consumer->stop();
         m_consumer->purge();
     }
@@ -1141,10 +1141,10 @@ void GLWidget::resetProfile(const MltVideoProfile &profile)
     m_monitorProfile->set_frame_rate(profile.frame_rate_num, profile.frame_rate_den);
     m_monitorProfile->set_height(profile.height);
     m_monitorProfile->set_width(profile.width);
-    m_monitorProfile->set_progressive(profile.progressive);
+    m_monitorProfile->set_progressive(static_cast<int>(profile.progressive));
     m_monitorProfile->set_sample_aspect(profile.sample_aspect_num, profile.sample_aspect_den);
     m_monitorProfile->set_display_aspect(profile.display_aspect_num, profile.display_aspect_den);
-    m_monitorProfile->set_explicit(true);
+    m_monitorProfile->set_explicit(1);
     reconfigure();
     refreshSceneLayout();
 }
@@ -1156,10 +1156,10 @@ void GLWidget::reloadProfile(Mlt::Profile &profile)
     m_monitorProfile->set_frame_rate(profile.frame_rate_num(), profile.frame_rate_den());
     m_monitorProfile->set_height(profile.height());
     m_monitorProfile->set_width(profile.width());
-    m_monitorProfile->set_progressive(profile.progressive());
+    m_monitorProfile->set_progressive(static_cast<int>(profile.progressive()));
     m_monitorProfile->set_sample_aspect(profile.sample_aspect_num(), profile.sample_aspect_den());
     m_monitorProfile->set_display_aspect(profile.display_aspect_num(), profile.display_aspect_den());
-    m_monitorProfile->set_explicit(true);
+    m_monitorProfile->set_explicit(1);
     // The profile display aspect ratio may have changed.
     resizeGL(width(), height());
     refreshSceneLayout();
@@ -1208,11 +1208,11 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     QQuickView::mouseReleaseEvent(event);
-    if (m_dragStart.isNull() && m_panStart.isNull() && rootObject() && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier)) {
+    if (m_dragStart.isNull() && m_panStart.isNull() && (rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier)) {
         event->ignore();
         return;
     }
-    if (!m_dragStart.isNull() && m_panStart.isNull() && event->button() & Qt::LeftButton && !event->isAccepted()) {
+    if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !event->isAccepted()) {
         emit monitorPlay();
     }
     m_dragStart = QPoint();
@@ -1226,7 +1226,7 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
     if (event->isAccepted()) {
         return;
     }
-    if (!rootObject() || rootObject()->objectName() != QLatin1String("rooteffectscene")) {
+    if ((rootObject() == nullptr) || rootObject()->objectName() != QLatin1String("rooteffectscene")) {
         emit switchFullScreen();
     }
     event->accept();
@@ -1310,10 +1310,10 @@ void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
 void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
-    if (frame.get_int("rendered")) {
+    if (frame.get_int("rendered") != 0) {
         GLWidget *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
-        if (widget->m_frameRenderer && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
+        if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
         }
     }
@@ -1322,10 +1322,10 @@ void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
-    if (frame.get_int("rendered")) {
+    if (frame.get_int("rendered") != 0) {
         GLWidget *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
-        if (widget->m_frameRenderer && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
+        if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLNoSyncFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
         }
     }
@@ -1334,10 +1334,10 @@ void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame
 void GLWidget::on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
-    if (frame.get_int("rendered")) {
+    if (frame.get_int("rendered") != 0) {
         GLWidget *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
-        if (widget->m_frameRenderer && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
+        if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
         }
     }
@@ -1414,7 +1414,7 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
     // Save this frame for future use and to keep a reference to the GL Texture.
     m_displayFrame = SharedFrame(frame);
 
-    if (m_context && m_context->isValid()) {
+    if ((m_context != nullptr) && m_context->isValid()) {
         m_context->makeCurrent(m_surface);
         // Upload each plane of YUV to a texture.
         QOpenGLFunctions *f = m_context->functions();
@@ -1437,7 +1437,7 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
 
 void FrameRenderer::showGLFrame(Mlt::Frame frame)
 {
-    if (m_context && m_context->isValid()) {
+    if ((m_context != nullptr) && m_context->isValid()) {
         int width = 0;
         int height = 0;
 
@@ -1482,7 +1482,7 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 
 void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
 {
-    if (m_context && m_context->isValid()) {
+    if ((m_context != nullptr) && m_context->isValid()) {
         int width = 0;
         int height = 0;
 
@@ -1513,10 +1513,10 @@ void FrameRenderer::clearFrame()
 
 void FrameRenderer::cleanup()
 {
-    if (m_renderTexture[0] && m_renderTexture[1] && m_renderTexture[2]) {
+    if ((m_renderTexture[0] != 0u) && (m_renderTexture[1] != 0u) && (m_renderTexture[2] != 0u)) {
         m_context->makeCurrent(m_surface);
         m_context->functions()->glDeleteTextures(3, m_renderTexture);
-        if (m_displayTexture[0] && m_displayTexture[1] && m_displayTexture[2]) {
+        if ((m_displayTexture[0] != 0u) && (m_displayTexture[1] != 0u) && (m_displayTexture[2] != 0u)) {
             m_context->functions()->glDeleteTextures(3, m_displayTexture);
         }
         m_context->doneCurrent();
@@ -1586,7 +1586,7 @@ void GLWidget::switchPlay(bool play, double speed)
 {
     //QMutexLocker locker(&m_mutex);
     m_requestedSeekPosition = SEEK_INACTIVE;
-    if (!m_producer || !m_consumer) {
+    if ((m_producer == nullptr) || (m_consumer == nullptr)) {
         return;
     }
     /*if (m_isZoneMode) {

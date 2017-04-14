@@ -144,7 +144,7 @@ void RenderJob::receivedStderr()
             m_progress = 50 + m_progress / 2.0;
         }
         int frame = result.section(QLatin1Char(','), 1).section(QLatin1Char(' '), -1).toInt();
-        if (m_kdenliveinterface && m_kdenliveinterface->isValid()) {
+        if ((m_kdenliveinterface != nullptr) && m_kdenliveinterface->isValid()) {
             m_dbusargs[1] = m_progress;
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), m_dbusargs);
         }
@@ -169,7 +169,7 @@ void RenderJob::receivedStderr()
 void RenderJob::start()
 {
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
-    if (interface && m_usekuiserver) {
+    if ((interface != nullptr) && m_usekuiserver) {
         if (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
             qWarning() << "No org.kde.JobViewServer registered, trying to start kuiserver";
             if (QProcess::startDetached(QStringLiteral("kuiserver"))) {
@@ -192,7 +192,7 @@ void RenderJob::start()
             // Use of the KDE JobViewServer is an ugly hack, it is not reliable
             QString dbusView = QStringLiteral("org.kde.JobViewV2");
             m_jobUiserver = new QDBusInterface(QStringLiteral("org.kde.JobViewServer"), reply, dbusView);
-            if (m_jobUiserver && m_jobUiserver->isValid()) {
+            if ((m_jobUiserver != nullptr) && m_jobUiserver->isValid()) {
                 m_startTime = QTime::currentTime();
                 if (!m_args.contains(QStringLiteral("pass=2"))) {
                     m_jobUiserver->call(QStringLiteral("setPercent"), (uint) 0);
@@ -297,7 +297,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         QProcess::startDetached(QStringLiteral("kdialog"), args);
         qApp->quit();
     } else {
-        if (!m_dualpass && m_kdenliveinterface) {
+        if (!m_dualpass && (m_kdenliveinterface != nullptr)) {
             m_dbusargs[1] = (int) - 1;
             m_dbusargs.append(QString());
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);

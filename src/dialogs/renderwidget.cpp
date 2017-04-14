@@ -323,7 +323,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
     }
 
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
-    if (!interface || (!interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) && !interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager")))) {
+    if ((interface == nullptr) || (!interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) && !interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager")))) {
         m_view.shutdown->setEnabled(false);
     }
     checkCodecs();
@@ -444,7 +444,7 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
     }
     if (url.isValid()) {
         QTreeWidgetItem *item = m_view.formats->currentItem();
-        if (!item || !item->parent()) { // categories have no parent
+        if ((item == nullptr) || (item->parent() == nullptr)) { // categories have no parent
             m_view.buttonRender->setEnabled(false);
             m_view.buttonGenerateScript->setEnabled(false);
             return;
@@ -481,7 +481,7 @@ void RenderWidget::slotSaveProfile()
     }
     ui.profile_name->setFocus();
     QTreeWidgetItem *item = m_view.formats->currentItem();
-    if (item && item->parent()) { //not a category
+    if ((item != nullptr) && (item->parent() != nullptr)) { //not a category
         // Duplicate current item settings
         customGroup = item->parent()->text(0);
         ui.extension->setText(item->data(0, ExtensionRole).toString());
@@ -493,7 +493,7 @@ void RenderWidget::slotSaveProfile()
                 ui.vbitrates_label->setText(i18n("Bitrates"));
                 ui.default_vbitrate_label->setText(i18n("Default bitrate"));
             }
-            if (item->data(0, BitratesRole).canConvert(QVariant::StringList) && item->data(0, BitratesRole).toStringList().count()) {
+            if (item->data(0, BitratesRole).canConvert(QVariant::StringList) && (item->data(0, BitratesRole).toStringList().count() != 0)) {
                 QStringList bitrates = item->data(0, BitratesRole).toStringList();
                 ui.vbitrates_list->setText(bitrates.join(QLatin1Char(',')));
                 if (item->data(0, DefaultBitrateRole).canConvert(QVariant::String)) {
@@ -511,7 +511,7 @@ void RenderWidget::slotSaveProfile()
                 ui.abitrates_label->setText(i18n("Bitrates"));
                 ui.default_abitrate_label->setText(i18n("Default bitrate"));
             }
-            if (item && item->data(0, AudioBitratesRole).canConvert(QVariant::StringList) && item->data(0, AudioBitratesRole).toStringList().count()) {
+            if ((item != nullptr) && item->data(0, AudioBitratesRole).canConvert(QVariant::StringList) && (item->data(0, AudioBitratesRole).toStringList().count() != 0)) {
                 QStringList bitrates = item->data(0, AudioBitratesRole).toStringList();
                 ui.abitrates_list->setText(bitrates.join(QLatin1Char(',')));
                 if (item->data(0, DefaultAudioBitrateRole).canConvert(QVariant::String)) {
@@ -522,7 +522,7 @@ void RenderWidget::slotSaveProfile()
             ui.abitrates->setHidden(true);
         }
 
-        if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
+        if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && (item->data(0, SpeedsRole).toStringList().count() != 0)) {
             QStringList speeds = item->data(0, SpeedsRole).toStringList();
             ui.speeds_list->setText(speeds.join('\n'));
         }
@@ -654,7 +654,7 @@ bool RenderWidget::saveProfile(QDomElement newprofile)
 void RenderWidget::slotCopyToFavorites()
 {
     QTreeWidgetItem *item = m_view.formats->currentItem();
-    if (!item || !item->parent()) {
+    if ((item == nullptr) || (item->parent() == nullptr)) {
         return;
     }
 
@@ -685,7 +685,7 @@ void RenderWidget::slotCopyToFavorites()
         profileElement.setAttribute(QStringLiteral("defaultaudioquality"), item->data(0, DefaultAudioBitrateRole).toString());
         profileElement.setAttribute(QStringLiteral("audioqualities"), item->data(0, AudioBitratesRole).toStringList().join(QLatin1Char(',')));
     }
-    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
+    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && (item->data(0, SpeedsRole).toStringList().count() != 0)) {
         // profile has a variable speed
         profileElement.setAttribute(QStringLiteral("speeds"), item->data(0, SpeedsRole).toStringList().join(QLatin1Char(';')));
     }
@@ -698,7 +698,7 @@ void RenderWidget::slotCopyToFavorites()
 void RenderWidget::slotEditProfile()
 {
     QTreeWidgetItem *item = m_view.formats->currentItem();
-    if (!item || !item->parent()) {
+    if ((item == nullptr) || (item->parent() == nullptr)) {
         return;
     }
     QString params = item->data(0, ParamsRole).toString();
@@ -725,7 +725,7 @@ void RenderWidget::slotEditProfile()
             ui.vbitrates_label->setText(i18n("Bitrates"));
             ui.default_vbitrate_label->setText(i18n("Default bitrate"));
         }
-        if (item->data(0, BitratesRole).canConvert(QVariant::StringList) && item->data(0, BitratesRole).toStringList().count()) {
+        if (item->data(0, BitratesRole).canConvert(QVariant::StringList) && (item->data(0, BitratesRole).toStringList().count() != 0)) {
             QStringList bitrates = item->data(0, BitratesRole).toStringList();
             ui.vbitrates_list->setText(bitrates.join(QLatin1Char(',')));
             if (item->data(0, DefaultBitrateRole).canConvert(QVariant::String)) {
@@ -744,7 +744,7 @@ void RenderWidget::slotEditProfile()
             ui.abitrates_label->setText(i18n("Bitrates"));
             ui.default_abitrate_label->setText(i18n("Default bitrate"));
         }
-        if (item->data(0, AudioBitratesRole).canConvert(QVariant::StringList) && item->data(0, AudioBitratesRole).toStringList().count()) {
+        if (item->data(0, AudioBitratesRole).canConvert(QVariant::StringList) && (item->data(0, AudioBitratesRole).toStringList().count() != 0)) {
             QStringList bitrates = item->data(0, AudioBitratesRole).toStringList();
             ui.abitrates_list->setText(bitrates.join(QLatin1Char(',')));
             if (item->data(0, DefaultAudioBitrateRole).canConvert(QVariant::String)) {
@@ -755,7 +755,7 @@ void RenderWidget::slotEditProfile()
         ui.abitrates->setHidden(true);
     }
 
-    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
+    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && (item->data(0, SpeedsRole).toStringList().count() != 0)) {
         QStringList speeds = item->data(0, SpeedsRole).toStringList();
         ui.speeds_list->setText(speeds.join('\n'));
     }
@@ -878,7 +878,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
         return;
     }*/
     QTreeWidgetItem *item = m_view.formats->currentItem();
-    if (!item || !item->parent()) {
+    if ((item == nullptr) || (item->parent() == nullptr)) {
         return;
     }
     QString currentProfile = item->text(0);
@@ -923,7 +923,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
 
 void RenderWidget::updateButtons()
 {
-    if (!m_view.formats->currentItem() || m_view.formats->currentItem()->isHidden()) {
+    if ((m_view.formats->currentItem() == nullptr) || m_view.formats->currentItem()->isHidden()) {
         m_view.buttonSave->setEnabled(false);
         m_view.buttonDelete->setEnabled(false);
         m_view.buttonEdit->setEnabled(false);
@@ -1071,7 +1071,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         QStringList overlayargs;
         if (m_view.tc_overlay->isChecked()) {
             QString filterFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("metadata.properties"));
-            overlayargs << QStringLiteral("meta.attr.timecode=1") << "meta.attr.timecode.markup=#" + QString(m_view.tc_type->currentIndex() ? "frame" : "timecode");
+            overlayargs << QStringLiteral("meta.attr.timecode=1") << "meta.attr.timecode.markup=#" + QString(m_view.tc_type->currentIndex() != 0 ? "frame" : "timecode");
             overlayargs << QStringLiteral("-attach") << QStringLiteral("data_feed:attr_check") << QStringLiteral("-attach");
             overlayargs << "data_show:" + filterFile << QStringLiteral("_loader=1") << QStringLiteral("dynamic=1");
         }
@@ -1306,9 +1306,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                 m_view.tabWidget->setCurrentIndex(2);
                 return;
 
-            } else {
+            } 
                 continue;
-            }
+            
         }
 
         // Save rendering profile to document
@@ -1316,8 +1316,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         renderProps.insert(QStringLiteral("rendercategory"), m_view.formats->currentItem()->parent()->text(0));
         renderProps.insert(QStringLiteral("renderprofile"), m_view.formats->currentItem()->text(0));
         renderProps.insert(QStringLiteral("renderurl"), destBase);
-        renderProps.insert(QStringLiteral("renderzone"), QString::number(m_view.render_zone->isChecked()));
-        renderProps.insert(QStringLiteral("renderguide"), QString::number(m_view.render_guide->isChecked()));
+        renderProps.insert(QStringLiteral("renderzone"), QString::number(static_cast<int>(m_view.render_zone->isChecked())));
+        renderProps.insert(QStringLiteral("renderguide"), QString::number(static_cast<int>(m_view.render_guide->isChecked())));
         renderProps.insert(QStringLiteral("renderstartguide"), QString::number(m_view.guide_start->currentIndex()));
         renderProps.insert(QStringLiteral("renderendguide"), QString::number(m_view.guide_end->currentIndex()));
         renderProps.insert(QStringLiteral("renderscanning"), QString::number(m_view.scanning_list->currentIndex()));
@@ -1329,14 +1329,14 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
 
         renderProps.insert(QStringLiteral("renderexportaudio"), QString::number(export_audio));
-        renderProps.insert(QStringLiteral("renderrescale"), QString::number(m_view.rescale->isChecked()));
+        renderProps.insert(QStringLiteral("renderrescale"), QString::number(static_cast<int>(m_view.rescale->isChecked())));
         renderProps.insert(QStringLiteral("renderrescalewidth"), QString::number(m_view.rescale_width->value()));
         renderProps.insert(QStringLiteral("renderrescaleheight"), QString::number(m_view.rescale_height->value()));
-        renderProps.insert(QStringLiteral("rendertcoverlay"), QString::number(m_view.tc_overlay->isChecked()));
+        renderProps.insert(QStringLiteral("rendertcoverlay"), QString::number(static_cast<int>(m_view.tc_overlay->isChecked())));
         renderProps.insert(QStringLiteral("rendertctype"), QString::number(m_view.tc_type->currentIndex()));
-        renderProps.insert(QStringLiteral("renderratio"), QString::number(m_view.rescale_keep->isChecked()));
-        renderProps.insert(QStringLiteral("renderplay"), QString::number(m_view.play_after->isChecked()));
-        renderProps.insert(QStringLiteral("rendertwopass"), QString::number(m_view.checkTwoPass->isChecked()));
+        renderProps.insert(QStringLiteral("renderratio"), QString::number(static_cast<int>(m_view.rescale_keep->isChecked())));
+        renderProps.insert(QStringLiteral("renderplay"), QString::number(static_cast<int>(m_view.play_after->isChecked())));
+        renderProps.insert(QStringLiteral("rendertwopass"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked())));
         renderProps.insert(QStringLiteral("renderquality"), QString::number(m_view.video->value()));
         renderProps.insert(QStringLiteral("renderaudioquality"), QString::number(m_view.audio->value()));
         renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
@@ -1391,7 +1391,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }*/
 
         renderItem->setData(1, ParametersRole, render_process_args);
-        if (exportAudio == false) {
+        if (!exportAudio) {
             renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
         } else {
             renderItem->setData(1, ExtraInfoRole, QString());
@@ -1414,7 +1414,7 @@ void RenderWidget::checkRenderStatus()
     RenderJobItem *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
 
     // Make sure no other rendering is running
-    while (item) {
+    while (item != nullptr) {
         if (item->status() == RUNNINGJOB) {
             return;
         }
@@ -1424,7 +1424,7 @@ void RenderWidget::checkRenderStatus()
     bool waitingJob = false;
 
     // Find first waiting job
-    while (item) {
+    while (item != nullptr) {
         if (item->status() == WAITINGJOB) {
             item->setData(1, TimeRole, QDateTime::currentDateTime());
             waitingJob = true;
@@ -1434,7 +1434,7 @@ void RenderWidget::checkRenderStatus()
         }
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
-    if (waitingJob == false && m_view.shutdown->isChecked()) {
+    if (!waitingJob && m_view.shutdown->isChecked()) {
         emit shutdown();
     }
 }
@@ -1443,14 +1443,14 @@ void RenderWidget::startRendering(RenderJobItem *item)
 {
     if (item->type() == DirectRenderType) {
         // Normal render process
-        if (QProcess::startDetached(m_renderer, item->data(1, ParametersRole).toStringList()) == false) {
+        if (!QProcess::startDetached(m_renderer, item->data(1, ParametersRole).toStringList())) {
             item->setStatus(FAILEDJOB);
         } else {
             KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
         }
     } else if (item->type() == ScriptRenderType) {
         // Script item
-        if (QProcess::startDetached(QLatin1Char('"') + item->data(1, ParametersRole).toString() + QLatin1Char('"')) == false) {
+        if (!QProcess::startDetached(QLatin1Char('"') + item->data(1, ParametersRole).toString() + QLatin1Char('"'))) {
             item->setStatus(FAILEDJOB);
         }
     }
@@ -1460,7 +1460,7 @@ int RenderWidget::waitingJobsCount() const
 {
     int count = 0;
     RenderJobItem *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
-    while (item) {
+    while (item != nullptr) {
         if (item->status() == WAITINGJOB || item->status() == STARTINGJOB) {
             count++;
         }
@@ -1630,7 +1630,7 @@ void RenderWidget::refreshParams()
 {
     // Format not available (e.g. codec not installed); Disable start button
     QTreeWidgetItem *item = m_view.formats->currentItem();
-    if (!item || item->parent() == nullptr) {
+    if ((item == nullptr) || item->parent() == nullptr) {
         // This is a category item, not a real profile
         m_view.buttonBox->setEnabled(false);
     } else {
@@ -1640,7 +1640,7 @@ void RenderWidget::refreshParams()
     if (item) {
         extension = item->data(0, ExtensionRole).toString();
     }
-    if (!item || item->isHidden() || extension.isEmpty()) {
+    if ((item == nullptr) || item->isHidden() || extension.isEmpty()) {
         if (!item) {
             errorMessage(ProfileError, i18n("No matching profile"));
         } else if (!item->parent()) // category
@@ -1742,7 +1742,7 @@ void RenderWidget::refreshParams()
         adjustAVQualities(m_view.quality->value());
     }
 
-    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && item->data(0, SpeedsRole).toStringList().count()) {
+    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && (item->data(0, SpeedsRole).toStringList().count() != 0)) {
         int speed = item->data(0, SpeedsRole).toStringList().count() - 1;
         m_view.speed->setEnabled(true);
         m_view.speed->setMaximum(speed);
@@ -2229,7 +2229,7 @@ void RenderWidget::slotAbortCurrentJob()
 void RenderWidget::slotStartCurrentJob()
 {
     RenderJobItem *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
-    if (current && current->status() == WAITINGJOB) {
+    if ((current != nullptr) && current->status() == WAITINGJOB) {
         startRendering(current);
     }
     m_view.start_job->setEnabled(false);
@@ -2263,7 +2263,7 @@ void RenderWidget::slotCLeanUpJobs()
 {
     int ix = 0;
     RenderJobItem *current = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(ix));
-    while (current) {
+    while (current != nullptr) {
         if (current->status() == FINISHEDJOB || current->status() == ABORTEDJOB) {
             delete current;
         } else {
@@ -2366,7 +2366,7 @@ void RenderWidget::slotStartScript()
             if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
                 KMessageBox::information(this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", destination), i18n("Already running"));
                 return;
-            } else if (renderItem->type() != ScriptRenderType) {
+            } if (renderItem->type() != ScriptRenderType) {
                 delete renderItem;
                 renderItem = nullptr;
             }
@@ -2391,8 +2391,8 @@ void RenderWidget::slotDeleteScript()
     if (item) {
         QString path = item->data(1, Qt::UserRole + 1).toString();
         bool success = true;
-        success &= QFile::remove(path + QStringLiteral(".mlt"));
-        success &= QFile::remove(path);
+        success &= static_cast<int>(QFile::remove(path + QStringLiteral(".mlt")));
+        success &= static_cast<int>(QFile::remove(path));
         if (!success) {
             qCWarning(KDENLIVE_LOG) << "// Error removing script or playlist: " << path << ", " << path << ".mlt";
         }
@@ -2425,7 +2425,7 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
         m_view.export_audio->setCheckState(Qt::PartiallyChecked);
     }
     if (props.contains(QStringLiteral("renderrescale"))) {
-        m_view.rescale->setChecked(props.value(QStringLiteral("renderrescale")).toInt());
+        m_view.rescale->setChecked(props.value(QStringLiteral("renderrescale")).toInt() != 0);
     }
     if (props.contains(QStringLiteral("renderrescalewidth"))) {
         m_view.rescale_width->setValue(props.value(QStringLiteral("renderrescalewidth")).toInt());
@@ -2434,19 +2434,19 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
         m_view.rescale_height->setValue(props.value(QStringLiteral("renderrescaleheight")).toInt());
     }
     if (props.contains(QStringLiteral("rendertcoverlay"))) {
-        m_view.tc_overlay->setChecked(props.value(QStringLiteral("rendertcoverlay")).toInt());
+        m_view.tc_overlay->setChecked(props.value(QStringLiteral("rendertcoverlay")).toInt() != 0);
     }
     if (props.contains(QStringLiteral("rendertctype"))) {
         m_view.tc_type->setCurrentIndex(props.value(QStringLiteral("rendertctype")).toInt());
     }
     if (props.contains(QStringLiteral("renderratio"))) {
-        m_view.rescale_keep->setChecked(props.value(QStringLiteral("renderratio")).toInt());
+        m_view.rescale_keep->setChecked(props.value(QStringLiteral("renderratio")).toInt() != 0);
     }
     if (props.contains(QStringLiteral("renderplay"))) {
-        m_view.play_after->setChecked(props.value(QStringLiteral("renderplay")).toInt());
+        m_view.play_after->setChecked(props.value(QStringLiteral("renderplay")).toInt() != 0);
     }
     if (props.contains(QStringLiteral("rendertwopass"))) {
-        m_view.checkTwoPass->setChecked(props.value(QStringLiteral("rendertwopass")).toInt());
+        m_view.checkTwoPass->setChecked(props.value(QStringLiteral("rendertwopass")).toInt() != 0);
     }
 
     if (props.value(QStringLiteral("renderzone")) == QLatin1String("1")) {
@@ -2502,7 +2502,7 @@ bool RenderWidget::startWaitingRenderJobs()
     QTextStream outStream(&file);
     outStream << "#! /bin/sh" << '\n' << '\n';
     RenderJobItem *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
-    while (item) {
+    while (item != nullptr) {
         if (item->status() == WAITINGJOB) {
             if (item->type() == DirectRenderType) {
                 // Add render process for item
@@ -2740,7 +2740,7 @@ void RenderWidget::adjustSpeed(int speedIndex)
 void RenderWidget::checkCodecs()
 {
     Mlt::Profile p;
-    Mlt::Consumer *consumer = new Mlt::Consumer(p, "avformat");
+    auto *consumer = new Mlt::Consumer(p, "avformat");
     if (consumer) {
         consumer->set("vcodec", "list");
         consumer->set("acodec", "list");

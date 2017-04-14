@@ -39,7 +39,7 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::P
     checkLimitless();
 }
 
-int ClipModel::construct(std::weak_ptr<TimelineModel> parent, const QString &binClipId, int id)
+int ClipModel::construct(const std::weak_ptr<TimelineModel>& parent, const QString &binClipId, int id)
 {
     ProjectClip *binClip = pCore->bin()->getBinClip(binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
@@ -77,7 +77,7 @@ bool ClipModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     //check if there is enough space on the chosen side
     if (!right && in + delta < 0 && !m_endlessResize) {
         return false;
-    } else if (!m_endlessResize && right && out - delta >= m_producer->get_length()) {
+    } if (!m_endlessResize && right && out - delta >= m_producer->get_length()) {
         return false;
     }
     if (right) {

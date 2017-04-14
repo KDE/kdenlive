@@ -50,7 +50,7 @@ void OnMonitorPathItem::setPoints(Mlt::Geometry *geometry)
     QRectF r;
     int pos = 0;
     Mlt::GeometryItem item;
-    while (!geometry->next_key(&item, pos)) {
+    while (geometry->next_key(&item, pos) == 0) {
         r = QRectF(item.x(), item.y(), item.w(), item.h());
         m_points << r.center();
         pos = item.frame() + 1;
@@ -106,7 +106,7 @@ void OnMonitorPathItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
      *   return;
     }*/
 
-    if (m_activePoint >= 0 && event->buttons() & Qt::LeftButton) {
+    if (m_activePoint >= 0 && (event->buttons() & Qt::LeftButton != 0u)) {
         QPointF mousePos = event->pos();
         m_points[m_activePoint] = mousePos;
         rebuildShape();
@@ -198,11 +198,11 @@ bool OnMonitorPathItem::getView()
         return true;
     }
 
-    if (scene() && !scene()->views().isEmpty()) {
+    if ((scene() != nullptr) && !scene()->views().isEmpty()) {
         m_view = scene()->views().first();
         return true;
-    } else {
+    } 
         return false;
-    }
+    
 }
 

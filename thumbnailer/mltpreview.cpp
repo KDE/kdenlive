@@ -49,7 +49,7 @@ MltPreview::~MltPreview()
 
 bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 {
-    Mlt::Profile *profile = new Mlt::Profile();
+    auto *profile = new Mlt::Profile();
     Mlt::Producer *producer = new Mlt::Producer(*profile, path.toUtf8().data());
 
     if (producer->is_blank()) {
@@ -81,7 +81,7 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 
     delete producer;
     delete profile;
-    return (img.isNull() == false);
+    return (!img.isNull());
 }
 
 QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int width, int height)

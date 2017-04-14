@@ -9,7 +9,7 @@ Write your tests in a file with a name corresponding to what you're testing */
 
 int main( int argc, char* argv[] )
 {
-    std::unique_ptr<Mlt::Repository> repo (Mlt::Factory::init( NULL ));
+    std::unique_ptr<Mlt::Repository> repo (Mlt::Factory::init( nullptr ));
     Core::build();
 
     int result = Catch::Session().run( argc, argv );

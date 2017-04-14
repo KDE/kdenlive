@@ -222,7 +222,7 @@ void ProxyJob::startJob()
 
 void ProxyJob::processLogInfo()
 {
-    if (!m_jobProcess || m_jobStatus == JobAborted) {
+    if ((m_jobProcess == nullptr) || m_jobStatus == JobAborted) {
         return;
     }
     QString log = QString::fromUtf8(m_jobProcess->readAll());
@@ -353,7 +353,7 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
         }
         qCDebug(KDENLIVE_LOG)<<" * *PROXY PATH: "<<path<<", "<<sourcePath;
         parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << params << QString::number(renderSize.width()) << QString::number(renderSize.height());
-        ProxyJob *job = new ProxyJob(item->clipType(), id, parameters, playlist);
+        auto *job = new ProxyJob(item->clipType(), id, parameters, playlist);
         jobs.insert(item, job);
     }
     return jobs;

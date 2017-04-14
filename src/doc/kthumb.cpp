@@ -142,7 +142,7 @@ uint KThumb::imageVariance(const QImage &image)
         pivot[i] = bits[2 * i];
         avg += pivot.at(i);
     }
-    if (STEPS) {
+    if (STEPS != 0u) {
         avg = avg / STEPS;
     }
     // Second Step: calculate delta (average?)
@@ -150,9 +150,9 @@ uint KThumb::imageVariance(const QImage &image)
         int curdelta = abs(int(avg - pivot.at(i)));
         delta += curdelta;
     }
-    if (STEPS) {
+    if (STEPS != 0u) {
         return delta / STEPS;
-    } else {
+    } 
         return 0;
-    }
+    
 }

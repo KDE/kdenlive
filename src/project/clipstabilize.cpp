@@ -100,7 +100,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
             connect(dbl, &DoubleParameterWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
             vbox->addWidget(dbl);
         } else if (val[QStringLiteral("type")] == QLatin1String("bool")) {
-            QCheckBox *ch = new QCheckBox(hi.key(), this);
+            auto *ch = new QCheckBox(hi.key(), this);
             ch->setCheckState(val[QStringLiteral("value")] == QLatin1String("0") ? Qt::Unchecked : Qt::Checked);
             ch->setObjectName(hi.key());
             connect(ch, &QCheckBox::stateChanged, this, &ClipStabilize::slotUpdateParams);

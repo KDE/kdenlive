@@ -71,11 +71,11 @@ QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
     QString data;
     foreach (QTreeWidgetItem *item, list) {
-        if (item->flags() & Qt::ItemIsDragEnabled) {
+        if (item->flags() & Qt::ItemIsDragEnabled != 0) {
             data.append(item->text(1));
         }
     }
-    QMimeData *mime = new QMimeData;
+    auto *mime = new QMimeData;
     mime->setData(QStringLiteral("kdenlive/geometry"), data.toUtf8());
     return mime;
 }
@@ -154,7 +154,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     , m_textEdit(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    QVBoxLayout *lay = new QVBoxLayout;
+    auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     m_clipLabel = new QLabel(controller->clipName());
     lay->addWidget(m_clipLabel);
@@ -170,7 +170,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     m_analysisPage = new QWidget(this);
 
     // Clip properties
-    QVBoxLayout *propsBox = new QVBoxLayout;
+    auto *propsBox = new QVBoxLayout;
     m_propertiesTree = new QTreeWidget(this);
     m_propertiesTree->setRootIsDecorated(false);
     m_propertiesTree->setColumnCount(2);
@@ -182,7 +182,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     m_propertiesPage->setLayout(propsBox);
 
     // Clip markers
-    QVBoxLayout *mBox = new QVBoxLayout;
+    auto *mBox = new QVBoxLayout;
     m_markerTree = new QTreeWidget;
     m_markerTree->setRootIsDecorated(false);
     m_markerTree->setColumnCount(2);
@@ -190,7 +190,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     m_markerTree->setHeaderHidden(true);
     m_markerTree->setSelectionMode(QAbstractItemView::ExtendedSelection);
     mBox->addWidget(m_markerTree);
-    QToolBar *bar = new QToolBar;
+    auto *bar = new QToolBar;
     bar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Add marker"), this, SLOT(slotAddMarker()));
     bar->addAction(KoIconUtils::themedIcon(QStringLiteral("trash-empty")), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
     bar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-edit")), i18n("Edit marker"), this, SLOT(slotEditMarker()));
@@ -203,8 +203,8 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     connect(m_markerTree, &QAbstractItemView::doubleClicked, this, &ClipPropertiesController::slotSeekToMarker);
 
     // metadata
-    QVBoxLayout *m2Box = new QVBoxLayout;
-    QTreeWidget *metaTree = new QTreeWidget;
+    auto *m2Box = new QVBoxLayout;
+    auto *metaTree = new QTreeWidget;
     metaTree->setRootIsDecorated(true);
     metaTree->setColumnCount(2);
     metaTree->setAlternatingRowColors(true);
@@ -214,11 +214,11 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     m_metaPage->setLayout(m2Box);
 
     // Clip analysis
-    QVBoxLayout *aBox = new QVBoxLayout;
+    auto *aBox = new QVBoxLayout;
     m_analysisTree = new AnalysisTree(this);
     aBox ->addWidget(new QLabel(i18n("Analysis data")));
     aBox ->addWidget(m_analysisTree);
-    QToolBar *bar2 = new QToolBar;
+    auto *bar2 = new QToolBar;
     bar2->addAction(KoIconUtils::themedIcon(QStringLiteral("trash-empty")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
     bar2->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save-as")), i18n("Export analysis"), this, SLOT(slotSaveAnalysis()));
     bar2->addAction(KoIconUtils::themedIcon(QStringLiteral("document-open")), i18n("Import analysis"), this, SLOT(slotLoadAnalysis()));
@@ -228,7 +228,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     m_analysisPage->setLayout(aBox);
 
     // Force properties
-    QVBoxLayout *vbox = new QVBoxLayout;
+    auto *vbox = new QVBoxLayout;
     if (m_type == Text || m_type == SlideShow || m_type == TextTemplate) {
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
         connect(editButton, &QAbstractButton::clicked, this, &ClipPropertiesController::editClip);
@@ -242,11 +242,11 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
             m_originalProperties.insert(QStringLiteral("kdenlive:duration"), QString::number(kdenlive_length));
         }
         m_originalProperties.insert(QStringLiteral("length"), m_properties.get("length"));
-        QHBoxLayout *hlay = new QHBoxLayout;
+        auto *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Duration"), this);
         box->setObjectName(QStringLiteral("force_duration"));
         hlay->addWidget(box);
-        TimecodeDisplay *timePos = new TimecodeDisplay(tc, this);
+        auto *timePos = new TimecodeDisplay(tc, this);
         timePos->setObjectName(QStringLiteral("force_duration_value"));
         timePos->setValue(kdenlive_length > 0 ? kdenlive_length : m_properties.get_int("length"));
         int original_length = m_properties.get_int("kdenlive:original_length");
@@ -287,7 +287,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     } else if (m_type == Image) {
         int transparency = m_properties.get_int("kdenlive:transparency");
         m_originalProperties.insert(QStringLiteral("kdenlive:transparency"), QString::number(transparency));
-        QHBoxLayout *hlay = new QHBoxLayout;
+        auto *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Transparent"), this);
         box->setObjectName(QStringLiteral("kdenlive:transparency"));
         box->setChecked(transparency == 1);
@@ -301,17 +301,17 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         int force_ar_den  = m_properties.get_int("force_aspect_den");
         m_originalProperties.insert(QStringLiteral("force_aspect_den"), (force_ar_den == 0) ? QString() : QString::number(force_ar_den));
         m_originalProperties.insert(QStringLiteral("force_aspect_num"), (force_ar_num == 0) ? QString() : QString::number(force_ar_num));
-        QHBoxLayout *hlay = new QHBoxLayout;
+        auto *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Aspect Ratio"), this);
         box->setObjectName(QStringLiteral("force_ar"));
         vbox->addWidget(box);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-        QSpinBox *spin1 = new QSpinBox(this);
+        auto *spin1 = new QSpinBox(this);
         spin1->setMaximum(8000);
         spin1->setObjectName(QStringLiteral("force_aspect_num_value"));
         hlay->addWidget(spin1);
         hlay->addWidget(new QLabel(QStringLiteral(":")));
-        QSpinBox *spin2 = new QSpinBox(this);
+        auto *spin2 = new QSpinBox(this);
         spin2->setMinimum(1);
         spin2->setMaximum(8000);
         spin2->setObjectName(QStringLiteral("force_aspect_den_value"));
@@ -348,11 +348,11 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         // Fps
         QString force_fps = m_properties.get("force_fps");
         m_originalProperties.insert(QStringLiteral("force_fps"), force_fps.isEmpty() ? QStringLiteral("-") : force_fps);
-        QHBoxLayout *hlay = new QHBoxLayout;
+        auto *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Frame rate"), this);
         box->setObjectName(QStringLiteral("force_fps"));
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-        QDoubleSpinBox *spin = new QDoubleSpinBox(this);
+        auto *spin = new QDoubleSpinBox(this);
         spin->setMaximum(1000);
         connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
         spin->setObjectName(QStringLiteral("force_fps_value"));
@@ -375,7 +375,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         box = new QCheckBox(i18n("Scanning"), this);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("force_progressive"));
-        QComboBox *combo = new QComboBox(this);
+        auto *combo = new QComboBox(this);
         combo->addItem(i18n("Interlaced"), 0);
         combo->addItem(i18n("Progressive"), 1);
         connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComboValueChanged()));
@@ -428,7 +428,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         m_originalProperties.insert(QStringLiteral("threads"), threads);
         hlay = new QHBoxLayout;
         hlay->addWidget(new QLabel(i18n("Threads")));
-        QSpinBox *spinI = new QSpinBox(this);
+        auto *spinI = new QSpinBox(this);
         spinI->setMaximum(4);
         spinI->setObjectName(QStringLiteral("threads_value"));
         if (!threads.isEmpty()) {
@@ -573,7 +573,7 @@ void ClipPropertiesController::slotReloadProperties()
     }
 }
 
-void ClipPropertiesController::slotColorModified(QColor newcolor)
+void ClipPropertiesController::slotColorModified(const QColor& newcolor)
 {
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("resource"), newcolor.name(QColor::HexArgb));
@@ -624,7 +624,7 @@ void ClipPropertiesController::slotEnableForce(int state)
             slotDurationChanged(m_properties.get_int("kdenlive:original_length"));
             m_properties.set("kdenlive:original_length", (char *) nullptr);
             return;
-        } else if (param == QLatin1String("kdenlive:transparency")) {
+        } if (param == QLatin1String("kdenlive:transparency")) {
             properties.insert(param, QString());
         } else if (param == QLatin1String("force_ar")) {
             properties.insert(QStringLiteral("force_aspect_den"), QString());
@@ -668,7 +668,7 @@ void ClipPropertiesController::slotEnableForce(int state)
         } else if (param == QLatin1String("force_ar")) {
             QSpinBox *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));
             QSpinBox *spin2 = findChild<QSpinBox *>(QStringLiteral("force_aspect_den_value"));
-            if (!spin || !spin2) {
+            if ((spin == nullptr) || (spin2 == nullptr)) {
                 return;
             }
             properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
@@ -714,7 +714,7 @@ void ClipPropertiesController::slotAspectValueChanged(int)
 {
     QSpinBox *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));
     QSpinBox *spin2 = findChild<QSpinBox *>(QStringLiteral("force_aspect_den_value"));
-    if (!spin || !spin2) {
+    if ((spin == nullptr) || (spin2 == nullptr)) {
         return;
     }
     QMap<QString, QString> properties;
@@ -876,7 +876,7 @@ void ClipPropertiesController::slotFillMarkers()
         QString time = m_tc.getTimecode(markers.at(count).time());
         QStringList itemtext;
         itemtext << time << markers.at(count).comment();
-        QTreeWidgetItem *item = new QTreeWidgetItem(m_markerTree, itemtext);
+        auto *item = new QTreeWidgetItem(m_markerTree, itemtext);
         item->setData(0, Qt::DecorationRole, CommentedTime::markerColor(markers.at(count).markerType()));
         item->setData(0, Qt::UserRole, QVariant((int) markers.at(count).time().frames(m_tc.fps())));
     }

@@ -29,7 +29,7 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
     , m_radio(nullptr)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-    QGridLayout *layout = new QGridLayout(this);
+    auto *layout = new QGridLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     if (showRadiobutton) {
@@ -88,7 +88,7 @@ void DoubleParameterWidget::enableEdit(bool enable)
 
 void DoubleParameterWidget::slotSetValue(double value, bool final)
 {
-    if (m_radio && !m_radio->isChecked()) {
+    if ((m_radio != nullptr) && !m_radio->isChecked()) {
         m_radio->setChecked(true);
     }
     if (final) {

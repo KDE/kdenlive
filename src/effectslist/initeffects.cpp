@@ -508,7 +508,7 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
 
         double version = -1;
         Mlt::Properties *metadata = repository->metadata(filter_type, tag.toUtf8().data());
-        if (metadata && metadata->is_valid()) {
+        if ((metadata != nullptr) && metadata->is_valid()) {
             version = metadata->get_double("version");
         }
         delete metadata;
@@ -556,8 +556,8 @@ QDomDocument initEffects::createDescriptionFromMlt(std::unique_ptr<Mlt::Reposito
     QDomDocument ret;
     Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toLatin1().data());
     ////qCDebug(KDENLIVE_LOG) << filtername;
-    if (metadata && metadata->is_valid()) {
-        if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
+    if ((metadata != nullptr) && metadata->is_valid()) {
+        if ((metadata->get("title") != nullptr) && (metadata->get("identifier") != nullptr) && strlen(metadata->get("title")) > 0) {
             QDomElement eff = ret.createElement(QStringLiteral("effect"));
             QString id = metadata->get("identifier");
             eff.setAttribute(QStringLiteral("tag"), id);
@@ -601,7 +601,7 @@ QDomDocument initEffects::createDescriptionFromMlt(std::unique_ptr<Mlt::Reposito
                     continue;
                 }
 
-                if (paramdesc.get("readonly") && !strcmp(paramdesc.get("readonly"), "yes")) {
+                if ((paramdesc.get("readonly") != nullptr) && (strcmp(paramdesc.get("readonly"), "yes") == 0)) {
                     // Do not expose readonly parameters
                     continue;
                 }
@@ -714,10 +714,10 @@ void initEffects::fillTransitionsList(std::unique_ptr<Mlt::Repository> &reposito
         if (!customTransitions.contains(name)) {
             metadata = repository->metadata(transition_type, name.toUtf8().data());
         }
-        if (metadata && metadata->is_valid()) {
+        if ((metadata != nullptr) && metadata->is_valid()) {
             // If possible, set name and description.
             //qCDebug(KDENLIVE_LOG)<<" / / FOUND TRANS: "<<metadata->get("title");
-            if (metadata->get("title") && metadata->get("identifier")) {
+            if ((metadata->get("title") != nullptr) && (metadata->get("identifier") != nullptr)) {
                 tname.appendChild(ret.createTextNode(metadata->get("title")));
             }
             desc.appendChild(ret.createTextNode(metadata->get("description")));
@@ -991,7 +991,7 @@ void initEffects::parseTransitionFile(EffectsList *transitionList, const QString
 
         double version = -1;
         Mlt::Properties *metadata = repository->metadata(transition_type, id.toUtf8().data());
-        if (metadata && metadata->is_valid()) {
+        if ((metadata != nullptr) && metadata->is_valid()) {
             version = metadata->get_double("version");
         }
         delete metadata;

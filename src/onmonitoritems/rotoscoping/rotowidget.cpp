@@ -51,7 +51,7 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
 {
     Q_UNUSED(data)
 
-    QVBoxLayout *l = new QVBoxLayout(this);
+    auto *l = new QVBoxLayout(this);
     m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in, this);
     l->addWidget(m_keyframeWidget);
     connect(m_monitor, SIGNAL(effectPointsChanged(QVariantList)), this, SLOT(slotUpdateDataPoints(QVariantList)));
@@ -240,7 +240,7 @@ QList<BPoint> RotoWidget::getPoints(int keyframe)
     }
 
     // skip tracking flag
-    if (data.count() && data.at(0).canConvert(QVariant::String)) {
+    if ((data.count() != 0) && data.at(0).canConvert(QVariant::String)) {
         data.removeFirst();
     }
 
@@ -382,7 +382,7 @@ void RotoWidget::setSpline(const QByteArray &spline, bool notify)
     QJsonParseError jsonError;
     QJsonDocument doc = QJsonDocument::fromJson(spline, &jsonError);
     m_data = doc.toVariant();
-    if (jsonError.error) {
+    if (jsonError.error != 0u) {
         // :(
     }
     keyframeTimelineFullUpdate();
@@ -398,10 +398,10 @@ static QVariant interpolate(int position, int in, int out, QVariant *splineIn, Q
     QList<QVariant> keyframe1 = splineIn->toList();
     QList<QVariant> keyframe2 = splineOut->toList();
     QList<QVariant> keyframe;
-    if (keyframe1.count() && keyframe1.at(0).canConvert(QVariant::String)) {
+    if ((keyframe1.count() != 0) && keyframe1.at(0).canConvert(QVariant::String)) {
         keyframe1.removeFirst();
     }
-    if (keyframe2.count() && keyframe2.at(0).canConvert(QVariant::String)) {
+    if ((keyframe2.count() != 0) && keyframe2.at(0).canConvert(QVariant::String)) {
         keyframe2.removeFirst();
     }
     int max = qMin(keyframe1.count(), keyframe2.count());
@@ -424,7 +424,7 @@ bool adjustRotoDuration(QByteArray *data, int in, int out)
 {
     QJsonParseError jsonError;
     QJsonDocument doc = QJsonDocument::fromJson(*data, &jsonError);
-    if (jsonError.error) {
+    if (jsonError.error != 0u) {
         *data = QByteArray();
         return true;
     }
@@ -495,9 +495,6 @@ bool adjustRotoDuration(QByteArray *data, int in, int out)
     doc = QJsonDocument::fromVariant(QVariant(newMap));
     *data = doc.toJson();
 
-    if (startFound || endFound) {
-        return true;
-    }
-    return false;
+    return startFound || endFound;
 }
 

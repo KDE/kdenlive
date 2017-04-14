@@ -39,9 +39,9 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
 {
     m_originalProfile = QStringLiteral("invalid");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    QVBoxLayout *lay = new QVBoxLayout;
+    auto *lay = new QVBoxLayout;
 
-    QHBoxLayout *labelLay = new QHBoxLayout;
+    auto *labelLay = new QHBoxLayout;
     QLabel* fpsLabel = new QLabel(i18n("Fps"),this);
     fpsFilt = new QComboBox(this);
     fpsLabel->setBuddy(fpsFilt);
@@ -55,7 +55,7 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
     labelLay->addWidget(scanningFilt);
     labelLay->addStretch(1);
 
-    QToolButton *manage_profiles = new QToolButton(this);
+    auto *manage_profiles = new QToolButton(this);
     labelLay->addWidget(manage_profiles);
     manage_profiles->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
     manage_profiles->setToolTip(i18n("Manage project profiles"));
@@ -63,7 +63,7 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
     lay->addLayout(labelLay);
 
 
-    QSplitter *profileSplitter = new QSplitter;
+    auto *profileSplitter = new QSplitter;
 
     m_treeView = new QTreeView(this);
     m_treeModel = new ProfileTreeModel(this);
@@ -164,7 +164,7 @@ const QString ProfileWidget::selectedProfile() const
 
 void ProfileWidget::slotEditProfiles()
 {
-    ProfilesDialog *w = new ProfilesDialog(m_currentProfile);
+    auto *w = new ProfilesDialog(m_currentProfile);
     w->exec();
     loadProfile(m_currentProfile);
     delete w;
@@ -226,9 +226,9 @@ bool ProfileWidget::trySelectProfile(const QString& profile)
             m_treeView->expand(m_filter->mapFromSource(parent));
             m_treeView->scrollTo(m_filter->mapFromSource(index), QAbstractItemView::PositionAtCenter);
             return true;
-        } else {
+        } 
             return false;
-        }
+        
     } else {
     }
     return false;

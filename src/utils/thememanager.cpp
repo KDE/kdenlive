@@ -100,7 +100,7 @@ QString ThemeManager::defaultThemeName() const
 
 QString ThemeManager::currentThemeName() const
 {
-    if (!d->themeMenuAction || !d->themeMenuActionGroup) {
+    if ((d->themeMenuAction == nullptr) || (d->themeMenuActionGroup == nullptr)) {
         return defaultThemeName();
     }
 
@@ -112,7 +112,7 @@ QString ThemeManager::currentThemeName() const
 
 void ThemeManager::setCurrentTheme(const QString &filename)
 {
-    if (!d->themeMenuAction || !d->themeMenuActionGroup) {
+    if ((d->themeMenuAction == nullptr) || (d->themeMenuActionGroup == nullptr)) {
         return;
     }
     QString name = d->themeMap.key(filename, d->defaultThemeName);
@@ -182,13 +182,13 @@ void ThemeManager::populateThemeMenu()
     QMap<QString, QAction *> actionMap;
 
     for (int i = 0; i < schemeFiles.size(); ++i) {
-        const QString filename  = schemeFiles.at(i);
+        const QString& filename  = schemeFiles.at(i);
         const QFileInfo info(filename);
         KSharedConfigPtr config = KSharedConfig::openConfig(filename);
         QIcon icon = createSchemePreviewIcon(config);
         KConfigGroup group(config, "General");
         const QString name = group.readEntry("Name", info.baseName());
-        QAction *ac = new QAction(name, d->themeMenuActionGroup);
+        auto *ac = new QAction(name, d->themeMenuActionGroup);
         d->themeMap.insert(name, filename);
         ac->setIcon(icon);
         ac->setCheckable(true);

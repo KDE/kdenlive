@@ -55,13 +55,13 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
         //return nullptr;
     } else {
         devName = strdup((char *) cap.card);
-        if (!(cap.capabilities & V4L2_CAP_VIDEO_CAPTURE)) {
+        if ((cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) == 0u) {
             // Device cannot capture
             captureEnabled = 0;
         }
     }
 
-    if (captureEnabled) {
+    if (captureEnabled != 0) {
         struct v4l2_format format;
         memset(&format, 0, sizeof(format));
         format.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;

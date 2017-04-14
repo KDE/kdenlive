@@ -42,8 +42,8 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
     , m_profile(profile)
     , m_supportsAnim(false)
 {
-    QVBoxLayout *lay = new QVBoxLayout(this);
-    QHBoxLayout *l1 = new QHBoxLayout;
+    auto *lay = new QVBoxLayout(this);
+    auto *l1 = new QHBoxLayout;
     QLabel *lab = new QLabel(i18n("Data to import: "), this);
     l1->addWidget(lab);
 
@@ -341,7 +341,7 @@ void KeyframeImport::updateDisplay()
 {
     QPixmap pix(m_previewLabel->width(), m_previewLabel->height());
     pix.fill(Qt::transparent);
-    QPainter *painter = new QPainter(&pix);
+    auto *painter = new QPainter(&pix);
     QList<QPoint> maximas;
     int selectedtarget = m_sourceCombo->currentData().toInt();
     int profileWidth = m_profile.profileSize.width();

@@ -548,7 +548,7 @@ void DocumentChecker::slotSearchClips()
     //TODO: make non modal
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     QDir searchDir(newpath);
-    while (child) {
+    while (child != nullptr) {
         if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
             for (int j = 0; j < child->childCount(); ++j) {
                 QTreeWidgetItem *subchild = child->child(j);
@@ -768,7 +768,7 @@ void DocumentChecker::acceptDialog()
     m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
 
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
-    while (child) {
+    while (child != nullptr) {
         if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
             for (int j = 0; j < child->childCount(); ++j) {
                 fixSourceClipItem(child->child(j), producers);
@@ -945,7 +945,7 @@ void DocumentChecker::slotPlaceholders()
 {
     int ix = 0;
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
-    while (child) {
+    while (child != nullptr) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             child->setData(0, statusRole, CLIPPLACEHOLDER);
             child->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-ok")));
@@ -964,7 +964,7 @@ void DocumentChecker::checkStatus()
     bool status = true;
     int ix = 0;
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
-    while (child) {
+    while (child != nullptr) {
         int childStatus = child->data(0, statusRole).toInt();
         if (childStatus == CLIPMISSING) {
             status = false;

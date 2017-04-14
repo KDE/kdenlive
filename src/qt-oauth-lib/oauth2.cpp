@@ -193,7 +193,7 @@ void OAuth2::RequestAccessCode(bool pIsReRequest, const QString &pCode)
         vCodeTypeParamName = QStringLiteral("code");
     }
 
-    QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
+    auto *networkManager = new QNetworkAccessManager(this);
     QUrl serviceUrl = QUrl(QStringLiteral("https://www.freesound.org/apiv2/oauth2/access_token/"));
 
     QUrlQuery postData;

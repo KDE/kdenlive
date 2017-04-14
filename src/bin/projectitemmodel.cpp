@@ -85,10 +85,10 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
             qDebug() << "ERROR: invalid icon found";
         }
         return icon;
-    } else {
+    } 
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
         return item->getData((AbstractProjectItem::DataType) role);
-    }
+    
 }
 
 bool ProjectItemModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -195,9 +195,9 @@ int ProjectItemModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) {
         return static_cast<AbstractProjectItem *>(parent.internalPointer())->supportedDataCount();
-    } else {
+    } 
         return static_cast<ProjectFolder*>(rootItem)->supportedDataCount();
-    }
+    
 }
 
 // cppcheck-suppress unusedFunction
@@ -219,7 +219,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     // Clip ids are represented like:  2 (where 2 is the clip's id)
     // Clip zone ids are represented like:  2/10/200 (where 2 is the clip's id, 10 and 200 are in and out points)
     // Folder ids are represented like:  #2 (where 2 is the folder's id)
-    QMimeData *mimeData = new QMimeData();
+    auto *mimeData = new QMimeData();
     QStringList list;
     int duration = 0;
     for (int i = 0; i < indices.count(); i++) {
@@ -277,14 +277,14 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex& index) c
 
     AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(index.internalPointer());
     auto folder = currentItem->getEnclosingFolder(true);
-    if (!folder || folder == rootItem) {
+    if ((folder == nullptr) || folder == rootItem) {
         return noInfo;
-    } else {
+    } 
         QStringList folderInfo;
         folderInfo << currentItem->clipId();
         folderInfo << currentItem->name();
         return folderInfo;
-    }
+    
 
 }
 

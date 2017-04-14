@@ -53,7 +53,7 @@ void AudioCorrelation::slotProcessChild(AudioEnvelope *envelope)
     const int sizeMain = m_mainTrackEnvelope->envelopeSize();
     const int sizeSub = envelope->envelopeSize();
 
-    AudioCorrelationInfo *info = new AudioCorrelationInfo(sizeMain, sizeSub);
+    auto *info = new AudioCorrelationInfo(sizeMain, sizeSub);
     qint64 *correlation = info->correlationVector();
 
     const qint64 *envMain = m_mainTrackEnvelope->envelope();

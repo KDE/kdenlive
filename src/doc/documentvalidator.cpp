@@ -883,12 +883,12 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement trackinfo = m_doc.createElement(QStringLiteral("trackinfo"));
             if (tracksOrder.data()[i] == QLatin1Char('a')) {
                 trackinfo.setAttribute(QStringLiteral("type"), QStringLiteral("audio"));
-                trackinfo.setAttribute(QStringLiteral("blind"), true);
+                trackinfo.setAttribute(QStringLiteral("blind"), 1);
             } else {
-                trackinfo.setAttribute(QStringLiteral("blind"), false);
+                trackinfo.setAttribute(QStringLiteral("blind"), 0);
             }
-            trackinfo.setAttribute(QStringLiteral("mute"), false);
-            trackinfo.setAttribute(QStringLiteral("locked"), false);
+            trackinfo.setAttribute(QStringLiteral("mute"), 0);
+            trackinfo.setAttribute(QStringLiteral("locked"), 0);
             tracksinfo.appendChild(trackinfo);
         }
         infoXml.appendChild(tracksinfo);
@@ -1395,7 +1395,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
         // Make sure all slowmotion producers have a master clip
         for (int i = 0; i < slowmotionIds.count(); i++) {
-            QString slo = slowmotionIds.at(i);
+            const QString& slo = slowmotionIds.at(i);
             if (!ids.contains(slo)) {
                 // rebuild producer from Kdenlive's old xml format
                 for (int j = 0; j < kdenlive_producers.count(); j++) {
@@ -1519,7 +1519,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (id == QLatin1String("luma")) {
                 EffectsList::setProperty(trans, QStringLiteral("kdenlive_id"), QStringLiteral("wipe"));
                 EffectsList::setProperty(trans, QStringLiteral("mlt_service"), QStringLiteral("composite"));
-                bool reverse = EffectsList::property(trans, QStringLiteral("reverse")).toInt();
+                bool reverse = EffectsList::property(trans, QStringLiteral("reverse")).toInt() != 0;
                 EffectsList::setProperty(trans, QStringLiteral("luma_invert"), EffectsList::property(trans, QStringLiteral("invert")));
                 EffectsList::setProperty(trans, QStringLiteral("luma"), EffectsList::property(trans, QStringLiteral("resource")));
                 EffectsList::removeProperty(trans, QStringLiteral("invert"));
@@ -2053,7 +2053,7 @@ QString DocumentValidator::factorizeGeomValue(const QString &value, double facto
     QString result;
     QLocale locale;
     for (int i = 0; i < vals.count(); i++) {
-        QString s = vals.at(i);
+        const QString& s = vals.at(i);
         QString key = s.section(QLatin1Char('='), 0, 0);
         QString val = s.section(QLatin1Char('='), 1, 1);
         double v = locale.toDouble(val) / factor;

@@ -98,7 +98,7 @@ bool EffectStackEdit::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::Wheel) {
         QWheelEvent *we = static_cast<QWheelEvent *>(e);
-        bool filterWheel = verticalScrollBar() && verticalScrollBar()->isVisible();
+        bool filterWheel = (verticalScrollBar() != nullptr) && verticalScrollBar()->isVisible();
         if (!filterWheel || we->modifiers() != Qt::NoModifier) {
             e->accept();
             return false;
@@ -107,28 +107,28 @@ bool EffectStackEdit::eventFilter(QObject *o, QEvent *e)
             if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } else {
+            } 
                 e->ignore();
                 return true;
-            }
+            
         }
         if (qobject_cast<KComboBox *>(o)) {
             if (qobject_cast<KComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } else {
+            } 
                 e->ignore();
                 return true;
-            }
+            
         }
         if (qobject_cast<QProgressBar *>(o)) {
             if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } else {
+            } 
                 e->ignore();
                 return true;
-            }
+            
         }
     }
     return QWidget::eventFilter(o, e);

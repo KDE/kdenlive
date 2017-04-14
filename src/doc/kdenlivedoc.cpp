@@ -561,24 +561,24 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
 
 bool KdenliveDoc::useProxy() const
 {
-    return m_documentProperties.value(QStringLiteral("enableproxy")).toInt();
+    return m_documentProperties.value(QStringLiteral("enableproxy")).toInt() != 0;
 }
 
 bool KdenliveDoc::autoGenerateProxy(int width) const
 {
-    return m_documentProperties.value(QStringLiteral("generateproxy")).toInt() && width > m_documentProperties.value(QStringLiteral("proxyminsize")).toInt();
+    return (m_documentProperties.value(QStringLiteral("generateproxy")).toInt() != 0) && width > m_documentProperties.value(QStringLiteral("proxyminsize")).toInt();
 }
 
 bool KdenliveDoc::autoGenerateImageProxy(int width) const
 {
-    return m_documentProperties.value(QStringLiteral("generateimageproxy")).toInt() && width > m_documentProperties.value(QStringLiteral("proxyimageminsize")).toInt();
+    return (m_documentProperties.value(QStringLiteral("generateimageproxy")).toInt() != 0) && width > m_documentProperties.value(QStringLiteral("proxyimageminsize")).toInt();
 }
 
 void KdenliveDoc::slotAutoSave()
 {
     //TODO: re-enable when qml timeline is ready
     return;
-    if (m_render && m_autosave) {
+    if ((m_render != nullptr) && (m_autosave != nullptr)) {
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
             // show error: could not open the autosave file
             qCDebug(KDENLIVE_LOG) << "ERROR; CANNOT CREATE AUTOSAVE FILE";
@@ -785,7 +785,7 @@ void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
     QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
     QList<QUrl> cacheUrls;
     for (int i = 0; i < list.count(); ++i) {
-        std::shared_ptr<ClipController> clip = list.at(i);
+        const std::shared_ptr<ClipController>& clip = list.at(i);
         if (clip->clipType() == Text) {
             // the image for title clip must be moved
             QUrl oldUrl = QUrl::fromLocalFile(clip->clipUrl());
@@ -811,7 +811,7 @@ void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
         if (proxyDir.mkpath(QStringLiteral("."))) {
             KIO::CopyJob *job = KIO::move(cacheUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
             KJobWidgets::setWindow(job, QApplication::activeWindow());
-            if (job->exec() > 0) {
+            if (static_cast<int>(job->exec()) > 0) {
                 KMessageBox::sorry(QApplication::activeWindow(), i18n("Moving proxy clips failed: %1", job->errorText()));
             }
         }
@@ -880,9 +880,9 @@ double KdenliveDoc::projectDuration() const
 {
     if (m_render) {
         return GenTime(m_render->getLength(), m_render->fps()).ms() / 1000;
-    } else {
+    } 
         return 0;
-    }
+    
 }
 
 double KdenliveDoc::fps() const
@@ -912,13 +912,13 @@ void KdenliveDoc::setUrl(const QUrl &url)
 
 void KdenliveDoc::slotModified()
 {
-    setModified(m_commandStack->isClean() == false);
+    setModified(!m_commandStack->isClean());
 }
 
 void KdenliveDoc::setModified(bool mod)
 {
     // fix mantis#3160: The document may have an empty URL if not saved yet, but should have a m_autosave in any case
-    if (m_autosave && mod) {
+    if ((m_autosave != nullptr) && mod) {
         emit startAutoSave();
     }
     if (mod == m_modified) {
@@ -937,9 +937,9 @@ const QString KdenliveDoc::description() const
 {
     if (!m_url.isValid()) {
         return i18n("Untitled") + QStringLiteral("[*] / ") + m_profile.description;
-    } else {
+    } 
         return m_url.fileName() + QStringLiteral(" [*]/ ") + m_profile.description;
-    }
+    
 }
 
 QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
@@ -968,9 +968,9 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
                 fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
                 if (QString::fromLatin1(fileHash.toHex()) == matchHash) {
                     return file.fileName();
-                } else {
+                } 
                     qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << "size match but not hash";
-                }
+                
             }
         }
         ////qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << file.size() << fileHash.toHex();

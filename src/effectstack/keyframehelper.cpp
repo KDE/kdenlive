@@ -86,7 +86,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent *event)
                 }
                 for (int i = 0; i < m_extraGeometries.count(); ++i) {
                     if (m_extraGeometries.at(i)->next_key(item, mousePos) == 0) {
-                        Mlt::GeometryItem *item2 = new Mlt::GeometryItem();
+                        auto *item2 = new Mlt::GeometryItem();
                         item2->x(item.x());
                         item2->frame(item.frame());
                         m_extraMovingItems.append(item2);
@@ -223,7 +223,7 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent *event)
         m_movingKeyframe = false;
         emit keyframeMoved(m_position);
         return;
-    } else if (!m_dragStart.isNull()) {
+    } if (!m_dragStart.isNull()) {
         m_seekPosition = m_movingItem.frame();
         m_dragStart = QPoint();
         emit requestSeek(m_seekPosition);

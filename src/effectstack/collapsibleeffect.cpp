@@ -249,28 +249,28 @@ bool CollapsibleEffect::eventFilter(QObject *o, QEvent *e)
             if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } else {
+            } 
                 e->ignore();
                 return true;
-            }
+            
         }
         if (qobject_cast<KComboBox *>(o)) {
             if (qobject_cast<KComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } else {
+            } 
                 e->ignore();
                 return true;
-            }
+            
         }
         if (qobject_cast<QProgressBar *>(o)) {
             if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } else {
+            } 
                 e->ignore();
                 return true;
-            }
+            
         }
     }
     return QWidget::eventFilter(o, e);
@@ -728,11 +728,11 @@ void CollapsibleEffect::adjustButtons(int ix, int max)
 
 MonitorSceneType CollapsibleEffect::needsMonitorEffectScene() const
 {
-    if (m_paramWidget && !m_enabledButton->isActive()) {
+    if ((m_paramWidget != nullptr) && !m_enabledButton->isActive()) {
         return m_paramWidget->needsMonitorEffectScene();
-    } else {
+    } 
         return MonitorSceneDefault;
-    }
+    
 }
 
 void CollapsibleEffect::setRange(int inPoint, int outPoint)

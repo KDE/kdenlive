@@ -101,7 +101,7 @@ void MeltJob::startJob()
     bool producerProfile = m_extra.contains(QStringLiteral("producer_profile"));
     if (producerProfile) {
         m_profile = new Mlt::Profile;
-        m_profile->set_explicit(false);
+        m_profile->set_explicit(0);
     } else {
         m_profile = projectProfile;
     }
@@ -113,9 +113,9 @@ void MeltJob::startJob()
     int fps_num = projectProfile->frame_rate_num();
     int fps_den = projectProfile->frame_rate_den();
     Mlt::Producer *producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
-    if (producer && producerProfile) {
+    if ((producer != nullptr) && producerProfile) {
         m_profile->from_producer(*producer);
-        m_profile->set_explicit(true);
+        m_profile->set_explicit(1);
     }
     if (qAbs(m_profile->fps() - fps) > 0.01 || producerProfile) {
         // Reload producer
@@ -128,7 +128,7 @@ void MeltJob::startJob()
         delete projectProfile;
     }
 
-    if (!producer || !producer->is_valid()) {
+    if ((producer == nullptr) || !producer->is_valid()) {
         // Clip was removed or something went wrong, Notify user?
         //m_errorMessage.append(i18n("Invalid clip"));
         setStatus(JobCrashed);
@@ -160,7 +160,7 @@ void MeltJob::startJob()
     } else {
         m_consumer = new Mlt::Consumer(*m_profile, consumerName.toUtf8().constData());
     }
-    if (!m_consumer || !m_consumer->is_valid()) {
+    if ((m_consumer == nullptr) || !m_consumer->is_valid()) {
         m_errorMessage.append(i18n("Cannot create consumer %1.", consumerName));
         setStatus(JobCrashed);
         return;
@@ -187,7 +187,7 @@ void MeltJob::startJob()
     // Build filter
     if (!filterName.isEmpty()) {
         m_filter = new Mlt::Filter(*m_profile, filterName.toUtf8().data());
-        if (!m_filter || !m_filter->is_valid()) {
+        if ((m_filter == nullptr) || !m_filter->is_valid()) {
             m_errorMessage = i18n("Filter %1 crashed", filterName);
             setStatus(JobCrashed);
             return;
@@ -282,7 +282,7 @@ void MeltJob::emitFrameNumber(int pos)
 void MeltJob::setStatus(ClipJobStatus status)
 {
     m_jobStatus = status;
-    if (status == JobAborted && m_consumer) {
+    if (status == JobAborted && (m_consumer != nullptr)) {
         m_consumer->stop();
     }
 }

@@ -35,7 +35,7 @@ DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, 
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
     // Build monitor for chapters
-    QVBoxLayout *vbox = new QVBoxLayout;
+    auto *vbox = new QVBoxLayout;
     m_view.video_frame->setLayout(vbox);
 
     if (m_format == PAL || m_format == PAL_WIDE) {
@@ -86,9 +86,9 @@ void DvdWizardChapters::slotAddChapter()
     QStringList currentChaps = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
     if (currentChaps.contains(QString::number(pos))) {
         return;
-    } else {
+    } 
         currentChaps.append(QString::number(pos));
-    }
+    
     QList<int> chapterTimes;
     chapterTimes.reserve(currentChaps.count());
     for (int i = 0; i < currentChaps.count(); ++i) {

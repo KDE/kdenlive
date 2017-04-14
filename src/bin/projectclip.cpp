@@ -46,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtConcurrent>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <utility>
 
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel* model, std::shared_ptr<Mlt::Producer> producer, ProjectFolder *parent) :
     AbstractProjectItem(AbstractProjectItem::ClipItem, id, model, parent)
@@ -165,7 +166,7 @@ ClipType ProjectClip::clipType() const
 bool ProjectClip::hasParent(const QString &id) const
 {
     AbstractProjectItem *par = parent();
-    while (par) {
+    while (par != nullptr) {
         if (par->clipId() == id) {
             return true;
         }
@@ -310,7 +311,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
 {
     Q_UNUSED(replaceProducer);
 
-    updateProducer(producer);
+    updateProducer(std::move(producer));
 
     // Update info
     if (m_name.isEmpty()) {
@@ -457,10 +458,7 @@ double ProjectClip::getOriginalFps() const
 bool ProjectClip::hasProxy() const
 {
     QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    if (proxy.isEmpty() || proxy == QLatin1String("-")) {
-        return false;
-    }
-    return true;
+    return !proxy.isEmpty() || proxy == QLatin1String("-");
 }
 
 void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool refreshPanel)
@@ -879,7 +877,7 @@ void ProjectClip::slotCreateAudioThumbs()
         QStringList args;
         QList<QTemporaryFile *> channelFiles;
         for (int i = 0; i < channels; i++) {
-            QTemporaryFile *channelTmpfile = new QTemporaryFile;
+            auto *channelTmpfile = new QTemporaryFile;
             if (!channelTmpfile->open()) {
                 delete channelTmpfile;
                 static_cast<ProjectItemModel*>(m_model)->bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"), 100, ErrorMessage);
@@ -995,7 +993,7 @@ void ProjectClip::slotCreateAudioThumbs()
                     }
                 }
                 for (int k = 0; k < channelsData.count(); k++) {
-                    if (steps) {
+                    if (steps != 0) {
                         channelsData[k] /= steps;
                     }
                     audioLevels << channelsData[k] * factor;
@@ -1055,7 +1053,7 @@ void ProjectClip::slotCreateAudioThumbs()
                 last_val = val;
             }
             QScopedPointer<Mlt::Frame> mlt_frame(audioProducer->get_frame());
-            if (mlt_frame && mlt_frame->is_valid() && !mlt_frame->get_int("test_audio")) {
+            if ((mlt_frame != nullptr) && mlt_frame->is_valid() && (mlt_frame->get_int("test_audio") == 0)) {
                 int samples = mlt_sample_calculator(framesPerSecond, frequency, z);
                 mlt_frame->get_audio(audioFormat, frequency, channels, samples);
                 for (int channel = 0; channel < channels; ++channel) {
@@ -1127,10 +1125,7 @@ bool ProjectClip::isTransparent() const
     if (m_type == Text) {
         return true;
     }
-    if (m_type == Image && getProducerIntProperty(QStringLiteral("kdenlive:transparency")) == 1) {
-        return true;
-    }
-    return false;
+    return m_type == Image && getProducerIntProperty(QStringLiteral("kdenlive:transparency")) == 1;
 }
 
 QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString &data, int offset)
@@ -1139,7 +1134,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
         // Remove data
         return QStringList() << QString("kdenlive:clipanalysis." + name) << QString();
         //m_controller->resetProperty("kdenlive:clipanalysis." + name);
-    } else {
+    } 
         QString current = getProducerProperty("kdenlive:clipanalysis." + name);
         if (!current.isEmpty()) {
             if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")), KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
@@ -1149,7 +1144,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
                 Mlt::Geometry newGeometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
                 Mlt::GeometryItem item;
                 int pos = 0;
-                while (!newGeometry.next_key(&item, pos)) {
+                while (newGeometry.next_key(&item, pos) == 0) {
                     pos = item.frame();
                     item.frame(pos + offset);
                     pos++;
@@ -1157,7 +1152,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
                 }
                 return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();
                 //m_controller->setProperty("kdenlive:clipanalysis." + name, geometry.serialise());
-            } else {
+            } 
                 // Add data with another name
                 int i = 1;
                 QString previous = getProducerProperty("kdenlive:clipanalysis." + name + QString::number(i));
@@ -1167,12 +1162,12 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
                 }
                 return QStringList() << QString("kdenlive:clipanalysis." + name + QString::number(i)) << geometryWithOffset(data, offset);
                 //m_controller->setProperty("kdenlive:clipanalysis." + name + QLatin1Char(' ') + QString::number(i), geometryWithOffset(data, offset));
-            }
+            
         } else {
             return QStringList() << QString("kdenlive:clipanalysis." + name) << geometryWithOffset(data, offset);
             //m_controller->setProperty("kdenlive:clipanalysis." + name, geometryWithOffset(data, offset));
         }
-    }
+    
 }
 
 QMap<QString, QString> ProjectClip::analysisData(bool withPrefix)
@@ -1190,7 +1185,7 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
     Mlt::Geometry newgeometry(nullptr, duration().frames(profile->fps()), profile->width(), profile->height());
     Mlt::GeometryItem item;
     int pos = 0;
-    while (!geometry.next_key(&item, pos)) {
+    while (geometry.next_key(&item, pos) == 0) {
         pos = item.frame();
         item.frame(pos + offset);
         pos++;
@@ -1219,7 +1214,7 @@ void ProjectClip::disableEffects(bool disable)
 void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId)
 {
     Q_ASSERT(m_registeredClips.count(clipId) == 0);
-    m_registeredClips[clipId] = timeline;
+    m_registeredClips[clipId] = std::move(timeline);
 }
 
 

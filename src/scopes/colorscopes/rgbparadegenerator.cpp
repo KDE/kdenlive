@@ -42,7 +42,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
     if (paradeSize.width() <= 0 || paradeSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
 
-    } else {
+    } 
         QImage parade(paradeSize, QImage::Format_ARGB32);
         parade.fill(Qt::transparent);
 
@@ -219,7 +219,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         davinci.drawText(2 * partW + 2 * offset + d,   wh - 20, QString::number(maxB, 'f', 0));
 
         return parade;
-    }
+    
 }
 
 #undef CHOP255

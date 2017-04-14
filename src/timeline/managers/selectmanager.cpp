@@ -45,7 +45,7 @@ bool SelectManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
     m_modifiers = event->modifiers();
     m_dragMoved = false;
     m_clickPoint = event->pos();
-    if (m_modifiers & Qt::ShiftModifier) {
+    if (m_modifiers & Qt::ShiftModifier != 0u) {
         m_view->createRectangleSelection(event->modifiers());
         return true;
     }
@@ -84,7 +84,7 @@ bool SelectManager::mouseMove(QMouseEvent *event, int, int)
     if (mode == Seek) {
         return false;
     }
-    if (!m_dragMoved && event->buttons() & Qt::LeftButton) {
+    if (!m_dragMoved && (event->buttons() & Qt::LeftButton != 0u)) {
         if ((m_clickPoint - event->pos()).manhattanLength() < QApplication::startDragDistance()) {
             event->ignore();
             return true;
@@ -97,7 +97,7 @@ bool SelectManager::mouseMove(QMouseEvent *event, int, int)
         static_cast<ClipItem *>(dragItem)->setFadeIn(static_cast<int>(mappedXPos - dragItem->startPos().frames(m_view->fps())));
         event->accept();
         return true;
-    } else if (mode == FadeOut) {
+    } if (mode == FadeOut) {
         AbstractClipItem *dragItem = m_view->dragItem();
         double mappedXPos = m_view->mapToScene(event->pos()).x();
         static_cast<ClipItem *>(dragItem)->setFadeOut(static_cast<int>(dragItem->endPos().frames(m_view->fps()) - mappedXPos));
@@ -133,7 +133,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
         event->accept();
         m_view->resetSelectionGroup();
         m_view->groupSelectedItems();
-        if (m_view->selectionGroup() == nullptr && dragItem) {
+        if (m_view->selectionGroup() == nullptr && (dragItem != nullptr)) {
             // Only 1 item selected
             if (dragItem->type() == AVWidget) {
                 dragItem->setMainSelectedClip(true);
@@ -155,7 +155,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
         m_view->resetSelectionGroup();
         m_view->groupSelectedItems();
         AbstractGroupItem *selectionGroup = m_view->selectionGroup();
-        if (selectionGroup == nullptr && dragItem) {
+        if (selectionGroup == nullptr && (dragItem != nullptr)) {
             // Only 1 item selected
             if (dragItem->type() == AVWidget) {
                 dragItem->setMainSelectedClip(true);
@@ -163,7 +163,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
             }
         }
     }
-    if (moveType == FadeIn && dragItem) {
+    if (moveType == FadeIn && (dragItem != nullptr)) {
         ClipItem *item = static_cast <ClipItem *>(dragItem);
         // find existing video fade, if none then audio fade
 
@@ -209,7 +209,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
             m_view->slotAddEffect(effect, dragItem->startPos(), dragItem->track());
         }
 
-    } else if (moveType == FadeOut && dragItem) {
+    } else if (moveType == FadeOut && (dragItem != nullptr)) {
         ClipItem *item = static_cast <ClipItem *>(dragItem);
         // find existing video fade, if none then audio fade
 
@@ -258,7 +258,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
             m_view->slotAddEffect(effect, dragItem->startPos(), dragItem->track());
         }
 
-    } else if (moveType == KeyFrame && dragItem && m_dragMoved) {
+    } else if (moveType == KeyFrame && (dragItem != nullptr) && m_dragMoved) {
         // update the MLT effect
         ClipItem *item = static_cast <ClipItem *>(dragItem);
         QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
@@ -284,7 +284,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
         m_commandStack->push(command);
         m_view->updateEffect(item->track(), item->startPos(), item->selectedEffect());
         m_view->clipItemSelected(item);
-    } else if (moveType == KeyFrame && dragItem) {
+    } else if (moveType == KeyFrame && (dragItem != nullptr)) {
         m_view->setActiveKeyframe(dragItem->selectedKeyFramePos());
     }
 }
@@ -297,11 +297,11 @@ void SelectManager::initTool(double)
 void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation)
 {
     OperationType currentMode = operationMode;
-    if (item && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {
+    if ((item != nullptr) && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {
         AbstractClipItem *clip = static_cast <AbstractClipItem *>(item);
         QString tooltipMessage;
 
-        if (group && clip->parentItem() == group) {
+        if ((group != nullptr) && clip->parentItem() == group) {
             // all other modes break the selection, so the user probably wants to move it
             operationMode = MoveOperation;
         } else {
@@ -331,7 +331,7 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
                 message = ci->clipName() + i18n(":");
                 message.append(i18n(" Position:") + view->getDisplayTimecode(ci->info().startPos));
                 message.append(i18n(" Duration:") + view->getDisplayTimecode(ci->cropDuration()));
-                if (clip->parentItem() && clip->parentItem()->type() == GroupWidget) {
+                if ((clip->parentItem() != nullptr) && clip->parentItem()->type() == GroupWidget) {
                     AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(clip->parentItem());
                     if (clip->parentItem() == group) {
                         message.append(i18n(" Selection duration:"));
@@ -339,7 +339,7 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
                         message.append(i18n(" Group duration:"));
                     }
                     message.append(view->getDisplayTimecode(parent->duration()));
-                    if (parent->parentItem() && parent->parentItem()->type() == GroupWidget) {
+                    if ((parent->parentItem() != nullptr) && parent->parentItem()->type() == GroupWidget) {
                         AbstractGroupItem *parent2 = static_cast <AbstractGroupItem *>(parent->parentItem());
                         message.append(i18n(" Selection duration:") + view->getDisplayTimecode(parent2->duration()));
                     }
@@ -350,7 +350,7 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
             if (ci) {
                 message = i18n("Crop from start: ") + view->getDisplayTimecode(ci->cropStart());
             }
-            if (item->type() == AVWidget && item->parentItem() && item->parentItem() != group) {
+            if (item->type() == AVWidget && (item->parentItem() != nullptr) && item->parentItem() != group) {
                 message.append(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."));
             }
         } else if (operationMode == ResizeEnd) {
@@ -358,15 +358,15 @@ void SelectManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, Q
             if (ci) {
                 message = i18n("Duration: ") + view->getDisplayTimecode(ci->cropDuration());
             }
-            if (item->type() == AVWidget && item->parentItem() && item->parentItem() != group) {
+            if (item->type() == AVWidget && (item->parentItem() != nullptr) && item->parentItem() != group) {
                 message.append(i18n("Use Ctrl to resize only current item, otherwise all items in this group will be resized at once."));
             }
         } else if (operationMode == FadeIn || operationMode == FadeOut) {
             view->setCursor(Qt::PointingHandCursor);
-            if (ci && operationMode == FadeIn && ci->fadeIn()) {
+            if ((ci != nullptr) && operationMode == FadeIn && (ci->fadeIn() != 0)) {
                 message = i18n("Fade in duration: ");
                 message.append(view->getDisplayTimecodeFromFrames(ci->fadeIn()));
-            } else if (ci && operationMode == FadeOut && ci->fadeOut()) {
+            } else if ((ci != nullptr) && operationMode == FadeOut && (ci->fadeOut() != 0)) {
                 message = i18n("Fade out duration: ");
                 message.append(view->getDisplayTimecodeFromFrames(ci->fadeOut()));
             } else {

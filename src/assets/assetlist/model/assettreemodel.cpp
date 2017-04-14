@@ -51,9 +51,9 @@ QString AssetTreeModel::getName(const QModelIndex& index) const
     TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
     if (item->depth() == 1) {
         return item->dataColumn(0).toString();
-    } else {
+    } 
         return item->dataColumn(AssetTreeModel::nameCol).toString();
-    }
+    
 }
 
 QString AssetTreeModel::getDescription(const QModelIndex& index) const
@@ -64,7 +64,7 @@ QString AssetTreeModel::getDescription(const QModelIndex& index) const
     TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
     if (item->depth() == 1) {
         return QString();
-    } else {
+    } 
         auto id = item->dataColumn(AssetTreeModel::idCol).toString();
         if (EffectsRepository::get()->exists(id)){
             return EffectsRepository::get()->getDescription(id);
@@ -73,7 +73,7 @@ QString AssetTreeModel::getDescription(const QModelIndex& index) const
             return TransitionsRepository::get()->getDescription(id);
         }
         return QString();
-    }
+    
 }
 
 

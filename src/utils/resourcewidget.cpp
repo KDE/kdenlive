@@ -95,7 +95,7 @@ ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent) :
 
     m_autoPlay = new QAction(i18n("Auto Play"), this);
     m_autoPlay->setCheckable(true);
-    QMenu *resourceMenu = new QMenu;
+    auto *resourceMenu = new QMenu;
     resourceMenu->addAction(m_autoPlay);
     config_button->setMenu(resourceMenu);
     config_button->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
@@ -280,7 +280,7 @@ void ResourceWidget::slotLoadPreview(const QString &url)
  */
 void ResourceWidget::slotLoadAnimatedGif(KJob *job)
 {
-    if (!job->error()) {
+    if (job->error() == 0) {
         delete m_movie;
         m_movie = new QMovie(m_tmpThumbFile->fileName());
         GifLabel->clear();
@@ -488,20 +488,20 @@ void ResourceWidget::slotGotFile(KJob *job)
 
 {
     button_import->setEnabled(true);
-    if (job->error()) {
+    if (job->error() != 0) {
 
         const QString errTxt  = job->errorString();
         KMessageBox::sorry(this, errTxt, i18n("Error Loading Data"));
 
         qCDebug(KDENLIVE_LOG) << "//file import job errored: " << errTxt;
         return;
-    } else {
+    } 
         KIO::FileCopyJob *copyJob = static_cast<KIO::FileCopyJob *>(job);
         const QUrl filePath = copyJob->destUrl();
 
         KMessageBox::information(this, i18n("Resource saved to ") + filePath.toLocalFile(), i18n("Data Imported"));
         emit addClip(filePath, QStringList());
-    }
+    
 }
 
 /**

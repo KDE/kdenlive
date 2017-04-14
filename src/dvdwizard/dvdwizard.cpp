@@ -76,7 +76,7 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     m_pageMenu->setTitle(i18n("Create DVD Menu"));
     addPage(m_pageMenu);
 
-    QWizardPage *page4 = new QWizardPage;
+    auto *page4 = new QWizardPage;
     page4->setTitle(i18n("Creating DVD Image"));
     m_status.setupUi(page4);
     m_status.error_box->setHidden(true);
@@ -923,7 +923,7 @@ void DvdWizard::slotBurn()
 void DvdWizard::slotGenerate()
 {
     // clear job icons
-    if ((m_dvdauthor && m_dvdauthor->state() != QProcess::NotRunning) || (m_mkiso && m_mkiso->state() != QProcess::NotRunning)) {
+    if (((m_dvdauthor != nullptr) && m_dvdauthor->state() != QProcess::NotRunning) || ((m_mkiso != nullptr) && m_mkiso->state() != QProcess::NotRunning)) {
         return;
     }
     for (int i = 0; i < m_status.job_progress->count(); ++i) {
@@ -950,9 +950,9 @@ void DvdWizard::slotGenerate()
 void DvdWizard::slotAbort()
 {
     // clear job icons
-    if (m_dvdauthor && m_dvdauthor->state() != QProcess::NotRunning) {
+    if ((m_dvdauthor != nullptr) && m_dvdauthor->state() != QProcess::NotRunning) {
         m_dvdauthor->terminate();
-    } else if (m_mkiso && m_mkiso->state() != QProcess::NotRunning) {
+    } else if ((m_mkiso != nullptr) && m_mkiso->state() != QProcess::NotRunning) {
         m_mkiso->terminate();
     }
 }

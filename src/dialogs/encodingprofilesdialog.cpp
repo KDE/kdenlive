@@ -92,7 +92,7 @@ void EncodingProfilesDialog::slotLoadProfiles()
     QMapIterator<QString, QString> i(values);
     while (i.hasNext()) {
         i.next();
-        QListWidgetItem *item = new QListWidgetItem(i.key(), profile_list);
+        auto *item = new QListWidgetItem(i.key(), profile_list);
         item->setData(Qt::UserRole, i.value());
         //cout << i.key() << ": " << i.value() << endl;
     }
@@ -127,15 +127,15 @@ void EncodingProfilesDialog::slotDeleteProfile()
 void EncodingProfilesDialog::slotAddProfile()
 {
     QPointer<QDialog> d = new QDialog(this);
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
-    QLineEdit *pname = new QLineEdit;
+    auto *pname = new QLineEdit;
     l->addWidget(pname);
     l->addWidget(new QLabel(i18n("Parameters:")));
-    QPlainTextEdit *pparams = new QPlainTextEdit;
+    auto *pparams = new QPlainTextEdit;
     l->addWidget(pparams);
     l->addWidget(new QLabel(i18n("File extension:")));
-    QLineEdit *pext = new QLineEdit;
+    auto *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     connect(box, &QDialogButtonBox::accepted, d.data(), &QDialog::accept);
@@ -159,15 +159,15 @@ void EncodingProfilesDialog::slotAddProfile()
 void EncodingProfilesDialog::slotEditProfile()
 {
     QPointer<QDialog> d = new QDialog(this);
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
-    QLineEdit *pname = new QLineEdit;
+    auto *pname = new QLineEdit;
     l->addWidget(pname);
     l->addWidget(new QLabel(i18n("Parameters:")));
-    QPlainTextEdit *pparams = new QPlainTextEdit;
+    auto *pparams = new QPlainTextEdit;
     l->addWidget(pparams);
     l->addWidget(new QLabel(i18n("File extension:")));
-    QLineEdit *pext = new QLineEdit;
+    auto *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     connect(box, &QDialogButtonBox::accepted, d.data(), &QDialog::accept);

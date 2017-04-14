@@ -109,7 +109,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     QMap<QString, QString>proxyUrls;
 
     for (int i = 0; i < list.count(); ++i) {
-        std::shared_ptr<ClipController> clip = list.at(i);
+        const std::shared_ptr<ClipController>& clip = list.at(i);
         ClipType t = clip->clipType();
         QString id = clip->clipId();
         if (t == Color) {
@@ -506,7 +506,7 @@ void ArchiveWidget::slotCheckSpace()
 
 bool ArchiveWidget::slotStartArchiving(bool firstPass)
 {
-    if (firstPass && (m_copyJob || m_archiveThread.isRunning())) {
+    if (firstPass && ((m_copyJob != nullptr) || m_archiveThread.isRunning())) {
         // archiving in progress, abort
         if (m_copyJob) {
             m_copyJob->kill(KJob::EmitResult);
@@ -656,7 +656,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         if (!finished && slotStartArchiving(false)) {
             // We still have files to archive
             return;
-        } else if (!compressed_archive->isChecked()) {
+        } if (!compressed_archive->isChecked()) {
             // Archiving finished
             progressBar->setValue(100);
             if (processProjectFile()) {
@@ -933,7 +933,7 @@ void ArchiveWidget::slotExtractProgress()
 
 void ArchiveWidget::slotGotProgress(KJob *job)
 {
-    if (!job->error()) {
+    if (job->error() == 0) {
         KIO::DirectorySizeJob *j = static_cast <KIO::DirectorySizeJob *>(job);
         progressBar->setValue((int) 100 * j->totalSize() / m_requestedSize);
     }
@@ -1012,7 +1012,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
 
         // Parse all items to disable original clips for existing proxies
         for (int i = 0; i < proxyIdList.count(); ++i) {
-            QString id = proxyIdList.at(i);
+            const QString& id = proxyIdList.at(i);
             if (id.isEmpty()) {
                 continue;
             }

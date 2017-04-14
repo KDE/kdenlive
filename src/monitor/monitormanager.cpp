@@ -125,7 +125,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
     if (m_clipMonitor == nullptr || m_projectMonitor == nullptr) {
         return false;
     }
-    if (m_activeMonitor && m_activeMonitor->id() == name) {
+    if ((m_activeMonitor != nullptr) && m_activeMonitor->id() == name) {
         if (forceRefresh) {
             m_activeMonitor->start();
         }

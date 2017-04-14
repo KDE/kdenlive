@@ -39,7 +39,7 @@ ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent)
     }
     m_view.kurlrequester->setUrl(destination);
     m_view.toolButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
-    QMenu *settingsMenu = new QMenu(this);
+    auto *settingsMenu = new QMenu(this);
     m_view.toolButton->setMenu(settingsMenu);
     QAction *a = settingsMenu->addAction(i18n("Reverse clip"));
     a->setData(-100);

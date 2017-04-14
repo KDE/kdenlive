@@ -96,13 +96,13 @@ void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
     m_frametimecode = frametimecode;
     lineEdit()->clear();
     if (m_frametimecode) {
-        QIntValidator *valid = new QIntValidator(lineEdit());
+        auto *valid = new QIntValidator(lineEdit());
         valid->setBottom(0);
         lineEdit()->setValidator(valid);
         lineEdit()->setInputMask(QString());
     } else {
         lineEdit()->setInputMask(m_timecode.mask());
-        MyValidator *valid = new MyValidator(lineEdit());
+        auto *valid = new MyValidator(lineEdit());
         lineEdit()->setValidator(valid);
     }
     setValue(m_value);

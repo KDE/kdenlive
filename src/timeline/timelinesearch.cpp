@@ -81,9 +81,9 @@ bool TimelineSearch::eventFilter(QObject *watched, QEvent *event)
         // Search, or pass event on if no search active or started
         return keyPressEvent(static_cast<QKeyEvent *>(event));
 
-    } else {
+    } 
         return QObject::eventFilter(watched, event);
-    }
+    
 }
 
 /**

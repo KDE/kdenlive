@@ -54,7 +54,7 @@ TrackModel::~TrackModel()
     m_track.remove_track(0);
 }
 
-int TrackModel::construct(std::weak_ptr<TimelineModel> parent, int id, int pos)
+int TrackModel::construct(const std::weak_ptr<TimelineModel>& parent, int id, int pos)
 {
     std::shared_ptr<TrackModel> track(new TrackModel(parent, id));
     id = track->m_id;
@@ -110,10 +110,10 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 ptr->_endInsertRows();
             }
             return true;
-        } else {
+        } 
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
             return false;
-        }
+        
     };
     if (target_clip >= count && isBlankAt(position)) {
         //In that case, we append after, in the first playlist
@@ -122,12 +122,12 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                 int index = m_playlists[0].insert_at(position, *clip, 1);
                 return index != -1 && end_function();
-            } else {
+            } 
                 qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
                 return false;
-            }
+            
         };
-    } else {
+    } 
         if (isBlankAt(position)) {
             int blank_end = getBlankEnd(position);
             int length = -1;
@@ -141,14 +141,14 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                         int index = m_playlists[0].insert_at(position, *clip, 1);
                         return index != -1 && end_function();
-                    } else {
+                    } 
                         qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
                         return false;
-                    }
+                    
                 };
             }
         }
-    }
+    
     return [](){return false;};
 }
 
@@ -264,9 +264,9 @@ int TrackModel::getBlankSizeNearComposition(int compoId, bool after)
         if (it != m_compoPos.begin()) {
             --it;
             return clip_position - it->first -m_allCompositions[it->second]->getPlaytime();
-        } else {
+        } 
             return clip_position;
-        }
+        
     }
     return length;
 }
@@ -318,7 +318,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             }
             return err == 0;
         };
-    } else {
+    } 
         int blank = -1;
         int other_blank_end = getBlankEnd(clip_position, (target_track + 1) % 2);
         if (right) {
@@ -379,7 +379,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 };
             }
         }
-    }
+    
     return [](){return false;};
 }
 
@@ -694,10 +694,10 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
                 ptr->m_snaps->addPoint(new_out);
                 m_compoPos[new_in] = composition->getId();
                 return true;
-            } else {
+            } 
                 qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
                 return false;
-            }
+            
         };
     }
     return [](){return false;};
@@ -706,20 +706,20 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
 bool TrackModel::hasIntersectingComposition(int in, int out) const
 {
     auto it = m_compoPos.lower_bound(in);
-    if (m_compoPos.size() == 0) {
+    if (m_compoPos.empty()) {
         return false;
     }
     if (it != m_compoPos.end() && it->first <= out) {
         //compo at it intersects
         return true;
-    } else {
+    } 
         if (it == m_compoPos.begin()) {
             return false;
-        } else {
+        } 
             --it;
             int end = it->first + m_allCompositions.at(it->second)->getPlaytime() - 1;
             return end >= in;
-        }
-    }
+        
+    
     return false;
 }

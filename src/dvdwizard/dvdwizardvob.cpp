@@ -85,7 +85,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_view.button_up->setIcon(QIcon::fromTheme(QStringLiteral("go-up")));
     m_view.button_down->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
     m_vobList = new DvdTreeWidget(this);
-    QVBoxLayout *lay1 = new QVBoxLayout;
+    auto *lay1 = new QVBoxLayout;
     lay1->setMargin(0);
     lay1->addWidget(m_vobList);
     m_view.list_frame->setLayout(lay1);
@@ -125,7 +125,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent) :
     m_vobList->header()->setSectionResizeMode(2, QHeaderView::Custom);
 
     m_capacityBar = new KCapacityBar(KCapacityBar::DrawTextInline, this);
-    QHBoxLayout *lay = new QHBoxLayout;
+    auto *lay = new QHBoxLayout;
     lay->addWidget(m_capacityBar);
     m_view.size_box->setLayout(lay);
 
@@ -286,7 +286,7 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
     qint64 fileSize = f.size();
 
     Mlt::Profile profile;
-    profile.set_explicit(false);
+    profile.set_explicit(0);
     QTreeWidgetItem *item = new QTreeWidgetItem(m_vobList, QStringList() << url.toLocalFile() << QString() << KIO::convertSize(fileSize));
     item->setData(2, Qt::UserRole, fileSize);
     item->setData(0, Qt::DecorationRole, QIcon::fromTheme(QStringLiteral("video-x-generic")).pixmap(60, 45));
@@ -295,17 +295,17 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
     QString resource = url.toLocalFile();
     resource.prepend(QStringLiteral("avformat:"));
     Mlt::Producer *producer = new Mlt::Producer(profile, resource.toUtf8().data());
-    if (producer && producer->is_valid() && !producer->is_blank()) {
+    if ((producer != nullptr) && producer->is_valid() && !producer->is_blank()) {
         double fps = profile.fps();
         profile.from_producer(*producer);
-        profile.set_explicit(true);
+        profile.set_explicit(1);
         if (profile.fps() != fps) {
             // fps changed, rebuild producer
             delete producer;
             producer = new Mlt::Producer(profile, resource.toUtf8().data());
         }
     }
-    if (producer && producer->is_valid() && !producer->is_blank()) {
+    if ((producer != nullptr) && producer->is_valid() && !producer->is_blank()) {
         int width = 45.0 * profile.dar();
         if (width % 2 == 1) {
             width++;
@@ -365,14 +365,14 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
     }
     delete producer;
 
-    if (chapters.isEmpty() == false) {
+    if (!chapters.isEmpty()) {
         item->setData(1, Qt::UserRole + 1, chapters);
     } else if (QFile::exists(url.toLocalFile() + QStringLiteral(".dvdchapter"))) {
         // insert chapters as children
         QFile file(url.toLocalFile() + QStringLiteral(".dvdchapter"));
         if (file.open(QIODevice::ReadOnly)) {
             QDomDocument doc;
-            if (doc.setContent(&file) == false) {
+            if (!doc.setContent(&file)) {
                 file.close();
                 return;
             }
@@ -759,7 +759,7 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
             qint64 fileSize = f.size();
 
             Mlt::Profile profile;
-            profile.set_explicit(false);
+            profile.set_explicit(0);
             item->setText(2, KIO::convertSize(fileSize));
             item->setData(2, Qt::UserRole, fileSize);
             item->setData(0, Qt::DecorationRole, QIcon::fromTheme(QStringLiteral("video-x-generic")).pixmap(60, 45));
@@ -768,17 +768,17 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
             QString resource = transcoded;
             resource.prepend(QStringLiteral("avformat:"));
             Mlt::Producer *producer = new Mlt::Producer(profile, resource.toUtf8().data());
-            if (producer && producer->is_valid() && !producer->is_blank()) {
+            if ((producer != nullptr) && producer->is_valid() && !producer->is_blank()) {
                 double fps = profile.fps();
                 profile.from_producer(*producer);
-                profile.set_explicit(true);
+                profile.set_explicit(1);
                 if (profile.fps() != fps) {
                     // fps changed, rebuild producer
                     delete producer;
                     producer = new Mlt::Producer(profile, resource.toUtf8().data());
                 }
             }
-            if (producer && producer->is_valid() && !producer->is_blank()) {
+            if ((producer != nullptr) && producer->is_valid() && !producer->is_blank()) {
                 int width = 45.0 * profile.dar();
                 if (width % 2 == 1) {
                     width++;

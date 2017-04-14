@@ -48,7 +48,7 @@ void SnapModel::removePoint(int position)
 
 int SnapModel::getClosestPoint(int position)
 {
-    if (m_snaps.size() == 0) {
+    if (m_snaps.empty()) {
         return -1;
     }
     auto it = m_snaps.lower_bound(position);
@@ -68,7 +68,7 @@ int SnapModel::getClosestPoint(int position)
 
 int SnapModel::getNextPoint(int position)
 {
-    if (m_snaps.size() == 0) {
+    if (m_snaps.empty()) {
         return position;
     }
     auto it = m_snaps.lower_bound(position + 1);
@@ -81,7 +81,7 @@ int SnapModel::getNextPoint(int position)
 
 int SnapModel::getPreviousPoint(int position)
 {
-    if (m_snaps.size() == 0) {
+    if (m_snaps.empty()) {
         return 0;
     }
     auto it = m_snaps.lower_bound(position);

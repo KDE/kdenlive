@@ -111,7 +111,7 @@ void Guide::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 //virtual
 QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionChange && scene()) {
+    if (change == ItemPositionChange && (scene() != nullptr)) {
         // value is the new position.
         QPointF newPos = value.toPointF();
         newPos.setY(0);
@@ -146,7 +146,7 @@ QPainterPath Guide::shape() const
     }
     double width = m_pen.widthF() * 2;
     path.addRect(line().x1() - width / 2, line().y1(), width, line().y2() - line().y1());
-    if (KdenliveSettings::showmarkers() && scene()->views().count()) {
+    if (KdenliveSettings::showmarkers() && (scene()->views().count() != 0)) {
         const QFontMetrics metric = m_view->fontMetrics();
         int offset = scene()->views()[0]->verticalScrollBar()->value();
         QRectF txtBounding(line().x1(), line().y1() + offset, m_width, metric.height());
@@ -159,7 +159,7 @@ QPainterPath Guide::shape() const
 void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget */*w*/)
 {
     QGraphicsLineItem::paint(painter, option);
-    if (KdenliveSettings::showmarkers() && scene() && scene()->views().count()) {
+    if (KdenliveSettings::showmarkers() && (scene() != nullptr) && (scene()->views().count() != 0)) {
         QPointF p1 = line().p1();
         const QFontMetrics metric = m_view->fontMetrics();
         painter->setClipRect(option->rect);

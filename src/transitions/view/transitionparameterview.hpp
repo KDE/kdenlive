@@ -37,7 +37,7 @@ public:
     TransitionParameterView(QWidget *parent = nullptr);
 
     /* @brief Set the current model to be displayed */
-    void setModel(std::shared_ptr<AssetParameterModel> model);
+    void setModel(const std::shared_ptr<AssetParameterModel>& model);
 protected:
     std::shared_ptr<AssetParameterModel> m_model;
 };

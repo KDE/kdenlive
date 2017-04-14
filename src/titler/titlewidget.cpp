@@ -54,7 +54,7 @@
 static QList<TitleTemplate> titletemplates;
 
 // What exactly is this variable good for?
-int settingUp = false;
+int settingUp = 0;
 
 const int IMAGEITEM = 7;
 const int RECTITEM = 3;
@@ -90,11 +90,11 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     textOutlineColor->setAlphaChannelEnabled(true);
     shadowColor->setAlphaChannelEnabled(true);
 
-    QButtonGroup *colorGroup = new QButtonGroup(this);
+    auto *colorGroup = new QButtonGroup(this);
     colorGroup->addButton(gradient_color);
     colorGroup->addButton(plain_color);
 
-    QButtonGroup *alignGroup = new QButtonGroup(this);
+    auto *alignGroup = new QButtonGroup(this);
     alignGroup->addButton(buttonAlignLeft);
     alignGroup->addButton(buttonAlignCenter);
     alignGroup->addButton(buttonAlignRight);
@@ -373,7 +373,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     itemleft->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")));
     itemleft->setToolTip(i18n("Align item to left"));
 
-    QHBoxLayout *layout = new QHBoxLayout;
+    auto *layout = new QHBoxLayout;
     frame_toolbar->setLayout(layout);
     layout->setContentsMargins(0, 0, 0, 0);
     QToolBar *m_toolbar = new QToolBar(QStringLiteral("titleToolBar"), this);
@@ -766,7 +766,7 @@ void TitleWidget::slotImageTool()
             prepareTools(svg);
         } else {
             QPixmap pix(url.toLocalFile());
-            MyPixmapItem *image = new MyPixmapItem(pix);
+            auto *image = new MyPixmapItem(pix);
             image->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
             image->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
             image->setData(Qt::UserRole, url.toLocalFile());
@@ -1685,7 +1685,7 @@ void TitleWidget::rectChanged()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     for (int i = 0; i < l.length(); ++i) {
-        if (l.at(i)->type() == RECTITEM && !settingUp) {
+        if (l.at(i)->type() == RECTITEM && (settingUp == 0)) {
             QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(i));
             QColor f = rectFColor->color();
             if (rectLineWidth->value() == 0) {
@@ -1929,13 +1929,13 @@ void TitleWidget::saveTitle(QUrl url)
         //TODO: KF5 porting?
         //fs->setConfirmOverwrite(true);
         //fs->setKeepLocation(true);
-        if (fs->exec() && !fs->selectedUrls().isEmpty()) {
+        if ((fs->exec() != 0) && !fs->selectedUrls().isEmpty()) {
             url = fs->selectedUrls().first();
         }
         delete fs;
     }
     if (url.isValid()) {
-        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()), embed_image) == false) {
+        if (!m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()), embed_image)) {
             KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
         }
     }
@@ -2278,11 +2278,11 @@ void TitleWidget::deleteAnimInfoText()
 void TitleWidget::slotKeepAspect(bool keep)
 {
     if (m_endViewport->zValue() == 1100) {
-        m_endViewport->setData(0, keep == true ? m_frameWidth : QVariant());
-        m_endViewport->setData(1, keep == true ? m_frameHeight : QVariant());
+        m_endViewport->setData(0, keep ? m_frameWidth : QVariant());
+        m_endViewport->setData(1, keep ? m_frameHeight : QVariant());
     } else {
-        m_startViewport->setData(0, keep == true ? m_frameWidth : QVariant());
-        m_startViewport->setData(1, keep == true ? m_frameHeight : QVariant());
+        m_startViewport->setData(0, keep ? m_frameWidth : QVariant());
+        m_startViewport->setData(1, keep ? m_frameHeight : QVariant());
     }
 }
 
@@ -2705,7 +2705,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
                 QStringList sInfo = i->shadowInfo();
                 if (sInfo.count() >= 5) {
-                    shadowBox->setChecked(sInfo.at(0).toInt() == true);
+                    shadowBox->setChecked(static_cast<bool>(sInfo.at(0).toInt()));
                     shadowBox->blockSignals(true);
                     shadowColor->setColor(QColor(sInfo.at(1)));
                     blur_radius->setValue(sInfo.at(2).toInt());
@@ -2751,7 +2751,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
         } else if ((referenceItem)->type() == RECTITEM) {
             showToolbars(TITLE_RECTANGLE);
-            settingUp = true;
+            settingUp = 1;
             QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(referenceItem);
             if (rec == m_startViewport || rec == m_endViewport) {
                 enableToolbars(TITLE_SELECT);
@@ -2774,7 +2774,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     gradients_rect_combo->setCurrentIndex(ix);
                     gradients_rect_combo->blockSignals(false);
                 }
-                settingUp = false;
+                settingUp = 0;
                 if (rec->pen() == Qt::NoPen) {
                     rectLineWidth->setValue(0);
                 } else {

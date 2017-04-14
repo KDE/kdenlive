@@ -113,7 +113,7 @@ void MyTreeView::focusInEvent(QFocusEvent *event)
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
     bool dragged = false;
-    if (event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton != 0u) {
         int distance = (event->pos() - m_startPos).manhattanLength();
         if (distance >= QApplication::startDragDistance()) {
             dragged = performDrag();
@@ -175,7 +175,7 @@ bool MyTreeView::performDrag()
     if (indexes.isEmpty()) {
         return false;
     }
-    QDrag *drag = new QDrag(this);
+    auto *drag = new QDrag(this);
     drag->setMimeData(model()->mimeData(indexes));
     QModelIndex ix = indexes.first();
     if (ix.isValid()) {
@@ -269,7 +269,7 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
         setText(i18np("%1 job", "%1 jobs", jobCount));
         setToolTip(i18np("%1 pending job", "%1 pending jobs", jobCount));
 
-        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this) != 0) {
             setFixedWidth(sizeHint().width());
             m_action->setVisible(true);
             return;
@@ -290,7 +290,7 @@ void SmallJobLabel::slotSetJobCount(int jobCount)
             m_timeLine->start();
         }
     } else {
-        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this)) {
+        if (style()->styleHint(QStyle::SH_Widget_Animate, nullptr, this) != 0) {
             setFixedWidth(0);
             m_action->setVisible(false);
             return;
@@ -388,7 +388,7 @@ public:
             //QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
 
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
-            if (option.state & QStyle::State_Selected) {
+            if (option.state & QStyle::State_Selected != 0) {
                 painter->setPen(option.palette.highlightedText().color());
             } else {
                 painter->setPen(option.palette.text().color());
@@ -449,7 +449,7 @@ public:
                         painter->setBrush(Qt::darkGray);
                         if (jobProgress > 0) {
                             painter->drawRoundedRect(progress, 2, 2);
-                            painter->setBrush(option.state & QStyle::State_Selected ? option.palette.text() : option.palette.highlight());
+                            painter->setBrush(option.state & QStyle::State_Selected != 0 ? option.palette.text() : option.palette.highlight());
                             progress.setWidth((progressWidth - 2) * jobProgress / 100);
                             painter->drawRoundedRect(progress, 2, 2);
                         } else if (jobProgress == JobWaiting) {
@@ -552,7 +552,7 @@ Bin::Bin(QWidget *parent) :
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
     connect(m_searchLine, &QLineEdit::textChanged, m_proxyModel, &ProjectSortProxyModel::slotSetSearchString);
 
-    LineEventEater *leventEater = new LineEventEater(this);
+    auto *leventEater = new LineEventEater(this);
     m_searchLine->installEventFilter(leventEater);
     connect(leventEater, &LineEventEater::clearSearchLine, m_searchLine, &QLineEdit::clear);
     connect(leventEater, &LineEventEater::showClearButton, this, &Bin::showClearButton);
@@ -580,7 +580,7 @@ Bin::Bin(QWidget *parent) :
     m_slider->setRange(0, 10);
     m_slider->setValue(KdenliveSettings::bin_zoom());
     connect(m_slider, &QAbstractSlider::valueChanged, this, &Bin::slotSetIconSize);
-    QWidgetAction *widgetslider = new QWidgetAction(this);
+    auto *widgetslider = new QWidgetAction(this);
     widgetslider->setDefaultWidget(m_slider);
 
     // View type
@@ -641,7 +641,7 @@ Bin::Bin(QWidget *parent) :
     settingsMenu->addAction(m_showDate);
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(disableEffects);
-    QToolButton *button = new QToolButton;
+    auto *button = new QToolButton;
     button->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
     button->setToolTip(i18n("Options"));
     button->setMenu(settingsMenu);
@@ -845,9 +845,9 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             qCDebug(KDENLIVE_LOG) << " +++++++ NO VIEW-------!!";
         }
         return true;
-    } else if (event->type() == QEvent::Wheel) {
+    } if (event->type() == QEvent::Wheel) {
         QWheelEvent *e = static_cast<QWheelEvent *>(event);
-        if (e && e->modifiers() == Qt::ControlModifier) {
+        if ((e != nullptr) && e->modifiers() == Qt::ControlModifier) {
             slotZoomView(e->delta() > 0);
             //emit zoomView(e->delta() > 0);
             return true;
@@ -882,7 +882,7 @@ void Bin::refreshIcons()
 
 void Bin::slotSaveHeaders()
 {
-    if (m_itemView && m_listType == BinTreeView) {
+    if ((m_itemView != nullptr) && m_listType == BinTreeView) {
         // save current treeview state (column width)
         QTreeView *view = static_cast<QTreeView *>(m_itemView);
         m_headerInfo = view->header()->saveState();
@@ -896,7 +896,7 @@ void Bin::slotZoomView(bool zoomIn)
         //Don't zoom on empty bin
         return;
     }
-    int progress = (zoomIn == true) ? 1 : -1;
+    int progress = (zoomIn) ? 1 : -1;
     m_slider->setValue(m_slider->value() + progress);
 }
 
@@ -923,13 +923,13 @@ const QStringList Bin::getFolderInfo(const QModelIndex &selectedIx)
     QModelIndex ix = indexes.first();
     if (ix.isValid() && (m_proxyModel->selectionModel()->isSelected(ix) || selectedIx.isValid())) {
         return m_itemModel->getEnclosingFolderInfo(m_proxyModel->mapToSource(ix));
-    } else {
+    } 
         // return root folder info
         QStringList folderInfo;
         folderInfo << QString::number(-1);
         folderInfo << QString();
         return folderInfo;
-    }
+    
 }
 
 void Bin::slotAddClip()
@@ -1053,7 +1053,7 @@ void Bin::slotDeleteClip()
             continue;
         }
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-        if (!item || item->itemType() != AbstractProjectItem::ClipItem) {
+        if ((item == nullptr) || item->itemType() != AbstractProjectItem::ClipItem) {
             continue;
         }
         ProjectClip *current = static_cast<ProjectClip *>(item);
@@ -1073,7 +1073,7 @@ void Bin::slotDeleteClip()
     }
     if (usedClips && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from timeline")) != KMessageBox::Continue)) {
         return;
-    } else if (usedFolder && (KMessageBox::warningContinueCancel(this, i18n("This will delete all folder content")) != KMessageBox::Continue)) {
+    } if (usedFolder && (KMessageBox::warningContinueCancel(this, i18n("This will delete all folder content")) != KMessageBox::Continue)) {
         return;
     }
     m_doc->clipManager()->deleteProjectItems(clipIds, foldersIds, subClipIds);
@@ -1302,7 +1302,7 @@ void Bin::createClip(const QDomElement &xml)
             }
         }
     }
-    ProjectClip* newClip = new ProjectClip(xml, m_blankThumb, m_itemModel, parentFolder);
+    auto* newClip = new ProjectClip(xml, m_blankThumb, m_itemModel, parentFolder);
     parentFolder->appendChild(static_cast<TreeItem*>(newClip));
 }
 
@@ -1347,7 +1347,7 @@ QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
         if (folderWanted && type == AbstractProjectItem::FolderItem) {
             // We found our folder
             return items.at(i);
-        } else if (!folderWanted && type == AbstractProjectItem::ClipItem) {
+        } if (!folderWanted && type == AbstractProjectItem::ClipItem) {
             // We found our clip
             return items.at(i);
         }
@@ -1401,7 +1401,7 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
 void Bin::renameFolder(const QString &id, const QString &name)
 {
     ProjectFolder *folder = m_itemModel->getFolderByBinId(id);
-    if (!folder || !folder->parent()) {
+    if ((folder == nullptr) || (folder->parent() == nullptr)) {
         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
         return;
     }
@@ -1464,7 +1464,7 @@ void Bin::removeFolder(const QString &id, QUndoCommand *deleteCommand)
 {
     // Check parent item
     ProjectFolder *folder = m_itemModel->getFolderByBinId(id);
-    if (!folder || !folder->parent()) {
+    if ((folder == nullptr) || (folder->parent() == nullptr)) {
         qCDebug(KDENLIVE_LOG) << "  / / ERROR when removing folder: folder is invalid or is root";
         return;
     }
@@ -1791,7 +1791,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
         }
     }
     // Enable / disable clip actions
-    m_proxyAction->setEnabled(m_doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() && enableClipActions);
+    m_proxyAction->setEnabled((m_doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0) && enableClipActions);
     m_openAction->setEnabled(type == Image || type == Audio || type == TextTemplate || type == Text);
     m_reloadAction->setEnabled(enableClipActions);
     m_locateAction->setEnabled(enableClipActions);
@@ -1937,14 +1937,14 @@ void Bin::slotSwitchClipProperties(ProjectClip *clip)
 void Bin::doRefreshPanel(const QString &id)
 {
     ProjectClip *currentItem = getFirstSelectedClip();
-    if (currentItem && currentItem->AbstractProjectItem::clipId() == id) {
+    if ((currentItem != nullptr) && currentItem->AbstractProjectItem::clipId() == id) {
         showClipProperties(currentItem, true);
     }
 }
 
 void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
 {
-    if (!clip || !clip->isReady()) {
+    if ((clip == nullptr) || !clip->isReady()) {
         m_propertiesPanel->setEnabled(false);
         return;
     }
@@ -1980,7 +1980,7 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
 
 void Bin::slotEditClipCommand(const QString &id, const QMap<QString, QString> &oldProps, const QMap<QString, QString> &newProps)
 {
-    EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true);
+    auto *command = new EditClipCommand(this, id, oldProps, newProps, true);
     m_doc->commandStack()->push(command);
 }
 
@@ -2094,7 +2094,7 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
                     continue;
                 }
                 AbstractProjectItem *item = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
-                if (item && item->clipId() == info.clipId) {
+                if ((item != nullptr) && item->clipId() == info.clipId) {
                     // Item was selected, show it in monitor
                     item->setCurrent(true);
                     break;
@@ -2247,7 +2247,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, const QHash<QString,
     m_locateAction = actions.value(QStringLiteral("locate"));
     m_proxyAction = actions.value(QStringLiteral("proxy"));
 
-    QMenu *m = new QMenu(this);
+    auto *m = new QMenu(this);
     m->addActions(addMenu->actions());
     m_addButton = new QToolButton(this);
     m_addButton->setMenu(m);
@@ -2298,7 +2298,7 @@ void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const 
                     break;
                 }
             }
-            if (action && !actions.contains(action)) {
+            if ((action != nullptr) && !actions.contains(action)) {
                 m_infoMessage->addAction(action);
             }
         }
@@ -2337,7 +2337,7 @@ void Bin::slotShowJobLog()
     QDialog d(this);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     QWidget *mainWidget = new QWidget(this);
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     QTextEdit t(&d);
     for (int i = 0; i < m_errorLog.count(); ++i) {
         if (i > 0) {
@@ -2348,7 +2348,7 @@ void Bin::slotShowJobLog()
     t.setReadOnly(true);
     l->addWidget(&t);
     mainWidget->setLayout(l);
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    auto *mainLayout = new QVBoxLayout;
     d.setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     mainLayout->addWidget(buttonBox);
@@ -2420,7 +2420,7 @@ void Bin::slotStartCutJob(const QString &id)
 void Bin::startJob(const QString &id, AbstractClipJob::JOBTYPE type)
 {
     ProjectClip *clip = getBinClip(id);
-    if (clip && !hasPendingJob(id, type)) {
+    if ((clip != nullptr) && !hasPendingJob(id, type)) {
         // Launch job
         const QList<ProjectClip *> clips = {clip};
         m_jobManager->prepareJobs(clips, m_doc->fps(), type);
@@ -2472,7 +2472,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
     } else {
         parentItem = m_itemModel->getRootFolder();
     }
-    QUndoCommand *moveCommand = new QUndoCommand();
+    auto *moveCommand = new QUndoCommand();
     moveCommand->setText(i18np("Move Clip", "Move Clips", ids.count()));
     QStringList folderIds;
     foreach (const QString &id, ids) {
@@ -2554,7 +2554,7 @@ void Bin::editMasterEffect(AbstractProjectItem *clip)
         if (clip->itemType() == AbstractProjectItem::ClipItem) {
             emit requestShowEffectStack(static_cast<ProjectClip*>(clip)->getEffectStack());
             return;
-        } else if (clip->itemType() == AbstractProjectItem::SubClipItem) {
+        } if (clip->itemType() == AbstractProjectItem::SubClipItem) {
             emit requestShowEffectStack(static_cast<ProjectClip*>(clip->parentItem())->getEffectStack());
             return;
         }
@@ -2732,7 +2732,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
             }
 
             QString singletonId = hashToIdMap.value(hash, QString());
-            if (singletonId.length()) {
+            if (singletonId.length() != 0) {
                 // map duplicate producer ID to single bin clip producer ID.
                 qCDebug(KDENLIVE_LOG) << "found duplicate producer:" << hash << ", reusing newID:" << singletonId;
                 idMap.insert(originalId, singletonId);
@@ -2748,7 +2748,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
         // Ensure to register new bin clip producer ID in hash hashmap for
         // those clips that MLT likes to serialize multiple times. This is
         // indicated by having a hash "value" unqual "". See also above.
-        if (hash.length()) {
+        if (hash.length() != 0) {
             hashToIdMap.insert(hash, newId);
         }
 
@@ -2791,13 +2791,13 @@ void Bin::slotItemEdited(const QModelIndex &ix, const QModelIndex &, const QVect
 
 void Bin::renameFolderCommand(const QString &id, const QString &newName, const QString &oldName)
 {
-    RenameBinFolderCommand *command = new RenameBinFolderCommand(this, id, newName, oldName);
+    auto *command = new RenameBinFolderCommand(this, id, newName, oldName);
     m_doc->commandStack()->push(command);
 }
 
 void Bin::renameSubClipCommand(const QString &id, const QString &newName, const QString &oldName, int in, int out)
 {
-    RenameBinSubClipCommand *command = new RenameBinSubClipCommand(this, id, newName, oldName, in, out);
+    auto *command = new RenameBinSubClipCommand(this, id, newName, oldName, in, out);
     m_doc->commandStack()->push(command);
 }
 
@@ -2861,7 +2861,7 @@ void Bin::slotCancelRunningJob(const QString &id, const QMap<QString, QString> &
     if (newProps == oldProps) {
         return;
     }
-    EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true);
+    auto *command = new EditClipCommand(this, id, oldProps, newProps, true);
     m_doc->commandStack()->push(command);
 }
 
@@ -2869,7 +2869,7 @@ void Bin::slotPrepareJobsMenu()
 {
     ProjectClip *item = getFirstSelectedClip();
     if (item) {
-        QString id = item->AbstractProjectItem::clipId();
+        const QString& id = item->AbstractProjectItem::clipId();
         m_discardCurrentClipJobs->setData(id);
         QStringList jobs = m_jobManager->getPendingJobs(id);
         m_discardCurrentClipJobs->setEnabled(!jobs.isEmpty());
@@ -2881,7 +2881,7 @@ void Bin::slotPrepareJobsMenu()
 
 void Bin::slotAddClipCut(const QString &id, int in, int out)
 {
-    AddBinClipCutCommand *command = new AddBinClipCutCommand(this, id, in, out, true);
+    auto *command = new AddBinClipCutCommand(this, id, in, out, true);
     m_doc->commandStack()->push(command);
 }
 
@@ -3057,11 +3057,11 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
 
             //emit gotFilterJobResults(id, startPos, track, results, filterInfo);*/
             return;
-        } else {
+        } 
             // This is a timeline filter, forward results
             emit gotFilterJobResults(id, startPos, track, results, filterInfo);
             return;
-        }
+        
     }
     // Currently, only the first value of results is used
     ProjectClip *clip = getBinClip(id);
@@ -3094,7 +3094,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         // Check if we want to cut scenes from returned data
         dataProcessed = true;
         int cutPos = 0;
-        QUndoCommand *command = new QUndoCommand();
+        auto *command = new QUndoCommand();
         command->setText(i18n("Auto Split Clip"));
         foreach (const QString &pos, value) {
             if (!pos.contains(QLatin1Char('='))) {
@@ -3118,7 +3118,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         // Add markers from returned data
         dataProcessed = true;
         int cutPos = 0;
-        QUndoCommand *command = new QUndoCommand();
+        auto *command = new QUndoCommand();
         command->setText(i18n("Add Markers"));
         QList<CommentedTime> markersList;
         int index = 1;
@@ -3180,7 +3180,7 @@ void Bin::slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMa
 
 void Bin::slotLoadClipMarkers(const QString &id)
 {
-    KComboBox *cbox = new KComboBox;
+    auto *cbox = new KComboBox;
     for (int i = 0; i < 5; ++i) {
         cbox->insertItem(i, i18n("Category %1", i));
         cbox->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
@@ -3215,7 +3215,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     QStringList lines = fileContent.split('\n', QString::SkipEmptyParts);
     QStringList values;
     bool ok;
-    QUndoCommand *command = new QUndoCommand();
+    auto *command = new QUndoCommand();
     command->setText(QStringLiteral("Load markers"));
     QString markerText;
     QList<CommentedTime> markersList;
@@ -3271,7 +3271,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
     QList< CommentedTime > markers = clip->commentedSnapMarkers();
     if (!markers.isEmpty()) {
         // St  up categories
-        KComboBox *cbox = new KComboBox;
+        auto *cbox = new KComboBox;
         cbox->insertItem(0, i18n("All categories"));
         for (int i = 0; i < 5; ++i) {
             cbox->insertItem(i + 1, i18n("Category %1", i));
@@ -3330,7 +3330,7 @@ void Bin::deleteClipMarker(const QString &comment, const QString &id, const GenT
     if (!clip) {
         return;
     }
-    QUndoCommand *command = new QUndoCommand;
+    auto *command = new QUndoCommand;
     command->setText(i18n("Delete marker"));
     CommentedTime marker(position, comment);
     marker.setMarkerType(-1);
@@ -3350,7 +3350,7 @@ void Bin::deleteAllClipMarkers(const QString &id)
     if (!clip) {
         return;
     }
-    QUndoCommand *command = new QUndoCommand;
+    auto *command = new QUndoCommand;
     command->setText(i18n("Delete clip markers"));
     if (!clip->deleteClipMarkers(command)) {
         doDisplayMessage(i18n("Clip has no markers"), KMessageWidget::Warning);
@@ -3507,7 +3507,7 @@ void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QStr
     oldProps.insert(key, oldValue);
     QMap<QString, QString> newProps;
     newProps.insert(key, clipData);
-    EditClipCommand *command = new EditClipCommand(this, id, oldProps, newProps, true, groupCommand);
+    auto *command = new EditClipCommand(this, id, oldProps, newProps, true, groupCommand);
     if (!groupCommand) {
         m_doc->commandStack()->push(command);
     }
@@ -3539,9 +3539,9 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
         properties.insert(QStringLiteral("kdenlive:duration"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
         properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
         properties.insert(QStringLiteral("ttl"), QString::number(m_doc->getFramePos(dia->clipDuration())));
-        properties.insert(QStringLiteral("loop"), QString::number(dia->loop()));
-        properties.insert(QStringLiteral("crop"), QString::number(dia->crop()));
-        properties.insert(QStringLiteral("fade"), QString::number(dia->fade()));
+        properties.insert(QStringLiteral("loop"), QString::number(static_cast<int>(dia->loop())));
+        properties.insert(QStringLiteral("crop"), QString::number(static_cast<int>(dia->crop())));
+        properties.insert(QStringLiteral("fade"), QString::number(static_cast<int>(dia->fade())));
         properties.insert(QStringLiteral("luma_duration"), QString::number(m_doc->getFramePos(dia->lumaDuration())));
         properties.insert(QStringLiteral("luma_file"), dia->lumaFile());
         properties.insert(QStringLiteral("softness"), QString::number(dia->softness()));
@@ -3601,7 +3601,7 @@ void Bin::slotRenameItem()
 void Bin::refreshProxySettings()
 {
     QList<ProjectClip *> clipList = m_itemModel->getRootFolder()->childClips();
-    QUndoCommand *masterCommand = new QUndoCommand();
+    auto *masterCommand = new QUndoCommand();
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     if (!m_doc->useProxy()) {
         // Disable all proxies
@@ -3651,7 +3651,7 @@ QStringList Bin::getProxyHashList()
 void Bin::slotSendAudioThumb(const QString &id)
 {
     ProjectClip *clip = m_itemModel->getClipByBinID(id);
-    if (clip && clip->audioThumbCreated()) {
+    if ((clip != nullptr) && clip->audioThumbCreated()) {
         m_monitor->prepareAudioThumb(clip->audioChannels(), clip->audioFrameCache);
     } else {
         QVariantList list;
@@ -3714,7 +3714,7 @@ void Bin::cleanup()
             subIds << clip->subClipIds();
         }
     }
-    QUndoCommand *command = new QUndoCommand();
+    auto *command = new QUndoCommand();
     command->setText(i18n("Clean Project"));
     m_doc->clipManager()->doDeleteClips(ids, QStringList(), subIds, command, true);
 }
@@ -3776,7 +3776,7 @@ void Bin::rebuildProxies()
     if (toProxy.isEmpty()) {
         return;
     }
-    QUndoCommand *masterCommand = new QUndoCommand();
+    auto *masterCommand = new QUndoCommand();
     masterCommand->setText(i18n("Rebuild proxies"));
     m_doc->slotProxyCurrentItem(true, toProxy, true, masterCommand);
     if (masterCommand->childCount() > 0) {
@@ -3808,7 +3808,7 @@ QVariantList Bin::audioFrameCache(const QString &id)
     ProjectClip *clip = getBinClip(id);
     if (clip) {
         return clip->audioFrameCache;
-    } else {
+    } 
         return QVariantList();
-    }
+    
 }

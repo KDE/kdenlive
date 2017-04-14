@@ -143,7 +143,7 @@ void ProducerQueue::processFileProperties()
             m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer
             Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
-            if (!prod || !prod->is_valid()) {
+            if ((prod == nullptr) || !prod->is_valid()) {
                 continue;
             }
             // Check if we are using GPU accel, then we need to use alternate producer
@@ -162,7 +162,7 @@ void ProducerQueue::processFileProperties()
                 prod->seek(frameNumber);
             }
             Mlt::Frame *frame = prod->get_frame();
-            if (frame && frame->is_valid()) {
+            if ((frame != nullptr) && frame->is_valid()) {
                 int fullWidth = info.imageHeight * m_binController->profile()->dar() + 0.5;
                 QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                 emit replyGetImage(info.clipId, img);
@@ -225,8 +225,8 @@ void ProducerQueue::processFileProperties()
             producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == Playlist && !proxyProducer) {
             //TODO: "xml" seems to corrupt project fps if different, and "consumer" crashed on audio transition
-            Mlt::Profile *xmlProfile = new Mlt::Profile();
-            xmlProfile->set_explicit(false);
+            auto *xmlProfile = new Mlt::Profile();
+            xmlProfile->set_explicit(0);
             MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_binController->profile());
             //path.prepend("consumer:");
             producer = std::make_shared<Mlt::Producer>(*xmlProfile, "xml", path.toUtf8().constData());
@@ -249,7 +249,7 @@ void ProducerQueue::processFileProperties()
                 emit removeInvalidClip(info.clipId, info.replaceProducer, i18n("Cannot import playlists with different profile."));
                 continue;
             }
-            m_binController->profile()->set_explicit(true);
+            m_binController->profile()->set_explicit(1);
             producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
         } else if (type == SlideShow) {
             producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
@@ -296,8 +296,8 @@ void ProducerQueue::processFileProperties()
                         // Very small image, we probably don't want to use this as profile
                     }
                 } else if (service.contains(QStringLiteral("avformat"))) {
-                    Mlt::Profile *blankProfile = new Mlt::Profile();
-                    blankProfile->set_explicit(false);
+                    auto *blankProfile = new Mlt::Profile();
+                    blankProfile->set_explicit(0);
                     if (KdenliveSettings::gpu_accel()) {
                         Clip clp(*producer);
                         Mlt::Producer *glProd = clp.softClone(ClipController::getPassPropertiesList());
@@ -477,7 +477,7 @@ void ProducerQueue::processFileProperties()
                     glProd->attach(scaler);
                     glProd->attach(converter);
                     frame = glProd->get_frame();
-                    if (frame && frame->is_valid()) {
+                    if ((frame != nullptr) && frame->is_valid()) {
                         img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
                         emit replyGetImage(info.clipId, img);
                     }
@@ -487,7 +487,7 @@ void ProducerQueue::processFileProperties()
                         producer->seek(frameNumber);
                     }
                     frame = producer->get_frame();
-                    if (frame && frame->is_valid()) {
+                    if ((frame != nullptr) && frame->is_valid()) {
                         img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                         emit replyGetImage(info.clipId, img);
                     }
@@ -529,14 +529,14 @@ void ProducerQueue::processFileProperties()
             int ttl = EffectsList::property(info.xml, QStringLiteral("ttl")).toInt();
             QString anim = EffectsList::property(info.xml, QStringLiteral("animation"));
             if (!anim.isEmpty()) {
-                Mlt::Filter *filter = new Mlt::Filter(*m_binController->profile(), "affine");
-                if (filter && filter->is_valid()) {
+                auto *filter = new Mlt::Filter(*m_binController->profile(), "affine");
+                if ((filter != nullptr) && filter->is_valid()) {
                     int cycle = ttl;
                     QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
                     if (!geometry.isEmpty()) {
                         if (anim.contains(QStringLiteral("low-pass"))) {
-                            Mlt::Filter *blur = new Mlt::Filter(*m_binController->profile(), "boxblur");
-                            if (blur && blur->is_valid()) {
+                            auto *blur = new Mlt::Filter(*m_binController->profile(), "boxblur");
+                            if ((blur != nullptr) && blur->is_valid()) {
                                 producer->attach(*blur);
                             }
                         }
@@ -549,9 +549,9 @@ void ProducerQueue::processFileProperties()
             QString fade = EffectsList::property(info.xml, QStringLiteral("fade"));
             if (fade == QLatin1String("1")) {
                 // user wants a fade effect to slideshow
-                Mlt::Filter *filter = new Mlt::Filter(*m_binController->profile(), "luma");
-                if (filter && filter->is_valid()) {
-                    if (ttl) {
+                auto *filter = new Mlt::Filter(*m_binController->profile(), "luma");
+                if ((filter != nullptr) && filter->is_valid()) {
+                    if (ttl != 0) {
                         filter->set("cycle", ttl);
                     }
                     QString luma_duration = EffectsList::property(info.xml, QStringLiteral("luma_duration"));
@@ -573,8 +573,8 @@ void ProducerQueue::processFileProperties()
             QString crop = EffectsList::property(info.xml, QStringLiteral("crop"));
             if (crop == QLatin1String("1")) {
                 // user wants to center crop the slides
-                Mlt::Filter *filter = new Mlt::Filter(*m_binController->profile(), "crop");
-                if (filter && filter->is_valid()) {
+                auto *filter = new Mlt::Filter(*m_binController->profile(), "crop");
+                if ((filter != nullptr) && filter->is_valid()) {
                     filter->set("center", 1);
                     producer->attach(*filter);
                 }
@@ -589,8 +589,8 @@ void ProducerQueue::processFileProperties()
             }
             Mlt::Profile original_profile;
             Mlt::Producer *tmpProd = new Mlt::Producer(original_profile, nullptr, path.toUtf8().constData());
-            original_profile.set_explicit(true);
-            filePropertyMap[QStringLiteral("progressive")] = QString::number(original_profile.progressive());
+            original_profile.set_explicit(1);
+            filePropertyMap[QStringLiteral("progressive")] = QString::number(static_cast<int>(original_profile.progressive()));
             filePropertyMap[QStringLiteral("colorspace")] = QString::number(original_profile.colorspace());
             filePropertyMap[QStringLiteral("fps")] = QString::number(original_profile.fps());
             filePropertyMap[QStringLiteral("aspect_ratio")] = QString::number(original_profile.sar());
@@ -666,7 +666,7 @@ void ProducerQueue::processFileProperties()
             }
         }
         Mlt::Frame *frame = producer->get_frame();
-        if (frame && frame->is_valid()) {
+        if ((frame != nullptr) && frame->is_valid()) {
             if (!mltService.contains(QStringLiteral("avformat"))) {
                 // Fetch thumbnail
                 QImage img;
@@ -710,7 +710,7 @@ void ProducerQueue::processFileProperties()
                     if (mltService == QLatin1String("xml") || mltService == QLatin1String("consumer")) {
                         filePropertyMap[QStringLiteral("type")] = QStringLiteral("playlist");
                         metadataPropertyMap[QStringLiteral("comment")] = QString::fromUtf8(producer->get("title"));
-                    } else if (!mlt_frame_is_test_audio(frame->get_frame())) {
+                    } else if (mlt_frame_is_test_audio(frame->get_frame()) == 0) {
                         filePropertyMap[QStringLiteral("type")] = QStringLiteral("av");
                     } else {
                         filePropertyMap[QStringLiteral("type")] = QStringLiteral("video");
@@ -928,7 +928,7 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QLis
     dialog->setWindowTitle(QStringLiteral("Multi Stream Clip"));
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     QWidget *mainWidget = new QWidget(dialog);
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    auto *mainLayout = new QVBoxLayout;
     dialog->setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
@@ -953,13 +953,13 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QLis
         groupList << streamFrame;
         streamFrame->setCheckable(true);
         streamFrame->setChecked(true);
-        QVBoxLayout *vh = new QVBoxLayout(streamFrame);
+        auto *vh = new QVBoxLayout(streamFrame);
         QLabel *iconLabel = new QLabel(mainWidget);
         mainLayout->addWidget(iconLabel);
         iconLabel->setPixmap(QPixmap::fromImage(thumb));
         vh->addWidget(iconLabel);
         if (audio_list.count() > 1) {
-            KComboBox *cb = new KComboBox(mainWidget);
+            auto *cb = new KComboBox(mainWidget);
             mainLayout->addWidget(cb);
             for (int k = 0; k < audio_list.count(); ++k) {
                 cb->addItem(i18n("Audio stream %1", audio_list.at(k)), audio_list.at(k));

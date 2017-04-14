@@ -166,7 +166,7 @@ QString ColorWheel::getParamValues()
 {
     if (m_id == QLatin1String("gamma")) {
         return QString::number(m_color.redF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF() * 2, 'g', 2);
-    } else if (m_id == QLatin1String("gain")) {
+    } if (m_id == QLatin1String("gain")) {
         return QString::number(m_color.redF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF() * 4, 'g', 2);
     }
     // default (lift)

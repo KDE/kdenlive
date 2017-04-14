@@ -32,6 +32,7 @@
 #include <mlt++/MltTransition.h>
 #include <QDebug>
 #include <QFileInfo>
+#include <utility>
 #include "macros.hpp"
 
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
@@ -41,7 +42,7 @@ TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUnd
 
 std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
 {
-    std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(profile, undo_stack));
+    std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(profile, std::move(undo_stack)));
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
     return ptr;
 }
@@ -113,7 +114,7 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
     const int id = static_cast<int>(index.internalId());
     if (!index.isValid() || isTrack(id)) {
         return QModelIndex();
-    } else if(isClip(id)) {
+    } if(isClip(id)) {
         const int trackId = getClipTrackId(id);
         return makeTrackIndexFromID(trackId);
     } else if(isComposition(id)) {

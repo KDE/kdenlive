@@ -50,7 +50,7 @@ QString TransitionListWidget::getMimeType(const QString& assetId) const
 {
     if (TransitionsRepository::get()->isComposition(assetId)) {
         return QStringLiteral("kdenlive/composition");
-    } else {
+    } 
         return QStringLiteral("kdenlive/transition");
-    }
+    
 }

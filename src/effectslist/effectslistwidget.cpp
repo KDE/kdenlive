@@ -181,7 +181,7 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
             effectActions->addAction("transition_" + id, a);
             continue;
         }
-        if (!topLevelItem(i)->childCount()) {
+        if (topLevelItem(i)->childCount() == 0) {
             continue;
         }
         QMenu *sub = new QMenu(topLevelItem(i)->text(0), effectsMenu);
@@ -389,7 +389,7 @@ const QDomElement EffectsListWidget::itemEffect(int type, const QStringList &eff
 QString EffectsListWidget::currentInfo() const
 {
     QTreeWidgetItem *item = currentItem();
-    if (!item || item->data(0, TypeRole).toInt() == (int)EffectsList::EFFECT_FOLDER) {
+    if ((item == nullptr) || item->data(0, TypeRole).toInt() == (int)EffectsList::EFFECT_FOLDER) {
         return QString();
     }
     QString info;
@@ -440,7 +440,7 @@ QMimeData *EffectsListWidget::mimeData(const QList<QTreeWidgetItem *> list) cons
     QDomDocument doc;
     bool transitionMode = false;
     foreach (QTreeWidgetItem *item, list) {
-        if (item->flags() & Qt::ItemIsDragEnabled) {
+        if (item->flags() & Qt::ItemIsDragEnabled != 0) {
             int type = item->data(0, TypeRole).toInt();
             if (type == EffectsList::TRANSITION_TYPE) {
                 transitionMode = true;
@@ -452,7 +452,7 @@ QMimeData *EffectsListWidget::mimeData(const QList<QTreeWidgetItem *> list) cons
             }
         }
     }
-    QMimeData *mime = new QMimeData;
+    auto *mime = new QMimeData;
     QByteArray data;
     data.append(doc.toString().toUtf8());
     mime->setData(transitionMode ? "kdenlive/transitionslist" : "kdenlive/effectslist", data);
@@ -473,7 +473,7 @@ void EffectsListWidget::dragMoveEvent(QDragMoveEvent *event)
 void EffectsListWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QTreeWidgetItem *item = itemAt(event->pos());
-    if (item && item->data(0, TypeRole) !=  EffectsList::EFFECT_FOLDER) {
+    if ((item != nullptr) && item->data(0, TypeRole) !=  EffectsList::EFFECT_FOLDER) {
         emit displayMenu(item, event->globalPos());
     }
 }

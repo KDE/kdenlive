@@ -40,7 +40,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
     if (waveformSize.width() <= 0 || waveformSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
 
-    } else {
+    } 
 
         // Fill with transparent color
         wave.fill(qRgba(0, 0, 0, 0));
@@ -146,7 +146,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
             }
         }
 
-    }
+    
 
     //uint diff = time.elapsed();
     //emit signalCalculationFinished(wave, diff);

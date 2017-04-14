@@ -111,18 +111,18 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
         if (autoClose) {
             QTimer::singleShot(0, this, &QDialog::accept);
             return;
-        } else {
-            KMessageWidget *lab = new KMessageWidget(this);
+        } 
+            auto *lab = new KMessageWidget(this);
             lab->setText(i18n("Codecs have been updated, everything seems fine."));
             lab->setMessageType(KMessageWidget::Positive);
             lab->setCloseButtonVisible(false);
             m_startLayout->addWidget(lab);
             setOption(QWizard::NoCancelButton, true);
             return;
-        }
+        
     }
     if (!m_errors.isEmpty()) {
-        KMessageWidget *errorLabel = new KMessageWidget(this);
+        auto *errorLabel = new KMessageWidget(this);
         errorLabel->setText(QStringLiteral("<ul>") + m_errors + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Error);
         errorLabel->setWordWrap(true);
@@ -140,7 +140,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
         }
     }
     if (!m_warnings.isEmpty()) {
-        KMessageWidget *errorLabel = new KMessageWidget(this);
+        auto *errorLabel = new KMessageWidget(this);
         errorLabel->setText(QStringLiteral("<ul>") + m_warnings + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Warning);
         errorLabel->setWordWrap(true);
@@ -149,7 +149,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
         errorLabel->show();
     }
     if (!m_infos.isEmpty()) {
-        KMessageWidget *errorLabel = new KMessageWidget(this);
+        auto *errorLabel = new KMessageWidget(this);
         errorLabel->setText(QStringLiteral("<ul>") + m_infos + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Information);
         errorLabel->setWordWrap(true);
@@ -715,7 +715,7 @@ void Wizard::runUpdateMimeDatabase()
     proc << QStringLiteral("update-mime-database");
     proc << localPackageDir;
     const int exitCode = proc.execute();
-    if (exitCode) {
+    if (exitCode != 0) {
         qCWarning(KDENLIVE_LOG) << proc.program() << "exited with error code" << exitCode;
     }
 }
@@ -729,7 +729,7 @@ void Wizard::slotCheckStandard()
         QMapIterator<QString, QString> i(m_dvProfiles);
         while (i.hasNext()) {
             i.next();
-            QListWidgetItem *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
+            auto *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
             item->setData(Qt::UserRole, i.value());
         }
     }
@@ -738,7 +738,7 @@ void Wizard::slotCheckStandard()
         QMapIterator<QString, QString> i(m_hdvProfiles);
         while (i.hasNext()) {
             i.next();
-            QListWidgetItem *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
+            auto *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
             item->setData(Qt::UserRole, i.value());
         }
     }
@@ -746,7 +746,7 @@ void Wizard::slotCheckStandard()
         QMapIterator<QString, QString> i(m_otherProfiles);
         while (i.hasNext()) {
             i.next();
-            QListWidgetItem *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
+            auto *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
             item->setData(Qt::UserRole, i.value());
         }
         //m_standard.profiles_list->sortItems();
@@ -775,7 +775,7 @@ void Wizard::slotCheckSelectedItem()
 void Wizard::adjustSettings()
 {
     //if (m_extra.installmimes->isChecked()) {
-    if (true) {
+    {
         QStringList globs;
 
         globs << QStringLiteral("*.mts") << QStringLiteral("*.m2t") << QStringLiteral("*.mod") << QStringLiteral("*.ts") << QStringLiteral("*.m2ts") << QStringLiteral("*.m2v");

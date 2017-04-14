@@ -294,7 +294,7 @@ bool FreeSound::startItemPreview(QListWidgetItem *item)
  */
 void FreeSound::stopItemPreview(QListWidgetItem * /*item*/)
 {
-    if (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning) {
+    if ((m_previewProcess != nullptr) && m_previewProcess->state() != QProcess::NotRunning) {
         m_previewProcess->close();
     }
 }
@@ -307,15 +307,15 @@ QString FreeSound::getExtension(QListWidgetItem *item)
 {
     if (!item) {
         return QString();
-    } else {
+    } 
         QString sItem = item->text();
         if (sItem.contains(QLatin1String("."))) {
             const QString sExt = sItem.section(QLatin1Char('.'), -1);
             return QStringLiteral("*.") + sExt;
-        } else {
+        } 
             return QString();    // return null if file name has no dots - ie no extension
-        }
-    }
+        
+    
 }
 
 /**

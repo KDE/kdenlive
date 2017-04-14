@@ -38,7 +38,7 @@ int AbstractTreeModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return static_cast<TreeItem*>(parent.internalPointer())->columnCount();
-    else
+    
         return rootItem->columnCount();
 }
 
@@ -94,7 +94,7 @@ QModelIndex AbstractTreeModel::index(int row, int column, const QModelIndex &par
     TreeItem *childItem = parentItem->child(row);
     if (childItem)
         return createIndex(row, column, childItem);
-    else
+    
         return QModelIndex();
 }
 

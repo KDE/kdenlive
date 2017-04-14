@@ -38,7 +38,7 @@ TreeItem::~TreeItem()
 TreeItem* TreeItem::appendChild(const QList<QVariant> &data)
 {
     m_model->notifyRowAboutToAppend(this);
-    TreeItem *child = new TreeItem(data, m_model, this);
+    auto *child = new TreeItem(data, m_model, this);
     child->m_depth = m_depth + 1;
     m_childItems.append(child);
     m_model->notifyRowAppended();
@@ -57,7 +57,7 @@ void TreeItem::appendChild(TreeItem *child)
 void TreeItem::removeChild(TreeItem *child)
 {
     m_model->notifyRowAboutToDelete(this, child->row());
-    bool success = m_childItems.removeAll(child);
+    bool success = m_childItems.removeAll(child) != 0;
     Q_ASSERT(success);
     child->m_depth = 0;
     child->m_parentItem = nullptr;

@@ -30,10 +30,10 @@
 #include <QDebug>
 #include <QSet>
 
-bool constructTrackFromMelt(std::shared_ptr<TimelineItemModel> timeline, int tid, Mlt::Tractor& track, Fun& undo, Fun& redo);
-bool constructTrackFromMelt(std::shared_ptr<TimelineItemModel> timeline, int tid, Mlt::Playlist& track, Fun& undo, Fun& redo);
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, int tid, Mlt::Tractor& track, Fun& undo, Fun& redo);
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, int tid, Mlt::Playlist& track, Fun& undo, Fun& redo);
 
-bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt::Tractor tractor)
+bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, Mlt::Tractor tractor)
 {
     Fun undo = [](){return true;};
     Fun redo = [](){return true;};
@@ -59,7 +59,7 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
             //that is a double track
             int tid;
             ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
-            Mlt::Tractor local_tractor(*track.get());
+            Mlt::Tractor local_tractor(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, undo, redo);
             break;
         }
@@ -72,7 +72,7 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
 #ifdef LOGGING
             timeline->m_logFile << "timeline->requestTrackInsertion(-1, dummy_id ); " <<std::endl;
 #endif
-            Mlt::Playlist local_playlist(*track.get());
+            Mlt::Playlist local_playlist(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, undo, redo);
             QString trackName = local_playlist.get("kdenlive:track_name");
             if (!trackName.isEmpty()) {
@@ -92,7 +92,7 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
 
     // Loading compositions
     QScopedPointer<Mlt::Service> service(tractor.producer());
-    while (service && service->is_valid()) {
+    while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition) service->get_service());
             int compoId;
@@ -117,7 +117,7 @@ bool constructTimelineFromMelt(std::shared_ptr<TimelineItemModel> timeline, Mlt:
     return true;
 }
 
-bool constructTrackFromMelt(std::shared_ptr<TimelineItemModel> timeline, int tid, Mlt::Tractor& track, Fun& undo, Fun& redo) {
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, int tid, Mlt::Tractor& track, Fun& undo, Fun& redo) {
     if (track.count() != 2) {
         //we expect a tractor with two tracks (a "fake" track)
         qDebug() << "ERROR : wrong number of subtracks";
@@ -129,7 +129,7 @@ bool constructTrackFromMelt(std::shared_ptr<TimelineItemModel> timeline, int tid
             qDebug() << "ERROR : SubTracks must be MLT::Playlist";
             return false;
         }
-        Mlt::Playlist playlist(*sub_track.get());
+        Mlt::Playlist playlist(*sub_track);
         constructTrackFromMelt(timeline, tid, playlist, undo, redo);
         if (i == 0) {
             // Pass track properties
@@ -144,7 +144,7 @@ bool constructTrackFromMelt(std::shared_ptr<TimelineItemModel> timeline, int tid
     return true;
 }
 
-bool constructTrackFromMelt(std::shared_ptr<TimelineItemModel> timeline, int tid, Mlt::Playlist& track, Fun& undo, Fun& redo) {
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, int tid, Mlt::Playlist& track, Fun& undo, Fun& redo) {
     for (int i = 0; i < track.count(); i++ ) {
         if (track.is_blank(i)) {
             continue;
@@ -161,9 +161,9 @@ bool constructTrackFromMelt(std::shared_ptr<TimelineItemModel> timeline, int tid
             if (!ok) {
                 qDebug() << "ERROR : failed to insert clip in track"<<tid<<"position"<<position;
                 return false;
-            } else {
+            } 
                 qDebug() << "Inserted clip in track"<<tid<<"at "<<position;
-            }
+            
             break;
         }
         case tractor_type: {

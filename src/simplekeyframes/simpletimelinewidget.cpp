@@ -74,7 +74,7 @@ void SimpleTimelineWidget::slotAddKeyframe(int pos, int select)
 
     m_keyframes.append(pos);
     qSort(m_keyframes);
-    if (select) {
+    if (select != 0) {
         m_currentKeyframe = m_currentKeyframeOriginal = pos;
     }
     update();
@@ -181,7 +181,7 @@ void SimpleTimelineWidget::mousePressEvent(QMouseEvent *event)
 void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
-    if (event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton != 0u) {
         if (m_currentKeyframe >= 0) {
             if (!m_keyframes.contains(pos)) {
                 // snap to position cursor
@@ -201,7 +201,7 @@ void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent *event)
         }
         update();
         return;
-    } else {
+    } 
         if (event->y() < m_lineHeight) {
             foreach (const int &keyframe, m_keyframes) {
                 if (qAbs(keyframe - pos) < 5) {
@@ -218,7 +218,7 @@ void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent *event)
             setCursor(Qt::ArrowCursor);
             update();
         }
-    }
+    
 }
 
 void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent *event)

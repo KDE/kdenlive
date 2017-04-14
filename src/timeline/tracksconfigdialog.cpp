@@ -33,7 +33,7 @@ TracksDelegate::TracksDelegate(QObject *parent) :
 
 QWidget *TracksDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /*index*/) const
 {
-    KComboBox *comboBox = new KComboBox(parent);
+    auto *comboBox = new KComboBox(parent);
     comboBox->addItem(i18n("Video"));
     comboBox->addItem(i18n("Audio"));
     connect(comboBox, SIGNAL(activated(int)), this, SLOT(emitCommitData()));

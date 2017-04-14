@@ -35,7 +35,7 @@ TransitionParameterView::TransitionParameterView(QWidget *parent)
     kdeclarative.setupBindings();
 
     // Set void model for the moment
-    QStringListModel *model = new QStringListModel();
+    auto *model = new QStringListModel();
     QStringList list;
     list << "a" << "b" << "c"<<"s"<<"w";
     model->setStringList(list);
@@ -50,7 +50,7 @@ TransitionParameterView::TransitionParameterView(QWidget *parent)
 
 
 
-void TransitionParameterView::setModel(std::shared_ptr<AssetParameterModel> model)
+void TransitionParameterView::setModel(const std::shared_ptr<AssetParameterModel>& model)
 {
     m_model = model;
     rootContext()->setContextProperty("paramModel", model.get());

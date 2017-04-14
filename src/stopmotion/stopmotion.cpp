@@ -198,7 +198,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     capture_button->setEnabled(false);
 
     // Build config menu
-    QMenu *confMenu = new QMenu;
+    auto *confMenu = new QMenu;
     m_showOverlay = actions.at(2);
     connect(m_showOverlay, &QAction::triggered, this, &StopmotionWidget::slotShowOverlay);
     overlay_button->setDefaultAction(m_showOverlay);
@@ -206,7 +206,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
 
     m_effectIndex = KdenliveSettings::stopmotioneffect();
     QMenu *effectsMenu = new QMenu(i18n("Overlay effect"));
-    QActionGroup *effectGroup = new QActionGroup(this);
+    auto *effectGroup = new QActionGroup(this);
     QAction *noEffect = new QAction(i18n("No Effect"), effectGroup);
     noEffect->setData(0);
     QAction *contrastEffect = new QAction(i18n("Contrast"), effectGroup);
@@ -260,7 +260,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     connect(sequence_name, SIGNAL(currentIndexChanged(int)), live_button, SLOT(setFocus()));
 
     // Video widget holder
-    QVBoxLayout *layout = new QVBoxLayout;
+    auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 

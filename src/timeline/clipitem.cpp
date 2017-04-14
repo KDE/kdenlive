@@ -128,7 +128,7 @@ ClipItem::~ClipItem()
 
 ClipItem *ClipItem::clone(const ItemInfo &info) const
 {
-    ClipItem *duplicate = new ClipItem(m_binClip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
+    auto *duplicate = new ClipItem(m_binClip, info, m_fps, m_speed, m_strobe, FRAME_SIZE);
     duplicate->setPos(pos());
     if (m_clipType == Image || m_clipType == Text || m_clipType == TextTemplate) {
         duplicate->slotSetStartThumb(m_startPix);
@@ -549,9 +549,9 @@ QString ClipItem::clipName() const
 {
     if (m_speed == 1.0) {
         return m_binClip->name();
-    } else {
+    } 
         return m_binClip->name() + QStringLiteral(" - ") + QString::number(m_speed * 100, 'f', 0) + QLatin1Char('%');
-    }
+    
 }
 
 void ClipItem::flashClip()
@@ -583,7 +583,7 @@ void ClipItem::paint(QPainter *painter,
     QColor textColor;
     QColor textBgColor;
     QPen framePen;
-    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
+    if (isSelected() || ((parentItem() != nullptr) && parentItem()->isSelected())) {
         textColor = palette.highlightedText().color();
         textBgColor = palette.highlight().color();
         framePen.setColor(textBgColor);
@@ -793,7 +793,7 @@ void ClipItem::paint(QPainter *painter,
             //TODO: optimize, calculate offset only on resize or move
             AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(parentItem());
             QGraphicsItem *other = grp->otherClip(this);
-            if (other && other->type() == AVWidget) {
+            if ((other != nullptr) && other->type() == AVWidget) {
                 ClipItem *otherClip = static_cast <ClipItem *>(other);
                 if (otherClip->getBinId() == getBinId() && (startPos() - otherClip->startPos() != cropStart() - otherClip->cropStart())) {
                     painter->setPen(Qt::red);
@@ -815,7 +815,7 @@ void ClipItem::paint(QPainter *painter,
             QColor bColor = palette.window().color();
             QColor tColor = palette.text().color();
             tColor.setAlpha(220);
-            if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
+            if ((m_timeLine != nullptr) && m_timeLine->state() == QTimeLine::Running) {
                 qreal value = m_timeLine->currentValue();
                 txtBounding.setWidth(txtBounding.width() * value);
                 bColor.setAlpha(100 + 50 * value);
@@ -943,7 +943,7 @@ void ClipItem::paint(QPainter *painter,
 
         painter->setPen(QPen(Qt::lightGray));
         // draw effect or transition keyframes
-        m_keyframeView.drawKeyFrames(rect(), m_info.cropDuration.frames(m_fps), isSelected() || (parentItem() && parentItem()->isSelected()),  painter, transformation);
+        m_keyframeView.drawKeyFrames(rect(), m_info.cropDuration.frames(m_fps), isSelected() || ((parentItem() != nullptr) && parentItem()->isSelected()),  painter, transformation);
     }
     // draw clip border
     // expand clip rect to allow correct painting of clip border
@@ -987,7 +987,7 @@ OperationType ClipItem::operationMode(const QPointF &pos, Qt::KeyboardModifiers 
     // Position is relative to item
     const double scale = projectScene()->scale().x();
     double maximumOffset = 8 / scale;
-    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
+    if (isSelected() || ((parentItem() != nullptr) && parentItem()->isSelected())) {
         int kf = m_keyframeView.mouseOverKeyFrames(rect(), pos, scale);
         if (kf != -1) {
             return KeyFrame;
@@ -1001,9 +1001,9 @@ OperationType ClipItem::operationMode(const QPointF &pos, Qt::KeyboardModifiers 
     }
     if (qAbs((int)(pos.x() - m_startFade)) < maximumOffset  && qAbs((int)(pos.y()) < 10)) {
         return FadeIn;
-    } else if ((pos.x() <= rect.width() / 2) && pos.x() < maximumOffset && (rect.height() - pos.y() > addtransitionOffset)) {
+    } if ((pos.x() <= rect.width() / 2) && pos.x() < maximumOffset && (rect.height() - pos.y() > addtransitionOffset)) {
         // If we are in a group, allow resize only if all clips start at same position
-        if (modifiers & Qt::ControlModifier) {
+        if (modifiers & Qt::ControlModifier != 0u) {
             return ResizeStart;
         }
         if (parentItem()) {
@@ -1022,7 +1022,7 @@ OperationType ClipItem::operationMode(const QPointF &pos, Qt::KeyboardModifiers 
     } else if (qAbs((int)(pos.x() - (rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y())) < 10) {
         return FadeOut;
     } else if ((pos.x() >= rect.width() / 2) && (rect.width() - pos.x() < maximumOffset) && (rect.height() - pos.y() > addtransitionOffset)) {
-        if (modifiers & Qt::ControlModifier) {
+        if (modifiers & Qt::ControlModifier != 0u) {
             return ResizeEnd;
         }
         // If we are in a group, allow resize only if all clips end at same position
@@ -1718,7 +1718,7 @@ int ClipItem::nextFreeEffectGroupIndex() const
 //virtual
 void ClipItem::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
-    if (event->proposedAction() == Qt::CopyAction && scene() && !scene()->views().isEmpty()) {
+    if (event->proposedAction() == Qt::CopyAction && (scene() != nullptr) && !scene()->views().isEmpty()) {
         if (m_selectionTimer.isActive()) {
             m_selectionTimer.stop();
         }
@@ -2047,10 +2047,7 @@ void ClipItem::slotRefreshClip()
 
 bool ClipItem::needsDuplicate() const
 {
-    if (m_clipType != AV && m_clipType != Audio && m_clipType != Playlist) {
-        return false;
-    }
-    return true;
+    return !(m_clipType != AV && m_clipType != Audio && m_clipType != Playlist);
 }
 
 PlaylistState::ClipState ClipItem::clipState() const

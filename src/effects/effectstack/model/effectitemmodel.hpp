@@ -41,7 +41,7 @@ public:
 
     /* @brief This function plants the effect into the given service in last position
      */
-    void plant(std::weak_ptr<Mlt::Service> service);
+    void plant(const std::weak_ptr<Mlt::Service>& service);
 
     /* @brief This function change the individual enabled state of the effect */
     void setEnabled(bool enabled);

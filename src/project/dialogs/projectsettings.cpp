@@ -65,7 +65,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 {
     setupUi(this);
     tabWidget->setTabBarAutoHide(true);
-    QVBoxLayout *vbox = new QVBoxLayout;
+    auto *vbox = new QVBoxLayout;
     m_pw = new ProfileWidget(this);
     vbox->addWidget(m_pw);
     profile_box->setLayout(vbox);
@@ -86,11 +86,11 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     QString currentProf;
     if (doc) {
         currentProf = KdenliveSettings::current_profile();
-        enable_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt());
-        generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt());
+        enable_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
+        generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt() != 0);
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
         m_proxyparameters = doc->getDocumentProperty(QStringLiteral("proxyparams"));
-        generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt());
+        generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() != 0);
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
@@ -100,7 +100,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
             custom_folder->setChecked(true);
         }
         project_folder->setUrl(QUrl::fromLocalFile(doc->projectTempFolder()));
-        TemporaryData *cacheWidget = new TemporaryData(doc, true, this);
+        auto *cacheWidget = new TemporaryData(doc, true, this);
         connect(cacheWidget, &TemporaryData::disableProxies, this, &ProjectSettings::disableProxies);
         connect(cacheWidget, &TemporaryData::disablePreview, this, &ProjectSettings::disablePreview);
         tabWidget->addTab(cacheWidget, i18n("Cache Data"));
@@ -318,7 +318,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     }
 
     for (int i = 0; i < list.count(); ++i) {
-        std::shared_ptr<ClipController> clip = list.at(i);
+        const std::shared_ptr<ClipController>& clip = list.at(i);
         if (clip->clipType() == Color) {
             // ignore color clips in list, there is no real file
             continue;

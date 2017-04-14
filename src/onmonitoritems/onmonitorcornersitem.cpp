@@ -97,7 +97,7 @@ void OnMonitorCornersItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
      *   return;
     }*/
 
-    if (event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton != 0u) {
         QPointF mousePos = mapFromScene(event->scenePos());
         QPolygonF p = polygon();
         switch (m_mode) {
@@ -269,11 +269,11 @@ bool OnMonitorCornersItem::getView()
         return true;
     }
 
-    if (scene() && !scene()->views().isEmpty()) {
+    if ((scene() != nullptr) && !scene()->views().isEmpty()) {
         m_view = scene()->views().first();
         return true;
-    } else {
+    } 
         return false;
-    }
+    
 }
 

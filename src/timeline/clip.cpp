@@ -60,7 +60,7 @@ void Clip::adjustEffectsLength()
 {
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
-    while (filter) {
+    while (filter != nullptr) {
         if (filter->get_int("kdenlive:sync_in_out") == 1) {
             filter->set_in_and_out(m_producer.get_in(), m_producer.get_out());
         }
@@ -81,8 +81,8 @@ void Clip::addEffects(Mlt::Service &service, bool skipFades)
                 continue;
             }
             // no easy filter copy: do it by hand!
-            Mlt::Filter *copy = new Mlt::Filter(*effect->profile(), effect->get("mlt_service"));
-            if (copy && copy->is_valid()) {
+            auto *copy = new Mlt::Filter(*effect->profile(), effect->get("mlt_service"));
+            if ((copy != nullptr) && copy->is_valid()) {
                 for (int i = 0; i < effect->count(); ++i) {
                     QString paramName = QString::fromLatin1(effect->get_name(i));
                     if (paramName == QLatin1String("kdenlive:sync_in_out") && QString::fromLatin1(effect->get(i)) == QLatin1String("1")) {
@@ -105,7 +105,7 @@ void Clip::replaceEffects(Mlt::Service &service)
     // remove effects first
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
-    while (filter) {
+    while (filter != nullptr) {
         QString ix = QString::fromLatin1(filter->get("kdenlive_ix"));
         if (!ix.isEmpty()) {
             if (m_producer.detach(*filter) == 0) {
@@ -126,7 +126,7 @@ void Clip::deleteEffects()
     // remove effects
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
-    while (filter) {
+    while (filter != nullptr) {
         QString ix = QString::fromLatin1(filter->get("kdenlive_ix"));
         if (!ix.isEmpty()) {
             if (m_producer.detach(*filter) == 0) {
@@ -145,7 +145,7 @@ void Clip::disableEffects(bool disable)
 {
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
-    while (filter) {
+    while (filter != nullptr) {
         QString ix = QString::fromLatin1(filter->get("kdenlive_ix"));
         if (!ix.isEmpty()) {
             if (disable && filter->get_int("disable") == 0) {
@@ -167,7 +167,7 @@ const QByteArray Clip::xml()
     Mlt::Consumer c(*m_producer.profile(), "xml", "string");
     Mlt::Service s(m_producer.get_service());
     int ignore = s.get_int("ignore_points");
-    if (ignore) {
+    if (ignore != 0) {
         s.set("ignore_points", 0);
     }
     c.connect(s);
@@ -177,7 +177,7 @@ const QByteArray Clip::xml()
     c.set("root", "/");
     c.set("store", "kdenlive");
     c.start();
-    if (ignore) {
+    if (ignore != 0) {
         s.set("ignore_points", ignore);
     }
     return c.get("string");

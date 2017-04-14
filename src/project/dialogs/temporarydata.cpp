@@ -88,7 +88,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 {
     chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue)  << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
     mCurrentSizes << 0 << 0 << 0 << 0;
-    QVBoxLayout *lay = new QVBoxLayout;
+    auto *lay = new QVBoxLayout;
 
     m_currentPage = new QWidget(this);
     m_currentPage->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -110,7 +110,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_grid->addWidget(preview, 0, 2);
     m_previewSize = new QLabel(this);
     m_grid->addWidget(m_previewSize, 0, 3);
-    QToolButton *del = new QToolButton(this);
+    auto *del = new QToolButton(this);
     del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deletePreview);
     del->setEnabled(false);
@@ -196,10 +196,10 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 
     if (currentProjectOnly) {
         lay->addWidget(m_currentPage);
-        QSpacerItem *spacer = new QSpacerItem(1, 1, QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+        auto *spacer = new QSpacerItem(1, 1, QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
         lay->addSpacerItem(spacer);
     } else {
-        QTabWidget *tab = new QTabWidget(this);
+        auto *tab = new QTabWidget(this);
         tab->addTab(m_currentPage, i18n("Current Project"));
         m_globalPage = new QWidget(this);
         buildGlobalCacheDialog(minHeight);
@@ -259,7 +259,7 @@ void TemporaryData::gotPreviewSize(KJob *job)
         total = 0;
     }
     QLayoutItem *button = m_grid->itemAtPosition(0, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
@@ -271,7 +271,7 @@ void TemporaryData::gotPreviewSize(KJob *job)
 void TemporaryData::gotProxySize(qint64 total)
 {
     QLayoutItem *button = m_grid->itemAtPosition(1, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
@@ -288,7 +288,7 @@ void TemporaryData::gotAudioSize(KJob *job)
         total = 0;
     }
     QLayoutItem *button = m_grid->itemAtPosition(2, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
@@ -305,7 +305,7 @@ void TemporaryData::gotThumbSize(KJob *job)
         total = 0;
     }
     QLayoutItem *button = m_grid->itemAtPosition(3, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
@@ -318,7 +318,7 @@ void TemporaryData::updateTotal()
 {
     m_currentSize->setText(KIO::convertSize(m_totalCurrent));
     QLayoutItem *button = m_grid->itemAtPosition(5, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(m_totalCurrent > 0);
     }
     QList<int> segments;
@@ -434,7 +434,7 @@ void TemporaryData::openCacheFolder()
 
 void TemporaryData::buildGlobalCacheDialog(int minHeight)
 {
-    QGridLayout *lay = new QGridLayout;
+    auto *lay = new QGridLayout;
     m_globalPie = new ChartWidget(this);
     lay->addWidget(m_globalPie, 0, 0, 1, 1);
     m_listWidget = new QTreeWidget(this);
@@ -518,7 +518,7 @@ void TemporaryData::gotFolderSize(KJob *job)
         total = 0;
     }
     m_totalGlobal += total;
-    TreeWidgetItem *item = new TreeWidgetItem(m_listWidget);
+    auto *item = new TreeWidgetItem(m_listWidget);
     // Check last save path for this cache folder
     QDir dir(m_globalDir.absoluteFilePath(m_processingDirectory));
     QStringList filters;

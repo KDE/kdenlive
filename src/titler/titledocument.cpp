@@ -191,8 +191,8 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
             content.setAttribute(QStringLiteral("font"), font.family());
             content.setAttribute(QStringLiteral("font-weight"), font.weight());
             content.setAttribute(QStringLiteral("font-pixel-size"), font.pixelSize());
-            content.setAttribute(QStringLiteral("font-italic"), font.italic());
-            content.setAttribute(QStringLiteral("font-underline"), font.underline());
+            content.setAttribute(QStringLiteral("font-italic"), static_cast<int>(font.italic()));
+            content.setAttribute(QStringLiteral("font-underline"), static_cast<int>(font.underline()));
             content.setAttribute(QStringLiteral("letter-spacing"), QString::number(font.letterSpacing()));
             gradient = item->data(TitleDocument::Gradient).toString();
             if (!gradient.isEmpty()) {
@@ -290,7 +290,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
             main.appendChild(e);
         }
     }
-    if (startv && endv) {
+    if ((startv != nullptr) && (endv != nullptr)) {
         QDomElement endport = doc.createElement(QStringLiteral("endviewport"));
         QDomElement startport = doc.createElement(QStringLiteral("startviewport"));
         QRectF r(endv->pos().x(), endv->pos().y(), endv->rect().width(), endv->rect().height());
@@ -405,14 +405,14 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     QDomNode node = txtProperties.namedItem(QStringLiteral("font-bold"));
                     if (!node.isNull()) {
                         // Old: Bold/Not bold.
-                        font.setBold(node.nodeValue().toInt());
+                        font.setBold(node.nodeValue().toInt() != 0);
                     } else {
                         // New: Font weight (QFont::)
                         font.setWeight(txtProperties.namedItem(QStringLiteral("font-weight")).nodeValue().toInt());
                     }
                     //font.setBold(txtProperties.namedItem("font-bold").nodeValue().toInt());
-                    font.setItalic(txtProperties.namedItem(QStringLiteral("font-italic")).nodeValue().toInt());
-                    font.setUnderline(txtProperties.namedItem(QStringLiteral("font-underline")).nodeValue().toInt());
+                    font.setItalic(txtProperties.namedItem(QStringLiteral("font-italic")).nodeValue().toInt() != 0);
+                    font.setUnderline(txtProperties.namedItem(QStringLiteral("font-underline")).nodeValue().toInt() != 0);
                     // Older Kdenlive version did not store pixel size but point size
                     if (txtProperties.namedItem(QStringLiteral("font-pixel-size")).isNull()) {
                         KMessageBox::information(QApplication::activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."), i18n("Text Clips Updated"));
@@ -451,7 +451,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     txt->setTextColor(col);
                     cformat.setForeground(QBrush(col));
                     cursor.setCharFormat(cformat);
-                    if (txtProperties.namedItem(QStringLiteral("gradient")).isNull() == false) {
+                    if (!txtProperties.namedItem(QStringLiteral("gradient")).isNull()) {
                         // Gradient color
                         QString data = txtProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                         txt->setData(TitleDocument::Gradient, data);
@@ -460,7 +460,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                         cursor.setCharFormat(cformat);
                     }
 
-                    if (txtProperties.namedItem(QStringLiteral("alignment")).isNull() == false) {
+                    if (!txtProperties.namedItem(QStringLiteral("alignment")).isNull()) {
                         txt->setAlignment((Qt::Alignment) txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt());
                     }
 
@@ -503,14 +503,14 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     QString br_str = rectProperties.namedItem(QStringLiteral("brushcolor")).nodeValue();
                     QString pen_str = rectProperties.namedItem(QStringLiteral("pencolor")).nodeValue();
                     double penwidth = rectProperties.namedItem(QStringLiteral("penwidth")).nodeValue().toDouble();
-                    MyRectItem *rec = new MyRectItem();
+                    auto *rec = new MyRectItem();
                     rec->setRect(stringToRect(rect));
                     if (penwidth > 0) {
                         rec->setPen(QPen(QBrush(stringToColor(pen_str)), penwidth, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin));
                     } else {
                         rec->setPen(Qt::NoPen);
                     }
-                    if (rectProperties.namedItem(QStringLiteral("gradient")).isNull() == false) {
+                    if (!rectProperties.namedItem(QStringLiteral("gradient")).isNull()) {
                         // Gradient color
                         QString data = rectProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                         rec->setData(TitleDocument::Gradient, data);
@@ -531,7 +531,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     } else {
                         pix.loadFromData(QByteArray::fromBase64(base64.toLatin1()));
                     }
-                    MyPixmapItem *rec = new MyPixmapItem(pix);
+                    auto *rec = new MyPixmapItem(pix);
                     m_scene->addItem(rec);
                     rec->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
                     rec->setData(Qt::UserRole, url);
@@ -588,11 +588,11 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                 if (!eff.isNull()) {
                     QDomElement e = eff.toElement();
                     if (e.attribute(QStringLiteral("type")) == QLatin1String("blur")) {
-                        QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
+                        auto *blur = new QGraphicsBlurEffect();
                         blur->setBlurRadius(e.attribute(QStringLiteral("blurradius")).toInt());
                         gitem->setGraphicsEffect(blur);
                     } else if (e.attribute(QStringLiteral("type")) == QLatin1String("shadow")) {
-                        QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
+                        auto *shadow = new QGraphicsDropShadowEffect();
                         shadow->setBlurRadius(e.attribute(QStringLiteral("blurradius")).toInt());
                         shadow->setOffset(e.attribute(QStringLiteral("xoffset")).toInt(), e.attribute(QStringLiteral("yoffset")).toInt());
                         gitem->setGraphicsEffect(shadow);
@@ -611,12 +611,12 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                         break;
                     }
                 }
-            } else if (itemNode.nodeName() == QLatin1String("startviewport") && startv) {
+            } else if (itemNode.nodeName() == QLatin1String("startviewport") && (startv != nullptr)) {
                 QString rect = itemNode.attributes().namedItem(QStringLiteral("rect")).nodeValue();
                 QRectF r = stringToRect(rect);
                 startv->setRect(0, 0, r.width(), r.height());
                 startv->setPos(r.topLeft());
-            } else if (itemNode.nodeName() == QLatin1String("endviewport") && endv) {
+            } else if (itemNode.nodeName() == QLatin1String("endviewport") && (endv != nullptr)) {
                 QString rect = itemNode.attributes().namedItem(QStringLiteral("rect")).nodeValue();
                 QRectF r = stringToRect(rect);
                 endv->setRect(0, 0, r.width(), r.height());

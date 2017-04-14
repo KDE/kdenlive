@@ -143,10 +143,7 @@ bool Track::move(qreal start, qreal end, TimelineMode::EditMode mode)
 bool Track::isLastClip(qreal t)
 {
     int clipIndex = m_playlist.get_clip_index_at(frame(t));
-    if (clipIndex >= m_playlist.count() - 1) {
-	return true;
-    }
-    return false;
+    return clipIndex >= m_playlist.count() - 1;
 }
 
 bool Track::del(qreal t, bool checkDuration)
@@ -215,7 +212,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
         clip->set("length", out + 2);
     }
 
-    if (m_playlist.resize_clip(index, in, out)) {
+    if (m_playlist.resize_clip(index, in, out) != 0) {
         qWarning("MLT resize failed : clip %d from %d to %d", index, in, out);
         m_playlist.unlock();
         return false;
@@ -241,11 +238,11 @@ bool Track::resize(qreal t, qreal dt, bool end)
         }
         out = m_playlist.clip_length(index) + length - 1;
         if (out >= 0) {
-            if (m_playlist.resize_clip(index, 0, out)) {
+            if (m_playlist.resize_clip(index, 0, out) != 0) {
                 qWarning("Error resizing blank %d", index);
             }
         } else {
-            if (m_playlist.remove(index)) {
+            if (m_playlist.remove(index) != 0) {
                 qWarning("Error removing blank %d", index);
             }
         }
@@ -266,7 +263,7 @@ bool Track::cut(qreal t)
         m_playlist.unlock();
         return false;
     }
-    if (m_playlist.split(index, pos - m_playlist.clip_start(index) - 1)) {
+    if (m_playlist.split(index, pos - m_playlist.clip_start(index) - 1) != 0) {
         qWarning("MLT split failed");
         m_playlist.unlock();
         return false;
@@ -361,7 +358,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
         if (current == id) {
-            if (tkState & 1 || (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
+            if (((tkState & 1) != 0) || (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
                 // Video is hidden, nothing visible
                 continue;
             }
@@ -381,13 +378,13 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
 	if (current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
 	      // Slowmotion producer, just update resource
           Mlt::Producer *slowProd = newSlowMos.value(current.section(QLatin1Char(':'), 2));
-	      if (!slowProd || !slowProd->is_valid()) {
+	      if ((slowProd == nullptr) || !slowProd->is_valid()) {
 		    qCDebug(KDENLIVE_LOG)<<"/// WARNING, couldn't find replacement slowmo for "<<id;
 		    continue;
 	      }
 	      cut = slowProd->cut(p->get_in(), p->get_out());
 	}
-        if (!cut && idForAudioTrack.isEmpty()) {
+        if ((cut == nullptr) && idForAudioTrack.isEmpty()) {
             if (current == idForTrack) {
                 // No duplication required
                 cut = original->cut(p->get_in(), p->get_out());
@@ -399,11 +396,11 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
 		continue;
 	    }
         }
-        if (!cut && p->parent().get_int("audio_index") == -1 && current == id) {
+        if ((cut == nullptr) && p->parent().get_int("audio_index") == -1 && current == id) {
 	        // No audio - no duplication required
                 cut = original->cut(p->get_in(), p->get_out());
 	}
-        else if (!cut && ((current == idForTrack) || (!current.contains(QLatin1Char('_')) && current == idForTrack.section(QLatin1Char('_'), 0, 0)))) {
+        else if ((cut == nullptr) && ((current == idForTrack) || (!current.contains(QLatin1Char('_')) && current == idForTrack.section(QLatin1Char('_'), 0, 0)))) {
             // Use duplicate
             if (trackProducer == nullptr) {
                 if (idForTrack.contains(QLatin1Char('_'))) {
@@ -413,13 +410,13 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
             }
             cut = trackProducer->cut(p->get_in(), p->get_out());
         }
-        else if (!cut && current == idForAudioTrack) {
+        else if ((cut == nullptr) && current == idForAudioTrack) {
             if (audioTrackProducer == nullptr) {
                 audioTrackProducer = clipProducer(original, PlaylistState::AudioOnly, true);
             }
             cut = audioTrackProducer->cut(p->get_in(), p->get_out());
         }
-        else if (!cut && current == idForVideoTrack) {
+        else if ((cut == nullptr) && current == idForVideoTrack) {
             cut = videoOnlyProducer->cut(p->get_in(), p->get_out());
         }
         if (cut) {
@@ -431,7 +428,7 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
             m_playlist.insert(*cut, i);
             m_playlist.consolidate_blanks();
             delete cut;
-            if (tkState & 1 || (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
+            if (((tkState & 1) != 0) || (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
                 // Video is hidden for this track, nothing visible
                 continue;
             }
@@ -585,10 +582,10 @@ TrackInfo Track::info()
 {
     TrackInfo info;
     info.trackName = m_playlist.get("kdenlive:track_name");
-    info.isLocked= m_playlist.get_int("kdenlive:locked_track");
+    info.isLocked= (m_playlist.get_int("kdenlive:locked_track") != 0);
     int currentState = m_playlist.parent().get_int("hide");
-    info.isMute = currentState & 2;
-    info.isBlind = currentState & 1;
+    info.isMute = ((currentState & 2) != 0);
+    info.isBlind = ((currentState & 1) != 0);
     info.type = type;
     info.effectsList = effectsList;
     info.duration = m_playlist.get_length();
@@ -731,7 +728,7 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
     slowInfo.state = state;
     if (serv.contains(QStringLiteral("avformat"))) {
 	if (speed != 1.0 || strobe > 1) {
-	    if (!prod || !prod->is_valid()) {
+	    if ((prod == nullptr) || !prod->is_valid()) {
 		prod = buildSlowMoProducer(passProps, url, id, slowInfo);
                 if (prod == nullptr) {
                     // error, abort
@@ -768,7 +765,7 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
 
 	    Mlt::Producer *cut;
 	
-	    if (!prod || !prod->is_valid()) {
+	    if ((prod == nullptr) || !prod->is_valid()) {
 		prod = buildSlowMoProducer(passProps, url, id, slowInfo);
                 if (prod == nullptr) {
                     // error, abort
@@ -794,7 +791,7 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
 	    newLength = m_playlist.clip_length(clipIndex);
 	}
     } else if (serv == QLatin1String("timewarp")) {
-        if (!prod || !prod->is_valid()) {
+        if ((prod == nullptr) || !prod->is_valid()) {
             prod = buildSlowMoProducer(passProps, url, id, slowInfo);
             if (prod == nullptr) {
                 // error, abort
@@ -986,7 +983,7 @@ QList<QPoint> Track::visibleClips()
 {
     QList<QPoint> clips;
     int tkState = state();
-    if (tkState & 1) {
+    if ((tkState & 1) != 0) {
         // Video is hidden for this track, nothing visible
         return clips;
     }
