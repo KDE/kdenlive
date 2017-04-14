@@ -1,0 +1,14 @@
+---
+Checks: 'readability-simplify-boolean-expr, modernize-use-override, readability-redundant-smartptr-get, readability-redundant-control-flow, readability-non-const-parameter, readability-misplaced-array-index, readability-misleading-indentation, readability-implicit-bool-cast, readability-else-after-return, readability-delete-null-pointer, readability-container-size-empty, readability-avoid-const-params-in-decls, performance-unnecessary-value-param, performance-unnecessary-copy-initialization, performance-implicit-cast-in-loop, performance-for-range-copy, modernize-use-using, modernize-use-nullptr, modernize-use-equals-default, modernize-use-bool-literals, modernize-use-auto, modernize-shrink-to-fit, modernize-return-braced-init-list, modernize-redundant-void-arg'
+CheckOptions:
+  - { key: readability-identifier-naming.NamespaceCase,       value: lower_case }
+  - { key: readability-identifier-naming.ClassCase,           value: CamelCase  }
+  - { key: readability-identifier-naming.PrivateMemberPrefix, value: m_         }
+  - { key: readability-identifier-naming.StructCase,          value: CamelCase  }
+  - { key: readability-identifier-naming.FunctionCase,        value: camelBack }
+  - { key: readability-identifier-naming.VariableCase,        value: lower_case }
+  - { key: readability-identifier-naming.GlobalConstantCase,  value: UPPER_CASE }
+  - { key: readability-simplify-boolean-expr.ChainedConditionalReturn,     value: 1 }
+  - { key: readability-simplify-boolean-expr.ChainedConditionalAssignment, value: 1 }
+  - { key: readability-implicit-bool-cast.AllowConditionalPointerCasts,    value: 1 }
+...
